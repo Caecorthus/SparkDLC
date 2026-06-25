@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.traits.mixin;
 
 import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.traits.impl.EffectiveTraitService;
+import dev.caecorthus.sparkdlc.traits.impl.GoodTraitService;
 import dev.caecorthus.sparkdlc.traits.impl.GlobalTraitService;
 import dev.caecorthus.sparkdlc.traits.impl.KillerTraitService;
 import dev.caecorthus.sparkdlc.traits.impl.VigilanteVeteranTraitService;
@@ -56,7 +57,8 @@ public abstract class PlayerMoodComponentMixin {
     )
     private float sparktraits$applyMoodDrainTraits(float proposedMood) {
         float adjustedMood = KillerTraitService.oppressiveAdjustedMood(this.mood, proposedMood, this.player);
-        return VigilanteVeteranTraitService.wellTrainedAdjustedMood(this.mood, adjustedMood, this.player);
+        adjustedMood = VigilanteVeteranTraitService.wellTrainedAdjustedMood(this.mood, adjustedMood, this.player);
+        return GoodTraitService.socialMoodAdjustedMood(this.mood, adjustedMood, this.player);
     }
 
     @Inject(method = {"isLowerThanMid", "isLowerThanDepressed"}, at = @At("HEAD"), cancellable = true)

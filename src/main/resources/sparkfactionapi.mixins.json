@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.caecorthus.sparkdlc.factionapi.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "GameFunctionsMixin",
+    "GameSettingsCommandMixin",
+    "GameRoundEndComponentMixin",
+    "MurderGameModeMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

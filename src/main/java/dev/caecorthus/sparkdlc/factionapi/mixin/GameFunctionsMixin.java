@@ -2,8 +2,11 @@ package dev.caecorthus.sparkdlc.factionapi.mixin;
 
 import dev.caecorthus.sparkdlc.factionapi.api.FactionDefinition;
 import dev.caecorthus.sparkdlc.factionapi.api.SparkFactionApi;
+import dev.caecorthus.sparkdlc.factionapi.impl.FactionCapabilityBridge;
 import dev.doctor4t.wathe.api.Role;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
@@ -48,6 +51,20 @@ public abstract class GameFunctionsMixin {
             int roleColor
     ) {
         applyLetterLore(letter, player, role, roleName, letterFactionName(role, factionName), letterColor, roleColor);
+    }
+
+    @Redirect(
+            method = "killPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;ZLnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;Z)V",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Ldev/doctor4t/wathe/cca/GameWorldComponent;canUseKillerFeatures(Lnet/minecraft/entity/player/PlayerEntity;)Z"
+            )
+    )
+    private static boolean sparkfactionapi$useKillRewardCapability(
+            GameWorldComponent gameComponent,
+            PlayerEntity player
+    ) {
+        return FactionCapabilityBridge.receivesKillReward(player, gameComponent);
     }
 
     private static String letterFactionName(Role role, String fallback) {

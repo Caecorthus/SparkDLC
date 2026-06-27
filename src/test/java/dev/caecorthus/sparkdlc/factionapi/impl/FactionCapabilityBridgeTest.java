@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.factionapi.impl;
 
 import dev.caecorthus.sparkdlc.factionapi.api.FactionCapabilities;
 import dev.caecorthus.sparkdlc.factionapi.api.FactionDefinition;
+import dev.caecorthus.sparkdlc.factionapi.api.FactionGunPunishmentPolicy;
 import dev.caecorthus.sparkdlc.factionapi.api.FactionRoleDefinition;
 import dev.caecorthus.sparkdlc.factionapi.api.SparkFactionApi;
 import dev.doctor4t.wathe.api.Role;
@@ -101,6 +102,22 @@ class FactionCapabilityBridgeTest {
     void playerBlackoutImmunityQueryDefaultsFalseWithoutContext() {
         assertFalse(FactionCapabilityBridge.hasBlackoutImmunity(null, null));
         assertFalse(SparkFactionApi.hasBlackoutImmunity(null, null));
+    }
+
+    @Test
+    void gunPunishmentPolicyOverridesCapabilityFallback() {
+        SparkFactionApi.registerGunPunishmentPolicy((player, subject, gameComponent) ->
+                subject == FactionGunPunishmentPolicy.Subject.VICTIM ? Boolean.TRUE : Boolean.FALSE);
+
+        assertTrue(FactionCapabilityBridge.isPunishableInnocentGunVictim(null, null));
+        assertFalse(FactionCapabilityBridge.isPunishableInnocentGunShooter(null, null));
+    }
+
+    @Test
+    void blackoutCooldownPolicyCanOverrideDefaultSharing() {
+        SparkFactionApi.registerBlackoutCooldownPolicy((purchaser, target, gameComponent) -> Boolean.TRUE);
+
+        assertEquals(Boolean.TRUE, FactionCapabilityBridge.blackoutCooldownOverride(null, null, null));
     }
 
     @Test

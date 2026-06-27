@@ -1,9 +1,11 @@
 package dev.caecorthus.sparkdlc.factionapi.impl;
 
 import dev.caecorthus.sparkdlc.factionapi.api.EffectiveFactionResolver;
+import dev.caecorthus.sparkdlc.factionapi.api.FactionBlackoutCooldownPolicy;
 import dev.caecorthus.sparkdlc.factionapi.api.FactionCapabilities;
 import dev.caecorthus.sparkdlc.factionapi.api.FactionDefinition;
 import dev.caecorthus.sparkdlc.factionapi.api.FactionEconomyPolicy;
+import dev.caecorthus.sparkdlc.factionapi.api.FactionGunPunishmentPolicy;
 import dev.caecorthus.sparkdlc.factionapi.api.FactionIds;
 import dev.caecorthus.sparkdlc.factionapi.api.FactionInstinctPolicy;
 import dev.caecorthus.sparkdlc.factionapi.api.FactionRoleDefinition;
@@ -29,6 +31,8 @@ public final class FactionRegistryImpl {
     private static final List<EffectiveFactionResolver> EFFECTIVE_RESOLVERS = new ArrayList<>();
     private static final List<FactionTargetEligibility> TARGET_ELIGIBILITY = new ArrayList<>();
     private static final List<FactionEconomyPolicy> ECONOMY_POLICIES = new ArrayList<>();
+    private static final List<FactionGunPunishmentPolicy> GUN_PUNISHMENT_POLICIES = new ArrayList<>();
+    private static final List<FactionBlackoutCooldownPolicy> BLACKOUT_COOLDOWN_POLICIES = new ArrayList<>();
     private static final List<FactionInstinctPolicy> INSTINCT_POLICIES = new ArrayList<>();
     private static boolean bootstrapped;
 
@@ -213,6 +217,14 @@ public final class FactionRegistryImpl {
         return ECONOMY_POLICIES;
     }
 
+    public static List<FactionGunPunishmentPolicy> gunPunishmentPolicies() {
+        return GUN_PUNISHMENT_POLICIES;
+    }
+
+    public static List<FactionBlackoutCooldownPolicy> blackoutCooldownPolicies() {
+        return BLACKOUT_COOLDOWN_POLICIES;
+    }
+
     public static List<FactionInstinctPolicy> instinctPolicies() {
         return INSTINCT_POLICIES;
     }
@@ -229,6 +241,14 @@ public final class FactionRegistryImpl {
         ECONOMY_POLICIES.add(policy);
     }
 
+    public static void registerGunPunishmentPolicy(FactionGunPunishmentPolicy policy) {
+        GUN_PUNISHMENT_POLICIES.add(policy);
+    }
+
+    public static void registerBlackoutCooldownPolicy(FactionBlackoutCooldownPolicy policy) {
+        BLACKOUT_COOLDOWN_POLICIES.add(policy);
+    }
+
     public static void registerInstinctPolicy(FactionInstinctPolicy policy) {
         INSTINCT_POLICIES.add(policy);
     }
@@ -239,6 +259,8 @@ public final class FactionRegistryImpl {
         EFFECTIVE_RESOLVERS.clear();
         TARGET_ELIGIBILITY.clear();
         ECONOMY_POLICIES.clear();
+        GUN_PUNISHMENT_POLICIES.clear();
+        BLACKOUT_COOLDOWN_POLICIES.clear();
         INSTINCT_POLICIES.clear();
         bootstrapped = false;
     }

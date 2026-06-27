@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client;
 
 import dev.caecorthus.sparkdlc.witch.impl.GrandWitchRules;
+import dev.caecorthus.sparkdlc.witch.impl.MurderousWitchRules;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.WatheClient;
@@ -23,6 +24,7 @@ public final class WitchInstinctClientHooks {
         }
 
         Role role = GameWorldComponent.KEY.get(player.getWorld()).getRole(player);
-        return GrandWitchRules.usesKillerStyleInstinctLight(role);
+        return GrandWitchRules.usesKillerStyleInstinctLight(role)
+                || MurderousWitchRules.usesKillerStyleInstinctLight(role);
     }
 }

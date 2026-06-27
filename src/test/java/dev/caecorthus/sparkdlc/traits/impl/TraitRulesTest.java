@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.traits.impl;
 import dev.caecorthus.sparkdlc.traits.api.Trait;
 import dev.caecorthus.sparkdlc.traits.api.TraitRegistry;
 import dev.caecorthus.sparkdlc.traits.api.TraitSelectionContext;
+import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 import org.junit.jupiter.api.Test;
 
@@ -43,6 +44,16 @@ class TraitRulesTest {
         assertFalse(TraitRules.canApplyAll(null, null, null, null, Set.of(needsNoBlocker, blocker)));
     }
 
+    @Test
+    void blockedSparkWitchRolesCannotApplyAnyTraits() {
+        Identifier quiet = Identifier.of("sparktraits_test", "blocked_role_quiet");
+        registerIfAbsent(trait(quiet));
+
+        assertFalse(TraitRules.canApplyAll(null, null, null, sparkWitchRole("grand_witch"), Set.of(quiet)));
+        assertTrue(TraitRules.canApplyAll(null, null, null, sparkWitchRole("grand_witch"), Set.of()));
+        assertTrue(TraitRules.canApplyAll(null, null, null, sparkWitchRole("other"), Set.of(quiet)));
+    }
+
     private static Trait trait(Identifier id, Identifier... incompatibleTraits) {
         return trait(id, Set.of(incompatibleTraits), context -> true);
     }
@@ -75,6 +86,18 @@ class TraitRulesTest {
         if (!TraitRegistry.contains(trait.id())) {
             TraitRegistry.register(trait);
         }
+    }
+
+    private static Role sparkWitchRole(String path) {
+        return new Role(
+                Identifier.of("sparkwitch", path),
+                0xFFFFFF,
+                false,
+                false,
+                Role.MoodType.FAKE,
+                200,
+                false
+        );
     }
 
     private interface Rule {

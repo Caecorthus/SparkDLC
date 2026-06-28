@@ -1,7 +1,9 @@
 package dev.caecorthus.sparkdlc.witch.client;
 
 import dev.caecorthus.sparkdlc.witch.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.witch.client.screen.CriminologistScreen;
 import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
+import dev.caecorthus.sparkdlc.witch.net.OpenCriminologistScreenS2CPacket;
 import dev.caecorthus.sparkdlc.witch.net.UseWitchSkillC2SPacket;
 import dev.doctor4t.wathe.api.event.CanSeePoison;
 import dev.doctor4t.wathe.api.event.ShouldShowCohort;
@@ -15,6 +17,12 @@ public final class SparkWitchClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> SparkWitchRoles.refreshAssassinGuessRoleOrder());
+        NoellesRoleEnhancementClientHooks.register();
+
+        ClientPlayNetworking.registerGlobalReceiver(OpenCriminologistScreenS2CPacket.ID,
+                (payload, context) -> context.client().execute(() ->
+                        context.client().setScreen(new CriminologistScreen(payload.victimUuid()))
+                ));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             GrandWitchFearClientHooks.tick();

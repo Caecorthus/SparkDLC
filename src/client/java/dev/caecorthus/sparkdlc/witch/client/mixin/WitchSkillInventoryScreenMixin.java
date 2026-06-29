@@ -2,6 +2,9 @@ package dev.caecorthus.sparkdlc.witch.client.mixin;
 
 import dev.caecorthus.sparkdlc.witch.client.WitchSkillClientTexts;
 import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
+import dev.caecorthus.sparkdlc.witch.impl.WitchSkillPresentationRules;
+import dev.doctor4t.wathe.api.Role;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedHandledScreen;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedInventoryScreen;
 import net.minecraft.client.gui.DrawContext;
@@ -36,6 +39,10 @@ public abstract class WitchSkillInventoryScreenMixin extends LimitedHandledScree
         WitchPlayerComponent component = WitchPlayerComponent.KEY.get(player);
         Identifier skillId = component.getActiveSkillId();
         if (skillId == null) {
+            return;
+        }
+        Role role = GameWorldComponent.KEY.get(player.getWorld()).getRole(player);
+        if (!WitchSkillPresentationRules.shouldShowInventorySkillPanel(role, skillId)) {
             return;
         }
 

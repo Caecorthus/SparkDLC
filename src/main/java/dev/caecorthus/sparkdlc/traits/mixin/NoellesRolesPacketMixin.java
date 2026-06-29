@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
 import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
+import dev.caecorthus.sparkdlc.traits.impl.CorruptCopTraitService;
 import dev.caecorthus.sparkdlc.traits.impl.EffectiveTraitService;
 import dev.caecorthus.sparkdlc.traits.impl.LastStandService;
 import dev.caecorthus.sparkdlc.traits.impl.SilencedKillerRestrictionService;
@@ -51,7 +52,12 @@ public abstract class NoellesRolesPacketMixin {
 
     @Inject(method = "lambda$registerPackets$35", at = @At("HEAD"), cancellable = true, remap = false)
     private static void sparktraits$blockSilencedSharedAbility(AbilityC2SPacket payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
-        sparktraits$blockSilencedKillerAbility(context.player(), ci);
+        if (sparktraits$blockSilencedKillerAbility(context.player(), ci)) {
+            return;
+        }
+        if (CorruptCopTraitService.toggleArrogantAsfAbility(context.player())) {
+            ci.cancel();
+        }
     }
 
     @Inject(method = "lambda$registerPackets$36", at = @At("HEAD"), cancellable = true, remap = false)

@@ -25,6 +25,11 @@ public final class ChildishTrait implements Trait {
     }
 
     @Override
+    public int weight() {
+        return PigTraitService.WEIGHT;
+    }
+
+    @Override
     public void onAssigned(ServerPlayerEntity player, TraitAssignmentReason reason) {
         GlobalTraitService.applyChildishScale(player);
     }

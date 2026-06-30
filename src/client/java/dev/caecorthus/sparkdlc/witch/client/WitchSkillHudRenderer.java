@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client;
 
 import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
+import dev.caecorthus.sparkdlc.witch.impl.MurderousWitchDeathRayRules;
 import dev.caecorthus.sparkdlc.witch.impl.PigGodRules;
 import dev.caecorthus.sparkdlc.witch.impl.WitchSkillHudRules;
 import dev.doctor4t.wathe.cca.PlayerShopComponent;
@@ -45,6 +46,14 @@ public final class WitchSkillHudRenderer {
     private static Text stateText(WitchPlayerComponent component, Identifier skillId, int balance) {
         int activeTicks = component.getActiveSkillWindowTicks();
         if (activeTicks > 0) {
+            if (MurderousWitchDeathRayRules.isDeathRaySkill(skillId) && component.hasActiveDeathRay()) {
+                return Text.translatable(
+                        "hud.sparkwitch.skill.death_ray.active",
+                        WitchSkillClientTexts.name(skillId),
+                        seconds(component.getDeathRayTicks()),
+                        component.getDeathRayCharges()
+                );
+            }
             return Text.translatable(
                     "hud.sparkwitch.skill.active",
                     WitchSkillClientTexts.name(skillId),

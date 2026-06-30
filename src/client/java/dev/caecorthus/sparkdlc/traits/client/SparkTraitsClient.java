@@ -2,14 +2,10 @@ package dev.caecorthus.sparkdlc.traits.client;
 
 import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.traits.component.TraitWorldComponent;
-import dev.caecorthus.sparkdlc.traits.impl.ArrogantAsfTrait;
 import dev.caecorthus.sparkdlc.traits.impl.EffectiveTraitService;
 import dev.caecorthus.sparkdlc.traits.impl.LastStandFinalMomentService;
 import dev.caecorthus.sparkdlc.traits.impl.SparkTraitsParticles;
-import dev.caecorthus.sparkdlc.traits.impl.SparkTraitsSounds;
 import dev.caecorthus.sparkdlc.traits.impl.VigilanteVeteranTraitService;
-import dev.doctor4t.ratatouille.client.util.ambience.AmbienceUtil;
-import dev.doctor4t.ratatouille.client.util.ambience.BackgroundAmbience;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -28,19 +24,8 @@ public class SparkTraitsClient implements ClientModInitializer {
         ParticleFactoryRegistry.getInstance().register(SparkTraitsParticles.BLUE_POISON, PoisonParticle.Factory::new);
         registerFinalMomentHighlight();
         registerGoingDarkInstinctSkip();
-        registerArrogantAsfMusic();
         ClientTickEvents.END_CLIENT_TICK.register(client -> DepressionHud.tick());
-    }
-
-    private static void registerArrogantAsfMusic() {
-        AmbienceUtil.registerBackgroundAmbience(new BackgroundAmbience(
-                SparkTraitsSounds.MUSIC_TAKEDISKRUSH,
-                player -> {
-                    TraitPlayerComponent traits = TraitPlayerComponent.KEY.get(player);
-                    return traits.hasActiveTrait(ArrogantAsfTrait.ID) && traits.isArrogantAsfActive();
-                },
-                40
-        ));
+        ClientTickEvents.END_CLIENT_TICK.register(ArrogantAsfMusicController::tick);
     }
 
     private static void registerFinalMomentHighlight() {

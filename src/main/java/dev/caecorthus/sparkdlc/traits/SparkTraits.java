@@ -6,6 +6,7 @@ import dev.caecorthus.sparkdlc.traits.impl.SparkTraitsCommands;
 import dev.caecorthus.sparkdlc.traits.impl.LastStandService;
 import dev.caecorthus.sparkdlc.traits.impl.SparkTraitsBuiltInTraits;
 import dev.caecorthus.sparkdlc.traits.impl.SparkTraitsParticles;
+import dev.caecorthus.sparkdlc.traits.impl.SparkTraitsSounds;
 import dev.caecorthus.sparkdlc.traits.impl.TraitGameHooks;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.Identifier;
@@ -24,6 +25,7 @@ public class SparkTraits implements ModInitializer {
     public void onInitialize() {
         SparkTraitsDataComponentTypes.init();
         SparkTraitsParticles.register();
+        SparkTraitsSounds.register();
         SparkTraitsBuiltInTraits.register();
         LastStandService.register();
         LastStandFinalMomentService.register();

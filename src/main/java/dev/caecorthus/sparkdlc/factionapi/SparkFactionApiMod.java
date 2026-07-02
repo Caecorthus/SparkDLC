@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.factionapi;
 import dev.caecorthus.sparkdlc.factionapi.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.factionapi.command.SparkFactionAdminCommands;
 import dev.caecorthus.sparkdlc.factionapi.impl.FactionCompatibilityEvents;
+import dev.caecorthus.sparkdlc.factionapi.net.SparkFactionVersionHandshake;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.util.Identifier;
@@ -16,6 +17,7 @@ public final class SparkFactionApiMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        SparkFactionVersionHandshake.registerServer();
         SparkFactionApi.bootstrap();
         FactionCompatibilityEvents.register();
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->

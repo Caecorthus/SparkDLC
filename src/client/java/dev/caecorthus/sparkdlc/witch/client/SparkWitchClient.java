@@ -1,10 +1,14 @@
 package dev.caecorthus.sparkdlc.witch.client;
 
+import dev.caecorthus.sparkdlc.witch.SparkWitchSounds;
 import dev.caecorthus.sparkdlc.witch.SparkWitchRoles;
 import dev.caecorthus.sparkdlc.witch.client.screen.CriminologistScreen;
 import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
+import dev.caecorthus.sparkdlc.witch.component.WitchWorldComponent;
 import dev.caecorthus.sparkdlc.witch.net.OpenCriminologistScreenS2CPacket;
 import dev.caecorthus.sparkdlc.witch.net.UseWitchSkillC2SPacket;
+import dev.doctor4t.ratatouille.client.util.ambience.AmbienceUtil;
+import dev.doctor4t.ratatouille.client.util.ambience.BackgroundAmbience;
 import dev.doctor4t.wathe.api.event.CanSeePoison;
 import dev.doctor4t.wathe.api.event.ShouldShowCohort;
 import net.fabricmc.api.ClientModInitializer;
@@ -23,6 +27,7 @@ public final class SparkWitchClient implements ClientModInitializer {
 
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> SparkWitchRoles.refreshAssassinGuessRoleOrder());
         NoellesRoleEnhancementClientHooks.register();
+        registerGrandWitchCeremonialSwordBgm();
 
         ClientPlayNetworking.registerGlobalReceiver(OpenCriminologistScreenS2CPacket.ID,
                 (payload, context) -> context.client().execute(() ->
@@ -51,6 +56,14 @@ public final class SparkWitchClient implements ClientModInitializer {
 
     public static Text abilityKeyText() {
         return WitchAbilityKeyBridge.keyText();
+    }
+
+    private static void registerGrandWitchCeremonialSwordBgm() {
+        AmbienceUtil.registerBackgroundAmbience(new BackgroundAmbience(
+                SparkWitchSounds.GRAND_WITCH_CEREMONIAL_SWORD_BGM,
+                player -> WitchWorldComponent.KEY.get(player.getWorld()).hasGrandWitchCeremonialSwordBgm(),
+                20
+        ));
     }
 
     private static void requireLambDynamicLights() {

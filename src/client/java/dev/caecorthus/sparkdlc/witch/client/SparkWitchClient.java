@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.witch.client;
 import dev.caecorthus.sparkdlc.witch.SparkWitchSounds;
 import dev.caecorthus.sparkdlc.witch.SparkWitchRoles;
 import dev.caecorthus.sparkdlc.witch.client.screen.CriminologistScreen;
+import dev.caecorthus.sparkdlc.witch.client.net.SparkWitchClientVersionHandshake;
 import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.component.WitchWorldComponent;
 import dev.caecorthus.sparkdlc.witch.net.OpenCriminologistScreenS2CPacket;
@@ -23,6 +24,7 @@ public final class SparkWitchClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        SparkWitchClientVersionHandshake.registerClient();
         requireLambDynamicLights();
 
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> SparkWitchRoles.refreshAssassinGuessRoleOrder());

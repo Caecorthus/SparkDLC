@@ -5,6 +5,7 @@ import dev.caecorthus.sparkdlc.witch.command.SetManaCommand;
 import dev.caecorthus.sparkdlc.witch.impl.SparkWitchBuiltInSkills;
 import dev.caecorthus.sparkdlc.witch.impl.SparkWitchEvents;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchPackets;
+import dev.caecorthus.sparkdlc.witch.net.SparkWitchVersionHandshake;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -21,6 +22,7 @@ public final class SparkWitch implements ModInitializer {
         SparkWitchRoles.register();
         SparkWitchBuiltInSkills.register();
         SparkWitchPackets.register();
+        SparkWitchVersionHandshake.registerServer();
         SparkWitchEvents.register();
         ServerLifecycleEvents.SERVER_STARTED.register(server -> SparkWitchRoles.refreshAssassinGuessRoleOrder());
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {

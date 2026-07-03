@@ -1,11 +1,18 @@
 package dev.caecorthus.sparkdlc.strength.client;
 
+import dev.caecorthus.sparkdlc.strength.client.role.NoellesRoleEnhancementClientHooks;
+import dev.caecorthus.sparkdlc.strength.client.screen.criminologist.CriminologistScreen;
+import dev.caecorthus.sparkdlc.strength.network.criminologist.OpenCriminologistScreenS2CPacket;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 
 public final class SparkStrengthClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        // 当前客户端逻辑主要由 mixin 注入背包界面完成。
-        // 这里保留入口，后续如果要增加 HUD 或客户端网络包可以直接集中注册。
+        NoellesRoleEnhancementClientHooks.register();
+
+        ClientPlayNetworking.registerGlobalReceiver(OpenCriminologistScreenS2CPacket.ID,
+                (payload, context) -> context.client().execute(() ->
+                        context.client().setScreen(new CriminologistScreen(payload.victimUuid()))));
     }
 }

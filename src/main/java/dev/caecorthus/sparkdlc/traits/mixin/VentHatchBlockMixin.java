@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
 import dev.caecorthus.sparkdlc.traits.impl.ConscienceCrowbarService;
+import dev.caecorthus.sparkdlc.traits.net.SparkTraitsServerConnection;
 import dev.doctor4t.wathe.block.VentHatchBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.ItemCooldownManager;
@@ -37,6 +38,9 @@ public abstract class VentHatchBlockMixin {
             PlayerEntity player,
             BlockHitResult hit
     ) {
-        cooldownManager.set(item, ConscienceCrowbarService.crowbarCooldownTicks(player, cooldownTicks));
+        int effectiveCooldownTicks = SparkTraitsServerConnection.isUnconfirmedClientEntity(player)
+                ? cooldownTicks
+                : ConscienceCrowbarService.crowbarCooldownTicks(player, cooldownTicks);
+        cooldownManager.set(item, effectiveCooldownTicks);
     }
 }

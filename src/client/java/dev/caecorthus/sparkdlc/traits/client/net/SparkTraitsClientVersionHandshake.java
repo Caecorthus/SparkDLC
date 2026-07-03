@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.client.net;
 
 import dev.caecorthus.sparkdlc.traits.SparkTraits;
+import dev.caecorthus.sparkdlc.traits.net.SparkTraitsServerConnection;
 import dev.caecorthus.sparkdlc.traits.net.SparkTraitsVersionHandshake;
 import net.fabricmc.fabric.api.client.networking.v1.ClientLoginNetworking;
 
@@ -23,6 +24,7 @@ public final class SparkTraitsClientVersionHandshake {
                 (client, handler, buf, callbacks) -> {
                     String serverVersion = SparkTraitsVersionHandshake.readVersion(buf);
                     String clientVersion = SparkTraitsVersionHandshake.localVersion();
+                    SparkTraitsServerConnection.confirmServer();
                     SparkTraits.LOGGER.info(
                             "Answering SparkTraits login version query: server={}, client={}.",
                             serverVersion,

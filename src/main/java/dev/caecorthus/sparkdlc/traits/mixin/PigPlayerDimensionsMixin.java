@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
 import dev.caecorthus.sparkdlc.traits.impl.PigTraitService;
+import dev.caecorthus.sparkdlc.traits.net.SparkTraitsServerConnection;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,7 +19,8 @@ public abstract class PigPlayerDimensionsMixin {
     @Inject(method = "getBaseDimensions", at = @At("HEAD"), cancellable = true)
     private void sparktraits$pigDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> cir) {
         PlayerEntity player = (PlayerEntity) (Object) this;
-        if (PigTraitService.shouldUsePigDimensions(player, pose)) {
+        if (!SparkTraitsServerConnection.isUnconfirmedClientEntity(player)
+                && PigTraitService.shouldUsePigDimensions(player, pose)) {
             cir.setReturnValue(PigTraitService.pigDimensions());
         }
     }

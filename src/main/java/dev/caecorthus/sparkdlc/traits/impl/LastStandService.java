@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.traits.impl;
 import dev.caecorthus.sparkdlc.traits.SparkTraits;
 import dev.caecorthus.sparkdlc.traits.api.TraitRemovalReason;
 import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
+import dev.caecorthus.sparkdlc.traits.net.SparkTraitsServerConnection;
 import dev.caecorthus.sparkdlc.traits.component.TraitWorldComponent;
 import dev.caecorthus.sparkdlc.traits.mixin.GameWorldComponentAccessor;
 import dev.doctor4t.wathe.api.Faction;
@@ -98,6 +99,9 @@ public final class LastStandService {
                         ? CheckWinCondition.WinResult.block()
                         : null);
         GetInstinctHighlight.EVENT.register(target -> {
+            if (SparkTraitsServerConnection.isUnconfirmedClientEntity(target)) {
+                return null;
+            }
             if (target instanceof PlayerEntity player) {
                 if (!EffectiveTraitService.isHiddenFromKillerInstinct(player)) {
                     return null;

@@ -5,6 +5,7 @@ import dev.caecorthus.sparkdlc.traits.client.TraitClientTexts;
 import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.traits.component.TraitWorldComponent;
 import dev.caecorthus.sparkdlc.traits.impl.TraitDisplayService;
+import dev.caecorthus.sparkdlc.traits.net.SparkTraitsServerConnection;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.CanSeeBodyRole;
 import dev.doctor4t.wathe.api.event.CanTargetBody;
@@ -44,6 +45,9 @@ public abstract class TraitRoleNameRendererMixin {
 
     @Inject(method = "renderHud", at = @At("TAIL"))
     private static void sparktraits$renderTraitTags(TextRenderer renderer, ClientPlayerEntity player, DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+        if (!SparkTraitsServerConnection.isConfirmedServer()) {
+            return;
+        }
         ConscienceSerialKillerHud.render(renderer, player, context);
 
         if (player.getWorld().getLightLevel(LightType.BLOCK, BlockPos.ofFloored(player.getEyePos())) < 3

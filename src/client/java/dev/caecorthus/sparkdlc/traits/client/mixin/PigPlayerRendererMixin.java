@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.traits.client.mixin;
 
 import dev.caecorthus.sparkdlc.traits.client.PigPlayerRenderer;
 import dev.caecorthus.sparkdlc.traits.impl.PigTraitService;
+import dev.caecorthus.sparkdlc.traits.net.SparkTraitsServerConnection;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
@@ -36,7 +37,9 @@ public abstract class PigPlayerRendererMixin {
             int light,
             CallbackInfo ci
     ) {
-        if (!player.isInvisible() && PigTraitService.isPig(player)) {
+        if (SparkTraitsServerConnection.isConfirmedServer()
+                && !player.isInvisible()
+                && PigTraitService.isPig(player)) {
             Identifier headTexture = getTexture(player);
             PigPlayerRenderer.render(player, yaw, tickDelta, matrices, vertexConsumers, light, headTexture);
             ci.cancel();

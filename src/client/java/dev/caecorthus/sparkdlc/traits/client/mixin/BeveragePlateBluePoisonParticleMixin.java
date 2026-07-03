@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.traits.client.mixin;
 import dev.caecorthus.sparkdlc.traits.impl.ConsciencePoisonedPlate;
 import dev.caecorthus.sparkdlc.traits.impl.ConsciencePoisonerService;
 import dev.caecorthus.sparkdlc.traits.impl.SparkTraitsParticles;
+import dev.caecorthus.sparkdlc.traits.net.SparkTraitsServerConnection;
 import dev.doctor4t.wathe.block_entity.BeveragePlateBlockEntity;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.WatheClient;
@@ -29,7 +30,8 @@ public abstract class BeveragePlateBluePoisonParticleMixin {
             BlockEntity blockEntity,
             CallbackInfo ci
     ) {
-        if (!(blockEntity instanceof ConsciencePoisonedPlate plate)
+        if (!SparkTraitsServerConnection.isConfirmedServer()
+                || !(blockEntity instanceof ConsciencePoisonedPlate plate)
                 || plate.sparktraits$getConsciencePoisoner() == null
                 || !sparktraits$canSeeBluePoison(world)) {
             return;

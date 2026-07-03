@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "id": "sparkstrength",
+  "version": "${version}",
+  "name": "SparkStrength",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "ARR",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.caecorthus.sparkdlc.strength.SparkStrength"
+    ],
+    "client": [
+      "dev.caecorthus.sparkdlc.strength.client.SparkStrengthClient"
+    ],
+    "cardinal-components": [
+      "dev.caecorthus.sparkdlc.strength.component.SparkStrengthComponents"
+    ]
+  },
+  "custom": {
+    "cardinal-components": [
+      "sparkstrength:noisemaker_glow_user",
+      "sparkstrength:noisemaker_glow_target"
+    ]
+  },
+  "mixins": [
+    {
+      "config": "sparkstrength.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}",
+    "java": ">=21",
+    "wathe": "${wathe_version}",
+    "noellesroles": "${noellesroles_version}",
+    "cardinal-components-base": ">=${cca_version}",
+    "cardinal-components-entity": ">=${cca_version}"
+  }
+}

@@ -4,6 +4,7 @@ import dev.caecorthus.sparkdlc.witch.SparkWitchEntities;
 import dev.caecorthus.sparkdlc.witch.component.RoleEnhancementPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.impl.NoellesRoleEnhancementRules;
 import dev.caecorthus.sparkdlc.witch.impl.NoellesRoleIds;
+import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.CanSeeMoney;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
@@ -32,6 +33,9 @@ public final class NoellesRoleEnhancementClientHooks {
     }
 
     private static GetInstinctHighlight.HighlightResult criminologistHighlight(Entity target) {
+        if (!SparkWitchServerConnection.isConfirmedServer()) {
+            return null;
+        }
         ClientPlayerEntity viewer = MinecraftClient.getInstance().player;
         if (viewer == null || !(target instanceof PlayerEntity targetPlayer)) {
             return null;
@@ -56,6 +60,9 @@ public final class NoellesRoleEnhancementClientHooks {
     }
 
     private static CanSeeMoney.Result canSeeMoney(PlayerEntity player) {
+        if (!SparkWitchServerConnection.isConfirmedServer()) {
+            return null;
+        }
         if (player == null || !GameFunctions.isPlayerPlayingAndAlive(player)) {
             return null;
         }

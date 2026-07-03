@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin;
 
 import dev.caecorthus.sparkdlc.witch.client.CriminologistHudRenderer;
 import dev.caecorthus.sparkdlc.witch.client.WitchSkillHudRenderer;
+import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -20,6 +21,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class WitchSkillHudMixin {
     @Inject(method = "renderMainHud", at = @At("TAIL"))
     private void sparkwitch$renderSkillHud(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+        if (!SparkWitchServerConnection.isConfirmedServer()) {
+            return;
+        }
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
         if (player != null) {
             CriminologistHudRenderer.render(context, player);

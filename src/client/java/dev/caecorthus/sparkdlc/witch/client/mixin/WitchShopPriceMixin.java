@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
 import dev.caecorthus.sparkdlc.witch.client.WitchShopClientTexts;
+import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
 import dev.doctor4t.wathe.util.ShopEntry;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -24,6 +25,9 @@ public abstract class WitchShopPriceMixin {
             )
     )
     private MutableText sparkwitch$renderManaPrice(String fallback) {
+        if (!SparkWitchServerConnection.isConfirmedServer()) {
+            return Text.literal(fallback);
+        }
         return WitchShopClientTexts.price(entry, fallback);
     }
 }

@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client;
 
 import dev.caecorthus.sparkdlc.witch.impl.GrandWitchRules;
 import dev.caecorthus.sparkdlc.witch.impl.MurderousWitchRules;
+import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.WatheClient;
@@ -18,6 +19,9 @@ public final class WitchInstinctClientHooks {
     }
 
     public static boolean usesKillerStyleInstinctLight() {
+        if (!SparkWitchServerConnection.isConfirmedServer()) {
+            return false;
+        }
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
         if (player == null || !WatheClient.isInstinctEnabled() || !GameFunctions.isPlayerPlayingAndAlive(player)) {
             return false;

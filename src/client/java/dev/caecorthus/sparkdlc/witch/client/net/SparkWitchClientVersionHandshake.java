@@ -1,6 +1,8 @@
 package dev.caecorthus.sparkdlc.witch.client.net;
 
 import dev.caecorthus.sparkdlc.witch.SparkWitch;
+import dev.caecorthus.sparkdlc.witch.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchVersionHandshake;
 import net.fabricmc.fabric.api.client.networking.v1.ClientLoginNetworking;
 
@@ -23,6 +25,8 @@ public final class SparkWitchClientVersionHandshake {
                 (client, handler, buf, callbacks) -> {
                     String serverVersion = SparkWitchVersionHandshake.readVersion(buf);
                     String clientVersion = SparkWitchVersionHandshake.localVersion();
+                    SparkWitchServerConnection.confirmServer();
+                    SparkWitchRoles.refreshAssassinGuessRoleOrder();
                     SparkWitch.LOGGER.info(
                             "Answering SparkWitch login version query: server={}, client={}.",
                             serverVersion,

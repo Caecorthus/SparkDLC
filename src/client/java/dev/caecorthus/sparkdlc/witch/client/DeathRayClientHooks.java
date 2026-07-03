@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.witch.client;
 import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.impl.MurderousWitchDeathRayRules;
 import dev.caecorthus.sparkdlc.witch.net.FireDeathRayC2SPacket;
+import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -23,9 +24,16 @@ public final class DeathRayClientHooks {
         }
     }
 
+    public static void reset() {
+        attackHeld = false;
+    }
+
     public static boolean tryFire(MinecraftClient client) {
         ClientPlayerEntity player = client.player;
-        if (player == null || client.getNetworkHandler() == null || !hasActiveDeathRay(player)) {
+        if (!SparkWitchServerConnection.isConfirmedServer()
+                || player == null
+                || client.getNetworkHandler() == null
+                || !hasActiveDeathRay(player)) {
             return false;
         }
         if (attackHeld) {

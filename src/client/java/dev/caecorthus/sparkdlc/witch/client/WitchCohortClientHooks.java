@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client;
 
 import dev.caecorthus.sparkdlc.witch.impl.GrandWitchRules;
+import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,6 +17,9 @@ public final class WitchCohortClientHooks {
     }
 
     public static boolean isGrandWitchCohortPair(PlayerEntity viewer, PlayerEntity target) {
+        if (!SparkWitchServerConnection.isConfirmedServer()) {
+            return false;
+        }
         GameWorldComponent gameComponent = GameWorldComponent.KEY.get(viewer.getWorld());
         Role viewerRole = gameComponent.getRole(viewer);
         Role targetRole = gameComponent.getRole(target);

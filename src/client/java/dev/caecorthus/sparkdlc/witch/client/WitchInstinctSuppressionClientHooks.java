@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client;
 
 import dev.caecorthus.sparkdlc.witch.component.WitchWorldComponent;
 import dev.caecorthus.sparkdlc.witch.impl.GrandWitchRules;
+import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -45,6 +46,9 @@ public final class WitchInstinctSuppressionClientHooks {
     }
 
     public static boolean shouldSuppressInstinctHighlight() {
+        if (!SparkWitchServerConnection.isConfirmedServer()) {
+            return false;
+        }
         PlayerEntity viewer = MinecraftClient.getInstance().player;
         if (viewer == null) {
             return false;
@@ -65,6 +69,9 @@ public final class WitchInstinctSuppressionClientHooks {
     }
 
     public static boolean shouldSuppressSwallowedInstinctHighlight(Entity target) {
+        if (!SparkWitchServerConnection.isConfirmedServer()) {
+            return false;
+        }
         PlayerEntity viewer = MinecraftClient.getInstance().player;
         if (isNoellesPlayerSwallowed(viewer)) {
             return true;

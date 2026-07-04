@@ -15,8 +15,27 @@ class PackagingGuardTest {
 
         assertTrue(buildScript.contains("dev/caecorthus/sparkdlc/witch/client/SparkWitchClient.class"));
         assertTrue(buildScript.contains("dev/caecorthus/sparkdlc/witch/net/SparkWitchServerConnection.class"));
+        assertTrue(buildScript.contains("dev/caecorthus/sparkdlc/witch/net/SparkWitchPackets.class"));
+        assertTrue(buildScript.contains("dev/caecorthus/sparkdlc/witch/net/SparkWitchServerConfirmS2CPacket.class"));
         assertTrue(buildScript.contains(
                 "dev/caecorthus/sparkdlc/witch/client/net/SparkWitchClientVersionHandshake.class"
         ));
+    }
+
+    @Test
+    void playStageConfirmationIsWiredToClientConfirmationGate() throws IOException {
+        String packetsSource = Files.readString(Path.of(
+                "src/main/java/dev/caecorthus/sparkdlc/witch/net/SparkWitchPackets.java"
+        ));
+        String clientHandshakeSource = Files.readString(Path.of(
+                "src/client/java/dev/caecorthus/sparkdlc/witch/client/net/SparkWitchClientVersionHandshake.java"
+        ));
+
+        assertTrue(packetsSource.contains("ServerPlayConnectionEvents.JOIN"));
+        assertTrue(packetsSource.contains("SparkWitchServerConfirmS2CPacket"));
+        assertTrue(clientHandshakeSource.contains("ClientPlayNetworking.registerGlobalReceiver"));
+        assertTrue(clientHandshakeSource.contains("SparkWitchVersionCheck.isCompatible"));
+        assertTrue(clientHandshakeSource.contains("SparkWitchServerConnection.confirmServer()"));
+        assertTrue(clientHandshakeSource.contains("SparkWitchRoles.refreshAssassinGuessRoleOrder()"));
     }
 }

@@ -2,7 +2,12 @@ package dev.caecorthus.sparkdlc.strength.client;
 
 import dev.caecorthus.sparkdlc.strength.client.role.NoellesRoleEnhancementClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.screen.criminologist.CriminologistScreen;
+import dev.caecorthus.sparkdlc.strength.client.screen.tablet.TabletClientState;
+import dev.caecorthus.sparkdlc.strength.client.screen.tablet.TabletScreen;
+import dev.caecorthus.sparkdlc.strength.client.tablet.TabletClientHighlights;
 import dev.caecorthus.sparkdlc.strength.network.criminologist.OpenCriminologistScreenS2CPacket;
+import dev.caecorthus.sparkdlc.strength.network.tablet.OpenTabletScreenS2CPacket;
+import dev.caecorthus.sparkdlc.strength.network.tablet.SyncTabletSnapshotS2CPacket;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 
@@ -10,9 +15,20 @@ public final class SparkStrengthClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         NoellesRoleEnhancementClientHooks.register();
+        TabletClientHighlights.register();
 
         ClientPlayNetworking.registerGlobalReceiver(OpenCriminologistScreenS2CPacket.ID,
                 (payload, context) -> context.client().execute(() ->
                         context.client().setScreen(new CriminologistScreen(payload.victimUuid()))));
+        ClientPlayNetworking.registerGlobalReceiver(OpenTabletScreenS2CPacket.ID,
+                (payload, context) -> context.client().execute(() ->
+                        context.client().setScreen(new TabletScreen())));
+        ClientPlayNetworking.registerGlobalReceiver(SyncTabletSnapshotS2CPacket.ID,
+                (payload, context) -> context.client().execute(() -> {
+                    TabletClientState.apply(payload.snapshot());
+                    if (context.client().currentScreen instanceof TabletScreen tabletScreen) {
+                        tabletScreen.handleSnapshotUpdate();
+                    }
+                }));
     }
 }

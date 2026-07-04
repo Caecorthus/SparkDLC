@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.strength.component;
 
 import dev.caecorthus.sparkdlc.strength.component.role.RoleEnhancementPlayerComponent;
 import dev.caecorthus.sparkdlc.strength.component.role.RoleEnhancementWorldComponent;
+import dev.caecorthus.sparkdlc.strength.component.tablet.TabletWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowTargetComponent;
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowUserComponent;
 import net.minecraft.entity.player.PlayerEntity;
@@ -35,5 +36,6 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
     @Override
     public void registerWorldComponentFactories(@NotNull WorldComponentFactoryRegistry registry) {
         registry.register(RoleEnhancementWorldComponent.KEY, RoleEnhancementWorldComponent::new);
+        registry.register(TabletWorldComponent.KEY, TabletWorldComponent::new);
     }
 }

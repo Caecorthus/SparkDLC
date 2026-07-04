@@ -1,9 +1,11 @@
 package dev.caecorthus.sparkdlc.strength;
 
+import dev.caecorthus.sparkdlc.strength.command.SparkStrengthCommands;
 import dev.caecorthus.sparkdlc.strength.event.SparkStrengthEvents;
 import dev.caecorthus.sparkdlc.strength.network.SparkStrengthPackets;
 import dev.caecorthus.sparkdlc.strength.replay.SparkStrengthReplayFormatters;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.util.Identifier;
 
 public final class SparkStrength implements ModInitializer {
@@ -20,5 +22,7 @@ public final class SparkStrength implements ModInitializer {
         SparkStrengthPackets.registerServer();
         SparkStrengthEvents.register();
         SparkStrengthReplayFormatters.register();
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
+                SparkStrengthCommands.register(dispatcher));
     }
 }

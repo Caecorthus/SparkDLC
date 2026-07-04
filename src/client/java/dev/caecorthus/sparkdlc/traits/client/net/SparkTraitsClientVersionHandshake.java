@@ -1,9 +1,13 @@
 package dev.caecorthus.sparkdlc.traits.client.net;
 
 import dev.caecorthus.sparkdlc.traits.SparkTraits;
+import dev.caecorthus.sparkdlc.traits.net.SparkTraitsServerConfirmS2CPacket;
 import dev.caecorthus.sparkdlc.traits.net.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.traits.net.SparkTraitsVersionCheck;
 import dev.caecorthus.sparkdlc.traits.net.SparkTraitsVersionHandshake;
 import net.fabricmc.fabric.api.client.networking.v1.ClientLoginNetworking;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.text.Text;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -24,7 +28,7 @@ public final class SparkTraitsClientVersionHandshake {
                 (client, handler, buf, callbacks) -> {
                     String serverVersion = SparkTraitsVersionHandshake.readVersion(buf);
                     String clientVersion = SparkTraitsVersionHandshake.localVersion();
-                    SparkTraitsServerConnection.confirmServer();
+                    confirmSparkTraitsServer(serverVersion, clientVersion, "login");
                     SparkTraits.LOGGER.info(
                             "Answering SparkTraits login version query: server={}, client={}.",
                             serverVersion,
@@ -46,5 +50,31 @@ public final class SparkTraitsClientVersionHandshake {
                     SparkTraitsVersionHandshake.VERSION_CHECK_ID
             );
         }
+
+        ClientPlayNetworking.registerGlobalReceiver(SparkTraitsServerConfirmS2CPacket.ID, (payload, context) -> {
+            String clientVersion = SparkTraitsVersionHandshake.localVersion();
+            if (!SparkTraitsVersionCheck.isCompatible(payload.serverVersion(), clientVersion)) {
+                SparkTraits.LOGGER.warn(
+                        "Disconnecting from SparkTraits play confirmation mismatch: server={}, client={}.",
+                        payload.serverVersion(),
+                        clientVersion
+                );
+                context.responseSender().disconnect(Text.literal(
+                        SparkTraitsVersionCheck.mismatchMessage(payload.serverVersion(), clientVersion)
+                ));
+                return;
+            }
+            confirmSparkTraitsServer(payload.serverVersion(), clientVersion, "play");
+        });
+    }
+
+    private static void confirmSparkTraitsServer(String serverVersion, String clientVersion, String stage) {
+        SparkTraitsServerConnection.confirmServer();
+        SparkTraits.LOGGER.info(
+                "Confirmed SparkTraits server through {} channel: server={}, client={}.",
+                stage,
+                serverVersion,
+                clientVersion
+        );
     }
 }

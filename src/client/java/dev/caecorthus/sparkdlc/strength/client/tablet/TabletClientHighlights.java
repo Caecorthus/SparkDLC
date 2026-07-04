@@ -2,9 +2,9 @@ package dev.caecorthus.sparkdlc.strength.client.tablet;
 
 import dev.caecorthus.sparkdlc.strength.client.screen.tablet.TabletClientState;
 import dev.caecorthus.sparkdlc.strength.network.tablet.TabletSnapshot;
-import dev.caecorthus.sparkdlc.strength.role.NoellesRoleEnhancementRules;
 import dev.caecorthus.sparkdlc.strength.tablet.TabletAccess;
 import dev.caecorthus.sparkdlc.strength.tablet.TabletRules;
+import dev.caecorthus.sparkdlc.strength.tablet.TabletShopRules;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.client.MinecraftClient;
@@ -50,7 +50,7 @@ public final class TabletClientHighlights {
         // 嫌疑人的周期透视不受墙体视线阻挡。
         if (targetSuspect && isSuspectRevealWindow(viewer)) {
             return GetInstinctHighlight.HighlightResult.always(
-                    NoellesRoleEnhancementRules.SUSPECT_HIGHLIGHT_COLOR,
+                    TabletShopRules.SUSPECT_HIGHLIGHT_COLOR,
                     SUSPECT_PRIORITY
             );
         }
@@ -59,13 +59,13 @@ public final class TabletClientHighlights {
         }
         if (targetSuspect && targetHasTablet) {
             return GetInstinctHighlight.HighlightResult.always(
-                    NoellesRoleEnhancementRules.SUSPECT_HIGHLIGHT_COLOR,
+                    TabletShopRules.SUSPECT_HIGHLIGHT_COLOR,
                     SUSPECT_PRIORITY
             );
         }
         if (targetHasTablet) {
             return GetInstinctHighlight.HighlightResult.always(
-                    NoellesRoleEnhancementRules.TABLET_HIGHLIGHT_COLOR,
+                    TabletShopRules.TABLET_HIGHLIGHT_COLOR,
                     TABLET_PRIORITY
             );
         }

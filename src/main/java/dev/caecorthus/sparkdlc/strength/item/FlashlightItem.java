@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.item;
 
-import dev.caecorthus.sparkdlc.strength.role.FlashlightBlackoutService;
+import dev.caecorthus.sparkdlc.strength.role.attendant.FlashlightBlackoutService;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.CustomModelDataComponent;
 import net.minecraft.entity.player.PlayerEntity;

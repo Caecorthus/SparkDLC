@@ -1,6 +1,9 @@
 package dev.caecorthus.sparkdlc.strength.client;
 
-import dev.caecorthus.sparkdlc.strength.client.role.NoellesRoleEnhancementClientHooks;
+import dev.caecorthus.sparkdlc.strength.client.item.CapsuleClient;
+import dev.caecorthus.sparkdlc.strength.client.role.corruptcop.CorruptCopClientHooks;
+import dev.caecorthus.sparkdlc.strength.client.role.detective.CriminologistClientHooks;
+import dev.caecorthus.sparkdlc.strength.client.role.economy.RoleEconomyClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.screen.criminologist.CriminologistScreen;
 import dev.caecorthus.sparkdlc.strength.client.screen.tablet.TabletClientState;
 import dev.caecorthus.sparkdlc.strength.client.screen.tablet.TabletScreen;
@@ -14,7 +17,10 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 public final class SparkStrengthClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        NoellesRoleEnhancementClientHooks.register();
+        CapsuleClient.register();
+        CorruptCopClientHooks.register();
+        CriminologistClientHooks.register();
+        RoleEconomyClientHooks.register();
         TabletClientHighlights.register();
 
         ClientPlayNetworking.registerGlobalReceiver(OpenCriminologistScreenS2CPacket.ID,

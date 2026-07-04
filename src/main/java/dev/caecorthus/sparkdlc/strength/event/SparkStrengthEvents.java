@@ -4,13 +4,17 @@ import dev.caecorthus.sparkdlc.strength.component.detective.CriminologistPlayerC
 import dev.caecorthus.sparkdlc.strength.component.detective.CriminologistWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowTargetComponent;
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowUserComponent;
-import dev.caecorthus.sparkdlc.strength.noisemaker.NoisemakerGlowService;
+import dev.caecorthus.sparkdlc.strength.role.noisemaker.NoisemakerGlowService;
 import dev.caecorthus.sparkdlc.strength.role.attendant.AttendantFlashlightService;
 import dev.caecorthus.sparkdlc.strength.role.corruptcop.CorruptCopFeatureService;
 import dev.caecorthus.sparkdlc.strength.role.detective.CriminologistService;
 import dev.caecorthus.sparkdlc.strength.role.economy.RoleEconomyService;
 import dev.caecorthus.sparkdlc.strength.role.toxicologist.ToxicologistCapsuleShop;
 import dev.caecorthus.sparkdlc.strength.role.attendant.FlashlightBlackoutService;
+import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranBlackoutService;
+import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranEconomyService;
+import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranKnifeService;
+import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranShopService;
 import dev.caecorthus.sparkdlc.strength.tablet.TabletShopService;
 import dev.caecorthus.sparkdlc.strength.tablet.TabletStateService;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -35,13 +39,16 @@ public final class SparkStrengthEvents {
         RoleEconomyService.register();
         ToxicologistCapsuleShop.register();
         TabletShopService.register();
+        VeteranShopService.register();
         ServerTickEvents.END_WORLD_TICK.register(TabletStateService::tick);
+        ServerTickEvents.END_WORLD_TICK.register(VeteranBlackoutService::tick);
 
         RoleAssigned.EVENT.register((player, role) -> {
             if (player instanceof ServerPlayerEntity serverPlayer) {
                 RoleEconomyService.assignForRole(serverPlayer, role);
                 AttendantFlashlightService.assignForRole(serverPlayer, role);
                 CriminologistService.assignForRole(serverPlayer, role);
+                VeteranKnifeService.assignForRole(serverPlayer, role);
             }
         });
 
@@ -51,20 +58,26 @@ public final class SparkStrengthEvents {
             NoisemakerGlowUserComponent.KEY.get(player).reset();
             NoisemakerGlowTargetComponent.KEY.get(player).reset();
             CriminologistPlayerComponent.KEY.get(player).clearAll();
+            if (player instanceof ServerPlayerEntity serverPlayer) {
+                VeteranKnifeService.reset(serverPlayer);
+            }
         });
 
         KillPlayer.AFTER.register((victim, killer, deathReason) -> {
             // 大嗓门死亡后的“杀手发光 15 秒”是被动效果，不写入回放。
             NoisemakerGlowService.glowKillerWhenNoisemakerDies(victim, killer);
             CriminologistService.afterKill(victim, killer, deathReason);
+            VeteranEconomyService.afterKill(victim, killer, deathReason);
         });
 
         GameEvents.ON_FINISH_FINALIZE.register((world, gameComponent) -> {
             if (world instanceof ServerWorld serverWorld) {
                 CriminologistWorldComponent.KEY.get(serverWorld).clearRoundState();
                 TabletStateService.clearRoundState(serverWorld);
+                VeteranBlackoutService.clear(serverWorld);
                 for (ServerPlayerEntity player : serverWorld.getPlayers()) {
                     CriminologistPlayerComponent.KEY.get(player).clearAll();
+                    VeteranKnifeService.reset(player);
                 }
             }
         });

@@ -1,4 +1,4 @@
-package dev.caecorthus.sparkdlc.strength.noisemaker;
+package dev.caecorthus.sparkdlc.strength.role.noisemaker;
 
 import dev.doctor4t.wathe.game.GameConstants;
 

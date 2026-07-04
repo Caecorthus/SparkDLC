@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.component.noisemaker;
 
 import dev.caecorthus.sparkdlc.strength.SparkStrength;
-import dev.caecorthus.sparkdlc.strength.noisemaker.NoisemakerGlowConstants;
+import dev.caecorthus.sparkdlc.strength.role.noisemaker.NoisemakerGlowConstants;
 import dev.caecorthus.sparkdlc.strength.replay.SparkStrengthReplayFormatters;
 import dev.doctor4t.wathe.game.GameFunctions;
 import dev.doctor4t.wathe.record.GameRecordManager;

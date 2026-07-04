@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.strength.role.economy;
 
 import dev.caecorthus.sparkdlc.strength.role.detective.CriminologistRules;
 import dev.caecorthus.sparkdlc.strength.role.toxicologist.ToxicologistCapsuleRules;
+import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranRules;
 import dev.caecorthus.sparkdlc.strength.tablet.TabletShopRules;
 import dev.doctor4t.wathe.api.Role;
 import org.jetbrains.annotations.Nullable;
@@ -23,6 +24,7 @@ public final class RoleEconomyRules {
     public static boolean isGoodMoneyRole(@Nullable Role role) {
         return CriminologistRules.isDetective(role)
                 || ToxicologistCapsuleRules.isToxicologist(role)
+                || VeteranRules.isVeteran(role)
                 || TabletShopRules.canBuyTabletRole(role);
     }
 

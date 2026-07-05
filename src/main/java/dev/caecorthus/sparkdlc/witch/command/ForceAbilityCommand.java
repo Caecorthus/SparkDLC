@@ -10,7 +10,7 @@ import dev.caecorthus.sparkdlc.witch.SparkWitch;
 import dev.caecorthus.sparkdlc.witch.api.WitchSkillDefinition;
 import dev.caecorthus.sparkdlc.witch.api.WitchSkillRegistry;
 import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
-import dev.caecorthus.sparkdlc.witch.impl.WitchSkillLockValidationService;
+import dev.caecorthus.sparkdlc.witch.skill.WitchSkillLockValidationService;
 import dev.caecorthus.sparkdlc.witch.util.SparkWitchPermissions;
 import dev.doctor4t.wathe.Wathe;
 import me.lucko.fabric.api.permissions.v0.Permissions;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
-import dev.caecorthus.sparkdlc.witch.client.WitchRoleDisplayTexts;
+import dev.caecorthus.sparkdlc.witch.client.text.WitchRoleDisplayTexts;
 import dev.doctor4t.wathe.client.gui.RoleNameRenderer;
 import net.minecraft.text.MutableText;
 import org.spongepowered.asm.mixin.Mixin;

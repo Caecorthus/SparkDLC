@@ -2,6 +2,19 @@ package dev.caecorthus.sparkdlc.witch.impl;
 
 import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.component.WitchWorldComponent;
+import dev.caecorthus.sparkdlc.witch.economy.WitchEconomyService;
+import dev.caecorthus.sparkdlc.witch.item.ceremonialsword.CeremonialSwordCombatService;
+import dev.caecorthus.sparkdlc.witch.item.ceremonialsword.CeremonialSwordDashService;
+import dev.caecorthus.sparkdlc.witch.item.firepoker.FirePokerCombatService;
+import dev.caecorthus.sparkdlc.witch.item.firepoker.FirePokerFallAttributionService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.abilities.MightyForce.MightyForceCombatService;
+import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchActiveSkillService;
+import dev.caecorthus.sparkdlc.witch.roles.witch.WitchFactionFeatureService;
+import dev.caecorthus.sparkdlc.witch.mana.WitchManaService;
+import dev.caecorthus.sparkdlc.witch.roles.neutral.murderouswitch.MurderousWitchFeature.MurderousWitchFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodEconomyService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodFeatureService;
+import dev.caecorthus.sparkdlc.witch.skill.WitchSkillAssignmentService;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.KillPlayer;
 import dev.doctor4t.wathe.api.event.ResetPlayer;
@@ -26,7 +39,7 @@ public final class SparkWitchEvents {
         CeremonialSwordDashService.register();
         MightyForceCombatService.register();
         FirePokerCombatService.register();
-        GrandWitchFeatureService.register();
+        WitchFactionFeatureService.register();
         MurderousWitchFeatureService.register();
         PigGodFeatureService.register();
         PigGodEconomyService.register();
@@ -34,7 +47,7 @@ public final class SparkWitchEvents {
             if (player instanceof ServerPlayerEntity serverPlayer) {
                 WitchSkillAssignmentService.assignForRole(serverPlayer, role);
                 WitchManaService.assignForRole(serverPlayer, role);
-                GrandWitchFeatureService.assignForRole(serverPlayer, role);
+                WitchFactionFeatureService.assignForRole(serverPlayer, role);
                 MurderousWitchFeatureService.assignForRole(serverPlayer, role);
                 PigGodEconomyService.assignForRole(serverPlayer, role);
             }
@@ -45,12 +58,12 @@ public final class SparkWitchEvents {
         KillPlayer.AFTER.register(WitchManaService::afterKill);
         KillPlayer.AFTER.register(WitchEconomyService::afterKill);
         KillPlayer.AFTER.register((victim, killer, deathReason) -> {
-            GrandWitchFeatureService.clearPlayerRuntime(victim);
+            WitchFactionFeatureService.clearPlayerRuntime(victim);
             FirePokerFallAttributionService.clearPlayer(victim);
             WitchPlayerComponent.KEY.get(victim).clearPigChaseState();
         });
         ResetPlayer.EVENT.register(player -> {
-            GrandWitchFeatureService.clearPlayerRuntime(player);
+            WitchFactionFeatureService.clearPlayerRuntime(player);
             FirePokerFallAttributionService.clearPlayer(player);
             WitchPlayerComponent.KEY.get(player).clear();
         });
@@ -61,7 +74,7 @@ public final class SparkWitchEvents {
                 WitchWorldComponent.KEY.get(serverWorld).clearRoundState();
                 FirePokerFallAttributionService.clearAll();
                 for (ServerPlayerEntity player : serverWorld.getPlayers()) {
-                    GrandWitchFeatureService.clearPlayerRuntime(player);
+                    WitchFactionFeatureService.clearPlayerRuntime(player);
                     WitchPlayerComponent.KEY.get(player).clear();
                 }
             }

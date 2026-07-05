@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch;
 
 import dev.caecorthus.sparkdlc.witch.command.ForceAbilityCommand;
 import dev.caecorthus.sparkdlc.witch.command.SetManaCommand;
-import dev.caecorthus.sparkdlc.witch.impl.SparkWitchBuiltInSkills;
+import dev.caecorthus.sparkdlc.witch.skill.SparkWitchBuiltInSkills;
 import dev.caecorthus.sparkdlc.witch.impl.SparkWitchEvents;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchPackets;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchVersionHandshake;

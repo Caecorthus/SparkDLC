@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
-import dev.caecorthus.sparkdlc.witch.client.WitchShopClientTexts;
+import dev.caecorthus.sparkdlc.witch.client.text.WitchShopClientTexts;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
 import dev.doctor4t.wathe.util.ShopEntry;
 import net.minecraft.text.MutableText;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
-import dev.caecorthus.sparkdlc.witch.client.WitchCohortClientHooks;
+import dev.caecorthus.sparkdlc.witch.client.hooks.WitchCohortClientHooks;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.WatheClient;

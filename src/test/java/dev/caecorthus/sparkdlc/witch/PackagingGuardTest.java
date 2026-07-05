@@ -18,7 +18,7 @@ class PackagingGuardTest {
         assertTrue(buildScript.contains("dev/caecorthus/sparkdlc/witch/net/SparkWitchPackets.class"));
         assertTrue(buildScript.contains("dev/caecorthus/sparkdlc/witch/net/SparkWitchServerConfirmS2CPacket.class"));
         assertTrue(buildScript.contains(
-                "dev/caecorthus/sparkdlc/witch/client/net/SparkWitchClientVersionHandshake.class"
+                "dev/caecorthus/sparkdlc/witch/client/net/version/SparkWitchClientVersionHandshake.class"
         ));
     }
 
@@ -28,14 +28,24 @@ class PackagingGuardTest {
                 "src/main/java/dev/caecorthus/sparkdlc/witch/net/SparkWitchPackets.java"
         ));
         String clientHandshakeSource = Files.readString(Path.of(
-                "src/client/java/dev/caecorthus/sparkdlc/witch/client/net/SparkWitchClientVersionHandshake.java"
+                "src/client/java/dev/caecorthus/sparkdlc/witch/client/net/version/SparkWitchClientVersionHandshake.java"
         ));
 
         assertTrue(packetsSource.contains("ServerPlayConnectionEvents.JOIN"));
         assertTrue(packetsSource.contains("SparkWitchServerConfirmS2CPacket"));
         assertTrue(clientHandshakeSource.contains("ClientPlayNetworking.registerGlobalReceiver"));
-        assertTrue(clientHandshakeSource.contains("SparkWitchVersionCheck.isCompatible"));
-        assertTrue(clientHandshakeSource.contains("SparkWitchServerConnection.confirmServer()"));
+        assertTrue(clientHandshakeSource.contains("SparkWitchServerConnection.confirmCompatible"));
         assertTrue(clientHandshakeSource.contains("SparkWitchRoles.refreshAssassinGuessRoleOrder()"));
+    }
+
+    @Test
+    void packagedJarGuardChecksRuntimeDependencyVersions() throws IOException {
+        String buildScript = Files.readString(Path.of("build.gradle"));
+
+        assertTrue(buildScript.contains("\"noellesroles\""));
+        assertTrue(buildScript.contains("\"sparkfactionapi\" : \">=${project.sparkfactionapi_version}\""));
+        assertTrue(buildScript.contains("\"ratatouille\""));
+        assertTrue(buildScript.contains("Included SparkFactionAPI"));
+        assertTrue(buildScript.contains("Bundled SparkFactionAPI"));
     }
 }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch;
 
-import dev.caecorthus.sparkdlc.witch.item.CeremonialSwordItem;
+import dev.caecorthus.sparkdlc.witch.item.ceremonialsword.CeremonialSwordItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;

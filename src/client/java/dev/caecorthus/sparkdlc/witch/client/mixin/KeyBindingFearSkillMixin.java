@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
-import dev.caecorthus.sparkdlc.witch.client.GrandWitchFearClientHooks;
+import dev.caecorthus.sparkdlc.witch.client.hooks.GrandWitchFearClientHooks;
 import net.minecraft.client.option.KeyBinding;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

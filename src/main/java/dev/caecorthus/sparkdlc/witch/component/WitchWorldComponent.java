@@ -1,7 +1,8 @@
 package dev.caecorthus.sparkdlc.witch.component;
 
 import dev.caecorthus.sparkdlc.witch.SparkWitch;
-import dev.caecorthus.sparkdlc.witch.impl.GrandWitchSpellService;
+import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchCeremonialSwordBgmSources;
+import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchSpellService;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.api;
 
 import dev.caecorthus.sparkdlc.witch.SparkWitch;
-import dev.caecorthus.sparkdlc.witch.impl.WitchSkillSelector;
+import dev.caecorthus.sparkdlc.witch.skill.WitchSkillSelector;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 

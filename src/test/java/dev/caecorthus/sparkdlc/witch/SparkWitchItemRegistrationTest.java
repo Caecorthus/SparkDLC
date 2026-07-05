@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.witch;
 
-import dev.caecorthus.sparkdlc.witch.impl.CeremonialSwordDashService;
-import dev.caecorthus.sparkdlc.witch.impl.CeremonialSwordCombatService;
-import dev.caecorthus.sparkdlc.witch.item.CeremonialSwordItem;
+import dev.caecorthus.sparkdlc.witch.item.ceremonialsword.CeremonialSwordCombatService;
+import dev.caecorthus.sparkdlc.witch.item.ceremonialsword.CeremonialSwordDashService;
+import dev.caecorthus.sparkdlc.witch.item.ceremonialsword.CeremonialSwordItem;
 import net.minecraft.util.ActionResult;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SparkWitchItemRegistrationTest {
     private static final Path CEREMONIAL_SWORD_ITEM_SOURCE =
-            Path.of("src/main/java/dev/caecorthus/sparkdlc/witch/item/CeremonialSwordItem.java");
+            Path.of("src/main/java/dev/caecorthus/sparkdlc/witch/item/ceremonialsword/CeremonialSwordItem.java");
 
     @Test
     void ceremonialSwordUsesSparkWitchItemId() {

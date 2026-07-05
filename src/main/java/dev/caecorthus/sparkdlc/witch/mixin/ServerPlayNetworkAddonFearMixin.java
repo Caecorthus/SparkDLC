@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.impl.GrandWitchFearService;
+import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchFearService;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.impl.networking.server.ServerPlayNetworkAddon;
 import net.minecraft.network.packet.CustomPayload;

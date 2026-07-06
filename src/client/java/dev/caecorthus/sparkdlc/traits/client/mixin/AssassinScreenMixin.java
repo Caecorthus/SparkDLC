@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.client.mixin;
 
-import dev.caecorthus.sparkdlc.traits.impl.AssassinRolePage;
-import dev.caecorthus.sparkdlc.traits.net.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.traits.impl.compatibility.noellesroles.AssassinRolePage;
+import dev.caecorthus.sparkdlc.traits.net.version.SparkTraitsServerConnection;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
 import dev.doctor4t.wathe.cca.GameWorldComponent;

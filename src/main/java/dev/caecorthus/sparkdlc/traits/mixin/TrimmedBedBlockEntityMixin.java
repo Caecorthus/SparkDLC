@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.impl.ConscienceScorpionBed;
+import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.ConscienceScorpionBed;
 import dev.doctor4t.wathe.block_entity.TrimmedBedBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;

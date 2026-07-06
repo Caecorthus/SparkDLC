@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.impl.PigTraitService;
-import dev.caecorthus.sparkdlc.traits.net.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.traits.impl.traits.global.pig.PigTraitService;
+import dev.caecorthus.sparkdlc.traits.net.version.SparkTraitsServerConnection;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;

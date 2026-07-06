@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.traits.client.mixin;
 
-import dev.caecorthus.sparkdlc.traits.impl.ConsciencePoisonerService;
-import dev.caecorthus.sparkdlc.traits.impl.ConscienceScorpionBed;
-import dev.caecorthus.sparkdlc.traits.impl.SparkTraitsParticles;
-import dev.caecorthus.sparkdlc.traits.net.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.ConsciencePoisonerService;
+import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.ConscienceScorpionBed;
+import dev.caecorthus.sparkdlc.traits.impl.resource.SparkTraitsParticles;
+import dev.caecorthus.sparkdlc.traits.net.version.SparkTraitsServerConnection;
 import dev.doctor4t.wathe.block_entity.TrimmedBedBlockEntity;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.WatheClient;

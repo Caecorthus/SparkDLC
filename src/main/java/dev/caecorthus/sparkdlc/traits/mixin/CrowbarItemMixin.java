@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.impl.ConscienceCrowbarService;
-import dev.caecorthus.sparkdlc.traits.net.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.ConscienceCrowbarService;
+import dev.caecorthus.sparkdlc.traits.net.version.SparkTraitsServerConnection;
 import dev.doctor4t.wathe.item.CrowbarItem;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.item.Item;

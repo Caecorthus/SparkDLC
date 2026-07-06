@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
 import com.mojang.datafixers.util.Either;
-import dev.caecorthus.sparkdlc.traits.impl.ConsciencePoisonerService;
-import dev.caecorthus.sparkdlc.traits.impl.DepressionTraitService;
-import dev.caecorthus.sparkdlc.traits.impl.LastStandService;
+import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.ConsciencePoisonerService;
+import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.depression.DepressionTraitService;
+import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.laststand.LastStandService;
 import dev.doctor4t.wathe.util.Scheduler;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;

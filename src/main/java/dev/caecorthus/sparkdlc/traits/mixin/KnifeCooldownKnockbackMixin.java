@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.impl.KnifeKnockbackService;
+import dev.caecorthus.sparkdlc.traits.impl.traits.killer.KnifeKnockbackService;
 import dev.doctor4t.wathe.game.GameFunctions;
 import dev.doctor4t.wathe.index.WatheItems;
 import net.minecraft.entity.Entity;

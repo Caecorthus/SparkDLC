@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
 import dev.caecorthus.sparkdlc.traits.component.SparkTraitsDataComponentTypes;
-import dev.caecorthus.sparkdlc.traits.impl.ConsciencePoisonedPlate;
-import dev.caecorthus.sparkdlc.traits.impl.ConsciencePoisonerService;
+import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.ConsciencePoisonedPlate;
+import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.ConsciencePoisonerService;
 import dev.doctor4t.wathe.block.FoodPlatterBlock;
 import dev.doctor4t.wathe.block_entity.BeveragePlateBlockEntity;
 import dev.doctor4t.wathe.cca.GameWorldComponent;

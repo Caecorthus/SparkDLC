@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
 import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
-import dev.caecorthus.sparkdlc.traits.impl.EffectiveTraitService;
+import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveTraitService;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.impl.KillerTraitService;
+import dev.caecorthus.sparkdlc.traits.impl.traits.killer.KillerTraitService;
 import dev.doctor4t.wathe.index.WatheItems;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.item.Item;

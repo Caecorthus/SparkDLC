@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.impl.CorruptCopTraitService;
-import dev.caecorthus.sparkdlc.traits.net.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.traits.impl.traits.neutral.arrogant_asf.ArrogantAsfTraitService;
+import dev.caecorthus.sparkdlc.traits.net.version.SparkTraitsServerConnection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
@@ -26,7 +26,7 @@ public abstract class ArrogantAsfLateralVelocityMixin {
             return;
         }
 
-        Vec3d bonus = CorruptCopTraitService.arrogantAsfLateralVelocityBonus(player, movementInput, speed);
+        Vec3d bonus = ArrogantAsfTraitService.arrogantAsfLateralVelocityBonus(player, movementInput, speed);
         if (bonus.lengthSquared() > 0.0d) {
             player.setVelocity(player.getVelocity().add(bonus));
         }

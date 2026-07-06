@@ -8,7 +8,7 @@ import de.maxhenkel.voicechat.api.events.MicrophonePacketEvent;
 import de.maxhenkel.voicechat.api.events.SoundPacketEvent;
 import de.maxhenkel.voicechat.api.packets.Packet;
 import dev.caecorthus.sparkdlc.traits.SparkTraits;
-import dev.caecorthus.sparkdlc.traits.impl.DepressionTraitService;
+import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.depression.DepressionTraitService;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 /**

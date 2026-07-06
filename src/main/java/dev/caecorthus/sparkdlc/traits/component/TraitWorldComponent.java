@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.component;
 
 import dev.caecorthus.sparkdlc.traits.SparkTraits;
-import dev.caecorthus.sparkdlc.traits.impl.TraitSlotRollChance;
+import dev.caecorthus.sparkdlc.traits.impl.selection.TraitSlotRollChance;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;

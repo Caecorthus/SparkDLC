@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.impl.TraitLockValidationService;
+import dev.caecorthus.sparkdlc.traits.impl.command.admin.TraitLockValidationService;
 import dev.doctor4t.wathe.Wathe;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Collection;
+import dev.caecorthus.sparkdlc.traits.SparkTraits;
 
 /**
  * Blocks forced roles that would conflict with already locked SparkTraits traits.

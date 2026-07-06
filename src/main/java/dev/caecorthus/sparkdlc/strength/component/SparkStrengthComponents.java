@@ -2,6 +2,8 @@ package dev.caecorthus.sparkdlc.strength.component;
 
 import dev.caecorthus.sparkdlc.strength.component.detective.CriminologistPlayerComponent;
 import dev.caecorthus.sparkdlc.strength.component.detective.CriminologistWorldComponent;
+import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumTargetComponent;
+import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumUserComponent;
 import dev.caecorthus.sparkdlc.strength.component.tablet.TabletWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowTargetComponent;
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowUserComponent;
@@ -29,6 +31,12 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
         registry.beginRegistration(PlayerEntity.class, NoisemakerGlowTargetComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(NoisemakerGlowTargetComponent::new);
+        registry.beginRegistration(PlayerEntity.class, ProfessorSerumUserComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(ProfessorSerumUserComponent::new);
+        registry.beginRegistration(PlayerEntity.class, ProfessorSerumTargetComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(ProfessorSerumTargetComponent::new);
         registry.beginRegistration(PlayerEntity.class, CriminologistPlayerComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(CriminologistPlayerComponent::new);

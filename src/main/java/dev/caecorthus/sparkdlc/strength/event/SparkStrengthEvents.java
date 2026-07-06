@@ -4,11 +4,14 @@ import dev.caecorthus.sparkdlc.strength.component.detective.CriminologistPlayerC
 import dev.caecorthus.sparkdlc.strength.component.detective.CriminologistWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowTargetComponent;
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowUserComponent;
+import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumTargetComponent;
+import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumUserComponent;
 import dev.caecorthus.sparkdlc.strength.role.noisemaker.NoisemakerGlowService;
 import dev.caecorthus.sparkdlc.strength.role.attendant.AttendantFlashlightService;
 import dev.caecorthus.sparkdlc.strength.role.corruptcop.CorruptCopFeatureService;
 import dev.caecorthus.sparkdlc.strength.role.detective.CriminologistService;
 import dev.caecorthus.sparkdlc.strength.role.economy.RoleEconomyService;
+import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumShopService;
 import dev.caecorthus.sparkdlc.strength.role.toxicologist.ToxicologistCapsuleShop;
 import dev.caecorthus.sparkdlc.strength.role.attendant.FlashlightBlackoutService;
 import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranBlackoutService;
@@ -37,6 +40,7 @@ public final class SparkStrengthEvents {
         CriminologistService.register();
         FlashlightBlackoutService.register();
         RoleEconomyService.register();
+        ProfessorSerumShopService.register();
         ToxicologistCapsuleShop.register();
         TabletShopService.register();
         VeteranShopService.register();
@@ -57,6 +61,8 @@ public final class SparkStrengthEvents {
             // 这里把点亮冷却和目标倒计时都清掉，避免跨局残留。
             NoisemakerGlowUserComponent.KEY.get(player).reset();
             NoisemakerGlowTargetComponent.KEY.get(player).reset();
+            ProfessorSerumUserComponent.KEY.get(player).reset();
+            ProfessorSerumTargetComponent.KEY.get(player).reset();
             CriminologistPlayerComponent.KEY.get(player).clearAll();
             if (player instanceof ServerPlayerEntity serverPlayer) {
                 VeteranKnifeService.reset(serverPlayer);
@@ -77,6 +83,8 @@ public final class SparkStrengthEvents {
                 VeteranBlackoutService.clear(serverWorld);
                 for (ServerPlayerEntity player : serverWorld.getPlayers()) {
                     CriminologistPlayerComponent.KEY.get(player).clearAll();
+                    ProfessorSerumUserComponent.KEY.get(player).reset();
+                    ProfessorSerumTargetComponent.KEY.get(player).reset();
                     VeteranKnifeService.reset(player);
                 }
             }

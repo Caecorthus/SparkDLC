@@ -1,8 +1,6 @@
 package dev.caecorthus.sparkdlc.assist.client.screen;
 
-import dev.caecorthus.sparkdlc.assist.client.SparkAssistClient;
-import dev.caecorthus.sparkdlc.assist.client.sound.EventSoundVolumeController;
-import dev.caecorthus.sparkdlc.assist.config.SparkAssistConfig;
+import dev.caecorthus.sparkdlc.assist.client.config.SparkAssistClientSettings;
 import dev.caecorthus.sparkdlc.assist.sound.EventSoundGroup;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -30,13 +28,8 @@ public final class EventSoundOptionsScreen extends GameOptionsScreen {
                 SimpleOption.emptyTooltip(),
                 EventSoundOptionsScreen::eventVolumeText,
                 SimpleOption.DoubleSliderCallbacks.INSTANCE,
-                SparkAssistClient.configManager().config().eventSoundVolume(group),
-                volume -> {
-                    SparkAssistConfig config = SparkAssistClient.configManager().config();
-                    config.setEventSoundVolume(group, volume);
-                    SparkAssistClient.configManager().save();
-                    EventSoundVolumeController.refreshPlayingSounds();
-                }
+                SparkAssistClientSettings.eventSoundVolume(group),
+                volume -> SparkAssistClientSettings.setEventSoundVolume(group, volume)
         );
     }
 

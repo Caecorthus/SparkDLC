@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.assist.client.sound;
 import dev.caecorthus.sparkdlc.assist.client.SparkAssistClient;
 import dev.caecorthus.sparkdlc.assist.config.SparkAssistConfig;
 import dev.caecorthus.sparkdlc.assist.sound.EventSoundGroup;
+import dev.caecorthus.sparkdlc.assist.sound.EventSoundRefreshCategories;
 import dev.caecorthus.sparkdlc.assist.sound.EventSoundVolumeRules;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.Sound;
@@ -42,9 +43,9 @@ public final class EventSoundVolumeController {
         if (client == null || client.getSoundManager() == null || client.options == null) {
             return;
         }
-        refreshSoundCategory(client, SoundCategory.AMBIENT);
-        refreshSoundCategory(client, SoundCategory.MUSIC);
-        refreshSoundCategory(client, SoundCategory.PLAYERS);
+        for (SoundCategory category : EventSoundRefreshCategories.refreshCategories()) {
+            refreshSoundCategory(client, category);
+        }
     }
 
     private static void refreshSoundCategory(MinecraftClient client, SoundCategory category) {

@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.strength.component;
 
 import dev.caecorthus.sparkdlc.strength.component.detective.CriminologistPlayerComponent;
 import dev.caecorthus.sparkdlc.strength.component.detective.CriminologistWorldComponent;
+import dev.caecorthus.sparkdlc.strength.component.engineer.EngineerStunnedPlayerComponent;
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumTargetComponent;
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumUserComponent;
 import dev.caecorthus.sparkdlc.strength.component.tablet.TabletWorldComponent;
@@ -43,6 +44,9 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
         registry.beginRegistration(PlayerEntity.class, VeteranKnifeComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(VeteranKnifeComponent::new);
+        registry.beginRegistration(PlayerEntity.class, EngineerStunnedPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(EngineerStunnedPlayerComponent::new);
     }
 
     @Override

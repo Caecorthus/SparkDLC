@@ -4,6 +4,7 @@ import dev.caecorthus.sparkdlc.strength.client.item.CapsuleClient;
 import dev.caecorthus.sparkdlc.strength.client.role.corruptcop.CorruptCopClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.detective.CriminologistClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.economy.RoleEconomyClientHooks;
+import dev.caecorthus.sparkdlc.strength.client.role.engineer.EngineerClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.professor.ProfessorSerumClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.veteran.VeteranClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.screen.criminologist.CriminologistScreen;
@@ -24,6 +25,7 @@ public final class SparkStrengthClient implements ClientModInitializer {
         CapsuleClient.register();
         CorruptCopClientHooks.register();
         CriminologistClientHooks.register();
+        EngineerClientHooks.register();
         ProfessorSerumClientHooks.register();
         RoleEconomyClientHooks.register();
         TabletClientHighlights.register();

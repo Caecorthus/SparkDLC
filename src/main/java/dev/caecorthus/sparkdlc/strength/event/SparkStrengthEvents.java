@@ -16,6 +16,7 @@ import dev.caecorthus.sparkdlc.strength.role.economy.RoleEconomyService;
 import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerCaptureDeviceService;
 import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerPowerRestorationService;
 import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerShopService;
+import dev.caecorthus.sparkdlc.strength.role.poisoner.PoisonerEconomyService;
 import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumShopService;
 import dev.caecorthus.sparkdlc.strength.role.toxicologist.ToxicologistCapsuleShop;
 import dev.caecorthus.sparkdlc.strength.role.attendant.FlashlightBlackoutService;
@@ -47,6 +48,7 @@ public final class SparkStrengthEvents {
         RoleEconomyService.register();
         EngineerPowerRestorationService.register();
         EngineerShopService.register();
+        PoisonerEconomyService.register();
         ProfessorSerumShopService.register();
         ToxicologistCapsuleShop.register();
         TabletShopService.register();

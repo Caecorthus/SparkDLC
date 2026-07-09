@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.strength.component;
 
 import dev.caecorthus.sparkdlc.strength.component.detective.CriminologistPlayerComponent;
 import dev.caecorthus.sparkdlc.strength.component.detective.CriminologistWorldComponent;
+import dev.caecorthus.sparkdlc.strength.component.demonhunter.DemonHunterSniffPlayerComponent;
 import dev.caecorthus.sparkdlc.strength.component.engineer.EngineerStunnedPlayerComponent;
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumTargetComponent;
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumUserComponent;
@@ -47,6 +48,9 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
         registry.beginRegistration(PlayerEntity.class, EngineerStunnedPlayerComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(EngineerStunnedPlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, DemonHunterSniffPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(DemonHunterSniffPlayerComponent::new);
     }
 
     @Override

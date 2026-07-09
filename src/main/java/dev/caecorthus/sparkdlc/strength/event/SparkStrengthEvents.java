@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.strength.event;
 
 import dev.caecorthus.sparkdlc.strength.component.detective.CriminologistPlayerComponent;
 import dev.caecorthus.sparkdlc.strength.component.detective.CriminologistWorldComponent;
+import dev.caecorthus.sparkdlc.strength.component.demonhunter.DemonHunterSniffPlayerComponent;
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowTargetComponent;
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowUserComponent;
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumTargetComponent;
@@ -10,6 +11,7 @@ import dev.caecorthus.sparkdlc.strength.role.noisemaker.NoisemakerGlowService;
 import dev.caecorthus.sparkdlc.strength.role.attendant.AttendantFlashlightService;
 import dev.caecorthus.sparkdlc.strength.role.corruptcop.CorruptCopFeatureService;
 import dev.caecorthus.sparkdlc.strength.role.detective.CriminologistService;
+import dev.caecorthus.sparkdlc.strength.role.demonhunter.DemonHunterSniffService;
 import dev.caecorthus.sparkdlc.strength.role.economy.RoleEconomyService;
 import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerCaptureDeviceService;
 import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerPowerRestorationService;
@@ -57,6 +59,7 @@ public final class SparkStrengthEvents {
                 RoleEconomyService.assignForRole(serverPlayer, role);
                 AttendantFlashlightService.assignForRole(serverPlayer, role);
                 CriminologistService.assignForRole(serverPlayer, role);
+                DemonHunterSniffService.assignForRole(serverPlayer, role);
                 VeteranKnifeService.assignForRole(serverPlayer, role);
             }
         });
@@ -69,6 +72,7 @@ public final class SparkStrengthEvents {
             ProfessorSerumUserComponent.KEY.get(player).reset();
             ProfessorSerumTargetComponent.KEY.get(player).reset();
             CriminologistPlayerComponent.KEY.get(player).clearAll();
+            DemonHunterSniffPlayerComponent.KEY.get(player).clearSniff();
             if (player instanceof ServerPlayerEntity serverPlayer) {
                 EngineerCaptureDeviceService.clearPlayer(serverPlayer);
                 VeteranKnifeService.reset(serverPlayer);
@@ -93,6 +97,7 @@ public final class SparkStrengthEvents {
                     EngineerCaptureDeviceService.clearPlayer(player);
                     ProfessorSerumUserComponent.KEY.get(player).reset();
                     ProfessorSerumTargetComponent.KEY.get(player).reset();
+                    DemonHunterSniffService.clearPlayer(player);
                     VeteranKnifeService.reset(player);
                 }
             }

@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.traits.impl.traits.civilian.laststand;
 import dev.caecorthus.sparkdlc.traits.SparkTraits;
 import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.traits.component.TraitWorldComponent;
+import dev.caecorthus.sparkdlc.traits.impl.replay.SparkTraitsReplayEvents;
 import dev.caecorthus.sparkdlc.traits.mixin.RoleHistoryComponentAccessor;
 import dev.doctor4t.wathe.api.Faction;
 import dev.doctor4t.wathe.api.Role;
@@ -397,6 +398,7 @@ public final class LastStandFinalMomentService {
             List<UUID> finalPlayerUuids
     ) {
         traitWorld.setFinalMomentActive(true);
+        SparkTraitsReplayEvents.recordFinalMomentStarted(world);
 
         for (UUID uuid : finalPlayerUuids) {
             if (world.getPlayerByUuid(uuid) instanceof ServerPlayerEntity player
@@ -424,6 +426,7 @@ public final class LastStandFinalMomentService {
         gameComponent.addRole(player, WatheRoles.LOOSE_END);
         replaceLatestRoleHistoryEntry(world, player.getUuid(), WatheRoles.LOOSE_END);
         RoleAssigned.EVENT.invoker().assignRole(player, WatheRoles.LOOSE_END);
+        SparkTraitsReplayEvents.recordLooseEndConversion(player);
 
         player.getInventory().clear();
         giveFinalItem(player, WatheItems.KNIFE);

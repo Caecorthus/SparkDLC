@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.traits.impl.traits.civilian.laststand;
 import dev.caecorthus.sparkdlc.traits.SparkTraits;
 import dev.caecorthus.sparkdlc.traits.api.TraitRemovalReason;
 import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
+import dev.caecorthus.sparkdlc.traits.impl.replay.SparkTraitsReplayEvents;
 import dev.caecorthus.sparkdlc.traits.net.version.SparkTraitsServerConnection;
 import dev.caecorthus.sparkdlc.traits.component.TraitWorldComponent;
 import dev.caecorthus.sparkdlc.traits.mixin.GameWorldComponentAccessor;
@@ -218,6 +219,7 @@ public final class LastStandService {
 
         markTriggeredThisRound(world, uuid);
         startPending(world, victim, deathReason);
+        SparkTraitsReplayEvents.recordLastStandTriggered(victim);
         return true;
     }
 

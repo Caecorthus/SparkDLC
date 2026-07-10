@@ -4,6 +4,8 @@ import dev.caecorthus.sparkdlc.strength.component.detective.CriminologistPlayerC
 import dev.caecorthus.sparkdlc.strength.component.detective.CriminologistWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.demonhunter.DemonHunterSniffPlayerComponent;
 import dev.caecorthus.sparkdlc.strength.component.engineer.EngineerStunnedPlayerComponent;
+import dev.caecorthus.sparkdlc.strength.component.morphling.MorphBodyDisguiseWorldComponent;
+import dev.caecorthus.sparkdlc.strength.component.morphling.MorphMarkPlayerComponent;
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumTargetComponent;
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumUserComponent;
 import dev.caecorthus.sparkdlc.strength.component.tablet.TabletWorldComponent;
@@ -51,11 +53,15 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
         registry.beginRegistration(PlayerEntity.class, DemonHunterSniffPlayerComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(DemonHunterSniffPlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, MorphMarkPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(MorphMarkPlayerComponent::new);
     }
 
     @Override
     public void registerWorldComponentFactories(@NotNull WorldComponentFactoryRegistry registry) {
         registry.register(CriminologistWorldComponent.KEY, CriminologistWorldComponent::new);
         registry.register(TabletWorldComponent.KEY, TabletWorldComponent::new);
+        registry.register(MorphBodyDisguiseWorldComponent.KEY, MorphBodyDisguiseWorldComponent::new);
     }
 }

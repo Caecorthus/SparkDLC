@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.strength.event;
 import dev.caecorthus.sparkdlc.strength.component.detective.CriminologistPlayerComponent;
 import dev.caecorthus.sparkdlc.strength.component.detective.CriminologistWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.demonhunter.DemonHunterSniffPlayerComponent;
+import dev.caecorthus.sparkdlc.strength.component.morphling.MorphBodyDisguiseWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowTargetComponent;
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowUserComponent;
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumTargetComponent;
@@ -16,6 +17,8 @@ import dev.caecorthus.sparkdlc.strength.role.economy.RoleEconomyService;
 import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerCaptureDeviceService;
 import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerPowerRestorationService;
 import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerShopService;
+import dev.caecorthus.sparkdlc.strength.role.morphling.MorphlingService;
+import dev.caecorthus.sparkdlc.strength.role.morphling.MorphlingShopService;
 import dev.caecorthus.sparkdlc.strength.role.poisoner.PoisonerEconomyService;
 import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumShopService;
 import dev.caecorthus.sparkdlc.strength.role.toxicologist.ToxicologistCapsuleShop;
@@ -48,6 +51,8 @@ public final class SparkStrengthEvents {
         RoleEconomyService.register();
         EngineerPowerRestorationService.register();
         EngineerShopService.register();
+        MorphlingService.register();
+        MorphlingShopService.register();
         PoisonerEconomyService.register();
         ProfessorSerumShopService.register();
         ToxicologistCapsuleShop.register();
@@ -62,6 +67,7 @@ public final class SparkStrengthEvents {
                 AttendantFlashlightService.assignForRole(serverPlayer, role);
                 CriminologistService.assignForRole(serverPlayer, role);
                 DemonHunterSniffService.assignForRole(serverPlayer, role);
+                MorphlingService.assignForRole(serverPlayer, role);
                 VeteranKnifeService.assignForRole(serverPlayer, role);
             }
         });
@@ -77,6 +83,7 @@ public final class SparkStrengthEvents {
             DemonHunterSniffPlayerComponent.KEY.get(player).clearSniff();
             if (player instanceof ServerPlayerEntity serverPlayer) {
                 EngineerCaptureDeviceService.clearPlayer(serverPlayer);
+                MorphlingService.reset(serverPlayer);
                 VeteranKnifeService.reset(serverPlayer);
             }
         });
@@ -85,18 +92,21 @@ public final class SparkStrengthEvents {
             // 大嗓门死亡后的“杀手发光 15 秒”是被动效果，不写入回放。
             NoisemakerGlowService.glowKillerWhenNoisemakerDies(victim, killer);
             CriminologistService.afterKill(victim, killer, deathReason);
+            MorphlingService.afterKill(victim, killer, deathReason);
             VeteranEconomyService.afterKill(victim, killer, deathReason);
         });
 
         GameEvents.ON_FINISH_FINALIZE.register((world, gameComponent) -> {
             if (world instanceof ServerWorld serverWorld) {
                 CriminologistWorldComponent.KEY.get(serverWorld).clearRoundState();
+                MorphBodyDisguiseWorldComponent.KEY.get(serverWorld).clearRoundState();
                 EngineerCaptureDeviceService.clearRoundState(serverWorld);
                 TabletStateService.clearRoundState(serverWorld);
                 VeteranBlackoutService.clear(serverWorld);
                 for (ServerPlayerEntity player : serverWorld.getPlayers()) {
                     CriminologistPlayerComponent.KEY.get(player).clearAll();
                     EngineerCaptureDeviceService.clearPlayer(player);
+                    MorphlingService.reset(player);
                     ProfessorSerumUserComponent.KEY.get(player).reset();
                     ProfessorSerumTargetComponent.KEY.get(player).reset();
                     DemonHunterSniffService.clearPlayer(player);
@@ -107,6 +117,7 @@ public final class SparkStrengthEvents {
 
         GameEvents.ON_FINISH_INITIALIZE.register((world, gameComponent) -> {
             if (world instanceof ServerWorld serverWorld) {
+                MorphBodyDisguiseWorldComponent.KEY.get(serverWorld).clearRoundState();
                 EngineerCaptureDeviceService.clearRoundState(serverWorld);
             }
         });

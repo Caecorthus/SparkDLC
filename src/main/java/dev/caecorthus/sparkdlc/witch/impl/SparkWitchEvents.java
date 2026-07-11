@@ -13,6 +13,7 @@ import dev.caecorthus.sparkdlc.witch.roles.witch.WitchFactionFeatureService;
 import dev.caecorthus.sparkdlc.witch.mana.WitchManaService;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.murderouswitch.MurderousWitchFeature.MurderousWitchFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodEconomyService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodChaseRuntime;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodFeatureService;
 import dev.caecorthus.sparkdlc.witch.skill.WitchSkillAssignmentService;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -60,7 +61,7 @@ public final class SparkWitchEvents {
         KillPlayer.AFTER.register((victim, killer, deathReason) -> {
             WitchFactionFeatureService.clearPlayerRuntime(victim);
             FirePokerFallAttributionService.clearPlayer(victim);
-            WitchPlayerComponent.KEY.get(victim).clearPigChaseState();
+            PigGodChaseRuntime.clear(victim, WitchPlayerComponent.KEY.get(victim));
         });
         ResetPlayer.EVENT.register(player -> {
             WitchFactionFeatureService.clearPlayerRuntime(player);

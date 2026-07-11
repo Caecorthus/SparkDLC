@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.text;
 
-import dev.caecorthus.sparkdlc.witch.roles.witch.WitchFactionRules;
+import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchRules;
 import dev.doctor4t.wathe.util.ShopEntry;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -15,7 +15,7 @@ public final class WitchShopClientTexts {
     }
 
     public static MutableText price(ShopEntry entry, String fallback) {
-        WitchFactionRules.GrandWitchSpell spell = WitchFactionRules.GrandWitchSpell.fromEntryId(entry.id());
+        GrandWitchRules.GrandWitchSpell spell = GrandWitchRules.GrandWitchSpell.fromEntryId(entry.id());
         if (spell == null) {
             return Text.literal(fallback);
         }

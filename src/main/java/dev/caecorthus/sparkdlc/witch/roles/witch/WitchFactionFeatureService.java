@@ -3,8 +3,10 @@ package dev.caecorthus.sparkdlc.witch.roles.witch;
 import dev.caecorthus.sparkdlc.factionapi.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.witch.roles.witch.accomplice.AccompliceShop.AccompliceShopService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchActiveSkillService;
+import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchShopReplayService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchShopService;
 import dev.doctor4t.wathe.api.Role;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 /**
@@ -25,6 +27,9 @@ public final class WitchFactionFeatureService {
         SparkFactionApi.registerEconomyPolicy(WitchFactionEconomyPolicy::economyDecision);
         SparkFactionApi.registerInstinctPolicy(WitchInstinctPolicy::instinctHighlight);
         WitchFactionProtectionPolicy.register();
+        // Delay this global Wathe replacement until server startup, after all mod initializers.
+        // 将这个 Wathe 全局替换延迟到服务端启动阶段，确保所有模组初始化器已经完成。
+        ServerLifecycleEvents.SERVER_STARTING.register(server -> GrandWitchShopReplayService.register());
         GrandWitchShopService.register();
         AccompliceShopService.register();
     }

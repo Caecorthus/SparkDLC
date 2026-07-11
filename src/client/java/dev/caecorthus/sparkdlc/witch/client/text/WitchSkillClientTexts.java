@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.witch.client.text;
 import dev.caecorthus.sparkdlc.witch.api.WitchSkillDefinition;
 import dev.caecorthus.sparkdlc.witch.api.WitchSkillRegistry;
 import dev.caecorthus.sparkdlc.witch.roles.witch.WitchFactionRules;
+import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchRules;
 import dev.caecorthus.sparkdlc.witch.skill.WitchSkillHudRules;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -61,7 +62,7 @@ public final class WitchSkillClientTexts {
             lines.add(Text.translatable(
                     "gui.sparkwitch.skill.ceremonial_sword.locked",
                     ceremonialSwordTasks,
-                    WitchFactionRules.CEREMONIAL_SWORD_UNLOCK_TASKS
+                    GrandWitchRules.CEREMONIAL_SWORD_UNLOCK_TASKS
             ));
         } else if (cooldownTicks > 0) {
             lines.add(Text.translatable("gui.sparkwitch.skill.cooldown", (int) Math.ceil(cooldownTicks / 20.0)));

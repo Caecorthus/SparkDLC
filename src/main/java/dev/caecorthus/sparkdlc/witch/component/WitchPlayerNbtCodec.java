@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.component;
 
 import dev.caecorthus.sparkdlc.witch.skill.WitchForcedSkillState;
-import dev.caecorthus.sparkdlc.witch.roles.witch.WitchFactionRules;
+import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchRules;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.util.Identifier;
@@ -100,7 +100,7 @@ final class WitchPlayerNbtCodec {
                 "GrandWitchCeremonialSwordTasks",
                 NbtElement.NUMBER_TYPE
         )
-                ? WitchFactionRules.clampCeremonialSwordTaskProgress(
+                ? GrandWitchRules.clampCeremonialSwordTaskProgress(
                 tag.getInt("GrandWitchCeremonialSwordTasks"))
                 : 0;
         component.mightyForceTicks = tag.contains("MightyForceTicks", NbtElement.NUMBER_TYPE)

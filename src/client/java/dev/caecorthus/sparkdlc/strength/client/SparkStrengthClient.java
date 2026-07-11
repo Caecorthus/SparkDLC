@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.strength.client;
 
 import dev.caecorthus.sparkdlc.strength.client.item.CapsuleClient;
 import dev.caecorthus.sparkdlc.strength.client.role.corruptcop.CorruptCopClientHooks;
+import dev.caecorthus.sparkdlc.strength.client.role.corruptcop.CorruptCopMusicController;
 import dev.caecorthus.sparkdlc.strength.client.role.demonhunter.DemonHunterSniffClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.detective.CriminologistClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.economy.RoleEconomyClientHooks;
@@ -20,6 +21,7 @@ import dev.caecorthus.sparkdlc.strength.network.veteran.SyncVeteranBlackoutS2CPa
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
 public final class SparkStrengthClient implements ClientModInitializer {
     @Override
@@ -34,6 +36,7 @@ public final class SparkStrengthClient implements ClientModInitializer {
         RoleEconomyClientHooks.register();
         TabletClientHighlights.register();
         VeteranClientHooks.register();
+        ClientTickEvents.END_CLIENT_TICK.register(CorruptCopMusicController::tick);
 
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) ->
                 VeteranClientHooks.resetBlackoutState());

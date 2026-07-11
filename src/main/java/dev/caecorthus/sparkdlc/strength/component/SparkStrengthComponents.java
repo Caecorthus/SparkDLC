@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.component;
 
+import dev.caecorthus.sparkdlc.strength.component.corruptcop.CorruptCopAbilityComponent;
 import dev.caecorthus.sparkdlc.strength.component.detective.CriminologistPlayerComponent;
 import dev.caecorthus.sparkdlc.strength.component.detective.CriminologistWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.demonhunter.DemonHunterSniffPlayerComponent;
@@ -29,6 +30,9 @@ import org.ladysnake.cca.api.v3.world.WorldComponentInitializer;
 public class SparkStrengthComponents implements EntityComponentInitializer, WorldComponentInitializer {
     @Override
     public void registerEntityComponentFactories(@NotNull EntityComponentFactoryRegistry registry) {
+        registry.beginRegistration(PlayerEntity.class, CorruptCopAbilityComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(CorruptCopAbilityComponent::new);
         registry.beginRegistration(PlayerEntity.class, NoisemakerGlowUserComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(NoisemakerGlowUserComponent::new);

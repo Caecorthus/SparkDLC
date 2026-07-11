@@ -4,6 +4,9 @@
   "package": "dev.caecorthus.sparkdlc.strength.client.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "corruptcop.CorruptCopHudMixin",
+    "corruptcop.SoundManagerAccessor",
+    "corruptcop.SoundSystemAccessor",
     "noisemaker.NoisemakerInventoryScreenMixin",
     "professor.ProfessorInventoryScreenMixin",
     "professor.ProfessorSerumCrosshairMixin",

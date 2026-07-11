@@ -2,7 +2,6 @@ package dev.caecorthus.sparkdlc.traits.impl.registry;
 
 import dev.caecorthus.sparkdlc.traits.api.TraitRegistry;
 import dev.caecorthus.sparkdlc.traits.SparkTraits;
-import dev.caecorthus.sparkdlc.traits.impl.traits.neutral.arrogant_asf.ArrogantAsfTrait;
 import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.ConscienceTrait;
 import dev.caecorthus.sparkdlc.traits.impl.traits.global.CautiousTrait;
 import dev.caecorthus.sparkdlc.traits.impl.traits.global.ChildishTrait;
@@ -36,7 +35,6 @@ public final class SparkTraitsBuiltInTraits {
         TraitRegistry.register(new PigTrait());
         TraitRegistry.register(new SteadyTrait());
         TraitRegistry.register(new ExcellentPhysiqueTrait());
-        TraitRegistry.register(new ArrogantAsfTrait());
         CivilianTraits.register();
         PoliceTraits.register();
         KillerTraits.register();

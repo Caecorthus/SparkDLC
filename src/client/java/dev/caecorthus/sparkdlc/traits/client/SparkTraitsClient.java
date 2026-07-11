@@ -2,7 +2,6 @@ package dev.caecorthus.sparkdlc.traits.client;
 
 import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.traits.component.TraitWorldComponent;
-import dev.caecorthus.sparkdlc.traits.client.audio.ArrogantAsfMusicController;
 import dev.caecorthus.sparkdlc.traits.client.hud.DepressionHud;
 import dev.caecorthus.sparkdlc.traits.client.net.version.SparkTraitsClientVersionHandshake;
 import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveTraitService;
@@ -37,7 +36,6 @@ public class SparkTraitsClient implements ClientModInitializer {
                 DepressionHud.tick();
             }
         });
-        ClientTickEvents.END_CLIENT_TICK.register(ArrogantAsfMusicController::tick);
     }
 
     private static void registerFinalMomentHighlight() {

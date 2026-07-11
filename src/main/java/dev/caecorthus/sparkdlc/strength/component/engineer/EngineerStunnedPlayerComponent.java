@@ -1,8 +1,9 @@
 package dev.caecorthus.sparkdlc.strength.component.engineer;
 
 import dev.caecorthus.sparkdlc.strength.SparkStrength;
-import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerCaptureDeviceService;
+import dev.caecorthus.sparkdlc.strength.replay.SparkStrengthReplayFormatters;
 import dev.doctor4t.wathe.game.GameFunctions;
+import dev.doctor4t.wathe.record.GameRecordManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
@@ -82,7 +83,12 @@ public final class EngineerStunnedPlayerComponent implements AutoSyncedComponent
         if (stunTicks <= 0) {
             stunTicks = 0;
             if (player instanceof ServerPlayerEntity serverPlayer) {
-                EngineerCaptureDeviceService.recordReleased(serverPlayer);
+                GameRecordManager.recordGlobalEvent(
+                        serverPlayer.getServerWorld(),
+                        SparkStrengthReplayFormatters.CAPTURE_DEVICE_RELEASED,
+                        serverPlayer,
+                        null
+                );
             }
         }
         sync();

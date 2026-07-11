@@ -131,8 +131,7 @@ tasks.register("verifyArchitecture") {
             "src/main/java/dev/caecorthus/sparkdlc/strength/compat/SparkTraitsCompat.java",
             "src/main/java/dev/caecorthus/sparkdlc/strength/SparkStrengthItems.java",
             "src/main/java/dev/caecorthus/sparkdlc/strength/SparkStrengthEntities.java",
-            "src/main/java/dev/caecorthus/sparkdlc/strength/replay/SparkStrengthReplayFormatters.java",
-            "src/test/java/dev/caecorthus/sparkdlc/strength/role/engineer/EngineerRulesTest.java"
+            "src/main/java/dev/caecorthus/sparkdlc/strength/replay/SparkStrengthReplayFormatters.java"
     )
 
     doLast {
@@ -149,7 +148,6 @@ tasks.register("verifyArchitecture") {
         }
 
         requireFile("CONTEXT.md")
-        requireFile("src/test/java/dev/caecorthus/sparkdlc/strength/role/engineer/EngineerRulesTest.java")
         requireText(
                 "src/main/java/dev/caecorthus/sparkdlc/strength/compat/SparkTraitsCompat.java",
                 "dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi"

@@ -7,6 +7,7 @@ import dev.caecorthus.sparkdlc.witch.client.hooks.DeathRayClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.hooks.GrandWitchFearClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.hooks.HunterTrapClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.hooks.OrthopedistClientHooks;
+import dev.caecorthus.sparkdlc.witch.client.hooks.ProphetCorpseHighlightClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.hooks.WitchAbilityKeyBridge;
 import dev.caecorthus.sparkdlc.witch.client.hooks.WitchCohortClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.hooks.WitchInstinctSuppressionClientHooks;
@@ -57,6 +58,7 @@ public final class SparkWitchClient implements ClientModInitializer {
         WitchInstinctSuppressionClientHooks.register();
         HunterTrapClientHooks.register();
         OrthopedistClientHooks.register();
+        ProphetCorpseHighlightClientHooks.register();
         registerGrandWitchCeremonialSwordBgm();
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {

@@ -13,9 +13,13 @@ import dev.caecorthus.sparkdlc.witch.client.hooks.WitchInstinctSuppressionClient
 import dev.caecorthus.sparkdlc.witch.client.hooks.WitchPoisonVisionClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.net.version.SparkWitchClientVersionHandshake;
 import dev.caecorthus.sparkdlc.witch.client.renderer.HunterTrapEntityRenderer;
+import dev.caecorthus.sparkdlc.witch.client.screen.TarotDivinationSelectorScreen;
+import dev.caecorthus.sparkdlc.witch.client.tarot.TarotDivinationClientState;
 import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.component.WitchWorldComponent;
+import dev.caecorthus.sparkdlc.witch.net.OpenTarotDivinationSelectorS2CPacket;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.witch.net.TarotDivinationSnapshotS2CPacket;
 import dev.caecorthus.sparkdlc.witch.net.UseWitchSkillC2SPacket;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistRules;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.UseOrthopedistSkillC2SPacket;
@@ -42,19 +46,21 @@ public final class SparkWitchClient implements ClientModInitializer {
         SparkWitchServerConnection.reset();
         SparkWitchClientVersionHandshake.registerClient();
         registerEntityRenderers();
+        registerTarotDivinationNetworking();
 
         // Reset on every connection lifecycle edge so failed login attempts cannot leak confirmed state.
         // 在每个连接生命周期节点清理状态，避免失败的登录尝试残留已确认标记。
-        ClientLoginConnectionEvents.INIT.register((handler, client) -> SparkWitchServerConnection.reset());
-        ClientLoginConnectionEvents.DISCONNECT.register((handler, client) -> SparkWitchServerConnection.reset());
-        ClientPlayConnectionEvents.INIT.register((handler, client) -> SparkWitchServerConnection.reset());
-        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> SparkWitchServerConnection.reset());
+        ClientLoginConnectionEvents.INIT.register((handler, client) -> resetConnectionState());
+        ClientLoginConnectionEvents.DISCONNECT.register((handler, client) -> resetConnectionState());
+        ClientPlayConnectionEvents.INIT.register((handler, client) -> resetConnectionState());
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> resetConnectionState());
         WitchInstinctSuppressionClientHooks.register();
         HunterTrapClientHooks.register();
         OrthopedistClientHooks.register();
         registerGrandWitchCeremonialSwordBgm();
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            TarotDivinationClientState.tick(client);
             if (!SparkWitchServerConnection.isConfirmedServer()) {
                 DeathRayClientHooks.reset();
                 return;
@@ -107,5 +113,36 @@ public final class SparkWitchClient implements ClientModInitializer {
                         && WitchWorldComponent.KEY.get(player.getWorld()).hasGrandWitchCeremonialSwordBgm(),
                 20
         ));
+    }
+
+    private static void registerTarotDivinationNetworking() {
+        ClientPlayNetworking.registerGlobalReceiver(TarotDivinationSnapshotS2CPacket.ID, (payload, context) ->
+                context.client().execute(() -> {
+                    if (!SparkWitchServerConnection.isConfirmedServer()) {
+                        return;
+                    }
+                    TarotDivinationClientState.snapshotState().overwrite(
+                            payload.civilianCount(),
+                            payload.killerCount(),
+                            payload.neutralCount(),
+                            payload.witchCount()
+                    );
+                }));
+        ClientPlayNetworking.registerGlobalReceiver(OpenTarotDivinationSelectorS2CPacket.ID, (payload, context) ->
+                context.client().execute(() -> {
+                    if (!SparkWitchServerConnection.isConfirmedServer()) {
+                        return;
+                    }
+                    context.client().setScreen(new TarotDivinationSelectorScreen(
+                            payload.mode(),
+                            payload.playerIds(),
+                            payload.playerNames()
+                    ));
+                }));
+    }
+
+    private static void resetConnectionState() {
+        SparkWitchServerConnection.reset();
+        TarotDivinationClientState.clear();
     }
 }

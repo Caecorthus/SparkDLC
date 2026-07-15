@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
+import dev.caecorthus.sparkdlc.witch.client.hud.TarotDivinationHudRenderer;
 import dev.caecorthus.sparkdlc.witch.client.hud.WitchManaHudRenderer;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
 import net.minecraft.client.MinecraftClient;
@@ -26,6 +27,9 @@ public abstract class WitchManaHudMixin {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
         if (player != null) {
             WitchManaHudRenderer.render(context, player);
+            // Reuse this HUD pass so the persistent divination snapshot does not add another mixin.
+            // 复用同一个 HUD 渲染入口，避免为持久占卜快照再增加一个 mixin。
+            TarotDivinationHudRenderer.render(context);
         }
     }
 }

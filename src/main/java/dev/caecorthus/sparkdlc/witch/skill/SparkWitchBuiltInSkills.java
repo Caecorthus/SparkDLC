@@ -15,6 +15,8 @@ import dev.caecorthus.sparkdlc.witch.roles.neutral.murderouswitch.MurderousWitch
 import dev.caecorthus.sparkdlc.witch.roles.neutral.murderouswitch.MurderousWitchDeathRay.MurderousWitchDeathRayService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodRules;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodSkillService;
+import dev.caecorthus.sparkdlc.witch.roles.killer.ninja.NinjaRules;
+import dev.caecorthus.sparkdlc.witch.roles.killer.ninja.NinjaSkillService;
 
 public final class SparkWitchBuiltInSkills {
     private static boolean registered;
@@ -91,6 +93,16 @@ public final class SparkWitchBuiltInSkills {
                 MurderousWitchDeathRayRules.MANA_COST,
                 context -> MurderousWitchDeathRayRules.canSelect(context.role()),
                 MurderousWitchDeathRayService::use
+        ));
+        WitchSkillRegistry.register(new WitchSkillDefinition(
+                NinjaRules.PARRY_SKILL_ID,
+                NinjaRules.COLOR,
+                1,
+                NinjaRules.PARRY_INITIAL_COOLDOWN_TICKS,
+                NinjaRules.PARRY_COOLDOWN_TICKS,
+                0,
+                context -> NinjaRules.isNinja(context.role()),
+                NinjaSkillService::use
         ));
     }
 

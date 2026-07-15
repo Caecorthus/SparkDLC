@@ -7,6 +7,9 @@ import dev.caecorthus.sparkdlc.witch.skill.SparkWitchBuiltInSkills;
 import dev.caecorthus.sparkdlc.witch.impl.SparkWitchEvents;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchPackets;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchVersionHandshake;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistEffects;
+import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterEffects;
+import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterEntities;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -21,6 +24,9 @@ public final class SparkWitch implements ModInitializer {
     @Override
     public void onInitialize() {
         SparkWitchSounds.register();
+        HunterEffects.register();
+        OrthopedistEffects.register();
+        HunterEntities.register();
         SparkWitchItems.register();
         SparkWitchEntities.register();
         // NoellesRoles remains the packet-filter owner; FactionAPI only extends its hidden-item predicate.

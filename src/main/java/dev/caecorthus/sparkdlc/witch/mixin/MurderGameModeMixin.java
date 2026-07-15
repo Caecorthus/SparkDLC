@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
+import dev.caecorthus.sparkdlc.witch.registry.HunterOrthopedistPairingService;
 import dev.caecorthus.sparkdlc.witch.registry.WitchRoleAssignmentService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.gamemode.MurderGameMode;
@@ -28,6 +29,7 @@ public abstract class MurderGameModeMixin {
             GameWorldComponent gameComponent,
             CallbackInfoReturnable<Integer> cir
     ) {
+        HunterOrthopedistPairingService.ensurePairBeforeCivilians(world, gameComponent, players);
         WitchRoleAssignmentService.assignAfterNeutralsBeforeCivilians(world, gameComponent, players);
     }
 }

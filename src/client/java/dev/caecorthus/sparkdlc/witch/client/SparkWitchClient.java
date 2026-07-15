@@ -5,16 +5,22 @@ import dev.caecorthus.sparkdlc.witch.SparkWitchEntities;
 import dev.caecorthus.sparkdlc.witch.SparkWitchSounds;
 import dev.caecorthus.sparkdlc.witch.client.hooks.DeathRayClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.hooks.GrandWitchFearClientHooks;
+import dev.caecorthus.sparkdlc.witch.client.hooks.HunterTrapClientHooks;
+import dev.caecorthus.sparkdlc.witch.client.hooks.OrthopedistClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.hooks.WitchAbilityKeyBridge;
 import dev.caecorthus.sparkdlc.witch.client.hooks.WitchCohortClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.hooks.WitchInstinctSuppressionClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.hooks.WitchPoisonVisionClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.net.version.SparkWitchClientVersionHandshake;
+import dev.caecorthus.sparkdlc.witch.client.renderer.HunterTrapEntityRenderer;
 import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.component.WitchWorldComponent;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
 import dev.caecorthus.sparkdlc.witch.net.UseWitchSkillC2SPacket;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistRules;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.UseOrthopedistSkillC2SPacket;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.SaintRules;
+import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterEntities;
 import dev.doctor4t.ratatouille.client.util.ambience.AmbienceUtil;
 import dev.doctor4t.ratatouille.client.util.ambience.BackgroundAmbience;
 import dev.doctor4t.wathe.api.event.CanSeePoison;
@@ -44,6 +50,8 @@ public final class SparkWitchClient implements ClientModInitializer {
         ClientPlayConnectionEvents.INIT.register((handler, client) -> SparkWitchServerConnection.reset());
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> SparkWitchServerConnection.reset());
         WitchInstinctSuppressionClientHooks.register();
+        HunterTrapClientHooks.register();
+        OrthopedistClientHooks.register();
         registerGrandWitchCeremonialSwordBgm();
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
@@ -55,11 +63,14 @@ public final class SparkWitchClient implements ClientModInitializer {
             DeathRayClientHooks.tick(client);
             if (client.player != null
                     && client.getNetworkHandler() != null
-                    && (WitchPlayerComponent.KEY.get(client.player).hasSkill()
-                        || SaintRules.isSaint(
-                            GameWorldComponent.KEY.get(client.player.getWorld()).getRole(client.player)))
                     && WitchAbilityKeyBridge.wasPressed()) {
-                ClientPlayNetworking.send(new UseWitchSkillC2SPacket());
+                var role = GameWorldComponent.KEY.get(client.player.getWorld()).getRole(client.player);
+                if (role != null && OrthopedistRules.ROLE_ID.equals(role.identifier())) {
+                    ClientPlayNetworking.send(new UseOrthopedistSkillC2SPacket());
+                } else if (WitchPlayerComponent.KEY.get(client.player).hasSkill()
+                        || SaintRules.isSaint(role)) {
+                    ClientPlayNetworking.send(new UseWitchSkillC2SPacket());
+                }
             }
         });
 
@@ -86,6 +97,7 @@ public final class SparkWitchClient implements ClientModInitializer {
                 SparkWitchEntities.ninjaShuriken(),
                 context -> new FlyingItemEntityRenderer<>(context, 1.0F, true)
         );
+        EntityRendererRegistry.register(HunterEntities.hunterTrap(), HunterTrapEntityRenderer::new);
     }
 
     private static void registerGrandWitchCeremonialSwordBgm() {

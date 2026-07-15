@@ -9,6 +9,7 @@ import dev.caecorthus.sparkdlc.witch.item.ceremonialsword.CeremonialSwordDashSer
 import dev.caecorthus.sparkdlc.witch.item.firepoker.FirePokerCombatService;
 import dev.caecorthus.sparkdlc.witch.item.firepoker.FirePokerFallAttributionService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.abilities.MightyForce.MightyForceCombatService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistSkillService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.perfumer.PerfumerEconomyService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.perfumer.PerfumerFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.perfumer.PerfumerRuntime;
@@ -21,6 +22,7 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodEconomyService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodChaseRuntime;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.SaintFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.ninja.NinjaFeatureService;
 import dev.caecorthus.sparkdlc.witch.skill.WitchSkillAssignmentService;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -57,6 +59,8 @@ public final class SparkWitchEvents {
         PerfumerRuntime.register();
         PerfumerEconomyService.register();
         NinjaFeatureService.register();
+        HunterFeatureService.register();
+        OrthopedistSkillService.registerReplayFormatter();
         RoleAssigned.EVENT.register((player, role) -> {
             if (player instanceof ServerPlayerEntity serverPlayer) {
                 PerfumerPlayerComponent.KEY.get(serverPlayer).clear();
@@ -68,6 +72,7 @@ public final class SparkWitchEvents {
                 SaintFeatureService.assignForRole(serverPlayer, role);
                 PerfumerEconomyService.assignForRole(serverPlayer, role);
                 NinjaFeatureService.assignForRole(serverPlayer, role);
+                OrthopedistSkillService.assignForRole(serverPlayer, role);
             }
         });
         TaskComplete.EVENT.register(WitchManaService::onTaskComplete);
@@ -81,12 +86,16 @@ public final class SparkWitchEvents {
             FirePokerFallAttributionService.clearPlayer(victim);
             PigGodChaseRuntime.clear(victim, WitchPlayerComponent.KEY.get(victim));
             PerfumerPlayerComponent.KEY.get(victim).stopCologne();
+            OrthopedistSkillService.clearPlayer(victim);
         });
         ResetPlayer.EVENT.register(player -> {
             WitchFactionFeatureService.clearPlayerRuntime(player);
             FirePokerFallAttributionService.clearPlayer(player);
             WitchPlayerComponent.KEY.get(player).clear();
             PerfumerPlayerComponent.KEY.get(player).clear();
+            if (player instanceof ServerPlayerEntity serverPlayer) {
+                OrthopedistSkillService.clearPlayer(serverPlayer);
+            }
         });
         GameEvents.ON_FINISH_FINALIZE.register((world, gameComponent) -> {
             if (world instanceof ServerWorld serverWorld) {
@@ -98,6 +107,7 @@ public final class SparkWitchEvents {
                     WitchFactionFeatureService.clearPlayerRuntime(player);
                     WitchPlayerComponent.KEY.get(player).clear();
                     PerfumerPlayerComponent.KEY.get(player).clear();
+                    OrthopedistSkillService.clearPlayer(player);
                 }
             }
         });

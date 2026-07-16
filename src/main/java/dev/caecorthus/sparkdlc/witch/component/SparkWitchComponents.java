@@ -2,6 +2,8 @@ package dev.caecorthus.sparkdlc.witch.component;
 
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterPlayerComponent;
+import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.BlackRavenMarkPlayerComponent;
+import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.BlackRavenPerceptionPlayerComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.NotNull;
 import org.ladysnake.cca.api.v3.entity.EntityComponentFactoryRegistry;
@@ -25,6 +27,12 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.beginRegistration(PlayerEntity.class, OrthopedistPlayerComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(OrthopedistPlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, BlackRavenMarkPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(BlackRavenMarkPlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, BlackRavenPerceptionPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(BlackRavenPerceptionPlayerComponent::new);
     }
 
     @Override

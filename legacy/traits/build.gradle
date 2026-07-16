@@ -159,6 +159,8 @@ tasks.register("verifyModJarVersion") {
                     "dev/caecorthus/sparkdlc/traits/api/SparkTraitsApi.class",
                     "dev/caecorthus/sparkdlc/traits/client/SparkTraitsClient.class",
                     "dev/caecorthus/sparkdlc/traits/client/audio/CautiousSoundDebug.class",
+                    "dev/caecorthus/sparkdlc/traits/client/audio/DepressionRageLoopController.class",
+                    "dev/caecorthus/sparkdlc/traits/client/audio/DepressionRageLoopSoundInstance.class",
                     "dev/caecorthus/sparkdlc/traits/client/mixin/CautiousClientWorldSoundMixin.class",
                     "dev/caecorthus/sparkdlc/traits/client/mixin/CautiousPresenceFootstepsVolumeMixin.class",
                     "dev/caecorthus/sparkdlc/traits/impl/traits/global/CautiousSoundRules.class",

@@ -18,6 +18,9 @@
     ],
     "cardinal-components": [
       "dev.caecorthus.sparkdlc.witch.component.SparkWitchComponents"
+    ],
+    "voicechat": [
+      "dev.caecorthus.sparkdlc.witch.voice.SparkWitchVoiceChatPlugin"
     ]
   },
   "custom": {

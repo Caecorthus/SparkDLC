@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.impl;
 
+import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsWraithBridge;
 import dev.caecorthus.sparkdlc.witch.component.PerfumerPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.component.WitchWorldComponent;
@@ -31,6 +32,7 @@ import dev.caecorthus.sparkdlc.witch.roles.killer.ninja.NinjaFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.special.wraith.WraithDeathService;
 import dev.caecorthus.sparkdlc.witch.roles.special.wraith.WraithRoundQuotaService;
 import dev.caecorthus.sparkdlc.witch.roles.special.wraith.WraithService;
+import dev.caecorthus.sparkdlc.witch.roles.special.wraith.WraithStateService;
 import dev.caecorthus.sparkdlc.witch.skill.WitchSkillAssignmentService;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.KillPlayer;
@@ -92,7 +94,6 @@ public final class SparkWitchEvents {
         TaskComplete.EVENT.register((player, taskType) -> GrandWitchActiveSkillService.onTaskComplete(player));
         TaskComplete.EVENT.register((player, taskType) -> PigGodEconomyService.onTaskComplete(player));
         TaskComplete.EVENT.register((player, taskType) -> PerfumerEconomyService.onTaskComplete(player));
-        KillPlayer.BEFORE.register(WraithDeathService::beforeKill);
         KillPlayer.AFTER.register(WraithDeathService::afterKill);
         KillPlayer.AFTER.register(WitchManaService::afterKill);
         KillPlayer.AFTER.register(WitchEconomyService::afterKill);
@@ -110,6 +111,11 @@ public final class SparkWitchEvents {
             PerfumerPlayerComponent.KEY.get(player).clear();
             if (player instanceof ServerPlayerEntity serverPlayer) {
                 OrthopedistSkillService.clearPlayer(serverPlayer);
+                if (WraithStateService.isActive(serverPlayer)) {
+                    // SparkTraits observes active Wraith state while dispatching terminal trait removals.
+                    // SparkTraits 分发终局天赋移除事件时必须仍能观察到激活的冤魂状态。
+                    SparkTraitsWraithBridge.clear(serverPlayer, true);
+                }
                 WraithService.clearPlayer(serverPlayer);
             }
         });

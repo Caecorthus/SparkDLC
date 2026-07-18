@@ -19,6 +19,8 @@ import dev.caecorthus.sparkdlc.witch.client.net.version.SparkWitchClientVersionH
 import dev.caecorthus.sparkdlc.witch.client.renderer.HunterTrapEntityRenderer;
 import dev.caecorthus.sparkdlc.witch.client.screen.TarotDivinationSelectorScreen;
 import dev.caecorthus.sparkdlc.witch.client.tarot.TarotDivinationClientState;
+import dev.caecorthus.sparkdlc.witch.client.wraith.WraithClientState;
+import dev.caecorthus.sparkdlc.witch.client.wraith.WraithScreenEffects;
 import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.component.WitchWorldComponent;
 import dev.caecorthus.sparkdlc.witch.net.OpenBlackRavenLedgerS2CPacket;
@@ -30,6 +32,8 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistRules
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.UseOrthopedistSkillC2SPacket;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.SaintRules;
 import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterEntities;
+import dev.caecorthus.sparkdlc.witch.roles.killer.saboteur.SaboteurRole;
+import dev.caecorthus.sparkdlc.witch.roles.killer.saboteur.UseSaboteurSkillC2SPacket;
 import dev.doctor4t.ratatouille.client.util.ambience.AmbienceUtil;
 import dev.doctor4t.ratatouille.client.util.ambience.BackgroundAmbience;
 import dev.doctor4t.wathe.api.event.CanSeePoison;
@@ -82,7 +86,11 @@ public final class SparkWitchClient implements ClientModInitializer {
                     && client.getNetworkHandler() != null
                     && WitchAbilityKeyBridge.wasPressed()) {
                 var role = GameWorldComponent.KEY.get(client.player.getWorld()).getRole(client.player);
-                if (role != null && OrthopedistRules.ROLE_ID.equals(role.identifier())) {
+                if (role != null
+                        && SaboteurRole.ID.equals(role.identifier())
+                        && WraithClientState.isPromoted(client.player)) {
+                    ClientPlayNetworking.send(new UseSaboteurSkillC2SPacket());
+                } else if (role != null && OrthopedistRules.ROLE_ID.equals(role.identifier())) {
                     ClientPlayNetworking.send(new UseOrthopedistSkillC2SPacket());
                 } else if (WitchPlayerComponent.KEY.get(client.player).hasSkill()
                         || SaintRules.isSaint(role)) {
@@ -165,5 +173,6 @@ public final class SparkWitchClient implements ClientModInitializer {
         SparkWitchServerConnection.reset();
         SecondaryAbilityController.reset();
         TarotDivinationClientState.clear();
+        WraithScreenEffects.close();
     }
 }

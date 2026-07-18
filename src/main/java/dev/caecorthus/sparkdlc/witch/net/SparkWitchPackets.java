@@ -4,6 +4,7 @@ import dev.caecorthus.sparkdlc.witch.SparkWitch;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistSkillService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.UseOrthopedistSkillC2SPacket;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.tarotreader.TarotReaderDivinationService;
+import dev.caecorthus.sparkdlc.witch.roles.killer.saboteur.SaboteurNetworking;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.murderouswitch.MurderousWitchDeathRay.MurderousWitchDeathRayService;
 import dev.caecorthus.sparkdlc.witch.skill.WitchSkillUseService;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
@@ -22,6 +23,7 @@ public final class SparkWitchPackets {
             return;
         }
         registered = true;
+        SaboteurNetworking.register();
         PayloadTypeRegistry.playC2S().register(UseWitchSkillC2SPacket.ID, UseWitchSkillC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(FireDeathRayC2SPacket.ID, FireDeathRayC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(

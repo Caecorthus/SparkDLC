@@ -24,10 +24,13 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.prophet.ProphetRuntime;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.SaintFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.tarotreader.TarotReaderFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.windspirit.WindSpiritFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.BlackRavenFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.kidnapper.KidnapperDragLifecycle;
 import dev.caecorthus.sparkdlc.witch.roles.killer.ninja.NinjaFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.killer.saboteur.SaboteurFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.special.wraith.WraithService;
 import dev.caecorthus.sparkdlc.witch.skill.WitchSkillAssignmentService;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.KillPlayer;
@@ -69,6 +72,8 @@ public final class SparkWitchEvents {
         KidnapperDragLifecycle.register();
         TarotReaderFeatureService.register();
         BlackRavenFeatureService.register();
+        WindSpiritFeatureService.register();
+        SaboteurFeatureService.register();
         RoleAssigned.EVENT.register((player, role) -> {
             if (player instanceof ServerPlayerEntity serverPlayer) {
                 PerfumerPlayerComponent.KEY.get(serverPlayer).clear();
@@ -120,5 +125,6 @@ public final class SparkWitchEvents {
                 }
             }
         });
+        WraithService.register();
     }
 }

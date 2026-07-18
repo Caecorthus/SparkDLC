@@ -1,0 +1,24 @@
+package dev.caecorthus.sparkdlc.witch.roles.special.wraith;
+
+import dev.caecorthus.sparkdlc.factionapi.api.SparkFactionApi;
+
+/** Registers the bidirectional Wraith player-affect veto. */
+final class WraithPlayerIsolationService {
+    private static boolean registered;
+
+    private WraithPlayerIsolationService() {
+    }
+
+    static synchronized void register() {
+        if (registered) {
+            return;
+        }
+        registered = true;
+        SparkFactionApi.registerPlayerAffectPolicy((actor, target, actionId, gameComponent) ->
+                WraithLifecycleRules.canAffectPlayer(
+                        WraithStateService.isActive(actor),
+                        WraithStateService.isActive(target),
+                        actor != null && actor == target
+                ));
+    }
+}

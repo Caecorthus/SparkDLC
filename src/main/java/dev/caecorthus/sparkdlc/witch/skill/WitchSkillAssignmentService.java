@@ -6,6 +6,7 @@ import dev.caecorthus.sparkdlc.witch.api.WitchSkillRegistry;
 import dev.caecorthus.sparkdlc.witch.api.WitchSkillSelectionContext;
 import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.component.WitchWorldComponent;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.abilities.MightyForce.MightyForceAbility;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -52,6 +53,10 @@ public final class WitchSkillAssignmentService {
         Optional<WitchSkillDefinition> selected = plan.selected();
         Identifier previousSkillId = component.getActiveSkillId();
         Identifier selectedSkillId = selected.map(WitchSkillDefinition::id).orElse(null);
+        if (MightyForceAbility.ID.equals(previousSkillId)
+                && !MightyForceAbility.ID.equals(selectedSkillId)) {
+            component.cancelMightyForceWindow();
+        }
         component.setActiveSkill(selectedSkillId);
         if (shouldApplyInitialCooldown(previousSkillId, selectedSkillId)) {
             component.setCooldownTicks(selected.map(WitchSkillDefinition::initialCooldownTicks).orElse(0));

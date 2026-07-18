@@ -9,6 +9,7 @@ import dev.caecorthus.sparkdlc.witch.roles.witch.WitchFactionRules;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchRules;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.murderouswitch.MurderousWitchDeathRay.MurderousWitchDeathRayRules;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodRules;
+import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.FocusedFootstepsRules;
 import dev.caecorthus.sparkdlc.witch.skill.WitchSkillHudRules;
 import dev.doctor4t.wathe.cca.PlayerShopComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -38,6 +39,9 @@ public final class WitchSkillHudRenderer {
         WitchPlayerComponent component = WitchPlayerComponent.KEY.get(player);
         Identifier skillId = component.getActiveSkillId();
         if (skillId == null) {
+            return;
+        }
+        if (FocusedFootstepsRules.SKILL_ID.equals(skillId)) {
             return;
         }
 

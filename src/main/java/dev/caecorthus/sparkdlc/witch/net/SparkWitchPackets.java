@@ -10,8 +10,8 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.vendetta.VendettaKnifeServic
 import dev.caecorthus.sparkdlc.witch.roles.civilian.tarotreader.TarotReaderDivinationService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.saboteur.SaboteurNetworking;
 import dev.caecorthus.sparkdlc.witch.roles.killer.kidnapper.KidnapperThrowService;
+import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.FocusedFootstepsRequestService;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.murderouswitch.MurderousWitchDeathRay.MurderousWitchDeathRayService;
-import dev.caecorthus.sparkdlc.witch.skill.WitchSkillUseService;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -76,7 +76,8 @@ public final class SparkWitchPackets {
                 FocusedFootstepsUseResultS2CPacket.CODEC
         );
         ServerPlayNetworking.registerGlobalReceiver(UseWitchSkillC2SPacket.ID,
-                (payload, context) -> WitchSkillUseService.use(context.player(), payload.targetUuid()));
+                (payload, context) -> FocusedFootstepsRequestService.use(
+                        context.player(), payload.targetUuid()));
         ServerPlayNetworking.registerGlobalReceiver(FireDeathRayC2SPacket.ID,
                 (payload, context) -> MurderousWitchDeathRayService.fire(context.player()));
         ServerPlayNetworking.registerGlobalReceiver(UseOrthopedistSkillC2SPacket.ID,

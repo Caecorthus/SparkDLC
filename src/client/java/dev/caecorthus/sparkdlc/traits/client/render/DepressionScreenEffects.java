@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.traits.client.render;
 
 import com.google.gson.JsonSyntaxException;
 import dev.caecorthus.sparkdlc.traits.SparkTraits;
+import dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.depression.DepressionTraitService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.CivilianTraits;
@@ -55,6 +56,11 @@ public final class DepressionScreenEffects {
     }
 
     private static ScreenEffect screenEffect(ClientPlayerEntity player) {
+        // SparkWitch supplies the exact Wraith grayscale, so Depression must not stack another processor.
+        // SparkWitch 提供精确的冤魂灰阶，因此抑郁效果不得再叠加后处理器。
+        if (SparkTraitsApi.isWraithActive(player)) {
+            return NO_EFFECT;
+        }
         TraitPlayerComponent traits = TraitPlayerComponent.KEY.get(player);
         if (player.isCreative() || player.isSpectator()) {
             return NO_EFFECT;

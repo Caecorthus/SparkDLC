@@ -3,8 +3,13 @@ package dev.caecorthus.sparkdlc.witch.net;
 import dev.caecorthus.sparkdlc.witch.SparkWitch;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistSkillService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.UseOrthopedistSkillC2SPacket;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel.GuardianAngelFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel.UseGuardianAngelSkillC2SPacket;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.vendetta.UseVendettaKnifeC2SPacket;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.vendetta.VendettaKnifeService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.tarotreader.TarotReaderDivinationService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.saboteur.SaboteurNetworking;
+import dev.caecorthus.sparkdlc.witch.roles.killer.kidnapper.KidnapperThrowService;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.murderouswitch.MurderousWitchDeathRay.MurderousWitchDeathRayService;
 import dev.caecorthus.sparkdlc.witch.skill.WitchSkillUseService;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
@@ -31,6 +36,18 @@ public final class SparkWitchPackets {
                 UseOrthopedistSkillC2SPacket.CODEC
         );
         PayloadTypeRegistry.playC2S().register(
+                ThrowKidnapperBodyC2SPacket.ID,
+                ThrowKidnapperBodyC2SPacket.CODEC
+        );
+        PayloadTypeRegistry.playC2S().register(
+                UseGuardianAngelSkillC2SPacket.ID,
+                UseGuardianAngelSkillC2SPacket.CODEC
+        );
+        PayloadTypeRegistry.playC2S().register(
+                UseVendettaKnifeC2SPacket.ID,
+                UseVendettaKnifeC2SPacket.CODEC
+        );
+        PayloadTypeRegistry.playC2S().register(
                 SubmitTarotDivinationSelectionC2SPacket.ID,
                 SubmitTarotDivinationSelectionC2SPacket.CODEC
         );
@@ -50,12 +67,27 @@ public final class SparkWitchPackets {
                 OpenBlackRavenLedgerS2CPacket.ID,
                 OpenBlackRavenLedgerS2CPacket.CODEC
         );
+        PayloadTypeRegistry.playS2C().register(
+                WraithRoleAnnouncementS2CPacket.ID,
+                WraithRoleAnnouncementS2CPacket.CODEC
+        );
+        PayloadTypeRegistry.playS2C().register(
+                FocusedFootstepsUseResultS2CPacket.ID,
+                FocusedFootstepsUseResultS2CPacket.CODEC
+        );
         ServerPlayNetworking.registerGlobalReceiver(UseWitchSkillC2SPacket.ID,
                 (payload, context) -> WitchSkillUseService.use(context.player(), payload.targetUuid()));
         ServerPlayNetworking.registerGlobalReceiver(FireDeathRayC2SPacket.ID,
                 (payload, context) -> MurderousWitchDeathRayService.fire(context.player()));
         ServerPlayNetworking.registerGlobalReceiver(UseOrthopedistSkillC2SPacket.ID,
                 (payload, context) -> OrthopedistSkillService.use(context.player()));
+        ServerPlayNetworking.registerGlobalReceiver(ThrowKidnapperBodyC2SPacket.ID,
+                (payload, context) -> KidnapperThrowService.throwCarriedBody(context.player()));
+        ServerPlayNetworking.registerGlobalReceiver(UseGuardianAngelSkillC2SPacket.ID,
+                (payload, context) -> GuardianAngelFeatureService.use(context.player()));
+        ServerPlayNetworking.registerGlobalReceiver(UseVendettaKnifeC2SPacket.ID,
+                (payload, context) -> VendettaKnifeService.use(
+                        context.player(), payload.targetEntityId()));
         ServerPlayNetworking.registerGlobalReceiver(SubmitTarotDivinationSelectionC2SPacket.ID,
                 (payload, context) -> TarotReaderDivinationService.submit(context.player(), payload));
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {

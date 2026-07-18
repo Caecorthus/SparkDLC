@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.saboteur;
 
 import dev.caecorthus.sparkdlc.witch.client.saboteur.SaboteurHudRenderer;
 import dev.caecorthus.sparkdlc.witch.client.saboteur.SaboteurHudRules;
-import dev.caecorthus.sparkdlc.witch.client.wraith.WraithClientState;
+import dev.caecorthus.sparkdlc.witch.client.render.WraithClientState;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
 import dev.caecorthus.sparkdlc.witch.roles.killer.saboteur.SaboteurRole;
 import dev.doctor4t.wathe.api.Role;

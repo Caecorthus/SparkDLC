@@ -1,5 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.item.firepoker;
 
+import dev.caecorthus.sparkdlc.witch.roles.civilian.vendetta.VendettaInteractionService;
+
 import dev.caecorthus.sparkdlc.witch.SparkWitchItems;
 import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -54,7 +56,7 @@ public final class FirePokerCombatService {
                 || attacker.getUuid().equals(target.getUuid())) {
             return false;
         }
-        return GameFunctions.isPlayerPlayingAndAlive(target)
+        return VendettaInteractionService.isOrdinaryAliveOrBoundKillerTarget(attacker, target)
                 && GameFunctions.isPlayerAliveAndSurvival(target);
     }
 

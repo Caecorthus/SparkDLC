@@ -1,6 +1,8 @@
 package dev.caecorthus.sparkdlc.witch.component;
 
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistPlayerComponent;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel.GuardianAngelPlayerComponent;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.vendetta.VendettaPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.BlackRavenMarkPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.BlackRavenPerceptionPlayerComponent;
@@ -28,6 +30,12 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.beginRegistration(PlayerEntity.class, OrthopedistPlayerComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(OrthopedistPlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, GuardianAngelPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(GuardianAngelPlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, VendettaPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(VendettaPlayerComponent::new);
         registry.beginRegistration(PlayerEntity.class, BlackRavenMarkPlayerComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(BlackRavenMarkPlayerComponent::new);
@@ -40,11 +48,15 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.beginRegistration(PlayerEntity.class, SaboteurPlayerComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(SaboteurPlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, LegacyWraithPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(LegacyWraithPlayerComponent::new);
     }
 
     @Override
     public void registerWorldComponentFactories(@NotNull WorldComponentFactoryRegistry registry) {
         registry.register(WitchWorldComponent.KEY, WitchWorldComponent::new);
-        registry.register(WraithRoundComponent.KEY, world -> new WraithRoundComponent());
+        registry.register(WraithRoundComponent.KEY, WraithRoundComponent::new);
+        registry.register(LegacyWraithRoundComponent.KEY, LegacyWraithRoundComponent::new);
     }
 }

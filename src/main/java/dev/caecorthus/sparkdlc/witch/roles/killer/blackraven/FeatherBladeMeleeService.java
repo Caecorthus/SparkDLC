@@ -1,5 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.roles.killer.blackraven;
 
+import dev.caecorthus.sparkdlc.witch.roles.civilian.vendetta.VendettaInteractionService;
+
 import dev.caecorthus.sparkdlc.witch.SparkWitchItems;
 import dev.doctor4t.wathe.api.event.AllowPlayerPunching;
 
@@ -20,6 +22,7 @@ public final class FeatherBladeMeleeService {
         registered = true;
         AllowPlayerPunching.EVENT.register((attacker, victim) ->
                 attacker.getMainHandStack().isOf(SparkWitchItems.featherBlade())
+                        && VendettaInteractionService.isOrdinaryAliveOrBoundKillerTarget(attacker, victim)
         );
     }
 }

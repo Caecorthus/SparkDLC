@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.traits.client.mixin;
 
+import dev.caecorthus.sparkdlc.traits.client.audio.CautiousSoundDebug;
 import dev.caecorthus.sparkdlc.traits.impl.traits.global.CautiousSoundRules;
 import dev.caecorthus.sparkdlc.traits.net.version.SparkTraitsServerConnection;
 import net.minecraft.entity.LivingEntity;
@@ -28,9 +29,24 @@ public abstract class CautiousPresenceFootstepsVolumeMixin {
             LivingEntity source,
             CallbackInfoReturnable<Float> cir
     ) {
-        if (SparkTraitsServerConnection.isConfirmedServer()
-                && source instanceof PlayerEntity player
-                && CautiousSoundRules.shouldSuppressSounds(player)) {
+        boolean confirmedServer = SparkTraitsServerConnection.isConfirmedServer();
+        if (!confirmedServer && !CautiousSoundDebug.isEnabled()) {
+            return;
+        }
+        boolean cautiousRule = source instanceof PlayerEntity player
+                && CautiousSoundRules.shouldSuppressSounds(player);
+        boolean zeroed = confirmedServer && cautiousRule;
+        CautiousSoundDebug.trace(
+                "PresenceFootsteps.SoundEngine.getVolumeForSource",
+                source,
+                confirmedServer,
+                cautiousRule,
+                zeroed ? "zeroed" : "preserved",
+                null,
+                null,
+                zeroed ? 0.0F : null
+        );
+        if (zeroed) {
             cir.setReturnValue(0.0F);
         }
     }

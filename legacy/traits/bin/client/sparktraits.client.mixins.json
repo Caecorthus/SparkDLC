@@ -1,0 +1,36 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.caecorthus.sparkdlc.traits.client.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "ArmorFeatureRendererInvoker",
+    "AssassinScreenMixin",
+    "BeveragePlateBluePoisonParticleMixin",
+    "BombManiacClientInteractionMixin",
+    "BombManiacCooldownRendererMixin",
+    "BombManiacDrawContextMixin",
+    "CautiousClientWorldSoundMixin",
+    "CautiousPresenceFootstepsVolumeMixin",
+    "DepressionGameRendererMixin",
+    "DepressionPsychoArmSkinMixin",
+    "DepressionInGameHudMixin",
+    "DepressionPsychoSkinMixin",
+    "LastStandHeldItemRendererMixin",
+    "MarksmanCrosshairMixin",
+    "MarksmanDerringerMixin",
+    "MarksmanRevolverMixin",
+    "NikoRevolverRecoilMixin",
+    "MoodRendererMixin",
+    "PigPlayerRendererMixin",
+    "RoundTextRendererMixin",
+    "SpiritSleuthLivingEntityRendererMixin",
+    "TrimmedBedBluePoisonParticleMixin",
+    "TraitInventoryScreenMixin",
+    "TraitRoleNameRendererMixin",
+    "WatheClientMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

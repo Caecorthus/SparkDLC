@@ -40,8 +40,6 @@ import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveTraitService;
 import dev.caecorthus.sparkdlc.traits.impl.selection.TraitRoleEligibility;
 import dev.caecorthus.sparkdlc.traits.impl.selection.TraitRules;
 import dev.caecorthus.sparkdlc.traits.impl.selection.TraitSelector;
-import dev.caecorthus.sparkdlc.traits.impl.traits.neutral.arrogant_asf.ArrogantAsfTrait;
-import dev.caecorthus.sparkdlc.traits.impl.traits.neutral.arrogant_asf.ArrogantAsfTraitService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.ConscienceSerialKillerService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.ConscienceTrait;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.depression.DepressionTraitService;
@@ -133,7 +131,6 @@ public final class TraitAssignmentService {
         }
 
         addExtraKillersForConscience(world, gameComponent, players, plans, publicKillerCount, protectedLockedRolePlayers, random);
-        forceArrogantAsfOntoCorruptCop(gameComponent, traitWorld, plans);
         forcePigOntoPigGod(gameComponent, traitWorld, plans);
         enforceRandomDepressionCap(plans, players.size());
 
@@ -512,27 +509,6 @@ public final class TraitAssignmentService {
             }
         }
         return count;
-    }
-
-    /**
-     * Gives Corrupt Cop its signature trait after all role-changing assignment steps settle.
-     * 在所有可能改写身份的分配步骤完成后，为黑警补上专属天赋。
-     */
-    private static void forceArrogantAsfOntoCorruptCop(
-            GameWorldComponent gameComponent,
-            TraitWorldComponent traitWorld,
-            List<PlayerPlan> plans
-    ) {
-        if (!traitWorld.isTraitEnabled(ArrogantAsfTrait.ID)) {
-            SparkTraits.LOGGER.warn("Skipping forced Arrogant ASF because sparktraits:arrogant_asf is disabled.");
-            return;
-        }
-        for (PlayerPlan plan : plans) {
-            Role role = gameComponent.getRole(plan.player());
-            if (ArrogantAsfTraitService.canSelectArrogantAsf(role)) {
-                plan.forceRequiredTrait(ArrogantAsfTrait.ID);
-            }
-        }
     }
 
     /**

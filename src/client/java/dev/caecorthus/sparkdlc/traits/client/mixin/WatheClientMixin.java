@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.traits.client.mixin;
 
+import dev.caecorthus.sparkdlc.traits.client.instinct.GoingDarkInstinctClientHooks;
 import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.traits.component.TraitWorldComponent;
 import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.ConsciencePoisonerService;
@@ -8,7 +9,6 @@ import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.depression.Depression
 import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveTraitService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.laststand.LastStandFinalMomentService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.laststand.LastStandService;
-import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.police.VigilanteVeteranTraitService;
 import dev.caecorthus.sparkdlc.traits.net.version.SparkTraitsServerConnection;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -97,6 +97,11 @@ public abstract class WatheClientMixin {
             if (highlight != -1) {
                 cir.setReturnValue(highlight);
             }
+            return;
+        }
+
+        if (playerTarget != null && GoingDarkInstinctClientHooks.shouldSuppress(viewer, playerTarget, game)) {
+            cir.setReturnValue(-1);
             return;
         }
 
@@ -207,13 +212,6 @@ public abstract class WatheClientMixin {
                         viewer.canSee(playerTarget)
                 )) {
             cir.setReturnValue(-1);
-            return;
-        }
-        if (VigilanteVeteranTraitService.shouldSkipGoingDarkDefaultInstinct(
-                targetTraits.isGoingDarkInstinctHidden(),
-                true,
-                false
-        )) {
             return;
         }
         Integer morphlingColor = sparktraits$conscienceMorphlingDisguiseColor(playerTarget, game, morphling);

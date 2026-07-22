@@ -2,7 +2,10 @@ package dev.caecorthus.sparkdlc.witch;
 
 import dev.caecorthus.sparkdlc.factionapi.api.compat.NoellesHiddenEquipment;
 import dev.caecorthus.sparkdlc.witch.command.ForceAbilityCommand;
+import dev.caecorthus.sparkdlc.witch.command.ForcePromotionCommand;
+import dev.caecorthus.sparkdlc.witch.command.GhostSettingsCommand;
 import dev.caecorthus.sparkdlc.witch.command.SetManaCommand;
+import dev.caecorthus.sparkdlc.witch.command.WatheGhostDividendCommand;
 import dev.caecorthus.sparkdlc.witch.skill.SparkWitchBuiltInSkills;
 import dev.caecorthus.sparkdlc.witch.impl.SparkWitchEvents;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchPackets;
@@ -12,6 +15,7 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel.GuardianAngelE
 import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterEffects;
 import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterEntities;
 import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.FocusedFootstepsEffects;
+import dev.caecorthus.sparkdlc.witch.roles.witch.curser.CurserFeatureService;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -41,12 +45,16 @@ public final class SparkWitch implements ModInitializer {
         SparkWitchRoles.register();
         SparkWitchBuiltInSkills.register();
         SparkWitchPackets.register();
+        CurserFeatureService.register();
         SparkWitchVersionHandshake.registerServer();
         SparkWitchEvents.register();
         ServerLifecycleEvents.SERVER_STARTED.register(server -> SparkWitchRoles.refreshAssassinGuessRoleOrder());
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             SetManaCommand.register(dispatcher);
             ForceAbilityCommand.register(dispatcher);
+            ForcePromotionCommand.register(dispatcher);
+            GhostSettingsCommand.register(dispatcher);
+            WatheGhostDividendCommand.register(dispatcher);
         });
     }
 

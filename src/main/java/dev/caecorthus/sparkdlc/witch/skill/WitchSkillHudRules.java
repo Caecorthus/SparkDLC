@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.witch.skill;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchActiveSkillService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchRules;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodRules;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.prophet.ProphetRules;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,6 +25,16 @@ public final class WitchSkillHudRules {
                 && activeTicks <= 0
                 && cooldownTicks <= 0
                 && balance < PigGodRules.COIN_COST;
+    }
+
+    public static boolean shouldShowProphetCoinCost(
+            @Nullable Identifier skillId,
+            int activeTicks,
+            int cooldownTicks
+    ) {
+        return ProphetRules.DEATH_OMEN_ID.equals(skillId)
+                && activeTicks <= 0
+                && cooldownTicks <= 0;
     }
 
     public static boolean shouldShowCeremonialSwordTaskUnlock(

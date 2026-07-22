@@ -16,11 +16,13 @@ import dev.caecorthus.sparkdlc.witch.client.hooks.WitchAbilityKeyBridge;
 import dev.caecorthus.sparkdlc.witch.client.hooks.WitchCohortClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.hooks.WitchInstinctSuppressionClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.hooks.WitchPoisonVisionClientHooks;
+import dev.caecorthus.sparkdlc.witch.client.curser.CurserClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.net.version.SparkWitchClientVersionHandshake;
 import dev.caecorthus.sparkdlc.witch.client.render.WraithClientState;
 import dev.caecorthus.sparkdlc.witch.client.renderer.HunterTrapEntityRenderer;
 import dev.caecorthus.sparkdlc.witch.client.screen.TarotDivinationSelectorScreen;
 import dev.caecorthus.sparkdlc.witch.client.tarot.TarotDivinationClientState;
+import dev.caecorthus.sparkdlc.witch.client.vendetta.VendettaKnifeModelLoadingPlugin;
 import dev.caecorthus.sparkdlc.witch.client.witchmaiden.WitchMaidenClientModule;
 import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.component.WitchWorldComponent;
@@ -37,10 +39,14 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.UseOrthopedistSk
 import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.SaintRules;
 import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterEntities;
 import dev.caecorthus.sparkdlc.witch.roles.killer.saboteur.SaboteurRole;
+import dev.caecorthus.sparkdlc.witch.client.saboteur.SaboteurClientAbilityRules;
 import dev.caecorthus.sparkdlc.witch.roles.killer.saboteur.UseSaboteurSkillC2SPacket;
 import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.WitchMaidenRules;
+import dev.caecorthus.sparkdlc.witch.roles.special.wraith.WraithParticipationRules;
+import dev.caecorthus.sparkdlc.witch.roles.witch.curser.UseCurserAbilityC2SPacket;
 import dev.doctor4t.ratatouille.client.util.ambience.AmbienceUtil;
 import dev.doctor4t.ratatouille.client.util.ambience.BackgroundAmbience;
+import dev.doctor4t.wathe.api.event.AllowPlayerChat;
 import dev.doctor4t.wathe.api.event.CanSeePoison;
 import dev.doctor4t.wathe.api.event.ShouldShowCohort;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -63,12 +69,16 @@ public final class SparkWitchClient implements ClientModInitializer {
         SecondaryAbilityController.registerKeyBinding();
         BlackRavenClientModule.register();
         WitchMaidenClientModule.register();
+        VendettaKnifeModelLoadingPlugin.register();
         SecondaryAbilityController.reset();
         SparkWitchClientVersionHandshake.registerClient();
         registerEntityRenderers();
         registerTarotDivinationNetworking();
         registerBlackRavenNetworking();
         registerWraithRoleAnnouncementNetworking();
+        AllowPlayerChat.EVENT.register(player ->
+                SparkWitchServerConnection.isConfirmedServer()
+                        && WraithParticipationRules.mayUseTextChat(WraithClientState.isActive(player)));
 
         // Reset on every connection lifecycle edge so failed login attempts cannot leak confirmed state.
         // 在每个连接生命周期节点清理状态，避免失败的登录尝试残留已确认标记。
@@ -85,6 +95,7 @@ public final class SparkWitchClient implements ClientModInitializer {
             TarotDivinationClientState.tick(client);
             SecondaryAbilityController.tick(client);
             if (!SparkWitchServerConnection.isConfirmedServer()) {
+                WitchAbilityKeyBridge.reset();
                 DeathRayClientHooks.reset();
                 KidnapperThrowClientHooks.reset();
                 return;
@@ -96,10 +107,22 @@ public final class SparkWitchClient implements ClientModInitializer {
                     && client.getNetworkHandler() != null
                     && WitchAbilityKeyBridge.wasPressed()) {
                 var role = GameWorldComponent.KEY.get(client.player.getWorld()).getRole(client.player);
-                if (role != null
-                        && SaboteurRole.ID.equals(role.identifier())
-                        && WraithClientState.isPromoted(client.player)) {
-                    ClientPlayNetworking.send(new UseSaboteurSkillC2SPacket());
+                boolean exactSaboteurRole = role != null
+                        && SaboteurRole.ID.equals(role.identifier());
+                if (exactSaboteurRole) {
+                    if (SaboteurClientAbilityRules.shouldSend(
+                            true,
+                            true,
+                            WraithClientState.isPromoted(client.player),
+                            ClientPlayNetworking.canSend(UseSaboteurSkillC2SPacket.ID)
+                    )) {
+                        ClientPlayNetworking.send(new UseSaboteurSkillC2SPacket());
+                    }
+                } else if (role != null && role.identifier().equals(dev.caecorthus.sparkdlc.witch.SparkWitchRoles.CURSER_ID)) {
+                    if (CurserClientHooks.canUse(client.player)
+                            && ClientPlayNetworking.canSend(UseCurserAbilityC2SPacket.ID)) {
+                        CurserClientHooks.use();
+                    }
                 } else if (GuardianAngelRules.isGuardianAngel(role)) {
                     ClientPlayNetworking.send(new UseGuardianAngelSkillC2SPacket());
                 } else if (role != null && OrthopedistRules.ROLE_ID.equals(role.identifier())) {
@@ -196,6 +219,7 @@ public final class SparkWitchClient implements ClientModInitializer {
 
     private static void resetConnectionState() {
         SparkWitchServerConnection.reset();
+        WitchAbilityKeyBridge.reset();
         SecondaryAbilityController.reset();
         KidnapperThrowClientHooks.reset();
         WitchMaidenClientModule.clear();

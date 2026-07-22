@@ -2,12 +2,15 @@ package dev.caecorthus.sparkdlc.witch.roles.special.wraith.conversion;
 
 import dev.caecorthus.sparkdlc.factionapi.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsWraithBridge;
+import dev.caecorthus.sparkdlc.witch.component.WitchWorldComponent;
 import dev.caecorthus.sparkdlc.witch.component.WraithPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.component.WraithRoundComponent;
 import dev.caecorthus.sparkdlc.witch.roles.special.wraith.WraithRules;
+import dev.caecorthus.sparkdlc.witch.roles.special.wraith.WraithState;
 import dev.caecorthus.sparkdlc.witch.roles.special.wraith.progression.WraithProgression;
 import dev.caecorthus.sparkdlc.witch.roles.special.wraith.runtime.WraithLifecycle;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.vendetta.VendettaLifecycleService;
+import dev.doctor4t.wathe.cca.PlayerPsychoComponent;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
@@ -64,26 +67,28 @@ public final class WraithConversion {
             return;
         }
         UUID creditedKillerUuid = resolveCreditedKiller(victim, killer, deathReason);
-        if (!WraithRules.isEligibleDeath(
-                role.getFaction(), deathReason, creditedKillerUuid != null)) {
+        WraithState.Alignment alignment;
+        try {
+            alignment = WraithRules.alignmentFor(SparkFactionApi.resolveEffectiveFaction(victim, game));
+        } catch (IllegalArgumentException ignored) {
+            CAPTURED.remove(uuid);
+            return;
+        }
+        if (!WraithRules.isEligibleDeath(alignment, deathReason, creditedKillerUuid != null)) {
             CAPTURED.remove(uuid);
             return;
         }
 
-        try {
-            CAPTURED.put(uuid, new WraithDeathSnapshot(
-                    role.identifier(),
-                    role.getFaction(),
-                    WraithProgression.capture(victim),
-                    SparkTraitsWraithBridge.capture(victim),
-                    WraithRules.alignmentFor(SparkFactionApi.resolveEffectiveFaction(victim, game)),
-                    SparkTraitsWraithBridge.hasLastStandTriggered(victim.getServerWorld(), uuid),
-                    creditedKillerUuid,
-                    (int) victim.getServerWorld().getTime()
-            ));
-        } catch (IllegalArgumentException ignored) {
-            CAPTURED.remove(uuid);
-        }
+        CAPTURED.put(uuid, new WraithDeathSnapshot(
+                role.identifier(),
+                role.getFaction(),
+                WraithProgression.capture(victim),
+                SparkTraitsWraithBridge.capture(victim),
+                alignment,
+                SparkTraitsWraithBridge.hasLastStandTriggered(victim.getServerWorld(), uuid),
+                creditedKillerUuid,
+                (int) victim.getServerWorld().getTime()
+        ));
     }
 
     /** Queues only deaths that reached Wathe's confirmed AFTER seam. */
@@ -104,7 +109,8 @@ public final class WraithConversion {
     }
 
     public static void beginRound(ServerWorld world, int startingPlayerCount) {
-        WraithRoundComponent.KEY.get(world).beginRound(startingPlayerCount);
+        WraithRoundComponent.KEY.get(world).beginRound(
+                startingPlayerCount, WitchWorldComponent.KEY.get(world).getWraithSettings());
     }
 
     public static void clearPlayer(ServerPlayerEntity player) {
@@ -142,9 +148,10 @@ public final class WraithConversion {
         WraithRoundComponent round = WraithRoundComponent.KEY.get(victim.getServerWorld());
         if (wraith.isActive()
                 || !WraithRules.isEligibleDeath(
-                        snapshot.originalFaction(), deathReason, snapshot.creditedKillerUuid() != null)
+                        snapshot.alignment(), deathReason, snapshot.creditedKillerUuid() != null)
                 || !round.hasCapacity()
-                || !WraithRules.passesChance(victim.getRandom().nextDouble())
+                || !WraithRules.passesChance(
+                        victim.getRandom().nextDouble(), round.getSettingsSnapshot().chance())
                 || !round.tryConsume(victim.getUuid())) {
             return false;
         }
@@ -154,10 +161,19 @@ public final class WraithConversion {
         VendettaLifecycleService.captureCreditedKiller(victim, snapshot.creditedKillerUuid());
         wraith.activate(snapshot.alignment());
         WraithLifecycle.activateConvertedPlayer(victim, snapshot.taskSnapshot());
+        clearPsychoState(victim);
         victim.closeHandledScreen();
         victim.getInventory().clear();
         victim.currentScreenHandler.sendContentUpdates();
         return true;
+    }
+
+    private static void clearPsychoState(ServerPlayerEntity player) {
+        PlayerPsychoComponent psycho = PlayerPsychoComponent.KEY.get(player);
+        if (psycho.getPsychoTicks() > 0) {
+            psycho.stopPsycho();
+        }
+        psycho.sync();
     }
 
     private static void ensureDeathBody(

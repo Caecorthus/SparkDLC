@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.roles.witch;
 
 import dev.caecorthus.sparkdlc.factionapi.api.SparkFactionApi;
+import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
 import dev.caecorthus.sparkdlc.witch.roles.witch.accomplice.AccompliceShop.AccompliceShopService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchActiveSkillService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchShopReplayService;
@@ -25,7 +26,9 @@ public final class WitchFactionFeatureService {
         }
         registered = true;
         SparkFactionApi.registerEconomyPolicy(WitchFactionEconomyPolicy::economyDecision);
-        SparkFactionApi.registerInstinctPolicy(WitchInstinctPolicy::instinctHighlight);
+        SparkFactionApi.registerInstinctPolicy((viewer, target, gameComponent) ->
+                WitchInstinctPolicy.instinctHighlight(viewer, target, gameComponent,
+                        SparkWitchServerConnection.isConfirmedServer()));
         WitchFactionProtectionPolicy.register();
         // Delay this global Wathe replacement until server startup, after all mod initializers.
         // 将这个 Wathe 全局替换延迟到服务端启动阶段，确保所有模组初始化器已经完成。

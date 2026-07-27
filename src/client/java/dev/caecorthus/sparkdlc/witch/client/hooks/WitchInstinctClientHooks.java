@@ -1,5 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.hooks;
 
+import dev.caecorthus.sparkdlc.witch.client.curser.CurserInstinctClientRules;
+import dev.caecorthus.sparkdlc.witch.client.render.WraithClientState;
 import dev.caecorthus.sparkdlc.witch.roles.witch.WitchFactionRules;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.murderouswitch.MurderousWitchRules.MurderousWitchRules;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
@@ -23,11 +25,26 @@ public final class WitchInstinctClientHooks {
             return false;
         }
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
-        if (player == null || !WatheClient.isInstinctEnabled() || !GameFunctions.isPlayerPlayingAndAlive(player)) {
+        if (player == null) {
             return false;
         }
 
+        boolean instinctEnabled = WatheClient.isInstinctEnabled();
         Role role = GameWorldComponent.KEY.get(player.getWorld()).getRole(player);
+        if (CurserInstinctClientRules.shouldUseWitchInstinctLight(
+                role == null ? null : role.identifier(),
+                SparkWitchServerConnection.isConfirmedServer(),
+                WraithClientState.isActive(player),
+                WraithClientState.isPromoted(player),
+                GameFunctions.isPlayerSpectatingOrCreative(player),
+                instinctEnabled
+        )) {
+            return true;
+        }
+        if (!instinctEnabled || !GameFunctions.isPlayerPlayingAndAlive(player)) {
+            return false;
+        }
+
         return WitchFactionRules.usesKillerStyleInstinctLight(role)
                 || MurderousWitchRules.usesKillerStyleInstinctLight(role);
     }

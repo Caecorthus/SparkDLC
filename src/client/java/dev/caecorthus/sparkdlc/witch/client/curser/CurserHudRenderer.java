@@ -2,7 +2,6 @@ package dev.caecorthus.sparkdlc.witch.client.curser;
 
 import dev.caecorthus.sparkdlc.witch.client.SparkWitchClient;
 import dev.caecorthus.sparkdlc.witch.roles.witch.curser.CurserPlayerComponent;
-import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -15,9 +14,6 @@ public final class CurserHudRenderer {
     }
 
     public static void render(DrawContext context, ClientPlayerEntity player) {
-        if (!GameFunctions.isPlayerPlayingAndAlive(player)) {
-            return;
-        }
         int cooldown = CurserPlayerComponent.KEY.get(player).getCooldownTicks();
         Text line = cooldown > 0
                 ? Text.translatable("hud.sparkwitch.curser.cooldown", seconds(cooldown))

@@ -3,8 +3,10 @@ package dev.caecorthus.sparkdlc.witch.roles.witch;
 import dev.caecorthus.sparkdlc.factionapi.api.FactionInstinctPolicy;
 import dev.caecorthus.sparkdlc.witch.SparkWitchRoles;
 import dev.caecorthus.sparkdlc.witch.component.WitchWorldComponent;
+import dev.caecorthus.sparkdlc.witch.component.WraithPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.ApprenticeInstinctRules;
 import dev.caecorthus.sparkdlc.witch.roles.special.wraith.WraithStateService;
+import dev.caecorthus.sparkdlc.witch.roles.witch.curser.CurserPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.curser.CurserRules;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -34,14 +36,21 @@ public final class WitchInstinctPolicy {
             boolean confirmedServer
     ) {
         Role viewerRole = gameComponent.getRole(viewer);
+        WraithPlayerComponent wraith = WraithPlayerComponent.KEY.get(viewer);
+        FactionInstinctPolicy.InstinctResult restrictedWraith = restrictedWraithHighlight(wraith.isRestricted());
+        if (restrictedWraith != null) {
+            return restrictedWraith;
+        }
         boolean viewerAlive = GameFunctions.isPlayerPlayingAndAlive(viewer);
         boolean viewerSpectatingOrCreative = GameFunctions.isPlayerSpectatingOrCreative(viewer);
         boolean curserViewer = viewerRole == SparkWitchRoles.curser();
         boolean curserOutlineEligible = CurserRules.canParticipateInPlayerOutlines(
                 confirmedServer,
+                gameComponent.isRunning(),
                 curserViewer,
                 WraithStateService.isActive(viewer),
                 WraithStateService.isPromoted(viewer),
+                CurserPlayerComponent.KEY.get(viewer).isConfused(),
                 viewerSpectatingOrCreative
         );
         if (curserViewer ? !curserOutlineEligible : !WitchFactionRules.shouldUseCustomInstinctHighlight(
@@ -98,6 +107,10 @@ public final class WitchInstinctPolicy {
             return FactionInstinctPolicy.InstinctResult.skip(GRAND_WITCH_INSTINCT_PRIORITY);
         }
         return FactionInstinctPolicy.InstinctResult.show(color.getAsInt(), true, GRAND_WITCH_INSTINCT_PRIORITY);
+    }
+
+    static FactionInstinctPolicy.InstinctResult restrictedWraithHighlight(boolean restricted) {
+        return restricted ? FactionInstinctPolicy.InstinctResult.skip(OBSCURE_SKIP_PRIORITY) : null;
     }
 
     /**

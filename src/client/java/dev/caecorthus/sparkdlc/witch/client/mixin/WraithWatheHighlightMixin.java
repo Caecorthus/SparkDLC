@@ -2,9 +2,9 @@ package dev.caecorthus.sparkdlc.witch.client.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import dev.caecorthus.sparkdlc.witch.client.guardianangel.GuardianAngelClientHooks;
-import dev.caecorthus.sparkdlc.witch.client.render.CreativeWraithInstinctRules;
 import dev.caecorthus.sparkdlc.witch.client.render.WraithViewerRules;
 import dev.caecorthus.sparkdlc.witch.client.vendetta.VendettaClientPresentation;
+import dev.caecorthus.sparkdlc.witch.roles.killer.saboteur.SaboteurRules;
 import dev.caecorthus.sparkdlc.witch.roles.witch.WitchFactionRules;
 import dev.caecorthus.sparkdlc.witch.roles.witch.curser.CurserFeatureService;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
@@ -40,24 +40,6 @@ public abstract class WraithWatheHighlightMixin {
                 : currentRole;
     }
 
-    @ModifyExpressionValue(
-            method = "getInstinctHighlight",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Ldev/doctor4t/wathe/client/WatheClient;isInstinctEnabledAndIsKiller()Z"
-            )
-    )
-    private static boolean sparkwitch$allowCreativeWraithInstinct(
-            boolean original,
-            Entity target
-    ) {
-        return original || target instanceof PlayerEntity playerTarget
-                && CreativeWraithInstinctRules.shouldReveal(
-                        MinecraftClient.getInstance().player,
-                        playerTarget
-                );
-    }
-
     @Inject(method = "getInstinctHighlight", at = @At("HEAD"), cancellable = true)
     private static void sparkwitch$resolveWraithHighlight(
             Entity target,
@@ -88,6 +70,16 @@ public abstract class WraithWatheHighlightMixin {
             return;
         }
 
+        Integer saboteurHighlight = SaboteurRules.instinctHighlight(
+                WatheClient.isInstinctEnabled(),
+                WraithViewerRules.shouldRevealPromotedSaboteurToKiller(viewer, playerTarget),
+                SaboteurRules.isActivePromotedSaboteur(playerTarget)
+        );
+        if (saboteurHighlight != null) {
+            cir.setReturnValue(saboteurHighlight);
+            return;
+        }
+
         if (CurserFeatureService.isActivePromotedCurser(playerTarget)) {
             GameWorldComponent game = GameWorldComponent.KEY.get(viewer.getWorld());
             if (WitchFactionRules.isWitchFactionMember(game.getRole(viewer))) {
@@ -104,8 +96,7 @@ public abstract class WraithWatheHighlightMixin {
             cir.setReturnValue(highlight);
             return;
         }
-        if (WraithViewerRules.shouldHideFromOrdinaryViewer(viewer, playerTarget)
-                && !CreativeWraithInstinctRules.shouldReveal(viewer, playerTarget)) {
+        if (WraithViewerRules.shouldHideFromOrdinaryViewer(viewer, playerTarget)) {
             cir.setReturnValue(-1);
         }
     }

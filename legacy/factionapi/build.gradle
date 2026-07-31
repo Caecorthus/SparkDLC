@@ -142,6 +142,13 @@ tasks.register("verifyModJarVersion") {
                 throw new GradleException("Missing client entrypoint ${clientEntrypoint} in ${jarFile.name}")
             }
 
+            def registeredMixins = (metadata.mixins ?: []).collect { mixin ->
+                mixin instanceof Map ? mixin.config?.toString() : mixin?.toString()
+            }
+            if (!registeredMixins.contains("sparkfactionapi.mixins.json")) {
+                throw new GradleException("Missing common mixin registration in ${jarFile.name}")
+            }
+
             [
                     "dev/caecorthus/sparkdlc/factionapi/client/SparkFactionApiClient.class",
                     "dev/caecorthus/sparkdlc/factionapi/client/net/version/ClientVersionHandshake.class",
@@ -150,6 +157,7 @@ tasks.register("verifyModJarVersion") {
                     "dev/caecorthus/sparkdlc/factionapi/api/PlayerAffectPolicy.class",
                     "dev/caecorthus/sparkdlc/factionapi/api/EntityCollisionExemption.class",
                     "dev/caecorthus/sparkdlc/factionapi/impl/collision/EntityCollisionExemptions.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/collision/EntityCollisionTrackedState.class",
                     "dev/caecorthus/sparkdlc/factionapi/impl/gun/FactionGunPunishmentAdapter.class",
                     "dev/caecorthus/sparkdlc/factionapi/impl/economy/FactionPassiveMoneyAdapter.class",
                     "dev/caecorthus/sparkdlc/factionapi/impl/target/PlayerAffectPolicies.class",
@@ -170,6 +178,7 @@ tasks.register("verifyModJarVersion") {
                     "dev/caecorthus/sparkdlc/factionapi/mixin/compat/sparkwitch/WitchSkillUseAffectMixin.class",
                     "dev/caecorthus/sparkdlc/factionapi/mixin/EntityAffectMixin.class",
                     "dev/caecorthus/sparkdlc/factionapi/mixin/EntityCollisionMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/EntityCollisionStateMixin.class",
                     "dev/caecorthus/sparkdlc/factionapi/mixin/GameFunctionsPlayerAffectMixin.class",
                     "dev/caecorthus/sparkdlc/factionapi/mixin/GameSettingsCommandMixin.class",
                     "dev/caecorthus/sparkdlc/factionapi/mixin/GunShootPayloadReceiverMixin.class",
@@ -178,6 +187,7 @@ tasks.register("verifyModJarVersion") {
                     "dev/caecorthus/sparkdlc/factionapi/mixin/MurderGameModeMixin.class",
                     "dev/caecorthus/sparkdlc/factionapi/mixin/MurderGameModePassiveMoneyMixin.class",
                     "dev/caecorthus/sparkdlc/factionapi/mixin/PlayerEntityAffectMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/ServerEntityHandlerCollisionMixin.class",
                     "dev/caecorthus/sparkdlc/factionapi/mixin/ServerPlayerEntityAffectMixin.class",
                     "dev/caecorthus/sparkdlc/factionapi/mixin/WorldProjectileAffectMixin.class",
                     "dev/caecorthus/sparkdlc/factionapi/mixin/GameRoundEndComponentMixin.class",
@@ -224,6 +234,7 @@ tasks.register("verifyModJarVersion") {
                             "compat.sparkwitch.WitchSkillUseAffectMixin",
                             "EntityAffectMixin",
                             "EntityCollisionMixin",
+                            "EntityCollisionStateMixin",
                             "GameFunctionsPlayerAffectMixin",
                             "GameSettingsCommandMixin",
                             "GunShootPayloadReceiverMixin",
@@ -232,6 +243,7 @@ tasks.register("verifyModJarVersion") {
                             "MurderGameModeMixin",
                             "MurderGameModePassiveMoneyMixin",
                             "PlayerEntityAffectMixin",
+                            "ServerEntityHandlerCollisionMixin",
                             "ServerPlayerEntityAffectMixin",
                             "WorldProjectileAffectMixin",
                             "GameRoundEndComponentMixin"
@@ -295,6 +307,7 @@ def architectureContractFiles = [
         "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/roundend/FactionWinRulesTest.java",
         "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/collision/EntityCollisionExemptionsTest.java",
         "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/collision/EntityCollisionMixinContractTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/collision/EntityCollisionStateMixinContractTest.java",
         "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/collision/LivingEntityCollisionMixinContractTest.java",
         "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesCollisionCompatibilityContractTest.java",
         "src/test/java/dev/caecorthus/sparkdlc/factionapi/net/version/VersionProtocolTest.java"

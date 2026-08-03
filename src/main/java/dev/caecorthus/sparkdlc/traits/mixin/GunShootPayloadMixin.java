@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.traits.mixin;
 import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveTraitService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.CivilianTraitService;
+import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.fakedeath.FakeDeathDerringerService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.police.VigilanteVeteranTraitService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
@@ -86,6 +87,7 @@ public abstract class GunShootPayloadMixin {
             ServerPlayerEntity shooter,
             Identifier deathReason
     ) {
+        FakeDeathDerringerService.replenishAfterHit(shooter, victim);
         VigilanteVeteranTraitService.killPlayerWithPoliceGunTraits(victim, spawnBody, shooter, deathReason);
     }
 

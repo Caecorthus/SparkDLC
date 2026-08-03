@@ -9,6 +9,7 @@ import dev.caecorthus.sparkdlc.witch.item.ceremonialsword.CeremonialSwordCombatS
 import dev.caecorthus.sparkdlc.witch.item.ceremonialsword.CeremonialSwordDashService;
 import dev.caecorthus.sparkdlc.witch.item.firepoker.FirePokerCombatService;
 import dev.caecorthus.sparkdlc.witch.item.firepoker.FirePokerFallAttributionService;
+import dev.caecorthus.sparkdlc.witch.item.tofana.TofanaProtectionService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.abilities.MightyForce.MightyForceCombatService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistSkillService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel.GuardianAngelFeatureService;
@@ -71,6 +72,7 @@ public final class SparkWitchEvents {
         CeremonialSwordDashService.register();
         MightyForceCombatService.register();
         FirePokerCombatService.register();
+        TofanaProtectionService.register();
         WitchFactionFeatureService.register();
         MurderousWitchFeatureService.register();
         PigGodFeatureService.register();

@@ -22,6 +22,7 @@ import dev.caecorthus.sparkdlc.strength.role.morphling.MorphlingService;
 import dev.caecorthus.sparkdlc.strength.role.morphling.MorphlingShopService;
 import dev.caecorthus.sparkdlc.strength.role.poisoner.PoisonerEconomyService;
 import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumShopService;
+import dev.caecorthus.sparkdlc.strength.role.toxicologist.ToxicologistAntidoteService;
 import dev.caecorthus.sparkdlc.strength.role.toxicologist.ToxicologistCapsuleShop;
 import dev.caecorthus.sparkdlc.strength.role.attendant.FlashlightBlackoutService;
 import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranBlackoutService;
@@ -56,6 +57,7 @@ public final class SparkStrengthEvents {
         MorphlingShopService.register();
         PoisonerEconomyService.register();
         ProfessorSerumShopService.register();
+        ToxicologistAntidoteService.register();
         ToxicologistCapsuleShop.register();
         TabletShopService.register();
         VeteranShopService.register();
@@ -70,6 +72,7 @@ public final class SparkStrengthEvents {
                 CriminologistService.assignForRole(serverPlayer, role);
                 DemonHunterSniffService.assignForRole(serverPlayer, role);
                 MorphlingService.assignForRole(serverPlayer, role);
+                ToxicologistAntidoteService.clearPlayer(serverPlayer);
                 VeteranKnifeService.assignForRole(serverPlayer, role);
             }
         });
@@ -87,6 +90,7 @@ public final class SparkStrengthEvents {
                 CorruptCopAbilityService.reset(serverPlayer);
                 EngineerCaptureDeviceService.clearPlayer(serverPlayer);
                 MorphlingService.reset(serverPlayer);
+                ToxicologistAntidoteService.clearPlayer(serverPlayer);
                 VeteranKnifeService.reset(serverPlayer);
             }
         });
@@ -111,6 +115,7 @@ public final class SparkStrengthEvents {
                     CriminologistPlayerComponent.KEY.get(player).clearAll();
                     EngineerCaptureDeviceService.clearPlayer(player);
                     MorphlingService.reset(player);
+                    ToxicologistAntidoteService.clearPlayer(player);
                     ProfessorSerumUserComponent.KEY.get(player).reset();
                     ProfessorSerumTargetComponent.KEY.get(player).reset();
                     DemonHunterSniffService.clearPlayer(player);

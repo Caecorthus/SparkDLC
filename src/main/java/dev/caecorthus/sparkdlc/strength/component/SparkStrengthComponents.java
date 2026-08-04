@@ -12,6 +12,7 @@ import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumUserCo
 import dev.caecorthus.sparkdlc.strength.component.tablet.TabletWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowTargetComponent;
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowUserComponent;
+import dev.caecorthus.sparkdlc.strength.component.toxicologist.ToxicologistAntidoteComponent;
 import dev.caecorthus.sparkdlc.strength.component.veteran.VeteranKnifeComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.NotNull;
@@ -60,6 +61,9 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
         registry.beginRegistration(PlayerEntity.class, MorphMarkPlayerComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(MorphMarkPlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, ToxicologistAntidoteComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(ToxicologistAntidoteComponent::new);
     }
 
     @Override

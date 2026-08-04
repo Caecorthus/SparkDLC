@@ -22,6 +22,8 @@ import dev.caecorthus.sparkdlc.strength.role.morphling.MorphlingService;
 import dev.caecorthus.sparkdlc.strength.role.morphling.MorphlingShopService;
 import dev.caecorthus.sparkdlc.strength.role.poisoner.PoisonerEconomyService;
 import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumShopService;
+import dev.caecorthus.sparkdlc.strength.role.recaller.RecallerEconomyService;
+import dev.caecorthus.sparkdlc.strength.role.recaller.RecallerShopService;
 import dev.caecorthus.sparkdlc.strength.role.toxicologist.ToxicologistAntidoteService;
 import dev.caecorthus.sparkdlc.strength.role.toxicologist.ToxicologistCapsuleShop;
 import dev.caecorthus.sparkdlc.strength.role.attendant.FlashlightBlackoutService;
@@ -57,10 +59,13 @@ public final class SparkStrengthEvents {
         MorphlingShopService.register();
         PoisonerEconomyService.register();
         ProfessorSerumShopService.register();
+        RecallerShopService.register();
         ToxicologistAntidoteService.register();
         ToxicologistCapsuleShop.register();
         TabletShopService.register();
         VeteranShopService.register();
+        // 回溯者被动收入需要按世界 tick 定时结算，注册在服务端世界 tick 末尾。
+        ServerTickEvents.END_WORLD_TICK.register(RecallerEconomyService::tick);
         ServerTickEvents.END_WORLD_TICK.register(TabletStateService::tick);
         ServerTickEvents.END_WORLD_TICK.register(VeteranBlackoutService::tick);
 

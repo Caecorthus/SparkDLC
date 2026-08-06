@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.strength.component.professor;
 
 import dev.caecorthus.sparkdlc.strength.SparkStrength;
 import dev.caecorthus.sparkdlc.strength.replay.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumRules;
 import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumType;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -206,7 +207,9 @@ public class ProfessorSerumTargetComponent implements AutoSyncedComponent, Serve
     @Override
     public void writeSyncPacket(RegistryByteBuf buf, ServerPlayerEntity recipient) {
         GameWorldComponent gameWorld = GameWorldComponent.KEY.get(recipient.getWorld());
-        boolean fullSync = recipient == this.player || gameWorld.isRole(recipient, Noellesroles.PROFESSOR);
+        boolean fullSync = recipient == this.player
+                || gameWorld.isRole(recipient, Noellesroles.PROFESSOR)
+                || CoronerService.hasProfessorDisguise(recipient);
         buf.writeVarInt(invisibilityTicks);
         buf.writeVarInt(fullSync ? doorpassingTicks : 0);
         buf.writeVarInt(fullSync ? sedativeTicks : 0);

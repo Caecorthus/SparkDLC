@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.role.economy;
 
 import dev.caecorthus.sparkdlc.strength.role.detective.CriminologistRules;
+import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerRules;
 import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerRules;
 import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumRules;
 import dev.caecorthus.sparkdlc.strength.role.toxicologist.ToxicologistCapsuleRules;
@@ -25,6 +26,7 @@ public final class RoleEconomyRules {
 
     public static boolean isGoodMoneyRole(@Nullable Role role) {
         return CriminologistRules.isDetective(role)
+                || CoronerRules.isCoroner(role)
                 || ToxicologistCapsuleRules.isToxicologist(role)
                 || ProfessorSerumRules.isProfessor(role)
                 || EngineerRules.isEngineer(role)

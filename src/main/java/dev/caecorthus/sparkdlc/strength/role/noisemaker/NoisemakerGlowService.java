@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.strength.role.noisemaker;
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowTargetComponent;
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowUserComponent;
 import dev.caecorthus.sparkdlc.strength.replay.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import dev.doctor4t.wathe.record.GameRecordManager;
@@ -95,7 +96,7 @@ public final class NoisemakerGlowService {
         }
 
         GameWorldComponent gameWorld = GameWorldComponent.KEY.get(victim.getWorld());
-        if (!gameWorld.isRole(victim, Noellesroles.NOISEMAKER)) {
+        if (!gameWorld.isRole(victim, Noellesroles.NOISEMAKER) && !CoronerService.hasNoisemakerDisguise(victim)) {
             return;
         }
         if (!GameFunctions.isPlayerPlayingAndAlive(killer)) {

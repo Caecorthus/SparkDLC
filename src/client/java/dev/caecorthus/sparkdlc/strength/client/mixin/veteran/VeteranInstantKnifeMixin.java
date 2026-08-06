@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.veteran;
 
+import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.item.KnifeItem;
@@ -43,7 +44,7 @@ public abstract class VeteranInstantKnifeMixin {
         }
 
         GameWorldComponent game = GameWorldComponent.KEY.get(user.getWorld());
-        if (!VeteranRules.isVeteran(game.getRole(user))) {
+        if (!VeteranRules.isVeteran(game.getRole(user)) && !CoronerService.hasInstantSilentKnifeDisguise(user)) {
             return;
         }
 

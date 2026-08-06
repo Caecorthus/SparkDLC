@@ -10,6 +10,10 @@ import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumTarget
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumUserComponent;
 import dev.caecorthus.sparkdlc.strength.role.noisemaker.NoisemakerGlowService;
 import dev.caecorthus.sparkdlc.strength.role.attendant.AttendantFlashlightService;
+import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerEconomyService;
+import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerEngineerService;
+import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
+import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerShopService;
 import dev.caecorthus.sparkdlc.strength.role.corruptcop.CorruptCopAbilityService;
 import dev.caecorthus.sparkdlc.strength.role.corruptcop.CorruptCopFeatureService;
 import dev.caecorthus.sparkdlc.strength.role.detective.CriminologistService;
@@ -50,8 +54,12 @@ public final class SparkStrengthEvents {
 
     public static void register() {
         CorruptCopFeatureService.register();
+        CoronerEngineerService.register();
+        CoronerService.register();
+        CoronerShopService.register();
         CriminologistService.register();
         FlashlightBlackoutService.register();
+        VeteranBlackoutService.register();
         RoleEconomyService.register();
         EngineerPowerRestorationService.register();
         EngineerShopService.register();
@@ -65,6 +73,8 @@ public final class SparkStrengthEvents {
         TabletShopService.register();
         VeteranShopService.register();
         // 回溯者被动收入需要按世界 tick 定时结算，注册在服务端世界 tick 末尾。
+        ServerTickEvents.END_WORLD_TICK.register(CoronerEconomyService::tick);
+        ServerTickEvents.END_WORLD_TICK.register(CoronerService::tick);
         ServerTickEvents.END_WORLD_TICK.register(RecallerEconomyService::tick);
         ServerTickEvents.END_WORLD_TICK.register(TabletStateService::tick);
         ServerTickEvents.END_WORLD_TICK.register(VeteranBlackoutService::tick);
@@ -72,6 +82,7 @@ public final class SparkStrengthEvents {
         RoleAssigned.EVENT.register((player, role) -> {
             if (player instanceof ServerPlayerEntity serverPlayer) {
                 CorruptCopAbilityService.reset(serverPlayer);
+                CoronerService.assignForRole(serverPlayer, role);
                 RoleEconomyService.assignForRole(serverPlayer, role);
                 AttendantFlashlightService.assignForRole(serverPlayer, role);
                 CriminologistService.assignForRole(serverPlayer, role);
@@ -93,6 +104,7 @@ public final class SparkStrengthEvents {
             DemonHunterSniffPlayerComponent.KEY.get(player).clearSniff();
             if (player instanceof ServerPlayerEntity serverPlayer) {
                 CorruptCopAbilityService.reset(serverPlayer);
+                CoronerService.clearPlayer(serverPlayer);
                 EngineerCaptureDeviceService.clearPlayer(serverPlayer);
                 MorphlingService.reset(serverPlayer);
                 ToxicologistAntidoteService.clearPlayer(serverPlayer);
@@ -104,6 +116,7 @@ public final class SparkStrengthEvents {
             // 大嗓门死亡后的“杀手发光 15 秒”是被动效果，不写入回放。
             NoisemakerGlowService.glowKillerWhenNoisemakerDies(victim, killer);
             CriminologistService.afterKill(victim, killer, deathReason);
+            CoronerService.afterKill(victim);
             MorphlingService.afterKill(victim, killer, deathReason);
             VeteranEconomyService.afterKill(victim, killer, deathReason);
         });
@@ -117,6 +130,7 @@ public final class SparkStrengthEvents {
                 VeteranBlackoutService.clear(serverWorld);
                 for (ServerPlayerEntity player : serverWorld.getPlayers()) {
                     CorruptCopAbilityService.reset(player);
+                    CoronerService.clearPlayer(player);
                     CriminologistPlayerComponent.KEY.get(player).clearAll();
                     EngineerCaptureDeviceService.clearPlayer(player);
                     MorphlingService.reset(player);

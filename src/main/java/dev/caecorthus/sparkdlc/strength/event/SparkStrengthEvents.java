@@ -6,9 +6,12 @@ import dev.caecorthus.sparkdlc.strength.component.demonhunter.DemonHunterSniffPl
 import dev.caecorthus.sparkdlc.strength.component.morphling.MorphBodyDisguiseWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowTargetComponent;
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowUserComponent;
+import dev.caecorthus.sparkdlc.strength.component.phantom.PhantomBackpackTargetComponent;
+import dev.caecorthus.sparkdlc.strength.component.phantom.PhantomBackpackUserComponent;
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumTargetComponent;
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumUserComponent;
 import dev.caecorthus.sparkdlc.strength.role.noisemaker.NoisemakerGlowService;
+import dev.caecorthus.sparkdlc.strength.role.phantom.PhantomBackpackService;
 import dev.caecorthus.sparkdlc.strength.role.attendant.AttendantFlashlightService;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerEconomyService;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerEngineerService;
@@ -88,6 +91,7 @@ public final class SparkStrengthEvents {
                 CriminologistService.assignForRole(serverPlayer, role);
                 DemonHunterSniffService.assignForRole(serverPlayer, role);
                 MorphlingService.assignForRole(serverPlayer, role);
+                PhantomBackpackService.assignForRole(serverPlayer, role);
                 ToxicologistAntidoteService.clearPlayer(serverPlayer);
                 VeteranKnifeService.assignForRole(serverPlayer, role);
             }
@@ -98,6 +102,8 @@ public final class SparkStrengthEvents {
             // 这里把点亮冷却和目标倒计时都清掉，避免跨局残留。
             NoisemakerGlowUserComponent.KEY.get(player).reset();
             NoisemakerGlowTargetComponent.KEY.get(player).reset();
+            PhantomBackpackUserComponent.KEY.get(player).reset();
+            PhantomBackpackTargetComponent.KEY.get(player).reset();
             ProfessorSerumUserComponent.KEY.get(player).reset();
             ProfessorSerumTargetComponent.KEY.get(player).reset();
             CriminologistPlayerComponent.KEY.get(player).clearAll();
@@ -134,6 +140,7 @@ public final class SparkStrengthEvents {
                     CriminologistPlayerComponent.KEY.get(player).clearAll();
                     EngineerCaptureDeviceService.clearPlayer(player);
                     MorphlingService.reset(player);
+                    PhantomBackpackService.clearPlayer(player);
                     ToxicologistAntidoteService.clearPlayer(player);
                     ProfessorSerumUserComponent.KEY.get(player).reset();
                     ProfessorSerumTargetComponent.KEY.get(player).reset();

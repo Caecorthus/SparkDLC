@@ -5,6 +5,7 @@ import dev.caecorthus.sparkdlc.strength.network.criminologist.SelectCriminologis
 import dev.caecorthus.sparkdlc.strength.network.coroner.CoronerMorphC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.demonhunter.DemonHunterSniffC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.noisemaker.NoisemakerGlowC2SPacket;
+import dev.caecorthus.sparkdlc.strength.network.phantom.PhantomBackpackInvisibilityC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.professor.ProfessorRemoteFeedC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.tablet.ApproveSuspectRemovalC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.tablet.CallTabletMeetingC2SPacket;
@@ -16,6 +17,7 @@ import dev.caecorthus.sparkdlc.strength.network.tablet.SendTabletChatC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.tablet.SyncTabletSnapshotS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.veteran.SyncVeteranBlackoutS2CPacket;
 import dev.caecorthus.sparkdlc.strength.role.noisemaker.NoisemakerGlowService;
+import dev.caecorthus.sparkdlc.strength.role.phantom.PhantomBackpackService;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumService;
 import dev.caecorthus.sparkdlc.strength.role.detective.CriminologistService;
@@ -33,6 +35,7 @@ public final class SparkStrengthPackets {
 
     public static void registerServer() {
         PayloadTypeRegistry.playC2S().register(NoisemakerGlowC2SPacket.ID, NoisemakerGlowC2SPacket.CODEC);
+        PayloadTypeRegistry.playC2S().register(PhantomBackpackInvisibilityC2SPacket.ID, PhantomBackpackInvisibilityC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(CoronerMorphC2SPacket.ID, CoronerMorphC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(ProfessorRemoteFeedC2SPacket.ID, ProfessorRemoteFeedC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(SelectCriminologistTargetC2SPacket.ID, SelectCriminologistTargetC2SPacket.CODEC);
@@ -49,6 +52,9 @@ public final class SparkStrengthPackets {
         PayloadTypeRegistry.playS2C().register(SyncVeteranBlackoutS2CPacket.ID, SyncVeteranBlackoutS2CPacket.CODEC);
         ServerPlayNetworking.registerGlobalReceiver(NoisemakerGlowC2SPacket.ID, (payload, context) ->
                 NoisemakerGlowService.tryUseBackpackGlow(context.player(), payload.targetPlayer())
+        );
+        ServerPlayNetworking.registerGlobalReceiver(PhantomBackpackInvisibilityC2SPacket.ID, (payload, context) ->
+                PhantomBackpackService.tryUseBackpackInvisibility(context.player(), payload.targetPlayer())
         );
         ServerPlayNetworking.registerGlobalReceiver(CoronerMorphC2SPacket.ID, (payload, context) ->
                 CoronerService.selectDisguise(context.player(), payload.targetPlayer())

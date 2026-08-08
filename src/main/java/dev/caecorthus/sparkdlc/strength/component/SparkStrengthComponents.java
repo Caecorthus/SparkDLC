@@ -9,6 +9,8 @@ import dev.caecorthus.sparkdlc.strength.component.demonhunter.DemonHunterSniffPl
 import dev.caecorthus.sparkdlc.strength.component.engineer.EngineerStunnedPlayerComponent;
 import dev.caecorthus.sparkdlc.strength.component.morphling.MorphBodyDisguiseWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.morphling.MorphMarkPlayerComponent;
+import dev.caecorthus.sparkdlc.strength.component.phantom.PhantomBackpackTargetComponent;
+import dev.caecorthus.sparkdlc.strength.component.phantom.PhantomBackpackUserComponent;
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumTargetComponent;
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumUserComponent;
 import dev.caecorthus.sparkdlc.strength.component.tablet.TabletWorldComponent;
@@ -43,6 +45,12 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
         registry.beginRegistration(PlayerEntity.class, NoisemakerGlowTargetComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(NoisemakerGlowTargetComponent::new);
+        registry.beginRegistration(PlayerEntity.class, PhantomBackpackUserComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(PhantomBackpackUserComponent::new);
+        registry.beginRegistration(PlayerEntity.class, PhantomBackpackTargetComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(PhantomBackpackTargetComponent::new);
         registry.beginRegistration(PlayerEntity.class, ProfessorSerumUserComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(ProfessorSerumUserComponent::new);

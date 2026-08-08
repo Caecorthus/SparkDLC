@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.role.coroner;
 
 import dev.caecorthus.sparkdlc.strength.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.strength.compat.SparkWitchCompat;
 import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerPowerRestorationService;
 import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerRules;
 import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumRules;
@@ -85,6 +86,8 @@ public final class CoronerShopService {
             rebuildEngineerShop(context);
         } else if (CoronerRules.isBomber(disguiseRole)) {
             addBomberShop(context);
+        } else if (CoronerRules.isSparkWitchKidnapper(disguiseRole)) {
+            addSparkWitchKidnapperShop(player, context);
         }
     }
 
@@ -225,6 +228,18 @@ public final class CoronerShopService {
                 300,
                 ShopEntry.Type.WEAPON
         ).actualStack(WatheItems.GRENADE.getDefaultStack()).build());
+    }
+
+    private static void addSparkWitchKidnapperShop(PlayerEntity player, BuildShopEntries.ShopContext context) {
+        ShopEntry entry = SparkWitchCompat.createKidnapperDrugShopEntry(player);
+        if (entry == null) {
+            return;
+        }
+        /*
+         * SparkWitch 自己拥有迷药的物品、贴图、价格与描述。
+         * 这里仅在验尸官采尸袋之后追加该条目，不直接引用 SparkWitch 类，保持软兼容。
+         */
+        insertAfterBodyBag(context, 0, entry);
     }
 
     private static int insertAfterBodyBag(BuildShopEntries.ShopContext context, int offset, ShopEntry entry) {

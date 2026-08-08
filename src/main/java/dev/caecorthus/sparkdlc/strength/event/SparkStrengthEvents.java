@@ -13,6 +13,7 @@ import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumUserCo
 import dev.caecorthus.sparkdlc.strength.role.noisemaker.NoisemakerGlowService;
 import dev.caecorthus.sparkdlc.strength.role.phantom.PhantomBackpackService;
 import dev.caecorthus.sparkdlc.strength.role.attendant.AttendantFlashlightService;
+import dev.caecorthus.sparkdlc.strength.role.bomber.BomberTrapService;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerEconomyService;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerEngineerService;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
@@ -131,6 +132,7 @@ public final class SparkStrengthEvents {
             if (world instanceof ServerWorld serverWorld) {
                 CriminologistWorldComponent.KEY.get(serverWorld).clearRoundState();
                 MorphBodyDisguiseWorldComponent.KEY.get(serverWorld).clearRoundState();
+                BomberTrapService.clearRoundState(serverWorld);
                 EngineerCaptureDeviceService.clearRoundState(serverWorld);
                 TabletStateService.clearRoundState(serverWorld);
                 VeteranBlackoutService.clear(serverWorld);
@@ -153,6 +155,7 @@ public final class SparkStrengthEvents {
         GameEvents.ON_FINISH_INITIALIZE.register((world, gameComponent) -> {
             if (world instanceof ServerWorld serverWorld) {
                 MorphBodyDisguiseWorldComponent.KEY.get(serverWorld).clearRoundState();
+                BomberTrapService.clearRoundState(serverWorld);
                 EngineerCaptureDeviceService.clearRoundState(serverWorld);
             }
         });

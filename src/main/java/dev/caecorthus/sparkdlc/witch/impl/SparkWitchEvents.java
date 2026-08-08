@@ -38,6 +38,7 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.windspirit.WindSpiritFeature
 import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.BlackRavenFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.kidnapper.KidnapperDragLifecycle;
+import dev.caecorthus.sparkdlc.witch.roles.killer.kidnapper.KidnapperKnockoutService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.ninja.NinjaFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.saboteur.SaboteurFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.FocusedFootstepsRuntime;
@@ -92,6 +93,7 @@ public final class SparkWitchEvents {
         VendettaDisconnectService.register();
         VendettaReplayService.register();
         VendettaTerminalService.register();
+        KidnapperKnockoutService.register();
         KidnapperDragLifecycle.register();
         TarotReaderFeatureService.register();
         BlackRavenFeatureService.register();

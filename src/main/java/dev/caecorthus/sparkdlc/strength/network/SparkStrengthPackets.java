@@ -7,6 +7,7 @@ import dev.caecorthus.sparkdlc.strength.network.demonhunter.DemonHunterSniffC2SP
 import dev.caecorthus.sparkdlc.strength.network.noisemaker.NoisemakerGlowC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.phantom.PhantomBackpackInvisibilityC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.professor.ProfessorRemoteFeedC2SPacket;
+import dev.caecorthus.sparkdlc.strength.network.reporter.ReporterCommunicationC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.tablet.ApproveSuspectRemovalC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.tablet.CallTabletMeetingC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.tablet.CastTabletVoteC2SPacket;
@@ -20,6 +21,7 @@ import dev.caecorthus.sparkdlc.strength.role.noisemaker.NoisemakerGlowService;
 import dev.caecorthus.sparkdlc.strength.role.phantom.PhantomBackpackService;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumService;
+import dev.caecorthus.sparkdlc.strength.role.reporter.ReporterCommunicationService;
 import dev.caecorthus.sparkdlc.strength.role.detective.CriminologistService;
 import dev.caecorthus.sparkdlc.strength.role.demonhunter.DemonHunterSniffService;
 import dev.caecorthus.sparkdlc.strength.tablet.TabletStateService;
@@ -38,6 +40,7 @@ public final class SparkStrengthPackets {
         PayloadTypeRegistry.playC2S().register(PhantomBackpackInvisibilityC2SPacket.ID, PhantomBackpackInvisibilityC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(CoronerMorphC2SPacket.ID, CoronerMorphC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(ProfessorRemoteFeedC2SPacket.ID, ProfessorRemoteFeedC2SPacket.CODEC);
+        PayloadTypeRegistry.playC2S().register(ReporterCommunicationC2SPacket.ID, ReporterCommunicationC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(SelectCriminologistTargetC2SPacket.ID, SelectCriminologistTargetC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(DemonHunterSniffC2SPacket.ID, DemonHunterSniffC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(RequestTabletSnapshotC2SPacket.ID, RequestTabletSnapshotC2SPacket.CODEC);
@@ -61,6 +64,9 @@ public final class SparkStrengthPackets {
         );
         ServerPlayNetworking.registerGlobalReceiver(ProfessorRemoteFeedC2SPacket.ID, (payload, context) ->
                 ProfessorSerumService.tryRemoteFeed(context.player(), payload.targetPlayer(), payload.serumType())
+        );
+        ServerPlayNetworking.registerGlobalReceiver(ReporterCommunicationC2SPacket.ID, (payload, context) ->
+                ReporterCommunicationService.handle(payload, context.player())
         );
         ServerPlayNetworking.registerGlobalReceiver(SelectCriminologistTargetC2SPacket.ID,
                 (payload, context) -> CriminologistService.handleSelection(

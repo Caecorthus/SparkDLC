@@ -10,6 +10,7 @@ import dev.caecorthus.sparkdlc.strength.component.phantom.PhantomBackpackTargetC
 import dev.caecorthus.sparkdlc.strength.component.phantom.PhantomBackpackUserComponent;
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumTargetComponent;
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumUserComponent;
+import dev.caecorthus.sparkdlc.strength.component.reporter.ReporterCommunicationComponent;
 import dev.caecorthus.sparkdlc.strength.role.noisemaker.NoisemakerGlowService;
 import dev.caecorthus.sparkdlc.strength.role.phantom.PhantomBackpackService;
 import dev.caecorthus.sparkdlc.strength.role.attendant.AttendantFlashlightService;
@@ -32,6 +33,7 @@ import dev.caecorthus.sparkdlc.strength.role.poisoner.PoisonerEconomyService;
 import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumShopService;
 import dev.caecorthus.sparkdlc.strength.role.recaller.RecallerEconomyService;
 import dev.caecorthus.sparkdlc.strength.role.recaller.RecallerShopService;
+import dev.caecorthus.sparkdlc.strength.role.reporter.ReporterCommunicationManager;
 import dev.caecorthus.sparkdlc.strength.role.toxicologist.ToxicologistAntidoteService;
 import dev.caecorthus.sparkdlc.strength.role.toxicologist.ToxicologistCapsuleShop;
 import dev.caecorthus.sparkdlc.strength.role.attendant.FlashlightBlackoutService;
@@ -71,6 +73,7 @@ public final class SparkStrengthEvents {
         MorphlingShopService.register();
         PoisonerEconomyService.register();
         ProfessorSerumShopService.register();
+        ReporterCommunicationManager.register();
         RecallerShopService.register();
         ToxicologistAntidoteService.register();
         ToxicologistCapsuleShop.register();
@@ -107,6 +110,7 @@ public final class SparkStrengthEvents {
             PhantomBackpackTargetComponent.KEY.get(player).reset();
             ProfessorSerumUserComponent.KEY.get(player).reset();
             ProfessorSerumTargetComponent.KEY.get(player).reset();
+            ReporterCommunicationComponent.KEY.get(player).reset();
             CriminologistPlayerComponent.KEY.get(player).clearAll();
             DemonHunterSniffPlayerComponent.KEY.get(player).clearSniff();
             if (player instanceof ServerPlayerEntity serverPlayer) {
@@ -146,6 +150,7 @@ public final class SparkStrengthEvents {
                     ToxicologistAntidoteService.clearPlayer(player);
                     ProfessorSerumUserComponent.KEY.get(player).reset();
                     ProfessorSerumTargetComponent.KEY.get(player).reset();
+                    ReporterCommunicationComponent.KEY.get(player).reset();
                     DemonHunterSniffService.clearPlayer(player);
                     VeteranKnifeService.reset(player);
                 }

@@ -13,6 +13,7 @@ import dev.caecorthus.sparkdlc.strength.component.phantom.PhantomBackpackTargetC
 import dev.caecorthus.sparkdlc.strength.component.phantom.PhantomBackpackUserComponent;
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumTargetComponent;
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumUserComponent;
+import dev.caecorthus.sparkdlc.strength.component.reporter.ReporterCommunicationComponent;
 import dev.caecorthus.sparkdlc.strength.component.tablet.TabletWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowTargetComponent;
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowUserComponent;
@@ -78,6 +79,9 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
         registry.beginRegistration(PlayerEntity.class, ToxicologistAntidoteComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(ToxicologistAntidoteComponent::new);
+        registry.beginRegistration(PlayerEntity.class, ReporterCommunicationComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(ReporterCommunicationComponent::new);
         registry.registerFor(PlayerBodyEntity.class, CoronerBodySnapshotComponent.KEY, CoronerBodySnapshotComponent::new);
     }
 

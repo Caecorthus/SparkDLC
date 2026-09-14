@@ -8,8 +8,7 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.abilities.Healing
 import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.abilities.MightyForce.MightyForceAbility;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.abilities.MurderSense.MurderSenseAbility;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.abilities.SwiftStep.SwiftStepAbility;
-import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchActiveSkillService;
-import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchRules;
+import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.factor.WitchFactorService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.WitchFactionRules;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.murderouswitch.MurderousWitchDeathRay.MurderousWitchDeathRayRules;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.murderouswitch.MurderousWitchDeathRay.MurderousWitchDeathRayService;
@@ -40,14 +39,14 @@ public final class SparkWitchBuiltInSkills {
         }
         registered = true;
         WitchSkillRegistry.register(new WitchSkillDefinition(
-                GrandWitchActiveSkillService.CEREMONIAL_SWORD_SKILL_ID,
+                WitchFactorService.SKILL_ID,
                 0xF2DFF7,
                 1,
-                GrandWitchRules.CEREMONIAL_SWORD_INITIAL_COOLDOWN_TICKS,
                 0,
-                GrandWitchRules.CEREMONIAL_SWORD_MANA_COST,
+                WitchFactorService.COOLDOWN_TICKS,
+                0,
                 context -> WitchFactionRules.isGrandWitch(context.role()),
-                GrandWitchActiveSkillService::use
+                WitchFactorService::use
         ));
         registerApprenticeAbility(
                 MightyForceAbility.ID,

@@ -8,7 +8,7 @@ import dev.caecorthus.sparkdlc.witch.compat.WitchPoisonVisionRules;
 import dev.caecorthus.sparkdlc.witch.mana.WitchManaRules;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.abilities.ApprenticeAbilityCatalog;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.murderouswitch.MurderousWitchDeathRay.MurderousWitchDeathRayRules;
-import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchActiveSkillService;
+import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.factor.WitchFactorService;
 import dev.caecorthus.sparkdlc.witch.skill.WitchSkillPresentationRules;
 import net.minecraft.util.Identifier;
 import org.junit.jupiter.api.BeforeAll;
@@ -80,7 +80,7 @@ class CurserWitchBoundaryTest {
 
     @Test
     void inventoryPanelAcceptsOnlyEachApprovedRolesOwnSkills() {
-        Identifier grandWitchSkill = GrandWitchActiveSkillService.CEREMONIAL_SWORD_SKILL_ID;
+        Identifier grandWitchSkill = WitchFactorService.SKILL_ID;
         Identifier apprenticeSkill = ApprenticeAbilityCatalog.ABILITY_IDS.getFirst();
         Identifier murderousWitchSkill = MurderousWitchDeathRayRules.DEATH_RAY_ID;
 
@@ -111,7 +111,7 @@ class CurserWitchBoundaryTest {
     private static Stream<Identifier> registeredSkillIds() {
         return Stream.concat(
                 Stream.of(
-                        GrandWitchActiveSkillService.CEREMONIAL_SWORD_SKILL_ID,
+                        WitchFactorService.SKILL_ID,
                         MurderousWitchDeathRayRules.DEATH_RAY_ID
                 ),
                 ApprenticeAbilityCatalog.ABILITY_IDS.stream()

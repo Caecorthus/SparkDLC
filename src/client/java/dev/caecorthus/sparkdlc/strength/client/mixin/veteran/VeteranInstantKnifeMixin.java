@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.veteran;
 
+import dev.caecorthus.sparkdlc.strength.compat.SparkTraitsCompat;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -49,6 +50,10 @@ public abstract class VeteranInstantKnifeMixin {
         }
 
         ItemStack itemStack = user.getStackInHand(hand);
+        if (SparkTraitsCompat.isMeleeActionBlocked(user, itemStack)) {
+            cir.setReturnValue(TypedActionResult.fail(itemStack));
+            return;
+        }
         HitResult collision = KnifeItem.getKnifeTarget(user);
         if (collision instanceof EntityHitResult entityHitResult) {
             ClientPlayNetworking.send(new KnifeStabPayload(entityHitResult.getEntity().getId()));

@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.veteran;
 
+import dev.caecorthus.sparkdlc.strength.compat.SparkTraitsCompat;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -37,6 +38,11 @@ public abstract class VeteranServerKnifeUseMixin {
 
         GameWorldComponent game = GameWorldComponent.KEY.get(user.getWorld());
         if (!VeteranRules.isVeteran(game.getRole(user)) && !CoronerService.hasInstantSilentKnifeDisguise(user)) {
+            return;
+        }
+
+        if (SparkTraitsCompat.isMeleeActionBlocked(user, user.getStackInHand(hand))) {
+            cir.setReturnValue(TypedActionResult.fail(user.getStackInHand(hand)));
             return;
         }
 

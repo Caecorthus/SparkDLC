@@ -8,6 +8,7 @@ import dev.caecorthus.sparkdlc.witch.client.ability.SecondaryAbilityController;
 import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.mixin.accessor.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.witch.mixin.accessor.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.factor.WitchFactorService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchRuntimeComponent;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -34,7 +35,12 @@ public final class GrandWitchClientPresentation {
     }
 
     public static Text factorState(ClientPlayerEntity player) {
-        int ticks = WitchPlayerComponent.KEY.get(player).getCooldownTicks();
+        WitchPlayerComponent state = WitchPlayerComponent.KEY.get(player);
+        int ticks = state.getCooldownTicks();
+        if (ticks == 0 && state.getMana() < WitchFactorService.MANA_COST) {
+            return Text.translatable("hud.sparkwitch.skill.not_enough_mana",
+                    WitchFactorService.MANA_COST);
+        }
         return ticks > 0
                 ? Text.translatable("hud.sparkwitch.grand_witch.factor.cooldown", seconds(ticks))
                 : Text.translatable("hud.sparkwitch.grand_witch.factor.ready", SparkWitchClient.abilityKeyText());

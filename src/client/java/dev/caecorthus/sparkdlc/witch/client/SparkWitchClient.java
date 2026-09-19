@@ -4,6 +4,7 @@ import dev.caecorthus.sparkdlc.witch.SparkWitch;
 import dev.caecorthus.sparkdlc.witch.SparkWitchEntities;
 import dev.caecorthus.sparkdlc.witch.SparkWitchSounds;
 import dev.caecorthus.sparkdlc.witch.client.ability.SecondaryAbilityController;
+import dev.caecorthus.sparkdlc.witch.client.emma.EmmaClientModule;
 import dev.caecorthus.sparkdlc.witch.client.grandwitch.GrandWitchClientModule;
 import dev.caecorthus.sparkdlc.witch.client.blackraven.BlackRavenClientModule;
 import dev.caecorthus.sparkdlc.witch.client.blackraven.BlackRavenLedgerScreen;
@@ -70,6 +71,7 @@ public final class SparkWitchClient implements ClientModInitializer {
         SecondaryAbilityController.registerKeyBinding();
         BlackRavenClientModule.register();
         GrandWitchClientModule.register();
+        EmmaClientModule.register();
         WitchMaidenClientModule.register();
         VendettaKnifeModelLoadingPlugin.register();
         SecondaryAbilityController.reset();
@@ -119,7 +121,9 @@ public final class SparkWitchClient implements ClientModInitializer {
                 var role = GameWorldComponent.KEY.get(client.player.getWorld()).getRole(client.player);
                 boolean exactSaboteurRole = role != null
                         && SaboteurRole.ID.equals(role.identifier());
-                if (exactSaboteurRole) {
+                if (EmmaClientModule.isEmma(client.player)) {
+                    EmmaClientModule.use(client.player);
+                } else if (exactSaboteurRole) {
                     if (SaboteurClientAbilityRules.shouldSend(
                             true,
                             true,

@@ -1,5 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.skill;
 
+import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaRules;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaSkillService;
 import dev.caecorthus.sparkdlc.witch.api.WitchSkillDefinition;
 import dev.caecorthus.sparkdlc.witch.api.WitchSkillRegistry;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.abilities.ApprenticeAbilityCatalog;
@@ -47,6 +49,10 @@ public final class SparkWitchBuiltInSkills {
                 WitchFactorService.MANA_COST,
                 context -> WitchFactionRules.isGrandWitch(context.role()),
                 WitchFactorService::use
+        ));
+        WitchSkillRegistry.register(new WitchSkillDefinition(
+                EmmaRules.SKILL_ID, EmmaRules.COLOR, 1, 0, EmmaRules.COOLDOWN_TICKS,
+                EmmaRules.MANA_COST, context -> EmmaRules.isEmma(context.role()), EmmaSkillService::useSkill
         ));
         registerApprenticeAbility(
                 MightyForceAbility.ID,

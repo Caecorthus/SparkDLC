@@ -11,6 +11,7 @@ import dev.caecorthus.sparkdlc.witch.item.firepoker.FirePokerCombatService;
 import dev.caecorthus.sparkdlc.witch.item.firepoker.FirePokerFallAttributionService;
 import dev.caecorthus.sparkdlc.witch.item.tofana.TofanaProtectionService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.abilities.MightyForce.MightyForceCombatService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.judge.JudgeRuntime;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistSkillService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel.GuardianAngelFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel.GuardianAngelRules;
@@ -69,6 +70,7 @@ public final class SparkWitchEvents {
         }
         registered = true;
 
+        JudgeRuntime.register();
         CeremonialSwordCombatService.register();
         CeremonialSwordDashService.register();
         GrandWitchFeatureService.register();

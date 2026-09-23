@@ -3,6 +3,8 @@ package dev.caecorthus.sparkdlc.witch.client;
 import dev.caecorthus.sparkdlc.witch.SparkWitch;
 import dev.caecorthus.sparkdlc.witch.SparkWitchEntities;
 import dev.caecorthus.sparkdlc.witch.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.witch.client.judge.JudgeClientModule;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.judge.JudgeRules;
 import dev.caecorthus.sparkdlc.witch.client.ability.SecondaryAbilityController;
 import dev.caecorthus.sparkdlc.witch.client.grandwitch.GrandWitchClientModule;
 import dev.caecorthus.sparkdlc.witch.client.blackraven.BlackRavenClientModule;
@@ -78,6 +80,7 @@ public final class SparkWitchClient implements ClientModInitializer {
         registerTarotDivinationNetworking();
         registerBlackRavenNetworking();
         registerWraithRoleAnnouncementNetworking();
+        JudgeClientModule.register();
         AllowPlayerChat.EVENT.register(player -> {
             if (!SparkWitchServerConnection.isConfirmedServer()) {
                 return false;
@@ -103,6 +106,7 @@ public final class SparkWitchClient implements ClientModInitializer {
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             TarotDivinationClientState.tick(client);
+            JudgeClientModule.tick(client);
             SecondaryAbilityController.tick(client);
             if (!SparkWitchServerConnection.isConfirmedServer()) {
                 WitchAbilityKeyBridge.reset();
@@ -119,7 +123,9 @@ public final class SparkWitchClient implements ClientModInitializer {
                 var role = GameWorldComponent.KEY.get(client.player.getWorld()).getRole(client.player);
                 boolean exactSaboteurRole = role != null
                         && SaboteurRole.ID.equals(role.identifier());
-                if (exactSaboteurRole) {
+                if (JudgeRules.isJudge(role)) {
+                    JudgeClientModule.requestSelection(client);
+                } else if (exactSaboteurRole) {
                     if (SaboteurClientAbilityRules.shouldSend(
                             true,
                             true,
@@ -233,5 +239,6 @@ public final class SparkWitchClient implements ClientModInitializer {
         KidnapperThrowClientHooks.reset();
         WitchMaidenClientModule.clear();
         TarotDivinationClientState.clear();
+        JudgeClientModule.clear();
     }
 }

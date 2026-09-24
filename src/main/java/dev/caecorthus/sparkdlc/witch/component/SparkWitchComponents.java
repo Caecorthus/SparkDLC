@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.component;
 
+import dev.caecorthus.sparkdlc.witch.roles.civilian.judge.JudgeWorldComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaRoundComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistPlayerComponent;
@@ -74,6 +75,7 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
 
     @Override
     public void registerWorldComponentFactories(@NotNull WorldComponentFactoryRegistry registry) {
+        registry.register(JudgeWorldComponent.KEY, JudgeWorldComponent::new);
         registry.register(WitchWorldComponent.KEY, WitchWorldComponent::new);
         registry.register(WitchFactorWorldComponent.KEY, WitchFactorWorldComponent::new);
         registry.register(EmmaRoundComponent.KEY, EmmaRoundComponent::new);

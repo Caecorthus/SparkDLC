@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.hooks;
 
+import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsKillerBridge;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
 import dev.caecorthus.sparkdlc.witch.net.ThrowKidnapperBodyC2SPacket;
 import dev.caecorthus.sparkdlc.witch.roles.killer.kidnapper.KidnapperCarryState;
@@ -45,6 +46,9 @@ public final class KidnapperThrowClientHooks {
             return false;
         }
         useHeld = true;
+        if (SparkTraitsKillerBridge.isKillerInteractionBlocked(player)) {
+            return true;
+        }
         ClientPlayNetworking.send(new ThrowKidnapperBodyC2SPacket());
         return true;
     }

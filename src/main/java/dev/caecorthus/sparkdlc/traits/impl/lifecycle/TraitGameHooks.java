@@ -15,6 +15,7 @@ import java.util.UUID;
 import dev.caecorthus.sparkdlc.traits.impl.compatibility.noellesroles.SilencedKillerRestrictionService;
 import dev.caecorthus.sparkdlc.traits.impl.compatibility.sparkfactionapi.SparkFactionApiEffectiveFactionBridge;
 import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveTraitService;
+import dev.caecorthus.sparkdlc.traits.impl.effective.death.BombManiacKillContext;
 import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.ConscienceBombService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.ConscienceBomberFrenzyService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.ConscienceEconomyService;
@@ -63,11 +64,14 @@ public final class TraitGameHooks {
         KillPlayer.BEFORE.register(DepressionTraitService::beforeKill);
 
         KillPlayer.AFTER.register((victim, killer, deathReason) -> {
+            boolean bombManiacGrenade = BombManiacKillContext.claim(
+                    victim.getUuid(), killer == null ? null : killer.getUuid(), deathReason
+            );
             TraitPlayerComponent playerTraits = TraitPlayerComponent.KEY.get(victim);
             TraitWorldComponent.KEY.get(victim.getWorld()).snapshotDeathTraits(victim.getUuid(), playerTraits.getActiveTraitIds());
             boolean lastStandStarted = LastStandService.tryStartAfterKill(victim, killer, deathReason);
             PigTraitService.playDeathSound(victim);
-            EffectiveTraitService.handleAfterKill(victim, killer, deathReason);
+            EffectiveTraitService.handleAfterKill(victim, killer, deathReason, bombManiacGrenade);
             DepressionTraitService.handleAfterKill(victim, killer, deathReason);
             if (lastStandStarted) {
                 syncPlayerTraitsToNewSpectators((ServerWorld) victim.getWorld(), GameWorldComponent.KEY.get(victim.getWorld()));

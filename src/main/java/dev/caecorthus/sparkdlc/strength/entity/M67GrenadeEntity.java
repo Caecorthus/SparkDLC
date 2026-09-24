@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.strength.entity;
 import dev.caecorthus.sparkdlc.strength.SparkStrengthEntities;
 import dev.caecorthus.sparkdlc.strength.SparkStrengthItems;
 import dev.caecorthus.sparkdlc.strength.SparkStrengthSounds;
+import dev.caecorthus.sparkdlc.strength.item.grenade.GrenadeBlastService;
 import dev.caecorthus.sparkdlc.strength.item.m67.M67Physics;
 import dev.caecorthus.sparkdlc.strength.item.m67.M67RoundService;
 import dev.caecorthus.sparkdlc.strength.item.m67.M67Rules;
@@ -167,8 +168,8 @@ public final class M67GrenadeEntity extends ThrownItemEntity {
         world.spawnParticles(new ItemStackParticleEffect(ParticleTypes.ITEM, getStack()),
                 getX(), getY() + 0.1, getZ(), 100, 0, 0, 0, 1.0);
 
-        for (ServerPlayerEntity victim : List.copyOf(world.getPlayers(player -> M67Rules.containsCube(
-                player.getX() - getX(), player.getY() - getY(), player.getZ() - getZ(), M67Rules.BLAST_HALF_EXTENT)))) {
+        List<ServerPlayerEntity> candidates = List.copyOf(world.getPlayers(GameFunctions::isPlayerAliveAndSurvival));
+        for (ServerPlayerEntity victim : GrenadeBlastService.filterVictims(world, this, candidates, M67Rules.BLAST_RADIUS)) {
             if (isRemoved() || !validRound(world)) {
                 break;
             }

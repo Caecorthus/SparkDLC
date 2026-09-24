@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.text;
 
 import dev.caecorthus.sparkdlc.witch.api.WitchSkillDefinition;
 import dev.caecorthus.sparkdlc.witch.api.WitchSkillRegistry;
-import dev.caecorthus.sparkdlc.witch.roles.witch.WitchFactionRules;
+import dev.caecorthus.sparkdlc.witch.client.grandwitch.GrandWitchClientPresentation;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchRules;
 import dev.caecorthus.sparkdlc.witch.skill.WitchSkillHudRules;
 import net.minecraft.text.MutableText;
@@ -50,6 +50,11 @@ public final class WitchSkillClientTexts {
         } else {
             lines.add(skill.name());
             lines.add(skill.description());
+        }
+        if (GrandWitchClientPresentation.FACTOR_ID.equals(skillId)) {
+            lines.add(Text.translatable("skill.sparkwitch.witch_factor.income"));
+            lines.add(Text.translatable("skill.sparkwitch.witch_factor.sanity"));
+            lines.add(Text.translatable("skill.sparkwitch.witch_factor.transfer"));
         }
         if (activeTicks > 0) {
             lines.add(Text.translatable("gui.sparkwitch.skill.active", (int) Math.ceil(activeTicks / 20.0)));

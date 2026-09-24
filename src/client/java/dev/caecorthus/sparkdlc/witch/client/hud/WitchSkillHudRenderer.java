@@ -3,9 +3,10 @@ package dev.caecorthus.sparkdlc.witch.client.hud;
 import dev.caecorthus.sparkdlc.witch.api.WitchSkillDefinition;
 import dev.caecorthus.sparkdlc.witch.api.WitchSkillRegistry;
 import dev.caecorthus.sparkdlc.witch.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.witch.client.emma.EmmaClientModule;
 import dev.caecorthus.sparkdlc.witch.client.text.WitchSkillClientTexts;
 import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
-import dev.caecorthus.sparkdlc.witch.roles.witch.WitchFactionRules;
+import dev.caecorthus.sparkdlc.witch.client.grandwitch.GrandWitchClientPresentation;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchRules;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.murderouswitch.MurderousWitchDeathRay.MurderousWitchDeathRayRules;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodRules;
@@ -37,6 +38,14 @@ public final class WitchSkillHudRenderer {
             return;
         }
 
+        if (EmmaClientModule.isEmma(player)) {
+            EmmaClientModule.renderHud(context, player);
+            return;
+        }
+        if (GrandWitchClientPresentation.isGrandWitch(player)) {
+            GrandWitchClientPresentation.renderHud(context, MinecraftClient.getInstance().textRenderer, player);
+            return;
+        }
         WitchPlayerComponent component = WitchPlayerComponent.KEY.get(player);
         Identifier skillId = component.getActiveSkillId();
         if (skillId == null) {

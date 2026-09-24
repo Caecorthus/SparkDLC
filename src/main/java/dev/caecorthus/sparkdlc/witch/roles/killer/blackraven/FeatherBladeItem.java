@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.roles.killer.blackraven;
 
+import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsKillerBridge;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.vendetta.VendettaInteractionService;
 
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -22,6 +23,9 @@ public final class FeatherBladeItem extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);
+        if (SparkTraitsKillerBridge.blocksWeaponAction(user, stack)) {
+            return TypedActionResult.fail(stack);
+        }
         if (world.isClient) {
             return TypedActionResult.success(stack);
         }

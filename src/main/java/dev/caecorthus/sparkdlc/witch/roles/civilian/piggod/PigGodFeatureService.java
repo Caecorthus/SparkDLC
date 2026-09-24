@@ -1,5 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.roles.civilian.piggod;
 
+import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.witch.item.ceremonialsword.CeremonialSwordProtectionPolicy;
 import dev.caecorthus.sparkdlc.factionapi.api.FactionInstinctPolicy;
 import dev.caecorthus.sparkdlc.factionapi.api.FactionIds;
 import dev.caecorthus.sparkdlc.factionapi.api.SparkFactionApi;
@@ -107,7 +109,10 @@ public final class PigGodFeatureService {
             ServerPlayerEntity killer,
             Identifier deathReason
     ) {
-        return shouldBlockDamage(victim) ? KillPlayer.KillResult.cancel() : null;
+        if (SparkTraitsKillerBridge.isLastEscapeActive(victim)) {
+            return null;
+        }
+        return shouldBlockDamage(victim) ? CeremonialSwordProtectionPolicy.afterProtection(deathReason) : null;
     }
 
     private static void afterKill(

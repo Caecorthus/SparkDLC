@@ -15,6 +15,7 @@ import dev.caecorthus.sparkdlc.strength.network.tablet.CastTabletVoteC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.tablet.ConfirmTabletVoteC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.tablet.OpenTabletScreenS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.tablet.RequestTabletSnapshotC2SPacket;
+import dev.caecorthus.sparkdlc.strength.network.tablet.SelectTabletChannelC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.tablet.SendTabletChatC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.tablet.SyncTabletSnapshotS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.veteran.SyncVeteranBlackoutS2CPacket;
@@ -49,6 +50,7 @@ public final class SparkStrengthPackets {
         PayloadTypeRegistry.playC2S().register(CastTabletVoteC2SPacket.ID, CastTabletVoteC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(ConfirmTabletVoteC2SPacket.ID, ConfirmTabletVoteC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(ApproveSuspectRemovalC2SPacket.ID, ApproveSuspectRemovalC2SPacket.CODEC);
+        PayloadTypeRegistry.playC2S().register(SelectTabletChannelC2SPacket.ID, SelectTabletChannelC2SPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(OpenCriminologistScreenS2CPacket.ID, OpenCriminologistScreenS2CPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(OpenTabletScreenS2CPacket.ID, OpenTabletScreenS2CPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(SyncTabletSnapshotS2CPacket.ID, SyncTabletSnapshotS2CPacket.CODEC);
@@ -75,9 +77,15 @@ public final class SparkStrengthPackets {
         ServerPlayNetworking.registerGlobalReceiver(DemonHunterSniffC2SPacket.ID,
                 (payload, context) -> DemonHunterSniffService.trySniff(context.player()));
         ServerPlayNetworking.registerGlobalReceiver(RequestTabletSnapshotC2SPacket.ID,
-                (payload, context) -> TabletStateService.syncTo(context.player()));
+                (payload, context) -> TabletStateService.requestSnapshot(context.player()));
         ServerPlayNetworking.registerGlobalReceiver(SendTabletChatC2SPacket.ID,
-                (payload, context) -> TabletStateService.sendChat(context.player(), payload.message()));
+                (payload, context) -> TabletStateService.sendChat(
+                        context.player(),
+                        payload.expectedChannelWire(),
+                        payload.message()
+                ));
+        ServerPlayNetworking.registerGlobalReceiver(SelectTabletChannelC2SPacket.ID,
+                (payload, context) -> TabletStateService.selectChannel(context.player(), payload.channelWire()));
         ServerPlayNetworking.registerGlobalReceiver(CallTabletMeetingC2SPacket.ID,
                 (payload, context) -> TabletStateService.callMeeting(context.player()));
         ServerPlayNetworking.registerGlobalReceiver(CastTabletVoteC2SPacket.ID,

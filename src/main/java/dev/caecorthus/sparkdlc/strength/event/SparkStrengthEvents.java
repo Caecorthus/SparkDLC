@@ -10,6 +10,7 @@ import dev.caecorthus.sparkdlc.strength.component.phantom.PhantomBackpackTargetC
 import dev.caecorthus.sparkdlc.strength.component.phantom.PhantomBackpackUserComponent;
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumTargetComponent;
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumUserComponent;
+import dev.caecorthus.sparkdlc.strength.item.m67.M67RoundService;
 import dev.caecorthus.sparkdlc.strength.role.noisemaker.NoisemakerGlowService;
 import dev.caecorthus.sparkdlc.strength.role.phantom.PhantomBackpackService;
 import dev.caecorthus.sparkdlc.strength.role.attendant.AttendantFlashlightService;
@@ -22,6 +23,7 @@ import dev.caecorthus.sparkdlc.strength.role.corruptcop.CorruptCopFeatureService
 import dev.caecorthus.sparkdlc.strength.role.detective.CriminologistService;
 import dev.caecorthus.sparkdlc.strength.role.demonhunter.DemonHunterSniffService;
 import dev.caecorthus.sparkdlc.strength.role.economy.RoleEconomyService;
+import dev.caecorthus.sparkdlc.strength.role.economy.KillerTeamEconomyService;
 import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerCaptureDeviceService;
 import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerPowerRestorationService;
 import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerShopService;
@@ -56,6 +58,7 @@ public final class SparkStrengthEvents {
     }
 
     public static void register() {
+        M67RoundService.initialize();
         CorruptCopFeatureService.register();
         CoronerEngineerService.register();
         CoronerService.register();
@@ -64,6 +67,7 @@ public final class SparkStrengthEvents {
         FlashlightBlackoutService.register();
         VeteranBlackoutService.register();
         RoleEconomyService.register();
+        KillerTeamEconomyService.register();
         EngineerPowerRestorationService.register();
         EngineerShopService.register();
         MorphlingService.register();

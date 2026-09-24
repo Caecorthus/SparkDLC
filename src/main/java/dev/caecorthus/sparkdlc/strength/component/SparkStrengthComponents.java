@@ -6,6 +6,7 @@ import dev.caecorthus.sparkdlc.strength.component.coroner.CoronerPlayerComponent
 import dev.caecorthus.sparkdlc.strength.component.detective.CriminologistPlayerComponent;
 import dev.caecorthus.sparkdlc.strength.component.detective.CriminologistWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.demonhunter.DemonHunterSniffPlayerComponent;
+import dev.caecorthus.sparkdlc.strength.component.economy.KillerTeamEconomyWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.engineer.EngineerStunnedPlayerComponent;
 import dev.caecorthus.sparkdlc.strength.component.morphling.MorphBodyDisguiseWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.morphling.MorphMarkPlayerComponent;
@@ -83,6 +84,7 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
 
     @Override
     public void registerWorldComponentFactories(@NotNull WorldComponentFactoryRegistry registry) {
+        registry.register(KillerTeamEconomyWorldComponent.KEY, KillerTeamEconomyWorldComponent::new);
         registry.register(CriminologistWorldComponent.KEY, CriminologistWorldComponent::new);
         registry.register(TabletWorldComponent.KEY, TabletWorldComponent::new);
         registry.register(MorphBodyDisguiseWorldComponent.KEY, MorphBodyDisguiseWorldComponent::new);

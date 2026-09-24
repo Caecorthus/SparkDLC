@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.witch.client.hud;
 import dev.caecorthus.sparkdlc.witch.api.WitchSkillDefinition;
 import dev.caecorthus.sparkdlc.witch.api.WitchSkillRegistry;
 import dev.caecorthus.sparkdlc.witch.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.witch.client.emma.EmmaClientModule;
 import dev.caecorthus.sparkdlc.witch.client.text.WitchSkillClientTexts;
 import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.client.grandwitch.GrandWitchClientPresentation;
@@ -37,6 +38,10 @@ public final class WitchSkillHudRenderer {
             return;
         }
 
+        if (EmmaClientModule.isEmma(player)) {
+            EmmaClientModule.renderHud(context, player);
+            return;
+        }
         if (GrandWitchClientPresentation.isGrandWitch(player)) {
             GrandWitchClientPresentation.renderHud(context, MinecraftClient.getInstance().textRenderer, player);
             return;

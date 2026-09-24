@@ -6,6 +6,7 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaRoundComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel.GuardianAngelPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.vendetta.VendettaPlayerComponent;
+import dev.caecorthus.sparkdlc.witch.roles.killer.bellringer.BellEchoPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.killer.kidnapper.KidnapperControlComponent;
 import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.BlackRavenMarkPlayerComponent;
@@ -71,6 +72,9 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.beginRegistration(PlayerEntity.class, LegacyWraithPlayerComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(LegacyWraithPlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, BellEchoPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(BellEchoPlayerComponent::new);
     }
 
     @Override

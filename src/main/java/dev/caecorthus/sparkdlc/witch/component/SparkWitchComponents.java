@@ -1,10 +1,13 @@
 package dev.caecorthus.sparkdlc.witch.component;
 
 import dev.caecorthus.sparkdlc.witch.roles.civilian.judge.JudgeWorldComponent;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaPlayerComponent;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaRoundComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel.GuardianAngelPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.vendetta.VendettaPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterPlayerComponent;
+import dev.caecorthus.sparkdlc.witch.roles.killer.kidnapper.KidnapperControlComponent;
 import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.BlackRavenMarkPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.BlackRavenPerceptionPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.killer.saboteur.SaboteurPlayerComponent;
@@ -26,6 +29,9 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.beginRegistration(PlayerEntity.class, WitchPlayerComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(WitchPlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, EmmaPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(EmmaPlayerComponent::new);
         registry.beginRegistration(PlayerEntity.class, GrandWitchRuntimeComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(GrandWitchRuntimeComponent::new);
@@ -35,6 +41,9 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.beginRegistration(PlayerEntity.class, HunterPlayerComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(HunterPlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, KidnapperControlComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(KidnapperControlComponent::new);
         registry.beginRegistration(PlayerEntity.class, OrthopedistPlayerComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(OrthopedistPlayerComponent::new);
@@ -69,6 +78,7 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.register(JudgeWorldComponent.KEY, JudgeWorldComponent::new);
         registry.register(WitchWorldComponent.KEY, WitchWorldComponent::new);
         registry.register(WitchFactorWorldComponent.KEY, WitchFactorWorldComponent::new);
+        registry.register(EmmaRoundComponent.KEY, EmmaRoundComponent::new);
         registry.register(GrandWitchRecruitmentRoundComponent.KEY, GrandWitchRecruitmentRoundComponent::new);
         registry.register(WraithRoundComponent.KEY, WraithRoundComponent::new);
         registry.register(LegacyWraithRoundComponent.KEY, LegacyWraithRoundComponent::new);

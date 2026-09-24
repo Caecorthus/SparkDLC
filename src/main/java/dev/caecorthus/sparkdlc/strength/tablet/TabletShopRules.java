@@ -1,6 +1,8 @@
 package dev.caecorthus.sparkdlc.strength.tablet;
 
+import dev.caecorthus.sparkdlc.strength.compat.SparkFactionCompat;
 import dev.caecorthus.sparkdlc.strength.role.corruptcop.CorruptCopRules;
+import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranRules;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -20,7 +22,13 @@ public final class TabletShopRules {
     }
 
     public static boolean canBuyTabletRole(@Nullable Role role) {
-        return isVigilante(role) || CorruptCopRules.isCorruptCop(role);
+        if (role == null || VeteranRules.isVeteran(role)) {
+            return false;
+        }
+        Boolean police = SparkFactionCompat.isPoliceRole(role);
+        // Old/absent APIs keep exactly the original whitelist, never infer police from gear/faction.
+        // 缺失或旧版 API 严格保留原白名单，绝不通过装备或阵营推断警职。
+        return police != null ? police : isVigilante(role) || CorruptCopRules.isCorruptCop(role);
     }
 
     public static boolean isVigilante(@Nullable Role role) {

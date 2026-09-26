@@ -6,18 +6,17 @@ import dev.caecorthus.sparkdlc.strength.client.role.coroner.CoronerClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.corruptcop.CorruptCopClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.corruptcop.CorruptCopMusicController;
 import dev.caecorthus.sparkdlc.strength.client.role.demonhunter.DemonHunterSniffClientHooks;
-import dev.caecorthus.sparkdlc.strength.client.role.detective.CriminologistClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.economy.RoleEconomyClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.economy.KillerTeamEconomyClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.engineer.EngineerClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.morphling.MorphlingClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.professor.ProfessorSerumClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.veteran.VeteranClientHooks;
-import dev.caecorthus.sparkdlc.strength.client.screen.criminologist.CriminologistScreen;
+import dev.caecorthus.sparkdlc.strength.client.screen.detective.DetectiveFolderScreen;
 import dev.caecorthus.sparkdlc.strength.client.screen.tablet.TabletClientState;
 import dev.caecorthus.sparkdlc.strength.client.screen.tablet.TabletScreen;
 import dev.caecorthus.sparkdlc.strength.client.tablet.TabletClientHighlights;
-import dev.caecorthus.sparkdlc.strength.network.criminologist.OpenCriminologistScreenS2CPacket;
+import dev.caecorthus.sparkdlc.strength.network.detective.OpenDetectiveFolderS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.economy.SyncKillerTeamEconomyS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.tablet.OpenTabletScreenS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.tablet.SyncTabletSnapshotS2CPacket;
@@ -34,7 +33,6 @@ public final class SparkStrengthClient implements ClientModInitializer {
         M67Client.initialize();
         CoronerClientHooks.register();
         CorruptCopClientHooks.register();
-        CriminologistClientHooks.register();
         DemonHunterSniffClientHooks.register();
         EngineerClientHooks.register();
         MorphlingClientHooks.register();
@@ -53,9 +51,11 @@ public final class SparkStrengthClient implements ClientModInitializer {
             // 否则过期快照会在下一个服务器上继续驱动平板描边。
             TabletClientState.reset();
         });
-        ClientPlayNetworking.registerGlobalReceiver(OpenCriminologistScreenS2CPacket.ID,
+        // The server syncs the case component before this packet, so the screen reads fresh data on open.
+        // 服务端在发送此包前已同步命案组件，界面打开时即可读取最新数据。
+        ClientPlayNetworking.registerGlobalReceiver(OpenDetectiveFolderS2CPacket.ID,
                 (payload, context) -> context.client().execute(() ->
-                        context.client().setScreen(new CriminologistScreen(payload.victimUuid()))));
+                        context.client().setScreen(new DetectiveFolderScreen())));
         ClientPlayNetworking.registerGlobalReceiver(OpenTabletScreenS2CPacket.ID,
                 (payload, context) -> context.client().execute(() ->
                         context.client().setScreen(new TabletScreen())));

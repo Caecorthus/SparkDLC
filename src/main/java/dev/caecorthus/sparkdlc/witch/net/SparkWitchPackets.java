@@ -11,6 +11,7 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.vendetta.UseVendettaKnifeC2S
 import dev.caecorthus.sparkdlc.witch.roles.civilian.vendetta.VendettaKnifeService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.tarotreader.TarotReaderDivinationService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.saboteur.SaboteurNetworking;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.net.SeekerNetworking;
 import dev.caecorthus.sparkdlc.witch.roles.killer.kidnapper.KidnapperThrowService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.FocusedFootstepsRequestService;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.murderouswitch.MurderousWitchDeathRay.MurderousWitchDeathRayService;
@@ -34,6 +35,7 @@ public final class SparkWitchPackets {
         }
         registered = true;
         SaboteurNetworking.register();
+        SeekerNetworking.register();
         PayloadTypeRegistry.playC2S().register(OpenJudgeSelectionC2SPacket.ID, OpenJudgeSelectionC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(ConfirmJudgeSelectionC2SPacket.ID, ConfirmJudgeSelectionC2SPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(OpenJudgeSelectionS2CPacket.ID, OpenJudgeSelectionS2CPacket.CODEC);

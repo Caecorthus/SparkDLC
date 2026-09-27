@@ -13,6 +13,7 @@ import dev.caecorthus.sparkdlc.witch.item.firepoker.FirePokerCombatService;
 import dev.caecorthus.sparkdlc.witch.item.firepoker.FirePokerFallAttributionService;
 import dev.caecorthus.sparkdlc.witch.item.tofana.TofanaProtectionService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.abilities.MightyForce.MightyForceCombatService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.judge.JudgeRuntime;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistSkillService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel.GuardianAngelFeatureService;
@@ -113,6 +114,7 @@ public final class SparkWitchEvents {
         FocusedFootstepsRuntime.register();
         WitchMaidenShopService.register();
         WraithLifecycle.register();
+        ControlExpertFeatureService.register();
         RoleAssigned.EVENT.register((player, role) -> {
             if (player instanceof ServerPlayerEntity serverPlayer) {
                 PerfumerPlayerComponent.KEY.get(serverPlayer).clear();

@@ -12,6 +12,8 @@ import dev.caecorthus.sparkdlc.witch.impl.SparkWitchEvents;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchPackets;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchVersionHandshake;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertEntities;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.SeekerSounds;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.device.SeekerEntities;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistEffects;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel.GuardianAngelEffects;
 import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterEffects;
@@ -38,12 +40,14 @@ public final class SparkWitch implements ModInitializer {
     @Override
     public void onInitialize() {
         SparkWitchSounds.register();
+        SeekerSounds.register();
         HunterEffects.register();
         OrthopedistEffects.register();
         GuardianAngelEffects.register();
         FocusedFootstepsEffects.register();
         HunterEntities.register();
         ControlExpertEntities.register();
+        SeekerEntities.register();
         SparkWitchItems.register();
         SparkWitchEntities.register();
         // NoellesRoles remains the packet-filter owner; FactionAPI only extends its hidden-item predicate.
@@ -52,6 +56,8 @@ public final class SparkWitch implements ModInitializer {
         NoellesHiddenEquipment.register(SparkWitchItems.cologne());
         NoellesHiddenEquipment.register(SparkWitchItems.blackRavenLedger());
         NoellesHiddenEquipment.register(SparkWitchItems.tollBell());
+        NoellesHiddenEquipment.register(SparkWitchItems.seekerCar());
+        NoellesHiddenEquipment.register(SparkWitchItems.seekerCamera());
         SparkWitchRoles.register();
         SparkWitchBuiltInSkills.register();
         SparkWitchPackets.register();

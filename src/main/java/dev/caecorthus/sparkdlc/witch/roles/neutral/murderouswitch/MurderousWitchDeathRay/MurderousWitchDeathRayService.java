@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.roles.neutral.murderouswitch.MurderousWitchDeathRay;
 
 import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.hit.SeekerDeviceHits;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.vendetta.VendettaInteractionService;
 
 import dev.caecorthus.sparkdlc.witch.SparkWitchDeathReasons;
@@ -92,7 +93,10 @@ public final class MurderousWitchDeathRayService {
                 1.0f,
                 1.35f
         );
-        double visibleDistance = visibleRayDistance(world, caster, start, direction);
+        // Seeker seam: the piercing ray stops at the nearest Seeker device on it, which breaks; players behind it are
+        // spared and the particles end there.
+        // 搜寻者接缝：穿透射线止于其上最近的搜寻者设备并将其打坏；其后的玩家不受影响，粒子也止于该处。
+        double visibleDistance = SeekerDeviceHits.onDeathRayFired(caster, start, direction, visibleRayDistance(world, caster, start, direction));
         spawnRayParticles(world, start, direction, visibleDistance);
         for (ServerPlayerEntity target : findTargets(caster, start, direction, visibleDistance)) {
             if (VendettaInteractionService.isOrdinaryAliveOrBoundKillerTarget(caster, target)) {

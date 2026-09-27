@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.traits.mixin;
 import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveTraitService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.CivilianTraitService;
+import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.depression.DepressionFakeKillCooldowns;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.fakedeath.FakeDeathDerringerService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.police.VigilanteVeteranTraitService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -31,8 +32,12 @@ public abstract class GunShootPayloadMixin {
             com.llamalad7.mixinextras.injector.wrapoperation.Operation<Void> original) {
         var previous = dev.caecorthus.sparkdlc.traits.impl.traits.civilian.police.GunShotCycles.current();
         dev.caecorthus.sparkdlc.traits.impl.traits.civilian.police.GunShotCycles.setCurrent(null);
+        Object pendingFakeKill = DepressionFakeKillCooldowns.pendingFakeKill(context.player());
         try {
             original.call(payload, context);
+            // Before finishNative so gun-cycle listeners see the discounted end tick.
+            // 在 finishNative 之前执行，使枪械循环监听者读到缩短后的结束时间。
+            DepressionFakeKillCooldowns.flushStartedSince(context.player(), pendingFakeKill);
         } finally {
             dev.caecorthus.sparkdlc.traits.impl.traits.civilian.police.GunShotCycles.finishNative(
                     dev.caecorthus.sparkdlc.traits.impl.traits.civilian.police.GunShotCycles.current());

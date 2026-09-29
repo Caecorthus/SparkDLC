@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.component;
 
 import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertStatusComponent;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.fisher.spirit.FisherSpiritComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.SeekerStatusComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.judge.JudgeWorldComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaPlayerComponent;
@@ -83,6 +84,9 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.beginRegistration(PlayerEntity.class, SeekerStatusComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(SeekerStatusComponent::new);
+        registry.beginRegistration(PlayerEntity.class, FisherSpiritComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(FisherSpiritComponent::new);
     }
 
     @Override

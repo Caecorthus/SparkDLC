@@ -5,6 +5,7 @@ import dev.caecorthus.sparkdlc.factionapi.api.FactionInstinctPolicy;
 import dev.caecorthus.sparkdlc.factionapi.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.witch.SparkWitchFactions;
 import dev.caecorthus.sparkdlc.witch.economy.WitchEconomyService;
+import dev.caecorthus.sparkdlc.witch.roles.neutral.fiend.FiendParticipation;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.murderouswitch.MurderousWitchRules.MurderousWitchRules;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.murderouswitch.MurderousWitchShop.MurderousWitchShopService;
 import dev.doctor4t.wathe.api.Role;
@@ -111,7 +112,9 @@ public final class MurderousWitchFeatureService {
         ServerPlayerEntity livingMurderousWitch = null;
 
         for (ServerPlayerEntity player : world.getPlayers()) {
-            if (!GameFunctions.isPlayerPlayingAndAlive(player)) {
+            // D1: a dormant Fiend counts as not alive for the last-one-standing win.
+            // D1：休眠魔人在最后存活者胜利中视为不存活。
+            if (!GameFunctions.isPlayerPlayingAndAlive(player) || FiendParticipation.isDormantFiend(player)) {
                 continue;
             }
             livingPlayerCount++;

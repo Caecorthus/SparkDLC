@@ -79,6 +79,7 @@ public final class SparkWitch implements ModInitializer {
         CurserFeatureService.register();
         SparkWitchVersionHandshake.registerServer();
         SparkWitchEvents.register();
+        dev.caecorthus.sparkdlc.witch.compat.cooldown.SparkWitchForcedCooldowns.register();
         ServerMessageEvents.ALLOW_CHAT_MESSAGE.register(
                 (message, sender, params) -> mayUseTextChat(sender)
         );

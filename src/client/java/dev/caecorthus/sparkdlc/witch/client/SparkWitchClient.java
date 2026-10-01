@@ -10,6 +10,7 @@ import dev.caecorthus.sparkdlc.witch.client.ability.SecondaryAbilityController;
 import dev.caecorthus.sparkdlc.witch.client.emma.EmmaClientModule;
 import dev.caecorthus.sparkdlc.witch.client.grandwitch.GrandWitchClientModule;
 import dev.caecorthus.sparkdlc.witch.client.bellringer.BellRingerClient;
+import dev.caecorthus.sparkdlc.witch.client.timestealer.TimeStealerClient;
 import dev.caecorthus.sparkdlc.witch.client.blackraven.BlackRavenClientModule;
 import dev.caecorthus.sparkdlc.witch.client.blackraven.BlackRavenLedgerScreen;
 import dev.caecorthus.sparkdlc.witch.client.controlexpert.ControlExpertStatusHud;
@@ -31,6 +32,7 @@ import dev.caecorthus.sparkdlc.witch.client.render.WraithClientState;
 import dev.caecorthus.sparkdlc.witch.client.renderer.HunterTrapEntityRenderer;
 import dev.caecorthus.sparkdlc.witch.client.screen.TarotDivinationSelectorScreen;
 import dev.caecorthus.sparkdlc.witch.client.tarot.TarotDivinationClientState;
+import dev.caecorthus.sparkdlc.witch.client.tarot.TarotReadingLog;
 import dev.caecorthus.sparkdlc.witch.client.vendetta.VendettaKnifeModelLoadingPlugin;
 import dev.caecorthus.sparkdlc.witch.client.witchmaiden.WitchMaidenClientModule;
 import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
@@ -38,6 +40,7 @@ import dev.caecorthus.sparkdlc.witch.component.WitchWorldComponent;
 import dev.caecorthus.sparkdlc.witch.net.OpenBlackRavenLedgerS2CPacket;
 import dev.caecorthus.sparkdlc.witch.net.OpenTarotDivinationSelectorS2CPacket;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.witch.net.TarotDivinationReadingS2CPacket;
 import dev.caecorthus.sparkdlc.witch.net.TarotDivinationSnapshotS2CPacket;
 import dev.caecorthus.sparkdlc.witch.net.UseWitchSkillC2SPacket;
 import dev.caecorthus.sparkdlc.witch.net.WraithRoleAnnouncementS2CPacket;
@@ -72,6 +75,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
+import net.minecraft.util.Util;
 
 public final class SparkWitchClient implements ClientModInitializer {
     @Override
@@ -84,6 +88,7 @@ public final class SparkWitchClient implements ClientModInitializer {
         EmmaClientModule.register();
         WitchMaidenClientModule.register();
         BellRingerClient.init();
+        TimeStealerClient.init();
         VendettaKnifeModelLoadingPlugin.register();
         SecondaryAbilityController.reset();
         SparkWitchClientVersionHandshake.registerClient();
@@ -252,6 +257,21 @@ public final class SparkWitchClient implements ClientModInitializer {
                             payload.mode(),
                             payload.playerIds(),
                             payload.playerNames()
+                    ));
+                }));
+        // Purchaser-only result; stored so the slip and the selector's stamps repeat what the server already said.
+        // 仅购买者可见的结果；保存下来，供结果条与选择界面的印记重复展示服务端已给出的结论。
+        ClientPlayNetworking.registerGlobalReceiver(TarotDivinationReadingS2CPacket.ID, (payload, context) ->
+                context.client().execute(() -> {
+                    if (!SparkWitchServerConnection.isConfirmedServer()) {
+                        return;
+                    }
+                    TarotDivinationClientState.readingLog().record(new TarotReadingLog.Reading(
+                            payload.mode(),
+                            payload.target(),
+                            payload.displayName(),
+                            payload.positive(),
+                            Util.getMeasuringTimeMs()
                     ));
                 }));
     }

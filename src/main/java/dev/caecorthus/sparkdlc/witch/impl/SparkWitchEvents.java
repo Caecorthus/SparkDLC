@@ -14,6 +14,7 @@ import dev.caecorthus.sparkdlc.witch.item.firepoker.FirePokerFallAttributionServ
 import dev.caecorthus.sparkdlc.witch.item.tofana.TofanaProtectionService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.abilities.MightyForce.MightyForceCombatService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.fisher.FisherFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.SeekerFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.judge.JudgeRuntime;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistSkillService;
@@ -119,6 +120,7 @@ public final class SparkWitchEvents {
         WraithLifecycle.register();
         ControlExpertFeatureService.register();
         SeekerFeatureService.register();
+        FisherFeatureService.register();
         RoleAssigned.EVENT.register((player, role) -> {
             if (player instanceof ServerPlayerEntity serverPlayer) {
                 PerfumerPlayerComponent.KEY.get(serverPlayer).clear();

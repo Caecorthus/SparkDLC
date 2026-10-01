@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.witch.client;
 import dev.caecorthus.sparkdlc.witch.SparkWitch;
 import dev.caecorthus.sparkdlc.witch.SparkWitchEntities;
 import dev.caecorthus.sparkdlc.witch.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.witch.client.fisher.FisherClient;
 import dev.caecorthus.sparkdlc.witch.client.judge.JudgeClientModule;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.judge.JudgeRules;
 import dev.caecorthus.sparkdlc.witch.client.ability.SecondaryAbilityController;
@@ -99,6 +100,7 @@ public final class SparkWitchClient implements ClientModInitializer {
         ControlExpertStunClient.register();
         ControlExpertStatusHud.register();
         SeekerClientModule.register();
+        FisherClient.register();
         AllowPlayerChat.EVENT.register(player -> {
             if (!SparkWitchServerConnection.isConfirmedServer()) {
                 return false;

@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.witch.mana;
 
 import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaRules;
 import dev.caecorthus.sparkdlc.witch.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.witch.roles.witch.WitchFactionRules;
 import dev.doctor4t.wathe.api.Role;
 
 /**
@@ -83,8 +84,12 @@ public final class WitchManaRules {
         return killerRole == SparkWitchRoles.murderousWitch() ? GENERIC_KILL_REWARD : 0;
     }
 
+    /**
+     * Mana every living Grand Witch gains when any accomplice (plain or special) kills; accomplices have no mana.
+     * 任一共犯（普通或特殊）击杀时，每个存活的大魔女获得的魔力；共犯自身没有魔力。
+     */
     public static int grandWitchRewardForAccompliceKill(Role killerRole, Role victimRole) {
-        if (killerRole != SparkWitchRoles.accomplice()) {
+        if (!WitchFactionRules.isAccompliceLike(killerRole)) {
             return 0;
         }
         return killReward(SparkWitchRoles.grandWitch(), victimRole);

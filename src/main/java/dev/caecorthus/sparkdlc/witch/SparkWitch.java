@@ -12,6 +12,7 @@ import dev.caecorthus.sparkdlc.witch.impl.SparkWitchEvents;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchPackets;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchVersionHandshake;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertEntities;
+import dev.caecorthus.sparkdlc.witch.roles.witch.abysslistener.zone.AbyssListenerEntities;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.SeekerSounds;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.device.SeekerEntities;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistEffects;
@@ -48,6 +49,7 @@ public final class SparkWitch implements ModInitializer {
         FocusedFootstepsEffects.register();
         HunterEntities.register();
         ControlExpertEntities.register();
+        AbyssListenerEntities.register();
         SeekerEntities.register();
         SparkWitchItems.register();
         SparkWitchItemGroups.register();
@@ -72,6 +74,9 @@ public final class SparkWitch implements ModInitializer {
         NoellesHiddenEquipment.register(SparkWitchItems.clownfish());
         NoellesHiddenEquipment.register(SparkWitchItems.goldfish());
         NoellesHiddenEquipment.register(SparkWitchItems.glimmerfish());
+        // Abyss Listener: the bound Shriek Gun is hidden in hand (owner default N11); the flask stays visible.
+        // 聆渊者：绑定的啸音铳手持时对他人隐藏（所有者默认 N11）；孢瓶保持可见。
+        NoellesHiddenEquipment.register(SparkWitchItems.shriekGun());
         SparkWitchRoles.register();
         SparkWitchBuiltInSkills.register();
         SparkWitchPackets.register();

@@ -15,6 +15,7 @@ import dev.caecorthus.sparkdlc.witch.client.blackraven.BlackRavenClientModule;
 import dev.caecorthus.sparkdlc.witch.client.blackraven.BlackRavenLedgerScreen;
 import dev.caecorthus.sparkdlc.witch.client.controlexpert.ControlExpertStatusHud;
 import dev.caecorthus.sparkdlc.witch.client.controlexpert.ControlExpertStunClient;
+import dev.caecorthus.sparkdlc.witch.client.insider.InsiderClient;
 import dev.caecorthus.sparkdlc.witch.client.seeker.SeekerClientModule;
 import dev.caecorthus.sparkdlc.witch.client.hooks.DeathRayClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.hooks.GrandWitchFearClientHooks;
@@ -99,6 +100,7 @@ public final class SparkWitchClient implements ClientModInitializer {
         JudgeClientModule.register();
         ControlExpertStunClient.register();
         ControlExpertStatusHud.register();
+        InsiderClient.init();
         SeekerClientModule.register();
         FisherClient.register();
         dev.caecorthus.sparkdlc.witch.client.fiend.FiendClient.init();

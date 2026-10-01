@@ -3,12 +3,14 @@ package dev.caecorthus.sparkdlc.witch.client;
 import dev.caecorthus.sparkdlc.witch.SparkWitch;
 import dev.caecorthus.sparkdlc.witch.SparkWitchEntities;
 import dev.caecorthus.sparkdlc.witch.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.witch.client.fisher.FisherClient;
 import dev.caecorthus.sparkdlc.witch.client.judge.JudgeClientModule;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.judge.JudgeRules;
 import dev.caecorthus.sparkdlc.witch.client.ability.SecondaryAbilityController;
 import dev.caecorthus.sparkdlc.witch.client.emma.EmmaClientModule;
 import dev.caecorthus.sparkdlc.witch.client.grandwitch.GrandWitchClientModule;
 import dev.caecorthus.sparkdlc.witch.client.bellringer.BellRingerClient;
+import dev.caecorthus.sparkdlc.witch.client.timestealer.TimeStealerClient;
 import dev.caecorthus.sparkdlc.witch.client.blackraven.BlackRavenClientModule;
 import dev.caecorthus.sparkdlc.witch.client.blackraven.BlackRavenLedgerScreen;
 import dev.caecorthus.sparkdlc.witch.client.controlexpert.ControlExpertStatusHud;
@@ -87,6 +89,7 @@ public final class SparkWitchClient implements ClientModInitializer {
         EmmaClientModule.register();
         WitchMaidenClientModule.register();
         BellRingerClient.init();
+        TimeStealerClient.init();
         VendettaKnifeModelLoadingPlugin.register();
         SecondaryAbilityController.reset();
         SparkWitchClientVersionHandshake.registerClient();
@@ -99,6 +102,8 @@ public final class SparkWitchClient implements ClientModInitializer {
         ControlExpertStatusHud.register();
         InsiderClient.init();
         SeekerClientModule.register();
+        FisherClient.register();
+        dev.caecorthus.sparkdlc.witch.client.fiend.FiendClient.init();
         AllowPlayerChat.EVENT.register(player -> {
             if (!SparkWitchServerConnection.isConfirmedServer()) {
                 return false;

@@ -14,6 +14,7 @@ import dev.caecorthus.sparkdlc.witch.item.firepoker.FirePokerFallAttributionServ
 import dev.caecorthus.sparkdlc.witch.item.tofana.TofanaProtectionService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.abilities.MightyForce.MightyForceCombatService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.fisher.FisherFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.SeekerFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.judge.JudgeRuntime;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistSkillService;
@@ -49,6 +50,7 @@ import dev.caecorthus.sparkdlc.witch.roles.killer.kidnapper.KidnapperDragLifecyc
 import dev.caecorthus.sparkdlc.witch.roles.killer.kidnapper.KidnapperKnockoutService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.ninja.NinjaFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.saboteur.SaboteurFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.killer.timestealer.TimeStealerFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.FocusedFootstepsRuntime;
 import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.PoisonApplePlateService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.WitchMaidenFeatureService;
@@ -110,6 +112,7 @@ public final class SparkWitchEvents {
         TarotReaderFeatureService.register();
         BlackRavenFeatureService.register();
         BellRingerFeatureService.register();
+        TimeStealerFeatureService.register();
         WindSpiritFeatureService.register();
         SaboteurFeatureService.register();
         WitchMaidenFeatureService.register();
@@ -118,6 +121,7 @@ public final class SparkWitchEvents {
         WraithLifecycle.register();
         ControlExpertFeatureService.register();
         SeekerFeatureService.register();
+        FisherFeatureService.register();
         FiendFeatureService.register();
         RoleAssigned.EVENT.register((player, role) -> {
             if (player instanceof ServerPlayerEntity serverPlayer) {

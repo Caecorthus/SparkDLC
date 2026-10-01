@@ -1,6 +1,5 @@
 package dev.caecorthus.sparkdlc.traits.client;
 
-import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.traits.component.TraitWorldComponent;
 import dev.caecorthus.sparkdlc.traits.client.audio.DepressionRageLoopController;
 import dev.caecorthus.sparkdlc.traits.client.hud.DepressionHud;
@@ -9,7 +8,6 @@ import dev.caecorthus.sparkdlc.traits.client.net.version.SparkTraitsClientVersio
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.laststand.LastStandFinalMomentService;
 import dev.caecorthus.sparkdlc.traits.impl.resource.SparkTraitsParticles;
 import dev.caecorthus.sparkdlc.traits.net.version.SparkTraitsServerConnection;
-import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -62,11 +60,10 @@ public class SparkTraitsClient implements ClientModInitializer {
 
             // Final Moment reveals every living player by faction color until the round ends.
             // 终局时刻会按阵营颜色高亮所有存活玩家，直到本局结束。
-            Role role = game.getRole(targetPlayer);
             return GetInstinctHighlight.HighlightResult.always(
                     LastStandFinalMomentService.finalMomentHighlightColor(
-                            role,
-                            TraitPlayerComponent.KEY.get(targetPlayer).getActiveTraitIds(),
+                            targetPlayer,
+                            game,
                             traitWorld.isFinalMomentLooseEnd(targetPlayer.getUuid())
                     ),
                     GetInstinctHighlight.HighlightResult.PRIORITY_HIGH + 1

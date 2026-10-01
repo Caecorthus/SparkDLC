@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.traits.client.mixin;
 import dev.caecorthus.sparkdlc.traits.client.compat.SparkWitchBlackRavenBridge;
 import dev.caecorthus.sparkdlc.traits.client.instinct.ChameleonInstinctClientHooks;
 import dev.caecorthus.sparkdlc.traits.client.instinct.GoingDarkInstinctClientHooks;
+import dev.caecorthus.sparkdlc.traits.compat.SparkStrengthCoronerBridge;
 import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.traits.component.TraitWorldComponent;
 import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.ConsciencePoisonerService;
@@ -79,8 +80,8 @@ public abstract class WatheClientMixin {
                 // Final Moment must beat Last Stand's normal killer-instinct hiding.
                 // 终局时刻必须优先于背水一战的普通杀手本能隐藏。
                 cir.setReturnValue(LastStandFinalMomentService.finalMomentHighlightColor(
-                        game.getRole(playerTarget),
-                        targetTraits.getActiveTraitIds(),
+                        playerTarget,
+                        game,
                         traitWorld.isFinalMomentLooseEnd(playerTarget.getUuid())
                 ));
                 return;
@@ -256,7 +257,10 @@ public abstract class WatheClientMixin {
             cir.setReturnValue(EffectiveTraitService.effectiveKillerInstinctColor(
                     EffectiveTraitService.appearsAsKillerToKillerInstinct(
                             game.getRole(playerTarget),
-                            game.canUseKillerFeatures(playerTarget)
+                            game.canUseKillerFeatures(playerTarget),
+                            // Answering here skips SparkStrength's Coroner disguise event, so mirror it.
+                            // 这里提前返回会跳过 SparkStrength 的验尸官伪装事件，因此同步其判定。
+                            SparkStrengthCoronerBridge.appearsAsKillerCohort(playerTarget)
                     ),
                     false,
                     false

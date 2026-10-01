@@ -9,6 +9,7 @@ import dev.caecorthus.sparkdlc.witch.client.ability.SecondaryAbilityController;
 import dev.caecorthus.sparkdlc.witch.client.emma.EmmaClientModule;
 import dev.caecorthus.sparkdlc.witch.client.grandwitch.GrandWitchClientModule;
 import dev.caecorthus.sparkdlc.witch.client.bellringer.BellRingerClient;
+import dev.caecorthus.sparkdlc.witch.client.timestealer.TimeStealerClient;
 import dev.caecorthus.sparkdlc.witch.client.blackraven.BlackRavenClientModule;
 import dev.caecorthus.sparkdlc.witch.client.blackraven.BlackRavenLedgerScreen;
 import dev.caecorthus.sparkdlc.witch.client.controlexpert.ControlExpertStatusHud;
@@ -86,6 +87,7 @@ public final class SparkWitchClient implements ClientModInitializer {
         EmmaClientModule.register();
         WitchMaidenClientModule.register();
         BellRingerClient.init();
+        TimeStealerClient.init();
         VendettaKnifeModelLoadingPlugin.register();
         SecondaryAbilityController.reset();
         SparkWitchClientVersionHandshake.registerClient();

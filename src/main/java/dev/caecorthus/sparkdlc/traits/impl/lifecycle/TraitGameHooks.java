@@ -32,6 +32,7 @@ import dev.caecorthus.sparkdlc.traits.impl.traits.killer.ExhilaratedService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.killer.combat.CloseQuartersService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.killer.combat.ForcedMeleeCooldownService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.killer.escape.LastEscapeService;
+import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.chameleon.ChameleonService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.laststand.LastStandService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.global.pig.PigTraitService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.police.VigilanteVeteranTraitService;
@@ -45,6 +46,7 @@ public final class TraitGameHooks {
         SparkFactionApiEffectiveFactionBridge.register();
         GlobalTraitService.register();
         CivilianTraitService.register();
+        ChameleonService.register();
         KillerTraitService.register();
         ForcedMeleeCooldownService.register();
         CloseQuartersService.register();

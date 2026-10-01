@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.witch.roles.witch.abysslistener;
 import dev.caecorthus.sparkdlc.witch.SparkWitchRoles;
 import dev.caecorthus.sparkdlc.witch.roles.witch.abysslistener.loadout.AbyssListenerLoadout;
 import dev.caecorthus.sparkdlc.witch.roles.witch.abysslistener.zone.DeepDarkZoneService;
+import dev.caecorthus.sparkdlc.witch.roles.witch.abysslistener.zone.DeepDarkZoneStandingService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.accomplice.variant.AccompliceVariantHooks;
 import dev.caecorthus.sparkdlc.witch.roles.witch.accomplice.variant.AccompliceVariants;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -37,5 +38,6 @@ public final class AbyssListenerFeatureService {
         AbyssListenerShopService.register();
         AbyssListenerLoadout.register();
         DeepDarkZoneService.register();
+        DeepDarkZoneStandingService.register();
     }
 }

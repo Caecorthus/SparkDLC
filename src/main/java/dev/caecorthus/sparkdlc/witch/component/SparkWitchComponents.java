@@ -20,6 +20,7 @@ import dev.caecorthus.sparkdlc.witch.roles.killer.timestealer.TimeStealerPlayerC
 import dev.caecorthus.sparkdlc.witch.roles.killer.timestealer.TimeTheftPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.fiend.FiendMomentWorldComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.abysslistener.zone.AbyssZoneExposureComponent;
+import dev.caecorthus.sparkdlc.witch.roles.witch.accomplice.variant.AccompliceVariantRoundComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.curser.CurserPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchRuntimeComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.factor.WitchFactorWorldComponent;
@@ -116,5 +117,6 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.register(WraithRoundComponent.KEY, WraithRoundComponent::new);
         registry.register(LegacyWraithRoundComponent.KEY, LegacyWraithRoundComponent::new);
         registry.register(FiendMomentWorldComponent.KEY, FiendMomentWorldComponent::new);
+        registry.register(AccompliceVariantRoundComponent.KEY, AccompliceVariantRoundComponent::new);
     }
 }

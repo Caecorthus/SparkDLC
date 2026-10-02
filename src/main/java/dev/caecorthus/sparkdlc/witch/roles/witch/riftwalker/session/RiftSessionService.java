@@ -12,6 +12,7 @@ import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.RiftGateUser;
 import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.RiftGateUsers;
 import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.RiftwalkerMatch;
 import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.RiftwalkerRules;
+import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.RiftwalkerStatusProbes;
 import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.gate.RiftGateCloseReason;
 import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.gate.RiftGateEntity;
 import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.gate.RiftGateRecord;
@@ -103,6 +104,8 @@ public final class RiftSessionService {
                 isParticipant(player),
                 session.inside(),
                 isControlled(player),
+                RiftwalkerStatusProbes.isHunterRooted(player),
+                RiftwalkerStatusProbes.isCaptureStunned(player),
                 player.interactionManager.getGameMode(),
                 record.isPresent(),
                 gate.getBoundingBox().squaredMagnitude(player.getEyePos())

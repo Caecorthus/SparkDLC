@@ -3,6 +3,8 @@ package dev.caecorthus.sparkdlc.witch.client;
 import dev.caecorthus.sparkdlc.witch.SparkWitch;
 import dev.caecorthus.sparkdlc.witch.SparkWitchEntities;
 import dev.caecorthus.sparkdlc.witch.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.witch.client.blind.BlindClient;
+import dev.caecorthus.sparkdlc.witch.client.blind.kit.BlindKitClientWiring;
 import dev.caecorthus.sparkdlc.witch.client.fisher.FisherClient;
 import dev.caecorthus.sparkdlc.witch.client.judge.JudgeClientModule;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.judge.JudgeRules;
@@ -45,6 +47,7 @@ import dev.caecorthus.sparkdlc.witch.net.TarotDivinationReadingS2CPacket;
 import dev.caecorthus.sparkdlc.witch.net.TarotDivinationSnapshotS2CPacket;
 import dev.caecorthus.sparkdlc.witch.net.UseWitchSkillC2SPacket;
 import dev.caecorthus.sparkdlc.witch.net.WraithRoleAnnouncementS2CPacket;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.blind.BlindRules;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertEntities;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel.GuardianAngelRules;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel.UseGuardianAngelSkillC2SPacket;
@@ -103,6 +106,7 @@ public final class SparkWitchClient implements ClientModInitializer {
         SeekerClientModule.register();
         FisherClient.register();
         dev.caecorthus.sparkdlc.witch.client.fiend.FiendClient.init();
+        BlindClient.register();
         AllowPlayerChat.EVENT.register(player -> {
             if (!SparkWitchServerConnection.isConfirmedServer()) {
                 return false;
@@ -180,6 +184,9 @@ public final class SparkWitchClient implements ClientModInitializer {
                         .isRole(client.player, dev.caecorthus.sparkdlc.witch.SparkWitchRoles.orthopedist())) {
                     // Widened by the Black Raven acting overlay; getRole stays raw. / 黑羽鸦扮演覆盖层会放宽此判定；getRole 仍为真实身份。
                     ClientPlayNetworking.send(new UseOrthopedistSkillC2SPacket());
+                } else if (BlindRules.isBlind(role)) {
+                    // Real role only (the Blind is never a disguise target). / 仅真实职业（盲人不可被伪装）。
+                    BlindKitClientWiring.onAbilityKey(client);
                 } else if (!WitchMaidenRules.isWitchMaiden(role)
                         && (WitchPlayerComponent.KEY.get(client.player).hasSkill()
                         || SaintRules.isSaint(role))) {
@@ -299,5 +306,6 @@ public final class SparkWitchClient implements ClientModInitializer {
         TarotDivinationClientState.clear();
         JudgeClientModule.clear();
         SeekerClientModule.reset();
+        BlindClient.reset();
     }
 }

@@ -35,6 +35,7 @@ import dev.caecorthus.sparkdlc.witch.mana.WitchManaService;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.murderouswitch.MurderousWitchFeature.MurderousWitchFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.fiend.FiendFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.insider.InsiderFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.RiftwalkerFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodEconomyService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodChaseRuntime;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodFeatureService;
@@ -125,6 +126,7 @@ public final class SparkWitchEvents {
         FisherFeatureService.register();
         FiendFeatureService.register();
         InsiderFeatureService.register();
+        RiftwalkerFeatureService.register();
         RoleAssigned.EVENT.register((player, role) -> {
             if (player instanceof ServerPlayerEntity serverPlayer) {
                 PerfumerPlayerComponent.KEY.get(serverPlayer).clear();

@@ -24,6 +24,8 @@ import dev.caecorthus.sparkdlc.witch.roles.witch.curser.CurserPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchRuntimeComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.factor.WitchFactorWorldComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.recruitment.GrandWitchRecruitmentRoundComponent;
+import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.gate.RiftGateRegistryComponent;
+import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.session.RiftSessionComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.NotNull;
 import org.ladysnake.cca.api.v3.entity.EntityComponentFactoryRegistry;
@@ -101,6 +103,9 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.beginRegistration(PlayerEntity.class, FisherSpiritComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(FisherSpiritComponent::new);
+        registry.beginRegistration(PlayerEntity.class, RiftSessionComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(RiftSessionComponent::new);
     }
 
     @Override
@@ -114,5 +119,6 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.register(LegacyWraithRoundComponent.KEY, LegacyWraithRoundComponent::new);
         registry.register(FiendMomentWorldComponent.KEY, FiendMomentWorldComponent::new);
         registry.register(AccompliceVariantRoundComponent.KEY, AccompliceVariantRoundComponent::new);
+        registry.register(RiftGateRegistryComponent.KEY, RiftGateRegistryComponent::new);
     }
 }

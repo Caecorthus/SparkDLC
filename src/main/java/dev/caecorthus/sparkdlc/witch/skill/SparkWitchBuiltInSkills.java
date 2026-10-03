@@ -4,6 +4,7 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaRules;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaSkillService;
 import dev.caecorthus.sparkdlc.witch.api.WitchSkillDefinition;
 import dev.caecorthus.sparkdlc.witch.api.WitchSkillRegistry;
+import dev.caecorthus.sparkdlc.witch.api.WitchSkillUseResult;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.abilities.ApprenticeAbilityCatalog;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.abilities.Clairvoyance.ClairvoyanceAbility;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.abilities.Healing.HealingAbility;
@@ -17,7 +18,6 @@ import dev.caecorthus.sparkdlc.witch.roles.neutral.murderouswitch.MurderousWitch
 import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodRules;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodSkillService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.prophet.ProphetRules;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.prophet.ProphetSkillService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.kidnapper.KidnapperDragService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.kidnapper.KidnapperRules;
 import dev.caecorthus.sparkdlc.witch.roles.killer.ninja.NinjaRules;
@@ -30,6 +30,8 @@ import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.BlackRavenSkillServ
 import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.FocusedFootstepsRules;
 import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.FocusedFootstepsSkillService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.WitchMaidenRules;
+import dev.caecorthus.sparkdlc.witch.roles.witch.abysslistener.AbyssListenerRules;
+import dev.caecorthus.sparkdlc.witch.roles.witch.abysslistener.shriek.WardensShriekService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.RiftwalkerRules;
 import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.sabbath.WitchesSabbathService;
 
@@ -104,14 +106,16 @@ public final class SparkWitchBuiltInSkills {
                 PigGodSkillService::use
         ));
         WitchSkillRegistry.register(new WitchSkillDefinition(
-                ProphetRules.DEATH_OMEN_ID,
+                ProphetRules.PROPHECY_ID,
                 ProphetRules.ROLE_COLOR,
                 1,
-                ProphetRules.INITIAL_COOLDOWN_TICKS,
-                ProphetRules.POST_COOLDOWN_TICKS,
+                ProphetRules.PROPHECY_INITIAL_COOLDOWN_TICKS,
+                ProphetRules.PROPHECY_COOLDOWN_TICKS,
                 0,
                 context -> ProphetRules.isProphet(context.role()),
-                ProphetSkillService::use
+                // Prophecy runs only through its own request/session packets; the generic skill packet is refused.
+                // 预言只走自己的请求/会话数据包；通用技能包一律拒绝。
+                context -> WitchSkillUseResult.fail("message.sparkwitch.skill.unavailable")
         ));
         WitchSkillRegistry.register(new WitchSkillDefinition(
                 MurderousWitchDeathRayRules.DEATH_RAY_ID,
@@ -176,6 +180,21 @@ public final class SparkWitchBuiltInSkills {
                 0,
                 context -> BellRingerRules.isBellRinger(context.role()),
                 BellRingerEchoService::use
+        ));
+        // Exact-role selector, like the Bell Ringer: the Abyss Listener is on the shared-skill whitelist, so a looser
+        // selector would leak other skills onto it. Presented by the bottom-right skill HUD and, as the role's own
+        // skill (D13, via its accomplice-variant hooks), by the witch skills panel.
+        // 与敲钟人相同的精确职业选择器：聆渊者位于共享技能白名单中，更宽松的选择器会把其他技能漏给它；
+        // 由右下角技能 HUD 展示，并作为本职业自有技能（D13，经由其特殊共犯回调）进入魔女技能面板。
+        WitchSkillRegistry.register(new WitchSkillDefinition(
+                AbyssListenerRules.SHRIEK_SKILL_ID,
+                AbyssListenerRules.COLOR,
+                1,
+                AbyssListenerRules.SHRIEK_INITIAL_COOLDOWN_TICKS,
+                AbyssListenerRules.SHRIEK_COOLDOWN_TICKS,
+                AbyssListenerRules.SHRIEK_MANA_COST,
+                context -> AbyssListenerRules.isAbyssListener(context.role()),
+                WardensShriekService::use
         ));
         // Exact-role selector, like the Bell Ringer: the Riftwalker is on the shared-skill whitelist, so a looser
         // selector would leak other skills onto it. No cooldown (D6): 150 mana is the only limit. Presented by the

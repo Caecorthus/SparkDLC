@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.witch;
 
+import dev.caecorthus.sparkdlc.witch.roles.witch.potiongunner.shell.PotionGunnerEntities;
 import dev.caecorthus.sparkdlc.factionapi.api.compat.NoellesHiddenEquipment;
 import dev.caecorthus.sparkdlc.witch.command.ForceAbilityCommand;
 import dev.caecorthus.sparkdlc.witch.command.ForcePromotionCommand;
@@ -12,6 +13,8 @@ import dev.caecorthus.sparkdlc.witch.impl.SparkWitchEvents;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchPackets;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchVersionHandshake;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertEntities;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.flash.HolyFlashEntities;
+import dev.caecorthus.sparkdlc.witch.roles.witch.abysslistener.zone.AbyssListenerEntities;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.SeekerSounds;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.device.SeekerEntities;
 import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.gate.RiftGateEntities;
@@ -49,8 +52,11 @@ public final class SparkWitch implements ModInitializer {
         FocusedFootstepsEffects.register();
         HunterEntities.register();
         ControlExpertEntities.register();
+        AbyssListenerEntities.register();
         RiftGateEntities.register();
         SeekerEntities.register();
+        HolyFlashEntities.register();
+        PotionGunnerEntities.register();
         SparkWitchItems.register();
         SparkWitchItemGroups.register();
         SparkWitchEntities.register();
@@ -62,6 +68,7 @@ public final class SparkWitch implements ModInitializer {
         NoellesHiddenEquipment.register(SparkWitchItems.timeStealerClock());
         NoellesHiddenEquipment.register(SparkWitchItems.timeStamp());
         NoellesHiddenEquipment.register(SparkWitchItems.blackRavenMask());
+        NoellesHiddenEquipment.register(SparkWitchItems.prophetNecrology());
         NoellesHiddenEquipment.register(SparkWitchItems.tollBell());
         NoellesHiddenEquipment.register(SparkWitchItems.seekerCar());
         NoellesHiddenEquipment.register(SparkWitchItems.seekerCamera());
@@ -74,6 +81,13 @@ public final class SparkWitch implements ModInitializer {
         NoellesHiddenEquipment.register(SparkWitchItems.clownfish());
         NoellesHiddenEquipment.register(SparkWitchItems.goldfish());
         NoellesHiddenEquipment.register(SparkWitchItems.glimmerfish());
+        // Blind: the cane is hidden in round (D9); a held ComTac would expose the role the same way.
+        // 盲人：盲杖局内隐藏（D9）；手持的 ComTac 同样会暴露身份。
+        NoellesHiddenEquipment.register(SparkWitchItems.whiteCane());
+        NoellesHiddenEquipment.register(SparkWitchItems.comTac());
+        // Abyss Listener: the bound Shriek Gun is hidden in hand (owner default N11); the flask stays visible.
+        // 聆渊者：绑定的啸音铳手持时对他人隐藏（所有者默认 N11）；孢瓶保持可见。
+        NoellesHiddenEquipment.register(SparkWitchItems.shriekGun());
         // Riftwalker: the Rift Gate stack is hidden in hand, like the Seeker devices.
         // 隙行者：裂隙门手持时对他人隐藏，与搜寻者设备相同。
         NoellesHiddenEquipment.register(SparkWitchItems.riftGate());

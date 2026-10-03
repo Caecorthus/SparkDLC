@@ -1,6 +1,8 @@
 package dev.caecorthus.sparkdlc.witch.component;
 
+import dev.caecorthus.sparkdlc.witch.roles.civilian.blind.BlindComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertStatusComponent;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.flash.HolyFlashComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.fisher.spirit.FisherSpiritComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.SeekerStatusComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.judge.JudgeWorldComponent;
@@ -8,6 +10,7 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaRoundComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel.GuardianAngelPlayerComponent;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.prophet.ProphetPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.vendetta.VendettaPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.killer.bellringer.BellEchoPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterPlayerComponent;
@@ -48,6 +51,9 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.beginRegistration(PlayerEntity.class, PerfumerPlayerComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(PerfumerPlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, ProphetPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(ProphetPlayerComponent::new);
         registry.beginRegistration(PlayerEntity.class, HunterPlayerComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(HunterPlayerComponent::new);
@@ -96,12 +102,18 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.beginRegistration(PlayerEntity.class, ControlExpertStatusComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(ControlExpertStatusComponent::new);
+        registry.beginRegistration(PlayerEntity.class, HolyFlashComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(HolyFlashComponent::new);
         registry.beginRegistration(PlayerEntity.class, SeekerStatusComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(SeekerStatusComponent::new);
         registry.beginRegistration(PlayerEntity.class, FisherSpiritComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(FisherSpiritComponent::new);
+        registry.beginRegistration(PlayerEntity.class, BlindComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(BlindComponent::new);
         registry.beginRegistration(PlayerEntity.class, AbyssZoneExposureComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(AbyssZoneExposureComponent::new);

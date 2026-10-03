@@ -3,8 +3,11 @@ package dev.caecorthus.sparkdlc.witch.client;
 import dev.caecorthus.sparkdlc.witch.SparkWitch;
 import dev.caecorthus.sparkdlc.witch.SparkWitchEntities;
 import dev.caecorthus.sparkdlc.witch.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.witch.client.blind.BlindClient;
+import dev.caecorthus.sparkdlc.witch.client.blind.kit.BlindKitClientWiring;
 import dev.caecorthus.sparkdlc.witch.client.fisher.FisherClient;
 import dev.caecorthus.sparkdlc.witch.client.judge.JudgeClientModule;
+import dev.caecorthus.sparkdlc.witch.client.prophet.ProphetClientModule;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.judge.JudgeRules;
 import dev.caecorthus.sparkdlc.witch.client.ability.SecondaryAbilityController;
 import dev.caecorthus.sparkdlc.witch.client.emma.EmmaClientModule;
@@ -13,6 +16,7 @@ import dev.caecorthus.sparkdlc.witch.client.bellringer.BellRingerClient;
 import dev.caecorthus.sparkdlc.witch.client.timestealer.TimeStealerClient;
 import dev.caecorthus.sparkdlc.witch.client.blackraven.BlackRavenClientModule;
 import dev.caecorthus.sparkdlc.witch.client.blackraven.BlackRavenLedgerScreen;
+import dev.caecorthus.sparkdlc.witch.client.prophet.ProphetNecrologyBookScreen;
 import dev.caecorthus.sparkdlc.witch.client.controlexpert.ControlExpertStatusHud;
 import dev.caecorthus.sparkdlc.witch.client.controlexpert.ControlExpertStunClient;
 import dev.caecorthus.sparkdlc.witch.client.insider.InsiderClient;
@@ -40,17 +44,20 @@ import dev.caecorthus.sparkdlc.witch.client.witchmaiden.WitchMaidenClientModule;
 import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.component.WitchWorldComponent;
 import dev.caecorthus.sparkdlc.witch.net.OpenBlackRavenLedgerS2CPacket;
+import dev.caecorthus.sparkdlc.witch.net.OpenProphetNecrologyS2CPacket;
 import dev.caecorthus.sparkdlc.witch.net.OpenTarotDivinationSelectorS2CPacket;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
 import dev.caecorthus.sparkdlc.witch.net.TarotDivinationReadingS2CPacket;
 import dev.caecorthus.sparkdlc.witch.net.TarotDivinationSnapshotS2CPacket;
 import dev.caecorthus.sparkdlc.witch.net.UseWitchSkillC2SPacket;
 import dev.caecorthus.sparkdlc.witch.net.WraithRoleAnnouncementS2CPacket;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.blind.BlindRules;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertEntities;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel.GuardianAngelRules;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel.UseGuardianAngelSkillC2SPacket;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.UseOrthopedistSkillC2SPacket;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.SaintRules;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.flash.HolyFlashEntities;
 import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterEntities;
 import dev.caecorthus.sparkdlc.witch.roles.killer.saboteur.SaboteurRole;
 import dev.caecorthus.sparkdlc.witch.client.saboteur.SaboteurClientAbilityRules;
@@ -96,14 +103,18 @@ public final class SparkWitchClient implements ClientModInitializer {
         registerEntityRenderers();
         registerTarotDivinationNetworking();
         registerBlackRavenNetworking();
+        registerProphetNecrologyNetworking();
         registerWraithRoleAnnouncementNetworking();
         JudgeClientModule.register();
+        ProphetClientModule.register();
         ControlExpertStunClient.register();
         ControlExpertStatusHud.register();
         InsiderClient.init();
         SeekerClientModule.register();
         FisherClient.register();
         dev.caecorthus.sparkdlc.witch.client.fiend.FiendClient.init();
+        BlindClient.register();
+        dev.caecorthus.sparkdlc.witch.client.saint.HolyFlashAudioClient.register();
         AbyssListenerClient.init();
         AllowPlayerChat.EVENT.register(player -> {
             if (!SparkWitchServerConnection.isConfirmedServer()) {
@@ -142,6 +153,7 @@ public final class SparkWitchClient implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             TarotDivinationClientState.tick(client);
             JudgeClientModule.tick(client);
+            ProphetClientModule.tick(client);
             SecondaryAbilityController.tick(client);
             if (!SparkWitchServerConnection.isConfirmedServer()) {
                 WitchAbilityKeyBridge.reset();
@@ -161,6 +173,10 @@ public final class SparkWitchClient implements ClientModInitializer {
                         && SaboteurRole.ID.equals(role.identifier());
                 if (JudgeRules.isJudge(role)) {
                     JudgeClientModule.requestSelection(client);
+                } else if (ProphetClientModule.ownsAbilityKey(client.player, role)) {
+                    // Prophecy opens its own session instead of sending the generic skill packet.
+                    // 预言打开自有会话，而不是发送通用技能包。
+                    ProphetClientModule.requestProphecy(client);
                 } else if (EmmaClientModule.isEmma(client.player)) {
                     EmmaClientModule.use(client.player);
                 } else if (exactSaboteurRole) {
@@ -182,6 +198,9 @@ public final class SparkWitchClient implements ClientModInitializer {
                         .isRole(client.player, dev.caecorthus.sparkdlc.witch.SparkWitchRoles.orthopedist())) {
                     // Widened by the Black Raven acting overlay; getRole stays raw. / 黑羽鸦扮演覆盖层会放宽此判定；getRole 仍为真实身份。
                     ClientPlayNetworking.send(new UseOrthopedistSkillC2SPacket());
+                } else if (BlindRules.isBlind(role)) {
+                    // Real role only (the Blind is never a disguise target). / 仅真实职业（盲人不可被伪装）。
+                    BlindKitClientWiring.onAbilityKey(client);
                 } else if (!WitchMaidenRules.isWitchMaiden(role)
                         && (WitchPlayerComponent.KEY.get(client.player).hasSkill()
                         || SaintRules.isSaint(role))) {
@@ -217,6 +236,8 @@ public final class SparkWitchClient implements ClientModInitializer {
         // The thrown Shock Device renders its synced item stack like vanilla thrown items.
         // 投出的电击装置与原版投掷物一样渲染其同步的物品。
         EntityRendererRegistry.register(ControlExpertEntities.shockDevice(), FlyingItemEntityRenderer::new);
+        // The thrown Holy Flash renders its synced item stack. / 投出的圣光弹渲染其同步的物品。
+        EntityRendererRegistry.register(HolyFlashEntities.holyFlash(), FlyingItemEntityRenderer::new);
         SeekerClientModule.registerEntityRenderers();
     }
 
@@ -291,6 +312,19 @@ public final class SparkWitchClient implements ClientModInitializer {
                 }));
     }
 
+    /**
+     * The Necrology opens only on the server's empty authorization; its pages come from the owner-synced component.
+     * 亡者名录只在收到服务端的空授权包后打开；书页内容来自仅同步给所有者的组件。
+     */
+    private static void registerProphetNecrologyNetworking() {
+        ClientPlayNetworking.registerGlobalReceiver(OpenProphetNecrologyS2CPacket.ID, (payload, context) ->
+                context.client().execute(() -> {
+                    if (SparkWitchServerConnection.isConfirmedServer()) {
+                        ProphetNecrologyBookScreen.open(context.client());
+                    }
+                }));
+    }
+
     private static void resetConnectionState() {
         dev.caecorthus.sparkdlc.witch.client.gui.OwnerInventoryPresenter.reset();
         SparkWitchServerConnection.reset();
@@ -300,6 +334,8 @@ public final class SparkWitchClient implements ClientModInitializer {
         WitchMaidenClientModule.clear();
         TarotDivinationClientState.clear();
         JudgeClientModule.clear();
+        ProphetClientModule.clear();
         SeekerClientModule.reset();
+        BlindClient.reset();
     }
 }

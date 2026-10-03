@@ -12,6 +12,7 @@ import dev.caecorthus.sparkdlc.witch.impl.SparkWitchEvents;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchPackets;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchVersionHandshake;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertEntities;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.flash.HolyFlashEntities;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.SeekerSounds;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.device.SeekerEntities;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistEffects;
@@ -49,6 +50,7 @@ public final class SparkWitch implements ModInitializer {
         HunterEntities.register();
         ControlExpertEntities.register();
         SeekerEntities.register();
+        HolyFlashEntities.register();
         SparkWitchItems.register();
         SparkWitchItemGroups.register();
         SparkWitchEntities.register();

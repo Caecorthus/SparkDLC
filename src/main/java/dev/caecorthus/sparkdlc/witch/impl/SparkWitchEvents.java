@@ -14,6 +14,7 @@ import dev.caecorthus.sparkdlc.witch.item.firepoker.FirePokerCombatService;
 import dev.caecorthus.sparkdlc.witch.item.firepoker.FirePokerFallAttributionService;
 import dev.caecorthus.sparkdlc.witch.item.tofana.TofanaProtectionService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.abilities.MightyForce.MightyForceCombatService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.blind.BlindFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.fisher.FisherFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.SeekerFeatureService;
@@ -32,6 +33,7 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.perfumer.PerfumerShopService
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchActiveSkillService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.WitchFactionFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.witch.abysslistener.AbyssListenerFeatureService;
 import dev.caecorthus.sparkdlc.witch.mana.WitchManaService;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.murderouswitch.MurderousWitchFeature.MurderousWitchFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.fiend.FiendFeatureService;
@@ -39,6 +41,8 @@ import dev.caecorthus.sparkdlc.witch.roles.neutral.insider.InsiderFeatureService
 import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodEconomyService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodChaseRuntime;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.prophet.ProphetDeathLedger;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.prophet.ProphetProphecyService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.prophet.ProphetEconomyService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.prophet.ProphetRuntime;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.SaintEconomyService;
@@ -95,6 +99,8 @@ public final class SparkWitchEvents {
         PigGodFeatureService.register();
         PigGodEconomyService.register();
         ProphetRuntime.register();
+        ProphetDeathLedger.register();
+        ProphetProphecyService.register();
         ProphetEconomyService.register();
         SaintFeatureService.register();
         PerfumerShopService.register();
@@ -126,6 +132,8 @@ public final class SparkWitchEvents {
         FisherFeatureService.register();
         FiendFeatureService.register();
         InsiderFeatureService.register();
+        BlindFeatureService.register();
+        AbyssListenerFeatureService.register();
         PotionGunnerFeatureService.register();
         RoleAssigned.EVENT.register((player, role) -> {
             if (player instanceof ServerPlayerEntity serverPlayer) {

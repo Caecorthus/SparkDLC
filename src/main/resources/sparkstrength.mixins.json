@@ -4,6 +4,7 @@
   "package": "dev.caecorthus.sparkdlc.strength.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "attendant.SmallDoorBlockDoorLogMixin",
     "coroner.CoronerBaseSpiritItemMixin",
     "coroner.CoronerBartenderComponentSyncMixin",
     "coroner.CoronerBomberComponentSyncMixin",

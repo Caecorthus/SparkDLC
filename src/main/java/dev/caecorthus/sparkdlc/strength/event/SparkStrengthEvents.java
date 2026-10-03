@@ -13,6 +13,7 @@ import dev.caecorthus.sparkdlc.strength.item.m67.M67RoundService;
 import dev.caecorthus.sparkdlc.strength.role.noisemaker.NoisemakerGlowService;
 import dev.caecorthus.sparkdlc.strength.role.phantom.PhantomBackpackService;
 import dev.caecorthus.sparkdlc.strength.role.attendant.AttendantFlashlightService;
+import dev.caecorthus.sparkdlc.strength.role.attendant.DoorLogService;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerEconomyService;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerEngineerService;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
@@ -65,6 +66,7 @@ public final class SparkStrengthEvents {
         CoronerService.register();
         CoronerShopService.register();
         DetectiveCaseService.register();
+        DoorLogService.register();
         FlashlightBlackoutService.register();
         VeteranBlackoutService.register();
         RoleEconomyService.register();

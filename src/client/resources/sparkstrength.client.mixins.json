@@ -4,6 +4,7 @@
   "package": "dev.caecorthus.sparkdlc.strength.client.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "attendant.FlashlightAimArmMixin",
     "attendant.FlashlightBlockEntityLightMixin",
     "attendant.FlashlightEntityLightMixin",
     "attendant.FlashlightReceiverInvalidationMixin",

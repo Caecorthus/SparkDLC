@@ -17,12 +17,6 @@
     "client": [
       "dev.caecorthus.sparkdlc.strength.client.SparkStrengthClient"
     ],
-    "lambdynlights:initializer": [
-      "dev.caecorthus.sparkdlc.strength.client.role.attendant.FlashlightDynamicLightsInitializer"
-    ],
-    "dynamiclights": [
-      "dev.caecorthus.sparkdlc.strength.client.role.attendant.FlashlightDynamicLightsInitializer"
-    ],
     "voicechat": [
       "dev.caecorthus.sparkdlc.strength.voice.SparkStrengthVoiceChatPlugin"
     ],

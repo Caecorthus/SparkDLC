@@ -10,6 +10,7 @@ import dev.caecorthus.sparkdlc.traits.mixin.RoleHistoryComponentAccessor;
 import dev.caecorthus.sparkdlc.factionapi.api.FactionDefinition;
 import dev.caecorthus.sparkdlc.factionapi.api.FactionIds;
 import dev.caecorthus.sparkdlc.factionapi.api.SparkFactionApi;
+import dev.caecorthus.sparkdlc.factionapi.api.replay.SparkReplayApi;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
 import dev.doctor4t.wathe.api.event.BlackoutEffect;
@@ -455,7 +456,13 @@ public final class LastStandFinalMomentService {
             GameWorldComponent gameComponent,
             ServerPlayerEntity player
     ) {
-        gameComponent.addRole(player, WatheRoles.LOOSE_END);
+        // Tag the role change so SparkFactionAPI's replay line carries the Final Moment cause.
+        // 为身份变化打上原因标记，使 SparkFactionAPI 的回放行附带“终局时刻”原因。
+        SparkReplayApi.withRoleChangeCause(
+                SparkTraits.id("loose_end_conversion"),
+                (UUID) null,
+                () -> gameComponent.addRole(player, WatheRoles.LOOSE_END)
+        );
         replaceLatestRoleHistoryEntry(world, player.getUuid(), WatheRoles.LOOSE_END);
         RoleAssigned.EVENT.invoker().assignRole(player, WatheRoles.LOOSE_END);
         SparkTraitsReplayEvents.recordLooseEndConversion(player);

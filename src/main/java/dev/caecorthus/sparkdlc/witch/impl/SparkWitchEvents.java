@@ -38,6 +38,8 @@ import dev.caecorthus.sparkdlc.witch.roles.neutral.insider.InsiderFeatureService
 import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodEconomyService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodChaseRuntime;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.prophet.ProphetDeathLedger;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.prophet.ProphetProphecyService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.prophet.ProphetEconomyService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.prophet.ProphetRuntime;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.SaintEconomyService;
@@ -94,6 +96,8 @@ public final class SparkWitchEvents {
         PigGodFeatureService.register();
         PigGodEconomyService.register();
         ProphetRuntime.register();
+        ProphetDeathLedger.register();
+        ProphetProphecyService.register();
         ProphetEconomyService.register();
         SaintFeatureService.register();
         PerfumerShopService.register();

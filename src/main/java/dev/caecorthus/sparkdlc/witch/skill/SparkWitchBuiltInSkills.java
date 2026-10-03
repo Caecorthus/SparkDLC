@@ -4,6 +4,7 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaRules;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaSkillService;
 import dev.caecorthus.sparkdlc.witch.api.WitchSkillDefinition;
 import dev.caecorthus.sparkdlc.witch.api.WitchSkillRegistry;
+import dev.caecorthus.sparkdlc.witch.api.WitchSkillUseResult;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.abilities.ApprenticeAbilityCatalog;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.abilities.Clairvoyance.ClairvoyanceAbility;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.abilities.Healing.HealingAbility;
@@ -17,7 +18,6 @@ import dev.caecorthus.sparkdlc.witch.roles.neutral.murderouswitch.MurderousWitch
 import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodRules;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodSkillService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.prophet.ProphetRules;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.prophet.ProphetSkillService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.kidnapper.KidnapperDragService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.kidnapper.KidnapperRules;
 import dev.caecorthus.sparkdlc.witch.roles.killer.ninja.NinjaRules;
@@ -102,14 +102,16 @@ public final class SparkWitchBuiltInSkills {
                 PigGodSkillService::use
         ));
         WitchSkillRegistry.register(new WitchSkillDefinition(
-                ProphetRules.DEATH_OMEN_ID,
+                ProphetRules.PROPHECY_ID,
                 ProphetRules.ROLE_COLOR,
                 1,
-                ProphetRules.INITIAL_COOLDOWN_TICKS,
-                ProphetRules.POST_COOLDOWN_TICKS,
+                ProphetRules.PROPHECY_INITIAL_COOLDOWN_TICKS,
+                ProphetRules.PROPHECY_COOLDOWN_TICKS,
                 0,
                 context -> ProphetRules.isProphet(context.role()),
-                ProphetSkillService::use
+                // Prophecy runs only through its own request/session packets; the generic skill packet is refused.
+                // 预言只走自己的请求/会话数据包；通用技能包一律拒绝。
+                context -> WitchSkillUseResult.fail("message.sparkwitch.skill.unavailable")
         ));
         WitchSkillRegistry.register(new WitchSkillDefinition(
                 MurderousWitchDeathRayRules.DEATH_RAY_ID,

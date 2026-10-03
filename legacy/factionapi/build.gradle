@@ -188,7 +188,22 @@ tasks.register("verifyModJarVersion") {
                     "dev/caecorthus/sparkdlc/factionapi/mixin/ServerPlayerEntityAffectMixin.class",
                     "dev/caecorthus/sparkdlc/factionapi/mixin/WorldProjectileAffectMixin.class",
                     "dev/caecorthus/sparkdlc/factionapi/mixin/GameRoundEndComponentMixin.class",
-                    "dev/caecorthus/sparkdlc/factionapi/client/mixin/RoundTextRendererMixin.class"
+                    "dev/caecorthus/sparkdlc/factionapi/client/mixin/RoundTextRendererMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/api/replay/SparkReplayApi.class",
+                    "dev/caecorthus/sparkdlc/factionapi/api/replay/ReplayTooltipContributor.class",
+                    "dev/caecorthus/sparkdlc/factionapi/api/replay/ReplayPlayerView.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/replay/SparkReplayBootstrap.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/replay/RoleChangeRecorder.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/replay/RoleChangeRecordRules.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/replay/RoleChangedReplayFormatter.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/replay/ReplayPresentation.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/replay/ReplaySession.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/replay/ReplayRenderContext.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/replay/ReplayArchive.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesShadowTransformReplayCompat.class",
+                    "dev/caecorthus/sparkdlc/factionapi/command/replay/ReplayCommand.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/GameWorldComponentReplayMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/ReplayGeneratorMixin.class"
             ].each { requiredEntry ->
                 // Runtime compatibility depends on these shipped adapter classes, not just successful compilation.
                 // 运行时兼容依赖这些随 jar 发布的适配类，而不只是编译成功。
@@ -244,7 +259,9 @@ tasks.register("verifyModJarVersion") {
                     "PlayerEntityAffectMixin",
                     "ServerPlayerEntityAffectMixin",
                     "WorldProjectileAffectMixin",
-                    "GameRoundEndComponentMixin"
+                    "GameRoundEndComponentMixin",
+                    "GameWorldComponentReplayMixin",
+                    "ReplayGeneratorMixin"
             ],
                     "sparkfactionapi.client.mixins.json": [
                             "RoundTextRendererMixin"
@@ -291,6 +308,7 @@ def architectureContractFiles = [
         "src/main/java/dev/caecorthus/sparkdlc/factionapi/api/SparkFactionApi.java",
         "src/main/java/dev/caecorthus/sparkdlc/factionapi/api/PlayerAffectPolicy.java",
         "src/main/java/dev/caecorthus/sparkdlc/factionapi/api/PoliceRoles.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/api/replay/SparkReplayApi.java",
         "src/test/java/dev/caecorthus/sparkdlc/factionapi/api/PoliceRolesTest.java",
         "src/main/java/dev/caecorthus/sparkdlc/factionapi/api/compat/NoellesHiddenEquipment.java",
         "src/main/java/dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesCollisionCompatibility.java",
@@ -308,7 +326,9 @@ def architectureContractFiles = [
         "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/collision/EntityCollisionMixinContractTest.java",
         "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/collision/LivingEntityCollisionMixinContractTest.java",
         "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesCollisionCompatibilityContractTest.java",
-        "src/test/java/dev/caecorthus/sparkdlc/factionapi/net/version/VersionProtocolTest.java"
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/net/version/VersionProtocolTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/replay/ReplayRoleTimelineTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/replay/RoleChangeRecordRulesTest.java"
 ]
 
 tasks.register("verifyArchitecture") {

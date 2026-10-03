@@ -20,6 +20,7 @@ import dev.caecorthus.sparkdlc.witch.client.prophet.ProphetNecrologyBookScreen;
 import dev.caecorthus.sparkdlc.witch.client.controlexpert.ControlExpertStatusHud;
 import dev.caecorthus.sparkdlc.witch.client.controlexpert.ControlExpertStunClient;
 import dev.caecorthus.sparkdlc.witch.client.insider.InsiderClient;
+import dev.caecorthus.sparkdlc.witch.client.abysslistener.AbyssListenerClient;
 import dev.caecorthus.sparkdlc.witch.client.seeker.SeekerClientModule;
 import dev.caecorthus.sparkdlc.witch.client.hooks.DeathRayClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.hooks.GrandWitchFearClientHooks;
@@ -114,6 +115,7 @@ public final class SparkWitchClient implements ClientModInitializer {
         dev.caecorthus.sparkdlc.witch.client.fiend.FiendClient.init();
         BlindClient.register();
         dev.caecorthus.sparkdlc.witch.client.saint.HolyFlashAudioClient.register();
+        AbyssListenerClient.init();
         AllowPlayerChat.EVENT.register(player -> {
             if (!SparkWitchServerConnection.isConfirmedServer()) {
                 return false;

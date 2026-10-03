@@ -12,6 +12,7 @@ import dev.caecorthus.sparkdlc.strength.component.morphling.MorphBodyDisguiseWor
 import dev.caecorthus.sparkdlc.strength.component.morphling.MorphMarkPlayerComponent;
 import dev.caecorthus.sparkdlc.strength.component.phantom.PhantomBackpackTargetComponent;
 import dev.caecorthus.sparkdlc.strength.component.phantom.PhantomBackpackUserComponent;
+import dev.caecorthus.sparkdlc.strength.component.perfumer.PerfumerScentComponent;
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumTargetComponent;
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumUserComponent;
 import dev.caecorthus.sparkdlc.strength.component.tablet.TabletWorldComponent;
@@ -82,6 +83,9 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
         registry.beginRegistration(PlayerEntity.class, ToxicologistAntidoteComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(ToxicologistAntidoteComponent::new);
+        registry.beginRegistration(PlayerEntity.class, PerfumerScentComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(PerfumerScentComponent::new);
         registry.registerFor(PlayerBodyEntity.class, CoronerBodySnapshotComponent.KEY, CoronerBodySnapshotComponent::new);
     }
 

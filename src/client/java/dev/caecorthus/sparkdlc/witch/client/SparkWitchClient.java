@@ -1,5 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client;
 
+import dev.caecorthus.sparkdlc.witch.client.potiongunner.PotionGunnerClient;
+import dev.caecorthus.sparkdlc.witch.roles.witch.potiongunner.shell.PotionGunnerEntities;
 import dev.caecorthus.sparkdlc.witch.SparkWitch;
 import dev.caecorthus.sparkdlc.witch.SparkWitchEntities;
 import dev.caecorthus.sparkdlc.witch.SparkWitchSounds;
@@ -110,6 +112,7 @@ public final class SparkWitchClient implements ClientModInitializer {
         ControlExpertStunClient.register();
         ControlExpertStatusHud.register();
         InsiderClient.init();
+        PotionGunnerClient.init();
         SeekerClientModule.register();
         FisherClient.register();
         dev.caecorthus.sparkdlc.witch.client.fiend.FiendClient.init();
@@ -238,6 +241,7 @@ public final class SparkWitchClient implements ClientModInitializer {
         EntityRendererRegistry.register(ControlExpertEntities.shockDevice(), FlyingItemEntityRenderer::new);
         // The thrown Holy Flash renders its synced item stack. / 投出的圣光弹渲染其同步的物品。
         EntityRendererRegistry.register(HolyFlashEntities.holyFlash(), FlyingItemEntityRenderer::new);
+        EntityRendererRegistry.register(PotionGunnerEntities.potionShell(), FlyingItemEntityRenderer::new);
         SeekerClientModule.registerEntityRenderers();
     }
 

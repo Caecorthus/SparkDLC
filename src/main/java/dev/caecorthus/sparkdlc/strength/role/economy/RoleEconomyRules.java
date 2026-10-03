@@ -1,13 +1,11 @@
 package dev.caecorthus.sparkdlc.strength.role.economy;
 
-import dev.caecorthus.sparkdlc.strength.role.corruptcop.CorruptCopRules;
 import dev.caecorthus.sparkdlc.strength.role.detective.DetectiveRules;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerRules;
 import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerRules;
 import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumRules;
 import dev.caecorthus.sparkdlc.strength.role.toxicologist.ToxicologistCapsuleRules;
 import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranRules;
-import dev.caecorthus.sparkdlc.strength.tablet.TabletShopRules;
 import dev.doctor4t.wathe.api.Role;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,11 +29,7 @@ public final class RoleEconomyRules {
                 || ToxicologistCapsuleRules.isToxicologist(role)
                 || ProfessorSerumRules.isProfessor(role)
                 || EngineerRules.isEngineer(role)
-                || VeteranRules.isVeteran(role)
-                // Shop categories must not grant starting/task money to new roles.
-                // 商店分类不能为新身份自动授予初始金币或任务收入。
-                || TabletShopRules.isVigilante(role)
-                || CorruptCopRules.isCorruptCop(role);
+                || VeteranRules.isVeteran(role);
     }
 
     public static boolean shouldInitializeGoodMoney(@Nullable Role role) {

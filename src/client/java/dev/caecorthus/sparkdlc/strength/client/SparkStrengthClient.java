@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.strength.client;
 import dev.caecorthus.sparkdlc.strength.client.item.CapsuleClient;
 import dev.caecorthus.sparkdlc.strength.client.item.M67Client;
 import dev.caecorthus.sparkdlc.strength.client.item.PerfumerItemsClient;
+import dev.caecorthus.sparkdlc.strength.client.role.attendant.flashlight.FlashlightLights;
 import dev.caecorthus.sparkdlc.strength.client.role.coroner.CoronerClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.corruptcop.CorruptCopClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.corruptcop.CorruptCopMusicController;
@@ -38,6 +39,7 @@ public final class SparkStrengthClient implements ClientModInitializer {
         CorruptCopClientHooks.register();
         DemonHunterSniffClientHooks.register();
         EngineerClientHooks.register();
+        FlashlightLights.register();
         MorphlingClientHooks.register();
         PerfumerClientHooks.register();
         ProfessorSerumClientHooks.register();

@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.client;
 
 import dev.caecorthus.sparkdlc.strength.client.item.CapsuleClient;
+import dev.caecorthus.sparkdlc.strength.client.item.FlashlightModelClient;
 import dev.caecorthus.sparkdlc.strength.client.item.M67Client;
 import dev.caecorthus.sparkdlc.strength.client.item.PerfumerItemsClient;
 import dev.caecorthus.sparkdlc.strength.client.role.attendant.flashlight.FlashlightLights;
@@ -33,6 +34,7 @@ public final class SparkStrengthClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         CapsuleClient.register();
+        FlashlightModelClient.register();
         M67Client.initialize();
         PerfumerItemsClient.register();
         CoronerClientHooks.register();

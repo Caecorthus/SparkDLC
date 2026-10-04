@@ -1,8 +1,11 @@
 package dev.caecorthus.sparkdlc.strength.client;
 
 import dev.caecorthus.sparkdlc.strength.client.item.CapsuleClient;
+import dev.caecorthus.sparkdlc.strength.client.item.FlashlightModelClient;
 import dev.caecorthus.sparkdlc.strength.client.item.M67Client;
 import dev.caecorthus.sparkdlc.strength.client.item.PerfumerItemsClient;
+import dev.caecorthus.sparkdlc.strength.client.role.attendant.flashlight.FlashlightLights;
+import dev.caecorthus.sparkdlc.strength.client.role.attendant.flashlight.FlashlightRenderer;
 import dev.caecorthus.sparkdlc.strength.client.role.bomber.BomberDroneClient;
 import dev.caecorthus.sparkdlc.strength.client.role.coroner.CoronerClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.corruptcop.CorruptCopClientHooks;
@@ -33,6 +36,7 @@ public final class SparkStrengthClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         CapsuleClient.register();
+        FlashlightModelClient.register();
         M67Client.initialize();
         PerfumerItemsClient.register();
         BomberDroneClient.initialize();
@@ -40,6 +44,8 @@ public final class SparkStrengthClient implements ClientModInitializer {
         CorruptCopClientHooks.register();
         DemonHunterSniffClientHooks.register();
         EngineerClientHooks.register();
+        FlashlightLights.register();
+        FlashlightRenderer.register();
         MorphlingClientHooks.register();
         PerfumerClientHooks.register();
         ProfessorSerumClientHooks.register();

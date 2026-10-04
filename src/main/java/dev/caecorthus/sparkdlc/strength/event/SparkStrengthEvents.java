@@ -41,6 +41,7 @@ import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranBlackoutService;
 import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranEconomyService;
 import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranKnifeService;
 import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranShopService;
+import dev.caecorthus.sparkdlc.strength.role.shadowjester.ShadowJesterShowdownService;
 import dev.caecorthus.sparkdlc.strength.tablet.TabletShopService;
 import dev.caecorthus.sparkdlc.strength.tablet.TabletStateService;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -79,6 +80,7 @@ public final class SparkStrengthEvents {
         ToxicologistCapsuleShop.register();
         TabletShopService.register();
         VeteranShopService.register();
+        ShadowJesterShowdownService.register();
         // 回溯者被动收入需要按世界 tick 定时结算，注册在服务端世界 tick 末尾。
         ServerTickEvents.END_WORLD_TICK.register(CoronerEconomyService::tick);
         ServerTickEvents.END_WORLD_TICK.register(CoronerService::tick);

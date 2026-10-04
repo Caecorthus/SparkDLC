@@ -19,6 +19,7 @@ import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowTarge
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowUserComponent;
 import dev.caecorthus.sparkdlc.strength.component.toxicologist.ToxicologistAntidoteComponent;
 import dev.caecorthus.sparkdlc.strength.component.veteran.VeteranKnifeComponent;
+import dev.caecorthus.sparkdlc.strength.component.shadowjester.ShadowJesterShowdownWorldComponent;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.NotNull;
@@ -90,5 +91,9 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
         registry.register(CriminologistWorldComponent.KEY, CriminologistWorldComponent::new);
         registry.register(TabletWorldComponent.KEY, TabletWorldComponent::new);
         registry.register(MorphBodyDisguiseWorldComponent.KEY, MorphBodyDisguiseWorldComponent::new);
+        registry.register(
+                ShadowJesterShowdownWorldComponent.KEY,
+                ShadowJesterShowdownWorldComponent::new
+        );
     }
 }

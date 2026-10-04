@@ -16,6 +16,7 @@ import dev.caecorthus.sparkdlc.strength.network.tablet.OpenTabletScreenS2CPacket
 import dev.caecorthus.sparkdlc.strength.network.tablet.RequestTabletSnapshotC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.tablet.SendTabletChatC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.tablet.SyncTabletSnapshotS2CPacket;
+import dev.caecorthus.sparkdlc.strength.network.shadowjester.SyncShadowJesterShowdownMusicS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.veteran.SyncVeteranBlackoutS2CPacket;
 import dev.caecorthus.sparkdlc.strength.role.noisemaker.NoisemakerGlowService;
 import dev.caecorthus.sparkdlc.strength.role.phantom.PhantomBackpackService;
@@ -53,6 +54,10 @@ public final class SparkStrengthPackets {
         PayloadTypeRegistry.playS2C().register(OpenTabletScreenS2CPacket.ID, OpenTabletScreenS2CPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(SyncTabletSnapshotS2CPacket.ID, SyncTabletSnapshotS2CPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(SyncVeteranBlackoutS2CPacket.ID, SyncVeteranBlackoutS2CPacket.CODEC);
+        PayloadTypeRegistry.playS2C().register(
+                SyncShadowJesterShowdownMusicS2CPacket.ID,
+                SyncShadowJesterShowdownMusicS2CPacket.CODEC
+        );
         ServerPlayNetworking.registerGlobalReceiver(NoisemakerGlowC2SPacket.ID, (payload, context) ->
                 NoisemakerGlowService.tryUseBackpackGlow(context.player(), payload.targetPlayer())
         );

@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.strength.network;
 import dev.caecorthus.sparkdlc.strength.network.coroner.CoronerMorphC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.demonhunter.DemonHunterSniffC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.detective.OpenDetectiveFolderS2CPacket;
+import dev.caecorthus.sparkdlc.strength.network.drone.DronePackets;
 import dev.caecorthus.sparkdlc.strength.network.detective.SelectDetectiveCaseC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.detective.SetDetectiveKillerGuessC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.detective.SetDetectivePresumedKillerC2SPacket;
@@ -41,6 +42,7 @@ public final class SparkStrengthPackets {
 
     public static void registerServer() {
         M67Packets.initialize();
+        DronePackets.initialize();
         PayloadTypeRegistry.playC2S().register(NoisemakerGlowC2SPacket.ID, NoisemakerGlowC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(PhantomBackpackInvisibilityC2SPacket.ID, PhantomBackpackInvisibilityC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(CoronerMorphC2SPacket.ID, CoronerMorphC2SPacket.CODEC);

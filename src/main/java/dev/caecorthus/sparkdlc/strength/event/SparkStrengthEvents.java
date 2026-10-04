@@ -14,6 +14,9 @@ import dev.caecorthus.sparkdlc.strength.role.noisemaker.NoisemakerGlowService;
 import dev.caecorthus.sparkdlc.strength.role.phantom.PhantomBackpackService;
 import dev.caecorthus.sparkdlc.strength.role.attendant.AttendantFlashlightService;
 import dev.caecorthus.sparkdlc.strength.role.attendant.DoorLogService;
+import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DroneCombatService;
+import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DronePilotService;
+import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DroneService;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerEconomyService;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerEngineerService;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
@@ -61,6 +64,9 @@ public final class SparkStrengthEvents {
 
     public static void register() {
         M67RoundService.initialize();
+        DroneService.register();
+        DroneCombatService.register();
+        DronePilotService.register();
         CorruptCopFeatureService.register();
         CoronerEngineerService.register();
         CoronerService.register();

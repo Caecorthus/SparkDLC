@@ -215,6 +215,8 @@ tasks.register("verifyModJarVersion") {
                     "dev/caecorthus/sparkdlc/factionapi/mixin/inventory/ScreenHandlerPsychoSecondRowMixin.class",
                     "dev/caecorthus/sparkdlc/factionapi/client/inventory/LimitedInventorySecondRow.class",
                     "dev/caecorthus/sparkdlc/factionapi/client/inventory/LimitedInventorySecondRow\$Bounds.class",
+                    "dev/caecorthus/sparkdlc/factionapi/client/inventory/SecondRowPalette.class",
+                    "dev/caecorthus/sparkdlc/factionapi/client/inventory/SecondRowTexture.class",
                     "dev/caecorthus/sparkdlc/factionapi/client/mixin/inventory/LimitedHandledScreenSecondRowMixin.class",
                     "dev/caecorthus/sparkdlc/factionapi/client/mixin/inventory/LimitedInventoryScreenSecondRowMixin.class"
             ].each { requiredEntry ->

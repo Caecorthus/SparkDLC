@@ -27,7 +27,6 @@ import dev.caecorthus.sparkdlc.witch.roles.witch.accomplice.variant.AccompliceVa
 import dev.caecorthus.sparkdlc.witch.roles.witch.curser.CurserPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchRuntimeComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.factor.WitchFactorWorldComponent;
-import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.recruitment.GrandWitchRecruitmentRoundComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.gate.RiftGateRegistryComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.session.RiftSessionComponent;
 import net.minecraft.entity.player.PlayerEntity;
@@ -130,7 +129,6 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.register(WitchWorldComponent.KEY, WitchWorldComponent::new);
         registry.register(WitchFactorWorldComponent.KEY, WitchFactorWorldComponent::new);
         registry.register(EmmaRoundComponent.KEY, EmmaRoundComponent::new);
-        registry.register(GrandWitchRecruitmentRoundComponent.KEY, GrandWitchRecruitmentRoundComponent::new);
         registry.register(WraithRoundComponent.KEY, WraithRoundComponent::new);
         registry.register(LegacyWraithRoundComponent.KEY, LegacyWraithRoundComponent::new);
         registry.register(FiendMomentWorldComponent.KEY, FiendMomentWorldComponent::new);

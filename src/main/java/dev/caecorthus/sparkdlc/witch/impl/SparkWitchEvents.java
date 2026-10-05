@@ -34,6 +34,8 @@ import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchActiveSkil
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.WitchFactionFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.abysslistener.AbyssListenerFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.witch.bewitched.BewitchedFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.witch.bewitched.BewitchedPromotionService;
 import dev.caecorthus.sparkdlc.witch.mana.WitchManaService;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.murderouswitch.MurderousWitchFeature.MurderousWitchFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.fiend.FiendFeatureService;
@@ -137,6 +139,7 @@ public final class SparkWitchEvents {
         AbyssListenerFeatureService.register();
         PotionGunnerFeatureService.register();
         RiftwalkerFeatureService.register();
+        BewitchedFeatureService.register();
         RoleAssigned.EVENT.register((player, role) -> {
             if (player instanceof ServerPlayerEntity serverPlayer) {
                 PerfumerPlayerComponent.KEY.get(serverPlayer).clear();
@@ -158,6 +161,9 @@ public final class SparkWitchEvents {
         });
         TaskComplete.EVENT.register(WitchManaService::onTaskComplete);
         TaskComplete.EVENT.register((player, taskType) -> GrandWitchActiveSkillService.onTaskComplete(player));
+        // Bewitched promotion progress (C3): counts and enqueues only; the role changes at END_SERVER_TICK.
+        // 魔化使晋升进度（C3）：只计数与入队；身份在 END_SERVER_TICK 变更。
+        TaskComplete.EVENT.register((player, taskType) -> BewitchedPromotionService.onTaskComplete(player));
         TaskComplete.EVENT.register((player, taskType) -> PigGodEconomyService.onTaskComplete(player));
         TaskComplete.EVENT.register((player, taskType) -> ProphetEconomyService.onTaskComplete(player));
         TaskComplete.EVENT.register((player, taskType) -> SaintEconomyService.onTaskComplete(player));

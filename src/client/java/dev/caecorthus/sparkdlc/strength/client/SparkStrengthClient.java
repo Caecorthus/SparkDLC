@@ -14,6 +14,7 @@ import dev.caecorthus.sparkdlc.strength.client.role.demonhunter.DemonHunterSniff
 import dev.caecorthus.sparkdlc.strength.client.role.economy.RoleEconomyClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.economy.KillerTeamEconomyClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.engineer.EngineerClientHooks;
+import dev.caecorthus.sparkdlc.strength.client.role.jester.JesterMomentClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.morphling.MorphlingClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.perfumer.PerfumerClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.professor.ProfessorSerumClientHooks;
@@ -47,6 +48,7 @@ public final class SparkStrengthClient implements ClientModInitializer {
         EngineerClientHooks.register();
         FlashlightLights.register();
         FlashlightRenderer.register();
+        JesterMomentClientHooks.register();
         MorphlingClientHooks.register();
         PerfumerClientHooks.register();
         ProfessorSerumClientHooks.register();

@@ -24,6 +24,7 @@ import dev.caecorthus.sparkdlc.witch.roles.killer.timestealer.TimeTheftPlayerCom
 import dev.caecorthus.sparkdlc.witch.roles.neutral.fiend.FiendMomentWorldComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.abysslistener.zone.AbyssZoneExposureComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.accomplice.variant.AccompliceVariantRoundComponent;
+import dev.caecorthus.sparkdlc.witch.roles.witch.bewitched.BewitchedPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.curser.CurserPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchRuntimeComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.factor.WitchFactorWorldComponent;
@@ -121,6 +122,10 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.beginRegistration(PlayerEntity.class, RiftSessionComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(RiftSessionComponent::new);
+        // Bewitched promotion task count, synced to its owner only (C3). / 魔化使晋升任务计数，只同步给本人（C3）。
+        registry.beginRegistration(PlayerEntity.class, BewitchedPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(BewitchedPlayerComponent::new);
     }
 
     @Override

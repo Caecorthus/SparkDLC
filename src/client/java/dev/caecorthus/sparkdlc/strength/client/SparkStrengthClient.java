@@ -11,6 +11,7 @@ import dev.caecorthus.sparkdlc.strength.client.role.engineer.EngineerClientHooks
 import dev.caecorthus.sparkdlc.strength.client.role.morphling.MorphlingClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.professor.ProfessorSerumClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.veteran.VeteranClientHooks;
+import dev.caecorthus.sparkdlc.strength.client.role.waiter.WaiterTaskRevealClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.shadowjester.ShadowJesterShowdownMusicController;
 import dev.caecorthus.sparkdlc.strength.client.screen.criminologist.CriminologistScreen;
 import dev.caecorthus.sparkdlc.strength.client.screen.tablet.TabletClientState;
@@ -40,6 +41,7 @@ public final class SparkStrengthClient implements ClientModInitializer {
         RoleEconomyClientHooks.register();
         TabletClientHighlights.register();
         VeteranClientHooks.register();
+        WaiterTaskRevealClientHooks.register();
         ClientTickEvents.END_CLIENT_TICK.register(CorruptCopMusicController::tick);
         ClientTickEvents.END_CLIENT_TICK.register(ShadowJesterShowdownMusicController::tick);
 

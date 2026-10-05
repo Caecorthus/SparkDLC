@@ -12,6 +12,7 @@ import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.BluePoisonIn
 import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.ConsciencePoisonerService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.ConscienceTrait;
 import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveTraitService;
+import dev.caecorthus.sparkdlc.traits.impl.selection.TraitRules;
 import dev.caecorthus.sparkdlc.traits.impl.effective.alignment.EffectiveAlignment;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.impostor.ImpostorTrait;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.laststand.LastStandTrait;
@@ -336,7 +337,8 @@ public class TraitPlayerComponent implements AutoSyncedComponent, ServerTickingC
         if (RetiredTraitIds.isRetired(traitId)) {
             return false;
         }
-        if (pendingTraits.size() >= MAX_TRAITS && !pendingTraits.contains(traitId)) {
+        if (TraitRules.occupiesTraitSlot(traitId) && TraitRules.occupiedTraitSlots(pendingTraits) >= MAX_TRAITS
+                && !pendingTraits.contains(traitId)) {
             return false;
         }
         boolean changed = pendingTraits.add(traitId);
@@ -367,8 +369,8 @@ public class TraitPlayerComponent implements AutoSyncedComponent, ServerTickingC
             if (RetiredTraitIds.isRetired(traitId)) {
                 continue;
             }
-            if (activeTraits.size() >= MAX_TRAITS) {
-                break;
+            if (TraitRules.occupiesTraitSlot(traitId) && TraitRules.occupiedTraitSlots(activeTraits) >= MAX_TRAITS) {
+                continue;
             }
             activeTraits.add(traitId);
             Trait trait = TraitRegistry.get(traitId);

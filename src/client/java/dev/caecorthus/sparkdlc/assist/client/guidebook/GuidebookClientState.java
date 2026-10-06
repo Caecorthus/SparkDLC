@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.assist.client.guidebook;
 
+import dev.caecorthus.sparkdlc.assist.client.guidebook.ui.decor.GuidebookDecorApi;
 import dev.caecorthus.sparkdlc.assist.guidebook.GuidebookEntryPoint;
 import dev.caecorthus.sparkdlc.assist.guidebook.GuidebookSessionState;
 import dev.caecorthus.sparkdlc.assist.guidebook.GuidebookObservationRules;
@@ -75,5 +76,6 @@ public final class GuidebookClientState {
 
     public static void disconnect() {
         SESSION.disconnect();
+        GuidebookDecorApi.release();
     }
 }

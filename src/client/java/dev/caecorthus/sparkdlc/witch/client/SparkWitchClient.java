@@ -13,6 +13,7 @@ import dev.caecorthus.sparkdlc.witch.client.judge.JudgeClientModule;
 import dev.caecorthus.sparkdlc.witch.client.prophet.ProphetClientModule;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.judge.JudgeRules;
 import dev.caecorthus.sparkdlc.witch.client.ability.SecondaryAbilityController;
+import dev.caecorthus.sparkdlc.witch.client.apprentice.ApprenticeClientModule;
 import dev.caecorthus.sparkdlc.witch.client.emma.EmmaClientModule;
 import dev.caecorthus.sparkdlc.witch.client.grandwitch.GrandWitchClientModule;
 import dev.caecorthus.sparkdlc.witch.client.bellringer.BellRingerClient;
@@ -98,6 +99,7 @@ public final class SparkWitchClient implements ClientModInitializer {
         SecondaryAbilityController.registerKeyBinding();
         BlackRavenClientModule.register();
         GrandWitchClientModule.register();
+        ApprenticeClientModule.register();
         EmmaClientModule.register();
         WitchMaidenClientModule.register();
         BellRingerClient.init();

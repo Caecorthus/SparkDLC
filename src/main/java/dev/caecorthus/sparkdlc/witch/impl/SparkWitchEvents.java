@@ -13,6 +13,7 @@ import dev.caecorthus.sparkdlc.witch.item.ceremonialsword.CeremonialSwordDashSer
 import dev.caecorthus.sparkdlc.witch.item.firepoker.FirePokerCombatService;
 import dev.caecorthus.sparkdlc.witch.item.firepoker.FirePokerFallAttributionService;
 import dev.caecorthus.sparkdlc.witch.item.tofana.TofanaProtectionService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.ApprenticeFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.abilities.MightyForce.MightyForceCombatService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.blind.BlindFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertFeatureService;
@@ -139,6 +140,7 @@ public final class SparkWitchEvents {
         AbyssListenerFeatureService.register();
         PotionGunnerFeatureService.register();
         RiftwalkerFeatureService.register();
+        ApprenticeFeatureService.register();
         RoleAssigned.EVENT.register((player, role) -> {
             if (player instanceof ServerPlayerEntity serverPlayer) {
                 PerfumerPlayerComponent.KEY.get(serverPlayer).clear();

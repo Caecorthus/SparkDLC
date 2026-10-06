@@ -7,6 +7,7 @@ import dev.caecorthus.sparkdlc.witch.SparkWitchEntities;
 import dev.caecorthus.sparkdlc.witch.SparkWitchSounds;
 import dev.caecorthus.sparkdlc.witch.client.blind.BlindClient;
 import dev.caecorthus.sparkdlc.witch.client.blind.kit.BlindKitClientWiring;
+import dev.caecorthus.sparkdlc.witch.client.fiend.FiendDashClient;
 import dev.caecorthus.sparkdlc.witch.client.fisher.FisherClient;
 import dev.caecorthus.sparkdlc.witch.client.judge.JudgeClientModule;
 import dev.caecorthus.sparkdlc.witch.client.prophet.ProphetClientModule;
@@ -62,6 +63,7 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.UseOrthopedistSk
 import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.SaintRules;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.flash.HolyFlashEntities;
 import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterEntities;
+import dev.caecorthus.sparkdlc.witch.roles.neutral.fiend.FiendParticipation;
 import dev.caecorthus.sparkdlc.witch.roles.killer.saboteur.SaboteurRole;
 import dev.caecorthus.sparkdlc.witch.client.saboteur.SaboteurClientAbilityRules;
 import dev.caecorthus.sparkdlc.witch.roles.killer.saboteur.UseSaboteurSkillC2SPacket;
@@ -206,6 +208,10 @@ public final class SparkWitchClient implements ClientModInitializer {
                 } else if (BlindRules.isBlind(role)) {
                     // Real role only (the Blind is never a disguise target). / 仅真实职业（盲人不可被伪装）。
                     BlindKitClientWiring.onAbilityKey(client);
+                } else if (FiendParticipation.isMomentFiend(client.player)) {
+                    // Real role plus the synced moment owner; Dash exists only during the moment. The server decides use.
+                    // 真实职业加同步的时刻拥有者；疾驰只在时刻中存在，是否生效由服务端决定。
+                    FiendDashClient.onAbilityKey(client);
                 } else if (!WitchMaidenRules.isWitchMaiden(role)
                         && (WitchPlayerComponent.KEY.get(client.player).hasSkill()
                         || SaintRules.isSaint(role))) {

@@ -32,6 +32,7 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.perfumer.PerfumerRuntime;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.perfumer.PerfumerShopService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchActiveSkillService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.recruitment.hold.RecruitmentHold;
 import dev.caecorthus.sparkdlc.witch.roles.witch.WitchFactionFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.abysslistener.AbyssListenerFeatureService;
 import dev.caecorthus.sparkdlc.witch.mana.WitchManaService;
@@ -90,6 +91,7 @@ public final class SparkWitchEvents {
         CeremonialSwordCombatService.register();
         CeremonialSwordDashService.register();
         GrandWitchFeatureService.register();
+        RecruitmentHold.register();
         EmmaLifecycle.register();
         EmmaGunService.register();
         MightyForceCombatService.register();

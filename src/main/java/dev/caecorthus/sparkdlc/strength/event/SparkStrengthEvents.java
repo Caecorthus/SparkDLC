@@ -32,6 +32,7 @@ import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerPowerRestorationSe
 import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerShopService;
 import dev.caecorthus.sparkdlc.strength.role.morphling.MorphlingService;
 import dev.caecorthus.sparkdlc.strength.role.morphling.MorphlingShopService;
+import dev.caecorthus.sparkdlc.strength.role.pathogen.PathogenFeatureService;
 import dev.caecorthus.sparkdlc.strength.role.poisoner.PoisonerEconomyService;
 import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumShopService;
 import dev.caecorthus.sparkdlc.strength.role.recaller.RecallerEconomyService;
@@ -82,6 +83,7 @@ public final class SparkStrengthEvents {
         EngineerShopService.register();
         MorphlingService.register();
         MorphlingShopService.register();
+        PathogenFeatureService.register();
         PoisonerEconomyService.register();
         ProfessorSerumShopService.register();
         RecallerShopService.register();

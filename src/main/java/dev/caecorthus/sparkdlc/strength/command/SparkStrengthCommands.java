@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.command;
 
 import dev.caecorthus.sparkdlc.strength.mixin.wathe.GameWorldComponentAccessor;
+import dev.caecorthus.sparkdlc.strength.compat.SparkTraitsCompat;
 import dev.caecorthus.sparkdlc.strength.component.tablet.TabletWorldComponent;
 import dev.caecorthus.sparkdlc.strength.tablet.TabletRules;
 import com.mojang.brigadier.CommandDispatcher;
@@ -165,6 +166,15 @@ public final class SparkStrengthCommands {
                     true
             );
         }
+
+        if (!alive) {
+            // SparkTraits 的准心词条显示使用死亡快照；可选桥接只记录词条，不触发真实死亡流程。
+            // 即使目标已经是非存活状态，重复执行命令也会补写快照，方便修复旧状态或重新同步。
+            SparkTraitsCompat.snapshotDeathTraitsForDebug(target);
+        }
+
+        // 通知可选的 SparkTraits 重新同步词条可见性；未安装时该桥接会安全跳过。
+        SparkTraitsCompat.syncTraitVisibility(target);
 
         if (!game.isRunning()) {
             source.sendFeedback(

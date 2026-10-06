@@ -32,9 +32,10 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.perfumer.PerfumerRuntime;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.perfumer.PerfumerShopService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchActiveSkillService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchFeatureService;
-import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.recruitment.hold.RecruitmentHold;
 import dev.caecorthus.sparkdlc.witch.roles.witch.WitchFactionFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.abysslistener.AbyssListenerFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.witch.bewitched.BewitchedFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.witch.bewitched.BewitchedPromotionService;
 import dev.caecorthus.sparkdlc.witch.mana.WitchManaService;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.murderouswitch.MurderousWitchFeature.MurderousWitchFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.fiend.FiendFeatureService;
@@ -91,7 +92,6 @@ public final class SparkWitchEvents {
         CeremonialSwordCombatService.register();
         CeremonialSwordDashService.register();
         GrandWitchFeatureService.register();
-        RecruitmentHold.register();
         EmmaLifecycle.register();
         EmmaGunService.register();
         MightyForceCombatService.register();
@@ -139,6 +139,7 @@ public final class SparkWitchEvents {
         AbyssListenerFeatureService.register();
         PotionGunnerFeatureService.register();
         RiftwalkerFeatureService.register();
+        BewitchedFeatureService.register();
         RoleAssigned.EVENT.register((player, role) -> {
             if (player instanceof ServerPlayerEntity serverPlayer) {
                 PerfumerPlayerComponent.KEY.get(serverPlayer).clear();
@@ -161,6 +162,9 @@ public final class SparkWitchEvents {
         TaskComplete.EVENT.register(WitchManaService::onTaskComplete);
         TaskComplete.EVENT.register((player, taskType) -> GrandWitchActiveSkillService.onTaskComplete(player));
         TaskComplete.EVENT.register((player, taskType) -> WitchEconomyService.onTaskComplete(player));
+        // Bewitched promotion progress (C3): counts and enqueues only; the role changes at END_SERVER_TICK.
+        // 魔化使晋升进度（C3）：只计数与入队；身份在 END_SERVER_TICK 变更。
+        TaskComplete.EVENT.register((player, taskType) -> BewitchedPromotionService.onTaskComplete(player));
         TaskComplete.EVENT.register((player, taskType) -> PigGodEconomyService.onTaskComplete(player));
         TaskComplete.EVENT.register((player, taskType) -> ProphetEconomyService.onTaskComplete(player));
         TaskComplete.EVENT.register((player, taskType) -> SaintEconomyService.onTaskComplete(player));
@@ -201,9 +205,6 @@ public final class SparkWitchEvents {
                 // Round end clears only SparkWitch runtime state; role maps and other mods remain owned by wathe.
                 // 回合结束只清理 SparkWitch 运行态，身份表和其他模组状态仍由 wathe 自己管理。
                 WitchWorldComponent.KEY.get(serverWorld).clearRoundState();
-                // Forced recruits live on the overworld store; clear them even when the round ran in another world.
-                // 强制招募保存在主世界存储上；即使对局在其他世界进行也要清空。
-                WitchWorldComponent.KEY.get(serverWorld.getServer().getOverworld()).clearForcedRecruits();
                 FirePokerFallAttributionService.clearAll();
                 WraithLifecycle.clearRoundState(serverWorld);
                 PoisonApplePlateService.clearLoadedPlates();

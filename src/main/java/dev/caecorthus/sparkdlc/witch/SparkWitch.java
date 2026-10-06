@@ -3,7 +3,6 @@ package dev.caecorthus.sparkdlc.witch;
 import dev.caecorthus.sparkdlc.witch.roles.witch.potiongunner.shell.PotionGunnerEntities;
 import dev.caecorthus.sparkdlc.factionapi.api.compat.NoellesHiddenEquipment;
 import dev.caecorthus.sparkdlc.witch.command.ForceAbilityCommand;
-import dev.caecorthus.sparkdlc.witch.command.ForceAccompliceRoleCommand;
 import dev.caecorthus.sparkdlc.witch.command.ForcePromotionCommand;
 import dev.caecorthus.sparkdlc.witch.command.GhostSettingsCommand;
 import dev.caecorthus.sparkdlc.witch.command.SetManaCommand;
@@ -113,7 +112,6 @@ public final class SparkWitch implements ModInitializer {
             SetManaCommand.register(dispatcher);
             ForceAbilityCommand.register(dispatcher);
             ForcePromotionCommand.register(dispatcher);
-            ForceAccompliceRoleCommand.register(dispatcher);
             GhostSettingsCommand.register(dispatcher);
             WatheGhostDividendCommand.register(dispatcher);
             WitchFactorCommand.register(dispatcher);

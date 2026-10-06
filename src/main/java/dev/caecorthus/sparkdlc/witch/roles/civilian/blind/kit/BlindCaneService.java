@@ -12,7 +12,6 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.blind.net.BlindPulseS2CPaylo
 import dev.caecorthus.sparkdlc.witch.roles.civilian.blind.net.BlindPulseSender;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.witch.roles.special.wraith.WraithStateService;
-import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.recruitment.hold.RecruitmentHold;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
@@ -145,10 +144,7 @@ public final class BlindCaneService {
             }
             if (BlindKitRules.isCaneTarget(other == blind, GameFunctions.isPlayerPlayingAndAlive(other),
                     other.isSpectator(), WraithStateService.isActive(other),
-                    NoellesTaotieSeekerBridge.isSwallowed(other), other.squaredDistanceTo(blind))
-                    // A held recruit stands invisible inside the Grand Witch; the cane never outlines them.
-                    // 被定身的新共犯隐身站在大魔女体内；盲杖从不勾勒其身形。
-                    && !RecruitmentHold.isHeld(other)) {
+                    NoellesTaotieSeekerBridge.isSwallowed(other), other.squaredDistanceTo(blind))) {
                 ids.add(other.getId());
             }
         }

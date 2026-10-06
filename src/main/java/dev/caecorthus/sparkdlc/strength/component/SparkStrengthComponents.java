@@ -1,5 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.component;
 
+import dev.caecorthus.sparkdlc.strength.component.pathogen.PathogenStrainComponent;
+import dev.caecorthus.sparkdlc.strength.component.pathogen.VirusCarrierComponent;
 import dev.caecorthus.sparkdlc.strength.component.corruptcop.CorruptCopAbilityComponent;
 import dev.caecorthus.sparkdlc.strength.component.coroner.CoronerBodySnapshotComponent;
 import dev.caecorthus.sparkdlc.strength.component.coroner.CoronerPlayerComponent;
@@ -90,6 +92,12 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
         registry.beginRegistration(PlayerEntity.class, SkateboardRideComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(SkateboardRideComponent::new);
+        registry.beginRegistration(PlayerEntity.class, PathogenStrainComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(PathogenStrainComponent::new);
+        registry.beginRegistration(PlayerEntity.class, VirusCarrierComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(VirusCarrierComponent::new);
         registry.registerFor(PlayerBodyEntity.class, CoronerBodySnapshotComponent.KEY, CoronerBodySnapshotComponent::new);
     }
 

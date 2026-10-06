@@ -25,10 +25,10 @@ import dev.caecorthus.sparkdlc.witch.roles.killer.timestealer.TimeTheftPlayerCom
 import dev.caecorthus.sparkdlc.witch.roles.neutral.fiend.FiendMomentWorldComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.abysslistener.zone.AbyssZoneExposureComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.accomplice.variant.AccompliceVariantRoundComponent;
+import dev.caecorthus.sparkdlc.witch.roles.witch.bewitched.BewitchedPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.curser.CurserPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchRuntimeComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.factor.WitchFactorWorldComponent;
-import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.recruitment.GrandWitchRecruitmentRoundComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.gate.RiftGateRegistryComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.session.RiftSessionComponent;
 import net.minecraft.entity.player.PlayerEntity;
@@ -126,6 +126,10 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.beginRegistration(PlayerEntity.class, RiftSessionComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(RiftSessionComponent::new);
+        // Bewitched promotion task count, synced to its owner only (C3). / 魔化使晋升任务计数，只同步给本人（C3）。
+        registry.beginRegistration(PlayerEntity.class, BewitchedPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(BewitchedPlayerComponent::new);
     }
 
     @Override
@@ -134,7 +138,6 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.register(WitchWorldComponent.KEY, WitchWorldComponent::new);
         registry.register(WitchFactorWorldComponent.KEY, WitchFactorWorldComponent::new);
         registry.register(EmmaRoundComponent.KEY, EmmaRoundComponent::new);
-        registry.register(GrandWitchRecruitmentRoundComponent.KEY, GrandWitchRecruitmentRoundComponent::new);
         registry.register(WraithRoundComponent.KEY, WraithRoundComponent::new);
         registry.register(LegacyWraithRoundComponent.KEY, LegacyWraithRoundComponent::new);
         registry.register(FiendMomentWorldComponent.KEY, FiendMomentWorldComponent::new);

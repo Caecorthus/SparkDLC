@@ -28,6 +28,7 @@ import dev.caecorthus.sparkdlc.witch.roles.witch.curser.CurserPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchRuntimeComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.factor.WitchFactorWorldComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.recruitment.GrandWitchRecruitmentRoundComponent;
+import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.recruitment.hold.RecruitmentHoldComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.gate.RiftGateRegistryComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.session.RiftSessionComponent;
 import net.minecraft.entity.player.PlayerEntity;
@@ -122,6 +123,9 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.beginRegistration(PlayerEntity.class, RiftSessionComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(RiftSessionComponent::new);
+        registry.beginRegistration(PlayerEntity.class, RecruitmentHoldComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(RecruitmentHoldComponent::new);
     }
 
     @Override

@@ -4,13 +4,11 @@ import dev.caecorthus.sparkdlc.witch.SparkWitch;
 import dev.caecorthus.sparkdlc.witch.SparkWitchItems;
 import dev.caecorthus.sparkdlc.witch.SparkWitchRoles;
 import dev.caecorthus.sparkdlc.witch.client.SparkWitchClient;
-import dev.caecorthus.sparkdlc.witch.client.ability.SecondaryAbilityController;
 import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.mixin.accessor.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.witch.mixin.accessor.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.factor.WitchFactorService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchRuntimeComponent;
-import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.recruitment.GrandWitchRecruitmentRules;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.client.font.TextRenderer;
@@ -45,31 +43,6 @@ public final class GrandWitchClientPresentation {
         return ticks > 0
                 ? Text.translatable("hud.sparkwitch.grand_witch.factor.cooldown", seconds(ticks))
                 : Text.translatable("hud.sparkwitch.grand_witch.factor.ready", SparkWitchClient.abilityKeyText());
-    }
-
-    public static Text recruitmentState(ClientPlayerEntity player) {
-        WitchPlayerComponent component = WitchPlayerComponent.KEY.get(player);
-        if (!component.hasUnlockedGrandWitchCeremonialSword()) {
-            return Text.translatable("hud.sparkwitch.grand_witch.recruit.locked", component.getGrandWitchCeremonialSwordTasks());
-        }
-        RecruitQuota quota = recruitQuota(player);
-        return Text.translatable("hud.sparkwitch.grand_witch.recruit.ready",
-                quota.remaining(), quota.capacity(), SecondaryAbilityController.secondaryKeyText());
-    }
-
-    /**
-     * Recruit quota left / total this round, shared by the HUD line and the inventory card.
-     * 本局剩余 / 总招募名额，HUD 与背包卡片共用。
-     */
-    public record RecruitQuota(int remaining, int capacity) {
-    }
-
-    public static RecruitQuota recruitQuota(ClientPlayerEntity player) {
-        GrandWitchRuntimeComponent runtime = GrandWitchRuntimeComponent.KEY.get(player);
-        // Quota is cumulative and based on the round snapshot, never the current living count. / 名额按开局人口及累计招募计算，不按当前存活人数。
-        int capacity = GrandWitchRecruitmentRules.limit(runtime.getRoundParticipants());
-        int remaining = Math.max(0, capacity - runtime.getRecruitmentCount());
-        return new RecruitQuota(remaining, capacity);
     }
 
     /** Remaining sword kill cooldown in ticks (server timer, ticked locally between syncs). 仪礼剑剩余击杀冷却刻数。 */
@@ -108,7 +81,6 @@ public final class GrandWitchClientPresentation {
     public static void renderHud(DrawContext context, TextRenderer renderer, ClientPlayerEntity player) {
         List<Text> lines = new ArrayList<>();
         lines.add(factorState(player));
-        lines.add(recruitmentState(player));
         lines.addAll(swordStates(player));
         int y = context.getScaledWindowHeight() - 5 - lines.size() * (renderer.fontHeight + 2);
         for (Text line : lines) {

@@ -1,12 +1,9 @@
 package dev.caecorthus.sparkdlc.witch.client.emma;
 
-import dev.caecorthus.sparkdlc.witch.SparkWitchRoles;
-import dev.caecorthus.sparkdlc.witch.client.factor.WitchFactorClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.factor.WitchFactorOutlineRules;
 import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.net.EmmaFactorC2SPacket;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -20,17 +17,6 @@ import net.minecraft.text.Text;
 /** Role-owned presentation/dispatch only; the server owns target eligibility and spending. / 职业自有展示与派发；目标资格及消耗由服务端决定。 */
 public final class EmmaClientModule {
     private EmmaClientModule() {
-    }
-
-    public static void register() {
-        WitchFactorClientHooks.registerPrivateRevealProvider((viewer, target) -> {
-            if (!isEmma(viewer) || !EmmaPlayerComponent.KEY.get(viewer).hasRevealedGrandWitch(target.getUuid())) {
-                return -1;
-            }
-            // Permanent private evidence keeps the attempting role's color even after its role changes.
-            // 永久私有证据保持尝试招募时的大魔女职业色，不随对方后续转职改变。
-            return SparkWitchRoles.grandWitch().color();
-        });
     }
 
     public static boolean isEmma(PlayerEntity player) {

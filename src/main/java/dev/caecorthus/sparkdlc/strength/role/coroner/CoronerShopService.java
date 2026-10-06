@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.strength.role.coroner;
 
 import dev.caecorthus.sparkdlc.strength.SparkStrengthItems;
 import dev.caecorthus.sparkdlc.strength.compat.SparkWitchCompat;
+import dev.caecorthus.sparkdlc.strength.role.bartender.BartenderRules;
 import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerPowerRestorationService;
 import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerRules;
 import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumRules;
@@ -180,7 +181,10 @@ public final class CoronerShopService {
                 CoronerRules.BODY_BAG_PRICE,
                 ShopEntry.Type.TOOL
         ).actualStack(SparkStrengthItems.coronerBodyBag().getDefaultStack()).build());
-        context.addEntry(new ShopEntry(ModItems.BASE_SPIRIT.getDefaultStack(), 50, ShopEntry.Type.POISON));
+        // Ingredient prices and spices A/B come from BartenderShopService, which rewrites every final Bartender list.
+        // 调剂价格与调料 A/B 由 BartenderShopService 统一改写最终酒保列表时提供。
+        context.addEntry(new ShopEntry(
+                ModItems.BASE_SPIRIT.getDefaultStack(), BartenderRules.BASE_SPIRIT_PRICE, ShopEntry.Type.POISON));
         addIngredientEntry(context, ModItems.RUM);
         addIngredientEntry(context, ModItems.GIN);
         addIngredientEntry(context, ModItems.VODKA);

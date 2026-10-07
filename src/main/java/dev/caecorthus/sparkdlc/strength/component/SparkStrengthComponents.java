@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.component;
 
+import dev.caecorthus.sparkdlc.strength.component.collision.PlayerCollisionGraceWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.corruptcop.CorruptCopAbilityComponent;
 import dev.caecorthus.sparkdlc.strength.component.coroner.CoronerBodySnapshotComponent;
 import dev.caecorthus.sparkdlc.strength.component.coroner.CoronerPlayerComponent;
@@ -96,6 +97,7 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
 
     @Override
     public void registerWorldComponentFactories(@NotNull WorldComponentFactoryRegistry registry) {
+        registry.register(PlayerCollisionGraceWorldComponent.KEY, PlayerCollisionGraceWorldComponent::new);
         registry.register(CriminologistWorldComponent.KEY, CriminologistWorldComponent::new);
         registry.register(TabletWorldComponent.KEY, TabletWorldComponent::new);
         registry.register(MorphBodyDisguiseWorldComponent.KEY, MorphBodyDisguiseWorldComponent::new);

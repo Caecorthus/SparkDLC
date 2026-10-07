@@ -36,6 +36,7 @@ import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerShopService;
 import dev.caecorthus.sparkdlc.strength.role.morphling.MorphlingService;
 import dev.caecorthus.sparkdlc.strength.role.morphling.MorphlingShopService;
 import dev.caecorthus.sparkdlc.strength.role.pathogen.PathogenFeatureService;
+import dev.caecorthus.sparkdlc.strength.role.spiritualist.SpiritPossessionService;
 import dev.caecorthus.sparkdlc.strength.role.taotie.TaotieHeadFeatureService;
 import dev.caecorthus.sparkdlc.strength.role.poisoner.PoisonerEconomyService;
 import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumShopService;
@@ -97,6 +98,9 @@ public final class SparkStrengthEvents {
         MorphlingShopService.register();
         PathogenFeatureService.register();
         TaotieHeadFeatureService.register();
+        // Spiritualist Wraith possession: opening cooldown, round cleanup and the far-view tick.
+        // 灵界行者附身冤魂：开局冷却、单局清理与远距离视野的每刻处理。
+        SpiritPossessionService.register();
         PoisonerEconomyService.register();
         ProfessorSerumShopService.register();
         ReporterCommunicationManager.register();

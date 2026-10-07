@@ -19,6 +19,7 @@ import dev.caecorthus.sparkdlc.strength.client.role.morphling.MorphlingClientHoo
 import dev.caecorthus.sparkdlc.strength.client.role.pathogen.PathogenClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.perfumer.PerfumerClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.professor.ProfessorSerumClientHooks;
+import dev.caecorthus.sparkdlc.strength.client.role.spiritualist.SpiritPossessionClient;
 import dev.caecorthus.sparkdlc.strength.client.role.taotie.TaotieHeadClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.veteran.VeteranClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.vulture.SkateboardClient;
@@ -70,6 +71,9 @@ public final class SparkStrengthClient implements ClientModInitializer {
         RoleEconomyClientHooks.register();
         SkateboardClient.register();
         TaotieHeadClientHooks.register();
+        // Spiritualist Wraith possession; the key and Wraith sight bind only with SparkWitch (reflection).
+        // 灵界行者附身冤魂；按键与冤魂可见仅在加载 SparkWitch 时挂接（反射）。
+        SpiritPossessionClient.register();
         TabletClientHighlights.register();
         VeteranClientHooks.register();
         WaiterTaskRevealClientHooks.register();

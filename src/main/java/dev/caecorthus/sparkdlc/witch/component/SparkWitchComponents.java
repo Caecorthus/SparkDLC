@@ -27,6 +27,7 @@ import dev.caecorthus.sparkdlc.witch.roles.neutral.fiend.FiendMomentWorldCompone
 import dev.caecorthus.sparkdlc.witch.roles.witch.abysslistener.zone.AbyssZoneExposureComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.accomplice.variant.AccompliceVariantRoundComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.bewitched.BewitchedPlayerComponent;
+import dev.caecorthus.sparkdlc.witch.roles.killer.magician.MagicianPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.curser.CurserPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchRuntimeComponent;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.factor.WitchFactorWorldComponent;
@@ -36,6 +37,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.NotNull;
 import org.ladysnake.cca.api.v3.entity.EntityComponentFactoryRegistry;
 import org.ladysnake.cca.api.v3.entity.EntityComponentInitializer;
+import org.ladysnake.cca.api.v3.component.ComponentKey;
 import org.ladysnake.cca.api.v3.entity.RespawnCopyStrategy;
 import org.ladysnake.cca.api.v3.world.WorldComponentFactoryRegistry;
 import org.ladysnake.cca.api.v3.world.WorldComponentInitializer;
@@ -91,6 +93,9 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.beginRegistration(PlayerEntity.class, CurserPlayerComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(CurserPlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, MagicianPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(MagicianPlayerComponent::new);
         registry.beginRegistration(PlayerEntity.class, LegacyWraithPlayerComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(LegacyWraithPlayerComponent::new);

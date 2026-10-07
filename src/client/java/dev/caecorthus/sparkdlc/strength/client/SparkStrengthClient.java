@@ -19,6 +19,7 @@ import dev.caecorthus.sparkdlc.strength.client.role.morphling.MorphlingClientHoo
 import dev.caecorthus.sparkdlc.strength.client.role.pathogen.PathogenClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.perfumer.PerfumerClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.professor.ProfessorSerumClientHooks;
+import dev.caecorthus.sparkdlc.strength.client.role.taotie.TaotieHeadClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.veteran.VeteranClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.vulture.SkateboardClient;
 import dev.caecorthus.sparkdlc.strength.client.role.waiter.WaiterTaskRevealClientHooks;
@@ -68,6 +69,7 @@ public final class SparkStrengthClient implements ClientModInitializer {
         ProfessorSerumClientHooks.register();
         RoleEconomyClientHooks.register();
         SkateboardClient.register();
+        TaotieHeadClientHooks.register();
         TabletClientHighlights.register();
         VeteranClientHooks.register();
         WaiterTaskRevealClientHooks.register();

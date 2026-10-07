@@ -26,6 +26,7 @@ import dev.caecorthus.sparkdlc.strength.network.tablet.SyncTabletSnapshotS2CPack
 import dev.caecorthus.sparkdlc.strength.network.shadowjester.SyncShadowJesterShowdownMusicS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.veteran.SyncVeteranBlackoutS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.timekeeper.TimekeeperWatchModeC2SPacket;
+import dev.caecorthus.sparkdlc.strength.network.taotie.TaotieHeadFireC2SPacket;
 import dev.caecorthus.sparkdlc.strength.role.noisemaker.NoisemakerGlowService;
 import dev.caecorthus.sparkdlc.strength.role.phantom.PhantomBackpackService;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
@@ -34,6 +35,7 @@ import dev.caecorthus.sparkdlc.strength.role.detective.DetectiveCaseService;
 import dev.caecorthus.sparkdlc.strength.role.reporter.ReporterCommunicationService;
 import dev.caecorthus.sparkdlc.strength.role.demonhunter.DemonHunterSniffService;
 import dev.caecorthus.sparkdlc.strength.role.timekeeper.TimekeeperWatchService;
+import dev.caecorthus.sparkdlc.strength.role.taotie.TaotieHeadService;
 import dev.caecorthus.sparkdlc.strength.tablet.TabletStateService;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -66,6 +68,7 @@ public final class SparkStrengthPackets {
         PayloadTypeRegistry.playC2S().register(ApproveSuspectRemovalC2SPacket.ID, ApproveSuspectRemovalC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(SelectTabletChannelC2SPacket.ID, SelectTabletChannelC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(TimekeeperWatchModeC2SPacket.ID, TimekeeperWatchModeC2SPacket.CODEC);
+        PayloadTypeRegistry.playC2S().register(TaotieHeadFireC2SPacket.ID, TaotieHeadFireC2SPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(OpenDetectiveFolderS2CPacket.ID, OpenDetectiveFolderS2CPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(OpenTabletScreenS2CPacket.ID, OpenTabletScreenS2CPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(SyncTabletSnapshotS2CPacket.ID, SyncTabletSnapshotS2CPacket.CODEC);
@@ -138,5 +141,9 @@ public final class SparkStrengthPackets {
                 ));
         ServerPlayNetworking.registerGlobalReceiver(TimekeeperWatchModeC2SPacket.ID,
                 (payload, context) -> TimekeeperWatchService.switchMode(context.player(), payload.modeOrdinal()));
+        // Empty request: the service re-validates role, round, liveness, locks, cooldown and the stomach.
+        // 空请求：服务端重新校验身份、对局、存活、各类锁定、冷却与体内玩家。
+        ServerPlayNetworking.registerGlobalReceiver(TaotieHeadFireC2SPacket.ID,
+                (payload, context) -> TaotieHeadService.tryFire(context.player()));
     }
 }

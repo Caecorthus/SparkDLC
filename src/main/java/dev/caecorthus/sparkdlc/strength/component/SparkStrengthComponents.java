@@ -27,6 +27,8 @@ import dev.caecorthus.sparkdlc.strength.component.vulture.SkateboardRideComponen
 import dev.caecorthus.sparkdlc.strength.component.shadowjester.ShadowJesterShowdownWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.waiter.WaiterTaskRevealComponent;
 import dev.caecorthus.sparkdlc.strength.component.timekeeper.TimekeeperWatchComponent;
+import dev.caecorthus.sparkdlc.strength.component.taotie.TaotieHeadDazeComponent;
+import dev.caecorthus.sparkdlc.strength.component.taotie.TaotieHeadPlayerComponent;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.NotNull;
@@ -111,6 +113,12 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
         registry.beginRegistration(PlayerEntity.class, TimekeeperWatchComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(TimekeeperWatchComponent::new);
+        registry.beginRegistration(PlayerEntity.class, TaotieHeadPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(TaotieHeadPlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, TaotieHeadDazeComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(TaotieHeadDazeComponent::new);
         registry.registerFor(PlayerBodyEntity.class, CoronerBodySnapshotComponent.KEY, CoronerBodySnapshotComponent::new);
     }
 

@@ -4,6 +4,7 @@
   "package": "dev.caecorthus.sparkdlc.factionapi.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "AntiFastRoundPayloadGuardMixin",
     "compat.noellesroles.NoellesHiddenEquipmentHelperMixin",
     "compat.noellesroles.NoellesRolesDemonHunterAffectMixin",
     "compat.noellesroles.NoellesRolesPacketAffectMixin",

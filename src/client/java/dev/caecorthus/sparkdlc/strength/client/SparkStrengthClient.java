@@ -12,6 +12,7 @@ import dev.caecorthus.sparkdlc.strength.client.role.morphling.MorphlingClientHoo
 import dev.caecorthus.sparkdlc.strength.client.role.professor.ProfessorSerumClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.veteran.VeteranClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.waiter.WaiterTaskRevealClientHooks;
+import dev.caecorthus.sparkdlc.strength.client.role.timekeeper.TimekeeperWatchClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.shadowjester.ShadowJesterShowdownMusicController;
 import dev.caecorthus.sparkdlc.strength.client.screen.criminologist.CriminologistScreen;
 import dev.caecorthus.sparkdlc.strength.client.screen.tablet.TabletClientState;
@@ -26,6 +27,14 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.text.Text;
+import dev.caecorthus.sparkdlc.strength.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.strength.component.timekeeper.TimekeeperWatchComponent;
+import dev.caecorthus.sparkdlc.strength.item.TimekeeperWatchItem;
+import dev.caecorthus.sparkdlc.strength.role.timekeeper.TimekeeperConstants;
+import dev.caecorthus.sparkdlc.strength.role.timekeeper.TimekeeperWatchMode;
 
 public final class SparkStrengthClient implements ClientModInitializer {
     @Override
@@ -44,6 +53,31 @@ public final class SparkStrengthClient implements ClientModInitializer {
         WaiterTaskRevealClientHooks.register();
         ClientTickEvents.END_CLIENT_TICK.register(CorruptCopMusicController::tick);
         ClientTickEvents.END_CLIENT_TICK.register(ShadowJesterShowdownMusicController::tick);
+        ClientTickEvents.END_CLIENT_TICK.register(TimekeeperWatchClientHooks::tick);
+        ItemTooltipCallback.EVENT.register((stack, context, type, lines) -> {
+            if (!stack.isOf(SparkStrengthItems.dyingWatch())) {
+                return;
+            }
+
+            TimekeeperWatchMode mode = TimekeeperWatchItem.getMode(stack);
+            int cost = mode == TimekeeperWatchMode.ITEM_REFRESH
+                    ? TimekeeperConstants.ITEM_REFRESH_COST_COINS
+                    : TimekeeperConstants.ABILITY_REFRESH_COST_COINS;
+            int cooldownTicks = 0;
+            if (MinecraftClient.getInstance().player != null) {
+                var watch = TimekeeperWatchComponent.KEY.get(MinecraftClient.getInstance().player);
+                cooldownTicks = mode == TimekeeperWatchMode.ITEM_REFRESH
+                        ? watch.getItemRefreshCooldownTicks()
+                        : watch.getAbilityRefreshCooldownTicks();
+            }
+            Text cooldown = cooldownTicks > 0
+                    ? Text.translatable("item.sparkstrength.dying_watch.cooldown", (cooldownTicks + 19) / 20)
+                    : Text.translatable("item.sparkstrength.dying_watch.cooldown.ready");
+            var style = net.minecraft.text.Style.EMPTY.withColor(0xADD8E6).withItalic(false);
+            int insertAt = Math.min(1, lines.size());
+            lines.add(insertAt, Text.translatable("item.sparkstrength.dying_watch.cost", cost).setStyle(style));
+            lines.add(insertAt + 1, cooldown.copy().setStyle(style));
+        });
 
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) ->
                 VeteranClientHooks.resetBlackoutState());

@@ -43,6 +43,8 @@ import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranKnifeService;
 import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranShopService;
 import dev.caecorthus.sparkdlc.strength.role.shadowjester.ShadowJesterShowdownService;
 import dev.caecorthus.sparkdlc.strength.role.waiter.WaiterTaskRevealService;
+import dev.caecorthus.sparkdlc.strength.role.timekeeper.TimekeeperWatchService;
+import dev.caecorthus.sparkdlc.strength.component.timekeeper.TimekeeperWatchComponent;
 import dev.caecorthus.sparkdlc.strength.tablet.TabletShopService;
 import dev.caecorthus.sparkdlc.strength.tablet.TabletStateService;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -86,6 +88,7 @@ public final class SparkStrengthEvents {
         ShadowJesterShowdownService.register();
         // 任务完成后记录 30 秒的服务员专属透视状态。
         WaiterTaskRevealService.register();
+        TimekeeperWatchService.register();
         // 回溯者被动收入需要按世界 tick 定时结算，注册在服务端世界 tick 末尾。
         ServerTickEvents.END_WORLD_TICK.register(CoronerEconomyService::tick);
         ServerTickEvents.END_WORLD_TICK.register(CoronerService::tick);
@@ -105,6 +108,10 @@ public final class SparkStrengthEvents {
                 PhantomBackpackService.assignForRole(serverPlayer, role);
                 ToxicologistAntidoteService.clearPlayer(serverPlayer);
                 VeteranKnifeService.assignForRole(serverPlayer, role);
+                if (role == org.agmas.noellesroles.Noellesroles.TIMEKEEPER) {
+                    TimekeeperWatchComponent.KEY.get(serverPlayer).reset();
+                    serverPlayer.giveItemStack(dev.caecorthus.sparkdlc.strength.SparkStrengthItems.dyingWatch().getDefaultStack());
+                }
             }
         });
 
@@ -120,6 +127,7 @@ public final class SparkStrengthEvents {
             ReporterCommunicationComponent.KEY.get(player).reset();
             if (player instanceof ServerPlayerEntity serverPlayer) {
                 WaiterTaskRevealService.reset(serverPlayer);
+                TimekeeperWatchComponent.KEY.get(serverPlayer).reset();
             }
             CriminologistPlayerComponent.KEY.get(player).clearAll();
             DemonHunterSniffPlayerComponent.KEY.get(player).clearSniff();
@@ -164,6 +172,7 @@ public final class SparkStrengthEvents {
                     WaiterTaskRevealService.reset(player);
                     DemonHunterSniffService.clearPlayer(player);
                     VeteranKnifeService.reset(player);
+                    TimekeeperWatchComponent.KEY.get(player).reset();
                 }
             }
         });
@@ -177,6 +186,7 @@ public final class SparkStrengthEvents {
                 for (ServerPlayerEntity player : serverWorld.getPlayers()) {
                     // 新一局初始化时清理上一局可能残留的服务员任务透视倒计时。
                     WaiterTaskRevealService.reset(player);
+                    TimekeeperWatchComponent.KEY.get(player).reset();
                 }
             }
         });

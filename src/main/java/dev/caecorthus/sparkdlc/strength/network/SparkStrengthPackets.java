@@ -18,6 +18,7 @@ import dev.caecorthus.sparkdlc.strength.network.tablet.SendTabletChatC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.tablet.SyncTabletSnapshotS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.shadowjester.SyncShadowJesterShowdownMusicS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.veteran.SyncVeteranBlackoutS2CPacket;
+import dev.caecorthus.sparkdlc.strength.network.timekeeper.TimekeeperWatchModeC2SPacket;
 import dev.caecorthus.sparkdlc.strength.role.noisemaker.NoisemakerGlowService;
 import dev.caecorthus.sparkdlc.strength.role.phantom.PhantomBackpackService;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
@@ -25,6 +26,7 @@ import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumService;
 import dev.caecorthus.sparkdlc.strength.role.reporter.ReporterCommunicationService;
 import dev.caecorthus.sparkdlc.strength.role.detective.CriminologistService;
 import dev.caecorthus.sparkdlc.strength.role.demonhunter.DemonHunterSniffService;
+import dev.caecorthus.sparkdlc.strength.role.timekeeper.TimekeeperWatchService;
 import dev.caecorthus.sparkdlc.strength.tablet.TabletStateService;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -50,6 +52,7 @@ public final class SparkStrengthPackets {
         PayloadTypeRegistry.playC2S().register(CastTabletVoteC2SPacket.ID, CastTabletVoteC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(ConfirmTabletVoteC2SPacket.ID, ConfirmTabletVoteC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(ApproveSuspectRemovalC2SPacket.ID, ApproveSuspectRemovalC2SPacket.CODEC);
+        PayloadTypeRegistry.playC2S().register(TimekeeperWatchModeC2SPacket.ID, TimekeeperWatchModeC2SPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(OpenCriminologistScreenS2CPacket.ID, OpenCriminologistScreenS2CPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(OpenTabletScreenS2CPacket.ID, OpenTabletScreenS2CPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(SyncTabletSnapshotS2CPacket.ID, SyncTabletSnapshotS2CPacket.CODEC);
@@ -97,5 +100,7 @@ public final class SparkStrengthPackets {
                         payload.suspectUuid(),
                         payload.approved()
                 ));
+        ServerPlayNetworking.registerGlobalReceiver(TimekeeperWatchModeC2SPacket.ID,
+                (payload, context) -> TimekeeperWatchService.switchMode(context.player(), payload.modeOrdinal()));
     }
 }

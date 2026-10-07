@@ -8,6 +8,7 @@ import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowUserC
 import dev.caecorthus.sparkdlc.strength.component.phantom.PhantomBackpackUserComponent;
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumUserComponent;
 import dev.caecorthus.sparkdlc.strength.component.reporter.ReporterCommunicationComponent;
+import dev.caecorthus.sparkdlc.strength.component.taotie.TaotieHeadPlayerComponent;
 import dev.caecorthus.sparkdlc.strength.component.timekeeper.TimekeeperWatchComponent;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.strength.mixin.minecraft.ItemCooldownManagerAccessor;
@@ -188,6 +189,7 @@ public final class TimekeeperWatchService {
         ProfessorSerumUserComponent.KEY.get(player).setCooldownTicks(0);
         ReporterCommunicationComponent.KEY.get(player).setCooldownTicks(0);
         DemonHunterSniffPlayerComponent.KEY.get(player).clearSniffCooldown();
+        TaotieHeadPlayerComponent.KEY.get(player).setCooldownTicks(0);
     }
 
     private static void rewardAliveTimekeepers(ServerPlayerEntity victim) {

@@ -26,6 +26,7 @@ import dev.caecorthus.sparkdlc.strength.item.VirusItem;
 import dev.caecorthus.sparkdlc.strength.item.ZephyrPerfumeItem;
 import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DroneKind;
 import dev.caecorthus.sparkdlc.strength.role.perfumer.PerfumerRules;
+import dev.caecorthus.sparkdlc.strength.item.SerialPistolItem;
 import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumType;
 import dev.caecorthus.sparkdlc.strength.role.toxicologist.ToxicologistBlueRules;
 import com.mojang.serialization.Codec;
@@ -67,6 +68,8 @@ public final class SparkStrengthItems {
     public static final Identifier T_VIRUS_ID = SparkStrength.id("t_virus");
     private static Item m67;
     public static final Identifier DYING_WATCH_ID = SparkStrength.id("dying_watch");
+    public static final Identifier SERIAL_PISTOL_ID = SparkStrength.id("serial_pistol");
+    public static final Identifier SERIAL_LEFT_PISTOL_ID = SparkStrength.id("serial_left_pistol");
 
     /** 怀表模式数据组件：0=刷新物品冷却，1=刷新技能冷却。 */
     public static final ComponentType<Integer> TIMEKEEPER_WATCH_MODE = Registry.register(
@@ -104,6 +107,8 @@ public final class SparkStrengthItems {
     private static Item virus;
     private static Item tVirus;
     private static Item dyingWatch;
+    private static Item serialPistol;
+    private static Item serialLeftPistol;
     private static boolean registered;
 
     private SparkStrengthItems() {
@@ -255,6 +260,16 @@ public final class SparkStrengthItems {
                 new TimekeeperWatchItem(new Item.Settings()
                         .maxCount(1)
                         .component(TIMEKEEPER_WATCH_MODE, 0))
+        );
+        serialPistol = Registry.register(
+                Registries.ITEM,
+                SERIAL_PISTOL_ID,
+                new SerialPistolItem(new Item.Settings().maxCount(1), false)
+        );
+        serialLeftPistol = Registry.register(
+                Registries.ITEM,
+                SERIAL_LEFT_PISTOL_ID,
+                new SerialPistolItem(new Item.Settings().maxCount(1), true)
         );
         registered = true;
     }
@@ -468,5 +483,15 @@ public final class SparkStrengthItems {
             throw new IllegalStateException("SparkStrength items are not registered yet");
         }
         return dyingWatch;
+    }
+
+    public static Item serialPistol() {
+        if (serialPistol == null) throw new IllegalStateException("SparkStrength items are not registered yet");
+        return serialPistol;
+    }
+
+    public static Item serialLeftPistol() {
+        if (serialLeftPistol == null) throw new IllegalStateException("SparkStrength items are not registered yet");
+        return serialLeftPistol;
     }
 }

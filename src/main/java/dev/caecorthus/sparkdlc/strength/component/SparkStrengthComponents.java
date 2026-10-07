@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.strength.component;
 
 import dev.caecorthus.sparkdlc.strength.component.pathogen.PathogenStrainComponent;
 import dev.caecorthus.sparkdlc.strength.component.pathogen.VirusCarrierComponent;
+import dev.caecorthus.sparkdlc.strength.component.collision.PlayerCollisionGraceWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.corruptcop.CorruptCopAbilityComponent;
 import dev.caecorthus.sparkdlc.strength.component.coroner.CoronerBodySnapshotComponent;
 import dev.caecorthus.sparkdlc.strength.component.coroner.CoronerPlayerComponent;
@@ -128,6 +129,7 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
         // Replaces the retired sparkstrength:criminologist_world; its saved NBT is likewise ignored by CCA.
         // 取代已移除的 criminologist_world；其旧存档 NBT 同样会被 CCA 忽略。
         registry.register(DetectiveCaseWorldComponent.KEY, DetectiveCaseWorldComponent::new);
+        registry.register(PlayerCollisionGraceWorldComponent.KEY, PlayerCollisionGraceWorldComponent::new);
         registry.register(TabletWorldComponent.KEY, TabletWorldComponent::new);
         registry.register(MorphBodyDisguiseWorldComponent.KEY, MorphBodyDisguiseWorldComponent::new);
         registry.register(

@@ -6,6 +6,7 @@ import dev.caecorthus.sparkdlc.strength.client.item.M67Client;
 import dev.caecorthus.sparkdlc.strength.client.item.PerfumerItemsClient;
 import dev.caecorthus.sparkdlc.strength.client.role.attendant.flashlight.FlashlightLights;
 import dev.caecorthus.sparkdlc.strength.client.role.attendant.flashlight.FlashlightRenderer;
+import dev.caecorthus.sparkdlc.strength.client.role.bodyguard.BodyguardClient;
 import dev.caecorthus.sparkdlc.strength.client.role.bomber.BomberDroneClient;
 import dev.caecorthus.sparkdlc.strength.client.role.coroner.CoronerClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.corruptcop.CorruptCopClientHooks;
@@ -51,6 +52,7 @@ import dev.caecorthus.sparkdlc.strength.role.timekeeper.TimekeeperWatchMode;
 public final class SparkStrengthClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+        BodyguardClient.register();
         CapsuleClient.register();
         FlashlightModelClient.register();
         M67Client.initialize();

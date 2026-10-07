@@ -1,5 +1,8 @@
 package dev.caecorthus.sparkdlc.witch.impl;
 
+import dev.caecorthus.sparkdlc.witch.roles.witch.potiongunner.PotionGunnerFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaGunService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaLifecycle;
 import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsWraithBridge;
 import dev.caecorthus.sparkdlc.witch.component.PerfumerPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
@@ -10,7 +13,13 @@ import dev.caecorthus.sparkdlc.witch.item.ceremonialsword.CeremonialSwordDashSer
 import dev.caecorthus.sparkdlc.witch.item.firepoker.FirePokerCombatService;
 import dev.caecorthus.sparkdlc.witch.item.firepoker.FirePokerFallAttributionService;
 import dev.caecorthus.sparkdlc.witch.item.tofana.TofanaProtectionService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.ApprenticeFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.abilities.MightyForce.MightyForceCombatService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.blind.BlindFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.fisher.FisherFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.SeekerFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.judge.JudgeRuntime;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistSkillService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel.GuardianAngelFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel.GuardianAngelRules;
@@ -23,24 +32,35 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.perfumer.PerfumerFeatureServ
 import dev.caecorthus.sparkdlc.witch.roles.civilian.perfumer.PerfumerRuntime;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.perfumer.PerfumerShopService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchActiveSkillService;
+import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.WitchFactionFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.witch.abysslistener.AbyssListenerFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.witch.bewitched.BewitchedFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.witch.bewitched.BewitchedPromotionService;
 import dev.caecorthus.sparkdlc.witch.mana.WitchManaService;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.murderouswitch.MurderousWitchFeature.MurderousWitchFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.neutral.fiend.FiendFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.neutral.insider.InsiderFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.RiftwalkerFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodEconomyService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodChaseRuntime;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.piggod.PigGodFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.prophet.ProphetDeathLedger;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.prophet.ProphetProphecyService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.prophet.ProphetEconomyService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.prophet.ProphetRuntime;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.SaintEconomyService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.SaintFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.tarotreader.TarotReaderFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.windspirit.WindSpiritFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.killer.bellringer.BellRingerFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.BlackRavenFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.kidnapper.KidnapperDragLifecycle;
 import dev.caecorthus.sparkdlc.witch.roles.killer.kidnapper.KidnapperKnockoutService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.ninja.NinjaFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.saboteur.SaboteurFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.killer.timestealer.TimeStealerFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.FocusedFootstepsRuntime;
 import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.PoisonApplePlateService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.WitchMaidenFeatureService;
@@ -72,8 +92,12 @@ public final class SparkWitchEvents {
         }
         registered = true;
 
+        JudgeRuntime.register();
         CeremonialSwordCombatService.register();
         CeremonialSwordDashService.register();
+        GrandWitchFeatureService.register();
+        EmmaLifecycle.register();
+        EmmaGunService.register();
         MightyForceCombatService.register();
         FirePokerCombatService.register();
         TofanaProtectionService.register();
@@ -82,6 +106,8 @@ public final class SparkWitchEvents {
         PigGodFeatureService.register();
         PigGodEconomyService.register();
         ProphetRuntime.register();
+        ProphetDeathLedger.register();
+        ProphetProphecyService.register();
         ProphetEconomyService.register();
         SaintFeatureService.register();
         PerfumerShopService.register();
@@ -100,12 +126,25 @@ public final class SparkWitchEvents {
         KidnapperDragLifecycle.register();
         TarotReaderFeatureService.register();
         BlackRavenFeatureService.register();
+        BellRingerFeatureService.register();
+        TimeStealerFeatureService.register();
         WindSpiritFeatureService.register();
         SaboteurFeatureService.register();
         WitchMaidenFeatureService.register();
         FocusedFootstepsRuntime.register();
         WitchMaidenShopService.register();
         WraithLifecycle.register();
+        ControlExpertFeatureService.register();
+        SeekerFeatureService.register();
+        FisherFeatureService.register();
+        FiendFeatureService.register();
+        InsiderFeatureService.register();
+        BlindFeatureService.register();
+        AbyssListenerFeatureService.register();
+        PotionGunnerFeatureService.register();
+        RiftwalkerFeatureService.register();
+        BewitchedFeatureService.register();
+        ApprenticeFeatureService.register();
         MagicianPlaybackManager.init();
         MagicianReplayEvents.register();
         RoleAssigned.EVENT.register((player, role) -> {
@@ -134,6 +173,10 @@ public final class SparkWitchEvents {
         });
         TaskComplete.EVENT.register(WitchManaService::onTaskComplete);
         TaskComplete.EVENT.register((player, taskType) -> GrandWitchActiveSkillService.onTaskComplete(player));
+        TaskComplete.EVENT.register((player, taskType) -> WitchEconomyService.onTaskComplete(player));
+        // Bewitched promotion progress (C3): counts and enqueues only; the role changes at END_SERVER_TICK.
+        // 魔化使晋升进度（C3）：只计数与入队；身份在 END_SERVER_TICK 变更。
+        TaskComplete.EVENT.register((player, taskType) -> BewitchedPromotionService.onTaskComplete(player));
         TaskComplete.EVENT.register((player, taskType) -> PigGodEconomyService.onTaskComplete(player));
         TaskComplete.EVENT.register((player, taskType) -> ProphetEconomyService.onTaskComplete(player));
         TaskComplete.EVENT.register((player, taskType) -> SaintEconomyService.onTaskComplete(player));

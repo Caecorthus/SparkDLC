@@ -1,5 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel;
 
+import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.witch.item.ceremonialsword.CeremonialSwordProtectionPolicy;
 import dev.caecorthus.sparkdlc.witch.SparkWitch;
 import dev.caecorthus.sparkdlc.witch.component.WraithPlayerComponent;
 import dev.doctor4t.wathe.api.Role;
@@ -204,6 +206,9 @@ public final class GuardianAngelFeatureService {
             @Nullable ServerPlayerEntity killer,
             Identifier deathReason
     ) {
+        if (SparkTraitsKillerBridge.isLastEscapeActive(victim)) {
+            return null;
+        }
         if (!victim.hasStatusEffect(GuardianAngelEffects.guardianShield())
                 || !GuardianAngelRules.shouldBlockDeath(deathReason)) {
             return null;
@@ -228,7 +233,7 @@ public final class GuardianAngelFeatureService {
                 1.0F
         );
         recordShieldActivation(victim, owner, ownerUuid, deathReason);
-        return KillPlayer.KillResult.cancel();
+        return CeremonialSwordProtectionPolicy.afterProtection(deathReason);
     }
 
     private static @Nullable UUID findOwnerUuid(ServerPlayerEntity victim) {

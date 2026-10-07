@@ -4,6 +4,7 @@ import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsKillerBridge;
 import dev.caecorthus.sparkdlc.witch.net.FireDeathRayC2SPacket;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.hit.SeekerDeviceHits;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.vendetta.VendettaInteractionService;
+import dev.caecorthus.sparkdlc.witch.roles.killer.magician.MagicianPuppetHits;
 import dev.caecorthus.sparkdlc.witch.util.hitscan.PlayerHitboxHistory;
 
 import dev.caecorthus.sparkdlc.witch.SparkWitchDeathReasons;
@@ -107,6 +108,9 @@ public final class MurderousWitchDeathRayService {
         // spared and the particles end there.
         // 搜寻者接缝：穿透射线止于其上最近的搜寻者设备并将其打坏；其后的玩家不受影响，粒子也止于该处。
         double visibleDistance = SeekerDeviceHits.onDeathRayFired(caster, start, direction, visibleRayDistance(world, caster, start, direction));
+        // Magician seam: every puppet on the visible ray ends; puppets never cut the piercing ray, like players.
+        // 魔术师接缝：可见射线上的所有皮套都会结束；皮套与玩家一样不会截断穿透射线。
+        MagicianPuppetHits.onDeathRayFired(caster, start, direction, visibleDistance);
         spawnRayParticles(world, start, direction, visibleDistance);
         for (ServerPlayerEntity target : findTargets(caster, start, direction, visibleDistance)) {
             if (VendettaInteractionService.isOrdinaryAliveOrBoundKillerTarget(caster, target)) {

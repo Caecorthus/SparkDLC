@@ -5,6 +5,7 @@ import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchRules;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchRuntimeComponent;
 import net.minecraft.item.ItemStack;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.vendetta.VendettaInteractionService;
+import dev.caecorthus.sparkdlc.witch.roles.killer.magician.MagicianPuppetHits;
 
 import dev.caecorthus.sparkdlc.witch.SparkWitchDeathReasons;
 import dev.caecorthus.sparkdlc.witch.SparkWitchItems;
@@ -72,6 +73,11 @@ public final class CeremonialSwordCombatService {
             serverAttacker.resetLastAttackedTicks();
         }
         if (!decision.kill()) {
+            // Magician seam: a fully charged strike on a puppet ends it like a sword kill.
+            // 魔术师接缝：蓄满的一击打在皮套上时，按一次剑杀将其结束。
+            if (decision.resetVanillaCooldown()) {
+                MagicianPuppetHits.onCeremonialSwordStrike(serverAttacker, target);
+            }
             return ActionResult.SUCCESS;
         }
 

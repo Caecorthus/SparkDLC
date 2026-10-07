@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.role.morphling;
 
+import dev.caecorthus.sparkdlc.strength.client.role.pathogen.PathogenGrayCrowdClient;
 import dev.caecorthus.sparkdlc.strength.component.morphling.MorphBodyDisguiseWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.morphling.MorphMarkPlayerComponent;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
@@ -82,6 +83,13 @@ public final class MorphlingAppearanceClientHelper {
             return null;
         }
 
+        // A revived (converted) Pathogen sees every non-Pathogen as a gray Steve, disguises included.
+        // 被复活的转化病原体眼中，所有非病原体（包括伪装者）都是灰色史蒂夫。
+        SkinTextures pathogenView = PathogenGrayCrowdClient.skinFor(player);
+        if (pathogenView != null) {
+            return pathogenView;
+        }
+
         MorphlingPlayerComponent originalMorph = MorphlingPlayerComponent.KEY.get(player);
         if (originalMorph.getMorphTicks() > 0) {
             /*
@@ -132,6 +140,10 @@ public final class MorphlingAppearanceClientHelper {
     }
 
     public static SkinTextures resolveBodySkinTextures(PlayerBodyEntity body) {
+        SkinTextures pathogenView = PathogenGrayCrowdClient.skinForBody(body);
+        if (pathogenView != null) {
+            return pathogenView;
+        }
         if (shouldRevealOriginalBodyToLocalKiller()) {
             return resolveOriginalSkinTextures(body.getPlayerUuid());
         }

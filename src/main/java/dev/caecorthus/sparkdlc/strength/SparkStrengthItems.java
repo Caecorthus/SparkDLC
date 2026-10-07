@@ -21,13 +21,17 @@ import dev.caecorthus.sparkdlc.strength.item.ProfessorSerumItem;
 import dev.caecorthus.sparkdlc.strength.item.SkateboardItem;
 import dev.caecorthus.sparkdlc.strength.item.TVirusItem;
 import dev.caecorthus.sparkdlc.strength.item.TabletItem;
+import dev.caecorthus.sparkdlc.strength.item.TimekeeperWatchItem;
 import dev.caecorthus.sparkdlc.strength.item.VirusItem;
 import dev.caecorthus.sparkdlc.strength.item.ZephyrPerfumeItem;
 import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DroneKind;
 import dev.caecorthus.sparkdlc.strength.role.perfumer.PerfumerRules;
 import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumType;
 import dev.caecorthus.sparkdlc.strength.role.toxicologist.ToxicologistBlueRules;
+import com.mojang.serialization.Codec;
+import net.minecraft.component.ComponentType;
 import net.minecraft.item.Item;
+import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
@@ -62,6 +66,17 @@ public final class SparkStrengthItems {
     public static final Identifier VIRUS_ID = SparkStrength.id("virus");
     public static final Identifier T_VIRUS_ID = SparkStrength.id("t_virus");
     private static Item m67;
+    public static final Identifier DYING_WATCH_ID = SparkStrength.id("dying_watch");
+
+    /** 怀表模式数据组件：0=刷新物品冷却，1=刷新技能冷却。 */
+    public static final ComponentType<Integer> TIMEKEEPER_WATCH_MODE = Registry.register(
+            Registries.DATA_COMPONENT_TYPE,
+            SparkStrength.id("timekeeper_watch_mode"),
+            ComponentType.<Integer>builder()
+                    .codec(Codec.INT)
+                    .packetCodec(PacketCodecs.INTEGER)
+                    .build()
+    );
     private static Item capsule;
     private static Item flashlight;
     private static Item tablet;
@@ -88,6 +103,7 @@ public final class SparkStrengthItems {
     private static Item emberSugar;
     private static Item virus;
     private static Item tVirus;
+    private static Item dyingWatch;
     private static boolean registered;
 
     private SparkStrengthItems() {
@@ -231,6 +247,14 @@ public final class SparkStrengthItems {
                 Registries.ITEM,
                 T_VIRUS_ID,
                 new TVirusItem(new Item.Settings().maxCount(1))
+        );
+        // 计时员濒毁怀表：只保留两种刷新冷却模式，状态由 SparkStrength 数据组件保存。
+        dyingWatch = Registry.register(
+                Registries.ITEM,
+                DYING_WATCH_ID,
+                new TimekeeperWatchItem(new Item.Settings()
+                        .maxCount(1)
+                        .component(TIMEKEEPER_WATCH_MODE, 0))
         );
         registered = true;
     }
@@ -437,5 +461,12 @@ public final class SparkStrengthItems {
             throw new IllegalStateException("SparkStrength items are not registered yet");
         }
         return tVirus;
+    }
+
+    public static Item dyingWatch() {
+        if (dyingWatch == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return dyingWatch;
     }
 }

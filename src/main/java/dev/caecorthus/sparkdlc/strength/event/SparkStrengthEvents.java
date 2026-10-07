@@ -10,6 +10,7 @@ import dev.caecorthus.sparkdlc.strength.component.phantom.PhantomBackpackUserCom
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumTargetComponent;
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumUserComponent;
 import dev.caecorthus.sparkdlc.strength.item.m67.M67RoundService;
+import dev.caecorthus.sparkdlc.strength.component.reporter.ReporterCommunicationComponent;
 import dev.caecorthus.sparkdlc.strength.role.noisemaker.NoisemakerGlowService;
 import dev.caecorthus.sparkdlc.strength.role.phantom.PhantomBackpackService;
 import dev.caecorthus.sparkdlc.strength.role.attendant.AttendantFlashlightService;
@@ -17,6 +18,7 @@ import dev.caecorthus.sparkdlc.strength.role.attendant.DoorLogService;
 import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DroneCombatService;
 import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DronePilotService;
 import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DroneService;
+import dev.caecorthus.sparkdlc.strength.role.bomber.BomberTrapService;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerEconomyService;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerEngineerService;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
@@ -37,6 +39,7 @@ import dev.caecorthus.sparkdlc.strength.role.poisoner.PoisonerEconomyService;
 import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumShopService;
 import dev.caecorthus.sparkdlc.strength.role.recaller.RecallerEconomyService;
 import dev.caecorthus.sparkdlc.strength.role.recaller.RecallerShopService;
+import dev.caecorthus.sparkdlc.strength.role.reporter.ReporterCommunicationManager;
 import dev.caecorthus.sparkdlc.strength.role.toxicologist.ToxicologistAntidoteService;
 import dev.caecorthus.sparkdlc.strength.role.toxicologist.ToxicologistBluePassiveService;
 import dev.caecorthus.sparkdlc.strength.role.toxicologist.ToxicologistBlueVitriolService;
@@ -47,6 +50,10 @@ import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranEconomyService;
 import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranKnifeService;
 import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranShopService;
 import dev.caecorthus.sparkdlc.strength.role.vulture.VultureSkateboardService;
+import dev.caecorthus.sparkdlc.strength.role.shadowjester.ShadowJesterShowdownService;
+import dev.caecorthus.sparkdlc.strength.role.waiter.WaiterTaskRevealService;
+import dev.caecorthus.sparkdlc.strength.role.timekeeper.TimekeeperWatchService;
+import dev.caecorthus.sparkdlc.strength.component.timekeeper.TimekeeperWatchComponent;
 import dev.caecorthus.sparkdlc.strength.tablet.TabletShopService;
 import dev.caecorthus.sparkdlc.strength.tablet.TabletStateService;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -86,6 +93,7 @@ public final class SparkStrengthEvents {
         PathogenFeatureService.register();
         PoisonerEconomyService.register();
         ProfessorSerumShopService.register();
+        ReporterCommunicationManager.register();
         RecallerShopService.register();
         ToxicologistAntidoteService.register();
         ToxicologistBluePassiveService.register();
@@ -95,6 +103,12 @@ public final class SparkStrengthEvents {
         TabletStateService.register();
         VeteranShopService.register();
         VultureSkateboardService.register();
+        // 老兵经济服务同时注册死亡前阵营快照和死亡后金币结算。
+        VeteranEconomyService.register();
+        ShadowJesterShowdownService.register();
+        // 任务完成后记录 30 秒的服务员专属透视状态。
+        WaiterTaskRevealService.register();
+        TimekeeperWatchService.register();
         // 回溯者被动收入需要按世界 tick 定时结算，注册在服务端世界 tick 末尾。
         ServerTickEvents.END_WORLD_TICK.register(CoronerEconomyService::tick);
         ServerTickEvents.END_WORLD_TICK.register(CoronerService::tick);
@@ -120,6 +134,10 @@ public final class SparkStrengthEvents {
                 PhantomBackpackService.assignForRole(serverPlayer, role);
                 ToxicologistAntidoteService.clearPlayer(serverPlayer);
                 VeteranKnifeService.assignForRole(serverPlayer, role);
+                if (role == org.agmas.noellesroles.Noellesroles.TIMEKEEPER) {
+                    TimekeeperWatchComponent.KEY.get(serverPlayer).reset();
+                    serverPlayer.giveItemStack(dev.caecorthus.sparkdlc.strength.SparkStrengthItems.dyingWatch().getDefaultStack());
+                }
             }
         });
 
@@ -134,6 +152,11 @@ public final class SparkStrengthEvents {
             PhantomBackpackTargetComponent.KEY.get(player).reset();
             ProfessorSerumUserComponent.KEY.get(player).reset();
             ProfessorSerumTargetComponent.KEY.get(player).reset();
+            ReporterCommunicationComponent.KEY.get(player).reset();
+            if (player instanceof ServerPlayerEntity serverPlayer) {
+                WaiterTaskRevealService.reset(serverPlayer);
+                TimekeeperWatchComponent.KEY.get(serverPlayer).reset();
+            }
             DetectiveCasePlayerComponent.KEY.get(player).clearAll();
             DemonHunterSniffPlayerComponent.KEY.get(player).clearSniff();
             if (player instanceof ServerPlayerEntity serverPlayer) {
@@ -153,16 +176,17 @@ public final class SparkStrengthEvents {
             CoronerService.afterKill(victim);
             MorphlingService.afterKill(victim, killer, deathReason);
             ToxicologistBluePassiveService.clearPlayer(victim);
-            VeteranEconomyService.afterKill(victim, killer, deathReason);
         });
 
         GameEvents.ON_FINISH_FINALIZE.register((world, gameComponent) -> {
             if (world instanceof ServerWorld serverWorld) {
                 DetectiveCaseService.clearRoundState(serverWorld);
                 MorphBodyDisguiseWorldComponent.KEY.get(serverWorld).clearRoundState();
+                BomberTrapService.clearRoundState(serverWorld);
                 EngineerCaptureDeviceService.clearRoundState(serverWorld);
                 TabletStateService.clearRoundState(serverWorld);
                 VeteranBlackoutService.clear(serverWorld);
+                VeteranEconomyService.clearRoundState();
                 for (ServerPlayerEntity player : serverWorld.getPlayers()) {
                     CorruptCopAbilityService.reset(player);
                     CoronerService.clearPlayer(player);
@@ -174,8 +198,11 @@ public final class SparkStrengthEvents {
                     ToxicologistBluePassiveService.clearPlayer(player);
                     ProfessorSerumUserComponent.KEY.get(player).reset();
                     ProfessorSerumTargetComponent.KEY.get(player).reset();
+                    ReporterCommunicationComponent.KEY.get(player).reset();
+                    WaiterTaskRevealService.reset(player);
                     DemonHunterSniffService.clearPlayer(player);
                     VeteranKnifeService.reset(player);
+                    TimekeeperWatchComponent.KEY.get(player).reset();
                 }
             }
         });
@@ -183,6 +210,7 @@ public final class SparkStrengthEvents {
         GameEvents.ON_FINISH_INITIALIZE.register((world, gameComponent) -> {
             if (world instanceof ServerWorld serverWorld) {
                 MorphBodyDisguiseWorldComponent.KEY.get(serverWorld).clearRoundState();
+                BomberTrapService.clearRoundState(serverWorld);
                 EngineerCaptureDeviceService.clearRoundState(serverWorld);
                 // Also clear at round start: an aborted round or restart must not carry tablet chat/suspects forward.
                 // 开局时也清理：异常结束或重启的对局不能把平板聊天/嫌疑人带入下一局。
@@ -194,6 +222,12 @@ public final class SparkStrengthEvents {
                 // 案发快照属于单局状态；先清空再发放侦探道具，保证新一局从空白开始。
                 DetectiveCaseService.clearRoundState(serverWorld);
                 DetectiveCaseService.grantStarterKits(serverWorld);
+                VeteranEconomyService.clearRoundState();
+                for (ServerPlayerEntity player : serverWorld.getPlayers()) {
+                    // 新一局初始化时清理上一局可能残留的服务员任务透视倒计时。
+                    WaiterTaskRevealService.reset(player);
+                    TimekeeperWatchComponent.KEY.get(player).reset();
+                }
             }
         });
     }

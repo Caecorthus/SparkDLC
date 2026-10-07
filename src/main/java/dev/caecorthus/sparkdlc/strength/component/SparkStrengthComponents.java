@@ -17,12 +17,16 @@ import dev.caecorthus.sparkdlc.strength.component.phantom.PhantomBackpackUserCom
 import dev.caecorthus.sparkdlc.strength.component.perfumer.PerfumerScentComponent;
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumTargetComponent;
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumUserComponent;
+import dev.caecorthus.sparkdlc.strength.component.reporter.ReporterCommunicationComponent;
 import dev.caecorthus.sparkdlc.strength.component.tablet.TabletWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowTargetComponent;
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowUserComponent;
 import dev.caecorthus.sparkdlc.strength.component.toxicologist.ToxicologistAntidoteComponent;
 import dev.caecorthus.sparkdlc.strength.component.veteran.VeteranKnifeComponent;
 import dev.caecorthus.sparkdlc.strength.component.vulture.SkateboardRideComponent;
+import dev.caecorthus.sparkdlc.strength.component.shadowjester.ShadowJesterShowdownWorldComponent;
+import dev.caecorthus.sparkdlc.strength.component.waiter.WaiterTaskRevealComponent;
+import dev.caecorthus.sparkdlc.strength.component.timekeeper.TimekeeperWatchComponent;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.NotNull;
@@ -98,6 +102,15 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
         registry.beginRegistration(PlayerEntity.class, VirusCarrierComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(VirusCarrierComponent::new);
+        registry.beginRegistration(PlayerEntity.class, ReporterCommunicationComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(ReporterCommunicationComponent::new);
+        registry.beginRegistration(PlayerEntity.class, WaiterTaskRevealComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(WaiterTaskRevealComponent::new);
+        registry.beginRegistration(PlayerEntity.class, TimekeeperWatchComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(TimekeeperWatchComponent::new);
         registry.registerFor(PlayerBodyEntity.class, CoronerBodySnapshotComponent.KEY, CoronerBodySnapshotComponent::new);
     }
 
@@ -109,5 +122,9 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
         registry.register(DetectiveCaseWorldComponent.KEY, DetectiveCaseWorldComponent::new);
         registry.register(TabletWorldComponent.KEY, TabletWorldComponent::new);
         registry.register(MorphBodyDisguiseWorldComponent.KEY, MorphBodyDisguiseWorldComponent::new);
+        registry.register(
+                ShadowJesterShowdownWorldComponent.KEY,
+                ShadowJesterShowdownWorldComponent::new
+        );
     }
 }

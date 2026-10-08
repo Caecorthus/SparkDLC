@@ -5,11 +5,14 @@
 // coating tint, very subtle smudges and dust fixed to the glass, a soft reflection streak, and the scope shadow (the
 // exit pupil shifted by ShadowOffset; a dark crescent enters from the opposite edge). Outside: the half-resolution blur,
 // darkening toward a dark (never black) tube rim. Fade blends from the plain picture while scoping in.
-// Java sets LensCenter, LensRadius, ShadowOffset and Fade; the look itself is tuned by the constants below.
+// Java sets LensCenter, LensRadius, ShadowOffset and Fade; the look itself is tuned by the constants below. The two
+// "shared lens look" blocks are kept identical to sparkwitch_scope_pip.fsh (post shaders cannot #moj_import; a unit
+// test compares them).
 // SparkWitch 开镜第 3 步：全画面放大档的合成。在半径为 LensRadius x 屏幕短边的圆内（已做宽高比校正）：清晰的主画面，
 // 边缘带轻微桶形畸变、透光衰减、淡淡的镀膜色调、附着在镜片上的极淡污渍与灰尘、柔和的反光条纹，以及镜内阴影（出瞳按
 // ShadowOffset 偏移，暗色月牙从相反一侧边缘进入）。圆外：半分辨率模糊画面，向暗色（绝不全黑）的镜筒边逐渐变暗。
-// 开镜时 Fade 从原画面过渡。Java 设置 LensCenter、LensRadius、ShadowOffset 与 Fade；画面风格由下列常量调节。
+// 开镜时 Fade 从原画面过渡。Java 设置 LensCenter、LensRadius、ShadowOffset 与 Fade；画面风格由下列常量调节。两段
+// “shared lens look” 与 sparkwitch_scope_pip.fsh 保持一致（后处理着色器不支持 #moj_import；由单元测试比对）。
 
 uniform sampler2D DiffuseSampler; // sharp main / 清晰主画面
 uniform sampler2D BlurSampler;    // half-resolution blur of main / 主画面的半分辨率模糊
@@ -24,6 +27,7 @@ in vec2 texCoord;
 
 out vec4 fragColor;
 
+// BEGIN shared lens look: constants and noise / 共享镜片外观：常量与噪声
 const float DISTORTION = 0.06;            // barrel strength at the rim / 镜缘桶形畸变强度
 const float EDGE_DARKEN = 0.38;           // transmittance lost at the rim / 镜缘透光损失
 const vec3 COATING_TINT = vec3(0.955, 1.0, 0.972);
@@ -36,7 +40,6 @@ const float SHADOW_STRENGTH = 0.92;
 const float RIM_WIDTH = 0.07;             // tube rim, lens radii / 镜筒边宽度（镜片半径）
 const float RIM_SHADE = 0.16;
 const float RIM_FLOOR = 0.022;            // keeps the rim off pure black / 使镜筒边不至于全黑
-const float PERIPHERY_SHADE = 0.62;
 
 float hash(vec2 p) {
     vec3 p3 = fract(vec3(p.xyx) * 0.1031);
@@ -62,6 +65,9 @@ float fbm(vec2 p) {
     }
     return value / 0.875;
 }
+// END shared lens look
+
+const float PERIPHERY_SHADE = 0.62;
 
 void main() {
     vec2 size = max(OutSize, vec2(1.0));
@@ -82,6 +88,7 @@ void main() {
     float r2 = r * r;
     vec2 sampleP = p * (1.0 + DISTORTION * r2 * r2);
     vec3 lens = texture(DiffuseSampler, LensCenter + sampleP * radiusPx / size).rgb;
+    // BEGIN shared lens look: glass / 共享镜片外观：镜片
     lens *= COATING_TINT;
     float edge = smoothstep(0.5, 1.0, r);
     lens *= 1.0 - EDGE_DARKEN * edge * edge;
@@ -106,6 +113,7 @@ void main() {
     float shadow = smoothstep(PUPIL_RADIUS - SHADOW_SOFTNESS, PUPIL_RADIUS + SHADOW_SOFTNESS,
                               length(p - ShadowOffset));
     lens *= 1.0 - SHADOW_STRENGTH * shadow;
+    // END shared lens look
 
     float inside = 1.0 - smoothstep(1.0 - aa, 1.0 + aa, r);
     vec3 scoped = mix(periphery, lens, inside);

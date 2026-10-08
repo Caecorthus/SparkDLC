@@ -4,6 +4,7 @@ import dev.caecorthus.sparkdlc.strength.network.coroner.CoronerMorphC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.demonhunter.DemonHunterSniffC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.detective.OpenDetectiveFolderS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.drone.DronePackets;
+import dev.caecorthus.sparkdlc.strength.network.spiritualist.SpiritPossessionPackets;
 import dev.caecorthus.sparkdlc.strength.network.detective.SelectDetectiveCaseC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.detective.SetDetectiveKillerGuessC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.detective.SetDetectivePresumedKillerC2SPacket;
@@ -27,6 +28,7 @@ import dev.caecorthus.sparkdlc.strength.network.shadowjester.SyncShadowJesterSho
 import dev.caecorthus.sparkdlc.strength.network.veteran.SyncVeteranBlackoutS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.timekeeper.TimekeeperWatchModeC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.vulture.VultureSuperCurseC2SPacket;
+import dev.caecorthus.sparkdlc.strength.network.taotie.TaotieHeadFireC2SPacket;
 import dev.caecorthus.sparkdlc.strength.role.noisemaker.NoisemakerGlowService;
 import dev.caecorthus.sparkdlc.strength.role.phantom.PhantomBackpackService;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
@@ -36,6 +38,7 @@ import dev.caecorthus.sparkdlc.strength.role.reporter.ReporterCommunicationServi
 import dev.caecorthus.sparkdlc.strength.role.demonhunter.DemonHunterSniffService;
 import dev.caecorthus.sparkdlc.strength.role.timekeeper.TimekeeperWatchService;
 import dev.caecorthus.sparkdlc.strength.role.vulture.VultureSuperCurseService;
+import dev.caecorthus.sparkdlc.strength.role.taotie.TaotieHeadService;
 import dev.caecorthus.sparkdlc.strength.tablet.TabletStateService;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -50,6 +53,7 @@ public final class SparkStrengthPackets {
     public static void registerServer() {
         M67Packets.initialize();
         DronePackets.initialize();
+        SpiritPossessionPackets.initialize();
         PayloadTypeRegistry.playC2S().register(NoisemakerGlowC2SPacket.ID, NoisemakerGlowC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(PhantomBackpackInvisibilityC2SPacket.ID, PhantomBackpackInvisibilityC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(CoronerMorphC2SPacket.ID, CoronerMorphC2SPacket.CODEC);
@@ -69,7 +73,9 @@ public final class SparkStrengthPackets {
         PayloadTypeRegistry.playC2S().register(ApproveSuspectRemovalC2SPacket.ID, ApproveSuspectRemovalC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(SelectTabletChannelC2SPacket.ID, SelectTabletChannelC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(TimekeeperWatchModeC2SPacket.ID, TimekeeperWatchModeC2SPacket.CODEC);
+        PayloadTypeRegistry.playC2S().register(TaotieHeadFireC2SPacket.ID, TaotieHeadFireC2SPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(OpenDetectiveFolderS2CPacket.ID, OpenDetectiveFolderS2CPacket.CODEC);
+        PayloadTypeRegistry.playC2S().register(SerialPistolShootC2SPayload.ID, SerialPistolShootC2SPayload.CODEC);
         PayloadTypeRegistry.playS2C().register(OpenTabletScreenS2CPacket.ID, OpenTabletScreenS2CPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(SyncTabletSnapshotS2CPacket.ID, SyncTabletSnapshotS2CPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(SyncVeteranBlackoutS2CPacket.ID, SyncVeteranBlackoutS2CPacket.CODEC);
@@ -145,5 +151,11 @@ public final class SparkStrengthPackets {
                 ));
         ServerPlayNetworking.registerGlobalReceiver(TimekeeperWatchModeC2SPacket.ID,
                 (payload, context) -> TimekeeperWatchService.switchMode(context.player(), payload.modeOrdinal()));
+        // Empty request: the service re-validates role, round, liveness, locks, cooldown and the stomach.
+        // 空请求：服务端重新校验身份、对局、存活、各类锁定、冷却与体内玩家。
+        ServerPlayNetworking.registerGlobalReceiver(TaotieHeadFireC2SPacket.ID,
+                (payload, context) -> TaotieHeadService.tryFire(context.player()));
+        ServerPlayNetworking.registerGlobalReceiver(SerialPistolShootC2SPayload.ID,
+                SerialPistolShootC2SPayload::receive);
     }
 }

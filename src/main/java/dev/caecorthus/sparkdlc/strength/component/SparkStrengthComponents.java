@@ -1,7 +1,9 @@
 package dev.caecorthus.sparkdlc.strength.component;
 
+import dev.caecorthus.sparkdlc.strength.component.bodyguard.BodyguardGearComponent;
 import dev.caecorthus.sparkdlc.strength.component.pathogen.PathogenStrainComponent;
 import dev.caecorthus.sparkdlc.strength.component.pathogen.VirusCarrierComponent;
+import dev.caecorthus.sparkdlc.strength.component.collision.PlayerCollisionGraceWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.corruptcop.CorruptCopAbilityComponent;
 import dev.caecorthus.sparkdlc.strength.component.coroner.CoronerBodySnapshotComponent;
 import dev.caecorthus.sparkdlc.strength.component.coroner.CoronerPlayerComponent;
@@ -28,6 +30,9 @@ import dev.caecorthus.sparkdlc.strength.component.vulture.VultureSuperCursePlaye
 import dev.caecorthus.sparkdlc.strength.component.shadowjester.ShadowJesterShowdownWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.waiter.WaiterTaskRevealComponent;
 import dev.caecorthus.sparkdlc.strength.component.timekeeper.TimekeeperWatchComponent;
+import dev.caecorthus.sparkdlc.strength.component.spiritualist.SpiritPossessionPlayerComponent;
+import dev.caecorthus.sparkdlc.strength.component.taotie.TaotieHeadDazeComponent;
+import dev.caecorthus.sparkdlc.strength.component.taotie.TaotieHeadPlayerComponent;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.NotNull;
@@ -94,6 +99,9 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
         registry.beginRegistration(PlayerEntity.class, PerfumerScentComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(PerfumerScentComponent::new);
+        registry.beginRegistration(PlayerEntity.class, BodyguardGearComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(BodyguardGearComponent::new);
         registry.beginRegistration(PlayerEntity.class, SkateboardRideComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(SkateboardRideComponent::new);
@@ -115,6 +123,15 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
         registry.beginRegistration(PlayerEntity.class, TimekeeperWatchComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(TimekeeperWatchComponent::new);
+        registry.beginRegistration(PlayerEntity.class, SpiritPossessionPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(SpiritPossessionPlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, TaotieHeadPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(TaotieHeadPlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, TaotieHeadDazeComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(TaotieHeadDazeComponent::new);
         registry.registerFor(PlayerBodyEntity.class, CoronerBodySnapshotComponent.KEY, CoronerBodySnapshotComponent::new);
     }
 
@@ -124,6 +141,7 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
         // Replaces the retired sparkstrength:criminologist_world; its saved NBT is likewise ignored by CCA.
         // 取代已移除的 criminologist_world；其旧存档 NBT 同样会被 CCA 忽略。
         registry.register(DetectiveCaseWorldComponent.KEY, DetectiveCaseWorldComponent::new);
+        registry.register(PlayerCollisionGraceWorldComponent.KEY, PlayerCollisionGraceWorldComponent::new);
         registry.register(TabletWorldComponent.KEY, TabletWorldComponent::new);
         registry.register(MorphBodyDisguiseWorldComponent.KEY, MorphBodyDisguiseWorldComponent::new);
         registry.register(

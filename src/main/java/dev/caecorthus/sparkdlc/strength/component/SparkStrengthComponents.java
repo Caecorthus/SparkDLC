@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.component;
 
+import dev.caecorthus.sparkdlc.strength.component.bodyguard.BodyguardGearComponent;
 import dev.caecorthus.sparkdlc.strength.component.pathogen.PathogenStrainComponent;
 import dev.caecorthus.sparkdlc.strength.component.pathogen.VirusCarrierComponent;
 import dev.caecorthus.sparkdlc.strength.component.collision.PlayerCollisionGraceWorldComponent;
@@ -97,6 +98,9 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
         registry.beginRegistration(PlayerEntity.class, PerfumerScentComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(PerfumerScentComponent::new);
+        registry.beginRegistration(PlayerEntity.class, BodyguardGearComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(BodyguardGearComponent::new);
         registry.beginRegistration(PlayerEntity.class, SkateboardRideComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(SkateboardRideComponent::new);

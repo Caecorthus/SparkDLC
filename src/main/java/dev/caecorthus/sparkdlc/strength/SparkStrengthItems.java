@@ -2,12 +2,14 @@ package dev.caecorthus.sparkdlc.strength;
 
 import dev.caecorthus.sparkdlc.strength.item.BlueBelladonnaItem;
 import dev.caecorthus.sparkdlc.strength.item.BlueVitriolItem;
+import dev.caecorthus.sparkdlc.strength.item.BodyguardVestItem;
 import dev.caecorthus.sparkdlc.strength.item.CaptureDeviceItem;
 import dev.caecorthus.sparkdlc.strength.item.CapsuleItem;
 import dev.caecorthus.sparkdlc.strength.item.CaseFolderItem;
 import dev.caecorthus.sparkdlc.strength.item.CoronerBodyBagItem;
 import dev.caecorthus.sparkdlc.strength.item.AromaOrbItem;
 import dev.caecorthus.sparkdlc.strength.item.CoolingOilItem;
+import dev.caecorthus.sparkdlc.strength.item.DemocracyShieldItem;
 import dev.caecorthus.sparkdlc.strength.item.DroneItem;
 import dev.caecorthus.sparkdlc.strength.item.EmberSugarItem;
 import dev.caecorthus.sparkdlc.strength.item.FlashlightItem;
@@ -70,6 +72,8 @@ public final class SparkStrengthItems {
     public static final Identifier DYING_WATCH_ID = SparkStrength.id("dying_watch");
     public static final Identifier SERIAL_PISTOL_ID = SparkStrength.id("serial_pistol");
     public static final Identifier SERIAL_LEFT_PISTOL_ID = SparkStrength.id("serial_left_pistol");
+    public static final Identifier DEMOCRACY_SHIELD_ID = SparkStrength.id("democracy_shield");
+    public static final Identifier BODYGUARD_VEST_ID = SparkStrength.id("bodyguard_vest");
 
     /** 怀表模式数据组件：0=刷新物品冷却，1=刷新技能冷却。 */
     public static final ComponentType<Integer> TIMEKEEPER_WATCH_MODE = Registry.register(
@@ -109,6 +113,8 @@ public final class SparkStrengthItems {
     private static Item dyingWatch;
     private static Item serialPistol;
     private static Item serialLeftPistol;
+    private static Item democracyShield;
+    private static Item bodyguardVest;
     private static boolean registered;
 
     private SparkStrengthItems() {
@@ -271,6 +277,16 @@ public final class SparkStrengthItems {
                 SERIAL_LEFT_PISTOL_ID,
                 new SerialPistolItem(new Item.Settings().maxCount(1), true)
         );
+        democracyShield = Registry.register(
+                Registries.ITEM,
+                DEMOCRACY_SHIELD_ID,
+                new DemocracyShieldItem(new Item.Settings().maxCount(1))
+        );
+        bodyguardVest = Registry.register(
+                Registries.ITEM,
+                BODYGUARD_VEST_ID,
+                new BodyguardVestItem(new Item.Settings().maxCount(1))
+        );
         registered = true;
     }
 
@@ -426,6 +442,20 @@ public final class SparkStrengthItems {
             throw new IllegalStateException("SparkStrength items are not registered yet");
         }
         return bombDrone;
+    }
+
+    public static Item democracyShield() {
+        if (democracyShield == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return democracyShield;
+    }
+
+    public static Item bodyguardVest() {
+        if (bodyguardVest == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return bodyguardVest;
     }
 
     public static Item skateboard() {

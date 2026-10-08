@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.assist.client;
 
+import dev.caecorthus.sparkdlc.assist.client.achievement.AchievementClientState;
 import dev.caecorthus.sparkdlc.assist.client.config.SparkAssistConfigManager;
 import dev.caecorthus.sparkdlc.assist.client.guidebook.GuidebookClientState;
 import dev.caecorthus.sparkdlc.assist.client.input.InstinctKeyController;
@@ -14,9 +15,11 @@ public final class SparkAssistClient implements ClientModInitializer {
     public void onInitializeClient() {
         configManager = SparkAssistConfigManager.load();
         ClientTickEvents.END_CLIENT_TICK.register(GuidebookClientState::tick);
+        ClientTickEvents.END_CLIENT_TICK.register(AchievementClientState::tick);
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
             InstinctKeyController.reset();
             GuidebookClientState.disconnect();
+            AchievementClientState.disconnect();
         });
     }
 

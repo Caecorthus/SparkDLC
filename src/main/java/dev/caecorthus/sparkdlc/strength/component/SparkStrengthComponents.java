@@ -24,6 +24,7 @@ import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowUserC
 import dev.caecorthus.sparkdlc.strength.component.toxicologist.ToxicologistAntidoteComponent;
 import dev.caecorthus.sparkdlc.strength.component.veteran.VeteranKnifeComponent;
 import dev.caecorthus.sparkdlc.strength.component.vulture.SkateboardRideComponent;
+import dev.caecorthus.sparkdlc.strength.component.vulture.VultureSuperCursePlayerComponent;
 import dev.caecorthus.sparkdlc.strength.component.shadowjester.ShadowJesterShowdownWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.waiter.WaiterTaskRevealComponent;
 import dev.caecorthus.sparkdlc.strength.component.timekeeper.TimekeeperWatchComponent;
@@ -96,6 +97,9 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
         registry.beginRegistration(PlayerEntity.class, SkateboardRideComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(SkateboardRideComponent::new);
+        registry.beginRegistration(PlayerEntity.class, VultureSuperCursePlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(VultureSuperCursePlayerComponent::new);
         registry.beginRegistration(PlayerEntity.class, PathogenStrainComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(PathogenStrainComponent::new);

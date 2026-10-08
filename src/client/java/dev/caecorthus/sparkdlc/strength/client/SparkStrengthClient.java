@@ -24,6 +24,7 @@ import dev.caecorthus.sparkdlc.strength.client.role.spiritualist.SpiritPossessio
 import dev.caecorthus.sparkdlc.strength.client.role.taotie.TaotieHeadClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.veteran.VeteranClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.vulture.SkateboardClient;
+import dev.caecorthus.sparkdlc.strength.client.role.vulture.VultureSuperCurseClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.waiter.WaiterTaskRevealClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.timekeeper.TimekeeperWatchClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.shadowjester.ShadowJesterShowdownMusicController;
@@ -78,6 +79,9 @@ public final class SparkStrengthClient implements ClientModInitializer {
         SpiritPossessionClient.register();
         TabletClientHighlights.register();
         VeteranClientHooks.register();
+        // Binds only when SparkWitch is loaded (reflection, no compile dependency).
+        // 仅在加载了 SparkWitch 时挂接按键（反射，无编译依赖）。
+        VultureSuperCurseClientHooks.register();
         WaiterTaskRevealClientHooks.register();
         ClientTickEvents.END_CLIENT_TICK.register(CorruptCopMusicController::tick);
         ClientTickEvents.END_CLIENT_TICK.register(client ->

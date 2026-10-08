@@ -5,6 +5,7 @@ import dev.caecorthus.sparkdlc.strength.replay.SparkStrengthReplayFormatters;
 import dev.caecorthus.sparkdlc.strength.compat.SparkFactionCooldownCompat;
 import dev.caecorthus.sparkdlc.strength.compat.SparkTraitsCompat;
 import dev.caecorthus.sparkdlc.strength.component.demonhunter.DemonHunterSniffPlayerComponent;
+import dev.caecorthus.sparkdlc.strength.component.vulture.VultureSuperCursePlayerComponent;
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowUserComponent;
 import dev.caecorthus.sparkdlc.strength.component.phantom.PhantomBackpackUserComponent;
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumUserComponent;
@@ -200,6 +201,7 @@ public final class TimekeeperWatchService {
         ProfessorSerumUserComponent.KEY.get(player).setCooldownTicks(0);
         ReporterCommunicationComponent.KEY.get(player).setCooldownTicks(0);
         DemonHunterSniffPlayerComponent.KEY.get(player).clearSniffCooldown();
+        VultureSuperCursePlayerComponent.KEY.get(player).clearCooldown();
         TaotieHeadPlayerComponent.KEY.get(player).setCooldownTicks(0);
         SpiritPossessionPlayerComponent.KEY.get(player).setCooldownTicks(0);
     }

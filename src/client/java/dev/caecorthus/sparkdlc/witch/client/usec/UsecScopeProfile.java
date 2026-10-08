@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.witch.client.usec;
 import dev.caecorthus.sparkdlc.witch.client.scope.ScopeClient;
 import dev.caecorthus.sparkdlc.witch.client.scope.ScopeFrame;
 import dev.caecorthus.sparkdlc.witch.client.scope.ScopeProfile;
+import dev.caecorthus.sparkdlc.witch.client.scope.ScopeRules;
 import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsUsecBridge;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
 import net.minecraft.client.MinecraftClient;
@@ -53,6 +54,16 @@ public final class UsecScopeProfile implements ScopeProfile {
     @Override
     public float sensitivityMultiplier() {
         return UsecZoomState.fovMultiplier();
+    }
+
+    /**
+     * Full-Screen Zoom periphery blur follows the shown (eased) magnification (owner, 2026-10-08): none at 1x, where an
+     * LPVO is used with both eyes open, full from 3x up. / 全画面放大的镜外模糊跟随显示（缓动后）的倍率（所有者
+     * 2026-10-08）：1 倍时没有（LPVO 1 倍时双眼睁开使用），3 倍起为满强度。
+     */
+    @Override
+    public float peripheryBlur() {
+        return ScopeRules.peripheryBlurFor(UsecZoomState.magnification());
     }
 
     /** Every wheel event while scoped zooms; none reaches the hotbar. / 开镜时每个滚轮事件都用于缩放，不会切换快捷栏。 */

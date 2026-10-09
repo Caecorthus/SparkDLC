@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.component.corruptcop;
 
 import dev.caecorthus.sparkdlc.strength.SparkStrength;
+import dev.caecorthus.sparkdlc.strength.record.AchievementRecords;
 import dev.caecorthus.sparkdlc.strength.role.corruptcop.CorruptCopTaskGateRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.player.PlayerEntity;
@@ -45,6 +46,12 @@ public final class CorruptCopAbilityComponent implements AutoSyncedComponent {
         }
         this.active = active;
         sync();
+        // Achievement record: every real flip of the server copy, reset included (the client copy changes only through
+        // applySyncPacket, never here).
+        // 成就记录：服务端副本的每次真实翻转（含重置）；客户端副本只经 applySyncPacket 更新，不会走到这里。
+        if (player instanceof ServerPlayerEntity serverPlayer) {
+            AchievementRecords.corruptCopShowOff(serverPlayer, active);
+        }
     }
 
     public int completedTasks() {

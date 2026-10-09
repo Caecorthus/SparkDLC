@@ -64,7 +64,6 @@ import dev.caecorthus.sparkdlc.witch.roles.killer.saboteur.SaboteurFeatureServic
 import dev.caecorthus.sparkdlc.witch.roles.killer.timestealer.TimeStealerFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.FocusedFootstepsRuntime;
 import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.PoisonApplePlateService;
-import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.WitchMaidenFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.WitchMaidenShopService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.magician.MagicianPlaybackManager;
 import dev.caecorthus.sparkdlc.witch.roles.killer.magician.MagicianPlayerComponent;
@@ -134,7 +133,6 @@ public final class SparkWitchEvents {
         TimeStealerFeatureService.register();
         WindSpiritFeatureService.register();
         SaboteurFeatureService.register();
-        WitchMaidenFeatureService.register();
         FocusedFootstepsRuntime.register();
         WitchMaidenShopService.register();
         WraithLifecycle.register();

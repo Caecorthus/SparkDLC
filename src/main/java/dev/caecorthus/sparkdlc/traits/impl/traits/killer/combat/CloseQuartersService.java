@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.traits.impl.traits.killer.combat;
 import dev.caecorthus.sparkdlc.factionapi.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.traits.SparkTraits;
 import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
+import dev.caecorthus.sparkdlc.traits.impl.replay.SparkTraitsAchievementRecords;
 import dev.caecorthus.sparkdlc.traits.impl.traits.killer.KillerTraitService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.killer.escape.LastEscapeService;
 import dev.doctor4t.wathe.api.Role;
@@ -178,6 +179,9 @@ public final class CloseQuartersService {
         attacker.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 40, 0));
         clear(attacker);
         attacker.clearActiveItem();
+        // Record-only achievement signal for the real block; it cannot change the parry outcome.
+        // 仅为真正的格挡写入成就记录，不会改变格挡结果。
+        SparkTraitsAchievementRecords.recordCloseQuartersParry(victim, attacker, weapon);
         return true;
     }
 

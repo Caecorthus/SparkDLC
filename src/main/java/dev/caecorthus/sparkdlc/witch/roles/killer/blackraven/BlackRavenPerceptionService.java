@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.roles.killer.blackraven;
 
 import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
+import dev.caecorthus.sparkdlc.witch.record.AchievementRecords;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -72,12 +73,17 @@ public final class BlackRavenPerceptionService {
             if (targetRole == null) {
                 continue;
             }
-            component.accumulate(target.getUuid(), 1, () -> new BlackRavenIdentitySnapshot(
+            boolean revealed = component.accumulate(target.getUuid(), 1, () -> new BlackRavenIdentitySnapshot(
                     target.getUuid(),
                     target.getGameProfile().getName(),
                     targetRole.identifier().toString(),
                     targetRole.color()
             ));
+            if (revealed) {
+                // Achievement record W6: the reveal itself, with the role the snapshot holds.
+                // 成就记录 W6：揭示本身，职业与快照所记一致。
+                AchievementRecords.blackRavenPerceived(player, target, targetRole, game);
+            }
         }
 
         int remainingTicks = component.decrementActiveTicks();

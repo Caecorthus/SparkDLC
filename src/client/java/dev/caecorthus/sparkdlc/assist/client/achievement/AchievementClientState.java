@@ -9,6 +9,7 @@ import dev.caecorthus.sparkdlc.assist.achievement.MatchTimeline;
 import dev.caecorthus.sparkdlc.assist.achievement.RoundFacts;
 import dev.caecorthus.sparkdlc.assist.achievement.RoundObservation;
 import dev.caecorthus.sparkdlc.assist.achievement.RoundOutcome;
+import dev.caecorthus.sparkdlc.assist.achievement.RoundStatsRecorder;
 import dev.caecorthus.sparkdlc.assist.achievement.RoundTracker;
 import dev.caecorthus.sparkdlc.assist.client.guidebook.SparkTraitsGuideBridge;
 import dev.doctor4t.wathe.api.Role;
@@ -136,7 +137,7 @@ public final class AchievementClientState {
         }
         MatchTimeline timeline = MatchTimeline.of(outcome.events(), SparkFactionAchievementBridge::baseFaction);
         AchievementLedger ledger = AchievementStorage.ledger(client);
-        ledger.stats().recordRound(facts.roleChain(), facts.factionId(), outcome.won(), facts.died(), facts.tasksCompleted());
+        RoundStatsRecorder.record(ledger.stats(), facts, outcome, timeline);
         List<Achievement> earned = AchievementEvaluator.newlyEarned(
                 AchievementCatalog.all(),
                 new AchievementContext(facts, outcome, timeline, ledger.stats(), ledger),

@@ -4,9 +4,6 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import dev.caecorthus.sparkdlc.witch.client.render.WraithViewerGates;
 import dev.caecorthus.sparkdlc.witch.client.render.WraithViewerRules;
 import dev.caecorthus.sparkdlc.witch.client.vendetta.VendettaClientPresentation;
-import dev.caecorthus.sparkdlc.witch.roles.witch.WitchFactionRules;
-import dev.caecorthus.sparkdlc.witch.roles.witch.curser.CurserFeatureService;
-import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -26,10 +23,7 @@ public abstract class WraithEntityInvisibilityMixin {
                 && (WraithViewerRules.shouldRevealToSpectator(viewer, target)
                 || WraithViewerGates.revealsBody(viewer, target)
                 || VendettaClientPresentation.isBoundKillerViewingVendetta(viewer, target)
-                || CurserFeatureService.isActivePromotedCurser(target)
-                && viewer != null
-                && WitchFactionRules.isWitchFactionMember(
-                        GameWorldComponent.KEY.get(viewer.getWorld()).getRole(viewer)))) {
+                || WraithViewerRules.shouldRevealCurserToWitch(viewer, target))) {
             return false;
         }
         return original;

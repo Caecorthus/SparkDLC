@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.witch.roles.civilian.saint;
 import dev.caecorthus.sparkdlc.factionapi.api.FactionIds;
 import dev.caecorthus.sparkdlc.factionapi.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
+import dev.caecorthus.sparkdlc.witch.record.AchievementRecords;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.flash.HolyFlashFeatureService;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.KillPlayer;
@@ -74,8 +75,11 @@ public final class SaintFeatureService {
             if (killer != null
                     && !killer.getUuid().equals(victim.getUuid())
                     && !FactionIds.CIVILIAN.equals(
-                    SparkFactionApi.resolveEffectiveFaction(killer, gameComponent))) {
-                SaintKarmaService.mark(killer);
+                    SparkFactionApi.resolveEffectiveFaction(killer, gameComponent))
+                    && SaintKarmaService.mark(killer)) {
+                // Achievement record W12, only past the Karma immunity check.
+                // 成就记录 W12，仅在通过业障免疫检查后写入。
+                AchievementRecords.saintKarma(victim, killer);
             }
         }
 

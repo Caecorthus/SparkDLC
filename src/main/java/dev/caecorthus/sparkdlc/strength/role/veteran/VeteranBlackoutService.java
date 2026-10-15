@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.role.veteran;
 
 import dev.caecorthus.sparkdlc.strength.network.veteran.SyncVeteranBlackoutS2CPacket;
+import dev.caecorthus.sparkdlc.strength.record.BlackoutRecorder;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
 import dev.doctor4t.wathe.api.event.BlackoutEffect;
 import dev.doctor4t.wathe.cca.WorldBlackoutComponent;
@@ -44,6 +45,9 @@ public final class VeteranBlackoutService {
 
     public static void tick(ServerWorld world) {
         boolean active = WorldBlackoutComponent.KEY.get(world).isBlackoutActive();
+        // Achievement record: edges the purchase or the power restoration did not already record (the blackout running out).
+        // 成就记录：购买或电力恢复没有记下的边沿（停电时间耗尽）。
+        BlackoutRecorder.tick(world, active);
         RegistryKey<World> worldKey = world.getRegistryKey();
         boolean previous = LAST_BLACKOUT_STATE.getOrDefault(worldKey, false);
         boolean changed = previous != active;
@@ -62,6 +66,7 @@ public final class VeteranBlackoutService {
 
     public static void clear(ServerWorld world) {
         LAST_BLACKOUT_STATE.put(world.getRegistryKey(), false);
+        BlackoutRecorder.clear(world);
         clearCoronerVeteranBlackoutSight(world);
         syncToWorld(world, false);
     }

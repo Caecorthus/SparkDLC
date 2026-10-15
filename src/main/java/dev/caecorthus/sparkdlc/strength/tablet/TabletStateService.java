@@ -8,6 +8,7 @@ import dev.caecorthus.sparkdlc.strength.mixin.minecraft.ItemCooldownManagerAcces
 import dev.caecorthus.sparkdlc.strength.network.tablet.OpenTabletScreenS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.tablet.SyncTabletSnapshotS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.tablet.TabletSnapshot;
+import dev.caecorthus.sparkdlc.strength.record.AchievementRecords;
 import dev.caecorthus.sparkdlc.strength.role.attendant.AttendantRules;
 import dev.caecorthus.sparkdlc.strength.role.attendant.DoorLog;
 import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DroneKind;
@@ -295,10 +296,11 @@ public final class TabletStateService {
         }
 
         tablet.recordMeetingCall(caller.getUuid());
-        tablet.startMeeting();
+        tablet.startMeeting(caller.getUuid());
         SyncPass pass = prepare(world);
         broadcastToChannelMembers(pass, TabletChannel.POLICE, Text.translatable("message.sparkstrength.tablet.meeting_started"));
         syncChannelMembers(pass, TabletChannel.POLICE);
+        AchievementRecords.tabletMeeting(caller);
     }
 
     public static void castVote(ServerPlayerEntity voter, @Nullable UUID targetUuid) {
@@ -656,14 +658,18 @@ public final class TabletStateService {
         }
 
         Optional<UUID> winner = TabletRules.uniqueHighestVote(validVoteCounts(world, tablet, meeting, pass.electorate()));
+        UUID caller = meeting.caller();
         tablet.clearMeeting();
         tablet.startMeetingCooldown(world.getTime());
         if (winner.isPresent()) {
-            tablet.addSuspect(winner.get());
+            boolean added = tablet.addSuspect(winner.get());
             broadcastToChannelMembers(pass, TabletChannel.POLICE, Text.translatable(
                     "message.sparkstrength.tablet.suspect_added",
                     playerName(world, winner.get())
             ));
+            if (added) {
+                AchievementRecords.tabletSuspect(world, winner.get(), caller);
+            }
         } else {
             broadcastToChannelMembers(pass, TabletChannel.POLICE,
                     Text.translatable("message.sparkstrength.tablet.suspect_tie"));

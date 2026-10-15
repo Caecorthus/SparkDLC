@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.witch.roles.civilian.judge;
 
 import dev.caecorthus.sparkdlc.witch.api.SparkWitchApi;
 import dev.caecorthus.sparkdlc.witch.net.OpenJudgeSelectionS2CPacket;
+import dev.caecorthus.sparkdlc.witch.record.AchievementRecords;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchFearService;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.CanSeeMoney;
@@ -209,6 +210,12 @@ public final class JudgeRuntime {
                     recipient.sendMessage(announcement, false);
                 }
             }
+        }
+        if (result.cost() != 0) {
+            // Achievement record W13: every charged judgment, sentenced or not, after the fee and the verdict.
+            // 成就记录 W13：每次已扣费的审判（无论是否判刑），在扣费与判决之后写入。
+            AchievementRecords.judgeVerdict(player, target, result == JudgeRoundState.Verdict.SENTENCED,
+                    component.state().kills(targetUuid), component.state().requiredKills(), JudgeRules.SENTENCE_TICKS);
         }
     }
 

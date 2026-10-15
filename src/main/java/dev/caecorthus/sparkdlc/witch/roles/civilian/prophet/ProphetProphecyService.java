@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.witch.roles.civilian.prophet;
 
 import dev.caecorthus.sparkdlc.witch.api.SparkWitchApi;
 import dev.caecorthus.sparkdlc.witch.net.OpenProphecyS2CPacket;
+import dev.caecorthus.sparkdlc.witch.record.AchievementRecords;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.prophet.ProphetPlayerComponent.ProphecyRecord;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.prophet.ProphetProphecyRules.Verdict;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchFearService;
@@ -174,6 +175,7 @@ public final class ProphetProphecyService {
         // when the record was actually written, e.g. not when the record cap is full.
         // 先记录（针对更早死亡的过期记录在写入时被替换）；只有确实写入后才扣费并进入冷却，例如记录数已达上限时不扣费。
         Text cause = Text.translatable(guess.translationKey());
+        int attempt = ProphetProphecyRules.attemptNumber(existing, death);
         Text result;
         boolean recorded;
         if (verdict == Verdict.WRONG) {
@@ -192,6 +194,10 @@ public final class ProphetProphecyService {
         }
         shop.addToBalance(-ProphetRules.PROPHECY_COIN_COST);
         WitchSkillUseService.startDedicatedSkillCooldown(player, ProphetRules.PROPHECY_ID);
+        // Achievement record W11; the killer UUID is only the one this guess revealed.
+        // 成就记录 W11；凶手 UUID 仅为本次猜测所揭示者。
+        AchievementRecords.prophecy(player, victim, guess.id(), verdict.isCorrect(), attempt,
+                verdict == Verdict.CORRECT_KILLER ? death.responsible() : null);
         // Private chat line and sound: nobody else learns that a Prophecy happened. / 私有聊天与音效：其他人不会得知发生了预言。
         player.sendMessage(result, false);
         if (verdict.isCorrect()) {

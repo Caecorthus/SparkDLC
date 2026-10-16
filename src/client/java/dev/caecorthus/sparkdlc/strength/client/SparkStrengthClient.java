@@ -28,6 +28,7 @@ import dev.caecorthus.sparkdlc.strength.client.role.vulture.VultureSuperCurseCli
 import dev.caecorthus.sparkdlc.strength.client.role.waiter.WaiterTaskRevealClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.timekeeper.TimekeeperWatchClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.shadowjester.ShadowJesterShowdownMusicController;
+import dev.caecorthus.sparkdlc.strength.client.sabotage.SabotageClient;
 import dev.caecorthus.sparkdlc.strength.client.screen.detective.DetectiveFolderScreen;
 import dev.caecorthus.sparkdlc.strength.client.screen.tablet.TabletClientState;
 import dev.caecorthus.sparkdlc.strength.client.screen.tablet.TabletScreen;
@@ -78,6 +79,7 @@ public final class SparkStrengthClient implements ClientModInitializer {
         // 灵界行者附身冤魂；按键与冤魂可见仅在加载 SparkWitch 时挂接（反射）。
         SpiritPossessionClient.register();
         TabletClientHighlights.register();
+        SabotageClient.register();
         VeteranClientHooks.register();
         // Binds only when SparkWitch is loaded (reflection, no compile dependency).
         // 仅在加载了 SparkWitch 时挂接按键（反射，无编译依赖）。

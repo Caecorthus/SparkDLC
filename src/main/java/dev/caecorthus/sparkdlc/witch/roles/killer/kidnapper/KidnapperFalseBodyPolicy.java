@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.witch.roles.killer.kidnapper;
 
 import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsBodyDragBridge;
 import dev.caecorthus.sparkdlc.witch.roles.killer.magician.MagicianDecoyBodies;
+import dev.caecorthus.sparkdlc.witch.roles.neutral.fiend.FiendFakeBodies;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -15,6 +16,9 @@ public final class KidnapperFalseBodyPolicy {
     public static boolean canDrag(PlayerBodyEntity body) {
         return !isMagicianDecoy(body)
                 && SparkTraitsBodyDragBridge.canDragBody(body)
+                // A Fiend feign-death corpse, even after its camera falls back (2026-10-16).
+                // 魔人假死尸体，即使视角已回落到本人（2026-10-16）。
+                && !FiendFakeBodies.isFake(body)
                 && !isCameraBoundFakeBody(body);
     }
 

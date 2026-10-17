@@ -9,6 +9,7 @@ import dev.caecorthus.sparkdlc.strength.network.sabotage.CancelChannelC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.sabotage.ChannelProgressS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.sabotage.CloseBreakerRepairS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.sabotage.OpenBreakerRepairS2CPacket;
+import dev.caecorthus.sparkdlc.strength.network.sabotage.OpenEngineRepairS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.sabotage.SabotageStatusS2CPacket;
 import dev.caecorthus.sparkdlc.strength.sabotage.EngineHalt;
 import dev.caecorthus.sparkdlc.strength.sabotage.EnginePhase;
@@ -71,8 +72,13 @@ public final class SabotageClient {
         });
         ClientPlayNetworking.registerGlobalReceiver(OpenBreakerRepairS2CPacket.ID,
                 (payload, context) -> context.client().setScreen(new BreakerRepairScreen(payload)));
+        ClientPlayNetworking.registerGlobalReceiver(OpenEngineRepairS2CPacket.ID,
+                (payload, context) -> context.client().setScreen(new EngineRepairScreen(payload)));
+        // One close packet for both panels; session ids never repeat between them. / 两种面板共用一个关闭包；会话 id 不会重复。
         ClientPlayNetworking.registerGlobalReceiver(CloseBreakerRepairS2CPacket.ID, (payload, context) -> {
             if (context.client().currentScreen instanceof BreakerRepairScreen screen) {
+                screen.onServerClose(payload.sessionId(), payload.reason());
+            } else if (context.client().currentScreen instanceof EngineRepairScreen screen) {
                 screen.onServerClose(payload.sessionId(), payload.reason());
             }
         });

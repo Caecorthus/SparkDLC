@@ -6,6 +6,7 @@ import dev.caecorthus.sparkdlc.strength.item.m67.M67RoundService;
 import dev.caecorthus.sparkdlc.strength.role.bodyguard.BodyguardShieldService;
 import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DroneService;
 import dev.caecorthus.sparkdlc.strength.role.vulture.VultureSkateboardService;
+import dev.caecorthus.sparkdlc.strength.sabotage.SabotageService;
 import net.minecraft.item.Item;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.jetbrains.annotations.Nullable;
@@ -36,6 +37,9 @@ public final class SparkFactionAdminClear {
             VultureSkateboardService.onAdminCooldownCleared(player);
         } else if (item == SparkStrengthItems.democracyShield()) {
             BodyguardShieldService.onAdminCooldownCleared(player);
+        } else if (item == SparkStrengthItems.tablet()) {
+            // The killer team's sabotage cooldown and unlock wait. / 杀手阵营的破坏冷却与解锁等待。
+            SabotageService.onAdminCooldownCleared(player);
         }
     }
 }

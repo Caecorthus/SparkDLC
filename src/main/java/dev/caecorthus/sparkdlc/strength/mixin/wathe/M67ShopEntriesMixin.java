@@ -4,6 +4,7 @@ import dev.caecorthus.sparkdlc.strength.item.m67.M67ShopService;
 import dev.caecorthus.sparkdlc.strength.role.bartender.BartenderShopService;
 import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DroneShopService;
 import dev.caecorthus.sparkdlc.strength.role.perfumer.PerfumerShopService;
+import dev.caecorthus.sparkdlc.strength.sabotage.SabotageShopFilter;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.doctor4t.wathe.util.ShopEntry;
@@ -30,8 +31,9 @@ public abstract class M67ShopEntriesMixin {
     private static List<ShopEntry> sparkstrength$appendM67(
             List<ShopEntry> original, @Local(argsOnly = true) PlayerEntity player
     ) {
+        // The blackout entry goes first: lights sabotage now lives in the tablet. / 先移除停电条目：灯光破坏已移到平板。
         return DroneShopService.appendToFinalEntries(player,
                 M67ShopService.appendToFinalEntries(player, PerfumerShopService.appendToFinalEntries(player,
-                        BartenderShopService.applyToFinalEntries(original))));
+                        BartenderShopService.applyToFinalEntries(SabotageShopFilter.withoutBlackout(original)))));
     }
 }

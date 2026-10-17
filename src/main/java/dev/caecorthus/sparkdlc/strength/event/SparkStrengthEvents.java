@@ -63,6 +63,7 @@ import dev.caecorthus.sparkdlc.strength.role.shadowjester.ShadowJesterShowdownSe
 import dev.caecorthus.sparkdlc.strength.role.waiter.WaiterTaskRevealService;
 import dev.caecorthus.sparkdlc.strength.role.timekeeper.TimekeeperWatchService;
 import dev.caecorthus.sparkdlc.strength.component.timekeeper.TimekeeperWatchComponent;
+import dev.caecorthus.sparkdlc.strength.sabotage.SabotageService;
 import dev.caecorthus.sparkdlc.strength.tablet.TabletShopService;
 import dev.caecorthus.sparkdlc.strength.tablet.TabletStateService;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -117,6 +118,7 @@ public final class SparkStrengthEvents {
         ToxicologistBlueVitriolService.register();
         TabletShopService.register();
         TabletStateService.register();
+        SabotageService.register();
         VeteranShopService.register();
         VultureSkateboardService.register();
         // Super Curse death scream / curse stop on KillPlayer.AFTER and round end; registered after the skateboard.

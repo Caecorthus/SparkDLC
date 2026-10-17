@@ -46,6 +46,7 @@ import dev.caecorthus.sparkdlc.strength.network.sabotage.ChannelProgressS2CPacke
 import dev.caecorthus.sparkdlc.strength.network.sabotage.CloseBreakerRepairS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.sabotage.CompleteBreakerRepairC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.sabotage.OpenBreakerRepairS2CPacket;
+import dev.caecorthus.sparkdlc.strength.network.sabotage.OpenEngineRepairS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.sabotage.SabotageStatusS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.sabotage.TriggerSabotageC2SPacket;
 import dev.caecorthus.sparkdlc.strength.sabotage.BreakerRepairService;
@@ -180,6 +181,7 @@ public final class SparkStrengthPackets {
         PayloadTypeRegistry.playS2C().register(ChannelProgressS2CPacket.ID, ChannelProgressS2CPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(OpenBreakerRepairS2CPacket.ID, OpenBreakerRepairS2CPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(CloseBreakerRepairS2CPacket.ID, CloseBreakerRepairS2CPacket.CODEC);
+        PayloadTypeRegistry.playS2C().register(OpenEngineRepairS2CPacket.ID, OpenEngineRepairS2CPacket.CODEC);
         // Every handler re-validates on the server. / 每个处理器都在服务端重新校验。
         ServerPlayNetworking.registerGlobalReceiver(TriggerSabotageC2SPacket.ID,
                 (payload, context) -> SabotageService.handleTrigger(context.player(), payload.typeWire()));

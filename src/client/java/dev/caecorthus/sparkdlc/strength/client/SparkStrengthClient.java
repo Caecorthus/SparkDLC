@@ -22,12 +22,12 @@ import dev.caecorthus.sparkdlc.strength.client.role.perfumer.PerfumerClientHooks
 import dev.caecorthus.sparkdlc.strength.client.role.professor.ProfessorSerumClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.spiritualist.SpiritPossessionClient;
 import dev.caecorthus.sparkdlc.strength.client.role.taotie.TaotieHeadClientHooks;
-import dev.caecorthus.sparkdlc.strength.client.role.veteran.VeteranClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.vulture.SkateboardClient;
 import dev.caecorthus.sparkdlc.strength.client.role.vulture.VultureSuperCurseClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.waiter.WaiterTaskRevealClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.timekeeper.TimekeeperWatchClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.shadowjester.ShadowJesterShowdownMusicController;
+import dev.caecorthus.sparkdlc.strength.client.sabotage.BlackoutSightClient;
 import dev.caecorthus.sparkdlc.strength.client.sabotage.SabotageClient;
 import dev.caecorthus.sparkdlc.strength.client.screen.detective.DetectiveFolderScreen;
 import dev.caecorthus.sparkdlc.strength.client.screen.tablet.TabletClientState;
@@ -35,10 +35,10 @@ import dev.caecorthus.sparkdlc.strength.client.screen.tablet.TabletScreen;
 import dev.caecorthus.sparkdlc.strength.client.tablet.TabletClientHighlights;
 import dev.caecorthus.sparkdlc.strength.network.detective.OpenDetectiveFolderS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.economy.SyncKillerTeamEconomyS2CPacket;
+import dev.caecorthus.sparkdlc.strength.network.sabotage.SyncBlackoutSightS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.tablet.OpenTabletScreenS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.tablet.SyncTabletSnapshotS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.shadowjester.SyncShadowJesterShowdownMusicS2CPacket;
-import dev.caecorthus.sparkdlc.strength.network.veteran.SyncVeteranBlackoutS2CPacket;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -80,7 +80,6 @@ public final class SparkStrengthClient implements ClientModInitializer {
         SpiritPossessionClient.register();
         TabletClientHighlights.register();
         SabotageClient.register();
-        VeteranClientHooks.register();
         // Binds only when SparkWitch is loaded (reflection, no compile dependency).
         // 仅在加载了 SparkWitch 时挂接按键（反射，无编译依赖）。
         VultureSuperCurseClientHooks.register();
@@ -116,7 +115,7 @@ public final class SparkStrengthClient implements ClientModInitializer {
         });
 
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
-            VeteranClientHooks.resetBlackoutState();
+            BlackoutSightClient.reset();
             KillerTeamEconomyClientHooks.reset();
             ShadowJesterShowdownMusicController.reset();
             // A stale snapshot would otherwise drive tablet outlines on the next server.
@@ -138,9 +137,8 @@ public final class SparkStrengthClient implements ClientModInitializer {
                         tabletScreen.handleSnapshotUpdate();
                     }
                 }));
-        ClientPlayNetworking.registerGlobalReceiver(SyncVeteranBlackoutS2CPacket.ID,
-                (payload, context) -> context.client().execute(() ->
-                        VeteranClientHooks.setBlackoutActive(payload.active())));
+        ClientPlayNetworking.registerGlobalReceiver(SyncBlackoutSightS2CPacket.ID,
+                (payload, context) -> context.client().execute(() -> BlackoutSightClient.apply(payload)));
         ClientPlayNetworking.registerGlobalReceiver(SyncKillerTeamEconomyS2CPacket.ID,
                 (payload, context) -> context.client().execute(() ->
                         KillerTeamEconomyClientHooks.applySnapshot(

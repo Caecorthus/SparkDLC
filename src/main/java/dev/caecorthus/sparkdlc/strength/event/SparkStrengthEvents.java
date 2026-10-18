@@ -63,6 +63,7 @@ import dev.caecorthus.sparkdlc.strength.role.shadowjester.ShadowJesterShowdownSe
 import dev.caecorthus.sparkdlc.strength.role.waiter.WaiterTaskRevealService;
 import dev.caecorthus.sparkdlc.strength.role.timekeeper.TimekeeperWatchService;
 import dev.caecorthus.sparkdlc.strength.component.timekeeper.TimekeeperWatchComponent;
+import dev.caecorthus.sparkdlc.strength.sabotage.BlackoutSightService;
 import dev.caecorthus.sparkdlc.strength.sabotage.SabotageService;
 import dev.caecorthus.sparkdlc.strength.tablet.TabletShopService;
 import dev.caecorthus.sparkdlc.strength.tablet.TabletStateService;
@@ -150,6 +151,7 @@ public final class SparkStrengthEvents {
         // 必须挂在 END_WORLD_TICK：它读取同一世界 tick 内 SparkTraits 玩家组件刚做的结果。
         ServerTickEvents.END_WORLD_TICK.register(ToxicologistBluePassiveService::tick);
         ServerTickEvents.END_WORLD_TICK.register(VeteranBlackoutService::tick);
+        ServerTickEvents.END_WORLD_TICK.register(BlackoutSightService::tick);
         // After packet handling in the same tick: sees hotbar switches and raises opened this tick.
         // 位于同一 tick 的数据包处理之后：能看到本 tick 的快捷栏切换与举盾。
         ServerTickEvents.END_WORLD_TICK.register(BodyguardShieldService::tick);
@@ -226,6 +228,7 @@ public final class SparkStrengthEvents {
                 EngineerCaptureDeviceService.clearRoundState(serverWorld);
                 TabletStateService.clearRoundState(serverWorld);
                 VeteranBlackoutService.clear(serverWorld);
+                BlackoutSightService.clear(serverWorld);
                 VeteranEconomyService.clearRoundState();
                 for (ServerPlayerEntity player : serverWorld.getPlayers()) {
                     CorruptCopAbilityService.reset(player);

@@ -25,7 +25,6 @@ import dev.caecorthus.sparkdlc.strength.network.tablet.SelectTabletChannelC2SPac
 import dev.caecorthus.sparkdlc.strength.network.tablet.SendTabletChatC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.tablet.SyncTabletSnapshotS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.shadowjester.SyncShadowJesterShowdownMusicS2CPacket;
-import dev.caecorthus.sparkdlc.strength.network.veteran.SyncVeteranBlackoutS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.timekeeper.TimekeeperWatchModeC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.vulture.VultureSuperCurseC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.taotie.TaotieHeadFireC2SPacket;
@@ -48,6 +47,7 @@ import dev.caecorthus.sparkdlc.strength.network.sabotage.CompleteBreakerRepairC2
 import dev.caecorthus.sparkdlc.strength.network.sabotage.OpenBreakerRepairS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.sabotage.OpenEngineRepairS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.sabotage.SabotageStatusS2CPacket;
+import dev.caecorthus.sparkdlc.strength.network.sabotage.SyncBlackoutSightS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.sabotage.TriggerSabotageC2SPacket;
 import dev.caecorthus.sparkdlc.strength.sabotage.BreakerRepairService;
 import dev.caecorthus.sparkdlc.strength.sabotage.EngineRepairService;
@@ -91,7 +91,7 @@ public final class SparkStrengthPackets {
         PayloadTypeRegistry.playC2S().register(SerialPistolShootC2SPayload.ID, SerialPistolShootC2SPayload.CODEC);
         PayloadTypeRegistry.playS2C().register(OpenTabletScreenS2CPacket.ID, OpenTabletScreenS2CPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(SyncTabletSnapshotS2CPacket.ID, SyncTabletSnapshotS2CPacket.CODEC);
-        PayloadTypeRegistry.playS2C().register(SyncVeteranBlackoutS2CPacket.ID, SyncVeteranBlackoutS2CPacket.CODEC);
+        PayloadTypeRegistry.playS2C().register(SyncBlackoutSightS2CPacket.ID, SyncBlackoutSightS2CPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(SyncKillerTeamEconomyS2CPacket.ID, SyncKillerTeamEconomyS2CPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(
                 SyncShadowJesterShowdownMusicS2CPacket.ID,

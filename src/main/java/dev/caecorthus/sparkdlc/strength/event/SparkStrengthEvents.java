@@ -36,7 +36,7 @@ import dev.caecorthus.sparkdlc.strength.role.demonhunter.DemonHunterSniffService
 import dev.caecorthus.sparkdlc.strength.role.economy.RoleEconomyService;
 import dev.caecorthus.sparkdlc.strength.role.economy.KillerTeamEconomyService;
 import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerCaptureDeviceService;
-import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerPowerRestorationService;
+import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerSabotageRepairService;
 import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerShopService;
 import dev.caecorthus.sparkdlc.strength.role.morphling.MorphlingService;
 import dev.caecorthus.sparkdlc.strength.role.morphling.MorphlingShopService;
@@ -100,7 +100,7 @@ public final class SparkStrengthEvents {
         VeteranBlackoutService.register();
         RoleEconomyService.register();
         KillerTeamEconomyService.register();
-        EngineerPowerRestorationService.register();
+        EngineerSabotageRepairService.register();
         EngineerShopService.register();
         MorphlingService.register();
         MorphlingShopService.register();

@@ -25,6 +25,7 @@ import dev.caecorthus.sparkdlc.strength.component.tablet.TabletWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowTargetComponent;
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowUserComponent;
 import dev.caecorthus.sparkdlc.strength.component.toxicologist.ToxicologistAntidoteComponent;
+import dev.caecorthus.sparkdlc.strength.component.undercover.UndercoverPlayerComponent;
 import dev.caecorthus.sparkdlc.strength.component.veteran.VeteranKnifeComponent;
 import dev.caecorthus.sparkdlc.strength.component.vulture.SkateboardRideComponent;
 import dev.caecorthus.sparkdlc.strength.component.vulture.VultureSuperCursePlayerComponent;
@@ -55,6 +56,9 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
         registry.beginRegistration(PlayerEntity.class, CorruptCopAbilityComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(CorruptCopAbilityComponent::new);
+        registry.beginRegistration(PlayerEntity.class, UndercoverPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(UndercoverPlayerComponent::new);
         registry.beginRegistration(PlayerEntity.class, NoisemakerGlowUserComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(NoisemakerGlowUserComponent::new);

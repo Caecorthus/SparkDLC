@@ -25,6 +25,7 @@ import dev.caecorthus.sparkdlc.strength.component.tablet.TabletWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowTargetComponent;
 import dev.caecorthus.sparkdlc.strength.component.noisemaker.NoisemakerGlowUserComponent;
 import dev.caecorthus.sparkdlc.strength.component.toxicologist.ToxicologistAntidoteComponent;
+import dev.caecorthus.sparkdlc.strength.component.undercover.RemovedDoorsWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.undercover.UndercoverPlayerComponent;
 import dev.caecorthus.sparkdlc.strength.component.veteran.VeteranKnifeComponent;
 import dev.caecorthus.sparkdlc.strength.component.vulture.SkateboardRideComponent;
@@ -149,6 +150,7 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
         registry.register(PlayerCollisionGraceWorldComponent.KEY, PlayerCollisionGraceWorldComponent::new);
         registry.register(TabletWorldComponent.KEY, TabletWorldComponent::new);
         registry.register(SabotageWorldComponent.KEY, SabotageWorldComponent::new);
+        registry.register(RemovedDoorsWorldComponent.KEY, RemovedDoorsWorldComponent::new);
         registry.register(MorphBodyDisguiseWorldComponent.KEY, MorphBodyDisguiseWorldComponent::new);
         registry.register(
                 ShadowJesterShowdownWorldComponent.KEY,

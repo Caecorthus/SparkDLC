@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.impl;
 
+import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.wither.MiniWitherFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.usec.UsecFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.potiongunner.PotionGunnerFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaGunService;
@@ -135,6 +136,7 @@ public final class SparkWitchEvents {
         SaboteurFeatureService.register();
         FocusedFootstepsRuntime.register();
         WitchMaidenShopService.register();
+        MiniWitherFeatureService.register();
         WraithLifecycle.register();
         ControlExpertFeatureService.register();
         SeekerFeatureService.register();

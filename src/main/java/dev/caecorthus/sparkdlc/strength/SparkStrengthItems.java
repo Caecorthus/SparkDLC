@@ -34,6 +34,7 @@ import dev.caecorthus.sparkdlc.strength.role.perfumer.PerfumerRules;
 import dev.caecorthus.sparkdlc.strength.item.SerialPistolItem;
 import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumType;
 import dev.caecorthus.sparkdlc.strength.role.toxicologist.ToxicologistBlueRules;
+import dev.caecorthus.sparkdlc.strength.role.undercover.UndercoverRules;
 import com.mojang.serialization.Codec;
 import net.minecraft.component.ComponentType;
 import net.minecraft.item.ArmorItem;
@@ -325,8 +326,8 @@ public final class SparkStrengthItems {
                 BODYGUARD_VEST_ID,
                 new BodyguardVestItem(vestMaterial, new Item.Settings().maxCount(1))
         );
-        // Same idea as the vest: zero defence, the vanilla armour layer draws the mask on the face.
-        // 与防弹衣同理：护甲值为 0，由原版盔甲层把面具画在脸上。
+        // Same idea as the vest: zero defence, the vanilla armour layer draws the mask on the face. It does resist
+        // knockback like a netherite helmet. / 与防弹衣同理：护甲值为 0，由原版盔甲层把面具画在脸上；击退抗性同下界合金头盔。
         RegistryEntry<ArmorMaterial> maskMaterial = Registry.registerReference(
                 Registries.ARMOR_MATERIAL,
                 CQCM_MASK_ID,
@@ -337,7 +338,7 @@ public final class SparkStrengthItems {
                         () -> Ingredient.EMPTY,
                         List.of(new ArmorMaterial.Layer(CQCM_MASK_ID)),
                         0.0F,
-                        0.0F
+                        UndercoverRules.KNOCKBACK_RESISTANCE_PER_PIECE
                 )
         );
         cqcmMask = Registry.register(

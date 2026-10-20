@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.strength.network;
 
 import dev.caecorthus.sparkdlc.strength.network.coroner.CoronerMorphC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.demonhunter.DemonHunterSniffC2SPacket;
+import dev.caecorthus.sparkdlc.strength.network.undercover.UndercoverMaskOffC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.detective.OpenDetectiveFolderS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.drone.DronePackets;
 import dev.caecorthus.sparkdlc.strength.network.spiritualist.SpiritPossessionPackets;
@@ -35,6 +36,8 @@ import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumService;
 import dev.caecorthus.sparkdlc.strength.role.detective.DetectiveCaseService;
 import dev.caecorthus.sparkdlc.strength.role.reporter.ReporterCommunicationService;
 import dev.caecorthus.sparkdlc.strength.role.demonhunter.DemonHunterSniffService;
+import dev.caecorthus.sparkdlc.strength.role.undercover.DoorBreachService;
+import dev.caecorthus.sparkdlc.strength.role.undercover.UndercoverService;
 import dev.caecorthus.sparkdlc.strength.role.timekeeper.TimekeeperWatchService;
 import dev.caecorthus.sparkdlc.strength.role.vulture.VultureSuperCurseService;
 import dev.caecorthus.sparkdlc.strength.role.taotie.TaotieHeadService;
@@ -77,6 +80,7 @@ public final class SparkStrengthPackets {
         PayloadTypeRegistry.playC2S().register(SetDetectiveKillerGuessC2SPacket.ID, SetDetectiveKillerGuessC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(SetDetectivePresumedKillerC2SPacket.ID, SetDetectivePresumedKillerC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(DemonHunterSniffC2SPacket.ID, DemonHunterSniffC2SPacket.CODEC);
+        PayloadTypeRegistry.playC2S().register(UndercoverMaskOffC2SPacket.ID, UndercoverMaskOffC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(VultureSuperCurseC2SPacket.ID, VultureSuperCurseC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(RequestTabletSnapshotC2SPacket.ID, RequestTabletSnapshotC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(SendTabletChatC2SPacket.ID, SendTabletChatC2SPacket.CODEC);
@@ -136,6 +140,8 @@ public final class SparkStrengthPackets {
                 ));
         ServerPlayNetworking.registerGlobalReceiver(DemonHunterSniffC2SPacket.ID,
                 (payload, context) -> DemonHunterSniffService.trySniff(context.player()));
+        ServerPlayNetworking.registerGlobalReceiver(UndercoverMaskOffC2SPacket.ID,
+                (payload, context) -> UndercoverService.takeMaskOff(context.player()));
         // Runs on the server thread; the service re-checks round, role, liveness, skill locks and cooldown.
         // 在服务端主线程执行；服务层重新校验回合、职业、存活、技能封锁与冷却。
         ServerPlayNetworking.registerGlobalReceiver(VultureSuperCurseC2SPacket.ID,
@@ -186,8 +192,13 @@ public final class SparkStrengthPackets {
         // Every handler re-validates on the server. / 每个处理器都在服务端重新校验。
         ServerPlayNetworking.registerGlobalReceiver(TriggerSabotageC2SPacket.ID,
                 (payload, context) -> SabotageService.handleTrigger(context.player(), payload.typeWire()));
-        ServerPlayNetworking.registerGlobalReceiver(CancelChannelC2SPacket.ID,
-                (payload, context) -> JunctionBoxService.handleCancel(context.player(), payload.channelId()));
+        // Junction box channels and the Undercover's door breach share the cancel packet; their ids never overlap.
+        // 接线箱读条与卧底拆门共用取消包；两者的编号互不重叠。
+        ServerPlayNetworking.registerGlobalReceiver(CancelChannelC2SPacket.ID, (payload, context) -> {
+            if (!DoorBreachService.handleCancel(context.player(), payload.channelId())) {
+                JunctionBoxService.handleCancel(context.player(), payload.channelId());
+            }
+        });
         // Breaker and engine panels share these two packets; their wire ids (complete_breaker_repair /
         // cancel_breaker_repair) are kept for compatibility, since other mods' action restriction lists match on them.
         // Session ids never repeat between the two services, and each ignores ids it does not own.

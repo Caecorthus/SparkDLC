@@ -6,6 +6,7 @@ import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerRules;
 import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerRules;
 import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumRules;
 import dev.caecorthus.sparkdlc.strength.role.toxicologist.ToxicologistCapsuleRules;
+import dev.caecorthus.sparkdlc.strength.role.undercover.UndercoverRoleRules;
 import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranRules;
 import dev.doctor4t.wathe.api.Role;
 import org.jetbrains.annotations.Nullable;
@@ -31,7 +32,10 @@ public final class RoleEconomyRules {
                 || ProfessorSerumRules.isProfessor(role)
                 || EngineerRules.isEngineer(role)
                 || VeteranRules.isVeteran(role)
-                || BodyguardRules.isBodyguard(role);
+                || BodyguardRules.isBodyguard(role)
+                // Reworked Undercover (2026-10-19): starts at 0, +50 per (fake) task, sees its money.
+                // 重做后的卧底（2026-10-19）：开局 0，每个（假）任务 +50，能看到金币。
+                || UndercoverRoleRules.isUndercover(role);
     }
 
     public static boolean shouldInitializeGoodMoney(@Nullable Role role) {

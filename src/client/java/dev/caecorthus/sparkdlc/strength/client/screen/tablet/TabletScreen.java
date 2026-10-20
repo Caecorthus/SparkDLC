@@ -6,6 +6,7 @@ import dev.caecorthus.sparkdlc.strength.client.screen.tablet.TabletSectionPainte
 import dev.caecorthus.sparkdlc.strength.client.screen.tablet.TabletSectionPainter.HeroState;
 import dev.caecorthus.sparkdlc.strength.client.screen.tablet.TabletTheme.Accent;
 import dev.caecorthus.sparkdlc.strength.compat.SparkWitchCompat;
+import dev.caecorthus.sparkdlc.strength.component.undercover.UndercoverPlayerComponent;
 import dev.caecorthus.sparkdlc.strength.network.drone.DronePilotStartC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.sabotage.TriggerSabotageC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.tablet.ApproveSuspectRemovalC2SPacket;
@@ -17,6 +18,7 @@ import dev.caecorthus.sparkdlc.strength.network.tablet.SelectTabletChannelC2SPac
 import dev.caecorthus.sparkdlc.strength.network.tablet.SendTabletChatC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.tablet.TabletSnapshot;
 import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DroneKind;
+import dev.caecorthus.sparkdlc.strength.role.undercover.UndercoverRoles;
 import dev.caecorthus.sparkdlc.strength.sabotage.SabotageRowState;
 import dev.caecorthus.sparkdlc.strength.tablet.TabletChannel;
 import dev.caecorthus.sparkdlc.strength.tablet.TabletFeature;
@@ -32,6 +34,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.ScreenRect;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
@@ -660,8 +663,11 @@ public final class TabletScreen extends Screen {
             }
             TabletSnapshot.SabotageRow row = rows.get(index);
             SabotageRowState state = TabletSabotagePainter.state(row);
-            boolean ready = state == SabotageRowState.READY && pendingTriggerTicks == 0;
-            String labelKey = switch (state) {
+            // A stage-1 Undercover watches the team's cards for cover; its own trigger needs the CQCM mask.
+            // 第一阶段卧底为了伪装能看团队卡片；它自己的触发需要 CQCM 面具。
+            boolean needsMask = state == SabotageRowState.READY && needsMaskToTrigger();
+            boolean ready = state == SabotageRowState.READY && !needsMask && pendingTriggerTicks == 0;
+            String labelKey = needsMask ? "button.needs_mask" : switch (state) {
                 case READY -> "button.trigger";
                 case LOCKED -> "button.locked";
                 case ARMING -> "button.arming";
@@ -669,12 +675,12 @@ public final class TabletScreen extends Screen {
                 case ACTIVE -> "button.active";
                 case BLOCKED -> "button.blocked";
             };
-            ButtonStyle style = switch (state) {
+            ButtonStyle style = needsMask ? ButtonStyle.LOCKED : switch (state) {
                 case READY -> ButtonStyle.DANGER;
                 case ACTIVE -> ButtonStyle.DANGER_SOFT;
                 default -> ButtonStyle.LOCKED;
             };
-            ButtonIcon icon = switch (state) {
+            ButtonIcon icon = needsMask ? ButtonIcon.LOCK : switch (state) {
                 case LOCKED -> ButtonIcon.LOCK;
                 case ARMING, COOLDOWN -> ButtonIcon.CLOCK;
                 case ACTIVE -> ButtonIcon.SPINNER;
@@ -685,6 +691,12 @@ public final class TabletScreen extends Screen {
                     TabletTheme.SABOTAGE, () -> triggerSabotage(row))
                     .active = ready;
         }
+    }
+
+    private static boolean needsMaskToTrigger() {
+        ClientPlayerEntity player = MinecraftClient.getInstance().player;
+        return player != null && UndercoverRoles.isUndercover(player)
+                && !UndercoverPlayerComponent.KEY.get(player).isStage2();
     }
 
     private void triggerSabotage(TabletSnapshot.SabotageRow row) {

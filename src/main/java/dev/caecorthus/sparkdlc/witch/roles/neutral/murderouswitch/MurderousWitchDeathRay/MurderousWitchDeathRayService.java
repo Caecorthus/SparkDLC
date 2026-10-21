@@ -4,6 +4,7 @@ import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsKillerBridge;
 import dev.caecorthus.sparkdlc.witch.net.FireDeathRayC2SPacket;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.hit.SeekerDeviceHits;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.vendetta.VendettaInteractionService;
+import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.crow.hit.BlackRavenCrowHits;
 import dev.caecorthus.sparkdlc.witch.roles.killer.magician.MagicianPuppetHits;
 import dev.caecorthus.sparkdlc.witch.util.hitscan.PlayerHitboxHistory;
 
@@ -112,7 +113,11 @@ public final class MurderousWitchDeathRayService {
         // 魔术师接缝：可见射线上的所有皮套都会结束；皮套与玩家一样不会截断穿透射线。
         MagicianPuppetHits.onDeathRayFired(caster, start, direction, visibleDistance);
         spawnRayParticles(world, start, direction, visibleDistance);
-        for (ServerPlayerEntity target : findTargets(caster, start, direction, visibleDistance)) {
+        // Raven Form seam: every crow on the visible ray adds its owner, killed below like any pierced player.
+        // 化鸦接缝：可见射线上的每只乌鸦加入其主人，与被贯穿的玩家一样在下方被击杀。
+        for (ServerPlayerEntity target : BlackRavenCrowHits.withPiercedCrows(caster, start, direction, visibleDistance,
+                MurderousWitchDeathRayRules.TARGET_BOX_EXPANSION, findTargets(caster, start, direction, visibleDistance),
+                MurderousWitchDeathRayRules::intersectsRay)) {
             if (VendettaInteractionService.isOrdinaryAliveOrBoundKillerTarget(caster, target)) {
                 GameFunctions.killPlayer(target, true, caster, SparkWitchDeathReasons.PIERCED_BY_RAY);
             }

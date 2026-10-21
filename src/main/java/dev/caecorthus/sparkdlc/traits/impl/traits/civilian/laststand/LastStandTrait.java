@@ -5,6 +5,7 @@ import dev.caecorthus.sparkdlc.traits.api.Trait;
 import dev.caecorthus.sparkdlc.traits.api.TraitAssignmentReason;
 import dev.caecorthus.sparkdlc.traits.api.TraitAudience;
 import dev.caecorthus.sparkdlc.traits.api.TraitSelectionContext;
+import dev.caecorthus.sparkdlc.factionapi.api.settlement.SettlementExclusions;
 import dev.doctor4t.wathe.api.Faction;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -75,7 +76,18 @@ public final class LastStandTrait implements Trait {
         return role != null
                 && role.getFaction() == Faction.CIVILIAN
                 && !role.identifier().equals(Noellesroles.SURVIVAL_MASTER_ID)
+                && !isSettlementExcludedRole(role)
                 && killerTeamPlayerCount >= 2;
+    }
+
+    /**
+     * SparkFactionAPI settlement-excluded roles (for example SparkWitch's Black Raven, owner decision 2026-10-21) never
+     * count as living for settlement, so they can never hold Last Stand; command locks reject the pairing too.
+     * SparkFactionAPI 结算排除身份（如 SparkWitch 黑羽鸦，所有者 2026-10-21 决定）不计入结算存活，
+     * 因此永远不能获得背水一战；命令锁定同样拒绝该组合。
+     */
+    public static boolean isSettlementExcludedRole(Role role) {
+        return SettlementExclusions.isExcludedRole(role);
     }
 
     static int countLastStandThreatPlayers(

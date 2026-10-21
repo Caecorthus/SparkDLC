@@ -57,6 +57,7 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.tarotreader.TarotReaderFeatu
 import dev.caecorthus.sparkdlc.witch.roles.civilian.windspirit.WindSpiritFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.bellringer.BellRingerFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.BlackRavenFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.crow.BlackRavenCrowFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.kidnapper.KidnapperDragLifecycle;
 import dev.caecorthus.sparkdlc.witch.roles.killer.kidnapper.KidnapperKnockoutService;
@@ -130,6 +131,7 @@ public final class SparkWitchEvents {
         KidnapperDragLifecycle.register();
         TarotReaderFeatureService.register();
         BlackRavenFeatureService.register();
+        BlackRavenCrowFeatureService.register();
         BellRingerFeatureService.register();
         TimeStealerFeatureService.register();
         WindSpiritFeatureService.register();

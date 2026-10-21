@@ -1,10 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.blackraven;
 
-import dev.caecorthus.sparkdlc.witch.client.ability.SecondaryAbilityHandler;
-import dev.caecorthus.sparkdlc.witch.client.ability.SecondaryAbilityRegistry;
 import dev.caecorthus.sparkdlc.witch.net.OpenBlackRavenDisguiseS2CPacket;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
-import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.BlackRavenRules;
 import net.minecraft.client.MinecraftClient;
 import dev.caecorthus.sparkdlc.witch.SparkWitch;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
@@ -47,25 +44,6 @@ public final class BlackRavenClientModule {
                         MinecraftClient.getInstance().execute(BlackRavenPerceptionScreenEffects::close);
                     }
                 });
-        SecondaryAbilityRegistry.register(BlackRavenRules.ROLE_ID, new SecondaryAbilityHandler() {
-            @Override
-            public void onPressed(MinecraftClient client) {
-                if (client.player != null) {
-                    BlackRavenClientState.cycle(client.player);
-                }
-            }
-
-            @Override
-            public void tick(MinecraftClient client) {
-                BlackRavenClientState.tick(client);
-            }
-
-            @Override
-            public void reset() {
-                BlackRavenClientState.reset();
-                BlackRavenPerceptionScreenEffects.close();
-            }
-        });
         BlackRavenInstinctClientHooks.register();
         BlackRavenDisguiseInstinctClientHooks.register();
         BlackRavenDisguiseClientState.register();

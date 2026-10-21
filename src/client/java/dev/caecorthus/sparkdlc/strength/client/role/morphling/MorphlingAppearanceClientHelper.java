@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.role.morphling;
 
+import dev.caecorthus.sparkdlc.strength.client.role.partyanimal.PartygoerCorpseClient;
 import dev.caecorthus.sparkdlc.strength.client.role.pathogen.PathogenGrayCrowdClient;
 import dev.caecorthus.sparkdlc.strength.component.morphling.MorphBodyDisguiseWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.morphling.MorphMarkPlayerComponent;
@@ -140,6 +141,12 @@ public final class MorphlingAppearanceClientHelper {
     }
 
     public static SkinTextures resolveBodySkinTextures(PlayerBodyEntity body) {
+        // A Partygoer corpse is the Partygoer for everyone, before any disguise or view.
+        // 派对客尸体对所有人都是派对客，优先于任何伪装与视角。
+        SkinTextures partygoer = PartygoerCorpseClient.skinFor(body);
+        if (partygoer != null) {
+            return partygoer;
+        }
         SkinTextures pathogenView = PathogenGrayCrowdClient.skinForBody(body);
         if (pathogenView != null) {
             return pathogenView;

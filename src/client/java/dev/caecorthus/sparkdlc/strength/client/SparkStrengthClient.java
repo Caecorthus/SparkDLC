@@ -17,6 +17,9 @@ import dev.caecorthus.sparkdlc.strength.client.role.economy.KillerTeamEconomyCli
 import dev.caecorthus.sparkdlc.strength.client.role.engineer.EngineerClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.jester.JesterMomentClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.morphling.MorphlingClientHooks;
+import dev.caecorthus.sparkdlc.strength.client.role.partyanimal.PartyBalloonClientHooks;
+import dev.caecorthus.sparkdlc.strength.client.role.partyanimal.PartygoerClientHooks;
+import dev.caecorthus.sparkdlc.strength.client.role.partyanimal.PartygoerInstinctClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.pathogen.PathogenClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.perfumer.PerfumerClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.professor.ProfessorSerumClientHooks;
@@ -71,6 +74,7 @@ public final class SparkStrengthClient implements ClientModInitializer {
         FlashlightRenderer.register();
         JesterMomentClientHooks.register();
         MorphlingClientHooks.register();
+        PartyBalloonClientHooks.register();
         PathogenClientHooks.register();
         PerfumerClientHooks.register();
         ProfessorSerumClientHooks.register();
@@ -85,6 +89,8 @@ public final class SparkStrengthClient implements ClientModInitializer {
         // Binds only when SparkWitch is loaded (reflection, no compile dependency).
         // 仅在加载了 SparkWitch 时挂接按键（反射，无编译依赖）。
         VultureSuperCurseClientHooks.register();
+        PartygoerClientHooks.register();
+        PartygoerInstinctClientHooks.register();
         WaiterTaskRevealClientHooks.register();
         ClientTickEvents.END_CLIENT_TICK.register(CorruptCopMusicController::tick);
         ClientTickEvents.END_CLIENT_TICK.register(client ->

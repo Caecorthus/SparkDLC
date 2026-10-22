@@ -1,10 +1,10 @@
 package dev.caecorthus.sparkdlc.strength.client.role.professor;
 
+import dev.caecorthus.sparkdlc.strength.client.instinct.InstinctViewer;
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumTargetComponent;
-import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
+import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerRules;
 import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumRules;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
-import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.WatheClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
@@ -40,9 +40,10 @@ public final class ProfessorSerumClientHooks {
         }
 
         ProfessorSerumTargetComponent targetComponent = ProfessorSerumTargetComponent.KEY.get(target);
-        GameWorldComponent gameWorld = GameWorldComponent.KEY.get(localPlayer.getWorld());
-        boolean localProfessor = gameWorld.isRole(localPlayer, Noellesroles.PROFESSOR)
-                || CoronerService.hasProfessorDisguise(localPlayer);
+        // The viewer's disguise is resolved once per frame (InstinctViewer). / 观察者的伪装每帧只解析一次。
+        InstinctViewer frame = InstinctViewer.current();
+        boolean localProfessor = frame != null && (frame.game().isRole(localPlayer, Noellesroles.PROFESSOR)
+                || CoronerRules.isProfessor(frame.disguiseRole()));
 
         if (localProfessor) {
             int color = targetComponent.highestPriorityHighlightColor();

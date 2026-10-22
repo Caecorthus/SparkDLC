@@ -4,6 +4,7 @@ import dev.caecorthus.sparkdlc.strength.client.item.CapsuleClient;
 import dev.caecorthus.sparkdlc.strength.client.item.FlashlightModelClient;
 import dev.caecorthus.sparkdlc.strength.client.item.M67Client;
 import dev.caecorthus.sparkdlc.strength.client.item.PerfumerItemsClient;
+import dev.caecorthus.sparkdlc.strength.client.render.ClientFrame;
 import dev.caecorthus.sparkdlc.strength.client.role.attendant.flashlight.FlashlightLights;
 import dev.caecorthus.sparkdlc.strength.client.role.attendant.flashlight.FlashlightRenderer;
 import dev.caecorthus.sparkdlc.strength.client.role.bodyguard.BodyguardClient;
@@ -59,6 +60,8 @@ import dev.caecorthus.sparkdlc.strength.role.timekeeper.TimekeeperWatchMode;
 public final class SparkStrengthClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+        // Clock for the per-frame caches of hot render hooks (instinct outlines, skins). / 热点渲染钩子逐帧缓存的时钟。
+        ClientFrame.register();
         BodyguardClient.register();
         CapsuleClient.register();
         FlashlightModelClient.register();

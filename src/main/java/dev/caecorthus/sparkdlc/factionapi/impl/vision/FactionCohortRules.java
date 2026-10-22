@@ -1,21 +1,12 @@
 package dev.caecorthus.sparkdlc.factionapi.impl.vision;
 
 import dev.caecorthus.sparkdlc.factionapi.impl.capability.FactionCapabilityLookup;
-import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 
 public final class FactionCohortRules {
     private FactionCohortRules() {
-    }
-
-    public static boolean sharesCohort(Role viewerRole, Role targetRole) {
-        Identifier viewerFaction = FactionCapabilityLookup.baseFaction(viewerRole);
-        Identifier targetFaction = FactionCapabilityLookup.baseFaction(targetRole);
-        return viewerFaction.equals(targetFaction)
-                && FactionCapabilityLookup.capabilities(viewerRole).sharesCohort()
-                && FactionCapabilityLookup.capabilities(targetRole).sharesCohort();
     }
 
     public static boolean sharesCohort(

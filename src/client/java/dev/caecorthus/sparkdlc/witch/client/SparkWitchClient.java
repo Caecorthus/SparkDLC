@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client;
 
 import dev.caecorthus.sparkdlc.witch.client.witchmaiden.MiniWitherClient;
+import dev.caecorthus.sparkdlc.witch.client.blackraven.crow.BlackRavenCrowClient;
 import dev.caecorthus.sparkdlc.witch.client.potiongunner.PotionGunnerClient;
 import dev.caecorthus.sparkdlc.witch.roles.witch.potiongunner.shell.PotionGunnerEntities;
 import dev.caecorthus.sparkdlc.witch.SparkWitch;
@@ -22,6 +23,7 @@ import dev.caecorthus.sparkdlc.witch.client.bellringer.BellRingerClient;
 import dev.caecorthus.sparkdlc.witch.client.timestealer.TimeStealerClient;
 import dev.caecorthus.sparkdlc.witch.client.blackraven.BlackRavenClientModule;
 import dev.caecorthus.sparkdlc.witch.client.blackraven.BlackRavenLedgerScreen;
+import dev.caecorthus.sparkdlc.witch.client.blackraven.crow.BlackRavenCrowWorldClient;
 import dev.caecorthus.sparkdlc.witch.client.prophet.ProphetNecrologyBookScreen;
 import dev.caecorthus.sparkdlc.witch.client.controlexpert.ControlExpertStatusHud;
 import dev.caecorthus.sparkdlc.witch.client.controlexpert.ControlExpertStunClient;
@@ -110,6 +112,7 @@ public final class SparkWitchClient implements ClientModInitializer {
         ApprenticeClientModule.register();
         WitchMaidenClientModule.register();
         MiniWitherClient.register();
+        BlackRavenCrowClient.register();
         BellRingerClient.init();
         TimeStealerClient.init();
         VendettaKnifeModelLoadingPlugin.register();
@@ -278,6 +281,8 @@ public final class SparkWitchClient implements ClientModInitializer {
         EntityRendererRegistry.register(PotionGunnerEntities.potionShell(), FlyingItemEntityRenderer::new);
         SeekerClientModule.registerEntityRenderers();
         EntityRendererRegistry.register(SparkWitchEntities.magicianPlayback(), MagicianPlaybackEntityRenderer::new);
+        // Raven Form world content: Homing Feather marker and black feather particle. / 化鸦世界内容：归羽标记与黑羽粒子。
+        BlackRavenCrowWorldClient.register();
     }
 
     private static void registerWraithRoleAnnouncementNetworking() {

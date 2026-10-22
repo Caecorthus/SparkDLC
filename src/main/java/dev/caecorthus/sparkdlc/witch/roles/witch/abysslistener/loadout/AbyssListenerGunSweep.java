@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.witch.roles.witch.abysslistener.loadout;
 
 import dev.caecorthus.sparkdlc.witch.compat.SparkFactionSecondRowCompat;
 import dev.caecorthus.sparkdlc.witch.util.OffMatchUse;
+import dev.caecorthus.sparkdlc.witch.util.StaggeredSweep;
 import java.util.List;
 import java.util.function.IntPredicate;
 import java.util.function.Predicate;
@@ -66,7 +67,7 @@ final class AbyssListenerGunSweep {
 
     /** Every player is swept exactly once per {@link #INTERVAL_TICKS}. / 每名玩家每个间隔恰好清理一次。 */
     static boolean isSweepTick(long worldTime, int entityId) {
-        return Math.floorMod(worldTime + entityId, INTERVAL_TICKS) == 0;
+        return StaggeredSweep.isDue(worldTime, entityId, INTERVAL_TICKS);
     }
 
     /**

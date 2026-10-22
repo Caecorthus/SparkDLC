@@ -3,8 +3,11 @@ package dev.caecorthus.sparkdlc.strength.client.sabotage;
 import dev.caecorthus.sparkdlc.strength.compat.SparkFactionCompat;
 import dev.caecorthus.sparkdlc.strength.compat.SparkTraitsCompat;
 import dev.caecorthus.sparkdlc.strength.compat.SparkWitchCompat;
+import dev.caecorthus.sparkdlc.strength.component.partyanimal.PartygoerOwnerComponent;
+import dev.caecorthus.sparkdlc.strength.entity.PartygoerEntity;
 import dev.caecorthus.sparkdlc.strength.network.sabotage.SyncBlackoutSightS2CPacket;
 import dev.caecorthus.sparkdlc.strength.role.corruptcop.CorruptCopRules;
+import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerVisibilityRules;
 import dev.caecorthus.sparkdlc.strength.sabotage.BlackoutSightRules;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -86,6 +89,9 @@ public final class BlackoutSightClient {
     }
 
     private static boolean restricts(Entity target) {
+        if (blackout && target instanceof PartygoerEntity partygoer) {
+            return restrictsPartygoer(partygoer);
+        }
         if (!blackout || !(target instanceof PlayerEntity targetPlayer)) {
             return false;
         }
@@ -106,6 +112,24 @@ public final class BlackoutSightClient {
         };
         return !BlackoutSightRules.keyMayReveal(true, false, cachedTeam, targetTeam,
                 linkedPartners.contains(targetPlayer.getUuid()));
+    }
+
+    /**
+     * A Partygoer counts as its owner ({@link PartygoerVisibilityRules#blackoutMayReveal}). Its owner only reaches
+     * killer and spectator clients; elsewhere it reads null, which changes nothing: other teams never see a killer's
+     * Partygoer in the dark and spectators are exempt.
+     * 派对客按其召唤者处理（见 PartygoerVisibilityRules#blackoutMayReveal）。召唤者只会同步到杀手与旁观者客户端；其他客户端读到
+     * null，这不影响结果：其他阵营在黑暗中本就看不到杀手的派对客，旁观者则不受限制。
+     */
+    private static boolean restrictsPartygoer(PartygoerEntity partygoer) {
+        ClientPlayerEntity viewer = MinecraftClient.getInstance().player;
+        if (viewer == null) {
+            return false;
+        }
+        refreshViewer(viewer, GameWorldComponent.KEY.get(viewer.getWorld()));
+        UUID owner = PartygoerOwnerComponent.ownerOf(partygoer);
+        return !PartygoerVisibilityRules.blackoutMayReveal(true, cachedExempt, cachedTeam,
+                viewer.getUuid().equals(owner), owner != null && linkedPartners.contains(owner));
     }
 
     private static void refreshViewer(ClientPlayerEntity viewer, GameWorldComponent game) {

@@ -3,6 +3,11 @@ package dev.caecorthus.sparkdlc.strength.component;
 import dev.caecorthus.sparkdlc.strength.component.bodyguard.BodyguardGearComponent;
 import dev.caecorthus.sparkdlc.strength.component.pathogen.PathogenStrainComponent;
 import dev.caecorthus.sparkdlc.strength.component.pathogen.VirusCarrierComponent;
+import dev.caecorthus.sparkdlc.strength.component.partyanimal.PartyAnimalSkillComponent;
+import dev.caecorthus.sparkdlc.strength.component.partyanimal.PartyBalloonMarkComponent;
+import dev.caecorthus.sparkdlc.strength.component.partyanimal.PartygoerCorpseComponent;
+import dev.caecorthus.sparkdlc.strength.component.partyanimal.PartygoerOwnerComponent;
+import dev.caecorthus.sparkdlc.strength.entity.PartygoerEntity;
 import dev.caecorthus.sparkdlc.strength.component.collision.PlayerCollisionGraceWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.corruptcop.CorruptCopAbilityComponent;
 import dev.caecorthus.sparkdlc.strength.component.coroner.CoronerBodySnapshotComponent;
@@ -114,12 +119,18 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
         registry.beginRegistration(PlayerEntity.class, VultureSuperCursePlayerComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(VultureSuperCursePlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, PartyAnimalSkillComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(PartyAnimalSkillComponent::new);
         registry.beginRegistration(PlayerEntity.class, PathogenStrainComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(PathogenStrainComponent::new);
         registry.beginRegistration(PlayerEntity.class, VirusCarrierComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(VirusCarrierComponent::new);
+        registry.beginRegistration(PlayerEntity.class, PartyBalloonMarkComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(PartyBalloonMarkComponent::new);
         registry.beginRegistration(PlayerEntity.class, ReporterCommunicationComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(ReporterCommunicationComponent::new);
@@ -139,6 +150,8 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(TaotieHeadDazeComponent::new);
         registry.registerFor(PlayerBodyEntity.class, CoronerBodySnapshotComponent.KEY, CoronerBodySnapshotComponent::new);
+        registry.registerFor(PlayerBodyEntity.class, PartygoerCorpseComponent.KEY, PartygoerCorpseComponent::new);
+        registry.registerFor(PartygoerEntity.class, PartygoerOwnerComponent.KEY, PartygoerOwnerComponent::new);
     }
 
     @Override

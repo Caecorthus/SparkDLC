@@ -1,10 +1,10 @@
 package dev.caecorthus.sparkdlc.strength.sabotage;
 
-import dev.caecorthus.sparkdlc.strength.compat.SparkWitchCompat;
-import dev.caecorthus.sparkdlc.strength.component.engineer.EngineerStunnedPlayerComponent;
-import dev.caecorthus.sparkdlc.strength.role.taotie.TaotieHeadDaze;
+import dev.caecorthus.sparkdlc.strength.role.AbilityLocks;
+import dev.caecorthus.sparkdlc.strength.role.AbilityLocks.Lock;
 import net.minecraft.server.network.ServerPlayerEntity;
-import org.agmas.noellesroles.taotie.SwallowedPlayerComponent;
+
+import java.util.Set;
 
 /**
  * Locks that keep a pry, a hack or a breaker repair from starting or finishing: Engineer stun, SparkWitch Control
@@ -14,13 +14,13 @@ import org.agmas.noellesroles.taotie.SwallowedPlayerComponent;
  * 由服务端每 tick 检查，因为眩晕可能落在两次心跳之间，而客户端的取消要一个往返后才到。
  */
 public final class SabotageActionLocks {
+    private static final Set<Lock> LOCKS = AbilityLocks.of(Lock.ENGINEER_STUN, Lock.CONTROL_EXPERT_STUN,
+            Lock.TAOTIE_DAZE, Lock.SWALLOWED);
+
     private SabotageActionLocks() {
     }
 
     public static boolean isLocked(ServerPlayerEntity player) {
-        return EngineerStunnedPlayerComponent.KEY.get(player).isStunned()
-                || SparkWitchCompat.isControlExpertStunned(player)
-                || TaotieHeadDaze.isDazed(player)
-                || SwallowedPlayerComponent.isPlayerSwallowed(player);
+        return AbilityLocks.isLocked(player, LOCKS);
     }
 }

@@ -1,7 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.sabotage;
 
-import dev.caecorthus.sparkdlc.strength.tablet.TabletShopRules;
-import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.caecorthus.sparkdlc.strength.role.undercover.UndercoverRoles;
 import net.minecraft.entity.player.PlayerEntity;
 
 /**
@@ -18,6 +17,6 @@ public final class BlackoutNightVision {
     }
 
     public static boolean seesLikeKiller(PlayerEntity player) {
-        return TabletShopRules.isUndercover(GameWorldComponent.KEY.get(player.getWorld()).getRole(player));
+        return UndercoverRoles.isUndercover(player);
     }
 }

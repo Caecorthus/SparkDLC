@@ -1,13 +1,9 @@
 package dev.caecorthus.sparkdlc.strength.event;
 
 import dev.caecorthus.sparkdlc.strength.compat.SparkFactionCompat;
-import dev.caecorthus.sparkdlc.strength.component.detective.DetectiveCasePlayerComponent;
 import dev.caecorthus.sparkdlc.strength.component.collision.PlayerCollisionGraceWorldComponent;
 import dev.caecorthus.sparkdlc.strength.component.morphling.MorphBodyDisguiseWorldComponent;
-import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumTargetComponent;
-import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumUserComponent;
 import dev.caecorthus.sparkdlc.strength.item.m67.M67RoundService;
-import dev.caecorthus.sparkdlc.strength.component.reporter.ReporterCommunicationComponent;
 import dev.caecorthus.sparkdlc.strength.role.noisemaker.NoisemakerGlowService;
 import dev.caecorthus.sparkdlc.strength.role.phantom.PhantomBackpackService;
 import dev.caecorthus.sparkdlc.strength.role.attendant.AttendantFlashlightService;
@@ -235,28 +231,10 @@ public final class SparkStrengthEvents {
                 VeteranBlackoutService.clear(serverWorld);
                 BlackoutSightService.clear(serverWorld);
                 VeteranEconomyService.clearRoundState();
-                for (ServerPlayerEntity player : serverWorld.getPlayers()) {
-                    CorruptCopAbilityService.reset(player);
-                    CoronerService.clearPlayer(player);
-                    DetectiveCasePlayerComponent.KEY.get(player).clearAll();
-                    EngineerCaptureDeviceService.clearPlayer(player);
-                    MorphlingService.reset(player);
-                    PhantomBackpackService.clearPlayer(player);
-                    ToxicologistAntidoteService.clearPlayer(player);
-                    ToxicologistBluePassiveService.clearPlayer(player);
-                    ProfessorSerumUserComponent.KEY.get(player).reset();
-                    ProfessorSerumTargetComponent.KEY.get(player).reset();
-                    ReporterCommunicationComponent.KEY.get(player).reset();
-                    WaiterTaskRevealService.reset(player);
-                    DemonHunterSniffService.clearPlayer(player);
-                    VultureSuperCurseService.clearPlayer(player);
-                    PartygoerSkillService.reset(player);
-                    VeteranKnifeService.reset(player);
-                    TimekeeperWatchComponent.KEY.get(player).reset();
-                    BodyguardShieldService.resetRound(player);
-                    UndercoverService.reset(player);
-                    PartyBalloonService.clearPlayer(player);
-                }
+                // Per-player state is already reset: finalizeGame runs resetPlayer, and with it PlayerRoundReset, for
+                // every player of this world just before it clears the role map and fires this event.
+                // 单人状态此时已重置：finalizeGame 在清空身份表并触发本事件之前，已对本世界每名玩家执行 resetPlayer，
+                // 也就执行了 PlayerRoundReset。
                 // Chopped-down doors come back for the next round. / 被拆掉的门在下一局前放回。
                 DoorBreachService.restoreAll(serverWorld);
             }

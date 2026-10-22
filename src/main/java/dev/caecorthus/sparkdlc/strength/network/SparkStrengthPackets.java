@@ -28,6 +28,10 @@ import dev.caecorthus.sparkdlc.strength.network.tablet.SyncTabletSnapshotS2CPack
 import dev.caecorthus.sparkdlc.strength.network.shadowjester.SyncShadowJesterShowdownMusicS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.timekeeper.TimekeeperWatchModeC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.vulture.VultureSuperCurseC2SPacket;
+import dev.caecorthus.sparkdlc.strength.network.partyanimal.PartygoerMenuC2SPacket;
+import dev.caecorthus.sparkdlc.strength.network.partyanimal.PartygoerMenuS2CPacket;
+import dev.caecorthus.sparkdlc.strength.network.partyanimal.PartygoerSummonC2SPacket;
+import dev.caecorthus.sparkdlc.strength.network.partyanimal.PartygoerSwallowC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.taotie.TaotieHeadFireC2SPacket;
 import dev.caecorthus.sparkdlc.strength.role.noisemaker.NoisemakerGlowService;
 import dev.caecorthus.sparkdlc.strength.role.phantom.PhantomBackpackService;
@@ -40,6 +44,8 @@ import dev.caecorthus.sparkdlc.strength.role.undercover.DoorBreachService;
 import dev.caecorthus.sparkdlc.strength.role.undercover.UndercoverService;
 import dev.caecorthus.sparkdlc.strength.role.timekeeper.TimekeeperWatchService;
 import dev.caecorthus.sparkdlc.strength.role.vulture.VultureSuperCurseService;
+import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerSkillService;
+import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerTaotieService;
 import dev.caecorthus.sparkdlc.strength.role.taotie.TaotieHeadService;
 import dev.caecorthus.sparkdlc.strength.tablet.TabletStateService;
 import dev.caecorthus.sparkdlc.strength.network.sabotage.CancelBreakerRepairC2SPacket;
@@ -82,6 +88,10 @@ public final class SparkStrengthPackets {
         PayloadTypeRegistry.playC2S().register(DemonHunterSniffC2SPacket.ID, DemonHunterSniffC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(UndercoverMaskOffC2SPacket.ID, UndercoverMaskOffC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(VultureSuperCurseC2SPacket.ID, VultureSuperCurseC2SPacket.CODEC);
+        PayloadTypeRegistry.playC2S().register(PartygoerMenuC2SPacket.ID, PartygoerMenuC2SPacket.CODEC);
+        PayloadTypeRegistry.playC2S().register(PartygoerSummonC2SPacket.ID, PartygoerSummonC2SPacket.CODEC);
+        PayloadTypeRegistry.playC2S().register(PartygoerSwallowC2SPacket.ID, PartygoerSwallowC2SPacket.CODEC);
+        PayloadTypeRegistry.playS2C().register(PartygoerMenuS2CPacket.ID, PartygoerMenuS2CPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(RequestTabletSnapshotC2SPacket.ID, RequestTabletSnapshotC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(SendTabletChatC2SPacket.ID, SendTabletChatC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(CallTabletMeetingC2SPacket.ID, CallTabletMeetingC2SPacket.CODEC);
@@ -146,6 +156,17 @@ public final class SparkStrengthPackets {
         // 在服务端主线程执行；服务层重新校验回合、职业、存活、技能封锁与冷却。
         ServerPlayNetworking.registerGlobalReceiver(VultureSuperCurseC2SPacket.ID,
                 (payload, context) -> VultureSuperCurseService.tryCurse(context.player()));
+        // Party Animal's Partygoer: picker request and summon; the service re-checks every gate.
+        // 派对狂的派对客：选房请求与召唤；服务层重新校验所有门槛。
+        ServerPlayNetworking.registerGlobalReceiver(PartygoerMenuC2SPacket.ID,
+                (payload, context) -> PartygoerSkillService.openMenu(context.player()));
+        ServerPlayNetworking.registerGlobalReceiver(PartygoerSummonC2SPacket.ID,
+                (payload, context) -> PartygoerSkillService.summon(context.player(), payload.spawnRoom(),
+                        payload.destinationRoom()));
+        // Taotie swallowing a Partygoer (NoellesRoles ability key); the service re-checks every gate.
+        // 饕餮吞派对客（NoellesRoles 技能键）；服务层重新校验所有门槛。
+        ServerPlayNetworking.registerGlobalReceiver(PartygoerSwallowC2SPacket.ID,
+                (payload, context) -> PartygoerTaotieService.handleSwallow(context.player(), payload));
         ServerPlayNetworking.registerGlobalReceiver(RequestTabletSnapshotC2SPacket.ID,
                 (payload, context) -> TabletStateService.requestSnapshot(context.player()));
         ServerPlayNetworking.registerGlobalReceiver(SendTabletChatC2SPacket.ID,

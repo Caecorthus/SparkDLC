@@ -21,6 +21,7 @@ import dev.caecorthus.sparkdlc.strength.item.M67Item;
 import dev.caecorthus.sparkdlc.strength.item.MagnifierItem;
 import dev.caecorthus.sparkdlc.strength.item.MorphDeviceItem;
 import dev.caecorthus.sparkdlc.strength.item.MorphReagentItem;
+import dev.caecorthus.sparkdlc.strength.item.PartyBalloonItem;
 import dev.caecorthus.sparkdlc.strength.item.PowerRestorationItem;
 import dev.caecorthus.sparkdlc.strength.item.ProfessorSerumItem;
 import dev.caecorthus.sparkdlc.strength.item.SkateboardItem;
@@ -30,6 +31,7 @@ import dev.caecorthus.sparkdlc.strength.item.TimekeeperWatchItem;
 import dev.caecorthus.sparkdlc.strength.item.VirusItem;
 import dev.caecorthus.sparkdlc.strength.item.ZephyrPerfumeItem;
 import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DroneKind;
+import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartyBalloonRules;
 import dev.caecorthus.sparkdlc.strength.role.perfumer.PerfumerRules;
 import dev.caecorthus.sparkdlc.strength.item.SerialPistolItem;
 import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumType;
@@ -90,6 +92,7 @@ public final class SparkStrengthItems {
     public static final Identifier BODYGUARD_VEST_ID = SparkStrength.id("bodyguard_vest");
     public static final Identifier CQCM_MASK_ID = SparkStrength.id("cqcm_mask");
     public static final Identifier TACTICAL_TOMAHAWK_ID = SparkStrength.id("tactical_tomahawk");
+    public static final Identifier PARTY_BALLOON_ID = SparkStrength.id("party_balloon");
 
     /** 怀表模式数据组件：0=刷新物品冷却，1=刷新技能冷却。 */
     public static final ComponentType<Integer> TIMEKEEPER_WATCH_MODE = Registry.register(
@@ -134,6 +137,7 @@ public final class SparkStrengthItems {
     private static Item bodyguardVest;
     private static Item cqcmMask;
     private static Item tacticalTomahawk;
+    private static Item partyBalloon;
     private static boolean registered;
 
     private SparkStrengthItems() {
@@ -351,6 +355,11 @@ public final class SparkStrengthItems {
                 TACTICAL_TOMAHAWK_ID,
                 new TacticalTomahawkItem(new Item.Settings().maxCount(1))
         );
+        partyBalloon = Registry.register(
+                Registries.ITEM,
+                PARTY_BALLOON_ID,
+                new PartyBalloonItem(new Item.Settings().maxCount(PartyBalloonRules.MAX_STACK))
+        );
         registered = true;
     }
 
@@ -534,6 +543,13 @@ public final class SparkStrengthItems {
             throw new IllegalStateException("SparkStrength items are not registered yet");
         }
         return tacticalTomahawk;
+    }
+
+    public static Item partyBalloon() {
+        if (partyBalloon == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return partyBalloon;
     }
 
     public static Item bodyguardVest() {

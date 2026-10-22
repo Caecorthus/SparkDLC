@@ -9,6 +9,7 @@ import dev.caecorthus.sparkdlc.witch.mixin.accessor.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.witch.mixin.accessor.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.factor.WitchFactorService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchRuntimeComponent;
+import dev.caecorthus.sparkdlc.witch.util.TickTime;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.client.font.TextRenderer;
@@ -41,7 +42,7 @@ public final class GrandWitchClientPresentation {
                     WitchFactorService.MANA_COST);
         }
         return ticks > 0
-                ? Text.translatable("hud.sparkwitch.grand_witch.factor.cooldown", seconds(ticks))
+                ? Text.translatable("hud.sparkwitch.grand_witch.factor.cooldown", TickTime.ceilSecondsUnclamped(ticks))
                 : Text.translatable("hud.sparkwitch.grand_witch.factor.ready", SparkWitchClient.abilityKeyText());
     }
 
@@ -87,9 +88,5 @@ public final class GrandWitchClientPresentation {
             context.drawTextWithShadow(renderer, line, context.getScaledWindowWidth() - 5 - renderer.getWidth(line), y, COLOR);
             y += renderer.fontHeight + 2;
         }
-    }
-
-    private static int seconds(int ticks) {
-        return (int) Math.ceil(ticks / 20.0);
     }
 }

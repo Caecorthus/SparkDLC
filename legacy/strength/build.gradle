@@ -163,7 +163,7 @@ tasks.register("verifyArchitecture") {
             "src/main/java/dev/caecorthus/sparkdlc/strength/compat/SparkTraitsCompat.java",
             "src/main/java/dev/caecorthus/sparkdlc/strength/SparkStrengthItems.java",
             "src/main/java/dev/caecorthus/sparkdlc/strength/SparkStrengthEntities.java",
-            "src/main/java/dev/caecorthus/sparkdlc/strength/replay/SparkStrengthReplayFormatters.java"
+            "src/main/java/dev/caecorthus/sparkdlc/strength/replay/CaptureDeviceReplayEvents.java"
     )
     inputs.files(fileTree("libs") { include "*.jar" })
     inputs.files(tasks.named("processResources").map { it.destinationDir })
@@ -224,7 +224,7 @@ tasks.register("verifyArchitecture") {
                 "capture_device_expired"
         ].each { replayId ->
             requireText(
-                    "src/main/java/dev/caecorthus/sparkdlc/strength/replay/SparkStrengthReplayFormatters.java",
+                    "src/main/java/dev/caecorthus/sparkdlc/strength/replay/CaptureDeviceReplayEvents.java",
                     "SparkStrength.id(\"${replayId}\")"
             )
         }

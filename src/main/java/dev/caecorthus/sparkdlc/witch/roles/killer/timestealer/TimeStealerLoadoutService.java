@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.witch.roles.killer.timestealer;
 import dev.caecorthus.sparkdlc.witch.SparkWitchItems;
 import dev.caecorthus.sparkdlc.witch.compat.SparkFactionSecondRowCompat;
 import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.witch.util.StaggeredSweep;
 import dev.doctor4t.wathe.api.Role;
 import java.util.Objects;
 import java.util.UUID;
@@ -67,7 +68,7 @@ public final class TimeStealerLoadoutService {
             TimeStealerStampService.tickOwner(player);
             return;
         }
-        if (Math.floorMod(player.getServerWorld().getTime() + player.getId(), STRAY_SWEEP_INTERVAL_TICKS) == 0) {
+        if (StaggeredSweep.isDue(player.getServerWorld().getTime(), player.getId(), STRAY_SWEEP_INTERVAL_TICKS)) {
             removeClocks(player);
             TimeGiftWatchLoadout.removeGiftWatches(player);
             TimeStampInventory.stripAll(player);

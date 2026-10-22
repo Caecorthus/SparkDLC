@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.witch.roles.killer.timestealer;
 
 import dev.caecorthus.sparkdlc.factionapi.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.witch.roles.killer.timestealer.TimeStampLedger.Plan;
+import dev.caecorthus.sparkdlc.witch.util.StaggeredSweep;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -155,7 +156,7 @@ public final class TimeStealerStampService {
         }
         TimeStealerPlayerComponent state = TimeStealerPlayerComponent.KEY.get(player);
         int pending = state.undeliveredStamps();
-        if (pending > 0 && Math.floorMod(player.getWorld().getTime() + player.getId(), RETRY_INTERVAL_TICKS) == 0) {
+        if (pending > 0 && StaggeredSweep.isDue(player.getWorld().getTime(), player.getId(), RETRY_INTERVAL_TICKS)) {
             state.setUndeliveredStamps(0);
             deliver(player, pending);
         }

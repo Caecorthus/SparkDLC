@@ -5,6 +5,7 @@ import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.net.EmmaFactorC2SPacket;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaRules;
+import dev.caecorthus.sparkdlc.witch.util.TickTime;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -42,7 +43,7 @@ public final class EmmaClientModule {
         Text line = switch (EmmaHudRules.state(state.getCooldownTicks(), state.getMana(),
                 EmmaRules.MANA_COST, target != null)) {
             case COOLDOWN -> Text.translatable("hud.sparkwitch.emma.factor.cooldown",
-                    (int) Math.ceil(state.getCooldownTicks() / 20.0));
+                    TickTime.ceilSecondsUnclamped(state.getCooldownTicks()));
             case NEED_MANA -> Text.translatable("hud.sparkwitch.emma.factor.need_mana", EmmaRules.MANA_COST);
             case NO_TARGET -> Text.translatable("hud.sparkwitch.emma.factor.no_target");
             case TRANSFER -> Text.translatable("hud.sparkwitch.emma.factor.transfer", EmmaVisibleName.of(target));

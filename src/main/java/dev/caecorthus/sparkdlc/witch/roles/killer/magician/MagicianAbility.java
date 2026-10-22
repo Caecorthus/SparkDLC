@@ -5,6 +5,7 @@ import dev.caecorthus.sparkdlc.witch.compat.NoellesSilenceBridge;
 import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsKillerBridge;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchFearService;
+import dev.caecorthus.sparkdlc.witch.util.TickTime;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -61,8 +62,8 @@ public final class MagicianAbility {
         // 结束录制或播放从不需要等待。
         if (c.cooldownTicks() > 0
                 && startsRecordingOrPlayback(c.stage(), action, MagicianPlaybackManager.hasCachedRecording(player))) {
-            player.sendMessage(Text.translatable("message.sparkwitch.skill.cooldown", (c.cooldownTicks() + 19) / 20),
-                    true);
+            player.sendMessage(Text.translatable("message.sparkwitch.skill.cooldown",
+                    TickTime.ceilSecondsRaw(c.cooldownTicks())), true);
             return;
         }
         if (c.stage() == MagicianStage.IDLE && c.cooldownTicks() > 0) return;

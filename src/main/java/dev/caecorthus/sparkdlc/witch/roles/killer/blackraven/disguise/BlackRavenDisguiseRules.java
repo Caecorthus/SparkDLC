@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.disguise;
 
 import dev.caecorthus.sparkdlc.witch.SparkWitch;
 import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.BlackRavenRules;
+import dev.caecorthus.sparkdlc.witch.util.TickTime;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -309,7 +310,7 @@ public final class BlackRavenDisguiseRules {
 
     /** Whole seconds shown in messages, rounded up. / 提示中显示的整秒数，向上取整。 */
     public static int ceilSeconds(int ticks) {
-        return ticks <= 0 ? 0 : (ticks + 19) / 20;
+        return TickTime.ceilSeconds(ticks);
     }
 
     public static String messageKey(String suffix) {

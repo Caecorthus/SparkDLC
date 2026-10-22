@@ -1,9 +1,8 @@
 package dev.caecorthus.sparkdlc.strength.client.role.waiter;
 
 import dev.caecorthus.sparkdlc.strength.component.waiter.WaiterTaskRevealComponent;
-import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
+import dev.caecorthus.sparkdlc.strength.role.waiter.WaiterTaskRevealService;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
-import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -29,15 +28,13 @@ public final class WaiterTaskRevealClientHooks {
     private static GetInstinctHighlight.HighlightResult highlight(Entity entity) {
         ClientPlayerEntity viewer = MinecraftClient.getInstance().player;
         if (viewer == null || !(entity instanceof PlayerEntity target) || viewer == target
-                || !GameFunctions.isPlayerPlayingAndAlive(viewer)
                 || !GameFunctions.isPlayerPlayingAndAlive(target)) {
             return null;
         }
 
-        GameWorldComponent game = GameWorldComponent.KEY.get(viewer.getWorld());
-        boolean waiter = game.isRole(viewer, Noellesroles.WAITER)
-                || CoronerService.hasWaiterDisguise(viewer);
-        if (!waiter || !WaiterTaskRevealComponent.KEY.get(target).isRevealed()) {
+        // Same predicate as the server's sync recipients. / 与服务端同步对象使用同一判定。
+        if (!WaiterTaskRevealService.canSeeReveals(viewer)
+                || !WaiterTaskRevealComponent.KEY.get(target).isRevealed()) {
             return null;
         }
 

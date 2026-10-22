@@ -5,6 +5,7 @@ import dev.caecorthus.sparkdlc.assist.client.achievement.AchievementClientState;
 import dev.caecorthus.sparkdlc.assist.client.config.SparkAssistConfigManager;
 import dev.caecorthus.sparkdlc.assist.client.guidebook.GuidebookClientState;
 import dev.caecorthus.sparkdlc.assist.client.guidebook.GuidebookInventoryButton;
+import dev.caecorthus.sparkdlc.assist.client.guidebook.GuidebookResources;
 import dev.caecorthus.sparkdlc.assist.client.ponder.PonderSupport;
 import dev.caecorthus.sparkdlc.assist.client.input.InstinctKeyController;
 import net.fabricmc.api.ClientModInitializer;
@@ -18,6 +19,7 @@ public final class SparkAssistClient implements ClientModInitializer {
     public void onInitializeClient() {
         configManager = SparkAssistConfigManager.load();
         PonderSupport.init();
+        GuidebookResources.register();
         ClientTickEvents.END_CLIENT_TICK.register(GuidebookClientState::tick);
         GuidebookInventoryButton.register();
         ClientTickEvents.END_CLIENT_TICK.register(AchievementClientState::tick);

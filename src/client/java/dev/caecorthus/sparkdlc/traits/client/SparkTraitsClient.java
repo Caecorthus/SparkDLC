@@ -4,6 +4,7 @@ import dev.caecorthus.sparkdlc.traits.client.compat.SparkStrengthCoronerClientBr
 import dev.caecorthus.sparkdlc.traits.component.TraitWorldComponent;
 import dev.caecorthus.sparkdlc.traits.client.audio.DepressionRageLoopController;
 import dev.caecorthus.sparkdlc.traits.client.hud.DepressionHud;
+import dev.caecorthus.sparkdlc.traits.client.instinct.InstinctViewerContext;
 import dev.caecorthus.sparkdlc.traits.client.killer.NewKillerTraitsClient;
 import dev.caecorthus.sparkdlc.traits.client.net.version.SparkTraitsClientVersionHandshake;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.laststand.LastStandFinalMomentService;
@@ -31,6 +32,7 @@ public class SparkTraitsClient implements ClientModInitializer {
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
             SparkTraitsServerConnection.reset();
             dev.caecorthus.sparkdlc.traits.client.gui.OwnerInventoryClientAdapter.resetNativeCard();
+            InstinctViewerContext.clear();
         });
         registerFinalMomentHighlight();
         ClientTickEvents.END_CLIENT_TICK.register(client -> {

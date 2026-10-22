@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.strength.client;
 import dev.caecorthus.sparkdlc.strength.client.item.CapsuleClient;
 import dev.caecorthus.sparkdlc.strength.client.item.FlashlightModelClient;
 import dev.caecorthus.sparkdlc.strength.client.item.M67Client;
+import dev.caecorthus.sparkdlc.strength.client.instinct.InstinctViewer;
 import dev.caecorthus.sparkdlc.strength.client.item.PerfumerItemsClient;
 import dev.caecorthus.sparkdlc.strength.client.render.ClientFrame;
 import dev.caecorthus.sparkdlc.strength.client.role.attendant.flashlight.FlashlightLights;
@@ -63,6 +64,7 @@ public final class SparkStrengthClient implements ClientModInitializer {
     public void onInitializeClient() {
         // Clock for the per-frame caches of hot render hooks (instinct outlines, skins). / 热点渲染钩子逐帧缓存的时钟。
         ClientFrame.register();
+        InstinctViewer.register();
         // Loaded drones, Partygoers and corpses, so per-frame picks can skip empty searches. / 已加载的无人机、派对客与尸体，
         // 让逐帧选取跳过必然落空的搜索。
         LoadedEntities.register();

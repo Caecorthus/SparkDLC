@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.roles.killer.kidnapper;
 
+import dev.caecorthus.sparkdlc.witch.compat.SparkStrengthPartygoerCompat;
 import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsBodyDragBridge;
 import dev.caecorthus.sparkdlc.witch.roles.killer.magician.MagicianDecoyBodies;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.fiend.FiendFakeBodies;
@@ -19,6 +20,9 @@ public final class KidnapperFalseBodyPolicy {
                 // A Fiend feign-death corpse, even after its camera falls back (2026-10-16).
                 // 魔人假死尸体，即使视角已回落到本人（2026-10-16）。
                 && !FiendFakeBodies.isFake(body)
+                // A killed SparkStrength Partygoer is no passenger's body (2026-10-21).
+                // 被打死的 SparkStrength 派对客不是乘客的尸体（2026-10-21）。
+                && !SparkStrengthPartygoerCompat.isPartygoerCorpse(body)
                 && !isCameraBoundFakeBody(body);
     }
 

@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.strength.role.silencer;
 
 import dev.caecorthus.sparkdlc.strength.compat.SparkFactionCompat;
 import dev.caecorthus.sparkdlc.strength.compat.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.strength.role.veteran.KnifeStabTargets;
 import dev.doctor4t.wathe.api.WatheGameModes;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameConstants;
@@ -10,7 +11,6 @@ import dev.doctor4t.wathe.index.WatheItems;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import dev.doctor4t.wathe.util.KnifeStabPayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.entity.Entity;
 import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
@@ -39,10 +39,10 @@ public final class SilencerKnifeService {
             return true;
         }
 
-        Entity targetEntity = player.getServerWorld().getEntityById(payload.target());
-        if (!(targetEntity instanceof ServerPlayerEntity target)
-                || target.isSpectator()
-                || target.distanceTo(player) > 3.0D) {
+        // A SparkWitch Raven Form crow id resolves to its owner; the quiet stab below runs on it unchanged.
+        // SparkWitch 化鸦乌鸦 id 解析为其主人；下方静音刺击原样作用于它。
+        ServerPlayerEntity target = KnifeStabTargets.resolve(player, payload.target());
+        if (target == null) {
             return true;
         }
         if (!SilencerQuietService.isHoldingWatheKnife(player)

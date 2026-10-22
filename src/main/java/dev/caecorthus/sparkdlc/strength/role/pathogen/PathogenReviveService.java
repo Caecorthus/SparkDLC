@@ -7,6 +7,7 @@ import dev.caecorthus.sparkdlc.strength.component.pathogen.VirusCarrierComponent
 import dev.caecorthus.sparkdlc.strength.compat.SparkTraitsReviveCompat;
 import dev.caecorthus.sparkdlc.strength.mixin.noellesroles.HiddenBodiesWorldComponentAccessor;
 import dev.caecorthus.sparkdlc.strength.mixin.wathe.GameWorldComponentDeadPlayersAccessor;
+import dev.caecorthus.sparkdlc.strength.util.SparkPlayers;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.RoleAssigned;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -62,7 +63,7 @@ public final class PathogenReviveService {
                 : world.getServer().getPlayerManager().getPlayer(ownerId);
         PathogenRules.ReviveVerdict verdict = PathogenRules.reviveVerdict(
                 game.getGameStatus() == GameWorldComponent.GameStatus.ACTIVE
-                        && VirusService.isLivingParticipant(user)
+                        && SparkPlayers.isLivingParticipant(user)
                         && PathogenVisibility.isPathogen(user),
                 SwallowedPlayerComponent.isPlayerSwallowed(user),
                 owner != null,

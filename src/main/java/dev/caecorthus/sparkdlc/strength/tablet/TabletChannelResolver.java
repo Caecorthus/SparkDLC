@@ -6,6 +6,7 @@ import dev.caecorthus.sparkdlc.strength.component.tablet.TabletWorldComponent;
 import dev.caecorthus.sparkdlc.strength.role.attendant.AttendantRules;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerRules;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
+import dev.caecorthus.sparkdlc.strength.role.undercover.UndercoverRoleRules;
 import dev.caecorthus.sparkdlc.strength.sabotage.SabotageAccess;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
@@ -49,7 +50,7 @@ public final class TabletChannelResolver {
                 hasRole && SparkFactionCompat.isWitchFactionRole(role),
                 // Real round role only: a disguise (e.g. a Coroner shown as Undercover) never joins the network.
                 // 仅看真实局内身份：伪装（如显示为卧底的验尸官）不会加入该网络。
-                hasRole && TabletShopRules.isUndercover(role)
+                hasRole && UndercoverRoleRules.isUndercover(role)
         );
     }
 

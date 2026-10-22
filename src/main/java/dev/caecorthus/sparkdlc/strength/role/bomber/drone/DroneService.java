@@ -11,6 +11,7 @@ import dev.caecorthus.sparkdlc.strength.mixin.minecraft.ItemCooldownManagerAcces
 import dev.caecorthus.sparkdlc.strength.role.AbilityLocks;
 import dev.caecorthus.sparkdlc.strength.role.AbilityLocks.Lock;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerRules;
+import dev.caecorthus.sparkdlc.strength.util.SparkPlayers;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -118,7 +119,7 @@ public final class DroneService {
 
     /** Real round role is the NoellesRoles Bomber (Coroner disguises never count). / 真实局内身份为炸弹客（验尸官伪装不算）。 */
     public static boolean isRealBomber(@Nullable PlayerEntity player) {
-        return player != null && CoronerRules.isBomber(GameWorldComponent.KEY.get(player.getWorld()).getRole(player));
+        return player != null && CoronerRules.isBomber(SparkPlayers.roleOf(player));
     }
 
     /**

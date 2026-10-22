@@ -8,11 +8,11 @@ import dev.caecorthus.sparkdlc.strength.mixin.minecraft.ItemCooldownManagerAcces
 import dev.caecorthus.sparkdlc.strength.record.AchievementRecords;
 import dev.caecorthus.sparkdlc.strength.replay.SparkStrengthReplayFormatters;
 import dev.caecorthus.sparkdlc.strength.role.AbilityLocks;
+import dev.caecorthus.sparkdlc.strength.util.SparkPlayers;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.KillPlayer;
 import dev.doctor4t.wathe.api.event.ResetPlayer;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
-import dev.doctor4t.wathe.game.GameFunctions;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -100,10 +100,9 @@ public final class VultureSkateboardService {
      */
     public static boolean isActiveVulture(@Nullable PlayerEntity player) {
         return player != null
-                && GameFunctions.isPlayerPlayingAndAlive(player)
-                && GameFunctions.isPlayerAliveAndSurvival(player)
+                && SparkPlayers.isLivingParticipant(player)
                 && !SwallowedPlayerComponent.isPlayerSwallowed(player)
-                && VultureSkateboardRules.isVulture(GameWorldComponent.KEY.get(player.getWorld()).getRole(player));
+                && VultureSkateboardRules.isVulture(SparkPlayers.roleOf(player));
     }
 
     /**

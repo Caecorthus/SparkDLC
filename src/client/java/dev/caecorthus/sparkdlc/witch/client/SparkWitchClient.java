@@ -45,6 +45,7 @@ import dev.caecorthus.sparkdlc.witch.client.hooks.WitchPoisonVisionClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.curser.CurserClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.net.version.SparkWitchClientVersionHandshake;
 import dev.caecorthus.sparkdlc.witch.client.ninja.NinjaGrappleClientPull;
+import dev.caecorthus.sparkdlc.witch.client.render.LocalViewerSnapshot;
 import dev.caecorthus.sparkdlc.witch.client.render.WraithClientState;
 import dev.caecorthus.sparkdlc.witch.client.renderer.HunterTrapEntityRenderer;
 import dev.caecorthus.sparkdlc.witch.client.renderer.NinjaGrapplingHookEntityRenderer;
@@ -106,6 +107,9 @@ public final class SparkWitchClient implements ClientModInitializer {
     public void onInitializeClient() {
         SparkWitch.LOGGER.info("Initializing SparkWitch client hooks.");
         SparkWitchServerConnection.reset();
+        // Per-world-pass memo of local-viewer facts read by the instinct, outline and Blind hooks.
+        // 本能、描边与盲人钩子读取的本地观察者事实，按世界渲染 pass 缓存。
+        LocalViewerSnapshot.register();
         SecondaryAbilityController.registerKeyBinding();
         BlackRavenClientModule.register();
         GrandWitchClientModule.register();

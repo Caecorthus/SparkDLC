@@ -3,13 +3,13 @@ package dev.caecorthus.sparkdlc.strength.role.bomber.drone;
 import dev.caecorthus.sparkdlc.strength.SparkStrength;
 import dev.caecorthus.sparkdlc.strength.SparkStrengthItems;
 import dev.caecorthus.sparkdlc.strength.SparkStrengthSounds;
-import dev.caecorthus.sparkdlc.strength.compat.SparkTraitsCompat;
-import dev.caecorthus.sparkdlc.strength.component.engineer.EngineerStunnedPlayerComponent;
 import dev.caecorthus.sparkdlc.strength.entity.DroneEntity;
 import dev.caecorthus.sparkdlc.strength.item.DroneItem;
 import dev.caecorthus.sparkdlc.strength.item.m67.M67RoundService;
 import dev.caecorthus.sparkdlc.strength.mixin.minecraft.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.strength.mixin.minecraft.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.strength.role.AbilityLocks;
+import dev.caecorthus.sparkdlc.strength.role.AbilityLocks.Lock;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerRules;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -72,6 +72,8 @@ import java.util.UUID;
  */
 public final class DroneService {
     private static final int GRANT_RECONCILE_INTERVAL_TICKS = 20;
+    /** Locks that refuse picking a grenade drone back up. / 拒绝收回投弹无人机的锁定。 */
+    private static final Set<Lock> RECOVER_LOCKS = AbilityLocks.of(Lock.ENGINEER_STUN, Lock.KILLER_INTERACTION_BLOCK);
     /**
      * Radius 2 makes the drone's own chunk entity-ticking (level 31); refreshed every tick for live drones, so a
      * removed drone or an ended round simply lets it expire (no bookkeeping). Argument: the drone's entity id.
@@ -260,8 +262,7 @@ public final class DroneService {
         if (round == null || drone.isRemoved() || drone.getWorld() != world || drone.kind() != DroneKind.GRENADE
                 || drone.state() == DroneState.FALLING || !owner.getUuid().equals(drone.ownerUuid())
                 || !round.id.equals(drone.roundId()) || !isActiveBomber(owner)
-                || EngineerStunnedPlayerComponent.KEY.get(owner).isStunned()
-                || SparkTraitsCompat.isKillerInteractionBlocked(owner)) {
+                || AbilityLocks.isLocked(owner, RECOVER_LOCKS)) {
             return false;
         }
         int slot = freeHotbarSlot(owner);

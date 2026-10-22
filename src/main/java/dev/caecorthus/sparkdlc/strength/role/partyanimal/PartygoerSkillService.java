@@ -1,9 +1,8 @@
 package dev.caecorthus.sparkdlc.strength.role.partyanimal;
 
-import dev.caecorthus.sparkdlc.strength.component.engineer.EngineerStunnedPlayerComponent;
 import dev.caecorthus.sparkdlc.strength.component.partyanimal.PartyAnimalSkillComponent;
-import dev.caecorthus.sparkdlc.strength.compat.SparkTraitsDroneCompat;
 import dev.caecorthus.sparkdlc.strength.network.partyanimal.PartygoerMenuS2CPacket;
+import dev.caecorthus.sparkdlc.strength.role.AbilityLocks;
 import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DroneService;
 import dev.caecorthus.sparkdlc.strength.role.economy.KillerTeamEconomyService;
 import dev.caecorthus.sparkdlc.strength.role.partyanimal.nav.TrainNavGrid;
@@ -162,7 +161,7 @@ public final class PartygoerSkillService {
      */
     private static @Nullable Text refusal(ServerPlayerEntity player) {
         PartyAnimalSkillComponent skill = PartyAnimalSkillComponent.KEY.get(player);
-        if (isSkillLocked(player)) {
+        if (AbilityLocks.isLocked(player, AbilityLocks.ROLE_SKILL)) {
             return tip("locked");
         }
         if (!skill.isUnlocked()) {
@@ -188,13 +187,6 @@ public final class PartygoerSkillService {
                 && GameFunctions.isPlayerAliveAndSurvival(player)
                 && !SwallowedPlayerComponent.isPlayerSwallowed(player)
                 && PartyAnimalRules.isPartyAnimal(GameWorldComponent.KEY.get(player.getWorld()).getRole(player));
-    }
-
-    /** Engineer stun, SparkTraits role-skill block and a pending Last Stand, like the Vulture's second skill. / 与秃鹫二技能相同的封锁。 */
-    private static boolean isSkillLocked(ServerPlayerEntity player) {
-        return EngineerStunnedPlayerComponent.KEY.get(player).isStunned()
-                || SparkTraitsDroneCompat.isRoleSkillBlocked(player)
-                || SparkTraitsDroneCompat.isLastStandPending(player);
     }
 
     private static @Nullable PartyRoomIndex.PartyRoom find(List<PartyRoomIndex.PartyRoom> rooms, String name) {

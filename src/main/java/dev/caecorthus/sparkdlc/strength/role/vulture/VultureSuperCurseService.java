@@ -2,10 +2,9 @@ package dev.caecorthus.sparkdlc.strength.role.vulture;
 
 import dev.caecorthus.sparkdlc.strength.SparkStrengthSounds;
 import dev.caecorthus.sparkdlc.strength.compat.SparkTraitsCompat;
-import dev.caecorthus.sparkdlc.strength.compat.SparkTraitsDroneCompat;
 import dev.caecorthus.sparkdlc.strength.compat.SparkTraitsVultureCompat;
-import dev.caecorthus.sparkdlc.strength.component.engineer.EngineerStunnedPlayerComponent;
 import dev.caecorthus.sparkdlc.strength.component.vulture.VultureSuperCursePlayerComponent;
+import dev.caecorthus.sparkdlc.strength.role.AbilityLocks;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.KillPlayer;
@@ -96,7 +95,7 @@ public final class VultureSuperCurseService {
         ServerWorld world = player.getServerWorld();
         if (GameWorldComponent.KEY.get(world).getGameStatus() != GameWorldComponent.GameStatus.ACTIVE
                 || !isActiveVulture(player)
-                || isSkillLocked(player)) {
+                || AbilityLocks.isLocked(player, AbilityLocks.ROLE_SKILL)) {
             return;
         }
         VultureSuperCursePlayerComponent component = VultureSuperCursePlayerComponent.KEY.get(player);
@@ -128,16 +127,6 @@ public final class VultureSuperCurseService {
                 && GameFunctions.isPlayerAliveAndSurvival(player)
                 && !SwallowedPlayerComponent.isPlayerSwallowed(player)
                 && VultureSuperCurseRules.isVulture(GameWorldComponent.KEY.get(player.getWorld()).getRole(player));
-    }
-
-    /**
-     * Same role-skill locks as the skateboard: Engineer stun, SparkTraits role-skill block and a pending Last Stand.
-     * 与滑板相同的职业技能封锁：工程师定身、SparkTraits 职业技能封锁与待决的背水一战。
-     */
-    private static boolean isSkillLocked(ServerPlayerEntity player) {
-        return EngineerStunnedPlayerComponent.KEY.get(player).isStunned()
-                || SparkTraitsDroneCompat.isRoleSkillBlocked(player)
-                || SparkTraitsDroneCompat.isLastStandPending(player);
     }
 
     private static void onKilled(ServerPlayerEntity victim) {

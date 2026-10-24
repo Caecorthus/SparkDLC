@@ -66,6 +66,7 @@ import dev.caecorthus.sparkdlc.strength.role.waiter.WaiterTaskRevealService;
 import dev.caecorthus.sparkdlc.strength.role.timekeeper.TimekeeperWatchService;
 import dev.caecorthus.sparkdlc.strength.component.timekeeper.TimekeeperWatchComponent;
 import dev.caecorthus.sparkdlc.strength.sabotage.BlackoutSightService;
+import dev.caecorthus.sparkdlc.strength.sabotage.ImpostorLockpickService;
 import dev.caecorthus.sparkdlc.strength.sabotage.SabotageService;
 import dev.caecorthus.sparkdlc.strength.tablet.TabletShopService;
 import dev.caecorthus.sparkdlc.strength.tablet.TabletStateService;
@@ -256,6 +257,8 @@ public final class SparkStrengthEvents {
                 // After the clear (it resets the per-round grant set): every tablet-eligible player gets one free tablet.
                 // 必须在清理之后（清理会重置本局发放记录）：每名符合条件的玩家免费获得一台平板。
                 TabletShopService.grantStarterTablets(serverWorld, gameComponent);
+                // Every Impostor also gets one free pry tool for junction boxes. / 每名内鬼还免费获得一把撬接线箱的撬锁工具。
+                ImpostorLockpickService.grantStarterLockpicks(serverWorld, gameComponent);
                 // Crime-scene snapshots are round state; clear before granting kits so a new round starts empty.
                 // 案发快照属于单局状态；先清空再发放侦探道具，保证新一局从空白开始。
                 DetectiveCaseService.clearRoundState(serverWorld);

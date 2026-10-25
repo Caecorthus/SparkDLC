@@ -36,11 +36,14 @@ import dev.caecorthus.sparkdlc.strength.client.role.shadowjester.ShadowJesterSho
 import dev.caecorthus.sparkdlc.strength.client.sabotage.BlackoutSightClient;
 import dev.caecorthus.sparkdlc.strength.client.sabotage.SabotageClient;
 import dev.caecorthus.sparkdlc.strength.client.screen.detective.DetectiveFolderScreen;
+import dev.caecorthus.sparkdlc.strength.client.screen.detective.DetectiveInterrogationScreen;
 import dev.caecorthus.sparkdlc.strength.client.screen.tablet.TabletClientState;
 import dev.caecorthus.sparkdlc.strength.client.screen.tablet.TabletScreen;
 import dev.caecorthus.sparkdlc.strength.client.tablet.TabletClientHighlights;
 import dev.caecorthus.sparkdlc.strength.client.world.LoadedEntities;
+import dev.caecorthus.sparkdlc.strength.network.detective.DetectiveInterrogationResultS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.detective.OpenDetectiveFolderS2CPacket;
+import dev.caecorthus.sparkdlc.strength.network.detective.OpenDetectiveInterrogationS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.economy.SyncKillerTeamEconomyS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.sabotage.SyncBlackoutSightS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.tablet.OpenTabletScreenS2CPacket;
@@ -144,6 +147,11 @@ public final class SparkStrengthClient implements ClientModInitializer {
         ClientPlayNetworking.registerGlobalReceiver(OpenDetectiveFolderS2CPacket.ID,
                 (payload, context) -> context.client().execute(() ->
                         context.client().setScreen(new DetectiveFolderScreen())));
+        ClientPlayNetworking.registerGlobalReceiver(OpenDetectiveInterrogationS2CPacket.ID,
+                (payload, context) -> context.client().execute(() ->
+                        context.client().setScreen(new DetectiveInterrogationScreen())));
+        ClientPlayNetworking.registerGlobalReceiver(DetectiveInterrogationResultS2CPacket.ID,
+                (payload, context) -> context.client().execute(() -> DetectiveInterrogationScreen.acceptResult(payload)));
         ClientPlayNetworking.registerGlobalReceiver(OpenTabletScreenS2CPacket.ID,
                 (payload, context) -> context.client().execute(() ->
                         context.client().setScreen(new TabletScreen())));

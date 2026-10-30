@@ -20,6 +20,10 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.abilities.MightyF
 import dev.caecorthus.sparkdlc.witch.roles.civilian.blind.BlindFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.fisher.FisherFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.knight.KnightEconomyService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.knight.KnightFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.knight.KnightKillService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.knight.duel.KnightDuelService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.SeekerFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.judge.JudgeRuntime;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistSkillService;
@@ -143,6 +147,10 @@ public final class SparkWitchEvents {
         MiniWitherFeatureService.register();
         WraithLifecycle.register();
         ControlExpertFeatureService.register();
+        KnightEconomyService.register();
+        KnightFeatureService.register();
+        KnightKillService.register();
+        KnightDuelService.register();
         SeekerFeatureService.register();
         FisherFeatureService.register();
         FiendFeatureService.register();

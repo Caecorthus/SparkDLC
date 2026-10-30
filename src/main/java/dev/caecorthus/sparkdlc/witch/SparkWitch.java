@@ -15,6 +15,7 @@ import dev.caecorthus.sparkdlc.witch.command.WitchFactorCommand;
 import dev.caecorthus.sparkdlc.witch.skill.SparkWitchBuiltInSkills;
 import dev.caecorthus.sparkdlc.witch.impl.SparkWitchEvents;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchPackets;
+import dev.caecorthus.sparkdlc.witch.registry.SparkWitchDataComponents;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchVersionHandshake;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertEntities;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.flash.HolyFlashEntities;
@@ -64,6 +65,7 @@ public final class SparkWitch implements ModInitializer {
         MiniWitherEntities.register();
         BlackRavenCrowEntities.register();
         BlackRavenFeatherRegistry.register();
+        SparkWitchDataComponents.register();
         SparkWitchItems.register();
         SparkWitchItemGroups.register();
         SparkWitchEntities.register();

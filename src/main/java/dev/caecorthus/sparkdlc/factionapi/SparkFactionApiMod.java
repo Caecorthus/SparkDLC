@@ -8,6 +8,7 @@ import dev.caecorthus.sparkdlc.factionapi.impl.compat.noellesroles.NoellesCollis
 import dev.caecorthus.sparkdlc.factionapi.impl.record.MatchRecordBroadcaster;
 import dev.caecorthus.sparkdlc.factionapi.impl.record.PsychoRecorder;
 import dev.caecorthus.sparkdlc.factionapi.impl.replay.SparkReplayBootstrap;
+import dev.caecorthus.sparkdlc.factionapi.impl.team.CaecorthusTeamSync;
 import dev.caecorthus.sparkdlc.factionapi.net.version.ServerVersionHandshake;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
@@ -33,6 +34,7 @@ public final class SparkFactionApiMod implements ModInitializer {
         MatchRecordBroadcaster.register();
         PsychoRecorder.register();
         AntiFastRoundBootstrap.register();
+        CaecorthusTeamSync.start();
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
                 SparkFactionAdminCommands.register(dispatcher));
     }

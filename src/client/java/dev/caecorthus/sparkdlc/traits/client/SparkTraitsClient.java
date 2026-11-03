@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.traits.client;
 import dev.caecorthus.sparkdlc.traits.client.compat.SparkStrengthCoronerClientBridge;
 import dev.caecorthus.sparkdlc.traits.component.TraitWorldComponent;
 import dev.caecorthus.sparkdlc.traits.client.audio.DepressionRageLoopController;
+import dev.caecorthus.sparkdlc.traits.client.audio.FinalMomentMusicController;
 import dev.caecorthus.sparkdlc.traits.client.hud.DepressionHud;
 import dev.caecorthus.sparkdlc.traits.client.instinct.InstinctViewerContext;
 import dev.caecorthus.sparkdlc.traits.client.killer.NewKillerTraitsClient;
@@ -30,6 +31,7 @@ public class SparkTraitsClient implements ClientModInitializer {
         NewKillerTraitsClient.initialize();
         ParticleFactoryRegistry.getInstance().register(SparkTraitsParticles.BLUE_POISON, PoisonParticle.Factory::new);
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
+            FinalMomentMusicController.reset(client);
             SparkTraitsServerConnection.reset();
             dev.caecorthus.sparkdlc.traits.client.gui.OwnerInventoryClientAdapter.resetNativeCard();
             InstinctViewerContext.clear();
@@ -37,6 +39,7 @@ public class SparkTraitsClient implements ClientModInitializer {
         registerFinalMomentHighlight();
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             DepressionRageLoopController.tick(client);
+            FinalMomentMusicController.tick(client);
             if (SparkTraitsServerConnection.isConfirmedServer()) {
                 DepressionHud.tick();
             }

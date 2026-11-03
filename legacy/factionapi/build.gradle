@@ -242,7 +242,18 @@ tasks.register("verifyModJarVersion") {
                     "dev/caecorthus/sparkdlc/factionapi/impl/antifastround/AntiFastRoundBootstrap.class",
                     "dev/caecorthus/sparkdlc/factionapi/component/SparkFactionAntiFastRoundComponent.class",
                     "dev/caecorthus/sparkdlc/factionapi/command/admin/AntiFastRoundCommand.class",
-                    "dev/caecorthus/sparkdlc/factionapi/mixin/AntiFastRoundPayloadGuardMixin.class"
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/AntiFastRoundPayloadGuardMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/mapreset/LobbyMapReset.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/mapreset/LobbyMapResetBootstrap.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/mapreset/LobbyMapResetRules.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/mapreset/LobbyMapResetState.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/mapreset/MapResetJob.class",
+                    "dev/caecorthus/sparkdlc/factionapi/component/SparkFactionMapResetComponent.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/mapreset/AutoStartComponentMapResetMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/mapreset/CommandManagerMapResetMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/mapreset/GameFunctionsMapResetMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/mapreset/MapVotingComponentMapResetMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/client/mapreset/MapResetHud.class"
             ].each { requiredEntry ->
                 // Runtime compatibility depends on these shipped adapter classes, not just successful compilation.
                 // 运行时兼容依赖这些随 jar 发布的适配类，而不只是编译成功。
@@ -309,6 +320,10 @@ tasks.register("verifyModJarVersion") {
                     "record.ItemStackConsumeMixin",
                     "record.PlayerShopComponentIncomeMixin",
                     "record.PoisonUtilsConsumeMixin",
+                    "mapreset.AutoStartComponentMapResetMixin",
+                    "mapreset.CommandManagerMapResetMixin",
+                    "mapreset.GameFunctionsMapResetMixin",
+                    "mapreset.MapVotingComponentMapResetMixin",
                     "inventory.PlayerInventoryRowOrderMixin",
                     "inventory.ScreenHandlerPsychoSecondRowMixin",
                     "inventory.ShopEntrySecondRowMixin",
@@ -401,7 +416,9 @@ def architectureContractFiles = [
         "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/inventory/LimitedInventoryRowsTest.java",
         "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/inventory/LimitedInventorySeamTest.java",
         "src/main/java/dev/caecorthus/sparkdlc/factionapi/impl/antifastround/AntiFastRoundRules.java",
-        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/antifastround/AntiFastRoundRulesTest.java"
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/antifastround/AntiFastRoundRulesTest.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/impl/mapreset/LobbyMapResetRules.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/mapreset/LobbyMapResetRulesTest.java"
 ]
 
 tasks.register("verifyArchitecture") {

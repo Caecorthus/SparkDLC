@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.traits;
 
 import dev.caecorthus.sparkdlc.traits.component.SparkTraitsDataComponentTypes;
+import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.jester.JesterTraitService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.laststand.LastStandFinalMomentService;
 import dev.caecorthus.sparkdlc.traits.impl.command.admin.SparkTraitsCommands;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.laststand.LastStandService;
@@ -35,6 +36,7 @@ public class SparkTraits implements ModInitializer {
         SparkTraitsBuiltInTraits.register();
         LastStandService.register();
         LastStandFinalMomentService.register();
+        JesterTraitService.register();
         TraitGameHooks.register();
         SparkTraitsReplayTooltips.register();
         SparkTraitsReplayEvents.registerFormatters();

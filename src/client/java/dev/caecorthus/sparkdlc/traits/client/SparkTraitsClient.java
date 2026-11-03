@@ -6,6 +6,7 @@ import dev.caecorthus.sparkdlc.traits.client.audio.DepressionRageLoopController;
 import dev.caecorthus.sparkdlc.traits.client.audio.FinalMomentMusicController;
 import dev.caecorthus.sparkdlc.traits.client.hud.DepressionHud;
 import dev.caecorthus.sparkdlc.traits.client.instinct.InstinctViewerContext;
+import dev.caecorthus.sparkdlc.traits.client.jester.JesterMomentClientHooks;
 import dev.caecorthus.sparkdlc.traits.client.killer.NewKillerTraitsClient;
 import dev.caecorthus.sparkdlc.traits.client.net.version.SparkTraitsClientVersionHandshake;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.laststand.LastStandFinalMomentService;
@@ -40,6 +41,7 @@ public class SparkTraitsClient implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             DepressionRageLoopController.tick(client);
             FinalMomentMusicController.tick(client);
+            JesterMomentClientHooks.tick(client);
             if (SparkTraitsServerConnection.isConfirmedServer()) {
                 DepressionHud.tick();
             }

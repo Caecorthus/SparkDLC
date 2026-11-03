@@ -6,6 +6,7 @@ import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.crow.BlackRavenCrow
 import dev.caecorthus.sparkdlc.witch.roles.civilian.usec.UsecPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.blind.BlindComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertStatusComponent;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.recruit.RecruitPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.flash.HolyFlashComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.fisher.spirit.FisherSpiritComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.SeekerStatusComponent;
@@ -163,6 +164,11 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.beginRegistration(PlayerEntity.class, BlackRavenCrowPlayerComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(BlackRavenCrowPlayerComponent::new);
+        // Recruit first-task progress and knife grant, synced to its owner only; appended last.
+        // 新兵首个任务进度与发刀状态，只同步给本人；追加在最后。
+        registry.beginRegistration(PlayerEntity.class, RecruitPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(RecruitPlayerComponent::new);
     }
 
     @Override

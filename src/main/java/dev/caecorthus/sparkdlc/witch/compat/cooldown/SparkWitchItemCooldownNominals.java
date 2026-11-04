@@ -8,6 +8,7 @@ import dev.caecorthus.sparkdlc.witch.item.ceremonialsword.CeremonialSwordItem;
 import dev.caecorthus.sparkdlc.witch.item.firepoker.FirePokerRules;
 import dev.caecorthus.sparkdlc.witch.item.ninja.NinjaKnifeItem;
 import dev.caecorthus.sparkdlc.witch.item.ninja.NinjaShurikenItem;
+import dev.caecorthus.sparkdlc.witch.item.sparekey.SpareKeyRules;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.blind.kit.BlindKitRules;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertRules;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.fisher.FisherRules;
@@ -114,6 +115,8 @@ final class SparkWitchItemCooldownNominals implements ItemCooldownNominalProvide
             entries.put(SparkWitchItems.USEC_RIFLE_ID, UsecRules.BOLT_TICKS);
             // Witch Maiden Wither Gohei: the crimson skull cooldown. / 巫女凋灵御币：赤首冷却。
             entries.put(SparkWitchItems.WITHER_GOHEI_ID, MiniWitherRules.CRIMSON_COOLDOWN_TICKS);
+            // Spare Key: the 5 s cooldown after each opening. / 备用钥匙：每次开门后的 5 秒冷却。
+            entries.put(SparkWitchItems.SPARE_KEY_ID, SpareKeyRules.COOLDOWN_TICKS);
             // NoellesRoles items: public constants of the pinned 1.7.6 jar, plus the master key, which both
             // NoellesRoles (literal) and the Insider door path write as 200 ticks. The timed bomb stays exempt in
             // SparkFactionAPI itself (Bomber pass gate).

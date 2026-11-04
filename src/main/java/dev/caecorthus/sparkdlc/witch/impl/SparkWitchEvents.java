@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.impl;
 
+import dev.caecorthus.sparkdlc.witch.roles.civilian.athlete.AthleteFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.wither.MiniWitherFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.usec.UsecFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.potiongunner.PotionGunnerFeatureService;
@@ -14,11 +15,15 @@ import dev.caecorthus.sparkdlc.witch.item.ceremonialsword.CeremonialSwordCombatS
 import dev.caecorthus.sparkdlc.witch.item.ceremonialsword.CeremonialSwordDashService;
 import dev.caecorthus.sparkdlc.witch.item.firepoker.FirePokerCombatService;
 import dev.caecorthus.sparkdlc.witch.item.firepoker.FirePokerFallAttributionService;
+import dev.caecorthus.sparkdlc.witch.item.sparekey.SpareKeyAttendantKit;
+import dev.caecorthus.sparkdlc.witch.item.sparekey.SpareKeyDoors;
 import dev.caecorthus.sparkdlc.witch.item.tofana.TofanaProtectionService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.ApprenticeFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.abilities.MightyForce.MightyForceCombatService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.blind.BlindFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.discoverer.DiscovererService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.discoverer.DiscovererShopService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.fisher.FisherFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.knight.KnightEconomyService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.knight.KnightFeatureService;
@@ -128,6 +133,7 @@ public final class SparkWitchEvents {
         PerfumerRuntime.register();
         PerfumerEconomyService.register();
         RecruitRuntime.register();
+        AthleteFeatureService.register();
         NoaFeatureService.register();
         NinjaFeatureService.register();
         HunterFeatureService.register();
@@ -201,6 +207,10 @@ public final class SparkWitchEvents {
             }
         });
         TaskComplete.EVENT.register(WitchManaService::onTaskComplete);
+        DiscovererService.register();
+        DiscovererShopService.register();
+        SpareKeyDoors.register();
+        SpareKeyAttendantKit.register();
         TaskComplete.EVENT.register((player, taskType) -> GrandWitchActiveSkillService.onTaskComplete(player));
         TaskComplete.EVENT.register((player, taskType) -> WitchEconomyService.onTaskComplete(player));
         // Bewitched promotion progress (C3): counts and enqueues only; the role changes at END_SERVER_TICK.

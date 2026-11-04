@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.impl;
 
+import dev.caecorthus.sparkdlc.witch.roles.civilian.accountant.AccountantFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.athlete.AthleteFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.wither.MiniWitherFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.usec.UsecFeatureService;
@@ -222,6 +223,7 @@ public final class SparkWitchEvents {
         TaskComplete.EVENT.register(WitchManaService::onTaskComplete);
         DiscovererService.register();
         DiscovererShopService.register();
+        AccountantFeatureService.register();
         SpareKeyDoors.register();
         SpareKeyAttendantKit.register();
         TaskComplete.EVENT.register((player, taskType) -> GrandWitchActiveSkillService.onTaskComplete(player));

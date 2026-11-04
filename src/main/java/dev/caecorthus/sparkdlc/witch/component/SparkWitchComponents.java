@@ -1,16 +1,20 @@
 package dev.caecorthus.sparkdlc.witch.component;
 
 import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.ApprenticePlayerComponent;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.athlete.AthleteComponent;
 import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.wither.MiniWitherPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.crow.BlackRavenCrowPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.usec.UsecPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.blind.BlindComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertStatusComponent;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.noa.NoaComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.recruit.RecruitPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.flash.HolyFlashComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.fisher.spirit.FisherSpiritComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.SeekerStatusComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.judge.JudgeWorldComponent;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.junker.JunkerLootWorldComponent;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.junker.JunkerPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaRoundComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistPlayerComponent;
@@ -169,6 +173,21 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.beginRegistration(PlayerEntity.class, RecruitPlayerComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(RecruitPlayerComponent::new);
+        // Athlete dash ready tick, synced to its owner only; appended last.
+        // 运动员冲刺就绪刻，只同步给本人；追加在最后。
+        registry.beginRegistration(PlayerEntity.class, AthleteComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(AthleteComponent::new);
+        // 城崎诺亚's paint ready tick (owner-synced) and this round's painted one-offs; appended last.
+        // 城崎诺亚的作画就绪刻（只同步给本人）与本局已画出的一次性结果；追加在最后。
+        registry.beginRegistration(PlayerEntity.class, NoaComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(NoaComponent::new);
+        // Ragpicker search progress and ready tick, synced to its owner only; appended last.
+        // 拾荒者搜刮进度与就绪刻，只同步给本人；追加在最后。
+        registry.beginRegistration(PlayerEntity.class, JunkerPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(JunkerPlayerComponent::new);
     }
 
     @Override
@@ -184,5 +203,6 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.register(RiftGateRegistryComponent.KEY, RiftGateRegistryComponent::new);
         registry.register(dev.caecorthus.sparkdlc.witch.roles.civilian.knight.duel.KnightDuelWorldComponent.KEY,
                 dev.caecorthus.sparkdlc.witch.roles.civilian.knight.duel.KnightDuelWorldComponent::new);
+        registry.register(JunkerLootWorldComponent.KEY, JunkerLootWorldComponent::new);
     }
 }

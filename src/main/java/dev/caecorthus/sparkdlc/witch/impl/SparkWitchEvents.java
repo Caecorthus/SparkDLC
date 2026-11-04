@@ -31,6 +31,7 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.knight.KnightKillService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.knight.duel.KnightDuelService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.SeekerFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.judge.JudgeRuntime;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.junker.JunkerService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistSkillService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel.GuardianAngelFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel.GuardianAngelRules;
@@ -173,6 +174,7 @@ public final class SparkWitchEvents {
         BewitchedFeatureService.register();
         ApprenticeFeatureService.register();
         StowawayFeatureService.register();
+        JunkerService.register();
         MagicianPlaybackManager.init();
         MagicianReplayEvents.register();
         MagicianPuppetAttackHandlers.register();

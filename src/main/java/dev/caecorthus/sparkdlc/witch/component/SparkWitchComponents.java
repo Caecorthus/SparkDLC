@@ -11,6 +11,8 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.flash.HolyFlashCompone
 import dev.caecorthus.sparkdlc.witch.roles.civilian.fisher.spirit.FisherSpiritComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.SeekerStatusComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.judge.JudgeWorldComponent;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.junker.JunkerLootWorldComponent;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.junker.JunkerPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaRoundComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistPlayerComponent;
@@ -169,6 +171,9 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.beginRegistration(PlayerEntity.class, RecruitPlayerComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(RecruitPlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, JunkerPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(JunkerPlayerComponent::new);
     }
 
     @Override
@@ -184,5 +189,6 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.register(RiftGateRegistryComponent.KEY, RiftGateRegistryComponent::new);
         registry.register(dev.caecorthus.sparkdlc.witch.roles.civilian.knight.duel.KnightDuelWorldComponent.KEY,
                 dev.caecorthus.sparkdlc.witch.roles.civilian.knight.duel.KnightDuelWorldComponent::new);
+        registry.register(JunkerLootWorldComponent.KEY, JunkerLootWorldComponent::new);
     }
 }

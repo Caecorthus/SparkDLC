@@ -37,6 +37,7 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.perfumer.PerfumerEconomyServ
 import dev.caecorthus.sparkdlc.witch.roles.civilian.perfumer.PerfumerFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.perfumer.PerfumerRuntime;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.recruit.RecruitRuntime;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.noa.NoaFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.perfumer.PerfumerShopService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchActiveSkillService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchFeatureService;
@@ -127,6 +128,7 @@ public final class SparkWitchEvents {
         PerfumerRuntime.register();
         PerfumerEconomyService.register();
         RecruitRuntime.register();
+        NoaFeatureService.register();
         NinjaFeatureService.register();
         HunterFeatureService.register();
         OrthopedistSkillService.registerReplayFormatter();

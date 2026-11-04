@@ -176,6 +176,8 @@ public final class SparkWitchEvents {
         // （fork 中位于 main 没有的共享 SparkWitchReplayFormatters 类）。
         dev.caecorthus.sparkdlc.witch.roles.killer.natsume.NatsumeService.register();
         dev.caecorthus.sparkdlc.witch.roles.killer.natsume.NatsumeReplay.register();
+        // Hypnosis item and skill lock (both sides). / 催眠的道具与技能锁（两端）。
+        dev.caecorthus.sparkdlc.witch.roles.killer.natsume.NatsumeHypnosisGuards.register();
         SeekerFeatureService.register();
         FisherFeatureService.register();
         FiendFeatureService.register();

@@ -171,6 +171,11 @@ tasks.register("verifyModJarVersion") {
                     "dev/caecorthus/sparkdlc/factionapi/mixin/cooldown/ItemCooldownManagerAccessor.class",
                     "dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesCollisionCompatibility.class",
                     "dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesHiddenEquipmentRegistry.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesNeutralPerkRules.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesScavengerBodyHideRewrite.class",
+                    "dev/caecorthus/sparkdlc/factionapi/client/SparkFactionClientMixinPlugin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/client/mixin/compat/noellesroles/NoellesScavengerBodyHideNeutralPerkMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/client/mixin/compat/noellesroles/NoellesScavengerBodyTargetNeutralPerkMixin.class",
                     "dev/caecorthus/sparkdlc/factionapi/mixin/compat/noellesroles/NoellesHiddenEquipmentHelperMixin.class",
                     "dev/caecorthus/sparkdlc/factionapi/mixin/compat/noellesroles/NoellesRolesDemonHunterAffectMixin.class",
                     "dev/caecorthus/sparkdlc/factionapi/mixin/compat/noellesroles/NoellesRolesPacketAffectMixin.class",
@@ -188,6 +193,14 @@ tasks.register("verifyModJarVersion") {
                     "dev/caecorthus/sparkdlc/factionapi/mixin/KnifeStabPayloadReceiverMixin.class",
                     "dev/caecorthus/sparkdlc/factionapi/mixin/LivingEntityCollisionMixin.class",
                     "dev/caecorthus/sparkdlc/factionapi/mixin/MurderGameModeMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/FactionMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/RoleMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/nativefaction/FactionEnumAccessor.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/nativefaction/FactionEnumExtensionMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/nativefaction/ScoreboardRoleSelectorNeutralPoolMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/nativefaction/NativeWatheFactions.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/nativefaction/NativeWatheFactionDeclarations.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/nativefaction/NativeFactionRules.class",
                     "dev/caecorthus/sparkdlc/factionapi/mixin/MurderGameModePassiveMoneyMixin.class",
                     "dev/caecorthus/sparkdlc/factionapi/mixin/PlayerEntityAffectMixin.class",
                     "dev/caecorthus/sparkdlc/factionapi/mixin/ServerPlayerEntityAffectMixin.class",
@@ -308,6 +321,11 @@ tasks.register("verifyModJarVersion") {
                     "LivingEntityCollisionMixin",
                     "MurderGameModeMixin",
                     "MurderGameModePassiveMoneyMixin",
+                    "FactionMixin",
+                    "RoleMixin",
+                    "nativefaction.FactionEnumAccessor",
+                    "nativefaction.FactionEnumExtensionMixin",
+                    "nativefaction.ScoreboardRoleSelectorNeutralPoolMixin",
                     "PlayerEntityAffectMixin",
                     "ServerPlayerEntityAffectMixin",
                     "WorldProjectileAffectMixin",
@@ -333,6 +351,8 @@ tasks.register("verifyModJarVersion") {
             ],
                     "sparkfactionapi.client.mixins.json": [
                             "RoundTextRendererMixin",
+                            "compat.noellesroles.NoellesScavengerBodyHideNeutralPerkMixin",
+                            "compat.noellesroles.NoellesScavengerBodyTargetNeutralPerkMixin",
                             "inventory.LimitedHandledScreenSecondRowMixin",
                             "inventory.LimitedInventoryScreenSecondRowMixin",
                             "team.NoellesPuppetNameTeamTagMixin",
@@ -350,6 +370,14 @@ tasks.register("verifyModJarVersion") {
                     if (!configuredMixins.contains(requiredMixin)) {
                         throw new GradleException("Missing mixin ${requiredMixin} in ${mixinConfigEntry} inside ${jarFile.name}")
                     }
+                }
+                // The client plugin rewrites NoellesRoles' merged Scavenger handler; without it D3 silently breaks.
+                // 客户端插件改写 NoellesRoles 合并的清道夫处理器；缺少它 D3 会静默失效。
+                def requiredPlugin = [
+                        "sparkfactionapi.client.mixins.json": "dev.caecorthus.sparkdlc.factionapi.client.SparkFactionClientMixinPlugin"
+                ][mixinConfigEntry]
+                if (requiredPlugin != null && mixinConfig.plugin?.toString() != requiredPlugin) {
+                    throw new GradleException("Missing mixin plugin ${requiredPlugin} in ${mixinConfigEntry} inside ${jarFile.name}")
                 }
             }
         } finally {
@@ -418,7 +446,15 @@ def architectureContractFiles = [
         "src/main/java/dev/caecorthus/sparkdlc/factionapi/impl/antifastround/AntiFastRoundRules.java",
         "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/antifastround/AntiFastRoundRulesTest.java",
         "src/main/java/dev/caecorthus/sparkdlc/factionapi/impl/mapreset/LobbyMapResetRules.java",
-        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/mapreset/LobbyMapResetRulesTest.java"
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/mapreset/LobbyMapResetRulesTest.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/impl/nativefaction/NativeWatheFactions.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/impl/nativefaction/NativeWatheFactionDeclarations.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/nativefaction/NativeWatheFactionDeclarationsTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/nativefaction/NativeWatheFactionSeamTest.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesNeutralPerkRules.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesScavengerBodyHideRewrite.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesNeutralPerkRulesTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesRolesPinnedSelectorTest.java"
 ]
 
 tasks.register("verifyArchitecture") {

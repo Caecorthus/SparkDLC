@@ -28,6 +28,7 @@ import dev.caecorthus.sparkdlc.strength.network.tablet.RequestTabletSnapshotC2SP
 import dev.caecorthus.sparkdlc.strength.network.tablet.SelectTabletChannelC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.tablet.SendTabletChatC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.tablet.SyncTabletSnapshotS2CPacket;
+import dev.caecorthus.sparkdlc.strength.network.tablet.TabletChatNotifyS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.shadowjester.SyncShadowJesterShowdownMusicS2CPacket;
 import dev.caecorthus.sparkdlc.strength.network.timekeeper.TimekeeperWatchModeC2SPacket;
 import dev.caecorthus.sparkdlc.strength.network.vulture.VultureSuperCurseC2SPacket;
@@ -113,6 +114,7 @@ public final class SparkStrengthPackets {
         );
         PayloadTypeRegistry.playC2S().register(SerialPistolShootC2SPayload.ID, SerialPistolShootC2SPayload.CODEC);
         PayloadTypeRegistry.playS2C().register(OpenTabletScreenS2CPacket.ID, OpenTabletScreenS2CPacket.CODEC);
+        PayloadTypeRegistry.playS2C().register(TabletChatNotifyS2CPacket.ID, TabletChatNotifyS2CPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(SyncTabletSnapshotS2CPacket.ID, SyncTabletSnapshotS2CPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(SyncBlackoutSightS2CPacket.ID, SyncBlackoutSightS2CPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(SyncKillerTeamEconomyS2CPacket.ID, SyncKillerTeamEconomyS2CPacket.CODEC);

@@ -39,6 +39,7 @@ import dev.caecorthus.sparkdlc.strength.client.screen.detective.DetectiveFolderS
 import dev.caecorthus.sparkdlc.strength.client.screen.detective.DetectiveInterrogationScreen;
 import dev.caecorthus.sparkdlc.strength.client.screen.tablet.TabletClientState;
 import dev.caecorthus.sparkdlc.strength.client.screen.tablet.TabletScreen;
+import dev.caecorthus.sparkdlc.strength.client.tablet.TabletChatNotifier;
 import dev.caecorthus.sparkdlc.strength.client.tablet.TabletClientHighlights;
 import dev.caecorthus.sparkdlc.strength.client.world.LoadedEntities;
 import dev.caecorthus.sparkdlc.strength.network.detective.DetectiveInterrogationResultS2CPacket;
@@ -97,6 +98,7 @@ public final class SparkStrengthClient implements ClientModInitializer {
         // 灵界行者附身冤魂；按键与冤魂可见仅在加载 SparkWitch 时挂接（反射）。
         SpiritPossessionClient.register();
         TabletClientHighlights.register();
+        TabletChatNotifier.register();
         SabotageClient.register();
         // Binds only when SparkWitch is loaded (reflection, no compile dependency).
         // 仅在加载了 SparkWitch 时挂接按键（反射，无编译依赖）。

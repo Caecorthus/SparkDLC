@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.strength.entity;
 import dev.caecorthus.sparkdlc.strength.SparkStrengthEntities;
 import dev.caecorthus.sparkdlc.strength.SparkStrengthItems;
 import dev.caecorthus.sparkdlc.strength.SparkStrengthSounds;
+import dev.caecorthus.sparkdlc.strength.compat.SparkWitchCompat;
 import dev.caecorthus.sparkdlc.strength.item.grenade.GrenadeBlastService;
 import dev.caecorthus.sparkdlc.strength.item.m67.M67Physics;
 import dev.caecorthus.sparkdlc.strength.item.m67.M67RoundService;
@@ -232,6 +233,9 @@ public final class M67GrenadeEntity extends ThrownItemEntity {
             discard();
             return;
         }
+        // Only a real blast clears SparkWitch BEAR smoke (visual only), matching SparkWitch's off-match rule.
+        // 只有真实爆炸才会炸开 SparkWitch BEAR 烟雾（仅视觉），与 SparkWitch 自身的局外规则一致。
+        SparkWitchCompat.carveSmoke(world, getPos(), M67Rules.BLAST_RADIUS);
 
         List<ServerPlayerEntity> candidates = List.copyOf(world.getPlayers(GameFunctions::isPlayerAliveAndSurvival));
         for (ServerPlayerEntity victim : GrenadeBlastService.filterVictims(world, this, candidates, M67Rules.BLAST_RADIUS)) {

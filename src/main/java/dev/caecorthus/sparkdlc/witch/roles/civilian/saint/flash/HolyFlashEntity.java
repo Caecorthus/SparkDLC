@@ -3,6 +3,8 @@ package dev.caecorthus.sparkdlc.witch.roles.civilian.saint.flash;
 import dev.caecorthus.sparkdlc.witch.SparkWitchItems;
 import dev.caecorthus.sparkdlc.witch.mixin.JudgeProjectileOwnerAccessor;
 import dev.caecorthus.sparkdlc.witch.record.AchievementRecords;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.bear.ricochet.BearRicochetRules;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.bear.ricochet.RangedSmokeCarve;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertTargeting;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.index.WatheParticles;
@@ -109,6 +111,7 @@ public final class HolyFlashEntity extends ThrownItemEntity {
                 SPARK_SPREAD, SPARK_SPREAD, SPARK_SPREAD, SPARK_SPEED);
         world.spawnParticles(ParticleTypes.FIREWORK, center.x, center.y, center.z, GLITTER_COUNT,
                 SPARK_SPREAD, SPARK_SPREAD, SPARK_SPREAD, SPARK_SPEED);
+        RangedSmokeCarve.blast(world, center, BearRicochetRules.HOLY_FLASH_HOLE_RADIUS); // BEAR: burst hole / 爆炸空洞
         ServerPlayerEntity owner = getOwner() instanceof ServerPlayerEntity player ? player : null;
         ServerPlayerEntity thrower = owner != null && ControlExpertTargeting.isParticipant(owner) ? owner : null;
         UUID ownerUuid = ((JudgeProjectileOwnerAccessor) (Object) this).sparkwitch$judgeOwnerUuid();

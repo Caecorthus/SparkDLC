@@ -3,7 +3,9 @@ package dev.caecorthus.sparkdlc.witch.client.usec;
 import dev.caecorthus.sparkdlc.witch.client.render.WraithClientState;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.usec.UsecPlayerComponent;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.usec.UsecRules;
 import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.session.RiftSessionService;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -72,6 +74,12 @@ public final class UsecInstinctCloak {
         }
         UsecPlayerComponent component = UsecPlayerComponent.KEY.getNullable(player);
         if (component == null || !component.isScoped()) {
+            return false;
+        }
+        // Any holder's scoped flag drives the glint; the cloak stays the USEC's own passive (owner, 2026-11-05), read
+        // from Wathe's synced roles. / 任何持有者的开镜标记都驱动反光；隐蔽仍是 USEC 自己的被动（所有者 2026-11-05），
+        // 从 Wathe 已同步的身份读取。
+        if (!UsecRules.isUsec(GameWorldComponent.KEY.get(player.getWorld()).getRole(player))) {
             return false;
         }
         ClientPlayerEntity viewer = MinecraftClient.getInstance().player;

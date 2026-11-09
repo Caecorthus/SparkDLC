@@ -10,6 +10,10 @@ import dev.caecorthus.sparkdlc.witch.SparkWitchEntities;
 import dev.caecorthus.sparkdlc.witch.SparkWitchSounds;
 import dev.caecorthus.sparkdlc.witch.client.bewitched.BewitchedClientPresentation;
 import dev.caecorthus.sparkdlc.witch.client.recruit.RecruitClientPresentation;
+import dev.caecorthus.sparkdlc.witch.client.specter.SpecterClientModule;
+import dev.caecorthus.sparkdlc.witch.roles.killer.specter.SpecterPlayerComponent;
+import dev.caecorthus.sparkdlc.witch.roles.killer.specter.SpecterRules;
+import dev.caecorthus.sparkdlc.witch.roles.killer.specter.UseSpecterSkillC2SPacket;
 import dev.caecorthus.sparkdlc.witch.client.athlete.AthleteClient;
 import dev.caecorthus.sparkdlc.witch.client.athlete.AthleteDashClient;
 import dev.caecorthus.sparkdlc.witch.client.noa.NoaClient;
@@ -48,6 +52,7 @@ import dev.caecorthus.sparkdlc.witch.client.usec.UsecClientModule;
 import dev.caecorthus.sparkdlc.witch.client.hooks.DeathRayClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.hooks.GrandWitchFearClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.hooks.HunterTrapClientHooks;
+import dev.caecorthus.sparkdlc.witch.client.hunter.DoubleBarrelMuzzleClient;
 import dev.caecorthus.sparkdlc.witch.client.hooks.KidnapperThrowClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.hooks.OrthopedistClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.hooks.ProphetCorpseHighlightClientHooks;
@@ -137,6 +142,7 @@ public final class SparkWitchClient implements ClientModInitializer {
         BlackRavenClientModule.register();
         GrandWitchClientModule.register();
         ApprenticeClientModule.register();
+        SpecterClientModule.register();
         WitchMaidenClientModule.register();
         MiniWitherClient.register();
         BlackRavenCrowClient.register();
@@ -221,6 +227,7 @@ public final class SparkWitchClient implements ClientModInitializer {
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> releaseClosedWorldPlayers());
         WitchInstinctSuppressionClientHooks.register();
         HunterTrapClientHooks.register();
+        DoubleBarrelMuzzleClient.register();
         NinjaGrappleClientPull.register();
         OrthopedistClientHooks.register();
         ProphetCorpseHighlightClientHooks.register();
@@ -294,6 +301,13 @@ public final class SparkWitchClient implements ClientModInitializer {
                             && !dominator.isOnCooldown()
                             && ClientPlayNetworking.canSend(UseDominatorSkillC2SPacket.ID)) {
                         ClientPlayNetworking.send(new UseDominatorSkillC2SPacket());
+                    }
+                } else if (SpecterRules.isSpecter(role)) {
+                    // The server owns the full validation; the synced cooldown only trims obviously dead presses.
+                    // 完整校验在服务端；本地同步的冷却只用来过滤明显无效的按键。
+                    if (!SpecterPlayerComponent.KEY.get(client.player).isOnCooldown()
+                            && ClientPlayNetworking.canSend(UseSpecterSkillC2SPacket.ID)) {
+                        ClientPlayNetworking.send(new UseSpecterSkillC2SPacket());
                     }
                 } else if (role != null && role.identifier().equals(dev.caecorthus.sparkdlc.witch.SparkWitchRoles.CURSER_ID)) {
                     if (CurserClientHooks.canUse(client.player)) {
@@ -483,6 +497,7 @@ public final class SparkWitchClient implements ClientModInitializer {
         WitchAbilityKeyBridge.reset();
         SecondaryAbilityController.reset();
         KidnapperThrowClientHooks.reset();
+        DoubleBarrelMuzzleClient.reset();
         WitchMaidenClientModule.clear();
         TarotDivinationClientState.clear();
         JudgeClientModule.clear();

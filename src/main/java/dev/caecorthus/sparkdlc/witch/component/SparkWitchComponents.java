@@ -30,6 +30,11 @@ import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.BlackRavenPerceptio
 import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.disguise.BlackRavenDisguiseComponent;
 import dev.caecorthus.sparkdlc.witch.roles.killer.dominator.DominatorForcedShotComponent;
 import dev.caecorthus.sparkdlc.witch.roles.killer.dominator.DominatorPlayerComponent;
+import dev.caecorthus.sparkdlc.witch.roles.killer.specter.SpecterCowardiceComponent;
+import dev.caecorthus.sparkdlc.witch.roles.killer.specter.SpecterFearComponent;
+import dev.caecorthus.sparkdlc.witch.roles.killer.specter.SpecterOtherworldComponent;
+import dev.caecorthus.sparkdlc.witch.roles.killer.specter.SpecterPlayerComponent;
+import dev.caecorthus.sparkdlc.witch.roles.killer.specter.SpecterSecondSkillComponent;
 import dev.caecorthus.sparkdlc.witch.roles.killer.saboteur.SaboteurPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.killer.timestealer.TimeGiftPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.killer.timestealer.TimeStealerPlayerComponent;
@@ -213,6 +218,20 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.beginRegistration(PlayerEntity.class, dev.caecorthus.sparkdlc.witch.headset.HeadsetComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(dev.caecorthus.sparkdlc.witch.headset.HeadsetComponent::new);
+        // Specter sanity-outline colours, fear levels, second-skill state and cowardice; appended last.
+        // 幽魂理智描边颜色、恐惧层数、二技能状态与怯懦；追加在最后。
+        registry.beginRegistration(PlayerEntity.class, SpecterPlayerComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(SpecterPlayerComponent::new);
+        registry.beginRegistration(PlayerEntity.class, SpecterFearComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(SpecterFearComponent::new);
+        registry.beginRegistration(PlayerEntity.class, SpecterSecondSkillComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(SpecterSecondSkillComponent::new);
+        registry.beginRegistration(PlayerEntity.class, SpecterCowardiceComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(SpecterCowardiceComponent::new);
         // Savior G-skill cooldown and domain timer (PR #200), synced to its owner only; appended last.
         // 救世主 G 技能冷却与领域计时（PR #200），只同步给本人；追加在最后。
         registry.beginRegistration(PlayerEntity.class, SaviorPlayerComponent.KEY)
@@ -234,5 +253,6 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.register(dev.caecorthus.sparkdlc.witch.roles.civilian.knight.duel.KnightDuelWorldComponent.KEY,
                 dev.caecorthus.sparkdlc.witch.roles.civilian.knight.duel.KnightDuelWorldComponent::new);
         registry.register(JunkerLootWorldComponent.KEY, JunkerLootWorldComponent::new);
+        registry.register(SpecterOtherworldComponent.KEY, SpecterOtherworldComponent::new);
     }
 }

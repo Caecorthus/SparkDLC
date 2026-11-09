@@ -27,6 +27,7 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistEffec
 import dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel.GuardianAngelEffects;
 import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterEffects;
 import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterEntities;
+import dev.caecorthus.sparkdlc.witch.roles.killer.specter.SpecterEntities;
 import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.FocusedFootstepsEffects;
 import dev.caecorthus.sparkdlc.witch.roles.witch.curser.CurserFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel.GuardianAngelRules;
@@ -56,6 +57,7 @@ public final class SparkWitch implements ModInitializer {
         GuardianAngelEffects.register();
         FocusedFootstepsEffects.register();
         HunterEntities.register();
+        SpecterEntities.register();
         ControlExpertEntities.register();
         AbyssListenerEntities.register();
         RiftGateEntities.register();

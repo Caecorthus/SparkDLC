@@ -1,6 +1,6 @@
-package dev.caecorthus.sparkdlc.witch.mixin.usec;
+package dev.caecorthus.sparkdlc.witch.mixin.accountant;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.usec.UsecInventoryRules;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.accountant.AccountantPassbookService;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DecoratedPotBlock;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,16 +16,17 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * Keeps a held USEC bound item out of a decorated pot on both sides: the pot answers
- * {@code SKIP_DEFAULT_BLOCK_INTERACTION}, so it never takes the item and never wobbles, while vanilla still runs the
- * item's own use (the rifle scope). Guarding the pot itself also covers a Wathe ornament that forwards the click to the
- * pot it hangs on. Every other item and block is untouched. Parallel to, never shared with, the Potion Gunner pot mixin.
- * 在双端阻止饰纹陶罐收走手持的 USEC 绑定物品：陶罐返回 {@code SKIP_DEFAULT_BLOCK_INTERACTION}，因此既不收走物品也不晃动，而原版
- * 仍会执行物品自身的使用（步枪开镜）。在陶罐本身拦截也覆盖了把点击转发给所挂陶罐的 Wathe 装饰物。其他物品与方块不受影响。
- * 与药炮手的陶罐 mixin 平行，绝不共享。
+ * Keeps the 存折 passbook out of a decorated pot on both sides: the pot answers
+ * {@code SKIP_DEFAULT_BLOCK_INTERACTION}, so it never takes the passbook (whose own right-click use still runs). A pot
+ * keeps its contents through Wathe's round reset, so parked coins would otherwise reach the next round. Guarding the
+ * pot itself also covers a Wathe ornament that forwards the click to its pot. Every other item and block is
+ * untouched. Parallel to, never shared with, the other roles' pot guards.
+ * 在双端阻止饰纹陶罐收走存折：陶罐返回 {@code SKIP_DEFAULT_BLOCK_INTERACTION}，因此不会收走存折（存折自身的右键使用照常
+ * 进行）。陶罐的内容能躲过 Wathe 的回合重置，否则存进去的钱会带到下一局。在陶罐本身拦截也覆盖了把点击转发给陶罐的 Wathe
+ * 装饰物。其他物品与方块不受影响。与其他职业的陶罐拦截平行，绝不共享。
  */
 @Mixin(DecoratedPotBlock.class)
-public abstract class DecoratedPotBlockUsecItemMixin {
+public abstract class DecoratedPotBlockAccountantPassbookMixin {
     @Inject(
             method = "onUseWithItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/block/BlockState;"
                     + "Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;"
@@ -34,10 +35,10 @@ public abstract class DecoratedPotBlockUsecItemMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$keepUsecItemOutOfPot(ItemStack stack, BlockState state, World world, BlockPos pos,
+    private void sparkwitch$keepPassbookOutOfPot(ItemStack stack, BlockState state, World world, BlockPos pos,
                                                  PlayerEntity player, Hand hand, BlockHitResult hit,
                                                  CallbackInfoReturnable<ItemActionResult> cir) {
-        if (UsecInventoryRules.blocksBlockUse(stack, state)) {
+        if (AccountantPassbookService.blocksBlockUse(stack, state)) {
             cir.setReturnValue(ItemActionResult.SKIP_DEFAULT_BLOCK_INTERACTION);
         }
     }

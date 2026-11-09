@@ -35,7 +35,6 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.savior.SaviorDomainService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.savior.SaviorLoadoutService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.savior.SaviorObservationService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.savior.SaviorSanityService;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.savior.SaviorWinService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.SeekerFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.judge.JudgeRuntime;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.junker.JunkerService;
@@ -189,7 +188,6 @@ public final class SparkWitchEvents {
         SaviorSanityService.register();
         SaviorObservationService.register();
         SaviorBlackoutService.register();
-        SaviorWinService.register();
         SeekerFeatureService.register();
         FisherFeatureService.register();
         FiendFeatureService.register();

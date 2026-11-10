@@ -5,6 +5,7 @@ import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.depression.DepressionTraitService;
 import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveTraitService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.CivilianTraitService;
+import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.DopamineService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.TaskPacing;
 import dev.caecorthus.sparkdlc.traits.impl.traits.global.GlobalTraitService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.killer.KillerTraitService;
@@ -86,6 +87,7 @@ public abstract class PlayerMoodComponentMixin {
         float adjustedMood = KillerTraitService.oppressiveAdjustedMood(this.mood, proposedMood, this.player);
         adjustedMood = VigilanteVeteranTraitService.wellTrainedAdjustedMood(this.mood, adjustedMood, this.player);
         adjustedMood = CivilianTraitService.socialMoodAdjustedMood(this.mood, adjustedMood, this.player);
+        adjustedMood = DopamineService.adjustedMood(this.mood, adjustedMood, this.player);
         return DepressionTraitService.depressionAdjustedMood(
                 this.mood,
                 adjustedMood,

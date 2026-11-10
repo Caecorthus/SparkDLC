@@ -8,6 +8,7 @@ import dev.caecorthus.sparkdlc.traits.impl.traits.global.ChildishTrait;
 import dev.caecorthus.sparkdlc.traits.impl.traits.global.EconomyTrait;
 import dev.caecorthus.sparkdlc.traits.impl.traits.global.ExcellentPhysiqueTrait;
 import dev.caecorthus.sparkdlc.traits.impl.traits.global.FastHandsTrait;
+import dev.caecorthus.sparkdlc.traits.impl.traits.global.SensitiveTrait;
 import dev.caecorthus.sparkdlc.traits.impl.traits.global.SnowballTrait;
 import dev.caecorthus.sparkdlc.traits.impl.traits.global.SteadyTrait;
 import dev.caecorthus.sparkdlc.traits.impl.traits.global.SpiritSleuthTrait;
@@ -45,6 +46,7 @@ public final class SparkTraitsBuiltInTraits {
         TraitRegistry.register(new SnowballTrait());
         TraitRegistry.register(new WellSuppliedTrait());
         TraitRegistry.register(new EconomyTrait());
+        TraitRegistry.register(new SensitiveTrait());
         CivilianTraits.register();
         PoliceTraits.register();
         KillerTraits.register();

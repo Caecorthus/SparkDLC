@@ -18,6 +18,7 @@ import dev.caecorthus.sparkdlc.witch.net.SparkWitchPackets;
 import dev.caecorthus.sparkdlc.witch.registry.SparkWitchDataComponents;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchVersionHandshake;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertEntities;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.savior.SaviorParticles;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.flash.HolyFlashEntities;
 import dev.caecorthus.sparkdlc.witch.roles.witch.abysslistener.zone.AbyssListenerEntities;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.SeekerSounds;
@@ -27,6 +28,7 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistEffec
 import dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel.GuardianAngelEffects;
 import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterEffects;
 import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterEntities;
+import dev.caecorthus.sparkdlc.witch.roles.killer.specter.SpecterEntities;
 import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.FocusedFootstepsEffects;
 import dev.caecorthus.sparkdlc.witch.roles.witch.curser.CurserFeatureService;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel.GuardianAngelRules;
@@ -50,12 +52,14 @@ public final class SparkWitch implements ModInitializer {
     @Override
     public void onInitialize() {
         SparkWitchSounds.register();
+        SaviorParticles.register();
         SeekerSounds.register();
         HunterEffects.register();
         OrthopedistEffects.register();
         GuardianAngelEffects.register();
         FocusedFootstepsEffects.register();
         HunterEntities.register();
+        SpecterEntities.register();
         ControlExpertEntities.register();
         AbyssListenerEntities.register();
         RiftGateEntities.register();

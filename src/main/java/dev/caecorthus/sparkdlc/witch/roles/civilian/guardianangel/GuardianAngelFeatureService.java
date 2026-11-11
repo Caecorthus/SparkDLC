@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel;
 
 import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsKillerBridge;
 import dev.caecorthus.sparkdlc.witch.item.ceremonialsword.CeremonialSwordProtectionPolicy;
+import dev.caecorthus.sparkdlc.witch.item.rope.RopeShieldPolicy;
 import dev.caecorthus.sparkdlc.witch.SparkWitch;
 import dev.caecorthus.sparkdlc.witch.component.WraithPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.usec.UsecShieldPierce;
@@ -208,6 +209,10 @@ public final class GuardianAngelFeatureService {
             Identifier deathReason
     ) {
         if (SparkTraitsKillerBridge.isLastEscapeActive(victim)) {
+            return null;
+        }
+        // Rope seam ("不破盾"): the strangle passes this shield without spending it. / 绳索接缝（「不破盾」）：勒杀穿过该护盾且不消耗它。
+        if (RopeShieldPolicy.passesShields(deathReason)) {
             return null;
         }
         if (!victim.hasStatusEffect(GuardianAngelEffects.guardianShield())

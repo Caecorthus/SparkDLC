@@ -59,6 +59,7 @@ import dev.caecorthus.sparkdlc.witch.client.hooks.DeathRayClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.hooks.GrandWitchFearClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.hooks.HunterTrapClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.hunter.DoubleBarrelMuzzleClient;
+import dev.caecorthus.sparkdlc.witch.client.hunter.HunterTrapDismantleHud;
 import dev.caecorthus.sparkdlc.witch.client.hooks.KidnapperThrowClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.hooks.OrthopedistClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.hooks.ProphetCorpseHighlightClientHooks;
@@ -238,6 +239,7 @@ public final class SparkWitchClient implements ClientModInitializer {
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> releaseClosedWorldPlayers());
         WitchInstinctSuppressionClientHooks.register();
         HunterTrapClientHooks.register();
+        HunterTrapDismantleHud.register();
         DoubleBarrelMuzzleClient.register();
         NinjaGrappleClientPull.register();
         OrthopedistClientHooks.register();

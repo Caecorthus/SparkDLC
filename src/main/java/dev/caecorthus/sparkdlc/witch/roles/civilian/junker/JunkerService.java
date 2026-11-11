@@ -5,6 +5,7 @@ import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsKillerBridge;
 import dev.caecorthus.sparkdlc.witch.registry.SparkWitchRoleRegistry;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.knight.KnightDuelSkillLock;
+import dev.caecorthus.sparkdlc.witch.roles.killer.hiro.returning.HiroFakeBodies;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchFearService;
 import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.session.RiftSessionService;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -268,7 +269,10 @@ public final class JunkerService {
 
     @Nullable
     private static UUID bodyOwner(ServerWorld world, UUID bodyUuid) {
-        return world.getEntity(bodyUuid) instanceof PlayerBodyEntity body ? body.getPlayerUuid() : null;
+        // The fake corpse of a 二阶堂希罗 victim has no owner to search: refused silently, never marked searched.
+        // 二阶堂希罗受害者的假尸体没有可搜刮的主人：静默拒绝，也绝不标记为已搜刮。
+        return world.getEntity(bodyUuid) instanceof PlayerBodyEntity body && !HiroFakeBodies.isFake(body)
+                ? body.getPlayerUuid() : null;
     }
 
     private static void actionBar(ServerPlayerEntity player, Text text) {

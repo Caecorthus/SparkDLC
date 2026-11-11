@@ -227,6 +227,7 @@ public final class SparkWitchClient implements ClientModInitializer {
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> releaseClosedWorldPlayers());
         WitchInstinctSuppressionClientHooks.register();
         HunterTrapClientHooks.register();
+        dev.caecorthus.sparkdlc.witch.client.hunter.HunterTrapDismantleHud.register();
         DoubleBarrelMuzzleClient.register();
         NinjaGrappleClientPull.register();
         OrthopedistClientHooks.register();

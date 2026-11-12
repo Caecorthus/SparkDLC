@@ -11,6 +11,9 @@ import dev.caecorthus.sparkdlc.strength.item.CircuitConfiguratorItem;
 import dev.caecorthus.sparkdlc.strength.item.CaseFolderItem;
 import dev.caecorthus.sparkdlc.strength.item.CoronerBodyBagItem;
 import dev.caecorthus.sparkdlc.strength.item.AromaOrbItem;
+import dev.caecorthus.sparkdlc.strength.item.BanditAmmoItem;
+import dev.caecorthus.sparkdlc.strength.item.BanditAttachmentItem;
+import dev.caecorthus.sparkdlc.strength.item.BanditRevolverItem;
 import dev.caecorthus.sparkdlc.strength.item.CoolingOilItem;
 import dev.caecorthus.sparkdlc.strength.item.DemocracyShieldItem;
 import dev.caecorthus.sparkdlc.strength.item.DroneItem;
@@ -31,6 +34,10 @@ import dev.caecorthus.sparkdlc.strength.item.TabletItem;
 import dev.caecorthus.sparkdlc.strength.item.TimekeeperWatchItem;
 import dev.caecorthus.sparkdlc.strength.item.VirusItem;
 import dev.caecorthus.sparkdlc.strength.item.ZephyrPerfumeItem;
+import dev.caecorthus.sparkdlc.strength.role.bandit.BanditAmmo;
+import dev.caecorthus.sparkdlc.strength.role.bandit.BanditAttachment;
+import dev.caecorthus.sparkdlc.strength.role.bandit.BanditRevolverRules;
+import dev.caecorthus.sparkdlc.strength.role.bandit.BanditRevolverState;
 import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DroneKind;
 import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartyBalloonRules;
 import dev.caecorthus.sparkdlc.strength.role.perfumer.PerfumerRules;
@@ -53,6 +60,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import org.agmas.noellesroles.item.IngredientItem;
 
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -95,6 +103,7 @@ public final class SparkStrengthItems {
     public static final Identifier TACTICAL_TOMAHAWK_ID = SparkStrength.id("tactical_tomahawk");
     public static final Identifier PARTY_BALLOON_ID = SparkStrength.id("party_balloon");
     public static final Identifier IMPOSTOR_LOCKPICK_ID = SparkStrength.id("impostor_lockpick");
+    public static final Identifier BANDIT_REVOLVER_ID = SparkStrength.id("bandit_revolver");
 
     /** 怀表模式数据组件：0=刷新物品冷却，1=刷新技能冷却。 */
     public static final ComponentType<Integer> TIMEKEEPER_WATCH_MODE = Registry.register(
@@ -141,6 +150,10 @@ public final class SparkStrengthItems {
     private static Item tacticalTomahawk;
     private static Item partyBalloon;
     private static Item impostorLockpick;
+    private static Item banditRevolver;
+    /** Bandit revolver parts ({@code bandit_<key>}) and rounds ({@code <key>_round}). / 强盗左轮配件与子弹。 */
+    private static final Map<BanditAttachment, Item> BANDIT_ATTACHMENTS = new EnumMap<>(BanditAttachment.class);
+    private static final Map<BanditAmmo, Item> BANDIT_AMMO = new EnumMap<>(BanditAmmo.class);
     private static boolean registered;
 
     private SparkStrengthItems() {
@@ -368,6 +381,26 @@ public final class SparkStrengthItems {
                 IMPOSTOR_LOCKPICK_ID,
                 new ImpostorLockpickItem(new Item.Settings().maxCount(1))
         );
+        banditRevolver = Registry.register(
+                Registries.ITEM,
+                BANDIT_REVOLVER_ID,
+                new BanditRevolverItem(new Item.Settings().maxCount(1)
+                        .component(SparkStrengthDataComponents.banditRevolver(), BanditRevolverState.EMPTY))
+        );
+        for (BanditAttachment attachment : BanditAttachment.values()) {
+            BANDIT_ATTACHMENTS.put(attachment, Registry.register(
+                    Registries.ITEM,
+                    SparkStrength.id("bandit_" + attachment.key()),
+                    new BanditAttachmentItem(new Item.Settings().maxCount(1), attachment)
+            ));
+        }
+        for (BanditAmmo ammo : BanditAmmo.values()) {
+            BANDIT_AMMO.put(ammo, Registry.register(
+                    Registries.ITEM,
+                    SparkStrength.id(ammo.key() + "_round"),
+                    new BanditAmmoItem(new Item.Settings().maxCount(BanditRevolverRules.AMMO_MAX_STACK), ammo)
+            ));
+        }
         registered = true;
     }
 
@@ -558,6 +591,29 @@ public final class SparkStrengthItems {
             throw new IllegalStateException("SparkStrength items are not registered yet");
         }
         return partyBalloon;
+    }
+
+    public static Item banditRevolver() {
+        if (banditRevolver == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return banditRevolver;
+    }
+
+    public static Item banditAttachment(BanditAttachment attachment) {
+        Item item = BANDIT_ATTACHMENTS.get(attachment);
+        if (item == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return item;
+    }
+
+    public static Item banditAmmo(BanditAmmo ammo) {
+        Item item = BANDIT_AMMO.get(ammo);
+        if (item == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return item;
     }
 
     public static Item impostorLockpick() {

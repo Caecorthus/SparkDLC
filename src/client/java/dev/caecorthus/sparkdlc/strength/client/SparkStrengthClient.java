@@ -8,6 +8,7 @@ import dev.caecorthus.sparkdlc.strength.client.item.PerfumerItemsClient;
 import dev.caecorthus.sparkdlc.strength.client.render.ClientFrame;
 import dev.caecorthus.sparkdlc.strength.client.role.attendant.flashlight.FlashlightLights;
 import dev.caecorthus.sparkdlc.strength.client.role.attendant.flashlight.FlashlightRenderer;
+import dev.caecorthus.sparkdlc.strength.client.role.bandit.BanditRevolverClient;
 import dev.caecorthus.sparkdlc.strength.client.role.bodyguard.BodyguardClient;
 import dev.caecorthus.sparkdlc.strength.client.role.bomber.BomberDroneClient;
 import dev.caecorthus.sparkdlc.strength.client.role.coroner.CoronerClientHooks;
@@ -72,6 +73,7 @@ public final class SparkStrengthClient implements ClientModInitializer {
         // Loaded drones, Partygoers and corpses, so per-frame picks can skip empty searches. / 已加载的无人机、派对客与尸体，
         // 让逐帧选取跳过必然落空的搜索。
         LoadedEntities.register();
+        BanditRevolverClient.register();
         BodyguardClient.register();
         CapsuleClient.register();
         FlashlightModelClient.register();

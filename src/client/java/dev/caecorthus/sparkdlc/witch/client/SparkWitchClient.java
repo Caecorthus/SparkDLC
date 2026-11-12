@@ -153,6 +153,12 @@ public final class SparkWitchClient implements ClientModInitializer {
         // 本能、描边与盲人钩子读取的本地观察者事实，按世界渲染 pass 缓存。
         LocalViewerSnapshot.register();
         SecondaryAbilityController.registerKeyBinding();
+        dev.caecorthus.sparkdlc.witch.client.ability.SecondaryAbilityRegistry.register(
+                dev.caecorthus.sparkdlc.witch.roles.neutral.koko.KokoRules.ROLE_ID,
+                new dev.caecorthus.sparkdlc.witch.client.koko.KokoSecondaryAbility());
+        dev.caecorthus.sparkdlc.witch.client.koko.KokoInstinctHooks.register();
+        net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback.EVENT.register(
+                dev.caecorthus.sparkdlc.witch.client.koko.KokoTrafficHud::render);
         BlackRavenClientModule.register();
         GrandWitchClientModule.register();
         ApprenticeClientModule.register();

@@ -29,6 +29,7 @@ import dev.caecorthus.sparkdlc.witch.client.athlete.AthleteDashClient;
 import dev.caecorthus.sparkdlc.witch.client.noa.NoaClient;
 import dev.caecorthus.sparkdlc.witch.client.noa.NoaPaintClient;
 import dev.caecorthus.sparkdlc.witch.client.hanna.HannaClient;
+import dev.caecorthus.sparkdlc.witch.client.koko.KokoClient;
 import dev.caecorthus.sparkdlc.witch.client.blind.BlindClient;
 import dev.caecorthus.sparkdlc.witch.client.blind.kit.BlindKitClientWiring;
 import dev.caecorthus.sparkdlc.witch.client.fiend.FiendDashClient;
@@ -101,6 +102,7 @@ import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertE
 import dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel.GuardianAngelRules;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel.UseGuardianAngelSkillC2SPacket;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.hanna.HannaRules;
+import dev.caecorthus.sparkdlc.witch.roles.neutral.koko.KokoRules;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.noa.NoaRules;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.UseOrthopedistSkillC2SPacket;
 import dev.caecorthus.sparkdlc.witch.roles.killer.dominator.DominatorPlayerComponent;
@@ -153,12 +155,6 @@ public final class SparkWitchClient implements ClientModInitializer {
         // 本能、描边与盲人钩子读取的本地观察者事实，按世界渲染 pass 缓存。
         LocalViewerSnapshot.register();
         SecondaryAbilityController.registerKeyBinding();
-        dev.caecorthus.sparkdlc.witch.client.ability.SecondaryAbilityRegistry.register(
-                dev.caecorthus.sparkdlc.witch.roles.neutral.koko.KokoRules.ROLE_ID,
-                new dev.caecorthus.sparkdlc.witch.client.koko.KokoSecondaryAbility());
-        dev.caecorthus.sparkdlc.witch.client.koko.KokoInstinctHooks.register();
-        net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback.EVENT.register(
-                dev.caecorthus.sparkdlc.witch.client.koko.KokoTrafficHud::render);
         BlackRavenClientModule.register();
         GrandWitchClientModule.register();
         ApprenticeClientModule.register();
@@ -214,6 +210,9 @@ public final class SparkWitchClient implements ClientModInitializer {
         // Hanna float line (role-owned HUD); the float itself rides the shared ability key below.
         // 汉娜浮游行（职业自有 HUD）；浮游本身走下方的共享技能键。
         HannaClient.init();
+        // Koko traffic and stream rows plus her live instinct outline (role-owned); going live rides the shared
+        // ability key below. / 可可的流量行、直播行与直播期间的本能描边（职业自有）；开播走下方的共享技能键。
+        KokoClient.init();
         // BEAR smoke (spike): the S2C receivers that write SmokeClientState, and the disconnect cleanup.
         // BEAR 烟雾（原型）：写入 SmokeClientState 的 S2C 接收器与断线清理。
         dev.caecorthus.sparkdlc.witch.client.bear.smoke.SmokeNetworkClient.register();
@@ -410,6 +409,10 @@ public final class SparkWitchClient implements ClientModInitializer {
                     if (ClientPlayNetworking.canSend(UseMediumSkillC2SPacket.ID)) {
                         ClientPlayNetworking.send(new UseMediumSkillC2SPacket());
                     }
+                } else if (KokoRules.isKoko(role)) {
+                    // Go live (the shared ability key), real role only (getRole stays raw): empty request, the server
+                    // decides use. / 开播（共享技能键），仅真实职业（getRole 始终是真实身份）：空请求，是否生效由服务端决定。
+                    KokoClient.onAbilityKey(client);
                 } else if (HannaRules.isHanna(role)) {
                     // Real role only (getRole stays raw, so a Black Raven acting as Hanna keeps its own key); the server
                     // decides use. / 仅真实职业（getRole 始终是真实身份，扮演汉娜的黑羽鸦保留自己的按键）；是否生效由服务端决定。

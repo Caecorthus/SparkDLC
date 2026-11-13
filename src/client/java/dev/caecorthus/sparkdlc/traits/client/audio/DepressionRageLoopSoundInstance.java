@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.traits.client.audio;
 
 import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.traits.impl.resource.SparkTraitsSounds;
-import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.depression.DepressionTraitService;
+import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.depression.DepressionAudio;
 import net.minecraft.client.sound.AbstractSoundInstance;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.client.sound.TickableSoundInstance;
@@ -25,7 +25,7 @@ public final class DepressionRageLoopSoundInstance extends AbstractSoundInstance
         this.repeatDelay = 0;
         this.attenuationType = SoundInstance.AttenuationType.LINEAR;
         this.relative = false;
-        this.volume = DepressionTraitService.DEPRESSION_RANGE_SOUND_VOLUME;
+        this.volume = DepressionAudio.DEPRESSION_RANGE_SOUND_VOLUME;
         this.pitch = 1.0F;
         updatePosition();
     }

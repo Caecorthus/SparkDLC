@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.traits.mixin;
 
 import com.mojang.authlib.GameProfile;
 import dev.caecorthus.sparkdlc.traits.component.TraitWorldComponent;
-import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveTraitService;
+import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveWinService;
 import dev.caecorthus.sparkdlc.traits.impl.lifecycle.RoundEndTraitResolver;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.laststand.LastStandFinalMomentService;
 import dev.doctor4t.wathe.api.Role;
@@ -78,7 +78,7 @@ public abstract class GameRoundEndComponentMixin {
                     role,
                     traitWorld.isFinalMomentLooseEnd(uuid)
             ) || isWinningJester(serverWorld, uuid, role)
-                    || EffectiveTraitService.didEffectiveTeamWin(
+                    || EffectiveWinService.didEffectiveTeamWin(
                     winStatus,
                     role,
                     RoundEndTraitResolver.resolve(serverWorld, traitWorld, uuid)

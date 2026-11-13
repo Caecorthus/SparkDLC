@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
 import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
-import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveTraitService;
+import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveConsequenceService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.CivilianTraitService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.depression.DepressionFakeKillCooldowns;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.fakedeath.FakeDeathDerringerService;
@@ -86,7 +86,7 @@ public abstract class GunShootPayloadMixin {
             )
     )
     private boolean sparktraits$treatEffectiveCivilianGunVictimAsInnocent(GameWorldComponent game, PlayerEntity victim) {
-        return EffectiveTraitService.shouldTreatGunVictimAsInnocent(
+        return EffectiveConsequenceService.shouldTreatGunVictimAsInnocent(
                 game.getRole(victim),
                 TraitPlayerComponent.KEY.get(victim).getActiveTraitIds()
         );

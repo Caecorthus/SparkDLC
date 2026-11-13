@@ -4,6 +4,7 @@ import dev.caecorthus.sparkdlc.traits.client.render.ClientFrameClock;
 import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.traits.component.TraitWorldComponent;
 import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveTraitService;
+import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveInstinctService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.ConsciencePoisonerService;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -75,7 +76,7 @@ public final class InstinctViewerContext {
         this.conscience = EffectiveTraitService.hasConscience(viewer);
         // The delegate query is reflective, so it is only asked for Conscience viewers, as the hook did.
         // 该委托查询依赖反射，因此与原钩子一致，只对善良观察者询问。
-        this.conscienceDelegatesToNative = conscience && EffectiveTraitService.shouldDelegateConscienceInstinctToNative(viewer);
+        this.conscienceDelegatesToNative = conscience && EffectiveInstinctService.shouldDelegateConscienceInstinctToNative(viewer);
         this.consciencePoisoner = ConsciencePoisonerService.isConsciencePoisoner(viewer, game);
         this.effectiveKiller = EffectiveTraitService.isEffectiveKiller(viewer, game);
         this.impostor = EffectiveTraitService.hasImpostor(viewer);

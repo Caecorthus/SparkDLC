@@ -11,6 +11,7 @@ import dev.caecorthus.sparkdlc.strength.client.role.attendant.flashlight.Flashli
 import dev.caecorthus.sparkdlc.strength.client.role.bandit.BanditRevolverClient;
 import dev.caecorthus.sparkdlc.strength.client.role.bodyguard.BodyguardClient;
 import dev.caecorthus.sparkdlc.strength.client.role.bomber.BomberDroneClient;
+import dev.caecorthus.sparkdlc.strength.client.role.bomber.TimedBombMarkerClientStore;
 import dev.caecorthus.sparkdlc.strength.client.role.coroner.CoronerClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.corruptcop.CorruptCopClientHooks;
 import dev.caecorthus.sparkdlc.strength.client.role.corruptcop.CorruptCopMusicController;
@@ -81,6 +82,8 @@ public final class SparkStrengthClient implements ClientModInitializer {
         M67Client.initialize();
         PerfumerItemsClient.register();
         BomberDroneClient.initialize();
+        // Planted timed-bomb traps arrive privately to trap viewers. / 已埋设的定时炸弹陷阱只私下发给陷阱观察者。
+        TimedBombMarkerClientStore.register();
         CoronerClientHooks.register();
         CorruptCopClientHooks.register();
         DemonHunterSniffClientHooks.register();
@@ -190,6 +193,7 @@ public final class SparkStrengthClient implements ClientModInitializer {
         BlackoutSightClient.reset();
         KillerTeamEconomyClientHooks.reset();
         ShadowJesterShowdownMusicController.reset();
+        TimedBombMarkerClientStore.clear();
         // A stale snapshot would otherwise drive tablet outlines on the next server.
         // 否则过期快照会在下一个服务器上继续驱动平板描边。
         TabletClientState.reset();

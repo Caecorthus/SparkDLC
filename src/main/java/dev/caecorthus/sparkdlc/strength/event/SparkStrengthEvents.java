@@ -31,6 +31,7 @@ import dev.caecorthus.sparkdlc.strength.role.economy.KillerTeamEconomyService;
 import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerCaptureDeviceService;
 import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerSabotageRepairService;
 import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerShopService;
+import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerStunGuards;
 import dev.caecorthus.sparkdlc.strength.role.morphling.MorphlingService;
 import dev.caecorthus.sparkdlc.strength.role.morphling.MorphlingShopService;
 import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartyBalloonService;
@@ -108,6 +109,8 @@ public final class SparkStrengthEvents {
         KillerTeamEconomyService.register();
         EngineerSabotageRepairService.register();
         EngineerShopService.register();
+        // Server-side interaction lock of the capture stun (also runs on the client). / 捕捉定身的服务端交互锁（客户端同样运行）。
+        EngineerStunGuards.register();
         MorphlingService.register();
         MorphlingShopService.register();
         // Party Animal: the Party Balloon (25), right after Wathe's firecracker. / 派对狂：派对气球（25），紧跟在鞭炮之后。

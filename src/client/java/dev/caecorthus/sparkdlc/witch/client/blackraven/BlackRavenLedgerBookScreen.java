@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.blackraven;
 
+import dev.caecorthus.sparkdlc.factionapi.client.api.card.InventoryCardPaint;
 import dev.caecorthus.sparkdlc.witch.client.blackraven.BlackRavenLedgerLayout.Block;
 import dev.caecorthus.sparkdlc.witch.client.blackraven.BlackRavenLedgerLayout.Content;
 import dev.caecorthus.sparkdlc.witch.client.blackraven.BlackRavenLedgerLayout.Footer;
@@ -13,7 +14,6 @@ import dev.caecorthus.sparkdlc.witch.client.blackraven.BlackRavenLedgerLayout.Ru
 import dev.caecorthus.sparkdlc.witch.client.blackraven.BlackRavenLedgerLayout.TabHint;
 import dev.caecorthus.sparkdlc.witch.client.blackraven.BlackRavenLedgerLayout.TitleBar;
 import dev.caecorthus.sparkdlc.witch.client.blackraven.BlackRavenLedgerPaint.PillKind;
-import dev.caecorthus.sparkdlc.witch.client.gui.InventoryCardPaint;
 import dev.caecorthus.sparkdlc.witch.net.SelectBlackRavenDisguiseC2SPacket;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
 import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.BlackRavenIdentitySnapshot;

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.medium;
 
+import dev.caecorthus.sparkdlc.factionapi.client.api.card.InventoryCardPaint;
 import dev.caecorthus.sparkdlc.witch.client.SparkWitchClient;
-import dev.caecorthus.sparkdlc.witch.client.gui.InventoryCardPaint;
 import dev.caecorthus.sparkdlc.witch.client.tarot.TarotLedgerLayout;
 import dev.caecorthus.sparkdlc.witch.client.tarot.TarotLedgerPaint;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.medium.MediumSeanceComponent;

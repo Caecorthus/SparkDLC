@@ -7,6 +7,7 @@ import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.wither.net.ToggleM
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.factor.WitchFactorTraitsBridge;
 import dev.caecorthus.sparkdlc.witch.util.OffMatchUse;
 import dev.caecorthus.sparkdlc.witch.util.StaggeredSweep;
+import dev.caecorthus.sparkdlc.witch.util.ServerDisconnectCleanup;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.KillPlayer;
 import dev.doctor4t.wathe.api.event.ResetPlayer;
@@ -17,7 +18,6 @@ import dev.doctor4t.wathe.game.GameFunctions;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -73,8 +73,8 @@ public final class MiniWitherFeatureService {
             MiniWitherPlayerComponent.KEY.get(player).clear();
             WitherGoheiLoadoutService.stripAll(player);
         });
-        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) ->
-                MiniWitherPlayerComponent.KEY.get(handler.player).setActive(false));
+        ServerDisconnectCleanup.register((player, server) ->
+                MiniWitherPlayerComponent.KEY.get(player).setActive(false));
         GameEvents.ON_FINISH_FINALIZE.register((world, game) -> {
             if (!(world instanceof ServerWorld serverWorld)) {
                 return;

@@ -4,9 +4,9 @@ import dev.caecorthus.sparkdlc.witch.SparkWitchSounds;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.usec.net.UsecScopeC2SPacket;
 import dev.caecorthus.sparkdlc.witch.roles.special.wraith.WraithStateService;
 import dev.caecorthus.sparkdlc.witch.util.OffMatchUse;
+import dev.caecorthus.sparkdlc.witch.util.ServerDisconnectCleanup;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
@@ -66,8 +66,7 @@ public final class UsecScopeService {
         ServerPlayNetworking.registerGlobalReceiver(UsecScopeC2SPacket.ID,
                 (payload, context) -> receive(context.player(), payload.scoped()));
         ServerTickEvents.END_SERVER_TICK.register(UsecScopeService::sweep);
-        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) ->
-                LAST_SCOPE_SOUND.remove(handler.getPlayer().getUuid()));
+        ServerDisconnectCleanup.register((player, server) -> LAST_SCOPE_SOUND.remove(player.getUuid()));
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> LAST_SCOPE_SOUND.clear());
     }
 

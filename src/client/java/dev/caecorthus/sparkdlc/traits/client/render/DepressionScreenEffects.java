@@ -4,7 +4,7 @@ import com.google.gson.JsonSyntaxException;
 import dev.caecorthus.sparkdlc.traits.SparkTraits;
 import dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
-import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.depression.DepressionTraitService;
+import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.depression.DepressionRules;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.CivilianTraits;
 import dev.caecorthus.sparkdlc.traits.net.version.SparkTraitsServerConnection;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -122,7 +122,7 @@ public final class DepressionScreenEffects {
             return NO_EFFECT;
         }
         float mood = PlayerMoodComponent.KEY.get(player).getMood();
-        float strength = DepressionTraitService.depressionScreenEffectStrength(
+        float strength = DepressionRules.depressionScreenEffectStrength(
                 traits.hasActiveTrait(CivilianTraits.DEPRESSION),
                 traits.isDepressionPsychoActive(),
                 mood

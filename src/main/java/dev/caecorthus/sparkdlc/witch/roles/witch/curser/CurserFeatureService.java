@@ -1,6 +1,5 @@
 package dev.caecorthus.sparkdlc.witch.roles.witch.curser;
 
-import dev.caecorthus.sparkdlc.witch.SparkWitch;
 import dev.caecorthus.sparkdlc.witch.SparkWitchRoles;
 import dev.caecorthus.sparkdlc.witch.component.WraithPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.record.AchievementRecords;

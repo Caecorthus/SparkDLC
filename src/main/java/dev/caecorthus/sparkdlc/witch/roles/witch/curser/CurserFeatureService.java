@@ -1,14 +1,13 @@
 package dev.caecorthus.sparkdlc.witch.roles.witch.curser;
 
-import dev.caecorthus.sparkdlc.witch.SparkWitch;
 import dev.caecorthus.sparkdlc.witch.SparkWitchRoles;
 import dev.caecorthus.sparkdlc.witch.component.WraithPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.record.AchievementRecords;
 import dev.caecorthus.sparkdlc.witch.roles.special.wraith.WraithStateService;
+import dev.caecorthus.sparkdlc.witch.util.ServerDisconnectCleanup;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import java.util.List;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -26,8 +25,7 @@ public final class CurserFeatureService {
         }
         registered = true;
         CurserShopService.register();
-        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) ->
-                CurserPlayerComponent.KEY.get(handler.player).clear());
+        ServerDisconnectCleanup.register((player, server) -> CurserPlayerComponent.KEY.get(player).clear());
     }
 
     public static void initializeForPromotion(ServerPlayerEntity player) {

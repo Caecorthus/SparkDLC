@@ -3,7 +3,8 @@ package dev.caecorthus.sparkdlc.factionapi.impl.assignment;
 import dev.caecorthus.sparkdlc.factionapi.api.FactionAssignmentContext;
 import dev.caecorthus.sparkdlc.factionapi.api.FactionAssignmentPhase;
 import dev.caecorthus.sparkdlc.factionapi.api.FactionDefinition;
-import dev.caecorthus.sparkdlc.factionapi.impl.FactionRegistryImpl;
+import dev.caecorthus.sparkdlc.factionapi.impl.registry.FactionCatalog;
+import dev.caecorthus.sparkdlc.factionapi.impl.registry.FactionRoleCatalog;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.RoleSelectionContext;
 import dev.doctor4t.wathe.api.WatheRoles;
@@ -98,7 +99,7 @@ public final class FactionAssignmentService {
                 phase
         );
         List<AssignmentRequest> requests = new ArrayList<>();
-        for (FactionDefinition faction : FactionRegistryImpl.getCustomFactions()) {
+        for (FactionDefinition faction : FactionCatalog.getCustomFactions()) {
             if (faction.assignmentPhase() != phase) {
                 continue;
             }
@@ -118,7 +119,7 @@ public final class FactionAssignmentService {
             GameWorldComponent gameComponent
     ) {
         List<Role> roles = new ArrayList<>();
-        for (Role role : FactionRegistryImpl.getRolesForFaction(faction.id())) {
+        for (Role role : FactionRoleCatalog.getRolesForFaction(faction.id())) {
             if (gameComponent.isRoleEnabled(role) && role.shouldAppear(roleContext)) {
                 roles.add(role);
             }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.factionapi.mixin;
 
-import dev.caecorthus.sparkdlc.factionapi.impl.FactionRegistryImpl;
+import dev.caecorthus.sparkdlc.factionapi.impl.registry.FactionRoleCatalog;
 import dev.doctor4t.wathe.api.Role;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class RoleMixin {
     @Inject(method = "isNeutral", at = @At("HEAD"), cancellable = true)
     private void sparkfactionapi$overrideNeutralStatus(CallbackInfoReturnable<Boolean> cir) {
-        Boolean override = FactionRegistryImpl.nativeNeutralOverrideOrNull((Role) (Object) this);
+        Boolean override = FactionRoleCatalog.nativeNeutralOverrideOrNull((Role) (Object) this);
         if (override != null) {
             cir.setReturnValue(override);
         }

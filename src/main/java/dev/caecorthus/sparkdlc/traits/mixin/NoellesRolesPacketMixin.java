@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
 import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
-import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveTraitService;
+import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveConsequenceService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.laststand.LastStandService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.killer.escape.LastEscapeService;
 import dev.caecorthus.sparkdlc.traits.impl.compatibility.noellesroles.SilencedKillerRestrictionService;
@@ -156,7 +156,7 @@ public abstract class NoellesRolesPacketMixin {
             remap = false
     )
     private static boolean sparktraits$partyAnimalRewardIgnoresRawKillerTarget(GameWorldComponent gameComponent, PlayerEntity target) {
-        return EffectiveTraitService.shouldBlockPartyAnimalTargetReward(
+        return EffectiveConsequenceService.shouldBlockPartyAnimalTargetReward(
                 gameComponent.getRole(target),
                 TraitPlayerComponent.KEY.get(target).getActiveTraitIds()
         );
@@ -176,7 +176,7 @@ public abstract class NoellesRolesPacketMixin {
             PlayerEntity target,
             Role role
     ) {
-        return EffectiveTraitService.shouldBlockPartyAnimalTargetReward(
+        return EffectiveConsequenceService.shouldBlockPartyAnimalTargetReward(
                 gameComponent.getRole(target),
                 TraitPlayerComponent.KEY.get(target).getActiveTraitIds()
         );

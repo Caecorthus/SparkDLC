@@ -14,6 +14,7 @@ import net.minecraft.util.Identifier;
 import java.util.Collection;
 import java.util.List;
 import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveTraitService;
+import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveConsequenceService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.global.GlobalTraitService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.police.PoliceRoleCategory;
 
@@ -55,7 +56,7 @@ public final class CivilianTraitService {
             boolean canSeeMoney
     ) {
         return canSelectCivilianTrait(role, selectedTraits)
-                && (canSeeMoney || EffectiveTraitService.hasNativeTaskMoneyReward(role));
+                && (canSeeMoney || EffectiveConsequenceService.hasNativeTaskMoneyReward(role));
     }
 
     /** Focus never goes to the police category ({@link PoliceRoleCategory}), so registered police variants

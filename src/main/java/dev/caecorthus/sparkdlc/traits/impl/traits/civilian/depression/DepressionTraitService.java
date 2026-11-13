@@ -55,6 +55,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveTraitService;
+import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveConsequenceService;
 import dev.caecorthus.sparkdlc.traits.impl.traits.killer.KillerTraitService;
 import dev.caecorthus.sparkdlc.traits.impl.resource.SparkTraitsSounds;
 import dev.caecorthus.sparkdlc.traits.impl.traits.global.GlobalTraitService;
@@ -511,7 +512,7 @@ public final class DepressionTraitService {
                 EffectiveTraitService.hasConscience(killer)
         );
         int impostorReward = EffectiveTraitService.hasImpostor(killer)
-                ? EffectiveTraitService.impostorKillReward(
+                ? EffectiveConsequenceService.impostorKillReward(
                         game.getRole(victim),
                         TraitPlayerComponent.KEY.get(victim).getActiveTraitIds(),
                         ShopUtils.canAccessShop(killer))

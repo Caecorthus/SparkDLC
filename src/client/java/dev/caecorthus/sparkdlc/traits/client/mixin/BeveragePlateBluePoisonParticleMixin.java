@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.traits.client.mixin;
 
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.ConsciencePoisonedPlate;
+import dev.caecorthus.sparkdlc.traits.client.killer.BluePoisonMarkerClientStore;
 import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.ConsciencePoisonerService;
 import dev.caecorthus.sparkdlc.traits.impl.resource.SparkTraitsParticles;
 import dev.caecorthus.sparkdlc.traits.net.version.SparkTraitsServerConnection;
@@ -30,9 +30,10 @@ public abstract class BeveragePlateBluePoisonParticleMixin {
             BlockEntity blockEntity,
             CallbackInfo ci
     ) {
+        // The blue layer is no longer in the platter's client NBT: only viewers the server sent the marker to hold it.
+        // 蓝毒层已不在餐盘的客户端 NBT 中：只有被服务端发送过该标记的观察者才持有它。
         if (!SparkTraitsServerConnection.isConfirmedServer()
-                || !(blockEntity instanceof ConsciencePoisonedPlate plate)
-                || plate.sparktraits$getConsciencePoisoner() == null
+                || !BluePoisonMarkerClientStore.contains(world, pos)
                 || !sparktraits$canSeeBluePoison(world)) {
             return;
         }

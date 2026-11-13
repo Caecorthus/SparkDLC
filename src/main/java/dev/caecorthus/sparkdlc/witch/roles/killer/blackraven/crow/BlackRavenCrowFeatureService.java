@@ -5,12 +5,12 @@ import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.BlackRavenPerceptio
 import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.crow.hit.BlackRavenCrowHitService;
 import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.crow.net.BlackRavenCrowNetworking;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.caecorthus.sparkdlc.witch.util.ServerDisconnectCleanup;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.KillPlayer;
 import dev.doctor4t.wathe.api.event.ResetPlayer;
 import dev.doctor4t.wathe.api.event.RoleAssigned;
 import dev.doctor4t.wathe.api.event.TaskComplete;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 
@@ -61,8 +61,8 @@ public final class BlackRavenCrowFeatureService {
         });
         ResetPlayer.EVENT.register(player ->
                 BlackRavenCrowSessions.endAndClear(player, BlackRavenCrowEndReason.ROUND_END));
-        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) ->
-                BlackRavenCrowSessions.end(handler.player, BlackRavenCrowEndReason.DISCONNECTED));
+        ServerDisconnectCleanup.register((player, server) ->
+                BlackRavenCrowSessions.end(player, BlackRavenCrowEndReason.DISCONNECTED));
         GameEvents.ON_FINISH_FINALIZE.register((world, game) -> {
             if (!(world instanceof ServerWorld serverWorld)) {
                 return;

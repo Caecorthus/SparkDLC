@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert;
 import dev.caecorthus.sparkdlc.witch.SparkWitchItems;
 import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsKillerBridge;
 import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.caecorthus.sparkdlc.witch.util.ServerDisconnectCleanup;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.KillPlayer;
@@ -10,7 +11,6 @@ import dev.doctor4t.wathe.api.event.ResetPlayer;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.index.WatheItems;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -74,7 +74,7 @@ public final class ControlExpertFeatureService {
                 ShockDeviceEntity.discardAll(serverWorld);
             }
         });
-        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> ControlExpertStun.release(handler.player));
+        ServerDisconnectCleanup.register((player, server) -> ControlExpertStun.release(player));
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> ControlExpertStun.forgetAll());
     }
 

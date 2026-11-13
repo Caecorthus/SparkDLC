@@ -36,6 +36,7 @@ import dev.caecorthus.sparkdlc.strength.client.role.timekeeper.TimekeeperWatchCl
 import dev.caecorthus.sparkdlc.strength.client.role.shadowjester.ShadowJesterShowdownMusicController;
 import dev.caecorthus.sparkdlc.strength.client.sabotage.BlackoutSightClient;
 import dev.caecorthus.sparkdlc.strength.client.sabotage.SabotageClient;
+import dev.caecorthus.sparkdlc.strength.client.screen.assassin.AssassinGuessSources;
 import dev.caecorthus.sparkdlc.strength.client.screen.detective.DetectiveFolderScreen;
 import dev.caecorthus.sparkdlc.strength.client.screen.detective.DetectiveInterrogationScreen;
 import dev.caecorthus.sparkdlc.strength.client.screen.tablet.TabletClientState;
@@ -113,6 +114,9 @@ public final class SparkStrengthClient implements ClientModInitializer {
                 KillerTeamEconomyClientHooks.tick(client.world));
         ClientTickEvents.END_CLIENT_TICK.register(ShadowJesterShowdownMusicController::tick);
         ClientTickEvents.END_CLIENT_TICK.register(TimekeeperWatchClientHooks::tick);
+        // Assassin: the ability key opens the hit list during a cooldown too (NoellesRoles only opens it when ready).
+        // 刺客：冷却期间按技能键也能打开刺杀名单（NoellesRoles 只在可猜测时打开）。
+        ClientTickEvents.END_CLIENT_TICK.register(AssassinGuessSources::tickAbilityKey);
         ItemTooltipCallback.EVENT.register((stack, context, type, lines) -> {
             if (!stack.isOf(SparkStrengthItems.dyingWatch())) {
                 return;

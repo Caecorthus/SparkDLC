@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.component;
 
+import dev.caecorthus.sparkdlc.strength.component.assassin.AssassinMisfireComponent;
 import dev.caecorthus.sparkdlc.strength.component.bodyguard.BodyguardGearComponent;
 import dev.caecorthus.sparkdlc.strength.component.pathogen.PathogenStrainComponent;
 import dev.caecorthus.sparkdlc.strength.component.pathogen.VirusCarrierComponent;
@@ -149,6 +150,9 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
         registry.beginRegistration(PlayerEntity.class, TaotieHeadDazeComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(TaotieHeadDazeComponent::new);
+        registry.beginRegistration(PlayerEntity.class, AssassinMisfireComponent.KEY)
+                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
+                .end(AssassinMisfireComponent::new);
         registry.registerFor(PlayerBodyEntity.class, CoronerBodySnapshotComponent.KEY, CoronerBodySnapshotComponent::new);
         registry.registerFor(PlayerBodyEntity.class, PartygoerCorpseComponent.KEY, PartygoerCorpseComponent::new);
         registry.registerFor(PartygoerEntity.class, PartygoerOwnerComponent.KEY, PartygoerOwnerComponent::new);

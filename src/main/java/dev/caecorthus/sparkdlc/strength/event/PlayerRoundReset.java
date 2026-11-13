@@ -7,6 +7,7 @@ import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumTarget
 import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumUserComponent;
 import dev.caecorthus.sparkdlc.strength.component.reporter.ReporterCommunicationComponent;
 import dev.caecorthus.sparkdlc.strength.component.timekeeper.TimekeeperWatchComponent;
+import dev.caecorthus.sparkdlc.strength.role.assassin.AssassinGuessService;
 import dev.caecorthus.sparkdlc.strength.role.bodyguard.BodyguardShieldService;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.strength.role.corruptcop.CorruptCopAbilityService;
@@ -72,5 +73,6 @@ public final class PlayerRoundReset {
         BodyguardShieldService.resetRound(player);
         PartyBalloonService.clearPlayer(player);
         PartygoerSkillService.reset(player);
+        AssassinGuessService.reset(player);
     }
 }

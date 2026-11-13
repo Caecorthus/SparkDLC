@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.client.screen.detective;
 
 import dev.caecorthus.sparkdlc.strength.client.ui.common.PlayerNameResolver;
+import dev.caecorthus.sparkdlc.strength.client.ui.common.RoleFactionBands;
 import dev.caecorthus.sparkdlc.strength.component.detective.DetectiveCasePlayerComponent;
 import dev.caecorthus.sparkdlc.strength.component.detective.DetectiveCasePlayerComponent.DetectiveCase;
 import dev.caecorthus.sparkdlc.strength.component.detective.DetectiveCasePlayerComponent.SuspectClue;
@@ -575,7 +576,7 @@ public final class DetectiveFolderScreen extends Screen {
         Text label;
         int color;
         if (role != null) {
-            label = DetectiveRolePicker.roleName(role);
+            label = RoleFactionBands.roleName(role);
             color = DetectiveFolderPaint.readableOn(role.color(), pillFill);
         } else if (guess != null) {
             // A role this client does not know (mod mismatch): show the raw path. / 客户端不认识的角色：显示原始路径。

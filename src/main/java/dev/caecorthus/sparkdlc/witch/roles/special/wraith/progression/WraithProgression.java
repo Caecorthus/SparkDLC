@@ -2,13 +2,13 @@ package dev.caecorthus.sparkdlc.witch.roles.special.wraith.progression;
 
 import dev.caecorthus.sparkdlc.witch.component.WraithPlayerComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.windspirit.WindSpiritRules;
+import dev.caecorthus.sparkdlc.witch.util.ServerDisconnectCleanup;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.CanSeeMoney;
 import dev.doctor4t.wathe.api.event.TaskComplete;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import dev.doctor4t.wathe.cca.PlayerShopComponent;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 
@@ -28,9 +28,7 @@ public final class WraithProgression {
         }
         registered = true;
         TaskComplete.EVENT.register(WraithProgression::onTaskComplete);
-        ServerPlayConnectionEvents.DISCONNECT.register(
-                (handler, server) -> WraithTaskRuntime.onDisconnect(handler.player)
-        );
+        ServerDisconnectCleanup.register((player, server) -> WraithTaskRuntime.onDisconnect(player));
         ServerTickEvents.END_SERVER_TICK.register(WraithPromotionQueue::finishPromotions);
     }
 

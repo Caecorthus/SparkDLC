@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
+import dev.caecorthus.sparkdlc.witch.client.bear.smoke.SmokeTargetOcclusion;
 import dev.caecorthus.sparkdlc.witch.client.hooks.WitchCohortClientHooks;
 import dev.caecorthus.sparkdlc.witch.client.magician.MagicianPuppetNameTags;
 import dev.caecorthus.sparkdlc.witch.client.render.WraithNameTagPassThrough;
@@ -55,8 +56,13 @@ public abstract class WitchCohortRoleNameMixin {
                 player,
                 entity -> entity instanceof PlayerEntity
         );
-        if (!(MagicianPuppetNameTags.asCopiedPlayer(ProjectileUtil.getCollision(
-                player, MagicianPuppetNameTags.stopAtPuppets(nameTarget), range)) instanceof EntityHitResult hit)
+        // BEAR smoke: the same filter as Wathe's label raycasts (SmokeRoleNameRaycastMixin), outside the puppet
+        // widening, so this label never shows through smoke while the name tag fades out.
+        // BEAR 烟雾：与 Wathe 标签射线相同的过滤（SmokeRoleNameRaycastMixin），套在皮套放宽之外，名牌淡出期间本标签不会
+        // 透过烟雾显示。
+        if (!(MagicianPuppetNameTags.asCopiedPlayer(ProjectileUtil.getCollision(player,
+                SmokeTargetOcclusion.filterLabelTarget(player, MagicianPuppetNameTags.stopAtPuppets(nameTarget), range),
+                range)) instanceof EntityHitResult hit)
                 || !(hit.getEntity() instanceof PlayerEntity target)
                 || !WitchCohortClientHooks.isGrandWitchCohortPair(player, target)) {
             return;

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.seeker.remote;
 
+import dev.caecorthus.sparkdlc.factionapi.client.api.card.InventoryCardPaint;
 import dev.caecorthus.sparkdlc.witch.client.ability.SecondaryAbilityController;
-import dev.caecorthus.sparkdlc.witch.client.gui.InventoryCardPaint;
 import dev.caecorthus.sparkdlc.witch.client.seeker.SeekerClientState;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.SeekerCameraRules;

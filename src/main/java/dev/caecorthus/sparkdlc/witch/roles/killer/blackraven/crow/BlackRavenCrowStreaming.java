@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.crow;
 
 import dev.caecorthus.sparkdlc.witch.SparkWitch;
+import dev.caecorthus.sparkdlc.witch.util.ServerDisconnectCleanup;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ChunkTicketType;
 import net.minecraft.server.world.ServerWorld;
@@ -54,7 +54,7 @@ public final class BlackRavenCrowStreaming {
         }
         registered = true;
         ServerTickEvents.END_WORLD_TICK.register(BlackRavenCrowStreaming::tick);
-        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> forget(handler.player.getUuid()));
+        ServerDisconnectCleanup.register((player, server) -> forget(player.getUuid()));
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
             STREAMING.clear();
             RESETTLING.clear();

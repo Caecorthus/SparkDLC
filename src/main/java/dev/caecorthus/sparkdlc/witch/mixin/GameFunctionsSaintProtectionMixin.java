@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.witch.mixin;
 import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsKillerBridge;
 import dev.caecorthus.sparkdlc.witch.item.ceremonialsword.CeremonialSwordProtectionPolicy;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.SaintFeatureService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.savior.SaviorRules;
 import dev.caecorthus.sparkdlc.witch.roles.killer.bellringer.BellRingerRules;
 import dev.caecorthus.sparkdlc.witch.roles.killer.timestealer.TimeStealerRules;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -33,6 +34,10 @@ public abstract class GameFunctionsSaintProtectionMixin {
             boolean force,
             CallbackInfo ci
     ) {
+        // The Savior's terminal weapons kill every target except the Fiend. / 救世主终结武器除魔人外必杀。
+        if (SaviorRules.isTerminalKill(deathReason)) {
+            return;
+        }
         // This HEAD guard ignores force, so the owner-approved forced kills (bell toll, Clock curse) opt out explicitly.
         // 此 HEAD 拦截不看 force，因此所有者批准的强制击杀（丧钟、时钟诅咒）需在此显式放行。
         if (BellRingerRules.piercesProtection(deathReason, force)

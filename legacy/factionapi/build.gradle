@@ -270,7 +270,17 @@ tasks.register("verifyModJarVersion") {
                     "dev/caecorthus/sparkdlc/factionapi/client/api/card/InventoryCardPaint.class",
                     "dev/caecorthus/sparkdlc/factionapi/client/api/card/InventoryInfoCard.class",
                     "dev/caecorthus/sparkdlc/factionapi/client/api/card/InventoryInfoCard\$Decor.class",
-                    "dev/caecorthus/sparkdlc/factionapi/client/api/card/GuideDecorBridge.class"
+                    "dev/caecorthus/sparkdlc/factionapi/client/api/card/GuideDecorBridge.class",
+                    "dev/caecorthus/sparkdlc/factionapi/api/FactionCategory.class",
+                    "dev/caecorthus/sparkdlc/factionapi/api/ThirdFactionLineup.class",
+                    "dev/caecorthus/sparkdlc/factionapi/api/ThirdFactionDrawContext.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/thirdfaction/ThirdFactionDraw.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/thirdfaction/ThirdFactionDrawRules.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/thirdfaction/ThirdFactionDrawSettings.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/thirdfaction/ThirdFactionLineups.class",
+                    "dev/caecorthus/sparkdlc/factionapi/component/SparkFactionThirdFactionComponent.class",
+                    "dev/caecorthus/sparkdlc/factionapi/command/settings/ThirdFactionDividendCommand.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/thirdfaction/GameSettingsCommandThirdFactionMixin.class"
             ].each { requiredEntry ->
                 // Runtime compatibility depends on these shipped adapter classes, not just successful compilation.
                 // 运行时兼容依赖这些随 jar 发布的适配类，而不只是编译成功。
@@ -351,7 +361,8 @@ tasks.register("verifyModJarVersion") {
                     "inventory.ShopEntrySecondRowMixin",
                     "AntiFastRoundPayloadGuardMixin",
                     "team.GameFunctionsLetterNameMixin",
-                    "team.PlayerEntityTeamTagMixin"
+                    "team.PlayerEntityTeamTagMixin",
+                    "thirdfaction.GameSettingsCommandThirdFactionMixin"
             ],
                     "sparkfactionapi.client.mixins.json": [
                             "RoundTextRendererMixin",
@@ -473,7 +484,12 @@ def architectureContractFiles = [
         "src/main/java/dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesNeutralPerkRules.java",
         "src/main/java/dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesScavengerBodyHideRewrite.java",
         "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesNeutralPerkRulesTest.java",
-        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesRolesPinnedSelectorTest.java"
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesRolesPinnedSelectorTest.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/api/ThirdFactionLineup.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/impl/thirdfaction/ThirdFactionDrawRules.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/thirdfaction/ThirdFactionDrawRulesTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/api/ThirdFactionApiTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/command/settings/ThirdFactionDividendCommandTest.java"
 ]
 
 tasks.register("verifyArchitecture") {

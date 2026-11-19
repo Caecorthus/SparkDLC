@@ -1,6 +1,5 @@
 package dev.caecorthus.sparkdlc.trait.component;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
 import net.minecraft.util.Identifier;
 
 import java.util.Collection;
@@ -9,9 +8,11 @@ import java.util.List;
 /** Filters exact legacy trait ids at every component-state ingress.
  *  在组件状态入口过滤精确匹配的旧天赋 id。 */
 final class RetiredTraitIds {
-    static final Identifier ARROGANT_ASF = SparkTraits.id("arrogant_asf");
+    // The ids as old saves hold them: the literal legacy namespace on purpose, not the mod's id helper.
+    // 旧存档中保存的 id：有意写死旧命名空间，而不使用本模组的 id 辅助方法。
+    static final Identifier ARROGANT_ASF = Identifier.of("sparktraits", "arrogant_asf");
     static final Identifier WRAITH = Identifier.of("sparktraits", "wraith");
-    static final Identifier CHAMELEON = SparkTraits.id("chameleon");
+    static final Identifier CHAMELEON = Identifier.of("sparktraits", "chameleon");
 
     private RetiredTraitIds() {
     }

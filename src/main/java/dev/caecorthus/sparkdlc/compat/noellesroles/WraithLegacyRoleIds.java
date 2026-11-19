@@ -1,31 +1,31 @@
 package dev.caecorthus.sparkdlc.compat.noellesroles;
 
+import dev.caecorthus.sparkdlc.SparkWitch;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtString;
 import net.minecraft.util.Identifier;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /** Exact read-boundary aliases for the six former SparkTraits role ids. / 六个旧 SparkTraits 角色 id 的精确读取别名。 */
 public final class WraithLegacyRoleIds {
-    private static final Map<Identifier, Identifier> LEGACY_TO_CANONICAL = Map.ofEntries(
-            alias("wraith"),
-            alias("wind_spirit"),
-            alias("guardian_angel"),
-            alias("vendetta"),
-            alias("saboteur"),
-            alias("curser")
-    );
-    private static final Map<String, String> LEGACY_STRINGS = Map.ofEntries(
-            stringAlias("wraith"),
-            stringAlias("wind_spirit"),
-            stringAlias("guardian_angel"),
-            stringAlias("vendetta"),
-            stringAlias("saboteur"),
-            stringAlias("curser")
-    );
+    /**
+     * The namespaces these six roles were saved under before their current id, most recent first: when a save holds
+     * a role under several of them, the most recent one wins. Literals on purpose: they are the names in old saves.
+     * 这六个角色在使用当前 id 之前保存时用过的命名空间，按从新到旧排列：存档里同一角色出现在多个旧命名空间下时，以最新的为准。
+     * 有意写死：它们是旧存档里的名字。
+     */
+    private static final List<String> LEGACY_NAMESPACES = List.of("sparktraits");
+    private static final List<String> ROLE_PATHS =
+            List.of("wraith", "wind_spirit", "guardian_angel", "vendetta", "saboteur", "curser");
+    /** Legacy id to the role's current id, in {@link #LEGACY_NAMESPACES} order. / 旧 id 到当前角色 id，按上述顺序。 */
+    private static final Map<Identifier, Identifier> LEGACY_TO_CANONICAL = aliases();
+    private static final Map<String, String> LEGACY_STRINGS = stringAliases();
 
     private WraithLegacyRoleIds() {
     }
@@ -74,11 +74,20 @@ public final class WraithLegacyRoleIds {
         nbt.put(key, canonicalized);
     }
 
-    private static Map.Entry<Identifier, Identifier> alias(String path) {
-        return Map.entry(Identifier.of("sparktraits", path), Identifier.of("sparkwitch", path));
+    private static Map<Identifier, Identifier> aliases() {
+        Map<Identifier, Identifier> aliases = new LinkedHashMap<>();
+        for (String namespace : LEGACY_NAMESPACES) {
+            for (String path : ROLE_PATHS) {
+                // The target is the role's live id, whatever namespace the mod uses now. / 目标是角色当前的 id。
+                aliases.put(Identifier.of(namespace, path), SparkWitch.id(path));
+            }
+        }
+        return Collections.unmodifiableMap(aliases);
     }
 
-    private static Map.Entry<String, String> stringAlias(String path) {
-        return Map.entry("sparktraits:" + path, "sparkwitch:" + path);
+    private static Map<String, String> stringAliases() {
+        Map<String, String> aliases = new LinkedHashMap<>();
+        LEGACY_TO_CANONICAL.forEach((legacy, canonical) -> aliases.put(legacy.toString(), canonical.toString()));
+        return Collections.unmodifiableMap(aliases);
     }
 }

@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.role.killer.blackraven.disguise;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.adapter.BlackRavenDisguiseAdapter;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.adapter.BlackRavenDisguiseAdapters;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.adapter.DisguiseShopSpec;
+import dev.caecorthus.sparkdlc.trait.api.TraitShopEntries;
 import dev.doctor4t.wathe.util.ShopEntry;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,14 +18,11 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Deterministic shop finalizer for a disguised Raven, identical on both sides so entry indexes match:
- * spec order, native entry preferred over the fallback, then native {@code sparktraits:} entries once.
+ * spec order, native entry preferred over the fallback, then native trait entries ({@link TraitShopEntries}) once.
  * 伪装黑羽鸦的确定性商店整理器，双端一致以保证条目索引相同：按规格顺序，原生条目优先于回退，
- * 然后追加一次原生 sparktraits: 条目。
+ * 然后追加一次原生天赋条目（{@link TraitShopEntries}）。
  */
 public final class BlackRavenDisguiseShop {
-    /** SparkTraitsShopEntryPreserver convention: trait entries survive every role shop rebuild. / 词条条目约定。 */
-    static final String SPARKTRAITS_ID_PREFIX = "sparktraits:";
-
     private BlackRavenDisguiseShop() {
     }
 
@@ -53,7 +51,8 @@ public final class BlackRavenDisguiseShop {
         }
         for (ShopEntry entry : natives) {
             String id = entry == null ? null : entry.id();
-            if (id != null && id.startsWith(SPARKTRAITS_ID_PREFIX) && !isForbidden(id) && emitted.add(id)) {
+            // SparkTraitsShopEntryPreserver convention: trait entries survive every role shop rebuild. / 词条条目约定。
+            if (TraitShopEntries.isTraitEntry(id) && !isForbidden(id) && emitted.add(id)) {
                 out.add(entry);
             }
         }

@@ -25,5 +25,8 @@ public final class SparkDLC implements ModInitializer {
         new SparkStrength().onInitialize();
         new SparkTraits().onInitialize();
         new SparkWitch().onInitialize();
+        // One creative tab for the whole mod, once every module has registered its items.
+        // 所有模块注册完物品后，注册全模组唯一的创造模式物品栏。
+        SparkDlcItemGroups.register();
     }
 }

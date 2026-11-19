@@ -260,7 +260,6 @@
   "hud.sparkwitch.magician.playing": "Playing back: %s s left (press %s to stop early)",
   "hud.sparkwitch.magician.cooldown": "Magician ability on cooldown: %s s",
   "hud.sparkwitch.magician.idle": "Disguise: %s; press %s to record",
-  "itemGroup.sparkwitch.items": "SparkWitch: Items",
   "item.sparkwitch.ceremonial_sword": "Ceremonial Sword",
   "item.sparkwitch.cross_sword": "Cross Sword",
   "item.sparkwitch.cross_sword.tooltip.line1": "Hold right-click for one second, then release to stab the target.",

@@ -260,7 +260,6 @@
   "hud.sparkwitch.magician.playing": "播放中，剩余 %s 秒（按 %s 提前结束）",
   "hud.sparkwitch.magician.cooldown": "魔术师技能冷却中：%s 秒",
   "hud.sparkwitch.magician.idle": "当前选择玩家：%s；按 %s 键以进行录制",
-  "itemGroup.sparkwitch.items": "SparkWitch：物品",
   "item.sparkwitch.ceremonial_sword": "仪礼剑",
   "item.sparkwitch.cross_sword": "十字剑",
   "item.sparkwitch.cross_sword.tooltip.line1": "右键蓄力一秒，松手刺杀目标",

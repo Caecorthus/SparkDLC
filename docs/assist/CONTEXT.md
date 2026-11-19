@@ -130,6 +130,9 @@ _Avoid_: frame (derived from the level), tier, rarity
 **Achievement save**:
 One account's local file at `config/sparkdlc/achievements/<account uuid>.json` with the unlocks in unlock order
 and the **General round stats**. Never sent to a server; offline and bot rounds count the same as online ones.
+A save the pre-fusion jars left at `config/sparkassist/achievements/` is copied over on the first start
+(`legacy.LegacyFiles`; the old file stays as the backup), and stats keyed by an old id are folded into the current
+id when the save is read: counts are added, sets united (`legacy.LegacyAchievementSave`).
 _Avoid_: progress, server data
 
 **General round stats**:

@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.achievement;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import dev.caecorthus.sparkdlc.legacy.LegacyAchievementSave;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -101,13 +102,17 @@ public final class AchievementLedger {
 
     /**
      * Lenient: malformed unlock rows are skipped, a row without a place (saved before places were recorded) reads as
-     * unknown, and missing stats read as zero.
-     * 宽松读取：格式错误的解锁行会被跳过，没有地点的行（记录地点之前保存的）视为未知，缺失的统计按 0 处理。
+     * unknown, and missing stats read as zero. Stats saved under the ids of the five former mods are folded into the
+     * current ids first ({@link LegacyAchievementSave}), so the next save writes current ids only.
+     * 宽松读取：格式错误的解锁行会被跳过，没有地点的行（记录地点之前保存的）视为未知，缺失的统计按 0 处理。以五个旧模组的 id
+     * 保存的统计会先并入当前 id（{@link LegacyAchievementSave}），因此下一次保存只写出当前 id。
      */
     public static AchievementLedger fromJson(JsonObject json) {
         JsonElement statsJson = json == null ? null : json.get(STATS);
         AchievementLedger ledger = new AchievementLedger(LifetimeStats.fromJson(
-                statsJson != null && statsJson.isJsonObject() ? statsJson.getAsJsonObject() : null));
+                statsJson != null && statsJson.isJsonObject()
+                        ? LegacyAchievementSave.withCurrentIds(statsJson.getAsJsonObject())
+                        : null));
         if (json == null || !json.has(UNLOCKED) || !json.get(UNLOCKED).isJsonArray()) {
             return ledger;
         }

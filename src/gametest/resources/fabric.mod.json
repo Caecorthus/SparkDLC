@@ -14,6 +14,9 @@
     ],
     "client": [
       "dev.caecorthus.sparkdlc.gametest.SparkDlcClientAudit"
+    ],
+    "preLaunch": [
+      "dev.caecorthus.sparkdlc.gametest.LegacyClientNamesFixture"
     ]
   },
   "depends": {

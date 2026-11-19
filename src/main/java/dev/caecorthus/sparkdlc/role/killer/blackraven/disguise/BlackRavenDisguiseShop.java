@@ -51,7 +51,7 @@ public final class BlackRavenDisguiseShop {
         }
         for (ShopEntry entry : natives) {
             String id = entry == null ? null : entry.id();
-            // SparkTraitsShopEntryPreserver convention: trait entries survive every role shop rebuild. / 词条条目约定。
+            // TraitShopEntries convention: trait entries survive every role shop rebuild. / 词条条目约定。
             if (TraitShopEntries.isTraitEntry(id) && !isForbidden(id) && emitted.add(id)) {
                 out.add(entry);
             }

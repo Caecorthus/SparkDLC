@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.bear;
 
 import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsCharismaBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsShopEntryPreserver;
+import dev.caecorthus.sparkdlc.trait.api.TraitShopEntries;
 import dev.caecorthus.sparkdlc.headset.HeadsetSlots;
 import dev.caecorthus.sparkdlc.role.civilian.bear.headset.CensEarplugsItem;
 import dev.caecorthus.sparkdlc.role.civilian.bear.helmet.RysTHelmetItem;
@@ -57,12 +57,12 @@ final class BearShopService {
             return;
         }
         // SparkTraits entries may already be present; keep them across the rebuild. / SparkTraits 条目可能已先加入；重建时保留。
-        List<ShopEntry> preservedTraitEntries = SparkTraitsShopEntryPreserver.capture(context);
+        List<ShopEntry> preservedTraitEntries = TraitShopEntries.capture(context);
         context.clearEntries();
         for (BearShopRules.EntrySpec spec : BearShopRules.entries()) {
             context.addEntry(SparkTraitsCharismaBridge.discountShopEntry(player, entry(spec)));
         }
-        SparkTraitsShopEntryPreserver.restore(context, preservedTraitEntries);
+        TraitShopEntries.restore(context, preservedTraitEntries);
     }
 
     /**

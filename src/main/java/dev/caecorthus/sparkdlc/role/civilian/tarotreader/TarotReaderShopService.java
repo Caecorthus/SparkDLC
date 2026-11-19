@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.tarotreader;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.SparkWitchRoles;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsShopEntryPreserver;
+import dev.caecorthus.sparkdlc.trait.api.TraitShopEntries;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.util.ShopEntry;
@@ -39,7 +39,7 @@ public final class TarotReaderShopService {
 
         // SparkTraits 的词条商店监听可能先于 SparkWitch 执行；先保存 sparkdlc:* 条目，
         // 避免下面重建塔罗师专属商店时误删内鬼左轮等词条追加商品。
-        List<ShopEntry> preservedTraitEntries = SparkTraitsShopEntryPreserver.capture(context);
+        List<ShopEntry> preservedTraitEntries = TraitShopEntries.capture(context);
         context.clearEntries();
         context.addEntry(entry(
                 "sparkdlc_tarot_regular",
@@ -65,7 +65,7 @@ public final class TarotReaderShopService {
                 "shop.sparkdlc.tarot.survival.description",
                 TarotReaderDivinationService::purchaseSurvival
         ));
-        SparkTraitsShopEntryPreserver.restore(context, preservedTraitEntries);
+        TraitShopEntries.restore(context, preservedTraitEntries);
     }
 
     private static ShopEntry entry(

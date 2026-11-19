@@ -6051,7 +6051,7 @@ The Angler may query only `isInstinctHidden` through its own client
 `FisherInstinctVisibilityBridge` and `isLastStandDeathIntercepted` through the existing
 `WitchFactorTraitsBridge`, beyond the existing `SparkTraitsApi` seams
 (`blocksWeaponAction`, `isLastEscapeActive`, `shouldCancelMeleeAttack`, `isNonFinalKillPending`)
-and `SparkTraitsShopEntryPreserver`. An absent SparkTraits means nothing hidden, no weapon block, no
+and `TraitShopEntries.capture` / `restore`. An absent SparkTraits means nothing hidden, no weapon block, no
 Last Escape, no parry, no pending fake death, and cleanup on every death; a present build whose
 facade lacks or fails a method falls back per method as those bridges already define (an
 intercepted death skips the Angler's `KillPlayer.AFTER` cleanup, which then runs at reset or finalize).
@@ -6067,12 +6067,12 @@ the round for killers or passengers while a lone Insider lives. Since 2026-11-17
 `isRoleSkillBlocked` (both skills), `blocksWeaponAction` and `isLastEscapeActive` (the fist shot and its targets)
 through `SparkTraitsApi`, `deathWasIntercepted` through `SparkTraitsGunBridge` (fails closed: the shot is
 then no kill), `isDeathIntercepted` through `WitchFactorTraitsBridge` (the kit strip) and
-`SparkTraitsShopEntryPreserver`. Trait effects that need no seam: Final Moment's +1000 coins stay hidden and
+`TraitShopEntries.capture` / `restore`. Trait effects that need no seam: Final Moment's +1000 coins stay hidden and
 unspendable (`CanSeeMoney` DENY), money traits never roll for it, Fast Hands shortens the gun's 20-tick cooldown to
 18, and Stands Firm cancels a fist kill between Team Jiahao members, which then pays the no-kill branch.
 The Blind may query only `isRoleSkillBlocked` (Attune), `setExactItemCooldownRemaining` (the cane)
 and `isLastStandDeathIntercepted` (the kit strip) through `SparkTraitsApi`, beyond
-`SparkTraitsShopEntryPreserver` (its shop rebuild keeps the `sparkdlc:*` entries). An absent,
+`TraitShopEntries.capture` / `restore` (its shop rebuild keeps the `sparkdlc:*` entries). An absent,
 older or failing SparkTraits falls back per method to no skill block, a vanilla cane cooldown, and a
 death that is not intercepted (fail closed): the `KillPlayer.AFTER` strip runs and the 20-tick
 sweep spares no dead Blind.
@@ -6096,7 +6096,7 @@ on the client, clamped to 1.0-1.3) and `hasActiveTrait` (Fast Reload, the 1.4 s 
 `discountShopEntryForCharisma` through `SparkTraitsCharismaBridge`, and `isLastStandDeathIntercepted` through the
 existing `WitchFactorTraitsBridge`, beyond the existing `SparkTraitsApi` seams (`blocksWeaponAction` with its
 `isKillerInteractionBlocked` and `getForcedMeleeCooldownTicks` reads, `isLastEscapeActive`, `isNonFinalKillPending`,
-`setExactItemCooldownRemaining`) and `SparkTraitsShopEntryPreserver`. An absent SparkTraits means a 1.0 multiplier, a
+`setExactItemCooldownRemaining`) and `TraitShopEntries.capture` / `restore`. An absent SparkTraits means a 1.0 multiplier, a
 2 s bolt, task money paid, full prices, no weapon block, no Last Escape, no pending fake death, a vanilla cooldown
 write, and cleanup on every death. A present build whose facade lacks or fails a method falls back per method to a
 1.0 multiplier, a 2 s bolt, no task money (unknown fails closed), full prices, no block, a vanilla write, or an

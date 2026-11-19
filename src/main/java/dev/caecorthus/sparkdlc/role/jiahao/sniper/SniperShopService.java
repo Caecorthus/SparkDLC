@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.jiahao.sniper;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsShopEntryPreserver;
+import dev.caecorthus.sparkdlc.trait.api.TraitShopEntries;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecShopPurchase;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
@@ -43,7 +43,7 @@ public final class SniperShopService {
         if (!SniperRules.isSniperRole(role)) {
             return;
         }
-        List<ShopEntry> preservedTraitEntries = SparkTraitsShopEntryPreserver.capture(context);
+        List<ShopEntry> preservedTraitEntries = TraitShopEntries.capture(context);
         context.clearEntries();
         context.addEntry(ammoEntry());
         context.addEntry(new ShopEntry.Builder(
@@ -52,7 +52,7 @@ public final class SniperShopService {
                 SniperRules.CROWBAR_PRICE,
                 ShopEntry.Type.TOOL
         ).stock(SniperRules.CROWBAR_STOCK).build());
-        SparkTraitsShopEntryPreserver.restore(context, preservedTraitEntries);
+        TraitShopEntries.restore(context, preservedTraitEntries);
     }
 
     /**

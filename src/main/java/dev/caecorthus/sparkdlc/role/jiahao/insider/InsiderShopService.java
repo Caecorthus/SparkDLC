@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.jiahao.insider;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsShopEntryPreserver;
+import dev.caecorthus.sparkdlc.trait.api.TraitShopEntries;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -39,7 +39,7 @@ public final class InsiderShopService {
         }
         // SparkTraits entries may already be present; keep them across the rebuild.
         // SparkTraits 条目可能已先加入；重建时保留它们。
-        List<ShopEntry> preservedTraitEntries = SparkTraitsShopEntryPreserver.capture(context);
+        List<ShopEntry> preservedTraitEntries = TraitShopEntries.capture(context);
         context.clearEntries();
         for (InsiderShopRules.EntrySpec spec : InsiderShopRules.entries()) {
             ShopEntry entry = switch (spec.kind()) {
@@ -48,7 +48,7 @@ public final class InsiderShopService {
             };
             context.addEntry(entry);
         }
-        SparkTraitsShopEntryPreserver.restore(context, preservedTraitEntries);
+        TraitShopEntries.restore(context, preservedTraitEntries);
     }
 
     private static ShopEntry itemEntry(InsiderShopRules.EntrySpec spec, ItemStack stack, ShopEntry.Type type) {

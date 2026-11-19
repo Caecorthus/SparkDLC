@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.fisher;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsShopEntryPreserver;
+import dev.caecorthus.sparkdlc.trait.api.TraitShopEntries;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.util.ShopEntry;
@@ -27,10 +27,10 @@ public final class FisherShopService {
         if (!FisherRules.isFisher(GameWorldComponent.KEY.get(player.getWorld()).getRole(player))) {
             return;
         }
-        var preserved = SparkTraitsShopEntryPreserver.capture(context);
+        var preserved = TraitShopEntries.capture(context);
         context.clearEntries();
         context.addEntry(new ShopEntry.Builder(FisherRules.BAIT_SHOP_ENTRY_ID,
                 SparkWitchItems.fishBait().getDefaultStack(), FisherRules.BAIT_PRICE, ShopEntry.Type.TOOL).build());
-        SparkTraitsShopEntryPreserver.restore(context, preserved);
+        TraitShopEntries.restore(context, preserved);
     }
 }

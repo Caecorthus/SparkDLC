@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.ferryman;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsShopEntryPreserver;
+import dev.caecorthus.sparkdlc.trait.api.TraitShopEntries;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.index.WatheItems;
@@ -52,11 +52,11 @@ public final class FerrymanShopService {
         if (!FerrymanParticipation.isFerryman(GameWorldComponent.KEY.get(player.getWorld()).getRole(player))) {
             return;
         }
-        List<ShopEntry> preserved = SparkTraitsShopEntryPreserver.capture(context);
+        List<ShopEntry> preserved = TraitShopEntries.capture(context);
         context.clearEntries();
         context.addEntry(crowbarEntry());
         context.addEntry(momentEntry());
-        SparkTraitsShopEntryPreserver.restore(context, preserved);
+        TraitShopEntries.restore(context, preserved);
     }
 
     static ShopEntry momentEntry() {

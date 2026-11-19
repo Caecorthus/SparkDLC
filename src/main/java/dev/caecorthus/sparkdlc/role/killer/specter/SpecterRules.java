@@ -6,7 +6,7 @@ import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesSilenceBridge;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsAbyssListenerBridge;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.caecorthus.sparkdlc.role.killer.ninja.NinjaGrappleService;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.caecorthus.sparkdlc.role.witch.abysslistener.AbyssSuppression;
@@ -133,12 +133,12 @@ public final class SpecterRules {
 
     /**
      * Side-neutral copy of {@link #hasRealSanity} for client presentation (the low-sanity viewer outline): the same
-     * public reads ({@link SparkTraitsAbyssListenerBridge} Conscience/Impostor facade, raw role mood type,
+     * public reads ({@code SparkTraitsApi.hasActiveTrait} for Conscience and Impostor, raw role mood type,
      * {@link WraithStateService#isActive}) and the same combination as {@code AbyssSuppression.effectiveRealSanity}.
      * On a client it is only meaningful for the local player, whose own traits and mood are synced to it. An unknown
      * trait answer fails closed (no real sanity). Server rules must keep using {@link #hasRealSanity}.
      * {@link #hasRealSanity} 的两端通用副本，供客户端表现使用（低理智观察者描边）：读取相同的公共数据（
-     * {@link SparkTraitsAbyssListenerBridge} 的良知/内鬼门面、原始职业理智类型、{@link WraithStateService#isActive}），
+     * 针对良知与内鬼的 {@code SparkTraitsApi.hasActiveTrait}、原始职业理智类型、{@link WraithStateService#isActive}），
      * 组合方式与 {@code AbyssSuppression.effectiveRealSanity} 相同。在客户端只对本地玩家有意义，因为只有本人的词条与理智会同步给
      * 本人。词条查询结果未知时失败关闭（视为无真实理智）。服务端规则必须继续使用 {@link #hasRealSanity}。
      */
@@ -149,13 +149,13 @@ public final class SpecterRules {
         if (player instanceof ServerPlayerEntity serverPlayer) {
             return hasRealSanity(serverPlayer);
         }
-        if (Boolean.TRUE.equals(SparkTraitsAbyssListenerBridge.isConscienceActive(player))) {
+        if (SparkTraitsApi.hasActiveTrait(player, TraitIds.CONSCIENCE)) {
             return true;
         }
         Role role = GameWorldComponent.KEY.get(player.getWorld()).getRole(player);
         return role != null
                 && role.getMoodType() == Role.MoodType.REAL
-                && Boolean.FALSE.equals(SparkTraitsAbyssListenerBridge.isImpostorActive(player));
+                && !SparkTraitsApi.hasActiveTrait(player, TraitIds.IMPOSTOR);
     }
 
     /** Effective real sanity at or below {@link #LOW_SANITY_THRESHOLD}. / 有效真实理智且不高于 {@link #LOW_SANITY_THRESHOLD}。 */

@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.civilian.seeker.remote;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.compat.noellesroles.SeekerControlExpertBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsSeekerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerCameraRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerCarState;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerExitReason;
@@ -103,7 +103,7 @@ public final class SeekerRemoteSessionService {
                 device != null && status.sessionMode() == requested
                         && status.state().sessionFocusEntityId() == device.getId(),
                 NoellesTaotieSeekerBridge.isSwallowed(player),
-                SparkTraitsSeekerBridge.isLastStandPending(player),
+                SparkTraitsApi.isLastStandPending(player),
                 SeekerRemoteRules.isBodyGrounded(player.isOnGround(), player.hasVehicle(), player.isTouchingWater()),
                 SeekerRemoteRules.isOpenThrottled(lastOpen == null ? -1L : lastOpen, now),
                 SeekerConsoleDevices.hasConsoleDevice(player),
@@ -262,7 +262,7 @@ public final class SeekerRemoteSessionService {
         if (NoellesTaotieSeekerBridge.isSwallowed(player)) {
             return SeekerExitReason.BODY_SWALLOWED;
         }
-        if (SparkTraitsSeekerBridge.isLastStandPending(player)) {
+        if (SparkTraitsApi.isLastStandPending(player)) {
             return SeekerExitReason.LAST_STAND;
         }
         if (!player.isAlive() || game.isPlayerDead(player.getUuid())) {

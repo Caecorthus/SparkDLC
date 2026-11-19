@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.medium;
 
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsAbyssListenerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameConstants;
@@ -212,7 +212,7 @@ public final class MediumRules {
                 && mayVote(GameWorldComponent.KEY.get(player.getWorld()), player.getUuid())
                 && !SparkWitchApi.isWraithActive(player)
                 && !SparkWitchApi.isWraithPromoted(player)
-                && !SparkTraitsAbyssListenerBridge.isLastStandPending(player);
+                && !SparkTraitsApi.isLastStandPending(player);
     }
 
     public static boolean isMediumId(@Nullable Identifier roleId) {

@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.killer.specter;
 
 import dev.caecorthus.sparkdlc.cooldown.api.ForcedCooldowns;
 import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsAbyssListenerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -222,7 +222,7 @@ public final class SpecterSecondSkillComponent
         // the window still ends with the world window and the cast's invisibility.
         // SparkTraits 背水一战会在复活前把玩家以旁观者身份保持数秒，死亡钩子在该被拦截的死亡中保留本状态：这里不清空任何东西，
         // 计时照常倒数，使窗口仍与世界窗口及施放时的隐身同时结束。
-        boolean lastStandPending = SparkTraitsAbyssListenerBridge.isLastStandPending(owner);
+        boolean lastStandPending = SparkTraitsApi.isLastStandPending(owner);
         if (!lastStandPending
                 && (!GameFunctions.isPlayerPlayingAndAlive(owner)
                 || GameFunctions.isPlayerSpectatingOrCreative(owner))) {

@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.civilian.seeker;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.compat.noellesroles.SeekerControlExpertBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsSeekerBridge;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.caecorthus.sparkdlc.role.killer.kidnapper.KidnapperControlComponent;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
@@ -101,7 +101,7 @@ public final class SeekerTargeting {
     public static boolean isBodyAvailable(ServerPlayerEntity player) {
         return player != null
                 && !NoellesTaotieSeekerBridge.isSwallowed(player)
-                && !SparkTraitsSeekerBridge.isLastStandPending(player)
+                && !SparkTraitsApi.isLastStandPending(player)
                 && !isKidnapped(player);
     }
 
@@ -131,7 +131,7 @@ public final class SeekerTargeting {
                 () -> SparkTraitsApi.isRoleSkillBlocked(player),
                 () -> SeekerControlExpertBridge.isStunned(player),
                 () -> isKidnapped(player),
-                () -> SeekerRules.devicesDenied(SparkTraitsSeekerBridge.isImpostorOrUnknown(player)));
+                () -> SeekerRules.devicesDenied(SparkTraitsApi.hasActiveTrait(player, TraitIds.IMPOSTOR)));
     }
 
     /**

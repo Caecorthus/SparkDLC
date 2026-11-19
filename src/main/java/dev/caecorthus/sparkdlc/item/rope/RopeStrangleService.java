@@ -3,7 +3,6 @@ package dev.caecorthus.sparkdlc.item.rope;
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsSeekerBridge;
 import dev.caecorthus.sparkdlc.role.killer.hiro.returning.HiroReturnService;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -335,7 +334,7 @@ public final class RopeStrangleService {
         GameFunctions.killPlayer(victim, true, user, SparkWitchDeathReasons.STRANGLED);
         RopeRules.Outcome outcome = RopeRules.outcome(
                 GameWorldComponent.KEY.get(session.world).isPlayerDead(session.victim),
-                SparkTraitsSeekerBridge.isLastStandPending(victim),
+                SparkTraitsApi.isLastStandPending(victim),
                 HiroReturnService.isFeignedVictim(victim));
         if (outcome == RopeRules.Outcome.CONSUMED) {
             // The shared EMPTY stack is never written. / 绝不写入共享的 EMPTY 物品堆。

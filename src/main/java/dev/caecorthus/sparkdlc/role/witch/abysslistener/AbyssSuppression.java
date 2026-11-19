@@ -3,7 +3,8 @@ package dev.caecorthus.sparkdlc.role.witch.abysslistener;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.cooldown.api.ForcedCooldowns;
 import dev.caecorthus.sparkdlc.SparkWitchFactions;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsAbyssListenerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.caecorthus.sparkdlc.util.RoundParticipants;
 import dev.doctor4t.wathe.api.Role;
@@ -91,8 +92,8 @@ public final class AbyssSuppression {
         Role role = GameWorldComponent.KEY.get(player.getWorld()).getRole(player);
         return effectiveRealSanity(
                 role != null && role.getMoodType() == Role.MoodType.REAL,
-                SparkTraitsAbyssListenerBridge.isConscienceActive(player),
-                SparkTraitsAbyssListenerBridge.isImpostorActive(player),
+                SparkTraitsApi.hasActiveTrait(player, TraitIds.CONSCIENCE),
+                SparkTraitsApi.hasActiveTrait(player, TraitIds.IMPOSTOR),
                 WraithStateService.isActive(player));
     }
 

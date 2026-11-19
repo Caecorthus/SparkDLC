@@ -2,7 +2,6 @@ package dev.caecorthus.sparkdlc.role.civilian.athlete;
 
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsSeekerBridge;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.remote.SeekerRemoteSessionService;
 import dev.caecorthus.sparkdlc.role.killer.hunter.HunterPlayerComponent;
@@ -102,7 +101,7 @@ public final class AthleteDashService {
         KidnapperControlComponent kidnap = KidnapperControlComponent.KEY.getNullable(player);
         HunterPlayerComponent hunter = HunterPlayerComponent.KEY.getNullable(player);
         return NoellesTaotieSeekerBridge.isSwallowed(player)
-                || SparkTraitsSeekerBridge.isLastStandPending(player)
+                || SparkTraitsApi.isLastStandPending(player)
                 || SparkTraitsApi.isLastEscapeActive(player)
                 || kidnap != null && kidnap.isControlled()
                 || ControlExpertStun.isStunned(player)

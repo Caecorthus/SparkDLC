@@ -1770,8 +1770,8 @@ Current build baseline:
   predicates (`AbyssListenerRules`), the role definition (`AbyssListenerRole`), its special-accomplice pool entry and
   feature wiring (`AbyssListenerFeatureService`), the role-owned shop (`AbyssListenerShopService`), replay formatters
   (`AbyssListenerReplayFormatters`), and `AbyssSuppression`, the only place the skill, the gun, and the zone decide
-  eligibility and write suppression state. Its optional SparkTraits reads live in
-  `bridge/witch/SparkTraitsAbyssListenerBridge`.
+  eligibility and write suppression state. Its trait reads (Conscience, Impostor) ask
+  `SparkTraitsApi.hasActiveTrait` directly.
   - `shriek/`: `WardensShriekService`, the Warden's Shriek handler on the shared Witch-skill path.
   - `gun/`: the Shriek Gun: `ShriekGunItem` (the `Item#use` entry), `ShriekGunService` (server fire mode, match
     beam, hit, presentation, record, and the off-match presentation shot), `ShriekGunRules` (pure fire mode, ally/enemy
@@ -1828,7 +1828,7 @@ Current build baseline:
   gate, nearest-wins raycasts, the breaker mark), `net/` (payloads), `console/` (tablet console
   service), and `taotie/` (NoellesRoles Taotie swallow seam). Its mixins live in `mixin/role/civilian/seeker/`
   and `client/mixin/role/civilian/seeker/`; client presentation (console screen, remote view and car driver,
-  device renderers) in `client/role/civilian/seeker/`. Cross-mod seams go through `bridge/witch/SparkTraitsSeekerBridge`,
+  device renderers) in `client/role/civilian/seeker/`. Cross-mod seams go through `SparkTraitsApi` (asked directly),
   `compat/noellesroles/SeekerControlExpertBridge`, `compat/noellesroles/NoellesTaotieSeekerBridge`,
   `bridge/witch/SparkStrengthTabletCompat`, and `bridge/witch/SparkStrengthM67Compat`.
 - `role/civilian/usec/`: USEC (`sparkdlc:usec`), the fifth police variant. Its only weapon is the AXMC bolt-action
@@ -5894,7 +5894,7 @@ client renders and sends requests. Its `gui.sparkdlc.skills` panel shows only `s
   opt-out; a vetoed kill (older SparkTraits) moves the Swapper back with NR's 60 s cooldown.
 - **Cross-mod seams.** SparkTraits only through existing bridges, failing closed: `isKillerInteractionBlocked`,
   `isRoleSkillBlocked`, `isLastEscapeActive`, `registerTerminalDeathReason` (`SparkTraitsApi`),
-  `isLastStandPending` (`SparkTraitsSeekerBridge`), `isLastStandDeathIntercepted` (`WitchFactorTraitsBridge`).
+  `isLastStandPending` (`SparkTraitsApi`), `isLastStandDeathIntercepted` (`WitchFactorTraitsBridge`).
   SparkStrength only by id (tablet, M67, `sparkdlc:engineer_stunned`). SparkTraits
   `feat/accomplice-riftwalker-support` adds the Riftwalker to its five hard-coded accomplice id sets.
 - **Gaps and tests.** Open owner calls:
@@ -6016,7 +6016,7 @@ round time or grants a stamp; the curse tick clears a victim who stops playing, 
 non-holder sweep removes a dead Time Stealer's Clock and stamps.
 The Riftwalker may query only `isKillerInteractionBlocked`, `isRoleSkillBlocked`, `isLastEscapeActive` and
 `registerTerminalDeathReason` through `SparkTraitsApi`, `isLastStandPending` through
-`SparkTraitsSeekerBridge`, and the Last Stand interception read through `WitchFactorTraitsBridge` (details in its
+`SparkTraitsApi`, and the Last Stand interception read through `WitchFactorTraitsBridge` (details in its
 section); an absent or older build means no block and no terminal registration for `sparkdlc:portal_crushed`.
 The Ceremonial Sword and a credited Fire Poker fall may query only
 `isNonFinalKillPending`, `getNonFinalKillCooldownTicks`, and
@@ -6035,7 +6035,7 @@ money (Judge semantics), a vanilla cooldown, or an intercepted death: the `KillP
 cleanup is skipped, the stun counters still drop once the victim stops participating, and
 owned effects are removed at reset, finalize, or disconnect.
 The Seeker may query only `isLastStandPending` and `hasActiveTrait` (Impostor) through
-`bridge/witch/SparkTraitsSeekerBridge`, `isInstinctHidden` through its own client
+`SparkTraitsApi`, `isInstinctHidden` through its own client
 `SeekerInstinctVisibilityBridge`, `discountShopEntryForCharisma` through
 `SparkTraitsCharismaBridge`, and `isLastStandDeathIntercepted` through the existing
 `WitchFactorTraitsBridge`, beyond the existing `SparkTraitsApi` seams
@@ -6079,7 +6079,7 @@ sweep spares no dead Blind.
 Saint Karma may query only `setExactItemCooldownRemaining` (its per-tick raise of every carried item) through
 `SparkTraitsApi`; an absent, older or failing SparkTraits means a vanilla Karma write.
 The Abyss Listener may query only `isLastStandPending` and `hasActiveTrait` (Conscience and Impostor) through
-`bridge/witch/SparkTraitsAbyssListenerBridge`; `isLastEscapeActive`, `isRoleSkillBlocked` (the shriek), and
+`SparkTraitsApi`; `isLastEscapeActive`, `isRoleSkillBlocked` (the shriek), and
 `blocksWeaponAction` (the gun and the flask throw, with its `isKillerInteractionBlocked` and
 `getForcedMeleeCooldownTicks` reads) through the existing `SparkTraitsApi`; `isLastStandDeathIntercepted`
 (gun removal at death) through the existing `WitchFactorTraitsBridge`; and the push-fall queries above. Its Wraith

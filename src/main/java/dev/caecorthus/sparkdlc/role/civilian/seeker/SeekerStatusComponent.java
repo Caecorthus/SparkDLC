@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker;
 
 import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsSeekerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerCooldowns;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerDeviceService;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerDeviceSounds;
@@ -194,7 +194,7 @@ public final class SeekerStatusComponent
         // 2. Final-death fallback; a Last Stand pending death is an alive-spectator state, not a final death.
         // 2. 最终死亡兜底；背水一战待定属于活着的旁观状态，而非最终死亡。
         GameWorldComponent game = GameWorldComponent.KEY.get(owner.getWorld());
-        if (game.isPlayerDead(owner.getUuid()) && !SparkTraitsSeekerBridge.isLastStandPending(owner)) {
+        if (game.isPlayerDead(owner.getUuid()) && !SparkTraitsApi.isLastStandPending(owner)) {
             SeekerLifecycleService.cleanUp(owner, SeekerExitReason.DIED);
             return;
         }

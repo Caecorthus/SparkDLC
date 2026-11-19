@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.faction.api.FactionWinContext;
 import dev.caecorthus.sparkdlc.faction.api.FactionWinResult;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesRoleIds;
 import dev.caecorthus.sparkdlc.compat.noellesroles.ShadowJesterShowdownBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsLastStandBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenSettlement;
 import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendParticipation;
 import dev.caecorthus.sparkdlc.role.witch.WitchFactionRules;
@@ -128,7 +128,7 @@ public final class WitchWinConditions {
             } else if (role != null && role.canUseKiller()) {
                 livingNativeKillerCount++;
             } else if (countsAsShadowShowdownOther(
-                    SparkTraitsLastStandBridge.hasTriggeredThisRound(context.world(), player.getUuid())
+                    SparkTraitsApi.hasLastStandTriggeredThisRound(context.world(), player.getUuid())
             )) {
                 // Last Stand survivors already paid a death for Shadow Jester showdown gating only.
                 // 触发过背水一战的好人只在双影谢幕门槛里视作已经死过，不改变其他结算。
@@ -168,7 +168,7 @@ public final class WitchWinConditions {
             }
             // Last Stand outlaws must be eliminated before Shadow Jester showdown can settle.
             // 触发过背水一战的亡命徒必须先被解决，双影谢幕才能结算。
-            if (SparkTraitsLastStandBridge.hasTriggeredThisRound(world, player.getUuid())) {
+            if (SparkTraitsApi.hasLastStandTriggeredThisRound(world, player.getUuid())) {
                 livingLastStandOutlawCount++;
             }
         }

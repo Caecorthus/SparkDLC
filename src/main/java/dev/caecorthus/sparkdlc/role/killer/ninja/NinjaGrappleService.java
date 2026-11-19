@@ -4,7 +4,6 @@ import dev.caecorthus.sparkdlc.SparkWitchEntities;
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsSeekerBridge;
 import dev.caecorthus.sparkdlc.entity.NinjaGrapplingHookEntity;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.remote.SeekerRemoteSessionService;
@@ -130,7 +129,7 @@ public final class NinjaGrappleService {
         KidnapperControlComponent kidnap = KidnapperControlComponent.KEY.getNullable(player);
         HunterPlayerComponent hunter = HunterPlayerComponent.KEY.getNullable(player);
         return NoellesTaotieSeekerBridge.isSwallowed(player)
-                || SparkTraitsSeekerBridge.isLastStandPending(player)
+                || SparkTraitsApi.isLastStandPending(player)
                 || SparkTraitsApi.isLastEscapeActive(player)
                 || kidnap != null && kidnap.isControlled()
                 || ControlExpertStun.isStunned(player)

@@ -3,7 +3,6 @@ package dev.caecorthus.sparkdlc.role.witch.riftwalker.session;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsSeekerBridge;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.ApprenticeResonance;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.remote.SeekerRemoteSessionService;
@@ -433,7 +432,7 @@ public final class RiftSessionService {
                 player.isSpectator(),
                 player.getCameraEntity() == player,
                 NoellesTaotieSeekerBridge.isSwallowed(player),
-                SparkTraitsSeekerBridge.isLastStandPending(player),
+                SparkTraitsApi.isLastStandPending(player),
                 previous));
         long readyAt = RiftSessionRules.appliesCooldown(reason, closeReason)
                 ? world.getTime() + Math.max(0, RiftSessionRules.reentryCooldownTicks(session.sessionUser(),
@@ -510,7 +509,7 @@ public final class RiftSessionService {
                 world.getRegistryKey().equals(session.sessionWorld()),
                 !player.isAlive() || game.isPlayerDead(player.getUuid()),
                 NoellesTaotieSeekerBridge.isSwallowed(player),
-                SparkTraitsSeekerBridge.isLastStandPending(player),
+                SparkTraitsApi.isLastStandPending(player),
                 player.getCameraEntity() == player,
                 player.isSpectator(),
                 RiftGateUsers.classify(player) == session.sessionUser(),
@@ -547,7 +546,7 @@ public final class RiftSessionService {
     private static boolean isControlled(ServerPlayerEntity player) {
         KidnapperControlComponent kidnap = KidnapperControlComponent.KEY.getNullable(player);
         return NoellesTaotieSeekerBridge.isSwallowed(player)
-                || SparkTraitsSeekerBridge.isLastStandPending(player)
+                || SparkTraitsApi.isLastStandPending(player)
                 || SparkTraitsApi.isLastEscapeActive(player)
                 || kidnap != null && kidnap.isControlled()
                 || ControlExpertStun.isStunned(player)

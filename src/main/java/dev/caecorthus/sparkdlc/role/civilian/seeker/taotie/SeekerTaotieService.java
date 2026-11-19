@@ -4,7 +4,6 @@ import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.compat.noellesroles.SeekerControlExpertBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsSeekerBridge;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerCarState;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerStatusComponent;
@@ -138,7 +137,7 @@ public final class SeekerTaotieService {
         UUID lostTo = component.carLostTo();
         if (SeekerTaotieRules.shouldAttemptReturn(component.carState(), component.pendingReturn(), lostTo,
                 () -> SeekerTaotieRules.isFinalDeath(game.isPlayerDead(lostTo),
-                        SparkTraitsSeekerBridge.isLastStandPending(server.getPlayerManager().getPlayer(lostTo))),
+                        SparkTraitsApi.isLastStandPending(server.getPlayerManager().getPlayer(lostTo))),
                 () -> NoellesTaotieSeekerBridge.isTaotie(game, lostTo))) {
             SeekerDeviceService.returnSwallowedCar(owner);
         }

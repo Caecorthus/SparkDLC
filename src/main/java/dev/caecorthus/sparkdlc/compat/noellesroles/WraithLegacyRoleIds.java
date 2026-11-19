@@ -12,7 +12,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Exact read-boundary aliases for the six former SparkTraits role ids. / 六个旧 SparkTraits 角色 id 的精确读取别名。 */
+/**
+ * Exact read-boundary aliases for the legacy ids of the six Wraith-family roles: {@code sparktraits:<role>} (when
+ * SparkTraits hosted them) and {@code sparkwitch:<role>} (before the single {@code sparkdlc} namespace) both lead to
+ * the role's current id.
+ * 冤魂系六个角色旧 id 的精确读取别名：{@code sparktraits:<role>}（由 SparkTraits 托管时）与 {@code sparkwitch:<role>}
+ * （统一为 {@code sparkdlc} 命名空间之前）都指向角色当前的 id。
+ */
 public final class WraithLegacyRoleIds {
     /**
      * The namespaces these six roles were saved under before their current id, most recent first: when a save holds
@@ -20,7 +26,7 @@ public final class WraithLegacyRoleIds {
      * 这六个角色在使用当前 id 之前保存时用过的命名空间，按从新到旧排列：存档里同一角色出现在多个旧命名空间下时，以最新的为准。
      * 有意写死：它们是旧存档里的名字。
      */
-    private static final List<String> LEGACY_NAMESPACES = List.of("sparktraits");
+    private static final List<String> LEGACY_NAMESPACES = List.of("sparkwitch", "sparktraits");
     private static final List<String> ROLE_PATHS =
             List.of("wraith", "wind_spirit", "guardian_angel", "vendetta", "saboteur", "curser");
     /** Legacy id to the role's current id, in {@link #LEGACY_NAMESPACES} order. / 旧 id 到当前角色 id，按上述顺序。 */

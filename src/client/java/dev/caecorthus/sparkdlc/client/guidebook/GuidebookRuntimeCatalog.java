@@ -140,10 +140,11 @@ public final class GuidebookRuntimeCatalog {
     /**
      * Ids a guide page may name as its required mods. A container also answers for the ids it {@code provides}:
      * SparkDLC is one container that provides {@code sparkwitch}, {@code sparktraits}, {@code sparkstrength},
-     * {@code sparkfactionapi} and {@code sparkassist}, and the guide pages still name those module ids.
+     * {@code sparkfactionapi} and {@code sparkassist}, so a guide page from a resource pack that still names one of
+     * those legacy module ids stays available (the built-in pages name {@code sparkdlc}).
      * 指南页面可声明为“所需模组”的 id。容器同时代表它 {@code provides} 的 id：SparkDLC 是一个容器，提供
      * {@code sparkwitch}、{@code sparktraits}、{@code sparkstrength}、{@code sparkfactionapi} 与
-     * {@code sparkassist}，而指南页面仍然按这些模块 id 声明。
+     * {@code sparkassist}，因此资源包中仍按这些旧模块 id 声明的指南页面依然可用（内置页面声明的是 {@code sparkdlc}）。
      */
     private static Set<String> loadedModIds() {
         Set<String> ids = new HashSet<>();

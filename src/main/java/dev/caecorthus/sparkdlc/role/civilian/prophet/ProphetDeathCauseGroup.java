@@ -27,8 +27,8 @@ public enum ProphetDeathCauseGroup {
     OTHER;
 
     // Ids verified against wathe-1.5.6-spark-1.21.1, NoellesRoles, SparkTraits and SparkWitch kill sites. Every
-    // sparkwitch death reason must have an entry (owner-picked group); a local test fails when one is missing.
-    // id 已对照 wathe-1.5.6-spark-1.21.1、NoellesRoles、SparkTraits 与 SparkWitch 的击杀调用核实。每个 sparkwitch
+    // sparkdlc death reason must have an entry (owner-picked group); a local test fails when one is missing.
+    // id 已对照 wathe-1.5.6-spark-1.21.1、NoellesRoles、SparkTraits 与 SparkWitch 的击杀调用核实。每个 sparkdlc
     // 死因都必须有条目（分组由所有者决定）；缺少条目时本地测试会失败。
     private static final Map<Identifier, ProphetDeathCauseGroup> BY_REASON = Map.ofEntries(
             entry("wathe:knife_stab", BLADE),

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "sparkdlc_gametest",
+  "version": "1.0.0",
+  "name": "SparkDLC game tests",
+  "description": "Headless boot and mixin-audit tests for SparkDLC. Never shipped: this source set is not part of the mod jar.",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-gametest": [
+      "dev.caecorthus.sparkdlc.gametest.SparkDlcBootTest"
+    ],
+    "client": [
+      "dev.caecorthus.sparkdlc.gametest.SparkDlcClientAudit"
+    ]
+  },
+  "depends": {
+    "sparkdlc": "*",
+    "fabric-gametest-api-v1": "*"
+  }
+}

@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.assist.client.settings;
 
+import dev.caecorthus.sparkdlc.SparkDlcModule;
 import dev.caecorthus.sparkdlc.assist.client.config.SparkAssistClientSettings;
 import dev.caecorthus.sparkdlc.assist.config.BloodAppearance;
 import dev.caecorthus.sparkdlc.assist.config.ChargeIndicatorStyle;
@@ -281,10 +282,18 @@ public final class SparkDlcSettingsPages {
         return new SettingsPage(DISPLAY, Text.translatable("screen.sparkassist.settings.page.display"), groups);
     }
 
-    /** The installed mod's display name, so a volume row says whose sounds it scales. 已安装模组的显示名。 */
+    /**
+     * The display name of the module or mod, so a volume row says whose sounds it scales. A SparkDLC module is named
+     * by itself (SparkWitch, SparkStrength, ...): its container is the shared SparkDLC one, whose name would label
+     * every module row the same.
+     * 模块或模组的显示名，让音量行说明它调节的是谁的声音。SparkDLC 的模块用自己的名字（SparkWitch、SparkStrength……）：
+     * 它们的容器是共用的 SparkDLC，容器名会让每一行都显示成同一个名字。
+     */
     private static Text modName(String modId) {
-        return Text.literal(FabricLoader.getInstance().getModContainer(modId)
-                .map(container -> container.getMetadata().getName())
+        return Text.literal(SparkDlcModule.byNamespace(modId)
+                .map(SparkDlcModule::displayName)
+                .or(() -> FabricLoader.getInstance().getModContainer(modId)
+                        .map(container -> container.getMetadata().getName()))
                 .orElse(modId));
     }
 

@@ -136,9 +136,20 @@ public final class GuidebookRuntimeCatalog {
         }
     }
 
+    /**
+     * Ids a guide page may name as its required mods. A container also answers for the ids it {@code provides}:
+     * SparkDLC is one container that provides {@code sparkwitch}, {@code sparktraits}, {@code sparkstrength},
+     * {@code sparkfactionapi} and {@code sparkassist}, and the guide pages still name those module ids.
+     * 指南页面可声明为“所需模组”的 id。容器同时代表它 {@code provides} 的 id：SparkDLC 是一个容器，提供
+     * {@code sparkwitch}、{@code sparktraits}、{@code sparkstrength}、{@code sparkfactionapi} 与
+     * {@code sparkassist}，而指南页面仍然按这些模块 id 声明。
+     */
     private static Set<String> loadedModIds() {
         Set<String> ids = new HashSet<>();
-        FabricLoader.getInstance().getAllMods().forEach(mod -> ids.add(mod.getMetadata().getId()));
+        FabricLoader.getInstance().getAllMods().forEach(mod -> {
+            ids.add(mod.getMetadata().getId());
+            ids.addAll(mod.getMetadata().getProvides());
+        });
         return Set.copyOf(ids);
     }
 }

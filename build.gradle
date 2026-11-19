@@ -21,6 +21,46 @@ loom {
     }
 }
 
+// Headless game tests (src/gametest): `./gradlew runGameTest` boots a real server with all modules and runs them.
+// The source set has its own mod id and is never part of the SparkDLC jar.
+// 无界面游戏测试（src/gametest）：`./gradlew runGameTest` 启动加载全部模块的真实服务器并运行测试。
+// 该源码集有自己的 mod id，不会进入 SparkDLC 的 jar。
+fabricApi {
+    configureTests {
+        createSourceSet = true
+        modId = "sparkdlc_gametest"
+        enableGameTests = true
+        enableClientGameTests = false
+        eula = false
+    }
+}
+
+// The client half of the boot check lives in the same source set (SparkDlcClientAudit), so it also sees client classes.
+// `./gradlew runClientAudit` opens a real client window for about half a minute and closes it by itself.
+// 启动检查的客户端部分与服务端部分在同一源码集（SparkDlcClientAudit），因此也需要看到客户端类。
+// `./gradlew runClientAudit` 会打开真实客户端窗口约半分钟，然后自行关闭。
+sourceSets.gametest {
+    compileClasspath += sourceSets.client.compileClasspath + sourceSets.client.output
+    runtimeClasspath += sourceSets.client.runtimeClasspath + sourceSets.client.output
+}
+
+loom {
+    runs {
+        clientAudit {
+            client()
+            configName = "Client Audit"
+            source sourceSets.gametest
+            vmArg "-Dsparkdlc.clientAudit=true"
+            // Mixin's dev-only DEBUG_INJECTORS turns every `require = 0` miss into a crash; several injectors are
+            // written to miss on one of the two NoellesRoles builds. Production never runs that check.
+            // Mixin 仅开发环境启用的 DEBUG_INJECTORS 会把每个 `require = 0` 的未命中变成崩溃；有几个注入器本来就
+            // 设计为在两个 NoellesRoles 构建之一上未命中。正式环境不会执行这项检查。
+            vmArg "-Dmixin.debug=false"
+            runDir "build/run/clientAudit"
+        }
+    }
+}
+
 // Tests may exercise client classes (shared info card, guidebook layout, HUD rules).
 // 测试会用到客户端类（共享信息卡、指南布局、HUD 规则）。
 sourceSets.test {

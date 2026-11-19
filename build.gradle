@@ -227,6 +227,12 @@ processResources {
     filesMatching("fabric.mod.json") {
         expand expansions
     }
+
+    // The legacy-name table is tooling output and a runtime resource at once: LegacyIds reads it from the jar.
+    // 旧名称对照表既是工具产物也是运行时资源：LegacyIds 从 jar 中读取它。
+    from("tools/unify/legacy-ids.tsv") {
+        into "sparkdlc"
+    }
 }
 
 def noticeFiles = {

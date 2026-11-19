@@ -1,0 +1,19 @@
+/.gradle/
+.idea/
+/build/
+/bin/
+/out/
+/run/
+/logs/
+*.iml
+*.log
+.DS_Store
+/ARCHITECTURE.md
+/ARCHITECTURE_LOGS.md
+/ARCHITECTURE LOGS.md
+
+# Local test sources
+/src/test/
+/test-review.diff
+
+/docs/

@@ -1,0 +1,90 @@
+package dev.caecorthus.sparkdlc.witch.roles.civilian.saint;
+
+import dev.caecorthus.sparkdlc.factionapi.api.FactionIds;
+import dev.caecorthus.sparkdlc.factionapi.api.SparkFactionApi;
+import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
+import dev.caecorthus.sparkdlc.witch.record.AchievementRecords;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.flash.HolyFlashFeatureService;
+import dev.doctor4t.wathe.api.Role;
+import dev.doctor4t.wathe.api.event.KillPlayer;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Nullable;
+
+/**
+ * Owns Saint kill protection at Wathe's kill entry point and post-kill Karma through its public event, and wires the
+ * Saint shop and the Holy Flash lifecycle.
+ * 在 Wathe 击杀入口执行圣徒保护，并通过公开事件处理击杀后的业障逻辑；同时注册圣徒商店与圣光弹生命周期。
+ */
+public final class SaintFeatureService {
+    private static boolean registered;
+
+    private SaintFeatureService() {
+    }
+
+    public static synchronized void register() {
+        if (registered) {
+            return;
+        }
+        registered = true;
+        SaintEconomyService.register();
+        SaintShopService.register();
+        HolyFlashFeatureService.register();
+        KillPlayer.AFTER.register(SaintFeatureService::afterKill);
+    }
+
+    public static void assignForRole(ServerPlayerEntity player, Role role) {
+        SaintAbilityService.assignForRole(player, role);
+        SaintEconomyService.assignForRole(player, role);
+        if (SaintRules.isKarmaImmune(role)) {
+            SaintKarmaService.clear(player);
+        }
+    }
+
+    /**
+     * Called by the GameFunctions mixin before Wathe's short-circuiting BEFORE listeners.
+     * 由 GameFunctions mixin 在 Wathe 会短路的 BEFORE 监听器之前调用。
+     */
+    public static boolean blocksKill(
+            ServerPlayerEntity victim,
+            @Nullable ServerPlayerEntity killer,
+            Identifier deathReason
+    ) {
+        GameWorldComponent gameComponent = GameWorldComponent.KEY.get(victim.getServerWorld());
+        boolean saintVictim = SaintRules.isSaint(gameComponent.getRole(victim));
+        Identifier killerFaction = saintVictim && killer != null
+                ? SparkFactionApi.resolveEffectiveFaction(killer, gameComponent)
+                : null;
+        return SaintRules.blocksKill(saintVictim, killerFaction, deathReason);
+    }
+
+    private static void afterKill(
+            ServerPlayerEntity victim,
+            @Nullable ServerPlayerEntity killer,
+            Identifier deathReason
+    ) {
+        GameWorldComponent gameComponent = GameWorldComponent.KEY.get(victim.getServerWorld());
+        WitchPlayerComponent victimComponent = WitchPlayerComponent.KEY.get(victim);
+        boolean activeSaintDied = SaintRules.isSaint(gameComponent.getRole(victim))
+                && victimComponent.getSaintState().isHellfireActive();
+        if (activeSaintDied) {
+            if (victimComponent.getSaintState().clearHellfire()) {
+                victimComponent.sync();
+            }
+            if (killer != null
+                    && !killer.getUuid().equals(victim.getUuid())
+                    && !FactionIds.CIVILIAN.equals(
+                    SparkFactionApi.resolveEffectiveFaction(killer, gameComponent))
+                    && SaintKarmaService.mark(killer)) {
+                // Achievement record W12, only past the Karma immunity check.
+                // 成就记录 W12，仅在通过业障免疫检查后写入。
+                AchievementRecords.saintKarma(victim, killer);
+            }
+        }
+
+        if (killer != null && !killer.getUuid().equals(victim.getUuid())) {
+            SaintKarmaService.trigger(killer);
+        }
+    }
+}

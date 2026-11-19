@@ -1,0 +1,96 @@
+package dev.caecorthus.sparkdlc.witch.client.scope;
+
+import net.minecraft.client.gui.DrawContext;
+
+/**
+ * Weapon-owned scope parameters, polled every frame while a provider returns this profile (the USEC rifle and the
+ * Potion Gunner launcher). The scope module owns zoom easing, mouse scaling, the lens picture and the rim; the weapon
+ * owns only these numbers and its reticle. Client-only presentation: the server never sees any of it.
+ * 武器自有的瞄准镜参数，在提供者返回该配置期间每帧轮询（USEC 狙击枪与药炮手炮筒）。开镜模块负责放大缓动、
+ * 鼠标缩放、镜片画面与镜框；武器只提供这些数值与自己的分划。纯客户端展示，服务端完全不可见。
+ */
+public interface ScopeProfile {
+    /**
+     * Multiplier on the local player's FOV multiplier while scoped: 1 = no zoom, smaller zooms in (USEC's variable
+     * zoom uses 1 / magnification through {@link ScopeVariableZoom#fovMultiplier}, so 0.25 = 4x; the launcher derives
+     * its true 2.7x from the FOV option). Polled every frame, so a profile may return a value that changes smoothly.
+     * Vanilla eases the change and clamps the eased multiplier at 0.1, so 10x is the deepest zoom. Non-finite or
+     * non-positive values mean no zoom.
+     * 开镜时本地玩家 FOV 倍率的乘数：1 = 不放大，越小放得越大（USEC 的可变倍率经 {@link ScopeVariableZoom#fovMultiplier}
+     * 使用 1 / 倍率，因此 0.25 = 4 倍；炮筒按视场角选项换算出真实 2.7 倍）。每帧轮询，因此配置可以返回平滑变化的值。原版会
+     * 缓动该变化，并把缓动后的倍率钳制在 0.1，因此最深为 10 倍。非有限值或非正值视为不放大。
+     */
+    float fovMultiplier();
+
+    /**
+     * Base mouse-look multiplier while scoped, before the player's "Scoped Sensitivity" percentage is applied.
+     * 开镜时的基础鼠标视角倍率，再乘以玩家「开镜灵敏度」百分比。
+     */
+    float sensitivityMultiplier();
+
+    /**
+     * Draws the reticle on the HUD crosshair layer, after the scope module has drawn the lens rim; called only while
+     * scoped and the HUD is shown. The matrix stack is untouched (identity); {@code frame} gives the lens geometry in
+     * scaled GUI pixels and the real projection FOV.
+     * 在 HUD 准星层绘制分划，开镜模块已先画好镜框；仅在开镜且 HUD 显示时调用。矩阵栈未改动（单位矩阵）；
+     * {@code frame} 以缩放后的 GUI 像素给出镜片几何与真实投影视场角。
+     */
+    void drawReticle(DrawContext context, ScopeFrame frame);
+
+    /**
+     * The mouse wheel turned while this profile is active ({@code ScopeMouseScrollMixin}: in game, no screen or
+     * overlay, after every HEAD lock on {@code Mouse#onMouseScroll} has passed). {@code notches} is the vertical delta
+     * exactly as vanilla would accumulate it (discrete scrolling and wheel sensitivity applied; fractional on trackpads
+     * and high-resolution wheels; positive = away from the player). Return true to consume the whole wheel event, so
+     * vanilla neither accumulates it nor changes the hotbar slot; false (the default) leaves the wheel to vanilla.
+     * 本配置生效时鼠标滚轮转动（{@code ScopeMouseScrollMixin}：游戏内、无界面或遮罩，且 {@code Mouse#onMouseScroll} 上所有
+     * HEAD 锁都已放行之后）。{@code notches} 为原版累加时使用的竖直增量（已应用离散滚动与滚轮灵敏度；触控板与高精度滚轮为
+     * 小数；正数为向前推）。返回 true 表示消耗整个滚轮事件，原版既不累加也不切换快捷栏；返回 false（默认）交给原版。
+     */
+    default boolean onWheel(double notches) {
+        return false;
+    }
+
+    /**
+     * How much of the Full-Screen Zoom periphery look to apply this frame, polled every frame: 1 (the default) is the
+     * full half-resolution blur and darkening outside the lens; 0 leaves the view past the dark tube rim sharp and
+     * undarkened, like Picture-in-Picture. The lens, its tube rim, the rim ring and the reticle never change. A profile
+     * that varies it should follow its eased magnification (for example {@link ScopeRules#peripheryBlurFor}), so it
+     * never pops; values are clamped to [0, 1] and anything unusable means 1. PiP ignores it (its periphery is sharp).
+     * 每帧轮询：本帧应用多少全画面放大的镜外效果。1（默认）为镜外完整的半分辨率模糊与压暗；0 时暗色镜筒边之外的画面清晰且
+     * 不压暗，与画中画一致。镜片、镜筒边、镜框环与分划始终不变。会改变它的配置应跟随缓动后的倍率（例如
+     * {@link ScopeRules#peripheryBlurFor}），以免跳变；数值钳制到 [0, 1]，不可用时视为 1。画中画忽略它（其镜外本就清晰）。
+     */
+    default float peripheryBlur() {
+        return 1.0F;
+    }
+
+    /**
+     * Whether the module draws a lens for this profile; true (the default) for a magnified optic. False means a reflex
+     * (red-dot) sight such as the M32A1's M2A1: the module draws no lens picture, runs no PiP pass, draws no tube rim,
+     * fallback ring or rim ring, and darkens no periphery. It still applies {@link #fovMultiplier} (in both modes: with
+     * no lens the main view is the only picture, so PiP zooms it too) and the look scale, hides the hand unless
+     * {@link #hidesHeldItem} says otherwise, replaces the crosshair and calls {@link #drawReticle} (with the real
+     * projection FOV, no scope shadow and {@link ScopeMode#ZOOM_BLUR} as the frame's mode).
+     * 模块是否为本配置绘制镜片；放大光学瞄具为 true（默认）。false 表示反射式（红点）瞄具，例如 M32A1 的 M2A1：模块不绘制
+     * 镜内画面、不运行画中画渲染、不画镜筒边、回退环与镜框环，也不压暗镜外。仍会应用 {@link #fovMultiplier}（两种模式都应用：
+     * 没有镜片时主画面是唯一的画面，因此画中画模式也放大它）与视角缩放、隐藏手（除非 {@link #hidesHeldItem} 另有答复）、替换准星
+     * 并调用 {@link #drawReticle}（传入真实投影视场角、无镜内阴影，帧模式为 {@link ScopeMode#ZOOM_BLUR}）。
+     */
+    default boolean drawsLens() {
+        return true;
+    }
+
+    /**
+     * Whether the module hides the local player's first-person hands and held items while this profile is active;
+     * true (the default) for an optic that replaces the view. False keeps the vanilla first-person hand pass, for a
+     * weapon that draws its own aimed model there (the M32A1's 3-D M2A1 sight, {@code M32SightRenderer}). Only
+     * {@code ScopeHeldItemRendererMixin} reads it, through {@code ScopeRuntime.hidesHand()}.
+     * 本配置生效时模块是否隐藏本地玩家的第一人称手与手持物品；替换视野的光学瞄具为 true（默认）。false 保留原版第一人称手部
+     * 渲染，供在那里自行绘制瞄准模型的武器使用（M32A1 的三维 M2A1 瞄具，{@code M32SightRenderer}）。只有
+     * {@code ScopeHeldItemRendererMixin} 经 {@code ScopeRuntime.hidesHand()} 读取它。
+     */
+    default boolean hidesHeldItem() {
+        return true;
+    }
+}

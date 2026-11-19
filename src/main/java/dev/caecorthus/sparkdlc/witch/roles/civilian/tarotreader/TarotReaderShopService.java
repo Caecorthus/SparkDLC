@@ -1,0 +1,89 @@
+package dev.caecorthus.sparkdlc.witch.roles.civilian.tarotreader;
+
+import dev.caecorthus.sparkdlc.witch.SparkWitchItems;
+import dev.caecorthus.sparkdlc.witch.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsShopEntryPreserver;
+import dev.doctor4t.wathe.api.event.BuildShopEntries;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.util.ShopEntry;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.LoreComponent;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
+
+import java.util.List;
+
+/** Builds the Tarot Reader's three divination-only shop entries. */
+public final class TarotReaderShopService {
+    private static final int DESCRIPTION_COLOR = 0x808080;
+    private static boolean registered;
+
+    private TarotReaderShopService() {
+    }
+
+    public static synchronized void register() {
+        if (registered) {
+            return;
+        }
+        registered = true;
+        BuildShopEntries.EVENT.register(TarotReaderShopService::buildEntries);
+    }
+
+    private static void buildEntries(PlayerEntity player, BuildShopEntries.ShopContext context) {
+        // Widened by the Black Raven acting overlay; getRole stays raw. / 黑羽鸦扮演覆盖层会放宽此判定；getRole 仍为真实身份。
+        if (!GameWorldComponent.KEY.get(player.getWorld()).isRole(player, SparkWitchRoles.tarotReader())) {
+            return;
+        }
+
+        // SparkTraits 的词条商店监听可能先于 SparkWitch 执行；先保存 sparktraits:* 条目，
+        // 避免下面重建塔罗师专属商店时误删内鬼左轮等词条追加商品。
+        List<ShopEntry> preservedTraitEntries = SparkTraitsShopEntryPreserver.capture(context);
+        context.clearEntries();
+        context.addEntry(entry(
+                "sparkwitch_tarot_regular",
+                SparkWitchItems.tarotCard(),
+                TarotReaderRules.REGULAR_PRICE,
+                "shop.sparkwitch.tarot.regular",
+                "shop.sparkwitch.tarot.regular.description",
+                TarotReaderDivinationService::purchaseRegular
+        ));
+        context.addEntry(entry(
+                "sparkwitch_tarot_identity",
+                SparkWitchItems.tarotCard(),
+                TarotReaderRules.IDENTITY_PRICE,
+                "shop.sparkwitch.tarot.identity",
+                "shop.sparkwitch.tarot.identity.description",
+                TarotReaderDivinationService::purchaseIdentity
+        ));
+        context.addEntry(entry(
+                "sparkwitch_tarot_survival",
+                SparkWitchItems.tarotCard(),
+                TarotReaderRules.SURVIVAL_PRICE,
+                "shop.sparkwitch.tarot.survival",
+                "shop.sparkwitch.tarot.survival.description",
+                TarotReaderDivinationService::purchaseSurvival
+        ));
+        SparkTraitsShopEntryPreserver.restore(context, preservedTraitEntries);
+    }
+
+    private static ShopEntry entry(
+            String id,
+            Item item,
+            int price,
+            String nameKey,
+            String descriptionKey,
+            java.util.function.Predicate<PlayerEntity> onBuy
+    ) {
+        ItemStack displayStack = item.getDefaultStack();
+        displayStack.set(DataComponentTypes.ITEM_NAME, Text.translatable(nameKey));
+        displayStack.set(DataComponentTypes.LORE, new LoreComponent(List.of(
+                Text.translatable(descriptionKey)
+                        .styled(style -> style.withItalic(false).withColor(DESCRIPTION_COLOR))
+        )));
+        return new ShopEntry.Builder(id, displayStack, price, ShopEntry.Type.TOOL)
+                .onBuy(onBuy)
+                .build();
+    }
+}

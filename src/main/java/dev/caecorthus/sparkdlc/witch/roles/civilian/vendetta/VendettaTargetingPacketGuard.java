@@ -1,0 +1,140 @@
+package dev.caecorthus.sparkdlc.witch.roles.civilian.vendetta;
+
+import dev.caecorthus.sparkdlc.witch.net.SaviorPistolShootC2SPayload;
+import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.crow.hit.BlackRavenCrowTargets;
+import dev.doctor4t.wathe.util.GunShootPayload;
+import dev.doctor4t.wathe.util.KnifeStabPayload;
+import io.netty.buffer.Unpooled;
+import net.fabricmc.fabric.impl.networking.PayloadTypeRegistryImpl;
+import net.minecraft.entity.Entity;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.packet.CustomPayload;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.OptionalInt;
+
+/**
+ * Rejects target payloads before they spend items or emit effects for an isolated Vendetta pair: Wathe's knife stab
+ * and gun shot, plus the SparkStrength Serial Killer pistol shot (owner 2026-10-07), the Savior pistol shot
+ * (PR #200) and the SparkStrength Bandit moddable revolver shot (SparkStrength #135), all treated exactly like the
+ * gun shot.
+ * 在目标数据包消耗物品或生成效果前，拒绝不属于仇杀绑定双方的请求：Wathe 刀刺与开枪，以及与开枪完全同等处理的
+ * SparkStrength 连环杀手手枪射击（所有者 2026-10-07）、救世主手枪射击（PR #200）与 SparkStrength 强盗改装左轮射击
+ * （SparkStrength #135）。
+ */
+public final class VendettaTargetingPacketGuard {
+    /**
+     * SparkStrength {@code SerialPistolShootC2SPayload}: wire layout VAR_INT target entity id, then VAR_INT hand. It is
+     * matched by registered id and read through its registered codec, so no SparkStrength class is named here.
+     * SparkStrength 连环手枪开火包：线格式为 VAR_INT 目标实体 id，其后为 VAR_INT 手位。按注册 id 匹配并经其注册编解码器读取，
+     * 此处不引用任何 SparkStrength 类。
+     */
+    public static final Identifier SERIAL_PISTOL_SHOOT_ID = Identifier.of("sparkstrength", "serial_pistol_shoot");
+
+    /**
+     * SparkStrength {@code BanditRevolverShootC2SPayload} (SparkStrength #135), the Bandit's moddable revolver shot:
+     * wire layout one VAR_INT target entity id, -1 when the shot picked nobody. Matched and read like the Serial Killer
+     * pistol shot. The Bandit used to fire Wathe's revolver through {@code wathe:gunshoot}, which this guard judges.
+     * SparkStrength 强盗改装左轮开火包（SparkStrength #135）：线格式为一个 VAR_INT 目标实体 id，未选中任何人时为 -1。
+     * 匹配与读取方式同连环杀手手枪射击。强盗原先经 {@code wathe:gunshoot} 发射 Wathe 左轮，而该包由本防护判定。
+     */
+    public static final Identifier BANDIT_REVOLVER_SHOOT_ID = Identifier.of("sparkstrength", "bandit_revolver_shoot");
+
+    private VendettaTargetingPacketGuard() {
+    }
+
+    /**
+     * Network-thread pre-filter: whether {@code payload} is one of the target payloads {@link #shouldBlock} judges. It
+     * reads only the decoded payload's class and id, never world, entity or component state, so Fabric's receive path
+     * may call it on the Netty thread before the server-thread hand-off.
+     * 网络线程预筛：{@code payload} 是否为 {@link #shouldBlock} 要判定的目标数据包。只读取已解码数据包的类与 id，从不读取世界、
+     * 实体或组件状态，因此 Fabric 接收路径可在移交服务端主线程之前于 Netty 线程上调用它。
+     */
+    public static boolean isTargetPayload(@Nullable CustomPayload payload) {
+        return payload instanceof KnifeStabPayload || payload instanceof GunShootPayload
+                || payload instanceof SaviorPistolShootC2SPayload
+                || payload != null && payload.getId() != null && SERIAL_PISTOL_SHOOT_ID.equals(payload.getId().id())
+                || payload != null && payload.getId() != null
+                && BANDIT_REVOLVER_SHOOT_ID.equals(payload.getId().id());
+    }
+
+    /**
+     * Server thread only: looks the target up in the actor's world and reads Vendetta and Raven Form components.
+     * 仅限服务端主线程：在行动者所在世界查找目标，并读取仇杀与化鸦组件。
+     */
+    public static boolean shouldBlock(ServerPlayerEntity actor, CustomPayload payload) {
+        OptionalInt targetEntityId = targetEntityId(actor, payload);
+        if (targetEntityId.isEmpty()) {
+            return false;
+        }
+
+        Entity entity = actor.getServerWorld().getEntityById(targetEntityId.getAsInt());
+        // A Raven Form crow is judged as its owner, the player such a hit kills. / 化鸦乌鸦按其主人（命中所处死的玩家）判定。
+        BlackRavenCrowTargets.Target crow = BlackRavenCrowTargets.hittable(null, entity);
+        if (crow != null) {
+            entity = crow.owner();
+        }
+        if (!(entity instanceof ServerPlayerEntity target)) {
+            return false;
+        }
+        boolean vendettaEndpoint = VendettaInteractionService.isActiveVendetta(actor)
+                || VendettaInteractionService.isActiveVendetta(target);
+        return vendettaEndpoint && !VendettaInteractionService.isExactPair(actor, target);
+    }
+
+    private static OptionalInt targetEntityId(ServerPlayerEntity actor, @Nullable CustomPayload payload) {
+        if (payload instanceof KnifeStabPayload knife) {
+            return OptionalInt.of(knife.target());
+        }
+        if (payload instanceof GunShootPayload gun) {
+            return OptionalInt.of(gun.target());
+        }
+        // Savior pistol (PR #200): our own record, whose codec is a fixed-width INTEGER, so the id is read directly and
+        // never through leadingVarInt. / 救世主手枪（PR #200）：本模组自己的 record，编解码器为定长 INTEGER，因此直接读取 id，
+        // 从不经 leadingVarInt。
+        if (payload instanceof SaviorPistolShootC2SPayload saviorPistol) {
+            return OptionalInt.of(saviorPistol.targetEntityId());
+        }
+        if (payload != null && payload.getId() != null && SERIAL_PISTOL_SHOOT_ID.equals(payload.getId().id())) {
+            return leadingVarInt(PayloadTypeRegistryImpl.PLAY_C2S.get(SERIAL_PISTOL_SHOOT_ID), payload,
+                    actor.getRegistryManager());
+        }
+        if (payload != null && payload.getId() != null && BANDIT_REVOLVER_SHOOT_ID.equals(payload.getId().id())) {
+            return leadingVarInt(PayloadTypeRegistryImpl.PLAY_C2S.get(BANDIT_REVOLVER_SHOOT_ID), payload,
+                    actor.getRegistryManager());
+        }
+        return OptionalInt.empty();
+    }
+
+    /**
+     * Re-encodes an already decoded payload with its registered C2S codec and reads the leading VAR_INT. Empty when the
+     * type is unregistered or its codec rejects the payload; the shot then fires as before and only the kill-time
+     * Vendetta veto applies.
+     * 用已注册的 C2S 编解码器重新编码已解码的数据包并读取首个 VAR_INT。类型未注册或编解码器拒绝该包时返回空；此时射击照旧发生，
+     * 仅由击杀时的仇杀拦截生效。
+     */
+    static OptionalInt leadingVarInt(
+            @Nullable CustomPayload.Type<RegistryByteBuf, ? extends CustomPayload> type,
+            CustomPayload payload,
+            DynamicRegistryManager registries
+    ) {
+        if (type == null || payload == null) {
+            return OptionalInt.empty();
+        }
+        @SuppressWarnings("unchecked")
+        PacketCodec<RegistryByteBuf, CustomPayload> codec = (PacketCodec<RegistryByteBuf, CustomPayload>) type.codec();
+        RegistryByteBuf buf = new RegistryByteBuf(Unpooled.buffer(), registries);
+        try {
+            codec.encode(buf, payload);
+            return OptionalInt.of(buf.readVarInt());
+        } catch (RuntimeException ignored) {
+            return OptionalInt.empty();
+        } finally {
+            buf.release();
+        }
+    }
+}

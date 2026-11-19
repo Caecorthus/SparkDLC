@@ -1,0 +1,793 @@
+package dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.hit;
+
+import dev.caecorthus.sparkdlc.witch.SparkWitchItems;
+import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.fisher.FisherRules;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.SeekerBreakSource;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.device.SeekerDeviceEntity;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.device.SeekerDeviceService;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.game.GameFunctions;
+import dev.doctor4t.wathe.index.WatheItems;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+
+/**
+ * Frozen contract: one entry per damage source (owner decision Q4); every accepted hit ends in
+ * {@code SeekerDeviceService.breakDevice(device, source, breaker)}, which alone ends the session, records replay and
+ * calls {@code SeekerMarkService} (entries here never mark directly). Ray and projectile entries implement nearest-wins
+ * blocking: a {@code T target} return value means "hit the player as before", {@code null} means "a nearer device took
+ * the hit, do not hit the player". A device hit costs ammo/cooldown like a Wathe miss, with no innocent-shot penalty.
+ * Every entry is a server-side no-op on the client and returns its input unchanged when no device is involved.
+ * Every entry validates with {@link SeekerDamageRules#mayBreak} (owner as proxy target); a device the attacker may
+ * not break is transparent to that attacker's server rays and sweeps (it neither breaks nor shields). Client-targeted
+ * entries (revolver, derringer, Demon Hunter pistol, knife stab) receive the device id from the client, so a refused
+ * break there resolves as a miss (see {@link SeekerDamageRules}). Blasts are area effects, never blocking.
+ * 冻结契约：每个伤害来源一个入口（所有者决定 Q4）；每次被接受的命中都汇入 {@code SeekerDeviceService.breakDevice}，
+ * 由它独自结束会话、记录回放并调用 {@code SeekerMarkService}（本类入口从不直接标记）。
+ * 射线与投射物入口实现“最近者命中”：返回 {@code T target} 表示“照常命中玩家”，返回 {@code null} 表示
+ * “更近的设备吸收了命中，不得命中玩家”。命中设备与 Wathe 未命中一样消耗弹药与冷却，但不会有误伤惩罚。
+ * 客户端调用时均为空操作；不涉及设备时原样返回输入。所有入口都以 {@link SeekerDamageRules#mayBreak}（拥有者为代理目标）
+ * 校验；攻击者不能打坏的设备对其服务端射线与扫掠透明（既不损坏也不挡枪）。由客户端选择目标的入口（左轮、德林加、猎魔枪、
+ * 刀刺）从客户端收到设备 id，被拒绝时按未命中处理（见 {@link SeekerDamageRules}）。爆炸属于范围效果，从不遮挡。
+ */
+public final class SeekerDeviceHits {
+    /** NoellesRoles Demon Hunter pistol, matched by registry id only. / 仅按注册 id 匹配的 NoellesRoles 猎魔枪。 */
+    static final Identifier DEMON_HUNTER_PISTOL_ID = Identifier.of("noellesroles", "demon_hunter_pistol");
+    /** NoellesRoles pistol bullet data component, by registry id. / NoellesRoles 猎魔枪子弹数据组件（注册 id）。 */
+    static final Identifier DEMON_HUNTER_BULLETS_ID = Identifier.of("noellesroles", "bullets");
+    /**
+     * Server melee reach: vanilla entity interaction range 3 plus its own 1-block attack allowance.
+     * 服务端近战距离：原版实体交互距离 3 加上其自身 1 格的攻击余量。
+     */
+    static final double MELEE_REACH = 4.0;
+
+    private SeekerDeviceHits() {
+    }
+
+    /**
+     * Bare hands and any left-click melee (AttackEntityCallback, phase seeker_device). Spectators PASS (vanilla
+     * spectate), the owner and every other refused attacker FAIL (nothing happens), an allowed attacker breaks the
+     * device (SUCCESS). Vanilla ({@code canInteractWithEntityIn}) checks reach only, never line of sight, so the server
+     * re-checks reach (3 + 1, vanilla's own allowance) and COLLIDER line of sight to any sample point, like every other
+     * client-trusted entry: a forged ATTACK packet through a wall breaks nothing.
+     * 空手与任意左键近战。旁观者返回 PASS（原版观战），拥有者及其他被拒绝者返回 FAIL（无事发生），
+     * 允许的攻击者打坏设备（SUCCESS）。原版只检查距离、不检查视线，因此服务端与其他信任客户端选择的入口一样，
+     * 再次校验距离（3 + 1，原版自身的余量）与到任一采样点的 COLLIDER 视线：隔墙伪造的攻击包打不坏设备。
+     */
+    public static ActionResult onMelee(ServerPlayerEntity attacker, SeekerDeviceEntity device) {
+        if (attacker == null || device == null || attacker.getWorld().isClient()) {
+            return ActionResult.PASS;
+        }
+        if (attacker.isSpectator()) {
+            return ActionResult.PASS;
+        }
+        if (!isLive(device) || SeekerDeviceRaycast.isOwnDevice(attacker, device)) {
+            return ActionResult.FAIL;
+        }
+        Vec3d eye = attacker.getEyePos();
+        if (device.getWorld() != attacker.getWorld()
+                || SeekerDamageRules.squaredDistanceToBox(eye, SeekerDeviceRaycast.targetBox(device))
+                > MELEE_REACH * MELEE_REACH
+                || !SeekerDamageRules.hasLineOfSight(attacker.getWorld(), eye, device.getBoundingBox(), attacker)) {
+            return ActionResult.FAIL;
+        }
+        if (!mayBreak(attacker, device)) {
+            return ActionResult.FAIL;
+        }
+        SeekerDeviceService.breakDevice(device, SeekerBreakSource.MELEE, attacker);
+        return ActionResult.SUCCESS;
+    }
+
+    /**
+     * Wathe revolver/derringer receiver (called at its {@code recordItemUse} anchor, after Wathe's gun-tag, cooldown and
+     * spent-derringer checks). Trusts the client's nearest-wins pick like Wathe does, but validates: revolver or
+     * derringer in the main hand (a forged shotgun/Demon Hunter {@code gunshoot} never counts), live foreign device,
+     * distance below Wathe's 65 cap, aim and line of sight ({@link SeekerDamageRules#gunAimedAndVisible}: the look ray
+     * meets the margin-grown box with a clear segment to the device, or the 25° sample-cone fallback),
+     * {@link SeekerDamageRules#mayBreak}.
+     * Wathe then resolves the shot as a miss (target not a player): sound, ammo and cooldown, no punishment, no mood.
+     * Returns true when a device broke.
+     * Wathe 左轮/德林加接收器（在其 {@code recordItemUse} 锚点调用，位于 Wathe 的枪械标签、冷却与德林加已用检查之后）。
+     * 与 Wathe 一样信任客户端的最近者选择，但会校验：主手为左轮或德林加（伪造的猎枪/猎魔枪 {@code gunshoot} 不算）、
+     * 存活的他人设备、距离低于 65、瞄准与视线（{@link SeekerDamageRules#gunAimedAndVisible}：视线射线与扩大余量后的箱体相交
+     * 且到设备的线段无遮挡，或 25° 采样锥兜底）、{@link SeekerDamageRules#mayBreak}。
+     * 随后 Wathe 按未命中处理（目标不是玩家）：有声音、耗弹与冷却，没有惩罚也不扣理智。打坏设备时返回 true。
+     */
+    public static boolean onGunPayload(ServerPlayerEntity shooter, @Nullable Entity target, ItemStack gun) {
+        if (shooter == null || shooter.getWorld().isClient() || !(target instanceof SeekerDeviceEntity device)
+                || gun == null) {
+            return false;
+        }
+        SeekerBreakSource source;
+        if (gun.isOf(WatheItems.REVOLVER)) {
+            source = SeekerBreakSource.REVOLVER;
+        } else if (gun.isOf(WatheItems.DERRINGER)) {
+            source = SeekerBreakSource.DERRINGER;
+        } else {
+            return false;
+        }
+        return breakTargeted(shooter, device, source, SeekerDamageRules.GUN_MAX_DISTANCE);
+    }
+
+    /**
+     * Add-on gun shot routed through {@code SparkWitchApi.hitGunWorldTarget} (today SparkStrength's Serial Killer
+     * pistols, Wathe {@code RevolverItem} subclasses that fire through their own payload). The facade has already
+     * checked the gun (a {@code wathe:guns} stack in hand, not cooling down); this is the revolver entry's break with
+     * the caller's {@code maxDistance} (capped at Wathe's 65): live foreign device, aim and line of sight,
+     * {@link SeekerDamageRules#mayBreak}. Recorded as {@link SeekerBreakSource#REVOLVER}, so the break, its replay id
+     * and the owner's mark are exactly a revolver hit's. The caller finishes the shot as a miss. True = broken.
+     * 经 {@code SparkWitchApi.hitGunWorldTarget} 转入的附属模组枪械射击（目前为 SparkStrength 连环杀手手枪：Wathe
+     * {@code RevolverItem} 子类，经自有数据包开火）。门面已校验枪械（手中的 {@code wathe:guns} 物品且未冷却）；这里按左轮入口
+     * 打坏设备，距离取调用方的 {@code maxDistance}（上限为 Wathe 的 65）：存活的他人设备、瞄准与视线、
+     * {@link SeekerDamageRules#mayBreak}。记录为 {@link SeekerBreakSource#REVOLVER}，因此损坏、回放 id 与对拥有者的标记都与左轮
+     * 命中完全一致。调用方随后按未命中收尾。打坏时返回 true。
+     */
+    public static boolean onAddonGunShot(ServerPlayerEntity shooter, @Nullable Entity target, double maxDistance) {
+        if (shooter == null || shooter.getWorld().isClient() || !(target instanceof SeekerDeviceEntity device)
+                || !(maxDistance > 0.0)) {
+            return false;
+        }
+        return breakTargeted(shooter, device, SeekerBreakSource.REVOLVER,
+                Math.min(maxDistance, SeekerDamageRules.GUN_MAX_DISTANCE));
+    }
+
+    /**
+     * SparkWitch double-barrel shotgun (one-line Hunter hook, server branch): nearest-wins along the shooter's look ray
+     * of {@code range} (the fired shell's range: 8 buckshot, 15 slug). A nearer breakable device breaks and the shot
+     * kills nobody (the Hunter's record then says {@code hit:false}). Frozen external seam: SparkStrength injects its
+     * Bomber drone and Partygoer steps at this method's HEAD by name and reads {@code range}, so the Hunter calls it
+     * exactly once per shot, for the centre ray, and this entry must keep a unique name and this signature.
+     * SparkWitch 双管猎枪（Hunter 服务端分支中的一行钩子）：沿射手视线、长 {@code range}（所射弹药的射程：霰弹 8、独头弹 15）
+     * 执行最近者命中；更近且可打坏的设备被打坏，这一枪不击杀任何人（Hunter 的记录随之为 {@code hit:false}）。冻结的外部接缝：
+     * SparkStrength 按方法名在其 HEAD 注入轰炸者无人机与派对客步骤并读取 {@code range}，因此 Hunter 每枪只为中心射线调用一次，
+     * 本入口必须保持唯一的方法名与此签名。
+     */
+    @Nullable
+    public static <T extends PlayerEntity> T onShotgunFired(PlayerEntity shooter, @Nullable T target, double range) {
+        if (!(shooter instanceof ServerPlayerEntity serverShooter) || shooter.getWorld().isClient()) {
+            return target;
+        }
+        return rayBlocks(serverShooter, target, range, SeekerBreakSource.SHOTGUN) ? null : target;
+    }
+
+    /**
+     * Read-only device step for one Hunter pellet ray ({@code start → end}): the breakable device {@code rayBlocks}
+     * would break on that segment for {@code target} (the same {@link SeekerDamageRules#mayBreak} filter), else null.
+     * Breaks, marks and records nothing, so the buckshot asks every ray before breaking anything and a device broken
+     * by one pellet still absorbs the others that reached it first. Null on the client. SparkStrength's Bomber drones,
+     * which absorb inside {@link #onShotgunFired} itself, are not seen here.
+     * 猎人单条弹丸射线（{@code start → end}）的只读设备步骤：{@code rayBlocks} 在该线段上针对 {@code target} 会打坏的
+     * 可打坏设备（相同的 {@link SeekerDamageRules#mayBreak} 过滤），否则为 null。不打坏、不标记、不记录任何内容，因此霰弹
+     * 先询问每条射线再打坏任何设备，被某颗弹丸打坏的设备仍会吸收其他先到达它的弹丸。客户端恒为 null。SparkStrength 轰炸者
+     * 无人机在 {@link #onShotgunFired} 内部吸收，此处看不到。
+     */
+    @Nullable
+    public static SeekerDeviceEntity shotgunDeviceOnRay(PlayerEntity shooter, @Nullable PlayerEntity target,
+                                                        Vec3d start, Vec3d end) {
+        if (!(shooter instanceof ServerPlayerEntity serverShooter) || shooter.getWorld().isClient()
+                || !GameWorldComponent.KEY.get(shooter.getWorld()).isRunning()) {
+            return null;
+        }
+        SeekerDeviceRaycast.DeviceHit hit = SeekerDeviceRaycast.blockingHit(serverShooter, start, end, target,
+                breakableBy(serverShooter));
+        return hit == null ? null : hit.device();
+    }
+
+    /**
+     * Writing half of {@link #shotgunDeviceOnRay}: breaks a device it returned, as the shotgun hook does. A device
+     * already broken this shot is skipped by {@link SeekerDeviceService#breakDevice}.
+     * {@link #shotgunDeviceOnRay} 的写入部分：与猎枪钩子一样打坏其返回的设备。本枪已被打坏的设备由
+     * {@link SeekerDeviceService#breakDevice} 跳过。
+     */
+    public static void breakByShotgun(ServerPlayerEntity shooter, SeekerDeviceEntity device) {
+        SeekerDeviceService.breakDevice(device, SeekerBreakSource.SHOTGUN, shooter);
+    }
+
+    /**
+     * NoellesRoles Demon Hunter pistol receiver. Validates everything itself (pistol in the main hand, not cooling
+     * down, at least one bullet, live foreign device within the receiver's 65 cap, the same aim and line-of-sight rule
+     * as the Wathe guns, {@link SeekerDamageRules#mayBreak}) so it is correct at the receiver HEAD as well as at its
+     * {@code recordItemUse} anchor. The caller lets NoellesRoles continue so the shot costs a bullet and cooldown as a
+     * miss. True = broke.
+     * NoellesRoles 猎魔枪接收器。所有条件自行校验（主手猎魔枪、未冷却、至少一发子弹、65 以内的存活他人设备、与 Wathe 枪械
+     * 相同的瞄准与视线规则、{@link SeekerDamageRules#mayBreak}），因此在接收器 HEAD 或 {@code recordItemUse} 锚点调用都正确。
+     * 调用方应让 NoellesRoles 继续执行，使这一枪按未命中消耗子弹与冷却。返回 true 表示已打坏。
+     */
+    public static boolean onDemonHunterPayload(ServerPlayerEntity shooter, @Nullable Entity target) {
+        if (shooter == null || shooter.getWorld().isClient() || shooter.isSpectator()
+                || !(target instanceof SeekerDeviceEntity device)) {
+            return false;
+        }
+        ItemStack pistol = shooter.getMainHandStack();
+        if (pistol.isEmpty() || !DEMON_HUNTER_PISTOL_ID.equals(Registries.ITEM.getId(pistol.getItem()))
+                || shooter.getItemCooldownManager().isCoolingDown(pistol.getItem())
+                || demonHunterBullets(pistol) <= 0) {
+            return false;
+        }
+        return breakTargeted(shooter, device, SeekerBreakSource.DEMON_HUNTER_PISTOL,
+                SeekerDamageRules.GUN_MAX_DISTANCE);
+    }
+
+    /**
+     * Wathe knife right-click charged stab receiver. Validates the Wathe knife in either hand, no knife cooldown, the SparkTraits
+     * weapon-action gate, reach (3 + 0.5 latency), line of sight and {@link SeekerDamageRules#mayBreak}. A device stab
+     * costs nothing, like Wathe's miss (no cooldown, no Veteran stab use); returns true when a device broke.
+     * Wathe 刀右键蓄力刺击接收器。校验任一手持 Wathe 刀、刀未冷却、SparkTraits 武器动作门槛、距离（3 + 0.5 延迟）、视线与
+     * {@link SeekerDamageRules#mayBreak}。刺中设备与 Wathe 未刺中一样不产生代价（无冷却、不消耗老兵次数）；打坏设备时返回 true。
+     */
+    public static boolean onKnifeStabPayload(ServerPlayerEntity attacker, @Nullable Entity target) {
+        if (attacker == null || attacker.getWorld().isClient() || attacker.isSpectator()
+                || !(target instanceof SeekerDeviceEntity device)) {
+            return false;
+        }
+        ItemStack knife = heldKnife(attacker);
+        if (knife.isEmpty() || attacker.getItemCooldownManager().isCoolingDown(knife.getItem())
+                || SparkTraitsKillerBridge.blocksWeaponAction(attacker, knife)) {
+            return false;
+        }
+        double reach = SeekerDamageRules.KNIFE_REACH + SeekerDamageRules.KNIFE_REACH_TOLERANCE;
+        if (!breakStabbedDevice(attacker, device, reach, SeekerBreakSource.KNIFE_STAB)) {
+            return false;
+        }
+        attacker.swingHand(attacker.getMainHandStack() == knife ? Hand.MAIN_HAND : Hand.OFF_HAND, true);
+        return true;
+    }
+
+    /**
+     * Swordfish's own receiver validates a main-hand release and nearest aim-ray hit first. This seam repeats item/cooldown/weapon gates,
+     * the knife's device reach (3 + 0.5 latency), line of sight and the owner-proxy break gate. True means accepted:
+     * the caller consumes the captured Swordfish once and never hits a player behind the device.
+     * 剑鱼自有接收器先校验主手松手记录与瞄准射线最近命中；本入口重查物品/冷却/武器门槛、刀的设备距离（3 + 0.5 延迟）、视线与
+     * 拥有者代理损坏门槛。true 表示接纳：调用方消耗已捕获的剑鱼一次，绝不击中设备后方玩家。
+     */
+    public static boolean onSwordfishStab(ServerPlayerEntity attacker, @Nullable Entity target) {
+        if (attacker == null || attacker.getWorld().isClient() || attacker.isSpectator()
+                || !(target instanceof SeekerDeviceEntity device) || device.getWorld() != attacker.getWorld()) {
+            return false;
+        }
+        ItemStack swordfish = attacker.getMainHandStack();
+        if (swordfish.isEmpty() || !swordfish.isOf(SparkWitchItems.swordfish())
+                || attacker.getItemCooldownManager().isCoolingDown(swordfish.getItem())
+                || SparkTraitsKillerBridge.blocksWeaponAction(attacker, swordfish)) {
+            return false;
+        }
+        double reach = FisherRules.SWORDFISH_REACH + SeekerDamageRules.KNIFE_REACH_TOLERANCE;
+        return breakStabbedDevice(attacker, device, reach, SeekerBreakSource.SWORDFISH);
+    }
+
+    /** Control Expert taser server targeting; a device hit stuns nobody. / 控场专家电击枪；命中设备时不眩晕任何人。 */
+    @Nullable
+    public static <T extends PlayerEntity> T onTaserFired(ServerPlayerEntity user, @Nullable T target, double range) {
+        if (user == null || user.getWorld().isClient()) {
+            return target;
+        }
+        return rayBlocks(user, target, range, SeekerBreakSource.TASER) ? null : target;
+    }
+
+    /**
+     * Murderous Witch death ray: a piercing multi-target ray, so nearest-wins means "cut the ray at the nearest
+     * device". Breaks that device and returns the shortened visible distance (players before it are still hit, players
+     * behind it are not); returns {@code visibleDistance} unchanged when no device lies on the ray. One-line hook:
+     * {@code double visibleDistance = SeekerDeviceHits.onDeathRayFired(caster, start, direction,
+     * visibleRayDistance(world, caster, start, direction));}
+     * 杀意魔女死光：穿透多目标射线，因此“最近者命中”即“在最近的设备处截断射线”。打坏该设备并返回缩短后的可见距离
+     * （设备前的玩家照常命中，其后的玩家不受影响）；射线上没有设备时原样返回 {@code visibleDistance}。
+     */
+    public static double onDeathRayFired(ServerPlayerEntity user, Vec3d start, Vec3d direction,
+                                         double visibleDistance) {
+        if (user == null || user.getWorld().isClient() || start == null || direction == null
+                || !(visibleDistance > 0.0) || direction.lengthSquared() == 0.0) {
+            return visibleDistance;
+        }
+        Vec3d end = start.add(direction.normalize().multiply(visibleDistance));
+        SeekerDeviceRaycast.DeviceHit hit = SeekerDeviceRaycast.nearestDevice(user.getWorld(), start, end,
+                Double.POSITIVE_INFINITY, breakableBy(user));
+        if (hit == null) {
+            return visibleDistance;
+        }
+        SeekerDeviceService.breakDevice(hit.device(), SeekerBreakSource.DEATH_RAY, user);
+        return Math.min(visibleDistance, Math.sqrt(hit.distanceSquared()));
+    }
+
+    /**
+     * Black Raven feather blade right-click (a server hitscan mark, not a projectile). One-line hook in
+     * {@code FeatherBladeItem#use}: {@code ServerPlayerEntity target = SeekerDeviceHits.onFeatherBladeFired(serverUser,
+     * aim == null ? null : aim.player(), BlackRavenRules.FEATHER_REACH);}
+     * 黑鸦羽刃右键（服务端即时射线标记，并非投射物）。{@code FeatherBladeItem#use} 中的一行钩子。
+     */
+    @Nullable
+    public static <T extends PlayerEntity> T onFeatherBladeFired(ServerPlayerEntity user, @Nullable T target,
+                                                                 double range) {
+        if (user == null || user.getWorld().isClient()) {
+            return target;
+        }
+        return rayBlocks(user, target, range, SeekerBreakSource.FEATHER_BLADE) ? null : target;
+    }
+
+    /**
+     * NoellesRoles throwing axe; true = a device was hit, stop as on an entity hit. The axe pierces players, so players
+     * on the segment never shield a device from it. / 飞斧；true 表示命中设备。飞斧贯穿玩家，因此线段上的玩家不会替设备挡下。
+     */
+    public static boolean onThrowingAxeSweep(Entity axe, @Nullable Entity thrower, Vec3d from, Vec3d to) {
+        return sweep(axe, thrower, from, to, false, SeekerBreakSource.THROWING_AXE);
+    }
+
+    /**
+     * Thrown ninja shuriken, checked at the top of {@code NinjaShurikenEntity#tick} from {@code getPos()} to
+     * {@code getPos().add(getVelocity())}; the caller discards the projectile on true. A nearer living player on the
+     * segment keeps the hit (vanilla collision resolves it this tick).
+     * 投掷出的忍者手里剑，在 {@code NinjaShurikenEntity#tick} 开头检查；返回 true 时由调用方移除投射物。
+     * 线段上更近的存活玩家保留这次命中（本刻由原版碰撞结算）。
+     */
+    public static boolean onShurikenSweep(Entity shuriken, @Nullable Entity thrower, Vec3d from, Vec3d to) {
+        return sweep(shuriken, thrower, from, to, true, SeekerBreakSource.SHURIKEN);
+    }
+
+    /**
+     * Control Expert thrown Shock Device; breaks a device it collides with (checked at the top of its tick like the
+     * shuriken). The caller then lands the device at that point as on any collision. A nearer living player keeps the
+     * collision; a player transparent to the Shock Device is passed next tick.
+     * 控场专家投掷的电击装置；撞上设备即将其打坏（与手里剑一样在 tick 开头检查），随后调用方按普通碰撞在该点落地。
+     * 更近的存活玩家保留这次碰撞；对电击装置透明的玩家会在下一刻被越过。
+     */
+    public static boolean onShockDeviceSweep(Entity shockDevice, @Nullable Entity thrower, Vec3d from, Vec3d to) {
+        return sweep(shockDevice, thrower, from, to, true, SeekerBreakSource.SHOCK_DEVICE);
+    }
+
+    /**
+     * Area weapons (Wathe grenade incl. Bomb Maniac, SparkStrength M67, Potion Gunner shell): break every device in
+     * the sphere with line of sight to the centre; players are still killed as before (no blocking). With an online
+     * thrower each device is gated by {@link SeekerDamageRules#mayBreak} (never the thrower's own); without one the
+     * break is unattributed.
+     * 范围武器（Wathe 手雷含炸弹狂人、SparkStrength M67、药炮手炮弹）：打坏球内与爆心有视线的所有设备；玩家照常死亡（不遮挡）。
+     * 有在线投掷者时每个设备都经 {@link SeekerDamageRules#mayBreak} 校验（从不打坏投掷者自己的设备）；没有投掷者时损坏不归属任何人。
+     */
+    public static void onBlast(ServerWorld world, Vec3d center, double radius, @Nullable ServerPlayerEntity owner,
+                               SeekerBreakSource source) {
+        if (world == null || center == null || source == null || !(radius > 0.0)
+                || !GameWorldComponent.KEY.get(world).isRunning()) {
+            return;
+        }
+        Box search = new Box(center, center).expand(radius + 1.0);
+        List<SeekerDeviceEntity> hit = new ArrayList<>();
+        for (SeekerDeviceEntity device : world.getEntitiesByClass(SeekerDeviceEntity.class, search,
+                SeekerDeviceHits::isLive)) {
+            Box box = device.getBoundingBox();
+            if (SeekerDamageRules.inBlastSphere(center, box.getCenter(), radius)
+                    && SeekerDamageRules.hasLineOfSight(world, center, box, null)
+                    && (owner == null || (!SeekerDeviceRaycast.isOwnDevice(owner, device) && mayBreak(owner, device)))) {
+                hit.add(device);
+            }
+        }
+        // Collected first so breaking one device never changes the set seen by the rest. / 先收集，避免打坏过程影响其余判定。
+        for (SeekerDeviceEntity device : hit) {
+            if (isLive(device)) {
+                SeekerDeviceService.breakDevice(device, source, owner);
+            }
+        }
+    }
+
+    /**
+     * Time Stealer Clock (owner decision Q9): nearest-wins along the user's Clock aim. A nearer breakable device that
+     * shields an eligible target absorbs the Clock and breaks, and {@code null} is returned: the caller steals nothing
+     * but still starts the Clock cooldown (as a Taser absorb costs its cooldown). Unlike the Taser and the Black Raven
+     * Feather Blade, whose misses still break the nearest device in reach, a {@code null} target breaks nothing,
+     * because a Clock miss is free and must never become a free device breaker. The break is recorded under
+     * {@code CLOCK}.
+     * One-line hook in {@code TimeStealerClockService#use}:
+     * {@code ServerPlayerEntity target = SeekerDeviceHits.onClockFired(user, aimed, TimeStealerRules.CLOCK_RANGE);}
+     * 窃时者时钟（所有者决定 Q9）：沿使用者的时钟瞄准执行最近者命中。挡在合格目标前、更近且可打坏的设备吸收时钟并被打坏，
+     * 返回 {@code null}：调用方不窃取任何人，但照常开始时钟冷却（如同电击枪被吸收时照样进入冷却）。电击枪与黑鸦羽刃未命中时
+     * 仍会打坏射程内最近的设备，时钟则不同：目标为 {@code null} 时不打坏任何设备，因为时钟未命中是免费的，
+     * 绝不能变成免费的拆设备手段。损坏来源记录为 {@code CLOCK}。
+     */
+    @Nullable
+    public static <T extends PlayerEntity> T onClockFired(ServerPlayerEntity user, @Nullable T target, double range) {
+        if (user == null || target == null || user.getWorld().isClient()) {
+            return target;
+        }
+        return rayBlocks(user, target, range, SeekerBreakSource.CLOCK) ? null : target;
+    }
+
+    /**
+     * Abyss Listener Shriek Gun server targeting, mirroring the Taser: a nearer breakable device absorbs the beam and
+     * breaks, so nobody is pushed; like the Taser (and unlike the free Clock) a miss still breaks the nearest device in
+     * reach, because every shot costs the gun's cooldown. One-line hook in {@code ShriekGunService}.
+     * 聆渊者啸音铳的服务端目标选择，与电击枪一致：更近且可打坏的设备吸收射线并被打坏，不推动任何人；与电击枪相同
+     * （与免费的时钟不同），未命中时仍会打坏射程内最近的设备，因为每一发都要付出枪械冷却。{@code ShriekGunService} 中的一行钩子。
+     */
+    @Nullable
+    public static <T extends PlayerEntity> T onShriekGunFired(ServerPlayerEntity user, @Nullable T target,
+                                                              double range) {
+        if (user == null || user.getWorld().isClient()) {
+            return target;
+        }
+        return rayBlocks(user, target, range, SeekerBreakSource.SHRIEK_GUN) ? null : target;
+    }
+
+    /**
+     * Sphinx Hao "手"枪 server targeting, mirroring the Taser: a nearer breakable device absorbs the fist and breaks, so
+     * nobody is hit (the shooter then gets the no-kill branch). Frozen external seam: SparkStrength may inject at this
+     * method's HEAD by name (Partygoer / Bomber drone parity, cut at the first block) and return null when one of them
+     * takes the fist, so the gun calls it exactly once per shot with the full range, and this entry must keep its unique
+     * name and this signature.
+     * 狮身豪“手”枪的服务端目标选择，与电击枪一致：更近且可打坏的设备吸收拳头并被打坏，不命中任何人（射手随后走未击杀分支）。
+     * 冻结的外部接缝：SparkStrength 可按方法名在其 HEAD 注入（派对客 / 轰炸者无人机一致处理，在第一个方块处截断），在它们吃下
+     * 拳头时返回 null；因此手枪每发只以满射程调用一次，本入口必须保持唯一的方法名与此签名。
+     */
+    @Nullable
+    public static <T extends PlayerEntity> T onSphinxHaoFistFired(ServerPlayerEntity shooter, @Nullable T target,
+                                                                  double range) {
+        if (shooter == null || shooter.getWorld().isClient()) {
+            return target;
+        }
+        return rayBlocks(shooter, target, range, SeekerBreakSource.SPHINX_HAO_FIST) ? null : target;
+    }
+
+    /**
+     * Read-only preview of {@link #onSphinxHaoFistFired} for the fist visual: the device that call would absorb and break
+     * for the same arguments, else null. Breaks, marks and records nothing; call it first, since the break removes the
+     * device. A SparkStrength Partygoer or drone (hooked into {@link #onSphinxHaoFistFired} only) is not seen here.
+     * {@link #onSphinxHaoFistFired} 的只读预览，供拳头表现使用：对相同参数该调用会吸收并打坏的设备，否则为 null。不打坏、不标记、
+     * 不记录任何内容；须先调用，因为打坏会移除该设备。SparkStrength 的派对客或无人机（只挂接在 {@link #onSphinxHaoFistFired}
+     * 上）在这里看不到。
+     */
+    @Nullable
+    public static SeekerDeviceEntity sphinxHaoFistAbsorber(ServerPlayerEntity user, @Nullable PlayerEntity target,
+                                                          double range) {
+        if (user == null || user.getWorld().isClient()) {
+            return null;
+        }
+        SeekerDeviceRaycast.DeviceHit hit = rayBlockingHit(user, target, range);
+        return hit == null ? null : hit.device();
+    }
+
+    /**
+     * Sniper M1903A4 server targeting on bow release, mirroring the Sphinx Hao fist: a nearer breakable device absorbs
+     * the round and breaks, so nobody is hit; like the Taser a miss still breaks the nearest device in reach, because
+     * every shot spends a round and the rifle's cooldown. Frozen external seam: SparkStrength may inject at this
+     * method's HEAD by name (Partygoer / Bomber drone parity, cut at the first block) and return null when one of them
+     * takes the round, so the rifle calls it exactly once per shot with the full range, and this entry must keep its
+     * unique name and this signature.
+     * 狙击手 M1903A4 松开蓄力时的服务端目标选择，与狮身豪拳头一致：更近且可打坏的设备吸收子弹并被打坏，不命中任何人；与电击枪
+     * 相同，未命中时仍会打坏射程内最近的设备，因为每一发都要消耗子弹与步枪冷却。冻结的外部接缝：SparkStrength 可按方法名在其
+     * HEAD 注入（派对客 / 轰炸者无人机一致处理，在第一个方块处截断），在它们吃下子弹时返回 null；因此步枪每发只以满射程调用
+     * 一次，本入口必须保持唯一的方法名与此签名。
+     */
+    @Nullable
+    public static <T extends PlayerEntity> T onM1903A4Fired(ServerPlayerEntity shooter, @Nullable T target,
+                                                            double range) {
+        if (shooter == null || shooter.getWorld().isClient()) {
+            return target;
+        }
+        return rayBlocks(shooter, target, range, SeekerBreakSource.M1903A4) ? null : target;
+    }
+
+    /**
+     * Read-only preview of {@link #onM1903A4Fired} for the smoke trail's stop point: the device that call would absorb
+     * and break for the same arguments, else null. Breaks, marks and records nothing; call it first, since the break
+     * removes the device. A SparkStrength Partygoer or drone (hooked into {@link #onM1903A4Fired} only) is not seen
+     * here.
+     * {@link #onM1903A4Fired} 的只读预览，供烟迹终点使用：对相同参数该调用会吸收并打坏的设备，否则为 null。不打坏、不标记、
+     * 不记录任何内容；须先调用，因为打坏会移除该设备。SparkStrength 的派对客或无人机（只挂接在 {@link #onM1903A4Fired} 上）
+     * 在这里看不到。
+     */
+    @Nullable
+    public static SeekerDeviceEntity m1903a4Absorber(ServerPlayerEntity user, @Nullable PlayerEntity target,
+                                                     double range) {
+        if (user == null || user.getWorld().isClient()) {
+            return null;
+        }
+        SeekerDeviceRaycast.DeviceHit hit = rayBlockingHit(user, target, range);
+        return hit == null ? null : hit.device();
+    }
+
+    /**
+     * Read-only preview of {@link #onShriekGunFired} for the beam particles: the device that call would absorb and
+     * break for the same arguments (the same ray and the same {@link SeekerDamageRules#mayBreak} filter as
+     * {@code rayBlocks}), else null. Breaks, marks and records nothing; call it before {@link #onShriekGunFired},
+     * whose break removes the device.
+     * {@link #onShriekGunFired} 的只读预览，供射线粒子使用：对相同参数该调用会吸收并打坏的设备（与 {@code rayBlocks}
+     * 相同的射线与相同的 {@link SeekerDamageRules#mayBreak} 过滤），否则为 null。不打坏、不标记、不记录任何内容；
+     * 须在 {@link #onShriekGunFired} 之前调用，因为其打坏会移除该设备。
+     */
+    @Nullable
+    public static SeekerDeviceEntity shriekGunAbsorber(ServerPlayerEntity user, @Nullable PlayerEntity target,
+                                                       double range) {
+        if (user == null || user.getWorld().isClient() || !(range > 0.0)
+                || !GameWorldComponent.KEY.get(user.getWorld()).isRunning()) {
+            return null;
+        }
+        Vec3d start = user.getEyePos();
+        Vec3d end = start.add(user.getRotationVec(1.0F).multiply(range));
+        SeekerDeviceRaycast.DeviceHit hit = SeekerDeviceRaycast.blockingHit(user, start, end, target,
+                breakableBy(user));
+        return hit == null ? null : hit.device();
+    }
+
+    /**
+     * Witch Maiden crimson skull, checked at the top of {@code MiniWitherSkullEntity#tick} like the shuriken: a device
+     * in this tick's path breaks (recorded as {@code CRIMSON_SKULL}) and its entry point is returned so the caller ends
+     * the skull there; {@code null} when nothing broke. A nearer living player keeps the collision.
+     * 巫女赤色凋灵之首，与手里剑一样在 {@code MiniWitherSkullEntity#tick} 开头检查：本刻路径上的设备被打坏（记录为
+     * {@code CRIMSON_SKULL}），并返回其入射点，由调用方在该处结束头颅；未打坏任何设备时返回 {@code null}。更近的存活玩家
+     * 保留这次碰撞。
+     */
+    @Nullable
+    public static Vec3d onCrimsonSkullSweep(Entity skull, @Nullable Entity owner, Vec3d from, Vec3d to) {
+        SeekerDeviceRaycast.DeviceHit hit = sweepHit(skull, owner, from, to, true, SeekerBreakSource.CRIMSON_SKULL);
+        return hit == null ? null : hit.point();
+    }
+
+    /**
+     * Potion Gunner shell in flight, checked at the top of {@code PotionShellEntity#tick} like the Shock Device. A
+     * device in this tick's path breaks (recorded as {@code POTION_SHELL}) and its entry point is returned so the
+     * caller detonates the shell there; {@code null} when nothing broke. A nearer living player keeps the collision.
+     * The impact blast itself goes through {@link #onBlast}.
+     * 飞行中的药炮手炮弹，与电击装置一样在 {@code PotionShellEntity#tick} 开头检查。本刻路径上的设备被打坏（记录为
+     * {@code POTION_SHELL}），并返回其入射点，由调用方在该处引爆炮弹；未打坏任何设备时返回 {@code null}。
+     * 更近的存活玩家保留这次碰撞。命中后的爆炸本身走 {@link #onBlast}。
+     */
+    @Nullable
+    public static Vec3d onPotionShellSweep(Entity shell, @Nullable Entity thrower, Vec3d from, Vec3d to) {
+        SeekerDeviceRaycast.DeviceHit hit = sweepHit(shell, thrower, from, to, true, SeekerBreakSource.POTION_SHELL);
+        return hit == null ? null : hit.point();
+    }
+
+    /**
+     * Potion Gunner launcher backblast (a short horizontal server lane behind the gunner, not a projectile). Nearest
+     * wins with one measure for both sides: the caller passes the distance at which the lane reaches the first player
+     * it would hit, measured on that player's real (unexpanded) box (or the full lane when nobody is in it), and a
+     * device breaks (recorded as {@code POTION_SHELL}) and absorbs the backblast only when its ray entry is STRICTLY
+     * nearer ({@link SeekerDeviceRaycast#deviceWins}); a tie goes to the player. True means absorbed, hit nobody.
+     * 药炮手炮筒尾焰（药炮手身后的一段水平服务端短通道，并非投射物）。最近者命中，双方使用同一量法：调用方传入通道到达
+     * 第一名将被命中玩家的距离（按该玩家真实、未扩大的碰撞箱量取；通道内无人时为整条通道长度），只有射线入射距离
+     * 严格更近（{@link SeekerDeviceRaycast#deviceWins}）的设备才会被打坏（记录为 {@code POTION_SHELL}）并吸收尾焰；
+     * 距离相同时命中玩家。返回 true 表示已被吸收，不再命中任何人。
+     */
+    public static boolean onPotionBackblast(ServerPlayerEntity gunner, Vec3d start, Vec3d direction, double reach) {
+        if (gunner == null || gunner.getWorld().isClient() || start == null || direction == null
+                || !(reach > 0.0) || direction.lengthSquared() == 0.0
+                || !GameWorldComponent.KEY.get(gunner.getWorld()).isRunning()) {
+            return false;
+        }
+        Vec3d end = start.add(direction.normalize().multiply(reach));
+        SeekerDeviceRaycast.DeviceHit hit = SeekerDeviceRaycast.nearestDevice(gunner.getWorld(), start, end,
+                reach * reach, breakableBy(gunner));
+        if (hit == null) {
+            return false;
+        }
+        SeekerDeviceService.breakDevice(hit.device(), SeekerBreakSource.POTION_SHELL, gunner);
+        return true;
+    }
+
+    /**
+     * Stable seam: USEC sniper rifle match shot (server hitscan, no projectile entity). The bullet's server path is a
+     * polyline, because AP rounds pierce blocks and sink, so nearest-wins is measured as path distance (lengths summed
+     * along {@code path} from its first point). Walking the segments in flight order, the first device the shooter may
+     * break ({@link SeekerDamageRules#mayBreak}, never its own) whose margin-grown box the path enters strictly before
+     * {@code reach} breaks (recorded as {@code USEC_RIFLE}) and absorbs the shot. Devices behind a pierced wall are on
+     * the path, so AP reaches them; FMJ paths end at their first block. Only a running round breaks anything (the
+     * caller calls this for match shots only). The caller (one call per shot, after the Magician puppet check) passes
+     * the polyline from the shooter's eye to where the bullet ended against blocks or ran out of energy (at least two
+     * points), and {@code reach}: the path distance to the first player it would hit, or the whole path length.
+     * Optional SparkStrength may {@code @Inject}/{@code @ModifyVariable} at HEAD on these three arguments to let its
+     * drones absorb the shot the same way (return or pass a shorter distance), as it does for {@link #onDeathRayFired}.
+     * 稳定接缝：USEC 狙击步枪的对局射击（服务端即时射线，无投射物实体）。AP 子弹会穿透方块并下坠，因此子弹的服务端路径是折线，
+     * 最近者命中按路径距离（沿 {@code path} 自第一个点累加的长度）量取。按飞行顺序逐段检查，路径在 {@code reach} 之前（严格早于）
+     * 进入其扩大余量箱体、且射手可打坏（{@link SeekerDamageRules#mayBreak}，从不打坏自己的设备）的第一个设备被打坏（记录为
+     * {@code USEC_RIFLE}）并吸收这一枪。被穿透墙壁后方的设备也在路径上，因此 AP 能打到；FMJ 路径止于其第一个方块。只有进行中的
+     * 对局才会打坏设备（调用方只为对局射击调用）。调用方（每发一次，在魔术师皮套检查之后）传入从射手眼睛到子弹撞上方块或能量耗尽处的
+     * 折线（至少两个点），以及 {@code reach}：到其本会命中的第一名玩家的路径距离，没有玩家时为整条路径长度。可选的 SparkStrength
+     * 可在 HEAD 对这三个参数 {@code @Inject}/{@code @ModifyVariable}，让其无人机以同样方式吸收这一枪（返回或传入更短的距离），
+     * 与其对 {@link #onDeathRayFired} 的做法相同。
+     *
+     * @param shooter the USEC shooter / 射手
+     * @param path    the bullet's polyline from the eye, in flight order / 子弹自眼睛起、按飞行顺序的折线
+     * @param reach   path distance to the player the bullet would hit, else the path length / 到本会命中玩家的路径距离，否则为路径长度
+     * @return {@code reach} unchanged when no device absorbed the shot; otherwise the broken device's path distance, which
+     *         is strictly less than {@code reach} (the caller then hits nobody) / 没有设备吸收时原样返回 {@code reach}；否则返回被
+     *         打坏设备的路径距离（严格小于 {@code reach}，调用方随后不命中任何人）
+     */
+    public static double onUsecRifleFired(ServerPlayerEntity shooter, List<Vec3d> path, double reach) {
+        if (shooter == null || shooter.getWorld().isClient() || path == null || path.size() < 2 || !(reach > 0.0)
+                || !GameWorldComponent.KEY.get(shooter.getWorld()).isRunning()) {
+            return reach;
+        }
+        double travelled = 0.0;
+        for (int i = 0; i + 1 < path.size() && travelled < reach; i++) {
+            Vec3d from = path.get(i);
+            Vec3d to = path.get(i + 1);
+            double length = from.distanceTo(to);
+            if (!(length > 0.0)) {
+                continue;
+            }
+            double cut = Math.min(length, reach - travelled);
+            Vec3d end = cut < length ? from.add(to.subtract(from).multiply(cut / length)) : to;
+            SeekerDeviceRaycast.DeviceHit hit = SeekerDeviceRaycast.nearestDevice(shooter.getWorld(), from, end,
+                    cut * cut, breakableBy(shooter));
+            if (hit != null) {
+                SeekerDeviceService.breakDevice(hit.device(), SeekerBreakSource.USEC_RIFLE, shooter);
+                return Math.min(reach, travelled + Math.sqrt(hit.distanceSquared()));
+            }
+            travelled += length;
+        }
+        return reach;
+    }
+
+    // ---- Internal ----
+
+    private static boolean breakStabbedDevice(ServerPlayerEntity attacker, SeekerDeviceEntity device,
+                                             double reach, SeekerBreakSource source) {
+        if (!isLive(device) || SeekerDeviceRaycast.isOwnDevice(attacker, device)
+                || SeekerDamageRules.squaredDistanceToBox(attacker.getEyePos(), SeekerDeviceRaycast.targetBox(device))
+                > reach * reach
+                || !SeekerDamageRules.hasLineOfSight(attacker.getWorld(), attacker.getEyePos(),
+                device.getBoundingBox(), attacker)
+                || !mayBreak(attacker, device)) {
+            return false;
+        }
+        SeekerDeviceService.breakDevice(device, source, attacker);
+        return true;
+    }
+
+    /**
+     * Validated targeted break for a trusted client pick (Wathe gun / Demon Hunter): distance, then aim and line of
+     * sight via {@link SeekerDamageRules#gunAimedAndVisible} (the look ray against the same margin-grown box the client
+     * pick uses, with the sample cone as latency fallback), then {@link SeekerDamageRules#mayBreak}.
+     * 对客户端选择的目标做校验后再打坏：距离，再经 {@link SeekerDamageRules#gunAimedAndVisible} 校验瞄准与视线
+     * （视线射线对照客户端选择所用的同一扩大箱体，采样锥作为延迟兜底），最后 {@link SeekerDamageRules#mayBreak}。
+     */
+    private static boolean breakTargeted(ServerPlayerEntity shooter, SeekerDeviceEntity device,
+                                         SeekerBreakSource source, double maxDistance) {
+        if (!isLive(device) || SeekerDeviceRaycast.isOwnDevice(shooter, device)
+                || device.getWorld() != shooter.getWorld()) {
+            return false;
+        }
+        Vec3d eye = shooter.getEyePos();
+        Box box = device.getBoundingBox();
+        if (shooter.distanceTo(device) >= maxDistance
+                || !SeekerDamageRules.gunAimedAndVisible(shooter.getWorld(), eye, shooter.getRotationVec(1.0F),
+                maxDistance, box, SeekerDeviceRaycast.targetBox(device), shooter)
+                || !mayBreak(shooter, device)) {
+            return false;
+        }
+        SeekerDeviceService.breakDevice(device, source, shooter);
+        return true;
+    }
+
+    /**
+     * Server hitscan nearest-wins along the shooter's current aim ({@code getRotationVec(1)}, like the hooked items):
+     * breaks the nearest breakable device strictly nearer than {@code target}. / 服务端即时射线的最近者命中。
+     */
+    private static boolean rayBlocks(ServerPlayerEntity shooter, @Nullable PlayerEntity target, double range,
+                                     SeekerBreakSource source) {
+        SeekerDeviceRaycast.DeviceHit hit = rayBlockingHit(shooter, target, range);
+        if (hit == null) {
+            return false;
+        }
+        SeekerDeviceService.breakDevice(hit.device(), source, shooter);
+        return true;
+    }
+
+    /**
+     * The device {@link #rayBlocks} breaks for these arguments, without breaking it. / {@link #rayBlocks} 对这些参数会打坏
+     * 的设备（本身不打坏）。
+     */
+    @Nullable
+    private static SeekerDeviceRaycast.DeviceHit rayBlockingHit(ServerPlayerEntity shooter,
+                                                                @Nullable PlayerEntity target, double range) {
+        if (!(range > 0.0) || !GameWorldComponent.KEY.get(shooter.getWorld()).isRunning()) {
+            return null;
+        }
+        Vec3d start = shooter.getEyePos();
+        Vec3d end = start.add(shooter.getRotationVec(1.0F).multiply(range));
+        return SeekerDeviceRaycast.blockingHit(shooter, start, end, target, breakableBy(shooter));
+    }
+
+    /**
+     * Projectile sweep with the thrower as breaker. An offline or non-player thrower breaks nothing (its projectile
+     * kills nobody either). {@code playersBlock}: a nearer hittable player keeps the hit.
+     * 以投掷者为损坏者的投射物扫掠。离线或非玩家投掷者不打坏任何设备（其投射物也不会击杀任何人）。
+     */
+    private static boolean sweep(Entity projectile, @Nullable Entity thrower, Vec3d from, Vec3d to,
+                                 boolean playersBlock, SeekerBreakSource source) {
+        return sweepHit(projectile, thrower, from, to, playersBlock, source) != null;
+    }
+
+    /** {@link #sweep} that also reports the broken device's entry point. / 同时返回被打坏设备入射点的扫掠。 */
+    @Nullable
+    private static SeekerDeviceRaycast.DeviceHit sweepHit(Entity projectile, @Nullable Entity thrower, Vec3d from,
+                                                          Vec3d to, boolean playersBlock, SeekerBreakSource source) {
+        if (projectile == null || from == null || to == null || projectile.getWorld().isClient()
+                || !(thrower instanceof ServerPlayerEntity breaker)
+                || !GameWorldComponent.KEY.get(projectile.getWorld()).isRunning()) {
+            return null;
+        }
+        // Runs every projectile tick: skip the block raycast and player scan when no device is near the segment.
+        // 每个投射物每刻都会执行：线段附近没有设备时跳过方块射线与玩家扫描。
+        if (projectile.getWorld().getEntitiesByClass(SeekerDeviceEntity.class, new Box(from, to).expand(1.0),
+                SeekerDeviceHits::isLive).isEmpty()) {
+            return null;
+        }
+        Vec3d end = SeekerDeviceRaycast.clipToBlocks(projectile.getWorld(), from, to, projectile);
+        double beat = playersBlock ? nearestPlayerDistanceSquared(projectile, breaker, from, end)
+                : Double.POSITIVE_INFINITY;
+        SeekerDeviceRaycast.DeviceHit hit = SeekerDeviceRaycast.nearestDevice(projectile.getWorld(), from, end,
+                beat, breakableBy(breaker));
+        if (hit == null) {
+            return null;
+        }
+        SeekerDeviceService.breakDevice(hit.device(), source, breaker);
+        return hit;
+    }
+
+    private static double nearestPlayerDistanceSquared(Entity projectile, ServerPlayerEntity thrower, Vec3d from,
+                                                       Vec3d end) {
+        double nearest = Double.POSITIVE_INFINITY;
+        Box search = new Box(from, end).expand(1.0);
+        for (PlayerEntity player : projectile.getWorld().getEntitiesByClass(PlayerEntity.class, search,
+                candidate -> !SeekerDamageRules.isSamePlayer(candidate, thrower)
+                        && GameFunctions.isPlayerAliveAndSurvival(candidate)
+                        && candidate.canBeHitByProjectile())) {
+            Box box = player.getBoundingBox().expand(player.getTargetingMargin());
+            double distance = SeekerDeviceRaycast.entryDistanceSquared(from, end, box);
+            if (distance >= 0.0 && distance < nearest) {
+                nearest = distance;
+            }
+        }
+        return nearest;
+    }
+
+    private static Predicate<SeekerDeviceEntity> breakableBy(ServerPlayerEntity attacker) {
+        return device -> !SeekerDeviceRaycast.isOwnDevice(attacker, device) && mayBreak(attacker, device);
+    }
+
+    private static boolean mayBreak(ServerPlayerEntity attacker, SeekerDeviceEntity device) {
+        return SeekerDamageRules.mayBreak(attacker, SeekerDeviceService.findOwner(device),
+                GameWorldComponent.KEY.get(attacker.getWorld()));
+    }
+
+    private static boolean isLive(SeekerDeviceEntity device) {
+        return device != null && device.isAlive() && !device.isRemoved();
+    }
+
+    /**
+     * The Wathe knife itself, never a {@code KnifeItem} subclass: the Vendetta knife has its own payload and never sends
+     * a stab, so a forged stab while holding it must not break devices (matches the SparkTraits knife-packet gate).
+     * 仅限 Wathe 刀本身，不含 {@code KnifeItem} 子类：复仇者之刀走自己的数据包、从不发送刺击，持有它时伪造的刺击不得打坏设备
+     * （与 SparkTraits 刀数据包门槛一致）。
+     */
+    private static ItemStack heldKnife(PlayerEntity player) {
+        ItemStack main = player.getMainHandStack();
+        if (main.isOf(WatheItems.KNIFE)) {
+            return main;
+        }
+        ItemStack off = player.getOffHandStack();
+        return off.isOf(WatheItems.KNIFE) ? off : ItemStack.EMPTY;
+    }
+
+    private static int demonHunterBullets(ItemStack pistol) {
+        var type = Registries.DATA_COMPONENT_TYPE.get(DEMON_HUNTER_BULLETS_ID);
+        if (type == null) {
+            return 0;
+        }
+        Object value = pistol.get(type);
+        return value instanceof Integer bullets ? bullets : 0;
+    }
+}

@@ -1,0 +1,142 @@
+package dev.caecorthus.sparkdlc.witch.skill;
+
+import dev.caecorthus.sparkdlc.witch.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.witch.api.WitchSkillDefinition;
+import dev.caecorthus.sparkdlc.witch.api.WitchSkillRegistry;
+import dev.caecorthus.sparkdlc.witch.api.WitchSkillUseContext;
+import dev.caecorthus.sparkdlc.witch.api.WitchSkillUseResult;
+import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.ApprenticeResonance;
+import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchFearService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.SaintAbilityService;
+import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.SaintRules;
+import dev.doctor4t.wathe.api.Role;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.game.GameFunctions;
+import java.util.Optional;
+import java.util.UUID;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
+
+
+public final class WitchSkillUseService {
+    private WitchSkillUseService() {
+    }
+
+    public static boolean use(ServerPlayerEntity player, Optional<UUID> targetUuid) {
+        ServerWorld world = player.getServerWorld();
+        GameWorldComponent gameComponent = GameWorldComponent.KEY.get(world);
+        Role role = gameComponent.getRole(player);
+        if (!SparkWitchRoles.isSparkWitchRole(role)) {
+            send(player, "message.sparkwitch.skill.not_witch");
+            return false;
+        }
+        if (!GameFunctions.isPlayerPlayingAndAlive(player)) {
+            send(player, "message.sparkwitch.skill.dead");
+            return false;
+        }
+        if (GrandWitchFearService.denyRoleSkillIfFeared(player)) {
+            return false;
+        }
+        // SparkWitch packets are outside SparkTraits' own packet gate, so the shared skill packet asks the facade
+        // itself, as every dedicated skill handler already does: without this a silenced effective killer (Ninja
+        // parry, Focused Footsteps, Kidnapper drag) or a Last Escape player still used the skill. Absent, older or
+        // failing SparkTraits blocks nothing (the bridge fails open). Wathe-dead Wraiths never reach this line.
+        // SparkWitch 自有数据包不在 SparkTraits 的数据包拦截范围内，因此共享技能包与所有自有流程技能处理器一样主动查询公共
+        // 门面：否则被沉默的有效杀手（忍者招架、专注脚步、绑架者拖尸）或处于脱险的玩家仍能使用技能。SparkTraits 缺失、过旧或
+        // 调用失败时不拦截（桥接失败即放行）。Wathe 判定已死亡的冤魂到不了这一行。
+        if (SparkTraitsKillerBridge.isRoleSkillBlocked(player)) {
+            send(player, "message.sparkwitch.skill.unavailable");
+            return false;
+        }
+        if (SaintRules.isSaint(role)) {
+            return SaintAbilityService.use(player);
+        }
+
+        WitchPlayerComponent component = WitchPlayerComponent.KEY.get(player);
+        Identifier skillId = component.getActiveSkillId();
+        WitchSkillDefinition skill = skillId == null ? null : WitchSkillRegistry.get(skillId);
+        WitchSkillUseReadiness.Result readiness = WitchSkillUseReadiness.check(role, component, skillId, skill);
+        if (!readiness.accepted()) {
+            send(player, readiness.messageKey(), readiness.messageArgs());
+            if (readiness.clearComponent()) {
+                component.clear();
+            }
+            return false;
+        }
+
+        ServerPlayerEntity target = null;
+        if (targetUuid.isPresent()) {
+            if (world.getPlayerByUuid(targetUuid.get()) instanceof ServerPlayerEntity serverTarget) {
+                target = serverTarget;
+            } else {
+                send(player, "message.sparkwitch.skill.unavailable");
+                return false;
+            }
+        }
+
+        WitchSkillUseResult result = skill.use(new WitchSkillUseContext(world, gameComponent, player, role, skill, target));
+        if (!result.accepted()) {
+            send(player, result.messageKey() == null ? "message.sparkwitch.skill.unavailable" : result.messageKey());
+            return false;
+        }
+
+        WitchSkillCooldownPolicy.apply(component, WitchSkillCooldownPolicy.decide(skill, result));
+        // Apprentice Magic Resonance (owner D1); it filters the caster's role itself.
+        // 预备魔女的魔力共鸣（所有者 D1）；施法者职业由其自行过滤。
+        ApprenticeResonance.onWitchCast(player, player.getPos());
+        if (result.messageKey() != null) {
+            send(player, result.messageKey());
+        }
+        return true;
+    }
+
+    /**
+     * Readiness gate for a role skill that runs its own request/session packets instead of {@link #use}: the active
+     * skill must be {@code skillId} and the shared cooldown must have ended. Sends the same action-bar refusal as
+     * {@link #use}; role, life and Fear checks stay with the caller.
+     * 供使用自有请求/会话数据包（而非 {@link #use}）的职业技能使用的就绪检查：当前技能必须为 {@code skillId}，
+     * 且共享冷却已结束。拒绝时发送与 {@link #use} 相同的动作栏提示；职业、存活与恐惧检查由调用方负责。
+     */
+    public static boolean checkDedicatedSkillReady(ServerPlayerEntity player, Identifier skillId) {
+        WitchPlayerComponent component = WitchPlayerComponent.KEY.get(player);
+        Identifier activeSkillId = component.getActiveSkillId();
+        if (skillId == null || !skillId.equals(activeSkillId)) {
+            send(player, "message.sparkwitch.skill.no_skill");
+            return false;
+        }
+        Role role = GameWorldComponent.KEY.get(player.getServerWorld()).getRole(player);
+        WitchSkillUseReadiness.Result readiness = WitchSkillUseReadiness.check(
+                role, component, activeSkillId, WitchSkillRegistry.get(activeSkillId));
+        if (!readiness.accepted()) {
+            send(player, readiness.messageKey(), readiness.messageArgs());
+            if (readiness.clearComponent()) {
+                component.clear();
+            }
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Starts the registered post-use cooldown for a dedicated-flow skill on the shared skill cooldown, so the
+     * bottom-right HUD shows it exactly like a generic use.
+     * 在共享技能冷却上为自有流程技能启动注册的使用后冷却，右下角 HUD 的显示与通用使用完全一致。
+     */
+    public static void startDedicatedSkillCooldown(ServerPlayerEntity player, Identifier skillId) {
+        WitchSkillDefinition skill = skillId == null ? null : WitchSkillRegistry.get(skillId);
+        if (skill == null) {
+            return;
+        }
+        WitchSkillCooldownPolicy.apply(
+                WitchPlayerComponent.KEY.get(player),
+                WitchSkillCooldownPolicy.decide(skill, WitchSkillUseResult.success(0)));
+    }
+
+    private static void send(ServerPlayerEntity player, String translationKey, Object... args) {
+        player.sendMessage(Text.translatable(translationKey, args), true);
+    }
+}

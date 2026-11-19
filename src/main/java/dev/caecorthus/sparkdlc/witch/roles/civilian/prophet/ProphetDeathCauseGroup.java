@@ -1,0 +1,135 @@
+package dev.caecorthus.sparkdlc.witch.roles.civilian.prophet;
+
+import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+
+/**
+ * Fixed Prophecy answer groups; declaration order is the UI order and never depends on the round's roles.
+ * Foreign death reasons are matched by id string only, so NoellesRoles/SparkTraits stay optional; unknown ids are OTHER.
+ * 预言的固定死因分组；声明顺序即界面顺序，不随本局职业变化。外部死因只按 id 字符串匹配，
+ * NoellesRoles/SparkTraits 保持可选；未知 id 归为「其他」。
+ */
+public enum ProphetDeathCauseGroup {
+    BLADE,
+    GUNSHOT,
+    THROWN,
+    BLUNT,
+    EXPLOSION,
+    POISON,
+    ACCIDENT,
+    MENTAL,
+    SUPERNATURAL,
+    PENALTY,
+    OTHER;
+
+    // Ids verified against wathe-1.5.6-spark-1.21.1, NoellesRoles, SparkTraits and SparkWitch kill sites. Every
+    // sparkwitch death reason must have an entry (owner-picked group); a local test fails when one is missing.
+    // id 已对照 wathe-1.5.6-spark-1.21.1、NoellesRoles、SparkTraits 与 SparkWitch 的击杀调用核实。每个 sparkwitch
+    // 死因都必须有条目（分组由所有者决定）；缺少条目时本地测试会失败。
+    private static final Map<Identifier, ProphetDeathCauseGroup> BY_REASON = Map.ofEntries(
+            entry("wathe:knife_stab", BLADE),
+            entry("sparkwitch:ceremonial_blade", BLADE),
+            entry("sparkwitch:ninja_knife_kill", BLADE),
+            entry("sparkwitch:swordfish_stab", BLADE),
+            // Savior (PR #200): the lightsaber is a blade, the pistol a gunshot. / 救世主（PR #200）：光剑为利刃，手枪为枪击。
+            entry("sparkwitch:lightsaber_kill", BLADE),
+            entry("wathe:gun_shot", GUNSHOT),
+            entry("wathe:gun_shot_backfire", GUNSHOT),
+            entry("sparkwitch:savior_pistol_kill", GUNSHOT),
+            // Sphinx Hao "手"枪: the fist is fired from a pistol. / 狮身豪“手”枪：拳头由手枪射出。
+            entry("sparkwitch:sphinx_hao_fist", GUNSHOT),
+            // Witch Maiden crimson wither skull: a gunshot for every other system (owner Q5, 2026-10-20).
+            // 巫女赤色凋灵之首：在其他系统中按枪击处理（所有者 Q5，2026-10-20）。
+            entry("sparkwitch:crimson_wither_skull", GUNSHOT),
+            entry("sparkwitch:ninja_shuriken_kill", THROWN),
+            entry("noellesroles:throwing_axe", THROWN),
+            entry("wathe:bat_hit", BLUNT),
+            entry("sparkwitch:mighty_force", BLUNT),
+            // 二阶堂希罗's Rope strangle (2026-11-11): a bare-hands kill without a blade, grouped with the blunt ones.
+            // 二阶堂希罗的绳索勒杀（2026-11-11）：不用利刃的徒手击杀，与钝器同组。
+            entry("sparkwitch:strangled", BLUNT),
+            entry("wathe:grenade", EXPLOSION),
+            entry("noellesroles:bomb", EXPLOSION),
+            // Potion Gunner TR shell and launcher backblast; the gunner is the responsible player (owner 2026-10-03).
+            // 药炮手 TR 炮弹与炮筒尾焰；药炮手为责任人（所有者 2026-10-03）。
+            entry("sparkwitch:potion_shell", EXPLOSION),
+            entry("sparkwitch:potion_backblast", EXPLOSION),
+            entry("wathe:poison", POISON),
+            entry("sparkwitch:tofana_elixir", POISON),
+            entry("wathe:fell_out_of_train", ACCIDENT),
+            entry("wathe:drowned", ACCIDENT),
+            entry("wathe:vanilla_death", ACCIDENT),
+            entry("wathe:escaped", ACCIDENT),
+            entry("wathe:mental_breakdown", MENTAL),
+            entry("sparkwitch:pierced_by_ray", SUPERNATURAL),
+            entry("sparkwitch:bell_toll", SUPERNATURAL),
+            entry("sparkwitch:time_stolen", SUPERNATURAL),
+            entry("sparkwitch:factor_backlash", SUPERNATURAL),
+            // Swapper crushed by a Rift Gate: forced, terminal and killer-less, so a correct guess reveals no killer.
+            // 交换者被裂隙门夹死：强制、终结且无凶手，猜中时揭示「无人行凶」。
+            entry("sparkwitch:portal_crushed", SUPERNATURAL),
+            entry("noellesroles:voodoo", SUPERNATURAL),
+            entry("noellesroles:assassinated", SUPERNATURAL),
+            entry("noellesroles:digested", SUPERNATURAL),
+            // A Vulture ate a feigning Fiend's fake corpse (2026-10-16); grouped with the Taotie's digestion.
+            // 秃鹫吃掉假死魔人的假尸体（2026-10-16）；与饕餮消化同组。
+            entry("sparkwitch:fiend_devoured", SUPERNATURAL),
+            // Charon (PR #202, owner 2026-11-09): all three reasons are supernatural. A lapsed pardon window replaying a
+            // kill whose own reason was unknown; a Vulture eating a gaze-feign fake corpse (grouped like fiend_devoured);
+            // a lost Soul Moment (the Charon dies with his last Lost Soul, or the souls die with their Charon).
+            // 卡戎（PR #202，所有者 2026-11-09）：三个死因均为超自然。宽恕窗口过期后重放原死因未知的击杀；秃鹫吃掉「瞥视」假死的
+            // 假尸体（与 fiend_devoured 同组）；亡魂时刻失败（卡戎随最后一名迷失的灵魂而亡，或灵魂随其卡戎而亡）。
+            entry("sparkwitch:pardon_expired", SUPERNATURAL),
+            entry("sparkwitch:ferryman_feign", SUPERNATURAL),
+            entry("sparkwitch:ferryman_moment_lost", SUPERNATURAL),
+            entry("wathe:shot_innocent", PENALTY),
+            entry("noellesroles:assassin_misfire", PENALTY),
+            entry("noellesroles:jester_timeout", PENALTY),
+            entry("noellesroles:commander_suicide", PENALTY),
+            entry("noellesroles:bodyguard_sacrifice", PENALTY),
+            entry("sparktraits:self_realization", PENALTY),
+            // Knight rule deaths (self-execution, lost duel, pushing a good player off) are penalties like Wathe's
+            // shot_innocent.
+            // 骑士规则死亡（自裁、决斗失败、推好人下车）与 Wathe 的 shot_innocent 一样属于惩罚。
+            entry("sparkwitch:duel_suicide", PENALTY),
+            entry("sparkwitch:duel_failed", PENALTY),
+            // A third party attacking a duelist: punished like the other duel-rule deaths.
+            // 第三人攻击决斗者：与其他决斗规则死亡一样属于惩罚。
+            entry("sparkwitch:duel_interference", PENALTY),
+            entry("sparkwitch:cerebellum", PENALTY)
+    );
+
+    private final String id = name().toLowerCase(Locale.ROOT);
+
+    public String id() {
+        return id;
+    }
+
+    public String translationKey() {
+        return "gui.sparkwitch.prophecy.cause." + id;
+    }
+
+    public static ProphetDeathCauseGroup classify(@Nullable Identifier deathReason) {
+        return deathReason == null ? OTHER : BY_REASON.getOrDefault(deathReason, OTHER);
+    }
+
+    public static Optional<ProphetDeathCauseGroup> byId(@Nullable String id) {
+        if (id == null) {
+            return Optional.empty();
+        }
+        for (ProphetDeathCauseGroup group : values()) {
+            if (group.id.equals(id)) {
+                return Optional.of(group);
+            }
+        }
+        return Optional.empty();
+    }
+
+    private static Map.Entry<Identifier, ProphetDeathCauseGroup> entry(String reason, ProphetDeathCauseGroup group) {
+        return Map.entry(Identifier.of(reason), group);
+    }
+}

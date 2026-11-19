@@ -1,0 +1,182 @@
+package dev.caecorthus.sparkdlc.witch;
+
+import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.crow.BlackRavenFeatherRegistry;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemGroups;
+import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.text.Text;
+
+import java.util.List;
+
+public final class SparkWitchItemGroups {
+    // Registry id sparkwitch:items stays stable; other mods should key on the id, not on this class.
+    // 注册 ID sparkwitch:items 保持稳定；其他模组应按该 ID 引用，而非依赖本类。
+    public static final RegistryKey<ItemGroup> ITEMS_GROUP =
+            RegistryKey.of(RegistryKeys.ITEM_GROUP, SparkWitch.id("items"));
+    private static boolean registered;
+
+    private SparkWitchItemGroups() {
+    }
+
+    public static synchronized void register() {
+        if (registered) {
+            return;
+        }
+        Registry.register(
+                Registries.ITEM_GROUP,
+                ITEMS_GROUP,
+                FabricItemGroup.builder()
+                        .displayName(Text.translatable("itemGroup.sparkwitch.items"))
+                        .icon(() -> new ItemStack(SparkWitchItems.poisonApple()))
+                        .entries((displayContext, entries) -> {
+                            // Default stacks only: the creative search index builds their tooltips off-thread with a null player.
+                            // 只列出默认物品堆：创造模式搜索索引会在后台线程以空玩家构建其提示文本。
+                            List<Item> factionOrder = List.of(
+                                    // Witch / 魔女
+                                    SparkWitchItems.ceremonialSword(),
+                                    SparkWitchItems.shriekGun(),
+                                    SparkWitchItems.deepDarkSporeFlask(),
+                                    // Potion Gunner (witch) / 药炮手（魔女）
+                                    SparkWitchItems.potionLauncher(),
+                                    SparkWitchItems.gwDkShell(),
+                                    SparkWitchItems.gwAcShell(),
+                                    SparkWitchItems.gwMrShell(),
+                                    SparkWitchItems.trShell(),
+                                    SparkWitchItems.riftGate(),
+                                    // Neutral / 中立
+                                    SparkWitchItems.firePoker(),
+                                    // 泽渡可可's lightstick (neutral) / 泽渡可可的应援棒（中立）
+                                    SparkWitchItems.kokoLightstick(),
+                                    // 狮身豪's hand gun and fist ammo (Team Jiahao) / 狮身豪的手枪与拳头子弹（嘉豪阵营）
+                                    SparkWitchItems.sphinxHaoHandGun(),
+                                    SparkWitchItems.sphinxHaoFistAmmo(),
+                                    // The Sniper's M1903A4 and .30-06 rounds (Team Jiahao) / 狙击手的 M1903A4 与 .30-06 子弹（嘉豪阵营）
+                                    SparkWitchItems.m1903a4(),
+                                    SparkWitchItems.ammo3006(),
+                                    // Civilian / 平民
+                                    SparkWitchItems.perfumeEssence(),
+                                    SparkWitchItems.cologne(),
+                                    SparkWitchItems.tarotCard(),
+                                    SparkWitchItems.prophetNecrology(),
+                                    SparkWitchItems.vendettaKnife(),
+                                    SparkWitchItems.disruptor(),
+                                    SparkWitchItems.taser(),
+                                    SparkWitchItems.shockDevice(),
+                                    SparkWitchItems.holyFlash(),
+                                    SparkWitchItems.seekerCar(),
+                                    SparkWitchItems.seekerCamera(),
+                                    SparkWitchItems.fishingRod(),
+                                    SparkWitchItems.fishBait(),
+                                    SparkWitchItems.salmon(),
+                                    SparkWitchItems.cod(),
+                                    SparkWitchItems.clownfish(),
+                                    SparkWitchItems.goldfish(),
+                                    SparkWitchItems.keyFish(),
+                                    SparkWitchItems.swordfish(),
+                                    SparkWitchItems.glimmerfish(),
+                                    SparkWitchItems.whiteCane(),
+                                    SparkWitchItems.comTac(),
+                                    SparkWitchItems.usecRifle(),
+                                    SparkWitchItems.usecMagazine(),
+                                    SparkWitchItems.usecFmjRound(),
+                                    SparkWitchItems.usecApRound(),
+                                    SparkWitchItems.usecSuppressor(),
+                                    // BEAR (civilian) / BEAR（平民）
+                                    dev.caecorthus.sparkdlc.witch.roles.civilian.bear.BearItems.M32A1,
+                                    dev.caecorthus.sparkdlc.witch.roles.civilian.bear.BearItems.SMOKE_ROUND,
+                                    dev.caecorthus.sparkdlc.witch.roles.civilian.bear.BearItems.RYS_T,
+                                    dev.caecorthus.sparkdlc.witch.roles.civilian.bear.BearItems.EARPLUGS,
+                                    // NoellesRoles Attendant's Spare Key (civilian) / NoellesRoles 乘务员的备用钥匙（平民）
+                                    SparkWitchItems.spareKey(),
+                                    SparkWitchItems.bigDogPortrait(),
+                                    // Accountant's passbook (civilian) / 会计的存折（平民）
+                                    SparkWitchItems.accountantPassbook(),
+                                    // Tono Hanna's parasol and handkerchief (civilian) / 远野汉娜的洋伞与手帕（平民）
+                                    SparkWitchItems.hannaUmbrella(),
+                                    SparkWitchItems.hannaHandkerchief(),
+                                    // 橘雪莉's detective badge and note (civilian) / 橘雪莉的侦探徽章与纸条（平民）
+                                    SparkWitchItems.sherryBadge(),
+                                    SparkWitchItems.sherryNote(),
+                                    // 规划大师's task slip (civilian) / 规划大师的任务单（平民）
+                                    SparkWitchItems.plannerTaskSlip(),
+                                    // Defense Vial (any holder, PR #240) / 防御药剂（任何持有者，PR #240）
+                                    SparkWitchItems.defenseVial(),
+                                    // Savior (civilian police) / 救世主（平民警察）
+                                    SparkWitchItems.saviorPistol(),
+                                    SparkWitchItems.saviorLightsaber(),
+                                    // Black Raven (civilian police) / 黑羽鸦（平民警察）
+                                    SparkWitchItems.featherBlade(),
+                                    SparkWitchItems.blackRavenLedger(),
+                                    SparkWitchItems.blackRavenMask(),
+                                    // Killer / 杀手
+                                    SparkWitchItems.ninjaKnife(),
+                                    SparkWitchItems.ninjaShuriken(),
+                                    SparkWitchItems.ninjaGrapplingHook(),
+                                    SparkWitchItems.poisonApple(),
+                                    SparkWitchItems.tofanaElixir(),
+                                    SparkWitchItems.witherGohei(),
+                                    SparkWitchItems.hunterTrap(),
+                                    SparkWitchItems.doubleBarrelShotgun(),
+                                    SparkWitchItems.doubleBarrelShell(),
+                                    SparkWitchItems.doubleBarrelSlug(),
+                                    SparkWitchItems.knockoutDrug(),
+                                    SparkWitchItems.tollBell(),
+                                    SparkWitchItems.timeStealerClock(),
+                                    SparkWitchItems.timeStealerGiftWatch(),
+                                    SparkWitchItems.timeStamp(),
+                                    // Specter (killer) / 幽魂（杀手）
+                                    SparkWitchItems.ghostTrigger(),
+                                    SparkWitchItems.peachwoodSword(),
+                                    // 二阶堂希罗 (killer) / 二阶堂希罗（杀手）
+                                    SparkWitchItems.rope()
+                            );
+                            factionOrder.forEach(entries::add);
+                            // Any other item in our namespace follows in registration order, so new items join automatically.
+                            // Operator-only items are the exception: they live in vanilla's Operator Utilities tab only;
+                            // hidden items stay out of creative entirely.
+                            // 本模组命名空间下的其他物品按注册顺序追加在后，新增物品无需再手动加入。
+                            // 管理员专用物品例外：只放在原版「管理员用品」物品栏；隐藏物品则完全不出现在创造模式物品栏。
+                            List<Item> operatorOnly = operatorOnlyItems();
+                            List<Item> creativeHidden = creativeHiddenItems();
+                            for (Item item : Registries.ITEM) {
+                                if (SparkWitch.MOD_ID.equals(Registries.ITEM.getId(item).getNamespace())
+                                        && !factionOrder.contains(item) && !operatorOnly.contains(item)
+                                        && !creativeHidden.contains(item)) {
+                                    // The display-only Homing Feather is never obtainable. / 仅用于显示的归羽永不可获得。
+                                    if (!BlackRavenFeatherRegistry.isHomingFeather(item)) {
+                                        entries.add(item);
+                                    }
+                                }
+                            }
+                        })
+                        .build()
+        );
+        // Vanilla shows this tab only to operators with "Operator Items Tab" on (Wathe's barrier blocks live here too).
+        // 原版只向开启「显示管理员用品」的管理员显示该物品栏（Wathe 的屏障方块也在这里）。
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.OPERATOR)
+                .register(entries -> operatorOnlyItems().forEach(entries::add));
+        registered = true;
+    }
+
+    /** SparkWitch items kept out of the SparkWitch tab and listed under Operator Utilities. / 管理员专用物品。 */
+    private static List<Item> operatorOnlyItems() {
+        return List.of(SparkWitchItems.riftGateRemover());
+    }
+
+    /**
+     * Items hidden from the creative tab (owner decision 2026-11-02): the Cross Sword is a duel-only Knight weapon,
+     * still granted by the Knight loadout and obtainable with commands, but no longer browsable in creative.
+     * 不显示在创造模式物品栏的物品（所有者 2026-11-02 决定）：十字剑是仅用于决斗的骑士武器，仍由骑士开局发放并可用命令
+     * 获取，但不再在创造模式中浏览。
+     */
+    private static List<Item> creativeHiddenItems() {
+        return List.of(SparkWitchItems.crossSword());
+    }
+}

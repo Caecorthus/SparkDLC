@@ -1,0 +1,476 @@
+{
+  "skill.pig_chase": {
+    "subtitle": "subtitles.sparkwitch.skill.pig_chase",
+    "sounds": [
+      "sparkwitch:skill/pig_chase"
+    ]
+  },
+  "ambient.grand_witch_ceremonial_sword_bgm": {
+    "subtitle": "subtitles.sparkwitch.ambient.grand_witch_ceremonial_sword_bgm",
+    "sounds": [
+      {
+        "name": "sparkwitch:ambient/grand_witch_ceremonial_sword_bgm",
+        "stream": true
+      }
+    ]
+  },
+  "ambient.specter_otherworld_bgm_0": {
+    "subtitle": "subtitles.sparkwitch.ambient.specter_otherworld_bgm",
+    "sounds": [
+      {
+        "name": "sparkwitch:ambient/specter_otherworld_bgm_0",
+        "stream": true
+      }
+    ]
+  },
+  "ambient.specter_otherworld_bgm_1": {
+    "subtitle": "subtitles.sparkwitch.ambient.specter_otherworld_bgm",
+    "sounds": [
+      {
+        "name": "sparkwitch:ambient/specter_otherworld_bgm_1",
+        "stream": true
+      }
+    ]
+  },
+  "ambient.specter_otherworld_bgm_2": {
+    "subtitle": "subtitles.sparkwitch.ambient.specter_otherworld_bgm",
+    "sounds": [
+      {
+        "name": "sparkwitch:ambient/specter_otherworld_bgm_2",
+        "stream": true
+      }
+    ]
+  },
+  "ambient.saint_bell": {
+    "subtitle": "subtitles.sparkwitch.ambient.saint_bell",
+    "sounds": [
+      "sparkwitch:ambient/saint_bell"
+    ]
+  },
+  "ambient.time_stealer_chime": {
+    "subtitle": "subtitles.sparkwitch.ambient.time_stealer_chime",
+    "sounds": [
+      "sparkwitch:ambient/time_stealer_chime"
+    ]
+  },
+  "skill.holy_flash_tinnitus": {
+    "subtitle": "subtitles.sparkwitch.skill.holy_flash_tinnitus",
+    "sounds": [
+      {
+        "name": "sparkwitch:skill/holy_flash_tinnitus",
+        "stream": false
+      }
+    ]
+  },
+  "ambient.time_stealer_final": {
+    "subtitle": "subtitles.sparkwitch.ambient.time_stealer_final",
+    "sounds": [
+      "sparkwitch:ambient/time_stealer_final"
+    ]
+  },
+  "ambient.bell_ringer_toll": {
+    "subtitle": "subtitles.sparkwitch.ambient.bell_ringer_toll",
+    "sounds": [
+      "minecraft:block/bell/bell_use01",
+      "minecraft:block/bell/bell_use02"
+    ]
+  },
+  "seeker_car_motor": {
+    "subtitle": "subtitles.sparkwitch.seeker_car_motor",
+    "sounds": [
+      {
+        "name": "minecraft:mob/silverfish/step1",
+        "volume": 0.5,
+        "pitch": 1.6,
+        "attenuation_distance": 6
+      },
+      {
+        "name": "minecraft:mob/silverfish/step2",
+        "volume": 0.5,
+        "pitch": 1.6,
+        "attenuation_distance": 6
+      },
+      {
+        "name": "minecraft:mob/silverfish/step3",
+        "volume": 0.5,
+        "pitch": 1.6,
+        "attenuation_distance": 6
+      },
+      {
+        "name": "minecraft:mob/silverfish/step4",
+        "volume": 0.5,
+        "pitch": 1.6,
+        "attenuation_distance": 6
+      }
+    ]
+  },
+  "seeker_car_break": {
+    "subtitle": "subtitles.sparkwitch.seeker_car_break",
+    "sounds": [
+      {
+        "name": "minecraft:random/break",
+        "pitch": 0.8
+      }
+    ]
+  },
+  "seeker_camera_break": {
+    "subtitle": "subtitles.sparkwitch.seeker_camera_break",
+    "sounds": [
+      {
+        "name": "minecraft:random/glass1",
+        "volume": 0.7,
+        "pitch": 1.3
+      },
+      {
+        "name": "minecraft:random/glass2",
+        "volume": 0.7,
+        "pitch": 1.3
+      },
+      {
+        "name": "minecraft:random/glass3",
+        "volume": 0.7,
+        "pitch": 1.3
+      }
+    ]
+  },
+  "seeker_car_swallow": {
+    "subtitle": "subtitles.sparkwitch.seeker_car_swallow",
+    "sounds": [
+      {
+        "name": "minecraft:random/eat1",
+        "pitch": 0.7
+      },
+      {
+        "name": "minecraft:random/eat2",
+        "pitch": 0.7
+      },
+      {
+        "name": "minecraft:random/eat3",
+        "pitch": 0.7
+      }
+    ]
+  },
+  "seeker_battery_low": {
+    "subtitle": "subtitles.sparkwitch.seeker_battery_low",
+    "sounds": [
+      {
+        "name": "minecraft:note/pling",
+        "volume": 0.6,
+        "pitch": 1.8
+      }
+    ]
+  },
+  "seeker_battery_dead": {
+    "subtitle": "subtitles.sparkwitch.seeker_battery_dead",
+    "sounds": [
+      {
+        "name": "minecraft:block/beacon/deactivate",
+        "volume": 0.8,
+        "pitch": 1.4
+      }
+    ]
+  },
+  "blind.cane_tap": {
+    "subtitle": "subtitles.sparkwitch.blind.cane_tap",
+    "sounds": [
+      {
+        "name": "minecraft:random/wood_click",
+        "pitch": 1.5
+      },
+      {
+        "name": "minecraft:block/bamboo/step1",
+        "pitch": 1.6
+      },
+      {
+        "name": "minecraft:block/bamboo/step2",
+        "pitch": 1.6
+      }
+    ]
+  },
+  "item.usec_rifle.shoot": {
+    "subtitle": "subtitles.sparkwitch.item.usec_rifle.shoot",
+    "sounds": [
+      "sparkwitch:item/usec_rifle_shoot"
+    ]
+  },
+  "item.usec_rifle.shoot_suppressed": {
+    "subtitle": "subtitles.sparkwitch.item.usec_rifle.shoot_suppressed",
+    "sounds": [
+      "sparkwitch:item/usec_rifle_shoot_suppressed"
+    ]
+  },
+  "item.usec_rifle.bolt": {
+    "subtitle": "subtitles.sparkwitch.item.usec_rifle.bolt",
+    "sounds": [
+      "sparkwitch:item/usec_rifle_bolt"
+    ]
+  },
+  "item.usec_rifle.magazine": {
+    "subtitle": "subtitles.sparkwitch.item.usec_rifle.magazine",
+    "sounds": [
+      "sparkwitch:item/usec_rifle_magazine"
+    ]
+  },
+  "item.usec_rifle.load_round": {
+    "subtitle": "subtitles.sparkwitch.item.usec_rifle.load_round",
+    "sounds": [
+      "sparkwitch:item/usec_rifle_load_round"
+    ]
+  },
+  "item.usec_rifle.scope": {
+    "subtitle": "subtitles.sparkwitch.item.usec_rifle.scope",
+    "sounds": [
+      {
+        "name": "sparkwitch:item/usec_rifle_scope",
+        "attenuation_distance": 8
+      }
+    ]
+  },
+  "item.double_barrel.shot": {
+    "subtitle": "subtitles.sparkwitch.item.double_barrel.shot",
+    "sounds": [
+      {
+        "name": "sparkwitch:item/double_barrel_shot",
+        "attenuation_distance": 16
+      }
+    ]
+  },
+  "item.double_barrel.load": {
+    "subtitle": "subtitles.sparkwitch.item.double_barrel.load",
+    "sounds": [
+      {
+        "name": "sparkwitch:item/double_barrel_load",
+        "attenuation_distance": 8
+      }
+    ]
+  },
+  "item.savior_pistol.shoot": {
+    "sounds": [
+      "sparkwitch:item/savior_pistol_shoot"
+    ]
+  },
+  "item.savior_pistol.click": {
+    "sounds": [
+      "sparkwitch:item/savior_pistol_click"
+    ]
+  },
+  "item.savior_lightsaber.hit": {
+    "sounds": [
+      "sparkwitch:item/savior_lightsaber_hit"
+    ]
+  },
+  "item.savior_lightsaber.ignite": {
+    "sounds": [
+      "sparkwitch:item/savior_lightsaber_ignite"
+    ]
+  },
+  "item.savior_lightsaber.hum": {
+    "sounds": [
+      "sparkwitch:item/savior_lightsaber_hum"
+    ]
+  },
+  "item.savior_lightsaber.swing": {
+    "sounds": [
+      "sparkwitch:item/savior_lightsaber_swing"
+    ]
+  },
+  "duel.manba": {
+    "sounds": [
+      {
+        "name": "sparkwitch:duel/manba",
+        "stream": true
+      }
+    ]
+  },
+  "duel.sf": {
+    "sounds": [
+      {
+        "name": "sparkwitch:duel/sf",
+        "stream": true
+      }
+    ]
+  },
+  "mini_wither.idle": {
+    "subtitle": "subtitles.entity.wither.ambient",
+    "sounds": [
+      "minecraft:mob/wither/idle1",
+      "minecraft:mob/wither/idle2",
+      "minecraft:mob/wither/idle3",
+      "minecraft:mob/wither/idle4"
+    ]
+  },
+  "mini_wither.shoot": {
+    "subtitle": "subtitles.entity.wither.shoot",
+    "sounds": [
+      "minecraft:mob/wither/shoot"
+    ]
+  },
+  "mini_wither.summon": {
+    "subtitle": "subtitles.entity.wither.spawn",
+    "sounds": [
+      "minecraft:mob/wither/spawn"
+    ]
+  },
+  "mini_wither.dismiss": {
+    "subtitle": "subtitles.entity.wither.ambient",
+    "sounds": [
+      "minecraft:mob/wither/idle1",
+      "minecraft:mob/wither/idle2",
+      "minecraft:mob/wither/idle3",
+      "minecraft:mob/wither/idle4"
+    ]
+  },
+  "mini_wither.unlock": {
+    "subtitle": "subtitles.entity.wither.ambient",
+    "sounds": [
+      "minecraft:mob/wither/idle1",
+      "minecraft:mob/wither/idle2",
+      "minecraft:mob/wither/idle3",
+      "minecraft:mob/wither/idle4"
+    ]
+  },
+  "mini_wither.crimson_shoot": {
+    "subtitle": "subtitles.entity.wither.shoot",
+    "sounds": [
+      "minecraft:mob/wither/shoot"
+    ]
+  },
+  "mini_wither.crimson_hit": {
+    "subtitle": "subtitles.entity.wither.shoot",
+    "sounds": [
+      "minecraft:mob/zombie/woodbreak"
+    ]
+  },
+  "mini_wither.burst": {
+    "subtitle": "subtitles.entity.generic.explode",
+    "sounds": [
+      "minecraft:random/explode1",
+      "minecraft:random/explode2",
+      "minecraft:random/explode3",
+      "minecraft:random/explode4"
+    ]
+  },
+  "bear.m32.fire": {
+    "subtitle": "subtitles.sparkwitch.bear.m32.fire",
+    "sounds": [
+      "sparkwitch:bear/m32_fire"
+    ]
+  },
+  "bear.m32.load": {
+    "subtitle": "subtitles.sparkwitch.bear.m32.load",
+    "sounds": [
+      "sparkwitch:bear/m32_load"
+    ]
+  },
+  "bear.m32.unload": {
+    "subtitle": "subtitles.sparkwitch.bear.m32.unload",
+    "sounds": [
+      "sparkwitch:bear/m32_unload"
+    ]
+  },
+  "bear.m32.empty": {
+    "subtitle": "subtitles.sparkwitch.bear.m32.empty",
+    "sounds": [
+      "sparkwitch:bear/m32_empty"
+    ]
+  },
+  "bear.smoke.burst": {
+    "subtitle": "subtitles.sparkwitch.bear.smoke.burst",
+    "sounds": [
+      "sparkwitch:bear/smoke_burst"
+    ]
+  },
+  "bear.rys_t.visor_down": {
+    "subtitle": "subtitles.sparkwitch.bear.rys_t.visor_down",
+    "sounds": [
+      "sparkwitch:bear/rys_t_visor_down"
+    ]
+  },
+  "bear.rys_t.visor_up": {
+    "subtitle": "subtitles.sparkwitch.bear.rys_t.visor_up",
+    "sounds": [
+      "sparkwitch:bear/rys_t_visor_up"
+    ]
+  },
+  "bear.rys_t.ricochet": {
+    "subtitle": "subtitles.sparkwitch.bear.rys_t.ricochet",
+    "sounds": [
+      "sparkwitch:bear/rys_t_ricochet"
+    ]
+  },
+  "bear.rys_t.visor_hit": {
+    "subtitle": "subtitles.sparkwitch.bear.rys_t.visor_hit",
+    "sounds": [
+      "sparkwitch:bear/rys_t_visor_hit"
+    ]
+  },
+  "bear.rys_t.tinnitus": {
+    "subtitle": "subtitles.sparkwitch.bear.rys_t.tinnitus",
+    "sounds": [
+      "sparkwitch:bear/rys_t_tinnitus"
+    ]
+  },
+  "bear.earplugs.insert": {
+    "subtitle": "subtitles.sparkwitch.bear.earplugs.insert",
+    "sounds": [
+      "sparkwitch:bear/earplugs_insert"
+    ]
+  },
+  "music.sphinx_hao_fade": {
+    "subtitle": "subtitles.sparkwitch.music.sphinx_hao_fade",
+    "sounds": [
+      {
+        "name": "sparkwitch:music/sphinx_hao_fade",
+        "stream": true
+      }
+    ]
+  },
+  "item.m1903a4.shoot": {
+    "sounds": [
+      {
+        "name": "sparkwitch:item/m1903a4_shoot",
+        "attenuation_distance": 16
+      }
+    ]
+  },
+  "item.m1903a4.bolt": {
+    "sounds": [
+      {
+        "name": "sparkwitch:item/m1903a4_bolt",
+        "attenuation_distance": 8
+      }
+    ]
+  },
+  "item.m1903a4.bolt_1": {
+    "sounds": [
+      {
+        "name": "sparkwitch:item/m1903a4_bolt_1",
+        "attenuation_distance": 8
+      }
+    ]
+  },
+  "item.m1903a4.openbolt": {
+    "sounds": [
+      {
+        "name": "sparkwitch:item/m1903a4_openbolt",
+        "attenuation_distance": 8
+      }
+    ]
+  },
+  "item.m1903a4.load": {
+    "sounds": [
+      {
+        "name": "sparkwitch:item/m1903a4_load",
+        "attenuation_distance": 8
+      }
+    ]
+  },
+  "item.m1903a4.kill": {
+    "sounds": [
+      {
+        "name": "sparkwitch:item/m1903a4_kill",
+        "attenuation_distance": 16
+      }
+    ]
+  }
+}

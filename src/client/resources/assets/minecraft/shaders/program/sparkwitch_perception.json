@@ -1,0 +1,103 @@
+{
+  "blend": {
+    "func": "add",
+    "srcrgb": "srcalpha",
+    "dstrgb": "1-srcalpha"
+  },
+  "vertex": "blit",
+  "fragment": "sparkwitch_perception",
+  "attributes": [
+    "Position"
+  ],
+  "samplers": [
+    {
+      "name": "DiffuseSampler"
+    }
+  ],
+  "uniforms": [
+    {
+      "name": "ProjMat",
+      "type": "matrix4x4",
+      "count": 16,
+      "values": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "OutSize",
+      "type": "float",
+      "count": 2,
+      "values": [
+        1,
+        1
+      ]
+    },
+    {
+      "name": "DesaturateFactor",
+      "type": "float",
+      "count": 1,
+      "values": [
+        0
+      ]
+    },
+    {
+      "name": "SpreadFactor",
+      "type": "float",
+      "count": 1,
+      "values": [0]
+    },
+    {
+      "name": "Brightness",
+      "type": "float",
+      "count": 1,
+      "values": [1]
+    },
+    {
+      "name": "LuminanceScale",
+      "type": "float",
+      "count": 1,
+      "values": [
+        1
+      ]
+    },
+    {
+      "name": "LumaRed",
+      "type": "float",
+      "count": 1,
+      "values": [
+        0.299
+      ]
+    },
+    {
+      "name": "LumaGreen",
+      "type": "float",
+      "count": 1,
+      "values": [
+        0.587
+      ]
+    },
+    {
+      "name": "LumaBlue",
+      "type": "float",
+      "count": 1,
+      "values": [
+        0.114
+      ]
+    }
+  ]
+}

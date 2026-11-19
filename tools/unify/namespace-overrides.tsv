@@ -2,7 +2,7 @@
 # prefixed (ns_x string), literal (exact text kept everywhere), lang-drop (lang key removed by the merge),
 # lang-value:<locale> (text of a merged key). A row whose new name equals the old one keeps the legacy name.
 # “同路径改到 sparkdlc 下”的例外。form：id（namespace:path，覆盖所有字面形式）、key（点分键）、prefixed（ns_x 字符串）、
-# literal（在所有文件中原样保留的文本）、lang-drop（合并时删除的语言键）、lang-value:<locale>（合并后键的文本）。
+# literal（在所有文件中原样保留的文本）、path（改变源码集的文件的路径文本）、lang-drop（合并时删除的语言键）、lang-value:<locale>（合并后键的文本）。
 # 新名字与旧名字相同的行表示保留旧名字。
 form	old	new	note
 id	sparktraits:world	sparkdlc:trait_world	component key: collides with sparkwitch:world (two different component classes)
@@ -32,6 +32,9 @@ literal	sparkstrength_undercover_outfit	sparkstrength_undercover_outfit	KEEP: pr
 literal	sparkwitch_fisher_pufferfish	sparkwitch_fisher_pufferfish	KEEP: entity command tag
 literal	sparkwitch_duel_knight	sparkwitch_duel_knight	KEEP: scoreboard team name
 literal	sparkwitch_duel_target	sparkwitch_duel_target	KEEP: scoreboard team name
+literal	sparkfactionapi_version	sparkfactionapi_version	KEEP: name of a removed Gradle property (tests assert it is gone)
+literal	sparktraits_version	sparktraits_version	KEEP: name of a removed Gradle property (tests assert it is gone)
+path	src/client/resources/assets/sparkassist/lang	src/main/resources/assets/sparkdlc/lang	the assist lang file is merged into the main source set
 lang-drop	modmenu.summaryTranslation.sparkwitch		the sparkdlc key already describes the fused mod
 lang-drop	modmenu.descriptionTranslation.sparkwitch		the sparkdlc key already describes the fused mod
 lang-drop	guidebook.sparkassist.source_name.sparkwitch		one source label: the assist text stays

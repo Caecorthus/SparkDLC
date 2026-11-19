@@ -14,3 +14,10 @@ src/client/java/dev/caecorthus/sparkdlc/client/settings/EventVolumeRows.java	rol
 gradle/verify/*.gradle	"spark(factionapi|strength|traits|witch|assist)"	checks of the provided legacy mod ids and of the legacy module of a file name the old ids on purpose
 gradle/verify/assist.gradle	sparkassist:	the retired assist namespace must not come back as a component key
 tools/payload_policy.py	"spark(factionapi|strength|traits|witch|assist)"	module labels of the owner column (legacy module ids), not namespaces
+src/test/*/FusedModSourceRulesTest.java	*	pins the five legacy mod ids (provides) and pre-fusion packages; its resolved-id pins are updated by hand
+src/test/*/WraithLegacyPersistenceTest.java	sparktraits	test of the existing legacy migration: legacy ids stay
+src/test/*/RetiredTraitIdsTest.java	sparktraits	test of the retired legacy trait ids: legacy ids stay
+src/test/*/WraithProviderBoundaryTest.java	sibling	the provided legacy mod ids
+src/test/*/EventVolumeRowsTest.java	\.mod\(\)	module label of a volume row, not an id
+src/test/*	(assertFalse|assertNotIn|assertNotContains|doesNotContain)\(.*\\?["']spark(factionapi|strength|traits|witch|assist):?\\?["']	a negative assertion about the bare name of a legacy module keeps that name (rewritten, it would forbid the mod's own namespace)
+src/test/*	\b(forbidden|gone|foreign|coupling)\b.*\\?["']spark(factionapi|strength|traits|witch|assist):?\\?["']	a list of forbidden tokens that names a legacy module keeps that name

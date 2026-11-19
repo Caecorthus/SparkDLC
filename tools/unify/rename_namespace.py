@@ -108,6 +108,7 @@ class Rules:
         self.key_new = {}       # full dotted key -> new key
         self.prefixed_new = {}  # ns_x -> new string
         self.literal_keep = []  # exact text kept everywhere
+        self.path_new = {}      # exact path text -> new path text (a file that changes its source set)
         self.pre = []           # (compiled regex, replacement function) applied before the token pass
         for form, old, new, _note in (r[:4] for r in read_tsv(OVERRIDES_FILE)):
             if form == 'id':
@@ -119,6 +120,8 @@ class Rules:
                 self.prefixed_new[old] = new
             elif form == 'literal':
                 self.literal_keep.append(old)
+            elif form == 'path':
+                self.path_new[old] = new
             elif form.startswith('lang-'):
                 pass  # used by the lang merge only / 仅用于语言文件合并
             else:
@@ -156,6 +159,8 @@ class Rules:
                              lambda m, new=new: new))
         for old in self.literal_keep:
             self.pre.append((re.compile(re.escape(old)), lambda m: m.group(0)))
+        for old, new in sorted(self.path_new.items()):
+            self.pre.append((re.compile(re.escape(old)), lambda m, new=new: new))
 
     def keep_regexes(self, rel):
         """Line regexes of the keep rules that apply to `rel`; [None] = the whole file is kept."""
@@ -284,7 +289,7 @@ class Rewriter:
         """kind: 'text' = the whole file is data or prose; 'java' / 'python' = only strings and comments are text,
         code is left alone (it holds identifiers, not ids)."""
         if not TOKEN_RE.search(text) and not any(h + '.id(' in text for h in HELPERS):
-            return text
+            return dedupe_json_lists(text) if rel.endswith('.json') and '"%s"' % NEW in text else text
         text, saved = self.protect(text, rel)
         if kind == 'text':
             text = self.tokens(text, rel)
@@ -305,6 +310,8 @@ class Rewriter:
         text = self.restore(text, saved)
         if kind == 'java':
             text = dedupe_mod_lists(text)
+        elif rel.endswith('.json'):
+            text = dedupe_json_lists(text)
         return text
 
 
@@ -326,6 +333,27 @@ def dedupe_mod_lists(text):
                 kept.append(item)
         return 'List.of(' + ', '.join(kept) + ')'
     return MOD_LIST_RE.sub(one, text)
+
+
+JSON_LIST_RE = re.compile(r'\[(\s*)("[a-z_0-9]+"(?:\s*,\s*"[a-z_0-9]+")+)(\s*)\]')
+
+
+def dedupe_json_lists(text):
+    """The same for a JSON list of mod ids (`requiredModIds` of a guidebook page): a repeated "sparkdlc" is dropped,
+    the layout of the list is kept. / JSON 的模组 id 列表同理：去掉重复的 "sparkdlc"，保留列表的排版。"""
+    def one(m):
+        parts = re.split(r'(\s*,\s*)', m.group(2))
+        items, seps = parts[0::2], parts[1::2]
+        if items.count('"%s"' % NEW) < 2:
+            return m.group(0)
+        out, seen = '', set()
+        for i, item in enumerate(items):
+            if item in seen:
+                continue
+            out += (seps[i - 1] if out else '') + item
+            seen.add(item)
+        return '[' + m.group(1) + out + m.group(3) + ']'
+    return JSON_LIST_RE.sub(one, text)
 
 
 def regions(text, kind):

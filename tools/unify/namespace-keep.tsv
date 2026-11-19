@@ -5,6 +5,13 @@ path_glob	line_regex	reason
 src/main/resources/fabric.mod.json	^\s*"spark(factionapi|strength|traits|witch|assist)",?\s*$	provides: the five legacy mod ids stay loader-visible aliases
 src/main/java/dev/caecorthus/sparkdlc/SparkDlcModule.java	*	the five legacy mod ids (the provides aliases) and their display names
 src/main/java/dev/caecorthus/sparkdlc/trait/component/RetiredTraitIds.java	*	existing legacy filter: old literals stay
+src/main/java/dev/caecorthus/sparkdlc/legacy/*	*	compatibility layer (stage 2b): old ids, keys, file and command names are its subject
+src/main/java/dev/caecorthus/sparkdlc/mixin/legacy/*	*	compatibility layer hooks (stage 2b): comments and literals name old ids on purpose
+src/client/java/dev/caecorthus/sparkdlc/client/legacy/*	*	client compatibility layer (stage 2b): old file and key-binding names on purpose
+src/client/java/dev/caecorthus/sparkdlc/client/mixin/legacy/*	*	client compatibility layer hooks (stage 2b): old command names on purpose
+src/gametest/*Legacy*	*	game tests and fixtures of the compatibility layer: old names on purpose
+src/test/*/legacy/*	*	tests of the compatibility layer: old names on purpose
+src/test/*Legacy*Test.java	*	tests of the compatibility layer outside the legacy packages: old names on purpose
 src/main/java/dev/caecorthus/sparkdlc/legacy/LegacySavedData.java	*	saved-data migration (stage 2b): its comments name old ids on purpose
 src/main/java/dev/caecorthus/sparkdlc/mixin/legacy/*LegacyDataMixin.java	*	saved-data migration hook (stage 2b): its comment names old ids on purpose
 src/main/java/dev/caecorthus/sparkdlc/mixin/legacy/*LegacyModifierIdsMixin.java	*	saved-data migration hook (stage 2b): its comment names an old id on purpose

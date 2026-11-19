@@ -3,22 +3,23 @@ package dev.caecorthus.sparkdlc.factionapi.client.api.card;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.DrawContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Lets SparkAssist decorate the owner info card (frame plates, faction sigil, bookmark tab, charm, rim foliage)
- * when it is installed. Resolved once by reflection against SparkAssist's public
- * {@code GuidebookDecorApi}; without SparkAssist, or after any failure, every call is a no-op and the card looks
- * exactly as before. The single shared copy for SparkWitch and SparkTraits (each mod used to ship its own); state
- * is per instance, so each mod resolves, logs under its own logger name and disables its own decoration only.
- * SparkFactionAPI does not depend on SparkAssist: the API is reached by name only.
- * 安装了 SparkAssist 时，由它为信息卡绘制点缀（角板、阵营暗纹、折角书签、吊坠、贴边枝叶）。通过反射解析一次
- * SparkAssist 公开的 GuidebookDecorApi；SparkAssist 不在或任一次失败后，所有调用都是空操作，卡片与原来完全一样。
- * SparkWitch 与 SparkTraits 共用的唯一实现（原先两个模组各带一份）；状态在实例上，因此各模组各自解析、
- * 用自己的日志名记录，并且只禁用自己的点缀。SparkFactionAPI 不依赖 SparkAssist：仅按名称访问该 API。
+ * Lets SparkAssist decorate the owner info card (frame plates, faction sigil, bookmark tab, charm, rim foliage).
+ * Resolved once by reflection against SparkAssist's public {@code GuidebookDecorApi}; after any failure every call
+ * is a no-op and the card looks exactly as before. The single shared copy for SparkWitch and SparkTraits (each mod
+ * used to ship its own); state is per instance, so each mod resolves, logs under its own logger name and disables
+ * its own decoration only. The modules are fused in SparkDLC, so SparkAssist is always present and the lookup is no
+ * longer gated on its mod id; it stays a lookup by name because factionapi is the base contract and must not import
+ * a sibling module.
+ * 由 SparkAssist 为信息卡绘制点缀（角板、阵营暗纹、折角书签、吊坠、贴边枝叶）。通过反射解析一次 SparkAssist 公开的
+ * GuidebookDecorApi；任一次失败后，所有调用都是空操作，卡片与原来完全一样。SparkWitch 与 SparkTraits 共用的唯一实现
+ * （原先两个模组各带一份）；状态在实例上，因此各模组各自解析、用自己的日志名记录，并且只禁用自己的点缀。各模块已融合进
+ * SparkDLC，SparkAssist 始终存在，查找不再以其 mod id 为前提；但 factionapi 是基础契约、不得 import 兄弟模块，因此仍仅按
+ * 名称访问该 API。
  */
 public final class GuideDecorBridge implements InventoryInfoCard.Decor {
     private static final String API = "dev.caecorthus.sparkdlc.assist.client.guidebook.ui.decor.GuidebookDecorApi";
@@ -77,9 +78,6 @@ public final class GuideDecorBridge implements InventoryInfoCard.Decor {
             return;
         }
         resolved = true;
-        if (!FabricLoader.getInstance().isModLoaded("sparkassist")) {
-            return;
-        }
         try {
             Class<?> api = Class.forName(API, false, GuideDecorBridge.class.getClassLoader());
             MethodType type = MethodType.methodType(void.class, DrawContext.class, int.class, int.class, int.class,

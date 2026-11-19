@@ -5,28 +5,28 @@ import dev.caecorthus.sparkdlc.assist.guidebook.GuidebookCatalog;
 import dev.caecorthus.sparkdlc.assist.guidebook.GuidebookDiscoveryRules;
 import dev.caecorthus.sparkdlc.assist.guidebook.GuidebookEntry;
 import dev.caecorthus.sparkdlc.assist.guidebook.GuidebookTab;
+import dev.caecorthus.sparkdlc.traits.api.Trait;
+import dev.caecorthus.sparkdlc.traits.api.TraitRegistry;
+import dev.caecorthus.sparkdlc.witch.api.WitchSkillDefinition;
+import dev.caecorthus.sparkdlc.witch.api.WitchSkillRegistry;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.ToIntFunction;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Composes authored resource entries with read-only entries discovered from installed registries.
  * 将资源文件中的正文条目与已安装模组注册表中的只读条目合并。
  */
 public final class GuidebookRuntimeCatalog {
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkAssist/Guidebook");
-
     private GuidebookRuntimeCatalog() {
     }
 
@@ -37,19 +37,23 @@ public final class GuidebookRuntimeCatalog {
 
         List<GuidebookEntry> discovered = new ArrayList<>();
         discoverRoles(discovered, authoredIds);
-        discoverOptionalRegistry(
+        discoverRegistry(
                 discovered,
                 authoredIds,
                 "sparktraits",
-                "dev.caecorthus.sparkdlc.traits.api.TraitRegistry",
+                TraitRegistry.values(),
+                Trait::id,
+                Trait::color,
                 GuidebookTab.TRAIT,
                 "trait"
         );
-        discoverOptionalRegistry(
+        discoverRegistry(
                 discovered,
                 authoredIds,
                 "sparkwitch",
-                "dev.caecorthus.sparkdlc.witch.api.WitchSkillRegistry",
+                WitchSkillRegistry.values(),
+                WitchSkillDefinition::id,
+                WitchSkillDefinition::color,
                 GuidebookTab.SKILL,
                 "skill"
         );
@@ -89,50 +93,47 @@ public final class GuidebookRuntimeCatalog {
         }
     }
 
-    private static void discoverOptionalRegistry(
+    /**
+     * Adds an entry for every value of a sibling module's registry that has no authored page. {@code modId} is the
+     * module's namespace, recorded as the entry's owner and required mod. The modules are fused in SparkDLC, so the
+     * registry values are read directly (they used to be looked up by class name behind an isModLoaded gate).
+     * 为兄弟模块注册表中每个没有人工页面的值添加条目。{@code modId} 是该模块的命名空间，记录为条目的所属模组与所需模组。
+     * 各模块已融合进 SparkDLC，因此直接读取注册表的值（原先在 isModLoaded 判断之后按类名查找）。
+     */
+    private static <T> void discoverRegistry(
             List<GuidebookEntry> entries,
             Set<String> authoredIds,
             String modId,
-            String registryClassName,
+            Collection<T> values,
+            Function<T, Identifier> idOf,
+            ToIntFunction<T> colorOf,
             GuidebookTab tab,
             String translationPrefix
     ) {
-        if (!FabricLoader.getInstance().isModLoaded(modId)) {
-            return;
-        }
-        try {
-            Class<?> registryClass = Class.forName(registryClassName);
-            Method valuesMethod = registryClass.getMethod("values");
-            Collection<?> values = (Collection<?>) valuesMethod.invoke(null);
-            int order = 1_000;
-            for (Object value : values) {
-                Identifier id = (Identifier) value.getClass().getMethod("id").invoke(value);
-                // Witch skills are fail-closed to the supported role-owned set.
-                // 魔女技能目录仅收录受支持的职业专属技能，未知技能默认排除。
-                if (authoredIds.contains(id.toString())
-                        || !GuidebookDiscoveryRules.includes(tab, id.toString())) {
-                    continue;
-                }
-                String path = id.getPath().replace('/', '.');
-                String baseKey = translationPrefix + "." + id.getNamespace() + "." + path;
-                int color = ((Number) value.getClass().getMethod("color").invoke(value)).intValue() & 0xFFFFFF;
-                entries.add(new GuidebookEntry(
-                        id.toString(),
-                        tab,
-                        modId,
-                        baseKey + ".name",
-                        baseKey + ".description",
-                        List.of(baseKey + ".description"),
-                        GuidebookDiscoveryRules.ownerRoleIds(id.toString()),
-                        List.of(modId),
-                        color,
-                        order++
-                ));
+        int order = 1_000;
+        for (T value : values) {
+            Identifier id = idOf.apply(value);
+            // Witch skills are fail-closed to the supported role-owned set.
+            // 魔女技能目录仅收录受支持的职业专属技能，未知技能默认排除。
+            if (authoredIds.contains(id.toString())
+                    || !GuidebookDiscoveryRules.includes(tab, id.toString())) {
+                continue;
             }
-        } catch (ClassNotFoundException exception) {
-            LOGGER.debug("Optional guidebook registry {} is unavailable", registryClassName);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | ClassCastException exception) {
-            LOGGER.warn("Could not read optional guidebook registry {}", registryClassName, exception);
+            String path = id.getPath().replace('/', '.');
+            String baseKey = translationPrefix + "." + id.getNamespace() + "." + path;
+            int color = colorOf.applyAsInt(value) & 0xFFFFFF;
+            entries.add(new GuidebookEntry(
+                    id.toString(),
+                    tab,
+                    modId,
+                    baseKey + ".name",
+                    baseKey + ".description",
+                    List.of(baseKey + ".description"),
+                    GuidebookDiscoveryRules.ownerRoleIds(id.toString()),
+                    List.of(modId),
+                    color,
+                    order++
+            ));
         }
     }
 

@@ -31,7 +31,6 @@ import net.createmod.ponder.foundation.PonderScene;
 import net.createmod.ponder.foundation.element.AnimatedSceneElementBase;
 import net.createmod.ponder.foundation.element.ElementLinkImpl;
 import net.createmod.ponder.foundation.instruction.TickingInstruction;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -102,16 +101,12 @@ final class NoellesKillerScenes {
         item("noellesroles:throwing_axe", NOELLES, scene("noellesroles/axe_wall", NoellesKillerScenes::throwingAxe));
         role("sparkassist:roles/noellesroles/bomber", NOELLES,
                 scene("wathe/aisle", NoellesKillerScenes::timedBomb));
-        // SparkStrength adds a second use, hiding the bomb in a tray or bed as a trap; that scene is appended only when
-        // SparkStrength is loaded, so the NoellesRoles-only demo stays as it was.
-        // SparkStrength 新增第二种用法（把炸弹藏进托盘或床做陷阱）；仅在加载 SparkStrength 时追加该场景，只装 NoellesRoles
-        // 时演示保持原样。
-        if (FabricLoader.getInstance().isModLoaded("sparkstrength")) {
-            item("noellesroles:timed_bomb", NOELLES, scene("wathe/aisle", NoellesKillerScenes::timedBomb),
-                    scene("wathe/bar", SparkStrengthKillerItemScenes::timedBombTrap));
-        } else {
-            item("noellesroles:timed_bomb", NOELLES, scene("wathe/aisle", NoellesKillerScenes::timedBomb));
-        }
+        // SparkStrength adds a second use, hiding the bomb in a tray or bed as a trap. The modules are fused in
+        // SparkDLC, so that scene is always appended (it used to be gated on SparkStrength being loaded).
+        // SparkStrength 新增第二种用法（把炸弹藏进托盘或床做陷阱）。各模块已融合进 SparkDLC，因此始终追加该场景
+        // （原先仅在加载 SparkStrength 时追加）。
+        item("noellesroles:timed_bomb", NOELLES, scene("wathe/aisle", NoellesKillerScenes::timedBomb),
+                scene("wathe/bar", SparkStrengthKillerItemScenes::timedBombTrap));
         item("sparkstrength:grenade_drone", NOELLES_STRENGTH,
                 scene("noellesroles/wide_aisle", NoellesKillerScenes::grenadeDrone));
         role("sparkassist:roles/noellesroles/jester", NOELLES_STRENGTH,
@@ -1207,10 +1202,10 @@ final class NoellesKillerScenes {
 
     /**
      * Set one of DroneEntity's synced fields (STATE: 0 grounded, 1 hovering, 2 flying; PAYLOAD) as the server would.
-     * SparkAssist does not build against SparkStrength, so the field is looked up by name; if it is missing the drone
-     * simply keeps its default look.
-     * 像服务端那样设置 DroneEntity 的同步字段（STATE：0 停放、1 悬停、2 飞行；PAYLOAD 挂载）。SparkAssist 不依赖
-     * SparkStrength 编译，所以按名字查找字段；找不到时无人机保持默认外观。
+     * The modules are fused in SparkDLC, but both fields are private to SparkStrength's DroneEntity, so the field is
+     * still looked up by name; if it is missing the drone simply keeps its default look.
+     * 像服务端那样设置 DroneEntity 的同步字段（STATE：0 停放、1 悬停、2 飞行；PAYLOAD 挂载）。各模块已融合进 SparkDLC，
+     * 但这两个字段是 SparkStrength 的 DroneEntity 的私有字段，所以仍按名字查找；找不到时无人机保持默认外观。
      */
     @SuppressWarnings("unchecked")
     private static <T> void droneData(Entity drone, String field, T value) {

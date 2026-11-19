@@ -1,13 +1,10 @@
 package dev.caecorthus.sparkdlc.assist.achievement;
 
+import dev.caecorthus.sparkdlc.factionapi.api.SparkFactionApi;
 import dev.doctor4t.wathe.api.Faction;
-import java.lang.reflect.Method;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Faction ids as SparkFactionAPI names them, and the two sides achievements talk about: "好人" is the civilian
@@ -33,8 +30,9 @@ public final class Factions {
 
     /**
      * Native custom Wathe constants SparkWitch declares through SparkFactionAPI, used when the API cannot name them
-     * (older SparkFactionAPI, or the lookup failed this time).
-     * SparkWitch 通过 SparkFactionAPI 声明的 Wathe 原生自定义常量；API 无法给出 id 时（旧版 SparkFactionAPI 或本次查询失败）使用。
+     * (this side's {@code Faction} enum lacks the constant, so there is nothing to ask the API about).
+     * SparkWitch 通过 SparkFactionAPI 声明的 Wathe 原生自定义常量；API 无法给出 id 时（本端的 {@code Faction} 枚举没有该常量，
+     * 无从向 API 查询）使用。
      */
     private static final Map<String, String> NATIVE_FALLBACK = Map.of("WITCH", WITCH, "JIAHAO", JIAHAO);
 
@@ -68,34 +66,31 @@ public final class Factions {
     /**
      * The id for a Wathe {@code Faction} constant name as written in {@code role_assigned} ({@code CIVILIAN} →
      * {@code wathe:civilian}), or null. SparkFactionAPI appends native custom constants ({@code WITCH},
-     * {@code JIAHAO}) and names their ids through {@code factionIdOf(Faction.valueOf(name))}; without it (or when
-     * that lookup fails) the built-ins keep the {@code wathe:} form and the known natives use their SparkWitch ids.
+     * {@code JIAHAO}) and names their ids through {@code factionIdOf(Faction.valueOf(name))}; when it has no id for
+     * the name (a constant this side lacks) the built-ins keep the {@code wathe:} form and the known natives use
+     * their SparkWitch ids.
      * {@code role_assigned} 中 Wathe {@code Faction} 常量名对应的 id（{@code CIVILIAN} → {@code wathe:civilian}），没有则为
      * null。SparkFactionAPI 会追加原生自定义常量（{@code WITCH}、{@code JIAHAO}），并通过
-     * {@code factionIdOf(Faction.valueOf(name))} 给出其 id；没有该 API（或本次查询失败）时，内置阵营沿用 {@code wathe:} 形式，
-     * 已知的原生阵营使用 SparkWitch 的 id。
+     * {@code factionIdOf(Faction.valueOf(name))} 给出其 id；API 对该名称没有 id（本端没有这个常量）时，内置阵营沿用
+     * {@code wathe:} 形式，已知的原生阵营使用 SparkWitch 的 id。
      */
     public static String fromWatheName(String name) {
-        return fromWatheName(name, SparkFactionNames::idOf);
+        return fromWatheName(name, Factions::sparkFactionId);
     }
 
     /**
-     * {@link #fromWatheName(String)} with the SparkFactionAPI lookup given: it returns the id or null, and may throw;
-     * either way the call falls back for this name only.
-     * 指定 SparkFactionAPI 查询的 {@link #fromWatheName(String)}：查询返回 id 或 null，也可能抛出异常；无论哪种情况，都只对
-     * 这一个名称回退。
+     * {@link #fromWatheName(String)} with the SparkFactionAPI lookup given: it returns the id, or null (or blank) to
+     * fall back for this name only. The modules are fused in SparkDLC and the real lookup is a direct call, so a
+     * lookup that throws is no longer swallowed here.
+     * 指定 SparkFactionAPI 查询的 {@link #fromWatheName(String)}：查询返回 id；返回 null（或空白）时只对这一个名称回退。
+     * 各模块已融合进 SparkDLC，真正的查询是直接调用，因此这里不再吞掉查询抛出的异常。
      */
     static String fromWatheName(String name, Function<String, String> sparkFactionLookup) {
         if (name == null || name.isBlank()) {
             return null;
         }
         String constant = name.trim();
-        String id;
-        try {
-            id = sparkFactionLookup.apply(constant);
-        } catch (RuntimeException | LinkageError failed) {
-            id = null;
-        }
+        String id = sparkFactionLookup.apply(constant);
         if (id != null && !id.isBlank()) {
             return id;
         }
@@ -104,49 +99,19 @@ public final class Factions {
     }
 
     /**
-     * SparkFactionAPI's {@code factionIdOf(Faction)}, reached by reflection and looked up once (SparkAssist never
-     * requires SparkFactionAPI). Fails closed: a missing class or method (older API) answers null for good; a failing
-     * call answers null for that call only.
-     * 通过反射调用 SparkFactionAPI 的 {@code factionIdOf(Faction)}，只查找一次（SparkAssist 从不强制依赖 SparkFactionAPI）。
-     * 失败时关闭：类或方法缺失（旧版 API）时始终返回 null；单次调用失败只让这一次返回 null。
+     * SparkFactionAPI's {@code factionIdOf(Faction)} for a constant name, or null when this side's {@code Faction}
+     * has no such constant or the API has no id for it. The modules are fused in SparkDLC, so this is a direct call
+     * (it used to be a reflective lookup that failed closed without SparkFactionAPI).
+     * 按常量名调用 SparkFactionAPI 的 {@code factionIdOf(Faction)}；本端的 {@code Faction} 没有该常量，或 API 没有对应 id 时
+     * 返回 null。各模块已融合进 SparkDLC，因此这里是直接调用（原先是反射查找，没有 SparkFactionAPI 时失败关闭）。
      */
-    private static final class SparkFactionNames {
-        private static final Logger LOGGER = LoggerFactory.getLogger("SparkAssist/Achievements");
-        private static final Method FACTION_ID_OF = find();
-        private static volatile boolean warned;
-
-        private static Method find() {
-            try {
-                Class<?> api = Class.forName("dev.caecorthus.sparkdlc.factionapi.api.SparkFactionApi", false,
-                        Factions.class.getClassLoader());
-                return api.getMethod("factionIdOf", Faction.class);
-            } catch (ReflectiveOperationException | LinkageError | RuntimeException missing) {
-                return null;
-            }
+    private static String sparkFactionId(String constant) {
+        Faction faction;
+        try {
+            faction = Faction.valueOf(constant);
+        } catch (IllegalArgumentException unknown) {
+            return null;
         }
-
-        static String idOf(String constant) {
-            if (FACTION_ID_OF == null) {
-                return null;
-            }
-            Faction faction;
-            try {
-                faction = Faction.valueOf(constant);
-            } catch (IllegalArgumentException unknown) {
-                return null;
-            }
-            try {
-                Object result = FACTION_ID_OF.invoke(null, faction);
-                Object id = result instanceof Optional<?> optional ? optional.orElse(null) : null;
-                return id == null ? null : id.toString();
-            } catch (ReflectiveOperationException | RuntimeException failed) {
-                if (!warned) {
-                    warned = true;
-                    LOGGER.warn("SparkFactionAPI factionIdOf({}) failed; using SparkAssist's own faction names",
-                            constant, failed);
-                }
-                return null;
-            }
-        }
+        return SparkFactionApi.factionIdOf(faction).map(Object::toString).orElse(null);
     }
 }

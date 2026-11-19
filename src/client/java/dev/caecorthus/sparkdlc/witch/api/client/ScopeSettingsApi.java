@@ -10,8 +10,9 @@ import java.util.List;
 
 /**
  * Stable cross-mod contract (client only, 2026-10-19): lets SparkAssist's SparkDLC settings screen show and change the
- * three scope settings (Scope View, Lens Resolution, Scoped Sensitivity) with its own widgets. SparkAssist reaches it
- * by reflection, so this FQCN and the JDK-only signatures must not change. It reads and changes the same live settings
+ * three scope settings (Scope View, Lens Resolution, Scoped Sensitivity) with its own widgets. SparkAssist calls it
+ * directly now that the modules are fused in SparkDLC (it used to reach it by reflection); keep this FQCN and the
+ * JDK-only signatures unchanged. It reads and changes the same live settings
  * as Options → Accessibility ({@code ScopeSettingsStore}), so the two never disagree. Setters take effect in game at
  * once but never write {@code config/sparkwitch-client.json}; {@link #save()} does (on slider release, page switch or
  * screen close). Values are clamped and snapped as the file is; a mode or lens resolution that is not one of its
@@ -23,7 +24,8 @@ import java.util.List;
  * {@code option.sparkwitch.scope_lens_resolution} and its {@code .tooltip}; {@code option.sparkwitch.scope_sensitivity}
  * and its {@code .tooltip}.
  * 稳定跨模组契约（仅客户端，2026-10-19）：允许 SparkAssist 的 SparkDLC 设置界面用自己的控件显示并修改三项开镜设置
- * （开镜画面、镜内分辨率、开镜灵敏度）。SparkAssist 通过反射访问本类，因此完整类名与仅使用 JDK 类型的签名都不得更改。
+ * （开镜画面、镜内分辨率、开镜灵敏度）。各模块已融合进 SparkDLC，SparkAssist 现在直接调用本类（原先通过反射访问）；
+ * 完整类名与仅使用 JDK 类型的签名仍不得更改。
  * 它读写的是与「选项 → 辅助功能」相同的实时设置（{@code ScopeSettingsStore}），两者永不冲突。设置方法在游戏中立即生效，
  * 但从不写入 {@code config/sparkwitch-client.json}；由 {@link #save()} 写入（松开滑块、切换页面或关闭界面时）。数值的钳制与
  * 取整与文件一致；不属于可选项的模式或镜内分辨率会被忽略。在 SparkWitch 开镜模块注册之前调用也安全：第一次调用会加载文件。

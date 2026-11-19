@@ -17,7 +17,8 @@ import java.util.UUID;
  * a {@code death_reason}). This is not display data; the replay screen uses {@code ReplaySnapshot}.
  * <p>
  * Stable cross-mod contract: the record and accessor names {@code matchId()}, {@code events()}, {@code seq()},
- * {@code type()}, {@code tick()} and {@code data()} are read reflectively by SparkAssist; do not rename them.
+ * {@code type()}, {@code tick()} and {@code data()} are read by SparkAssist (directly now that the modules are fused
+ * in SparkDLC; it used to be reflective); do not rename them.
  * <p>
  * 单局已结束 Wathe 对局的结构化事实：服务端 {@code GameRecordManager.MatchRecord} 的事件，按记录顺序排列，不含
  * {@code door_interaction} 事件，并截取放得进数据包的最早部分。每个事件原样保留 Wathe 的 NBT：{@code actor}/{@code target}
@@ -25,7 +26,7 @@ import java.util.UUID;
  * {@code ReplaySnapshot}。
  * <p>
  * 稳定的跨模组契约：记录及访问器名 {@code matchId()}、{@code events()}、{@code seq()}、{@code type()}、{@code tick()}、
- * {@code data()} 由 SparkAssist 通过反射读取，请勿改名。
+ * {@code data()} 由 SparkAssist 读取（各模块已融合进 SparkDLC，现为直接调用，原先通过反射），请勿改名。
  */
 public record MatchRecordSnapshot(UUID matchId, List<Event> events) {
     /** Most events one snapshot carries. 单个快照最多携带的事件数。 */

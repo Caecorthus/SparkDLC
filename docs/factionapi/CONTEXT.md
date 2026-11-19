@@ -341,7 +341,8 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   budget; `tick` is clamped to 0 or more. A failure is logged and never stops
   finalization. The client stores only the latest snapshot, clears it on
   disconnect, and opens nothing. `SparkMatchRecordClient.latest()` and the
-  `MatchRecordSnapshot` accessors are read reflectively by SparkAssist.
+  `MatchRecordSnapshot` accessors are read by SparkAssist (a direct call
+  since the fusion).
 - Extra `death` record fields (achievement record contract A1), added by
   wrapping the 5-argument `GameFunctions.killPlayer` (the 3- and 4-argument
   overloads delegate to it) and modifying the data argument of
@@ -508,7 +509,8 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   to it. Each mod creates its own `InventoryInfoCard` (own caches, overflow
   lang key, second-row rule, HUD and decoration hooks) and its own
   `GuideDecorBridge`; instances are never shared between mods.
-  SparkAssist decoration is reached by name only.
+  SparkAssist decoration is reached by name only (factionapi must not import
+  a sibling module); the lookup is no longer gated on the `sparkassist` id.
 - `api/settlement/SettlementExclusions`: SparkWitch registers
   `sparkwitch:black_raven`, `sparkwitch:stowaway` and
   `sparkwitch:schrodingers_cat` unconditionally and `sparkwitch:charon` as a
@@ -520,5 +522,7 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   SparkStrength reaches `api/cooldown` (store registration,
   `clearItemKeepingForced`) only by reflection and falls back when it is
   missing. SparkAssist reads the match record through
-  `client.api.SparkMatchRecordClient` only by reflection, including the
-  achievement record events and `death` fields by name.
+  `client.api.SparkMatchRecordClient` and the faction ids through
+  `api.SparkFactionApi` and `SparkFactionRoundEndComponent` by direct calls
+  since the fusion (the achievement record events and `death` fields are
+  still read by name).

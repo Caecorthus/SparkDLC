@@ -1,125 +1,55 @@
-plugins {
-    id 'fabric-loom' version '1.13-SNAPSHOT'
-}
+// SparkStrength verification tasks, ported from the standalone SparkStrength build script and applied by the root
+// build.gradle. Everything the root build already owns (plugins, loom, repositories, dependencies, processResources,
+// jar, java) was removed; only the checks remain. Run them with `./gradlew verifyStrength`.
+// SparkStrength 的校验任务，由独立的 SparkStrength 构建脚本迁移而来，由根 build.gradle 引入。根构建已负责的部分
+// （插件、loom、仓库、依赖、processResources、jar、java）已删除，这里只保留校验。用 `./gradlew verifyStrength` 运行。
 
-version = project.mod_version
-group = project.maven_group
+// The standalone script pinned mod_version, wathe_version and noellesroles_version to literals in a
+// compatibilityBaseline table. The fused build keeps every pin in gradle.properties, shared by the five modules, so
+// that file is now the baseline: the build must use exactly its values (no -P or ~/.gradle override).
+// 独立脚本用 compatibilityBaseline 表把 mod_version、wathe_version、noellesroles_version 钉为字面量。融合后的构建把所有
+// 钉值放在五个模块共用的 gradle.properties 中，因此该文件就是基线：构建必须原样使用其中的值（不得用 -P 或
+// ~/.gradle 覆盖）。
 
-base {
-    archivesName = project.archives_base_name
-}
-
-loom {
-    splitEnvironmentSourceSets()
-
-    mods {
-        "sparkstrength" {
-            sourceSet sourceSets.main
-            sourceSet sourceSets.client
-        }
+// The jar checks read class files with ASM. In the standalone build.gradle it came with the Loom plugin's classpath;
+// a script applied with `apply from` does not see that classpath, so it declares ASM for itself.
+// jar 校验用 ASM 读取 class 文件。独立的 build.gradle 中它随 Loom 插件的类路径而来；通过 `apply from` 引入的脚本看不到
+// 该类路径，因此在这里自行声明 ASM。
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.ow2.asm:asm-tree:9.8"
     }
 }
 
-repositories {
-    mavenCentral()
-    maven {
-        name = "Terraformers"
-        url = "https://maven.terraformersmc.com/releases/"
-    }
-    maven {
-        name = "Ladysnake Mods"
-        url = "https://maven.ladysnake.org/releases"
-    }
-    maven {
-        name = "Xander Maven"
-        url = "https://maven.isxander.dev/releases"
-    }
-    maven {
-        name = "MaxHenkel"
-        url = "https://maven.maxhenkel.de/repository/public"
-    }
-    maven {
-        name = "Datasync"
-        url = "https://maven.uuid.gg/releases"
-    }
-    maven {
-        name = "Modrinth"
-        url = "https://api.modrinth.com/maven"
-        content {
-            includeGroup "maven.modrinth"
-        }
-    }
-}
-
-dependencies {
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-    modApi files("libs/wathe-${project.wathe_version}.jar")
-    modApi files("libs/noellesroles-${project.noellesroles_version}.jar")
-
-    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}"
-    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}"
-    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-world:${project.cca_version}"
-    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-scoreboard:${project.cca_version}"
-    modImplementation "dev.isxander:yet-another-config-lib:${project.yacl_version}"
-    modImplementation "dev.doctor4t:ratatouille:${project.ratatouille_version}"
-
-    implementation "de.maxhenkel.voicechat:voicechat-api:${project.voicechat_api_version}"
-    modRuntimeOnly "maven.modrinth:simple-voice-chat:fabric-${project.voicechat_version}"
-    modRuntimeOnly "de.maxhenkel.voicechat:voicechat-api:${project.voicechat_api_version}:fabric-stub"
-    // Wathe's main entrypoint needs MidnightLib at runtime; it is not in Wathe's jar on the dev classpath, so
-    // runClient/runServer crash without it. Dev runtime only: nothing compiles against it and it is not shipped.
-    // Wathe 的主入口在运行时需要 MidnightLib；开发类路径上的 Wathe jar 不带它，缺少时 runClient/runServer 会崩溃。
-    // 仅用于开发运行：不参与编译，也不随本模组发布。
-    modRuntimeOnly "maven.modrinth:midnightlib:${project.midnightlib_version}"
-
-}
-
-processResources {
-    inputs.property "version", project.version
-    inputs.property "minecraft_version", project.minecraft_version
-    inputs.property "loader_version", project.loader_version
-    inputs.property "wathe_version", project.wathe_version
-    inputs.property "noellesroles_version", project.noellesroles_version
-    inputs.property "cca_version", project.cca_version
-
-    filteringCharset "UTF-8"
-
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version,
-                "minecraft_version": project.minecraft_version,
-                "loader_version": project.loader_version,
-                "wathe_version": project.wathe_version,
-                "noellesroles_version": project.noellesroles_version,
-                "cca_version": project.cca_version
-    }
-}
-
-def compatibilityBaseline = [
-        mod_version          : "2.0.0",
-        wathe_version        : "1.5.6-spark-1.21.1",
-        noellesroles_version : "1.7.6-h1.5.6-spark"
+def pinnedProperties = [
+        "mod_version",
+        "wathe_version",
+        "wathe_sha256",
+        "noellesroles_version",
+        "noellesroles_sha256"
 ]
 def providerBaselines = [
-        // The runtime Wathe build that the released 1.5.6 pack ships and the other four Spark mods pin. The
-        // historical Windows build of the same commit (sha256 95d7c06…) numbers javac lambdas differently.
-        // 正式版 1.5.6 整合包所带、其余四个 Spark mod 所钉的运行时 Wathe 构建；同一提交的旧 Windows 构建
+        // The runtime Wathe build that the released 1.5.6 pack ships; every SparkDLC module builds against this one
+        // jar. The historical Windows build of the same commit (sha256 95d7c06…) numbers javac lambdas differently.
+        // 正式版 1.5.6 整合包所带的运行时 Wathe 构建，SparkDLC 的所有模块都基于这一个 jar 构建；同一提交的旧 Windows 构建
         // （sha256 95d7c06…）的 javac lambda 编号不同。
         wathe: [
-                fileName : "wathe-1.5.6-spark-1.21.1.jar",
-                version  : "1.5.6-spark-1.21.1",
-                sha256   : "a4e0355c61def0b482c197a7ccd1f86ee91752b7af1b5bdafae8716c652f207f"
+                fileName : "wathe-${project.wathe_version}.jar".toString(),
+                version  : project.wathe_version.toString(),
+                sha256   : project.wathe_sha256.toString()
         ],
         // The runtime baseline build (sha1 b2302b9…). Its AbilityC2SPacket handler is $5; the historical
         // Windows build of the same sources numbers it $36. 运行时基线构建；同一源码的旧 Windows 构建编号为 $36。
+        // The lambda numbers below belong to the jar pinned by noellesroles_sha256: moving that pin means reading
+        // them again from the new jar. 下面的 lambda 编号属于 noellesroles_sha256 所钉的 jar：改动该钉值时必须从新 jar
+        // 重新确认这些编号。
         noellesroles: [
-                fileName       : "noellesroles-1.7.6-h1.5.6-spark.jar",
-                version        : "1.7.6-h1.5.6-spark",
-                sha256         : "fcb0da6995197afff8637dd9236f96d9d07cfc0e26484ad3777e5cf3de37d8b7",
+                fileName       : "noellesroles-${project.noellesroles_version}.jar".toString(),
+                version        : project.noellesroles_version.toString(),
+                sha256         : project.noellesroles_sha256.toString(),
                 abilityHandler : "lambda\$registerPackets\$5",
                 // The Assassin guess and Swapper swap handlers, where the stage-2 Undercover's immunities cancel them.
                 // 刺客猜测与交换者交换的处理函数，二阶段卧底的免疫在此取消它们。
@@ -131,6 +61,12 @@ def supersededProviderJars = [
         "wathe-1.5.7-spark-1.21.1.jar",
         "noellesroles-1.7.7-h1.5.7-spark.jar"
 ]
+// The other modules are no longer provider jars: they are packages of the same source tree and the same jar, so there
+// is nothing to pin for them. What remains checkable is that the classes SparkStrength reaches by name exist in the
+// fused jar (verifyStrengthSiblingSeams).
+// 其他模块不再是提供方 jar：它们是同一源码树、同一个 jar 中的包，因此无需为它们钉任何值。仍可校验的是 SparkStrength
+// 按名称访问的类确实存在于融合后的 jar 中（verifyStrengthSiblingSeams）。
+def siblingModules = ["factionapi", "traits", "witch", "assist"]
 def sha256 = { File target ->
     def digest = java.security.MessageDigest.getInstance("SHA-256")
     target.withInputStream { input ->
@@ -154,19 +90,13 @@ def readJarMetadata = { File jarFile ->
     }
 }
 
-def targetJavaVersion = 21
-tasks.withType(JavaCompile).configureEach {
-    it.options.encoding = "UTF-8"
-    it.options.release.set(targetJavaVersion)
-}
-
-tasks.register("verifyArchitecture") {
+tasks.register("verifyStrengthArchitecture") {
     group = "verification"
-    description = "Checks architecture contracts and the exact provider compatibility baseline."
+    description = "Checks SparkStrength architecture contracts and the pinned Wathe/NoellesRoles provider jars."
     dependsOn tasks.named("processResources")
 
     inputs.files(
-            "CONTEXT.md",
+            "docs/strength/CONTEXT.md",
             "gradle.properties",
             "src/main/resources/fabric.mod.json",
             "src/main/java/dev/caecorthus/sparkdlc/strength/compat/SparkTraitsCompat.java",
@@ -176,7 +106,7 @@ tasks.register("verifyArchitecture") {
     )
     inputs.files(fileTree("libs") { include "*.jar" })
     inputs.files(tasks.named("processResources").map { it.destinationDir })
-    compatibilityBaseline.each { propertyName, expectedValue ->
+    pinnedProperties.each { propertyName ->
         inputs.property(propertyName, project.property(propertyName))
     }
 
@@ -212,9 +142,17 @@ tasks.register("verifyArchitecture") {
                 "dev.caecorthus.sparkdlc.traits.net.",
                 "dev.caecorthus.sparkdlc.traits.voice."
         ]
-        def internalTraitReferences = fileTree("src") {
-            include "**/*.java"
-        }.findAll { sourceFile ->
+        // `src` now holds all five modules, and the traits module names its own packages, so the scan covers only
+        // the strength packages of every source set (main, client and the local-only test tree when present).
+        // `src` 现在包含全部五个模块，而 traits 模块自然会引用自己的包，因此只扫描各源码集（main、client，以及存在时的
+        // 本地 test）中的 strength 包。
+        def strengthSources = fileTree("src") {
+            include "*/java/dev/caecorthus/sparkdlc/strength/**/*.java"
+        }.files
+        if (strengthSources.isEmpty()) {
+            throw new GradleException("No SparkStrength sources found under src/*/java/dev/caecorthus/sparkdlc/strength")
+        }
+        def internalTraitReferences = strengthSources.findAll { sourceFile ->
             def sourceText = sourceFile.getText("UTF-8")
             forbiddenSparkTraitsPackages.any { sourceText.contains(it) }
         }
@@ -240,11 +178,13 @@ tasks.register("verifyArchitecture") {
 
         def properties = new Properties()
         file("gradle.properties").withInputStream { properties.load(it) }
-        compatibilityBaseline.each { propertyName, expectedValue ->
+        pinnedProperties.each { propertyName ->
             def configuredValue = properties.getProperty(propertyName)
-            if (configuredValue != expectedValue || project.property(propertyName).toString() != expectedValue) {
+            if (configuredValue == null || configuredValue.isEmpty() ||
+                    project.property(propertyName).toString() != configuredValue) {
                 throw new GradleException(
-                        "${propertyName} must be exactly ${expectedValue}; found file=${configuredValue}, project=${project.property(propertyName)}"
+                        "${propertyName} must be exactly the gradle.properties pin; " +
+                                "found file=${configuredValue}, project=${project.property(propertyName)}"
                 )
             }
         }
@@ -268,6 +208,9 @@ tasks.register("verifyArchitecture") {
         providerBaselines.each { modId, baseline ->
             def jarFile = file("libs/${baseline.fileName}")
             requireFile("libs/${baseline.fileName}")
+            if (!(baseline.sha256 ==~ /[0-9a-f]{64}/)) {
+                throw new GradleException("${modId}_sha256 in gradle.properties must be a lowercase sha256 digest")
+            }
             def actualChecksum = sha256(jarFile)
             if (actualChecksum != baseline.sha256) {
                 throw new GradleException(
@@ -290,17 +233,17 @@ tasks.register("verifyArchitecture") {
             }
         }
 
-        def processedMetadataFile = file("build/resources/main/fabric.mod.json")
+        def processedMetadataFile = new File(tasks.named("processResources").get().destinationDir, "fabric.mod.json")
         if (!processedMetadataFile.isFile()) {
             throw new GradleException("Missing processed fabric.mod.json: ${processedMetadataFile}")
         }
         def processedMetadata = new groovy.json.JsonSlurper().parse(processedMetadataFile)
-        if (processedMetadata.version?.toString() != compatibilityBaseline.mod_version) {
-            throw new GradleException("Processed metadata version must be ${compatibilityBaseline.mod_version}")
+        if (processedMetadata.version?.toString() != project.mod_version.toString()) {
+            throw new GradleException("Processed metadata version must be ${project.mod_version}")
         }
         [
-                wathe        : compatibilityBaseline.wathe_version,
-                noellesroles : compatibilityBaseline.noellesroles_version
+                wathe        : providerBaselines.wathe.version,
+                noellesroles : providerBaselines.noellesroles.version
         ].each { modId, expectedVersion ->
             if (processedMetadata.depends?.get(modId)?.toString() != expectedVersion) {
                 throw new GradleException(
@@ -336,9 +279,9 @@ def annotationValue = { annotation, String key ->
     }
     null
 }
-tasks.register("verifyCompatibilityArtifact") {
+tasks.register("verifyStrengthCompatibilityArtifact") {
     group = "verification"
-    description = "Checks final metadata, mixins, and provider isolation in the remapped jar."
+    description = "Checks SparkStrength's metadata, mixins, and provider isolation in the remapped SparkDLC jar."
     dependsOn remappedModJar
     inputs.file(remappedModJar.flatMap { it.archiveFile })
     inputs.files(
@@ -348,7 +291,7 @@ tasks.register("verifyCompatibilityArtifact") {
 
     doLast {
         def jarFile = remappedModJar.get().archiveFile.get().asFile
-        def expectedJarName = "${project.archives_base_name}-${compatibilityBaseline.mod_version}.jar"
+        def expectedJarName = "${project.archives_base_name}-${project.mod_version}.jar"
         if (jarFile.name != expectedJarName) {
             throw new GradleException("Remapped jar must be named ${expectedJarName}; found ${jarFile.name}")
         }
@@ -360,15 +303,24 @@ tasks.register("verifyCompatibilityArtifact") {
                 throw new GradleException("Missing fabric.mod.json in ${jarFile.name}")
             }
             def metadata = new groovy.json.JsonSlurper().parse(zipFile.getInputStream(metadataEntry))
-            if (metadata.id?.toString() != "sparkstrength" || metadata.version?.toString() != compatibilityBaseline.mod_version) {
+            // SparkStrength is no longer a mod of its own: the jar identifies as sparkdlc and keeps the legacy id
+            // under `provides`, which is what isModLoaded("sparkstrength") in other mods and packs still answers to.
+            // SparkStrength 不再是独立 mod：jar 的 id 是 sparkdlc，旧 id 保留在 `provides` 中，其他 mod 和整合包的
+            // isModLoaded("sparkstrength") 仍靠它成立。
+            if (metadata.id?.toString() != "sparkdlc" || metadata.name?.toString() != "SparkDLC" ||
+                    metadata.version?.toString() != project.mod_version.toString()) {
                 throw new GradleException(
-                        "Final metadata must identify sparkstrength ${compatibilityBaseline.mod_version}; " +
-                                "found ${metadata.id} ${metadata.version}"
+                        "Final metadata must identify sparkdlc (SparkDLC) ${project.mod_version}; " +
+                                "found ${metadata.id} (${metadata.name}) ${metadata.version}"
                 )
             }
+            def providedIds = (metadata.provides ?: []).collect { it.toString() }
+            if (!providedIds.contains("sparkstrength")) {
+                throw new GradleException("Final metadata must provide the legacy id sparkstrength; found ${providedIds}")
+            }
             [
-                    wathe        : compatibilityBaseline.wathe_version,
-                    noellesroles : compatibilityBaseline.noellesroles_version
+                    wathe        : providerBaselines.wathe.version,
+                    noellesroles : providerBaselines.noellesroles.version
             ].each { modId, expectedVersion ->
                 if (metadata.depends?.get(modId)?.toString() != expectedVersion) {
                     throw new GradleException(
@@ -377,6 +329,69 @@ tasks.register("verifyCompatibilityArtifact") {
                 }
             }
 
+            // The standalone fabric.mod.json listed SparkStrength and SparkStrengthClient as entrypoints. The fused
+            // one lists a single pair, which must start this module; the voice chat plugin and the component
+            // initializer are still listed by name.
+            // 独立的 fabric.mod.json 把 SparkStrength 与 SparkStrengthClient 列为入口。融合后只列出一对入口，它们必须
+            // 启动本模块；语音插件和组件初始化器仍按名称列出。
+            def requireEntrypoint = { String key, String className ->
+                def listed = (metadata.entrypoints?.get(key) ?: []).collect { it.toString() }
+                if (!listed.contains(className)) {
+                    throw new GradleException("Final metadata entrypoint ${key} must list ${className}; found ${listed}")
+                }
+                if (zipFile.getEntry(className.replace('.', '/') + ".class") == null) {
+                    throw new GradleException("Entrypoint class ${className} is missing from ${jarFile.name}")
+                }
+            }
+            requireEntrypoint("voicechat", "dev.caecorthus.sparkdlc.strength.voice.SparkStrengthVoiceChatPlugin")
+            requireEntrypoint("cardinal-components", "dev.caecorthus.sparkdlc.strength.component.SparkStrengthComponents")
+            [
+                    main  : ["dev.caecorthus.sparkdlc.SparkDLC", "onInitialize",
+                             "dev/caecorthus/sparkdlc/strength/SparkStrength"],
+                    client: ["dev.caecorthus.sparkdlc.client.SparkDLCClient", "onInitializeClient",
+                             "dev/caecorthus/sparkdlc/strength/client/SparkStrengthClient"]
+            ].each { key, expectation ->
+                def (String entrypointClass, String initializerMethod, String moduleInitializer) = expectation
+                requireEntrypoint(key, entrypointClass)
+                def entrypointNode = readClassNode(zipFile, entrypointClass.replace('.', '/') + ".class")
+                def startsModule = entrypointNode.methods.any { method ->
+                    method.name == initializerMethod && method.desc == "()V" &&
+                            method.instructions.toArray().any { instruction ->
+                                instruction instanceof org.objectweb.asm.tree.MethodInsnNode &&
+                                        instruction.owner == moduleInitializer &&
+                                        instruction.name == initializerMethod && instruction.desc == "()V"
+                            }
+                }
+                if (!startsModule) {
+                    throw new GradleException(
+                            "${entrypointClass}#${initializerMethod} must call ${moduleInitializer}#${initializerMethod}"
+                    )
+                }
+            }
+            def declaredComponents = (metadata.custom?.get("cardinal-components") ?: []).collect { it.toString() }
+            if (!declaredComponents.contains("sparkstrength:engineer_stunned")) {
+                throw new GradleException("Final metadata must declare the component sparkstrength:engineer_stunned")
+            }
+
+            // Both configs must also be listed in the fused metadata, the client one only for the client environment.
+            // 两个配置还必须列在融合后的元数据中，客户端配置仅限 client 环境。
+            def listedMixinConfigs = (metadata.mixins ?: []).collectEntries { entry ->
+                entry instanceof Map
+                        ? [(entry.config.toString()): entry.environment?.toString()]
+                        : [(entry.toString()): null]
+            }
+            def expectedMixinEnvironments = [
+                    "sparkstrength.mixins.json"        : null,
+                    "sparkstrength.client.mixins.json" : "client"
+            ]
+            expectedMixinEnvironments.each { configName, environment ->
+                if (!listedMixinConfigs.containsKey(configName) || listedMixinConfigs[configName] != environment) {
+                    throw new GradleException(
+                            "Final metadata must list ${configName} with environment ${environment}; " +
+                                    "found ${listedMixinConfigs.subMap(expectedMixinEnvironments.keySet())}"
+                    )
+                }
+            }
             def expectedMixinConfigs = [
                     "sparkstrength.mixins.json"        : "corruptcop.CorruptCopAbilityPacketMixin",
                     "sparkstrength.client.mixins.json" : "hud.MainHudDispatchMixin"
@@ -562,24 +577,159 @@ tasks.register("verifyCompatibilityArtifact") {
     }
 }
 
-tasks.named("check") {
-    setDependsOn([])
+// Every string a class file carries: annotation values (a @Mixin(targets = …) name included), constant fields and
+// the string constants its code loads.
+// 类文件携带的全部字符串：注解值（包括 @Mixin(targets = …) 的名称）、常量字段以及代码加载的字符串常量。
+def collectAnnotationStrings
+collectAnnotationStrings = { value, Collection<String> sink ->
+    if (value instanceof String) {
+        sink.add(value)
+    } else if (value instanceof org.objectweb.asm.tree.AnnotationNode) {
+        def values = value.values ?: []
+        for (int index = 1; index < values.size(); index += 2) {
+            collectAnnotationStrings(values[index], sink)
+        }
+    } else if (value instanceof Collection) {
+        value.each { collectAnnotationStrings(it, sink) }
+    }
+}
+def classStringConstants = { classNode ->
+    def strings = new LinkedHashSet<String>()
+    def collectAnnotations = { annotated ->
+        ((annotated.visibleAnnotations ?: []) + (annotated.invisibleAnnotations ?: [])).each {
+            collectAnnotationStrings(it, strings)
+        }
+    }
+    collectAnnotations(classNode)
+    classNode.fields.each { field ->
+        collectAnnotations(field)
+        if (field.value instanceof String) {
+            strings.add(field.value)
+        }
+    }
+    classNode.methods.each { method ->
+        collectAnnotations(method)
+        method.instructions.toArray().each { instruction ->
+            if (instruction instanceof org.objectweb.asm.tree.LdcInsnNode && instruction.cst instanceof String) {
+                strings.add(instruction.cst)
+            }
+        }
+    }
+    strings
+}
+// Standalone SparkStrength reached SparkFactionAPI, SparkTraits and SparkWitch only by name (reflection in the
+// `compat` packages, string @Mixin targets), each behind isModLoaded(<legacy id>), and no build could check those
+// names because the providers were never on its classpath. They still are names, so the compiler still does not check
+// them, but the providers now sit in the same jar: a renamed or moved class must fail here instead of silently
+// switching the bridge off at runtime. Only class names and the hasActiveTrait descriptor are checked; the other
+// reflected method names are not.
+// 独立的 SparkStrength 只按名称访问 SparkFactionAPI、SparkTraits 与 SparkWitch（`compat` 包中的反射、字符串形式的 @Mixin
+// 目标），且都以 isModLoaded(<旧 id>) 为前提；由于这些提供方从不在它的类路径上，没有任何构建能校验这些名称。它们现在
+// 仍是名称，编译器依旧不会检查，但提供方已在同一个 jar 中：类被改名或移动时必须在这里失败，而不是在运行时悄悄关闭桥接。
+// 这里只校验类名和 hasActiveTrait 的描述符，其余反射方法名不在校验范围内。
+tasks.register("verifyStrengthSiblingSeams") {
+    group = "verification"
+    description = "Checks that the sibling-module classes SparkStrength reaches by name exist in the remapped SparkDLC jar."
+    dependsOn remappedModJar
+    inputs.file(remappedModJar.flatMap { it.archiveFile })
+
+    doLast {
+        def jarFile = remappedModJar.get().archiveFile.get().asFile
+        // A whole constant that is a sibling class name, dotted (Class.forName) or with slashes (Loom writes a string
+        // @Mixin target that way), and any sibling type descriptor inside a longer constant (an @At target).
+        // 整个常量就是兄弟模块类名的情况：点分形式（Class.forName）或斜杠形式（Loom 会这样写出字符串 @Mixin 目标）；
+        // 以及较长常量中出现的兄弟模块类型描述符（@At 目标）。
+        def identifier = "[A-Za-z_\$][A-Za-z0-9_\$]*"
+        def modules = "(?:${siblingModules.join('|')})"
+        def dottedClassName = java.util.regex.Pattern.compile(
+                "dev\\.caecorthus\\.sparkdlc\\.${modules}(?:\\.${identifier})+")
+        def internalClassName = java.util.regex.Pattern.compile(
+                "dev/caecorthus/sparkdlc/${modules}(?:/${identifier})+")
+        def embeddedDescriptor = java.util.regex.Pattern.compile(
+                "L(dev/caecorthus/sparkdlc/${modules}(?:/${identifier})+);")
+        def namedSiblingClasses = { String constant ->
+            if (dottedClassName.matcher(constant).matches()) {
+                return [constant.replace('.', '/')]
+            }
+            if (internalClassName.matcher(constant).matches()) {
+                return [constant]
+            }
+            def named = []
+            def matcher = embeddedDescriptor.matcher(constant)
+            while (matcher.find()) {
+                named.add(matcher.group(1))
+            }
+            named
+        }
+        def zipFile = new java.util.zip.ZipFile(jarFile)
+        try {
+            def metadata = new groovy.json.JsonSlurper().parse(zipFile.getInputStream(zipFile.getEntry("fabric.mod.json")))
+            // The bridges only resolve after isModLoaded("sparkfactionapi" / "sparktraits" / "sparkwitch"); in the fused
+            // mod those ids exist only as `provides` aliases, so losing one would switch every bridge behind it off.
+            // 桥接只在 isModLoaded("sparkfactionapi" / "sparktraits" / "sparkwitch") 成立后才解析；融合后这些 id 仅以
+            // `provides` 别名存在，缺少任何一个都会关闭其后的全部桥接。
+            def providedIds = (metadata.provides ?: []).collect { it.toString() }
+            def missingGateIds = ["sparkfactionapi", "sparktraits", "sparkwitch"] - providedIds
+            if (!missingGateIds.isEmpty()) {
+                throw new GradleException(
+                        "Final metadata must provide ${missingGateIds}: SparkStrength's bridges gate on isModLoaded for them"
+                )
+            }
+
+            def seams = new TreeMap<String, Set<String>>()
+            zipFile.entries().findAll { entry ->
+                entry.name.startsWith("dev/caecorthus/sparkdlc/strength/") && entry.name.endsWith(".class")
+            }.each { entry ->
+                classStringConstants(readClassNode(zipFile, entry.name)).each { constant ->
+                    namedSiblingClasses(constant).each { className ->
+                        seams.computeIfAbsent(className) { new TreeSet<String>() }.add(entry.name)
+                    }
+                }
+            }
+            // The scan must keep finding the seam the source contract in verifyStrengthArchitecture requires.
+            // 扫描必须始终能找到 verifyStrengthArchitecture 源码契约所要求的那个接缝。
+            if (!seams.containsKey("dev/caecorthus/sparkdlc/traits/api/SparkTraitsApi")) {
+                throw new GradleException(
+                        "Sibling seam scan found no reference to SparkTraitsApi in ${jarFile.name}; found ${seams.keySet()}"
+                )
+            }
+            def unresolved = seams.findAll { className, users ->
+                zipFile.getEntry(className + ".class") == null
+            }
+            if (!unresolved.isEmpty()) {
+                throw new GradleException(
+                        "SparkStrength names sibling classes that are missing from ${jarFile.name}: " +
+                                unresolved.collect { className, users -> "${className} (named by ${users.join(', ')})" }
+                                        .join("; ")
+                )
+            }
+            logger.lifecycle("verifyStrengthSiblingSeams: ${seams.size()} sibling classes named by SparkStrength resolve in ${jarFile.name}")
+
+            // The one reflected method the source contract pins: public static boolean
+            // SparkTraitsApi.hasActiveTrait(PlayerEntity, Identifier). The jar is remapped, so the parameter types
+            // carry their intermediary names (class_1657 = PlayerEntity, class_2960 = Identifier).
+            // 源码契约所钉的唯一反射方法：public static boolean SparkTraitsApi.hasActiveTrait(PlayerEntity, Identifier)。
+            // jar 已重映射，参数类型使用 intermediary 名称（class_1657 = PlayerEntity，class_2960 = Identifier）。
+            def traitsApi = readClassNode(zipFile, "dev/caecorthus/sparkdlc/traits/api/SparkTraitsApi.class")
+            def publicStatic = org.objectweb.asm.Opcodes.ACC_PUBLIC | org.objectweb.asm.Opcodes.ACC_STATIC
+            def hasActiveTrait = traitsApi.methods.find {
+                it.name == "hasActiveTrait" && it.desc == "(Lnet/minecraft/class_1657;Lnet/minecraft/class_2960;)Z"
+            }
+            if ((traitsApi.access & org.objectweb.asm.Opcodes.ACC_PUBLIC) == 0 || hasActiveTrait == null ||
+                    (hasActiveTrait.access & publicStatic) != publicStatic) {
+                throw new GradleException(
+                        "SparkTraitsApi must keep public static boolean hasActiveTrait(PlayerEntity, Identifier); " +
+                                "found ${traitsApi.methods.findAll { it.name == 'hasActiveTrait' }.collect { it.name + it.desc }}"
+                )
+            }
+        } finally {
+            zipFile.close()
+        }
+    }
 }
 
-jar {
-    from("LICENSE") {
-        rename { "${it}_${project.base.archivesName.get()}" }
-    }
-    from("LICENSE-TEXTURES.md") {
-        rename { "LICENSE-TEXTURES_${project.base.archivesName.get()}.md" }
-    }
-}
-
-java {
-    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
-    if (JavaVersion.current() < javaVersion) {
-        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
-    }
-
-    withSourcesJar()
+tasks.register("verifyStrength") {
+    group = "verification"
+    description = "Runs every SparkStrength verification task."
+    dependsOn "verifyStrengthArchitecture", "verifyStrengthCompatibilityArtifact", "verifyStrengthSiblingSeams"
 }

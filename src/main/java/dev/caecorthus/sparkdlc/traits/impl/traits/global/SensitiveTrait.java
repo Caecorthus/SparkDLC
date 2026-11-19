@@ -1,0 +1,53 @@
+package dev.caecorthus.sparkdlc.traits.impl.traits.global;
+
+import dev.caecorthus.sparkdlc.traits.SparkTraits;
+import dev.caecorthus.sparkdlc.traits.api.Trait;
+import dev.caecorthus.sparkdlc.traits.api.TraitAudience;
+import dev.caecorthus.sparkdlc.traits.api.TraitSelectionContext;
+import net.minecraft.util.Identifier;
+
+/**
+ * 敏感 / Sensitive: the holder can always see the round timer (drawn by the client time-renderer mixin). Universal
+ * trait, rolled at a quarter of the normal rate and never offered to a role that already sees the timer. Kills no
+ * longer extend the round.
+ * 敏感：持有者始终能看到本场剩余时间（由客户端计时器混入绘制）。通用词条，刷新概率为其他词条的四分之一，
+ * 且不会出现在本来就能看到时间的身份上。击杀不再延长时间。
+ */
+public final class SensitiveTrait implements Trait {
+    public static final Identifier ID = SparkTraits.id("sensitive");
+    public static final int COLOR = 0x7FD1E8;
+
+    /** Weight of every ordinary trait; this trait rolls at a quarter of it. 普通词条的权重；本词条取其四分之一。 */
+    public static final int NORMAL_WEIGHT = 100;
+    public static final int WEIGHT = NORMAL_WEIGHT / 4;
+
+    @Override
+    public Identifier id() {
+        return ID;
+    }
+
+    @Override
+    public int color() {
+        return COLOR;
+    }
+
+    @Override
+    public int weight() {
+        return WEIGHT;
+    }
+
+    @Override
+    public TraitAudience audience() {
+        return TraitAudience.UNIVERSAL;
+    }
+
+    /**
+     * Conflicts with every role that already sees the round timer: the trait would be dead weight on them.
+     * 与所有本来就能看到时间的身份冲突：那类身份拿到本词条等于白拿。
+     */
+    @Override
+    public boolean canApply(TraitSelectionContext context) {
+        return Trait.super.canApply(context)
+                && (context.role() == null || !context.role().canSeeTime());
+    }
+}

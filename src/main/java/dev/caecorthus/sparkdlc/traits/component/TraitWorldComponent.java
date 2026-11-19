@@ -1,0 +1,311 @@
+package dev.caecorthus.sparkdlc.traits.component;
+
+import dev.caecorthus.sparkdlc.traits.SparkTraits;
+import dev.caecorthus.sparkdlc.traits.impl.selection.TraitSlotRollChance;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Identifier;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
+import org.ladysnake.cca.api.v3.component.ComponentKey;
+import org.ladysnake.cca.api.v3.component.ComponentRegistry;
+import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
+import static dev.caecorthus.sparkdlc.traits.component.TraitIdCodec.fromNbt;
+import static dev.caecorthus.sparkdlc.traits.component.TraitIdCodec.readIdentifierSet;
+import static dev.caecorthus.sparkdlc.traits.component.TraitIdCodec.toNbt;
+import static dev.caecorthus.sparkdlc.traits.component.TraitIdCodec.writeIdentifierSet;
+
+/**
+ * Stores world-level trait state.
+ * 保存世界级天赋状态：长期禁用列表、每局唯一占用、死亡时快照。
+ */
+public class TraitWorldComponent implements AutoSyncedComponent {
+    public static final ComponentKey<TraitWorldComponent> KEY = ComponentRegistry.getOrCreate(SparkTraits.id("world"), TraitWorldComponent.class);
+
+    private final World world;
+    private final dev.caecorthus.sparkdlc.traits.impl.traits.killer.escape.LastEscapeRoundState lastEscape =
+            new dev.caecorthus.sparkdlc.traits.impl.traits.killer.escape.LastEscapeRoundState();
+    private final Map<UUID, Long> lastEscapeClientDeadlines = new HashMap<>();
+    private UUID lastEscapeGrayscaleOwner;
+
+    public dev.caecorthus.sparkdlc.traits.impl.traits.killer.escape.LastEscapeRoundState lastEscape() {
+        return lastEscape;
+    }
+
+    public boolean isLastEscapeActive(UUID player) {
+        if (world.isClient) {
+            // Read through get(): getOrDefault would box Long.MIN_VALUE on every per-frame invisibility check.
+            // 使用 get() 读取：getOrDefault 会在每帧的隐身判定中反复装箱 Long.MIN_VALUE。
+            Long deadline = lastEscapeClientDeadlines.get(player);
+            return deadline != null && world.getTime() < deadline;
+        }
+        return lastEscape.isActive(player, world.getTime());
+    }
+
+    public boolean hasLastEscapeGrayscale(UUID player) {
+        return world.isClient ? player.equals(lastEscapeGrayscaleOwner) : lastEscape.hasGrayscale(player);
+    }
+    private final LinkedHashSet<Identifier> disabledTraits = new LinkedHashSet<>();
+    private final LinkedHashSet<Identifier> usedUniqueTraits = new LinkedHashSet<>();
+    // Server-side round snapshot used when round-end data is built after a player leaves.
+    // 服务端本局天赋快照，用于玩家离线后仍能正确生成回合结束数据。
+    private final Map<UUID, List<Identifier>> roundTraitSnapshots = new HashMap<>();
+    private final Map<UUID, List<Identifier>> deathTraitSnapshots = new HashMap<>();
+    // Round-scoped Last Stand trigger memory survives player-level resets.
+    // 本局背水一战触发记录会保留到回合清理，不随玩家级 reset 丢失。
+    private final LinkedHashSet<UUID> lastStandTriggeredPlayers = new LinkedHashSet<>();
+    private final LinkedHashSet<UUID> finalMomentLooseEnds = new LinkedHashSet<>();
+    private float traitSlotRollChance = TraitSlotRollChance.DEFAULT;
+    // Round-scoped final moment flag used by client highlight overlays.
+    // 本局终局时刻标记，供客户端高亮覆盖使用。
+    private boolean finalMomentActive;
+    // Server-only per-tick memo of KillerTraitService's Oppressive scan; never saved or synced.
+    // 仅服务端使用的压迫感扫描每 tick 缓存；不保存也不同步。
+    private long oppressiveScanTime = Long.MIN_VALUE;
+    private int oppressiveScanServerTick = Integer.MIN_VALUE;
+    private boolean oppressiveScanActive;
+
+    public TraitWorldComponent(World world) {
+        this.world = world;
+    }
+
+    /**
+     * Returns the Oppressive scan result remembered for this tick, or null when it must be recomputed. Both clocks key
+     * it: world time stops under /tick freeze while players keep ticking, and the server tick alone misses time skips.
+     * 返回本 tick 记住的压迫感扫描结果，需重算时返回 null。两种时钟共同作为键：/tick freeze 时世界时间停止而玩家仍在 tick，
+     * 只用服务器 tick 又会漏掉时间跳变。
+     */
+    public Boolean oppressiveActiveAt(long time, int serverTick) {
+        return time == oppressiveScanTime && serverTick == oppressiveScanServerTick ? oppressiveScanActive : null;
+    }
+
+    public void rememberOppressiveActive(long time, int serverTick, boolean active) {
+        oppressiveScanTime = time;
+        oppressiveScanServerTick = serverTick;
+        oppressiveScanActive = active;
+    }
+
+    public boolean isTraitEnabled(Identifier traitId) {
+        return !disabledTraits.contains(traitId);
+    }
+
+    public void setTraitEnabled(Identifier traitId, boolean enabled) {
+        if (RetiredTraitIds.isRetired(traitId)) {
+            if (disabledTraits.remove(traitId)) {
+                sync();
+            }
+            return;
+        }
+        if (enabled) {
+            disabledTraits.remove(traitId);
+        } else {
+            disabledTraits.add(traitId);
+        }
+        sync();
+    }
+
+    public float getTraitSlotRollChance() {
+        return traitSlotRollChance;
+    }
+
+    public void setTraitSlotRollChance(float traitSlotRollChance) {
+        float normalized = TraitSlotRollChance.normalize(traitSlotRollChance);
+        if (Float.compare(this.traitSlotRollChance, normalized) != 0) {
+            this.traitSlotRollChance = normalized;
+            sync();
+        }
+    }
+
+    public boolean isUniqueTraitUsed(Identifier traitId) {
+        return usedUniqueTraits.contains(traitId);
+    }
+
+    public void markUniqueTraitUsed(Identifier traitId) {
+        if (RetiredTraitIds.isRetired(traitId)) {
+            return;
+        }
+        usedUniqueTraits.add(traitId);
+        sync();
+    }
+
+    public void clearRoundState() {
+        lastEscape.clear();
+        lastEscapeClientDeadlines.clear();
+        lastEscapeGrayscaleOwner = null;
+        usedUniqueTraits.clear();
+        roundTraitSnapshots.clear();
+        deathTraitSnapshots.clear();
+        lastStandTriggeredPlayers.clear();
+        finalMomentLooseEnds.clear();
+        finalMomentActive = false;
+        sync();
+    }
+
+    public void markLastStandTriggered(UUID playerUuid) {
+        if (playerUuid != null) {
+            lastStandTriggeredPlayers.add(playerUuid);
+        }
+    }
+
+    public boolean hasLastStandTriggered(UUID playerUuid) {
+        return playerUuid != null && lastStandTriggeredPlayers.contains(playerUuid);
+    }
+
+    public boolean hasAnyLastStandTriggered() {
+        return !lastStandTriggeredPlayers.isEmpty();
+    }
+
+    public boolean isFinalMomentActive() {
+        return finalMomentActive;
+    }
+
+    public void setFinalMomentActive(boolean finalMomentActive) {
+        if (this.finalMomentActive != finalMomentActive) {
+            this.finalMomentActive = finalMomentActive;
+            sync();
+        }
+    }
+
+    public void markFinalMomentLooseEnd(UUID playerUuid) {
+        if (playerUuid != null && finalMomentLooseEnds.add(playerUuid)) {
+            sync();
+        }
+    }
+
+    public boolean isFinalMomentLooseEnd(UUID playerUuid) {
+        return playerUuid != null && finalMomentLooseEnds.contains(playerUuid);
+    }
+
+    public void snapshotRoundTraits(UUID playerUuid, Collection<Identifier> traitIds) {
+        roundTraitSnapshots.put(playerUuid, RetiredTraitIds.filter(traitIds));
+    }
+
+    public List<Identifier> getRoundTraitSnapshot(UUID playerUuid) {
+        return roundTraitSnapshots.getOrDefault(playerUuid, List.of());
+    }
+
+    public void snapshotDeathTraits(UUID playerUuid, Collection<Identifier> traitIds) {
+        deathTraitSnapshots.put(playerUuid, RetiredTraitIds.filter(traitIds));
+        sync();
+    }
+
+    public List<Identifier> getDeathTraitSnapshot(UUID playerUuid) {
+        return deathTraitSnapshots.getOrDefault(playerUuid, List.of());
+    }
+
+    public void sync() {
+        KEY.sync(world);
+    }
+
+    @Override
+    public boolean shouldSyncWith(ServerPlayerEntity player) {
+        return true;
+    }
+
+    @Override
+    public void writeSyncPacket(RegistryByteBuf buf, ServerPlayerEntity recipient) {
+        TraitSyncVisibility.Recipient view = TraitPlayerComponent.syncRecipient(recipient);
+        writeIdentifierSet(buf, disabledTraits);
+        // Same layout for everyone; hidden round state is written as empty for recipients outside its audience.
+        // 所有接收者使用同一布局；不在可见范围内的接收者收到空的本局隐藏状态。
+        writeIdentifierSet(buf, TraitSyncVisibility.usedUniqueTraitsFor(view, usedUniqueTraits));
+        Map<UUID, List<Identifier>> visibleDeathTraitSnapshots =
+                TraitSyncVisibility.deathTraitSnapshotsFor(view, deathTraitSnapshots);
+        buf.writeVarInt(visibleDeathTraitSnapshots.size());
+        for (Map.Entry<UUID, List<Identifier>> entry : visibleDeathTraitSnapshots.entrySet()) {
+            buf.writeUuid(entry.getKey());
+            writeIdentifierSet(buf, entry.getValue());
+        }
+        buf.writeFloat(traitSlotRollChance);
+        buf.writeBoolean(finalMomentActive);
+        writeUuidSet(buf, finalMomentLooseEnds);
+        Map<UUID, Long> deadlines = lastEscape.activeDeadlines(world.getTime());
+        buf.writeVarInt(deadlines.size());
+        deadlines.forEach((uuid, deadline) -> { buf.writeUuid(uuid); buf.writeLong(deadline); });
+        // Only the recipient's persistent visual state is disclosed; no hidden trait IDs.
+        buf.writeBoolean(lastEscape.hasGrayscale(recipient.getUuid()));
+        buf.writeUuid(recipient.getUuid());
+    }
+
+    @Override
+    public void applySyncPacket(RegistryByteBuf buf) {
+        readIdentifierSet(buf, disabledTraits);
+        readIdentifierSet(buf, usedUniqueTraits);
+        deathTraitSnapshots.clear();
+        int size = buf.readVarInt();
+        for (int i = 0; i < size; i++) {
+            UUID uuid = buf.readUuid();
+            LinkedHashSet<Identifier> ids = new LinkedHashSet<>();
+            readIdentifierSet(buf, ids);
+            deathTraitSnapshots.put(uuid, new ArrayList<>(ids));
+        }
+        // Added after the original synced fields so older packets can still fall back safely.
+        // 添加在原同步字段之后，让旧格式数据包可以安全回退到默认值。
+        traitSlotRollChance = buf.readableBytes() > 0
+                ? TraitSlotRollChance.normalize(buf.readFloat())
+                : TraitSlotRollChance.DEFAULT;
+        finalMomentActive = buf.readableBytes() > 0 && buf.readBoolean();
+        finalMomentLooseEnds.clear();
+        if (buf.readableBytes() > 0) {
+            readUuidSet(buf, finalMomentLooseEnds);
+        }
+        lastEscapeClientDeadlines.clear();
+        lastEscapeGrayscaleOwner = null;
+        if (buf.readableBytes() > 0) {
+            int count = buf.readVarInt();
+            for (int i = 0; i < count; i++) lastEscapeClientDeadlines.put(buf.readUuid(), buf.readLong());
+            boolean grayscale = buf.readBoolean();
+            UUID owner = buf.readUuid();
+            if (grayscale) lastEscapeGrayscaleOwner = owner;
+        }
+    }
+
+    @Override
+    public void writeToNbt(@NotNull NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
+        tag.put("DisabledTraits", toNbt(disabledTraits));
+        tag.putFloat(TraitSlotRollChance.NBT_KEY, traitSlotRollChance);
+    }
+
+    @Override
+    public void readFromNbt(@NotNull NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
+        // Match existing round memory: game rounds themselves are not persisted across restarts.
+        lastEscape.clear();
+        lastEscapeClientDeadlines.clear();
+        lastEscapeGrayscaleOwner = null;
+        disabledTraits.clear();
+        fromNbt(tag.getList("DisabledTraits", NbtElement.STRING_TYPE), disabledTraits);
+        traitSlotRollChance = tag.contains(TraitSlotRollChance.NBT_KEY, NbtElement.NUMBER_TYPE)
+                ? TraitSlotRollChance.normalize(tag.getFloat(TraitSlotRollChance.NBT_KEY))
+                : TraitSlotRollChance.DEFAULT;
+        finalMomentActive = false;
+        finalMomentLooseEnds.clear();
+    }
+
+    private static void writeUuidSet(RegistryByteBuf buf, Collection<UUID> uuids) {
+        buf.writeVarInt(uuids.size());
+        for (UUID uuid : uuids) {
+            buf.writeUuid(uuid);
+        }
+    }
+
+    private static void readUuidSet(RegistryByteBuf buf, Set<UUID> uuids) {
+        uuids.clear();
+        int size = buf.readVarInt();
+        for (int i = 0; i < size; i++) {
+            uuids.add(buf.readUuid());
+        }
+    }
+}

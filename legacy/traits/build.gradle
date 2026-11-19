@@ -1,0 +1,529 @@
+plugins {
+    id 'fabric-loom' version '1.13-SNAPSHOT'
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+def watheJarName = "wathe-${project.wathe_version}.jar"
+def noellesRolesJarName = "noellesroles-${project.noellesroles_version}.jar"
+def sparkFactionApiJarName = "sparkfactionapi-${project.sparkfactionapi_version}.jar"
+
+loom {
+    splitEnvironmentSourceSets()
+
+    mods {
+        "sparktraits" {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "Ladysnake Mods"
+        url = 'https://maven.ladysnake.org/releases'
+    }
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+        content {
+            includeGroup "maven.modrinth"
+        }
+    }
+    maven {
+        name = "Xander Maven"
+        url = "https://maven.isxander.dev/releases"
+    }
+    maven {
+        name = "Datasync"
+        url = "https://maven.uuid.gg/releases"
+    }
+    maven {
+        name = "Lucko"
+        url = "https://repo.lucko.me/"
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    modApi files(watheJarName)
+    modImplementation files(noellesRolesJarName)
+    modImplementation files(sparkFactionApiJarName)
+    modLocalRuntime "maven.modrinth:carpet:1.4.147"
+    modCompileOnly "maven.modrinth:simple-voice-chat:fabric-1.21.1-2.5.36"
+    modLocalRuntime "maven.modrinth:simple-voice-chat:fabric-1.21.1-2.5.36"
+    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}"
+    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}"
+    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-world:${project.cca_version}"
+    modRuntimeOnly "org.ladysnake.cardinal-components-api:cardinal-components-scoreboard:${project.cca_version}"
+    modRuntimeOnly "maven.modrinth:midnightlib:${project.midnightlib_version}"
+    modRuntimeOnly "dev.isxander:yet-another-config-lib:${project.yacl_version}"
+    modImplementation("dev.doctor4t:ratatouille:${project.ratatouille_version}") {
+        exclude group: "dev.upcraft.datasync"
+    }
+    modRuntimeOnly "dev.upcraft.datasync:datasync-minecraft-1.21.1-fabric:0.10.2"
+    modRuntimeOnly "me.lucko:fabric-permissions-api:0.3.1"
+
+    testImplementation "org.junit.jupiter:junit-jupiter:5.10.3"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "minecraft_version", project.minecraft_version
+    inputs.property "loader_version", project.loader_version
+    inputs.property "wathe_version", project.wathe_version
+    inputs.property "noellesroles_version", project.noellesroles_version
+    inputs.property "sparkfactionapi_version", project.sparkfactionapi_version
+    inputs.property "cca_version", project.cca_version
+    inputs.property "ratatouille_version", project.ratatouille_version
+
+    filteringCharset "UTF-8"
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version,
+                "minecraft_version": project.minecraft_version,
+                "loader_version": project.loader_version,
+                "wathe_version": project.wathe_version,
+                "noellesroles_version": project.noellesroles_version,
+                "sparkfactionapi_version": project.sparkfactionapi_version,
+                "cca_version": project.cca_version,
+                "ratatouille_version": project.ratatouille_version
+    }
+}
+
+def remappedModJar = tasks.named("remapJar")
+
+def readClassNode = { java.util.zip.ZipFile archive, String entryName ->
+    def entry = archive.getEntry(entryName)
+    if (entry == null) {
+        throw new GradleException("Missing class ${entryName} in ${archive.name}")
+    }
+    def node = new org.objectweb.asm.tree.ClassNode()
+    archive.getInputStream(entry).withCloseable { input ->
+        new org.objectweb.asm.ClassReader(input).accept(
+                node,
+                org.objectweb.asm.ClassReader.SKIP_DEBUG | org.objectweb.asm.ClassReader.SKIP_FRAMES
+        )
+    }
+    node
+}
+
+def annotationValue = { annotation, String key ->
+    def values = annotation?.values ?: []
+    for (int index = 0; index < values.size(); index += 2) {
+        if (values[index] == key) {
+            return values[index + 1]
+        }
+    }
+    null
+}
+
+def verifyAssassinScreenSelector = tasks.register("verifyAssassinScreenSelector") {
+    dependsOn remappedModJar
+    inputs.file(remappedModJar.flatMap { it.archiveFile })
+    inputs.file(noellesRolesJarName)
+    inputs.file("src/client/resources/sparktraits.client.mixins.json")
+
+    doLast {
+        def jarFile = remappedModJar.get().archiveFile.get().asFile
+        def noellesRolesFile = file(noellesRolesJarName)
+        def modZip = new java.util.zip.ZipFile(jarFile)
+        def noellesRolesZip = new java.util.zip.ZipFile(noellesRolesFile)
+        try {
+            def configEntry = modZip.getEntry("sparktraits.client.mixins.json")
+            if (configEntry == null) {
+                throw new GradleException("Missing sparktraits.client.mixins.json in ${jarFile.name}")
+            }
+            def config = new groovy.json.JsonSlurper().parse(modZip.getInputStream(configEntry))
+            if (config.required != true || config.injectors?.defaultRequire?.toString() != "1") {
+                throw new GradleException("SparkTraits client mixins must remain required with defaultRequire 1")
+            }
+            if (!(config.client ?: []).contains("AssassinScreenMixin")) {
+                throw new GradleException("Missing AssassinScreenMixin from sparktraits.client.mixins.json")
+            }
+
+            def mixinNode = readClassNode(
+                    modZip,
+                    "dev/caecorthus/sparkdlc/traits/client/mixin/AssassinScreenMixin.class"
+            )
+            def handler = mixinNode.methods.find { it.name == "sparktraits\$paginateRoleGuessPanel" }
+            if (handler == null) {
+                throw new GradleException("Missing AssassinScreenMixin pagination handler")
+            }
+            def annotations = []
+            annotations.addAll(handler.visibleAnnotations ?: [])
+            annotations.addAll(handler.invisibleAnnotations ?: [])
+            def injection = annotations.find {
+                it.desc == "Lorg/spongepowered/asm/mixin/injection/Inject;"
+            }
+            if (injection == null) {
+                throw new GradleException("Missing @Inject on AssassinScreenMixin pagination handler")
+            }
+            def selectorValue = annotationValue(injection, "method")
+            def selectors = selectorValue instanceof Collection
+                    ? selectorValue.collect { it.toString() }
+                    : [selectorValue?.toString()].findAll { it != null }
+            if (selectors != ["method_25426()V"]) {
+                throw new GradleException(
+                        "Packaged AssassinScreen selector drift: expected method_25426()V, found ${selectors}"
+                )
+            }
+            if (annotationValue(injection, "require")?.toString() == "0") {
+                throw new GradleException("AssassinScreen pagination injection cannot use require=0")
+            }
+
+            def providerNode = readClassNode(
+                    noellesRolesZip,
+                    "org/agmas/noellesroles/client/screen/AssassinScreen.class"
+            )
+            if (providerNode.methods.find { it.name == "method_25426" && it.desc == "()V" } == null) {
+                throw new GradleException(
+                        "NoellesRoles ${project.noellesroles_version} is missing AssassinScreen.method_25426()V"
+                )
+            }
+        } finally {
+            noellesRolesZip.close()
+            modZip.close()
+        }
+    }
+}
+
+tasks.register("verifyInventoryScreenSelector") {
+    dependsOn remappedModJar
+    inputs.file(remappedModJar.flatMap { it.archiveFile })
+    inputs.file(watheJarName)
+    doLast {
+        def modZip = new java.util.zip.ZipFile(remappedModJar.get().archiveFile.get().asFile)
+        def providerZip = new java.util.zip.ZipFile(file(watheJarName))
+        try {
+            def config = new groovy.json.JsonSlurper().parse(modZip.getInputStream(modZip.getEntry("sparktraits.client.mixins.json")))
+            if (config.required != true || config.injectors?.defaultRequire?.toString() != "1" ||
+                    !(config.client ?: []).contains("TraitInventoryScreenMixin")) {
+                throw new GradleException("Owner inventory mixin must remain required and configured")
+            }
+            def node = readClassNode(modZip, "dev/caecorthus/sparkdlc/traits/client/mixin/TraitInventoryScreenMixin.class")
+            def handler = node.methods.find { it.name == 'sparktraits$renderOwnerTraits' }
+            def annotations = (handler?.visibleAnnotations ?: []) + (handler?.invisibleAnnotations ?: [])
+            def injection = annotations.find { it.desc == "Lorg/spongepowered/asm/mixin/injection/Inject;" }
+            if (annotationValue(injection, "method") != ["method_25394(Lnet/minecraft/class_332;IIF)V"] ||
+                    annotationValue(injection, "require")?.toString() == "0") {
+                throw new GradleException("Packaged owner inventory selector must exactly match Wathe render")
+            }
+            def provider = readClassNode(providerZip, "dev/doctor4t/wathe/client/gui/screen/ingame/LimitedInventoryScreen.class")
+            if (!provider.methods.any { it.name == "method_25394" && it.desc == "(Lnet/minecraft/class_332;IIF)V" }) {
+                throw new GradleException("Wathe is missing the exact owner inventory render target")
+            }
+        } finally {
+            providerZip.close()
+            modZip.close()
+        }
+    }
+}
+
+tasks.register("verifyModJarVersion") {
+    dependsOn remappedModJar
+    inputs.file(remappedModJar.flatMap { it.archiveFile })
+
+    doLast {
+        def jarFile = remappedModJar.get().archiveFile.get().asFile
+        def archiveName = remappedModJar.get().archiveBaseName.get()
+        def suffix = ".jar"
+        if (!jarFile.name.startsWith("${archiveName}-") || !jarFile.name.endsWith(suffix)) {
+            throw new GradleException("Cannot read version from jar filename: ${jarFile.name}")
+        }
+
+        // Keep the loader-visible mod version tied to the shipped jar filename.
+        // 将加载器可见版本绑定到发布 jar 文件名，避免软件里显示旧版本。
+        def jarVersion = jarFile.name.substring(archiveName.length() + 1, jarFile.name.length() - suffix.length())
+        def zipFile = new java.util.zip.ZipFile(jarFile)
+        try {
+            def entry = zipFile.getEntry("fabric.mod.json")
+            if (entry == null) {
+                throw new GradleException("Missing fabric.mod.json in ${jarFile.name}")
+            }
+
+            def metadata = new groovy.json.JsonSlurper().parse(zipFile.getInputStream(entry))
+            def metadataVersion = metadata.version?.toString()
+            if (metadataVersion != jarVersion) {
+                throw new GradleException("Jar version mismatch: ${jarFile.name} says ${jarVersion}, but fabric.mod.json says ${metadataVersion}")
+            }
+            if (metadata.depends?.wathe?.toString() != project.wathe_version.toString()) {
+                throw new GradleException(
+                        "Remapped jar Wathe dependency mismatch: expected ${project.wathe_version}, found ${metadata.depends?.wathe}"
+                )
+            }
+            if (metadata.depends?.noellesroles?.toString() != project.noellesroles_version.toString()) {
+                throw new GradleException(
+                        "Remapped jar NoellesRoles dependency mismatch: expected ${project.noellesroles_version}, " +
+                                "found ${metadata.depends?.noellesroles}"
+                )
+            }
+
+            def clientEntrypoint = "dev.caecorthus.sparkdlc.traits.client.SparkTraitsClient"
+            def clientEntrypoints = metadata.entrypoints?.client ?: []
+            if (!clientEntrypoints.contains(clientEntrypoint)) {
+                throw new GradleException("Missing client entrypoint ${clientEntrypoint} in ${jarFile.name}")
+            }
+
+            def voicechatEntrypoint = "dev.caecorthus.sparkdlc.traits.voice.SparkTraitsVoiceChatPlugin"
+            def voicechatEntrypoints = metadata.entrypoints?.voicechat ?: []
+            if (!voicechatEntrypoints.contains(voicechatEntrypoint)) {
+                throw new GradleException("Missing voicechat entrypoint ${voicechatEntrypoint} in ${jarFile.name}")
+            }
+
+            def clientMixinEntry = zipFile.getEntry("sparktraits.client.mixins.json")
+            if (clientMixinEntry == null) {
+                throw new GradleException("Missing sparktraits.client.mixins.json in ${jarFile.name}")
+            }
+            def clientMixinConfig = new groovy.json.JsonSlurper().parse(zipFile.getInputStream(clientMixinEntry))
+            [
+                    "CautiousClientWorldSoundMixin",
+                    "CautiousPresenceFootstepsVolumeMixin"
+            ].each { requiredMixin ->
+                if (!(clientMixinConfig.client ?: []).contains(requiredMixin)) {
+                    throw new GradleException("Missing client mixin ${requiredMixin} in ${jarFile.name}")
+                }
+            }
+
+            [
+                    "dev/caecorthus/sparkdlc/traits/api/SparkTraitsApi.class",
+                    "dev/caecorthus/sparkdlc/traits/compat/SparkWitchKillAttributionBridge.class",
+                    "dev/caecorthus/sparkdlc/traits/client/SparkTraitsClient.class",
+                    "dev/caecorthus/sparkdlc/traits/client/audio/CautiousSoundDebug.class",
+                    "dev/caecorthus/sparkdlc/traits/client/audio/DepressionRageLoopController.class",
+                    "dev/caecorthus/sparkdlc/traits/client/audio/DepressionRageLoopSoundInstance.class",
+                    "dev/caecorthus/sparkdlc/traits/client/mixin/CautiousClientWorldSoundMixin.class",
+                    "dev/caecorthus/sparkdlc/traits/client/mixin/CautiousPresenceFootstepsVolumeMixin.class",
+                    "dev/caecorthus/sparkdlc/traits/impl/traits/global/CautiousSoundRules.class",
+                    "dev/caecorthus/sparkdlc/traits/net/version/SparkTraitsServerConnection.class",
+                    "dev/caecorthus/sparkdlc/traits/net/version/SparkTraitsPackets.class",
+                    "dev/caecorthus/sparkdlc/traits/net/version/SparkTraitsServerConfirmS2CPacket.class",
+                    "dev/caecorthus/sparkdlc/traits/client/net/version/SparkTraitsClientVersionHandshake.class",
+                    "dev/caecorthus/sparkdlc/traits/voice/SparkTraitsVoiceChatPlugin.class"
+            ].each { requiredEntry ->
+                // Runtime compatibility depends on these packaged confirmation and optional voice bridge classes.
+                // 运行时兼容依赖这些随 jar 发布的确认类和可选语音桥类。
+                if (zipFile.getEntry(requiredEntry) == null) {
+                    throw new GradleException("Missing required runtime class ${requiredEntry} in ${jarFile.name}")
+                }
+            }
+        } finally {
+            zipFile.close()
+        }
+    }
+}
+
+tasks.named("build") {
+}
+
+def targetJavaVersion = 21
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = "UTF-8"
+    it.options.release.set(targetJavaVersion)
+}
+
+sourceSets.test {
+    compileClasspath += sourceSets.client.output
+    runtimeClasspath += sourceSets.client.output
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
+
+def publicFacade = "src/main/java/dev/caecorthus/sparkdlc/traits/api/SparkTraitsApi.java"
+def publicFacadeContractTest = "src/test/java/dev/caecorthus/sparkdlc/traits/api/SparkTraitsApiContractTest.java"
+def syncVisibilityContractTest = "src/test/java/dev/caecorthus/sparkdlc/traits/component/TraitSyncVisibilityTest.java"
+// src/test/ is gitignored and local-only, so the two contract tests are required only in a checkout that has the
+// local test tree; a fresh clone (CI) skips them.
+// src/test/ 已被 gitignore 且仅存于本地，因此只在拥有本地测试树的检出中要求这两个契约测试；全新克隆（CI）会跳过。
+def localTestTree = file("src/test")
+def localContractTests = [publicFacadeContractTest, syncVisibilityContractTest]
+
+tasks.register("verifyArchitecture") {
+    group = "verification"
+    description = "Verifies architecture governance, public facade, and local dependency metadata."
+    inputs.file(publicFacade)
+    if (localTestTree.isDirectory()) {
+        localContractTests.each { inputs.file(it) }
+    }
+    inputs.file(watheJarName)
+    inputs.file(noellesRolesJarName)
+    inputs.file(sparkFactionApiJarName)
+    inputs.file("src/main/resources/fabric.mod.json")
+    dependsOn tasks.named("processResources")
+    inputs.file(layout.buildDirectory.file("resources/main/fabric.mod.json"))
+    inputs.file("gradle.properties")
+
+    doLast {
+        def requiredPaths = [publicFacade]
+        if (localTestTree.isDirectory()) {
+            requiredPaths += localContractTests
+        } else {
+            logger.lifecycle("No local src/test tree: skipped ${localContractTests.size()} local-only architecture contract tests.")
+        }
+        def missingPaths = requiredPaths.findAll { !file(it).isFile() }
+        if (!missingPaths.isEmpty()) {
+            throw new GradleException("Missing architecture contract files: ${missingPaths.join(', ')}")
+        }
+
+        def verifyDependencyJar = { String jarName, String expectedId, String expectedVersion, String expectedSha256 ->
+            def dependencyJarFile = file(jarName)
+            if (!dependencyJarFile.isFile()) {
+                throw new GradleException("Missing aligned dependency jar: ${dependencyJarFile.name}")
+            }
+
+            def actualSha256 = java.security.MessageDigest.getInstance("SHA-256")
+                    .digest(dependencyJarFile.bytes)
+                    .encodeHex()
+                    .toString()
+            if (actualSha256 != expectedSha256) {
+                throw new GradleException(
+                        "Dependency checksum mismatch for ${jarName}: expected ${expectedSha256}, found ${actualSha256}"
+                )
+            }
+
+            def dependencyJar = new java.util.zip.ZipFile(dependencyJarFile)
+            try {
+                def metadataEntry = dependencyJar.getEntry("fabric.mod.json")
+                if (metadataEntry == null) {
+                    throw new GradleException("Missing fabric.mod.json in ${jarName}")
+                }
+                def jarMetadata = new groovy.json.JsonSlurper().parse(dependencyJar.getInputStream(metadataEntry))
+                if (jarMetadata.id?.toString() != expectedId || jarMetadata.version?.toString() != expectedVersion) {
+                    throw new GradleException(
+                            "Dependency metadata mismatch for ${jarName}: expected ${expectedId} ${expectedVersion}, " +
+                                    "found ${jarMetadata.id} ${jarMetadata.version}"
+                    )
+                }
+                return jarMetadata
+            } finally {
+                dependencyJar.close()
+            }
+        }
+
+        verifyDependencyJar(
+                watheJarName,
+                "wathe",
+                project.wathe_version.toString(),
+                project.wathe_sha256.toString()
+        )
+        def noellesRolesMetadata = verifyDependencyJar(
+                noellesRolesJarName,
+                "noellesroles",
+                project.noellesroles_version.toString(),
+                project.noellesroles_sha256.toString()
+        )
+        if (noellesRolesMetadata.depends?.wathe?.toString() != project.wathe_version.toString()) {
+            throw new GradleException(
+                    "NoellesRoles embedded Wathe dependency mismatch: expected ${project.wathe_version}, " +
+                            "found ${noellesRolesMetadata.depends?.wathe}"
+            )
+        }
+
+        def sparkFactionApiMetadata = verifyDependencyJar(
+                sparkFactionApiJarName,
+                "sparkfactionapi",
+                project.sparkfactionapi_version.toString(),
+                project.sparkfactionapi_sha256.toString()
+        )
+        def expectedSparkFactionApiWatheDependency = ">=${project.wathe_version}"
+        if (sparkFactionApiMetadata.depends?.wathe?.toString() != expectedSparkFactionApiWatheDependency) {
+            throw new GradleException(
+                    "SparkFactionAPI embedded Wathe dependency mismatch: expected ${expectedSparkFactionApiWatheDependency}, " +
+                            "found ${sparkFactionApiMetadata.depends?.wathe}"
+            )
+        }
+
+        def metadata = new groovy.json.JsonSlurper().parse(file("src/main/resources/fabric.mod.json"))
+        def expectedWatheVersionTemplate = '${wathe_version}'
+        if (metadata.depends?.wathe != expectedWatheVersionTemplate) {
+            throw new GradleException(
+                    "Wathe metadata mismatch: expected ${expectedWatheVersionTemplate}, found ${metadata.depends?.wathe}"
+            )
+        }
+        def expectedNoellesRolesVersionTemplate = '${noellesroles_version}'
+        if (metadata.depends?.noellesroles != expectedNoellesRolesVersionTemplate) {
+            throw new GradleException(
+                    "NoellesRoles metadata mismatch: expected ${expectedNoellesRolesVersionTemplate}, " +
+                            "found ${metadata.depends?.noellesroles}"
+            )
+        }
+
+        def processedMetadataFile = layout.buildDirectory.file("resources/main/fabric.mod.json").get().asFile
+        if (!processedMetadataFile.isFile()) {
+            throw new GradleException("Missing processed metadata: ${processedMetadataFile}")
+        }
+        def processedMetadata = new groovy.json.JsonSlurper().parse(processedMetadataFile)
+        if (processedMetadata.id?.toString() != "sparktraits" ||
+                processedMetadata.version?.toString() != project.mod_version.toString()) {
+            throw new GradleException(
+                    "Processed metadata must identify sparktraits ${project.mod_version}; " +
+                            "found ${processedMetadata.id} ${processedMetadata.version}"
+            )
+        }
+        [
+                wathe           : project.wathe_version.toString(),
+                noellesroles    : project.noellesroles_version.toString(),
+                sparkfactionapi : ">=${project.sparkfactionapi_version}"
+        ].each { modId, expectedVersion ->
+            if (processedMetadata.depends?.get(modId)?.toString() != expectedVersion) {
+                throw new GradleException(
+                        "Processed metadata dependency ${modId} must be ${expectedVersion}; " +
+                                "found ${processedMetadata.depends?.get(modId)}"
+                )
+            }
+        }
+    }
+}
+
+tasks.named("check") {
+    setDependsOn([])
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.base.archivesName.get()}" }
+    }
+    from("LICENSE-TEXTURES.md") {
+        rename { "LICENSE-TEXTURES_${project.base.archivesName.get()}.md" }
+    }
+    from("THIRD_PARTY_NOTICES.md") {
+        into "META-INF"
+    }
+    from("licenses/StarRailExpress-GPL-3.0-only.txt") {
+        into "META-INF/licenses"
+    }
+}
+
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+    withSourcesJar()
+}
+
+tasks.withType(JavaExec).configureEach {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    if (JavaVersion.current() < javaVersion) {
+        javaLauncher.set(javaToolchains.launcherFor {
+            languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+        })
+    }
+}

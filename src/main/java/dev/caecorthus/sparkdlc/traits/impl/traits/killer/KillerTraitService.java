@@ -1,0 +1,632 @@
+package dev.caecorthus.sparkdlc.traits.impl.traits.killer;
+
+import dev.caecorthus.sparkdlc.traits.SparkTraits;
+import dev.caecorthus.sparkdlc.traits.compat.SparkStrengthSabotageBridge;
+import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
+import dev.caecorthus.sparkdlc.traits.component.TraitWorldComponent;
+import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveTraitService;
+import dev.caecorthus.sparkdlc.traits.impl.replay.SparkTraitsAchievementRecords;
+import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.laststand.LastStandFinalMomentService;
+import dev.doctor4t.wathe.api.Role;
+import dev.doctor4t.wathe.api.event.BuildShopEntries;
+import dev.doctor4t.wathe.api.event.PsychoModeEvents;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.cca.PlayerPsychoComponent;
+import dev.doctor4t.wathe.cca.PlayerShopComponent;
+import dev.doctor4t.wathe.game.GameFunctions;
+import dev.doctor4t.wathe.index.WatheItems;
+import dev.doctor4t.wathe.util.ShopEntry;
+import dev.doctor4t.wathe.util.ShopUtils;
+import net.fabricmc.fabric.api.event.Event;
+import net.minecraft.entity.attribute.EntityAttributeInstance;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Identifier;
+import org.agmas.noellesroles.ModEffects;
+import org.agmas.noellesroles.professor.IronManPlayerComponent;
+import org.agmas.noellesroles.taotie.SwallowedPlayerComponent;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayDeque;
+import java.util.Collection;
+import java.util.Deque;
+import java.util.List;
+import java.util.function.BooleanSupplier;
+
+/**
+ * Shared runtime rules for killer-only traits.
+ * 杀手专用天赋的运行时规则集中入口，避免污染阵营翻转服务。
+ */
+public final class KillerTraitService {
+    public static final int SHOWMAN_RANGE = 8;
+    public static final int SHOWMAN_MAX_PLAYERS = 10;
+    public static final int SHOWMAN_MONEY_PER_PLAYER = 8;
+    public static final int CORNERED_TEAMMATE_REWARD = 75;
+    public static final int CORNERED_LAST_KILLER_REWARD = 200;
+    public static final int PARANOID_EXTRA_TICKS = 20 * 20;
+    public static final float OPPRESSIVE_DRAIN_MULTIPLIER = 1.2f;
+    public static final double THRUST_EXTRA_KNOCKBACK = 0.25;
+    public static final Identifier THRUST_KNOCKBACK_MODIFIER_ID = SparkTraits.id("thrust_knockback");
+    public static final Identifier CHARISMA_SHOP_PHASE = SparkTraits.id("charisma_discount");
+    public static final int MASTER_SABOTEUR_DURATION_PERCENT = 150;
+    public static final int SEASONED_WINDUP_PERCENT = 80;
+    // Attack cooldown is 20 / attack speed ticks, so a 20% shorter cooldown needs 1 / 0.8 - 1 extra speed.
+    // 攻击冷却为 20 / 攻速 刻，冷却缩短 20% 需要额外 1 / 0.8 - 1 的攻速。
+    public static final double MANIC_ATTACK_SPEED_BONUS = 0.25;
+    public static final Identifier MANIC_ATTACK_SPEED_MODIFIER_ID = SparkTraits.id("manic_attack_speed");
+
+    private static final ThreadLocal<Deque<KillAttempt>> KILL_ATTEMPTS = ThreadLocal.withInitial(ArrayDeque::new);
+    private static final ThreadLocal<Boolean> SECOND_STRIKE_REPLAYING = ThreadLocal.withInitial(() -> false);
+    private static final ThreadLocal<Boolean> MASTER_SABOTEUR_BLACKOUT = ThreadLocal.withInitial(() -> false);
+    private static final EntityAttributeModifier THRUST_KNOCKBACK_MODIFIER = new EntityAttributeModifier(
+            THRUST_KNOCKBACK_MODIFIER_ID,
+            THRUST_EXTRA_KNOCKBACK,
+            EntityAttributeModifier.Operation.ADD_VALUE
+    );
+    private static final EntityAttributeModifier MANIC_ATTACK_SPEED_MODIFIER = new EntityAttributeModifier(
+            MANIC_ATTACK_SPEED_MODIFIER_ID,
+            MANIC_ATTACK_SPEED_BONUS,
+            EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+    );
+
+    private KillerTraitService() {
+    }
+
+    public static void register() {
+        // Downstream role shops (e.g. SparkWitch Witch Maiden) clear and rebuild entries in the default phase,
+        // so the discount must wrap the final list; the explicit ordering is required because unlinked phases sort by id.
+        // 下游职业商店（如 SparkWitch 巫女）会在默认阶段清空并重建条目，魅力必须包装最终列表；
+        // 未显式排序的阶段会按 id 排序，因此必须声明排在默认阶段之后。
+        BuildShopEntries.EVENT.addPhaseOrdering(Event.DEFAULT_PHASE, CHARISMA_SHOP_PHASE);
+        BuildShopEntries.EVENT.register(CHARISMA_SHOP_PHASE, (player, context) -> {
+            if (!hasEligibleTrait(player, KillerTraits.CHARISMA)) {
+                return;
+            }
+            for (int i = 0; i < context.size(); i++) {
+                context.setEntry(i, discountedShopEntry(context.getEntry(i)));
+            }
+        });
+        PsychoModeEvents.ON_PSYCHO_START.register((player, trackActive) -> {
+            if (hasEligibleTrait(player, KillerTraits.PARANOID)) {
+                PlayerPsychoComponent psycho = PlayerPsychoComponent.KEY.get(player);
+                psycho.setPsychoTicks(paranoidPsychoTicks(psycho.getPsychoTicks()));
+                psycho.setArmour(paranoidPsychoArmour(psycho.getArmour()));
+            }
+        });
+    }
+
+    public static boolean canSelectKillerTrait(Role role, Collection<Identifier> selectedTraits) {
+        return EffectiveTraitService.isOriginalKiller(role)
+                && !EffectiveTraitService.hasConscience(selectedTraits)
+                && !EffectiveTraitService.hasImpostor(selectedTraits);
+    }
+
+    public static boolean canSelectParanoid(Role role, Collection<Identifier> selectedTraits, boolean hasPsychoModeEntry) {
+        return hasPsychoModeEntry && canSelectKillerTrait(role, selectedTraits);
+    }
+
+    public static boolean canSelectThrust(Role role, Collection<Identifier> selectedTraits, boolean hasThrustWeaponAccess) {
+        return hasThrustWeaponAccess && canSelectKillerTrait(role, selectedTraits);
+    }
+
+    static boolean canUseThrust(boolean activeThrust, boolean eligibleKiller, boolean finalMomentLooseEnd) {
+        return activeThrust && (eligibleKiller || finalMomentLooseEnd);
+    }
+
+    public static boolean hasPsychoModeShopEntry(PlayerEntity player) {
+        return hasShopEntry(player, List.of("psycho_mode"), List.of(WatheItems.PSYCHO_MODE));
+    }
+
+    /**
+     * Master Saboteur's pool rule: Wathe's shop blackout, or SparkStrength's tablet sabotage, which replaced it (there
+     * the trait speeds up prying and hacking and makes the player's lights and engine sabotage harder to repair).
+     * 破坏大师的抽取条件：Wathe 商店关灯，或取代它的 SparkStrength 平板破坏（在那里该词条加快撬箱与入侵，并让本人发起的
+     * 灯光破坏和动力破坏更难修）。
+     */
+    public static boolean canSabotage(PlayerEntity player) {
+        return hasBlackoutShopEntry(player) || SparkStrengthSabotageBridge.canSabotage(player);
+    }
+
+    public static boolean hasBlackoutShopEntry(PlayerEntity player) {
+        return hasShopEntry(player, List.of("blackout"), List.of(WatheItems.BLACKOUT));
+    }
+
+    public static boolean hasThrustWeaponAccess(PlayerEntity player) {
+        if (player == null) {
+            return false;
+        }
+        for (ShopEntry entry : ShopUtils.getShopEntriesForPlayer(player)) {
+            if (KillerWeaponTags.isThrustWeapon(entry.stack())) {
+                return true;
+            }
+        }
+        return player.getInventory().contains(KillerWeaponTags::isThrustWeapon);
+    }
+
+    private static boolean hasShopEntry(PlayerEntity player, Collection<String> ids, Collection<Item> items) {
+        if (player == null) {
+            return false;
+        }
+        for (ShopEntry entry : ShopUtils.getShopEntriesForPlayer(player)) {
+            if (ids.contains(entry.id()) || items.stream().anyMatch(item -> entry.stack().isOf(item))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static int bloodthirstyCooldown(int duration, int killCount, int totalPlayers) {
+        if (duration <= 0) {
+            return duration;
+        }
+        int stacks = Math.min(Math.max(0, killCount), Math.max(0, totalPlayers / 3));
+        if (stacks <= 0) {
+            return duration;
+        }
+        float multiplier = 1.0f - stacks * 0.05f;
+        return Math.max(1, (int) (duration * multiplier));
+    }
+
+    public static int bloodthirstyCooldown(ServerPlayerEntity player, int duration) {
+        if (!hasEligibleTrait(player, KillerTraits.BLOODTHIRSTY)) {
+            return duration;
+        }
+        GameWorldComponent game = GameWorldComponent.KEY.get(player.getWorld());
+        return bloodthirstyCooldown(
+                duration,
+                TraitPlayerComponent.KEY.get(player).getBloodthirstyKillCount(),
+                game.getAllPlayers().size()
+        );
+    }
+
+    public static int showmanReward(int nearbyAlivePlayers) {
+        return Math.min(Math.max(0, nearbyAlivePlayers), SHOWMAN_MAX_PLAYERS) * SHOWMAN_MONEY_PER_PLAYER;
+    }
+
+    public static int plunderedAmount(int victimBalance) {
+        return Math.max(0, victimBalance) / 3;
+    }
+
+    public static int charismaPrice(int price) {
+        if (price <= 0) {
+            return price;
+        }
+        return Math.max(0, (int) (price * 0.9f));
+    }
+
+    public static int effectiveCharismaPurchasePrice(PlayerEntity player, ShopEntry entry) {
+        if (!hasEligibleTrait(player, KillerTraits.CHARISMA) || entry instanceof DiscountedShopEntry) {
+            return entry.price();
+        }
+        return charismaPrice(entry.price());
+    }
+
+    /**
+     * Returns a shop entry wrapped with the charisma discount when the player actually owns that trait.
+     * 当且仅当玩家真实拥有【魅力】词条时，返回一个已包装的折扣商店条目。
+     *
+     * <p>这会让商店界面显示的价格和最终购买结算保持一致；若条目已经是折扣包装或价格本来就是非正数，
+     * 则直接原样返回，避免重复打折。</p>
+     */
+    public static @Nullable ShopEntry applyCharismaDiscount(PlayerEntity player, @Nullable ShopEntry entry) {
+        if (player == null || entry == null
+                || !hasEligibleTrait(player, KillerTraits.CHARISMA)
+                || entry instanceof DiscountedShopEntry
+                || entry.price() <= 0) {
+            return entry;
+        }
+        return discountedShopEntry(entry);
+    }
+
+    /**
+     * Scopes one shop blackout to its buyer so only a Master Saboteur's own blackout is extended.
+     * 将一次商店关灯限定到购买者，只延长破坏大师本人发起的关灯。
+     */
+    public static boolean triggerBlackoutFor(PlayerEntity initiator, BooleanSupplier trigger) {
+        boolean previous = MASTER_SABOTEUR_BLACKOUT.get();
+        MASTER_SABOTEUR_BLACKOUT.set(hasEligibleTrait(initiator, KillerTraits.MASTER_SABOTEUR));
+        try {
+            return trigger.getAsBoolean();
+        } finally {
+            if (previous) {
+                MASTER_SABOTEUR_BLACKOUT.set(true);
+            } else {
+                MASTER_SABOTEUR_BLACKOUT.remove();
+            }
+        }
+    }
+
+    public static int masterSaboteurBlackoutDuration(int duration) {
+        return masterSaboteurBlackoutDuration(duration, MASTER_SABOTEUR_BLACKOUT.get());
+    }
+
+    static int masterSaboteurBlackoutDuration(int duration, boolean ownBlackout) {
+        if (!ownBlackout || duration <= 0) {
+            return duration;
+        }
+        return (int) Math.min(Integer.MAX_VALUE, (long) duration * MASTER_SABOTEUR_DURATION_PERCENT / 100);
+    }
+
+    public static int seasonedKnifeReleaseThreshold(PlayerEntity player, int threshold) {
+        return seasonedKnifeReleaseThreshold(threshold, hasEligibleTrait(player, KillerTraits.SEASONED));
+    }
+
+    /**
+     * Wathe accepts a stab once elapsed use ticks exceed the threshold, so the windup is threshold + 1 ticks.
+     * Wathe 在已用刻数超过阈值后才接受出刀，因此前摇为阈值加一刻。
+     */
+    static int seasonedKnifeReleaseThreshold(int threshold, boolean seasoned) {
+        if (!seasoned || threshold <= 0) {
+            return threshold;
+        }
+        int windupTicks = ((threshold + 1) * SEASONED_WINDUP_PERCENT + 99) / 100;
+        return Math.max(0, windupTicks - 1);
+    }
+
+    public static int paranoidPsychoTicks(int originalTicks) {
+        return originalTicks + PARANOID_EXTRA_TICKS;
+    }
+
+    static int paranoidPsychoArmour(int currentArmour) {
+        return currentArmour + 1;
+    }
+
+    static int corneredReward(boolean becomesSoleTeammate) {
+        return becomesSoleTeammate ? CORNERED_LAST_KILLER_REWARD : CORNERED_TEAMMATE_REWARD;
+    }
+
+    static boolean shouldCountShowmanWitness(
+            boolean sameAsVictim,
+            boolean sameAsKiller,
+            boolean playingAndAlive,
+            boolean withinRange
+    ) {
+        return !sameAsVictim && !sameAsKiller && playingAndAlive && withinRange;
+    }
+
+    public static float oppressiveAdjustedMood(float currentMood, float proposedMood, boolean oppressiveActive) {
+        if (!oppressiveActive || proposedMood >= currentMood) {
+            return proposedMood;
+        }
+        return currentMood - (currentMood - proposedMood) * OPPRESSIVE_DRAIN_MULTIPLIER;
+    }
+
+    public static float oppressiveAdjustedMood(float currentMood, float proposedMood, PlayerEntity affectedPlayer) {
+        // Rising or unchanged mood is never amplified, so skip the world scan.
+        // 理智上升或不变时不会被放大，因此跳过整个世界的扫描。
+        if (proposedMood >= currentMood) {
+            return proposedMood;
+        }
+        return oppressiveAdjustedMood(currentMood, proposedMood, hasActiveOppressiveInWorld(affectedPlayer));
+    }
+
+    public static boolean shouldRetrySecondStrike(
+            boolean eligible,
+            boolean force,
+            boolean selfKill,
+            boolean replaying,
+            boolean victimStillAlive,
+            boolean shieldConsumed
+    ) {
+        return eligible && !force && !selfKill && !replaying && victimStillAlive && shieldConsumed;
+    }
+
+    public static void beginKillAttempt(ServerPlayerEntity victim, @Nullable ServerPlayerEntity killer, boolean force) {
+        boolean eligible = killer != null
+                && victim != killer
+                && !force
+                && !SECOND_STRIKE_REPLAYING.get()
+                && hasEligibleTrait(killer, KillerTraits.SECOND_STRIKE);
+        KILL_ATTEMPTS.get().push(new KillAttempt(eligible ? ShieldState.capture(victim) : null, force));
+    }
+
+    /**
+     * Whether the innermost killPlayer call on this thread runs with Wathe's force flag (Last Escape's train deaths
+     * included). KillPlayer.BEFORE does not expose it, and Wathe ignores a BEFORE cancel for forced kills, so a
+     * listener that would start a fake death asks here first. False outside a kill attempt.
+     * 当前线程最内层的 killPlayer 调用是否带有 Wathe 的强制标记（含绝处逢生的列车死亡）。KillPlayer.BEFORE 不提供该标记，
+     * 而 Wathe 会无视强制击杀的 BEFORE 取消，因此准备启动假死的监听需先在此查询。不在击杀尝试内时返回 false。
+     */
+    public static boolean isCurrentKillAttemptForced() {
+        KillAttempt attempt = KILL_ATTEMPTS.get().peek();
+        if (attempt == null) {
+            KILL_ATTEMPTS.remove();
+            return false;
+        }
+        return attempt.forced;
+    }
+
+    public static void terminateKillAttempt() {
+        KillAttempt attempt = KILL_ATTEMPTS.get().peek();
+        if (attempt != null) attempt.terminated = true;
+        else KILL_ATTEMPTS.remove();
+    }
+
+    public static void abortKillAttempt() {
+        Deque<KillAttempt> attempts = KILL_ATTEMPTS.get();
+        if (!attempts.isEmpty()) attempts.pop();
+        if (attempts.isEmpty()) KILL_ATTEMPTS.remove();
+    }
+
+    public static void finishKillAttempt(
+            ServerPlayerEntity victim,
+            boolean spawnBody,
+            @Nullable ServerPlayerEntity killer,
+            Identifier deathReason,
+            boolean force
+    ) {
+        Deque<KillAttempt> attempts = KILL_ATTEMPTS.get();
+        KillAttempt attempt = attempts.isEmpty() ? KillAttempt.EMPTY : attempts.pop();
+        if (attempts.isEmpty()) {
+            KILL_ATTEMPTS.remove();
+        }
+        if (attempt.before == null || attempt.terminated || killer == null) {
+            return;
+        }
+
+        ShieldState after = ShieldState.capture(victim);
+        boolean retry = shouldRetrySecondStrike(
+                true,
+                force,
+                victim == killer,
+                SECOND_STRIKE_REPLAYING.get(),
+                GameFunctions.isPlayerPlayingAndAlive(victim),
+                attempt.before.wasConsumedBy(after)
+        );
+        if (!retry) {
+            return;
+        }
+
+        SECOND_STRIKE_REPLAYING.set(true);
+        try {
+            GameFunctions.killPlayer(victim, spawnBody, killer, deathReason, false);
+        } finally {
+            SECOND_STRIKE_REPLAYING.set(false);
+        }
+    }
+
+    public static void handleAfterRealKill(ServerPlayerEntity victim, @Nullable ServerPlayerEntity killer, Identifier deathReason) {
+        if (killer != null && victim != killer && hasEligibleKillerTraitOwner(killer)) {
+            TraitPlayerComponent killerTraits = TraitPlayerComponent.KEY.get(killer);
+            if (killerTraits.hasActiveTrait(KillerTraits.BLOODTHIRSTY)) {
+                killerTraits.incrementBloodthirstyKillCount();
+            }
+            if (killerTraits.hasActiveTrait(KillerTraits.THE_SHOWMAN)) {
+                int witnesses = countNearbyAlivePlayers(victim, killer);
+                int reward = showmanReward(witnesses);
+                if (reward > 0) {
+                    PlayerShopComponent.KEY.get(killer).addToBalance(reward);
+                    SparkTraitsAchievementRecords.recordShowmanReward(killer, victim, witnesses, reward);
+                }
+            }
+            if (killerTraits.hasActiveTrait(KillerTraits.PLUNDERER)) {
+                PlayerShopComponent victimShop = PlayerShopComponent.KEY.get(victim);
+                int stolen = plunderedAmount(victimShop.getBalance());
+                if (stolen > 0) {
+                    victimShop.setBalance(victimShop.getBalance() - stolen);
+                    PlayerShopComponent.KEY.get(killer).addToBalance(stolen);
+                    SparkTraitsAchievementRecords.recordPlundererSteal(killer, victim, stolen);
+                }
+            }
+        }
+        handleCorneredAfterRealKill(victim);
+    }
+
+    public static boolean isCorneredTeamMember(Role role, Collection<Identifier> traits) {
+        if (EffectiveTraitService.hasConscience(traits)) {
+            return false;
+        }
+        return EffectiveTraitService.hasImpostor(traits) || EffectiveTraitService.isOriginalKiller(role);
+    }
+
+    public static void updateThrustKnockback(PlayerEntity player) {
+        EntityAttributeInstance knockback = player.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_KNOCKBACK);
+        if (knockback == null) {
+            return;
+        }
+        TraitPlayerComponent traits = TraitPlayerComponent.KEY.get(player);
+        // Runs every tick for every player: without Thrust there is only a stale modifier to remove.
+        // 每个玩家每 tick 都会执行：没有突刺时只需移除残留的修饰。
+        if (!traits.hasActiveTrait(KillerTraits.THRUST)) {
+            if (knockback.hasModifier(THRUST_KNOCKBACK_MODIFIER_ID)) {
+                knockback.removeModifier(THRUST_KNOCKBACK_MODIFIER_ID);
+            }
+            return;
+        }
+        boolean active = canUseThrust(
+                traits.hasActiveTrait(KillerTraits.THRUST),
+                hasEligibleKillerTraitOwner(player),
+                LastStandFinalMomentService.isFinalMomentLooseEnd(player)
+        ) && isHoldingThrustWeapon(player);
+        if (active && !knockback.hasModifier(THRUST_KNOCKBACK_MODIFIER_ID)) {
+            knockback.addTemporaryModifier(THRUST_KNOCKBACK_MODIFIER);
+        } else if (!active && knockback.hasModifier(THRUST_KNOCKBACK_MODIFIER_ID)) {
+            knockback.removeModifier(THRUST_KNOCKBACK_MODIFIER_ID);
+        }
+    }
+
+    public static void updateManicAttackSpeed(PlayerEntity player) {
+        EntityAttributeInstance attackSpeed = player.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_SPEED);
+        if (attackSpeed == null) {
+            return;
+        }
+        boolean active = player.getMainHandStack().isOf(WatheItems.BAT) && hasEligibleTrait(player, KillerTraits.MANIC);
+        if (active && !attackSpeed.hasModifier(MANIC_ATTACK_SPEED_MODIFIER_ID)) {
+            attackSpeed.addTemporaryModifier(MANIC_ATTACK_SPEED_MODIFIER);
+        } else if (!active && attackSpeed.hasModifier(MANIC_ATTACK_SPEED_MODIFIER_ID)) {
+            attackSpeed.removeModifier(MANIC_ATTACK_SPEED_MODIFIER_ID);
+        }
+    }
+
+    private static ShopEntry discountedShopEntry(ShopEntry entry) {
+        if (entry instanceof DiscountedShopEntry || entry.price() <= 0) {
+            return entry;
+        }
+        return new DiscountedShopEntry(entry);
+    }
+
+    private static int countNearbyAlivePlayers(ServerPlayerEntity victim, @Nullable ServerPlayerEntity killer) {
+        if (!(victim.getWorld() instanceof ServerWorld world)) {
+            return 0;
+        }
+        GameWorldComponent game = GameWorldComponent.KEY.get(world);
+        double rangeSquared = SHOWMAN_RANGE * SHOWMAN_RANGE;
+        int count = 0;
+        for (ServerPlayerEntity player : world.getPlayers()) {
+            boolean sameAsVictim = player.getUuid().equals(victim.getUuid());
+            boolean sameAsKiller = killer != null && player.getUuid().equals(killer.getUuid());
+            boolean alive = game.hasAnyRole(player) && !game.isPlayerDead(player.getUuid());
+            boolean withinRange = player.squaredDistanceTo(victim) <= rangeSquared;
+            if (shouldCountShowmanWitness(sameAsVictim, sameAsKiller, alive, withinRange)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private static void handleCorneredAfterRealKill(ServerPlayerEntity victim) {
+        ServerWorld world = victim.getServerWorld();
+        GameWorldComponent game = GameWorldComponent.KEY.get(world);
+        if (!isCorneredTeamMember(game.getRole(victim), TraitPlayerComponent.KEY.get(victim).getActiveTraitIds())) {
+            return;
+        }
+
+        int aliveTeamMembers = countAliveCorneredTeamMembers(world, game);
+        for (ServerPlayerEntity player : world.getPlayers()) {
+            if (player.getUuid().equals(victim.getUuid()) || !isAliveInGame(player, game)) {
+                continue;
+            }
+            TraitPlayerComponent traits = TraitPlayerComponent.KEY.get(player);
+            if (!traits.hasActiveTrait(KillerTraits.CORNERED) || !hasEligibleKillerTraitOwner(player)) {
+                continue;
+            }
+            boolean becomesSoleTeammate = aliveTeamMembers == 1
+                    && isCorneredTeamMember(game.getRole(player), traits.getActiveTraitIds())
+                    && !traits.hasCorneredLastKillerRewardPaid();
+            PlayerShopComponent.KEY.get(player).addToBalance(corneredReward(becomesSoleTeammate));
+            if (becomesSoleTeammate) {
+                traits.markCorneredLastKillerRewardPaid();
+            }
+        }
+    }
+
+    private static int countAliveCorneredTeamMembers(ServerWorld world, GameWorldComponent game) {
+        int count = 0;
+        for (ServerPlayerEntity player : world.getPlayers()) {
+            if (isAliveInGame(player, game)
+                    && isCorneredTeamMember(game.getRole(player), TraitPlayerComponent.KEY.get(player).getActiveTraitIds())) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private static boolean isAliveInGame(ServerPlayerEntity player, GameWorldComponent game) {
+        return game.hasAnyRole(player) && !game.isPlayerDead(player.getUuid());
+    }
+
+    private static boolean hasActiveOppressiveInWorld(PlayerEntity affectedPlayer) {
+        if (affectedPlayer == null || !(affectedPlayer.getWorld() instanceof ServerWorld world)) {
+            return false;
+        }
+        // Every player's mood tick asks the same question, so scan the world once per tick.
+        // 每个玩家的理智 tick 都会问同一个问题，因此每 tick 只扫描一次世界。
+        TraitWorldComponent traitWorld = TraitWorldComponent.KEY.get(world);
+        long time = world.getTime();
+        int serverTick = world.getServer().getTicks();
+        Boolean cached = traitWorld.oppressiveActiveAt(time, serverTick);
+        if (cached != null) {
+            return cached;
+        }
+        boolean active = scanActiveOppressive(world);
+        traitWorld.rememberOppressiveActive(time, serverTick, active);
+        return active;
+    }
+
+    private static boolean scanActiveOppressive(ServerWorld world) {
+        GameWorldComponent game = GameWorldComponent.KEY.get(world);
+        for (ServerPlayerEntity player : world.getPlayers()) {
+            if (hasEligibleTrait(player, KillerTraits.OPPRESSIVE)
+                    && GameFunctions.isPlayerPlayingAndAlive(player)
+                    && !SwallowedPlayerComponent.isPlayerSwallowed(player)
+                    && game.hasAnyRole(player)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean isHoldingThrustWeapon(PlayerEntity player) {
+        return KillerWeaponTags.isThrustWeapon(player.getMainHandStack());
+    }
+
+    static boolean hasEligibleTrait(PlayerEntity player, Identifier traitId) {
+        return player != null
+                && TraitPlayerComponent.KEY.get(player).hasActiveTrait(traitId)
+                && hasEligibleKillerTraitOwner(player);
+    }
+
+    private static boolean hasEligibleKillerTraitOwner(PlayerEntity player) {
+        if (player == null) {
+            return false;
+        }
+        GameWorldComponent game = GameWorldComponent.KEY.get(player.getWorld());
+        return canSelectKillerTrait(game.getRole(player), TraitPlayerComponent.KEY.get(player).getActiveTraitIds());
+    }
+
+    private static final class KillAttempt {
+        private static final KillAttempt EMPTY = new KillAttempt(null, false);
+        private final ShieldState before;
+        // Wathe's force flag for this attempt, as passed on to the wrapped killPlayer. 本次尝试传给 killPlayer 的强制标记。
+        private final boolean forced;
+        private boolean terminated;
+        private KillAttempt(@Nullable ShieldState before, boolean forced) { this.before = before; this.forced = forced; }
+    }
+
+    private record ShieldState(int psychoArmour, boolean psychoActive, boolean ironManBuff, int whiskeyLayers) {
+        private static ShieldState capture(ServerPlayerEntity player) {
+            PlayerPsychoComponent psycho = PlayerPsychoComponent.KEY.get(player);
+            int armour = psycho.getPsychoTicks() > 0 ? psycho.getArmour() : 0;
+            boolean ironMan = IronManPlayerComponent.KEY.get(player).hasBuff();
+            StatusEffectInstance whiskey = player.getStatusEffect(ModEffects.WHISKEY_SHIELD);
+            int whiskeyLayers = whiskey == null ? 0 : whiskey.getAmplifier() + 1;
+            return new ShieldState(armour, psycho.getPsychoTicks() > 0, ironMan, whiskeyLayers);
+        }
+
+        private boolean wasConsumedBy(ShieldState after) {
+            // stopPsycho clears armour too; only an active psycho losing armour absorbed a hit.
+            return (after.psychoActive && after.psychoArmour < psychoArmour)
+                    || (ironManBuff && !after.ironManBuff)
+                    || after.whiskeyLayers < whiskeyLayers;
+        }
+    }
+
+    private static final class DiscountedShopEntry extends ShopEntry {
+        private final ShopEntry delegate;
+
+        private DiscountedShopEntry(ShopEntry delegate) {
+            super(
+                    delegate.id(),
+                    delegate.displayStack(),
+                    delegate.getActualStack(),
+                    charismaPrice(delegate.price()),
+                    delegate.type(),
+                    delegate.cooldownTicks(),
+                    delegate.initialCooldownTicks(),
+                    delegate.maxStock(),
+                    null
+            );
+            this.delegate = delegate;
+        }
+
+        @Override
+        public boolean onBuy(PlayerEntity player) {
+            return delegate.onBuy(player);
+        }
+    }
+}

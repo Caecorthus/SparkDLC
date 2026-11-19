@@ -1,0 +1,382 @@
+package dev.caecorthus.sparkdlc.traits.impl.traits.global;
+
+import dev.caecorthus.sparkdlc.traits.SparkTraits;
+import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
+import dev.doctor4t.wathe.api.Role;
+import dev.doctor4t.wathe.api.event.CanSeeMoney;
+import dev.doctor4t.wathe.api.event.TaskComplete;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.cca.PlayerMoodComponent;
+import dev.doctor4t.wathe.cca.PlayerShopComponent;
+import dev.doctor4t.wathe.cca.PlayerStaminaComponent;
+import dev.doctor4t.wathe.game.GameConstants;
+import dev.doctor4t.wathe.game.GameFunctions;
+import dev.doctor4t.wathe.index.WatheAttributes;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributeInstance;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
+import org.agmas.noellesroles.Noellesroles;
+
+import java.util.Collection;
+import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveTraitService;
+import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveConsequenceService;
+
+/**
+ * Shared rules for global SparkTraits traits.
+ * SparkTraits 全局天赋的共用规则入口。
+ */
+public final class GlobalTraitService {
+    public static final int CAUTIOUS_COLOR = 0xA7C7C7;
+    public static final int TASK_MASTER_COLOR = 0xF2C94C;
+    public static final int FAST_HANDS_COLOR = 0xFF8A3D;
+    public static final int CHILDISH_COLOR = 0xFF9ACD;
+    public static final int STEADY_COLOR = 0x6AA6FF;
+    public static final int EXCELLENT_PHYSIQUE_COLOR = 0x7ED957;
+    public static final int SPIRIT_SLEUTH_COLOR = 0xB8A7FF;
+    public static final int SNOWBALL_COLOR = 0xBFE6F5;
+    public static final int WELL_SUPPLIED_COLOR = 0xD9A441;
+    public static final int SNOWBALL_MILESTONE = 100;
+    public static final int SNOWBALL_REWARD = 15;
+    public static final int WELL_SUPPLIED_STARTING_MONEY_PERCENT = 120;
+    /** Handed to roles whose opening balance is zero, where a percentage of nothing would stay nothing. 初始零金币角色的补贴。 */
+    public static final int WELL_SUPPLIED_ZERO_MONEY_BONUS = 25;
+    public static final int TASK_MASTER_MONEY_REWARD = 25;
+    public static final float TASK_MASTER_MOOD_GAIN_MULTIPLIER = 0.20f;
+    public static final float EXCELLENT_PHYSIQUE_RECOVERY_BONUS = 0.25f;
+    public static final float NORMAL_MOOD_MAX = 1.0f;
+    public static final float STEADY_MOOD_MAX = 1.25f;
+    public static final float MOOD_MIN = -1.0f;
+    public static final Identifier CHILDISH_SCALE_MODIFIER_ID = SparkTraits.id("childish_scale");
+    public static final double CHILDISH_SCALE_MODIFIER_VALUE = -0.25;
+    public static final Identifier EXCELLENT_PHYSIQUE_STAMINA_MODIFIER_ID = SparkTraits.id("excellent_physique_stamina");
+    public static final double EXCELLENT_PHYSIQUE_STAMINA_MODIFIER_VALUE = 1.0;
+    private static final EntityAttributeModifier CHILDISH_SCALE_MODIFIER = new EntityAttributeModifier(
+            CHILDISH_SCALE_MODIFIER_ID,
+            CHILDISH_SCALE_MODIFIER_VALUE,
+            EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+    );
+    private static final EntityAttributeModifier EXCELLENT_PHYSIQUE_STAMINA_MODIFIER = new EntityAttributeModifier(
+            EXCELLENT_PHYSIQUE_STAMINA_MODIFIER_ID,
+            EXCELLENT_PHYSIQUE_STAMINA_MODIFIER_VALUE,
+            EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+    );
+
+    private GlobalTraitService() {
+    }
+
+    public static void register() {
+        TaskComplete.EVENT.register((player, taskType) -> {
+            TraitPlayerComponent traits = TraitPlayerComponent.KEY.get(player);
+            if (!traits.hasActiveTrait(TaskMasterTrait.ID)) {
+                return;
+            }
+
+            GameWorldComponent game = GameWorldComponent.KEY.get(player.getWorld());
+            Role role = game.getRole(player);
+            Collection<Identifier> activeTraits = traits.getActiveTraitIds();
+            if (hasEffectiveRealMood(role, activeTraits)) {
+                PlayerMoodComponent mood = PlayerMoodComponent.KEY.get(player);
+                mood.setMood(mood.getMood() + taskMasterExtraMoodGain());
+            }
+            if (canSeeMoneyForTrait(player, game, role)) {
+                PlayerShopComponent.KEY.get(player).addToBalance(TASK_MASTER_MONEY_REWARD);
+            }
+        });
+    }
+
+    public static boolean canSelectTaskMaster(Role role, Collection<Identifier> selectedTraits, boolean canSeeMoney) {
+        return hasEffectiveRealMood(role, selectedTraits) || canSeeMoney;
+    }
+
+    public static boolean canSelectSteady(Role role, Collection<Identifier> selectedTraits) {
+        return hasEffectiveRealMood(role, selectedTraits);
+    }
+
+    public static boolean canSelectExcellentPhysique(Role role) {
+        return hasFiniteStamina(role);
+    }
+
+    public static boolean hasFiniteStamina(Role role) {
+        return role != null && role.getMaxSprintTime() >= 0;
+    }
+
+    public static boolean hasEffectiveRealMood(Role role, Collection<Identifier> traits) {
+        return EffectiveTraitService.effectiveMoodType(role, traits) == Role.MoodType.REAL;
+    }
+
+    /**
+     * Whether the player sees money in the round. Asked at round-start planning too, where the round is not running
+     * yet; {@link PlanningRoundView} makes that check answer as the round will.
+     * 玩家在对局中是否能看到金币。开局规划时同样会问，此时对局尚未进行；{@link PlanningRoundView} 让这一判定按对局开始后的情况作答。
+     */
+    public static boolean canSeeMoneyForTrait(PlayerEntity player, GameWorldComponent game, Role role) {
+        return PlanningRoundView.evaluate(player, () -> canSeeMoneyForTrait(
+                CanSeeMoney.EVENT.invoker().canSee(player) == CanSeeMoney.Result.ALLOW,
+                mirrorsNoellesRecallerMoney(game, player, role)
+        ));
+    }
+
+    /**
+     * Gate for money-only traits: the role must visibly run on the shop balance.
+     * 纯金钱天赋的资格门槛：身份必须实际使用可见的商店余额。
+     */
+    public static boolean usesMoneySystem(PlayerEntity player, GameWorldComponent game, Role role) {
+        return player != null
+                && game != null
+                && (canSeeMoneyForTrait(player, game, role) || EffectiveConsequenceService.hasNativeTaskMoneyReward(role));
+    }
+
+    static boolean canSeeMoneyForTrait(boolean eventAllowsMoney, boolean mirrorsNoellesRecallerMoney) {
+        return eventAllowsMoney || mirrorsNoellesRecallerMoney;
+    }
+
+    static boolean mirrorsNoellesRecallerMoney(GameWorldComponent game, PlayerEntity player, Role role) {
+        return role != null
+                && role.equals(Noellesroles.RECALLER)
+                && player != null
+                && GameFunctions.isPlayerPlayingAndAlive(player)
+                && (game == null || !game.isPlayerDead(player.getUuid()));
+    }
+
+    public static float taskMasterExtraMoodGain() {
+        return GameConstants.MOOD_GAIN * TASK_MASTER_MOOD_GAIN_MULTIPLIER;
+    }
+
+    public static int snowballBalance(PlayerEntity player, int balance, int newBalance) {
+        return snowballBalance(balance, newBalance, player instanceof ServerPlayerEntity && hasTrait(player, SnowballTrait.ID));
+    }
+
+    /**
+     * Pays once for every multiple of the milestone that income newly reaches, including ones the payout itself reaches.
+     * 收入每新达到一个里程碑倍数就奖励一次，奖励本身达到的倍数同样计入。
+     */
+    static int snowballBalance(int balance, int newBalance, boolean snowball) {
+        if (!snowball || newBalance <= balance) {
+            return newBalance;
+        }
+        long reached = Math.floorDiv(balance, SNOWBALL_MILESTONE);
+        long paid = newBalance;
+        while (Math.floorDiv(paid, (long) SNOWBALL_MILESTONE) > reached) {
+            long milestones = Math.floorDiv(paid, (long) SNOWBALL_MILESTONE) - reached;
+            reached += milestones;
+            paid += milestones * SNOWBALL_REWARD;
+        }
+        return (int) Math.min(Integer.MAX_VALUE, paid);
+    }
+
+    /**
+     * Runs once per round after every starting balance is written; setBalance keeps it out of income tracking.
+     * 每局在所有开局余额写入后执行一次；使用 setBalance 使其不计入收入统计。
+     */
+    public static void applyWellSuppliedStartingMoney(ServerWorld world) {
+        for (ServerPlayerEntity player : world.getPlayers()) {
+            if (hasTrait(player, WellSuppliedTrait.ID)) {
+                applyWellSuppliedStartingMoney(player);
+            }
+        }
+    }
+
+    /**
+     * One player's Well Supplied bonus on their current balance; also used when the trait is rolled mid-round, after
+     * the caller has written the new role's starting balance.
+     * 按单个玩家的当前余额发放物资充沛加成；局中抽到该天赋时同样使用，调用方须先写入新身份的起始余额。
+     */
+    public static void applyWellSuppliedStartingMoney(ServerPlayerEntity player) {
+        PlayerShopComponent shop = PlayerShopComponent.KEY.get(player);
+        shop.setBalance(wellSuppliedStartingMoney(shop.getBalance()));
+    }
+
+    static int wellSuppliedStartingMoney(int startingMoney) {
+        if (startingMoney <= 0) {
+            // Roles that open with no money at all: 120% of zero is still zero, so they get a flat subsidy instead.
+            // 初始零金币的角色：1.2 倍乘在 0 上仍然是 0，改为固定发放一笔补贴。
+            return WELL_SUPPLIED_ZERO_MONEY_BONUS;
+        }
+        return (int) Math.min(Integer.MAX_VALUE, (long) startingMoney * WELL_SUPPLIED_STARTING_MONEY_PERCENT / 100);
+    }
+
+    public static int fastHandsCooldown(int duration) {
+        if (duration <= 0) {
+            return duration;
+        }
+        return Math.max(1, (int) (duration * 0.9f));
+    }
+
+    public static float moodMax(Role.MoodType moodType, Collection<Identifier> traits) {
+        if (moodType == Role.MoodType.REAL && traits.contains(SteadyTrait.ID)) {
+            return STEADY_MOOD_MAX;
+        }
+        return NORMAL_MOOD_MAX;
+    }
+
+    public static float clampMood(float mood, Role.MoodType moodType, Collection<Identifier> traits) {
+        if (moodType != Role.MoodType.REAL) {
+            return NORMAL_MOOD_MAX;
+        }
+        return Math.clamp(mood, MOOD_MIN, moodMax(moodType, traits));
+    }
+
+    public static float positiveMoodBarProgress(float mood, float maxMood) {
+        if (mood < 0.0f) {
+            return Math.abs(mood);
+        }
+        return MathHelper.clamp(mood / maxMood, 0.0f, 1.0f);
+    }
+
+    public static boolean hasTrait(PlayerEntity player, Identifier traitId) {
+        return player != null && TraitPlayerComponent.KEY.get(player).hasActiveTrait(traitId);
+    }
+
+    public static boolean shouldSuppressCautiousSounds(PlayerEntity player) {
+        return CautiousSoundRules.shouldSuppressSounds(player);
+    }
+
+    /**
+     * Cancels only player-generated step sounds for Cautious, leaving other entity sounds untouched.
+     * 只取消小心翼翼玩家产生的脚步音，避免误伤其他实体或其他动作音。
+     */
+    public static boolean shouldSuppressCautiousStepSounds(Entity entity) {
+        return CautiousSoundRules.shouldSuppressStepSounds(entity);
+    }
+
+    static boolean shouldSuppressCautiousStepSounds(boolean playerEntity, boolean cautiousSoundsSuppressed) {
+        return CautiousSoundRules.shouldSuppressStepSounds(playerEntity, cautiousSoundsSuppressed);
+    }
+
+    /**
+     * Removes movement audio while preserving movement game events.
+     * 移除移动声音，同时保留移动相关的 game event。
+     */
+    public static Entity.MoveEffect suppressMovementSounds(Entity.MoveEffect original, boolean suppress) {
+        return CautiousSoundRules.suppressMovementSounds(original, suppress);
+    }
+
+    public static void applyChildishScale(ServerPlayerEntity player) {
+        EntityAttributeInstance scale = player.getAttributeInstance(EntityAttributes.GENERIC_SCALE);
+        if (scale == null) {
+            return;
+        }
+        applyChildishScale(scale);
+        player.calculateDimensions();
+    }
+
+    public static void removeChildishScale(ServerPlayerEntity player) {
+        EntityAttributeInstance scale = player.getAttributeInstance(EntityAttributes.GENERIC_SCALE);
+        if (scale == null) {
+            return;
+        }
+        removeChildishScale(scale);
+        player.calculateDimensions();
+    }
+
+    /**
+     * Reads Childish from the synced scale modifier, so every client can tell without the hidden trait list. Any living
+     * entity may carry it: SparkWitch copies it onto a Magician puppet that copies a Childish player.
+     * 通过已同步的体型修饰符判断幼稚，任何客户端都无需读取隐藏的天赋列表。任何生物实体都可能带有它：SparkWitch 会把它复制到
+     * 复制幼稚玩家的魔术师皮套上。
+     */
+    public static boolean hasChildishScale(LivingEntity entity) {
+        EntityAttributeInstance scale = entity.getAttributeInstance(EntityAttributes.GENERIC_SCALE);
+        return scale != null && scale.hasModifier(CHILDISH_SCALE_MODIFIER_ID);
+    }
+
+    static void applyChildishScale(EntityAttributeInstance scale) {
+        if (!scale.hasModifier(CHILDISH_SCALE_MODIFIER_ID)) {
+            scale.addTemporaryModifier(CHILDISH_SCALE_MODIFIER);
+        }
+    }
+
+    static void removeChildishScale(EntityAttributeInstance scale) {
+        if (scale.hasModifier(CHILDISH_SCALE_MODIFIER_ID)) {
+            scale.removeModifier(CHILDISH_SCALE_MODIFIER_ID);
+        }
+    }
+
+    public static void applyExcellentPhysiqueStamina(ServerPlayerEntity player) {
+        GameWorldComponent game = GameWorldComponent.KEY.get(player.getWorld());
+        if (game == null || !hasFiniteStamina(game.getRole(player))) {
+            return;
+        }
+        EntityAttributeInstance stamina = player.getAttributeInstance(WatheAttributes.MAX_SPRINT_TIME);
+        if (stamina == null) {
+            return;
+        }
+        if (!stamina.hasModifier(EXCELLENT_PHYSIQUE_STAMINA_MODIFIER_ID)) {
+            stamina.addTemporaryModifier(EXCELLENT_PHYSIQUE_STAMINA_MODIFIER);
+        }
+        PlayerStaminaComponent.KEY.get(player).sync();
+    }
+
+    public static void removeExcellentPhysiqueStamina(ServerPlayerEntity player) {
+        removeStaminaModifier(player, EXCELLENT_PHYSIQUE_STAMINA_MODIFIER_ID);
+    }
+
+    /**
+     * Drops one max-sprint modifier and clamps finite live stamina to the new maximum; shared by stamina trait removals.
+     * 移除一个最大冲刺时长修饰，并把有限体力夹到新的上限；供各体力类天赋移除时共用。
+     */
+    public static void removeStaminaModifier(ServerPlayerEntity player, Identifier modifierId) {
+        EntityAttributeInstance stamina = player.getAttributeInstance(WatheAttributes.MAX_SPRINT_TIME);
+        if (stamina == null) {
+            return;
+        }
+        if (stamina.hasModifier(modifierId)) {
+            stamina.removeModifier(modifierId);
+        }
+        PlayerStaminaComponent staminaComponent = PlayerStaminaComponent.KEY.get(player);
+        if (!staminaComponent.isInfiniteStamina()) {
+            int maxSprintTime = (int) stamina.getValue();
+            staminaComponent.setMaxSprintTime(maxSprintTime);
+            staminaComponent.setSprintingTicks(Math.min(staminaComponent.getSprintingTicks(), maxSprintTime));
+            staminaComponent.sync();
+        }
+    }
+
+    public static void recoverExcellentPhysiqueStamina(ServerPlayerEntity player, boolean sprinting) {
+        GameWorldComponent game = GameWorldComponent.KEY.get(player.getWorld());
+        Role role = game.getRole(player);
+        PlayerStaminaComponent stamina = PlayerStaminaComponent.KEY.get(player);
+        if (!shouldRecoverExcellentPhysiqueStamina(
+                role,
+                hasTrait(player, ExcellentPhysiqueTrait.ID),
+                sprinting,
+                stamina.isInfiniteStamina()
+        )) {
+            return;
+        }
+        stamina.setSprintingTicks(excellentPhysiqueRecoveredStamina(
+                stamina.getSprintingTicks(),
+                stamina.getMaxSprintTime()
+        ));
+    }
+
+    static boolean shouldRecoverExcellentPhysiqueStamina(
+            Role role,
+            boolean hasTrait,
+            boolean sprinting,
+            boolean infiniteStamina
+    ) {
+        return hasTrait && hasFiniteStamina(role) && !sprinting && !infiniteStamina;
+    }
+
+    static float excellentPhysiqueRecoveredStamina(float sprintingTicks, int maxSprintTime) {
+        if (maxSprintTime <= 0) {
+            return sprintingTicks;
+        }
+        return Math.min(sprintingTicks + EXCELLENT_PHYSIQUE_RECOVERY_BONUS, maxSprintTime);
+    }
+
+    public static void clampMoodAfterSteadyRemoved(ServerPlayerEntity player) {
+        PlayerMoodComponent mood = PlayerMoodComponent.KEY.get(player);
+        if (mood.getMood() > NORMAL_MOOD_MAX) {
+            mood.setMood(NORMAL_MOOD_MAX);
+        }
+    }
+}

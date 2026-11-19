@@ -4,6 +4,7 @@
   "package": "dev.caecorthus.sparkdlc.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "legacy.SimpleRegistryKeyAliasMixin",
     "faction.AntiFastRoundPayloadGuardMixin",
     "compat.noellesroles.NoellesHiddenEquipmentHelperMixin",
     "compat.noellesroles.NoellesRolesDemonHunterAffectMixin",

@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.compat;
 
+import dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import org.jetbrains.annotations.Nullable;
@@ -7,44 +8,25 @@ import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 
 /**
- * Weak bridge into the public SparkTraits API without a compile-time dependency.
- * 通过弱反射读取 SparkTraits 公共 API，避免编译期强依赖。
+ * Bridge into the public SparkTraits API. SparkTraits is fused into SparkDLC, so the calls are direct (compiled).
+ * 读取 SparkTraits 公共 API 的桥接。SparkTraits 已融合进 SparkDLC，因此为直接（编译期）调用。
  */
 public final class SparkTraitsLastStandBridge {
-    private static final String MOD_ID = "sparktraits";
-    private static final String SPARK_TRAITS_API_CLASS =
-            "dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi";
-
-    // Shared by the Seeker and Abyss Listener bridges: gated on SparkTraits, static boolean shape, class not
-    // initialised by the lookup; older SparkTraits builds lack this facade: silently "not pending".
-    // 由搜寻者与聆渊者桥接共用：以 SparkTraits 已加载为门控、检查静态 boolean 形状、查找时不初始化类；
-    // 旧版缺少此门面：静默视为非待定。
-    private static final OptionalStaticMethod PENDING = OptionalStaticMethod.of(MOD_ID, SPARK_TRAITS_API_CLASS,
-            "isLastStandPending", PlayerEntity.class).returning(boolean.class);
-
     private SparkTraitsLastStandBridge() {
     }
 
+    /** Server only. / 仅服务端。 */
     public static boolean hasTriggeredThisRound(ServerWorld world, UUID playerUuid) {
         return world != null && playerUuid != null
-                && Triggered.METHOD.callBoolean(false, false, false, world, playerUuid);
+                && SparkTraitsApi.hasLastStandTriggeredThisRound(world, playerUuid);
     }
 
     /**
-     * Whether SparkTraits Last Stand currently holds this player's pending death transition; absent, older or
-     * failing providers read as false. Both sides.
-     * SparkTraits 背水一战当前是否持有该玩家的待决死亡转换；提供方缺失、过旧或出错时为 false。两端可用。
+     * Whether SparkTraits Last Stand currently holds this player's pending death transition; a null player reads as
+     * false. Shared by the Seeker and Abyss Listener bridges. Both sides.
+     * SparkTraits 背水一战当前是否持有该玩家的待决死亡转换；玩家为空时为 false。由搜寻者与聆渊者桥接共用。两端可用。
      */
     public static boolean isLastStandPending(@Nullable PlayerEntity player) {
-        return player != null && PENDING.callBoolean(false, false, false, player);
-    }
-
-    /** Server-only query, held apart so a client reading {@link #isLastStandPending} never touches it.
-     * 仅服务端的查询，单独持有，使读取 {@link #isLastStandPending} 的客户端从不触及它。 */
-    private static final class Triggered {
-        // No mod check, as before: an absent SparkTraits is a missing class, which reads false like any other failure.
-        // 与此前一致不检查模组：缺失 SparkTraits 即类缺失，与其他失败一样返回 false。
-        private static final OptionalStaticMethod METHOD = OptionalStaticMethod.ungated(SPARK_TRAITS_API_CLASS,
-                "hasLastStandTriggeredThisRound", ServerWorld.class, UUID.class).initializingClass();
+        return player != null && SparkTraitsApi.isLastStandPending(player);
     }
 }

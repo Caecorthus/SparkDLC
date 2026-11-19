@@ -5945,6 +5945,14 @@ still passes through the Curser.
 `WitchCohortRoleNameMixin` and `InsiderCohortRoleNameMixin` apply the same filter
 to their own raycasts so their labels follow the tagged player.
 
+SparkDLC fusion note (2026-11-19): SparkTraits now always ships in the same jar, so the SparkWitch bridges
+to it (`compat/SparkTraits*Bridge`, the role-owned probes and the client instinct hooks) call the public
+`SparkTraitsApi` facade directly instead of through reflection and no longer gate on the `sparktraits` mod id.
+The facade-only boundary below is unchanged. Where the following paragraphs and the role sections describe an
+absent, older or failing SparkTraits build, that branch can no longer occur: only the bridges' own null-argument
+answers remain, and a facade failure propagates instead of turning into a default. Not yet converted: the Last
+Escape and Depression vision bridges (`LastEscapeTraitsVisionBridge`, `SparkTraitsDepressionVisionBridge`).
+
 SparkTraits is optional and fail-closed. Reflection may target only
 `dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi`, never `sparktraits.impl` or
 `sparktraits.component`. Black Raven may query only the public

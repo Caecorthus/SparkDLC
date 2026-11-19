@@ -1,7 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.roles.killer.magician;
 
-import dev.caecorthus.sparkdlc.witch.SparkWitch;
-import dev.caecorthus.sparkdlc.witch.compat.OptionalStaticMethod;
+import dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -12,7 +11,6 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -27,13 +25,15 @@ import java.util.UUID;
  *     snapshot, else the assignment snapshot), so a dead Childish player's puppet stays small and the size never
  *     reveals a death (D7).</li>
  * </ul>
- * Fails closed: without SparkTraits or without an answer the puppet keeps the normal size.
+ * SparkTraits is fused into SparkDLC, so the facade call is direct; when its round-end traits do not list Childish the
+ * puppet keeps the normal size.
  * 皮套与被复制玩家一样大（所有者决定 D6，论坛 T-0013，2026-10-25）。目前唯一的体型规则是 SparkTraits 的幼稚词条：一个
  * {@code generic.scale} 修饰符（{@code sparktraits:childish_scale}，-0.25 乘算总值，即 0.75），原版会把它应用到模型、阴影、
  * 碰撞箱与视线高度。服务端在生成时把它复制到皮套上一次，因此所有观察者（无论是否加载了被复制玩家）和所有皮套命中判定都经由
  * 原版的追踪属性同步得到该体型；不新增数据包、追踪数据或 NBT。被复制玩家在线、参与且存活时：原样复制其实时修饰符（没有则
  * 不缩小）；否则（已死亡、旁观、离线）：经公共门面读取 SparkTraits 本局最终词条（死亡快照，否则为分配快照），使已死亡幼稚
- * 玩家的皮套仍然偏小，体型永不暴露死亡（D7）。失败即关闭：没有 SparkTraits 或得不到答案时皮套保持正常体型。
+ * 玩家的皮套仍然偏小，体型永不暴露死亡（D7）。SparkTraits 已融合进 SparkDLC，因此门面为直接调用；其本局最终词条不含幼稚时
+ * 皮套保持正常体型。
  */
 public final class MagicianPuppetBodySize {
     static final Identifier CHILDISH_TRAIT = Identifier.of("sparktraits", "childish");
@@ -43,13 +43,6 @@ public final class MagicianPuppetBodySize {
     // 玩家身上已不再带有该修饰符时使用。
     static final EntityAttributeModifier CHILDISH_SNAPSHOT_SCALE = new EntityAttributeModifier(CHILDISH_SCALE, -0.25,
             EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
-
-    private static final OptionalStaticMethod ROUND_END_TRAIT_IDS = OptionalStaticMethod.of("sparktraits",
-                    "dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi", "getRoundEndTraitIds",
-                    ServerWorld.class, UUID.class)
-            .returning(List.class)
-            .warnOnce(error -> SparkWitch.LOGGER.warn(
-                    "Magician puppets cannot read SparkTraits round-end traits; they keep the normal size", error));
 
     private MagicianPuppetBodySize() {
     }
@@ -73,7 +66,7 @@ public final class MagicianPuppetBodySize {
             EntityAttributeInstance liveScale = live.getAttributeInstance(EntityAttributes.GENERIC_SCALE);
             return choose(true, liveScale == null ? null : liveScale.getModifier(CHILDISH_SCALE), null);
         }
-        return choose(false, null, ROUND_END_TRAIT_IDS.callOrNull(world, copied));
+        return choose(false, null, SparkTraitsApi.getRoundEndTraitIds(world, copied));
     }
 
     /**

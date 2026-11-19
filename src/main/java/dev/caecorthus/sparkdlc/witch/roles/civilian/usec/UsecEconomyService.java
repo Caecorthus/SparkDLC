@@ -95,8 +95,8 @@ public final class UsecEconomyService {
     // ---- Tasks ----
 
     static void onTaskComplete(ServerPlayerEntity player) {
-        if (canEarn(player) && receivesTaskMoney(UsecEconomyTraitsProbe.isSparkTraitsLoaded(),
-                UsecEconomyTraitsProbe.isImpostor(player))) {
+        // SparkTraits is fused into SparkDLC: always loaded. / SparkTraits 已融合进 SparkDLC：恒为已加载。
+        if (canEarn(player) && receivesTaskMoney(true, UsecEconomyTraitsProbe.isImpostor(player))) {
             PlayerShopComponent.KEY.get(player).addToBalance(UsecRules.TASK_REWARD);
         }
     }

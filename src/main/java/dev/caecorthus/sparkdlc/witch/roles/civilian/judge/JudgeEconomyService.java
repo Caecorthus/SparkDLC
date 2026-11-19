@@ -1,7 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.roles.civilian.judge;
 
-import dev.caecorthus.sparkdlc.witch.SparkWitch;
-import dev.caecorthus.sparkdlc.witch.compat.OptionalStaticMethod;
+import dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi;
 import dev.doctor4t.wathe.cca.PlayerShopComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -12,12 +11,6 @@ import net.minecraft.util.Identifier;
  * 法官收入只有一个归属；其警察网络登记（因此获得 SparkStrength 免费平板）不得产生第二份任务收益。 */
 public final class JudgeEconomyService {
     private static final Identifier IMPOSTOR = Identifier.of("sparktraits", "impostor");
-    private static final OptionalStaticMethod HAS_ACTIVE_TRAIT = OptionalStaticMethod.of("sparktraits",
-                    "dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi", "hasActiveTrait",
-                    PlayerEntity.class, Identifier.class)
-            .initializingClass()
-            .warnOnce(error -> SparkWitch.LOGGER.warn(
-                    "Judge task income cannot verify the optional Impostor trait; skipping the reward", error));
 
     private JudgeEconomyService() {
     }
@@ -32,9 +25,10 @@ public final class JudgeEconomyService {
         }
     }
 
-    /** Pays only on an exact FALSE: an absent SparkTraits counts as FALSE, an unknown answer (null) never pays.
-     * 仅在确切为 FALSE 时发放：未安装 SparkTraits 视为 FALSE，未知答案（null）从不发放。 */
+    /** Pays only a non-Impostor (SparkTraits pays that trait's task income itself). SparkTraits is fused into
+     * SparkDLC, so the facade call is direct.
+     * 仅向非内鬼发放（内鬼词条的任务收入由 SparkTraits 自行支付）。SparkTraits 已融合进 SparkDLC，门面为直接调用。 */
     private static boolean receivesOrdinaryTaskMoney(PlayerEntity player) {
-        return Boolean.FALSE.equals(HAS_ACTIVE_TRAIT.callNullableBoolean(Boolean.FALSE, null, null, player, IMPOSTOR));
+        return !SparkTraitsApi.hasActiveTrait(player, IMPOSTOR);
     }
 }

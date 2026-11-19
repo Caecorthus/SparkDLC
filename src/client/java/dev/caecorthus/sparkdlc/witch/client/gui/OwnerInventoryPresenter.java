@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.witch.client.gui;
 import dev.caecorthus.sparkdlc.factionapi.client.api.card.GuideDecorBridge;
 import dev.caecorthus.sparkdlc.factionapi.client.api.card.InventoryCardPaint;
 import dev.caecorthus.sparkdlc.factionapi.client.api.card.InventoryInfoCard;
+import dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.witch.SparkWitch;
 import dev.caecorthus.sparkdlc.witch.api.WitchSkillDefinition;
 import dev.caecorthus.sparkdlc.witch.api.WitchSkillRegistry;
@@ -28,7 +29,6 @@ import dev.caecorthus.sparkdlc.witch.skill.WitchSkillHudRules;
 import dev.caecorthus.sparkdlc.witch.skill.WitchSkillPresentationRules;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -69,8 +69,11 @@ public final class OwnerInventoryPresenter {
                 SparkStrengthHudBridge::topRightHudBottom, new GuideDecorBridge("SparkWitch/GuideDecor"));
     }
     private static final InventoryRenderScope<Frame> CALLS = new InventoryRenderScope<>();
-    private static final TraitsInventoryBridge TRAITS = new TraitsInventoryBridge(
-            OwnerInventoryPresenter::traitsFacade, PlayerEntity.class, OwnerInventoryPresenter::ownsTraits);
+    // SparkTraits is fused into SparkDLC: the bridge calls its public facade directly through these method references.
+    // SparkTraits 已融合进 SparkDLC：桥接通过这些方法引用直接调用其公共门面。
+    private static final TraitsInventoryBridge<PlayerEntity, Text> TRAITS = new TraitsInventoryBridge<>(
+            SparkTraitsApi::registerExternalInventoryPresenterV1, SparkTraitsApi::visitOwnerInventoryTraits,
+            OwnerInventoryPresenter::ownsTraits);
     private static final SkillProgressTracker PROGRESS = new SkillProgressTracker();
     /** The Ceremonial Sword's kill cooldown, a Grand Witch timer beside the panel skill. 仪礼剑击杀冷却（大魔女专属计时）。 */
     private static final SkillProgressTracker SWORD_PROGRESS = new SkillProgressTracker();
@@ -91,27 +94,7 @@ public final class OwnerInventoryPresenter {
     private static @Nullable SkillKey skillKey;
     private static @Nullable InventoryInfoCard.Section skillCache;
     private static @Nullable InventoryInfoCard.Section traitsCache;
-    // The facade lookup is answered once per game session: mod presence and the facade class cannot change while the
-    // game runs, so SparkTraits without the facade no longer throws a ClassNotFoundException on every inventory frame
-    // (the bridge keeps failing closed). / 门面查找每次游戏会话只解析一次：模组是否存在与门面类在运行期间不会改变，
-    // 因此没有门面的 SparkTraits 不再在每个背包帧抛出 ClassNotFoundException（桥接仍然安全失败）。
-    private static boolean traitsFacadeResolved;
-    private static @Nullable Class<?> traitsFacade;
     private OwnerInventoryPresenter() {}
-
-    private static Class<?> traitsFacade() {
-        if (!traitsFacadeResolved) {
-            traitsFacade = resolveTraitsFacade();
-            traitsFacadeResolved = true;
-        }
-        return traitsFacade;
-    }
-
-    private static @Nullable Class<?> resolveTraitsFacade() {
-        if (!FabricLoader.getInstance().isModLoaded("sparktraits")) return null;
-        try { return Class.forName("dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi"); }
-        catch (ClassNotFoundException | LinkageError unavailable) { return null; }
-    }
 
     /** Called outside the wrapped body, before ANY render HEAD/TAIL and closed after ALL TAILs. */
     public interface RenderCall extends AutoCloseable { @Override void close(); }
@@ -128,13 +111,13 @@ public final class OwnerInventoryPresenter {
             if (skill != null) sections.add(skill);
             // The visit runs every frame (it is the V1 ownership handshake); only the copies and the section are cached.
             // 每帧都要访问（V1 所有权握手的一部分），仅缓存副本与分节。
-            var traits = TRAITS.collect(player, (tag, tooltip) -> new VisitedTrait((Text) tag, tooltip.stream().map(t -> (Text) t).toList()));
+            var traits = TRAITS.collect(player, (tag, tooltip) -> new VisitedTrait(tag, tooltip.stream().toList()));
             traits.ifPresent(entries -> {
                 if (!entries.isEmpty()) sections.add(traitsSection(entries));
             });
-            // Publish only AFTER all text conversion, eligibility, collection and geometry succeeded.
-            var card = Card.INSTANCE.prepare(screen, font, sections,
-                    FabricLoader.getInstance().isModLoaded("sparktraits"), traits.isPresent());
+            // Publish only AFTER all text conversion, eligibility, collection and geometry succeeded. Traits is always
+            // present (fused into SparkDLC). / 天赋模块恒存在（已融合进 SparkDLC）。
+            var card = Card.INSTANCE.prepare(screen, font, sections, true, traits.isPresent());
             scope.publish(new Frame(new InventoryRenderScope.Binding(screen, player, client.world, client.getNetworkHandler()), card, traits.isPresent()));
         } catch (RuntimeException | LinkageError failure) {
             // No committed snapshot: Traits keeps its native TAIL and Witch uses its native fallback. Warn once per
@@ -186,8 +169,7 @@ public final class OwnerInventoryPresenter {
             if (frame != null && frame.binding.screen() == screen && frame.binding.player() == player) card = frame.card;
             else {
                 var skill = skillSection(player);
-                card = Card.INSTANCE.prepare(screen, font, skill == null ? List.of() : List.of(skill),
-                        FabricLoader.getInstance().isModLoaded("sparktraits"), false);
+                card = Card.INSTANCE.prepare(screen, font, skill == null ? List.of() : List.of(skill), true, false);
             }
             Card.INSTANCE.draw(context, font, card, mouseX, mouseY, screen.width, screen.height);
             if (showsManaTail(card)) manaTailScreen = screen;

@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.witch.client.hooks;
 
+import dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.witch.SparkWitchRoles;
 import dev.caecorthus.sparkdlc.witch.compat.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.witch.compat.OptionalStaticMethod;
 import dev.caecorthus.sparkdlc.witch.component.WitchWorldComponent;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.ApprenticeFearExemption;
 import dev.caecorthus.sparkdlc.witch.roles.witch.WitchFactionRules;
@@ -22,13 +22,6 @@ import net.minecraft.world.World;
  */
 public final class WitchInstinctSuppressionClientHooks {
     public static final int SUPPRESSION_PRIORITY = GetInstinctHighlight.HighlightResult.PRIORITY_HIGH + 2;
-    // Resolved once: Fabric's mod set and classpath are fixed after launch, so a missing mod, class or method stays
-    // missing (latched) and a found facade method stays valid. Reflects only the stable public facade; missing or
-    // incompatible Traits fails closed (not active).
-    // 只解析一次：Fabric 启动后模组集合与类路径固定，缺失的模组、类或方法会一直缺失（锁存），找到的门面方法也一直有效。
-    // 只反射稳定公共门面；Traits 缺失或不兼容时按未激活安全回退。
-    private static final OptionalStaticMethod FINAL_MOMENT_ACTIVE = OptionalStaticMethod.of("sparktraits",
-            "dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi", "isFinalMomentActive", World.class).initializingClass();
 
     private WitchInstinctSuppressionClientHooks() {
     }
@@ -63,8 +56,8 @@ public final class WitchInstinctSuppressionClientHooks {
         // 中先于障眼作答。
         boolean apprentice = viewerRole == SparkWitchRoles.apprenticeWitch();
         // An active Final Moment only ever lifts a suppression (the rule returns false first), so it is passed as
-        // false and the reflective SparkTraits read runs only when Fear or Obscure would suppress: same answer.
-        // 激活的最终时刻只会解除压制（规则会先返回 false），因此此处传入 false，仅当恐惧或障眼会生效时才反射读取
+        // false and the SparkTraits read runs only when Fear or Obscure would suppress: same answer.
+        // 激活的最终时刻只会解除压制（规则会先返回 false），因此此处传入 false，仅当恐惧或障眼会生效时才读取
         // SparkTraits：结果不变。
         return WitchFactionRules.shouldSuppressAffectedInstinctHighlight(
                 witchWorld.getFearTicks() > 0 && !ApprenticeFearExemption.isExempt(viewer),
@@ -88,7 +81,9 @@ public final class WitchInstinctSuppressionClientHooks {
         return target instanceof PlayerEntity targetPlayer && NoellesTaotieSeekerBridge.isSwallowed(targetPlayer);
     }
 
+    // SparkTraits is fused into SparkDLC: a direct call to its stable public facade; a null world is not active.
+    // SparkTraits 已融合进 SparkDLC：直接调用其稳定公共门面；世界为空时视为未激活。
     private static boolean isSparkTraitsFinalMomentActive(World world) {
-        return world != null && FINAL_MOMENT_ACTIVE.callBoolean(false, false, false, world);
+        return world != null && SparkTraitsApi.isFinalMomentActive(world);
     }
 }

@@ -1,72 +1,32 @@
 package dev.caecorthus.sparkdlc.witch.compat;
 
+import dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
-/** Optional public-facade queries; older/absent Traits adds no restrictions.
- * 可选公共门面查询；旧版或缺失 Traits 时不附加限制。 */
+/** Public-facade queries. SparkTraits is fused into SparkDLC, so each call is direct (compiled) instead of reflective;
+ * only the public facade {@code SparkTraitsApi} is named, never Traits' internal packages.
+ * 公共门面查询。SparkTraits 已融合进 SparkDLC，各调用均为直接（编译期）调用而非反射；只引用公共门面
+ * {@code SparkTraitsApi}，从不引用 Traits 的内部包。 */
 public final class SparkTraitsKillerBridge {
-    private static final String API = "dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi";
-    /**
-     * Hot (every player, every server tick, from {@code PlayerHitboxHistory}): an exact-typed handle, so a call builds
-     * no argument array. A facade that lacks, hides or mistypes the method latches null (not active); a failing call
-     * returns false for that call only, as the wrapped {@code Method.invoke} failure did.
-     * 热路径（{@code PlayerHitboxHistory} 每个服务端 tick 对每名玩家调用）：使用精确类型的句柄，调用时不构建参数数组。
-     * 门面缺少、隐藏或签名不符时锁定为 null（视为未激活）；单次调用失败只让该次返回 false，与包装后的
-     * {@code Method.invoke} 失败一致。
-     */
-    private static final MethodHandle ACTIVE = handle(resolve("isLastEscapeActive", PlayerEntity.class).method());
-    private static final OptionalStaticMethod BLOCKED = resolve("isKillerInteractionBlocked", PlayerEntity.class);
-    private static final OptionalStaticMethod FORCED = resolve("getForcedMeleeCooldownTicks", PlayerEntity.class,
-            ItemStack.class);
-    private static final OptionalStaticMethod MELEE = resolve("shouldCancelMeleeAttack", ServerPlayerEntity.class,
-            ServerPlayerEntity.class, ItemStack.class);
-    private static final OptionalStaticMethod DESATURATION = resolve("getLastEscapeDesaturation", PlayerEntity.class);
-    private static final OptionalStaticMethod ROLE_SKILL = resolve("isRoleSkillBlocked", PlayerEntity.class);
-    private static final OptionalStaticMethod TERMINAL = resolve("registerTerminalDeathReason", Identifier.class);
-    private static final OptionalStaticMethod IS_TERMINAL = resolve("isTerminalDeathReason", Identifier.class);
-    private static final OptionalStaticMethod EXACT_COOLDOWN = resolve("setExactItemCooldownRemaining",
-            ServerPlayerEntity.class, Item.class, int.class);
-    private static final OptionalStaticMethod COOLDOWN_REMAINING = resolve("getItemCooldownRemaining",
-            PlayerEntity.class, Item.class);
-    private static final OptionalStaticMethod NON_FINAL_KILL = resolve("isNonFinalKillPending",
-            ServerPlayerEntity.class, ServerPlayerEntity.class);
-    private static final OptionalStaticMethod NON_FINAL_COOLDOWN = resolve("getNonFinalKillCooldownTicks", int.class);
-    private static final OptionalStaticMethod NON_FINAL_WEAPON = resolve("runWithNonFinalKillWeapon", Item.class,
-            Runnable.class);
-    private static final OptionalStaticMethod LAST_STAND_INTERCEPTED = resolve("isLastStandDeathIntercepted",
-            PlayerEntity.class);
-
     private SparkTraitsKillerBridge() {
     }
 
+    /** Hot (every player, every server tick, from {@code PlayerHitboxHistory}): a plain static call.
+     * 热路径（{@code PlayerHitboxHistory} 每个服务端 tick 对每名玩家调用）：普通静态调用。 */
     public static boolean isLastEscapeActive(PlayerEntity player) {
-        if (player == null || ACTIVE == null) {
-            return false;
-        }
-        try {
-            return Boolean.TRUE.equals((Object) ACTIVE.invokeExact(player));
-        } catch (Throwable ignored) {
-            return false;
-        }
+        return player != null && SparkTraitsApi.isLastEscapeActive(player);
     }
 
     public static boolean isKillerInteractionBlocked(PlayerEntity player) {
-        return player != null && BLOCKED.callBoolean(false, false, false, player);
+        return player != null && SparkTraitsApi.isKillerInteractionBlocked(player);
     }
 
     public static int getForcedMeleeCooldownTicks(PlayerEntity player, ItemStack weapon) {
-        Object result = player == null ? null : FORCED.callOrNull(player, weapon);
-        return result instanceof Integer ticks ? Math.max(0, ticks) : 0;
+        return player == null ? 0 : Math.max(0, SparkTraitsApi.getForcedMeleeCooldownTicks(player, weapon));
     }
 
     /** New action gate, not a kill-source filter: emitted projectiles and marks keep resolving.
@@ -79,130 +39,90 @@ public final class SparkTraitsKillerBridge {
      * 仅在目标及武器资格验证后、实际近战副作用前调用。 */
     public static boolean shouldCancelMeleeAttack(ServerPlayerEntity attacker, ServerPlayerEntity victim,
                                                  ItemStack weapon) {
-        return MELEE.callBoolean(false, false, false, attacker, victim, weapon);
+        return SparkTraitsApi.shouldCancelMeleeAttack(attacker, victim, weapon);
     }
 
     public static float getLastEscapeDesaturation(PlayerEntity player) {
-        Object result = player == null ? null : DESATURATION.callOrNull(player);
-        return result instanceof Float factor && Float.isFinite(factor)
-                ? Math.clamp(factor, 0.0F, 1.0F) : 0.0F;
+        if (player == null) {
+            return 0.0F;
+        }
+        float factor = SparkTraitsApi.getLastEscapeDesaturation(player);
+        return Float.isFinite(factor) ? Math.clamp(factor, 0.0F, 1.0F) : 0.0F;
     }
 
     /** Last Escape or silenced effective killer; SparkWitch packets must ask themselves.
      * 脱险或被沉默的有效杀手；SparkWitch 自有数据包必须自行查询。 */
     public static boolean isRoleSkillBlocked(PlayerEntity player) {
-        return player != null && ROLE_SKILL.callBoolean(false, false, false, player);
+        return player != null && SparkTraitsApi.isRoleSkillBlocked(player);
     }
 
-    /** Whether Traits' Last Stand intercepted this death; absent, older or failing Traits answers false (not
-     * intercepted), so a caller that keeps state through an intercepted death fails closed.
-     * Traits 背水一战是否拦截了这次死亡；Traits 缺失、过旧或出错时返回 false（未拦截），使在被拦截死亡期间保留状态的调用方
-     * 保守失败。 */
+    /** Whether Traits' Last Stand intercepted this death; a null player answers false (not intercepted). Direct call:
+     * SparkTraits is fused into SparkDLC.
+     * Traits 背水一战是否拦截了这次死亡；玩家为空时返回 false（未拦截）。SparkTraits 已融合进 SparkDLC，此处为直接调用。 */
     public static boolean isLastStandDeathIntercepted(PlayerEntity player) {
-        return player != null && LAST_STAND_INTERCEPTED.callBoolean(false, false, false, player);
+        return player != null && SparkTraitsApi.isLastStandDeathIntercepted(player);
     }
 
-    /** Makes a reason skip Traits revive/counter hooks; returns false when Traits is absent or older.
-     * 使该死亡原因跳过 Traits 复活/反击钩子；Traits 缺失或过旧时返回 false。 */
+    /** Makes a reason skip Traits revive/counter hooks; returns false only for a null reason (SparkTraits is fused
+     * into SparkDLC, so the registration itself is a direct call).
+     * 使该死亡原因跳过 Traits 复活/反击钩子；仅在原因为空时返回 false（SparkTraits 已融合进 SparkDLC，登记为直接调用）。 */
     public static boolean registerTerminalDeathReason(Identifier reason) {
-        return reason != null && TERMINAL.callVoid(reason);
+        if (reason == null) {
+            return false;
+        }
+        SparkTraitsApi.registerTerminalDeathReason(reason);
+        return true;
     }
 
-    /** Whether a reason is registered SparkTraits-terminal (an unprotectable penalty). Absent or older Traits keeps no
-     * such registry, so it answers false; a failing call answers true, so a protection that asks stays off.
-     * 该死亡原因是否已注册为 SparkTraits 终结原因（不可保护的惩罚）。Traits 缺失或过旧时没有该登记表，返回 false；单次调用
-     * 失败时返回 true，使询问它的保护保守地不生效。 */
+    /** Whether a reason is registered SparkTraits-terminal (an unprotectable penalty); a null reason answers false.
+     * Direct call: SparkTraits is fused into SparkDLC.
+     * 该死亡原因是否已注册为 SparkTraits 终结原因（不可保护的惩罚）；原因为空时返回 false。SparkTraits 已融合进 SparkDLC，
+     * 此处为直接调用。 */
     public static boolean isTerminalDeathReason(Identifier reason) {
-        return reason != null && IS_TERMINAL.callBoolean(false, false, true, reason);
+        return reason != null && SparkTraitsApi.isTerminalDeathReason(reason);
     }
 
-    /** Writes an exact cooldown past Traits modifiers, performing the vanilla set itself; on false the
-     * caller must fall back to {@code ItemCooldownManager.set}.
-     * 越过 Traits 冷却倍率写入精确冷却（其内部自行完成原版写入）；返回 false 时调用方需回退到原版冷却写入。 */
+    /** Writes an exact cooldown past Traits modifiers, performing the vanilla set itself; on false (only a null
+     * player or item now that SparkTraits is fused into SparkDLC) the caller must fall back to
+     * {@code ItemCooldownManager.set}.
+     * 越过 Traits 冷却倍率写入精确冷却（其内部自行完成原版写入）；返回 false 时（SparkTraits 已融合进 SparkDLC，现仅在玩家
+     * 或物品为空时出现）调用方需回退到原版冷却写入。 */
     public static boolean setExactItemCooldownRemaining(ServerPlayerEntity player, Item item, int ticks) {
-        return player != null && item != null && EXACT_COOLDOWN.callVoid(player, item, Math.max(0, ticks));
+        if (player == null || item == null) {
+            return false;
+        }
+        SparkTraitsApi.setExactItemCooldownRemaining(player, item, Math.max(0, ticks));
+        return true;
     }
 
-    /** Exact remaining ticks of an item cooldown; 0 when Traits is absent/older or the item is not cooling.
-     *  物品冷却的精确剩余刻数；Traits 缺失/过旧或未在冷却时为 0。 */
+    /** Exact remaining ticks of an item cooldown; 0 when the item is not cooling or an argument is null.
+     *  物品冷却的精确剩余刻数；未在冷却或参数为空时为 0。 */
     public static int getItemCooldownRemaining(PlayerEntity player, Item item) {
         if (player == null || item == null) {
             return 0;
         }
-        Object result = COOLDOWN_REMAINING.callOrNull(player, item);
-        return result instanceof Integer ticks ? Math.max(0, ticks) : 0;
+        return Math.max(0, SparkTraitsApi.getItemCooldownRemaining(player, item));
     }
 
-    /** Whether Traits turned this attacker's hit into a non-final kill (e.g. a Depression fake death);
-     * older/absent Traits never does.
-     * Traits 是否把该攻击者的这一击变为非最终击杀（如抑郁假死）；旧版或缺失 Traits 时恒为 false。 */
+    /** Whether Traits turned this attacker's hit into a non-final kill (e.g. a Depression fake death).
+     * Traits 是否把该攻击者的这一击变为非最终击杀（如抑郁假死）。 */
     public static boolean isNonFinalKillPending(ServerPlayerEntity victim, ServerPlayerEntity attacker) {
-        return victim != null && attacker != null
-                && NON_FINAL_KILL.callBoolean(false, false, false, victim, attacker);
+        return victim != null && attacker != null && SparkTraitsApi.isNonFinalKillPending(victim, attacker);
     }
 
-    /** Cooldown a weapon keeps after a non-final kill; never longer than the original, which is also the
-     * fallback when Traits is absent or older.
-     * 非最终击杀后武器保留的冷却；不会超过原冷却，Traits 缺失或过旧时即为原冷却。 */
+    /** Cooldown a weapon keeps after a non-final kill; never longer than the original.
+     * 非最终击杀后武器保留的冷却；不会超过原冷却。 */
     public static int nonFinalKillCooldownTicks(int originalTicks) {
         int original = Math.max(0, originalTicks);
-        return NON_FINAL_COOLDOWN.callOrNull(original) instanceof Integer ticks
-                ? Math.min(original, Math.max(0, ticks)) : original;
+        return Math.min(original, Math.max(0, SparkTraitsApi.getNonFinalKillCooldownTicks(original)));
     }
 
     /** Runs a kill that happens away from the attacker's hands, naming the weapon Traits should discount if the
-     * kill turns non-final. The kill always runs exactly once, whatever Traits does.
-     * 执行不在攻击者手中发生的击杀，并告知 Traits 若成为非最终击杀应缩短哪件武器的冷却；无论 Traits 如何，击杀恰好执行一次。 */
+     * kill turns non-final. The kill always runs exactly once: Traits runs it inside its weapon-hint scope (a null
+     * weapon runs it without a hint), and whatever it throws surfaces unchanged.
+     * 执行不在攻击者手中发生的击杀，并告知 Traits 若成为非最终击杀应缩短哪件武器的冷却；击杀恰好执行一次：Traits 在其武器提示
+     * 作用域内执行它（武器为空时不带提示直接执行），击杀抛出的异常原样抛出。 */
     public static void runWithNonFinalKillWeapon(Item weapon, Runnable kill) {
-        Method nonFinalWeapon = NON_FINAL_WEAPON.method();
-        if (nonFinalWeapon == null || weapon == null) {
-            kill.run();
-            return;
-        }
-        boolean[] ran = {false};
-        Runnable once = () -> {
-            ran[0] = true;
-            kill.run();
-        };
-        try {
-            nonFinalWeapon.invoke(null, weapon, once);
-            if (!ran[0]) {
-                kill.run();
-            }
-        } catch (InvocationTargetException exception) {
-            if (!ran[0]) {
-                kill.run();
-                return;
-            }
-            // The kill itself failed: surface it exactly as a direct call would.
-            // 击杀本身抛出异常：与直接调用一样原样抛出。
-            Throwable cause = exception.getCause();
-            if (cause instanceof RuntimeException runtime) throw runtime;
-            if (cause instanceof Error error) throw error;
-            throw new IllegalStateException(cause);
-        } catch (ReflectiveOperationException | LinkageError | RuntimeException ignored) {
-            if (!ran[0]) {
-                kill.run();
-            }
-        }
-    }
-
-    /** {@code (PlayerEntity)Object} view of a public static query, or null. / 公共静态查询的 {@code (PlayerEntity)Object} 视图，或 null。 */
-    private static MethodHandle handle(Method method) {
-        if (method == null) {
-            return null;
-        }
-        try {
-            return MethodHandles.publicLookup().unreflect(method)
-                    .asType(MethodType.methodType(Object.class, PlayerEntity.class));
-        } catch (ReflectiveOperationException | LinkageError | RuntimeException ignored) {
-            return null;
-        }
-    }
-
-    /** No mod check, as before: an absent SparkTraits is simply a missing class. Each method resolves on first use,
-     * independently of the others. / 与此前一致不检查模组：缺失 SparkTraits 即类缺失。各方法首次使用时独立解析。 */
-    private static OptionalStaticMethod resolve(String name, Class<?>... parameters) {
-        return OptionalStaticMethod.ungated(API, name, parameters);
+        SparkTraitsApi.runWithNonFinalKillWeapon(weapon, kill);
     }
 }

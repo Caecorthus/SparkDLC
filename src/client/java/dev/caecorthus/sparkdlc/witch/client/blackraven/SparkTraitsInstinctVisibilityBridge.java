@@ -1,19 +1,15 @@
 package dev.caecorthus.sparkdlc.witch.client.blackraven;
 
-import dev.caecorthus.sparkdlc.witch.compat.OptionalStaticMethod;
+import dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi;
 import net.minecraft.entity.player.PlayerEntity;
 
-/** Optional bridge to SparkTraits' stable visibility facade only. / 仅连接 SparkTraits 稳定可见性门面的可选桥。 */
+/** Bridge to SparkTraits' stable visibility facade only; SparkTraits is fused into SparkDLC, so the call is direct.
+ * 仅连接 SparkTraits 稳定可见性门面的桥；SparkTraits 已融合进 SparkDLC，因此为直接调用。 */
 public final class SparkTraitsInstinctVisibilityBridge {
-    private static final String MOD_ID = "sparktraits";
-    private static final String API_CLASS = "dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi";
-    private static final OptionalStaticMethod IS_INSTINCT_HIDDEN = OptionalStaticMethod.of(MOD_ID, API_CLASS,
-            "isInstinctHidden", PlayerEntity.class, PlayerEntity.class);
-
     private SparkTraitsInstinctVisibilityBridge() {
     }
 
     public static boolean isHidden(PlayerEntity viewer, PlayerEntity target) {
-        return viewer != null && target != null && IS_INSTINCT_HIDDEN.callBoolean(false, false, false, viewer, target);
+        return viewer != null && target != null && SparkTraitsApi.isInstinctHidden(viewer, target);
     }
 }

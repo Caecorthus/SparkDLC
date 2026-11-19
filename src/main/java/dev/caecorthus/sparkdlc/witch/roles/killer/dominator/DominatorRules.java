@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.roles.killer.dominator;
 
+import dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.witch.compat.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.witch.compat.OptionalStaticMethod;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.game.GameFunctions;
 import java.util.Optional;
@@ -79,7 +79,7 @@ public final class DominatorRules {
      * living, non-spectator Wathe participant (so never a Rift Gate occupant or a swallowed player, both living
      * spectators); not invisible (the invisibility flag also covers SparkTraits Last Escape and Last Stand pending) and
      * not invisible to the caster; not swallowed; not hidden from the caster's instinct by SparkTraits
-     * ({@link #IS_INSTINCT_HIDDEN}, e.g. Going Dark). Disguises are not filtered: the player is marked and the HUD shows
+     * ({@link #isInstinctHidden}, e.g. Going Dark). Disguises are not filtered: the player is marked and the HUD shows
      * the disguised name. Client-only hidden states go through {@link #findAimedPlayer(PlayerEntity, Predicate)}.
      * 两端通用的标记过滤，所有者决定“按别人看到的来”：不是施放者本人；在 Wathe 中存活且非旁观的参与者（因此不会是裂隙门内的玩家
      * 或被吞下的玩家，二者都是活体旁观者）；未隐身（隐身标记也覆盖 SparkTraits 脱险与背水一战待定），且对施放者不隐身；未被吞下；未被 SparkTraits 对施放者本能隐藏（如隐匿）。
@@ -94,22 +94,21 @@ public final class DominatorRules {
                 && !target.isInvisible()
                 && !target.isInvisibleTo(caster)
                 && !NoellesTaotieSeekerBridge.isSwallowed(target)
-                && !IS_INSTINCT_HIDDEN.callBoolean(false, false, false, caster, target);
+                && !isInstinctHidden(caster, target);
     }
 
     /**
-     * External seam (optional SparkTraits): the Dominator's own copy of the public, side-neutral
-     * {@code SparkTraitsApi.isInstinctHidden(viewer, target)} facade (Going Dark and other instinct hiding). The
-     * through-wall mark is an instinct-like sight, so a target hidden from the caster's instinct is neither marked by
-     * the server nor named or outlined on the client. An absent mod, older build, wrong type or throwing call hides
-     * nothing (fail closed).
-     * 外部接缝（可选 SparkTraits）：支配者自有的一份公共、两端通用的 {@code SparkTraitsApi.isInstinctHidden(viewer, target)}
-     * 门面读取（隐匿等本能隐藏）。穿墙标记属于类本能视野，因此对施放者本能隐藏的目标既不会被服务端标记，也不会在客户端被点名
-     * 或描边。模组缺失、旧版本、类型不符或调用抛异常时都不隐藏任何人（失败关闭）。
+     * Cross-module seam (SparkTraits, fused into SparkDLC, so a direct call): the Dominator's own read of the public,
+     * side-neutral {@code SparkTraitsApi.isInstinctHidden(viewer, target)} facade (Going Dark and other instinct
+     * hiding). The through-wall mark is an instinct-like sight, so a target hidden from the caster's instinct is
+     * neither marked by the server nor named or outlined on the client.
+     * 跨模块接缝（SparkTraits 已融合进 SparkDLC，因此为直接调用）：支配者自有的一份公共、两端通用的
+     * {@code SparkTraitsApi.isInstinctHidden(viewer, target)} 门面读取（隐匿等本能隐藏）。穿墙标记属于类本能视野，因此对
+     * 施放者本能隐藏的目标既不会被服务端标记，也不会在客户端被点名或描边。
      */
-    private static final OptionalStaticMethod IS_INSTINCT_HIDDEN = OptionalStaticMethod.of("sparktraits",
-            "dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi", "isInstinctHidden",
-            PlayerEntity.class, PlayerEntity.class).returning(boolean.class);
+    private static boolean isInstinctHidden(PlayerEntity viewer, PlayerEntity target) {
+        return SparkTraitsApi.isInstinctHidden(viewer, target);
+    }
 
     /**
      * Nearest markable player ({@link #isMarkable}) hit by the crosshair ray. Equivalent to

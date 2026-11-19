@@ -2,10 +2,10 @@ package dev.caecorthus.sparkdlc.witch.roles.killer.specter;
 
 import dev.caecorthus.sparkdlc.factionapi.api.FactionIds;
 import dev.caecorthus.sparkdlc.factionapi.api.SparkFactionApi;
+import dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.witch.SparkWitch;
 import dev.caecorthus.sparkdlc.witch.compat.NoellesSilenceBridge;
 import dev.caecorthus.sparkdlc.witch.compat.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.witch.compat.OptionalStaticMethod;
 import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsAbyssListenerBridge;
 import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsKillerBridge;
 import dev.caecorthus.sparkdlc.witch.roles.killer.ninja.NinjaGrappleService;
@@ -202,7 +202,7 @@ public final class SpecterRules {
      * never the caster; a living, non-spectator, non-creative Wathe participant (so never a Rift Gate occupant or a
      * swallowed player, both living spectators); not invisible (the flag also covers SparkTraits Last Escape and Last
      * Stand pending) and not invisible to the caster; not swallowed; not an active Wraith; not hidden from the caster's
-     * instinct by SparkTraits ({@link #IS_INSTINCT_HIDDEN}). The server additionally asks SparkFactionAPI
+     * instinct by SparkTraits ({@link #isInstinctHidden}). The server additionally asks SparkFactionAPI
      * {@code canAffectPlayer} in {@code SpecterSkillService}; that check is server-only and never runs here.
      * 两端通用的标记过滤，客户端 HUD 与服务端共用（{@code DominatorRules.isMarkable} 模式）：不是施放者本人；在 Wathe 中存活、
      * 非旁观、非创造的参与者（因此不会是裂隙门内或被吞下的玩家，二者都是活体旁观者）；未隐身（隐身标记也覆盖 SparkTraits 脱险与
@@ -219,22 +219,21 @@ public final class SpecterRules {
                 && !target.isInvisibleTo(caster)
                 && !NoellesTaotieSeekerBridge.isSwallowed(target)
                 && !WraithStateService.isActive(target)
-                && !IS_INSTINCT_HIDDEN.callBoolean(false, false, false, caster, target);
+                && !isInstinctHidden(caster, target);
     }
 
     /**
-     * External seam (optional SparkTraits): the Specter's own copy of the public, side-neutral
-     * {@code SparkTraitsApi.isInstinctHidden(viewer, target)} facade (Going Dark and other instinct hiding), as the
-     * Dominator keeps one. The marked body is outlined through walls, an instinct-like sight, so a target hidden from
-     * the caster's instinct is neither marked by the server nor named on the HUD. An absent mod, older build, wrong
-     * type or throwing call hides nothing (fail closed).
-     * 外部接缝（可选 SparkTraits）：幽魂自有的一份公共、两端通用的 {@code SparkTraitsApi.isInstinctHidden(viewer, target)}
-     * 门面读取（隐匿等本能隐藏），与支配者各自保留一份相同。被标记者会被穿墙描边，属于类本能视野，因此对施放者本能隐藏的目标
-     * 既不会被服务端标记，也不会在 HUD 上被点名。模组缺失、旧版本、类型不符或调用抛异常时都不隐藏任何人（失败关闭）。
+     * Cross-module seam (SparkTraits, fused into SparkDLC, so a direct call): the Specter's own read of the public,
+     * side-neutral {@code SparkTraitsApi.isInstinctHidden(viewer, target)} facade (Going Dark and other instinct
+     * hiding), as the Dominator keeps one. The marked body is outlined through walls, an instinct-like sight, so a
+     * target hidden from the caster's instinct is neither marked by the server nor named on the HUD.
+     * 跨模块接缝（SparkTraits 已融合进 SparkDLC，因此为直接调用）：幽魂自有的一份公共、两端通用的
+     * {@code SparkTraitsApi.isInstinctHidden(viewer, target)} 门面读取（隐匿等本能隐藏），与支配者各自保留一份相同。被标记者
+     * 会被穿墙描边，属于类本能视野，因此对施放者本能隐藏的目标既不会被服务端标记，也不会在 HUD 上被点名。
      */
-    private static final OptionalStaticMethod IS_INSTINCT_HIDDEN = OptionalStaticMethod.of("sparktraits",
-            "dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi", "isInstinctHidden",
-            PlayerEntity.class, PlayerEntity.class).returning(boolean.class);
+    private static boolean isInstinctHidden(PlayerEntity viewer, PlayerEntity target) {
+        return SparkTraitsApi.isInstinctHidden(viewer, target);
+    }
 
     /**
      * Nearest {@link #isMarkable} player hit by the crosshair ray within {@link #MARK_RANGE} blocks, requiring line of

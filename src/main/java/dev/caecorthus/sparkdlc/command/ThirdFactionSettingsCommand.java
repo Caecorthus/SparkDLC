@@ -3,9 +3,9 @@ package dev.caecorthus.sparkdlc.command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
+import dev.caecorthus.sparkdlc.legacy.LegacyPermissions;
 import dev.caecorthus.sparkdlc.util.SparkWitchPermissions;
 import dev.doctor4t.wathe.Wathe;
-import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
@@ -24,7 +24,7 @@ public final class ThirdFactionSettingsCommand {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(CommandManager.literal("sparkdlc:thirdFactionMinRequirement")
-                .requires(Permissions.require(
+                .requires(LegacyPermissions.require(
                         SparkWitchPermissions.COMMAND_THIRD_FACTION_MIN_REQUIREMENT,
                         SparkWitchPermissions.DEFAULT_COMMAND_LEVEL))
                 .then(CommandManager.argument("players", IntegerArgumentType.integer(0))

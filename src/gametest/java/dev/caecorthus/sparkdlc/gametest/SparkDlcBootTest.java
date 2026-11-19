@@ -5,6 +5,7 @@ import com.google.gson.JsonParser;
 import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.SparkDlcModule;
 import dev.caecorthus.sparkdlc.faction.registry.FactionCatalog;
+import dev.caecorthus.sparkdlc.legacy.LegacyCommandAliases;
 import dev.caecorthus.sparkdlc.net.version.SparkTraitsVersionHandshake;
 import dev.caecorthus.sparkdlc.net.version.SparkWitchVersionHandshake;
 import dev.caecorthus.sparkdlc.net.version.VersionProtocol;
@@ -150,11 +151,15 @@ public final class SparkDlcBootTest implements FabricGameTest {
         WitchSkillRegistry.values().forEach(skill -> see.accept("skill", skill.id()));
         // Command roots are `namespace:camelCaseName`, which is not a valid Identifier. The three misspelt aliases
         // SparkStrength always had (`sparkstength:voteTime`, `sparkStrength:detectiveCaseLimit`,
-        // `sparkStrength:tabletChatInterval`) are no legacy namespace and stay as they are.
+        // `sparkStrength:tabletChatInterval`) are no legacy namespace and stay as they are. The old command names
+        // of the legacy table are in a legacy namespace on purpose: they are the aliases the compatibility layer
+        // adds (SparkDlcCommandTest pins them); any other root in a legacy namespace is a leftover.
         // 命令根节点形如 `namespace:camelCaseName`，不是合法的 Identifier。SparkStrength 一直保留的三个拼写别名不属于旧命名空间，保持原样。
+        // 对照表中的旧命令名有意位于旧命名空间：它们是兼容层添加的别名（由 SparkDlcCommandTest 固定）；旧命名空间里的其他根节点才是遗漏。
+        Set<String> commandAliases = LegacyCommandAliases.names().keySet();
         context.getWorld().getServer().getCommandManager().getDispatcher().getRoot().getChildren().forEach(node -> {
             int colon = node.getName().indexOf(':');
-            if (colon > 0) {
+            if (colon > 0 && !commandAliases.contains(node.getName())) {
                 String namespace = node.getName().substring(0, colon);
                 if (legacyNamespaces.contains(namespace)) {
                     left.add("command " + node.getName());

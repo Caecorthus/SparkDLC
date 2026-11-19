@@ -1,12 +1,10 @@
 package dev.caecorthus.sparkdlc.replay;
 
 import dev.caecorthus.sparkdlc.SparkFactionApiMod;
-import dev.caecorthus.sparkdlc.command.replay.ReplayCommand;
 import dev.caecorthus.sparkdlc.replay.net.ReplaySnapshotPayload;
 import dev.doctor4t.wathe.record.GameRecordEvent;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import dev.doctor4t.wathe.record.replay.ReplayGenerator;
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -36,8 +34,6 @@ public final class ReplayPresentation {
     }
 
     public static void register() {
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
-                ReplayCommand.register(dispatcher));
         // The archive is static; drop it so an integrated server never shows another world's replay.
         // 存档为静态状态；服务器停止时清空，避免单人模式切换世界后看到其他世界的回放。
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> ReplayArchive.clear());

@@ -20,13 +20,13 @@ import net.minecraft.text.Text;
  * {@code /sparkdlc:antifastround [<enabled> [<seconds>]]}：查看或修改全服的开局安全时间设置。
  * 新设置从下一局开始生效；关闭时同时结束正在进行的窗口。反馈使用带英文回退的翻译键，保证专用服务器控制台可读。
  */
-final class AntiFastRoundCommand {
+public final class AntiFastRoundCommand {
     private static final String KEY_PREFIX = "commands.sparkdlc.antifastround.";
 
     private AntiFastRoundCommand() {
     }
 
-    static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
+    public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(CommandManager.literal("sparkdlc:antifastround")
                 .requires(SparkFactionPermissions.admin())
                 .executes(context -> showStatus(context.getSource()))

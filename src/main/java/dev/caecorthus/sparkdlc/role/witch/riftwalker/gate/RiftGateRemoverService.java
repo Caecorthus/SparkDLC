@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.role.witch.riftwalker.gate;
 
 import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.legacy.LegacyPermissions;
 import dev.caecorthus.sparkdlc.util.SparkWitchPermissions;
-import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.particle.ParticleTypes;
@@ -49,7 +49,7 @@ public final class RiftGateRemoverService {
 
     /** Returns SUCCESS (the server swings the hand) only when a gate was removed. / 只有删除了门才返回 SUCCESS（服务端挥手）。 */
     public static ActionResult tryRemove(ServerPlayerEntity player) {
-        if (!Permissions.check(player, SparkWitchPermissions.ITEM_RIFT_GATE_REMOVER,
+        if (!LegacyPermissions.check(player, SparkWitchPermissions.ITEM_RIFT_GATE_REMOVER,
                 SparkWitchPermissions.DEFAULT_COMMAND_LEVEL)) {
             player.sendMessage(Text.translatable(NO_PERMISSION_KEY), true);
             return ActionResult.FAIL;

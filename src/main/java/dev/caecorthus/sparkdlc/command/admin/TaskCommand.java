@@ -27,7 +27,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
-final class TaskCommand {
+public final class TaskCommand {
     private static final DynamicCommandExceptionType INVALID_TASK =
             new DynamicCommandExceptionType(task -> Text.literal("Unknown SparkFactionAPI task: " + task));
     private static final List<String> TASK_SUGGESTIONS = List.of("Sleep", "Eat", "Drink", "Breathe_Air", "outside", "All");
@@ -35,7 +35,7 @@ final class TaskCommand {
     private TaskCommand() {
     }
 
-    static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
+    public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         registerTaskCommand(dispatcher, "sparkdlc:addTask", TaskAction.ADD);
         registerTaskCommand(dispatcher, "sparkdlc:deleteTask", TaskAction.DELETE);
         registerTaskCommand(dispatcher, "sparkdlc:completeTask", TaskAction.COMPLETE);

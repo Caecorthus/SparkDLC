@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.command.trait;
 
+import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
@@ -11,8 +12,8 @@ import dev.caecorthus.sparkdlc.trait.api.TraitRegistry;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
 import dev.caecorthus.sparkdlc.bridge.traits.SparkStrengthTeamEconomyBridge;
+import dev.caecorthus.sparkdlc.legacy.LegacyCommandIds;
 import dev.caecorthus.sparkdlc.trait.killer.KillerTraits;
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.command.argument.IdentifierArgumentType;
 import net.minecraft.server.command.ServerCommandSource;
@@ -35,17 +36,16 @@ public final class SparkTraitsCommands {
     private SparkTraitsCommands() {
     }
 
-    public static void register() {
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-            dispatcher.register(listTraitsCommand("sparkdlc:listTraits"));
-            dispatcher.register(enableTraitCommand("sparkdlc:enableTrait", true));
-            dispatcher.register(enableTraitCommand("sparkdlc:disableTrait", false));
-            dispatcher.register(playerTraitCommand("sparkdlc:addTrait", PlayerTraitAction.ADD));
-            dispatcher.register(playerTraitCommand("sparkdlc:removeTrait", PlayerTraitAction.REMOVE));
-            dispatcher.register(clearTraitsCommand("sparkdlc:clearTraits"));
-            dispatcher.register(listPlayerTraitsCommand("sparkdlc:listPlayerTraits"));
-            dispatcher.register(traitSlotRollChanceCommand("sparkdlc:traitSlotRollChance"));
-        });
+    /** Called by {@code SparkDlcCommands}, the one registration entry point. / 由唯一的注册入口 {@code SparkDlcCommands} 调用。 */
+    public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
+        dispatcher.register(listTraitsCommand("sparkdlc:listTraits"));
+        dispatcher.register(enableTraitCommand("sparkdlc:enableTrait", true));
+        dispatcher.register(enableTraitCommand("sparkdlc:disableTrait", false));
+        dispatcher.register(playerTraitCommand("sparkdlc:addTrait", PlayerTraitAction.ADD));
+        dispatcher.register(playerTraitCommand("sparkdlc:removeTrait", PlayerTraitAction.REMOVE));
+        dispatcher.register(clearTraitsCommand("sparkdlc:clearTraits"));
+        dispatcher.register(listPlayerTraitsCommand("sparkdlc:listPlayerTraits"));
+        dispatcher.register(traitSlotRollChanceCommand("sparkdlc:traitSlotRollChance"));
     }
 
     private static LiteralArgumentBuilder<ServerCommandSource> listTraitsCommand(String literalName) {
@@ -232,7 +232,8 @@ public final class SparkTraitsCommands {
         if (parsed.getNamespace().equals(Identifier.DEFAULT_NAMESPACE)) {
             return SparkTraits.id(parsed.getPath());
         }
-        return parsed;
+        // An id typed in the former namespace (sparktraits:x) means today's trait. / 以旧命名空间输入的 id（sparktraits:x）指现在的词条。
+        return LegacyCommandIds.trait(parsed);
     }
 
     private static Trait requireTrait(Identifier traitId) throws CommandSyntaxException {

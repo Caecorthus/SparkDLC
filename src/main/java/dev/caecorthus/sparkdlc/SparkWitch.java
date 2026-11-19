@@ -5,14 +5,6 @@ import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowEntitie
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenFeatherRegistry;
 import dev.caecorthus.sparkdlc.role.witch.potiongunner.shell.PotionGunnerEntities;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesHiddenEquipment;
-import dev.caecorthus.sparkdlc.command.ForceAbilityCommand;
-import dev.caecorthus.sparkdlc.command.ForceAccompliceRoleCommand;
-import dev.caecorthus.sparkdlc.command.ForcePromotionCommand;
-import dev.caecorthus.sparkdlc.command.GhostSettingsCommand;
-import dev.caecorthus.sparkdlc.command.SetManaCommand;
-import dev.caecorthus.sparkdlc.command.ThirdFactionSettingsCommand;
-import dev.caecorthus.sparkdlc.command.WatheGhostDividendCommand;
-import dev.caecorthus.sparkdlc.command.WitchFactorCommand;
 import dev.caecorthus.sparkdlc.skill.SparkWitchBuiltInSkills;
 import dev.caecorthus.sparkdlc.event.SparkWitchEvents;
 import dev.caecorthus.sparkdlc.net.SparkWitchPackets;
@@ -39,7 +31,6 @@ import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.caecorthus.sparkdlc.util.hitscan.PlayerHitboxHistory;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.message.v1.ServerMessageEvents;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -129,16 +120,6 @@ public final class SparkWitch implements ModInitializer {
             return sender == null || mayUseTextChat(sender);
         });
         ServerLifecycleEvents.SERVER_STARTED.register(server -> SparkWitchRoles.refreshAssassinGuessRoleOrder());
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-            SetManaCommand.register(dispatcher);
-            ForceAbilityCommand.register(dispatcher);
-            ForcePromotionCommand.register(dispatcher);
-            ForceAccompliceRoleCommand.register(dispatcher);
-            GhostSettingsCommand.register(dispatcher);
-            WatheGhostDividendCommand.register(dispatcher);
-            ThirdFactionSettingsCommand.register(dispatcher);
-            WitchFactorCommand.register(dispatcher);
-        });
     }
 
     private static boolean mayUseTextChat(ServerPlayerEntity sender) {

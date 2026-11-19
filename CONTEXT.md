@@ -30,6 +30,11 @@ only reached from client code.
 - **Shared resource files.** Five files that several mods used to ship are single merged files now:
   `assets/minecraft/font/default.json`, `data/sparktraits/tags/item/{bloodthirsty_weapons,throwables,thrust_weapons}.json`
   and `data/wathe/tags/item/guns.json`. A module adds its entries to the shared file.
+- **Module calls are direct.** The modules were separate jars that reached each other through reflection behind
+  `isModLoaded` gates. Since the fusion they call each other with compiled calls (the `*Bridge` / `*Compat`
+  classes are thin facades over them), a failure inside the called module propagates instead of being turned
+  into a default, and there is no absent-module fallback. `AGENTS.md` (Cross-Module Check) lists the few seams
+  that are still resolved by name.
 - **Dependencies.** Wathe and NoellesRoles jars are in `libs/`, pinned by sha256 in `gradle.properties`.
 
 ## Verification entry points

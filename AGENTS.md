@@ -24,9 +24,17 @@ the module map and points at each module's own `docs/<module>/CONTEXT.md`.
 ### Cross-Module Check
 - Inspect the owning module and every direct consumer of the contract being changed. Do not mechanically read
   every module when the change is local and no cross-module seam is involved.
-- `factionapi` is the shared contract; `traits` and `witch` call it directly. Many other seams between modules are
-  still reflection bridges from the time the modules were separate jars (packages named `compat` / `bridge`);
-  search for the string form of a class or method name before renaming or moving it.
+- `factionapi` is the shared contract and must not import `strength`, `traits`, `witch` or `assist`. The other
+  modules call each other directly through thin facades (classes named `*Bridge` / `*Compat`, mostly in `compat`
+  packages); prefer a module's `api` package when it has the member you need. Do not add reflection or an
+  `isModLoaded` check for one of the five legacy ids: every module is always present.
+- What is still looked up by name, so search for the string form before renaming or moving it: string-target
+  (`@Pseudo`) mixins into sibling classes, common code reaching client classes (`witch/voice/*ClientBridge`),
+  `factionapi` reaching `assist` (`GuideDecorBridge`), and two private entity fields read by Assist's Ponder
+  scenes. Reflection on real optional mods (Iris, EMF, ETF, Ponder, voicechat) and on Wathe internals stays.
+- Local boundary tests pin which sibling types each module may name (`*DirectCallBoundaryTest`,
+  `TraitsSiblingDirectCallSourceTest`, `test_sibling_direct_calls.py`); a new cross-module dependency is added to
+  their allow-lists deliberately.
 - Prove that unrelated roles, factions, and traits remain outside the changed predicate and behavior path.
 - Keep gameplay, wire formats and saved data unchanged unless the owner asks for the change.
 - Use Java 21 for tests, verify tasks, and builds. Never add production-only test hooks.

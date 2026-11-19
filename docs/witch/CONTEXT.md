@@ -6587,9 +6587,10 @@ Client (render thread):
 - `NinjaGrappleClientPull` tracks hooks through Fabric `ClientEntityEvents` (weak references) and searches the world only
   while one is loaded. `UsecBoltWatchClient` skips a tracker tick that is provably a no-op (ticked since its reset, never
   carried a rifle).
-- `LastEscapeTraitsVisionBridge` caches the SparkTraits protocol version until `BlackRavenPerceptionScreenEffects.close()`
-  (disconnect, reload, stop, null-world frames), and the screen effect returns early off a confirmed server when no
-  processor is open. `OwnerInventoryPresenter.traitsFacade()` resolves the facade once per session, failing closed.
+- `BlackRavenPerceptionScreenEffects` reads the Last Escape parameters straight from SparkTraits'
+  `DepressionScreenEffects.getLastEscapeComposition` (SparkDLC: the reflective `LastEscapeTraitsVisionBridge` and its
+  protocol-version cache are gone; the neutral answer is one shared read-only array), and the screen effect returns
+  early off a confirmed server when no processor is open. `OwnerInventoryPresenter.traitsFacade()` resolves the facade once per session, failing closed.
 
 Server:
 - Specter sweeps (PR #207): `SpecterOtherworldService` (Otherworld slowness) and `SpecterPeachwoodService`

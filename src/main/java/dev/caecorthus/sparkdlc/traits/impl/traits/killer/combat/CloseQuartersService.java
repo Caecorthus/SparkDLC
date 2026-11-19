@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.impl.traits.killer.combat;
 
 import dev.caecorthus.sparkdlc.factionapi.api.SparkFactionApi;
+import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.traits.SparkTraits;
 import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.traits.impl.replay.SparkTraitsAchievementRecords;
@@ -18,7 +19,6 @@ import dev.doctor4t.wathe.util.ShopUtils;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -32,7 +32,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import org.agmas.noellesroles.shadowjester.ShadowJesterPlayerComponent;
 
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -47,7 +46,6 @@ public final class CloseQuartersService {
     private static final Map<UUID, Raise> RAISES = new HashMap<>();
     private static final Map<UUID, Release> RELEASES = new HashMap<>();
     private static final ThreadLocal<KnifeHit> KNIFE_HIT = new ThreadLocal<>();
-    private static final Method INSTANT_CORONER = findCoronerMethod();
     private static boolean registered;
 
     private CloseQuartersService() {
@@ -250,25 +248,11 @@ public final class CloseQuartersService {
         return player.getServer().getOverworld().getTime();
     }
 
-    private static Method findCoronerMethod() {
-        if (!FabricLoader.getInstance().isModLoaded("sparkstrength")) return null;
-        try {
-            return Class.forName("dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService")
-                    .getMethod("hasInstantSilentKnifeDisguise", PlayerEntity.class);
-        } catch (ReflectiveOperationException | LinkageError ignored) {
-            return null;
-        }
-    }
-
+    // SparkStrength is fused in SparkDLC, so the Coroner's instant-knife disguise is asked directly: an instant knife
+    // must not be granted a raised stance.
+    // SparkStrength 已融合进 SparkDLC，因此直接查询验尸官的瞬发刀伪装：瞬发刀不得获得举刀姿态。
     private static boolean instantCoroner(PlayerEntity player) {
-        if (INSTANT_CORONER == null) return false;
-        try {
-            return Boolean.TRUE.equals(INSTANT_CORONER.invoke(null, player));
-        } catch (ReflectiveOperationException | LinkageError ignored) {
-            // An incompatible optional implementation must not grant a raised stance to an instant knife.
-            Role role = GameWorldComponent.KEY.get(player.getWorld()).getRole(player);
-            return role != null && role.identifier().getPath().equals("coroner");
-        }
+        return CoronerService.hasInstantSilentKnifeDisguise(player);
     }
 
     @FunctionalInterface

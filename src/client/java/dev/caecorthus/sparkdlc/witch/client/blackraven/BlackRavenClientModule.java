@@ -25,8 +25,6 @@ public final class BlackRavenClientModule {
             return;
         }
         registered = true;
-        dev.caecorthus.sparkdlc.witch.api.SparkWitchApi.installLastEscapeVisionRenderer(
-                BlackRavenPerceptionScreenEffects::renderLastEscape);
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
             BlackRavenPerceptionScreenEffects.close();
             BlackRavenDisguiseClientState.clearClient();

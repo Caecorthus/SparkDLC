@@ -26,8 +26,6 @@ public final class NewKillerTraitsClient {
             return;
         }
         initialized = true;
-        dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi.installLastEscapeVisionProvider(
-                DepressionScreenEffects::getLastEscapeComposition);
         ClientPlayNetworking.registerGlobalReceiver(ForcedMeleeCooldownPayload.ID,
                 (payload, context) -> ForcedMeleeCooldownService.acceptClientSnapshot(context.player(), payload));
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> ForcedMeleeCooldownService.clearClient());

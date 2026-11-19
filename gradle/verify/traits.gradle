@@ -29,11 +29,14 @@ def noellesRolesJarName = "libs/noellesroles-${project.noellesroles_version}.jar
 def remappedModJar = tasks.named("remapJar")
 
 // Legacy mod ids the traits module needs the fused mod to answer for. As a separate mod SparkTraits was `sparktraits`
-// and had `depends sparkfactionapi`; its compat bridges still gate on FabricLoader#isModLoaded for `sparkstrength` and
-// `sparkwitch`, which the fused mod answers through `provides`.
+// and had `depends sparkfactionapi`, and its compat bridges gated on FabricLoader#isModLoaded for `sparkstrength` and
+// `sparkwitch`. Those bridges now call the sibling modules directly, so the traits module itself no longer asks; the
+// ids must still be provided, because the other modules' bridges and external mods and packs still ask
+// isModLoaded for them.
 // traits 模块需要融合后的 mod 代为应答的旧 mod id。独立 mod 时期 SparkTraits 的 id 是 `sparktraits`，并且
-// `depends sparkfactionapi`；它的兼容桥仍以 FabricLoader#isModLoaded 判断 `sparkstrength` 与 `sparkwitch`，
-// 融合后的 mod 通过 `provides` 满足这些判断。
+// `depends sparkfactionapi`，其兼容桥曾以 FabricLoader#isModLoaded 判断 `sparkstrength` 与 `sparkwitch`。这些兼容桥现已
+// 直接调用兄弟模块，traits 模块自身不再做此判断；但这些 id 仍必须由 `provides` 提供，因为其他模块的兼容桥以及外部 mod、
+// 整合包仍以 isModLoaded 判断它们。
 def traitsProvidedModIds = ["sparktraits", "sparkfactionapi", "sparkstrength", "sparkwitch"]
 // Replaces the SparkFactionAPI jar pin and the `depends sparkfactionapi` predicate: the sibling modules ship in this
 // jar, so their ids must be provided and must not come back as dependency predicates on this mod itself.

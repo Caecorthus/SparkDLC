@@ -4,7 +4,6 @@ import dev.caecorthus.sparkdlc.factionapi.client.api.card.InventoryInfoCard;
 import dev.caecorthus.sparkdlc.traits.client.gui.OwnerInventoryClientAdapter;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedHandledScreen;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedInventoryScreen;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -36,11 +35,12 @@ public abstract class TraitInventoryScreenMixin extends LimitedHandledScreen<Pla
         try {
             var entries = OwnerInventoryClientAdapter.collect(player);
             var card = OwnerInventoryClientAdapter.card();
-            // With SparkWitch installed its fallback card anchors to this slot, so fill the slot to sit flush beside it.
-            // 安装 SparkWitch 时其回退卡锚定在本列左侧，因此原生卡占满整列以紧贴排列。
+            // SparkWitch's fallback card anchors to this slot, so fill the slot to sit flush beside it. SparkWitch is
+            // fused in SparkDLC, so it is always present.
+            // SparkWitch 的回退卡锚定在本列左侧，因此原生卡占满整列以紧贴排列。SparkWitch 已融合进 SparkDLC，始终存在。
             var snapshot = card.prepareNative(this, textRenderer,
                     List.of(new InventoryInfoCard.Section(Text.translatable("gui.sparktraits.traits"), entries)),
-                    FabricLoader.getInstance().isModLoaded("sparkwitch"));
+                    true);
             card.draw(context, textRenderer, snapshot, mouseX, mouseY, width, height);
         } catch (RuntimeException | LinkageError failure) {
             OwnerInventoryClientAdapter.disableNativeCard(failure);

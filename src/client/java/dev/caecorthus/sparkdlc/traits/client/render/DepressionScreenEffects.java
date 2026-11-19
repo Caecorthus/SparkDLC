@@ -29,6 +29,11 @@ public final class DepressionScreenEffects {
     private static final float DESATURATE_FACTOR = 0.69f;
     private static final float SPREAD_FACTOR = 1.43f;
     private static final ScreenEffect NO_EFFECT = new ScreenEffect(0.0f, 0.0f, 1.0f);
+    /**
+     * Shared neutral answer of {@link #getLastEscapeComposition}: callers only read it and never write into it.
+     * {@link #getLastEscapeComposition} 的共享中性结果：调用方只读不写。
+     */
+    private static final float[] NO_ESCAPE_COMPOSITION = {0.0f, 0.0f, 1.0f};
     /** An unused processor is kept this long before its framebuffers are freed. 处理器闲置超过该时长后释放其帧缓冲。 */
     private static final long IDLE_CLOSE_MS = 5_000L;
     private static boolean loadFailed;
@@ -46,7 +51,11 @@ public final class DepressionScreenEffects {
             closeProcessor();
             return;
         }
-        // Delegation performs the pass now, so mixin ordering cannot cause a second pass.
+        // Delegation performs the pass now, so mixin ordering cannot cause a second pass. SparkWitch's compositor is
+        // called directly (the modules are fused in SparkDLC); it reads the parameters back through
+        // getLastEscapeComposition.
+        // 委托在此刻执行后处理，因此 mixin 顺序不会造成第二次后处理。各模块已融合进 SparkDLC，这里直接调用 SparkWitch
+        // 合成器；它通过 getLastEscapeComposition 取回参数。
         if (SparkTraitsApi.hasLastEscapeGrayscale(player) && LastEscapeWitchBridge.tryRender(player, delta)) {
             releaseIfIdle(player);
             return;
@@ -100,11 +109,33 @@ public final class DepressionScreenEffects {
         return depressionEffect(player);
     }
 
-    /** Optional Witch compositor contract: [desaturation, spread, brightness], no rendering side effects. */
+    /**
+     * Witch compositor contract, called directly by SparkWitch's {@code BlackRavenPerceptionScreenEffects} (the
+     * modules are fused in SparkDLC): client visual parameters [desaturation, spread, brightness], including stronger
+     * Depression. Without an escape (null player, unconfirmed server, no escape grayscale) or with invalid parameters
+     * it returns one shared neutral array [0, 0, 1], so the per-frame query allocates nothing while no escape is
+     * active; callers must treat every result as read-only. This query must never delegate to another compositor or
+     * render anything.
+     * Witch 合成器契约，由 SparkWitch 的 {@code BlackRavenPerceptionScreenEffects} 直接调用（各模块已融合进 SparkDLC）：
+     * 客户端返回含更强抑郁效果的[灰阶、扩散、亮度]。无脱险（玩家为空、服务端未确认、无脱险灰阶）或参数无效时返回同一个
+     * 共享中性数组 [0, 0, 1]，因此没有脱险时每帧查询不分配内存；调用方必须把结果视为只读。此查询不调用其他合成器，
+     * 也不执行渲染。
+     */
     public static float[] getLastEscapeComposition(PlayerEntity player) {
-        ScreenEffect effect = player != null && SparkTraitsServerConnection.isConfirmedServer()
-                && SparkTraitsApi.hasLastEscapeGrayscale(player) ? escapeComposition(player) : NO_EFFECT;
-        return new float[] {effect.desaturateFactor(), effect.spreadFactor(), effect.brightness()};
+        if (player == null || !SparkTraitsServerConnection.isConfirmedServer()
+                || !SparkTraitsApi.hasLastEscapeGrayscale(player)) {
+            return NO_ESCAPE_COMPOSITION;
+        }
+        ScreenEffect effect = escapeComposition(player);
+        float desaturation = effect.desaturateFactor();
+        float spread = effect.spreadFactor();
+        float brightness = effect.brightness();
+        // Never hand malformed parameters to the compositor: they read as "no escape", so Traits' fallback draws.
+        // 不向合成器交出无效参数：它们视为“无脱险”，由 Traits 回退绘制。
+        if (!LastEscapeVisionRules.isValid(desaturation, spread, brightness)) {
+            return NO_ESCAPE_COMPOSITION;
+        }
+        return new float[] {desaturation, spread, brightness};
     }
 
     private static ScreenEffect escapeComposition(PlayerEntity player) {

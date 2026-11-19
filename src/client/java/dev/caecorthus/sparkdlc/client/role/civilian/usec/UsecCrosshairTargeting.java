@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.usec;
 
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeTargetOcclusion;
 import dev.caecorthus.sparkdlc.client.render.WraithClientState;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsUsecBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecAmmoType;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecRifleState;
 import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPlaybackEntity;
@@ -53,7 +53,7 @@ public final class UsecCrosshairTargeting {
             return false;
         }
         Vec3d eye = player.getEyePos();
-        double reach = UsecCrosshairRules.reach(chamber, SparkTraitsUsecBridge.marksmanRangeMultiplier(player));
+        double reach = UsecCrosshairRules.reach(chamber, SparkTraitsApi.getMarksmanRangeMultiplier(player));
         Vec3d end = UsecCrosshairRules.rayEnd(eye, UsecCrosshairRules.aim(player.getYaw(), player.getPitch()), reach);
         BlockHitResult block = player.getWorld().raycast(new RaycastContext(eye, end,
                 RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, player));

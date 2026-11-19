@@ -1,6 +1,5 @@
 package dev.caecorthus.sparkdlc.role.civilian.controlexpert;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsControlExpertBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceHits;
 import dev.caecorthus.sparkdlc.util.hitscan.PlayerHitboxHistory;
@@ -62,7 +61,7 @@ public final class TaserItem extends Item {
                 || SparkTraitsApi.blocksWeaponAction(ce, stack)) {
             return TypedActionResult.fail(stack);
         }
-        double range = ControlExpertRules.taserRange(SparkTraitsControlExpertBridge.marksmanRangeMultiplier(ce));
+        double range = ControlExpertRules.taserRange(SparkTraitsApi.getMarksmanRangeMultiplier(ce));
         // Players the Control Expert may not affect are filtered out before the nearest pick, so they are transparent.
         // The shooter aimed at its delayed client view of others, so the server tests their rewound volumes.
         // 控场专家无法影响的玩家在选取最近者之前就被过滤，因此对射线透明。

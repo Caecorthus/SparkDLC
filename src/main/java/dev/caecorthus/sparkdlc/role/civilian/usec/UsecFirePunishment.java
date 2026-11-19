@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.usec;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsUsecBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.event.ShouldPunishGunShooter;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
@@ -74,7 +74,7 @@ final class UsecFirePunishment {
      * 重复，因此每个非护盾保护都只执行一次。
      */
     static void kill(ServerPlayerEntity shooter, ServerPlayerEntity victim, UsecAmmoType ammo) {
-        int budget = UsecShieldPierce.budget(ammo, SparkTraitsUsecBridge.isHeavyArtilleryGunShot(shooter, victim));
+        int budget = UsecShieldPierce.budget(ammo, SparkTraitsApi.isHeavyArtilleryGunShot(shooter, victim));
         UsecShieldPierce.run(shooter.getUuid(), victim.getUuid(), ammo, budget,
                 () -> GameFunctions.killPlayer(victim, true, shooter, GameConstants.DeathReasons.GUN));
     }

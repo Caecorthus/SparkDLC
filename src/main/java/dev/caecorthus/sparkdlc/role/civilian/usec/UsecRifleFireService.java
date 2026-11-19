@@ -2,7 +2,6 @@ package dev.caecorthus.sparkdlc.role.civilian.usec;
 
 import dev.caecorthus.sparkdlc.SparkWitchSounds;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsUsecBridge;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RangedSmokeCarve;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceHits;
@@ -121,7 +120,7 @@ public final class UsecRifleFireService {
         }
 
         UsecTracer.Trace trace = UsecTracer.trace(eye, direction, cycle.fired(),
-                SparkTraitsUsecBridge.marksmanRangeMultiplier(player), new UsecTracerWorldProbe(world, player));
+                SparkTraitsApi.getMarksmanRangeMultiplier(player), new UsecTracerWorldProbe(world, player));
         double stop = trace.path().length();
         if (mode == OffMatchUse.Mode.MATCH) {
             stop = resolveMatchHit(player, rifle, cycle.fired(), trace);

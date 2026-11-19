@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.usec;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsUsecBridge;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
 import net.minecraft.entity.player.ItemCooldownManager;
@@ -40,7 +40,7 @@ public final class UsecCooldowns {
      * 仅服务端：开枪后、空膛换弹匣后或单发压膛后的拉栓。SparkTraits 快速装填使其 ×0.7。
      */
     public static boolean bolt(ServerPlayerEntity player) {
-        return writeFloorExact(player, boltTicks(SparkTraitsUsecBridge.hasFastReload(player)));
+        return writeFloorExact(player, boltTicks(SparkTraitsApi.hasActiveTrait(player, TraitIds.FAST_RELOAD)));
     }
 
     /** Bolt ticks with or without Fast Reload (40 or 28). / 有无快速装填时的拉栓刻数（40 或 28）。 */

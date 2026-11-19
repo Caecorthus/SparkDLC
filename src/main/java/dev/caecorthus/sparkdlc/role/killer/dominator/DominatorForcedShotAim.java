@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.dominator;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsControlExpertBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceRaycast;
 import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaInteractionService;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowEntity;
@@ -63,7 +63,7 @@ public final class DominatorForcedShotAim {
 
     public static Shot resolve(ServerPlayerEntity shooter) {
         double range = DominatorRules.FORCED_SHOT_RANGE
-                * SparkTraitsControlExpertBridge.marksmanRangeMultiplier(shooter);
+                * SparkTraitsApi.getMarksmanRangeMultiplier(shooter);
         HitResult hit = ProjectileUtil.getCollision(
                 shooter,
                 entity -> entity instanceof PlayerEntity player

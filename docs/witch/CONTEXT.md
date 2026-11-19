@@ -1882,8 +1882,8 @@ Current build baseline:
     "not cooling" for `UsecRifleItem` only, so `use` (which only scopes, and Shift jumps the zoom) runs during the lock
     and the bolt; firing stays cooldown-gated in `UsecFireRules`. The `usec_rifle` nominal is the 40-tick bolt
     (the lock is not a nominal), and no `SparkWitchItemCooldownReleases` case exists because only the vanilla cooldown
-    gates the rifle. `bridge/witch/SparkTraitsUsecBridge` reflects only the public facade (Marksman, Fast Reload) and fails
-    closed.
+    gates the rifle. The rifle asks `SparkTraitsApi` directly (Marksman, Fast Reload); a missing player reads as no
+    trait.
   - Economy (`UsecEconomyService`): its own `ON_FINISH_INITIALIZE` phase `sparkdlc:usec_economy_finish_initialize`
     (after the default phase) sets each living final USEC's balance to 0; the loadout never writes the balance. Each
     task pays +50, never to a SparkTraits Impostor or on an unknown answer (`UsecEconomyTraitsProbe`, facade only).
@@ -1985,9 +1985,9 @@ Current build baseline:
     device or puppet and record no replay.
   - Shield piercing (owner O3, 2026-10-07; `UsecShieldPierce`): the kill is ONE `killPlayer(victim, true, shooter,
     wathe:gun_shot)` run inside a scoped pierce budget: FMJ 2 shield layers, AP 5 (`UsecAmmoType.shieldPierce`,
-    `UsecRules`), +1 when `bridge/witch/SparkTraitsUsecBridge.isHeavyArtilleryGunShot` (reflecting
-    `SparkTraitsApi.isHeavyArtilleryGunShot(ServerPlayerEntity, ServerPlayerEntity)`, asked before the kill, failing
-    closed when absent) says it is a Heavy Artillery shot. The scope is a server-thread `ThreadLocal` restored in
+    `UsecRules`), +1 when
+    `SparkTraitsApi.isHeavyArtilleryGunShot(ServerPlayerEntity, ServerPlayerEntity)` (asked before the kill, false for
+    a missing player) says it is a Heavy Artillery shot. The scope is a server-thread `ThreadLocal` restored in
     `finally`, and `tryPierce` spends one unit only for the exact scoped victim, killer and `wathe:gun_shot`, so nested
     kills (Bodyguard, deaths in AFTER, Tofana retaliation) never spend it. The scope also names its round
     (`UsecShieldPierce.scopedAmmo`). Only four shield-layer consumers ask it, each spending its layer and then letting
@@ -6025,7 +6025,7 @@ The Ceremonial Sword and a credited Fire Poker fall may query only
 kill, the original cooldown, and the kill running directly exactly once. A credited Shriek Gun push fall takes the
 same fall path (`runWithNonFinalKillWeapon` with the gun as the weapon) and the same fallbacks.
 Control Expert may query only `getMarksmanRangeMultiplier` and `hasActiveTrait` (Impostor) through
-`bridge/witch/SparkTraitsControlExpertBridge`, and `isLastStandDeathIntercepted` through the existing
+`SparkTraitsApi`, and `isLastStandDeathIntercepted` through the existing
 `WitchFactorTraitsBridge`, beyond the existing `SparkTraitsApi` seams
 (`isRoleSkillBlocked`, `blocksWeaponAction`, `isLastEscapeActive`,
 `setExactItemCooldownRemaining`). An absent SparkTraits means a 1.0 Taser range multiplier,
@@ -6092,7 +6092,7 @@ block (as `SparkTraitsApi` defines), traits unknown (which `hasRealSanity` never
 intercepted death (the `KillPlayer.AFTER` removal is skipped, and the 20-tick sweep strips the dead holder).
 USEC may query only `getMarksmanRangeMultiplier` (FMJ range and AP flight cost on the server, the reticle's AP holds
 on the client, clamped to 1.0-1.3) and `hasActiveTrait` (Fast Reload, the 1.4 s bolt) through
-`bridge/witch/SparkTraitsUsecBridge`, `hasActiveTrait` (Impostor, task money) through its own `UsecEconomyTraitsProbe`,
+`SparkTraitsApi`, `hasActiveTrait` (Impostor, task money) through its own `UsecEconomyTraitsProbe`,
 `discountShopEntryForCharisma` through `SparkTraitsCharismaBridge`, and `isLastStandDeathIntercepted` through the
 existing `WitchFactorTraitsBridge`, beyond the existing `SparkTraitsApi` seams (`blocksWeaponAction` with its
 `isKillerInteractionBlocked` and `getForcedMeleeCooldownTicks` reads, `isLastEscapeActive`, `isNonFinalKillPending`,

@@ -50,11 +50,15 @@ def compatibilityProviderFiles = fileTree("libs") {
     }
 }
 // Sibling Spark mod ids the witch module needs at runtime. As separate mods these were `depends sparkfactionapi`,
-// `suggests`/`breaks sparktraits` (version floor) and `suggests sparkstrength`; the witch compat bridges still gate
-// on FabricLoader#isModLoaded for these ids, which the fused mod answers through `provides`.
+// `suggests`/`breaks sparktraits` (version floor) and `suggests sparkstrength`. The witch compat bridges call the
+// sibling modules directly now and no longer gate on FabricLoader#isModLoaded for these ids, but the ids stay a stable
+// contract of the fusion (namespaces, the version handshake and the smoke shader loaders resolve the `sparkwitch`
+// container, external packs and mods may ask for any of them), so the fused mod must keep answering them through
+// `provides`.
 // witch 模块运行时需要的兄弟 Spark mod id。独立 mod 时期它们是 `depends sparkfactionapi`、对 sparktraits 的
-// `suggests`/`breaks`（版本下限）以及 `suggests sparkstrength`；witch 的兼容桥仍以 FabricLoader#isModLoaded 判断这些 id，
-// 融合后的 mod 通过 `provides` 满足该判断。
+// `suggests`/`breaks`（版本下限）以及 `suggests sparkstrength`。witch 的兼容桥现在直接调用兄弟模块，不再以
+// FabricLoader#isModLoaded 判断这些 id；但这些 id 仍是融合的稳定契约（命名空间、版本握手与烟雾着色器加载会解析 `sparkwitch`
+// 容器，外部资源包与模组也可能查询其中任意一个），因此融合后的 mod 必须继续通过 `provides` 提供它们。
 def witchProvidedModIds = ["sparkwitch", "sparkfactionapi", "sparktraits", "sparkstrength"]
 // Public SparkTraits facade the witch bridges call (directly since the fusion; the two vision bridges still reflect
 // it by name); it ships in this same jar.
@@ -1533,10 +1537,12 @@ def verifyWitchModJar = tasks.register("verifyWitchModJar") {
             }
 
             // Replaces `depends sparkfactionapi`, the SparkTraits suggests/breaks floor and the bundled
-            // SparkFactionAPI jar floor: the sibling modules ship in this jar, so the ids must be provided (the witch
-            // bridges gate on isModLoaded) and must not come back as dependency predicates on this mod itself.
+            // SparkFactionAPI jar floor: the sibling modules ship in this jar, so the ids must be provided (a stable
+            // contract of the fusion; the witch bridges themselves call the siblings directly and no longer gate on
+            // isModLoaded) and must not come back as dependency predicates on this mod itself.
             // 取代 `depends sparkfactionapi`、SparkTraits 的 suggests/breaks 下限以及内置 SparkFactionAPI jar 的版本下限：
-            // 兄弟模块随本 jar 发布，因此这些 id 必须由 provides 提供（witch 兼容桥以 isModLoaded 判断），且不得再作为
+            // 兄弟模块随本 jar 发布，因此这些 id 必须由 provides 提供（融合的稳定契约；witch 兼容桥自身已直接调用兄弟模块，
+            // 不再以 isModLoaded 判断），且不得再作为
             // 针对本 mod 自身的依赖谓词出现。
             def provides = metadata.provides ?: []
             witchProvidedModIds.each { modId ->

@@ -199,11 +199,12 @@ public final class CoronerService {
 
     /*
      * Disguise queries live in CoronerDisguises. These delegates keep the names other code binds to; SparkWitch and
-     * SparkTraits look up hasKidnapperDisguise, hasKillerFactionDisguise, hasUndercoverDisguise and
-     * hasInstantSilentKnifeDisguise on this class by reflection, so their names and signatures are a cross-mod contract.
-     * 伪装查询位于 CoronerDisguises。这些委托保留其它代码绑定的方法名；SparkWitch 与 SparkTraits 会按本类反射查找
-     * hasKidnapperDisguise、hasKillerFactionDisguise、hasUndercoverDisguise 与 hasInstantSilentKnifeDisguise，
-     * 它们的名称与签名是跨模组契约。
+     * SparkTraits call hasKidnapperDisguise, hasKillerFactionDisguise, hasUndercoverDisguise and
+     * hasInstantSilentKnifeDisguise on this class (directly since the SparkDLC fusion, no longer by reflection), so
+     * their names and signatures are a cross-module contract.
+     * 伪装查询位于 CoronerDisguises。这些委托保留其它代码绑定的方法名；SparkWitch 与 SparkTraits 会调用本类的
+     * hasKidnapperDisguise、hasKillerFactionDisguise、hasUndercoverDisguise 与 hasInstantSilentKnifeDisguise
+     * （融合进 SparkDLC 后为直接调用，不再反射），它们的名称与签名是跨模块契约。
      */
     public static @Nullable UUID activeDisguiseUuid(PlayerEntity player) {
         return CoronerDisguises.activeDisguiseUuid(player);

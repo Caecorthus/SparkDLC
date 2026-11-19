@@ -1,6 +1,8 @@
 package dev.caecorthus.sparkdlc.witch.compat;
 
-import net.fabricmc.loader.api.FabricLoader;
+import dev.caecorthus.sparkdlc.strength.component.partyanimal.PartygoerCorpseComponent;
+import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerHitGeometry;
+import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerService;
 import net.minecraft.entity.Entity;
 import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -8,15 +10,13 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.HitResult;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Method;
-
 /**
- * Optional SparkStrength Partygoer seams (owner decision 2026-10-21): the Party Animal's summoned zombie
+ * SparkStrength Partygoer seams (owner decision 2026-10-21): the Party Animal's summoned zombie
  * ({@code sparkstrength:partygoer}) dies in one hit to anything that can kill a player, and the corpse it leaves is not a
- * passenger's. SparkWitch never compiles against SparkStrength, so this is the only SparkWitch class that names its
- * frozen seams, all reached by reflection:
- * 可选的 SparkStrength 派对客接缝（所有者 2026-10-21 决定）：派对狂召唤的僵尸（{@code sparkstrength:partygoer}）会被任何能杀死
- * 玩家的东西一击打死，它留下的尸体不是乘客的尸体。SparkWitch 从不针对 SparkStrength 编译，因此只有本类点名其冻结接缝，全部经反射调用：
+ * passenger's. The modules are fused in SparkDLC, so the seams are direct calls; this stays the only SparkWitch class
+ * that names them:
+ * SparkStrength 派对客接缝（所有者 2026-10-21 决定）：派对狂召唤的僵尸（{@code sparkstrength:partygoer}）会被任何能杀死
+ * 玩家的东西一击打死，它留下的尸体不是乘客的尸体。各模块已融合进 SparkDLC，因此这些接缝均为直接调用；仍然只有本类点名它们：
  * <ul>
  *   <li>{@code dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerService#killByWeapon(ServerPlayerEntity, Entity,
  *   Identifier)}: server; SparkStrength pays the reward, drops whoever it holds and leaves the corpse.
@@ -29,20 +29,11 @@ import java.lang.reflect.Method;
  *   SparkStrength Serial Killer pistols. / 双端；枪械射线上严格更近的派对客，救世主手枪的客户端选靶（PR #200）与
  *   SparkStrength 连环杀手手枪一样使用。</li>
  * </ul>
- * Absent, older (no such method) or failing SparkStrength means there is no Partygoer and no such corpse.
- * SparkStrength 缺失、过旧（无此方法）或调用失败时，视为没有派对客，也没有这种尸体。
  */
 public final class SparkStrengthPartygoerCompat {
     private static final String MOD_ID = "sparkstrength";
-    /** The entity type, checked before any reflection. / 实体类型 id，在任何反射之前检查。 */
+    /** The entity type, checked before any SparkStrength call. / 实体类型 id，在调用 SparkStrength 之前检查。 */
     public static final Identifier PARTYGOER_ID = Identifier.of(MOD_ID, "partygoer");
-    static final String SERVICE = "dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerService";
-    static final String CORPSE_COMPONENT = "dev.caecorthus.sparkdlc.strength.component.partyanimal.PartygoerCorpseComponent";
-    static final String HIT_GEOMETRY = "dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerHitGeometry";
-    static final String KILL_BY_WEAPON = "killByWeapon";
-    static final String IS_KILLABLE = "isKillable";
-    static final String IS_CORPSE = "isPartygoerCorpse";
-    static final String PREFER_NEARER = "preferNearer";
 
     private SparkStrengthPartygoerCompat() {
     }
@@ -57,13 +48,14 @@ public final class SparkStrengthPartygoerCompat {
      * 服务端：此刻可被武器命中的派对客（不在饕餮肚里、尚未死亡）。
      */
     public static boolean isKillable(@Nullable Entity entity) {
-        // Without the kill seam nothing may treat it as a target (it would shield players and spend skills for nothing).
-        // 没有击杀接缝时任何东西都不能把它当目标（否则它会白白挡住玩家、耗掉技能）。
-        if (Methods.KILL_BY_WEAPON == null || !isPartygoer(entity) || entity.isRemoved() || entity.isInvisible()) {
+        // The kill seam is a compiled call since the SparkDLC fusion, so the old "no kill seam, never a target" guard
+        // (a Partygoer nobody could kill would shield players and spend skills for nothing) has nothing left to check.
+        // 融合进 SparkDLC 后击杀接缝是编译期调用，原先“没有击杀接缝就不当作目标”的守卫（杀不掉的派对客会白白挡住玩家、
+        // 耗掉技能）已无可检查之处。
+        if (!isPartygoer(entity) || entity.isRemoved() || entity.isInvisible()) {
             return false;
         }
-        Object result = invoke(Methods.IS_KILLABLE, entity);
-        return result instanceof Boolean killable && killable;
+        return PartygoerService.isKillable(entity);
     }
 
     /**
@@ -77,79 +69,26 @@ public final class SparkStrengthPartygoerCompat {
         if (!isKillable(target)) {
             return false;
         }
-        Object result = invoke(Methods.KILL_BY_WEAPON, attacker, target, deathReason);
-        return result instanceof Boolean killed && killed;
+        return PartygoerService.killByWeapon(attacker, target, deathReason);
     }
 
     /** Any side: a corpse left by a killed Partygoer (not a passenger). / 双端：被打死的派对客留下的尸体（不是乘客）。 */
     public static boolean isPartygoerCorpse(@Nullable Entity entity) {
-        if (entity == null) {
-            return false;
-        }
-        Object result = invoke(Methods.IS_CORPSE, entity);
-        return result instanceof Boolean corpse && corpse;
+        return entity != null && PartygoerCorpseComponent.isPartygoerCorpse(entity);
     }
 
     /**
      * Any side: {@code original}, or a strictly nearer targetable Partygoer on the shooter's gun ray within
-     * {@code range}. Absent or failing SparkStrength returns {@code original} unchanged.
-     * 双端：返回 {@code original}，或射手枪械射线上 {@code range} 内严格更近、可被瞄准的派对客。SparkStrength 缺失或调用失败时
+     * {@code range}. A null shooter, pick or answer returns {@code original} unchanged.
+     * 双端：返回 {@code original}，或射手枪械射线上 {@code range} 内严格更近、可被瞄准的派对客。射手、原选择或结果为 null 时
      * 原样返回 {@code original}。
      */
     public static @Nullable HitResult preferNearer(@Nullable Entity shooter, @Nullable HitResult original,
                                                    double range) {
-        if (Methods.PREFER_NEARER == null || shooter == null || original == null) {
+        if (shooter == null || original == null) {
             return original;
         }
-        Object result = invoke(Methods.PREFER_NEARER, shooter, original, range);
-        return result instanceof HitResult hit ? hit : original;
-    }
-
-    private static @Nullable Object invoke(@Nullable Method method, Object... arguments) {
-        if (method == null) {
-            return null;
-        }
-        try {
-            return method.invoke(null, arguments);
-        } catch (ReflectiveOperationException | LinkageError | RuntimeException ignored) {
-            // Fail closed. / 失败即关闭。
-            return null;
-        }
-    }
-
-    /** Looked up once, on first use. / 首次使用时查找一次。 */
-    private static final class Methods {
-        static final @Nullable Method KILL_BY_WEAPON = find(SERVICE, SparkStrengthPartygoerCompat.KILL_BY_WEAPON,
-                ServerPlayerEntity.class, Entity.class, Identifier.class);
-        static final @Nullable Method IS_KILLABLE = find(SERVICE, SparkStrengthPartygoerCompat.IS_KILLABLE, Entity.class);
-        static final @Nullable Method IS_CORPSE = find(CORPSE_COMPONENT, SparkStrengthPartygoerCompat.IS_CORPSE,
-                Entity.class);
-        static final @Nullable Method PREFER_NEARER = findPreferNearer();
-
-        private static @Nullable Method find(String owner, String name, Class<?>... parameters) {
-            if (!FabricLoader.getInstance().isModLoaded(MOD_ID)) {
-                return null;
-            }
-            try {
-                Method method = Class.forName(owner).getMethod(name, parameters);
-                return method.getReturnType() == boolean.class ? method : null;
-            } catch (ReflectiveOperationException | LinkageError ignored) {
-                return null;
-            }
-        }
-
-        /** The one non-boolean seam: it must return a {@code HitResult}, else it fails closed. / 唯一的非布尔接缝：必须返回 {@code HitResult}，否则失败即关闭。 */
-        private static @Nullable Method findPreferNearer() {
-            if (!FabricLoader.getInstance().isModLoaded(MOD_ID)) {
-                return null;
-            }
-            try {
-                Method method = Class.forName(HIT_GEOMETRY).getMethod(SparkStrengthPartygoerCompat.PREFER_NEARER,
-                        Entity.class, HitResult.class, double.class);
-                return method.getReturnType() == HitResult.class ? method : null;
-            } catch (ReflectiveOperationException | LinkageError ignored) {
-                return null;
-            }
-        }
+        HitResult result = PartygoerHitGeometry.preferNearer(shooter, original, range);
+        return result != null ? result : original;
     }
 }

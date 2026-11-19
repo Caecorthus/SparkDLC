@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.disguise;
 
+import dev.caecorthus.sparkdlc.strength.role.economy.KillerTeamEconomyService;
 import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsBlackRavenBridge;
 import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.BlackRavenRules;
 import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.disguise.adapter.BlackRavenDisguiseAdapter;
@@ -9,8 +10,6 @@ import dev.doctor4t.wathe.api.event.TaskComplete;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerShopComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
-import java.lang.reflect.Method;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
@@ -26,14 +25,8 @@ import org.jetbrains.annotations.Nullable;
  * 从不进入当前伪装钱包。
  */
 public final class BlackRavenDisguiseEconomy {
-    static final String SPARKSTRENGTH_MOD_ID = "sparkstrength";
-    /** SparkStrength killer-team purse service; reflected only for recordIncome(PlayerEntity, long). / 杀手团队资金服务。 */
-    static final String SPARKSTRENGTH_PURSE_CLASS = "dev.caecorthus.sparkdlc.strength.role.economy.KillerTeamEconomyService";
-
     /** Server thread only: set while a routed killer receipt is reported to the purse. / 仅服务端线程：转入收入上报团队资金时置位。 */
     private static final ThreadLocal<Boolean> ROUTED_PURSE_RECEIPT = ThreadLocal.withInitial(() -> Boolean.FALSE);
-    private static volatile @Nullable Method purseRecordIncome;
-    private static volatile boolean purseLookupFailed;
     private static boolean registered;
 
     private BlackRavenDisguiseEconomy() {
@@ -153,7 +146,8 @@ public final class BlackRavenDisguiseEconomy {
                     policy,
                     SparkTraitsBlackRavenBridge.isConscienceActive(player),
                     SparkTraitsBlackRavenBridge.isImpostor(player),
-                    FabricLoader.getInstance().isModLoaded(SPARKSTRENGTH_MOD_ID)
+                    // SparkStrength is fused into SparkDLC: always loaded. / SparkStrength 已融合进 SparkDLC：始终已加载。
+                    true
             );
             case SPARKWITCH, NONE -> taskRewardAmount(policy, Boolean.FALSE, Boolean.FALSE, false);
         };
@@ -167,43 +161,21 @@ public final class BlackRavenDisguiseEconomy {
         return (Object) shop instanceof ShopOwnerAccess access ? access.sparkwitch$blackRavenShopOwner() : null;
     }
 
+    /**
+     * Reports a routed receipt to SparkStrength's killer-team purse service; the modules are fused in SparkDLC, so
+     * this calls only its {@code recordIncome(PlayerEntity, long)} directly. The Raven wallet was already credited.
+     * 向 SparkStrength 杀手团队资金服务上报转入收入；各模块已融合进 SparkDLC，因此只直接调用其
+     * {@code recordIncome(PlayerEntity, long)}。此时黑羽鸦钱包已入账。
+     */
     private static void recordPurseReceipt(PlayerEntity owner, long received) {
-        if (!FabricLoader.getInstance().isModLoaded(SPARKSTRENGTH_MOD_ID)) {
-            return;
-        }
-        Method method = purseRecordIncome();
-        if (method == null) {
-            return;
-        }
         boolean outer = !ROUTED_PURSE_RECEIPT.get();
         ROUTED_PURSE_RECEIPT.set(Boolean.TRUE);
         try {
-            method.invoke(null, owner, received);
-        } catch (ReflectiveOperationException | LinkageError | RuntimeException ignored) {
-            // Optional seam: a failed purse report never affects the Raven wallet. / 可选接缝：上报失败不影响黑羽鸦钱包。
+            KillerTeamEconomyService.recordIncome(owner, received);
         } finally {
             if (outer) {
                 ROUTED_PURSE_RECEIPT.remove();
             }
-        }
-    }
-
-    private static @Nullable Method purseRecordIncome() {
-        Method cached = purseRecordIncome;
-        if (cached != null || purseLookupFailed) {
-            return cached;
-        }
-        synchronized (BlackRavenDisguiseEconomy.class) {
-            if (purseRecordIncome == null && !purseLookupFailed) {
-                try {
-                    purseRecordIncome = Class.forName(SPARKSTRENGTH_PURSE_CLASS, false,
-                                    BlackRavenDisguiseEconomy.class.getClassLoader())
-                            .getMethod("recordIncome", PlayerEntity.class, long.class);
-                } catch (ReflectiveOperationException | LinkageError | SecurityException ignored) {
-                    purseLookupFailed = true;
-                }
-            }
-            return purseRecordIncome;
         }
     }
 }

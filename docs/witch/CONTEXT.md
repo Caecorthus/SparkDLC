@@ -1061,7 +1061,7 @@ Current build baseline:
       `interruptCoolsDown`, `outcome`.
     - `RopeTargeting` (server): the user gate (ACTIVE round, `RoundParticipants.ROLE_HOLDER`, in no strangle, not
       controlled: Taser stun, Raven landing hold, Grand Witch Fear, hypnosis, Kidnapper, forced shot, SparkStrength's
-      `engineer_stunned` lock (capture device and Jester Moment freeze, through the optional
+      `engineer_stunned` lock (capture device and Jester Moment freeze, through
       `RiftwalkerStatusProbes.isCaptureStunned`; SparkStrength's Taotie head daze has no seam here and is not
       covered), swallowed, Last Stand/Escape, Seeker session, foreign camera, any feign, Cat spectre, Rift, Raven Form,
       active Vendetta, Knight duelist), the target gate (another `ROLE_HOLDER` in the same world, `SparkFactionApi.canAffectPlayer` with the
@@ -2641,7 +2641,7 @@ Current build baseline:
     its kill was scoped with), so a deflected kill also deflects the debuff silently, a failed roll is not rolled
     again, and a survivor no kill attempt of that shell reached gets the shell's one roll there. Origin order (`BearRicochetRules.resolveOrigin`): an open
     `RangedOriginScope` (its unknown scope stays unknown, `isOpen()` added for this), else for blasts SparkStrength's
-    `AttackOriginScope.currentBlast()` by reflection (`SparkStrengthBlastOrigin`, fail = unknown), else for direct
+    `AttackOriginScope.currentBlast()` (`SparkStrengthBlastOrigin`, a direct call since the fusion; no blast = unknown), else for direct
     fire the killer's eye; unknown or within 0.3 blocks of the wearer is "not front". Scopes are pushed only where
     the origin is not the killer's eye: TR (blast centre), shuriken and crimson skull (position − velocity), the
     Magician puppet kill (puppet eye), the Wathe grenade (`GrenadeEntityOriginSmokeCarveMixin`, `@WrapMethod
@@ -3161,10 +3161,9 @@ Current build baseline:
     Sensitivity (10–200 % in 5 % steps, default 100 %) are appended at the end of vanilla Options → Accessibility by
     `ScopeAccessibilityOptionsMixin` (`addOptions` TAIL calls `ScopeOptions.addTo(body)`, one `addAll`; SparkAssist's
     `getOptions` hook is left untouched). The rows are left out while SparkAssist's SparkDLC settings screen hosts them
-    (`client/compat/SparkDlcSettingsBridge`: SparkAssist loaded and its public
-    `dev.caecorthus.sparkdlc.assist.client.settings.SparkDlcSettingsApi.hostsScopeSettings()` answers true, resolved by
-    reflection at the first screen init and asked at every one; absent, older or failing means the rows stay, a
-    failure is logged once); that screen edits them through `api/client/ScopeSettingsApi`. Lens Resolution (owner,
+    (`client/compat/SparkDlcSettingsBridge`: SparkAssist's public
+    `dev.caecorthus.sparkdlc.assist.client.settings.SparkDlcSettingsApi.hostsScopeSettings()` answers true, a direct
+    call since the fusion, asked at every screen init; false means the rows stay); that screen edits them through `api/client/ScopeSettingsApi`. Lens Resolution (owner,
     2026-10-08) is a cycling button of 50 / 75 / 100 % of the native PiP lens size (default 100 %); it only matters in
     Picture-in-Picture, so its button is inactive (greyed) while Full-Screen Zoom is selected, follows the Scope View
     button at once, and its tooltip says so. Values persist
@@ -4993,8 +4992,8 @@ centre ray off the box), a Raven Form crow, a Magician puppet or a breakable See
 breaks). A claimed eligible player the server cannot confirm also stops it: the ray misses that player and reaches
 nothing behind, as the aim claim's "never passed through" rule. A SparkStrength Bomber drone absorbs inside
 `onShotgunFired` without a signal when no player was aimed, so a drone between the Hunter and a box lets that shot hit
-the box too (accepted). `compat/SparkStrengthJunctionBoxCompat` reflects
-`JunctionBoxService#damageByWeapon(ServerPlayerEntity, BlockPos, int)` only after the block id matches and fails closed;
+the box too (accepted). `compat/SparkStrengthJunctionBoxCompat` calls
+`JunctionBoxService#damageByWeapon(ServerPlayerEntity, BlockPos, int)` (directly since the fusion) only after the block id matches;
 SparkStrength owns every sabotage gate and opens a box that reaches 0 like a pry finished by the shooter. The cooldown
 is unchanged; the record and sound changed with the shells (2026-10-29, see the aim-claim entry).
 Sword piercing
@@ -5786,7 +5785,7 @@ client renders and sends requests. Its `gui.sparkwitch.skills` panel shows only 
 - **Session entry** (`session/RiftSessionService.tryEnter`, right-click, D2; order in `RiftSessionRules.entryDenial`).
   Non-users are refused silently; held players are refused (Taotie, Last Stand, Last Escape, Kidnapper, Control Expert
   stun, Seeker session, foreign camera, and per C10 a Hunter-trap root or SparkStrength capture stun, read by
-  `RiftwalkerStatusProbes`, where an absent or changed SparkStrength reads as not stunned and never throws); then reach
+  `RiftwalkerStatusProbes`, a direct read of SparkStrength's component since the fusion); then reach
   3.0, cooldown, and the fee last (Apprentice and Murderous Witches pay 100 mana per entry, hops free, C1). Stay
   30/20/15/10 s (Riftwalker/faction/Murderous/Apprentice, D5b); re-entry cooldown 30 s Riftwalker, 45 s others, after
   any exit but round end (D14), a session server tick untouched by `ForcedCooldowns` and auras (C3).
@@ -5953,13 +5952,36 @@ absent, older or failing SparkTraits build, that branch can no longer occur: onl
 answers remain, and a facade failure propagates instead of turning into a default. Not yet converted: the Last
 Escape and Depression vision bridges (`LastEscapeTraitsVisionBridge`, `SparkTraitsDepressionVisionBridge`).
 
+SparkDLC fusion note, batch 2 (2026-11-19): SparkStrength and SparkAssist also always ship in the same jar, so the
+SparkWitch seams into them are compiled calls on the same members the reflection used to resolve, with no
+`sparkstrength` / `sparkassist` mod gate: `compat/SparkStrengthCoronerCompat` (`CoronerService.hasKidnapperDisguise`,
+`CoronerBodySnapshotComponent.KEY` + `setRoleId`), `compat/SparkStrengthJunctionBoxCompat`
+(`JunctionBoxService.damageByWeapon`), `compat/SparkStrengthM67Compat` (`M67GrenadeEntity.getDetonateAt` /
+`getThrowerUuid`), `compat/SparkStrengthM67ReplayCompat` (`M67UseService.refreshEquipment` /
+`withReleaseAuthorization`), `compat/SparkStrengthPartygoerCompat` (`PartygoerService`, `PartygoerCorpseComponent`,
+`PartygoerHitGeometry`), `SparkStrengthBlastOrigin` (`AttackOriginScope.currentBlast`), `BlackRavenDisguiseEconomy`
+(`KillerTeamEconomyService.recordIncome`), `RiftwalkerStatusProbes` (`EngineerStunnedPlayerComponent.KEY`, `isStunned`,
+`stun`), and on the client `client/compat/SparkStrengthHudBridge` (`KillerTeamEconomyClientHooks.topRightHudBottom`),
+`client/emma/EmmaVisibleName` (`MorphlingAppearanceClientHelper.resolveActiveDisplayName`) and
+`client/compat/SparkDlcSettingsBridge` (`SparkDlcSettingsApi.hostsScopeSettings`). The registry-id-only seams
+(`compat/SparkStrengthTabletCompat`, `compat/SparkStrengthDisguiseCompat`, `RiftGateM67Sweep`) keep their id lookups
+and only lost the mod gate. Where the role sections below and above describe an absent, older or failing SparkStrength
+or SparkAssist (fail closed, "disabled for the session", a logged warning, `isCaptureStunPinned` skipping a teammate),
+that branch can no longer occur: a sibling failure propagates instead of turning into a default, and
+`RiftwalkerStatusProbes.isCaptureStunPinned` is the constant false. `compat/OptionalStaticMethod` is deleted (the
+junction-box bridge was its last user). The exact sibling types each witch source may name are pinned by the local test
+`WitchSparkStrengthDirectCallBoundaryTest`; the one string-named target left is the `@Pseudo`
+`KillerTeamEconomyBlackRavenWalletMixin`. Still reflective by necessity: `voice/BearHearingVoiceClientBridge` and
+`voice/HolyFlashVoiceClientBridge` (common code reaching SparkWitch's own client classes) and the real optional mods
+(Iris through `SmokeShaderPackBridge` / `BlindShaderPackCheck`, EMF through `EmfVanillaModel`).
+
 SparkTraits is optional and fail-closed. Reflection may target only
 `dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi`, never `sparktraits.impl` or
 `sparktraits.component`. Black Raven may query only the public
 `isInstinctHidden(viewer, target)` facade; an absent or older SparkTraits build
 adds no suppression and must not break the client.
 
-`compat/OptionalStaticMethod` (2026-10-22) is the shared resolver for optional `SparkTraitsApi` static methods. The
+(Historical, deleted in fusion batch 2 once it had no user left.) `compat/OptionalStaticMethod` (2026-10-22) was the shared resolver for optional `SparkTraitsApi` static methods. The
 mod check and the lookup each run once and stay latched, failure included. Every call passes its own absent,
 unavailable and thrown fallbacks; the static/return-type check and `Class.forName` initialisation are opt-in, and a
 warning is opt-in and fires at most once. Each bridge still owns its fallbacks, which deliberately differ (for example
@@ -6186,18 +6208,19 @@ owner-only sync. `client/blackraven/` adds no client mixin and registers these l
     teammate color ahead of that HEAD path (a higher-priority SparkWitch HEAD inject on
     `WatheClient.getInstinctHighlight`, or a SparkTraits public-facade check) and add a test.
 
-Black Raven disguise shop and wallet seams (SparkStrength is optional and fail-closed):
+Black Raven disguise shop and wallet seams (SparkStrength was optional and fail-closed; fused into SparkDLC it is
+always present, see the batch 2 fusion note):
 - **M2.** `mixin/blackraven/ShopUtilsBlackRavenDisguiseMixin` is the outermost wrap of
   `ShopUtils.getShopEntriesForPlayer`, so every cross-player reader of a disguised Raven's shop
   sees only the disguise whitelist. SparkStrength `DemonHunterSniffRules` is such a consumer: it
   reads the target's entries for `psycho_mode`, which no disguise spec or fallback may emit.
 - **Killer-team purse.** The optional `@Pseudo` `mixin/blackraven/KillerTeamEconomyBlackRavenWalletMixin`
   (every injector `require = 0`) targets SparkStrength `KillerTeamEconomyService` by name.
-  `BlackRavenDisguiseEconomy` reflects only its `recordIncome(PlayerEntity, long)`, to report
+  `BlackRavenDisguiseEconomy` calls only its `recordIncome(PlayerEntity, long)` (directly since the fusion), to report
   routed kill rewards. Without the seam, disguise purchases can draw on the killer-team purse
   (degraded, but no money is lost).
 - **Where the disguise names SparkStrength.** It names SparkStrength implementation classes in
-  only the purse mixin and in the reflected purse class in `BlackRavenDisguiseEconomy`. (The dead Engineer-share
+  only the purse mixin and in the imported purse class in `BlackRavenDisguiseEconomy`. (The dead Engineer-share
   seam was deleted on 2026-10-21: its SparkStrength target class no longer exists.)
   `compat/SparkStrengthDisguiseCompat` touches only the `sparkstrength:flashlight` registry id.
 - **Rest of SparkWitch.** Elsewhere, SparkStrength implementation classes are named by
@@ -6214,9 +6237,9 @@ Black Raven disguise shop and wallet seams (SparkStrength is optional and fail-c
   the player-behind case, so the cooldown starts once). Its corpse is no passenger's: the Prophet's Necrology skips it,
   the Perfumer neither outlines it nor drains sanity near it, and the Kidnapper can't drag it. The Fear, Control Expert,
   Rift-session and Seeker-remote lists block `sparkstrength:partygoer_summon` and `partygoer_swallow`; the room picker
-  request `partygoer_menu` stays allowed. `compat/SparkStrengthPartygoerCompat` reflects the frozen
+  request `partygoer_menu` stays allowed. `compat/SparkStrengthPartygoerCompat` calls the frozen
   `PartygoerService#killByWeapon(ServerPlayerEntity, Entity, Identifier)` / `#isKillable(Entity)` and
-  `PartygoerCorpseComponent#isPartygoerCorpse(Entity)`, and fails closed.
+  `PartygoerCorpseComponent#isPartygoerCorpse(Entity)` (directly since the fusion).
 
 Active Wraiths do not absorb another player's aimed action in the client
 selectors listed below. `client/render/WraithAimPassThrough` owns the rule: a player whose synced
@@ -6617,8 +6640,8 @@ Server:
   to 1 s (drops stay blocked by the mixins).
 - `PlayerHitboxHistory` keeps recording every tick everywhere: off-match shells and early-round rewinds read across
   round edges. `SparkTraitsKillerBridge.isLastEscapeActive` uses a cached MethodHandle.
-- `SparkStrengthCoronerCompat` and `SparkStrengthJunctionBoxCompat` resolve their reflection once (a lazy holder and
-  `OptionalStaticMethod`, failing closed); `ShadowJesterShowdownBridge` calls the pinned NoellesRoles component
+- `SparkStrengthCoronerCompat` and `SparkStrengthJunctionBoxCompat` are direct calls since the fusion (before, each
+  resolved its reflection once); `ShadowJesterShowdownBridge` calls the pinned NoellesRoles component
   directly. `CeremonialSwordDashService.DASHES` is cleared on SERVER_STOPPING.
 - The Charon owns three per-tick sweeps, all no-ops for an idle round: `FerrymanPardonService.tick` walks the live
   player list once, reads each player's raw role and counts down a Charon's pardon and ferry cooldowns (syncing only

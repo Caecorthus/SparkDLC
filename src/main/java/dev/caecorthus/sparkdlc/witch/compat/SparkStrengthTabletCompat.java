@@ -1,6 +1,5 @@
 package dev.caecorthus.sparkdlc.witch.compat;
 
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
@@ -12,11 +11,13 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 
 /**
- * External seam: SparkWitch touches the optional SparkStrength tablet by registry id only. No SparkStrength class is
- * imported, loaded or reflected here; a missing mod or item simply means "no tablet". SparkWitch never sells or grants
+ * Cross-module seam: SparkWitch touches the SparkStrength tablet by registry id only (SparkStrength always ships in
+ * the same jar since the SparkDLC fusion, so there is no mod-presence gate). No SparkStrength class is
+ * imported, loaded or reflected here; a missing item simply means "no tablet". SparkWitch never sells or grants
  * the tablet: SparkStrength issues it free at round start (and to players who become eligible mid-round).
- * 外部接缝：SparkWitch 只通过注册 id 接触可选的 SparkStrength 平板。此处不导入、不加载、不反射任何 SparkStrength 类；
- * 模组或物品缺失即视为“没有平板”。SparkWitch 从不出售或发放平板：SparkStrength 在开局（以及对局中途获得资格时）免费发放。
+ * 跨模块接缝：SparkWitch 只通过注册 id 接触 SparkStrength 平板（融合进 SparkDLC 后 SparkStrength 始终随同一个 jar 发布，
+ * 因此不再检查模组是否加载）。此处不导入、不加载、不反射任何 SparkStrength 类；物品缺失即视为“没有平板”。
+ * SparkWitch 从不出售或发放平板：SparkStrength 在开局（以及对局中途获得资格时）免费发放。
  */
 public final class SparkStrengthTabletCompat {
     public static final String MOD_ID = "sparkstrength";
@@ -35,9 +36,6 @@ public final class SparkStrengthTabletCompat {
         Item tablet = cachedTablet;
         if (tablet != null) {
             return Optional.of(tablet);
-        }
-        if (!FabricLoader.getInstance().isModLoaded(MOD_ID)) {
-            return Optional.empty();
         }
         Optional<Item> resolved = Registries.ITEM.getOrEmpty(TABLET_ID);
         resolved.ifPresent(item -> cachedTablet = item);

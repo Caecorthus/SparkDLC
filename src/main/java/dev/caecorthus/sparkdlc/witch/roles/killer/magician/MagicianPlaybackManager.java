@@ -245,8 +245,8 @@ public final class MagicianPlaybackManager {
         if (owner.getWorld().spawnEntity(body)) {
             MagicianDecoyBodies.mark(body);
             // The same cover for SparkStrength's Coroner snapshot, which otherwise falls back to the copied player's live
-            // role (fails closed without SparkStrength).
-            // 同样的掩护身份写入 SparkStrength 验尸官快照，否则它会回落到被复制玩家的实时身份（缺少 SparkStrength 时失败即关闭）。
+            // role (a direct call since the SparkDLC fusion).
+            // 同样的掩护身份写入 SparkStrength 验尸官快照，否则它会回落到被复制玩家的实时身份（融合进 SparkDLC 后为直接调用）。
             SparkStrengthCoronerCompat.recordBodyRole(body, WatheRoles.CIVILIAN.identifier());
         }
     }

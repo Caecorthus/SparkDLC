@@ -169,10 +169,11 @@ public final class PartygoerService {
     }
 
     /**
-     * Alive, in the world and not inside a Taotie. Frozen cross-mod seam like {@link #killByWeapon}: SparkWitch's
-     * {@code compat/SparkStrengthPartygoerCompat} reaches {@code isKillable(Entity)} by reflection to pick targets.
-     * 在场且不在饕餮肚里。与 killByWeapon 一样是冻结的跨模组接缝：SparkWitch 的 compat/SparkStrengthPartygoerCompat 通过反射调用
-     * isKillable(Entity) 来选目标。
+     * Alive, in the world and not inside a Taotie. Frozen cross-module seam like {@link #killByWeapon}: SparkWitch's
+     * {@code compat/SparkStrengthPartygoerCompat} calls {@code isKillable(Entity)} (directly since the SparkDLC fusion)
+     * to pick targets.
+     * 在场且不在饕餮肚里。与 killByWeapon 一样是冻结的跨模块接缝：SparkWitch 的 compat/SparkStrengthPartygoerCompat 会调用
+     * isKillable(Entity)（融合进 SparkDLC 后为直接调用）来选目标。
      */
     public static boolean isKillable(@Nullable Entity entity) {
         PartygoerBrain brain = brainOf(entity);
@@ -328,13 +329,13 @@ public final class PartygoerService {
     // ---- Kill seam / 击杀接缝 ----
 
     /**
-     * Frozen cross-mod seam: anything that can kill a player kills a Partygoer in one hit (owner rule, 2026-10-21).
-     * SparkWitch may reach it by reflection, so the class {@code dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerService},
-     * the name {@code killByWeapon} and the parameter types {@code (ServerPlayerEntity, Entity, Identifier)} are frozen.
+     * Frozen cross-module seam: anything that can kill a player kills a Partygoer in one hit (owner rule, 2026-10-21).
+     * SparkWitch calls it (directly since the SparkDLC fusion), so the class {@code dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerService},
+     * the name {@code killByWeapon} and the parameter types {@code (ServerPlayerEntity, Entity, Identifier)} stay frozen.
      * The caller has already validated its own weapon; this only checks the target. The attacker (may be null for an
      * offline thrower) gets 25 coins and 20% sanity; the Partygoer drops whoever it holds and leaves a corpse.
-     * 冻结的跨模组接缝：任何能杀死玩家的东西都能一击打死派对客（主人规则，2026-10-21）。SparkWitch 可能通过反射调用，因此类名、方法名
-     * killByWeapon 与参数类型 (ServerPlayerEntity, Entity, Identifier) 均已冻结。调用方已校验其武器；这里只检查目标。
+     * 冻结的跨模块接缝：任何能杀死玩家的东西都能一击打死派对客（主人规则，2026-10-21）。SparkWitch 会调用它（融合进 SparkDLC 后为
+     * 直接调用），因此类名、方法名 killByWeapon 与参数类型 (ServerPlayerEntity, Entity, Identifier) 保持冻结。调用方已校验其武器；这里只检查目标。
      * 攻击者（离线投掷者可为 null）获得 25 金币与 20% 理智；派对客放下手中的人并留下尸体。
      *
      * @return true iff the target was a killable Partygoer and is now dead / 仅当目标是可被打死的派对客且已死亡时返回 true

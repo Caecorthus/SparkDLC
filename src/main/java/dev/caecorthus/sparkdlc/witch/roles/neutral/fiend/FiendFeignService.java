@@ -357,8 +357,8 @@ public final class FiendFeignService {
             return null;
         }
         FiendFakeBodies.mark(body);
-        // The same cover for SparkStrength's Coroner snapshot (fails closed without SparkStrength).
-        // 同样的掩护身份写入 SparkStrength 验尸官快照（缺少 SparkStrength 时失败即关闭）。
+        // The same cover for SparkStrength's Coroner snapshot (a direct call since the SparkDLC fusion).
+        // 同样的掩护身份写入 SparkStrength 验尸官快照（融合进 SparkDLC 后为直接调用）。
         SparkStrengthCoronerCompat.recordBodyRole(body, WatheRoles.CIVILIAN.identifier());
         return body;
     }

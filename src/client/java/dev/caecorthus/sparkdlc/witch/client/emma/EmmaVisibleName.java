@@ -1,9 +1,8 @@
 package dev.caecorthus.sparkdlc.witch.client.emma;
 
+import dev.caecorthus.sparkdlc.strength.client.role.morphling.MorphlingAppearanceClientHelper;
 import dev.doctor4t.wathe.client.WatheClient;
-import java.lang.reflect.Method;
 import java.util.UUID;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.entity.effect.StatusEffects;
@@ -16,8 +15,6 @@ import org.agmas.noellesroles.morphling.MorphlingPlayerComponent;
 /** Resolve displayed identities without recursively following another player's disguise.
  * 解析可见身份，不递归追踪被模仿玩家当前的伪装。 */
 public final class EmmaVisibleName {
-    private static boolean lookedUp;
-    private static Method strengthName;
     private EmmaVisibleName() { }
 
     public static Text of(PlayerEntity target) {
@@ -27,20 +24,10 @@ public final class EmmaVisibleName {
         MorphlingPlayerComponent morph = MorphlingPlayerComponent.KEY.get(target);
         if (morph.corpseMode) return hidden();
         if (morph.getMorphTicks() > 0) return morph.disguise == null ? hidden() : profileName(morph.disguise);
-        if (FabricLoader.getInstance().isModLoaded("sparkstrength")) {
-            if (!lookedUp) {
-                lookedUp = true;
-                try {
-                    strengthName = Class.forName("dev.caecorthus.sparkdlc.strength.client.role.morphling.MorphlingAppearanceClientHelper")
-                            .getMethod("resolveActiveDisplayName", PlayerEntity.class);
-                } catch (ReflectiveOperationException | LinkageError ignored) { }
-            }
-            if (strengthName == null) return hidden();
-            try {
-                Object name = strengthName.invoke(null, target);
-                if (name instanceof Text text) return text.copy();
-            } catch (ReflectiveOperationException | LinkageError ignored) { return hidden(); }
-        }
+        // SparkStrength's own disguises (Coroner, morph potion); a direct call since the SparkDLC fusion.
+        // SparkStrength 自身的伪装（验尸官、变形试剂）；融合进 SparkDLC 后为直接调用。
+        Text strengthName = MorphlingAppearanceClientHelper.resolveActiveDisplayName(target);
+        if (strengthName != null) return strengthName.copy();
         return Text.literal(target.getGameProfile().getName());
     }
 

@@ -36,9 +36,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Server-ticked M67. Stable cross-mod contract (SparkWitch reflects it): this class name, the {@code sparkstrength:m67}
- * id, public {@link #getDetonateAt()} and {@link #getThrowerUuid()}, and discard only after the blast's kills.
- * 由服务端驱动的 M67。稳定的跨模组契约（SparkWitch 反射读取）：本类名、{@code sparkstrength:m67} id、public
+ * Server-ticked M67. Stable cross-module contract (SparkWitch calls it directly since the SparkDLC fusion): this class
+ * name, the {@code sparkstrength:m67} id, public {@link #getDetonateAt()} and {@link #getThrowerUuid()}, and discard only after the blast's kills.
+ * 由服务端驱动的 M67。稳定的跨模块契约（融合进 SparkDLC 后由 SparkWitch 直接调用）：本类名、{@code sparkstrength:m67} id、public
  * {@link #getDetonateAt()} 与 {@link #getThrowerUuid()}，以及爆炸击杀之后才移除自身。
  */
 public final class M67GrenadeEntity extends ThrownItemEntity {
@@ -94,10 +94,10 @@ public final class M67GrenadeEntity extends ThrownItemEntity {
     /**
      * Server: an M67 released by a Bomber drone, with the thrower concealed. The thrower is kept only in a server
      * field ({@link #getThrowerUuid} still answers it, so blast attribution, disconnect cleanup and SparkWitch's
-     * reflective M67 seam keep working) and the vanilla projectile owner is never set, because 1.21.1's
+     * M67 seam keep working) and the vanilla projectile owner is never set, because 1.21.1's
      * {@code setOwner(null)} cannot clear it and its entity id would ride in the spawn packet. Pose comes from the drone.
      * 服务器：炸弹客无人机投下的 M67，投掷者被隐藏。投掷者只存于服务器字段（{@link #getThrowerUuid} 仍返回它，因此爆炸归属、
-     * 断线清理与 SparkWitch 的 M67 反射接缝照常工作），且从不设置原版投射物主人——1.21.1 的 setOwner(null) 无法清除它，
+     * 断线清理与 SparkWitch 的 M67 接缝照常工作），且从不设置原版投射物主人——1.21.1 的 setOwner(null) 无法清除它，
      * 其实体 id 会随生成包下发。位姿取自无人机。
      */
     public static M67GrenadeEntity droppedConcealed(ServerWorld world, ServerPlayerEntity owner, UUID roundId,
@@ -125,8 +125,10 @@ public final class M67GrenadeEntity extends ThrownItemEntity {
 
     /**
      * Thrower uuid: the concealed server-only value when set, else the tracked one. Public contract: SparkWitch's
-     * {@code SparkStrengthM67Compat} reflects this getter on the server (blast attribution).
-     * 投掷者 uuid：设置了隐藏的服务器字段时取它，否则取追踪值。公开契约：SparkWitch 的 SparkStrengthM67Compat 在服务器反射此 getter（爆炸归属）。
+     * {@code SparkStrengthM67Compat} calls this getter on the server (blast attribution; a direct call since the
+     * SparkDLC fusion).
+     * 投掷者 uuid：设置了隐藏的服务器字段时取它，否则取追踪值。公开契约：SparkWitch 的 SparkStrengthM67Compat 在服务器调用此 getter
+     * （爆炸归属；融合进 SparkDLC 后为直接调用）。
      */
     public @Nullable UUID getThrowerUuid() {
         return concealedThrowerUuid != null ? concealedThrowerUuid : dataTracker.get(THROWER_UUID).orElse(null);

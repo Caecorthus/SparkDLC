@@ -1,6 +1,5 @@
 package dev.caecorthus.sparkdlc.witch.compat;
 
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
@@ -12,10 +11,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 
 /**
- * External seam: Black Raven disguise kits touch optional SparkStrength items by registry id only and fail closed.
- * No SparkStrength class is imported, loaded or reflected here; a missing mod or item simply grants nothing.
- * 外部接缝：黑羽鸦伪装物品只通过注册 id 接触可选的 SparkStrength 物品，缺失时失败关闭。
- * 此处不导入、不加载、不反射任何 SparkStrength 类；模组或物品缺失即不发放。
+ * Cross-module seam: Black Raven disguise kits touch SparkStrength items by registry id only and fail closed
+ * (SparkStrength always ships in the same jar since the SparkDLC fusion, so there is no mod-presence gate).
+ * No SparkStrength class is imported, loaded or reflected here; a missing item simply grants nothing.
+ * 跨模块接缝：黑羽鸦伪装物品只通过注册 id 接触 SparkStrength 物品，缺失时失败关闭
+ * （融合进 SparkDLC 后 SparkStrength 始终随同一个 jar 发布，因此不再检查模组是否加载）。
+ * 此处不导入、不加载、不反射任何 SparkStrength 类；物品缺失即不发放。
  */
 public final class SparkStrengthDisguiseCompat {
     public static final String MOD_ID = "sparkstrength";
@@ -25,11 +26,12 @@ public final class SparkStrengthDisguiseCompat {
     private SparkStrengthDisguiseCompat() {
     }
 
+    /** Always true: SparkStrength is fused into SparkDLC. / 恒为 true：SparkStrength 已融合进 SparkDLC。 */
     public static boolean isLoaded() {
-        return FabricLoader.getInstance().isModLoaded(MOD_ID);
+        return true;
     }
 
-    /** A fresh flashlight stack, or EMPTY when SparkStrength or the item is absent. / 新手电筒物品；缺失时为 EMPTY。 */
+    /** A fresh flashlight stack, or EMPTY when the item is absent. / 新手电筒物品；缺失时为 EMPTY。 */
     public static ItemStack flashlightStack() {
         return flashlightItem().map(ItemStack::new).orElse(ItemStack.EMPTY);
     }
@@ -56,9 +58,6 @@ public final class SparkStrengthDisguiseCompat {
     }
 
     private static Optional<Item> flashlightItem() {
-        if (!isLoaded()) {
-            return Optional.empty();
-        }
         try {
             return Registries.ITEM.getOrEmpty(FLASHLIGHT_ID);
         } catch (RuntimeException ignored) {

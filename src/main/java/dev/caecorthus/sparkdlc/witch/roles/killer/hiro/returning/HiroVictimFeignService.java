@@ -285,11 +285,11 @@ public final class HiroVictimFeignService {
      * its height, head yaw, the real death reason, the death tick and the live role {@code setPlayerUuid} captures),
      * so nobody can tell it from the corpse this death would have left; the real corpse of a later replay appears on
      * the same spot. The fake mark stays server-only. SparkStrength's Coroner snapshot gets the same role a real
-     * corpse would carry (fails closed without SparkStrength); its Coroner already ignores a corpse whose owner is
+     * corpse would carry (a direct call since the SparkDLC fusion); its Coroner already ignores a corpse whose owner is
      * alive in Wathe.
      * 假尸体的铺设方式与 Wathe {@code killPlayer} 铺设真尸体完全一致（受害者前方一格、同高度、头部朝向、真实死因、死亡刻，以及
      * {@code setPlayerUuid} 捕获的实时身份），因此无人能把它与这次死亡本应留下的尸体区分开；之后重放产生的真尸体会出现在同一
-     * 位置。假尸标记只留在服务端。SparkStrength 验尸官快照写入与真尸体相同的身份（缺少 SparkStrength 时失败即关闭）；其验尸官
+     * 位置。假尸标记只留在服务端。SparkStrength 验尸官快照写入与真尸体相同的身份（融合进 SparkDLC 后为直接调用）；其验尸官
      * 本就忽略主人在 Wathe 中仍存活的尸体。
      */
     private static @Nullable PlayerBodyEntity spawnCorpse(ServerWorld world, ServerPlayerEntity victim,

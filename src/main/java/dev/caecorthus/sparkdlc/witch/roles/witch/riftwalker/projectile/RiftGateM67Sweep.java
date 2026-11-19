@@ -2,7 +2,6 @@ package dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.projectile;
 
 import dev.caecorthus.sparkdlc.witch.compat.SparkStrengthM67Compat;
 import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.gate.RiftGateEntity;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.registry.Registries;
@@ -19,11 +18,13 @@ import java.util.Optional;
  * seam never sees it. Each gate's server tick tests the M67's last movement (previous to current position) against its
  * volume; the nearest gate on that segment acts, teleporting the grenade in place to another gate's front or reflecting
  * it, with the shared pass cap. The type is resolved by registry id only ({@code sparkstrength:m67}) and the sweep is
- * inert when SparkStrength or that id is absent; no SparkStrength class is named. Whichever of gate and grenade ticks
+ * inert when that id is absent (SparkStrength itself always ships in the same jar since the SparkDLC fusion, so there
+ * is no mod-presence gate); no SparkStrength class is named. Whichever of gate and grenade ticks
  * first, every movement segment is tested exactly once, and a moved grenade's segment collapses (previous = current).
  * 外部接缝：SparkStrength 的 M67 不走实体碰撞、自行做方块扫掠运动，偏转接缝无法捕获它。每扇门的服务端 tick 用 M67 的上一段
  * 位移（上一位置到当前位置）检测自身体积；线段上最近的门负责处理，按共享的穿门上限把手雷原地传送到另一扇门正面或反弹。
- * 仅以注册 id（{@code sparkstrength:m67}）解析类型，缺少 SparkStrength 或该 id 时不生效；不引用任何 SparkStrength 类。
+ * 仅以注册 id（{@code sparkstrength:m67}）解析类型，该 id 缺失时不生效（融合进 SparkDLC 后 SparkStrength 始终随同一个 jar
+ * 发布，因此不再检查模组是否加载）；不引用任何 SparkStrength 类。
  * 无论门和手雷谁先 tick，每段位移都恰好检测一次；被移动的手雷其线段随即收缩（上一位置 = 当前位置）。
  * Accepted edge: SparkStrength interpolates the M67 on clients, so a long jump is drawn as a short slide.
  * 已接受的边角情况：SparkStrength 在客户端对 M67 做插值，长距离跳转会显示为一段短暂滑动。
@@ -101,14 +102,13 @@ final class RiftGateM67Sweep {
         return false;
     }
 
-    /** Resolved once by id; null (inert) when SparkStrength or the id is absent. / 按 id 解析一次；缺失时为 null（不生效）。 */
+    /** Resolved once by id (no mod gate: SparkStrength is fused into SparkDLC); null (inert) when the id is absent.
+     * 按 id 解析一次（SparkStrength 已融合进 SparkDLC，不再检查模组）；id 缺失时为 null（不生效）。 */
     @Nullable
     private static EntityType<?> m67Type() {
         if (!resolved) {
             resolved = true;
-            m67Type = FabricLoader.getInstance().isModLoaded(SparkStrengthM67Compat.MOD_ID)
-                    ? Registries.ENTITY_TYPE.getOrEmpty(SparkStrengthM67Compat.M67_ENTITY_ID).orElse(null)
-                    : null;
+            m67Type = Registries.ENTITY_TYPE.getOrEmpty(SparkStrengthM67Compat.M67_ENTITY_ID).orElse(null);
         }
         return m67Type;
     }

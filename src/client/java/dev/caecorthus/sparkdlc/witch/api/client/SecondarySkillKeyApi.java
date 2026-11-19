@@ -9,11 +9,11 @@ import java.util.Objects;
 
 /**
  * Stable cross-mod contract (client only): lets another mod put a role's action on SparkWitch's Role Skill 2 key
- * (default N). SparkStrength reaches it by reflection, so this FQCN and both signatures must not change. A press
+ * (default N). SparkStrength calls it directly since the SparkDLC fusion; this FQCN and both signatures stay frozen. A press
  * reaches the handler only while the local player's raw Wathe role id equals {@code roleId} on a confirmed SparkWitch
  * server; it is a client-side trigger only, and the caller's server must validate whatever the handler sends.
- * 稳定跨模组契约（仅客户端）：允许其他模组把职业行为挂到 SparkWitch 的“职业技能 2”键（默认 N）。SparkStrength 通过反射
- * 访问本类，因此完整类名与两个方法签名都不得更改。仅当本地玩家的原始 Wathe 职业 id 等于 {@code roleId} 且服务器已确认
+ * 稳定跨模组契约（仅客户端）：允许其他模组把职业行为挂到 SparkWitch 的“职业技能 2”键（默认 N）。融合进 SparkDLC 后 SparkStrength
+ * 直接调用本类；完整类名与两个方法签名都不得更改。仅当本地玩家的原始 Wathe 职业 id 等于 {@code roleId} 且服务器已确认
  * 运行 SparkWitch 时按键才会派发；这只是客户端触发，处理器发出的任何请求都必须由调用方的服务端校验。
  */
 public final class SecondarySkillKeyApi {

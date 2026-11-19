@@ -7,10 +7,11 @@ package dev.caecorthus.sparkdlc.strength.role.veteran;
  *
  * <p>It mirrors the revolver: the victim side follows SparkTraits {@code EffectiveAlignment.isEffectiveCivilian}
  * (Conscience counts as innocent, Impostor does not, otherwise the raw Wathe role decides), and an Impostor attacker
- * is exempt as in {@code EffectiveGunRules} / {@code EffectiveDeathConsequenceRules}. Without SparkTraits every trait
- * flag is false, so the result equals the raw {@code game.isInnocent(target)} check.
+ * is exempt as in {@code EffectiveGunRules} / {@code EffectiveDeathConsequenceRules}. With every trait flag false the
+ * result equals the raw {@code game.isInnocent(target)} check (SparkTraits itself is always present since the SparkDLC
+ * fusion).
  * 与左轮一致：目标按 SparkTraits 有效阵营判定（善良算好人、内鬼不算好人，其余沿用 Wathe 原始身份），内鬼攻击者免罚。
- * 未安装 SparkTraits 时所有天赋标记为 false，结果等同原先的 game.isInnocent(target)。</p>
+ * 所有天赋标记为 false 时，结果等同原先的 game.isInnocent(target)（融合进 SparkDLC 后 SparkTraits 始终存在）。</p>
  *
  * <p>Only {@code java.*} may be used here so the standalone test compiles this file with plain javac.
  * 这里只能依赖 java.*，独立测试可以直接用 javac 编译，不需要 Minecraft/Wathe/Gradle。</p>

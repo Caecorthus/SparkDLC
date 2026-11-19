@@ -1,7 +1,8 @@
 package dev.caecorthus.sparkdlc.strength.compat;
 
+import dev.caecorthus.sparkdlc.witch.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.witch.compat.SparkWitchKidnapperCompat;
 import dev.doctor4t.wathe.util.ShopEntry;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -12,106 +13,77 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-
 /**
- * SparkWitch 软兼容桥。
+ * SparkWitch 兼容桥。
  *
- * <p>SparkStrength 不能在编译期依赖 SparkWitch，否则单独安装任意一方都会变成硬依赖。
- * 这里仅在运行时检测到 sparkwitch 时反射调用它暴露的稳定 compat 门面。</p>
+ * <p>各模块已融合进 SparkDLC：SparkWitch 始终存在于同一个 jar 中，因此这里直接调用它暴露的稳定门面
+ * （{@link SparkWitchApi} 与 {@link SparkWitchKidnapperCompat}），不再按名称反射，也不再检测 sparkwitch 是否加载。
+ * The modules are fused in SparkDLC: SparkWitch always ships in the same jar, so this calls its stable facades
+ * ({@link SparkWitchApi} and {@link SparkWitchKidnapperCompat}) directly, with no lookup by name and no
+ * mod-loaded gate.</p>
  */
 public final class SparkWitchCompat {
-    private static final String MOD_ID = "sparkwitch";
-    private static final String KIDNAPPER_COMPAT = "dev.caecorthus.sparkdlc.witch.compat.SparkWitchKidnapperCompat";
-    private static final String PUBLIC_API = "dev.caecorthus.sparkdlc.witch.api.SparkWitchApi";
-    /** Render thread only. / 仅渲染线程。 */
-    private static boolean blindFeatureGateResolved;
-    private static @Nullable Method blindFeatureGate;
-
     private SparkWitchCompat() {
     }
 
+    /** Always true: SparkWitch is a module of the same SparkDLC jar. Kept for its callers.
+     *  恒为 true：SparkWitch 是同一个 SparkDLC jar 中的模块；为调用方保留。 */
     public static boolean isLoaded() {
-        return FabricLoader.getInstance().isModLoaded(MOD_ID);
+        return true;
     }
 
     public static @Nullable ItemStack createKidnapperDrugStack() {
-        Object result = invoke("createKnockoutDrugStack");
-        return result instanceof ItemStack stack ? stack : null;
+        return SparkWitchKidnapperCompat.createKnockoutDrugStack();
     }
 
     public static @Nullable ShopEntry createKidnapperDrugShopEntry() {
-        Object result = invoke("createKnockoutDrugShopEntry");
-        return result instanceof ShopEntry entry ? entry : null;
+        return SparkWitchKidnapperCompat.createKnockoutDrugShopEntry();
     }
 
     public static @Nullable ShopEntry createKidnapperDrugShopEntry(PlayerEntity player) {
-        Object result = invoke("createKnockoutDrugShopEntry", new Class<?>[]{PlayerEntity.class}, player);
-        return result instanceof ShopEntry entry ? entry : null;
+        return SparkWitchKidnapperCompat.createKnockoutDrugShopEntry(player);
     }
 
     /**
-     * SparkWitch Control Expert stun, read through its public facade {@code SparkWitchApi.isControlExpertStunned}.
-     * False without SparkWitch, with an older facade, or when the call fails, so drones are then never stun-locked.
-     * SparkWitch 控场专家眩晕，经其公开门面 SparkWitchApi.isControlExpertStunned 读取。未安装 SparkWitch、门面较旧或调用失败时
-     * 返回 false，此时无人机不会被眩晕锁住。
+     * SparkWitch Control Expert stun, read through its public facade {@code SparkWitchApi.isControlExpertStunned}
+     * (a direct call since the SparkDLC fusion). False for a null player.
+     * SparkWitch 控场专家眩晕，经其公开门面 SparkWitchApi.isControlExpertStunned 读取（融合进 SparkDLC 后为直接调用）。
+     * 玩家为 null 时返回 false。
      */
     public static boolean isControlExpertStunned(@Nullable PlayerEntity player) {
-        Method method = ControlExpertStunQuery.METHOD;
-        if (player == null || method == null) {
-            return false;
-        }
-        try {
-            return Boolean.TRUE.equals(method.invoke(null, player));
-        } catch (ReflectiveOperationException | IllegalArgumentException | LinkageError ignored) {
-            return false;
-        }
+        return player != null && SparkWitchApi.isControlExpertStunned(player);
     }
 
     /**
      * Render thread, client presentation only: whether SparkWitch's Blind view on this client strips every feature from
      * {@code player}'s body right now ({@code SparkWitchApi#hidesFeaturesFromBlind}). A SparkStrength extra drawn
      * outside the feature loop skips itself while this holds; today that is the skateboard under a replaced (Pig) body.
-     * The lookup runs once, because this is asked every frame. An absent, older or failing SparkWitch answers false, so
-     * everything draws as before; a call that throws stops further calls.
+     * Asked every frame; a direct call since the SparkDLC fusion, so there is no lookup to cache. A null player answers
+     * false, so everything draws as before.
      * 仅限渲染线程、仅用于客户端展示：此客户端上 SparkWitch 的盲人视图此刻是否去掉 {@code player} 身体上的全部附加层
      * （{@code SparkWitchApi#hidesFeaturesFromBlind}）。在附加层循环之外绘制的 SparkStrength 附加物在此为真时跳过自身，
-     * 目前即被替换的（猪）身体下方的滑板。由于每帧都会询问，方法只查找一次。SparkWitch 缺失、版本过旧或调用失败时返回
-     * false，一切照旧绘制；调用抛出异常后不再继续调用。
+     * 目前即被替换的（猪）身体下方的滑板。每帧都会询问；融合进 SparkDLC 后为直接调用，无需缓存查找。玩家为 null 时返回
+     * false，一切照旧绘制。
      */
     public static boolean hidesFeaturesFromBlind(PlayerEntity player) {
-        Method gate = blindFeatureGate();
-        if (gate == null || player == null) {
-            return false;
-        }
-        try {
-            return Boolean.TRUE.equals(gate.invoke(null, player));
-        } catch (ReflectiveOperationException | LinkageError | RuntimeException ignored) {
-            blindFeatureGate = null;
-            return false;
-        }
+        return player != null && SparkWitchApi.hidesFeaturesFromBlind(player);
     }
 
     /**
      * Client pick for the Serial Killer pistols, through SparkWitch's frozen
      * {@code SparkWitchApi.preferNearerGunWorldTarget(PlayerEntity, HitResult, double)}: the Seeker device step SparkWitch
-     * wraps inside Wathe's {@code RevolverItem#use}, which the pistols' own {@code use} never runs. Returns
-     * {@code gunTarget} unchanged without SparkWitch, with an older facade, or when the call fails.
+     * wraps inside Wathe's {@code RevolverItem#use}, which the pistols' own {@code use} never runs. A direct call since
+     * the SparkDLC fusion; returns {@code gunTarget} unchanged for a null argument or a null answer.
      * 连环杀手手枪的客户端选靶，经 SparkWitch 冻结的 {@code SparkWitchApi.preferNearerGunWorldTarget} 补上 SparkWitch 包装在
-     * Wathe {@code RevolverItem#use} 内、而手枪自己的 {@code use} 不会执行的搜寻者设备一步。未安装 SparkWitch、门面较旧或调用
-     * 失败时原样返回 {@code gunTarget}。
+     * Wathe {@code RevolverItem#use} 内、而手枪自己的 {@code use} 不会执行的搜寻者设备一步。融合进 SparkDLC 后为直接调用；
+     * 参数为 null 或结果为 null 时原样返回 {@code gunTarget}。
      */
     public static HitResult preferNearerGunWorldTarget(PlayerEntity shooter, HitResult gunTarget, double range) {
-        Method method = GunWorldHitQueries.PREFER_NEARER_TARGET;
-        if (method == null || shooter == null || gunTarget == null) {
+        if (shooter == null || gunTarget == null) {
             return gunTarget;
         }
-        try {
-            return method.invoke(null, shooter, gunTarget, range) instanceof HitResult result ? result : gunTarget;
-        } catch (ReflectiveOperationException | RuntimeException | LinkageError ignored) {
-            return gunTarget;
-        }
+        HitResult result = SparkWitchApi.preferNearerGunWorldTarget(shooter, gunTarget, range);
+        return result != null ? result : gunTarget;
     }
 
     /**
@@ -119,43 +91,28 @@ public final class SparkWitchCompat {
      * target id names, exactly as for a Wathe revolver shot, through its frozen
      * {@code SparkWitchApi.hitGunWorldTarget(ServerPlayerEntity, Entity, ItemStack, double)}. Call where Wathe's receiver
      * records the shot (after the click, before the record and cooldown); the caller then finishes the shot as a miss.
-     * False (nothing happens) without SparkWitch, with an older facade, or when the call fails.
+     * A direct call since the SparkDLC fusion; false (nothing happens) for a null argument.
      * 服务端线程：经 SparkWitch 冻结的 {@code SparkWitchApi.hitGunWorldTarget}，让 SparkWitch 像处理 Wathe 左轮射击一样结束
      * 手枪射击中非玩家目标 id 所指的魔术师皮套或打坏搜寻者设备。在 Wathe 接收器记录这一枪的位置调用（扳机声之后、记录与冷却
-     * 之前）；调用方随后按未命中收尾。未安装 SparkWitch、门面较旧或调用失败时返回 false（无事发生）。
+     * 之前）；调用方随后按未命中收尾。融合进 SparkDLC 后为直接调用；参数为 null 时返回 false（无事发生）。
      */
     public static boolean hitGunWorldTarget(ServerPlayerEntity shooter, Entity target, ItemStack gun,
                                             double maxDistance) {
-        Method method = GunWorldHitQueries.HIT_WORLD_TARGET;
-        if (method == null || shooter == null || target == null || gun == null) {
-            return false;
-        }
-        try {
-            return Boolean.TRUE.equals(method.invoke(null, shooter, target, gun, maxDistance));
-        } catch (ReflectiveOperationException | RuntimeException | LinkageError ignored) {
-            return false;
-        }
+        return shooter != null && target != null && gun != null
+                && SparkWitchApi.hitGunWorldTarget(shooter, target, gun, maxDistance);
     }
 
     /**
      * Server authority: whether {@code target} is the active SparkWitch Vendetta bound to {@code actor}, through the
      * frozen {@code SparkWitchApi.isBoundKillerTargetingVendetta(PlayerEntity, PlayerEntity)}. Wathe counts that
      * Vendetta as dead, yet a revolver shot by its bound killer still reaches killPlayer, which resolves its terminal
-     * death. False without SparkWitch, with an older facade, or when the call fails.
+     * death. A direct call since the SparkDLC fusion; false for a null argument.
      * 以服务端为准：{@code target} 是否为与 {@code actor} 绑定的激活 SparkWitch 仇杀客，经冻结的
      * {@code SparkWitchApi.isBoundKillerTargetingVendetta} 查询。Wathe 将该仇杀客视为已死亡，但其绑定凶手的左轮射击仍会进入
-     * killPlayer 并结算其终局死亡。未安装 SparkWitch、门面较旧或调用失败时返回 false。
+     * killPlayer 并结算其终局死亡。融合进 SparkDLC 后为直接调用；参数为 null 时返回 false。
      */
     public static boolean isBoundKillerTargetingVendetta(PlayerEntity actor, PlayerEntity target) {
-        Method method = GunWorldHitQueries.BOUND_VENDETTA;
-        if (method == null || actor == null || target == null) {
-            return false;
-        }
-        try {
-            return Boolean.TRUE.equals(method.invoke(null, actor, target));
-        } catch (ReflectiveOperationException | RuntimeException | LinkageError ignored) {
-            return false;
-        }
+        return actor != null && target != null && SparkWitchApi.isBoundKillerTargetingVendetta(actor, target);
     }
 
     /**
@@ -163,90 +120,62 @@ public final class SparkWitchCompat {
      * {@code SparkWitchApi.tryPierceShieldLayer(PlayerEntity, PlayerEntity, Identifier)} whether the shot being settled
      * against exactly this victim, killer and death reason pierces one more shield layer (today only the USEC AXMC's
      * {@code wathe:gun_shot}: FMJ 2 layers, AP 5). True has already spent that pierce: the vest is then spent and the
-     * same kill goes on. False without SparkWitch, with an older facade, when the call fails, and for every other
-     * kill, so the vest then stops it as before.
+     * same kill goes on. A direct call since the SparkDLC fusion; false for a null argument and for every other kill,
+     * so the vest then stops it as before.
      * 服务端线程，保镖防弹衣：经 SparkWitch 冻结的 {@code SparkWitchApi.tryPierceShieldLayer} 询问正对确切的受害者、击杀者与
      * 死因结算的这一枪能否再击穿一层护盾（目前只有 USEC AXMC 的 {@code wathe:gun_shot}：FMJ 2 层，AP 5 层）。返回 true 时该次
-     * 穿透已被花费：防弹衣随之报废，同一次击杀继续。未安装 SparkWitch、门面较旧、调用失败以及其他任何击杀时返回 false，防弹衣
-     * 照旧挡下。
+     * 穿透已被花费：防弹衣随之报废，同一次击杀继续。融合进 SparkDLC 后为直接调用；参数为 null 以及其他任何击杀时返回 false，
+     * 防弹衣照旧挡下。
      */
     public static boolean tryPierceShieldLayer(@Nullable ServerPlayerEntity victim, @Nullable ServerPlayerEntity killer,
                                                @Nullable Identifier deathReason) {
-        Method method = ShieldPierceQueries.TRY_PIERCE;
-        if (method == null || victim == null || killer == null || deathReason == null) {
-            return false;
-        }
-        try {
-            return Boolean.TRUE.equals(method.invoke(null, victim, killer, deathReason));
-        } catch (ReflectiveOperationException | RuntimeException | LinkageError ignored) {
-            return false;
-        }
+        return victim != null && killer != null && deathReason != null
+                && SparkWitchApi.tryPierceShieldLayer(victim, killer, deathReason);
     }
 
     /**
      * Server thread, Democracy Shield: the stable round id ({@code "fmj"} / {@code "ap"}) of the shield-piercing shot
      * SparkWitch is settling against exactly this victim, killer and death reason, through its frozen
      * {@code SparkWitchApi.piercingShotAmmoId(PlayerEntity, PlayerEntity, Identifier)}. Spends nothing; the shield is
-     * never pierced and only prices its block by this round ({@code BodyguardProtectionRules.shieldPoints}). Null
-     * without SparkWitch, with an older facade, when the call fails, and for every other kill (revolvers included),
-     * so the block then keeps its usual cost.
+     * never pierced and only prices its block by this round ({@code BodyguardProtectionRules.shieldPoints}). A direct
+     * call since the SparkDLC fusion; null for a null argument and for every other kill (revolvers included), so the
+     * block then keeps its usual cost.
      * 服务端线程，民主盾牌：经 SparkWitch 冻结的 {@code SparkWitchApi.piercingShotAmmoId} 读取 SparkWitch 正对确切的受害者、
      * 击杀者与死因结算的穿盾射击的稳定弹种 id（{@code "fmj"} / {@code "ap"}）。不花费任何预算；盾牌从不被击穿，只按弹种为格挡
-     * 定价（{@code BodyguardProtectionRules.shieldPoints}）。未安装 SparkWitch、门面较旧、调用失败以及其他任何击杀（含左轮）时
-     * 返回 null，格挡保持原有消耗。
+     * 定价（{@code BodyguardProtectionRules.shieldPoints}）。融合进 SparkDLC 后为直接调用；参数为 null 以及其他任何击杀
+     * （含左轮）时返回 null，格挡保持原有消耗。
      */
     public static @Nullable String piercingShotAmmoId(@Nullable ServerPlayerEntity victim,
                                                       @Nullable ServerPlayerEntity killer,
                                                       @Nullable Identifier deathReason) {
-        Method method = ShieldPierceQueries.AMMO_ID;
-        if (method == null || victim == null || killer == null || deathReason == null) {
+        if (victim == null || killer == null || deathReason == null) {
             return null;
         }
-        try {
-            return method.invoke(null, victim, killer, deathReason) instanceof String id ? id : null;
-        } catch (ReflectiveOperationException | RuntimeException | LinkageError ignored) {
-            return null;
-        }
+        return SparkWitchApi.piercingShotAmmoId(victim, killer, deathReason);
     }
 
     /**
      * Whether {@code player} is an active SparkWitch Wraith, promoted forms included, read through the public facade
      * {@code SparkWitchApi.isWraithActive}. The Wraith component syncs to every client, so this answers on both sides.
-     * False without SparkWitch, with an older facade, or when the call fails, so then nobody is a Wraith.
+     * A direct call since the SparkDLC fusion; false for a null player.
      * {@code player} 是否为激活中的 SparkWitch 冤魂（含晋升形态），经公开门面 SparkWitchApi.isWraithActive 读取。冤魂组件同步给
-     * 所有客户端，因此两端都能回答。未安装 SparkWitch、门面较旧或调用失败时返回 false，此时没有人是冤魂。
+     * 所有客户端，因此两端都能回答。融合进 SparkDLC 后为直接调用；玩家为 null 时返回 false。
      */
     public static boolean isWraithActive(@Nullable PlayerEntity player) {
-        Method method = WraithQuery.METHOD;
-        if (player == null || method == null) {
-            return false;
-        }
-        try {
-            return Boolean.TRUE.equals(method.invoke(null, player));
-        } catch (ReflectiveOperationException | RuntimeException | LinkageError ignored) {
-            return false;
-        }
+        return player != null && SparkWitchApi.isWraithActive(player);
     }
 
     /**
      * Side-neutral: whether {@code entity} is a SparkWitch Black Raven Raven Form crow (化鸦), through the frozen
      * {@code SparkWitchApi.isBlackRavenCrow(Entity)}. Lets a client gate that accepts only players (the Undercover
-     * tomahawk) still send the attack on a crow; the server decides through {@link #crowMeleeStandIn}. False without
-     * SparkWitch, with an older facade, or when the call fails, so then no crow is ever attacked.
+     * tomahawk) still send the attack on a crow; the server decides through {@link #crowMeleeStandIn}. A direct call
+     * since the SparkDLC fusion; false for null and for players.
      * 两端通用：{@code entity} 是否为 SparkWitch 黑羽鸦化鸦乌鸦，经冻结的 {@code SparkWitchApi.isBlackRavenCrow} 查询。让只接受
-     * 玩家的客户端门槛（卧底战术斧）对乌鸦也发送攻击；由服务端经 {@link #crowMeleeStandIn} 判定。未安装 SparkWitch、门面较旧或
-     * 调用失败时返回 false，此时永远不会攻击乌鸦。
+     * 玩家的客户端门槛（卧底战术斧）对乌鸦也发送攻击；由服务端经 {@link #crowMeleeStandIn} 判定。融合进 SparkDLC 后为直接调用；
+     * null 与玩家返回 false。
      */
     public static boolean isBlackRavenCrow(@Nullable Entity entity) {
-        Method method = RavenCrowQueries.IS_CROW;
-        if (method == null || entity == null || entity instanceof PlayerEntity) {
-            return false;
-        }
-        try {
-            return Boolean.TRUE.equals(method.invoke(null, entity));
-        } catch (ReflectiveOperationException | RuntimeException | LinkageError ignored) {
-            return false;
-        }
+        return entity != null && !(entity instanceof PlayerEntity) && SparkWitchApi.isBlackRavenCrow(entity);
     }
 
     /**
@@ -255,178 +184,60 @@ public final class SparkWitchCompat {
      * {@code SparkWitchApi.crowMeleeStandIn(ServerPlayerEntity, Entity, double)}: a crow {@code attacker} may hit within
      * {@code reach} (+0.5 latency, lag-compensated, clear line) returns its owner and arms SparkWitch's owner
      * substitution, so the caller runs its own player path on that owner, skipping only its own distance check on the
-     * body; its {@code killPlayer} then ends the Raven Form session first. Null (nothing armed) for players, nulls,
-     * other entities, without SparkWitch, with an older facade, or when the call fails, so the caller keeps today's
-     * non-player handling.
+     * body; its {@code killPlayer} then ends the Raven Form session first. A direct call since the SparkDLC fusion; null
+     * (nothing armed) for players, nulls and other entities, so the caller keeps today's non-player handling.
      * 服务端线程：{@code target} 是黑羽鸦化鸦乌鸦时，对其的近战刺击或劈砍所命中的黑羽鸦，经 SparkWitch 冻结的
      * {@code SparkWitchApi.crowMeleeStandIn} 查询：{@code attacker} 可命中、位于 {@code reach}（+0.5 延迟、延迟补偿、视线畅通）内的
      * 乌鸦返回其主人并装好 SparkWitch 的主人替身，调用方随后对该主人执行自身的玩家路径，只跳过自身对本体的距离检查；其
-     * {@code killPlayer} 会先结束化鸦会话。玩家、null、其他实体、未安装 SparkWitch、门面较旧或调用失败时返回 null（不装入替身），
+     * {@code killPlayer} 会先结束化鸦会话。融合进 SparkDLC 后为直接调用；玩家、null 与其他实体返回 null（不装入替身），
      * 调用方保持现有的非玩家处理。
      */
     public static @Nullable ServerPlayerEntity crowMeleeStandIn(@Nullable ServerPlayerEntity attacker,
                                                                 @Nullable Entity target, double reach) {
-        Method method = RavenCrowQueries.MELEE_STAND_IN;
-        if (method == null || attacker == null || target == null || target instanceof PlayerEntity) {
+        if (attacker == null || target == null || target instanceof PlayerEntity) {
             return null;
         }
-        try {
-            return method.invoke(null, attacker, target, reach) instanceof ServerPlayerEntity owner ? owner : null;
-        } catch (ReflectiveOperationException | RuntimeException | LinkageError ignored) {
-            return null;
-        }
+        return SparkWitchApi.crowMeleeStandIn(attacker, target, reach);
     }
 
     /**
      * Server thread, after a SparkStrength blast killed its players: kills the Black Raven behind every Raven Form crow
      * within {@code radius} of {@code center} (box centre, clear line from the centre) through SparkWitch's frozen
      * {@code SparkWitchApi.killCrowsInBlast(ServerWorld, Vec3d, double, ServerPlayerEntity, Identifier)}, credited to
-     * {@code killer} with {@code deathReason} passed through as the same instance. Returns how many crows were hit; 0
-     * without SparkWitch, with an older facade, when the call fails, and for nulls (no crow is touched).
+     * {@code killer} with {@code deathReason} passed through as the same instance. Returns how many crows were hit; a
+     * direct call since the SparkDLC fusion, 0 for nulls (no crow is touched).
      * 服务端线程，在 SparkStrength 爆炸击杀其范围内玩家之后：经 SparkWitch 冻结的 {@code SparkWitchApi.killCrowsInBlast}，处死
      * {@code center} 周围 {@code radius} 内（箱体中心、与爆心视线畅通）每只化鸦乌鸦背后的黑羽鸦，记在 {@code killer} 名下，
-     * {@code deathReason} 按同一实例原样传递。返回被命中的乌鸦数量；未安装 SparkWitch、门面较旧、调用失败及参数为 null 时返回 0
+     * {@code deathReason} 按同一实例原样传递。返回被命中的乌鸦数量；融合进 SparkDLC 后为直接调用，参数为 null 时返回 0
      * （不触碰任何乌鸦）。
      */
     public static int killCrowsInBlast(@Nullable ServerWorld world, @Nullable Vec3d center, double radius,
                                        @Nullable ServerPlayerEntity killer, @Nullable Identifier deathReason) {
-        Method method = RavenCrowQueries.BLAST;
-        if (method == null || world == null || center == null || deathReason == null) {
+        if (world == null || center == null || deathReason == null) {
             return 0;
         }
-        try {
-            return method.invoke(null, world, center, radius, killer, deathReason) instanceof Integer hit ? hit : 0;
-        } catch (ReflectiveOperationException | RuntimeException | LinkageError ignored) {
-            return 0;
-        }
+        return SparkWitchApi.killCrowsInBlast(world, center, radius, killer, deathReason);
     }
 
     /**
      * Server thread, purely visual: a real SparkStrength blast (M67, Bomber drone) punches a temporary hole of
      * {@code radius} blocks into the SparkWitch BEAR smoke near {@code center}, through the frozen
      * {@code SparkWitchApi.carveSmoke(ServerWorld, Vec3d, double)} (owner S3). Smoke never feeds a server rule, so
-     * nothing happens without SparkWitch, with a build before BEAR, for nulls, or when the call fails (never logged:
-     * it would repeat on every blast).
+     * nothing happens for nulls or when the call fails (never logged: it would repeat on every blast). A direct call
+     * since the SparkDLC fusion; the catch only keeps a failing visual from breaking the blast.
      * 服务端线程，纯视觉：SparkStrength 的真实爆炸（M67、炸弹客无人机）经冻结的 {@code SparkWitchApi.carveSmoke} 在
      * {@code center} 附近的 SparkWitch BEAR 烟雾中炸开半径 {@code radius} 格的临时空洞（所有者 S3）。烟雾从不影响任何服务端
-     * 规则，因此未安装 SparkWitch、BEAR 之前的版本、参数为 null 或调用失败时什么也不做（不记录日志：每次爆炸都会重复）。
+     * 规则，因此参数为 null 或调用失败时什么也不做（不记录日志：每次爆炸都会重复）。融合进 SparkDLC 后为直接调用；
+     * 保留的 catch 只用于避免视觉效果出错时破坏爆炸本身。
      */
     public static void carveSmoke(@Nullable ServerWorld world, @Nullable Vec3d center, double radius) {
-        Method method = SmokeCarveQuery.METHOD;
-        if (method == null || world == null || center == null) {
+        if (world == null || center == null) {
             return;
         }
         try {
-            method.invoke(null, world, center, radius);
-        } catch (ReflectiveOperationException | RuntimeException | LinkageError ignored) {
+            SparkWitchApi.carveSmoke(world, center, radius);
+        } catch (RuntimeException | LinkageError ignored) {
             // Visual only: the blast itself is unaffected. / 仅视觉：爆炸本身不受影响。
         }
-    }
-
-    private static @Nullable Method blindFeatureGate() {
-        if (!blindFeatureGateResolved) {
-            blindFeatureGateResolved = true;
-            if (isLoaded()) {
-                try {
-                    Method method = Class.forName(PUBLIC_API).getMethod("hidesFeaturesFromBlind", PlayerEntity.class);
-                    if (Modifier.isStatic(method.getModifiers()) && method.getReturnType() == boolean.class) {
-                        blindFeatureGate = method;
-                    }
-                } catch (ReflectiveOperationException | LinkageError ignored) {
-                    // SparkWitch builds before 2026-10-07 have no Blind feature gate; keep drawing.
-                    // 2026-10-07 之前的 SparkWitch 没有盲人附加层闸门；照旧绘制。
-                }
-            }
-        }
-        return blindFeatureGate;
-    }
-
-    private static @Nullable Object invoke(String methodName) {
-        return invoke(methodName, new Class<?>[0]);
-    }
-
-    private static @Nullable Object invoke(String methodName, Class<?>[] parameterTypes, Object... arguments) {
-        if (!isLoaded()) {
-            return null;
-        }
-        try {
-            Class<?> compat = Class.forName(KIDNAPPER_COMPAT);
-            return compat.getMethod(methodName, parameterTypes).invoke(null, arguments);
-        } catch (ReflectiveOperationException | LinkageError ignored) {
-            return null;
-        }
-    }
-
-    /**
-     * A frozen {@code SparkWitchApi} method, static and returning exactly {@code returnType}; null when SparkWitch is
-     * absent or older, or its signature or return type differs. The holders below call this once each, on first use.
-     * 冻结的 {@code SparkWitchApi} 方法（静态且返回类型恰为 {@code returnType}）；SparkWitch 缺失、版本较旧或签名与返回类型不符时
-     * 为 null。下面的各持有类各自在首次使用时调用一次。
-     */
-    private static @Nullable Method facadeMethod(String name, Class<?> returnType, Class<?>... parameterTypes) {
-        return isLoaded() ? OptionalReflection.staticMethod(PUBLIC_API, name, returnType, parameterTypes) : null;
-    }
-
-    /**
-     * SparkWitch's add-on gun seam (2026-10-07), resolved once on first use; each method is null when SparkWitch is
-     * absent or older, or its signature or return type differs.
-     * SparkWitch 的附属模组枪械接缝（2026-10-07），首次使用时解析一次；SparkWitch 缺失、版本较旧或签名与返回类型不符时为 null。
-     */
-    private static final class GunWorldHitQueries {
-        // SparkWitch builds before 2026-10-07 lack this seam; the pistols then ignore its entities.
-        // 2026-10-07 之前的 SparkWitch 没有此接缝；手枪随之忽略其实体。
-        private static final @Nullable Method PREFER_NEARER_TARGET = facadeMethod("preferNearerGunWorldTarget",
-                HitResult.class, PlayerEntity.class, HitResult.class, double.class);
-        private static final @Nullable Method HIT_WORLD_TARGET = facadeMethod("hitGunWorldTarget",
-                boolean.class, ServerPlayerEntity.class, Entity.class, ItemStack.class, double.class);
-        private static final @Nullable Method BOUND_VENDETTA = facadeMethod("isBoundKillerTargetingVendetta",
-                boolean.class, PlayerEntity.class, PlayerEntity.class);
-    }
-
-    /**
-     * SparkWitch's shield pierce seam (2026-10-07), resolved once on the first Bodyguard gear check; each method is
-     * null when SparkWitch is absent or older, or its signature or return type differs.
-     * SparkWitch 的穿盾接缝（2026-10-07），首次检查保镖装备时解析一次；SparkWitch 缺失、版本较旧或签名与返回类型不符时为 null。
-     */
-    private static final class ShieldPierceQueries {
-        // SparkWitch builds before 2026-10-07 lack this seam; the vest and shield keep their usual rules.
-        // 2026-10-07 之前的 SparkWitch 没有此接缝；防弹衣与盾牌保持原有规则。
-        private static final @Nullable Method TRY_PIERCE = facadeMethod("tryPierceShieldLayer", boolean.class,
-                PlayerEntity.class, PlayerEntity.class, Identifier.class);
-        private static final @Nullable Method AMMO_ID = facadeMethod("piercingShotAmmoId", String.class,
-                PlayerEntity.class, PlayerEntity.class, Identifier.class);
-    }
-
-    /**
-     * SparkWitch's Raven Form crow seam (2026-10-21), resolved once on first use; each method is null when SparkWitch is
-     * absent or older, or its signature or return type differs.
-     * SparkWitch 的化鸦乌鸦接缝（2026-10-21），首次使用时解析一次；SparkWitch 缺失、版本较旧或签名与返回类型不符时为 null。
-     */
-    private static final class RavenCrowQueries {
-        // SparkWitch builds before 2026-10-21 lack this seam; crows stay out of reach of these weapons.
-        // 2026-10-21 之前的 SparkWitch 没有此接缝；这些武器随之打不到乌鸦。
-        private static final @Nullable Method IS_CROW = facadeMethod("isBlackRavenCrow", boolean.class, Entity.class);
-        private static final @Nullable Method MELEE_STAND_IN = facadeMethod("crowMeleeStandIn",
-                ServerPlayerEntity.class, ServerPlayerEntity.class, Entity.class, double.class);
-        private static final @Nullable Method BLAST = facadeMethod("killCrowsInBlast",
-                int.class, ServerWorld.class, Vec3d.class, double.class, ServerPlayerEntity.class, Identifier.class);
-    }
-
-    /** Resolved once, on the first real blast. / 首次真实爆炸时解析一次。 */
-    private static final class SmokeCarveQuery {
-        // SparkWitch builds before BEAR (2026-11-05) have no smoke to carve. / BEAR 之前的 SparkWitch 没有可炸开的烟。
-        private static final @Nullable Method METHOD = facadeMethod("carveSmoke",
-                void.class, ServerWorld.class, Vec3d.class, double.class);
-    }
-
-    /** Resolved once, on the first Wraith query. / 首次查询冤魂时解析一次。 */
-    private static final class WraithQuery {
-        private static final @Nullable Method METHOD = facadeMethod("isWraithActive", boolean.class, PlayerEntity.class);
-    }
-
-    /** Resolved once, on the first stun query. / 首次查询眩晕时解析一次。 */
-    private static final class ControlExpertStunQuery {
-        private static final @Nullable Method METHOD = facadeMethod("isControlExpertStunned",
-                boolean.class, PlayerEntity.class);
     }
 }

@@ -1,47 +1,25 @@
 package dev.caecorthus.sparkdlc.strength.compat;
 
-import dev.caecorthus.sparkdlc.strength.SparkStrength;
 import dev.caecorthus.sparkdlc.strength.role.economy.KillerTeamEconomyRules;
+import dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi;
 import dev.doctor4t.wathe.util.ShopEntry;
 import dev.doctor4t.wathe.api.Role;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-
 /**
- * Optional SparkTraits bridge. Missing or incompatible SparkTraits disables trait-only bonuses.
- * 可选 SparkTraits 桥接；缺失或不兼容时关闭仅天赋加成，不影响基础玩法。
+ * SparkTraits bridge. The modules are fused in SparkDLC, so every query calls the public facade
+ * {@link SparkTraitsApi} directly; SparkStrength still reaches SparkTraits through that facade only.
+ * SparkTraits 桥接。各模块已融合进 SparkDLC，因此每个查询都直接调用公开门面 {@link SparkTraitsApi}；
+ * SparkStrength 仍然只经由该门面访问 SparkTraits。
  */
 public final class SparkTraitsCompat {
-    private static final String MOD_ID = "sparktraits";
     private static final Identifier CONSCIENCE_ID = Identifier.of("sparktraits", "conscience");
     private static final Identifier IMPOSTOR_ID = Identifier.of("sparktraits", "impostor");
-    private static final boolean INSTALLED = FabricLoader.getInstance().isModLoaded(MOD_ID);
-    private static final Method HAS_ACTIVE_TRAIT = findHasActiveTraitMethod();
     private static final Identifier TEAM_FIRST_ID = Identifier.of("sparktraits", "team_first");
-    private static final Method INTERACTION_BLOCKED = findOptionalMethod(
-            "isKillerInteractionBlocked", boolean.class, PlayerEntity.class);
-    private static final Method FORCED_MELEE_COOLDOWN = findOptionalMethod(
-            "getForcedMeleeCooldownTicks", int.class, PlayerEntity.class, ItemStack.class);
-    private static final Method CANCEL_MELEE = findOptionalMethod(
-            "shouldCancelMeleeAttack", boolean.class,
-            ServerPlayerEntity.class, ServerPlayerEntity.class, ItemStack.class);
-    private static final Method CHARISMA_DISCOUNT = findOptionalMethod(
-            "discountShopEntryForCharisma", ShopEntry.class, PlayerEntity.class, ShopEntry.class);
-    private static final Method THROW_CHARGE_TICKS = findOptionalMethod(
-            "getThrowChargeTicks", int.class, PlayerEntity.class, int.class);
-    private static final Method FINAL_MOMENT_ACTIVE = findOptionalMethod(
-            "isFinalMomentActive", boolean.class, World.class);
-    private static boolean teamQueryFailed;
-    private static final Method SYNC_TRAIT_VISIBILITY = findSyncTraitVisibilityMethod();
-    private static final Method SNAPSHOT_DEATH_TRAITS_FOR_DEBUG = findSnapshotDeathTraitsForDebugMethod();
 
     private SparkTraitsCompat() {
     }
@@ -90,71 +68,57 @@ public final class SparkTraitsCompat {
     /**
      * 判断玩家是否持有指定的 SparkTraits 词条。
      *
-     * <p>这里通过 SparkTraits 公开门面反射调用，避免 SparkStrength 直接依赖
-     * SparkTraits 的内部实现包。mod 不存在、API 不兼容或反射失败时都返回 false。</p>
+     * <p>这里只调用 SparkTraits 公开门面，避免 SparkStrength 直接依赖 SparkTraits 的内部实现包。
+     * 各模块已融合进 SparkDLC，因此是对 {@code SparkTraitsApi.hasActiveTrait} 的直接调用。
+     * Only the public facade is used, so SparkStrength never depends on SparkTraits' internal packages; the modules
+     * are fused in SparkDLC, so this is a direct call to {@code SparkTraitsApi.hasActiveTrait}.</p>
      */
     public static boolean hasTrait(PlayerEntity player, Identifier traitId) {
-        return player != null && traitId != null
-                && Boolean.TRUE.equals(OptionalReflection.invokeStatic(HAS_ACTIVE_TRAIT, player, traitId));
+        return player != null && traitId != null && SparkTraitsApi.hasActiveTrait(player, traitId);
     }
 
     /** Owner-synced like Impostor, so client shop listings and server validation agree.
      *  与内鬼一样同步给本人，保证客户端商店列表与服务端校验一致。 */
     public static boolean hasConscience(PlayerEntity player) {
-        if (player == null || HAS_ACTIVE_TRAIT == null) {
-            return false;
-        }
-        return Boolean.TRUE.equals(OptionalReflection.invokeStatic(HAS_ACTIVE_TRAIT, player, CONSCIENCE_ID));
+        return player != null && SparkTraitsApi.hasActiveTrait(player, CONSCIENCE_ID);
     }
 
     /**
-     * An installed but unreadable trait API disables only the shared economy, not existing bonuses.
-     * 天赋已安装但公开 API 不可读时，仅关闭团队经济，不改变既有加成的查询行为。
+     * Always true now that the modules are fused in SparkDLC and the trait facade is a compiled call: the shared
+     * economy can no longer be switched off by an installed but unreadable trait API. Kept for its callers.
+     * 各模块已融合进 SparkDLC、词条门面为编译期调用，因此恒为 true：团队经济不会再因“已安装但公开 API 不可读”而关闭。
+     * 为调用方保留。
      */
     public static boolean isTeamEconomyAvailable() {
-        if (INSTALLED && (HAS_ACTIVE_TRAIT == null
-                || !Modifier.isStatic(HAS_ACTIVE_TRAIT.getModifiers())
-                || HAS_ACTIVE_TRAIT.getReturnType() != boolean.class)) {
-            disableTeamEconomy();
-        }
-        return !teamQueryFailed;
+        return true;
     }
 
     public static boolean isGenuineKillerTeamMember(PlayerEntity player, boolean killerRole) {
-        if (player == null || !isTeamEconomyAvailable()) {
+        if (player == null) {
             return false;
         }
-        if (!INSTALLED) {
-            return killerRole;
-        }
-        try {
-            boolean conscience = (boolean) HAS_ACTIVE_TRAIT.invoke(null, player, CONSCIENCE_ID);
-            boolean impostor = (boolean) HAS_ACTIVE_TRAIT.invoke(null, player, IMPOSTOR_ID);
-            return KillerTeamEconomyRules.isGenuineKiller(killerRole, impostor, conscience);
-        } catch (IllegalAccessException | InvocationTargetException | IllegalArgumentException | LinkageError ignored) {
-            disableTeamEconomy();
-            return false;
-        }
+        boolean conscience = SparkTraitsApi.hasActiveTrait(player, CONSCIENCE_ID);
+        boolean impostor = SparkTraitsApi.hasActiveTrait(player, IMPOSTOR_ID);
+        return KillerTeamEconomyRules.isGenuineKiller(killerRole, impostor, conscience);
     }
 
     public static boolean hasTeamFirst(PlayerEntity player) {
-        return player != null && Boolean.TRUE.equals(invokeOptional(HAS_ACTIVE_TRAIT, player, TEAM_FIRST_ID));
+        return player != null && SparkTraitsApi.hasActiveTrait(player, TEAM_FIRST_ID);
     }
 
     public static boolean isKillerInteractionBlocked(PlayerEntity player) {
-        return player != null && Boolean.TRUE.equals(invokeOptional(INTERACTION_BLOCKED, player));
+        return player != null && SparkTraitsApi.isKillerInteractionBlocked(player);
     }
 
     public static int getForcedMeleeCooldownTicks(PlayerEntity player, ItemStack weapon) {
         if (player == null || weapon == null) {
             return 0;
         }
-        Object result = invokeOptional(FORCED_MELEE_COOLDOWN, player, weapon);
-        return result instanceof Integer ticks ? Math.max(0, ticks) : 0;
+        return Math.max(0, SparkTraitsApi.getForcedMeleeCooldownTicks(player, weapon));
     }
 
-    /** Check phase before weapon locks; missing/old APIs never positively block an action.
-     *  先检查脱险交互禁用，再检查武器锁；缺失或旧 API 绝不被当成禁止动作。 */
+    /** Check phase before weapon locks; both are direct SparkTraits facade calls since the SparkDLC fusion.
+     *  先检查脱险交互禁用，再检查武器锁；融合进 SparkDLC 后两者都是对 SparkTraits 门面的直接调用。 */
     public static boolean isMeleeActionBlocked(PlayerEntity player, ItemStack weapon) {
         return isKillerInteractionBlocked(player) || getForcedMeleeCooldownTicks(player, weapon) > 0;
     }
@@ -168,7 +132,7 @@ public final class SparkTraitsCompat {
             return false;
         }
         return isMeleeActionBlocked(attacker, weapon)
-                || Boolean.TRUE.equals(invokeOptional(CANCEL_MELEE, attacker, victim, weapon));
+                || SparkTraitsApi.shouldCancelMeleeAttack(attacker, victim, weapon);
     }
 
     /** Preserve the provider wrapper: its marker prevents a second purchase discount.
@@ -177,70 +141,55 @@ public final class SparkTraitsCompat {
         if (player == null || entry == null) {
             return entry;
         }
-        Object result = invokeOptional(CHARISMA_DISCOUNT, player, entry);
-        return result instanceof ShopEntry discounted ? discounted : entry;
+        ShopEntry discounted = SparkTraitsApi.discountShopEntryForCharisma(player, entry);
+        return discounted != null ? discounted : entry;
     }
 
     /** Self-timed throw charges only: SparkTraits already scales launch speed, so never multiply it here.
-     *  Missing, old or failing APIs keep the base charge, as does a non-positive answer.
+     *  A non-positive answer keeps the base charge. Direct facade call since the SparkDLC fusion.
      *  仅用于自行计时的投掷蓄力：初速已由 SparkTraits 统一放大，此处不得再乘。
-     *  缺失、旧版或异常的 API 保持基础蓄力，非正数结果同样回退。 */
+     *  非正数结果保持基础蓄力。融合进 SparkDLC 后为对门面的直接调用。 */
     public static int getThrowChargeTicks(PlayerEntity player, int baseTicks) {
         if (player == null) {
             return baseTicks;
         }
-        Object result = invokeOptional(THROW_CHARGE_TICKS, player, baseTicks);
-        return result instanceof Integer ticks && ticks > 0 ? ticks : baseTicks;
+        int ticks = SparkTraitsApi.getThrowChargeTicks(player, baseTicks);
+        return ticks > 0 ? ticks : baseTicks;
     }
 
-    /** Reads SparkTraits' world-synced Final Moment flag; usable on clients. Missing or old APIs report false.
-     *  读取 SparkTraits 同步到世界的终局时刻标记，客户端可用；缺失或旧版 API 一律视为未开启。 */
+    /** Reads SparkTraits' world-synced Final Moment flag; usable on clients. Direct facade call since the fusion.
+     *  读取 SparkTraits 同步到世界的终局时刻标记，客户端可用；融合进 SparkDLC 后为对门面的直接调用。 */
     public static boolean isFinalMomentActive(World world) {
-        return world != null && Boolean.TRUE.equals(invokeOptional(FINAL_MOMENT_ACTIVE, world));
-    }
-
-    private static Method findOptionalMethod(String name, Class<?> returnType, Class<?>... parameters) {
-        return INSTALLED ? OptionalReflection.staticMethod(
-                "dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi", name, returnType, parameters) : null;
-    }
-
-    private static Object invokeOptional(Method method, Object... arguments) {
-        return method == null || !Modifier.isStatic(method.getModifiers())
-                ? null : OptionalReflection.invokeStatic(method, arguments);
-    }
-
-    private static void disableTeamEconomy() {
-        if (!teamQueryFailed) {
-            teamQueryFailed = true;
-            SparkStrength.LOGGER.warn("Killer team economy disabled: installed SparkTraits public trait API is unavailable.");
-        }
+        return world != null && SparkTraitsApi.isFinalMomentActive(world);
     }
 
     /**
-     * 软兼容通知 SparkTraits 重新同步目标的词条可见性。
+     * 通知 SparkTraits 重新同步目标的词条可见性。
      *
      * <p>调试存活命令只修改 Wathe 的 deadPlayers 集合，不会触发 Wathe 正常死亡事件；
-     * 因此这里通过 SparkTraits 公共 API 请求一次组件同步。未安装 SparkTraits、版本没有
-     * 该 API 或反射失败时静默跳过，不影响 SparkStrength 的基础命令。</p>
+     * 因此这里通过 SparkTraits 公共 API 请求一次组件同步。各模块已融合进 SparkDLC，这是对
+     * {@code SparkTraitsApi.syncTraitVisibility} 的直接调用。
+     * The debug alive command only edits Wathe's deadPlayers set and fires no Wathe death event, so this asks
+     * SparkTraits' public API for one component sync; a direct call since the SparkDLC fusion.</p>
      */
     public static void syncTraitVisibility(ServerPlayerEntity player) {
         if (player != null) {
-            // SparkTraits 是可选依赖，兼容失败不能影响 Wathe 状态命令本身。
-            OptionalReflection.invokeStatic(SYNC_TRAIT_VISIBILITY, player);
+            SparkTraitsApi.syncTraitVisibility(player);
         }
     }
 
     /**
-     * 软兼容请求 SparkTraits 创建调试用死亡词条快照。
+     * 请求 SparkTraits 创建调试用死亡词条快照。
      *
      * <p>真实死亡后的 RoleNameRenderer 使用世界级 deathTraitSnapshots 显示词条；
      * 该方法让 SparkStrength 的调试状态转换复用同一显示数据源，但不触发真实死亡流程。
-     * SparkTraits 缺失或 API 不兼容时安全跳过。</p>
+     * 各模块已融合进 SparkDLC，这是对 {@code SparkTraitsApi.snapshotDeathTraitsForDebug} 的直接调用。
+     * Lets SparkStrength's debug state changes reuse the death trait snapshot the RoleNameRenderer shows, without a
+     * real death; a direct call since the SparkDLC fusion.</p>
      */
     public static void snapshotDeathTraitsForDebug(ServerPlayerEntity player) {
         if (player != null) {
-            // 可选兼容失败不能阻止 deadPlayers 状态本身生效。
-            OptionalReflection.invokeStatic(SNAPSHOT_DEATH_TRAITS_FOR_DEBUG, player);
+            SparkTraitsApi.snapshotDeathTraitsForDebug(player);
         }
     }
 
@@ -248,8 +197,8 @@ public final class SparkTraitsCompat {
      * 判断玩家是否属于“有效好人阵营”。
      *
      * <p>规则优先级和 SparkTraits 保持一致：
-     * 善良词条优先视作好人；内鬼词条优先视作杀手；没有 SparkTraits 或
-     * 没有相关词条时回退到 Wathe 原始角色阵营。</p>
+     * 善良词条优先视作好人；内鬼词条优先视作杀手；没有相关词条时回退到
+     * Wathe 原始角色阵营。</p>
      */
     public static boolean isEffectiveCivilian(Role role, PlayerEntity player) {
         if (role == null) {
@@ -262,30 +211,5 @@ public final class SparkTraitsCompat {
             return false;
         }
         return role.isInnocent();
-    }
-
-    private static Method findHasActiveTraitMethod() {
-        if (!INSTALLED) {
-            return null;
-        }
-        try {
-            // Reflect only the public facade so internal SparkTraits package moves cannot break this optional seam.
-            // 只反射公开门面，避免 SparkTraits 内部包移动破坏这个可选兼容接缝。
-            Class<?> api = Class.forName("dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi");
-            return api.getMethod("hasActiveTrait", PlayerEntity.class, Identifier.class);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | LinkageError ignored) {
-            return null;
-        }
-    }
-
-    private static Method findSyncTraitVisibilityMethod() {
-        return FabricLoader.getInstance().isModLoaded(MOD_ID) ? OptionalReflection.method(
-                "dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi", "syncTraitVisibility", ServerPlayerEntity.class) : null;
-    }
-
-    private static Method findSnapshotDeathTraitsForDebugMethod() {
-        return FabricLoader.getInstance().isModLoaded(MOD_ID) ? OptionalReflection.method(
-                "dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi", "snapshotDeathTraitsForDebug", ServerPlayerEntity.class)
-                : null;
     }
 }

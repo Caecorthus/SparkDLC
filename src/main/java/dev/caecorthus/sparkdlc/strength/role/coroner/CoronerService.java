@@ -340,11 +340,11 @@ public final class CoronerService {
      * Fake corpse guard (owner decision 2026-10-16): a corpse counts only while Wathe lists its owner as dead, which
      * covers every mod's fake corpse (SparkWitch Fiend feign death, NoellesRoles Jester, SparkTraits Depression)
      * without depending on any of them. SparkTraits' Last Stand pending corpse can sit on a dead-listed owner, so its
-     * public facade is asked as well; without SparkTraits that answer is false. A fake corpse pays no proximity coins
+     * public facade is asked as well (a direct call since the SparkDLC fusion). A fake corpse pays no proximity coins
      * and cannot be bagged.
      * 假尸体判定（所有者 2026-10-16 决定）：只有 Wathe 把尸体主人记为死亡时尸体才算数，无需依赖任何模组即可覆盖
      * SparkWitch 魔人假死、NoellesRoles 小丑、SparkTraits 抑郁等假尸体。SparkTraits 背水一战待决尸体的主人可能已在死亡
-     * 名单中，因此同时询问其公开门面；未安装 SparkTraits 时该查询为 false。假尸体不给靠近金币，也不能装袋。
+     * 名单中，因此同时询问其公开门面（融合进 SparkDLC 后为直接调用）。假尸体不给靠近金币，也不能装袋。
      *
      * <p>A Partygoer corpse (owner 2026-10-21) is owned by the Partygoer's UUID, which Wathe never lists as dead, so the
      * dead-list check already refuses it; the explicit marker check keeps it refused should such a corpse ever be given

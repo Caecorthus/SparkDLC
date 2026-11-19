@@ -184,8 +184,9 @@ final class CoronerLoanedGear {
         }
         if (CoronerRules.isSparkWitchKidnapper(role)) {
             /*
-             * 验尸官伪装 SparkWitch 绑架者时，通过软兼容拿 1 个临时迷药。
-             * SparkWitch 未安装或版本过旧时 createKidnapperDrugStack 会返回 null，验尸官其它伪装不受影响。
+             * 验尸官伪装 SparkWitch 绑架者时，通过兼容桥拿 1 个临时迷药。
+             * 各模块已融合进 SparkDLC，createKidnapperDrugStack 直接调用 SparkWitch；保留 null 判断只是防御。
+             * The bridge calls SparkWitch directly since the SparkDLC fusion; the null check is only defensive.
              */
             ItemStack knockoutDrug = SparkWitchCompat.createKidnapperDrugStack();
             if (knockoutDrug != null) {

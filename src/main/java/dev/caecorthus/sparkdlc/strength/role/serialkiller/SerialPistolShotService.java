@@ -152,8 +152,8 @@ public final class SerialPistolShotService {
 
     /**
      * The claimed entity when it is no player (a SparkWitch Magician puppet or Seeker device), handed to SparkWitch with
-     * the pistol's server range; nothing happens without SparkWitch.
-     * 声明的实体不是玩家时（SparkWitch 魔术师皮套或搜寻者设备）连同手枪的服务端射程交给 SparkWitch；未安装 SparkWitch 时无事发生。
+     * the pistol's server range (a direct call since the SparkDLC fusion).
+     * 声明的实体不是玩家时（SparkWitch 魔术师皮套或搜寻者设备）连同手枪的服务端射程交给 SparkWitch（融合进 SparkDLC 后为直接调用）。
      */
     private static void hitSparkWitchWorldTarget(ServerPlayerEntity shooter, int targetId, ItemStack stack) {
         Entity entity = targetId < 0 ? null : shooter.getServerWorld().getEntityById(targetId);

@@ -7,10 +7,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 
 /**
- * 给外部模组反射调用的稳定入口。
+ * 给其他模块调用的稳定入口。
+ * Stable entry point for the other modules.
  *
- * <p>当前主要服务 SparkStrength 验尸官伪装为绑架者的场景；外部只需反射本类方法，
- * 不需要在编译期依赖 SparkWitch。</p>
+ * <p>当前主要服务 SparkStrength 验尸官伪装为绑架者的场景；各模块已融合进 SparkDLC，
+ * SparkStrength 的 {@code SparkWitchCompat} 现在直接调用本类方法（此前为按名称反射）。
+ * Used by SparkStrength's Coroner when disguised as the Kidnapper; since the SparkDLC fusion its
+ * {@code SparkWitchCompat} calls these methods directly (it used to reflect them by name).</p>
  */
 public final class SparkWitchKidnapperCompat {
     private SparkWitchKidnapperCompat() {

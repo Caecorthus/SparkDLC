@@ -17,7 +17,6 @@ import dev.doctor4t.wathe.game.GameFunctions;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.input.Input;
 import net.minecraft.client.input.KeyboardInput;
@@ -92,10 +91,8 @@ public final class SpiritPossessionClient {
         // DISCONNECT 可能在 Netty 线程上触发；会话字段归客户端线程所有。JOIN 本就在客户端线程上执行。
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> client.execute(SpiritPossessionClient::reset));
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> reset());
-        if (!FabricLoader.getInstance().isModLoaded("sparkwitch")) {
-            // Wraiths only exist with SparkWitch. / 冤魂只在安装 SparkWitch 时存在。
-            return;
-        }
+        // Wraiths come from SparkWitch, a module of the same SparkDLC jar, so the gate and key are always installed.
+        // 冤魂来自 SparkWitch；它是同一个 SparkDLC jar 中的模块，因此闸门与按键总会安装。
         SparkWitchWraithViewerCompat.addViewerGate((viewer, wraith) -> seesWraiths(viewer));
         // SparkWitch dispatches by the raw Wathe role id. / SparkWitch 按原始 Wathe 职业 id 分发。
         keyAvailable = SparkWitchSecondaryKeyCompat.register(SpiritPossessionRules.SPIRITUALIST_ID,

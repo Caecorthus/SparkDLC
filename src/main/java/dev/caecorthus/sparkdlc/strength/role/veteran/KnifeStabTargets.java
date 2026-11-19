@@ -12,12 +12,13 @@ import org.jetbrains.annotations.Nullable;
  * to its owner through {@link SparkWitchCompat#crowMeleeStandIn} (owner decision 2026-10-21: every weapon that kills a
  * player kills the crow, and that kills the Black Raven), and the takeover then runs its own player path on that owner,
  * keeping its own knife rules (the Veteran's uses, no sound, no cooldown and innocent-kill 小脑; the Silencer's quiet
- * stab and cooldown). Without SparkWitch, or with an older one, a non-player id stays a dead stab as before.
+ * stab and cooldown). The bridge calls SparkWitch directly since the SparkDLC fusion; a non-player id that is no crow
+ * stays a dead stab as before.
  * 由 SparkStrength 在 {@code KnifeStabPayload$Receiver} HEAD 自行接管的 Wathe 刀刺数据包（老兵匕首、验尸官无声瞬刺、沉默者
  * 匕首）在服务端的受害者。这些接管会取消 Wathe 接收器，因此 SparkWitch 自身的乌鸦查找不会为它们执行：SparkWitch 化鸦乌鸦 id
  * 在此经 {@link SparkWitchCompat#crowMeleeStandIn} 解析为其主人（所有者 2026-10-21 决定：能杀死玩家的武器都能杀死乌鸦，且由此
  * 杀死黑羽鸦），接管随后对该主人执行自身的玩家路径，保留各自的刀规则（老兵的次数、无声、无冷却与误杀小脑；沉默者的静音刺击与
- * 冷却）。未安装或版本较旧的 SparkWitch 下，非玩家 id 与以往一样整刀无效。
+ * 冷却）。融合进 SparkDLC 后该桥接直接调用 SparkWitch；不是乌鸦的非玩家 id 与以往一样整刀无效。
  */
 public final class KnifeStabTargets {
     /**

@@ -7,21 +7,18 @@ import dev.caecorthus.sparkdlc.strength.entity.PartygoerEntity;
 import dev.caecorthus.sparkdlc.strength.role.corruptcop.CorruptCopRules;
 import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerState;
 import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerVisibilityRules;
+import dev.caecorthus.sparkdlc.witch.client.blackraven.BlackRavenInstinctClientHooks;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.WatheClient;
 import dev.doctor4t.wathe.game.GameFunctions;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import org.agmas.noellesroles.Noellesroles;
 import org.agmas.noellesroles.shadowjester.ShadowJesterPlayerComponent;
 import org.jetbrains.annotations.Nullable;
-
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 
 /**
  * Instinct x-ray of the Partygoer (派对客), rules in {@link PartygoerVisibilityRules}: killers, spectators and creative
@@ -51,10 +48,7 @@ import java.lang.reflect.Modifier;
  * 拥有本能视野的 NoellesRoles 影小丑与秃鹫。调香师、猪神、预备魔女、渔夫等只有免按键的技能描边，因此看不到。</p>
  */
 public final class PartygoerInstinctClientHooks {
-    private static final String BLACK_RAVEN_HOOKS = "dev.caecorthus.sparkdlc.witch.client.blackraven.BlackRavenInstinctClientHooks";
     private static boolean registered;
-    private static @Nullable Method blackRavenSensed;
-    private static boolean blackRavenResolved;
 
     private PartygoerInstinctClientHooks() {
     }
@@ -143,32 +137,13 @@ public final class PartygoerInstinctClientHooks {
         return result.color();
     }
 
-    /** SparkWitch's Black Raven sensed-mode answer, or null (absent, or not deciding). / 黑羽鸦感知模式的结果，或 null。 */
+    /**
+     * SparkWitch's Black Raven sensed-mode answer, or null (not deciding). The modules are fused in SparkDLC, so this
+     * calls {@code BlackRavenInstinctClientHooks.resolvePrioritySensedHighlight} directly.
+     * 黑羽鸦感知模式的结果，或 null（此处不作答）。各模块已融合进 SparkDLC，因此直接调用
+     * {@code BlackRavenInstinctClientHooks.resolvePrioritySensedHighlight}。
+     */
     private static @Nullable Integer blackRavenSensedHighlight(Entity target) {
-        if (!blackRavenResolved) {
-            blackRavenResolved = true;
-            blackRavenSensed = findBlackRavenSensed();
-        }
-        if (blackRavenSensed == null) {
-            return null;
-        }
-        try {
-            return blackRavenSensed.invoke(null, target) instanceof Integer color ? color : null;
-        } catch (ReflectiveOperationException | LinkageError | RuntimeException ignored) {
-            return null;
-        }
-    }
-
-    private static @Nullable Method findBlackRavenSensed() {
-        if (!FabricLoader.getInstance().isModLoaded("sparkwitch")) {
-            return null;
-        }
-        try {
-            Method method = Class.forName(BLACK_RAVEN_HOOKS, false, PartygoerInstinctClientHooks.class.getClassLoader())
-                    .getMethod("resolvePrioritySensedHighlight", Entity.class);
-            return Modifier.isStatic(method.getModifiers()) && method.getReturnType() == Integer.class ? method : null;
-        } catch (ReflectiveOperationException | LinkageError | SecurityException ignored) {
-            return null;
-        }
+        return BlackRavenInstinctClientHooks.resolvePrioritySensedHighlight(target);
     }
 }

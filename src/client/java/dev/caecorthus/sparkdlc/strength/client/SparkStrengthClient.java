@@ -101,15 +101,15 @@ public final class SparkStrengthClient implements ClientModInitializer {
         RoleEconomyClientHooks.register();
         SkateboardClient.register();
         TaotieHeadClientHooks.register();
-        // Spiritualist Wraith possession; the key and Wraith sight bind only with SparkWitch (reflection).
-        // 灵界行者附身冤魂；按键与冤魂可见仅在加载 SparkWitch 时挂接（反射）。
+        // Spiritualist Wraith possession; the key and Wraith sight bind through SparkWitch's client facades (direct calls
+        // since the SparkDLC fusion). / 灵界行者附身冤魂；按键与冤魂可见经 SparkWitch 客户端门面挂接（融合进 SparkDLC 后为直接调用）。
         SpiritPossessionClient.register();
         TabletClientHighlights.register();
         TabletChatNotifier.register();
         TabletHeldHud.register();
         SabotageClient.register();
-        // Binds only when SparkWitch is loaded (reflection, no compile dependency).
-        // 仅在加载了 SparkWitch 时挂接按键（反射，无编译依赖）。
+        // Binds to SparkWitch's Role Skill 2 key facade (a direct call since the SparkDLC fusion).
+        // 挂接到 SparkWitch 的“职业技能 2”按键门面（融合进 SparkDLC 后为直接调用）。
         VultureSuperCurseClientHooks.register();
         PartygoerClientHooks.register();
         PartygoerInstinctClientHooks.register();

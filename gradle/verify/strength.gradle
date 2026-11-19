@@ -62,10 +62,12 @@ def supersededProviderJars = [
         "noellesroles-1.7.7-h1.5.7-spark.jar"
 ]
 // The other modules are no longer provider jars: they are packages of the same source tree and the same jar, so there
-// is nothing to pin for them. What remains checkable is that the classes SparkStrength reaches by name exist in the
-// fused jar (verifyStrengthSiblingSeams).
-// 其他模块不再是提供方 jar：它们是同一源码树、同一个 jar 中的包，因此无需为它们钉任何值。仍可校验的是 SparkStrength
-// 按名称访问的类确实存在于融合后的 jar 中（verifyStrengthSiblingSeams）。
+// is nothing to pin for them. SparkStrength's bridges call them directly, which the compiler checks; what remains
+// checkable in the fused jar is that the classes SparkStrength still names as strings (string @Mixin targets) exist
+// and that no by-name lookup or legacy-id gate comes back (verifyStrengthSiblingSeams).
+// 其他模块不再是提供方 jar：它们是同一源码树、同一个 jar 中的包，因此无需为它们钉任何值。SparkStrength 的桥接直接调用
+// 它们，由编译器校验；在融合后的 jar 中仍可校验的是：SparkStrength 仍以字符串命名的类（字符串形式的 @Mixin 目标）确实
+// 存在，并且按名称查找与旧 id 判断不会回归（verifyStrengthSiblingSeams）。
 def siblingModules = ["factionapi", "traits", "witch", "assist"]
 def sha256 = { File target ->
     def digest = java.security.MessageDigest.getInstance("SHA-256")
@@ -123,13 +125,17 @@ tasks.register("verifyStrengthArchitecture") {
             }
         }
 
+        // SparkTraitsCompat reaches SparkTraits through its public facade only. Since the SparkDLC fusion the bridge
+        // imports the facade and calls hasActiveTrait directly instead of looking it up by name.
+        // SparkTraitsCompat 只经公开门面访问 SparkTraits。融合进 SparkDLC 后，该桥接 import 门面并直接调用
+        // hasActiveTrait，不再按名称查找。
         requireText(
                 "src/main/java/dev/caecorthus/sparkdlc/strength/compat/SparkTraitsCompat.java",
-                "dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi"
+                "import dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi;"
         )
         requireText(
                 "src/main/java/dev/caecorthus/sparkdlc/strength/compat/SparkTraitsCompat.java",
-                "getMethod(\"hasActiveTrait\", PlayerEntity.class, Identifier.class)"
+                "SparkTraitsApi.hasActiveTrait(player, traitId)"
         )
 
         def forbiddenSparkTraitsPackages = [
@@ -619,17 +625,26 @@ def classStringConstants = { classNode ->
 }
 // Standalone SparkStrength reached SparkFactionAPI, SparkTraits and SparkWitch only by name (reflection in the
 // `compat` packages, string @Mixin targets), each behind isModLoaded(<legacy id>), and no build could check those
-// names because the providers were never on its classpath. They still are names, so the compiler still does not check
-// them, but the providers now sit in the same jar: a renamed or moved class must fail here instead of silently
-// switching the bridge off at runtime. Only class names and the hasActiveTrait descriptor are checked; the other
-// reflected method names are not.
+// names. Since the SparkDLC fusion the bridges are direct, compiled calls, so the compiler checks every class, member
+// and descriptor they use. What the compiler still cannot see is checked here, in the remapped jar:
+// - the string @Mixin targets and @At descriptors that name sibling classes must resolve (a renamed or moved class
+//   must fail here instead of silently skipping the mixin at runtime);
+// - no SparkStrength class may name a sibling class as a dotted string constant (the Class.forName form) or ask
+//   isModLoaded for a sibling's legacy id: either would be a by-name seam or an always-true gate coming back;
+// - SparkTraitsCompat must reach SparkTraitsApi.hasActiveTrait as a compiled static call (the seam the source
+//   contract in verifyStrengthArchitecture pins).
 // 独立的 SparkStrength 只按名称访问 SparkFactionAPI、SparkTraits 与 SparkWitch（`compat` 包中的反射、字符串形式的 @Mixin
-// 目标），且都以 isModLoaded(<旧 id>) 为前提；由于这些提供方从不在它的类路径上，没有任何构建能校验这些名称。它们现在
-// 仍是名称，编译器依旧不会检查，但提供方已在同一个 jar 中：类被改名或移动时必须在这里失败，而不是在运行时悄悄关闭桥接。
-// 这里只校验类名和 hasActiveTrait 的描述符，其余反射方法名不在校验范围内。
+// 目标），且都以 isModLoaded(<旧 id>) 为前提，没有任何构建能校验这些名称。融合进 SparkDLC 后，这些桥接都是直接的编译期
+// 调用，其用到的每个类、成员与描述符都由编译器校验。编译器仍看不到的部分在这里针对重映射后的 jar 校验：
+// - 以字符串命名兄弟模块类的 @Mixin 目标与 @At 描述符必须能解析（类被改名或移动时必须在这里失败，而不是在运行时
+//   悄悄跳过 mixin）；
+// - SparkStrength 的任何类都不得以点分字符串常量命名兄弟模块的类（Class.forName 形式），也不得对兄弟模块的旧 id 调用
+//   isModLoaded：两者都意味着按名称接缝或恒真判断的回归；
+// - SparkTraitsCompat 必须以编译期静态调用访问 SparkTraitsApi.hasActiveTrait（即 verifyStrengthArchitecture 源码契约
+//   所钉的接缝）。
 tasks.register("verifyStrengthSiblingSeams") {
     group = "verification"
-    description = "Checks that the sibling-module classes SparkStrength reaches by name exist in the remapped SparkDLC jar."
+    description = "Checks SparkStrength's seams into the sibling modules in the remapped SparkDLC jar: string mixin targets resolve, no by-name lookup or legacy-id gate remains."
     dependsOn remappedModJar
     inputs.file(remappedModJar.flatMap { it.archiveFile })
 
@@ -648,9 +663,6 @@ tasks.register("verifyStrengthSiblingSeams") {
         def embeddedDescriptor = java.util.regex.Pattern.compile(
                 "L(dev/caecorthus/sparkdlc/${modules}(?:/${identifier})+);")
         def namedSiblingClasses = { String constant ->
-            if (dottedClassName.matcher(constant).matches()) {
-                return [constant.replace('.', '/')]
-            }
             if (internalClassName.matcher(constant).matches()) {
                 return [constant]
             }
@@ -661,36 +673,83 @@ tasks.register("verifyStrengthSiblingSeams") {
             }
             named
         }
+        // Legacy ids of the sibling modules; `sparkstrength` is SparkStrength's own id and is not a sibling gate.
+        // 兄弟模块的旧 id；`sparkstrength` 是 SparkStrength 自己的 id，不属于兄弟模块判断。
+        def siblingLegacyIds = ["sparkfactionapi", "sparktraits", "sparkwitch", "sparkassist"]
         def zipFile = new java.util.zip.ZipFile(jarFile)
         try {
             def metadata = new groovy.json.JsonSlurper().parse(zipFile.getInputStream(zipFile.getEntry("fabric.mod.json")))
-            // The bridges only resolve after isModLoaded("sparkfactionapi" / "sparktraits" / "sparkwitch"); in the fused
-            // mod those ids exist only as `provides` aliases, so losing one would switch every bridge behind it off.
-            // 桥接只在 isModLoaded("sparkfactionapi" / "sparktraits" / "sparkwitch") 成立后才解析；融合后这些 id 仅以
-            // `provides` 别名存在，缺少任何一个都会关闭其后的全部桥接。
+            // SparkStrength's own bridges no longer ask isModLoaded for these ids (checked below), but the ids must
+            // stay provided: the other modules' bridges and external mods and packs still ask isModLoaded for them.
+            // SparkStrength 自身的桥接不再以 isModLoaded 判断这些 id（见下方校验），但它们仍必须由 `provides` 提供：
+            // 其他模块的桥接以及外部 mod、整合包仍以 isModLoaded 判断它们。
             def providedIds = (metadata.provides ?: []).collect { it.toString() }
             def missingGateIds = ["sparkfactionapi", "sparktraits", "sparkwitch"] - providedIds
             if (!missingGateIds.isEmpty()) {
                 throw new GradleException(
-                        "Final metadata must provide ${missingGateIds}: SparkStrength's bridges gate on isModLoaded for them"
+                        "Final metadata must provide ${missingGateIds}: other modules, mods and packs gate on isModLoaded for them"
                 )
             }
 
             def seams = new TreeMap<String, Set<String>>()
+            def byNameLookups = new TreeMap<String, Set<String>>()
+            def legacyGates = new TreeSet<String>()
+            def traitsFacadeCallers = new TreeSet<String>()
             zipFile.entries().findAll { entry ->
                 entry.name.startsWith("dev/caecorthus/sparkdlc/strength/") && entry.name.endsWith(".class")
             }.each { entry ->
-                classStringConstants(readClassNode(zipFile, entry.name)).each { constant ->
+                def classNode = readClassNode(zipFile, entry.name)
+                classStringConstants(classNode).each { constant ->
+                    if (dottedClassName.matcher(constant).matches()) {
+                        byNameLookups.computeIfAbsent(constant) { new TreeSet<String>() }.add(entry.name)
+                    }
                     namedSiblingClasses(constant).each { className ->
                         seams.computeIfAbsent(className) { new TreeSet<String>() }.add(entry.name)
                     }
                 }
+                classNode.methods.each { method ->
+                    def lastConstant = null
+                    method.instructions.toArray().each { instruction ->
+                        if (instruction instanceof org.objectweb.asm.tree.LdcInsnNode) {
+                            lastConstant = instruction.cst
+                        } else if (instruction instanceof org.objectweb.asm.tree.MethodInsnNode) {
+                            if (instruction.owner == "net/fabricmc/loader/api/FabricLoader" &&
+                                    instruction.name == "isModLoaded" && siblingLegacyIds.contains(lastConstant)) {
+                                legacyGates.add("${entry.name}#${method.name} isModLoaded(\"${lastConstant}\")".toString())
+                            }
+                            if (instruction.getOpcode() == org.objectweb.asm.Opcodes.INVOKESTATIC &&
+                                    instruction.owner == "dev/caecorthus/sparkdlc/traits/api/SparkTraitsApi" &&
+                                    instruction.name == "hasActiveTrait" &&
+                                    instruction.desc == "(Lnet/minecraft/class_1657;Lnet/minecraft/class_2960;)Z") {
+                                traitsFacadeCallers.add(entry.name)
+                            }
+                            lastConstant = null
+                        } else if (instruction.getOpcode() >= 0) {
+                            // Any other real instruction separates a constant from a later call.
+                            // 其他任何真实指令都会把常量与之后的调用隔开。
+                            lastConstant = null
+                        }
+                    }
+                }
             }
-            // The scan must keep finding the seam the source contract in verifyStrengthArchitecture requires.
-            // 扫描必须始终能找到 verifyStrengthArchitecture 源码契约所要求的那个接缝。
-            if (!seams.containsKey("dev/caecorthus/sparkdlc/traits/api/SparkTraitsApi")) {
+            // Reflection must not come back: a dotted sibling class name is what Class.forName takes. A seam that has
+            // to stay reflective (common code reaching a client class, a mixin-package target) is listed here with its
+            // reason; there is none today.
+            // 反射不得回归：点分形式的兄弟模块类名正是 Class.forName 的参数。必须保持反射的接缝（公共代码访问客户端类、
+            // 目标位于 mixin 包）连同原因列在这里；目前没有。
+            def allowedByNameLookups = [] as Set
+            def unexpectedLookups = byNameLookups.findAll { className, users -> !allowedByNameLookups.contains(className) }
+            if (!unexpectedLookups.isEmpty()) {
                 throw new GradleException(
-                        "Sibling seam scan found no reference to SparkTraitsApi in ${jarFile.name}; found ${seams.keySet()}"
+                        "SparkStrength must call sibling modules directly, not look their classes up by name: " +
+                                unexpectedLookups.collect { className, users -> "${className} (named by ${users.join(', ')})" }
+                                        .join("; ")
+                )
+            }
+            if (!legacyGates.isEmpty()) {
+                throw new GradleException(
+                        "SparkStrength must not gate on a sibling module's legacy mod id (always present in SparkDLC): " +
+                                legacyGates.join("; ")
                 )
             }
             def unresolved = seams.findAll { className, users ->
@@ -703,23 +762,28 @@ tasks.register("verifyStrengthSiblingSeams") {
                                         .join("; ")
                 )
             }
-            logger.lifecycle("verifyStrengthSiblingSeams: ${seams.size()} sibling classes named by SparkStrength resolve in ${jarFile.name}")
-
-            // The one reflected method the source contract pins: public static boolean
-            // SparkTraitsApi.hasActiveTrait(PlayerEntity, Identifier). The jar is remapped, so the parameter types
-            // carry their intermediary names (class_1657 = PlayerEntity, class_2960 = Identifier).
-            // 源码契约所钉的唯一反射方法：public static boolean SparkTraitsApi.hasActiveTrait(PlayerEntity, Identifier)。
-            // jar 已重映射，参数类型使用 intermediary 名称（class_1657 = PlayerEntity，class_2960 = Identifier）。
-            def traitsApi = readClassNode(zipFile, "dev/caecorthus/sparkdlc/traits/api/SparkTraitsApi.class")
-            def publicStatic = org.objectweb.asm.Opcodes.ACC_PUBLIC | org.objectweb.asm.Opcodes.ACC_STATIC
-            def hasActiveTrait = traitsApi.methods.find {
-                it.name == "hasActiveTrait" && it.desc == "(Lnet/minecraft/class_1657;Lnet/minecraft/class_2960;)Z"
-            }
-            if ((traitsApi.access & org.objectweb.asm.Opcodes.ACC_PUBLIC) == 0 || hasActiveTrait == null ||
-                    (hasActiveTrait.access & publicStatic) != publicStatic) {
+            // The string scan must keep working: SparkStrength still has string @Mixin targets into SparkWitch and
+            // SparkFactionAPI, so an empty result means the scan broke, not that the seams are gone.
+            // 字符串扫描必须保持有效：SparkStrength 仍有指向 SparkWitch 与 SparkFactionAPI 的字符串 @Mixin 目标，
+            // 因此结果为空意味着扫描失效，而不是接缝消失。
+            if (seams.isEmpty()) {
                 throw new GradleException(
-                        "SparkTraitsApi must keep public static boolean hasActiveTrait(PlayerEntity, Identifier); " +
-                                "found ${traitsApi.methods.findAll { it.name == 'hasActiveTrait' }.collect { it.name + it.desc }}"
+                        "Sibling seam scan found no string-named sibling class in ${jarFile.name}; the scan no longer sees SparkStrength's string @Mixin targets"
+                )
+            }
+            logger.lifecycle("verifyStrengthSiblingSeams: ${seams.size()} sibling classes named as strings by SparkStrength resolve in ${jarFile.name}; no by-name lookup, no legacy-id gate")
+
+            // The facade call the source contract pins: SparkTraitsCompat reaches public static boolean
+            // SparkTraitsApi.hasActiveTrait(PlayerEntity, Identifier) as a compiled invokestatic. The jar is remapped,
+            // so the parameter types carry their intermediary names (class_1657 = PlayerEntity, class_2960 =
+            // Identifier). The compiler already guarantees the method exists with this descriptor.
+            // 源码契约所钉的门面调用：SparkTraitsCompat 以编译期 invokestatic 访问 public static boolean
+            // SparkTraitsApi.hasActiveTrait(PlayerEntity, Identifier)。jar 已重映射，参数类型使用 intermediary 名称
+            // （class_1657 = PlayerEntity，class_2960 = Identifier）。该方法及其描述符的存在已由编译器保证。
+            if (!traitsFacadeCallers.contains("dev/caecorthus/sparkdlc/strength/compat/SparkTraitsCompat.class")) {
+                throw new GradleException(
+                        "SparkTraitsCompat must call SparkTraitsApi.hasActiveTrait(PlayerEntity, Identifier) directly; " +
+                                "direct callers found: ${traitsFacadeCallers}"
                 )
             }
         } finally {

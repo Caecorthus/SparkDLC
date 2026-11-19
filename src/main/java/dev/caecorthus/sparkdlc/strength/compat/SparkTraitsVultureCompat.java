@@ -1,32 +1,23 @@
 package dev.caecorthus.sparkdlc.strength.compat;
 
-import net.fabricmc.loader.api.FabricLoader;
+import dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 /**
- * Optional bridge to SparkTraits' public facade for the Vulture's death scream. Only
- * {@code dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi} is reflected; a missing, old or failing facade yields an empty
- * list, so without SparkTraits the Vulture always screams normally (fail closed).
- * 秃鹫死亡惨叫使用的 SparkTraits 公开门面可选桥接。只反射公开门面；门面缺失、过旧或出错时返回空列表，
- * 因此没装 SparkTraits 时秃鹫总是播放普通惨叫（失败即关闭）。
+ * Bridge to SparkTraits' public facade for the Vulture's death scream. The modules are fused in SparkDLC, so this
+ * calls {@link SparkTraitsApi#getRoundEndTraitIds} directly.
+ * 秃鹫死亡惨叫使用的 SparkTraits 公开门面桥接。各模块已融合进 SparkDLC，因此这里直接调用
+ * {@link SparkTraitsApi#getRoundEndTraitIds}。
  *
  * <p>Kept apart from {@link SparkTraitsCompat} so that class's compile surface (several local fixture tests compile it
  * against narrow stubs without {@code ServerWorld}) stays unchanged.
  * 与 {@link SparkTraitsCompat} 分开，避免改变其编译面（多个本地夹具测试用不含 {@code ServerWorld} 的窄桩编译它）。</p>
  */
 public final class SparkTraitsVultureCompat {
-    private static final String API_CLASS = "dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi";
-    private static final boolean INSTALLED = FabricLoader.getInstance().isModLoaded("sparktraits");
-    private static final Method GET_ROUND_END_TRAIT_IDS = findRoundEndTraitIdsMethod();
-
     private SparkTraitsVultureCompat() {
     }
 
@@ -38,38 +29,9 @@ public final class SparkTraitsVultureCompat {
      * {@code KillPlayer.AFTER}（先快照、再清空受害者词条）之前还是之后执行，结果都正确。仅限服务端；永不返回 null。
      */
     public static List<Identifier> getRoundEndTraitIds(ServerWorld world, UUID playerUuid) {
-        if (world == null || playerUuid == null || GET_ROUND_END_TRAIT_IDS == null) {
+        if (world == null || playerUuid == null) {
             return List.of();
         }
-        Object result;
-        try {
-            result = GET_ROUND_END_TRAIT_IDS.invoke(null, world, playerUuid);
-        } catch (IllegalAccessException | InvocationTargetException | IllegalArgumentException | LinkageError ignored) {
-            return List.of();
-        }
-        if (!(result instanceof List<?> raw)) {
-            return List.of();
-        }
-        List<Identifier> traitIds = new ArrayList<>(raw.size());
-        for (Object element : raw) {
-            if (element instanceof Identifier traitId) {
-                traitIds.add(traitId);
-            }
-        }
-        return List.copyOf(traitIds);
-    }
-
-    private static Method findRoundEndTraitIdsMethod() {
-        if (!INSTALLED) {
-            return null;
-        }
-        try {
-            Method method = Class.forName(API_CLASS).getMethod("getRoundEndTraitIds", ServerWorld.class, UUID.class);
-            return Modifier.isStatic(method.getModifiers()) && List.class.isAssignableFrom(method.getReturnType())
-                    ? method
-                    : null;
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | LinkageError ignored) {
-            return null;
-        }
+        return List.copyOf(SparkTraitsApi.getRoundEndTraitIds(world, playerUuid));
     }
 }

@@ -11,7 +11,6 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.fabricmc.loader.api.FabricLoader;
 import org.agmas.noellesroles.Noellesroles;
 
 /**
@@ -19,8 +18,10 @@ import org.agmas.noellesroles.Noellesroles;
  * room picker, the server's answer opens it, and the Partygoer gets its renderer.
  * 派对客技能的客户端部分：“职业技能 2”键（SparkWitch 共享键，默认 N）向服务端请求选房界面，服务端回复后打开界面；并注册派对客渲染器。
  *
- * <p>Like the Vulture's Super Curse, the skill has no key (and no HUD line) without SparkWitch's public key facade.
- * 与秃鹫超级骂一样，没有 SparkWitch 公开按键门面时技能没有按键，也不显示 HUD。</p>
+ * <p>Like the Vulture's Super Curse, the key comes from SparkWitch's public key facade, called directly since the
+ * SparkDLC fusion; the skill has no key (and no HUD line) only when another handler already took the role.
+ * 与秃鹫超级骂一样，按键来自 SparkWitch 公开按键门面（融合进 SparkDLC 后为直接调用）；只有该职业已被其他处理器占用时，
+ * 技能才没有按键，也不显示 HUD。</p>
  */
 public final class PartygoerClientHooks {
     private static boolean registered;
@@ -39,9 +40,6 @@ public final class PartygoerClientHooks {
         ClientPlayNetworking.registerGlobalReceiver(PartygoerMenuS2CPacket.ID,
                 (payload, context) -> context.client().setScreen(new PartygoerRoomScreen(payload.rooms())));
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> client.execute(PartygoerCorpseClient::reset));
-        if (!FabricLoader.getInstance().isModLoaded("sparkwitch")) {
-            return;
-        }
         keyAvailable = SparkWitchSecondaryKeyCompat.register(Noellesroles.PARTY_ANIMAL.identifier(),
                 PartygoerClientHooks::requestMenu);
         if (!keyAvailable) {

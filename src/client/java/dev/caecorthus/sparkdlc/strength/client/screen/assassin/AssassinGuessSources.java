@@ -6,7 +6,6 @@ import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
@@ -109,11 +108,11 @@ public final class AssassinGuessSources {
     }
 
     /**
-     * The roles that can be guessed, in registration order: NoellesRoles' own list, plus the killer roles when
-     * SparkTraits is installed (its role phase lists them too). The Assassin itself is left out: the server ignores
-     * any guess at another Assassin.
-     * 可猜的身份，按注册顺序：NoellesRoles 自己的列表；安装了 SparkTraits 时再加上杀手身份（它的猜身份阶段同样列出）。
-     * 不含刺客本身：服务端会忽略对其他刺客的任何猜测。
+     * The roles that can be guessed, in registration order: NoellesRoles' own list, plus the killer roles (SparkTraits'
+     * role phase lists them too, and SparkTraits is always present since the SparkDLC fusion). The Assassin itself is
+     * left out: the server ignores any guess at another Assassin.
+     * 可猜的身份，按注册顺序：NoellesRoles 自己的列表，再加上杀手身份（SparkTraits 的猜身份阶段同样列出；融合进 SparkDLC 后
+     * SparkTraits 始终存在）。不含刺客本身：服务端会忽略对其他刺客的任何猜测。
      */
     public static List<Role> roles(ClientPlayerEntity player) {
         List<Role> offered = ((AssassinScreenInvoker) new AssassinScreen(player)).sparkstrength$guessableRoles();
@@ -121,7 +120,6 @@ public final class AssassinGuessSources {
         for (Role role : offered) {
             offeredIds.add(role.identifier());
         }
-        boolean withKillers = FabricLoader.getInstance().isModLoaded("sparktraits");
         GameWorldComponent game = GameWorldComponent.KEY.get(player.getWorld());
         List<Role> roles = new ArrayList<>();
         Set<Identifier> seen = new HashSet<>();
@@ -129,8 +127,7 @@ public final class AssassinGuessSources {
             if (role == null || role.equals(Noellesroles.ASSASSIN) || !seen.add(role.identifier())) {
                 continue;
             }
-            boolean killerExtra = withKillers
-                    && role.canUseKiller()
+            boolean killerExtra = role.canUseKiller()
                     && !WatheRoles.SPECIAL_ROLES.contains(role)
                     && !role.equals(WatheRoles.VIGILANTE)
                     && game.isRoleEnabled(role);

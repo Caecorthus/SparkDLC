@@ -8,10 +8,10 @@ import dev.caecorthus.sparkdlc.witch.client.bear.smoke.occlusion.SmokeHeatMath;
 /**
  * Stable cross-mod contract (client only, render thread, BEAR WP0 2026-11-05, heat entries WP5): read access to the
  * BEAR smoke this client currently draws, so another mod's view (today SparkStrength's Undercover thermal, S4) can treat
- * smoke as opaque. SparkStrength reaches it by reflection, so this FQCN and the JDK-only signatures must not change.
- * Purely visual: the server never reads smoke.
+ * smoke as opaque. SparkStrength calls it directly since the SparkDLC fusion; this FQCN and the JDK-only signatures stay
+ * frozen. Purely visual: the server never reads smoke.
  * 稳定跨模组契约（仅客户端、渲染线程，BEAR WP0 2026-11-05，热成像入口 WP5）：读取本客户端当前绘制的 BEAR 烟雾，使其他模组
- * 的视图（目前为 SparkStrength 卧底热成像，S4）能把烟视为不透明。SparkStrength 通过反射访问本类，因此完整类名与仅使用 JDK
+ * 的视图（目前为 SparkStrength 卧底热成像，S4）能把烟视为不透明。融合进 SparkDLC 后 SparkStrength 直接调用本类；完整类名与仅使用 JDK
  * 类型的签名都不得更改。纯视觉：服务端从不读取烟雾。
  *
  * <p>Heat image (S4 "hot smoke blocks thermal", owner Q6: smoke shows as a bright white blob and hides bodies behind it).

@@ -147,7 +147,8 @@ public final class ShadowJesterShowdownService {
      * 判断一名玩家是否属于 SparkTraits 计算后的有效杀手阵营。
      *
      * <p>善良词条会把原始杀手排除；内鬼词条会把原始好人翻为杀手。
-     * SparkTraits 缺失时，兼容层自动回退到 Wathe 原始角色阵营。</p>
+     * 没有相关词条时，兼容层回退到 Wathe 原始角色阵营（融合进 SparkDLC 后兼容层直接调用 SparkTraits）。
+     * Without either trait the bridge falls back to the raw Wathe role (it calls SparkTraits directly since the fusion).</p>
      */
     public static boolean isEffectiveKiller(GameWorldComponent game, PlayerEntity player) {
         if (game == null || player == null) {

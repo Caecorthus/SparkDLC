@@ -227,10 +227,12 @@ Legacy names kept on purpose / 有意保留的旧名字：
 - `fabric.mod.json` `provides` and `SparkDlcModule`: the five legacy mod ids. `isModLoaded("sparkwitch")` still
   answers; the event volume rows of the settings screen (`EventVolumeRows`) keep them as module labels.
   `provides` 与 `SparkDlcModule`：五个旧 mod id；设置界面的事件音量行继续用它们标注模块。
-- The existing legacy migrations: `WraithLegacyRoleIds` (now `sparktraits:<role>` and `sparkwitch:<role>` both lead
-  to `sparkdlc:<role>`), `RetiredTraitIds`, `LegacyWraithPlayerComponent` / `LegacyWraithRoundComponent`
-  (component keys `sparktraits:wraith_player` / `wraith_round` next to the live `sparkdlc:` keys),
-  `RoundRules.LEGACY_WRAITH`. 已有的旧数据迁移。
+- The legacy filters that predate the rename: `RetiredTraitIds`, `RoundRules.LEGACY_WRAITH`. The former
+  `WraithLegacyRoleIds` and `LegacyWraithPlayerComponent` / `LegacyWraithRoundComponent` (the migration of the
+  Wraith data saved under `sparktraits:`) were folded into the stage-2b saved-data migration
+  (`legacy.LegacySavedData`): they are now the `legacy_role_alias` and `component_fallback` rows of
+  `legacy-ids.tsv`. 改名之前就有的旧数据过滤；原先的冤魂旧数据迁移已并入第二阶段 b 的存档迁移，成为对照表中的
+  `legacy_role_alias` 与 `component_fallback` 行。
 - Private data field names (`private_data_name` rows of `legacy-ids.tsv`): NBT and item custom-data keys, a command
   tag, two scoreboard team names. Renaming one would need its own migration. 私有数据字段名。
 - The three misspelt command aliases of SparkStrength (`sparkstength:voteTime`, `sparkStrength:detectiveCaseLimit`,
@@ -281,8 +283,10 @@ the vanilla registry (`item`, `block`, `entity_type`, `sound_event`, `data_compo
 `key_category`, `settings_key`, `settings_store`, `file` (config and data files the mod writes), `mod_metadata_key`,
 `attribute_modifier`, `event_phase`, `action_id`, `role_change_cause`, `reload_listener`, `identifier` (other id
 constants), `lang_key` (only the keys that do not follow the plain rule), and the rows whose name did NOT change:
-`private_data_name`, `retired_trait`, the two legacy `component` holders, `command_alias`. `legacy_role_alias` rows
-are the six existing `sparktraits:<role>` aliases with the role's new id. Asset paths and the 4,100 lang keys that
+`private_data_name`, `retired_trait`, `command_alias`. `legacy_role_alias` rows are the six older
+`sparktraits:<role>` ids of the Wraith family with the role's new id, and `component_fallback` rows are the two older
+`sparktraits:` keys of the Wraith components: both are a SECOND old name of something that also has a `role` /
+`component` row, and are read only after that row (`legacy.LegacySavedData`). Asset paths and the 4,100 lang keys that
 only change their namespace segment are not listed; `resource-moves.tsv` lists the files.
 
 The registry, tag, payload, component, role, faction, trait, skill, replay-formatter and command rows come from a
@@ -290,6 +294,7 @@ dump of a running headless server taken before the rename; the same dump taken a
 mapped through this table (16,229 rows, no difference).
 
 改名前存在的每个 id 一行：`kind`、`old_id`、`new_id`、`note`。注册表种类以原版注册表命名，标签为 `tag/<注册表>`。名字没有变化的行
-（`private_data_name`、`retired_trait`、两个旧 `component`、`command_alias`）也在表中。资源路径和仅替换命名空间段的约 4100 个语言键
+（`private_data_name`、`retired_trait`、`command_alias`）也在表中。`legacy_role_alias` 与 `component_fallback` 行是同一职业、
+同一组件更早的第二个旧名字（冤魂系的 `sparktraits:` id 与组件键），读取时排在对应的 `role` / `component` 行之后。资源路径和仅替换命名空间段的约 4100 个语言键
 不逐条列出；文件见 `resource-moves.tsv`。注册表、标签、数据包、组件、职业、阵营、天赋、技能、回放格式化器和命令的行来自改名前
 无界面服务器的运行时导出；改名后的同一导出与经本表映射的旧导出完全一致（16,229 行，无差异）。

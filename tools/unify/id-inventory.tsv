@@ -133,8 +133,6 @@ component	sparkstrength:waiter_task_reveal
 component	sparktraits:preparefull		
 component	sparktraits:traits		
 component	sparktraits:world		
-component	sparktraits:wraith_player	read-only legacy holder: keeps its key (existing migration)	
-component	sparktraits:wraith_round	read-only legacy holder: keeps its key (existing migration)	
 component	sparkwitch:abyss_zone_exposure		
 component	sparkwitch:accomplice_variant_round		
 component	sparkwitch:apprentice_player		
@@ -209,6 +207,8 @@ component	sparkwitch:witch_factor_world
 component	sparkwitch:world		
 component	sparkwitch:wraith_player		
 component	sparkwitch:wraith_round		
+component_fallback	sparktraits:wraith_player	older key of the same component (SparkTraits hosted the Wraith before SparkWitch): read only when neither sparkdlc:wraith_player nor the component row's key is saved	sparkdlc:wraith_player
+component_fallback	sparktraits:wraith_round	older key of the same component (SparkTraits hosted the Wraith before SparkWitch): read only when neither sparkdlc:wraith_round nor the component row's key is saved	sparkdlc:wraith_round
 creative_mode_tab	sparkstrength:items	merged into one creative tab	
 creative_mode_tab	sparkwitch:items	merged into one creative tab	
 data_component_type	sparkstrength:bandit_revolver		
@@ -540,12 +540,12 @@ lang_key	itemGroup.sparkstrength.items	merged: one tab, text "SparkDLC"
 lang_key	itemGroup.sparkwitch.items	merged: one tab, text "SparkDLC"	
 lang_key	modmenu.descriptionTranslation.sparkwitch	merged: dropped, the sparkdlc key already exists	
 lang_key	modmenu.summaryTranslation.sparkwitch	merged: dropped, the sparkdlc key already exists	
-legacy_role_alias	sparktraits:curser	existing migration WraithLegacyRoleIds: literal kept in code	sparkdlc:curser
-legacy_role_alias	sparktraits:guardian_angel	existing migration WraithLegacyRoleIds: literal kept in code	sparkdlc:guardian_angel
-legacy_role_alias	sparktraits:saboteur	existing migration WraithLegacyRoleIds: literal kept in code	sparkdlc:saboteur
-legacy_role_alias	sparktraits:vendetta	existing migration WraithLegacyRoleIds: literal kept in code	sparkdlc:vendetta
-legacy_role_alias	sparktraits:wind_spirit	existing migration WraithLegacyRoleIds: literal kept in code	sparkdlc:wind_spirit
-legacy_role_alias	sparktraits:wraith	existing migration WraithLegacyRoleIds: literal kept in code	sparkdlc:wraith
+legacy_role_alias	sparktraits:curser	older id of the role (SparkTraits hosted the Wraith family): read after the role row	sparkdlc:curser
+legacy_role_alias	sparktraits:guardian_angel	older id of the role (SparkTraits hosted the Wraith family): read after the role row	sparkdlc:guardian_angel
+legacy_role_alias	sparktraits:saboteur	older id of the role (SparkTraits hosted the Wraith family): read after the role row	sparkdlc:saboteur
+legacy_role_alias	sparktraits:vendetta	older id of the role (SparkTraits hosted the Wraith family): read after the role row	sparkdlc:vendetta
+legacy_role_alias	sparktraits:wind_spirit	older id of the role (SparkTraits hosted the Wraith family): read after the role row	sparkdlc:wind_spirit
+legacy_role_alias	sparktraits:wraith	older id of the role (SparkTraits hosted the Wraith family): read after the role row; in a trait list the same string is a retired trait (retired_trait row)	sparkdlc:wraith
 login_channel	sparkfactionapi:version_check	VERSION_CHECK_ID	
 login_channel	sparktraits:version_check	VERSION_CHECK_ID	
 login_channel	sparkwitch:version_check	VERSION_CHECK_ID	

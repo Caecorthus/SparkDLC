@@ -73,8 +73,6 @@ import org.ladysnake.cca.api.v3.component.ComponentKey;
 import org.ladysnake.cca.api.v3.entity.RespawnCopyStrategy;
 import org.ladysnake.cca.api.v3.world.WorldComponentFactoryRegistry;
 import org.ladysnake.cca.api.v3.world.WorldComponentInitializer;
-import dev.caecorthus.sparkdlc.component.LegacyWraithPlayerComponent;
-import dev.caecorthus.sparkdlc.component.LegacyWraithRoundComponent;
 import dev.caecorthus.sparkdlc.component.PerfumerPlayerComponent;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.component.WitchWorldComponent;
@@ -135,9 +133,6 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.beginRegistration(PlayerEntity.class, MagicianPlayerComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(MagicianPlayerComponent::new);
-        registry.beginRegistration(PlayerEntity.class, LegacyWraithPlayerComponent.KEY)
-                .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
-                .end(LegacyWraithPlayerComponent::new);
         registry.beginRegistration(PlayerEntity.class, BellEchoPlayerComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(BellEchoPlayerComponent::new);
@@ -347,7 +342,6 @@ public final class SparkWitchComponents implements EntityComponentInitializer, W
         registry.register(WitchFactorWorldComponent.KEY, WitchFactorWorldComponent::new);
         registry.register(EmmaRoundComponent.KEY, EmmaRoundComponent::new);
         registry.register(WraithRoundComponent.KEY, WraithRoundComponent::new);
-        registry.register(LegacyWraithRoundComponent.KEY, LegacyWraithRoundComponent::new);
         registry.register(FiendMomentWorldComponent.KEY, FiendMomentWorldComponent::new);
         registry.register(AccompliceVariantRoundComponent.KEY, AccompliceVariantRoundComponent::new);
         registry.register(RiftGateRegistryComponent.KEY, RiftGateRegistryComponent::new);

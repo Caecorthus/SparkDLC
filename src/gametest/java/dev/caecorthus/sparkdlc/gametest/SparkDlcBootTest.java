@@ -50,15 +50,6 @@ import java.util.function.BiConsumer;
  */
 public final class SparkDlcBootTest implements FabricGameTest {
     /**
-     * The two read-only holders that still read the Wraith data saved while SparkTraits hosted the role. They keep
-     * their legacy component keys on purpose (an existing migration); every other id of the mod is in
-     * {@code sparkdlc}.
-     * 仍然负责读取 SparkTraits 托管冤魂时所存数据的两个只读组件。它们有意保留旧组件键（已有的迁移）；本模组的其他 id 都在
-     * {@code sparkdlc} 下。
-     */
-    private static final Set<String> LEGACY_KEYS_KEPT_ON_PURPOSE =
-            Set.of("component sparktraits:wraith_player", "component sparktraits:wraith_round");
-    /**
      * Entity types that have no {@code entity.sparkdlc.<path>} lang key today (projectiles and helper entities that
      * are never named on screen; unchanged by the rename). Pinned exactly: a new entity type has to get a name or
      * be added here deliberately, and an entry has to leave when its name is added.
@@ -164,7 +155,6 @@ public final class SparkDlcBootTest implements FabricGameTest {
             }
         });
 
-        left.removeAll(LEGACY_KEYS_KEPT_ON_PURPOSE);
         if (!left.isEmpty()) {
             throw new GameTestException(left.size() + " ids are still in a legacy namespace: " + left);
         }

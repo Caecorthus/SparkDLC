@@ -8,7 +8,8 @@
   "entrypoints": {
     "fabric-gametest": [
       "dev.caecorthus.sparkdlc.gametest.SparkDlcBootTest",
-      "dev.caecorthus.sparkdlc.gametest.LegacyRegistryAliasesGameTest"
+      "dev.caecorthus.sparkdlc.gametest.LegacyRegistryAliasesGameTest",
+      "dev.caecorthus.sparkdlc.gametest.LegacySavedDataGameTest"
     ],
     "client": [
       "dev.caecorthus.sparkdlc.gametest.SparkDlcClientAudit"

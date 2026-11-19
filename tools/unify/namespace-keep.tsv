@@ -4,10 +4,10 @@
 path_glob	line_regex	reason
 src/main/resources/fabric.mod.json	^\s*"spark(factionapi|strength|traits|witch|assist)",?\s*$	provides: the five legacy mod ids stay loader-visible aliases
 src/main/java/dev/caecorthus/sparkdlc/SparkDlcModule.java	*	the five legacy mod ids (the provides aliases) and their display names
-src/main/java/dev/caecorthus/sparkdlc/compat/noellesroles/WraithLegacyRoleIds.java	*	existing legacy migration: old literals stay, targets come from SparkWitch.id
 src/main/java/dev/caecorthus/sparkdlc/trait/component/RetiredTraitIds.java	*	existing legacy filter: old literals stay
-src/main/java/dev/caecorthus/sparkdlc/component/LegacyWraithPlayerComponent.java	*	existing read-only legacy component
-src/main/java/dev/caecorthus/sparkdlc/component/LegacyWraithRoundComponent.java	*	existing read-only legacy component
+src/main/java/dev/caecorthus/sparkdlc/legacy/LegacySavedData.java	*	saved-data migration (stage 2b): its comments name old ids on purpose
+src/main/java/dev/caecorthus/sparkdlc/mixin/legacy/*LegacyDataMixin.java	*	saved-data migration hook (stage 2b): its comment names old ids on purpose
+src/main/java/dev/caecorthus/sparkdlc/mixin/legacy/*LegacyModifierIdsMixin.java	*	saved-data migration hook (stage 2b): its comment names an old id on purpose
 src/main/java/dev/caecorthus/sparkdlc/role/killer/witchmaiden/PoisonApplePlateNbt.java	_KEY = "	private block-entity NBT field names
 src/main/java/dev/caecorthus/sparkdlc/role/civilian/junker/JunkerLoot.java	MARKER = "	private item custom-data marker
 src/client/java/dev/caecorthus/sparkdlc/client/settings/EventVolumeRows.java	role\(EventSoundGroup\.	module label of a volume row (SparkDlcModule#byNamespace), not an id
@@ -15,7 +15,8 @@ gradle/verify/*.gradle	"spark(factionapi|strength|traits|witch|assist)"	checks o
 gradle/verify/assist.gradle	sparkassist:	the retired assist namespace must not come back as a component key
 tools/payload_policy.py	"spark(factionapi|strength|traits|witch|assist)"	module labels of the owner column (legacy module ids), not namespaces
 src/test/*/FusedModSourceRulesTest.java	*	pins the five legacy mod ids (provides) and pre-fusion packages; its resolved-id pins are updated by hand
-src/test/*/WraithLegacyPersistenceTest.java	sparktraits	test of the existing legacy migration: legacy ids stay
+src/test/*/LegacySavedData*Test.java	*	tests of the saved-data migration (stage 2b): old keys and ids on purpose
+src/gametest/*/LegacySavedDataGameTest.java	*	game test of the saved-data migration (stage 2b): old keys and ids on purpose
 src/test/*/RetiredTraitIdsTest.java	sparktraits	test of the retired legacy trait ids: legacy ids stay
 src/test/*/WraithProviderBoundaryTest.java	sibling	the provided legacy mod ids
 src/test/*/EventVolumeRowsTest.java	\.mod\(\)	module label of a volume row, not an id

@@ -26,60 +26,48 @@ public final class WraithPlayerComponent implements AutoSyncedComponent {
 
     private final @Nullable Object provider;
     private final WraithPlayerState state = new WraithPlayerState();
-    private boolean canonicalDataPresent;
-    private boolean legacyImportCompleted;
 
     public WraithPlayerComponent(@Nullable Object provider) {
         this.provider = provider;
     }
 
     public boolean isActive() {
-        ensureLegacyImported();
         return state.isActive();
     }
 
     public boolean isRestricted() {
-        ensureLegacyImported();
         return state.isRestricted();
     }
 
     public boolean isPromoted() {
-        ensureLegacyImported();
         return state.isPromoted();
     }
 
     public int getCompletedTasks() {
-        ensureLegacyImported();
         return state.getCompletedTasks();
     }
 
     public WraithState.Alignment getAlignment() {
-        ensureLegacyImported();
         return state.getAlignment();
     }
 
     public boolean isPromotionPending() {
-        ensureLegacyImported();
         return state.isPromotionPending();
     }
 
     public void activate(WraithState.Alignment alignment) {
-        canonicalDataPresent = true;
-        legacyImportCompleted = true;
         state.activate(alignment);
         sync();
     }
 
     public int recordTaskCompletion() {
-        boolean importPending = !legacyImportCompleted && !canonicalDataPresent;
-        ensureLegacyImported();
         if (!state.isActive()) {
             return state.getCompletedTasks();
         }
         int completedTasks = state.recordTaskCompletion();
-        // Only the owner's task count changed; non-owners read only active/restricted, unchanged unless this very call
-        // imported legacy data. / 只有本人的任务数改变；非本人只读取在场/受限标记，除非本次调用刚导入旧数据，否则不变。
-        if (!importPending && provider instanceof ServerPlayerEntity owner && owner.networkHandler != null) {
+        // Only the owner's task count changed; non-owners read only active/restricted, which are unchanged.
+        // 只有本人的任务数改变；非本人只读取在场/受限标记，这两项没有变化。
+        if (provider instanceof ServerPlayerEntity owner && owner.networkHandler != null) {
             KEY.syncWith(owner, (ComponentProvider) owner);
         } else {
             sync();
@@ -88,14 +76,12 @@ public final class WraithPlayerComponent implements AutoSyncedComponent {
     }
 
     public void setPromotionPending(boolean pending) {
-        boolean importPending = !legacyImportCompleted && !canonicalDataPresent;
-        ensureLegacyImported();
         if (state.setPromotionPending(pending)) {
             // The pending flag is written for the owner only, like the task count above: non-owners read only
-            // active/restricted, unchanged unless this very call imported legacy data, so they get no packet that
-            // only tells them a promotion is being held. / 待晋升标记只写给本人，与上方任务数相同：非本人只读取在场/受限
-            // 标记，除非本次调用刚导入旧数据，否则不变，因此他们不会收到仅能说明“晋升正被暂缓”的数据包。
-            if (!importPending && provider instanceof ServerPlayerEntity owner && owner.networkHandler != null) {
+            // active/restricted, which are unchanged, so they get no packet that only tells them a promotion is
+            // being held. / 待晋升标记只写给本人，与上方任务数相同：非本人只读取在场/受限标记，这两项没有变化，
+            // 因此他们不会收到仅能说明“晋升正被暂缓”的数据包。
+            if (provider instanceof ServerPlayerEntity owner && owner.networkHandler != null) {
                 KEY.syncWith(owner, (ComponentProvider) owner);
             } else {
                 sync();
@@ -104,7 +90,6 @@ public final class WraithPlayerComponent implements AutoSyncedComponent {
     }
 
     public void promote() {
-        ensureLegacyImported();
         if (state.promote()) {
             sync();
         }
@@ -112,9 +97,6 @@ public final class WraithPlayerComponent implements AutoSyncedComponent {
 
     public void clear() {
         boolean changed = state.clear();
-        clearLegacyState();
-        canonicalDataPresent = false;
-        legacyImportCompleted = false;
         if (changed) {
             sync();
         }
@@ -133,7 +115,6 @@ public final class WraithPlayerComponent implements AutoSyncedComponent {
 
     @Override
     public void writeSyncPacket(RegistryByteBuf buf, ServerPlayerEntity recipient) {
-        ensureLegacyImported();
         boolean owner = recipient == provider;
         buf.writeBoolean(state.isActive());
         buf.writeBoolean(state.isRestricted());
@@ -162,13 +143,10 @@ public final class WraithPlayerComponent implements AutoSyncedComponent {
                 syncedAlignment,
                 syncedPromotionPending
         );
-        canonicalDataPresent = true;
-        legacyImportCompleted = true;
     }
 
     @Override
     public void writeToNbt(@NotNull NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
-        ensureLegacyImported();
         if (!state.isActive()) {
             return;
         }
@@ -186,29 +164,6 @@ public final class WraithPlayerComponent implements AutoSyncedComponent {
     @Override
     public void readFromNbt(@NotNull NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
         readState(tag);
-        canonicalDataPresent = true;
-        legacyImportCompleted = true;
-    }
-
-    /**
-     * Canonical data wins even if CCA reads the legacy sibling first; import waits until first use.
-     * 即使 CCA 先读旧组件，规范数据仍优先；旧数据只在首次使用时惰性导入。
-     */
-    private void ensureLegacyImported() {
-        if (legacyImportCompleted || canonicalDataPresent) {
-            legacyImportCompleted = true;
-            return;
-        }
-        LegacyWraithPlayerComponent.KEY.maybeGet(provider).ifPresent(legacy -> {
-            if (legacy.hasData()) {
-                legacy.restoreInto(state);
-            }
-        });
-        legacyImportCompleted = true;
-    }
-
-    private void clearLegacyState() {
-        LegacyWraithPlayerComponent.KEY.maybeGet(provider).ifPresent(LegacyWraithPlayerComponent::clear);
     }
 
     private void readState(NbtCompound tag) {

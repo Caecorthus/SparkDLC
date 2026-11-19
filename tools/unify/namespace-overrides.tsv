@@ -12,16 +12,16 @@ id	sparkwitch:server_confirm	sparkdlc:witch_server_confirm	S2C payload: collides
 id	sparkfactionapi:version_check	sparkdlc:faction_version_check	login query channel: three handshakes
 id	sparktraits:version_check	sparkdlc:trait_version_check	login query channel: three handshakes
 id	sparkwitch:version_check	sparkdlc:witch_version_check	login query channel: three handshakes
-id	sparktraits:wraith_player	sparktraits:wraith_player	KEEP: read-only legacy holder next to the live sparkdlc:wraith_player
-id	sparktraits:wraith_round	sparktraits:wraith_round	KEEP: read-only legacy holder next to the live sparkdlc:wraith_round
-id	sparktraits:wraith	sparktraits:wraith	KEEP: retired trait id and legacy role alias (RetiredTraitIds, WraithLegacyRoleIds, RoundRules)
+id	sparktraits:wraith_player	sparktraits:wraith_player	KEEP: older saved key of sparkdlc:wraith_player (component_fallback row of legacy-ids.tsv, tests of LegacySavedData)
+id	sparktraits:wraith_round	sparktraits:wraith_round	KEEP: older saved key of sparkdlc:wraith_round (component_fallback row of legacy-ids.tsv, tests of LegacySavedData)
+id	sparktraits:wraith	sparktraits:wraith	KEEP: retired trait id and legacy role alias (RetiredTraitIds, legacy_role_alias rows of legacy-ids.tsv, RoundRules)
 id	sparktraits:arrogant_asf	sparktraits:arrogant_asf	KEEP: retired trait id (RetiredTraitIds)
 id	sparktraits:chameleon	sparktraits:chameleon	KEEP: retired trait id (RetiredTraitIds)
-id	sparktraits:wind_spirit	sparktraits:wind_spirit	KEEP: legacy role alias (WraithLegacyRoleIds)
-id	sparktraits:guardian_angel	sparktraits:guardian_angel	KEEP: legacy role alias (WraithLegacyRoleIds)
-id	sparktraits:vendetta	sparktraits:vendetta	KEEP: legacy role alias (WraithLegacyRoleIds)
-id	sparktraits:saboteur	sparktraits:saboteur	KEEP: legacy role alias (WraithLegacyRoleIds)
-id	sparktraits:curser	sparktraits:curser	KEEP: legacy role alias (WraithLegacyRoleIds)
+id	sparktraits:wind_spirit	sparktraits:wind_spirit	KEEP: legacy role alias (legacy_role_alias row of legacy-ids.tsv)
+id	sparktraits:guardian_angel	sparktraits:guardian_angel	KEEP: legacy role alias (legacy_role_alias row of legacy-ids.tsv)
+id	sparktraits:vendetta	sparktraits:vendetta	KEEP: legacy role alias (legacy_role_alias row of legacy-ids.tsv)
+id	sparktraits:saboteur	sparktraits:saboteur	KEEP: legacy role alias (legacy_role_alias row of legacy-ids.tsv)
+id	sparktraits:curser	sparktraits:curser	KEEP: legacy role alias (legacy_role_alias row of legacy-ids.tsv)
 key	key.sparkwitch.secondary_skill	key.sparkdlc.role_skill_2	key binding: collides with key.sparkstrength.secondary_skill (text "Role Skill 2" unchanged)
 literal	sparkwitch:stored_coins	sparkwitch:stored_coins	KEEP: private item custom-data key
 literal	sparkwitch:judge_voodoo_actor	sparkwitch:judge_voodoo_actor	KEEP: private NBT key

@@ -21,9 +21,9 @@ import dev.caecorthus.sparkdlc.util.TickTime;
  * </ul>
  */
 public final class JunkerHudRules {
-    public static final String READY_KEY = "tip.sparkwitch.ragpicker.ready";
-    public static final String COOLDOWN_KEY = "tip.sparkwitch.ragpicker.cooldown";
-    public static final String SEARCHING_KEY = "tip.sparkwitch.ragpicker.searching";
+    public static final String READY_KEY = "tip.sparkdlc.ragpicker.ready";
+    public static final String COOLDOWN_KEY = "tip.sparkdlc.ragpicker.cooldown";
+    public static final String SEARCHING_KEY = "tip.sparkdlc.ragpicker.searching";
 
     public static final int RIGHT_PADDING = 5;
     public static final int BOTTOM_PADDING = 5;

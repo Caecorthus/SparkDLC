@@ -25,18 +25,18 @@ public final class MightyForceAbility {
         // A misfire under Wathe's PREVENT_GUN_PICKUP setting takes Mighty Force away for the round (owner D5).
         // 在 Wathe 的禁止拾枪设置下误杀好人，会让巨力本局失效（所有者 D5）。
         if (ApprenticePlayerComponent.KEY.get(context.player()).isMightyForceForfeited()) {
-            return WitchSkillUseResult.fail("message.sparkwitch.skill.mighty_force.forfeited");
+            return WitchSkillUseResult.fail("message.sparkdlc.skill.mighty_force.forfeited");
         }
         // Inside a Taotie she can never strike (MightyForceCombatService), so refuse before mana is spent.
         // 在饕餮肚子里永远无法出拳（见 MightyForceCombatService），因此在扣魔力之前拒绝。
         if (NoellesTaotieSeekerBridge.isSwallowed(context.player())) {
-            return WitchSkillUseResult.fail("message.sparkwitch.skill.unavailable");
+            return WitchSkillUseResult.fail("message.sparkdlc.skill.unavailable");
         }
         return ApprenticeAbilitySupport.use(
                 context,
                 MANA_COST,
                 COOLDOWN_TICKS,
-                "message.sparkwitch.skill.mighty_force.activated",
+                "message.sparkdlc.skill.mighty_force.activated",
                 () -> WitchPlayerComponent.KEY.get(context.player()).beginMightyForceWindow(WINDOW_TICKS)
         );
     }

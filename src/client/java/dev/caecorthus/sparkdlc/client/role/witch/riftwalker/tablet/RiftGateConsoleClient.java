@@ -11,13 +11,13 @@ import net.minecraft.util.Hand;
 /**
  * Client side of the Rift Gate console (D12, D16, C9; plan §15): {@link #init()} registers the Riftwalker-owned tablet
  * opener ({@link RiftGateConsoleOpener}, a copy of the Seeker console opener) and the connection resets; {@link #open}
- * dispatches every {@code sparkwitch:rift_gate_console} snapshot (open for an outstanding request, refresh the open
+ * dispatches every {@code sparkdlc:rift_gate_console} snapshot (open for an outstanding request, refresh the open
  * console of the same session, CLOSED closes) through {@link RiftGateConsoleClientRules#snapshotAction}. The screen
  * ({@link RiftGateConsoleScreen}) polls while open. Presentation only; never generalise or edit the Seeker opener.
  * Owned by P8.
  * 裂隙门控制台的客户端（D12、D16、C9；plan §15）：{@link #init()} 注册隙行者自有的平板拦截器
  * （{@link RiftGateConsoleOpener}，搜寻者控制台拦截器的副本）与连接重置；{@link #open} 通过
- * {@link RiftGateConsoleClientRules#snapshotAction} 分派每份 {@code sparkwitch:rift_gate_console} 快照（为未完成的请求打开、
+ * {@link RiftGateConsoleClientRules#snapshotAction} 分派每份 {@code sparkdlc:rift_gate_console} 快照（为未完成的请求打开、
  * 刷新同一会话的已打开控制台、CLOSED 关闭）。界面（{@link RiftGateConsoleScreen}）打开期间轮询。仅负责展示；不得泛化或
  * 修改搜寻者拦截器。归属 P8。
  */
@@ -56,10 +56,10 @@ public final class RiftGateConsoleClient {
     }
 
     /**
-     * Every {@code sparkwitch:rift_gate_console} snapshot arrives here on the client thread: open the console for an
+     * Every {@code sparkdlc:rift_gate_console} snapshot arrives here on the client thread: open the console for an
      * outstanding open request (or refresh it when already open for the same session); {@code consoleSessionId ==
      * CLOSED} closes it or answers the open request.
-     * 每份 {@code sparkwitch:rift_gate_console} 快照都在客户端线程到达这里：为未完成的打开请求打开控制台（同一会话已打开时
+     * 每份 {@code sparkdlc:rift_gate_console} 快照都在客户端线程到达这里：为未完成的打开请求打开控制台（同一会话已打开时
      * 刷新）；{@code consoleSessionId == CLOSED} 时关闭控制台或应答打开请求。
      */
     public static void open(RiftGateConsoleS2CPacket snapshot) {

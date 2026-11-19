@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
  * 因此为直接调用，结果恒为 TRUE 或 FALSE（玩家为空时为 FALSE）；为调用方保留可空返回类型（null 时调用方不发放）。
  */
 public final class SparkTraitsBlackRavenBridge {
-    private static final String MOD_ID = "sparktraits";
+    private static final String MOD_ID = "sparkdlc";
     static final Identifier CONSCIENCE = Identifier.of(MOD_ID, "conscience");
     static final Identifier IMPOSTOR = Identifier.of(MOD_ID, "impostor");
 

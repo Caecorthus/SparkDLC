@@ -20,7 +20,7 @@ import net.minecraft.text.Text;
  * 描边并提示该诱饵，除这条拒绝提示外得不到任何信息。
  */
 public final class NoellesVultureDecoyGuard {
-    public static final String DECOY_BODY_MESSAGE = "message.sparkwitch.vulture.decoy_body";
+    public static final String DECOY_BODY_MESSAGE = "message.sparkdlc.vulture.decoy_body";
 
     private NoellesVultureDecoyGuard() {
     }

@@ -45,8 +45,8 @@ public final class MediumSeanceHudRenderer {
         int centerX = context.getScaledWindowWidth() / 2;
         int top = context.getScaledWindowHeight() - BOTTOM_OFFSET;
         Text headline = blessing
-                ? Text.translatable("hud.sparkwitch.medium.blessing.asks")
-                : Text.translatable("hud.sparkwitch.medium.seance.question", seance.getQuestion());
+                ? Text.translatable("hud.sparkdlc.medium.blessing.asks")
+                : Text.translatable("hud.sparkdlc.medium.seance.question", seance.getQuestion());
         context.drawCenteredTextWithShadow(renderer, headline, centerX, top, QUESTION_COLOR);
         context.drawCenteredTextWithShadow(renderer,
                 blessing ? blessingHint(seance.getWindowId()) : answerHint(seance.getWindowId()),
@@ -54,7 +54,7 @@ public final class MediumSeanceHudRenderer {
         context.drawCenteredTextWithShadow(
                 renderer,
                 Text.translatable(
-                        "hud.sparkwitch.medium.seance.remaining",
+                        "hud.sparkdlc.medium.seance.remaining",
                         TickTime.ceilSeconds(seance.getTicksLeft())
                 ),
                 centerX,
@@ -70,13 +70,13 @@ public final class MediumSeanceHudRenderer {
     private static Text answerHint(int windowId) {
         Boolean answer = MediumVoteClient.answer(windowId);
         if (answer == null) {
-            return Text.translatable("hud.sparkwitch.medium.vote.prompt", SparkWitchClient.abilityKeyText());
+            return Text.translatable("hud.sparkdlc.medium.vote.prompt", SparkWitchClient.abilityKeyText());
         }
         return Text.translatable(
-                "hud.sparkwitch.medium.vote.voted",
+                "hud.sparkdlc.medium.vote.voted",
                 Text.translatable(answer
-                        ? "screen.sparkwitch.medium.vote.yes"
-                        : "screen.sparkwitch.medium.vote.no"),
+                        ? "screen.sparkdlc.medium.vote.yes"
+                        : "screen.sparkdlc.medium.vote.no"),
                 SparkWitchClient.abilityKeyText()
         );
     }
@@ -86,9 +86,9 @@ public final class MediumSeanceHudRenderer {
         Integer choice = MediumVoteClient.choice(windowId);
         MediumBlessing picked = choice == null ? null : MediumBlessing.byIndex(choice);
         if (picked == null) {
-            return Text.translatable("hud.sparkwitch.medium.blessing.prompt", SparkWitchClient.abilityKeyText());
+            return Text.translatable("hud.sparkdlc.medium.blessing.prompt", SparkWitchClient.abilityKeyText());
         }
-        return Text.translatable("hud.sparkwitch.medium.blessing.voted",
+        return Text.translatable("hud.sparkdlc.medium.blessing.voted",
                 Text.translatable(MediumBlessingVoteScreen.nameKey(picked)), SparkWitchClient.abilityKeyText());
     }
 }

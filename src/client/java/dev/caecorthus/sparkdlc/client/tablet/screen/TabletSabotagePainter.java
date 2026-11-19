@@ -262,7 +262,7 @@ final class TabletSabotagePainter {
         // Lines with an actor arrive with an empty name when the viewer has not linked with them: show "???".
         // 有操作者的行，若查看者与其未互认，名字以空串到达：显示「???」。
         String actor = row.actor().isEmpty()
-                ? Text.translatable("screen.sparkstrength.tablet.chat.anonymous").getString() : row.actor();
+                ? Text.translatable("screen.sparkdlc.tablet.chat.anonymous").getString() : row.actor();
         String sentence = Text.translatable(KEY + logKey, actor, typeName).getString();
         int textX = dotX + 8;
         c.text(tr, TabletCanvas.trim(tr, sentence, Math.max(0, x + w - textX - 4)), textX, textY, TabletTheme.TEXT);

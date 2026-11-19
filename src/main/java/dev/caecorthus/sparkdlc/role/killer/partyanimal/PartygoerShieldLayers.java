@@ -22,7 +22,7 @@ import java.util.Optional;
  */
 public final class PartygoerShieldLayers {
     /** SparkWitch is not a compile dependency; its effect is looked up by id. / SparkWitch 不是编译依赖，按 id 查找其效果。 */
-    private static final Identifier GUARDIAN_SHIELD_ID = Identifier.of("sparkwitch", "guardian_shield");
+    private static final Identifier GUARDIAN_SHIELD_ID = Identifier.of("sparkdlc", "guardian_shield");
 
     private PartygoerShieldLayers() {
     }

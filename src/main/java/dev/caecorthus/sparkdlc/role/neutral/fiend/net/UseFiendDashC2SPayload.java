@@ -8,10 +8,10 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 
 /**
- * Stable C2S contract {@code sparkwitch:use_fiend_dash}: an empty Dash request sent by the moment Fiend's ability key;
+ * Stable C2S contract {@code sparkdlc:use_fiend_dash}: an empty Dash request sent by the moment Fiend's ability key;
  * the server validates everything. Classified as a role skill in the Control Expert stun, Seeker session, Riftwalker
  * session and Grand Witch Fear deny-lists.
- * 稳定 C2S 契约 {@code sparkwitch:use_fiend_dash}：时刻中的魔人按技能键发送的空疾驰请求，全部校验在服务端完成。
+ * 稳定 C2S 契约 {@code sparkdlc:use_fiend_dash}：时刻中的魔人按技能键发送的空疾驰请求，全部校验在服务端完成。
  * 已作为职业技能归入控场专家眩晕、搜寻者会话、隙行者会话与大魔女恐惧的拦截名单。
  */
 public record UseFiendDashC2SPayload() implements CustomPayload {

@@ -1,0 +1,38 @@
+{
+  "entries": [
+    {
+      "id": "sparkdlc:charisma",
+      "tab": "TRAIT",
+      "sourceModId": "sparkdlc",
+      "nameKey": "trait.sparkdlc.charisma.name",
+      "summaryKey": "trait.sparkdlc.charisma.description",
+      "pages": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": "买东西更便宜。只会出现在杀手身上。"
+            },
+            {
+              "type": "section",
+              "text": "效果",
+              "tone": "money"
+            },
+            {
+              "type": "bullet",
+              "text": "商店里所有商品打九折（向下取整），商店显示的就是打折后的价格。"
+            }
+          ]
+        }
+      ],
+      "ownerRoleIds": [
+        "wathe:killer"
+      ],
+      "requiredModIds": [
+        "sparkdlc"
+      ],
+      "color": "#E6C64D",
+      "order": 1030
+    }
+  ]
+}

@@ -35,7 +35,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Server side of Koko's two streams and of every timer in {@link KokoComponent}:
  * <ul>
- *   <li>{@link #tryGoLive}: gates the {@code sparkwitch:use_koko_stream} request ({@link KokoRules#streamVerdict}),
+ *   <li>{@link #tryGoLive}: gates the {@code sparkdlc:use_koko_stream} request ({@link KokoRules#streamVerdict}),
  *   spends the mana, starts the 20 s stream, pays the first second of traffic and puts the vanilla Glowing effect on
  *   her for 10 s, which is how every other player sees her through walls. A refused request changes nothing.</li>
  *   <li>The corpse stream is a vanilla right-click on a Wathe body ({@code UseEntityCallback}, main hand): no mana,
@@ -47,7 +47,7 @@ import org.jetbrains.annotations.Nullable;
  * Client/server authority: the client only sends the empty request or the vanilla interaction; role, round, control
  * states, cooldown, Fear and mana are all checked here.
  * 可可两种直播与 {@link KokoComponent} 中全部计时的服务端部分：
- * {@link #tryGoLive} 判定 {@code sparkwitch:use_koko_stream} 请求（{@link KokoRules#streamVerdict}）、扣除魔力、开始 20 秒
+ * {@link #tryGoLive} 判定 {@code sparkdlc:use_koko_stream} 请求（{@link KokoRules#streamVerdict}）、扣除魔力、开始 20 秒
  * 直播、结算第一秒流量，并给她挂上 10 秒原版发光效果——其他玩家正是靠它隔墙看到她；被拒绝的请求不改变任何东西。
  * 尸体直播是对 Wathe 尸体的一次原版右键（{@code UseEntityCallback}，主手）：不耗魔力，尸体发光 50 秒，+100 流量，每名死者
  * 一次，并进入共用冷却。她自己的客户端对任何尸体都回答 SUCCESS，使同一次点击不会再使用手中物品；是否生效只由服务端决定。
@@ -127,7 +127,7 @@ public final class KokoStreamService {
     }
 
     private static void tellNoMana(ServerPlayerEntity player) {
-        player.sendMessage(Text.translatable("message.sparkwitch.koko.no_mana", KokoRules.STREAM_MANA)
+        player.sendMessage(Text.translatable("message.sparkdlc.koko.no_mana", KokoRules.STREAM_MANA)
                 .formatted(Formatting.RED), true);
     }
 
@@ -194,10 +194,10 @@ public final class KokoStreamService {
                 return ActionResult.PASS;
             }
             case FEARED -> GrandWitchFearService.sendSkillBlocked(player);
-            case LIVE -> tell(player, Text.translatable("message.sparkwitch.koko.corpse.live"));
-            case COOLING -> tell(player, Text.translatable("message.sparkwitch.koko.corpse.cooldown",
+            case LIVE -> tell(player, Text.translatable("message.sparkdlc.koko.corpse.live"));
+            case COOLING -> tell(player, Text.translatable("message.sparkdlc.koko.corpse.cooldown",
                     TickTime.ceilSeconds(state.cooldownRemaining(now))));
-            case ALREADY_STREAMED -> tell(player, Text.translatable("message.sparkwitch.koko.corpse.already"));
+            case ALREADY_STREAMED -> tell(player, Text.translatable("message.sparkdlc.koko.corpse.already"));
             case USE -> {
                 // Everyone sees the body through walls for 50 s: vanilla Glowing, as the NoellesRoles Noisemaker does.
                 // 所有人隔墙看到这具尸体 50 秒：原版发光，与 NoellesRoles 大嗓门的做法相同。
@@ -205,7 +205,7 @@ public final class KokoStreamService {
                         false, false));
                 state.recordCorpseStream(corpseKey(body), now);
                 cue(player, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 0.8F, 0.8F);
-                player.sendMessage(Text.translatable("message.sparkwitch.koko.corpse.streamed",
+                player.sendMessage(Text.translatable("message.sparkdlc.koko.corpse.streamed",
                         KokoRules.CORPSE_TRAFFIC), true);
                 KokoReplay.recordCorpseStream(player, body.getPlayerUuid());
                 return ActionResult.SUCCESS;

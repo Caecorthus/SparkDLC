@@ -36,7 +36,7 @@ public final class SaintKarmaService {
         updatePlayerMirror(player, true, worldComponent.getSaintKarmaTicks(player.getUuid()));
         sendBell(player, 1.0F);
         sendBell(player, 0.97F);
-        player.sendMessage(Text.translatable("message.sparkwitch.saint.karma.marked"), true);
+        player.sendMessage(Text.translatable("message.sparkdlc.saint.karma.marked"), true);
         return true;
     }
 
@@ -56,7 +56,7 @@ public final class SaintKarmaService {
         SaintKarmaCooldownService.apply(player, remainingTicks);
         updatePlayerMirror(player, true, remainingTicks);
         player.sendMessage(
-                Text.translatable("message.sparkwitch.saint.karma.triggered",
+                Text.translatable("message.sparkdlc.saint.karma.triggered",
                         TickTime.ceilSecondsAtLeastOne(remainingTicks)),
                 true
         );

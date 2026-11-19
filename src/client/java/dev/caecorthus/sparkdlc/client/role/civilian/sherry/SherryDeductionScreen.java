@@ -100,7 +100,7 @@ public final class SherryDeductionScreen extends Screen {
     private Hit hover = Hit.NONE;
 
     public SherryDeductionScreen(List<UUID> targets, List<String> names, int price) {
-        super(Text.translatable("screen.sparkwitch.sherry.deduction.title"));
+        super(Text.translatable("screen.sparkdlc.sherry.deduction.title"));
         // The server bounds the roster; clamp again so a malformed list can never flood the panel.
         // 服务端已限制名单长度；此处再次截断，畸形名单也无法撑爆面板。
         this.targets = List.copyOf(targets.subList(0, Math.min(targets.size(), SherryRules.MAX_CANDIDATES)));
@@ -134,10 +134,10 @@ public final class SherryDeductionScreen extends Screen {
 
     private void rebuild() {
         priceText = Text.literal(price + COIN_GLYPH);
-        cancelLabel = Text.translatable("screen.sparkwitch.sherry.deduction.cancel");
-        confirmLabel = Text.translatable("screen.sparkwitch.sherry.deduction.confirm", price);
-        String tracked = Text.translatable("screen.sparkwitch.sherry.deduction.tracked").getString();
-        String badge = Text.translatable("screen.sparkwitch.sherry.deduction.badge_lead").getString();
+        cancelLabel = Text.translatable("screen.sparkdlc.sherry.deduction.cancel");
+        confirmLabel = Text.translatable("screen.sparkdlc.sherry.deduction.confirm", price);
+        String tracked = Text.translatable("screen.sparkdlc.sherry.deduction.tracked").getString();
+        String badge = Text.translatable("screen.sparkdlc.sherry.deduction.badge_lead").getString();
         int trackedWidth = SherryDeductionLayout.chipWidth(this.textRenderer.getWidth(tracked));
         int badgeWidth = SherryDeductionLayout.chipWidth(this.textRenderer.getWidth(badge));
 
@@ -153,7 +153,7 @@ public final class SherryDeductionScreen extends Screen {
         }
         int panelWidth = SherryDeductionLayout.panelWidth(this.width);
         List<OrderedText> wrapped = this.textRenderer.wrapLines(
-                Text.translatable("screen.sparkwitch.sherry.deduction.hint"),
+                Text.translatable("screen.sparkdlc.sherry.deduction.hint"),
                 SherryDeductionLayout.hintBudget(panelWidth));
         hintLines = wrapped.size() > SherryDeductionLayout.HINT_MAX_LINES
                 ? wrapped.subList(0, SherryDeductionLayout.HINT_MAX_LINES) : wrapped;
@@ -346,8 +346,8 @@ public final class SherryDeductionScreen extends Screen {
 
     private Text statusText() {
         return selected >= 0 && selected < rows.size()
-                ? Text.translatable("screen.sparkwitch.sherry.deduction.selected", rows.get(selected).name())
-                : Text.translatable("screen.sparkwitch.sherry.deduction.none");
+                ? Text.translatable("screen.sparkdlc.sherry.deduction.selected", rows.get(selected).name())
+                : Text.translatable("screen.sparkdlc.sherry.deduction.none");
     }
 
     private Footer footer(Text status) {
@@ -535,7 +535,7 @@ public final class SherryDeductionScreen extends Screen {
      */
     private List<Text> tooltipAt() {
         if (hover.kind() == HitKind.PRICE) {
-            return List.of(Text.translatable("screen.sparkwitch.sherry.deduction.price", price));
+            return List.of(Text.translatable("screen.sparkdlc.sherry.deduction.price", price));
         }
         if (hover.kind() != HitKind.ROW) {
             return List.of();
@@ -545,11 +545,11 @@ public final class SherryDeductionScreen extends Screen {
             return List.of();
         }
         return switch (row.lead()) {
-            case TRACKED -> List.of(Text.translatable("message.sparkwitch.sherry.deduction.tracked", row.name()));
+            case TRACKED -> List.of(Text.translatable("message.sparkdlc.sherry.deduction.tracked", row.name()));
             case BADGE -> row.cut()
                     ? List.of(Text.literal(row.name()),
-                            Text.translatable("screen.sparkwitch.sherry.deduction.badge_lead.tooltip"))
-                    : List.of(Text.translatable("screen.sparkwitch.sherry.deduction.badge_lead.tooltip"));
+                            Text.translatable("screen.sparkdlc.sherry.deduction.badge_lead.tooltip"))
+                    : List.of(Text.translatable("screen.sparkdlc.sherry.deduction.badge_lead.tooltip"));
             case NONE -> row.cut() ? List.of(Text.literal(row.name())) : List.of();
         };
     }

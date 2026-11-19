@@ -12,13 +12,13 @@ import net.minecraft.client.MinecraftClient;
  * server turns on. The instinct veil ({@code hanna.HannaInstinctVetoMixin}) and the Presence Footsteps silence
  * ({@code hanna.HannaPresenceFootstepsVolumeMixin}) are client mixins that read the synced float of ANY player and need
  * no registration here. Server authority: the client never predicts the float; the key only sends the empty
- * {@code sparkwitch:use_hanna_float} request and the server validates role, round, cooldown, Fear and mana, then
- * resyncs {@code sparkwitch:hanna_player}. Never touches the {@code gui.sparkwitch.skills} panel.
+ * {@code sparkdlc:use_hanna_float} request and the server validates role, round, cooldown, Fear and mana, then
+ * resyncs {@code sparkdlc:hanna_player}. Never touches the {@code gui.sparkdlc.skills} panel.
  * 只注册汉娜自有的客户端展示，并发送她的浮游请求。展示：她自己的浮游行（{@link HannaFloatHud}），使用一个仅在已确认服务器上
  * 生效的 HUD 回调；她的魔力使用共享魔力行，由服务端开启。本能遮蔽（{@code hanna.HannaInstinctVetoMixin}）与 Presence
  * Footsteps 静音（{@code hanna.HannaPresenceFootstepsVolumeMixin}）是读取任意玩家同步浮游状态的客户端 mixin，无需在此注册。
- * 服务端权威：客户端从不预测浮游；按键只发送空的 {@code sparkwitch:use_hanna_float} 请求，职业、回合、冷却、恐惧与魔力全部
- * 由服务端校验，再重新同步 {@code sparkwitch:hanna_player}。从不触及 {@code gui.sparkwitch.skills} 面板。
+ * 服务端权威：客户端从不预测浮游；按键只发送空的 {@code sparkdlc:use_hanna_float} 请求，职业、回合、冷却、恐惧与魔力全部
+ * 由服务端校验，再重新同步 {@code sparkdlc:hanna_player}。从不触及 {@code gui.sparkdlc.skills} 面板。
  */
 public final class HannaClient {
     private static boolean initialized;

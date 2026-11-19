@@ -66,19 +66,19 @@ public final class VirusService {
         );
         switch (verdict) {
             case UNAVAILABLE -> {
-                user.sendMessage(Text.translatable("message.sparkstrength.pathogen.virus_unavailable"), true);
+                user.sendMessage(Text.translatable("message.sparkdlc.pathogen.virus_unavailable"), true);
                 return false;
             }
             case PATHOGEN_TARGET -> {
-                user.sendMessage(Text.translatable("message.sparkstrength.pathogen.virus_pathogen_target"), true);
+                user.sendMessage(Text.translatable("message.sparkdlc.pathogen.virus_pathogen_target"), true);
                 return false;
             }
             case ALREADY_CARRIER -> {
-                user.sendMessage(Text.translatable("message.sparkstrength.pathogen.virus_already_carrier"), true);
+                user.sendMessage(Text.translatable("message.sparkdlc.pathogen.virus_already_carrier"), true);
                 return false;
             }
             case OUT_OF_RANGE -> {
-                user.sendMessage(Text.translatable("message.sparkstrength.pathogen.virus_out_of_range"), true);
+                user.sendMessage(Text.translatable("message.sparkdlc.pathogen.virus_out_of_range"), true);
                 return false;
             }
             case OK -> {
@@ -94,7 +94,7 @@ public final class VirusService {
         VirusCarrierComponent.KEY.get(target).startCarrying(user.getUuid());
         sneeze(target);
         recordPair(user, VIRUS_USED_EVENT, target);
-        user.sendMessage(Text.translatable("message.sparkstrength.pathogen.virus_applied", target.getDisplayName()),
+        user.sendMessage(Text.translatable("message.sparkdlc.pathogen.virus_applied", target.getDisplayName()),
                 true);
         return true;
     }

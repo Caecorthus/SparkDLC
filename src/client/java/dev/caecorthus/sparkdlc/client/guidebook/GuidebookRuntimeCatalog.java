@@ -40,7 +40,7 @@ public final class GuidebookRuntimeCatalog {
         discoverRegistry(
                 discovered,
                 authoredIds,
-                "sparktraits",
+                "sparkdlc",
                 TraitRegistry.values(),
                 Trait::id,
                 Trait::color,
@@ -50,7 +50,7 @@ public final class GuidebookRuntimeCatalog {
         discoverRegistry(
                 discovered,
                 authoredIds,
-                "sparkwitch",
+                "sparkdlc",
                 WitchSkillRegistry.values(),
                 WitchSkillDefinition::id,
                 WitchSkillDefinition::color,
@@ -79,11 +79,11 @@ public final class GuidebookRuntimeCatalog {
                     GuidebookTab.ROLE,
                     id.getNamespace(),
                     "announcement.role." + id.getPath(),
-                    "guidebook.sparkassist.content.role.overview",
+                    "guidebook.sparkdlc.content.role.overview",
                     List.of(
-                            "guidebook.sparkassist.content.role.overview",
-                            "guidebook.sparkassist.content.role.abilities",
-                            "guidebook.sparkassist.content.role.items"
+                            "guidebook.sparkdlc.content.role.overview",
+                            "guidebook.sparkdlc.content.role.abilities",
+                            "guidebook.sparkdlc.content.role.items"
                     ),
                     List.of(),
                     List.of(id.getNamespace()),

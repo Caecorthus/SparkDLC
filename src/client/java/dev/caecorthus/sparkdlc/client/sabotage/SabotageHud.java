@@ -53,16 +53,16 @@ final class SabotageHud {
         Text label;
         if (breach) {
             float seconds = Math.max(0.0F, (1.0F - fraction) * channel.total / 20.0F);
-            label = finished ? Text.translatable("hud.sparkstrength.undercover.breached")
-                    : Text.translatable("hud.sparkstrength.undercover.breaching", String.format("%.1f", seconds));
+            label = finished ? Text.translatable("hud.sparkdlc.undercover.breached")
+                    : Text.translatable("hud.sparkdlc.undercover.breaching", String.format("%.1f", seconds));
         } else if (finished) {
-            label = Text.translatable(pry ? "hud.sparkstrength.sabotage.pried" : "hud.sparkstrength.sabotage.hacked");
+            label = Text.translatable(pry ? "hud.sparkdlc.sabotage.pried" : "hud.sparkdlc.sabotage.hacked");
         } else if (pry) {
             int durability = Math.round((1.0F - fraction) * SabotageRules.DURABILITY_MAX);
-            label = Text.translatable("hud.sparkstrength.sabotage.prying", SabotageRules.percent(durability));
+            label = Text.translatable("hud.sparkdlc.sabotage.prying", SabotageRules.percent(durability));
         } else {
             float seconds = Math.max(0.0F, (1.0F - fraction) * channel.total / 20.0F);
-            label = Text.translatable("hud.sparkstrength.sabotage.hacking", String.format("%.1f", seconds));
+            label = Text.translatable("hud.sparkdlc.sabotage.hacking", String.format("%.1f", seconds));
         }
         int scale = Math.max(1, (int) Math.round(client.getWindow().getScaleFactor()));
         TabletCanvas canvas = new TabletCanvas(context, scale, client.getWindow().getFramebufferHeight());

@@ -26,10 +26,10 @@ import net.minecraft.util.Util;
  * 结果数据包，客户端不做任何推断。属于职业自有展示，从不属于魔女技能背包面板。
  */
 public final class TarotReadingSlipRenderer {
-    private static final String IDENTITY_PRESENT_KEY = "message.sparkwitch.tarot.identity.present";
-    private static final String IDENTITY_ABSENT_KEY = "message.sparkwitch.tarot.identity.absent";
-    private static final String SURVIVAL_ALIVE_KEY = "message.sparkwitch.tarot.survival.alive";
-    private static final String SURVIVAL_DEAD_KEY = "message.sparkwitch.tarot.survival.dead";
+    private static final String IDENTITY_PRESENT_KEY = "message.sparkdlc.tarot.identity.present";
+    private static final String IDENTITY_ABSENT_KEY = "message.sparkdlc.tarot.identity.absent";
+    private static final String SURVIVAL_ALIVE_KEY = "message.sparkdlc.tarot.survival.alive";
+    private static final String SURVIVAL_DEAD_KEY = "message.sparkdlc.tarot.survival.dead";
     private static final int ARGUMENT_RGB = InventoryCardPaint.TEXT_HI & 0xFFFFFF;
 
     private TarotReadingSlipRenderer() {
@@ -65,9 +65,9 @@ public final class TarotReadingSlipRenderer {
     }
 
     /**
-     * The verdict sentence from the four {@code message.sparkwitch.tarot.*} keys, with the argument (role name or
+     * The verdict sentence from the four {@code message.sparkdlc.tarot.*} keys, with the argument (role name or
      * player name) in {@code argumentRgb}; the rest takes the caller's draw colour.
-     * 由四个 {@code message.sparkwitch.tarot.*} 键生成的结论句，参数（职业名或玩家名）使用 {@code argumentRgb}，
+     * 由四个 {@code message.sparkdlc.tarot.*} 键生成的结论句，参数（职业名或玩家名）使用 {@code argumentRgb}，
      * 其余文字使用调用方的绘制颜色。
      */
     public static MutableText sentence(TarotReadingLog.Reading reading, int argumentRgb) {

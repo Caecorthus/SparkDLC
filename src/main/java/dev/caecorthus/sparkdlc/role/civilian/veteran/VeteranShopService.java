@@ -66,9 +66,9 @@ public final class VeteranShopService {
 
     private static ItemStack knifeDisplayStack() {
         ItemStack stack = WatheItems.KNIFE.getDefaultStack();
-        stack.set(DataComponentTypes.ITEM_NAME, Text.translatable("shop.sparkstrength.veteran_knife"));
+        stack.set(DataComponentTypes.ITEM_NAME, Text.translatable("shop.sparkdlc.veteran_knife"));
         stack.set(DataComponentTypes.LORE, new LoreComponent(List.of(
-                Text.translatable("shop.sparkstrength.veteran_knife.description")
+                Text.translatable("shop.sparkdlc.veteran_knife.description")
                         .styled(style -> style.withColor(0x808080).withItalic(false))
         )));
         return stack;

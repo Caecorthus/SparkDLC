@@ -15,10 +15,10 @@ import net.minecraft.util.math.random.Random;
 /**
  * Yin-realm particles around every living player during the Otherworld, spawned client-side near the local player
  * only: a few sparse soul-fire flames around eye height and slowly falling joss paper
- * ({@code sparkwitch:joss_paper}) just overhead. Both spawn only in air blocks, with a hard per-tick cap and a bounded
+ * ({@code sparkdlc:joss_paper}) just overhead. Both spawn only in air blocks, with a hard per-tick cap and a bounded
  * number of position attempts, so cramped rooms get fewer particles instead of more work.
  * 里世界期间每个存活玩家周围的「阴间」粒子，仅在本地玩家附近由客户端生成：眼睛高度附近稀疏的几点灵魂火，以及头顶缓缓飘落的纸钱
- * （{@code sparkwitch:joss_paper}）。两者都只在空气方块中生成，每 tick 有硬上限且位置尝试次数有界，因此狭窄房间只会少生成，不会多做工。
+ * （{@code sparkdlc:joss_paper}）。两者都只在空气方块中生成，每 tick 有硬上限且位置尝试次数有界，因此狭窄房间只会少生成，不会多做工。
  */
 public final class SpecterOtherworldParticles {
     private static final int SOUL_FIRE_PER_TICK = 3;

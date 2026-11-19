@@ -9,11 +9,11 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 
 /**
- * Stable C2S contract {@code sparkwitch:black_raven_crow_use} (owner, a right-click while flying):
+ * Stable C2S contract {@code sparkdlc:black_raven_crow_use} (owner, a right-click while flying):
  * {@code crowEntityId:varint}, then vanilla's block-hit layout (block pos, side, hit offset, inside flag), like
- * {@code sparkwitch:seeker_car_use}. The hit is only the client's claim; the server re-validates distance, sight and
+ * {@code sparkdlc:seeker_car_use}. The hit is only the client's claim; the server re-validates distance, sight and
  * facing from the crow before replaying an empty-hand door, button, lever, trapdoor or fence-gate use (crow-world).
- * 稳定 C2S 契约 {@code sparkwitch:black_raven_crow_use}（主人飞行期间右键）：{@code crowEntityId:varint}，随后是原版方块命中布局
+ * 稳定 C2S 契约 {@code sparkdlc:black_raven_crow_use}（主人飞行期间右键）：{@code crowEntityId:varint}，随后是原版方块命中布局
  * （与 {@code seeker_car_use} 相同）。命中只是客户端的声明；服务端从乌鸦位置重新校验距离、视线与朝向后，才重放空手开门、按按钮、
  * 拉拉杆、活板门或栅栏门（crow-world）。
  */

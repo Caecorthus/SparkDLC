@@ -16,7 +16,7 @@ import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import java.util.Map;
 
 /**
- * Stable CCA contract {@code sparkwitch:planner_master_player} (NEVER_COPY), on every player.
+ * Stable CCA contract {@code sparkdlc:planner_master_player} (NEVER_COPY), on every player.
  * <ul>
  *   <li>Planner side: the absolute world tick at which the recommendation is ready again, and the whole seconds left
  *   until Wathe deals the planner's next task (-1 while unknown; published by the server, never saved).</li>
@@ -26,14 +26,14 @@ import java.util.Map;
  * Sync goes to the owner alone: no other client learns who holds a recommendation or when the planner is ready. The
  * client reads the ready tick against its own world clock (the Noa/Hanna precedent). NBT keeps the ready tick and the
  * recommendation across a mid-round relog; role assignment and Wathe's {@code ResetPlayer} clear everything. The
- * forced-cooldown store {@code sparkwitch:planner_recommend} writes the ready tick through
+ * forced-cooldown store {@code sparkdlc:planner_recommend} writes the ready tick through
  * {@link #setSkillReadyTick(long)}.
- * 稳定 CCA 契约 {@code sparkwitch:planner_master_player}（NEVER_COPY），挂在每名玩家身上。
+ * 稳定 CCA 契约 {@code sparkdlc:planner_master_player}（NEVER_COPY），挂在每名玩家身上。
  * 规划大师一侧：推荐再次就绪的绝对世界刻，以及距 Wathe 发下一个任务的整秒数（未知为 -1；由服务端发布，不保存）。
  * 目标一侧（任何玩家）：当前作为规划大师推荐的任务类型及其过期的绝对世界刻。每名玩家最多一条推荐。
  * 只同步给本人：其他客户端不会得知谁持有推荐、规划大师何时就绪。客户端按自身世界时钟读取就绪刻（沿用诺亚/汉娜的先例）。
  * NBT 使就绪刻与推荐在局中重新登录后保留；身份分配与 Wathe 的 {@code ResetPlayer} 清空全部状态。强制冷却存储
- * {@code sparkwitch:planner_recommend} 通过 {@link #setSkillReadyTick(long)} 写入就绪刻。
+ * {@code sparkdlc:planner_recommend} 通过 {@link #setSkillReadyTick(long)} 写入就绪刻。
  * <p>The server also keeps a transient reference to the exact Wathe task object it inserted (never saved or synced):
  * a feature that rewrites the task map with a fresh task of the same type (a Bell Ringer Echo, a task slip, another
  * mod) no longer matches it, so that task never counts as the recommendation. After a relog the reference is gone and

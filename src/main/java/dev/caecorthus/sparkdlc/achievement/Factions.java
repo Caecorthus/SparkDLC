@@ -19,14 +19,14 @@ public final class Factions {
     public static final String NEUTRAL = "wathe:neutral";
     /** No faction: no role, or a role outside every faction. 无阵营：没有角色，或角色不属于任何阵营。 */
     public static final String NONE = "wathe:none";
-    public static final String WITCH = "sparkwitch:witch";
-    public static final String MURDEROUS_WITCH = "sparkwitch:murderous_witch";
+    public static final String WITCH = "sparkdlc:witch";
+    public static final String MURDEROUS_WITCH = "sparkdlc:murderous_witch";
     /**
      * Team Jiahao (嘉豪阵营): the Insider and Noelle's Roles' Corrupt Cop, a native Wathe faction ({@code JIAHAO})
      * since 2026-11-04; before that both read as {@link #NEUTRAL}.
      * 嘉豪阵营：内应与 Noelle's Roles 的黑警，自 2026-11-04 起是 Wathe 原生阵营（{@code JIAHAO}）；此前两者都读作 {@link #NEUTRAL}。
      */
-    public static final String JIAHAO = "sparkwitch:jiahao";
+    public static final String JIAHAO = "sparkdlc:jiahao";
 
     /**
      * Native custom Wathe constants SparkWitch declares through SparkFactionAPI, used when the API cannot name them

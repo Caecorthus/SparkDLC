@@ -97,7 +97,7 @@ public final class SaviorHandFlash {
     /** Wathe's additive layer: bright flash without darkening the gun behind it. / Wathe 的加色层：火焰发亮且不会压暗后面的枪。 */
     private static RenderLayer additive(Identifier texture) {
         return RenderLayer.of(
-                "sparkwitch_savior_hand_flash",
+                "sparkdlc_savior_hand_flash",
                 VertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL,
                 DrawMode.QUADS,
                 256,

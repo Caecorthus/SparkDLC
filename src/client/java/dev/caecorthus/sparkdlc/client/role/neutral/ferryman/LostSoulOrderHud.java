@@ -22,7 +22,7 @@ import net.minecraft.text.Text;
  * 使用同一组视图门槛（{@link FerrymanHudRules#showsHud}：未按 F1、开局淡入已结束、Wathe 列车 HUD 显示）。
  */
 public final class LostSoulOrderHud {
-    private static final String ORDER_KEY = "hud.sparkwitch.ferryman.soul_order";
+    private static final String ORDER_KEY = "hud.sparkdlc.ferryman.soul_order";
     private static final int ORDER_COLOR = 0xFFFF4A4A;
     /**
      * A Lost Soul has a FAKE mood, so Wathe's {@code MoodRenderer} fills the corner itself: the flag at (5, 6), the

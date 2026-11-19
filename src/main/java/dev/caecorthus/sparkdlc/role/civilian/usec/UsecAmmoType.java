@@ -53,14 +53,14 @@ public enum UsecAmmoType {
         };
     }
 
-    /** Registry id of this round's item ({@code sparkwitch:usec_338_<id>}). / 本弹种物品的注册 id。 */
+    /** Registry id of this round's item ({@code sparkdlc:usec_338_<id>}). / 本弹种物品的注册 id。 */
     public Identifier itemId() {
         return SparkWitch.id("usec_338_" + id);
     }
 
     /** Short label lang key ("FMJ" / "AP"). / 短标签的语言键（"FMJ" / "AP"）。 */
     public String labelKey() {
-        return "item.sparkwitch.usec_ammo.label." + id;
+        return "item.sparkdlc.usec_ammo.label." + id;
     }
 
     /** Short label tinted with {@link #color()}. / 以 {@link #color()} 着色的短标签。 */

@@ -13,7 +13,7 @@ import net.minecraft.text.Text;
 import java.util.UUID;
 
 public final class GrandWitchShopReplayService {
-    private static final String MANA_REPLAY_TRANSLATION_KEY = "replay.shop_purchase.sparkwitch.mana";
+    private static final String MANA_REPLAY_TRANSLATION_KEY = "replay.shop_purchase.sparkdlc.mana";
 
     private GrandWitchShopReplayService() {
     }

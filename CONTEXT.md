@@ -29,14 +29,14 @@ only reached from client code.
 
 - **Namespaces never change.** Registry ids, packet ids, component ids, asset paths, lang keys, config file names,
   and commands keep the legacy mod ids (the nine mixin configs were merged into two `sparkdlc.*` files). `fabric.mod.json` lists the five ids under `provides`,
-  so `FabricLoader#isModLoaded("sparkwitch")` and `#getModContainer("sparkwitch")` resolve to the SparkDLC container.
+  so `FabricLoader#isModLoaded("sparkdlc")` and `#getModContainer("sparkdlc")` resolve to the SparkDLC container.
   Code that needs a module's display name uses `SparkDlcModule`, not the container name.
 - **Start order.** `SparkDLC#onInitialize` runs factionapi, strength, traits, witch; `SparkDLCClient` runs assist,
   factionapi, strength, traits, witch. This is the alphabetical mod-id order Fabric used for the separate mods.
   The two mixin configs (`sparkdlc.mixins.json`, `sparkdlc.client.mixins.json`) list the mixins of the former
   nine configs in the same module order on each side; the common config is listed first.
 - **Shared resource files.** Five files that several mods used to ship are single merged files now:
-  `assets/minecraft/font/default.json`, `data/sparktraits/tags/item/{bloodthirsty_weapons,throwables,thrust_weapons}.json`
+  `assets/minecraft/font/default.json`, `data/sparkdlc/tags/item/{bloodthirsty_weapons,throwables,thrust_weapons}.json`
   and `data/wathe/tags/item/guns.json`. A module adds its entries to the shared file.
 - **Module calls are direct.** The modules were separate jars that reached each other through reflection behind
   `isModLoaded` gates. Since the fusion they call each other with compiled calls (the `*Bridge` / `*Compat`

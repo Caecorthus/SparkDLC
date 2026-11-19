@@ -54,7 +54,7 @@ public final class UndercoverService {
     public static final String OUTFIT_MARKER = "sparkstrength_undercover_outfit";
     public static final int OUTFIT_COLOR = 0x1B1B1F;
     /** SparkWitch Bell Ringer's echo skill id, vetoed on the Undercover. / SparkWitch 敲钟人回响的技能 id，对卧底否决。 */
-    public static final Identifier BELL_ECHO_ACTION = Identifier.of("sparkwitch", "bell_echo");
+    public static final Identifier BELL_ECHO_ACTION = Identifier.of("sparkdlc", "bell_echo");
     private static final int INVISIBILITY_TICKS = 60;
     private static final int SPEED_TICKS = 60;
 
@@ -83,7 +83,7 @@ public final class UndercoverService {
             if (stage2) {
                 if (SabotageWorldComponent.KEY.get(world).readyTickFor(player.getUuid(), SabotageType.LIGHTS) == now) {
                     // Its own track just armed: say so to it alone. / 自己的轨道刚刚就绪：只告诉它自己。
-                    player.sendMessage(Text.translatable("message.sparkstrength.undercover.sabotage_ready")
+                    player.sendMessage(Text.translatable("message.sparkdlc.undercover.sabotage_ready")
                             .formatted(Formatting.GOLD), false);
                     player.playSoundToPlayer(SparkStrengthSounds.SABOTAGE_READY, SoundCategory.PLAYERS, 0.6F, 1.2F);
                 }
@@ -110,7 +110,7 @@ public final class UndercoverService {
         // 它自己的破坏轨道从待命开始，与刚入侵完一样（负责人 2026-10-19）。
         SabotageWorldComponent.KEY.get(world).armUndercover(player.getUuid(),
                 world.getTime() + SabotageRules.UNLOCK_DELAY_TICKS);
-        player.sendMessage(Text.translatable("message.sparkstrength.undercover.stage2")
+        player.sendMessage(Text.translatable("message.sparkdlc.undercover.stage2")
                 .formatted(Formatting.GRAY), false);
         player.playSoundToPlayer(SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE.value(), SoundCategory.PLAYERS, 0.8F, 0.7F);
         TabletStateService.syncToTabletHolders(world);
@@ -163,7 +163,7 @@ public final class UndercoverService {
             return;
         }
         PlayerShopComponent.KEY.get(player).addToBalance(UndercoverRules.HACK_REWARD);
-        player.sendMessage(Text.translatable("message.sparkstrength.undercover.hack_reward", UndercoverRules.HACK_REWARD)
+        player.sendMessage(Text.translatable("message.sparkdlc.undercover.hack_reward", UndercoverRules.HACK_REWARD)
                 .formatted(Formatting.GOLD), true);
     }
 
@@ -174,7 +174,7 @@ public final class UndercoverService {
             return;
         }
         if (!ShopEntry.insertStackInFreeSlot(player, worn.copy())) {
-            player.sendMessage(Text.translatable("message.sparkstrength.undercover.mask_no_room"), true);
+            player.sendMessage(Text.translatable("message.sparkdlc.undercover.mask_no_room"), true);
             return;
         }
         player.equipStack(EquipmentSlot.HEAD, ItemStack.EMPTY);
@@ -390,7 +390,7 @@ public final class UndercoverService {
         NbtCompound marker = new NbtCompound();
         marker.putBoolean(OUTFIT_MARKER, true);
         stack.set(DataComponentTypes.CUSTOM_DATA, NbtComponent.of(marker));
-        stack.set(DataComponentTypes.ITEM_NAME, Text.translatable("item.sparkstrength.undercover_outfit"));
+        stack.set(DataComponentTypes.ITEM_NAME, Text.translatable("item.sparkdlc.undercover_outfit"));
         return stack;
     }
 

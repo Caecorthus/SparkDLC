@@ -6,11 +6,11 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Tuning and pure rules of the Defense Vial ({@code sparkwitch:defense_vial}, PR #240). Drinking it (a 2.5 s hold)
+ * Tuning and pure rules of the Defense Vial ({@code sparkdlc:defense_vial}, PR #240). Drinking it (a 2.5 s hold)
  * gives the drinker one NoellesRoles whiskey shield layer and starts a 30 s item cooldown; pouring it into a Wathe
  * food platter / drinks tray gives one layer to the next player who takes a serving from that tray, then the tray is
  * clean again, like Wathe's own poison vial and the pre-2026 NoellesRoles bartender vial.
- * 防御药剂（{@code sparkwitch:defense_vial}，PR #240）的数值与纯规则。饮用（按住 2.5 秒）给饮用者一层 NoellesRoles
+ * 防御药剂（{@code sparkdlc:defense_vial}，PR #240）的数值与纯规则。饮用（按住 2.5 秒）给饮用者一层 NoellesRoles
  * 威士忌护盾，并进入 30 秒物品冷却；倒进 Wathe 餐盘 / 饮料托盘后，下一个从该托盘取用一份的玩家获得一层护盾，随后托盘恢复
  * 干净，与 Wathe 自己的毒药瓶以及 2026 年前 NoellesRoles 调酒师的药剂一致。
  */

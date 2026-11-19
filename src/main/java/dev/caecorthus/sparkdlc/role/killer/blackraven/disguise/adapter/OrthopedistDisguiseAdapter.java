@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier;
  * 仅首次进入时按本局时钟对齐设置。
  */
 public final class OrthopedistDisguiseAdapter implements BlackRavenDisguiseAdapter {
-    public static final Identifier ROLE_ID = Identifier.of("sparkwitch", "orthopedist");
+    public static final Identifier ROLE_ID = Identifier.of("sparkdlc", "orthopedist");
 
     @Override
     public Identifier roleId() {

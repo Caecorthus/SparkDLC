@@ -22,7 +22,7 @@ import dev.caecorthus.sparkdlc.util.TickTime;
  * SparkTraits HUD 位置变化时需重新核对。
  */
 public final class FiendMomentHudRules {
-    public static final String KEY = "hud.sparkwitch.fiend.moment";
+    public static final String KEY = "hud.sparkdlc.fiend.moment";
     /**
      * Opaque lighter tint of {@link FiendRules#COLOR} for readable text; outlines keep the frozen theme color.
      * 为便于阅读而使用的 {@link FiendRules#COLOR} 不透明浅色调；描边仍使用冻结的主题色。

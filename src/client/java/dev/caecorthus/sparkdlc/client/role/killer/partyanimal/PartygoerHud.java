@@ -51,21 +51,21 @@ public final class PartygoerHud {
             String target = skill.getActiveTarget();
             int seconds = skill.getActiveSeconds();
             return switch (state) {
-                case HUNT -> Text.translatable("hud.sparkstrength.partygoer.hunt", target, seconds);
-                case CARRY -> Text.translatable("hud.sparkstrength.partygoer.carry", target);
-                case EAT, RAGE_EAT -> Text.translatable("hud.sparkstrength.partygoer.eat", target, seconds);
-                case RAGE_STUN, RAGE_CHASE -> Text.translatable("hud.sparkstrength.partygoer.rage", target, seconds);
-                case SWALLOWED -> Text.translatable("hud.sparkstrength.partygoer.swallowed");
+                case HUNT -> Text.translatable("hud.sparkdlc.partygoer.hunt", target, seconds);
+                case CARRY -> Text.translatable("hud.sparkdlc.partygoer.carry", target);
+                case EAT, RAGE_EAT -> Text.translatable("hud.sparkdlc.partygoer.eat", target, seconds);
+                case RAGE_STUN, RAGE_CHASE -> Text.translatable("hud.sparkdlc.partygoer.rage", target, seconds);
+                case SWALLOWED -> Text.translatable("hud.sparkdlc.partygoer.swallowed");
             };
         }
         if (!skill.isUnlocked()) {
-            return Text.translatable("hud.sparkstrength.partygoer.tasks", skill.getCompletedTasks(),
+            return Text.translatable("hud.sparkdlc.partygoer.tasks", skill.getCompletedTasks(),
                     PartyAnimalRules.UNLOCK_TASKS);
         }
         if (skill.getCooldownTicks() > 0) {
-            return Text.translatable("hud.sparkstrength.partygoer.cooldown", Math.ceilDiv(skill.getCooldownTicks(), 20));
+            return Text.translatable("hud.sparkdlc.partygoer.cooldown", Math.ceilDiv(skill.getCooldownTicks(), 20));
         }
-        return Text.translatable("hud.sparkstrength.partygoer.ready", keyText(), PartyAnimalRules.SKILL_PRICE);
+        return Text.translatable("hud.sparkdlc.partygoer.ready", keyText(), PartyAnimalRules.SKILL_PRICE);
     }
 
     private static Text keyText() {

@@ -19,7 +19,7 @@ import java.util.UUID;
 @Pseudo
 @Mixin(targets = "dev.caecorthus.sparkdlc.skill.WitchSkillUseService", remap = false)
 public abstract class WitchSkillUseAffectMixin {
-    private static final Identifier ACTION = Identifier.of("sparkwitch", "witch_skill");
+    private static final Identifier ACTION = Identifier.of("sparkdlc", "witch_skill");
 
     @Inject(method = "use", at = @At("HEAD"), cancellable = true, require = 0, remap = false)
     private static void sparkfactionapi$guardTargetedWitchSkill(

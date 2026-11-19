@@ -30,9 +30,9 @@ import java.util.Locale;
 /**
  * Workbench of the Bandit's moddable revolver, opened by right-clicking the revolver in the inventory with an empty
  * cursor. Everything shown is read from the live stack every frame; clicks only send
- * {@code sparkstrength:bandit_revolver_action}, and the server's slot sync brings the result back.
+ * {@code sparkdlc:bandit_revolver_action}, and the server's slot sync brings the result back.
  * 强盗改装左轮的改装界面，在背包中空手右键左轮打开。显示内容每帧读取实际物品；点击只发送
- * {@code sparkstrength:bandit_revolver_action}，结果由服务端的格子同步带回。
+ * {@code sparkdlc:bandit_revolver_action}，结果由服务端的格子同步带回。
  */
 public final class BanditWorkbenchScreen extends Screen {
     private static final int PANEL_WIDTH = 248;
@@ -60,7 +60,7 @@ public final class BanditWorkbenchScreen extends Screen {
     private final List<Zone> zones = new ArrayList<>();
 
     public BanditWorkbenchScreen() {
-        super(Text.translatable("screen.sparkstrength.bandit_workbench.title"));
+        super(Text.translatable("screen.sparkdlc.bandit_workbench.title"));
     }
 
     @Override
@@ -99,9 +99,9 @@ public final class BanditWorkbenchScreen extends Screen {
 
         KeyBinding ability = NoellesrolesClient.abilityBind;
         context.drawCenteredTextWithShadow(textRenderer,
-                Text.translatable("screen.sparkstrength.bandit_workbench.hint"), width / 2, top + PANEL_HEIGHT + 6, MUTED);
+                Text.translatable("screen.sparkdlc.bandit_workbench.hint"), width / 2, top + PANEL_HEIGHT + 6, MUTED);
         context.drawCenteredTextWithShadow(textRenderer,
-                Text.translatable("screen.sparkstrength.bandit_workbench.hint_load",
+                Text.translatable("screen.sparkdlc.bandit_workbench.hint_load",
                         ability == null ? Text.literal("G") : ability.getBoundKeyLocalizedText()),
                 width / 2, top + PANEL_HEIGHT + 17, MUTED);
 
@@ -130,10 +130,10 @@ public final class BanditWorkbenchScreen extends Screen {
             List<Text> tooltip = new ArrayList<>();
             Runnable action = null;
             if (part != null) {
-                tooltip.add(Text.translatable("item.sparkstrength.bandit_" + part.key()).formatted(Formatting.GOLD));
-                tooltip.add(Text.translatable("item.sparkstrength.bandit_" + part.key() + ".description")
+                tooltip.add(Text.translatable("item.sparkdlc.bandit_" + part.key()).formatted(Formatting.GOLD));
+                tooltip.add(Text.translatable("item.sparkdlc.bandit_" + part.key() + ".description")
                         .formatted(Formatting.GRAY));
-                tooltip.add(Text.translatable("screen.sparkstrength.bandit_workbench.click_remove")
+                tooltip.add(Text.translatable("screen.sparkdlc.bandit_workbench.click_remove")
                         .formatted(Formatting.DARK_GRAY));
                 action = () -> send(BanditRevolverService.Action.REMOVE, slot.ordinal());
             }
@@ -145,11 +145,11 @@ public final class BanditWorkbenchScreen extends Screen {
             if (part != null) {
                 context.drawItem(new ItemStack(SparkStrengthItems.banditAttachment(part)), x + 4, rowY + 4);
             }
-            context.drawText(textRenderer, Text.translatable("item.sparkstrength.bandit_part.slot." + slot.key()),
+            context.drawText(textRenderer, Text.translatable("item.sparkdlc.bandit_part.slot." + slot.key()),
                     x + 26, rowY + 3, MUTED, false);
             context.drawText(textRenderer, part == null
-                            ? Text.translatable("item.sparkstrength.bandit_revolver.part_none")
-                            : Text.translatable("item.sparkstrength.bandit_" + part.key()),
+                            ? Text.translatable("item.sparkdlc.bandit_revolver.part_none")
+                            : Text.translatable("item.sparkdlc.bandit_" + part.key()),
                     x + 26, rowY + 13, part == null ? MUTED : TEXT, false);
         }
     }
@@ -182,7 +182,7 @@ public final class BanditWorkbenchScreen extends Screen {
         for (int index = 0; index < keys.length; index++) {
             int cellX = x + index * (cellWidth + 2);
             context.fill(cellX, y, cellX + cellWidth, y + 22, CELL);
-            context.drawText(textRenderer, Text.translatable("screen.sparkstrength.bandit_workbench.stat." + keys[index]),
+            context.drawText(textRenderer, Text.translatable("screen.sparkdlc.bandit_workbench.stat." + keys[index]),
                     cellX + 3, y + 2, MUTED, false);
             context.drawText(textRenderer, values[index], cellX + 3, y + 12,
                     verdicts[index] > 0 ? BETTER : verdicts[index] < 0 ? WORSE : TEXT, false);
@@ -197,9 +197,9 @@ public final class BanditWorkbenchScreen extends Screen {
 
     private void drawCylinder(DrawContext context, BanditRevolverState state, int x, int y, int mouseX, int mouseY) {
         context.drawText(textRenderer, state.pending().isEmpty()
-                ? Text.translatable("screen.sparkstrength.bandit_workbench.cylinder",
+                ? Text.translatable("screen.sparkdlc.bandit_workbench.cylinder",
                 state.rounds().size(), state.capacity())
-                : Text.translatable("screen.sparkstrength.bandit_workbench.cylinder_pending",
+                : Text.translatable("screen.sparkdlc.bandit_workbench.cylinder_pending",
                 state.rounds().size(), state.capacity(), state.pending().size()), x, y, MUTED, false);
         int chambered = state.rounds().size();
         for (int index = 0; index < state.capacity(); index++) {
@@ -210,12 +210,12 @@ public final class BanditWorkbenchScreen extends Screen {
             Runnable action = null;
             if (ammo != null) {
                 int chamber = index;
-                tooltip.add(Text.translatable("item.sparkstrength." + ammo.key() + "_round").formatted(Formatting.GOLD));
+                tooltip.add(Text.translatable("item.sparkdlc." + ammo.key() + "_round").formatted(Formatting.GOLD));
                 tooltip.add(Text.translatable(index < chambered
-                        ? (index == 0 ? "screen.sparkstrength.bandit_workbench.round_next"
-                        : "screen.sparkstrength.bandit_workbench.round_chambered")
-                        : "screen.sparkstrength.bandit_workbench.round_pending").formatted(Formatting.GRAY));
-                tooltip.add(Text.translatable("screen.sparkstrength.bandit_workbench.click_unload")
+                        ? (index == 0 ? "screen.sparkdlc.bandit_workbench.round_next"
+                        : "screen.sparkdlc.bandit_workbench.round_chambered")
+                        : "screen.sparkdlc.bandit_workbench.round_pending").formatted(Formatting.GRAY));
+                tooltip.add(Text.translatable("screen.sparkdlc.bandit_workbench.click_unload")
                         .formatted(Formatting.DARK_GRAY));
                 action = () -> send(BanditRevolverService.Action.UNLOAD, chamber);
             }
@@ -245,7 +245,7 @@ public final class BanditWorkbenchScreen extends Screen {
     /** Parts and rounds lying in the inventory: click to fit or push one. / 物品栏里的配件与子弹：点击安装或塞入一发。 */
     private void drawSupplies(DrawContext context, BanditRevolverState state, PlayerInventory inventory, int x, int y,
                               int mouseX, int mouseY) {
-        context.drawText(textRenderer, Text.translatable("screen.sparkstrength.bandit_workbench.supplies"),
+        context.drawText(textRenderer, Text.translatable("screen.sparkdlc.bandit_workbench.supplies"),
                 x, y, MUTED, false);
         int column = 0;
         for (int slot = 0; slot < inventory.size() && column < 5; slot++) {
@@ -255,17 +255,17 @@ public final class BanditWorkbenchScreen extends Screen {
             if (stack.getItem() instanceof BanditAttachmentItem partItem) {
                 BanditAttachment part = partItem.attachment();
                 tooltip.add(stack.getName().copy().formatted(Formatting.GOLD));
-                tooltip.add(Text.translatable("item.sparkstrength.bandit_" + part.key() + ".description")
+                tooltip.add(Text.translatable("item.sparkdlc.bandit_" + part.key() + ".description")
                         .formatted(Formatting.GRAY));
-                tooltip.add(Text.translatable("screen.sparkstrength.bandit_workbench.click_fit")
+                tooltip.add(Text.translatable("screen.sparkdlc.bandit_workbench.click_fit")
                         .formatted(Formatting.DARK_GRAY));
                 action = () -> send(BanditRevolverService.Action.INSTALL, part.code());
             } else if (stack.getItem() instanceof BanditAmmoItem ammoItem) {
                 BanditAmmo ammo = ammoItem.ammo();
                 tooltip.add(stack.getName().copy().formatted(Formatting.GOLD));
-                tooltip.add(Text.translatable("item.sparkstrength." + ammo.key() + "_round.description")
+                tooltip.add(Text.translatable("item.sparkdlc." + ammo.key() + "_round.description")
                         .formatted(Formatting.GRAY));
-                tooltip.add(Text.translatable("screen.sparkstrength.bandit_workbench.click_load")
+                tooltip.add(Text.translatable("screen.sparkdlc.bandit_workbench.click_load")
                         .formatted(Formatting.DARK_GRAY));
                 action = () -> {
                     if (hasShiftDown()) {
@@ -287,7 +287,7 @@ public final class BanditWorkbenchScreen extends Screen {
             column++;
         }
         if (column == 0) {
-            context.drawText(textRenderer, Text.translatable("screen.sparkstrength.bandit_workbench.supplies_none"),
+            context.drawText(textRenderer, Text.translatable("screen.sparkdlc.bandit_workbench.supplies_none"),
                     x, y + 16, MUTED, false);
         }
     }

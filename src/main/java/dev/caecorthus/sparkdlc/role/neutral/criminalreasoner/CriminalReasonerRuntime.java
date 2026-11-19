@@ -323,11 +323,11 @@ public final class CriminalReasonerRuntime {
                 NOTICES.add(new PendingNotice(reasoner.getUuid(),
                         now + CriminalReasonerRules.NOTICE_DELAY_TICKS));
             }
-            reasoner.sendMessage(Text.translatable("tip.sparkwitch.criminal_reasoner.guess_success",
+            reasoner.sendMessage(Text.translatable("tip.sparkdlc.criminal_reasoner.guess_success",
                     nameOf(world, victimId),
                     nameOf(world, suspectId)).formatted(Formatting.GREEN), true);
         } else {
-            reasoner.sendMessage(Text.translatable("tip.sparkwitch.criminal_reasoner.guess_wrong")
+            reasoner.sendMessage(Text.translatable("tip.sparkdlc.criminal_reasoner.guess_wrong")
                     .formatted(Formatting.RED), true);
         }
         int cooldownTicks = correct
@@ -350,7 +350,7 @@ public final class CriminalReasonerRuntime {
         if (now >= cooldownUntil) {
             return false;
         }
-        reasoner.sendMessage(Text.translatable("tip.sparkwitch.criminal_reasoner.cooldown",
+        reasoner.sendMessage(Text.translatable("tip.sparkdlc.criminal_reasoner.cooldown",
                 (cooldownUntil - now + 19) / 20).formatted(Formatting.GRAY), true);
         return true;
     }
@@ -365,7 +365,7 @@ public final class CriminalReasonerRuntime {
         }
         CriminalReasonerComponent component = CriminalReasonerComponent.KEY.get(reasoner);
         if (!component.consumeInvisibilityCharge()) {
-            reasoner.sendMessage(Text.translatable("tip.sparkwitch.criminal_reasoner.no_charge")
+            reasoner.sendMessage(Text.translatable("tip.sparkdlc.criminal_reasoner.no_charge")
                     .formatted(Formatting.GRAY), true);
             return;
         }
@@ -480,7 +480,7 @@ public final class CriminalReasonerRuntime {
      * 这条公告不点名、也不泄露信息。
      */
     private static void broadcastNotice(MinecraftServer server, UUID reasonerId) {
-        Text notice = Text.translatable("tip.sparkwitch.criminal_reasoner.notice_broadcast");
+        Text notice = Text.translatable("tip.sparkdlc.criminal_reasoner.notice_broadcast");
         for (ServerWorld world : server.getWorlds()) {
             GameWorldComponent game = GameWorldComponent.KEY.get(world);
             if (!game.isRunning()) {
@@ -502,7 +502,7 @@ public final class CriminalReasonerRuntime {
         var profile = GameWorldComponent.KEY.get(world).getGameProfiles().get(uuid);
         return profile != null
                 ? profile.getName()
-                : Text.translatable("screen.sparkwitch.criminal_reasoner.unknown_player").getString();
+                : Text.translatable("screen.sparkdlc.criminal_reasoner.unknown_player").getString();
     }
 
     /** The exact assigned role from Wathe's synced component; safe on both sides. 读取 Wathe 同步的真实职业；两端均可调用。 */

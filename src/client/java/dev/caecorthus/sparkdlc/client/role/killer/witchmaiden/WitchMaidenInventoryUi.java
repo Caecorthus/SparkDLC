@@ -48,14 +48,14 @@ public final class WitchMaidenInventoryUi {
                 0,
                 y,
                 Items.PURPLE_DYE.getDefaultStack(),
-                Text.translatable("ui.sparkwitch.witch_maiden.pagination.previous"),
+                Text.translatable("ui.sparkdlc.witch_maiden.pagination.previous"),
                 button -> changePage(-1)
         );
         next = new WitchMaidenPageSwitchWidget(
                 0,
                 y,
                 Items.LIME_DYE.getDefaultStack(),
-                Text.translatable("ui.sparkwitch.witch_maiden.pagination.next"),
+                Text.translatable("ui.sparkdlc.witch_maiden.pagination.next"),
                 button -> changePage(1)
         );
         addChild.accept(previous);
@@ -80,7 +80,7 @@ public final class WitchMaidenInventoryUi {
         if (!ownerAvailable(player) || !liveWidgets.isEmpty()) {
             return;
         }
-        Text empty = Text.translatable("ui.sparkwitch.witch_maiden.no_targets");
+        Text empty = Text.translatable("ui.sparkdlc.witch_maiden.no_targets");
         var textRenderer = MinecraftClient.getInstance().textRenderer;
         int x = screen.width / 2 - textRenderer.getWidth(empty) / 2;
         int y = FocusedFootstepsPageLayout.rowY(screen.height) + 4;

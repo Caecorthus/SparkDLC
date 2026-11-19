@@ -94,8 +94,8 @@ public final class TarotDivinationSelectorScreen extends Screen {
 
     public TarotDivinationSelectorScreen(int mode, List<UUID> playerIds, List<String> playerNames) {
         super(Text.translatable(identity(mode)
-                ? "screen.sparkwitch.tarot.identity.title"
-                : "screen.sparkwitch.tarot.survival.title"));
+                ? "screen.sparkdlc.tarot.identity.title"
+                : "screen.sparkdlc.tarot.survival.title"));
         this.mode = mode;
         this.ledgerMode = identity(mode) ? TarotLedgerLayout.Mode.IDENTITY : TarotLedgerLayout.Mode.SURVIVAL;
         this.playerIds = List.copyOf(playerIds);

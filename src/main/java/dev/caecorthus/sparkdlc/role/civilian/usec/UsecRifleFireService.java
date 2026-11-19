@@ -34,7 +34,7 @@ import net.minecraft.util.math.Vec3d;
 import java.util.List;
 
 /**
- * Server-authoritative USEC rifle fire (WP3). The client sends only {@code sparkwitch:fire_usec_rifle} with its
+ * Server-authoritative USEC rifle fire (WP3). The client sends only {@code sparkdlc:fire_usec_rifle} with its
  * click-time aim, trusted for direction only (Death Ray rule); this service re-checks everything in the fixed order of
  * {@link UsecFireRules#decide}, cycles the bolt, plays the shot, traces the bullet ({@link UsecTracer}) and resolves
  * nearest-wins along the whole path: a Magician puppet, then a Seeker device, then the lag-compensated player. Use never
@@ -42,7 +42,7 @@ import java.util.List;
  * shot, a dead one nothing, anyone else a presentation shot (sound, particles and cracks; no kill, device break or
  * replay line). Fabric runs play-payload receivers on the server thread, behind the stun, Seeker-session and Rift-session
  * payload guards, so no extra hand-off is needed.
- * 服务端权威的 USEC 步枪开火（WP3）。客户端只发送带点击瞬间朝向的 {@code sparkwitch:fire_usec_rifle}，朝向只被信任于方向
+ * 服务端权威的 USEC 步枪开火（WP3）。客户端只发送带点击瞬间朝向的 {@code sparkdlc:fire_usec_rifle}，朝向只被信任于方向
  * （死亡射线规则）；本服务按 {@link UsecFireRules#decide} 的固定顺序复核一切、拉栓、播放枪声、追踪子弹（{@link UsecTracer}），
  * 并沿整条路径结算最近者命中：依次为魔术师皮套、搜寻者设备、延迟补偿后的玩家。使用从不检查职业（所有者规则 2026-10-04，
  * {@link OffMatchUse}）：ACTIVE 对局中存活的参与者打出对局射击，已死亡的参与者无法开火，其他人打出表现射击（声音、粒子与裂痕；
@@ -50,7 +50,7 @@ import java.util.List;
  * 因此无需额外切换线程。
  */
 public final class UsecRifleFireService {
-    static final String CHAMBER_EMPTY_KEY = "message.sparkwitch.usec.chamber_empty";
+    static final String CHAMBER_EMPTY_KEY = "message.sparkdlc.usec.chamber_empty";
     /** Muzzle point ahead of the eye. / 枪口点在眼前的距离。 */
     private static final double MUZZLE_OFFSET = 1.0;
     private static boolean registered;

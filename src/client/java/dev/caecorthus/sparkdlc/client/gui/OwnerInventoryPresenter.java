@@ -64,7 +64,7 @@ public final class OwnerInventoryPresenter {
      * {@link SparkFactionSecondRowCompat#isShown()}，以保持同一个接线点。
      */
     private static final class Card {
-        private static final InventoryInfoCard INSTANCE = new InventoryInfoCard("gui.sparkwitch.inventory.more",
+        private static final InventoryInfoCard INSTANCE = new InventoryInfoCard("gui.sparkdlc.inventory.more",
                 () -> SparkFactionSecondRowCompat.isShown() ? 22 : 0,
                 SparkStrengthHudBridge::topRightHudBottom, new GuideDecorBridge("SparkWitch/GuideDecor"));
     }
@@ -146,7 +146,7 @@ public final class OwnerInventoryPresenter {
         if (cached != null && sameTraits(visited, cached.entries())) return cached;
         List<InventoryInfoCard.Entry> entries = visited.stream()
                 .map(trait -> new InventoryInfoCard.Entry(List.of(trait.name()), trait.tooltip())).toList();
-        return traitsCache = new InventoryInfoCard.Section(Text.translatable("gui.sparktraits.traits"), entries);
+        return traitsCache = new InventoryInfoCard.Section(Text.translatable("gui.sparkdlc.traits"), entries);
     }
 
     private static boolean sameTraits(List<VisitedTrait> visited, List<InventoryInfoCard.Entry> cached) {
@@ -341,7 +341,7 @@ public final class OwnerInventoryPresenter {
         // NO_MANA refines READY only; the precedence itself stays in stateText. 魔力不足只细化“可使用”。
         if (kind == InventoryInfoCard.Kind.READY && manaShown && mana < cost) {
             kind = InventoryInfoCard.Kind.NO_MANA;
-            label = Text.translatable("gui.sparkwitch.skill.pill.no_mana");
+            label = Text.translatable("gui.sparkdlc.skill.pill.no_mana");
         }
         int tasks = GrandWitchRules.clampCeremonialSwordTaskProgress(component.getGrandWitchCeremonialSwordTasks());
         int charges = kind == InventoryInfoCard.Kind.ACTIVE && MurderousWitchDeathRayRules.isDeathRaySkill(skillId)
@@ -365,9 +365,9 @@ public final class OwnerInventoryPresenter {
         boolean costShort = manaShown && mana < cost;
         // The card cannot restyle a nested translation argument, so the presenter colours the numbers; the root
         // stays white so the mana glyph keeps its own colours. 卡片无法改写嵌套参数样式，数字颜色由此处设置。
-        Text costText = manaShown && cost > 0 ? Text.translatable("gui.sparkwitch.mana", Text.literal(String.valueOf(cost))
+        Text costText = manaShown && cost > 0 ? Text.translatable("gui.sparkdlc.mana", Text.literal(String.valueOf(cost))
                 .withColor((costShort ? InventoryCardPaint.ALERT_TEXT : InventoryCardPaint.MUTED) & 0xFFFFFF)).withColor(0xFFFFFF) : null;
-        Text manaTail = manaShown ? Text.translatable("gui.sparkwitch.mana", Text.literal(String.valueOf(mana))
+        Text manaTail = manaShown ? Text.translatable("gui.sparkdlc.mana", Text.literal(String.valueOf(mana))
                 .withColor(InventoryCardPaint.MANA & 0xFFFFFF)).withColor(0xFFFFFF) : null;
         int widest = SkillProgressTracker.widestSeconds(skillId);
         // Appended facts after the status line: the mana line in NO_MANA, the charges line while charges >= 0.
@@ -390,18 +390,18 @@ public final class OwnerInventoryPresenter {
         if (!tooltip.isEmpty()) {
             int last = tooltip.size() - 1;
             int statusColor = kind == InventoryInfoCard.Kind.NO_MANA ? InventoryCardPaint.MUTED : InventoryCardPaint.kindText(tooltipKind);
-            Text statusText = kind == InventoryInfoCard.Kind.NO_MANA ? Text.translatable("gui.sparkwitch.skill.off_cooldown") : tooltip.get(last);
+            Text statusText = kind == InventoryInfoCard.Kind.NO_MANA ? Text.translatable("gui.sparkdlc.skill.off_cooldown") : tooltip.get(last);
             tooltip.set(last, statusText.copy().withColor(statusColor & 0xFFFFFF));
             // The bound key goes just above the status line, so the status stays the line after the +2 gap.
             // 实际绑定按键位于状态行正上方，状态行仍紧随 2 像素间距。
-            tooltip.add(last, keyHint("gui.sparkwitch.skill.key.main", abilityKey));
+            tooltip.add(last, keyHint("gui.sparkdlc.skill.key.main", abilityKey));
         }
         if (kind == InventoryInfoCard.Kind.NO_MANA) {
-            Text manaLine = Text.translatable("hud.sparkwitch.skill.not_enough_mana", cost).withColor(InventoryCardPaint.ALERT_TEXT & 0xFFFFFF);
+            Text manaLine = Text.translatable("hud.sparkdlc.skill.not_enough_mana", cost).withColor(InventoryCardPaint.ALERT_TEXT & 0xFFFFFF);
             tooltip.add(manaLine);
         }
         if (charges >= 0) {
-            Text chargesLine = Text.translatable("gui.sparkwitch.skill.death_ray.charges", charges).withColor(InventoryCardPaint.ACTIVE_TEXT & 0xFFFFFF);
+            Text chargesLine = Text.translatable("gui.sparkdlc.skill.death_ray.charges", charges).withColor(InventoryCardPaint.ACTIVE_TEXT & 0xFFFFFF);
             tooltip.add(chargesLine);
         }
         if (apprenticeFact != null) {
@@ -412,8 +412,8 @@ public final class OwnerInventoryPresenter {
         List<InventoryInfoCard.Entry> entries = new ArrayList<>(List.of(entry));
         if (grandWitch != null) entries.addAll(grandWitchEntries(grandWitch));
         if (apprentice != null) entries.add(purifyEntry(apprentice, mana, manaShown));
-        return new InventoryInfoCard.Section(Text.translatable("gui.sparkwitch.skills"), entries, manaTail,
-                manaTail == null ? null : Text.literal("888 \uE782"), Text.translatable("gui.sparkwitch.skills.short"));
+        return new InventoryInfoCard.Section(Text.translatable("gui.sparkdlc.skills"), entries, manaTail,
+                manaTail == null ? null : Text.literal("888 \uE782"), Text.translatable("gui.sparkdlc.skills.short"));
     }
 
     /**
@@ -422,23 +422,23 @@ public final class OwnerInventoryPresenter {
      */
     private static Text stateText(WitchPlayerComponent component) {
         int activeTicks = component.getActiveSkillWindowTicks();
-        if (activeTicks > 0) return Text.translatable("gui.sparkwitch.skill.pill.active", secs(activeTicks));
+        if (activeTicks > 0) return Text.translatable("gui.sparkdlc.skill.pill.active", secs(activeTicks));
         if (WitchSkillHudRules.shouldShowCeremonialSwordTaskUnlock(component.getActiveSkillId(),
                 component.getGrandWitchCeremonialSwordTasks(), activeTicks, component.getCooldownTicks())) {
-            return Text.translatable("gui.sparkwitch.skill.pill.locked",
+            return Text.translatable("gui.sparkdlc.skill.pill.locked",
                     component.getGrandWitchCeremonialSwordTasks(), GrandWitchRules.CEREMONIAL_SWORD_UNLOCK_TASKS);
         }
-        if (component.getCooldownTicks() > 0) return Text.translatable("gui.sparkwitch.skill.pill.cooldown", secs(component.getCooldownTicks()));
-        return Text.translatable("gui.sparkwitch.skill.ready");
+        if (component.getCooldownTicks() > 0) return Text.translatable("gui.sparkdlc.skill.pill.cooldown", secs(component.getCooldownTicks()));
+        return Text.translatable("gui.sparkdlc.skill.ready");
     }
 
     /** Kind of a stateText label, read back from its key so stateText stays the only precedence. 由键名反推状态。 */
     private static InventoryInfoCard.Kind kindOf(Text label) {
         String key = label.getContent() instanceof TranslatableTextContent translation ? translation.getKey() : "";
         return switch (key) {
-            case "gui.sparkwitch.skill.pill.active" -> InventoryInfoCard.Kind.ACTIVE;
-            case "gui.sparkwitch.skill.pill.locked" -> InventoryInfoCard.Kind.LOCKED;
-            case "gui.sparkwitch.skill.pill.cooldown" -> InventoryInfoCard.Kind.COOLDOWN;
+            case "gui.sparkdlc.skill.pill.active" -> InventoryInfoCard.Kind.ACTIVE;
+            case "gui.sparkdlc.skill.pill.locked" -> InventoryInfoCard.Kind.LOCKED;
+            case "gui.sparkdlc.skill.pill.cooldown" -> InventoryInfoCard.Kind.COOLDOWN;
             default -> InventoryInfoCard.Kind.READY;
         };
     }
@@ -447,11 +447,11 @@ public final class OwnerInventoryPresenter {
     private static Text shortLabel(InventoryInfoCard.Kind kind, Text label) {
         Object[] args = label.getContent() instanceof TranslatableTextContent translation ? translation.getArgs() : new Object[0];
         return switch (kind) {
-            case READY -> Text.translatable("gui.sparkwitch.skill.pill.short.ready");
-            case ACTIVE -> Text.translatable("gui.sparkwitch.skill.pill.short.active", args);
-            case COOLDOWN -> Text.translatable("gui.sparkwitch.skill.pill.short.cooldown", args);
+            case READY -> Text.translatable("gui.sparkdlc.skill.pill.short.ready");
+            case ACTIVE -> Text.translatable("gui.sparkdlc.skill.pill.short.active", args);
+            case COOLDOWN -> Text.translatable("gui.sparkdlc.skill.pill.short.cooldown", args);
             case LOCKED -> label;
-            case NO_MANA -> Text.translatable("gui.sparkwitch.skill.pill.short.no_mana");
+            case NO_MANA -> Text.translatable("gui.sparkdlc.skill.pill.short.no_mana");
         };
     }
 
@@ -463,11 +463,11 @@ public final class OwnerInventoryPresenter {
     static Map<InventoryInfoCard.Kind, Text> reserveLabels(int widestSeconds, boolean compact) {
         int tasks = GrandWitchRules.CEREMONIAL_SWORD_UNLOCK_TASKS;
         Map<InventoryInfoCard.Kind, Text> labels = new EnumMap<>(InventoryInfoCard.Kind.class);
-        labels.put(InventoryInfoCard.Kind.READY, Text.translatable(compact ? "gui.sparkwitch.skill.pill.short.ready" : "gui.sparkwitch.skill.ready"));
-        labels.put(InventoryInfoCard.Kind.ACTIVE, Text.translatable(compact ? "gui.sparkwitch.skill.pill.short.active" : "gui.sparkwitch.skill.pill.active", widestSeconds));
-        labels.put(InventoryInfoCard.Kind.COOLDOWN, Text.translatable(compact ? "gui.sparkwitch.skill.pill.short.cooldown" : "gui.sparkwitch.skill.pill.cooldown", widestSeconds));
-        labels.put(InventoryInfoCard.Kind.LOCKED, Text.translatable("gui.sparkwitch.skill.pill.locked", tasks, tasks));
-        labels.put(InventoryInfoCard.Kind.NO_MANA, Text.translatable(compact ? "gui.sparkwitch.skill.pill.short.no_mana" : "gui.sparkwitch.skill.pill.no_mana"));
+        labels.put(InventoryInfoCard.Kind.READY, Text.translatable(compact ? "gui.sparkdlc.skill.pill.short.ready" : "gui.sparkdlc.skill.ready"));
+        labels.put(InventoryInfoCard.Kind.ACTIVE, Text.translatable(compact ? "gui.sparkdlc.skill.pill.short.active" : "gui.sparkdlc.skill.pill.active", widestSeconds));
+        labels.put(InventoryInfoCard.Kind.COOLDOWN, Text.translatable(compact ? "gui.sparkdlc.skill.pill.short.cooldown" : "gui.sparkdlc.skill.pill.cooldown", widestSeconds));
+        labels.put(InventoryInfoCard.Kind.LOCKED, Text.translatable("gui.sparkdlc.skill.pill.locked", tasks, tasks));
+        labels.put(InventoryInfoCard.Kind.NO_MANA, Text.translatable(compact ? "gui.sparkdlc.skill.pill.short.no_mana" : "gui.sparkdlc.skill.pill.no_mana"));
         return labels;
     }
 
@@ -488,59 +488,59 @@ public final class OwnerInventoryPresenter {
         var kind = !rows.unlocked() ? InventoryInfoCard.Kind.LOCKED
                 : rows.killSeconds() > 0 ? InventoryInfoCard.Kind.COOLDOWN : InventoryInfoCard.Kind.READY;
         Text label = switch (kind) {
-            case LOCKED -> Text.translatable("gui.sparkwitch.skill.pill.locked", rows.tasks(), unlock);
-            case COOLDOWN -> Text.translatable("gui.sparkwitch.skill.pill.cooldown", rows.killSeconds());
-            default -> Text.translatable("gui.sparkwitch.skill.pill.kill_ready");
+            case LOCKED -> Text.translatable("gui.sparkdlc.skill.pill.locked", rows.tasks(), unlock);
+            case COOLDOWN -> Text.translatable("gui.sparkdlc.skill.pill.cooldown", rows.killSeconds());
+            default -> Text.translatable("gui.sparkdlc.skill.pill.kill_ready");
         };
         Text shortLabel = switch (kind) {
             case LOCKED -> label;
-            case COOLDOWN -> Text.translatable("gui.sparkwitch.skill.pill.short.cooldown", rows.killSeconds());
-            default -> Text.translatable("gui.sparkwitch.skill.pill.short.ready");
+            case COOLDOWN -> Text.translatable("gui.sparkdlc.skill.pill.short.cooldown", rows.killSeconds());
+            default -> Text.translatable("gui.sparkdlc.skill.pill.short.ready");
         };
         int widestSeconds = SkillProgressTracker.widestSeconds(SWORD);
         Map<InventoryInfoCard.Kind, Text> widest = new EnumMap<>(InventoryInfoCard.Kind.class);
-        widest.put(InventoryInfoCard.Kind.READY, Text.translatable("gui.sparkwitch.skill.pill.kill_ready"));
-        widest.put(InventoryInfoCard.Kind.COOLDOWN, Text.translatable("gui.sparkwitch.skill.pill.cooldown", widestSeconds));
-        widest.put(InventoryInfoCard.Kind.LOCKED, Text.translatable("gui.sparkwitch.skill.pill.locked", unlock, unlock));
+        widest.put(InventoryInfoCard.Kind.READY, Text.translatable("gui.sparkdlc.skill.pill.kill_ready"));
+        widest.put(InventoryInfoCard.Kind.COOLDOWN, Text.translatable("gui.sparkdlc.skill.pill.cooldown", widestSeconds));
+        widest.put(InventoryInfoCard.Kind.LOCKED, Text.translatable("gui.sparkdlc.skill.pill.locked", unlock, unlock));
         Map<InventoryInfoCard.Kind, Text> widestShort = new EnumMap<>(InventoryInfoCard.Kind.class);
-        widestShort.put(InventoryInfoCard.Kind.READY, Text.translatable("gui.sparkwitch.skill.pill.short.ready"));
-        widestShort.put(InventoryInfoCard.Kind.COOLDOWN, Text.translatable("gui.sparkwitch.skill.pill.short.cooldown", widestSeconds));
-        widestShort.put(InventoryInfoCard.Kind.LOCKED, Text.translatable("gui.sparkwitch.skill.pill.locked", unlock, unlock));
+        widestShort.put(InventoryInfoCard.Kind.READY, Text.translatable("gui.sparkdlc.skill.pill.short.ready"));
+        widestShort.put(InventoryInfoCard.Kind.COOLDOWN, Text.translatable("gui.sparkdlc.skill.pill.short.cooldown", widestSeconds));
+        widestShort.put(InventoryInfoCard.Kind.LOCKED, Text.translatable("gui.sparkdlc.skill.pill.locked", unlock, unlock));
         boolean cooling = kind == InventoryInfoCard.Kind.COOLDOWN;
         float progress = cooling ? swordProgress() : kind == InventoryInfoCard.Kind.LOCKED ? rows.tasks() / (float) unlock : 1f;
         InventoryInfoCard.Gauge gauge = cooling ? OwnerInventoryPresenter::swordProgress : null;
         List<Text> tooltip = new ArrayList<>(List.of(
-                Text.translatable("skill.sparkwitch.ceremonial_sword.name"),
-                Text.translatable("skill.sparkwitch.ceremonial_sword.description"),
-                Text.translatable("skill.sparkwitch.ceremonial_sword.protection")));
+                Text.translatable("skill.sparkdlc.ceremonial_sword.name"),
+                Text.translatable("skill.sparkdlc.ceremonial_sword.description"),
+                Text.translatable("skill.sparkdlc.ceremonial_sword.protection")));
         Text killLine = switch (kind) {
-            case LOCKED -> Text.translatable("gui.sparkwitch.skill.ceremonial_sword.locked", rows.tasks(), unlock);
-            case COOLDOWN -> Text.translatable("gui.sparkwitch.skill.sword.kill_cooldown", rows.killSeconds());
-            default -> Text.translatable("gui.sparkwitch.skill.sword.kill_ready");
+            case LOCKED -> Text.translatable("gui.sparkdlc.skill.ceremonial_sword.locked", rows.tasks(), unlock);
+            case COOLDOWN -> Text.translatable("gui.sparkdlc.skill.sword.kill_cooldown", rows.killSeconds());
+            default -> Text.translatable("gui.sparkdlc.skill.sword.kill_ready");
         };
         tooltip.add(killLine.copy().withColor(InventoryCardPaint.kindText(kind) & 0xFFFFFF));
         // The dash has its own 5 s item cooldown: one fact line after the kill status, never a second pill.
         // 冲刺有独立的 5 秒物品冷却：作为击杀状态之后的一行附加信息，而不是第二个状态牌。
         if (rows.unlocked()) {
             Text dashLine = rows.dashSeconds() > 0
-                    ? Text.translatable("gui.sparkwitch.skill.sword.dash_cooldown", rows.dashSeconds()).withColor(InventoryCardPaint.COOL_TEXT & 0xFFFFFF)
-                    : Text.translatable("gui.sparkwitch.skill.sword.dash_ready").withColor(InventoryCardPaint.READY_TEXT & 0xFFFFFF);
+                    ? Text.translatable("gui.sparkdlc.skill.sword.dash_cooldown", rows.dashSeconds()).withColor(InventoryCardPaint.COOL_TEXT & 0xFFFFFF)
+                    : Text.translatable("gui.sparkdlc.skill.sword.dash_ready").withColor(InventoryCardPaint.READY_TEXT & 0xFFFFFF);
             tooltip.add(dashLine);
         }
         var status = new InventoryInfoCard.Status(kind, label, shortLabel, widest, widestShort, progress,
                 kind == InventoryInfoCard.Kind.LOCKED ? unlock : 0, kind == InventoryInfoCard.Kind.LOCKED ? rows.tasks() : 0,
                 -1, null, false, gauge, rows.unlocked() ? 1 : 0);
-        return new InventoryInfoCard.Entry(List.of(Text.translatable("skill.sparkwitch.ceremonial_sword.name"), label), tooltip,
+        return new InventoryInfoCard.Entry(List.of(Text.translatable("skill.sparkdlc.ceremonial_sword.name"), label), tooltip,
                 GrandWitchClientPresentation.COLOR, status);
     }
 
     private static @Nullable Text apprenticeFact(Identifier skillId, @Nullable ApprenticeRows apprentice) {
         if (apprentice == null) return null;
         if (MightyForceAbility.ID.equals(skillId) && apprentice.forfeited()) {
-            return Text.translatable("hud.sparkwitch.skill.mighty_force.forfeited").withColor(InventoryCardPaint.ALERT_TEXT & 0xFFFFFF);
+            return Text.translatable("hud.sparkdlc.skill.mighty_force.forfeited").withColor(InventoryCardPaint.ALERT_TEXT & 0xFFFFFF);
         }
         if (SwiftStepAbility.ID.equals(skillId)) {
-            return Text.translatable("gui.sparkwitch.skill.swift_step.charges", apprentice.swiftCharges(),
+            return Text.translatable("gui.sparkdlc.skill.swift_step.charges", apprentice.swiftCharges(),
                     ApprenticeRules.SWIFT_STEP_MAX_CHARGES).withColor(InventoryCardPaint.ACTIVE_TEXT & 0xFFFFFF);
         }
         return null;
@@ -560,10 +560,10 @@ public final class OwnerInventoryPresenter {
                 : rows.purifySeconds() > 0 ? InventoryInfoCard.Kind.COOLDOWN
                 : costShort ? InventoryInfoCard.Kind.NO_MANA : InventoryInfoCard.Kind.READY;
         Text label = switch (kind) {
-            case LOCKED -> Text.translatable("gui.sparkwitch.skill.pill.locked", rows.tasks(), unlock);
-            case COOLDOWN -> Text.translatable("gui.sparkwitch.skill.pill.cooldown", rows.purifySeconds());
-            case NO_MANA -> Text.translatable("gui.sparkwitch.skill.pill.no_mana");
-            default -> Text.translatable("gui.sparkwitch.skill.ready");
+            case LOCKED -> Text.translatable("gui.sparkdlc.skill.pill.locked", rows.tasks(), unlock);
+            case COOLDOWN -> Text.translatable("gui.sparkdlc.skill.pill.cooldown", rows.purifySeconds());
+            case NO_MANA -> Text.translatable("gui.sparkdlc.skill.pill.no_mana");
+            default -> Text.translatable("gui.sparkdlc.skill.ready");
         };
         int widestSeconds = secs(PurifyAbility.COOLDOWN_TICKS);
         float progress = switch (kind) {
@@ -572,23 +572,23 @@ public final class OwnerInventoryPresenter {
             case NO_MANA -> cost <= 0 ? 1f : Math.max(0f, Math.min(1f, mana / (float) cost));
             default -> 1f;
         };
-        Text costText = manaShown ? Text.translatable("gui.sparkwitch.mana", Text.literal(String.valueOf(cost))
+        Text costText = manaShown ? Text.translatable("gui.sparkdlc.mana", Text.literal(String.valueOf(cost))
                 .withColor((costShort ? InventoryCardPaint.ALERT_TEXT : InventoryCardPaint.MUTED) & 0xFFFFFF)).withColor(0xFFFFFF) : null;
         var status = new InventoryInfoCard.Status(kind, label, shortLabel(kind, label), reserveLabels(widestSeconds, false),
                 reserveLabels(widestSeconds, true), progress, kind == InventoryInfoCard.Kind.LOCKED ? unlock : 0,
                 kind == InventoryInfoCard.Kind.LOCKED ? rows.tasks() : 0, -1, costText, costShort, null, 0);
         Text statusLine = switch (kind) {
-            case LOCKED -> Text.translatable("gui.sparkwitch.skill.ceremonial_sword.locked", rows.tasks(), unlock);
-            case COOLDOWN -> Text.translatable("hud.sparkwitch.apprentice.purify.cooldown", rows.purifySeconds());
-            case NO_MANA -> Text.translatable("hud.sparkwitch.skill.not_enough_mana", cost);
-            default -> Text.translatable("gui.sparkwitch.skill.ready");
+            case LOCKED -> Text.translatable("gui.sparkdlc.skill.ceremonial_sword.locked", rows.tasks(), unlock);
+            case COOLDOWN -> Text.translatable("hud.sparkdlc.apprentice.purify.cooldown", rows.purifySeconds());
+            case NO_MANA -> Text.translatable("hud.sparkdlc.skill.not_enough_mana", cost);
+            default -> Text.translatable("gui.sparkdlc.skill.ready");
         };
         List<Text> tooltip = List.of(
-                Text.translatable("skill.sparkwitch.purify.name"),
-                Text.translatable("skill.sparkwitch.purify.description"),
-                keyHint("gui.sparkwitch.skill.key.secondary", rows.secondaryKey()),
+                Text.translatable("skill.sparkdlc.purify.name"),
+                Text.translatable("skill.sparkdlc.purify.description"),
+                keyHint("gui.sparkdlc.skill.key.secondary", rows.secondaryKey()),
                 statusLine.copy().withColor(InventoryCardPaint.kindText(kind) & 0xFFFFFF));
-        return new InventoryInfoCard.Entry(List.of(Text.translatable("skill.sparkwitch.purify.name"), label), tooltip,
+        return new InventoryInfoCard.Entry(List.of(Text.translatable("skill.sparkdlc.purify.name"), label), tooltip,
                 ApprenticeClientPresentation.PURIFY_COLOR, status);
     }
 

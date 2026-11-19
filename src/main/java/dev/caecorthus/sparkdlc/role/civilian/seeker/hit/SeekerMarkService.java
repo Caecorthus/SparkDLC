@@ -22,7 +22,7 @@ import java.util.function.BooleanSupplier;
  * a breaker other than the owner; the owner is the owner of record and alive in the round; the owner holds the
  * SparkStrength tablet anywhere in the inventory (the car-item console fallback does not count, the spec says
  * "tablet"); SparkFactionAPI lets the owner's {@code MARK_ACTION_ID} affect the breaker. The mark lives in the
- * owner-only {@code sparkwitch:seeker_status} component (decay is WP-02's tick, rendering WP-05's), so no other client
+ * owner-only {@code sparkdlc:seeker_status} component (decay is WP-02's tick, rendering WP-05's), so no other client
  * ever learns it; the owner is told only that a mark was applied, never the breaker's name.
  * 冻结契约：拥有者背包任意位置持有平板时标记损坏者（10 秒、仅拥有者可见、新标记替换旧标记）。仅由
  * {@code SeekerDeviceService.breakDevice} 在可归属来源下调用；小车与摄像头被打坏都会标记（Q8），饕餮吞车、回收与电量耗尽
@@ -32,7 +32,7 @@ import java.util.function.BooleanSupplier;
  * 拥有者只会被告知“已标记”，不会得知损坏者的名字。
  */
 public final class SeekerMarkService {
-    static final String APPLIED_MESSAGE_KEY = "message.sparkwitch.seeker.mark.applied";
+    static final String APPLIED_MESSAGE_KEY = "message.sparkdlc.seeker.mark.applied";
 
     private SeekerMarkService() {
     }

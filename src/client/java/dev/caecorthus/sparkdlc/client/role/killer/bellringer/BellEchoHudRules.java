@@ -20,7 +20,7 @@ public final class BellEchoHudRules {
     public static final int TOP_Y = 6;
     /** Vertical gap below Wathe's block. / 与 Wathe 区块之间的垂直间距。 */
     public static final int GAP = 3;
-    public static final String TASK_KEY_PREFIX = "task.sparkwitch.bell_echo.";
+    public static final String TASK_KEY_PREFIX = "task.sparkdlc.bell_echo.";
 
     private static final int ICON_TOP = 6;
     private static final int ICON_HEIGHT = 17;

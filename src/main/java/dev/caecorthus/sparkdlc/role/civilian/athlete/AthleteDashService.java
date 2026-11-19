@@ -26,11 +26,11 @@ import net.minecraft.world.border.WorldBorder;
 import java.util.List;
 
 /**
- * Server side of the Athlete's dash ({@code sparkwitch:use_athlete_dash}): gates the request
+ * Server side of the Athlete's dash ({@code sparkdlc:use_athlete_dash}): gates the request
  * ({@link AthleteDashRules}), searches the destination ({@link AthleteDashPath}), then teleports with the client's own
  * rotation kept and no leftover momentum, plays the dash sound, records the replay and restarts the cooldown in
  * {@link AthleteComponent}. A refused or blocked dash changes nothing and costs nothing.
- * 运动员冲刺（{@code sparkwitch:use_athlete_dash}）的服务端部分：先判定请求（{@link AthleteDashRules}），再搜索落点
+ * 运动员冲刺（{@code sparkdlc:use_athlete_dash}）的服务端部分：先判定请求（{@link AthleteDashRules}），再搜索落点
  * （{@link AthleteDashPath}），然后传送（保留客户端自身视角，不留余速），播放冲刺音效，记录回放，并在
  * {@link AthleteComponent} 中重新开始冷却。被拒绝或受阻的冲刺不改变任何东西，也不消耗冷却。
  */

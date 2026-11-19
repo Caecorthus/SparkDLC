@@ -26,7 +26,7 @@ public final class FerrymanRules {
      */
     public static final Identifier LOST_SOUL_ID = SparkWitch.id("lost_soul");
     public static final int SOUL_TEAM_COLOR = 0x39E6D0;
-    public static final String LOST_SOUL_COHORT_KEY = "game.tip.sparkwitch.lost_soul_cohort";
+    public static final String LOST_SOUL_COHORT_KEY = "game.tip.sparkdlc.lost_soul_cohort";
 
     /**
      * The Ferryman is never drawn below this population; it carries its own win condition, so small rounds keep it out.
@@ -104,8 +104,8 @@ public final class FerrymanRules {
     /** Shop. / 商店。 */
     public static final int MOMENT_PRICE = 250;
     public static final int CROWBAR_PRICE = 25;
-    public static final String MOMENT_SHOP_ENTRY_ID = "sparkwitch_ferryman_moment";
-    public static final String CROWBAR_SHOP_ENTRY_ID = "sparkwitch_ferryman_crowbar";
+    public static final String MOMENT_SHOP_ENTRY_ID = "sparkdlc_ferryman_moment";
+    public static final String CROWBAR_SHOP_ENTRY_ID = "sparkdlc_ferryman_crowbar";
 
     /** Lost Soul revival: one body per 6 players in the round, at least one. / 亡魂时刻复活数量：每 6 名玩家 1 具，至少 1 具。 */
     public static final int SOUL_PLAYERS_PER_BODY = 6;

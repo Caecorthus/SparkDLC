@@ -21,9 +21,9 @@ import java.util.Set;
  * 集中处理大魔女“恐惧”的禁用判断和低频理智扣除。
  */
 public final class GrandWitchFearService {
-    public static final String SKILL_BLOCKED_KEY = "message.sparkwitch.fear.skill_blocked";
-    public static final String INSTINCT_BLOCKED_KEY = "message.sparkwitch.fear.instinct_blocked";
-    public static final String SHOP_BLOCKED_KEY = "shop.error.sparkwitch.fear";
+    public static final String SKILL_BLOCKED_KEY = "message.sparkdlc.fear.skill_blocked";
+    public static final String INSTINCT_BLOCKED_KEY = "message.sparkdlc.fear.instinct_blocked";
+    public static final String SHOP_BLOCKED_KEY = "shop.error.sparkdlc.fear";
     public static final float TOTAL_MOOD_LOSS = 0.5f;
     public static final int PULSE_INTERVAL_TICKS = 20;
 

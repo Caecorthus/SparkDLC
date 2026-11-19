@@ -41,7 +41,7 @@ public final class SpecterReplayService {
             return null;
         }
         return Text.translatable(
-                "replay.item_use.sparkwitch.ghost_trigger.place",
+                "replay.item_use.sparkdlc.ghost_trigger.place",
                 ReplayGenerator.formatPlayerName(data.getUuid("actor"), ReplayGenerator.getPlayerInfoCache(match))
         );
     }
@@ -59,12 +59,12 @@ public final class SpecterReplayService {
         Text target = ReplayGenerator.formatPlayerName(data.getUuid("target"), playerInfo);
         if (!data.containsUuid("actor")) {
             return Text.translatable(
-                    "replay.global.sparkwitch.ghost_trigger_triggered.no_owner",
+                    "replay.global.sparkdlc.ghost_trigger_triggered.no_owner",
                     target
             );
         }
         return Text.translatable(
-                "replay.global.sparkwitch.ghost_trigger_triggered",
+                "replay.global.sparkdlc.ghost_trigger_triggered",
                 target,
                 ReplayGenerator.formatPlayerName(data.getUuid("actor"), playerInfo)
         );
@@ -81,7 +81,7 @@ public final class SpecterReplayService {
         }
         var playerInfo = ReplayGenerator.getPlayerInfoCache(match);
         return Text.translatable(
-                "replay.item_use.sparkwitch.peachwood_sword.hit",
+                "replay.item_use.sparkdlc.peachwood_sword.hit",
                 ReplayGenerator.formatPlayerName(data.getUuid("actor"), playerInfo),
                 ReplayGenerator.formatPlayerName(data.getUuid("target"), playerInfo)
         );

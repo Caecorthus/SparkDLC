@@ -48,9 +48,9 @@ public record RoundObservation(
      */
     public static final Set<String> EXPLOSIVE_ENTITY_IDS = Set.of(
             "wathe:grenade",
-            "sparkstrength:m67",
-            "sparkstrength:grenade_drone",
-            "sparkwitch:potion_shell");
+            "sparkdlc:m67",
+            "sparkdlc:grenade_drone",
+            "sparkdlc:potion_shell");
 
     public RoundObservation {
         traitIds = traitIds == null ? Set.of() : Set.copyOf(traitIds);

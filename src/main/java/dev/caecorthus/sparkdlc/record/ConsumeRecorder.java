@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Records {@code sparkfactionapi:consume} (actor = consumer, {@code item} id, {@code kind} food/drink) through two
+ * Records {@code sparkdlc:consume} (actor = consumer, {@code item} id, {@code kind} food/drink) through two
  * server-side funnels:
  * <ul>
  *   <li>{@code ItemStack#finishUsing}: every finished eat/drink use (vanilla {@code consumeItem}), including Wathe
@@ -30,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
  * Not covered: consumption that calls neither (a capsule-delivered Blue Belladonna, {@code applyEaten} only), instant
  * items that are neither food nor drink by these rules (SparkWitch Fisher fish, SparkStrength Professor serum), and
  * creative players whose stack {@code finishUsing} leaves untouched.
- * 通过两个服务端汇聚点记录 {@code sparkfactionapi:consume}（actor = 食用者，{@code item} 物品标识，{@code kind}
+ * 通过两个服务端汇聚点记录 {@code sparkdlc:consume}（actor = 食用者，{@code item} 物品标识，{@code kind}
  * food/drink）：{@code ItemStack#finishUsing} 覆盖所有完成的吃/喝（原版 {@code consumeItem}），包括 Wathe 鸡尾酒、Noelle
  * 的精酿饮品/基酒（重写 {@code finishUsing} 且不调用 {@code super}）以及手动食用的 SparkStrength 蓝颠茄；物品在调用前
  * 读取（完成使用可能清空物品堆），在返回后且物品堆被消耗或替换时才记录（拒绝饮用，如 SparkStrength 验尸官取消基酒，
@@ -41,7 +41,7 @@ import org.jetbrains.annotations.Nullable;
  * （SparkWitch 渔夫的鱼、SparkStrength 教授血清），以及 {@code finishUsing} 未改动物品堆的创造模式玩家。
  */
 public final class ConsumeRecorder {
-    public static final String EVENT_TYPE = "sparkfactionapi:consume";
+    public static final String EVENT_TYPE = "sparkdlc:consume";
     public static final String KEY_ITEM = "item";
     public static final String KEY_KIND = "kind";
 

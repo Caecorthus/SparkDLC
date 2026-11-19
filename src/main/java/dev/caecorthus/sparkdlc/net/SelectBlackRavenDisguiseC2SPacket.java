@@ -9,9 +9,9 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 
 /**
- * Requests one identity change inside a mask session; {@code sparkwitch:black_raven} means revert.
+ * Requests one identity change inside a mask session; {@code sparkdlc:black_raven} means revert.
  * The client never predicts the result; the server consumes the session and validates on its thread.
- * 在面具会话内请求一次身份切换；sparkwitch:black_raven 表示恢复。客户端从不预测结果，服务端在其线程消费会话并校验。
+ * 在面具会话内请求一次身份切换；sparkdlc:black_raven 表示恢复。客户端从不预测结果，服务端在其线程消费会话并校验。
  */
 public record SelectBlackRavenDisguiseC2SPacket(int session, Identifier target) implements CustomPayload {
     public static final Identifier PAYLOAD_ID = SparkWitch.id("select_black_raven_disguise");

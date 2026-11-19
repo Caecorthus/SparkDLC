@@ -6,12 +6,12 @@ import net.minecraft.client.MinecraftClient;
 
 /**
  * Client side of the Athlete's ability-key Dash. Server authority: the client only sends the empty
- * {@code sparkwitch:use_athlete_dash} request and never checks the cooldown, the ground path or liveness; the server
- * validates everything and resyncs the cooldown through the owner-only {@code sparkwitch:athlete} component.
- * Role-owned; never the {@code gui.sparkwitch.skills} panel.
- * 运动员技能键冲刺的客户端部分。服务端权威：客户端只发送空的 {@code sparkwitch:use_athlete_dash} 请求，从不检查冷却、
- * 地面路径或存活状态；全部校验在服务端完成，冷却经由仅本人同步的 {@code sparkwitch:athlete} 组件重新同步。
- * 属于职业自有功能，从不进入 {@code gui.sparkwitch.skills} 面板。
+ * {@code sparkdlc:use_athlete_dash} request and never checks the cooldown, the ground path or liveness; the server
+ * validates everything and resyncs the cooldown through the owner-only {@code sparkdlc:athlete} component.
+ * Role-owned; never the {@code gui.sparkdlc.skills} panel.
+ * 运动员技能键冲刺的客户端部分。服务端权威：客户端只发送空的 {@code sparkdlc:use_athlete_dash} 请求，从不检查冷却、
+ * 地面路径或存活状态；全部校验在服务端完成，冷却经由仅本人同步的 {@code sparkdlc:athlete} 组件重新同步。
+ * 属于职业自有功能，从不进入 {@code gui.sparkdlc.skills} 面板。
  */
 public final class AthleteDashClient {
     private AthleteDashClient() {

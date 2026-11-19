@@ -31,14 +31,14 @@ public final class KidnapperControlledHudRenderer {
         int remainingSeconds = Math.max(1, TickTime.ceilSecondsRaw(component.getControlTicks()));
         context.drawCenteredTextWithShadow(
                 client.textRenderer,
-                Text.translatable("message.sparkwitch.kidnapper.warning"),
+                Text.translatable("message.sparkdlc.kidnapper.warning"),
                 width / 2,
                 height / 2 - 10,
                 KidnapperRules.COLOR
         );
         context.drawCenteredTextWithShadow(
                 client.textRenderer,
-                Text.translatable("message.sparkwitch.kidnapper.timeleft", remainingSeconds),
+                Text.translatable("message.sparkdlc.kidnapper.timeleft", remainingSeconds),
                 width / 2,
                 height / 2 + 10,
                 KidnapperRules.COLOR

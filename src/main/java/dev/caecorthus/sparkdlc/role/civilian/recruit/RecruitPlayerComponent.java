@@ -12,12 +12,12 @@ import org.ladysnake.cca.api.v3.component.ComponentRegistry;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 
 /**
- * Stable CCA contract {@code sparkwitch:recruit} (NEVER_COPY): the Recruit's completed-task count, whether the
+ * Stable CCA contract {@code sparkdlc:recruit} (NEVER_COPY): the Recruit's completed-task count, whether the
  * first-task knife has been granted, and whether this round's one ground gun pickup is used. Server-authoritative;
  * the task fields are synced only to the owner, whose bottom-right HUD shows {@code n/1} until the knife is granted;
  * the gun flag is server-only. NBT keeps all three across a mid-round relog; role assignment and Wathe's
  * {@code ResetPlayer} clear them. No game logic lives here.
- * 稳定 CCA 契约 {@code sparkwitch:recruit}（NEVER_COPY）：新兵已完成任务数、第一个任务的刀是否已发放，以及本局唯一
+ * 稳定 CCA 契约 {@code sparkdlc:recruit}（NEVER_COPY）：新兵已完成任务数、第一个任务的刀是否已发放，以及本局唯一
  * 一次地面捡枪是否已用掉。任务字段只同步给本人，本人右下角 HUD 在发刀前显示 {@code n/1}；捡枪标志仅服务端。NBT 使三者
  * 都在局中重新登录后保留；身份分配与 Wathe 的 {@code ResetPlayer} 会清空它们。这里不含游戏逻辑。
  */

@@ -30,9 +30,9 @@ public enum SeekerCooldownReason {
         return ticks;
     }
 
-    /** HUD/console label key, e.g. {@code hud.sparkwitch.seeker.reason.broken}. / HUD 与控制台标签键。 */
+    /** HUD/console label key, e.g. {@code hud.sparkdlc.seeker.reason.broken}. / HUD 与控制台标签键。 */
     public String translationKey() {
-        return "hud.sparkwitch.seeker.reason." + name().toLowerCase(java.util.Locale.ROOT);
+        return "hud.sparkdlc.seeker.reason." + name().toLowerCase(java.util.Locale.ROOT);
     }
 
     public static SeekerCooldownReason fromId(int id) {

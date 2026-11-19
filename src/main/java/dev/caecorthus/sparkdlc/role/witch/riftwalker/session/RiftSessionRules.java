@@ -33,7 +33,7 @@ public final class RiftSessionRules {
     /** Entry/exit cue volume: audible nearby, never loud (plan §5.3). / 进出门提示音量：附近可闻但不响。 */
     public static final float CUE_VOLUME = 0.4F;
 
-    public static final String MESSAGE_PREFIX = "message.sparkwitch.riftwalker.session.";
+    public static final String MESSAGE_PREFIX = "message.sparkdlc.riftwalker.session.";
     public static final String COOLDOWN_KEY = MESSAGE_PREFIX + "cooldown";
     public static final String NOT_ENOUGH_MANA_KEY = MESSAGE_PREFIX + "not_enough_mana";
     public static final String UNAVAILABLE_KEY = MESSAGE_PREFIX + "unavailable";
@@ -52,10 +52,10 @@ public final class RiftSessionRules {
     /**
      * Riftwalker-owned deny-list for occupants (separate from the Seeker, Control Expert and Fear lists): the
      * Seeker session list (lethal Wathe actions, the shop, UI actions, every known role-skill payload) minus
-     * {@code sparkwitch:rift_hop}, which is the occupant's own control. {@code sparkwitch:rift_exit} is never listed:
+     * {@code sparkdlc:rift_hop}, which is the occupant's own control. {@code sparkdlc:rift_exit} is never listed:
      * leaving must always pass. The console snapshot request stays allowed (UI only); closing a gate is denied.
      * 隙行者自有的门内拦截名单（独立于搜寻者、控场专家与恐惧名单）：即搜寻者会话名单（Wathe 致命行为、商店、界面操作、
-     * 所有已知职业技能包）去掉门内玩家自己的操作 {@code sparkwitch:rift_hop}。{@code sparkwitch:rift_exit} 从不在列：出门必须
+     * 所有已知职业技能包）去掉门内玩家自己的操作 {@code sparkdlc:rift_hop}。{@code sparkdlc:rift_exit} 从不在列：出门必须
      * 始终放行。控制台快照请求保持放行（仅界面），关门被拦截。
      */
     // Generated RIFT column of SparkFactionAPI config/payload-policy/actions.tsv: edit that table and
@@ -68,21 +68,21 @@ public final class RiftSessionRules {
      * SparkFactionAPI actions that may still target an occupant. {@code noellesroles:swapper} must pass so the D13
      * portal crush (P9) runs; {@code wathe:poison} is the poisoner-attributed poison death (Wathe
      * {@code PlayerPoisonComponent}, routed through SFA's {@code killPlayer} veto with the death reason as the action),
-     * which D3 keeps lethal inside. C13 adds the two piercing forced-terminal deaths, {@code sparkwitch:bell_toll} and
-     * {@code sparkwitch:time_stolen}: their services ask {@code SparkFactionApi.canAffectPlayer} with the death reason
+     * which D3 keeps lethal inside. C13 adds the two piercing forced-terminal deaths, {@code sparkdlc:bell_toll} and
+     * {@code sparkdlc:time_stolen}: their services ask {@code SparkFactionApi.canAffectPlayer} with the death reason
      * as the action and then call a ringer/stealer-attributed {@code killPlayer} with the same id, so both checks pass
      * here. Everything else targeting an occupant is denied.
      * 仍可作用于门内玩家的 SparkFactionAPI 行为。必须放行 {@code noellesroles:swapper}，D13 的传送门夹死（P9）才能运行；
      * {@code wathe:poison} 是可归因到下毒者的毒杀（Wathe {@code PlayerPoisonComponent}，经 SFA 的 {@code killPlayer} 否决，
-     * 以死因作为行为 id），D3 规定门内仍会被毒死。C13 再放行两种穿透一切的强制终结死亡 {@code sparkwitch:bell_toll} 与
-     * {@code sparkwitch:time_stolen}：它们的服务先以死因为行为 id 询问 {@code SparkFactionApi.canAffectPlayer}，再以同一 id
+     * 以死因作为行为 id），D3 规定门内仍会被毒死。C13 再放行两种穿透一切的强制终结死亡 {@code sparkdlc:bell_toll} 与
+     * {@code sparkdlc:time_stolen}：它们的服务先以死因为行为 id 询问 {@code SparkFactionApi.canAffectPlayer}，再以同一 id
      * 调用归因到敲钟人/窃时者的 {@code killPlayer}，两处检查都在这里放行。其余作用于门内玩家的行为一律拒绝。
      */
     public static final Set<Identifier> AFFECT_ALLOWED_ON_OCCUPANT = Set.of(
             Identifier.of("noellesroles", "swapper"),
             Identifier.of("wathe", "poison"),
-            Identifier.of("sparkwitch", "bell_toll"),
-            Identifier.of("sparkwitch", "time_stolen"));
+            Identifier.of("sparkdlc", "bell_toll"),
+            Identifier.of("sparkdlc", "time_stolen"));
 
     private RiftSessionRules() {
     }

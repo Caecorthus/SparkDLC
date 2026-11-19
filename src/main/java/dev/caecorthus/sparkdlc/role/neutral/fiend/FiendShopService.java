@@ -23,8 +23,8 @@ import java.util.List;
  * 因此 SparkStrength 的 M67 追加（需要手雷条目）不会出现。不享受 SparkTraits 魅力折扣：该价格是胜利条件。
  */
 public final class FiendShopService {
-    static final String NAME_KEY = "shop.sparkwitch.fiend.moment";
-    static final String DESCRIPTION_KEY = "shop.sparkwitch.fiend.moment.description";
+    static final String NAME_KEY = "shop.sparkdlc.fiend.moment";
+    static final String DESCRIPTION_KEY = "shop.sparkdlc.fiend.moment.description";
     private static final int DESCRIPTION_COLOR = 0x808080;
     private static boolean registered;
 

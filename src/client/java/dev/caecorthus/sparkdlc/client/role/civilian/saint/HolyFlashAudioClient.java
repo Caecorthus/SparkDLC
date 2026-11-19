@@ -14,11 +14,11 @@ import net.minecraft.sound.SoundCategory;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Client-only Holy Flash audio controller for the local player's own synced {@code sparkwitch:holy_flash} state.
+ * Client-only Holy Flash audio controller for the local player's own synced {@code sparkdlc:holy_flash} state.
  * Once per client tick it derives the ring and muffle intensities, starts or stops the tinnitus loop, and re-volumes
  * playing sources so the muffle fades with the flash. Everything is gated to a confirmed SparkWitch server and
  * resets on disconnect. Intensities are volatile because Simple Voice Chat reads the muffle on its audio thread.
- * 仅客户端的圣光弹音频控制器，读取本地玩家自己同步的 {@code sparkwitch:holy_flash} 状态。
+ * 仅客户端的圣光弹音频控制器，读取本地玩家自己同步的 {@code sparkdlc:holy_flash} 状态。
  * 每个客户端刻计算耳鸣与压音强度、启动或停止耳鸣循环，并重新设置正在播放声源的音量，使压音随闪光一起减弱。
  * 全部仅在已确认的 SparkWitch 服务器上生效，断线时重置。强度字段为 volatile，因为 Simple Voice Chat
  * 在其音频线程读取压音系数。

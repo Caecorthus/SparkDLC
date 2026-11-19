@@ -19,10 +19,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Reads each page's hand-made chapter plate from {@code assets/sparkassist/guidebook_plates/<namespace>/<path>.png}
+ * Reads each page's hand-made chapter plate from {@code assets/sparkdlc/guidebook_plates/<namespace>/<path>.png}
  * with its {@code .json} (focus and emblem position), once per entry. A page without one, or with a broken one,
  * falls back to its faction's procedural scene.
- * 读取每页手绘扉画：assets/sparkassist/guidebook_plates/&lt;命名空间&gt;/&lt;路径&gt;.png 及同名 .json（故事中心与徽记位置），
+ * 读取每页手绘扉画：assets/sparkdlc/guidebook_plates/&lt;命名空间&gt;/&lt;路径&gt;.png 及同名 .json（故事中心与徽记位置），
  * 每个条目只读一次。没有或损坏时退回阵营的程序化景。
  */
 public final class PlateArtLoader {

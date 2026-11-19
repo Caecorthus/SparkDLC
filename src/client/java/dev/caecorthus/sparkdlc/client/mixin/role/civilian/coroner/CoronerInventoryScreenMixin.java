@@ -90,7 +90,7 @@ public abstract class CoronerInventoryScreenMixin extends LimitedHandledScreen<P
                 0,
                 y,
                 Items.PURPLE_DYE.getDefaultStack(),
-                Text.translatable("ui.sparkstrength.pagination.previous"),
+                Text.translatable("ui.sparkdlc.pagination.previous"),
                 button -> {
                     sparkstrength$coronerCurrentPage--;
                     sparkstrength$coronerRefreshPage();
@@ -100,7 +100,7 @@ public abstract class CoronerInventoryScreenMixin extends LimitedHandledScreen<P
                 0,
                 y,
                 Items.LIME_DYE.getDefaultStack(),
-                Text.translatable("ui.sparkstrength.pagination.next"),
+                Text.translatable("ui.sparkdlc.pagination.next"),
                 button -> {
                     sparkstrength$coronerCurrentPage++;
                     sparkstrength$coronerRefreshPage();

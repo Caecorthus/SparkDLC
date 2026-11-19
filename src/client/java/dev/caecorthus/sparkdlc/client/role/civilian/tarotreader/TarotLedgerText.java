@@ -33,27 +33,27 @@ final class TarotLedgerText {
 
     static Text searchPrompt(boolean identity) {
         return Text.translatable(identity
-                ? "screen.sparkwitch.tarot.search.identity"
-                : "screen.sparkwitch.tarot.search.survival");
+                ? "screen.sparkdlc.tarot.search.identity"
+                : "screen.sparkdlc.tarot.search.survival");
     }
 
     static Text hint(boolean identity) {
         return Text.translatable(identity
-                ? "screen.sparkwitch.tarot.hint.identity"
-                : "screen.sparkwitch.tarot.hint.survival");
+                ? "screen.sparkdlc.tarot.hint.identity"
+                : "screen.sparkdlc.tarot.hint.survival");
     }
 
     static Text noMatch(boolean identity) {
         return Text.translatable(identity
-                ? "screen.sparkwitch.tarot.none.identity"
-                : "screen.sparkwitch.tarot.none.survival");
+                ? "screen.sparkdlc.tarot.none.identity"
+                : "screen.sparkdlc.tarot.none.survival");
     }
 
     /** The paid question with its argument in TEXT_HI. 付费问句，参数以 TEXT_HI 显示。 */
     static MutableText question(boolean identity, String argument) {
         return Text.translatable(identity
-                        ? "screen.sparkwitch.tarot.question.identity"
-                        : "screen.sparkwitch.tarot.question.survival",
+                        ? "screen.sparkdlc.tarot.question.identity"
+                        : "screen.sparkdlc.tarot.question.survival",
                 Text.literal(argument).withColor(InventoryCardPaint.TEXT_HI & 0xFFFFFF));
     }
 
@@ -79,20 +79,20 @@ final class TarotLedgerText {
 
     static MutableText count(boolean identity, int count) {
         String key = identity
-                ? count == 1 ? "screen.sparkwitch.tarot.count.role" : "screen.sparkwitch.tarot.count.roles"
-                : count == 1 ? "screen.sparkwitch.tarot.count.player" : "screen.sparkwitch.tarot.count.players";
+                ? count == 1 ? "screen.sparkdlc.tarot.count.role" : "screen.sparkdlc.tarot.count.roles"
+                : count == 1 ? "screen.sparkdlc.tarot.count.player" : "screen.sparkdlc.tarot.count.players";
         return Text.translatable(key, count);
     }
 
     static Text sectionLabel(Section section) {
         return Text.translatable(switch (section) {
-            case CIVILIAN -> "hud.sparkwitch.tarot.faction.civilian";
-            case KILLER -> "hud.sparkwitch.tarot.faction.killer";
-            case NEUTRAL -> "hud.sparkwitch.tarot.faction.neutral";
-            case WITCH -> "hud.sparkwitch.tarot.faction.witch";
-            case JIAHAO -> "hud.sparkwitch.tarot.faction.jiahao";
-            case SPECIAL -> "screen.sparkwitch.tarot.section.special";
-            case PLAYERS -> "screen.sparkwitch.tarot.section.players";
+            case CIVILIAN -> "hud.sparkdlc.tarot.faction.civilian";
+            case KILLER -> "hud.sparkdlc.tarot.faction.killer";
+            case NEUTRAL -> "hud.sparkdlc.tarot.faction.neutral";
+            case WITCH -> "hud.sparkdlc.tarot.faction.witch";
+            case JIAHAO -> "hud.sparkdlc.tarot.faction.jiahao";
+            case SPECIAL -> "screen.sparkdlc.tarot.section.special";
+            case PLAYERS -> "screen.sparkdlc.tarot.section.players";
         });
     }
 
@@ -112,7 +112,7 @@ final class TarotLedgerText {
             lines.add(Text.literal(entry.label()));
         }
         if (armedSelection) {
-            lines.add(Text.translatable("screen.sparkwitch.tarot.again"));
+            lines.add(Text.translatable("screen.sparkdlc.tarot.again"));
         }
         return lines;
     }
@@ -121,10 +121,10 @@ final class TarotLedgerText {
     private static Text age(TarotReadingLog.Reading reading) {
         int minutes = TarotReadingLog.minutesAgo(Util.getMeasuringTimeMs(), reading.receivedAtMs());
         MutableText age = minutes <= 0
-                ? Text.translatable("hud.sparkwitch.tarot.reading.ago_now")
-                : Text.translatable("hud.sparkwitch.tarot.reading.ago", minutes);
+                ? Text.translatable("hud.sparkdlc.tarot.reading.ago_now")
+                : Text.translatable("hud.sparkdlc.tarot.reading.ago", minutes);
         if (reading.mode() == OpenTarotDivinationSelectorS2CPacket.MODE_SURVIVAL) {
-            age.append(AGE_SEPARATOR).append(Text.translatable("hud.sparkwitch.tarot.reading.snapshot"));
+            age.append(AGE_SEPARATOR).append(Text.translatable("hud.sparkdlc.tarot.reading.snapshot"));
         }
         return age;
     }

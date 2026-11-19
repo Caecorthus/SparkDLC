@@ -10,10 +10,10 @@ import net.minecraft.particle.SimpleParticleType;
 
 /**
  * The world muzzle flash, copied from Wathe's {@code FlashParticle.GunshotFactory}: fullbright, three-tick life,
- * alpha fading 1 → 0, 0.2 scale. Its sprite is {@code sparkwitch:gunshot}, declared by
- * {@code assets/sparkwitch/particles/gunshot.json}.
+ * alpha fading 1 → 0, 0.2 scale. Its sprite is {@code sparkdlc:gunshot}, declared by
+ * {@code assets/sparkdlc/particles/gunshot.json}.
  * 世界枪口火焰，复制自 Wathe 的 {@code FlashParticle.GunshotFactory}：全亮、三刻寿命、透明度 1 → 0、0.2 大小。
- * 贴图是 {@code sparkwitch:gunshot}，由 {@code assets/sparkwitch/particles/gunshot.json} 声明。
+ * 贴图是 {@code sparkdlc:gunshot}，由 {@code assets/sparkdlc/particles/gunshot.json} 声明。
  */
 public final class SaviorFlashParticle extends SpriteBillboardParticle {
     private static final int MAX_AGE = 3;

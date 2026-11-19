@@ -27,7 +27,7 @@ public final class KnightDuelScreen extends Screen {
     private final ClientPlayerEntity player;
 
     public KnightDuelScreen(ClientPlayerEntity player) {
-        super(Text.translatable("screen.sparkwitch.knight_duel.title"));
+        super(Text.translatable("screen.sparkdlc.knight_duel.title"));
         this.player = player;
     }
 
@@ -85,7 +85,7 @@ public final class KnightDuelScreen extends Screen {
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
         context.drawCenteredTextWithShadow(textRenderer, title, width / 2, 30, 0x55FFFF);
-        context.drawCenteredTextWithShadow(textRenderer, Text.translatable("screen.sparkwitch.knight_duel.subtitle"),
+        context.drawCenteredTextWithShadow(textRenderer, Text.translatable("screen.sparkdlc.knight_duel.subtitle"),
                 width / 2, 48, 0xAAAAAA);
     }
 

@@ -124,9 +124,9 @@ public final class SpecterPlayerComponent
     }
 
     /**
-     * Server only, the SparkFactionAPI forced-cooldown write path (store {@code sparkwitch:specter_skill}): sets the
+     * Server only, the SparkFactionAPI forced-cooldown write path (store {@code sparkdlc:specter_skill}): sets the
      * skill-one cooldown exactly (floored at 0) and syncs the owner. The store's gate already excludes a running mark.
-     * 仅服务端，SparkFactionAPI 强制冷却的写入路径（存储 {@code sparkwitch:specter_skill}）：精确设置技能一冷却（下限为 0）
+     * 仅服务端，SparkFactionAPI 强制冷却的写入路径（存储 {@code sparkdlc:specter_skill}）：精确设置技能一冷却（下限为 0）
      * 并同步给本人。存储门控已排除进行中的标记。
      */
     public void setCooldownTicks(int ticks) {

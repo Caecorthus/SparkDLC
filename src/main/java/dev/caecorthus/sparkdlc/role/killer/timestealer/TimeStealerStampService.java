@@ -62,8 +62,8 @@ public final class TimeStealerStampService {
         }
         Plan plan = deliver(stealer, amount);
         String key = TimeStampLedger.landsInHotbar(plan)
-                ? "message.sparkwitch.time_stealer.stamp_gained"
-                : "message.sparkwitch.time_stealer.stamp_stored";
+                ? "message.sparkdlc.time_stealer.stamp_gained"
+                : "message.sparkdlc.time_stealer.stamp_stored";
         stealer.sendMessage(Text.translatable(key).withColor(TimeStealerRules.COLOR), true);
     }
 

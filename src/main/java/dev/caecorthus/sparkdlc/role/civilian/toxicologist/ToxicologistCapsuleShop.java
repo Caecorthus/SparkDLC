@@ -59,9 +59,9 @@ public final class ToxicologistCapsuleShop {
 
     private static ItemStack capsuleDisplayStack() {
         ItemStack stack = SparkStrengthItems.capsule().getDefaultStack();
-        stack.set(DataComponentTypes.ITEM_NAME, Text.translatable("shop.sparkstrength.capsule"));
+        stack.set(DataComponentTypes.ITEM_NAME, Text.translatable("shop.sparkdlc.capsule"));
         stack.set(DataComponentTypes.LORE, new LoreComponent(List.of(
-                Text.translatable("shop.sparkstrength.capsule.description")
+                Text.translatable("shop.sparkdlc.capsule.description")
                         .styled(style -> style.withColor(0x808080).withItalic(false))
         )));
         return stack;
@@ -70,9 +70,9 @@ public final class ToxicologistCapsuleShop {
     private static ItemStack refreshAntidoteCooldownDisplayStack() {
         ItemStack stack = Items.CLOCK.getDefaultStack();
         stack.set(DataComponentTypes.ITEM_NAME,
-                Text.translatable("shop.sparkstrength.toxicologist.refresh_antidote_cooldown"));
+                Text.translatable("shop.sparkdlc.toxicologist.refresh_antidote_cooldown"));
         stack.set(DataComponentTypes.LORE, new LoreComponent(List.of(
-                Text.translatable("shop.sparkstrength.toxicologist.refresh_antidote_cooldown.description")
+                Text.translatable("shop.sparkdlc.toxicologist.refresh_antidote_cooldown.description")
                         .styled(style -> style.withColor(0x808080).withItalic(false))
         )));
         return stack;

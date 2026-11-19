@@ -31,12 +31,12 @@ import java.util.UUID;
  * 针对已同步的遗体实体执行，从不相信客户端声明。仅服务端。
  */
 public final class FerrymanFerryService {
-    private static final String DONE_KEY = "message.sparkwitch.ferryman.ferry.done";
-    private static final String ALREADY_KEY = "message.sparkwitch.ferryman.ferry.already";
-    private static final String STALE_KEY = "message.sparkwitch.ferryman.ferry.stale";
-    private static final String FAR_KEY = "message.sparkwitch.ferryman.ferry.too_far";
-    private static final String BLOCKED_KEY = "message.sparkwitch.ferryman.ferry.unavailable";
-    private static final String COOLDOWN_KEY = "message.sparkwitch.ferryman.ferry.cooldown";
+    private static final String DONE_KEY = "message.sparkdlc.ferryman.ferry.done";
+    private static final String ALREADY_KEY = "message.sparkdlc.ferryman.ferry.already";
+    private static final String STALE_KEY = "message.sparkdlc.ferryman.ferry.stale";
+    private static final String FAR_KEY = "message.sparkdlc.ferryman.ferry.too_far";
+    private static final String BLOCKED_KEY = "message.sparkdlc.ferryman.ferry.unavailable";
+    private static final String COOLDOWN_KEY = "message.sparkdlc.ferryman.ferry.cooldown";
 
     private FerrymanFerryService() {
     }

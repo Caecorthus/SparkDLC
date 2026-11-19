@@ -68,10 +68,10 @@ public final class ReplayClient {
                 (payload, context) -> onSnapshot(context.client(), payload.snapshot()));
 
         openReplayKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.sparkfactionapi.open_replay",
+                "key.sparkdlc.open_replay",
                 InputUtil.Type.KEYSYM,
                 InputUtil.UNKNOWN_KEY.getCode(),
-                "key.categories.sparkfactionapi"
+                "key.categories.sparkdlc"
         ));
 
         ClientTickEvents.START_CLIENT_TICK.register(ReplayClient::onStartTick);
@@ -195,7 +195,7 @@ public final class ReplayClient {
         // 目前 Wathe 重新 init 会清空子元素；这里保持幂等以防将来变化。
         buttons.removeIf(button -> button instanceof OpenReplayButton);
 
-        Text label = Text.translatable("gui.sparkfactionapi.replay.open");
+        Text label = Text.translatable("gui.sparkdlc.replay.open");
         int buttonWidth = MathHelper.clamp(client.textRenderer.getWidth(label) + 20, BUTTON_MIN_WIDTH, BUTTON_MAX_WIDTH);
         // Bottom-right, below Wathe's lower brass bars (height-43..height-39) and right of its centered page
         // indicator; ticket cards stop above height-45 even with the slide-in overshoot.

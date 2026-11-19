@@ -41,9 +41,9 @@ public final class AccountantPassbookItem extends Item {
 
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        tooltip.add(Text.translatable("item.sparkwitch.accountant_passbook.tooltip.stored",
+        tooltip.add(Text.translatable("item.sparkdlc.accountant_passbook.tooltip.stored",
                 AccountantPassbookService.storedCoins(stack)).formatted(Formatting.GOLD));
-        tooltip.add(Text.translatable("item.sparkwitch.accountant_passbook.tooltip.usage")
+        tooltip.add(Text.translatable("item.sparkdlc.accountant_passbook.tooltip.usage")
                 .formatted(Formatting.GRAY));
     }
 }

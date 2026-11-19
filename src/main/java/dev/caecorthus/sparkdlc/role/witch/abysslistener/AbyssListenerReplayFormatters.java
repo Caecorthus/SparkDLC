@@ -12,15 +12,15 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Wathe replay lines for Abyss Listener item uses; Wathe drops item uses that have no registered formatter. The
  * Shriek Gun line names the target only on a hit and says whether it was an ally; the flask line names only the
- * thrower. Warden's Shriek uses Wathe's default skill line ({@code replay.skill.sparkwitch.wardens_shriek}).
+ * thrower. Warden's Shriek uses Wathe's default skill line ({@code replay.skill.sparkdlc.wardens_shriek}).
  * 聆渊者道具使用的 Wathe 回放文本；未注册格式化器的道具使用会被 Wathe 忽略。啸音铳仅在命中时记录目标并区分是否为队友；
  * 孢瓶只记录投掷者。监守之啸使用 Wathe 默认技能文本。
  */
 public final class AbyssListenerReplayFormatters {
-    static final String GUN_HIT_KEY = "replay.item_use.sparkwitch.shriek_gun.hit";
-    static final String GUN_ALLY_KEY = "replay.item_use.sparkwitch.shriek_gun.ally";
-    static final String GUN_MISS_KEY = "replay.item_use.sparkwitch.shriek_gun.miss";
-    static final String FLASK_KEY = "replay.item_use.sparkwitch.deep_dark_spore_flask";
+    static final String GUN_HIT_KEY = "replay.item_use.sparkdlc.shriek_gun.hit";
+    static final String GUN_ALLY_KEY = "replay.item_use.sparkdlc.shriek_gun.ally";
+    static final String GUN_MISS_KEY = "replay.item_use.sparkdlc.shriek_gun.miss";
+    static final String FLASK_KEY = "replay.item_use.sparkdlc.deep_dark_spore_flask";
     private static boolean registered;
 
     private AbyssListenerReplayFormatters() {

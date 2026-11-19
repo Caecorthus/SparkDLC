@@ -57,7 +57,7 @@ public final class WardensShriekService {
             return WitchSkillUseResult.fail(refusal);
         }
         if (!WitchPlayerComponent.KEY.get(caster).spendMana(AbyssListenerRules.SHRIEK_MANA_COST)) {
-            return WitchSkillUseResult.fail("message.sparkwitch.skill.not_enough_mana");
+            return WitchSkillUseResult.fail("message.sparkdlc.skill.not_enough_mana");
         }
         int affected = shriek(context.world(), caster);
         record(caster, affected);
@@ -105,7 +105,7 @@ public final class WardensShriekService {
      */
     static @Nullable String refusal(boolean abyssListener, boolean livingParticipant, boolean roleSkillBlocked) {
         if (!abyssListener || !livingParticipant || roleSkillBlocked) {
-            return "message.sparkwitch.skill.unavailable";
+            return "message.sparkdlc.skill.unavailable";
         }
         return null;
     }

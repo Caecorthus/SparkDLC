@@ -96,8 +96,8 @@ final class NoaKillWatch {
         ServerWorld world = killer.getServerWorld();
         world.playSound(null, killer.getX(), killer.getY(), killer.getZ(), SoundEvents.ENTITY_WOLF_GROWL,
                 SoundCategory.PLAYERS, 1.0F, 1.0F);
-        killer.sendMessage(Text.translatable("message.sparkwitch.noa.dog.punished").formatted(Formatting.RED), true);
-        noa.sendMessage(Text.translatable("message.sparkwitch.noa.dog.locked", killer.getDisplayName())
+        killer.sendMessage(Text.translatable("message.sparkdlc.noa.dog.punished").formatted(Formatting.RED), true);
+        noa.sendMessage(Text.translatable("message.sparkdlc.noa.dog.locked", killer.getDisplayName())
                 .formatted(Formatting.GOLD), true);
         NoaReplay.recordDogWatch(noa, killer);
     }

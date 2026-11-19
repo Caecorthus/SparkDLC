@@ -18,20 +18,20 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * 「“手”枪」 ({@code sparkwitch:sphinx_hao_hand_gun}), the Sphinx Hao's spring-fist toy pistol. It holds one fist
+ * 「“手”枪」 ({@code sparkdlc:sphinx_hao_hand_gun}), the Sphinx Hao's spring-fist toy pistol. It holds one fist
  * ({@link SparkWitchDataComponents#SPHINX_HAO_LOADED}). Use is vanilla's use-item packet, like the Taser, so there is no
  * C2S payload of its own: empty with a fist in the inventory loads it, empty without one dry-clicks, loaded fires
  * ({@link SphinxHaoGunService}). Only a living Sphinx Hao can use it; anyone else's use does nothing. It is deliberately
  * outside {@code wathe:guns}: no Wathe gun packet, innocent-shot punishment, gun pickup or gun drop applies.
- * 「“手”枪」（{@code sparkwitch:sphinx_hao_hand_gun}），狮身豪的弹簧拳头玩具手枪，可装一发拳头
+ * 「“手”枪」（{@code sparkdlc:sphinx_hao_hand_gun}），狮身豪的弹簧拳头玩具手枪，可装一发拳头
  * （{@link SparkWitchDataComponents#SPHINX_HAO_LOADED}）。使用走原版使用物品数据包（与电击枪相同），因此没有自有 C2S 载荷：
  * 空膛且背包有拳头时装填、空膛无拳头时空响、已装填时发射（{@link SphinxHaoGunService}）。只有存活的狮身豪能使用；其他人使用
  * 无任何效果。刻意不加入 {@code wathe:guns}：Wathe 的开枪数据包、误杀惩罚、拾枪与掉枪规则都不适用。
  */
 public final class SphinxHaoHandGunItem extends Item {
-    static final String TOOLTIP_LOADED_KEY = "item.sparkwitch.sphinx_hao_hand_gun.tooltip.loaded";
-    static final String TOOLTIP_EMPTY_KEY = "item.sparkwitch.sphinx_hao_hand_gun.tooltip.empty";
-    static final String TOOLTIP_USAGE_KEY = "item.sparkwitch.sphinx_hao_hand_gun.tooltip.usage";
+    static final String TOOLTIP_LOADED_KEY = "item.sparkdlc.sphinx_hao_hand_gun.tooltip.loaded";
+    static final String TOOLTIP_EMPTY_KEY = "item.sparkdlc.sphinx_hao_hand_gun.tooltip.empty";
+    static final String TOOLTIP_USAGE_KEY = "item.sparkdlc.sphinx_hao_hand_gun.tooltip.usage";
     /** Local-only recoil after vanilla captured the aim for the use packet. / 仅本地后坐，在原版记录瞄准之后施加。 */
     private static final float RECOIL_PITCH = 3.0F;
     private static final ClientFire NO_CLIENT_FIRE = player -> {

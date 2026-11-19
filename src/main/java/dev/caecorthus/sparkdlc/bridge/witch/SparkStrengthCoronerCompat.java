@@ -24,11 +24,11 @@ public final class SparkStrengthCoronerCompat {
      * Writes the role SparkStrength's Coroner reads from a body SparkWitch spawned itself (the Fiend's feign-death
      * corpse, the Magician decoy); SparkStrength only snapshots bodies made inside Wathe's kill and otherwise falls back
      * to the owner's live role. A direct call since the SparkDLC fusion: the snapshot component
-     * ({@code sparkstrength:coroner_body_snapshot}) is read through its own key and its public setter is called; an
+     * ({@code sparkdlc:coroner_body_snapshot}) is read through its own key and its public setter is called; an
      * entity without the component (not a Wathe body) is left as is.
      * 为 SparkWitch 自行生成的尸体（魔人假死的假尸体、魔术师诱饵尸体）写入 SparkStrength 验尸官读取的身份；SparkStrength 只会快照 Wathe
      * 击杀流程中生成的尸体，否则回落到尸体主人的实时身份。融合进 SparkDLC 后为直接调用：经快照组件
-     * （{@code sparkstrength:coroner_body_snapshot}）自身的键读取并调用其 public setter；没有该组件的实体（不是 Wathe 尸体）
+     * （{@code sparkdlc:coroner_body_snapshot}）自身的键读取并调用其 public setter；没有该组件的实体（不是 Wathe 尸体）
      * 保持不变。
      */
     public static void recordBodyRole(Entity body, Identifier roleId) {

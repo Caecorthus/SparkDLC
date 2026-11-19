@@ -48,7 +48,7 @@ public final class KnockoutDrugItem extends Item {
         }
         if (!GameFunctions.isPlayerPlayingAndAlive(targetPlayer)
                 || !GameFunctions.isPlayerAliveAndSurvival(targetPlayer)) {
-            player.sendMessage(Text.translatable("message.sparkwitch.kidnapper.invalid_target")
+            player.sendMessage(Text.translatable("message.sparkdlc.kidnapper.invalid_target")
                     .withColor(KidnapperRules.COLOR), true);
             return ActionResult.FAIL;
         }
@@ -85,7 +85,7 @@ public final class KnockoutDrugItem extends Item {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         for (int line = 1; line <= 4; line++) {
-            tooltip.add(Text.translatable("item.sparkwitch.knockout_drug.tooltip.line" + line)
+            tooltip.add(Text.translatable("item.sparkdlc.knockout_drug.tooltip.line" + line)
                     .formatted(Formatting.GRAY));
         }
         super.appendTooltip(stack, context, tooltip, type);

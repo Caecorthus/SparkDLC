@@ -110,7 +110,7 @@ public final class PartygoerTaotieService {
                 PartyAnimalRules.TAOTIE_SLOWNESS_AMPLIFIER, false, false, true));
         world.playSound(null, taotie.getX(), taotie.getEyeY(), taotie.getZ(), SoundEvents.ENTITY_GENERIC_DRINK,
                 SoundCategory.PLAYERS, 1.2F, 0.5F);
-        taotie.sendMessage(Text.translatable("tip.sparkstrength.partygoer.taotie_swallowed").formatted(Formatting.RED),
+        taotie.sendMessage(Text.translatable("tip.sparkdlc.partygoer.taotie_swallowed").formatted(Formatting.RED),
                 true);
         NbtCompound extra = new NbtCompound();
         extra.putUuid("target", brain.ownerUuid());

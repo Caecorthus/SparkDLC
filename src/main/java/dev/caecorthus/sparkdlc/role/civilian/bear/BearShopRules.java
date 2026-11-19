@@ -34,7 +34,7 @@ public final class BearShopRules {
     private static final List<EntrySpec> ENTRIES = List.of(RYS_T, EARPLUGS, SMOKE_ROUND);
 
     /** Lang key of the "already owned" refusal. / “已持有”拒绝提示的语言键。 */
-    public static final String ALREADY_OWNED_KEY = "shop.error.sparkwitch.bear_owned";
+    public static final String ALREADY_OWNED_KEY = "shop.error.sparkdlc.bear_owned";
 
     private BearShopRules() {
     }

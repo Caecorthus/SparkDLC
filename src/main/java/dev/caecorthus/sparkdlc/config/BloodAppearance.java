@@ -32,7 +32,7 @@ public enum BloodAppearance {
     }
 
     public String translationKey() {
-        return "option.sparkassist.blood_appearance.value." + id;
+        return "option.sparkdlc.blood_appearance.value." + id;
     }
 
     /** Stable lookup for config deserialisation; falls back to {@link #DEFAULT}. 配置反序列化用的稳定查找，失败回落到默认。 */

@@ -148,7 +148,7 @@ public final class SeekerBodyHold {
             return;
         }
         SeekerCctvOverlay.renderPanel(context, client.textRenderer, player.age,
-                Text.translatable("hud.sparkwitch.seeker.view.returning"), SeekerCctvRules.CAMERA_FRAME_COLOR, null,
+                Text.translatable("hud.sparkdlc.seeker.view.returning"), SeekerCctvRules.CAMERA_FRAME_COLOR, null,
                 false);
     }
 }

@@ -4,17 +4,17 @@ import dev.caecorthus.sparkdlc.SparkWitch;
 import net.minecraft.util.Identifier;
 
 /**
- * Every number and every pure decision of the Rope ({@code sparkwitch:rope}, 二阶堂希罗's shop item; anyone holding it
+ * Every number and every pure decision of the Rope ({@code sparkdlc:rope}, 二阶堂希罗's shop item; anyone holding it
  * may use it). Owner spec (2026-11-11): use it while aiming at a player within {@link #RANGE} blocks whose back is
  * toward the user (the user stands inside the {@link #BACK_HALF_ARC_DEGREES} half-arc behind the target); both are
  * held for {@link #CHANNEL_TICKS}, the target takes a cosmetic hit every {@link #HIT_INTERVAL_TICKS}, then dies of
- * {@code sparkwitch:strangled}, passing shields without consuming them. An attacked, controlled or displaced user
+ * {@code sparkdlc:strangled}, passing shields without consuming them. An attacked, controlled or displaced user
  * aborts and the rope cools down for {@link #INTERRUPT_COOLDOWN_TICKS}; the victim can never move out of the grip
  * (it is always returned to its anchor). The rope is consumed only by a successful kill. No Minecraft state is read
  * here, so every rule is unit-testable.
- * 绳索（{@code sparkwitch:rope}，二阶堂希罗的商店道具；任何持有者都可使用）的全部数值与纯判定。所有者规格（2026-11-11）：瞄准
+ * 绳索（{@code sparkdlc:rope}，二阶堂希罗的商店道具；任何持有者都可使用）的全部数值与纯判定。所有者规格（2026-11-11）：瞄准
  * {@link #RANGE} 格内背对使用者的玩家使用（使用者位于目标身后 {@link #BACK_HALF_ARC_DEGREES} 的半弧内）；双方定身
- * {@link #CHANNEL_TICKS}，目标每 {@link #HIT_INTERVAL_TICKS} 受到一次仅表现的受击，随后以 {@code sparkwitch:strangled} 死亡，
+ * {@link #CHANNEL_TICKS}，目标每 {@link #HIT_INTERVAL_TICKS} 受到一次仅表现的受击，随后以 {@code sparkdlc:strangled} 死亡，
  * 无视护盾且不消耗护盾。使用者被攻击、被控制或被移位时中断，绳索进入 {@link #INTERRUPT_COOLDOWN_TICKS} 冷却；目标永远无法靠移动
  * 脱身（始终被送回锚点）。只有击杀成功才消耗绳索。本类不读取任何 Minecraft 状态，因此每条规则都可单元测试。
  */

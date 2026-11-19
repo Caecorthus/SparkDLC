@@ -31,7 +31,7 @@ public final class SparkDlcSettingsPages {
     private static final Text SPARKASSIST = Text.literal("SparkAssist");
     private static final Text WATHE = Text.literal("Wathe");
     private static final Text SPARKWITCH = Text.literal("SparkWitch");
-    private static final SettingsStore SCOPE_STORE = new SettingsStore("sparkwitch-client", SparkWitchScopeBridge::save);
+    private static final SettingsStore SCOPE_STORE = new SettingsStore("sparkdlc-client", SparkWitchScopeBridge::save);
 
     private SparkDlcSettingsPages() {
     }
@@ -56,8 +56,8 @@ public final class SparkDlcSettingsPages {
     private static SettingsPage general() {
         ChoiceOption<InstinctKeyMode> instinct = new ChoiceOption<>(
                 "instinct_key_mode",
-                Text.translatable("option.sparkassist.instinct_key_mode"),
-                Text.translatable("option.sparkassist.instinct_key_mode.description"),
+                Text.translatable("option.sparkdlc.instinct_key_mode"),
+                Text.translatable("option.sparkdlc.instinct_key_mode.description"),
                 SPARKASSIST,
                 SparkAssistClientSettings.STORE,
                 List.of(InstinctKeyMode.values()),
@@ -67,8 +67,8 @@ public final class SparkDlcSettingsPages {
                 mode -> Text.translatable(mode.getTranslationKey()));
         ChoiceOption<GuidebookDecor> decor = new ChoiceOption<>(
                 "guidebook_decor",
-                Text.translatable("option.sparkassist.guidebook_decor"),
-                Text.translatable("option.sparkassist.guidebook_decor.description"),
+                Text.translatable("option.sparkdlc.guidebook_decor"),
+                Text.translatable("option.sparkdlc.guidebook_decor.description"),
                 SPARKASSIST,
                 SparkAssistClientSettings.STORE,
                 List.of(GuidebookDecor.values()),
@@ -78,19 +78,19 @@ public final class SparkDlcSettingsPages {
                 decorLevel -> Text.translatable(decorLevel.getTranslationKey()));
         ToggleOption foliage = new ToggleOption(
                 "guidebook_foliage",
-                Text.translatable("option.sparkassist.guidebook_foliage"),
-                Text.translatable("option.sparkassist.guidebook_foliage.description"),
+                Text.translatable("option.sparkdlc.guidebook_foliage"),
+                Text.translatable("option.sparkdlc.guidebook_foliage.description"),
                 SPARKASSIST,
                 SparkAssistClientSettings.STORE,
                 SparkAssistClientSettings::guidebookFoliage,
                 SparkAssistClientSettings::setGuidebookFoliage,
                 true);
         foliage.enabledWhen(() -> SparkAssistClientSettings.guidebookDecor() != GuidebookDecor.OFF,
-                () -> Text.translatable("option.sparkassist.guidebook_foliage.needs_decor"));
-        return new SettingsPage(GENERAL, Text.translatable("screen.sparkassist.settings.page.general"), List.of(
-                new SettingsPage.Group("controls", Text.translatable("screen.sparkassist.settings.group.controls"),
+                () -> Text.translatable("option.sparkdlc.guidebook_foliage.needs_decor"));
+        return new SettingsPage(GENERAL, Text.translatable("screen.sparkdlc.settings.page.general"), List.of(
+                new SettingsPage.Group("controls", Text.translatable("screen.sparkdlc.settings.group.controls"),
                         List.of(instinct)),
-                new SettingsPage.Group("guidebook", Text.translatable("screen.sparkassist.settings.group.guidebook"),
+                new SettingsPage.Group("guidebook", Text.translatable("screen.sparkdlc.settings.group.guidebook"),
                         List.of(decor, foliage))));
     }
 
@@ -98,8 +98,8 @@ public final class SparkDlcSettingsPages {
         List<SettingsPage.Group> groups = new ArrayList<>();
         SliderOption master = new SliderOption(
                 "event_volume.master",
-                Text.translatable("option.sparkassist.event_sound_volume.master"),
-                Text.translatable("option.sparkassist.event_sound_volume.master.description"),
+                Text.translatable("option.sparkdlc.event_sound_volume.master"),
+                Text.translatable("option.sparkdlc.event_sound_volume.master.description"),
                 SPARKASSIST,
                 SparkAssistClientSettings.STORE,
                 0, 100, 1,
@@ -108,7 +108,7 @@ public final class SparkDlcSettingsPages {
                 100,
                 SparkDlcSettingsPages::percent);
         groups.add(new SettingsPage.Group("master",
-                Text.translatable("screen.sparkassist.settings.group.event_master"), List.of(master)));
+                Text.translatable("screen.sparkdlc.settings.group.event_master"), List.of(master)));
 
         List<List<EventVolumeRows.Row>> sections = EventVolumeRows.visibleBySection(row ->
                 FabricLoader.getInstance().isModLoaded(row.mod()) && preview(row).available());
@@ -120,7 +120,7 @@ public final class SparkDlcSettingsPages {
             }
             groups.add(new SettingsPage.Group(order[i].id(), Text.translatable(order[i].titleKey()), volumes));
         }
-        return new SettingsPage(AUDIO, Text.translatable("screen.sparkassist.settings.page.audio"), groups);
+        return new SettingsPage(AUDIO, Text.translatable("screen.sparkdlc.settings.page.audio"), groups);
     }
 
     static SliderOption eventVolume(EventVolumeRows.Row row) {
@@ -151,29 +151,29 @@ public final class SparkDlcSettingsPages {
 
     private static SettingsPage scope() {
         ChoiceOption<String> mode = new ChoiceOption<>(
-                "sparkwitch.scope_mode",
-                Text.translatable("option.sparkwitch.scope_mode"),
-                Text.translatable("option.sparkassist.scope_mode.description"),
+                "sparkdlc.scope_mode",
+                Text.translatable("option.sparkdlc.scope_mode"),
+                Text.translatable("option.sparkdlc.scope_mode.description"),
                 SPARKWITCH,
                 SCOPE_STORE,
                 SparkWitchScopeBridge.scopeModes(),
                 SparkWitchScopeBridge::scopeMode,
                 SparkWitchScopeBridge::setScopeMode,
                 SparkWitchScopeBridge.defaultScopeMode(),
-                name -> Text.translatable("option.sparkwitch.scope_mode." + name));
+                name -> Text.translatable("option.sparkdlc.scope_mode." + name));
         mode.describeValues(name -> {
-            Text tooltip = Text.translatable("option.sparkwitch.scope_mode." + name + ".tooltip");
+            Text tooltip = Text.translatable("option.sparkdlc.scope_mode." + name + ".tooltip");
             if (SparkWitchScopeBridge.PICTURE_IN_PICTURE.equals(name)
                     && SparkWitchScopeBridge.pictureInPictureSuppressed()) {
                 return Text.empty().append(tooltip).append("\n\n")
-                        .append(Text.translatable("option.sparkassist.scope_mode.suppressed"));
+                        .append(Text.translatable("option.sparkdlc.scope_mode.suppressed"));
             }
             return tooltip;
         });
         ChoiceOption<Integer> lens = new ChoiceOption<>(
-                "sparkwitch.scope_lens_resolution",
-                Text.translatable("option.sparkwitch.scope_lens_resolution"),
-                Text.translatable("option.sparkwitch.scope_lens_resolution.tooltip"),
+                "sparkdlc.scope_lens_resolution",
+                Text.translatable("option.sparkdlc.scope_lens_resolution"),
+                Text.translatable("option.sparkdlc.scope_lens_resolution.tooltip"),
                 SPARKWITCH,
                 SCOPE_STORE,
                 SparkWitchScopeBridge.lensResolutionChoices(),
@@ -182,11 +182,11 @@ public final class SparkDlcSettingsPages {
                 SparkWitchScopeBridge.defaultLensResolutionPercent(),
                 SparkDlcSettingsPages::percent);
         lens.enabledWhen(() -> SparkWitchScopeBridge.PICTURE_IN_PICTURE.equals(SparkWitchScopeBridge.scopeMode()),
-                () -> Text.translatable("option.sparkassist.scope_lens_resolution.needs_pip"));
+                () -> Text.translatable("option.sparkdlc.scope_lens_resolution.needs_pip"));
         SliderOption sensitivity = new SliderOption(
-                "sparkwitch.scope_sensitivity",
-                Text.translatable("option.sparkwitch.scope_sensitivity"),
-                Text.translatable("option.sparkwitch.scope_sensitivity.tooltip"),
+                "sparkdlc.scope_sensitivity",
+                Text.translatable("option.sparkdlc.scope_sensitivity"),
+                Text.translatable("option.sparkdlc.scope_sensitivity.tooltip"),
                 SPARKWITCH,
                 SCOPE_STORE,
                 SparkWitchScopeBridge.scopedSensitivityMin(),
@@ -196,15 +196,15 @@ public final class SparkDlcSettingsPages {
                 SparkWitchScopeBridge::setScopedSensitivityPercent,
                 SparkWitchScopeBridge.defaultScopedSensitivityPercent(),
                 SparkDlcSettingsPages::percent);
-        return new SettingsPage(SCOPE, Text.translatable("screen.sparkassist.settings.page.scope"), List.of(
-                new SettingsPage.Group("scope", Text.translatable("screen.sparkassist.settings.group.scope"),
+        return new SettingsPage(SCOPE, Text.translatable("screen.sparkdlc.settings.page.scope"), List.of(
+                new SettingsPage.Group("scope", Text.translatable("screen.sparkdlc.settings.group.scope"),
                         List.of(mode, lens, sensitivity))));
     }
 
     private static SettingsPage display() {
         ChoiceOption<SnowModeConfig> snowMode = new ChoiceOption<>(
                 "wathe.snow_mode",
-                Text.translatable("option.sparkassist.wathe.snow_mode"),
+                Text.translatable("option.sparkdlc.wathe.snow_mode"),
                 Text.translatable("wathe.midnightconfig.snowOptLevel.tooltip"),
                 WATHE,
                 WatheClientSettings.STORE,
@@ -215,7 +215,7 @@ public final class SparkDlcSettingsPages {
                 mode -> Text.translatable("wathe.midnightconfig.enum.SnowModeConfig." + mode.name()));
         SliderOption snowflakes = new SliderOption(
                 "wathe.snowflake_chance",
-                Text.translatable("option.sparkassist.wathe.snowflake_amount"),
+                Text.translatable("option.sparkdlc.wathe.snowflake_amount"),
                 Text.translatable("wathe.midnightconfig.snowflakeChance.tooltip"),
                 WATHE,
                 WatheClientSettings.STORE,
@@ -225,11 +225,11 @@ public final class SparkDlcSettingsPages {
                 WatheClientSettings.DEFAULT_SNOWFLAKE_CHANCE,
                 SparkDlcSettingsPages::percent);
         snowflakes.enabledWhen(() -> WatheClientSettings.snowMode() != SnowModeConfig.TURN_OFF,
-                () -> Text.translatable("option.sparkassist.wathe.snowflake_amount.needs_particles"));
+                () -> Text.translatable("option.sparkdlc.wathe.snowflake_amount.needs_particles"));
         ChoiceOption<ChargeIndicatorStyle> charge = new ChoiceOption<>(
                 "charge_indicator",
-                Text.translatable("option.sparkassist.charge_indicator"),
-                Text.translatable("option.sparkassist.charge_indicator.description"),
+                Text.translatable("option.sparkdlc.charge_indicator"),
+                Text.translatable("option.sparkdlc.charge_indicator.description"),
                 SPARKASSIST,
                 SparkAssistClientSettings.STORE,
                 List.of(ChargeIndicatorStyle.values()),
@@ -240,8 +240,8 @@ public final class SparkDlcSettingsPages {
                 .describeValues(style -> Text.translatable(style.translationKey() + ".description"));
         ToggleOption creative = new ToggleOption(
                 "noelles_creative_entries",
-                Text.translatable("option.sparkassist.noelles_creative_entries"),
-                Text.translatable("option.sparkassist.noelles_creative_entries.description"),
+                Text.translatable("option.sparkdlc.noelles_creative_entries"),
+                Text.translatable("option.sparkdlc.noelles_creative_entries.description"),
                 SPARKASSIST,
                 SparkAssistClientSettings.STORE,
                 SparkAssistClientSettings::noellesCreativeEntries,
@@ -249,8 +249,8 @@ public final class SparkDlcSettingsPages {
                 true);
         ChoiceOption<BloodAppearance> blood = new ChoiceOption<>(
                 "blood_appearance",
-                Text.translatable("option.sparkassist.blood_appearance"),
-                Text.translatable("option.sparkassist.blood_appearance.description"),
+                Text.translatable("option.sparkdlc.blood_appearance"),
+                Text.translatable("option.sparkdlc.blood_appearance.description"),
                 SPARKASSIST,
                 SparkAssistClientSettings.STORE,
                 List.of(BloodAppearance.values()),
@@ -260,26 +260,26 @@ public final class SparkDlcSettingsPages {
                 v -> Text.translatable(v.translationKey()));
         ToggleOption scavenger = new ToggleOption(
                 "suppress_scavenger_blood",
-                Text.translatable("option.sparkassist.suppress_scavenger_blood"),
-                Text.translatable("option.sparkassist.suppress_scavenger_blood.description"),
+                Text.translatable("option.sparkdlc.suppress_scavenger_blood"),
+                Text.translatable("option.sparkdlc.suppress_scavenger_blood.description"),
                 SPARKASSIST,
                 SparkAssistClientSettings.STORE,
                 SparkAssistClientSettings::suppressScavengerBlood,
                 SparkAssistClientSettings::setSuppressScavengerBlood,
                 true);
         List<SettingsPage.Group> groups = new ArrayList<>();
-        groups.add(new SettingsPage.Group("snow", Text.translatable("screen.sparkassist.settings.group.train_effects"),
+        groups.add(new SettingsPage.Group("snow", Text.translatable("screen.sparkdlc.settings.group.train_effects"),
                 List.of(snowMode, snowflakes)));
-        groups.add(new SettingsPage.Group("combat", Text.translatable("screen.sparkassist.settings.group.combat"),
+        groups.add(new SettingsPage.Group("combat", Text.translatable("screen.sparkdlc.settings.group.combat"),
                 List.of(charge)));
         // The row only does something with NoellesRoles installed. 只有装了 NoellesRoles 这一行才有作用。
         if (FabricLoader.getInstance().isModLoaded("noellesroles")) {
             groups.add(new SettingsPage.Group("creative",
-                    Text.translatable("screen.sparkassist.settings.group.creative"), List.of(creative)));
+                    Text.translatable("screen.sparkdlc.settings.group.creative"), List.of(creative)));
         }
-        groups.add(new SettingsPage.Group("blood", Text.translatable("screen.sparkassist.settings.group.blood"),
+        groups.add(new SettingsPage.Group("blood", Text.translatable("screen.sparkdlc.settings.group.blood"),
                 List.of(blood, scavenger)));
-        return new SettingsPage(DISPLAY, Text.translatable("screen.sparkassist.settings.page.display"), groups);
+        return new SettingsPage(DISPLAY, Text.translatable("screen.sparkdlc.settings.page.display"), groups);
     }
 
     /**
@@ -298,6 +298,6 @@ public final class SparkDlcSettingsPages {
     }
 
     static Text percent(int value) {
-        return Text.translatable("screen.sparkassist.settings.percent", String.format(Locale.ROOT, "%d", value));
+        return Text.translatable("screen.sparkdlc.settings.percent", String.format(Locale.ROOT, "%d", value));
     }
 }

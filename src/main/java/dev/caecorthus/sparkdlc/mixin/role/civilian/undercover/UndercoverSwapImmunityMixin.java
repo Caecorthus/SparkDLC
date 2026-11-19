@@ -48,7 +48,7 @@ public abstract class UndercoverSwapImmunityMixin {
         PlayerEntity first = world.getPlayerByUuid(payload.player());
         PlayerEntity second = world.getPlayerByUuid(payload.player2());
         if (UndercoverRoles.isLivingStage2(first) || UndercoverRoles.isLivingStage2(second)) {
-            swapper.sendMessage(Text.translatable("message.sparkstrength.undercover.cannot_swap"), true);
+            swapper.sendMessage(Text.translatable("message.sparkdlc.undercover.cannot_swap"), true);
             ci.cancel();
         }
     }

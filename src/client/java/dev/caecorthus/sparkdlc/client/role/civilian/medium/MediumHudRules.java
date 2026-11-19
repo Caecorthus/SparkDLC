@@ -20,7 +20,7 @@ public final class MediumHudRules {
     public static final int READY_COLOR = 0xFF000000 | MediumRules.COLOR;
     /** The Fiend / Charon / Athlete cooldown grey. / 魔人、卡戎、运动员冷却行的灰色。 */
     public static final int MUTED_COLOR = FiendDashHudRules.COOLDOWN_COLOR;
-    public static final String BUSY_KEY = "hud.sparkwitch.medium.window.busy";
+    public static final String BUSY_KEY = "hud.sparkdlc.medium.window.busy";
     /** A chip's icon is the 9x9 blessing icon. / 图标为 9x9 的加护图标。 */
     public static final int CHIP_ICON = 9;
     /** Gap between two active-blessing chips. / 两个生效加护图标之间的间隔。 */
@@ -47,7 +47,7 @@ public final class MediumHudRules {
         }
 
         String key(String state) {
-            return "hud.sparkwitch.medium." + path + "." + state;
+            return "hud.sparkdlc.medium." + path + "." + state;
         }
 
         public MediumWindowKind kind() {

@@ -17,16 +17,16 @@ import java.util.List;
  * “CCTV/附身叠加层显示时隐藏”。
  */
 public final class SeekerHudRules {
-    public static final String CAR_READY_KEY = "hud.sparkwitch.seeker.car.ready";
-    public static final String CAR_DEPLOYED_KEY = "hud.sparkwitch.seeker.car.deployed";
-    public static final String CAR_COOLDOWN_KEY = "hud.sparkwitch.seeker.car.cooldown";
-    public static final String CAR_SWALLOWED_KEY = "hud.sparkwitch.seeker.car.swallowed";
-    public static final String CAMERA_COUNT_KEY = "hud.sparkwitch.seeker.camera.count";
-    public static final String CAMERA_NONE_KEY = "hud.sparkwitch.seeker.camera.none";
-    public static final String MARK_KEY = "hud.sparkwitch.seeker.mark";
-    public static final String SEPARATOR_KEY = "hud.sparkwitch.seeker.separator";
-    public static final String BATTERY_LOW_KEY = "hud.sparkwitch.seeker.battery.low";
-    public static final String BATTERY_CRITICAL_KEY = "hud.sparkwitch.seeker.battery.critical";
+    public static final String CAR_READY_KEY = "hud.sparkdlc.seeker.car.ready";
+    public static final String CAR_DEPLOYED_KEY = "hud.sparkdlc.seeker.car.deployed";
+    public static final String CAR_COOLDOWN_KEY = "hud.sparkdlc.seeker.car.cooldown";
+    public static final String CAR_SWALLOWED_KEY = "hud.sparkdlc.seeker.car.swallowed";
+    public static final String CAMERA_COUNT_KEY = "hud.sparkdlc.seeker.camera.count";
+    public static final String CAMERA_NONE_KEY = "hud.sparkdlc.seeker.camera.none";
+    public static final String MARK_KEY = "hud.sparkdlc.seeker.mark";
+    public static final String SEPARATOR_KEY = "hud.sparkdlc.seeker.separator";
+    public static final String BATTERY_LOW_KEY = "hud.sparkdlc.seeker.battery.low";
+    public static final String BATTERY_CRITICAL_KEY = "hud.sparkdlc.seeker.battery.critical";
 
     public static final int BASE_COLOR = 0xFF000000 | SeekerRules.COLOR;
     public static final int COOLDOWN_COLOR = 0xFFAAAAAA;

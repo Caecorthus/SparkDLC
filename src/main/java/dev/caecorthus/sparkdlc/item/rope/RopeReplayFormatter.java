@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
  * 格式化器的物品使用记录，因此注册之前这一行从不显示；按绳索物品 id 注册，不影响其他物品的格式化器。
  */
 final class RopeReplayFormatter {
-    static final String KEY = "replay.item_use.sparkwitch.rope";
+    static final String KEY = "replay.item_use.sparkdlc.rope";
 
     private RopeReplayFormatter() {
     }

@@ -27,9 +27,9 @@ public final class SherryNoteItem extends Item {
         String victim = stack.getOrDefault(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT).copyNbt()
                 .getString(SherryRules.NOTE_VICTIM_KEY);
         if (victim.isEmpty()) {
-            tooltip.add(Text.translatable("item.sparkwitch.sherry_note.tooltip").formatted(Formatting.GRAY));
+            tooltip.add(Text.translatable("item.sparkdlc.sherry_note.tooltip").formatted(Formatting.GRAY));
         } else {
-            tooltip.add(Text.translatable("item.sparkwitch.sherry_note.tooltip.victim", victim)
+            tooltip.add(Text.translatable("item.sparkdlc.sherry_note.tooltip.victim", victim)
                     .formatted(Formatting.GOLD));
         }
     }

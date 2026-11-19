@@ -6,15 +6,15 @@ package dev.caecorthus.sparkdlc.achievement;
  * SparkTraits 词条。“击杀时持有的词条”按击杀的记录 tick 前后 {@link RoundFacts#RECORD_TICK_TOLERANCE} 以内，对照我自身可见的词条时间线判断。
  */
 final class TraitRules {
-    static final String HEAVY_ARTILLERY = "sparktraits:heavy_artillery";
-    static final String FAST_HANDS = "sparktraits:fast_hands";
-    static final String FAST_RELOAD = "sparktraits:fast_reload";
-    static final String NIKO = "sparktraits:niko";
-    static final String LAST_STAND_TRIGGERED = "sparktraits:last_stand_triggered";
-    static final String CLOSE_QUARTERS_PARRY = "sparktraits:close_quarters_parry";
-    static final String IMPOSTOR = "sparktraits:impostor";
-    static final String MONEY_TREE = "sparktraits:money_tree";
-    static final String TASK_MASTER = "sparktraits:task_master";
+    static final String HEAVY_ARTILLERY = "sparkdlc:heavy_artillery";
+    static final String FAST_HANDS = "sparkdlc:fast_hands";
+    static final String FAST_RELOAD = "sparkdlc:fast_reload";
+    static final String NIKO = "sparkdlc:niko";
+    static final String LAST_STAND_TRIGGERED = "sparkdlc:last_stand_triggered";
+    static final String CLOSE_QUARTERS_PARRY = "sparkdlc:close_quarters_parry";
+    static final String IMPOSTOR = "sparkdlc:impostor";
+    static final String MONEY_TREE = "sparkdlc:money_tree";
+    static final String TASK_MASTER = "sparkdlc:task_master";
     static final String REVOLVER = "wathe:revolver";
     static final String VETERAN = "wathe:veteran";
     /** 60 seconds. 60 秒。 */

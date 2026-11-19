@@ -13,19 +13,19 @@ import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
 
 /**
- * Stable CCA contract {@code sparkwitch:hanna_player} (NEVER_COPY). Server state is four absolute world ticks: when
+ * Stable CCA contract {@code sparkdlc:hanna_player} (NEVER_COPY). Server state is four absolute world ticks: when
  * the float is ready again, when a running float ends, when the interruption penalty ends, and when a handkerchief's
  * sanity regeneration ends (any player may carry that last one: the handkerchief works for whoever holds it).
  * <p>Sync: everyone receives only the float's remaining ticks, counted down locally, because every client's instinct
  * must skip a floating player (the Ferryman veil precedent: never a server time, never another field). The owner also
  * receives the ready and penalty ticks for the role-owned HUD, which counts them down against the client world clock
  * (the Noa precedent). NBT keeps all four across a mid-round relog; role assignment and Wathe's {@code ResetPlayer}
- * clear them. The forced-cooldown store {@code sparkwitch:hanna_float} only ever raises the ready tick.
- * 稳定 CCA 契约 {@code sparkwitch:hanna_player}（NEVER_COPY）。服务端状态是四个绝对世界刻：浮游再次就绪、进行中的浮游结束、
+ * clear them. The forced-cooldown store {@code sparkdlc:hanna_float} only ever raises the ready tick.
+ * 稳定 CCA 契约 {@code sparkdlc:hanna_player}（NEVER_COPY）。服务端状态是四个绝对世界刻：浮游再次就绪、进行中的浮游结束、
  * 被打断惩罚结束，以及手帕回理智结束（最后一项任何玩家都可能持有：手帕谁拿到都能用）。
  * <p>同步：所有人只收到浮游的剩余刻数并在本地递减，因为每个客户端的本能都必须跳过浮游中的玩家（沿用摆渡人帷幕的先例：绝不发送
  * 服务端时间，也不发送其他字段）。本人额外收到就绪刻与惩罚刻，供职业自有 HUD 依据客户端世界时钟倒数（沿用诺亚的先例）。NBT 使
- * 四者在局中重新登录后保留；身份分配与 Wathe 的 {@code ResetPlayer} 会清空。强制冷却存储 {@code sparkwitch:hanna_float}
+ * 四者在局中重新登录后保留；身份分配与 Wathe 的 {@code ResetPlayer} 会清空。强制冷却存储 {@code sparkdlc:hanna_float}
  * 只会把就绪刻推后。
  */
 public final class HannaComponent implements AutoSyncedComponent, ClientTickingComponent {

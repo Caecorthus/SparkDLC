@@ -153,7 +153,7 @@ public final class TabletChatView {
                 int nameColor;
                 if (bubble.anonymous()) {
                     if (anonymousLabel == null) {
-                        anonymousLabel = Text.translatable("screen.sparkstrength.tablet.chat.anonymous").getString();
+                        anonymousLabel = Text.translatable("screen.sparkdlc.tablet.chat.anonymous").getString();
                     }
                     name = anonymousLabel;
                     nameColor = TabletTheme.TEXT_3;

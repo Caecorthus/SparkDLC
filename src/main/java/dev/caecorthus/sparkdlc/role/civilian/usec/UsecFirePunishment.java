@@ -41,7 +41,7 @@ import org.jetbrains.annotations.Nullable;
 final class UsecFirePunishment {
     /** Wathe's own gun receiver waits this long before punishing. / Wathe 自身开枪接收器执行惩罚前的延迟。 */
     static final int PUNISHMENT_DELAY_TICKS = 4;
-    static final String CONFISCATED_MESSAGE_KEY = "message.sparkwitch.usec.rifle_confiscated";
+    static final String CONFISCATED_MESSAGE_KEY = "message.sparkdlc.usec.rifle_confiscated";
 
     private UsecFirePunishment() {
     }

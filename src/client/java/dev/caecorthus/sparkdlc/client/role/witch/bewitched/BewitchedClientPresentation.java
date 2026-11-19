@@ -16,14 +16,14 @@ import net.minecraft.text.Text;
 /**
  * Role-owned HUD line of a living Bewitched (魔化使): its promotion progress {@code n/2}, bottom-right like the Grand
  * Witch's lines (a Bewitched owns no witch skill, so the shared skill line never draws there). It reads only the local
- * player's own synced role and owner-synced {@code sparkwitch:bewitched} count; the server alone counts and promotes.
+ * player's own synced role and owner-synced {@code sparkdlc:bewitched} count; the server alone counts and promotes.
  * Never part of the witch skill inventory panel.
  * 存活魔化使的职业自有 HUD 行：右下角显示晋升进度 {@code n/2}，位置与大魔女的提示行相同（魔化使没有魔女技能，共享技能行
- * 不会在此绘制）。只读取本地玩家自己同步的身份与仅同步给本人的 {@code sparkwitch:bewitched} 计数；计数与晋升只由服务端决定。
+ * 不会在此绘制）。只读取本地玩家自己同步的身份与仅同步给本人的 {@code sparkdlc:bewitched} 计数；计数与晋升只由服务端决定。
  * 从不属于魔女技能背包面板。
  */
 public final class BewitchedClientPresentation {
-    static final String PROGRESS_KEY = "hud.sparkwitch.bewitched.progress";
+    static final String PROGRESS_KEY = "hud.sparkdlc.bewitched.progress";
     private static final int RIGHT_PADDING = 5;
     private static final int BOTTOM_PADDING = 5;
     private static boolean registered;

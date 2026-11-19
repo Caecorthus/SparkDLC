@@ -19,10 +19,10 @@ import org.jetbrains.annotations.Nullable;
  * 橘雪莉's client hub (PR #206): the server's candidate packet opens the 推演 panel, the Role Skill 2 key sends the
  * empty 巨力魔法 request, the private outlines answer Wathe's instinct event and the corner HUD draws the two skill
  * rows. The shared ability key is dispatched by {@code SparkWitchClient} to {@link #onAbilityKey}. Everything here is
- * presentation or a request: the server owns every check. Never touches the {@code gui.sparkwitch.skills} panel.
+ * presentation or a request: the server owns every check. Never touches the {@code gui.sparkdlc.skills} panel.
  * 橘雪莉客户端注册中心（PR #206）：服务端的候选数据包打开推演面板，职业技能 2 键发送空的巨力魔法请求，私有描边应答 Wathe
  * 的本能事件，右下角 HUD 绘制两条技能行。共享技能键由 {@code SparkWitchClient} 分发到 {@link #onAbilityKey}。这里只有展示
- * 与请求：所有校验都在服务端。从不触及 {@code gui.sparkwitch.skills} 面板。
+ * 与请求：所有校验都在服务端。从不触及 {@code gui.sparkdlc.skills} 面板。
  */
 public final class SherryClient {
     private static boolean registered;

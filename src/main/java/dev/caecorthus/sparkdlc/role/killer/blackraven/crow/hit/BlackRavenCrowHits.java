@@ -209,12 +209,12 @@ public final class BlackRavenCrowHits {
      * {@link BlackRavenCrowHitRules#ADDON_MELEE_TOLERANCE} (lag-compensated) with a clear line becomes its substituted
      * owner; null for anything else, so nothing is armed. The frozen signature carries no action, so the SparkFactionAPI
      * check uses the stab's {@code wathe:knife} (four of the five callers; each caller still checks its own action on the
-     * returned owner, as SparkStrength's tomahawk does with {@code sparkstrength:tomahawk}).
+     * returned owner, as SparkStrength's tomahawk does with {@code sparkdlc:tomahawk}).
      * 自带玩家路径的附属模组近战武器，经 {@code SparkWitchApi.crowMeleeStandIn} 调用（目前为 SparkStrength 老兵、验尸官伪装与
      * 沉默者的刀以及卧底战术斧，其处理器在 Wathe 接收器之前接管）：攻击者可命中、在其 {@code reach} 加
      * {@link BlackRavenCrowHitRules#ADDON_MELEE_TOLERANCE}（延迟补偿）内且视线畅通的乌鸦变为其被替身的主人；其余情况为 null，
      * 不装入任何替身。冻结签名不带行为 id，因此 SparkFactionAPI 判定使用刺击的 {@code wathe:knife}（五个调用方中的四个；各调用方
-     * 仍会对返回的主人检查自身行为，如 SparkStrength 战术斧使用 {@code sparkstrength:tomahawk}）。
+     * 仍会对返回的主人检查自身行为，如 SparkStrength 战术斧使用 {@code sparkdlc:tomahawk}）。
      */
     public static @Nullable ServerPlayerEntity addonMeleeStandIn(@Nullable ServerPlayerEntity attacker,
                                                                  @Nullable Entity entity, double reach) {

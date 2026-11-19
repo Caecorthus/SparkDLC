@@ -18,7 +18,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
 
 /**
- * Renderer for the placed Rift Gate (model B {@code sparkwitch:item/rift_gate_placed}, drawn full-bright through
+ * Renderer for the placed Rift Gate (model B {@code sparkdlc:item/rift_gate_placed}, drawn full-bright through
  * {@code ItemRenderer} FIXED like the Hunter trap, rotated to {@link RiftGateEntity#facing()}, lifted 0.75; see
  * {@code art/README.md} §"Moving it into src"). Visible to everyone: it never overrides {@code shouldRender}, so the
  * entity's own 64-block distance and visibility box are the only culling, and full-bright keeps it lit during a

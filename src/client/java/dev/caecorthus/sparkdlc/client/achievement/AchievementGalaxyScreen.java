@@ -82,13 +82,13 @@ public final class AchievementGalaxyScreen extends Screen {
     private static final double DIM_WIDTH = 1;
     private static final double DASH = 4;
     private static final double DASH_GAP = 3;
-    private static final String LEVEL_KEY = "advancements.sparkassist.achievement.level";
-    private static final String PLACE_KEY = "advancements.sparkassist.achievement.place";
-    private static final String LOCAL_WORLD_KEY = "advancements.sparkassist.achievement.place.local_world";
-    private static final String PLACE_SEPARATOR_KEY = "advancements.sparkassist.achievement.place.separator";
+    private static final String LEVEL_KEY = "advancements.sparkdlc.achievement.level";
+    private static final String PLACE_KEY = "advancements.sparkdlc.achievement.place";
+    private static final String LOCAL_WORLD_KEY = "advancements.sparkdlc.achievement.place.local_world";
+    private static final String PLACE_SEPARATOR_KEY = "advancements.sparkdlc.achievement.place.separator";
     private static final String HIDDEN_TITLE = "???";
-    private static final String NOT_YET_KEY = "advancements.sparkassist.achievement.not_yet";
-    private static final String HINT_KEY = "gui.sparkassist.achievements.hint";
+    private static final String NOT_YET_KEY = "advancements.sparkdlc.achievement.not_yet";
+    private static final String HINT_KEY = "gui.sparkdlc.achievements.hint";
     private static final Sky SKY = new Sky(480, 220, 0.15, 20260101L);
 
     // The camera survives closing the screen for the rest of the session. 关闭界面后镜头位置保留到本次游戏结束。

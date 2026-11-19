@@ -8,11 +8,11 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 
 /**
- * Stable C2S contract {@code sparkwitch:black_raven_crow_toggle}: an empty Raven Form request sent by the Black Raven's
+ * Stable C2S contract {@code sparkdlc:black_raven_crow_toggle}: an empty Raven Form request sent by the Black Raven's
  * secondary key (key 2 / N). Outside a session it asks to start one; during a session it always ends it. The server
  * validates everything. Classified as a role skill on the Control Expert stun, Seeker session, Riftwalker session and
  * Fear deny-lists.
- * 稳定 C2S 契约 {@code sparkwitch:black_raven_crow_toggle}：黑羽鸦按副技能键（技能键 2 / N）发送的空化鸦请求。会话外请求开始，
+ * 稳定 C2S 契约 {@code sparkdlc:black_raven_crow_toggle}：黑羽鸦按副技能键（技能键 2 / N）发送的空化鸦请求。会话外请求开始，
  * 会话中总是结束会话。全部校验在服务端完成。已作为职业技能归入控场专家眩晕、搜寻者会话、隙行者会话与恐惧拦截名单。
  */
 public record BlackRavenCrowToggleC2SPayload() implements CustomPayload {

@@ -13,19 +13,19 @@ import org.jetbrains.annotations.Nullable;
  * 夏目安安's sketchbook mood icon (owner pick 2026-11-04, design A), drawn by
  * {@code mixin/natsume/NatsumeMoodRendererMixin} in place of Wathe's icon. She is a REAL-mood killer, so Wathe 1.5.6
  * draws her icon in {@code MoodRenderer.renderCivilian} (only FAKE-mood roles reach {@code renderKiller}). The sprites
- * live in the GUI atlas at {@code assets/sparkwitch/textures/gui/sprites/hud/natsume_mood_*.png}, 14x17 with no
+ * live in the GUI atlas at {@code assets/sparkdlc/textures/gui/sprites/hud/natsume_mood_*.png}, 14x17 with no
  * {@code .mcmeta}, like Wathe's {@code wathe:hud/mood_happy/mid/depressive} and Noa's copies. Display only: reads the
  * local player's raw synced role and liveness, never a sanity value, and changes no state.
  * 夏目安安的素描本心情图标（所有者 2026-11-04 选定方案 A），由 {@code mixin/natsume/NatsumeMoodRendererMixin} 替换 Wathe 的
  * 图标绘制。她是真实理智的杀手，因此 Wathe 1.5.6 在 {@code MoodRenderer.renderCivilian} 中绘制其图标（只有伪装理智职业才会
- * 走 {@code renderKiller}）。sprite 位于 GUI 图集 {@code assets/sparkwitch/textures/gui/sprites/hud/natsume_mood_*.png}，
+ * 走 {@code renderKiller}）。sprite 位于 GUI 图集 {@code assets/sparkdlc/textures/gui/sprites/hud/natsume_mood_*.png}，
  * 14x17、无 {@code .mcmeta}，与 Wathe 的 {@code wathe:hud/mood_happy/mid/depressive} 以及诺亚的副本相同。仅用于展示：只读取
  * 本地玩家同步的真实职业与存活状态，从不读取理智值，也不改变任何状态。
  */
 public final class NatsumeMoodIcon {
-    public static final Identifier SKETCH_HAPPY = Identifier.of("sparkwitch", "hud/natsume_mood_happy");
-    public static final Identifier SKETCH_MID = Identifier.of("sparkwitch", "hud/natsume_mood_mid");
-    public static final Identifier SKETCH_DEPRESSIVE = Identifier.of("sparkwitch", "hud/natsume_mood_depressive");
+    public static final Identifier SKETCH_HAPPY = Identifier.of("sparkdlc", "hud/natsume_mood_happy");
+    public static final Identifier SKETCH_MID = Identifier.of("sparkdlc", "hud/natsume_mood_mid");
+    public static final Identifier SKETCH_DEPRESSIVE = Identifier.of("sparkdlc", "hud/natsume_mood_depressive");
 
     private NatsumeMoodIcon() {
     }

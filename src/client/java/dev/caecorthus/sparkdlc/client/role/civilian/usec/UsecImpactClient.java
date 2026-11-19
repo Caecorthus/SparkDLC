@@ -12,7 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Client only. Owned by WP7: the {@code sparkwitch:usec_bullet_impacts} receiver and the visual-only block cracks
+ * Client only. Owned by WP7: the {@code sparkdlc:usec_bullet_impacts} receiver and the visual-only block cracks
  * (D13). Called once from {@code UsecClientModule.register()}. Each impact feeds {@link UsecCrackTracker}, whose stage
  * changes go to vanilla {@code WorldRenderer#setBlockBreakingInfo} under reserved negative breaker ids. Verified against
  * the mapped 1.21.1 jar: an id holds one block (a new position moves the entry), a stage outside 0..9 removes it, the
@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
  * not refreshed for 400 ticks but never clears them on a world change, so this class clears its own cracks on a world
  * change, a disconnect and a round start or end (Wathe {@code isRunning} flips). It never changes a block and never
  * sends a packet; the server decides who receives impacts.
- * 仅客户端。归 WP7 所有：{@code sparkwitch:usec_bullet_impacts} 接收器与纯视觉方块裂痕（D13）。由
+ * 仅客户端。归 WP7 所有：{@code sparkdlc:usec_bullet_impacts} 接收器与纯视觉方块裂痕（D13）。由
  * {@code UsecClientModule.register()} 调用一次。每次命中交给 {@link UsecCrackTracker}，其级别变化以保留的负数破坏者 id 交给原版
  * {@code WorldRenderer#setBlockBreakingInfo}。已对照映射后的 1.21.1 jar 核实：一个 id 只对应一个方块（新位置会移动该条目），
  * 0..9 以外的级别会移除条目，每个方块绘制最高级别，且只在镜头 32 格内绘制；{@code WorldRenderer#tick} 会丢弃 400 刻未刷新的

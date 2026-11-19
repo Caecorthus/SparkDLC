@@ -8,10 +8,10 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 
 /**
- * Stable C2S contract {@code sparkwitch:fire_crimson_skull}: a Wither Gohei left-click with the click-time aim; the
+ * Stable C2S contract {@code sparkdlc:fire_crimson_skull}: a Wither Gohei left-click with the click-time aim; the
  * server re-checks the held Gohei, the Wither, the cooldown and the mana. A lethal shot: classified wherever the other
  * weapon fire payloads are.
- * 稳定 C2S 契约 {@code sparkwitch:fire_crimson_skull}：手持凋灵御币左键，携带点击瞬间的朝向；服务端重新校验手持御币、
+ * 稳定 C2S 契约 {@code sparkdlc:fire_crimson_skull}：手持凋灵御币左键，携带点击瞬间的朝向；服务端重新校验手持御币、
  * 小凋灵、冷却与魔力。属于致命射击：凡拦截其他武器开火数据包处均拦截。
  */
 public record FireCrimsonSkullC2SPayload(float yaw, float pitch) implements CustomPayload {

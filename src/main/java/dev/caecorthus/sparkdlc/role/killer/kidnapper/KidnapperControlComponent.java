@@ -210,7 +210,7 @@ public final class KidnapperControlComponent
         // Sent every tick on purpose: any other action-bar message to the controller is overwritten the next tick.
         // 有意每刻发送：发给控制者的其他动作栏消息会在下一刻被覆盖。
         controller.sendMessage(
-                Text.translatable("message.sparkwitch.kidnapper.timeleft", controlTicks / 20)
+                Text.translatable("message.sparkdlc.kidnapper.timeleft", controlTicks / 20)
                         .withColor(KidnapperRules.COLOR),
                 true
         );
@@ -224,7 +224,7 @@ public final class KidnapperControlComponent
             return;
         }
         controller.sendMessage(
-                Text.translatable("message.sparkwitch.kidnapper.release").withColor(KidnapperRules.COLOR),
+                Text.translatable("message.sparkdlc.kidnapper.release").withColor(KidnapperRules.COLOR),
                 true
         );
         controller.playSoundToPlayer(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 1.0F, 1.0F);

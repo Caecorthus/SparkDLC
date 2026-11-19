@@ -56,7 +56,7 @@ public final class DetectiveFolderScreen extends Screen {
     private boolean stateReady;
 
     public DetectiveFolderScreen() {
-        super(Text.translatable("screen.sparkstrength.detective_folder.title"));
+        super(Text.translatable("screen.sparkdlc.detective_folder.title"));
     }
 
     @Override

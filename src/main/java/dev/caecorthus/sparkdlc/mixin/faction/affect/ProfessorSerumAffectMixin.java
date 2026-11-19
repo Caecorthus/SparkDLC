@@ -23,7 +23,7 @@ import java.util.UUID;
 @Pseudo
 @Mixin(targets = "dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumService", remap = false)
 public abstract class ProfessorSerumAffectMixin {
-    private static final Identifier ACTION = Identifier.of("sparkstrength", "professor_serum");
+    private static final Identifier ACTION = Identifier.of("sparkdlc", "professor_serum");
 
     /** Reuses SparkStrength's authoritative local-target resolver. / 复用 SparkStrength 的权威近程目标解析。 */
     @Shadow(remap = false)

@@ -36,6 +36,6 @@ public enum FisherCatch {
 
     /** Lang key of the catch name shown in the action bar. / 动作栏里显示的渔获名称键。 */
     public String translationKey() {
-        return "message.sparkwitch.fisher.catch." + name().toLowerCase(Locale.ROOT);
+        return "message.sparkdlc.fisher.catch." + name().toLowerCase(Locale.ROOT);
     }
 }

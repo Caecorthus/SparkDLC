@@ -9,11 +9,11 @@ import java.util.UUID;
 
 /**
  * Per-thread bookkeeping of open, per-player call scopes: kill-start snapshots for the {@code death} record (one frame
- * per {@code killPlayer} call) and open {@code ItemStack#finishUsing} calls for {@code sparkfactionapi:consume}. Every
+ * per {@code killPlayer} call) and open {@code ItemStack#finishUsing} calls for {@code sparkdlc:consume}. Every
  * scope pops its exact frame when it returns, so a cancelled or early-returning call leaves nothing behind. A call
  * nested in another (a kill that triggers a kill) pushes its own frame; lookups pick the innermost frame of that player.
  * 按线程记录进行中的、按玩家划分的调用作用域：{@code death} 记录的击杀开始快照（每次 {@code killPlayer} 调用一帧），以及
- * {@code sparkfactionapi:consume} 的进行中 {@code ItemStack#finishUsing} 调用。每个作用域返回时都弹出自己的那一帧，因此
+ * {@code sparkdlc:consume} 的进行中 {@code ItemStack#finishUsing} 调用。每个作用域返回时都弹出自己的那一帧，因此
  * 被取消或提前返回的调用不会残留。嵌套调用（一次击杀引发另一次击杀）会压入自己的帧；查找时取该玩家最内层的帧。
  */
 public final class PlayerScopeStack<T> {

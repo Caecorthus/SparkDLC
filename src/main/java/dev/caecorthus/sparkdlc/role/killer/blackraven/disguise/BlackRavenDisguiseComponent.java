@@ -14,9 +14,9 @@ import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
 /**
- * Owner-private, match-bound disguise state ({@code sparkwitch:black_raven_disguise}, NEVER_COPY).
+ * Owner-private, match-bound disguise state ({@code sparkdlc:black_raven_disguise}, NEVER_COPY).
  * Only the owner receives the sync (not even spectators); applying it updates the client acting index.
- * 仅拥有者可见、绑定对局的伪装状态（sparkwitch:black_raven_disguise，NEVER_COPY）。
+ * 仅拥有者可见、绑定对局的伪装状态（sparkdlc:black_raven_disguise，NEVER_COPY）。
  * 只有拥有者接收同步（旁观者也不接收）；应用同步时更新客户端扮演索引。
  */
 public final class BlackRavenDisguiseComponent

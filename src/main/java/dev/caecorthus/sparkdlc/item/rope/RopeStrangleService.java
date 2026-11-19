@@ -49,7 +49,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *       attacker-less source) and a short choke is heard within {@link RopeRules#CHOKE_SOUND_RANGE} blocks. The server
  *       damage pipeline is deliberately not entered: {@code damage()} would end a NoellesRoles spirit projection, wake
  *       and move a sleeper, be swallowed by invulnerable states and leave real invulnerability frames.</li>
- *   <li><b>Kill</b>: at tick 60 a normal (non-forced) {@code killPlayer} with {@code sparkwitch:strangled}; shields
+ *   <li><b>Kill</b>: at tick 60 a normal (non-forced) {@code killPlayer} with {@code sparkdlc:strangled}; shields
  *       step aside without being spent ({@link RopeShieldPolicy}), traits and role immunities still apply. The rope is
  *       consumed only when the kill succeeded ({@link RopeRules#outcome}); otherwise it is kept and cools down.</li>
  *   <li><b>Interrupt</b> ({@link RopeRules.Interrupt}): a kill attempt on the user by another player
@@ -71,7 +71,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 自由）；目标无论偏离多远都会被送回锚点，因此它自身的移动永远无法脱身。受击：
  * 第 20、40、60 刻目标各显示一次原版受击（无攻击者来源的原版受击数据包），{@link RopeRules#CHOKE_SOUND_RANGE} 格内可听到短促的窒息声；
  * 有意不进入服务端伤害流程：{@code damage()} 会终止 NoellesRoles 的灵魂出窍、唤醒并移动睡眠者、被无敌状态吞掉，并留下真实的无敌帧。
- * 击杀：第 60 刻以 {@code sparkwitch:strangled} 发起普通（非强制）{@code killPlayer}；护盾让开且不被消耗（{@link RopeShieldPolicy}），
+ * 击杀：第 60 刻以 {@code sparkdlc:strangled} 发起普通（非强制）{@code killPlayer}；护盾让开且不被消耗（{@link RopeShieldPolicy}），
  * 词条与职业免疫照常生效；只有击杀成功才消耗绳索（{@link RopeRules#outcome}），否则保留并进入冷却。打断
  * （{@link RopeRules.Interrupt}）：他人对使用者的击杀尝试（{@code mixin/rope/GameFunctionsRopeStrangleInterruptMixin}，被护盾挡下时
  * 同样触发）、使用者受到任何控制、使用者被推离或传送离开锚点、双方分开（{@link RopeRules#pairSeparated}：坠落、移动的座位）、绳索
@@ -81,14 +81,14 @@ import java.util.concurrent.ConcurrentHashMap;
  * 两个会话查询可能被数据包拦截从网络线程读取（因此使用并发映射）外，仅在服务端线程运行。
  */
 public final class RopeStrangleService {
-    static final String BLOCKED_KEY = "message.sparkwitch.rope.blocked";
-    static final String NO_TARGET_KEY = "message.sparkwitch.rope.no_target";
-    static final String NOT_BEHIND_KEY = "message.sparkwitch.rope.not_behind";
-    static final String STRANGLING_KEY = "message.sparkwitch.rope.strangling";
-    static final String STRANGLED_KEY = "message.sparkwitch.rope.strangled";
-    static final String INTERRUPTED_KEY = "message.sparkwitch.rope.interrupted";
-    static final String RELEASED_KEY = "message.sparkwitch.rope.released";
-    static final String PROTECTED_KEY = "message.sparkwitch.rope.protected";
+    static final String BLOCKED_KEY = "message.sparkdlc.rope.blocked";
+    static final String NO_TARGET_KEY = "message.sparkdlc.rope.no_target";
+    static final String NOT_BEHIND_KEY = "message.sparkdlc.rope.not_behind";
+    static final String STRANGLING_KEY = "message.sparkdlc.rope.strangling";
+    static final String STRANGLED_KEY = "message.sparkdlc.rope.strangled";
+    static final String INTERRUPTED_KEY = "message.sparkdlc.rope.interrupted";
+    static final String RELEASED_KEY = "message.sparkdlc.rope.released";
+    static final String PROTECTED_KEY = "message.sparkdlc.rope.protected";
 
     private static final float START_VOLUME = 0.8F;
     private static final float START_PITCH = 0.7F;

@@ -12,11 +12,11 @@ import org.jetbrains.annotations.Nullable;
  * 这里只按稳定 id 匹配；未安装 SparkWitch 时这些道具不会进入任何商店。
  */
 public final class PerfumerRules {
-    public static final Identifier ROLE_ID = Identifier.of("sparkwitch", "perfumer");
+    public static final Identifier ROLE_ID = Identifier.of("sparkdlc", "perfumer");
 
-    public static final String COOLING_OIL_ENTRY_ID = "sparkstrength_cooling_oil";
-    public static final String AROMA_ORB_ENTRY_ID = "sparkstrength_aroma_orb";
-    public static final String ZEPHYR_PERFUME_ENTRY_ID = "sparkstrength_zephyr_perfume";
+    public static final String COOLING_OIL_ENTRY_ID = "sparkdlc_cooling_oil";
+    public static final String AROMA_ORB_ENTRY_ID = "sparkdlc_aroma_orb";
+    public static final String ZEPHYR_PERFUME_ENTRY_ID = "sparkdlc_zephyr_perfume";
 
     public static final int COOLING_OIL_PRICE = 50;
     public static final int AROMA_ORB_PRICE = 75;
@@ -38,8 +38,8 @@ public final class PerfumerRules {
     public static final int ZEPHYR_REFRESH_INTERVAL_TICKS = 20;
     public static final float ZEPHYR_MOOD_DRAIN_MULTIPLIER = 0.5F;
 
-    public static final Identifier COOLING_OIL_ACTION_ID = Identifier.of("sparkstrength", "perfumer_cooling_oil");
-    public static final Identifier AROMA_ACTION_ID = Identifier.of("sparkstrength", "perfumer_aroma");
+    public static final Identifier COOLING_OIL_ACTION_ID = Identifier.of("sparkdlc", "perfumer_cooling_oil");
+    public static final Identifier AROMA_ACTION_ID = Identifier.of("sparkdlc", "perfumer_aroma");
 
     // Aroma aim curve. / 香薰准心曲线。
     public static final double AROMA_MIN_SENSITIVITY = 0.3D;

@@ -34,7 +34,7 @@ public final class AssassinGuessService {
         }
         assassin.playSoundToPlayer(SoundEvents.BLOCK_DISPENSER_FAIL, SoundCategory.PLAYERS, 1.0F, 1.2F);
         assassin.sendMessage(
-                Text.translatable("message.sparkstrength.assassin.miss_forgiven", target.getName())
+                Text.translatable("message.sparkdlc.assassin.miss_forgiven", target.getName())
                         .formatted(Formatting.GOLD, Formatting.BOLD),
                 true
         );

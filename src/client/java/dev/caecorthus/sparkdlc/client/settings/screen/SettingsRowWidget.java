@@ -296,12 +296,12 @@ final class SettingsRowWidget extends ClickableWidget {
 
     @Override
     protected void appendClickableNarrations(NarrationMessageBuilder builder) {
-        builder.put(NarrationPart.TITLE, Text.translatable("screen.sparkassist.settings.narration.row",
+        builder.put(NarrationPart.TITLE, Text.translatable("screen.sparkdlc.settings.narration.row",
                 option.title(), option.valueText()));
         if (option.enabled()) {
             builder.put(NarrationPart.USAGE, Text.translatable(option.preview() != null
-                    ? "screen.sparkassist.settings.narration.usage_preview"
-                    : "screen.sparkassist.settings.narration.usage"));
+                    ? "screen.sparkdlc.settings.narration.usage_preview"
+                    : "screen.sparkdlc.settings.narration.usage"));
         }
     }
 }

@@ -78,7 +78,7 @@ public final class SpareKeyDoors {
             // Both sides deny, so the client never predicts an opening; only the server says why. Nothing is spent.
             // 两端都拒绝，客户端不会预测开门；只有服务端提示原因。不扣任何点数。
             if (player instanceof ServerPlayerEntity serverPlayer) {
-                serverPlayer.sendMessage(Text.translatable("item.sparkwitch.spare_key.warning.low_durability",
+                serverPlayer.sendMessage(Text.translatable("item.sparkdlc.spare_key.warning.low_durability",
                         remaining, cost).formatted(Formatting.RED), true);
             }
             return DENY;

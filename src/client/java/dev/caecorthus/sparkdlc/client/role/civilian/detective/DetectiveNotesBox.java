@@ -24,8 +24,8 @@ final class DetectiveNotesBox extends EditBoxWidget {
                 bounds.y(),
                 bounds.width(),
                 bounds.height(),
-                Text.translatable("screen.sparkstrength.detective_folder.notes_placeholder"),
-                Text.translatable("screen.sparkstrength.detective_folder.notes")
+                Text.translatable("screen.sparkdlc.detective_folder.notes_placeholder"),
+                Text.translatable("screen.sparkdlc.detective_folder.notes")
         );
         setMaxLength(DetectiveCaseRules.NOTES_MAX_LENGTH);
     }

@@ -13,7 +13,7 @@ import java.util.UUID;
  * see stats with this round already counted.
  * <ul>
  *     <li>the general round counts ({@link LifetimeStats#recordRound});</li>
- *     <li>food and drink the player finished ({@code sparkfactionapi:consume}, by {@code kind});</li>
+ *     <li>food and drink the player finished ({@code sparkdlc:consume}, by {@code kind});</li>
  *     <li>players the player's Iron Man vials saved from death ({@link IronManSaves});</li>
  *     <li>for every kill (dying by your own hand is not one), the victim's role at death goes into the killed-role
  *     set of each {@link RoleGroups} group the player was in at that kill;</li>
@@ -38,7 +38,7 @@ import java.util.UUID;
  * judged by the role and faction the client saw last.
  * <p>
  * 把一局已结算的对局记入账号的 {@link LifetimeStats}。在判定成就之前运行，规则因此看到已计入本局的统计：
- * 通用对局计数；玩家吃完、喝完的东西（{@code sparkfactionapi:consume}，按 {@code kind}）；玩家的铁人药剂救下的玩家次数（{@link IronManSaves}）；每次击杀（死于自己之手不算）
+ * 通用对局计数；玩家吃完、喝完的东西（{@code sparkdlc:consume}，按 {@code kind}）；玩家的铁人药剂救下的玩家次数（{@link IronManSaves}）；每次击杀（死于自己之手不算）
  * 时死者的身份，计入玩家当时所在的每个 {@link RoleGroups} 分组的击杀身份集合；连续击杀集合（{@link RoleGroups#STREAK_GROUPS}）
  * 跨局延续一条命：本局在该分组中死亡时清空该分组的集合，且不计入本局该分组的击杀；玩家各次死亡的死因（以记录为准，
  * 否则取尸体上的死因；断线不算）；连胜（{@link LifetimeStats#recordWinStreaks}）：存活连胜按 {@link LifetimeStats#ALL_ROUNDS}
@@ -51,8 +51,8 @@ import java.util.UUID;
  * 没有对局记录时只更新通用计数，但客户端看到的死亡仍会按客户端最后看到的身份与阵营结束连续击杀。
  */
 public final class RoundStatsRecorder {
-    static final String FISHING_ROD = "sparkwitch:fishing_rod";
-    static final String FISHER = "sparkwitch:fisher";
+    static final String FISHING_ROD = "sparkdlc:fishing_rod";
+    static final String FISHER = "sparkdlc:fisher";
     static final String CATCH = "catch";
 
     private RoundStatsRecorder() {

@@ -32,9 +32,9 @@ public final class SaviorLightsaberItem extends Item {
     /** Two-line role hint, matching the other SparkWitch weapon tooltips. / 两行职业提示，与其他 SparkWitch 武器提示一致。 */
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        tooltip.add(Text.translatable("item.sparkwitch.savior_lightsaber.tooltip.line1")
+        tooltip.add(Text.translatable("item.sparkdlc.savior_lightsaber.tooltip.line1")
                 .formatted(Formatting.GRAY));
-        tooltip.add(Text.translatable("item.sparkwitch.savior_lightsaber.tooltip.line2")
+        tooltip.add(Text.translatable("item.sparkdlc.savior_lightsaber.tooltip.line2")
                 .formatted(Formatting.GRAY));
     }
 }

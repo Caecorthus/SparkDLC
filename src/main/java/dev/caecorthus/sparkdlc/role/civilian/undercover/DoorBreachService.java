@@ -161,7 +161,7 @@ public final class DoorBreachService {
             return;
         }
         if (player.getItemCooldownManager().isCoolingDown(SparkStrengthItems.tacticalTomahawk())) {
-            player.sendMessage(Text.translatable("message.sparkstrength.undercover.tomahawk_cooling"), true);
+            player.sendMessage(Text.translatable("message.sparkdlc.undercover.tomahawk_cooling"), true);
             return;
         }
         long now = world.getTime();

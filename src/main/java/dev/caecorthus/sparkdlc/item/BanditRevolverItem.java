@@ -43,10 +43,10 @@ import java.util.List;
 /**
  * The Bandit's moddable revolver (rules: {@link BanditRevolverRules}). Extends Wathe's revolver for the gun pose and
  * sits in {@code wathe:guns}, but never sends {@code wathe:gunshoot}: it fires through
- * {@code sparkstrength:bandit_revolver_shoot}, which the server re-validates (role, chambered round, cooldown, range
+ * {@code sparkdlc:bandit_revolver_shoot}, which the server re-validates (role, chambered round, cooldown, range
  * for the fitted barrel, line of sight).
  * 强盗的改装左轮（规则见 {@link BanditRevolverRules}）。继承 Wathe 左轮以沿用持枪姿势并加入 {@code wathe:guns}，但从不发送
- * {@code wathe:gunshoot}：经 {@code sparkstrength:bandit_revolver_shoot} 开火，由服务端复核（身份、已上膛子弹、冷却、
+ * {@code wathe:gunshoot}：经 {@code sparkdlc:bandit_revolver_shoot} 开火，由服务端复核（身份、已上膛子弹、冷却、
  * 所装枪管的射程、视线）。
  *
  * <p>Inventory clicks (vanilla's bundle hook, so client prediction and server agree without a packet): right-click the
@@ -224,9 +224,9 @@ public final class BanditRevolverItem extends RevolverItem {
         for (BanditAttachmentSlot slot : BanditAttachmentSlot.values()) {
             BanditAttachment part = state.part(slot);
             Text name = part == null
-                    ? Text.translatable("item.sparkstrength.bandit_revolver.part_none").formatted(Formatting.DARK_GRAY)
-                    : Text.translatable("item.sparkstrength.bandit_" + part.key()).formatted(Formatting.GOLD);
-            tooltip.add(Text.translatable("item.sparkstrength.bandit_part.slot." + slot.key())
+                    ? Text.translatable("item.sparkdlc.bandit_revolver.part_none").formatted(Formatting.DARK_GRAY)
+                    : Text.translatable("item.sparkdlc.bandit_" + part.key()).formatted(Formatting.GOLD);
+            tooltip.add(Text.translatable("item.sparkdlc.bandit_part.slot." + slot.key())
                     .formatted(Formatting.GRAY).append(Text.literal(": ")).append(name));
         }
         int ps12 = 0;
@@ -238,12 +238,12 @@ public final class BanditRevolverItem extends RevolverItem {
                 ps12++;
             }
         }
-        tooltip.add(Text.translatable("item.sparkstrength.bandit_revolver.rounds", state.rounds().size(),
+        tooltip.add(Text.translatable("item.sparkdlc.bandit_revolver.rounds", state.rounds().size(),
                 state.capacity(), ps12, ps12b).formatted(Formatting.GRAY));
         if (!state.pending().isEmpty()) {
-            tooltip.add(Text.translatable("item.sparkstrength.bandit_revolver.pending", state.pending().size())
+            tooltip.add(Text.translatable("item.sparkdlc.bandit_revolver.pending", state.pending().size())
                     .formatted(Formatting.YELLOW));
         }
-        tooltip.add(Text.translatable("item.sparkstrength.bandit_revolver.hint").formatted(Formatting.DARK_GRAY));
+        tooltip.add(Text.translatable("item.sparkdlc.bandit_revolver.hint").formatted(Formatting.DARK_GRAY));
     }
 }

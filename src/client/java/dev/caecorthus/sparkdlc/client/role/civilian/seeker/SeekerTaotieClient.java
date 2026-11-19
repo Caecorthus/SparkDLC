@@ -142,7 +142,7 @@ public final class SeekerTaotieClient {
             return;
         }
         TextRenderer renderer = client.textRenderer;
-        Text hint = Text.translatable("hud.sparkwitch.seeker.taotie_hint", WitchAbilityKeyBridge.keyText());
+        Text hint = Text.translatable("hud.sparkdlc.seeker.taotie_hint", WitchAbilityKeyBridge.keyText());
         int x = (context.getScaledWindowWidth() - renderer.getWidth(hint)) / 2;
         int y = context.getScaledWindowHeight() / 2 + HINT_OFFSET_Y;
         context.drawTextWithShadow(renderer, hint, x, y, taotieColor());

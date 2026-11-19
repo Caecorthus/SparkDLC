@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
  * 只有 {@link Verdict#isGuess()} 的结果才会扣费并进入冷却。
  */
 public final class ProphetProphecyRules {
-    public static final String MESSAGE_PREFIX = "message.sparkwitch.prophecy.";
+    public static final String MESSAGE_PREFIX = "message.sparkdlc.prophecy.";
     private static final int FALLBACK_NAME_LENGTH = 8;
 
     private ProphetProphecyRules() {

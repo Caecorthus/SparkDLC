@@ -72,7 +72,7 @@ final class EmblemsCrew {
         });
 
         // 骨科大夫：缠着绷带的骨头
-        table.put("sparkwitch:orthopedist", new String[] {
+        table.put("sparkdlc:orthopedist", new String[] {
                 ".................",
                 ".................",
                 ".................",
@@ -93,7 +93,7 @@ final class EmblemsCrew {
         });
 
         // 圣徒：顶着光环的烛火
-        table.put("sparkwitch:saint", new String[] {
+        table.put("sparkdlc:saint", new String[] {
                 "........+........",
                 ".....+++++++.....",
                 "....+++.*.+++....",
@@ -114,7 +114,7 @@ final class EmblemsCrew {
         });
 
         // 皮革噶的：扛着球棒的猪头
-        table.put("sparkwitch:pig_god", new String[] {
+        table.put("sparkdlc:pig_god", new String[] {
                 ".................",
                 "..............+..",
                 ".##.....##...+++.",
@@ -135,7 +135,7 @@ final class EmblemsCrew {
         });
 
         // 预备魔女：带星的小尖帽
-        table.put("sparkwitch:apprentice_witch", new String[] {
+        table.put("sparkdlc:apprentice_witch", new String[] {
                 ".................",
                 "...*.............",
                 "..***.....####...",
@@ -156,7 +156,7 @@ final class EmblemsCrew {
         });
 
         // 调香师：喷出香雾的香水瓶
-        table.put("sparkwitch:perfumer", new String[] {
+        table.put("sparkdlc:perfumer", new String[] {
                 ".................",
                 ".................",
                 "..-.+............",
@@ -177,7 +177,7 @@ final class EmblemsCrew {
         });
 
         // 塔罗牌师：摊开的三张牌，中间一张带星
-        table.put("sparkwitch:tarot_reader", new String[] {
+        table.put("sparkdlc:tarot_reader", new String[] {
                 ".................",
                 ".................",
                 ".....#######.....",
@@ -198,7 +198,7 @@ final class EmblemsCrew {
         });
 
         // 先知：放光的全视之眼
-        table.put("sparkwitch:prophet", new String[] {
+        table.put("sparkdlc:prophet", new String[] {
                 ".................",
                 "........#........",
                 "........#........",
@@ -219,7 +219,7 @@ final class EmblemsCrew {
         });
 
         // 风精灵：卷着落叶的旋风
-        table.put("sparkwitch:wind_spirit", new String[] {
+        table.put("sparkdlc:wind_spirit", new String[] {
                 ".................",
                 ".....**..........",
                 "...****..........",
@@ -240,7 +240,7 @@ final class EmblemsCrew {
         });
 
         // 守护天使：头顶光环、展开双翼的天使
-        table.put("sparkwitch:guardian_angel", new String[] {
+        table.put("sparkdlc:guardian_angel", new String[] {
                 ".................",
                 "......*****......",
                 ".....**...**.....",
@@ -261,7 +261,7 @@ final class EmblemsCrew {
         });
 
         // 仇杀客：插着刀、滴着血的碎心
-        table.put("sparkwitch:vendetta", new String[] {
+        table.put("sparkdlc:vendetta", new String[] {
                 ".............#...",
                 "............###..",
                 "...........###...",
@@ -282,7 +282,7 @@ final class EmblemsCrew {
         });
 
         // 樱羽艾玛：樱花与羽毛
-        table.put("sparkwitch:emma", new String[] {
+        table.put("sparkdlc:emma", new String[] {
                 ".................",
                 "......##.........",
                 ".....####........",
@@ -303,7 +303,7 @@ final class EmblemsCrew {
         });
 
         // 法官：法槌与槌座
-        table.put("sparkwitch:judge", new String[] {
+        table.put("sparkdlc:judge", new String[] {
                 ".................",
                 ".................",
                 ".......##........",
@@ -324,7 +324,7 @@ final class EmblemsCrew {
         });
 
         // 控场专家：放电的电棍
-        table.put("sparkwitch:control_expert", new String[] {
+        table.put("sparkdlc:control_expert", new String[] {
                 "..........####...",
                 ".........####....",
                 "........####.....",
@@ -345,7 +345,7 @@ final class EmblemsCrew {
         });
 
         // 搜寻者：墙上支架的监控摄像头
-        table.put("sparkwitch:seeker", new String[] {
+        table.put("sparkdlc:seeker", new String[] {
                 ".................",
                 ".................",
                 "..........####++.",
@@ -366,7 +366,7 @@ final class EmblemsCrew {
         });
 
         // USEC：带 AP 下坠刻度的狙击镜分划
-        table.put("sparkwitch:usec", new String[] {
+        table.put("sparkdlc:usec", new String[] {
                 "......#####......",
                 "....#########....",
                 "..###..###..###..",
@@ -387,7 +387,7 @@ final class EmblemsCrew {
         });
 
         // 黑羽鸦：收翼栖枝的乌鸦
-        table.put("sparkwitch:black_raven", new String[] {
+        table.put("sparkdlc:black_raven", new String[] {
                 ".................",
                 ".....####........",
                 "....######.......",
@@ -408,7 +408,7 @@ final class EmblemsCrew {
         });
 
         // 钓鱼佬：咬住钓线的鱼
-        table.put("sparkwitch:fisher", new String[] {
+        table.put("sparkdlc:fisher", new String[] {
                 ".................",
                 "..+..............",
                 "..+..............",
@@ -429,7 +429,7 @@ final class EmblemsCrew {
         });
 
         // 盲人：墨镜与声波
-        table.put("sparkwitch:blind", new String[] {
+        table.put("sparkdlc:blind", new String[] {
                 ".................",
                 ".................",
                 ".................",
@@ -450,7 +450,7 @@ final class EmblemsCrew {
         });
 
         // 拾荒者：扎口的补丁麻袋与一点闪光
-        table.put("sparkwitch:ragpicker", new String[] {
+        table.put("sparkdlc:ragpicker", new String[] {
                 ".................",
                 "............*....",
                 "...........*-*...",
@@ -471,7 +471,7 @@ final class EmblemsCrew {
         });
 
         // BEAR：放下面罩、玻璃中弹开裂的 Rys-T 头盔
-        table.put("sparkwitch:bear", new String[] {
+        table.put("sparkdlc:bear", new String[] {
                 ".................",
                 "......#####......",
                 "....##+++++##....",
@@ -492,7 +492,7 @@ final class EmblemsCrew {
         });
 
         // 远野汉娜：撑开的洋伞
-        table.put("sparkwitch:hanna", new String[] {
+        table.put("sparkdlc:hanna", new String[] {
                 ".................",
                 "........#........",
                 "......#####......",
@@ -513,7 +513,7 @@ final class EmblemsCrew {
         });
 
         // 橘雪莉：系着护耳的格纹猎鹿帽与帽下的放大镜
-        table.put("sparkwitch:sherry", new String[] {
+        table.put("sparkdlc:sherry", new String[] {
                 "......##.##......",
                 ".......###.......",
                 ".....#######.....",
@@ -534,7 +534,7 @@ final class EmblemsCrew {
         });
 
         // 规划大师：活页日历上圈出一天，旁边斜放一支铅笔
-        table.put("sparkwitch:planner_master", new String[] {
+        table.put("sparkdlc:planner_master", new String[] {
                 "...#...#...#.....",
                 "..#o#.#o#.#o#....",
                 ".#############...",
@@ -555,7 +555,7 @@ final class EmblemsCrew {
         });
 
         // 好人阵营：蒸汽机车（侧面）
-        table.put("sparkassist:faction/wathe/civilian", new String[] {
+        table.put("sparkdlc:faction/wathe/civilian", new String[] {
                 ".................",
                 "..####...........",
                 "...##.....######.",
@@ -576,7 +576,7 @@ final class EmblemsCrew {
         });
 
         // 杀手阵营：滴血的匕首
-        table.put("sparkassist:faction/wathe/killer", new String[] {
+        table.put("sparkdlc:faction/wathe/killer", new String[] {
                 ".......###.......",
                 ".......#+#.......",
                 ".......#+#.......",
@@ -597,7 +597,7 @@ final class EmblemsCrew {
         });
 
         // 中立阵营：半明半暗、挂着泪滴的面具
-        table.put("sparkassist:faction/wathe/neutral", new String[] {
+        table.put("sparkdlc:faction/wathe/neutral", new String[] {
                 ".................",
                 "......#####......",
                 ".....####--#.....",
@@ -618,7 +618,7 @@ final class EmblemsCrew {
         });
 
         // 魔女阵营：托着魔女帽的弯月
-        table.put("sparkassist:faction/sparkwitch/witch", new String[] {
+        table.put("sparkdlc:faction/sparkdlc/witch", new String[] {
                 ".................",
                 ".........###.....",
                 "........###......",
@@ -639,7 +639,7 @@ final class EmblemsCrew {
         });
 
         // 嘉豪阵营：压着警星的土豪金元宝
-        table.put("sparkassist:faction/sparkwitch/jiahao", new String[] {
+        table.put("sparkdlc:faction/sparkdlc/jiahao", new String[] {
                 ".................",
                 ".................",
                 "......#####......",
@@ -660,7 +660,7 @@ final class EmblemsCrew {
         });
 
         // 基础规则：带书签丝带的摊开的书
-        table.put("sparkassist:guide/basics", new String[] {
+        table.put("sparkdlc:guide/basics", new String[] {
                 ".................",
                 ".................",
                 ".................",

@@ -86,8 +86,8 @@ public final class MapResetHud {
     private static Text textFor(int progress, boolean complete) {
         if (cachedText == null || cachedProgress != progress) {
             cachedText = complete
-                    ? Text.translatableWithFallback("hud.sparkfactionapi.map_reset.complete", "Map reset complete")
-                    : Text.translatableWithFallback("hud.sparkfactionapi.map_reset.progress", "Resetting map %s%%", progress);
+                    ? Text.translatableWithFallback("hud.sparkdlc.map_reset.complete", "Map reset complete")
+                    : Text.translatableWithFallback("hud.sparkdlc.map_reset.progress", "Resetting map %s%%", progress);
             cachedProgress = progress;
         }
         return cachedText;

@@ -37,17 +37,17 @@ public final class SpareKeyItem extends Item {
         // Stack data only: the creative search index builds tooltips off-thread with no player.
         // 只读物品堆数据：创造模式搜索索引会在后台线程、无玩家时构建提示文本。
         tooltip.add(Text.translatable(
-                "item.sparkwitch.spare_key.tooltip.remaining",
+                "item.sparkdlc.spare_key.tooltip.remaining",
                 remaining(stack),
                 stack.getMaxDamage()
         ).formatted(Formatting.GRAY));
         tooltip.add(Text.translatable(
-                "item.sparkwitch.spare_key.tooltip.cost",
+                "item.sparkdlc.spare_key.tooltip.cost",
                 SpareKeyRules.TRAIN_DOOR_COST,
                 SpareKeyRules.ROOM_DOOR_COST
         ).formatted(Formatting.DARK_GRAY));
         tooltip.add(Text.translatable(
-                "item.sparkwitch.spare_key.tooltip.cooldown",
+                "item.sparkdlc.spare_key.tooltip.cooldown",
                 SpareKeyRules.COOLDOWN_TICKS / 20
         ).formatted(Formatting.DARK_GRAY));
         super.appendTooltip(stack, context, tooltip, type);

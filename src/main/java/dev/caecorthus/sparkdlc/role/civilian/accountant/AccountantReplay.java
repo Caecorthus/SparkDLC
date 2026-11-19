@@ -12,10 +12,10 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Replay of passbook transfers: one skill event per successful deposit ({@code sparkwitch:accountant_deposit}) or
- * withdrawal ({@code sparkwitch:accountant_withdraw}) carrying the amount; refused or empty requests record nothing.
+ * Replay of passbook transfers: one skill event per successful deposit ({@code sparkdlc:accountant_deposit}) or
+ * withdrawal ({@code sparkdlc:accountant_withdraw}) carrying the amount; refused or empty requests record nothing.
  * Shown as "%s stored %s coins in a passbook" / "%s took %s coins out of a passbook".
- * 存折转账的回放：每次成功存入（{@code sparkwitch:accountant_deposit}）或取出（{@code sparkwitch:accountant_withdraw}）
+ * 存折转账的回放：每次成功存入（{@code sparkdlc:accountant_deposit}）或取出（{@code sparkdlc:accountant_withdraw}）
  * 记录一个带金额的技能事件；被拒绝或空存折的请求什么也不记录。显示为“%s 向存折中存入了 %s 金币”/“%s 从存折中取出了 %s 金币”。
  */
 final class AccountantReplay {
@@ -30,9 +30,9 @@ final class AccountantReplay {
         }
         registered = true;
         ReplayRegistry.registerSkillFormatter(AccountantRules.DEPOSIT_SKILL_ID,
-                (event, match, world) -> format("replay.skill.sparkwitch.accountant_deposit", event, match));
+                (event, match, world) -> format("replay.skill.sparkdlc.accountant_deposit", event, match));
         ReplayRegistry.registerSkillFormatter(AccountantRules.WITHDRAW_SKILL_ID,
-                (event, match, world) -> format("replay.skill.sparkwitch.accountant_withdraw", event, match));
+                (event, match, world) -> format("replay.skill.sparkdlc.accountant_withdraw", event, match));
     }
 
     static void recordDeposit(ServerPlayerEntity player, int amount) {

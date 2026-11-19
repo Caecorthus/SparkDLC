@@ -28,12 +28,12 @@ public final class VendettaHudRenderer {
         VendettaPlayerComponent component = VendettaPlayerComponent.KEY.get(player);
         if (component.getRevealActiveTicks() > 0) {
             return Text.translatable(
-                    "hud.sparkwitch.vendetta.reveal_remaining",
+                    "hud.sparkdlc.vendetta.reveal_remaining",
                     VendettaPresentationRules.secondsRemaining(component.getRevealActiveTicks())
             );
         }
         return Text.translatable(
-                "hud.sparkwitch.vendetta.reveal_countdown",
+                "hud.sparkdlc.vendetta.reveal_countdown",
                 VendettaPresentationRules.secondsRemaining(component.getRevealCooldownTicks())
         );
     }

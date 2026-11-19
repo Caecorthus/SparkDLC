@@ -74,7 +74,7 @@ public class PotionShellEntity extends ThrownItemEntity {
      * question. / SparkFactionAPI 对玩家发射物使用的行为 id。其 {@code WorldProjectileAffectMixin} 会从原版候选查询中移除
      * 被禁止的玩家；延迟补偿判定自行列出玩家，因此提出同一问题。
      */
-    private static final Identifier PROJECTILE_ACTION = Identifier.of("sparkfactionapi", "projectile");
+    private static final Identifier PROJECTILE_ACTION = Identifier.of("sparkdlc", "projectile");
 
     /** Server only, set at launch; shells are never saved, so it never needs NBT. / 仅服务端，发射时写入；炮弹不存盘，无需 NBT。 */
     @Nullable

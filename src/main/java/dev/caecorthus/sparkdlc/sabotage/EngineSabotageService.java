@@ -148,7 +148,7 @@ public final class EngineSabotageService {
         }
         EngineRepairService.onPhaseChanged(world);
         sabotage.log(now, SabotageWorldComponent.LogKind.ENGINE_WRECKED, SabotageType.ENGINE);
-        notifyEconomy(world, "message.sparkstrength.engine.economy_wrecked");
+        notifyEconomy(world, "message.sparkdlc.engine.economy_wrecked");
         // Re-syncs the round timer itself as the frozen state changes; also carries each player's economy bonus.
         // 冻结状态改变时，它会自己重新同步回合倒计时；同时带上每个玩家的经济加成。
         SabotageService.syncStatusNow(world);
@@ -163,7 +163,7 @@ public final class EngineSabotageService {
         EngineRepairService.onPhaseChanged(world);
         sabotage.log(world.getTime(), SabotageWorldComponent.LogKind.ENGINE_EMERGENCY, SabotageType.ENGINE);
         // The timer runs again, the bonus does not stop. / 倒计时恢复，加成不停。
-        notifyEconomy(world, "message.sparkstrength.engine.economy_emergency");
+        notifyEconomy(world, "message.sparkdlc.engine.economy_emergency");
         SabotageService.syncStatusNow(world);
         TabletStateService.syncToTabletHolders(world);
     }
@@ -217,12 +217,12 @@ public final class EngineSabotageService {
         long now = world.getTime();
         long triggeredAt = sabotage.engineTriggeredAt();
         Text message = switch (phase) {
-            case CRITICAL -> Text.translatable("message.sparkstrength.engine.critical",
+            case CRITICAL -> Text.translatable("message.sparkdlc.engine.critical",
                             clock(EngineRules.ceilSeconds(EngineRules.remainingTicks(now, triggeredAt))))
                     .formatted(EngineRules.urgent(now, triggeredAt) ? Formatting.RED : Formatting.GOLD);
-            case WRECKED -> Text.translatable("message.sparkstrength.engine.wrecked",
+            case WRECKED -> Text.translatable("message.sparkdlc.engine.wrecked",
                     clock(EngineRules.haltedTicks(now, triggeredAt) / 20)).formatted(Formatting.RED);
-            case EMERGENCY -> Text.translatable("message.sparkstrength.engine.emergency").formatted(Formatting.GOLD);
+            case EMERGENCY -> Text.translatable("message.sparkdlc.engine.emergency").formatted(Formatting.GOLD);
         };
         for (ServerPlayerEntity player : world.getPlayers()) {
             player.sendMessage(message, true);
@@ -326,7 +326,7 @@ public final class EngineSabotageService {
             sabotage.log(now, remote ? SabotageWorldComponent.LogKind.REMOTE_REPAIRED
                     : SabotageWorldComponent.LogKind.REPAIRED, SabotageType.ENGINE);
             celebrate(world, sabotage.engineUnits(), unit, phase != null && phase != EnginePhase.CRITICAL);
-            Text restored = Text.translatable("message.sparkstrength.engine.repaired").formatted(Formatting.GREEN);
+            Text restored = Text.translatable("message.sparkdlc.engine.repaired").formatted(Formatting.GREEN);
             for (ServerPlayerEntity player : world.getPlayers()) {
                 player.sendMessage(restored, true);
             }

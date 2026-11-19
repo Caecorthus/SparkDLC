@@ -29,7 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Role-owned Seeker Console (keys {@code screen.sparkwitch.seeker_console.*}; never the witch skill panel). Client
+ * Role-owned Seeker Console (keys {@code screen.sparkdlc.seeker_console.*}; never the witch skill panel). Client
  * presentation only: status rows (car, battery, camera count and nearest distance, mark; a distance is shown only while
  * this client tracks the device, since a far device has no range limit and is usually untracked), "Control car" and
  * "View camera" (send {@code seeker_remote_open} and close; "View camera" lets the server pick the default camera; the server
@@ -38,7 +38,7 @@ import java.util.List;
  * vanilla re-use so SparkStrength opens its own tablet). Every enablement is a client prediction shared with quick
  * connect through {@link SeekerDeviceAvailability}; the server validates each packet. The console never pauses and
  * closes itself when the device leaves the inventory, the role changes, the player dies, or a session starts.
- * 职业自有的搜寻者控制台（键名 {@code screen.sparkwitch.seeker_console.*}；绝不使用魔女技能面板）。仅客户端展示：
+ * 职业自有的搜寻者控制台（键名 {@code screen.sparkdlc.seeker_console.*}；绝不使用魔女技能面板）。仅客户端展示：
  * 状态行（小车、电量、摄像头数量与最近距离、标记；仅当本客户端追踪到设备时才显示距离，因为远处设备没有距离限制且通常
  * 不被追踪）；“操控小车”“查看摄像头”（发送 {@code seeker_remote_open} 并关闭，
  * “查看摄像头”由服务端选择默认摄像头；由服务端开启附身会话、遥控视角接管）；“回收小车”（远程，二次确认后发送
@@ -82,7 +82,7 @@ public class SeekerConsoleScreen extends Screen {
     private ButtonWidget confirmButton;
 
     public SeekerConsoleScreen(Hand hand) {
-        super(Text.translatable("screen.sparkwitch.seeker_console.title"));
+        super(Text.translatable("screen.sparkdlc.seeker_console.title"));
         this.hand = hand;
     }
 
@@ -110,7 +110,7 @@ public class SeekerConsoleScreen extends Screen {
         int contentHeight;
         if (confirmingRecall) {
             confirmLines = textRenderer.wrapLines(
-                    Text.translatable("screen.sparkwitch.seeker_console.recall_confirm"), innerWidth);
+                    Text.translatable("screen.sparkdlc.seeker_console.recall_confirm"), innerWidth);
             contentHeight = confirmLines.size() * (textRenderer.fontHeight + 2) + BUTTON_GAP + BUTTON_HEIGHT;
         } else {
             int buttons = 4 + (networkVisible() ? 1 : 0);
@@ -126,29 +126,29 @@ public class SeekerConsoleScreen extends Screen {
             int buttonY = y + confirmLines.size() * (textRenderer.fontHeight + 2) + BUTTON_GAP;
             int half = Math.max(1, (innerWidth - BUTTON_GAP) / 2);
             confirmButton = addDrawableChild(ButtonWidget.builder(
-                    Text.translatable("screen.sparkwitch.seeker_console.confirm"), button -> confirmRecall())
+                    Text.translatable("screen.sparkdlc.seeker_console.confirm"), button -> confirmRecall())
                     .dimensions(x, buttonY, half, BUTTON_HEIGHT).build());
             addDrawableChild(ButtonWidget.builder(
-                    Text.translatable("screen.sparkwitch.seeker_console.cancel"), button -> setConfirming(false))
+                    Text.translatable("screen.sparkdlc.seeker_console.cancel"), button -> setConfirming(false))
                     .dimensions(x + innerWidth - half, buttonY, half, BUTTON_HEIGHT).build());
         } else {
             driveButton = addDrawableChild(ButtonWidget.builder(
-                    Text.translatable("screen.sparkwitch.seeker_console.drive_car"),
+                    Text.translatable("screen.sparkdlc.seeker_console.drive_car"),
                     button -> openRemote(SeekerSessionMode.CAR))
                     .dimensions(x, y, innerWidth, BUTTON_HEIGHT).build());
             y += BUTTON_HEIGHT + BUTTON_GAP;
             cameraButton = addDrawableChild(ButtonWidget.builder(
-                    Text.translatable("screen.sparkwitch.seeker_console.view_camera"),
+                    Text.translatable("screen.sparkdlc.seeker_console.view_camera"),
                     button -> openRemote(SeekerSessionMode.CAMERA))
                     .dimensions(x, y, innerWidth, BUTTON_HEIGHT).build());
             y += BUTTON_HEIGHT + BUTTON_GAP;
             recallButton = addDrawableChild(ButtonWidget.builder(
-                    Text.translatable("screen.sparkwitch.seeker_console.recall_car"), button -> setConfirming(true))
+                    Text.translatable("screen.sparkdlc.seeker_console.recall_car"), button -> setConfirming(true))
                     .dimensions(x, y, innerWidth, BUTTON_HEIGHT).build());
             y += BUTTON_HEIGHT + BUTTON_GAP;
             if (networkVisible()) {
                 networkButton = addDrawableChild(ButtonWidget.builder(
-                        Text.translatable("screen.sparkwitch.seeker_console.network"), button -> openPoliceNetwork())
+                        Text.translatable("screen.sparkdlc.seeker_console.network"), button -> openPoliceNetwork())
                         .dimensions(x, y, innerWidth, BUTTON_HEIGHT).build());
                 y += BUTTON_HEIGHT + BUTTON_GAP;
             }
@@ -156,7 +156,7 @@ public class SeekerConsoleScreen extends Screen {
                 hintY = y;
                 y += ROW_HEIGHT;
             }
-            addDrawableChild(ButtonWidget.builder(Text.translatable("screen.sparkwitch.seeker_console.close"),
+            addDrawableChild(ButtonWidget.builder(Text.translatable("screen.sparkdlc.seeker_console.close"),
                     button -> close()).dimensions(x, y, innerWidth, BUTTON_HEIGHT).build());
         }
         refreshButtons();
@@ -211,7 +211,7 @@ public class SeekerConsoleScreen extends Screen {
             }
         } else if (hotbarHintVisible()) {
             context.drawTextWithShadow(textRenderer,
-                    fit(Text.translatable("screen.sparkwitch.seeker_console.hint.hotbar"), innerWidth),
+                    fit(Text.translatable("screen.sparkdlc.seeker_console.hint.hotbar"), innerWidth),
                     panelX + PADDING, hintY + 1, HINT_COLOR);
         }
     }
@@ -264,13 +264,13 @@ public class SeekerConsoleScreen extends Screen {
 
     private void refreshButtons() {
         if (driveButton != null) {
-            applyAvailability(driveButton, "screen.sparkwitch.seeker_console.drive_car", carAvailability());
+            applyAvailability(driveButton, "screen.sparkdlc.seeker_console.drive_car", carAvailability());
         }
         if (cameraButton != null) {
-            applyAvailability(cameraButton, "screen.sparkwitch.seeker_console.view_camera", cameraAvailability());
+            applyAvailability(cameraButton, "screen.sparkdlc.seeker_console.view_camera", cameraAvailability());
         }
         if (recallButton != null) {
-            applyAvailability(recallButton, "screen.sparkwitch.seeker_console.recall_car", recallAvailability());
+            applyAvailability(recallButton, "screen.sparkdlc.seeker_console.recall_car", recallAvailability());
         }
         if (confirmButton != null) {
             confirmButton.active = !sent && recallAvailability() == SeekerConsoleRules.Availability.AVAILABLE;
@@ -284,7 +284,7 @@ public class SeekerConsoleScreen extends Screen {
         button.active = !sent && availability == SeekerConsoleRules.Availability.AVAILABLE;
         MutableText label = Text.translatable(key);
         if (availability == SeekerConsoleRules.Availability.UNAVAILABLE) {
-            label.append(" (").append(Text.translatable("screen.sparkwitch.seeker_console.unavailable")).append(")");
+            label.append(" (").append(Text.translatable("screen.sparkdlc.seeker_console.unavailable")).append(")");
         }
         button.setMessage(label);
     }
@@ -329,35 +329,35 @@ public class SeekerConsoleScreen extends Screen {
         SeekerDeviceEntity car = SeekerDeviceAvailability.resolve(client, SeekerClientState.carEntityId(),
                 SeekerCarEntity.class);
         Text carValue = switch (SeekerConsoleRules.carStatus(carState, cooldown)) {
-            case NONE -> Text.translatable("screen.sparkwitch.seeker_console.car.none");
-            case READY -> Text.translatable("screen.sparkwitch.seeker_console.car.ready");
-            case COOLDOWN -> Text.translatable("screen.sparkwitch.seeker_console.car.cooldown",
+            case NONE -> Text.translatable("screen.sparkdlc.seeker_console.car.none");
+            case READY -> Text.translatable("screen.sparkdlc.seeker_console.car.ready");
+            case COOLDOWN -> Text.translatable("screen.sparkdlc.seeker_console.car.cooldown",
                     SeekerConsoleRules.secondsCeil(cooldown),
                     Text.translatable(SeekerClientState.cooldownReason().translationKey()));
-            case DEPLOYED -> withDistance("screen.sparkwitch.seeker_console.car.deployed",
-                    "screen.sparkwitch.seeker_console.car.deployed.unknown_distance",
+            case DEPLOYED -> withDistance("screen.sparkdlc.seeker_console.car.deployed",
+                    "screen.sparkdlc.seeker_console.car.deployed.unknown_distance",
                     SeekerDeviceAvailability.horizontalDistanceSquared(player, car));
-            case SWALLOWED -> Text.translatable("screen.sparkwitch.seeker_console.car.swallowed");
+            case SWALLOWED -> Text.translatable("screen.sparkdlc.seeker_console.car.swallowed");
         };
-        rows.add(new StatusRow(labelled("screen.sparkwitch.seeker_console.car", carValue), TEXT_COLOR));
+        rows.add(new StatusRow(labelled("screen.sparkdlc.seeker_console.car", carValue), TEXT_COLOR));
         if (SeekerConsoleRules.batteryVisible(carState)) {
             int battery = SeekerClientState.carBattery();
             int color = SeekerRules.isBatteryCritical(battery) ? CRITICAL_COLOR
                     : SeekerRules.isBatteryWarning(battery) ? WARNING_COLOR : TEXT_COLOR;
-            rows.add(new StatusRow(Text.translatable("screen.sparkwitch.seeker_console.battery", battery), color));
+            rows.add(new StatusRow(Text.translatable("screen.sparkdlc.seeker_console.battery", battery), color));
         }
         SeekerDeviceAvailability.CameraSummary cameras = SeekerDeviceAvailability.cameraSummary(client);
         Text cameraValue = cameras.count() > 0
-                ? withDistance("screen.sparkwitch.seeker_console.camera.placed",
-                        "screen.sparkwitch.seeker_console.camera.placed.unknown_distance",
+                ? withDistance("screen.sparkdlc.seeker_console.camera.placed",
+                        "screen.sparkdlc.seeker_console.camera.placed.unknown_distance",
                         cameras.nearestHorizontalDistanceSquared(), cameras.count())
-                : Text.translatable("screen.sparkwitch.seeker_console.camera.none");
-        rows.add(new StatusRow(labelled("screen.sparkwitch.seeker_console.camera", cameraValue), TEXT_COLOR));
+                : Text.translatable("screen.sparkdlc.seeker_console.camera.none");
+        rows.add(new StatusRow(labelled("screen.sparkdlc.seeker_console.camera", cameraValue), TEXT_COLOR));
         int markTicks = SeekerClientState.markRemainingTicks();
         rows.add(SeekerClientState.markTarget() != null && markTicks > 0
-                ? new StatusRow(Text.translatable("screen.sparkwitch.seeker_console.mark",
+                ? new StatusRow(Text.translatable("screen.sparkdlc.seeker_console.mark",
                         SeekerConsoleRules.secondsCeil(markTicks)), CRITICAL_COLOR)
-                : new StatusRow(Text.translatable("screen.sparkwitch.seeker_console.mark.none"), HINT_COLOR));
+                : new StatusRow(Text.translatable("screen.sparkdlc.seeker_console.mark.none"), HINT_COLOR));
         return rows;
     }
 

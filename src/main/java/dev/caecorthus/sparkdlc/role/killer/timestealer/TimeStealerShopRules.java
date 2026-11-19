@@ -15,9 +15,9 @@ import org.jetbrains.annotations.Nullable;
  * 对局时间或疯魔状态：Wathe 按下标解析购买，服务端会重建列表，因此两端必须构建出相同的形状。
  */
 public final class TimeStealerShopRules {
-    public static final String GRENADE_ENTRY_ID = "sparkwitch_time_stealer_grenade";
+    public static final String GRENADE_ENTRY_ID = "sparkdlc_time_stealer_grenade";
     public static final String PSYCHO_ENTRY_ID = "psycho_mode";
-    public static final String ADD_TIME_ENTRY_ID = "sparkwitch_time_stealer_add_time";
+    public static final String ADD_TIME_ENTRY_ID = "sparkdlc_time_stealer_add_time";
 
     /** Native Wathe ids the stamp entries replace. / 被邮票商品替换的 Wathe 原生 id。 */
     static final String NATIVE_GRENADE_ID = "grenade";

@@ -27,12 +27,12 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Server wiring of the Blind's kit, economy, shop, blackout exemption and lifecycle. Round start grants in an own
  * {@code ON_FINISH_INITIALIZE} phase after Wathe's default phase, where SparkTraits' Conscience compensation has settled
- * final roles and Wathe has started the match record (the id bound here). The kit and the {@code sparkwitch:blind}
+ * final roles and Wathe has started the match record (the id bound here). The kit and the {@code sparkdlc:blind}
  * state are stripped on role loss, terminal death (not a SparkTraits-intercepted one), reset, finalize and disconnect,
  * and by a staggered sweep for anyone who is not a living, playing, exact Blind.
  * 盲人道具、经济、商店、停电豁免与生命周期的服务端接线。开局发放位于 Wathe 默认阶段之后的自有 {@code ON_FINISH_INITIALIZE}
  * 阶段：此时 SparkTraits 良知补偿已确定最终身份，Wathe 也已开始对局记录（此处绑定其 id）。失去职业、终结死亡
- * （非 SparkTraits 拦截的死亡）、重置、局末与断线时清除道具与 {@code sparkwitch:blind} 状态，并对所有不是存活、
+ * （非 SparkTraits 拦截的死亡）、重置、局末与断线时清除道具与 {@code sparkdlc:blind} 状态，并对所有不是存活、
  * 在局的精确盲人的玩家错峰清理。
  */
 public final class BlindKitWiring {

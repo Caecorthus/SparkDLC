@@ -16,10 +16,10 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 
 /**
- * Draws a dropped Homing Feather marker with the {@code sparkwitch:homing_feather} item sprite, like a dropped item
+ * Draws a dropped Homing Feather marker with the {@code sparkdlc:homing_feather} item sprite, like a dropped item
  * (ground transform) but turning and bobbing slowly, so it reads as a resting feather. Visible to every viewer (owner
  * decision Q7); presentation only, the server owns the marker.
- * 用 {@code sparkwitch:homing_feather} 物品图标绘制已丢出的归羽标记，类似掉落物（地面变换），但转动与浮动都更缓慢，看起来像一根静止的羽毛。
+ * 用 {@code sparkdlc:homing_feather} 物品图标绘制已丢出的归羽标记，类似掉落物（地面变换），但转动与浮动都更缓慢，看起来像一根静止的羽毛。
  * 对所有观看者可见（所有者决定 Q7）；仅为表现，标记由服务端持有。
  */
 public final class BlackRavenFeatherEntityRenderer extends EntityRenderer<BlackRavenFeatherEntity> {

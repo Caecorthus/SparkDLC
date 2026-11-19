@@ -38,7 +38,7 @@ public final class PerfumerShopService {
         if (!contains(entries, PerfumerRules.COOLING_OIL_ENTRY_ID, coolingOil)) {
             result = add(result, entries, player, new ShopEntry.Builder(
                     PerfumerRules.COOLING_OIL_ENTRY_ID,
-                    ShopStacks.display(coolingOil.getDefaultStack(), "shop.sparkstrength.cooling_oil"),
+                    ShopStacks.display(coolingOil.getDefaultStack(), "shop.sparkdlc.cooling_oil"),
                     PerfumerRules.COOLING_OIL_PRICE,
                     ShopEntry.Type.TOOL
             ).actualStack(coolingOil.getDefaultStack())
@@ -51,7 +51,7 @@ public final class PerfumerShopService {
         if (!contains(entries, PerfumerRules.AROMA_ORB_ENTRY_ID, aromaOrb)) {
             result = add(result, entries, player, new ShopEntry.Builder(
                     PerfumerRules.AROMA_ORB_ENTRY_ID,
-                    ShopStacks.display(aromaOrb.getDefaultStack(), "shop.sparkstrength.aroma_orb"),
+                    ShopStacks.display(aromaOrb.getDefaultStack(), "shop.sparkdlc.aroma_orb"),
                     PerfumerRules.AROMA_ORB_PRICE,
                     ShopEntry.Type.TOOL
             ).actualStack(aromaOrb.getDefaultStack())
@@ -62,7 +62,7 @@ public final class PerfumerShopService {
         if (!contains(entries, PerfumerRules.ZEPHYR_PERFUME_ENTRY_ID, zephyrPerfume)) {
             result = add(result, entries, player, new ShopEntry.Builder(
                     PerfumerRules.ZEPHYR_PERFUME_ENTRY_ID,
-                    ShopStacks.display(zephyrPerfume.getDefaultStack(), "shop.sparkstrength.zephyr_perfume"),
+                    ShopStacks.display(zephyrPerfume.getDefaultStack(), "shop.sparkdlc.zephyr_perfume"),
                     PerfumerRules.ZEPHYR_PERFUME_PRICE,
                     ShopEntry.Type.TOOL
             ).actualStack(zephyrPerfume.getDefaultStack())

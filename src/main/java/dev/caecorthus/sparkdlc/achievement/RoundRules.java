@@ -5,7 +5,7 @@ package dev.caecorthus.sparkdlc.achievement;
  * 存活、死亡与担任过的身份，以客户端所见为准（不需要对局记录）。
  */
 final class RoundRules {
-    static final String WRAITH = "sparkwitch:wraith";
+    static final String WRAITH = "sparkdlc:wraith";
     /** The Wraith's id while SparkTraits hosted it (older servers). SparkTraits 托管冤魂时的 id（旧服务器）。 */
     static final String LEGACY_WRAITH = "sparktraits:wraith";
     /** 60 seconds. 60 秒。 */

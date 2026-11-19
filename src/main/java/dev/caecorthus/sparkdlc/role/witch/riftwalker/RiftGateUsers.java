@@ -39,9 +39,9 @@ public final class RiftGateUsers {
     }
 
     /**
-     * Effective faction is exactly {@code sparkwitch:witch} (C6: the Sabbath pulls only these; the Apprentice and
+     * Effective faction is exactly {@code sparkdlc:witch} (C6: the Sabbath pulls only these; the Apprentice and
      * Murderous Witches are not same faction). Unknown → false.
-     * 有效阵营恰为 {@code sparkwitch:witch}（C6：魔女集会只召集这些人；预备魔女与杀意魔女不算同阵营）。未知 → false。
+     * 有效阵营恰为 {@code sparkdlc:witch}（C6：魔女集会只召集这些人；预备魔女与杀意魔女不算同阵营）。未知 → false。
      */
     public static boolean isWitchFaction(PlayerEntity player) {
         return player != null && isWitchFaction(player, GameWorldComponent.KEY.get(player.getWorld()));

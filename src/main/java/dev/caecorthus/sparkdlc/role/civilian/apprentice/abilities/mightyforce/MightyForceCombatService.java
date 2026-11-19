@@ -265,7 +265,7 @@ public final class MightyForceCombatService {
                 } else {
                     ApprenticePlayerComponent.KEY.get(attacker).forfeitMightyForce();
                 }
-                attacker.sendMessage(Text.translatable("message.sparkwitch.skill.mighty_force.forfeited"), true);
+                attacker.sendMessage(Text.translatable("message.sparkdlc.skill.mighty_force.forfeited"), true);
             }
             case NONE -> {
             }

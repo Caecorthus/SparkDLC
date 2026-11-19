@@ -31,7 +31,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Client remote-view controller ("possession", owner decision Q2). It runs on START_CLIENT_TICK, before
  * {@code handleInputEvents} (a CCA client tick would be too late), and only reacts to the owner-only
- * {@code sparkwitch:seeker_status} component: the server alone opens sessions, the client only predicts the Shift
+ * {@code sparkdlc:seeker_status} component: the server alone opens sessions, the client only predicts the Shift
  * exit. It calls only {@code MinecraftClient#setCameraEntity}, never the server-side camera, and hands the camera
  * back only while it is still our focus, so a server camera writer (Taotie, Last Stand, Depression) always wins.
  * <p>
@@ -55,7 +55,7 @@ import org.jetbrains.annotations.Nullable;
  * ({@link SeekerRemoteViewRules#revealsView}).
  * <p>
  * 客户端遥控视角控制器（“附身”，所有者决定 Q2）。运行于 START_CLIENT_TICK，早于 {@code handleInputEvents}
- * （CCA 客户端 tick 太晚），且只响应仅同步给拥有者的 {@code sparkwitch:seeker_status} 组件：只有服务端能打开会话，
+ * （CCA 客户端 tick 太晚），且只响应仅同步给拥有者的 {@code sparkdlc:seeker_status} 组件：只有服务端能打开会话，
  * 客户端只预测 Shift 退出。它只调用 {@code MinecraftClient#setCameraEntity}，从不使用服务端相机；
  * 只有相机仍是我们的焦点时才归还，因此服务端相机写入方（饕餮、最后一搏、抑郁）总是优先。
  * 开始沿（模式非 NONE、会话 id 变化）：清除（绝不释放）正在使用的物品、停止挖掘、关闭游戏界面、清空积压按键、重置共享技能键桥、

@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
  * 误杀处死。
  */
 public final class SparkTraitsRecruitBridge {
-    private static final String MOD_ID = "sparktraits";
+    private static final String MOD_ID = "sparkdlc";
     private static final Identifier IMPOSTOR = Identifier.of(MOD_ID, "impostor");
 
     private SparkTraitsRecruitBridge() {

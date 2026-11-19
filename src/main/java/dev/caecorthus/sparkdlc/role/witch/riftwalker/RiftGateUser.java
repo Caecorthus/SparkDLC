@@ -8,7 +8,7 @@ package dev.caecorthus.sparkdlc.role.witch.riftwalker;
  */
 public enum RiftGateUser {
     RIFTWALKER(RiftwalkerRules.STAY_RIFTWALKER, RiftwalkerRules.REENTRY_COOLDOWN_RIFTWALKER, 0),
-    /** Effective faction {@code sparkwitch:witch}: Grand Witch, Accomplice, every special accomplice. / 魔女阵营。 */
+    /** Effective faction {@code sparkdlc:witch}: Grand Witch, Accomplice, every special accomplice. / 魔女阵营。 */
     WITCH_FACTION(RiftwalkerRules.STAY_FACTION, RiftwalkerRules.REENTRY_COOLDOWN_OTHERS, 0),
     MURDEROUS_WITCH(RiftwalkerRules.STAY_MURDEROUS_WITCH, RiftwalkerRules.REENTRY_COOLDOWN_OTHERS,
             RiftwalkerRules.OTHER_WITCH_ENTRY_FEE),

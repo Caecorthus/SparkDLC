@@ -13,12 +13,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 
 /**
- * Replay line for {@code sparkfactionapi:role_changed}: "player: from -> to" plus an optional cause suffix.
- * {@code sparkfactionapi:role_changed} 的回放行：“玩家：原身份 → 新身份”，可附加原因后缀。
+ * Replay line for {@code sparkdlc:role_changed}: "player: from -> to" plus an optional cause suffix.
+ * {@code sparkdlc:role_changed} 的回放行：“玩家：原身份 → 新身份”，可附加原因后缀。
  */
 public final class RoleChangedReplayFormatter {
-    static final String KEY = "replay.sparkfactionapi.role_changed";
-    static final String CAUSE_KEY_PREFIX = "replay.sparkfactionapi.role_changed.cause";
+    static final String KEY = "replay.sparkdlc.role_changed";
+    static final String CAUSE_KEY_PREFIX = "replay.sparkdlc.role_changed.cause";
 
     private RoleChangedReplayFormatter() {
     }

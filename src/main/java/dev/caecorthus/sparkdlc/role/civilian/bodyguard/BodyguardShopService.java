@@ -38,7 +38,7 @@ public final class BodyguardShopService {
         Item vest = SparkStrengthItems.bodyguardVest();
         context.addEntry(SparkTraitsCompat.discountShopEntryForCharisma(player, new ShopEntry.Builder(
                 BodyguardRules.VEST_ENTRY_ID,
-                ShopStacks.display(vest.getDefaultStack(), "shop.sparkstrength.bodyguard_vest"),
+                ShopStacks.display(vest.getDefaultStack(), "shop.sparkdlc.bodyguard_vest"),
                 BodyguardRules.VEST_PRICE,
                 ShopEntry.Type.TOOL
         ).actualStack(vest.getDefaultStack()).stock(BodyguardRules.ENTRY_STOCK)
@@ -46,7 +46,7 @@ public final class BodyguardShopService {
         Item shield = SparkStrengthItems.democracyShield();
         context.addEntry(SparkTraitsCompat.discountShopEntryForCharisma(player, new ShopEntry.Builder(
                 BodyguardRules.SHIELD_ENTRY_ID,
-                ShopStacks.display(shield.getDefaultStack(), "shop.sparkstrength.democracy_shield"),
+                ShopStacks.display(shield.getDefaultStack(), "shop.sparkdlc.democracy_shield"),
                 BodyguardRules.SHIELD_PRICE,
                 ShopEntry.Type.TOOL
         ).actualStack(shield.getDefaultStack()).stock(BodyguardRules.ENTRY_STOCK)

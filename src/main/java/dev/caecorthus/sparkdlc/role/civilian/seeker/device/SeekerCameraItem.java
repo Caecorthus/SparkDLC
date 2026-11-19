@@ -20,7 +20,7 @@ import java.util.List;
  * 每次放置消耗一个。每次放置都由服务端 {@code SeekerDeviceService.placeCamera} 决定；客户端只返回 CONSUME。
  */
 public class SeekerCameraItem extends Item implements AdventureUsable {
-    /** Tooltip lines {@code item.sparkwitch.seeker_camera.tooltip.line1..N}. / 物品提示行数。 */
+    /** Tooltip lines {@code item.sparkdlc.seeker_camera.tooltip.line1..N}. / 物品提示行数。 */
     public static final int TOOLTIP_LINES = 3;
     /** Cameras per stack; each shop purchase still arrives as its own stack. / 每组数量；每次商店购买仍单独成组。 */
     public static final int MAX_STACK = 16;
@@ -47,7 +47,7 @@ public class SeekerCameraItem extends Item implements AdventureUsable {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         for (int line = 1; line <= TOOLTIP_LINES; line++) {
-            tooltip.add(Text.translatable("item.sparkwitch.seeker_camera.tooltip.line" + line)
+            tooltip.add(Text.translatable("item.sparkdlc.seeker_camera.tooltip.line" + line)
                     .formatted(Formatting.GRAY));
         }
         super.appendTooltip(stack, context, tooltip, type);

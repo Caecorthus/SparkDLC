@@ -8,9 +8,9 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 
 /**
- * Stable packet contract {@code sparkwitch:rift_hop} (C2S): {@code sessionId:varint, direction:byte} where direction is
+ * Stable packet contract {@code sparkdlc:rift_hop} (C2S): {@code sessionId:varint, direction:byte} where direction is
  * {@link #PREVIOUS} (-1) or {@link #NEXT} (+1) in the hop ring. Values are untrusted; the server re-validates everything.
- * 稳定数据包契约 {@code sparkwitch:rift_hop}（C2S）：{@code sessionId:varint, direction:byte}，direction 为环中的
+ * 稳定数据包契约 {@code sparkdlc:rift_hop}（C2S）：{@code sessionId:varint, direction:byte}，direction 为环中的
  * {@link #PREVIOUS}（-1）或 {@link #NEXT}（+1）。数值不可信，服务端全部重新校验。
  */
 public record RiftHopC2SPacket(int sessionId, byte direction) implements CustomPayload {

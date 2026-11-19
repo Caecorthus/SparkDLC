@@ -184,13 +184,13 @@ public final class SpiritPossessionClient {
         }
         int cooldown = SpiritPossessionPlayerComponent.KEY.get(player).getCooldownTicks();
         if (cooldown > 0) {
-            feedback(client, Text.translatable("hud.sparkstrength.spirit_possession.cooldown",
+            feedback(client, Text.translatable("hud.sparkdlc.spirit_possession.cooldown",
                     SpiritPossessionRules.displaySeconds(cooldown)));
             return;
         }
         PlayerEntity target = findAimedWraith(client);
         if (target == null) {
-            feedback(client, Text.translatable("message.sparkstrength.spirit_possession.no_target"));
+            feedback(client, Text.translatable("message.sparkdlc.spirit_possession.no_target"));
             return;
         }
         ClientPlayNetworking.send(new SpiritPossessC2SPacket(target.getId()));

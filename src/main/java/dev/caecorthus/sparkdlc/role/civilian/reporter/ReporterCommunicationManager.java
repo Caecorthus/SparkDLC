@@ -100,7 +100,7 @@ public final class ReporterCommunicationManager {
             @NotNull String rawContent
     ) {
         MutableText text = Text.translatable(
-                "message.sparkstrength.reporter.chat_bridge",
+                "message.sparkdlc.reporter.chat_bridge",
                 sender.getGameProfile().getName(),
                 rawContent
         ).withColor(Noellesroles.REPORTER.color());

@@ -7,19 +7,19 @@ import net.minecraft.util.math.BlockPos;
 
 /**
  * SparkStrength junction-box seam (owner decision 2026-10-21): a weapon hit on a saboteur junction box
- * ({@code sparkstrength:junction_box}). The modules are fused in SparkDLC, so this calls
+ * ({@code sparkdlc:junction_box}). The modules are fused in SparkDLC, so this calls
  * {@link JunctionBoxService#damageByWeapon(ServerPlayerEntity, BlockPos, int)} directly on the server thread; it stays
  * the only SparkWitch class that names that service. SparkStrength owns every sabotage rule (who may pry,
  * closed and wired box, sabotage still locked, map ready) and checks them silently; reaching 0 durability opens the
  * box like a finished pry, credited to the attacker. A refused gate means the hit does nothing to the box.
- * SparkStrength 接线箱接缝（所有者 2026-10-21 决定）：武器命中破坏者接线箱（{@code sparkstrength:junction_box}）。
+ * SparkStrength 接线箱接缝（所有者 2026-10-21 决定）：武器命中破坏者接线箱（{@code sparkdlc:junction_box}）。
  * 各模块已融合进 SparkDLC，因此本类在服务端线程直接调用
  * {@link JunctionBoxService#damageByWeapon(ServerPlayerEntity, BlockPos, int)}；仍然只有本类会点名该服务。
  * 所有破坏规则（谁可撬箱、箱子关闭且已接线、破坏仍处于锁定、地图就绪）由 SparkStrength
  * 自行静默校验；耐久降至 0 时如同撬箱完成般打开箱子，并记在攻击者名下。任一门槛不通过时，这次命中对箱子毫无作用。
  */
 public final class SparkStrengthJunctionBoxCompat {
-    private static final String MOD_ID = "sparkstrength";
+    private static final String MOD_ID = "sparkdlc";
     /**
      * The block a caller filters on before calling {@link #damage}; public because the callers live outside this package.
      * 调用方在调用 {@link #damage} 之前用来过滤的方块 id；调用方不在本包内，因此为 public。

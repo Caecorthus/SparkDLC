@@ -59,7 +59,7 @@ public final class CoronerBodyBagItem extends Item {
             List<Text> tooltip,
             TooltipType type
     ) {
-        tooltip.add(Text.translatable("item.sparkstrength.coroner_body_bag.tooltip")
+        tooltip.add(Text.translatable("item.sparkdlc.coroner_body_bag.tooltip")
                 .styled(style -> style.withColor(0x808080).withItalic(false)));
     }
 }

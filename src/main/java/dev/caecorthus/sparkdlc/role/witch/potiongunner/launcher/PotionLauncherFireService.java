@@ -31,7 +31,7 @@ import net.minecraft.text.Text;
  * 眩晕与搜寻者拦截所包装的 {@code MinecraftServer#execute}），因此无需额外切换线程。
  */
 public final class PotionLauncherFireService {
-    static final String NOT_LOADED_KEY = "message.sparkwitch.potion_gunner.not_loaded";
+    static final String NOT_LOADED_KEY = "message.sparkdlc.potion_gunner.not_loaded";
 
     private PotionLauncherFireService() {
     }

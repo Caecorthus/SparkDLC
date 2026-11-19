@@ -31,13 +31,13 @@ import java.util.List;
  * publishes), the synced Wathe shop balance and the shared crosshair pick ({@link PlannerTargeting}, with BEAR
  * smoke applied to the hint only); the target is named as other players see it ({@link DominatorClientModule#visibleName}: psycho scramble, Morphling disguise, Jester
  * moment). It never predicts anything; the server alone accepts a recommendation. Role-owned presentation: never the
- * action bar and never the {@code gui.sparkwitch.skills} panel.
+ * action bar and never the {@code gui.sparkdlc.skills} panel.
  * 在右下角绘制规划大师仅本人可见的两行读数（{@link PlannerHudRules}）：上行为下个任务倒计时，下行为推荐。只由
  * {@code RoleHudDispatcher.renderPlanner} 层调用，F1 与已确认服务器门槛由该层负责。仅用于展示：读取本地玩家同步的真实职业、
  * 仅本人同步的 {@link PlannerComponent}（依据客户端世界时钟的就绪刻、服务端发布的下个任务秒数）、同步的 Wathe 商店余额以及
  * 共用的准星选择（{@link PlannerTargeting}，BEAR 烟雾只作用于提示）；目标名字按其他玩家看到的样子显示（{@link DominatorClientModule#visibleName}：
  * 疯魔乱码、变形者伪装、小丑时刻）。从不预测任何结果；是否接受推荐只由服务端决定。属于职业自有展示：从不使用动作栏，也从不
- * 进入 {@code gui.sparkwitch.skills} 面板。
+ * 进入 {@code gui.sparkdlc.skills} 面板。
  */
 public final class PlannerHud {
     // Render-thread caches, one per row; a row's Text and widths depend only on its line (and named target), its key

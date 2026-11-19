@@ -14,7 +14,7 @@ import java.util.function.BooleanSupplier;
  * 猎人的纯数值与基于身份 ID 的兼容规则集中在这里。
  */
 public final class HunterRules {
-    public static final Identifier ROLE_ID = Identifier.of("sparkwitch", "hunter");
+    public static final Identifier ROLE_ID = Identifier.of("sparkdlc", "hunter");
     public static final int COLOR = 0x5C4C34;
 
     public static final int SHOTGUN_PRICE = 75;
@@ -86,14 +86,14 @@ public final class HunterRules {
     public static final Identifier VETERAN_ROLE_ID = Identifier.of("wathe", "veteran");
     public static final Identifier CORRUPT_COP_ROLE_ID = Identifier.of("noellesroles", "corrupt_cop");
     public static final Identifier ENGINEER_ROLE_ID = Identifier.of("noellesroles", "engineer");
-    public static final Identifier GRAND_WITCH_ROLE_ID = Identifier.of("sparkwitch", "grand_witch");
-    public static final Identifier ACCOMPLICE_ROLE_ID = Identifier.of("sparkwitch", "accomplice");
-    public static final Identifier BEWITCHED_ROLE_ID = Identifier.of("sparkwitch", "bewitched");
-    public static final Identifier MURDEROUS_WITCH_ROLE_ID = Identifier.of("sparkwitch", "murderous_witch");
-    public static final Identifier INSIDER_ROLE_ID = Identifier.of("sparkwitch", "insider");
-    public static final Identifier SAVIOR_ROLE_ID = Identifier.of("sparkwitch", "savior");
-    public static final Identifier KNIGHT_ROLE_ID = Identifier.of("sparkwitch", "knight");
-    public static final Identifier SEEKER_ROLE_ID = Identifier.of("sparkwitch", "seeker");
+    public static final Identifier GRAND_WITCH_ROLE_ID = Identifier.of("sparkdlc", "grand_witch");
+    public static final Identifier ACCOMPLICE_ROLE_ID = Identifier.of("sparkdlc", "accomplice");
+    public static final Identifier BEWITCHED_ROLE_ID = Identifier.of("sparkdlc", "bewitched");
+    public static final Identifier MURDEROUS_WITCH_ROLE_ID = Identifier.of("sparkdlc", "murderous_witch");
+    public static final Identifier INSIDER_ROLE_ID = Identifier.of("sparkdlc", "insider");
+    public static final Identifier SAVIOR_ROLE_ID = Identifier.of("sparkdlc", "savior");
+    public static final Identifier KNIGHT_ROLE_ID = Identifier.of("sparkdlc", "knight");
+    public static final Identifier SEEKER_ROLE_ID = Identifier.of("sparkdlc", "seeker");
     public static final Identifier LOOSE_END_ROLE_ID = Identifier.of("wathe", "loose_end");
     public static final Identifier UNDERCOVER_ROLE_ID = Identifier.of("noellesroles", "undercover");
 

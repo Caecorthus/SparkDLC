@@ -9,12 +9,12 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.SimpleParticleType;
 
 /**
- * Client particle {@code sparkwitch:joss_paper}: a paper coin that tumbles slowly to the ground. The launch velocity is
+ * Client particle {@code sparkdlc:joss_paper}: a paper coin that tumbles slowly to the ground. The launch velocity is
  * kept exactly as the horizontal drift (no vanilla jitter); the particle eases to its own terminal fall speed, sways on
  * a per-particle sine, rolls slowly and flips through the three sprites (face-on, tilted, edge-on, tilted, ...). It
  * fades in, fades out at the end of its life, and fades quickly once it lands. Lit by the world but never below block
  * light {@link #MIN_BLOCK_LIGHT}, so it stays readable in dark corners. Presentation only.
- * 客户端粒子 {@code sparkwitch:joss_paper}：缓慢翻滚飘落的纸钱。发射速度被精确保留为水平漂移（无原版抖动）；粒子逐渐达到自己的终端下落
+ * 客户端粒子 {@code sparkdlc:joss_paper}：缓慢翻滚飘落的纸钱。发射速度被精确保留为水平漂移（无原版抖动）；粒子逐渐达到自己的终端下落
  * 速度，按各自相位的正弦左右摇摆，缓慢自转，并在三张贴图间翻面（正面、倾斜、侧面、倾斜……）。出生时淡入，寿命末尾淡出，落地后快速淡出。
  * 受世界光照影响，但方块光不低于 {@link #MIN_BLOCK_LIGHT}，因此在暗角仍清晰可见。仅为表现。
  */
@@ -144,7 +144,7 @@ public final class JossPaperParticle extends SpriteBillboardParticle {
         return ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT;
     }
 
-    /** Factory registered for {@code sparkwitch:joss_paper}. / 为 {@code sparkwitch:joss_paper} 注册的工厂。 */
+    /** Factory registered for {@code sparkdlc:joss_paper}. / 为 {@code sparkdlc:joss_paper} 注册的工厂。 */
     public static final class Factory implements ParticleFactory<SimpleParticleType> {
         private final SpriteProvider sprites;
 

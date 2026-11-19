@@ -22,7 +22,7 @@ import java.util.UUID;
  * marker is always removed first; then a natural end with a dropped feather ({@link BlackRavenCrowLandingRules#landing})
  * teleports the player to a safe spot at the feather ({@link BlackRavenCrowLandingSafety}) and starts the 3 s hold, while
  * every other end returns to the body at once (crow-core already restored the body's visibility). Landing cues are
- * public and vanilla only: parrot flight and phantom flap at a lowered pitch, plus {@code sparkwitch:black_feather}
+ * public and vanilla only: parrot flight and phantom flap at a lowered pitch, plus {@code sparkdlc:black_feather}
  * particles swirling around the player from many to none. The swirl is server-driven with vanilla particle packets
  * (velocity mode, one per feather, at most three per tick): the client particle turns its velocity by
  * {@link BlackRavenCrowLandingRules#SWIRL_TURN} every tick, so a tangential launch orbits the player with no custom
@@ -31,12 +31,12 @@ import java.util.UUID;
  * untouched) and zeroes the hold when it ends. Server thread only.
  * 化鸦落地的服务端部分，监听 {@link BlackRavenCrowEvents#ENDED}：总是先移除本次会话的归羽标记；随后，自然结束且已丢出归羽时，把玩家传送到归羽处的
  * 安全点并开始 3 秒定身；其他结束方式立即回到本体（crow-core 已恢复本体可见）。落地提示公开且只用原版资源：压低音调的鹦鹉振翅与幻翼扇翅，以及
- * 由多到无环绕玩家的 {@code sparkwitch:black_feather} 粒子。环绕由服务端以原版粒子包驱动（速度模式，每根羽毛一个包，每刻至多三个）：客户端粒子
+ * 由多到无环绕玩家的 {@code sparkdlc:black_feather} 粒子。环绕由服务端以原版粒子包驱动（速度模式，每根羽毛一个包，每刻至多三个）：客户端粒子
  * 每刻把速度转过 SWIRL_TURN，因此切向发射即可绕玩家旋转，无需自定义数据包。定身期间玩家保持可见、可被攻击；移动、物品与技能经控场专家眩晕接缝
  * 锁定，本服务把偏离的玩家拉回（不改动视角），并在定身结束时同步零值。仅服务端线程。
  */
 public final class BlackRavenCrowLandingService {
-    static final String FEATHER_BLOCKED_KEY = "message.sparkwitch.black_raven_crow.feather_blocked";
+    static final String FEATHER_BLOCKED_KEY = "message.sparkdlc.black_raven_crow.feather_blocked";
 
     /** Owner uuid -> landing spot of a running hold. / 主人 uuid -> 进行中定身的落点。 */
     private static final Map<UUID, Vec3d> ANCHORS = new HashMap<>();

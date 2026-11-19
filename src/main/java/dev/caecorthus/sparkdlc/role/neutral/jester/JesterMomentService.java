@@ -138,7 +138,7 @@ public final class JesterMomentService {
             player.teleport(world, spot.pos().x, spot.pos().y, spot.pos().z, spot.yaw(), spot.pitch());
             player.fallDistance = 0.0F;
             if (player != jester) {
-                player.sendMessage(Text.translatable("message.sparkstrength.jester_moment.shuffled")
+                player.sendMessage(Text.translatable("message.sparkdlc.jester_moment.shuffled")
                         .formatted(Formatting.LIGHT_PURPLE), true);
             }
         }

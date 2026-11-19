@@ -15,7 +15,7 @@ import java.util.UUID;
 
 /**
  * A puppet is as big as the player it copies (owner decision D6, forum T-0013, 2026-10-25). The only body-size rule
- * today is SparkTraits' Childish trait: a {@code generic.scale} modifier ({@code sparktraits:childish_scale}, -0.25
+ * today is SparkTraits' Childish trait: a {@code generic.scale} modifier ({@code sparkdlc:childish_scale}, -0.25
  * multiplied total, so 0.75) that vanilla applies to the model, shadow, hitbox and eye height. The server copies it onto
  * the puppet once at spawn, so every viewer (copied player loaded or not) and every puppet hit get that size through
  * vanilla's tracked-attribute sync; no packet, tracked data or NBT is added.
@@ -28,7 +28,7 @@ import java.util.UUID;
  * SparkTraits is fused into SparkDLC, so the facade call is direct; when its round-end traits do not list Childish the
  * puppet keeps the normal size.
  * 皮套与被复制玩家一样大（所有者决定 D6，论坛 T-0013，2026-10-25）。目前唯一的体型规则是 SparkTraits 的幼稚词条：一个
- * {@code generic.scale} 修饰符（{@code sparktraits:childish_scale}，-0.25 乘算总值，即 0.75），原版会把它应用到模型、阴影、
+ * {@code generic.scale} 修饰符（{@code sparkdlc:childish_scale}，-0.25 乘算总值，即 0.75），原版会把它应用到模型、阴影、
  * 碰撞箱与视线高度。服务端在生成时把它复制到皮套上一次，因此所有观察者（无论是否加载了被复制玩家）和所有皮套命中判定都经由
  * 原版的追踪属性同步得到该体型；不新增数据包、追踪数据或 NBT。被复制玩家在线、参与且存活时：原样复制其实时修饰符（没有则
  * 不缩小）；否则（已死亡、旁观、离线）：经公共门面读取 SparkTraits 本局最终词条（死亡快照，否则为分配快照），使已死亡幼稚
@@ -36,8 +36,8 @@ import java.util.UUID;
  * 皮套保持正常体型。
  */
 public final class MagicianPuppetBodySize {
-    static final Identifier CHILDISH_TRAIT = Identifier.of("sparktraits", "childish");
-    static final Identifier CHILDISH_SCALE = Identifier.of("sparktraits", "childish_scale");
+    static final Identifier CHILDISH_TRAIT = Identifier.of("sparkdlc", "childish");
+    static final Identifier CHILDISH_SCALE = Identifier.of("sparkdlc", "childish_scale");
     // SparkTraits' own Childish modifier (GlobalTraitService), which its facade does not expose; used only when the
     // copied player no longer carries it. / SparkTraits 自身的幼稚修饰符（GlobalTraitService），门面未公开；仅在被复制
     // 玩家身上已不再带有该修饰符时使用。

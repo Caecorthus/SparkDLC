@@ -101,11 +101,11 @@ public final class CaptureDeviceItem extends Item implements AdventureUsable {
 
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        tooltip.add(Text.translatable("item.sparkstrength.capture_device.tooltip.line1")
+        tooltip.add(Text.translatable("item.sparkdlc.capture_device.tooltip.line1")
                 .styled(style -> style.withColor(0x808080).withItalic(false)));
-        tooltip.add(Text.translatable("item.sparkstrength.capture_device.tooltip.line2")
+        tooltip.add(Text.translatable("item.sparkdlc.capture_device.tooltip.line2")
                 .styled(style -> style.withColor(0x808080).withItalic(false)));
-        tooltip.add(Text.translatable("item.sparkstrength.capture_device.tooltip.line3")
+        tooltip.add(Text.translatable("item.sparkdlc.capture_device.tooltip.line3")
                 .styled(style -> style.withColor(0x808080).withItalic(false)));
     }
 }

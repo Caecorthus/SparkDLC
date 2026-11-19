@@ -8,10 +8,10 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Owner-only sync layout of {@code sparkwitch:black_raven_disguise}, in this fixed order:
+ * Owner-only sync layout of {@code sparkdlc:black_raven_disguise}, in this fixed order:
  * bound, acting ("" = none), unlockRemaining, cooldownRemaining, poolCount (max 64) then per row
  * (id, flag byte, visited), ravenBalance. Never carries stashes or absolute server ticks.
- * sparkwitch:black_raven_disguise 仅拥有者的同步布局，顺序固定：bound、acting（"" 为无）、unlockRemaining、
+ * sparkdlc:black_raven_disguise 仅拥有者的同步布局，顺序固定：bound、acting（"" 为无）、unlockRemaining、
  * cooldownRemaining、poolCount（最多 64）及每行 (id, flag 字节, visited)、ravenBalance。从不携带存档或服务端绝对 tick。
  */
 public final class BlackRavenDisguiseSyncCodec {

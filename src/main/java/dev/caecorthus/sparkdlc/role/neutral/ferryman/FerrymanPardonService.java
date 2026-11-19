@@ -37,12 +37,12 @@ import java.util.UUID;
  * 在第一个非 null 结果处停止，此处的监听器可能关掉其后注册的所有保护，而且分不清强制击杀（无视取消）与普通击杀。</p>
  */
 public final class FerrymanPardonService {
-    private static final String PROMPT_KEY = "message.sparkwitch.ferryman.pardon.prompt";
-    private static final String SAVED_KEY = "message.sparkwitch.ferryman.pardon.saved";
-    private static final String WHIFF_KEY = "message.sparkwitch.ferryman.pardon.whiff";
-    private static final String COOLING_KEY = "message.sparkwitch.ferryman.pardon.cooling";
-    private static final String FEIGN_KEY = "message.sparkwitch.ferryman.gaze.feign";
-    private static final String MARKED_KEY = "message.sparkwitch.ferryman.gaze.marked";
+    private static final String PROMPT_KEY = "message.sparkdlc.ferryman.pardon.prompt";
+    private static final String SAVED_KEY = "message.sparkdlc.ferryman.pardon.saved";
+    private static final String WHIFF_KEY = "message.sparkdlc.ferryman.pardon.whiff";
+    private static final String COOLING_KEY = "message.sparkdlc.ferryman.pardon.cooling";
+    private static final String FEIGN_KEY = "message.sparkdlc.ferryman.gaze.feign";
+    private static final String MARKED_KEY = "message.sparkdlc.ferryman.gaze.marked";
     /**
      * Re-entrancy guard: the replay must reach Wathe's own kill path without our HEAD guard holding it again.
      * Server thread only.

@@ -14,7 +14,7 @@ import java.util.List;
  * 步枪消音器（商店限购 1）。通过配件界面安装后，枪声更小、更尖，没有其他副作用（Q13）。
  */
 public class UsecSuppressorItem extends Item {
-    static final String TOOLTIP_KEY = "item.sparkwitch.usec_suppressor.tooltip";
+    static final String TOOLTIP_KEY = "item.sparkdlc.usec_suppressor.tooltip";
 
     public UsecSuppressorItem(Settings settings) {
         super(settings);

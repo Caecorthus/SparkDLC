@@ -9,11 +9,11 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Stable packet contract {@code sparkwitch:usec_attachment} (C2S): {@code action, rifleSlot, itemSlot:int}, one
+ * Stable packet contract {@code sparkdlc:usec_attachment} (C2S): {@code action, rifleSlot, itemSlot:int}, one
  * attachment-screen action ({@link UsecAttachmentAction} id) on player-inventory slots. For the LOOSE actions
  * {@code rifleSlot} holds the loose magazine's slot. The server re-validates every field; nothing here is trusted.
  * Decoding is tolerant: a short payload decodes to {@link #INVALID} (-1 everywhere) instead of disconnecting.
- * 稳定数据包契约 {@code sparkwitch:usec_attachment}（C2S）：对玩家背包栏位执行的一个配件界面动作
+ * 稳定数据包契约 {@code sparkdlc:usec_attachment}（C2S）：对玩家背包栏位执行的一个配件界面动作
  * （{@link UsecAttachmentAction} id）。LOOSE 动作中 {@code rifleSlot} 存放散装弹匣的栏位。服务端复核每个字段，
  * 这里的任何内容都不被信任。解码是宽容的：残缺载荷解码为 {@link #INVALID}（全部为 -1），而不会断开连接。
  */

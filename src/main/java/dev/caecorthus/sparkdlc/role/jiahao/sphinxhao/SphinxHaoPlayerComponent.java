@@ -11,17 +11,17 @@ import org.ladysnake.cca.api.v3.component.ComponentRegistry;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 
 /**
- * Stable CCA contract {@code sparkwitch:sphinx_hao_player} (NEVER_COPY). Server state of one Sphinx Hao: its 豪度值
+ * Stable CCA contract {@code sparkdlc:sphinx_hao_player} (NEVER_COPY). Server state of one Sphinx Hao: its 豪度值
  * ("hao") and two absolute world ticks, when skill 1 (嘉豪病毒) and skill 2 (豪气冲天) are ready again.
  * <p>Sync: to the owner only (hao plus both ready ticks), which its HUD counts down against the client world clock
  * (the Koko/Noa precedent). NBT keeps everything across a mid-round relog; role assignment and Wathe's
- * {@code ResetPlayer} clear it. The forced-cooldown stores {@code sparkwitch:sphinx_hao_infect} and
- * {@code sparkwitch:sphinx_hao_roar} only ever move the ready ticks.
- * 稳定 CCA 契约 {@code sparkwitch:sphinx_hao_player}（NEVER_COPY）。一名狮身豪的服务端状态：豪度值，以及技能一（嘉豪病毒）
+ * {@code ResetPlayer} clear it. The forced-cooldown stores {@code sparkdlc:sphinx_hao_infect} and
+ * {@code sparkdlc:sphinx_hao_roar} only ever move the ready ticks.
+ * 稳定 CCA 契约 {@code sparkdlc:sphinx_hao_player}（NEVER_COPY）。一名狮身豪的服务端状态：豪度值，以及技能一（嘉豪病毒）
  * 与技能二（豪气冲天）再次就绪的两个绝对世界刻。
  * <p>同步：只发给本人（豪度值与两个就绪刻），其 HUD 依据客户端世界时钟倒数（沿用可可、诺亚的先例）。NBT 使全部状态在局中重新
- * 登录后保留；身份分配与 Wathe 的 {@code ResetPlayer} 会清空。强制冷却存储 {@code sparkwitch:sphinx_hao_infect} 与
- * {@code sparkwitch:sphinx_hao_roar} 只会移动就绪刻。
+ * 登录后保留；身份分配与 Wathe 的 {@code ResetPlayer} 会清空。强制冷却存储 {@code sparkdlc:sphinx_hao_infect} 与
+ * {@code sparkdlc:sphinx_hao_roar} 只会移动就绪刻。
  */
 public final class SphinxHaoPlayerComponent implements AutoSyncedComponent {
     public static final ComponentKey<SphinxHaoPlayerComponent> KEY = ComponentRegistry.getOrCreate(

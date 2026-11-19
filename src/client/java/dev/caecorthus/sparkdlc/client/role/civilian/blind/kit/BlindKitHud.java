@@ -30,10 +30,10 @@ import net.minecraft.util.Language;
 
 /**
  * Draws the Blind's owner-only status lines ({@link BlindKitHudRules}) after the world, so they sit over the black
- * screen. Reads only the local player's own synced {@code sparkwitch:blind} countdowns, own vanilla cane cooldown (a
+ * screen. Reads only the local player's own synced {@code sparkdlc:blind} countdowns, own vanilla cane cooldown (a
  * forced cooldown such as the Fiend aura can outlast the component's) and own inventory.
  * 在世界之后绘制盲人仅本人可见的状态行（{@link BlindKitHudRules}），因此显示在黑屏之上。只读取本地玩家自己同步的
- * {@code sparkwitch:blind} 倒计时、自己的原版盲杖冷却（魔人光环等强制冷却可能长于组件冷却）以及自己的背包。
+ * {@code sparkdlc:blind} 倒计时、自己的原版盲杖冷却（魔人光环等强制冷却可能长于组件冷却）以及自己的背包。
  */
 final class BlindKitHud {
     private static boolean registered;

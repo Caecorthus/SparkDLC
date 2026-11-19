@@ -20,11 +20,11 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Victim-side curse runtime: starts a theft, advances stages from the victim's own component tick, settles the lethal
  * stage once through {@code TimeStealerKillService}, and lifts curses (Timekeeper purge, death, reset).
- * Server authority: the stage comes from absolute world ticks and the unsynced {@code sparkwitch:time_theft}
+ * Server authority: the stage comes from absolute world ticks and the unsynced {@code sparkdlc:time_theft}
  * component; the victim only perceives vanilla Slowness (no particles) and chimes sent to their client alone, and
  * nothing here depends on the Time Stealer still being online, alive, or the Time Stealer (owner decision Q7).
  * 受害者侧诅咒运行时：开始窃取、由受害者自身组件 tick 推进阶段、经 {@code TimeStealerKillService} 对致死阶段结算一次，
- * 并解除诅咒（计时员清除、死亡、重置）。服务端权威：阶段来自绝对世界 tick 与不同步的 {@code sparkwitch:time_theft}
+ * 并解除诅咒（计时员清除、死亡、重置）。服务端权威：阶段来自绝对世界 tick 与不同步的 {@code sparkdlc:time_theft}
  * 组件；受害者只能感知原版缓慢（无粒子）与只发给其本人客户端的钟声，且这里的一切都不依赖窃时者是否仍在线、存活或仍是
  * 窃时者（所有者决定 Q7）。
  */
@@ -232,7 +232,7 @@ public final class TimeTheftRuntime {
 
     /** Private "time returned" line and soft sound. / 私有的“时间归还”提示与一声轻音。 */
     private static void announceTimeReturned(ServerPlayerEntity player) {
-        player.sendMessage(Text.translatable("message.sparkwitch.time_theft.time_returned"), true);
+        player.sendMessage(Text.translatable("message.sparkdlc.time_theft.time_returned"), true);
         playPrivately(player, SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME, RETURNED_VOLUME, RETURNED_PITCH);
     }
 
@@ -254,7 +254,7 @@ public final class TimeTheftRuntime {
             try {
                 ServerPlayerEntity stealer = server.getPlayerManager().getPlayer(stealerUuid);
                 if (stealer != null) {
-                    stealer.sendMessage(Text.translatable("message.sparkwitch.time_stealer.theft_undone"), true);
+                    stealer.sendMessage(Text.translatable("message.sparkdlc.time_stealer.theft_undone"), true);
                 }
             } catch (RuntimeException exception) {
                 warnPurge(exception);

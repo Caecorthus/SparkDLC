@@ -16,21 +16,21 @@ import java.util.UUID;
  *  assignment balances them against.
  *  善良与内鬼能否在开局抽取或被管理员锁定到某身份，以及开局分配据以平衡它们的杀手人数。 */
 public final class EffectiveTraitEligibility {
-    private static final Identifier SPARKWITCH_PIG_GOD_ID = Identifier.of("sparkwitch", "pig_god");
-    private static final Identifier SPARKWITCH_SAINT_ID = Identifier.of("sparkwitch", "saint");
+    private static final Identifier SPARKWITCH_PIG_GOD_ID = Identifier.of("sparkdlc", "pig_god");
+    private static final Identifier SPARKWITCH_SAINT_ID = Identifier.of("sparkdlc", "saint");
     // SparkWitch's Blind sees only through sounds, so Impostor instinct and night vision would void the role.
     // SparkWitch 盲人只能靠声音感知，内鬼的本能透视与夜视会让该职业失效。
-    private static final Identifier SPARKWITCH_BLIND_ID = Identifier.of("sparkwitch", "blind");
+    private static final Identifier SPARKWITCH_BLIND_ID = Identifier.of("sparkdlc", "blind");
     // Owner 2026-11-04: SparkWitch's Noa paints from her real Wathe mood, which Impostor's fake mood would pin at 1.0.
     // 所有者 2026-11-04：SparkWitch 城崎诺亚按真实 Wathe 心情作画，内鬼的虚假心情会把它固定在 1.0。
-    private static final Identifier SPARKWITCH_NOA_ID = Identifier.of("sparkwitch", "noa");
+    private static final Identifier SPARKWITCH_NOA_ID = Identifier.of("sparkdlc", "noa");
     // PR SparkWitch #206: SparkWitch's Sherry is the passenger-side detective (real sanity, killer deduction), so she must never roll Impostor.
     // PR SparkWitch #206：SparkWitch 橘雪莉是乘客阵营的侦探（真实理智、推演凶手），不能被抽成内鬼。
-    private static final Identifier SPARKWITCH_SHERRY_ID = Identifier.of("sparkwitch", "sherry");
-    private static final Identifier SPARKWITCH_BELL_RINGER_ID = Identifier.of("sparkwitch", "bell_ringer");
+    private static final Identifier SPARKWITCH_SHERRY_ID = Identifier.of("sparkdlc", "sherry");
+    private static final Identifier SPARKWITCH_BELL_RINGER_ID = Identifier.of("sparkdlc", "bell_ringer");
     // Owner report 2026-11-14: the Specter owns otherworld roaming and karma, which Conscience would flip to passengers.
     // 所有者 2026-11-14 反馈：幽魂的异界游走与业障机制会被善良翻成乘客阵营，因此幽魂永不获得善良。
-    private static final Identifier SPARKWITCH_SPECTER_ID = Identifier.of("sparkwitch", "specter");
+    private static final Identifier SPARKWITCH_SPECTER_ID = Identifier.of("sparkdlc", "specter");
 
     private EffectiveTraitEligibility() {
     }

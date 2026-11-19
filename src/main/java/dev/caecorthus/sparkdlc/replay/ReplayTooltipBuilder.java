@@ -23,11 +23,11 @@ import java.util.function.Consumer;
  * 组装每名参与者冻结的悬停提示，以及与名单共用的状态与身份链文本。
  */
 final class ReplayTooltipBuilder {
-    static final String KEY_ROLE = "replay.sparkfactionapi.tooltip.role";
-    static final String KEY_FACTION = "replay.sparkfactionapi.tooltip.faction";
-    static final String KEY_STATUS = "replay.sparkfactionapi.tooltip.status";
-    private static final String KEY_STATUS_PREFIX = "replay.sparkfactionapi.status.";
-    private static final String KEY_RESULT_PREFIX = "replay.sparkfactionapi.result.";
+    static final String KEY_ROLE = "replay.sparkdlc.tooltip.role";
+    static final String KEY_FACTION = "replay.sparkdlc.tooltip.faction";
+    static final String KEY_STATUS = "replay.sparkdlc.tooltip.status";
+    private static final String KEY_STATUS_PREFIX = "replay.sparkdlc.status.";
+    private static final String KEY_RESULT_PREFIX = "replay.sparkdlc.result.";
     private static final String ARROW = " → ";
     private static final String SEPARATOR = "─".repeat(16);
 

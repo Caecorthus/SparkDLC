@@ -1,0 +1,224 @@
+{
+  "entries": [
+    {
+      "id": "noellesroles:time_keeper",
+      "tab": "ROLE",
+      "sourceModId": "noellesroles",
+      "nameKey": "announcement.role.time_keeper",
+      "summaryKey": "guidebook.sparkdlc.content.role.overview",
+      "pages": [
+        {
+          "blocks": [
+            {
+              "type": "quote",
+              "text": "你的钟向来很准。"
+            },
+            {
+              "type": "paragraph",
+              "text": "好人阵营的特殊身份。你能看到对局剩余时间，还能花金币把时间拨快（时间耗尽就是好人阵营获胜），或者用【濒毁怀表】替队友刷新冷却。"
+            },
+            {
+              "type": "section",
+              "text": "能力",
+              "tone": "info"
+            },
+            {
+              "type": "bullet",
+              "runs": [
+                {
+                  "text": "看时间",
+                  "tone": "info"
+                },
+                {
+                  "text": "：一直能看到本局剩余时间。每死一名好人阵营玩家，时间会增加 30 秒。"
+                }
+              ]
+            },
+            {
+              "type": "bullet",
+              "runs": [
+                {
+                  "text": "拨快时钟",
+                  "tone": "info"
+                },
+                {
+                  "text": "：在商店花 100 金币，让对局时间减少 45 秒，可以反复购买。"
+                }
+              ]
+            },
+            {
+              "type": "bullet",
+              "runs": [
+                {
+                  "text": "濒毁怀表",
+                  "tone": "info"
+                },
+                {
+                  "text": "：开局自带，拿在手里时其他活人看不见。左键切换模式，右键使用；两种模式的冷却分开计算；物品模式会连你自己的物品冷却一起清空，技能模式不会作用在你自己身上；被刷新的人会收到提示。"
+                }
+              ]
+            },
+            {
+              "type": "bullet",
+              "text": "物品模式：花 100 金币，清空你自己和其他所有存活的好人阵营玩家的物品冷却；怀表冷却 40 秒。"
+            },
+            {
+              "type": "bullet",
+              "text": "技能模式：花 75 金币，清空其他存活好人的技能冷却（不含你自己）；怀表冷却 30 秒。"
+            },
+            {
+              "type": "demo",
+              "scene": "sparkdlc:dying_watch",
+              "text": "演示：濒毁怀表"
+            },
+            {
+              "type": "bullet",
+              "runs": [
+                {
+                  "text": "丧钟",
+                  "tone": "info"
+                },
+                {
+                  "text": "：只要你还活着，每有一名玩家死亡，你就获得 25 金币。"
+                }
+              ]
+            },
+            {
+              "type": "bullet",
+              "text": "开局 0 金币，每完成一个任务获得 50 金币。"
+            },
+            {
+              "type": "section",
+              "text": "玩法建议",
+              "tone": "good"
+            },
+            {
+              "type": "bullet",
+              "text": "多做任务攒钱：每 100 金币就能让好人离胜利近 45 秒。"
+            },
+            {
+              "type": "bullet",
+              "text": "警职刚开过枪、队友刚用掉技能时，用【濒毁怀表】替全体好人刷新冷却，往往比拨快时钟更能救命。"
+            },
+            {
+              "type": "bullet",
+              "text": "剩余时间不足 45 秒时买一次，时间直接归零，按时间耗尽结算，好人阵营获胜。"
+            },
+            {
+              "type": "bullet",
+              "text": "场上有人中了窃时者的诅咒时，买一次拨快时钟，就能解除所有人身上的诅咒。"
+            },
+            {
+              "type": "section",
+              "text": "需要注意",
+              "tone": "danger"
+            },
+            {
+              "type": "bullet",
+              "text": "怀表就算没刷新到任何人，金币也照样扣掉，看准时机再用。"
+            },
+            {
+              "type": "bullet",
+              "text": "中立角色不会被怀表刷新。若本局启用了【善良】词条，带善良的杀手算好人，也会被刷新；若启用了【内鬼】词条，内鬼不算好人，不会被刷新。"
+            },
+            {
+              "type": "section",
+              "text": "词条变化",
+              "tone": "info"
+            },
+            {
+              "type": "bullet",
+              "text": "若获得【内鬼】词条，花 100 金币会让对局时间增加 45 秒，帮杀手拖时间；这时买它也解除不了窃时者的诅咒。"
+            },
+            {
+              "type": "bullet",
+              "text": "带【内鬼】时，【濒毁怀表】改为刷新杀手阵营（不含带【善良】的杀手）和其他内鬼的冷却。"
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "section",
+              "text": "濒毁怀表",
+              "tone": "item"
+            },
+            {
+              "type": "bullet",
+              "text": "怀表有两种模式：刷新物品冷却，或刷新技能冷却；左键切换模式，右键使用。"
+            },
+            {
+              "type": "bullet",
+              "text": "刷新物品冷却消耗 100 金币，使用后自身冷却 40 秒。"
+            },
+            {
+              "type": "bullet",
+              "text": "刷新技能冷却消耗 75 金币，使用后自身冷却 30 秒。"
+            },
+            {
+              "type": "bullet",
+              "text": "物品刷新会清除目标和你自己的物品冷却，包括匕首、左轮和扩展职业物品；怀表自身的冷却不受影响。"
+            },
+            {
+              "type": "bullet",
+              "text": "技能刷新会清除目标的职业技能和 SparkStrength 扩展技能冷却，不会清除平板会议冷却。"
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "section",
+              "text": "刷新目标与奖励",
+              "tone": "info"
+            },
+            {
+              "type": "bullet",
+              "text": "普通计时员可刷新存活好人；拥有善良词条的杀手也按好人处理。"
+            },
+            {
+              "type": "bullet",
+              "text": "普通计时员不能刷新拥有内鬼词条的好人。"
+            },
+            {
+              "type": "bullet",
+              "text": "计时员拥有内鬼词条时，目标反转为非善良杀手和其他内鬼好人，不能刷新普通好人。"
+            },
+            {
+              "type": "bullet",
+              "text": "每当一名玩家因 Wathe 死亡而变为非存活状态，存活的计时员获得 25 金币。"
+            }
+          ]
+        },
+        {
+          "blocks": [
+            {
+              "type": "section",
+              "text": "验尸官伪装",
+              "tone": "info"
+            },
+            {
+              "type": "bullet",
+              "text": "验尸官伪装成计时员时，会获得濒毁怀表并可完整使用两种刷新模式。"
+            },
+            {
+              "type": "bullet",
+              "text": "伪装计时员的怀表同样遵循内鬼词条的目标反转规则。"
+            },
+            {
+              "type": "bullet",
+              "text": "切换或解除伪装、死亡和重置时，伪装获得的怀表会被回收。"
+            }
+          ]
+        }
+      ],
+      "ownerRoleIds": [],
+      "requiredModIds": [
+        "noellesroles",
+        "sparkdlc"
+      ],
+      "color": "#0026FF",
+      "order": 120
+    }
+  ]
+}

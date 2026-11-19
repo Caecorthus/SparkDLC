@@ -186,7 +186,7 @@ public final class ReplayPresentation {
     }
 
     static Text reopenHint() {
-        return Text.translatable("replay.sparkfactionapi.hint.reopen")
+        return Text.translatable("replay.sparkdlc.hint.reopen")
                 .formatted(Formatting.GRAY)
                 .styled(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, REOPEN_COMMAND)));
     }

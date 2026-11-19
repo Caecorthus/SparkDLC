@@ -57,7 +57,7 @@ public final class BellEchoHintHud {
         );
         context.drawTextWithShadow(
                 renderer,
-                Text.translatable("hud.sparkwitch.bell_echo.heard"),
+                Text.translatable("hud.sparkdlc.bell_echo.heard"),
                 BellEchoHudRules.TEXT_X,
                 y,
                 HINT_COLOR

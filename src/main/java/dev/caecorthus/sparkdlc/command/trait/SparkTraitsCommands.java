@@ -37,14 +37,14 @@ public final class SparkTraitsCommands {
 
     public static void register() {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-            dispatcher.register(listTraitsCommand("sparktraits:listTraits"));
-            dispatcher.register(enableTraitCommand("sparktraits:enableTrait", true));
-            dispatcher.register(enableTraitCommand("sparktraits:disableTrait", false));
-            dispatcher.register(playerTraitCommand("sparktraits:addTrait", PlayerTraitAction.ADD));
-            dispatcher.register(playerTraitCommand("sparktraits:removeTrait", PlayerTraitAction.REMOVE));
-            dispatcher.register(clearTraitsCommand("sparktraits:clearTraits"));
-            dispatcher.register(listPlayerTraitsCommand("sparktraits:listPlayerTraits"));
-            dispatcher.register(traitSlotRollChanceCommand("sparktraits:traitSlotRollChance"));
+            dispatcher.register(listTraitsCommand("sparkdlc:listTraits"));
+            dispatcher.register(enableTraitCommand("sparkdlc:enableTrait", true));
+            dispatcher.register(enableTraitCommand("sparkdlc:disableTrait", false));
+            dispatcher.register(playerTraitCommand("sparkdlc:addTrait", PlayerTraitAction.ADD));
+            dispatcher.register(playerTraitCommand("sparkdlc:removeTrait", PlayerTraitAction.REMOVE));
+            dispatcher.register(clearTraitsCommand("sparkdlc:clearTraits"));
+            dispatcher.register(listPlayerTraitsCommand("sparkdlc:listPlayerTraits"));
+            dispatcher.register(traitSlotRollChanceCommand("sparkdlc:traitSlotRollChance"));
         });
     }
 

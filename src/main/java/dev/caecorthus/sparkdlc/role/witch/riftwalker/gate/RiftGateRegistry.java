@@ -39,7 +39,7 @@ public final class RiftGateRegistry {
      * Non-persistent (never saved, never expires) ticket per gate; the argument is the gate number.
      * 每扇门一张非持久（不存盘、不过期）区块票；参数为门编号。
      */
-    static final ChunkTicketType<Integer> TICKET = ChunkTicketType.create("sparkwitch_rift_gate", Integer::compare);
+    static final ChunkTicketType<Integer> TICKET = ChunkTicketType.create("sparkdlc_rift_gate", Integer::compare);
     /** {@code 33 - 2 = 31}: the ticketed chunk ticks entities. / {@code 33 - 2 = 31}：持票区块会 tick 实体。 */
     static final int TICKET_RADIUS = 2;
 

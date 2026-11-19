@@ -1,0 +1,55 @@
+{
+  "entries": [
+    {
+      "id": "sparkdlc:marksman",
+      "tab": "TRAIT",
+      "sourceModId": "sparkdlc",
+      "nameKey": "trait.sparkdlc.marksman.name",
+      "summaryKey": "trait.sparkdlc.marksman.description",
+      "pages": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": "打得更远。警职词条，只会出现在老兵以外的警职身上（义警、法官、樱羽艾玛、控场专家、搜寻者、USEC、黑羽鸦）。"
+            },
+            {
+              "type": "section",
+              "text": "效果",
+              "tone": "info"
+            },
+            {
+              "type": "bullet",
+              "text": "【左轮手枪】射程从 30 格提高到 39 格，【德林加手枪】从 7 格提高到约 9 格。"
+            },
+            {
+              "type": "bullet",
+              "text": "控场专家的【电击枪】射程从 6 格提高到 7.8 格。"
+            },
+            {
+              "type": "bullet",
+              "text": "USEC 的【AXMC 狙击步枪】：FMJ 弹射程从 50 格提高到 65 格，AP 弹从 200 格提高到 260 格。"
+            },
+            {
+              "type": "section",
+              "text": "建议",
+              "tone": "good"
+            },
+            {
+              "type": "bullet",
+              "text": "可以在对方够不着的距离出手，但距离越远越难看清人，开枪前先确认目标。"
+            }
+          ]
+        }
+      ],
+      "ownerRoleIds": [
+        "wathe:vigilante"
+      ],
+      "requiredModIds": [
+        "sparkdlc"
+      ],
+      "color": "#D6C27A",
+      "order": 900
+    }
+  ]
+}

@@ -14,8 +14,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 
 /**
- * Turns Wathe {@code GameWorldComponent#addRole} writes into {@code sparkfactionapi:role_changed} record events.
- * 将 Wathe {@code GameWorldComponent#addRole} 写入转换为 {@code sparkfactionapi:role_changed} 记录事件。
+ * Turns Wathe {@code GameWorldComponent#addRole} writes into {@code sparkdlc:role_changed} record events.
+ * 将 Wathe {@code GameWorldComponent#addRole} 写入转换为 {@code sparkdlc:role_changed} 记录事件。
  */
 public final class RoleChangeRecorder {
     // readFromNbt -> setRoles -> addRole replays saved/synced roles; depth tolerates nested reads on one thread.

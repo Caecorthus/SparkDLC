@@ -37,7 +37,7 @@ import java.util.UUID;
  * 显示满 READ_AFTER_MS 后把当前频道计为已读，与打开其聊天相同；卡片显示期间到达的最新一行会短暂高亮。</p>
  */
 public final class TabletHeldHud {
-    private static final String KEY = "hud.sparkstrength.tablet.";
+    private static final String KEY = "hud.sparkdlc.tablet.";
     private static final int MAX_ROWS = 4;
     private static final int WIDTH = 150;
     private static final int PAD = 6;
@@ -136,7 +136,7 @@ public final class TabletHeldHud {
             c.text(tr, Text.translatable(KEY + "empty").getString(), x + PAD, rowY + 2, fade(TabletTheme.TEXT_3, alpha));
             rowY += ROW_H + 2;
         } else {
-            String anonymous = Text.translatable("screen.sparkstrength.tablet.chat.anonymous").getString();
+            String anonymous = Text.translatable("screen.sparkdlc.tablet.chat.anonymous").getString();
             String you = Text.translatable(KEY + "you").getString();
             float glow = glowFraction(now);
             for (int index = 0; index < rows.size(); index++) {

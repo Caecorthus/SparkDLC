@@ -53,15 +53,15 @@ public final class PartyBalloonService {
         );
         switch (verdict) {
             case UNAVAILABLE -> {
-                user.sendMessage(Text.translatable("message.sparkstrength.party_balloon.unavailable"), true);
+                user.sendMessage(Text.translatable("message.sparkdlc.party_balloon.unavailable"), true);
                 return false;
             }
             case ALREADY_MARKED -> {
-                user.sendMessage(Text.translatable("message.sparkstrength.party_balloon.already_marked"), true);
+                user.sendMessage(Text.translatable("message.sparkdlc.party_balloon.already_marked"), true);
                 return false;
             }
             case OUT_OF_RANGE -> {
-                user.sendMessage(Text.translatable("message.sparkstrength.party_balloon.out_of_range"), true);
+                user.sendMessage(Text.translatable("message.sparkdlc.party_balloon.out_of_range"), true);
                 return false;
             }
             case OK -> {
@@ -71,7 +71,7 @@ public final class PartyBalloonService {
         PartyBalloonMarkComponent.KEY.get(target).mark(user.getUuid());
         // A soft pop for the giver only; the recipient must not hear a thing. / 只有塞气球的人听到轻轻一声，对方毫无察觉。
         user.playSoundToPlayer(SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, SQUEAK_VOLUME, SQUEAK_PITCH);
-        user.sendMessage(Text.translatable("message.sparkstrength.party_balloon.given", target.getDisplayName()), true);
+        user.sendMessage(Text.translatable("message.sparkdlc.party_balloon.given", target.getDisplayName()), true);
         NbtCompound extra = new NbtCompound();
         extra.putUuid("target", target.getUuid());
         GameRecordManager.recordGlobalEvent(user.getServerWorld(), SparkStrengthReplayFormatters.PARTY_BALLOON_GIVEN,

@@ -14,11 +14,11 @@ import org.jetbrains.annotations.Nullable;
  * {@code shop}; the Rope is {@code item/rope} with its own {@code RopeRules}.
  * <p>Mana (owner 2026-11-11): Hiro uses exactly the Witch Maiden's mana system (0 at round start, +1 per 20 ticks,
  * natural cap 250, no kill or task rewards), wired in {@code mana/WitchManaRules}; it pays only for 死亡回归. She is never
- * a Witch-skill role and never appears in the {@code gui.sparkwitch.skills} panel.
+ * a Witch-skill role and never appears in the {@code gui.sparkdlc.skills} panel.
  * 二阶堂希罗（杀手）：本职业的全部数值与真实身份判定。功能状态位于子包：{@code returning}（死亡回归，技能键 G）、
  * {@code witchification}（魔女化，被动）与 {@code shop}；绳索位于 {@code item/rope}，数值在其 {@code RopeRules} 中。
  * <p>魔力（所有者 2026-11-11）：希罗沿用与巫女完全相同的魔力系统（开局 0、每 20 tick +1、自然上限 250、无击杀或任务奖励），
- * 在 {@code mana/WitchManaRules} 中接入；魔力只用于死亡回归。她不是魔女技能职业，也绝不出现在 {@code gui.sparkwitch.skills} 面板中。
+ * 在 {@code mana/WitchManaRules} 中接入；魔力只用于死亡回归。她不是魔女技能职业，也绝不出现在 {@code gui.sparkdlc.skills} 面板中。
  */
 public final class HiroRules {
     public static final Identifier ROLE_ID = SparkWitch.id("nikaido_hiro");

@@ -79,7 +79,7 @@ public final class TabletItem extends Item {
             lastClientGestureTarget = target.getUuid();
             lastClientGestureTick = now;
             if (!heldRepeat) {
-                user.sendMessage(Text.translatable("message.sparkstrength.tablet.link.sent"), true);
+                user.sendMessage(Text.translatable("message.sparkdlc.tablet.link.sent"), true);
             }
             return ActionResult.CONSUME;
         }

@@ -32,9 +32,9 @@ public class PotionShellItem extends Item {
     }
 
     /**
-     * Two gray lines per shell: {@code item.sparkwitch.<shell>.tooltip} (who and where) and {@code .tooltip.line2}
+     * Two gray lines per shell: {@code item.sparkdlc.<shell>.tooltip} (who and where) and {@code .tooltip.line2}
      * (the effect and its falloff), kept short because vanilla tooltips never wrap.
-     * 每种炮弹两行灰色说明：{@code item.sparkwitch.<shell>.tooltip}（影响谁、范围多大）与 {@code .tooltip.line2}
+     * 每种炮弹两行灰色说明：{@code item.sparkdlc.<shell>.tooltip}（影响谁、范围多大）与 {@code .tooltip.line2}
      * （效果与衰减）；原版提示框不会自动换行，因此每行保持简短。
      */
     public static List<String> tooltipKeys(PotionShellType type) {

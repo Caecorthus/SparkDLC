@@ -87,15 +87,15 @@ public final class TabletLinkService {
         switch (TabletLinkRules.decide(tablet.isLinked(actorUuid, targetUuid), reverseLive, targetEligible, forwardLive)) {
             case ALREADY_LINKED -> {
                 if (!heldRepeat) {
-                    overlay(actor, "message.sparkstrength.tablet.link.already", name(target));
+                    overlay(actor, "message.sparkdlc.tablet.link.already", name(target));
                 }
             }
             case COMPLETE -> {
                 tablet.link(actorUuid, targetUuid);
                 tablet.removeLinkRequest(actorUuid, targetUuid);
                 tablet.removeLinkRequest(targetUuid, actorUuid);
-                overlay(actor, "message.sparkstrength.tablet.link.linked", name(target));
-                overlay(target, "message.sparkstrength.tablet.link.linked", name(actor));
+                overlay(actor, "message.sparkdlc.tablet.link.linked", name(target));
+                overlay(target, "message.sparkdlc.tablet.link.linked", name(actor));
                 TabletStateService.syncPair(actor, target);
                 BlackoutSightService.linked(actor, target);
             }
@@ -147,7 +147,7 @@ public final class TabletLinkService {
         for (UUID targetUuid : expiredTargets) {
             if (!liveByTarget.containsKey(targetUuid)
                     && world.getPlayerByUuid(targetUuid) instanceof ServerPlayerEntity target) {
-                overlay(target, "message.sparkstrength.tablet.link.expired");
+                overlay(target, "message.sparkdlc.tablet.link.expired");
             }
         }
         for (Map.Entry<UUID, List<TabletWorldComponent.LinkRequest>> entry : liveByTarget.entrySet()) {
@@ -189,7 +189,7 @@ public final class TabletLinkService {
         }
         if (requests.size() == 1) {
             TabletWorldComponent.LinkRequest request = requests.get(0);
-            overlay(target, "message.sparkstrength.tablet.link.incoming",
+            overlay(target, "message.sparkdlc.tablet.link.incoming",
                     request.fromName(), TabletLinkRules.remainingSeconds(request.expiryTick(), now));
             return;
         }
@@ -201,10 +201,10 @@ public final class TabletLinkService {
             if (index > 0) {
                 names.append(", ");
             }
-            names.append(Text.translatable("message.sparkstrength.tablet.link.incoming_entry",
+            names.append(Text.translatable("message.sparkdlc.tablet.link.incoming_entry",
                     request.fromName(), TabletLinkRules.remainingSeconds(request.expiryTick(), now)));
         }
-        overlay(target, "message.sparkstrength.tablet.link.incoming_multi", names);
+        overlay(target, "message.sparkdlc.tablet.link.incoming_multi", names);
     }
 
     /**

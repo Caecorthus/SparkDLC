@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
  * SparkDLC，因此均为直接调用。玩家为空时：非待定，词条查询视为未知（{@code null}），由调用方失败关闭。
  */
 public final class SparkTraitsAbyssListenerBridge {
-    private static final String MOD_ID = "sparktraits";
+    private static final String MOD_ID = "sparkdlc";
     static final Identifier CONSCIENCE = Identifier.of(MOD_ID, "conscience");
     static final Identifier IMPOSTOR = Identifier.of(MOD_ID, "impostor");
 

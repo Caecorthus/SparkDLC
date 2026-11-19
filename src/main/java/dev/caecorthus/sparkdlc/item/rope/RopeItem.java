@@ -13,11 +13,11 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
 /**
- * The Rope ({@code sparkwitch:rope}): 二阶堂希罗's strangling tool, sold in her shop for {@link RopeRules#PRICE} coins
+ * The Rope ({@code sparkdlc:rope}): 二阶堂希罗's strangling tool, sold in her shop for {@link RopeRules#PRICE} coins
  * and usable by anyone who holds it. The item is only the request: vanilla's use-item packet (which carries the aim)
  * reaches {@link RopeStrangleService#tryStart} on the server, which owns the target pick, the hold, the interrupt, the
  * kill, the cooldown and the consumption. The client predicts nothing.
- * 绳索（{@code sparkwitch:rope}）：二阶堂希罗的勒杀道具，在她的商店以 {@link RopeRules#PRICE} 金币出售，任何持有者都可使用。物品本身
+ * 绳索（{@code sparkdlc:rope}）：二阶堂希罗的勒杀道具，在她的商店以 {@link RopeRules#PRICE} 金币出售，任何持有者都可使用。物品本身
  * 只是请求：原版使用物品数据包（已携带瞄准方向）到达服务端的 {@link RopeStrangleService#tryStart}，由其负责选取目标、定身、打断、击杀、
  * 冷却与消耗。客户端不做任何预测。
  */
@@ -48,7 +48,7 @@ public final class RopeItem extends Item {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         for (int line = 1; line <= TOOLTIP_LINES; line++) {
-            tooltip.add(Text.translatable("item.sparkwitch.rope.tooltip.line" + line).formatted(Formatting.GRAY));
+            tooltip.add(Text.translatable("item.sparkdlc.rope.tooltip.line" + line).formatted(Formatting.GRAY));
         }
         super.appendTooltip(stack, context, tooltip, type);
     }

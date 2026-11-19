@@ -124,7 +124,7 @@ final class DetectiveRolePicker {
         DetectiveFolderLayout.Rect scrim = layout.scrim();
         context.fill(scrim.x(), scrim.y(), scrim.right(), scrim.bottom(), COLOR_SCRIM);
         DetectiveFolderPaint.drawPickerFrame(context, renderer, box, geometry.clearButton(), HEADER_HEIGHT,
-                Text.translatable("screen.sparkstrength.detective_folder.killer_pick_title").getString(),
+                Text.translatable("screen.sparkdlc.detective_folder.killer_pick_title").getString(),
                 current != null, mouseX, mouseY, CHROME);
 
         DetectiveFolderLayout.Rect grid = geometry.grid();
@@ -191,7 +191,7 @@ final class DetectiveRolePicker {
 
     private Geometry geometry(DetectiveFolderLayout layout, TextRenderer renderer) {
         DetectiveFolderLayout.Rect box = layout.pickerBox();
-        String clearLabel = Text.translatable("screen.sparkstrength.detective_folder.killer_clear").getString();
+        String clearLabel = Text.translatable("screen.sparkdlc.detective_folder.killer_clear").getString();
         int clearWidth = Math.min(Math.max(0, box.width() / 2), renderer.getWidth(clearLabel) + 14);
         DetectiveFolderLayout.Rect clear = new DetectiveFolderLayout.Rect(box.right() - 6 - clearWidth, box.y() + 3, clearWidth, 14);
         DetectiveFolderLayout.Rect grid = new DetectiveFolderLayout.Rect(

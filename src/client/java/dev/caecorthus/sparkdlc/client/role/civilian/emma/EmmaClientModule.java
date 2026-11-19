@@ -42,11 +42,11 @@ public final class EmmaClientModule {
         PlayerEntity target = EmmaClientTargeting.findTarget(player);
         Text line = switch (EmmaHudRules.state(state.getCooldownTicks(), state.getMana(),
                 EmmaRules.MANA_COST, target != null)) {
-            case COOLDOWN -> Text.translatable("hud.sparkwitch.emma.factor.cooldown",
+            case COOLDOWN -> Text.translatable("hud.sparkdlc.emma.factor.cooldown",
                     TickTime.ceilSecondsUnclamped(state.getCooldownTicks()));
-            case NEED_MANA -> Text.translatable("hud.sparkwitch.emma.factor.need_mana", EmmaRules.MANA_COST);
-            case NO_TARGET -> Text.translatable("hud.sparkwitch.emma.factor.no_target");
-            case TRANSFER -> Text.translatable("hud.sparkwitch.emma.factor.transfer", EmmaVisibleName.of(target));
+            case NEED_MANA -> Text.translatable("hud.sparkdlc.emma.factor.need_mana", EmmaRules.MANA_COST);
+            case NO_TARGET -> Text.translatable("hud.sparkdlc.emma.factor.no_target");
+            case TRANSFER -> Text.translatable("hud.sparkdlc.emma.factor.transfer", EmmaVisibleName.of(target));
         };
         var renderer = MinecraftClient.getInstance().textRenderer;
         context.drawTextWithShadow(renderer, line,

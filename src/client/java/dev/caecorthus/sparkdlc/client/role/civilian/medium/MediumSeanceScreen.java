@@ -27,7 +27,7 @@ public final class MediumSeanceScreen extends Screen {
     private TextFieldWidget field;
 
     public MediumSeanceScreen(int price) {
-        super(Text.translatable("screen.sparkwitch.medium.seance.title"));
+        super(Text.translatable("screen.sparkdlc.medium.seance.title"));
         this.price = price;
     }
 
@@ -43,21 +43,21 @@ public final class MediumSeanceScreen extends Screen {
                 this.height / 2 - 22,
                 fieldWidth,
                 20,
-                Text.translatable("screen.sparkwitch.medium.seance.hint")
+                Text.translatable("screen.sparkdlc.medium.seance.hint")
         );
         field.setMaxLength(MediumRules.QUESTION_MAX_CHARS);
-        field.setPlaceholder(Text.translatable("screen.sparkwitch.medium.seance.hint"));
+        field.setPlaceholder(Text.translatable("screen.sparkdlc.medium.seance.hint"));
         field.setText(query);
         field.setChangedListener(text -> query = text);
         addDrawableChild(field);
         setInitialFocus(field);
         int buttonWidth = (fieldWidth - 8) / 2;
         addDrawableChild(ButtonWidget.builder(
-                        Text.translatable("screen.sparkwitch.medium.seance.cancel"), button -> close())
+                        Text.translatable("screen.sparkdlc.medium.seance.cancel"), button -> close())
                 .dimensions((this.width - fieldWidth) / 2, this.height / 2 + 6, buttonWidth, 20)
                 .build());
         addDrawableChild(ButtonWidget.builder(
-                        Text.translatable("screen.sparkwitch.medium.seance.submit"), button -> submit())
+                        Text.translatable("screen.sparkdlc.medium.seance.submit"), button -> submit())
                 .dimensions((this.width - fieldWidth) / 2 + buttonWidth + 8, this.height / 2 + 6, buttonWidth, 20)
                 .build());
     }
@@ -123,10 +123,10 @@ public final class MediumSeanceScreen extends Screen {
         context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, this.height / 2 - 62,
                 0xFF000000 | MediumRules.COLOR);
         context.drawCenteredTextWithShadow(this.textRenderer,
-                Text.translatable("screen.sparkwitch.medium.seance.hint").formatted(Formatting.GRAY),
+                Text.translatable("screen.sparkdlc.medium.seance.hint").formatted(Formatting.GRAY),
                 this.width / 2, this.height / 2 - 48, 0xFFFFFF);
         context.drawCenteredTextWithShadow(this.textRenderer,
-                Text.translatable("screen.sparkwitch.medium.seance.price", price),
+                Text.translatable("screen.sparkdlc.medium.seance.price", price),
                 this.width / 2, this.height / 2 - 36, 0xFFFFFF);
     }
 

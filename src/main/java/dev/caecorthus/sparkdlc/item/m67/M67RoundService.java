@@ -131,12 +131,12 @@ public final class M67RoundService {
     }
 
     /**
-     * Admin path only: SparkFactionAPI {@code /sparkfactionapi:clearCooldown} just removed this player's M67 cooldown
+     * Admin path only: SparkFactionAPI {@code /sparkdlc:clearCooldown} just removed this player's M67 cooldown
      * (called through {@code SparkFactionAdminClear}). During the opening that remove alone does not stick (the lock is
      * re-synced every tick and throws read the round clock), so for the rest of this match round the player's M67
      * throws ignore the opening lock and count as normal match throws; other players stay locked. No-op outside an
      * ACTIVE match; role mechanics that remove cooldowns never call this.
-     * 仅管理员路径：SparkFactionAPI /sparkfactionapi:clearCooldown 刚移除了该玩家的 M67 冷却（经由 SparkFactionAdminClear
+     * 仅管理员路径：SparkFactionAPI /sparkdlc:clearCooldown 刚移除了该玩家的 M67 冷却（经由 SparkFactionAdminClear
      * 调用）。开局锁期间仅移除原版冷却无效（开局锁每刻重新同步，投掷读取回合时钟），因此本对局回合剩余时间内该玩家的 M67 投掷
      * 不再受开局锁约束，按正常对局投掷结算；其他玩家仍被锁定。对局未处于 ACTIVE 时不做任何事；移除冷却的职业机制不会调用此方法。
      */

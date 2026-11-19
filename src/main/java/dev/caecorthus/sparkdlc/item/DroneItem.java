@@ -110,11 +110,11 @@ public class DroneItem extends Item implements AdventureUsable {
         }
         int opening = DroneService.openingRemaining(serverPlayer, kind);
         if (opening > 0) {
-            serverPlayer.sendMessage(Text.translatable("tip.sparkstrength.drone.opening_cooldown", (opening + 19) / 20), true);
+            serverPlayer.sendMessage(Text.translatable("tip.sparkdlc.drone.opening_cooldown", (opening + 19) / 20), true);
             return ActionResult.FAIL;
         }
         if (kind == DroneKind.BOMB && !DroneService.canPlaceBombDrone(serverPlayer)) {
-            serverPlayer.sendMessage(Text.translatable("tip.sparkstrength.drone.bomb_active"), true);
+            serverPlayer.sendMessage(Text.translatable("tip.sparkdlc.drone.bomb_active"), true);
             return ActionResult.FAIL;
         }
         UUID roundId = DroneService.currentRoundId(world);
@@ -128,7 +128,7 @@ public class DroneItem extends Item implements AdventureUsable {
         Vec3d hit = context.getHitPos();
         drone.refreshPositionAndAngles(hit.x, hit.y, hit.z, player.getYaw(), 0.0F);
         if (!world.isBlockSpaceEmpty(drone, drone.getBoundingBox())) {
-            serverPlayer.sendMessage(Text.translatable("tip.sparkstrength.drone.no_room"), true);
+            serverPlayer.sendMessage(Text.translatable("tip.sparkdlc.drone.no_room"), true);
             drone.discard();
             return ActionResult.FAIL;
         }
@@ -242,9 +242,9 @@ public class DroneItem extends Item implements AdventureUsable {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         int charge = charge(stack);
-        tooltip.add(Text.translatable("item.sparkstrength.drone.tooltip.battery", DroneRules.percent(charge))
+        tooltip.add(Text.translatable("item.sparkdlc.drone.tooltip.battery", DroneRules.percent(charge))
                 .styled(style -> style.withColor(DroneFlight.itemBarColor(charge)).withItalic(false)));
-        String prefix = "item.sparkstrength." + kind.id() + ".tooltip.";
+        String prefix = "item.sparkdlc." + kind.id() + ".tooltip.";
         if (kind == DroneKind.GRENADE) {
             tooltip.add(gray(prefix + (hasPayload(stack) ? "payload_bound" : "payload_empty")));
         }
@@ -253,7 +253,7 @@ public class DroneItem extends Item implements AdventureUsable {
         if (kind == DroneKind.GRENADE) {
             tooltip.add(gray(prefix + "line3"));
         }
-        tooltip.add(gray("item.sparkstrength.drone.tooltip.opening"));
+        tooltip.add(gray("item.sparkdlc.drone.tooltip.opening"));
     }
 
     private static Text gray(String key) {

@@ -69,7 +69,7 @@ public final class EngineerSabotageRepairService {
 
         WorldBlackoutComponent blackout = WorldBlackoutComponent.KEY.get(world);
         if (!blackout.isBlackoutActive()) {
-            repairer.sendMessage(Text.translatable("message.sparkstrength.power_restoration.unavailable"), true);
+            repairer.sendMessage(Text.translatable("message.sparkdlc.power_restoration.unavailable"), true);
             return false;
         }
 

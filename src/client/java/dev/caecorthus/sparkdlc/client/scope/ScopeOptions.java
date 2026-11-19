@@ -27,11 +27,11 @@ import java.util.function.Consumer;
  * 文本也说明了这一点。
  */
 public final class ScopeOptions {
-    public static final String MODE_KEY = "option.sparkwitch.scope_mode";
-    public static final String SENSITIVITY_KEY = "option.sparkwitch.scope_sensitivity";
-    public static final String SENSITIVITY_TOOLTIP_KEY = "option.sparkwitch.scope_sensitivity.tooltip";
-    public static final String LENS_RESOLUTION_KEY = "option.sparkwitch.scope_lens_resolution";
-    public static final String LENS_RESOLUTION_TOOLTIP_KEY = "option.sparkwitch.scope_lens_resolution.tooltip";
+    public static final String MODE_KEY = "option.sparkdlc.scope_mode";
+    public static final String SENSITIVITY_KEY = "option.sparkdlc.scope_sensitivity";
+    public static final String SENSITIVITY_TOOLTIP_KEY = "option.sparkdlc.scope_sensitivity.tooltip";
+    public static final String LENS_RESOLUTION_KEY = "option.sparkdlc.scope_lens_resolution";
+    public static final String LENS_RESOLUTION_TOOLTIP_KEY = "option.sparkdlc.scope_lens_resolution.tooltip";
     private static final Codec<ScopeMode> MODE_CODEC = Codec.STRING.xmap(ScopeSettings::parseMode,
             ScopeSettings::serializedName);
 

@@ -7,9 +7,9 @@ import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
 
 /**
- * Stable packet contract {@code sparkwitch:seeker_car_move} (C2S, L3): {@code sessionId, seq:varint, x, y, z:double,
+ * Stable packet contract {@code sparkdlc:seeker_car_move} (C2S, L3): {@code sessionId, seq:varint, x, y, z:double,
  * yaw:float}. The server replays, validates, clamps and corrects; values are untrusted (NaN is rejected there).
- * 稳定数据包契约 {@code sparkwitch:seeker_car_move}（C2S，L3）：服务端重放、校验、钳制并纠正；数值不可信（NaN 在服务端拒绝）。
+ * 稳定数据包契约 {@code sparkdlc:seeker_car_move}（C2S，L3）：服务端重放、校验、钳制并纠正；数值不可信（NaN 在服务端拒绝）。
  */
 public record SeekerCarMoveC2SPacket(int sessionId, int seq, double x, double y, double z, float yaw)
         implements CustomPayload {

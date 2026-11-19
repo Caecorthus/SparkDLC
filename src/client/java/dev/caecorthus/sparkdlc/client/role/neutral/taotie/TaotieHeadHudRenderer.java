@@ -58,10 +58,10 @@ public final class TaotieHeadHudRenderer {
 
     private static @Nullable Text stateText(int cooldownTicks, int swallowedCount) {
         if (cooldownTicks > 0) {
-            return Text.translatable("hud.sparkstrength.taotie_head.cooldown", (cooldownTicks + 19) / 20);
+            return Text.translatable("hud.sparkdlc.taotie_head.cooldown", (cooldownTicks + 19) / 20);
         }
         if (swallowedCount > 0) {
-            return Text.translatable("hud.sparkstrength.taotie_head.ready",
+            return Text.translatable("hud.sparkdlc.taotie_head.ready",
                     TaotieHeadClientHooks.secondarySkillKeyText());
         }
         return null;

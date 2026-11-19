@@ -75,7 +75,7 @@ public final class ReporterCommunicationService {
             component.startConnection(first, second);
             component.setCooldownTicks(ReporterCommunicationConstants.CONNECTION_SUCCESS_COOLDOWN_TICKS);
             reporter.sendMessage(
-                    Text.translatable("message.sparkstrength.reporter.connection_selected", first.getDisplayName(), second.getDisplayName())
+                    Text.translatable("message.sparkdlc.reporter.connection_selected", first.getDisplayName(), second.getDisplayName())
                             .withColor(Noellesroles.REPORTER.color()),
                     true
             );
@@ -100,7 +100,7 @@ public final class ReporterCommunicationService {
         writeConnectionExtra(extra, firstUuid, secondUuid, firstName, secondName);
         if (!firstLive && !secondLive) {
             reporter.sendMessage(
-                    Text.translatable("message.sparkstrength.reporter.connection_failed_both_dead")
+                    Text.translatable("message.sparkdlc.reporter.connection_failed_both_dead")
                             .withColor(Noellesroles.REPORTER.color()),
                     true
             );
@@ -120,7 +120,7 @@ public final class ReporterCommunicationService {
         extra.putUuid("dead_player", deadUuid);
         extra.putString("dead_player_name", deadName);
         reporter.sendMessage(
-                Text.translatable("message.sparkstrength.reporter.connection_failed_one_dead")
+                Text.translatable("message.sparkdlc.reporter.connection_failed_one_dead")
                         .withColor(Noellesroles.REPORTER.color()),
                 true
         );
@@ -146,7 +146,7 @@ public final class ReporterCommunicationService {
             component.startBroadcast(target);
             component.setCooldownTicks(ReporterCommunicationConstants.BROADCAST_SUCCESS_COOLDOWN_TICKS);
             reporter.sendMessage(
-                    Text.translatable("message.sparkstrength.reporter.broadcast_selected", target.getDisplayName())
+                    Text.translatable("message.sparkdlc.reporter.broadcast_selected", target.getDisplayName())
                             .withColor(Noellesroles.REPORTER.color()),
                     true
             );
@@ -165,7 +165,7 @@ public final class ReporterCommunicationService {
 
         component.setCooldownTicks(ReporterCommunicationConstants.BROADCAST_FAILURE_COOLDOWN_TICKS);
         reporter.sendMessage(
-                Text.translatable("message.sparkstrength.reporter.broadcast_failed_dead")
+                Text.translatable("message.sparkdlc.reporter.broadcast_failed_dead")
                         .withColor(Noellesroles.REPORTER.color()),
                 true
         );

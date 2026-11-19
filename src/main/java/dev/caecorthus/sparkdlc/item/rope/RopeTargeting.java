@@ -67,13 +67,13 @@ final class RopeTargeting {
      * Whether something other than the strangle itself holds, hides or controls {@code user}; checked at the start and
      * again every tick of a running strangle, where it is the "stunned / feared / hypnotised / controlled" interrupt.
      * It reads the Taser stun and the Raven landing hold directly rather than {@code ControlExpertStun.isStunned},
-     * which also answers true for the Rope's own hold. SparkStrength: its {@code sparkstrength:engineer_stunned} lock
+     * which also answers true for the Rope's own hold. SparkStrength: its {@code sparkdlc:engineer_stunned} lock
      * (the Engineer's capture device and the Jester Moment's freeze share that component) is read through the existing
      * probe {@code RiftwalkerStatusProbes.isCaptureStunned} (a direct call since the SparkDLC fusion); its Taotie head daze has no
      * SparkWitch seam and is not covered.
      * 是否有勒杀之外的机制持有、隐藏或控制着 {@code user}；开始时检查一次，勒杀进行中的每一刻再次检查，即「被眩晕 / 恐惧 / 催眠 / 控制」
      * 的打断条件。这里直接读取电击眩晕与黑羽鸦落地定身，而不读 {@code ControlExpertStun.isStunned}，后者对绳索自身的定身同样返回
-     * true。SparkStrength：其 {@code sparkstrength:engineer_stunned} 锁定（工程师捕捉装置与小丑时刻的全员定身共用该组件）通过已有的
+     * true。SparkStrength：其 {@code sparkdlc:engineer_stunned} 锁定（工程师捕捉装置与小丑时刻的全员定身共用该组件）通过已有的
      * 探针 {@code RiftwalkerStatusProbes.isCaptureStunned} 读取（融合进 SparkDLC 后为直接调用）；饕餮头颅眩晕在 SparkWitch 中没有接缝，未覆盖。
      */
     static boolean isControlled(ServerPlayerEntity user) {

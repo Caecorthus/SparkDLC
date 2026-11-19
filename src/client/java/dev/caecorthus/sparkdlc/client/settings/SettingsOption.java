@@ -50,7 +50,7 @@ public abstract class SettingsOption {
 
     /** The label and detail together, for the description panel and narration. 标签与具体内容合在一起，用于说明面板与旁白。 */
     public Text title() {
-        return detail == null ? label : Text.translatable("screen.sparkassist.settings.title_with_detail", label, detail);
+        return detail == null ? label : Text.translatable("screen.sparkdlc.settings.title_with_detail", label, detail);
     }
 
     /** Opaque RGB of the dot drawn before the label (the role's guide colour), or 0 for none. 标签前圆点的颜色，0 为无。 */

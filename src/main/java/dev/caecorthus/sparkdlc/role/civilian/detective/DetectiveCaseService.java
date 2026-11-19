@@ -56,7 +56,7 @@ public final class DetectiveCaseService {
     // Wathe 尸体未设置主人时 getPlayerUuid() 返回的占位 UUID。
     private static final UUID UNSET_BODY_OWNER = UUID.fromString("25adae11-cd98-48f4-990b-9fe1b2ee0886");
     private static final Identifier MAGNIFIER_ACTION_ID = SparkStrength.id("detective_magnifier");
-    private static final String MESSAGE_PREFIX = "message.sparkstrength.detective.";
+    private static final String MESSAGE_PREFIX = "message.sparkdlc.detective.";
     // Minimum gap between the defensive pre-open folder syncs of one player. 同一玩家打开前保险同步的最小间隔。
     private static final int OPEN_SYNC_MIN_INTERVAL_TICKS = 10;
     private static boolean registered;

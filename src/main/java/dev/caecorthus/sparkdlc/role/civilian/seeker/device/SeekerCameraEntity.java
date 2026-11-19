@@ -23,7 +23,7 @@ import net.minecraft.world.World;
 import java.util.UUID;
 
 /**
- * The Security Camera ({@code sparkwitch:seeker_camera}); static, no gravity, oriented by FACING (the mount face
+ * The Security Camera ({@code sparkdlc:seeker_camera}); static, no gravity, oriented by FACING (the mount face
  * normal) and MOUNT_YAW (horizontal view centre), both client-visible through the DataTracker because they are pure
  * appearance. The server breaks it (environment source, never marks) once its mount face is no longer a full solid
  * face.
@@ -34,7 +34,7 @@ import java.util.UUID;
  * views this camera; the server derives it in this entity's own tick from the owner's component (like the device
  * self-check, so it assumes the camera keeps ticking while it is viewed, at any distance from the body) and the client
  * only lights the LED.
- * 摄像头（{@code sparkwitch:seeker_camera}）；静止、无重力，按 FACING（依附面法线）与 MOUNT_YAW（水平视野中心）定向，
+ * 摄像头（{@code sparkdlc:seeker_camera}）；静止、无重力，按 FACING（依附面法线）与 MOUNT_YAW（水平视野中心）定向，
  * 两者都是纯外观，因此经 DataTracker 对客户端可见。依附面不再是完整实心面时，服务端将其按环境来源损坏（从不标记）。
  * 公开的视角状态（所有追踪客户端可见，但从不透露拥有者）：LOOK_YAW 与 LOOK_PITCH 是机头朝向，放置时为锥角中心，
  * 之后仅由服务端根据拥有者经钳制的 {@code seeker_camera_look} 设置；无人观看时机头保持该朝向。VIEWING 在拥有者的会话

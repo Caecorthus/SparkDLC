@@ -13,11 +13,11 @@ import org.ladysnake.cca.api.v3.component.ComponentRegistry;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
 /**
- * Target-owned, server-only Time Gift ({@code sparkwitch:time_gift}), the Gift Watch's counterpart of
+ * Target-owned, server-only Time Gift ({@code sparkdlc:time_gift}), the Gift Watch's counterpart of
  * {@link TimeTheftPlayerComponent}: the stage comes from absolute world ticks, nothing is synced (the target only
  * perceives vanilla Speed and private chimes), and a gift runs independently of any curse on the same player. Frozen
  * NBT keys: {@code Giver} (absent = no gift), {@code Match}, {@code GivenAt}, {@code Stage} (0-4).
- * 由目标持有、仅服务端的赠时（{@code sparkwitch:time_gift}），是赠时怀表对应 {@link TimeTheftPlayerComponent} 的组件：
+ * 由目标持有、仅服务端的赠时（{@code sparkdlc:time_gift}），是赠时怀表对应 {@link TimeTheftPlayerComponent} 的组件：
  * 阶段由绝对世界 tick 推算，不做任何同步（目标只感知原版速度与私有钟声），并与同一玩家身上的诅咒相互独立。
  * 冻结的 NBT 键：{@code Giver}（缺省表示没有赠时）、{@code Match}、{@code GivenAt}、{@code Stage}（0-4）。
  */

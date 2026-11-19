@@ -22,14 +22,14 @@ public final class TabletShopRules {
      * Mid-round grant reconciliation cadence while the round is ACTIVE. / 对局 ACTIVE 期间局中补发对账的间隔。
      */
     public static final int GRANT_RECONCILE_INTERVAL_TICKS = 20;
-    public static final String POLICE_GRANTED_KEY = "message.sparkstrength.tablet.police_granted";
-    public static final String KILLER_GRANTED_KEY = "message.sparkstrength.tablet.killer_granted";
-    public static final String WITCH_GRANTED_KEY = "message.sparkstrength.tablet.witch_granted";
-    public static final String IMPOSTOR_GRANTED_KEY = "message.sparkstrength.tablet.impostor_granted";
-    public static final String UNDERCOVER_GRANTED_KEY = "message.sparkstrength.tablet.undercover_granted";
-    public static final String ATTENDANT_GRANTED_KEY = "message.sparkstrength.tablet.attendant_granted";
-    public static final String BOMBER_GRANTED_KEY = "message.sparkstrength.tablet.bomber_granted";
-    public static final String PUBLIC_GRANTED_KEY = "message.sparkstrength.tablet.public_granted";
+    public static final String POLICE_GRANTED_KEY = "message.sparkdlc.tablet.police_granted";
+    public static final String KILLER_GRANTED_KEY = "message.sparkdlc.tablet.killer_granted";
+    public static final String WITCH_GRANTED_KEY = "message.sparkdlc.tablet.witch_granted";
+    public static final String IMPOSTOR_GRANTED_KEY = "message.sparkdlc.tablet.impostor_granted";
+    public static final String UNDERCOVER_GRANTED_KEY = "message.sparkdlc.tablet.undercover_granted";
+    public static final String ATTENDANT_GRANTED_KEY = "message.sparkdlc.tablet.attendant_granted";
+    public static final String BOMBER_GRANTED_KEY = "message.sparkdlc.tablet.bomber_granted";
+    public static final String PUBLIC_GRANTED_KEY = "message.sparkdlc.tablet.public_granted";
     /** Police-network suspect highlight; tablets never outline channel members. / 义警网络嫌疑人高亮色；平板从不描边频道成员。 */
     public static final int SUSPECT_HIGHLIGHT_COLOR = 0xFF8C00;
 

@@ -15,8 +15,8 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import java.util.Collection;
 
 /**
- * Registers the /sparkwitch:setMana command.
- * 注册 /sparkwitch:setMana 命令，用于直接设定玩家魔力值。
+ * Registers the /sparkdlc:setMana command.
+ * 注册 /sparkdlc:setMana 命令，用于直接设定玩家魔力值。
  */
 public final class SetManaCommand {
     private SetManaCommand() {
@@ -24,7 +24,7 @@ public final class SetManaCommand {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(
-                CommandManager.literal("sparkwitch:setMana")
+                CommandManager.literal("sparkdlc:setMana")
                         .requires(Permissions.require(
                                 SparkWitchPermissions.COMMAND_SET_MANA,
                                 SparkWitchPermissions.DEFAULT_COMMAND_LEVEL

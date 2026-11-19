@@ -20,11 +20,11 @@ import dev.caecorthus.sparkdlc.util.TickTime;
  * 的共享魔力行。属于职业自有展示，从不使用魔女技能背包面板，也从不使用动作栏。不含 Minecraft 客户端类型，可做单元测试。
  */
 public final class KokoStreamHudRules {
-    public static final String ACTIVE_KEY = "hud.sparkwitch.koko.stream.active";
-    public static final String COOLDOWN_KEY = "hud.sparkwitch.koko.stream.cooldown";
-    public static final String NO_MANA_KEY = "hud.sparkwitch.koko.stream.no_mana";
-    public static final String READY_KEY = "hud.sparkwitch.koko.stream.ready";
-    public static final String TRAFFIC_KEY = "hud.sparkwitch.koko.traffic";
+    public static final String ACTIVE_KEY = "hud.sparkdlc.koko.stream.active";
+    public static final String COOLDOWN_KEY = "hud.sparkdlc.koko.stream.cooldown";
+    public static final String NO_MANA_KEY = "hud.sparkdlc.koko.stream.no_mana";
+    public static final String READY_KEY = "hud.sparkdlc.koko.stream.ready";
+    public static final String TRAFFIC_KEY = "hud.sparkdlc.koko.traffic";
     /** Opaque Koko identity colour (ready, live and traffic). / 不透明的可可身份色（就绪、直播中与流量）。 */
     public static final int READY_COLOR = 0xFF000000 | KokoRules.COLOR;
     /** The muted grey of the other roles' cooldown lines; also the "needs mana" line. / 与其他职业冷却行相同的灰色。 */

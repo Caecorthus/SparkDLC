@@ -14,14 +14,14 @@ import java.util.Map;
  * Client only. The AXMC rifle is a 3-D element model in hand (first/third person, head) and a 2-D icon in GUI,
  * ground and item-frame contexts: vanilla's trident/spyglass split, done through Fabric's ModelLoadingPlugin like
  * {@code VendettaKnifeModelLoadingPlugin}. {@code models/item/usec_rifle.json} chooses its 3-D variant through the
- * {@code sparkwitch:usec_magazine} / {@code sparkwitch:usec_suppressor} overrides, so every model it can resolve to
+ * {@code sparkdlc:usec_magazine} / {@code sparkdlc:usec_suppressor} overrides, so every model it can resolve to
  * is wrapped with the icon that variant shows: the top-level inventory model and the three override targets. The
  * base resource {@code item/usec_rifle} itself is never wrapped: its override list names it again for
  * "magazine in, no suppressor", and vanilla only maps that self-reference back to the outer model while the resource
  * stays the plain JSON model.
  * 仅客户端。AXMC 狙击步枪在手持（第一/第三人称、头部）时为 3D 元素模型，在背包、掉落物与物品展示框中为 2D 图标：
  * 即原版三叉戟/望远镜的分流，沿用 {@code VendettaKnifeModelLoadingPlugin} 的 Fabric ModelLoadingPlugin 写法。
- * {@code models/item/usec_rifle.json} 通过 {@code sparkwitch:usec_magazine} / {@code sparkwitch:usec_suppressor} 覆盖
+ * {@code models/item/usec_rifle.json} 通过 {@code sparkdlc:usec_magazine} / {@code sparkdlc:usec_suppressor} 覆盖
  * 选择 3D 变体，因此它可能解析到的每个模型都包上对应图标：顶层背包模型与三个覆盖目标。基础资源
  * {@code item/usec_rifle} 本身绝不包装：它的覆盖列表为“装弹匣、无消音器”再次指向自己，原版只有在该资源仍是普通 JSON
  * 模型时才会把这个自引用映射回外层模型。

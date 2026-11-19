@@ -23,7 +23,7 @@ final class FeastRules {
     /** The poison source of everything eaten or drunk (platters, trays, the Waiter, capsules). 所有吃喝下的毒的来源。 */
     static final String FOOD_SOURCE = "wathe:food";
     static final String TOXICOLOGIST = "noellesroles:toxicologist";
-    static final String BLUE_VITRIOL = "sparkstrength:blue_vitriol";
+    static final String BLUE_VITRIOL = "sparkdlc:blue_vitriol";
     static final String PLATE_ACTION = "plate";
     static final String POISON_VIAL = "wathe:poison_vial";
     static final String ANTIDOTE = "noellesroles:antidote";
@@ -37,13 +37,13 @@ final class FeastRules {
      * {@link MatchEvent#GLOBAL_EVENT} 的 id：守护天使的护盾（actor 为其主人）挡下了 {@code target} 这次死因为
      * {@code death_reason} 的死亡。
      */
-    static final String GUARDIAN_SHIELD_ACTIVATED = "sparkwitch:guardian_shield_activated";
+    static final String GUARDIAN_SHIELD_ACTIVATED = "sparkdlc:guardian_shield_activated";
     /**
      * {@link MatchEvent#GLOBAL_EVENT} id: a Jester in its fake death (actor) shrugged off a death with this
      * {@code death_reason}.
      * {@link MatchEvent#GLOBAL_EVENT} 的 id：处于假死的小丑（actor）免疫了一次死因为 {@code death_reason} 的死亡。
      */
-    static final String JESTER_FAKE_DEATH_KILL_BLOCKED = "sparkstrength:jester_fake_death_kill_blocked";
+    static final String JESTER_FAKE_DEATH_KILL_BLOCKED = "sparkdlc:jester_fake_death_kill_blocked";
     /** The longest a poison (food or blue) runs: Wathe's 800–1400 ticks. 毒（食物毒或蓝毒）最长的时长：Wathe 的 800–1400 tick。 */
     static final int LONGEST_POISON_TICKS = 1400;
     static final String ALIVE = "ALIVE";
@@ -102,15 +102,15 @@ final class FeastRules {
 
     /**
      * 自食其果: as the Toxicologist, turn a plate's poison blue with Blue Vitriol ({@code item_use}
-     * {@code sparkstrength:blue_vitriol}, {@code action=plate}, {@code pos}); the plate's poisoner (the latest
+     * {@code sparkdlc:blue_vitriol}, {@code action=plate}, {@code pos}); the plate's poisoner (the latest
      * {@code wathe:poison_vial} use on that {@code pos}; a vial only takes on an unpoisoned plate) is on the killer
      * faction; the next take from that plate ({@code platter_take}, same {@code pos}) is theirs; they eat what they took
-     * ({@code sparkfactionapi:consume}) and die of poison credited to me (blue poison is mine) within 1400 ticks. Blue
+     * ({@code sparkdlc:consume}) and die of poison credited to me (blue poison is mine) within 1400 ticks. Blue
      * poison writes no {@code player_poisoned}, so this chain is the proof.
-     * 以毒理学家身份用蓝矾把餐盘上的毒改成蓝毒（{@code item_use} {@code sparkstrength:blue_vitriol}，{@code action=plate}，带
+     * 以毒理学家身份用蓝矾把餐盘上的毒改成蓝毒（{@code item_use} {@code sparkdlc:blue_vitriol}，{@code action=plate}，带
      * {@code pos}）；该餐盘的下毒者（同一 {@code pos} 上最近一次 {@code wathe:poison_vial}；毒药瓶只能下在没毒的盘子上）属于杀手阵营；
      * 此后从这个盘子拿走的第一份餐点（{@code platter_take}，同一 {@code pos}）正是他拿的；他吃下拿走的东西
-     * （{@code sparkfactionapi:consume}），并在 1400 tick 内毒发身亡且记在我名下（蓝毒的主人是我）。蓝毒不写
+     * （{@code sparkdlc:consume}），并在 1400 tick 内毒发身亡且记在我名下（蓝毒的主人是我）。蓝毒不写
      * {@code player_poisoned}，所以靠这条事件链证明。
      */
     static boolean killerAteHisPoisonTurnedBlue(AchievementContext context) {

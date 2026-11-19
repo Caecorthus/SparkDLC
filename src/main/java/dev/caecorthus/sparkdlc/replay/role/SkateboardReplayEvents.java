@@ -19,7 +19,7 @@ public final class SkateboardReplayEvents {
                 (event, match, world) -> ReplayText.onePlayerEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.skateboard_ride_started"
+                        "replay.global.sparkdlc.skateboard_ride_started"
                 ));
     }
 }

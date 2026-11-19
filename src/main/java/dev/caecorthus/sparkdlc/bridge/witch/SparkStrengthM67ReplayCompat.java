@@ -36,7 +36,7 @@ import org.jetbrains.annotations.Nullable;
  * {@code MagicianReplayFrame} 会为未变化的手中 M67 保留同一对象。
  */
 public final class SparkStrengthM67ReplayCompat {
-    private static final String MOD_ID = "sparkstrength";
+    private static final String MOD_ID = "sparkdlc";
     /** The M67 item id, checked before any SparkStrength call. / M67 物品 id，在调用 SparkStrength 之前检查。 */
     public static final Identifier M67_ITEM_ID = Identifier.of(MOD_ID, "m67");
 

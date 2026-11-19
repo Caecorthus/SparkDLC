@@ -16,20 +16,20 @@ import org.jetbrains.annotations.Nullable;
  * 支配者的数值与客户端/服务端共用的准星目标解析。
  */
 public final class DominatorRules {
-    public static final Identifier ROLE_ID = Identifier.of("sparkwitch", "dominator");
-    public static final Identifier FORCED_SHOT_ID = Identifier.of("sparkwitch", "dominator_forced_shot");
+    public static final Identifier ROLE_ID = Identifier.of("sparkdlc", "dominator");
+    public static final Identifier FORCED_SHOT_ID = Identifier.of("sparkdlc", "dominator_forced_shot");
     /**
      * Replay skill ids, formatted by Wathe's default skill formatter as
-     * {@code replay.skill.sparkwitch.<path>.target} (actor, target).
-     * 回放技能 id，由 Wathe 默认技能格式化器按 {@code replay.skill.sparkwitch.<path>.target}（施放者、目标）显示。
+     * {@code replay.skill.sparkdlc.<path>.target} (actor, target).
+     * 回放技能 id，由 Wathe 默认技能格式化器按 {@code replay.skill.sparkdlc.<path>.target}（施放者、目标）显示。
      */
-    public static final Identifier MARK_SKILL_ID = Identifier.of("sparkwitch", "dominator_mark");
-    public static final Identifier RELEASE_SKILL_ID = Identifier.of("sparkwitch", "dominator_release");
+    public static final Identifier MARK_SKILL_ID = Identifier.of("sparkdlc", "dominator_mark");
+    public static final Identifier RELEASE_SKILL_ID = Identifier.of("sparkdlc", "dominator_release");
     /**
      * Action-bar hint when the marked player cannot be forced to shoot right now; the mark, the use and the cooldown
      * are untouched. / 被标记者此刻无法被强制开枪时的动作栏提示；标记、次数与冷却均不变。
      */
-    public static final String TARGET_UNFORCEABLE_KEY = "message.sparkwitch.dominator.target_unforceable";
+    public static final String TARGET_UNFORCEABLE_KEY = "message.sparkdlc.dominator.target_unforceable";
     // Dark green as requested by the owner. / 所有者要求的深绿色。
     public static final int COLOR = 0x006400;
     // Starts empty; every personal kill grants one use, capped at two. / 开局为 0；亲手击杀 +1，上限 2。

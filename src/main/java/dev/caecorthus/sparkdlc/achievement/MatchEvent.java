@@ -33,16 +33,16 @@ public record MatchEvent(String type, int tick, UUID actor, UUID target, Map<Str
     /** Wathe's opening role snapshot: {@code player.uuid}, {@code player.role}, … Wathe 开局身份快照。 */
     public static final String ROLE_ASSIGNED = "role_assigned";
     /** A role change: {@code player}, {@code from}, {@code to}, {@code cause}, {@code source}. 身份变化。 */
-    public static final String ROLE_CHANGED = "sparkfactionapi:role_changed";
+    public static final String ROLE_CHANGED = "sparkdlc:role_changed";
     /** Psycho mode started ({@code active} 1) or ended (0) for {@code actor}. 疯魔模式开始或结束。 */
-    public static final String PSYCHO = "sparkfactionapi:psycho";
+    public static final String PSYCHO = "sparkdlc:psycho";
     /** {@code actor} finished eating or drinking {@code item}; {@code kind} is food or drink. 吃完或喝完一样东西。 */
-    public static final String CONSUME = "sparkfactionapi:consume";
+    public static final String CONSUME = "sparkdlc:consume";
     /**
      * {@code actor}'s total coins gained this match ({@code amount}), written once at match end.
      * {@code actor} 本局获得的金币总数（{@code amount}），在对局结束时写入一次。
      */
-    public static final String INCOME = "sparkfactionapi:income";
+    public static final String INCOME = "sparkdlc:income";
     /**
      * The first event of a match: {@code game_mode}, {@code map_effect}, {@code player_count}.
      * 对局的第一条事件：{@code game_mode}、{@code map_effect}、{@code player_count}。
@@ -76,12 +76,12 @@ public record MatchEvent(String type, int tick, UUID actor, UUID target, Map<Str
      * back about 5 seconds later.
      * {@link #GLOBAL_EVENT} 的 id：{@code actor} 紧挨着的上一次死亡是 SparkTraits 背水一战的假死，约 5 秒后复活。
      */
-    public static final String LAST_STAND_TRIGGERED = "sparktraits:last_stand_triggered";
+    public static final String LAST_STAND_TRIGGERED = "sparkdlc:last_stand_triggered";
     /**
      * {@link #GLOBAL_EVENT} id: the Pathogen ({@code actor}) brought {@code target} back to life with the T-Virus.
      * {@link #GLOBAL_EVENT} 的 id：病原体（{@code actor}）用 T 病毒复活了 {@code target}。
      */
-    public static final String PATHOGEN_REVIVED = "sparkstrength:pathogen_revived";
+    public static final String PATHOGEN_REVIVED = "sparkdlc:pathogen_revived";
     /**
      * The {@code death_reason} Wathe gives a living player who disconnects mid-round.
      * Wathe 给对局中途断线的存活玩家记的 {@code death_reason}。

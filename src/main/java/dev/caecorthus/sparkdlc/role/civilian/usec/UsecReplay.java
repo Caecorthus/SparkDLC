@@ -14,13 +14,13 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Stable contract: the USEC rifle's Wathe replay lines (D19), one synthetic item-use record id
- * {@link #RECORD_ID} ({@code sparkwitch:usec_rifle_fire}; Wathe drops item uses without a registered formatter). A
+ * {@link #RECORD_ID} ({@code sparkdlc:usec_rifle_fire}; Wathe drops item uses without a registered formatter). A
  * fire record ({@link #KIND_FIRE}) carries the round ({@link #AMMO_KEY}), the blocks it pierced before stopping
  * ({@link #PENETRATED_KEY}) and Wathe's own {@code target} when it struck a player; a punishment record
  * ({@link #KIND_PUNISH}) names the innocent victim as {@code target}. Only match shots record; the death line still
  * comes from {@code killPlayer}, a Seeker break and a puppet end record their own lines. NBT keys are stable.
  * 稳定契约：USEC 步枪的 Wathe 回放行（D19），使用一个合成物品使用记录 id {@link #RECORD_ID}
- * （{@code sparkwitch:usec_rifle_fire}；Wathe 会丢弃没有注册格式化器的物品使用）。开火记录（{@link #KIND_FIRE}）携带弹种
+ * （{@code sparkdlc:usec_rifle_fire}；Wathe 会丢弃没有注册格式化器的物品使用）。开火记录（{@link #KIND_FIRE}）携带弹种
  * （{@link #AMMO_KEY}）、停下前穿透的方块数（{@link #PENETRATED_KEY}），命中玩家时还有 Wathe 自身的 {@code target}；惩罚记录
  * （{@link #KIND_PUNISH}）以 {@code target} 记下无辜的受害者。只有对局射击才记录；死亡行仍由 {@code killPlayer} 记录，
  * 搜寻者设备损坏与皮套结束各自记录。NBT 键名稳定。
@@ -46,12 +46,12 @@ public final class UsecReplay {
     static final String WATHE_ACTOR_KEY = "actor";
     static final String WATHE_TARGET_KEY = "target";
 
-    static final String FIRE_MISS_KEY = "replay.item_use.sparkwitch.usec_rifle_fire.miss";
-    static final String FIRE_HIT_KEY = "replay.item_use.sparkwitch.usec_rifle_fire.hit";
-    static final String FIRE_MISS_PENETRATED_KEY = "replay.item_use.sparkwitch.usec_rifle_fire.miss_penetrated";
-    static final String FIRE_HIT_PENETRATED_KEY = "replay.item_use.sparkwitch.usec_rifle_fire.hit_penetrated";
-    static final String PUNISHED_KEY = "replay.item_use.sparkwitch.usec_rifle_fire.punished";
-    static final String CONFISCATED_KEY = "replay.item_use.sparkwitch.usec_rifle_fire.confiscated";
+    static final String FIRE_MISS_KEY = "replay.item_use.sparkdlc.usec_rifle_fire.miss";
+    static final String FIRE_HIT_KEY = "replay.item_use.sparkdlc.usec_rifle_fire.hit";
+    static final String FIRE_MISS_PENETRATED_KEY = "replay.item_use.sparkdlc.usec_rifle_fire.miss_penetrated";
+    static final String FIRE_HIT_PENETRATED_KEY = "replay.item_use.sparkdlc.usec_rifle_fire.hit_penetrated";
+    static final String PUNISHED_KEY = "replay.item_use.sparkdlc.usec_rifle_fire.punished";
+    static final String CONFISCATED_KEY = "replay.item_use.sparkdlc.usec_rifle_fire.confiscated";
 
     private static boolean registered;
 

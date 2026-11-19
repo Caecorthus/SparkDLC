@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
  * 已融合进 SparkDLC，因此均为直接调用。玩家为空时：非待定；内鬼查询视为未知（true），从而拒绝设备与报酬（Q5-b，失败即关闭）。
  */
 public final class SparkTraitsSeekerBridge {
-    private static final Identifier IMPOSTOR = Identifier.of("sparktraits", "impostor");
+    private static final Identifier IMPOSTOR = Identifier.of("sparkdlc", "impostor");
 
     private SparkTraitsSeekerBridge() {
     }

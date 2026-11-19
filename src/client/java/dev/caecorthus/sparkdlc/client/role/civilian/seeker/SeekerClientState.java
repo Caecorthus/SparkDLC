@@ -15,9 +15,9 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Read helpers over the local player's own {@code sparkwitch:seeker_status}. Only the owner receives this component,
+ * Read helpers over the local player's own {@code sparkdlc:seeker_status}. Only the owner receives this component,
  * so every value here is about the local player; nothing is predicted.
- * 读取本地玩家自己的 {@code sparkwitch:seeker_status} 的辅助方法。该组件只同步给拥有者，
+ * 读取本地玩家自己的 {@code sparkdlc:seeker_status} 的辅助方法。该组件只同步给拥有者，
  * 因此这里的每个值都属于本地玩家；不做任何预测。
  */
 public final class SeekerClientState {

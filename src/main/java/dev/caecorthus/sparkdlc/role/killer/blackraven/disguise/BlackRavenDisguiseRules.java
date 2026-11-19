@@ -40,7 +40,7 @@ public final class BlackRavenDisguiseRules {
     public static final int PLAYER_SLOT_COUNT = 41;
     public static final int MAX_ROLE_ID_LENGTH = 128;
 
-    public static final String MESSAGE_PREFIX = "message.sparkwitch.black_raven.disguise.";
+    public static final String MESSAGE_PREFIX = "message.sparkdlc.black_raven.disguise.";
 
     /** The 19 good roles that may ever be claimed, in design order. / 允许伪装的 19 个好人职业（设计顺序）。 */
     public static final Set<Identifier> ALLOWED = orderedSet(
@@ -148,7 +148,7 @@ public final class BlackRavenDisguiseRules {
 
         /** Greyed-row tooltip key, or null for a selectable row. / 灰色行提示键；可选行为 null。 */
         public @Nullable String reasonKey() {
-            return reasonSuffix == null ? null : "screen.sparkwitch.black_raven_ledger.absent.reason." + reasonSuffix;
+            return reasonSuffix == null ? null : "screen.sparkdlc.black_raven_ledger.absent.reason." + reasonSuffix;
         }
 
         /** Unknown codes decode fail-closed. / 未知编码按失败关闭解码。 */

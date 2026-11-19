@@ -14,12 +14,12 @@ import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
 /**
- * Stable CCA contract {@code sparkwitch:control_expert_status} (NEVER_COPY): each player's own disrupt and stun
+ * Stable CCA contract {@code sparkdlc:control_expert_status} (NEVER_COPY): each player's own disrupt and stun
  * counters. Server-authoritative; synced only to the affected player as remaining ticks, so no other client
- * learns who was disrupted or stunned. It never enters the shared {@code sparkwitch:player} schema.
- * 稳定 CCA 契约 {@code sparkwitch:control_expert_status}（NEVER_COPY）：每位玩家自己的干扰与眩晕计时。
+ * learns who was disrupted or stunned. It never enters the shared {@code sparkdlc:player} schema.
+ * 稳定 CCA 契约 {@code sparkdlc:control_expert_status}（NEVER_COPY）：每位玩家自己的干扰与眩晕计时。
  * 由服务端权威决定，仅以剩余刻数同步给受影响的玩家本人，其他客户端无从得知谁被干扰或眩晕；
- * 它从不进入共享的 {@code sparkwitch:player} 结构。
+ * 它从不进入共享的 {@code sparkdlc:player} 结构。
  */
 public final class ControlExpertStatusComponent
         implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {

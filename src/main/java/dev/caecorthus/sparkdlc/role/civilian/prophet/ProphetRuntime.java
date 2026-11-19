@@ -38,10 +38,10 @@ import org.jetbrains.annotations.Nullable;
  * 服务端权威的被动死亡感知：分配职业时启用、绑定对局、周期性的全世界尸体快照，以及 {@link ProphetPlayerComponent} 的回合清理。
  */
 public final class ProphetRuntime {
-    static final String SENSE_FOUND_KEY = "message.sparkwitch.prophet.sense.found";
-    static final String SENSE_NONE_KEY = "message.sparkwitch.prophet.sense.none";
-    static final String SENSE_FOUND_ILLUSION_KEY = "message.sparkwitch.prophet.sense.found_illusion";
-    static final String SENSE_NONE_ILLUSION_KEY = "message.sparkwitch.prophet.sense.none_illusion";
+    static final String SENSE_FOUND_KEY = "message.sparkdlc.prophet.sense.found";
+    static final String SENSE_NONE_KEY = "message.sparkdlc.prophet.sense.none";
+    static final String SENSE_FOUND_ILLUSION_KEY = "message.sparkdlc.prophet.sense.found_illusion";
+    static final String SENSE_NONE_ILLUSION_KEY = "message.sparkdlc.prophet.sense.none_illusion";
     private static boolean registered;
 
     private ProphetRuntime() {

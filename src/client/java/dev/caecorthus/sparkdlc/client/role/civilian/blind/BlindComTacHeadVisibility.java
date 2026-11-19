@@ -8,12 +8,12 @@ import net.minecraft.entity.LivingEntity;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * D5 / C15: a worn ComTac VIII ({@code sparkwitch:comtac_viii}) is never drawn on a head while a Wathe round runs, for
+ * D5 / C15: a worn ComTac VIII ({@code sparkdlc:comtac_viii}) is never drawn on a head while a Wathe round runs, for
  * every viewer (third person, F5, inventory previews), so nobody can spot the headset. Only the ComTac's head model is
  * skipped; every other head item and all armor keep vanilla rendering, and outside rounds it renders normally. The
  * server still sends the head slot, the wearer keeps the item and its icon in the armor slot, and gameplay reads
  * ({@code BlindParticipants.wearsComTac}) are untouched. Presentation only.
- * D5 / C15：Wathe 对局进行时，戴着的 ComTac VIII（{@code sparkwitch:comtac_viii}）对所有观察者（第三人称、F5、背包预览）
+ * D5 / C15：Wathe 对局进行时，戴着的 ComTac VIII（{@code sparkdlc:comtac_viii}）对所有观察者（第三人称、F5、背包预览）
  * 都不绘制在头上，因此无人能看出耳机。只跳过 ComTac 的头部模型；其他头部物品与所有护甲保持原版渲染，对局外正常显示。
  * 服务器仍同步头部槽，佩戴者仍持有该物品并在护甲槽看到图标，玩法读取（{@code BlindParticipants.wearsComTac}）不受影响。
  * 仅为展示。

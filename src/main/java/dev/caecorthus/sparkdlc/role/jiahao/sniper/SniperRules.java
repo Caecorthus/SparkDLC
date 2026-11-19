@@ -28,8 +28,8 @@ public final class SniperRules {
     public static final int CROWBAR_PRICE = 25;
     /** Crowbar purchases are capped at one per round; ammunition is not capped. / 撬棍每局限购一件，子弹不限量。 */
     public static final int CROWBAR_STOCK = 1;
-    public static final String AMMO_ENTRY_ID = "sparkwitch_sniper_ammo";
-    public static final String CROWBAR_ENTRY_ID = "sparkwitch_sniper_crowbar";
+    public static final String AMMO_ENTRY_ID = "sparkdlc_sniper_ammo";
+    public static final String CROWBAR_ENTRY_ID = "sparkdlc_sniper_crowbar";
 
     private SniperRules() {
     }

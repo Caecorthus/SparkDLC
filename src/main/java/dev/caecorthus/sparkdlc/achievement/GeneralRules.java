@@ -38,7 +38,7 @@ final class GeneralRules {
      * no killer.
      * 风精灵的风弹把人吹下列车时，紧接在坠车死亡之后写入；风弹不会记下凶手。
      */
-    static final String WIND_SPIRIT_FALL = "sparkwitch:wind_spirit_fall";
+    static final String WIND_SPIRIT_FALL = "sparkdlc:wind_spirit_fall";
     static final String KILLERS = "KILLERS";
     static final String PASSENGERS = "PASSENGERS";
     static final String TIME = "TIME";

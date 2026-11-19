@@ -14,7 +14,7 @@ import java.util.Locale;
  * 可据此核对语言文件。
  */
 public final class MiniWitherSkinLangKeys {
-    public static final String PREFIX = "screen.sparkwitch.mini_wither_skin.";
+    public static final String PREFIX = "screen.sparkdlc.mini_wither_skin.";
     public static final String TITLE = PREFIX + "title";
     /** The button in Options → Skin Customization. / 「选项 → 皮肤自定义」中的按钮。 */
     public static final String ENTRY = PREFIX + "entry";

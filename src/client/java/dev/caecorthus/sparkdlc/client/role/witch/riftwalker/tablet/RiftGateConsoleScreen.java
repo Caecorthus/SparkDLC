@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Role-owned Rift Gate console (keys {@code gui.sparkwitch.riftwalker.console.*}; never the witch skill panel).
+ * Role-owned Rift Gate console (keys {@code gui.sparkdlc.riftwalker.console.*}; never the witch skill panel).
  * Chinese-first, readable at GUI scale 2–3, styled like the Seeker console. One row per gate in number order: the fixed
  * {@code #n} (the in-gate HUD's numbering; never renumbered), distance in blocks plus a direction arrow relative to the
  * player's yaw (computed live from the snapshot position), the names inside (D16) or 「空」, and a 「关闭」 button that
@@ -34,7 +34,7 @@ import java.util.List;
  * "Witch network" closes the console, arms a one-shot bypass and re-issues the vanilla use so SparkStrength opens its
  * own tablet. Polls {@code rift_gate_console_request(session)} about once per second, never pauses, and closes itself
  * on role/life/gate/tablet loss or when the server stops answering. Presentation only; the server validates everything.
- * 职业自有的裂隙门控制台（键名 {@code gui.sparkwitch.riftwalker.console.*}；绝不使用魔女技能面板）。中文优先，
+ * 职业自有的裂隙门控制台（键名 {@code gui.sparkdlc.riftwalker.console.*}；绝不使用魔女技能面板）。中文优先，
  * GUI 缩放 2–3 下清晰可读，风格同搜寻者控制台。每扇门一行，按编号排序：固定的 {@code #n}（与门内 HUD 编号一致，
  * 从不重排）、距离（格）与相对玩家朝向的方向箭头（由快照位置实时计算）、门内玩家名（D16）或「空」，以及需要二次点击
  * （约 3 秒内显示「确认关闭？」）才发送 {@code rift_gate_close} 的「关闭」按钮。空列表显示「还没有裂隙门」。
@@ -83,7 +83,7 @@ public class RiftGateConsoleScreen extends Screen {
     private ButtonWidget networkButton;
 
     public RiftGateConsoleScreen(Hand hand, RiftGateConsoleS2CPacket snapshot) {
-        super(Text.translatable("gui.sparkwitch.riftwalker.console.title"));
+        super(Text.translatable("gui.sparkdlc.riftwalker.console.title"));
         this.hand = hand;
         this.sessionId = snapshot.consoleSessionId();
         this.entries = snapshot.entries();
@@ -147,15 +147,15 @@ public class RiftGateConsoleScreen extends Screen {
         layoutKey = currentLayoutKey();
 
         rowButtonWidth = Math.min(innerWidth / 2, 12 + max(
-                textRenderer.getWidth(Text.translatable("gui.sparkwitch.riftwalker.console.close_gate")),
-                textRenderer.getWidth(Text.translatable("gui.sparkwitch.riftwalker.console.confirm_close")),
-                textRenderer.getWidth(Text.translatable("gui.sparkwitch.riftwalker.console.closing"))));
+                textRenderer.getWidth(Text.translatable("gui.sparkdlc.riftwalker.console.close_gate")),
+                textRenderer.getWidth(Text.translatable("gui.sparkdlc.riftwalker.console.confirm_close")),
+                textRenderer.getWidth(Text.translatable("gui.sparkdlc.riftwalker.console.closing"))));
         int buttonX = panelX + PADDING + innerWidth - rowButtonWidth - (scrollable() ? SCROLLBAR_WIDTH + 3 : 0);
-        Tooltip closeTooltip = Tooltip.of(Text.translatable("gui.sparkwitch.riftwalker.console.close_gate.tooltip"));
+        Tooltip closeTooltip = Tooltip.of(Text.translatable("gui.sparkdlc.riftwalker.console.close_gate.tooltip"));
         for (int slot = 0; slot < visibleRows; slot++) {
             int row = slot;
             ButtonWidget button = addDrawableChild(ButtonWidget.builder(
-                            Text.translatable("gui.sparkwitch.riftwalker.console.close_gate"), b -> onRowButton(row))
+                            Text.translatable("gui.sparkdlc.riftwalker.console.close_gate"), b -> onRowButton(row))
                     .dimensions(buttonX, rowsTop + slot * ROW_HEIGHT + (ROW_HEIGHT - BUTTON_HEIGHT) / 2,
                             rowButtonWidth, BUTTON_HEIGHT)
                     .tooltip(closeTooltip)
@@ -168,12 +168,12 @@ public class RiftGateConsoleScreen extends Screen {
         if (networkVisible()) {
             int half = Math.max(1, (innerWidth - BUTTON_GAP) / 2);
             networkButton = addDrawableChild(ButtonWidget.builder(
-                            Text.translatable("gui.sparkwitch.riftwalker.console.network"), b -> openWitchNetwork())
+                            Text.translatable("gui.sparkdlc.riftwalker.console.network"), b -> openWitchNetwork())
                     .dimensions(x, footerY, half, BUTTON_HEIGHT).build());
-            addDrawableChild(ButtonWidget.builder(Text.translatable("gui.sparkwitch.riftwalker.console.done"),
+            addDrawableChild(ButtonWidget.builder(Text.translatable("gui.sparkdlc.riftwalker.console.done"),
                     b -> close()).dimensions(x + innerWidth - half, footerY, half, BUTTON_HEIGHT).build());
         } else {
-            addDrawableChild(ButtonWidget.builder(Text.translatable("gui.sparkwitch.riftwalker.console.done"),
+            addDrawableChild(ButtonWidget.builder(Text.translatable("gui.sparkdlc.riftwalker.console.done"),
                     b -> close()).dimensions(x, footerY, innerWidth, BUTTON_HEIGHT).build());
         }
         refreshRows();
@@ -228,12 +228,12 @@ public class RiftGateConsoleScreen extends Screen {
         int centerX = panelX + panelWidth / 2;
         context.drawCenteredTextWithShadow(textRenderer, fit(title, innerWidth), centerX, panelY + PADDING, ROLE_COLOR);
         context.drawCenteredTextWithShadow(textRenderer,
-                fit(Text.translatable("gui.sparkwitch.riftwalker.console.subtitle", entries.size()), innerWidth),
+                fit(Text.translatable("gui.sparkdlc.riftwalker.console.subtitle", entries.size()), innerWidth),
                 centerX, panelY + PADDING + LINE_HEIGHT, HINT_COLOR);
         ClientPlayerEntity player = client == null ? null : client.player;
         if (entries.isEmpty()) {
             context.drawCenteredTextWithShadow(textRenderer,
-                    fit(Text.translatable("gui.sparkwitch.riftwalker.console.empty"), innerWidth),
+                    fit(Text.translatable("gui.sparkdlc.riftwalker.console.empty"), innerWidth),
                     centerX, rowsTop + (ROW_HEIGHT - textRenderer.fontHeight) / 2, TEXT_COLOR);
             return;
         }
@@ -333,16 +333,16 @@ public class RiftGateConsoleScreen extends Screen {
             switch (confirm.state(entries.get(index).number(), now)) {
                 case IDLE -> {
                     button.active = true;
-                    button.setMessage(Text.translatable("gui.sparkwitch.riftwalker.console.close_gate"));
+                    button.setMessage(Text.translatable("gui.sparkdlc.riftwalker.console.close_gate"));
                 }
                 case ARMED -> {
                     button.active = true;
-                    button.setMessage(Text.translatable("gui.sparkwitch.riftwalker.console.confirm_close")
+                    button.setMessage(Text.translatable("gui.sparkdlc.riftwalker.console.confirm_close")
                             .formatted(Formatting.RED));
                 }
                 case CLOSING -> {
                     button.active = false;
-                    button.setMessage(Text.translatable("gui.sparkwitch.riftwalker.console.closing"));
+                    button.setMessage(Text.translatable("gui.sparkdlc.riftwalker.console.closing"));
                 }
             }
         }
@@ -401,7 +401,7 @@ public class RiftGateConsoleScreen extends Screen {
 
     /** {@code #n  12 格 ↗}: number in the role colour, distance and live arrow. / 编号（职业色）、距离与实时箭头。 */
     private Text locationLine(RiftGateConsoleS2CPacket.Entry entry, @Nullable ClientPlayerEntity player) {
-        MutableText line = Text.empty().append(Text.translatable("gui.sparkwitch.riftwalker.console.gate",
+        MutableText line = Text.empty().append(Text.translatable("gui.sparkdlc.riftwalker.console.gate",
                 entry.number()).styled(style -> style.withColor(ROLE_COLOR).withBold(true)));
         if (player == null) {
             return line;
@@ -410,7 +410,7 @@ public class RiftGateConsoleScreen extends Screen {
         double dy = entry.y() - player.getY();
         double dz = entry.z() - player.getZ();
         line.append(Text.literal("  "));
-        line.append(Text.translatable("gui.sparkwitch.riftwalker.console.distance",
+        line.append(Text.translatable("gui.sparkdlc.riftwalker.console.distance",
                 RiftGateConsoleClientRules.blocks(dx, dy, dz)).formatted(Formatting.GRAY));
         line.append(Text.literal(" " + RiftGateConsoleClientRules.arrow(player.getYaw(), dx, dz))
                 .styled(style -> style.withColor(ARROW_COLOR).withBold(true)));
@@ -421,17 +421,17 @@ public class RiftGateConsoleScreen extends Screen {
     private static Text occupantLine(RiftGateConsoleS2CPacket.Entry entry) {
         List<String> names = entry.occupantNames();
         if (names.isEmpty()) {
-            return Text.translatable("gui.sparkwitch.riftwalker.console.occupants",
-                    Text.translatable("gui.sparkwitch.riftwalker.console.occupants.empty"));
+            return Text.translatable("gui.sparkdlc.riftwalker.console.occupants",
+                    Text.translatable("gui.sparkdlc.riftwalker.console.occupants.empty"));
         }
         MutableText joined = Text.empty();
         for (int index = 0; index < names.size(); index++) {
             if (index > 0) {
-                joined.append(Text.translatable("gui.sparkwitch.riftwalker.console.name_separator"));
+                joined.append(Text.translatable("gui.sparkdlc.riftwalker.console.name_separator"));
             }
             joined.append(Text.literal(names.get(index)));
         }
-        return Text.translatable("gui.sparkwitch.riftwalker.console.occupants", joined);
+        return Text.translatable("gui.sparkdlc.riftwalker.console.occupants", joined);
     }
 
     @Nullable

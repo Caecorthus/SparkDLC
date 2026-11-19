@@ -65,7 +65,7 @@ public final class BlackRavenLedgerBookScreen extends Screen {
         ABSENT
     }
 
-    private static final String LEDGER_KEY = "screen.sparkwitch.black_raven_ledger.";
+    private static final String LEDGER_KEY = "screen.sparkdlc.black_raven_ledger.";
     /**
      * Wathe's coin glyph, drawn untinted. Keep the escape: a raw private-use character is invisible in editors.
      * Wathe 金币字形，保持原色绘制。保留转义：私用区字符在编辑器中不可见。
@@ -92,7 +92,7 @@ public final class BlackRavenLedgerBookScreen extends Screen {
     private Hit hover = Hit.NONE;
 
     public BlackRavenLedgerBookScreen(Tab initialTab, int session) {
-        super(Text.translatable("item.sparkwitch.black_raven_ledger"));
+        super(Text.translatable("item.sparkdlc.black_raven_ledger"));
         this.session = session;
         this.tab = initialTab;
     }

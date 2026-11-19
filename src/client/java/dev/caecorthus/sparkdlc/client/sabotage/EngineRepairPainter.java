@@ -84,7 +84,7 @@ final class EngineRepairPainter {
                 TabletTheme.HAIRLINE);
         if (screen.mode == EngineRepairMode.OVERHAUL) {
             boolean done = game.fusesDone();
-            caption(canvas, textRenderer, "screen.sparkstrength.engine.fuses", game.fusesReplaced() + "/"
+            caption(canvas, textRenderer, "screen.sparkdlc.engine.fuses", game.fusesReplaced() + "/"
                     + game.burntTotal, x + PAD, y + CAPTION_Y, done ? TabletTheme.SUCCESS : TabletTheme.TEXT_2);
             int hovered = game.live() && !done ? layout.fuseAt(mouseX, mouseY) : -1;
             for (int s = 0; s < FUSE_SLOTS; s++) {
@@ -94,7 +94,7 @@ final class EngineRepairPainter {
         int gaugeCaptionY = screen.mode == EngineRepairMode.OVERHAUL ? y + 79 : y + CAPTION_Y;
         int gaugeCaptionColor = !game.gaugesPowered() ? TabletTheme.TEXT_3
                 : screen.repair && game.allSet() ? TabletTheme.SUCCESS : TabletTheme.TEXT_2;
-        caption(canvas, textRenderer, "screen.sparkstrength.engine.gauges",
+        caption(canvas, textRenderer, "screen.sparkdlc.engine.gauges",
                 screen.repair ? game.setCount() + "/" + screen.gaugeCount : null, x + PAD, gaugeCaptionY,
                 gaugeCaptionColor);
         for (int i = 0; i < screen.gaugeCount; i++) {
@@ -103,7 +103,7 @@ final class EngineRepairPainter {
             drawGauge(canvas, i, delta, time, lit, scorched, hover);
         }
 
-        String rpm = Text.translatable("screen.sparkstrength.engine.tachometer").getString();
+        String rpm = Text.translatable("screen.sparkdlc.engine.tachometer").getString();
         canvas.textCentered(textRenderer, rpm, (int) layout.columnCx(), y + CAPTION_Y,
                 game.engineCaught() ? TabletTheme.SUCCESS : TabletTheme.TEXT_2);
         drawTachometer(canvas, textRenderer, delta, scorched, lit);
@@ -185,9 +185,9 @@ final class EngineRepairPainter {
         if (!screen.repair) {
             // The condition ids are a saved contract (intact / damaged / wrecked), so they double as key suffixes.
             // condition 的 id 是保存契约（intact / damaged / wrecked），可直接作为键名后缀。
-            String state = Text.translatable("screen.sparkstrength.engine.status."
+            String state = Text.translatable("screen.sparkdlc.engine.status."
                     + (game.condition == null ? "unknown" : game.condition.asString())).getString();
-            hint = Text.translatable("screen.sparkstrength.engine.status", state).getString();
+            hint = Text.translatable("screen.sparkdlc.engine.status", state).getString();
             hintColor = game.condition == EngineCondition.INTACT ? TabletTheme.SUCCESS
                     : game.condition == EngineCondition.DAMAGED ? TabletTheme.WARNING
                     : game.condition == EngineCondition.WRECKED ? TabletTheme.DANGER : TabletTheme.TEXT_3;
@@ -196,13 +196,13 @@ final class EngineRepairPainter {
             hint = screen.banner.getString();
             hintColor = screen.bannerColor;
         } else if (game.restarted || screen.submitted()) {
-            hint = Text.translatable("screen.sparkstrength.engine.hint_wait").getString();
+            hint = Text.translatable("screen.sparkdlc.engine.hint_wait").getString();
         } else if (!game.gaugesPowered()) {
-            hint = Text.translatable("screen.sparkstrength.engine.hint_fuses").getString();
+            hint = Text.translatable("screen.sparkdlc.engine.hint_fuses").getString();
         } else if (!game.allSet()) {
-            hint = Text.translatable("screen.sparkstrength.engine.hint_gauges").getString();
+            hint = Text.translatable("screen.sparkdlc.engine.hint_gauges").getString();
         } else {
-            hint = Text.translatable("screen.sparkstrength.engine.hint_restart").getString();
+            hint = Text.translatable("screen.sparkdlc.engine.hint_restart").getString();
         }
         canvas.text(textRenderer, TabletCanvas.trim(textRenderer, hint, PANEL_W - 28), x + PAD, y + 27, hintColor);
         canvas.rect(x + 12, y + 39, PANEL_W - 24, 1, TabletTheme.HAIRLINE);
@@ -511,7 +511,7 @@ final class EngineRepairPainter {
             canvas.roundRect(bx + 3, by + BUTTON_H - 4, (BUTTON_W - 6) * Math.min(1.0F, progress), 2, 1,
                     progress >= 1.0F ? TabletTheme.SUCCESS : HAZARD);
         }
-        String label = Text.translatable("screen.sparkstrength.engine.restart").getString();
+        String label = Text.translatable("screen.sparkdlc.engine.restart").getString();
         int labelColor = failed ? TabletTheme.mix(TabletTheme.TEXT_3, TabletTheme.DANGER, 0.5F)
                 : ready || done ? TabletTheme.TEXT : TabletTheme.TEXT_3;
         canvas.textCentered(textRenderer, label, (int) (bx + BUTTON_W / 2.0F), (int) (by + 6 + press), labelColor);
@@ -519,10 +519,10 @@ final class EngineRepairPainter {
         String note = null;
         int noteColor = TabletTheme.TEXT_3;
         if (ready && !pressed) {
-            note = Text.translatable("screen.sparkstrength.engine.restart_hold").getString();
+            note = Text.translatable("screen.sparkdlc.engine.restart_hold").getString();
             noteColor = HAZARD;
         } else if (!ready && !done && !failed) {
-            note = Text.translatable("screen.sparkstrength.engine.restart_locked").getString();
+            note = Text.translatable("screen.sparkdlc.engine.restart_locked").getString();
         }
         if (note != null) {
             canvas.textCentered(textRenderer, note, (int) layout.columnCx(), (int) (by + BUTTON_H + 6), noteColor);

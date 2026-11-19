@@ -24,15 +24,15 @@ import java.util.UUID;
 import java.util.function.Predicate;
 
 /**
- * The crow a Black Raven flies in Raven Form ({@code sparkwitch:black_raven_crow}). Never saved, never summonable, no
+ * The crow a Black Raven flies in Raven Form ({@code sparkdlc:black_raven_crow}). Never saved, never summonable, no
  * gravity, collides with blocks only, never pushed, ray-targetable, and immune to every environmental damage.
- * 黑羽鸦化鸦时操控的乌鸦（{@code sparkwitch:black_raven_crow}）。从不存盘、不可召唤、无重力、只与方块碰撞、不被推动、
+ * 黑羽鸦化鸦时操控的乌鸦（{@code sparkdlc:black_raven_crow}）。从不存盘、不可召唤、无重力、只与方块碰撞、不被推动、
  * 可被射线选中，并免疫一切环境伤害。
  *
  * <p>Authority: the server owns ownership, lifetime and death. Only the owner's client moves the crow
- * (client-predicted absolute poses on {@code sparkwitch:black_raven_crow_move}); the server replays each pose through
+ * (client-predicted absolute poses on {@code sparkdlc:black_raven_crow_move}); the server replays each pose through
  * {@link #applyPilotStep} (step caps, move budget, bounds clamp, block collision) and answers a rejected step with
- * {@code sparkwitch:black_raven_crow_correction}. Every other client interpolates tracker updates.
+ * {@code sparkdlc:black_raven_crow_correction}. Every other client interpolates tracker updates.
  * 权威划分：归属、存续与死亡由服务端决定。只有主人客户端移动乌鸦（经 {@code black_raven_crow_move} 上报客户端预测的绝对位姿）；
  * 服务端用 {@link #applyPilotStep} 重放每个位姿（步长上限、移动预算、边界限制、方块碰撞），被拒的位移以
  * {@code black_raven_crow_correction} 回复。其他客户端只插值追踪更新。</p>

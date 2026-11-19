@@ -24,11 +24,11 @@ import org.jetbrains.annotations.Nullable;
  * 则视为已结算射击的合成补射（SparkTraits Niko 连射在 2、4 刻后补射，不会再次开枪）；只要有一把手持枪未冷却即为真实射击。
  */
 public final class FiendReactionService {
-    static final String GUN_MESSAGE = "message.sparkwitch.fiend.reward.gun";
-    static final String KNIFE_MESSAGE = "message.sparkwitch.fiend.reward.knife";
-    static final String BAT_MESSAGE = "message.sparkwitch.fiend.reward.bat";
-    static final String SWORD_MESSAGE = "message.sparkwitch.fiend.reward.sword";
-    static final String BOMB_MESSAGE = "message.sparkwitch.fiend.reward.bomb";
+    static final String GUN_MESSAGE = "message.sparkdlc.fiend.reward.gun";
+    static final String KNIFE_MESSAGE = "message.sparkdlc.fiend.reward.knife";
+    static final String BAT_MESSAGE = "message.sparkdlc.fiend.reward.bat";
+    static final String SWORD_MESSAGE = "message.sparkdlc.fiend.reward.sword";
+    static final String BOMB_MESSAGE = "message.sparkdlc.fiend.reward.bomb";
 
     private static final FiendHitLedger HITS = new FiendHitLedger();
     private static boolean registered;

@@ -185,7 +185,7 @@ public final class CaptureDeviceEntity extends Entity {
             // CCA stores and syncs stun state; the client blocks input while the server locks position and velocity.
             // 定身状态由 CCA 组件保存并同步：客户端负责禁输入，服务端负责锁位置与清速度。
             EngineerStunnedPlayerComponent.KEY.get(player).stun(EngineerRules.CAPTURE_STUN_TICKS);
-            player.sendMessage(Text.translatable("message.sparkstrength.capture_device.captured")
+            player.sendMessage(Text.translatable("message.sparkdlc.capture_device.captured")
                     .formatted(Formatting.RED), true);
             player.playSoundToPlayer(SoundEvents.BLOCK_ANVIL_LAND, SoundCategory.PLAYERS, 1.0F, 1.0F);
             // Achievement record (S10): the device owner rides along as an extra uuid. / 成就记录（S10）：附带装置主人 UUID。
@@ -222,11 +222,11 @@ public final class CaptureDeviceEntity extends Entity {
 
         ItemStack reportStack = Items.PAPER.getDefaultStack();
         reportStack.set(DataComponentTypes.CUSTOM_NAME,
-                Text.translatable("item.sparkstrength.capture_report").formatted(Formatting.RESET, Formatting.GOLD));
+                Text.translatable("item.sparkdlc.capture_report").formatted(Formatting.RESET, Formatting.GOLD));
         EngineerCaptureReport.mark(reportStack, owner.getUuid());
 
         List<Text> loreLines = new ArrayList<>();
-        loreLines.add(Text.translatable("item.sparkstrength.capture_report.tooltip", capturedPlayers.size())
+        loreLines.add(Text.translatable("item.sparkdlc.capture_report.tooltip", capturedPlayers.size())
                 .formatted(Formatting.GRAY));
         for (ServerPlayerEntity capturedPlayer : capturedPlayers) {
             loreLines.add(Text.literal(" - " + capturedPlayer.getName().getString())

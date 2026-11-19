@@ -31,7 +31,7 @@ public class UsecAmmoItem extends Item {
 
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        tooltip.add(Text.translatable("item.sparkwitch.usec_338_" + ammoType.id() + ".tooltip")
+        tooltip.add(Text.translatable("item.sparkdlc.usec_338_" + ammoType.id() + ".tooltip")
                 .formatted(Formatting.GRAY));
         super.appendTooltip(stack, context, tooltip, type);
     }

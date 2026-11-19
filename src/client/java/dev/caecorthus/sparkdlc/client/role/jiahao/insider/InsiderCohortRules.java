@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class InsiderCohortRules {
     /** Lang key of the Team Jiahao gold "嘉豪同伙" label. / 嘉豪阵营金色“嘉豪同伙”标签的语言键。 */
-    public static final String JIAHAO_COHORT_KEY = "game.tip.sparkwitch.jiahao_cohort";
+    public static final String JIAHAO_COHORT_KEY = "game.tip.sparkdlc.jiahao_cohort";
 
     private InsiderCohortRules() {
     }

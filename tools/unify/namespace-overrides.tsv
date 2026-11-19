@@ -1,0 +1,38 @@
+# Exceptions to "same path under sparkdlc". form: id (namespace:path, all literal forms), key (dotted key),
+# prefixed (ns_x string), literal (exact text kept everywhere), lang-drop (lang key removed by the merge),
+# lang-value:<locale> (text of a merged key). A row whose new name equals the old one keeps the legacy name.
+# “同路径改到 sparkdlc 下”的例外。form：id（namespace:path，覆盖所有字面形式）、key（点分键）、prefixed（ns_x 字符串）、
+# literal（在所有文件中原样保留的文本）、lang-drop（合并时删除的语言键）、lang-value:<locale>（合并后键的文本）。
+# 新名字与旧名字相同的行表示保留旧名字。
+form	old	new	note
+id	sparktraits:world	sparkdlc:trait_world	component key: collides with sparkwitch:world (two different component classes)
+id	sparkwitch:world	sparkdlc:witch_world	component key: collides with sparktraits:world
+id	sparktraits:server_confirm	sparkdlc:trait_server_confirm	S2C payload: collides with sparkwitch:server_confirm (handshakes are merged in a later stage)
+id	sparkwitch:server_confirm	sparkdlc:witch_server_confirm	S2C payload: collides with sparktraits:server_confirm
+id	sparkfactionapi:version_check	sparkdlc:faction_version_check	login query channel: three handshakes
+id	sparktraits:version_check	sparkdlc:trait_version_check	login query channel: three handshakes
+id	sparkwitch:version_check	sparkdlc:witch_version_check	login query channel: three handshakes
+id	sparktraits:wraith_player	sparktraits:wraith_player	KEEP: read-only legacy holder next to the live sparkdlc:wraith_player
+id	sparktraits:wraith_round	sparktraits:wraith_round	KEEP: read-only legacy holder next to the live sparkdlc:wraith_round
+id	sparktraits:wraith	sparktraits:wraith	KEEP: retired trait id and legacy role alias (RetiredTraitIds, WraithLegacyRoleIds, RoundRules)
+id	sparktraits:arrogant_asf	sparktraits:arrogant_asf	KEEP: retired trait id (RetiredTraitIds)
+id	sparktraits:chameleon	sparktraits:chameleon	KEEP: retired trait id (RetiredTraitIds)
+id	sparktraits:wind_spirit	sparktraits:wind_spirit	KEEP: legacy role alias (WraithLegacyRoleIds)
+id	sparktraits:guardian_angel	sparktraits:guardian_angel	KEEP: legacy role alias (WraithLegacyRoleIds)
+id	sparktraits:vendetta	sparktraits:vendetta	KEEP: legacy role alias (WraithLegacyRoleIds)
+id	sparktraits:saboteur	sparktraits:saboteur	KEEP: legacy role alias (WraithLegacyRoleIds)
+id	sparktraits:curser	sparktraits:curser	KEEP: legacy role alias (WraithLegacyRoleIds)
+key	key.sparkwitch.secondary_skill	key.sparkdlc.role_skill_2	key binding: collides with key.sparkstrength.secondary_skill (text "Role Skill 2" unchanged)
+literal	sparkwitch:stored_coins	sparkwitch:stored_coins	KEEP: private item custom-data key
+literal	sparkwitch:judge_voodoo_actor	sparkwitch:judge_voodoo_actor	KEEP: private NBT key
+literal	sparkwitch:fiend_moment_crowbar	sparkwitch:fiend_moment_crowbar	KEEP: private item custom-data key
+literal	sparkwitch:poison_apple_drink	sparkwitch:poison_apple_drink	KEEP: private item custom-data key
+literal	sparkwitch:poison_apple_armed	sparkwitch:poison_apple_armed	KEEP: private block-entity sync key
+literal	sparkstrength_undercover_outfit	sparkstrength_undercover_outfit	KEEP: private item custom-data marker
+literal	sparkwitch_fisher_pufferfish	sparkwitch_fisher_pufferfish	KEEP: entity command tag
+literal	sparkwitch_duel_knight	sparkwitch_duel_knight	KEEP: scoreboard team name
+literal	sparkwitch_duel_target	sparkwitch_duel_target	KEEP: scoreboard team name
+lang-drop	modmenu.summaryTranslation.sparkwitch		the sparkdlc key already describes the fused mod
+lang-drop	modmenu.descriptionTranslation.sparkwitch		the sparkdlc key already describes the fused mod
+lang-drop	guidebook.sparkassist.source_name.sparkwitch		one source label: the assist text stays
+lang-drop	guidebook.sparkassist.source_name.sparktraits		one source label: the assist text stays

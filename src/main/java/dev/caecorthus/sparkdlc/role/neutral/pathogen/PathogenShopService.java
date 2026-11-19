@@ -50,7 +50,7 @@ public final class PathogenShopService {
             Item tVirus = SparkStrengthItems.tVirus();
             return new ShopEntry.Builder(
                     PathogenRules.T_VIRUS_ENTRY_ID,
-                    ShopStacks.display(tVirus.getDefaultStack(), "shop.sparkstrength.t_virus"),
+                    ShopStacks.display(tVirus.getDefaultStack(), "shop.sparkdlc.t_virus"),
                     PathogenRules.T_VIRUS_PRICE,
                     ShopEntry.Type.POISON
             ).actualStack(tVirus.getDefaultStack())
@@ -61,7 +61,7 @@ public final class PathogenShopService {
         Item virus = SparkStrengthItems.virus();
         return new ShopEntry.Builder(
                 PathogenRules.VIRUS_ENTRY_ID,
-                ShopStacks.display(virus.getDefaultStack(), "shop.sparkstrength.virus"),
+                ShopStacks.display(virus.getDefaultStack(), "shop.sparkdlc.virus"),
                 PathogenRules.VIRUS_PRICE,
                 ShopEntry.Type.POISON
         ).actualStack(virus.getDefaultStack())

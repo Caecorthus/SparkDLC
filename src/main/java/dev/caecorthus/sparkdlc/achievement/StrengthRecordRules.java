@@ -20,7 +20,7 @@ import java.util.UUID;
  */
 final class StrengthRecordRules {
     static final String ATTENDANT = "noellesroles:attendant";
-    static final String MASTER_SABOTEUR = "sparktraits:master_saboteur";
+    static final String MASTER_SABOTEUR = "sparkdlc:master_saboteur";
 
     /**
      * S8, a world event at each real lights-out ({@code active} 1) and lights-back (0) edge; {@code cause} is
@@ -29,24 +29,24 @@ final class StrengthRecordRules {
      * S8：每个真实熄灯（{@code active} 1）与来电（0）边沿的世界事件；{@code cause} 为 {@code purchase}（actor 为购买者）、
      * {@code power_restoration}、{@code expired} 或 {@code unknown}。回合结束不记录边沿。
      */
-    static final String BLACKOUT_STATE = "sparkstrength:blackout_state";
+    static final String BLACKOUT_STATE = "sparkdlc:blackout_state";
     static final String CAUSE_PURCHASE = "purchase";
     /**
      * S9: a lit flashlight held by {@code actor} (any role) cancelled their blackout blindness, once per blackout; it
      * may come just before the S8 start in the same tick.
      * S9：{@code actor}（任何身份）手持开启的手电筒挡下了停电失明，每次停电一次；可能在同一 tick 内略早于 S8 的开始边沿。
      */
-    static final String FLASHLIGHT_BLACKOUT = "sparkstrength:flashlight_blackout";
+    static final String FLASHLIGHT_BLACKOUT = "sparkdlc:flashlight_blackout";
     /** S10, a global event: actor = the captured player, {@code owner} = the device's owner. S10 全局事件。 */
-    static final String CAPTURE_DEVICE_TRIGGERED = "sparkstrength:capture_device_triggered";
+    static final String CAPTURE_DEVICE_TRIGGERED = "sparkdlc:capture_device_triggered";
     /** S11: actor = the player who called a tablet emergency meeting. S11：actor 为召开平板紧急会议的玩家。 */
-    static final String TABLET_MEETING = "sparkstrength:tablet_meeting";
+    static final String TABLET_MEETING = "sparkdlc:tablet_meeting";
     /** S12: a meeting made target a suspect; {@code caller} = that meeting's caller. S12：会议把 target 投成嫌疑人。 */
-    static final String TABLET_SUSPECT = "sparkstrength:tablet_suspect";
+    static final String TABLET_SUSPECT = "sparkdlc:tablet_suspect";
     /** S13: actor threw a throwing axe; {@code throw_id} = the axe entity. S13：actor 扔出一把飞斧。 */
-    static final String THROWING_AXE_THROW = "sparkstrength:throwing_axe_throw";
+    static final String THROWING_AXE_THROW = "sparkdlc:throwing_axe_throw";
     /** S14: the axe {@code throw_id} hit target; {@code killed} whether that hit killed. S14：飞斧命中 target。 */
-    static final String THROWING_AXE_HIT = "sparkstrength:throwing_axe_hit";
+    static final String THROWING_AXE_HIT = "sparkdlc:throwing_axe_hit";
     /**
      * The death reason of a tactical tomahawk kill. SparkStrength hands the tomahawk only to the real Undercover, the
      * first time its CQCM mask goes on (stage 2), and nobody else can hold it, so a kill with this reason is always made
@@ -54,7 +54,7 @@ final class StrengthRecordRules {
      * 战术斧击杀的死因。SparkStrength 只在真卧底第一次戴上 CQCM 面具（进入第二阶段）时发给它战术斧，别人拿不到，
      * 所以带这个死因的击杀一定是以卧底身份、戴上面具之后做出的（之后摘下面具也不会退出第二阶段）。
      */
-    static final String TOMAHAWK = "sparkstrength:tomahawk";
+    static final String TOMAHAWK = "sparkdlc:tomahawk";
 
     static final int AXE_KILLS = 2;
     static final int TOMAHAWK_KILLS = 10;
@@ -70,9 +70,9 @@ final class StrengthRecordRules {
 
     /**
      * 一斧双雕: as the Bandit, one throwing axe kills 2 players: an axe I threw as the Bandit
-     * ({@code sparkstrength:throwing_axe_throw}) has hits on two different players with {@code killed} set (its hits
+     * ({@code sparkdlc:throwing_axe_throw}) has hits on two different players with {@code killed} set (its hits
      * repeat the throw's {@code throw_id}). A hit a shield, vest or fake death stopped is not {@code killed}.
-     * 以强盗身份用一把飞斧杀死 2 名玩家：一把我以强盗身份扔出的飞斧（{@code sparkstrength:throwing_axe_throw}）对两名不同玩家的命中都带
+     * 以强盗身份用一把飞斧杀死 2 名玩家：一把我以强盗身份扔出的飞斧（{@code sparkdlc:throwing_axe_throw}）对两名不同玩家的命中都带
      * {@code killed}（命中记录沿用投掷的 {@code throw_id}）。被护盾、防弹衣或假死挡下的命中不算 {@code killed}。
      */
     static boolean oneAxeTwoKills(AchievementContext context) {
@@ -96,10 +96,10 @@ final class StrengthRecordRules {
 
     /**
      * 黑夜给了我黑色的眼睛: as the Attendant, my lit flashlight beat a blackout's blindness
-     * ({@code sparkstrength:flashlight_blackout}), and I lived through that blackout: no death of mine (a Last Stand
+     * ({@code sparkdlc:flashlight_blackout}), and I lived through that blackout: no death of mine (a Last Stand
      * false death included) from its start to the lights coming back. A blackout the round end cut short has no end
      * edge; then the record must be complete and I alive at its end.
-     * 以乘务员身份用开启的手电筒挡下一次停电的失明（{@code sparkstrength:flashlight_blackout}），并活过这次停电：从停电开始到来电，
+     * 以乘务员身份用开启的手电筒挡下一次停电的失明（{@code sparkdlc:flashlight_blackout}），并活过这次停电：从停电开始到来电，
      * 我没有任何死亡（背水一战的假死也算）。被回合结束打断的停电没有结束边沿，此时要求记录完整且我活到最后。
      */
     static boolean flashlightOutlastsBlackout(AchievementContext context) {
@@ -121,8 +121,8 @@ final class StrengthRecordRules {
 
     /**
      * 请君入瓮: as the Engineer, my capture device stuns a player on the killer faction then
-     * ({@code sparkstrength:capture_device_triggered} with {@code owner} me; the faction by {@link #factionAround}).
-     * 以工程师身份用我的捕捉装置定住一名当时属于杀手阵营的玩家（{@code sparkstrength:capture_device_triggered} 的 {@code owner}
+     * ({@code sparkdlc:capture_device_triggered} with {@code owner} me; the faction by {@link #factionAround}).
+     * 以工程师身份用我的捕捉装置定住一名当时属于杀手阵营的玩家（{@code sparkdlc:capture_device_triggered} 的 {@code owner}
      * 为我；阵营按 {@link #factionAround} 判断）。
      */
     static boolean capturedAKiller(AchievementContext context) {
@@ -141,12 +141,12 @@ final class StrengthRecordRules {
     // ---- Vigilante 义警 ----
 
     /**
-     * 群众的眼睛是雪亮的: as the Vigilante, call a tablet emergency meeting ({@code sparkstrength:tablet_meeting}) that
-     * ends by making a 非好人 a suspect ({@code sparkstrength:tablet_suspect} after it, its {@code caller} me when
+     * 群众的眼睛是雪亮的: as the Vigilante, call a tablet emergency meeting ({@code sparkdlc:tablet_meeting}) that
+     * ends by making a 非好人 a suspect ({@code sparkdlc:tablet_suspect} after it, its {@code caller} me when
      * written; the suspect's faction by {@link #factionAround}). Who voted for whom is not recorded, so my own vote is
      * not checked.
-     * 以义警身份召开一次平板紧急会议（{@code sparkstrength:tablet_meeting}），会议结果把一名非好人投成嫌疑人（其后的
-     * {@code sparkstrength:tablet_suspect}，写有 {@code caller} 时须为我；嫌疑人阵营按 {@link #factionAround} 判断）。
+     * 以义警身份召开一次平板紧急会议（{@code sparkdlc:tablet_meeting}），会议结果把一名非好人投成嫌疑人（其后的
+     * {@code sparkdlc:tablet_suspect}，写有 {@code caller} 时须为我；嫌疑人阵营按 {@link #factionAround} 判断）。
      * 记录里没有谁投了谁，因此不检查我自己的投票。
      */
     static boolean meetingNamedNonCivilian(AchievementContext context) {

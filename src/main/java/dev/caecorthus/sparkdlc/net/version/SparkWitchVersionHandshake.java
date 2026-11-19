@@ -11,7 +11,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public final class SparkWitchVersionHandshake {
-    public static final Identifier VERSION_CHECK_ID = SparkWitch.id("version_check");
+    public static final Identifier VERSION_CHECK_ID = SparkWitch.id("witch_version_check");
 
     private static boolean serverRegistered;
 

@@ -12,7 +12,7 @@ This glossary describes the runtime contract vocabulary used by code and tests.
 - **Native Wathe faction**: a custom faction that is also a real constant of
   Wathe's `dev.doctor4t.wathe.api.Faction` enum. SparkFactionAPI appends the
   constant at the end of `Faction`'s static initializer from a
-  `sparkfactionapi:native_wathe_factions` declaration in some mod's
+  `sparkdlc:native_wathe_factions` declaration in some mod's
   `fabric.mod.json`. The built-ins (`wathe:none/civilian/killer/neutral`) are
   not native custom factions.
 - **Third faction**: a faction whose Wathe `Faction` constant is not one of the
@@ -41,11 +41,11 @@ This glossary describes the runtime contract vocabulary used by code and tests.
 - **Downstream consumer**: a mod that compiles against classes in `api/`.
   Identifier references or optional metadata alone do not make a Java consumer.
 - **Replay role timeline**: the per-player role history of one match, built from
-  Wathe's opening `role_assigned` snapshot plus `sparkfactionapi:role_changed`
+  Wathe's opening `role_assigned` snapshot plus `sparkdlc:role_changed`
   events. A replay line shows the role held immediately before its event.
 - **Role-change cause**: an identifier attached through
   `SparkReplayApi.withRoleChangeCause`; it selects the optional replay suffix key
-  `replay.sparkfactionapi.role_changed.cause.<ns>.<path>[.by]`.
+  `replay.sparkdlc.role_changed.cause.<ns>.<path>[.by]`.
 - **Match record payload**: the structured, non-display copy of one finished
   Wathe `MatchRecord` (`MatchRecordSnapshot`: event `seq`, `type`, `tick` since
   the match start, and Wathe's NBT `data`), pushed to clients at round end and
@@ -56,8 +56,8 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   `death` record. "Kill start" is before every HEAD injector and before Wathe
   clears psycho mode or any mod changes roles.
 - **Achievement record events**: the namespaced match-record events
-  `sparkfactionapi:psycho`, `sparkfactionapi:consume` and
-  `sparkfactionapi:income` plus the extra `death` fields, written for
+  `sparkdlc:psycho`, `sparkdlc:consume` and
+  `sparkdlc:income` plus the extra `death` fields, written for
   SparkAssist's local achievements. They have no replay formatter, so the
   replay never shows them.
 - **Match income**: the coins a player gained in one match through Wathe
@@ -87,7 +87,7 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   cooldowns on carried items. A `CooldownSlot` is a read-only snapshot; writes
   re-read the live value.
 - **Anti-fast-round safe time**: an opt-in window of N seconds, set with
-  `/sparkfactionapi:antifastround`, that opens at Wathe
+  `/sparkdlc:antifastround`, that opens at Wathe
   `GameEvents.ON_FINISH_INITIALIZE` and closes on time, at `ON_FINISH_FINALIZE`,
   or when an administrator disables the feature. It applies to players alive in
   a running round who are not creative or spectators: item use (right-click use,
@@ -118,13 +118,13 @@ This glossary describes the runtime contract vocabulary used by code and tests.
 
 ## Stable Runtime Contracts
 
-- Component id: `sparkfactionapi:round_end`.
+- Component id: `sparkdlc:round_end`.
 - Persisted round-end keys: `WinningFaction` and `Winners`.
 - Custom wins return Wathe `NEUTRAL`; winner UUID rows are supplied by the
   FactionAPI round-end state path. This holds for native Wathe factions too:
   `WinStatus` is never extended.
 - Native Wathe faction declaration (since 0.1.6.0): `fabric.mod.json`
-  `custom."sparkfactionapi:native_wathe_factions"` is a JSON object of
+  `custom."sparkdlc:native_wathe_factions"` is a JSON object of
   `"namespace:path": "CONSTANT_NAME"`. Ids need an explicit namespace other than
   `wathe`; names match `[A-Z][A-Z0-9_]*` and are not existing constants; one id
   has one name and one name one id (the same pair from several mods merges).
@@ -223,7 +223,7 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   Jiahao to a lineup on 2026-11-16), and native
   factions dealt by an SFA `FactionAssignmentPolicy` in AFTER_NEUTRALS or
   BEFORE_CIVILIANS (none today; a lineup faction cannot have one).
-- Third-faction settings component id: `sparkfactionapi:third_faction_draw`
+- Third-faction settings component id: `sparkdlc:third_faction_draw`
   (scoreboard, server-only: not synced). Persisted keys `Dividend` (default 10,
   at least 3) and `MinPlayers` (default 18, at least 0 = no minimum); a missing
   key reads as its default and a stored value below the floor is raised to it.
@@ -235,9 +235,9 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   Wathe's own `wathe:gameSettings` → `set` → `roleDividend` node, so Wathe's
   permission requirement on the root still applies; a missing node logs one WARN
   and adds nothing. Its feedback key is
-  `commands.sparkfactionapi.thirdfaction.dividend.set` (with an English
+  `commands.sparkdlc.thirdfaction.dividend.set` (with an English
   fallback). The minimum-players command belongs to SparkWitch
-  (`/sparkwitch:thirdFactionMinRequirement`), which writes through the API.
+  (`/sparkdlc:thirdFactionMinRequirement`), which writes through the API.
 - NoellesRoles Scavenger hidden bodies (D3, client only, pinned to
   noellesroles-1.7.6-h1.5.6-spark, sha256 fcb0da69...): NoellesRoles' two
   `KILLER || NEUTRAL` faction gates, the only ones in that jar, read
@@ -316,13 +316,13 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   onto it (SparkWitch Clock, Gift Watch, Ceremonial Sword, White Cane, fish).
   Role-skill stores are never read or written by it.
 
-- Replay event type: `sparkfactionapi:role_changed` with NBT keys `player`
+- Replay event type: `sparkdlc:role_changed` with NBT keys `player`
   (UUID), `from`, `to` (role ids), optional `cause` (id) and `source` (UUID).
   Recorded only server-side, during an active Wathe match, outside
   `readFromNbt`, when the role id actually changes.
 - Replay tooltip contributors run in registration order while Wathe generates
   the replay, before players are reset; a failing contributor is skipped.
-- Replay screen payload: S2C `sparkfactionapi:replay_snapshot` carrying a
+- Replay screen payload: S2C `sparkdlc:replay_snapshot` carrying a
   `ReplaySnapshot` (header, roster with role steps, tooltip and badges, and
   categorized lines). Player names inside lines carry a `ReplayTextTags`
   insertion instead of a hover; the client resolves tooltips by UUID. Sent only
@@ -331,9 +331,9 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   with "open replay" and "show in chat" buttons; other clients keep the full
   chat replay.
 - `/replay` opens the replay screen when the client registered
-  `sparkfactionapi:replay_snapshot` and a snapshot exists, otherwise resends the
+  `sparkdlc:replay_snapshot` and a snapshot exists, otherwise resends the
   chat replay; `/replay chat` always resends chat.
-- Match record payload: S2C `sparkfactionapi:match_record`, sent from Wathe
+- Match record payload: S2C `sparkdlc:match_record`, sent from Wathe
   `RecordEvents.ON_RECORD_END` (inside `GameFunctions.finalizeGame`, before
   `AnnounceEndingPayload` and the INACTIVE status sync) to every online player
   whose client registered it. Events keep Wathe record order, skip
@@ -358,14 +358,14 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   nothing behind, and a kill nested in another kill uses its own snapshot.
   Killer fields are written only when `recordDeath`'s killer is the captured
   killer.
-- `sparkfactionapi:psycho` (actor, `active` bool) is recorded from Wathe
+- `sparkdlc:psycho` (actor, `active` bool) is recorded from Wathe
   `PsychoModeEvents.ON_PSYCHO_START/END` (server only, every psycho source).
   Per match, an END counts only after a counted START and a repeated START is a
   refresh, because Wathe's `stopPsycho` fires END unconditionally (game-start
   and lobby `reset()`, Noelle's Jester reset) and `startPsycho` refires START.
   Psycho ticks restored from player NBT (rejoin) fire no START, so that
   psycho's later END is ignored.
-- `sparkfactionapi:consume` (actor = consumer, `item` id, `kind` `food` or
+- `sparkdlc:consume` (actor = consumer, `item` id, `kind` `food` or
   `drink`) is recorded after `ItemStack#finishUsing` returns for a server
   player (every finished eat/drink use, including item overrides that skip
   `super`) when the stack was used or replaced, so a refusal that returns the
@@ -378,7 +378,7 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   anything else is not recorded. Not covered: a capsule-delivered Blue
   Belladonna (calls neither seam) and instant items without a food component
   or DRINK action (SparkWitch Fisher fish, SparkStrength Professor serum).
-- `sparkfactionapi:income` (`actor` = player, `amount` int; contract A4) is
+- `sparkdlc:income` (`actor` = player, `amount` int; contract A4) is
   written once per player with positive match income at the head of
   `GameRecordManager.endMatch`, while the match is still active and before
   `match_end`. `actor` is the online player, otherwise the UUID through
@@ -402,7 +402,7 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   full is placed with `setStack` in the first empty second-row slot. The static
   `ShopEntry.insertStackInFreeSlot` stays hotbar-only. While psycho ticks are
   positive, slot clicks on second-row slots are ignored.
-- Anti-fast-round component id: `sparkfactionapi:anti_fast_round` (scoreboard).
+- Anti-fast-round component id: `sparkdlc:anti_fast_round` (scoreboard).
   Persisted keys `Enabled` (default false) and `Seconds` (default 10, clamped to
   1-600). The safe-time window is runtime-only: synced to clients so they can
   predict the lock, never saved. A new skill payload is blocked only once it is
@@ -411,7 +411,7 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   SparkStrength; `tools/payload_policy.py generate` turns its SAFE_TIME column
   into `GeneratedPayloadPolicy`, which `AntiFastRoundRules.BLOCKED_PAYLOADS`
   aliases, and `check` fails on a stale generated file or an unlisted C2S id.
-- Lobby map reset component id: `sparkfactionapi:map_reset` (scoreboard,
+- Lobby map reset component id: `sparkdlc:map_reset` (scoreboard,
   optional on clients, runtime-only: nothing is saved). Its synced progress is
   `-1` (nothing to show), `0`-`99` (a reset runs; capped at 99 until the copy
   is done) or `100` (complete, held about 3 s, then `-1`). A failed or aborted
@@ -432,7 +432,7 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   and starts on a prepared world, reach Wathe unchanged.
 - While a lobby map reset runs: any other `GameFunctions.startGame` call is
   refused at HEAD with the action-bar notice
-  `message.sparkfactionapi.map_reset.start_blocked`; Wathe's auto-start
+  `message.sparkdlc.map_reset.start_blocked`; Wathe's auto-start
   countdown, which would otherwise restart from the full start time once it
   fired, waits at zero on both sides until the replayed start takes over, and
   still restarts when the ready area drops below the minimum; commands executed
@@ -463,7 +463,7 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   a new lobby reset prepared it again, and a `true` ("retry") makes the retry
   Wathe's full copy, so a narrowed copy can never retry forever.
 - The template and paste chunks, plus one chunk of margin, are held with
-  FULL-level tickets (`sparkfactionapi_map_reset`, radius 0: loaded, not
+  FULL-level tickets (`sparkdlc_map_reset`, radius 0: loaded, not
   ticking) during the copy, and after it until 10 s after that world's next
   successful Wathe copy, 30 minutes without one, or the next reset. A failed
   or aborted reset releases them at once.
@@ -473,12 +473,12 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   behavior, so players in a round (adventure mode) cannot recolor signs. A sign
   in the map's Wathe `interaction_blacklist` stays blocked for everyone.
 - Caecorthus team badge: glyph `\uE784` (font `minecraft:default`, texture
-  `sparkfactionapi:font/caecorthus_team.png`; E780 is Ratatouille, E781 Wathe,
+  `sparkdlc:font/caecorthus_team.png`; E780 is Ratatouille, E781 Wathe,
   E782/E783 SparkWitch). Members are the UUIDs from the website's
   `GET https://express-dlc.tlspark.cn/api/team/minecraft`
   (`{"members": [{"uuid", "groups"}]}`), fetched by client and server at start
   and every 30 minutes; a failed or malformed fetch keeps the last list, cached
-  in `config/sparkfactionapi/caecorthus_team.json`. The badge is appended once,
+  in `config/sparkdlc/caecorthus_team.json`. The badge is appended once,
   white, to `PlayerEntity#getDisplayName` and Tab list names, in and out of
   rounds, before a trailing Ratatouille E780 (name, E784, E780). Wathe's
   crosshair name is re-matched after every disguise wrapper: the drawn name is
@@ -493,8 +493,8 @@ This glossary describes the runtime contract vocabulary used by code and tests.
 - Wathe is the hard host dependency and exact mixin target.
 - NoellesRoles is an optional compatibility target, never a hard dependency.
 - SparkWitch is the direct public-API consumer, including replay role-change
-  causes. It declares the native Wathe factions (`sparkwitch:witch`,
-  `sparkwitch:jiahao`), binds `noellesroles:corrupt_cop` by id, and is the
+  causes. It declares the native Wathe factions (`sparkdlc:witch`,
+  `sparkdlc:jiahao`), binds `noellesroles:corrupt_cop` by id, and is the
   intended caller of `registerThirdFactionLineup` and of the third-faction
   minimum-players setter (its own command).
 - Wathe `Faction` is extended in place; Wathe itself is not edited. Its only
@@ -512,8 +512,8 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   SparkAssist decoration is reached by name only (factionapi must not import
   a sibling module); the lookup is no longer gated on the `sparkassist` id.
 - `round/settlement/SettlementExclusions`: SparkWitch registers
-  `sparkwitch:black_raven`, `sparkwitch:stowaway` and
-  `sparkwitch:schrodingers_cat` unconditionally and `sparkwitch:charon` as a
+  `sparkdlc:black_raven`, `sparkdlc:stowaway` and
+  `sparkdlc:schrodingers_cat` unconditionally and `sparkdlc:charon` as a
   conditional role (excluded while he owns no running Soul Moment with a
   soul); SparkTraits (direct call) and SparkStrength (reflection, fails closed)
   read `isExcluded(GameWorldComponent, UUID)` at their own settlement points

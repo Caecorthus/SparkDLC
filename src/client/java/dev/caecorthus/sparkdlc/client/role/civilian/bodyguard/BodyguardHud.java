@@ -39,18 +39,18 @@ public final class BodyguardHud {
         Item shield = SparkStrengthItems.democracyShield();
         if (player.isUsingItem() && player.getActiveItem().isOf(shield)) {
             int left = BodyguardRules.MAX_RAISE_TICKS - player.getItemUseTime();
-            lines.add(Text.translatable("tip.sparkstrength.bodyguard.hud.shield_raised", Math.max(1, seconds(left))));
+            lines.add(Text.translatable("tip.sparkdlc.bodyguard.hud.shield_raised", Math.max(1, seconds(left))));
         } else if (player.getInventory().contains(stack -> stack.isOf(shield))) {
             int cooldown = cooldownTicks(player.getItemCooldownManager(), shield);
             lines.add(cooldown > 0
-                    ? Text.translatable("tip.sparkstrength.bodyguard.hud.shield_cooldown", seconds(cooldown))
-                    : Text.translatable("tip.sparkstrength.bodyguard.hud.shield_ready"));
+                    ? Text.translatable("tip.sparkdlc.bodyguard.hud.shield_cooldown", seconds(cooldown))
+                    : Text.translatable("tip.sparkdlc.bodyguard.hud.shield_ready"));
         }
         if (BodyguardVestService.isWorn(player)) {
-            lines.add(Text.translatable("tip.sparkstrength.bodyguard.hud.vest"));
+            lines.add(Text.translatable("tip.sparkdlc.bodyguard.hud.vest"));
         } else if (player.getInventory().contains(stack -> stack.isOf(SparkStrengthItems.bodyguardVest()))) {
             // Bought but not on: it only protects from the chest slot. / 已买未穿：只有穿在胸甲栏才生效。
-            lines.add(Text.translatable("tip.sparkstrength.bodyguard.hud.vest_unworn"));
+            lines.add(Text.translatable("tip.sparkdlc.bodyguard.hud.vest_unworn"));
         }
         // A small margin keeps the last glyph and its shadow off the screen edge. / 留出少量边距，避免最后一个字及其阴影贴边被裁。
         int y = context.getScaledWindowHeight() - EDGE_MARGIN;

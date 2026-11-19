@@ -39,9 +39,9 @@ public final class BearLoadoutService {
     }
 
     /**
-     * Grants once per assignment: a fresh M32A1 (its default {@code sparkwitch:m32_cylinder} is empty) unless one is
+     * Grants once per assignment: a fresh M32A1 (its default {@code sparkdlc:m32_cylinder} is empty) unless one is
      * already held. It goes through {@code insertStack}, so no insert veto is bypassed.
-     * 每次分配发放一次：一具新的 M32A1（默认 {@code sparkwitch:m32_cylinder} 为空），已持有时不再发放。经由
+     * 每次分配发放一次：一具新的 M32A1（默认 {@code sparkdlc:m32_cylinder} 为空），已持有时不再发放。经由
      * {@code insertStack} 放入，因此不绕过任何入包否决。
      */
     public static void grant(ServerPlayerEntity player) {

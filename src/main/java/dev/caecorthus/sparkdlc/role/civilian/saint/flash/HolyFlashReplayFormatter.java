@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
  * 物品使用记录，因此注册之前这一行从不显示；按圣光弹物品 id 注册，不影响其他物品的格式化器。
  */
 final class HolyFlashReplayFormatter {
-    static final String KEY = "replay.item_use.sparkwitch.holy_flash";
+    static final String KEY = "replay.item_use.sparkdlc.holy_flash";
 
     private HolyFlashReplayFormatter() {
     }

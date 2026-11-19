@@ -5,11 +5,11 @@ import net.minecraft.util.Identifier;
 
 /**
  * Frozen Insider contract: stable gameplay values shared by every work package, which read and never redefine them.
- * The Insider is a Team Jiahao member (SparkFactionAPI faction {@code sparkwitch:jiahao}, native Wathe constant
+ * The Insider is a Team Jiahao member (SparkFactionAPI faction {@code sparkdlc:jiahao}, native Wathe constant
  * JIAHAO since 2026-11-04) that SparkFactionAPI's third-faction draw deals beside a Corrupt Cop when Team Jiahao has a
  * second slot (owner 2026-11-16; the old 4+ killers rule is gone), and that wins with it.
  * 冻结的内应契约：各工作包共用的稳定玩法数值，只读取、不重新定义。内应是嘉豪阵营成员（SparkFactionAPI 阵营
- * {@code sparkwitch:jiahao}，自 2026-11-04 起为原生 Wathe 常量 JIAHAO），嘉豪阵营有第二个名额时由 SparkFactionAPI 第三阵营
+ * {@code sparkdlc:jiahao}，自 2026-11-04 起为原生 Wathe 常量 JIAHAO），嘉豪阵营有第二个名额时由 SparkFactionAPI 第三阵营
  * 抽取与黑警一起发放（所有者 2026-11-16；旧的至少 4 名杀手规则已取消），并与黑警共同获胜。
  */
 public final class InsiderRules {
@@ -38,8 +38,8 @@ public final class InsiderRules {
 
     public static final int REVOLVER_PRICE = 150;
     public static final int CROWBAR_PRICE = 50;
-    public static final String REVOLVER_ENTRY_ID = "sparkwitch_insider_revolver";
-    public static final String CROWBAR_ENTRY_ID = "sparkwitch_insider_crowbar";
+    public static final String REVOLVER_ENTRY_ID = "sparkdlc_insider_revolver";
+    public static final String CROWBAR_ENTRY_ID = "sparkdlc_insider_crowbar";
 
     /** Neutral master key cooldown after a door opens, as for the Corrupt Cop (D6). / 万能钥匙开门后的冷却，与黑警相同（D6）。 */
     public static final int MASTER_KEY_COOLDOWN_TICKS = 200;

@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "sparkdlc:ninja_shuriken",
+      "required": false
+    }
+  ]
+}

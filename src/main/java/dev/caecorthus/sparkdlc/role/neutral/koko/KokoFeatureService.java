@@ -8,7 +8,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 /**
- * Registers 泽渡可可 outside the witch skill dispatcher: the {@code sparkwitch:use_koko_stream} payload (common
+ * Registers 泽渡可可 outside the witch skill dispatcher: the {@code sparkdlc:use_koko_stream} payload (common
  * initializer, so both sides know the type; only the server receiver acts — Fabric already runs it on the server
  * thread), the replay formatter, her shop ({@link KokoShopService}), her master key and its doors
  * ({@link KokoKeyService}), her win ({@link KokoWinService}), the corpse-stream interaction and world tick
@@ -18,7 +18,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
  * Witch's regeneration (owner 2026-11-13), which {@code WitchManaService.assignForRole} applies in
  * {@code SparkWitchEvents}' shared {@code RoleAssigned} listener. She never gets a witch skill, so the witch skill
  * panel stays empty for her.
- * 在魔女技能分发路径之外注册泽渡可可：{@code sparkwitch:use_koko_stream} 数据包（在通用初始化器中注册，两端都知道该类型；
+ * 在魔女技能分发路径之外注册泽渡可可：{@code sparkdlc:use_koko_stream} 数据包（在通用初始化器中注册，两端都知道该类型；
  * 只有服务端接收器会执行——Fabric 已在服务端线程上运行它）、回放格式化器、商店（{@link KokoShopService}）、万能钥匙及其可开
  * 的门（{@link KokoKeyService}）、胜利条件（{@link KokoWinService}）、尸体直播交互与世界刻（{@link KokoStreamService}），以及
  * {@link KokoComponent} 中的每局状态：身份分配时清空并为抽到的可可开始 60 秒开局冷却；Wathe 的 {@code ResetPlayer}（每局

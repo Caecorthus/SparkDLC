@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 /**
  * Third-person straight-arm gun hold for the Savior pistol. Wathe applies this pose to everything in its
  * {@code wathe:guns} tag from {@code BipedEntityModelMixin}; the pistol is deliberately not in that tag (the tag also
- * carries Wathe's gun pickup/drop rules), so the pose is copied here, scoped to {@code sparkwitch:savior_pistol}.
+ * carries Wathe's gun pickup/drop rules), so the pose is copied here, scoped to {@code sparkdlc:savior_pistol}.
  * <p>
  * Same two TAIL injects and the same math as Wathe: the hand holding the pistol is straightened forward along the
  * head direction, which is what the revolver-style item display in {@code savior_pistol.json} is fitted to. The shown
@@ -29,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * {@code positionLeftArm} wraps, so blind viewers keep {@code EMPTY}.
  * 救世主手枪的第三人称平举持枪姿势。Wathe 在 {@code BipedEntityModelMixin} 里对 {@code wathe:guns} 标签内的物品施加这个
  * 姿势；手枪刻意没有进那个标签（标签还带 Wathe 的掉枪/拾取规则），所以这里复制一份，只对
- * {@code sparkwitch:savior_pistol} 生效。
+ * {@code sparkdlc:savior_pistol} 生效。
  * <p>
  * 与 Wathe 相同的两处 TAIL 注入和同样的计算：持枪那只手沿头部朝向平举向前，{@code savior_pistol.json} 里左轮式的物品
  * display 正是按这个姿势对齐的。显示物品遵循 Wathe 的精神错乱替换（观察者的幻觉物品会替换真实主手），所以看到假物品的

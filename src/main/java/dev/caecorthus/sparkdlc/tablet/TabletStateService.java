@@ -115,7 +115,7 @@ public final class TabletStateService {
             return;
         }
         player.sendMessage(Text.translatable(
-                "message.sparkstrength.tablet.police_identities_unlocked",
+                "message.sparkdlc.tablet.police_identities_unlocked",
                 TabletIdentityRules.POLICE_REVEAL_TASKS
         ), false);
         if (TabletAccess.hasTabletInHotbar(player)) {
@@ -125,7 +125,7 @@ public final class TabletStateService {
 
     public static void openTablet(ServerPlayerEntity player) {
         if (!TabletAccess.hasTabletInHotbar(player)) {
-            player.sendMessage(Text.translatable("message.sparkstrength.tablet.no_tablet"), true);
+            player.sendMessage(Text.translatable("message.sparkdlc.tablet.no_tablet"), true);
             return;
         }
         // Snapshot first so the screen never opens on stale (possibly other-channel) data.
@@ -199,23 +199,23 @@ public final class TabletStateService {
 
     public static void sendChat(ServerPlayerEntity sender, int expectedChannelWire, String rawMessage) {
         if (!TabletAccess.hasTabletInHotbar(sender)) {
-            sender.sendMessage(Text.translatable("message.sparkstrength.tablet.no_tablet"), true);
+            sender.sendMessage(Text.translatable("message.sparkdlc.tablet.no_tablet"), true);
             return;
         }
         TabletChannelResolver.Access access = TabletChannelResolver.access(sender);
         TabletChannel channel = access.selected();
         if (channel == null) {
-            sender.sendMessage(Text.translatable("message.sparkstrength.tablet.no_channel"), true);
+            sender.sendMessage(Text.translatable("message.sparkdlc.tablet.no_channel"), true);
             return;
         }
         if (!access.canSend()) {
-            sender.sendMessage(Text.translatable("message.sparkstrength.tablet.chat_read_only"), true);
+            sender.sendMessage(Text.translatable("message.sparkdlc.tablet.chat_read_only"), true);
             return;
         }
         // The server selection is authoritative; a stale client view must never post into another network.
         // 以服务端选择为准；过期的客户端视图绝不能把消息发进其他网络。
         if (expectedChannelWire != channel.wire()) {
-            sender.sendMessage(Text.translatable("message.sparkstrength.tablet.channel_changed"), true);
+            sender.sendMessage(Text.translatable("message.sparkdlc.tablet.channel_changed"), true);
             // Throttled: the snapshot carrying the new channel is already on its way, so a looping client must not
             // turn each stale packet into a full snapshot reply.
             // 限流：携带新频道的快照已在途中，循环发包的客户端不能把每个过期包都换成一份完整快照回复。
@@ -224,7 +224,7 @@ public final class TabletStateService {
         }
         String message = TabletRules.sanitizeChatMessage(rawMessage);
         if (message.isEmpty()) {
-            sender.sendMessage(Text.translatable("message.sparkstrength.tablet.chat_empty"), true);
+            sender.sendMessage(Text.translatable("message.sparkdlc.tablet.chat_empty"), true);
             return;
         }
         ServerWorld world = sender.getServerWorld();
@@ -235,7 +235,7 @@ public final class TabletStateService {
         // 时间交给它。
         int waitTicks = tablet.chatCooldownTicks(sender.getUuid(), world.getTime());
         if (TabletRules.chatSendTooEarly(waitTicks, tablet.chatIntervalTicks())) {
-            sender.sendMessage(Text.translatable("message.sparkstrength.tablet.chat_cooldown",
+            sender.sendMessage(Text.translatable("message.sparkdlc.tablet.chat_cooldown",
                     TabletRules.secondsCeil(waitTicks)), true);
             resyncThrottled(sender);
             return;
@@ -277,7 +277,7 @@ public final class TabletStateService {
      */
     private static void sendPublicChat(ServerPlayerEntity sender, ServerWorld world, String message) {
         if (PathogenVisibility.isMuted(sender) || JesterMomentService.isVoiceBlocked(sender)) {
-            sender.sendMessage(Text.translatable("message.sparkstrength.tablet.public_muted"), true);
+            sender.sendMessage(Text.translatable("message.sparkdlc.tablet.public_muted"), true);
             return;
         }
         TabletWorldComponent tablet = TabletWorldComponent.KEY.get(world);
@@ -321,7 +321,7 @@ public final class TabletStateService {
 
     public static void selectChannel(ServerPlayerEntity player, int channelWire) {
         if (!TabletAccess.hasTabletInHotbar(player)) {
-            player.sendMessage(Text.translatable("message.sparkstrength.tablet.no_tablet"), true);
+            player.sendMessage(Text.translatable("message.sparkdlc.tablet.no_tablet"), true);
             return;
         }
         ServerWorld world = player.getServerWorld();
@@ -356,25 +356,25 @@ public final class TabletStateService {
                     tablet.recordChannelSwitch(player.getUuid(), world.getTime());
                 }
                 player.sendMessage(Text.translatable(
-                        "message.sparkstrength.tablet.channel_switched",
+                        "message.sparkdlc.tablet.channel_switched",
                         Text.translatable(selected.translationKey())
                 ), true);
                 syncTo(player);
             }
             case UNCHANGED -> resyncThrottled(player);
             case DENIED -> {
-                player.sendMessage(Text.translatable("message.sparkstrength.tablet.channel_denied"), true);
+                player.sendMessage(Text.translatable("message.sparkdlc.tablet.channel_denied"), true);
                 resyncThrottled(player);
             }
             case COOLDOWN -> {
                 player.sendMessage(Text.translatable(
-                        "message.sparkstrength.tablet.channel_cooldown",
+                        "message.sparkdlc.tablet.channel_cooldown",
                         TabletRules.secondsCeil(cooldownTicks)
                 ), true);
                 resyncThrottled(player);
             }
             case MEETING_LOCKED -> {
-                player.sendMessage(Text.translatable("message.sparkstrength.tablet.channel_meeting_locked"), true);
+                player.sendMessage(Text.translatable("message.sparkdlc.tablet.channel_meeting_locked"), true);
                 resyncThrottled(player);
             }
         }
@@ -388,23 +388,23 @@ public final class TabletStateService {
         ServerWorld world = caller.getServerWorld();
         TabletWorldComponent tablet = TabletWorldComponent.KEY.get(world);
         if (!access.isPoliceElector()) {
-            caller.sendMessage(Text.translatable("message.sparkstrength.tablet.meeting_denied"), true);
+            caller.sendMessage(Text.translatable("message.sparkdlc.tablet.meeting_denied"), true);
             return;
         }
         if (tablet.hasActiveMeeting()) {
-            caller.sendMessage(Text.translatable("message.sparkstrength.tablet.meeting_active"), true);
+            caller.sendMessage(Text.translatable("message.sparkdlc.tablet.meeting_active"), true);
             return;
         }
         int cooldownTicks = tablet.meetingCooldownTicks(world.getTime());
         if (cooldownTicks > 0) {
             caller.sendMessage(Text.translatable(
-                    "message.sparkstrength.tablet.meeting_cooldown",
+                    "message.sparkdlc.tablet.meeting_cooldown",
                     TabletRules.secondsCeil(cooldownTicks)
             ), true);
             return;
         }
         if (!tablet.canCallMeeting(caller.getUuid())) {
-            caller.sendMessage(Text.translatable("message.sparkstrength.tablet.meeting_chances_empty"), true);
+            caller.sendMessage(Text.translatable("message.sparkdlc.tablet.meeting_chances_empty"), true);
             return;
         }
 
@@ -422,7 +422,7 @@ public final class TabletStateService {
             }
         }
         SyncPass pass = prepare(world);
-        broadcastToChannelMembers(pass, TabletChannel.POLICE, Text.translatable("message.sparkstrength.tablet.meeting_started"));
+        broadcastToChannelMembers(pass, TabletChannel.POLICE, Text.translatable("message.sparkdlc.tablet.meeting_started"));
         syncChannelMembers(pass, TabletChannel.POLICE);
         AchievementRecords.tabletMeeting(caller);
     }
@@ -436,11 +436,11 @@ public final class TabletStateService {
         TabletWorldComponent tablet = TabletWorldComponent.KEY.get(world);
         TabletWorldComponent.Meeting meeting = tablet.meeting();
         if (!access.isPoliceElector() || meeting == null) {
-            voter.sendMessage(Text.translatable("message.sparkstrength.tablet.meeting_denied"), true);
+            voter.sendMessage(Text.translatable("message.sparkdlc.tablet.meeting_denied"), true);
             return;
         }
         if (meeting.isConfirmed(voter.getUuid())) {
-            voter.sendMessage(Text.translatable("message.sparkstrength.tablet.vote_locked"), true);
+            voter.sendMessage(Text.translatable("message.sparkdlc.tablet.vote_locked"), true);
             return;
         }
         if (targetUuid != null && !isSelectableMeetingTarget(world, tablet, targetUuid)) {
@@ -449,7 +449,7 @@ public final class TabletStateService {
         if (meeting.hasBallot(voter.getUuid(), targetUuid)) {
             // Same ballot again (a double click): same reply, but nothing changed, so no police-wide rebuild.
             // 重复同一选票（双击）：照常回复，但没有任何变化，因此不重建全体义警的快照。
-            voter.sendMessage(Text.translatable("message.sparkstrength.tablet.vote_recorded"), true);
+            voter.sendMessage(Text.translatable("message.sparkdlc.tablet.vote_recorded"), true);
             return;
         }
         if (!acceptAction(voter)) {
@@ -457,7 +457,7 @@ public final class TabletStateService {
         }
 
         meeting.castVote(voter.getUuid(), targetUuid);
-        voter.sendMessage(Text.translatable("message.sparkstrength.tablet.vote_recorded"), true);
+        voter.sendMessage(Text.translatable("message.sparkdlc.tablet.vote_recorded"), true);
         syncChannelMembers(prepare(world), TabletChannel.POLICE);
     }
 
@@ -470,14 +470,14 @@ public final class TabletStateService {
         TabletWorldComponent tablet = TabletWorldComponent.KEY.get(world);
         TabletWorldComponent.Meeting meeting = tablet.meeting();
         if (!access.isPoliceElector() || meeting == null) {
-            voter.sendMessage(Text.translatable("message.sparkstrength.tablet.meeting_denied"), true);
+            voter.sendMessage(Text.translatable("message.sparkdlc.tablet.meeting_denied"), true);
             return;
         }
         if (meeting.isConfirmed(voter.getUuid())) {
             // Already confirmed (a double click): same reply, nothing changed, no rebuild; tick() still ends the
             // meeting once every elector has confirmed.
             // 已确认过（双击）：照常回复，没有任何变化，不重建；所有选民确认后 tick() 仍会结束会议。
-            voter.sendMessage(Text.translatable("message.sparkstrength.tablet.vote_confirmed"), true);
+            voter.sendMessage(Text.translatable("message.sparkdlc.tablet.vote_confirmed"), true);
             return;
         }
         if (!acceptAction(voter)) {
@@ -485,7 +485,7 @@ public final class TabletStateService {
         }
 
         meeting.confirm(voter.getUuid());
-        voter.sendMessage(Text.translatable("message.sparkstrength.tablet.vote_confirmed"), true);
+        voter.sendMessage(Text.translatable("message.sparkdlc.tablet.vote_confirmed"), true);
         SyncPass pass = prepare(world);
         if (meeting.allConfirmed(pass.electorate())) {
             finishMeeting(pass);
@@ -502,7 +502,7 @@ public final class TabletStateService {
         ServerWorld world = voter.getServerWorld();
         TabletWorldComponent tablet = TabletWorldComponent.KEY.get(world);
         if (!access.isPoliceElector()) {
-            voter.sendMessage(Text.translatable("message.sparkstrength.tablet.meeting_denied"), true);
+            voter.sendMessage(Text.translatable("message.sparkdlc.tablet.meeting_denied"), true);
             return;
         }
         if (!tablet.isSuspect(suspectUuid)) {
@@ -524,7 +524,7 @@ public final class TabletStateService {
             String suspectName = playerName(world, suspectUuid);
             tablet.removeSuspect(suspectUuid);
             broadcastToChannelMembers(pass, TabletChannel.POLICE,
-                    Text.translatable("message.sparkstrength.tablet.suspect_removed", suspectName));
+                    Text.translatable("message.sparkdlc.tablet.suspect_removed", suspectName));
         }
         syncChannelMembers(pass, TabletChannel.POLICE);
     }
@@ -776,7 +776,7 @@ public final class TabletStateService {
         if (winner.isPresent()) {
             boolean added = tablet.addSuspect(winner.get());
             broadcastToChannelMembers(pass, TabletChannel.POLICE, Text.translatable(
-                    "message.sparkstrength.tablet.suspect_added",
+                    "message.sparkdlc.tablet.suspect_added",
                     playerName(world, winner.get())
             ));
             if (added) {
@@ -784,7 +784,7 @@ public final class TabletStateService {
             }
         } else {
             broadcastToChannelMembers(pass, TabletChannel.POLICE,
-                    Text.translatable("message.sparkstrength.tablet.suspect_tie"));
+                    Text.translatable("message.sparkdlc.tablet.suspect_tie"));
         }
         syncChannelMembers(pass, TabletChannel.POLICE);
     }
@@ -815,12 +815,12 @@ public final class TabletStateService {
      */
     private static @Nullable TabletChannelResolver.Access meetingFeatureAccess(ServerPlayerEntity player) {
         if (!TabletAccess.hasTabletInHotbar(player)) {
-            player.sendMessage(Text.translatable("message.sparkstrength.tablet.meeting_denied"), true);
+            player.sendMessage(Text.translatable("message.sparkdlc.tablet.meeting_denied"), true);
             return null;
         }
         TabletChannelResolver.Access access = TabletChannelResolver.access(player);
         if (!access.viewsMeetingFeatures()) {
-            player.sendMessage(Text.translatable("message.sparkstrength.tablet.feature_unavailable"), true);
+            player.sendMessage(Text.translatable("message.sparkdlc.tablet.feature_unavailable"), true);
             return null;
         }
         return access;

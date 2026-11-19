@@ -70,13 +70,13 @@ public final class TarotReaderDivinationService {
         Optional<TarotReaderSelectionSessionService.Session> pending =
                 TarotReaderSelectionSessionService.consume(player.getUuid());
         if (pending.isEmpty()) {
-            sendActionbar(player, "message.sparkwitch.tarot.no_pending");
+            sendActionbar(player, "message.sparkdlc.tarot.no_pending");
             return;
         }
 
         GameWorldComponent gameComponent = GameWorldComponent.KEY.get(player.getServerWorld());
         if (!canDivine(player, gameComponent) || pending.get().mode() != payload.mode()) {
-            sendActionbar(player, "message.sparkwitch.tarot.invalid_selection");
+            sendActionbar(player, "message.sparkdlc.tarot.invalid_selection");
             return;
         }
 
@@ -85,7 +85,7 @@ public final class TarotReaderDivinationService {
         } else if (payload.mode() == OpenTarotDivinationSelectorS2CPacket.MODE_SURVIVAL) {
             resolveSurvival(player, gameComponent, payload.target());
         } else {
-            sendActionbar(player, "message.sparkwitch.tarot.invalid_selection");
+            sendActionbar(player, "message.sparkdlc.tarot.invalid_selection");
         }
     }
 
@@ -172,7 +172,7 @@ public final class TarotReaderDivinationService {
                 || role == WatheRoles.NO_ROLE
                 || role == WatheRoles.DISCOVERY_CIVILIAN
                 || !WatheRoles.ROLES.contains(role)) {
-            sendActionbar(player, "message.sparkwitch.tarot.invalid_selection");
+            sendActionbar(player, "message.sparkdlc.tarot.invalid_selection");
             return;
         }
 
@@ -188,8 +188,8 @@ public final class TarotReaderDivinationService {
                 "",
                 assigned,
                 assigned
-                        ? "message.sparkwitch.tarot.identity.present"
-                        : "message.sparkwitch.tarot.identity.absent",
+                        ? "message.sparkdlc.tarot.identity.present"
+                        : "message.sparkdlc.tarot.identity.absent",
                 roleName
         );
     }
@@ -203,11 +203,11 @@ public final class TarotReaderDivinationService {
         try {
             targetUuid = UUID.fromString(target);
         } catch (IllegalArgumentException ignored) {
-            sendActionbar(player, "message.sparkwitch.tarot.invalid_selection");
+            sendActionbar(player, "message.sparkdlc.tarot.invalid_selection");
             return;
         }
         if (!gameComponent.hasAnyRole(targetUuid)) {
-            sendActionbar(player, "message.sparkwitch.tarot.invalid_selection");
+            sendActionbar(player, "message.sparkdlc.tarot.invalid_selection");
             return;
         }
 
@@ -220,8 +220,8 @@ public final class TarotReaderDivinationService {
                 playerName,
                 alive,
                 alive
-                        ? "message.sparkwitch.tarot.survival.alive"
-                        : "message.sparkwitch.tarot.survival.dead",
+                        ? "message.sparkdlc.tarot.survival.alive"
+                        : "message.sparkdlc.tarot.survival.dead",
                 Text.literal(playerName)
         );
     }

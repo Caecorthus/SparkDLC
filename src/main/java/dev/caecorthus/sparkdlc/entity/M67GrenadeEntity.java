@@ -37,8 +37,8 @@ import java.util.UUID;
 
 /**
  * Server-ticked M67. Stable cross-module contract (SparkWitch calls it directly since the SparkDLC fusion): this class
- * name, the {@code sparkstrength:m67} id, public {@link #getDetonateAt()} and {@link #getThrowerUuid()}, and discard only after the blast's kills.
- * 由服务端驱动的 M67。稳定的跨模块契约（融合进 SparkDLC 后由 SparkWitch 直接调用）：本类名、{@code sparkstrength:m67} id、public
+ * name, the {@code sparkdlc:m67} id, public {@link #getDetonateAt()} and {@link #getThrowerUuid()}, and discard only after the blast's kills.
+ * 由服务端驱动的 M67。稳定的跨模块契约（融合进 SparkDLC 后由 SparkWitch 直接调用）：本类名、{@code sparkdlc:m67} id、public
  * {@link #getDetonateAt()} 与 {@link #getThrowerUuid()}，以及爆炸击杀之后才移除自身。
  */
 public final class M67GrenadeEntity extends ThrownItemEntity {

@@ -33,7 +33,7 @@ public final class TimekeeperWatchItem extends Item {
 
     @Override
     public Text getName(ItemStack stack) {
-        return Text.translatable("item.sparkstrength.dying_watch");
+        return Text.translatable("item.sparkdlc.dying_watch");
     }
 
     @Override
@@ -47,9 +47,9 @@ public final class TimekeeperWatchItem extends Item {
 
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, java.util.List<Text> tooltip, net.minecraft.item.tooltip.TooltipType type) {
-        tooltip.add(Text.translatable("item.sparkstrength.dying_watch.mode", getMode(stack).text())
+        tooltip.add(Text.translatable("item.sparkdlc.dying_watch.mode", getMode(stack).text())
                 .styled(style -> style.withColor(0xADD8E6).withItalic(false)));
-        tooltip.add(Text.translatable("item.sparkstrength.dying_watch.description")
+        tooltip.add(Text.translatable("item.sparkdlc.dying_watch.description")
                 .styled(style -> style.withColor(0xADD8E6).withItalic(false)));
     }
 }

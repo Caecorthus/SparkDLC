@@ -17,18 +17,18 @@ import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import java.util.UUID;
 
 /**
- * Stable CCA contract {@code sparkwitch:natsume_anan_player} (NEVER_COPY, appended last). Server-authoritative state,
+ * Stable CCA contract {@code sparkdlc:natsume_anan_player} (NEVER_COPY, appended last). Server-authoritative state,
  * all in absolute world ticks: the hypnosis end tick, its caster and world (on every hypnotised player, any role), and
  * 夏目安安's own cooldown ready tick. Only the shown seconds of both timers are synced, and only to the owner, whenever
  * a shown second changes; the client never predicts them. {@link #isHypnotised()} and {@link #isLocked()} read the
  * shown hypnosis second on both sides, so the item and skill locks and the HUD agree with the server. NBT keeps only
  * the cooldown across a relog; a relog, role assignment, Wathe's {@code ResetPlayer} and round end all clear the
- * hypnosis. The forced-cooldown store {@code sparkwitch:natsume_hypnosis} only ever raises the ready tick.
- * 稳定 CCA 契约 {@code sparkwitch:natsume_anan_player}（NEVER_COPY，追加在最后）。服务端权威状态均为绝对世界刻：催眠结束刻、
+ * hypnosis. The forced-cooldown store {@code sparkdlc:natsume_hypnosis} only ever raises the ready tick.
+ * 稳定 CCA 契约 {@code sparkdlc:natsume_anan_player}（NEVER_COPY，追加在最后）。服务端权威状态均为绝对世界刻：催眠结束刻、
  * 施放者与所在世界（任何职业的被催眠者身上都有），以及夏目安安自己的冷却就绪刻。两个计时只同步“显示秒数”，且只同步给本人，
  * 在显示秒数变化时发送；客户端从不预测。{@link #isHypnotised()} 与 {@link #isLocked()} 在两端都读取显示的催眠秒数，因此道具与
  * 技能锁、HUD 与服务端一致。NBT 只在重新登录时保留冷却；重新登录、身份分配、Wathe 的 {@code ResetPlayer} 与回合结束都会清除
- * 催眠。强制冷却存储 {@code sparkwitch:natsume_hypnosis} 只会把就绪刻推后。
+ * 催眠。强制冷却存储 {@code sparkdlc:natsume_hypnosis} 只会把就绪刻推后。
  */
 public final class NatsumeComponent implements AutoSyncedComponent {
     public static final ComponentKey<NatsumeComponent> KEY = ComponentRegistry.getOrCreate(

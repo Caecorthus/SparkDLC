@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Frozen contract (WP0): the M32A1's six-chamber cylinder, stored on the launcher stack as the synced, persistent data
- * component {@code sparkwitch:m32_cylinder}. Bit {@code i} of {@code loadedMask} is chamber {@code i} (0..5) holding a
+ * component {@code sparkdlc:m32_cylinder}. Bit {@code i} of {@code loadedMask} is chamber {@code i} (0..5) holding a
  * smoke round; {@code next} is the chamber that fires next. The compact constructor normalises any input (mask to 6
  * bits, {@code next} modulo 6), so decoded or hand-written components are always valid. Pure and side-neutral: the
  * server writes it, the client only reads it (HUD).
@@ -22,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
  * rotation order from {@code next} (the one that would fire last), which is exactly the most recently loaded round. A
  * non-contiguous mask (only from a hand-edited component) keeps the same well-defined rule and fires with empties
  * skipped.
- * 冻结契约（WP0）：M32A1 的六弹膛转轮，以同步且持久化的数据组件 {@code sparkwitch:m32_cylinder} 存放在发射器物品上。
+ * 冻结契约（WP0）：M32A1 的六弹膛转轮，以同步且持久化的数据组件 {@code sparkdlc:m32_cylinder} 存放在发射器物品上。
  * {@code loadedMask} 的第 {@code i} 位表示第 {@code i} 号弹膛（0..5）装有烟雾榴弹；{@code next} 为下一发击发的弹膛。紧凑构造器
  * 会规整任何输入（掩码取低 6 位，{@code next} 对 6 取模），因此解码或手写的组件始终有效。纯数据、两端通用：服务端写入，
  * 客户端只读（HUD）。

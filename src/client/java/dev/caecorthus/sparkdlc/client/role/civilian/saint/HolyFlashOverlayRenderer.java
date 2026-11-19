@@ -29,14 +29,14 @@ import org.joml.Vector3f;
  * tags and instinct outlines. Phases: a bright spot that blooms over {@link HolyFlashRules#SPOT_TICKS}, then the
  * black mask from {@link HolyFlashRules#blackness(float, int)} with a short white residue and a faint retinal
  * afterimage. Draws only on a confirmed SparkWitch server, in an ACTIVE game, for the playing, alive local player
- * whose synced {@code sparkwitch:holy_flash} is active; F1 does not hide it. The server owns every timer.
+ * whose synced {@code sparkdlc:holy_flash} is active; F1 does not hide it. The server owns every timer.
  * Never drawn while the local player is shown the Blind view ({@link BlindView#isActive}, owner decision Q12): the
  * Blind takes only the audio side, which {@code HolyFlashAudioClient} drives from the same synced state.
  * 纯客户端圣光弹屏幕遮罩（所有者选择方案 B），由 {@code HolyFlashHudMixin} 在 {@code InGameHud.render} TAIL 绘制，
  * 位于整个 HUD、聊天、HudRenderCallback 叠加层（包括搜寻者 CCTV 边框）以及世界中名字标签与本能描边之上。
  * 阶段：在 {@link HolyFlashRules#SPOT_TICKS} 内迅速扩散的亮点，然后是 {@link HolyFlashRules#blackness(float, int)}
  * 决定的黑色遮罩，并带有短暂的白色残留和淡淡的视网膜残像。仅在确认的 SparkWitch 服务器、对局 ACTIVE、本地玩家
- * 存活参与且已同步的 {@code sparkwitch:holy_flash} 激活时绘制；F1 不会隐藏它。所有计时均由服务端负责。
+ * 存活参与且已同步的 {@code sparkdlc:holy_flash} 激活时绘制；F1 不会隐藏它。所有计时均由服务端负责。
  * 本地玩家正在看盲人视图时（{@link BlindView#isActive}，所有者决定 Q12）绝不绘制：盲人只受音频部分影响，
  * 该部分由 {@code HolyFlashAudioClient} 依据同一份同步状态驱动。
  */

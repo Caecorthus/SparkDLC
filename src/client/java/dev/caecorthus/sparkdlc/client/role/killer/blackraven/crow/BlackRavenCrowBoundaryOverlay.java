@@ -71,7 +71,7 @@ public final class BlackRavenCrowBoundaryOverlay {
                 nearest.face().normal(), basis, width, height, ARROW_INSET);
         renderArrow(context, arrow, strength);
         TextRenderer renderer = client.textRenderer;
-        Text label = Text.translatable("hud.sparkwitch.black_raven_crow.boundary",
+        Text label = Text.translatable("hud.sparkdlc.black_raven_crow.boundary",
                 BlackRavenCrowBoundaryRules.formatDistance(nearest.distance()));
         // Label on the screen-centre side of the arrow. / 标签放在箭头朝屏幕中心的一侧。
         double towardCenterX = -Math.cos(arrow.angle());

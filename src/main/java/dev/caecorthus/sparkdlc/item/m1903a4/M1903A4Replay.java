@@ -20,9 +20,9 @@ import org.jetbrains.annotations.Nullable;
  * （未命中，或子弹被乌鸦、皮套或设备吃下）。
  */
 public final class M1903A4Replay {
-    static final String RELOAD_KEY = "replay.item_use.sparkwitch.m1903a4.reload";
-    static final String SHOT_KEY = "replay.item_use.sparkwitch.m1903a4.shot";
-    static final String MISS_KEY = "replay.item_use.sparkwitch.m1903a4.miss";
+    static final String RELOAD_KEY = "replay.item_use.sparkdlc.m1903a4.reload";
+    static final String SHOT_KEY = "replay.item_use.sparkdlc.m1903a4.shot";
+    static final String MISS_KEY = "replay.item_use.sparkdlc.m1903a4.miss";
     private static boolean registered;
 
     private M1903A4Replay() {

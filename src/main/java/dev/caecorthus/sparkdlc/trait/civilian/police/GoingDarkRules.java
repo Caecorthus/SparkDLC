@@ -13,21 +13,21 @@ import java.util.Set;
  *  隐蔽行动本能屏蔽的纯目标资格与观察者规则。 */
 public final class GoingDarkRules {
     private static final Set<Identifier> PROTECTED_VIEWER_ROLE_IDS = Set.of(
-            Identifier.of("sparkwitch", "grand_witch"),
-            Identifier.of("sparkwitch", "murderous_witch"),
-            Identifier.of("sparkwitch", "accomplice"),
+            Identifier.of("sparkdlc", "grand_witch"),
+            Identifier.of("sparkdlc", "murderous_witch"),
+            Identifier.of("sparkdlc", "accomplice"),
             // SparkWitch special accomplices share every Accomplice rule. / SparkWitch 特殊共犯沿用共犯的全部规则。
-            Identifier.of("sparkwitch", "abyss_listener"),
-            Identifier.of("sparkwitch", "potion_gunner"),
-            Identifier.of("sparkwitch", "riftwalker"),
+            Identifier.of("sparkdlc", "abyss_listener"),
+            Identifier.of("sparkdlc", "potion_gunner"),
+            Identifier.of("sparkdlc", "riftwalker"),
             // SparkWitch's Bewitched (魔化使) is an accomplice before promotion. / SparkWitch 魔化使是晋升前的共犯。
-            Identifier.of("sparkwitch", "bewitched"),
+            Identifier.of("sparkdlc", "bewitched"),
             Identifier.of("noellesroles", "corrupt_cop"),
-            Identifier.of("sparkwitch", "insider"),
+            Identifier.of("sparkdlc", "insider"),
             // SparkWitch's 狮身豪 (Sphinx Hao) has the Insider's Team Jiahao instinct. / SparkWitch 狮身豪拥有与内应相同的嘉豪本能。
-            Identifier.of("sparkwitch", "sphinx_hao"),
+            Identifier.of("sparkdlc", "sphinx_hao"),
             // SparkWitch's Sniper (狙击手, PR #245) has the Insider's Team Jiahao instinct. / SparkWitch 狙击手拥有与内应相同的嘉豪本能。
-            Identifier.of("sparkwitch", "sniper")
+            Identifier.of("sparkdlc", "sniper")
     );
 
     private GoingDarkRules() {

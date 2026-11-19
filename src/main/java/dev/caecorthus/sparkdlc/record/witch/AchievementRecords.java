@@ -19,32 +19,32 @@ import java.util.UUID;
  * W17, 2026-10-14). Event types and field names are frozen; a reader matches them by string. They have no replay
  * formatter on purpose, so Wathe's replay skips them. Every writer runs on the logical server after its feature's own
  * success checks, records nothing outside an active match, and never lets a recording failure reach gameplay. W1 (USEC
- * shot distance and scope) adds fields to the existing {@code sparkwitch:usec_rifle_fire} item use instead; see
+ * shot distance and scope) adds fields to the existing {@code sparkdlc:usec_rifle_fire} item use instead; see
  * {@code UsecReplay}. W16 (Bone Setting absorbed a trap fracture) likewise adds a field to the existing
- * {@code sparkwitch:hunter_trap_triggered} global event; see {@code HunterTrapEntity}.
+ * {@code sparkdlc:hunter_trap_triggered} global event; see {@code HunterTrapEntity}.
  * 稳定的跨模组契约：SparkAssist 通过 SparkFactionAPI 回合结束广播读取这些 SparkWitch 专属对局记录事件，用于颁发本地隐藏
  * 成就（成就记录契约 W2-W7，2026-10-09；W8-W15 与 W17，2026-10-14）。事件类型与字段名冻结，读取方按字符串匹配。它们刻意
  * 没有回放格式化器，因此 Wathe 回放会跳过它们。每个写入方都在逻辑服务端、在其功能自身的成功检查之后执行；对局未激活时不记录；
- * 记录失败绝不影响玩法。W1（USEC 射击距离与开镜）则在既有 {@code sparkwitch:usec_rifle_fire} 物品使用记录上追加字段，见
- * {@code UsecReplay}。W16（正骨吸收了捕兽夹骨折）同样在既有 {@code sparkwitch:hunter_trap_triggered} 全局事件上追加字段，
+ * 记录失败绝不影响玩法。W1（USEC 射击距离与开镜）则在既有 {@code sparkdlc:usec_rifle_fire} 物品使用记录上追加字段，见
+ * {@code UsecReplay}。W16（正骨吸收了捕兽夹骨折）同样在既有 {@code sparkdlc:hunter_trap_triggered} 全局事件上追加字段，
  * 见 {@code HunterTrapEntity}。
  */
 public final class AchievementRecords {
-    public static final String WIND_SPIRIT_FALL = "sparkwitch:wind_spirit_fall";
-    public static final String SABOTAGE = "sparkwitch:sabotage";
-    public static final String CURSE = "sparkwitch:curse";
-    public static final String MURDER_SENSE = "sparkwitch:murder_sense";
-    public static final String BLACK_RAVEN_PERCEIVED = "sparkwitch:black_raven_perceived";
-    public static final String HOLY_FLASH_BURST = "sparkwitch:holy_flash_burst";
-    public static final String NINJA_PARRY = "sparkwitch:ninja_parry";
-    public static final String POISON_APPLE_TAKE = "sparkwitch:poison_apple_take";
-    public static final String PERFUME_MARK = "sparkwitch:perfume_mark";
-    public static final String PROPHECY = "sparkwitch:prophecy";
-    public static final String SAINT_KARMA = "sparkwitch:saint_karma";
-    public static final String JUDGE_VERDICT = "sparkwitch:judge_verdict";
-    public static final String EMMA_HUNT_REWARD = "sparkwitch:emma_hunt_reward";
-    public static final String SEEKER_MARK = "sparkwitch:seeker_mark";
-    public static final String MAGICIAN_PUPPET_KILL = "sparkwitch:magician_puppet_kill";
+    public static final String WIND_SPIRIT_FALL = "sparkdlc:wind_spirit_fall";
+    public static final String SABOTAGE = "sparkdlc:sabotage";
+    public static final String CURSE = "sparkdlc:curse";
+    public static final String MURDER_SENSE = "sparkdlc:murder_sense";
+    public static final String BLACK_RAVEN_PERCEIVED = "sparkdlc:black_raven_perceived";
+    public static final String HOLY_FLASH_BURST = "sparkdlc:holy_flash_burst";
+    public static final String NINJA_PARRY = "sparkdlc:ninja_parry";
+    public static final String POISON_APPLE_TAKE = "sparkdlc:poison_apple_take";
+    public static final String PERFUME_MARK = "sparkdlc:perfume_mark";
+    public static final String PROPHECY = "sparkdlc:prophecy";
+    public static final String SAINT_KARMA = "sparkdlc:saint_karma";
+    public static final String JUDGE_VERDICT = "sparkdlc:judge_verdict";
+    public static final String EMMA_HUNT_REWARD = "sparkdlc:emma_hunt_reward";
+    public static final String SEEKER_MARK = "sparkdlc:seeker_mark";
+    public static final String MAGICIAN_PUPPET_KILL = "sparkdlc:magician_puppet_kill";
 
     /** Wathe's own actor key, written directly when the actor is offline. / Wathe 自身的发起者键，发起者离线时直接写入。 */
     static final String ACTOR_KEY = "actor";

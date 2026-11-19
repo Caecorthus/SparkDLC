@@ -73,7 +73,7 @@ public final class DemocracyShieldItem extends Item {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         for (int line = 1; line <= 3; line++) {
-            tooltip.add(Text.translatable("item.sparkstrength.democracy_shield.tooltip.line" + line)
+            tooltip.add(Text.translatable("item.sparkdlc.democracy_shield.tooltip.line" + line)
                     .styled(style -> style.withColor(0x808080).withItalic(false)));
         }
     }

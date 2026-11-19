@@ -20,9 +20,9 @@ import net.minecraft.sound.SoundEvent;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Echo skill handler reached through the shared {@code sparkwitch:use_skill} path (so Grand Witch Fear
+ * Echo skill handler reached through the shared {@code sparkdlc:use_skill} path (so Grand Witch Fear
  * already blocks it). Cooldown starts at cast via a plain success result.
- * 通过共享 {@code sparkwitch:use_skill} 路径到达的回响技能处理器（因此大魔女恐惧已可拦截）；
+ * 通过共享 {@code sparkdlc:use_skill} 路径到达的回响技能处理器（因此大魔女恐惧已可拦截）；
  * 冷却通过普通成功结果在施放时开始。
  */
 public final class BellRingerEchoService {
@@ -36,21 +36,21 @@ public final class BellRingerEchoService {
     public static WitchSkillUseResult use(WitchSkillUseContext context) {
         ServerPlayerEntity caster = context.player();
         if (!BellRingerRules.isBellRinger(context.role())) {
-            return WitchSkillUseResult.fail("message.sparkwitch.skill.unavailable");
+            return WitchSkillUseResult.fail("message.sparkdlc.skill.unavailable");
         }
         // SparkWitch packets are not covered by SparkTraits' own packet gate, so ask the facade here.
         // SparkWitch 自有数据包不在 SparkTraits 的数据包拦截范围内，因此在此主动查询公共门面。
         if (SparkTraitsKillerBridge.isRoleSkillBlocked(caster) || caster.isSpectator()) {
-            return WitchSkillUseResult.fail("message.sparkwitch.bell_echo.blocked");
+            return WitchSkillUseResult.fail("message.sparkdlc.bell_echo.blocked");
         }
         GameWorldComponent game = context.gameComponent();
         if (!game.isRunning() || !GameFunctions.isPlayerPlayingAndAlive(caster)) {
-            return WitchSkillUseResult.fail("message.sparkwitch.skill.unavailable");
+            return WitchSkillUseResult.fail("message.sparkdlc.skill.unavailable");
         }
         ServerWorld world = context.world();
         GameTimeComponent time = GameTimeComponent.KEY.get(world);
         if (!BellRingerRules.canAffordEcho(time.getTime())) {
-            return WitchSkillUseResult.fail("message.sparkwitch.bell_echo.not_enough_time");
+            return WitchSkillUseResult.fail("message.sparkdlc.bell_echo.not_enough_time");
         }
 
         // Owner decision: Echo is paid with Wathe round time; the bell, tasks and 60 s deadline start now.
@@ -74,7 +74,7 @@ public final class BellRingerEchoService {
                 }
             }
         }
-        return WitchSkillUseResult.success(BellRingerRules.ECHO_COOLDOWN_TICKS, "message.sparkwitch.bell_echo.cast");
+        return WitchSkillUseResult.success(BellRingerRules.ECHO_COOLDOWN_TICKS, "message.sparkdlc.bell_echo.cast");
     }
 
     /**

@@ -396,7 +396,7 @@ public final class HunterFeatureService {
                 case "poison" -> "poison";
                 default -> "place";
             };
-            return Text.translatable("replay.item_use.sparkwitch.hunter_trap." + suffix, actor);
+            return Text.translatable("replay.item_use.sparkdlc.hunter_trap." + suffix, actor);
         });
 
         ReplayRegistry.registerItemUseFormatter(DoubleBarrelShotgunItem.ID, (event, match, world) -> {
@@ -410,7 +410,7 @@ public final class HunterFeatureService {
             );
             if ("reload".equals(data.getString("action"))) {
                 return Text.translatable(
-                        "replay.item_use.sparkwitch.double_barrel_shotgun.reload",
+                        "replay.item_use.sparkdlc.double_barrel_shotgun.reload",
                         actor,
                         data.getInt("loaded_shells")
                 );
@@ -421,12 +421,12 @@ public final class HunterFeatureService {
                         ReplayGenerator.getPlayerInfoCache(match)
                 );
                 return Text.translatable(
-                        "replay.item_use.sparkwitch.double_barrel_shotgun.fire_hit",
+                        "replay.item_use.sparkdlc.double_barrel_shotgun.fire_hit",
                         actor,
                         target
                 );
             }
-            return Text.translatable("replay.item_use.sparkwitch.double_barrel_shotgun.fire", actor);
+            return Text.translatable("replay.item_use.sparkdlc.double_barrel_shotgun.fire", actor);
         });
 
         ReplayRegistry.registerGlobalEventFormatter(HunterTrapEntity.EVENT_TRIGGERED, (event, match, world) -> {
@@ -440,8 +440,8 @@ public final class HunterFeatureService {
             if (!data.containsUuid("actor")) {
                 return Text.translatable(
                         poisoned
-                                ? "replay.global.sparkwitch.hunter_trap_triggered.poisoned_no_owner"
-                                : "replay.global.sparkwitch.hunter_trap_triggered.no_owner",
+                                ? "replay.global.sparkdlc.hunter_trap_triggered.poisoned_no_owner"
+                                : "replay.global.sparkdlc.hunter_trap_triggered.no_owner",
                         target
                 );
             }
@@ -449,7 +449,7 @@ public final class HunterFeatureService {
             if (poisoned && data.containsUuid("poisoner")) {
                 Text poisoner = ReplayGenerator.formatPlayerName(data.getUuid("poisoner"), playerInfo);
                 return Text.translatable(
-                        "replay.global.sparkwitch.hunter_trap_triggered.poisoned",
+                        "replay.global.sparkdlc.hunter_trap_triggered.poisoned",
                         owner,
                         poisoner,
                         target
@@ -457,8 +457,8 @@ public final class HunterFeatureService {
             }
             return Text.translatable(
                     poisoned
-                            ? "replay.global.sparkwitch.hunter_trap_triggered.owner_poisoned"
-                            : "replay.global.sparkwitch.hunter_trap_triggered",
+                            ? "replay.global.sparkdlc.hunter_trap_triggered.owner_poisoned"
+                            : "replay.global.sparkdlc.hunter_trap_triggered",
                     owner,
                     target
             );

@@ -38,12 +38,12 @@ public final class GrandWitchClientPresentation {
         WitchPlayerComponent state = WitchPlayerComponent.KEY.get(player);
         int ticks = state.getCooldownTicks();
         if (ticks == 0 && state.getMana() < WitchFactorService.MANA_COST) {
-            return Text.translatable("hud.sparkwitch.skill.not_enough_mana",
+            return Text.translatable("hud.sparkdlc.skill.not_enough_mana",
                     WitchFactorService.MANA_COST);
         }
         return ticks > 0
-                ? Text.translatable("hud.sparkwitch.grand_witch.factor.cooldown", TickTime.ceilSecondsUnclamped(ticks))
-                : Text.translatable("hud.sparkwitch.grand_witch.factor.ready", SparkWitchClient.abilityKeyText());
+                ? Text.translatable("hud.sparkdlc.grand_witch.factor.cooldown", TickTime.ceilSecondsUnclamped(ticks))
+                : Text.translatable("hud.sparkdlc.grand_witch.factor.ready", SparkWitchClient.abilityKeyText());
     }
 
     /** Remaining sword kill cooldown in ticks (server timer, ticked locally between syncs). 仪礼剑剩余击杀冷却刻数。 */
@@ -72,7 +72,7 @@ public final class GrandWitchClientPresentation {
     public static List<Text> swordStates(ClientPlayerEntity player) {
         WitchPlayerComponent component = WitchPlayerComponent.KEY.get(player);
         if (!component.hasUnlockedGrandWitchCeremonialSword()) {
-            return List.of(Text.translatable("hud.sparkwitch.grand_witch.sword.locked", component.getGrandWitchCeremonialSwordTasks()));
+            return List.of(Text.translatable("hud.sparkdlc.grand_witch.sword.locked", component.getGrandWitchCeremonialSwordTasks()));
         }
         // Kill and dash timers live on the held sword (GrandWitchSwordHud), not in this corner (owner, 2026-10-05).
         // 击杀与冲刺计时显示在手持的剑上（GrandWitchSwordHud），不再写在右下角（所有者 2026-10-05）。

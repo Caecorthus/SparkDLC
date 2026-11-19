@@ -73,7 +73,7 @@ public final class FisherSpiritService {
         FisherSpiritExit.rememberSafePosition(player, component);
         FisherInvisibility.ensure(player, component);
         component.sync();
-        player.sendMessage(Text.translatable("message.sparkwitch.fisher.glimmer_start"), true);
+        player.sendMessage(Text.translatable("message.sparkdlc.fisher.glimmer_start"), true);
         player.playSoundToPlayer(SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME, SoundCategory.PLAYERS, 0.6f, 1.4f);
         return true;
     }
@@ -104,7 +104,7 @@ public final class FisherSpiritService {
         FisherInvisibility.release(player, component);
         component.clear();
         if (announce) {
-            player.sendMessage(Text.translatable("message.sparkwitch.fisher.glimmer_end"), true);
+            player.sendMessage(Text.translatable("message.sparkdlc.fisher.glimmer_end"), true);
         }
     }
 

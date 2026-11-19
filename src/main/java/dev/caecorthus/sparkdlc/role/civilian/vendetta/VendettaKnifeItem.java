@@ -27,6 +27,6 @@ public final class VendettaKnifeItem extends KnifeItem {
 
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        tooltip.add(Text.translatable("item.sparkwitch.vendetta_knife.desc").formatted(Formatting.GRAY));
+        tooltip.add(Text.translatable("item.sparkdlc.vendetta_knife.desc").formatted(Formatting.GRAY));
     }
 }

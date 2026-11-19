@@ -34,7 +34,7 @@ public enum SabotageType {
     }
 
     public String translationKey() {
-        return "sabotage.sparkstrength." + id;
+        return "sabotage.sparkdlc." + id;
     }
 
     /**

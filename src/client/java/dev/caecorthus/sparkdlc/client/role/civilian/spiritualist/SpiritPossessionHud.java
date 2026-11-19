@@ -52,7 +52,7 @@ public final class SpiritPossessionHud {
     private static @Nullable Text stateText(MinecraftClient client, ClientPlayerEntity player) {
         Text key = keyText();
         if (SpiritPossessionClient.isPossessing()) {
-            return Text.translatable("hud.sparkstrength.spirit_possession.active",
+            return Text.translatable("hud.sparkdlc.spirit_possession.active",
                     SpiritPossessionRules.displaySeconds(SpiritPossessionClient.remainingTicks()), key);
         }
         if (!SpiritPossessionClient.anyWraithKnown(client)) {
@@ -60,12 +60,12 @@ public final class SpiritPossessionHud {
         }
         int cooldown = SpiritPossessionPlayerComponent.KEY.get(player).getCooldownTicks();
         if (cooldown > 0) {
-            return Text.translatable("hud.sparkstrength.spirit_possession.cooldown",
+            return Text.translatable("hud.sparkdlc.spirit_possession.cooldown",
                     SpiritPossessionRules.displaySeconds(cooldown));
         }
         return SpiritPossessionClient.aimedWraith() != null
-                ? Text.translatable("hud.sparkstrength.spirit_possession.aimed", key)
-                : Text.translatable("hud.sparkstrength.spirit_possession.ready", key);
+                ? Text.translatable("hud.sparkdlc.spirit_possession.aimed", key)
+                : Text.translatable("hud.sparkdlc.spirit_possession.ready", key);
     }
 
     /** Mirrors NoellesRoles' SpiritHudMixin text choice. / 镜像 NoellesRoles SpiritHudMixin 的文本选择。 */

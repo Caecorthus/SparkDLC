@@ -54,18 +54,18 @@ final class SparkWitchWraithScenes {
     }
 
     static void register() {
-        role("sparkassist:roles/sparkwitch/wraith", List.of("sparkwitch"),
-                scene("sparkwitch/wraith_cabin", SparkWitchWraithScenes::wraith));
-        role("sparkassist:roles/sparkwitch/guardian_angel", List.of("sparkwitch"),
+        role("sparkdlc:roles/sparkdlc/wraith", List.of("sparkdlc"),
+                scene("sparkdlc/wraith_cabin", SparkWitchWraithScenes::wraith));
+        role("sparkdlc:roles/sparkdlc/guardian_angel", List.of("sparkdlc"),
                 scene("wathe/aisle", SparkWitchWraithScenes::guardianAngel));
-        role("sparkassist:roles/sparkwitch/wind_spirit", List.of("sparkwitch"),
+        role("sparkdlc:roles/sparkdlc/wind_spirit", List.of("sparkdlc"),
                 scene("wathe/aisle", SparkWitchWraithScenes::windSpirit));
-        role("sparkassist:roles/sparkwitch/vendetta", List.of("sparkwitch"),
+        role("sparkdlc:roles/sparkdlc/vendetta", List.of("sparkdlc"),
                 scene("wathe/aisle", SparkWitchWraithScenes::vendetta));
 
         // Items whose use a demo above already shows; holding W over the item plays that demo.
         // 上面的演示已经演示过用法的物品；在物品上按住 W 即可播放对应演示。
-        item("sparkwitch:vendetta_knife", List.of("sparkwitch"),
+        item("sparkdlc:vendetta_knife", List.of("sparkdlc"),
                 scene("wathe/aisle", SparkWitchWraithScenes::vendetta));
     }
 
@@ -102,7 +102,7 @@ final class SparkWitchWraithScenes {
         Actors.swing(scene, killer);
         Actors.fall(scene, civilian);
         scene.idle(25);
-        ElementLink<ActorElement> wraith = Actors.enter(scene, RoleColors.of("sparkwitch:wraith", 0x79C7D4),
+        ElementLink<ActorElement> wraith = Actors.enter(scene, RoleColors.of("sparkdlc:wraith", 0x79C7D4),
                 Text.literal("冤魂"), feet, WEST, Direction.UP);
         scene.idle(5);
         SceneCaptions.keyframeCaption(scene, 74, "好人、杀手、魔女阵营的人死后，有机会化为冤魂（默认 75%%）");
@@ -143,7 +143,7 @@ final class SparkWitchWraithScenes {
         scene.idle(85);
         // Promotion wakes a sleeping Wraith (WraithLifecycle.promotePlayer). 晋升会叫醒正在睡觉的冤魂。
         Actors.getUp(scene, wraith);
-        Actors.retint(scene, wraith, RoleColors.of("sparkwitch:guardian_angel", 0xF0D77A), Text.literal("守护天使"));
+        Actors.retint(scene, wraith, RoleColors.of("sparkdlc:guardian_angel", 0xF0D77A), Text.literal("守护天使"));
         scene.overlay().showText(95)
                 .colored(PonderPalette.GREEN)
                 .text("做满 3 个任务立刻晋升：好人阵营随机成为风精灵、守护天使或仇杀客")
@@ -169,7 +169,7 @@ final class SparkWitchWraithScenes {
     private static void guardianAngel(SceneBuilder scene, SceneBuildingUtil util) {
         scene.title("role_guardian_angel", "守护天使：替队友挡下一刀");
         WatheItemScenes.stage(scene);
-        int gold = RoleColors.of("sparkwitch:guardian_angel", 0xF0D77A);
+        int gold = RoleColors.of("sparkdlc:guardian_angel", 0xF0D77A);
         ElementLink<ActorElement> civilian = Actors.enter(scene, RoleColors.CIVILIAN, Text.literal("平民"),
                 new Vec3d(2.2, 1, 4.8), SCREEN_RIGHT, Direction.DOWN);
         scene.idle(5);
@@ -239,7 +239,7 @@ final class SparkWitchWraithScenes {
                 new Vec3d(2.0, 1, 2.0), towardsFarCorner, Direction.DOWN);
         scene.idle(5);
         Vec3d feet = new Vec3d(6.2, 1, 2.2);
-        ElementLink<ActorElement> spirit = Actors.enter(scene, RoleColors.of("sparkwitch:wind_spirit", 0x59D8E6),
+        ElementLink<ActorElement> spirit = Actors.enter(scene, RoleColors.of("sparkdlc:wind_spirit", 0x59D8E6),
                 Text.literal("风精灵"), feet, SCREEN_RIGHT, Direction.UP);
         scene.idle(20);
         SceneCaptions.keyframeCaption(scene, 80, "好人冤魂可能晋升为风精灵：永久速度 II，体力无限");
@@ -305,11 +305,11 @@ final class SparkWitchWraithScenes {
     private static void vendetta(SceneBuilder scene, SceneBuildingUtil util) {
         scene.title("role_vendetta", "仇杀客：向凶手复仇");
         WatheItemScenes.stage(scene);
-        ItemStack knife = stack("sparkwitch:vendetta_knife");
+        ItemStack knife = stack("sparkdlc:vendetta_knife");
         ElementLink<ActorElement> killer = Actors.enter(scene, RoleColors.KILLER, Text.literal("杀手"),
                 new Vec3d(2.2, 1, 4.8), SCREEN_RIGHT, Direction.DOWN);
         scene.idle(5);
-        ElementLink<ActorElement> vendetta = Actors.enter(scene, RoleColors.of("sparkwitch:vendetta", 0xE34B5F),
+        ElementLink<ActorElement> vendetta = Actors.enter(scene, RoleColors.of("sparkdlc:vendetta", 0xE34B5F),
                 Text.literal("仇杀客"), new Vec3d(5.8, 1, 1.2), SCREEN_RIGHT, Direction.UP);
         Actors.hold(scene, vendetta, knife);
         scene.idle(20);

@@ -6,11 +6,11 @@ import net.minecraft.util.math.MathHelper;
 
 /**
  * Stable contract: the camera look cone shared by the owner's client view, the server clamp of
- * {@code sparkwitch:seeker_camera_look}, and the head every client renders, plus the owner client's send cadence and
+ * {@code sparkdlc:seeker_camera_look}, and the head every client renders, plus the owner client's send cadence and
  * the render smoothing. The cone is centre +-{@link SeekerRules#CAMERA_YAW_CONE} yaw (the wall normal, or the mount
  * yaw on floors and ceilings) and centre +-{@link SeekerRules#CAMERA_PITCH_CONE} pitch (level on walls, looking up
  * from floors, down from ceilings). Pure and side-neutral, so the server clamps with exactly the client's math.
- * 稳定契约：摄像头视角锥角，由拥有者客户端视角、服务端对 {@code sparkwitch:seeker_camera_look} 的钳制以及所有客户端
+ * 稳定契约：摄像头视角锥角，由拥有者客户端视角、服务端对 {@code sparkdlc:seeker_camera_look} 的钳制以及所有客户端
  * 渲染的机头共用；另含拥有者客户端的发送节奏与渲染平滑。锥角为中心 ±70° 偏航（墙面取法线，地面与天花板取安装朝向）
  * 与中心 ±45° 俯仰（墙面水平、地面朝上、天花板朝下）。纯函数且两端通用，因此服务端与客户端的钳制完全一致。
  */

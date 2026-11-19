@@ -26,8 +26,8 @@ import org.jetbrains.annotations.Nullable;
 public final class SpecterSecondSkillService {
     /**
      * Stable {@code shield_blocked} record source; the replay keys are
-     * {@code replay.shield_blocked.sparkwitch.specter_otherworld[.by]}.
-     * 稳定的 {@code shield_blocked} 记录来源；回放键为 {@code replay.shield_blocked.sparkwitch.specter_otherworld[.by]}。
+     * {@code replay.shield_blocked.sparkdlc.specter_otherworld[.by]}.
+     * 稳定的 {@code shield_blocked} 记录来源；回放键为 {@code replay.shield_blocked.sparkdlc.specter_otherworld[.by]}。
      */
     public static final Identifier SHIELD_SOURCE_ID = SparkWitch.id("specter_otherworld");
 

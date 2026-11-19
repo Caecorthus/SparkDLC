@@ -35,9 +35,9 @@ import org.jetbrains.annotations.Nullable;
 public final class RiftGateRemoverService {
     /** How far the remover reaches, in blocks (an admin convenience, longer than hand reach). / 清除工具的距离（格）。 */
     public static final double REACH = 24.0;
-    static final String REMOVED_KEY = "message.sparkwitch.rift_gate_remover.removed";
-    static final String NO_TARGET_KEY = "message.sparkwitch.rift_gate_remover.no_target";
-    static final String NO_PERMISSION_KEY = "message.sparkwitch.rift_gate_remover.no_permission";
+    static final String REMOVED_KEY = "message.sparkdlc.rift_gate_remover.removed";
+    static final String NO_TARGET_KEY = "message.sparkdlc.rift_gate_remover.no_target";
+    static final String NO_PERMISSION_KEY = "message.sparkdlc.rift_gate_remover.no_permission";
     /** Removal cue at the gate: a reverse-portal puff and a power-down sound. / 门处的删除提示：反向传送门粒子与断能音效。 */
     static final double CUE_LIFT = 1.0;
     static final int CUE_PARTICLES = 28;

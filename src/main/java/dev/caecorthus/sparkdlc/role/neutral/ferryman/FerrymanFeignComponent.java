@@ -13,10 +13,10 @@ import org.ladysnake.cca.api.v3.component.ComponentRegistry;
 import java.util.UUID;
 
 /**
- * The 10 s feign death a marked attacker falls into ({@code sparkwitch:ferryman_feign}): the fake body, the anchor it
+ * The 10 s feign death a marked attacker falls into ({@code sparkdlc:ferryman_feign}): the fake body, the anchor it
  * was laid at with the facing to restore, the saved game mode and the previous invulnerability flag. Server only and
  * transient — a round reset or a respawn copy never carries it, and no client is told anything.
- * 被标记者陷入的 10 秒假死（{@code sparkwitch:ferryman_feign}）：假尸体、铺设它的锚点及需恢复的朝向、保存的游戏模式与
+ * 被标记者陷入的 10 秒假死（{@code sparkdlc:ferryman_feign}）：假尸体、铺设它的锚点及需恢复的朝向、保存的游戏模式与
  * 先前的无敌标记。仅服务端且为瞬时状态——换局或重生不会带走它，也不会告诉任何客户端。
  */
 public final class FerrymanFeignComponent implements org.ladysnake.cca.api.v3.component.Component {

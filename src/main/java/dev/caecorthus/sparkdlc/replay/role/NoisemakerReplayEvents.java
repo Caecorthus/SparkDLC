@@ -31,7 +31,7 @@ public final class NoisemakerReplayEvents {
             }
 
             return Text.translatable(
-                    "replay.global.sparkstrength.noisemaker_glow_started",
+                    "replay.global.sparkdlc.noisemaker_glow_started",
                     ReplayGenerator.formatPlayerName(actorUuid, playerInfoCache),
                     ReplayGenerator.formatPlayerName(targetUuid, playerInfoCache)
             );
@@ -46,7 +46,7 @@ public final class NoisemakerReplayEvents {
             }
 
             return Text.translatable(
-                    "replay.global.sparkstrength.noisemaker_glow_ended",
+                    "replay.global.sparkdlc.noisemaker_glow_ended",
                     ReplayGenerator.formatPlayerName(actorUuid, playerInfoCache)
             );
         });

@@ -33,26 +33,26 @@ public final class SaintAbilityService {
         WitchPlayerComponent component = WitchPlayerComponent.KEY.get(player);
         SaintPlayerState state = component.getSaintState();
         if (state.isHellfireActive()) {
-            send(player, "message.sparkwitch.saint.hellfire.active");
+            send(player, "message.sparkdlc.saint.hellfire.active");
             return false;
         }
         if (state.hellfireCooldownTicks() > 0) {
             send(
                     player,
-                    "message.sparkwitch.saint.hellfire.cooldown",
+                    "message.sparkdlc.saint.hellfire.cooldown",
                     TickTime.ceilSecondsUnclamped(state.hellfireCooldownTicks())
             );
             return false;
         }
         PlayerShopComponent shop = PlayerShopComponent.KEY.get(player);
         if (!SaintRules.hasHellfireCoinRequirement(shop.getBalance())) {
-            send(player, "message.sparkwitch.saint.hellfire.not_enough_money");
+            send(player, "message.sparkdlc.saint.hellfire.not_enough_money");
             return false;
         }
         shop.setBalance(shop.getBalance() - SaintRules.HELLFIRE_REQUIRED_COINS);
         state.activateHellfire();
         component.sync();
-        send(player, "message.sparkwitch.saint.hellfire.activated");
+        send(player, "message.sparkdlc.saint.hellfire.activated");
         return true;
     }
 

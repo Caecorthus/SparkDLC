@@ -27,18 +27,18 @@ import org.lwjgl.glfw.GLFW;
  * Client key hook for the Taotie head launch.
  * 饕餮“发射头颅”的客户端按键挂钩。
  *
- * <p>The key is the shared "second skill key": SparkWitch's {@code key.sparkwitch.secondary_skill}, found at runtime by
+ * <p>The key is the shared "second skill key": SparkWitch's {@code key.sparkdlc.role_skill_2}, found at runtime by
  * translation key so SparkStrength never compiles against SparkWitch. Only when SparkWitch is absent do we register our
  * own fallback binding. SparkWitch's controller drains {@code wasPressed()}, so this hook reads the rising edge of
  * {@code isPressed()} and never consumes the press queue. The client gate only avoids pointless packets; the server
  * re-validates every condition.
- * 按键复用“第二技能键”：运行时按翻译键查找 SparkWitch 的 key.sparkwitch.secondary_skill，SparkStrength 不在编译期依赖
+ * 按键复用“第二技能键”：运行时按翻译键查找 SparkWitch 的 key.sparkdlc.role_skill_2，SparkStrength 不在编译期依赖
  * SparkWitch；仅当 SparkWitch 未安装时才注册自己的后备键。SparkWitch 会清空 wasPressed() 队列，所以这里只对
  * isPressed() 做上升沿检测，绝不消耗按键队列。客户端条件只用于减少无效发包，服务端会重新校验全部条件。</p>
  */
 public final class TaotieHeadClientHooks {
-    private static final String SHARED_KEY = "key.sparkwitch.secondary_skill";
-    private static final String FALLBACK_KEY = "key.sparkstrength.secondary_skill";
+    private static final String SHARED_KEY = "key.sparkdlc.role_skill_2";
+    private static final String FALLBACK_KEY = "key.sparkdlc.secondary_skill";
     private static final String CATEGORY = "category.wathe.keybinds";
     private static final Text DEFAULT_KEY_TEXT = Text.literal("N");
 

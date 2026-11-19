@@ -9,7 +9,7 @@ final class EmblemsTraits {
 
     static void register(Map<String, String[]> table) {
         // 小心翼翼：一前一后两只脚印
-        table.put("sparktraits:cautious", new String[] {
+        table.put("sparkdlc:cautious", new String[] {
                 ".........##.#....",
                 ".........##.#.#..",
                 ".................",
@@ -29,7 +29,7 @@ final class EmblemsTraits {
                 "....++..........."
         });
         // 任务大师：夹板清单与大勾
-        table.put("sparktraits:task_master", new String[] {
+        table.put("sparkdlc:task_master", new String[] {
                 "......#####......",
                 "...###+++++###...",
                 "..####+++++####..",
@@ -49,7 +49,7 @@ final class EmblemsTraits {
                 "...###########..."
         });
         // 快手：张开的手，掌心一道闪电
-        table.put("sparktraits:fast_hands", new String[] {
+        table.put("sparkdlc:fast_hands", new String[] {
                 "........##.......",
                 ".....##.##.##....",
                 ".....##.##.##....",
@@ -69,7 +69,7 @@ final class EmblemsTraits {
                 ".......+++++++..."
         });
         // 幼稚：泰迪熊
-        table.put("sparktraits:childish", new String[] {
+        table.put("sparkdlc:childish", new String[] {
                 "...##.......##...",
                 "..#++#.....#++#..",
                 "..#++#######++#..",
@@ -89,7 +89,7 @@ final class EmblemsTraits {
                 "....##.###.##...."
         });
         // 猪：猪头正面，大鼻子
-        table.put("sparktraits:pig", new String[] {
+        table.put("sparkdlc:pig", new String[] {
                 "...#.........#...",
                 "..###.......###..",
                 "..#+##.....##+#..",
@@ -109,7 +109,7 @@ final class EmblemsTraits {
                 ".....#######....."
         });
         // 沉稳：船锚
-        table.put("sparktraits:steady", new String[] {
+        table.put("sparkdlc:steady", new String[] {
                 ".......###.......",
                 "......##.##......",
                 "......##.##......",
@@ -129,7 +129,7 @@ final class EmblemsTraits {
                 "......#####......"
         });
         // 体质优异：奔跑的人与一个绿色加号
-        table.put("sparktraits:excellent_physique", new String[] {
+        table.put("sparkdlc:excellent_physique", new String[] {
                 ".................",
                 "...........###...",
                 "...........###...",
@@ -149,7 +149,7 @@ final class EmblemsTraits {
                 "................."
         });
         // 灵探：放大镜里的幽灵
-        table.put("sparktraits:spirit_sleuth", new String[] {
+        table.put("sparkdlc:spirit_sleuth", new String[] {
                 "....#####........",
                 "..#########......",
                 ".###.***.###.....",
@@ -169,7 +169,7 @@ final class EmblemsTraits {
                 "................."
         });
         // 滚雪球：带速度线向前滚动的雪球
-        table.put("sparktraits:snowball", new String[] {
+        table.put("sparkdlc:snowball", new String[] {
                 ".................",
                 ".................",
                 ".................",
@@ -189,7 +189,7 @@ final class EmblemsTraits {
                 "................."
         });
         // 物资充沛：扎着绿绳的鼓鼓钱袋
-        table.put("sparktraits:well_supplied", new String[] {
+        table.put("sparkdlc:well_supplied", new String[] {
                 "....##.###.##....",
                 ".....#######.....",
                 "......#####......",
@@ -209,7 +209,7 @@ final class EmblemsTraits {
                 "....#########...."
         });
         // 背水一战：裂开的心
-        table.put("sparktraits:last_stand", new String[] {
+        table.put("sparkdlc:last_stand", new String[] {
                 ".................",
                 ".................",
                 "...####...####...",
@@ -229,7 +229,7 @@ final class EmblemsTraits {
                 "................."
         });
         // 内鬼：戴着浅色眼罩面具的狼
-        table.put("sparktraits:impostor", new String[] {
+        table.put("sparkdlc:impostor", new String[] {
                 "...#.........#...",
                 "..##.........##..",
                 "..#+#.......#+#..",
@@ -249,7 +249,7 @@ final class EmblemsTraits {
                 ".......###......."
         });
         // 外向：三个挨在一起的人
-        table.put("sparktraits:extroverted", new String[] {
+        table.put("sparkdlc:extroverted", new String[] {
                 ".................",
                 ".................",
                 ".......###.......",
@@ -269,7 +269,7 @@ final class EmblemsTraits {
                 "................."
         });
         // 内向：独自读书的兜帽人
-        table.put("sparktraits:introverted", new String[] {
+        table.put("sparkdlc:introverted", new String[] {
                 ".......###.......",
                 ".....#######.....",
                 "....#########....",
@@ -289,7 +289,7 @@ final class EmblemsTraits {
                 "...###########..."
         });
         // 摇钱树：结满钱币的小树
-        table.put("sparktraits:money_tree", new String[] {
+        table.put("sparkdlc:money_tree", new String[] {
                 "......#####......",
                 "....#########....",
                 "...###########...",
@@ -309,7 +309,7 @@ final class EmblemsTraits {
                 "................."
         });
         // 专注：平静睁开的眼与准星刻度
-        table.put("sparktraits:focus", new String[] {
+        table.put("sparkdlc:focus", new String[] {
                 "........+........",
                 "........+........",
                 ".................",
@@ -329,7 +329,7 @@ final class EmblemsTraits {
                 "........+........"
         });
         // 抑郁：下雨的乌云与一滴泪
-        table.put("sparktraits:depression", new String[] {
+        table.put("sparkdlc:depression", new String[] {
                 ".................",
                 ".......###.......",
                 "......#####......",
@@ -349,7 +349,7 @@ final class EmblemsTraits {
                 ".......***......."
         });
         // 精确枪手：粗环瞄准镜十字线
-        table.put("sparktraits:marksman", new String[] {
+        table.put("sparkdlc:marksman", new String[] {
                 "........#........",
                 "......#####......",
                 "....#########....",
@@ -369,7 +369,7 @@ final class EmblemsTraits {
                 "........#........"
         });
         // 快速装填：环形刷新箭头绕着一颗子弹
-        table.put("sparktraits:fast_reload", new String[] {
+        table.put("sparkdlc:fast_reload", new String[] {
                 ".................",
                 ".................",
                 "......#####......",
@@ -389,7 +389,7 @@ final class EmblemsTraits {
                 "................."
         });
         // 重炮手：被击穿、裂纹四散的盾牌
-        table.put("sparktraits:heavy_artillery", new String[] {
+        table.put("sparkdlc:heavy_artillery", new String[] {
                 ".................",
                 "..##########.##..",
                 "..#o########.##..",
@@ -409,7 +409,7 @@ final class EmblemsTraits {
                 "........#........"
         });
         // Niko：沙漠之鹰，方正的长套筒上一道高光，扳机为主题色
-        table.put("sparktraits:niko", new String[] {
+        table.put("sparkdlc:niko", new String[] {
                 ".................",
                 ".................",
                 ".................",
@@ -429,7 +429,7 @@ final class EmblemsTraits {
                 ".####............"
         });
         // 训练有素：挂绶带的星章勋章
-        table.put("sparktraits:well_trained", new String[] {
+        table.put("sparkdlc:well_trained", new String[] {
                 "...#+++***+++#...",
                 "...#+++***+++#...",
                 "....#++***++#....",
@@ -449,7 +449,7 @@ final class EmblemsTraits {
                 "................."
         });
         // 隐蔽行动：被斜杠划掉的熄灭灯泡
-        table.put("sparktraits:going_dark", new String[] {
+        table.put("sparkdlc:going_dark", new String[] {
                 "......#####......",
                 "..##.########....",
                 "...##.########...",

@@ -23,17 +23,17 @@ import org.jetbrains.annotations.Nullable;
  * 损坏来源会被记录但不渲染。数据不完整的记录返回 {@code null}，Wathe 会跳过该行。
  */
 public final class SeekerReplayFormatters {
-    static final String CAR_DEPLOY_KEY = "replay.item_use.sparkwitch.seeker_car.deploy";
-    static final String CAR_RECALL_KEY = "replay.item_use.sparkwitch.seeker_car.recall";
-    static final String CAR_REMOTE_RECALL_KEY = "replay.item_use.sparkwitch.seeker_car.remote_recall";
-    static final String CAMERA_PLACE_KEY = "replay.item_use.sparkwitch.seeker_camera.place";
-    static final String CAR_BROKEN_KEY = "replay.global.sparkwitch.seeker_device_broken.car";
-    static final String CAMERA_BROKEN_KEY = "replay.global.sparkwitch.seeker_device_broken.camera";
-    static final String CAR_BROKEN_UNKNOWN_KEY = "replay.global.sparkwitch.seeker_device_broken.car.unknown";
-    static final String CAMERA_BROKEN_UNKNOWN_KEY = "replay.global.sparkwitch.seeker_device_broken.camera.unknown";
-    static final String CAR_SWALLOWED_KEY = "replay.global.sparkwitch.seeker_car_swallowed";
-    static final String CAR_RETURNED_KEY = "replay.global.sparkwitch.seeker_car_returned";
-    static final String CAR_DEPLETED_KEY = "replay.global.sparkwitch.seeker_car_depleted";
+    static final String CAR_DEPLOY_KEY = "replay.item_use.sparkdlc.seeker_car.deploy";
+    static final String CAR_RECALL_KEY = "replay.item_use.sparkdlc.seeker_car.recall";
+    static final String CAR_REMOTE_RECALL_KEY = "replay.item_use.sparkdlc.seeker_car.remote_recall";
+    static final String CAMERA_PLACE_KEY = "replay.item_use.sparkdlc.seeker_camera.place";
+    static final String CAR_BROKEN_KEY = "replay.global.sparkdlc.seeker_device_broken.car";
+    static final String CAMERA_BROKEN_KEY = "replay.global.sparkdlc.seeker_device_broken.camera";
+    static final String CAR_BROKEN_UNKNOWN_KEY = "replay.global.sparkdlc.seeker_device_broken.car.unknown";
+    static final String CAMERA_BROKEN_UNKNOWN_KEY = "replay.global.sparkdlc.seeker_device_broken.camera.unknown";
+    static final String CAR_SWALLOWED_KEY = "replay.global.sparkdlc.seeker_car_swallowed";
+    static final String CAR_RETURNED_KEY = "replay.global.sparkdlc.seeker_car_returned";
+    static final String CAR_DEPLETED_KEY = "replay.global.sparkdlc.seeker_car_depleted";
     /**
      * Wathe's own key for the recording player ({@code GameRecordManager#addEvent}); only item uses rely on it.
      * Wathe 自身写入的记录玩家键；只有道具使用依赖它。

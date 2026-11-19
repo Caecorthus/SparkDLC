@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 
 /** 连环手枪专用开火包，携带手位以支持主手/副手各自独立冷却。 */
 public record SerialPistolShootC2SPayload(int targetId, Hand hand) implements CustomPayload {
-    public static final Id<SerialPistolShootC2SPayload> ID = new Id<>(Identifier.of("sparkstrength", "serial_pistol_shoot"));
+    public static final Id<SerialPistolShootC2SPayload> ID = new Id<>(Identifier.of("sparkdlc", "serial_pistol_shoot"));
     public static final PacketCodec<RegistryByteBuf, SerialPistolShootC2SPayload> CODEC = PacketCodec.tuple(
             PacketCodecs.VAR_INT, SerialPistolShootC2SPayload::targetId,
             

@@ -34,9 +34,9 @@ public final class SparkDlcBootTest implements FabricGameTest {
     }
 
     /**
-     * Sibling checks all over the code base ask {@code isModLoaded("sparkwitch")} and friends; the single
+     * Sibling checks all over the code base ask {@code isModLoaded("sparkdlc")} and friends; the single
      * {@code sparkdlc} container has to answer for each legacy id through {@code provides}.
-     * 代码中到处用 {@code isModLoaded("sparkwitch")} 之类检查兄弟模块；唯一的 {@code sparkdlc} 容器必须通过
+     * 代码中到处用 {@code isModLoaded("sparkdlc")} 之类检查兄弟模块；唯一的 {@code sparkdlc} 容器必须通过
      * {@code provides} 应答每个旧 id。
      */
     @GameTest(templateName = EMPTY_STRUCTURE)
@@ -62,7 +62,7 @@ public final class SparkDlcBootTest implements FabricGameTest {
      */
     @GameTest(templateName = EMPTY_STRUCTURE)
     public void legacyNamespacesKeepTheirItems(TestContext context) {
-        for (String id : new String[]{"sparkstrength:m67", "sparkwitch:ninja_knife"}) {
+        for (String id : new String[]{"sparkdlc:m67", "sparkdlc:ninja_knife"}) {
             if (!Registries.ITEM.containsId(Identifier.of(id))) {
                 throw new GameTestException("item is not registered: " + id);
             }

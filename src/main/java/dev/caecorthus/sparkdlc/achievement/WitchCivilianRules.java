@@ -12,16 +12,16 @@ import java.util.UUID;
  * “以 X 身份”指对局记录中该事件发生时我的真实身份，因此伪装成 X 的黑羽鸦永远不算。
  */
 final class WitchCivilianRules {
-    static final String BLIND = "sparkwitch:blind";
-    static final String FISHER = "sparkwitch:fisher";
-    static final String PERFUMER = "sparkwitch:perfumer";
-    static final String ORTHOPEDIST = "sparkwitch:orthopedist";
-    static final String HUNTER = "sparkwitch:hunter";
-    static final String SAINT = "sparkwitch:saint";
-    static final String TAROT_READER = "sparkwitch:tarot_reader";
-    static final String EMMA = "sparkwitch:emma";
-    static final String CONTROL_EXPERT = "sparkwitch:control_expert";
-    static final String SEEKER = "sparkwitch:seeker";
+    static final String BLIND = "sparkdlc:blind";
+    static final String FISHER = "sparkdlc:fisher";
+    static final String PERFUMER = "sparkdlc:perfumer";
+    static final String ORTHOPEDIST = "sparkdlc:orthopedist";
+    static final String HUNTER = "sparkdlc:hunter";
+    static final String SAINT = "sparkdlc:saint";
+    static final String TAROT_READER = "sparkdlc:tarot_reader";
+    static final String EMMA = "sparkdlc:emma";
+    static final String CONTROL_EXPERT = "sparkdlc:control_expert";
+    static final String SEEKER = "sparkdlc:seeker";
 
     /**
      * The seven police roles 七种武器 names in its description. The Black Raven, police since 2026-10-21, is in
@@ -32,29 +32,29 @@ final class WitchCivilianRules {
     static final Set<String> SEVEN_WEAPONS_ROLES = Set.of(
             "wathe:vigilante",
             "wathe:veteran",
-            "sparkwitch:judge",
+            "sparkdlc:judge",
             EMMA,
             CONTROL_EXPERT,
             SEEKER,
-            "sparkwitch:usec");
+            "sparkdlc:usec");
 
-    static final String SWORDFISH_STAB = "sparkwitch:swordfish_stab";
+    static final String SWORDFISH_STAB = "sparkdlc:swordfish_stab";
     /**
      * SparkTraits kills a living Impostor with this reason, without a killer, once no real killer is left alive.
      * 一旦没有真正的杀手存活，SparkTraits 就以这个死因、在没有凶手的情况下杀死存活的内鬼。
      */
-    static final String SELF_REALIZATION = "sparktraits:self_realization";
-    static final String FACTOR_BACKLASH = "sparkwitch:factor_backlash";
-    static final String FISHING_ROD = "sparkwitch:fishing_rod";
-    static final String TASER = "sparkwitch:taser";
+    static final String SELF_REALIZATION = "sparkdlc:self_realization";
+    static final String FACTOR_BACKLASH = "sparkdlc:factor_backlash";
+    static final String FISHING_ROD = "sparkdlc:fishing_rod";
+    static final String TASER = "sparkdlc:taser";
     /** The Orthopedist's bone setting and fracture healing share this skill id. 骨科大夫的正骨与接骨共用这个技能 id。 */
-    static final String ORTHOPEDIST_SKILL = "sparkwitch:orthopedist";
-    static final String HOLY_FLASH_BURST = "sparkwitch:holy_flash_burst";
-    static final String COOLING_OIL_HIT = "sparkstrength:perfumer_cooling_oil_hit";
-    static final String CAR_SWALLOWED = "sparkwitch:seeker_car_swallowed";
+    static final String ORTHOPEDIST_SKILL = "sparkdlc:orthopedist";
+    static final String HOLY_FLASH_BURST = "sparkdlc:holy_flash_burst";
+    static final String COOLING_OIL_HIT = "sparkdlc:perfumer_cooling_oil_hit";
+    static final String CAR_SWALLOWED = "sparkdlc:seeker_car_swallowed";
     /** The three Tarot readings, one shop entry each. 三种塔罗占卜，各对应一个商店条目。 */
     static final List<String> TAROT_READINGS = List.of(
-            "sparkwitch_tarot_regular", "sparkwitch_tarot_identity", "sparkwitch_tarot_survival");
+            "sparkdlc_tarot_regular", "sparkdlc_tarot_identity", "sparkdlc_tarot_survival");
     static final String SKUNK = "SKUNK";
     /** Every catch that is a fish, i.e. SparkWitch's catch names without SKUNK. 所有鱼类渔获，即去掉 SKUNK 的 SparkWitch 渔获名。 */
     static final List<String> FISH = List.of(
@@ -78,9 +78,9 @@ final class WitchCivilianRules {
     // ---- The Fisher 钓鱼佬 ----
 
     /**
-     * 愿者上钩: as the Fisher, a swordfish stab ({@code sparkwitch:swordfish_stab}) kills a 非好人. The swordfish is
+     * 愿者上钩: as the Fisher, a swordfish stab ({@code sparkdlc:swordfish_stab}) kills a 非好人. The swordfish is
      * used up before the kill, so {@code killer_item} is never looked at.
-     * 以钓鱼佬身份用剑鱼刺杀（{@code sparkwitch:swordfish_stab}）一名非好人。剑鱼在击杀前就已用掉，所以不看 {@code killer_item}。
+     * 以钓鱼佬身份用剑鱼刺杀（{@code sparkdlc:swordfish_stab}）一名非好人。剑鱼在击杀前就已用掉，所以不看 {@code killer_item}。
      */
     static boolean swordfishKill(AchievementContext context) {
         return context.kills().stream().anyMatch(kill -> swordfishKillAsFisher(context, kill)
@@ -202,7 +202,7 @@ final class WitchCivilianRules {
 
     // ---- Emma 樱羽艾玛 ----
 
-    /** 引火烧身: as Emma, die of factor backlash ({@code sparkwitch:factor_backlash}). 以樱羽艾玛身份死于因子反噬。 */
+    /** 引火烧身: as Emma, die of factor backlash ({@code sparkdlc:factor_backlash}). 以樱羽艾玛身份死于因子反噬。 */
     static boolean diedOfBacklash(AchievementContext context) {
         return context.timeline().eventsOn(MatchEvent.DEATH, context.self()).stream()
                 .anyMatch(death -> Rules.reason(death, FACTOR_BACKLASH)
@@ -229,8 +229,8 @@ final class WitchCivilianRules {
 
     /**
      * 还我车来: as the Seeker, kill with my own hand the Taotie who swallowed my car, after the swallow
-     * ({@code sparkwitch:seeker_car_swallowed}: actor = the Taotie, {@code owner} = me).
-     * 以搜寻者身份，在小车被吞之后亲手击杀吞掉它的饕餮（{@code sparkwitch:seeker_car_swallowed}：actor 为饕餮，{@code owner} 为我）。
+     * ({@code sparkdlc:seeker_car_swallowed}: actor = the Taotie, {@code owner} = me).
+     * 以搜寻者身份，在小车被吞之后亲手击杀吞掉它的饕餮（{@code sparkdlc:seeker_car_swallowed}：actor 为饕餮，{@code owner} 为我）。
      */
     static boolean killedTheCarEater(AchievementContext context) {
         UUID self = context.self();

@@ -45,7 +45,7 @@ public final class ProphetClientModule {
                         // 绝不替换其他界面；提示玩家为何没有打开。
                         SELECTION.clear();
                         if (client.player != null) {
-                            client.player.sendMessage(Text.translatable("message.sparkwitch.prophecy.dropped"), true);
+                            client.player.sendMessage(Text.translatable("message.sparkdlc.prophecy.dropped"), true);
                         }
                         return;
                     }
@@ -106,7 +106,7 @@ public final class ProphetClientModule {
         } else if (client.currentScreen != null && !(client.currentScreen instanceof ProphetProphecyScreen)) {
             SELECTION.clear();
         } else if (SELECTION.tick() && client.player != null) {
-            client.player.sendMessage(Text.translatable("message.sparkwitch.prophecy.expired"), true);
+            client.player.sendMessage(Text.translatable("message.sparkdlc.prophecy.expired"), true);
         }
     }
 

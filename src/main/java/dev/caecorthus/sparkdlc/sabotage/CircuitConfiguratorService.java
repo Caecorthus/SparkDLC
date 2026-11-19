@@ -34,7 +34,7 @@ public final class CircuitConfiguratorService {
 
     public static void use(ServerPlayerEntity player, BlockPos pos, BlockState state, boolean backwards) {
         if (!player.hasPermissionLevel(PERMISSION_LEVEL)) {
-            player.sendMessage(Text.translatable("message.sparkstrength.configurator.no_permission")
+            player.sendMessage(Text.translatable("message.sparkdlc.configurator.no_permission")
                     .formatted(Formatting.RED), true);
             return;
         }
@@ -61,8 +61,8 @@ public final class CircuitConfiguratorService {
         }
         world.playSound(null, pos, SoundEvents.BLOCK_NOTE_BLOCK_HAT.value(), SoundCategory.BLOCKS, 0.6F, 1.4F);
         player.sendMessage(Text.translatable(mirrored
-                        ? "message.sparkstrength.configurator.box_set_mirrored"
-                        : "message.sparkstrength.configurator.box_set",
+                        ? "message.sparkdlc.configurator.box_set_mirrored"
+                        : "message.sparkdlc.configurator.box_set",
                 pos.getX(), pos.getY(), pos.getZ(), Text.translatable(circuit.translationKey())), true);
     }
 
@@ -83,20 +83,20 @@ public final class CircuitConfiguratorService {
                 engineUnits.incrementAndGet();
             }
         });
-        player.sendMessage(Text.translatable("message.sparkstrength.configurator.summary",
+        player.sendMessage(Text.translatable("message.sparkdlc.configurator.summary",
                 pos.getX(), pos.getY(), pos.getZ(), lightsBoxes.get(), engineBoxes.get(), otherBoxes.get(),
                 breakers.get(), engineUnits.get()), false);
         if (engineUnits.get() == 1) {
             // One unit can be guarded from a single corridor. / 只有一台的话，守住一条走廊就够了。
-            player.sendMessage(Text.translatable("message.sparkstrength.configurator.single_engine_unit")
+            player.sendMessage(Text.translatable("message.sparkdlc.configurator.single_engine_unit")
                     .formatted(Formatting.YELLOW), false);
         } else if (engineUnits.get() > SabotageStatusS2CPacket.MAX_ENGINE_UNITS) {
             // The status packet only carries this many, so the rest get no long-range outline.
             // 状态包最多只带这么多台，多出的装置没有远距离描边。
-            player.sendMessage(Text.translatable("message.sparkstrength.configurator.too_many_engine_units",
+            player.sendMessage(Text.translatable("message.sparkdlc.configurator.too_many_engine_units",
                     engineUnits.get(), SabotageStatusS2CPacket.MAX_ENGINE_UNITS).formatted(Formatting.YELLOW), false);
         } else if (engineBoxes.get() > 0 && engineUnits.get() == 0) {
-            player.sendMessage(Text.translatable("message.sparkstrength.configurator.engine_boxes_without_units")
+            player.sendMessage(Text.translatable("message.sparkdlc.configurator.engine_boxes_without_units")
                     .formatted(Formatting.YELLOW), false);
         }
     }

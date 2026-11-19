@@ -35,7 +35,7 @@ final class BreakerRepairScreen extends AbstractRepairScreen {
     private boolean holding;
 
     BreakerRepairScreen(OpenBreakerRepairS2CPacket packet) {
-        super(Text.translatable("screen.sparkstrength.breaker.title"), packet.sessionId(), packet.holdTicks(),
+        super(Text.translatable("screen.sparkdlc.breaker.title"), packet.sessionId(), packet.holdTicks(),
                 SabotageRules.repairMinTicks(packet.switches(), Math.max(1, packet.holdTicks())));
         List<Integer> slots = new ArrayList<>();
         for (int i = 0; i < tripped.length; i++) {
@@ -100,7 +100,7 @@ final class BreakerRepairScreen extends AbstractRepairScreen {
         // 已拉满但快于服务端最短用时：指针保持在顶，直到时间够了（服务端的计时早于界面打开，因此在这里等就足够）。
         if (charged() && submitDue()) {
             holding = false;
-            submit(Text.translatable("screen.sparkstrength.breaker.restoring"));
+            submit(Text.translatable("screen.sparkdlc.breaker.restoring"));
             playClick(SparkStrengthSounds.CIRCUIT_BREAKER_SWITCH, 0.7F);
         }
     }
@@ -109,7 +109,7 @@ final class BreakerRepairScreen extends AbstractRepairScreen {
     protected void onReplyTimeout() {
         // The completion never arrived; the server session is still open, so start the lever again.
         // 完成包没有送达；服务端会话仍然有效，重新拉闸即可。
-        banner = Text.translatable("screen.sparkstrength.breaker.retry");
+        banner = Text.translatable("screen.sparkdlc.breaker.retry");
         bannerColor = TabletTheme.DANGER;
     }
 
@@ -144,15 +144,15 @@ final class BreakerRepairScreen extends AbstractRepairScreen {
     protected void closedByServer(int reason) {
         switch (reason) {
             case CloseBreakerRepairS2CPacket.REASON_REPAIRED -> {
-                banner = Text.translatable("screen.sparkstrength.breaker.repaired");
+                banner = Text.translatable("screen.sparkdlc.breaker.repaired");
                 bannerColor = TabletTheme.SUCCESS;
             }
             case CloseBreakerRepairS2CPacket.REASON_POWER_BACK -> {
-                banner = Text.translatable("screen.sparkstrength.breaker.power_back");
+                banner = Text.translatable("screen.sparkdlc.breaker.power_back");
                 bannerColor = TabletTheme.SUCCESS;
             }
             default -> {
-                banner = Text.translatable("screen.sparkstrength.breaker.interrupted");
+                banner = Text.translatable("screen.sparkdlc.breaker.interrupted");
                 bannerColor = TabletTheme.DANGER;
             }
         }
@@ -174,8 +174,8 @@ final class BreakerRepairScreen extends AbstractRepairScreen {
         canvas.popClip();
         canvas.text(textRenderer, "⚡ " + title.getString(), x + 14, y + 13, TabletTheme.TEXT);
         String hint = Text.translatable(allReset()
-                ? "screen.sparkstrength.breaker.hint_lever"
-                : "screen.sparkstrength.breaker.hint_switches").getString();
+                ? "screen.sparkdlc.breaker.hint_lever"
+                : "screen.sparkdlc.breaker.hint_switches").getString();
         canvas.text(textRenderer, TabletCanvas.trim(textRenderer, hint, PANEL_W - 28), x + 14, y + 26,
                 TabletTheme.TEXT_2);
 
@@ -231,8 +231,8 @@ final class BreakerRepairScreen extends AbstractRepairScreen {
         canvas.roundRect(lx + 6, handleY, LEVER_W - 12, 16, 4, ready ? 0xFFC43B3B : 0xFF5A3030);
         canvas.roundRect(lx + 6, handleY, LEVER_W - 12, 5, 4, TabletTheme.withAlpha(0xFFFFFFFF, 0x30));
         String label = Text.translatable(ready
-                ? "screen.sparkstrength.breaker.lever_hold"
-                : "screen.sparkstrength.breaker.lever_locked").getString();
+                ? "screen.sparkdlc.breaker.lever_hold"
+                : "screen.sparkdlc.breaker.lever_locked").getString();
         canvas.textCentered(textRenderer, label, lx + LEVER_W / 2, ly + LEVER_H + 4,
                 ready ? 0xFFE0A526 : TabletTheme.TEXT_3);
     }

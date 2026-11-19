@@ -28,10 +28,10 @@ public final class BanditAttachmentItem extends Item {
 
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        tooltip.add(Text.translatable("item.sparkstrength.bandit_part.slot." + attachment.slot().key())
+        tooltip.add(Text.translatable("item.sparkdlc.bandit_part.slot." + attachment.slot().key())
                 .formatted(Formatting.DARK_GRAY));
-        tooltip.add(Text.translatable("item.sparkstrength.bandit_" + attachment.key() + ".description")
+        tooltip.add(Text.translatable("item.sparkdlc.bandit_" + attachment.key() + ".description")
                 .formatted(Formatting.GRAY));
-        tooltip.add(Text.translatable("item.sparkstrength.bandit_part.hint").formatted(Formatting.DARK_GRAY));
+        tooltip.add(Text.translatable("item.sparkdlc.bandit_part.hint").formatted(Formatting.DARK_GRAY));
     }
 }

@@ -69,7 +69,7 @@ public final class MediumVoteScreen extends Screen {
     private int footerY;
 
     MediumVoteScreen(int windowId, String question) {
-        super(Text.translatable("screen.sparkwitch.medium.vote.title"));
+        super(Text.translatable("screen.sparkdlc.medium.vote.title"));
         this.windowId = windowId;
         this.question = question;
     }
@@ -78,7 +78,7 @@ public final class MediumVoteScreen extends Screen {
     protected void init() {
         panelWidth = Math.max(2 * INSET + BUTTON_GAP + 2, Math.min(PANEL_WIDTH, this.width - 2 * SCREEN_MARGIN));
         int budget = panelWidth - 2 * INSET;
-        questionLines = fitLines(Text.translatable("screen.sparkwitch.medium.vote.question", question).getString(),
+        questionLines = fitLines(Text.translatable("screen.sparkdlc.medium.vote.question", question).getString(),
                 budget);
         countdownY = QUESTION_Y + questionLines.size() * LINE_HEIGHT + COUNTDOWN_GAP;
         buttonY = countdownY + BUTTON_TOP_GAP;
@@ -152,13 +152,13 @@ public final class MediumVoteScreen extends Screen {
         boolean noChosen = Boolean.FALSE.equals(choice);
 
         int seconds = secondsLeft();
-        Text countdown = Text.translatable("hud.sparkwitch.medium.seance.remaining", seconds);
+        Text countdown = Text.translatable("hud.sparkdlc.medium.seance.remaining", seconds);
         int countdownColor = seconds <= URGENT_SECONDS ? InventoryCardPaint.ALERT_TEXT : InventoryCardPaint.MUTED;
         int countdownWidth = 5 + ICON_GAP + this.textRenderer.getWidth(countdown);
         int countdownX = panelX + (panelWidth - countdownWidth) / 2;
 
-        Text yes = Text.translatable("screen.sparkwitch.medium.vote.yes");
-        Text no = Text.translatable("screen.sparkwitch.medium.vote.no");
+        Text yes = Text.translatable("screen.sparkdlc.medium.vote.yes");
+        Text no = Text.translatable("screen.sparkdlc.medium.vote.no");
         int yesContentX = yesX + (buttonWidth - labelWidth(yes)) / 2;
         int noContentX = noX + (buttonWidth - labelWidth(no)) / 2;
         int stampY = panelY + buttonY + (BUTTON_HEIGHT - TarotLedgerLayout.STAMP_W) / 2;
@@ -193,7 +193,7 @@ public final class MediumVoteScreen extends Screen {
                 panelX + TarotLedgerLayout.TITLE_X, panelY + TarotLedgerLayout.TITLE_Y, InventoryCardPaint.TITLE,
                 false);
         drawCentered(context, InventoryCardPaint.ellipsize(this.textRenderer,
-                Text.translatable("screen.sparkwitch.medium.vote.asks").getString(), budget),
+                Text.translatable("screen.sparkdlc.medium.vote.asks").getString(), budget),
                 panelY + ASKS_Y, InventoryCardPaint.MUTED);
         for (int i = 0; i < questionLines.size(); i++) {
             drawCentered(context, questionLines.get(i), panelY + QUESTION_Y + i * LINE_HEIGHT,
@@ -224,12 +224,12 @@ public final class MediumVoteScreen extends Screen {
         int right = panelX + panelWidth - TarotLedgerLayout.FOOTER_INSET;
         int currentX = right;
         if (choice != null) {
-            Text current = Text.translatable("screen.sparkwitch.medium.vote.current", (choice ? yes : no).copy()
+            Text current = Text.translatable("screen.sparkdlc.medium.vote.current", (choice ? yes : no).copy()
                     .withColor((choice ? InventoryCardPaint.READY_TEXT : InventoryCardPaint.ALERT_TEXT) & 0xFFFFFF));
             currentX = right - this.textRenderer.getWidth(current);
             context.drawText(this.textRenderer, current, currentX, textY, InventoryCardPaint.TEXT, true);
         }
-        Text later = Text.translatable("screen.sparkwitch.medium.vote.later", SparkWitchClient.abilityKeyText());
+        Text later = Text.translatable("screen.sparkdlc.medium.vote.later", SparkWitchClient.abilityKeyText());
         int laterX = keycapX + keycapWidth + HINT_GAP;
         if (laterX + this.textRenderer.getWidth(later) + HINT_GAP <= currentX) {
             context.drawText(this.textRenderer, later, laterX, textY, InventoryCardPaint.MUTED, true);

@@ -25,7 +25,7 @@ public abstract class PartygoerGrabbedMessageMixin {
     private Text sparkstrength$grabbedMessage(Text original) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player != null && PartygoerCarry.isCarried(client.player)) {
-            return Text.translatable("tip.sparkstrength.partygoer.grabbed").formatted(Formatting.LIGHT_PURPLE);
+            return Text.translatable("tip.sparkdlc.partygoer.grabbed").formatted(Formatting.LIGHT_PURPLE);
         }
         return original;
     }

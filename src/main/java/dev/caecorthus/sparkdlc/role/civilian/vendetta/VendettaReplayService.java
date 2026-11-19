@@ -103,7 +103,7 @@ public final class VendettaReplayService {
         }
         var playerInfo = ReplayGenerator.getPlayerInfoCache(match);
         return Text.translatable(
-                "replay.global.sparkwitch.vendetta_terminal",
+                "replay.global.sparkdlc.vendetta_terminal",
                 ReplayGenerator.formatPlayerName(data.getUuid("actor"), playerInfo),
                 ReplayGenerator.formatPlayerName(data.getUuid("target"), playerInfo)
         );

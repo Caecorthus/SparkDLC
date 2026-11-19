@@ -77,7 +77,7 @@ public final class OrthopedistSkillService {
                 caster.canSee(target),
                 caster.squaredDistanceTo(target)
         )) {
-            caster.sendMessage(Text.translatable("message.sparkwitch.orthopedist.no_target"), true);
+            caster.sendMessage(Text.translatable("message.sparkdlc.orthopedist.no_target"), true);
             return;
         }
 
@@ -88,7 +88,7 @@ public final class OrthopedistSkillService {
         );
         if (action == OrthopedistRules.TargetAction.REJECT_ALREADY_ACTIVE) {
             caster.sendMessage(Text.translatable(
-                    "message.sparkwitch.orthopedist.already_active",
+                    "message.sparkdlc.orthopedist.already_active",
                     target.getDisplayName()
             ), true);
             return;
@@ -138,8 +138,8 @@ public final class OrthopedistSkillService {
         }
         String action = data.getString("action");
         String translationKey = switch (action) {
-            case ACTION_HEAL_FRACTURE -> "replay.skill.sparkwitch.orthopedist.heal_fracture";
-            case ACTION_BONE_SETTING -> "replay.skill.sparkwitch.orthopedist.bone_setting";
+            case ACTION_HEAL_FRACTURE -> "replay.skill.sparkdlc.orthopedist.heal_fracture";
+            case ACTION_BONE_SETTING -> "replay.skill.sparkdlc.orthopedist.bone_setting";
             default -> null;
         };
         if (translationKey == null) {

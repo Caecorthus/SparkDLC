@@ -164,7 +164,7 @@ public final class ProfessorSerumService {
     private static void failRemoteFeed(ServerPlayerEntity professor, ProfessorSerumUserComponent userComponent) {
         userComponent.setCooldownTicks(ProfessorSerumRules.REMOTE_FAIL_COOLDOWN_TICKS);
         professor.sendMessage(
-                Text.translatable("message.sparkstrength.professor.remote_feed_failed").formatted(Formatting.RED),
+                Text.translatable("message.sparkdlc.professor.remote_feed_failed").formatted(Formatting.RED),
                 true
         );
     }
@@ -207,11 +207,11 @@ public final class ProfessorSerumService {
 
         Text targetText = Text.literal(target.getGameProfile().getName());
         Text otherMessage = Text.translatable(
-                "message.sparkstrength.professor.truth.other",
+                "message.sparkdlc.professor.truth.other",
                 targetText,
                 roleName
         ).withColor(Noellesroles.PROFESSOR.color());
-        Text selfMessage = Text.translatable("message.sparkstrength.professor.truth.self")
+        Text selfMessage = Text.translatable("message.sparkdlc.professor.truth.self")
                 .withColor(Noellesroles.PROFESSOR.color());
 
         // 用户已确认“所有人”按在线玩家处理：除目标本人外，所有在线玩家都收到公开身份动作栏。

@@ -170,7 +170,7 @@ public final class BellRingerEchoRuntime {
         mood.setMood(mood.getMood() - BellRingerRules.ECHO_FAILURE_MOOD_LOSS);
         mood.tasks.remove(type);
         mood.sync();
-        player.sendMessage(Text.translatable("message.sparkwitch.bell_echo.failed"), true);
+        player.sendMessage(Text.translatable("message.sparkdlc.bell_echo.failed"), true);
     }
 
     /** Ringer-only glint flag, recomputed on the scan cadence; everyone else holds false. / 仅敲钟人的发光标记，按扫描周期重算；其他玩家恒为 false。 */

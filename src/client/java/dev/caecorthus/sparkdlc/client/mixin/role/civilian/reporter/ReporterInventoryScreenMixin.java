@@ -74,8 +74,8 @@ public abstract class ReporterInventoryScreenMixin extends LimitedHandledScreen<
         }
 
         Text text = ReporterCommunicationPlayerWidget.firstChoice == null
-                ? Text.translatable("ui.sparkstrength.reporter.first_player_selection")
-                : Text.translatable("ui.sparkstrength.reporter.second_player_selection");
+                ? Text.translatable("ui.sparkdlc.reporter.first_player_selection")
+                : Text.translatable("ui.sparkdlc.reporter.second_player_selection");
         TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
         int x = this.width / 2 - textRenderer.getWidth(text) / 2;
         int y = (this.height - 32) / 2 + 40;
@@ -118,7 +118,7 @@ public abstract class ReporterInventoryScreenMixin extends LimitedHandledScreen<
                 0,
                 y,
                 Items.PURPLE_DYE.getDefaultStack(),
-                Text.translatable("ui.sparkstrength.pagination.previous"),
+                Text.translatable("ui.sparkdlc.pagination.previous"),
                 button -> {
                     sparkstrength$reporterCurrentPage--;
                     sparkstrength$reporterRefreshPage();
@@ -128,7 +128,7 @@ public abstract class ReporterInventoryScreenMixin extends LimitedHandledScreen<
                 0,
                 y,
                 Items.LIME_DYE.getDefaultStack(),
-                Text.translatable("ui.sparkstrength.pagination.next"),
+                Text.translatable("ui.sparkdlc.pagination.next"),
                 button -> {
                     sparkstrength$reporterCurrentPage++;
                     sparkstrength$reporterRefreshPage();

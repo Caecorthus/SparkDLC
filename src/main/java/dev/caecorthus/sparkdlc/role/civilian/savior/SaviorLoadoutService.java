@@ -220,7 +220,7 @@ public final class SaviorLoadoutService {
     }
 
     private static @Nullable Item tabletItem() {
-        Item item = Registries.ITEM.get(Identifier.of("sparkstrength", "tablet"));
+        Item item = Registries.ITEM.get(Identifier.of("sparkdlc", "tablet"));
         return item == Items.AIR ? null : item;
     }
 

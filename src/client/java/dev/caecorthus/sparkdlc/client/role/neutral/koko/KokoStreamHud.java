@@ -20,11 +20,11 @@ import net.minecraft.text.Text;
  * only: it reads the local player's real synced role, her owner-synced {@link KokoComponent} (traffic, and the stream
  * and ready ticks counted down against the client world clock) and her shared mana, and never predicts a stream; the
  * server alone decides one. Called by {@link KokoClient} only on a confirmed SparkWitch server. Role-owned
- * presentation: never the action bar and never the {@code gui.sparkwitch.skills} panel.
+ * presentation: never the action bar and never the {@code gui.sparkdlc.skills} panel.
  * 绘制可可仅本人可见的两行（{@link KokoStreamHudRules}）：流量，以及其下方的直播行。仅用于展示：读取本地玩家同步的真实职业、
  * 只同步给本人的 {@link KokoComponent}（流量，以及依据客户端世界时钟倒数的直播刻与就绪刻）与共享魔力，从不预测直播；直播是否
  * 生效只由服务端决定。仅在已确认的 SparkWitch 服务器上由 {@link KokoClient} 调用。属于职业自有展示：绝不使用动作栏，也绝不
- * 进入 {@code gui.sparkwitch.skills} 面板。
+ * 进入 {@code gui.sparkdlc.skills} 面板。
  */
 public final class KokoStreamHud {
     // Render-thread caches, one per row (see CachedHudText). / 渲染线程缓存，每行一个（见 CachedHudText）。

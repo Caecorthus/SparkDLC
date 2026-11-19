@@ -7,9 +7,9 @@ import net.minecraft.text.Text;
  * 回放界面的对局时间与“多久前结束”格式化。
  */
 final class ReplayTimeFormat {
-    static final String KEY_SECONDS = "screen.sparkfactionapi.replay.time.seconds";
-    static final String KEY_MINUTES = "screen.sparkfactionapi.replay.time.minutes";
-    static final String KEY_HOURS = "screen.sparkfactionapi.replay.time.hours";
+    static final String KEY_SECONDS = "screen.sparkdlc.replay.time.seconds";
+    static final String KEY_MINUTES = "screen.sparkdlc.replay.time.minutes";
+    static final String KEY_HOURS = "screen.sparkdlc.replay.time.hours";
 
     private ReplayTimeFormat() {
     }

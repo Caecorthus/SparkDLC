@@ -14,9 +14,9 @@ import java.util.UUID;
 final class NeutralRules {
     static final String PATHOGEN = "noellesroles:pathogen";
     /** {@code actor} (a Pathogen) made {@code target} a virus carrier. 病原体（{@code actor}）把 {@code target} 变成带毒者。 */
-    static final String VIRUS_USED = "sparkstrength:pathogen_virus_used";
+    static final String VIRUS_USED = "sparkdlc:pathogen_virus_used";
     /** The carrier ({@code actor}) infected {@code target}. 带毒者（{@code actor}）感染了 {@code target}。 */
-    static final String VIRUS_SPREAD = "sparkstrength:pathogen_virus_spread";
+    static final String VIRUS_SPREAD = "sparkdlc:pathogen_virus_spread";
     /**
      * Wathe's win status when one Loose End is left; only the Loose Ends mode sets it.
      * 只剩一名亡命徒时 Wathe 的胜利状态；只有亡命徒模式会设置它。

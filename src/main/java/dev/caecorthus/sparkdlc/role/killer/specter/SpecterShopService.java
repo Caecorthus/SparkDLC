@@ -12,11 +12,11 @@ import net.minecraft.item.ItemStack;
  * The Specter's role shop: one ghost-trigger entry, 50 coins, poison-style frame, inserted between the shared shop's
  * weapon/poison group and its tool group. Registered in the DEFAULT phase like every other killer shop (Hunter, Ninja,
  * Bell Ringer, Time Stealer, Witch Maiden): Wathe seeds the base entries into the context before the event runs, so
- * the insertion point exists, and SparkTraits' {@code sparktraits:charisma_discount} phase (ordered after DEFAULT)
+ * the insertion point exists, and SparkTraits' {@code sparkdlc:charisma_discount} phase (ordered after DEFAULT)
  * still discounts this entry for a Charisma Specter.
  * 幽魂职业商店：一个鬼魂触发器条目，50 金币，毒药类边框，插在通用商店的武器/毒药组与工具组之间。与其他杀手商店（猎人、忍者、
  * 敲钟人、窃时者、巫女）一样注册在默认阶段：Wathe 在事件运行前已把基础条目放入上下文，因此插入点已存在；SparkTraits 排在默认
- * 阶段之后的 {@code sparktraits:charisma_discount} 阶段仍会为拥有魅力的幽魂打折本条目。
+ * 阶段之后的 {@code sparkdlc:charisma_discount} 阶段仍会为拥有魅力的幽魂打折本条目。
  *
  * <p>The same listener drops Wathe's native Psycho Mode, Poison Vial and Scorpion from the Specter's shop (owner
  * decision 2026-11-10: the Specter sells none of the three). The removal is role-scoped on purpose: other roles sell,

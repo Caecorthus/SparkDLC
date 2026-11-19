@@ -7,9 +7,9 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 
 /**
- * Stable C2S contract {@code sparkwitch:use_blind_attune}: an empty Attune request; the server validates everything.
+ * Stable C2S contract {@code sparkdlc:use_blind_attune}: an empty Attune request; the server validates everything.
  * Classified as a role skill in the Control Expert stun, Seeker session and Grand Witch Fear deny-lists.
- * 稳定 C2S 契约 {@code sparkwitch:use_blind_attune}：空的凝神请求，全部校验在服务端完成。
+ * 稳定 C2S 契约 {@code sparkdlc:use_blind_attune}：空的凝神请求，全部校验在服务端完成。
  * 已作为职业技能归入控场专家眩晕、搜寻者会话与大魔女恐惧的拦截名单。
  */
 public record UseBlindAttuneC2SPayload() implements CustomPayload {

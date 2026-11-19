@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 import java.util.List;
 
 /**
- * 手帕 Handkerchief ({@code sparkwitch:hanna_handkerchief}), bought from Hanna's shop and usable by whoever holds it
+ * 手帕 Handkerchief ({@code sparkdlc:hanna_handkerchief}), bought from Hanna's shop and usable by whoever holds it
  * (owner 2026-11-11). Hold right-click for {@link HannaRules#HANDKERCHIEF_HOLD_TICKS}; releasing early does nothing
  * and costs nothing. A finished use (server authority) spends 1 of its {@link HannaRules#HANDKERCHIEF_USES} uses,
  * starts the {@link HannaRules#HANDKERCHIEF_COOLDOWN_TICKS} item cooldown, starts
@@ -28,7 +28,7 @@ import java.util.List;
  * {@link HannaFloatService}) and ends a running float penalty. Only a living participant of an ACTIVE round can use
  * it. Uses left are vanilla durability (the Spare Key model); nothing is stored in custom data. No death drop is
  * registered.
- * 手帕（{@code sparkwitch:hanna_handkerchief}），在汉娜的商店购买，谁拿到都能用（所有者 2026-11-11）。按住右键
+ * 手帕（{@code sparkdlc:hanna_handkerchief}），在汉娜的商店购买，谁拿到都能用（所有者 2026-11-11）。按住右键
  * {@link HannaRules#HANDKERCHIEF_HOLD_TICKS}；提前松开不生效，也不消耗。完成一次使用（由服务端决定）会消耗
  * {@link HannaRules#HANDKERCHIEF_USES} 次中的 1 次、进入 {@link HannaRules#HANDKERCHIEF_COOLDOWN_TICKS} 的物品冷却、在
  * {@link HannaComponent} 中开始 {@link HannaRules#HANDKERCHIEF_TICKS} 的理智回复（由 {@link HannaFloatService} 逐秒结算），
@@ -113,10 +113,10 @@ public final class HannaHandkerchiefItem extends Item {
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         // Stack data only: the creative search index builds tooltips off-thread with no player.
         // 只读物品堆数据：创造模式搜索索引会在后台线程、无玩家时构建提示文本。
-        tooltip.add(Text.translatable("item.sparkwitch.hanna_handkerchief.tooltip.usage",
+        tooltip.add(Text.translatable("item.sparkdlc.hanna_handkerchief.tooltip.usage",
                 HannaRules.HANDKERCHIEF_HOLD_TICKS / 20, HannaRules.HANDKERCHIEF_TICKS / 20,
                 Math.round(HannaRules.HANDKERCHIEF_SANITY_PER_SECOND * 100F)).formatted(Formatting.GRAY));
-        tooltip.add(Text.translatable("item.sparkwitch.hanna_handkerchief.tooltip.cooldown",
+        tooltip.add(Text.translatable("item.sparkdlc.hanna_handkerchief.tooltip.cooldown",
                 HannaRules.HANDKERCHIEF_COOLDOWN_TICKS / 20).formatted(Formatting.DARK_GRAY));
         super.appendTooltip(stack, context, tooltip, type);
     }

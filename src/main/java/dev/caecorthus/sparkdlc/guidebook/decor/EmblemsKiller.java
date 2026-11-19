@@ -269,7 +269,7 @@ final class EmblemsKiller {
                 "................."
         });
         // 猎人：斜挎的双管猎枪
-        table.put("sparkwitch:hunter", new String[] {
+        table.put("sparkdlc:hunter", new String[] {
                 ".................",
                 "..............#..",
                 ".............#+#.",
@@ -289,7 +289,7 @@ final class EmblemsKiller {
                 "...##............"
         });
         // 忍者：带斜面的四角手里剑，身后一支苦无
-        table.put("sparkwitch:ninja", new String[] {
+        table.put("sparkdlc:ninja", new String[] {
                 "........#........",
                 "........#.....#..",
                 ".......##+..###..",
@@ -309,7 +309,7 @@ final class EmblemsKiller {
                 "........#........"
         });
         // 绑架者：扎口捆绳的麻袋
-        table.put("sparkwitch:kidnapper", new String[] {
+        table.put("sparkdlc:kidnapper", new String[] {
                 ".................",
                 "......#.#.#......",
                 "......#####......",
@@ -329,7 +329,7 @@ final class EmblemsKiller {
                 ".....#######....."
         });
         // 巫女：鲜红的毒苹果，下方坠着一滴毒液
-        table.put("sparkwitch:witch_maiden", new String[] {
+        table.put("sparkdlc:witch_maiden", new String[] {
                 ".........#++.....",
                 "........#+++.....",
                 "....#########....",
@@ -349,7 +349,7 @@ final class EmblemsKiller {
                 ".......###......."
         });
         // 破坏者：碎裂熄灭的灯泡
-        table.put("sparkwitch:saboteur", new String[] {
+        table.put("sparkdlc:saboteur", new String[] {
                 "......#####......",
                 "....######o##....",
                 "...######o####...",
@@ -369,7 +369,7 @@ final class EmblemsKiller {
                 ".......###......."
         });
         // 敲钟人：挂在木梁下的沉重丧钟
-        table.put("sparkwitch:bell_ringer", new String[] {
+        table.put("sparkdlc:bell_ringer", new String[] {
                 "...#+++++++++#...",
                 "...#+++++++++#...",
                 ".......###.......",
@@ -389,7 +389,7 @@ final class EmblemsKiller {
                 "........#........"
         });
         // 窃时者：指针被拨乱的怀表
-        table.put("sparkwitch:time_stealer", new String[] {
+        table.put("sparkdlc:time_stealer", new String[] {
                 ".......###.......",
                 ".......+++.......",
                 "......#####......",
@@ -409,7 +409,7 @@ final class EmblemsKiller {
                 "......#####......"
         });
         // 魔术师：提线吊着的礼帽小人，就是那副皮套
-        table.put("sparkwitch:magician", new String[] {
+        table.put("sparkdlc:magician", new String[] {
                 "........#........",
                 "..#############..",
                 "..-.....#.....-..",
@@ -429,7 +429,7 @@ final class EmblemsKiller {
                 "................."
         });
         // 二阶堂希罗：打了活结的绳套
-        table.put("sparkwitch:nikaido_hiro", new String[] {
+        table.put("sparkdlc:nikaido_hiro", new String[] {
                 "........#+.......",
                 "........+#.......",
                 "........#+.......",
@@ -469,7 +469,7 @@ final class EmblemsKiller {
                 "................."
         });
         // 杀意魔女：被滴血尖刀穿透的魔女帽
-        table.put("sparkwitch:murderous_witch", new String[] {
+        table.put("sparkdlc:murderous_witch", new String[] {
                 ".................",
                 "...###...........",
                 "....####.........",
@@ -489,7 +489,7 @@ final class EmblemsKiller {
                 "................."
         });
         // 魔人：闭眼沉睡的长角恶魔头
-        table.put("sparkwitch:fiend", new String[] {
+        table.put("sparkdlc:fiend", new String[] {
                 "...#.........#...",
                 "..##.........##..",
                 ".###.........###.",
@@ -509,7 +509,7 @@ final class EmblemsKiller {
                 "................."
         });
         // 泽渡可可：正在直播的手机，上方是信号弧
-        table.put("sparkwitch:koko", new String[] {
+        table.put("sparkdlc:koko", new String[] {
                 "....##.....##....",
                 "...#...###...#...",
                 "..#..##...##..#..",
@@ -529,7 +529,7 @@ final class EmblemsKiller {
                 ".....#######....."
         });
         // 内应：封着火漆印的信封
-        table.put("sparkwitch:insider", new String[] {
+        table.put("sparkdlc:insider", new String[] {
                 ".................",
                 ".................",
                 ".................",
@@ -549,7 +549,7 @@ final class EmblemsKiller {
                 "................."
         });
         // 狮身豪：戴墨镜、咧嘴笑的条纹法老头巾狮身人面像
-        table.put("sparkwitch:sphinx_hao", new String[] {
+        table.put("sparkdlc:sphinx_hao", new String[] {
                 "........*........",
                 ".......#*#.......",
                 ".....###*###.....",

@@ -88,7 +88,7 @@ public final class GrandWitchShopService {
             return ShopPurchase.PurchaseResult.deny("shop.error.purchase_denied");
         }
         if (!GrandWitchSpellService.hasEnoughMana(player, spell)) {
-            return ShopPurchase.PurchaseResult.deny("shop.error.sparkwitch.not_enough_mana");
+            return ShopPurchase.PurchaseResult.deny("shop.error.sparkdlc.not_enough_mana");
         }
         return ShopPurchase.PurchaseResult.allow(0);
     }

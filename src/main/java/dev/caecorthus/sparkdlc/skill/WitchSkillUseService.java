@@ -31,11 +31,11 @@ public final class WitchSkillUseService {
         GameWorldComponent gameComponent = GameWorldComponent.KEY.get(world);
         Role role = gameComponent.getRole(player);
         if (!SparkWitchRoles.isSparkWitchRole(role)) {
-            send(player, "message.sparkwitch.skill.not_witch");
+            send(player, "message.sparkdlc.skill.not_witch");
             return false;
         }
         if (!GameFunctions.isPlayerPlayingAndAlive(player)) {
-            send(player, "message.sparkwitch.skill.dead");
+            send(player, "message.sparkdlc.skill.dead");
             return false;
         }
         if (GrandWitchFearService.denyRoleSkillIfFeared(player)) {
@@ -49,7 +49,7 @@ public final class WitchSkillUseService {
         // 门面：否则被沉默的有效杀手（忍者招架、专注脚步、绑架者拖尸）或处于脱险的玩家仍能使用技能。SparkTraits 缺失、过旧或
         // 调用失败时不拦截（桥接失败即放行）。Wathe 判定已死亡的冤魂到不了这一行。
         if (SparkTraitsKillerBridge.isRoleSkillBlocked(player)) {
-            send(player, "message.sparkwitch.skill.unavailable");
+            send(player, "message.sparkdlc.skill.unavailable");
             return false;
         }
         if (SaintRules.isSaint(role)) {
@@ -73,14 +73,14 @@ public final class WitchSkillUseService {
             if (world.getPlayerByUuid(targetUuid.get()) instanceof ServerPlayerEntity serverTarget) {
                 target = serverTarget;
             } else {
-                send(player, "message.sparkwitch.skill.unavailable");
+                send(player, "message.sparkdlc.skill.unavailable");
                 return false;
             }
         }
 
         WitchSkillUseResult result = skill.use(new WitchSkillUseContext(world, gameComponent, player, role, skill, target));
         if (!result.accepted()) {
-            send(player, result.messageKey() == null ? "message.sparkwitch.skill.unavailable" : result.messageKey());
+            send(player, result.messageKey() == null ? "message.sparkdlc.skill.unavailable" : result.messageKey());
             return false;
         }
 
@@ -105,7 +105,7 @@ public final class WitchSkillUseService {
         WitchPlayerComponent component = WitchPlayerComponent.KEY.get(player);
         Identifier activeSkillId = component.getActiveSkillId();
         if (skillId == null || !skillId.equals(activeSkillId)) {
-            send(player, "message.sparkwitch.skill.no_skill");
+            send(player, "message.sparkdlc.skill.no_skill");
             return false;
         }
         Role role = GameWorldComponent.KEY.get(player.getServerWorld()).getRole(player);

@@ -22,8 +22,8 @@ import net.minecraft.util.TypedActionResult;
  * 被拒绝不付出任何代价，只显示一条仅所有者可见的通用提示；只有在 {@link TimeGiftRuntime#give} 提交之后才写入冷却。
  */
 public final class TimeGiftWatchService {
-    static final String GIFTED_KEY = "message.sparkwitch.time_stealer.gifted";
-    static final String NO_TARGET_KEY = "message.sparkwitch.time_stealer.gift_no_target";
+    static final String GIFTED_KEY = "message.sparkdlc.time_stealer.gifted";
+    static final String NO_TARGET_KEY = "message.sparkdlc.time_stealer.gift_no_target";
 
     private TimeGiftWatchService() {
     }

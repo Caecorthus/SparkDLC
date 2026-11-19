@@ -45,7 +45,7 @@ final class EventVolumeRows {
         }
 
         String titleKey() {
-            return "screen.sparkassist.settings.group." + id;
+            return "screen.sparkdlc.settings.group." + id;
         }
     }
 
@@ -94,53 +94,53 @@ final class EventVolumeRows {
 
             role(EventSoundGroup.BELL_RINGER_TOLL, Section.ROLE_KILLER, "sparkwitch",
                     "announcement.role.bell_ringer", "Bell Ringer", 0x8C6D3F,
-                    sample("sparkwitch:ambient.bell_ringer_toll", SoundCategory.PLAYERS)),
+                    sample("sparkdlc:ambient.bell_ringer_toll", SoundCategory.PLAYERS)),
             role(EventSoundGroup.TIME_STEALER_CHIME, Section.ROLE_KILLER, "sparkwitch",
                     "announcement.role.time_stealer", "Time Stealer", 0x2E8B7A,
-                    sample("sparkwitch:ambient.time_stealer_chime", SoundCategory.PLAYERS)),
+                    sample("sparkdlc:ambient.time_stealer_chime", SoundCategory.PLAYERS)),
 
             role(EventSoundGroup.JESTER_MOMENT, Section.ROLE_NEUTRAL, "noellesroles",
                     "announcement.role.jester", "Jester", 0xF8C8DC,
                     sample("noellesroles:ambient.jester_laugh", SoundCategory.MASTER)),
             role(EventSoundGroup.SHADOW_JESTER_FINALE, Section.ROLE_NEUTRAL, "sparkstrength",
                     "announcement.role.shadow_jester", "Shadow Jester", 0xBE1E5A,
-                    sample("sparkstrength:ambient.shadow_jester", SoundCategory.AMBIENT)),
+                    sample("sparkdlc:ambient.shadow_jester", SoundCategory.AMBIENT)),
             role(EventSoundGroup.VULTURE_CURSE, Section.ROLE_NEUTRAL, "sparkstrength",
                     "announcement.role.vulture", "Vulture", 0xB56700,
-                    sample("sparkstrength:vulture.super_curse", SoundCategory.PLAYERS)),
+                    sample("sparkdlc:vulture.super_curse", SoundCategory.PLAYERS)),
 
             role(EventSoundGroup.CORRUPT_COP_MOMENT, Section.ROLE_JIAHAO, "noellesroles",
                     "announcement.role.corrupt_cop", "Corrupt Cop", 0x193264,
                     sample("noellesroles:music.corrupt_cop_moment_1", SoundCategory.AMBIENT)),
             role(EventSoundGroup.ARROGANT_ASF_MUSIC, Section.ROLE_JIAHAO, "sparkstrength",
                     "announcement.role.corrupt_cop", "Corrupt Cop", 0x193264,
-                    sample("sparkstrength:music.takediskrush", SoundCategory.AMBIENT)),
+                    sample("sparkdlc:music.takediskrush", SoundCategory.AMBIENT)),
             role(EventSoundGroup.SPHINX_HAO_FADE, Section.ROLE_JIAHAO, "sparkwitch",
                     "announcement.role.sphinx_hao", "Sphinx Hao", 0xFF7F50,
-                    sample("sparkwitch:music.sphinx_hao_fade", SoundCategory.AMBIENT)),
+                    sample("sparkdlc:music.sphinx_hao_fade", SoundCategory.AMBIENT)),
 
             role(EventSoundGroup.PIG_CHASE, Section.ROLE_CIVILIAN, "sparkwitch",
                     "announcement.role.pig_god", "Pig God", 0xF2A4FC,
-                    sample("sparkwitch:skill.pig_chase", SoundCategory.PLAYERS)),
+                    sample("sparkdlc:skill.pig_chase", SoundCategory.PLAYERS)),
             role(EventSoundGroup.SAINT_BELL, Section.ROLE_CIVILIAN, "sparkwitch",
                     "announcement.role.saint", "Saint", 0xEEBC78,
-                    sample("sparkwitch:ambient.saint_bell", SoundCategory.PLAYERS)),
+                    sample("sparkdlc:ambient.saint_bell", SoundCategory.PLAYERS)),
             role(EventSoundGroup.HOLY_FLASH_TINNITUS, Section.ROLE_CIVILIAN, "sparkwitch",
                     "announcement.role.saint", "Saint", 0xEEBC78,
-                    sample("sparkwitch:skill.holy_flash_tinnitus", SoundCategory.PLAYERS)),
+                    sample("sparkdlc:skill.holy_flash_tinnitus", SoundCategory.PLAYERS)),
 
             role(EventSoundGroup.LAST_STAND_FINAL_MOMENT, Section.TRAIT_CIVILIAN, "sparktraits",
-                    "trait.sparktraits.last_stand.name", "Last Stand", 0xFFFFFF,
-                    sample("sparktraits:music.final_moment", SoundCategory.MASTER)),
+                    "trait.sparkdlc.last_stand.name", "Last Stand", 0xFFFFFF,
+                    sample("sparkdlc:music.final_moment", SoundCategory.MASTER)),
             role(EventSoundGroup.DEPRESSION_PSYCHO_RANGE, Section.TRAIT_CIVILIAN, "sparktraits",
-                    "trait.sparktraits.depression.name", "Depression", 0x6B7280,
-                    sample("sparktraits:depression.docile_to_rage", SoundCategory.AMBIENT)),
+                    "trait.sparkdlc.depression.name", "Depression", 0x6B7280,
+                    sample("sparkdlc:depression.docile_to_rage", SoundCategory.AMBIENT)),
             role(EventSoundGroup.DEPRESSION_PSYCHO_MUSIC, Section.TRAIT_CIVILIAN, "sparktraits",
-                    "trait.sparktraits.depression.name", "Depression", 0x6B7280,
-                    sample("sparktraits:depression.blind_rage_chase", SoundCategory.AMBIENT)),
+                    "trait.sparkdlc.depression.name", "Depression", 0x6B7280,
+                    sample("sparkdlc:depression.blind_rage_chase", SoundCategory.AMBIENT)),
             role(EventSoundGroup.DEPRESSION_PSYCHO_ALERT, Section.TRAIT_CIVILIAN, "sparktraits",
-                    "trait.sparktraits.depression.name", "Depression", 0x6B7280,
-                    sample("sparktraits:depression.player_was_seen", SoundCategory.AMBIENT))
+                    "trait.sparkdlc.depression.name", "Depression", 0x6B7280,
+                    sample("sparkdlc:depression.player_was_seen", SoundCategory.AMBIENT))
     );
 
     /**

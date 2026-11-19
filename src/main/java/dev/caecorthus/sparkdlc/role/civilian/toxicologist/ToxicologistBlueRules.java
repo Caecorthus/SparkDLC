@@ -11,9 +11,9 @@ import org.jetbrains.annotations.Nullable;
  * 毒理学家蓝毒增强规则：蓝矾、蓝颠茄与蓝毒状态被动。
  */
 public final class ToxicologistBlueRules {
-    public static final String BLUE_VITRIOL_ENTRY_ID = "sparkstrength_toxicologist_blue_vitriol";
+    public static final String BLUE_VITRIOL_ENTRY_ID = "sparkdlc_toxicologist_blue_vitriol";
     public static final int BLUE_VITRIOL_PRICE = 50;
-    public static final String BLUE_BELLADONNA_ENTRY_ID = "sparkstrength_toxicologist_blue_belladonna";
+    public static final String BLUE_BELLADONNA_ENTRY_ID = "sparkdlc_toxicologist_blue_belladonna";
     public static final int BLUE_BELLADONNA_PRICE = 25;
     public static final int MAX_STACK = 16;
 

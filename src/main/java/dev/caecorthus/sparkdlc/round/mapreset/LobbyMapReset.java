@@ -52,8 +52,8 @@ import java.util.Map;
  * 大厅不受影响，且准备区人数在真正开局时才统计，因此重置期间玩家仍可登车。
  */
 public final class LobbyMapReset {
-    private static final String START_BLOCKED_KEY = "message.sparkfactionapi.map_reset.start_blocked";
-    private static final String COMMAND_BLOCKED_KEY = "message.sparkfactionapi.map_reset.command_blocked";
+    private static final String START_BLOCKED_KEY = "message.sparkdlc.map_reset.start_blocked";
+    private static final String COMMAND_BLOCKED_KEY = "message.sparkdlc.map_reset.command_blocked";
     /**
      * FULL-level tickets (radius 0) load the chunks without ticking them, so blocks placed early cannot tick, flow or
      * fall before the rest of the copy arrives (unless players nearby already tick them, as at Wathe's round start).
@@ -61,7 +61,7 @@ public final class LobbyMapReset {
      * （除非附近玩家已让它们 tick，与 Wathe 开局时相同）。
      */
     private static final ChunkTicketType<ChunkPos> TICKET =
-            ChunkTicketType.create("sparkfactionapi_map_reset", Comparator.comparingLong(ChunkPos::toLong));
+            ChunkTicketType.create("sparkdlc_map_reset", Comparator.comparingLong(ChunkPos::toLong));
 
     private static @Nullable MapResetJob job;
     /** The start that triggered the running reset, replayed when it ends. / 触发当前重置的开局，重置结束时重放。 */

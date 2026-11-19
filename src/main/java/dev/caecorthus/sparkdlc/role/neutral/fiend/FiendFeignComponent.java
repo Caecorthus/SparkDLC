@@ -13,12 +13,12 @@ import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
 
 /**
- * Feign-death cycle per player ({@code sparkwitch:fiend_feign}, {@code NEVER_COPY}, appended last in the CCA list).
+ * Feign-death cycle per player ({@code sparkdlc:fiend_feign}, {@code NEVER_COPY}, appended last in the CCA list).
  * Server authority: only {@link FiendFeignService} changes the {@link FiendFeignState} it holds. It syncs to the owner
  * alone, so no other client learns who the Fiend is or when its corpse is fake; the packet carries only a shown flag,
  * a feigning flag and the remaining ticks (to the next feign, or to the revival), never server time, the corpse or the
  * match id. The client counts down for its HUD only. Transient: never saved.
- * 每名玩家的假死周期（{@code sparkwitch:fiend_feign}，{@code NEVER_COPY}，追加在 CCA 列表末尾）。服务端权威：只有
+ * 每名玩家的假死周期（{@code sparkdlc:fiend_feign}，{@code NEVER_COPY}，追加在 CCA 列表末尾）。服务端权威：只有
  * {@link FiendFeignService} 修改其中的 {@link FiendFeignState}。只同步给本人，其他客户端无从得知谁是魔人、哪具尸体是假的；
  * 数据包只含显示标记、假死标记与剩余 tick（距下次假死或距复活），绝不含服务端时间、尸体或对局 id。客户端只为 HUD 倒数。
  * 瞬时状态：从不保存。

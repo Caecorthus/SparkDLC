@@ -15,10 +15,10 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * The Soul Moment's round-scoped state ({@code sparkwitch:ferryman_moment}): whether it is running, its owner and the
+ * The Soul Moment's round-scoped state ({@code sparkdlc:ferryman_moment}): whether it is running, its owner and the
  * Lost Souls it revived. Server only, never synced and transient; the clients learn who the souls are from their synced
  * roles and the soul-fire particles the server spawns around them. Cleared at every round boundary and server stop.
- * 亡魂时刻的本局状态（{@code sparkwitch:ferryman_moment}）：是否进行中、拥有者与它复活的迷失灵魂。仅服务端、从不同步且为
+ * 亡魂时刻的本局状态（{@code sparkdlc:ferryman_moment}）：是否进行中、拥有者与它复活的迷失灵魂。仅服务端、从不同步且为
  * 瞬时状态；客户端通过已同步的职业以及服务端在灵魂周身生成的灵魂火粒子得知谁是迷失的灵魂。每个回合边界与服务器停止时清空。
  */
 public final class FerrymanMomentWorldComponent implements Component {

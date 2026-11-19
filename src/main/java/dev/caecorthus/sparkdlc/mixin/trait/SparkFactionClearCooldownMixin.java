@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 /**
- * SparkFactionAPI's admin {@code /sparkfactionapi:clearCooldown} also lifts a forced melee floor (Close Quarters parry)
+ * SparkFactionAPI's admin {@code /sparkdlc:clearCooldown} also lifts a forced melee floor (Close Quarters parry)
  * on the held item; otherwise {@code ExactItemCooldownMixin} cancels its {@code remove}. Only this admin path does so;
  * every other {@code remove} still keeps the floor.
  */

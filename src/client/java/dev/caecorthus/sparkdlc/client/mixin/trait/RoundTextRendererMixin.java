@@ -21,7 +21,7 @@ import java.util.function.Function;
  */
 @Mixin(value = RoundTextRenderer.class, remap = false)
 public abstract class RoundTextRendererMixin {
-    private static final Identifier SPARKWITCH_WRAITH_ID = Identifier.of("sparkwitch", "wraith");
+    private static final Identifier SPARKWITCH_WRAITH_ID = Identifier.of("sparkdlc", "wraith");
 
     @Redirect(
             method = "renderHud",
@@ -43,11 +43,11 @@ public abstract class RoundTextRendererMixin {
             return goalText.apply((Integer) targets);
         }
         if (EffectiveTraitService.hasConscience(player)) {
-            return Text.translatable("announcement.goal.sparktraits.conscience")
+            return Text.translatable("announcement.goal.sparkdlc.conscience")
                     .withColor(EffectiveTraitService.CONSCIENCE_COLOR);
         }
         if (EffectiveTraitService.hasImpostor(player)) {
-            return Text.translatable("announcement.goal.sparktraits.impostor")
+            return Text.translatable("announcement.goal.sparkdlc.impostor")
                     .withColor(EffectiveTraitService.IMPOSTOR_COLOR);
         }
         return goalText.apply((Integer) targets);

@@ -32,7 +32,7 @@ public final class GrandWitchSpellService {
 
         WitchPlayerComponent playerComponent = WitchPlayerComponent.KEY.get(caster);
         if (!playerComponent.spendMana(spell.manaCost())) {
-            send(caster, "shop.error.sparkwitch.not_enough_mana");
+            send(caster, "shop.error.sparkdlc.not_enough_mana");
             return false;
         }
 
@@ -43,7 +43,7 @@ public final class GrandWitchSpellService {
             case HEAVINESS -> applyStatusToAffectedPlayers(world, spell, StatusEffects.SLOWNESS, 2);
         }
         ApprenticeResonance.onWitchCast(caster, caster.getPos());
-        send(caster, "message.sparkwitch.spell." + spell.path() + ".cast");
+        send(caster, "message.sparkdlc.spell." + spell.path() + ".cast");
         return true;
     }
 
@@ -61,7 +61,7 @@ public final class GrandWitchSpellService {
                     || !canUseInstinct(player, gameComponent)) {
                 continue;
             }
-            send(player, "message.sparkwitch.spell.obscure.actionbar", seconds);
+            send(player, "message.sparkdlc.spell.obscure.actionbar", seconds);
         }
     }
 

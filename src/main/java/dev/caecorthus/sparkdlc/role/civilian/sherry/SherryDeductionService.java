@@ -88,7 +88,7 @@ public final class SherryDeductionService {
             }
         }
         if (ids.isEmpty()) {
-            tell(detective, Text.translatable("message.sparkwitch.sherry.deduction.no_target"), Formatting.GRAY);
+            tell(detective, Text.translatable("message.sparkdlc.sherry.deduction.no_target"), Formatting.GRAY);
             return;
         }
         if (ServerPlayNetworking.canSend(detective, OpenSherryDeductionS2CPacket.ID)) {
@@ -111,7 +111,7 @@ public final class SherryDeductionService {
         }
         ServerPlayerEntity target = detective.getServer().getPlayerManager().getPlayer(targetUuid);
         if (target == null || !isCandidate(detective, target)) {
-            tell(detective, Text.translatable("message.sparkwitch.sherry.deduction.no_target"), Formatting.GRAY);
+            tell(detective, Text.translatable("message.sparkdlc.sherry.deduction.no_target"), Formatting.GRAY);
             return;
         }
         SherryComponent component = SherryComponent.KEY.get(detective);
@@ -121,7 +121,7 @@ public final class SherryDeductionService {
         // 仍可被推演。
         int trackedInterval = component.getTrackedIntervalTicks(target.getUuid());
         if (trackedInterval > 0 && trackedInterval <= SherryRules.DEDUCTION_REVEAL_INTERVAL_TICKS) {
-            tell(detective, Text.translatable("message.sparkwitch.sherry.deduction.tracked",
+            tell(detective, Text.translatable("message.sparkdlc.sherry.deduction.tracked",
                     target.getGameProfile().getName()), Formatting.GRAY);
             return;
         }
@@ -136,7 +136,7 @@ public final class SherryDeductionService {
 
         if (correct) {
             component.track(target.getUuid(), SherryRules.DEDUCTION_REVEAL_INTERVAL_TICKS);
-            tell(detective, Text.translatable("message.sparkwitch.sherry.deduction.right",
+            tell(detective, Text.translatable("message.sparkdlc.sherry.deduction.right",
                     target.getGameProfile().getName()), Formatting.AQUA);
         } else {
             PlayerMoodComponent mood = PlayerMoodComponent.KEY.get(detective);
@@ -146,7 +146,7 @@ public final class SherryDeductionService {
             detective.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS,
                     SherryRules.WRONG_TARGET_EFFECT_TICKS, SherryRules.WRONG_TARGET_SLOWNESS_AMPLIFIER,
                     false, false, false));
-            tell(detective, Text.translatable("message.sparkwitch.sherry.deduction.wrong",
+            tell(detective, Text.translatable("message.sparkdlc.sherry.deduction.wrong",
                     target.getGameProfile().getName()), Formatting.RED);
         }
         NbtCompound extra = new NbtCompound();
@@ -182,17 +182,17 @@ public final class SherryDeductionService {
      */
     private static boolean passesToldGates(ServerPlayerEntity detective) {
         if (!aimsAtCorpse(detective)) {
-            tell(detective, Text.translatable("message.sparkwitch.sherry.deduction.no_body"), Formatting.GRAY);
+            tell(detective, Text.translatable("message.sparkdlc.sherry.deduction.no_body"), Formatting.GRAY);
             return false;
         }
         int cooldown = SherryComponent.KEY.get(detective).getDeductionCooldownTicks();
         if (cooldown > 0) {
-            tell(detective, Text.translatable("message.sparkwitch.sherry.deduction.cooldown",
+            tell(detective, Text.translatable("message.sparkdlc.sherry.deduction.cooldown",
                     (cooldown + 19) / 20), Formatting.GRAY);
             return false;
         }
         if (PlayerShopComponent.KEY.get(detective).getBalance() < SherryRules.DEDUCTION_COST) {
-            tell(detective, Text.translatable("message.sparkwitch.sherry.deduction.no_coins",
+            tell(detective, Text.translatable("message.sparkdlc.sherry.deduction.no_coins",
                     SherryRules.DEDUCTION_COST), Formatting.RED);
             return false;
         }
@@ -268,8 +268,8 @@ public final class SherryDeductionService {
         var playerInfo = ReplayGenerator.getPlayerInfoCache(match);
         return Text.translatable(
                 OUTCOME_RIGHT.equals(data.getString(OUTCOME_KEY))
-                        ? "replay.skill.sparkwitch.sherry_deduction.right"
-                        : "replay.skill.sparkwitch.sherry_deduction.wrong",
+                        ? "replay.skill.sparkdlc.sherry_deduction.right"
+                        : "replay.skill.sparkdlc.sherry_deduction.wrong",
                 ReplayGenerator.formatPlayerName(data.getUuid("actor"), playerInfo),
                 ReplayGenerator.formatPlayerName(data.getUuid("target"), playerInfo)
         );

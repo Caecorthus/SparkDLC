@@ -22,25 +22,25 @@ public final class CaptureDeviceReplayEvents {
                 (event, match, world) -> ReplayText.onePlayerEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.capture_device_placed"
+                        "replay.global.sparkdlc.capture_device_placed"
                 ));
         ReplayRegistry.registerGlobalEventFormatter(CAPTURE_DEVICE_TRIGGERED,
                 (event, match, world) -> ReplayText.onePlayerEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.capture_device_triggered"
+                        "replay.global.sparkdlc.capture_device_triggered"
                 ));
         ReplayRegistry.registerGlobalEventFormatter(CAPTURE_DEVICE_RELEASED,
                 (event, match, world) -> ReplayText.onePlayerEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.capture_device_released"
+                        "replay.global.sparkdlc.capture_device_released"
                 ));
         ReplayRegistry.registerGlobalEventFormatter(CAPTURE_DEVICE_EXPIRED,
                 (event, match, world) -> ReplayText.onePlayerEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.capture_device_expired"
+                        "replay.global.sparkdlc.capture_device_expired"
                 ));
     }
 }

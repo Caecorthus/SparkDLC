@@ -233,14 +233,14 @@ public final class TabletUiSession {
     }
 
     public enum Section {
-        CONNECTIONS("screen.sparkstrength.tablet.tab.connections", false, null),
-        CHAT("screen.sparkstrength.tablet.tab.chat", false, null),
-        MEETING("screen.sparkstrength.tablet.tab.meeting", true, null),
-        SUSPECTS("screen.sparkstrength.tablet.tab.suspects", true, null),
+        CONNECTIONS("screen.sparkdlc.tablet.tab.connections", false, null),
+        CHAT("screen.sparkdlc.tablet.tab.chat", false, null),
+        MEETING("screen.sparkdlc.tablet.tab.meeting", true, null),
+        SUSPECTS("screen.sparkdlc.tablet.tab.suspects", true, null),
         // Feature sections come last so channel sections keep their rail slots. 功能分区放在最后，频道分区的侧栏位置不变。
-        DOOR_LOG("screen.sparkstrength.tablet.tab.door_log", false, TabletFeature.DOOR_LOG),
-        DRONE("screen.sparkstrength.tablet.tab.drone", false, TabletFeature.DRONE),
-        SABOTAGE("screen.sparkstrength.tablet.tab.sabotage", false, TabletFeature.SABOTAGE);
+        DOOR_LOG("screen.sparkdlc.tablet.tab.door_log", false, TabletFeature.DOOR_LOG),
+        DRONE("screen.sparkdlc.tablet.tab.drone", false, TabletFeature.DRONE),
+        SABOTAGE("screen.sparkdlc.tablet.tab.sabotage", false, TabletFeature.SABOTAGE);
 
         private final String translationKey;
         private final boolean requiresMeetingFeatures;

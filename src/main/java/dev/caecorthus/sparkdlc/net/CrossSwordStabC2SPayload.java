@@ -7,10 +7,10 @@ import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.network.packet.CustomPayload;
 
 /**
- * Stable C2S contract {@code sparkwitch:cross_sword_stab}: only the entity id the Knight's client aimed at when it
+ * Stable C2S contract {@code sparkdlc:cross_sword_stab}: only the entity id the Knight's client aimed at when it
  * released the cross sword, like Wathe's {@code wathe:knifestab}. The server revalidates everything
  * ({@code CrossSwordStabService}).
- * 稳定的 C2S 契约 {@code sparkwitch:cross_sword_stab}：只携带骑士客户端松开十字剑时瞄准的实体 id，与 Wathe 的
+ * 稳定的 C2S 契约 {@code sparkdlc:cross_sword_stab}：只携带骑士客户端松开十字剑时瞄准的实体 id，与 Wathe 的
  * {@code wathe:knifestab} 相同。服务端重新校验一切（{@code CrossSwordStabService}）。
  */
 public record CrossSwordStabC2SPayload(int targetEntityId) implements CustomPayload {

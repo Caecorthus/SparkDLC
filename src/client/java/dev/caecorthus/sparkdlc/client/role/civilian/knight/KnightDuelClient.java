@@ -130,7 +130,7 @@ public final class KnightDuelClient {
         TextRenderer renderer = client.textRenderer;
         if (KnightDuelWorldComponent.KEY.get(player.getWorld()).isDuelist(player.getUuid())) {
             if (GameFunctions.isPlayerPlayingAndAlive(player)) {
-                Text text = Text.translatable("hud.sparkwitch.knight.duel");
+                Text text = Text.translatable("hud.sparkdlc.knight.duel");
                 int x = (context.getScaledWindowWidth() - renderer.getWidth(text)) / 2;
                 int y = FiendMomentHudRules.LINE_Y + renderer.fontHeight + ROW_GAP;
                 context.drawTextWithShadow(renderer, text, x, y, pulseColor());
@@ -141,8 +141,8 @@ public final class KnightDuelClient {
             return;
         }
         Text text = PlayerShopComponent.KEY.get(player).getBalance() >= KnightDuelRules.COST
-                ? Text.translatable("hud.sparkwitch.knight.hint", SparkWitchClient.abilityKeyText())
-                : Text.translatable("hud.sparkwitch.knight.need_money");
+                ? Text.translatable("hud.sparkdlc.knight.hint", SparkWitchClient.abilityKeyText())
+                : Text.translatable("hud.sparkdlc.knight.need_money");
         int width = context.getScaledWindowWidth();
         int x = Math.max(0, width - RIGHT_PADDING - renderer.getWidth(text));
         int bottomOffset = x < width / 2 + HOTBAR_HALF_WIDTH ? LIFTED_BOTTOM_OFFSET : BOTTOM_PADDING;

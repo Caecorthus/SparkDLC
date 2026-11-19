@@ -27,8 +27,8 @@ public final class BartenderRules {
     /** Spice B: the drink is downed instantly. / 调料 B：这杯酒瞬间喝完。 */
     public static final String EMBER_SUGAR_ID = "ember_sugar";
 
-    public static final String GHOSTFLAME_BITTERS_ENTRY_ID = "sparkstrength_ghostflame_bitters";
-    public static final String EMBER_SUGAR_ENTRY_ID = "sparkstrength_ember_sugar";
+    public static final String GHOSTFLAME_BITTERS_ENTRY_ID = "sparkdlc_ghostflame_bitters";
+    public static final String EMBER_SUGAR_ENTRY_ID = "sparkdlc_ember_sugar";
 
     public static final int BASE_SPIRIT_PRICE = 40;
     public static final int GHOSTFLAME_BITTERS_PRICE = 100;
@@ -75,9 +75,9 @@ public final class BartenderRules {
     /** Upstream CocktailItem drinks in 40 ticks; 1 tick finishes on the next tick (0 would never finish). / 上游 40 刻喝完；1 刻即下一刻喝完（0 永远喝不完）。 */
     public static final int INSTANT_DRINK_USE_TICKS = 1;
 
-    public static final String CROWNED_DEATH_KEY = "cocktail.sparkstrength.crowned_death";
-    public static final String CROWNED_BLOOM_KEY = "cocktail.sparkstrength.crowned_bloom";
-    public static final String LIFE_AND_DEATH_KEY = "cocktail.sparkstrength.life_and_death";
+    public static final String CROWNED_DEATH_KEY = "cocktail.sparkdlc.crowned_death";
+    public static final String CROWNED_BLOOM_KEY = "cocktail.sparkdlc.crowned_bloom";
+    public static final String LIFE_AND_DEATH_KEY = "cocktail.sparkdlc.life_and_death";
     /** Each signature name is translated in this many coloured segments (`<key>.0` … `<key>.3`). / 每款特调名按此数量的着色片段翻译。 */
     public static final int SIGNATURE_NAME_SEGMENTS = 4;
     /** Necrass: cold violet flame to silver-white hair. / 死芒：冷紫焰到银白发。 */
@@ -179,7 +179,7 @@ public final class BartenderRules {
 
     /**
      * Points upstream's effect line at SparkStrength's retuned text ({@code item.noellesroles.<id>.effect} to
-     * {@code item.sparkstrength.bartender.<id>.effect}); other keys pass through. Done in code so it never depends
+     * {@code item.sparkdlc.bartender.<id>.effect}); other keys pass through. Done in code so it never depends
      * on which mod's language file loads last.
      * 把上游效果说明指向 SparkStrength 的新文案；其他 key 原样返回。在代码里改写，不依赖语言文件的加载顺序。
      */
@@ -189,7 +189,7 @@ public final class BartenderRules {
         if (key.startsWith(prefix) && key.endsWith(suffix)) {
             String id = key.substring(prefix.length(), key.length() - suffix.length());
             if (RETUNED_EFFECT_TEXT.contains(id)) {
-                return "item.sparkstrength.bartender." + id + suffix;
+                return "item.sparkdlc.bartender." + id + suffix;
             }
         }
         return key;

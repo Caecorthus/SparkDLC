@@ -101,9 +101,9 @@ public final class MagicianPuppetHits {
      */
     public static final double M67_RADIUS = 5.0;
     /** SparkStrength M67 item name for the replay. / 回放用的 SparkStrength M67 物品名。 */
-    static final String M67_ITEM_KEY = "item.sparkstrength.m67";
+    static final String M67_ITEM_KEY = "item.sparkdlc.m67";
     /** Replay name of the Murderous Witch Death Ray (a skill, no item). / 杀意魔女死光的回放名（技能，无物品）。 */
-    static final String DEATH_RAY_WEAPON_KEY = "replay.sparkwitch.magician.weapon.death_ray";
+    static final String DEATH_RAY_WEAPON_KEY = "replay.sparkdlc.magician.weapon.death_ray";
     /**
      * Server thread only: shooters owed NoellesRoles' Jester refund by the Demon Hunter packet being received (set by
      * the lookup, paid and cleared at its TAIL, cleared again by the shooter's next lookup).

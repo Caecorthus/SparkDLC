@@ -10,14 +10,14 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Stable packet contract {@code sparkwitch:bear_smoke_hole} (S2C, every player in the world): {@code x:double,
+ * Stable packet contract {@code sparkdlc:bear_smoke_hole} (S2C, every player in the world): {@code x:double,
  * y:double, z:double, radius:float, startTime:long, durationTicks:varint}, then for a tunnel (BEAR WP5, a capsule) its
  * end point {@code endX:double, endY:double, endZ:double}. A blast hole is written exactly as before the tunnel
  * extension (no end point), and a body without the end point still decodes as a sphere, so the old wire format is a
  * valid subset. Decoding never throws: non-finite values, a radius outside {@code (0, MAX_RADIUS]}, a duration outside
  * {@code [1, MAX_DURATION_TICKS]}, a tunnel longer than {@link #MAX_TUNNEL_LENGTH} or a truncated or overlong body
  * yield a null {@code hole}, which the receiver ignores.
- * 稳定数据包契约 {@code sparkwitch:bear_smoke_hole}（S2C，发给该世界所有玩家）：{@code x:double, y:double, z:double,
+ * 稳定数据包契约 {@code sparkdlc:bear_smoke_hole}（S2C，发给该世界所有玩家）：{@code x:double, y:double, z:double,
  * radius:float, startTime:long, durationTicks:varint}，通道（BEAR WP5，胶囊）随后再加终点 {@code endX:double,
  * endY:double, endZ:double}。爆炸空洞的写法与扩展前完全相同（没有终点），没有终点的正文仍解码为球形，因此旧线格式是有效子集。
  * 解码从不抛出：非有限值、半径不在 {@code (0, MAX_RADIUS]}、时长不在 {@code [1, MAX_DURATION_TICKS]}、通道长于

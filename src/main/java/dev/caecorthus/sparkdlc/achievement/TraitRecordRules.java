@@ -16,16 +16,16 @@ final class TraitRecordRules {
      * the poisoner for poison, the thrower for a grenade); {@code death_reason} = the cancelled reason.
      * actor 为幸存者，target 为本会杀死他的玩家（没有或自己造成时不写；毒杀为下毒者，手雷为投掷者）；{@code death_reason} 为被取消的死因。
      */
-    static final String LAST_ESCAPE_TRIGGERED = "sparktraits:last_escape_triggered";
+    static final String LAST_ESCAPE_TRIGGERED = "sparkdlc:last_escape_triggered";
     /**
      * actor = the killer, target = the victim; {@code witnesses} (other living players within 8 blocks of the victim,
      * uncapped) and {@code reward} = min(witnesses, 10) × 8 coins, written only when the reward is above 0.
      * actor 为凶手，target 为死者；{@code witnesses}（死者 8 格内的其他存活玩家数，不封顶）与 {@code reward} = min(witnesses, 10) × 8
      * 金币，仅在奖励大于 0 时写入。
      */
-    static final String SHOWMAN_REWARD = "sparktraits:showman_reward";
+    static final String SHOWMAN_REWARD = "sparkdlc:showman_reward";
     /** actor = the killer, target = the victim; {@code stolen} coins (a third of the victim's). actor 为凶手；{@code stolen} 为夺取的金币。 */
-    static final String PLUNDERER_STEAL = "sparktraits:plunderer_steal";
+    static final String PLUNDERER_STEAL = "sparkdlc:plunderer_steal";
 
     static final String POISON = "wathe:poison";
 
@@ -37,11 +37,11 @@ final class TraitRecordRules {
     }
 
     /**
-     * 我一定会回来的: after my Last Escape cancelled a death ({@code sparktraits:last_escape_triggered}), I kill with my
+     * 我一定会回来的: after my Last Escape cancelled a death ({@code sparkdlc:last_escape_triggered}), I kill with my
      * own hand, later in the round, the player whose attack it was (its target). "With my own hand" leaves out a
      * poison death ({@link #POISON}), which is credited to the poisoner, and a Last Stand false death, after which they
      * come back.
-     * 我的绝处逢生取消了一次死亡（{@code sparktraits:last_escape_triggered}）之后，我在本局稍后亲手击杀当时出手的那名玩家（其 target）。
+     * 我的绝处逢生取消了一次死亡（{@code sparkdlc:last_escape_triggered}）之后，我在本局稍后亲手击杀当时出手的那名玩家（其 target）。
      * “亲手”不含毒死（{@link #POISON}，记在下毒者名下）和背水一战的假死（之后对方会复活）。
      */
     static boolean killedWhoNearlyKilledMe(AchievementContext context) {
@@ -55,9 +55,9 @@ final class TraitRecordRules {
     }
 
     /**
-     * 公开处刑: with the Showman, one kill pays the full 80 coins ({@code sparktraits:showman_reward} {@code reward}
+     * 公开处刑: with the Showman, one kill pays the full 80 coins ({@code sparkdlc:showman_reward} {@code reward}
      * 80, i.e. 10 or more other living players within 8 blocks of the victim).
-     * 持有作秀时，一次击杀拿满 80 金币（{@code sparktraits:showman_reward} 的 {@code reward} 为 80，即死者 8 格内有 10 名及以上其他存活玩家）。
+     * 持有作秀时，一次击杀拿满 80 金币（{@code sparkdlc:showman_reward} 的 {@code reward} 为 80，即死者 8 格内有 10 名及以上其他存活玩家）。
      */
     static boolean fullShowmanReward(AchievementContext context) {
         return context.myEvents(SHOWMAN_REWARD).stream()
@@ -65,9 +65,9 @@ final class TraitRecordRules {
     }
 
     /**
-     * 留下买路财: with the Plunderer, one kill takes 100 coins or more ({@code sparktraits:plunderer_steal}
+     * 留下买路财: with the Plunderer, one kill takes 100 coins or more ({@code sparkdlc:plunderer_steal}
      * {@code stolen}; a third of the victim's coins, so they had 300 or more).
-     * 持有掠夺者时，一次击杀夺取 100 金币及以上（{@code sparktraits:plunderer_steal} 的 {@code stolen}；为死者金币的三分之一，
+     * 持有掠夺者时，一次击杀夺取 100 金币及以上（{@code sparkdlc:plunderer_steal} 的 {@code stolen}；为死者金币的三分之一，
      * 所以对方要有 300 及以上）。
      */
     static boolean bigPlunder(AchievementContext context) {

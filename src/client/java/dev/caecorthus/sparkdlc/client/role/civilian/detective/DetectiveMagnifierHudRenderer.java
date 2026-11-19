@@ -85,7 +85,7 @@ public final class DetectiveMagnifierHudRenderer {
     private static Text stateText(DetectiveCasePlayerComponent component, TextRenderer renderer, int budget) {
         DetectiveCasePlayerComponent.DetectiveCase selected = component.getSelectedCase();
         if (selected == null) {
-            return Text.translatable("hud.sparkstrength.detective.no_case");
+            return Text.translatable("hud.sparkdlc.detective.no_case");
         }
         int suspects = selected.getSuspects().size();
         int limit = component.getSyncedSuspectLimit();
@@ -100,7 +100,7 @@ public final class DetectiveMagnifierHudRenderer {
     }
 
     private static Text activeCaseText(String victimName, int suspects, int limit) {
-        return Text.translatable("hud.sparkstrength.detective.active_case", victimName, suspects, limit);
+        return Text.translatable("hud.sparkdlc.detective.active_case", victimName, suspects, limit);
     }
 
     private static String trimName(TextRenderer renderer, String name, int maxWidth) {

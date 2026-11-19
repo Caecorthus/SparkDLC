@@ -67,10 +67,10 @@ public final class VigilanteVeteranTraitService {
     private static final int NIKO_NIGHT_VISION_TOLERANCE_TICKS = 5;
     /** SparkWitch's Savior pistol, matched by id so SparkWitch stays an optional dependency.
      *  SparkWitch 的救世主手枪，按 id 匹配，保持 SparkWitch 为可选依赖。 */
-    private static final Identifier SAVIOR_PISTOL_ID = Identifier.of("sparkwitch", "savior_pistol");
+    private static final Identifier SAVIOR_PISTOL_ID = Identifier.of("sparkdlc", "savior_pistol");
     /** The pistol kills with its own death reason instead of {@code wathe:gun_shot}; Heavy Artillery counts both.
      *  手枪用自己的死因而非 {@code wathe:gun_shot} 击杀；重炮手对两者都算数。 */
-    private static final Identifier SAVIOR_PISTOL_DEATH_REASON = Identifier.of("sparkwitch", "savior_pistol_kill");
+    private static final Identifier SAVIOR_PISTOL_DEATH_REASON = Identifier.of("sparkdlc", "savior_pistol_kill");
     private static final Map<UUID, NikoNightVisionState> NIKO_NIGHT_VISION = new HashMap<>();
 
     private VigilanteVeteranTraitService() {

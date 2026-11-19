@@ -27,33 +27,33 @@ import java.util.UUID;
  */
 public final class AchievementRecords {
     /** S1. actor = the Toxicologist. / actor 为毒理学家。 */
-    public static final String TOXICOLOGIST_BLUE = "sparkstrength:toxicologist_blue";
+    public static final String TOXICOLOGIST_BLUE = "sparkdlc:toxicologist_blue";
     /** S2. actor = the Detective, target = the interrogated player; victim uuid, is_killer bool. / actor 为侦探，target 为被调查者。 */
-    public static final String DETECTIVE_INTERROGATE = "sparkstrength:detective_interrogate";
+    public static final String DETECTIVE_INTERROGATE = "sparkdlc:detective_interrogate";
     /** S3. actor = the Taotie; count int. / actor 为饕餮；count 为本次齐射的头颅数。 */
-    public static final String TAOTIE_VOLLEY = "sparkstrength:taotie_volley";
+    public static final String TAOTIE_VOLLEY = "sparkdlc:taotie_volley";
     /** S4. actor = the Corrupt Cop; active bool. / actor 为黑警；active 为开关新状态。 */
-    public static final String CORRUPT_COP_SHOW_OFF = "sparkstrength:corrupt_cop_show_off";
+    public static final String CORRUPT_COP_SHOW_OFF = "sparkdlc:corrupt_cop_show_off";
     /** S5. actor = the Coroner; role string ("" when cleared), killer bool. / actor 为验尸官；清除时 role 为空串。 */
-    public static final String CORONER_DISGUISE = "sparkstrength:coroner_disguise";
+    public static final String CORONER_DISGUISE = "sparkdlc:coroner_disguise";
     /** S7. actor = the killer whose income it was; amount int = coins it added to the purse. / actor 为收入所属杀手；amount 为计入团队钱包的金币。 */
-    public static final String TEAM_CONTRIBUTION = "sparkstrength:team_contribution";
+    public static final String TEAM_CONTRIBUTION = "sparkdlc:team_contribution";
     /**
      * S8. World event at each real blackout edge: active bool; cause string (one of the BLACKOUT_CAUSE_* values);
      * actor = whoever caused that edge, when known (the buyer on "purchase", the restorer on "power_restoration").
      * 每个真实停电边沿的世界事件：active 布尔；cause 为 BLACKOUT_CAUSE_* 之一；已知时 actor 为造成该边沿的人。
      */
-    public static final String BLACKOUT_STATE = "sparkstrength:blackout_state";
+    public static final String BLACKOUT_STATE = "sparkdlc:blackout_state";
     /** S9. actor = the holder whose blackout blindness a lit flashlight cancelled; remaining_ticks int. / actor 为手电筒替其挡下停电失明的持有者。 */
-    public static final String FLASHLIGHT_BLACKOUT = "sparkstrength:flashlight_blackout";
+    public static final String FLASHLIGHT_BLACKOUT = "sparkdlc:flashlight_blackout";
     /** S11. actor = the player who called the tablet emergency meeting. / actor 为召开平板紧急会议的玩家。 */
-    public static final String TABLET_MEETING = "sparkstrength:tablet_meeting";
+    public static final String TABLET_MEETING = "sparkdlc:tablet_meeting";
     /** S12. target = the player a meeting marked as suspect; caller uuid = that meeting's caller. / target 为会议投出的嫌疑人。 */
-    public static final String TABLET_SUSPECT = "sparkstrength:tablet_suspect";
+    public static final String TABLET_SUSPECT = "sparkdlc:tablet_suspect";
     /** S13. actor = the thrower; throw_id uuid (the axe entity's uuid). / actor 为投掷者；throw_id 为飞斧实体的 UUID。 */
-    public static final String THROWING_AXE_THROW = "sparkstrength:throwing_axe_throw";
+    public static final String THROWING_AXE_THROW = "sparkdlc:throwing_axe_throw";
     /** S14. actor = the thrower, target = the player hit; throw_id uuid, killed bool. / actor 为投掷者，target 为被命中的玩家。 */
-    public static final String THROWING_AXE_HIT = "sparkstrength:throwing_axe_hit";
+    public static final String THROWING_AXE_HIT = "sparkdlc:throwing_axe_hit";
     /**
      * S15. World event at each edge of an engine sabotage: state string (one of the ENGINE_STATE_* values); outage_id
      * int, the same on every event of one sabotage; phase string (one of the ENGINE_PHASE_* values), the phase at that
@@ -63,7 +63,7 @@ public final class AchievementRecords {
      * ENGINE_PHASE_* 之一，即该边沿时的阶段（repaired、remote_repaired 与 aborted 为结束时所处的阶段）；actor 在
      * triggered 时为发起者，在 repaired 与 remote_repaired 时为修理者，其余情况没有。
      */
-    public static final String ENGINE_SABOTAGE = "sparkstrength:engine_sabotage";
+    public static final String ENGINE_SABOTAGE = "sparkdlc:engine_sabotage";
 
     /** S8 cause: the lights went out through Wathe's blackout shop entry; actor = the buyer. / 经 Wathe 商店停电熄灯；actor 为购买者。 */
     public static final String BLACKOUT_CAUSE_PURCHASE = "purchase";
@@ -285,7 +285,7 @@ public final class AchievementRecords {
     }
 
     /**
-     * S10: extra data for the existing {@code sparkstrength:capture_device_triggered} global event: the device's owner
+     * S10: extra data for the existing {@code sparkdlc:capture_device_triggered} global event: the device's owner
      * uuid. Null without an owner, which records the event as before.
      * S10：现有 capture_device_triggered 全局事件的附加数据：装置主人的 UUID。没有主人时返回 null，事件照旧记录。
      */
@@ -299,7 +299,7 @@ public final class AchievementRecords {
     }
 
     /**
-     * S6: extra data for the existing {@code sparkstrength:skateboard_ride_started} global event (vanilla Speed at ride
+     * S6: extra data for the existing {@code sparkdlc:skateboard_ride_started} global event (vanilla Speed at ride
      * start). Null on failure, which records the event without the extra fields, as before.
      * S6：现有 skateboard_ride_started 全局事件的附加数据（上板时的原版速度效果）。失败时返回 null，事件照旧记录、只是不带附加字段。
      */

@@ -113,8 +113,8 @@ public final class WitchSkillHudRenderer {
         // 服务端低于 20 TPS 时客户端倒计时可能先归零；此时显示“即将发动”，而不是“0 秒”。
         int senseSeconds = TickTime.ceilSecondsUnclamped(prophet.senseRemainingTicks());
         Text line = senseSeconds > 0
-                ? Text.translatable("hud.sparkwitch.prophet.sense.countdown", senseSeconds)
-                : Text.translatable("hud.sparkwitch.prophet.sense.imminent");
+                ? Text.translatable("hud.sparkdlc.prophet.sense.countdown", senseSeconds)
+                : Text.translatable("hud.sparkdlc.prophet.sense.imminent");
         int x = context.getScaledWindowWidth() - RIGHT_PADDING - renderer.getWidth(line);
         context.drawTextWithShadow(renderer, line, x, y, ProphetRules.CORPSE_HIGHLIGHT_COLOR);
     }
@@ -128,14 +128,14 @@ public final class WitchSkillHudRenderer {
         if (activeTicks > 0) {
             if (MurderousWitchDeathRayRules.isDeathRaySkill(skillId) && component.hasActiveDeathRay()) {
                 return Text.translatable(
-                        "hud.sparkwitch.skill.death_ray.active",
+                        "hud.sparkdlc.skill.death_ray.active",
                         WitchSkillClientTexts.name(skillId),
                         TickTime.ceilSecondsUnclamped(component.getDeathRayTicks()),
                         component.getDeathRayCharges()
                 );
             }
             return Text.translatable(
-                    "hud.sparkwitch.skill.active",
+                    "hud.sparkdlc.skill.active",
                     WitchSkillClientTexts.name(skillId),
                     TickTime.ceilSecondsUnclamped(activeTicks)
             );
@@ -147,14 +147,14 @@ public final class WitchSkillHudRenderer {
                 component.getCooldownTicks()
         )) {
             return Text.translatable(
-                    "hud.sparkwitch.skill.ceremonial_sword.locked",
+                    "hud.sparkdlc.skill.ceremonial_sword.locked",
                     component.getGrandWitchCeremonialSwordTasks(),
                     GrandWitchRules.CEREMONIAL_SWORD_UNLOCK_TASKS
             );
         }
         if (component.getCooldownTicks() > 0) {
             return Text.translatable(
-                    "hud.sparkwitch.skill.cooldown",
+                    "hud.sparkdlc.skill.cooldown",
                     WitchSkillClientTexts.name(skillId),
                     TickTime.ceilSecondsUnclamped(component.getCooldownTicks())
             );
@@ -170,7 +170,7 @@ public final class WitchSkillHudRenderer {
                 component.getGrandWitchCeremonialSwordTasks()
         )) {
             return Text.translatable(
-                    "hud.sparkwitch.skill.not_enough_mana",
+                    "hud.sparkdlc.skill.not_enough_mana",
                     manaCost
             );
         }
@@ -181,7 +181,7 @@ public final class WitchSkillHudRenderer {
                 component.getCooldownTicks()
         )) {
             return Text.translatable(
-                    "hud.sparkwitch.skill.pig_chase.not_enough_money",
+                    "hud.sparkdlc.skill.pig_chase.not_enough_money",
                     PigGodRules.COIN_COST
             );
         }
@@ -191,7 +191,7 @@ public final class WitchSkillHudRenderer {
                 component.getCooldownTicks()
         )) {
             return Text.translatable(
-                    "hud.sparkwitch.skill.prophecy.coin_cost",
+                    "hud.sparkdlc.skill.prophecy.coin_cost",
                     ProphetRules.PROPHECY_COIN_COST
             );
         }
@@ -200,7 +200,7 @@ public final class WitchSkillHudRenderer {
             return apprenticeReady;
         }
         return Text.translatable(
-                "hud.sparkwitch.skill.ready",
+                "hud.sparkdlc.skill.ready",
                 WitchSkillClientTexts.name(skillId),
                 SparkWitchClient.abilityKeyText()
         );

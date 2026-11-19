@@ -56,8 +56,8 @@ public final class BlackRavenDisguiseService {
     static final String REPLAY_FROM_KEY = "from";
     static final String REPLAY_TO_KEY = "to";
     private static final String REPLAY_ACTOR_KEY = "actor";
-    private static final String REPLAY_BECAME_KEY = "replay.sparkwitch.black_raven_disguise.became";
-    private static final String REPLAY_REVERTED_KEY = "replay.sparkwitch.black_raven_disguise.reverted";
+    private static final String REPLAY_BECAME_KEY = "replay.sparkdlc.black_raven_disguise.became";
+    private static final String REPLAY_REVERTED_KEY = "replay.sparkdlc.black_raven_disguise.reverted";
 
     /**
      * Stash that receives any offerOrDrop remainder while a transaction for that player is running (server thread).

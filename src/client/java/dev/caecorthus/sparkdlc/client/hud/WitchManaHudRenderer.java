@@ -37,7 +37,7 @@ public final class WitchManaHudRenderer {
         }
 
         TextRenderer renderer = client.textRenderer;
-        Text text = Text.translatable("gui.sparkwitch.mana", component.getMana());
+        Text text = Text.translatable("gui.sparkdlc.mana", component.getMana());
         int x = context.getScaledWindowWidth() - RIGHT_PADDING - renderer.getWidth(text);
         int y = rowY(renderer.fontHeight, SparkStrengthHudBridge.topRightHudBottom());
         context.drawTextWithShadow(renderer, text, x, y, MANA_COLOR);

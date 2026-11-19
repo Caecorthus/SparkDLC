@@ -22,7 +22,7 @@ public final class MorphlingRules {
     public static final int SELF_MORPH_TARGET_KILL_REWARD = 60;
     public static final int OTHER_MARK_EVENT_REWARD = 50;
 
-    public static final String MORPH_REAGENT_ENTRY_ID = "sparkstrength_morph_reagent";
+    public static final String MORPH_REAGENT_ENTRY_ID = "sparkdlc_morph_reagent";
     public static final int MARK_HIGHLIGHT_PRIORITY = 240;
 
     private MorphlingRules() {

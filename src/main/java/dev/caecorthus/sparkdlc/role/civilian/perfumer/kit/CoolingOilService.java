@@ -77,7 +77,7 @@ public final class CoolingOilService {
                 continue;
             }
             PerfumerScentComponent.KEY.get(victim).applyCoolingOil();
-            victim.sendMessage(Text.translatable("message.sparkstrength.perfumer.cooling_oil.hit")
+            victim.sendMessage(Text.translatable("message.sparkdlc.perfumer.cooling_oil.hit")
                     .styled(style -> style.withColor(HIT_COLOR)), true);
             NbtCompound extra = new NbtCompound();
             extra.putUuid("target", victim.getUuid());

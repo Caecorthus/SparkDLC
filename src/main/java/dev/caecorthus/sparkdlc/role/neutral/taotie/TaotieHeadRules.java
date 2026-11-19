@@ -17,10 +17,10 @@ import java.util.Set;
 public final class TaotieHeadRules {
     public static final Identifier TAOTIE_ID = Identifier.of("noellesroles", "taotie");
     /** SparkFactionAPI {@code canAffectPlayer} action of a head hit. / 头颅命中使用的 SparkFactionAPI 行为 id。 */
-    public static final Identifier HEAD_ACTION_ID = Identifier.of("sparkstrength", "taotie_head");
+    public static final Identifier HEAD_ACTION_ID = Identifier.of("sparkdlc", "taotie_head");
     /** SparkFactionAPI forced-cooldown store id. / SparkFactionAPI 强制冷却存储 id。 */
-    public static final Identifier COOLDOWN_STORE_ID = Identifier.of("sparkstrength", "taotie_head");
-    public static final Identifier FIRE_PAYLOAD_ID = Identifier.of("sparkstrength", "taotie_head_fire");
+    public static final Identifier COOLDOWN_STORE_ID = Identifier.of("sparkdlc", "taotie_head");
+    public static final Identifier FIRE_PAYLOAD_ID = Identifier.of("sparkdlc", "taotie_head_fire");
 
     /**
      * Cooldown tier by living swallowed players at fire time, set once per volley: 1 → 60 s, 2 → 45 s, 3+ → 30 s.

@@ -38,10 +38,10 @@ import java.util.function.IntPredicate;
  * 权威：只有服务端扣除魔力，并与放入快捷栏原子执行（放入失败则退还）。客户端仅通过 {@code WitchShopClientTexts} 显示价格。
  */
 public final class RiftwalkerShopService {
-    static final String NOT_ENOUGH_MANA_DENY_KEY = "shop.error.sparkwitch.not_enough_mana";
-    static final String NOT_ENOUGH_MANA_MESSAGE_KEY = "message.sparkwitch.riftwalker.shop.not_enough_mana";
-    static final String HOTBAR_FULL_MESSAGE_KEY = "message.sparkwitch.riftwalker.shop.hotbar_full";
-    static final String UNAVAILABLE_MESSAGE_KEY = "message.sparkwitch.riftwalker.shop.unavailable";
+    static final String NOT_ENOUGH_MANA_DENY_KEY = "shop.error.sparkdlc.not_enough_mana";
+    static final String NOT_ENOUGH_MANA_MESSAGE_KEY = "message.sparkdlc.riftwalker.shop.not_enough_mana";
+    static final String HOTBAR_FULL_MESSAGE_KEY = "message.sparkdlc.riftwalker.shop.hotbar_full";
+    static final String UNAVAILABLE_MESSAGE_KEY = "message.sparkdlc.riftwalker.shop.unavailable";
     private static final int HOTBAR_SLOTS = 9;
     private static boolean registered;
 

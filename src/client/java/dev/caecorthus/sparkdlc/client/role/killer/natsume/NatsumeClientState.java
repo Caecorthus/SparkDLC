@@ -11,10 +11,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * 夏目安安 local client reads: the raw role check and the local player's own {@code sparkwitch:natsume_anan_player} copy
+ * 夏目安安 local client reads: the raw role check and the local player's own {@code sparkdlc:natsume_anan_player} copy
  * (synced to its owner). The server starts, times and ends the hypnosis; the client only honours its own synced seconds
  * and never predicts them. A missing component reads as "not hypnotised".
- * 夏目安安的本地客户端读取：真实职业判断，以及本地玩家自身 {@code sparkwitch:natsume_anan_player} 副本（仅同步给拥有者）。
+ * 夏目安安的本地客户端读取：真实职业判断，以及本地玩家自身 {@code sparkdlc:natsume_anan_player} 副本（仅同步给拥有者）。
  * 催眠的开始、计时与结束都由服务端决定；客户端只遵守自己收到的同步秒数，从不预测。组件缺失时视为“未被催眠”。
  */
 public final class NatsumeClientState {

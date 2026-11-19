@@ -6,20 +6,20 @@ package dev.caecorthus.sparkdlc.util;
  */
 public final class SparkWitchPermissions {
     public static final int DEFAULT_COMMAND_LEVEL = 2;
-    public static final String COMMAND_SET_MANA = "sparkwitch.command.setmana";
-    public static final String COMMAND_FORCE_ABILITY = "sparkwitch.command.forceability";
-    public static final String COMMAND_FORCE_PROMOTION = "sparkwitch.command.forcepromotion";
-    /** {@code /sparkwitch:forceAccompliceRole} (D4). / 锁定魔化使晋升身份的命令（D4）。 */
-    public static final String COMMAND_FORCE_ACCOMPLICE_ROLE = "sparkwitch.command.forceaccomplicerole";
-    public static final String COMMAND_GHOST_CHANCE = "sparkwitch.command.ghostchance";
-    public static final String COMMAND_GHOST_MIN_REQUIREMENT = "sparkwitch.command.ghostminrequirement";
+    public static final String COMMAND_SET_MANA = "sparkdlc.command.setmana";
+    public static final String COMMAND_FORCE_ABILITY = "sparkdlc.command.forceability";
+    public static final String COMMAND_FORCE_PROMOTION = "sparkdlc.command.forcepromotion";
+    /** {@code /sparkdlc:forceAccompliceRole} (D4). / 锁定魔化使晋升身份的命令（D4）。 */
+    public static final String COMMAND_FORCE_ACCOMPLICE_ROLE = "sparkdlc.command.forceaccomplicerole";
+    public static final String COMMAND_GHOST_CHANCE = "sparkdlc.command.ghostchance";
+    public static final String COMMAND_GHOST_MIN_REQUIREMENT = "sparkdlc.command.ghostminrequirement";
     /**
-     * {@code /sparkwitch:thirdFactionMinRequirement}: SparkFactionAPI's third-faction player minimum.
+     * {@code /sparkdlc:thirdFactionMinRequirement}: SparkFactionAPI's third-faction player minimum.
      * 设置 SparkFactionAPI 第三阵营最低人数的命令。
      */
-    public static final String COMMAND_THIRD_FACTION_MIN_REQUIREMENT = "sparkwitch.command.thirdfactionminrequirement";
+    public static final String COMMAND_THIRD_FACTION_MIN_REQUIREMENT = "sparkdlc.command.thirdfactionminrequirement";
     /** Using the Rift Gate Remover (传送门清除工具). / 使用传送门清除工具。 */
-    public static final String ITEM_RIFT_GATE_REMOVER = "sparkwitch.item.riftgateremover";
+    public static final String ITEM_RIFT_GATE_REMOVER = "sparkdlc.item.riftgateremover";
 
     private SparkWitchPermissions() {
     }

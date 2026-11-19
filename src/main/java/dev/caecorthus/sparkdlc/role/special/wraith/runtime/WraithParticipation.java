@@ -32,7 +32,7 @@ import org.jetbrains.annotations.Nullable;
  * 负责冤魂玩家的交互、玩家影响策略、死亡参与和阵营解析。
  */
 final class WraithParticipation {
-    private static final Identifier PROJECTILE_ACTION = Identifier.of("sparkfactionapi", "projectile");
+    private static final Identifier PROJECTILE_ACTION = Identifier.of("sparkdlc", "projectile");
     private static boolean registered;
 
     private WraithParticipation() {

@@ -23,7 +23,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 
 /**
- * Server-authoritative M32A1 fire (WP1). The client sends only {@code sparkwitch:fire_m32a1} with its click-time aim;
+ * Server-authoritative M32A1 fire (WP1). The client sends only {@code sparkdlc:fire_m32a1} with its click-time aim;
  * this service resolves the {@link OffMatchUse} mode and validates the held launcher, the stun/session/Kidnapper/Wraith
  * locks, SparkTraits weapon blocks, the cooldown and a loaded chamber ({@link M32FireRules}) before it spawns a
  * {@link SmokeRoundEntity} from its OWN eye position. Only a spawned round advances the cylinder ({@link
@@ -31,14 +31,14 @@ import net.minecraft.util.math.Vec3d;
  * (bypasses Fast Hands, never shortens a longer lock) and plays the public shot (the sound already contains the
  * cylinder clack). An empty cylinder answers with a dry click only the shooter hears, and no cooldown. Fabric runs play
  * receivers on the server thread (the stun and Seeker payload guards wrap that hand-off), so nothing else is needed.
- * 服务端权威的 M32A1 开火（WP1）。客户端只发送带点击瞬间朝向的 {@code sparkwitch:fire_m32a1}；本服务判定 {@link OffMatchUse}
+ * 服务端权威的 M32A1 开火（WP1）。客户端只发送带点击瞬间朝向的 {@code sparkdlc:fire_m32a1}；本服务判定 {@link OffMatchUse}
  * 模式，并复核手持发射器、眩晕/会话/绑匪/冤魂锁定、SparkTraits 武器封锁、冷却与已装填弹膛（{@link M32FireRules}）后，才从服务端
  * 自身的眼部位置生成 {@link SmokeRoundEntity}。只有成功生成的榴弹才会转动转轮（{@link M32Cylinder#fire()}，D8：按转动顺序的下一
  * 个已装填弹膛）、经精确取大写入开始 1 秒冷却（绕过快手，绝不缩短更长的锁定），并播放公开的射击声（该声音已包含转轮咔哒声）。
  * 空转轮只给射手一声空响，不开始冷却。Fabric 在服务端线程执行游戏数据包接收器（眩晕与搜寻者拦截包装了该切换），因此无需其他处理。
  */
 public final class M32FireService {
-    static final String EMPTY_KEY = "message.sparkwitch.bear.m32.empty";
+    static final String EMPTY_KEY = "message.sparkdlc.bear.m32.empty";
     /** Shot volume 3 = a 48-block hearing radius (sound README). / 射击音量 3 = 48 格听觉半径（音效说明）。 */
     static final float FIRE_VOLUME = 3.0F;
     static final float DRY_CLICK_VOLUME = 1.0F;

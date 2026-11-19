@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
  * never grant a second task reward.
  * 法官收入只有一个归属；其警察网络登记（因此获得 SparkStrength 免费平板）不得产生第二份任务收益。 */
 public final class JudgeEconomyService {
-    private static final Identifier IMPOSTOR = Identifier.of("sparktraits", "impostor");
+    private static final Identifier IMPOSTOR = Identifier.of("sparkdlc", "impostor");
 
     private JudgeEconomyService() {
     }

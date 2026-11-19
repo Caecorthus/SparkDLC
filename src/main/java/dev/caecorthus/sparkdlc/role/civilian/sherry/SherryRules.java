@@ -30,7 +30,7 @@ public final class SherryRules {
 
     public static final Identifier BADGE_ITEM_ID = SparkWitch.id("sherry_badge");
     public static final Identifier NOTE_ITEM_ID = SparkWitch.id("sherry_note");
-    public static final String BADGE_ENTRY_ID = "sparkwitch:sherry_badge";
+    public static final String BADGE_ENTRY_ID = "sparkdlc:sherry_badge";
     /** Custom-data key of the note: the dead badge holder's name. / 纸条自定义数据键：死去的徽章持有者名字。 */
     public static final String NOTE_VICTIM_KEY = "victim_name";
 

@@ -34,8 +34,8 @@ final class CriminalReasonerReplay {
         }
         var cache = ReplayGenerator.getPlayerInfoCache(match);
         return Text.translatable(data.getBoolean("success")
-                        ? "replay.skill.sparkwitch.criminal_reasoner.success"
-                        : "replay.skill.sparkwitch.criminal_reasoner.fail",
+                        ? "replay.skill.sparkdlc.criminal_reasoner.success"
+                        : "replay.skill.sparkdlc.criminal_reasoner.fail",
                 ReplayGenerator.formatPlayerName(data.getUuid("actor"), cache),
                 ReplayGenerator.formatPlayerName(data.getUuid("victim"), cache),
                 ReplayGenerator.formatPlayerName(data.getUuid("suspect"), cache));

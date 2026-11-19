@@ -20,8 +20,8 @@ import java.util.List;
  * {@code fire_crimson_skull} 处理，从不走原版近战或挖掘。
  */
 public class WitherGoheiItem extends Item {
-    static final String TOOLTIP_FIRE_KEY = "item.sparkwitch.wither_gohei.tooltip.fire";
-    static final String TOOLTIP_WITHER_KEY = "item.sparkwitch.wither_gohei.tooltip.wither";
+    static final String TOOLTIP_FIRE_KEY = "item.sparkdlc.wither_gohei.tooltip.fire";
+    static final String TOOLTIP_WITHER_KEY = "item.sparkdlc.wither_gohei.tooltip.wither";
 
     public WitherGoheiItem(Settings settings) {
         super(settings);

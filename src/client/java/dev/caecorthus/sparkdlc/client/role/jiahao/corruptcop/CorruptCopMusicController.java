@@ -86,7 +86,7 @@ public final class CorruptCopMusicController {
             // The event exists, but the client resource pack did not expose the sound set.
             // 声音事件已注册，但客户端资源包没有暴露对应的声音集合。
             SparkStrength.LOGGER.warn(
-                    "Missing client sound resource {}. Check assets/sparkstrength/sounds.json and the installed client jar.",
+                    "Missing client sound resource {}. Check assets/sparkdlc/sounds.json and the installed client jar.",
                     SparkStrengthSounds.MUSIC_TAKEDISKRUSH_ID
             );
             missingSoundResourceWarned = true;

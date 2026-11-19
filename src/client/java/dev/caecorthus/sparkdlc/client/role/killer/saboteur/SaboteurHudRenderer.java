@@ -33,12 +33,12 @@ public final class SaboteurHudRenderer {
     private static Text stateText(int cooldownTicks) {
         if (cooldownTicks > 0) {
             return Text.translatable(
-                    "hud.sparkwitch.skill.sabotage.cooldown",
+                    "hud.sparkdlc.skill.sabotage.cooldown",
                     SaboteurHudRules.cooldownSeconds(cooldownTicks)
             );
         }
         return Text.translatable(
-                "hud.sparkwitch.skill.sabotage.ready",
+                "hud.sparkdlc.skill.sabotage.ready",
                 WitchAbilityKeyBridge.keyText()
         );
     }

@@ -7,12 +7,12 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 /**
- * Pure Holy Flash ({@code sparkwitch:holy_flash}) tuning: the Saint's re-buyable flashbang. Owner decisions
+ * Pure Holy Flash ({@code sparkdlc:holy_flash}) tuning: the Saint's re-buyable flashbang. Owner decisions
  * 2026-10-03: 75 coins, 10 s at the burst falling linearly to 3 s at the edge, walls block, the thrower and every
  * faction are affected, 15 s use cooldown, carry at most 3. Buff 2026-10-07: 6-block radius measured to the nearest
  * point of the body (was 4 to the eyes, which put a floor burst's 10 s out of reach), ×0.75 when facing away (was
  * halved), and the black mask holds for the first 60% (was 40%).
- * 圣光弹（{@code sparkwitch:holy_flash}）的纯数值：圣徒可重复购买的闪光弹。所有者 2026-10-03 决定：75 金币、
+ * 圣光弹（{@code sparkdlc:holy_flash}）的纯数值：圣徒可重复购买的闪光弹。所有者 2026-10-03 决定：75 金币、
  * 落点处 10 秒并线性降到边缘 3 秒、墙体阻挡、投掷者与所有阵营都会被闪、使用冷却 15 秒、最多携带 3 个。
  * 2026-10-07 增强：半径 6 格并按到身体最近点计算（原为到眼睛 4 格，落地爆开时 10 秒根本够不到）、背对时 ×0.75
  * （原为减半）、全黑保持前 60%（原为 40%）。

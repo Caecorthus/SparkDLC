@@ -58,7 +58,7 @@ public class MiniWitherSkullEntity extends ThrownEntity {
     /** The margin vanilla projectile collision grows every entity box by. / 原版投射物碰撞为实体箱体增加的余量。 */
     private static final double PLAYER_HIT_MARGIN = 0.3;
     /** SparkFactionAPI's action for player-owned projectiles. / SparkFactionAPI 对玩家发射物使用的行为 id。 */
-    private static final Identifier PROJECTILE_ACTION = Identifier.of("sparkfactionapi", "projectile");
+    private static final Identifier PROJECTILE_ACTION = Identifier.of("sparkdlc", "projectile");
     private static final int CRIMSON_TRAIL_STEPS = 6;
     private static final DustParticleEffect CRIMSON_DUST = new DustParticleEffect(new Vector3f(0.85F, 0.1F, 0.08F),
             1.0F);

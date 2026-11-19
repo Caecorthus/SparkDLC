@@ -63,9 +63,9 @@ public final class BlackRavenHudRenderer {
         Text role = BlackRavenDisguiseClientState.roleName(view.acting());
         int seconds = BlackRavenDisguiseClientRules.statusSeconds(view);
         Text line = switch (BlackRavenDisguiseClientRules.status(view)) {
-            case LOCKED -> Text.translatable("hud.sparkwitch.black_raven.disguise.locked", role, seconds);
-            case COOLDOWN -> Text.translatable("hud.sparkwitch.black_raven.disguise.cooldown", role, seconds);
-            case READY -> Text.translatable("hud.sparkwitch.black_raven.disguise.ready", role);
+            case LOCKED -> Text.translatable("hud.sparkdlc.black_raven.disguise.locked", role, seconds);
+            case COOLDOWN -> Text.translatable("hud.sparkdlc.black_raven.disguise.cooldown", role, seconds);
+            case READY -> Text.translatable("hud.sparkdlc.black_raven.disguise.ready", role);
         };
         TextRenderer renderer = MinecraftClient.getInstance().textRenderer;
         int x = context.getScaledWindowWidth() - RIGHT_PADDING - renderer.getWidth(line);

@@ -38,8 +38,8 @@ public final class BodyguardProtectionRules {
     private static final int BLOCK = BodyguardRules.SHIELD_BLOCK_POINTS;
     private static final Protection PHYSICAL = new Protection(true, BLOCK, Source.ATTACKER);
     private static final Identifier BOMB = Identifier.of("noellesroles", "bomb");
-    private static final Identifier SAVIOR_PISTOL_KILL = Identifier.of("sparkwitch", "savior_pistol_kill");
-    private static final Identifier SAVIOR_LIGHTSABER_KILL = Identifier.of("sparkwitch", "lightsaber_kill");
+    private static final Identifier SAVIOR_PISTOL_KILL = Identifier.of("sparkdlc", "savior_pistol_kill");
+    private static final Identifier SAVIOR_LIGHTSABER_KILL = Identifier.of("sparkdlc", "lightsaber_kill");
     /**
      * Kill reasons settled by SparkWitch's {@code SaviorRules.settleKill}, which retries {@code killPlayer} up to ten
      * times in one server tick so that each retry spends one protection layer. A shield block of such a hit stops the
@@ -55,27 +55,27 @@ public final class BodyguardProtectionRules {
             Map.entry(Identifier.of("wathe", "gun_shot"), PHYSICAL),
             Map.entry(Identifier.of("wathe", "bat_hit"), new Protection(true, BLOCK, Source.MELEE)),
             // The stage-2 Undercover's tactical tomahawk: a melee kill like the knife. / 二阶段卧底的战术斧：与刀相同的近战击杀。
-            Map.entry(Identifier.of("sparkstrength", "tomahawk"), new Protection(true, BLOCK, Source.MELEE)),
+            Map.entry(Identifier.of("sparkdlc", "tomahawk"), new Protection(true, BLOCK, Source.MELEE)),
             Map.entry(Identifier.of("wathe", "grenade"), new Protection(false, BLOCK, Source.BLAST)),
             Map.entry(Identifier.of("noellesroles", "throwing_axe"), PHYSICAL),
             Map.entry(Identifier.of("noellesroles", "demon_hunter_shot"), PHYSICAL),
-            Map.entry(Identifier.of("sparkwitch", "ceremonial_blade"),
+            Map.entry(Identifier.of("sparkdlc", "ceremonial_blade"),
                     new Protection(false, BodyguardRules.SHIELD_CEREMONIAL_SWORD_POINTS, Source.ATTACKER)),
             // Only the TR shell kills with potion_shell. / 只有 TR 弹会以 potion_shell 致死。
-            Map.entry(Identifier.of("sparkwitch", "potion_shell"),
+            Map.entry(Identifier.of("sparkdlc", "potion_shell"),
                     new Protection(false, BodyguardRules.SHIELD_TR_SHELL_POINTS, Source.ATTACKER)),
-            Map.entry(Identifier.of("sparkwitch", "potion_backblast"), new Protection(false, BLOCK, Source.ATTACKER)),
-            Map.entry(Identifier.of("sparkwitch", "ninja_knife_kill"), PHYSICAL),
-            Map.entry(Identifier.of("sparkwitch", "ninja_shuriken_kill"), PHYSICAL),
-            Map.entry(Identifier.of("sparkwitch", "swordfish_stab"), PHYSICAL),
-            Map.entry(Identifier.of("sparkwitch", "mighty_force"), PHYSICAL),
+            Map.entry(Identifier.of("sparkdlc", "potion_backblast"), new Protection(false, BLOCK, Source.ATTACKER)),
+            Map.entry(Identifier.of("sparkdlc", "ninja_knife_kill"), PHYSICAL),
+            Map.entry(Identifier.of("sparkdlc", "ninja_shuriken_kill"), PHYSICAL),
+            Map.entry(Identifier.of("sparkdlc", "swordfish_stab"), PHYSICAL),
+            Map.entry(Identifier.of("sparkdlc", "mighty_force"), PHYSICAL),
             // SparkWitch Witch Maiden crimson wither skull: a gunshot for protections (owner 2026-10-20).
             // SparkWitch 巫女赤色凋灵之首：防护按枪击处理（所有者 2026-10-20）。
-            Map.entry(Identifier.of("sparkwitch", "crimson_wither_skull"), PHYSICAL),
+            Map.entry(Identifier.of("sparkdlc", "crimson_wither_skull"), PHYSICAL),
             // SparkWitch 狮身豪 (Sphinx Hao) hand-gun fist: a gunshot for protections like the crimson skull (vest and
             // shield both stop it; coordinator decision 2026-11-17). / SparkWitch 狮身豪“手”枪铁拳：防护与赤色凋灵之首
             // 一样按枪击处理（防弹衣与盾都能挡下；协调者 2026-11-17 决定）。
-            Map.entry(Identifier.of("sparkwitch", "sphinx_hao_fist"), PHYSICAL),
+            Map.entry(Identifier.of("sparkdlc", "sphinx_hao_fist"), PHYSICAL),
             // SparkWitch Savior pistol and lightsaber kills (SparkWitch PR #200): the shield blocks them, the vest does
             // not (owner 2026-11-09, "盾可以挡住它的击杀"). One hit is one settlement per tick, see SAME_TICK_SETTLEMENTS.
             // SparkWitch 救世主手枪与光剑击杀（SparkWitch PR #200）：盾能挡，防弹衣不能（所有者 2026-11-09，
@@ -84,7 +84,7 @@ public final class BodyguardProtectionRules {
             Map.entry(SAVIOR_LIGHTSABER_KILL, new Protection(false, BLOCK, Source.MELEE)),
             // Party Animal's Partygoer: a worn vest is one layer it chews through (one 5 s bite); a raised shield can't
             // stop a meal. / 派对狂的派对客：穿着的防弹衣算一层，被啃掉一口（5 秒）；举盾挡不住被吃。
-            Map.entry(Identifier.of("sparkstrength", "partygoer_eaten"), new Protection(true, 0, Source.ATTACKER))
+            Map.entry(Identifier.of("sparkdlc", "partygoer_eaten"), new Protection(true, 0, Source.ATTACKER))
     );
     /** A Bomber drone's blast; the carried bomb has the same reason but no blast scope. / 炸弹客无人机的爆炸；随身炸弹死因相同但没有爆炸作用域。 */
     private static final Protection DRONE_BLAST = new Protection(false, BLOCK, Source.BLAST);

@@ -17,11 +17,11 @@ import java.util.List;
  */
 public final class WraithPromotionService {
     public enum Failure {
-        INACTIVE("command.sparkwitch.force_promotion.failure.inactive"),
-        ALREADY_PROMOTED("command.sparkwitch.force_promotion.failure.already_promoted"),
-        MISSING_ALIGNMENT("command.sparkwitch.force_promotion.failure.missing_alignment"),
-        WRONG_ALIGNMENT("command.sparkwitch.force_promotion.failure.wrong_alignment"),
-        VENDETTA_INELIGIBLE("command.sparkwitch.force_promotion.failure.vendetta_ineligible");
+        INACTIVE("command.sparkdlc.force_promotion.failure.inactive"),
+        ALREADY_PROMOTED("command.sparkdlc.force_promotion.failure.already_promoted"),
+        MISSING_ALIGNMENT("command.sparkdlc.force_promotion.failure.missing_alignment"),
+        WRONG_ALIGNMENT("command.sparkdlc.force_promotion.failure.wrong_alignment"),
+        VENDETTA_INELIGIBLE("command.sparkdlc.force_promotion.failure.vendetta_ineligible");
 
         private final String translationKey;
 

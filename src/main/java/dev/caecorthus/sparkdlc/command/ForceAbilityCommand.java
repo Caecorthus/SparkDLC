@@ -28,8 +28,8 @@ import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Registers the /sparkwitch:forceAbility command for next-round ability locks.
- * 注册 /sparkwitch:forceAbility 命令，用于锁定玩家下一局魔女能力。
+ * Registers the /sparkdlc:forceAbility command for next-round ability locks.
+ * 注册 /sparkdlc:forceAbility 命令，用于锁定玩家下一局魔女能力。
  */
 public final class ForceAbilityCommand {
     private static final DynamicCommandExceptionType UNKNOWN_SKILL =
@@ -40,7 +40,7 @@ public final class ForceAbilityCommand {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(
-                CommandManager.literal("sparkwitch:forceAbility")
+                CommandManager.literal("sparkdlc:forceAbility")
                         .requires(Permissions.require(
                                 SparkWitchPermissions.COMMAND_FORCE_ABILITY,
                                 SparkWitchPermissions.DEFAULT_COMMAND_LEVEL

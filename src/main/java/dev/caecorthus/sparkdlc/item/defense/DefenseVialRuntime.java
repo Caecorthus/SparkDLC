@@ -42,10 +42,10 @@ public final class DefenseVialRuntime {
         Map<UUID, ReplayGenerator.PlayerInfo> players = ReplayGenerator.getPlayerInfoCache(match);
         Text actor = ReplayGenerator.formatPlayerName(data.getUuid("actor"), players);
         return switch (data.getString("action")) {
-            case DefenseVialRules.ACTION_DRINK -> Text.translatable("replay.item_use.sparkwitch.defense_vial.drink", actor);
-            case DefenseVialRules.ACTION_POUR -> Text.translatable("replay.item_use.sparkwitch.defense_vial.pour", actor);
+            case DefenseVialRules.ACTION_DRINK -> Text.translatable("replay.item_use.sparkdlc.defense_vial.drink", actor);
+            case DefenseVialRules.ACTION_POUR -> Text.translatable("replay.item_use.sparkdlc.defense_vial.pour", actor);
             case DefenseVialRules.ACTION_TRAY_SHIELD -> data.containsUuid("pourer")
-                    ? Text.translatable("replay.item_use.sparkwitch.defense_vial.tray_shield", actor,
+                    ? Text.translatable("replay.item_use.sparkdlc.defense_vial.tray_shield", actor,
                             ReplayGenerator.formatPlayerName(data.getUuid("pourer"), players))
                     : null;
             default -> null;

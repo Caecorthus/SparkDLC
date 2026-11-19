@@ -10,7 +10,7 @@ import net.minecraft.util.math.random.Random;
 /**
  * 全场新版双影谢幕环境音的客户端循环实例。
  *
- * <p>音频资源来自 {@code assets/sparkstrength/sounds/ambient/shadow_jester.ogg}。
+ * <p>音频资源来自 {@code assets/sparkdlc/sounds/ambient/shadow_jester.ogg}。
  * 淡出在实例内部完成，避免停止音效时产生突然截断。</p>
  */
 public final class ShadowJesterShowdownMusicInstance

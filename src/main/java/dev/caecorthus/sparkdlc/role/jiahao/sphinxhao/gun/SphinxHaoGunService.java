@@ -63,8 +63,8 @@ import java.util.List;
  * （不是 Wathe 枪械）。
  */
 public final class SphinxHaoGunService {
-    static final String NO_AMMO_KEY = "message.sparkwitch.sphinx_hao_hand_gun.no_ammo";
-    static final String MISS_KEY = "message.sparkwitch.sphinx_hao_hand_gun.miss";
+    static final String NO_AMMO_KEY = "message.sparkdlc.sphinx_hao_hand_gun.no_ammo";
+    static final String MISS_KEY = "message.sparkdlc.sphinx_hao_hand_gun.miss";
     /** Replay record key: whether a player took the fist. / 回放记录键：是否有玩家挨了这一拳。 */
     static final String RECORD_HIT = "hit";
     private static final float FIRE_VOLUME = 1.0F;

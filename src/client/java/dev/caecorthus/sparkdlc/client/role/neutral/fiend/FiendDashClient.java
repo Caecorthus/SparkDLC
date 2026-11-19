@@ -6,12 +6,12 @@ import net.minecraft.client.MinecraftClient;
 
 /**
  * Client side of Dash, the moment Fiend's ability-key skill. Server authority: the client only sends the empty
- * {@code sparkwitch:use_fiend_dash} request and never checks the Dash cooldown, the moment or liveness; the server
- * validates everything and resyncs the cooldown through {@code sparkwitch:fiend_moment}. Role-owned; never the
- * {@code gui.sparkwitch.skills} panel.
- * 疾驰（时刻中魔人的技能键技能）的客户端部分。服务端权威：客户端只发送空的 {@code sparkwitch:use_fiend_dash} 请求，
- * 从不检查疾驰冷却、时刻或存活状态；全部校验在服务端完成，冷却经由 {@code sparkwitch:fiend_moment} 重新同步。
- * 属于职业自有功能，从不进入 {@code gui.sparkwitch.skills} 面板。
+ * {@code sparkdlc:use_fiend_dash} request and never checks the Dash cooldown, the moment or liveness; the server
+ * validates everything and resyncs the cooldown through {@code sparkdlc:fiend_moment}. Role-owned; never the
+ * {@code gui.sparkdlc.skills} panel.
+ * 疾驰（时刻中魔人的技能键技能）的客户端部分。服务端权威：客户端只发送空的 {@code sparkdlc:use_fiend_dash} 请求，
+ * 从不检查疾驰冷却、时刻或存活状态；全部校验在服务端完成，冷却经由 {@code sparkdlc:fiend_moment} 重新同步。
+ * 属于职业自有功能，从不进入 {@code gui.sparkdlc.skills} 面板。
  */
 public final class FiendDashClient {
     private FiendDashClient() {

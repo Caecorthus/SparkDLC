@@ -36,7 +36,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 /**
- * Server authority for {@code sparkstrength:serial_pistol_shoot}. Mirrors Wathe's {@code GunShootPayload.Receiver}
+ * Server authority for {@code sparkdlc:serial_pistol_shoot}. Mirrors Wathe's {@code GunShootPayload.Receiver}
  * (click, record, ShouldPunishGunShooter custom punishment, killPlayer with DeathReasons.GUN, shoot sound, muzzle,
  * cooldown) and adds what that receiver trusts the client for: the shooter must be a living Serial Killer in psycho
  * mode holding the matching pistol in the claimed hand, and the target must be alive, in survival, in range, in clear

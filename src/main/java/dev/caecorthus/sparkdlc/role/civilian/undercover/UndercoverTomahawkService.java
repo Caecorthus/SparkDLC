@@ -38,11 +38,11 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * The tactical tomahawk's left-click kill (owner 2026-10-19): attack speed 1, a fully charged swing at a living player
- * kills them with {@code sparkstrength:tomahawk}, then the tomahawk cools down 20 s, or 3 s in a blackout (also when a
+ * kills them with {@code sparkdlc:tomahawk}, then the tomahawk cools down 20 s, or 3 s in a blackout (also when a
  * vest or shield stopped the kill). Killing an effective innocent costs the Undercover its life ("小脑",
  * {@code wathe:shot_innocent}), with the Veteran knife's rule. Any other tomahawk swing does nothing at all, so it never
  * falls back to a vanilla punch.
- * 战术斧的左键击杀（负责人 2026-10-19）：攻速 1，蓄满后挥向存活玩家即以 sparkstrength:tomahawk 击杀，随后冷却 20 秒，
+ * 战术斧的左键击杀（负责人 2026-10-19）：攻速 1，蓄满后挥向存活玩家即以 sparkdlc:tomahawk 击杀，随后冷却 20 秒，
  * 熄灯时 3 秒（被背心或盾挡下也一样）。杀死有效好人时卧底自己「小脑」（wathe:shot_innocent），规则同老兵匕首。
  * 其余任何挥砍都不会生效，绝不会退回到原版拳击。
  *

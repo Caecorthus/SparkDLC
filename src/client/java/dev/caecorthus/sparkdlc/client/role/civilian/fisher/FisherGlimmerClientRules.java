@@ -24,7 +24,7 @@ public final class FisherGlimmerClientRules {
     public static final int OUTLINE_PRIORITY = GetInstinctHighlight.HighlightResult.PRIORITY_HIGH + 1;
     /** Beats every role highlight of an invisible glimmering target (SparkStrength's serum uses 300 too). / 覆盖所有职业高亮。 */
     public static final int HIDE_PRIORITY = 300;
-    public static final String HUD_KEY = "hud.sparkwitch.fisher.glimmer";
+    public static final String HUD_KEY = "hud.sparkdlc.fisher.glimmer";
 
     private FisherGlimmerClientRules() {
     }

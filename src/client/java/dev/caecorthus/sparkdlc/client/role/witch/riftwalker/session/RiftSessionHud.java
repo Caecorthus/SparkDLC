@@ -57,14 +57,14 @@ public final class RiftSessionHud {
         TextRenderer font = client.textRenderer;
         int labelY = RiftSessionHudRules.labelY(barY);
         Text gate = RiftSessionHudRules.showsRing(view.ringIndex(), view.ringSize())
-                ? Text.translatable("hud.sparkwitch.riftwalker.gate_label", view.gateNumber(), view.ringIndex(),
+                ? Text.translatable("hud.sparkdlc.riftwalker.gate_label", view.gateNumber(), view.ringIndex(),
                 view.ringSize())
-                : Text.translatable("hud.sparkwitch.riftwalker.gate_number", view.gateNumber());
+                : Text.translatable("hud.sparkdlc.riftwalker.gate_number", view.gateNumber());
         context.drawTextWithShadow(font, gate, barX - RiftSessionHudRules.LABEL_GAP - font.getWidth(gate), labelY,
                 RiftSessionHudRules.TEXT_COLOR);
         if (RiftSessionHudRules.showsTimer(view.stayLimitTicks())) {
             int remaining = view.stayRemainingTicks();
-            Text timer = Text.translatable("hud.sparkwitch.riftwalker.stay_seconds",
+            Text timer = Text.translatable("hud.sparkdlc.riftwalker.stay_seconds",
                     RiftSessionHudRules.seconds(remaining));
             context.drawTextWithShadow(font, timer,
                     barX + RiftSessionHudRules.BAR_WIDTH + RiftSessionHudRules.LABEL_GAP, labelY,
@@ -73,9 +73,9 @@ public final class RiftSessionHud {
 
         GameOptions options = client.options;
         Text hint = enabled
-                ? Text.translatable("hud.sparkwitch.riftwalker.hint", options.leftKey.getBoundKeyLocalizedText(),
+                ? Text.translatable("hud.sparkdlc.riftwalker.hint", options.leftKey.getBoundKeyLocalizedText(),
                 options.rightKey.getBoundKeyLocalizedText(), options.sneakKey.getBoundKeyLocalizedText())
-                : Text.translatable("hud.sparkwitch.riftwalker.hint_alone", options.sneakKey.getBoundKeyLocalizedText());
+                : Text.translatable("hud.sparkdlc.riftwalker.hint_alone", options.sneakKey.getBoundKeyLocalizedText());
         context.drawTextWithShadow(font, hint, context.getScaledWindowWidth() / 2 - font.getWidth(hint) / 2,
                 RiftSessionHudRules.hintY(barY, font.fontHeight), RiftSessionHudRules.HINT_COLOR);
     }

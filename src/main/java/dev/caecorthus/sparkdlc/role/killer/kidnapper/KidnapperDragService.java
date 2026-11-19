@@ -13,16 +13,16 @@ import net.minecraft.server.network.ServerPlayerEntity;
 
 /** Owns only the passenger relation and temporary movement modifier. / 只负责乘客关系与临时移速修正。 */
 public final class KidnapperDragService {
-    public static final String NO_TARGET_MESSAGE = "message.sparkwitch.kidnapper.no_target";
-    public static final String FALSE_BODY_MESSAGE = "message.sparkwitch.kidnapper.false_body";
-    public static final String DECOY_BODY_MESSAGE = "message.sparkwitch.kidnapper.decoy_body";
+    public static final String NO_TARGET_MESSAGE = "message.sparkdlc.kidnapper.no_target";
+    public static final String FALSE_BODY_MESSAGE = "message.sparkdlc.kidnapper.false_body";
+    public static final String DECOY_BODY_MESSAGE = "message.sparkdlc.kidnapper.decoy_body";
 
     private KidnapperDragService() {
     }
 
     public static WitchSkillUseResult use(WitchSkillUseContext context) {
         if (!KidnapperRules.isKidnapper(context.role())) {
-            return WitchSkillUseResult.fail("message.sparkwitch.skill.unavailable");
+            return WitchSkillUseResult.fail("message.sparkdlc.skill.unavailable");
         }
         ServerPlayerEntity player = context.player();
         PlayerBodyEntity draggedBody = KidnapperCarryState.findCarriedBody(player);

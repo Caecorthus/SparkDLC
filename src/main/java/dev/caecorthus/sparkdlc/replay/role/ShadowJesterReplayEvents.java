@@ -29,7 +29,7 @@ public final class ShadowJesterReplayEvents {
         ReplayRegistry.registerGlobalEventFormatter(
                 SHADOW_JESTER_SHOWDOWN_STARTED,
                 (event, match, world) -> Text.translatable(
-                        "replay.global.sparkstrength.shadow_jester_showdown_started"
+                        "replay.global.sparkdlc.shadow_jester_showdown_started"
                 )
         );
     }

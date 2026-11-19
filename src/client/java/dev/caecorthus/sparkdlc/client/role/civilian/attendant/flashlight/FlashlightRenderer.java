@@ -130,7 +130,7 @@ public final class FlashlightRenderer {
         }
         Vec3d camera = context.camera().getPos();
         Frustum frustum = context.frustum();
-        context.profiler().push("sparkstrength_flashlight_receivers");
+        context.profiler().push("sparkdlc_flashlight_receivers");
         int[] saved = beginPass(client, context, client.getFramebuffer());
         try {
             RECEIVERS.prepare(world, FRAME_LIGHTS, frustum);
@@ -162,7 +162,7 @@ public final class FlashlightRenderer {
         if (target == null) {
             return;
         }
-        context.profiler().push("sparkstrength_flashlight_translucent_receivers");
+        context.profiler().push("sparkdlc_flashlight_translucent_receivers");
         int[] saved = beginPass(client, context, target);
         try {
             drawReceivers(client, receiver, context, context.camera().getPos(), context.frustum(), true);
@@ -177,7 +177,7 @@ public final class FlashlightRenderer {
             return;
         }
         MinecraftClient client = MinecraftClient.getInstance();
-        context.profiler().push("sparkstrength_flashlight_beams");
+        context.profiler().push("sparkdlc_flashlight_beams");
         int[] saved = beginPass(client, context, client.getFramebuffer());
         try {
             BEAM.render(client, FRAME_LIGHTS, context.camera().getPos(), context.positionMatrix(),

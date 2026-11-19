@@ -34,7 +34,7 @@ public final class CorruptCopAbilityHud {
             // Locked: task progress replaces the toggle line until both the toggle and the x-ray unlock.
             // 未解锁：在开关与透视解锁前，以任务进度代替开关提示。
             drawRightAligned(renderer, context, Text.translatable(
-                    "tip.sparkstrength.corrupt_cop.locked",
+                    "tip.sparkdlc.corrupt_cop.locked",
                     ability.completedTasks(),
                     ability.requiredTasks()
             ), y);
@@ -42,15 +42,15 @@ public final class CorruptCopAbilityHud {
         }
 
         String key = ability.isActive()
-                ? "tip.sparkstrength.corrupt_cop.active"
-                : "tip.sparkstrength.corrupt_cop.inactive";
+                ? "tip.sparkdlc.corrupt_cop.active"
+                : "tip.sparkdlc.corrupt_cop.inactive";
         Text text = Text.translatable(key, NoellesrolesClient.abilityBind.getBoundKeyLocalizedText());
         drawRightAligned(renderer, context, text, y);
 
         int remainingSeconds = CorruptCopMusicController.remainingResumeSeconds();
         if (!ability.isActive() && remainingSeconds > 0) {
             Text resumeText = Text.translatable(
-                    "tip.sparkstrength.corrupt_cop.music_resume_remaining",
+                    "tip.sparkdlc.corrupt_cop.music_resume_remaining",
                     remainingSeconds
             );
             drawRightAligned(renderer, context, resumeText, y - renderer.fontHeight);

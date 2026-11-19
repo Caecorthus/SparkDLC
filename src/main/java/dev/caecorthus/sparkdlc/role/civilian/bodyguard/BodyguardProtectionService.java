@@ -28,8 +28,8 @@ import org.jetbrains.annotations.Nullable;
  * 击穿，每发 FMJ 消耗 10 点体力，每发 AP 消耗 25 点。
  */
 public final class BodyguardProtectionService {
-    public static final String SHIELD_SOURCE = "sparkstrength:democracy_shield";
-    public static final String VEST_SOURCE = "sparkstrength:bodyguard_vest";
+    public static final String SHIELD_SOURCE = "sparkdlc:democracy_shield";
+    public static final String VEST_SOURCE = "sparkdlc:bodyguard_vest";
     private static final BodyguardSettlementMemo SETTLEMENTS = new BodyguardSettlementMemo();
     private static boolean registered;
 

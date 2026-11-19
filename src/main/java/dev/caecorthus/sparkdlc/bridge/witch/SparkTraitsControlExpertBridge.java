@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
  * 法官语义。
  */
 public final class SparkTraitsControlExpertBridge {
-    private static final Identifier IMPOSTOR = Identifier.of("sparktraits", "impostor");
+    private static final Identifier IMPOSTOR = Identifier.of("sparkdlc", "impostor");
 
     private SparkTraitsControlExpertBridge() {
     }

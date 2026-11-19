@@ -14,14 +14,14 @@ import java.util.EnumSet;
 import java.util.Set;
 
 /**
- * Stable CCA contract {@code sparkwitch:noa_player} (NEVER_COPY): the absolute world tick at which Noa's painting is
+ * Stable CCA contract {@code sparkdlc:noa_player} (NEVER_COPY): the absolute world tick at which Noa's painting is
  * ready again, synced only to its owner (whose HUD counts it down against the client world clock; the client never
  * predicts it), plus the one-off outcomes already painted this round (server only). NBT keeps both across a mid-round
  * relog; role assignment and Wathe's {@code ResetPlayer} (every round end) clear both. The forced-cooldown store
- * {@code sparkwitch:noa_paint} only ever raises the ready tick.
- * 稳定 CCA 契约 {@code sparkwitch:noa_player}（NEVER_COPY）：诺亚作画再次就绪的绝对世界刻，只同步给本人（本人 HUD 依据
+ * {@code sparkdlc:noa_paint} only ever raises the ready tick.
+ * 稳定 CCA 契约 {@code sparkdlc:noa_player}（NEVER_COPY）：诺亚作画再次就绪的绝对世界刻，只同步给本人（本人 HUD 依据
  * 客户端世界时钟倒数；客户端从不预测），以及本局已画出的一次性结果（仅服务端）。NBT 使两者在局中重新登录后保留；
- * 身份分配与 Wathe 的 {@code ResetPlayer}（每局结束）会清空两者。强制冷却存储 {@code sparkwitch:noa_paint} 只会把就绪刻推后。
+ * 身份分配与 Wathe 的 {@code ResetPlayer}（每局结束）会清空两者。强制冷却存储 {@code sparkdlc:noa_paint} 只会把就绪刻推后。
  */
 public final class NoaComponent implements AutoSyncedComponent {
     public static final ComponentKey<NoaComponent> KEY = ComponentRegistry.getOrCreate(

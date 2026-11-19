@@ -17,7 +17,7 @@ final class SanityCommand {
     }
 
     static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
-        dispatcher.register(CommandManager.literal("sparkfactionapi:setSanity")
+        dispatcher.register(CommandManager.literal("sparkdlc:setSanity")
                 .requires(SparkFactionPermissions.admin())
                 .then(CommandManager.argument("value", FloatArgumentType.floatArg(-100.0f, 125.0f))
                         .executes(context -> setSanity(

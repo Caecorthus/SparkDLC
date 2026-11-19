@@ -28,7 +28,7 @@ final class SpareKeyReplayFormatter {
     @Nullable
     private static Text format(GameRecordEvent event, GameRecordManager.MatchRecord match, ServerWorld world) {
         UUID actor = actor(event.data());
-        return actor == null ? null : Text.translatable("replay.item_use.sparkwitch.spare_key",
+        return actor == null ? null : Text.translatable("replay.item_use.sparkdlc.spare_key",
                 ReplayGenerator.formatPlayerName(actor, ReplayGenerator.getPlayerInfoCache(match)));
     }
 

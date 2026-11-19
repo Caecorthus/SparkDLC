@@ -7,37 +7,37 @@ import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Pure rules of 狮身豪 Sphinx Hao ({@code sparkwitch:sphinx_hao}), a Team Jiahao member in colour {@code FF7F50}
+ * Pure rules of 狮身豪 Sphinx Hao ({@code sparkdlc:sphinx_hao}), a Team Jiahao member in colour {@code FF7F50}
  * (owner spec and answers 2026-11-17).
  * <ul>
  *   <li>Dealt by the Team Jiahao third-faction lineup: when the team has a second seat it is the Insider or Sphinx Hao,
  *   50/50 (owner Q1). Fake tasks, no coins: it pays and earns only 豪度值 ("hao").</li>
  *   <li>Kit: one neutral master key and one EMPTY "手"枪 (spring-fist hand gun); 0 hao at the deal (owner Q3).</li>
- *   <li>Skill 1 嘉豪病毒 (shared ability key, {@code sparkwitch:use_sphinx_hao_infect}): infect the player in the
+ *   <li>Skill 1 嘉豪病毒 (shared ability key, {@code sparkdlc:use_sphinx_hao_infect}): infect the player in the
  *   crosshair within 3 blocks. 60 s at the deal, 10 s after each infection. The victim reads 「你感觉自己有点豪」
  *   15–25 s later.</li>
- *   <li>Skill 2 豪气冲天 (secondary skill key, {@code sparkwitch:use_sphinx_hao_roar}): for 10 s the caster and every
+ *   <li>Skill 2 豪气冲天 (secondary skill key, {@code sparkdlc:use_sphinx_hao_roar}): for 10 s the caster and every
  *   living infected player crawl on land, hidden from every instinct, while 《Fade》 plays for everyone (owner Q2).
  *   +1 hao per infected crawler, the caster not counted (owner Q4). Every infection clears when the window ends.
  *   90 s at the deal, 30 s counted from the window's end.</li>
  *   <li>Shop: 拳头子弹 for 10 hao. The gun shoots one fist 25 blocks: a hit kills; no kill pays +5 hao and Speed III
  *   for 3 s, a kill gives 3 s Glowing and Speed I for 10 s.</li>
  * </ul>
- * Never a Witch-skill role: nothing of it appears in the {@code gui.sparkwitch.skills} panel.
- * 狮身豪（{@code sparkwitch:sphinx_hao}）的纯规则：嘉豪阵营成员，身份色 {@code FF7F50}（所有者规格与答复 2026-11-17）。
+ * Never a Witch-skill role: nothing of it appears in the {@code gui.sparkdlc.skills} panel.
+ * 狮身豪（{@code sparkdlc:sphinx_hao}）的纯规则：嘉豪阵营成员，身份色 {@code FF7F50}（所有者规格与答复 2026-11-17）。
  * <ul>
  *   <li>由嘉豪阵营第三阵营阵容发放：阵营有第二个席位时，该席位为内应或狮身豪各 50%（所有者 Q1）。假任务、无金币：只赚取与
  *   支付豪度值。</li>
  *   <li>开局：一把中立万能钥匙与一把空的“手”枪（弹簧拳头枪）；豪度值为 0（所有者 Q3）。</li>
- *   <li>技能一 嘉豪病毒（共享技能键，{@code sparkwitch:use_sphinx_hao_infect}）：感染准星对准的 3 格内玩家。发牌后 60 秒，
+ *   <li>技能一 嘉豪病毒（共享技能键，{@code sparkdlc:use_sphinx_hao_infect}）：感染准星对准的 3 格内玩家。发牌后 60 秒，
  *   之后每次感染后 10 秒。被感染者在 15–25 秒后收到「你感觉自己有点豪」。</li>
- *   <li>技能二 豪气冲天（第二技能键，{@code sparkwitch:use_sphinx_hao_roar}）：10 秒内施法者与所有存活的感染者在陆地上
+ *   <li>技能二 豪气冲天（第二技能键，{@code sparkdlc:use_sphinx_hao_roar}）：10 秒内施法者与所有存活的感染者在陆地上
  *   游泳姿势（陆泳），不会被任何本能看到，全场播放《Fade》（所有者 Q2）。每名被感染的陆泳者 +1 豪度值，施法者不计
  *   （所有者 Q4）。窗口结束时清除全部感染。发牌后 90 秒，之后从窗口结束起 30 秒。</li>
  *   <li>商店：拳头子弹 10 豪度值。手枪发射一个拳头，射程 25 格：命中即击杀；未击杀 +5 豪度值与速度 III 3 秒，击杀获得
  *   3 秒发光与速度 I 10 秒。</li>
  * </ul>
- * 不是魔女技能职业：它的任何内容都不会出现在 {@code gui.sparkwitch.skills} 面板中。
+ * 不是魔女技能职业：它的任何内容都不会出现在 {@code gui.sparkdlc.skills} 面板中。
  */
 public final class SphinxHaoRules {
     public static final Identifier ROLE_ID = SparkWitch.id("sphinx_hao");
@@ -60,7 +60,7 @@ public final class SphinxHaoRules {
     public static final Identifier INFECT_SKILL_ID = SparkWitch.id("sphinx_hao_infect");
     public static final Identifier ROAR_SKILL_ID = SparkWitch.id("sphinx_hao_roar");
     /** Shop entry id of the fist ammo; unique to its shop. / 拳头子弹的商店条目 id，只出现在它的商店。 */
-    public static final String FIST_AMMO_SHOP_ENTRY_ID = "sparkwitch:sphinx_hao_fist_ammo";
+    public static final String FIST_AMMO_SHOP_ENTRY_ID = "sparkdlc:sphinx_hao_fist_ammo";
 
     // Skill 1: 嘉豪病毒 / 技能一：嘉豪病毒
     public static final double INFECT_RANGE = 3.0;

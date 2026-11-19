@@ -50,7 +50,7 @@ import java.util.UUID;
  * 由服务端重新校验。“确认猜测”按钮跟随 canGuess()，菜单打开期间开始的冷却也会显示出来。</p>
  */
 public final class AssassinGuessScreen extends Screen {
-    private static final String KEY = "screen.sparkstrength.assassin.";
+    private static final String KEY = "screen.sparkdlc.assassin.";
     // targets() initialises a throwaway native screen: once a second is plenty to notice a death.
     // targets() 会初始化一个一次性的原生界面：每秒一次足以发现有人死亡。
     private static final int TARGET_REFRESH_TICKS = 20;

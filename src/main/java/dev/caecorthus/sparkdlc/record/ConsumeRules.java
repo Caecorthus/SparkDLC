@@ -3,8 +3,8 @@ package dev.caecorthus.sparkdlc.record;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Pure decisions for {@code sparkfactionapi:consume}.
- * {@code sparkfactionapi:consume} 的纯判定规则。
+ * Pure decisions for {@code sparkdlc:consume}.
+ * {@code sparkdlc:consume} 的纯判定规则。
  */
 public final class ConsumeRules {
     private ConsumeRules() {

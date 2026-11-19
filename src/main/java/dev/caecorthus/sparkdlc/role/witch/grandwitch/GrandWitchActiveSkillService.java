@@ -26,7 +26,7 @@ public final class GrandWitchActiveSkillService {
     }
 
     public static WitchSkillUseResult use(WitchSkillUseContext context) {
-        return WitchSkillUseResult.fail("message.sparkwitch.skill.unavailable");
+        return WitchSkillUseResult.fail("message.sparkdlc.skill.unavailable");
     }
 
     public static void onTaskComplete(ServerPlayerEntity player) {

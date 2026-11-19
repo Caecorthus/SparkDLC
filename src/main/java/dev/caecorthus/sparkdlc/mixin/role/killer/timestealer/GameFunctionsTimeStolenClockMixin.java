@@ -12,11 +12,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 /**
- * Removes Wathe's +30 s civilian-death time bonus only for the Clock curse death ({@code sparkwitch:time_stolen}); the
+ * Removes Wathe's +30 s civilian-death time bonus only for the Clock curse death ({@code sparkdlc:time_stolen}); the
  * Time Stealer instead takes 30 s off after the death is confirmed. It wraps the single {@code GameTimeComponent.addTime}
  * call inside the 5-argument {@code killPlayer} ({@code require = 1, allow = 1}); every other death reason still calls
  * the original, so no other kill changes. Server-only: {@code killPlayer} never runs on the client.
- * 仅对时钟诅咒死亡（{@code sparkwitch:time_stolen}）移除 Wathe 平民死亡时的 +30 秒时间奖励；窃时者改为在确认死亡后
+ * 仅对时钟诅咒死亡（{@code sparkdlc:time_stolen}）移除 Wathe 平民死亡时的 +30 秒时间奖励；窃时者改为在确认死亡后
  * 扣除 30 秒。它包住 5 参数 {@code killPlayer} 中唯一一次 {@code GameTimeComponent.addTime} 调用
  * （{@code require = 1, allow = 1}）；其他所有死因仍调用原逻辑，因此其他击杀不受影响。仅服务端：客户端从不执行 {@code killPlayer}。
  */

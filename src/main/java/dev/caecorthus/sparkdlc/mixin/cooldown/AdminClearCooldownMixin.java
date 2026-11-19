@@ -12,13 +12,13 @@ import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 
 /**
- * Optional SparkFactionAPI seam, admin path only: {@code /sparkfactionapi:clearCooldown} (the same method body since
+ * Optional SparkFactionAPI seam, admin path only: {@code /sparkdlc:clearCooldown} (the same method body since
  * 0.1.5.3) only removes the held item's vanilla cooldown. That does not stick for SparkStrength locks re-synced every
  * tick from their own state (Bomber drones, the M67 opening, the Vulture skateboard, the democracy shield). When the
  * command's {@code remove} really cleared the item, {@link SparkFactionAdminClear#onCooldownCleared} lets the item's
  * owner release its lock. Role mechanics that remove cooldowns never come through here. {@code @Pseudo} plus
  * {@code require = 0}: a silent no-op without SparkFactionAPI or if the command changes.
- * 可选的 SparkFactionAPI 接缝，仅限管理员路径：/sparkfactionapi:clearCooldown（自 0.1.5.3 起方法体相同）只移除手持物品的原版冷却。
+ * 可选的 SparkFactionAPI 接缝，仅限管理员路径：/sparkdlc:clearCooldown（自 0.1.5.3 起方法体相同）只移除手持物品的原版冷却。
  * 对每刻按自身状态重新同步的 SparkStrength 锁（炸弹客无人机、M67 开局锁、秃鹫滑板、民主盾牌）这并不生效。命令的
  * {@code remove} 确实清除了该物品时，由 SparkFactionAdminClear#onCooldownCleared 交给该物品的所属逻辑解除锁定。移除冷却的
  * 职业机制不会经过这里。@Pseudo 与 require = 0：未安装 SparkFactionAPI 或命令变更时静默失效。

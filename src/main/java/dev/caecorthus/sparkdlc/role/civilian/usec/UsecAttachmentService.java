@@ -28,7 +28,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Function;
 
 /**
- * Server authority for {@code sparkwitch:usec_attachment} (the attachment screen) and the shared apply helpers of
+ * Server authority for {@code sparkdlc:usec_attachment} (the attachment screen) and the shared apply helpers of
  * cursor loading. The client only names an action and two player-inventory slots; this service re-checks the slot
  * shape, the player gate ({@link UsecAttachmentRules#gate}: not a dead participant, alive, not a spectator, not
  * stunned, not in a Seeker session; Fear does not block), the item types, and, before anything changes, that the
@@ -38,7 +38,7 @@ import java.util.function.Function;
  * stack, then an empty shown slot, then the empty offhand; otherwise the action is refused as "no room".
  * Sounds are public ({@code ServerWorld#playSound} at the player); a bolt also writes {@link UsecCooldowns#bolt}.
  * Fabric runs play-payload receivers on the server thread, so no extra hand-off is needed.
- * {@code sparkwitch:usec_attachment}（配件界面）的服务端权威，以及光标装填共用的应用辅助方法。客户端只给出动作与两个
+ * {@code sparkdlc:usec_attachment}（配件界面）的服务端权威，以及光标装填共用的应用辅助方法。客户端只给出动作与两个
  * 玩家背包栏位；本服务复核栏位形状、玩家准入（{@link UsecAttachmentRules#gate}：非已死亡参与者、存活、非旁观、未被
  * 眩晕、不在搜寻者会话；恐惧不阻止）、物品类型，并在任何改动之前确认背包能放下离开步枪的物品。状态以
  * {@link UsecRifleState#write} 与 {@link UsecMagazineItem#setContents} 原地写入，手持物品只改组件，不重播换手动画。
@@ -48,7 +48,7 @@ import java.util.function.Function;
  * 无需额外切换线程。
  */
 public final class UsecAttachmentService {
-    static final String NO_ROOM_KEY = "message.sparkwitch.usec_attachment.no_room";
+    static final String NO_ROOM_KEY = "message.sparkdlc.usec_attachment.no_room";
     /** Suppressor fit/remove reuses the magazine click, pitched up. / 消音器装卸复用弹匣声，并提高音调。 */
     static final float SUPPRESSOR_PITCH = 1.35F;
 

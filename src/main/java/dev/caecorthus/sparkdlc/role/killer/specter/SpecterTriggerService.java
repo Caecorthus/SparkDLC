@@ -79,14 +79,14 @@ public final class SpecterTriggerService {
     }
 
     /**
-     * Fail-closed role-id check for the Savior ({@code sparkwitch:savior}), which only exists in the still-open PR #200
+     * Fail-closed role-id check for the Savior ({@code sparkdlc:savior}), which only exists in the still-open PR #200
      * (feat/savior-role). Matching by id keeps the Specter module free of the Savior class; while that role is not
      * registered the id never matches and nobody gains cowardice through this branch.
-     * 救世主（{@code sparkwitch:savior}）的失败关闭职业 ID 判定，该职业目前只存在于仍未合并的 PR #200（feat/savior-role）。
+     * 救世主（{@code sparkdlc:savior}）的失败关闭职业 ID 判定，该职业目前只存在于仍未合并的 PR #200（feat/savior-role）。
      * 按 ID 匹配使幽魂模块不依赖救世主类；该职业未注册时 ID 永不匹配，没有人会经此分支获得怯懦。
      */
     private static boolean isSaviorRole(@Nullable Role role) {
-        return role != null && Identifier.of("sparkwitch", "savior").equals(role.identifier());
+        return role != null && Identifier.of("sparkdlc", "savior").equals(role.identifier());
     }
 
     /** Two seconds of blindness and Slowness II, a private cave sound, and the floating visage in front. / 2 秒失明与缓慢 II、仅本人可闻的洞穴音、面前浮空幻影。 */

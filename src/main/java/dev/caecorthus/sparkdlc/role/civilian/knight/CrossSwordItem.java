@@ -22,13 +22,13 @@ import java.util.Objects;
  * sound). Releasing after at least {@link #MIN_HOLD_TICKS} (11 ticks, 0.55 s, the same strict threshold as Wathe's
  * knife) makes the Knight's client pick the target from its own view, the way Wathe's knife does: a
  * {@link #STAB_RANGE}-block {@code ProjectileUtil.getCollision} ray whose nearest living player must be the duel
- * target, otherwise nothing is sent. The client then sends {@code sparkwitch:cross_sword_stab}, and
+ * target, otherwise nothing is sent. The client then sends {@code sparkdlc:cross_sword_stab}, and
  * {@link CrossSwordStabService} revalidates the stab against the server's own release record and positions. Picking on
  * the client keeps moving targets hittable under lag.
  * 骑士的十字剑，刀式刺击，永不冷却。右键举起（Wathe 小刀的蓄力音效）。至少举起 {@link #MIN_HOLD_TICKS}
  * （11 tick，0.55 秒，与 Wathe 小刀同样严格）后松手，由骑士客户端按自身视角选靶，与 Wathe 小刀相同：
  * {@link #STAB_RANGE} 格的 {@code ProjectileUtil.getCollision} 射线上最近的存活玩家必须是决斗目标，否则不发送。
- * 随后客户端发送 {@code sparkwitch:cross_sword_stab}，由 {@link CrossSwordStabService} 依据服务端自己的松手记录与
+ * 随后客户端发送 {@code sparkdlc:cross_sword_stab}，由 {@link CrossSwordStabService} 依据服务端自己的松手记录与
  * 位置重新校验。在客户端选靶，延迟下移动中的目标依然能被刺中。
  */
 public final class CrossSwordItem extends Item {
@@ -37,7 +37,7 @@ public final class CrossSwordItem extends Item {
     public static final int MIN_HOLD_TICKS = 11;
     /** Wathe's knife stab distance. / Wathe 小刀的刺击距离。 */
     public static final double STAB_RANGE = 3.0D;
-    /** Lang keys {@code item.sparkwitch.cross_sword.tooltip.line1..N}. / 提示语言键的行数。 */
+    /** Lang keys {@code item.sparkdlc.cross_sword.tooltip.line1..N}. / 提示语言键的行数。 */
     public static final int TOOLTIP_LINES = 3;
 
     private static final ClientRelease NO_CLIENT_RELEASE = (player, stack, heldTicks) -> {
@@ -55,7 +55,7 @@ public final class CrossSwordItem extends Item {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         for (int line = 1; line <= TOOLTIP_LINES; line++) {
-            tooltip.add(Text.translatable("item.sparkwitch.cross_sword.tooltip.line" + line)
+            tooltip.add(Text.translatable("item.sparkdlc.cross_sword.tooltip.line" + line)
                     .formatted(Formatting.GRAY));
         }
         super.appendTooltip(stack, context, tooltip, type);

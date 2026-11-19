@@ -101,7 +101,7 @@ public final class HunterTrapDismantleHud {
         int filled = (int) Math.min(SEGMENTS,
                 (elapsed * SEGMENTS + HunterRules.DISMANTLE_CHANNEL_TICKS - 1) / HunterRules.DISMANTLE_CHANNEL_TICKS);
 
-        Text label = Text.translatable("hud.sparkwitch.hunter_trap.dismantling");
+        Text label = Text.translatable("hud.sparkdlc.hunter_trap.dismantling");
         String filledBlocks = FILLED_BLOCK.repeat(filled);
         String emptyBlocks = EMPTY_BLOCK.repeat(SEGMENTS - filled);
         String time = String.format(Locale.ROOT, "%.1fs", remainingTicks / 20.0F);

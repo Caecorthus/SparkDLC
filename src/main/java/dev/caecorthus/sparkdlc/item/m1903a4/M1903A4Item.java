@@ -190,15 +190,15 @@ public class M1903A4Item extends BowItem {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         int loaded = getLoadedRounds(stack);
-        tooltip.add(Text.translatable("item.sparkwitch.m1903a4.tooltip.line1", loaded, MAX_ROUNDS)
+        tooltip.add(Text.translatable("item.sparkdlc.m1903a4.tooltip.line1", loaded, MAX_ROUNDS)
                 .formatted(Formatting.GRAY));
-        tooltip.add(Text.translatable("item.sparkwitch.m1903a4.tooltip.line2").formatted(Formatting.GRAY));
+        tooltip.add(Text.translatable("item.sparkdlc.m1903a4.tooltip.line2").formatted(Formatting.GRAY));
         // One line per slot, top of the stack first (fires next), empty slots named as such.
         // 每个弹位一行，栈顶在前（下一发），空位显示为空。
         for (int slot = 0; slot < MAX_ROUNDS; slot++) {
             tooltip.add(slot < loaded
                     ? Text.translatable(SparkWitchItems.ammo3006().getTranslationKey()).formatted(Formatting.GRAY)
-                    : Text.translatable("item.sparkwitch.m1903a4.tooltip.empty").formatted(Formatting.GRAY));
+                    : Text.translatable("item.sparkdlc.m1903a4.tooltip.empty").formatted(Formatting.GRAY));
         }
         super.appendTooltip(stack, context, tooltip, type);
     }

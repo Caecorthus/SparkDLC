@@ -31,12 +31,12 @@ public final class DepressionRules {
     public static final int RANDOM_CAP_STEP_PLAYERS = 8;
     public static final int JESTER_MOMENT_PSYCHO_ARMOUR = 2;
     public static final int FAKE_DEATH_REWARD_DIVISOR = 2;
-    public static final Identifier APPRENTICE_WITCH_ID = Identifier.of("sparkwitch", "apprentice_witch");
+    public static final Identifier APPRENTICE_WITCH_ID = Identifier.of("sparkdlc", "apprentice_witch");
     /**
      * SparkWitch's Blind: its bat-only psycho phase, fake death and voice mute fight the black-screen kit.
      * SparkWitch 盲人：抑郁的只能持棒阶段、假死与语音静音都与黑屏道具冲突。
      */
-    public static final Identifier SPARKWITCH_BLIND_ID = Identifier.of("sparkwitch", "blind");
+    public static final Identifier SPARKWITCH_BLIND_ID = Identifier.of("sparkdlc", "blind");
 
     private DepressionRules() {
     }

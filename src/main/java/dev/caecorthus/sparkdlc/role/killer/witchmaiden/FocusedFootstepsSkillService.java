@@ -15,7 +15,7 @@ public final class FocusedFootstepsSkillService {
     public static WitchSkillUseResult use(WitchSkillUseContext context) {
         ServerPlayerEntity target = context.target();
         if (!WitchMaidenRules.isWitchMaiden(context.role()) || target == null) {
-            return WitchSkillUseResult.fail("message.sparkwitch.skill.unavailable");
+            return WitchSkillUseResult.fail("message.sparkdlc.skill.unavailable");
         }
 
         boolean validTarget = FocusedFootstepsRules.isValidTarget(
@@ -28,7 +28,7 @@ public final class FocusedFootstepsSkillService {
                 GameFunctions.isPlayerPlayingAndAlive(target)
         );
         if (!validTarget) {
-            return WitchSkillUseResult.fail("message.sparkwitch.skill.unavailable");
+            return WitchSkillUseResult.fail("message.sparkdlc.skill.unavailable");
         }
 
         PlayerStaminaComponent stamina = PlayerStaminaComponent.KEY.get(target);
@@ -46,6 +46,6 @@ public final class FocusedFootstepsSkillService {
         ));
         return applied
                 ? WitchSkillUseResult.success(FocusedFootstepsRules.COOLDOWN_TICKS)
-                : WitchSkillUseResult.fail("message.sparkwitch.skill.unavailable");
+                : WitchSkillUseResult.fail("message.sparkdlc.skill.unavailable");
     }
 }

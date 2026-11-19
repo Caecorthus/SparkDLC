@@ -49,13 +49,13 @@ public final class ToxicologistBlueShop {
         return List.of(
                 new ShopEntry.Builder(
                         ToxicologistBlueRules.BLUE_VITRIOL_ENTRY_ID,
-                        displayStack(SparkStrengthItems.blueVitriol(), "shop.sparkstrength.toxicologist.blue_vitriol"),
+                        displayStack(SparkStrengthItems.blueVitriol(), "shop.sparkdlc.toxicologist.blue_vitriol"),
                         ToxicologistBlueRules.BLUE_VITRIOL_PRICE,
                         ShopEntry.Type.POISON
                 ).onBuy(ToxicologistBlueShop::buyBlueVitriol).build(),
                 new ShopEntry.Builder(
                         ToxicologistBlueRules.BLUE_BELLADONNA_ENTRY_ID,
-                        displayStack(SparkStrengthItems.blueBelladonna(), "shop.sparkstrength.toxicologist.blue_belladonna"),
+                        displayStack(SparkStrengthItems.blueBelladonna(), "shop.sparkdlc.toxicologist.blue_belladonna"),
                         ToxicologistBlueRules.BLUE_BELLADONNA_PRICE,
                         ShopEntry.Type.POISON
                 ).onBuy(ToxicologistBlueShop::buyBlueBelladonna).build()

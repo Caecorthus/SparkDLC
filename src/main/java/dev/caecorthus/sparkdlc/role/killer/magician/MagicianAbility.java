@@ -66,7 +66,7 @@ public final class MagicianAbility {
         // 结束录制或播放从不需要等待。
         if (c.cooldownTicks() > 0
                 && startsRecordingOrPlayback(c.stage(), action, MagicianPlaybackManager.hasCachedRecording(player))) {
-            player.sendMessage(Text.translatable("message.sparkwitch.skill.cooldown",
+            player.sendMessage(Text.translatable("message.sparkdlc.skill.cooldown",
                     TickTime.ceilSecondsRaw(c.cooldownTicks())), true);
             return;
         }

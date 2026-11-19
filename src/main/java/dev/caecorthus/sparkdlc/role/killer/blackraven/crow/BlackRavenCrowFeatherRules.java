@@ -11,9 +11,9 @@ import net.minecraft.util.math.Vec3d;
  * 且只在丢出它的会话仍指向它时存在。供服务端标记、其客户端模拟与测试共用。
  */
 public final class BlackRavenCrowFeatherRules {
-    /** Item and marker entity id {@code sparkwitch:homing_feather}. / 物品与标记实体 id。 */
+    /** Item and marker entity id {@code sparkdlc:homing_feather}. / 物品与标记实体 id。 */
     public static final Identifier FEATHER_ID = BlackRavenCrowRules.HOMING_FEATHER_ID;
-    /** Particle type id {@code sparkwitch:black_feather}. / 粒子类型 id。 */
+    /** Particle type id {@code sparkdlc:black_feather}. / 粒子类型 id。 */
     public static final Identifier PARTICLE_ID = BlackRavenCrowRules.BLACK_FEATHER_PARTICLE_ID;
 
     /** Marker hitbox: a small feather lying on the floor. / 标记命中箱：落在地上的一根小羽毛。 */

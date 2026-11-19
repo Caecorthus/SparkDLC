@@ -16,7 +16,7 @@ public final class VultureSuperCurseRules {
      * SparkTraits' Childish trait. Read only through the public facade bridges (direct calls since the SparkDLC fusion).
      * SparkTraits 的“幼稚”词条。只经公开门面桥接读取（融合进 SparkDLC 后为直接调用）。
      */
-    public static final Identifier CHILDISH_TRAIT_ID = Identifier.of("sparktraits", "childish");
+    public static final Identifier CHILDISH_TRAIT_ID = Identifier.of("sparkdlc", "childish");
 
     /** First use 60 s after becoming the Vulture. / 成为秃鹫 60 秒后才能首次使用。 */
     public static final int INITIAL_COOLDOWN_TICKS = GameConstants.getInTicks(1, 0);

@@ -45,6 +45,6 @@ public final class NatsumeReplay {
         Map<UUID, ReplayGenerator.PlayerInfo> cache = ReplayGenerator.getPlayerInfoCache(match);
         Text actorText = ReplayGenerator.formatPlayerName(actor, cache);
         Text targetText = ReplayGenerator.formatPlayerName(target, cache);
-        return Text.translatable("replay.skill.sparkwitch.natsume.effect", actorText, targetText);
+        return Text.translatable("replay.skill.sparkdlc.natsume.effect", actorText, targetText);
     }
 }

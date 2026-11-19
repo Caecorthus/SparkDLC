@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  * Client only. The ZOOM_BLUR lens picture: a PRIVATE {@link PostEffectProcessor} on
- * {@code sparkwitch:shaders/post/scope_lens.json}, never {@code GameRenderer.postProcessor} (camera switches close that
+ * {@code sparkdlc:shaders/post/scope_lens.json}, never {@code GameRenderer.postProcessor} (camera switches close that
  * one). Four passes per frame: a separable Gaussian of {@code main} at half resolution (two passes), one composite
  * (sharp lens with barrel distortion, edge transmittance, coating tint, faint smudges, a reflection streak and the
  * scope-shadow crescent; blurred periphery darkening toward a dark, never black, tube rim), and a copy back into
@@ -34,7 +34,7 @@ import java.util.List;
  * re-halved), closed after {@link ScopeRules#RELEASE_AFTER_IDLE_NANOS} unscoped, on disconnect and on resource reload.
  * A load or render failure closes it and retries after a growing backoff; meanwhile, and whenever Iris reports a
  * shader pack, {@link #fallbackActive()} makes the HUD draw its semi-transparent ring instead.
- * 仅客户端。全画面放大档的镜片画面：基于 {@code sparkwitch:shaders/post/scope_lens.json} 的私有 {@link PostEffectProcessor}，
+ * 仅客户端。全画面放大档的镜片画面：基于 {@code sparkdlc:shaders/post/scope_lens.json} 的私有 {@link PostEffectProcessor}，
  * 绝不使用 {@code GameRenderer.postProcessor}（切换相机会关闭它）。每帧四个 pass：半分辨率的可分离高斯模糊（两个 pass）、
  * 一次合成（清晰镜片带桶形畸变、边缘透光衰减、镀膜色调、淡淡的污渍、反光条纹与镜内阴影月牙；模糊的镜外区域向暗色但
  * 绝不全黑的镜筒边逐渐变暗），以及拷回 {@code main}。由 {@code ScopeGameRendererMixin} 在 GUI 绑定主帧缓冲之前运行，
@@ -47,7 +47,7 @@ import java.util.List;
 public final class ScopeLensFilter {
     public static final Identifier EFFECT = SparkWitch.id("shaders/post/scope_lens.json");
     /** The composite program; its pass receives the per-frame uniforms. / 合成程序；其 pass 接收逐帧 uniform。 */
-    public static final String LENS_PROGRAM = "sparkwitch_scope_lens";
+    public static final String LENS_PROGRAM = "sparkdlc_scope_lens";
     /** Blur targets kept at half the framebuffer size. / 保持为帧缓冲一半尺寸的模糊目标。 */
     public static final List<String> HALF_RESOLUTION_TARGETS = List.of("scope_blur_a", "scope_blur_b");
     private static final Identifier RELOAD_LISTENER_ID = SparkWitch.id("scope_lens_filter");

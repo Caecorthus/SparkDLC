@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
  * {@link TimeStampInventory#balance} 读取本地背包加光标，因此无需同步邮票数；每次购买仍由服务端校验与扣除。
  */
 public final class TimeStealerShopTexts {
-    private static final String PRICE_KEY = "gui.sparkwitch.shop.time_stamp_price";
+    private static final String PRICE_KEY = "gui.sparkdlc.shop.time_stamp_price";
 
     private TimeStealerShopTexts() {
     }

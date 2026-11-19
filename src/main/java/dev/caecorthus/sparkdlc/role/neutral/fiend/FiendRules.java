@@ -42,7 +42,7 @@ public final class FiendRules {
     public static final int DASH_SPEED_AMPLIFIER = 3;
     public static final int DASH_DURATION_TICKS = 200;
     public static final int DASH_COOLDOWN_TICKS = 600;
-    public static final String MOMENT_SHOP_ENTRY_ID = "sparkwitch_fiend_moment";
+    public static final String MOMENT_SHOP_ENTRY_ID = "sparkdlc_fiend_moment";
 
     /**
      * Feign death (owner request 2026-10-16): a dormant Fiend fakes death for 5 s once 60 s have passed since the
@@ -76,11 +76,11 @@ public final class FiendRules {
     /**
      * Owner decision D3: only falling or being pushed off the train kills the dormant Fiend; forced and piercing
      * kills are blocked too. Disconnect ({@code wathe:escaped}) and {@code /kill} ({@code wathe:vanilla_death}) still
-     * apply, and so does {@code sparkwitch:fiend_devoured}, which only {@code FiendFeignService} uses when a Vulture
+     * apply, and so does {@code sparkdlc:fiend_devoured}, which only {@code FiendFeignService} uses when a Vulture
      * eats the fake corpse during a feign death (owner request 2026-10-16). An unknown ({@code null}) reason is
      * treated as immune.
      * 所有者决定 D3：只有坠落或被推下列车能杀死休眠魔人，强制与穿透击杀同样被拦截。断线（{@code wathe:escaped}）与
-     * {@code /kill}（{@code wathe:vanilla_death}）仍然生效；{@code sparkwitch:fiend_devoured} 也生效，它只由
+     * {@code /kill}（{@code wathe:vanilla_death}）仍然生效；{@code sparkdlc:fiend_devoured} 也生效，它只由
      * {@code FiendFeignService} 在假死期间秃鹫吃掉假尸体时使用（所有者 2026-10-16 需求）。未知（{@code null}）原因视为免疫。
      */
     public static boolean mayDie(@Nullable Identifier deathReason) {

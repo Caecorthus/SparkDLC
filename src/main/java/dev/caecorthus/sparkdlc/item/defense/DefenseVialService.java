@@ -55,7 +55,7 @@ public final class DefenseVialService {
     /** A finished drink: +1 layer, its cue, its replay line. / 喝完一瓶：+1 层、提示与回放记录。 */
     static void drink(ServerPlayerEntity drinker) {
         addRoundLongShieldLayer(drinker);
-        drinker.sendMessage(Text.translatable("message.sparkwitch.defense_vial.shield"), true);
+        drinker.sendMessage(Text.translatable("message.sparkdlc.defense_vial.shield"), true);
         // The drink itself is public (DRINK pose and sound), so its finishing cue is too. / 饮用本身是公开的（饮用姿势与音效），收尾提示音同样公开。
         drinker.getWorld().playSound(null, drinker.getBlockPos(), SoundEvents.ITEM_BOTTLE_FILL,
                 SoundCategory.PLAYERS, 0.8F, 1.2F);
@@ -68,7 +68,7 @@ public final class DefenseVialService {
      */
     static void shieldTaker(ServerPlayerEntity taker, UUID pourer, BlockPos platterPos) {
         addRoundLongShieldLayer(taker);
-        taker.sendMessage(Text.translatable("message.sparkwitch.defense_vial.tray_shield"), true);
+        taker.sendMessage(Text.translatable("message.sparkdlc.defense_vial.tray_shield"), true);
         taker.playSoundToPlayer(SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.PLAYERS, 0.8F, 1.2F);
         NbtCompound extra = new NbtCompound();
         extra.putUuid("pourer", pourer);

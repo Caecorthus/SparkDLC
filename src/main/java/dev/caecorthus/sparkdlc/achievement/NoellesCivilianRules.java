@@ -35,20 +35,20 @@ final class NoellesCivilianRules {
     static final String VOODOO_CHAIN_DEATH = "voodoo_chain_death";
     static final String RECALL_SKILL = "noellesroles:recaller";
     static final String TELEPORT_ACTION = "teleport";
-    static final String GLOW_STARTED = "sparkstrength:noisemaker_glow_started";
-    static final String GLOW_ENDED = "sparkstrength:noisemaker_glow_ended";
-    static final String CONNECTION_FAILED_ONE_DEAD = "sparkstrength:reporter_connection_failed_one_dead";
-    static final String CONNECTION_FAILED_BOTH_DEAD = "sparkstrength:reporter_connection_failed_both_dead";
-    static final String BROADCAST_FAILED = "sparkstrength:reporter_broadcast_failed";
-    static final String BROADCAST_STARTED = "sparkstrength:reporter_broadcast_started";
-    static final String BROADCAST_ENDED = "sparkstrength:reporter_broadcast_ended";
-    static final String BROADCAST_INTERRUPTED = "sparkstrength:reporter_broadcast_interrupted";
+    static final String GLOW_STARTED = "sparkdlc:noisemaker_glow_started";
+    static final String GLOW_ENDED = "sparkdlc:noisemaker_glow_ended";
+    static final String CONNECTION_FAILED_ONE_DEAD = "sparkdlc:reporter_connection_failed_one_dead";
+    static final String CONNECTION_FAILED_BOTH_DEAD = "sparkdlc:reporter_connection_failed_both_dead";
+    static final String BROADCAST_FAILED = "sparkdlc:reporter_broadcast_failed";
+    static final String BROADCAST_STARTED = "sparkdlc:reporter_broadcast_started";
+    static final String BROADCAST_ENDED = "sparkdlc:reporter_broadcast_ended";
+    static final String BROADCAST_INTERRUPTED = "sparkdlc:reporter_broadcast_interrupted";
     static final String MASTER_KEY = "noellesroles:master_key";
     static final String CROWBAR = "wathe:crowbar";
     static final String REPAIR_TOOL = "noellesroles:repair_tool";
     static final String REPAIR_ACTION = "repair";
     static final String REDUCE_TIME = "noellesroles:timekeeper_reduce_time";
-    static final String POCKET_WATCH = "sparkwitch:time_stealer_pocket_watch";
+    static final String POCKET_WATCH = "sparkdlc:time_stealer_pocket_watch";
     static final String TIME_WIN = "TIME";
     static final List<String> CHORES = List.of("sleep", "outside", "eat", "drink");
     static final String MENTAL_BREAKDOWN = "wathe:mental_breakdown";
@@ -102,10 +102,10 @@ final class NoellesCivilianRules {
     }
 
     /**
-     * 你们还没有准备好: such a kill within 10 s of the victim's psycho mode starting ({@code sparkfactionapi:psycho},
+     * 你们还没有准备好: such a kill within 10 s of the victim's psycho mode starting ({@code sparkdlc:psycho},
      * every psycho kind). A fresh pistol cannot fire for its first 5 s, so the window is really 5–10 s unless the
      * hunter already held one.
-     * 上述击杀发生在死者进入疯魔（{@code sparkfactionapi:psycho}，各种疯魔都算）后 10 秒内。新发的猎魔枪前 5 秒不能开火，
+     * 上述击杀发生在死者进入疯魔（{@code sparkdlc:psycho}，各种疯魔都算）后 10 秒内。新发的猎魔枪前 5 秒不能开火，
      * 所以除非猎魔人手里已有枪，实际窗口是 5–10 秒。
      */
     static boolean demonHunterKillsFreshPsycho(AchievementContext context) {
@@ -217,10 +217,10 @@ final class NoellesCivilianRules {
     // ---- Noisemaker 大嗓门 ----
 
     /**
-     * 光芒消逝: as the Noisemaker, light up a player ({@code sparkstrength:noisemaker_glow_started}, target = them) who is
+     * 光芒消逝: as the Noisemaker, light up a player ({@code sparkdlc:noisemaker_glow_started}, target = them) who is
      * then killed (a death with a killer) as a 非好人 while still glowing: before their {@code noisemaker_glow_ended} and
      * within 30 s of the latest glow put on them (a new glow restarts the 30 s).
-     * 以大嗓门身份点亮一名玩家（{@code sparkstrength:noisemaker_glow_started}，target 为对方），对方随后在发光期间以非好人身份
+     * 以大嗓门身份点亮一名玩家（{@code sparkdlc:noisemaker_glow_started}，target 为对方），对方随后在发光期间以非好人身份
      * 被击杀（有凶手的死亡）：在其 {@code noisemaker_glow_ended} 之前，且在最近一次被点亮后 30 秒内（再次点亮会重新计时）。
      */
     static boolean glowedOtherSideKilled(AchievementContext context) {
@@ -428,13 +428,13 @@ final class NoellesCivilianRules {
     /**
      * 物归原主: as the Timekeeper, buy 「减少45秒游戏时间」 while a Time Stealer curse is still pending, which lifts it
      * (SparkWitch {@code TimekeeperCounter}; the lift itself is not recorded). A curse is a pocket-watch theft
-     * ({@code sparkwitch:time_stealer_pocket_watch}, target = the victim) less than 35 s (its lethal chime) before the
+     * ({@code sparkdlc:time_stealer_pocket_watch}, target = the victim) less than 35 s (its lethal chime) before the
      * purchase, whose victim has not died since, and that no earlier Timekeeper purchase already lifted. The lift only
      * happens when the buyer is not on the killer faction, so a purchase while holding Impostor does not count. It also
      * only happens while the round is live, so a purchase at most {@link #ROUND_END_FADE_TICKS} before
      * {@code match_end} (during the round-end fade) does not count either.
      * 以计时员身份在窃时诅咒尚未生效时购买「减少45秒游戏时间」，从而解除诅咒（SparkWitch {@code TimekeeperCounter}；解除本身
-     * 不写记录）。诅咒指购买前不到 35 秒（致死钟响）的一次怀表窃时（{@code sparkwitch:time_stealer_pocket_watch}，target
+     * 不写记录）。诅咒指购买前不到 35 秒（致死钟响）的一次怀表窃时（{@code sparkdlc:time_stealer_pocket_watch}，target
      * 为受害者），受害者此后没有死亡，也没有被更早的计时员购买解除。只有购买者不属于杀手阵营时才会解除，所以持有内鬼时的购买不算。
      * 解除只在对局进行中发生，所以距 {@code match_end} 不超过 {@link #ROUND_END_FADE_TICKS} tick 的购买（结束淡出期间）也不算。
      */

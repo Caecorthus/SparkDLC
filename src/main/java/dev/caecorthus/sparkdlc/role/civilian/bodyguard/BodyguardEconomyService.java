@@ -62,7 +62,7 @@ public final class BodyguardEconomyService {
             if (amount > 0) {
                 shop.addToBalance(-amount);
             }
-            bodyguard.sendMessage(Text.translatable("tip.sparkstrength.bodyguard.target_lost", amount)
+            bodyguard.sendMessage(Text.translatable("tip.sparkdlc.bodyguard.target_lost", amount)
                     .formatted(Formatting.RED), true);
         }
     }

@@ -27,7 +27,7 @@ import net.minecraft.world.World;
  * 数量的信息都不会传到世界或使用者，因此该道具永远无法充当杀手或魔女探测器。
  */
 public final class DisruptorItem extends Item {
-    public static final String DISRUPTED_MESSAGE_KEY = "message.sparkwitch.control_expert.disrupted";
+    public static final String DISRUPTED_MESSAGE_KEY = "message.sparkdlc.control_expert.disrupted";
     private static final int TOOLTIP_LINES = 3;
     private static final SoundEvent USE_SOUND = SoundEvents.BLOCK_BEACON_POWER_SELECT;
     private static final float USE_VOLUME = 1.0F;
@@ -90,7 +90,7 @@ public final class DisruptorItem extends Item {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         for (int line = 1; line <= TOOLTIP_LINES; line++) {
-            tooltip.add(Text.translatable("item.sparkwitch.disruptor.tooltip.line" + line).formatted(Formatting.GRAY));
+            tooltip.add(Text.translatable("item.sparkdlc.disruptor.tooltip.line" + line).formatted(Formatting.GRAY));
         }
         super.appendTooltip(stack, context, tooltip, type);
     }

@@ -29,7 +29,7 @@ public final class OwnerInventoryClientAdapter implements OwnerInventoryPresenta
      * 首次使用时才创建，因此链接失败仍发生在 mixin 受保护的渲染调用内，只会停用原生卡。
      */
     private static final class Card {
-        private static final InventoryInfoCard INSTANCE = new InventoryInfoCard("gui.sparktraits.inventory.more", () -> 0,
+        private static final InventoryInfoCard INSTANCE = new InventoryInfoCard("gui.sparkdlc.inventory.more", () -> 0,
                 SparkStrengthHudBridge::topRightHudBottom, new GuideDecorBridge("SparkTraits/GuideDecor"));
     }
     private static boolean nativeCardFailed;

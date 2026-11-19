@@ -45,11 +45,11 @@ public final class BreakerRepairService {
         SabotageWorldComponent sabotage = SabotageWorldComponent.KEY.get(world);
         SabotageWorldComponent.Outage outage = sabotage.outage();
         if (outage == null || outage.type() != SabotageType.LIGHTS) {
-            player.sendMessage(Text.translatable("message.sparkstrength.sabotage.breaker_normal"), true);
+            player.sendMessage(Text.translatable("message.sparkdlc.sabotage.breaker_normal"), true);
             return;
         }
         if (outage.mode() != OutageMode.REPAIR) {
-            player.sendMessage(Text.translatable("message.sparkstrength.sabotage.breaker_timed"), true);
+            player.sendMessage(Text.translatable("message.sparkdlc.sabotage.breaker_timed"), true);
             return;
         }
         boolean master = outage.masterSaboteur();

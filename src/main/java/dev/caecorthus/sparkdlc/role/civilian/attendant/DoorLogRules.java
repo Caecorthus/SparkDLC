@@ -26,15 +26,15 @@ public final class DoorLogRules {
     public static final Set<String> UNIVERSAL_KEYS = Set.of(
             "noellesroles:master_key",
             "noellesroles:neutral_master_key",
-            "sparkwitch:key_fish",
-            "sparkwitch:spare_key"
+            "sparkdlc:key_fish",
+            "sparkdlc:spare_key"
     );
     /**
      * Universal keys that also open from the off-hand, and only while the main hand is empty: SparkWitch's Spare Key
      * (the Attendant's round-start key) reads exactly that hand. Every other key works from the main hand only.
      * 主手为空时也能在副手开门的万能钥匙：SparkWitch 的备用钥匙（乘务员开局钥匙）恰好按此规则读取副手。其他钥匙只认主手。
      */
-    public static final Set<String> OFF_HAND_KEYS = Set.of("sparkwitch:spare_key");
+    public static final Set<String> OFF_HAND_KEYS = Set.of("sparkdlc:spare_key");
 
     private DoorLogRules() {
     }

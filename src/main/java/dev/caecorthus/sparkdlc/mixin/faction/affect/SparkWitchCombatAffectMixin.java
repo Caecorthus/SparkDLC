@@ -25,8 +25,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
         "dev.caecorthus.sparkdlc.role.civilian.apprentice.abilities.mightyforce.MightyForceCombatService"
 }, remap = false)
 public abstract class SparkWitchCombatAffectMixin {
-    private static final Identifier CUSTOM_MELEE_ACTION = Identifier.of("sparkwitch", "custom_melee");
-    private static final Identifier CEREMONIAL_BLADE_ACTION = Identifier.of("sparkwitch", "ceremonial_blade");
+    private static final Identifier CUSTOM_MELEE_ACTION = Identifier.of("sparkdlc", "custom_melee");
+    private static final Identifier CEREMONIAL_BLADE_ACTION = Identifier.of("sparkdlc", "ceremonial_blade");
 
     @Inject(method = "tryHandleAttack", at = @At("HEAD"), cancellable = true, require = 0, remap = false)
     private static void sparkfactionapi$guardCustomMelee(

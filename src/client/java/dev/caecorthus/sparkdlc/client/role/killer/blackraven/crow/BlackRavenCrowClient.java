@@ -13,7 +13,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 
 /**
- * Client entry of Raven Form (化鸦): the Black Raven's key-2 handler (sends {@code sparkwitch:black_raven_crow_toggle};
+ * Client entry of Raven Form (化鸦): the Black Raven's key-2 handler (sends {@code sparkdlc:black_raven_crow_toggle};
  * the server checks every start condition and answers refusals on the action bar), the crow renderer (model B), the
  * owner's pilot view and the boundary indicator. The HUD line lives in {@code BlackRavenHudRenderer}; the body, name-tag,
  * instinct and Blind gates read {@link BlackRavenCrowBodyVisibility} and {@code BlackRavenCrowForm}.

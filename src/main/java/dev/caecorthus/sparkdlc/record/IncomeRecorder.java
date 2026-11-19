@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Records {@code sparkfactionapi:income} (actor = player, {@code amount} int): the coins each player gained during
+ * Records {@code sparkdlc:income} (actor = player, {@code amount} int): the coins each player gained during
  * the match through Wathe {@code PlayerShopComponent#addToBalance} on the server, written once per player with a
  * positive total at the head of {@code GameRecordManager.endMatch}, while the match is still active and before
  * {@code match_end}. Each call counts its actual balance change (after − before), so other mods' changes to the
@@ -19,7 +19,7 @@ import java.util.UUID;
  * Starting money and every other {@code setBalance} write, purchases, Wathe's dev-environment auto-balance (writes the
  * field directly) and income credited somewhere other than the personal balance (SparkWitch's disguised Black Raven
  * wallet, the SparkStrength killer-team purse) are not income here.
- * 记录 {@code sparkfactionapi:income}（actor = 玩家，{@code amount} 整数）：每名玩家本局在服务端通过 Wathe
+ * 记录 {@code sparkdlc:income}（actor = 玩家，{@code amount} 整数）：每名玩家本局在服务端通过 Wathe
  * {@code PlayerShopComponent#addToBalance} 获得的金币，在 {@code GameRecordManager.endMatch} 头部（对局仍进行中、
  * {@code match_end} 之前）为每名累计值为正的玩家写一条。每次调用按实际余额变化（调用后 − 调用前）计入，因此其他模组对
  * 入账金额的改动（SparkTraits 雪球在 {@code addToBalance} 内的加成）会被计入，扣款不会。开局金钱及其他所有
@@ -27,7 +27,7 @@ import java.util.UUID;
  * 伪装黑羽鸦的钱包、SparkStrength 杀手团队资金）都不算这里的收入。
  */
 public final class IncomeRecorder {
-    public static final String EVENT_TYPE = "sparkfactionapi:income";
+    public static final String EVENT_TYPE = "sparkdlc:income";
     public static final String KEY_ACTOR = "actor";
     public static final String KEY_AMOUNT = "amount";
 

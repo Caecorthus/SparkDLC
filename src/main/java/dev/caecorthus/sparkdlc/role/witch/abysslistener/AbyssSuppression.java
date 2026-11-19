@@ -46,9 +46,9 @@ public final class AbyssSuppression {
     }
 
     /**
-     * Ally of the Abyss Listener: SparkFactionAPI effective faction is {@code sparkwitch:witch} (N6: Grand Witch,
+     * Ally of the Abyss Listener: SparkFactionAPI effective faction is {@code sparkdlc:witch} (N6: Grand Witch,
      * Accomplice, special accomplices, Curser; not the Apprentice or the Murderous Witch). Wraith-aware via SFA.
-     * 聆渊者的队友：SparkFactionAPI 有效阵营为 {@code sparkwitch:witch}（N6：大魔女、共犯、各特殊共犯、诅咒者；
+     * 聆渊者的队友：SparkFactionAPI 有效阵营为 {@code sparkdlc:witch}（N6：大魔女、共犯、各特殊共犯、诅咒者；
      * 不含预备魔女与杀意魔女）。冤魂状态由 SFA 解析。
      */
     public static boolean isAlly(ServerPlayerEntity player) {

@@ -15,8 +15,8 @@ public final class CorruptCopMusicInstance extends AbstractSoundInstance impleme
     private boolean done;
 
     public CorruptCopMusicInstance() {
-        // Match manual acceptance: /playsound sparkstrength:music.takediskrush ambient @s.
-        // 对齐手动验收：/playsound sparkstrength:music.takediskrush ambient @s。
+        // Match manual acceptance: /playsound sparkdlc:music.takediskrush ambient @s.
+        // 对齐手动验收：/playsound sparkdlc:music.takediskrush ambient @s。
         super(SparkStrengthSounds.MUSIC_TAKEDISKRUSH, SoundCategory.AMBIENT, Random.create());
         this.repeat = true;
         this.repeatDelay = 0;

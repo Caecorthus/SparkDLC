@@ -57,7 +57,7 @@ final class SettingsTabWidget extends ClickableWidget {
     @Override
     protected void appendClickableNarrations(NarrationMessageBuilder builder) {
         builder.put(NarrationPart.TITLE, Text.translatable(selected
-                ? "screen.sparkassist.settings.narration.tab_selected"
-                : "screen.sparkassist.settings.narration.tab", getMessage()));
+                ? "screen.sparkdlc.settings.narration.tab_selected"
+                : "screen.sparkdlc.settings.narration.tab", getMessage()));
     }
 }

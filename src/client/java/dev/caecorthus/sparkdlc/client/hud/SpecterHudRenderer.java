@@ -76,13 +76,13 @@ public final class SpecterHudRenderer {
     private static Text skillOneText(ClientPlayerEntity player, SpecterPlayerComponent component) {
         if (component.isOnCooldown()) {
             return Text.translatable(
-                    "hud.sparkwitch.specter.cooldown",
+                    "hud.sparkdlc.specter.cooldown",
                     TickTime.ceilSeconds(component.getCooldownTicks())
             );
         }
         if (component.hasActiveMark()) {
             return Text.translatable(
-                    "hud.sparkwitch.specter.shriek",
+                    "hud.sparkdlc.specter.shriek",
                     SparkWitchClient.abilityKeyText(),
                     markedName(player, component.getMarkedTarget()),
                     TickTime.ceilSeconds(component.getMarkRemainingTicks())
@@ -90,10 +90,10 @@ public final class SpecterHudRenderer {
         }
         PlayerEntity target = SpecterRules.findMarkTarget(player);
         if (target == null || target.isCreative()) {
-            return Text.translatable("hud.sparkwitch.specter.no_target");
+            return Text.translatable("hud.sparkdlc.specter.no_target");
         }
         return Text.translatable(
-                "hud.sparkwitch.specter.mark",
+                "hud.sparkdlc.specter.mark",
                 SparkWitchClient.abilityKeyText(),
                 visibleName(target)
         );
@@ -102,29 +102,29 @@ public final class SpecterHudRenderer {
     private static Text otherworldText(SpecterSecondSkillComponent component) {
         if (component.isActive()) {
             return Text.translatable(
-                    "hud.sparkwitch.specter.otherworld.active",
+                    "hud.sparkdlc.specter.otherworld.active",
                     TickTime.ceilSeconds(component.getActiveTicks())
             );
         }
         if (component.getUnlockTicks() > 0) {
             return Text.translatable(
-                    "hud.sparkwitch.specter.otherworld.locked",
+                    "hud.sparkdlc.specter.otherworld.locked",
                     TickTime.ceilSeconds(component.getUnlockTicks())
             );
         }
         if (component.getCooldownTicks() > 0) {
             return Text.translatable(
-                    "hud.sparkwitch.specter.otherworld.cooldown",
+                    "hud.sparkdlc.specter.otherworld.cooldown",
                     TickTime.ceilSeconds(component.getCooldownTicks())
             );
         }
-        return Text.translatable("hud.sparkwitch.specter.otherworld.ready", SecondarySkillKeyApi.boundKeyText());
+        return Text.translatable("hud.sparkdlc.specter.otherworld.ready", SecondarySkillKeyApi.boundKeyText());
     }
 
     /** Marked player's visible name, or a generic label when that player is not loaded here. / 被标记者的可见名，未加载时用通用文案。 */
     private static Text markedName(ClientPlayerEntity viewer, @Nullable UUID targetUuid) {
         PlayerEntity target = targetUuid == null ? null : viewer.getWorld().getPlayerByUuid(targetUuid);
-        return target == null ? Text.translatable("hud.sparkwitch.specter.marked_unknown") : visibleName(target);
+        return target == null ? Text.translatable("hud.sparkdlc.specter.marked_unknown") : visibleName(target);
     }
 
     /**

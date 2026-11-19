@@ -39,7 +39,7 @@ public abstract class TraitInventoryScreenMixin extends LimitedHandledScreen<Pla
             // fused in SparkDLC, so it is always present.
             // SparkWitch 的回退卡锚定在本列左侧，因此原生卡占满整列以紧贴排列。SparkWitch 已融合进 SparkDLC，始终存在。
             var snapshot = card.prepareNative(this, textRenderer,
-                    List.of(new InventoryInfoCard.Section(Text.translatable("gui.sparktraits.traits"), entries)),
+                    List.of(new InventoryInfoCard.Section(Text.translatable("gui.sparkdlc.traits"), entries)),
                     true);
             card.draw(context, textRenderer, snapshot, mouseX, mouseY, width, height);
         } catch (RuntimeException | LinkageError failure) {

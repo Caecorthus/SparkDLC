@@ -67,7 +67,7 @@ public final class FisherFishingService {
         }
         ItemStack bait = FisherInventory.findBait(fisher.getInventory());
         if (bait.isEmpty()) {
-            fisher.sendMessage(Text.translatable("message.sparkwitch.fisher.no_bait"), true);
+            fisher.sendMessage(Text.translatable("message.sparkdlc.fisher.no_bait"), true);
             return;
         }
 
@@ -76,7 +76,7 @@ public final class FisherFishingService {
         int slot = FisherInventory.catchSlot(fisher.getInventory().main, bait);
         if (slot < 0) {
             fisher.getItemCooldownManager().set(SparkWitchItems.fishingRod(), FisherRules.ROD_COOLDOWN_TICKS);
-            fisher.sendMessage(Text.translatable("message.sparkwitch.fisher.inventory_full"), true);
+            fisher.sendMessage(Text.translatable("message.sparkdlc.fisher.inventory_full"), true);
             return;
         }
         FisherCatch caught = FisherCatchTable.roll(fisher.getServerWorld().random);
@@ -89,9 +89,9 @@ public final class FisherFishingService {
         fisher.getItemCooldownManager().set(SparkWitchItems.fishingRod(), FisherRules.ROD_COOLDOWN_TICKS);
         FisherInventory.sync(fisher);
         Text feedback = switch (caught) {
-            case SKUNK -> Text.translatable("message.sparkwitch.fisher.skunk");
-            case PUFFERFISH -> Text.translatable("message.sparkwitch.fisher.pufferfish");
-            default -> Text.translatable("message.sparkwitch.fisher.caught", Text.translatable(caught.translationKey()));
+            case SKUNK -> Text.translatable("message.sparkdlc.fisher.skunk");
+            case PUFFERFISH -> Text.translatable("message.sparkdlc.fisher.pufferfish");
+            default -> Text.translatable("message.sparkdlc.fisher.caught", Text.translatable(caught.translationKey()));
         };
         fisher.sendMessage(feedback, true);
         fisher.playSoundToPlayer(SoundEvents.ENTITY_FISHING_BOBBER_SPLASH, SoundCategory.PLAYERS, 1f, 1f);

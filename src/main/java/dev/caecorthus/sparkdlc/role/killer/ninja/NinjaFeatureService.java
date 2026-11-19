@@ -93,7 +93,7 @@ public final class NinjaFeatureService {
 
         component.finishNinjaParryWindow();
         victim.playSoundToPlayer(WatheSounds.ITEM_PSYCHO_ARMOUR, SoundCategory.PLAYERS, 1.0F, 0.8F);
-        victim.sendMessage(Text.translatable("message.sparkwitch.skill.ninja_parry.blocked"), true);
+        victim.sendMessage(Text.translatable("message.sparkdlc.skill.ninja_parry.blocked"), true);
         // Achievement record W8, only for a blow the parry really stops (the Ceremonial Sword pierces it and kills).
         // 成就记录 W8，仅在格挡确实挡下时写入（仪礼剑会穿透格挡并照常击杀）。
         if (!CeremonialSwordProtectionPolicy.pierces(deathReason)) {
@@ -125,7 +125,7 @@ public final class NinjaFeatureService {
 
         PlayerShopComponent.KEY.get(killer).addToBalance(NinjaRules.DARK_KILL_BOUNTY);
         killer.sendMessage(Text.translatable(
-                "message.sparkwitch.ninja.bounty",
+                "message.sparkdlc.ninja.bounty",
                 NinjaRules.DARK_KILL_BOUNTY
         ), true);
     }

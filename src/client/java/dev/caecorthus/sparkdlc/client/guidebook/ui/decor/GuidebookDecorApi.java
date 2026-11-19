@@ -29,7 +29,7 @@ import net.minecraft.client.gui.DrawContext;
  */
 public final class GuidebookDecorApi {
     private static final int OVERLAY_MARGIN = 20;
-    private static final DecorLayer OVERLAY = new DecorLayer("sparkassist_card_overlay");
+    private static final DecorLayer OVERLAY = new DecorLayer("sparkdlc_card_overlay");
 
     private record OverlayKey(Region card, DecorSet set, long seed, int density, boolean foliage) {
     }

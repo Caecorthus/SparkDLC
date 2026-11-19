@@ -8,9 +8,9 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 
 /**
- * Stable packet contract {@code sparkwitch:bear_smoke_clear} (S2C): no body. The client drops every cloud and hole it
+ * Stable packet contract {@code sparkdlc:bear_smoke_clear} (S2C): no body. The client drops every cloud and hole it
  * knows (round end, world unload, before a resync on a dimension change or respawn). Stray bytes are skipped.
- * 稳定数据包契约 {@code sparkwitch:bear_smoke_clear}（S2C）：无正文。客户端丢弃已知的全部烟团与空洞（回合结束、世界卸载，
+ * 稳定数据包契约 {@code sparkdlc:bear_smoke_clear}（S2C）：无正文。客户端丢弃已知的全部烟团与空洞（回合结束、世界卸载，
  * 以及切换维度或重生后重新同步之前）。多余字节会被跳过。
  */
 public record SmokeClearS2CPayload() implements CustomPayload {

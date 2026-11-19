@@ -137,7 +137,7 @@ public final class JesterTraitService {
         }
         var players = ReplayGenerator.getPlayerInfoCache(match);
         return Text.translatable(
-                "replay.global.sparktraits.jester_trait_trigger",
+                "replay.global.sparkdlc.jester_trait_trigger",
                 ReplayGenerator.formatPlayerName(data.getUuid("target"), players),
                 ReplayGenerator.formatPlayerName(data.getUuid("actor"), players)
         );

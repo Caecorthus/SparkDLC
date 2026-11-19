@@ -18,9 +18,9 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Server-authoritative model behind {@code sparkwitch:black_raven_disguise}; the NBT key names below are a
+ * Server-authoritative model behind {@code sparkdlc:black_raven_disguise}; the NBT key names below are a
  * stable save contract. Stashes never leave the server.
- * sparkwitch:black_raven_disguise 背后的服务端权威模型；下列 NBT 键名是稳定的存档契约。存档从不离开服务端。
+ * sparkdlc:black_raven_disguise 背后的服务端权威模型；下列 NBT 键名是稳定的存档契约。存档从不离开服务端。
  */
 public final class BlackRavenDisguiseState {
     public static final String KEY_MATCH_ID = "MatchId";

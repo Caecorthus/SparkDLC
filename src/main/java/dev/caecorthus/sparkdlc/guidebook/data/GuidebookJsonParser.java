@@ -23,7 +23,7 @@ import java.util.Optional;
  */
 public final class GuidebookJsonParser {
     /** Button label of a demo block that gives no text. 未写文字的演示块所用的按钮文字。 */
-    public static final String DEMO_LABEL_KEY = "guidebook.sparkassist.demo.watch";
+    public static final String DEMO_LABEL_KEY = "guidebook.sparkdlc.demo.watch";
 
     private GuidebookJsonParser() {
     }

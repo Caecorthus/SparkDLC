@@ -8,10 +8,10 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 
 /**
- * Stable packet contract {@code sparkwitch:bear_smoke_remove} (S2C, every player in the world): {@code cloudId:varint}.
+ * Stable packet contract {@code sparkdlc:bear_smoke_remove} (S2C, every player in the world): {@code cloudId:varint}.
  * Sent when the server drops a cloud (expired, or forced out with nothing left to fade). A malformed body decodes as
  * {@link #INVALID_ID} and is ignored.
- * 稳定数据包契约 {@code sparkwitch:bear_smoke_remove}（S2C，发给该世界所有玩家）：{@code cloudId:varint}。服务端丢弃烟团
+ * 稳定数据包契约 {@code sparkdlc:bear_smoke_remove}（S2C，发给该世界所有玩家）：{@code cloudId:varint}。服务端丢弃烟团
  * （过期，或被强制淘汰且已无可消散的格）时发送。畸形正文解码为 {@link #INVALID_ID} 并被忽略。
  */
 public record SmokeCloudRemoveS2CPayload(int cloudId) implements CustomPayload {

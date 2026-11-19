@@ -21,16 +21,16 @@ public final class GuidebookDiscoveryRules {
     // is not in the skill registry either, so it too appears only through its authored page.
     // 预备魔女：五个随机的注册表技能，加上出师后固定解锁的第二技能净化；净化同样不在技能注册表中，只通过人工编写的页面出现。
     private static final Map<String, String> WITCH_SKILL_OWNER_ROLE_IDS = Map.ofEntries(
-            Map.entry("sparkwitch:witch_factor", "sparkwitch:grand_witch"),
-            Map.entry("sparkwitch:ceremonial_sword", "sparkwitch:grand_witch"),
-            Map.entry("sparkwitch:emma_factor", "sparkwitch:emma"),
-            Map.entry("sparkwitch:death_ray", "sparkwitch:murderous_witch"),
-            Map.entry("sparkwitch:mighty_force", "sparkwitch:apprentice_witch"),
-            Map.entry("sparkwitch:swift_step", "sparkwitch:apprentice_witch"),
-            Map.entry("sparkwitch:murder_sense", "sparkwitch:apprentice_witch"),
-            Map.entry("sparkwitch:healing", "sparkwitch:apprentice_witch"),
-            Map.entry("sparkwitch:clairvoyance", "sparkwitch:apprentice_witch"),
-            Map.entry("sparkwitch:purify", "sparkwitch:apprentice_witch")
+            Map.entry("sparkdlc:witch_factor", "sparkdlc:grand_witch"),
+            Map.entry("sparkdlc:ceremonial_sword", "sparkdlc:grand_witch"),
+            Map.entry("sparkdlc:emma_factor", "sparkdlc:emma"),
+            Map.entry("sparkdlc:death_ray", "sparkdlc:murderous_witch"),
+            Map.entry("sparkdlc:mighty_force", "sparkdlc:apprentice_witch"),
+            Map.entry("sparkdlc:swift_step", "sparkdlc:apprentice_witch"),
+            Map.entry("sparkdlc:murder_sense", "sparkdlc:apprentice_witch"),
+            Map.entry("sparkdlc:healing", "sparkdlc:apprentice_witch"),
+            Map.entry("sparkdlc:clairvoyance", "sparkdlc:apprentice_witch"),
+            Map.entry("sparkdlc:purify", "sparkdlc:apprentice_witch")
     );
 
     private GuidebookDiscoveryRules() {

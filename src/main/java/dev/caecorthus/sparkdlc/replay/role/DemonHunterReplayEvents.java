@@ -31,7 +31,7 @@ public final class DemonHunterReplayEvents {
             }
 
             return Text.translatable(
-                    "replay.global.sparkstrength.demon_hunter_sniff_found",
+                    "replay.global.sparkdlc.demon_hunter_sniff_found",
                     ReplayGenerator.formatPlayerName(actorUuid, playerInfoCache),
                     data.getInt("count")
             );
@@ -40,7 +40,7 @@ public final class DemonHunterReplayEvents {
                 (event, match, world) -> ReplayText.onePlayerEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.demon_hunter_sniff_none"
+                        "replay.global.sparkdlc.demon_hunter_sniff_none"
                 ));
         ReplayRegistry.registerGlobalEventFormatter(DEMON_HUNTER_SNIFF_REVEALED, (event, match, world) -> {
             var playerInfoCache = ReplayGenerator.getPlayerInfoCache(match);
@@ -52,7 +52,7 @@ public final class DemonHunterReplayEvents {
             }
 
             return Text.translatable(
-                    "replay.global.sparkstrength.demon_hunter_sniff_revealed",
+                    "replay.global.sparkdlc.demon_hunter_sniff_revealed",
                     ReplayGenerator.formatPlayerName(actorUuid, playerInfoCache),
                     ReplayGenerator.formatPlayerName(targetUuid, playerInfoCache)
             );

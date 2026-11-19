@@ -37,7 +37,7 @@ import org.joml.Vector3f;
 import java.util.UUID;
 
 /**
- * A fired 40 mm smoke round ({@code sparkwitch:smoke_round_40mm}). Server-authoritative: only the server decides a
+ * A fired 40 mm smoke round ({@code sparkdlc:smoke_round_40mm}). Server-authoritative: only the server decides a
  * burst; both sides run the same flight ({@link M32Ballistics} step, {@link SmokeRoundFlight} arming and bounce) so the
  * client's prediction matches, and the server pushes a position/velocity resync on every bounce. It never damages
  * anything (G1): it overrides {@link #onCollision} without calling vanilla's handlers, so no block reaction (a pot
@@ -49,7 +49,7 @@ import java.util.UUID;
  * ACTIVE (so no cloud lands after the result). Never saved, so a round that flies out of entity-ticking range stays in
  * memory unticked: {@link #discardAll} sweeps the loaded ones at Wathe's finalize, and one that only ticks again later
  * (this round or a later one) is {@link SmokeRoundFlight#stale} by world time and removes itself unburst.
- * 发射出的 40 mm 烟雾榴弹（{@code sparkwitch:smoke_round_40mm}）。服务端权威：只有服务端决定爆开；两端执行相同的飞行（
+ * 发射出的 40 mm 烟雾榴弹（{@code sparkdlc:smoke_round_40mm}）。服务端权威：只有服务端决定爆开；两端执行相同的飞行（
  * {@link M32Ballistics} 步进、{@link SmokeRoundFlight} 解除保险与反弹），使客户端预测一致，且服务端在每次反弹时推送位置/速度
  * 重新同步。它从不伤害任何东西（G1）：它覆盖 {@link #onCollision} 且不调用原版处理，因此不会触发任何方块反应（打碎陶罐、敲响钟）或
  * 实体命中。G3：路径不足 {@link BearRules#ARMING_DISTANCE} 格时的撞击只会（阻尼）反弹而不爆开；此后首次撞击方块或实体即爆开；备用

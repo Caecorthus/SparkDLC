@@ -39,7 +39,7 @@ public final class SkateboardItem extends Item {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         for (int line = 1; line <= 2; line++) {
-            tooltip.add(Text.translatable("item.sparkstrength.skateboard.tooltip.line" + line)
+            tooltip.add(Text.translatable("item.sparkdlc.skateboard.tooltip.line" + line)
                     .styled(style -> style.withColor(0x808080).withItalic(false)));
         }
     }

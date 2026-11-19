@@ -28,11 +28,11 @@ public final class ProfessorSerumRules {
     public static final int TRUTH_PRICE = 125;
     public static final int REFRESH_COOLDOWN_PRICE = 50;
 
-    public static final String SEDATIVE_ENTRY_ID = "sparkstrength_professor_sedative";
-    public static final String DOORPASSING_ENTRY_ID = "sparkstrength_professor_doorpassing_potion";
-    public static final String INVISIBILITY_ENTRY_ID = "sparkstrength_professor_invisibility_serum";
-    public static final String TRUTH_ENTRY_ID = "sparkstrength_professor_truth_serum";
-    public static final String REFRESH_COOLDOWN_ENTRY_ID = "sparkstrength_professor_refresh_cooldown";
+    public static final String SEDATIVE_ENTRY_ID = "sparkdlc_professor_sedative";
+    public static final String DOORPASSING_ENTRY_ID = "sparkdlc_professor_doorpassing_potion";
+    public static final String INVISIBILITY_ENTRY_ID = "sparkdlc_professor_invisibility_serum";
+    public static final String TRUTH_ENTRY_ID = "sparkdlc_professor_truth_serum";
+    public static final String REFRESH_COOLDOWN_ENTRY_ID = "sparkdlc_professor_refresh_cooldown";
 
     /** 试剂本能高亮要压过 NoellesRoles 普通职业高亮和 Wathe 默认杀手本能。 */
     public static final int SERUM_HIGHLIGHT_PRIORITY = 250;

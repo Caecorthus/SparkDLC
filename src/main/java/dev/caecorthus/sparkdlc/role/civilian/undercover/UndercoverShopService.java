@@ -24,7 +24,7 @@ import java.util.List;
  * 不检查存活：Wathe 在对局变为 ACTIVE 前就从此列表缓存 stock(1)。
  */
 public final class UndercoverShopService {
-    public static final String MASK_ENTRY_ID = "sparkstrength_cqcm_mask";
+    public static final String MASK_ENTRY_ID = "sparkdlc_cqcm_mask";
     private static boolean registered;
 
     private UndercoverShopService() {
@@ -68,9 +68,9 @@ public final class UndercoverShopService {
 
     private static ItemStack displayStack(Item mask) {
         ItemStack stack = mask.getDefaultStack();
-        stack.set(DataComponentTypes.ITEM_NAME, Text.translatable("shop.sparkstrength.undercover.cqcm_mask"));
+        stack.set(DataComponentTypes.ITEM_NAME, Text.translatable("shop.sparkdlc.undercover.cqcm_mask"));
         stack.set(DataComponentTypes.LORE, new LoreComponent(List.of(
-                Text.translatable("shop.sparkstrength.undercover.cqcm_mask.description")
+                Text.translatable("shop.sparkdlc.undercover.cqcm_mask.description")
                         .styled(style -> style.withColor(0x808080).withItalic(false))
         )));
         return stack;

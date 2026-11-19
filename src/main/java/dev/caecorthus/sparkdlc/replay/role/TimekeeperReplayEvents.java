@@ -28,7 +28,7 @@ public final class TimekeeperReplayEvents {
                 return null;
             }
             String mode = data.getString("mode");
-            String key = "replay.global.sparkstrength.timekeeper_watch_used."
+            String key = "replay.global.sparkdlc.timekeeper_watch_used."
                     + ("ability_refresh".equals(mode) ? "ability" : "item");
             return Text.translatable(key, ReplayGenerator.formatPlayerName(actorUuid, playerInfoCache));
         });

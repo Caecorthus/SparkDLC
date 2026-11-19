@@ -16,7 +16,7 @@ import java.io.IOException;
  * 作为 {@code ResourceTexture}，纹理管理器会在每次资源重载时重新生成它。
  */
 public final class SecondRowTexture extends ResourceTexture {
-    private static final Identifier ID = Identifier.of("sparkfactionapi", "dynamic/limited_inventory_second_row");
+    private static final Identifier ID = Identifier.of("sparkdlc", "dynamic/limited_inventory_second_row");
     private static final int STRIP_WIDTH = 176;
     private static final int STRIP_HEIGHT = 32;
     private static boolean registered;

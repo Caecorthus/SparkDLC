@@ -30,32 +30,32 @@ public final class WitchShopClientTexts {
         // Riftwalker Rift Gate: a 0-coin entry charged 50 mana in its onBuy; its id is unique to that shop.
         // 隙行者裂隙门：0 金币商品，在 onBuy 中扣除 50 魔力；该 id 只出现在隙行者商店。
         if (RiftwalkerRules.GATE_SHOP_ENTRY_ID.equals(entry.id())) {
-            return Text.translatable("gui.sparkwitch.shop.mana_price", RiftwalkerRules.GATE_MANA_COST)
+            return Text.translatable("gui.sparkdlc.shop.mana_price", RiftwalkerRules.GATE_MANA_COST)
                     .formatted(Formatting.LIGHT_PURPLE);
         }
         // 泽渡可可's lightstick: a 0-coin entry charged 100 traffic in its onBuy; its id is unique to her shop.
         // 泽渡可可的应援棒：0 金币商品，在 onBuy 中扣除 100 流量；该 id 只出现在她的商店。
         if (KokoRules.LIGHTSTICK_SHOP_ENTRY_ID.equals(entry.id())) {
-            return Text.translatable("gui.sparkwitch.shop.traffic_price", KokoRules.LIGHTSTICK_PRICE)
+            return Text.translatable("gui.sparkdlc.shop.traffic_price", KokoRules.LIGHTSTICK_PRICE)
                     .withColor(KokoRules.COLOR);
         }
         // 狮身豪's fist ammo: a 0-coin entry charged 10 hao in its onBuy; its id is unique to its shop.
         // 狮身豪的拳头子弹：0 金币商品，在 onBuy 中扣除 10 豪度值；该 id 只出现在它的商店。
         if (SphinxHaoRules.FIST_AMMO_SHOP_ENTRY_ID.equals(entry.id())) {
-            return Text.translatable("gui.sparkwitch.shop.hao_price", SphinxHaoRules.FIST_AMMO_PRICE)
+            return Text.translatable("gui.sparkdlc.shop.hao_price", SphinxHaoRules.FIST_AMMO_PRICE)
                     .withColor(SphinxHaoRules.COLOR);
         }
         // 狮身豪's fist ammo: a 0-coin entry charged 10 hao in its onBuy; its id is unique to its shop.
         // 狮身豪的拳头子弹：0 金币商品，在 onBuy 中扣除 10 豪度值；该 id 只出现在它的商店。
         if (SphinxHaoRules.FIST_AMMO_SHOP_ENTRY_ID.equals(entry.id())) {
-            return Text.translatable("gui.sparkwitch.shop.hao_price", SphinxHaoRules.FIST_AMMO_PRICE)
+            return Text.translatable("gui.sparkdlc.shop.hao_price", SphinxHaoRules.FIST_AMMO_PRICE)
                     .withColor(SphinxHaoRules.COLOR);
         }
         GrandWitchRules.GrandWitchSpell spell = GrandWitchRules.GrandWitchSpell.fromEntryId(entry.id());
         if (spell == null) {
             return Text.literal(fallback);
         }
-        return Text.translatable("gui.sparkwitch.shop.mana_price", spell.manaCost())
+        return Text.translatable("gui.sparkdlc.shop.mana_price", spell.manaCost())
                 .formatted(Formatting.LIGHT_PURPLE);
     }
 }

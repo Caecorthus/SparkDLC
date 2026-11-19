@@ -18,39 +18,39 @@ import java.util.UUID;
  * 因此扮演 X 的黑羽鸦永远不算。
  */
 final class WitchRecordRules {
-    static final String PROPHET = "sparkwitch:prophet";
-    static final String JUDGE = "sparkwitch:judge";
+    static final String PROPHET = "sparkdlc:prophet";
+    static final String JUDGE = "sparkdlc:judge";
 
     /** W8: actor = the Ninja, target = the attacker whose killing blow the parry stopped. W8：忍者格挡挡下致命一击。 */
-    static final String NINJA_PARRY = "sparkwitch:ninja_parry";
+    static final String NINJA_PARRY = "sparkdlc:ninja_parry";
     /**
      * W9: target took a serving from a platter actor armed with a Poison Apple; {@code poisoned} on the poisoned
      * (second) serving.
      * W9：target 从 actor 布置了毒苹果的餐盘上取走一份；被下毒的那一份（第二份）带 {@code poisoned}。
      */
-    static final String POISON_APPLE_TAKE = "sparkwitch:poison_apple_take";
+    static final String POISON_APPLE_TAKE = "sparkdlc:poison_apple_take";
     /** W10: actor = the Perfumer, target = the player Perfume Essence marked. W10：调香师用香精标记了 target。 */
-    static final String PERFUME_MARK = "sparkwitch:perfume_mark";
+    static final String PERFUME_MARK = "sparkdlc:perfume_mark";
     /**
      * W11: actor = the Prophet, target = the dead; {@code correct}, {@code attempt} (from 1 per death), and
      * {@code killer} / {@code killer_faction} when a correct guess revealed someone.
      * W11：actor 为先知，target 为死者；{@code correct}、{@code attempt}（每次死亡从 1 起），猜中并揭示了某人时带
      * {@code killer} / {@code killer_faction}。
      */
-    static final String PROPHECY = "sparkwitch:prophecy";
+    static final String PROPHECY = "sparkdlc:prophecy";
     /** W12: actor = the dead Saint, target = the killer who took Karma. W12：死去的圣徒让 target 背上业障。 */
-    static final String SAINT_KARMA = "sparkwitch:saint_karma";
+    static final String SAINT_KARMA = "sparkdlc:saint_karma";
     /** W13: actor = the Judge, target = the defendant; {@code sentenced}, {@code duration}. W13：法官的一次审判。 */
-    static final String JUDGE_VERDICT = "sparkwitch:judge_verdict";
+    static final String JUDGE_VERDICT = "sparkdlc:judge_verdict";
     /**
      * A global event (not one of W8-W17) when a Seeker device breaks: {@code owner} = the Seeker; actor and
      * {@code breaker} = the player who broke it, only when a player did.
      * 搜寻者设备被打坏时的全局事件（不属于 W8-W17）：{@code owner} 为搜寻者；actor 与 {@code breaker} 为打坏它的玩家（仅当由玩家造成时）。
      */
-    static final String SEEKER_DEVICE_BROKEN = "sparkwitch:seeker_device_broken";
+    static final String SEEKER_DEVICE_BROKEN = "sparkdlc:seeker_device_broken";
     /** W17: actor = the Magician, target = the puppet's victim; {@code disguise_dead}. W17：魔术师皮套击杀。 */
-    static final String MAGICIAN_PUPPET_KILL = "sparkwitch:magician_puppet_kill";
-    /** W16, on {@code sparkwitch:hunter_trap_triggered}: an active Bone Setting absorbed the fracture. W16。 */
+    static final String MAGICIAN_PUPPET_KILL = "sparkdlc:magician_puppet_kill";
+    /** W16, on {@code sparkdlc:hunter_trap_triggered}: an active Bone Setting absorbed the fracture. W16。 */
     static final String BONE_SETTING_ABSORBED = "bone_setting_absorbed";
     /** The {@code action} of an Orthopedist skill use that applied Bone Setting. 骨科大夫施加正骨时技能记录的 {@code action}。 */
     static final String BONE_SETTING_ACTION = "bone_setting";
@@ -67,9 +67,9 @@ final class WitchRecordRules {
     // ---- Killer side 杀手方 ----
 
     /**
-     * 见切: as the Ninja, my parry stopped a killing blow ({@code sparkwitch:ninja_parry}; never written for a
+     * 见切: as the Ninja, my parry stopped a killing blow ({@code sparkdlc:ninja_parry}; never written for a
      * Ceremonial Sword blow, which pierces the parry).
-     * 以忍者身份用格挡挡下一次致命攻击（{@code sparkwitch:ninja_parry}；仪礼剑会穿透格挡，绝不会写入）。
+     * 以忍者身份用格挡挡下一次致命攻击（{@code sparkdlc:ninja_parry}；仪礼剑会穿透格挡，绝不会写入）。
      */
     static boolean ninjaParry(AchievementContext context) {
         return context.myEvents(NINJA_PARRY).stream()
@@ -78,10 +78,10 @@ final class WitchRecordRules {
 
     /**
      * 白雪公主: as the Witch Maiden, another player takes the poisoned serving of my Poison Apple
-     * ({@code sparkwitch:poison_apple_take} with {@code poisoned}) and later dies of poison, their latest poisoning
+     * ({@code sparkdlc:poison_apple_take} with {@code poisoned}) and later dies of poison, their latest poisoning
      * before that death being food poisoned by me after the take. A serving passed on and eaten by someone else is not
      * counted: the record cannot tie that eater to the apple.
-     * 以巫女身份让另一名玩家取走我毒苹果被下毒的那一份（带 {@code poisoned} 的 {@code sparkwitch:poison_apple_take}），此人之后毒发身亡，
+     * 以巫女身份让另一名玩家取走我毒苹果被下毒的那一份（带 {@code poisoned} 的 {@code sparkdlc:poison_apple_take}），此人之后毒发身亡，
      * 且死亡前最近一次中毒是在取走之后、由我下毒的食物。转手给别人吃下的那一份不算：记录无法把吃下的人和毒苹果对应起来。
      */
     static boolean poisonAppleKill(AchievementContext context) {
@@ -97,9 +97,9 @@ final class WitchRecordRules {
 
     /**
      * 借尸还魂: as the Magician, my playback puppet disguised as a player who was already dead kills someone
-     * ({@code sparkwitch:magician_puppet_kill} with {@code disguise_dead}; written only when the kill took, with the
+     * ({@code sparkdlc:magician_puppet_kill} with {@code disguise_dead}; written only when the kill took, with the
      * knife, the bat or the revolver).
-     * 以魔术师身份让伪装成已死亡玩家的回放皮套击杀一名玩家（带 {@code disguise_dead} 的 {@code sparkwitch:magician_puppet_kill}；
+     * 以魔术师身份让伪装成已死亡玩家的回放皮套击杀一名玩家（带 {@code disguise_dead} 的 {@code sparkdlc:magician_puppet_kill}；
      * 只在刀、球棒或左轮的击杀生效时写入）。
      */
     static boolean puppetAsTheDead(AchievementContext context) {
@@ -110,11 +110,11 @@ final class WitchRecordRules {
     // ---- Civilian side 好人方 ----
 
     /**
-     * 闻香识凶手: as the Perfumer, mark a 非好人 with Perfume Essence ({@code sparkwitch:perfume_mark}; the faction by
+     * 闻香识凶手: as the Perfumer, mark a 非好人 with Perfume Essence ({@code sparkdlc:perfume_mark}; the faction by
      * {@link StrengthRecordRules#factionAround}), and they later kill someone while still marked, which turns the mark
      * into the blood scent: their first kill after the mark, with no death of theirs in between (a death clears the
      * mark) and me still the Perfumer at that kill (only a Perfumer's marks turn bloody, dead or alive).
-     * 以调香师身份用香精标记一名非好人（{@code sparkwitch:perfume_mark}；阵营按 {@link StrengthRecordRules#factionAround} 判断），
+     * 以调香师身份用香精标记一名非好人（{@code sparkdlc:perfume_mark}；阵营按 {@link StrengthRecordRules#factionAround} 判断），
      * 对方之后在仍被标记时行凶，标记随之变为血腥气味：取标记之后其第一次击杀，期间对方没有死亡（死亡会清除标记），且该次击杀时我仍是
      * 调香师（无论生死，只有调香师的标记会染上血腥气味）。
      */
@@ -131,10 +131,10 @@ final class WitchRecordRules {
     /**
      * 上医治未病: as the Orthopedist, apply Bone Setting to a player (an Orthopedist skill use with {@code action}
      * bone_setting), and that Bone Setting absorbs the fracture of a hunter trap they step on
-     * ({@code sparkwitch:hunter_trap_triggered} with {@code bone_setting_absorbed}). Bone Setting cannot be applied again
+     * ({@code sparkdlc:hunter_trap_triggered} with {@code bone_setting_absorbed}). Bone Setting cannot be applied again
      * while active, so the absorbing one is the latest applied to that player before the trap.
      * 以骨科大夫身份为一名玩家正骨（{@code action} 为 bone_setting 的骨科大夫技能记录），对方踩中捕兽夹时这次正骨吸收了骨折
-     * （带 {@code bone_setting_absorbed} 的 {@code sparkwitch:hunter_trap_triggered}）。正骨生效期间不能再次施加，所以吸收骨折的就是
+     * （带 {@code bone_setting_absorbed} 的 {@code sparkdlc:hunter_trap_triggered}）。正骨生效期间不能再次施加，所以吸收骨折的就是
      * 踩夹之前最近一次施加给此人的正骨。
      */
     static boolean boneSettingAbsorbedTrap(AchievementContext context) {
@@ -179,9 +179,9 @@ final class WitchRecordRules {
 
     /**
      * 我不入地狱，谁入地狱: as the Saint, die with Hellfire active and my killer takes Karma
-     * ({@code sparkwitch:saint_karma}; written only for a killer outside the civilian side who passed the Karma
+     * ({@code sparkdlc:saint_karma}; written only for a killer outside the civilian side who passed the Karma
      * immunity check).
-     * 以圣徒身份在业火中被杀死，凶手背上业障（{@code sparkwitch:saint_karma}；只为通过业障免疫检查、不在好人一方的凶手写入）。
+     * 以圣徒身份在业火中被杀死，凶手背上业障（{@code sparkdlc:saint_karma}；只为通过业障免疫检查、不在好人一方的凶手写入）。
      */
     static boolean karmaOnMyKiller(AchievementContext context) {
         UUID self = context.self();
@@ -190,10 +190,10 @@ final class WitchRecordRules {
     }
 
     /**
-     * 法外狂徒张三: as the Judge, sentence a player ({@code sparkwitch:judge_verdict} with {@code sentenced}), then,
+     * 法外狂徒张三: as the Judge, sentence a player ({@code sparkdlc:judge_verdict} with {@code sentenced}), then,
      * still the Judge, kill them myself after the verdict and less than {@code duration} ticks after it (SparkWitch
      * lifts the sentence at verdict + {@code duration}), they being a 非好人 at that death.
-     * 以法官身份判刑一名玩家（带 {@code sentenced} 的 {@code sparkwitch:judge_verdict}），之后仍以法官身份在判决之后、判决后不到
+     * 以法官身份判刑一名玩家（带 {@code sentenced} 的 {@code sparkdlc:judge_verdict}），之后仍以法官身份在判决之后、判决后不到
      * {@code duration} tick 时亲手将其击杀（SparkWitch 在判决 + {@code duration} 时解除刑期），对方死亡时为非好人。
      */
     static boolean killedWhileSentenced(AchievementContext context) {
@@ -209,10 +209,10 @@ final class WitchRecordRules {
     /**
      * 魔女裁判: as Emma, two revolver kills ({@code wathe:gun_shot} with {@code killer_item} {@code wathe:revolver}) of
      * two different players who were 非好人 at death, at most 3 s apart. Read from the death records alone, which say
-     * all of it; the hunt reward ({@code sparkwitch:emma_hunt_reward}) is only the usual way to get the revolver back
+     * all of it; the hunt reward ({@code sparkdlc:emma_hunt_reward}) is only the usual way to get the revolver back
      * that fast, so it is not required.
      * 以樱羽艾玛身份用左轮（{@code wathe:gun_shot} 且 {@code killer_item} 为 {@code wathe:revolver}）击杀两名不同的、死亡时为非好人的
-     * 玩家，两次击杀相隔不超过 3 秒。只看死亡记录就足够判断；猎杀奖励（{@code sparkwitch:emma_hunt_reward}）只是让左轮这么快就绪的常见
+     * 玩家，两次击杀相隔不超过 3 秒。只看死亡记录就足够判断；猎杀奖励（{@code sparkdlc:emma_hunt_reward}）只是让左轮这么快就绪的常见
      * 途径，因此不作要求。
      */
     static boolean emmaRevolverPair(AchievementContext context) {
@@ -233,12 +233,12 @@ final class WitchRecordRules {
     }
 
     /**
-     * 钓鱼执法: as the Seeker, a player breaks my device ({@code sparkwitch:seeker_device_broken} with {@code owner}
+     * 钓鱼执法: as the Seeker, a player breaks my device ({@code sparkdlc:seeker_device_broken} with {@code owner}
      * me; the breaker is its actor, or {@code breaker}) and I kill that player myself, still the Seeker, after the
      * break and within 10 s of it, they being a 非好人 at death. A break with no player behind it (falling off the
      * train, leaving the play area) names no breaker. No tablet is needed: unlike the mark, the break is recorded either
      * way.
-     * 以搜寻者身份，一名玩家打坏我的设备（{@code owner} 为我的 {@code sparkwitch:seeker_device_broken}；打坏者为其 actor 或
+     * 以搜寻者身份，一名玩家打坏我的设备（{@code owner} 为我的 {@code sparkdlc:seeker_device_broken}；打坏者为其 actor 或
      * {@code breaker}），我在损坏之后的 10 秒内仍以搜寻者身份亲手击杀此人，对方死亡时为非好人。没有玩家造成的损坏（掉出列车、离开游戏区域）
      * 不记录打坏者。不需要平板：与标记不同，损坏无论如何都会被记录。
      */

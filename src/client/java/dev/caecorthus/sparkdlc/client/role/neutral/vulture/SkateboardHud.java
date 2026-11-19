@@ -42,7 +42,7 @@ public final class SkateboardHud {
         Text text;
         if (ride.isRiding()) {
             // Never show 0 while the server still reports the ride. / 服务端仍报告滑行时绝不显示 0。
-            text = Text.translatable("tip.sparkstrength.skateboard.riding", Math.max(1, seconds(ride.remainingTicks())));
+            text = Text.translatable("tip.sparkdlc.skateboard.riding", Math.max(1, seconds(ride.remainingTicks())));
         } else {
             // The synced lock on the shared Vulture clock; never "ready" while the server still reports the lock. Only
             // a cooldown that is not ours (no lock window) falls back to the vanilla entry.
@@ -51,8 +51,8 @@ public final class SkateboardHud {
                     ? Math.max(1, SkateboardCooldownClient.lockRemaining(player))
                     : cooldownTicks(player.getItemCooldownManager(), board);
             text = cooldownTicks > 0
-                    ? Text.translatable("tip.sparkstrength.skateboard.cooldown", seconds(cooldownTicks))
-                    : Text.translatable("tip.sparkstrength.skateboard.ready");
+                    ? Text.translatable("tip.sparkdlc.skateboard.cooldown", seconds(cooldownTicks))
+                    : Text.translatable("tip.sparkdlc.skateboard.ready");
         }
         int x = context.getScaledWindowWidth() - renderer.getWidth(text);
         int y = context.getScaledWindowHeight() - renderer.fontHeight * 2;

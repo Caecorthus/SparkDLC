@@ -37,32 +37,32 @@ public final class TarotReaderShopService {
             return;
         }
 
-        // SparkTraits 的词条商店监听可能先于 SparkWitch 执行；先保存 sparktraits:* 条目，
+        // SparkTraits 的词条商店监听可能先于 SparkWitch 执行；先保存 sparkdlc:* 条目，
         // 避免下面重建塔罗师专属商店时误删内鬼左轮等词条追加商品。
         List<ShopEntry> preservedTraitEntries = SparkTraitsShopEntryPreserver.capture(context);
         context.clearEntries();
         context.addEntry(entry(
-                "sparkwitch_tarot_regular",
+                "sparkdlc_tarot_regular",
                 SparkWitchItems.tarotCard(),
                 TarotReaderRules.REGULAR_PRICE,
-                "shop.sparkwitch.tarot.regular",
-                "shop.sparkwitch.tarot.regular.description",
+                "shop.sparkdlc.tarot.regular",
+                "shop.sparkdlc.tarot.regular.description",
                 TarotReaderDivinationService::purchaseRegular
         ));
         context.addEntry(entry(
-                "sparkwitch_tarot_identity",
+                "sparkdlc_tarot_identity",
                 SparkWitchItems.tarotCard(),
                 TarotReaderRules.IDENTITY_PRICE,
-                "shop.sparkwitch.tarot.identity",
-                "shop.sparkwitch.tarot.identity.description",
+                "shop.sparkdlc.tarot.identity",
+                "shop.sparkdlc.tarot.identity.description",
                 TarotReaderDivinationService::purchaseIdentity
         ));
         context.addEntry(entry(
-                "sparkwitch_tarot_survival",
+                "sparkdlc_tarot_survival",
                 SparkWitchItems.tarotCard(),
                 TarotReaderRules.SURVIVAL_PRICE,
-                "shop.sparkwitch.tarot.survival",
-                "shop.sparkwitch.tarot.survival.description",
+                "shop.sparkdlc.tarot.survival",
+                "shop.sparkdlc.tarot.survival.description",
                 TarotReaderDivinationService::purchaseSurvival
         ));
         SparkTraitsShopEntryPreserver.restore(context, preservedTraitEntries);

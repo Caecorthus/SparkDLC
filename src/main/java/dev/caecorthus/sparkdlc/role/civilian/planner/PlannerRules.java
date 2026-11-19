@@ -118,10 +118,10 @@ public final class PlannerRules {
     }
 
     /**
-     * Pure gate for {@code sparkwitch:use_planner_recommend}, in Tono Hanna's / 泽渡可可's order: role, round, control
+     * Pure gate for {@code sparkdlc:use_planner_recommend}, in Tono Hanna's / 泽渡可可's order: role, round, control
      * and readiness refuse silently; then Fear; then the target, the coins, the target's live recommendation and the
      * target's free task types, each with its own line. A refused request never charges and never starts the cooldown.
-     * {@code sparkwitch:use_planner_recommend} 的纯判定，顺序与远野汉娜、泽渡可可相同：职业、回合、受控与就绪静默拒绝；其后是
+     * {@code sparkdlc:use_planner_recommend} 的纯判定，顺序与远野汉娜、泽渡可可相同：职业、回合、受控与就绪静默拒绝；其后是
      * 恐惧；再依次是目标、金币、目标的有效推荐与目标的空闲任务类型，各有提示。被拒绝的请求从不扣钱、也不开始冷却。
      */
     public static RecommendVerdict recommendVerdict(boolean planner, boolean roundActive, boolean aliveParticipant,

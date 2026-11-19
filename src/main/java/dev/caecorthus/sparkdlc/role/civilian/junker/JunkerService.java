@@ -36,14 +36,14 @@ import java.util.UUID;
 
 /**
  * 拾荒者 search flow: corpse ledger hooks, the ability-key request, the five-second search and the transfer.
- * <p>Server handler of {@code sparkwitch:ragpicker_search} (the shared NoellesRoles ability key, G). The search is a
+ * <p>Server handler of {@code sparkdlc:ragpicker_search} (the shared NoellesRoles ability key, G). The search is a
  * role-owned skill: it never enters the witch skill registry, the shared witch-skill cooldowns or the witch skill
  * panel. Every gate lives in the pure {@link JunkerSearchRules}; the cooldown is an absolute ready tick in the
  * owner-synced {@link JunkerPlayerComponent}, reached by other features only through
  * {@code compat/cooldown/SparkWitchForcedCooldowns#ragpickerSearch}. Spending looted items is {@link JunkerLootSpend}'s
  * job and replay lines are {@link JunkerReplay}'s.
  * 拾荒者搜刮流程：尸体记录钩子、技能键请求、五秒搜刮与物品转移。
- * <p>{@code sparkwitch:ragpicker_search}（共享的 NoellesRoles 技能键 G）的服务端处理。搜刮是职业自有技能：从不进入
+ * <p>{@code sparkdlc:ragpicker_search}（共享的 NoellesRoles 技能键 G）的服务端处理。搜刮是职业自有技能：从不进入
  * 魔女技能注册表、共享的魔女技能冷却或魔女技能面板。所有门槛都在纯规则 {@link JunkerSearchRules} 中；冷却是只同步给
  * 本人的 {@link JunkerPlayerComponent} 上的绝对就绪刻，其他功能只能经
  * {@code compat/cooldown/SparkWitchForcedCooldowns#ragpickerSearch} 作用于它。搜刮所得物品的消耗由
@@ -136,13 +136,13 @@ public final class JunkerService {
         switch (verdict) {
             case START -> component.startSearch(bodyUuid);
             case FEARED -> GrandWitchFearService.sendSkillBlocked(player);
-            case BLOCKED -> actionBar(player, Text.translatable("tip.sparkwitch.ragpicker.blocked",
+            case BLOCKED -> actionBar(player, Text.translatable("tip.sparkdlc.ragpicker.blocked",
                     blocking.getName().copy().formatted(Formatting.RED)));
-            case HOTBAR_FULL -> actionBar(player, Text.translatable("tip.sparkwitch.ragpicker.hotbar_full"));
-            case SEARCHED -> actionBar(player, Text.translatable("tip.sparkwitch.ragpicker.searched"));
+            case HOTBAR_FULL -> actionBar(player, Text.translatable("tip.sparkdlc.ragpicker.hotbar_full"));
+            case SEARCHED -> actionBar(player, Text.translatable("tip.sparkdlc.ragpicker.searched"));
             case EMPTY -> {
                 loot.markSearched(ownerUuid);
-                actionBar(player, Text.translatable("tip.sparkwitch.ragpicker.empty"));
+                actionBar(player, Text.translatable("tip.sparkdlc.ragpicker.empty"));
             }
             case REFUSE -> {
                 // The remaining cooldown lives on the HUD, not in an action-bar toast. / 剩余冷却显示在 HUD 上。
@@ -173,13 +173,13 @@ public final class JunkerService {
         int slot = JunkerLoot.findEmptyHotbarSlot(player);
         switch (JunkerSearchRules.completionVerdict(blocking != null, slot >= 0, loot.wasSearched(ownerUuid),
                 loot.hasLoot(ownerUuid))) {
-            case BLOCKED -> actionBar(player, Text.translatable("tip.sparkwitch.ragpicker.blocked",
+            case BLOCKED -> actionBar(player, Text.translatable("tip.sparkdlc.ragpicker.blocked",
                     blocking.getName().copy().formatted(Formatting.RED)));
-            case HOTBAR_FULL -> actionBar(player, Text.translatable("tip.sparkwitch.ragpicker.hotbar_full"));
-            case SEARCHED -> actionBar(player, Text.translatable("tip.sparkwitch.ragpicker.searched"));
+            case HOTBAR_FULL -> actionBar(player, Text.translatable("tip.sparkdlc.ragpicker.hotbar_full"));
+            case SEARCHED -> actionBar(player, Text.translatable("tip.sparkdlc.ragpicker.searched"));
             case EMPTY -> {
                 loot.markSearched(ownerUuid);
-                actionBar(player, Text.translatable("tip.sparkwitch.ragpicker.empty"));
+                actionBar(player, Text.translatable("tip.sparkdlc.ragpicker.empty"));
             }
             case TRANSFER -> transfer(player, world, loot, ownerUuid, slot);
         }
@@ -190,7 +190,7 @@ public final class JunkerService {
         ItemStack reward = loot.takeLoot(ownerUuid, player.getRandom());
         loot.markSearched(ownerUuid);
         if (reward.isEmpty()) {
-            actionBar(player, Text.translatable("tip.sparkwitch.ragpicker.empty"));
+            actionBar(player, Text.translatable("tip.sparkdlc.ragpicker.empty"));
             return;
         }
         JunkerLoot.mark(reward);
@@ -205,7 +205,7 @@ public final class JunkerService {
         JunkerPlayerComponent component = JunkerPlayerComponent.KEY.get(player);
         component.setSearchReadyTick(Math.max(component.getSearchReadyTick(),
                 world.getTime() + JunkerRules.SEARCH_COOLDOWN_TICKS));
-        actionBar(player, Text.translatable("tip.sparkwitch.ragpicker.found", found));
+        actionBar(player, Text.translatable("tip.sparkdlc.ragpicker.found", found));
     }
 
     /**

@@ -63,7 +63,7 @@ public abstract class MagicianInventoryButtonsMixin extends LimitedHandledScreen
                 0,
                 y,
                 Items.PURPLE_DYE.getDefaultStack(),
-                Text.translatable("ui.sparkwitch.magician.pagination.previous"),
+                Text.translatable("ui.sparkdlc.magician.pagination.previous"),
                 button -> {
                     sparkwitch$magicianPage--;
                     sparkwitch$refreshMagicianPage();
@@ -73,7 +73,7 @@ public abstract class MagicianInventoryButtonsMixin extends LimitedHandledScreen
                 0,
                 y,
                 Items.LIME_DYE.getDefaultStack(),
-                Text.translatable("ui.sparkwitch.magician.pagination.next"),
+                Text.translatable("ui.sparkdlc.magician.pagination.next"),
                 button -> {
                     sparkwitch$magicianPage++;
                     sparkwitch$refreshMagicianPage();
@@ -99,10 +99,10 @@ public abstract class MagicianInventoryButtonsMixin extends LimitedHandledScreen
                 UseMagicianAbilityC2SPacket.STOP_PLAYBACK
         };
         String[] labels = {
-                "ui.sparkwitch.magician.action.start_recording",
-                "ui.sparkwitch.magician.action.stop_recording",
-                "ui.sparkwitch.magician.action.start_playback",
-                "ui.sparkwitch.magician.action.stop_playback"
+                "ui.sparkdlc.magician.action.start_recording",
+                "ui.sparkdlc.magician.action.stop_recording",
+                "ui.sparkdlc.magician.action.start_playback",
+                "ui.sparkdlc.magician.action.stop_playback"
         };
         int startX = this.width / 2 - (icons.length * SparkWitchInventoryButtonLayout.SLOT_APART) / 2
                 + SparkWitchInventoryButtonLayout.SLOT_X_OFFSET;

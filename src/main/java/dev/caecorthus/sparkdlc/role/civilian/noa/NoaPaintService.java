@@ -26,11 +26,11 @@ import net.minecraft.util.Hand;
 import org.agmas.noellesroles.effect.WhiskeyShieldEffect;
 
 /**
- * Server side of Noa's painting ({@code sparkwitch:use_noa_paint}): gates the request ({@link NoaPaintRules}), restarts
+ * Server side of Noa's painting ({@code sparkdlc:use_noa_paint}): gates the request ({@link NoaPaintRules}), restarts
  * the cooldown in {@link NoaComponent}, rolls {@link NoaPaintTable} with her current sanity and this round's painted
  * one-offs, applies the outcome, and records the replay. A refused request changes nothing and costs nothing. Sanity
  * outcomes tell her only the direction, never an amount (owner 2026-11-04: her sanity value is never shown).
- * 诺亚作画（{@code sparkwitch:use_noa_paint}）的服务端部分：先判定请求（{@link NoaPaintRules}），在 {@link NoaComponent} 中
+ * 诺亚作画（{@code sparkdlc:use_noa_paint}）的服务端部分：先判定请求（{@link NoaPaintRules}），在 {@link NoaComponent} 中
  * 重新开始冷却，按当前理智与本局已画出的一次性结果抽取 {@link NoaPaintTable}，执行结果并记录回放。被拒绝的请求不改变
  * 任何东西，也不消耗冷却。理智类结果只告诉她方向，从不给出数值（所有者 2026-11-04：从不显示她的理智值）。
  */
@@ -92,7 +92,7 @@ public final class NoaPaintService {
                 // NoellesRoles' own layer (stacks like drinking whiskey), 20 s, without the whiskey's mood bonus.
                 // NoellesRoles 自己的护盾层（与喝威士忌一样叠层），20 秒，不带威士忌的理智加成。
                 WhiskeyShieldEffect.addShieldLayer(player, NoaRules.WHISKEY_SHIELD_TICKS);
-                tell(player, "message.sparkwitch.noa.paint.whiskey");
+                tell(player, "message.sparkdlc.noa.paint.whiskey");
                 NoaReplay.recordEffect(player, outcome);
             }
             case SANITY_LOSS_HIGH -> changeSanity(player, outcome, -percent(player, 10, 50));
@@ -112,7 +112,7 @@ public final class NoaPaintService {
         ItemStack stack = new ItemStack(item);
         Text name = stack.getName();
         placeInHotbar(player, stack);
-        player.sendMessage(Text.translatable("message.sparkwitch.noa.paint.item", name)
+        player.sendMessage(Text.translatable("message.sparkdlc.noa.paint.item", name)
                 .formatted(Formatting.AQUA), true);
         NoaReplay.recordItem(player, outcome, item);
     }
@@ -120,7 +120,7 @@ public final class NoaPaintService {
     private static void speed(ServerPlayerEntity player, NoaPaintTable.Outcome outcome, int amplifier) {
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, NoaRules.SPEED_TICKS, amplifier,
                 false, false, true));
-        tell(player, amplifier >= 2 ? "message.sparkwitch.noa.paint.speed3" : "message.sparkwitch.noa.paint.speed2");
+        tell(player, amplifier >= 2 ? "message.sparkdlc.noa.paint.speed3" : "message.sparkdlc.noa.paint.speed2");
         NoaReplay.recordEffect(player, outcome);
     }
 
@@ -132,8 +132,8 @@ public final class NoaPaintService {
     private static void changeSanity(ServerPlayerEntity player, NoaPaintTable.Outcome outcome, int deltaPercent) {
         PlayerMoodComponent mood = PlayerMoodComponent.KEY.get(player);
         mood.setMood(mood.getMood() + deltaPercent / 100.0F);
-        tell(player, deltaPercent > 0 ? "message.sparkwitch.noa.paint.sanity_up"
-                : "message.sparkwitch.noa.paint.sanity_down");
+        tell(player, deltaPercent > 0 ? "message.sparkdlc.noa.paint.sanity_up"
+                : "message.sparkdlc.noa.paint.sanity_down");
         NoaReplay.recordSanity(player, outcome, deltaPercent);
     }
 

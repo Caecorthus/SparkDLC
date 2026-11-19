@@ -30,7 +30,7 @@ public final class TaotieHeadReplayEvents {
             }
             var playerInfoCache = ReplayGenerator.getPlayerInfoCache(match);
             return Text.translatable(
-                    "replay.global.sparkstrength.taotie_head_hit",
+                    "replay.global.sparkdlc.taotie_head_hit",
                     ReplayGenerator.formatPlayerName(actorUuid, playerInfoCache),
                     ReplayGenerator.formatPlayerName(targetUuid, playerInfoCache)
             );

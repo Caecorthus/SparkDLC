@@ -17,7 +17,7 @@ public abstract class PonderSceneCaptionMixin {
     @Inject(method = "renderOverlay", at = @At("HEAD"))
     private void sparkassist$beginCaptionLayout(PonderUI screen, DrawContext graphics, float partialTicks,
                                                 CallbackInfo ci) {
-        if (((PonderScene) (Object) this).getNamespace().equals("sparkassist")) {
+        if (((PonderScene) (Object) this).getNamespace().equals("sparkdlc")) {
             PonderCaptionText.beginOverlay();
         }
     }

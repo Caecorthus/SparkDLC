@@ -73,7 +73,7 @@ public abstract class ShopPageMixin extends LimitedHandledScreen<PlayerScreenHan
         // 按钮图标表示去向：左轮代表改装页，刀代表常规商店。
         addDrawableChild(new ShopPageSwitchWidget(firstX + shown.size() * SLOT_PITCH, rowY,
                 page == 0 ? new ItemStack(SparkStrengthItems.banditRevolver()) : new ItemStack(WatheItems.KNIFE),
-                Text.translatable(page == 0 ? "shop.sparkstrength.page.workbench" : "shop.sparkstrength.page.regular"),
+                Text.translatable(page == 0 ? "shop.sparkdlc.page.workbench" : "shop.sparkdlc.page.regular"),
                 button -> {
                     ShopPages.toggle();
                     clearAndInit();

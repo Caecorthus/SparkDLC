@@ -15,7 +15,7 @@ import java.util.Optional;
  * 回放界面的翻译键与文本工具。
  */
 final class ReplayTexts {
-    static final String PREFIX = "screen.sparkfactionapi.replay.";
+    static final String PREFIX = "screen.sparkdlc.replay.";
     static final String TITLE = PREFIX + "title";
     static final String SUBTITLE = PREFIX + "subtitle";
     static final String ENDED_AGO = PREFIX + "ended_ago";

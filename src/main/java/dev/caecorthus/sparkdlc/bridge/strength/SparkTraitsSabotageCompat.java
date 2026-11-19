@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
  * {@link SparkTraitsApi#hasActiveTrait}。
  */
 public final class SparkTraitsSabotageCompat {
-    public static final Identifier MASTER_SABOTEUR_ID = Identifier.of("sparktraits", "master_saboteur");
+    public static final Identifier MASTER_SABOTEUR_ID = Identifier.of("sparkdlc", "master_saboteur");
 
     private SparkTraitsSabotageCompat() {
     }

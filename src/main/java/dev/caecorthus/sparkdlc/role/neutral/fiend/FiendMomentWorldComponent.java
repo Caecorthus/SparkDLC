@@ -17,14 +17,14 @@ import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
 import java.util.UUID;
 
 /**
- * Round-scoped Fiend Moment ({@code sparkwitch:fiend_moment}), synced to every player. Server authority: only the
+ * Round-scoped Fiend Moment ({@code sparkdlc:fiend_moment}), synced to every player. Server authority: only the
  * server starts or clears the moment and decides completion from its absolute deadline. The packet carries only a
  * presence flag, the Fiend UUID, the remaining ticks and the remaining Dash cooldown (the real value only to the
  * moment Fiend, 0 to everyone else), never absolute server time or the match id; the server resyncs on every change.
  * Clients count both down locally for presentation and never decide an outcome or a Dash use. Never persisted: a
  * world reload drops the moment. The server also keeps the match-bound spent-Fiend ledger here (Fiends taken out of
  * their moment by a Taotie swallow); it is never synced or persisted.
- * 本局魔人时刻（{@code sparkwitch:fiend_moment}），同步给所有玩家。服务端权威：只有服务端开始或清除时刻，并依据其
+ * 本局魔人时刻（{@code sparkdlc:fiend_moment}），同步给所有玩家。服务端权威：只有服务端开始或清除时刻，并依据其
  * 绝对截止 tick 判定完成。数据包只携带存在标记、魔人 UUID、剩余 tick 与疾驰剩余冷却（真实值只发给时刻中的魔人，
  * 其他人为 0），绝不含服务端绝对时间或对局 id；每次变化由服务端重新同步。客户端仅为展示在本地倒数二者，从不决定
  * 胜负或疾驰的使用。从不持久化：世界重载后时刻丢失。服务端还在此保存绑定对局的「已耗尽魔人」登记表（因饕餮吞噬

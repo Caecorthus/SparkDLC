@@ -36,21 +36,21 @@ public final class MagicianReplayEvents {
     private static Text formatRecordingStarted(GameRecordEvent event, GameRecordManager.MatchRecord match, ServerWorld world) {
         Text actor = actorText(event, match);
         return actor == null ? null : Text.translatable(
-                "replay.global.sparkwitch.magician_recording_started", actor);
+                "replay.global.sparkdlc.magician_recording_started", actor);
     }
 
     @Nullable
     private static Text formatRecordingFinished(GameRecordEvent event, GameRecordManager.MatchRecord match, ServerWorld world) {
         Text actor = actorText(event, match);
         return actor == null ? null : Text.translatable(
-                "replay.global.sparkwitch.magician_recording_finished", actor);
+                "replay.global.sparkdlc.magician_recording_finished", actor);
     }
 
     @Nullable
     private static Text formatRecordingStoppedEarly(GameRecordEvent event, GameRecordManager.MatchRecord match, ServerWorld world) {
         Text actor = actorText(event, match);
         return actor == null ? null : Text.translatable(
-                "replay.global.sparkwitch.magician_recording_stopped_early", actor);
+                "replay.global.sparkdlc.magician_recording_stopped_early", actor);
     }
 
     @Nullable
@@ -61,21 +61,21 @@ public final class MagicianReplayEvents {
             return null;
         }
         return Text.translatable(
-                "replay.global.sparkwitch.magician_playback_started", actor, disguise);
+                "replay.global.sparkdlc.magician_playback_started", actor, disguise);
     }
 
     @Nullable
     private static Text formatPlaybackFinished(GameRecordEvent event, GameRecordManager.MatchRecord match, ServerWorld world) {
         Text actor = actorText(event, match);
         return actor == null ? null : Text.translatable(
-                "replay.global.sparkwitch.magician_playback_finished", actor);
+                "replay.global.sparkdlc.magician_playback_finished", actor);
     }
 
     @Nullable
     private static Text formatPlaybackStoppedEarly(GameRecordEvent event, GameRecordManager.MatchRecord match, ServerWorld world) {
         Text actor = actorText(event, match);
         return actor == null ? null : Text.translatable(
-                "replay.global.sparkwitch.magician_playback_stopped_early", actor);
+                "replay.global.sparkdlc.magician_playback_stopped_early", actor);
     }
 
     @Nullable
@@ -85,12 +85,12 @@ public final class MagicianReplayEvents {
         Text attacker = playerFromUuidOrName(event, match, "attacker_player", "attacker_name");
         Text weapon = event.data().contains("weapon_name")
                 ? weaponNameText(event.data().getString("weapon_name"))
-                : Text.translatable("replay.sparkwitch.magician.unknown_weapon");
+                : Text.translatable("replay.sparkdlc.magician.unknown_weapon");
         if (actor == null || disguise == null || attacker == null) {
             return null;
         }
         return Text.translatable(
-                "replay.global.sparkwitch.magician_playback_forced_end",
+                "replay.global.sparkdlc.magician_playback_forced_end",
                 actor,
                 disguise,
                 attacker,

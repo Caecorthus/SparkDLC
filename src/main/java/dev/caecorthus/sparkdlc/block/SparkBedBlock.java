@@ -64,7 +64,7 @@ public class SparkBedBlock extends TrimmedBedBlock {
         if (mainHand.isOf(WatheItems.KNIFE) || mainHand.isOf(WatheItems.REVOLVER) || mainHand.isOf(WatheItems.DERRINGER)) {
             return ActionResult.PASS;
         }
-        player.sendMessage(Text.translatable("block.sparkwitch.grey_dirty_bed.too_dirty"), true);
+        player.sendMessage(Text.translatable("block.sparkdlc.grey_dirty_bed.too_dirty"), true);
         return ActionResult.SUCCESS;
     }
 }

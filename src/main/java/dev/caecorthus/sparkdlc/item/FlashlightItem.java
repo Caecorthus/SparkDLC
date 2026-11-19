@@ -59,8 +59,8 @@ public final class FlashlightItem extends Item {
         FlashlightBlackoutService.onFlashlightToggled(serverPlayer, turnedOn);
         serverPlayer.sendMessage(Text.translatable(
                 isOn(stack)
-                        ? "message.sparkstrength.flashlight.on"
-                        : "message.sparkstrength.flashlight.off"
+                        ? "message.sparkdlc.flashlight.on"
+                        : "message.sparkdlc.flashlight.off"
         ), true);
         return TypedActionResult.success(stack);
     }

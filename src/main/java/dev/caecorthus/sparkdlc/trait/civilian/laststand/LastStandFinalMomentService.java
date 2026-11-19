@@ -68,7 +68,7 @@ public final class LastStandFinalMomentService {
     private static final int TITLE_STAY_TICKS = 100;
     private static final int TITLE_FADE_OUT_TICKS = 10;
     private static final int UNKNOWN_FACTION_COLOR = 0xFFFFFF;
-    private static final Identifier SPARKWITCH_FIEND_ID = Identifier.of("sparkwitch", "fiend");
+    private static final Identifier SPARKWITCH_FIEND_ID = Identifier.of("sparkdlc", "fiend");
     static final Identifier FINAL_MOMENT_TIMEOUT = SparkTraits.id("final_moment_timeout");
 
     private LastStandFinalMomentService() {
@@ -665,7 +665,7 @@ public final class LastStandFinalMomentService {
     private static void broadcastFinalMomentTitle(ServerWorld world) {
         Text title = Text.literal("终局时刻")
                 .formatted(Formatting.DARK_RED, Formatting.BOLD);
-        Text subtitle = Text.translatable("subtitle.sparktraits.final_moment")
+        Text subtitle = Text.translatable("subtitle.sparkdlc.final_moment")
                 .formatted(Formatting.RED);
         for (ServerPlayerEntity player : world.getPlayers()) {
             player.networkHandler.sendPacket(new TitleS2CPacket(title));

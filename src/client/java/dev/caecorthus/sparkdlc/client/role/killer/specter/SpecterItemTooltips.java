@@ -27,9 +27,9 @@ final class SpecterItemTooltips {
     private static void append(ItemStack stack, List<Text> lines) {
         String prefix;
         if (stack.isOf(SparkWitchItems.ghostTrigger())) {
-            prefix = "item.sparkwitch.ghost_trigger.tooltip.line";
+            prefix = "item.sparkdlc.ghost_trigger.tooltip.line";
         } else if (stack.isOf(SparkWitchItems.peachwoodSword())) {
-            prefix = "item.sparkwitch.peachwood_sword.tooltip.line";
+            prefix = "item.sparkdlc.peachwood_sword.tooltip.line";
         } else {
             return;
         }

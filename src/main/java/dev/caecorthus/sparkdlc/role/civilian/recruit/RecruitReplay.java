@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
  * 新兵首个任务奖励的回放：记录一个全局事件，写明拿到自己那把刀的新兵。
  */
 final class RecruitReplay {
-    /** {@code sparkwitch:recruit_knife_granted}. / 新兵拿到刀的事件 id。 */
+    /** {@code sparkdlc:recruit_knife_granted}. / 新兵拿到刀的事件 id。 */
     static final Identifier KNIFE_GRANTED = SparkWitch.id("recruit_knife_granted");
 
     private static boolean registered;
@@ -41,7 +41,7 @@ final class RecruitReplay {
         if (!event.data().containsUuid("actor")) {
             return null;
         }
-        return Text.translatable("replay.global.sparkwitch.recruit_knife_granted",
+        return Text.translatable("replay.global.sparkdlc.recruit_knife_granted",
                 ReplayGenerator.formatPlayerName(event.data().getUuid("actor"),
                         ReplayGenerator.getPlayerInfoCache(match)));
     }

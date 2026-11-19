@@ -45,7 +45,7 @@ public final class PerfumeEssenceItem extends Item {
 
         stack.decrementUnlessCreative(1, serverUser);
         serverUser.sendMessage(
-                Text.translatable("message.sparkwitch.perfumer.marked", serverTarget.getDisplayName()),
+                Text.translatable("message.sparkdlc.perfumer.marked", serverTarget.getDisplayName()),
                 true
         );
         AchievementRecords.perfumeMark(serverUser, serverTarget);

@@ -140,10 +140,10 @@ public final class RiftSessionService {
     }
 
     /**
-     * {@code sparkwitch:rift_hop}: {@code direction} is -1 (previous) or +1 (next) in the hop ring; anything else is
+     * {@code sparkdlc:rift_hop}: {@code direction} is -1 (previous) or +1 (next) in the hop ring; anything else is
      * ignored. Stale {@code sessionId}s are ignored; hops are throttled ({@code HOP_THROTTLE_TICKS}, D11), silent and
      * free (C1). The target is re-validated live (record and loaded entity); a broken one is skipped.
-     * {@code sparkwitch:rift_hop}：{@code direction} 为 -1（上一扇）或 +1（下一扇）；其他值忽略。过期会话 id 忽略；跳门有节流
+     * {@code sparkdlc:rift_hop}：{@code direction} 为 -1（上一扇）或 +1（下一扇）；其他值忽略。过期会话 id 忽略；跳门有节流
      * （D11）、静默且免费（C1）。目标实时重新校验（记录与已加载实体），失效的目标被跳过。
      */
     public static void handleHop(ServerPlayerEntity player, int sessionId, int direction) {
@@ -179,9 +179,9 @@ public final class RiftSessionService {
     }
 
     /**
-     * {@code sparkwitch:rift_exit}: always honoured for the current session (Shift), even while stunned; stale ids are
+     * {@code sparkdlc:rift_exit}: always honoured for the current session (Shift), even while stunned; stale ids are
      * ignored. With no safe exit cell the occupant stays inside and is told so.
-     * {@code sparkwitch:rift_exit}：当前会话的出门请求始终受理（Shift），即使被眩晕；过期 id 忽略。没有安全出口时留在门内并收到提示。
+     * {@code sparkdlc:rift_exit}：当前会话的出门请求始终受理（Shift），即使被眩晕；过期 id 忽略。没有安全出口时留在门内并收到提示。
      */
     public static void handleExit(ServerPlayerEntity player, int sessionId) {
         if (player == null) {

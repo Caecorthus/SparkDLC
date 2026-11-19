@@ -84,7 +84,7 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
         registry.beginRegistration(PlayerEntity.class, ProfessorSerumTargetComponent.KEY)
                 .respawnStrategy(RespawnCopyStrategy.NEVER_COPY)
                 .end(ProfessorSerumTargetComponent::new);
-        // Replaces the retired sparkstrength:criminologist_player; CCA skips saved NBT for unregistered ids
+        // Replaces the retired sparkdlc:criminologist_player; CCA skips saved NBT for unregistered ids
         // (logs a warning, then drops it on the next save), so old worlds load without migration.
         // 取代已移除的 criminologist_player；CCA 会跳过未注册 ID 的旧存档 NBT（仅记录警告，下次保存时丢弃），旧世界无需迁移。
         registry.beginRegistration(PlayerEntity.class, DetectiveCasePlayerComponent.KEY)
@@ -161,7 +161,7 @@ public class SparkStrengthComponents implements EntityComponentInitializer, Worl
     @Override
     public void registerWorldComponentFactories(@NotNull WorldComponentFactoryRegistry registry) {
         registry.register(KillerTeamEconomyWorldComponent.KEY, KillerTeamEconomyWorldComponent::new);
-        // Replaces the retired sparkstrength:criminologist_world; its saved NBT is likewise ignored by CCA.
+        // Replaces the retired sparkdlc:criminologist_world; its saved NBT is likewise ignored by CCA.
         // 取代已移除的 criminologist_world；其旧存档 NBT 同样会被 CCA 忽略。
         registry.register(DetectiveCaseWorldComponent.KEY, DetectiveCaseWorldComponent::new);
         registry.register(PlayerCollisionGraceWorldComponent.KEY, PlayerCollisionGraceWorldComponent::new);

@@ -38,23 +38,23 @@ public final class BearRicochetRules {
     public static final Identifier DEMON_HUNTER_SHOT = Identifier.of("noellesroles", "demon_hunter_shot");
     public static final Identifier THROWING_AXE = Identifier.of("noellesroles", "throwing_axe");
     public static final Identifier BOMB = Identifier.of("noellesroles", "bomb");
-    public static final Identifier PIERCED_BY_RAY = Identifier.of("sparkwitch", "pierced_by_ray");
-    public static final Identifier NINJA_SHURIKEN_KILL = Identifier.of("sparkwitch", "ninja_shuriken_kill");
-    public static final Identifier CRIMSON_WITHER_SKULL = Identifier.of("sparkwitch", "crimson_wither_skull");
-    public static final Identifier POTION_SHELL = Identifier.of("sparkwitch", "potion_shell");
-    public static final Identifier POTION_BACKBLAST = Identifier.of("sparkwitch", "potion_backblast");
+    public static final Identifier PIERCED_BY_RAY = Identifier.of("sparkdlc", "pierced_by_ray");
+    public static final Identifier NINJA_SHURIKEN_KILL = Identifier.of("sparkdlc", "ninja_shuriken_kill");
+    public static final Identifier CRIMSON_WITHER_SKULL = Identifier.of("sparkdlc", "crimson_wither_skull");
+    public static final Identifier POTION_SHELL = Identifier.of("sparkdlc", "potion_shell");
+    public static final Identifier POTION_BACKBLAST = Identifier.of("sparkdlc", "potion_backblast");
     /**
      * Savior pistol (PR #200): a gunshot for the Rys-T. Its up-to-10 same-tick kill retries are one call burst of one
      * shooter ({@link AttackSource}), so they share one roll (H2) and a deflection holds for every retry.
      * 救世主手枪（PR #200）：对 Rys-T 而言是一次枪击。它在同一刻内最多 10 次的击杀重试属于同一射手的同一调用批次
      * （{@link AttackSource}），因此共用一次掷骰（H2），一次弹开对每次重试都有效。
      */
-    public static final Identifier SAVIOR_PISTOL_KILL = Identifier.of("sparkwitch", "savior_pistol_kill");
+    public static final Identifier SAVIOR_PISTOL_KILL = Identifier.of("sparkdlc", "savior_pistol_kill");
     /**
      * Sphinx Hao "手"枪 (2026-11-17): a hitscan fist from the shooter's eyes, so the Rys-T may deflect it like a shot.
      * 狮身豪“手”枪（2026-11-17）：从射手眼睛射出的即时射线拳头，因此 Rys-T 可像弹开枪击一样弹开它。
      */
-    public static final Identifier SPHINX_HAO_FIST = Identifier.of("sparkwitch", "sphinx_hao_fist");
+    public static final Identifier SPHINX_HAO_FIST = Identifier.of("sparkdlc", "sphinx_hao_fist");
 
     /** Every death reason the Rys-T may deflect (D2). / Rys-T 可能弹开的所有死因（D2）。 */
     public static final Set<Identifier> RANGED_REASONS = Set.of(GUN_SHOT, GRENADE, DEMON_HUNTER_SHOT, THROWING_AXE,

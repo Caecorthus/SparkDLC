@@ -19,10 +19,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 
 /**
- * The marked duel knife ({@code sparkwitch:duel_knife}). Only that stack is restricted: it may stab only the Knight,
+ * The marked duel knife ({@code sparkdlc:duel_knife}). Only that stack is restricted: it may stab only the Knight,
  * and only in the hands of the duel target. A player's own Wathe knife is never restricted. The issued knife never
  * outlives the duel: every marked stack is confiscated when it ends.
- * 带标记的决斗小刀（{@code sparkwitch:duel_knife}）。只有该物品堆受限：只能刺骑士，且只能由决斗对手使用。
+ * 带标记的决斗小刀（{@code sparkdlc:duel_knife}）。只有该物品堆受限：只能刺骑士，且只能由决斗对手使用。
  * 玩家自己的 Wathe 小刀从不受限。发出的小刀不会在决斗结束后残留：决斗结束时收回所有带标记的物品堆。
  */
 public final class KnightDuelKnives {

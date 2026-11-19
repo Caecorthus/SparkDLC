@@ -3,12 +3,12 @@ package dev.caecorthus.sparkdlc.client.role.jiahao.sphinxhao;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Pure rules of the body-only "fired" gun model ({@code sparkwitch:sphinx_hao_fired}). It shows while the holder's
+ * Pure rules of the body-only "fired" gun model ({@code sparkdlc:sphinx_hao_fired}). It shows while the holder's
  * spring fist is alive, and for the local shooter also during a short pending window from its own use of a loaded gun
  * until the server's answer arrives, so the held fist never doubles the flying one. The pending window ends after
  * {@link #PENDING_TICKS} ticks, or as soon as the stack reads unloaded AND the fist has arrived (the fist then keeps the
  * fired model; clearing on "unloaded" alone would flash the empty model when the slot update beats the spawn packet).
- * 只显示枪身的“已开火”手枪模型（{@code sparkwitch:sphinx_hao_fired}）的纯规则。持有者的弹簧拳头存活时显示；对本地射手而言，
+ * 只显示枪身的“已开火”手枪模型（{@code sparkdlc:sphinx_hao_fired}）的纯规则。持有者的弹簧拳头存活时显示；对本地射手而言，
  * 从其使用已装填手枪起到服务端回应到达之间的短暂待定窗口也显示，因此手中的拳头不会与飞出的拳头重复。待定窗口在
  * {@link #PENDING_TICKS} 刻后结束，或在物品已读为空膛且拳头已到达时立即结束（此后由拳头维持已开火模型；若只按“空膛”清除，
  * 栏位更新先于生成包到达时会闪现空膛模型）。

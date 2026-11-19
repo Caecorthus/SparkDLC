@@ -19,8 +19,8 @@ import dev.caecorthus.sparkdlc.trait.effective.EffectiveTraitService;
  * 限制被静语且属于反转后杀手阵营的玩家。
  */
 public final class SilencedKillerRestrictionService {
-    public static final String ABILITY_DENY_KEY = "message.sparktraits.silenced_killer.ability";
-    public static final String SHOP_DENY_KEY = "shop.error.sparktraits.silenced_killer";
+    public static final String ABILITY_DENY_KEY = "message.sparkdlc.silenced_killer.ability";
+    public static final String SHOP_DENY_KEY = "shop.error.sparkdlc.silenced_killer";
 
     private SilencedKillerRestrictionService() {
     }

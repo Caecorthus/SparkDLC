@@ -9,11 +9,11 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 
 /**
- * Stable S2C contract {@code sparkwitch:blind_pulse}, sent only to a living Blind: one perceived sound, voice, object,
+ * Stable S2C contract {@code sparkdlc:blind_pulse}, sent only to a living Blind: one perceived sound, voice, object,
  * own bump or cane tap. Wire order: x, y, z, radius (floats), durationTicks (short), kind (byte), emitterEntityId
  * (VarInt, -1 = none), playerEntityIds (VarInt count + VarInts, may be empty). It never names a player: entity ids only,
  * no UUID, name or role. The client presents it; the server decided who may hear what.
- * 稳定 S2C 契约 {@code sparkwitch:blind_pulse}，只发给存活的盲人：一次被感知的声音、语音、物体声、自身碰撞或盲杖敲击。
+ * 稳定 S2C 契约 {@code sparkdlc:blind_pulse}，只发给存活的盲人：一次被感知的声音、语音、物体声、自身碰撞或盲杖敲击。
  * 线上顺序：x、y、z、radius（float）、durationTicks（short）、kind（byte）、emitterEntityId（VarInt，-1 表示无）、
  * playerEntityIds（VarInt 数量 + VarInt，可为空）。从不指名玩家：只有实体 id，没有 UUID、名字或职业。
  * 客户端只负责呈现；能听见什么由服务端决定。

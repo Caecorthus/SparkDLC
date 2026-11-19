@@ -26,7 +26,7 @@ import net.minecraft.util.math.MathHelper;
  */
 final class AchievementToast implements Toast {
     private static final Identifier TEXTURE = Identifier.ofVanilla("toast/advancement");
-    private static final String HEADING_KEY = "toast.sparkassist.achievement.title";
+    private static final String HEADING_KEY = "toast.sparkdlc.achievement.title";
     // Vanilla AdvancementToast values. 原版 AdvancementToast 的数值。
     private static final long DURATION_MS = 5000L;
     private static final int CHALLENGE_COLOR = 0xFF88FF;

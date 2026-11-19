@@ -48,12 +48,12 @@ public final class DemonHunterSniffHudRenderer {
     private static Text stateText(DemonHunterSniffPlayerComponent component) {
         if (component.getSniffCooldownTicks() > 0) {
             return Text.translatable(
-                    "hud.sparkstrength.demon_hunter_sniff.cooldown",
+                    "hud.sparkdlc.demon_hunter_sniff.cooldown",
                     seconds(component.getSniffCooldownTicks())
             );
         }
         return Text.translatable(
-                "hud.sparkstrength.demon_hunter_sniff.ready",
+                "hud.sparkdlc.demon_hunter_sniff.ready",
                 abilityKeyText()
         );
     }

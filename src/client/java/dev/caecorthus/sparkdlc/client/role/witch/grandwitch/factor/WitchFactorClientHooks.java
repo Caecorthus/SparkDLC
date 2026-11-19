@@ -20,7 +20,7 @@ import org.agmas.noellesroles.morphling.MorphlingPlayerComponent;
 
 /** Recipient-sanitized factor fallback; no event listener and no identity broadcast. / 接收者裁剪后的因子后备高亮，不注册事件也不广播身份。 */
 public final class WitchFactorClientHooks {
-    private static final Identifier EMMA_ID = Identifier.of("sparkwitch", "emma");
+    private static final Identifier EMMA_ID = Identifier.of("sparkdlc", "emma");
 
     private WitchFactorClientHooks() {
     }

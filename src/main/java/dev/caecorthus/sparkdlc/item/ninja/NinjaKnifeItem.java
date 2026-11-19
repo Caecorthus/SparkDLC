@@ -83,6 +83,6 @@ public final class NinjaKnifeItem extends Item {
 
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        tooltip.add(Text.translatable("item.sparkwitch.ninja_knife.desc").formatted(Formatting.GRAY));
+        tooltip.add(Text.translatable("item.sparkdlc.ninja_knife.desc").formatted(Formatting.GRAY));
     }
 }

@@ -9,8 +9,8 @@ import net.minecraft.util.Identifier;
 
 /**
  * Empty server authorization to open the owner-private Necrology. It carries no names: the book reads only the
- * owner-synced {@code sparkwitch:prophet_player} component, so the packet can never leak deaths to anyone else.
- * 打开仅所有者可见的亡者名录的空授权包。它不携带任何名字：书本只读取仅同步给所有者的 {@code sparkwitch:prophet_player}
+ * owner-synced {@code sparkdlc:prophet_player} component, so the packet can never leak deaths to anyone else.
+ * 打开仅所有者可见的亡者名录的空授权包。它不携带任何名字：书本只读取仅同步给所有者的 {@code sparkdlc:prophet_player}
  * 组件，因此该包永远不会向他人泄露死亡信息。
  */
 public record OpenProphetNecrologyS2CPacket() implements CustomPayload {

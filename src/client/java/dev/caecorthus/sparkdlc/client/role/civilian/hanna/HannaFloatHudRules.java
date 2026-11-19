@@ -20,10 +20,10 @@ import dev.caecorthus.sparkdlc.util.TickTime;
  * 属于职业自有展示，从不使用魔女技能背包面板，也从不使用动作栏。不含 Minecraft 客户端类型，可做单元测试。
  */
 public final class HannaFloatHudRules {
-    public static final String ACTIVE_KEY = "hud.sparkwitch.hanna.float.active";
-    public static final String COOLDOWN_KEY = "hud.sparkwitch.hanna.float.cooldown";
-    public static final String NO_MANA_KEY = "hud.sparkwitch.hanna.float.no_mana";
-    public static final String READY_KEY = "hud.sparkwitch.hanna.float.ready";
+    public static final String ACTIVE_KEY = "hud.sparkdlc.hanna.float.active";
+    public static final String COOLDOWN_KEY = "hud.sparkdlc.hanna.float.cooldown";
+    public static final String NO_MANA_KEY = "hud.sparkdlc.hanna.float.no_mana";
+    public static final String READY_KEY = "hud.sparkdlc.hanna.float.ready";
     /** Opaque Hanna identity colour (ready and floating). / 不透明的汉娜身份色（就绪与浮游中）。 */
     public static final int READY_COLOR = 0xFF000000 | HannaRules.COLOR;
     /**

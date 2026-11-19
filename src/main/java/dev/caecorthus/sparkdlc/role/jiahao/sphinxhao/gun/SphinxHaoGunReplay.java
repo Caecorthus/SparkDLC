@@ -13,13 +13,13 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Wathe replay line of a 「“手”枪」 shot; Wathe drops item uses without a registered formatter. The line names the
  * target only when a player took the fist; the kill itself is Wathe's own death line
- * ({@code replay.death.sparkwitch.sphinx_hao_fist.*}).
+ * ({@code replay.death.sparkdlc.sphinx_hao_fist.*}).
  * 「“手”枪」射击的 Wathe 回放文本；未注册格式化器的道具使用会被 Wathe 忽略。只有玩家挨了拳头时才写出目标；击杀本身是 Wathe
- * 自己的死亡文本（{@code replay.death.sparkwitch.sphinx_hao_fist.*}）。
+ * 自己的死亡文本（{@code replay.death.sparkdlc.sphinx_hao_fist.*}）。
  */
 final class SphinxHaoGunReplay {
-    static final String HIT_KEY = "replay.item_use.sparkwitch.sphinx_hao_hand_gun.hit";
-    static final String MISS_KEY = "replay.item_use.sparkwitch.sphinx_hao_hand_gun.miss";
+    static final String HIT_KEY = "replay.item_use.sparkdlc.sphinx_hao_hand_gun.hit";
+    static final String MISS_KEY = "replay.item_use.sparkdlc.sphinx_hao_hand_gun.miss";
     private static boolean registered;
 
     private SphinxHaoGunReplay() {

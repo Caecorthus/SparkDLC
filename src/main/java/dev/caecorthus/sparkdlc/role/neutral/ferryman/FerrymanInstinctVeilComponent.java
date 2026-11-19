@@ -13,10 +13,10 @@ import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
 
 /**
- * The 5 s instinct veil that follows a feign death ({@code sparkwitch:ferryman_feign_veil}): every client must know
+ * The 5 s instinct veil that follows a feign death ({@code sparkdlc:ferryman_feign_veil}): every client must know
  * it, because instinct is drawn locally, so this one component syncs to everyone and carries only a remaining-tick
  * counter (never server time). The owner's client counts it down; nobody renders an instinct outline through it.
- * 假死结束后的 5 秒本能帷幕（{@code sparkwitch:ferryman_feign_veil}）：本能是各客户端本地绘制，因此这个组件同步给所有人，
+ * 假死结束后的 5 秒本能帷幕（{@code sparkdlc:ferryman_feign_veil}）：本能是各客户端本地绘制，因此这个组件同步给所有人，
  * 且只带剩余 tick（绝不含服务端时间）。拥有者客户端自行递减；在此期间任何人的本能都描不出这个人。
  */
 public final class FerrymanInstinctVeilComponent implements AutoSyncedComponent, ClientTickingComponent {

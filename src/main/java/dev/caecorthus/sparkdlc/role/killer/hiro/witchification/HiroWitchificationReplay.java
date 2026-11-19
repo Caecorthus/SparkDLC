@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 final class HiroWitchificationReplay {
     static final String HIRO_KEY = "hiro";
     static final String KILLS_KEY = "kills";
-    static final String LINE_KEY = "replay.global.sparkwitch.nikaido_hiro_witchified";
+    static final String LINE_KEY = "replay.global.sparkdlc.nikaido_hiro_witchified";
     private static boolean registered;
 
     private HiroWitchificationReplay() {

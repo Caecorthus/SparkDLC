@@ -24,14 +24,14 @@ import org.jetbrains.annotations.Nullable;
  * 死亡时被删除（绝不掉落）。
  */
 public final class BearItems {
-    /** M32A1 grenade launcher, {@code sparkwitch:m32a1}. / M32A1 榴弹发射器。 */
+    /** M32A1 grenade launcher, {@code sparkdlc:m32a1}. / M32A1 榴弹发射器。 */
     public static final Item M32A1 = register(BearRules.M32A1_ITEM_ID, new M32A1Item(M32A1Item.createSettings()));
-    /** 40 mm smoke grenade, {@code sparkwitch:smoke_round_40mm}. / 40mm 烟雾榴弹。 */
+    /** 40 mm smoke grenade, {@code sparkdlc:smoke_round_40mm}. / 40mm 烟雾榴弹。 */
     public static final Item SMOKE_ROUND = register(BearRules.SMOKE_ROUND_ITEM_ID,
             new SmokeRoundItem(SmokeRoundItem.createSettings()));
-    /** Rys-T helmet, {@code sparkwitch:rys_t}. / Rys-T 头盔。 */
+    /** Rys-T helmet, {@code sparkdlc:rys_t}. / Rys-T 头盔。 */
     public static final Item RYS_T = register(BearRules.RYS_T_ITEM_ID, new RysTHelmetItem(RysTHelmetItem.createSettings()));
-    /** CENS ProFlex DX5 tactical earplugs, {@code sparkwitch:cens_proflex_dx5}. / CENS ProFlex DX5 战术耳塞。 */
+    /** CENS ProFlex DX5 tactical earplugs, {@code sparkdlc:cens_proflex_dx5}. / CENS ProFlex DX5 战术耳塞。 */
     public static final Item EARPLUGS = register(BearRules.EARPLUGS_ITEM_ID,
             new CensEarplugsItem(CensEarplugsItem.createSettings()));
 

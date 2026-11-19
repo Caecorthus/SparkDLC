@@ -19,16 +19,16 @@ public final class CorruptCopRules {
     public static final Identifier NEUTRAL_MASTER_KEY_ID = Identifier.of("noellesroles", "neutral_master_key");
     // SparkWitch Insider (内应), matched by stable id only: SparkWitch is not a SparkStrength dependency.
     // SparkWitch 的内应，仅按稳定 id 匹配：SparkWitch 不是 SparkStrength 的依赖。
-    public static final Identifier INSIDER_ID = Identifier.of("sparkwitch", "insider");
+    public static final Identifier INSIDER_ID = Identifier.of("sparkdlc", "insider");
     // SparkWitch 狮身豪 (Sphinx Hao): a second SparkWitch Team Jiahao member with the Insider's team capabilities,
     // matched by stable id only like the Insider.
     // SparkWitch 的狮身豪：与内应拥有相同阵营能力的第二个 SparkWitch 嘉豪阵营成员，与内应一样仅按稳定 id 匹配。
-    public static final Identifier SPHINX_HAO_ID = Identifier.of("sparkwitch", "sphinx_hao");
+    public static final Identifier SPHINX_HAO_ID = Identifier.of("sparkdlc", "sphinx_hao");
     // SparkWitch 狙击手 (Sniper, SparkWitch PR #245): a third SparkWitch Team Jiahao member with the Insider's team
     // capabilities (Insider-style instinct), matched by stable id only like the Insider.
     // SparkWitch 的狙击手（SparkWitch PR #245）：与内应拥有相同阵营能力（内应式本能）的第三个 SparkWitch 嘉豪阵营成员，
     // 与内应一样仅按稳定 id 匹配。
-    public static final Identifier SNIPER_ID = Identifier.of("sparkwitch", "sniper");
+    public static final Identifier SNIPER_ID = Identifier.of("sparkdlc", "sniper");
     public static final int ABILITY_COLOR = 0x193264;
     public static final float LATERAL_SPEED_MULTIPLIER = 2.25F;
     public static final int INSTINCT_PRIORITY = 90;
@@ -160,10 +160,10 @@ public final class CorruptCopRules {
     /**
      * The Corrupt Cop's SparkWitch teammates (Team Jiahao): the Insider, the Sphinx Hao and the Sniper. Used wherever
      * the Insider alone used to stand for "a SparkWitch Jiahao member" (concealment pairing, blackout team, Partygoer
-     * instinct key). Stays id-exact (not the {@code sparkwitch:jiahao} faction) so these rules stay Minecraft-light and
+     * instinct key). Stays id-exact (not the {@code sparkdlc:jiahao} faction) so these rules stay Minecraft-light and
      * never count the Corrupt Cop itself, whose faction is Team Jiahao too.
      * 黑警在 SparkWitch 中的队友（嘉豪阵营）：内应、狮身豪与狙击手。凡是此前用内应单独代表“SparkWitch 嘉豪成员”的地方
-     * （隐身配对、熄灯队伍、派对客本能键）都改用此判定。保持按 id 精确匹配（而非 sparkwitch:jiahao 阵营），使本规则类保持轻量，
+     * （隐身配对、熄灯队伍、派对客本能键）都改用此判定。保持按 id 精确匹配（而非 sparkdlc:jiahao 阵营），使本规则类保持轻量，
      * 且永远不把同属嘉豪阵营的黑警本身算进来。
      */
     public static boolean isSparkWitchJiahaoMember(Role role) {

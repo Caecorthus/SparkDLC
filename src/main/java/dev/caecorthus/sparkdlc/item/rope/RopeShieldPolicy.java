@@ -6,7 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * "不破盾" (owner 2026-11-11): the Rope's kill passes every shield and armour layer WITHOUT spending it. Stable seam,
- * the only death reason is {@code sparkwitch:strangled}; each shield asks {@link #passesShields} before it blocks or
+ * the only death reason is {@code sparkdlc:strangled}; each shield asks {@link #passesShields} before it blocks or
  * consumes anything and steps aside (a {@code KillPlayer.BEFORE} listener returns null, never {@code allow()}, so the
  * later listeners still run):
  * <ul>
@@ -22,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
  * and SparkFactionAPI affect vetoes, Tofana, Schrödinger's Cat, the Jester's stasis. Unlike
  * {@code CeremonialSwordProtectionPolicy}, nothing is consumed first.
  * 「不破盾」（所有者 2026-11-11）：绳索的击杀穿过所有护盾与护甲层且不消耗它们。稳定接缝，唯一的死因是
- * {@code sparkwitch:strangled}；每个护盾在拦截或消耗之前都先询问 {@link #passesShields} 并让开（{@code KillPlayer.BEFORE}
+ * {@code sparkdlc:strangled}；每个护盾在拦截或消耗之前都先询问 {@link #passesShields} 并让开（{@code KillPlayer.BEFORE}
  * 监听返回 null 而非 {@code allow()}，后续监听仍会执行）：守护天使护盾、皮革噶的追杀定身、忍者格挡在各自 {@code beforeKill} 开头
  * 直接返回；NoellesRoles 铁人与威士忌护盾由 {@code mixin/rope/NoellesRopeShieldPassMixin} 处理；Wathe 疯魔护甲以及依赖同一答案的
  * 幽魂里世界护盾由 {@link RopeStrangleService} 注册的 {@code ShouldPiercePsychoArmour} 监听处理；SparkStrength 的民主盾牌与防弹衣

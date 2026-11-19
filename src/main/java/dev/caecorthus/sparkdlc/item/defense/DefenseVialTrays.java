@@ -59,7 +59,7 @@ public final class DefenseVialTrays {
         TrayKey tray = TrayKey.of(player, platterPos);
         Pour waiting = POURED.get(tray);
         if (waiting != null && DefenseVialRules.pourStillLive(waiting.matchId(), match)) {
-            player.sendMessage(Text.translatable("message.sparkwitch.defense_vial.already_poured"), true);
+            player.sendMessage(Text.translatable("message.sparkdlc.defense_vial.already_poured"), true);
             return true;
         }
         POURED.put(tray, new Pour(player.getUuid(), match));
@@ -68,7 +68,7 @@ public final class DefenseVialTrays {
         player.getInventory().markDirty();
         // Wathe's own poison-pour sound, private like Wathe's. / 沿用 Wathe 下毒的音效，与 Wathe 一样只给本人。
         player.playSoundToPlayer(SoundEvents.BLOCK_BREWING_STAND_BREW, SoundCategory.BLOCKS, 0.5F, 1.0F);
-        player.sendMessage(Text.translatable("message.sparkwitch.defense_vial.poured"), true);
+        player.sendMessage(Text.translatable("message.sparkdlc.defense_vial.poured"), true);
         DefenseVialService.recordPour(player, platterPos);
         return true;
     }

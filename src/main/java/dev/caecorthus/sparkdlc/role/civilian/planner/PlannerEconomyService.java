@@ -86,7 +86,7 @@ final class PlannerEconomyService {
         PlayerMoodComponent mood = PlayerMoodComponent.KEY.get(target);
         mood.setMood(mood.getMood() + PlannerRules.REWARD_MOOD);
         state.clearRecommendation();
-        target.sendMessage(Text.translatable("message.sparkwitch.planner.reward", coins)
+        target.sendMessage(Text.translatable("message.sparkdlc.planner.reward", coins)
                 .formatted(Formatting.GOLD), true);
     }
 

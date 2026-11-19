@@ -19,7 +19,7 @@ import java.util.Optional;
  * 此处不导入、不加载、不反射任何 SparkStrength 类；物品缺失即不发放。
  */
 public final class SparkStrengthDisguiseCompat {
-    public static final String MOD_ID = "sparkstrength";
+    public static final String MOD_ID = "sparkdlc";
     /** SparkStrength's Attendant starter flashlight (SparkStrengthItems.FLASHLIGHT_ID). / SparkStrength 乘务员开局手电筒。 */
     public static final Identifier FLASHLIGHT_ID = Identifier.of(MOD_ID, "flashlight");
 

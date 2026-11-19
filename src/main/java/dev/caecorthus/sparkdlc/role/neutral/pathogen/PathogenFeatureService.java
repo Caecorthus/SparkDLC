@@ -66,7 +66,7 @@ public final class PathogenFeatureService {
         if (!PathogenVisibility.isMuted(sender)) {
             return true;
         }
-        sender.sendMessage(Text.translatable("message.sparkstrength.pathogen.muted"), true);
+        sender.sendMessage(Text.translatable("message.sparkdlc.pathogen.muted"), true);
         return false;
     }
 
@@ -84,10 +84,10 @@ public final class PathogenFeatureService {
     }
 
     private static void registerReplayFormatters() {
-        registerPair(VirusService.VIRUS_USED_EVENT, "replay.global.sparkstrength.pathogen_virus_used");
-        registerPair(VirusService.VIRUS_SPREAD_EVENT, "replay.global.sparkstrength.pathogen_virus_spread");
-        registerPair(VirusService.VIRUS_CURED_EVENT, "replay.global.sparkstrength.pathogen_virus_cured");
-        registerPair(PathogenReviveService.REVIVED_EVENT, "replay.global.sparkstrength.pathogen_revived");
+        registerPair(VirusService.VIRUS_USED_EVENT, "replay.global.sparkdlc.pathogen_virus_used");
+        registerPair(VirusService.VIRUS_SPREAD_EVENT, "replay.global.sparkdlc.pathogen_virus_spread");
+        registerPair(VirusService.VIRUS_CURED_EVENT, "replay.global.sparkdlc.pathogen_virus_cured");
+        registerPair(PathogenReviveService.REVIVED_EVENT, "replay.global.sparkdlc.pathogen_revived");
     }
 
     /** Actor and target, recorded by {@code VirusService.recordPair}. / 由 {@code VirusService.recordPair} 记录的行为者与目标。 */

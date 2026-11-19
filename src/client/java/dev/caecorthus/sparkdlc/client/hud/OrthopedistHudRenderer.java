@@ -33,23 +33,23 @@ public final class OrthopedistHudRenderer {
         OrthopedistPlayerComponent component = OrthopedistPlayerComponent.KEY.get(player);
         if (component.getCooldownTicks() > 0) {
             return Text.translatable(
-                    "hud.sparkwitch.orthopedist.cooldown",
+                    "hud.sparkdlc.orthopedist.cooldown",
                     TickTime.ceilSecondsAtLeastOne(component.getCooldownTicks())
             );
         }
 
         PlayerEntity target = aimedPlayer(player);
         if (target == null) {
-            return Text.translatable("hud.sparkwitch.orthopedist.no_target");
+            return Text.translatable("hud.sparkdlc.orthopedist.no_target");
         }
         if (OrthopedistPlayerComponent.KEY.get(target).hasBoneSettingActive()) {
             return Text.translatable(
-                    "hud.sparkwitch.orthopedist.already_active",
+                    "hud.sparkdlc.orthopedist.already_active",
                     target.getDisplayName()
             );
         }
         return Text.translatable(
-                "hud.sparkwitch.orthopedist.ready",
+                "hud.sparkdlc.orthopedist.ready",
                 SparkWitchClient.abilityKeyText(),
                 target.getDisplayName()
         );

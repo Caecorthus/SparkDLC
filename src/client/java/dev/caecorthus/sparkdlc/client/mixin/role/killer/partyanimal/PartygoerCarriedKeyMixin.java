@@ -19,9 +19,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = KeyBinding.class, priority = 5000)
 public abstract class PartygoerCarriedKeyMixin {
     @Unique
-    private static final String SECONDARY_SKILL_SHARED = "key.sparkwitch.secondary_skill";
+    private static final String SECONDARY_SKILL_SHARED = "key.sparkdlc.role_skill_2";
     @Unique
-    private static final String SECONDARY_SKILL_FALLBACK = "key.sparkstrength.secondary_skill";
+    private static final String SECONDARY_SKILL_FALLBACK = "key.sparkdlc.secondary_skill";
 
     @Inject(method = "wasPressed", at = @At("RETURN"), cancellable = true)
     private void sparkstrength$lockCarriedWasPressed(CallbackInfoReturnable<Boolean> cir) {

@@ -15,17 +15,17 @@ import java.util.function.Predicate;
 /** Only Vigilante variants share this budget; police shop membership does not change allocation.
  * 这里只共享义警变体的警位预算，警类商店资格不改变其他身份的分配。 */
 public final class PoliceSlotAssignmentService {
-    public static final Identifier EMMA_ID = Identifier.of("sparkwitch", "emma");
-    public static final Identifier CONTROL_EXPERT_ID = Identifier.of("sparkwitch", "control_expert");
-    public static final Identifier SEEKER_ID = Identifier.of("sparkwitch", "seeker");
+    public static final Identifier EMMA_ID = Identifier.of("sparkdlc", "emma");
+    public static final Identifier CONTROL_EXPERT_ID = Identifier.of("sparkdlc", "control_expert");
+    public static final Identifier SEEKER_ID = Identifier.of("sparkdlc", "seeker");
     /** Literal on purpose: the judge package never imports role packages. / 刻意使用字面量：法官包从不导入职业包。 */
-    public static final Identifier USEC_ID = Identifier.of("sparkwitch", "usec");
+    public static final Identifier USEC_ID = Identifier.of("sparkdlc", "usec");
     /** Literal on purpose, like USEC_ID (police variant since 2026-10-21). / 与 USEC_ID 相同刻意使用字面量（2026-10-21 起为警察变体）。 */
-    public static final Identifier BLACK_RAVEN_ID = Identifier.of("sparkwitch", "black_raven");
+    public static final Identifier BLACK_RAVEN_ID = Identifier.of("sparkdlc", "black_raven");
     /** Literal on purpose, like USEC_ID. / 与 USEC_ID 相同刻意使用字面量。 */
-    public static final Identifier KNIGHT_ID = Identifier.of("sparkwitch", "knight");
+    public static final Identifier KNIGHT_ID = Identifier.of("sparkdlc", "knight");
     /** Literal on purpose, like USEC_ID. / 与 USEC_ID 相同刻意使用字面量。 */
-    public static final Identifier SAVIOR_ID = Identifier.of("sparkwitch", "savior");
+    public static final Identifier SAVIOR_ID = Identifier.of("sparkdlc", "savior");
     private static final Identifier VIGILANTE_ID = Identifier.of("wathe", "vigilante");
     private static final List<Identifier> VARIANT_IDS =
             List.of(JudgeRules.ROLE_ID, EMMA_ID, CONTROL_EXPERT_ID, SEEKER_ID, USEC_ID, BLACK_RAVEN_ID, KNIGHT_ID,

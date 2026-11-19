@@ -22,7 +22,7 @@ once, and each config file is written once per committed change. Server and admi
 _Avoid_: config menu, mod menu, options screen (vanilla's)
 
 **Settings store**:
-One config file that settings rows write into (`sparkassist.json`, `sparkwitch-client.json`, `wathe.json`); the
+One config file that settings rows write into (`sparkdlc.json`, `sparkdlc-client.json`, `wathe.json`); the
 **SparkDLC settings screen** saves each touched store once per flush, and "Undo" puts back the values it opened with.
 _Avoid_: config manager, save target
 
@@ -47,7 +47,7 @@ _Avoid_: master volume (vanilla's), global volume
 How the **SparkDLC settings screen** lays out **Event sound group** rows: train and round sounds, then role moments by
 faction (any role, killers, neutrals, Team Jiahao, civilians, witch faction), then traits by category. A role row reads "role ·
 sound" with the role's guide colour; it is shown only while the mod that plays those sounds is installed and the sound
-manager knows its sample. Sections fold, and the folded state is remembered in `sparkassist.json`. Each row can play a
+manager knows its sample. Sections fold, and the folded state is remembered in `sparkdlc.json`. Each row can play a
 **Sound preview**: one representative sound on its in-game category, through the normal sound system so every volume
 applies, one at a time and at most ten seconds.
 _Avoid_: sound category, channel, tab
@@ -128,7 +128,7 @@ An achievement's difficulty, Level 1 to 5. It picks the frame (1–2 task, 3–4
 _Avoid_: frame (derived from the level), tier, rarity
 
 **Achievement save**:
-One account's local file at `config/sparkassist/achievements/<account uuid>.json` with the unlocks in unlock order
+One account's local file at `config/sparkdlc/achievements/<account uuid>.json` with the unlocks in unlock order
 and the **General round stats**. Never sent to a server; offline and bot rounds count the same as online ones.
 _Avoid_: progress, server data
 
@@ -172,7 +172,7 @@ _Avoid_: advancement tab (any server tab), achievement screen
 **Demo**:
 A short animated scene played by the optional Ponder (思索) mod, opened from a guide page's **Demo button**. An
 **Item demo** is keyed to the item's id, so Ponder also plays it when the player holds W over that item; a **Role demo**
-(`sparkassist:roles/<namespace>/<role>`) is opened only from the guide and needs the mod that owns the role. Demos need
+(`sparkdlc:roles/<namespace>/<role>`) is opened only from the guide and needs the mod that owns the role. Demos need
 a loaded world, so the guide hides demo buttons on the title screen and whenever Ponder is missing.
 _Avoid_: video, tutorial clip, cutscene
 
@@ -188,7 +188,7 @@ round; a killed actor becomes Wathe's body, face down where it faced.
 _Avoid_: NPC, mannequin, armor stand
 
 **Stage**:
-The structure a **Demo** plays on (`assets/sparkassist/ponder/**.nbt`, y = 0 is Ponder's base plate), built from
+The structure a **Demo** plays on (`assets/sparkdlc/ponder/**.nbt`, y = 0 is Ponder's base plate), built from
 Wathe blocks by a local generator script.
 _Avoid_: map, schematic world
 

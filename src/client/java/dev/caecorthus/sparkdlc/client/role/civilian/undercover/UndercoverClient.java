@@ -221,8 +221,8 @@ public final class UndercoverClient {
             return;
         }
         TextRenderer renderer = client.textRenderer;
-        Text text = Text.translatable(thermalOn ? "tip.sparkstrength.undercover.thermal_on"
-                : "tip.sparkstrength.undercover.thermal_off", NoellesrolesClient.abilityBind.getBoundKeyLocalizedText());
+        Text text = Text.translatable(thermalOn ? "tip.sparkdlc.undercover.thermal_on"
+                : "tip.sparkdlc.undercover.thermal_off", NoellesrolesClient.abilityBind.getBoundKeyLocalizedText());
         // Right edge, just above the hotbar row, so it never runs under the hotbar at large GUI scales. A dark plate keeps
         // it readable over the white-hot arm under thermal.
         // 右侧、快捷栏一行的上方，GUI 缩放较大时也不会压在快捷栏下面。深色底板让它在热成像下压在白热的手臂上也看得清。

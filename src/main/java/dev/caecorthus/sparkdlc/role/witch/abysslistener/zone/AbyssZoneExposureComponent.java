@@ -14,11 +14,11 @@ import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
 /**
- * Stable CCA contract {@code sparkwitch:abyss_zone_exposure} (NEVER_COPY): how many more ticks a non-ally standing
+ * Stable CCA contract {@code sparkdlc:abyss_zone_exposure} (NEVER_COPY): how many more ticks a non-ally standing
  * on the Deep Dark Zone counts as exposed. Server-authoritative; synced only to the exposed player as remaining ticks
  * (see {@link AbyssZoneExposureState} for the sync rule), so no other client learns who stands in the zone. The
  * client reads it to draw the display-only pseudo task and to predict the boosted sanity drain. Never persisted.
- * 稳定 CCA 契约 {@code sparkwitch:abyss_zone_exposure}（NEVER_COPY）：站在深暗领域上的非队友还会被视为暴露多少刻。
+ * 稳定 CCA 契约 {@code sparkdlc:abyss_zone_exposure}（NEVER_COPY）：站在深暗领域上的非队友还会被视为暴露多少刻。
  * 由服务端权威决定，仅以剩余刻数同步给被暴露的玩家本人（同步规则见 {@link AbyssZoneExposureState}），其他客户端无从得知
  * 谁站在领域里。客户端据此绘制仅用于显示的临时任务，并预测加速的理智下降。从不持久化。
  */

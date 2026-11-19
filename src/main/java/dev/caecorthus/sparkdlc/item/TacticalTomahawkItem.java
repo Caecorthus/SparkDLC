@@ -36,7 +36,7 @@ public final class TacticalTomahawkItem extends Item {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         for (int line = 1; line <= 3; line++) {
-            tooltip.add(Text.translatable("item.sparkstrength.tactical_tomahawk.tooltip.line" + line)
+            tooltip.add(Text.translatable("item.sparkdlc.tactical_tomahawk.tooltip.line" + line)
                     .styled(style -> style.withColor(0x808080).withItalic(false)));
         }
     }

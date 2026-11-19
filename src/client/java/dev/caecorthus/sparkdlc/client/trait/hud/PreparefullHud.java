@@ -25,7 +25,7 @@ public final class PreparefullHud {
         if (progress <= 0.0F) {
             return;
         }
-        Text label = Text.translatable("hud.sparktraits.preparefull", component.percent());
+        Text label = Text.translatable("hud.sparkdlc.preparefull", component.percent());
         // Bottom-left, one line above the hotbar edge. 左下角，热键栏上沿之上留一行。
         int y = context.getScaledWindowHeight() - 40;
         context.drawTextWithShadow(renderer, label, MARGIN, y, component.isCharged() ? CHARGED_COLOR : CHARGING_COLOR);

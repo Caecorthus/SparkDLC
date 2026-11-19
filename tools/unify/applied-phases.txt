@@ -1,3 +1,5 @@
 code
 mixins
 tooling
+ns-main
+ns-tooling

@@ -190,7 +190,7 @@ public final class SeekerDeviceRaycast {
 
     /**
      * Side-neutral ownership: the server knows the owner UUID; the owner's client knows its own device ids from the
-     * owner-only {@code sparkwitch:seeker_status} sync (other clients never learn ownership).
+     * owner-only {@code sparkdlc:seeker_status} sync (other clients never learn ownership).
      * 两端通用的归属判断：服务端知道拥有者 UUID；拥有者客户端通过仅同步给本人的组件得知自己的设备 id（其他客户端无从得知）。
      */
     public static boolean isOwnDevice(@Nullable Entity shooter, @Nullable SeekerDeviceEntity device) {

@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
  * 基础拉栓时间且没有重炮手额外层数。前两者两端均可调用。
  */
 public final class SparkTraitsUsecBridge {
-    private static final Identifier FAST_RELOAD = Identifier.of("sparktraits", "fast_reload");
+    private static final Identifier FAST_RELOAD = Identifier.of("sparkdlc", "fast_reload");
 
     private SparkTraitsUsecBridge() {
     }

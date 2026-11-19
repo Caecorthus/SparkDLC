@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 /**
- * 洋伞 Parasol ({@code sparkwitch:hanna_umbrella}), bought from Hanna's shop and usable by whoever holds it (owner
+ * 洋伞 Parasol ({@code sparkdlc:hanna_umbrella}), bought from Hanna's shop and usable by whoever holds it (owner
  * 2026-11-11). Server authority:
  * <ul>
  *   <li>Held in either hand by a living, non-spectator player: Slow Falling II is kept on (a 2 s effect refreshed
@@ -30,7 +30,7 @@ import java.util.List;
  * </ul>
  * Uses left are vanilla durability (the bar shows them), the Spare Key model; nothing is stored in custom data. No
  * death drop is registered. Its cues are private sounds, so a floating Hanna stays silent for everyone else.
- * 洋伞（{@code sparkwitch:hanna_umbrella}），在汉娜的商店购买，谁拿到都能用（所有者 2026-11-11）。全部由服务端决定：
+ * 洋伞（{@code sparkdlc:hanna_umbrella}），在汉娜的商店购买，谁拿到都能用（所有者 2026-11-11）。全部由服务端决定：
  * 存活且非旁观的玩家把它握在任一只手时保持缓降 II（2 秒的效果，仅在缺失或即将结束时刷新，绝不每刻一次），并按世界时间每秒
  * 消耗 1 点耐久；归零即消失。创造模式不消耗。右键：10 秒无需手持的缓降 II，并进入同样长度的物品冷却。
  * 剩余次数即原版耐久（耐久条显示），沿用备用钥匙的做法；不在自定义数据里存任何东西。未注册死亡掉落。提示音都是私有声音，
@@ -122,7 +122,7 @@ public final class HannaUmbrellaItem extends Item {
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         // Stack data only: the creative search index builds tooltips off-thread with no player.
         // 只读物品堆数据：创造模式搜索索引会在后台线程、无玩家时构建提示文本。
-        tooltip.add(Text.translatable("item.sparkwitch.hanna_umbrella.tooltip.usage",
+        tooltip.add(Text.translatable("item.sparkdlc.hanna_umbrella.tooltip.usage",
                 HannaRules.UMBRELLA_OPEN_TICKS / 20).formatted(Formatting.GRAY));
         super.appendTooltip(stack, context, tooltip, type);
     }

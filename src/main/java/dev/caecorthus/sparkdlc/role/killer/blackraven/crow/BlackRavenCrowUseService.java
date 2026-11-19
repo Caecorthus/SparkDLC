@@ -43,7 +43,7 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 /**
- * Receiver of {@code sparkwitch:black_raven_crow_use} (a right-click while flying), a Raven-owned copy of
+ * Receiver of {@code sparkdlc:black_raven_crow_use} (a right-click while flying), a Raven-owned copy of
  * {@code SeekerCarUseService}: the crow, not the body, right-clicks a whitelisted Wathe door, vanilla door, trapdoor,
  * fence gate, button or lever. Admission: the sender's own live session names this crow, the owner is playing and
  * alive, a per-player throttle, finite values, a loaded and modifiable block, vanilla's hit tolerance, the hit inside

@@ -98,7 +98,7 @@ public abstract class ProfessorInventoryScreenMixin extends LimitedHandledScreen
                 0,
                 y,
                 Items.PURPLE_DYE.getDefaultStack(),
-                Text.translatable("ui.sparkstrength.pagination.previous"),
+                Text.translatable("ui.sparkdlc.pagination.previous"),
                 button -> {
                     sparkstrength$professorCurrentPage--;
                     sparkstrength$professorRefreshPage();
@@ -108,7 +108,7 @@ public abstract class ProfessorInventoryScreenMixin extends LimitedHandledScreen
                 0,
                 y,
                 Items.LIME_DYE.getDefaultStack(),
-                Text.translatable("ui.sparkstrength.pagination.next"),
+                Text.translatable("ui.sparkdlc.pagination.next"),
                 button -> {
                     sparkstrength$professorCurrentPage++;
                     sparkstrength$professorRefreshPage();
@@ -118,7 +118,7 @@ public abstract class ProfessorInventoryScreenMixin extends LimitedHandledScreen
                 0,
                 y,
                 Items.ARROW.getDefaultStack(),
-                Text.translatable("ui.sparkstrength.professor.back_to_players"),
+                Text.translatable("ui.sparkdlc.professor.back_to_players"),
                 button -> sparkstrength$professorOpenPlayerSelection()
         ));
 

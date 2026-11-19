@@ -118,7 +118,7 @@ public final class FisherPufferfishService {
                 PlayerMoodComponent mood = PlayerMoodComponent.KEY.get(target);
                 mood.setMood(mood.getMood() - FisherRules.PUFFERFISH_MOOD_DRAIN);
                 target.playSoundToPlayer(SoundEvents.ENTITY_PUFFER_FISH_STING, SoundCategory.PLAYERS, 1f, 1f);
-                target.sendMessage(Text.translatable("message.sparkwitch.fisher.pufferfish_sting"), true);
+                target.sendMessage(Text.translatable("message.sparkdlc.fisher.pufferfish_sting"), true);
             }
         }
     }

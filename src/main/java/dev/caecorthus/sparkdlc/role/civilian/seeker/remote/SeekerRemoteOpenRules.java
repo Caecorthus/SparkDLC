@@ -6,9 +6,9 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Pure, ordered {@code seeker_remote_open} checklist (plan §3.6). The service gathers the facts on the server thread;
  * this class only decides, so the order is testable without a world. The first failing check wins and returns the
- * suffix of {@code message.sparkwitch.seeker.remote.denied.<suffix>}; null means the open is allowed.
+ * suffix of {@code message.sparkdlc.seeker.remote.denied.<suffix>}; null means the open is allowed.
  * 纯粹、有序的 {@code seeker_remote_open} 检查清单（计划 §3.6）。服务在服务端线程上收集事实，本类只负责判定，
- * 因此无需世界即可测试顺序。第一个失败的检查生效，返回 {@code message.sparkwitch.seeker.remote.denied.<suffix>} 的后缀；
+ * 因此无需世界即可测试顺序。第一个失败的检查生效，返回 {@code message.sparkdlc.seeker.remote.denied.<suffix>} 的后缀；
  * 返回 null 表示允许打开。
  */
 public final class SeekerRemoteOpenRules {

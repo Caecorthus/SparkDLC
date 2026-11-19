@@ -85,7 +85,7 @@ final class NoaReplay {
                 return null;
             }
             UUID target = data.getUuid("target");
-            return Text.translatable("replay.skill.sparkwitch.noa.dog", actor,
+            return Text.translatable("replay.skill.sparkdlc.noa.dog", actor,
                     ReplayGenerator.formatPlayerName(target, players));
         }
         if (!PAINT.equals(data.getString(ACTION))) {
@@ -96,18 +96,18 @@ final class NoaReplay {
             if (id == null || !Registries.ITEM.containsId(id)) {
                 return null;
             }
-            return Text.translatable("replay.skill.sparkwitch.noa.item", actor,
+            return Text.translatable("replay.skill.sparkdlc.noa.item", actor,
                     Text.translatable(Registries.ITEM.get(id).getTranslationKey()));
         }
         if (data.contains(AMOUNT)) {
             int amount = data.getInt(AMOUNT);
-            return Text.translatable(amount > 0 ? "replay.skill.sparkwitch.noa.sanity_gain"
-                    : "replay.skill.sparkwitch.noa.sanity_loss", actor, Math.abs(amount));
+            return Text.translatable(amount > 0 ? "replay.skill.sparkdlc.noa.sanity_gain"
+                    : "replay.skill.sparkdlc.noa.sanity_loss", actor, Math.abs(amount));
         }
         String outcome = data.getString(OUTCOME);
         return switch (outcome) {
             case "speed_ii", "speed_iii", "whiskey" ->
-                    Text.translatable("replay.skill.sparkwitch.noa." + outcome, actor);
+                    Text.translatable("replay.skill.sparkdlc.noa." + outcome, actor);
             default -> null;
         };
     }

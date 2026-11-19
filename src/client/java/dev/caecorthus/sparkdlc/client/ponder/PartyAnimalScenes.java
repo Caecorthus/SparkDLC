@@ -61,7 +61,7 @@ import org.jetbrains.annotations.Nullable;
  * 大脑只在服务端运行，所以场景按它会规划的路线移动它。它追人和带人走比演示快好几倍，字幕会注明演示放慢了。
  */
 final class PartyAnimalScenes {
-    private static final List<String> NOELLES_STRENGTH = List.of("noellesroles", "sparkstrength");
+    private static final List<String> NOELLES_STRENGTH = List.of("noellesroles", "sparkdlc");
     private static final Random RANDOM = Random.create();
     private static final int PARTY_ANIMAL = RoleColors.of("noellesroles:party_animal", 0xFF5AC8);
     /** PartyBalloonRules.HIGHLIGHT_COLOR, also the room picker's destination accent. 气球描边色，也是选房界面的终点色。 */
@@ -83,10 +83,10 @@ final class PartyAnimalScenes {
         // being loaded).
         // 派对客用 SparkWitch 的“职业技能 2”键召唤（PartygoerClientHooks）。各模块已融合进 SparkDLC，这个按键始终存在，
         // 因此始终追加它的场景（原先仅在加载 SparkWitch 时追加）。
-        role("sparkassist:roles/noellesroles/party_animal", NOELLES_STRENGTH,
+        role("sparkdlc:roles/noellesroles/party_animal", NOELLES_STRENGTH,
                 scene("noellesroles/party_cabins", PartyAnimalScenes::balloon),
                 scene("noellesroles/party_cabins", PartyAnimalScenes::partygoer));
-        item("sparkstrength:party_balloon", NOELLES_STRENGTH,
+        item("sparkdlc:party_balloon", NOELLES_STRENGTH,
                 scene("noellesroles/party_cabins", PartyAnimalScenes::balloon));
     }
 
@@ -109,7 +109,7 @@ final class PartyAnimalScenes {
     private static void balloon(SceneBuilder scene, SceneBuildingUtil util) {
         scene.title("role_party_animal_balloon", "派对狂：派对气球");
         stage(scene, util);
-        ItemStack balloon = stack("sparkstrength:party_balloon");
+        ItemStack balloon = stack("sparkdlc:party_balloon");
         Vec3d guestFeet = new Vec3d(2.5, 1, 1.8);
         ElementLink<ActorElement> guest = Actors.enter(scene, RoleColors.CIVILIAN, Text.literal("平民"), guestFeet,
                 SOUTH, Direction.DOWN);
@@ -423,8 +423,8 @@ final class PartyAnimalScenes {
      * 时只画尸体。
      */
     private static final class Partygoer extends AnimatedSceneElementBase {
-        private static final Identifier TYPE = Identifier.of("sparkstrength", "partygoer");
-        private static final Identifier SKIN = Identifier.of("sparkstrength", "textures/entity/partygoer.png");
+        private static final Identifier TYPE = Identifier.of("sparkdlc", "partygoer");
+        private static final Identifier SKIN = Identifier.of("sparkdlc", "textures/entity/partygoer.png");
         /** PartygoerState wire ids. PartygoerState 的 wire id。 */
         private static final byte HUNT = 1;
         private static final byte CARRY = 2;

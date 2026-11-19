@@ -12,7 +12,7 @@ public final class KidnapperRules {
     public static final Identifier KNOCKOUT_DRUG_ID = SparkWitch.id("knockout_drug");
     public static final Identifier RELEASE_EVENT_ID = SparkWitch.id("kidnapper_release");
     public static final Identifier SPEED_MODIFIER_ID = SparkWitch.id("kidnapper_drag_speed");
-    public static final String KNOCKOUT_DRUG_ENTRY_ID = "sparkwitch_knockout_drug";
+    public static final String KNOCKOUT_DRUG_ENTRY_ID = "sparkdlc_knockout_drug";
     public static final int COLOR = 0x9B59B6;
     public static final double TARGET_RANGE = 2.0D;
     public static final double TARGET_RANGE_SQUARED = TARGET_RANGE * TARGET_RANGE;

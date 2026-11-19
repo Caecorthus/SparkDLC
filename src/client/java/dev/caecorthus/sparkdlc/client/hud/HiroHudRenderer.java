@@ -61,21 +61,21 @@ public final class HiroHudRenderer {
         int mana = WitchPlayerComponent.KEY.get(player).getMana();
         return switch (HiroHudRules.returnLine(component.isWindowActive(now), component.isOnCooldown(), mana,
                 HiroRules.RETURN_MANA_COST)) {
-            case WINDOW -> Text.translatable("hud.sparkwitch.nikaido_hiro.hud.return.window",
+            case WINDOW -> Text.translatable("hud.sparkdlc.nikaido_hiro.hud.return.window",
                     TickTime.ceilSeconds(component.windowRemainingTicks(now)));
-            case COOLDOWN -> Text.translatable("hud.sparkwitch.nikaido_hiro.hud.return.cooldown",
+            case COOLDOWN -> Text.translatable("hud.sparkdlc.nikaido_hiro.hud.return.cooldown",
                     TickTime.ceilSeconds(component.getCooldownTicks()));
-            case NO_MANA -> Text.translatable("hud.sparkwitch.nikaido_hiro.hud.return.no_mana",
+            case NO_MANA -> Text.translatable("hud.sparkdlc.nikaido_hiro.hud.return.no_mana",
                     mana, HiroRules.RETURN_MANA_COST);
-            case READY -> Text.translatable("hud.sparkwitch.nikaido_hiro.return.ready",
+            case READY -> Text.translatable("hud.sparkdlc.nikaido_hiro.return.ready",
                     SparkWitchClient.abilityKeyText());
         };
     }
 
     private static Text witchificationText(HiroWitchificationComponent component) {
         return component.isWitchified()
-                ? Text.translatable("hud.sparkwitch.nikaido_hiro.witchification.done")
-                : Text.translatable("hud.sparkwitch.nikaido_hiro.witchification.progress",
+                ? Text.translatable("hud.sparkdlc.nikaido_hiro.witchification.done")
+                : Text.translatable("hud.sparkdlc.nikaido_hiro.witchification.progress",
                         component.kills(), component.required());
     }
 

@@ -115,21 +115,21 @@ final class EventSoundCatalog {
                         )
                 ),
                 group(EventSoundGroup.SHADOW_JESTER_FINALE,
-                        eventIds("sparkstrength",
+                        eventIds("sparkdlc",
                                 "ambient.shadow_jester"
                         ),
-                        resourceIds("sparkstrength",
+                        resourceIds("sparkdlc",
                                 "ambient/shadow_jester"
                         )
                 ),
                 group(EventSoundGroup.VULTURE_CURSE,
-                        eventIds("sparkstrength",
+                        eventIds("sparkdlc",
                                 "vulture.super_curse",
                                 "vulture.super_curse_helium",
                                 "vulture.death_scream",
                                 "vulture.death_scream_helium"
                         ),
-                        resourceIds("sparkstrength",
+                        resourceIds("sparkdlc",
                                 "vulture/super_curse",
                                 "vulture/super_curse_helium",
                                 "vulture/death_scream",
@@ -138,20 +138,20 @@ final class EventSoundCatalog {
                         )
                 ),
                 group(EventSoundGroup.TIME_STEALER_CHIME,
-                        eventIds("sparkwitch",
+                        eventIds("sparkdlc",
                                 "ambient.time_stealer_chime",
                                 "ambient.time_stealer_final"
                         ),
-                        resourceIds("sparkwitch",
+                        resourceIds("sparkdlc",
                                 "ambient/time_stealer_chime",
                                 "ambient/time_stealer_final"
                         )
                 ),
                 group(EventSoundGroup.HOLY_FLASH_TINNITUS,
-                        eventIds("sparkwitch",
+                        eventIds("sparkdlc",
                                 "skill.holy_flash_tinnitus"
                         ),
-                        resourceIds("sparkwitch",
+                        resourceIds("sparkdlc",
                                 "skill/holy_flash_tinnitus"
                         )
                 ),
@@ -164,47 +164,47 @@ final class EventSoundCatalog {
                         )
                 ),
                 group(EventSoundGroup.SAINT_BELL,
-                        eventIds("sparkwitch",
+                        eventIds("sparkdlc",
                                 "ambient.saint_bell"
                         ),
-                        resourceIds("sparkwitch",
+                        resourceIds("sparkdlc",
                                 "ambient/saint_bell"
                         )
                 ),
                 group(EventSoundGroup.PIG_CHASE,
-                        eventIds("sparkwitch",
+                        eventIds("sparkdlc",
                                 "skill.pig_chase"
                         ),
-                        resourceIds("sparkwitch",
+                        resourceIds("sparkdlc",
                                 "skill/pig_chase"
                         )
                 ),
                 group(EventSoundGroup.ARROGANT_ASF_MUSIC,
-                        eventIds("sparkstrength",
+                        eventIds("sparkdlc",
                                 "music.takediskrush"
                         ),
-                        resourceIds("sparkstrength",
+                        resourceIds("sparkdlc",
                                 "music/takediskrush"
                         )
                 ),
                 group(EventSoundGroup.GRAND_WITCH_CEREMONIAL_SWORD_BGM,
-                        eventIds("sparkwitch",
+                        eventIds("sparkdlc",
                                 "ambient.grand_witch_ceremonial_sword_bgm"
                         ),
-                        resourceIds("sparkwitch",
+                        resourceIds("sparkdlc",
                                 "ambient/grand_witch_ceremonial_sword_bgm"
                         )
                 ),
                 // The toll plays vanilla bell audio; only SparkWitch's event id is cataloged so ordinary bells keep their volume.
                 // 丧钟复用原版钟声音频；这里只登记 SparkWitch 的事件 id，普通钟声的音量保持不变。
                 group(EventSoundGroup.BELL_RINGER_TOLL,
-                        eventIds("sparkwitch",
+                        eventIds("sparkdlc",
                                 "ambient.bell_ringer_toll"
                         ),
                         List.of()
                 ),
                 group(EventSoundGroup.DEPRESSION_PSYCHO_RANGE,
-                        eventIds("sparktraits",
+                        eventIds("sparkdlc",
                                 "depression.docile_to_rage",
                                 "depression.rage_loop",
                                 "depression.melee_kill_1",
@@ -212,7 +212,7 @@ final class EventSoundCatalog {
                                 "depression.rage_to_docile",
                                 "depression.shyguy_killed"
                         ),
-                        resourceIds("sparktraits",
+                        resourceIds("sparkdlc",
                                 "depression/docile_to_rage",
                                 "depression/rage_loop",
                                 "depression/melee_kill_1",
@@ -222,28 +222,28 @@ final class EventSoundCatalog {
                         )
                 ),
                 group(EventSoundGroup.DEPRESSION_PSYCHO_MUSIC,
-                        eventIds("sparktraits",
+                        eventIds("sparkdlc",
                                 "depression.blind_rage_enrage",
                                 "depression.blind_rage_chase"
                         ),
-                        resourceIds("sparktraits",
+                        resourceIds("sparkdlc",
                                 "depression/blind_rage_enrage",
                                 "depression/blind_rage_chase"
                         )
                 ),
                 group(EventSoundGroup.DEPRESSION_PSYCHO_ALERT,
-                        eventIds("sparktraits",
+                        eventIds("sparkdlc",
                                 "depression.player_was_seen"
                         ),
-                        resourceIds("sparktraits",
+                        resourceIds("sparkdlc",
                                 "depression/player_was_seen"
                         )
                 ),
                 group(EventSoundGroup.LAST_STAND_FINAL_MOMENT,
-                        eventIds("sparktraits",
+                        eventIds("sparkdlc",
                                 "music.final_moment"
                         ),
-                        resourceIds("sparktraits",
+                        resourceIds("sparkdlc",
                                 "music/final_moment"
                         )
                 ),
@@ -252,10 +252,10 @@ final class EventSoundCatalog {
                 // SparkWitch 在狮身豪「豪气冲天」期间为所有客户端播放这段 10 秒片段（AMBIENT、无距离衰减）；只登记这个 id，
                 // 其他 SparkWitch 音乐的音量不受影响。
                 group(EventSoundGroup.SPHINX_HAO_FADE,
-                        eventIds("sparkwitch",
+                        eventIds("sparkdlc",
                                 "music.sphinx_hao_fade"
                         ),
-                        resourceIds("sparkwitch",
+                        resourceIds("sparkdlc",
                                 "music/sphinx_hao_fade"
                         )
                 )

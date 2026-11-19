@@ -48,10 +48,10 @@ final class WatheShopScenes {
         item("wathe:scorpion", scene("wathe/bedroom", WatheShopScenes::scorpion));
         item("wathe:body_bag", scene("wathe/aisle", WatheShopScenes::bodyBag));
         // No wathe:blackout demo: SparkStrength took the blackout out of every shop (SabotageShopFilter) and moved the
-        // lights to the killers' tablet; that sabotage is the sparkstrength:circuit_breaker demo
+        // lights to the killers' tablet; that sabotage is the sparkdlc:circuit_breaker demo
         // (SparkStrengthKillerItemScenes::circuitBreaker).
         // 没有 wathe:blackout 的演示：SparkStrength 已把停电器从所有商店下架（SabotageShopFilter），关灯改由杀手的平板发动；
-        // 灯光破坏见 sparkstrength:circuit_breaker 演示（SparkStrengthKillerItemScenes::circuitBreaker）。
+        // 灯光破坏见 sparkdlc:circuit_breaker 演示（SparkStrengthKillerItemScenes::circuitBreaker）。
         // With SparkStrength a NoellesRoles Serial Killer's psycho mode hands out twin pistols instead of the bat.
         // SparkStrength is fused into SparkDLC and always present, so that scene is appended whenever NoellesRoles
         // is loaded (it used to need both mods); without NoellesRoles the bat demo stays alone.

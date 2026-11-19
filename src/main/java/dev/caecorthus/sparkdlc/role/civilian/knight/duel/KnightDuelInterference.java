@@ -57,9 +57,9 @@ public final class KnightDuelInterference {
             SaviorRules.PISTOL_DEATH_REASON,
             SaviorRules.LIGHTSABER_DEATH_REASON,
             // SparkStrength player-caused kills. / SparkStrength 玩家造成的击杀。
-            Identifier.of("sparkstrength", "tomahawk"),
-            Identifier.of("sparkstrength", "partygoer_eaten"),
-            Identifier.of("sparkstrength", "partygoer_kicked"),
+            Identifier.of("sparkdlc", "tomahawk"),
+            Identifier.of("sparkdlc", "partygoer_eaten"),
+            Identifier.of("sparkdlc", "partygoer_kicked"),
             // NoellesRoles attacks used in this pack. / 本整合包使用的 NoellesRoles 攻击。
             Identifier.of("noellesroles", "bomb"),
             Identifier.of("noellesroles", "throwing_axe"),

@@ -25,7 +25,7 @@ import java.util.List;
  * 客户端只返回 CONSUME，使用数据包照常发出，但不挥手、也不落到副手。
  */
 public class SeekerCarItem extends Item {
-    /** Tooltip lines {@code item.sparkwitch.seeker_car.tooltip.line1..N}. / 物品提示行数。 */
+    /** Tooltip lines {@code item.sparkdlc.seeker_car.tooltip.line1..N}. / 物品提示行数。 */
     public static final int TOOLTIP_LINES = 4;
 
     public SeekerCarItem(Settings settings) {
@@ -57,7 +57,7 @@ public class SeekerCarItem extends Item {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         for (int line = 1; line <= TOOLTIP_LINES; line++) {
-            tooltip.add(Text.translatable("item.sparkwitch.seeker_car.tooltip.line" + line).formatted(Formatting.GRAY));
+            tooltip.add(Text.translatable("item.sparkdlc.seeker_car.tooltip.line" + line).formatted(Formatting.GRAY));
         }
         super.appendTooltip(stack, context, tooltip, type);
     }

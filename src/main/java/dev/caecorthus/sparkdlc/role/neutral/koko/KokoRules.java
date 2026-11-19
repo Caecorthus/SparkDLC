@@ -6,10 +6,10 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Pure rules of 泽渡可可 Sawatari Koko ({@code sparkwitch:koko}, contributed in PR #223 and rebuilt in review), a
+ * Pure rules of 泽渡可可 Sawatari Koko ({@code sparkdlc:koko}, contributed in PR #223 and rebuilt in review), a
  * neutral streamer in colour {@code B5AFE2} (owner spec 2026-11-13).
  * <ul>
- *   <li>Go live (shared ability key, {@code sparkwitch:use_koko_stream}): 60 mana, 20 s. While live she earns 10
+ *   <li>Go live (shared ability key, {@code sparkdlc:use_koko_stream}): 60 mana, 20 s. While live she earns 10
  *   traffic per second, her held instinct key outlines every other living player, and sprinting drains half the
  *   stamina. Everyone sees her through walls for the first 10 s.</li>
  *   <li>Corpse stream (right-click a corpse): no mana, the body glows for everyone for 50 s, +100 traffic, once per
@@ -20,11 +20,11 @@ import org.jetbrains.annotations.Nullable;
  *   <li>Mana follows the Murderous Witch's natural regeneration ({@code WitchManaRules}): 1 per 2 s up to 150, nothing
  *   at the deal, no task or kill reward.</li>
  * </ul>
- * She is a mana role, never a Witch-skill role: nothing of hers is drawn in the {@code gui.sparkwitch.skills} panel.
- * 泽渡可可（{@code sparkwitch:koko}，由 PR #223 贡献、审核时重建）的纯规则：中立直播主，身份色 {@code B5AFE2}（所有者规格
+ * She is a mana role, never a Witch-skill role: nothing of hers is drawn in the {@code gui.sparkdlc.skills} panel.
+ * 泽渡可可（{@code sparkdlc:koko}，由 PR #223 贡献、审核时重建）的纯规则：中立直播主，身份色 {@code B5AFE2}（所有者规格
  * 2026-11-13）。
  * <ul>
- *   <li>开播（共享技能键，{@code sparkwitch:use_koko_stream}）：60 魔力，持续 20 秒。直播期间每秒 +10 流量，按住本能键可透视
+ *   <li>开播（共享技能键，{@code sparkdlc:use_koko_stream}）：60 魔力，持续 20 秒。直播期间每秒 +10 流量，按住本能键可透视
  *   其他所有存活玩家，疾跑体力消耗减半；前 10 秒所有人都能隔墙看到她。</li>
  *   <li>尸体直播（右键对准尸体）：不耗魔力，该尸体对所有人高亮 50 秒，+100 流量，每具尸体只能一次。两者共用冷却：发牌后 60 秒，
  *   直播结束或尸体直播之后 45 秒。</li>
@@ -33,7 +33,7 @@ import org.jetbrains.annotations.Nullable;
  *   开局持有一把中立万能钥匙。</li>
  *   <li>魔力恢复与杀意魔女相同（见 {@code WitchManaRules}）：每 2 秒 1 点、上限 150，开局为 0，没有任务或击杀奖励。</li>
  * </ul>
- * 她是魔力职业，但从来不是魔女技能职业：她的任何内容都不会出现在 {@code gui.sparkwitch.skills} 面板里。
+ * 她是魔力职业，但从来不是魔女技能职业：她的任何内容都不会出现在 {@code gui.sparkdlc.skills} 面板里。
  */
 public final class KokoRules {
     public static final Identifier ROLE_ID = SparkWitch.id("koko");
@@ -41,7 +41,7 @@ public final class KokoRules {
     /** Forced-cooldown store id for the shared stream cooldown. / 直播共用冷却的强制冷却存储 id。 */
     public static final Identifier STREAM_SKILL_ID = SparkWitch.id("koko_stream");
     /** Shop entry id of the lightstick; unique to her shop. / 应援棒的商店条目 id，只出现在她的商店。 */
-    public static final String LIGHTSTICK_SHOP_ENTRY_ID = "sparkwitch:koko_lightstick";
+    public static final String LIGHTSTICK_SHOP_ENTRY_ID = "sparkdlc:koko_lightstick";
 
     public static final int COLOR = 0xB5AFE2;
     /** Opaque outline colour of the players she sees while live. / 直播期间她看到的玩家描边颜色（不透明）。 */
@@ -110,9 +110,9 @@ public final class KokoRules {
     }
 
     /**
-     * Pure gate for {@code sparkwitch:use_koko_stream}. Role, round and control gates refuse silently; then readiness
+     * Pure gate for {@code sparkdlc:use_koko_stream}. Role, round and control gates refuse silently; then readiness
      * (also refused while live), then Fear, then mana, so a blocked or cooling request never reports a mana problem.
-     * {@code sparkwitch:use_koko_stream} 的纯判定。职业、回合与受控门槛静默拒绝；其后依次是就绪（直播中同样拒绝）、恐惧、魔力，
+     * {@code sparkdlc:use_koko_stream} 的纯判定。职业、回合与受控门槛静默拒绝；其后依次是就绪（直播中同样拒绝）、恐惧、魔力，
      * 因此被拦截或冷却中的请求不会提示魔力问题。
      */
     public static StreamVerdict streamVerdict(boolean koko, boolean roundActive, boolean aliveParticipant,
@@ -252,11 +252,11 @@ public final class KokoRules {
      */
     public static @Nullable String lightstickDenial(boolean mayBuy, boolean hasRoom, int traffic) {
         if (!mayBuy) {
-            return "shop.error.sparkwitch.koko.unavailable";
+            return "shop.error.sparkdlc.koko.unavailable";
         }
         if (!hasRoom) {
-            return "shop.error.sparkwitch.koko.hotbar_full";
+            return "shop.error.sparkdlc.koko.hotbar_full";
         }
-        return traffic >= LIGHTSTICK_PRICE ? null : "shop.error.sparkwitch.koko.not_enough_traffic";
+        return traffic >= LIGHTSTICK_PRICE ? null : "shop.error.sparkdlc.koko.not_enough_traffic";
     }
 }

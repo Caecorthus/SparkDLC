@@ -6,12 +6,12 @@ import net.minecraft.client.MinecraftClient;
 
 /**
  * Client side of Noa's ability-key painting. Server authority: the client only sends the empty
- * {@code sparkwitch:use_noa_paint} request and never checks the cooldown, her sanity or liveness; the server validates
- * everything, picks the table and resyncs the cooldown through the owner-only {@code sparkwitch:noa_player} component.
- * Role-owned; never the {@code gui.sparkwitch.skills} panel.
- * 诺亚技能键作画的客户端部分。服务端权威：客户端只发送空的 {@code sparkwitch:use_noa_paint} 请求，从不检查冷却、
- * 理智或存活状态；全部校验与选表在服务端完成，冷却经由仅本人同步的 {@code sparkwitch:noa_player} 组件重新同步。
- * 属于职业自有功能，从不进入 {@code gui.sparkwitch.skills} 面板。
+ * {@code sparkdlc:use_noa_paint} request and never checks the cooldown, her sanity or liveness; the server validates
+ * everything, picks the table and resyncs the cooldown through the owner-only {@code sparkdlc:noa_player} component.
+ * Role-owned; never the {@code gui.sparkdlc.skills} panel.
+ * 诺亚技能键作画的客户端部分。服务端权威：客户端只发送空的 {@code sparkdlc:use_noa_paint} 请求，从不检查冷却、
+ * 理智或存活状态；全部校验与选表在服务端完成，冷却经由仅本人同步的 {@code sparkdlc:noa_player} 组件重新同步。
+ * 属于职业自有功能，从不进入 {@code gui.sparkdlc.skills} 面板。
  */
 public final class NoaPaintClient {
     private NoaPaintClient() {

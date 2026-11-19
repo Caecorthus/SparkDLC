@@ -120,7 +120,7 @@ public final class SpecterSkillService {
         );
         // White action-bar line for 3 s (the vanilla overlay-message lifetime). / 白色动作栏小字，3 秒。
         target.networkHandler.sendPacket(new OverlayMessageS2CPacket(
-                Text.translatable("message.sparkwitch.specter.shriek").formatted(Formatting.WHITE)
+                Text.translatable("message.sparkdlc.specter.shriek").formatted(Formatting.WHITE)
         ));
         GameRecordManager.recordSkillUse(caster, SpecterRules.SHRIEK_SKILL_ID, target, null);
         applyFear(caster, target);
@@ -193,7 +193,7 @@ public final class SpecterSkillService {
             GameRecordManager.MatchRecord match,
             ServerWorld world
     ) {
-        return formatTarget(event, match, "replay.skill.sparkwitch.specter_mark.target");
+        return formatTarget(event, match, "replay.skill.sparkdlc.specter_mark.target");
     }
 
     private static @Nullable Text formatShriek(
@@ -201,7 +201,7 @@ public final class SpecterSkillService {
             GameRecordManager.MatchRecord match,
             ServerWorld world
     ) {
-        return formatTarget(event, match, "replay.skill.sparkwitch.specter_shriek.target");
+        return formatTarget(event, match, "replay.skill.sparkdlc.specter_shriek.target");
     }
 
     private static @Nullable Text formatOtherworld(
@@ -214,7 +214,7 @@ public final class SpecterSkillService {
             return null;
         }
         return Text.translatable(
-                "replay.skill.sparkwitch.specter_otherworld_skill",
+                "replay.skill.sparkdlc.specter_otherworld_skill",
                 ReplayGenerator.formatPlayerName(data.getUuid("actor"), ReplayGenerator.getPlayerInfoCache(match))
         );
     }

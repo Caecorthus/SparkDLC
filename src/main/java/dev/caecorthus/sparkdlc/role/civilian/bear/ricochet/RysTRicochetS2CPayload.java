@@ -9,13 +9,13 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 
 /**
- * Stable packet contract {@code sparkwitch:bear_rys_t_ricochet} (S2C, the wearer only): {@code dx:float, dy:float,
+ * Stable packet contract {@code sparkdlc:bear_rys_t_ricochet} (S2C, the wearer only): {@code dx:float, dy:float,
  * dz:float, glass:boolean}. {@code (dx, dy, dz)} is the world-space unit direction from the wearer's eyes toward the
  * shot origin, or zero when the origin is unknown; {@code glass} is a visor-glass hit (D4). The client runs the D5 daze
  * (view jolt away from the shot, fading double vision, tinnitus, muffled world sounds). Presentation only: the server
  * has already cancelled the kill. Decoding never throws: a non-finite or overlong direction becomes zero, a truncated
  * or overlong body yields the default.
- * 稳定数据包契约 {@code sparkwitch:bear_rys_t_ricochet}（S2C，只发给佩戴者）：{@code dx:float, dy:float, dz:float,
+ * 稳定数据包契约 {@code sparkdlc:bear_rys_t_ricochet}（S2C，只发给佩戴者）：{@code dx:float, dy:float, dz:float,
  * glass:boolean}。{@code (dx, dy, dz)} 是从佩戴者眼睛指向射击来源的世界坐标单位方向，来源未知时为零；{@code glass} 表示命中
  * 面罩玻璃（D4）。客户端据此执行 D5 眩晕（背离来枪方向的视角震动、渐隐重影、耳鸣、世界声音发闷）。纯表现：服务端已取消这次
  * 击杀。解码从不抛出：非有限或过长的方向视为零，正文截断或多余时得到默认值。

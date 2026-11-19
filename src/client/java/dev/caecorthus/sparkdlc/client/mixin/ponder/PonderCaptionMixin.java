@@ -74,7 +74,7 @@ public abstract class PonderCaptionMixin {
     private List<StringVisitable> sparkassist$captionLines(TextHandler handler, String text, int width, Style style,
             Operation<List<StringVisitable>> original, @Local(argsOnly = true) PonderScene scene,
             @Local(argsOnly = true) PonderUI screen, @Share("captionLines") LocalRef<List<StringVisitable>> lines) {
-        if (!scene.getNamespace().equals("sparkassist")) {
+        if (!scene.getNamespace().equals("sparkdlc")) {
             return original.call(handler, text, width, style);
         }
         TextRenderer font = screen.getFontRenderer();

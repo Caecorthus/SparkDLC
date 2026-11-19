@@ -67,7 +67,7 @@ public final class PurifyAbility {
         }
         ApprenticePlayerComponent apprentice = ApprenticePlayerComponent.KEY.get(player);
         if (!apprentice.isGraduated()) {
-            send(player, Text.translatable("message.sparkwitch.skill.purify.locked",
+            send(player, Text.translatable("message.sparkdlc.skill.purify.locked",
                     apprentice.getCompletedTasks(), ApprenticeRules.GRADUATION_TASKS));
             return;
         }
@@ -75,7 +75,7 @@ public final class PurifyAbility {
             return;
         }
         if (apprentice.getPurifyCooldownTicks() > 0) {
-            send(player, Text.translatable("message.sparkwitch.skill.cooldown",
+            send(player, Text.translatable("message.sparkdlc.skill.cooldown",
                     TickTime.ceilSecondsRaw(apprentice.getPurifyCooldownTicks())));
             return;
         }
@@ -83,14 +83,14 @@ public final class PurifyAbility {
         ServerPlayerEntity target = GrandWitchTargeting.findTarget(player, null, RANGE_BLOCKS);
         if (target == null) {
             if (!WitchFactorService.isFactorHolder(player)) {
-                send(player, Text.translatable("message.sparkwitch.skill.purify.no_target"));
+                send(player, Text.translatable("message.sparkdlc.skill.purify.no_target"));
                 return;
             }
             target = player;
         }
         WitchPlayerComponent mana = WitchPlayerComponent.KEY.get(player);
         if (!mana.spendMana(MANA_COST)) {
-            send(player, Text.translatable("message.sparkwitch.skill.not_enough_mana"));
+            send(player, Text.translatable("message.sparkdlc.skill.not_enough_mana"));
             return;
         }
         apprentice.raisePurifyCooldown(COOLDOWN_TICKS);
@@ -100,15 +100,15 @@ public final class PurifyAbility {
         if (removed) {
             mana.addMana(MANA_REWARD);
             send(player, self
-                    ? Text.translatable("message.sparkwitch.skill.purify.removed_self")
-                    : Text.translatable("message.sparkwitch.skill.purify.removed", target.getDisplayName()));
+                    ? Text.translatable("message.sparkdlc.skill.purify.removed_self")
+                    : Text.translatable("message.sparkdlc.skill.purify.removed", target.getDisplayName()));
             if (!self) {
-                send(target, Text.translatable("message.sparkwitch.skill.purify.purified"));
+                send(target, Text.translatable("message.sparkdlc.skill.purify.purified"));
                 target.playSoundToPlayer(SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME, SoundCategory.PLAYERS, 1.0f, 1.2f);
             }
             player.playSoundToPlayer(SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME, SoundCategory.PLAYERS, 1.0f, 1.2f);
         } else {
-            send(player, Text.translatable("message.sparkwitch.skill.purify.none", target.getDisplayName()));
+            send(player, Text.translatable("message.sparkdlc.skill.purify.none", target.getDisplayName()));
             player.playSoundToPlayer(SoundEvents.BLOCK_AMETHYST_BLOCK_STEP, SoundCategory.PLAYERS, 1.0f, 0.8f);
         }
         NbtCompound extra = new NbtCompound();
@@ -133,7 +133,7 @@ public final class PurifyAbility {
         boolean removed = data.getBoolean(REMOVED_KEY);
         var playerInfo = ReplayGenerator.getPlayerInfoCache(match);
         return Text.translatable(
-                removed ? "replay.skill.sparkwitch.purify.removed" : "replay.skill.sparkwitch.purify.none",
+                removed ? "replay.skill.sparkdlc.purify.removed" : "replay.skill.sparkdlc.purify.none",
                 ReplayGenerator.formatPlayerName(data.getUuid("actor"), playerInfo),
                 ReplayGenerator.formatPlayerName(data.getUuid("target"), playerInfo)
         );

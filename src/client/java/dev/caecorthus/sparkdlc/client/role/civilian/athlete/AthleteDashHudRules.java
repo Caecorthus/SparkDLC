@@ -16,8 +16,8 @@ import dev.caecorthus.sparkdlc.util.TickTime;
  * 背包面板，也从不使用动作栏。
  */
 public final class AthleteDashHudRules {
-    public static final String READY_KEY = "hud.sparkwitch.athlete.dash.ready";
-    public static final String COOLDOWN_KEY = "hud.sparkwitch.athlete.dash.cooldown";
+    public static final String READY_KEY = "hud.sparkdlc.athlete.dash.ready";
+    public static final String COOLDOWN_KEY = "hud.sparkdlc.athlete.dash.cooldown";
     /** Opaque Athlete role colour. / 不透明的运动员职业色。 */
     public static final int READY_COLOR = 0xFF000000 | AthleteRules.COLOR;
     /** Same muted grey as the Blind's and the Fiend's cooldown lines. / 与盲人、魔人冷却行相同的灰色。 */

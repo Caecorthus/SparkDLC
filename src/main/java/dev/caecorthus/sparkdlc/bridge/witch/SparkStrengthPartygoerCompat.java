@@ -12,10 +12,10 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * SparkStrength Partygoer seams (owner decision 2026-10-21): the Party Animal's summoned zombie
- * ({@code sparkstrength:partygoer}) dies in one hit to anything that can kill a player, and the corpse it leaves is not a
+ * ({@code sparkdlc:partygoer}) dies in one hit to anything that can kill a player, and the corpse it leaves is not a
  * passenger's. The modules are fused in SparkDLC, so the seams are direct calls; this stays the only SparkWitch class
  * that names them:
- * SparkStrength 派对客接缝（所有者 2026-10-21 决定）：派对狂召唤的僵尸（{@code sparkstrength:partygoer}）会被任何能杀死
+ * SparkStrength 派对客接缝（所有者 2026-10-21 决定）：派对狂召唤的僵尸（{@code sparkdlc:partygoer}）会被任何能杀死
  * 玩家的东西一击打死，它留下的尸体不是乘客的尸体。各模块已融合进 SparkDLC，因此这些接缝均为直接调用；仍然只有本类点名它们：
  * <ul>
  *   <li>{@code dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerService#killByWeapon(ServerPlayerEntity, Entity,
@@ -31,7 +31,7 @@ import org.jetbrains.annotations.Nullable;
  * </ul>
  */
 public final class SparkStrengthPartygoerCompat {
-    private static final String MOD_ID = "sparkstrength";
+    private static final String MOD_ID = "sparkdlc";
     /** The entity type, checked before any SparkStrength call. / 实体类型 id，在调用 SparkStrength 之前检查。 */
     public static final Identifier PARTYGOER_ID = Identifier.of(MOD_ID, "partygoer");
 

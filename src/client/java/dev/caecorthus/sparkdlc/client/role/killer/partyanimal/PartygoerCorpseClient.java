@@ -38,7 +38,7 @@ public final class PartygoerCorpseClient {
     public static final Identifier TEXTURE = SparkStrength.id("textures/entity/partygoer.png");
     private static final SkinTextures SKIN =
             new SkinTextures(TEXTURE, null, null, null, SkinTextures.Model.WIDE, false);
-    private static final String NAME_KEY = "entity.sparkstrength.partygoer";
+    private static final String NAME_KEY = "entity.sparkdlc.partygoer";
     private static final float MIN_ALPHA = 0.05F;
 
     private static float alpha;

@@ -19,12 +19,12 @@ import org.spongepowered.asm.mixin.injection.At;
  * O3: the AXMC pierces Wathe psycho armour, Jester-moment armour included (owner). Pinned Wathe 1.5.6 asks
  * {@code ShouldPiercePsychoArmour} once in {@code killPlayer}, after BEFORE and before its absorb branch; for the
  * scoped AXMC shot only, this strips one armour layer per pierce left, each recorded as {@code shield_blocked} with
- * source {@code sparkwitch:usec_rifle}, and returns the original answer, so Wathe itself then absorbs with the next
+ * source {@code sparkdlc:usec_rifle}, and returns the original answer, so Wathe itself then absorbs with the next
  * layer, or stops psycho mode and lets the death through at 0. A forced kill or an answer that already pierces is left
  * alone, and every other kill (the Ceremonial Sword included) is untouched.
  * O3：AXMC 可击穿 Wathe 疯魔护甲，含小丑时刻护甲（所有者）。固定版本 Wathe 1.5.6 在 {@code killPlayer} 中、BEFORE 之后且吸收
  * 分支之前询问一次 {@code ShouldPiercePsychoArmour}；仅对作用域内的 AXMC 射击，这里按剩余穿透次数逐层剥去护甲，每层都以来源
- * {@code sparkwitch:usec_rifle} 记为 {@code shield_blocked}，然后返回原答案，于是由 Wathe 自身用下一层吸收，或在护甲为 0 时
+ * {@code sparkdlc:usec_rifle} 记为 {@code shield_blocked}，然后返回原答案，于是由 Wathe 自身用下一层吸收，或在护甲为 0 时
  * 结束疯魔并放行死亡。强制击杀或已经穿透的答案不做处理，其他所有击杀（含仪礼剑）不受影响。
  */
 @Mixin(GameFunctions.class)

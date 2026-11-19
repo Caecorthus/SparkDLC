@@ -16,20 +16,20 @@ import java.util.List;
  * client and is never synced or sent to the server. {@link #selectSkin} applies and saves at once, so there is no
  * separate save. Call on the client thread once the client has started.
  * <p>
- * Translation keys, as on SparkWitch's screen: the title {@code screen.sparkwitch.mini_wither_skin.title}, the
- * default's name {@code screen.sparkwitch.mini_wither_skin.default}, the buttons
- * {@code screen.sparkwitch.mini_wither_skin.open_folder} and {@code screen.sparkwitch.mini_wither_skin.reload} (each
- * with a {@code .tooltip}), and the statuses {@code screen.sparkwitch.mini_wither_skin.status.<kind>}.
+ * Translation keys, as on SparkWitch's screen: the title {@code screen.sparkdlc.mini_wither_skin.title}, the
+ * default's name {@code screen.sparkdlc.mini_wither_skin.default}, the buttons
+ * {@code screen.sparkdlc.mini_wither_skin.open_folder} and {@code screen.sparkdlc.mini_wither_skin.reload} (each
+ * with a {@code .tooltip}), and the statuses {@code screen.sparkdlc.mini_wither_skin.status.<kind>}.
  * 稳定跨模组契约（仅客户端，2026-11-02）：允许 SparkAssist 的 SparkDLC 设置界面用自己的控件显示并修改小凋灵外观，或打开
  * SparkWitch 自己的界面。SparkAssist 通过反射访问本类，因此一经发布，完整类名与仅使用 JDK 类型的签名即冻结。它读写的是与
  * 「选项 → 皮肤自定义 → 小凋灵外观」相同的实时状态（{@code MiniWitherSkinManager}），两者永不冲突。该设置仅在本地生效（所有者
  * 2026-11-02）：只改变本客户端上所有小凋灵的外观与声音，从不同步或发送到服务器。{@link #selectSkin} 立即应用并保存，因此没有单独
  * 的保存方法。请在客户端启动后于客户端线程调用。
  * <p>
- * 翻译键与 SparkWitch 的界面相同：标题 {@code screen.sparkwitch.mini_wither_skin.title}、默认项名称
- * {@code screen.sparkwitch.mini_wither_skin.default}、按钮 {@code screen.sparkwitch.mini_wither_skin.open_folder} 与
- * {@code screen.sparkwitch.mini_wither_skin.reload}（各有 {@code .tooltip}），以及状态
- * {@code screen.sparkwitch.mini_wither_skin.status.<kind>}。
+ * 翻译键与 SparkWitch 的界面相同：标题 {@code screen.sparkdlc.mini_wither_skin.title}、默认项名称
+ * {@code screen.sparkdlc.mini_wither_skin.default}、按钮 {@code screen.sparkdlc.mini_wither_skin.open_folder} 与
+ * {@code screen.sparkdlc.mini_wither_skin.reload}（各有 {@code .tooltip}），以及状态
+ * {@code screen.sparkdlc.mini_wither_skin.status.<kind>}。
  */
 public final class MiniWitherSkinSettingsApi {
     private MiniWitherSkinSettingsApi() {
@@ -66,9 +66,9 @@ public final class MiniWitherSkinSettingsApi {
 
     /**
      * Selects {@code id}, one of {@link #skinIds()}: it is loaded, applied and saved to
-     * {@code config/sparkwitch-client.json} at once. Null and ids not in {@link #skinIds()} are ignored. A skin that
+     * {@code config/sparkdlc-client.json} at once. Null and ids not in {@link #skinIds()} are ignored. A skin that
      * fails to load stays selected and {@link #statusText()} shows the error.
-     * 选择 {@code id}（{@link #skinIds()} 之一）：立即加载、应用并保存到 {@code config/sparkwitch-client.json}。null 与不在
+     * 选择 {@code id}（{@link #skinIds()} 之一）：立即加载、应用并保存到 {@code config/sparkdlc-client.json}。null 与不在
      * {@link #skinIds()} 中的 id 会被忽略。加载失败的皮肤仍保持选中，由 {@link #statusText()} 显示错误。
      */
     public static void selectSkin(String id) {
@@ -84,9 +84,9 @@ public final class MiniWitherSkinSettingsApi {
     }
 
     /**
-     * Opens {@code config/sparkwitch/mini_wither/} in the system file manager, creating it if needed. A failure is
+     * Opens {@code config/sparkdlc/mini_wither/} in the system file manager, creating it if needed. A failure is
      * logged, never thrown.
-     * 在系统文件管理器中打开 {@code config/sparkwitch/mini_wither/}，必要时先创建。失败只记录日志，不抛出。
+     * 在系统文件管理器中打开 {@code config/sparkdlc/mini_wither/}，必要时先创建。失败只记录日志，不抛出。
      */
     public static void openSkinsFolder() {
         MiniWitherSkinUi.openSkinsFolder();

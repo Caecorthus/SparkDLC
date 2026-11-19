@@ -35,18 +35,18 @@ public final class PartygoerWeaponRules {
 
     // ---- SparkWitch ids and values, mirrored (optional mod) / SparkWitch id 与数值镜像（可选模组） ----
 
-    public static final String NINJA_KNIFE_ID = "sparkwitch:ninja_knife";
+    public static final String NINJA_KNIFE_ID = "sparkdlc:ninja_knife";
     public static final double NINJA_KNIFE_RANGE = 4.0;
     public static final int NINJA_KNIFE_COOLDOWN_TICKS = 30 * 20;
-    public static final String FEATHER_BLADE_ID = "sparkwitch:feather_blade";
-    public static final String BLACK_RAVEN_ROLE_ID = "sparkwitch:black_raven";
+    public static final String FEATHER_BLADE_ID = "sparkdlc:feather_blade";
+    public static final String BLACK_RAVEN_ROLE_ID = "sparkdlc:black_raven";
     public static final int FEATHER_COOLDOWN_TICKS = 60 * 20;
-    public static final String CEREMONIAL_SWORD_ID = "sparkwitch:ceremonial_sword";
+    public static final String CEREMONIAL_SWORD_ID = "sparkdlc:ceremonial_sword";
     public static final int CEREMONIAL_SWORD_KILL_COOLDOWN_TICKS = 30 * 20;
     /** Only the TR shell kills (DK/AC/MR only debuff). / 只有 TR 炮弹会致死（DK/AC/MR 只是减益）。 */
-    public static final String TR_SHELL_ID = "sparkwitch:tr_shell";
+    public static final String TR_SHELL_ID = "sparkdlc:tr_shell";
     public static final int TR_SHELL_SIZE = 5;
-    public static final String SHURIKEN_ENTITY_ID = "sparkwitch:ninja_shuriken";
+    public static final String SHURIKEN_ENTITY_ID = "sparkdlc:ninja_shuriken";
 
     private PartygoerWeaponRules() {
     }

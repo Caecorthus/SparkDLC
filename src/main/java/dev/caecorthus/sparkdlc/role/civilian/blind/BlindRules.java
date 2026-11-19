@@ -18,7 +18,7 @@ public final class BlindRules {
 
     public static final Identifier WHITE_CANE_ID = SparkWitch.id("white_cane");
     public static final Identifier COMTAC_ID = SparkWitch.id("comtac_viii");
-    /** Shop entry id; its name keys are {@code shop.sparkwitch.comtac_viii(.description)}. / 商店条目 id。 */
+    /** Shop entry id; its name keys are {@code shop.sparkdlc.comtac_viii(.description)}. / 商店条目 id。 */
     public static final String COMTAC_SHOP_ENTRY_ID = "comtac_viii";
 
     /**

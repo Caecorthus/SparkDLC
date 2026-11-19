@@ -11,7 +11,7 @@ One Fabric mod for Minecraft 1.21.1 that fuses the five Spark add-ons for Spark-
   `sparkwitch`、`sparkassist`）。SparkDLC 已经包含这五个 mod，不能与它们同时安装。
 - 服务端和客户端都要装同一个版本。
 - 存档、地图、资源包、配置文件都不用改：所有物品、职业、数据包、组件、语言键和配置文件仍然使用原来的命名空间
-  （`sparkwitch:…`、`sparkstrength:…` 等）。
+  （`sparkdlc:…`、`sparkdlc:…` 等）。
 
 Put `sparkdlc-<version>.jar` into `mods` on both sides and remove the five legacy jars. Worlds, maps, resource packs
 and config files keep working: every id keeps its legacy namespace.

@@ -35,19 +35,19 @@ public final class PigGodSkillService {
 
     public static WitchSkillUseResult use(WitchSkillUseContext context) {
         if (!PigGodRules.isPigGod(context.role())) {
-            return WitchSkillUseResult.fail("message.sparkwitch.skill.unavailable");
+            return WitchSkillUseResult.fail("message.sparkdlc.skill.unavailable");
         }
         WitchPlayerComponent component = WitchPlayerComponent.KEY.get(context.player());
         if (component.hasActivePigChaseState()) {
-            return WitchSkillUseResult.fail("message.sparkwitch.skill.pig_chase.active");
+            return WitchSkillUseResult.fail("message.sparkdlc.skill.pig_chase.active");
         }
 
         PlayerShopComponent shop = PlayerShopComponent.KEY.get(context.player());
         if (shop.getBalance() < PigGodRules.COIN_COST) {
-            return WitchSkillUseResult.fail("message.sparkwitch.skill.pig_chase.not_enough_money");
+            return WitchSkillUseResult.fail("message.sparkdlc.skill.pig_chase.not_enough_money");
         }
         if (!ensurePsychoHotbarSlot(context.player())) {
-            return WitchSkillUseResult.fail("message.sparkwitch.skill.pig_chase.no_inventory_space");
+            return WitchSkillUseResult.fail("message.sparkdlc.skill.pig_chase.no_inventory_space");
         }
 
         shop.setBalance(shop.getBalance() - PigGodRules.COIN_COST);
@@ -60,7 +60,7 @@ public final class PigGodSkillService {
         );
         return WitchSkillUseResult.successAfterActiveWindow(
                 PigGodRules.COOLDOWN_TICKS,
-                "message.sparkwitch.skill.pig_chase.activated"
+                "message.sparkdlc.skill.pig_chase.activated"
         );
     }
 

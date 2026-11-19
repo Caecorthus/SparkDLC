@@ -31,7 +31,7 @@ public final class BlueVitriolReplayEvents {
             String action = data.getString("action");
             if (ToxicologistBlueVitriolService.ACTION_FOOD.equals(action)) {
                 return Text.translatable(
-                        "replay.item_use.sparkstrength.blue_vitriol.food",
+                        "replay.item_use.sparkdlc.blue_vitriol.food",
                         actorText,
                         ReplayGenerator.formatItemName(data, world)
                 );
@@ -39,7 +39,7 @@ public final class BlueVitriolReplayEvents {
             if (ToxicologistBlueVitriolService.ACTION_PLATE.equals(action)
                     || ToxicologistBlueVitriolService.ACTION_BED.equals(action)
                     || ToxicologistBlueVitriolService.ACTION_CAPSULE.equals(action)) {
-                return Text.translatable("replay.item_use.sparkstrength.blue_vitriol." + action, actorText);
+                return Text.translatable("replay.item_use.sparkdlc.blue_vitriol." + action, actorText);
             }
             return null;
         });

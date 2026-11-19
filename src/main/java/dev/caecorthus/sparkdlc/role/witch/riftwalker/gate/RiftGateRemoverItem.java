@@ -17,15 +17,15 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 /**
- * The Rift Gate Remover ({@code sparkwitch:rift_gate_remover}, 传送门清除工具): an operator tool, listed only in vanilla's
+ * The Rift Gate Remover ({@code sparkdlc:rift_gate_remover}, 传送门清除工具): an operator tool, listed only in vanilla's
  * Operator Utilities tab. Right-clicking deletes the Rift Gate the user aims at; {@link RiftGateRemoverService} decides
  * everything on the server (permission, target, close). The client only reports CONSUME, so nothing swings before the
  * server agrees.
- * 传送门清除工具（{@code sparkwitch:rift_gate_remover}）：管理员工具，只出现在原版「管理员用品」物品栏。右键删除准星所指的
+ * 传送门清除工具（{@code sparkdlc:rift_gate_remover}）：管理员工具，只出现在原版「管理员用品」物品栏。右键删除准星所指的
  * 裂隙门；权限、目标与关闭都由服务端 {@link RiftGateRemoverService} 决定。客户端只返回 CONSUME，服务端认可前不会挥手。
  */
 public class RiftGateRemoverItem extends Item {
-    /** Tooltip lines {@code item.sparkwitch.rift_gate_remover.tooltip.line1..N}. / 物品提示行数。 */
+    /** Tooltip lines {@code item.sparkdlc.rift_gate_remover.tooltip.line1..N}. / 物品提示行数。 */
     public static final int TOOLTIP_LINES = 2;
 
     public RiftGateRemoverItem(Settings settings) {
@@ -67,7 +67,7 @@ public class RiftGateRemoverItem extends Item {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         for (int line = 1; line <= TOOLTIP_LINES; line++) {
-            tooltip.add(Text.translatable("item.sparkwitch.rift_gate_remover.tooltip.line" + line)
+            tooltip.add(Text.translatable("item.sparkdlc.rift_gate_remover.tooltip.line" + line)
                     .formatted(Formatting.GRAY));
         }
         super.appendTooltip(stack, context, tooltip, type);

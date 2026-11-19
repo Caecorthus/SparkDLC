@@ -20,10 +20,10 @@ import java.util.UUID;
  * 按钮执行的命令读取存档，点击时存档已经存在。
  */
 public final class ReplaySummary {
-    static final String KEY_TITLE = "replay.sparkfactionapi.summary.title";
-    static final String KEY_STATS = "replay.sparkfactionapi.summary.stats";
-    static final String KEY_OPEN = "replay.sparkfactionapi.summary.open";
-    static final String KEY_CHAT = "replay.sparkfactionapi.summary.chat";
+    static final String KEY_TITLE = "replay.sparkdlc.summary.title";
+    static final String KEY_STATS = "replay.sparkdlc.summary.stats";
+    static final String KEY_OPEN = "replay.sparkdlc.summary.open";
+    static final String KEY_CHAT = "replay.sparkdlc.summary.chat";
     static final String OPEN_COMMAND = ReplayPresentation.REOPEN_COMMAND;
     static final String CHAT_COMMAND = ReplayPresentation.REOPEN_COMMAND + " " + ReplayCommand.CHAT_LITERAL;
     private static final String RULE = "═".repeat(40);

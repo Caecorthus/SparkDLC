@@ -92,7 +92,7 @@ public final class TaserItem extends Item {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         for (int line = 1; line <= TOOLTIP_LINES; line++) {
-            tooltip.add(Text.translatable("item.sparkwitch.taser.tooltip.line" + line).formatted(Formatting.GRAY));
+            tooltip.add(Text.translatable("item.sparkdlc.taser.tooltip.line" + line).formatted(Formatting.GRAY));
         }
         super.appendTooltip(stack, context, tooltip, type);
     }

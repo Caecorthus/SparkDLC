@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.function.IntPredicate;
 
 /**
- * Stable contract: the pure attachment state machine shared by the {@code sparkwitch:usec_attachment} receiver, cursor
+ * Stable contract: the pure attachment state machine shared by the {@code sparkdlc:usec_attachment} receiver, cursor
  * loading ({@code Item#onClicked}) and the client screen's button prediction. Every transition returns {@code null}
  * when refused and never touches an item, so callers check room and item types first and then apply the result.
  * <p>
@@ -16,7 +16,7 @@ import java.util.function.IntPredicate;
  * top round is popped into the chamber and the result is {@link Outcome#bolted()}, which the server answers with
  * {@code UsecCooldowns.bolt} and the bolt sound. A single round chambered by hand also bolts. Magazines are LIFO and may
  * mix types (Q9).
- * 稳定契约：纯配件状态机，由 {@code sparkwitch:usec_attachment} 接收器、光标装填（{@code Item#onClicked}）与客户端界面的
+ * 稳定契约：纯配件状态机，由 {@code sparkdlc:usec_attachment} 接收器、光标装填（{@code Item#onClicked}）与客户端界面的
  * 按钮预测共用。每个转换在被拒绝时返回 {@code null}，且从不触碰物品；调用方先检查空位与物品类型，再应用结果。
  * <p>
  * 拉栓规则（所有者）：任何转换让弹膛变空、而已装弹匣仍有子弹时，顶部一发被推入弹膛，结果标记为

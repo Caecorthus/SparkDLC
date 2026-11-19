@@ -13,23 +13,23 @@ import dev.caecorthus.sparkdlc.util.TickTime;
  * server-only). Both rows sit in the shared bottom-right corner slot with the Charon's layout
  * ({@link FiendDashHudRules#rowX}, {@link FiendDashHudRules#rowY}: 5 px padding, lifted above the hotbar column at
  * narrow GUI widths), and {@code SaintHudLayoutRules} reserves both rows so the Karma line stacks above. Role-owned
- * presentation: never the witch skill inventory panel ({@code gui.sparkwitch.skills}) and never the action bar.
+ * presentation: never the witch skill inventory panel ({@code gui.sparkdlc.skills}) and never the action bar.
  * 橘雪莉仅本人可见的两行读数的纯展示规则：上行为推演（共享技能键），下行为她自己的巨力魔法（职业技能 2 键）。每一行都按服务端
  * 拒绝按键的顺序排列，HUD 不会许诺一次因客户端可见的原因而被服务端拒绝的按键：推演为 冷却 → 金币 → 就绪，巨力魔法为
  * 失效 → 生效窗口 → 冷却 → 魔力 → 就绪（尸体以及沉默 / 恐惧等门槛仍只在服务端）。两行都位于共享右下角位置，沿用卡戎的布局
  * （{@link FiendDashHudRules#rowX}、{@link FiendDashHudRules#rowY}：5 像素边距，GUI 较窄时抬升到快捷栏列之上）；
  * {@code SaintHudLayoutRules} 为她预留这两行，业障行因此叠放在其上方。属于职业自有展示：从不进入魔女技能背包面板
- * （{@code gui.sparkwitch.skills}），也从不使用动作栏。
+ * （{@code gui.sparkdlc.skills}），也从不使用动作栏。
  */
 public final class SherryHudRules {
-    public static final String DEDUCTION_COOLDOWN_KEY = "hud.sparkwitch.sherry.deduction.cooldown";
-    public static final String DEDUCTION_NO_COINS_KEY = "hud.sparkwitch.sherry.deduction.no_coins";
-    public static final String DEDUCTION_READY_KEY = "hud.sparkwitch.sherry.deduction.ready";
-    public static final String MIGHTY_FORFEITED_KEY = "hud.sparkwitch.sherry.mighty.forfeited";
-    public static final String MIGHTY_ACTIVE_KEY = "hud.sparkwitch.sherry.mighty.active";
-    public static final String MIGHTY_COOLDOWN_KEY = "hud.sparkwitch.sherry.mighty.cooldown";
-    public static final String MIGHTY_NO_MANA_KEY = "hud.sparkwitch.sherry.mighty.no_mana";
-    public static final String MIGHTY_READY_KEY = "hud.sparkwitch.sherry.mighty.ready";
+    public static final String DEDUCTION_COOLDOWN_KEY = "hud.sparkdlc.sherry.deduction.cooldown";
+    public static final String DEDUCTION_NO_COINS_KEY = "hud.sparkdlc.sherry.deduction.no_coins";
+    public static final String DEDUCTION_READY_KEY = "hud.sparkdlc.sherry.deduction.ready";
+    public static final String MIGHTY_FORFEITED_KEY = "hud.sparkdlc.sherry.mighty.forfeited";
+    public static final String MIGHTY_ACTIVE_KEY = "hud.sparkdlc.sherry.mighty.active";
+    public static final String MIGHTY_COOLDOWN_KEY = "hud.sparkdlc.sherry.mighty.cooldown";
+    public static final String MIGHTY_NO_MANA_KEY = "hud.sparkdlc.sherry.mighty.no_mana";
+    public static final String MIGHTY_READY_KEY = "hud.sparkdlc.sherry.mighty.ready";
 
     /** Her identity colour, opaque: a usable skill. / 不透明的身份色：技能可用。 */
     public static final int READY_COLOR = 0xFF000000 | SherryRules.COLOR;

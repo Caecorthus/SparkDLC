@@ -228,7 +228,7 @@ public final class EngineRepairService {
         if (session.mode() == EngineRepairMode.QUICK) {
             // Chat, not the action bar: the wrecked notice takes the action bar over at the same tick.
             // 用聊天栏而不是动作栏：同一 tick 损毁提示会占用动作栏。
-            player.sendMessage(Text.translatable("message.sparkstrength.engine.panel_wrecked")
+            player.sendMessage(Text.translatable("message.sparkdlc.engine.panel_wrecked")
                     .formatted(Formatting.RED), false);
         }
     }

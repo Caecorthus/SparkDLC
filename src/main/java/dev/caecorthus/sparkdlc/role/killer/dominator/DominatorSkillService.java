@@ -17,10 +17,10 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Server-authoritative Dominator skill entry ({@code sparkwitch:use_dominator_skill}). G needs at least one remaining
+ * Server-authoritative Dominator skill entry ({@code sparkdlc:use_dominator_skill}). G needs at least one remaining
  * use: the first press marks the aimed player for 30 s without consuming it, a press during the mark releases it,
  * consuming one use and running the forced-shot sequence on the marked player. A refused press changes nothing.
- * 支配者技能的服务端入口（{@code sparkwitch:use_dominator_skill}）。按 G 至少需要 1 次剩余次数：第一次按下标记准星所指的玩家
+ * 支配者技能的服务端入口（{@code sparkdlc:use_dominator_skill}）。按 G 至少需要 1 次剩余次数：第一次按下标记准星所指的玩家
  * 30 秒且不消耗次数；标记期间再按为释放，消耗一次次数并在被标记者身上执行强制开枪序列。被拒绝的按键不改变任何东西。
  */
 public final class DominatorSkillService {

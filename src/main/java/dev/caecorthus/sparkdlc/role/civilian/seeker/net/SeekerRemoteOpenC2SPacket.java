@@ -8,11 +8,11 @@ import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
 
 /**
- * Stable packet contract {@code sparkwitch:seeker_remote_open} (C2S): {@code mode:byte} (1 = CAR, 2 = CAMERA), then
+ * Stable packet contract {@code sparkdlc:seeker_remote_open} (C2S): {@code mode:byte} (1 = CAR, 2 = CAMERA), then
  * {@code targetEntityId:varint} ({@link #ANY_TARGET} = the server picks: for CAMERA the last-viewed usable camera,
  * else the lowest-label usable one; an explicit id must be one of the owner's cameras; ignored for CAR). The server
  * validates everything; the client never predicts entry.
- * 稳定数据包契约 {@code sparkwitch:seeker_remote_open}（C2S）：{@code mode:byte}（1 = 小车，2 = 摄像头），随后是
+ * 稳定数据包契约 {@code sparkdlc:seeker_remote_open}（C2S）：{@code mode:byte}（1 = 小车，2 = 摄像头），随后是
  * {@code targetEntityId:varint}（{@link #ANY_TARGET} 表示由服务端选择：摄像头取最近观看且可用的那台，否则取编号最小的可用那台；
  * 明确的 id 必须是拥有者的摄像头之一；小车忽略此字段）。全部由服务端校验；客户端从不预测进入。
  */

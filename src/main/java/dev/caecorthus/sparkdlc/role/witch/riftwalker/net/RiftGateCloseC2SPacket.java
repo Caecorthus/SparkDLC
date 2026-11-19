@@ -8,9 +8,9 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 
 /**
- * Stable packet contract {@code sparkwitch:rift_gate_close} (C2S): {@code consoleSessionId:varint, gateNumber:varint}.
+ * Stable packet contract {@code sparkdlc:rift_gate_close} (C2S): {@code consoleSessionId:varint, gateNumber:varint}.
  * Sent after the console's two-step confirm; the server re-validates role, session, gate and throttle.
- * 稳定数据包契约 {@code sparkwitch:rift_gate_close}（C2S）：{@code consoleSessionId:varint, gateNumber:varint}。
+ * 稳定数据包契约 {@code sparkdlc:rift_gate_close}（C2S）：{@code consoleSessionId:varint, gateNumber:varint}。
  * 控制台二次确认后发送；服务端重新校验职业、会话、门与节流。
  */
 public record RiftGateCloseC2SPacket(int consoleSessionId, int gateNumber) implements CustomPayload {

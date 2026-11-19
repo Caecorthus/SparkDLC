@@ -28,18 +28,18 @@ import java.util.function.Predicate;
 /**
  * Server-authoritative Bewitched promotion (C3, C4). {@link #onTaskComplete} counts tasks and queues the promotion;
  * {@link #promote} is the transaction the end-of-tick queue runs: pick the role once (forced lock, else the
- * special-accomplice roll), write it under the {@code sparkwitch:bewitched_promotion} replay cause, mark a special
+ * special-accomplice roll), write it under the {@code sparkdlc:bewitched_promotion} replay cause, mark a special
  * accomplice used, fire {@code RoleAssigned} for skills, mana and loadout, restore the balance it reset, rebuild the
  * shop, then run the special accomplice's hook and announce the new role. The inventory is kept.
  * 服务端权威的魔化使晋升（C3、C4）。{@link #onTaskComplete} 计数并让晋升入队；{@link #promote} 是刻末队列执行的事务：只选择
- * 一次身份（强制锁定，否则从特殊共犯池抽取），在 {@code sparkwitch:bewitched_promotion} 回放原因下写入身份，标记特殊共犯
+ * 一次身份（强制锁定，否则从特殊共犯池抽取），在 {@code sparkdlc:bewitched_promotion} 回放原因下写入身份，标记特殊共犯
  * 已使用，触发 {@code RoleAssigned} 以初始化技能、魔力与装备，恢复被其重置的余额，重建商店，然后执行特殊共犯回调并公告新身份。
  * 背包保持不变。
  */
 public final class BewitchedPromotionService {
     private static final Logger LOGGER = LoggerFactory.getLogger(BewitchedPromotionService.class);
-    static final String PROMOTED_KEY = "message.sparkwitch.bewitched.promoted";
-    static final String PROMOTED_GRAND_WITCH_KEY = "message.sparkwitch.bewitched.promoted_grand_witch";
+    static final String PROMOTED_KEY = "message.sparkdlc.bewitched.promoted";
+    static final String PROMOTED_GRAND_WITCH_KEY = "message.sparkdlc.bewitched.promoted_grand_witch";
 
     private BewitchedPromotionService() {
     }

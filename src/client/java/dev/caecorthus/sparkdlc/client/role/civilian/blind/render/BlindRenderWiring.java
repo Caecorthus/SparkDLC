@@ -33,9 +33,9 @@ import java.util.List;
  */
 public final class BlindRenderWiring {
     /** Iris reports a shader pack. / Iris 报告正在使用光影包。 */
-    public static final String SHADER_PACK_HINT_KEY = "hud.sparkwitch.blind.view_unavailable";
+    public static final String SHADER_PACK_HINT_KEY = "hud.sparkdlc.blind.view_unavailable";
     /** The pipeline failed or no depth was captured, with no shader pack. / 无光影包时管线失败或未捕获深度。 */
-    public static final String RENDER_FAILED_HINT_KEY = "hud.sparkwitch.blind.view_failed";
+    public static final String RENDER_FAILED_HINT_KEY = "hud.sparkdlc.blind.view_failed";
     private static final Identifier RELOAD_LISTENER_ID = SparkWitch.id("blind_echo_view");
     private static boolean registered;
 

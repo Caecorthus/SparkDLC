@@ -54,7 +54,7 @@ public final class MurderSenseAbility {
                 context,
                 MANA_COST,
                 COOLDOWN_TICKS,
-                "message.sparkwitch.skill.murder_sense.activated",
+                "message.sparkdlc.skill.murder_sense.activated",
                 () -> {
                     WitchPlayerComponent.KEY.get(context.player()).beginMurderSense(DURATION_TICKS);
                     // Achievement record W5, at the actual activation (role and mana already passed).

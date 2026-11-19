@@ -273,7 +273,7 @@ final class DetectiveFolderPaint {
         boolean clearHovered = clear.contains(mouseX, mouseY);
         context.fill(clear.x(), clear.y(), clear.right(), clear.bottom(), clearHovered ? chrome.buttonHover() : chrome.button());
         context.drawBorder(clear.x(), clear.y(), clear.width(), clear.height(), clearHovered ? chrome.edge() : chrome.divider());
-        String clearLabel = Text.translatable("screen.sparkstrength.detective_folder.killer_clear").getString();
+        String clearLabel = Text.translatable("screen.sparkdlc.detective_folder.killer_clear").getString();
         context.drawText(
                 renderer,
                 clearLabel,

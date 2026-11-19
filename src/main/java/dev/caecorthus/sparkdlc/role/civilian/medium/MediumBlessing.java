@@ -23,7 +23,7 @@ public enum MediumBlessing {
     private final String translationKey;
 
     MediumBlessing(String path) {
-        this.translationKey = "blessing.sparkwitch.medium." + path;
+        this.translationKey = "blessing.sparkdlc.medium." + path;
     }
 
     /** Stable wire index. / 稳定的线上序号。 */

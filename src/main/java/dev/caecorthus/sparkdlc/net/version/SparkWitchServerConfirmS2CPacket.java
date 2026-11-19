@@ -8,7 +8,7 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 
 public record SparkWitchServerConfirmS2CPacket(String serverVersion) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("server_confirm");
+    public static final Identifier PAYLOAD_ID = SparkWitch.id("witch_server_confirm");
     public static final Id<SparkWitchServerConfirmS2CPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, SparkWitchServerConfirmS2CPacket> CODEC =
             PacketCodec.of(SparkWitchServerConfirmS2CPacket::write, SparkWitchServerConfirmS2CPacket::read);

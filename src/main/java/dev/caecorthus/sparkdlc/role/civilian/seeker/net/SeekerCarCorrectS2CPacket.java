@@ -7,9 +7,9 @@ import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
 
 /**
- * Stable packet contract {@code sparkwitch:seeker_car_correct} (S2C, owner only): {@code sessionId:varint, x, y,
+ * Stable packet contract {@code sparkdlc:seeker_car_correct} (S2C, owner only): {@code sessionId:varint, x, y,
  * z:double, yaw:float}. The owner ignores tracker updates for the car it drives, so corrections arrive here.
- * 稳定数据包契约 {@code sparkwitch:seeker_car_correct}（S2C，仅拥有者）：拥有者会忽略自己驾驶小车的追踪包，纠正经由此包下发。
+ * 稳定数据包契约 {@code sparkdlc:seeker_car_correct}（S2C，仅拥有者）：拥有者会忽略自己驾驶小车的追踪包，纠正经由此包下发。
  */
 public record SeekerCarCorrectS2CPacket(int sessionId, double x, double y, double z, float yaw)
         implements CustomPayload {

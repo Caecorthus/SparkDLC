@@ -91,7 +91,7 @@ public final class M67UseService {
         int opening = throwMode(player) == ThrowMode.PRESENTATION ? 0 : M67RoundService.openingRemaining(player);
         if (opening > 0) {
             preserveOpening(player, opening);
-            player.sendMessage(Text.translatable("tip.sparkstrength.m67.opening_cooldown", (opening + 19) / 20), true);
+            player.sendMessage(Text.translatable("tip.sparkdlc.m67.opening_cooldown", (opening + 19) / 20), true);
             return false;
         }
         if (roundId == null || !allowed(player) || player.isUsingItem()

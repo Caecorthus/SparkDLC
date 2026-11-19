@@ -10,9 +10,9 @@ import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Replay of the Athlete's dash: one skill event {@code sparkwitch:athlete_dash} per successful dash only (a refused or
+ * Replay of the Athlete's dash: one skill event {@code sparkdlc:athlete_dash} per successful dash only (a refused or
  * blocked request records nothing), shown as "%s used Dash".
- * 运动员冲刺的回放：只有成功的冲刺才记录一个技能事件 {@code sparkwitch:athlete_dash}（被拒绝或受阻的请求什么也不记录），
+ * 运动员冲刺的回放：只有成功的冲刺才记录一个技能事件 {@code sparkdlc:athlete_dash}（被拒绝或受阻的请求什么也不记录），
  * 显示为“%s 使用了冲刺”。
  */
 final class AthleteReplay {
@@ -38,7 +38,7 @@ final class AthleteReplay {
         if (!event.data().containsUuid("actor")) {
             return null;
         }
-        return Text.translatable("replay.skill.sparkwitch.athlete_dash",
+        return Text.translatable("replay.skill.sparkdlc.athlete_dash",
                 ReplayGenerator.formatPlayerName(event.data().getUuid("actor"),
                         ReplayGenerator.getPlayerInfoCache(match)));
     }

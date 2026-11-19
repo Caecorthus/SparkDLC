@@ -22,12 +22,12 @@ import java.util.List;
 
 /**
  * Role-owned presentation: the Seeker's bottom-right status line (car state, cooldown and reason, battery, camera, mark
- * countdown). It reads only the local player's own owner-synced {@code sparkwitch:seeker_status} and the synced
+ * countdown). It reads only the local player's own owner-synced {@code sparkdlc:seeker_status} and the synced
  * vanilla item cooldown; the server stays authoritative and other clients never receive these values. The line never
  * names a player, hides under F1 or without Wathe's HUD, and yields to the CCTV/possession overlay. It is never part of
  * the witch skill inventory panel.
  * 职业自有展示：搜寻者右下角状态行（小车状态、冷却及原因、电量、摄像头、标记倒计时）。只读取本地玩家自己的、
- * 仅同步给拥有者的 {@code sparkwitch:seeker_status} 与已同步的原版物品冷却；服务端保持权威，其他客户端永远收不到这些值。
+ * 仅同步给拥有者的 {@code sparkdlc:seeker_status} 与已同步的原版物品冷却；服务端保持权威，其他客户端永远收不到这些值。
  * 该行从不显示玩家名字，F1 或 Wathe HUD 隐藏时不显示，并让位于 CCTV/附身叠加层。它从不属于魔女技能背包面板。
  */
 public final class SeekerStatusHud {

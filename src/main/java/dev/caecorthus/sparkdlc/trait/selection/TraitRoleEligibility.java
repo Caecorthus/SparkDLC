@@ -12,7 +12,7 @@ import java.util.Set;
  * 候选天赋的身份限制：只按完整身份 ID 识别可选附属模组，避免新增编译依赖。
  */
 public final class TraitRoleEligibility {
-    private static final String SPARKWITCH_MOD_ID = "sparkwitch";
+    private static final String SPARKWITCH_MOD_ID = "sparkdlc";
     // Owner decision 2026-10-04: these roles may hold only traits that declare UNIVERSAL audience.
     // 所有者 2026-10-04 决定：这些身份只能获得声明为通用受众（UNIVERSAL）的天赋。
     private static final Set<Identifier> UNIVERSAL_ONLY_ROLE_IDS = Set.of(
@@ -36,14 +36,14 @@ public final class TraitRoleEligibility {
     // 其他身份的天赋池不变。
     private static final Identifier SAVIOR_ROLE_ID = Identifier.of(SPARKWITCH_MOD_ID, "savior");
     private static final Set<Identifier> SAVIOR_EXCLUDED_SANITY_TRAITS = Set.of(
-            Identifier.of("sparktraits", "task_master"),
-            Identifier.of("sparktraits", "steady"),
-            Identifier.of("sparktraits", "extroverted"),
-            Identifier.of("sparktraits", "introverted"),
-            Identifier.of("sparktraits", "focus"),
-            Identifier.of("sparktraits", "depression"),
-            Identifier.of("sparktraits", "well_trained"),
-            Identifier.of("sparktraits", "oppressive")
+            Identifier.of("sparkdlc", "task_master"),
+            Identifier.of("sparkdlc", "steady"),
+            Identifier.of("sparkdlc", "extroverted"),
+            Identifier.of("sparkdlc", "introverted"),
+            Identifier.of("sparkdlc", "focus"),
+            Identifier.of("sparkdlc", "depression"),
+            Identifier.of("sparkdlc", "well_trained"),
+            Identifier.of("sparkdlc", "oppressive")
     );
 
     private TraitRoleEligibility() {

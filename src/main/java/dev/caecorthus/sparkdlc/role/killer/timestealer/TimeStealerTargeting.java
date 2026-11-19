@@ -41,11 +41,11 @@ public final class TimeStealerTargeting {
      * Target veto (plan N5); ineligible candidates are transparent to the ray. Never the user; only living,
      * non-spectator participants of any faction (owner decision 2026-10-05: the Clock ignores factions, so fellow
      * killers are no longer see-through); not in SparkTraits Last Escape; Vendetta exact-pair isolation;
-     * SparkFactionAPI's structural veto for {@code sparkwitch:time_stolen}; and not already stolen (N7). Kill
+     * SparkFactionAPI's structural veto for {@code sparkdlc:time_stolen}; and not already stolen (N7). Kill
      * protections are never evaluated here; they resolve at the curse's death.
      * 目标否决（计划 N5）；不合格者对射线透明。永不影响使用者本人；影响任何阵营的存活且非旁观参与者（所有者决定
      * 2026-10-05：时钟无视阵营，同阵营杀手不再被射线穿过）；不处于 SparkTraits 最后逃脱；遵守复仇者精确配对隔离；遵守
-     * SparkFactionAPI 对 {@code sparkwitch:time_stolen} 的结构性否决；且目标当前未被窃（N7）。这里从不评估击杀保护，
+     * SparkFactionAPI 对 {@code sparkdlc:time_stolen} 的结构性否决；且目标当前未被窃（N7）。这里从不评估击杀保护，
      * 它们在诅咒致死时结算。
      */
     public static boolean canAffect(ServerPlayerEntity user, ServerPlayerEntity target) {

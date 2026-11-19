@@ -11,7 +11,7 @@ import java.util.function.Predicate;
  */
 public final class SparkFactionPermissions {
     public static final int DEFAULT_COMMAND_LEVEL = 2;
-    public static final String COMMAND_ADMIN = "sparkfactionapi.command.admin";
+    public static final String COMMAND_ADMIN = "sparkdlc.command.admin";
 
     private SparkFactionPermissions() {
     }

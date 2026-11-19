@@ -21,12 +21,12 @@ import org.jetbrains.annotations.Nullable;
  * Client only. The attachment screen's opener, shared by the two inventory right-click seams
  * ({@code client/mixin/usec/UsecLimitedInventoryRifleClickMixin} on Wathe's in-round inventory and
  * {@code UsecInventoryScreenRifleClickMixin} on vanilla {@code HandledScreen}, which also carries the creative
- * inventory's clicks). The seams call {@link #tryOpen} directly, and the screen sends {@code sparkwitch:usec_attachment}
+ * inventory's clicks). The seams call {@link #tryOpen} directly, and the screen sends {@code sparkdlc:usec_attachment}
  * itself. {@link #register} only installs the creative-screen probe of cursor loading.
  * 仅客户端。配件界面的打开入口，由两个背包右键接缝共用（Wathe 局内背包上的
  * {@code client/mixin/usec/UsecLimitedInventoryRifleClickMixin} 与原版 {@code HandledScreen} 上的
  * {@code UsecInventoryScreenRifleClickMixin}，后者也承载创造模式物品栏的点击）。接缝直接调用 {@link #tryOpen}，界面自行发送
- * {@code sparkwitch:usec_attachment}。{@link #register} 只安装光标装填所用的创造界面探针。
+ * {@code sparkdlc:usec_attachment}。{@link #register} 只安装光标装填所用的创造界面探针。
  */
 public final class UsecAttachmentClient {
     private UsecAttachmentClient() {

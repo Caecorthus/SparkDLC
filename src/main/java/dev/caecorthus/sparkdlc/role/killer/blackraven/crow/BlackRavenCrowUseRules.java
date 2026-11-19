@@ -20,7 +20,7 @@ import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Side-neutral rules of the crow's own right-click ({@code sparkwitch:black_raven_crow_use}), a Raven-owned copy of
+ * Side-neutral rules of the crow's own right-click ({@code sparkdlc:black_raven_crow_use}), a Raven-owned copy of
  * {@code SeekerCarUseRules} adapted to a flying camera: the supported-block whitelist (Wathe small and train doors,
  * hand-openable vanilla doors and trapdoors, fence gates, buttons, levers), vanilla's hit tolerance, reach with a
  * latency slack, a 3D look cone instead of the car's horizontal one, the throttle, the sight-ray end, the halves of

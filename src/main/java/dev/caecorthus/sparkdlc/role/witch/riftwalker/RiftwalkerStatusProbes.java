@@ -34,11 +34,11 @@ public final class RiftwalkerStatusProbes {
 
     /**
      * Cross-module seam (the modules are fused in SparkDLC, so the call is direct): reads SparkStrength's CCA
-     * component {@code sparkstrength:engineer_stunned} ({@link EngineerStunnedPlayerComponent}) through its own key and
+     * component {@code sparkdlc:engineer_stunned} ({@link EngineerStunnedPlayerComponent}) through its own key and
      * asks its public {@code boolean isStunned()}. A null player or a player without the component reads as
      * "not stunned". Server and client safe.
      * 跨模块接缝（各模块已融合进 SparkDLC，因此为直接调用）：经 SparkStrength 的 CCA 组件
-     * {@code sparkstrength:engineer_stunned}（{@link EngineerStunnedPlayerComponent}）自身的键读取，并询问其 public
+     * {@code sparkdlc:engineer_stunned}（{@link EngineerStunnedPlayerComponent}）自身的键读取，并询问其 public
      * {@code boolean isStunned()}。玩家为 null 或没有该组件时视为「未眩晕」。服务端与客户端均安全。
      */
     public static boolean isCaptureStunned(@Nullable PlayerEntity player) {

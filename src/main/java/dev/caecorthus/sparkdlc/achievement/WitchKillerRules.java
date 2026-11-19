@@ -18,32 +18,32 @@ import java.util.UUID;
  * 发生时我的身份，击杀取记录中的 {@code killer_role}。
  */
 final class WitchKillerRules {
-    static final String HUNTER = "sparkwitch:hunter";
-    static final String KIDNAPPER = "sparkwitch:kidnapper";
-    static final String MAGICIAN = "sparkwitch:magician";
-    static final String NINJA = "sparkwitch:ninja";
-    static final String TIME_STEALER = "sparkwitch:time_stealer";
-    static final String WITCH_MAIDEN = "sparkwitch:witch_maiden";
-    static final String INSIDER = "sparkwitch:insider";
+    static final String HUNTER = "sparkdlc:hunter";
+    static final String KIDNAPPER = "sparkdlc:kidnapper";
+    static final String MAGICIAN = "sparkdlc:magician";
+    static final String NINJA = "sparkdlc:ninja";
+    static final String TIME_STEALER = "sparkdlc:time_stealer";
+    static final String WITCH_MAIDEN = "sparkdlc:witch_maiden";
+    static final String INSIDER = "sparkdlc:insider";
     static final String CORRUPT_COP = KillRules.CORRUPT_COP;
 
-    static final String DOUBLE_BARREL_SHOTGUN = "sparkwitch:double_barrel_shotgun";
+    static final String DOUBLE_BARREL_SHOTGUN = "sparkdlc:double_barrel_shotgun";
     static final String GUN_SHOT = "wathe:gun_shot";
-    static final String HUNTER_TRAP_TRIGGERED = "sparkwitch:hunter_trap_triggered";
-    static final String TRAP_POISON = "sparkwitch:trap";
+    static final String HUNTER_TRAP_TRIGGERED = "sparkdlc:hunter_trap_triggered";
+    static final String TRAP_POISON = "sparkdlc:trap";
     /** The trap owner on a trap poisoning ({@code HunterTrapEntity.POISON_PLACER_NBT_KEY}). 捕兽夹中毒记录上的放置者。 */
     static final String TRAP_PLACER = "SparkWitchTrapPlacer";
-    static final String KNOCKOUT_DRUG = "sparkwitch:knockout_drug";
-    static final String KIDNAPPER_RELEASE = "sparkwitch:kidnapper_release";
-    static final String PLAYBACK_STARTED = "sparkwitch:magician_playback_started";
-    static final List<String> PLAYBACK_ENDS = List.of("sparkwitch:magician_playback_finished",
-            "sparkwitch:magician_playback_stopped_early", "sparkwitch:magician_playback_forced_end");
+    static final String KNOCKOUT_DRUG = "sparkdlc:knockout_drug";
+    static final String KIDNAPPER_RELEASE = "sparkdlc:kidnapper_release";
+    static final String PLAYBACK_STARTED = "sparkdlc:magician_playback_started";
+    static final List<String> PLAYBACK_ENDS = List.of("sparkdlc:magician_playback_finished",
+            "sparkdlc:magician_playback_stopped_early", "sparkdlc:magician_playback_forced_end");
     static final String KNIFE_STAB = "wathe:knife_stab";
     static final String BAT_HIT = "wathe:bat_hit";
-    static final String SHURIKEN_KILL = "sparkwitch:ninja_shuriken_kill";
-    static final String POCKET_WATCH = "sparkwitch:time_stealer_pocket_watch";
-    static final String TIME_STOLEN = "sparkwitch:time_stolen";
-    static final String TOFANA_ELIXIR = "sparkwitch:tofana_elixir";
+    static final String SHURIKEN_KILL = "sparkdlc:ninja_shuriken_kill";
+    static final String POCKET_WATCH = "sparkdlc:time_stealer_pocket_watch";
+    static final String TIME_STOLEN = "sparkdlc:time_stolen";
+    static final String TOFANA_ELIXIR = "sparkdlc:tofana_elixir";
     /** Wathe's win status when the killers win. 杀手获胜时 Wathe 的胜利状态。 */
     static final String KILLERS = "KILLERS";
 
@@ -63,12 +63,12 @@ final class WitchKillerRules {
     /**
      * 瓮中捉鳖: as the Hunter, a Double-Barrel Shotgun kill ({@code wathe:gun_shot} in the same tick as one of my
      * shotgun {@code item_use}s with {@code action} {@code fire}) of a player my trap rooted: my
-     * {@code sparkwitch:hunter_trap_triggered} on them less than 3 s before. Nothing records the root ending early; a
+     * {@code sparkdlc:hunter_trap_triggered} on them less than 3 s before. Nothing records the root ending early; a
      * new root starts a fresh 3 s. A buckshot shot can kill up to three players but SparkWitch writes one fire record
      * naming only the first victim (plus {@code hit_rays} and {@code victims}), so the record's target is not compared
      * with the victim; reload records share the item id and are excluded by {@code action}.
      * 以猎人身份用双管猎枪击杀（{@code wathe:gun_shot}，同一 tick 有我的一条 {@code action} 为 {@code fire} 的猎枪
-     * {@code item_use}）一名被我的捕兽夹定住的玩家：此前不到 3 秒内我的 {@code sparkwitch:hunter_trap_triggered} 夹中了此人。
+     * {@code item_use}）一名被我的捕兽夹定住的玩家：此前不到 3 秒内我的 {@code sparkdlc:hunter_trap_triggered} 夹中了此人。
      * 定身提前结束没有记录；再次被夹会重新定身 3 秒。一发霰弹最多能打死三人，但 SparkWitch 每枪只写一条开火记录，目标只记第一个
      * 死者（另带 {@code hit_rays} 与 {@code victims}），所以不比对记录目标与死者；装填记录与开火同一物品 id，靠 {@code action} 排除。
      */
@@ -84,9 +84,9 @@ final class WitchKillerRules {
 
     /**
      * 联合狩猎: as the Hunter, a poison death whose latest poisoning was my trap ({@code source}
-     * {@code sparkwitch:trap}, {@code SparkWitchTrapPlacer} me) poisoned by someone else ({@code poisoner_uuid}; only
+     * {@code sparkdlc:trap}, {@code SparkWitchTrapPlacer} me) poisoned by someone else ({@code poisoner_uuid}; only
      * killer-faction roles can poison a trap). The kill is credited to the poisoner, not to me.
-     * 以猎人身份，一起毒死，死者最近一次中毒来自我的捕兽夹（{@code source} 为 {@code sparkwitch:trap}，
+     * 以猎人身份，一起毒死，死者最近一次中毒来自我的捕兽夹（{@code source} 为 {@code sparkdlc:trap}，
      * {@code SparkWitchTrapPlacer} 是我），而毒是别人淬的（{@code poisoner_uuid}；只有杀手阵营身份能给捕兽夹淬毒）。
      * 击杀记在淬毒者名下，不记在我名下。
      */
@@ -115,10 +115,10 @@ final class WitchKillerRules {
 
     /**
      * 撕票: as the Kidnapper, I killed the player I was hijacking: my knockout-drug {@code item_use} on them, then my
-     * kill of them within the 30 s hijack with no {@code sparkwitch:kidnapper_release} of it in between. A Coroner
+     * kill of them within the 30 s hijack with no {@code sparkdlc:kidnapper_release} of it in between. A Coroner
      * disguised as the Kidnapper can drug too, so the kill must be made as the Kidnapper.
      * 以绑架者身份亲手杀死正被我劫持的人：我对其使用迷药（{@code item_use}），随后在 30 秒劫持期内、中间没有
-     * {@code sparkwitch:kidnapper_release} 时由我击杀此人。伪装成绑架者的验尸官也能用迷药，所以击杀时必须是绑架者。
+     * {@code sparkdlc:kidnapper_release} 时由我击杀此人。伪装成绑架者的验尸官也能用迷药，所以击杀时必须是绑架者。
      */
     static boolean killedMyHostage(AchievementContext context) {
         return context.kills().stream().anyMatch(kill -> Rules.killedAs(context, kill, KIDNAPPER)
@@ -181,11 +181,11 @@ final class WitchKillerRules {
      * 不在场证明: as the Magician, during my playback, a knife or bat kill ({@code wathe:knife_stab} /
      * {@code wathe:bat_hit}, credited to me) of a player 15+ blocks from me ({@code distance} is from the Magician
      * himself; a real knife reaches 3 blocks, so such a kill is the puppet's). Playback runs from
-     * {@code sparkwitch:magician_playback_started} to its finished / stopped-early / forced-end event, my death or the
+     * {@code sparkdlc:magician_playback_started} to its finished / stopped-early / forced-end event, my death or the
      * end of the record.
      * 以魔术师身份在播放期间，一次刀或球棒击杀（{@code wathe:knife_stab} / {@code wathe:bat_hit}，记在我名下），死者离我
      * 15 格及以外（{@code distance} 是魔术师本人到死者的距离；真人的刀只够得到 3 格，所以这样的击杀出自皮套）。播放期从
-     * {@code sparkwitch:magician_playback_started} 到其结束、提前停止或被迫结束事件、我死亡或记录结束。
+     * {@code sparkdlc:magician_playback_started} 到其结束、提前停止或被迫结束事件、我死亡或记录结束。
      */
     static boolean puppetAlibi(AchievementContext context) {
         List<TickWindow> playback = playbackWindows(context);
@@ -221,9 +221,9 @@ final class WitchKillerRules {
     // ---- Ninja 忍者 ----
 
     /**
-     * 小李飞刀: as the Ninja, a shuriken kill ({@code sparkwitch:ninja_shuriken_kill}) of a player 20+ blocks away. The
+     * 小李飞刀: as the Ninja, a shuriken kill ({@code sparkdlc:ninja_shuriken_kill}) of a player 20+ blocks away. The
      * recorded {@code distance} is measured when the shuriken lands, not when it was thrown (approximation).
-     * 以忍者身份用手里剑击杀（{@code sparkwitch:ninja_shuriken_kill}）20 格及以外的玩家。记录的 {@code distance} 是手里剑命中时
+     * 以忍者身份用手里剑击杀（{@code sparkdlc:ninja_shuriken_kill}）20 格及以外的玩家。记录的 {@code distance} 是手里剑命中时
      * 的距离，不是出手时的距离（近似）。
      */
     static boolean farShurikenKill(AchievementContext context) {
@@ -236,9 +236,9 @@ final class WitchKillerRules {
 
     /**
      * 迟到的钟声: after my (real) death, a player whose time I stole as the Time Stealer ran out of it: a
-     * {@code sparkwitch:time_stolen} death whose latest pocket-watch theft was mine. The theft decides, not the killer:
+     * {@code sparkdlc:time_stolen} death whose latest pocket-watch theft was mine. The theft decides, not the killer:
      * a Time Stealer who left or became a Wraith is no longer credited with the kill.
-     * 我（真正）死亡之后，被我以窃时者身份窃取时间的玩家时光耗尽而死：一次 {@code sparkwitch:time_stolen} 死亡，死者最近
+     * 我（真正）死亡之后，被我以窃时者身份窃取时间的玩家时光耗尽而死：一次 {@code sparkdlc:time_stolen} 死亡，死者最近
      * 一次被怀表窃时是我干的。以窃时记录为准，而不是击杀者：窃时者离线或变成冤魂后不再记为击杀者。
      */
     static boolean lateChime(AchievementContext context) {
@@ -273,9 +273,9 @@ final class WitchKillerRules {
     }
 
     /**
-     * {@code sparkwitch:time_stolen} deaths whose victim's latest pocket-watch theft before it was mine, as the Time
+     * {@code sparkdlc:time_stolen} deaths whose victim's latest pocket-watch theft before it was mine, as the Time
      * Stealer.
-     * 死者此前最近一次被怀表窃时是我（以窃时者身份）所为的 {@code sparkwitch:time_stolen} 死亡。
+     * 死者此前最近一次被怀表窃时是我（以窃时者身份）所为的 {@code sparkdlc:time_stolen} 死亡。
      */
     private static List<MatchEvent> stolenToDeath(AchievementContext context) {
         UUID self = context.self();
@@ -303,9 +303,9 @@ final class WitchKillerRules {
     // ---- Witch Maiden 巫女 ----
 
     /**
-     * 以彼之道: as the Witch Maiden, my Tofana Elixir's counter-kill ({@code sparkwitch:tofana_elixir}, credited to me;
+     * 以彼之道: as the Witch Maiden, my Tofana Elixir's counter-kill ({@code sparkdlc:tofana_elixir}, credited to me;
      * it only follows a kill attempt on me) of a player outside the killer faction.
-     * 以巫女身份，托法娜仙液的反杀（{@code sparkwitch:tofana_elixir}，记在我名下；只会在有人对我下杀手之后发生）杀死一名杀手阵营
+     * 以巫女身份，托法娜仙液的反杀（{@code sparkdlc:tofana_elixir}，记在我名下；只会在有人对我下杀手之后发生）杀死一名杀手阵营
      * 以外的玩家。
      */
     static boolean tofanaCounterKill(AchievementContext context) {

@@ -18,9 +18,9 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * The temporary forced-shot revolver as a bound item (Time Stealer / Potion Gunner pattern): it is identified only by
- * the {@code sparkwitch:forced_shot_gun} stack marker, never fires by hand, never goes into a world target, and every
+ * the {@code sparkdlc:forced_shot_gun} stack marker, never fires by hand, never goes into a world target, and every
  * copy is confiscated when a sequence ends. A player's own guns never carry the marker, so they are never touched.
- * 强制开枪临时左轮作为绑定物品（与窃时者、药炮手同一模式）：只按 {@code sparkwitch:forced_shot_gun} 物品堆标记识别，
+ * 强制开枪临时左轮作为绑定物品（与窃时者、药炮手同一模式）：只按 {@code sparkdlc:forced_shot_gun} 物品堆标记识别，
  * 不能亲手开火、不能放入世界中的容纳目标，序列结束时没收所有副本。玩家自己的枪永远不带此标记，因此绝不会被误删。
  */
 public final class DominatorForcedShotGuns {

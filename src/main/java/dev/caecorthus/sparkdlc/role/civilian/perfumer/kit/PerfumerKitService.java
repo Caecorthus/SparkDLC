@@ -32,7 +32,7 @@ import java.util.UUID;
  * 调香师道具的共用服务端逻辑：使用资格、即时投掷、回合绑定以及药瓶碎裂点。
  */
 public final class PerfumerKitService {
-    private static final String NOT_PERFUMER_KEY = "message.sparkstrength.perfumer.not_perfumer";
+    private static final String NOT_PERFUMER_KEY = "message.sparkdlc.perfumer.not_perfumer";
     /** Same tolerance ProjectileUtil.getCollision(Entity, Predicate) uses for entity hits. / 与原版投掷物实体判定容差一致。 */
     private static final double ENTITY_HIT_MARGIN = 0.3D;
     private static final double IMPACT_PULL_BACK = 0.2D;

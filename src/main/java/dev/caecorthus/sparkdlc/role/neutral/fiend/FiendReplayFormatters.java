@@ -22,9 +22,9 @@ final class FiendReplayFormatters {
     static final String DURATION_KEY = "duration_ticks";
     static final String REASON_DIED = "died";
     static final String REASON_ENDED = "ended";
-    static final String START_KEY = "replay.global.sparkwitch.fiend_moment_start";
-    static final String END_DIED_KEY = "replay.global.sparkwitch.fiend_moment_end";
-    static final String END_ENDED_KEY = "replay.global.sparkwitch.fiend_moment_end.ended";
+    static final String START_KEY = "replay.global.sparkdlc.fiend_moment_start";
+    static final String END_DIED_KEY = "replay.global.sparkdlc.fiend_moment_end";
+    static final String END_ENDED_KEY = "replay.global.sparkdlc.fiend_moment_end.ended";
     private static boolean registered;
 
     private FiendReplayFormatters() {

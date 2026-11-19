@@ -14,11 +14,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 
 /**
- * The Medium (通灵师, {@code sparkwitch:medium}) is a plain task civilian drawn by Wathe's civilian assignment,
+ * The Medium (通灵师, {@code sparkdlc:medium}) is a plain task civilian drawn by Wathe's civilian assignment,
  * never through a police slot: the plain civilian baseline (REAL mood, passenger stamina, no round clock), 通灵 on the
  * shared ability key, 幽灵的加护 (Ghost's Blessing) on the SparkWitch skill key and 招魂 from the inventory screen.
  * This class owns the shared constants and the death-tier maths.
- * 通灵师（{@code sparkwitch:medium}）是由 Wathe 平民分配抽取的普通任务平民，从不占用警位：普通平民基线
+ * 通灵师（{@code sparkdlc:medium}）是由 Wathe 平民分配抽取的普通任务平民，从不占用警位：普通平民基线
  * （真实情绪、乘客体力、不可见回合时间）、共享技能键上的通灵、SparkWitch 技能键上的幽灵的加护，以及背包界面里的招魂。
  * 本类持有共享常量与死亡档位算法。
  */

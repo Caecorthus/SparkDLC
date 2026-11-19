@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.achievement;
 
 /**
  * Food and drink: over the account's lifetime ({@link LifetimeStats#consumed}, this round already counted) and within
- * one round ({@code sparkfactionapi:consume}).
- * 食物与饮品：账号累计（{@link LifetimeStats#consumed}，已计入本局）与单局内（{@code sparkfactionapi:consume}）。
+ * one round ({@code sparkdlc:consume}).
+ * 食物与饮品：账号累计（{@link LifetimeStats#consumed}，已计入本局）与单局内（{@code sparkdlc:consume}）。
  */
 final class ConsumptionRules {
     static final String FOOD = "food";

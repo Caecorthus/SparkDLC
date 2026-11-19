@@ -21,13 +21,13 @@ public final class PerfumerReplayEvents {
                 (event, match, world) -> ReplayText.throwableHitEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.perfumer_cooling_oil_hit"
+                        "replay.global.sparkdlc.perfumer_cooling_oil_hit"
                 ));
         ReplayRegistry.registerGlobalEventFormatter(PERFUMER_AROMA_HIT,
                 (event, match, world) -> ReplayText.throwableHitEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.perfumer_aroma_hit"
+                        "replay.global.sparkdlc.perfumer_aroma_hit"
                 ));
     }
 
@@ -36,7 +36,7 @@ public final class PerfumerReplayEvents {
                 (event, match, world) -> ReplayText.onePlayerEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.perfumer_zephyr_used"
+                        "replay.global.sparkdlc.perfumer_zephyr_used"
                 ));
     }
 }

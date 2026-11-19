@@ -20,12 +20,12 @@ import java.nio.file.StandardCopyOption;
 import java.util.Locale;
 
 /**
- * The selected skin id, key {@value #KEY} in {@code config/sparkwitch-client.json}. The file is shared with
+ * The selected skin id, key {@value #KEY} in {@code config/sparkdlc-client.json}. The file is shared with
  * {@link ScopeSettingsStore}: a write re-reads the file and merges only this key, so the scope keys and any unknown key
  * survive. A missing file or a non-string value means the default (vanilla). A file that exists but cannot be read or
  * is not a JSON object is never written (that would wipe the scope keys): the choice stays live for this session and a
  * warning is logged once. Writes go to a temporary file in the same folder that then replaces the file atomically.
- * 选中的皮肤 id，保存在 {@code config/sparkwitch-client.json} 的 {@value #KEY} 键。该文件与 {@link ScopeSettingsStore}
+ * 选中的皮肤 id，保存在 {@code config/sparkdlc-client.json} 的 {@value #KEY} 键。该文件与 {@link ScopeSettingsStore}
  * 共用：写入时重新读取文件并只合并本键，瞄准镜的键与任何未知键都会保留。文件缺失或值不是字符串时视为默认（原版）。文件存在但
  * 无法读取或不是 JSON 对象时绝不写入（否则会抹掉瞄准镜的键）：选择只在本次会话中生效，并只记录一次警告。写入先写同目录的
  * 临时文件，再原子替换原文件。

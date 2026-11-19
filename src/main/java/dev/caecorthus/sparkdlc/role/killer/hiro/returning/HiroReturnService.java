@@ -85,16 +85,16 @@ import java.util.UUID;
  * 死亡，而该玩家遭到攻击时他们仍会起身。
  */
 public final class HiroReturnService {
-    static final String RECORDED_KEY = "message.sparkwitch.nikaido_hiro.return.recorded";
-    static final String ACTIVE_KEY = "message.sparkwitch.nikaido_hiro.return.active";
-    static final String COOLDOWN_KEY = "message.sparkwitch.nikaido_hiro.return.cooldown";
-    static final String NO_MANA_KEY = "message.sparkwitch.nikaido_hiro.return.no_mana";
-    static final String TRIGGERED_KEY = "message.sparkwitch.nikaido_hiro.return.triggered";
-    static final String TRIGGERED_NO_COINS_KEY = "message.sparkwitch.nikaido_hiro.return.triggered.no_coins";
-    static final String STAYED_KEY = "message.sparkwitch.nikaido_hiro.return.triggered.stayed";
-    static final String REPLAY_CAST_KEY = "replay.skill.sparkwitch.nikaido_hiro.return";
-    static final String REPLAY_TRIGGERED_KEY = "replay.skill.sparkwitch.nikaido_hiro.return.triggered";
-    static final String REPLAY_TRIGGERED_BY_KEY = "replay.skill.sparkwitch.nikaido_hiro.return.triggered.by";
+    static final String RECORDED_KEY = "message.sparkdlc.nikaido_hiro.return.recorded";
+    static final String ACTIVE_KEY = "message.sparkdlc.nikaido_hiro.return.active";
+    static final String COOLDOWN_KEY = "message.sparkdlc.nikaido_hiro.return.cooldown";
+    static final String NO_MANA_KEY = "message.sparkdlc.nikaido_hiro.return.no_mana";
+    static final String TRIGGERED_KEY = "message.sparkdlc.nikaido_hiro.return.triggered";
+    static final String TRIGGERED_NO_COINS_KEY = "message.sparkdlc.nikaido_hiro.return.triggered.no_coins";
+    static final String STAYED_KEY = "message.sparkdlc.nikaido_hiro.return.triggered.stayed";
+    static final String REPLAY_CAST_KEY = "replay.skill.sparkdlc.nikaido_hiro.return";
+    static final String REPLAY_TRIGGERED_KEY = "replay.skill.sparkdlc.nikaido_hiro.return.triggered";
+    static final String REPLAY_TRIGGERED_BY_KEY = "replay.skill.sparkdlc.nikaido_hiro.return.triggered.by";
     /** Extra flag of the skill record written when the Return fires. / 回归触发时技能记录附带的标记。 */
     private static final String RETURNED_TAG = "returned";
     /**
@@ -146,10 +146,10 @@ public final class HiroReturnService {
     // ---- Cast / 施放 ----
 
     /**
-     * Server entry of the ability key ({@code sparkwitch:use_hiro_skill}, an empty request). Order: the caster gate
+     * Server entry of the ability key ({@code sparkdlc:use_hiro_skill}, an empty request). Order: the caster gate
      * {@link #mayCast} (refused silently), a running window and the cooldown (she is told which), the Grand Witch Fear
      * re-check last (it tells her), then the mana cost. A refused press changes nothing and costs nothing.
-     * 技能键的服务端入口（{@code sparkwitch:use_hiro_skill}，空请求）。顺序：施放者门槛 {@link #mayCast}（静默拒绝）、进行中的
+     * 技能键的服务端入口（{@code sparkdlc:use_hiro_skill}，空请求）。顺序：施放者门槛 {@link #mayCast}（静默拒绝）、进行中的
      * 窗口与冷却（提示具体原因）、最后再检查大魔女恐惧（会提示），然后扣除魔力。被拒绝的按键不改变任何东西，也不消耗任何东西。
      */
     public static void use(ServerPlayerEntity caster) {

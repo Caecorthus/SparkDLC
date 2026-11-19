@@ -24,26 +24,26 @@ import java.util.List;
  *  按有效阵营结算回合：队伍胜利监听、阻塞中立与 NoellesRoles 小丑/双影小丑的队伍胜利延后，以及失去真实杀手支持的内鬼自我觉悟。 */
 public final class EffectiveWinService {
     public static final Identifier SELF_REALIZATION = SparkTraits.id("self_realization");
-    private static final Identifier SPARKWITCH_GRAND_WITCH_ID = Identifier.of("sparkwitch", "grand_witch");
-    private static final Identifier SPARKWITCH_ACCOMPLICE_ID = Identifier.of("sparkwitch", "accomplice");
+    private static final Identifier SPARKWITCH_GRAND_WITCH_ID = Identifier.of("sparkdlc", "grand_witch");
+    private static final Identifier SPARKWITCH_ACCOMPLICE_ID = Identifier.of("sparkdlc", "accomplice");
     // SparkWitch special accomplices block team wins exactly like the Accomplice.
     // SparkWitch 特殊共犯与共犯一样阻止队伍胜利。
-    private static final Identifier SPARKWITCH_ABYSS_LISTENER_ID = Identifier.of("sparkwitch", "abyss_listener");
-    private static final Identifier SPARKWITCH_POTION_GUNNER_ID = Identifier.of("sparkwitch", "potion_gunner");
-    private static final Identifier SPARKWITCH_RIFTWALKER_ID = Identifier.of("sparkwitch", "riftwalker");
+    private static final Identifier SPARKWITCH_ABYSS_LISTENER_ID = Identifier.of("sparkdlc", "abyss_listener");
+    private static final Identifier SPARKWITCH_POTION_GUNNER_ID = Identifier.of("sparkdlc", "potion_gunner");
+    private static final Identifier SPARKWITCH_RIFTWALKER_ID = Identifier.of("sparkdlc", "riftwalker");
     // SparkWitch's Bewitched (魔化使) is an accomplice before promotion.
     // SparkWitch 魔化使是晋升前的共犯。
-    private static final Identifier SPARKWITCH_BEWITCHED_ID = Identifier.of("sparkwitch", "bewitched");
-    private static final Identifier SPARKWITCH_MURDEROUS_WITCH_ID = Identifier.of("sparkwitch", "murderous_witch");
+    private static final Identifier SPARKWITCH_BEWITCHED_ID = Identifier.of("sparkdlc", "bewitched");
+    private static final Identifier SPARKWITCH_MURDEROUS_WITCH_ID = Identifier.of("sparkdlc", "murderous_witch");
     // SparkWitch's Insider shares the Corrupt Cop's team and keeps its win rule after the Corrupt Cop dies.
     // SparkWitch 内应与黑警同属一个阵营，黑警死后由内应继续承担该阵营的胜利规则。
-    private static final Identifier SPARKWITCH_INSIDER_ID = Identifier.of("sparkwitch", "insider");
+    private static final Identifier SPARKWITCH_INSIDER_ID = Identifier.of("sparkdlc", "insider");
     // SparkWitch's 狮身豪 (Sphinx Hao) is a second Team Jiahao member and blocks team wins exactly like the Insider.
     // SparkWitch 狮身豪是嘉豪阵营的第二名成员，与内应完全一样阻止队伍胜利。
-    private static final Identifier SPARKWITCH_SPHINX_HAO_ID = Identifier.of("sparkwitch", "sphinx_hao");
+    private static final Identifier SPARKWITCH_SPHINX_HAO_ID = Identifier.of("sparkdlc", "sphinx_hao");
     // SparkWitch's Sniper (狙击手, PR #245) is a further Team Jiahao member and blocks team wins exactly like the Insider.
     // SparkWitch 狙击手（PR #245）是嘉豪阵营的又一名成员，与内应完全一样阻止队伍胜利。
-    private static final Identifier SPARKWITCH_SNIPER_ID = Identifier.of("sparkwitch", "sniper");
+    private static final Identifier SPARKWITCH_SNIPER_ID = Identifier.of("sparkdlc", "sniper");
     private static final Identifier NOELLES_SHADOW_JESTER_ID = Identifier.of("noellesroles", "shadow_jester");
 
     private EffectiveWinService() {

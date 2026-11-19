@@ -35,10 +35,10 @@ public final class JunkerReplay {
     static final String VICTIM = "victim";
     static final String ITEM = "item";
     static final String COUNT = "count";
-    static final String SEARCH_KEY = "replay.skill.sparkwitch.ragpicker.search";
-    static final String SEARCH_UNKNOWN_KEY = "replay.skill.sparkwitch.ragpicker.search_unknown";
-    static final String FOUND_KEY = "replay.skill.sparkwitch.ragpicker.found";
-    static final String FOUND_UNKNOWN_KEY = "replay.skill.sparkwitch.ragpicker.found_unknown";
+    static final String SEARCH_KEY = "replay.skill.sparkdlc.ragpicker.search";
+    static final String SEARCH_UNKNOWN_KEY = "replay.skill.sparkdlc.ragpicker.search_unknown";
+    static final String FOUND_KEY = "replay.skill.sparkdlc.ragpicker.found";
+    static final String FOUND_UNKNOWN_KEY = "replay.skill.sparkdlc.ragpicker.found_unknown";
     private static boolean registered;
 
     private JunkerReplay() {

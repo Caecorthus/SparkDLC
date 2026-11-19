@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
  * 包。SparkTraits 已融合进 SparkDLC，因此为直接调用。仅用于展示：玩家为空时视为 false，保留 Wathe 自己的旗帜。
  */
 public final class SparkTraitsMoodFlagBridge {
-    private static final String MOD_ID = "sparktraits";
+    private static final String MOD_ID = "sparkdlc";
     static final Identifier CONSCIENCE = Identifier.of(MOD_ID, "conscience");
     static final Identifier IMPOSTOR = Identifier.of(MOD_ID, "impostor");
 

@@ -30,12 +30,12 @@ public final class SwiftStepAbility {
     public static WitchSkillUseResult use(WitchSkillUseContext context) {
         ApprenticePlayerComponent apprentice = ApprenticePlayerComponent.KEY.get(context.player());
         if (apprentice.getSwiftStepCharges() <= 0) {
-            return WitchSkillUseResult.fail("message.sparkwitch.skill.swift_step.no_charge");
+            return WitchSkillUseResult.fail("message.sparkdlc.skill.swift_step.no_charge");
         }
         return ApprenticeAbilitySupport.useCharged(
                 context,
                 MANA_COST,
-                "message.sparkwitch.skill.swift_step.activated",
+                "message.sparkdlc.skill.swift_step.activated",
                 () -> {
                     apprentice.consumeSwiftStepCharge(RECHARGE_TICKS);
                     WitchPlayerComponent.KEY.get(context.player()).beginSwiftStep(DURATION_TICKS);

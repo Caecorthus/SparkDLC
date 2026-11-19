@@ -1,0 +1,6 @@
+{
+  "parent": "sparkdlc:item/savior_lightsaber_handheld",
+  "textures": {
+    "layer0": "sparkdlc:item/savior_lightsaber_5"
+  }
+}

@@ -86,7 +86,7 @@ public final class ShadowJesterShowdownMusicController {
 
         if (!missingSoundResourceWarned) {
             SparkStrength.LOGGER.warn(
-                    "Missing client sound resource {}. Check assets/sparkstrength/sounds.json and the installed client jar.",
+                    "Missing client sound resource {}. Check assets/sparkdlc/sounds.json and the installed client jar.",
                     SparkStrengthSounds.SHADOW_JESTER_ID
             );
             missingSoundResourceWarned = true;

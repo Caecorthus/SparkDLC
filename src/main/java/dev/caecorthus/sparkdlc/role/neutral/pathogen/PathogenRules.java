@@ -19,8 +19,8 @@ public final class PathogenRules {
     /** +50 coins per completed task. / 每完成一个任务 +50 金币。 */
     public static final int TASK_MONEY_REWARD = 50;
 
-    public static final String VIRUS_ENTRY_ID = "sparkstrength_virus";
-    public static final String T_VIRUS_ENTRY_ID = "sparkstrength_t_virus";
+    public static final String VIRUS_ENTRY_ID = "sparkdlc_virus";
+    public static final String T_VIRUS_ENTRY_ID = "sparkdlc_t_virus";
     public static final int VIRUS_PRICE = 50;
     public static final int T_VIRUS_PRICE = 150;
     /** Q4: one T-Virus per round. / Q4：每局限购 1 支 T病毒。 */

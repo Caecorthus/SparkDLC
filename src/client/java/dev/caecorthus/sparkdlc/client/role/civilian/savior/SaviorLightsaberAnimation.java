@@ -21,14 +21,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
 /**
- * Lightsaber ignition state, per hand-held stack. The model predicate reads {@code sparkwitch:held_frame}; only the
+ * Lightsaber ignition state, per hand-held stack. The model predicate reads {@code sparkdlc:held_frame}; only the
  * client renders, so nothing is synced and nothing changes server-side. The off/not-held appearance is the base model
  * (ls_0). After the stack has been held continuously for {@value #IGNITION_DELAY_TICKS} ticks (0.95 s), the client asks
  * the server to broadcast the ignition sound once and ls_0 → ls_19 runs over {@value #IGNITION_DURATION_TICKS} tick
  * (0.05 s); it then stays on the lit texture until it leaves both hands, at which point its start time is dropped and
  * the next pickup re-ignites. Only the local player's own holds send the ignition intent, from the client tick, so
  * rendering a bystander's saber (or hiding the hand with F1) never changes what is sent.
- * 光剑点火状态，按手持物品堆记录。模型谓词读取 {@code sparkwitch:held_frame}；只在客户端渲染，不同步、不改服务端。
+ * 光剑点火状态，按手持物品堆记录。模型谓词读取 {@code sparkdlc:held_frame}；只在客户端渲染，不同步、不改服务端。
  * 未持有/背包外观是基础模型（ls_0）。连续手持满 {@value #IGNITION_DELAY_TICKS} 刻（0.95 秒）后请求服务端广播一次点火音，
  * 并在 {@value #IGNITION_DURATION_TICKS} 刻（0.05 秒）内跑完 ls_0 → ls_19，然后停在点亮贴图；离开双手时丢弃起始时间，
  * 下次拿起会重新点火。只有本地玩家自己的持握会在客户端刻中发送点火意图，因此渲染旁人的光剑（或用 F1 隐藏手部）

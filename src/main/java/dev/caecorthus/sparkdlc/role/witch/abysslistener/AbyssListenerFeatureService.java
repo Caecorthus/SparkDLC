@@ -29,8 +29,8 @@ public final class AbyssListenerFeatureService {
             AbyssListenerLoadout.grantAfterPromotion(player);
         }
 
-        // D13: Warden's Shriek is the role's own witch skill, so it shows in the gui.sparkwitch.skills panel.
-        // D13：监守之啸是本职业自有的魔女技能，因此显示在 gui.sparkwitch.skills 技能面板中。
+        // D13: Warden's Shriek is the role's own witch skill, so it shows in the gui.sparkdlc.skills panel.
+        // D13：监守之啸是本职业自有的魔女技能，因此显示在 gui.sparkdlc.skills 技能面板中。
         @Override
         public Set<Identifier> ownSkillIds() {
             return OWN_SKILL_IDS;

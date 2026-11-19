@@ -32,60 +32,60 @@ public final class ReporterReplayEvents {
                 (event, match, world) -> reporterConnectionWithActorEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.reporter_connection_started",
+                        "replay.global.sparkdlc.reporter_connection_started",
                         false
                 ));
         ReplayRegistry.registerGlobalEventFormatter(REPORTER_CONNECTION_FAILED_ONE_DEAD,
                 (event, match, world) -> reporterConnectionWithActorEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.reporter_connection_failed_one_dead",
+                        "replay.global.sparkdlc.reporter_connection_failed_one_dead",
                         true
                 ));
         ReplayRegistry.registerGlobalEventFormatter(REPORTER_CONNECTION_FAILED_BOTH_DEAD,
                 (event, match, world) -> reporterConnectionWithActorEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.reporter_connection_failed_both_dead",
+                        "replay.global.sparkdlc.reporter_connection_failed_both_dead",
                         false
                 ));
         ReplayRegistry.registerGlobalEventFormatter(REPORTER_BROADCAST_STARTED,
                 (event, match, world) -> reporterBroadcastWithActorEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.reporter_broadcast_started",
+                        "replay.global.sparkdlc.reporter_broadcast_started",
                         false
                 ));
         ReplayRegistry.registerGlobalEventFormatter(REPORTER_BROADCAST_FAILED,
                 (event, match, world) -> reporterBroadcastWithActorEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.reporter_broadcast_failed",
+                        "replay.global.sparkdlc.reporter_broadcast_failed",
                         true
                 ));
         ReplayRegistry.registerGlobalEventFormatter(REPORTER_CONNECTION_ENDED,
                 (event, match, world) -> reporterConnectionEndedEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.reporter_connection_ended"
+                        "replay.global.sparkdlc.reporter_connection_ended"
                 ));
         ReplayRegistry.registerGlobalEventFormatter(REPORTER_BROADCAST_ENDED,
                 (event, match, world) -> reporterBroadcastEndedEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.reporter_broadcast_ended"
+                        "replay.global.sparkdlc.reporter_broadcast_ended"
                 ));
         ReplayRegistry.registerGlobalEventFormatter(REPORTER_CONNECTION_INTERRUPTED,
                 (event, match, world) -> reporterConnectionInterruptedEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.reporter_connection_interrupted"
+                        "replay.global.sparkdlc.reporter_connection_interrupted"
                 ));
         ReplayRegistry.registerGlobalEventFormatter(REPORTER_BROADCAST_INTERRUPTED,
                 (event, match, world) -> reporterBroadcastInterruptedEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.reporter_broadcast_interrupted"
+                        "replay.global.sparkdlc.reporter_broadcast_interrupted"
                 ));
     }
 

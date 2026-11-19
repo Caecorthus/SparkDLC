@@ -16,7 +16,7 @@ import java.util.OptionalInt;
  * 请覆写 {@link #raiseTo} 与 {@link #extendBy}。
  */
 public interface RoleSkillCooldownStore {
-    /** Stable unique id, e.g. {@code sparkwitch:witch_skill}. / 稳定且唯一的 id。 */
+    /** Stable unique id, e.g. {@code sparkdlc:witch_skill}. / 稳定且唯一的 id。 */
     Identifier id();
 
     /** True when this player currently uses this counter. / 该玩家当前是否使用此计数。 */

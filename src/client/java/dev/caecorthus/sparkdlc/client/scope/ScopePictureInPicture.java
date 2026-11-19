@@ -85,7 +85,7 @@ import java.io.IOException;
 public final class ScopePictureInPicture {
     public static final Identifier EFFECT = SparkWitch.id("shaders/post/scope_pip.json");
     /** The composite program; its pass receives the per-frame uniforms. / 合成程序；其 pass 接收逐帧 uniform。 */
-    public static final String LENS_PROGRAM = "sparkwitch_scope_pip";
+    public static final String LENS_PROGRAM = "sparkdlc_scope_pip";
     /**
      * The square lens render target, resized to {@link ScopeRules#lensViewSize} after every {@code setupDimensions} and
      * whenever that size changes. / 方形镜内渲染目标，每次 {@code setupDimensions} 之后以及该尺寸变化时调整为

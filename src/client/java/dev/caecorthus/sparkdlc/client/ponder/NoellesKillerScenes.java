@@ -76,7 +76,7 @@ import org.joml.Vector3f;
 final class NoellesKillerScenes {
     private static final List<String> NOELLES = List.of("noellesroles");
     /** Scenes that also use SparkStrength's items or entities. 还用到 SparkStrength 物品或实体的场景。 */
-    private static final List<String> NOELLES_STRENGTH = List.of("noellesroles", "sparkstrength");
+    private static final List<String> NOELLES_STRENGTH = List.of("noellesroles", "sparkdlc");
     private static final Random RANDOM = Random.create();
     /** Facing the camera: towards the plate's (0, 0) corner. 面向镜头：朝底板的 (0, 0) 角。 */
     private static final float FACING_CAMERA = 135;
@@ -87,19 +87,19 @@ final class NoellesKillerScenes {
     }
 
     static void register() {
-        role("sparkassist:roles/noellesroles/swapper", NOELLES,
+        role("sparkdlc:roles/noellesroles/swapper", NOELLES,
                 scene("wathe/aisle", NoellesKillerScenes::swapper));
-        role("sparkassist:roles/noellesroles/vulture", NOELLES,
+        role("sparkdlc:roles/noellesroles/vulture", NOELLES,
                 scene("wathe/aisle", NoellesKillerScenes::vulture));
-        role("sparkassist:roles/noellesroles/poisoner", NOELLES,
+        role("sparkdlc:roles/noellesroles/poisoner", NOELLES,
                 scene("wathe/aisle", NoellesKillerScenes::poisonNeedle));
         item("noellesroles:poison_needle", NOELLES, scene("wathe/aisle", NoellesKillerScenes::poisonNeedle));
         item("noellesroles:catalyst", NOELLES, scene("wathe/aisle", NoellesKillerScenes::poisonNeedle));
         item("noellesroles:poison_gas_bomb", NOELLES, scene("wathe/cabin", NoellesKillerScenes::poisonGasBomb));
-        role("sparkassist:roles/noellesroles/bandit", NOELLES,
+        role("sparkdlc:roles/noellesroles/bandit", NOELLES,
                 scene("noellesroles/axe_wall", NoellesKillerScenes::throwingAxe));
         item("noellesroles:throwing_axe", NOELLES, scene("noellesroles/axe_wall", NoellesKillerScenes::throwingAxe));
-        role("sparkassist:roles/noellesroles/bomber", NOELLES,
+        role("sparkdlc:roles/noellesroles/bomber", NOELLES,
                 scene("wathe/aisle", NoellesKillerScenes::timedBomb));
         // SparkStrength adds a second use, hiding the bomb in a tray or bed as a trap. The modules are fused in
         // SparkDLC, so that scene is always appended (it used to be gated on SparkStrength being loaded).
@@ -107,25 +107,25 @@ final class NoellesKillerScenes {
         // （原先仅在加载 SparkStrength 时追加）。
         item("noellesroles:timed_bomb", NOELLES, scene("wathe/aisle", NoellesKillerScenes::timedBomb),
                 scene("wathe/bar", SparkStrengthKillerItemScenes::timedBombTrap));
-        item("sparkstrength:grenade_drone", NOELLES_STRENGTH,
+        item("sparkdlc:grenade_drone", NOELLES_STRENGTH,
                 scene("noellesroles/wide_aisle", NoellesKillerScenes::grenadeDrone));
-        role("sparkassist:roles/noellesroles/jester", NOELLES_STRENGTH,
+        role("sparkdlc:roles/noellesroles/jester", NOELLES_STRENGTH,
                 scene("wathe/aisle", NoellesKillerScenes::jesterFakeDeath),
                 scene("wathe/aisle", NoellesKillerScenes::jesterMoment));
-        role("sparkassist:roles/noellesroles/taotie", NOELLES_STRENGTH,
+        role("sparkdlc:roles/noellesroles/taotie", NOELLES_STRENGTH,
                 scene("wathe/aisle", NoellesKillerScenes::taotie));
-        role("sparkassist:roles/noellesroles/morphling", NOELLES,
+        role("sparkdlc:roles/noellesroles/morphling", NOELLES,
                 scene("wathe/aisle", NoellesKillerScenes::morph),
                 scene("wathe/aisle", NoellesKillerScenes::corpseMode));
-        role("sparkassist:roles/noellesroles/phantom", NOELLES,
+        role("sparkdlc:roles/noellesroles/phantom", NOELLES,
                 scene("wathe/aisle", NoellesKillerScenes::phantom));
-        role("sparkassist:roles/noellesroles/scavenger", NOELLES,
+        role("sparkdlc:roles/noellesroles/scavenger", NOELLES,
                 scene("wathe/aisle", NoellesKillerScenes::scavenger));
-        role("sparkassist:roles/noellesroles/corrupt_cop", NOELLES,
+        role("sparkdlc:roles/noellesroles/corrupt_cop", NOELLES,
                 scene("wathe/aisle", NoellesKillerScenes::corruptCop));
-        role("sparkassist:roles/noellesroles/shadow_jester", NOELLES_STRENGTH,
+        role("sparkdlc:roles/noellesroles/shadow_jester", NOELLES_STRENGTH,
                 scene("wathe/aisle", NoellesKillerScenes::shadowJester));
-        role("sparkassist:roles/noellesroles/pathogen", NOELLES,
+        role("sparkdlc:roles/noellesroles/pathogen", NOELLES,
                 scene("wathe/aisle", NoellesKillerScenes::pathogen));
     }
 
@@ -585,7 +585,7 @@ final class NoellesKillerScenes {
      * 它即可收回到快捷栏空位。飞行每秒耗电 2%，悬停 1%。
      */
     private static void grenadeDrone(SceneBuilder scene, SceneBuildingUtil util) {
-        scene.title("sparkstrength_grenade_drone", "投弹无人机：从空中投弹");
+        scene.title("sparkdlc_grenade_drone", "投弹无人机：从空中投弹");
         wideStage(scene);
         int color = RoleColors.of("noellesroles:bomber", 0x323232);
         Text civilian = Text.literal("平民");
@@ -598,13 +598,13 @@ final class NoellesKillerScenes {
         scene.idle(10);
         ElementLink<ActorElement> bomber = Actors.enter(scene, color, Text.literal("炸弹客"),
                 new Vec3d(8.0, 1, 1.2), SCREEN_RIGHT, Direction.DOWN);
-        Actors.hold(scene, bomber, stack("sparkstrength:grenade_drone"));
+        Actors.hold(scene, bomber, stack("sparkdlc:grenade_drone"));
         scene.idle(15);
         SceneCaptions.keyframeCaption(scene, 90, "炸弹客开局自带【投弹无人机】，开局 90 秒后才能用");
         scene.idle(100);
         Actors.lookPitch(scene, bomber, 55);
         scene.overlay().showControls(new Vec3d(7.3, 1.3, 1.9), Pointing.DOWN, 30).rightClick()
-                .withItem(stack("sparkstrength:grenade_drone"));
+                .withItem(stack("sparkdlc:grenade_drone"));
         scene.idle(10);
         Actors.swing(scene, bomber);
         Actors.hold(scene, bomber, ItemStack.EMPTY);
@@ -613,7 +613,7 @@ final class NoellesKillerScenes {
         Actors.lookPitch(scene, bomber, 0);
         SceneCaptions.keyframeCaption(scene, 80, "背包里给它挂一颗 M67，右键地面放下（手里的其他活人看不见）");
         scene.idle(90);
-        Actors.hold(scene, bomber, stack("sparkstrength:tablet"));
+        Actors.hold(scene, bomber, stack("sparkdlc:tablet"));
         SceneCaptions.keyframeCaption(scene, 90, "主手拿【平板电脑】，在“无人机”分区里连接");
         scene.idle(30);
         flyDrone(scene, drone, new Vec3d(0, 1.6, 0), 4);
@@ -1193,7 +1193,7 @@ final class NoellesKillerScenes {
      */
     static ElementLink<EntityElement> placeDrone(SceneBuilder scene, String kind, Vec3d at, float yaw) {
         return scene.world().createEntity(world -> {
-            Entity drone = Registries.ENTITY_TYPE.get(Identifier.of("sparkstrength", kind)).create(world);
+            Entity drone = Registries.ENTITY_TYPE.get(Identifier.of("sparkdlc", kind)).create(world);
             drone.refreshPositionAndAngles(at.x, at.y, at.z, yaw, 0);
             droneData(drone, "PAYLOAD", kind.equals("grenade_drone"));
             return drone;
@@ -1225,7 +1225,7 @@ final class NoellesKillerScenes {
 
     /** The M67 as a dropped one looks: the armed model (custom model data 1). 投下的 M67 的样子：已拉环的模型。 */
     static ItemStack armedM67() {
-        ItemStack m67 = stack("sparkstrength:m67");
+        ItemStack m67 = stack("sparkdlc:m67");
         m67.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(1));
         return m67;
     }

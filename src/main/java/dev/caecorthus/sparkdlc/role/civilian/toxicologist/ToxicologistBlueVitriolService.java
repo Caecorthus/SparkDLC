@@ -39,9 +39,9 @@ public final class ToxicologistBlueVitriolService {
     public static final String ACTION_BED = "bed";
     public static final String ACTION_FOOD = "food";
     public static final String ACTION_CAPSULE = "capsule";
-    public static final String CONVERTED_KEY = "message.sparkstrength.blue_vitriol.converted";
-    public static final String NOTHING_KEY = "message.sparkstrength.blue_vitriol.nothing";
-    public static final String UNAVAILABLE_KEY = "message.sparkstrength.blue_poison.unavailable";
+    public static final String CONVERTED_KEY = "message.sparkdlc.blue_vitriol.converted";
+    public static final String NOTHING_KEY = "message.sparkdlc.blue_vitriol.nothing";
+    public static final String UNAVAILABLE_KEY = "message.sparkdlc.blue_poison.unavailable";
     private static boolean registered;
 
     private ToxicologistBlueVitriolService() {

@@ -22,7 +22,7 @@ public final class GuidebookOpenButton extends ButtonWidget {
                 y,
                 SIZE,
                 SIZE,
-                Text.translatable("button.sparkassist.guidebook.open"),
+                Text.translatable("button.sparkdlc.guidebook.open"),
                 button -> MinecraftClient.getInstance().setScreen(new GuidebookScreen(parent)),
                 DEFAULT_NARRATION_SUPPLIER
         );

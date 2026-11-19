@@ -274,7 +274,7 @@ public final class MediumSkillService {
         }
         String question = data.getString("question");
         return Text.translatable(
-                "replay.skill.sparkwitch.medium_seance_skill",
+                "replay.skill.sparkdlc.medium_seance_skill",
                 ReplayGenerator.formatPlayerName(data.getUuid("actor"), ReplayGenerator.getPlayerInfoCache(match)),
                 question
         );

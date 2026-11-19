@@ -26,7 +26,7 @@ import java.util.function.Predicate;
 @Mixin(World.class)
 public abstract class WorldProjectileAffectMixin {
     private static final Identifier PROJECTILE_ACTION =
-            Identifier.of("sparkfactionapi", "projectile");
+            Identifier.of("sparkdlc", "projectile");
 
     @ModifyReturnValue(method = "getOtherEntities", at = @At("RETURN"))
     private List<Entity> sparkfactionapi$filterDeniedProjectileTargets(

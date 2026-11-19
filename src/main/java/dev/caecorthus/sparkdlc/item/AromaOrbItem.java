@@ -39,7 +39,7 @@ public final class AromaOrbItem extends Item {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         for (int line = 1; line <= 2; line++) {
-            tooltip.add(Text.translatable("item.sparkstrength.aroma_orb.tooltip.line" + line)
+            tooltip.add(Text.translatable("item.sparkdlc.aroma_orb.tooltip.line" + line)
                     .styled(style -> style.withColor(0x808080).withItalic(false)));
         }
     }

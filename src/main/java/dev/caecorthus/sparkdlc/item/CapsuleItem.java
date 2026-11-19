@@ -87,7 +87,7 @@ public final class CapsuleItem extends Item {
         }
         if (!hasContents(stack)) {
             if (!world.isClient()) {
-                user.sendMessage(Text.translatable("message.sparkstrength.capsule.empty"), true);
+                user.sendMessage(Text.translatable("message.sparkdlc.capsule.empty"), true);
             }
             return TypedActionResult.fail(stack);
         }
@@ -293,7 +293,7 @@ public final class CapsuleItem extends Item {
 
     static MutableText filledNameText(String name, boolean normalPoisoned, boolean bluePoisoned) {
         return Text.translatable(
-                "item.sparkstrength.capsule.filled",
+                "item.sparkdlc.capsule.filled",
                 contentDisplayText(name, normalPoisoned, bluePoisoned)
         );
     }
@@ -304,7 +304,7 @@ public final class CapsuleItem extends Item {
 
     static MutableText tooltipText(String name, boolean normalPoisoned, boolean bluePoisoned) {
         return Text.translatable(
-                "item.sparkstrength.capsule.tooltip",
+                "item.sparkdlc.capsule.tooltip",
                 contentDisplayText(name, normalPoisoned, bluePoisoned)
         );
     }
@@ -320,7 +320,7 @@ public final class CapsuleItem extends Item {
         }
 
         int color = ToxicologistCapsuleRules.poisonNameColor(normalPoisoned, bluePoisoned);
-        return Text.translatable("item.sparkstrength.capsule.poisoned_content", contentText)
+        return Text.translatable("item.sparkdlc.capsule.poisoned_content", contentText)
                 .styled(style -> style.withColor(color).withItalic(false));
     }
 

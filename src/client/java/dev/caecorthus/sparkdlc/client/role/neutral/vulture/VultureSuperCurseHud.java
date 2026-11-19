@@ -49,9 +49,9 @@ public final class VultureSuperCurseHud {
         int cooldownTicks = VultureSuperCurseRules.cooldownRemaining(
                 VultureSuperCursePlayerComponent.KEY.get(player).readyAtTick(), VultureClock.now(player.getWorld()));
         Text text = cooldownTicks > 0
-                ? Text.translatable("hud.sparkstrength.vulture_super_curse.cooldown",
+                ? Text.translatable("hud.sparkdlc.vulture_super_curse.cooldown",
                         VultureSkateboardRules.displaySeconds(cooldownTicks))
-                : Text.translatable("hud.sparkstrength.vulture_super_curse.ready", keyText());
+                : Text.translatable("hud.sparkdlc.vulture_super_curse.ready", keyText());
         int x = context.getScaledWindowWidth() - renderer.getWidth(text);
         int y = context.getScaledWindowHeight() - renderer.fontHeight * ROW_FROM_BOTTOM;
         context.drawTextWithShadow(renderer, text, x, y, role.color());

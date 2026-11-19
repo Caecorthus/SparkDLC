@@ -59,14 +59,14 @@ public final class MurderousWitchDeathRayService {
 
     public static WitchSkillUseResult use(WitchSkillUseContext context) {
         if (!MurderousWitchDeathRayRules.canSelect(context.role()) || !roundActive(context.gameComponent())) {
-            return WitchSkillUseResult.fail("message.sparkwitch.skill.unavailable");
+            return WitchSkillUseResult.fail("message.sparkdlc.skill.unavailable");
         }
         WitchPlayerComponent component = WitchPlayerComponent.KEY.get(context.player());
         if (component.hasActiveDeathRay()) {
-            return WitchSkillUseResult.fail("message.sparkwitch.skill.death_ray.active");
+            return WitchSkillUseResult.fail("message.sparkdlc.skill.death_ray.active");
         }
         if (!component.spendMana(MurderousWitchDeathRayRules.MANA_COST)) {
-            return WitchSkillUseResult.fail("message.sparkwitch.skill.not_enough_mana");
+            return WitchSkillUseResult.fail("message.sparkdlc.skill.not_enough_mana");
         }
 
         component.beginDeathRayWindow(
@@ -75,7 +75,7 @@ public final class MurderousWitchDeathRayService {
         );
         return WitchSkillUseResult.successAfterActiveWindow(
                 MurderousWitchDeathRayRules.COOLDOWN_TICKS,
-                "message.sparkwitch.skill.death_ray.activated"
+                "message.sparkdlc.skill.death_ray.activated"
         );
     }
 

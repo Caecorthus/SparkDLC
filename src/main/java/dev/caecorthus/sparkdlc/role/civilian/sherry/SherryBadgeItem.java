@@ -22,7 +22,7 @@ public final class SherryBadgeItem extends Item {
 
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        tooltip.add(Text.translatable("item.sparkwitch.sherry_badge.tooltip").formatted(Formatting.GRAY));
-        tooltip.add(Text.translatable("item.sparkwitch.sherry_badge.tooltip.hand").formatted(Formatting.DARK_GRAY));
+        tooltip.add(Text.translatable("item.sparkdlc.sherry_badge.tooltip").formatted(Formatting.GRAY));
+        tooltip.add(Text.translatable("item.sparkdlc.sherry_badge.tooltip.hand").formatted(Formatting.DARK_GRAY));
     }
 }

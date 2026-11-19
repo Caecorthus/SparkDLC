@@ -194,21 +194,21 @@ public final class SeekerCctvOverlay {
         // 共三行；最后一行的底边与电量条底边对齐（即原距离条的结束位置）。
         int y = height - HOTBAR_CLEARANCE - 6 - text.fontHeight - line * 2;
         if (SeekerCctvRules.recVisible(ticks)) {
-            context.drawTextWithShadow(text, Text.translatable("hud.sparkwitch.seeker.view.rec"), x, y,
+            context.drawTextWithShadow(text, Text.translatable("hud.sparkdlc.seeker.view.rec"), x, y,
                     SeekerCctvRules.REC_COLOR);
         }
         String clock = SeekerCctvRules.clock(ticks - sessionStartAge);
-        context.drawTextWithShadow(text, clock, x + text.getWidth(Text.translatable("hud.sparkwitch.seeker.view.rec")) + 6,
+        context.drawTextWithShadow(text, clock, x + text.getWidth(Text.translatable("hud.sparkdlc.seeker.view.rec")) + 6,
                 y, frame);
         y += line;
         int cameraLabel = SeekerCameraRules.label(SeekerClientState.cameras(), SeekerClientState.sessionFocusEntityId());
-        Text label = mode == SeekerSessionMode.CAR ? Text.translatable("hud.sparkwitch.seeker.view.car")
-                : Text.translatable("hud.sparkwitch.seeker.view.camera", SeekerCctvRules.cameraNumber(cameraLabel));
+        Text label = mode == SeekerSessionMode.CAR ? Text.translatable("hud.sparkdlc.seeker.view.car")
+                : Text.translatable("hud.sparkdlc.seeker.view.camera", SeekerCctvRules.cameraNumber(cameraLabel));
         context.drawTextWithShadow(text, label, x, y, frame);
         y += line;
         Entity focus = SeekerRemoteViewClient.focus();
         double distance = focus == null ? 0.0 : horizontalDistance(player, focus);
-        context.drawTextWithShadow(text, Text.translatable("hud.sparkwitch.seeker.view.distance",
+        context.drawTextWithShadow(text, Text.translatable("hud.sparkdlc.seeker.view.distance",
                 MathHelper.floor(distance)), x, y, frame);
     }
 
@@ -217,7 +217,7 @@ public final class SeekerCctvOverlay {
         int color = SeekerCctvRules.batteryColor(battery);
         int x = width - INSET - 6 - BATTERY_BAR_WIDTH;
         int y = height - HOTBAR_CLEARANCE - BATTERY_BAR_HEIGHT - 6;
-        context.drawTextWithShadow(text, Text.translatable("hud.sparkwitch.seeker.view.battery", battery), x,
+        context.drawTextWithShadow(text, Text.translatable("hud.sparkdlc.seeker.view.battery", battery), x,
                 y - text.fontHeight - 2, color);
         // Frame + terminal nub, then the segments: fills only, flushed together before the warning text.
         // 外框与电池正极凸起，然后是电量格：纯填充，在警告文字之前一并提交。
@@ -236,7 +236,7 @@ public final class SeekerCctvOverlay {
         });
         if (SeekerRules.isBatteryWarning(battery)) {
             Text warning = Text.translatable(SeekerRules.isBatteryCritical(battery)
-                    ? "hud.sparkwitch.seeker.battery.critical" : "hud.sparkwitch.seeker.battery.low");
+                    ? "hud.sparkdlc.seeker.battery.critical" : "hud.sparkdlc.seeker.battery.low");
             context.drawTextWithShadow(text, warning, x + BATTERY_BAR_WIDTH - text.getWidth(warning),
                     y - text.fontHeight * 2 - 4, color);
         }
@@ -245,11 +245,11 @@ public final class SeekerCctvOverlay {
     private static void renderHints(DrawContext context, TextRenderer text, MinecraftClient client,
                                     SeekerSessionMode mode, int width, int height, int frame) {
         int y = height - HOTBAR_CLEARANCE - text.fontHeight - 14;
-        Text exit = Text.translatable("hud.sparkwitch.seeker.view.exit_hint", client.options.sneakKey.getBoundKeyLocalizedText());
+        Text exit = Text.translatable("hud.sparkdlc.seeker.view.exit_hint", client.options.sneakKey.getBoundKeyLocalizedText());
         context.drawCenteredTextWithShadow(text, exit, width / 2, y, frame);
         renderCameraCycleHint(context, text, client, mode, width, y, frame);
         if (SeekerCctvRules.showsSwitchHint(SeekerClientState.carState(), SeekerClientState.cameraCount())) {
-            Text change = Text.translatable("hud.sparkwitch.seeker.view.switch_hint",
+            Text change = Text.translatable("hud.sparkdlc.seeker.view.switch_hint",
                     SecondaryAbilityController.secondaryKeyText());
             context.drawCenteredTextWithShadow(text, change, width / 2, y + text.fontHeight + 3, frame);
         }
@@ -274,14 +274,14 @@ public final class SeekerCctvOverlay {
             return;
         }
         int position = SeekerCameraRules.position(ring, focusId);
-        Text cycle = Text.translatable("hud.sparkwitch.seeker.view.camera_cycle_hint",
+        Text cycle = Text.translatable("hud.sparkdlc.seeker.view.camera_cycle_hint",
                 client.options.leftKey.getBoundKeyLocalizedText(), client.options.rightKey.getBoundKeyLocalizedText(),
                 position > 0 ? Integer.toString(position) : "?", count);
         context.drawCenteredTextWithShadow(text, cycle, width / 2, exitY - text.fontHeight - 3, frame);
     }
 
     private static void renderSignalLost(DrawContext context, TextRenderer text, long ticks) {
-        renderPanel(context, text, ticks, Text.translatable("hud.sparkwitch.seeker.view.signal_lost"),
+        renderPanel(context, text, ticks, Text.translatable("hud.sparkdlc.seeker.view.signal_lost"),
                 SeekerCctvRules.CRITICAL_COLOR, null, true);
     }
 
@@ -297,9 +297,9 @@ public final class SeekerCctvOverlay {
         int frame = SeekerCctvRules.frameColor(mode);
         int cameraLabel = SeekerCameraRules.label(SeekerClientState.cameras(),
                 SeekerClientState.sessionFocusEntityId());
-        Text target = mode == SeekerSessionMode.CAR ? Text.translatable("hud.sparkwitch.seeker.view.car")
-                : Text.translatable("hud.sparkwitch.seeker.view.camera", SeekerCctvRules.cameraNumber(cameraLabel));
-        renderPanel(context, text, ticks, Text.translatable("hud.sparkwitch.seeker.view.connecting"), frame, target,
+        Text target = mode == SeekerSessionMode.CAR ? Text.translatable("hud.sparkdlc.seeker.view.car")
+                : Text.translatable("hud.sparkdlc.seeker.view.camera", SeekerCctvRules.cameraNumber(cameraLabel));
+        renderPanel(context, text, ticks, Text.translatable("hud.sparkdlc.seeker.view.connecting"), frame, target,
                 true);
     }
 
@@ -342,7 +342,7 @@ public final class SeekerCctvOverlay {
             y += text.fontHeight + 3;
         }
         if (exitHint) {
-            Text exit = Text.translatable("hud.sparkwitch.seeker.view.exit_hint",
+            Text exit = Text.translatable("hud.sparkdlc.seeker.view.exit_hint",
                     MinecraftClient.getInstance().options.sneakKey.getBoundKeyLocalizedText());
             context.drawCenteredTextWithShadow(text, exit, width / 2, y, SeekerCctvRules.CAMERA_FRAME_COLOR);
         }

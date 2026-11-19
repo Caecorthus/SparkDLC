@@ -76,7 +76,7 @@ public final class MediumHauntDrawer extends ClickableWidget {
     }
 
     private MediumHauntDrawer(LimitedInventoryScreen screen, ClientPlayerEntity player) {
-        super(0, 0, 0, 0, Text.translatable("screen.sparkwitch.medium.haunt.title"));
+        super(0, 0, 0, 0, Text.translatable("screen.sparkdlc.medium.haunt.title"));
         this.screen = screen;
         this.player = player;
     }
@@ -195,8 +195,8 @@ public final class MediumHauntDrawer extends ClickableWidget {
         String pageText = (page + 1) + "/" + l.pages();
         int pageTextWidth = font.getWidth(pageText);
         Text buttonLabel = Text.translatable(pending != null
-                ? "screen.sparkwitch.medium.haunt.pending"
-                : "screen.sparkwitch.medium.haunt.confirm");
+                ? "screen.sparkdlc.medium.haunt.pending"
+                : "screen.sparkdlc.medium.haunt.confirm");
         MediumHauntLayout.Rect button = l.button(font.getWidth(buttonLabel));
         boolean canConfirm = canConfirm(component, poor);
         boolean buttonHot = canConfirm && button.contains(mouseX, mouseY);
@@ -240,7 +240,7 @@ public final class MediumHauntDrawer extends ClickableWidget {
 
         drawTitleText(context, font, frame, chipX, chipLabel, component.getBoundTargets().size());
         if (candidates.isEmpty()) {
-            Text empty = Text.translatable("screen.sparkwitch.medium.haunt.empty");
+            Text empty = Text.translatable("screen.sparkdlc.medium.haunt.empty");
             context.drawText(font, empty, frame.x() + (frame.width() - font.getWidth(empty)) / 2,
                     l.gridY() + (MediumHauntLayout.TILE - font.fontHeight) / 2 + 1, InventoryCardPaint.MUTED, true);
         }
@@ -278,10 +278,10 @@ public final class MediumHauntDrawer extends ClickableWidget {
         context.drawText(font, this.getMessage(), titleX, textY, InventoryCardPaint.TITLE, false);
         InventoryCardPaint.iconText(context, font, Text.literal(chipLabel), chipX + MediumHauntLayout.CHIP_PAD, textY,
                 InventoryCardPaint.TEXT_HI, false);
-        Text count = Text.translatable("screen.sparkwitch.medium.haunt.count", boundCount);
+        Text count = Text.translatable("screen.sparkdlc.medium.haunt.count", boundCount);
         int countX = chipX - MediumHauntLayout.TITLE_GAP - font.getWidth(count);
         context.drawText(font, count, countX, textY, InventoryCardPaint.MUTED, true);
-        Text note = Text.translatable("screen.sparkwitch.medium.haunt.unseen");
+        Text note = Text.translatable("screen.sparkdlc.medium.haunt.unseen");
         int noteX = titleX + font.getWidth(this.getMessage()) + MediumHauntLayout.TITLE_GAP;
         if (noteX + font.getWidth(note) + MediumHauntLayout.PAGER_MESSAGE_GAP <= countX) {
             context.drawText(font, note, noteX, textY, InventoryCardPaint.FAINT, true);
@@ -298,7 +298,7 @@ public final class MediumHauntDrawer extends ClickableWidget {
         int room = right - left;
         int textY = layout.footerTextY();
         if (poor) {
-            Text message = Text.translatable("screen.sparkwitch.medium.haunt.poor", price + COIN);
+            Text message = Text.translatable("screen.sparkdlc.medium.haunt.poor", price + COIN);
             int width = font.getWidth(message);
             if (width <= room) {
                 InventoryCardPaint.iconText(context, font, message, right - width, textY, InventoryCardPaint.ALERT_TEXT,
@@ -308,13 +308,13 @@ public final class MediumHauntDrawer extends ClickableWidget {
         }
         int index = selected == null ? -1 : indexOf(selected);
         if (index >= 0) {
-            int fixed = font.getWidth(Text.translatable("screen.sparkwitch.medium.haunt.ask", price + COIN, ""));
+            int fixed = font.getWidth(Text.translatable("screen.sparkdlc.medium.haunt.ask", price + COIN, ""));
             int nameRoom = room - TarotLedgerLayout.MARK_ADVANCE - fixed;
             if (nameRoom <= 0) {
                 return;
             }
             String name = InventoryCardPaint.ellipsize(font, candidates.get(index).name(), nameRoom);
-            Text message = Text.translatable("screen.sparkwitch.medium.haunt.ask", price + COIN,
+            Text message = Text.translatable("screen.sparkdlc.medium.haunt.ask", price + COIN,
                     Text.literal(name).withColor(InventoryCardPaint.TEXT_HI & 0xFFFFFF));
             int width = font.getWidth(message);
             int x = right - width;
@@ -323,7 +323,7 @@ public final class MediumHauntDrawer extends ClickableWidget {
             InventoryCardPaint.iconText(context, font, message, x, textY, InventoryCardPaint.TEXT, true);
             return;
         }
-        Text hint = Text.translatable("screen.sparkwitch.medium.haunt.hint");
+        Text hint = Text.translatable("screen.sparkdlc.medium.haunt.hint");
         int width = font.getWidth(hint);
         if (width <= room) {
             context.drawText(font, hint, right - width, textY, InventoryCardPaint.MUTED, true);
@@ -336,7 +336,7 @@ public final class MediumHauntDrawer extends ClickableWidget {
      */
     private void drawTooltip(DrawContext context, TextRenderer font, MediumHauntLayout.Rect tile, String name,
                              boolean bound) {
-        Text second = bound ? Text.translatable("screen.sparkwitch.medium.haunt.bound") : null;
+        Text second = bound ? Text.translatable("screen.sparkdlc.medium.haunt.bound") : null;
         int width = Math.max(font.getWidth(name), second == null ? 0 : font.getWidth(second));
         int height = second == null ? 8 : 20;
         int x = Math.max(MediumPaint.FRAME, Math.min(screen.width - MediumPaint.FRAME - width,
@@ -387,8 +387,8 @@ public final class MediumHauntDrawer extends ClickableWidget {
             }
         }
         Text label = Text.translatable(pending != null
-                ? "screen.sparkwitch.medium.haunt.pending"
-                : "screen.sparkwitch.medium.haunt.confirm");
+                ? "screen.sparkdlc.medium.haunt.pending"
+                : "screen.sparkdlc.medium.haunt.confirm");
         if (layout.button(font.getWidth(label)).contains(mouseX, mouseY)) {
             boolean poor = PlayerShopComponent.KEY.get(player).getBalance() < MediumRules.hauntPrice();
             if (canConfirm(component, poor) && ClientPlayNetworking.canSend(SubmitMediumHauntTargetC2SPacket.ID)) {

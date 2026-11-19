@@ -11,14 +11,14 @@ import net.minecraft.client.network.ClientPlayerEntity;
  * Scope intent of the local player. Right-click (hold) raises the rifle ({@code UsecRifleItem.use}); a raise that
  * starts while sneaking jumps the magnification to the farther end of 1x-6x first ({@link #afterInputEvents}, before
  * the tick's first zoom sample). Each change of the actually scoped state is sent once at the tick end as
- * {@code sparkwitch:usec_scope}, the server-validated input of the glint others see; it never carries the
+ * {@code sparkdlc:usec_scope}, the server-validated input of the glint others see; it never carries the
  * magnification. "Scoped" is {@link UsecScopeProfile#isActive()} (A12b): the shared {@code client/scope} view gate
  * (first person, the camera is the player, no screen open, not a spectator) with the USEC profile active, never the raw
  * {@code isUsingItem}, so third person or an open menu shows no glint. The tick end also settles the magnification once
  * scoped out and resets it when a Wathe round begins. Client intent only.
  * 本地玩家的开镜意图。按住右键举枪（{@code UsecRifleItem.use}）；潜行时开始举枪会先把倍率跳到 1-6 倍中较远的一端
  * （{@link #afterInputEvents}，在该刻第一次倍率采样之前）。实际开镜状态的每次变化都在刻末只发送一次
- * {@code sparkwitch:usec_scope}，即他人所见反光的、经服务端校验的输入；它从不携带倍率。“开镜”即
+ * {@code sparkdlc:usec_scope}，即他人所见反光的、经服务端校验的输入；它从不携带倍率。“开镜”即
  * {@link UsecScopeProfile#isActive()}（A12b）：共享 {@code client/scope} 的视角条件（第一人称、相机即玩家、未打开界面、
  * 非旁观者）成立且 USEC 配置生效，而不是原始的 {@code isUsingItem}，因此第三人称或打开菜单时不会出现反光。刻末还会在退出开镜
  * 后让倍率落定，并在 Wathe 对局开始时重置倍率。仅为客户端意图。

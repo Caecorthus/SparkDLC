@@ -18,8 +18,8 @@ public final class WitchFactorCommand {
     private WitchFactorCommand() { }
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
-        var root = CommandManager.literal("sparkwitch:witchFactor")
-                .requires(Permissions.require("sparkwitch.command.witch_factor", SparkWitchPermissions.DEFAULT_COMMAND_LEVEL))
+        var root = CommandManager.literal("sparkdlc:witchFactor")
+                .requires(Permissions.require("sparkdlc.command.witch_factor", SparkWitchPermissions.DEFAULT_COMMAND_LEVEL))
                 .executes(context -> show(context.getSource()));
         var rule = CommandManager.literal("Rule");
         for (WitchFactorSettings.Rule mode : WitchFactorSettings.Rule.values()) {
@@ -50,7 +50,7 @@ public final class WitchFactorCommand {
 
     private static int show(ServerCommandSource source) {
         WitchFactorSettings settings = WitchFactorWorldComponent.KEY.get(source.getWorld()).settings();
-        source.sendFeedback(() -> Text.translatable("command.sparkwitch.witch_factor.updated",
+        source.sendFeedback(() -> Text.translatable("command.sparkdlc.witch_factor.updated",
                 settings.rule().name(), settings.divisor(), settings.maxCarriers() == -1 ? "unlimited" : settings.maxCarriers()), true);
         return 1;
     }

@@ -27,8 +27,8 @@ final class WatheRoleScenes {
     }
 
     static void register() {
-        role("sparkassist:roles/wathe/veteran", List.of(), scene("wathe/aisle", WatheRoleScenes::veteran));
-        role("sparkassist:roles/wathe/loose_end", List.of(), scene("wathe/aisle", WatheItemScenes::derringer));
+        role("sparkdlc:roles/wathe/veteran", List.of(), scene("wathe/aisle", WatheRoleScenes::veteran));
+        role("sparkdlc:roles/wathe/loose_end", List.of(), scene("wathe/aisle", WatheItemScenes::derringer));
     }
 
     /**

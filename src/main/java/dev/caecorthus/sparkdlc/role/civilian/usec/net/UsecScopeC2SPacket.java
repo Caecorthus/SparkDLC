@@ -8,10 +8,10 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 
 /**
- * Stable packet contract {@code sparkwitch:usec_scope} (C2S): {@code scoped:boolean}, the owner's scope state for the
+ * Stable packet contract {@code sparkdlc:usec_scope} (C2S): {@code scoped:boolean}, the owner's scope state for the
  * lens glint others see (S1). Presentation only: the server still checks the held rifle before storing it in
  * {@code UsecPlayerComponent}. Decoding is tolerant: an empty payload decodes to "not scoped".
- * 稳定数据包契约 {@code sparkwitch:usec_scope}（C2S）：本人的开镜状态，用于他人看到的镜头反光（S1）。仅用于表现：
+ * 稳定数据包契约 {@code sparkdlc:usec_scope}（C2S）：本人的开镜状态，用于他人看到的镜头反光（S1）。仅用于表现：
  * 服务端仍会先检查手持步枪，再写入 {@code UsecPlayerComponent}。解码是宽容的：空载荷解码为「未开镜」。
  */
 public record UsecScopeC2SPacket(boolean scoped) implements CustomPayload {

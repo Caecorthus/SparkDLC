@@ -27,7 +27,7 @@ import org.lwjgl.glfw.GLFW;
 /**
  * Client side of the "inside a Rift Gate" session (plan §6.3–6.5, D10/D11, C2). Presentation and requests only: it
  * reads the owner-synced {@link RiftSessionComponent} and never predicts entry or exit (every edge comes from a sync),
- * and it sends {@code sparkwitch:rift_hop} / {@code sparkwitch:rift_exit}, which the server re-validates.
+ * and it sends {@code sparkdlc:rift_hop} / {@code sparkdlc:rift_exit}, which the server re-validates.
  * <p>
  * Runs on START_CLIENT_TICK, before {@code handleInputEvents}. Entry edge: clear (never release) the item in use, stop
  * mining, close gameplay screens, drain queued presses, untoggle sticky keys, reset the shared ability-key bridge,
@@ -39,7 +39,7 @@ import org.lwjgl.glfw.GLFW;
  * outside, or the local player object was replaced): restore a fresh keyboard input, untoggle sticky keys, drain queued
  * presses. Disconnect / join force the local state off and reset the grey filter.
  * 「在裂隙门内」会话的客户端（plan §6.3–6.5、D10/D11、C2）。只负责表现与请求：读取仅同步给拥有者的 {@link RiftSessionComponent}，
- * 从不预测进门或出门（每个边沿都来自同步），并发送由服务端重新校验的 {@code sparkwitch:rift_hop} / {@code sparkwitch:rift_exit}。
+ * 从不预测进门或出门（每个边沿都来自同步），并发送由服务端重新校验的 {@code sparkdlc:rift_hop} / {@code sparkdlc:rift_exit}。
  * 运行于 START_CLIENT_TICK，早于 {@code handleInputEvents}。进门边沿：清除（绝不释放）正在使用的物品、停止挖掘、关闭游戏界面、
  * 清空积压按键、取消切换式按键、重置共享技能键桥、装上 {@link RiftFrozenInput} 并清零本体速度与疾跑；Shift 与跳门键必须先松开才算数。
  * 门内：白名单之外的按键对游戏其余部分视为未按下（{@code RiftSessionKeyBindingMixin}），本控制器则直接读取 Shift、A/D、使用键与

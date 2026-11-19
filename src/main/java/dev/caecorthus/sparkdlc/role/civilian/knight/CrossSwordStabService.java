@@ -26,11 +26,11 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Server authority for the cross sword stab ({@code sparkwitch:cross_sword_stab}). The client only names the entity it
+ * Server authority for the cross sword stab ({@code sparkdlc:cross_sword_stab}). The client only names the entity it
  * aimed at; this class requires a fresh server-side release of a real raise, then re-checks the round, the Knight, the
  * held sword, the duel target and Wathe's knife distance tolerance before the kill. Payload handlers and the release
  * record run on the server thread only.
- * 十字剑刺击（{@code sparkwitch:cross_sword_stab}）的服务端权威。客户端只报告瞄准的实体；本类要求一次新鲜的、服务端
+ * 十字剑刺击（{@code sparkdlc:cross_sword_stab}）的服务端权威。客户端只报告瞄准的实体；本类要求一次新鲜的、服务端
  * 亲眼见到的举剑松手，再重新校验对局、骑士、手持十字剑、决斗目标与 Wathe 小刀的距离容差，然后才击杀。数据包处理与松手
  * 记录只在服务端线程运行。
  */

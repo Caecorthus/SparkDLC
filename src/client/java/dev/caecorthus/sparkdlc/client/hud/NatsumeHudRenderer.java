@@ -35,9 +35,9 @@ public final class NatsumeHudRenderer {
             return;
         }
         Text line = component.getCooldownSeconds() > 0
-                ? Text.translatable("message.sparkwitch.natsume.cooldown",
+                ? Text.translatable("message.sparkdlc.natsume.cooldown",
                         component.getCooldownSeconds()).formatted(Formatting.GRAY)
-                : Text.translatable("hud.sparkwitch.natsume.ready",
+                : Text.translatable("hud.sparkdlc.natsume.ready",
                         SparkWitchClient.abilityKeyText()).formatted(Formatting.LIGHT_PURPLE);
         // Same slot as the other skill readouts: centred, just above the action bar.
         // 与其它技能提示同位置：居中，动作栏正上方。

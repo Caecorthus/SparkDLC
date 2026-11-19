@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class M67ShopService {
-    public static final String ENTRY_ID = "sparkstrength_m67";
+    public static final String ENTRY_ID = "sparkdlc_m67";
 
     private M67ShopService() {
     }
@@ -39,9 +39,9 @@ public final class M67ShopService {
         // Builder has no name/description API; display components must not enter the purchased stack.
         // Builder 无名称/描述接口；展示组件不应进入实际购买的物品堆。
         ItemStack display = SparkStrengthItems.m67().getDefaultStack();
-        display.set(DataComponentTypes.ITEM_NAME, Text.translatable("shop.sparkstrength.m67"));
+        display.set(DataComponentTypes.ITEM_NAME, Text.translatable("shop.sparkdlc.m67"));
         display.set(DataComponentTypes.LORE, new LoreComponent(List.of(
-                Text.translatable("shop.sparkstrength.m67.description")
+                Text.translatable("shop.sparkdlc.m67.description")
                         .styled(style -> style.withColor(0x808080).withItalic(false)))));
         // Match M67 cooldown eligibility; stale disguises on other roles do not qualify.
         // 与 M67 冷却资格一致；其他职业残留的伪装不享受优惠。

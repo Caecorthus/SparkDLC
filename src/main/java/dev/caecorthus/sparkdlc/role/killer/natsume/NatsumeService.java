@@ -44,14 +44,14 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * 夏目安安 server authority: the target menu ({@code sparkwitch:request_natsume_menu} →
- * {@code sparkwitch:open_natsume_menu}), the cast ({@code sparkwitch:confirm_natsume_target}), the per-tick hypnosis
+ * 夏目安安 server authority: the target menu ({@code sparkdlc:request_natsume_menu} →
+ * {@code sparkdlc:open_natsume_menu}), the cast ({@code sparkdlc:confirm_natsume_target}), the per-tick hypnosis
  * (blindness, real-sanity drain with a breakdown credited to her, a roar only the victim hears) and her shop. All
  * per-player state lives in {@link NatsumeComponent}; every gate is a pure rule in {@link NatsumeRules}. Both C2S
  * payloads are on the Control Expert stun, Fear, Seeker session, Rift occupant and Knight duel deny lists; this
  * re-checks every gate against server state anyway.
- * 夏目安安的服务端权威：目标菜单（{@code sparkwitch:request_natsume_menu} → {@code sparkwitch:open_natsume_menu}）、施放
- * （{@code sparkwitch:confirm_natsume_target}）、逐刻催眠（失明、扣除真实理智且崩溃死亡记在她名下、只有受害者听得到的咆哮）以及
+ * 夏目安安的服务端权威：目标菜单（{@code sparkdlc:request_natsume_menu} → {@code sparkdlc:open_natsume_menu}）、施放
+ * （{@code sparkdlc:confirm_natsume_target}）、逐刻催眠（失明、扣除真实理智且崩溃死亡记在她名下、只有受害者听得到的咆哮）以及
  * 她的商店。所有每名玩家的状态都在 {@link NatsumeComponent} 中；每个门槛都是 {@link NatsumeRules} 中的纯规则。两个 C2S 数据包
  * 都在控场专家眩晕、恐惧、搜寻者会话、裂隙门内与骑士决斗的拦截名单上；这里仍按服务端状态重新检查每个门槛。
  */
@@ -158,13 +158,13 @@ public final class NatsumeService {
         boolean self = caster.getUuid().equals(target.getUuid());
         if (!self) {
             if (caster.squaredDistanceTo(target) > NatsumeRules.RANGE * NatsumeRules.RANGE) {
-                caster.sendMessage(Text.translatable("message.sparkwitch.natsume.too_far",
+                caster.sendMessage(Text.translatable("message.sparkdlc.natsume.too_far",
                         target.getGameProfile().getName()).formatted(Formatting.RED), true);
                 return;
             }
             // Block line of sight from eye to eye: no hypnosis through walls. 眼到眼的方块视线：不能隔墙催眠。
             if (!caster.canSee(target)) {
-                caster.sendMessage(Text.translatable("message.sparkwitch.natsume.no_line_of_sight")
+                caster.sendMessage(Text.translatable("message.sparkdlc.natsume.no_line_of_sight")
                         .formatted(Formatting.RED), true);
                 return;
             }
@@ -180,9 +180,9 @@ public final class NatsumeService {
 
         target.getWorld().playSound(null, target.getBlockPos(), SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME,
                 SoundCategory.PLAYERS, 1.0F, 0.7F);
-        caster.sendMessage(Text.translatable("message.sparkwitch.natsume.cast",
+        caster.sendMessage(Text.translatable("message.sparkdlc.natsume.cast",
                 target.getGameProfile().getName()).formatted(Formatting.DARK_PURPLE), true);
-        target.sendMessage(Text.translatable("message.sparkwitch.natsume.hypnotised")
+        target.sendMessage(Text.translatable("message.sparkdlc.natsume.hypnotised")
                 .formatted(Formatting.DARK_PURPLE), true);
 
         NbtCompound replay = new NbtCompound();
@@ -306,7 +306,7 @@ public final class NatsumeService {
         if (left <= 0L) {
             endHypnosis(victim, true);
         } else if (state.refreshHypnosisSeconds(now)) {
-            victim.sendMessage(Text.translatable("message.sparkwitch.natsume.remaining", state.getHypnosisSeconds())
+            victim.sendMessage(Text.translatable("message.sparkdlc.natsume.remaining", state.getHypnosisSeconds())
                     .formatted(Formatting.DARK_PURPLE), true);
         }
         return false;
@@ -348,7 +348,7 @@ public final class NatsumeService {
         long left = Math.max(0L, state.hypnosisEndTick() - victim.getWorld().getTime());
         state.endHypnosis();
         if (expired) {
-            victim.sendMessage(Text.translatable("message.sparkwitch.natsume.ended")
+            victim.sendMessage(Text.translatable("message.sparkdlc.natsume.ended")
                     .formatted(Formatting.GRAY), true);
             return;
         }

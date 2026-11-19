@@ -8,10 +8,10 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.hit.BlockHitResult;
 
 /**
- * Stable packet contract {@code sparkwitch:seeker_car_use} (C2S, owner while driving the car):
+ * Stable packet contract {@code sparkdlc:seeker_car_use} (C2S, owner while driving the car):
  * {@code sessionId:varint}, then vanilla's block-hit layout (block pos, side, hit offset, inside flag). The hit is only
  * the client's claim; {@code SeekerCarUseService} re-validates everything on the server thread.
- * 稳定数据包契约 {@code sparkwitch:seeker_car_use}（C2S，拥有者驾驶小车时发送）：{@code sessionId:varint}，
+ * 稳定数据包契约 {@code sparkdlc:seeker_car_use}（C2S，拥有者驾驶小车时发送）：{@code sessionId:varint}，
  * 随后是原版方块命中布局（方块坐标、面、命中偏移、内部标记）。命中只是客户端的声明；
  * {@code SeekerCarUseService} 会在服务端线程重新校验全部内容。
  */

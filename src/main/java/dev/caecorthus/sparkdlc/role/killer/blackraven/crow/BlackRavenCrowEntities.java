@@ -6,9 +6,9 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
 /**
- * Registers the Raven Form crow entity type ({@code sparkwitch:black_raven_crow}); runs from {@code SparkWitch} with the
+ * Registers the Raven Form crow entity type ({@code sparkdlc:black_raven_crow}); runs from {@code SparkWitch} with the
  * other entity types. Never saved, never summonable, fire-immune, tracked every tick.
- * 注册化鸦乌鸦实体类型（{@code sparkwitch:black_raven_crow}）；与其他实体类型一同由 {@code SparkWitch} 调用。
+ * 注册化鸦乌鸦实体类型（{@code sparkdlc:black_raven_crow}）；与其他实体类型一同由 {@code SparkWitch} 调用。
  * 从不存盘、不可召唤、免疫火焰、每刻追踪。
  */
 public final class BlackRavenCrowEntities {

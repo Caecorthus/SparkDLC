@@ -31,7 +31,7 @@ final class NoellesKillerRules {
     /** The Scavenger's shop entry that resets the knife cooldown. 清道夫商店中重置刀冷却的条目。 */
     static final String RESET_KNIFE_COOLDOWN = "noellesroles:scavenger_reset_knife_cd";
     /** Hidden from its owner until it triggers. 触发之前对持有者隐藏。 */
-    static final String LAST_ESCAPE = "sparktraits:last_escape";
+    static final String LAST_ESCAPE = "sparkdlc:last_escape";
 
     static final String SWAP_ACTION = "swap";
     static final String BUZZ_ACTION = "buzz";
@@ -39,11 +39,11 @@ final class NoellesKillerRules {
     static final String INVISIBLE_ACTION = "invisible";
     static final String SILENCE_ACTION = "silence";
 
-    static final String PHANTOM_BACKPACK_STARTED = "sparkstrength:phantom_backpack_invisibility_started";
-    static final String PHANTOM_BACKPACK_ENDED = "sparkstrength:phantom_backpack_invisibility_ended";
-    static final String MORPH_REAGENT_MARKED = "sparkstrength:morph_reagent_marked";
-    static final String MORPH_MARK_TRIGGERED = "sparkstrength:morph_mark_triggered";
-    static final String MORPH_MARK_ENDED = "sparkstrength:morph_mark_ended";
+    static final String PHANTOM_BACKPACK_STARTED = "sparkdlc:phantom_backpack_invisibility_started";
+    static final String PHANTOM_BACKPACK_ENDED = "sparkdlc:phantom_backpack_invisibility_ended";
+    static final String MORPH_REAGENT_MARKED = "sparkdlc:morph_reagent_marked";
+    static final String MORPH_MARK_TRIGGERED = "sparkdlc:morph_mark_triggered";
+    static final String MORPH_MARK_ENDED = "sparkdlc:morph_mark_ended";
 
     /** 10 seconds. 10 秒。 */
     static final int SWAP_TO_DEATH_TICKS = 200;
@@ -416,9 +416,9 @@ final class NoellesKillerRules {
 
     /**
      * 你已经死了: as the Assassin, a correct guess on the Vendetta who came back for me. It never writes a death: it is
-     * a {@code sparkwitch:vendetta_terminal} with me as actor and the assassination as {@code death_reason} (only the
+     * a {@code sparkdlc:vendetta_terminal} with me as actor and the assassination as {@code death_reason} (only the
      * bound killer can end their own Vendetta this way).
-     * 以刺客身份猜中回来向我复仇的仇杀客。这不会写下死亡记录，而是一条 {@code sparkwitch:vendetta_terminal}，执行者是我，
+     * 以刺客身份猜中回来向我复仇的仇杀客。这不会写下死亡记录，而是一条 {@code sparkdlc:vendetta_terminal}，执行者是我，
      * {@code death_reason} 为刺杀（只有被绑定的凶手才能这样终结自己的仇杀客）。
      */
     static boolean assassinatedReturningVendetta(AchievementContext context) {

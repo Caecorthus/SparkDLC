@@ -17,8 +17,8 @@ import dev.caecorthus.sparkdlc.util.TickTime;
  * 是魔人或运动员，这些行不会与她的行同时出现。属于职业自有展示，从不使用魔女技能背包面板，也从不使用动作栏。
  */
 public final class NoaPaintHudRules {
-    public static final String READY_KEY = "hud.sparkwitch.noa.paint.ready";
-    public static final String COOLDOWN_KEY = "hud.sparkwitch.noa.paint.cooldown";
+    public static final String READY_KEY = "hud.sparkdlc.noa.paint.ready";
+    public static final String COOLDOWN_KEY = "hud.sparkdlc.noa.paint.cooldown";
     /** Opaque Noa role colour. / 不透明的诺亚职业色。 */
     public static final int READY_COLOR = 0xFF000000 | NoaRules.COLOR;
     /** Same muted grey as the Blind's, the Fiend's and the Athlete's cooldown lines. / 与盲人、魔人、运动员冷却行相同的灰色。 */

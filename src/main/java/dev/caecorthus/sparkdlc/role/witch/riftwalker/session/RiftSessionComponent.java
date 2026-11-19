@@ -22,14 +22,14 @@ import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
 /**
- * Stable CCA contract {@code sparkwitch:rift_session} (player, NEVER_COPY): the "inside a Rift Gate" session and the
+ * Stable CCA contract {@code sparkdlc:rift_session} (player, NEVER_COPY): the "inside a Rift Gate" session and the
  * re-entry cooldown. Server-authoritative; synced only to the owner, with remaining ticks (never absolute server
  * ticks); never persisted (a reload or relog starts clean) and bound to the match id. It never enters the shared
- * {@code sparkwitch:player} schema and is not an item or skill cooldown, so Fast Hands and forced-cooldown auras never
+ * {@code sparkdlc:player} schema and is not an item or skill cooldown, so Fast Hands and forced-cooldown auras never
  * touch it (plan §7). Getters and the sync codec are frozen by G0; the transitions (setters) belong to P2.
- * 稳定 CCA 契约 {@code sparkwitch:rift_session}（玩家，NEVER_COPY）：「在裂隙门内」会话与再次进门冷却。服务端权威；
+ * 稳定 CCA 契约 {@code sparkdlc:rift_session}（玩家，NEVER_COPY）：「在裂隙门内」会话与再次进门冷却。服务端权威；
  * 仅同步给拥有者，且只发送剩余 tick（从不发送服务端绝对 tick）；从不持久化（重载或重连后为空），并绑定对局 id。
- * 从不进入共享的 {@code sparkwitch:player} 结构，也不是物品或技能冷却，因此快手与强制冷却光环都不会影响它（plan §7）。
+ * 从不进入共享的 {@code sparkdlc:player} 结构，也不是物品或技能冷却，因此快手与强制冷却光环都不会影响它（plan §7）。
  * Getter 与同步编码由 G0 冻结；状态转移（setter）归 P2。
  */
 public final class RiftSessionComponent implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {

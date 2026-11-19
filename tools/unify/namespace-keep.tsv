@@ -1,0 +1,16 @@
+# Sites that keep a legacy name on purpose. path_glob is matched against the repository-relative path (`*` also
+# matches `/`); line_regex selects the lines (`*` = the whole file). Tokens on those lines are not rewritten.
+# 有意保留旧名字的位置。path_glob 匹配仓库相对路径（`*` 也匹配 `/`）；line_regex 选择行（`*` 表示整个文件）。这些行上的记号不改写。
+path_glob	line_regex	reason
+src/main/resources/fabric.mod.json	^\s*"spark(factionapi|strength|traits|witch|assist)",?\s*$	provides: the five legacy mod ids stay loader-visible aliases
+src/main/java/dev/caecorthus/sparkdlc/SparkDlcModule.java	*	the five legacy mod ids (the provides aliases) and their display names
+src/main/java/dev/caecorthus/sparkdlc/compat/noellesroles/WraithLegacyRoleIds.java	*	existing legacy migration: old literals stay, targets come from SparkWitch.id
+src/main/java/dev/caecorthus/sparkdlc/trait/component/RetiredTraitIds.java	*	existing legacy filter: old literals stay
+src/main/java/dev/caecorthus/sparkdlc/component/LegacyWraithPlayerComponent.java	*	existing read-only legacy component
+src/main/java/dev/caecorthus/sparkdlc/component/LegacyWraithRoundComponent.java	*	existing read-only legacy component
+src/main/java/dev/caecorthus/sparkdlc/role/killer/witchmaiden/PoisonApplePlateNbt.java	_KEY = "	private block-entity NBT field names
+src/main/java/dev/caecorthus/sparkdlc/role/civilian/junker/JunkerLoot.java	MARKER = "	private item custom-data marker
+src/client/java/dev/caecorthus/sparkdlc/client/settings/EventVolumeRows.java	role\(EventSoundGroup\.	module label of a volume row (SparkDlcModule#byNamespace), not an id
+gradle/verify/*.gradle	"spark(factionapi|strength|traits|witch|assist)"	checks of the provided legacy mod ids and of the legacy module of a file name the old ids on purpose
+gradle/verify/assist.gradle	sparkassist:	the retired assist namespace must not come back as a component key
+tools/payload_policy.py	"spark(factionapi|strength|traits|witch|assist)"	module labels of the owner column (legacy module ids), not namespaces

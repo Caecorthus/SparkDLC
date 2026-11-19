@@ -184,7 +184,7 @@ public final class JunkerLootSpend {
         if (!world.isClient && player instanceof ServerPlayerEntity serverPlayer) {
             Text name = stack.getName().copy().formatted(Formatting.GRAY);
             stack.decrement(1);
-            serverPlayer.sendMessage(Text.translatable("tip.sparkwitch.ragpicker.destroyed", name), true);
+            serverPlayer.sendMessage(Text.translatable("tip.sparkdlc.ragpicker.destroyed", name), true);
         }
         return TypedActionResult.success(stack, world.isClient());
     }

@@ -25,7 +25,7 @@ public final class SeekerRemoteViewRules {
      * SparkWitch's configurable skill key 2 (N), used by the Seeker's quick connect / mode switch (WP-11).
      * SparkWitch 可配置的技能键 2（N），供搜寻者快速连接与模式切换使用（WP-11）。
      */
-    public static final String SECONDARY_SKILL_KEY = "key.sparkwitch.secondary_skill";
+    public static final String SECONDARY_SKILL_KEY = "key.sparkdlc.role_skill_2";
     /**
      * Keys that keep working while viewing: movement (drives the car), sneak (exit), player list, screenshot,
      * fullscreen and skill key 2. Everything else, including jump, sprint, hotbar, inventory, drop, use and attack,

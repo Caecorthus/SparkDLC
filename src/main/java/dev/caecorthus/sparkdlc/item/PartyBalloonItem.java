@@ -44,9 +44,9 @@ public final class PartyBalloonItem extends Item {
 
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        tooltip.add(Text.translatable("item.sparkstrength.party_balloon.tooltip.line1")
+        tooltip.add(Text.translatable("item.sparkdlc.party_balloon.tooltip.line1")
                 .styled(style -> style.withColor(0x808080).withItalic(false)));
-        tooltip.add(Text.translatable("item.sparkstrength.party_balloon.tooltip.line2")
+        tooltip.add(Text.translatable("item.sparkdlc.party_balloon.tooltip.line2")
                 .styled(style -> style.withColor(0x808080).withItalic(false)));
     }
 }

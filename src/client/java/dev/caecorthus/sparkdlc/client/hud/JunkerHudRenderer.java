@@ -20,10 +20,10 @@ import net.minecraft.util.Formatting;
  * 拾荒者 owner-only readout ({@link JunkerHudRules}), drawn from a {@code HudRenderCallback} registered by
  * {@link JunkerClientModule}, like the other role-owned lines. While searching: the percentage with the identity-coloured
  * bar under it, above the action bar. Otherwise: the corner skill line with the key hint or the remaining cooldown.
- * Reads only the local player's own synced role and owner-synced {@code sparkwitch:ragpicker_player} state.
+ * Reads only the local player's own synced role and owner-synced {@code sparkdlc:ragpicker_player} state.
  * 拾荒者仅本人可见的信息显示（{@link JunkerHudRules}），与其他职业自有提示行一样由 {@link JunkerClientModule} 注册的
  * {@code HudRenderCallback} 绘制。搜刮中：动作栏上方显示百分比及其下方的身份色进度条；其余时候：右下角技能行显示按键
- * 提示或剩余冷却。只读取本地玩家自己同步的身份与仅同步给本人的 {@code sparkwitch:ragpicker_player} 状态。
+ * 提示或剩余冷却。只读取本地玩家自己同步的身份与仅同步给本人的 {@code sparkdlc:ragpicker_player} 状态。
  */
 public final class JunkerHudRenderer {
     private static final int TEXT_COLOR = 0xFFFFFFFF;

@@ -42,19 +42,19 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
 
 /**
- * Registers {@code /sparkwitch:forceAccompliceRole <role> <players>} (D4, C5): locks the role each target's Bewitched
+ * Registers {@code /sparkdlc:forceAccompliceRole <role> <players>} (D4, C5): locks the role each target's Bewitched
  * promotion yields, the plain Accomplice or one registered special accomplice. A living Bewitched of an ACTIVE round is
  * locked for the current round; any other target (lobby, start or end fade, not a living Bewitched) is locked for the
  * next round, which keeps the lock only if the target is then a Bewitched, the same lifetime as Wathe's forced roles
  * (owner, 2026-10-10). A special accomplice is locked to one player at a time per round; the plain Accomplice to any
  * number. Locks are server-only.
- * 注册 {@code /sparkwitch:forceAccompliceRole <role> <players>}（D4、C5）：锁定每名目标魔化使晋升后的身份，可以是普通共犯或
+ * 注册 {@code /sparkdlc:forceAccompliceRole <role> <players>}（D4、C5）：锁定每名目标魔化使晋升后的身份，可以是普通共犯或
  * 一种已注册的特殊共犯。ACTIVE 对局中存活的魔化使锁定于本局；其他目标（大厅、开局或结束渐变、不是存活魔化使）锁定于下一局，
  * 且仅当目标届时是魔化使才保留，生命周期与 Wathe 强制身份相同（所有者 2026-10-10）。特殊共犯每局同一时间只能锁定给一名
  * 玩家；普通共犯不限人数。锁定仅保存在服务端。
  */
 public final class ForceAccompliceRoleCommand {
-    static final String KEY_PREFIX = "command.sparkwitch.force_accomplice_role.";
+    static final String KEY_PREFIX = "command.sparkdlc.force_accomplice_role.";
     private static final DynamicCommandExceptionType UNKNOWN_ROLE = new DynamicCommandExceptionType(
             id -> Text.translatable(KEY_PREFIX + "unknown_role", id));
     private static final DynamicCommandExceptionType SPECIAL_SINGLE_TARGET = new DynamicCommandExceptionType(
@@ -66,7 +66,7 @@ public final class ForceAccompliceRoleCommand {
     }
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
-        dispatcher.register(CommandManager.literal("sparkwitch:forceAccompliceRole")
+        dispatcher.register(CommandManager.literal("sparkdlc:forceAccompliceRole")
                 .requires(Permissions.require(
                         SparkWitchPermissions.COMMAND_FORCE_ACCOMPLICE_ROLE,
                         SparkWitchPermissions.DEFAULT_COMMAND_LEVEL

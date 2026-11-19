@@ -14,13 +14,13 @@ import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Server side of the task slip ({@code sparkwitch:planner_task_slip}). Whoever holds it may use it (no role claim, and
+ * Server side of the task slip ({@code sparkdlc:planner_task_slip}). Whoever holds it may use it (no role claim, and
  * the target's line names nobody): the visible living participant under the user's crosshair within
  * {@link PlannerRules#REACH} (walls block the ray), or the user when nobody is aimed at, has every task replaced by the
  * same number of distinct random native types and loses any recommendation marker. On another player the slip is
  * always handed over and used up with the normal lines, even when nothing can be rerolled (no task, or a Bell Ringer
  * Echo holding the map), so it never probes a role; only the user's own empty or held list refuses and keeps it.
- * 任务单（{@code sparkwitch:planner_task_slip}）的服务端部分。谁拿到都能用（不声明身份，给目标的提示也不写任何名字）：
+ * 任务单（{@code sparkdlc:planner_task_slip}）的服务端部分。谁拿到都能用（不声明身份，给目标的提示也不写任何名字）：
  * 用户准星下 {@link PlannerRules#REACH} 格内可见的存活参与者（墙会挡住射线），或无目标时用户自己，全部任务
  * 被替换为同样数量、互不相同的随机原生类型，并失去推荐标记。对另一名玩家时，即使没有可重排的任务（一个都没有，或任务表被
  * 敲钟人回响占用），任务单也总会递出并用掉，提示与正常情况相同，因此从不用来探测身份；只有使用者自己的任务为空或被占用时才会
@@ -64,7 +64,7 @@ final class PlannerTaskSlipService {
                 handOver(user, target, self);
                 return true;
             }
-            case NO_TASKS -> user.sendMessage(Text.translatable("message.sparkwitch.planner.task_slip.no_tasks.self")
+            case NO_TASKS -> user.sendMessage(Text.translatable("message.sparkdlc.planner.task_slip.no_tasks.self")
                     .formatted(Formatting.RED), true);
             case REFUSE -> {
             }
@@ -82,13 +82,13 @@ final class PlannerTaskSlipService {
     private static void handOver(ServerPlayerEntity user, ServerPlayerEntity target, boolean self) {
         user.playSoundToPlayer(SoundEvents.ITEM_BOOK_PAGE_TURN, SoundCategory.PLAYERS, 0.8F, 0.9F);
         if (self) {
-            user.sendMessage(Text.translatable("message.sparkwitch.planner.task_slip.self")
+            user.sendMessage(Text.translatable("message.sparkdlc.planner.task_slip.self")
                     .formatted(Formatting.GOLD), true);
         } else {
-            user.sendMessage(Text.translatable("message.sparkwitch.planner.task_slip.given")
+            user.sendMessage(Text.translatable("message.sparkdlc.planner.task_slip.given")
                     .formatted(Formatting.GOLD), true);
             target.playSoundToPlayer(SoundEvents.ITEM_BOOK_PAGE_TURN, SoundCategory.PLAYERS, 0.6F, 0.9F);
-            target.sendMessage(Text.translatable("message.sparkwitch.planner.task_slip")
+            target.sendMessage(Text.translatable("message.sparkdlc.planner.task_slip")
                     .formatted(Formatting.GOLD), true);
         }
         PlannerReplay.recordTaskSlip(user, self ? null : target);

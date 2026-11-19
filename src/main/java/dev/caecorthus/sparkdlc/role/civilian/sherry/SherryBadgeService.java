@@ -82,12 +82,12 @@ public final class SherryBadgeService {
         }
         SherryComponent component = SherryComponent.KEY.get(sherry);
         if (!component.addBadgeHolder(target.getUuid())) {
-            sherry.sendMessage(Text.translatable("message.sparkwitch.sherry.badge.already",
+            sherry.sendMessage(Text.translatable("message.sparkdlc.sherry.badge.already",
                     target.getGameProfile().getName()).formatted(Formatting.GRAY), true);
             return ActionResult.FAIL;
         }
         held.decrement(1);
-        sherry.sendMessage(Text.translatable("message.sparkwitch.sherry.badge.handed",
+        sherry.sendMessage(Text.translatable("message.sparkdlc.sherry.badge.handed",
                 target.getGameProfile().getName()).formatted(Formatting.GOLD), true);
         NbtCompound extra = new NbtCompound();
         extra.putString(ACTION_KEY, ACTION_HANDED);
@@ -123,8 +123,8 @@ public final class SherryBadgeService {
                     && GameFunctions.isPlayerPlayingAndAlive(killer)
                     && component.track(killer.getUuid(), SherryRules.BADGE_REVEAL_INTERVAL_TICKS);
             sherry.sendMessage(Text.translatable(tracked
-                            ? "message.sparkwitch.sherry.badge.holder_killed"
-                            : "message.sparkwitch.sherry.badge.holder_died", victimName)
+                            ? "message.sparkdlc.sherry.badge.holder_killed"
+                            : "message.sparkdlc.sherry.badge.holder_died", victimName)
                     .formatted(Formatting.GOLD), true);
             NbtCompound extra = new NbtCompound();
             extra.putString(ACTION_KEY, ACTION_HOLDER_DIED);
@@ -158,8 +158,8 @@ public final class SherryBadgeService {
         UUID target = data.getUuid("target");
         return Text.translatable(
                 ACTION_HOLDER_DIED.equals(data.getString(ACTION_KEY))
-                        ? "replay.skill.sparkwitch.sherry_badge.holder_died"
-                        : "replay.skill.sparkwitch.sherry_badge.handed",
+                        ? "replay.skill.sparkdlc.sherry_badge.holder_died"
+                        : "replay.skill.sparkdlc.sherry_badge.handed",
                 ReplayGenerator.formatPlayerName(actor, playerInfo),
                 ReplayGenerator.formatPlayerName(target, playerInfo)
         );

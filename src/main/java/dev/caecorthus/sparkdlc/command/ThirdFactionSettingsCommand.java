@@ -23,7 +23,7 @@ public final class ThirdFactionSettingsCommand {
     }
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
-        dispatcher.register(CommandManager.literal("sparkwitch:thirdFactionMinRequirement")
+        dispatcher.register(CommandManager.literal("sparkdlc:thirdFactionMinRequirement")
                 .requires(Permissions.require(
                         SparkWitchPermissions.COMMAND_THIRD_FACTION_MIN_REQUIREMENT,
                         SparkWitchPermissions.DEFAULT_COMMAND_LEVEL))
@@ -44,12 +44,12 @@ public final class ThirdFactionSettingsCommand {
             try {
                 SparkFactionApi.setThirdFactionMinPlayers(source.getServer(), players);
             } catch (LinkageError olderSparkFactionApi) {
-                source.sendError(Text.translatable("command.sparkwitch.third_faction_min_requirement.unavailable"));
+                source.sendError(Text.translatable("command.sparkdlc.third_faction_min_requirement.unavailable"));
                 return;
             }
             applied[0] = true;
             source.sendFeedback(() -> Text.translatable(
-                    "command.sparkwitch.third_faction_min_requirement.success", players), true);
+                    "command.sparkdlc.third_faction_min_requirement.success", players), true);
         });
         return applied[0] ? result : 0;
     }

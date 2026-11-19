@@ -45,7 +45,7 @@ public enum PotionShellType {
     }
 
     public String shopEntryId() {
-        return "sparkwitch_potion_gunner_" + path;
+        return "sparkdlc_potion_gunner_" + path;
     }
 
     public int price() {

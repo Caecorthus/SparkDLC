@@ -17,10 +17,10 @@ import org.jetbrains.annotations.Nullable;
  * 干扰器的回放只记录使用者：从不记录被干扰者的身份或数量。电击枪的回放仅在命中时记录目标。电击装置的回放只记录投掷者。
  */
 public final class ControlExpertReplayFormatters {
-    static final String DISRUPTOR_KEY = "replay.item_use.sparkwitch.disruptor";
-    static final String TASER_HIT_KEY = "replay.item_use.sparkwitch.taser.hit";
-    static final String TASER_MISS_KEY = "replay.item_use.sparkwitch.taser.miss";
-    static final String SHOCK_DEVICE_KEY = "replay.item_use.sparkwitch.shock_device";
+    static final String DISRUPTOR_KEY = "replay.item_use.sparkdlc.disruptor";
+    static final String TASER_HIT_KEY = "replay.item_use.sparkdlc.taser.hit";
+    static final String TASER_MISS_KEY = "replay.item_use.sparkdlc.taser.miss";
+    static final String SHOCK_DEVICE_KEY = "replay.item_use.sparkdlc.shock_device";
     private static boolean registered;
 
     private ControlExpertReplayFormatters() {

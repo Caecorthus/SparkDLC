@@ -20,7 +20,7 @@ import java.util.Optional;
  * SparkWitch 从不出售或发放平板：SparkStrength 在开局（以及对局中途获得资格时）免费发放。
  */
 public final class SparkStrengthTabletCompat {
-    public static final String MOD_ID = "sparkstrength";
+    public static final String MOD_ID = "sparkdlc";
     public static final Identifier TABLET_ID = Identifier.of(MOD_ID, "tablet");
 
     private static volatile Item cachedTablet;

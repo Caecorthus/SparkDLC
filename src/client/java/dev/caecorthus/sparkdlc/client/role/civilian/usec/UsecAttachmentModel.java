@@ -47,12 +47,12 @@ public final class UsecAttachmentModel {
         }
 
         public String labelKey() {
-            return "gui.sparkwitch.usec_attachment.slot." + id;
+            return "gui.sparkdlc.usec_attachment.slot." + id;
         }
 
         /** Stencil-free drawing code (CHMBR / MAG / MUZZLE). 图纸代号。 */
         public String codeKey() {
-            return "gui.sparkwitch.usec_attachment.slot." + id + ".code";
+            return "gui.sparkdlc.usec_attachment.slot." + id + ".code";
         }
     }
 
@@ -128,7 +128,7 @@ public final class UsecAttachmentModel {
         }
 
         public String key() {
-            return "gui.sparkwitch.usec_attachment.button." + id;
+            return "gui.sparkdlc.usec_attachment.button." + id;
         }
 
         static Label load(UsecAmmoType type) {
@@ -184,7 +184,7 @@ public final class UsecAttachmentModel {
 
     /**
      * Resolves a clicked slot to the player inventory index (0-35, offhand 40) that the screen and
-     * {@code sparkwitch:usec_attachment} use, or {@link #NO_SLOT}.
+     * {@code sparkdlc:usec_attachment} use, or {@link #NO_SLOT}.
      * <ul>
      *   <li>{@code creativeWrapped} non-null: a creative inventory-tab slot, which wraps a player screen handler slot.
      *   The wrapper's own index is its handler position (36 for hotbar 0, 45 for the offhand), so only the wrapped slot
@@ -196,7 +196,7 @@ public final class UsecAttachmentModel {
      *   vanilla routes the server's non-hotbar slot updates into that handler's item grid, so the shown inventory
      *   would go stale.</li>
      * </ul>
-     * 把被点击的栏位解析为界面与 {@code sparkwitch:usec_attachment} 使用的玩家背包下标（0-35，副手 40），否则返回
+     * 把被点击的栏位解析为界面与 {@code sparkdlc:usec_attachment} 使用的玩家背包下标（0-35，副手 40），否则返回
      * {@link #NO_SLOT}。{@code creativeWrapped} 非空：创造模式背包标签页的栏位，它包装一个玩家界面处理器栏位；包装栏位自身的下标
      * 是其在处理器中的位置（快捷栏 0 为 36，副手为 45），因此只读取被包装的栏位。否则只认玩家自己的界面处理器（原版生存背包、
      * Wathe 局内背包），直接读取被点击的栏位。其余情况一律不打开：容器、创造模式物品列表，以及其他创造标签页的快捷栏行。该行是

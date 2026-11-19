@@ -66,13 +66,13 @@ public final class CologneItem extends Item {
         PerfumerPlayerComponent.KEY.get(target).startCologne();
         stack.decrementUnlessCreative(1, user);
         if (samePlayer) {
-            user.sendMessage(Text.translatable("message.sparkwitch.cologne.used_self"), true);
+            user.sendMessage(Text.translatable("message.sparkdlc.cologne.used_self"), true);
         } else {
             user.sendMessage(
-                    Text.translatable("message.sparkwitch.cologne.used_target", target.getDisplayName()),
+                    Text.translatable("message.sparkdlc.cologne.used_target", target.getDisplayName()),
                     true
             );
-            target.sendMessage(Text.translatable("message.sparkwitch.cologne.received"), true);
+            target.sendMessage(Text.translatable("message.sparkdlc.cologne.received"), true);
         }
         return true;
     }

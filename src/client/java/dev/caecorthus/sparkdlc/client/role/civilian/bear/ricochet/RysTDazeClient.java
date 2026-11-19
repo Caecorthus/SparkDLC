@@ -16,12 +16,12 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
 
 /**
- * Client only: the Rys-T wearer's D5 daze after a server-side ricochet ({@code sparkwitch:bear_rys_t_ricochet}, sent to
+ * Client only: the Rys-T wearer's D5 daze after a server-side ricochet ({@code sparkdlc:bear_rys_t_ricochet}, sent to
  * the wearer alone). Presentation only: the server already cancelled the kill and plays the public ping; this side
  * starts the view jolt ({@code RicochetDazeCameraMixin}) and double vision ({@code RicochetDazeHudMixin}), plays the
  * tinnitus listener-relative so nobody else hears it, and muffles world sounds through {@link BearHearingClient}.
  * State lives on the client thread only; a new ricochet restarts the daze, a disconnect clears it.
- * 仅客户端：服务端判定跳弹后 Rys-T 佩戴者的 D5 眩晕（{@code sparkwitch:bear_rys_t_ricochet}，只发给佩戴者）。纯表现：
+ * 仅客户端：服务端判定跳弹后 Rys-T 佩戴者的 D5 眩晕（{@code sparkdlc:bear_rys_t_ricochet}，只发给佩戴者）。纯表现：
  * 服务端已取消击杀并播放公开声音；本端启动视角震动（{@code RicochetDazeCameraMixin}）与重影（{@code RicochetDazeHudMixin}），
  * 以相对听者方式播放耳鸣（他人听不到），并通过 {@link BearHearingClient} 让世界声音发闷。状态只在客户端线程读写；新的
  * 跳弹会重新开始眩晕，断线时清除。

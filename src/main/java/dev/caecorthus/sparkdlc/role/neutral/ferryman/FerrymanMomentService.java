@@ -51,11 +51,11 @@ import java.util.UUID;
  * 强制击杀，且死因已登记为 SparkTraits 终结原因，任何保护或背水一战都无法否决。仅服务端。
  */
 public final class FerrymanMomentService {
-    private static final String START_KEY = "message.sparkwitch.ferryman.moment.start";
-    private static final String SOUL_KEY = "message.sparkwitch.ferryman.moment.soul";
-    private static final String DENIED_KEY = "message.sparkwitch.ferryman.moment.denied";
-    private static final String LOST_KEY = "message.sparkwitch.ferryman.moment.lost";
-    private static final String TITLE_KEY = "title.sparkwitch.lost_soul.warcry";
+    private static final String START_KEY = "message.sparkdlc.ferryman.moment.start";
+    private static final String SOUL_KEY = "message.sparkdlc.ferryman.moment.soul";
+    private static final String DENIED_KEY = "message.sparkdlc.ferryman.moment.denied";
+    private static final String LOST_KEY = "message.sparkdlc.ferryman.moment.lost";
+    private static final String TITLE_KEY = "title.sparkdlc.lost_soul.warcry";
 
     /**
      * SparkFactionAPI replay cause for the Lost Soul role write; the Charon is its source player.

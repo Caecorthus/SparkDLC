@@ -7,9 +7,9 @@ import net.minecraft.network.packet.CustomPayload;
 
 /**
  * Server to the marked player: close an open inventory or container screen and refuse to open one for
- * {@code lockTicks}. Its id differs from the {@code sparkwitch:dominator_forced_shot} CCA component id.
+ * {@code lockTicks}. Its id differs from the {@code sparkdlc:dominator_forced_shot} CCA component id.
  * 服务端发给被标记者：关闭已打开的物品栏或容器界面，并在 {@code lockTicks} 内拒绝再次打开。其 id 与
- * {@code sparkwitch:dominator_forced_shot} CCA 组件 id 不同。
+ * {@code sparkdlc:dominator_forced_shot} CCA 组件 id 不同。
  */
 public record DominatorForcedShotS2CPacket(int lockTicks) implements CustomPayload {
     public static final Id<DominatorForcedShotS2CPacket> ID =

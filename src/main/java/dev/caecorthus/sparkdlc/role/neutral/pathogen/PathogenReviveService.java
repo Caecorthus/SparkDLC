@@ -77,11 +77,11 @@ public final class PathogenReviveService {
                 owner != null && SparkTraitsReviveCompat.isLastStandDeathIntercepted(owner)
         );
         if (verdict == PathogenRules.ReviveVerdict.UNAVAILABLE) {
-            user.sendMessage(Text.translatable("message.sparkstrength.pathogen.revive_unavailable"), true);
+            user.sendMessage(Text.translatable("message.sparkdlc.pathogen.revive_unavailable"), true);
             return false;
         }
         if (verdict != PathogenRules.ReviveVerdict.OK || owner == null) {
-            user.sendMessage(Text.translatable("message.sparkstrength.pathogen.revive_failed"), true);
+            user.sendMessage(Text.translatable("message.sparkdlc.pathogen.revive_failed"), true);
             return false;
         }
         revive(user, body, owner, world, game);
@@ -144,8 +144,8 @@ public final class PathogenReviveService {
                 killers,
                 Math.max(0, game.getAllPlayers().size() - killers)
         ));
-        owner.sendMessage(Text.translatable("message.sparkstrength.pathogen.revived"), false);
-        user.sendMessage(Text.translatable("message.sparkstrength.pathogen.revive_done", owner.getDisplayName()),
+        owner.sendMessage(Text.translatable("message.sparkdlc.pathogen.revived"), false);
+        user.sendMessage(Text.translatable("message.sparkdlc.pathogen.revive_done", owner.getDisplayName()),
                 true);
         world.playSound(null, x, y, z, SoundEvents.ENTITY_ZOMBIE_VILLAGER_CONVERTED, SoundCategory.PLAYERS,
                 1.0F, 1.0F);

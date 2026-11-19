@@ -366,7 +366,7 @@ public final class PartygoerService {
         PlayerShopComponent.KEY.get(attacker).addToBalance(PartyAnimalRules.KILL_REWARD_COINS);
         PlayerMoodComponent mood = PlayerMoodComponent.KEY.get(attacker);
         mood.setMood(Math.min(1.0F, mood.getMood() + PartyAnimalRules.KILL_REWARD_SANITY));
-        attacker.sendMessage(Text.translatable("tip.sparkstrength.partygoer.killed_reward",
+        attacker.sendMessage(Text.translatable("tip.sparkdlc.partygoer.killed_reward",
                 PartyAnimalRules.KILL_REWARD_COINS).formatted(Formatting.GOLD), true);
     }
 

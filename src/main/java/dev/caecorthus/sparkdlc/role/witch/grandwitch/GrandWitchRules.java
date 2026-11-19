@@ -54,10 +54,10 @@ public final class GrandWitchRules {
     }
 
     public enum GrandWitchSpell {
-        OBSCURE("sparkwitch_obscure", 80, GameConstants.getInTicks(0, 30), GameConstants.getInTicks(2, 0)),
-        BLINDNESS("sparkwitch_blindness", 80, GameConstants.getInTicks(0, 20), GameConstants.getInTicks(3, 0)),
-        FEAR("sparkwitch_fear", 50, GameConstants.getInTicks(0, 10), GameConstants.getInTicks(5, 0)),
-        HEAVINESS("sparkwitch_heaviness", 60, GameConstants.getInTicks(0, 10), GameConstants.getInTicks(3, 0));
+        OBSCURE("sparkdlc_obscure", 80, GameConstants.getInTicks(0, 30), GameConstants.getInTicks(2, 0)),
+        BLINDNESS("sparkdlc_blindness", 80, GameConstants.getInTicks(0, 20), GameConstants.getInTicks(3, 0)),
+        FEAR("sparkdlc_fear", 50, GameConstants.getInTicks(0, 10), GameConstants.getInTicks(5, 0)),
+        HEAVINESS("sparkdlc_heaviness", 60, GameConstants.getInTicks(0, 10), GameConstants.getInTicks(3, 0));
 
         private final String entryId;
         private final int manaCost;
@@ -92,11 +92,11 @@ public final class GrandWitchRules {
         }
 
         public String path() {
-            return entryId.substring("sparkwitch_".length());
+            return entryId.substring("sparkdlc_".length());
         }
 
         public String translationKey() {
-            return "shop.sparkwitch." + path();
+            return "shop.sparkdlc." + path();
         }
 
         /**

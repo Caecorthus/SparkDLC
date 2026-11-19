@@ -36,7 +36,7 @@ import java.util.function.Predicate;
  */
 public final class WitchWorldComponent implements AutoSyncedComponent, ServerTickingComponent {
     public static final ComponentKey<WitchWorldComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("world"),
+            SparkWitch.id("witch_world"),
             WitchWorldComponent.class
     );
 

@@ -26,7 +26,7 @@ import org.jetbrains.annotations.Nullable;
  * Role ids, not {@link Role} instances, so the sets need no registration order and work on both sides. A new 魔裁 role
  * adds its id to {@link #WITCH_TRIAL_GIRL_IDS}; a new non-魔裁 witch role adds its id to {@link #IDS}.
  * <p>This is instinct classification only. Membership grants nothing else: no Witch faction membership, mana, factor
- * or kill-mana bonus, Rift Gate access, trait pool or {@code gui.sparkwitch.skills} panel. 二阶堂希罗 is in it before
+ * or kill-mana bonus, Rift Gate access, trait pool or {@code gui.sparkdlc.skills} panel. 二阶堂希罗 is in it before
  * and after her 魔女化: her role-colour factor-network view is a client fallback that only fills when no instinct
  * colour answered, so the Grand Witch's held instinct shows this class colour.
  * 大魔女本能特殊识别为「阵营外的魔女」并以 {@link #INSTINCT_COLOR} 描边的职业的唯一名单（所有者 2026-11-13：用一个类集中
@@ -35,7 +35,7 @@ import org.jetbrains.annotations.Nullable;
  * 使用职业 ID 而非 {@link Role} 实例，因此不依赖注册顺序，两端均可使用。新增魔裁职业时把 ID 加到
  * {@link #WITCH_TRIAL_GIRL_IDS}；新增非魔裁的魔女职业时把 ID 加到 {@link #IDS}。
  * <p>这只是本能分类。除此之外不授予任何东西：不是魔女阵营成员，不影响魔力、因子与击杀魔力加成、裂隙门权限、词条池，也不进入
- * {@code gui.sparkwitch.skills} 面板。二阶堂希罗在魔女化前后都属于此名单：她的职业色因子网络视图只是客户端后备，仅在没有本能
+ * {@code gui.sparkdlc.skills} 面板。二阶堂希罗在魔女化前后都属于此名单：她的职业色因子网络视图只是客户端后备，仅在没有本能
  * 颜色时补缺，因此大魔女按住本能键时看到的是此分类颜色。
  */
 public final class OtherWitchRoles {

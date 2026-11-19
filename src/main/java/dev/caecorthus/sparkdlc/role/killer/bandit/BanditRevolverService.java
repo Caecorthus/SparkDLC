@@ -34,7 +34,7 @@ import java.util.UUID;
  * 强盗改装左轮在开火之外的服务端逻辑：开局发放、手持时让塞入的子弹逐发到位、改装界面的操作，以及强盗死亡时掉落的普通左轮。
  */
 public final class BanditRevolverService {
-    /** Workbench and ability-key actions carried by {@code sparkstrength:bandit_revolver_action}. / 改装界面与技能键的操作。 */
+    /** Workbench and ability-key actions carried by {@code sparkdlc:bandit_revolver_action}. / 改装界面与技能键的操作。 */
     public enum Action {
         /** arg = {@link BanditAttachment#code()}: fit that part from the inventory. / 从物品栏安装该配件。 */
         INSTALL,
@@ -121,7 +121,7 @@ public final class BanditRevolverService {
     private static void grant(ServerPlayerEntity player) {
         ItemStack revolver = new ItemStack(SparkStrengthItems.banditRevolver());
         if (ShopEntry.insertStackInFreeSlot(player, revolver) || player.giveItemStack(revolver)) {
-            player.sendMessage(Text.translatable("message.sparkstrength.bandit.revolver_granted"), false);
+            player.sendMessage(Text.translatable("message.sparkdlc.bandit.revolver_granted"), false);
         }
     }
 
@@ -145,7 +145,7 @@ public final class BanditRevolverService {
                 WatheSounds.ITEM_REVOLVER_CLICK, SoundCategory.PLAYERS, 0.35F, 1.5F);
     }
 
-    /** Receiver of {@code sparkstrength:bandit_revolver_action}; everything is re-validated here. / 操作包接收端，全部在此复核。 */
+    /** Receiver of {@code sparkdlc:bandit_revolver_action}; everything is re-validated here. / 操作包接收端，全部在此复核。 */
     public static void handleAction(ServerPlayerEntity player, int actionOrdinal, int arg) {
         Action action = Action.byOrdinal(actionOrdinal);
         if (action == null || player.isSpectator()) {
@@ -348,7 +348,7 @@ public final class BanditRevolverService {
     }
 
     private static void tip(ServerPlayerEntity player, String key) {
-        player.sendMessage(Text.translatable("tip.sparkstrength.bandit_revolver." + key), true);
+        player.sendMessage(Text.translatable("tip.sparkdlc.bandit_revolver." + key), true);
     }
 
     /** Replay/record id of the gun. / 回放记录中的枪械 id。 */

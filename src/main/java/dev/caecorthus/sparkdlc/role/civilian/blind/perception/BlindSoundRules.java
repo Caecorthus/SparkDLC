@@ -198,7 +198,7 @@ public final class BlindSoundRules {
                 UsecRules.SHOOT_SUPPRESSED_SOUND_ID,
                 UsecRules.BOLT_SOUND_ID,
                 Identifier.of("wathe", "item.grenade.explode"),
-                Identifier.of("sparkstrength", "item.m67.explode"),
+                Identifier.of("sparkdlc", "item.m67.explode"),
                 Identifier.of("noellesroles", "item.bomb.explode"),
                 Identifier.of("minecraft", "entity.generic.explode"),
                 MiniWitherSoundSlot.BURST.eventId(),

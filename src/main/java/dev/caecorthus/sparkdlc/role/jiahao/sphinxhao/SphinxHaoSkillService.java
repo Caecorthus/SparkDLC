@@ -30,11 +30,11 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Server authority of Sphinx Hao's two skills (CORE).
  * <ul>
- *   <li>嘉豪病毒 ({@code sparkwitch:use_sphinx_hao_infect}, ability key): {@link #mayCast} (silent), the cooldown, the
+ *   <li>嘉豪病毒 ({@code sparkdlc:use_sphinx_hao_infect}, ability key): {@link #mayCast} (silent), the cooldown, the
  *   crosshair target ({@link SphinxHaoTargeting}), not already infected, SparkFactionAPI {@code canAffectPlayer}, then
  *   the Grand Witch Fear re-check; it infects with a private notice 15–25 s later and starts the 10 s cooldown. The
  *   caster reads why on its actionbar.</li>
- *   <li>豪气冲天 ({@code sparkwitch:use_sphinx_hao_roar}, secondary key): {@link #mayCast}, the cooldown, one window per
+ *   <li>豪气冲天 ({@code sparkdlc:use_sphinx_hao_roar}, secondary key): {@link #mayCast}, the cooldown, one window per
  *   world, Fear; the crawlers are the caster plus every living infected player, the caster earns one hao per infected
  *   crawler (owner Q4), and the cooldown is set to 30 s after the scheduled end, then re-set from the real end.</li>
  *   <li>Each server world tick ({@code END_WORLD_TICK}): releases crawlers that died, left, were swallowed or entered a
@@ -45,10 +45,10 @@ import org.jetbrains.annotations.Nullable;
  * The forced crawl pose, the instinct veto and 《Fade》 are PRESENTATION's and read only the synced world component.
  * 狮身豪两个技能的服务端权威（CORE）。
  * <ul>
- *   <li>嘉豪病毒（{@code sparkwitch:use_sphinx_hao_infect}，技能键）：{@link #mayCast}（静默）、冷却、准星目标
+ *   <li>嘉豪病毒（{@code sparkdlc:use_sphinx_hao_infect}，技能键）：{@link #mayCast}（静默）、冷却、准星目标
  *   （{@link SphinxHaoTargeting}）、未被感染、SparkFactionAPI {@code canAffectPlayer}，最后再检查大魔女恐惧；感染后 15–25 秒
  *   发出私人提示，并开始 10 秒冷却。施法者在动作栏看到原因。</li>
- *   <li>豪气冲天（{@code sparkwitch:use_sphinx_hao_roar}，第二技能键）：{@link #mayCast}、冷却、每个世界同时只有一个窗口、恐惧；
+ *   <li>豪气冲天（{@code sparkdlc:use_sphinx_hao_roar}，第二技能键）：{@link #mayCast}、冷却、每个世界同时只有一个窗口、恐惧；
  *   陆泳者为施法者与所有存活的感染者，每名被感染的陆泳者给施法者 1 点豪度值（所有者 Q4），冷却先设为计划结束后 30 秒，
  *   实际结束时再按实际结束重设。</li>
  *   <li>每个服务端世界刻（{@code END_WORLD_TICK}）：释放死亡、离线、被吞下或进入裂隙门的陆泳者；10 秒用尽或提前（施法者死亡、
@@ -355,7 +355,7 @@ public final class SphinxHaoSkillService {
             return null;
         }
         var players = ReplayGenerator.getPlayerInfoCache(match);
-        return Text.translatable("replay.skill.sparkwitch.sphinx_hao.infect",
+        return Text.translatable("replay.skill.sparkdlc.sphinx_hao.infect",
                 ReplayGenerator.formatPlayerName(data.getUuid("actor"), players),
                 ReplayGenerator.formatPlayerName(data.getUuid("target"), players));
     }
@@ -367,7 +367,7 @@ public final class SphinxHaoSkillService {
             return null;
         }
         // Wathe copies the extra compound into the event data itself. / Wathe 把附加数据直接复制进事件数据。
-        return Text.translatable("replay.skill.sparkwitch.sphinx_hao.roar",
+        return Text.translatable("replay.skill.sparkdlc.sphinx_hao.roar",
                 ReplayGenerator.formatPlayerName(data.getUuid("actor"), ReplayGenerator.getPlayerInfoCache(match)),
                 data.getInt(COUNT));
     }

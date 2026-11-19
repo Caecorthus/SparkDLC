@@ -20,7 +20,7 @@ import java.util.Map;
 /**
  * Faction mood flags (owner 2026-11-05, "Extra faction icons"): per-role and per-trait recolours of Wathe's top-left
  * mood flag, drawn by {@code mixin/moodflag/MoodFlagRendererMixin}. Sprites live in the GUI atlas at
- * {@code assets/sparkwitch/textures/gui/sprites/hud/mood_flag/*.png}, 14x17 with no {@code .mcmeta}, like Wathe's
+ * {@code assets/sparkdlc/textures/gui/sprites/hud/mood_flag/*.png}, 14x17 with no {@code .mcmeta}, like Wathe's
  * {@code wathe:hud/mood_*}. Only roles with drawn art have a flag; every other role keeps Wathe's flag until its art
  * exists (owner: the Grand Witch only, not the whole witch faction).
  * <ul>
@@ -37,7 +37,7 @@ import java.util.Map;
  * and owner-synced traits on a confirmed SparkWitch server, never shows a sanity value and changes no state.
  * 阵营心情旗帜（所有者 2026-11-05，“Extra faction icons”）：Wathe 左上角心情旗帜按职业与词条的重绘版，由
  * {@code mixin/moodflag/MoodFlagRendererMixin} 绘制。sprite 位于 GUI 图集
- * {@code assets/sparkwitch/textures/gui/sprites/hud/mood_flag/*.png}，14x17、无 {@code .mcmeta}，与 Wathe 的
+ * {@code assets/sparkdlc/textures/gui/sprites/hud/mood_flag/*.png}，14x17、无 {@code .mcmeta}，与 Wathe 的
  * {@code wathe:hud/mood_*} 相同。只有已绘制美术的职业才有旗帜；其余职业在美术完成前保留 Wathe 的旗帜（所有者：只给大魔女，
  * 不是整个魔女阵营）。
  * <ul>

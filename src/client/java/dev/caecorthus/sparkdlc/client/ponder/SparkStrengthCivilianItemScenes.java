@@ -102,30 +102,30 @@ final class SparkStrengthCivilianItemScenes {
     private static final String[] SPIRITS = {"noellesroles:rum", "noellesroles:gin", "noellesroles:vodka",
             "noellesroles:tequila"};
     private static final String[] MODIFIERS = {"noellesroles:ice_cube", "noellesroles:special_liqueur",
-            "noellesroles:special_spice", "sparkstrength:ghostflame_bitters", "sparkstrength:ember_sugar"};
+            "noellesroles:special_spice", "sparkdlc:ghostflame_bitters", "sparkdlc:ember_sugar"};
 
     private SparkStrengthCivilianItemScenes() {
     }
 
     static void register() {
-        List<String> noellesStrength = List.of("noellesroles", "sparkstrength");
-        List<String> bluePoison = List.of("noellesroles", "sparkstrength", "sparktraits");
-        List<String> perfumer = List.of("sparkwitch", "sparkstrength");
-        item("sparkstrength:capsule", bluePoison, scene("wathe/bar", SparkStrengthCivilianItemScenes::capsule));
-        item("sparkstrength:blue_belladonna", bluePoison,
+        List<String> noellesStrength = List.of("noellesroles", "sparkdlc");
+        List<String> bluePoison = List.of("noellesroles", "sparkdlc");
+        List<String> perfumer = List.of("sparkdlc");
+        item("sparkdlc:capsule", bluePoison, scene("wathe/bar", SparkStrengthCivilianItemScenes::capsule));
+        item("sparkdlc:blue_belladonna", bluePoison,
                 scene("wathe/aisle", SparkStrengthCivilianItemScenes::blueBelladonna));
-        item("sparkstrength:flashlight", noellesStrength,
+        item("sparkdlc:flashlight", noellesStrength,
                 scene("wathe/lit_carriage", SparkStrengthCivilianItemScenes::flashlight));
-        item("sparkstrength:sedative", noellesStrength,
+        item("sparkdlc:sedative", noellesStrength,
                 scene("wathe/aisle", SparkStrengthCivilianItemScenes::professorSerums));
-        item("sparkstrength:truth_serum", noellesStrength,
+        item("sparkdlc:truth_serum", noellesStrength,
                 scene("wathe/aisle", SparkStrengthCivilianItemScenes::professorSerums));
-        item("sparkstrength:capture_device", noellesStrength,
+        item("sparkdlc:capture_device", noellesStrength,
                 scene("wathe/aisle", SparkStrengthCivilianItemScenes::captureDevice));
-        item("sparkstrength:dying_watch", noellesStrength,
+        item("sparkdlc:dying_watch", noellesStrength,
                 scene("wathe/aisle", SparkStrengthCivilianItemScenes::dyingWatch));
-        item("sparkstrength:aroma_orb", perfumer, scene("wathe/aisle", SparkStrengthCivilianItemScenes::aromaOrb));
-        item("sparkstrength:zephyr_perfume", perfumer,
+        item("sparkdlc:aroma_orb", perfumer, scene("wathe/aisle", SparkStrengthCivilianItemScenes::aromaOrb));
+        item("sparkdlc:zephyr_perfume", perfumer,
                 scene("wathe/aisle", SparkStrengthCivilianItemScenes::zephyrPerfume));
         for (String spirit : SPIRITS) {
             item(spirit, noellesStrength, scene("wathe/bar", NoellesCivilianScenes::bartender),
@@ -159,7 +159,7 @@ final class SparkStrengthCivilianItemScenes {
         Vec3d plate = new Vec3d(3.5, 2.1, 3.5);
         Vec3d trayTop = new Vec3d(3.5, 3.0, 3.5);
         int toxicologistColor = RoleColors.of("noellesroles:toxicologist", 0xB8295A);
-        ItemStack capsule = stack("sparkstrength:capsule");
+        ItemStack capsule = stack("sparkdlc:capsule");
         ItemStack drink = stack("wathe:mojito");
         Effects.Marker skull = Effects.mark(scene, WatheParticles.POISON, plate, POISON_RISE, 0.2f);
         Vec3d toxicologistStart = new Vec3d(6.0, 1, 1.0);
@@ -250,8 +250,8 @@ final class SparkStrengthCivilianItemScenes {
         scene.title("ss_blue_belladonna", "蓝颠茄：自己吃了加速，砸人下蓝毒");
         WatheItemScenes.stage(scene);
         int toxicologistColor = RoleColors.of("noellesroles:toxicologist", 0xB8295A);
-        ItemStack fruit = stack("sparkstrength:blue_belladonna");
-        ItemStack capsule = stack("sparkstrength:capsule");
+        ItemStack fruit = stack("sparkdlc:blue_belladonna");
+        ItemStack capsule = stack("sparkdlc:capsule");
         Vec3d toxicologistStart = new Vec3d(5.6, 1, 0.8);
         Vec3d toxicologistEnd = new Vec3d(1.4, 1, 5.0);
         Vec3d walkerStart = new Vec3d(6.4, 1, 1.8);
@@ -354,7 +354,7 @@ final class SparkStrengthCivilianItemScenes {
         scene.title("ss_flashlight", "手电筒：停电时照亮前方");
         WatheItemScenes.setStage(scene, util);
         Selection lamps = carriageLamps(util);
-        ItemStack off = stack("sparkstrength:flashlight");
+        ItemStack off = stack("sparkdlc:flashlight");
         ItemStack on = litFlashlight();
         Vec3d attendantSpot = new Vec3d(4.2, 1, 1.0);
         Vec3d civilianSpot = new Vec3d(2.2, 1, 2.0);
@@ -372,7 +372,7 @@ final class SparkStrengthCivilianItemScenes {
         Actors.hold(scene, killer, stack("wathe:knife"));
         scene.idle(15);
         scene.overlay().showControls(killerStart.add(0, 2.6, 0), Pointing.DOWN, 50).rightClick()
-                .withItem(stack("sparkstrength:tablet"));
+                .withItem(stack("sparkdlc:tablet"));
         SceneCaptions.keyframeCaption(scene, 80, "杀手用平板发动灯光破坏：全车熄灯，车厢一片漆黑；没人会失明，但没有夜视就看不清");
         scene.idle(20);
         scene.world().modifyBlocks(lamps, state -> lamp(state, false), false);
@@ -446,8 +446,8 @@ final class SparkStrengthCivilianItemScenes {
     private static void professorSerums(SceneBuilder scene, SceneBuildingUtil util) {
         scene.title("ss_professor_serums", "教授：镇静试剂与吐真试剂");
         WatheItemScenes.stage(scene);
-        ItemStack sedative = stack("sparkstrength:sedative");
-        ItemStack truth = stack("sparkstrength:truth_serum");
+        ItemStack sedative = stack("sparkdlc:sedative");
+        ItemStack truth = stack("sparkdlc:truth_serum");
         Vec3d professorStart = new Vec3d(5.8, 1, 1.2);
         Vec3d professorSpot = new Vec3d(4.4, 1, 2.6);
         Vec3d civilianSpot = new Vec3d(3.4, 1, 3.6);
@@ -529,7 +529,7 @@ final class SparkStrengthCivilianItemScenes {
     private static void captureDevice(SceneBuilder scene, SceneBuildingUtil util) {
         scene.title("ss_capture_device", "捕捉装置：靠近就被定住");
         WatheItemScenes.stage(scene);
-        ItemStack device = stack("sparkstrength:capture_device");
+        ItemStack device = stack("sparkdlc:capture_device");
         Vec3d deviceAt = new Vec3d(1.0, 1, 1.0);
         Vec3d engineerStart = new Vec3d(2.8, 1, 2.8);
         Vec3d engineerSpot = new Vec3d(1.9, 1, 1.9);
@@ -619,7 +619,7 @@ final class SparkStrengthCivilianItemScenes {
     private static void dyingWatch(SceneBuilder scene, SceneBuildingUtil util) {
         scene.title("ss_dying_watch", "濒毁怀表：替全体好人刷新冷却");
         WatheItemScenes.stage(scene);
-        ItemStack watch = stack("sparkstrength:dying_watch");
+        ItemStack watch = stack("sparkdlc:dying_watch");
         ItemStack vial = stack("noellesroles:iron_man_vial");
         Vec3d professorSpot = new Vec3d(3.4, 1, 3.0);
         Vec3d firstSpot = new Vec3d(1.6, 1, 5.0);
@@ -694,10 +694,10 @@ final class SparkStrengthCivilianItemScenes {
     private static void aromaOrb(SceneBuilder scene, SceneBuildingUtil util) {
         scene.title("ss_aroma_orb", "香薰：砸中让人晕头转向");
         WatheItemScenes.stage(scene);
-        ItemStack orb = stack("sparkstrength:aroma_orb");
+        ItemStack orb = stack("sparkdlc:aroma_orb");
         Vec3d perfumerSpot = new Vec3d(5.6, 1, 1.4);
         Vec3d killerSpot = new Vec3d(2.8, 1, 4.2);
-        ElementLink<ActorElement> perfumer = Actors.enter(scene, RoleColors.of("sparkwitch:perfumer", 0xF2A4A4),
+        ElementLink<ActorElement> perfumer = Actors.enter(scene, RoleColors.of("sparkdlc:perfumer", 0xF2A4A4),
                 Text.literal("调香师"), perfumerSpot, SCREEN_RIGHT, Direction.DOWN);
         Actors.hold(scene, perfumer, orb);
         ElementLink<ActorElement> killer = Actors.enter(scene, RoleColors.KILLER, Text.literal("杀手"), killerSpot,
@@ -760,11 +760,11 @@ final class SparkStrengthCivilianItemScenes {
     private static void zephyrPerfume(SceneBuilder scene, SceneBuildingUtil util) {
         scene.title("ss_zephyr_perfume", "晨风香水：一整局的轻快脚步");
         WatheItemScenes.stage(scene);
-        ItemStack perfume = stack("sparkstrength:zephyr_perfume");
+        ItemStack perfume = stack("sparkdlc:zephyr_perfume");
         Vec3d perfumerStart = new Vec3d(5.6, 1, 0.8);
         Vec3d perfumerEnd = new Vec3d(1.4, 1, 5.0);
         Vec3d walkerStart = new Vec3d(6.4, 1, 1.8);
-        ElementLink<ActorElement> perfumer = Actors.enter(scene, RoleColors.of("sparkwitch:perfumer", 0xF2A4A4),
+        ElementLink<ActorElement> perfumer = Actors.enter(scene, RoleColors.of("sparkdlc:perfumer", 0xF2A4A4),
                 Text.literal("调香师"), perfumerStart, SCREEN_RIGHT, Direction.DOWN);
         Actors.hold(scene, perfumer, perfume);
         ElementLink<ActorElement> walker = Actors.enter(scene, RoleColors.CIVILIAN, Text.literal("平民"), walkerStart,
@@ -891,7 +891,7 @@ final class SparkStrengthCivilianItemScenes {
         Actors.hold(scene, killer, stack("wathe:knife"));
         scene.idle(15);
         scene.overlay().showControls(killerStart.add(0, 2.6, 0), Pointing.DOWN, 40).rightClick()
-                .withItem(stack("sparkstrength:tablet"));
+                .withItem(stack("sparkdlc:tablet"));
         scene.idle(10);
         scene.world().modifyBlocks(lamps, state -> lamp(state, false), false);
         StageLights.lights(scene, false);
@@ -1065,7 +1065,7 @@ final class SparkStrengthCivilianItemScenes {
         Actors.hold(scene, vigilante, special);
         scene.idle(10);
         scene.overlay().showControls(vigilanteSpot.add(0, 2.6, 0), Pointing.DOWN, 40)
-                .withItem(stack("sparkstrength:ember_sugar"));
+                .withItem(stack("sparkdlc:ember_sugar"));
         SceneCaptions.caption(scene, 60, "他手里这杯加了冰块、【幽焰苦精】和【火种方糖】");
         scene.idle(64);
         scene.overlay().showControls(vigilanteSpot.add(0, 2.6, 0), Pointing.DOWN, 20).rightClick().withItem(special);
@@ -1120,7 +1120,7 @@ final class SparkStrengthCivilianItemScenes {
 
     /** A switched-on flashlight (FlashlightItem.setOn: custom model data 1). 打开的手电筒（自定义模型数据 1）。 */
     private static ItemStack litFlashlight() {
-        ItemStack lit = stack("sparkstrength:flashlight");
+        ItemStack lit = stack("sparkdlc:flashlight");
         lit.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(1));
         return lit;
     }

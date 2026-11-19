@@ -59,23 +59,23 @@ import java.util.UUID;
  * 给拥有者的消息从不说出损坏者或饕餮的名字。
  */
 public final class SeekerDeviceService {
-    static final String DEVICE_BLOCKED = "message.sparkwitch.seeker.device.blocked";
-    static final String CAR_USE_TABLET = "message.sparkwitch.seeker.car.use_tablet";
-    static final String CAR_NO_SPACE = "message.sparkwitch.seeker.car.no_space";
-    static final String CAR_DEPLOYED = "message.sparkwitch.seeker.car.deployed";
-    static final String CAR_RECALLED = "message.sparkwitch.seeker.car.recalled";
-    static final String CAR_BROKEN = "message.sparkwitch.seeker.car.broken";
-    static final String CAR_DEPLETED = "message.sparkwitch.seeker.car.depleted";
-    static final String CAR_SWALLOWED = "message.sparkwitch.seeker.car.swallowed";
-    static final String CAR_RETURNED = "message.sparkwitch.seeker.car.returned";
-    static final String CAR_INVENTORY_FULL = "message.sparkwitch.seeker.car.inventory_full";
-    static final String CAR_NOT_DEPLOYED = "message.sparkwitch.seeker.car.not_deployed";
-    static final String CAMERA_PLACED = "message.sparkwitch.seeker.camera.placed";
-    static final String CAMERA_INVALID_SPOT = "message.sparkwitch.seeker.camera.invalid_spot";
-    static final String CAMERA_BROKEN = "message.sparkwitch.seeker.camera.broken";
-    static final String TAOTIE_CAR_SWALLOWED = "message.sparkwitch.seeker.taotie.car_swallowed";
-    static final String REMOTE_DENIED_PREFIX = "message.sparkwitch.seeker.remote.denied.";
-    static final String REMOTE_DENIED_NO_TABLET = "message.sparkwitch.seeker.remote.denied.no_tablet";
+    static final String DEVICE_BLOCKED = "message.sparkdlc.seeker.device.blocked";
+    static final String CAR_USE_TABLET = "message.sparkdlc.seeker.car.use_tablet";
+    static final String CAR_NO_SPACE = "message.sparkdlc.seeker.car.no_space";
+    static final String CAR_DEPLOYED = "message.sparkdlc.seeker.car.deployed";
+    static final String CAR_RECALLED = "message.sparkdlc.seeker.car.recalled";
+    static final String CAR_BROKEN = "message.sparkdlc.seeker.car.broken";
+    static final String CAR_DEPLETED = "message.sparkdlc.seeker.car.depleted";
+    static final String CAR_SWALLOWED = "message.sparkdlc.seeker.car.swallowed";
+    static final String CAR_RETURNED = "message.sparkdlc.seeker.car.returned";
+    static final String CAR_INVENTORY_FULL = "message.sparkdlc.seeker.car.inventory_full";
+    static final String CAR_NOT_DEPLOYED = "message.sparkdlc.seeker.car.not_deployed";
+    static final String CAMERA_PLACED = "message.sparkdlc.seeker.camera.placed";
+    static final String CAMERA_INVALID_SPOT = "message.sparkdlc.seeker.camera.invalid_spot";
+    static final String CAMERA_BROKEN = "message.sparkdlc.seeker.camera.broken";
+    static final String TAOTIE_CAR_SWALLOWED = "message.sparkdlc.seeker.taotie.car_swallowed";
+    static final String REMOTE_DENIED_PREFIX = "message.sparkdlc.seeker.remote.denied.";
+    static final String REMOTE_DENIED_NO_TABLET = "message.sparkdlc.seeker.remote.denied.no_tablet";
     /** Inventory index of the offhand slot in {@link PlayerInventory#getStack(int)}. / 副手槽的背包索引。 */
     static final int OFFHAND_INDEX = PlayerInventory.OFF_HAND_SLOT;
 

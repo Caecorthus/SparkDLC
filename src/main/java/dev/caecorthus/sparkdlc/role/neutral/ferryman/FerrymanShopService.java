@@ -24,16 +24,16 @@ import java.util.List;
  * 拒绝时不扣费）。购买按列表下标解析，因此列表只依赖已同步的职业；重建时保留已存在的 SparkTraits 条目，与魔人商店相同。
  */
 public final class FerrymanShopService {
-    private static final String CROWBAR_NAME_KEY = "shop.sparkwitch.ferryman.crowbar";
-    private static final String CROWBAR_DESCRIPTION_KEY = "shop.sparkwitch.ferryman.crowbar.description";
-    private static final String MOMENT_NAME_KEY = "shop.sparkwitch.ferryman.moment";
-    private static final String MOMENT_DESCRIPTION_KEY = "shop.sparkwitch.ferryman.moment.description";
+    private static final String CROWBAR_NAME_KEY = "shop.sparkdlc.ferryman.crowbar";
+    private static final String CROWBAR_DESCRIPTION_KEY = "shop.sparkdlc.ferryman.crowbar.description";
+    private static final String MOMENT_NAME_KEY = "shop.sparkdlc.ferryman.moment";
+    private static final String MOMENT_DESCRIPTION_KEY = "shop.sparkdlc.ferryman.moment.description";
     /**
      * Second LORE line: vanilla tooltips never wrap, and one line overflowed a 1080p screen at the default GUI scale.
      * 第二行 LORE：原版提示框从不换行，单行在 1080p 默认 GUI 缩放下会超出屏幕。
      */
-    private static final String MOMENT_DESCRIPTION_LINE2_KEY = "shop.sparkwitch.ferryman.moment.description.line2";
-    private static final String INVENTORY_FULL_KEY = "message.sparkwitch.ferryman.shop.inventory_full";
+    private static final String MOMENT_DESCRIPTION_LINE2_KEY = "shop.sparkdlc.ferryman.moment.description.line2";
+    private static final String INVENTORY_FULL_KEY = "message.sparkdlc.ferryman.shop.inventory_full";
     private static final int DESCRIPTION_COLOR = 0x808080;
     private static boolean registered;
 

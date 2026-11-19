@@ -230,7 +230,7 @@ public final class JudgeRuntime {
             case SENTENCED -> {
                 component.sync();
                 message(player, "sentenced", target.getName());
-                Text announcement = Text.translatable("message.sparkwitch.judge.announcement", target.getName());
+                Text announcement = Text.translatable("message.sparkdlc.judge.announcement", target.getName());
                 for (ServerPlayerEntity recipient : world.getPlayers()) {
                     recipient.sendMessage(announcement, false);
                 }
@@ -273,6 +273,6 @@ public final class JudgeRuntime {
     }
 
     private static void message(ServerPlayerEntity player, String key, Object... arguments) {
-        player.sendMessage(Text.translatable("message.sparkwitch.judge." + key, arguments), true);
+        player.sendMessage(Text.translatable("message.sparkdlc.judge." + key, arguments), true);
     }
 }

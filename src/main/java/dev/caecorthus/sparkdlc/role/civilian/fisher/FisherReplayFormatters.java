@@ -36,6 +36,6 @@ final class FisherReplayFormatters {
             return null;
         }
         Text actor = ReplayGenerator.formatPlayerName(data.getUuid("actor"), ReplayGenerator.getPlayerInfoCache(match));
-        return Text.translatable("replay.item_use.sparkwitch.fishing_rod", actor, Text.translatable(caught.translationKey()));
+        return Text.translatable("replay.item_use.sparkdlc.fishing_rod", actor, Text.translatable(caught.translationKey()));
     }
 }

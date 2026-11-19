@@ -47,7 +47,7 @@ public final class SherryMightyForceService {
         }
         SherryComponent component = SherryComponent.KEY.get(player);
         if (component.isMightyForfeited()) {
-            tell(player, Text.translatable("message.sparkwitch.skill.mighty_force.forfeited"), Formatting.RED);
+            tell(player, Text.translatable("message.sparkdlc.skill.mighty_force.forfeited"), Formatting.RED);
             return;
         }
         if (component.hasMightyWindow()) {
@@ -55,20 +55,20 @@ public final class SherryMightyForceService {
         }
         int cooldown = component.getMightyCooldownTicks();
         if (cooldown > 0) {
-            tell(player, Text.translatable("message.sparkwitch.sherry.mighty.cooldown", (cooldown + 19) / 20),
+            tell(player, Text.translatable("message.sparkdlc.sherry.mighty.cooldown", (cooldown + 19) / 20),
                     Formatting.GRAY);
             return;
         }
         WitchPlayerComponent mana = WitchPlayerComponent.KEY.get(player);
         if (mana.getMana() < MightyForceAbility.MANA_COST) {
-            tell(player, Text.translatable("message.sparkwitch.skill.not_enough_mana"), Formatting.RED);
+            tell(player, Text.translatable("message.sparkdlc.skill.not_enough_mana"), Formatting.RED);
             return;
         }
         if (GrandWitchFearService.denyRoleSkillIfFeared(player) || !mana.spendMana(MightyForceAbility.MANA_COST)) {
             return;
         }
         component.beginMightyWindow(MightyForceAbility.WINDOW_TICKS);
-        tell(player, Text.translatable("message.sparkwitch.skill.mighty_force.activated"), Formatting.AQUA);
+        tell(player, Text.translatable("message.sparkdlc.skill.mighty_force.activated"), Formatting.AQUA);
     }
 
     /**

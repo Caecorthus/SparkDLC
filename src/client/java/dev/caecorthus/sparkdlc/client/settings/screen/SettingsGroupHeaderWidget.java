@@ -77,7 +77,7 @@ final class SettingsGroupHeaderWidget extends ClickableWidget {
         int textX = getX() + 11;
         context.drawText(font, getMessage(), textX, textY, color, false);
         if (collapsed) {
-            Text count = Text.translatable("screen.sparkassist.settings.group.hidden_rows", rowCount);
+            Text count = Text.translatable("screen.sparkdlc.settings.group.hidden_rows", rowCount);
             context.drawText(font, count, textX + font.getWidth(getMessage()) + 6, textY, SettingsPalette.TEXT_FAINT,
                     false);
         }
@@ -89,7 +89,7 @@ final class SettingsGroupHeaderWidget extends ClickableWidget {
     @Override
     protected void appendClickableNarrations(NarrationMessageBuilder builder) {
         builder.put(NarrationPart.TITLE, Text.translatable(collapsed
-                ? "screen.sparkassist.settings.narration.group_collapsed"
-                : "screen.sparkassist.settings.narration.group_expanded", getMessage(), rowCount));
+                ? "screen.sparkdlc.settings.narration.group_collapsed"
+                : "screen.sparkdlc.settings.narration.group_expanded", getMessage(), rowCount));
     }
 }

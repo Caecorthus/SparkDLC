@@ -47,7 +47,7 @@ import java.util.WeakHashMap;
  * 权威划分：客户端从不预测进入；除拥有者自己按 Shift 外，所有退出都在此检测，并经仅拥有者可见的组件同步下发。
  */
 public final class SeekerRemoteSessionService {
-    private static final String DENIED_KEY_PREFIX = "message.sparkwitch.seeker.remote.denied.";
+    private static final String DENIED_KEY_PREFIX = "message.sparkdlc.seeker.remote.denied.";
     /** Server-only open throttle bookkeeping; weak so it never pins a player. / 仅服务端的打开节流记录，弱引用不会滞留玩家。 */
     private static final Map<PlayerEntity, Long> LAST_OPEN_TICK = new WeakHashMap<>();
     private static boolean registered;

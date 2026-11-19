@@ -67,9 +67,9 @@ public final class DroneWeaponHits {
      */
     public static final Identifier PHASE = SparkStrength.id("drone_weapon");
     private static final Identifier[] LOCK_PHASES = {
-            Identifier.of("sparkwitch", "seeker_session_lock"),
-            Identifier.of("sparkwitch", "control_expert_stun"),
-            Identifier.of("sparkwitch", "rift_session_lock"),
+            Identifier.of("sparkdlc", "seeker_session_lock"),
+            Identifier.of("sparkdlc", "control_expert_stun"),
+            Identifier.of("sparkdlc", "rift_session_lock"),
             TaotieHeadDazeGuards.DAZE_PHASE,
             EngineerStunGuards.STUN_PHASE
     };

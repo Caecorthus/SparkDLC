@@ -34,9 +34,9 @@ final class LifetimeRules {
             "noellesroles:corrupt_cop",
             "noellesroles:pathogen",
             "noellesroles:taotie",
-            "sparkwitch:fiend",
-            "sparkwitch:insider",
-            "sparkwitch:murderous_witch");
+            "sparkdlc:fiend",
+            "sparkdlc:insider",
+            "sparkdlc:murderous_witch");
 
     private LifetimeRules() {
     }

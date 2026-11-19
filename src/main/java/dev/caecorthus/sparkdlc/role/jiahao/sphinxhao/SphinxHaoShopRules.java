@@ -9,11 +9,11 @@ import org.jetbrains.annotations.Nullable;
  * 可读的拒绝提示语言键位于此处。
  */
 public final class SphinxHaoShopRules {
-    public static final String NAME_KEY = "shop.sparkwitch.sphinx_hao_fist_ammo";
+    public static final String NAME_KEY = "shop.sparkdlc.sphinx_hao_fist_ammo";
     public static final String DESCRIPTION_KEY = NAME_KEY + ".description";
-    public static final String UNAVAILABLE_KEY = "shop.error.sparkwitch.sphinx_hao.unavailable";
-    public static final String HOTBAR_FULL_KEY = "shop.error.sparkwitch.sphinx_hao.hotbar_full";
-    public static final String NOT_ENOUGH_HAO_KEY = "shop.error.sparkwitch.sphinx_hao.not_enough_hao";
+    public static final String UNAVAILABLE_KEY = "shop.error.sparkdlc.sphinx_hao.unavailable";
+    public static final String HOTBAR_FULL_KEY = "shop.error.sparkdlc.sphinx_hao.hotbar_full";
+    public static final String NOT_ENOUGH_HAO_KEY = "shop.error.sparkdlc.sphinx_hao.not_enough_hao";
 
     private SphinxHaoShopRules() {
     }

@@ -53,7 +53,7 @@ public enum DoorLogKind {
      * 唯一参数 %s 为门名。KEY_OPENED 是接在操作者头像与名字之后的谓语，头像与名字由客户端单独绘制。
      */
     public String translationKey() {
-        return "screen.sparkstrength.tablet.door_log.event." + id;
+        return "screen.sparkdlc.tablet.door_log.event." + id;
     }
 
     public static @Nullable DoorLogKind fromWire(int wire) {

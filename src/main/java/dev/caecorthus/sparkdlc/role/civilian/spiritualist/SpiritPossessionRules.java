@@ -13,12 +13,12 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class SpiritPossessionRules {
     public static final Identifier SPIRITUALIST_ID = Identifier.of("noellesroles", "spiritualist");
-    public static final Identifier POSSESS_PAYLOAD_ID = Identifier.of("sparkstrength", "spirit_possess");
+    public static final Identifier POSSESS_PAYLOAD_ID = Identifier.of("sparkdlc", "spirit_possess");
     /** Leaving must always get through, so payload blockers never see it. / 退出必须始终送达，因此不进入任何拦截名单。 */
-    public static final Identifier EXIT_PAYLOAD_ID = Identifier.of("sparkstrength", "spirit_possess_exit");
-    public static final Identifier STATE_PAYLOAD_ID = Identifier.of("sparkstrength", "spirit_possess_state");
+    public static final Identifier EXIT_PAYLOAD_ID = Identifier.of("sparkdlc", "spirit_possess_exit");
+    public static final Identifier STATE_PAYLOAD_ID = Identifier.of("sparkdlc", "spirit_possess_state");
     /** SparkFactionAPI forced-cooldown store id. / SparkFactionAPI 强制冷却存储 id。 */
-    public static final Identifier COOLDOWN_STORE_ID = Identifier.of("sparkstrength", "spirit_possession");
+    public static final Identifier COOLDOWN_STORE_ID = Identifier.of("sparkdlc", "spirit_possession");
 
     public static final int TICKS_PER_SECOND = 20;
     /** The longest possession: 20 s. / 单次附身最长 20 秒。 */

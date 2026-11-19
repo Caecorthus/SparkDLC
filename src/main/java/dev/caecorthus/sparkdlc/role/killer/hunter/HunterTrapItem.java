@@ -121,11 +121,11 @@ public final class HunterTrapItem extends Item {
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         for (int line = 1; line <= 5; line++) {
             tooltip.add(Text.translatable(
-                    "item.sparkwitch.hunter_trap.tooltip.line" + line
+                    "item.sparkdlc.hunter_trap.tooltip.line" + line
             ).formatted(Formatting.GRAY));
         }
         if (isPoisoned(stack)) {
-            tooltip.add(Text.translatable("item.sparkwitch.hunter_trap.poisoned").formatted(Formatting.DARK_GREEN));
+            tooltip.add(Text.translatable("item.sparkdlc.hunter_trap.poisoned").formatted(Formatting.DARK_GREEN));
         }
         super.appendTooltip(stack, context, tooltip, type);
     }

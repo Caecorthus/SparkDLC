@@ -5,9 +5,9 @@ package dev.caecorthus.sparkdlc.role.civilian.perfumer;
  * 调香师的纯数值与判断集中在这里，服务端与客户端接线只消费这些稳定规则。
  */
 public final class PerfumerRules {
-    public static final String ROLE_ID = "sparkwitch:perfumer";
-    public static final String PERFUME_ESSENCE_ID = "sparkwitch:perfume_essence";
-    public static final String COLOGNE_ID = "sparkwitch:cologne";
+    public static final String ROLE_ID = "sparkdlc:perfumer";
+    public static final String PERFUME_ESSENCE_ID = "sparkdlc:perfume_essence";
+    public static final String COLOGNE_ID = "sparkdlc:cologne";
 
     public static final int ROLE_COLOR = 0xF2A4A4;
     public static final int BLOODY_OUTLINE_COLOR = 0xC13838;

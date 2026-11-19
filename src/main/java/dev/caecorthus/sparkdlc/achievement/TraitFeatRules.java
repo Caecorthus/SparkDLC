@@ -17,45 +17,45 @@ import java.util.UUID;
  * 写成 {@code shield_blocked} 的保护、铁人药剂增益或一层威士忌护盾；后两者由 Noelle's Roles 写成 {@code death_blocked}。
  */
 final class TraitFeatRules {
-    static final String CONSCIENCE = "sparktraits:conscience";
-    static final String EXHILARATED = "sparktraits:exhilarated";
-    static final String SECOND_STRIKE = "sparktraits:second_strike";
-    static final String CORNERED = "sparktraits:cornered";
-    static final String PARANOID = "sparktraits:paranoid";
-    static final String PIG = "sparktraits:pig";
-    static final String THRUST = "sparktraits:thrust";
+    static final String CONSCIENCE = "sparkdlc:conscience";
+    static final String EXHILARATED = "sparkdlc:exhilarated";
+    static final String SECOND_STRIKE = "sparkdlc:second_strike";
+    static final String CORNERED = "sparkdlc:cornered";
+    static final String PARANOID = "sparkdlc:paranoid";
+    static final String PIG = "sparkdlc:pig";
+    static final String THRUST = "sparkdlc:thrust";
 
     /** The 17 killer traits plus Conscience (善良), the 18 a killer can hold. 17 个杀手词条加上善良，共 18 个杀手可持有的词条。 */
     static final List<String> KILLER_TRAITS = List.of(
-            "sparktraits:bloodthirsty",
-            "sparktraits:the_showman",
-            "sparktraits:plunderer",
-            "sparktraits:charisma",
+            "sparkdlc:bloodthirsty",
+            "sparkdlc:the_showman",
+            "sparkdlc:plunderer",
+            "sparkdlc:charisma",
             PARANOID,
             THRUST,
             SECOND_STRIKE,
-            "sparktraits:oppressive",
+            "sparkdlc:oppressive",
             CORNERED,
-            "sparktraits:team_first",
+            "sparkdlc:team_first",
             EXHILARATED,
-            "sparktraits:close_quarters",
-            "sparktraits:last_escape",
-            "sparktraits:herculean_strength",
-            "sparktraits:master_saboteur",
-            "sparktraits:seasoned",
-            "sparktraits:manic",
+            "sparkdlc:close_quarters",
+            "sparkdlc:last_escape",
+            "sparkdlc:herculean_strength",
+            "sparkdlc:master_saboteur",
+            "sparkdlc:seasoned",
+            "sparkdlc:manic",
             CONSCIENCE);
     /**
      * Marksman, Fast Reload, Heavy Artillery, Niko, Well Trained and Going Dark (the last two are the Veteran's).
      * 精确枪手、快速装填、重炮手、Niko、训练有素与隐蔽行动（后两个是老兵专属）。
      */
     static final List<String> POLICE_TRAITS = List.of(
-            "sparktraits:marksman",
-            "sparktraits:fast_reload",
+            "sparkdlc:marksman",
+            "sparkdlc:fast_reload",
             TraitRules.HEAVY_ARTILLERY,
             TraitRules.NIKO,
-            "sparktraits:well_trained",
-            "sparktraits:going_dark");
+            "sparkdlc:well_trained",
+            "sparkdlc:going_dark");
 
     static final String FELL_OUT_OF_TRAIN = "wathe:fell_out_of_train";
     static final String DEATH_BLOCKED = "death_blocked";

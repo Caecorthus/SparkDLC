@@ -35,7 +35,7 @@ import java.util.List;
  */
 public final class MiniWitherSkinScreen extends Screen {
     /** The skins folder as players see it, for the empty-list hint. / 空列表提示中显示的皮肤文件夹。 */
-    static final String FOLDER_HINT = "config/sparkwitch/mini_wither/";
+    static final String FOLDER_HINT = "config/sparkdlc/mini_wither/";
     private static final float PREVIEW_VOLUME = 1.0F;
     /** A three-quarter view to start from. / 起始为四分之三侧视角。 */
     private static final float START_YAW = -30.0F;

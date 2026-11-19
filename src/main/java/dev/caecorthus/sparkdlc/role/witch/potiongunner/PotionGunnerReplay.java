@@ -21,7 +21,7 @@ import java.util.Optional;
  * 数据不完整的记录返回 {@code null}，Wathe 会跳过该行。
  */
 public final class PotionGunnerReplay {
-    static final String FIRE_KEY = "replay.item_use.sparkwitch.potion_launcher_fire";
+    static final String FIRE_KEY = "replay.item_use.sparkdlc.potion_launcher_fire";
     /** Stable record key for the fired shell; do not rename. / 所发射炮弹的稳定记录键，不得改名。 */
     static final String SHELL_KEY = "shell";
     /** Wathe's own key for the recording player ({@code GameRecordManager#addEvent}). / Wathe 自身写入的记录玩家键。 */

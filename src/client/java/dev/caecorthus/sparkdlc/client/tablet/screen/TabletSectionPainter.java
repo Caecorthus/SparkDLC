@@ -34,7 +34,7 @@ import java.util.List;
 final class TabletSectionPainter {
     static final int GRID_GAP = 8;
 
-    static final String KEY = "screen.sparkstrength.tablet.";
+    static final String KEY = "screen.sparkdlc.tablet.";
     static final int CARD_R = 8;
     static final int LINE_STEP = 10;
     private static final String ELLIPSIS = "…";

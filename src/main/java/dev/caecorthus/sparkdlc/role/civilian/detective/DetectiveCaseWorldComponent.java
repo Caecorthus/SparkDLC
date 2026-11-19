@@ -29,7 +29,7 @@ import java.util.UUID;
  *
  * <p>Snapshots are round state and are cleared by {@link #clearRoundState()}; the suspect limit is a setting and
  * survives it. Nothing here is ever synced: kill-time positions are keyed by REAL player uuids and would expose
- * disguises. Saves holding the retired {@code sparkstrength:criminologist_world} id are simply ignored by CCA.
+ * disguises. Saves holding the retired {@code sparkdlc:criminologist_world} id are simply ignored by CCA.
  * 快照属于回合状态，由 clearRoundState 清除；调查上限是设置项，不随之清除。这里绝不同步给客户端：
  * 案发位置按真实玩家 UUID 记录，同步会暴露伪装。旧存档中的 criminologist_world 数据会被 CCA 忽略。</p>
  */

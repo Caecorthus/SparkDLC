@@ -25,9 +25,9 @@ import net.minecraft.util.math.Vec3d;
  */
 final class DeepDarkZoneBlocks {
     /**
-     * Datapack block tag {@code sparkwitch:sculk_conversion_immune}: blocks a map maker never wants converted
+     * Datapack block tag {@code sparkdlc:sculk_conversion_immune}: blocks a map maker never wants converted
      * (seeded with {@code minecraft:magma_block}). Stable resource contract.
-     * 数据包方块标签 {@code sparkwitch:sculk_conversion_immune}：地图作者不希望被转换的方块（初始为岩浆块）。稳定资源契约。
+     * 数据包方块标签 {@code sparkdlc:sculk_conversion_immune}：地图作者不希望被转换的方块（初始为岩浆块）。稳定资源契约。
      */
     static final TagKey<Block> CONVERSION_IMMUNE = TagKey.of(RegistryKeys.BLOCK,
             SparkWitch.id("sculk_conversion_immune"));

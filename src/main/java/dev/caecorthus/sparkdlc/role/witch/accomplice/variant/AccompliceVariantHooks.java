@@ -26,10 +26,10 @@ public interface AccompliceVariantHooks {
     }
 
     /**
-     * The witch-skill ids this variant owns and may show in the top-left {@code gui.sparkwitch.skills} inventory panel
+     * The witch-skill ids this variant owns and may show in the top-left {@code gui.sparkdlc.skills} inventory panel
      * (owner decision D13); empty means the variant never uses the panel. Only these ids are shown, never another
      * registered skill. Read every client frame, so return a constant immutable set.
-     * 该特殊共犯拥有、可在背包左上角 {@code gui.sparkwitch.skills} 技能面板展示的魔女技能 ID（所有者决定 D13）；为空表示
+     * 该特殊共犯拥有、可在背包左上角 {@code gui.sparkdlc.skills} 技能面板展示的魔女技能 ID（所有者决定 D13）；为空表示
      * 不使用该面板。只展示这些 ID，绝不展示其他已注册技能。客户端每帧读取，请返回不可变常量集合。
      */
     default Set<Identifier> ownSkillIds() {

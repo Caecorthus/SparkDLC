@@ -28,7 +28,7 @@ public enum JunctionBoxCircuit implements StringIdentifiable {
     }
 
     public String translationKey() {
-        return type == null ? "sabotage.sparkstrength.none" : type.translationKey();
+        return type == null ? "sabotage.sparkdlc.none" : type.translationKey();
     }
 
     @Override

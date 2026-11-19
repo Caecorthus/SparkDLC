@@ -30,14 +30,14 @@ public final class ZephyrService {
     /** Server: returns true when the stack was consumed. / 服务端：消耗物品时返回 true。 */
     public static boolean spray(ServerPlayerEntity player, ItemStack stack) {
         if (!PerfumerScentComponent.KEY.get(player).activateZephyr()) {
-            player.sendMessage(Text.translatable("message.sparkstrength.perfumer.zephyr.already_active")
+            player.sendMessage(Text.translatable("message.sparkdlc.perfumer.zephyr.already_active")
                     .formatted(Formatting.GRAY), true);
             return false;
         }
         if (!player.isCreative()) {
             stack.decrement(1);
         }
-        player.sendMessage(Text.translatable("message.sparkstrength.perfumer.zephyr.used")
+        player.sendMessage(Text.translatable("message.sparkdlc.perfumer.zephyr.used")
                 .styled(style -> style.withColor(USED_COLOR)), true);
         player.playSoundToPlayer(SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 0.3F, 2.0F);
         ServerWorld world = player.getServerWorld();

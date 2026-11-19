@@ -29,10 +29,10 @@ import java.util.Map;
 /**
  * Turns a resolved {@link MiniWitherSkinSpec} into a drawable {@link MiniWitherSkin}: parses geometry and animations,
  * binds states and the aim bone, measures the bind-pose bounds, then decodes and registers the textures as
- * {@code sparkwitch:dynamic/mini_wither_skin/<id>/<generation>/<name>}. Render thread only (texture upload). Everything
+ * {@code sparkdlc:dynamic/mini_wither_skin/<id>/<generation>/<name>}. Render thread only (texture upload). Everything
  * is parsed and decoded before the first texture is registered, and a failure frees what it made.
  * 把已解析的 {@link MiniWitherSkinSpec} 变成可绘制的 {@link MiniWitherSkin}：解析几何与动画，绑定状态与瞄准骨骼，计算绑定
- * 姿态包围盒，然后解码并注册贴图为 {@code sparkwitch:dynamic/mini_wither_skin/<id>/<generation>/<name>}。仅限渲染线程（需上传
+ * 姿态包围盒，然后解码并注册贴图为 {@code sparkdlc:dynamic/mini_wither_skin/<id>/<generation>/<name>}。仅限渲染线程（需上传
  * 贴图）。注册第一张贴图前已完成全部解析与解码，失败时释放已创建的资源。
  */
 final class MiniWitherSkinLoader {
@@ -109,7 +109,7 @@ final class MiniWitherSkinLoader {
         }
     }
 
-    /** {@code sparkwitch:dynamic/mini_wither_skin/<id>/<generation>/<name>}. */
+    /** {@code sparkdlc:dynamic/mini_wither_skin/<id>/<generation>/<name>}. */
     static Identifier textureId(String skinId, int generation, String name) {
         return SparkWitch.id("dynamic/mini_wither_skin/" + skinId + "/" + generation + "/" + name);
     }

@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  * 绝不能把异常抛回 {@code PlayerShopComponent.tryBuy}。
  */
 public final class TimekeeperCounter {
-    private static final Logger LOGGER = LoggerFactory.getLogger("sparkwitch");
+    private static final Logger LOGGER = LoggerFactory.getLogger("sparkdlc");
     private static final AtomicBoolean FAILURE_LOGGED = new AtomicBoolean();
 
     private TimekeeperCounter() {

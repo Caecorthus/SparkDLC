@@ -18,7 +18,7 @@ import java.util.UUID;
 @Pseudo
 @Mixin(targets = "dev.caecorthus.sparkdlc.role.civilian.noisemaker.NoisemakerGlowService", remap = false)
 public abstract class NoisemakerAffectMixin {
-    private static final Identifier ACTION = Identifier.of("sparkstrength", "noisemaker_glow");
+    private static final Identifier ACTION = Identifier.of("sparkdlc", "noisemaker_glow");
 
     @Inject(method = "tryUseBackpackGlow", at = @At("HEAD"), cancellable = true, require = 0, remap = false)
     private static void sparkfactionapi$guardNoisemakerGlow(

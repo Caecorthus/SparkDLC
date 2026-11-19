@@ -23,17 +23,17 @@ import java.util.List;
  * 属于职业自有的右下角展示，从不进入魔女技能背包面板（AGENTS.md）。颜色为不透明 ARGB。
  */
 public final class UsecAmmoHudRules {
-    public static final String ZOOM_KEY = "hud.sparkwitch.usec.zoom";
-    public static final String CHAMBER_EMPTY_KEY = "hud.sparkwitch.usec.chamber_empty";
-    public static final String CYCLING_KEY = "hud.sparkwitch.usec.cycling";
-    public static final String MAGAZINE_KEY = "hud.sparkwitch.usec.magazine";
-    public static final String NO_MAGAZINE_KEY = "hud.sparkwitch.usec.no_magazine";
-    public static final String SUPPRESSED_KEY = "hud.sparkwitch.usec.suppressed";
+    public static final String ZOOM_KEY = "hud.sparkdlc.usec.zoom";
+    public static final String CHAMBER_EMPTY_KEY = "hud.sparkdlc.usec.chamber_empty";
+    public static final String CYCLING_KEY = "hud.sparkdlc.usec.cycling";
+    public static final String MAGAZINE_KEY = "hud.sparkdlc.usec.magazine";
+    public static final String NO_MAGAZINE_KEY = "hud.sparkdlc.usec.no_magazine";
+    public static final String SUPPRESSED_KEY = "hud.sparkdlc.usec.suppressed";
     /** {@code " » "}: {@code ▸} would fall back to Unifont and render as a dot. / {@code ▸} 会退回 Unifont 显示为点。 */
-    public static final String FEED_SEPARATOR_KEY = "hud.sparkwitch.usec.separator.feed";
-    public static final String SEPARATOR_KEY = "hud.sparkwitch.usec.separator";
+    public static final String FEED_SEPARATOR_KEY = "hud.sparkdlc.usec.separator.feed";
+    public static final String SEPARATOR_KEY = "hud.sparkdlc.usec.separator";
     /** The {@code 空} inside {@code [空]}. / {@code [空]} 中的 {@code 空}。 */
-    public static final String EMPTY_KEY = "item.sparkwitch.usec.empty";
+    public static final String EMPTY_KEY = "item.sparkdlc.usec.empty";
     public static final List<String> KEYS = List.of(ZOOM_KEY, CHAMBER_EMPTY_KEY, CYCLING_KEY, MAGAZINE_KEY,
             NO_MAGAZINE_KEY, SUPPRESSED_KEY, FEED_SEPARATOR_KEY, SEPARATOR_KEY, EMPTY_KEY);
 

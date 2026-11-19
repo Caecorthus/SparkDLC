@@ -27,7 +27,7 @@ import java.util.List;
  */
 public final class SaintShopService {
     /** Shown when the buyer already carries the limit. / 购买者已达携带上限时显示。 */
-    public static final String CARRY_LIMIT_KEY = "message.sparkwitch.holy_flash.carry_limit";
+    public static final String CARRY_LIMIT_KEY = "message.sparkdlc.holy_flash.carry_limit";
     private static boolean registered;
 
     private SaintShopService() {

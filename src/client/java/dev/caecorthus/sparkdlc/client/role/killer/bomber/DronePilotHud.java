@@ -173,7 +173,7 @@ public final class DronePilotHud {
         int accent = accent(kind);
 
         if (DronePilotClient.connecting()) {
-            statusPill(context, c, tr, w / 2.0F, h / 2.0F + 30, Text.translatable("hud.sparkstrength.drone.connecting"),
+            statusPill(context, c, tr, w / 2.0F, h / 2.0F + 30, Text.translatable("hud.sparkdlc.drone.connecting"),
                     accent, now, true);
             return;
         }
@@ -196,10 +196,10 @@ public final class DronePilotHud {
         }
 
         if (DronePilotClient.signalLost()) {
-            statusPill(context, c, tr, cx, cy + 30, Text.translatable("hud.sparkstrength.drone.signal_lost"),
+            statusPill(context, c, tr, cx, cy + 30, Text.translatable("hud.sparkdlc.drone.signal_lost"),
                     WARNING, now, false);
         } else if (DronePilotClient.landed() && DronePilotClient.displayState(drone) == DroneState.GROUNDED) {
-            Text text = Text.translatable("hud.sparkstrength.drone.takeoff_hint",
+            Text text = Text.translatable("hud.sparkdlc.drone.takeoff_hint",
                     client.options.jumpKey.getBoundKeyLocalizedText());
             statusPill(context, c, tr, cx, cy + 30, text, accent, now, false);
         }
@@ -309,14 +309,14 @@ public final class DronePilotHud {
                                         long now, float thin) {
         DroneKind kind = drone.kind();
         int accent = accent(kind);
-        Text name = Text.translatable("entity.sparkstrength." + kind.id());
+        Text name = Text.translatable("entity.sparkdlc." + kind.id());
         DroneState state = DronePilotClient.displayState(drone);
-        Text stateText = Text.translatable("hud.sparkstrength.drone.state." + state.name().toLowerCase(Locale.ROOT));
+        Text stateText = Text.translatable("hud.sparkdlc.drone.state." + state.name().toLowerCase(Locale.ROOT));
         int percent = DroneRules.percent(drone.charge());
         boolean low = percent <= LOW_BATTERY_PERCENT;
-        Text payload = kind == DroneKind.BOMB ? Text.translatable("hud.sparkstrength.drone.payload.bomb")
-                : drone.hasPayload() ? Text.translatable("hud.sparkstrength.drone.payload.armed")
-                : Text.translatable("hud.sparkstrength.drone.payload.empty");
+        Text payload = kind == DroneKind.BOMB ? Text.translatable("hud.sparkdlc.drone.payload.bomb")
+                : drone.hasPayload() ? Text.translatable("hud.sparkdlc.drone.payload.armed")
+                : Text.translatable("hud.sparkdlc.drone.payload.empty");
 
         int stateW = tr.getWidth(stateText) + 9;
         float pw = Math.max(140, 13 + tr.getWidth(name) + 12 + stateW + 9);
@@ -376,9 +376,9 @@ public final class DronePilotHud {
                                     ClientPlayerEntity player, int w, int h, float tickDelta, float thin) {
         Vec3d pos = drone.getLerpedPos(tickDelta);
         double ground = DronePilotClient.groundY();
-        Text altLabel = Text.translatable("hud.sparkstrength.drone.altitude");
+        Text altLabel = Text.translatable("hud.sparkdlc.drone.altitude");
         Text altValue = Double.isNaN(ground) ? Text.literal("--") : meters(Math.max(0.0, pos.y - ground));
-        Text bodyLabel = Text.translatable("hud.sparkstrength.drone.body_distance");
+        Text bodyLabel = Text.translatable("hud.sparkdlc.drone.body_distance");
         Text bodyValue = meters(pos.distanceTo(player.getLerpedPos(tickDelta)));
         int labelW = Math.max(tr.getWidth(altLabel), tr.getWidth(bodyLabel));
         int valueW = Math.max(Math.max(tr.getWidth(altValue), tr.getWidth(bodyValue)), tr.getWidth("000.0m"));
@@ -408,10 +408,10 @@ public final class DronePilotHud {
         boolean bomb = kind == DroneKind.BOMB;
         boolean canFire = bomb || drone.hasPayload();
         Text fireKey = client.options.attackKey.getBoundKeyLocalizedText();
-        Text fireLabel = Text.translatable(bomb ? "hud.sparkstrength.drone.action.detonate"
-                : "hud.sparkstrength.drone.action.drop");
+        Text fireLabel = Text.translatable(bomb ? "hud.sparkdlc.drone.action.detonate"
+                : "hud.sparkdlc.drone.action.drop");
         Text exitKey = client.options.useKey.getBoundKeyLocalizedText();
-        Text exitLabel = Text.translatable("hud.sparkstrength.drone.action.exit");
+        Text exitLabel = Text.translatable("hud.sparkdlc.drone.action.exit");
         float fireW = hintWidth(tr, fireKey, fireLabel);
         float exitW = hintWidth(tr, exitKey, exitLabel);
         float gap = 6;
@@ -491,7 +491,7 @@ public final class DronePilotHud {
     private static Text meters(double value) {
         String number = value < 10.0 ? String.format(Locale.ROOT, "%.1f", value)
                 : Integer.toString((int) Math.round(value));
-        return Text.translatable("hud.sparkstrength.drone.meters", number);
+        return Text.translatable("hud.sparkdlc.drone.meters", number);
     }
 
     /** Skips near-transparent text (vanilla would draw alpha 0..3 fully opaque). / 跳过近乎透明的文字（原版会把 alpha 0..3 画成不透明）。 */

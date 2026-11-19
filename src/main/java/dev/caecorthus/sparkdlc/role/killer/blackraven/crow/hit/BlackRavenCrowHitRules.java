@@ -53,7 +53,7 @@ public final class BlackRavenCrowHitRules {
      * SparkFactionAPI 中玩家投射物命中玩家所用的行为 id（其 {@code getOtherEntities} 碰撞过滤；亦为 {@code WraithParticipation}
      * 中风灵豁免所用）。
      */
-    public static final Identifier PROJECTILE_ACTION = Identifier.of("sparkfactionapi", "projectile");
+    public static final Identifier PROJECTILE_ACTION = Identifier.of("sparkdlc", "projectile");
     /** Vanilla projectile entity margin ({@code ProjectileUtil.getEntityCollision}, 0.3F). / 原版投射物实体余量。 */
     public static final double PROJECTILE_MARGIN = 0.3;
     /**

@@ -30,16 +30,16 @@ public final class SaviorHudRenderer {
         SaviorPlayerComponent component = SaviorPlayerComponent.KEY.get(player);
         if (component.getDomainTicks() > 0) {
             return Text.translatable(
-                    "hud.sparkwitch.savior.domain_active",
+                    "hud.sparkdlc.savior.domain_active",
                     TickTime.ceilSecondsAtLeastOne(component.getDomainTicks())
             );
         }
         if (component.getCooldownTicks() > 0) {
             return Text.translatable(
-                    "hud.sparkwitch.savior.cooldown",
+                    "hud.sparkdlc.savior.cooldown",
                     TickTime.ceilSecondsAtLeastOne(component.getCooldownTicks())
             );
         }
-        return Text.translatable("hud.sparkwitch.savior.ready", SparkWitchClient.abilityKeyText());
+        return Text.translatable("hud.sparkdlc.savior.ready", SparkWitchClient.abilityKeyText());
     }
 }

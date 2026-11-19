@@ -77,36 +77,36 @@ final class NoellesCivilianScenes {
     }
 
     static void register() {
-        role("sparkassist:roles/noellesroles/conductor", List.of("noellesroles"),
+        role("sparkdlc:roles/noellesroles/conductor", List.of("noellesroles"),
                 scene("wathe/cabin", NoellesCivilianScenes::conductor));
-        role("sparkassist:roles/noellesroles/demon_hunter", List.of("noellesroles"),
+        role("sparkdlc:roles/noellesroles/demon_hunter", List.of("noellesroles"),
                 scene("wathe/aisle", NoellesCivilianScenes::demonHunter));
-        role("sparkassist:roles/noellesroles/engineer", List.of("noellesroles", "sparkstrength"),
+        role("sparkdlc:roles/noellesroles/engineer", List.of("noellesroles", "sparkdlc"),
                 scene("wathe/cabin", NoellesCivilianScenes::engineer),
                 scene("wathe/lit_carriage", NoellesCivilianScenes::engineerPower));
-        role("sparkassist:roles/noellesroles/bartender", List.of("noellesroles"),
+        role("sparkdlc:roles/noellesroles/bartender", List.of("noellesroles"),
                 scene("wathe/bar", NoellesCivilianScenes::bartender));
-        role("sparkassist:roles/noellesroles/toxicologist", List.of("noellesroles", "sparkstrength", "sparktraits"),
+        role("sparkdlc:roles/noellesroles/toxicologist", List.of("noellesroles", "sparkdlc"),
                 scene("wathe/bar", NoellesCivilianScenes::toxicologist));
-        role("sparkassist:roles/noellesroles/professor", List.of("noellesroles", "sparkstrength"),
+        role("sparkdlc:roles/noellesroles/professor", List.of("noellesroles", "sparkdlc"),
                 scene("wathe/aisle", NoellesCivilianScenes::professor),
                 scene("wathe/cabin", NoellesCivilianScenes::professorSerums));
-        role("sparkassist:roles/noellesroles/bodyguard", List.of("noellesroles", "sparkstrength"),
+        role("sparkdlc:roles/noellesroles/bodyguard", List.of("noellesroles", "sparkdlc"),
                 scene("wathe/aisle", NoellesCivilianScenes::bodyguard),
                 scene("wathe/aisle", NoellesCivilianScenes::bodyguardShield));
-        role("sparkassist:roles/noellesroles/waiter", List.of("noellesroles"),
+        role("sparkdlc:roles/noellesroles/waiter", List.of("noellesroles"),
                 scene("wathe/bar", NoellesCivilianScenes::waiter));
-        role("sparkassist:roles/noellesroles/coroner", List.of("noellesroles", "sparkstrength"),
+        role("sparkdlc:roles/noellesroles/coroner", List.of("noellesroles", "sparkdlc"),
                 scene("wathe/aisle", NoellesCivilianScenes::coroner));
-        role("sparkassist:roles/noellesroles/detective", List.of("noellesroles", "sparkstrength"),
+        role("sparkdlc:roles/noellesroles/detective", List.of("noellesroles", "sparkdlc"),
                 scene("wathe/aisle", NoellesCivilianScenes::detective));
-        role("sparkassist:roles/noellesroles/recaller", List.of("noellesroles", "sparkstrength"),
+        role("sparkdlc:roles/noellesroles/recaller", List.of("noellesroles", "sparkdlc"),
                 scene("wathe/aisle", NoellesCivilianScenes::recaller));
-        role("sparkassist:roles/noellesroles/voodoo", List.of("noellesroles"),
+        role("sparkdlc:roles/noellesroles/voodoo", List.of("noellesroles"),
                 scene("wathe/aisle", NoellesCivilianScenes::voodoo));
-        role("sparkassist:roles/noellesroles/noisemaker", List.of("noellesroles", "sparkstrength"),
+        role("sparkdlc:roles/noellesroles/noisemaker", List.of("noellesroles", "sparkdlc"),
                 scene("wathe/cabin", NoellesCivilianScenes::noisemaker));
-        role("sparkassist:roles/noellesroles/spiritualist", List.of("noellesroles"),
+        role("sparkdlc:roles/noellesroles/spiritualist", List.of("noellesroles"),
                 scene("wathe/cabin", NoellesCivilianScenes::spiritualist));
 
         // Items whose use a demo above already shows; holding W over the item plays that demo.
@@ -117,28 +117,28 @@ final class NoellesCivilianScenes {
                 scene("wathe/aisle", NoellesCivilianScenes::demonHunter));
         item("noellesroles:repair_tool", List.of("noellesroles"),
                 scene("wathe/cabin", NoellesCivilianScenes::engineer));
-        item("sparkstrength:power_restoration", List.of("noellesroles", "sparkstrength"),
+        item("sparkdlc:power_restoration", List.of("noellesroles", "sparkdlc"),
                 scene("wathe/lit_carriage", NoellesCivilianScenes::engineerPower));
         for (String ingredient : List.of("noellesroles:base_spirit", "noellesroles:whiskey")) {
             item(ingredient, List.of("noellesroles"), scene("wathe/bar", NoellesCivilianScenes::bartender));
         }
-        item("noellesroles:antidote", List.of("noellesroles", "sparkstrength", "sparktraits"),
+        item("noellesroles:antidote", List.of("noellesroles", "sparkdlc"),
                 scene("wathe/bar", NoellesCivilianScenes::toxicologist));
-        item("sparkstrength:blue_vitriol", List.of("noellesroles", "sparkstrength", "sparktraits"),
+        item("sparkdlc:blue_vitriol", List.of("noellesroles", "sparkdlc"),
                 scene("wathe/bar", NoellesCivilianScenes::toxicologist));
         item("noellesroles:iron_man_vial", List.of("noellesroles"),
                 scene("wathe/aisle", NoellesCivilianScenes::professor));
-        item("sparkstrength:invisibility_serum", List.of("noellesroles", "sparkstrength"),
+        item("sparkdlc:invisibility_serum", List.of("noellesroles", "sparkdlc"),
                 scene("wathe/cabin", NoellesCivilianScenes::professorSerums));
-        item("sparkstrength:doorpassing_potion", List.of("noellesroles", "sparkstrength"),
+        item("sparkdlc:doorpassing_potion", List.of("noellesroles", "sparkdlc"),
                 scene("wathe/cabin", NoellesCivilianScenes::professorSerums));
-        item("sparkstrength:bodyguard_vest", List.of("noellesroles", "sparkstrength"),
+        item("sparkdlc:bodyguard_vest", List.of("noellesroles", "sparkdlc"),
                 scene("wathe/aisle", NoellesCivilianScenes::bodyguard));
-        item("sparkstrength:democracy_shield", List.of("noellesroles", "sparkstrength"),
+        item("sparkdlc:democracy_shield", List.of("noellesroles", "sparkdlc"),
                 scene("wathe/aisle", NoellesCivilianScenes::bodyguardShield));
-        item("sparkstrength:coroner_body_bag", List.of("noellesroles", "sparkstrength"),
+        item("sparkdlc:coroner_body_bag", List.of("noellesroles", "sparkdlc"),
                 scene("wathe/aisle", NoellesCivilianScenes::coroner));
-        item("sparkstrength:magnifier", List.of("noellesroles", "sparkstrength"),
+        item("sparkdlc:magnifier", List.of("noellesroles", "sparkdlc"),
                 scene("wathe/aisle", NoellesCivilianScenes::detective));
     }
 
@@ -395,7 +395,7 @@ final class NoellesCivilianScenes {
         scene.idle(10);
         ElementLink<ActorElement> killer = Actors.enter(scene, RoleColors.KILLER, Text.literal("杀手"),
                 new Vec3d(4.4, 1, 0.8), SCREEN_RIGHT, Direction.DOWN);
-        ItemStack tablet = stack("sparkstrength:tablet");
+        ItemStack tablet = stack("sparkdlc:tablet");
         Actors.hold(scene, killer, tablet);
         scene.idle(15);
         scene.overlay().showControls(new Vec3d(4.4, 3.6, 0.8), Pointing.DOWN, 50).rightClick().withItem(tablet);
@@ -412,7 +412,7 @@ final class NoellesCivilianScenes {
         Actors.turn(scene, killer, facing(killerSpot, civilianSpot));
         Actors.charge(scene, killer, true);
         scene.overlay().showControls(engineerSpot.add(0, 2.6, 0), Pointing.DOWN, 70)
-                .withItem(stack("sparkstrength:power_restoration"));
+                .withItem(stack("sparkdlc:power_restoration"));
         SceneCaptions.keyframeCaption(scene, 70, "有破坏正在进行时，工程师能在商店买【破坏维修】（250 金币）");
         scene.idle(80);
         scene.world().modifyBlocks(lamps, state -> lamp(state, true), false);
@@ -562,7 +562,7 @@ final class NoellesCivilianScenes {
         Vec3d trayTop = new Vec3d(3.5, 3.0, 3.5);
         int toxicologistColor = RoleColors.of("noellesroles:toxicologist", 0xB8295A);
         ParticleEffect bluePoison = (ParticleEffect) Registries.PARTICLE_TYPE.get(
-                Identifier.of("sparktraits", "blue_poison"));
+                Identifier.of("sparkdlc", "blue_poison"));
         Effects.Marker redSkull = Effects.mark(scene, WatheParticles.POISON, plate, POISON_RISE, 0.2f);
         ElementLink<ActorElement> toxicologist = Actors.enter(scene, toxicologistColor, Text.literal("毒理学家"),
                 new Vec3d(6.0, 1, 1.0), SCREEN_RIGHT, Direction.DOWN);
@@ -605,13 +605,13 @@ final class NoellesCivilianScenes {
         scene.idle(40);
         Actors.leave(scene, civilian, Direction.UP);
         scene.idle(50);
-        Actors.hold(scene, toxicologist, stack("sparkstrength:blue_vitriol"));
+        Actors.hold(scene, toxicologist, stack("sparkdlc:blue_vitriol"));
         Actors.walk(scene, toxicologist, atTray.subtract(curerSpot), 15);
         scene.idle(17);
         Actors.turn(scene, toxicologist, SCREEN_RIGHT);
         scene.idle(8);
         scene.overlay().showControls(trayTop, Pointing.DOWN, 30).rightClick()
-                .withItem(stack("sparkstrength:blue_vitriol"));
+                .withItem(stack("sparkdlc:blue_vitriol"));
         scene.idle(10);
         Actors.swing(scene, toxicologist);
         Actors.hold(scene, toxicologist, ItemStack.EMPTY);
@@ -726,8 +726,8 @@ final class NoellesCivilianScenes {
         WatheItemScenes.setStage(scene, util);
         Vec3d civilianSpot = new Vec3d(3.5, 1, 2.0);
         Vec3d professorSpot = new Vec3d(4.9, 1, 1.5);
-        ItemStack doorpassing = stack("sparkstrength:doorpassing_potion");
-        ItemStack invisibility = stack("sparkstrength:invisibility_serum");
+        ItemStack doorpassing = stack("sparkdlc:doorpassing_potion");
+        ItemStack invisibility = stack("sparkdlc:invisibility_serum");
         ElementLink<ActorElement> civilian = Actors.enter(scene, RoleColors.CIVILIAN, Text.literal("平民"),
                 civilianSpot, facing(civilianSpot, professorSpot), Direction.DOWN);
         ElementLink<ActorElement> professor = Actors.enter(scene,
@@ -824,7 +824,7 @@ final class NoellesCivilianScenes {
         // Facing Ponder's camera at the (0, 0) corner, so the worn vest is seen from the front.
         // 面向位于 (0, 0) 角的 Ponder 镜头，从正面看到穿着的防弹衣。
         float towardViewer = 135;
-        ItemStack vest = stack("sparkstrength:bodyguard_vest");
+        ItemStack vest = stack("sparkdlc:bodyguard_vest");
         ElementLink<ActorElement> guard = Actors.enter(scene,
                 RoleColors.of("noellesroles:bodyguard", 0x4682FA), Text.literal("保镖"),
                 guardSpot, towardViewer, Direction.DOWN);
@@ -891,7 +891,7 @@ final class NoellesCivilianScenes {
         scene.title("role_bodyguard_shield", "保镖：民主盾牌只挡正面");
         WatheItemScenes.stage(scene);
         Vec3d guardSpot = new Vec3d(3.6, 1, 3.4);
-        ItemStack shield = stack("sparkstrength:democracy_shield");
+        ItemStack shield = stack("sparkdlc:democracy_shield");
         ElementLink<ActorElement> guard = Actors.enter(scene,
                 RoleColors.of("noellesroles:bodyguard", 0x4682FA), Text.literal("保镖"),
                 guardSpot, SCREEN_RIGHT, Direction.DOWN);
@@ -1064,7 +1064,7 @@ final class NoellesCivilianScenes {
         scene.idle(90);
         SceneCaptions.caption(scene, 70, "每具尸体第一次走到 2 格内，你还能领 50 金币");
         scene.idle(80);
-        ItemStack bag = stack("sparkstrength:coroner_body_bag");
+        ItemStack bag = stack("sparkdlc:coroner_body_bag");
         Actors.hold(scene, coroner, bag);
         scene.idle(15);
         scene.overlay().showControls(new Vec3d(1.6, 2.2, 5.4), Pointing.DOWN, 30).rightClick().withItem(bag);
@@ -1119,7 +1119,7 @@ final class NoellesCivilianScenes {
         Vec3d detectiveStart = new Vec3d(1.0, 1, 1.0);
         Vec3d detectiveSpot = new Vec3d(3.4, 1, 3.8);
         Vec3d bodyMiddle = new Vec3d(1.2, 1, 5.0);
-        ItemStack magnifier = stack("sparkstrength:magnifier");
+        ItemStack magnifier = stack("sparkdlc:magnifier");
         ElementLink<ActorElement> victim = Actors.enter(scene, RoleColors.CIVILIAN, Text.literal("平民"),
                 victimSpot, SCREEN_RIGHT, Direction.DOWN);
         scene.idle(5);

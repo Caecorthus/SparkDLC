@@ -17,15 +17,15 @@ public final class DroneWeaponRules {
     public static final Set<String> MELEE_WEAPON_IDS = Set.of(
             "wathe:knife",
             "wathe:bat",
-            "sparkwitch:ceremonial_sword",
-            "sparkwitch:ninja_knife",
-            "sparkwitch:fire_poker",
-            "sparkwitch:vendetta_knife");
+            "sparkdlc:ceremonial_sword",
+            "sparkdlc:ninja_knife",
+            "sparkdlc:fire_poker",
+            "sparkdlc:vendetta_knife");
 
     /** SparkWitch kunai: server-side right-click hitscan. / SparkWitch 苦无：服务端右键即时射线。 */
-    public static final String NINJA_KNIFE_ID = "sparkwitch:ninja_knife";
+    public static final String NINJA_KNIFE_ID = "sparkdlc:ninja_knife";
     /** SparkWitch Grand Witch sword: right-click dash. / SparkWitch 大魔女仪礼剑：右键冲刺。 */
-    public static final String CEREMONIAL_SWORD_ID = "sparkwitch:ceremonial_sword";
+    public static final String CEREMONIAL_SWORD_ID = "sparkdlc:ceremonial_sword";
 
     /** Server melee reach: vanilla interaction range 3 plus its own 1-block allowance. / 服务端近战距离：原版 3 格加 1 格余量。 */
     public static final double MELEE_REACH = 4.0;

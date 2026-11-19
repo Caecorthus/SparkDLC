@@ -36,8 +36,8 @@ import org.jetbrains.annotations.Nullable;
  * 回复或扣除 25% 理智；理智条已到该端点时该行拒绝且不扣钱。死亡后隐藏商店与余额（沿用圣徒的先例）。
  */
 final class NoaEconomyService {
-    static final String SANITY_UP_ENTRY = "sparkwitch:noa_sanity_up";
-    static final String SANITY_DOWN_ENTRY = "sparkwitch:noa_sanity_down";
+    static final String SANITY_UP_ENTRY = "sparkdlc:noa_sanity_up";
+    static final String SANITY_DOWN_ENTRY = "sparkdlc:noa_sanity_down";
 
     private NoaEconomyService() {
     }
@@ -115,8 +115,8 @@ final class NoaEconomyService {
                 || !GameFunctions.isPlayerPlayingAndAlive(player)) {
             return;
         }
-        context.addEntry(sanityRow(SANITY_UP_ENTRY, Items.LIGHT_BLUE_DYE, "shop.sparkwitch.noa.sanity_up", true));
-        context.addEntry(sanityRow(SANITY_DOWN_ENTRY, Items.RED_DYE, "shop.sparkwitch.noa.sanity_down", false));
+        context.addEntry(sanityRow(SANITY_UP_ENTRY, Items.LIGHT_BLUE_DYE, "shop.sparkdlc.noa.sanity_up", true));
+        context.addEntry(sanityRow(SANITY_DOWN_ENTRY, Items.RED_DYE, "shop.sparkdlc.noa.sanity_down", false));
     }
 
     /**

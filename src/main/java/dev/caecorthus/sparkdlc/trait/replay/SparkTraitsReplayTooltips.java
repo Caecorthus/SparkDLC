@@ -28,9 +28,9 @@ import java.util.function.Function;
  */
 public final class SparkTraitsReplayTooltips {
     static final Identifier CONTRIBUTOR_ID = SparkTraits.id("traits");
-    static final String HEADER_KEY = "replay.sparktraits.tooltip.traits";
-    static final String NONE_KEY = "replay.sparktraits.tooltip.none";
-    static final String HIDDEN_AT_START_KEY = "replay.sparktraits.tooltip.hidden_at_start";
+    static final String HEADER_KEY = "replay.sparkdlc.tooltip.traits";
+    static final String NONE_KEY = "replay.sparkdlc.tooltip.none";
+    static final String HIDDEN_AT_START_KEY = "replay.sparkdlc.tooltip.hidden_at_start";
 
     private SparkTraitsReplayTooltips() {
     }

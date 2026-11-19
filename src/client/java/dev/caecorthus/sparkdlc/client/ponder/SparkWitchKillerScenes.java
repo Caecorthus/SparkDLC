@@ -98,7 +98,7 @@ final class SparkWitchKillerScenes {
      * drawn only when SparkWitch has no 3D head model. 钩头旧的平面贴图，画成边长 0.5 的方块（3D 钩头之前的画法），只在
      * SparkWitch 没有 3D 钩头模型时绘制。
      */
-    private static final Identifier HOOK_HEAD = Identifier.of("sparkwitch", "textures/entity/ninja_grappling_hook.png");
+    private static final Identifier HOOK_HEAD = Identifier.of("sparkdlc", "textures/entity/ninja_grappling_hook.png");
     private static final float HOOK_HEAD_SIZE = 0.5f;
     /** Half the hook entity's 0.25 height: the old sprite is drawn at its centre. 钩爪实体 0.25 高度的一半：旧贴图画在其中心。 */
     private static final double HOOK_CENTRE = 0.125;
@@ -159,61 +159,61 @@ final class SparkWitchKillerScenes {
     }
 
     static void register() {
-        role("sparkassist:roles/sparkwitch/murderous_witch", List.of("sparkwitch"),
-                scene("sparkwitch/ray_wall", SparkWitchKillerScenes::murderousWitch));
-        role("sparkassist:roles/sparkwitch/saboteur", List.of("sparkwitch"),
+        role("sparkdlc:roles/sparkdlc/murderous_witch", List.of("sparkdlc"),
+                scene("sparkdlc/ray_wall", SparkWitchKillerScenes::murderousWitch));
+        role("sparkdlc:roles/sparkdlc/saboteur", List.of("sparkdlc"),
                 scene("wathe/lit_carriage", SparkWitchKillerScenes::saboteur));
-        role("sparkassist:roles/sparkwitch/time_stealer", List.of("sparkwitch"),
+        role("sparkdlc:roles/sparkdlc/time_stealer", List.of("sparkdlc"),
                 scene("wathe/aisle", SparkWitchKillerScenes::timeStealer));
-        role("sparkassist:roles/sparkwitch/witch_maiden", List.of("sparkwitch"),
-                scene("sparkwitch/food_platter", SparkWitchKillerScenes::witchMaiden));
-        role("sparkassist:roles/sparkwitch/ninja", List.of("sparkwitch"),
-                scene("sparkwitch/cargo_ledge", SparkWitchKillerScenes::ninja));
-        role("sparkassist:roles/sparkwitch/hunter", List.of("sparkwitch"),
+        role("sparkdlc:roles/sparkdlc/witch_maiden", List.of("sparkdlc"),
+                scene("sparkdlc/food_platter", SparkWitchKillerScenes::witchMaiden));
+        role("sparkdlc:roles/sparkdlc/ninja", List.of("sparkdlc"),
+                scene("sparkdlc/cargo_ledge", SparkWitchKillerScenes::ninja));
+        role("sparkdlc:roles/sparkdlc/hunter", List.of("sparkdlc"),
                 scene("wathe/aisle", SparkWitchKillerScenes::hunter));
-        role("sparkassist:roles/sparkwitch/kidnapper", List.of("sparkwitch"),
+        role("sparkdlc:roles/sparkdlc/kidnapper", List.of("sparkdlc"),
                 scene("wathe/aisle", SparkWitchKillerScenes::kidnapper));
-        role("sparkassist:roles/sparkwitch/grand_witch", List.of("sparkwitch"),
+        role("sparkdlc:roles/sparkdlc/grand_witch", List.of("sparkdlc"),
                 scene("wathe/aisle", SparkWitchKillerScenes::grandWitch));
-        role("sparkassist:roles/sparkwitch/potion_gunner", List.of("sparkwitch"),
+        role("sparkdlc:roles/sparkdlc/potion_gunner", List.of("sparkdlc"),
                 scene("wathe/aisle", SparkWitchKillerScenes::potionGunner));
-        role("sparkassist:roles/sparkwitch/abyss_listener", List.of("sparkwitch"),
-                scene("sparkwitch/spore_cabin", SparkWitchKillerScenes::abyssListener));
-        role("sparkassist:roles/sparkwitch/riftwalker", List.of("sparkwitch"),
+        role("sparkdlc:roles/sparkdlc/abyss_listener", List.of("sparkdlc"),
+                scene("sparkdlc/spore_cabin", SparkWitchKillerScenes::abyssListener));
+        role("sparkdlc:roles/sparkdlc/riftwalker", List.of("sparkdlc"),
                 scene("wathe/aisle", SparkWitchKillerScenes::riftwalker));
-        role("sparkassist:roles/sparkwitch/magician", List.of("sparkwitch"),
+        role("sparkdlc:roles/sparkdlc/magician", List.of("sparkdlc"),
                 scene("wathe/aisle", SparkWitchKillerScenes::magician));
-        role("sparkassist:roles/sparkwitch/bell_ringer", List.of("sparkwitch"),
-                scene("sparkwitch/ray_wall", SparkWitchKillerScenes::bellRinger));
-        role("sparkassist:roles/sparkwitch/curser", List.of("sparkwitch"),
+        role("sparkdlc:roles/sparkdlc/bell_ringer", List.of("sparkdlc"),
+                scene("sparkdlc/ray_wall", SparkWitchKillerScenes::bellRinger));
+        role("sparkdlc:roles/sparkdlc/curser", List.of("sparkdlc"),
                 scene("wathe/aisle", SparkWitchKillerScenes::curser));
 
         // Items whose use a demo above already shows; holding W over the item plays that demo.
         // 上面的演示已经演示过用法的物品；在物品上按住 W 即可播放对应演示。
-        item("sparkwitch:time_stealer_pocket_watch", List.of("sparkwitch"),
+        item("sparkdlc:time_stealer_pocket_watch", List.of("sparkdlc"),
                 scene("wathe/aisle", SparkWitchKillerScenes::timeStealer));
-        item("sparkwitch:poison_apple", List.of("sparkwitch"),
-                scene("sparkwitch/food_platter", SparkWitchKillerScenes::witchMaiden));
-        for (String id : List.of("sparkwitch:ninja_knife", "sparkwitch:ninja_shuriken",
-                "sparkwitch:ninja_grappling_hook")) {
-            item(id, List.of("sparkwitch"), scene("sparkwitch/cargo_ledge", SparkWitchKillerScenes::ninja));
+        item("sparkdlc:poison_apple", List.of("sparkdlc"),
+                scene("sparkdlc/food_platter", SparkWitchKillerScenes::witchMaiden));
+        for (String id : List.of("sparkdlc:ninja_knife", "sparkdlc:ninja_shuriken",
+                "sparkdlc:ninja_grappling_hook")) {
+            item(id, List.of("sparkdlc"), scene("sparkdlc/cargo_ledge", SparkWitchKillerScenes::ninja));
         }
-        for (String id : List.of("sparkwitch:hunter_trap", "sparkwitch:double_barrel_shotgun")) {
-            item(id, List.of("sparkwitch"), scene("wathe/aisle", SparkWitchKillerScenes::hunter));
+        for (String id : List.of("sparkdlc:hunter_trap", "sparkdlc:double_barrel_shotgun")) {
+            item(id, List.of("sparkdlc"), scene("wathe/aisle", SparkWitchKillerScenes::hunter));
         }
-        item("sparkwitch:knockout_drug", List.of("sparkwitch"),
+        item("sparkdlc:knockout_drug", List.of("sparkdlc"),
                 scene("wathe/aisle", SparkWitchKillerScenes::kidnapper));
-        item("sparkwitch:ceremonial_sword", List.of("sparkwitch"),
+        item("sparkdlc:ceremonial_sword", List.of("sparkdlc"),
                 scene("wathe/aisle", SparkWitchKillerScenes::grandWitch));
-        for (String id : List.of("sparkwitch:anti_tank_launcher", "sparkwitch:tr_shell")) {
-            item(id, List.of("sparkwitch"), scene("wathe/aisle", SparkWitchKillerScenes::potionGunner));
+        for (String id : List.of("sparkdlc:anti_tank_launcher", "sparkdlc:tr_shell")) {
+            item(id, List.of("sparkdlc"), scene("wathe/aisle", SparkWitchKillerScenes::potionGunner));
         }
-        for (String id : List.of("sparkwitch:shriek_gun", "sparkwitch:deep_dark_spore_flask")) {
-            item(id, List.of("sparkwitch"), scene("sparkwitch/spore_cabin", SparkWitchKillerScenes::abyssListener));
+        for (String id : List.of("sparkdlc:shriek_gun", "sparkdlc:deep_dark_spore_flask")) {
+            item(id, List.of("sparkdlc"), scene("sparkdlc/spore_cabin", SparkWitchKillerScenes::abyssListener));
         }
-        item("sparkwitch:rift_gate", List.of("sparkwitch"), scene("wathe/aisle", SparkWitchKillerScenes::riftwalker));
-        item("sparkwitch:toll_bell", List.of("sparkwitch"),
-                scene("sparkwitch/ray_wall", SparkWitchKillerScenes::bellRinger));
+        item("sparkdlc:rift_gate", List.of("sparkdlc"), scene("wathe/aisle", SparkWitchKillerScenes::riftwalker));
+        item("sparkdlc:toll_bell", List.of("sparkdlc"),
+                scene("sparkdlc/ray_wall", SparkWitchKillerScenes::bellRinger));
     }
 
     /**
@@ -240,7 +240,7 @@ final class SparkWitchKillerScenes {
                 new Vec3d(0.5, 1, 4.9), NORTH, Direction.DOWN);
         scene.idle(10);
         Vec3d feet = new Vec3d(5.0, 1, 0.4);
-        Actors.enter(scene, RoleColors.of("sparkwitch:murderous_witch", 0x7A3857), Text.literal("杀意魔女"), feet,
+        Actors.enter(scene, RoleColors.of("sparkdlc:murderous_witch", 0x7A3857), Text.literal("杀意魔女"), feet,
                 SCREEN_RIGHT, Direction.DOWN);
         scene.idle(15);
         SceneCaptions.keyframeCaption(scene, 80, "杀意魔女开局 0 魔力，每 2 秒恢复 1 点，杀人还能回魔");
@@ -302,7 +302,7 @@ final class SparkWitchKillerScenes {
         Actors.hold(scene, killer, stack("wathe:knife"));
         scene.idle(10);
         Vec3d feet = new Vec3d(2.4, 1, 4.6);
-        ElementLink<ActorElement> saboteur = Actors.enter(scene, RoleColors.of("sparkwitch:saboteur", 0xE28743),
+        ElementLink<ActorElement> saboteur = Actors.enter(scene, RoleColors.of("sparkdlc:saboteur", 0xE28743),
                 Text.literal("破坏者"), feet, SCREEN_RIGHT, Direction.DOWN);
         scene.idle(15);
         SceneCaptions.keyframeCaption(scene, 80, "杀手阵营的冤魂晋升后成为破坏者：仍然隐身、无敌");
@@ -334,7 +334,7 @@ final class SparkWitchKillerScenes {
         scene.idle(90);
         SceneCaptions.caption(scene, 90, "按下后冷却 120 秒（刚晋升时先等 60 秒）；附近没灯也照样冷却");
         scene.idle(100);
-        Actors.highlight(scene, saboteur, RoleColors.of("sparkwitch:saboteur", 0xE28743), 90);
+        Actors.highlight(scene, saboteur, RoleColors.of("sparkdlc:saboteur", 0xE28743), 90);
         SceneCaptions.keyframeCaption(scene, 90, "活着的杀手按住本能键，能看到你的橙色轮廓（方框示意）");
         scene.idle(100);
         scene.markAsFinished();
@@ -358,14 +358,14 @@ final class SparkWitchKillerScenes {
                 new Vec3d(1.8, 1, 5.2), SCREEN_LEFT, Direction.DOWN);
         scene.idle(5);
         Vec3d feet = new Vec3d(5.8, 1, 1.2);
-        ElementLink<ActorElement> stealer = Actors.enter(scene, RoleColors.of("sparkwitch:time_stealer", 0x2E8B7A),
+        ElementLink<ActorElement> stealer = Actors.enter(scene, RoleColors.of("sparkdlc:time_stealer", 0x2E8B7A),
                 Text.literal("窃时者"), feet, SCREEN_RIGHT, Direction.DOWN);
-        Actors.hold(scene, stealer, stack("sparkwitch:time_stealer_pocket_watch"));
+        Actors.hold(scene, stealer, stack("sparkdlc:time_stealer_pocket_watch"));
         scene.idle(20);
         SceneCaptions.keyframeCaption(scene, 80, "窃时者开局带着时间怀表：其他活人看不见你手里的怀表");
         scene.idle(90);
         scene.overlay().showControls(feet.add(0, 2.6, 0), Pointing.DOWN, 30).rightClick()
-                .withItem(stack("sparkwitch:time_stealer_pocket_watch"));
+                .withItem(stack("sparkdlc:time_stealer_pocket_watch"));
         SceneCaptions.keyframeCaption(scene, 80, "对准 7 格内看得见的人右键：窃走他的时间，没有挥手动作");
         scene.idle(90);
         SceneCaptions.caption(scene, 70, "窃取成功后冷却 45 秒；没对准不进冷却");
@@ -403,7 +403,7 @@ final class SparkWitchKillerScenes {
                 .attachKeyFrame();
         scene.idle(90);
         scene.overlay().showControls(new Vec3d(6.4, 3.6, 0.6), Pointing.DOWN, 60)
-                .withItem(stack("sparkwitch:time_stamp"));
+                .withItem(stack("sparkdlc:time_stamp"));
         SceneCaptions.keyframeCaption(scene, 90, "每次怀表击杀扣 30 秒对局时间；你还活着就得到 1 枚时光邮票");
         scene.idle(100);
         SceneCaptions.caption(scene, 80, "但真正的计时员买一次“减少时间”，所有被窃的人都会得救");
@@ -431,9 +431,9 @@ final class SparkWitchKillerScenes {
         WatheItemScenes.setStage(scene, util);
         Vec3d plate = new Vec3d(3.5, 2.2, 3.5);
         Vec3d overPlate = new Vec3d(3.5, 3.1, 3.5);
-        ElementLink<ActorElement> maiden = Actors.enter(scene, RoleColors.of("sparkwitch:witch_maiden", 0xB04A8B),
+        ElementLink<ActorElement> maiden = Actors.enter(scene, RoleColors.of("sparkdlc:witch_maiden", 0xB04A8B),
                 Text.literal("巫女"), new Vec3d(6.0, 1, 1.0), SCREEN_RIGHT, Direction.DOWN);
-        Actors.hold(scene, maiden, stack("sparkwitch:poison_apple"));
+        Actors.hold(scene, maiden, stack("sparkdlc:poison_apple"));
         scene.idle(20);
         SceneCaptions.keyframeCaption(scene, 74, "巫女的毒苹果：拿在手上右键餐盘（饮品托盘也行）");
         scene.idle(46);
@@ -441,7 +441,7 @@ final class SparkWitchKillerScenes {
         scene.idle(28);
         Actors.lookPitch(scene, maiden, 20);
         scene.overlay().showControls(overPlate, Pointing.DOWN, 30).rightClick()
-                .withItem(stack("sparkwitch:poison_apple"));
+                .withItem(stack("sparkdlc:poison_apple"));
         scene.idle(10);
         Actors.swing(scene, maiden);
         Actors.hold(scene, maiden, ItemStack.EMPTY);
@@ -544,14 +544,14 @@ final class SparkWitchKillerScenes {
         scene.idle(5);
         Vec3d feet = new Vec3d(5.8, 1, 1.2);
         Vec3d overHead = feet.add(0, 2.6, 0);
-        ElementLink<ActorElement> ninja = Actors.enter(scene, RoleColors.of("sparkwitch:ninja", 0x2C2C2C),
+        ElementLink<ActorElement> ninja = Actors.enter(scene, RoleColors.of("sparkdlc:ninja", 0x2C2C2C),
                 Text.literal("忍者"), feet, SCREEN_RIGHT, Direction.DOWN);
-        Actors.hold(scene, ninja, stack("sparkwitch:ninja_knife"));
+        Actors.hold(scene, ninja, stack("sparkdlc:ninja_knife"));
         scene.idle(20);
         SceneCaptions.keyframeCaption(scene, 80, "苦无、手里剑和钩爪都在商店买。苦无：对准 4 格内的人右键");
         scene.idle(50);
         scene.overlay().showControls(overHead, Pointing.DOWN, 30).rightClick()
-                .withItem(stack("sparkwitch:ninja_knife"));
+                .withItem(stack("sparkdlc:ninja_knife"));
         scene.idle(10);
         Actors.fall(scene, first);
         scene.idle(30);
@@ -565,21 +565,21 @@ final class SparkWitchKillerScenes {
         scene.idle(30);
         Actors.leave(scene, first, Direction.UP);
         scene.idle(50);
-        Actors.hold(scene, ninja, stack("sparkwitch:ninja_shuriken"));
+        Actors.hold(scene, ninja, stack("sparkdlc:ninja_shuriken"));
         ElementLink<ActorElement> second = Actors.enter(scene, RoleColors.CIVILIAN, civilian,
                 new Vec3d(2.4, 1, 4.6), SCREEN_LEFT, Direction.DOWN);
         scene.idle(20);
         SceneCaptions.keyframeCaption(scene, 80, "手里剑：按住右键蓄力片刻，松开就直线掷出");
         scene.idle(40);
         scene.overlay().showControls(overHead, Pointing.DOWN, 30).rightClick()
-                .withItem(stack("sparkwitch:ninja_shuriken"));
+                .withItem(stack("sparkdlc:ninja_shuriken"));
         Actors.charge(scene, ninja, true);
         scene.idle(20);
         Actors.charge(scene, ninja, false);
         Actors.hold(scene, ninja, ItemStack.EMPTY);
         // Spawned 0.1 below the eyes (PersistentProjectileEntity), it meets the target's box after about 4.4 blocks.
         // 在眼睛下方 0.1 处生成（PersistentProjectileEntity），飞约 4.4 格碰到目标的碰撞箱。
-        sprite(scene, SpriteElement.item(stack("sparkwitch:ninja_shuriken"), feet.add(0, EYES - 0.1, 0),
+        sprite(scene, SpriteElement.item(stack("sparkdlc:ninja_shuriken"), feet.add(0, EYES - 0.1, 0),
                 new Vec3d(2.7, 1 + EYES - 0.1, 4.3), 4, false));
         scene.idle(4);
         Effects.burst(scene, ParticleTypes.CRIT, new Vec3d(2.4, 2.25, 4.6), 10, 0.15);
@@ -592,7 +592,7 @@ final class SparkWitchKillerScenes {
                 .attachKeyFrame();
         scene.idle(90);
         Actors.leave(scene, second, Direction.UP);
-        Actors.hold(scene, ninja, stack("sparkwitch:ninja_grappling_hook"));
+        Actors.hold(scene, ninja, stack("sparkdlc:ninja_grappling_hook"));
         scene.idle(20);
         SceneCaptions.keyframeCaption(scene, 75, "钩爪：右键朝准星抛出，能钩住 24 格内的方块");
         scene.idle(30);
@@ -601,7 +601,7 @@ final class SparkWitchKillerScenes {
         Vec3d latch = new Vec3d(1.2, 2.0, 5.8);
         Actors.lookPitch(scene, ninja, 5);
         scene.overlay().showControls(overHead, Pointing.DOWN, 30).rightClick()
-                .withItem(stack("sparkwitch:ninja_grappling_hook"));
+                .withItem(stack("sparkdlc:ninja_grappling_hook"));
         scene.idle(10);
         Actors.swing(scene, ninja);
         ElementLink<ProjectileModelElement> hook = projectile(scene, hookHead(feet.add(0, EYES, 0), latch, 3));
@@ -610,7 +610,7 @@ final class SparkWitchKillerScenes {
         SceneCaptions.keyframeCaption(scene, 90, "钩住后 5 秒内再右键，铁链就把你拉过去（钩头和铁链为示意）");
         scene.idle(40);
         scene.overlay().showControls(overHead, Pointing.DOWN, 30).rightClick()
-                .withItem(stack("sparkwitch:ninja_grappling_hook"));
+                .withItem(stack("sparkdlc:ninja_grappling_hook"));
         scene.idle(10);
         Actors.swing(scene, ninja);
         // Raise the feet above the ledge before crossing it; the straight line clips the cargo box's side.
@@ -653,9 +653,9 @@ final class SparkWitchKillerScenes {
     private static void hunter(SceneBuilder scene, SceneBuildingUtil util) {
         scene.title("role_hunter", "猎人：捕兽夹与双管猎枪");
         WatheItemScenes.stage(scene);
-        ElementLink<ActorElement> hunter = Actors.enter(scene, RoleColors.of("sparkwitch:hunter", 0x5C4C34),
+        ElementLink<ActorElement> hunter = Actors.enter(scene, RoleColors.of("sparkdlc:hunter", 0x5C4C34),
                 Text.literal("猎人"), new Vec3d(2.5, 1, 1.4), SOUTH, Direction.DOWN);
-        Actors.hold(scene, hunter, stack("sparkwitch:hunter_trap"));
+        Actors.hold(scene, hunter, stack("sparkdlc:hunter_trap"));
         scene.idle(20);
         SceneCaptions.keyframeCaption(scene, 77, "猎人拿着捕兽夹，对着脚前的地面右键放下");
         scene.idle(30);
@@ -666,10 +666,10 @@ final class SparkWitchKillerScenes {
         Vec3d trapAt = new Vec3d(2.5, 1.0, 4.5);
         Actors.lookPitch(scene, hunter, 40);
         scene.overlay().showControls(new Vec3d(2.5, 3.6, 2.6), Pointing.DOWN, 30).rightClick()
-                .withItem(stack("sparkwitch:hunter_trap"));
+                .withItem(stack("sparkdlc:hunter_trap"));
         scene.idle(10);
         Actors.swing(scene, hunter);
-        ElementLink<ThrownElement> trap = Actors.toss(scene, stack("sparkwitch:hunter_trap"), trapAt.add(0, 0.3, 0),
+        ElementLink<ThrownElement> trap = Actors.toss(scene, stack("sparkdlc:hunter_trap"), trapAt.add(0, 0.3, 0),
                 trapAt, 2, 0, true, ThrownElement.Flight.LIES_FLAT);
         scene.idle(25);
         SceneCaptions.keyframeCaption(scene, 80, "0.5 秒后生效，能留 10 分钟；每人最多同时放 4 个");
@@ -680,7 +680,7 @@ final class SparkWitchKillerScenes {
         Vec3d shooterFeet = new Vec3d(5.6, 1, 1.6);
         Actors.walk(scene, hunter, shooterFeet.subtract(2.5, 1, 2.6), 30);
         scene.idle(32);
-        Actors.hold(scene, hunter, stack("sparkwitch:double_barrel_shotgun"));
+        Actors.hold(scene, hunter, stack("sparkdlc:double_barrel_shotgun"));
         scene.idle(38);
         Vec3d caught = new Vec3d(2.5, 1, 5.4);
         ElementLink<ActorElement> victim = Actors.enter(scene, RoleColors.CIVILIAN, Text.literal("平民"),
@@ -703,7 +703,7 @@ final class SparkWitchKillerScenes {
                 .attachKeyFrame();
         scene.idle(40);
         scene.overlay().showControls(shooterFeet.add(0, 2.6, 0), Pointing.DOWN, 25).rightClick()
-                .withItem(stack("sparkwitch:double_barrel_shotgun"));
+                .withItem(stack("sparkdlc:double_barrel_shotgun"));
         scene.idle(10);
         // A levelled gun's muzzle, as WatheItemScenes places the revolver's. 端平的枪口位置，与 WatheItemScenes 的左轮相同。
         WatheItemScenes.shoot(scene, hunter, shooterFeet.add(forward(aim)).add(0, 1.05, 0), caught.add(0, 0.9, 0));
@@ -747,16 +747,16 @@ final class SparkWitchKillerScenes {
         ElementLink<ActorElement> victim = Actors.enter(scene, RoleColors.CIVILIAN, civilian,
                 new Vec3d(3.0, 1, 4.0), SCREEN_RIGHT, Direction.DOWN);
         scene.idle(5);
-        ElementLink<ActorElement> kidnapper = Actors.enter(scene, RoleColors.of("sparkwitch:kidnapper", 0x9B59B6),
+        ElementLink<ActorElement> kidnapper = Actors.enter(scene, RoleColors.of("sparkdlc:kidnapper", 0x9B59B6),
                 Text.literal("绑架者"), new Vec3d(1.0, 1, 6.0), SCREEN_LEFT, Direction.DOWN);
-        Actors.hold(scene, kidnapper, stack("sparkwitch:knockout_drug"));
+        Actors.hold(scene, kidnapper, stack("sparkdlc:knockout_drug"));
         scene.idle(20);
         SceneCaptions.keyframeCaption(scene, 74, "绑架者开局自带 1 瓶迷药（开局约 40 秒内不能用）");
         scene.idle(58);
         Actors.walk(scene, kidnapper, new Vec3d(0.4, 0, -0.4), 10);
         scene.idle(12);
         scene.overlay().showControls(new Vec3d(1.4, 3.6, 5.6), Pointing.DOWN, 30).rightClick()
-                .withItem(stack("sparkwitch:knockout_drug"));
+                .withItem(stack("sparkdlc:knockout_drug"));
         scene.idle(10);
         Actors.swing(scene, kidnapper);
         Actors.hold(scene, kidnapper, ItemStack.EMPTY);
@@ -848,16 +848,16 @@ final class SparkWitchKillerScenes {
                 new Vec3d(3.9, 1, 3.1), SCREEN_RIGHT, Direction.DOWN);
         scene.idle(5);
         Vec3d feet = new Vec3d(6.0, 1, 1.0);
-        ElementLink<ActorElement> witch = Actors.enter(scene, RoleColors.of("sparkwitch:grand_witch", 0xF2DFF7),
+        ElementLink<ActorElement> witch = Actors.enter(scene, RoleColors.of("sparkdlc:grand_witch", 0xF2DFF7),
                 Text.literal("大魔女"), feet, SCREEN_RIGHT, Direction.DOWN);
-        Actors.hold(scene, witch, stack("sparkwitch:ceremonial_sword"));
+        Actors.hold(scene, witch, stack("sparkdlc:ceremonial_sword"));
         scene.idle(20);
         SceneCaptions.keyframeCaption(scene, 80, "完成 2 个任务后，大魔女免费获得仪礼剑，别人看得见");
         scene.idle(90);
         SceneCaptions.keyframeCaption(scene, 80, "左键斩击：比平时远 2 格，蓄力约 0.5 秒再出手");
         scene.idle(30);
         scene.overlay().showControls(feet.add(0, 2.6, 0), Pointing.DOWN, 30).leftClick()
-                .withItem(stack("sparkwitch:ceremonial_sword"));
+                .withItem(stack("sparkdlc:ceremonial_sword"));
         scene.idle(10);
         Actors.swing(scene, witch);
         Actors.fall(scene, slashed);
@@ -882,7 +882,7 @@ final class SparkWitchKillerScenes {
         SceneCaptions.caption(scene, 40, "……30 秒后（演示缩短了时间）");
         scene.idle(45);
         scene.overlay().showControls(dashFrom.add(0, 2.6, 0), Pointing.DOWN, 30).rightClick()
-                .withItem(stack("sparkwitch:ceremonial_sword"));
+                .withItem(stack("sparkdlc:ceremonial_sword"));
         scene.idle(10);
         Actors.swing(scene, witch);
         // The dash moves in 0.25-block steps, 1.5 blocks a tick, each step first sweeping the box (0.15 wider on every
@@ -933,34 +933,34 @@ final class SparkWitchKillerScenes {
                 new Vec3d(1.6, 1, 5.4), EAST, Direction.DOWN);
         ElementLink<ActorElement> behind = Actors.enter(scene, RoleColors.CIVILIAN, civilian,
                 new Vec3d(4.6, 1, 4.6), EAST, Direction.DOWN);
-        ElementLink<ActorElement> ally = Actors.enter(scene, RoleColors.of("sparkwitch:accomplice", 0x6B338A),
+        ElementLink<ActorElement> ally = Actors.enter(scene, RoleColors.of("sparkdlc:accomplice", 0x6B338A),
                 Text.literal("共犯"), new Vec3d(6.6, 1, 0.4), WEST, Direction.DOWN);
         scene.idle(10);
         Vec3d feet = new Vec3d(5.6, 1, 1.4);
         Vec3d overHead = feet.add(0, 2.6, 0);
-        ElementLink<ActorElement> gunner = Actors.enter(scene, RoleColors.of("sparkwitch:potion_gunner", 0xB45CFF),
+        ElementLink<ActorElement> gunner = Actors.enter(scene, RoleColors.of("sparkdlc:potion_gunner", 0xB45CFF),
                 Text.literal("药炮手"), feet, SCREEN_RIGHT, Direction.DOWN);
-        Actors.hold(scene, gunner, stack("sparkwitch:anti_tank_launcher"));
+        Actors.hold(scene, gunner, stack("sparkdlc:anti_tank_launcher"));
         scene.idle(20);
         SceneCaptions.keyframeCaption(scene, 80, "药炮手双手扛着反坦克炮筒，拿在手上别人看得见");
         scene.idle(90);
-        scene.overlay().showControls(overHead, Pointing.DOWN, 70).withItem(stack("sparkwitch:tr_shell"));
+        scene.overlay().showControls(overHead, Pointing.DOWN, 70).withItem(stack("sparkdlc:tr_shell"));
         SceneCaptions.keyframeCaption(scene, 80, "炮弹要在背包里装进炮筒，一次只能装一发");
         scene.idle(90);
         scene.overlay().showControls(overHead, Pointing.DOWN, 40).rightClick()
-                .withItem(stack("sparkwitch:anti_tank_launcher"));
+                .withItem(stack("sparkdlc:anti_tank_launcher"));
         Actors.charge(scene, gunner, true);
         SceneCaptions.keyframeCaption(scene, 70, "按住右键开镜：只有你自己的画面会放大");
         scene.idle(80);
         scene.overlay().showControls(overHead, Pointing.DOWN, 30).leftClick()
-                .withItem(stack("sparkwitch:anti_tank_launcher"));
+                .withItem(stack("sparkdlc:anti_tank_launcher"));
         scene.idle(10);
         // Level aim along the diagonal: the shell meets the first passenger's box (grown 0.3, as vanilla collision does)
         // after about 3.8 blocks and bursts on his body. 沿对角线水平瞄准：炮弹飞约 3.8 格碰到第一个乘客的碰撞箱（与原版碰撞一样
         // 扩大 0.3），在他身上爆炸。
         Vec3d muzzle = feet.add(0, EYES - 0.1, 0);
         Vec3d impact = new Vec3d(2.9, muzzle.y, 4.1);
-        ItemStack shell = stack("sparkwitch:tr_shell");
+        ItemStack shell = stack("sparkdlc:tr_shell");
         shellFlight(scene, "tr", shell, muzzle, impact, 2);
         trail(scene, SHELL_TRAIL, muzzle, impact, 2, 0, 4, 1);
         trail(scene, ParticleTypes.SMOKE, muzzle, impact, 2, 0, 1, 0.5f);
@@ -1028,7 +1028,7 @@ final class SparkWitchKillerScenes {
         ElementLink<ActorElement> cabin = Actors.enter(scene, RoleColors.CIVILIAN, civilian,
                 new Vec3d(4.5, 1, 5.0), NORTH, Direction.DOWN);
         scene.idle(5);
-        int listenerColor = RoleColors.of("sparkwitch:abyss_listener", 0x0B5E78);
+        int listenerColor = RoleColors.of("sparkdlc:abyss_listener", 0x0B5E78);
         Vec3d feet = new Vec3d(6.6, 1, 1.5);
         Vec3d overHead = feet.add(0, 2.6, 0);
         ElementLink<ActorElement> listener = Actors.enter(scene, listenerColor, Text.literal("聆渊者"), feet, WEST,
@@ -1045,12 +1045,12 @@ final class SparkWitchKillerScenes {
         scene.idle(90);
         SceneCaptions.caption(scene, 80, "缓慢 II 5 秒、道具和技能至少冷却 5 秒，有理智的还掉 40 理智");
         scene.idle(90);
-        Actors.hold(scene, listener, stack("sparkwitch:shriek_gun"));
+        Actors.hold(scene, listener, stack("sparkdlc:shriek_gun"));
         scene.idle(10);
         SceneCaptions.keyframeCaption(scene, 73, "啸音铳（其他活人看不见）：右键击中 12 格内的第一个人");
         scene.idle(48);
         scene.overlay().showControls(overHead, Pointing.DOWN, 30).rightClick()
-                .withItem(stack("sparkwitch:shriek_gun"));
+                .withItem(stack("sparkdlc:shriek_gun"));
         scene.idle(10);
         Actors.swing(scene, listener);
         // The beam meets the passenger's box (grown 0.2) 3.2 blocks from the eyes: three rings, at 1, 2 and 3 blocks.
@@ -1064,12 +1064,12 @@ final class SparkWitchKillerScenes {
         scene.idle(90);
         SceneCaptions.caption(scene, 70, "推下火车算你的击杀；冷却 30 秒，打空也算");
         scene.idle(80);
-        Actors.hold(scene, listener, stack("sparkwitch:deep_dark_spore_flask"));
+        Actors.hold(scene, listener, stack("sparkdlc:deep_dark_spore_flask"));
         Actors.lookPitch(scene, listener, 20);
         SceneCaptions.keyframeCaption(scene, 76, "深暗孢瓶：右键扔出，落点周围瞬间变成深暗领域");
         scene.idle(20);
         scene.overlay().showControls(overHead, Pointing.DOWN, 30).rightClick()
-                .withItem(stack("sparkwitch:deep_dark_spore_flask"));
+                .withItem(stack("sparkdlc:deep_dark_spore_flask"));
         scene.idle(10);
         Actors.swing(scene, listener);
         Actors.hold(scene, listener, ItemStack.EMPTY);
@@ -1078,7 +1078,7 @@ final class SparkWitchKillerScenes {
         // 0.5 格抛出（阻力 0.99、重力 0.03），孢瓶约 6 tick 下落 1.5 格，碎在前方 2.85 格的地面上；领域从其上方的空气格开始。
         Vec3d flaskFrom = feet.add(0, EYES - 0.1, 0);
         Vec3d landing = new Vec3d(3.75, 1.0, 1.5);
-        Actors.toss(scene, stack("sparkwitch:deep_dark_spore_flask"), flaskFrom, landing, 6, 0.1, false,
+        Actors.toss(scene, stack("sparkdlc:deep_dark_spore_flask"), flaskFrom, landing, 6, 0.1, false,
                 ThrownElement.Flight.UPRIGHT);
         trail(scene, ParticleTypes.SCULK_CHARGE_POP, flaskFrom, landing, 6, 0.1, 1, 0.3f);
         scene.idle(6);
@@ -1133,17 +1133,17 @@ final class SparkWitchKillerScenes {
     private static void riftwalker(SceneBuilder scene, SceneBuildingUtil util) {
         scene.title("role_riftwalker", "隙行者：裂隙门");
         WatheItemScenes.stage(scene);
-        int walkerColor = RoleColors.of("sparkwitch:riftwalker", 0x5B6CFF);
+        int walkerColor = RoleColors.of("sparkdlc:riftwalker", 0x5B6CFF);
         Vec3d firstGate = new Vec3d(5.6, 1, 1.5);
         Vec3d secondGate = new Vec3d(2.6, 1, 4.5);
         ElementLink<ActorElement> walker = Actors.enter(scene, walkerColor, Text.literal("隙行者"), firstGate, WEST,
                 Direction.DOWN);
-        Actors.hold(scene, walker, stack("sparkwitch:rift_gate"));
+        Actors.hold(scene, walker, stack("sparkdlc:rift_gate"));
         scene.idle(20);
         SceneCaptions.keyframeCaption(scene, 80, "裂隙门在商店用 50 魔力买；其他活人看不见你手里的门");
         scene.idle(60);
         scene.overlay().showControls(firstGate.add(0, 2.6, 0), Pointing.DOWN, 30).rightClick()
-                .withItem(stack("sparkwitch:rift_gate"));
+                .withItem(stack("sparkdlc:rift_gate"));
         scene.idle(10);
         riftGate(scene, firstGate, Direction.WEST, walkerColor);
         scene.idle(20);
@@ -1154,7 +1154,7 @@ final class SparkWitchKillerScenes {
         Actors.turn(scene, walker, WEST);
         scene.idle(8);
         scene.overlay().showControls(secondGate.add(0, 2.6, 0), Pointing.DOWN, 30).rightClick()
-                .withItem(stack("sparkwitch:rift_gate"));
+                .withItem(stack("sparkdlc:rift_gate"));
         scene.idle(10);
         riftGate(scene, secondGate, Direction.WEST, walkerColor);
         Actors.hold(scene, walker, ItemStack.EMPTY);
@@ -1215,7 +1215,7 @@ final class SparkWitchKillerScenes {
     private static void magician(SceneBuilder scene, SceneBuildingUtil util) {
         scene.title("role_magician", "魔术师：录制与播放");
         WatheItemScenes.stage(scene);
-        int magicianColor = RoleColors.of("sparkwitch:magician", 0x6B17B0);
+        int magicianColor = RoleColors.of("sparkdlc:magician", 0x6B17B0);
         Text veteranName = Text.literal("老兵");
         ElementLink<ActorElement> veteran = Actors.enter(scene, RoleColors.VETERAN, veteranName,
                 new Vec3d(1.6, 1, 5.4), TO_CAMERA, Direction.DOWN);
@@ -1333,9 +1333,9 @@ final class SparkWitchKillerScenes {
         scene.idle(10);
         Vec3d feet = new Vec3d(4.6, 1, 0.6);
         Vec3d overHead = feet.add(0, 2.6, 0);
-        ElementLink<ActorElement> ringer = Actors.enter(scene, RoleColors.of("sparkwitch:bell_ringer", 0x8C6D3F),
+        ElementLink<ActorElement> ringer = Actors.enter(scene, RoleColors.of("sparkdlc:bell_ringer", 0x8C6D3F),
                 Text.literal("敲钟人"), feet, SCREEN_RIGHT, Direction.DOWN);
-        Actors.hold(scene, ringer, glowing(stack("sparkwitch:toll_bell")));
+        Actors.hold(scene, ringer, glowing(stack("sparkdlc:toll_bell")));
         scene.idle(20);
         SceneCaptions.keyframeCaption(scene, 80, "敲钟人开局自带一口钟，其他活人看不见你手里的钟");
         scene.idle(90);
@@ -1347,11 +1347,11 @@ final class SparkWitchKillerScenes {
         SceneCaptions.keyframeCaption(scene, 90, "红框示意理智低于 0 的人；有他们在，钟就会发光（只有你看得见）");
         scene.idle(100);
         scene.overlay().showControls(overHead, Pointing.DOWN, 30).rightClick()
-                .withItem(stack("sparkwitch:toll_bell"));
+                .withItem(stack("sparkdlc:toll_bell"));
         scene.idle(10);
         Actors.swing(scene, ringer);
         // No target is left, so the glow goes out. 已经没有目标，钟不再发光。
-        Actors.hold(scene, ringer, stack("sparkwitch:toll_bell"));
+        Actors.hold(scene, ringer, stack("sparkdlc:toll_bell"));
         Actors.fall(scene, near);
         Actors.fall(scene, sheltered);
         Actors.fall(scene, far);
@@ -1405,7 +1405,7 @@ final class SparkWitchKillerScenes {
         WatheItemScenes.stage(scene);
         Text civilian = Text.literal("平民");
         Text witchName = Text.literal("大魔女");
-        int witchColor = RoleColors.of("sparkwitch:grand_witch", 0xF2DFF7);
+        int witchColor = RoleColors.of("sparkdlc:grand_witch", 0xF2DFF7);
         // The sword reaches the victim 2.8 blocks ahead along the diagonal; the others stand apart on screen.
         // 仪礼剑够到对角线前方 2.8 格的受害者；其他人在屏幕上分开站。
         Vec3d witchFeet = new Vec3d(4.8, 1, 1.2);
@@ -1416,12 +1416,12 @@ final class SparkWitchKillerScenes {
                 yawTowards(witnessFeet, witchFeet), Direction.DOWN);
         ElementLink<ActorElement> bystander = Actors.enter(scene, RoleColors.CIVILIAN, civilian,
                 new Vec3d(2.3, 1, 6.7), TO_CAMERA, Direction.DOWN);
-        ItemStack sword = stack("sparkwitch:ceremonial_sword");
+        ItemStack sword = stack("sparkdlc:ceremonial_sword");
         ElementLink<ActorElement> witch = Actors.enter(scene, witchColor, witchName, witchFeet, SCREEN_RIGHT,
                 Direction.DOWN);
         Actors.hold(scene, witch, sword);
         scene.idle(10);
-        int curserColor = RoleColors.of("sparkwitch:curser", 0xA968D5);
+        int curserColor = RoleColors.of("sparkdlc:curser", 0xA968D5);
         Vec3d feet = new Vec3d(6.2, 1, 5.0);
         Actors.enter(scene, curserColor, Text.literal("诅咒者"), feet, TO_CAMERA, Direction.DOWN);
         scene.idle(20);
@@ -2237,16 +2237,16 @@ final class SparkWitchKillerScenes {
     }
 
     /**
-     * A placed Rift Gate as RiftGateEntityRenderer draws it: the standalone model sparkwitch:item/rift_gate_placed
+     * A placed Rift Gate as RiftGateEntityRenderer draws it: the standalone model sparkdlc:item/rift_gate_placed
      * through the item renderer's FIXED transform, full-bright, lifted 0.75 and turned so its front faces
      * {@code facing}; each tick it adds RiftGateClientEffects' sparse ambient particles (portal drawn into the swirl,
      * role-colour dust and rare witch sparks on the rune ring).
-     * 已放置的裂隙门，画法与 RiftGateEntityRenderer 相同：独立模型 sparkwitch:item/rift_gate_placed 经物品渲染器 FIXED 变换、
+     * 已放置的裂隙门，画法与 RiftGateEntityRenderer 相同：独立模型 sparkdlc:item/rift_gate_placed 经物品渲染器 FIXED 变换、
      * 全亮度绘制，上移 0.75 并转到正面朝向 facing；每 tick 加上 RiftGateClientEffects 的少量环境粒子（吸入旋涡的传送门粒子、
      * 符文环上的职业色尘与偶尔的女巫火花）。
      */
     private static final class RiftGate extends AnimatedSceneElementBase {
-        private static final Identifier MODEL = Identifier.of("sparkwitch", "item/rift_gate_placed");
+        private static final Identifier MODEL = Identifier.of("sparkdlc", "item/rift_gate_placed");
         /** Model y -4 lifted onto the gate base (RiftGatePresentationRules.MODEL_LIFT). 把模型 y -4 抬到门底。 */
         private static final double MODEL_LIFT = 0.75;
         /** RiftGatePresentationRules: swirl centre, rune ring and swirl target sizes. 旋涡中心、符文环与旋涡内区的尺寸。 */
@@ -2259,7 +2259,7 @@ final class SparkWitchKillerScenes {
         private final Vec3d pos;
         private final Direction facing;
         private final DustParticleEffect dust;
-        private final ItemStack stack = stack("sparkwitch:rift_gate");
+        private final ItemStack stack = stack("sparkdlc:rift_gate");
 
         RiftGate(Vec3d pos, Direction facing, int color) {
             this.pos = pos;

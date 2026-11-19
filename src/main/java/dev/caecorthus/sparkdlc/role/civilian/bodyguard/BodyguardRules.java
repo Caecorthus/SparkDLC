@@ -12,10 +12,10 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class BodyguardRules {
     public static final Identifier BODYGUARD_ID = Identifier.of("noellesroles", "bodyguard");
-    public static final Identifier SECOND_STRIKE_TRAIT_ID = Identifier.of("sparktraits", "second_strike");
+    public static final Identifier SECOND_STRIKE_TRAIT_ID = Identifier.of("sparkdlc", "second_strike");
 
-    public static final String VEST_ENTRY_ID = "sparkstrength_bodyguard_vest";
-    public static final String SHIELD_ENTRY_ID = "sparkstrength_democracy_shield";
+    public static final String VEST_ENTRY_ID = "sparkdlc_bodyguard_vest";
+    public static final String SHIELD_ENTRY_ID = "sparkdlc_democracy_shield";
     public static final int VEST_PRICE = 200;
     public static final int SHIELD_PRICE = 100;
     public static final int ENTRY_STOCK = 1;

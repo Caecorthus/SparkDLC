@@ -190,7 +190,7 @@ final class CoronerLoanedGear {
              */
             ItemStack knockoutDrug = SparkWitchCompat.createKidnapperDrugStack();
             if (knockoutDrug != null) {
-                giveTemporaryStack(player, knockoutDrug, disguiseUuid, snapshot.roleId(), "sparkwitch_knockout_drug");
+                giveTemporaryStack(player, knockoutDrug, disguiseUuid, snapshot.roleId(), "sparkdlc_knockout_drug");
             }
         }
         if (CoronerRules.isDemonHunter(role)) {

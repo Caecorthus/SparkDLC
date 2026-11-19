@@ -115,7 +115,7 @@ public final class SparkWitchBuiltInSkills {
                 context -> ProphetRules.isProphet(context.role()),
                 // Prophecy runs only through its own request/session packets; the generic skill packet is refused.
                 // 预言只走自己的请求/会话数据包；通用技能包一律拒绝。
-                context -> WitchSkillUseResult.fail("message.sparkwitch.skill.unavailable")
+                context -> WitchSkillUseResult.fail("message.sparkdlc.skill.unavailable")
         ));
         WitchSkillRegistry.register(new WitchSkillDefinition(
                 MurderousWitchDeathRayRules.DEATH_RAY_ID,

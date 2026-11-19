@@ -7,10 +7,10 @@ import net.minecraft.registry.Registry;
 
 /**
  * The pistol's world muzzle flash particle. The sprite lives at
- * {@code assets/sparkwitch/textures/particle/gunshot.png} and is declared by {@code assets/sparkwitch/particles/gunshot.json},
+ * {@code assets/sparkdlc/textures/particle/gunshot.png} and is declared by {@code assets/sparkdlc/particles/gunshot.json},
  * so the asset can be replaced without touching code.
- * 手枪的世界枪口火焰粒子。贴图位于 {@code assets/sparkwitch/textures/particle/gunshot.png}，由
- * {@code assets/sparkwitch/particles/gunshot.json} 声明，替换素材无需改代码。
+ * 手枪的世界枪口火焰粒子。贴图位于 {@code assets/sparkdlc/textures/particle/gunshot.png}，由
+ * {@code assets/sparkdlc/particles/gunshot.json} 声明，替换素材无需改代码。
  */
 public final class SaviorParticles {
     public static final SimpleParticleType GUNSHOT = Registry.register(

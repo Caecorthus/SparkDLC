@@ -15,14 +15,14 @@ final class GadgetRules {
     static final String PROFESSOR = "noellesroles:professor";
     static final String ENGINEER = "noellesroles:engineer";
 
-    static final String DRONE_DESTROYED = "sparkstrength:drone_destroyed";
-    static final String SERUM_FED = "sparkstrength:professor_serum_fed";
-    static final String TRUTH_REVEALED = "sparkstrength:professor_truth_revealed";
-    static final String TRUTH_SERUM = "sparkstrength:truth_serum";
-    static final String POWER_RESTORATION_ENTRY = "sparkstrength_power_restoration";
-    static final String BED_BOMB_EMBEDDED = "sparkstrength:timed_bomb_bed_embedded";
-    static final String BED_BOMB_TRIGGERED = "sparkstrength:timed_bomb_bed_triggered";
-    static final String TRAY_BOMB_TRIGGERED = "sparkstrength:timed_bomb_tray_triggered";
+    static final String DRONE_DESTROYED = "sparkdlc:drone_destroyed";
+    static final String SERUM_FED = "sparkdlc:professor_serum_fed";
+    static final String TRUTH_REVEALED = "sparkdlc:professor_truth_revealed";
+    static final String TRUTH_SERUM = "sparkdlc:truth_serum";
+    static final String POWER_RESTORATION_ENTRY = "sparkdlc_power_restoration";
+    static final String BED_BOMB_EMBEDDED = "sparkdlc:timed_bomb_bed_embedded";
+    static final String BED_BOMB_TRIGGERED = "sparkdlc:timed_bomb_bed_triggered";
+    static final String TRAY_BOMB_TRIGGERED = "sparkdlc:timed_bomb_tray_triggered";
     static final String TIMED_BOMB = "noellesroles:timed_bomb";
     static final String BOMBER_SKILL = "noellesroles:bomber";
     /**
@@ -35,9 +35,9 @@ final class GadgetRules {
     }
 
     /**
-     * 禁飞区: break a drone that is someone else's ({@code sparkstrength:drone_destroyed}: actor = me, target = its
+     * 禁飞区: break a drone that is someone else's ({@code sparkdlc:drone_destroyed}: actor = me, target = its
      * owner, who is not me). Without a local player nothing counts (a breaker-less record would otherwise match).
-     * 打坏一架别人的无人机（{@code sparkstrength:drone_destroyed}：actor 为我，target 为其主人且不是我）。没有本地玩家时
+     * 打坏一架别人的无人机（{@code sparkdlc:drone_destroyed}：actor 为我，target 为其主人且不是我）。没有本地玩家时
      * 什么都不算（否则没有破坏者的记录也会匹配）。
      */
     static boolean brokeSomeoneElsesDrone(AchievementContext context) {
@@ -71,11 +71,11 @@ final class GadgetRules {
     /**
      * 真相只有一个！: as the Professor, feed the truth serum to another player who is a 非好人 then (by
      * {@link StrengthRecordRules#factionAround}, which catches an Impostor or Conscience flip from a later death
-     * record), and their real role is announced to everyone ({@code sparkstrength:professor_truth_revealed} for them in
+     * record), and their real role is announced to everyone ({@code sparkdlc:professor_truth_revealed} for them in
      * the same tick).
      * 以教授身份让另一名当时是非好人的玩家（按 {@link StrengthRecordRules#factionAround} 判断，能从之后的死亡记录识别内鬼、
      * 良知造成的阵营翻转）喝下吐真试剂，并向所有人公布其真实身份（同一 tick 内有其
-     * {@code sparkstrength:professor_truth_revealed}）。
+     * {@code sparkdlc:professor_truth_revealed}）。
      */
     static boolean truthSerumOnOtherSide(AchievementContext context) {
         List<MatchEvent> reveals = context.timeline().events(MatchEvent.GLOBAL_EVENT).stream()

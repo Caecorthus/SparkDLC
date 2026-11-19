@@ -23,7 +23,7 @@ import org.ladysnake.cca.api.v3.component.ComponentRegistry;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 
 /**
- * Stable CCA contract {@code sparkwitch:sphinx_hao_world}: the round's 嘉豪病毒 infections and the running 豪气冲天
+ * Stable CCA contract {@code sparkdlc:sphinx_hao_world}: the round's 嘉豪病毒 infections and the running 豪气冲天
  * window.
  * <ul>
  *   <li>Infections (server truth): victim → who infected it, the world tick of its private notice, and whether the
@@ -33,7 +33,7 @@ import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
  * </ul>
  * Sync is per recipient: the window goes to everyone; the infected set only to a Sphinx Hao, a spectator or a creative
  * player (an infection is a secret until its notice). The services drive every change; this class only stores.
- * 稳定 CCA 契约 {@code sparkwitch:sphinx_hao_world}：本局的嘉豪病毒感染与进行中的豪气冲天窗口。
+ * 稳定 CCA 契约 {@code sparkdlc:sphinx_hao_world}：本局的嘉豪病毒感染与进行中的豪气冲天窗口。
  * <ul>
  *   <li>感染（服务端为准）：被感染者 → 感染者、私人提示的世界刻、提示是否已显示。感染持续到豪气冲天窗口结束、被感染者死亡
  *   或换局。</li>

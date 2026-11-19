@@ -613,12 +613,12 @@ public final class DoubleBarrelShotgunItem extends Item {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         tooltip.add(Text.translatable(
-                "item.sparkwitch.double_barrel_shotgun.tooltip.line1",
+                "item.sparkdlc.double_barrel_shotgun.tooltip.line1",
                 getLoadedShells(stack)
         ).formatted(Formatting.GRAY));
         for (int line = 2; line <= 6; line++) {
             tooltip.add(Text.translatable(
-                    "item.sparkwitch.double_barrel_shotgun.tooltip.line" + line
+                    "item.sparkdlc.double_barrel_shotgun.tooltip.line" + line
             ).formatted(Formatting.GRAY));
         }
         // The last two lines show the shell stack: the top (fires next) then the shell below it, like a real stack.
@@ -632,10 +632,10 @@ public final class DoubleBarrelShotgunItem extends Item {
     /** Tooltip text of one shell type. / 一种弹药的提示文本。 */
     private static Text shellTypeText(int shell) {
         return Text.translatable(shell == HunterRules.SHELL_SLUG
-                        ? "item.sparkwitch.double_barrel_shotgun.tooltip.slug"
+                        ? "item.sparkdlc.double_barrel_shotgun.tooltip.slug"
                         : shell == HunterRules.SHELL_BUCKSHOT
-                        ? "item.sparkwitch.double_barrel_shotgun.tooltip.buckshot"
-                        : "item.sparkwitch.double_barrel_shotgun.tooltip.empty")
+                        ? "item.sparkdlc.double_barrel_shotgun.tooltip.buckshot"
+                        : "item.sparkdlc.double_barrel_shotgun.tooltip.empty")
                 .formatted(Formatting.GRAY);
     }
 

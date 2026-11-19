@@ -7,8 +7,8 @@ import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
 
 /**
- * Stable packet contract {@code sparkwitch:seeker_car_swallow} (C2S, Taotie only): {@code carEntityId:varint}.
- * 稳定数据包契约 {@code sparkwitch:seeker_car_swallow}（C2S，仅饕餮）：{@code carEntityId:varint}。
+ * Stable packet contract {@code sparkdlc:seeker_car_swallow} (C2S, Taotie only): {@code carEntityId:varint}.
+ * 稳定数据包契约 {@code sparkdlc:seeker_car_swallow}（C2S，仅饕餮）：{@code carEntityId:varint}。
  */
 public record SeekerCarSwallowC2SPacket(int carEntityId) implements CustomPayload {
     public static final Id<SeekerCarSwallowC2SPacket> ID = new Id<>(SeekerRules.CAR_SWALLOW_PAYLOAD_ID);

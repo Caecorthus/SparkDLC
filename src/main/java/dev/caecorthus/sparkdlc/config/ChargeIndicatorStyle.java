@@ -28,7 +28,7 @@ public enum ChargeIndicatorStyle {
     }
 
     public String translationKey() {
-        return "option.sparkassist.charge_indicator.value." + id;
+        return "option.sparkdlc.charge_indicator.value." + id;
     }
 
     /** Stable lookup for config deserialisation; an unknown id falls back to {@link #RING_OPEN}. 配置反序列化用的稳定查找，未知 id 回落到默认。 */

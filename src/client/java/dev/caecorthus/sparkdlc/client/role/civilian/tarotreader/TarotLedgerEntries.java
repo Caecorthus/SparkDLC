@@ -114,10 +114,10 @@ public final class TarotLedgerEntries {
     /**
      * Case-insensitive substring match over the label and the search key, with the query trimmed. A role id matches
      * on its path; its namespace joins the match only when the query itself contains ':', so "witch" does not list
-     * every {@code sparkwitch:} role while "noellesroles:assassin" still works. Blank query returns {@code groups};
+     * every {@code sparkdlc:} role while "noellesroles:assassin" still works. Blank query returns {@code groups};
      * emptied groups are dropped and order is preserved.
      * 对名称与搜索键做不区分大小写的子串匹配（查询先去除首尾空白）。职业 ID 只匹配路径部分；仅当查询本身含 ':'
-     * 时才连同命名空间一起匹配，因此输入 "witch" 不会列出所有 {@code sparkwitch:} 职业，而 "noellesroles:assassin"
+     * 时才连同命名空间一起匹配，因此输入 "witch" 不会列出所有 {@code sparkdlc:} 职业，而 "noellesroles:assassin"
      * 仍可命中。空查询原样返回 {@code groups}；筛空的分组被去掉，顺序保持不变。
      */
     public static List<Group> filter(List<Group> groups, String query) {

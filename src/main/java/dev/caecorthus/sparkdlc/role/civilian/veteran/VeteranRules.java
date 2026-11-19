@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class VeteranRules {
     public static final Identifier VETERAN_ID = Identifier.of("wathe", "veteran");
-    public static final String KNIFE_ENTRY_ID = "sparkstrength_veteran_knife";
+    public static final String KNIFE_ENTRY_ID = "sparkdlc_veteran_knife";
 
     /** 老兵商店中每把匕首的价格。 */
     public static final int KNIFE_PRICE = 300;

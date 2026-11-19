@@ -35,23 +35,23 @@ public final class ApprenticeClientPresentation {
     public static Text purifyLine(PlayerEntity player) {
         ApprenticePlayerComponent apprentice = ApprenticePlayerComponent.KEY.get(player);
         if (!apprentice.isGraduated()) {
-            return Text.translatable("hud.sparkwitch.apprentice.purify.locked",
+            return Text.translatable("hud.sparkdlc.apprentice.purify.locked",
                     apprentice.getCompletedTasks(), ApprenticeRules.GRADUATION_TASKS);
         }
         if (apprentice.getPurifyCooldownTicks() > 0) {
-            return Text.translatable("hud.sparkwitch.apprentice.purify.cooldown",
+            return Text.translatable("hud.sparkdlc.apprentice.purify.cooldown",
                     TickTime.ceilSecondsUnclamped(apprentice.getPurifyCooldownTicks()));
         }
         if (WitchPlayerComponent.KEY.get(player).getMana() < PurifyAbility.MANA_COST) {
-            return Text.translatable("hud.sparkwitch.apprentice.purify.not_enough_mana", PurifyAbility.MANA_COST);
+            return Text.translatable("hud.sparkdlc.apprentice.purify.not_enough_mana", PurifyAbility.MANA_COST);
         }
-        return Text.translatable("hud.sparkwitch.apprentice.purify.ready", SecondaryAbilityController.secondaryKeyText());
+        return Text.translatable("hud.sparkdlc.apprentice.purify.ready", SecondaryAbilityController.secondaryKeyText());
     }
 
     /** Replaces the generic line for a forfeited Mighty Force. / 巨力失效时替换通用状态行。 */
     public static @Nullable Text forfeitedLine(PlayerEntity player, Identifier skillId) {
         if (MightyForceAbility.ID.equals(skillId) && ApprenticePlayerComponent.KEY.get(player).isMightyForceForfeited()) {
-            return Text.translatable("hud.sparkwitch.skill.mighty_force.forfeited");
+            return Text.translatable("hud.sparkdlc.skill.mighty_force.forfeited");
         }
         return null;
     }
@@ -61,7 +61,7 @@ public final class ApprenticeClientPresentation {
         if (!SwiftStepAbility.ID.equals(skillId)) {
             return null;
         }
-        return Text.translatable("hud.sparkwitch.skill.swift_step.ready",
+        return Text.translatable("hud.sparkdlc.skill.swift_step.ready",
                 SparkWitchClient.abilityKeyText(),
                 ApprenticePlayerComponent.KEY.get(player).getSwiftStepCharges(),
                 ApprenticeRules.SWIFT_STEP_MAX_CHARGES);

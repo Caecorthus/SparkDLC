@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Stable packet contract {@code sparkwitch:usec_bullet_impacts} (S2C, players near the impact): {@code count:varint},
+ * Stable packet contract {@code sparkdlc:usec_bullet_impacts} (S2C, players near the impact): {@code count:varint},
  * then per impact {@code pos:long, stage:byte}. Purely visual block cracks (D13): the client draws them with reserved
  * fake breaker ids and never changes a real block. Stages are clamped to the vanilla 0..9 breaking range and the list
  * is capped at {@link #MAX_IMPACTS} on both sides.
- * 稳定数据包契约 {@code sparkwitch:usec_bullet_impacts}（S2C，发给命中点附近的玩家）：纯视觉的方块裂痕（D13），
+ * 稳定数据包契约 {@code sparkdlc:usec_bullet_impacts}（S2C，发给命中点附近的玩家）：纯视觉的方块裂痕（D13），
  * 客户端用保留的假破坏者 id 绘制，从不改动真实方块。级别被钳制到原版 0..9 破坏范围，列表在两端都截断到
  * {@link #MAX_IMPACTS}。
  */

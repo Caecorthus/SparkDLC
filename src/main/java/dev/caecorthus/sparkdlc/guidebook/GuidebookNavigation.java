@@ -25,9 +25,9 @@ public final class GuidebookNavigation {
     private static final Map<String, String> ROLE_GROUPS = new HashMap<>();
     private static final Map<String, String> TRAIT_GROUPS = new HashMap<>();
     private static final Map<String, String> WITCH_GROUPS = Map.of(
-            "sparkwitch:apprentice_witch", "skills.apprentice",
-            "sparkwitch:murderous_witch", "skills.murderous",
-            "sparkwitch:grand_witch", "skills.grand"
+            "sparkdlc:apprentice_witch", "skills.apprentice",
+            "sparkdlc:murderous_witch", "skills.murderous",
+            "sparkdlc:grand_witch", "skills.grand"
     );
 
     static {
@@ -37,7 +37,7 @@ public final class GuidebookNavigation {
                 "voodoo", "undercover", "time_keeper", "awesome_binglus", "reporter", "professor",
                 "attendant", "survival_master", "engineer", "bodyguard", "demon_hunter",
                 "spiritualist", "detective", "waiter", "mermaid");
-        assign(ROLE_GROUPS, "roles.civilian", "sparkwitch",
+        assign(ROLE_GROUPS, "roles.civilian", "sparkdlc",
                 "orthopedist", "saint", "pig_god", "apprentice_witch", "perfumer", "tarot_reader",
                 "prophet", "wind_spirit", "guardian_angel", "vendetta", "emma", "judge", "control_expert",
                 "seeker", "usec", "black_raven", "fisher", "blind", "ragpicker", "bear", "hanna", "sherry",
@@ -46,27 +46,27 @@ public final class GuidebookNavigation {
         assign(ROLE_GROUPS, "roles.killer", "noellesroles",
                 "phantom", "swapper", "the_insane_damned_paranoid_killer", "morphling", "assassin",
                 "scavenger", "bomber", "serial_killer", "silencer", "party_animal", "poisoner", "bandit");
-        assign(ROLE_GROUPS, "roles.killer", "sparkwitch",
+        assign(ROLE_GROUPS, "roles.killer", "sparkdlc",
                 "hunter", "ninja", "kidnapper", "witch_maiden", "saboteur", "bell_ringer", "time_stealer",
                 "magician", "nikaido_hiro");
-        assign(ROLE_GROUPS, "roles.witch", "sparkwitch", "grand_witch", "bewitched", "accomplice",
+        assign(ROLE_GROUPS, "roles.witch", "sparkdlc", "grand_witch", "bewitched", "accomplice",
                 "abyss_listener", "riftwalker", "potion_gunner", "curser");
         assign(ROLE_GROUPS, "roles.neutral", "wathe", "loose_end");
-        assign(ROLE_GROUPS, "roles.neutral", "sparkwitch", "murderous_witch", "fiend", "koko");
+        assign(ROLE_GROUPS, "roles.neutral", "sparkdlc", "murderous_witch", "fiend", "koko");
         assign(ROLE_GROUPS, "roles.neutral", "noellesroles",
                 "taotie", "pathogen", "vulture", "jester", "shadow_jester");
         // Team Jiahao is its own Wathe faction since 2026-11-04; the Corrupt Cop is on it in every round, with the
         // Insider or (since 2026-11-17) the Sphinx Hao as the optional second seat.
         // 嘉豪阵营自 2026-11-04 起是独立的 Wathe 阵营；黑警每局都属于它，第二个名额是内应或（自 2026-11-17 起）狮身豪。
         assign(ROLE_GROUPS, "roles.jiahao", "noellesroles", "corrupt_cop");
-        assign(ROLE_GROUPS, "roles.jiahao", "sparkwitch", "insider", "sphinx_hao");
-        assign(TRAIT_GROUPS, "traits.global", "sparktraits", "cautious", "task_master", "fast_hands",
+        assign(ROLE_GROUPS, "roles.jiahao", "sparkdlc", "insider", "sphinx_hao");
+        assign(TRAIT_GROUPS, "traits.global", "sparkdlc", "cautious", "task_master", "fast_hands",
                 "childish", "pig", "steady", "excellent_physique", "spirit_sleuth", "snowball", "well_supplied");
-        assign(TRAIT_GROUPS, "traits.civilian", "sparktraits", "last_stand", "impostor", "extroverted",
+        assign(TRAIT_GROUPS, "traits.civilian", "sparkdlc", "last_stand", "impostor", "extroverted",
                 "introverted", "money_tree", "focus", "depression");
-        assign(TRAIT_GROUPS, "traits.police", "sparktraits", "marksman", "fast_reload", "heavy_artillery",
+        assign(TRAIT_GROUPS, "traits.police", "sparkdlc", "marksman", "fast_reload", "heavy_artillery",
                 "niko", "well_trained", "going_dark");
-        assign(TRAIT_GROUPS, "traits.killer", "sparktraits", "conscience", "bloodthirsty", "the_showman",
+        assign(TRAIT_GROUPS, "traits.killer", "sparkdlc", "conscience", "bloodthirsty", "the_showman",
                 "plunderer", "charisma", "paranoid", "thrust", "second_strike", "oppressive", "cornered",
                 "team_first", "exhilarated", "close_quarters", "last_escape", "herculean_strength",
                 "master_saboteur", "seasoned", "manic");
@@ -169,7 +169,7 @@ public final class GuidebookNavigation {
             case ROLE -> {
                 // Wraith retains one of three previous factions; the reference is shared.
                 // 冤魂保留生前三种阵营之一，因此在相应目录共享同一篇说明。
-                if (entry.id().equals("sparkwitch:wraith")) {
+                if (entry.id().equals("sparkdlc:wraith")) {
                     yield List.of("roles.civilian", "roles.killer", "roles.witch");
                 }
                 String faction = ROLE_GROUPS.getOrDefault(entry.id(), "roles.other");
@@ -177,11 +177,11 @@ public final class GuidebookNavigation {
                 yield skills == null ? List.of(faction) : List.of(faction, skills);
             }
             case FACTION -> List.of(switch (entry.id()) {
-                case "sparkassist:faction/wathe/civilian" -> "roles.civilian";
-                case "sparkassist:faction/wathe/killer" -> "roles.killer";
-                case "sparkassist:faction/wathe/neutral" -> "roles.neutral";
-                case "sparkassist:faction/sparkwitch/witch" -> "roles.witch";
-                case "sparkassist:faction/sparkwitch/jiahao" -> "roles.jiahao";
+                case "sparkdlc:faction/wathe/civilian" -> "roles.civilian";
+                case "sparkdlc:faction/wathe/killer" -> "roles.killer";
+                case "sparkdlc:faction/wathe/neutral" -> "roles.neutral";
+                case "sparkdlc:faction/sparkdlc/witch" -> "roles.witch";
+                case "sparkdlc:faction/sparkdlc/jiahao" -> "roles.jiahao";
                 default -> "roles.other";
             });
             case GUIDE -> List.of("roles.basics");
@@ -198,7 +198,7 @@ public final class GuidebookNavigation {
     }
 
     public static String labelKey(String category) {
-        return "guidebook.sparkassist.tree." + category;
+        return "guidebook.sparkdlc.tree." + category;
     }
 
     private static boolean isOverview(String group, GuidebookEntry entry) {

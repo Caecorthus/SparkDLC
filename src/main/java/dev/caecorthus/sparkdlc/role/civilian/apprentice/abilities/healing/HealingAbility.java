@@ -33,7 +33,7 @@ public final class HealingAbility {
                 context,
                 MANA_COST,
                 COOLDOWN_TICKS,
-                "message.sparkwitch.skill.healing.activated",
+                "message.sparkdlc.skill.healing.activated",
                 () -> WitchPlayerComponent.KEY.get(context.player()).beginHealingAura(DURATION_TICKS)
         );
     }

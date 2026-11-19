@@ -12,11 +12,11 @@ import org.ladysnake.cca.api.v3.component.ComponentRegistry;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 
 /**
- * Stable CCA contract {@code sparkwitch:bewitched} (NEVER_COPY, C3): the Bewitched's promotion task count
+ * Stable CCA contract {@code sparkdlc:bewitched} (NEVER_COPY, C3): the Bewitched's promotion task count
  * (0..{@link BewitchedRules#PROMOTION_TASKS}). Server-authoritative; synced only to the owner, whose HUD shows
  * {@code n/2}. NBT {@code PromotionTasks} keeps it across a mid-round relog; round start, round end and Wathe's
  * {@code ResetPlayer} clear it. No game logic lives here.
- * 稳定 CCA 契约 {@code sparkwitch:bewitched}（NEVER_COPY，C3）：魔化使的晋升任务计数（0..{@link BewitchedRules#PROMOTION_TASKS}）。
+ * 稳定 CCA 契约 {@code sparkdlc:bewitched}（NEVER_COPY，C3）：魔化使的晋升任务计数（0..{@link BewitchedRules#PROMOTION_TASKS}）。
  * 服务端权威；只同步给本人，其 HUD 显示 {@code n/2}。NBT {@code PromotionTasks} 使其在局中重新登录后保留；开局、局末与
  * Wathe 的 {@code ResetPlayer} 会清空它。这里不含游戏逻辑。
  */

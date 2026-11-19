@@ -37,8 +37,8 @@ import net.minecraft.util.TypedActionResult;
  * 经 SparkTraits 精确写入，缺失时回退到原版。
  */
 public final class TimeStealerClockService {
-    static final String STOLEN_KEY = "message.sparkwitch.time_stealer.stolen";
-    static final String NO_TARGET_KEY = "message.sparkwitch.time_stealer.no_target";
+    static final String STOLEN_KEY = "message.sparkdlc.time_stealer.stolen";
+    static final String NO_TARGET_KEY = "message.sparkdlc.time_stealer.no_target";
 
     private TimeStealerClockService() {
     }

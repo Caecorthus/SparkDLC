@@ -31,7 +31,7 @@ public abstract class AccessibilityOptionsScreenMixin extends GameOptionsScreen 
             return;
         }
         this.body.addWidgetEntry(ButtonWidget.builder(
-                        Text.translatable("button.sparkassist.settings"),
+                        Text.translatable("button.sparkdlc.settings"),
                         button -> this.client.setScreen(new SparkDlcSettingsScreen(this)))
                 .width(FULL_ROW_WIDTH)
                 .build(), null);

@@ -11,13 +11,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 
 /**
- * Appends the native Wathe factions declared under {@code sparkfactionapi:native_wathe_factions} to Wathe's
+ * Appends the native Wathe factions declared under {@code sparkdlc:native_wathe_factions} to Wathe's
  * {@code Faction} enum. Wathe's {@code <clinit>} ends with {@code $VALUES = $values()}; at TAIL the four built-ins are
  * set, and replacing {@code $VALUES} there means every later {@code values()}, {@code valueOf}, {@code EnumMap} and
  * switch map (all built lazily from {@code values()}) already sees the extended set. The handler must not call
  * {@code Faction.fromRole}, a SparkFactionAPI registry, {@code valueOf} or an {@code EnumMap}/{@code EnumSet}: those
  * would re-enter or cache the class before the write. Invalid declarations fail class init (startup crash, logged).
- * 把 {@code sparkfactionapi:native_wathe_factions} 声明的原生阵营追加到 Wathe 的 {@code Faction} 枚举。Wathe 的
+ * 把 {@code sparkdlc:native_wathe_factions} 声明的原生阵营追加到 Wathe 的 {@code Faction} 枚举。Wathe 的
  * {@code <clinit>} 以 {@code $VALUES = $values()} 结尾；在 TAIL 时 4 个内置常量已就绪，此时替换 {@code $VALUES}，
  * 之后所有 {@code values()}、{@code valueOf}、{@code EnumMap} 与 switch 映射（都由 {@code values()} 惰性构建）
  * 看到的都是扩展后的集合。处理器不得调用 {@code Faction.fromRole}、SparkFactionAPI 注册表、{@code valueOf} 或

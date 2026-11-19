@@ -68,7 +68,7 @@ public abstract class WitchCohortRoleNameMixin {
             return;
         }
 
-        Text cohortText = Text.translatable("game.tip.sparkwitch.witch_cohort");
+        Text cohortText = Text.translatable("game.tip.sparkdlc.witch_cohort");
         int alpha = (int) (nametagAlpha * 255.0f) << 24;
         int color = WitchCohortClientHooks.WITCH_COHORT_COLOR | alpha;
 

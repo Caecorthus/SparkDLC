@@ -176,7 +176,7 @@ public final class KnightDuelService {
         playSoundToAll(world.getServer(), SparkWitchSounds.DUEL_MANBA);
         if (isSurvivalMaster(game, target)) {
             showTitleToAll(world.getServer(),
-                    Text.translatable("title.sparkwitch.duel.survival").formatted(Formatting.WHITE));
+                    Text.translatable("title.sparkdlc.duel.survival").formatted(Formatting.WHITE));
         }
     }
 
@@ -202,7 +202,7 @@ public final class KnightDuelService {
         // play can reach the client after it and cut the new track.
         // 播放前不再发送停止：endDuel 已停止上一首；与播放同一刻发出的停止可能晚于播放到达客户端并掐断新曲。
         playSoundToAll(world.getServer(), SparkWitchSounds.DUEL_SF);
-        showTitleToAll(world.getServer(), Text.translatable("title.sparkwitch.duel.start", target.getNameForScoreboard())
+        showTitleToAll(world.getServer(), Text.translatable("title.sparkdlc.duel.start", target.getNameForScoreboard())
                 .formatted(Formatting.WHITE));
     }
 

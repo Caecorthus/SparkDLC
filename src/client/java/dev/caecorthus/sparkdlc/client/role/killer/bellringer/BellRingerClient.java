@@ -9,8 +9,8 @@ import net.minecraft.client.network.ClientPlayerEntity;
 
 /**
  * Registers only Bell-Ringer-owned client presentation: the bell glint supplier and the heard hint HUD.
- * Never touches the {@code gui.sparkwitch.skills} inventory panel.
- * 只注册敲钟人自有的客户端展示：钟的光效提供器与“听到钟声”提示 HUD；从不触及 {@code gui.sparkwitch.skills} 背包面板。
+ * Never touches the {@code gui.sparkdlc.skills} inventory panel.
+ * 只注册敲钟人自有的客户端展示：钟的光效提供器与“听到钟声”提示 HUD；从不触及 {@code gui.sparkdlc.skills} 背包面板。
  */
 public final class BellRingerClient {
     private static boolean initialized;

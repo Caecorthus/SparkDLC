@@ -14,7 +14,7 @@ import net.minecraft.util.math.Vec3d;
  */
 public final class ProjectilePose {
     /** The Ninja's hook head model, pivot at the crown tip. 忍者钩头模型，枢轴在钩冠尖端。 */
-    public static final Identifier HOOK_MODEL = Identifier.of("sparkwitch", "item/projectile/ninja_grappling_hook");
+    public static final Identifier HOOK_MODEL = Identifier.of("sparkdlc", "item/projectile/ninja_grappling_hook");
     /**
      * The chain ties into the middle of the ring's back bar, this far behind the crown tip
      * (NinjaGrapplingHeadPose.RING_DISTANCE). 铁链系在圆环后横杆的中点，位于钩冠尖端后方这么远。
@@ -26,7 +26,7 @@ public final class ProjectilePose {
      */
     public static final double HOOK_MIN_AIM_LENGTH = 0.05;
     /** The shells' additive nozzle glow, one for every type. 炮弹加色的喷口尾焰，各种类共用。 */
-    public static final Identifier SHELL_FLARE_MODEL = Identifier.of("sparkwitch", "item/projectile/potion_shell_flare");
+    public static final Identifier SHELL_FLARE_MODEL = Identifier.of("sparkdlc", "item/projectile/potion_shell_flare");
     /** The 14-pixel shell drawn about 0.66 blocks long (PotionShellEntityRenderer.MODEL_SCALE). 14 像素的炮弹约 0.66 格长。 */
     public static final float SHELL_SCALE = 0.75f;
     /** Half the shell entity's 0.25 height: the model is drawn at its centre. 炮弹实体 0.25 高度的一半：模型画在其中心。 */
@@ -50,7 +50,7 @@ public final class ProjectilePose {
         if (!SHELL_TYPES.contains(type)) {
             throw new IllegalArgumentException("Unknown potion shell type: " + type);
         }
-        return Identifier.of("sparkwitch", "item/projectile/potion_shell_" + type);
+        return Identifier.of("sparkdlc", "item/projectile/potion_shell_" + type);
     }
 
     /** Radians about +Y that turn north (0, 0, -1) toward {@code (dx, dz)}. 绕 +Y 把北方 (0, 0, -1) 转向 (dx, dz) 的弧度。 */

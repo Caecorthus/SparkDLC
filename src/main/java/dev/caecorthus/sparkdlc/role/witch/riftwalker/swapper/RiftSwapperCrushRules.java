@@ -15,10 +15,10 @@ import java.util.List;
 public final class RiftSwapperCrushRules {
     /** Global replay event written before the kill (post-game only). / 处死前写入的全局回放事件（只在赛后显示）。 */
     public static final Identifier REPLAY_EVENT_ID = SparkWitch.id("portal_crush");
-    public static final String REPLAY_KEY = "replay.global.sparkwitch.portal_crush";
+    public static final String REPLAY_KEY = "replay.global.sparkdlc.portal_crush";
     /** Actionbar for every target who is inside a gate. / 发给每个门内目标的动作栏提示。 */
-    public static final String OCCUPANT_MESSAGE_KEY = "message.sparkwitch.riftwalker.swapper.crushed";
-    public static final String DEATH_REASON_KEY = "death_reason.sparkwitch.portal_crushed";
+    public static final String OCCUPANT_MESSAGE_KEY = "message.sparkdlc.riftwalker.swapper.crushed";
+    public static final String DEATH_REASON_KEY = "death_reason.sparkdlc.portal_crushed";
 
     /**
      * NoellesRoles' own Swapper cooldown ({@code GameConstants.getInTicks(1, 0)}), applied only on the should-not-happen

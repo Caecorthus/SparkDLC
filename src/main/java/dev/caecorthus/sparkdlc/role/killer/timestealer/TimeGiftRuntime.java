@@ -30,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
  * 不依赖赠予者是否仍在线、存活或仍是窃时者。
  */
 public final class TimeGiftRuntime {
-    static final String RESTORED_KEY = "message.sparkwitch.time_gift.restored";
+    static final String RESTORED_KEY = "message.sparkdlc.time_gift.restored";
     /** Chime pitch of stage 1, above the curse's, rising by {@link #CHIME_PITCH_STEP}. / 第 1 阶钟声音高，高于诅咒，逐阶升高。 */
     static final float CHIME_BASE_PITCH = 1.1F;
     static final float CHIME_PITCH_STEP = 0.15F;

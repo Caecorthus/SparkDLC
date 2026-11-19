@@ -17,11 +17,11 @@ import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
 /**
- * Stable CCA contract {@code sparkwitch:holy_flash} (NEVER_COPY): each player's own Holy Flash blindness and
+ * Stable CCA contract {@code sparkdlc:holy_flash} (NEVER_COPY): each player's own Holy Flash blindness and
  * tinnitus timer. Server-authoritative and synced only to the flashed player; the client only draws the screen
  * mask and plays the ringing. It does not use vanilla Blindness, so blackout end, Gin and other cleanups that strip
  * Blindness never touch it. Never saved to NBT.
- * 稳定 CCA 契约 {@code sparkwitch:holy_flash}（NEVER_COPY）：每位玩家自己的圣光弹致盲与耳鸣计时。
+ * 稳定 CCA 契约 {@code sparkdlc:holy_flash}（NEVER_COPY）：每位玩家自己的圣光弹致盲与耳鸣计时。
  * 由服务端权威决定，仅同步给被闪的玩家本人；客户端只负责画遮罩和播放耳鸣。它不使用原版失明，
  * 因此黑灯结束、Gin 等清除失明的逻辑都不会影响它。从不写入 NBT。
  */

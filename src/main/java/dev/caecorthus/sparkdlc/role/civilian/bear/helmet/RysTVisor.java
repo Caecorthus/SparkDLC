@@ -12,12 +12,12 @@ import java.util.List;
 
 /**
  * Frozen contract (WP0): the Rys-T helmet's visor state, stored on the helmet stack as the synced, persistent data
- * component {@code sparkwitch:rys_t_visor}, so the wearer and every other client (equipment sync) see the same visor
+ * component {@code sparkdlc:rys_t_visor}, so the wearer and every other client (equipment sync) see the same visor
  * and cracks. {@code down} is the face shield lowered (H3/H9); {@code cracks} are the bullet holes on its glass in hit
  * order, oldest first, at most {@link BearRules#MAX_VISOR_CRACKS}; they last for the helmet's life (D4). The compact
  * constructor copies the list immutably and keeps only the newest {@code MAX_VISOR_CRACKS}. The server writes it
  * (toggle, crack); clients only read it.
- * 冻结契约（WP0）：Rys-T 头盔的面罩状态，以同步且持久化的数据组件 {@code sparkwitch:rys_t_visor} 存放在头盔物品上，
+ * 冻结契约（WP0）：Rys-T 头盔的面罩状态，以同步且持久化的数据组件 {@code sparkdlc:rys_t_visor} 存放在头盔物品上，
  * 因此佩戴者与其他所有客户端（装备同步）看到相同的面罩与裂纹。{@code down} 表示面罩放下（H3/H9）；{@code cracks} 为玻璃上
  * 的弹孔，按命中先后排列（最早的在前），至多 {@link BearRules#MAX_VISOR_CRACKS} 个，在头盔存续期间一直保留（D4）。紧凑构造器
  * 以不可变方式复制列表，并只保留最新的 {@code MAX_VISOR_CRACKS} 个。服务端写入（开合、裂纹）；客户端只读。

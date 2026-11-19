@@ -60,9 +60,9 @@ public final class FiendFeignRules {
     /**
      * A feigning Fiend cannot move, so a fall can only come from its spectator position being carried off the train;
      * the dormant immunity therefore also blocks {@code wathe:fell_out_of_train} while it feigns. Disconnect,
-     * {@code /kill} and the Vulture's {@code sparkwitch:fiend_devoured} still kill.
+     * {@code /kill} and the Vulture's {@code sparkdlc:fiend_devoured} still kill.
      * 假死中的魔人无法移动，坠落只可能来自其旁观位置被带出列车；因此假死期间休眠免疫也会拦截
-     * {@code wathe:fell_out_of_train}。断线、{@code /kill} 与秃鹫的 {@code sparkwitch:fiend_devoured} 仍会致死。
+     * {@code wathe:fell_out_of_train}。断线、{@code /kill} 与秃鹫的 {@code sparkdlc:fiend_devoured} 仍会致死。
      */
     public static boolean shieldsWhileFeigning(boolean feigning, @Nullable Identifier deathReason) {
         return feigning && GameConstants.DeathReasons.FELL_OUT_OF_TRAIN.equals(deathReason);

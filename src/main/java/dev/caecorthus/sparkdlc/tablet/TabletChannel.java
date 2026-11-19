@@ -93,7 +93,7 @@ public enum TabletChannel {
     }
 
     public String translationKey() {
-        return "screen.sparkstrength.tablet.channel." + id;
+        return "screen.sparkdlc.tablet.channel." + id;
     }
 
     public String shortTranslationKey() {

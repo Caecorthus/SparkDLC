@@ -114,8 +114,8 @@ public final class MiniWitherFeatureService {
         }
         // A keybind text resolves to the owner's own binding of Role Skill 2 on their client.
         // 按键文本会在主人客户端上显示其自己绑定的职业技能 2 按键。
-        player.sendMessage(Text.translatable("message.sparkwitch.mini_wither.unlocked",
-                Text.keybind("key.sparkwitch.secondary_skill")).withColor(WitchMaidenRules.COLOR), false);
+        player.sendMessage(Text.translatable("message.sparkdlc.mini_wither.unlocked",
+                Text.keybind("key.sparkdlc.role_skill_2")).withColor(WitchMaidenRules.COLOR), false);
         player.playSoundToPlayer(SparkWitchSounds.miniWither(MiniWitherSoundSlot.UNLOCK), SoundCategory.PLAYERS, 0.5F,
                 1.8F);
         player.getServer().execute(() -> {

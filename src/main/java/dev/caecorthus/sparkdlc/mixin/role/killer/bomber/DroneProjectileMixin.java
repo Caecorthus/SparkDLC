@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * 其余投掷物直接穿过；子类覆写会与此结果做与/或运算，其自身规则仍然生效。hitOrDeflect：带标签的投掷武器（如只认玩家的 SparkWitch
  * 手里剑）击毁无人机并停下（服务端）。
  *
- * <p>A lethal tagged thrown weapon ({@code sparkstrength:partygoer_killing_projectiles}, e.g. the shuriken) that reaches
+ * <p>A lethal tagged thrown weapon ({@code sparkdlc:partygoer_killing_projectiles}, e.g. the shuriken) that reaches
  * a Partygoer kills it and stops there too ({@code PartygoerWeaponHits#onTaggedProjectileHit}).
  * 带致命标签的投掷武器（partygoer_killing_projectiles，如手里剑）碰到派对客时同样将其击杀并停下。</p>
  */

@@ -30,8 +30,8 @@ public final class NatsumeHudGarble {
     /** The garble re-rolls once per this many world ticks. / 乱码每隔这么多世界刻重新生成一次。 */
     public static final int BUCKET_TICKS = 5;
     /** Translation-key prefixes of Natsume's own lines, which stay readable. / 夏目安安自身提示的翻译键前缀，保持可读。 */
-    static final String MESSAGE_PREFIX = "message.sparkwitch.natsume.";
-    static final String HUD_PREFIX = "hud.sparkwitch.natsume.";
+    static final String MESSAGE_PREFIX = "message.sparkdlc.natsume.";
+    static final String HUD_PREFIX = "hud.sparkdlc.natsume.";
     private static final int MAX_EXEMPT_DEPTH = 8;
     // Same-width replacements in the vanilla font: 5-px ASCII glyphs and dense CJK ideographs (no real words), so a
     // centred or right-aligned line keeps its footprint. / 原版字体中的同宽替换：5 像素 ASCII 字形与笔画繁密的汉字

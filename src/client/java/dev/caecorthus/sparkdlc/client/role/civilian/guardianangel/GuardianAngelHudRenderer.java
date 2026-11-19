@@ -32,12 +32,12 @@ public final class GuardianAngelHudRenderer {
         PlayerEntity target = GuardianAngelTargetingPreview.aimedPlayer(player);
         return switch (GuardianAngelHudRules.state(component.getCooldownTicks(), target != null)) {
             case COOLDOWN -> Text.translatable(
-                    "hud.sparkwitch.guardian_angel.cooldown",
+                    "hud.sparkdlc.guardian_angel.cooldown",
                     GuardianAngelHudRules.cooldownSeconds(component.getCooldownTicks())
             );
-            case AIM_AT_PLAYER -> Text.translatable("hud.sparkwitch.guardian_angel.no_target");
+            case AIM_AT_PLAYER -> Text.translatable("hud.sparkdlc.guardian_angel.no_target");
             case READY -> Text.translatable(
-                    "hud.sparkwitch.guardian_angel.ready",
+                    "hud.sparkdlc.guardian_angel.ready",
                     SparkWitchClient.abilityKeyText()
             );
         };

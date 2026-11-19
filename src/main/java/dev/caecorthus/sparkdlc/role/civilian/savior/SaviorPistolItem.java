@@ -14,11 +14,11 @@ import net.minecraft.world.World;
 
 /**
  * The Savior's pistol. It copies Wathe's revolver by identity rather than instantiating it: the client picks the aimed
- * player (30 blocks, sleeping players included), sends {@code sparkwitch:savior_pistol_shoot}, applies the -4° recoil
+ * player (30 blocks, sleeping players included), sends {@code sparkdlc:savior_pistol_shoot}, applies the -4° recoil
  * and the local muzzle flash; the server revalidates and resolves the whole shot in {@link SaviorPistolService}.
  * Common code stays free of client classes through the {@link ClientShot} seam installed by the client initializer.
  * 救世主手枪。按“复制 Wathe 左轮”而不是实例化它：客户端选靶（30 格，含床上玩家），发送
- * {@code sparkwitch:savior_pistol_shoot}，施加 -4° 后坐与本地枪口火焰；服务端在 {@link SaviorPistolService} 中
+ * {@code sparkdlc:savior_pistol_shoot}，施加 -4° 后坐与本地枪口火焰；服务端在 {@link SaviorPistolService} 中
  * 重新校验并完成整次射击。通用代码通过客户端初始化安装的 {@link ClientShot} 接缝保持不引用客户端类。
  */
 public final class SaviorPistolItem extends Item {
@@ -63,9 +63,9 @@ public final class SaviorPistolItem extends Item {
     /** Two-line role hint, matching the other SparkWitch weapon tooltips. / 两行职业提示，与其他 SparkWitch 武器提示一致。 */
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        tooltip.add(Text.translatable("item.sparkwitch.savior_pistol.tooltip.line1")
+        tooltip.add(Text.translatable("item.sparkdlc.savior_pistol.tooltip.line1")
                 .formatted(Formatting.GRAY));
-        tooltip.add(Text.translatable("item.sparkwitch.savior_pistol.tooltip.line2")
+        tooltip.add(Text.translatable("item.sparkdlc.savior_pistol.tooltip.line2")
                 .formatted(Formatting.GRAY));
     }
 }

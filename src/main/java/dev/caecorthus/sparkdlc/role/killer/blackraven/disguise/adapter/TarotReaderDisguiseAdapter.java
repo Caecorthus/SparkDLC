@@ -12,11 +12,11 @@ import net.minecraft.util.Identifier;
  * 因此被扮演的职业显示为未登场，黑羽鸦计为杀手。
  */
 public final class TarotReaderDisguiseAdapter implements BlackRavenDisguiseAdapter {
-    public static final Identifier ROLE_ID = Identifier.of("sparkwitch", "tarot_reader");
+    public static final Identifier ROLE_ID = Identifier.of("sparkdlc", "tarot_reader");
     private static final DisguiseShopSpec SHOP = DisguiseShopSpec.of(
-            DisguiseShopSpec.Entry.nativeOnly("sparkwitch_tarot_regular"),
-            DisguiseShopSpec.Entry.nativeOnly("sparkwitch_tarot_identity"),
-            DisguiseShopSpec.Entry.nativeOnly("sparkwitch_tarot_survival")
+            DisguiseShopSpec.Entry.nativeOnly("sparkdlc_tarot_regular"),
+            DisguiseShopSpec.Entry.nativeOnly("sparkdlc_tarot_identity"),
+            DisguiseShopSpec.Entry.nativeOnly("sparkdlc_tarot_survival")
     );
 
     @Override

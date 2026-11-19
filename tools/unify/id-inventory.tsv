@@ -1,0 +1,1271 @@
+kind	old_id	note	forced_new_id
+action_id	sparkstrength:detective_magnifier	MAGNIFIER_ACTION_ID	
+action_id	sparkstrength:pathogen_virus	VIRUS_ACTION_ID	
+action_id	sparkstrength:perfumer_aroma	AROMA_ACTION_ID	
+action_id	sparkstrength:perfumer_cooling_oil	COOLING_OIL_ACTION_ID	
+action_id	sparkstrength:professor_serum	ACTION	
+action_id	sparkwitch:abyss_listener_gun	GUN_ACTION_ID	
+action_id	sparkwitch:abyss_listener_shriek	SHRIEK_ACTION_ID	
+action_id	sparkwitch:abyss_listener_zone	ZONE_ACTION_ID	
+action_id	sparkwitch:riftwalker_sabbath	SABBATH_ACTION_ID	
+action_id	sparkwitch:seeker_break_device	BREAK_ACTION_ID	
+action_id	sparkwitch:seeker_mark	MARK_ACTION_ID	
+action_id	sparkwitch:seeker_swallow_car	SWALLOW_ACTION_ID	
+armor_material	sparkstrength:bodyguard_vest		
+armor_material	sparkstrength:cqcm_mask		
+attribute_modifier	sparkstrength:bandit_revolver_speed	SPEED_MODIFIER_ID	
+attribute_modifier	sparkstrength:democracy_shield_raised	RAISED_SPEED_ID	
+attribute_modifier	sparkstrength:skateboard_speed	SPEED_MODIFIER_ID	
+attribute_modifier	sparktraits:childish_scale	CHILDISH_SCALE	
+attribute_modifier	sparktraits:close_quarters_raised_speed	SPEED	
+attribute_modifier	sparktraits:depression_stamina	DEPRESSION_STAMINA_MODIFIER_ID	
+attribute_modifier	sparktraits:excellent_physique_stamina	EXCELLENT_PHYSIQUE_STAMINA_MODIFIER_ID	
+attribute_modifier	sparktraits:last_escape_speed	SPEED	
+attribute_modifier	sparktraits:manic_attack_speed	MANIC_ATTACK_SPEED_MODIFIER_ID	
+attribute_modifier	sparktraits:thrust_knockback	THRUST_KNOCKBACK_MODIFIER_ID	
+attribute_modifier	sparkwitch:ceremonial_sword_attack_range	ATTACK_RANGE_MODIFIER_ID	
+attribute_modifier	sparkwitch:ceremonial_sword_movement_speed	MOVEMENT_SPEED_MODIFIER_ID	
+attribute_modifier	sparkwitch:fracture_speed	FRACTURE_SPEED_MODIFIER_ID	
+attribute_modifier	sparkwitch:hanna_float_speed	FLOAT_SPEED_MODIFIER_ID	
+attribute_modifier	sparkwitch:kidnapper_drag_speed	SPEED_MODIFIER_ID	
+attribute_modifier	sparkwitch:wraith_jump_reenable_modifier		
+block	sparkstrength:circuit_breaker		
+block	sparkstrength:engine_unit		
+block	sparkstrength:junction_box		
+block	sparkwitch:green_strange_bed		
+block	sparkwitch:grey_dirty_bed		
+chunk_ticket	sparkfactionapi_map_reset	in LobbyMapReset.java	
+chunk_ticket	sparkwitch_rift_gate	in RiftGateRegistry.java	
+client_name	sparkassist_actor_	prefix of Ponder actor skin texture names in ActorSkins.java	
+client_name	sparkassist_card_overlay	shader program / render layer / decor layer name in GuidebookDecorApi.java	
+client_name	sparkassist_guide_directory	shader program / render layer / decor layer name in GuidebookDecorator.java	
+client_name	sparkassist_guide_directory_overlay	shader program / render layer / decor layer name in GuidebookDecorator.java	
+client_name	sparkassist_guide_end_seal	shader program / render layer / decor layer name in GuidebookDecorator.java	
+client_name	sparkassist_guide_front_plate	shader program / render layer / decor layer name in GuidebookDecorator.java	
+client_name	sparkassist_guide_plate	shader program / render layer / decor layer name in GuidebookDecorator.java	
+client_name	sparkassist_guide_reader_overlay	shader program / render layer / decor layer name in GuidebookDecorator.java	
+client_name	sparkassist_guide_watermark	shader program / render layer / decor layer name in GuidebookDecorator.java	
+client_name	sparkstrength_flashlight_beams	shader program / render layer / decor layer name in FlashlightRenderer.java	
+client_name	sparkstrength_flashlight_receivers	shader program / render layer / decor layer name in FlashlightRenderer.java	
+client_name	sparkstrength_flashlight_translucent_receivers	shader program / render layer / decor layer name in FlashlightRenderer.java	
+client_name	sparkwitch_blind_blur	shader program / render layer / decor layer name in BlindEchoView.java	
+client_name	sparkwitch_blind_echo	shader program / render layer / decor layer name in BlindEchoView.java	
+client_name	sparkwitch_savior_hand_flash	shader program / render layer / decor layer name in SaviorHandFlash.java	
+client_name	sparkwitch_scope_lens	shader program / render layer / decor layer name in ScopeLensFilter.java	
+client_name	sparkwitch_scope_pip	shader program / render layer / decor layer name in ScopePictureInPicture.java	
+client_name	sparkwitch_seeker_cctv	shader program / render layer / decor layer name in SeekerCctvRules.java	
+command	sparkfactionapi:addTask		
+command	sparkfactionapi:antifastround		
+command	sparkfactionapi:clearCooldown		
+command	sparkfactionapi:completeTask		
+command	sparkfactionapi:deleteTask		
+command	sparkfactionapi:setSanity		
+command	sparkstrength:detectiveCaseLimit		
+command	sparkstrength:emergencyMeetingChances		
+command	sparkstrength:setPlayerAlive		
+command	sparkstrength:setPlayerDead		
+command	sparkstrength:tabletChatInterval		
+command	sparkstrength:voteTime		
+command	sparktraits:addTrait		
+command	sparktraits:clearTraits		
+command	sparktraits:disableTrait		
+command	sparktraits:enableTrait		
+command	sparktraits:listPlayerTraits		
+command	sparktraits:listTraits		
+command	sparktraits:removeTrait		
+command	sparktraits:traitSlotRollChance		
+command	sparkwitch:forceAbility		
+command	sparkwitch:forceAccompliceRole		
+command	sparkwitch:forcePromotion		
+command	sparkwitch:ghostChance		
+command	sparkwitch:ghostMinRequirement		
+command	sparkwitch:setMana		
+command	sparkwitch:thirdFactionMinRequirement		
+command	sparkwitch:witchFactor		
+command_alias	sparkStrength:detectiveCaseLimit	existing misspelt alias of the sparkdlc:detectiveCaseLimit command: literal unchanged	
+command_alias	sparkStrength:tabletChatInterval	existing misspelt alias of the sparkdlc:tabletChatInterval command: literal unchanged	
+command_alias	sparkstength:voteTime	existing misspelt alias of the sparkdlc:voteTime command: literal unchanged	
+component	sparkfactionapi:anti_fast_round		
+component	sparkfactionapi:map_reset		
+component	sparkfactionapi:round_end		
+component	sparkfactionapi:third_faction_draw		
+component	sparkstrength:assassin_misfire		
+component	sparkstrength:bodyguard_gear		
+component	sparkstrength:coroner_body_snapshot		
+component	sparkstrength:coroner_player		
+component	sparkstrength:corrupt_cop_ability		
+component	sparkstrength:demon_hunter_sniff		
+component	sparkstrength:detective_case_player		
+component	sparkstrength:detective_case_world		
+component	sparkstrength:engineer_stunned		
+component	sparkstrength:killer_team_economy		
+component	sparkstrength:morph_body_disguise_world		
+component	sparkstrength:morph_mark_player		
+component	sparkstrength:noisemaker_glow_target		
+component	sparkstrength:noisemaker_glow_user		
+component	sparkstrength:party_animal_skill		
+component	sparkstrength:party_balloon_mark		
+component	sparkstrength:partygoer_corpse		
+component	sparkstrength:partygoer_owner		
+component	sparkstrength:pathogen_strain		
+component	sparkstrength:perfumer_scent		
+component	sparkstrength:phantom_backpack_target		
+component	sparkstrength:phantom_backpack_user		
+component	sparkstrength:player_collision_grace		
+component	sparkstrength:professor_serum_target		
+component	sparkstrength:professor_serum_user		
+component	sparkstrength:removed_doors		
+component	sparkstrength:reporter_communication		
+component	sparkstrength:sabotage_world		
+component	sparkstrength:shadow_jester_showdown		
+component	sparkstrength:skateboard_ride		
+component	sparkstrength:spirit_possession		
+component	sparkstrength:tablet_world		
+component	sparkstrength:taotie_head		
+component	sparkstrength:taotie_head_daze		
+component	sparkstrength:timekeeper_watch		
+component	sparkstrength:toxicologist_antidote		
+component	sparkstrength:undercover_player		
+component	sparkstrength:veteran_knife		
+component	sparkstrength:virus_carrier		
+component	sparkstrength:vulture_super_curse		
+component	sparkstrength:waiter_task_reveal		
+component	sparktraits:preparefull		
+component	sparktraits:traits		
+component	sparktraits:world		
+component	sparktraits:wraith_player	read-only legacy holder: keeps its key (existing migration)	
+component	sparktraits:wraith_round	read-only legacy holder: keeps its key (existing migration)	
+component	sparkwitch:abyss_zone_exposure		
+component	sparkwitch:accomplice_variant_round		
+component	sparkwitch:apprentice_player		
+component	sparkwitch:athlete		
+component	sparkwitch:bell_echo		
+component	sparkwitch:bewitched		
+component	sparkwitch:black_raven_crow		
+component	sparkwitch:black_raven_disguise		
+component	sparkwitch:black_raven_mark		
+component	sparkwitch:black_raven_perception		
+component	sparkwitch:blind		
+component	sparkwitch:control_expert_status		
+component	sparkwitch:criminal_reasoner_player		
+component	sparkwitch:curser_player		
+component	sparkwitch:dominator		
+component	sparkwitch:dominator_forced_shot		
+component	sparkwitch:emma_player		
+component	sparkwitch:emma_round		
+component	sparkwitch:ferryman		
+component	sparkwitch:ferryman_feign		
+component	sparkwitch:ferryman_feign_veil		
+component	sparkwitch:ferryman_moment		
+component	sparkwitch:fiend_feign		
+component	sparkwitch:fiend_moment		
+component	sparkwitch:fisher_spirit		
+component	sparkwitch:grand_witch_runtime		
+component	sparkwitch:guardian_angel		
+component	sparkwitch:hanna_player		
+component	sparkwitch:headset		
+component	sparkwitch:holy_flash		
+component	sparkwitch:hunter		
+component	sparkwitch:judge_round		
+component	sparkwitch:kidnapper_control		
+component	sparkwitch:knight_duel		
+component	sparkwitch:koko_player		
+component	sparkwitch:magician		
+component	sparkwitch:medium		
+component	sparkwitch:medium_seance		
+component	sparkwitch:mini_wither		
+component	sparkwitch:natsume_anan_player		
+component	sparkwitch:nikaido_hiro_return		
+component	sparkwitch:nikaido_hiro_witchification		
+component	sparkwitch:noa_player		
+component	sparkwitch:orthopedist		
+component	sparkwitch:perfumer_player		
+component	sparkwitch:planner_master_player		
+component	sparkwitch:player		
+component	sparkwitch:prophet_player		
+component	sparkwitch:ragpicker_loot		
+component	sparkwitch:ragpicker_player		
+component	sparkwitch:recruit		
+component	sparkwitch:rift_gates		
+component	sparkwitch:rift_session		
+component	sparkwitch:rope_hold		
+component	sparkwitch:saboteur_player		
+component	sparkwitch:savior		
+component	sparkwitch:seeker_status		
+component	sparkwitch:sherry		
+component	sparkwitch:specter		
+component	sparkwitch:specter_cowardice		
+component	sparkwitch:specter_fear		
+component	sparkwitch:specter_otherworld		
+component	sparkwitch:specter_second_skill		
+component	sparkwitch:sphinx_hao_player		
+component	sparkwitch:sphinx_hao_world		
+component	sparkwitch:time_gift		
+component	sparkwitch:time_stealer		
+component	sparkwitch:time_theft		
+component	sparkwitch:usec_player		
+component	sparkwitch:vendetta		
+component	sparkwitch:witch_factor_world		
+component	sparkwitch:world		
+component	sparkwitch:wraith_player		
+component	sparkwitch:wraith_round		
+creative_mode_tab	sparkstrength:items	merged into one creative tab	
+creative_mode_tab	sparkwitch:items	merged into one creative tab	
+data_component_type	sparkstrength:bandit_revolver		
+data_component_type	sparkstrength:drone_charge		
+data_component_type	sparkstrength:drone_payload		
+data_component_type	sparkstrength:timekeeper_watch_mode		
+data_component_type	sparktraits:conscience_poisoner		
+data_component_type	sparkwitch:duel_knife		
+data_component_type	sparkwitch:forced_shot_gun		
+data_component_type	sparkwitch:m32_cylinder		
+data_component_type	sparkwitch:rys_t_visor		
+data_component_type	sparkwitch:sphinx_hao_loaded		
+death_reason	sparkstrength:partygoer_eaten		
+death_reason	sparkstrength:partygoer_kicked		
+death_reason	sparkstrength:tomahawk		
+death_reason	sparktraits:final_moment_timeout		
+death_reason	sparktraits:self_realization		
+death_reason	sparkwitch:bell_toll		
+death_reason	sparkwitch:cerebellum		
+death_reason	sparkwitch:ceremonial_blade		
+death_reason	sparkwitch:crimson_wither_skull		
+death_reason	sparkwitch:duel_failed		
+death_reason	sparkwitch:duel_interference		
+death_reason	sparkwitch:duel_suicide		
+death_reason	sparkwitch:factor_backlash		
+death_reason	sparkwitch:ferryman_feign		
+death_reason	sparkwitch:ferryman_moment_lost		
+death_reason	sparkwitch:fiend_devoured		
+death_reason	sparkwitch:lightsaber_kill		
+death_reason	sparkwitch:mighty_force		
+death_reason	sparkwitch:ninja_knife_kill		
+death_reason	sparkwitch:ninja_shuriken_kill		
+death_reason	sparkwitch:pardon_expired		
+death_reason	sparkwitch:pierced_by_ray		
+death_reason	sparkwitch:portal_crushed		
+death_reason	sparkwitch:potion_backblast		
+death_reason	sparkwitch:potion_shell		
+death_reason	sparkwitch:savior_pistol_kill		
+death_reason	sparkwitch:sphinx_hao_fist		
+death_reason	sparkwitch:strangled		
+death_reason	sparkwitch:swordfish_stab		
+death_reason	sparkwitch:time_stolen		
+death_reason	sparkwitch:tofana_elixir		
+entity_type	sparkstrength:aroma_orb		
+entity_type	sparkstrength:bomb_drone		
+entity_type	sparkstrength:capsule		
+entity_type	sparkstrength:capture_device		
+entity_type	sparkstrength:cooling_oil		
+entity_type	sparkstrength:grenade_drone		
+entity_type	sparkstrength:m67		
+entity_type	sparkstrength:partygoer		
+entity_type	sparkstrength:taotie_head		
+entity_type	sparkwitch:black_raven_crow		
+entity_type	sparkwitch:deep_dark_spore_flask		
+entity_type	sparkwitch:ghost_trigger		
+entity_type	sparkwitch:ghost_visage		
+entity_type	sparkwitch:holy_flash		
+entity_type	sparkwitch:homing_feather		
+entity_type	sparkwitch:hunter_trap		
+entity_type	sparkwitch:magician_playback		
+entity_type	sparkwitch:mini_wither_skull		
+entity_type	sparkwitch:ninja_grappling_hook		
+entity_type	sparkwitch:ninja_shuriken		
+entity_type	sparkwitch:potion_shell		
+entity_type	sparkwitch:rift_gate		
+entity_type	sparkwitch:seeker_camera		
+entity_type	sparkwitch:seeker_car		
+entity_type	sparkwitch:shock_device		
+entity_type	sparkwitch:smoke_round_40mm		
+entity_type	sparkwitch:sphinx_hao_fist		
+event_phase	sparkstrength:bandit_shop_late	LATE_PHASE	
+event_phase	sparkstrength:drone_weapon	PHASE	
+event_phase	sparkstrength:engineer_stun	STUN_PHASE	
+event_phase	sparkstrength:pathogen_mute	MUTE_PHASE	
+event_phase	sparktraits:charisma_discount	CHARISMA_SHOP_PHASE	
+event_phase	sparktraits:conscience_walkie_talkie	STRIP_PHASE	
+event_phase	sparktraits:depression_fake_kill_cooldowns	FLUSH_PHASE	
+event_phase	sparkwitch:abyss_listener_finish_initialize	FINISH_INITIALIZE_PHASE	
+event_phase	sparkwitch:bear_economy_finish_initialize	FINISH_INITIALIZE_PHASE	
+event_phase	sparkwitch:bear_finish_initialize	FINISH_INITIALIZE_PHASE	
+event_phase	sparkwitch:bewitched_shop_clear	CLEAR_PHASE	
+event_phase	sparkwitch:black_raven_crow_body	BODY_PHASE	
+event_phase	sparkwitch:black_raven_disguise_money	DISGUISE_MONEY_PHASE	
+event_phase	sparkwitch:black_raven_finish_initialize	FINISH_INITIALIZE_PHASE	
+event_phase	sparkwitch:black_raven_stashed_death_drops	PHASE	
+event_phase	sparkwitch:blind_finish_initialize	FINISH_INITIALIZE_PHASE	
+event_phase	sparkwitch:control_expert_stun	STUN_PHASE	
+event_phase	sparkwitch:criminal_reasoner_win	WIN_PHASE	
+event_phase	sparkwitch:disconnect_cleanup	PHASE	
+event_phase	sparkwitch:dominator_forced_shot_release	DISCONNECT_PHASE	
+event_phase	sparkwitch:ferryman_moment_win	PHASE	
+event_phase	sparkwitch:fiend_moment_win	PHASE	
+event_phase	sparkwitch:fisher_finish_initialize	FINISH_INITIALIZE_PHASE	
+event_phase	sparkwitch:fisher_fishing	FISHING_PHASE	
+event_phase	sparkwitch:hanna_float_observe	OBSERVE_PHASE	
+event_phase	sparkwitch:knight_duel_seal	SEAL_PHASE	
+event_phase	sparkwitch:koko_corpse_stream	CORPSE_PHASE	
+event_phase	sparkwitch:koko_stream_win	PHASE	
+event_phase	sparkwitch:medium_economy_finish_initialize	FINISH_INITIALIZE_PHASE	
+event_phase	sparkwitch:natsume_hypnosis	HYPNOSIS_PHASE	
+event_phase	sparkwitch:prophet_necrology_finish_initialize	FINISH_INITIALIZE_PHASE	
+event_phase	sparkwitch:ragpicker_loot_attack_effective	ATTACK_EFFECTIVE_PHASE	
+event_phase	sparkwitch:ragpicker_loot_door_observe	DOOR_OBSERVE_PHASE	
+event_phase	sparkwitch:rift_session_lock	LOCK_PHASE	
+event_phase	sparkwitch:savior_finish_initialize	FINISH_INITIALIZE_PHASE	
+event_phase	sparkwitch:schrodingers_cat_release	DISCONNECT_PHASE	
+event_phase	sparkwitch:seeker_device	DEVICE	
+event_phase	sparkwitch:seeker_finish_initialize	FINISH_INITIALIZE_PHASE	
+event_phase	sparkwitch:seeker_session_lock	SESSION_LOCK	
+event_phase	sparkwitch:spare_key_finish_initialize	FINISH_INITIALIZE_PHASE	
+event_phase	sparkwitch:stowaway_finish_initialize	FINISH_INITIALIZE_PHASE	
+event_phase	sparkwitch:time_stealer_finish_initialize	FINISH_INITIALIZE_PHASE	
+event_phase	sparkwitch:usec_economy_finish_initialize	FINISH_INITIALIZE_PHASE	
+event_phase	sparkwitch:usec_finish_initialize	FINISH_INITIALIZE_PHASE	
+faction	sparkwitch:jiahao		
+faction	sparkwitch:murderous_witch		
+faction	sparkwitch:witch		
+file	config/sparkassist.json	client settings (SparkAssistConfigManager)	
+file	config/sparkassist/achievements/<account uuid>.json	client achievement save (AchievementStorage); holds role, faction, item, trait and death-reason ids	
+file	config/sparkfactionapi/caecorthus_team.json	downloaded cache, both sides (CaecorthusTeamSync)	
+file	config/sparkwitch-client.json	client scope settings and miniWitherSkin (ScopeSettingsStore)	
+file	config/sparkwitch/mini_wither/	client folder of player-supplied Mini Wither skins	
+identifier	sparkassist:achievements/root	ROOT_ID	
+identifier	sparkassist:guidebook_resources		
+identifier	sparkfactionapi:consume	in MatchEvent.java	
+identifier	sparkfactionapi:dynamic/limited_inventory_second_row	ID	
+identifier	sparkfactionapi:income	in MatchEvent.java	
+identifier	sparkfactionapi:psycho	in MatchEvent.java	
+identifier	sparkstrength:bandit_barrel	in BanditRevolverClient.java	
+identifier	sparkstrength:bandit_cylinder	in BanditRevolverClient.java	
+identifier	sparkstrength:bandit_grip	in BanditRevolverClient.java	
+identifier	sparkstrength:blackout_state	in StrengthRecordRules.java	
+identifier	sparkstrength:coroner_disguise	in RoleSkillRules.java	
+identifier	sparkstrength:corrupt_cop_show_off	in KillRules.java	
+identifier	sparkstrength:detective_interrogate	in RoleSkillRules.java	
+identifier	sparkstrength:dynamic/pathogen_gray_steve	GRAY_STEVE_TEXTURE	
+identifier	sparkstrength:engine_sabotage	in AchievementRecords.java	
+identifier	sparkstrength:flashlight_beam	context.register	
+identifier	sparkstrength:flashlight_blackout	in StrengthRecordRules.java	
+identifier	sparkstrength:flashlight_receiver	context.register	
+identifier	sparkstrength:jester_moment_grayscale	in JesterMomentClientHooks.java	
+identifier	sparkstrength:perfumer_screen_effects	in PerfumerClientHooks.java	
+identifier	sparkstrength:tablet_meeting	in StrengthRecordRules.java	
+identifier	sparkstrength:tablet_suspect	in StrengthRecordRules.java	
+identifier	sparkstrength:taotie_volley	in RoleSkillRules.java	
+identifier	sparkstrength:team_contribution	in RoleSkillRules.java	
+identifier	sparkstrength:throwing_axe_hit	in StrengthRecordRules.java	
+identifier	sparkstrength:throwing_axe_throw	in StrengthRecordRules.java	
+identifier	sparkstrength:toxicologist_blue	in RoleSkillRules.java	
+identifier	sparkstrength:undercover_thermal	in UndercoverClient.java	
+identifier	sparkstrength:unread	in TabletChatNotifier.java	
+identifier	sparktraits:close_quarters_parry	CLOSE_QUARTERS_PARRY	
+identifier	sparktraits:depression	DEPRESSION	
+identifier	sparktraits:killer_world_effects		
+identifier	sparktraits:master_saboteur	MASTER_SABOTEUR	
+identifier	sparktraits:plunderer_steal	PLUNDERER_STEAL	
+identifier	sparktraits:showman_reward	SHOWMAN_REWARD	
+identifier	sparkwitch:apprentice_purify	APPRENTICE_PURIFY_ID	
+identifier	sparkwitch:black_raven_perceived	in RoleSkillRules.java	
+identifier	sparkwitch:blind_attune	BLIND_ATTUNE_ID	
+identifier	sparkwitch:clairvoyance	ID	
+identifier	sparkwitch:curse	in RoleSkillRules.java	
+identifier	sparkwitch:draw_hidden	DRAW_HIDDEN_ID	
+identifier	sparkwitch:dynamic/bear_smoke_puff	TEXTURE	
+identifier	sparkwitch:emma_hunt_reward	in AchievementRecords.java	
+identifier	sparkwitch:fiend_dash	FIEND_DASH_ID	
+identifier	sparkwitch:healing	ID	
+identifier	sparkwitch:held_frame	HELD_FRAME_ID	
+identifier	sparkwitch:holy_flash_burst	in RoleSkillRules.java	
+identifier	sparkwitch:judge_verdict	in WitchRecordRules.java	
+identifier	sparkwitch:last_escape_compositor		
+identifier	sparkwitch:magician_puppet_kill	in WitchRecordRules.java	
+identifier	sparkwitch:murder_sense	ID	
+identifier	sparkwitch:perfume_mark	in WitchRecordRules.java	
+identifier	sparkwitch:poison_apple_take	in WitchRecordRules.java	
+identifier	sparkwitch:preignition	PREIGNITION_ID	
+identifier	sparkwitch:saint_hellfire	ID	
+identifier	sparkwitch:saint_karma	in WitchRecordRules.java	
+identifier	sparkwitch:specter_otherworld_filter		
+identifier	sparkwitch:sphinx_hao_fired	in SphinxHaoGunClient.java	
+identifier	sparkwitch:swift_step	ID	
+identifier	sparkwitch:trap	POISON_SOURCE	
+identifier	sparkwitch:usec_loaded	in UsecModelPredicates.java	
+identifier	sparkwitch:using_item	USING_ITEM	
+identifier	sparkwitch:visor_up	in RysTModelPredicates.java	
+identifier	sparkwitch:wind_spirit_fall	in GeneralRules.java	
+identifier	sparkwitch:witch_skill	ID	
+item	sparkstrength:aroma_orb		
+item	sparkstrength:bandit_expanded_cylinder		
+item	sparkstrength:bandit_long_barrel		
+item	sparkstrength:bandit_reload_grip		
+item	sparkstrength:bandit_revolver		
+item	sparkstrength:bandit_short_barrel		
+item	sparkstrength:bandit_speed_grip		
+item	sparkstrength:blue_belladonna		
+item	sparkstrength:blue_vitriol		
+item	sparkstrength:bodyguard_vest		
+item	sparkstrength:bomb_drone		
+item	sparkstrength:capsule		
+item	sparkstrength:capture_device		
+item	sparkstrength:case_folder		
+item	sparkstrength:circuit_breaker		
+item	sparkstrength:circuit_configurator		
+item	sparkstrength:cooling_oil		
+item	sparkstrength:coroner_body_bag		
+item	sparkstrength:cqcm_mask		
+item	sparkstrength:democracy_shield		
+item	sparkstrength:doorpassing_potion		
+item	sparkstrength:dying_watch		
+item	sparkstrength:ember_sugar		
+item	sparkstrength:engine_unit		
+item	sparkstrength:flashlight		
+item	sparkstrength:ghostflame_bitters		
+item	sparkstrength:grenade_drone		
+item	sparkstrength:impostor_lockpick		
+item	sparkstrength:invisibility_serum		
+item	sparkstrength:junction_box		
+item	sparkstrength:m67		
+item	sparkstrength:magnifier		
+item	sparkstrength:morph_device		
+item	sparkstrength:morph_reagent		
+item	sparkstrength:party_balloon		
+item	sparkstrength:power_restoration		
+item	sparkstrength:ps12_round		
+item	sparkstrength:ps12b_round		
+item	sparkstrength:sedative		
+item	sparkstrength:serial_left_pistol		
+item	sparkstrength:serial_pistol		
+item	sparkstrength:skateboard		
+item	sparkstrength:t_virus		
+item	sparkstrength:tablet		
+item	sparkstrength:tactical_tomahawk		
+item	sparkstrength:truth_serum		
+item	sparkstrength:virus		
+item	sparkstrength:zephyr_perfume		
+item	sparkwitch:accountant_passbook		
+item	sparkwitch:ammo_3006		
+item	sparkwitch:anti_tank_launcher		
+item	sparkwitch:big_dog_portrait		
+item	sparkwitch:black_raven_ledger		
+item	sparkwitch:black_raven_mask		
+item	sparkwitch:cens_proflex_dx5		
+item	sparkwitch:ceremonial_sword		
+item	sparkwitch:clownfish		
+item	sparkwitch:cod		
+item	sparkwitch:cologne		
+item	sparkwitch:comtac_viii		
+item	sparkwitch:cross_sword		
+item	sparkwitch:deep_dark_spore_flask		
+item	sparkwitch:defense_vial		
+item	sparkwitch:disruptor		
+item	sparkwitch:double_barrel_shell		
+item	sparkwitch:double_barrel_shotgun		
+item	sparkwitch:double_barrel_slug		
+item	sparkwitch:feather_blade		
+item	sparkwitch:fire_poker		
+item	sparkwitch:fish_bait		
+item	sparkwitch:fishing_rod		
+item	sparkwitch:ghost_trigger		
+item	sparkwitch:glimmerfish		
+item	sparkwitch:goldfish		
+item	sparkwitch:green_strange_bed		
+item	sparkwitch:grey_dirty_bed		
+item	sparkwitch:gw_ac_shell		
+item	sparkwitch:gw_dk_shell		
+item	sparkwitch:gw_mr_shell		
+item	sparkwitch:hanna_handkerchief		
+item	sparkwitch:hanna_umbrella		
+item	sparkwitch:holy_flash		
+item	sparkwitch:homing_feather		
+item	sparkwitch:hunter_trap		
+item	sparkwitch:key_fish		
+item	sparkwitch:knockout_drug		
+item	sparkwitch:koko_lightstick		
+item	sparkwitch:m1903a4		
+item	sparkwitch:m32a1		
+item	sparkwitch:ninja_grappling_hook		
+item	sparkwitch:ninja_knife		
+item	sparkwitch:ninja_shuriken		
+item	sparkwitch:peachwood_sword		
+item	sparkwitch:perfume_essence		
+item	sparkwitch:planner_task_slip		
+item	sparkwitch:poison_apple		
+item	sparkwitch:prophet_necrology		
+item	sparkwitch:rift_gate		
+item	sparkwitch:rift_gate_remover		
+item	sparkwitch:rope		
+item	sparkwitch:rys_t		
+item	sparkwitch:salmon		
+item	sparkwitch:savior_lightsaber		
+item	sparkwitch:savior_pistol		
+item	sparkwitch:seeker_camera		
+item	sparkwitch:seeker_car		
+item	sparkwitch:sherry_badge		
+item	sparkwitch:sherry_note		
+item	sparkwitch:shock_device		
+item	sparkwitch:shriek_gun		
+item	sparkwitch:smoke_round_40mm		
+item	sparkwitch:spare_key		
+item	sparkwitch:sphinx_hao_fist_ammo		
+item	sparkwitch:sphinx_hao_hand_gun		
+item	sparkwitch:swordfish		
+item	sparkwitch:tarot_card		
+item	sparkwitch:taser		
+item	sparkwitch:time_stamp		
+item	sparkwitch:time_stealer_gift_watch		
+item	sparkwitch:time_stealer_pocket_watch		
+item	sparkwitch:tofana_elixir		
+item	sparkwitch:toll_bell		
+item	sparkwitch:tr_shell		
+item	sparkwitch:usec_338_ap		
+item	sparkwitch:usec_338_fmj		
+item	sparkwitch:usec_magazine		
+item	sparkwitch:usec_rifle		
+item	sparkwitch:usec_suppressor		
+item	sparkwitch:vendetta_knife		
+item	sparkwitch:white_cane		
+item	sparkwitch:wither_gohei		
+key_binding	key.sparkfactionapi.open_replay	options.txt entry key_<id>	
+key_binding	key.sparkstrength.secondary_skill	fallback binding, never registered in the fused mod	
+key_binding	key.sparkwitch.secondary_skill	collision with the strength binding: becomes role_skill_2	
+key_category	key.categories.sparkfactionapi		
+lang_key	gui.sparktraits.inventory.more	merged: same text	
+lang_key	gui.sparkwitch.inventory.more	merged: same text	
+lang_key	guidebook.sparkassist.source_name.sparkassist	merged: one source label	
+lang_key	guidebook.sparkassist.source_name.sparktraits	merged: one source label	
+lang_key	guidebook.sparkassist.source_name.sparkwitch	merged: one source label	
+lang_key	itemGroup.sparkstrength.items	merged: one tab, text "SparkDLC"	
+lang_key	itemGroup.sparkwitch.items	merged: one tab, text "SparkDLC"	
+lang_key	modmenu.descriptionTranslation.sparkwitch	merged: dropped, the sparkdlc key already exists	
+lang_key	modmenu.summaryTranslation.sparkwitch	merged: dropped, the sparkdlc key already exists	
+legacy_role_alias	sparktraits:curser	existing migration WraithLegacyRoleIds: literal kept in code	sparkdlc:curser
+legacy_role_alias	sparktraits:guardian_angel	existing migration WraithLegacyRoleIds: literal kept in code	sparkdlc:guardian_angel
+legacy_role_alias	sparktraits:saboteur	existing migration WraithLegacyRoleIds: literal kept in code	sparkdlc:saboteur
+legacy_role_alias	sparktraits:vendetta	existing migration WraithLegacyRoleIds: literal kept in code	sparkdlc:vendetta
+legacy_role_alias	sparktraits:wind_spirit	existing migration WraithLegacyRoleIds: literal kept in code	sparkdlc:wind_spirit
+legacy_role_alias	sparktraits:wraith	existing migration WraithLegacyRoleIds: literal kept in code	sparkdlc:wraith
+login_channel	sparkfactionapi:version_check	VERSION_CHECK_ID	
+login_channel	sparktraits:version_check	VERSION_CHECK_ID	
+login_channel	sparkwitch:version_check	VERSION_CHECK_ID	
+mob_effect	sparkwitch:bone_setting		
+mob_effect	sparkwitch:focused_footsteps		
+mob_effect	sparkwitch:fracture		
+mob_effect	sparkwitch:guardian_shield		
+mod_metadata_key	sparkfactionapi:native_wathe_factions	fabric.mod.json custom value, read from every mod	
+particle_type	sparktraits:blue_poison		
+particle_type	sparkwitch:black_feather		
+particle_type	sparkwitch:gunshot		
+particle_type	sparkwitch:joss_paper		
+payload_c2s	sparkstrength:approve_suspect_removal		
+payload_c2s	sparkstrength:bandit_revolver_action		
+payload_c2s	sparkstrength:bandit_revolver_shoot		
+payload_c2s	sparkstrength:call_tablet_meeting		
+payload_c2s	sparkstrength:cancel_breaker_repair		
+payload_c2s	sparkstrength:cancel_sabotage_channel		
+payload_c2s	sparkstrength:cast_tablet_vote		
+payload_c2s	sparkstrength:complete_breaker_repair		
+payload_c2s	sparkstrength:confirm_tablet_vote		
+payload_c2s	sparkstrength:coroner_morph		
+payload_c2s	sparkstrength:demon_hunter_sniff		
+payload_c2s	sparkstrength:drone_pilot_action		
+payload_c2s	sparkstrength:drone_pilot_exit		
+payload_c2s	sparkstrength:drone_pilot_move		
+payload_c2s	sparkstrength:drone_pilot_start		
+payload_c2s	sparkstrength:interrogate_detective_suspect		
+payload_c2s	sparkstrength:m67_cancel		
+payload_c2s	sparkstrength:noisemaker_glow		
+payload_c2s	sparkstrength:partygoer_menu		
+payload_c2s	sparkstrength:partygoer_summon		
+payload_c2s	sparkstrength:partygoer_swallow		
+payload_c2s	sparkstrength:phantom_backpack_invisibility		
+payload_c2s	sparkstrength:professor_remote_feed		
+payload_c2s	sparkstrength:reporter_communication		
+payload_c2s	sparkstrength:request_tablet_snapshot		
+payload_c2s	sparkstrength:select_detective_case		
+payload_c2s	sparkstrength:select_tablet_channel		
+payload_c2s	sparkstrength:send_tablet_chat_v2		
+payload_c2s	sparkstrength:serial_pistol_shoot		
+payload_c2s	sparkstrength:set_detective_killer_guess		
+payload_c2s	sparkstrength:set_detective_presumed_killer		
+payload_c2s	sparkstrength:spirit_possess		
+payload_c2s	sparkstrength:spirit_possess_exit		
+payload_c2s	sparkstrength:taotie_head_fire		
+payload_c2s	sparkstrength:timekeeper_watch_mode		
+payload_c2s	sparkstrength:trigger_sabotage		
+payload_c2s	sparkstrength:undercover_mask_off		
+payload_c2s	sparkstrength:update_detective_case_notes		
+payload_c2s	sparkstrength:vulture_super_curse		
+payload_c2s	sparkwitch:accountant_withdraw		
+payload_c2s	sparkwitch:black_raven_crow_drop_feather		
+payload_c2s	sparkwitch:black_raven_crow_move		
+payload_c2s	sparkwitch:black_raven_crow_toggle		
+payload_c2s	sparkwitch:black_raven_crow_use		
+payload_c2s	sparkwitch:confirm_criminal_reasoner		
+payload_c2s	sparkwitch:confirm_judge_selection		
+payload_c2s	sparkwitch:confirm_natsume_target		
+payload_c2s	sparkwitch:confirm_prophecy		
+payload_c2s	sparkwitch:confirm_sherry_deduction		
+payload_c2s	sparkwitch:criminal_reasoner_invisibility		
+payload_c2s	sparkwitch:cross_sword_stab		
+payload_c2s	sparkwitch:double_barrel_aim		
+payload_c2s	sparkwitch:emma_factor		
+payload_c2s	sparkwitch:ferryman_ferry		
+payload_c2s	sparkwitch:ferryman_pardon		
+payload_c2s	sparkwitch:fire_crimson_skull		
+payload_c2s	sparkwitch:fire_death_ray		
+payload_c2s	sparkwitch:fire_m32a1		
+payload_c2s	sparkwitch:fire_potion_launcher		
+payload_c2s	sparkwitch:fire_usec_rifle		
+payload_c2s	sparkwitch:guardian		
+payload_c2s	sparkwitch:knight_duel_target		
+payload_c2s	sparkwitch:magician_ability		
+payload_c2s	sparkwitch:magician_target		
+payload_c2s	sparkwitch:mini_wither_toggle		
+payload_c2s	sparkwitch:open_judge_selection		
+payload_c2s	sparkwitch:ragpicker_search		
+payload_c2s	sparkwitch:request_criminal_reasoner		
+payload_c2s	sparkwitch:request_natsume_menu		
+payload_c2s	sparkwitch:request_prophecy		
+payload_c2s	sparkwitch:request_sherry_deduction		
+payload_c2s	sparkwitch:rift_exit		
+payload_c2s	sparkwitch:rift_gate_close		
+payload_c2s	sparkwitch:rift_gate_console_request		
+payload_c2s	sparkwitch:rift_hop		
+payload_c2s	sparkwitch:savior_lightsaber_ignite		
+payload_c2s	sparkwitch:savior_lightsaber_swing		
+payload_c2s	sparkwitch:savior_pistol_shoot		
+payload_c2s	sparkwitch:seeker_camera_look		
+payload_c2s	sparkwitch:seeker_car_move		
+payload_c2s	sparkwitch:seeker_car_recall		
+payload_c2s	sparkwitch:seeker_car_swallow		
+payload_c2s	sparkwitch:seeker_car_use		
+payload_c2s	sparkwitch:seeker_remote_close		
+payload_c2s	sparkwitch:seeker_remote_open		
+payload_c2s	sparkwitch:select_black_raven_disguise		
+payload_c2s	sparkwitch:submit_medium_haunt_target		
+payload_c2s	sparkwitch:submit_medium_seance		
+payload_c2s	sparkwitch:submit_medium_vote		
+payload_c2s	sparkwitch:submit_tarot_divination_selection		
+payload_c2s	sparkwitch:swordfish_stab		
+payload_c2s	sparkwitch:throw_kidnapper_body		
+payload_c2s	sparkwitch:use_apprentice_purify		
+payload_c2s	sparkwitch:use_athlete_dash		
+payload_c2s	sparkwitch:use_blind_attune		
+payload_c2s	sparkwitch:use_curser_ability		
+payload_c2s	sparkwitch:use_dominator_skill		
+payload_c2s	sparkwitch:use_fiend_dash		
+payload_c2s	sparkwitch:use_hanna_float		
+payload_c2s	sparkwitch:use_hiro_skill		
+payload_c2s	sparkwitch:use_koko_stream		
+payload_c2s	sparkwitch:use_medium_blessing		
+payload_c2s	sparkwitch:use_medium_skill		
+payload_c2s	sparkwitch:use_noa_paint		
+payload_c2s	sparkwitch:use_orthopedist_skill		
+payload_c2s	sparkwitch:use_planner_recommend		
+payload_c2s	sparkwitch:use_saboteur_skill		
+payload_c2s	sparkwitch:use_savior_skill		
+payload_c2s	sparkwitch:use_sherry_mighty_force		
+payload_c2s	sparkwitch:use_skill		
+payload_c2s	sparkwitch:use_specter_second_skill		
+payload_c2s	sparkwitch:use_specter_skill		
+payload_c2s	sparkwitch:use_sphinx_hao_infect		
+payload_c2s	sparkwitch:use_sphinx_hao_roar		
+payload_c2s	sparkwitch:usec_attachment		
+payload_c2s	sparkwitch:usec_scope		
+payload_c2s	sparkwitch:vendetta_knife_stab		
+payload_s2c	sparkfactionapi:match_record		
+payload_s2c	sparkfactionapi:replay_snapshot		
+payload_s2c	sparkstrength:close_breaker_repair		
+payload_s2c	sparkstrength:detective_interrogation_result		
+payload_s2c	sparkstrength:drone_pilot_correction		
+payload_s2c	sparkstrength:drone_pilot_state		
+payload_s2c	sparkstrength:m67_sound		
+payload_s2c	sparkstrength:open_breaker_repair		
+payload_s2c	sparkstrength:open_detective_folder		
+payload_s2c	sparkstrength:open_detective_interrogation		
+payload_s2c	sparkstrength:open_engine_repair		
+payload_s2c	sparkstrength:open_tablet_screen		
+payload_s2c	sparkstrength:partygoer_menu_open		
+payload_s2c	sparkstrength:sabotage_channel_progress		
+payload_s2c	sparkstrength:sabotage_status		
+payload_s2c	sparkstrength:spirit_possess_state		
+payload_s2c	sparkstrength:sync_blackout_sight		
+payload_s2c	sparkstrength:sync_killer_team_economy		
+payload_s2c	sparkstrength:sync_shadow_jester_showdown_music		
+payload_s2c	sparkstrength:sync_tablet_snapshot_v11		
+payload_s2c	sparkstrength:tablet_chat_notify		
+payload_s2c	sparkstrength:timed_bomb_markers		
+payload_s2c	sparktraits:blue_poison_markers		
+payload_s2c	sparktraits:forced_melee_cooldowns		
+payload_s2c	sparktraits:server_confirm		
+payload_s2c	sparkwitch:bear_rys_t_ricochet		
+payload_s2c	sparkwitch:bear_smoke_clear		
+payload_s2c	sparkwitch:bear_smoke_cloud		
+payload_s2c	sparkwitch:bear_smoke_hole		
+payload_s2c	sparkwitch:bear_smoke_remove		
+payload_s2c	sparkwitch:black_raven_crow_correction		
+payload_s2c	sparkwitch:blind_pulse		
+payload_s2c	sparkwitch:dominator_forced_shot_lock		
+payload_s2c	sparkwitch:focused_footsteps_use_result		
+payload_s2c	sparkwitch:knight_duel_stop_sound		
+payload_s2c	sparkwitch:knight_duel_ui_lock		
+payload_s2c	sparkwitch:medium_seance_result		
+payload_s2c	sparkwitch:open_black_raven_disguise		
+payload_s2c	sparkwitch:open_black_raven_ledger		
+payload_s2c	sparkwitch:open_criminal_reasoner_s2c		
+payload_s2c	sparkwitch:open_judge_selection_s2c		
+payload_s2c	sparkwitch:open_medium_seance_input		
+payload_s2c	sparkwitch:open_natsume_menu		
+payload_s2c	sparkwitch:open_prophecy		
+payload_s2c	sparkwitch:open_prophet_necrology		
+payload_s2c	sparkwitch:open_sherry_deduction		
+payload_s2c	sparkwitch:open_tarot_divination_selector		
+payload_s2c	sparkwitch:rift_gate_console		
+payload_s2c	sparkwitch:savior_domain		
+payload_s2c	sparkwitch:savior_gun_drop		
+payload_s2c	sparkwitch:savior_muzzle		
+payload_s2c	sparkwitch:seeker_car_correct		
+payload_s2c	sparkwitch:server_confirm		
+payload_s2c	sparkwitch:tarot_divination_reading		
+payload_s2c	sparkwitch:tarot_divination_snapshot		
+payload_s2c	sparkwitch:usec_bullet_impacts		
+payload_s2c	sparkwitch:wraith_role_announcement		
+permission	sparkfactionapi.command.admin		
+permission	sparkwitch.command.forceability		
+permission	sparkwitch.command.forceaccomplicerole		
+permission	sparkwitch.command.forcepromotion		
+permission	sparkwitch.command.ghostchance		
+permission	sparkwitch.command.ghostminrequirement		
+permission	sparkwitch.command.setmana		
+permission	sparkwitch.command.thirdfactionminrequirement		
+permission	sparkwitch.command.witch_factor		
+permission	sparkwitch.item.riftgateremover		
+ponder_namespace	sparkassist	Ponder plugin id and scene namespace; lang keys sparkassist.ponder.*	
+ponder_scene	sparkstrength_circuit_breaker	in SparkStrengthKillerItemScenes.java	
+ponder_scene	sparkstrength_grenade_drone	in NoellesKillerScenes.java	
+ponder_scene	sparkstrength_serial_pistol	in SparkStrengthKillerItemScenes.java	
+ponder_scene	sparkstrength_skateboard	in SparkStrengthKillerItemScenes.java	
+ponder_scene	sparkstrength_timed_bomb_trap	in SparkStrengthKillerItemScenes.java	
+ponder_scene	sparkwitch_cologne	in SparkWitchItemScenes.java	
+ponder_scene	sparkwitch_disruptor	in SparkWitchItemScenes.java	
+ponder_scene	sparkwitch_edible_fish	in SparkWitchItemScenes.java	
+ponder_scene	sparkwitch_fire_poker	in SparkWitchItemScenes.java	
+ponder_scene	sparkwitch_glimmerfish	in SparkWitchItemScenes.java	
+ponder_scene	sparkwitch_potion_shells	in SparkWitchItemScenes.java	
+ponder_scene	sparkwitch_swordfish	in SparkWitchItemScenes.java	
+ponder_scene	sparkwitch_time_stealer_gift_watch	in SparkWitchItemScenes.java	
+ponder_scene	sparkwitch_tofana_elixir	in SparkWitchItemScenes.java	
+ponder_scene	sparkwitch_usec_suppressor	in SparkWitchItemScenes.java	
+private_data_name	sparkstrength_undercover_outfit	item custom-data marker: NOT renamed	sparkstrength_undercover_outfit
+private_data_name	sparktraitsConscienceGas	block-entity / entity NBT key: NOT renamed	sparktraitsConscienceGas
+private_data_name	sparktraitsConsciencePoisoner	block-entity / entity NBT key: NOT renamed	sparktraitsConsciencePoisoner
+private_data_name	sparktraitsConscienceScorpion	block-entity / entity NBT key: NOT renamed	sparktraitsConscienceScorpion
+private_data_name	sparktraitsConscienceScorpionPoisoner	block-entity / entity NBT key: NOT renamed	sparktraitsConscienceScorpionPoisoner
+private_data_name	sparkwitch:fiend_moment_crowbar	item custom-data key: NOT renamed	sparkwitch:fiend_moment_crowbar
+private_data_name	sparkwitch:judge_voodoo_actor	NBT key inside the NoellesRoles voodoo component: NOT renamed	sparkwitch:judge_voodoo_actor
+private_data_name	sparkwitch:poison_apple	block-entity NBT key PoisonApplePlateNbt.STATE_KEY (the ITEM sparkwitch:poison_apple is renamed): NOT renamed	sparkwitch:poison_apple
+private_data_name	sparkwitch:poison_apple_armed	block-entity sync NBT key: NOT renamed	sparkwitch:poison_apple_armed
+private_data_name	sparkwitch:poison_apple_drink	item custom-data key: NOT renamed	sparkwitch:poison_apple_drink
+private_data_name	sparkwitch:ragpicker_loot	item custom-data marker JunkerLoot.MARKER (the COMPONENT key sparkwitch:ragpicker_loot is renamed): NOT renamed	sparkwitch:ragpicker_loot
+private_data_name	sparkwitch:stored_coins	item custom-data key (Accountant passbook): NOT renamed	sparkwitch:stored_coins
+private_data_name	sparkwitch_duel_knight	scoreboard team name: NOT renamed	sparkwitch_duel_knight
+private_data_name	sparkwitch_duel_target	scoreboard team name: NOT renamed	sparkwitch_duel_target
+private_data_name	sparkwitch_fisher_pufferfish	entity command tag: NOT renamed	sparkwitch_fisher_pufferfish
+reload_listener	sparkwitch:bear_smoke_renderer	RELOAD_LISTENER_ID	
+reload_listener	sparkwitch:bear_smoke_shader_pack	RELOAD_LISTENER_ID	
+reload_listener	sparkwitch:blind_echo_view	RELOAD_LISTENER_ID	
+reload_listener	sparkwitch:rift_grayscale_filter	RELOAD_LISTENER_ID	
+reload_listener	sparkwitch:scope_lens_filter	RELOAD_LISTENER_ID	
+reload_listener	sparkwitch:scope_picture_in_picture	RELOAD_LISTENER_ID	
+reload_listener	sparkwitch:seeker_view_filter	RELOAD_LISTENER_ID	
+replay_action	sparkfactionapi:projectile	replay action id without a registered formatter	
+replay_action	sparktraits:final_moment_start	replay action id without a registered formatter	
+replay_action	sparktraits:last_escape_triggered	replay action id without a registered formatter	
+replay_action	sparktraits:last_stand_triggered	replay action id without a registered formatter	
+replay_action	sparkwitch:control_expert_disruptor	replay action id without a registered formatter	
+replay_action	sparkwitch:control_expert_shock	replay action id without a registered formatter	
+replay_action	sparkwitch:control_expert_taser	replay action id without a registered formatter	
+replay_action	sparkwitch:custom_melee	replay action id without a registered formatter	
+replay_action	sparkwitch:fisher_pufferfish_sting	replay action id without a registered formatter	
+replay_action	sparkwitch:potion_shell_blast	replay action id without a registered formatter	
+replay_event_type	sparkfactionapi:role_changed		
+replay_global_event	sparkstrength:bomb_drone_detonated		
+replay_global_event	sparkstrength:capture_device_expired		
+replay_global_event	sparkstrength:capture_device_placed		
+replay_global_event	sparkstrength:capture_device_released		
+replay_global_event	sparkstrength:capture_device_triggered		
+replay_global_event	sparkstrength:demon_hunter_sniff_found		
+replay_global_event	sparkstrength:demon_hunter_sniff_none		
+replay_global_event	sparkstrength:demon_hunter_sniff_revealed		
+replay_global_event	sparkstrength:drone_destroyed		
+replay_global_event	sparkstrength:drone_grenade_dropped		
+replay_global_event	sparkstrength:drone_placed		
+replay_global_event	sparkstrength:jester_fake_death_kill_blocked		
+replay_global_event	sparkstrength:jester_positions_shuffled		
+replay_global_event	sparkstrength:morph_mark_ended		
+replay_global_event	sparkstrength:morph_mark_triggered		
+replay_global_event	sparkstrength:morph_reagent_marked		
+replay_global_event	sparkstrength:morph_reagent_sampled		
+replay_global_event	sparkstrength:noisemaker_glow_ended		
+replay_global_event	sparkstrength:noisemaker_glow_started		
+replay_global_event	sparkstrength:party_balloon_given		
+replay_global_event	sparkstrength:partygoer_grabbed		
+replay_global_event	sparkstrength:partygoer_killed		
+replay_global_event	sparkstrength:partygoer_raged		
+replay_global_event	sparkstrength:partygoer_summoned		
+replay_global_event	sparkstrength:partygoer_swallowed		
+replay_global_event	sparkstrength:pathogen_revived		
+replay_global_event	sparkstrength:pathogen_virus_cured		
+replay_global_event	sparkstrength:pathogen_virus_spread		
+replay_global_event	sparkstrength:pathogen_virus_used		
+replay_global_event	sparkstrength:perfumer_aroma_hit		
+replay_global_event	sparkstrength:perfumer_cooling_oil_hit		
+replay_global_event	sparkstrength:perfumer_zephyr_used		
+replay_global_event	sparkstrength:phantom_backpack_invisibility_ended		
+replay_global_event	sparkstrength:phantom_backpack_invisibility_started		
+replay_global_event	sparkstrength:professor_doorpassing_ended		
+replay_global_event	sparkstrength:professor_invisibility_ended		
+replay_global_event	sparkstrength:professor_sedative_ended		
+replay_global_event	sparkstrength:professor_serum_fed		
+replay_global_event	sparkstrength:professor_truth_revealed		
+replay_global_event	sparkstrength:reporter_broadcast_ended		
+replay_global_event	sparkstrength:reporter_broadcast_failed		
+replay_global_event	sparkstrength:reporter_broadcast_interrupted		
+replay_global_event	sparkstrength:reporter_broadcast_started		
+replay_global_event	sparkstrength:reporter_connection_ended		
+replay_global_event	sparkstrength:reporter_connection_failed_both_dead		
+replay_global_event	sparkstrength:reporter_connection_failed_one_dead		
+replay_global_event	sparkstrength:reporter_connection_interrupted		
+replay_global_event	sparkstrength:reporter_connection_started		
+replay_global_event	sparkstrength:shadow_jester_showdown_started		
+replay_global_event	sparkstrength:skateboard_ride_started		
+replay_global_event	sparkstrength:spirit_possession_started		
+replay_global_event	sparkstrength:taotie_head_hit		
+replay_global_event	sparkstrength:timed_bomb_bed_embedded		
+replay_global_event	sparkstrength:timed_bomb_bed_triggered		
+replay_global_event	sparkstrength:timed_bomb_tray_embedded		
+replay_global_event	sparkstrength:timed_bomb_tray_triggered		
+replay_global_event	sparkstrength:timekeeper_watch_used		
+replay_global_event	sparktraits:jester_trait_trigger		
+replay_global_event	sparktraits:loose_end_conversion		
+replay_global_event	sparkwitch:fiend_moment_end		
+replay_global_event	sparkwitch:fiend_moment_start		
+replay_global_event	sparkwitch:ghost_trigger_triggered		
+replay_global_event	sparkwitch:guardian_shield_activated		
+replay_global_event	sparkwitch:hunter_trap_triggered		
+replay_global_event	sparkwitch:magician_playback_finished		
+replay_global_event	sparkwitch:magician_playback_forced_end		
+replay_global_event	sparkwitch:magician_playback_started		
+replay_global_event	sparkwitch:magician_playback_stopped_early		
+replay_global_event	sparkwitch:magician_recording_finished		
+replay_global_event	sparkwitch:magician_recording_started		
+replay_global_event	sparkwitch:magician_recording_stopped_early		
+replay_global_event	sparkwitch:nikaido_hiro_witchified		
+replay_global_event	sparkwitch:portal_crush		
+replay_global_event	sparkwitch:recruit_knife_granted		
+replay_global_event	sparkwitch:seeker_car_depleted		
+replay_global_event	sparkwitch:seeker_car_returned		
+replay_global_event	sparkwitch:seeker_car_swallowed		
+replay_global_event	sparkwitch:seeker_device_broken		
+replay_global_event	sparkwitch:vendetta_terminal		
+replay_item_use	sparkstrength:blue_vitriol		
+replay_item_use	sparkwitch:deep_dark_spore_flask		
+replay_item_use	sparkwitch:defense_vial		
+replay_item_use	sparkwitch:disruptor		
+replay_item_use	sparkwitch:double_barrel_shotgun		
+replay_item_use	sparkwitch:fishing_rod		
+replay_item_use	sparkwitch:ghost_trigger		
+replay_item_use	sparkwitch:holy_flash		
+replay_item_use	sparkwitch:hunter_trap		
+replay_item_use	sparkwitch:knockout_drug		
+replay_item_use	sparkwitch:m1903a4		
+replay_item_use	sparkwitch:peachwood_sword		
+replay_item_use	sparkwitch:planner_task_slip		
+replay_item_use	sparkwitch:potion_launcher_fire		
+replay_item_use	sparkwitch:rift_gate		
+replay_item_use	sparkwitch:rope		
+replay_item_use	sparkwitch:seeker_camera		
+replay_item_use	sparkwitch:seeker_car		
+replay_item_use	sparkwitch:shock_device		
+replay_item_use	sparkwitch:shriek_gun		
+replay_item_use	sparkwitch:spare_key		
+replay_item_use	sparkwitch:sphinx_hao_hand_gun		
+replay_item_use	sparkwitch:taser		
+replay_item_use	sparkwitch:time_stamp_purchase		
+replay_item_use	sparkwitch:time_stealer_gift_watch		
+replay_item_use	sparkwitch:time_stealer_pocket_watch		
+replay_item_use	sparkwitch:usec_rifle_fire		
+replay_skill	sparkwitch:accountant_deposit		
+replay_skill	sparkwitch:accountant_withdraw		
+replay_skill	sparkwitch:athlete_dash		
+replay_skill	sparkwitch:black_raven_crow		
+replay_skill	sparkwitch:black_raven_disguise		
+replay_skill	sparkwitch:criminal_reasoner		
+replay_skill	sparkwitch:guardian		
+replay_skill	sparkwitch:hanna		
+replay_skill	sparkwitch:kidnapper_release		
+replay_skill	sparkwitch:koko		
+replay_skill	sparkwitch:medium_blessing_skill		
+replay_skill	sparkwitch:medium_haunt_skill		
+replay_skill	sparkwitch:medium_seance_skill		
+replay_skill	sparkwitch:mini_wither		
+replay_skill	sparkwitch:natsume_anan		
+replay_skill	sparkwitch:nikaido_hiro_return		
+replay_skill	sparkwitch:noa		
+replay_skill	sparkwitch:orthopedist		
+replay_skill	sparkwitch:planner_recommend		
+replay_skill	sparkwitch:purify		
+replay_skill	sparkwitch:ragpicker		
+replay_skill	sparkwitch:savior		
+replay_skill	sparkwitch:sherry_badge		
+replay_skill	sparkwitch:sherry_deduction		
+replay_skill	sparkwitch:specter_mark		
+replay_skill	sparkwitch:specter_otherworld_skill		
+replay_skill	sparkwitch:specter_shriek		
+replay_skill	sparkwitch:sphinx_hao_infect		
+replay_skill	sparkwitch:sphinx_hao_roar		
+replay_skill	sparkwitch:witches_sabbath		
+retired_trait	sparktraits:arrogant_asf	RetiredTraitIds: dropped from saved trait lists; literal kept in code	sparktraits:arrogant_asf
+retired_trait	sparktraits:chameleon	RetiredTraitIds: dropped from saved trait lists; literal kept in code	sparktraits:chameleon
+retired_trait	sparktraits:wraith	RetiredTraitIds: dropped from saved trait lists; literal kept in code	sparktraits:wraith
+role	sparkwitch:abyss_listener		
+role	sparkwitch:accomplice		
+role	sparkwitch:accountant		
+role	sparkwitch:apprentice_witch		
+role	sparkwitch:athlete		
+role	sparkwitch:bear		
+role	sparkwitch:bell_ringer		
+role	sparkwitch:bewitched		
+role	sparkwitch:black_raven		
+role	sparkwitch:blind		
+role	sparkwitch:charon		
+role	sparkwitch:control_expert		
+role	sparkwitch:criminal_reasoner		
+role	sparkwitch:curser		
+role	sparkwitch:discoverer		
+role	sparkwitch:dominator		
+role	sparkwitch:emma		
+role	sparkwitch:fiend		
+role	sparkwitch:fisher		
+role	sparkwitch:grand_witch		
+role	sparkwitch:guardian_angel		
+role	sparkwitch:hanna		
+role	sparkwitch:hunter		
+role	sparkwitch:insider		
+role	sparkwitch:judge		
+role	sparkwitch:kidnapper		
+role	sparkwitch:knight		
+role	sparkwitch:koko		
+role	sparkwitch:lost_soul		
+role	sparkwitch:magician		
+role	sparkwitch:medium		
+role	sparkwitch:murderous_witch		
+role	sparkwitch:natsume_anan		
+role	sparkwitch:nikaido_hiro		
+role	sparkwitch:ninja		
+role	sparkwitch:noa		
+role	sparkwitch:orthopedist		
+role	sparkwitch:perfumer		
+role	sparkwitch:pig_god		
+role	sparkwitch:planner_master		
+role	sparkwitch:potion_gunner		
+role	sparkwitch:prophet		
+role	sparkwitch:ragpicker		
+role	sparkwitch:recruit		
+role	sparkwitch:riftwalker		
+role	sparkwitch:saboteur		
+role	sparkwitch:saint		
+role	sparkwitch:savior		
+role	sparkwitch:schrodingers_cat		
+role	sparkwitch:seeker		
+role	sparkwitch:sherry		
+role	sparkwitch:sniper		
+role	sparkwitch:specter		
+role	sparkwitch:sphinx_hao		
+role	sparkwitch:stowaway		
+role	sparkwitch:tarot_reader		
+role	sparkwitch:time_stealer		
+role	sparkwitch:usec		
+role	sparkwitch:vendetta		
+role	sparkwitch:wind_spirit		
+role	sparkwitch:witch_maiden		
+role	sparkwitch:wraith		
+role_change_cause	sparkwitch:bewitched_promotion	PROMOTION_CAUSE	
+role_change_cause	sparkwitch:ferryman_moment_revive	REVIVE_REPLAY_CAUSE	
+role_change_cause	sparkwitch:schrodingers_cat_transform	TRANSFORM_CAUSE	
+role_change_cause	sparkwitch:wraith_conversion	CONVERSION_REPLAY_CAUSE	
+role_change_cause	sparkwitch:wraith_promotion	PROMOTION_REPLAY_CAUSE	
+secondary_ability	sparkwitch:apprentice_witch		
+secondary_ability	sparkwitch:black_raven		
+secondary_ability	sparkwitch:charon		
+secondary_ability	sparkwitch:criminal_reasoner		
+secondary_ability	sparkwitch:medium		
+secondary_ability	sparkwitch:seeker		
+secondary_ability	sparkwitch:sherry		
+secondary_ability	sparkwitch:specter		
+secondary_ability	sparkwitch:sphinx_hao		
+secondary_ability	sparkwitch:witch_maiden		
+settings_key	sparkwitch.scope_lens_resolution	in-memory settings row id	
+settings_key	sparkwitch.scope_mode	in-memory settings row id	
+settings_key	sparkwitch.scope_sensitivity	in-memory settings row id	
+settings_store	sparkassist	SettingsStore id of config/sparkassist.json	
+settings_store	sparkwitch-client	SettingsStore id of config/sparkwitch-client.json	
+shop_entry	sparkstrength_aroma_orb	in PerfumerRules.java	
+shop_entry	sparkstrength_bodyguard_vest	in BodyguardRules.java	
+shop_entry	sparkstrength_bomb_drone	in DroneRules.java	
+shop_entry	sparkstrength_capsule	in ToxicologistCapsuleRules.java	
+shop_entry	sparkstrength_capture_device	in EngineerRules.java	
+shop_entry	sparkstrength_cooling_oil	in PerfumerRules.java	
+shop_entry	sparkstrength_coroner_body_bag	in CoronerRules.java	
+shop_entry	sparkstrength_cqcm_mask	in UndercoverShopService.java	
+shop_entry	sparkstrength_democracy_shield	in BodyguardRules.java	
+shop_entry	sparkstrength_ember_sugar	in BartenderRules.java	
+shop_entry	sparkstrength_ghostflame_bitters	in BartenderRules.java	
+shop_entry	sparkstrength_m67	in M67ShopService.java	
+shop_entry	sparkstrength_morph_reagent	in MorphlingRules.java	
+shop_entry	sparkstrength_party_balloon	in PartyBalloonRules.java	
+shop_entry	sparkstrength_power_restoration	in EngineerRules.java	
+shop_entry	sparkstrength_professor_doorpassing_potion	in ProfessorSerumRules.java	
+shop_entry	sparkstrength_professor_invisibility_serum	in ProfessorSerumRules.java	
+shop_entry	sparkstrength_professor_refresh_cooldown	in ProfessorSerumRules.java	
+shop_entry	sparkstrength_professor_sedative	in ProfessorSerumRules.java	
+shop_entry	sparkstrength_professor_truth_serum	in ProfessorSerumRules.java	
+shop_entry	sparkstrength_recaller_chorus_fruit	in RecallerShopRules.java	
+shop_entry	sparkstrength_recaller_ender_pearl	in RecallerShopRules.java	
+shop_entry	sparkstrength_t_virus	in PathogenRules.java	
+shop_entry	sparkstrength_toxicologist_blue_belladonna	in ToxicologistBlueRules.java	
+shop_entry	sparkstrength_toxicologist_blue_vitriol	in ToxicologistBlueRules.java	
+shop_entry	sparkstrength_toxicologist_refresh_antidote_cooldown	in ToxicologistCapsuleRules.java	
+shop_entry	sparkstrength_veteran_knife	in VeteranRules.java	
+shop_entry	sparkstrength_virus	in PathogenRules.java	
+shop_entry	sparkstrength_zephyr_perfume	in PerfumerRules.java	
+shop_entry	sparktraits:impostor_revolver	REVOLVER_SHOP_ID; trait shop entry	
+shop_entry	sparkwitch:hanna_handkerchief		
+shop_entry	sparkwitch:hanna_umbrella		
+shop_entry	sparkwitch:koko_lightstick		
+shop_entry	sparkwitch:noa_sanity_down		
+shop_entry	sparkwitch:noa_sanity_up		
+shop_entry	sparkwitch:planner_task_slip		
+shop_entry	sparkwitch:sherry_badge		
+shop_entry	sparkwitch:sphinx_hao_fist_ammo		
+shop_entry	sparkwitch:wind_spirit_wind_charge	WIND_CHARGE_SHOP_ID	
+shop_entry	sparkwitch_blindness	in GrandWitchRules.java	
+shop_entry	sparkwitch_fear	in GrandWitchRules.java	
+shop_entry	sparkwitch_ferryman_crowbar	in FerrymanRules.java	
+shop_entry	sparkwitch_ferryman_moment	in FerrymanRules.java	
+shop_entry	sparkwitch_fiend_moment	in FiendRules.java	
+shop_entry	sparkwitch_heaviness	in GrandWitchRules.java	
+shop_entry	sparkwitch_insider_crowbar	in InsiderRules.java	
+shop_entry	sparkwitch_insider_revolver	in InsiderRules.java	
+shop_entry	sparkwitch_knockout_drug	in CoronerLoanedGear.java	
+shop_entry	sparkwitch_obscure	in GrandWitchRules.java	
+shop_entry	sparkwitch_sniper_ammo	in SniperRules.java	
+shop_entry	sparkwitch_sniper_crowbar	in SniperRules.java	
+shop_entry	sparkwitch_tarot_identity	in TarotReaderDisguiseAdapter.java	
+shop_entry	sparkwitch_tarot_regular	in TarotReaderDisguiseAdapter.java	
+shop_entry	sparkwitch_tarot_survival	in TarotReaderDisguiseAdapter.java	
+shop_entry	sparkwitch_time_stealer_add_time	in TimeStealerShopRules.java	
+shop_entry	sparkwitch_time_stealer_grenade	in TimeStealerShopRules.java	
+shop_entry_prefix	sparkstrength_bandit_	in BanditRevolverRules.java	
+shop_entry_prefix	sparkwitch_	in GrandWitchRules.java	
+shop_entry_prefix	sparkwitch_potion_gunner_	in PotionShellType.java	
+skill	sparkwitch:bell_echo		
+skill	sparkwitch:ceremonial_sword	lang key skill.<ns>.<path> only	
+skill	sparkwitch:clairvoyance		
+skill	sparkwitch:criminal_reasoner_reasoning	id constant, not in WitchSkillRegistry	
+skill	sparkwitch:curser	lang key skill.<ns>.<path> only	
+skill	sparkwitch:death_ray		
+skill	sparkwitch:dominator_mark	id constant, not in WitchSkillRegistry	
+skill	sparkwitch:dominator_release	id constant, not in WitchSkillRegistry	
+skill	sparkwitch:dominator_skill	id constant, not in WitchSkillRegistry	
+skill	sparkwitch:emma_factor		
+skill	sparkwitch:focused_footsteps		
+skill	sparkwitch:guardian	lang key skill.<ns>.<path> only	
+skill	sparkwitch:hanna_float	id constant, not in WitchSkillRegistry	
+skill	sparkwitch:healing		
+skill	sparkwitch:kidnapper_drag_body		
+skill	sparkwitch:koko_stream	id constant, not in WitchSkillRegistry	
+skill	sparkwitch:mighty_force		
+skill	sparkwitch:mini_wither	lang key skill.<ns>.<path> only	
+skill	sparkwitch:murder_sense		
+skill	sparkwitch:natsume_hypnosis	id constant, not in WitchSkillRegistry	
+skill	sparkwitch:ninja_parry		
+skill	sparkwitch:noa_dog	id constant, not in WitchSkillRegistry	
+skill	sparkwitch:noa_paint	id constant, not in WitchSkillRegistry	
+skill	sparkwitch:perception		
+skill	sparkwitch:pig_chase		
+skill	sparkwitch:prophecy		
+skill	sparkwitch:purify	lang key skill.<ns>.<path> only	
+skill	sparkwitch:sabotage	lang key skill.<ns>.<path> only	
+skill	sparkwitch:sherry_mighty_force	id constant, not in WitchSkillRegistry	
+skill	sparkwitch:specter_otherworld_speed	id constant, not in WitchSkillRegistry	
+skill	sparkwitch:specter_skill	id constant, not in WitchSkillRegistry	
+skill	sparkwitch:swift_step		
+skill	sparkwitch:wardens_shriek		
+skill	sparkwitch:witch_factor		
+skill	sparkwitch:witches_sabbath		
+sound_event	sparkstrength:ambient.shadow_jester		
+sound_event	sparkstrength:block.circuit_breaker.restore		
+sound_event	sparkstrength:block.circuit_breaker.switch		
+sound_event	sparkstrength:block.circuit_breaker.trip		
+sound_event	sparkstrength:block.junction_box.break		
+sound_event	sparkstrength:block.junction_box.hack		
+sound_event	sparkstrength:block.junction_box.hacked		
+sound_event	sparkstrength:block.junction_box.pry		
+sound_event	sparkstrength:block.junction_box.repair		
+sound_event	sparkstrength:block.junction_box.spark		
+sound_event	sparkstrength:entity.bomb_drone.loop		
+sound_event	sparkstrength:entity.drone.break		
+sound_event	sparkstrength:entity.drone.place		
+sound_event	sparkstrength:entity.drone.release		
+sound_event	sparkstrength:entity.grenade_drone.loop		
+sound_event	sparkstrength:entity.partygoer.death		
+sound_event	sparkstrength:entity.partygoer.grab		
+sound_event	sparkstrength:entity.partygoer.rage		
+sound_event	sparkstrength:entity.partygoer.spawn		
+sound_event	sparkstrength:entity.partygoer.vanish		
+sound_event	sparkstrength:entity.taotie_head.bonk		
+sound_event	sparkstrength:item.drone.bind		
+sound_event	sparkstrength:item.m67.equip		
+sound_event	sparkstrength:item.m67.explode		
+sound_event	sparkstrength:item.m67.land		
+sound_event	sparkstrength:item.m67.pull		
+sound_event	sparkstrength:item.m67.throw		
+sound_event	sparkstrength:music.takediskrush		
+sound_event	sparkstrength:ui.sabotage.ready		
+sound_event	sparkstrength:vulture.death_scream		
+sound_event	sparkstrength:vulture.death_scream_helium		
+sound_event	sparkstrength:vulture.super_curse		
+sound_event	sparkstrength:vulture.super_curse_helium		
+sound_event	sparktraits:depression.blind_rage_chase		
+sound_event	sparktraits:depression.blind_rage_enrage		
+sound_event	sparktraits:depression.docile_to_rage		
+sound_event	sparktraits:depression.melee_kill_1		
+sound_event	sparktraits:depression.melee_kill_2		
+sound_event	sparktraits:depression.player_was_seen		
+sound_event	sparktraits:depression.rage_loop		
+sound_event	sparktraits:depression.rage_to_docile		
+sound_event	sparktraits:depression.shyguy_killed		
+sound_event	sparktraits:music.final_moment		
+sound_event	sparkwitch:ambient.bell_ringer_toll		
+sound_event	sparkwitch:ambient.grand_witch_ceremonial_sword_bgm		
+sound_event	sparkwitch:ambient.saint_bell		
+sound_event	sparkwitch:ambient.specter_otherworld_bgm_0		
+sound_event	sparkwitch:ambient.specter_otherworld_bgm_1		
+sound_event	sparkwitch:ambient.specter_otherworld_bgm_2		
+sound_event	sparkwitch:ambient.time_stealer_chime		
+sound_event	sparkwitch:ambient.time_stealer_final		
+sound_event	sparkwitch:bear.earplugs.insert		
+sound_event	sparkwitch:bear.m32.empty		
+sound_event	sparkwitch:bear.m32.fire		
+sound_event	sparkwitch:bear.m32.load		
+sound_event	sparkwitch:bear.m32.unload		
+sound_event	sparkwitch:bear.rys_t.ricochet		
+sound_event	sparkwitch:bear.rys_t.tinnitus		
+sound_event	sparkwitch:bear.rys_t.visor_down		
+sound_event	sparkwitch:bear.rys_t.visor_hit		
+sound_event	sparkwitch:bear.rys_t.visor_up		
+sound_event	sparkwitch:bear.smoke.burst		
+sound_event	sparkwitch:blind.cane_tap		
+sound_event	sparkwitch:duel.manba		
+sound_event	sparkwitch:duel.sf		
+sound_event	sparkwitch:item.double_barrel.load		
+sound_event	sparkwitch:item.double_barrel.shot		
+sound_event	sparkwitch:item.m1903a4.bolt		
+sound_event	sparkwitch:item.m1903a4.bolt_1		
+sound_event	sparkwitch:item.m1903a4.kill		
+sound_event	sparkwitch:item.m1903a4.load		
+sound_event	sparkwitch:item.m1903a4.openbolt		
+sound_event	sparkwitch:item.m1903a4.shoot		
+sound_event	sparkwitch:item.savior_lightsaber.hit		
+sound_event	sparkwitch:item.savior_lightsaber.hum		
+sound_event	sparkwitch:item.savior_lightsaber.ignite		
+sound_event	sparkwitch:item.savior_lightsaber.swing		
+sound_event	sparkwitch:item.savior_pistol.click		
+sound_event	sparkwitch:item.savior_pistol.shoot		
+sound_event	sparkwitch:item.usec_rifle.bolt		
+sound_event	sparkwitch:item.usec_rifle.load_round		
+sound_event	sparkwitch:item.usec_rifle.magazine		
+sound_event	sparkwitch:item.usec_rifle.scope		
+sound_event	sparkwitch:item.usec_rifle.shoot		
+sound_event	sparkwitch:item.usec_rifle.shoot_suppressed		
+sound_event	sparkwitch:mini_wither.burst		
+sound_event	sparkwitch:mini_wither.crimson_hit		
+sound_event	sparkwitch:mini_wither.crimson_shoot		
+sound_event	sparkwitch:mini_wither.dismiss		
+sound_event	sparkwitch:mini_wither.idle		
+sound_event	sparkwitch:mini_wither.shoot		
+sound_event	sparkwitch:mini_wither.summon		
+sound_event	sparkwitch:mini_wither.unlock		
+sound_event	sparkwitch:music.sphinx_hao_fade		
+sound_event	sparkwitch:seeker_battery_dead		
+sound_event	sparkwitch:seeker_battery_low		
+sound_event	sparkwitch:seeker_camera_break		
+sound_event	sparkwitch:seeker_car_break		
+sound_event	sparkwitch:seeker_car_motor		
+sound_event	sparkwitch:seeker_car_swallow		
+sound_event	sparkwitch:skill.holy_flash_tinnitus		
+sound_event	sparkwitch:skill.pig_chase		
+sound_namespace	sparkwitch_skin	private runtime namespace of Mini Wither skin sounds, never in a pack	
+tag/block	sparkwitch:sculk_conversion_immune		
+tag/entity_type	sparkstrength:drone_breaking_projectiles		
+tag/entity_type	sparkstrength:partygoer_killing_projectiles		
+tag/item	sparkstrength:shield_swap_cooldown		
+tag/item	sparktraits:bloodthirsty_weapons		
+tag/item	sparktraits:throwables		
+tag/item	sparktraits:thrust_weapons		
+trait	sparktraits:anxiety		
+trait	sparktraits:bloodthirsty		
+trait	sparktraits:cautious		
+trait	sparktraits:charisma		
+trait	sparktraits:childish		
+trait	sparktraits:close_quarters		
+trait	sparktraits:conscience		
+trait	sparktraits:cornered		
+trait	sparktraits:depression		
+trait	sparktraits:dopamine		
+trait	sparktraits:economy		
+trait	sparktraits:excellent_physique		
+trait	sparktraits:exhilarated		
+trait	sparktraits:extroverted		
+trait	sparktraits:fast_hands		
+trait	sparktraits:fast_reload		
+trait	sparktraits:focus		
+trait	sparktraits:going_dark		
+trait	sparktraits:heavy_artillery		
+trait	sparktraits:herculean_strength		
+trait	sparktraits:impostor		
+trait	sparktraits:introverted		
+trait	sparktraits:jester		
+trait	sparktraits:last_escape		
+trait	sparktraits:last_stand		
+trait	sparktraits:manic		
+trait	sparktraits:marksman		
+trait	sparktraits:master_saboteur		
+trait	sparktraits:minimalism		
+trait	sparktraits:money_tree		
+trait	sparktraits:niko		
+trait	sparktraits:oppressive		
+trait	sparktraits:paranoid		
+trait	sparktraits:pig		
+trait	sparktraits:plunderer		
+trait	sparktraits:preparefull		
+trait	sparktraits:seasoned		
+trait	sparktraits:second_strike		
+trait	sparktraits:self_esteem		
+trait	sparktraits:sensitive		
+trait	sparktraits:snowball		
+trait	sparktraits:spirit_sleuth		
+trait	sparktraits:stands_firm		
+trait	sparktraits:steady		
+trait	sparktraits:task_master		
+trait	sparktraits:team_first		
+trait	sparktraits:the_showman		
+trait	sparktraits:thrust		
+trait	sparktraits:well_supplied		
+trait	sparktraits:well_trained		
+voicechat_plugin	sparkstrength	three plugins now share the id sparkdlc (only logged)	
+voicechat_plugin	sparktraits	three plugins now share the id sparkdlc (only logged)	
+voicechat_plugin	sparkwitch	three plugins now share the id sparkdlc (only logged)	

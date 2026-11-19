@@ -50,7 +50,7 @@ import java.util.UUID;
  */
 public final class SabotageService {
     /** The tablet's own "???" for a hidden name. / 平板用于隐藏名字的「???」。 */
-    public static final String ANONYMOUS_ACTOR_KEY = "screen.sparkstrength.tablet.chat.anonymous";
+    public static final String ANONYMOUS_ACTOR_KEY = "screen.sparkdlc.tablet.chat.anonymous";
     private static final int STATUS_REFRESH_TICKS = 10;
     private static final int ENGINE_UNIT_CHECK_TICKS = 20;
     private static final Map<UUID, SabotageStatusS2CPacket> SENT_STATUS = new HashMap<>();
@@ -284,7 +284,7 @@ public final class SabotageService {
         for (SabotageType type : sabotage.unlocked()) {
             if (now >= sabotage.readyTick(type) && sabotage.markReadyAnnounced(type)) {
                 sabotage.log(now, SabotageWorldComponent.LogKind.READY, type);
-                Text message = Text.translatable("message.sparkstrength.sabotage.ready",
+                Text message = Text.translatable("message.sparkdlc.sabotage.ready",
                         Text.translatable(type.translationKey())).formatted(Formatting.GOLD);
                 for (ServerPlayerEntity player : saboteurs(world)) {
                     player.sendMessage(message, false);
@@ -311,7 +311,7 @@ public final class SabotageService {
                         tablet.identityLinks(player.getUuid()))
                         ? Text.literal(actor.getGameProfile().getName())
                         : Text.translatable(ANONYMOUS_ACTOR_KEY);
-                player.sendMessage(Text.translatable("message.sparkstrength.sabotage.unlocked", who,
+                player.sendMessage(Text.translatable("message.sparkdlc.sabotage.unlocked", who,
                         Text.translatable(type.translationKey()), SabotageRules.UNLOCK_DELAY_TICKS / 20)
                         .formatted(Formatting.GOLD), false);
             }
@@ -332,7 +332,7 @@ public final class SabotageService {
         }
         if (!SabotageAccess.canTrigger(player)) {
             // A stage-1 Undercover: the page is there for cover, the trigger needs the mask. / 第一阶段卧底：页面用于伪装，触发需要面具。
-            player.sendMessage(Text.translatable("message.sparkstrength.sabotage.trigger_denied.undercover_mask"), true);
+            player.sendMessage(Text.translatable("message.sparkdlc.sabotage.trigger_denied.undercover_mask"), true);
             return;
         }
         ServerWorld world = player.getServerWorld();
@@ -351,19 +351,19 @@ public final class SabotageService {
             // A stage-2 Undercover's cooldown is its own, not the team's. / 二阶段卧底的冷却是它自己的，不是团队的。
             String reason = check == SabotageRules.TriggerCheck.COOLDOWN && track != null
                     ? "cooldown_own" : check.name().toLowerCase(java.util.Locale.ROOT);
-            player.sendMessage(Text.translatable("message.sparkstrength.sabotage.trigger_denied." + reason), true);
+            player.sendMessage(Text.translatable("message.sparkdlc.sabotage.trigger_denied." + reason), true);
             return;
         }
         String denied = switch (type) {
             case LIGHTS -> switch (LightsSabotageService.trigger(world, sabotage, player)) {
                 case OK -> null;
-                case BUSY -> "message.sparkstrength.sabotage.trigger_denied.active";
-                case NO_LAMPS -> "message.sparkstrength.sabotage.no_lamps";
+                case BUSY -> "message.sparkdlc.sabotage.trigger_denied.active";
+                case NO_LAMPS -> "message.sparkdlc.sabotage.no_lamps";
             };
             case ENGINE -> switch (EngineSabotageService.trigger(world, sabotage, player)) {
                 case OK -> null;
-                case BUSY -> "message.sparkstrength.sabotage.trigger_denied.active";
-                case NO_ENGINE_UNITS -> "message.sparkstrength.sabotage.trigger_denied.no_engine_units";
+                case BUSY -> "message.sparkdlc.sabotage.trigger_denied.active";
+                case NO_ENGINE_UNITS -> "message.sparkdlc.sabotage.trigger_denied.no_engine_units";
             };
         };
         if (denied != null) {

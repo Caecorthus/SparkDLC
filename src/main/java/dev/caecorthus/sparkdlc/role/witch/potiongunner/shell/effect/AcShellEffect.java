@@ -17,7 +17,7 @@ import net.minecraft.text.Text;
  * 且绝不缩短；影响否决已在爆炸判定中执行。
  */
 public final class AcShellEffect {
-    static final String JAMMED_MESSAGE = "message.sparkwitch.potion_gunner.ac_jammed";
+    static final String JAMMED_MESSAGE = "message.sparkdlc.potion_gunner.ac_jammed";
 
     private AcShellEffect() {
     }

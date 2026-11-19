@@ -14,17 +14,17 @@ public final class NinjaSkillService {
 
     public static WitchSkillUseResult use(WitchSkillUseContext context) {
         if (!NinjaRules.isNinja(context.role())) {
-            return WitchSkillUseResult.fail("message.sparkwitch.skill.unavailable");
+            return WitchSkillUseResult.fail("message.sparkdlc.skill.unavailable");
         }
         WitchPlayerComponent component = WitchPlayerComponent.KEY.get(context.player());
         if (component.isNinjaParryActive()) {
-            return WitchSkillUseResult.fail("message.sparkwitch.skill.unavailable");
+            return WitchSkillUseResult.fail("message.sparkdlc.skill.unavailable");
         }
 
         component.beginNinjaParryWindow(NinjaRules.PARRY_WINDOW_TICKS);
         return WitchSkillUseResult.successAfterActiveWindow(
                 NinjaRules.PARRY_COOLDOWN_TICKS,
-                "message.sparkwitch.skill.ninja_parry.activated"
+                "message.sparkdlc.skill.ninja_parry.activated"
         );
     }
 }

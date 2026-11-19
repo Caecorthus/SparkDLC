@@ -7,11 +7,11 @@ import java.util.Locale;
 /**
  * Pure rules of the recommended task row in Wathe's top-left task list: which Wathe row is restyled and with which
  * translation key. The row is restyled only on a confirmed SparkWitch server, only for the task type the owner-only
- * {@code sparkwitch:planner_master_player} marker names, and never over a Bell Ringer Echo row: the Echo is a forced
+ * {@code sparkdlc:planner_master_player} marker names, and never over a Bell Ringer Echo row: the Echo is a forced
  * task with a deadline and a penalty, so its red "must" line wins when both mark the same type. The four keys
  * {@code task.planner_recommend.<sleep|outside|eat|drink>} are the common lang contract.
  * Wathe 左上角任务列表中推荐任务行的纯规则：改写哪一行、使用哪个翻译键。只在已确认的 SparkWitch 服务器上、只针对仅本人同步的
- * {@code sparkwitch:planner_master_player} 标记所指的任务类型改写，且从不覆盖鸣钟人回响行：回响是带期限与惩罚的强制任务，
+ * {@code sparkdlc:planner_master_player} 标记所指的任务类型改写，且从不覆盖鸣钟人回响行：回响是带期限与惩罚的强制任务，
  * 两者标记同一类型时以其红色“必须”行为准。四个键 {@code task.planner_recommend.<sleep|outside|eat|drink>} 属于通用语言契约。
  */
 public final class PlannerTaskRowRules {

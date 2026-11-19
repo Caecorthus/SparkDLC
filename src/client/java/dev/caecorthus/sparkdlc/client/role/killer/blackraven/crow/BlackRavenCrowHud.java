@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * The Raven's own Raven Form HUD: the status line in {@code BlackRavenHudRenderer} (never the witch skills panel), and
- * while flying the one-slot crow hotbar (the Homing Feather, {@code sparkwitch:homing_feather}) in place of the real
+ * while flying the one-slot crow hotbar (the Homing Feather, {@code sparkdlc:homing_feather}) in place of the real
  * hotbar plus a plain crosshair in place of Wathe's body-based one. The real inventory is never touched.
  * 黑羽鸦自己的化鸦 HUD：BlackRavenHudRenderer 中的状态行（绝不进入魔女技能面板）；飞行期间以只有一格（归羽）的乌鸦快捷栏取代真实快捷栏，
  * 并以普通准星取代 Wathe 基于本体的准星。真实物品栏从不改动。
@@ -45,16 +45,16 @@ public final class BlackRavenCrowHud {
         Text key = SecondaryAbilityController.secondaryKeyText();
         return switch (BlackRavenCrowClientRules.hudState(crow.isUnlocked(), crow.isActive(), landing,
                 crow.getCooldownTicks())) {
-            case FLYING -> Text.translatable("hud.sparkwitch.black_raven_crow.flying",
+            case FLYING -> Text.translatable("hud.sparkdlc.black_raven_crow.flying",
                     BlackRavenCrowClientRules.seconds(
                             BlackRavenCrowRules.remainingSessionTicks(crow.getSessionEndTick(), now)), key);
-            case LANDING -> Text.translatable("hud.sparkwitch.black_raven_crow.landing",
+            case LANDING -> Text.translatable("hud.sparkdlc.black_raven_crow.landing",
                     BlackRavenCrowClientRules.seconds(landing));
-            case LOCKED -> Text.translatable("hud.sparkwitch.black_raven_crow.locked", crow.getCompletedTasks(),
+            case LOCKED -> Text.translatable("hud.sparkdlc.black_raven_crow.locked", crow.getCompletedTasks(),
                     BlackRavenCrowRules.UNLOCK_TASKS);
-            case COOLDOWN -> Text.translatable("hud.sparkwitch.black_raven_crow.cooldown",
+            case COOLDOWN -> Text.translatable("hud.sparkdlc.black_raven_crow.cooldown",
                     BlackRavenCrowClientRules.seconds(crow.getCooldownTicks()));
-            case READY -> Text.translatable("hud.sparkwitch.black_raven_crow.ready", key);
+            case READY -> Text.translatable("hud.sparkdlc.black_raven_crow.ready", key);
         };
     }
 
@@ -79,7 +79,7 @@ public final class BlackRavenCrowHud {
         }
         context.drawItem(feather, x + 3, y + 3);
         TextRenderer renderer = client.textRenderer;
-        Text hint = Text.translatable("hud.sparkwitch.black_raven_crow.drop_hint",
+        Text hint = Text.translatable("hud.sparkdlc.black_raven_crow.drop_hint",
                 client.options.dropKey.getBoundKeyLocalizedText());
         context.drawTextWithShadow(renderer, hint, (width - renderer.getWidth(hint)) / 2,
                 y - renderer.fontHeight - 3, HINT_COLOR);

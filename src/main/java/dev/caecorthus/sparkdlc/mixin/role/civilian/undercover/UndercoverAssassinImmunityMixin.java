@@ -55,7 +55,7 @@ public abstract class UndercoverAssassinImmunityMixin {
             return;
         }
         if (UndercoverRoles.isStage2(target)) {
-            assassin.sendMessage(Text.translatable("message.sparkstrength.undercover.cannot_assassinate"), true);
+            assassin.sendMessage(Text.translatable("message.sparkdlc.undercover.cannot_assassinate"), true);
             ci.cancel();
         }
     }

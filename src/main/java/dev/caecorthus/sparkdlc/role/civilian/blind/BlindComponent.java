@@ -14,14 +14,14 @@ import org.ladysnake.cca.api.v3.component.ComponentRegistry;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 
 /**
- * Stable CCA contract {@code sparkwitch:blind} (NEVER_COPY): the Blind's cane and Attune windows as absolute world
+ * Stable CCA contract {@code sparkdlc:blind} (NEVER_COPY): the Blind's cane and Attune windows as absolute world
  * ticks plus the bound match id and the match of the last ComTac purchase. Server-authoritative; synced only to the
  * owner, as remaining ticks (see {@link BlindTimers}), never absolute ticks; neither match id is ever synced. Nothing
- * is persisted: a restart or relog starts clean. It never enters the shared {@code sparkwitch:player} schema and holds
+ * is persisted: a restart or relog starts clean. It never enters the shared {@code sparkdlc:player} schema and holds
  * no game logic.
- * 稳定 CCA 契约 {@code sparkwitch:blind}（NEVER_COPY）：盲人盲杖与凝神窗口（绝对世界刻）、绑定的对局 id 以及最近一次购买
+ * 稳定 CCA 契约 {@code sparkdlc:blind}（NEVER_COPY）：盲人盲杖与凝神窗口（绝对世界刻）、绑定的对局 id 以及最近一次购买
  * ComTac 的对局。由服务端权威决定，仅以剩余刻数同步给本人（见 {@link BlindTimers}），从不同步绝对刻；两个对局 id 都从不
- * 同步。不做任何持久化：重启或重新登录后从空状态开始。从不进入共享的 {@code sparkwitch:player} 结构，也不含游戏逻辑。
+ * 同步。不做任何持久化：重启或重新登录后从空状态开始。从不进入共享的 {@code sparkdlc:player} 结构，也不含游戏逻辑。
  */
 public final class BlindComponent implements AutoSyncedComponent {
     public static final ComponentKey<BlindComponent> KEY = ComponentRegistry.getOrCreate(

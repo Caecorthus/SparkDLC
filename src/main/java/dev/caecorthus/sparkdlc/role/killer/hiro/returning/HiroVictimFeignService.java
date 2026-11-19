@@ -71,7 +71,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 但不改动二者。其他死亡在 {@link #onDeathCommit} 中立即返回。
  */
 public final class HiroVictimFeignService {
-    static final String REVIVED_KEY = "message.sparkwitch.nikaido_hiro.return.revived";
+    static final String REVIVED_KEY = "message.sparkdlc.nikaido_hiro.return.revived";
     private static final double GROUND_SNAP_DEPTH = 3.0;
     /** A corpse farther than this from where it was laid was moved; the camera leaves it. / 尸体偏离铺设位置超过此值即视为被移动，视角离开它。 */
     private static final double CORPSE_DRIFT_HORIZONTAL = 0.75;

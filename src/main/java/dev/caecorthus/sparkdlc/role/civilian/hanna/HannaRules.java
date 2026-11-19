@@ -127,10 +127,10 @@ public final class HannaRules {
     }
 
     /**
-     * Pure gate for {@code sparkwitch:use_hanna_float}. Role, round and control gates refuse silently; then readiness
+     * Pure gate for {@code sparkdlc:use_hanna_float}. Role, round and control gates refuse silently; then readiness
      * (also refused while a float is running), then Fear, then mana, so a blocked or cooling request never reports a
      * mana problem.
-     * {@code sparkwitch:use_hanna_float} 的纯判定。职业、回合与受控门槛静默拒绝；其后依次是就绪（浮游进行中同样拒绝）、
+     * {@code sparkdlc:use_hanna_float} 的纯判定。职业、回合与受控门槛静默拒绝；其后依次是就绪（浮游进行中同样拒绝）、
      * 恐惧、魔力，因此被拦截或冷却中的请求不会提示魔力问题。
      */
     public static FloatVerdict floatVerdict(boolean hanna, boolean roundActive, boolean aliveParticipant,

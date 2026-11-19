@@ -145,8 +145,8 @@ public final class PotionScopeRules {
      * 装填行左端不越过该 x（距镜片中心的 GUI 像素），避开校验十字。
      */
     public static final double SHELL_LINE_MIN_X = 4.0;
-    public static final String HUD_LOADED_KEY = "hud.sparkwitch.potion_gunner.loaded";
-    public static final String HUD_EMPTY_KEY = "hud.sparkwitch.potion_gunner.empty";
+    public static final String HUD_LOADED_KEY = "hud.sparkdlc.potion_gunner.loaded";
+    public static final String HUD_EMPTY_KEY = "hud.sparkdlc.potion_gunner.empty";
     public static final int EMPTY_COLOR = 0xFFAAAAAA;
     /** Share of white mixed into a shell colour so dark tints stay readable. / 混入白色的比例，使深色弹种文字可读。 */
     public static final double TEXT_LIGHTEN = 0.35;

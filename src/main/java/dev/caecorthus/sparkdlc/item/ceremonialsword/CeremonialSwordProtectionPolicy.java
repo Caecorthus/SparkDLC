@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
  * 仅已获准的仪礼剑死因穿透目标保护；此策略不替代攻击者资格判定。
  */
 public final class CeremonialSwordProtectionPolicy {
-    private static final Identifier DEATH_REASON = Identifier.of("sparkwitch", "ceremonial_blade");
+    private static final Identifier DEATH_REASON = Identifier.of("sparkdlc", "ceremonial_blade");
 
     private CeremonialSwordProtectionPolicy() {
     }

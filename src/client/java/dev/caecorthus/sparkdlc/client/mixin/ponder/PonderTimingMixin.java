@@ -32,7 +32,7 @@ public abstract class PonderTimingMixin {
     @Inject(method = "tick", remap = true, at = @At(value = "FIELD", opcode = Opcodes.GETFIELD, ordinal = 0, remap = false,
             target = "Lnet/createmod/ponder/foundation/ui/PonderUI;extendedTickTimer:I"))
     private void sparkassist$shrinkCountdown(CallbackInfo ci) {
-        if (((PonderUI) (Object) this).getActiveScene().getNamespace().equals("sparkassist")) {
+        if (((PonderUI) (Object) this).getActiveScene().getNamespace().equals("sparkdlc")) {
             extendedTickTimer = Math.min(extendedTickTimer, extendedTickLength);
         }
     }
@@ -40,7 +40,7 @@ public abstract class PonderTimingMixin {
     @ModifyReturnValue(method = "getPartialTicks", at = @At("RETURN"))
     private static float sparkassist$clampPartialTicks(float partialTicks) {
         return MinecraftClient.getInstance().currentScreen instanceof PonderUI ui
-                && ui.getActiveScene().getNamespace().equals("sparkassist")
+                && ui.getActiveScene().getNamespace().equals("sparkdlc")
                 ? MathHelper.clamp(partialTicks, 0, 1) : partialTicks;
     }
 }

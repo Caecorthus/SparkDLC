@@ -89,11 +89,11 @@ public final class MorphReagentItem extends Item {
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         String sampleName = MorphlingService.sampleNameForTooltip(stack);
         tooltip.add(Text.translatable(
-                "item.sparkstrength.morph_reagent.tooltip.sample",
-                sampleName.isBlank() ? Text.translatable("item.sparkstrength.morph_reagent.tooltip.none") : Text.literal(sampleName)
+                "item.sparkdlc.morph_reagent.tooltip.sample",
+                sampleName.isBlank() ? Text.translatable("item.sparkdlc.morph_reagent.tooltip.none") : Text.literal(sampleName)
         ).styled(style -> style.withColor(0x808080).withItalic(false)));
         for (int i = 1; i <= 4; i++) {
-            tooltip.add(Text.translatable("item.sparkstrength.morph_reagent.tooltip.line" + i)
+            tooltip.add(Text.translatable("item.sparkdlc.morph_reagent.tooltip.line" + i)
                     .styled(style -> style.withColor(0x808080).withItalic(false)));
         }
     }

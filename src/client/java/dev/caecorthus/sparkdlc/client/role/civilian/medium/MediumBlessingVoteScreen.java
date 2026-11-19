@@ -42,7 +42,7 @@ public final class MediumBlessingVoteScreen extends Screen {
     /** The countdown turns red for the last seconds. / 最后几秒倒计时变红。 */
     private static final int URGENT_SECONDS = 5;
     private static final String ESC_LABEL = "Esc";
-    private static final String REASON_KEY = "screen.sparkwitch.medium.blessing.locked.impostor";
+    private static final String REASON_KEY = "screen.sparkdlc.medium.blessing.locked.impostor";
 
     private final int windowId;
 
@@ -52,13 +52,13 @@ public final class MediumBlessingVoteScreen extends Screen {
     private String reasonLine = "";
 
     MediumBlessingVoteScreen(int windowId) {
-        super(Text.translatable("screen.sparkwitch.medium.blessing.title"));
+        super(Text.translatable("screen.sparkdlc.medium.blessing.title"));
         this.windowId = windowId;
     }
 
     /** Lang key of a blessing's card name. / 加护卡片名称的语言键。 */
     static String nameKey(MediumBlessing blessing) {
-        return "screen.sparkwitch.medium.blessing." + blessing.name().toLowerCase(Locale.ROOT);
+        return "screen.sparkdlc.medium.blessing." + blessing.name().toLowerCase(Locale.ROOT);
     }
 
     /** Lang key of a blessing's one-line effect. / 加护效果说明的语言键。 */
@@ -145,7 +145,7 @@ public final class MediumBlessingVoteScreen extends Screen {
         MediumBlessing[] blessings = MediumBlessing.values();
 
         int seconds = secondsLeft();
-        Text countdown = Text.translatable("hud.sparkwitch.medium.seance.remaining", seconds);
+        Text countdown = Text.translatable("hud.sparkdlc.medium.seance.remaining", seconds);
         int countdownColor = seconds <= URGENT_SECONDS ? InventoryCardPaint.ALERT_TEXT : InventoryCardPaint.MUTED;
         int countdownWidth = 5 + ICON_GAP + this.textRenderer.getWidth(countdown);
         int countdownX = px + (pw - countdownWidth) / 2;
@@ -192,7 +192,7 @@ public final class MediumBlessingVoteScreen extends Screen {
                         pw - TarotLedgerLayout.TITLE_X - MediumBlessingVoteLayout.INSET),
                 px + TarotLedgerLayout.TITLE_X, py + TarotLedgerLayout.TITLE_Y, InventoryCardPaint.TITLE, false);
         String asks = InventoryCardPaint.ellipsize(this.textRenderer,
-                Text.translatable("screen.sparkwitch.medium.blessing.asks").getString(),
+                Text.translatable("screen.sparkdlc.medium.blessing.asks").getString(),
                 pw - 2 * MediumBlessingVoteLayout.INSET);
         context.drawText(this.textRenderer, asks, px + (pw - this.textRenderer.getWidth(asks)) / 2,
                 py + MediumBlessingVoteLayout.ASKS_Y, InventoryCardPaint.MUTED, true);
@@ -243,12 +243,12 @@ public final class MediumBlessingVoteScreen extends Screen {
         int currentX = right;
         MediumBlessing picked = choice == null ? null : MediumBlessing.byIndex(choice);
         if (picked != null) {
-            Text current = Text.translatable("screen.sparkwitch.medium.blessing.current",
+            Text current = Text.translatable("screen.sparkdlc.medium.blessing.current",
                     Text.translatable(nameKey(picked)).withColor(MediumPaint.TEAL & 0xFFFFFF));
             currentX = right - this.textRenderer.getWidth(current);
             context.drawText(this.textRenderer, current, currentX, textY, InventoryCardPaint.TEXT, true);
         }
-        Text later = Text.translatable("screen.sparkwitch.medium.blessing.later", SparkWitchClient.abilityKeyText());
+        Text later = Text.translatable("screen.sparkdlc.medium.blessing.later", SparkWitchClient.abilityKeyText());
         int laterX = keycapX + keycapWidth + HINT_GAP;
         if (laterX + this.textRenderer.getWidth(later) + HINT_GAP <= currentX) {
             context.drawText(this.textRenderer, later, laterX, textY, InventoryCardPaint.MUTED, true);

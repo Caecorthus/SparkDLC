@@ -16,11 +16,11 @@ import java.util.UUID;
 
 /**
  * Frozen contract (WP0, 2026-11-05): every BEAR number, literal id and side-neutral predicate. BEAR
- * ({@code sparkwitch:bear}) is a plain CIVILIAN, never a police variant. Every duration is in ticks. Other BEAR
+ * ({@code sparkdlc:bear}) is a plain CIVILIAN, never a police variant. Every duration is in ticks. Other BEAR
  * modules, client and server, read these values and never redefine them; later work packages may ADD constants here,
  * never change one. The {@code isBear*Type} checks are by class, so they are safe before registry lookups and in unit
  * tests (loading this class never registers anything).
- * 冻结契约（WP0，2026-11-05）：BEAR 的所有数值、字面量 id 与两端通用的判定。BEAR（{@code sparkwitch:bear}）是普通平民，
+ * 冻结契约（WP0，2026-11-05）：BEAR 的所有数值、字面量 id 与两端通用的判定。BEAR（{@code sparkdlc:bear}）是普通平民，
  * 从不是警察变体。所有时长均以刻为单位。其他 BEAR 模块（客户端与服务端）只读取这些值、从不重新定义；后续工作包只能在此
  * 追加常量，不得修改已有常量。{@code isBear*Type} 按类判断，因此在注册表查询之前与单元测试中都安全（加载本类不会注册任何东西）。
  */

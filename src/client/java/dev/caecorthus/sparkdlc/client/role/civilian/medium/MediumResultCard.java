@@ -221,7 +221,7 @@ public final class MediumResultCard {
     private static Model questionModel(TextRenderer renderer, MediumSeanceResultS2CPacket shown, int maxWidth) {
         List<Text> details = new ArrayList<>();
         if (shown.tie()) {
-            details.add(Text.translatable("hud.sparkwitch.medium.result.tie"));
+            details.add(Text.translatable("hud.sparkdlc.medium.result.tie"));
         }
         addBoundLines(details, shown, maxWidth, renderer, bound -> {
             int outcome = bound.choice() == MediumRules.VOTE_YES
@@ -229,14 +229,14 @@ public final class MediumResultCard {
                     : MediumSeanceResultS2CPacket.OUTCOME_NO;
             return Text.translatable(answerKey(outcome)).withColor(answerColor(outcome) & 0xFFFFFF);
         });
-        return new Model(Text.translatable("hud.sparkwitch.medium.result.title"),
+        return new Model(Text.translatable("hud.sparkdlc.medium.result.title"),
                 question(renderer, shown.question(), maxWidth), InventoryCardPaint.TEXT, null,
                 Text.translatable(answerKey(shown.outcome())), answerColor(shown.outcome()), details);
     }
 
     /** The question inside its brackets; only the question is ellipsized, never the brackets. / 括号内的提问；只截断提问，不截断括号。 */
     private static Text question(TextRenderer renderer, String question, int maxWidth) {
-        String key = "hud.sparkwitch.medium.result.question";
+        String key = "hud.sparkdlc.medium.result.question";
         int brackets = renderer.getWidth(Text.translatable(key, ""));
         return Text.translatable(key,
                 InventoryCardPaint.ellipsize(renderer, question, Math.max(0, maxWidth - brackets)));
@@ -244,9 +244,9 @@ public final class MediumResultCard {
 
     private static String answerKey(int outcome) {
         return switch (outcome) {
-            case MediumSeanceResultS2CPacket.OUTCOME_YES -> "hud.sparkwitch.medium.result.yes";
-            case MediumSeanceResultS2CPacket.OUTCOME_NO -> "hud.sparkwitch.medium.result.no";
-            default -> "hud.sparkwitch.medium.result.no_response";
+            case MediumSeanceResultS2CPacket.OUTCOME_YES -> "hud.sparkdlc.medium.result.yes";
+            case MediumSeanceResultS2CPacket.OUTCOME_NO -> "hud.sparkdlc.medium.result.no";
+            default -> "hud.sparkdlc.medium.result.no_response";
         };
     }
 
@@ -273,24 +273,24 @@ public final class MediumResultCard {
             details.add(Text.translatable(MediumBlessingVoteScreen.effectKey(granted)));
         }
         if (shown.tie()) {
-            details.add(Text.translatable("hud.sparkwitch.medium.result.tie"));
+            details.add(Text.translatable("hud.sparkdlc.medium.result.tie"));
         }
         addBoundLines(details, shown, maxWidth, renderer, bound -> {
             MediumBlessing pick = MediumBlessing.byIndex(bound.choice());
             return pick == null ? null
                     : Text.translatable(MediumBlessingVoteScreen.nameKey(pick)).withColor(MediumPaint.TEAL & 0xFFFFFF);
         });
-        Text title = Text.translatable("hud.sparkwitch.medium.result.blessing.title");
+        Text title = Text.translatable("hud.sparkdlc.medium.result.blessing.title");
         if (granted == null) {
-            return new Model(title, Text.translatable("hud.sparkwitch.medium.result.blessing.none"),
-                    InventoryCardPaint.MUTED, null, Text.translatable("hud.sparkwitch.medium.result.no_response"),
+            return new Model(title, Text.translatable("hud.sparkdlc.medium.result.blessing.none"),
+                    InventoryCardPaint.MUTED, null, Text.translatable("hud.sparkdlc.medium.result.no_response"),
                     InventoryCardPaint.MUTED, details);
         }
         boolean random = shown.random();
         return new Model(title,
                 Text.translatable(random
-                        ? "hud.sparkwitch.medium.result.blessing.random"
-                        : "hud.sparkwitch.medium.result.blessing.granted"),
+                        ? "hud.sparkdlc.medium.result.blessing.random"
+                        : "hud.sparkdlc.medium.result.blessing.granted"),
                 random ? InventoryCardPaint.MUTED : InventoryCardPaint.TEXT, granted,
                 Text.translatable(MediumBlessingVoteScreen.nameKey(granted)), MediumPaint.TEAL, details);
     }
@@ -325,13 +325,13 @@ public final class MediumResultCard {
             }
         }
         if (shownCount > listed) {
-            lines.add(Text.translatable("hud.sparkwitch.medium.result.more", shownCount - listed));
+            lines.add(Text.translatable("hud.sparkdlc.medium.result.more", shownCount - listed));
         }
     }
 
     /** Only the player name is ellipsized, never the words around it. / 只截断玩家名，不截断其两侧的文字。 */
     private static Text boundLine(TextRenderer renderer, String playerName, MutableText word, int maxWidth) {
-        String key = "hud.sparkwitch.medium.result.bound";
+        String key = "hud.sparkdlc.medium.result.bound";
         int fixed = renderer.getWidth(Text.translatable(key, "", word));
         String name = InventoryCardPaint.ellipsize(renderer, playerName, Math.max(0, maxWidth - fixed));
         return Text.translatable(key, Text.literal(name).withColor(InventoryCardPaint.TEXT_HI & 0xFFFFFF), word);

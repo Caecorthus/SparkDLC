@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 
 /**
- * Server side of the Homing Feather (归羽). {@link #handleDrop} receives {@code sparkwitch:black_raven_crow_drop_feather}:
+ * Server side of the Homing Feather (归羽). {@link #handleDrop} receives {@code sparkdlc:black_raven_crow_drop_feather}:
  * at most once per session it spawns a {@link BlackRavenFeatherEntity} at the crow and records it with
  * {@link BlackRavenCrowPlayerComponent#setFeather}. While the session runs an expiring chunk ticket keeps the marker's
  * chunk entity-ticking (so it lands even far behind the crow) and the marker reports its rest position. When the session

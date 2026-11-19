@@ -24,14 +24,14 @@ import net.minecraft.text.Text;
  * infected ({@link SphinxHaoInstinctHooks}) and 《Fade》 for every client during a window ({@link SphinxHaoFadeBgm}).
  * The crawler instinct veto is the mixin {@code sphinxhao.SphinxHaoInstinctVetoMixin}, and the forced crawl is the
  * common {@code PlayerEntitySphinxHaoCrawlMixin}. Server authority: the client never predicts an infection or a window;
- * the keys only send the empty {@code sparkwitch:use_sphinx_hao_infect} (G) and {@code sparkwitch:use_sphinx_hao_roar}
- * (N) requests, trimmed by {@link SphinxHaoKeyRules}. Never touches the {@code gui.sparkwitch.skills} panel.
+ * the keys only send the empty {@code sparkdlc:use_sphinx_hao_infect} (G) and {@code sparkdlc:use_sphinx_hao_roar}
+ * (N) requests, trimmed by {@link SphinxHaoKeyRules}. Never touches the {@code gui.sparkdlc.skills} panel.
  * 只注册狮身豪自有的客户端展示，并发送它的两个技能请求。展示：四行 HUD（{@link SphinxHaoHud}，使用一个仅在已确认服务器上生效的
  * HUD 回调）、对其感染者的按键本能描边（{@link SphinxHaoInstinctHooks}），以及窗口期间每个客户端播放的《Fade》
  * （{@link SphinxHaoFadeBgm}）。陆泳者的本能否决是 mixin {@code sphinxhao.SphinxHaoInstinctVetoMixin}，强制陆泳是通用的
  * {@code PlayerEntitySphinxHaoCrawlMixin}。服务端权威：客户端从不预测感染或窗口；按键只发送空的
- * {@code sparkwitch:use_sphinx_hao_infect}（G）与 {@code sparkwitch:use_sphinx_hao_roar}（N）请求，并由 {@link SphinxHaoKeyRules}
- * 过滤。从不触及 {@code gui.sparkwitch.skills} 面板。
+ * {@code sparkdlc:use_sphinx_hao_infect}（G）与 {@code sparkdlc:use_sphinx_hao_roar}（N）请求，并由 {@link SphinxHaoKeyRules}
+ * 过滤。从不触及 {@code gui.sparkdlc.skills} 面板。
  */
 public final class SphinxHaoClient {
     private static boolean initialized;

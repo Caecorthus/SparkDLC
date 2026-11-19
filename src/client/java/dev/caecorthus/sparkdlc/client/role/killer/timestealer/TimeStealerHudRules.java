@@ -13,7 +13,7 @@ import dev.caecorthus.sparkdlc.role.killer.timestealer.TimeStealerRules;
  */
 public final class TimeStealerHudRules {
     /** One-argument lang key: {@code "⌛ %s"}. / 单参数语言键：{@code "⌛ %s"}。 */
-    public static final String STAMPS_KEY = "hud.sparkwitch.time_stealer.stamps";
+    public static final String STAMPS_KEY = "hud.sparkdlc.time_stealer.stamps";
     /** Opaque role color for the row. / 该行使用的不透明职业颜色。 */
     public static final int TEXT_COLOR = 0xFF000000 | TimeStealerRules.COLOR;
     public static final int RIGHT_PADDING = 5;

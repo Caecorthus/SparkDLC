@@ -14,12 +14,12 @@ import org.ladysnake.cca.api.v3.component.ComponentRegistry;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
 /**
- * Server-only Time Stealer state ({@code sparkwitch:time_stealer}), kept outside the shared {@code sparkwitch:player}
+ * Server-only Time Stealer state ({@code sparkdlc:time_stealer}), kept outside the shared {@code sparkdlc:player}
  * schema: the authoritative Clock and Gift Watch ready ticks, the bound match id, and the stamp retry counter. It is
  * never synced (it deliberately does not implement {@code AutoSyncedComponent}); stamps themselves live only in the
  * inventory. The frozen NBT keys are exactly {@code ClockReadyAt}, {@code GiftReadyAt}, {@code Match}, and
  * {@code UndeliveredStamps}.
- * 仅服务端的窃时者状态（{@code sparkwitch:time_stealer}），不进入共享的 {@code sparkwitch:player} 结构：
+ * 仅服务端的窃时者状态（{@code sparkdlc:time_stealer}），不进入共享的 {@code sparkdlc:player} 结构：
  * 权威的时钟与赠时怀表就绪 tick、绑定的对局 id 与邮票重试计数。永不同步（刻意不实现 {@code AutoSyncedComponent}）；
  * 邮票本身只存在于背包中。冻结的 NBT 键恰为 {@code ClockReadyAt}、{@code GiftReadyAt}、{@code Match} 与
  * {@code UndeliveredStamps}。

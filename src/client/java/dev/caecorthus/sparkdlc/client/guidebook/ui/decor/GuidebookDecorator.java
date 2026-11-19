@@ -47,13 +47,13 @@ public final class GuidebookDecorator implements AutoCloseable {
     public static final int OVERLAY_MARGIN = 20;
     private static final int DEBUG_ZONE = 0x66E03030;
 
-    private final DecorLayer directory = new DecorLayer("sparkassist_guide_directory");
-    private final DecorLayer plate = new DecorLayer("sparkassist_guide_plate");
-    private final DecorLayer frontPlate = new DecorLayer("sparkassist_guide_front_plate");
-    private final DecorLayer watermark = new DecorLayer("sparkassist_guide_watermark");
-    private final DecorLayer endSeal = new DecorLayer("sparkassist_guide_end_seal");
-    private final DecorLayer readerOverlay = new DecorLayer("sparkassist_guide_reader_overlay");
-    private final DecorLayer directoryOverlay = new DecorLayer("sparkassist_guide_directory_overlay");
+    private final DecorLayer directory = new DecorLayer("sparkdlc_guide_directory");
+    private final DecorLayer plate = new DecorLayer("sparkdlc_guide_plate");
+    private final DecorLayer frontPlate = new DecorLayer("sparkdlc_guide_front_plate");
+    private final DecorLayer watermark = new DecorLayer("sparkdlc_guide_watermark");
+    private final DecorLayer endSeal = new DecorLayer("sparkdlc_guide_end_seal");
+    private final DecorLayer readerOverlay = new DecorLayer("sparkdlc_guide_reader_overlay");
+    private final DecorLayer directoryOverlay = new DecorLayer("sparkdlc_guide_directory_overlay");
 
     /**
      * Everything the reader overlay depends on; it doubles as the layer's cache key.

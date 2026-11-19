@@ -26,7 +26,7 @@ final class HannaReplay {
     private static final String UMBRELLA = "umbrella";
     private static final String HANDKERCHIEF = "handkerchief";
     private static final String HANDKERCHIEF_CLEAR = "handkerchief_clear";
-    private static final String KEY_PREFIX = "replay.skill.sparkwitch.hanna.";
+    private static final String KEY_PREFIX = "replay.skill.sparkdlc.hanna.";
     private static boolean registered;
 
     private HannaReplay() {

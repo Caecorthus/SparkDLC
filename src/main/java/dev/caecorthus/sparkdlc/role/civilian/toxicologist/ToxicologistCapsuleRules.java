@@ -10,10 +10,10 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class ToxicologistCapsuleRules {
     public static final Identifier TOXICOLOGIST_ID = Identifier.of("noellesroles", "toxicologist");
-    public static final String CAPSULE_ENTRY_ID = "sparkstrength_capsule";
+    public static final String CAPSULE_ENTRY_ID = "sparkdlc_capsule";
     public static final int CAPSULE_PRICE = 100;
     public static final String REFRESH_ANTIDOTE_COOLDOWN_ENTRY_ID =
-            "sparkstrength_toxicologist_refresh_antidote_cooldown";
+            "sparkdlc_toxicologist_refresh_antidote_cooldown";
     /** 毒理学家商店里“解毒剂冷却刷新”的价格。 */
     public static final int REFRESH_ANTIDOTE_COOLDOWN_PRICE = 50;
     /** 每有 1 名玩家从无毒状态进入中毒状态，所有存活毒理学家获得 150 秒冷却抵扣。 */
@@ -28,7 +28,7 @@ public final class ToxicologistCapsuleRules {
      * SparkTraits 的蓝毒组件是可选兼容点：这里只保存组件 ID。
      * 真正读取前会先问注册表是否存在，没装 SparkTraits 时不会形成启动依赖。
      */
-    public static final Identifier BLUE_POISON_COMPONENT_ID = Identifier.of("sparktraits", "conscience_poisoner");
+    public static final Identifier BLUE_POISON_COMPONENT_ID = Identifier.of("sparkdlc", "conscience_poisoner");
 
     private ToxicologistCapsuleRules() {
     }

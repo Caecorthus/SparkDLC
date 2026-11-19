@@ -60,30 +60,30 @@ public final class DominatorHudRenderer {
             // can be active here (a mark starts only with a use left and only a release spends one).
             // 标记需要至少一次次数，次数为 0 时 G 无效：改为提示如何获得次数，而不是无效的按键提示。此时不可能有进行中的
             // 标记（只有剩余次数时才能开始标记，只有释放才会消耗次数）。
-            return Text.translatable("hud.sparkwitch.dominator.no_uses", remainingUses);
+            return Text.translatable("hud.sparkdlc.dominator.no_uses", remainingUses);
         }
         int cooldownTicks = component.getCooldownTicks();
         if (cooldownTicks > 0) {
             // Cooldown outranks the key hints. / 冷却优先于按键提示。
             return Text.translatable(
-                    "hud.sparkwitch.dominator.cooldown",
+                    "hud.sparkdlc.dominator.cooldown",
                     TickTime.ceilSeconds(cooldownTicks),
                     remainingUses
             );
         }
         if (component.hasActiveMark()) {
             return Text.translatable(
-                    "hud.sparkwitch.dominator.force_shoot",
+                    "hud.sparkdlc.dominator.force_shoot",
                     SparkWitchClient.abilityKeyText(),
                     remainingUses
             );
         }
         PlayerEntity target = DominatorClientModule.aimedPlayer(player);
         if (target == null) {
-            return Text.translatable("hud.sparkwitch.dominator.no_target", remainingUses);
+            return Text.translatable("hud.sparkdlc.dominator.no_target", remainingUses);
         }
         return Text.translatable(
-                "hud.sparkwitch.dominator.mark",
+                "hud.sparkdlc.dominator.mark",
                 SparkWitchClient.abilityKeyText(),
                 DominatorClientModule.visibleName(target),
                 remainingUses

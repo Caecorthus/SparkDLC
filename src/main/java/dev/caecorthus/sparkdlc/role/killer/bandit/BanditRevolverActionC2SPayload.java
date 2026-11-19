@@ -16,7 +16,7 @@ import net.minecraft.util.Identifier;
  */
 public record BanditRevolverActionC2SPayload(int action, int arg) implements CustomPayload {
     public static final Id<BanditRevolverActionC2SPayload> ID =
-            new Id<>(Identifier.of("sparkstrength", "bandit_revolver_action"));
+            new Id<>(Identifier.of("sparkdlc", "bandit_revolver_action"));
     public static final PacketCodec<RegistryByteBuf, BanditRevolverActionC2SPayload> CODEC = PacketCodec.tuple(
             PacketCodecs.VAR_INT, BanditRevolverActionC2SPayload::action,
             PacketCodecs.VAR_INT, BanditRevolverActionC2SPayload::arg,

@@ -102,7 +102,7 @@ public final class ProphetProphecyScreen extends Screen {
     private int cancelW;
 
     public ProphetProphecyScreen(OpenProphecyS2CPacket payload) {
-        super(Text.translatable("gui.sparkwitch.prophecy.title"));
+        super(Text.translatable("gui.sparkdlc.prophecy.title"));
         sessionId = payload.sessionId();
         candidates = payload.candidates();
     }
@@ -136,7 +136,7 @@ public final class ProphetProphecyScreen extends Screen {
         // 死因区是否滚动只取决于 cellH 与 gridH，因此 cellW 可据此计算。
         cellW = ProphetProphecyClientRules.causeCellWidth(gridW, maxGridScroll() > 0);
 
-        cancelW = Math.max(44, textRenderer.getWidth(Text.translatable("gui.sparkwitch.prophecy.cancel")) + 16);
+        cancelW = Math.max(44, textRenderer.getWidth(Text.translatable("gui.sparkdlc.prophecy.cancel")) + 16);
         confirmW = Math.max(72, textRenderer.getWidth(confirmLabel()) + 16);
         cancelX = panelX + panelW - PAD - cancelW;
         confirmX = cancelX - 4 - confirmW;
@@ -209,19 +209,19 @@ public final class ProphetProphecyScreen extends Screen {
         diamond(context, titleX + titleWidth + 6, titleY + 4);
         int seconds = TickTime.ceilSecondsRaw(ProphetClientModule.remainingTicks());
         if (seconds > 0) {
-            String time = Text.translatable("gui.sparkwitch.prophecy.time_left", seconds).getString();
+            String time = Text.translatable("gui.sparkdlc.prophecy.time_left", seconds).getString();
             context.drawText(textRenderer, time, panelX + panelW - PAD - 2 - textRenderer.getWidth(time), titleY,
                     seconds <= 10 ? RED : FAINT, false);
         }
     }
 
     private void drawHeaders(DrawContext context) {
-        context.drawText(textRenderer, fit(Text.translatable("gui.sparkwitch.prophecy.victims").getString(), listW),
+        context.drawText(textRenderer, fit(Text.translatable("gui.sparkdlc.prophecy.victims").getString(), listW),
                 listX + 1, headerY, GOLD, false);
         String victimName = selectedVictim == null ? null : nameOf(selectedVictim);
         Text causes = victimName == null
-                ? Text.translatable("gui.sparkwitch.prophecy.causes")
-                : Text.translatable("gui.sparkwitch.prophecy.causes_for", victimName);
+                ? Text.translatable("gui.sparkdlc.prophecy.causes")
+                : Text.translatable("gui.sparkdlc.prophecy.causes_for", victimName);
         context.drawText(textRenderer, fit(causes.getString(), gridW), gridX + 1, headerY, GOLD, false);
     }
 
@@ -231,7 +231,7 @@ public final class ProphetProphecyScreen extends Screen {
             return;
         }
         if (candidates.isEmpty()) {
-            String empty = fit(Text.translatable("gui.sparkwitch.prophecy.empty").getString(), listW - 8);
+            String empty = fit(Text.translatable("gui.sparkdlc.prophecy.empty").getString(), listW - 8);
             context.drawText(textRenderer, empty, listX + 4, listY + 4, FAINT, false);
             return;
         }
@@ -328,7 +328,7 @@ public final class ProphetProphecyScreen extends Screen {
                 hint.color(), false);
 
         int balance = balance();
-        Text balanceText = Text.translatable("gui.sparkwitch.prophecy.balance", balance);
+        Text balanceText = Text.translatable("gui.sparkdlc.prophecy.balance", balance);
         context.drawText(textRenderer, fit(balanceText.getString(), Math.max(1, confirmX - panelX - PAD - 4)),
                 panelX + PAD + 1, buttonY + (BUTTON_H - textRenderer.fontHeight) / 2 + 1,
                 ProphetProphecyClientRules.hasEnoughMoney(balance) ? GOLD : RED, false);
@@ -336,7 +336,7 @@ public final class ProphetProphecyScreen extends Screen {
         boolean confirmActive = canConfirm();
         button(context, confirmX, confirmW, confirmLabel(), confirmActive,
                 confirmActive && inside(mouseX, mouseY, confirmX, buttonY, confirmW, BUTTON_H), true);
-        button(context, cancelX, cancelW, Text.translatable("gui.sparkwitch.prophecy.cancel"), true,
+        button(context, cancelX, cancelW, Text.translatable("gui.sparkdlc.prophecy.cancel"), true,
                 inside(mouseX, mouseY, cancelX, buttonY, cancelW, BUTTON_H), false);
     }
 
@@ -480,28 +480,28 @@ public final class ProphetProphecyScreen extends Screen {
     private Hint hint() {
         if (selectedVictim == null) {
             return new Hint(Text.translatable(allSolved()
-                    ? "gui.sparkwitch.prophecy.hint.all_solved"
-                    : "gui.sparkwitch.prophecy.hint.choose_victim"), MUTED);
+                    ? "gui.sparkdlc.prophecy.hint.all_solved"
+                    : "gui.sparkdlc.prophecy.hint.choose_victim"), MUTED);
         }
         if (selectedCause == null) {
-            return new Hint(Text.translatable("gui.sparkwitch.prophecy.hint.choose_cause"), MUTED);
+            return new Hint(Text.translatable("gui.sparkdlc.prophecy.hint.choose_cause"), MUTED);
         }
         if (!ProphetProphecyClientRules.hasEnoughMoney(balance())) {
-            return new Hint(Text.translatable("gui.sparkwitch.prophecy.hint.not_enough_money",
+            return new Hint(Text.translatable("gui.sparkdlc.prophecy.hint.not_enough_money",
                     ProphetRules.PROPHECY_COIN_COST), RED);
         }
-        return new Hint(Text.translatable("gui.sparkwitch.prophecy.hint.ready", nameOf(selectedVictim),
+        return new Hint(Text.translatable("gui.sparkdlc.prophecy.hint.ready", nameOf(selectedVictim),
                 Text.translatable(selectedCause.translationKey())), GOLD_HI);
     }
 
     private Text statusLine(@Nullable ProphecyRecord record, VictimStatus status) {
         return switch (status) {
-            case SOLVED_KILLER -> Text.translatable("gui.sparkwitch.prophecy.status.killer",
+            case SOLVED_KILLER -> Text.translatable("gui.sparkdlc.prophecy.status.killer",
                     record == null || record.killerName() == null ? "?" : record.killerName());
-            case SOLVED_NO_KILLER -> Text.translatable("gui.sparkwitch.prophecy.status.no_killer");
-            case PENDING -> Text.translatable("gui.sparkwitch.prophecy.status.excluded",
+            case SOLVED_NO_KILLER -> Text.translatable("gui.sparkdlc.prophecy.status.no_killer");
+            case PENDING -> Text.translatable("gui.sparkdlc.prophecy.status.excluded",
                     record == null ? 0 : record.excluded().size());
-            case UNGUESSED -> Text.translatable("gui.sparkwitch.prophecy.status.unguessed");
+            case UNGUESSED -> Text.translatable("gui.sparkdlc.prophecy.status.unguessed");
         };
     }
 
@@ -562,7 +562,7 @@ public final class ProphetProphecyScreen extends Screen {
     }
 
     private Text confirmLabel() {
-        return Text.translatable("gui.sparkwitch.prophecy.confirm", ProphetRules.PROPHECY_COIN_COST);
+        return Text.translatable("gui.sparkdlc.prophecy.confirm", ProphetRules.PROPHECY_COIN_COST);
     }
 
     private void click() {

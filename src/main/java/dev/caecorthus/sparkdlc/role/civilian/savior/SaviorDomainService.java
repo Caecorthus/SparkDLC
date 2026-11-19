@@ -208,7 +208,7 @@ public final class SaviorDomainService {
             return null;
         }
         return Text.translatable(
-                "replay.skill.sparkwitch.savior.domain",
+                "replay.skill.sparkdlc.savior.domain",
                 ReplayGenerator.formatPlayerName(
                         event.data().getUuid("actor"),
                         ReplayGenerator.getPlayerInfoCache(match)

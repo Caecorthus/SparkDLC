@@ -17,9 +17,9 @@ import net.minecraft.world.World;
  * SparkStrength 仍然只经由该门面访问 SparkTraits。
  */
 public final class SparkTraitsCompat {
-    private static final Identifier CONSCIENCE_ID = Identifier.of("sparktraits", "conscience");
-    private static final Identifier IMPOSTOR_ID = Identifier.of("sparktraits", "impostor");
-    private static final Identifier TEAM_FIRST_ID = Identifier.of("sparktraits", "team_first");
+    private static final Identifier CONSCIENCE_ID = Identifier.of("sparkdlc", "conscience");
+    private static final Identifier IMPOSTOR_ID = Identifier.of("sparkdlc", "impostor");
+    private static final Identifier TEAM_FIRST_ID = Identifier.of("sparkdlc", "team_first");
 
     private SparkTraitsCompat() {
     }

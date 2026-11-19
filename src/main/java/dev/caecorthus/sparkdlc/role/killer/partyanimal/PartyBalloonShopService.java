@@ -45,7 +45,7 @@ public final class PartyBalloonShopService {
         context.addEntry(PartyBalloonRules.shopInsertIndex(ids),
                 SparkTraitsCompat.discountShopEntryForCharisma(player, new ShopEntry.Builder(
                         PartyBalloonRules.ENTRY_ID,
-                        ShopStacks.display(balloon.getDefaultStack(), "shop.sparkstrength.party_balloon"),
+                        ShopStacks.display(balloon.getDefaultStack(), "shop.sparkdlc.party_balloon"),
                         PartyBalloonRules.PRICE,
                         ShopEntry.Type.TOOL
                 ).actualStack(balloon.getDefaultStack())

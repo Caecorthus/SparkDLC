@@ -5,10 +5,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Remaining-tick view of the owner-synced {@code sparkwitch:blind} component for the HUD. Cooldowns count until the
+ * Remaining-tick view of the owner-synced {@code sparkdlc:blind} component for the HUD. Cooldowns count until the
  * skill is ready again and include an active window (C2). Computed from the client's own world time, so the numbers
  * count down between syncs; presentation belongs to the HUD owner.
- * 面向 HUD 的 {@code sparkwitch:blind} 组件剩余刻视图。冷却表示距再次可用的刻数，包含持续窗口（C2）。
+ * 面向 HUD 的 {@code sparkdlc:blind} 组件剩余刻视图。冷却表示距再次可用的刻数，包含持续窗口（C2）。
  * 依据客户端自己的世界时间计算，因此两次同步之间也会倒数；如何展示由 HUD 负责方决定。
  */
 public record BlindClientStatus(int caneCooldownTicks, int caneActiveTicks,

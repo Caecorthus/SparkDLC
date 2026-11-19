@@ -17,10 +17,10 @@ import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
 /**
- * Stable CCA contract {@code sparkwitch:fisher_spirit} (NEVER_COPY, never saved): the Glimmerfish window. Every client
+ * Stable CCA contract {@code sparkdlc:fisher_spirit} (NEVER_COPY, never saved): the Glimmerfish window. Every client
  * must know whether a player is glimmering (two-sided collision exemption, held-item hiding, instinct skip), so the
  * active flag is synced to everyone; only the owner receives remaining ticks. Client countdown never clears the flag.
- * 稳定 CCA 契约 {@code sparkwitch:fisher_spirit}（NEVER_COPY，不存盘）：灵光鱼窗口。每个客户端都必须知道某玩家
+ * 稳定 CCA 契约 {@code sparkdlc:fisher_spirit}（NEVER_COPY，不存盘）：灵光鱼窗口。每个客户端都必须知道某玩家
  * 是否处于灵光中（双向无碰撞、隐藏手持物、跳过本能描边），因此只把"灵光中"标记同步给所有人，钓鱼佬的其他信息不同步。
  * 只有拥有者接收剩余刻；客户端倒计时永不清除激活标记。
  *

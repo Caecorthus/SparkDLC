@@ -12,9 +12,9 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Wathe replay line for Rift Gate placements ({@code GameRecordManager.recordItemUse} with item
- * {@code sparkwitch:rift_gate}); Wathe drops item uses without a registered formatter. The line names the placer and
+ * {@code sparkdlc:rift_gate}); Wathe drops item uses without a registered formatter. The line names the placer and
  * the gate number and appears only in the post-round replay. Malformed records return {@code null}, which Wathe skips.
- * 裂隙门放置的 Wathe 回放文本（物品 {@code sparkwitch:rift_gate} 的 {@code GameRecordManager.recordItemUse}）；
+ * 裂隙门放置的 Wathe 回放文本（物品 {@code sparkdlc:rift_gate} 的 {@code GameRecordManager.recordItemUse}）；
  * 未注册格式化器的道具使用会被 Wathe 丢弃。该行写出放置者与门编号，只在赛后回放中出现。数据不完整的记录返回 {@code null}，
  * Wathe 会跳过该行。
  */
@@ -23,7 +23,7 @@ public final class RiftGateReplayFormatters {
     static final String ACTION_KEY = "action";
     static final String PLACE_ACTION = "place";
     static final String GATE_NUMBER_KEY = "gate";
-    static final String PLACE_KEY = "replay.item_use.sparkwitch.rift_gate.place";
+    static final String PLACE_KEY = "replay.item_use.sparkdlc.rift_gate.place";
     /** Wathe's own key for the recording player. / Wathe 自身写入的记录玩家键。 */
     static final String WATHE_ACTOR_KEY = "actor";
 

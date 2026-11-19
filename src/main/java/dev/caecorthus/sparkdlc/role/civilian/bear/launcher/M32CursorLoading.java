@@ -52,7 +52,7 @@ import java.util.function.BooleanSupplier;
  * 搜寻者会话中；从不检查职业），并确认被点击的栏位是玩家自己的主背包（0-35）或副手栏位。
  */
 public final class M32CursorLoading {
-    static final String FULL_KEY = "message.sparkwitch.bear.m32.full";
+    static final String FULL_KEY = "message.sparkdlc.bear.m32.full";
     /** Player inventory indices a load may target: 0-35 and the off-hand 40. / 可装填的背包下标：0-35 与副手 40。 */
     static final int MAIN_SLOTS = 36;
     static final int OFFHAND_SLOT = 40;

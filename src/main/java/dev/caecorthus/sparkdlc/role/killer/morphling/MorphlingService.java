@@ -111,14 +111,14 @@ public final class MorphlingService {
             SampleData sampled = sampleTarget(morphling, explicitTarget);
             setSample(stack, sampled);
             WAITING_FOR_REAGENT_RELEASE.add(morphling.getUuid());
-            sendMorphlingMessage(morphling, "message.sparkstrength.morphling.sampled", sampled.name());
+            sendMorphlingMessage(morphling, "message.sparkdlc.morphling.sampled", sampled.name());
             recordSample(morphling, sampled);
             return TypedActionResult.success(stack);
         }
 
         ServerPlayerEntity markTarget = findMarkTargetOrSelf(morphling, explicitTarget);
         if (sample.get().uuid().equals(markTarget.getUuid())) {
-            sendMorphlingMessage(morphling, "message.sparkstrength.morphling.same_target");
+            sendMorphlingMessage(morphling, "message.sparkdlc.morphling.same_target");
             return TypedActionResult.fail(stack);
         }
 
@@ -128,7 +128,7 @@ public final class MorphlingService {
                 sample.get().name(),
                 markTarget.getGameProfile().getName()
         );
-        sendMorphlingMessage(morphling, "message.sparkstrength.morphling.marked", markTarget.getGameProfile().getName());
+        sendMorphlingMessage(morphling, "message.sparkdlc.morphling.marked", markTarget.getGameProfile().getName());
         recordMark(morphling, markTarget, sample.get());
 
         if (!morphling.isCreative()) {
@@ -161,11 +161,11 @@ public final class MorphlingService {
         }
 
         if (activated <= 0) {
-            sendMorphlingMessage(morphling, "message.sparkstrength.morphling.no_marks");
+            sendMorphlingMessage(morphling, "message.sparkdlc.morphling.no_marks");
             return TypedActionResult.fail(stack);
         }
 
-        sendMorphlingMessage(morphling, "message.sparkstrength.morphling.triggered");
+        sendMorphlingMessage(morphling, "message.sparkdlc.morphling.triggered");
         return TypedActionResult.success(stack);
     }
 

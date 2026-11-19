@@ -19,9 +19,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 /**
  * Copies Wathe's held-item muzzle hook for the Savior pistol: after the first-person item render every frame, convert
  * the hand matrix to a world position so the muzzle packet can spawn the flash exactly at the barrel. The hook only
- * answers for {@code sparkwitch:savior_pistol}; Wathe's own gun tag is not involved.
+ * answers for {@code sparkdlc:savior_pistol}; Wathe's own gun tag is not involved.
  * 为救世主手枪复制 Wathe 的手持物品枪口钩子：每帧第一人称物品渲染后，把手部矩阵换算成世界坐标，枪口数据包便能在枪管
- * 位置精确生成火焰。该钩子只处理 {@code sparkwitch:savior_pistol}，不涉及 Wathe 的枪械标签。
+ * 位置精确生成火焰。该钩子只处理 {@code sparkdlc:savior_pistol}，不涉及 Wathe 的枪械标签。
  */
 @Mixin(HeldItemRenderer.class)
 public abstract class SaviorMuzzleTrackerMixin {

@@ -53,12 +53,12 @@ public final class WitchSkillClientTexts {
             lines.add(skill.description());
         }
         if (GrandWitchClientPresentation.FACTOR_ID.equals(skillId)) {
-            lines.add(Text.translatable("skill.sparkwitch.witch_factor.income"));
-            lines.add(Text.translatable("skill.sparkwitch.witch_factor.sanity"));
-            lines.add(Text.translatable("skill.sparkwitch.witch_factor.transfer"));
+            lines.add(Text.translatable("skill.sparkdlc.witch_factor.income"));
+            lines.add(Text.translatable("skill.sparkdlc.witch_factor.sanity"));
+            lines.add(Text.translatable("skill.sparkdlc.witch_factor.transfer"));
         }
         if (activeTicks > 0) {
-            lines.add(Text.translatable("gui.sparkwitch.skill.active", TickTime.ceilSecondsUnclamped(activeTicks)));
+            lines.add(Text.translatable("gui.sparkdlc.skill.active", TickTime.ceilSecondsUnclamped(activeTicks)));
         } else if (WitchSkillHudRules.shouldShowCeremonialSwordTaskUnlock(
                 skillId,
                 ceremonialSwordTasks,
@@ -66,14 +66,14 @@ public final class WitchSkillClientTexts {
                 cooldownTicks
         )) {
             lines.add(Text.translatable(
-                    "gui.sparkwitch.skill.ceremonial_sword.locked",
+                    "gui.sparkdlc.skill.ceremonial_sword.locked",
                     ceremonialSwordTasks,
                     GrandWitchRules.CEREMONIAL_SWORD_UNLOCK_TASKS
             ));
         } else if (cooldownTicks > 0) {
-            lines.add(Text.translatable("gui.sparkwitch.skill.cooldown", TickTime.ceilSecondsUnclamped(cooldownTicks)));
+            lines.add(Text.translatable("gui.sparkdlc.skill.cooldown", TickTime.ceilSecondsUnclamped(cooldownTicks)));
         } else {
-            lines.add(Text.translatable("gui.sparkwitch.skill.ready"));
+            lines.add(Text.translatable("gui.sparkdlc.skill.ready"));
         }
         return lines;
     }

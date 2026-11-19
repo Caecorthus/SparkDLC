@@ -28,8 +28,8 @@ public final class BanditAmmoItem extends Item {
 
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        tooltip.add(Text.translatable("item.sparkstrength." + ammo.key() + "_round.description")
+        tooltip.add(Text.translatable("item.sparkdlc." + ammo.key() + "_round.description")
                 .formatted(Formatting.GRAY));
-        tooltip.add(Text.translatable("item.sparkstrength.bandit_ammo.hint").formatted(Formatting.DARK_GRAY));
+        tooltip.add(Text.translatable("item.sparkdlc.bandit_ammo.hint").formatted(Formatting.DARK_GRAY));
     }
 }

@@ -37,7 +37,7 @@ import java.util.List;
 /**
  * Owner-client disguise presentation state: reacts to acting-role changes by closing stale private views
  * (shop screen, Tarot client state, SparkWitch role caches) and exposes the synced view to the book and HUD.
- * The view comes only from the owner-only {@code sparkwitch:black_raven_disguise} sync; the client never
+ * The view comes only from the owner-only {@code sparkdlc:black_raven_disguise} sync; the client never
  * predicts a switch.
  * 拥有者客户端的伪装展示状态：扮演职业变化时关闭过期的私有视图（商店界面、塔罗客户端状态、SparkWitch 职业缓存），
  * 并向感知册与 HUD 提供同步视图。视图只来自仅拥有者可见的伪装组件同步；客户端从不预测切换。
@@ -141,19 +141,19 @@ public final class BlackRavenDisguiseClientState {
         }
         List<Text> lines = new ArrayList<>();
         Identifier identity = view.disguised() ? view.acting() : BlackRavenDisguiseRules.BLACK_RAVEN_ID;
-        lines.add(Text.translatable("tooltip.sparkwitch.black_raven_mask.identity", roleName(identity))
+        lines.add(Text.translatable("tooltip.sparkdlc.black_raven_mask.identity", roleName(identity))
                 .formatted(Formatting.GRAY));
         int seconds = BlackRavenDisguiseClientRules.statusSeconds(view);
         lines.add(switch (BlackRavenDisguiseClientRules.status(view)) {
-            case LOCKED -> Text.translatable("tooltip.sparkwitch.black_raven_mask.locked", seconds)
+            case LOCKED -> Text.translatable("tooltip.sparkdlc.black_raven_mask.locked", seconds)
                     .formatted(Formatting.DARK_GRAY);
-            case COOLDOWN -> Text.translatable("tooltip.sparkwitch.black_raven_mask.cooldown", seconds)
+            case COOLDOWN -> Text.translatable("tooltip.sparkdlc.black_raven_mask.cooldown", seconds)
                     .formatted(Formatting.DARK_GRAY);
-            case READY -> Text.translatable("tooltip.sparkwitch.black_raven_mask.ready")
+            case READY -> Text.translatable("tooltip.sparkdlc.black_raven_mask.ready")
                     .styled(style -> style.withColor(BlackRavenRules.COLOR));
         });
         if (view.disguised()) {
-            lines.add(Text.translatable("tooltip.sparkwitch.black_raven_mask.raven_wallet", view.ravenBalance())
+            lines.add(Text.translatable("tooltip.sparkdlc.black_raven_mask.raven_wallet", view.ravenBalance())
                     .formatted(Formatting.GOLD));
         }
         return List.copyOf(lines);

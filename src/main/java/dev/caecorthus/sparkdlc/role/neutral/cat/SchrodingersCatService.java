@@ -73,9 +73,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public final class SchrodingersCatService {
     private static final Logger LOGGER = LoggerFactory.getLogger(SchrodingersCatService.class);
-    static final String COLLAPSING_KEY = "message.sparkwitch.schrodingers_cat.collapsing";
-    static final String TRANSFORMED_KEY = "message.sparkwitch.schrodingers_cat.transformed";
-    static final String TRAITS_CHANGED_KEY = "message.sparkwitch.schrodingers_cat.traits_changed";
+    static final String COLLAPSING_KEY = "message.sparkdlc.schrodingers_cat.collapsing";
+    static final String TRANSFORMED_KEY = "message.sparkdlc.schrodingers_cat.transformed";
+    static final String TRAITS_CHANGED_KEY = "message.sparkdlc.schrodingers_cat.traits_changed";
     /** A spectre farther than this from its anchor is pulled back. / 幽魂离锚点超过此距离即被拉回。 */
     private static final double PINNED_DRIFT = 0.05;
     private static final double GROUND_SNAP_DEPTH = 3.0;

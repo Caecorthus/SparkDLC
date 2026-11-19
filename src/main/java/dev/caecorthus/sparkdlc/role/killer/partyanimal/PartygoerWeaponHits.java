@@ -485,10 +485,10 @@ public final class PartygoerWeaponHits {
     /**
      * 狮身豪 (Sphinx Hao) hand-gun fist ({@code SeekerDeviceHits.onSphinxHaoFistFired}, called by SparkWitch's fist shot
      * after it picked its rewound target): a lethal straight hitscan, so a Partygoer strictly nearer than the target and
-     * any drone dies with the fist's own reason ({@code sparkwitch:sphinx_hao_fist}). True = absorbed, the caller hits
+     * any drone dies with the fist's own reason ({@code sparkdlc:sphinx_hao_fist}). True = absorbed, the caller hits
      * nobody (SparkWitch then settles the shot as "not a kill").
      * 狮身豪“手”枪铁拳（SparkWitch 铁拳射击在选出回溯目标后调用 onSphinxHaoFistFired）：致命的直线即时射线，因此严格近于目标
-     * 与任何无人机的派对客以铁拳自身死因（sparkwitch:sphinx_hao_fist）死亡。返回 true 表示已吸收，调用方不再命中任何人
+     * 与任何无人机的派对客以铁拳自身死因（sparkdlc:sphinx_hao_fist）死亡。返回 true 表示已吸收，调用方不再命中任何人
      * （SparkWitch 随后按“未击杀”结算这一枪）。
      */
     public static boolean onSparkWitchSphinxHaoFist(@Nullable ServerPlayerEntity shooter, @Nullable PlayerEntity target,
@@ -513,9 +513,9 @@ public final class PartygoerWeaponHits {
 
     /**
      * Time Stealer clock ({@code onClockFired}, reached only when a player was aimed): a nearer Partygoer takes the
-     * curse, which kills, so it dies now ({@code sparkwitch:time_stolen}); true = absorbed, and SparkWitch then starts
+     * curse, which kills, so it dies now ({@code sparkdlc:time_stolen}); true = absorbed, and SparkWitch then starts
      * the clock's cooldown itself. Drones never stop the clock, so they are not measured.
-     * 窃时者时钟（onClockFired，仅在瞄准到玩家时才会调用）：更近的派对客承受会致死的诅咒，因此立即死亡（sparkwitch:time_stolen）；
+     * 窃时者时钟（onClockFired，仅在瞄准到玩家时才会调用）：更近的派对客承受会致死的诅咒，因此立即死亡（sparkdlc:time_stolen）；
      * 返回 true 表示已吸收，SparkWitch 随后自行开始时钟冷却。无人机从不挡下时钟，因此不参与测量。
      */
     public static boolean onSparkWitchClock(@Nullable ServerPlayerEntity user, @Nullable PlayerEntity target,
@@ -546,8 +546,8 @@ public final class PartygoerWeaponHits {
 
     /**
      * Potion launcher backblast lane: a Partygoer strictly nearer than {@code reach} (the victim's distance, or the lane
-     * length) and than any drone takes it ({@code sparkwitch:potion_backblast}). True = absorbed.
-     * 炮筒尾焰通道：严格近于 reach（受害者距离或通道长度）且近于任何无人机的派对客承受尾焰（sparkwitch:potion_backblast）。
+     * length) and than any drone takes it ({@code sparkdlc:potion_backblast}). True = absorbed.
+     * 炮筒尾焰通道：严格近于 reach（受害者距离或通道长度）且近于任何无人机的派对客承受尾焰（sparkdlc:potion_backblast）。
      */
     public static boolean onSparkWitchBackblast(@Nullable ServerPlayerEntity gunner, @Nullable Vec3d start,
                                                 @Nullable Vec3d direction, double reach) {
@@ -605,8 +605,8 @@ public final class PartygoerWeaponHits {
 
     /**
      * Witch Maiden crimson wither skull ({@code MagicianPuppetHits.onCrimsonSkullHit}, reached for a non-player entity
-     * hit): a Partygoer dies ({@code sparkwitch:crimson_wither_skull}); true = the skull is spent there.
-     * 魔女少女的猩红凋零头颅（对非玩家实体命中时调用）：派对客死亡（sparkwitch:crimson_wither_skull）；返回 true 表示头颅就此消耗。
+     * hit): a Partygoer dies ({@code sparkdlc:crimson_wither_skull}); true = the skull is spent there.
+     * 魔女少女的猩红凋零头颅（对非玩家实体命中时调用）：派对客死亡（sparkdlc:crimson_wither_skull）；返回 true 表示头颅就此消耗。
      */
     public static boolean onCrimsonSkullHit(@Nullable Entity skull, @Nullable Entity owner,
                                             @Nullable EntityHitResult hit) {
@@ -696,10 +696,10 @@ public final class PartygoerWeaponHits {
      * Potion Gunner shell blast ({@code MagicianPuppetHits.onPotionShellBlast}, after the Seeker blast and before the
      * shell's own targets). Only the TR shell kills (its item names the type): every Partygoer the player rule would
      * catch dies — feet in the 5×5×5 cube, clear line from the centre to its feet, body centre or eyes
-     * ({@code sparkwitch:potion_shell}). In flight the shell already stops at a Partygoer (any non-player living entity
+     * ({@code sparkdlc:potion_shell}). In flight the shell already stops at a Partygoer (any non-player living entity
      * stops it), so a direct hit bursts on it.
      * 药炮手炮弹爆炸（在搜寻者爆炸之后、炮弹自身目标之前）。只有 TR 炮弹致死（由其物品判断类型）：玩家规则会波及的每只派对客都死亡——
-     * 脚下位于 5×5×5 立方体内，且爆心到其脚部、身体中心或眼睛有一条无遮挡线段（sparkwitch:potion_shell）。飞行中的炮弹本就会停在
+     * 脚下位于 5×5×5 立方体内，且爆心到其脚部、身体中心或眼睛有一条无遮挡线段（sparkdlc:potion_shell）。飞行中的炮弹本就会停在
      * 派对客身上（任何非玩家生物都会挡下它），因此直接命中时在其身上爆炸。
      */
     public static void onPotionShellBlast(@Nullable ServerWorld world, @Nullable Vec3d center,

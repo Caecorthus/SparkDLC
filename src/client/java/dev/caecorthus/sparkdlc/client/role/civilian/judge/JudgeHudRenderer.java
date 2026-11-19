@@ -24,8 +24,8 @@ public final class JudgeHudRenderer {
     public static void render(DrawContext context, ClientPlayerEntity player) {
         int balance = PlayerShopComponent.KEY.get(player).getBalance();
         Text line = JudgeClientRules.canAffordJudgment(balance, JudgeRules.JUDGMENT_COST)
-                ? Text.translatable("hud.sparkwitch.judge.ready", SparkWitchClient.abilityKeyText(), JudgeRules.JUDGMENT_COST)
-                : Text.translatable("hud.sparkwitch.judge.not_enough_money", JudgeRules.JUDGMENT_COST);
+                ? Text.translatable("hud.sparkdlc.judge.ready", SparkWitchClient.abilityKeyText(), JudgeRules.JUDGMENT_COST)
+                : Text.translatable("hud.sparkdlc.judge.not_enough_money", JudgeRules.JUDGMENT_COST);
         TextRenderer renderer = MinecraftClient.getInstance().textRenderer;
         context.drawTextWithShadow(
                 renderer,

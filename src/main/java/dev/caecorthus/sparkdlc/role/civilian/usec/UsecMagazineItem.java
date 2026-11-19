@@ -32,11 +32,11 @@ import java.util.List;
 public class UsecMagazineItem extends Item {
     /** Stable NBT key; do not rename. / 稳定的 NBT 键名，不得改名。 */
     public static final String NBT_KEY = "UsecMagazine";
-    static final String LOADED_NAME_KEY = "item.sparkwitch.usec_magazine.loaded_name";
-    static final String SEPARATOR_KEY = "item.sparkwitch.usec_magazine.separator";
-    static final String LOADED_TOOLTIP_KEY = "item.sparkwitch.usec_magazine.tooltip.loaded";
-    static final String FREE_TOOLTIP_KEY = "item.sparkwitch.usec_magazine.tooltip.free";
-    static final String ORDER_TOOLTIP_KEY = "item.sparkwitch.usec_magazine.tooltip.order";
+    static final String LOADED_NAME_KEY = "item.sparkdlc.usec_magazine.loaded_name";
+    static final String SEPARATOR_KEY = "item.sparkdlc.usec_magazine.separator";
+    static final String LOADED_TOOLTIP_KEY = "item.sparkdlc.usec_magazine.tooltip.loaded";
+    static final String FREE_TOOLTIP_KEY = "item.sparkdlc.usec_magazine.tooltip.free";
+    static final String ORDER_TOOLTIP_KEY = "item.sparkdlc.usec_magazine.tooltip.order";
 
     public UsecMagazineItem(Settings settings) {
         super(settings);

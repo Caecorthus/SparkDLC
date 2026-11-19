@@ -39,27 +39,27 @@ public final class KnightDuelSkillLock {
      * Weapons fired by C2S payload, which the item seal ({@code KnightDuelSeal}) cannot reach when the handler skips
      * the item cooldown or no item is involved. Never listed: {@code wathe:gunshoot} (the derringer must fire; the
      * revolver is already sealed because Wathe's receiver checks the held gun's cooldown), {@code wathe:knifestab} and
-     * {@code sparkwitch:cross_sword_stab} (the duel's own weapons). Classified as not weapons and left out:
-     * {@code sparkwitch:double_barrel_aim} (aim claims for a shotgun shot that is an item use the seal blocks),
-     * {@code sparkwitch:throw_kidnapper_body} (moves a corpse, hurts no one), {@code sparkwitch:accountant_withdraw}
-     * (the passbook's left-click; moves coins, hurts no one), {@code sparkwitch:usec_attachment} and
-     * {@code usec_scope} (loading and presentation), {@code sparkwitch:savior_lightsaber_swing} and
+     * {@code sparkdlc:cross_sword_stab} (the duel's own weapons). Classified as not weapons and left out:
+     * {@code sparkdlc:double_barrel_aim} (aim claims for a shotgun shot that is an item use the seal blocks),
+     * {@code sparkdlc:throw_kidnapper_body} (moves a corpse, hurts no one), {@code sparkdlc:accountant_withdraw}
+     * (the passbook's left-click; moves coins, hurts no one), {@code sparkdlc:usec_attachment} and
+     * {@code usec_scope} (loading and presentation), {@code sparkdlc:savior_lightsaber_swing} and
      * {@code savior_lightsaber_ignite} (sound intents; the lightsaber kills through the vanilla attack the seal's
-     * Attack guard refuses), {@code sparkstrength:taotie_head_fire} (a skill-key-2 volley that
-     * dazes and never kills), {@code sparkstrength:drone_pilot_start}, {@code drone_pilot_move} and
-     * {@code drone_pilot_exit} (flying a drone; exit must always pass) and {@code sparkstrength:m67_cancel} (cancels a
+     * Attack guard refuses), {@code sparkdlc:taotie_head_fire} (a skill-key-2 volley that
+     * dazes and never kills), {@code sparkdlc:drone_pilot_start}, {@code drone_pilot_move} and
+     * {@code drone_pilot_exit} (flying a drone; exit must always pass) and {@code sparkdlc:m67_cancel} (cancels a
      * throw).
      * 经 C2S 数据包发射的武器：当处理器跳过物品冷却或根本不涉及物品时，物品封印（{@code KnightDuelSeal}）够不到它们。
      * 永不列入：{@code wathe:gunshoot}（德林加必须能开火；左轮已被封印，因为 Wathe 的接收器会检查手中枪械的冷却）、
-     * {@code wathe:knifestab} 与 {@code sparkwitch:cross_sword_stab}（决斗自身的武器）。判定为非武器而不列入：
-     * {@code sparkwitch:double_barrel_aim}（猎枪射击的瞄准声明，射击本身是被封印拦截的物品使用）、
-     * {@code sparkwitch:throw_kidnapper_body}（只移动尸体，不伤人）、{@code sparkwitch:accountant_withdraw}（存折左键，
-     * 只移动金币，不伤人）、{@code sparkwitch:usec_attachment} 与
-     * {@code usec_scope}（装填与表现）、{@code sparkwitch:savior_lightsaber_swing} 与 {@code savior_lightsaber_ignite}
+     * {@code wathe:knifestab} 与 {@code sparkdlc:cross_sword_stab}（决斗自身的武器）。判定为非武器而不列入：
+     * {@code sparkdlc:double_barrel_aim}（猎枪射击的瞄准声明，射击本身是被封印拦截的物品使用）、
+     * {@code sparkdlc:throw_kidnapper_body}（只移动尸体，不伤人）、{@code sparkdlc:accountant_withdraw}（存折左键，
+     * 只移动金币，不伤人）、{@code sparkdlc:usec_attachment} 与
+     * {@code usec_scope}（装填与表现）、{@code sparkdlc:savior_lightsaber_swing} 与 {@code savior_lightsaber_ignite}
      * （音效意图；光剑经原版攻击击杀，封印的攻击拦截会拒绝它）、
-     * {@code sparkstrength:taotie_head_fire}（技能键 2 的齐射，只造成眩晕、从不致死）、
-     * {@code sparkstrength:drone_pilot_start}、{@code drone_pilot_move} 与 {@code drone_pilot_exit}（驾驶无人机；退出必须
-     * 始终放行）以及 {@code sparkstrength:m67_cancel}（取消投掷）。
+     * {@code sparkdlc:taotie_head_fire}（技能键 2 的齐射，只造成眩晕、从不致死）、
+     * {@code sparkdlc:drone_pilot_start}、{@code drone_pilot_move} 与 {@code drone_pilot_exit}（驾驶无人机；退出必须
+     * 始终放行）以及 {@code sparkdlc:m67_cancel}（取消投掷）。
      */
     // Generated DUEL_WEAPON column of SparkFactionAPI config/payload-policy/actions.tsv: edit that table and
     // rerun tools/payload_policy.py, never list ids here; per-id reasons are in its note column.

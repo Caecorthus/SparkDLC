@@ -17,8 +17,8 @@ import dev.caecorthus.sparkdlc.util.TickTime;
  * 背包面板，也从不使用动作栏。
  */
 public final class FiendDashHudRules {
-    public static final String READY_KEY = "hud.sparkwitch.fiend.dash.ready";
-    public static final String COOLDOWN_KEY = "hud.sparkwitch.fiend.dash.cooldown";
+    public static final String READY_KEY = "hud.sparkdlc.fiend.dash.ready";
+    public static final String COOLDOWN_KEY = "hud.sparkdlc.fiend.dash.cooldown";
     /** Fiend tint, shared with the moment countdown. / 魔人色调，与时刻倒计时相同。 */
     public static final int READY_COLOR = FiendMomentHudRules.TEXT_COLOR;
     /** Same muted grey as the Blind's cooldown lines. / 与盲人冷却行相同的灰色。 */

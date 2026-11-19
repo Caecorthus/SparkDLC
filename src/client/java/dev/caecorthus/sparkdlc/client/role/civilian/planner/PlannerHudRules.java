@@ -13,22 +13,22 @@ import dev.caecorthus.sparkdlc.util.TickTime;
  * server publishes, the Wathe shop balance), so nothing here decides anything: the server alone accepts a request.
  * Layout is the Fiend Dash / Hanna corner row ({@link FiendDashHudRules}: 5 px padding, one row up over an occupied
  * shared line, both rows lifted together above the hotbar column at narrow GUI widths). Role-owned presentation:
- * never the witch skill inventory panel ({@code gui.sparkwitch.skills}) and never the action bar. No Minecraft client
+ * never the witch skill inventory panel ({@code gui.sparkdlc.skills}) and never the action bar. No Minecraft client
  * types, so it is unit-testable.
  * 规划大师仅本人可见、位于共享右下角的两行读数的纯展示规则：上行为距 Wathe 发下一个任务的秒数，下行为推荐（共享技能键）。
  * 技能行按服务端会因客户端可见原因拒绝按键的顺序排列（先冷却、后金币），之后写明按下会推荐给谁：准星下的存活玩家，或规划大师
  * 自己。输入只有本地玩家自己的同步状态（依据客户端世界时钟的就绪刻、服务端发布的下个任务秒数、Wathe 商店余额），因此这里不做
  * 任何判定：是否接受请求只由服务端决定。布局沿用魔人疾驰 / 汉娜的角落行（{@link FiendDashHudRules}：5 像素边距，共享行被占用
  * 时上移一行，GUI 较窄时两行一同抬升到快捷栏列之上）。属于职业自有展示：从不进入魔女技能背包面板
- * （{@code gui.sparkwitch.skills}），也从不使用动作栏。不含 Minecraft 客户端类型，可做单元测试。
+ * （{@code gui.sparkdlc.skills}），也从不使用动作栏。不含 Minecraft 客户端类型，可做单元测试。
  */
 public final class PlannerHudRules {
-    public static final String NEXT_TASK_KEY = "hud.sparkwitch.planner.next_task";
-    public static final String NEXT_TASK_UNKNOWN_KEY = "hud.sparkwitch.planner.next_task.unknown";
-    public static final String RECOMMEND_COOLDOWN_KEY = "hud.sparkwitch.planner.recommend.cooldown";
-    public static final String RECOMMEND_NO_COINS_KEY = "hud.sparkwitch.planner.recommend.no_coins";
-    public static final String RECOMMEND_READY_TARGET_KEY = "hud.sparkwitch.planner.recommend.ready_target";
-    public static final String RECOMMEND_READY_SELF_KEY = "hud.sparkwitch.planner.recommend.ready_self";
+    public static final String NEXT_TASK_KEY = "hud.sparkdlc.planner.next_task";
+    public static final String NEXT_TASK_UNKNOWN_KEY = "hud.sparkdlc.planner.next_task.unknown";
+    public static final String RECOMMEND_COOLDOWN_KEY = "hud.sparkdlc.planner.recommend.cooldown";
+    public static final String RECOMMEND_NO_COINS_KEY = "hud.sparkdlc.planner.recommend.no_coins";
+    public static final String RECOMMEND_READY_TARGET_KEY = "hud.sparkdlc.planner.recommend.ready_target";
+    public static final String RECOMMEND_READY_SELF_KEY = "hud.sparkdlc.planner.recommend.ready_self";
 
     /** Opaque planner identity colour: a usable skill and the known next-task countdown. / 不透明的规划大师身份色。 */
     public static final int READY_COLOR = 0xFF000000 | PlannerRules.COLOR;

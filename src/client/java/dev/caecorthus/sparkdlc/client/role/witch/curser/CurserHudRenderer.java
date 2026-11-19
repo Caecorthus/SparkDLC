@@ -17,8 +17,8 @@ public final class CurserHudRenderer {
     public static void render(DrawContext context, ClientPlayerEntity player) {
         int cooldown = CurserPlayerComponent.KEY.get(player).getCooldownTicks();
         Text line = cooldown > 0
-                ? Text.translatable("hud.sparkwitch.curser.cooldown", TickTime.ceilSecondsUnclamped(cooldown))
-                : Text.translatable("hud.sparkwitch.curser.ready", SparkWitchClient.abilityKeyText());
+                ? Text.translatable("hud.sparkdlc.curser.cooldown", TickTime.ceilSecondsUnclamped(cooldown))
+                : Text.translatable("hud.sparkdlc.curser.ready", SparkWitchClient.abilityKeyText());
         TextRenderer renderer = MinecraftClient.getInstance().textRenderer;
         context.drawTextWithShadow(
                 renderer,

@@ -9,7 +9,7 @@ import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * The two flashlight core shaders ({@code assets/sparkstrength/shaders/core/flashlight_receiver|flashlight_beam}) and
+ * The two flashlight core shaders ({@code assets/sparkdlc/shaders/core/flashlight_receiver|flashlight_beam}) and
  * the uniforms both share. Beam-rule constants are written once per (re)load; per-light values before each draw.
  * 两个手电筒核心着色器及其共享 uniform。光束规则常量在每次（重新）加载时写入一次；逐光源数值在每次绘制前写入。
  */

@@ -39,7 +39,7 @@ import java.util.Set;
 public final class NatsumeHypnosisGuards {
     public static final Identifier HYPNOSIS_PHASE = SparkWitch.id("natsume_hypnosis");
     /** Lang key owned by the Natsume server module. / 由夏目安安服务端模块维护的语言键。 */
-    public static final String BLOCKED_MESSAGE_KEY = "message.sparkwitch.natsume.blocked";
+    public static final String BLOCKED_MESSAGE_KEY = "message.sparkdlc.natsume.blocked";
     /** At most one blocked notice per second per player, so a held button never spams. / 每名玩家每秒至多一条提示。 */
     public static final int NOTICE_INTERVAL_TICKS = 20;
 

@@ -19,10 +19,10 @@ public final class GrandWitchClientModule {
         }
         ItemTooltipCallback.EVENT.register((stack, context, type, lines) -> {
             if (stack.isOf(SparkWitchItems.ceremonialSword())) {
-                lines.add(Text.translatable("item.sparkwitch.ceremonial_sword.tooltip.unlock"));
-                lines.add(Text.translatable("item.sparkwitch.ceremonial_sword.tooltip.attack"));
-                lines.add(Text.translatable("item.sparkwitch.ceremonial_sword.tooltip.dash"));
-                lines.add(Text.translatable("item.sparkwitch.ceremonial_sword.tooltip.protection"));
+                lines.add(Text.translatable("item.sparkdlc.ceremonial_sword.tooltip.unlock"));
+                lines.add(Text.translatable("item.sparkdlc.ceremonial_sword.tooltip.attack"));
+                lines.add(Text.translatable("item.sparkdlc.ceremonial_sword.tooltip.dash"));
+                lines.add(Text.translatable("item.sparkdlc.ceremonial_sword.tooltip.protection"));
             }
         });
         registered = true;

@@ -27,7 +27,7 @@ import net.minecraft.sound.SoundCategory;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Server authority for {@code sparkstrength:bandit_revolver_shoot}. Same flow as the Serial Killer pistols
+ * Server authority for {@code sparkdlc:bandit_revolver_shoot}. Same flow as the Serial Killer pistols
  * ({@link SerialPistolShotService}, itself a mirror of Wathe's {@code GunShootPayload.Receiver}): click, record,
  * ShouldPunishGunShooter custom punishment, killPlayer with DeathReasons.GUN, shot sound, muzzle flash, cooldown. On
  * top of it: the shooter must be a living Bandit holding the revolver in the main hand with a chambered round, the

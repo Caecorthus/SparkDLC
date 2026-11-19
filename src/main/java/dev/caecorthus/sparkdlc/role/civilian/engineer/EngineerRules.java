@@ -14,9 +14,9 @@ import org.jetbrains.annotations.Nullable;
 public final class EngineerRules {
     public static final Identifier ENGINEER_ID = Identifier.of("noellesroles", "engineer");
 
-    public static final String CAPTURE_DEVICE_ENTRY_ID = "sparkstrength_capture_device";
+    public static final String CAPTURE_DEVICE_ENTRY_ID = "sparkdlc_capture_device";
     /** Kept from the old Power Restoration, so purchase records and other mods' id lists still match. / 沿用旧的电力恢复系统 id，购买记录与其他模组的 id 列表照样匹配。 */
-    public static final String SABOTAGE_REPAIR_ENTRY_ID = "sparkstrength_power_restoration";
+    public static final String SABOTAGE_REPAIR_ENTRY_ID = "sparkdlc_power_restoration";
     public static final String WATHE_BLACKOUT_ENTRY_ID = "blackout";
 
     public static final int CAPTURE_DEVICE_PRICE = 125;

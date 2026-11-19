@@ -28,10 +28,10 @@ import java.util.UUID;
  * Wathe 对局 id。
  */
 public final class FiendMomentService {
-    static final String TITLE_KEY = "title.sparkwitch.fiend.moment";
-    static final String SUBTITLE_KEY = "title.sparkwitch.fiend.moment.subtitle";
-    static final String FELL_KEY = "title.sparkwitch.fiend.fell";
-    static final String ENDED_KEY = "title.sparkwitch.fiend.moment_ended";
+    static final String TITLE_KEY = "title.sparkdlc.fiend.moment";
+    static final String SUBTITLE_KEY = "title.sparkdlc.fiend.moment.subtitle";
+    static final String FELL_KEY = "title.sparkdlc.fiend.fell";
+    static final String ENDED_KEY = "title.sparkdlc.fiend.moment_ended";
     private static final int FADE_IN_TICKS = 10;
     private static final int STAY_TICKS = 70;
     private static final int FADE_OUT_TICKS = 20;

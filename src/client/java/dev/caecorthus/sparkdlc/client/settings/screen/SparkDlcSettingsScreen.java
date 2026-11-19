@@ -30,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
  * 对待原版设置界面一样让它保持打开。
  */
 public final class SparkDlcSettingsScreen extends GameOptionsScreen implements SettingsRowWidget.Host {
-    private static final Text TITLE = Text.translatable("screen.sparkassist.settings.title");
+    private static final Text TITLE = Text.translatable("screen.sparkdlc.settings.title");
     private static final int GROUP_GAP = 6;
     private static final int ROW_GAP = 1;
     private static final int SCROLLBAR_WIDTH = 3;
@@ -169,7 +169,7 @@ public final class SparkDlcSettingsScreen extends GameOptionsScreen implements S
         this.addSelectableChild(item);
     }
 
-    /** Folds or unfolds a section; remembered in sparkassist.json, not part of Undo. 折叠或展开分节；记入配置，不受撤销影响。 */
+    /** Folds or unfolds a section; remembered in sparkdlc.json, not part of Undo. 折叠或展开分节；记入配置，不受撤销影响。 */
     private void toggleGroup(String key) {
         SparkAssistClientSettings.setSettingsGroupCollapsed(key, !SparkAssistClientSettings.settingsGroupCollapsed(key));
         SparkAssistClientSettings.save();
@@ -194,13 +194,13 @@ public final class SparkDlcSettingsScreen extends GameOptionsScreen implements S
 
     private void initFooterButtons() {
         SettingsFlatButton done = new SettingsFlatButton(ScreenTexts.DONE, button -> this.close());
-        resetButton = new SettingsFlatButton(Text.translatable("screen.sparkassist.settings.reset_page"), button -> {
+        resetButton = new SettingsFlatButton(Text.translatable("screen.sparkdlc.settings.reset_page"), button -> {
             SettingsPage page = page();
             if (page != null) {
                 session.resetPage(page);
             }
         });
-        undoButton = new SettingsFlatButton(Text.translatable("screen.sparkassist.settings.undo"),
+        undoButton = new SettingsFlatButton(Text.translatable("screen.sparkdlc.settings.undo"),
                 button -> session.undoAll());
         int x = layout.right();
         for (SettingsFlatButton button : List.of(done, resetButton, undoButton)) {
@@ -422,7 +422,7 @@ public final class SparkDlcSettingsScreen extends GameOptionsScreen implements S
                         option.defaultValueText(), Language.getInstance());
         if (!key.equals(descriptionKey)) {
             descriptionLines = option == null
-                    ? wrap(Text.translatable("screen.sparkassist.settings.hint"), width, SettingsPalette.TEXT_MUTED)
+                    ? wrap(Text.translatable("screen.sparkdlc.settings.hint"), width, SettingsPalette.TEXT_MUTED)
                     : describe(option, width);
             descriptionKey = key;
         }
@@ -440,7 +440,7 @@ public final class SparkDlcSettingsScreen extends GameOptionsScreen implements S
         }
         if (option.preview() != null) {
             lines.add(new Line(null, 0));
-            lines.addAll(wrap(Text.translatable("screen.sparkassist.settings.preview_hint"), width,
+            lines.addAll(wrap(Text.translatable("screen.sparkdlc.settings.preview_hint"), width,
                     SettingsPalette.TEXT_MUTED));
         }
         Text reason = option.disabledReason();
@@ -449,9 +449,9 @@ public final class SparkDlcSettingsScreen extends GameOptionsScreen implements S
             lines.addAll(wrap(reason, width, SettingsPalette.TEXT_WARNING));
         }
         lines.add(new Line(null, 0));
-        lines.addAll(wrap(Text.translatable("screen.sparkassist.settings.default", option.defaultValueText()), width,
+        lines.addAll(wrap(Text.translatable("screen.sparkdlc.settings.default", option.defaultValueText()), width,
                 SettingsPalette.TEXT_FAINT));
-        lines.addAll(wrap(Text.translatable("screen.sparkassist.settings.source", option.source()), width,
+        lines.addAll(wrap(Text.translatable("screen.sparkdlc.settings.source", option.source()), width,
                 SettingsPalette.TEXT_FAINT));
         return lines;
     }

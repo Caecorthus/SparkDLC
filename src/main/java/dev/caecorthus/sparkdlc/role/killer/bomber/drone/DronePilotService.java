@@ -85,7 +85,7 @@ public final class DronePilotService {
     /** A body packet within this (squared) distance repeats the held position. / 此（平方）距离内的身体包视为重复所持位置。 */
     private static final double HELD_BODY_EPSILON_SQUARED = 1.0E-6D;
 
-    /** Pilot sessions; the chunk ticket is {@code sparkstrength:drone}. / 驾驶会话；区块票据为 sparkstrength:drone。 */
+    /** Pilot sessions; the chunk ticket is {@code sparkdlc:drone}. / 驾驶会话；区块票据为 sparkdlc:drone。 */
     private static final RemoteViewSessions<Session> VIEWS = new RemoteViewSessions<>("drone");
     private static boolean registered;
 

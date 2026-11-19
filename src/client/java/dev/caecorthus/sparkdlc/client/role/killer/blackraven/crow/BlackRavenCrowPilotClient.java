@@ -46,7 +46,7 @@ import org.lwjgl.glfw.GLFW;
  * Seeker remote view (body stays {@code isCamera()} and frozen) and SparkStrength's drone pilot (flight and steering).
  * <p>
  * Authority: the server alone opens and ends a session; this client only reacts to the owner-synced
- * {@code sparkwitch:black_raven_crow} component (active bit + crow entity id). It predicts the crow it flies
+ * {@code sparkdlc:black_raven_crow} component (active bit + crow entity id). It predicts the crow it flies
  * ({@code BlackRavenCrowEntity.clientPilotMove}, capped like the server), streams {@code black_raven_crow_move} every
  * tick, applies {@code black_raven_crow_correction}, and sends right-clicks ({@code black_raven_crow_use}) and the drop
  * key ({@code black_raven_crow_drop_feather}); the server validates all of them. It never sends the toggle on its own

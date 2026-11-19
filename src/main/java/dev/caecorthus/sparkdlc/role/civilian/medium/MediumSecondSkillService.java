@@ -88,7 +88,7 @@ public final class MediumSecondSkillService {
         }
         var playerInfo = ReplayGenerator.getPlayerInfoCache(match);
         return Text.translatable(
-                "replay.skill.sparkwitch.medium_haunt_skill",
+                "replay.skill.sparkdlc.medium_haunt_skill",
                 ReplayGenerator.formatPlayerName(data.getUuid("actor"), playerInfo),
                 ReplayGenerator.formatPlayerName(data.getUuid("target"), playerInfo)
         );

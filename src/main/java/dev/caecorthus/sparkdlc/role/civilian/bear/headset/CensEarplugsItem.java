@@ -11,12 +11,12 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
 /**
- * CENS ProFlex DX5 tactical earplugs ({@code sparkwitch:cens_proflex_dx5}): hearing +50%, additive with the Rys-T
+ * CENS ProFlex DX5 tactical earplugs ({@code sparkdlc:cens_proflex_dx5}): hearing +50%, additive with the Rys-T
  * (E2), only while worn in the headset slot ({@code dev.caecorthus.sparkdlc.headset.HeadsetSlots}). A BEAR item, so
  * it is deleted on its holder's death (D10). Right-clicking them in hand puts them into an EMPTY headset slot (the
  * server moves them and plays the insert sound to the wearer only); with the slot taken the click passes. They can
  * also be placed there by hand or shift-click in any inventory screen.
- * CENS ProFlex DX5 战术耳塞（{@code sparkwitch:cens_proflex_dx5}）：听力 +50%，与 Rys-T 叠加（E2），仅在戴于耳机槽
+ * CENS ProFlex DX5 战术耳塞（{@code sparkdlc:cens_proflex_dx5}）：听力 +50%，与 Rys-T 叠加（E2），仅在戴于耳机槽
  * （{@code dev.caecorthus.sparkdlc.headset.HeadsetSlots}）时生效。属于 BEAR 物品，持有者死亡时删除（D10）。手持右键会把它
  * 放入空的耳机槽（由服务端移动，并只对佩戴者播放戴上音效）；耳机槽已占用时该点击放行。也可在任意背包界面中手动或 Shift 点击放入。
  */

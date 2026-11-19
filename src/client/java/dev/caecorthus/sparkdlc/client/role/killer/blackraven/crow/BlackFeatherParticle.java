@@ -10,11 +10,11 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.SimpleParticleType;
 
 /**
- * Client particle {@code sparkwitch:black_feather}: one of the two black feather sprites, picked at random, that keeps
+ * Client particle {@code sparkdlc:black_feather}: one of the two black feather sprites, picked at random, that keeps
  * its launch velocity exactly (no vanilla jitter, no gravity, no drag) and turns its horizontal velocity by
  * {@link BlackRavenCrowLandingRules#SWIRL_TURN} every tick. The server launches it tangentially on the swirl circle, so
  * it circles the landing player, spinning and fading out. Presentation only.
- * 客户端粒子 {@code sparkwitch:black_feather}：随机选取两张黑色羽毛贴图之一，精确保持发射速度（无原版抖动、无重力、无阻力），并每刻把水平速度
+ * 客户端粒子 {@code sparkdlc:black_feather}：随机选取两张黑色羽毛贴图之一，精确保持发射速度（无原版抖动、无重力、无阻力），并每刻把水平速度
  * 转过 {@link BlackRavenCrowLandingRules#SWIRL_TURN}。服务端在环绕圆上切向发射它，因此它会绕落地的玩家旋转，自身打转并逐渐淡出。仅为表现。
  */
 public final class BlackFeatherParticle extends SpriteBillboardParticle {
@@ -72,7 +72,7 @@ public final class BlackFeatherParticle extends SpriteBillboardParticle {
         return ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT;
     }
 
-    /** Factory registered for {@code sparkwitch:black_feather}. / 为 {@code sparkwitch:black_feather} 注册的工厂。 */
+    /** Factory registered for {@code sparkdlc:black_feather}. / 为 {@code sparkdlc:black_feather} 注册的工厂。 */
     public static final class Factory implements ParticleFactory<SimpleParticleType> {
         private final SpriteProvider sprites;
 

@@ -78,8 +78,8 @@ public final class BlindEchoView {
     public static final Identifier EFFECT = SparkWitch.id("shaders/post/blind_echo.json");
     static final String DEPTH_TARGET = "blind_depth";
     static final String SILHOUETTE_TARGET = "blind_sil";
-    static final String ECHO_PROGRAM = "sparkwitch_blind_echo";
-    static final String BLUR_PROGRAM = "sparkwitch_blind_blur";
+    static final String ECHO_PROGRAM = "sparkdlc_blind_echo";
+    static final String BLUR_PROGRAM = "sparkdlc_blind_blur";
     /** Feet and head sample heights (fractions of the body height) for "partly hidden". / “部分被遮挡”的脚与头采样高度。 */
     private static final double FEET = 0.1;
     private static final double HEAD = 0.9;

@@ -37,7 +37,7 @@ import java.util.function.BiConsumer;
  */
 final class MiniWitherSoundBook {
     /** Private resource namespace of skin sounds; never on disk in a pack. / 皮肤声音的私有资源命名空间，不对应任何资源包。 */
-    static final String NAMESPACE = "sparkwitch_skin";
+    static final String NAMESPACE = "sparkdlc_skin";
     /** Skin folder contract: ogg files at most 8 MiB. / 皮肤文件夹契约：ogg 文件不超过 8 MiB。 */
     static final long MAX_FILE_BYTES = 8L * 1024L * 1024L;
     /** Skin folder contract: at most 32 ogg files in all. / 皮肤文件夹契约：ogg 文件合计不超过 32 个。 */

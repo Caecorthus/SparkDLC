@@ -26,7 +26,7 @@ final class KokoReplay {
     private static final String STREAM_END = "stream_end";
     private static final String CORPSE_STREAM = "corpse_stream";
     private static final String LIGHTSTICK = "lightstick";
-    private static final String KEY_PREFIX = "replay.skill.sparkwitch.koko.";
+    private static final String KEY_PREFIX = "replay.skill.sparkdlc.koko.";
     private static boolean registered;
 
     private KokoReplay() {

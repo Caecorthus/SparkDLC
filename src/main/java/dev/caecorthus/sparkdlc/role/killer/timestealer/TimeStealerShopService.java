@@ -104,13 +104,13 @@ public final class TimeStealerShopService {
             return null;
         }
         if (TimeStampInventory.balance(player) < cost) {
-            return ShopPurchase.PurchaseResult.deny("shop.error.sparkwitch.not_enough_time_stamps");
+            return ShopPurchase.PurchaseResult.deny("shop.error.sparkdlc.not_enough_time_stamps");
         }
         if (TimeStealerShopRules.PSYCHO_ENTRY_ID.equals(entry.id()) && isPsychoActive(player)) {
-            return ShopPurchase.PurchaseResult.deny("shop.error.sparkwitch.time_stealer_psycho_active");
+            return ShopPurchase.PurchaseResult.deny("shop.error.sparkdlc.time_stealer_psycho_active");
         }
         if (game.getGameStatus() != GameWorldComponent.GameStatus.ACTIVE) {
-            return ShopPurchase.PurchaseResult.deny("shop.error.sparkwitch.time_stealer_round_over");
+            return ShopPurchase.PurchaseResult.deny("shop.error.sparkdlc.time_stealer_round_over");
         }
         return null;
     }
@@ -176,10 +176,10 @@ public final class TimeStealerShopService {
 
     private static ItemStack addTimeDisplay() {
         ItemStack stack = Items.CLOCK.getDefaultStack();
-        stack.set(DataComponentTypes.ITEM_NAME, Text.translatable("shop.sparkwitch.time_stealer.add_time"));
+        stack.set(DataComponentTypes.ITEM_NAME, Text.translatable("shop.sparkdlc.time_stealer.add_time"));
         // Wathe's shop screen renders display-stack lore as the entry description. / Wathe 商店界面将展示物品的 lore 渲染为商品描述。
         stack.set(DataComponentTypes.LORE, new LoreComponent(List.of(
-                Text.translatable("shop.sparkwitch.time_stealer.add_time.description")
+                Text.translatable("shop.sparkdlc.time_stealer.add_time.description")
                         .styled(style -> style.withItalic(false).withColor(SHOP_DESCRIPTION_COLOR)))));
         return stack;
     }

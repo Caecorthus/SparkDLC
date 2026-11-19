@@ -13,11 +13,11 @@ import org.ladysnake.cca.api.v3.component.ComponentRegistry;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
 /**
- * Victim-owned, server-only Time Theft curse ({@code sparkwitch:time_theft}), modelled on the Black Raven mark. The
+ * Victim-owned, server-only Time Theft curse ({@code sparkdlc:time_theft}), modelled on the Black Raven mark. The
  * stage is derived from absolute world ticks and the server counter alone decides the death; nothing is synced (the
  * victim only perceives vanilla Slowness and private chimes). Frozen NBT keys: {@code Stealer} (absent = not stolen),
  * {@code Match}, {@code StolenAt}, {@code Stage} (0-4).
- * 由受害者持有、仅服务端的窃时诅咒（{@code sparkwitch:time_theft}），参照黑羽鸦标记。阶段由绝对世界 tick 推算，
+ * 由受害者持有、仅服务端的窃时诅咒（{@code sparkdlc:time_theft}），参照黑羽鸦标记。阶段由绝对世界 tick 推算，
  * 死亡只由服务端计数决定；不做任何同步（受害者只感知原版缓慢与私有钟声）。冻结的 NBT 键：{@code Stealer}
  * （缺省表示未被窃）、{@code Match}、{@code StolenAt}、{@code Stage}（0-4）。
  */

@@ -33,7 +33,7 @@ import static dev.caecorthus.sparkdlc.trait.component.TraitIdCodec.writeIdentifi
  * 保存世界级天赋状态：长期禁用列表、每局唯一占用、死亡时快照。
  */
 public class TraitWorldComponent implements AutoSyncedComponent {
-    public static final ComponentKey<TraitWorldComponent> KEY = ComponentRegistry.getOrCreate(SparkTraits.id("world"), TraitWorldComponent.class);
+    public static final ComponentKey<TraitWorldComponent> KEY = ComponentRegistry.getOrCreate(SparkTraits.id("trait_world"), TraitWorldComponent.class);
 
     private final World world;
     private final dev.caecorthus.sparkdlc.trait.killer.escape.LastEscapeRoundState lastEscape =

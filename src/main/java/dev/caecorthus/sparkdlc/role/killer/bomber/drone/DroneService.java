@@ -178,13 +178,13 @@ public final class DroneService {
     }
 
     /**
-     * Admin path only: SparkFactionAPI {@code /sparkfactionapi:clearCooldown} just removed {@code item}'s vanilla
+     * Admin path only: SparkFactionAPI {@code /sparkdlc:clearCooldown} just removed {@code item}'s vanilla
      * cooldown (called through {@code SparkFactionAdminClear}). During the opening that remove alone does not stick
      * (the lock is re-synced every tick and placement/piloting read the round clock), so for the rest of this round the
      * player's drones of that kind ignore the opening lock (no re-sync, may be placed and piloted). Clearing a grenade
      * drone also ends the loss cooldown of any queued return, which would otherwise come back on delivery. No-op for
      * other items and outside an ACTIVE match; role mechanics that remove cooldowns never call this.
-     * 仅管理员路径：SparkFactionAPI /sparkfactionapi:clearCooldown 刚移除了该物品的原版冷却（经由 SparkFactionAdminClear
+     * 仅管理员路径：SparkFactionAPI /sparkdlc:clearCooldown 刚移除了该物品的原版冷却（经由 SparkFactionAdminClear
      * 调用）。开局锁期间仅移除原版冷却无效（开局锁每刻重新同步，放置与驾驶读取回合时钟），因此本回合剩余时间内该玩家此型号的
      * 无人机不再受开局锁约束（不再同步冷却，可放置与驾驶）。清除投弹无人机时还会结束排队归还的损毁冷却，否则交付时会重新写入。
      * 其他物品或对局未处于 ACTIVE 时不做任何事；移除冷却的职业机制不会调用此方法。
@@ -269,7 +269,7 @@ public final class DroneService {
         }
         int slot = freeHotbarSlot(owner);
         if (slot < 0) {
-            owner.sendMessage(Text.translatable("tip.sparkstrength.drone.hotbar_full"), true);
+            owner.sendMessage(Text.translatable("tip.sparkdlc.drone.hotbar_full"), true);
             return false;
         }
         ItemStack stack = new ItemStack(SparkStrengthItems.grenadeDrone());
@@ -318,7 +318,7 @@ public final class DroneService {
         round.returns.computeIfAbsent(ownerUuid, uuid -> new ArrayList<>()).add(pending);
         if (active) {
             // Only the hotbar holds it back; an owner out of survival just gets it later. / 仅因快捷栏已满才提示；不在生存模式的主人稍后自动取回。
-            owner.sendMessage(Text.translatable("tip.sparkstrength.drone.return_pending"), true);
+            owner.sendMessage(Text.translatable("tip.sparkdlc.drone.return_pending"), true);
         }
     }
 
@@ -360,7 +360,7 @@ public final class DroneService {
         int remaining = (int) Math.max(0L, pending.readyAt() - now);
         if (remaining > 0) {
             preserveCooldown(owner, SparkStrengthItems.grenadeDrone(), remaining);
-            owner.sendMessage(Text.translatable("tip.sparkstrength.drone.returned", (remaining + 19) / 20), true);
+            owner.sendMessage(Text.translatable("tip.sparkdlc.drone.returned", (remaining + 19) / 20), true);
         }
         return true;
     }

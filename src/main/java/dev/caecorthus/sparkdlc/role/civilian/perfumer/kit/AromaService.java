@@ -60,7 +60,7 @@ public final class AromaService {
             return;
         }
         PerfumerScentComponent.KEY.get(target).applyAroma(world.getRandom().nextLong());
-        target.sendMessage(Text.translatable("message.sparkstrength.perfumer.aroma.hit")
+        target.sendMessage(Text.translatable("message.sparkdlc.perfumer.aroma.hit")
                 .styled(style -> style.withColor(HIT_COLOR)), true);
         world.spawnParticles(LAVENDER_BURST, target.getX(), headTop(target), target.getZ(),
                 24, 0.35D, 0.25D, 0.35D, 0.0D);

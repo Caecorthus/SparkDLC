@@ -30,7 +30,7 @@ public final class ThirdFactionDividendCommand {
     public static final String ROLE_DIVIDEND = "roleDividend";
     public static final String LITERAL = "third_faction";
     public static final String ARGUMENT = "dividend";
-    private static final String SET_KEY = "commands.sparkfactionapi.thirdfaction.dividend.set";
+    private static final String SET_KEY = "commands.sparkdlc.thirdfaction.dividend.set";
 
     private ThirdFactionDividendCommand() {
     }

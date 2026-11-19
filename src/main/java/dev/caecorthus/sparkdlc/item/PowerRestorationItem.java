@@ -20,7 +20,7 @@ public final class PowerRestorationItem extends Item {
 
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        tooltip.add(Text.translatable("item.sparkstrength.power_restoration.tooltip")
+        tooltip.add(Text.translatable("item.sparkdlc.power_restoration.tooltip")
                 .styled(style -> style.withColor(0x808080).withItalic(false)));
     }
 }

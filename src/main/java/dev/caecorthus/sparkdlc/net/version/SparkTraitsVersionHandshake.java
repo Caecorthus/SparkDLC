@@ -11,7 +11,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public final class SparkTraitsVersionHandshake {
-    public static final Identifier VERSION_CHECK_ID = SparkTraits.id("version_check");
+    public static final Identifier VERSION_CHECK_ID = SparkTraits.id("trait_version_check");
 
     private static boolean serverRegistered;
 

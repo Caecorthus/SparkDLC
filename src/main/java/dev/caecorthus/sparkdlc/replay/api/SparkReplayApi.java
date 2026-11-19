@@ -18,7 +18,7 @@ public final class SparkReplayApi {
      * Wathe record event type written for every mid-round role change; stable replay contract.
      * 对局中每次身份变化写入的 Wathe 记录事件类型；属于稳定回放契约。
      */
-    public static final String ROLE_CHANGED_EVENT_TYPE = "sparkfactionapi:role_changed";
+    public static final String ROLE_CHANGED_EVENT_TYPE = "sparkdlc:role_changed";
 
     private SparkReplayApi() {
     }
@@ -26,9 +26,9 @@ public final class SparkReplayApi {
     /**
      * Runs {@code action}; any mid-round role change it performs is recorded with {@code cause} and {@code source}.
      * Scopes nest (innermost wins) and only tag changes on the current thread. The client translation key is
-     * {@code replay.sparkfactionapi.role_changed.cause.<ns>.<path>} with a {@code .by} suffix when a source is set.
+     * {@code replay.sparkdlc.role_changed.cause.<ns>.<path>} with a {@code .by} suffix when a source is set.
      * 执行 {@code action}；其中发生的对局内身份变化会附带原因与来源玩家写入回放。作用域可嵌套（内层优先），
-     * 仅影响当前线程。客户端翻译键为 {@code replay.sparkfactionapi.role_changed.cause.<ns>.<path>}，有来源时追加 {@code .by}。
+     * 仅影响当前线程。客户端翻译键为 {@code replay.sparkdlc.role_changed.cause.<ns>.<path>}，有来源时追加 {@code .by}。
      */
     public static void withRoleChangeCause(Identifier cause, @Nullable PlayerEntity source, Runnable action) {
         withRoleChangeCause(cause, source == null ? null : source.getUuid(), action);

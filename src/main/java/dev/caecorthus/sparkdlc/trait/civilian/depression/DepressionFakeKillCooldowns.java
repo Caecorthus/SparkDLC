@@ -45,17 +45,17 @@ public final class DepressionFakeKillCooldowns {
      * 单纯坠车不指明武器，因为 Wathe 会把任意最后攻击者记为凶手。
      */
     private static final Map<Identifier, List<Identifier>> DELAYED_WEAPONS = Map.of(
-            GameConstants.DeathReasons.GRENADE, List.of(Identifier.of("sparkstrength", "m67")),
-            GameConstants.DeathReasons.KNIFE, List.of(Identifier.of("sparkwitch", "feather_blade")),
-            Identifier.of("noellesroles", "bodyguard_sacrifice"), List.of(Identifier.of("sparkwitch", "feather_blade")),
-            Identifier.of("sparkwitch", "ninja_shuriken_kill"), List.of(Identifier.of("sparkwitch", "ninja_shuriken")),
+            GameConstants.DeathReasons.GRENADE, List.of(Identifier.of("sparkdlc", "m67")),
+            GameConstants.DeathReasons.KNIFE, List.of(Identifier.of("sparkdlc", "feather_blade")),
+            Identifier.of("noellesroles", "bodyguard_sacrifice"), List.of(Identifier.of("sparkdlc", "feather_blade")),
+            Identifier.of("sparkdlc", "ninja_shuriken_kill"), List.of(Identifier.of("sparkdlc", "ninja_shuriken")),
             // The Witch Maiden's crimson skull kills in its own tick; the Gohei's cooldown started at the left click.
             // 巫女的赤色凋灵之首在自身 tick 中击杀；凋灵御币的冷却在左键时就已开始。
-            Identifier.of("sparkwitch", "crimson_wither_skull"), List.of(Identifier.of("sparkwitch", "wither_gohei"))
+            Identifier.of("sparkdlc", "crimson_wither_skull"), List.of(Identifier.of("sparkdlc", "wither_gohei"))
     );
     private static final Identifier POISON_NEEDLE = Identifier.of("noellesroles", "poison_needle");
     /** Keeps its own kill cooldown through the API; its item cooldown is the dash. 通过 API 自管击杀冷却；其物品冷却是冲刺。 */
-    private static final Identifier CEREMONIAL_SWORD = Identifier.of("sparkwitch", "ceremonial_sword");
+    private static final Identifier CEREMONIAL_SWORD = Identifier.of("sparkdlc", "ceremonial_sword");
     private static final ThreadLocal<Item> WEAPON_HINT = new ThreadLocal<>();
     private static final Map<UUID, FakeKills> pendingFakeKills = new HashMap<>();
     /** Length of each item's latest ordinary cooldown write; exact rewrites keep it. 每件物品最近一次普通冷却写入的时长；精确改写不改变它。 */

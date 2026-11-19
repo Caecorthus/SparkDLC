@@ -13,9 +13,9 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
 /**
- * The Prophet's bound Necrology ({@code sparkwitch:prophet_necrology}). The stack is secret-free (no components);
+ * The Prophet's bound Necrology ({@code sparkdlc:prophet_necrology}). The stack is secret-free (no components);
  * using it only asks the server, which alone decides, to authorize the client book built from the owner component.
- * 先知的绑定物品「亡者名录」（{@code sparkwitch:prophet_necrology}）。物品堆不含任何秘密（无组件数据）；使用时只请求服务端
+ * 先知的绑定物品「亡者名录」（{@code sparkdlc:prophet_necrology}）。物品堆不含任何秘密（无组件数据）；使用时只请求服务端
  * 授权，由服务端独自判定后，客户端再根据所有者组件构建书页。
  */
 public final class ProphetNecrologyItem extends Item {

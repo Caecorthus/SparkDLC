@@ -224,7 +224,7 @@ public final class TraitAssignmentService {
             Random random
     ) {
         if (!traitWorld.isTraitEnabled(ConscienceTrait.ID)) {
-            SparkTraits.LOGGER.warn("Skipping forced Conscience because sparktraits:conscience is disabled.");
+            SparkTraits.LOGGER.warn("Skipping forced Conscience because sparkdlc:conscience is disabled.");
             return;
         }
 
@@ -504,7 +504,7 @@ public final class TraitAssignmentService {
             List<PlayerPlan> plans
     ) {
         if (!traitWorld.isTraitEnabled(PigTrait.ID)) {
-            SparkTraits.LOGGER.warn("Skipping forced Pig because sparktraits:pig is disabled.");
+            SparkTraits.LOGGER.warn("Skipping forced Pig because sparkdlc:pig is disabled.");
             return;
         }
         for (PlayerPlan plan : plans) {

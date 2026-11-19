@@ -14,11 +14,11 @@ import dev.caecorthus.sparkdlc.util.TickTime;
  *   <li>the infected count (the synced infected set, which only a Sphinx Hao, a spectator or a creative player gets);</li>
  *   <li>its 豪度值 (hao).</li>
  * </ol>
- * Inputs are the local player's own synced state only (the owner-only {@code sparkwitch:sphinx_hao_player} ready ticks
+ * Inputs are the local player's own synced state only (the owner-only {@code sparkdlc:sphinx_hao_player} ready ticks
  * and hao, the world window and infected set against the client world clock), so the rows never decide anything: the
  * server alone infects, opens windows and pays hao. They take the Koko/Fiend Dash corner layout (5 px padding, one row
  * up over an occupied shared skill line or the Saint's Karma line, lifted above the hotbar column at narrow GUI widths,
- * every row measured together). Role-owned presentation: never the action bar and never the {@code gui.sparkwitch.skills}
+ * every row measured together). Role-owned presentation: never the action bar and never the {@code gui.sparkdlc.skills}
  * panel. No Minecraft client types, so it is unit-testable.
  * 狮身豪右下角四行仅本人可见内容的纯展示规则，自下而上：
  * <ol>
@@ -28,20 +28,20 @@ import dev.caecorthus.sparkdlc.util.TickTime;
  *   <li>感染人数（同步的感染集合，只有狮身豪、旁观者与创造模式玩家会收到）；</li>
  *   <li>豪度值。</li>
  * </ol>
- * 输入只有本地玩家自己的同步状态（只同步给本人的 {@code sparkwitch:sphinx_hao_player} 就绪刻与豪度值，以及依据客户端世界时钟的
+ * 输入只有本地玩家自己的同步状态（只同步给本人的 {@code sparkdlc:sphinx_hao_player} 就绪刻与豪度值，以及依据客户端世界时钟的
  * 世界窗口与感染集合），因此这些行不做任何判定：感染、开启窗口与支付豪度值只由服务端决定。沿用可可/魔人疾驰行的角落布局（5 像素
  * 边距、共享技能行或圣徒业报行被占用时上移一行、GUI 较窄时抬升到快捷栏列之上，所有行一起测量）。属于职业自有展示：从不使用动作栏，
- * 也从不进入 {@code gui.sparkwitch.skills} 面板。不含 Minecraft 客户端类型，可做单元测试。
+ * 也从不进入 {@code gui.sparkdlc.skills} 面板。不含 Minecraft 客户端类型，可做单元测试。
  */
 public final class SphinxHaoHudRules {
-    public static final String INFECT_READY_KEY = "hud.sparkwitch.sphinx_hao.infect.ready";
-    public static final String INFECT_COOLDOWN_KEY = "hud.sparkwitch.sphinx_hao.infect.cooldown";
-    public static final String INFECT_DURING_ROAR_KEY = "hud.sparkwitch.sphinx_hao.infect.during_roar";
-    public static final String ROAR_READY_KEY = "hud.sparkwitch.sphinx_hao.roar.ready";
-    public static final String ROAR_COOLDOWN_KEY = "hud.sparkwitch.sphinx_hao.roar.cooldown";
-    public static final String ROAR_ACTIVE_KEY = "hud.sparkwitch.sphinx_hao.roar.active";
-    public static final String INFECTED_KEY = "hud.sparkwitch.sphinx_hao.infected";
-    public static final String HAO_KEY = "hud.sparkwitch.sphinx_hao.hao";
+    public static final String INFECT_READY_KEY = "hud.sparkdlc.sphinx_hao.infect.ready";
+    public static final String INFECT_COOLDOWN_KEY = "hud.sparkdlc.sphinx_hao.infect.cooldown";
+    public static final String INFECT_DURING_ROAR_KEY = "hud.sparkdlc.sphinx_hao.infect.during_roar";
+    public static final String ROAR_READY_KEY = "hud.sparkdlc.sphinx_hao.roar.ready";
+    public static final String ROAR_COOLDOWN_KEY = "hud.sparkdlc.sphinx_hao.roar.cooldown";
+    public static final String ROAR_ACTIVE_KEY = "hud.sparkdlc.sphinx_hao.roar.active";
+    public static final String INFECTED_KEY = "hud.sparkdlc.sphinx_hao.infected";
+    public static final String HAO_KEY = "hud.sparkdlc.sphinx_hao.hao";
     /** Opaque Sphinx Hao coral (ready, crawling and hao). / 不透明的狮身豪珊瑚色（就绪、陆泳中与豪度值）。 */
     public static final int READY_COLOR = 0xFF000000 | SphinxHaoRules.COLOR;
     /** Opaque Team Jiahao gold, the infected outline's colour. / 不透明的嘉豪阵营金色，与感染者描边同色。 */

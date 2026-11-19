@@ -26,7 +26,7 @@ import org.jetbrains.annotations.Nullable;
  * 各模块已融合进 SparkDLC，因此门面始终存在并被直接调用。
  */
 public final class SparkTraitsDepressionVisionBridge {
-    private static final Identifier DEPRESSION = Identifier.of("sparktraits", "depression");
+    private static final Identifier DEPRESSION = Identifier.of("sparkdlc", "depression");
 
     private SparkTraitsDepressionVisionBridge() {
     }

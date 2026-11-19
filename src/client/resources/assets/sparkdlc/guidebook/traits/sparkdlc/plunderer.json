@@ -1,0 +1,47 @@
+{
+  "entries": [
+    {
+      "id": "sparkdlc:plunderer",
+      "tab": "TRAIT",
+      "sourceModId": "sparkdlc",
+      "nameKey": "trait.sparkdlc.plunderer.name",
+      "summaryKey": "trait.sparkdlc.plunderer.description",
+      "pages": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": "杀人顺便抢钱。只会出现在杀手身上。"
+            },
+            {
+              "type": "section",
+              "text": "效果",
+              "tone": "money"
+            },
+            {
+              "type": "bullet",
+              "text": "每次击杀后，偷走死者身上三分之一的金币（向下取整）。"
+            },
+            {
+              "type": "section",
+              "text": "建议",
+              "tone": "good"
+            },
+            {
+              "type": "bullet",
+              "text": "身上没钱的人偷不到东西。有商店、靠做任务攒钱的身份往往存款更多。"
+            }
+          ]
+        }
+      ],
+      "ownerRoleIds": [
+        "wathe:killer"
+      ],
+      "requiredModIds": [
+        "sparkdlc"
+      ],
+      "color": "#7F5A2A",
+      "order": 1020
+    }
+  ]
+}

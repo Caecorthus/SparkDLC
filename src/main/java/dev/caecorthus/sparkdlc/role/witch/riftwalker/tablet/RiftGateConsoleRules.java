@@ -53,7 +53,7 @@ public final class RiftGateConsoleRules {
     public static final double CLOSE_CUE_LIFT = 1.0;
 
     /**
-     * Suffixes of {@code message.sparkwitch.riftwalker.console.denied.<suffix>}. / 拒绝提示键的后缀。
+     * Suffixes of {@code message.sparkdlc.riftwalker.console.denied.<suffix>}. / 拒绝提示键的后缀。
      */
     public static final String DENY_BLOCKED = "blocked";
     public static final String DENY_NO_TABLET = "no_tablet";

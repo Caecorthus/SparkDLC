@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.record;
 
 /**
- * {@code kind} of a {@code sparkfactionapi:consume} record; see {@link ConsumeRules#classify}.
- * {@code sparkfactionapi:consume} 记录的 {@code kind}；见 {@link ConsumeRules#classify}。
+ * {@code kind} of a {@code sparkdlc:consume} record; see {@link ConsumeRules#classify}.
+ * {@code sparkdlc:consume} 记录的 {@code kind}；见 {@link ConsumeRules#classify}。
  */
 public enum ConsumeKind {
     FOOD("food"),

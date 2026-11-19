@@ -15,12 +15,12 @@ import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 
 /**
  * Owner-private 魔女化 (Witchification) progress of 二阶堂希罗, component
- * {@code sparkwitch:nikaido_hiro_witchification}: the kills counted so far, the threshold for this round
+ * {@code sparkdlc:nikaido_hiro_witchification}: the kills counted so far, the threshold for this round
  * ({@code HiroRules.requiredKills(roundPlayers)}, 0 until the service sets it) and whether she has witchified. Synced
  * to its owner only; the component only stores state, {@link HiroWitchificationService} owns every rule. One more
  * field stays on the server and is saved but never sent: whether the 魔女化 derringer is still owed because no shown
  * inventory slot was free.
- * 二阶堂希罗仅本人可见的「魔女化」进度，组件 {@code sparkwitch:nikaido_hiro_witchification}：已计入的击杀数、本局所需击杀数
+ * 二阶堂希罗仅本人可见的「魔女化」进度，组件 {@code sparkdlc:nikaido_hiro_witchification}：已计入的击杀数、本局所需击杀数
  * （{@code HiroRules.requiredKills(本局玩家数)}，服务写入前为 0）以及是否已魔女化。只同步给本人；组件只保存状态，全部规则由
  * {@link HiroWitchificationService} 负责。另有一个只留在服务端、存档但从不下发的字段：魔女化的德林加手枪是否因没有可见空栏位而
  * 尚未发放。

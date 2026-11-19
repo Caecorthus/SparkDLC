@@ -22,11 +22,11 @@ public final class ApprenticeAbilitySupport {
             Runnable effect
     ) {
         if (context.role() != SparkWitchRoles.apprenticeWitch()) {
-            return WitchSkillUseResult.fail("message.sparkwitch.skill.unavailable");
+            return WitchSkillUseResult.fail("message.sparkdlc.skill.unavailable");
         }
         WitchPlayerComponent component = WitchPlayerComponent.KEY.get(context.player());
         if (!component.spendMana(manaCost)) {
-            return WitchSkillUseResult.fail("message.sparkwitch.skill.not_enough_mana");
+            return WitchSkillUseResult.fail("message.sparkdlc.skill.not_enough_mana");
         }
 
         effect.run();
@@ -46,11 +46,11 @@ public final class ApprenticeAbilitySupport {
             IntSupplier cooldownAfter
     ) {
         if (context.role() != SparkWitchRoles.apprenticeWitch()) {
-            return WitchSkillUseResult.fail("message.sparkwitch.skill.unavailable");
+            return WitchSkillUseResult.fail("message.sparkdlc.skill.unavailable");
         }
         WitchPlayerComponent component = WitchPlayerComponent.KEY.get(context.player());
         if (!component.spendMana(manaCost)) {
-            return WitchSkillUseResult.fail("message.sparkwitch.skill.not_enough_mana");
+            return WitchSkillUseResult.fail("message.sparkdlc.skill.not_enough_mana");
         }
 
         effect.run();

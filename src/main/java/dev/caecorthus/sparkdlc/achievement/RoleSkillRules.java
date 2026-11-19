@@ -12,7 +12,7 @@ import java.util.UUID;
  */
 final class RoleSkillRules {
     static final String REVOLVER = "wathe:revolver";
-    static final String SABOTEUR = "sparkwitch:saboteur";
+    static final String SABOTEUR = "sparkdlc:saboteur";
     static final String VULTURE = "noellesroles:vulture";
     static final String WAITER = "noellesroles:waiter";
     static final String POISONER = "noellesroles:poisoner";
@@ -20,9 +20,9 @@ final class RoleSkillRules {
     static final String CORONER = "noellesroles:coroner";
     static final String SURVIVAL_MASTER = "noellesroles:survival_master";
 
-    static final String GUARDIAN_SKILL = "sparkwitch:guardian";
+    static final String GUARDIAN_SKILL = "sparkdlc:guardian";
     static final String WAITER_SKILL = "noellesroles:waiter";
-    static final String VENDETTA_KNIFE = "sparkwitch:vendetta_knife";
+    static final String VENDETTA_KNIFE = "sparkdlc:vendetta_knife";
     static final String BASE_SPIRIT = "noellesroles:base_spirit";
     static final String GHOSTFLAME_BITTERS = "ghostflame_bitters";
     static final String EMBER_SUGAR = "ember_sugar";
@@ -30,21 +30,21 @@ final class RoleSkillRules {
     static final String PLACE_ACTION = "place";
     static final String BLACKOUT_ENTRY = "blackout";
     static final List<String> MAGIC_ENTRIES = List.of(
-            "sparkwitch_obscure", "sparkwitch_blindness", "sparkwitch_fear", "sparkwitch_heaviness");
+            "sparkdlc_obscure", "sparkdlc_blindness", "sparkdlc_fear", "sparkdlc_heaviness");
 
-    static final String WIND_SPIRIT_FALL = "sparkwitch:wind_spirit_fall";
-    static final String SABOTAGE = "sparkwitch:sabotage";
-    static final String CURSE = "sparkwitch:curse";
-    static final String BLACK_RAVEN_PERCEIVED = "sparkwitch:black_raven_perceived";
-    static final String HOLY_FLASH_BURST = "sparkwitch:holy_flash_burst";
-    static final String SKATEBOARD_RIDE_STARTED = "sparkstrength:skateboard_ride_started";
-    static final String TOXICOLOGIST_BLUE = "sparkstrength:toxicologist_blue";
-    static final String DETECTIVE_INTERROGATE = "sparkstrength:detective_interrogate";
-    static final String TAOTIE_VOLLEY = "sparkstrength:taotie_volley";
-    static final String CORONER_DISGUISE = "sparkstrength:coroner_disguise";
-    static final String SPIRIT_POSSESSION_STARTED = "sparkstrength:spirit_possession_started";
-    static final String DEMOCRACY_SHIELD = "sparkstrength:democracy_shield";
-    static final String TEAM_CONTRIBUTION = "sparkstrength:team_contribution";
+    static final String WIND_SPIRIT_FALL = "sparkdlc:wind_spirit_fall";
+    static final String SABOTAGE = "sparkdlc:sabotage";
+    static final String CURSE = "sparkdlc:curse";
+    static final String BLACK_RAVEN_PERCEIVED = "sparkdlc:black_raven_perceived";
+    static final String HOLY_FLASH_BURST = "sparkdlc:holy_flash_burst";
+    static final String SKATEBOARD_RIDE_STARTED = "sparkdlc:skateboard_ride_started";
+    static final String TOXICOLOGIST_BLUE = "sparkdlc:toxicologist_blue";
+    static final String DETECTIVE_INTERROGATE = "sparkdlc:detective_interrogate";
+    static final String TAOTIE_VOLLEY = "sparkdlc:taotie_volley";
+    static final String CORONER_DISGUISE = "sparkdlc:coroner_disguise";
+    static final String SPIRIT_POSSESSION_STARTED = "sparkdlc:spirit_possession_started";
+    static final String DEMOCRACY_SHIELD = "sparkdlc:democracy_shield";
+    static final String TEAM_CONTRIBUTION = "sparkdlc:team_contribution";
     static final String SURVIVAL_MOMENT_START = "noellesroles:survival_moment_start";
     static final String SURVIVAL_MOMENT_END = "noellesroles:survival_moment_end";
     /** Wathe's win status when the passengers win. 乘客获胜时 Wathe 的胜利状态。 */

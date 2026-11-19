@@ -177,7 +177,7 @@ tasks.register("verifyStrengthArchitecture") {
         logger.lifecycle("verifyStrengthArchitecture: ${strengthSources.size()} SparkStrength sources name none of the " +
                 "${forbiddenSparkTraitsClasses.size()} SparkTraits internal classes")
 
-        requireText("src/main/resources/fabric.mod.json", "sparkstrength:engineer_stunned")
+        requireText("src/main/resources/fabric.mod.json", "sparkdlc:engineer_stunned")
         requireText("src/main/java/dev/caecorthus/sparkdlc/SparkStrengthItems.java", "SparkStrength.id(\"capture_device\")")
         requireText("src/main/java/dev/caecorthus/sparkdlc/SparkStrengthItems.java", "SparkStrength.id(\"power_restoration\")")
         requireText("src/main/java/dev/caecorthus/sparkdlc/SparkStrengthEntities.java", "SparkStrength.id(\"capture_device\")")
@@ -386,8 +386,8 @@ tasks.register("verifyStrengthCompatibilityArtifact") {
                 }
             }
             def declaredComponents = (metadata.custom?.get("cardinal-components") ?: []).collect { it.toString() }
-            if (!declaredComponents.contains("sparkstrength:engineer_stunned")) {
-                throw new GradleException("Final metadata must declare the component sparkstrength:engineer_stunned")
+            if (!declaredComponents.contains("sparkdlc:engineer_stunned")) {
+                throw new GradleException("Final metadata must declare the component sparkdlc:engineer_stunned")
             }
 
             // Both configs must also be listed in the fused metadata, the client one only for the client environment.

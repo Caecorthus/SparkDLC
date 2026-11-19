@@ -39,7 +39,7 @@ public final class PotionBlastService {
     private static final double PARTICLE_LIFT = 0.1;
     private static final double SMOKE_SPEED = 0.2;
     private static final double DEBRIS_SPEED = 1.0;
-    public static final String HIT_REWARD_KEY = "message.sparkwitch.potion_gunner.hit_reward";
+    public static final String HIT_REWARD_KEY = "message.sparkdlc.potion_gunner.hit_reward";
 
     private PotionBlastService() {
     }

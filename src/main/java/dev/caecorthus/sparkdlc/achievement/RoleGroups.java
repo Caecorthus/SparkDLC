@@ -19,7 +19,7 @@ public final class RoleGroups {
     /** Groups whose streak set lasts one life across rounds. 连续击杀集合跨局延续、死亡即清空的分组。 */
     public static final Set<String> STREAK_GROUPS = Set.of(POLICE, KILLER);
 
-    public static final String GRAND_WITCH_ROLE = "sparkwitch:grand_witch";
+    public static final String GRAND_WITCH_ROLE = "sparkdlc:grand_witch";
 
     /**
      * The eight police roles (警职); the Black Raven is a police variant since 2026-10-21. Corrupt Cop and Insider
@@ -29,12 +29,12 @@ public final class RoleGroups {
     public static final Set<String> POLICE_ROLES = Set.of(
             "wathe:vigilante",
             "wathe:veteran",
-            "sparkwitch:judge",
-            "sparkwitch:emma",
-            "sparkwitch:control_expert",
-            "sparkwitch:seeker",
-            "sparkwitch:usec",
-            "sparkwitch:black_raven");
+            "sparkdlc:judge",
+            "sparkdlc:emma",
+            "sparkdlc:control_expert",
+            "sparkdlc:seeker",
+            "sparkdlc:usec",
+            "sparkdlc:black_raven");
 
     /** All 21 killer-faction roles of Wathe, Noelle's Roles and SparkWitch. Wathe、Noelle's Roles 与 SparkWitch 的全部 21 个杀手身份。 */
     public static final Set<String> KILLER_ROLES = Set.of(
@@ -51,14 +51,14 @@ public final class RoleGroups {
             "noellesroles:party_animal",
             "noellesroles:poisoner",
             "noellesroles:bandit",
-            "sparkwitch:ninja",
-            "sparkwitch:witch_maiden",
-            "sparkwitch:hunter",
-            "sparkwitch:kidnapper",
-            "sparkwitch:bell_ringer",
-            "sparkwitch:time_stealer",
-            "sparkwitch:magician",
-            "sparkwitch:saboteur");
+            "sparkdlc:ninja",
+            "sparkdlc:witch_maiden",
+            "sparkdlc:hunter",
+            "sparkdlc:kidnapper",
+            "sparkdlc:bell_ringer",
+            "sparkdlc:time_stealer",
+            "sparkdlc:magician",
+            "sparkdlc:saboteur");
 
     private RoleGroups() {
     }

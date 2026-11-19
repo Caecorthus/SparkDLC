@@ -11,13 +11,13 @@ import org.ladysnake.cca.api.v3.component.ComponentRegistry;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 
 /**
- * Stable CCA contract {@code sparkwitch:athlete} (NEVER_COPY): the absolute world tick at which the Athlete's dash is
+ * Stable CCA contract {@code sparkdlc:athlete} (NEVER_COPY): the absolute world tick at which the Athlete's dash is
  * ready again. Server-authoritative and synced only to its owner, whose HUD counts it down against the client world
  * clock; the client never predicts it. NBT keeps it across a mid-round relog; role assignment and Wathe's
- * {@code ResetPlayer} clear it. The forced-cooldown store {@code sparkwitch:athlete_dash} only ever raises it.
- * 稳定 CCA 契约 {@code sparkwitch:athlete}（NEVER_COPY）：运动员冲刺再次就绪的绝对世界刻。服务端权威，只同步给本人，
+ * {@code ResetPlayer} clear it. The forced-cooldown store {@code sparkdlc:athlete_dash} only ever raises it.
+ * 稳定 CCA 契约 {@code sparkdlc:athlete}（NEVER_COPY）：运动员冲刺再次就绪的绝对世界刻。服务端权威，只同步给本人，
  * 本人 HUD 依据客户端世界时钟倒数；客户端从不预测。NBT 使其在局中重新登录后保留；身份分配与 Wathe 的
- * {@code ResetPlayer} 会清空它。强制冷却存储 {@code sparkwitch:athlete_dash} 只会把它推后。
+ * {@code ResetPlayer} 会清空它。强制冷却存储 {@code sparkdlc:athlete_dash} 只会把它推后。
  */
 public final class AthleteComponent implements AutoSyncedComponent {
     public static final ComponentKey<AthleteComponent> KEY = ComponentRegistry.getOrCreate(

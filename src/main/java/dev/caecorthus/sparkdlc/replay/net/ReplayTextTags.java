@@ -10,7 +10,7 @@ import java.util.UUID;
  * 通过 {@code Style#insertion} 标记快照行中的玩家名片段，使回放界面能为悬停的名字显示名单提示，而无需每行自带悬停内容。
  */
 public final class ReplayTextTags {
-    private static final String PREFIX = "sparkfactionapi:replay_player/";
+    private static final String PREFIX = "sparkdlc:replay_player/";
 
     private ReplayTextTags() {
     }

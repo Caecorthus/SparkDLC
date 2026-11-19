@@ -63,10 +63,10 @@ public final class ProfessorSerumShopService {
     }
 
     private static ItemStack serumDisplayStack(ProfessorSerumType type) {
-        return ShopStacks.display(type.defaultStack(), "shop.sparkstrength.professor." + type.id());
+        return ShopStacks.display(type.defaultStack(), "shop.sparkdlc.professor." + type.id());
     }
 
     private static ItemStack refreshDisplayStack() {
-        return ShopStacks.display(Items.CLOCK.getDefaultStack(), "shop.sparkstrength.professor.refresh_cooldown");
+        return ShopStacks.display(Items.CLOCK.getDefaultStack(), "shop.sparkdlc.professor.refresh_cooldown");
     }
 }

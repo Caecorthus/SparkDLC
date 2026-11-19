@@ -33,7 +33,7 @@ public final class MorphlingReplayEvents {
             }
 
             return Text.translatable(
-                    "replay.global.sparkstrength.morph_reagent_sampled",
+                    "replay.global.sparkdlc.morph_reagent_sampled",
                     ReplayGenerator.formatPlayerName(actorUuid, playerInfoCache),
                     ReplayText.formatPlayerNameWithFallback(sampleUuid, data.getString("sample_name"), playerInfoCache)
             );
@@ -49,7 +49,7 @@ public final class MorphlingReplayEvents {
             }
 
             return Text.translatable(
-                    "replay.global.sparkstrength.morph_reagent_marked",
+                    "replay.global.sparkdlc.morph_reagent_marked",
                     ReplayGenerator.formatPlayerName(actorUuid, playerInfoCache),
                     ReplayText.formatPlayerNameWithFallback(sampleUuid, data.getString("sample_name"), playerInfoCache),
                     ReplayGenerator.formatPlayerName(targetUuid, playerInfoCache)
@@ -65,7 +65,7 @@ public final class MorphlingReplayEvents {
             }
 
             return Text.translatable(
-                    "replay.global.sparkstrength.morph_mark_triggered",
+                    "replay.global.sparkdlc.morph_mark_triggered",
                     ReplayGenerator.formatPlayerName(actorUuid, playerInfoCache),
                     ReplayText.formatPlayerNameWithFallback(sampleUuid, data.getString("sample_name"), playerInfoCache)
             );
@@ -74,7 +74,7 @@ public final class MorphlingReplayEvents {
                 (event, match, world) -> ReplayText.onePlayerEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.morph_mark_ended"
+                        "replay.global.sparkdlc.morph_mark_ended"
                 ));
     }
 }

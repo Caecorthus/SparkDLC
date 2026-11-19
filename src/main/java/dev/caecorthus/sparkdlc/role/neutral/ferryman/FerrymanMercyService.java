@@ -21,7 +21,7 @@ import java.util.UUID;
  * 报酬；摆渡人自己破坏自己摆渡的遗体既不得钱也不标记任何人。
  */
 public final class FerrymanMercyService {
-    private static final String BROKEN_KEY = "message.sparkwitch.ferryman.mercy.broken";
+    private static final String BROKEN_KEY = "message.sparkdlc.ferryman.mercy.broken";
 
     private FerrymanMercyService() {
     }

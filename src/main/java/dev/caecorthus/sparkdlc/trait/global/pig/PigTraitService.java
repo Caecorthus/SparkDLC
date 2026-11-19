@@ -26,7 +26,7 @@ public final class PigTraitService {
     // EntityDimensions is immutable, and pose updates ask for it several times per tick.
     // EntityDimensions 不可变，而姿态更新每 tick 会多次请求它。
     private static final EntityDimensions PIG_DIMENSIONS = EntityDimensions.changing(PIG_COLLISION_WIDTH, PIG_COLLISION_HEIGHT);
-    public static final Identifier PIG_GOD_ROLE_ID = Identifier.of("sparkwitch", "pig_god");
+    public static final Identifier PIG_GOD_ROLE_ID = Identifier.of("sparkdlc", "pig_god");
     private static final int AMBIENT_SOUND_RANDOM_BOUND = 1000;
 
     private PigTraitService() {

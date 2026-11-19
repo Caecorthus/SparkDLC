@@ -102,9 +102,9 @@ public final class DominatorPlayerComponent
     }
 
     /**
-     * Server only: exact cooldown write for the SparkFactionAPI role-skill store {@code sparkwitch:dominator_skill}
+     * Server only: exact cooldown write for the SparkFactionAPI role-skill store {@code sparkdlc:dominator_skill}
      * ({@code SparkWitchForcedCooldowns#dominatorSkill}), floored at 0; syncs the owner when the value changes.
-     * 仅服务端：供 SparkFactionAPI 职业技能存储 {@code sparkwitch:dominator_skill} 精确写入冷却，下限为 0；值变化时同步给本人。
+     * 仅服务端：供 SparkFactionAPI 职业技能存储 {@code sparkdlc:dominator_skill} 精确写入冷却，下限为 0；值变化时同步给本人。
      */
     public void setCooldownTicks(int ticks) {
         int next = Math.max(0, ticks);

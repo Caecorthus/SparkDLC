@@ -28,9 +28,9 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * The selected skin's replacement sounds, swapped in for {@code sparkwitch:mini_wither.*} on this client only. The
+ * The selected skin's replacement sounds, swapped in for {@code sparkdlc:mini_wither.*} on this client only. The
  * server's volume, pitch, position and timing are kept; custom files are downmixed to mono so they stay positional.
- * 选中皮肤的替换声音，只在本客户端替换 {@code sparkwitch:mini_wither.*}。保留服务端给出的音量、音调、位置与时机；
+ * 选中皮肤的替换声音，只在本客户端替换 {@code sparkdlc:mini_wither.*}。保留服务端给出的音量、音调、位置与时机；
  * 自定义文件会混成单声道，以保持方位感。
  *
  * <p>Client-only presentation: the server still plays its own event id with its own category, volume and pitch;

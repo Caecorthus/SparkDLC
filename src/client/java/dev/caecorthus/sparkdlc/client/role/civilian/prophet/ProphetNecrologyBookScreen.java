@@ -30,11 +30,11 @@ import org.lwjgl.glfw.GLFW;
 /**
  * Read-only two-tab Necrology book on the vanilla book texture: Names (discovery order, ✦ on a solved Prophecy) and
  * Prophecies (killer, "no killer", or the excluded causes). It reads only the owner-synced
- * {@code sparkwitch:prophet_player} component and rebuilds when that sync changes; it sends nothing to the server.
+ * {@code sparkdlc:prophet_player} component and rebuilds when that sync changes; it sends nothing to the server.
  * Every line is wrapped to the book text area (x + 36, y 32, 114 × 126) and clipped at 14 lines, so long names never
  * overflow.
  * 原版书本贴图上的只读双页签亡者名录：「名录」（按发现顺序，预言已揭晓者带 ✦）与「预言」（凶手、「无人行凶」或已排除的
- * 死因）。只读取仅同步给所有者的 {@code sparkwitch:prophet_player} 组件，并在同步变化时重建；不向服务端发送任何内容。
+ * 死因）。只读取仅同步给所有者的 {@code sparkdlc:prophet_player} 组件，并在同步变化时重建；不向服务端发送任何内容。
  * 每行都按书页文字区（x + 36、y 32、114 × 126）换行，并在 14 行处裁剪，长名字绝不溢出。
  */
 public final class ProphetNecrologyBookScreen extends Screen {
@@ -43,7 +43,7 @@ public final class ProphetNecrologyBookScreen extends Screen {
         PROPHECIES
     }
 
-    private static final String KEY = "gui.sparkwitch.prophet_necrology.";
+    private static final String KEY = "gui.sparkdlc.prophet_necrology.";
     private static final int BOOK_SIZE = 192;
     private static final int BOOK_TOP = 2;
     private static final int TEXT_LEFT = 36;
@@ -73,7 +73,7 @@ public final class ProphetNecrologyBookScreen extends Screen {
     private @Nullable ButtonWidget propheciesTabButton;
 
     public ProphetNecrologyBookScreen(Tab initialTab) {
-        super(Text.translatable("item.sparkwitch.prophet_necrology"));
+        super(Text.translatable("item.sparkdlc.prophet_necrology"));
         this.tab = initialTab;
     }
 

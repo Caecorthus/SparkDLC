@@ -14,9 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The signed-in account's achievement save at {@code config/sparkassist/achievements/<account uuid>.json}. Nothing
+ * The signed-in account's achievement save at {@code config/sparkdlc/achievements/<account uuid>.json}. Nothing
  * here is ever sent to a server; offline and singleplayer rounds use the same file as online ones.
- * 当前登录账号的成就存档，位于 {@code config/sparkassist/achievements/<账号 uuid>.json}。
+ * 当前登录账号的成就存档，位于 {@code config/sparkdlc/achievements/<账号 uuid>.json}。
  * 这里的任何数据都不会发给服务器；离线与单人对局和在线对局共用同一个文件。
  */
 public final class AchievementStorage {

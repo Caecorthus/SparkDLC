@@ -9,7 +9,7 @@ import java.util.Objects;
  * 定义一个第一类自定义阵营。
  *
  * @param neutralAligned          only for a native Wathe faction (declared under
- *                                {@code sparkfactionapi:native_wathe_factions}): its roles count as neutral for
+ *                                {@code sparkdlc:native_wathe_factions}): its roles count as neutral for
  *                                {@link SparkFactionApi#isNeutralAligned}; ignored with a warning elsewhere.
  *                                仅用于原生 Wathe 阵营：其角色在 {@link SparkFactionApi#isNeutralAligned} 中视为中立；
  *                                其它阵营设置时记录警告并忽略。

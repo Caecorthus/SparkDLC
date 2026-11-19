@@ -37,7 +37,7 @@ public final class KnightDuelRules {
      * SparkStrength tablet, a Knight start item in the spec and not a weapon; kept as a plain id so SparkStrength stays
      * optional. / SparkStrength 平板：规格中骑士的开局物品，不是武器；以纯 id 保存，SparkStrength 仍为可选。
      */
-    public static final Identifier TABLET_ID = Identifier.of("sparkstrength", "tablet");
+    public static final Identifier TABLET_ID = Identifier.of("sparkdlc", "tablet");
     public static final Identifier MANBA_SOUND_ID = SparkWitch.id("duel.manba");
     public static final Identifier SF_SOUND_ID = SparkWitch.id("duel.sf");
     /**

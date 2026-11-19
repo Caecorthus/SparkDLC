@@ -17,14 +17,14 @@ import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
 /**
- * Apprentice-owned per-player state ({@code sparkwitch:apprentice_player}, {@code NEVER_COPY}) for the 2026-10-06
- * buff, kept out of the shared {@code sparkwitch:player} packet whose field order is frozen. Every field is
+ * Apprentice-owned per-player state ({@code sparkdlc:apprentice_player}, {@code NEVER_COPY}) for the 2026-10-06
+ * buff, kept out of the shared {@code sparkdlc:player} packet whose field order is frozen. Every field is
  * owner-private except the Clairvoyance exposure timer, which every client needs to draw the exposure outline (D9).
  * The Fear ward lives here because the Healing aura grants it to any innocent player (D8). Apprentice-only fields
  * (tasks, Purify cooldown, Swift Step recharge, Mighty Force forfeit) clear themselves once the player stops being the
  * Apprentice.
- * 预备魔女 2026-10-06 增强的每玩家状态（{@code sparkwitch:apprentice_player}，{@code NEVER_COPY}），不放进字段顺序已冻结的
- * 共享 {@code sparkwitch:player} 同步包。除千里眼暴露计时（所有客户端都需要它来绘制暴露描边，D9）外，其余字段只同步给本人。
+ * 预备魔女 2026-10-06 增强的每玩家状态（{@code sparkdlc:apprentice_player}，{@code NEVER_COPY}），不放进字段顺序已冻结的
+ * 共享 {@code sparkdlc:player} 同步包。除千里眼暴露计时（所有客户端都需要它来绘制暴露描边，D9）外，其余字段只同步给本人。
  * 恐惧庇护也存放在这里，因为疗愈光环会把它给予任意好人（D8）。仅属于预备魔女的字段（任务数、净化冷却、滑步充能、巨力失效）
  * 在玩家不再是预备魔女时自行清空。
  * <p>Sync scope: a write to an owner-private field goes to the owner alone ({@link #syncPrivate()}); only the exposure

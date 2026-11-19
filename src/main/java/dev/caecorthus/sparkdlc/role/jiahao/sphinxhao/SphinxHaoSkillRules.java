@@ -10,16 +10,16 @@ import org.jetbrains.annotations.Nullable;
  * 冷却。不访问世界；由服务传入快照。数值位于 {@link SphinxHaoRules}。
  */
 public final class SphinxHaoSkillRules {
-    public static final String INFECT_SUCCESS_KEY = "message.sparkwitch.sphinx_hao.infect.success";
-    public static final String INFECT_NO_TARGET_KEY = "message.sparkwitch.sphinx_hao.infect.no_target";
-    public static final String INFECT_ALREADY_KEY = "message.sparkwitch.sphinx_hao.infect.already";
-    public static final String INFECT_COOLDOWN_KEY = "message.sparkwitch.sphinx_hao.infect.cooldown";
-    public static final String INFECT_DURING_ROAR_KEY = "message.sparkwitch.sphinx_hao.infect.during_roar";
+    public static final String INFECT_SUCCESS_KEY = "message.sparkdlc.sphinx_hao.infect.success";
+    public static final String INFECT_NO_TARGET_KEY = "message.sparkdlc.sphinx_hao.infect.no_target";
+    public static final String INFECT_ALREADY_KEY = "message.sparkdlc.sphinx_hao.infect.already";
+    public static final String INFECT_COOLDOWN_KEY = "message.sparkdlc.sphinx_hao.infect.cooldown";
+    public static final String INFECT_DURING_ROAR_KEY = "message.sparkdlc.sphinx_hao.infect.during_roar";
     /** The victim's private actionbar line 「你感觉自己有点豪」. / 被感染者的私人动作栏文字「你感觉自己有点豪」。 */
-    public static final String NOTICE_KEY = "message.sparkwitch.sphinx_hao.notice";
-    public static final String ROAR_START_KEY = "message.sparkwitch.sphinx_hao.roar.start";
-    public static final String ROAR_COOLDOWN_KEY = "message.sparkwitch.sphinx_hao.roar.cooldown";
-    public static final String ROAR_BUSY_KEY = "message.sparkwitch.sphinx_hao.roar.busy";
+    public static final String NOTICE_KEY = "message.sparkdlc.sphinx_hao.notice";
+    public static final String ROAR_START_KEY = "message.sparkdlc.sphinx_hao.roar.start";
+    public static final String ROAR_COOLDOWN_KEY = "message.sparkdlc.sphinx_hao.roar.cooldown";
+    public static final String ROAR_BUSY_KEY = "message.sparkdlc.sphinx_hao.roar.busy";
 
     private SphinxHaoSkillRules() {
     }

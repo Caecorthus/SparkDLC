@@ -19,7 +19,7 @@ import java.util.List;
  * </ul>
  */
 public final class PartyBalloonRules {
-    public static final String ENTRY_ID = "sparkstrength_party_balloon";
+    public static final String ENTRY_ID = "sparkdlc_party_balloon";
     /** Wathe's killer-shop firecracker; the balloon goes right after it. / Wathe 杀手商店的鞭炮；气球紧随其后。 */
     public static final String AFTER_ENTRY_ID = "firecracker";
     public static final int PRICE = 25;

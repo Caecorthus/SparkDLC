@@ -42,7 +42,7 @@ public final class CloseQuartersService {
     private static final Identifier TRAIT = SparkTraits.id("close_quarters");
     private static final Identifier SPEED = SparkTraits.id("close_quarters_raised_speed");
     private static final Set<String> NO_RAISE_ROLES = Set.of("wathe:veteran", "noellesroles:scavenger",
-            "sparkwitch:vendetta", "sparkwitch:ninja", "noellesroles:ninja");
+            "sparkdlc:vendetta", "sparkdlc:ninja", "noellesroles:ninja");
     private static final Map<UUID, Raise> RAISES = new HashMap<>();
     private static final Map<UUID, Release> RELEASES = new HashMap<>();
     private static final ThreadLocal<KnifeHit> KNIFE_HIT = new ThreadLocal<>();
@@ -205,8 +205,8 @@ public final class CloseQuartersService {
                 || !GameFunctions.isPlayerAliveAndSurvival(victim)) return false;
         GameWorldComponent game = GameWorldComponent.KEY.get(attacker.getWorld());
         Identifier reason = weapon.isOf(WatheItems.BAT) ? GameConstants.DeathReasons.BAT : GameConstants.DeathReasons.KNIFE;
-        if (Registries.ITEM.getId(weapon.getItem()).equals(Identifier.of("sparkwitch", "ceremonial_sword"))) {
-            reason = Identifier.of("sparkwitch", "ceremonial_blade");
+        if (Registries.ITEM.getId(weapon.getItem()).equals(Identifier.of("sparkdlc", "ceremonial_sword"))) {
+            reason = Identifier.of("sparkdlc", "ceremonial_blade");
         }
         if (!SparkFactionApi.canAffectPlayer(attacker, victim, reason, game)) return false;
         return !isRaisedKnife(weapon) || validRealKnifeTarget(attacker, victim);

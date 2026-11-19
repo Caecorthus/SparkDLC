@@ -98,7 +98,7 @@ public final class ReplayCommand {
         if (!alreadyAdmitted && throttled(source, player)) {
             return 0;
         }
-        player.sendMessage(Text.translatable("replay.sparkfactionapi.resend.header").formatted(Formatting.GOLD), false);
+        player.sendMessage(Text.translatable("replay.sparkdlc.resend.header").formatted(Formatting.GOLD), false);
         for (Text line : latest.chat()) {
             player.sendMessage(line, false);
         }
@@ -124,7 +124,7 @@ public final class ReplayCommand {
         // 来自"未来"的记录属于上一次内置服务器运行：同样丢弃。
         LAST_ANSWERED_TICK.values().removeIf(tick -> !ReplayCommand.withinCooldown(tick, now));
         if (LAST_ANSWERED_TICK.containsKey(player.getUuid())) {
-            source.sendError(Text.translatable("commands.sparkfactionapi.replay.cooldown"));
+            source.sendError(Text.translatable("commands.sparkdlc.replay.cooldown"));
             return true;
         }
         LAST_ANSWERED_TICK.put(player.getUuid(), now);
@@ -137,7 +137,7 @@ public final class ReplayCommand {
     }
 
     private static int none(ServerCommandSource source, ServerPlayerEntity player, String mode) {
-        source.sendError(Text.translatable("commands.sparkfactionapi.replay.none"));
+        source.sendError(Text.translatable("commands.sparkdlc.replay.none"));
         SparkFactionApiMod.LOGGER.info("Replay request from {}: mode={}, no replay stored", player.getGameProfile().getName(), mode);
         return 0;
     }

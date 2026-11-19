@@ -42,7 +42,7 @@ public final class TimekeeperWatchClientHooks {
         ).next();
         player.getMainHandStack().set(SparkStrengthItems.TIMEKEEPER_WATCH_MODE, next.ordinal());
         player.sendMessage(
-                Text.translatable("message.sparkstrength.dying_watch.mode_changed", next.text())
+                Text.translatable("message.sparkdlc.dying_watch.mode_changed", next.text())
                         .copy()
                         .setStyle(net.minecraft.text.Style.EMPTY.withColor(
                                 net.minecraft.text.TextColor.fromRgb(TimekeeperConstants.ROLE_COLOR)

@@ -17,10 +17,10 @@ import dev.caecorthus.sparkdlc.util.TickTime;
  * （与幽魂相同），圣徒与业障行因此叠放在其上方而不会重叠。属于职业自有展示，从不使用魔女技能背包面板，也从不使用动作栏。
  */
 public final class FerrymanHudRules {
-    public static final String PARDON_READY_KEY = "hud.sparkwitch.ferryman.pardon.ready";
-    public static final String PARDON_COOLDOWN_KEY = "hud.sparkwitch.ferryman.pardon.cooldown";
-    public static final String FERRY_READY_KEY = "hud.sparkwitch.ferryman.ferry.ready";
-    public static final String FERRY_COOLDOWN_KEY = "hud.sparkwitch.ferryman.ferry.cooldown";
+    public static final String PARDON_READY_KEY = "hud.sparkdlc.ferryman.pardon.ready";
+    public static final String PARDON_COOLDOWN_KEY = "hud.sparkdlc.ferryman.pardon.cooldown";
+    public static final String FERRY_READY_KEY = "hud.sparkdlc.ferryman.ferry.ready";
+    public static final String FERRY_COOLDOWN_KEY = "hud.sparkdlc.ferryman.ferry.cooldown";
     /** Amber, the fresh-body highlight colour, opaque. / 琥珀色（与新鲜遗体高亮相同），不透明。 */
     public static final int READY_COLOR = 0xFFFFD27A;
     /** Same muted grey as the Fiend's, the Athlete's and Noa's cooldown lines. / 与魔人、运动员、诺亚冷却行相同的灰色。 */

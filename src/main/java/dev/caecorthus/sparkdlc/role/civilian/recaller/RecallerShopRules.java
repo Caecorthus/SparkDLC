@@ -15,9 +15,9 @@ public final class RecallerShopRules {
     public static final Identifier RECALLER_ID = Identifier.of("noellesroles", "recaller");
 
     /** 回溯者商店：末影珍珠条目 ID。 */
-    public static final String ENDER_PEARL_ENTRY_ID = "sparkstrength_recaller_ender_pearl";
+    public static final String ENDER_PEARL_ENTRY_ID = "sparkdlc_recaller_ender_pearl";
     /** 回溯者商店：紫颂果条目 ID。 */
-    public static final String CHORUS_FRUIT_ENTRY_ID = "sparkstrength_recaller_chorus_fruit";
+    public static final String CHORUS_FRUIT_ENTRY_ID = "sparkdlc_recaller_chorus_fruit";
 
     /** 回溯者商店中末影珍珠的单个购买价格。 */
     public static final int ENDER_PEARL_PRICE = 125;

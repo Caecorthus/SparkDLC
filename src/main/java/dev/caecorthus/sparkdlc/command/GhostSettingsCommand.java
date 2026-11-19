@@ -16,14 +16,14 @@ public final class GhostSettingsCommand {
     }
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
-        dispatcher.register(CommandManager.literal("sparkwitch:ghostChance")
+        dispatcher.register(CommandManager.literal("sparkdlc:ghostChance")
                 .requires(Permissions.require(
                         SparkWitchPermissions.COMMAND_GHOST_CHANCE,
                         SparkWitchPermissions.DEFAULT_COMMAND_LEVEL))
                 .then(CommandManager.argument("chance", IntegerArgumentType.integer(0, 100))
                         .executes(context -> setChance(
                                 context.getSource(), IntegerArgumentType.getInteger(context, "chance")))));
-        dispatcher.register(CommandManager.literal("sparkwitch:ghostMinRequirement")
+        dispatcher.register(CommandManager.literal("sparkdlc:ghostMinRequirement")
                 .requires(Permissions.require(
                         SparkWitchPermissions.COMMAND_GHOST_MIN_REQUIREMENT,
                         SparkWitchPermissions.DEFAULT_COMMAND_LEVEL))
@@ -36,7 +36,7 @@ public final class GhostSettingsCommand {
         return Wathe.executeSupporterCommand(source, () -> {
             WitchWorldComponent.KEY.get(source.getWorld()).setWraithChance(chance);
             source.sendFeedback(() -> Text.translatable(
-                    "command.sparkwitch.ghost_chance.success", chance), true);
+                    "command.sparkdlc.ghost_chance.success", chance), true);
         });
     }
 
@@ -44,7 +44,7 @@ public final class GhostSettingsCommand {
         return Wathe.executeSupporterCommand(source, () -> {
             WitchWorldComponent.KEY.get(source.getWorld()).setWraithMinimum(minimum);
             source.sendFeedback(() -> Text.translatable(
-                    "command.sparkwitch.ghost_min_requirement.success", minimum), true);
+                    "command.sparkdlc.ghost_min_requirement.success", minimum), true);
         });
     }
 }

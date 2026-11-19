@@ -30,37 +30,37 @@ public final class PartyAnimalReplayEvents {
                 (event, match, world) -> ReplayText.onePlayerEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.partygoer_summoned"
+                        "replay.global.sparkdlc.partygoer_summoned"
                 ));
         ReplayRegistry.registerGlobalEventFormatter(PARTYGOER_GRABBED,
                 (event, match, world) -> ReplayText.throwableHitEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.partygoer_grabbed"
+                        "replay.global.sparkdlc.partygoer_grabbed"
                 ));
         ReplayRegistry.registerGlobalEventFormatter(PARTYGOER_RAGED,
                 (event, match, world) -> ReplayText.throwableHitEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.partygoer_raged"
+                        "replay.global.sparkdlc.partygoer_raged"
                 ));
         ReplayRegistry.registerGlobalEventFormatter(PARTYGOER_KILLED,
                 (event, match, world) -> ReplayText.throwableHitEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.partygoer_killed"
+                        "replay.global.sparkdlc.partygoer_killed"
                 ));
         ReplayRegistry.registerGlobalEventFormatter(PARTYGOER_SWALLOWED,
                 (event, match, world) -> ReplayText.throwableHitEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.partygoer_swallowed"
+                        "replay.global.sparkdlc.partygoer_swallowed"
                 ));
         ReplayRegistry.registerGlobalEventFormatter(PARTY_BALLOON_GIVEN,
                 (event, match, world) -> ReplayText.throwableHitEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.party_balloon_given"
+                        "replay.global.sparkdlc.party_balloon_given"
                 ));
     }
 }

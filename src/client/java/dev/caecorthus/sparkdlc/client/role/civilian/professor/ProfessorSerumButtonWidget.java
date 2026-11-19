@@ -28,7 +28,7 @@ public class ProfessorSerumButtonWidget extends ButtonWidget {
     private final ItemStack iconStack;
 
     public ProfessorSerumButtonWidget(int x, int y, UUID targetUuid, ProfessorSerumType serumType) {
-        super(x, y, 16, 16, Text.translatable("item.sparkstrength." + serumType.id()), button -> {
+        super(x, y, 16, 16, Text.translatable("item.sparkdlc." + serumType.id()), button -> {
                     if (button instanceof ProfessorSerumButtonWidget widget) {
                         ClientPlayNetworking.send(new ProfessorRemoteFeedC2SPacket(widget.targetUuid, widget.serumType));
                     }
@@ -76,7 +76,7 @@ public class ProfessorSerumButtonWidget extends ButtonWidget {
             drawHighlight(context);
             context.drawTooltip(
                     MinecraftClient.getInstance().textRenderer,
-                    Text.translatable("ui.sparkstrength.professor.feed_serum", getMessage()),
+                    Text.translatable("ui.sparkdlc.professor.feed_serum", getMessage()),
                     mouseX,
                     mouseY
             );

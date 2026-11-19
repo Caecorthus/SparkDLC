@@ -47,7 +47,7 @@ import net.minecraft.util.math.Vec3d;
  * 效果（标记、带毒者轮廓、陷阱冒烟）由这里用脚本补上，并在字幕里说明谁能看到；游戏里耗时更长的过程做了缩短，字幕会注明。
  */
 final class SparkStrengthKillerItemScenes {
-    private static final List<String> NOELLES_STRENGTH = List.of("noellesroles", "sparkstrength");
+    private static final List<String> NOELLES_STRENGTH = List.of("noellesroles", "sparkdlc");
     /** PathogenRules.CARRIER_COLOR_FOR_PATHOGEN: a carrier as the Pathogen sees it. 病原体眼中带毒者的颜色。 */
     private static final int CARRIER_DARK_GREEN = 0x1E8C1E;
     /** PathogenRules.TEAMMATE_COLOR: a fellow Pathogen, through walls. 病原体同伴（隔墙可见）的颜色。 */
@@ -76,27 +76,27 @@ final class SparkStrengthKillerItemScenes {
     }
 
     static void register() {
-        item("sparkstrength:morph_reagent", NOELLES_STRENGTH,
+        item("sparkdlc:morph_reagent", NOELLES_STRENGTH,
                 scene("wathe/aisle", SparkStrengthKillerItemScenes::morphReagent));
-        item("sparkstrength:morph_device", NOELLES_STRENGTH,
+        item("sparkdlc:morph_device", NOELLES_STRENGTH,
                 scene("wathe/aisle", SparkStrengthKillerItemScenes::morphReagent));
-        item("sparkstrength:m67", NOELLES_STRENGTH,
+        item("sparkdlc:m67", NOELLES_STRENGTH,
                 scene("noellesroles/wide_aisle", SparkStrengthKillerItemScenes::m67));
-        item("sparkstrength:bomb_drone", NOELLES_STRENGTH,
+        item("sparkdlc:bomb_drone", NOELLES_STRENGTH,
                 scene("noellesroles/wide_aisle", SparkStrengthKillerItemScenes::bombDrone));
-        item("sparkstrength:skateboard", NOELLES_STRENGTH,
+        item("sparkdlc:skateboard", NOELLES_STRENGTH,
                 scene("noellesroles/wide_aisle", SparkStrengthKillerItemScenes::skateboard));
-        item("sparkstrength:virus", NOELLES_STRENGTH,
+        item("sparkdlc:virus", NOELLES_STRENGTH,
                 scene("wathe/aisle", SparkStrengthKillerItemScenes::virus));
-        item("sparkstrength:t_virus", NOELLES_STRENGTH,
+        item("sparkdlc:t_virus", NOELLES_STRENGTH,
                 scene("wathe/aisle", SparkStrengthKillerItemScenes::tVirus));
-        item("sparkstrength:serial_pistol", NOELLES_STRENGTH,
+        item("sparkdlc:serial_pistol", NOELLES_STRENGTH,
                 scene("wathe/aisle", SparkStrengthKillerItemScenes::serialPistols));
-        item("sparkstrength:serial_left_pistol", NOELLES_STRENGTH,
+        item("sparkdlc:serial_left_pistol", NOELLES_STRENGTH,
                 scene("wathe/aisle", SparkStrengthKillerItemScenes::serialPistols));
         // The lights sabotage is triggered from the tablet, so its demo hangs on the breaker everyone repairs.
         // 灯光破坏从平板发动，所以演示挂在大家都要去修的电闸上。
-        item("sparkstrength:circuit_breaker", NOELLES_STRENGTH,
+        item("sparkdlc:circuit_breaker", NOELLES_STRENGTH,
                 scene("wathe/lit_carriage", SparkStrengthKillerItemScenes::circuitBreaker));
         // timedBombTrap and serialPistols also join the noellesroles:timed_bomb and wathe:psycho_mode demos
         // (NoellesKillerScenes / WatheShopScenes.register). 两者也分别加入定时炸弹与疯魔模式的演示。
@@ -125,12 +125,12 @@ final class SparkStrengthKillerItemScenes {
      * 惩罚。两件物品拿在手里时其他活人看不见。
      */
     private static void morphReagent(SceneBuilder scene, SceneBuildingUtil util) {
-        scene.title("sparkstrength_morph_reagent", "变形试剂：把别人变成另一个人");
+        scene.title("sparkdlc_morph_reagent", "变形试剂：把别人变成另一个人");
         WatheItemScenes.stage(scene);
         int color = RoleColors.of("noellesroles:morphling", 0xAA023D);
         Text morphlingName = Text.literal("变形者");
-        ItemStack reagent = stack("sparkstrength:morph_reagent");
-        ItemStack remote = stack("sparkstrength:morph_device");
+        ItemStack reagent = stack("sparkdlc:morph_reagent");
+        ItemStack remote = stack("sparkdlc:morph_device");
         Text ming = Text.literal("阿明");
         Text jie = Text.literal("小杰");
         Vec3d mingSpot = new Vec3d(1.2, 1, 4.4);
@@ -223,10 +223,10 @@ final class SparkStrengthKillerItemScenes {
      * 无人机同样被炸坏。每名观察者离它 5 格内看到红色描边、7 格内黄色，只按距离判断。投掷后冷却 10 秒。拿在手里别人看得见。
      */
     private static void m67(SceneBuilder scene, SceneBuildingUtil util) {
-        scene.title("sparkstrength_m67", "M67 手雷：拉环、扔出、3.5 秒后爆炸");
+        scene.title("sparkdlc_m67", "M67 手雷：拉环、扔出、3.5 秒后爆炸");
         NoellesKillerScenes.wideStage(scene);
         Text civilian = Text.literal("平民");
-        ItemStack m67 = stack("sparkstrength:m67");
+        ItemStack m67 = stack("sparkdlc:m67");
         Vec3d staysSpot = new Vec3d(2.6, 1, 6.9);
         Vec3d runsSpot = new Vec3d(3.8, 1, 7.2);
         ElementLink<ActorElement> stays = Actors.enter(scene, RoleColors.CIVILIAN, civilian, staysSpot,
@@ -323,11 +323,11 @@ final class SparkStrengthKillerItemScenes {
      * 被武器打坏或电量耗尽时原地爆炸；主人死亡时冒一阵烟失效，不会爆炸。手里的无人机对其他活人隐藏；飞着的人人可见。
      */
     private static void bombDrone(SceneBuilder scene, SceneBuildingUtil util) {
-        scene.title("sparkstrength_bomb_drone", "炸弹无人机：飞过去自爆");
+        scene.title("sparkdlc_bomb_drone", "炸弹无人机：飞过去自爆");
         NoellesKillerScenes.wideStage(scene);
         int color = RoleColors.of("noellesroles:bomber", 0x323232);
         Text civilian = Text.literal("平民");
-        ItemStack bombDrone = stack("sparkstrength:bomb_drone");
+        ItemStack bombDrone = stack("sparkdlc:bomb_drone");
         ElementLink<ActorElement> first = Actors.enter(scene, RoleColors.CIVILIAN, civilian,
                 new Vec3d(2.6, 1, 7.2), SCREEN_RIGHT, Direction.DOWN);
         ElementLink<ActorElement> second = Actors.enter(scene, RoleColors.CIVILIAN, civilian,
@@ -354,7 +354,7 @@ final class SparkStrengthKillerItemScenes {
         Actors.lookPitch(scene, bomber, 0);
         SceneCaptions.keyframeCaption(scene, 90, "右键地面放下（拿在手里时其他活人看不见）；一次性，场上同时只能有一架没炸掉的");
         scene.idle(100);
-        Actors.hold(scene, bomber, stack("sparkstrength:tablet"));
+        Actors.hold(scene, bomber, stack("sparkdlc:tablet"));
         SceneCaptions.keyframeCaption(scene, 90, "和投弹无人机一样：主手拿【平板电脑】连接，以无人机视角操控（平板拿在手里其他活人看不见）");
         scene.idle(30);
         NoellesKillerScenes.flyDrone(scene, drone, new Vec3d(0, 1.0, 0), 3);
@@ -404,10 +404,10 @@ final class SparkStrengthKillerItemScenes {
      * 冷却覆盖滑行和之后的 10 秒。被定身（工程师的捕捉装置）或被饕餮吞下时立刻结束。
      */
     private static void skateboard(SceneBuilder scene, SceneBuildingUtil util) {
-        scene.title("sparkstrength_skateboard", "滑板：秃鹫的三倍速");
+        scene.title("sparkdlc_skateboard", "滑板：秃鹫的三倍速");
         NoellesKillerScenes.wideStage(scene);
         int color = RoleColors.of("noellesroles:vulture", 0xB56700);
-        ItemStack board = stack("sparkstrength:skateboard");
+        ItemStack board = stack("sparkdlc:skateboard");
         Vec3d vultureSpot = new Vec3d(7.0, 1, 1.0);
         ElementLink<ActorElement> walker = Actors.enter(scene, RoleColors.CIVILIAN, Text.literal("平民"),
                 new Vec3d(8.5, 1, 2.5), SCREEN_RIGHT, Direction.DOWN);
@@ -453,10 +453,10 @@ final class SparkStrengthKillerItemScenes {
      * 带毒者，解毒剂能把他治好。
      */
     private static void virus(SceneBuilder scene, SceneBuildingUtil util) {
-        scene.title("sparkstrength_virus", "病毒：让别人替你传播");
+        scene.title("sparkdlc_virus", "病毒：让别人替你传播");
         WatheItemScenes.stage(scene);
         int color = RoleColors.of("noellesroles:pathogen", 0x7FFF00);
-        ItemStack virus = stack("sparkstrength:virus");
+        ItemStack virus = stack("sparkdlc:virus");
         Text civilian = Text.literal("平民");
         Vec3d carrierSpot = new Vec3d(2.8, 1, 3.4);
         ElementLink<ActorElement> carrier = Actors.enter(scene, RoleColors.CIVILIAN, civilian, carrierSpot,
@@ -537,10 +537,10 @@ final class SparkStrengthKillerItemScenes {
      * 说话，眼中除病原体以外的人都是灰色史蒂夫；病原体之间不论多远都能隔墙看到彼此，并且一起获胜。
      */
     private static void tVirus(SceneBuilder scene, SceneBuildingUtil util) {
-        scene.title("sparkstrength_t_virus", "T病毒：把死人拉进你的队伍");
+        scene.title("sparkdlc_t_virus", "T病毒：把死人拉进你的队伍");
         WatheItemScenes.stage(scene);
         int color = RoleColors.of("noellesroles:pathogen", 0x7FFF00);
-        ItemStack tVirus = stack("sparkstrength:t_virus");
+        ItemStack tVirus = stack("sparkdlc:t_virus");
         Vec3d bodySpot = new Vec3d(2.8, 1, 3.4);
         ElementLink<ActorElement> victim = Actors.enter(scene, RoleColors.CIVILIAN, Text.literal("平民"), bodySpot,
                 SCREEN_RIGHT, Direction.DOWN);
@@ -604,12 +604,12 @@ final class SparkStrengthKillerItemScenes {
      * 锁在槽位里，疯魔结束时被收走。两把枪拿在手里都看得见，两只手臂都端平。
      */
     static void serialPistols(SceneBuilder scene, SceneBuildingUtil util) {
-        scene.title("sparkstrength_serial_pistol", "连环杀手：疯魔双枪");
+        scene.title("sparkdlc_serial_pistol", "连环杀手：疯魔双枪");
         WatheItemScenes.stage(scene);
         int color = RoleColors.of("noellesroles:serial_killer", 0x662222);
         Text serialName = Text.literal("连环杀手");
-        ItemStack pistol = stack("sparkstrength:serial_pistol");
-        ItemStack leftPistol = stack("sparkstrength:serial_left_pistol");
+        ItemStack pistol = stack("sparkdlc:serial_pistol");
+        ItemStack leftPistol = stack("sparkdlc:serial_left_pistol");
         Text civilian = Text.literal("平民");
         Vec3d firstSpot = new Vec3d(1.6, 1, 5.4);
         Vec3d secondSpot = new Vec3d(4.4, 1, 6.0);
@@ -678,7 +678,7 @@ final class SparkStrengthKillerItemScenes {
      * NoellesRoles 的 placeBomb，所以 SparkTraits 善良炸弹客藏的炸弹在被传走前仍然致命（与指南书一致）。
      */
     static void timedBombTrap(SceneBuilder scene, SceneBuildingUtil util) {
-        scene.title("sparkstrength_timed_bomb_trap", "定时炸弹：藏进托盘或床里");
+        scene.title("sparkdlc_timed_bomb_trap", "定时炸弹：藏进托盘或床里");
         WatheItemScenes.setStage(scene, util);
         int color = RoleColors.of("noellesroles:bomber", 0x323232);
         ItemStack bomb = stack("noellesroles:timed_bomb");
@@ -768,11 +768,11 @@ final class SparkStrengthKillerItemScenes {
      * 编译，所以按名字取得方块和属性。
      */
     private static void circuitBreaker(SceneBuilder scene, SceneBuildingUtil util) {
-        scene.title("sparkstrength_circuit_breaker", "灯光破坏与修电闸");
+        scene.title("sparkdlc_circuit_breaker", "灯光破坏与修电闸");
         // Mounted before the stage drops in, so it comes down with the walls. 在舞台落下之前装好，随墙一起落下。
         scene.world().setBlock(BREAKER, breaker(), false);
         WatheItemScenes.setStage(scene, util);
-        ItemStack tablet = stack("sparkstrength:tablet");
+        ItemStack tablet = stack("sparkdlc:tablet");
         Vec3d fixerStart = new Vec3d(0.8, 1, 0.9);
         Vec3d atBreaker = new Vec3d(2.5, 1, 4.1);
         ElementLink<ActorElement> fixer = Actors.enter(scene, RoleColors.CIVILIAN, Text.literal("平民"), fixerStart,
@@ -893,7 +893,7 @@ final class SparkStrengthKillerItemScenes {
      * so the block is looked up by id. SparkStrength 的电闸，朝北、未跳闸；SparkAssist 不依赖 SparkStrength 编译，所以按 id 取方块。
      */
     private static BlockState breaker() {
-        BlockState state = Registries.BLOCK.get(Identifier.of("sparkstrength", "circuit_breaker")).getDefaultState();
+        BlockState state = Registries.BLOCK.get(Identifier.of("sparkdlc", "circuit_breaker")).getDefaultState();
         if (state.contains(Properties.HORIZONTAL_FACING)) {
             state = state.with(Properties.HORIZONTAL_FACING, Direction.NORTH);
         }

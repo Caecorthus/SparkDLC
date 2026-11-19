@@ -17,13 +17,13 @@ import java.util.UUID;
  */
 final class WitchRules {
     static final String GRAND_WITCH = RoleGroups.GRAND_WITCH_ROLE;
-    static final String MURDEROUS_WITCH = "sparkwitch:murderous_witch";
-    static final String BEWITCHED = "sparkwitch:bewitched";
-    static final String ACCOMPLICE = "sparkwitch:accomplice";
-    static final String ABYSS_LISTENER = "sparkwitch:abyss_listener";
-    static final String RIFTWALKER = "sparkwitch:riftwalker";
-    static final String POTION_GUNNER = "sparkwitch:potion_gunner";
-    static final String FIEND = "sparkwitch:fiend";
+    static final String MURDEROUS_WITCH = "sparkdlc:murderous_witch";
+    static final String BEWITCHED = "sparkdlc:bewitched";
+    static final String ACCOMPLICE = "sparkdlc:accomplice";
+    static final String ABYSS_LISTENER = "sparkdlc:abyss_listener";
+    static final String RIFTWALKER = "sparkdlc:riftwalker";
+    static final String POTION_GUNNER = "sparkdlc:potion_gunner";
+    static final String FIEND = "sparkdlc:fiend";
     /** The plain Accomplice and its three special variants. 普通共犯及其三种特殊变体。 */
     static final Set<String> ACCOMPLICES = Set.of(ACCOMPLICE, ABYSS_LISTENER, RIFTWALKER, POTION_GUNNER);
     /** The special Accomplices a Bewitched promotion rolls. 魔化使晋升抽取的特殊共犯。 */
@@ -31,20 +31,20 @@ final class WitchRules {
     /** The Bewitched and every role its promotion gives. 魔化使及其晋升可得的所有身份。 */
     static final Set<String> BEWITCHED_LINE = Set.of(BEWITCHED, ACCOMPLICE, ABYSS_LISTENER, RIFTWALKER, POTION_GUNNER);
 
-    static final String PIERCED_BY_RAY = "sparkwitch:pierced_by_ray";
+    static final String PIERCED_BY_RAY = "sparkdlc:pierced_by_ray";
     static final String FELL_OUT_OF_TRAIN = "wathe:fell_out_of_train";
-    static final String SHRIEK_GUN = "sparkwitch:shriek_gun";
-    static final String FIRE_POKER = "sparkwitch:fire_poker";
-    static final String WARDENS_SHRIEK = "sparkwitch:wardens_shriek";
-    static final String BEWITCHED_PROMOTION = "sparkwitch:bewitched_promotion";
-    static final String BLINDNESS_ENTRY = "sparkwitch_blindness";
-    static final String FEAR_ENTRY = "sparkwitch_fear";
-    static final String WITCHES_SABBATH = "sparkwitch:witches_sabbath";
+    static final String SHRIEK_GUN = "sparkdlc:shriek_gun";
+    static final String FIRE_POKER = "sparkdlc:fire_poker";
+    static final String WARDENS_SHRIEK = "sparkdlc:wardens_shriek";
+    static final String BEWITCHED_PROMOTION = "sparkdlc:bewitched_promotion";
+    static final String BLINDNESS_ENTRY = "sparkdlc_blindness";
+    static final String FEAR_ENTRY = "sparkdlc_fear";
+    static final String WITCHES_SABBATH = "sparkdlc:witches_sabbath";
     static final String PULLED = "pulled";
-    static final String PORTAL_CRUSH = "sparkwitch:portal_crush";
-    static final String PORTAL_CRUSHED = "sparkwitch:portal_crushed";
-    static final String FIEND_MOMENT_START = "sparkwitch:fiend_moment_start";
-    static final String FIEND_MOMENT_END = "sparkwitch:fiend_moment_end";
+    static final String PORTAL_CRUSH = "sparkdlc:portal_crush";
+    static final String PORTAL_CRUSHED = "sparkdlc:portal_crushed";
+    static final String FIEND_MOMENT_START = "sparkdlc:fiend_moment_start";
+    static final String FIEND_MOMENT_END = "sparkdlc:fiend_moment_end";
     static final String FIEND_KEY = "fiend";
     static final String DURATION_TICKS = "duration_ticks";
     static final String KNIFE_STAB = "wathe:knife_stab";
@@ -76,7 +76,7 @@ final class WitchRules {
     // ---- Murderous Witch 杀意魔女 ----
 
     /**
-     * 糖葫芦: as the Murderous Witch, 3 kills by Death Ray ({@code sparkwitch:pierced_by_ray}) in one record tick, like
+     * 糖葫芦: as the Murderous Witch, 3 kills by Death Ray ({@code sparkdlc:pierced_by_ray}) in one record tick, like
      * 反载 (one beam kills everyone on it in the same tick).
      * 以杀意魔女身份，同一记录 tick 内 3 次死亡射线击杀，写法同反载（一道射线在同一 tick 击杀其上所有人）。
      */
@@ -133,8 +133,8 @@ final class WitchRules {
 
     /**
      * 图穷匕见: a promotion of mine out of the Bewitched: a {@code role_changed} with cause
-     * {@code sparkwitch:bewitched_promotion}, which SparkWitch writes once the second task is done.
-     * 我作为魔化使的一次晋升：原因为 {@code sparkwitch:bewitched_promotion} 的 {@code role_changed}，SparkWitch 在完成第二个任务后写下。
+     * {@code sparkdlc:bewitched_promotion}, which SparkWitch writes once the second task is done.
+     * 我作为魔化使的一次晋升：原因为 {@code sparkdlc:bewitched_promotion} 的 {@code role_changed}，SparkWitch 在完成第二个任务后写下。
      */
     static boolean bewitchedPromoted(AchievementContext context) {
         return myRoleChanges(context).stream().anyMatch(change ->
@@ -155,10 +155,10 @@ final class WitchRules {
 
     /**
      * 浑水摸鱼: as an Accomplice (plain or a special variant), a kill of a player outside the witch faction while a
-     * Blindness the Grand Witch cast was in effect: within 20 s of a {@code sparkwitch_blindness} purchase by a player
+     * Blindness the Grand Witch cast was in effect: within 20 s of a {@code sparkdlc_blindness} purchase by a player
      * who was the Grand Witch then (the purchase is the cast; it is recorded only when the spell went off).
      * 以共犯身份（普通或特殊变体），在大魔女施放的失明生效期间击杀魔女阵营以外的玩家：在当时身为大魔女的玩家购买
-     * {@code sparkwitch_blindness} 之后 20 秒内（购买即施放；只有法术成功才会记录）。
+     * {@code sparkdlc_blindness} 之后 20 秒内（购买即施放；只有法术成功才会记录）。
      */
     static boolean killDuringBlindness(AchievementContext context) {
         List<MatchEvent> blindness = context.timeline().events(MatchEvent.SHOP_PURCHASE).stream()
@@ -210,10 +210,10 @@ final class WitchRules {
 
     /**
      * 查无此人: as the Riftwalker inside a Rift Gate, a Swapper's swap on me was cancelled and the Swapper was crushed:
-     * a {@code sparkwitch:portal_crush} global event with me as its target (the occupant) and the Swapper as actor,
-     * then that Swapper's death by {@code sparkwitch:portal_crushed}.
+     * a {@code sparkdlc:portal_crush} global event with me as its target (the occupant) and the Swapper as actor,
+     * then that Swapper's death by {@code sparkdlc:portal_crushed}.
      * 以隙行者身份待在裂隙门内时，换位者对我的交换被取消且换位者被压死：以我为目标（门内的人）、换位者为执行者的
-     * {@code sparkwitch:portal_crush} 全局事件，随后该换位者以 {@code sparkwitch:portal_crushed} 死亡。
+     * {@code sparkdlc:portal_crush} 全局事件，随后该换位者以 {@code sparkdlc:portal_crushed} 死亡。
      */
     static boolean swapperCrushed(AchievementContext context) {
         UUID self = context.self();
@@ -229,11 +229,11 @@ final class WitchRules {
 
     /**
      * 挨打致富: 300 coins gained in one round while the Fiend for the whole round, by SparkFactionAPI's
-     * {@code sparkfactionapi:income}, which counts every coin credited this round. The Fiend has no task or starting
+     * {@code sparkdlc:income}, which counts every coin credited this round. The Fiend has no task or starting
      * money; its gold comes from being hit while dormant (a hit its immunity cancels) and from a bomb it passes on
      * when the new holder dies of it (SparkWitch's {@code FiendBombLedger}). The income also includes anything else
      * credited, such as SparkTraits' Snowball bonus or eating a goldfish, which the record cannot tell apart.
-     * 整局都是魔人时，一局内获得 300 金币，按 SparkFactionAPI 的 {@code sparkfactionapi:income} 计（本局入账的全部金币）。
+     * 整局都是魔人时，一局内获得 300 金币，按 SparkFactionAPI 的 {@code sparkdlc:income} 计（本局入账的全部金币）。
      * 魔人没有任务收入与开局金币；它的金币来自休眠期间挨打（被其免疫抵消的攻击），以及把炸弹转手后新持有者被炸死
      * （SparkWitch 的 {@code FiendBombLedger}）。入账也包括其他来源，例如 SparkTraits 雪球的加成或吃下金鱼，记录无法区分。
      */
@@ -245,11 +245,11 @@ final class WitchRules {
 
     /**
      * 魔人降临: as the Fiend, I won after a Fiend Moment of mine ran its course: my
-     * {@code sparkwitch:fiend_moment_start} with no {@code sparkwitch:fiend_moment_end} of mine after it (an end is
+     * {@code sparkdlc:fiend_moment_start} with no {@code sparkdlc:fiend_moment_end} of mine after it (an end is
      * written when I die, leave, am swallowed or lose the role) and the match ending no earlier than its duration.
      * Needs the complete record.
-     * 以魔人身份撑过我的魔人时刻并获胜：我的 {@code sparkwitch:fiend_moment_start} 之后没有我的
-     * {@code sparkwitch:fiend_moment_end}（死亡、离开、被吞噬或失去身份时会写），且对局结束不早于时刻的时长。需要完整记录。
+     * 以魔人身份撑过我的魔人时刻并获胜：我的 {@code sparkdlc:fiend_moment_start} 之后没有我的
+     * {@code sparkdlc:fiend_moment_end}（死亡、离开、被吞噬或失去身份时会写），且对局结束不早于时刻的时长。需要完整记录。
      */
     static boolean outlastedFiendMoment(AchievementContext context) {
         MatchTimeline timeline = context.timeline();
@@ -329,11 +329,11 @@ final class WitchRules {
     }
 
     /**
-     * 全武行: as the Grand Witch, within the 10 s of a Fear I cast ({@code sparkwitch_fear} purchase), kill a player
-     * outside the witch faction with each of the Ceremonial Sword ({@code sparkwitch:ceremonial_blade}), the knife
+     * 全武行: as the Grand Witch, within the 10 s of a Fear I cast ({@code sparkdlc_fear} purchase), kill a player
+     * outside the witch faction with each of the Ceremonial Sword ({@code sparkdlc:ceremonial_blade}), the knife
      * ({@code wathe:knife_stab}) and the revolver ({@code wathe:gun_shot} with {@code killer_item} {@code
      * wathe:revolver}). Cutting down my bound Vendetta with the sword has no death record and is not counted.
-     * 以大魔女身份，在我施放的一次恐惧（购买 {@code sparkwitch_fear}）的 10 秒内，分别用仪礼剑（{@code sparkwitch:ceremonial_blade}）、
+     * 以大魔女身份，在我施放的一次恐惧（购买 {@code sparkdlc_fear}）的 10 秒内，分别用仪礼剑（{@code sparkdlc:ceremonial_blade}）、
      * 刀（{@code wathe:knife_stab}）和左轮手枪（{@code killer_item} 为 {@code wathe:revolver} 的 {@code wathe:gun_shot}）
      * 各击杀一名魔女阵营以外的玩家。用剑斩杀与我绑定的仇杀客没有死亡记录，不计入。
      */

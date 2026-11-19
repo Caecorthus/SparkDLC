@@ -16,7 +16,7 @@ final class CooldownCommand {
     }
 
     static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
-        dispatcher.register(CommandManager.literal("sparkfactionapi:clearCooldown")
+        dispatcher.register(CommandManager.literal("sparkdlc:clearCooldown")
                 .requires(SparkFactionPermissions.admin())
                 .executes(context -> clearCooldown(
                         context.getSource(),

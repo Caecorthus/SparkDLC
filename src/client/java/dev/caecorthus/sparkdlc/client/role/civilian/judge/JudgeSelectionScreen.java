@@ -30,7 +30,7 @@ public final class JudgeSelectionScreen extends Screen {
     private ButtonWidget confirmButton;
 
     public JudgeSelectionScreen(OpenJudgeSelectionS2CPacket payload) {
-        super(Text.translatable("gui.sparkwitch.judge.title"));
+        super(Text.translatable("gui.sparkdlc.judge.title"));
         sessionId = payload.sessionId();
         playerUuids = payload.playerUuids();
         playerNames = payload.playerNames();
@@ -39,7 +39,7 @@ public final class JudgeSelectionScreen extends Screen {
     @Override
     protected void init() {
         panelWidth = Math.min(360, Math.max(1, width - 16));
-        warningLines = textRenderer.wrapLines(Text.translatable("gui.sparkwitch.judge.cost_warning",
+        warningLines = textRenderer.wrapLines(Text.translatable("gui.sparkdlc.judge.cost_warning",
                 JudgeRules.JUDGMENT_COST), Math.max(1, panelWidth - 16));
         int headerHeight = 26 + warningLines.size() * (textRenderer.fontHeight + 1) + 8;
         int available = Math.max(0, height - 16 - headerHeight - 52);
@@ -53,9 +53,9 @@ public final class JudgeSelectionScreen extends Screen {
         int buttonWidth = Math.max(1, (panelWidth - 24) / 2);
         int buttonY = listY + listHeight + 24;
         confirmButton = addDrawableChild(ButtonWidget.builder(
-                Text.translatable("gui.sparkwitch.judge.confirm", JudgeRules.JUDGMENT_COST), button -> submit())
+                Text.translatable("gui.sparkdlc.judge.confirm", JudgeRules.JUDGMENT_COST), button -> submit())
                 .dimensions(panelX + 8, buttonY, buttonWidth, 20).build());
-        addDrawableChild(ButtonWidget.builder(Text.translatable("gui.sparkwitch.judge.cancel"), button -> close())
+        addDrawableChild(ButtonWidget.builder(Text.translatable("gui.sparkdlc.judge.cancel"), button -> close())
                 .dimensions(panelX + panelWidth - 8 - buttonWidth, buttonY, buttonWidth, 20).build());
         updateConfirmButton();
     }
@@ -93,7 +93,7 @@ public final class JudgeSelectionScreen extends Screen {
         }
         context.enableScissor(panelX + 2, listY, right - 2, listY + listHeight);
         if (playerUuids.isEmpty()) {
-            context.drawCenteredTextWithShadow(textRenderer, Text.translatable("gui.sparkwitch.judge.empty"),
+            context.drawCenteredTextWithShadow(textRenderer, Text.translatable("gui.sparkdlc.judge.empty"),
                     panelX + panelWidth / 2, listY + 6, 0xAAAAAA);
         }
         for (int index = 0; index < playerUuids.size(); index++) {
@@ -116,8 +116,8 @@ public final class JudgeSelectionScreen extends Screen {
             context.fill(right - 4, listY, right - 2, listY + listHeight, 0xFF303030);
             context.fill(right - 4, y, right - 2, y + thumb, 0xFFDFA94F);
         }
-        Text selection = selected < 0 ? Text.translatable("gui.sparkwitch.judge.choose")
-                : Text.translatable("gui.sparkwitch.judge.selected", playerNames.get(selected));
+        Text selection = selected < 0 ? Text.translatable("gui.sparkdlc.judge.choose")
+                : Text.translatable("gui.sparkdlc.judge.selected", playerNames.get(selected));
         context.drawTextWithShadow(textRenderer, textRenderer.trimToWidth(selection.getString(), Math.max(1, panelWidth - 16)),
                 panelX + 8, listY + listHeight + 8, 0xFFFFFF);
     }

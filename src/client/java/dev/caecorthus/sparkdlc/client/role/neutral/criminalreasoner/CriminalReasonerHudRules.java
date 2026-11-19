@@ -18,11 +18,11 @@ import dev.caecorthus.sparkdlc.util.TickTime;
  * GUI 较窄时一同抬升到快捷栏列之上）。不含 Minecraft 客户端类型。
  */
 public final class CriminalReasonerHudRules {
-    public static final String COOLDOWN_KEY = "hud.sparkwitch.criminal_reasoner.cooldown";
-    public static final String PRESS_KEY = "hud.sparkwitch.criminal_reasoner.press_key";
-    public static final String PROGRESS_KEY = "hud.sparkwitch.criminal_reasoner.progress";
-    public static final String INVISIBILITY_KEY = "hud.sparkwitch.criminal_reasoner.invisibility";
-    public static final String INVISIBILITY_ACTIVE_KEY = "hud.sparkwitch.criminal_reasoner.invisibility_active";
+    public static final String COOLDOWN_KEY = "hud.sparkdlc.criminal_reasoner.cooldown";
+    public static final String PRESS_KEY = "hud.sparkdlc.criminal_reasoner.press_key";
+    public static final String PROGRESS_KEY = "hud.sparkdlc.criminal_reasoner.progress";
+    public static final String INVISIBILITY_KEY = "hud.sparkdlc.criminal_reasoner.invisibility";
+    public static final String INVISIBILITY_ACTIVE_KEY = "hud.sparkdlc.criminal_reasoner.invisibility_active";
     /** Vanilla Formatting colours the rows always used. / 各行一直使用的原版 Formatting 颜色。 */
     public static final int GRAY = 0xFFAAAAAA;
     public static final int WHITE = 0xFFFFFFFF;

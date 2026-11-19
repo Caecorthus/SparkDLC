@@ -21,16 +21,16 @@ import org.jetbrains.annotations.Nullable;
  * 从不使用魔女技能背包面板。
  */
 public final class BlindKitHudRules {
-    public static final String ATTUNE_NAME_KEY = "hud.sparkwitch.blind.attune.name";
-    public static final String CANE_NAME_KEY = "item.sparkwitch.white_cane";
-    public static final String ATTUNE_READY_KEY = "hud.sparkwitch.blind.attune.ready";
-    public static final String ATTUNE_ACTIVE_KEY = "hud.sparkwitch.blind.attune.active";
-    public static final String ATTUNE_COOLDOWN_KEY = "hud.sparkwitch.blind.attune.cooldown";
-    public static final String CANE_READY_KEY = "hud.sparkwitch.blind.cane.ready";
-    public static final String CANE_ACTIVE_KEY = "hud.sparkwitch.blind.cane.active";
-    public static final String CANE_COOLDOWN_KEY = "hud.sparkwitch.blind.cane.cooldown";
-    public static final String COMTAC_WORN_KEY = "hud.sparkwitch.blind.comtac.worn";
-    public static final String COMTAC_NOT_WORN_KEY = "hud.sparkwitch.blind.comtac.not_worn";
+    public static final String ATTUNE_NAME_KEY = "hud.sparkdlc.blind.attune.name";
+    public static final String CANE_NAME_KEY = "item.sparkdlc.white_cane";
+    public static final String ATTUNE_READY_KEY = "hud.sparkdlc.blind.attune.ready";
+    public static final String ATTUNE_ACTIVE_KEY = "hud.sparkdlc.blind.attune.active";
+    public static final String ATTUNE_COOLDOWN_KEY = "hud.sparkdlc.blind.attune.cooldown";
+    public static final String CANE_READY_KEY = "hud.sparkdlc.blind.cane.ready";
+    public static final String CANE_ACTIVE_KEY = "hud.sparkdlc.blind.cane.active";
+    public static final String CANE_COOLDOWN_KEY = "hud.sparkdlc.blind.cane.cooldown";
+    public static final String COMTAC_WORN_KEY = "hud.sparkdlc.blind.comtac.worn";
+    public static final String COMTAC_NOT_WORN_KEY = "hud.sparkdlc.blind.comtac.not_worn";
     public static final int READY_COLOR = 0xFF000000 | BlindRules.COLOR;
     public static final int ACTIVE_COLOR = 0xFFFFFFFF;
     public static final int COOLDOWN_COLOR = 0xFF8C99A6;

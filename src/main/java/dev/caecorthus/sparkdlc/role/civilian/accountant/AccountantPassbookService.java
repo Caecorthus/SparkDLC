@@ -125,13 +125,13 @@ public final class AccountantPassbookService {
                 shop.setBalance(0);
                 player.getWorld().playSound(null, player.getBlockPos(), SoundEvents.BLOCK_ENDER_CHEST_OPEN,
                         SoundCategory.PLAYERS, 0.6F, 1.4F);
-                player.sendMessage(Text.translatable("message.sparkwitch.accountant.deposited", balance)
+                player.sendMessage(Text.translatable("message.sparkdlc.accountant.deposited", balance)
                         .formatted(Formatting.GOLD), true);
                 AccountantReplay.recordDeposit(player, balance);
             }
             case NOT_ACCOUNTANT -> player.sendMessage(Text.translatable(
-                    "message.sparkwitch.accountant.not_accountant").formatted(Formatting.GRAY), true);
-            case NO_COINS -> player.sendMessage(Text.translatable("message.sparkwitch.accountant.no_coins")
+                    "message.sparkdlc.accountant.not_accountant").formatted(Formatting.GRAY), true);
+            case NO_COINS -> player.sendMessage(Text.translatable("message.sparkdlc.accountant.no_coins")
                     .formatted(Formatting.GRAY), true);
             case REFUSED -> {
             }
@@ -178,11 +178,11 @@ public final class AccountantPassbookService {
                 stack.decrement(1);
                 player.getWorld().playSound(null, player.getBlockPos(), SoundEvents.ENTITY_ITEM_PICKUP,
                         SoundCategory.PLAYERS, 0.8F, 1.0F);
-                player.sendMessage(Text.translatable("message.sparkwitch.accountant.withdrew", stored)
+                player.sendMessage(Text.translatable("message.sparkdlc.accountant.withdrew", stored)
                         .formatted(Formatting.GOLD), true);
                 AccountantReplay.recordWithdraw(player, stored);
             }
-            case EMPTY -> player.sendMessage(Text.translatable("message.sparkwitch.accountant.empty")
+            case EMPTY -> player.sendMessage(Text.translatable("message.sparkdlc.accountant.empty")
                     .formatted(Formatting.GRAY), true);
             case REFUSED -> {
             }

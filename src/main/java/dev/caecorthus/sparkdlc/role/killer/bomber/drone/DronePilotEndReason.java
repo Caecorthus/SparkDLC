@@ -30,13 +30,13 @@ public enum DronePilotEndReason {
         return wire;
     }
 
-    /** Lang key suffix: {@code message.sparkstrength.drone.pilot_end.<id>}. / 语言键后缀。 */
+    /** Lang key suffix: {@code message.sparkdlc.drone.pilot_end.<id>}. / 语言键后缀。 */
     public String id() {
         return id;
     }
 
     public String translationKey() {
-        return "message.sparkstrength.drone.pilot_end." + id;
+        return "message.sparkdlc.drone.pilot_end." + id;
     }
 
     public static DronePilotEndReason fromWire(int wire) {

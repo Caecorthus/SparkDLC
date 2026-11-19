@@ -29,7 +29,7 @@ public final class GameSettingsCommandRules {
     private static final int SPECIAL_ROLE_COLOR = 0x79C7D4;
     private static final int ENABLED_COLOR = 0x55FF55;
     private static final int DISABLED_COLOR = 0xFF5555;
-    private static final String SPECIAL_ROLE_HEADER_KEY = "commands.sparkfactionapi.listroles.special";
+    private static final String SPECIAL_ROLE_HEADER_KEY = "commands.sparkdlc.listroles.special";
 
     private GameSettingsCommandRules() {
     }

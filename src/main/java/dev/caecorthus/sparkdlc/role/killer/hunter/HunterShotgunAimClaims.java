@@ -12,10 +12,10 @@ import java.util.UUID;
 
 /**
  * Server end of the shotgun aim claim ({@link HunterShotgunAim}): one pending claim per player, stored by the
- * {@code sparkwitch:double_barrel_aim} receiver and taken by the very next shotgun {@code use}. Both run on the server
+ * {@code sparkdlc:double_barrel_aim} receiver and taken by the very next shotgun {@code use}. Both run on the server
  * thread, in packet order (Fabric queues custom payloads on the same task queue as vanilla packets). In-memory only:
  * no NBT, no sync; dropped on disconnect and server stop.
- * 猎枪瞄准声明（{@link HunterShotgunAim}）的服务端：每名玩家一个待处理声明，由 {@code sparkwitch:double_barrel_aim}
+ * 猎枪瞄准声明（{@link HunterShotgunAim}）的服务端：每名玩家一个待处理声明，由 {@code sparkdlc:double_barrel_aim}
  * 接收器存入，并被紧随其后的猎枪 {@code use} 取走。二者都按数据包顺序在服务端线程运行（Fabric 将自定义载荷与原版
  * 数据包排入同一任务队列）。纯内存：不写 NBT、不同步；断线与服务端停止时清除。
  */

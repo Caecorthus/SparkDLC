@@ -13,8 +13,8 @@ import org.jetbrains.annotations.Nullable;
  * 忍者的纯数值与击杀判断集中在这里，运行时接线由外层服务负责。
  */
 public final class NinjaRules {
-    public static final Identifier ROLE_ID = Identifier.of("sparkwitch", "ninja");
-    public static final Identifier PARRY_SKILL_ID = Identifier.of("sparkwitch", "ninja_parry");
+    public static final Identifier ROLE_ID = Identifier.of("sparkdlc", "ninja");
+    public static final Identifier PARRY_SKILL_ID = Identifier.of("sparkdlc", "ninja_parry");
     public static final int COLOR = 0x2C2C2C;
     public static final int PARRY_INITIAL_COOLDOWN_TICKS = 1200;
     // 忍者开局苦无先锁 60 秒，和出刀后的 30 秒使用冷却分开管理。

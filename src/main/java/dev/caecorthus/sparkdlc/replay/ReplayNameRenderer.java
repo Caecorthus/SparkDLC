@@ -22,7 +22,7 @@ import java.util.UUID;
 public final class ReplayNameRenderer {
     static final int UNKNOWN_ROLE_COLOR = 0xFFFFFF;
     private static final String ROLE_KEY_PREFIX = "announcement.role.";
-    private static final String NO_ROLE_KEY = "replay.sparkfactionapi.role.none";
+    private static final String NO_ROLE_KEY = "replay.sparkdlc.role.none";
 
     private ReplayNameRenderer() {
     }

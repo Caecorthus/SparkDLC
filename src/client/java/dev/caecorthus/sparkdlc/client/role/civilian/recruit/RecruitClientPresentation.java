@@ -15,13 +15,13 @@ import net.minecraft.text.Text;
 
 /**
  * Role-owned HUD line of a living Recruit: the bottom-right first-task progress {@code n/1} until Wathe's knife is
- * granted. It reads only the local player's own synced role and owner-synced {@code sparkwitch:recruit} state; the
+ * granted. It reads only the local player's own synced role and owner-synced {@code sparkdlc:recruit} state; the
  * server alone counts tasks and grants the knife.
  * 存活新兵的职业自有 HUD 行：发刀前在右下角显示首个任务进度 {@code n/1}。只读取本地玩家自己同步的身份与仅同步给本人的
- * {@code sparkwitch:recruit} 状态；任务计数与发刀只由服务端决定。
+ * {@code sparkdlc:recruit} 状态；任务计数与发刀只由服务端决定。
  */
 public final class RecruitClientPresentation {
-    static final String PROGRESS_KEY = "hud.sparkwitch.recruit.knife_progress";
+    static final String PROGRESS_KEY = "hud.sparkdlc.recruit.knife_progress";
     private static final int RIGHT_PADDING = 5;
     private static final int BOTTOM_PADDING = 5;
     private static boolean registered;

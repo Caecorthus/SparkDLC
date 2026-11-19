@@ -12,9 +12,9 @@ import java.util.List;
  * 向上堆叠，避开 Wathe 的手持物品名、体力行与快捷栏。
  */
 public final class ControlExpertStatusHudRules {
-    public static final String DISRUPTED_KEY = "hud.sparkwitch.control_expert.disrupted";
-    public static final String STUNNED_KEY = "hud.sparkwitch.control_expert.stunned";
-    public static final String INSTINCT_BLOCKED_KEY = "message.sparkwitch.control_expert.instinct_blocked";
+    public static final String DISRUPTED_KEY = "hud.sparkdlc.control_expert.disrupted";
+    public static final String STUNNED_KEY = "hud.sparkdlc.control_expert.stunned";
+    public static final String INSTINCT_BLOCKED_KEY = "message.sparkdlc.control_expert.instinct_blocked";
     /** Length of the Alt-press flash. / 按下 Alt 后闪烁的持续刻数。 */
     public static final int FLASH_TICKS = 20;
     public static final int DISRUPT_COLOR = 0xFF4DD0E1;

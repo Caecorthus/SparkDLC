@@ -90,11 +90,11 @@ public final class ChargeItems {
     public enum Kind {
         KNIFE("wathe", "knife"),
         /** Extends Wathe's knife but replaces the release check with its own. 继承自 Wathe 的刀，但用自己的松手判定替换了原判定。 */
-        VENDETTA_KNIFE("sparkwitch", "vendetta_knife"),
-        SWORDFISH("sparkwitch", "swordfish"),
-        CROSS_SWORD("sparkwitch", "cross_sword"),
-        SHURIKEN("sparkwitch", "ninja_shuriken"),
-        M67("sparkstrength", "m67"),
+        VENDETTA_KNIFE("sparkdlc", "vendetta_knife"),
+        SWORDFISH("sparkdlc", "swordfish"),
+        CROSS_SWORD("sparkdlc", "cross_sword"),
+        SHURIKEN("sparkdlc", "ninja_shuriken"),
+        M67("sparkdlc", "m67"),
         THROWING_AXE("noellesroles", "throwing_axe");
 
         private final Identifier id;

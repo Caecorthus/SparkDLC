@@ -135,7 +135,7 @@ public final class StowawaySensesClient {
         if (current != null && overlay.sparkwitch$getOverlayRemaining() > 0 && current != shownLine) {
             return;
         }
-        shownLine = Text.translatable("hud.sparkwitch.stowaway.unease").formatted(Formatting.GRAY);
+        shownLine = Text.translatable("hud.sparkdlc.stowaway.unease").formatted(Formatting.GRAY);
         client.inGameHud.setOverlayMessage(shownLine, false);
     }
 

@@ -28,7 +28,7 @@ public final class ImpostorLockpickService {
             if (game.hasAnyRole(player) && SparkTraitsCompat.hasImpostor(player)
                     && SabotageAccess.hasSabotageIdentity(player) && !hasLockpick(player)
                     && player.giveItemStack(new ItemStack(SparkStrengthItems.impostorLockpick()))) {
-                player.sendMessage(Text.translatable("message.sparkstrength.sabotage.impostor_lockpick_granted"), false);
+                player.sendMessage(Text.translatable("message.sparkdlc.sabotage.impostor_lockpick_granted"), false);
             }
         }
     }

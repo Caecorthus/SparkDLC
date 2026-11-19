@@ -30,7 +30,7 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Server side of Hanna's float ({@code sparkwitch:use_hanna_float}) and of every timer in {@link HannaComponent}:
+ * Server side of Hanna's float ({@code sparkdlc:use_hanna_float}) and of every timer in {@link HannaComponent}:
  * <ul>
  *   <li>{@link #tryUse}: gates the request ({@link HannaRules#floatVerdict}), spends the mana, starts the float and
  *   puts on the transient Speed II modifier. A refused request changes nothing and costs nothing.</li>
@@ -42,7 +42,7 @@ import org.jetbrains.annotations.Nullable;
  * </ul>
  * The speed is an attribute modifier, not a status effect, so ending the float never strips a Speed effect that came
  * from somewhere else. Silence and the instinct veil are presentation: they read {@link HannaComponent#isFloating()}.
- * 汉娜浮游（{@code sparkwitch:use_hanna_float}）与 {@link HannaComponent} 中全部计时的服务端部分：
+ * 汉娜浮游（{@code sparkdlc:use_hanna_float}）与 {@link HannaComponent} 中全部计时的服务端部分：
  * {@link #tryUse} 判定请求（{@link HannaRules#floatVerdict}）、扣除魔力、开始浮游并挂上临时的速度 II 修饰符；被拒绝的请求不改变
  * 任何东西，也不消耗任何东西。{@link #touch} 是唯一的打断入口：Wathe 的 {@code KillPlayer.BEFORE}（只观察、从不作答）、Fabric
  * 的攻击与实体交互回调（始终 PASS）以及投掷物 mixin 都汇入这里。世界刻：让速度修饰符与进行中的浮游保持一致（重新登录会丢失
@@ -148,7 +148,7 @@ public final class HannaFloatService {
     }
 
     private static void tellNoMana(ServerPlayerEntity player) {
-        player.sendMessage(Text.translatable("message.sparkwitch.hanna.no_mana", HannaRules.FLOAT_MANA)
+        player.sendMessage(Text.translatable("message.sparkdlc.hanna.no_mana", HannaRules.FLOAT_MANA)
                 .formatted(Formatting.RED), true);
     }
 
@@ -181,7 +181,7 @@ public final class HannaFloatService {
         }
         removeSpeed(target, state);
         state.startPenalty(now);
-        target.sendMessage(Text.translatable("message.sparkwitch.hanna.interrupted")
+        target.sendMessage(Text.translatable("message.sparkdlc.hanna.interrupted")
                 .formatted(Formatting.RED), true);
         HannaReplay.recordInterrupted(target, toucher instanceof ServerPlayerEntity interrupter ? interrupter : null);
     }
@@ -252,7 +252,7 @@ public final class HannaFloatService {
             mood.setMood(Math.max(-1F, mood.getMood() - HannaRules.PENALTY_SANITY_PER_SECOND));
             int secondsLeft = (int) ((end - now) / 20L);
             if (secondsLeft > 0) {
-                player.sendMessage(Text.translatable("message.sparkwitch.hanna.penalty", secondsLeft)
+                player.sendMessage(Text.translatable("message.sparkdlc.hanna.penalty", secondsLeft)
                         .formatted(Formatting.RED), true);
             }
         }

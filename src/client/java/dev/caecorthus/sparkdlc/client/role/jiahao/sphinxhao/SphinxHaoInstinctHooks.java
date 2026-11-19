@@ -19,12 +19,12 @@ import org.jetbrains.annotations.Nullable;
  * Client seam: the Sphinx Hao's single Wathe {@link GetInstinctHighlight} listener (rules in
  * {@link SphinxHaoInstinctRules}): holding the instinct key outlines the players it infected in Team Jiahao gold. Only
  * a Sphinx Hao's client answers: the infected set is empty on every other player's client (per-recipient sync of
- * {@code sparkwitch:sphinx_hao_world}), and spectators who do receive it fail the living-Sphinx-Hao gate. An ordinary
+ * {@code sparkdlc:sphinx_hao_world}), and spectators who do receive it fail the living-Sphinx-Hao gate. An ordinary
  * keyed instinct: the keyed-instinct blockers and every {@code skip()} (100) or higher answer still hide it; the
  * crawler veto ({@code SphinxHaoInstinctVetoMixin}) exempts a living Sphinx Hao viewer, so its infected crawlers stay
  * gold during its window. Presentation only; the server alone infects and clears.
  * 客户端接缝：狮身豪唯一的 Wathe {@link GetInstinctHighlight} 监听器（规则见 {@link SphinxHaoInstinctRules}）：按住本能键时，
- * 被它感染的玩家以嘉豪阵营金色描边。只有狮身豪的客户端作答：其他玩家客户端上的感染集合为空（{@code sparkwitch:sphinx_hao_world}
+ * 被它感染的玩家以嘉豪阵营金色描边。只有狮身豪的客户端作答：其他玩家客户端上的感染集合为空（{@code sparkdlc:sphinx_hao_world}
  * 按接收者同步），确实收到该集合的旁观者也过不了“存活狮身豪”门槛。它是普通的按键本能：按键本能的屏蔽与任何 {@code skip()}
  * （100）及更高的答复仍会隐藏它；陆泳者否决（{@code SphinxHaoInstinctVetoMixin}）豁免存活的狮身豪观察者，因此窗口期间其被感染的
  * 陆泳者仍显示金色。仅用于展示；感染与清除只由服务端决定。

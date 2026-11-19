@@ -24,13 +24,13 @@ import org.joml.Vector3f;
 import java.util.UUID;
 
 /**
- * Visual-only spring fist of the Sphinx Hao "手"枪 ({@code sparkwitch:sphinx_hao_fist}). The shot itself is a
+ * Visual-only spring fist of the Sphinx Hao "手"枪 ({@code sparkdlc:sphinx_hao_fist}). The shot itself is a
  * server hitscan resolved before this entity exists; the entity only carries the presentation: it is spawned at the
  * shooter's eyes with the shot's end point (the hit player, the first block, or the ray's full range) as tracked data
  * and the shooter's id in the spawn packet, lives {@link SphinxHaoFistMotion#END_AGE} ticks (out, hold, back) and is
  * discarded. A plain {@link Entity}, never a {@code ProjectileEntity}: projectile hooks (Rift Gate deflection, Magician
  * hits) never see it, it cannot be hit, pushed, saved or summoned, and it never moves.
- * 狮身豪“手”枪的纯表现弹簧拳头（{@code sparkwitch:sphinx_hao_fist}）。射击本身是在本实体生成之前就已结算的服务端即时射线；
+ * 狮身豪“手”枪的纯表现弹簧拳头（{@code sparkdlc:sphinx_hao_fist}）。射击本身是在本实体生成之前就已结算的服务端即时射线；
  * 本实体只负责表现：生成于射手眼睛处，以追踪数据携带射击终点（命中的玩家、第一个方块或射线满射程处），并在生成包中携带射手 id，
  * 存活 {@link SphinxHaoFistMotion#END_AGE} 刻（伸出、停留、收回）后移除。普通 {@link Entity}，而非 {@code ProjectileEntity}：
  * 投射物钩子（裂隙门偏转、魔术师命中）不会处理它；它不能被命中、推动、保存或召唤，也从不移动。

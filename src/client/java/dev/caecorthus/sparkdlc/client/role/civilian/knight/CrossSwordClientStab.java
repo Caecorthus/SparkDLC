@@ -53,9 +53,9 @@ public final class CrossSwordClientStab {
 
     /**
      * Installed as {@link CrossSwordItem.ClientRelease}: runs inside the client's {@code onStoppedUsing}, after vanilla
-     * has already sent the release action, and sends {@code sparkwitch:cross_sword_stab} for the aimed target.
+     * has already sent the release action, and sends {@code sparkdlc:cross_sword_stab} for the aimed target.
      * 作为 {@link CrossSwordItem.ClientRelease} 安装：在客户端 {@code onStoppedUsing} 中运行，此时原版已发送松手动作，
-     * 随后为瞄准的目标发送 {@code sparkwitch:cross_sword_stab}。
+     * 随后为瞄准的目标发送 {@code sparkdlc:cross_sword_stab}。
      */
     static void onRelease(PlayerEntity player, ItemStack stack, int heldTicks) {
         if (player != MinecraftClient.getInstance().player || player.isSpectator()

@@ -14,20 +14,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A raw GL program for the smoke passes, compiled from {@code assets/sparkwitch/shaders/bear_smoke/*}. Vanilla's
+ * A raw GL program for the smoke passes, compiled from {@code assets/sparkdlc/shaders/bear_smoke/*}. Vanilla's
  * JSON {@code ShaderProgram} cannot bind {@code sampler3D}, so these programs bypass it; {@link SmokeMarchRules}
  * constants are injected as {@code #define}s right after the {@code #version} line. Sources are read from the
  * SparkWitch jar itself, never through the resource manager (like the occlusion passes'
  * {@code occlusion.SmokeGlProgram}), so a client resource pack cannot replace the march or the composite with a no-op
  * and see through smoke, nor break them with a bad override. Uniform locations are cached by name. Render thread only.
- * 烟雾各步骤使用的原生 GL 程序，由 {@code assets/sparkwitch/shaders/bear_smoke/*} 编译。原版 JSON
+ * 烟雾各步骤使用的原生 GL 程序，由 {@code assets/sparkdlc/shaders/bear_smoke/*} 编译。原版 JSON
  * {@code ShaderProgram} 无法绑定 {@code sampler3D}，因此绕开它；{@link SmokeMarchRules} 常量以 {@code #define} 形式
  * 注入到 {@code #version} 行之后。源码直接从 SparkWitch jar 读取，从不经过资源管理器（与遮挡步骤的
  * {@code occlusion.SmokeGlProgram} 相同），因此客户端资源包无法把步进或合成换成空操作来透视烟雾，也无法用错误的覆盖文件
  * 弄坏它们。uniform 位置按名称缓存。仅限渲染线程。
  */
 final class SmokeProgram {
-    private static final String SOURCE_ROOT = "assets/sparkwitch/shaders/bear_smoke/";
+    private static final String SOURCE_ROOT = "assets/sparkdlc/shaders/bear_smoke/";
     private final int id;
     private final Map<String, Integer> uniforms = new HashMap<>();
 

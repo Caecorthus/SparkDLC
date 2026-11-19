@@ -92,7 +92,7 @@ final class DetectiveFolderRenderer {
 
     void renderClosedFolder(DrawContext context) {
         DetectiveFolderLayout.Rect body = layout.body();
-        String title = Text.translatable("screen.sparkstrength.detective_folder.title").getString();
+        String title = Text.translatable("screen.sparkdlc.detective_folder.title").getString();
         int tabWidth = Math.min(
                 Math.max(DetectiveFolderLayout.TAB_WIDTH, textRenderer.getWidth(title) + 14),
                 Math.max(DetectiveFolderLayout.TAB_WIDTH, body.width() - DetectiveFolderLayout.PAGE_MARGIN * 2)
@@ -117,7 +117,7 @@ final class DetectiveFolderRenderer {
         );
         context.fill(body.x() + 12, body.y() + 4, body.x() + 13, body.bottom() - 4, COLOR_FOLDER_CREASE);
 
-        Text note = Text.translatable("screen.sparkstrength.detective_folder.no_case");
+        Text note = Text.translatable("screen.sparkdlc.detective_folder.no_case");
         int noteWidth = stickyNoteWidths.get(textRenderer, note, Math.min(150, Math.max(40, body.width() - 40)), 4);
         int noteHeight = DetectiveFolderPaint.stickyNoteHeight(textRenderer, note, noteWidth, 4);
         int noteX = body.x() + (body.width() - noteWidth) / 2;
@@ -193,7 +193,7 @@ final class DetectiveFolderRenderer {
     }
 
     private void drawActivePin(DrawContext context, DetectiveFolderLayout.Rect tab, int tabTop) {
-        String label = Text.translatable("screen.sparkstrength.detective_folder.active").getString();
+        String label = Text.translatable("screen.sparkdlc.detective_folder.active").getString();
         int labelWidth = textRenderer.getWidth(label) + 6;
         int labelX = tab.x() + (tab.width() - labelWidth) / 2;
         int labelY = tab.y() - DetectiveFolderLayout.ACTIVE_PIN_RISE;
@@ -228,7 +228,7 @@ final class DetectiveFolderRenderer {
 
         int textX = layout.contentX();
         DetectiveFolderLayout.Rect polaroid = layout.polaroid();
-        drawHeader(context, "screen.sparkstrength.detective_folder.victim", textX, page.y() + DetectiveFolderLayout.VICTIM_HEADER_Y,
+        drawHeader(context, "screen.sparkdlc.detective_folder.victim", textX, page.y() + DetectiveFolderLayout.VICTIM_HEADER_Y,
                 polaroid.x() - 4 - textX);
         Style bold = Style.EMPTY.withBold(true);
         String victimName = UiText.trimStyled(textRenderer, viewed.getVictimName(), bold, polaroid.x() - 4 - textX);
@@ -253,7 +253,7 @@ final class DetectiveFolderRenderer {
                 }
         );
 
-        drawHeader(context, "screen.sparkstrength.detective_folder.notes", textX, page.y() + DetectiveFolderLayout.NOTES_HEADER_Y,
+        drawHeader(context, "screen.sparkdlc.detective_folder.notes", textX, page.y() + DetectiveFolderLayout.NOTES_HEADER_Y,
                 page.right() - 4 - textX);
         DetectiveFolderLayout.Rect panel = layout.notesPanel();
         // Dark backing under the notes box; its bottom strip holds vanilla's "n/256" counter.
@@ -279,7 +279,7 @@ final class DetectiveFolderRenderer {
         Identifier guess = state.displayedGuess(viewed);
         Role role = guess == null ? null : WatheRoles.getRole(guess);
 
-        drawHeader(context, "screen.sparkstrength.detective_folder.killer", textX, page.y() + DetectiveFolderLayout.KILLER_HEADER_Y,
+        drawHeader(context, "screen.sparkdlc.detective_folder.killer", textX, page.y() + DetectiveFolderLayout.KILLER_HEADER_Y,
                 columnWidth);
         boolean pillHovered = pill.contains(mouseX, mouseY);
         int pillFill = pillHovered ? COLOR_PILL_HOVER : COLOR_PILL;
@@ -298,7 +298,7 @@ final class DetectiveFolderRenderer {
             label = Text.literal(guess.getPath());
             color = COLOR_PILL_UNKNOWN;
         } else {
-            label = Text.translatable("screen.sparkstrength.detective_folder.killer_unknown");
+            label = Text.translatable("screen.sparkdlc.detective_folder.killer_unknown");
             color = COLOR_PILL_UNKNOWN;
         }
         String full = label.getString();
@@ -314,11 +314,11 @@ final class DetectiveFolderRenderer {
         if (presumedHovered) {
             context.fill(presumedLabel.x(), presumedLabel.y(), presumedLabel.right(), presumedLabel.bottom(), COLOR_LABEL_HOVER);
         }
-        drawHeader(context, "screen.sparkstrength.detective_folder.presumed_killer", textX,
+        drawHeader(context, "screen.sparkdlc.detective_folder.presumed_killer", textX,
                 page.y() + DetectiveFolderLayout.PRESUMED_HEADER_Y, columnWidth);
         String presumedName = presumed != null
                 ? PlayerNameResolver.playerName(presumed)
-                : Text.translatable("screen.sparkstrength.detective_folder.presumed_killer_none").getString();
+                : Text.translatable("screen.sparkdlc.detective_folder.presumed_killer_none").getString();
         Style bold = Style.EMPTY.withBold(true);
         String presumedVisible = UiText.trimStyled(textRenderer, presumedName, bold,
                 Math.max(0, columnWidth - PENCIL_ROOM));
@@ -373,7 +373,7 @@ final class DetectiveFolderRenderer {
         int textWidth = page.width() - 12;
         // The clue count sits on the title row, which keeps the page bottom free for the "enough" sticky note.
         // 线索计数放在标题行，页面底部留给“线索足够”便利贴。
-        String clues = Text.translatable("screen.sparkstrength.detective_folder.clues", suspects.size(), limit).getString();
+        String clues = Text.translatable("screen.sparkdlc.detective_folder.clues", suspects.size(), limit).getString();
         int cluesWidth = Math.min(textRenderer.getWidth(clues), textWidth / 2);
         int cluesX = page.right() - 6 - cluesWidth;
         context.drawText(
@@ -385,7 +385,7 @@ final class DetectiveFolderRenderer {
                 false
         );
         Style bold = Style.EMPTY.withBold(true);
-        String title = Text.translatable("screen.sparkstrength.detective_folder.suspects").getString();
+        String title = Text.translatable("screen.sparkdlc.detective_folder.suspects").getString();
         context.drawText(
                 textRenderer,
                 Text.literal(UiText.trimStyled(textRenderer, title, bold, Math.max(0, cluesX - 6 - textX))).setStyle(bold),
@@ -395,7 +395,7 @@ final class DetectiveFolderRenderer {
                 false
         );
         List<OrderedText> subtitle = textRenderer.wrapLines(
-                Text.translatable("screen.sparkstrength.detective_folder.suspects_subtitle"),
+                Text.translatable("screen.sparkdlc.detective_folder.suspects_subtitle"),
                 Math.max(8, textWidth)
         );
         for (int line = 0; line < Math.min(2, subtitle.size()); line++) {
@@ -432,7 +432,7 @@ final class DetectiveFolderRenderer {
      * 最后一行嫌疑人下方。
      */
     private void renderEnoughNote(DrawContext context, DetectiveFolderLayout.Rect page) {
-        Text note = Text.translatable("screen.sparkstrength.detective_folder.enough");
+        Text note = Text.translatable("screen.sparkdlc.detective_folder.enough");
         int noteWidth = stickyNoteWidths.get(textRenderer, note, Math.max(40, page.width() - 12), 3);
         int noteHeight = DetectiveFolderPaint.stickyNoteHeight(textRenderer, note, noteWidth, 3);
         int tiltY = tiltMargin(noteWidth, noteHeight, ENOUGH_NOTE_TILT);
@@ -468,7 +468,7 @@ final class DetectiveFolderRenderer {
 
         int nameX = headX + 20;
         int distanceRight = row.right() - 4;
-        String distance = Text.translatable("screen.sparkstrength.detective_folder.distance", clue.distanceBlocks()).getString();
+        String distance = Text.translatable("screen.sparkdlc.detective_folder.distance", clue.distanceBlocks()).getString();
         String name = clue.anonymous() ? ANONYMOUS_NAME : clue.displayName().isBlank() ? "?" : clue.displayName();
         int distanceWidth = textRenderer.getWidth(distance);
         boolean stacked = false;
@@ -520,7 +520,7 @@ final class DetectiveFolderRenderer {
         DetectiveFolderPaint.drawDashedBorder(context, row.x(), row.y(), row.width(), row.height(), COLOR_ROW_PLACEHOLDER_EDGE);
         int textY = row.y() + (row.height() - textRenderer.fontHeight) / 2 + 1;
         context.drawText(textRenderer, (index + 1) + ":", row.x() + 3, textY, DetectiveFolderPaint.INK_FADED, false);
-        String placeholder = Text.translatable("screen.sparkstrength.detective_folder.suspect_placeholder", index + 1).getString();
+        String placeholder = Text.translatable("screen.sparkdlc.detective_folder.suspect_placeholder", index + 1).getString();
         context.drawText(
                 textRenderer,
                 UiText.trim(textRenderer, placeholder, row.width() - 17),

@@ -30,7 +30,7 @@ public final class CqcmMaskItem extends ArmorItem {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if (!UndercoverRoles.isUndercover(user)) {
             if (!world.isClient) {
-                user.sendMessage(Text.translatable("message.sparkstrength.undercover.mask_not_yours"), true);
+                user.sendMessage(Text.translatable("message.sparkdlc.undercover.mask_not_yours"), true);
             }
             return TypedActionResult.fail(user.getStackInHand(hand));
         }
@@ -40,7 +40,7 @@ public final class CqcmMaskItem extends ArmorItem {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         for (int line = 1; line <= 3; line++) {
-            tooltip.add(Text.translatable("item.sparkstrength.cqcm_mask.tooltip.line" + line)
+            tooltip.add(Text.translatable("item.sparkdlc.cqcm_mask.tooltip.line" + line)
                     .styled(style -> style.withColor(0x808080).withItalic(false)));
         }
     }

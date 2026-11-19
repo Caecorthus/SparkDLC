@@ -14,7 +14,7 @@ import net.minecraft.text.Text;
  * 因此伪装中的黑羽鸦扣的是其当前伪装身份的钱包。
  */
 public final class MrShellEffect {
-    static final String BURNED_MESSAGE = "message.sparkwitch.potion_gunner.mr_burned";
+    static final String BURNED_MESSAGE = "message.sparkdlc.potion_gunner.mr_burned";
 
     private MrShellEffect() {
     }

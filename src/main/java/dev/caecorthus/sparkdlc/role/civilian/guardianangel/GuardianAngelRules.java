@@ -9,8 +9,8 @@ import net.minecraft.util.Identifier;
 
 /** Pure Guardian Angel tuning and server-validation decisions. / 守护天使的纯数值与服务端校验决策。 */
 public final class GuardianAngelRules {
-    public static final Identifier ROLE_ID = Identifier.of("sparkwitch", "guardian_angel");
-    public static final Identifier SKILL_ID = Identifier.of("sparkwitch", "guardian");
+    public static final Identifier ROLE_ID = Identifier.of("sparkdlc", "guardian_angel");
+    public static final Identifier SKILL_ID = Identifier.of("sparkdlc", "guardian");
     public static final int COLOR = 0xF0D77A;
     public static final int INITIAL_COOLDOWN_TICKS = 20 * 60;
     public static final int POST_USE_COOLDOWN_TICKS = 20 * 90;

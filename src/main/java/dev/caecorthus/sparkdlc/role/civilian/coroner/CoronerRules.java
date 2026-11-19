@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class CoronerRules {
     public static final Identifier CORONER_ID = Identifier.of("noellesroles", "coroner");
-    public static final Identifier CORONER_BODY_BAG_ID = Identifier.of("sparkstrength", "coroner_body_bag");
+    public static final Identifier CORONER_BODY_BAG_ID = Identifier.of("sparkdlc", "coroner_body_bag");
 
     public static final Identifier WATHE_NO_ROLE_ID = Identifier.of("wathe", "no_role");
     public static final Identifier WATHE_VETERAN_ID = Identifier.of("wathe", "veteran");
@@ -41,10 +41,10 @@ public final class CoronerRules {
     public static final Identifier NOELLES_DEMON_HUNTER_ID = Identifier.of("noellesroles", "demon_hunter");
     public static final Identifier NOELLES_ENGINEER_ID = Identifier.of("noellesroles", "engineer");
     public static final Identifier NOELLES_BOMBER_ID = Identifier.of("noellesroles", "bomber");
-    public static final Identifier SPARKWITCH_KIDNAPPER_ID = Identifier.of("sparkwitch", "kidnapper");
+    public static final Identifier SPARKWITCH_KIDNAPPER_ID = Identifier.of("sparkdlc", "kidnapper");
 
     /** 验尸官商店：采尸袋条目 ID。 */
-    public static final String BODY_BAG_ENTRY_ID = "sparkstrength_coroner_body_bag";
+    public static final String BODY_BAG_ENTRY_ID = "sparkdlc_coroner_body_bag";
     /** 采尸袋价格。 */
     public static final int BODY_BAG_PRICE = 100;
 

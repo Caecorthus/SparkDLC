@@ -9,11 +9,11 @@ import java.util.Objects;
 import java.util.UUID;
 
 /**
- * Per-match coin income totals for {@code sparkfactionapi:income}. Every Wathe {@code PlayerShopComponent#addToBalance}
+ * Per-match coin income totals for {@code sparkdlc:income}. Every Wathe {@code PlayerShopComponent#addToBalance}
  * call adds its actual balance change (after − before) when it is positive; a zero or negative change adds nothing.
  * Totals belong to one match id: a different match id or {@link #reset} forgets the previous match, so a round that
  * never reached {@code endMatch} cannot leak into the next one, and {@link #drain} hands a match's totals out once.
- * 为 {@code sparkfactionapi:income} 按对局累计金币收入。每次 Wathe {@code PlayerShopComponent#addToBalance} 调用的实际
+ * 为 {@code sparkdlc:income} 按对局累计金币收入。每次 Wathe {@code PlayerShopComponent#addToBalance} 调用的实际
  * 余额变化（调用后 − 调用前）为正时计入；为零或为负时不计。累计值属于单个对局标识：对局标识变化或 {@link #reset} 会
  * 清空上一局，因此未走到 {@code endMatch} 的回合不会漏进下一局；{@link #drain} 只交出一次该局的累计值。
  */

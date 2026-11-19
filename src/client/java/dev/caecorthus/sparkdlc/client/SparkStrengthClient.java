@@ -139,11 +139,11 @@ public final class SparkStrengthClient implements ClientModInitializer {
                         : watch.getAbilityRefreshCooldownTicks();
             }
             Text cooldown = cooldownTicks > 0
-                    ? Text.translatable("item.sparkstrength.dying_watch.cooldown", (cooldownTicks + 19) / 20)
-                    : Text.translatable("item.sparkstrength.dying_watch.cooldown.ready");
+                    ? Text.translatable("item.sparkdlc.dying_watch.cooldown", (cooldownTicks + 19) / 20)
+                    : Text.translatable("item.sparkdlc.dying_watch.cooldown.ready");
             var style = net.minecraft.text.Style.EMPTY.withColor(0xADD8E6).withItalic(false);
             int insertAt = Math.min(1, lines.size());
-            lines.add(insertAt, Text.translatable("item.sparkstrength.dying_watch.cost", cost).setStyle(style));
+            lines.add(insertAt, Text.translatable("item.sparkdlc.dying_watch.cost", cost).setStyle(style));
             lines.add(insertAt + 1, cooldown.copy().setStyle(style));
         });
 

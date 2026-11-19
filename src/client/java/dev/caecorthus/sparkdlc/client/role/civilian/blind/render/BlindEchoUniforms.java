@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.function.ToDoubleFunction;
 
 /**
- * Pure uniform packing for {@code sparkwitch_blind_echo}: reused scalar {@code float[]} arrays (uploaded by vanilla as
+ * Pure uniform packing for {@code sparkdlc_blind_echo}: reused scalar {@code float[]} arrays (uploaded by vanilla as
  * {@code glUniform1fv}) plus the inverse camera-relative view matrix. Positions are subtracted from the camera in
  * doubles before narrowing, so far-from-origin worlds keep sub-block precision. Layout (must match the shader):
  * {@code PulseData} = 16 x {x, y, z, radius, age s, duration s, expand s, kind};
  * {@code PlayerData} = 16 x {x, y, z, strength} (perceived body centres); {@code PlayerHidden} = 16 x hidden weight;
  * {@code BlurRange} = blocks the blur passes must reach (0 = skip them).
- * 面向 {@code sparkwitch_blind_echo} 的纯 uniform 打包：复用标量 {@code float[]}（原版以 {@code glUniform1fv} 上传）
+ * 面向 {@code sparkdlc_blind_echo} 的纯 uniform 打包：复用标量 {@code float[]}（原版以 {@code glUniform1fv} 上传）
  * 以及相机相对视图矩阵的逆矩阵。坐标先以 double 减去相机位置再收窄为 float，远离原点时仍保持亚方块精度。布局必须与着色器一致：
  * {@code PulseData} = 16 x {x, y, z, 半径, 已过秒数, 持续秒数, 扩张秒数, 类型}；
  * {@code PlayerData} = 16 x {x, y, z, 强度}（被感知身体中心）；{@code PlayerHidden} = 16 x 被遮挡权重；
@@ -36,8 +36,8 @@ public final class BlindEchoUniforms {
     public static final float CANE_EXPAND_SECONDS = 0.6f;
     /**
      * The echo pass blends in the blurred halo only beyond this distance ({@code smoothstep(3.5, 10.0, range)} in
-     * {@code sparkwitch_blind_echo.fsh}), so nearer hidden bodies need no blur at all.
-     * 回声 pass 只在此距离之外混入模糊光晕（{@code sparkwitch_blind_echo.fsh} 中的 {@code smoothstep(3.5, 10.0, range)}），
+     * {@code sparkdlc_blind_echo.fsh}), so nearer hidden bodies need no blur at all.
+     * 回声 pass 只在此距离之外混入模糊光晕（{@code sparkdlc_blind_echo.fsh} 中的 {@code smoothstep(3.5, 10.0, range)}），
      * 更近的被遮挡身体完全不需要模糊。
      */
     public static final float BLUR_NEEDED_BEYOND = 3.5f;

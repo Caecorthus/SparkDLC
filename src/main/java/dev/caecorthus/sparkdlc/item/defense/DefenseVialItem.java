@@ -15,12 +15,12 @@ import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
 /**
- * The Defense Vial ({@code sparkwitch:defense_vial}): hold right-click for {@link DefenseVialRules#DRINK_TICKS} to
+ * The Defense Vial ({@code sparkdlc:defense_vial}): hold right-click for {@link DefenseVialRules#DRINK_TICKS} to
  * drink it. Vanilla calls {@link #finishUsing} when the full hold elapses ({@link #onStoppedUsing} runs only on an
  * early release), so the drink lands there, on the server: one shield layer, the item cooldown, the replay line, and
  * the vial is used up. Releasing early costs nothing. Only a living participant of an ACTIVE round can drink.
  * Right-clicking a Wathe tray pours it instead ({@code FoodPlatterBlockDefenseVialPourMixin}), which shares the cooldown.
- * 防御药剂（{@code sparkwitch:defense_vial}）：按住右键 {@link DefenseVialRules#DRINK_TICKS} 饮用。按满时原版调用
+ * 防御药剂（{@code sparkdlc:defense_vial}）：按住右键 {@link DefenseVialRules#DRINK_TICKS} 饮用。按满时原版调用
  * {@link #finishUsing}（{@link #onStoppedUsing} 只在提前松手时执行），因此饮用在服务端于此结算：一层护盾、物品冷却、回放记录，
  * 并消耗药剂。提前松手不消耗任何东西。只有 ACTIVE 回合中存活的参与者能饮用。右键 Wathe 托盘则改为倒入
  * （{@code FoodPlatterBlockDefenseVialPourMixin}），倒入与饮用共用冷却。
@@ -79,7 +79,7 @@ public final class DefenseVialItem extends Item {
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         if (!world.isClient() && user instanceof ServerPlayerEntity drinker) {
-            drinker.sendMessage(Text.translatable("message.sparkwitch.defense_vial.interrupted"), true);
+            drinker.sendMessage(Text.translatable("message.sparkdlc.defense_vial.interrupted"), true);
         }
     }
 
@@ -87,9 +87,9 @@ public final class DefenseVialItem extends Item {
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         // Stack data only: the creative search index builds tooltips off-thread with no player.
         // 只读物品堆数据：创造模式搜索索引会在后台线程、无玩家时构建提示文本。
-        tooltip.add(Text.translatable("item.sparkwitch.defense_vial.tooltip.drink",
+        tooltip.add(Text.translatable("item.sparkdlc.defense_vial.tooltip.drink",
                 DefenseVialRules.DRINK_TICKS / 20F, DefenseVialRules.COOLDOWN_TICKS / 20).formatted(Formatting.GRAY));
-        tooltip.add(Text.translatable("item.sparkwitch.defense_vial.tooltip.pour").formatted(Formatting.GRAY));
+        tooltip.add(Text.translatable("item.sparkdlc.defense_vial.tooltip.pour").formatted(Formatting.GRAY));
         super.appendTooltip(stack, context, tooltip, type);
     }
 }

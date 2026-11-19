@@ -31,7 +31,7 @@ import java.util.function.BooleanSupplier;
  * 仅服务端：matchId 从不同步，客户端上所有谓词均为 false。
  */
 public final class SeekerTargeting {
-    /** Suffixes of {@code message.sparkwitch.seeker.remote.denied.<suffix>}. / 拒绝提示键的后缀。 */
+    /** Suffixes of {@code message.sparkdlc.seeker.remote.denied.<suffix>}. / 拒绝提示键的后缀。 */
     static final String DENY_BLOCKED = "blocked";
     static final String DENY_SWALLOWED = "swallowed";
     static final String DENY_FEARED = "feared";
@@ -108,11 +108,11 @@ public final class SeekerTargeting {
     /**
      * Shared gate of {@code seeker_remote_open} and {@code seeker_car_recall} (game ACTIVE, exact role, participant,
      * not feared, not skill-blocked, not stunned, not kidnapped, not impostor). Returns null when allowed, otherwise the
-     * suffix of {@code message.sparkwitch.seeker.remote.denied.<suffix>}. A swallowed body is reported as
+     * suffix of {@code message.sparkdlc.seeker.remote.denied.<suffix>}. A swallowed body is reported as
      * {@code swallowed} before the participant check that it would otherwise fail as {@code blocked}. STOPPING (the
      * post-win fade, still "running" for Wathe) is denied so nobody reopens a view or deploys after the round ended.
      * {@code seeker_remote_open} 与 {@code seeker_car_recall} 的公共门槛。允许时返回 null，
-     * 否则返回 {@code message.sparkwitch.seeker.remote.denied.<suffix>} 的后缀。被吞噬的本体在参与者检查之前报告为
+     * 否则返回 {@code message.sparkdlc.seeker.remote.denied.<suffix>} 的后缀。被吞噬的本体在参与者检查之前报告为
      * {@code swallowed}，否则会因参与者检查失败而报告为 {@code blocked}。STOPPING（胜负判定后的淡出阶段，
      * Wathe 仍视为“进行中”）一律拒绝，回合结束后无人能重新打开视角或部署。
      */

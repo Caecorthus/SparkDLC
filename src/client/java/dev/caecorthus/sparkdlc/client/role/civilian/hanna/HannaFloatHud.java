@@ -20,11 +20,11 @@ import net.minecraft.text.Text;
  * synced role, her {@link HannaComponent} (the float's remaining ticks counted down locally, and the owner-only ready
  * tick counted down against the client world clock) and her shared mana, and never predicts a float; the server alone
  * decides one. Called by {@link HannaClient} only on a confirmed SparkWitch server. Role-owned presentation: never the
- * action bar and never the {@code gui.sparkwitch.skills} panel.
+ * action bar and never the {@code gui.sparkdlc.skills} panel.
  * 绘制汉娜仅本人可见的浮游行（{@link HannaFloatHudRules}）。仅用于展示：读取本地玩家同步的真实职业、她的
  * {@link HannaComponent}（本地递减的浮游剩余刻，以及仅本人同步、依据客户端世界时钟倒数的就绪刻）与共享魔力，从不预测浮游；
  * 浮游是否生效只由服务端决定。仅在已确认的 SparkWitch 服务器上由 {@link HannaClient} 调用。属于职业自有展示：绝不使用
- * 动作栏，也绝不进入 {@code gui.sparkwitch.skills} 面板。
+ * 动作栏，也绝不进入 {@code gui.sparkdlc.skills} 面板。
  */
 public final class HannaFloatHud {
     // Render-thread cache keyed on the line, the ability key text, the Language, the font renderer and the glyph

@@ -20,7 +20,7 @@ public final class SeekerCctvRules {
     /** Post-effect chain for the camera look (cold grey CCTV). / 摄像头画面（冷灰监控）的后处理链。 */
     public static final Identifier CAMERA_POST_EFFECT = SparkWitch.id("shaders/post/seeker_camera.json");
     /** The shared program under Minecraft's un-namespaced post-program lookup. / 原版后处理程序查找（无命名空间）下的共用程序。 */
-    public static final String PROGRAM_NAME = "sparkwitch_seeker_cctv";
+    public static final String PROGRAM_NAME = "sparkdlc_seeker_cctv";
 
     public static final int CAR_FRAME_COLOR = 0xFFB9F5A6;
     public static final int CAMERA_FRAME_COLOR = 0xFFDDE5EE;

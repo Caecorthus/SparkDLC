@@ -252,9 +252,9 @@ public final class LifetimeStats {
 
     /**
      * Notes that the player was turned into {@code roleId} mid-round, by {@code cause} (a role-change cause id such as
-     * {@code sparkwitch:bewitched_promotion}, or null when none was recorded).
+     * {@code sparkdlc:bewitched_promotion}, or null when none was recorded).
      * 记下玩家在对局中途变成了 {@code roleId}，原因是 {@code cause}（身份变化原因 id，例如
-     * {@code sparkwitch:bewitched_promotion}；没有记录原因时为 null）。
+     * {@code sparkdlc:bewitched_promotion}；没有记录原因时为 null）。
      */
     public void recordRoleTaken(String roleId, String cause) {
         if (roleId == null || roleId.isBlank()) {

@@ -34,7 +34,7 @@ public final class ProfessorReplayEvents {
             }
 
             return Text.translatable(
-                    "replay.global.sparkstrength.professor_serum_fed",
+                    "replay.global.sparkdlc.professor_serum_fed",
                     ReplayGenerator.formatPlayerName(actorUuid, playerInfoCache),
                     ReplayGenerator.formatItemName(data, world),
                     ReplayGenerator.formatPlayerName(targetUuid, playerInfoCache)
@@ -45,25 +45,25 @@ public final class ProfessorReplayEvents {
                 (event, match, world) -> ReplayText.onePlayerEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.professor_invisibility_ended"
+                        "replay.global.sparkdlc.professor_invisibility_ended"
                 ));
         ReplayRegistry.registerGlobalEventFormatter(PROFESSOR_DOORPASSING_ENDED,
                 (event, match, world) -> ReplayText.onePlayerEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.professor_doorpassing_ended"
+                        "replay.global.sparkdlc.professor_doorpassing_ended"
                 ));
         ReplayRegistry.registerGlobalEventFormatter(PROFESSOR_SEDATIVE_ENDED,
                 (event, match, world) -> ReplayText.onePlayerEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.professor_sedative_ended"
+                        "replay.global.sparkdlc.professor_sedative_ended"
                 ));
         ReplayRegistry.registerGlobalEventFormatter(PROFESSOR_TRUTH_REVEALED,
                 (event, match, world) -> ReplayText.onePlayerEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.professor_truth_revealed"
+                        "replay.global.sparkdlc.professor_truth_revealed"
                 ));
     }
 }

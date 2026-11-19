@@ -81,12 +81,12 @@ final class TarotLedgerRenderer {
 
         // No amount after "Paid": the price actually paid is not sent to the client (see TarotLedgerLayout.titleBar).
         // “已付”后不写金额：实际成交价不会下发到客户端（见 TarotLedgerLayout.titleBar）。
-        paidLabel = Text.translatable("screen.sparkwitch.tarot.paid").getString();
+        paidLabel = Text.translatable("screen.sparkdlc.tarot.paid").getString();
         placeholder = ellipsize(TarotLedgerText.searchPrompt(identity).getString(), panel.placeholderWidth());
-        selfTag = Text.translatable("screen.sparkwitch.tarot.self").getString();
+        selfTag = Text.translatable("screen.sparkdlc.tarot.self").getString();
         selfTagWidth = textRenderer.getWidth(selfTag);
-        forfeit = Text.translatable("screen.sparkwitch.tarot.forfeit");
-        divine = Text.translatable("screen.sparkwitch.tarot.divine");
+        forfeit = Text.translatable("screen.sparkdlc.tarot.forfeit");
+        divine = Text.translatable("screen.sparkdlc.tarot.divine");
     }
 
     /**
@@ -347,7 +347,7 @@ final class TarotLedgerRenderer {
         int centerX = panel.centerX();
         int top = panel.viewTop();
         if (totalCount == 0) {
-            drawCentered(c, Text.translatable("screen.sparkwitch.tarot.empty"), centerX,
+            drawCentered(c, Text.translatable("screen.sparkdlc.tarot.empty"), centerX,
                     top + TarotLedgerLayout.EMPTY_TEXT_Y, InventoryCardPaint.MUTED);
             return;
         }
@@ -355,7 +355,7 @@ final class TarotLedgerRenderer {
                 top + TarotLedgerLayout.EMPTY_MARK_Y, InventoryCardPaint.FAINT));
         drawCentered(c, TarotLedgerText.noMatch(identity), centerX, top + TarotLedgerLayout.EMPTY_TEXT_Y,
                 InventoryCardPaint.MUTED);
-        drawCentered(c, Text.translatable("screen.sparkwitch.tarot.none.hint"), centerX,
+        drawCentered(c, Text.translatable("screen.sparkdlc.tarot.none.hint"), centerX,
                 top + TarotLedgerLayout.EMPTY_HINT_Y, InventoryCardPaint.FAINT);
     }
 

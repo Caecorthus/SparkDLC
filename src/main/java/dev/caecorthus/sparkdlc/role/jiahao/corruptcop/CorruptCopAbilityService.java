@@ -48,7 +48,7 @@ public final class CorruptCopAbilityService {
         }
         int done = component.recordCompletedTask();
         if (CorruptCopTaskGateRules.crossesUnlock(previous, done, required)) {
-            player.sendMessage(Text.translatable("message.sparkstrength.corrupt_cop.unlocked", required), false);
+            player.sendMessage(Text.translatable("message.sparkdlc.corrupt_cop.unlocked", required), false);
         }
     }
 
@@ -71,7 +71,7 @@ public final class CorruptCopAbilityService {
         CorruptCopAbilityComponent component = CorruptCopAbilityComponent.KEY.get(player);
         if (!component.isUnlocked()) {
             player.sendMessage(Text.translatable(
-                    "message.sparkstrength.corrupt_cop.locked",
+                    "message.sparkdlc.corrupt_cop.locked",
                     CorruptCopTaskGateRules.remainingTasks(component.completedTasks(), component.requiredTasks())
             ), true);
             return true;

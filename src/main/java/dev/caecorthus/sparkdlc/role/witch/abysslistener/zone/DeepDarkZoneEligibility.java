@@ -34,7 +34,7 @@ public final class DeepDarkZoneEligibility {
      *
      * @param propertyCount   number of block-state properties / 方块状态属性数量
      * @param hasAxisProperty the state has {@code Properties.AXIS} (pillars) / 是否带朝向轴属性（柱子）
-     * @param immune          in the {@code sparkwitch:sculk_conversion_immune} block tag / 在免疫方块标签内
+     * @param immune          in the {@code sparkdlc:sculk_conversion_immune} block tag / 在免疫方块标签内
      * @param deepDarkLook    already deep-dark palette, see {@link #isDeepDarkPalette} / 本身已是深暗调色板方块
      */
     public record Facts(

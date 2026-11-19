@@ -55,7 +55,7 @@ import java.util.UUID;
  * 这里选择的是真实玩家，因此名字与头像按真实 UUID 解析。</p>
  */
 public final class DetectiveInterrogationScreen extends Screen {
-    private static final String KEY = "screen.sparkstrength.detective_interrogation.";
+    private static final String KEY = "screen.sparkdlc.detective_interrogation.";
     // A request the server dropped (it raced the cooldown) stops blocking the roster after this long.
     // 服务端丢弃的请求（与冷却赛跑）在此时间后不再阻塞名单。
     private static final int PENDING_TIMEOUT_TICKS = 40;
@@ -337,7 +337,7 @@ public final class DetectiveInterrogationScreen extends Screen {
         int rightX = header.right() - 6;
         Style bold = Style.EMPTY.withBold(true);
         int limit = DetectiveCaseRules.clampSuspectLimit(folder.getSyncedSuspectLimit());
-        String clues = shown == null ? "" : Text.translatable("screen.sparkstrength.detective_folder.clues",
+        String clues = shown == null ? "" : Text.translatable("screen.sparkdlc.detective_folder.clues",
                 shown.getSuspects().size(), limit).getString();
         int cluesX = rightX - textRenderer.getWidth(clues);
         String title = Text.translatable(KEY + "title").getString();
@@ -434,7 +434,7 @@ public final class DetectiveInterrogationScreen extends Screen {
                            int mouseX, int mouseY) {
         DetectiveFolderLayout.Rect board = layout.board();
         if (shown == null) {
-            drawCenteredNote(context, Text.translatable("screen.sparkstrength.detective_folder.no_case"), -3.0F);
+            drawCenteredNote(context, Text.translatable("screen.sparkdlc.detective_folder.no_case"), -3.0F);
             return;
         }
         if (roster.isEmpty()) {
@@ -495,7 +495,7 @@ public final class DetectiveInterrogationScreen extends Screen {
         // The tag sits across the lower half of the photo, clear of the name. / 标签横跨照片下半部分，不压住名字。
         int tagY = photoY + PHOTO_SIZE - TAG_HEIGHT - 2;
         if (state.recordedDistance() != null) {
-            String tag = Text.translatable("screen.sparkstrength.detective_folder.distance", state.recordedDistance()).getString();
+            String tag = Text.translatable("screen.sparkdlc.detective_folder.distance", state.recordedDistance()).getString();
             drawTag(context, tag, x, tagY, COLOR_TAG_RECORDED);
         } else if (state.absent()) {
             drawTag(context, Text.translatable(KEY + "absent").getString(), x, tagY, COLOR_TAG_ABSENT);
@@ -579,7 +579,7 @@ public final class DetectiveInterrogationScreen extends Screen {
             return resultLine;
         }
         if (shown.getSuspects().size() >= DetectiveCaseRules.clampSuspectLimit(folder.getSyncedSuspectLimit())) {
-            return Text.translatable("message.sparkstrength.detective.enough_clues");
+            return Text.translatable("message.sparkdlc.detective.enough_clues");
         }
         if (ItemCooldownSync.remainingTicks(player.getItemCooldownManager(), SparkStrengthItems.magnifier()) > 0) {
             return Text.translatable(KEY + "cooling");
@@ -596,9 +596,9 @@ public final class DetectiveInterrogationScreen extends Screen {
         Text name = Text.literal(PlayerNameResolver.playerName(result.playerUuid()));
         resultCase = result.caseId();
         resultLine = switch (result.outcome()) {
-            case NO_CASE -> Text.translatable("message.sparkstrength.detective.no_case");
-            case LIMIT_REACHED -> Text.translatable("message.sparkstrength.detective.enough_clues");
-            case ALREADY_RECORDED -> Text.translatable("message.sparkstrength.detective.already_recorded");
+            case NO_CASE -> Text.translatable("message.sparkdlc.detective.no_case");
+            case LIMIT_REACHED -> Text.translatable("message.sparkdlc.detective.enough_clues");
+            case ALREADY_RECORDED -> Text.translatable("message.sparkdlc.detective.already_recorded");
             case NOT_PRESENT -> Text.translatable(KEY + "result_absent", name);
             case RECORDED -> Text.translatable(KEY + "result_clue", name, result.distanceBlocks());
         };

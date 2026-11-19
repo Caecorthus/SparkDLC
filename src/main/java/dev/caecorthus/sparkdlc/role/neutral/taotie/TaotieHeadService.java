@@ -83,7 +83,7 @@ public final class TaotieHeadService {
         }
         List<ServerPlayerEntity> stomach = livingSwallowed(taotie);
         if (stomach.isEmpty()) {
-            taotie.sendMessage(Text.translatable("message.sparkstrength.taotie_head.no_head").withColor(taotieColor()),
+            taotie.sendMessage(Text.translatable("message.sparkdlc.taotie_head.no_head").withColor(taotieColor()),
                     true);
             return;
         }
@@ -368,9 +368,9 @@ public final class TaotieHeadService {
         world.spawnParticles(ParticleTypes.POOF, at.x, at.y, at.z, 12, 0.2D, 0.2D, 0.2D, 0.02D);
 
         int color = taotieColor();
-        victim.sendMessage(Text.translatable("message.sparkstrength.taotie_head.dazed").withColor(color), true);
+        victim.sendMessage(Text.translatable("message.sparkdlc.taotie_head.dazed").withColor(color), true);
         if (shooter != null) {
-            shooter.sendMessage(Text.translatable("message.sparkstrength.taotie_head.hit", victim.getDisplayName())
+            shooter.sendMessage(Text.translatable("message.sparkdlc.taotie_head.hit", victim.getDisplayName())
                     .withColor(color), true);
         }
 

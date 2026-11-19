@@ -211,10 +211,10 @@ public final class SparkAssistConfig {
     /** How much guidebook decoration to draw; {@link #density()} is the generators' 0..2 scale, -1 for off.
      * 指南点缀的多少；density() 为生成器使用的 0 到 2 档，关为 -1。 */
     public enum GuidebookDecor implements TranslatableOption {
-        OFF(0, "off", "option.sparkassist.guidebook_decor.off", -1),
-        LIGHT(1, "light", "option.sparkassist.guidebook_decor.light", 0),
-        MEDIUM(2, "medium", "option.sparkassist.guidebook_decor.medium", 1),
-        FULL(3, "full", "option.sparkassist.guidebook_decor.full", 2);
+        OFF(0, "off", "option.sparkdlc.guidebook_decor.off", -1),
+        LIGHT(1, "light", "option.sparkdlc.guidebook_decor.light", 0),
+        MEDIUM(2, "medium", "option.sparkdlc.guidebook_decor.medium", 1),
+        FULL(3, "full", "option.sparkdlc.guidebook_decor.full", 2);
 
         private final int id;
         private final String serializedName;
@@ -257,8 +257,8 @@ public final class SparkAssistConfig {
     }
 
     public enum InstinctKeyMode implements TranslatableOption {
-        HOLD(0, "hold", "option.sparkassist.instinct_key_mode.hold"),
-        TOGGLE(1, "toggle", "option.sparkassist.instinct_key_mode.toggle");
+        HOLD(0, "hold", "option.sparkdlc.instinct_key_mode.hold"),
+        TOGGLE(1, "toggle", "option.sparkdlc.instinct_key_mode.toggle");
 
         private final int id;
         private final String serializedName;

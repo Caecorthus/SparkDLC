@@ -10,12 +10,12 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Per-player locks of the role a Bewitched is promoted to ({@code /sparkwitch:forceAccompliceRole}, D4/C5): the plain
+ * Per-player locks of the role a Bewitched is promoted to ({@code /sparkdlc:forceAccompliceRole}, D4/C5): the plain
  * Accomplice or one special accomplice per UUID. Server-only, never synced. {@code WitchWorldComponent} keeps two stores:
  * the current round's locks under {@code ForcedAccompliceRoles} and the next round's under
  * {@code PendingForcedAccompliceRoles}; each is a list of {@code Player}/{@code Role} string pairs, and malformed
  * entries are skipped.
- * 魔化使晋升身份的逐玩家锁定（{@code /sparkwitch:forceAccompliceRole}，D4/C5）：每个 UUID 对应普通共犯或一种特殊共犯。
+ * 魔化使晋升身份的逐玩家锁定（{@code /sparkdlc:forceAccompliceRole}，D4/C5）：每个 UUID 对应普通共犯或一种特殊共犯。
  * 仅服务端、从不同步。{@code WitchWorldComponent} 保存两份：本局锁定位于 {@code ForcedAccompliceRoles}，下一局锁定位于
  * {@code PendingForcedAccompliceRoles}；每份都是 {@code Player}/{@code Role} 字符串对列表，损坏条目会被跳过。
  */

@@ -193,7 +193,7 @@ public final class TarotDivinationHudRenderer {
             return cachedTable;
         }
         List<TarotDivinationHudLayout.Row> rows = TarotDivinationHudLayout.rows(snapshot, previous);
-        String title = fit(renderer, Text.translatable("hud.sparkwitch.tarot.title").getString(),
+        String title = fit(renderer, Text.translatable("hud.sparkdlc.tarot.title").getString(),
                 TarotDivinationHudLayout.TITLE_MAX_WIDTH);
         int size = rows.size();
         String[] names = new String[size];
@@ -252,11 +252,11 @@ public final class TarotDivinationHudRenderer {
 
     private static String nameKey(TarotDivinationHudLayout.FactionSlot faction) {
         return switch (faction) {
-            case CIVILIAN -> "hud.sparkwitch.tarot.faction.civilian";
-            case KILLER -> "hud.sparkwitch.tarot.faction.killer";
-            case NEUTRAL -> "hud.sparkwitch.tarot.faction.neutral";
-            case WITCH -> "hud.sparkwitch.tarot.faction.witch";
-            case JIAHAO -> "hud.sparkwitch.tarot.faction.jiahao";
+            case CIVILIAN -> "hud.sparkdlc.tarot.faction.civilian";
+            case KILLER -> "hud.sparkdlc.tarot.faction.killer";
+            case NEUTRAL -> "hud.sparkdlc.tarot.faction.neutral";
+            case WITCH -> "hud.sparkdlc.tarot.faction.witch";
+            case JIAHAO -> "hud.sparkdlc.tarot.faction.jiahao";
         };
     }
 

@@ -37,7 +37,7 @@ public final class MorphDeviceItem extends Item {
 
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        tooltip.add(Text.translatable("item.sparkstrength.morph_device.tooltip")
+        tooltip.add(Text.translatable("item.sparkdlc.morph_device.tooltip")
                 .styled(style -> style.withColor(0x808080).withItalic(false)));
     }
 }

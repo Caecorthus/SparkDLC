@@ -64,7 +64,7 @@ public final class CriminalReasonerScreen extends Screen {
     private int openTicks;
 
     public CriminalReasonerScreen(OpenCriminalReasonerS2CPacket roster) {
-        super(Text.translatable("screen.sparkwitch.criminal_reasoner.title"));
+        super(Text.translatable("screen.sparkdlc.criminal_reasoner.title"));
         this.roster = roster;
     }
 
@@ -80,7 +80,7 @@ public final class CriminalReasonerScreen extends Screen {
         // 底栏按钮先于格子添加，因此点击与焦点都优先落在按钮上。
         if (selectingVictim) {
             addDrawableChild(ButtonWidget.builder(
-                            Text.translatable("screen.sparkwitch.criminal_reasoner.cancel"),
+                            Text.translatable("screen.sparkdlc.criminal_reasoner.cancel"),
                             b -> close())
                     .dimensions(centerX - BUTTON_WIDTH / 2, height - 28, BUTTON_WIDTH, BUTTON_HEIGHT)
                     .build());
@@ -89,14 +89,14 @@ public final class CriminalReasonerScreen extends Screen {
         }
 
         ButtonWidget confirm = ButtonWidget.builder(
-                        Text.translatable("screen.sparkwitch.criminal_reasoner.confirm"),
+                        Text.translatable("screen.sparkdlc.criminal_reasoner.confirm"),
                         b -> confirm())
                 .dimensions(centerX + 4, height - 28, BUTTON_WIDTH, BUTTON_HEIGHT)
                 .build();
         confirm.active = selectedSuspect != null;
         addDrawableChild(confirm);
         addDrawableChild(ButtonWidget.builder(
-                        Text.translatable("screen.sparkwitch.criminal_reasoner.back"),
+                        Text.translatable("screen.sparkdlc.criminal_reasoner.back"),
                         b -> {
                             selectedVictim = null;
                             selectedSuspect = null;
@@ -160,11 +160,11 @@ public final class CriminalReasonerScreen extends Screen {
                 + SECTION_LABEL_SPACE + gridHeight(deadRows));
 
         int y = GRID_TOP - scroll;
-        addSectionLabel(centerX, y, Text.translatable("screen.sparkwitch.criminal_reasoner.section_alive"));
+        addSectionLabel(centerX, y, Text.translatable("screen.sparkdlc.criminal_reasoner.section_alive"));
         y += SECTION_LABEL_SPACE;
         addGrid(alive, aliveNames, centerX, y);
         y += aliveRows * CELL_HEIGHT + SECTION_GAP;
-        addSectionLabel(centerX, y, Text.translatable("screen.sparkwitch.criminal_reasoner.section_dead"));
+        addSectionLabel(centerX, y, Text.translatable("screen.sparkdlc.criminal_reasoner.section_dead"));
         y += SECTION_LABEL_SPACE;
         addGrid(dead, deadNames, centerX, y);
     }
@@ -258,20 +258,20 @@ public final class CriminalReasonerScreen extends Screen {
         boolean selectingVictim = selectedVictim == null;
         context.drawCenteredTextWithShadow(textRenderer,
                 selectingVictim
-                        ? Text.translatable("screen.sparkwitch.criminal_reasoner.title")
-                        : Text.translatable("screen.sparkwitch.criminal_reasoner.title_select_suspect",
+                        ? Text.translatable("screen.sparkdlc.criminal_reasoner.title")
+                        : Text.translatable("screen.sparkdlc.criminal_reasoner.title_select_suspect",
                                 nameOf(selectedVictim)),
                 width / 2, TITLE_Y, 0xFFFFFF);
         context.drawCenteredTextWithShadow(textRenderer,
                 Text.translatable(selectingVictim
-                        ? "screen.sparkwitch.criminal_reasoner.subtitle_select_victim"
-                        : "screen.sparkwitch.criminal_reasoner.subtitle_select_suspect")
+                        ? "screen.sparkdlc.criminal_reasoner.subtitle_select_victim"
+                        : "screen.sparkdlc.criminal_reasoner.subtitle_select_suspect")
                         .formatted(Formatting.GRAY),
                 width / 2, SUBTITLE_Y, 0xA0A0A0);
 
         if (selectingVictim && roster.victimUuids().isEmpty()) {
             context.drawCenteredTextWithShadow(textRenderer,
-                    Text.translatable("screen.sparkwitch.criminal_reasoner.empty_victims")
+                    Text.translatable("screen.sparkdlc.criminal_reasoner.empty_victims")
                             .formatted(Formatting.GRAY),
                     width / 2, height / 2, 0x808080);
         }
@@ -287,7 +287,7 @@ public final class CriminalReasonerScreen extends Screen {
 
         if (!selectingVictim && selectedSuspect != null) {
             context.drawCenteredTextWithShadow(textRenderer,
-                    Text.translatable("screen.sparkwitch.criminal_reasoner.current_pair",
+                    Text.translatable("screen.sparkdlc.criminal_reasoner.current_pair",
                             nameOf(selectedVictim), nameOf(selectedSuspect)),
                     width / 2, height - 46, 0xE0E0E0);
         }
@@ -325,7 +325,7 @@ public final class CriminalReasonerScreen extends Screen {
         index = roster.victimUuids().indexOf(uuid);
         return index >= 0
                 ? roster.victimNames().get(index)
-                : Text.translatable("screen.sparkwitch.criminal_reasoner.unknown_player").getString();
+                : Text.translatable("screen.sparkdlc.criminal_reasoner.unknown_player").getString();
     }
 
     @Override

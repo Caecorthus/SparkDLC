@@ -132,8 +132,8 @@ final class WitchesSabbathTargets {
 
             @Override
             public boolean witchFaction() {
-                // C6: effective faction exactly sparkwitch:witch; Apprentice/Murderous Witches are not pulled.
-                // C6：有效阵营恰为 sparkwitch:witch；预备魔女与杀意魔女不会被召集。
+                // C6: effective faction exactly sparkdlc:witch; Apprentice/Murderous Witches are not pulled.
+                // C6：有效阵营恰为 sparkdlc:witch；预备魔女与杀意魔女不会被召集。
                 return RiftGateUsers.isWitchFaction(player);
             }
 

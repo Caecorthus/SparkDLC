@@ -22,22 +22,22 @@ import net.minecraft.world.World;
 import java.util.List;
 
 /**
- * The Milkor M32A1 six-shot 40 mm launcher ({@code sparkwitch:m32a1}). Anyone holding it may use it (owner
+ * The Milkor M32A1 six-shot 40 mm launcher ({@code sparkdlc:m32a1}). Anyone holding it may use it (owner
  * 2026-11-05, {@code OffMatchUse}); never a Wathe gun, so Wathe gun punishment, gun pickup and gun packets never apply.
  * Every stack carries {@link SparkWitchDataComponents#M32_CYLINDER}, empty by default, so a fresh stack is the empty
  * launcher BEAR starts with. Holding use aims down the M2A1 sight (client presentation only; the server's
  * {@code isUsingItem} merely matches the client); loading happens in the inventory ({@link M32CursorLoading}); firing is
- * the separate {@code sparkwitch:fire_m32a1} intent handled by {@link M32FireService}.
- * Milkor M32A1 六发 40 mm 榴弹发射器（{@code sparkwitch:m32a1}）。任何持有者都能使用（所有者 2026-11-05，{@code OffMatchUse}）；
+ * the separate {@code sparkdlc:fire_m32a1} intent handled by {@link M32FireService}.
+ * Milkor M32A1 六发 40 mm 榴弹发射器（{@code sparkdlc:m32a1}）。任何持有者都能使用（所有者 2026-11-05，{@code OffMatchUse}）；
  * 从不是 Wathe 枪械，因此 Wathe 的误杀惩罚、拾枪与开枪数据包都不适用。每个物品堆都带有
  * {@link SparkWitchDataComponents#M32_CYLINDER}，默认为空，因此新物品堆就是 BEAR 开局持有的空发射器。按住使用键通过 M2A1 瞄具
  * 瞄准（仅客户端表现；服务端的 {@code isUsingItem} 只是与客户端一致）；装填在背包中完成（{@link M32CursorLoading}）；开火是独立的
- * {@code sparkwitch:fire_m32a1} 意图，由 {@link M32FireService} 处理。
+ * {@code sparkdlc:fire_m32a1} 意图，由 {@link M32FireService} 处理。
  */
 public class M32A1Item extends Item {
     /** Aim hold length: effectively endless, use ends on release. / 瞄准持续时间：近乎无限，松开即结束。 */
     public static final int MAX_USE_TICKS = 72_000;
-    static final String ROUNDS_TOOLTIP_KEY = "item.sparkwitch.m32a1.tooltip.rounds";
+    static final String ROUNDS_TOOLTIP_KEY = "item.sparkdlc.m32a1.tooltip.rounds";
     private static final int TOOLTIP_LINES = 2;
 
     public M32A1Item(Settings settings) {
@@ -111,7 +111,7 @@ public class M32A1Item extends Item {
         tooltip.add(Text.translatable(ROUNDS_TOOLTIP_KEY, cylinder(stack).loadedCount(), BearRules.M32_CHAMBERS)
                 .formatted(Formatting.GRAY));
         for (int line = 1; line <= TOOLTIP_LINES; line++) {
-            tooltip.add(Text.translatable("item.sparkwitch.m32a1.tooltip.line" + line).formatted(Formatting.GRAY));
+            tooltip.add(Text.translatable("item.sparkdlc.m32a1.tooltip.line" + line).formatted(Formatting.GRAY));
         }
         super.appendTooltip(stack, context, tooltip, type);
     }

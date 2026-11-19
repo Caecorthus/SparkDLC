@@ -32,7 +32,7 @@ public final class EngineHaltHud {
         if (player == null || !EngineHalt.freezesRoundTimer(player.getWorld())) {
             return;
         }
-        context.drawTextWithShadow(renderer, Text.translatable("hud.sparkstrength.engine.halted"), TIMER_RIGHT + GAP,
+        context.drawTextWithShadow(renderer, Text.translatable("hud.sparkdlc.engine.halted"), TIMER_RIGHT + GAP,
                 0, COLOR);
     }
 }

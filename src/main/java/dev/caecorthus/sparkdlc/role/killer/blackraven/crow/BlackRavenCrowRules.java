@@ -20,7 +20,7 @@ public final class BlackRavenCrowRules {
     public static final Identifier SKILL_ID = SparkWitch.id("black_raven_crow");
     /** Stable entity id of the flown crow. / 被操控乌鸦的稳定实体 id。 */
     public static final Identifier ENTITY_ID = SparkWitch.id("black_raven_crow");
-    /** Stable component id {@code sparkwitch:black_raven_crow}. / 稳定组件 id。 */
+    /** Stable component id {@code sparkdlc:black_raven_crow}. / 稳定组件 id。 */
     public static final Identifier COMPONENT_ID = SparkWitch.id("black_raven_crow");
     /**
      * Reserved for crow-world: the one-use Homing Feather (归羽) item and its marker. Not registered here.
@@ -201,21 +201,21 @@ public final class BlackRavenCrowRules {
         }
 
         /**
-         * Action-bar key under {@code message.sparkwitch.black_raven_crow.}, or null when silent (FEARED is answered by
+         * Action-bar key under {@code message.sparkdlc.black_raven_crow.}, or null when silent (FEARED is answered by
          * the Fear service, COOLDOWN uses the shared skill-cooldown key).
-         * {@code message.sparkwitch.black_raven_crow.} 下的动作栏键；静默时为 null（FEARED 由恐惧服务答复，COOLDOWN 使用共用冷却键）。
+         * {@code message.sparkdlc.black_raven_crow.} 下的动作栏键；静默时为 null（FEARED 由恐惧服务答复，COOLDOWN 使用共用冷却键）。
          */
         public @Nullable String messageKey() {
             if (this == COOLDOWN) {
-                return "message.sparkwitch.skill.cooldown";
+                return "message.sparkdlc.skill.cooldown";
             }
-            return messageSuffix == null ? null : "message.sparkwitch.black_raven_crow." + messageSuffix;
+            return messageSuffix == null ? null : "message.sparkdlc.black_raven_crow." + messageSuffix;
         }
     }
 
     /**
      * Inputs of one start request, already resolved on the server thread. {@code eligible} covers an ACTIVE round,
-     * playing and alive, not a spectator, and the RAW role {@code sparkwitch:black_raven} (never the acting overlay).
+     * playing and alive, not a spectator, and the RAW role {@code sparkdlc:black_raven} (never the acting overlay).
      * 服务端线程已解析的一次开始请求输入。{@code eligible} 涵盖 ACTIVE 回合、存活参与、非旁观者，且原始职业为黑羽鸦
      * （绝不使用伪装覆盖层）。
      */

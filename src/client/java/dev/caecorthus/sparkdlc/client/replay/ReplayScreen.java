@@ -49,7 +49,7 @@ public class ReplayScreen extends Screen {
     private String rosterTitle = "";
 
     public ReplayScreen(ReplaySnapshot snapshot, @Nullable Screen parent) {
-        super(Text.translatable("screen.sparkfactionapi.replay.title"));
+        super(Text.translatable("screen.sparkdlc.replay.title"));
         this.snapshot = snapshot;
         this.parent = parent;
         this.model = new ReplayTimelineModel(snapshot);

@@ -33,7 +33,7 @@ public final class VendettaTargetingPacketGuard {
      * SparkStrength 连环手枪开火包：线格式为 VAR_INT 目标实体 id，其后为 VAR_INT 手位。按注册 id 匹配并经其注册编解码器读取，
      * 此处不引用任何 SparkStrength 类。
      */
-    public static final Identifier SERIAL_PISTOL_SHOOT_ID = Identifier.of("sparkstrength", "serial_pistol_shoot");
+    public static final Identifier SERIAL_PISTOL_SHOOT_ID = Identifier.of("sparkdlc", "serial_pistol_shoot");
 
     /**
      * SparkStrength {@code BanditRevolverShootC2SPayload} (SparkStrength #135), the Bandit's moddable revolver shot:
@@ -42,7 +42,7 @@ public final class VendettaTargetingPacketGuard {
      * SparkStrength 强盗改装左轮开火包（SparkStrength #135）：线格式为一个 VAR_INT 目标实体 id，未选中任何人时为 -1。
      * 匹配与读取方式同连环杀手手枪射击。强盗原先经 {@code wathe:gunshoot} 发射 Wathe 左轮，而该包由本防护判定。
      */
-    public static final Identifier BANDIT_REVOLVER_SHOOT_ID = Identifier.of("sparkstrength", "bandit_revolver_shoot");
+    public static final Identifier BANDIT_REVOLVER_SHOOT_ID = Identifier.of("sparkdlc", "bandit_revolver_shoot");
 
     private VendettaTargetingPacketGuard() {
     }

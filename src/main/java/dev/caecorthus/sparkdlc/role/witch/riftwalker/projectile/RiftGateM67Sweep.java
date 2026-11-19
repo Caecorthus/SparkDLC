@@ -17,13 +17,13 @@ import java.util.Optional;
  * External seam: SparkStrength's M67 skips entity collision and runs its own block-swept motion, so the deflection
  * seam never sees it. Each gate's server tick tests the M67's last movement (previous to current position) against its
  * volume; the nearest gate on that segment acts, teleporting the grenade in place to another gate's front or reflecting
- * it, with the shared pass cap. The type is resolved by registry id only ({@code sparkstrength:m67}) and the sweep is
+ * it, with the shared pass cap. The type is resolved by registry id only ({@code sparkdlc:m67}) and the sweep is
  * inert when that id is absent (SparkStrength itself always ships in the same jar since the SparkDLC fusion, so there
  * is no mod-presence gate); no SparkStrength class is named. Whichever of gate and grenade ticks
  * first, every movement segment is tested exactly once, and a moved grenade's segment collapses (previous = current).
  * 外部接缝：SparkStrength 的 M67 不走实体碰撞、自行做方块扫掠运动，偏转接缝无法捕获它。每扇门的服务端 tick 用 M67 的上一段
  * 位移（上一位置到当前位置）检测自身体积；线段上最近的门负责处理，按共享的穿门上限把手雷原地传送到另一扇门正面或反弹。
- * 仅以注册 id（{@code sparkstrength:m67}）解析类型，该 id 缺失时不生效（融合进 SparkDLC 后 SparkStrength 始终随同一个 jar
+ * 仅以注册 id（{@code sparkdlc:m67}）解析类型，该 id 缺失时不生效（融合进 SparkDLC 后 SparkStrength 始终随同一个 jar
  * 发布，因此不再检查模组是否加载）；不引用任何 SparkStrength 类。
  * 无论门和手雷谁先 tick，每段位移都恰好检测一次；被移动的手雷其线段随即收缩（上一位置 = 当前位置）。
  * Accepted edge: SparkStrength interpolates the M67 on clients, so a long jump is drawn as a short slide.

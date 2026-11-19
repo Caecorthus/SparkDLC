@@ -20,9 +20,9 @@ import org.jetbrains.annotations.Nullable;
 /**
  * The demo catalog: demo id -> scenes. Item demos use the item id, are also registered with Ponder (so holding W
  * over the item in an inventory plays them) and show the item as the player's icon; role demos use
- * {@code sparkassist:roles/<namespace>/<role>}, are opened only from the guide and show a head icon.
+ * {@code sparkdlc:roles/<namespace>/<role>}, are opened only from the guide and show a head icon.
  * 演示目录：演示 id 对应若干场景。物品演示使用物品 id，同时注册到 Ponder（在背包里悬停该物品按住 W 即可播放），
- * 播放界面的图标就是该物品；职业演示使用 sparkassist:roles/<命名空间>/<职业>，只从指南书打开，图标为头颅。
+ * 播放界面的图标就是该物品；职业演示使用 sparkdlc:roles/<命名空间>/<职业>，只从指南书打开，图标为头颅。
  */
 final class SparkPonderDemos {
     private static final Identifier ROLE_ICON = Identifier.ofVanilla("player_head");
@@ -46,7 +46,7 @@ final class SparkPonderDemos {
     private SparkPonderDemos() {
     }
 
-    /** One scene: its stage structure under assets/sparkassist/ponder/ and its script. 一个场景：舞台结构与脚本。 */
+    /** One scene: its stage structure under assets/sparkdlc/ponder/ and its script. 一个场景：舞台结构与脚本。 */
     record Scene(String stage, PonderStoryBoard board) {
     }
 

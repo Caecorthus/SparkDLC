@@ -29,7 +29,7 @@ import java.util.UUID;
 
 /**
  * Server side of the Rift Gate console in the SparkStrength tablet (D12, D16, C9; plan §15, research 05 option c): only a
- * live Riftwalker (RAW role) with {@code sparkstrength:tablet} in hotbar slots 0–8 (registry id only; fail closed
+ * live Riftwalker (RAW role) with {@code sparkdlc:tablet} in hotbar slots 0–8 (registry id only; fail closed
  * without SparkStrength) may open it. Protocol: the client opener sends {@code rift_gate_console_request(OPEN)}; the
  * server answers with a {@code rift_gate_console} snapshot carrying a fresh console session id, and the open console
  * polls with that id about once per second. The server never pushes on its own except right after a close; it learns
@@ -37,17 +37,17 @@ import java.util.UUID;
  * can no longer close gates. Every request is re-validated here; the client only predicts. Any Riftwalker may close any
  * gate (forced multiple Riftwalkers share one network). Owned by P8.
  * SparkStrength 平板中的裂隙门控制台的服务端（D12、D16、C9；plan §15，调研 05 方案 c）：只有快捷栏 0–8 格持有
- * {@code sparkstrength:tablet}（仅按注册 id；未装 SparkStrength 时失败关闭）的存活隙行者（原始职业）才能打开。协议：
+ * {@code sparkdlc:tablet}（仅按注册 id；未装 SparkStrength 时失败关闭）的存活隙行者（原始职业）才能打开。协议：
  * 客户端拦截器发送 {@code rift_gate_console_request(OPEN)}；服务端以携带新控制台会话 id 的 {@code rift_gate_console}
  * 快照应答，打开中的控制台约每秒用该 id 轮询一次。除关门后立即回推外，服务端从不主动推送；轮询停止
  * （{@link RiftGateConsoleRules#SESSION_TIMEOUT_TICKS}）即视为控制台已关闭，失效的会话不能再关门。每个请求都在此重新
  * 校验，客户端只做预测。任何隙行者都能关闭任何门（强制出现的多名隙行者共用一张门网）。归属 P8。
  */
 public final class RiftGateConsoleService {
-    static final String DENIED_PREFIX = "message.sparkwitch.riftwalker.console.denied.";
-    static final String EXPIRED = "message.sparkwitch.riftwalker.console.expired";
-    static final String GATE_GONE = "message.sparkwitch.riftwalker.console.gone";
-    static final String GATE_CLOSED = "message.sparkwitch.riftwalker.console.closed";
+    static final String DENIED_PREFIX = "message.sparkdlc.riftwalker.console.denied.";
+    static final String EXPIRED = "message.sparkdlc.riftwalker.console.expired";
+    static final String GATE_GONE = "message.sparkdlc.riftwalker.console.gone";
+    static final String GATE_CLOSED = "message.sparkdlc.riftwalker.console.closed";
 
     /** Server thread only (receivers and lifecycle events run there). / 仅服务端线程（接收器与生命周期事件都在此执行）。 */
     private static final RiftGateConsoleSessions SESSIONS = new RiftGateConsoleSessions();
@@ -66,11 +66,11 @@ public final class RiftGateConsoleService {
     }
 
     /**
-     * {@code sparkwitch:rift_gate_console_request}: {@code consoleSessionId == 0} asks to open a new console
+     * {@code sparkdlc:rift_gate_console_request}: {@code consoleSessionId == 0} asks to open a new console
      * ({@link #tryOpen}); any other value is a refresh poll for that console session, answered with a fresh snapshot
      * while it is still the player's live session and the player still qualifies (otherwise CLOSED). Polls of a
      * superseded or unknown session are ignored, so a late reply never closes a newer console.
-     * {@code sparkwitch:rift_gate_console_request}：{@code consoleSessionId == 0} 表示请求打开新控制台（{@link #tryOpen}）；
+     * {@code sparkdlc:rift_gate_console_request}：{@code consoleSessionId == 0} 表示请求打开新控制台（{@link #tryOpen}）；
      * 其他值为该控制台会话的刷新轮询：仍是玩家的有效会话且玩家仍有资格时回复最新快照（否则回复 CLOSED）。
      * 已被取代或未知会话的轮询一律忽略，迟到的回复绝不会关掉更新的控制台。
      */
@@ -134,11 +134,11 @@ public final class RiftGateConsoleService {
     }
 
     /**
-     * {@code sparkwitch:rift_gate_close} (sent after the client's two-step confirm): re-validates the player, the live
+     * {@code sparkdlc:rift_gate_close} (sent after the client's two-step confirm): re-validates the player, the live
      * console session and the per-player throttle, then {@code RiftGateRegistry.close(world, n, CONSOLE)} — P2
      * force-exits the occupants there with the re-entry cooldown (C3) — plays a small close cue at the gate for nearby
      * players and answers with a refreshed snapshot. A number that no longer exists gets a message and a refresh.
-     * {@code sparkwitch:rift_gate_close}（客户端二次确认后发送）：重新校验玩家、有效控制台会话与每玩家节流，然后调用
+     * {@code sparkdlc:rift_gate_close}（客户端二次确认后发送）：重新校验玩家、有效控制台会话与每玩家节流，然后调用
      * {@code RiftGateRegistry.close(world, n, CONSOLE)}——由 P2 让门内的人在该门处强制出门并上再入冷却（C3）——在门口为
      * 附近玩家播放小型关门提示，并回复刷新后的快照。编号已不存在时提示并刷新。
      */

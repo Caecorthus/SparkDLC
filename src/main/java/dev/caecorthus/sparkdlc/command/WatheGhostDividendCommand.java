@@ -32,7 +32,7 @@ public final class WatheGhostDividendCommand {
         return Wathe.executeSupporterCommand(source, () -> {
             WitchWorldComponent.KEY.get(source.getWorld()).setWraithDividend(dividend);
             source.sendFeedback(() -> Text.translatable(
-                    "command.sparkwitch.ghost_dividend.success", dividend), true);
+                    "command.sparkdlc.ghost_dividend.success", dividend), true);
         });
     }
 }

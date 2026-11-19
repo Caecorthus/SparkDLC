@@ -11,14 +11,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
  * The serial pistols sit in {@code wathe:guns} only for Wathe's gun pose and pickup treatment; they fire through
- * {@code sparkstrength:serial_pistol_shoot} and never send {@code wathe:gunshoot}. Wathe's receiver reads only the main
+ * {@code sparkdlc:serial_pistol_shoot} and never send {@code wathe:gunshoot}. Wathe's receiver reads only the main
  * hand and trusts the client (no role check, 65 blocks, no line of sight, zero cooldown for unlisted items), so any
  * such packet with a serial pistol in the main hand is forged and dropped. The Bandit's moddable revolver is in the tag
- * for the same reasons and fires through {@code sparkstrength:bandit_revolver_shoot}, so it is dropped alike.
- * 连环手枪加入 {@code wathe:guns} 只为沿用 Wathe 的持枪姿势与拾取处理；它们经 {@code sparkstrength:serial_pistol_shoot}
+ * for the same reasons and fires through {@code sparkdlc:bandit_revolver_shoot}, so it is dropped alike.
+ * 连环手枪加入 {@code wathe:guns} 只为沿用 Wathe 的持枪姿势与拾取处理；它们经 {@code sparkdlc:serial_pistol_shoot}
  * 开火，从不发送 {@code wathe:gunshoot}。Wathe 接收器只读主手且信任客户端（无身份检查、65 格、无视线、未登记物品零冷却），
  * 因此主手持连环手枪时收到的此类数据包必为伪造，直接丢弃。强盗改装左轮出于同样原因加入该标签，经
- * {@code sparkstrength:bandit_revolver_shoot} 开火，同样丢弃。
+ * {@code sparkdlc:bandit_revolver_shoot} 开火，同样丢弃。
  */
 @Mixin(value = GunShootPayload.Receiver.class, remap = false)
 public abstract class SerialPistolGunShootGuardMixin {

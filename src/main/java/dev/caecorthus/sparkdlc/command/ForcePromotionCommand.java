@@ -30,13 +30,13 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
-/** Registers /sparkwitch:forcePromotion for future Wraith promotion locks. */
+/** Registers /sparkdlc:forcePromotion for future Wraith promotion locks. */
 public final class ForcePromotionCommand {
     private static final DynamicCommandExceptionType UNKNOWN_ROLE = new DynamicCommandExceptionType(
-            id -> Text.translatable("command.sparkwitch.force_promotion.unknown_role", id)
+            id -> Text.translatable("command.sparkdlc.force_promotion.unknown_role", id)
     );
     private static final SimpleCommandExceptionType ROUND_RUNNING = new SimpleCommandExceptionType(
-            Text.translatable("command.sparkwitch.force_promotion.round_running")
+            Text.translatable("command.sparkdlc.force_promotion.round_running")
     );
     private static final List<PromotionRole> PROMOTION_ROLES = List.of(
             new PromotionRole(SparkWitchRoles.WIND_SPIRIT_ID, SparkWitchRoles::windSpirit),
@@ -50,7 +50,7 @@ public final class ForcePromotionCommand {
     }
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
-        dispatcher.register(CommandManager.literal("sparkwitch:forcePromotion")
+        dispatcher.register(CommandManager.literal("sparkdlc:forcePromotion")
                 .requires(Permissions.require(
                         SparkWitchPermissions.COMMAND_FORCE_PROMOTION,
                         SparkWitchPermissions.DEFAULT_COMMAND_LEVEL
@@ -85,7 +85,7 @@ public final class ForcePromotionCommand {
             }
             int finalChanged = changed;
             source.sendFeedback(() -> Text.translatable(
-                    "command.sparkwitch.force_promotion.success",
+                    "command.sparkdlc.force_promotion.success",
                     finalChanged,
                     Text.translatable(RoleDisplayTextRules.roleTranslationKey(role))
             ), true);

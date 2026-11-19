@@ -24,7 +24,7 @@ import java.util.UUID;
  * {@link PartygoerCorpseComponent} 标记。规则见 {@link PartygoerCorpseRules}。
  */
 public final class PartygoerCorpseService {
-    /** Wathe poison source; replay key {@code replay.poisoned.sparkstrength.partygoer_corpse[.by]}. / Wathe 中毒来源。 */
+    /** Wathe poison source; replay key {@code replay.poisoned.sparkdlc.partygoer_corpse[.by]}. / Wathe 中毒来源。 */
     public static final Identifier POISON_SOURCE = SparkStrength.id("partygoer_corpse");
 
     private PartygoerCorpseService() {

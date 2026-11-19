@@ -86,9 +86,9 @@ public final class KidnapperKnockoutService {
 
     public static ItemStack displayStack() {
         ItemStack stack = SparkWitchItems.knockoutDrug().getDefaultStack();
-        stack.set(DataComponentTypes.ITEM_NAME, Text.translatable("item.sparkwitch.knockout_drug"));
+        stack.set(DataComponentTypes.ITEM_NAME, Text.translatable("item.sparkdlc.knockout_drug"));
         stack.set(DataComponentTypes.LORE, new LoreComponent(List.of(
-                Text.translatable("shop.sparkwitch.knockout_drug.description")
+                Text.translatable("shop.sparkdlc.knockout_drug.description")
                         .styled(style -> style.withColor(0x808080).withItalic(false))
         )));
         return stack;
@@ -146,7 +146,7 @@ public final class KidnapperKnockoutService {
                 && canUseKnockoutDrug(killer)) {
             PlayerShopComponent.KEY.get(killer).addToBalance(KidnapperRules.CONTROLLED_KILL_REWARD);
             killer.sendMessage(Text.translatable(
-                    "message.sparkwitch.kidnapper.controlled_kill_reward",
+                    "message.sparkdlc.kidnapper.controlled_kill_reward",
                     KidnapperRules.CONTROLLED_KILL_REWARD
             ).withColor(KidnapperRules.COLOR), true);
         }
@@ -183,7 +183,7 @@ public final class KidnapperKnockoutService {
             return null;
         }
         return Text.translatable(
-                "replay.item_use.sparkwitch.knockout_drug",
+                "replay.item_use.sparkdlc.knockout_drug",
                 ReplayGenerator.formatPlayerName(event.data().getUuid("actor"), playerInfo),
                 ReplayGenerator.formatPlayerName(event.data().getUuid("target"), playerInfo)
         );
@@ -201,11 +201,11 @@ public final class KidnapperKnockoutService {
         Text actor = ReplayGenerator.formatPlayerName(event.data().getUuid("actor"), playerInfo);
         if (event.data().containsUuid("target")) {
             return Text.translatable(
-                    "replay.skill_use.sparkwitch.kidnapper.release",
+                    "replay.skill_use.sparkdlc.kidnapper.release",
                     actor,
                     ReplayGenerator.formatPlayerName(event.data().getUuid("target"), playerInfo)
             );
         }
-        return Text.translatable("replay.skill_use.sparkwitch.kidnapper.release_end", actor);
+        return Text.translatable("replay.skill_use.sparkdlc.kidnapper.release_end", actor);
     }
 }

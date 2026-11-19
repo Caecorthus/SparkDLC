@@ -132,7 +132,7 @@ public final class LightsSabotageService {
         }
         if (outage.mode() == OutageMode.REPAIR && world.getTime() % 20 == 0) {
             long seconds = (world.getTime() - outage.startTick()) / 20;
-            Text hint = Text.translatable("message.sparkstrength.sabotage.lights_out_hint",
+            Text hint = Text.translatable("message.sparkdlc.sabotage.lights_out_hint",
                     String.format("%d:%02d", seconds / 60, seconds % 60)).formatted(Formatting.RED);
             for (ServerPlayerEntity player : world.getPlayers()) {
                 player.sendMessage(hint, true);
@@ -155,7 +155,7 @@ public final class LightsSabotageService {
             case REPAIRED -> {
                 sabotage.startCooldownAfter(outage, now + SabotageRules.TEAM_COOLDOWN_TICKS);
                 sabotage.log(now, SabotageWorldComponent.LogKind.REPAIRED, outage.type());
-                Text restored = Text.translatable("message.sparkstrength.sabotage.power_back").formatted(Formatting.GREEN);
+                Text restored = Text.translatable("message.sparkdlc.sabotage.power_back").formatted(Formatting.GREEN);
                 for (ServerPlayerEntity player : world.getPlayers()) {
                     player.sendMessage(restored, true);
                 }

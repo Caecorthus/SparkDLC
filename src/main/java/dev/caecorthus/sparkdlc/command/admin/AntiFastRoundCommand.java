@@ -14,20 +14,20 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 
 /**
- * {@code /sparkfactionapi:antifastround [<enabled> [<seconds>]]}: shows or changes the server-wide safe-time settings.
+ * {@code /sparkdlc:antifastround [<enabled> [<seconds>]]}: shows or changes the server-wide safe-time settings.
  * New settings apply from the next round start; disabling also ends a running window. Feedback uses translation keys
  * with English fallbacks so dedicated-server consoles stay readable.
- * {@code /sparkfactionapi:antifastround [<enabled> [<seconds>]]}：查看或修改全服的开局安全时间设置。
+ * {@code /sparkdlc:antifastround [<enabled> [<seconds>]]}：查看或修改全服的开局安全时间设置。
  * 新设置从下一局开始生效；关闭时同时结束正在进行的窗口。反馈使用带英文回退的翻译键，保证专用服务器控制台可读。
  */
 final class AntiFastRoundCommand {
-    private static final String KEY_PREFIX = "commands.sparkfactionapi.antifastround.";
+    private static final String KEY_PREFIX = "commands.sparkdlc.antifastround.";
 
     private AntiFastRoundCommand() {
     }
 
     static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
-        dispatcher.register(CommandManager.literal("sparkfactionapi:antifastround")
+        dispatcher.register(CommandManager.literal("sparkdlc:antifastround")
                 .requires(SparkFactionPermissions.admin())
                 .executes(context -> showStatus(context.getSource()))
                 .then(CommandManager.argument("enabled", BoolArgumentType.bool())

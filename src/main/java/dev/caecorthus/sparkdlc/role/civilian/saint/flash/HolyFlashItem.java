@@ -20,10 +20,10 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
 /**
- * Holy Flash ({@code sparkwitch:holy_flash}): the Saint's shop flashbang. Any participant holding one may throw it
+ * Holy Flash ({@code sparkdlc:holy_flash}): the Saint's shop flashbang. Any participant holding one may throw it
  * (owner decision: no role check); right-click throws at once like Wathe's grenade. The server spawns a role-owned
  * {@link HolyFlashEntity}; vanilla's use-item packet is the whole request, so no forged packet can place a burst.
- * 圣光弹（{@code sparkwitch:holy_flash}）：圣徒商店里的闪光弹。任何持有它的参与者都能投掷（所有者决定：不限职业）；
+ * 圣光弹（{@code sparkdlc:holy_flash}）：圣徒商店里的闪光弹。任何持有它的参与者都能投掷（所有者决定：不限职业）；
  * 与 Wathe 手雷一样右键立即投出。服务端生成本职业自有的 {@link HolyFlashEntity}；原版使用物品数据包就是全部请求，
  * 因此伪造的数据包无法在任意位置制造爆闪。
  */
@@ -77,7 +77,7 @@ public final class HolyFlashItem extends Item {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         for (int line = 1; line <= TOOLTIP_LINES; line++) {
-            tooltip.add(Text.translatable("item.sparkwitch.holy_flash.tooltip.line" + line).formatted(Formatting.GRAY));
+            tooltip.add(Text.translatable("item.sparkdlc.holy_flash.tooltip.line" + line).formatted(Formatting.GRAY));
         }
         super.appendTooltip(stack, context, tooltip, type);
     }

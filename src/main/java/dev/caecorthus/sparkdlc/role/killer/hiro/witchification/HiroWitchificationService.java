@@ -60,9 +60,9 @@ import org.jetbrains.annotations.Nullable;
  * 空出就立即发放。
  */
 public final class HiroWitchificationService {
-    static final String WITCHIFIED_KEY = "message.sparkwitch.nikaido_hiro.witchified";
-    static final String DERRINGER_OWED_KEY = "message.sparkwitch.nikaido_hiro.witchified.derringer_owed";
-    static final String DERRINGER_DELIVERED_KEY = "message.sparkwitch.nikaido_hiro.witchified.derringer_delivered";
+    static final String WITCHIFIED_KEY = "message.sparkdlc.nikaido_hiro.witchified";
+    static final String DERRINGER_OWED_KEY = "message.sparkdlc.nikaido_hiro.witchified.derringer_owed";
+    static final String DERRINGER_DELIVERED_KEY = "message.sparkdlc.nikaido_hiro.witchified.derringer_delivered";
     /**
      * The Speed instance this passive put on each player; removal compares identity and shape, so a Speed another
      * system granted is never removed (Emma precedent). Instances do not survive a relog or restart, so the tick

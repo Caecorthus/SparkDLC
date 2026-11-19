@@ -63,6 +63,6 @@ public enum BlackRavenCrowEndReason {
 
     /** Owner action-bar key, or null when silent. / 主人动作栏提示键；静默时为 null。 */
     public @Nullable String messageKey() {
-        return messageSuffix == null ? null : "message.sparkwitch.black_raven_crow.ended." + messageSuffix;
+        return messageSuffix == null ? null : "message.sparkdlc.black_raven_crow.ended." + messageSuffix;
     }
 }

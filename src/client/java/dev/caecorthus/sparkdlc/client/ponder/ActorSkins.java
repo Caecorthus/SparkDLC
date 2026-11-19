@@ -67,7 +67,7 @@ public final class ActorSkins {
             image.setColor(pixel[0], pixel[1], eye);
         }
         return MinecraftClient.getInstance().getTextureManager()
-                .registerDynamicTexture("sparkassist_actor_" + Integer.toHexString(rgb), new NativeImageBackedTexture(image));
+                .registerDynamicTexture("sparkdlc_actor_" + Integer.toHexString(rgb), new NativeImageBackedTexture(image));
     }
 
     /**

@@ -27,17 +27,17 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Stable CCA contract {@code sparkwitch:seeker_status} (NEVER_COPY): the Seeker's own car, camera, session, battery
+ * Stable CCA contract {@code sparkdlc:seeker_status} (NEVER_COPY): the Seeker's own car, camera, session, battery
  * and mark state. Server-authoritative; synced only to the owner as remaining ticks, never absolute server ticks. It
- * never enters the shared {@code sparkwitch:player} schema.
- * 稳定 CCA 契约 {@code sparkwitch:seeker_status}（NEVER_COPY）：搜寻者自己的小车、摄像头、会话、电量与标记状态。
- * 由服务端权威决定，仅以剩余刻数同步给拥有者，从不发送绝对服务端刻；从不进入共享的 {@code sparkwitch:player} 结构。
+ * never enters the shared {@code sparkdlc:player} schema.
+ * 稳定 CCA 契约 {@code sparkdlc:seeker_status}（NEVER_COPY）：搜寻者自己的小车、摄像头、会话、电量与标记状态。
+ * 由服务端权威决定，仅以剩余刻数同步给拥有者，从不发送绝对服务端刻；从不进入共享的 {@code sparkdlc:player} 结构。
  */
 public final class SeekerStatusComponent
         implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
     public static final ComponentKey<SeekerStatusComponent> KEY = ComponentRegistry.getOrCreate(
             SparkWitch.id("seeker_status"), SeekerStatusComponent.class);
-    static final String BATTERY_LOW_MESSAGE_KEY = "message.sparkwitch.seeker.car.battery_low";
+    static final String BATTERY_LOW_MESSAGE_KEY = "message.sparkdlc.seeker.car.battery_low";
     /** Taotie return poll / retry period and device-existence check period. / 饕餮归还轮询与设备存在性检查周期。 */
     static final int SLOW_POLL_TICKS = 20;
     private static final int EXISTENCE_POLL_OFFSET = 10;
@@ -169,7 +169,7 @@ public final class SeekerStatusComponent
      * {@code SeekerRemoteSessionService.tick} (drop a stale {@code SeekerSessionState} when the mode is NONE is WP-09's)
      * → device existence ({@code loseCar}) → battery ({@code tickBattery}; on {@code batteryDepleted} call
      * {@code SeekerDeviceService.depleteCar}; on first crossing ≤20% / ≤10% send
-     * {@code message.sparkwitch.seeker.car.battery_low} and {@code SeekerDeviceSounds.playBatteryLow}) →
+     * {@code message.sparkdlc.seeker.car.battery_low} and {@code SeekerDeviceSounds.playBatteryLow}) →
      * every 20 ticks while SWALLOWED or PendingReturn: {@code SeekerTaotieService.tick} → mark decay → sync if dirty.
      * 服务端刻顺序（WP-02）：记录拥有者自愈 → 最终死亡兜底 → 会话刻 → 设备存在性 → 电量（耗尽时调用 depleteCar；
      * 首次降至 ≤20% / ≤10% 时发送电量不足提示并播放警告音）→ SWALLOWED 或 PendingReturn 时每 20 刻调用饕餮刻 →

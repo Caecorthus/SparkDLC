@@ -23,10 +23,10 @@ import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
 /**
- * Owner-private Prophet state ({@code sparkwitch:prophet_player}, {@code NEVER_COPY}): the passive Death Sense
+ * Owner-private Prophet state ({@code sparkdlc:prophet_player}, {@code NEVER_COPY}): the passive Death Sense
  * countdown, the permanent corpse highlight set, the necrology, and Prophecy records. It syncs only to its owner,
  * is bound to one Wathe match id, and ticks itself on the server outside {@code WitchPlayerComponent}'s tick order.
- * 仅所有者可见的先知状态（{@code sparkwitch:prophet_player}，{@code NEVER_COPY}）：被动死亡感知倒计时、永久尸体高亮集合、
+ * 仅所有者可见的先知状态（{@code sparkdlc:prophet_player}，{@code NEVER_COPY}）：被动死亡感知倒计时、永久尸体高亮集合、
  * 亡者名录与预言记录。只同步给拥有者，绑定单个 Wathe 对局 id，并在服务端自行 tick，不进入 {@code WitchPlayerComponent}
  * 的 tick 顺序。
  */

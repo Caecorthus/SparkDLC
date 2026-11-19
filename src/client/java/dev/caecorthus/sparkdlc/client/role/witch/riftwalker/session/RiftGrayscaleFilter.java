@@ -17,7 +17,7 @@ import java.io.IOException;
 
 /**
  * The 100% grayscale view inside a Rift Gate (D10): a PRIVATE {@link PostEffectProcessor} on SparkWitch's own copy of
- * the SparkTraits depression shader ({@code sparkwitch:shaders/post/perception.json}) at full desaturation, never
+ * the SparkTraits depression shader ({@code sparkdlc:shaders/post/perception.json}) at full desaturation, never
  * {@code GameRenderer.postProcessor} (server camera writers close that one) and never the Black Raven / Wraith / Last
  * Escape compositor. Lifecycle copied from {@code SeekerViewFilter}: released on every inactive frame, reset on
  * disconnect, client stop and resource reload (on the render thread), rebuilt on resize, and marked failed on load
@@ -25,7 +25,7 @@ import java.io.IOException;
  * colours (D10). Full grey is order-independent with SparkTraits Depression and Black Raven (gray in, gray out). When
  * the shader cannot run (load failure or an Iris shader pack) {@link #fallbackActive()} tells the HUD to draw a grey
  * tint and vignette instead.
- * 裂隙门内 100% 黑白画面（D10）：基于 SparkWitch 自带的 SparkTraits 抑郁着色器副本（{@code sparkwitch:shaders/post/perception.json}）
+ * 裂隙门内 100% 黑白画面（D10）：基于 SparkWitch 自带的 SparkTraits 抑郁着色器副本（{@code sparkdlc:shaders/post/perception.json}）
  * 的私有 {@link PostEffectProcessor}，满去饱和；绝不使用 {@code GameRenderer.postProcessor}（服务端相机写入方会关闭它），也不使用
  * 黑羽鸦/怨灵/Last Escape 合成器。生命周期照抄 {@code SeekerViewFilter}：非激活帧释放，断线、客户端停止与资源重载时（在渲染线程）
  * 重置，窗口尺寸变化时重建，加载出错时标记失败。灰度处理后重新合成实体描边帧缓冲，使本能描边保留颜色（D10）。全灰与 SparkTraits

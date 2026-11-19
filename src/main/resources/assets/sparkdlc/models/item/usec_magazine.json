@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "sparkdlc:item/usec_magazine"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "sparkdlc:usec_loaded": 1
+      },
+      "model": "sparkdlc:item/usec_magazine_loaded"
+    }
+  ]
+}

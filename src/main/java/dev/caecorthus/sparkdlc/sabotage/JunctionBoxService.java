@@ -89,7 +89,7 @@ public final class JunctionBoxService {
 
     public static void onPry(ServerPlayerEntity player, BlockPos pos, BlockState state) {
         if (!SabotageAccess.canPryOrHack(player)) {
-            player.sendMessage(Text.translatable("message.sparkstrength.sabotage.cannot_pry"), true);
+            player.sendMessage(Text.translatable("message.sparkdlc.sabotage.cannot_pry"), true);
             return;
         }
         if (SabotageActionLocks.isLocked(player)) {
@@ -103,21 +103,21 @@ public final class JunctionBoxService {
         JunctionBoxState look = state.get(JunctionBoxBlock.STATE);
         if (look != JunctionBoxState.CLOSED) {
             player.sendMessage(Text.translatable(look == JunctionBoxState.BROKEN
-                    ? "message.sparkstrength.sabotage.box_already_open"
-                    : "message.sparkstrength.sabotage.box_already_hacked"), true);
+                    ? "message.sparkdlc.sabotage.box_already_open"
+                    : "message.sparkdlc.sabotage.box_already_hacked"), true);
             return;
         }
         SabotageType type = JunctionBoxBlock.typeOf(state);
         if (type == null) {
-            player.sendMessage(Text.translatable("message.sparkstrength.sabotage.box_unwired"), true);
+            player.sendMessage(Text.translatable("message.sparkdlc.sabotage.box_unwired"), true);
             return;
         }
         if (!type.availableOn(sabotage.hasEngineUnits())) {
-            player.sendMessage(Text.translatable("message.sparkstrength.sabotage.no_engine_units"), true);
+            player.sendMessage(Text.translatable("message.sparkdlc.sabotage.no_engine_units"), true);
             return;
         }
         if (sabotage.isUnlocked(type)) {
-            player.sendMessage(Text.translatable("message.sparkstrength.sabotage.already_unlocked",
+            player.sendMessage(Text.translatable("message.sparkdlc.sabotage.already_unlocked",
                     Text.translatable(type.translationKey())), true);
             return;
         }
@@ -141,7 +141,7 @@ public final class JunctionBoxService {
 
     public static void onHack(ServerPlayerEntity player, BlockPos pos, BlockState state) {
         if (!SabotageAccess.canPryOrHack(player)) {
-            player.sendMessage(Text.translatable("message.sparkstrength.sabotage.cannot_hack"), true);
+            player.sendMessage(Text.translatable("message.sparkdlc.sabotage.cannot_hack"), true);
             return;
         }
         if (SabotageActionLocks.isLocked(player)) {
@@ -157,7 +157,7 @@ public final class JunctionBoxService {
             return;
         }
         if (sabotage.isUnlocked(type)) {
-            player.sendMessage(Text.translatable("message.sparkstrength.sabotage.already_unlocked",
+            player.sendMessage(Text.translatable("message.sparkdlc.sabotage.already_unlocked",
                     Text.translatable(type.translationKey())), true);
             return;
         }
@@ -178,11 +178,11 @@ public final class JunctionBoxService {
 
     public static void onRepair(ServerPlayerEntity player, BlockPos pos, BlockState state) {
         if (!SabotageAccess.isEngineer(player)) {
-            player.sendMessage(Text.translatable("message.sparkstrength.sabotage.engineer_only"), true);
+            player.sendMessage(Text.translatable("message.sparkdlc.sabotage.engineer_only"), true);
             return;
         }
         if (player.getItemCooldownManager().isCoolingDown(ModItems.REPAIR_TOOL)) {
-            player.sendMessage(Text.translatable("message.sparkstrength.sabotage.repair_tool_cooling"), true);
+            player.sendMessage(Text.translatable("message.sparkdlc.sabotage.repair_tool_cooling"), true);
             return;
         }
         ServerWorld world = player.getServerWorld();
@@ -190,7 +190,7 @@ public final class JunctionBoxService {
         SabotageWorldComponent.BoxProgress progress = sabotage.existingBox(pos);
         boolean open = state.get(JunctionBoxBlock.STATE).isOpen();
         if (!open && (progress == null || progress.durability >= SabotageRules.DURABILITY_MAX)) {
-            player.sendMessage(Text.translatable("message.sparkstrength.sabotage.box_intact"), true);
+            player.sendMessage(Text.translatable("message.sparkdlc.sabotage.box_intact"), true);
             return;
         }
         stopAllAt(world, pos);
@@ -204,7 +204,7 @@ public final class JunctionBoxService {
         sabotage.forgetBox(pos);
         player.getItemCooldownManager().set(ModItems.REPAIR_TOOL, RepairToolItem.COOLDOWN_TICKS);
         world.playSound(null, pos, SparkStrengthSounds.JUNCTION_BOX_REPAIR, SoundCategory.BLOCKS, 1.0F, 1.0F);
-        player.sendMessage(Text.translatable("message.sparkstrength.sabotage.box_repaired"), true);
+        player.sendMessage(Text.translatable("message.sparkdlc.sabotage.box_repaired"), true);
         SabotageType repairedType = JunctionBoxBlock.typeOf(state);
         if (repairedType != null) {
             sabotage.log(world.getTime(), SabotageWorldComponent.LogKind.BOX_REPAIRED, repairedType);
@@ -443,7 +443,7 @@ public final class JunctionBoxService {
         world.spawnParticles(ParticleTypes.ELECTRIC_SPARK, front.x, front.y, front.z, 40, 0.2, 0.2, 0.2, 0.6);
         world.spawnParticles(ParticleTypes.LARGE_SMOKE, front.x, front.y, front.z, 6, 0.15, 0.15, 0.15, 0.01);
         world.playSound(null, pos, SparkStrengthSounds.JUNCTION_BOX_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
-        player.sendMessage(Text.translatable("message.sparkstrength.sabotage.box_pried"), true);
+        player.sendMessage(Text.translatable("message.sparkdlc.sabotage.box_pried"), true);
         SabotageType type = JunctionBoxBlock.typeOf(state);
         if (type != null) {
             sabotage.log(world.getTime(), SabotageWorldComponent.LogKind.BOX_BROKEN, player.getUuid(),

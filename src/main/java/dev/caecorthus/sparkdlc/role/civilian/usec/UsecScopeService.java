@@ -21,7 +21,7 @@ import java.util.UUID;
 
 /**
  * Server authority for {@code UsecPlayerComponent.scoped}, the all-player flag behind the scope glint (S1). The
- * {@code sparkwitch:usec_scope} receiver stores {@code scoped = true} only for a qualifying shooter: any holder who may
+ * {@code sparkdlc:usec_scope} receiver stores {@code scoped = true} only for a qualifying shooter: any holder who may
  * use the rifle (owner, 2026-11-05: the role is never read; {@code OffMatchUse} not REFUSED, so a dead participant of an
  * ACTIVE round never qualifies while an off-match holder does), alive, non-spectating, non-Wraith, holding the rifle in
  * the main hand and using it (the held use that {@code UsecRifleItem.use} starts); anything else stores false. The glint
@@ -32,7 +32,7 @@ import java.util.UUID;
  * deny-list. Fabric runs play receivers on the server thread, so no hand-off is needed. The receiver only stores the
  * flag; the same per-tick sweep is the one place that syncs it, at most once per player per tick, so a client that
  * floods toggles cannot multiply them into broadcasts.
- * {@code UsecPlayerComponent.scoped}（镜头反光 S1 背后的全员同步标记）的服务端权威。{@code sparkwitch:usec_scope} 接收器
+ * {@code UsecPlayerComponent.scoped}（镜头反光 S1 背后的全员同步标记）的服务端权威。{@code sparkdlc:usec_scope} 接收器
  * 只为符合条件的射手写入 {@code scoped = true}：任何可以使用步枪的持有者（所有者 2026-11-05：从不读取职业；
  * {@code OffMatchUse} 不为 REFUSED，因此 ACTIVE 对局中已死亡的参与者永不符合，对局外的持有者则符合）、存活、非旁观、非冤魂、
  * 主手持狙击步枪并正在使用（即 {@code UsecRifleItem.use} 开始的按住使用）；其他情况一律写入 false。镜头反光与开镜声对每名

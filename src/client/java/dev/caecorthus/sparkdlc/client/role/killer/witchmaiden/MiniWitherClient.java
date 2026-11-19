@@ -117,29 +117,29 @@ public final class MiniWitherClient {
         MiniWitherPlayerComponent wither = MiniWitherPlayerComponent.KEY.get(player);
         List<Text> lines = new ArrayList<>(2);
         if (!wither.isUnlocked()) {
-            lines.add(Text.translatable("hud.sparkwitch.mini_wither.locked", wither.getCompletedTasks(),
+            lines.add(Text.translatable("hud.sparkdlc.mini_wither.locked", wither.getCompletedTasks(),
                     MiniWitherRules.UNLOCK_TASKS));
             return lines;
         }
         if (wither.getToggleCooldownTicks() > 0) {
-            lines.add(Text.translatable("hud.sparkwitch.mini_wither.cooldown",
+            lines.add(Text.translatable("hud.sparkdlc.mini_wither.cooldown",
                     TickTime.ceilSecondsUnclamped(wither.getToggleCooldownTicks())));
         } else {
-            lines.add(Text.translatable(wither.isActive() ? "hud.sparkwitch.mini_wither.dismiss"
-                    : "hud.sparkwitch.mini_wither.summon", SecondaryAbilityController.secondaryKeyText()));
+            lines.add(Text.translatable(wither.isActive() ? "hud.sparkdlc.mini_wither.dismiss"
+                    : "hud.sparkdlc.mini_wither.summon", SecondaryAbilityController.secondaryKeyText()));
         }
         if (!wither.isActive()) {
             return lines;
         }
         int crimsonTicks = goheiCooldownTicks(player);
         if (crimsonTicks > 0) {
-            lines.add(Text.translatable("hud.sparkwitch.mini_wither.crimson.cooldown",
+            lines.add(Text.translatable("hud.sparkdlc.mini_wither.crimson.cooldown",
                     TickTime.ceilSecondsUnclamped(crimsonTicks)));
         } else if (WitchPlayerComponent.KEY.get(player).getMana() < MiniWitherRules.CRIMSON_MANA_COST) {
-            lines.add(Text.translatable("hud.sparkwitch.mini_wither.crimson.not_enough_mana",
+            lines.add(Text.translatable("hud.sparkdlc.mini_wither.crimson.not_enough_mana",
                     MiniWitherRules.CRIMSON_MANA_COST));
         } else {
-            lines.add(Text.translatable("hud.sparkwitch.mini_wither.crimson.ready"));
+            lines.add(Text.translatable("hud.sparkdlc.mini_wither.crimson.ready"));
         }
         return lines;
     }

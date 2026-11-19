@@ -18,30 +18,30 @@ import java.util.function.Predicate;
  */
 final class KillRules {
     static final String UNDERCOVER = "noellesroles:undercover";
-    static final String APPRENTICE_WITCH = "sparkwitch:apprentice_witch";
-    static final String PIG_GOD = "sparkwitch:pig_god";
+    static final String APPRENTICE_WITCH = "sparkdlc:apprentice_witch";
+    static final String PIG_GOD = "sparkdlc:pig_god";
     static final String BOMBER = "noellesroles:bomber";
-    static final String USEC = "sparkwitch:usec";
+    static final String USEC = "sparkdlc:usec";
     static final String CORRUPT_COP = "noellesroles:corrupt_cop";
     static final String SERIAL_KILLER = "noellesroles:serial_killer";
     static final String POISONER = "noellesroles:poisoner";
 
-    static final String CEREMONIAL_BLADE = "sparkwitch:ceremonial_blade";
-    static final String MIGHTY_FORCE = "sparkwitch:mighty_force";
+    static final String CEREMONIAL_BLADE = "sparkdlc:ceremonial_blade";
+    static final String MIGHTY_FORCE = "sparkdlc:mighty_force";
     static final String BOMB = "noellesroles:bomb";
     static final String GRENADE = "wathe:grenade";
-    static final String POTION_SHELL = "sparkwitch:potion_shell";
-    static final String BELL_TOLL = "sparkwitch:bell_toll";
+    static final String POTION_SHELL = "sparkdlc:potion_shell";
+    static final String BELL_TOLL = "sparkdlc:bell_toll";
     static final String POISON = "wathe:poison";
 
-    static final String VENDETTA_TERMINAL = "sparkwitch:vendetta_terminal";
-    static final String MURDER_SENSE = "sparkwitch:murder_sense";
-    static final String BOMB_DRONE_DETONATED = "sparkstrength:bomb_drone_detonated";
-    static final String M67 = "sparkstrength:m67";
-    static final String DRONE_GRENADE_DROPPED = "sparkstrength:drone_grenade_dropped";
-    static final String USEC_RIFLE_FIRE = "sparkwitch:usec_rifle_fire";
+    static final String VENDETTA_TERMINAL = "sparkdlc:vendetta_terminal";
+    static final String MURDER_SENSE = "sparkdlc:murder_sense";
+    static final String BOMB_DRONE_DETONATED = "sparkdlc:bomb_drone_detonated";
+    static final String M67 = "sparkdlc:m67";
+    static final String DRONE_GRENADE_DROPPED = "sparkdlc:drone_grenade_dropped";
+    static final String USEC_RIFLE_FIRE = "sparkdlc:usec_rifle_fire";
     static final String FIRE_KIND = "fire";
-    static final String SHOW_OFF = "sparkstrength:corrupt_cop_show_off";
+    static final String SHOW_OFF = "sparkdlc:corrupt_cop_show_off";
     static final String GAS_BOMB = "noellesroles:gas_bomb";
 
     /** An M67 goes off this many ticks after it is thrown or dropped. M67 投出或投下后经过这么多 tick 爆炸。 */
@@ -84,9 +84,9 @@ final class KillRules {
 
     /**
      * 拜你所赐: the Grand Witch's Ceremonial Blade kill. Striking down the Vendetta bound to her is cancelled into a
-     * {@code sparkwitch:vendetta_terminal} global event (her as actor, the blade as {@code death_reason}) with no
+     * {@code sparkdlc:vendetta_terminal} global event (her as actor, the blade as {@code death_reason}) with no
      * death record, and counts too.
-     * 大魔女用仪礼剑的击杀。斩杀与她绑定的仇杀客会被取消，改记为 {@code sparkwitch:vendetta_terminal} 全局事件
+     * 大魔女用仪礼剑的击杀。斩杀与她绑定的仇杀客会被取消，改记为 {@code sparkdlc:vendetta_terminal} 全局事件
      * （她为执行者，{@code death_reason} 为仪礼剑），没有死亡记录，同样计入。
      */
     static boolean ceremonialBladeKill(AchievementContext context) {

@@ -129,9 +129,9 @@ public final class BanditRevolverClient {
         player.playSound(WatheSounds.ITEM_REVOLVER_CLICK, 0.5F, 1.2F);
         KeyBinding ability = NoellesrolesClient.abilityBind;
         player.sendMessage(state.pending().isEmpty()
-                ? Text.translatable("tip.sparkstrength.bandit_revolver.empty",
+                ? Text.translatable("tip.sparkdlc.bandit_revolver.empty",
                 ability == null ? Text.literal("G") : ability.getBoundKeyLocalizedText())
-                : Text.translatable("tip.sparkstrength.bandit_revolver.seating"), true);
+                : Text.translatable("tip.sparkdlc.bandit_revolver.seating"), true);
     }
 
     private static void fire(ClientPlayerEntity player, BanditRevolverState state) {

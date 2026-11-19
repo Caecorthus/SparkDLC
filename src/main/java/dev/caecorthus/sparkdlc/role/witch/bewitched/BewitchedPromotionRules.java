@@ -92,7 +92,7 @@ public final class BewitchedPromotionRules {
         return false;
     }
 
-    /** Outcome of a {@code /sparkwitch:forceAccompliceRole} request. / 锁定命令请求的结果。 */
+    /** Outcome of a {@code /sparkdlc:forceAccompliceRole} request. / 锁定命令请求的结果。 */
     public enum LockCheck {
         OK,
         /** A special accomplice was given more than one target. / 特殊共犯指定了多名目标。 */

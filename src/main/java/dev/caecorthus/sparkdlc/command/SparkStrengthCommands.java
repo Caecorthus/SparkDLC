@@ -40,7 +40,7 @@ public final class SparkStrengthCommands {
     }
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
-        dispatcher.register(CommandManager.literal("sparkstrength:emergencyMeetingChances")
+        dispatcher.register(CommandManager.literal("sparkdlc:emergencyMeetingChances")
                 .requires(source -> source.hasPermissionLevel(DEFAULT_COMMAND_LEVEL))
                 .then(CommandManager.argument("num", IntegerArgumentType.integer(0))
                         .executes(context -> setEmergencyMeetingChances(
@@ -49,17 +49,17 @@ public final class SparkStrengthCommands {
                         ))));
         // Keep the requested misspelled command as an alias beside the canonical name.
         // 保留需求中写出的拼写作为别名，同时提供正确拼写。
-        registerVoteTimeCommand(dispatcher, "sparkstrength:voteTime");
+        registerVoteTimeCommand(dispatcher, "sparkdlc:voteTime");
         registerVoteTimeCommand(dispatcher, "sparkstength:voteTime");
         // Brigadier literals are case-sensitive, so the camel-case namespace is registered as a separate alias.
         // Brigadier 字面量区分大小写，因此驼峰写法的命名空间需单独注册为别名。
-        registerDetectiveCaseLimitCommand(dispatcher, "sparkstrength:detectiveCaseLimit");
+        registerDetectiveCaseLimitCommand(dispatcher, "sparkdlc:detectiveCaseLimit");
         registerDetectiveCaseLimitCommand(dispatcher, "sparkStrength:detectiveCaseLimit");
         registerTabletChatIntervalCommand(dispatcher, "sparkStrength:tabletChatInterval");
-        registerTabletChatIntervalCommand(dispatcher, "sparkstrength:tabletChatInterval");
+        registerTabletChatIntervalCommand(dispatcher, "sparkdlc:tabletChatInterval");
 
-        registerPlayerStateCommand(dispatcher, "sparkstrength:setPlayerAlive", true);
-        registerPlayerStateCommand(dispatcher, "sparkstrength:setPlayerDead", false);
+        registerPlayerStateCommand(dispatcher, "sparkdlc:setPlayerAlive", true);
+        registerPlayerStateCommand(dispatcher, "sparkdlc:setPlayerDead", false);
     }
 
     private static int setEmergencyMeetingChances(ServerCommandSource source, int chances) {
@@ -67,7 +67,7 @@ public final class SparkStrengthCommands {
             TabletWorldComponent.KEY.get(world).setEmergencyMeetingChances(chances);
         }
         source.sendFeedback(
-                () -> Text.translatable("commands.sparkstrength.emergency_meeting_chances.success", chances),
+                () -> Text.translatable("commands.sparkdlc.emergency_meeting_chances.success", chances),
                 true
         );
         return chances;
@@ -89,7 +89,7 @@ public final class SparkStrengthCommands {
             TabletWorldComponent.KEY.get(world).setMeetingDurationTicks(ticks);
         }
         source.sendFeedback(
-                () -> Text.translatable("commands.sparkstrength.vote_time.success", seconds),
+                () -> Text.translatable("commands.sparkdlc.vote_time.success", seconds),
                 true
         );
         return seconds;
@@ -112,7 +112,7 @@ public final class SparkStrengthCommands {
     private static int queryDetectiveCaseLimit(ServerCommandSource source) {
         int limit = DetectiveCaseService.getSuspectLimit(source.getWorld());
         source.sendFeedback(
-                () -> Text.translatable("commands.sparkstrength.detective_case_limit.query", limit),
+                () -> Text.translatable("commands.sparkdlc.detective_case_limit.query", limit),
                 false
         );
         return limit;
@@ -121,7 +121,7 @@ public final class SparkStrengthCommands {
     private static int setDetectiveCaseLimit(ServerCommandSource source, int limit) {
         DetectiveCaseService.setSuspectLimit(source.getServer(), limit);
         source.sendFeedback(
-                () -> Text.translatable("commands.sparkstrength.detective_case_limit.success", limit),
+                () -> Text.translatable("commands.sparkdlc.detective_case_limit.success", limit),
                 true
         );
         return limit;
@@ -146,8 +146,8 @@ public final class SparkStrengthCommands {
     private static int queryTabletChatInterval(ServerCommandSource source) {
         int ticks = TabletWorldComponent.KEY.get(source.getWorld()).chatIntervalTicks();
         source.sendFeedback(() -> ticks <= 0
-                        ? Text.translatable("commands.sparkstrength.tablet_chat_interval.query_off")
-                        : Text.translatable("commands.sparkstrength.tablet_chat_interval.query", secondsLabel(ticks)),
+                        ? Text.translatable("commands.sparkdlc.tablet_chat_interval.query_off")
+                        : Text.translatable("commands.sparkdlc.tablet_chat_interval.query", secondsLabel(ticks)),
                 false);
         return ticks;
     }
@@ -158,8 +158,8 @@ public final class SparkStrengthCommands {
             TabletWorldComponent.KEY.get(world).setChatIntervalTicks(ticks);
         }
         source.sendFeedback(() -> ticks <= 0
-                        ? Text.translatable("commands.sparkstrength.tablet_chat_interval.off")
-                        : Text.translatable("commands.sparkstrength.tablet_chat_interval.success", secondsLabel(ticks)),
+                        ? Text.translatable("commands.sparkdlc.tablet_chat_interval.off")
+                        : Text.translatable("commands.sparkdlc.tablet_chat_interval.success", secondsLabel(ticks)),
                 true);
         return ticks;
     }
@@ -206,7 +206,7 @@ public final class SparkStrengthCommands {
         UUID uuid = target.getUuid();
 
         if (!game.hasAnyRole(uuid)) {
-            source.sendError(Text.translatable("commands.sparkstrength.player_state.no_role", target.getName()));
+            source.sendError(Text.translatable("commands.sparkdlc.player_state.no_role", target.getName()));
             return 0;
         }
 
@@ -221,8 +221,8 @@ public final class SparkStrengthCommands {
             source.sendFeedback(
                     () -> Text.translatable(
                             alive
-                                    ? "commands.sparkstrength.player_state.already_alive"
-                                    : "commands.sparkstrength.player_state.already_dead",
+                                    ? "commands.sparkdlc.player_state.already_alive"
+                                    : "commands.sparkdlc.player_state.already_dead",
                             target.getName()
                     ),
                     false
@@ -238,7 +238,7 @@ public final class SparkStrengthCommands {
             }
 
             source.sendFeedback(
-                    () -> Text.translatable("commands.sparkstrength.player_alive.success", target.getName()),
+                    () -> Text.translatable("commands.sparkdlc.player_alive.success", target.getName()),
                     true
             );
         } else {
@@ -246,7 +246,7 @@ public final class SparkStrengthCommands {
             game.markPlayerDead(uuid);
             game.sync();
             source.sendFeedback(
-                    () -> Text.translatable("commands.sparkstrength.player_dead.success", target.getName()),
+                    () -> Text.translatable("commands.sparkdlc.player_dead.success", target.getName()),
                     true
             );
         }
@@ -262,7 +262,7 @@ public final class SparkStrengthCommands {
 
         if (!game.isRunning()) {
             source.sendFeedback(
-                    () -> Text.translatable("commands.sparkstrength.player_state.game_not_running"),
+                    () -> Text.translatable("commands.sparkdlc.player_state.game_not_running"),
                     false
             );
         }

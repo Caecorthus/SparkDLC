@@ -12,10 +12,10 @@ import net.minecraft.util.Util;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Blind client module: receives {@code sparkwitch:blind_pulse} into {@link BlindPerceptionClientState}, forgets that
+ * Blind client module: receives {@code sparkdlc:blind_pulse} into {@link BlindPerceptionClientState}, forgets that
  * state whenever {@link BlindView#isActive} flips (role change, death, round end) or the world changes, and calls each
  * work package's client wiring. Role-owned presentation; never part of the witch skill inventory panel.
- * 盲人客户端模块：把 {@code sparkwitch:blind_pulse} 写入 {@link BlindPerceptionClientState}；当 {@link BlindView#isActive}
+ * 盲人客户端模块：把 {@code sparkdlc:blind_pulse} 写入 {@link BlindPerceptionClientState}；当 {@link BlindView#isActive}
  * 翻转（换职业、死亡、回合结束）或世界变化时清空该状态；并调用各工作包的客户端接线。属于职业自有展示，从不属于魔女技能背包面板。
  */
 public final class BlindClient {

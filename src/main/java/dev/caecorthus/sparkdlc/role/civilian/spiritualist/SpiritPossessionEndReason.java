@@ -30,9 +30,9 @@ public enum SpiritPossessionEndReason {
         return wire;
     }
 
-    /** {@code message.sparkstrength.spirit_possession.end.<id>}, or null when the end is silent. / 无提示时为 null。 */
+    /** {@code message.sparkdlc.spirit_possession.end.<id>}, or null when the end is silent. / 无提示时为 null。 */
     public @Nullable String translationKey() {
-        return id == null ? null : "message.sparkstrength.spirit_possession.end." + id;
+        return id == null ? null : "message.sparkdlc.spirit_possession.end." + id;
     }
 
     public static SpiritPossessionEndReason fromWire(int wire) {

@@ -32,7 +32,7 @@ public final class DecorLayer implements AutoCloseable {
     private int width;
     private int height;
 
-    /** @param name texture name prefix, e.g. {@code sparkassist_guide_reader} / 纹理名前缀 */
+    /** @param name texture name prefix, e.g. {@code sparkdlc_guide_reader} / 纹理名前缀 */
     public DecorLayer(String name) {
         this.name = name;
     }

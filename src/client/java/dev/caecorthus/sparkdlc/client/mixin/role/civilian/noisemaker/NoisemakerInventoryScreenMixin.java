@@ -91,7 +91,7 @@ public abstract class NoisemakerInventoryScreenMixin extends LimitedHandledScree
                 0,
                 y,
                 Items.PURPLE_DYE.getDefaultStack(),
-                Text.translatable("ui.sparkstrength.pagination.previous"),
+                Text.translatable("ui.sparkdlc.pagination.previous"),
                 button -> {
                     sparkstrength$noisemakerCurrentPage--;
                     sparkstrength$noisemakerRefreshPage();
@@ -101,7 +101,7 @@ public abstract class NoisemakerInventoryScreenMixin extends LimitedHandledScree
                 0,
                 y,
                 Items.LIME_DYE.getDefaultStack(),
-                Text.translatable("ui.sparkstrength.pagination.next"),
+                Text.translatable("ui.sparkdlc.pagination.next"),
                 button -> {
                     sparkstrength$noisemakerCurrentPage++;
                     sparkstrength$noisemakerRefreshPage();

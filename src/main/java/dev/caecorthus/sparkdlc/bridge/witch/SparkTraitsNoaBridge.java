@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
  * 只在确认是内鬼时跳过。
  */
 public final class SparkTraitsNoaBridge {
-    private static final String MOD_ID = "sparktraits";
+    private static final String MOD_ID = "sparkdlc";
     private static final Identifier IMPOSTOR = Identifier.of(MOD_ID, "impostor");
 
     private SparkTraitsNoaBridge() {

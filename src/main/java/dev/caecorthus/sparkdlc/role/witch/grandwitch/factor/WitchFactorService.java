@@ -99,7 +99,7 @@ public final class WitchFactorService {
         if (target == null || attemptSpread(source, target) == SpreadOutcome.REFUSED) return WitchSkillUseResult.fail(null);
         WitchPlayerComponent mana = WitchPlayerComponent.KEY.get(source);
         mana.setMana(mana.getMana() - MANA_COST);
-        return WitchSkillUseResult.success(COOLDOWN_TICKS, "message.sparkwitch.skill.witch_factor.spread");
+        return WitchSkillUseResult.success(COOLDOWN_TICKS, "message.sparkdlc.skill.witch_factor.spread");
     }
 
     /**
@@ -287,7 +287,7 @@ public final class WitchFactorService {
             WitchFactorState.Factor factor = previous.advance();
             entry.setValue(factor);
             if (!previous.mature() && factor.mature()) {
-                holder.sendMessage(Text.translatable("message.sparkwitch.factor.awakened"), false);
+                holder.sendMessage(Text.translatable("message.sparkdlc.factor.awakened"), false);
             }
             // Emma's Speed threshold counts spread factors only; mana, mood and the view below treat every factor alike.
             // 艾玛速度的门槛只统计传播所得的因子；下面的魔力、情绪与视图对所有因子一视同仁。

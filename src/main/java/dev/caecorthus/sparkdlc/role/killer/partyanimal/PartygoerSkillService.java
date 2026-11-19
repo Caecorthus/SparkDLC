@@ -75,7 +75,7 @@ public final class PartygoerSkillService {
         boolean wasUnlocked = skill.isUnlocked();
         skill.recordTask();
         if (!wasUnlocked && skill.isUnlocked()) {
-            player.sendMessage(Text.translatable("tip.sparkstrength.partygoer.unlocked").formatted(Formatting.LIGHT_PURPLE),
+            player.sendMessage(Text.translatable("tip.sparkdlc.partygoer.unlocked").formatted(Formatting.LIGHT_PURPLE),
                     true);
         }
     }
@@ -138,7 +138,7 @@ public final class PartygoerSkillService {
         PlayerShopComponent shop = PlayerShopComponent.KEY.get(player);
         int balance = shop.getBalance();
         if (KillerTeamEconomyService.availableForPurchase(player, balance) < PartyAnimalRules.SKILL_PRICE) {
-            player.sendMessage(Text.translatable("tip.sparkstrength.partygoer.no_money", PartyAnimalRules.SKILL_PRICE)
+            player.sendMessage(Text.translatable("tip.sparkdlc.partygoer.no_money", PartyAnimalRules.SKILL_PRICE)
                     .formatted(Formatting.RED), true);
             return;
         }
@@ -151,7 +151,7 @@ public final class PartygoerSkillService {
         shop.setBalance(KillerTeamEconomyService.personalBalanceAfterPurchase(player, balance,
                 PartyAnimalRules.SKILL_PRICE));
         PartygoerService.summon(player, roundId, grid, spawn, destination, prey);
-        player.sendMessage(Text.translatable("tip.sparkstrength.partygoer.summoned", spawn.name(), destination.name())
+        player.sendMessage(Text.translatable("tip.sparkdlc.partygoer.summoned", spawn.name(), destination.name())
                 .formatted(Formatting.LIGHT_PURPLE), true);
     }
 
@@ -165,14 +165,14 @@ public final class PartygoerSkillService {
             return tip("locked");
         }
         if (!skill.isUnlocked()) {
-            return Text.translatable("tip.sparkstrength.partygoer.needs_tasks",
+            return Text.translatable("tip.sparkdlc.partygoer.needs_tasks",
                     skill.getCompletedTasks(), PartyAnimalRules.UNLOCK_TASKS).formatted(Formatting.GRAY);
         }
         if (PartygoerService.hasActive(player.getUuid())) {
             return tip("active");
         }
         if (skill.getCooldownTicks() > 0) {
-            return Text.translatable("tip.sparkstrength.partygoer.cooldown", Math.ceilDiv(skill.getCooldownTicks(), 20))
+            return Text.translatable("tip.sparkdlc.partygoer.cooldown", Math.ceilDiv(skill.getCooldownTicks(), 20))
                     .formatted(Formatting.GRAY);
         }
         if (!PartygoerTargeting.anyValidPrey(player.getServerWorld(), player.getUuid())) {
@@ -199,6 +199,6 @@ public final class PartygoerSkillService {
     }
 
     private static Text tip(String key) {
-        return Text.translatable("tip.sparkstrength.partygoer." + key).formatted(Formatting.GRAY);
+        return Text.translatable("tip.sparkdlc.partygoer." + key).formatted(Formatting.GRAY);
     }
 }

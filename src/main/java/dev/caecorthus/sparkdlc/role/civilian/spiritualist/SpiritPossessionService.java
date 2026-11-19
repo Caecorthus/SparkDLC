@@ -57,8 +57,8 @@ public final class SpiritPossessionService {
             Lock.CONTROL_EXPERT_STUN, Lock.ROLE_SKILL_BLOCK, Lock.LAST_STAND_PENDING);
 
     /**
-     * Possession sessions by Spiritualist uuid; the chunk ticket is {@code sparkstrength:spirit_possession}.
-     * 按灵界行者 uuid 记录的附身会话；区块票据为 sparkstrength:spirit_possession。
+     * Possession sessions by Spiritualist uuid; the chunk ticket is {@code sparkdlc:spirit_possession}.
+     * 按灵界行者 uuid 记录的附身会话；区块票据为 sparkdlc:spirit_possession。
      */
     private static final RemoteViewSessions<Session> VIEWS = new RemoteViewSessions<>("spirit_possession");
     private static boolean registered;

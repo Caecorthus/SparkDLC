@@ -39,10 +39,10 @@ public final class EmmaSkillService {
         ServerPlayerEntity target = GrandWitchTargeting.findTarget(player,
                 context.target() == null ? null : context.target().getUuid());
         if (target == null || !SparkFactionApi.canAffectPlayer(player, target, EmmaRules.SKILL_ID, context.gameComponent())) {
-            return WitchSkillUseResult.fail("message.sparkwitch.emma.invalid_target");
+            return WitchSkillUseResult.fail("message.sparkdlc.emma.invalid_target");
         }
         if (WitchFactorService.getRemaining(player.getServerWorld()) == 0) {
-            return WitchSkillUseResult.fail("message.sparkwitch.emma.no_capacity");
+            return WitchSkillUseResult.fail("message.sparkdlc.emma.no_capacity");
         }
         Role role = context.gameComponent().getRole(target);
         // Every accomplice, special ones included, backlashes fatally like the plain Accomplice.

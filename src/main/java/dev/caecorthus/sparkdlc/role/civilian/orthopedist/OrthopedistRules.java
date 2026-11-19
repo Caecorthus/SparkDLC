@@ -7,7 +7,7 @@ import net.minecraft.util.Identifier;
  * 骨科大夫的纯数值与服务端校验决策集中在这里。
  */
 public final class OrthopedistRules {
-    public static final Identifier ROLE_ID = Identifier.of("sparkwitch", "orthopedist");
+    public static final Identifier ROLE_ID = Identifier.of("sparkdlc", "orthopedist");
     public static final int COLOR = 0x90B358;
     public static final int INITIAL_COOLDOWN_TICKS = 20 * 30;
     public static final int POST_USE_COOLDOWN_TICKS = 20 * 60;

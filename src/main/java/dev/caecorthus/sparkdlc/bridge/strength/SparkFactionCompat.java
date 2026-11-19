@@ -19,9 +19,9 @@ import java.util.function.Predicate;
  *  公开阵营 API 桥接。各模块已融合进 SparkDLC，因此这里的每个调用都是直接的编译期调用。 */
 public final class SparkFactionCompat {
     /** SparkWitch's witch faction id (Grand Witch, Accomplice, Curser). / SparkWitch 魔女阵营 id。 */
-    public static final Identifier WITCH_FACTION_ID = Identifier.of("sparkwitch", "witch");
+    public static final Identifier WITCH_FACTION_ID = Identifier.of("sparkdlc", "witch");
     /** SparkWitch's Team Jiahao (Insider, NoellesRoles Corrupt Cop). / SparkWitch 嘉豪阵营 id（内应、黑警）。 */
-    public static final Identifier JIAHAO_FACTION_ID = Identifier.of("sparkwitch", "jiahao");
+    public static final Identifier JIAHAO_FACTION_ID = Identifier.of("sparkdlc", "jiahao");
 
     private SparkFactionCompat() {
     }

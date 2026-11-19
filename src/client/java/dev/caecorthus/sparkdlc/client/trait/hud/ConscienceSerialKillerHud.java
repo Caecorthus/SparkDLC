@@ -16,7 +16,7 @@ public final class ConscienceSerialKillerHud {
     private static final int TEXT_COLOR = 0xFFDEF8;
     private static final int RIGHT_MARGIN = 10;
     private static final int BOTTOM_MARGIN = 34;
-    private static final String MURDERER_ROLE_KEY = "gui.sparktraits.conscience_serial_killer.murderer_role";
+    private static final String MURDERER_ROLE_KEY = "gui.sparkdlc.conscience_serial_killer.murderer_role";
 
     // The clue and its width only change with the role, language or font, so they are built once per change.
     // 线索文本及其宽度只随职业、语言或字体变化，因此仅在变化时构建一次。

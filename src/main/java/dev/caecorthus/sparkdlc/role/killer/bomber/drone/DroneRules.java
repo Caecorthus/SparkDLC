@@ -51,7 +51,7 @@ public final class DroneRules {
     /** At most one undetonated bomb drone in the world per owner. / 每名主人场上最多一架未引爆的炸弹无人机。 */
     public static final int MAX_ACTIVE_BOMB_DRONES = 1;
 
-    public static final String BOMB_DRONE_SHOP_ENTRY_ID = "sparkstrength_bomb_drone";
+    public static final String BOMB_DRONE_SHOP_ENTRY_ID = "sparkdlc_bomb_drone";
     public static final int BOMB_DRONE_PRICE = 400;
     /** SparkTraits Conscience Bomber price. / SparkTraits 善良炸弹客价格。 */
     public static final int BOMB_DRONE_CONSCIENCE_PRICE = 200;

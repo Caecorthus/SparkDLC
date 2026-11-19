@@ -21,7 +21,7 @@ public final class SettingsGearButton extends ButtonWidget {
     private static final Identifier GEAR_ICON = SparkAssist.id("textures/gui/settings/gear.png");
 
     public SettingsGearButton(int x, int y, Screen parent) {
-        super(x, y, SIZE, SIZE, Text.translatable("screen.sparkassist.settings.title"),
+        super(x, y, SIZE, SIZE, Text.translatable("screen.sparkdlc.settings.title"),
                 button -> MinecraftClient.getInstance().setScreen(new SparkDlcSettingsScreen(parent)),
                 DEFAULT_NARRATION_SUPPLIER);
     }

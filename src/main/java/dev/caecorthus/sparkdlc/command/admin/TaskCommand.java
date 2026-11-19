@@ -36,9 +36,9 @@ final class TaskCommand {
     }
 
     static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
-        registerTaskCommand(dispatcher, "sparkfactionapi:addTask", TaskAction.ADD);
-        registerTaskCommand(dispatcher, "sparkfactionapi:deleteTask", TaskAction.DELETE);
-        registerTaskCommand(dispatcher, "sparkfactionapi:completeTask", TaskAction.COMPLETE);
+        registerTaskCommand(dispatcher, "sparkdlc:addTask", TaskAction.ADD);
+        registerTaskCommand(dispatcher, "sparkdlc:deleteTask", TaskAction.DELETE);
+        registerTaskCommand(dispatcher, "sparkdlc:completeTask", TaskAction.COMPLETE);
     }
 
     private static void registerTaskCommand(

@@ -19,11 +19,11 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 /**
- * Renderer of the Raven Form crow ({@code sparkwitch:black_raven_crow}) with model B. Everyone sees it; it never has a
+ * Renderer of the Raven Form crow ({@code sparkdlc:black_raven_crow}) with model B. Everyone sees it; it never has a
  * name tag. The owner sees it only in third person (vanilla skips the camera entity in first person). Speed, support
  * and turn rate drive {@link BlackRavenCrowAnimation}; the per-crow state lives here (render thread only). Presentation
  * only: the server owns the crow.
- * 化鸦乌鸦（sparkwitch:black_raven_crow）的渲染器，使用模型 B。所有人可见，从不显示名牌。主人只在第三人称看到它（原版第一人称会跳过
+ * 化鸦乌鸦（sparkdlc:black_raven_crow）的渲染器，使用模型 B。所有人可见，从不显示名牌。主人只在第三人称看到它（原版第一人称会跳过
  * 镜头实体）。速度、是否有支撑与转向速率驱动 {@link BlackRavenCrowAnimation}；每只乌鸦的状态保存在此（仅渲染线程）。仅用于展示：
  * 乌鸦由服务端掌控。
  */

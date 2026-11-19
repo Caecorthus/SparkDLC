@@ -7,7 +7,7 @@ import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Server half of the crow flight: validates {@code sparkwitch:black_raven_crow_move} like SparkStrength's
+ * Server half of the crow flight: validates {@code sparkdlc:black_raven_crow_move} like SparkStrength's
  * {@code DronePilotService.move} (stale moves dropped silently, non-finite poses corrected) and replays the pose through
  * {@link BlackRavenCrowEntity#applyPilotStep}. Moves beyond the per-tick count merge into one latest pose that the crow
  * applies on its own tick ({@link #applyDeferredMove}), so a burst never drops a pose.

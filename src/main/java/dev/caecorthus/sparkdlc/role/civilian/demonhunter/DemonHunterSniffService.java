@@ -111,11 +111,11 @@ public final class DemonHunterSniffService {
         boolean alreadyMarked = component.isSniffMarked(targetUuid);
         if (alreadyMarked) {
             component.revealSniffTarget(targetUuid);
-            sendTargetMessage(target, "message.sparkstrength.demon_hunter_sniff.revealed_by_hunter");
+            sendTargetMessage(target, "message.sparkdlc.demon_hunter_sniff.revealed_by_hunter");
             recordSniffReveal(world, hunter, target);
         } else {
             component.markSniffTarget(targetUuid);
-            sendTargetMessage(target, "message.sparkstrength.demon_hunter_sniff.marked_by_hunter");
+            sendTargetMessage(target, "message.sparkdlc.demon_hunter_sniff.marked_by_hunter");
         }
 
         // 只对被嗅探且符合条件的目标本人播放提示音，避免其他玩家通过声音反查位置。
@@ -124,8 +124,8 @@ public final class DemonHunterSniffService {
 
     private static void sendHunterResult(ServerPlayerEntity hunter, int targetCount) {
         MutableText message = targetCount > 0
-                ? Text.translatable("message.sparkstrength.demon_hunter_sniff.found", targetCount)
-                : Text.translatable("message.sparkstrength.demon_hunter_sniff.none");
+                ? Text.translatable("message.sparkdlc.demon_hunter_sniff.found", targetCount)
+                : Text.translatable("message.sparkdlc.demon_hunter_sniff.none");
         hunter.sendMessage(message.withColor(Noellesroles.DEMON_HUNTER.color()), true);
     }
 

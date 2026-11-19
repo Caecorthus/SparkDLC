@@ -17,12 +17,12 @@ import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
 /**
- * Mini Wither state ({@code sparkwitch:mini_wither}, {@code NEVER_COPY}, appended last), kept out of the shared
- * {@code sparkwitch:player} packet whose field order is frozen. Every client receives whether the Wither is out (it is
+ * Mini Wither state ({@code sparkdlc:mini_wither}, {@code NEVER_COPY}, appended last), kept out of the shared
+ * {@code sparkdlc:player} packet whose field order is frozen. Every client receives whether the Wither is out (it is
  * drawn on its owner, owner Q1); the task count and the toggle cooldown go to the owner only. The auto-fire and ambient
  * timers are server-only. Everything clears once the player stops being the Witch Maiden.
- * 小凋灵状态（{@code sparkwitch:mini_wither}，{@code NEVER_COPY}，追加在最后），不放进字段顺序已冻结的共享
- * {@code sparkwitch:player} 同步包。所有客户端都会收到小凋灵是否在场（它绘制在主人身上，所有者 Q1）；任务数与切换冷却只同步给
+ * 小凋灵状态（{@code sparkdlc:mini_wither}，{@code NEVER_COPY}，追加在最后），不放进字段顺序已冻结的共享
+ * {@code sparkdlc:player} 同步包。所有客户端都会收到小凋灵是否在场（它绘制在主人身上，所有者 Q1）；任务数与切换冷却只同步给
  * 本人。自动射击与环境音计时只在服务端。玩家不再是巫女时全部清空。
  */
 public final class MiniWitherPlayerComponent

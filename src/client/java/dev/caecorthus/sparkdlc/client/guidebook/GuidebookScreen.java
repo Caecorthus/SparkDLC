@@ -159,7 +159,7 @@ public final class GuidebookScreen extends Screen {
     }
 
     private GuidebookScreen(Screen parent, boolean embedded) {
-        super(Text.translatable("screen.sparkassist.guidebook"));
+        super(Text.translatable("screen.sparkdlc.guidebook"));
         this.parent = parent;
         this.embedded = embedded;
     }
@@ -238,32 +238,32 @@ public final class GuidebookScreen extends Screen {
         manaPriceWidth = textRenderer.getWidth("888 \uE782");
         // Root and group counts never exceed two digits. 根与分组的计数不超过两位数。
         countReserveWidth = textRenderer.getWidth("88");
-        titleFull = chineseString("screen.sparkassist.guidebook");
-        titleShort = chineseString("guidebook.sparkassist.title.short");
-        titleTiny = chineseString("guidebook.sparkassist.title.tiny");
-        placeholderFull = chineseString("guidebook.sparkassist.search.placeholder");
-        placeholderShort = chineseString("guidebook.sparkassist.search.placeholder.short");
-        placeholderTiny = chineseString("guidebook.sparkassist.search.placeholder.tiny");
-        searchLabel = chineseString("guidebook.sparkassist.search");
-        markedLabel = chineseString("guidebook.sparkassist.marked");
-        sourceFormat = chineseString("guidebook.sparkassist.source");
-        String credits = chineseString("guidebook.sparkassist.credits");
+        titleFull = chineseString("screen.sparkdlc.guidebook");
+        titleShort = chineseString("guidebook.sparkdlc.title.short");
+        titleTiny = chineseString("guidebook.sparkdlc.title.tiny");
+        placeholderFull = chineseString("guidebook.sparkdlc.search.placeholder");
+        placeholderShort = chineseString("guidebook.sparkdlc.search.placeholder.short");
+        placeholderTiny = chineseString("guidebook.sparkdlc.search.placeholder.tiny");
+        searchLabel = chineseString("guidebook.sparkdlc.search");
+        markedLabel = chineseString("guidebook.sparkdlc.marked");
+        sourceFormat = chineseString("guidebook.sparkdlc.source");
+        String credits = chineseString("guidebook.sparkdlc.credits");
         creditsLabel = plain(credits);
         creditsWidth = textRenderer.getWidth(credits);
-        String noResults = chineseString("guidebook.sparkassist.search.no_results");
+        String noResults = chineseString("guidebook.sparkdlc.search.no_results");
         noResultsLabel = plain(noResults);
         noResultsWidth = textRenderer.getWidth(noResults);
         frontTitle = plain(titleFull);
-        frontSelect = plain(chineseString("guidebook.sparkassist.select_entry"));
-        frontKeys = plain(chineseString("guidebook.sparkassist.hint.keys"));
-        searchTip = chineseText("guidebook.sparkassist.search");
-        clearTip = chineseText("guidebook.sparkassist.search.clear");
-        foldTip = chineseText("guidebook.sparkassist.fold");
+        frontSelect = plain(chineseString("guidebook.sparkdlc.select_entry"));
+        frontKeys = plain(chineseString("guidebook.sparkdlc.hint.keys"));
+        searchTip = chineseText("guidebook.sparkdlc.search");
+        clearTip = chineseText("guidebook.sparkdlc.search.clear");
+        foldTip = chineseText("guidebook.sparkdlc.fold");
         backTip = chineseText("gui.back");
-        openTip = chineseText("button.sparkassist.guidebook.open");
-        demoTip = chineseText("guidebook.sparkassist.demo.tip");
-        demoNote = chineseText("guidebook.sparkassist.demo.note");
-        markedTip = chineseText("guidebook.sparkassist.marked");
+        openTip = chineseText("button.sparkdlc.guidebook.open");
+        demoTip = chineseText("guidebook.sparkdlc.demo.tip");
+        demoNote = chineseText("guidebook.sparkdlc.demo.note");
+        markedTip = chineseText("guidebook.sparkdlc.marked");
     }
 
     /**
@@ -534,13 +534,13 @@ public final class GuidebookScreen extends Screen {
         String source;
         List<GuidebookBlock> blocks = new ArrayList<>();
         if (creditsOpen) {
-            title = chineseString("guidebook.sparkassist.credits.title");
+            title = chineseString("guidebook.sparkdlc.credits.title");
             gem = ExpressPalette.POLISHED;
             marked = false;
             crumb = titleFull;
             source = null;
             blocks.addAll(GuidebookContentRenderer.creditsPage(
-                    chineseString("guidebook.sparkassist.credits.body")).blocks());
+                    chineseString("guidebook.sparkdlc.credits.body")).blocks());
         } else {
             title = chineseString(selectedEntry.nameKey());
             gem = selectedEntry.color();
@@ -583,12 +583,12 @@ public final class GuidebookScreen extends Screen {
                 : groups.isEmpty() ? null : groups.get(0);
         String kind = entry.tab() == GuidebookTab.FACTION
                 ? chineseString(GuidebookNavigation.labelKey("faction_overview"))
-                : chineseString("guidebook.sparkassist.tab." + entry.tab().name().toLowerCase(Locale.ROOT));
+                : chineseString("guidebook.sparkdlc.tab." + entry.tab().name().toLowerCase(Locale.ROOT));
         return group == null ? kind : chineseString(GuidebookNavigation.labelKey(group)) + " · " + kind;
     }
 
     private String sourceName(String modId) {
-        String key = "guidebook.sparkassist.source_name." + modId;
+        String key = "guidebook.sparkdlc.source_name." + modId;
         return chineseTranslations != null && chineseTranslations.hasTranslation(key)
                 ? chineseTranslations.get(key) : modId;
     }

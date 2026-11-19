@@ -77,7 +77,7 @@ final class SparkWitchCivilianScenes {
     /** NoellesRoles' shared ability key, which SparkWitch skills reuse. SparkWitch 技能沿用的 NoellesRoles 技能键。 */
     private static final String ABILITY_KEY = "key.noellesroles.ability";
     /** SparkWitch's secondary skill key (default N). SparkWitch 的第二技能键（默认 N）。 */
-    private static final String SECONDARY_KEY = "key.sparkwitch.secondary_skill";
+    private static final String SECONDARY_KEY = "key.sparkdlc.role_skill_2";
     /** The driven Seeker car's speed, blocks a tick (SeekerRules.CAR_SPEED). 被驾驶的搜寻小车速度，格每 tick。 */
     private static final double CAR_SPEED = 0.375;
     /** The breaker mark's colour (SeekerRules.MARK_COLOR). 损坏者标记的颜色。 */
@@ -106,7 +106,7 @@ final class SparkWitchCivilianScenes {
     private static final DustParticleEffect MINT_CORE = new DustParticleEffect(new Vector3f(0.80f, 1.0f, 0.90f), 1.0f);
     /** A lying body's length from the feet, as ActorElement draws it. ActorElement 绘制的尸体从脚到头的长度。 */
     private static final double BODY_LENGTH = 1.75;
-    /** The Blind's line art: white on black (sparkwitch_blind_echo.fsh). 盲人画面的线稿：黑底白线。 */
+    /** The Blind's line art: white on black (sparkdlc_blind_echo.fsh). 盲人画面的线稿：黑底白线。 */
     private static final int ECHO_WHITE = 0xFFFFFF;
     /**
      * The faint band a sound front sweeps over surfaces (wave * 0.3 in the shader), lifted so it reads on the dimmed
@@ -145,61 +145,61 @@ final class SparkWitchCivilianScenes {
     }
 
     static void register() {
-        role("sparkassist:roles/sparkwitch/pig_god", List.of("sparkwitch"),
+        role("sparkdlc:roles/sparkdlc/pig_god", List.of("sparkdlc"),
                 scene("wathe/cabin", SparkWitchCivilianScenes::pigGod));
-        role("sparkassist:roles/sparkwitch/fisher", List.of("sparkwitch"),
-                scene("sparkwitch/civ_tray_cabin", SparkWitchCivilianScenes::fisher));
-        role("sparkassist:roles/sparkwitch/usec", List.of("sparkwitch"),
-                scene("sparkwitch/civ_sniper_wall", SparkWitchCivilianScenes::usec));
-        role("sparkassist:roles/sparkwitch/control_expert", List.of("sparkwitch"),
+        role("sparkdlc:roles/sparkdlc/fisher", List.of("sparkdlc"),
+                scene("sparkdlc/civ_tray_cabin", SparkWitchCivilianScenes::fisher));
+        role("sparkdlc:roles/sparkdlc/usec", List.of("sparkdlc"),
+                scene("sparkdlc/civ_sniper_wall", SparkWitchCivilianScenes::usec));
+        role("sparkdlc:roles/sparkdlc/control_expert", List.of("sparkdlc"),
                 scene("wathe/aisle", SparkWitchCivilianScenes::controlExpert));
-        role("sparkassist:roles/sparkwitch/seeker", List.of("sparkwitch"),
+        role("sparkdlc:roles/sparkdlc/seeker", List.of("sparkdlc"),
                 scene("wathe/cabin", SparkWitchCivilianScenes::seeker));
-        role("sparkassist:roles/sparkwitch/black_raven", List.of("sparkwitch", "noellesroles"),
+        role("sparkdlc:roles/sparkdlc/black_raven", List.of("sparkdlc", "noellesroles"),
                 scene("wathe/aisle", SparkWitchCivilianScenes::blackRaven));
-        role("sparkassist:roles/sparkwitch/insider", List.of("sparkwitch", "noellesroles"),
-                scene("sparkwitch/civ_train_cabin", SparkWitchCivilianScenes::insider));
-        role("sparkassist:roles/sparkwitch/saint", List.of("sparkwitch"),
+        role("sparkdlc:roles/sparkdlc/insider", List.of("sparkdlc", "noellesroles"),
+                scene("sparkdlc/civ_train_cabin", SparkWitchCivilianScenes::insider));
+        role("sparkdlc:roles/sparkdlc/saint", List.of("sparkdlc"),
                 scene("wathe/aisle", SparkWitchCivilianScenes::saint));
-        role("sparkassist:roles/sparkwitch/orthopedist", List.of("sparkwitch"),
+        role("sparkdlc:roles/sparkdlc/orthopedist", List.of("sparkdlc"),
                 scene("wathe/aisle", SparkWitchCivilianScenes::orthopedist));
-        role("sparkassist:roles/sparkwitch/apprentice_witch", List.of("sparkwitch"),
+        role("sparkdlc:roles/sparkdlc/apprentice_witch", List.of("sparkdlc"),
                 scene("wathe/lit_carriage", SparkWitchCivilianScenes::apprenticeWitch));
-        role("sparkassist:roles/sparkwitch/emma", List.of("sparkwitch"),
+        role("sparkdlc:roles/sparkdlc/emma", List.of("sparkdlc"),
                 scene("wathe/aisle", SparkWitchCivilianScenes::emma));
-        role("sparkassist:roles/sparkwitch/perfumer", List.of("sparkwitch", "sparkstrength"),
+        role("sparkdlc:roles/sparkdlc/perfumer", List.of("sparkdlc"),
                 scene("wathe/aisle", SparkWitchCivilianScenes::perfumer));
-        role("sparkassist:roles/sparkwitch/fiend", List.of("sparkwitch"),
+        role("sparkdlc:roles/sparkdlc/fiend", List.of("sparkdlc"),
                 scene("wathe/cabin", SparkWitchCivilianScenes::fiend));
-        role("sparkassist:roles/sparkwitch/blind", List.of("sparkwitch"),
-                scene("sparkwitch/civ_blind_carriage", SparkWitchCivilianScenes::blind));
+        role("sparkdlc:roles/sparkdlc/blind", List.of("sparkdlc"),
+                scene("sparkdlc/civ_blind_carriage", SparkWitchCivilianScenes::blind));
 
         // Items whose use a demo above already shows; holding W over the item plays that demo.
         // 上面的演示已经演示过用法的物品；在物品上按住 W 即可播放对应演示。
-        for (String id : List.of("sparkwitch:fishing_rod", "sparkwitch:salmon", "sparkwitch:key_fish")) {
-            item(id, List.of("sparkwitch"), scene("sparkwitch/civ_tray_cabin", SparkWitchCivilianScenes::fisher));
+        for (String id : List.of("sparkdlc:fishing_rod", "sparkdlc:salmon", "sparkdlc:key_fish")) {
+            item(id, List.of("sparkdlc"), scene("sparkdlc/civ_tray_cabin", SparkWitchCivilianScenes::fisher));
         }
-        for (String id : List.of("sparkwitch:usec_rifle", "sparkwitch:usec_338_fmj", "sparkwitch:usec_338_ap")) {
-            item(id, List.of("sparkwitch"), scene("sparkwitch/civ_sniper_wall", SparkWitchCivilianScenes::usec));
+        for (String id : List.of("sparkdlc:usec_rifle", "sparkdlc:usec_338_fmj", "sparkdlc:usec_338_ap")) {
+            item(id, List.of("sparkdlc"), scene("sparkdlc/civ_sniper_wall", SparkWitchCivilianScenes::usec));
         }
-        for (String id : List.of("sparkwitch:taser", "sparkwitch:shock_device")) {
-            item(id, List.of("sparkwitch"), scene("wathe/aisle", SparkWitchCivilianScenes::controlExpert));
+        for (String id : List.of("sparkdlc:taser", "sparkdlc:shock_device")) {
+            item(id, List.of("sparkdlc"), scene("wathe/aisle", SparkWitchCivilianScenes::controlExpert));
         }
-        for (String id : List.of("sparkwitch:seeker_car", "sparkwitch:seeker_camera")) {
-            item(id, List.of("sparkwitch"), scene("wathe/cabin", SparkWitchCivilianScenes::seeker));
+        for (String id : List.of("sparkdlc:seeker_car", "sparkdlc:seeker_camera")) {
+            item(id, List.of("sparkdlc"), scene("wathe/cabin", SparkWitchCivilianScenes::seeker));
         }
-        for (String id : List.of("sparkwitch:feather_blade", "sparkwitch:black_raven_mask")) {
-            item(id, List.of("sparkwitch", "noellesroles"),
+        for (String id : List.of("sparkdlc:feather_blade", "sparkdlc:black_raven_mask")) {
+            item(id, List.of("sparkdlc", "noellesroles"),
                     scene("wathe/aisle", SparkWitchCivilianScenes::blackRaven));
         }
-        item("noellesroles:neutral_master_key", List.of("sparkwitch", "noellesroles"),
-                scene("sparkwitch/civ_train_cabin", SparkWitchCivilianScenes::insider));
-        item("sparkwitch:holy_flash", List.of("sparkwitch"), scene("wathe/aisle", SparkWitchCivilianScenes::saint));
-        for (String id : List.of("sparkwitch:perfume_essence", "sparkstrength:cooling_oil")) {
-            item(id, List.of("sparkwitch", "sparkstrength"), scene("wathe/aisle", SparkWitchCivilianScenes::perfumer));
+        item("noellesroles:neutral_master_key", List.of("sparkdlc", "noellesroles"),
+                scene("sparkdlc/civ_train_cabin", SparkWitchCivilianScenes::insider));
+        item("sparkdlc:holy_flash", List.of("sparkdlc"), scene("wathe/aisle", SparkWitchCivilianScenes::saint));
+        for (String id : List.of("sparkdlc:perfume_essence", "sparkdlc:cooling_oil")) {
+            item(id, List.of("sparkdlc"), scene("wathe/aisle", SparkWitchCivilianScenes::perfumer));
         }
-        for (String id : List.of("sparkwitch:white_cane", "sparkwitch:comtac_viii")) {
-            item(id, List.of("sparkwitch"), scene("sparkwitch/civ_blind_carriage", SparkWitchCivilianScenes::blind));
+        for (String id : List.of("sparkdlc:white_cane", "sparkdlc:comtac_viii")) {
+            item(id, List.of("sparkdlc"), scene("sparkdlc/civ_blind_carriage", SparkWitchCivilianScenes::blind));
         }
     }
 
@@ -226,7 +226,7 @@ final class SparkWitchCivilianScenes {
         scene.title("role_pig_god", "皮革噶的：皮革追杀");
         WatheItemScenes.setStage(scene, util);
         BlockPos door = util.grid().at(3, 1, 3);
-        int pink = RoleColors.of("sparkwitch:pig_god", 0xF2A4FC);
+        int pink = RoleColors.of("sparkdlc:pig_god", 0xF2A4FC);
         ItemStack bat = stack("wathe:bat");
         ElementLink<ActorElement> civilian = Actors.enter(scene, RoleColors.CIVILIAN, Text.literal("平民"),
                 new Vec3d(3.5, 1, 5.0), NORTH, Direction.DOWN);
@@ -313,10 +313,10 @@ final class SparkWitchCivilianScenes {
         WatheItemScenes.setStage(scene, util);
         BlockPos door = util.grid().at(3, 1, 3);
         Vec3d tray = new Vec3d(0.5, 3.0, 1.5);
-        ItemStack rod = stack("sparkwitch:fishing_rod");
-        ItemStack salmon = stack("sparkwitch:salmon");
-        ItemStack keyFish = stack("sparkwitch:key_fish");
-        ElementLink<ActorElement> fisher = Actors.enter(scene, RoleColors.of("sparkwitch:fisher", 0x2A9D8F),
+        ItemStack rod = stack("sparkdlc:fishing_rod");
+        ItemStack salmon = stack("sparkdlc:salmon");
+        ItemStack keyFish = stack("sparkdlc:key_fish");
+        ElementLink<ActorElement> fisher = Actors.enter(scene, RoleColors.of("sparkdlc:fisher", 0x2A9D8F),
                 Text.literal("钓鱼佬"), new Vec3d(2.9, 1, 1.5), WEST, Direction.DOWN);
         Actors.hold(scene, fisher, rod);
         scene.idle(15);
@@ -405,7 +405,7 @@ final class SparkWitchCivilianScenes {
                 new Vec3d(1.0, 1, 1.5), SOUTH, Direction.DOWN);
         Actors.hold(scene, hider, stack("wathe:knife"));
         scene.idle(10);
-        ElementLink<ActorElement> usec = Actors.enter(scene, RoleColors.of("sparkwitch:usec", 0xC8A96A),
+        ElementLink<ActorElement> usec = Actors.enter(scene, RoleColors.of("sparkdlc:usec", 0xC8A96A),
                 Text.literal("USEC"), feet, WEST, Direction.DOWN);
         Actors.hold(scene, usec, rifle);
         scene.idle(15);
@@ -502,10 +502,10 @@ final class SparkWitchCivilianScenes {
         scene.idle(10);
         Vec3d feet = new Vec3d(5.8, 1, 1.2);
         Vec3d overHead = feet.add(0, 2.6, 0);
-        ItemStack taser = stack("sparkwitch:taser");
+        ItemStack taser = stack("sparkdlc:taser");
         ItemStack revolver = stack("wathe:revolver");
-        ItemStack device = stack("sparkwitch:shock_device");
-        ElementLink<ActorElement> expert = Actors.enter(scene, RoleColors.of("sparkwitch:control_expert", 0x4DD0E1),
+        ItemStack device = stack("sparkdlc:shock_device");
+        ElementLink<ActorElement> expert = Actors.enter(scene, RoleColors.of("sparkdlc:control_expert", 0x4DD0E1),
                 Text.literal("控场专家"), feet, SCREEN_RIGHT, Direction.DOWN);
         Actors.hold(scene, expert, taser);
         scene.idle(15);
@@ -596,9 +596,9 @@ final class SparkWitchCivilianScenes {
         scene.title("role_seeker", "搜寻者：遥控小车与摄像头");
         WatheItemScenes.setStage(scene, util);
         BlockPos door = util.grid().at(3, 1, 3);
-        ItemStack cameraItem = stack("sparkwitch:seeker_camera");
-        ItemStack carItem = stack("sparkwitch:seeker_car");
-        ElementLink<ActorElement> seeker = Actors.enter(scene, RoleColors.of("sparkwitch:seeker", 0x5C9EFF),
+        ItemStack cameraItem = stack("sparkdlc:seeker_camera");
+        ItemStack carItem = stack("sparkdlc:seeker_car");
+        ElementLink<ActorElement> seeker = Actors.enter(scene, RoleColors.of("sparkdlc:seeker", 0x5C9EFF),
                 Text.literal("搜寻者"), new Vec3d(1.5, 1, 1.0), SOUTH, Direction.DOWN);
         Actors.hold(scene, seeker, cameraItem);
         scene.idle(15);
@@ -710,17 +710,17 @@ final class SparkWitchCivilianScenes {
                 new Vec3d(2.6, 1, 4.4), SCREEN_RIGHT, Direction.DOWN);
         Actors.hold(scene, victim, stack("wathe:knife"));
         scene.idle(5);
-        int ravenColor = RoleColors.of("sparkwitch:black_raven", 0x51445F);
+        int ravenColor = RoleColors.of("sparkdlc:black_raven", 0x51445F);
         ElementLink<ActorElement> raven = Actors.enter(scene, ravenColor, Text.literal("黑羽鸦"),
                 new Vec3d(5.8, 1, 1.2), SCREEN_RIGHT, Direction.DOWN);
-        Actors.hold(scene, raven, stack("sparkwitch:feather_blade"));
+        Actors.hold(scene, raven, stack("sparkdlc:feather_blade"));
         scene.idle(20);
         SceneCaptions.keyframeCaption(scene, 70, "黑羽鸦是警职，开局带着左轮和羽刃；羽刃拿在手里别人看得见");
         scene.idle(80);
         Actors.walk(scene, raven, new Vec3d(-1.4, 0, 1.4), 22);
         scene.idle(26);
         scene.overlay().showControls(new Vec3d(4.4, 3.6, 2.6), Pointing.DOWN, 30).rightClick()
-                .withItem(stack("sparkwitch:feather_blade"));
+                .withItem(stack("sparkdlc:feather_blade"));
         scene.idle(10);
         Actors.swing(scene, raven);
         // The outline lasts until the mark settles: the idles until the fall add up to 525 ticks, and the box ends a
@@ -737,10 +737,10 @@ final class SparkWitchCivilianScenes {
         Actors.walk(scene, victim, new Vec3d(-0.8, 0, 0.8), 40);
         SceneCaptions.caption(scene, 70, "标记后羽刃一般冷却 60 秒，先离开现场");
         scene.idle(80);
-        Actors.hold(scene, raven, stack("sparkwitch:black_raven_mask"));
+        Actors.hold(scene, raven, stack("sparkdlc:black_raven_mask"));
         scene.idle(10);
         scene.overlay().showControls(new Vec3d(5.8, 3.6, 1.2), Pointing.DOWN, 30).rightClick()
-                .withItem(stack("sparkwitch:black_raven_mask"));
+                .withItem(stack("sparkdlc:black_raven_mask"));
         scene.idle(10);
         Actors.swing(scene, raven);
         SceneCaptions.keyframeCaption(scene, 90, "鸦羽假面（其他活人看不见）：右键选一个本局没人拿到的好人身份");
@@ -786,7 +786,7 @@ final class SparkWitchCivilianScenes {
         BlockPos trainDoor = util.grid().at(5, 1, 3);
         BlockPos cabinDoor = util.grid().at(2, 1, 3);
         ItemStack key = stack("noellesroles:neutral_master_key");
-        ElementLink<ActorElement> insider = Actors.enter(scene, RoleColors.of("sparkwitch:insider", 0x00FFD0),
+        ElementLink<ActorElement> insider = Actors.enter(scene, RoleColors.of("sparkdlc:insider", 0x00FFD0),
                 Text.literal("内应"), new Vec3d(3.5, 1, 1.4), SOUTH, Direction.DOWN);
         Actors.hold(scene, insider, key);
         scene.idle(15);
@@ -866,8 +866,8 @@ final class SparkWitchCivilianScenes {
         scene.title("role_saint", "圣徒：好人一般杀不死你");
         WatheItemScenes.stage(scene);
         ItemStack revolver = stack("wathe:revolver");
-        ItemStack flash = stack("sparkwitch:holy_flash");
-        ElementLink<ActorElement> saint = Actors.enter(scene, RoleColors.of("sparkwitch:saint", 0xEEBC78),
+        ItemStack flash = stack("sparkdlc:holy_flash");
+        ElementLink<ActorElement> saint = Actors.enter(scene, RoleColors.of("sparkdlc:saint", 0xEEBC78),
                 Text.literal("圣徒"), new Vec3d(3.2, 1, 3.8), SCREEN_LEFT, Direction.DOWN);
         Vec3d shooterFeet = new Vec3d(5.8, 1, 1.2);
         ElementLink<ActorElement> vigilante = Actors.enter(scene, RoleColors.VIGILANTE, Text.literal("义警"),
@@ -960,7 +960,7 @@ final class SparkWitchCivilianScenes {
     private static void orthopedist(SceneBuilder scene, SceneBuildingUtil util) {
         scene.title("role_orthopedist", "骨科大夫：正骨抵掉捕兽夹骨折");
         WatheItemScenes.stage(scene);
-        int olive = RoleColors.of("sparkwitch:orthopedist", 0x90B358);
+        int olive = RoleColors.of("sparkdlc:orthopedist", 0x90B358);
         Vec3d feet = new Vec3d(5.2, 1, 1.6);
         Actors.enter(scene, olive, Text.literal("骨科大夫"), feet, SCREEN_RIGHT, Direction.DOWN);
         // A plain civilian: Vigilantes, Veterans, Corrupt Cops and Engineers see a trap in sight (HunterRules).
@@ -983,7 +983,7 @@ final class SparkWitchCivilianScenes {
         SceneCaptions.caption(scene, 80, "正骨中的人在你眼里高亮（绿框示意，只有你看得到）");
         scene.idle(90);
         Vec3d trapAt = new Vec3d(3.3, 1.0, 5.8);
-        ElementLink<ThrownElement> trap = Actors.toss(scene, stack("sparkwitch:hunter_trap"), trapAt.add(0, 0.3, 0),
+        ElementLink<ThrownElement> trap = Actors.toss(scene, stack("sparkdlc:hunter_trap"), trapAt.add(0, 0.3, 0),
                 trapAt, 2, 0, true, ThrownElement.Flight.LIES_FLAT);
         SceneCaptions.keyframeCaption(scene, 74, "猎人的捕兽夹一般只有杀手等少数人看得见（这里用物品代替）");
         scene.idle(60);
@@ -1034,7 +1034,7 @@ final class SparkWitchCivilianScenes {
         Vec3d feet = new Vec3d(1.2, 1, 2.8);
         Vec3d overHead = feet.add(0, 2.6, 0);
         ElementLink<ActorElement> apprentice = Actors.enter(scene,
-                RoleColors.of("sparkwitch:apprentice_witch", 0x75EDFA), Text.literal("预备魔女"), feet, EAST,
+                RoleColors.of("sparkdlc:apprentice_witch", 0x75EDFA), Text.literal("预备魔女"), feet, EAST,
                 Direction.DOWN);
         scene.idle(15);
         SceneCaptions.keyframeCaption(scene, 80, "预备魔女开局一般随机得到五种技能之一，用技能键（默认 G）发动");
@@ -1095,7 +1095,7 @@ final class SparkWitchCivilianScenes {
     private static void emma(SceneBuilder scene, SceneBuildingUtil util) {
         scene.title("role_emma", "樱羽艾玛：魔女因子追踪凶手");
         WatheItemScenes.stage(scene);
-        int pink = RoleColors.of("sparkwitch:emma", 0xF29BC3);
+        int pink = RoleColors.of("sparkdlc:emma", 0xF29BC3);
         Vec3d feet = new Vec3d(5.8, 1, 1.2);
         Vec3d overHead = feet.add(0, 2.6, 0);
         ItemStack revolver = stack("wathe:revolver");
@@ -1178,9 +1178,9 @@ final class SparkWitchCivilianScenes {
     private static void perfumer(SceneBuilder scene, SceneBuildingUtil util) {
         scene.title("role_perfumer", "调香师：香精标记与血腥气味");
         WatheItemScenes.stage(scene);
-        ItemStack essence = stack("sparkwitch:perfume_essence");
-        ItemStack oil = stack("sparkstrength:cooling_oil");
-        int rose = RoleColors.of("sparkwitch:perfumer", 0xF2A4A4);
+        ItemStack essence = stack("sparkdlc:perfume_essence");
+        ItemStack oil = stack("sparkdlc:cooling_oil");
+        int rose = RoleColors.of("sparkdlc:perfumer", 0xF2A4A4);
         ElementLink<ActorElement> perfumer = Actors.enter(scene, rose, Text.literal("调香师"), new Vec3d(5.6, 1, 1.4),
                 SCREEN_RIGHT, Direction.DOWN);
         Actors.hold(scene, perfumer, essence);
@@ -1276,7 +1276,7 @@ final class SparkWitchCivilianScenes {
         scene.title("role_fiend", "魔人：挨打攒钱，买下魔人时刻");
         WatheItemScenes.setStage(scene, util);
         BlockPos door = util.grid().at(3, 1, 3);
-        int crimson = RoleColors.of("sparkwitch:fiend", 0x8E1B3A);
+        int crimson = RoleColors.of("sparkdlc:fiend", 0x8E1B3A);
         ItemStack knife = stack("wathe:knife");
         ItemStack revolver = stack("wathe:revolver");
         ItemStack crowbar = stack("wathe:crowbar");
@@ -1382,7 +1382,7 @@ final class SparkWitchCivilianScenes {
      * Blind (BlindRules, BlindSoundRules, BlindSoundPerception, BlindSoundAttribution, BlindPulseFanout,
      * BlindCaneService, BlindKitRules, BlindAttuneService, WhiteCaneItem, ComTacItem; client BlindView, BlindEchoView,
      * BlindEchoUniforms, BlindPerceptionClientState, BlindGateRules, HeadsetSlots,
-     * sparkwitch_blind_echo.fsh; vanilla PlayerEntity.getMoveEffect; Wathe PlayerEntityMixin; NoellesRoles
+     * sparkdlc_blind_echo.fsh; vanilla PlayerEntity.getMoveEffect; Wathe PlayerEntityMixin; NoellesRoles
      * HiddenEquipmentHelper): the Blind's screen is black. A public sound within the Blind's range (10 blocks, x3 with a
      * worn ComTac, x5 while Attuned; a whisper counts half, the USEC rifle double or half) sends a pulse: as its front
      * sweeps out over 0.25 s, the depth edges the Blind can see within 4 blocks of the source light up as white lines,
@@ -1410,10 +1410,10 @@ final class SparkWitchCivilianScenes {
     private static void blind(SceneBuilder scene, SceneBuildingUtil util) {
         scene.title("role_blind", "盲人：听声辨位与盲杖");
         WatheItemScenes.setStage(scene, util);
-        ItemStack cane = stack("sparkwitch:white_cane");
+        ItemStack cane = stack("sparkdlc:white_cane");
         Vec3d feet = new Vec3d(4.6, 1, 1.4);
         Vec3d overHead = feet.add(0, 2.6, 0);
-        ElementLink<ActorElement> blind = Actors.enter(scene, RoleColors.of("sparkwitch:blind", 0xB8C7D9),
+        ElementLink<ActorElement> blind = Actors.enter(scene, RoleColors.of("sparkdlc:blind", 0xB8C7D9),
                 Text.literal("盲人"), feet, SCREEN_RIGHT, Direction.DOWN);
         Actors.hold(scene, blind, cane);
         ElementLink<ActorElement> civilian = Actors.enter(scene, RoleColors.CIVILIAN, Text.literal("平民"),
@@ -1455,7 +1455,7 @@ final class SparkWitchCivilianScenes {
         scene.overlay().showControls(overHead, Pointing.DOWN, 40).showing(key(ABILITY_KEY, "G"));
         SceneCaptions.keyframeCaption(scene, 85, "凝神（默认 G）：10 秒内感知范围 ×5；商店的耳机戴上 ×3");
         scene.idle(45);
-        scene.overlay().showControls(overHead, Pointing.DOWN, 40).withItem(stack("sparkwitch:comtac_viii"));
+        scene.overlay().showControls(overHead, Pointing.DOWN, 40).withItem(stack("sparkdlc:comtac_viii"));
         scene.idle(50);
         StageLights.lights(scene, true);
         // Back to the onlookers' view: the cane is hidden in hand. 回到旁人视角：手里的盲杖被隐藏。
@@ -1471,7 +1471,7 @@ final class SparkWitchCivilianScenes {
      * FMJ、AP、FMJ；装上的弹匣也会显示在手持模型上（UsecModelPredicates）。
      */
     private static ItemStack loadedRifle() {
-        ItemStack rifle = stack("sparkwitch:usec_rifle");
+        ItemStack rifle = stack("sparkdlc:usec_rifle");
         // Bottom to top; the top round chambers after each shot (UsecMagazineContents). 自下而上；每次开火后顶部那发上膛。
         NbtList magazine = new NbtList();
         magazine.add(NbtString.of("fmj"));
@@ -1727,10 +1727,10 @@ final class SparkWitchCivilianScenes {
      * 为轴转向视角（每 tick 追上剩余角度的一半），指示灯在机头上，被观看时全亮，否则变暗到 0.3。由脚本驱动，每次重播都相同。
      */
     private static final class Gadget extends AnimatedSceneElementBase {
-        private static final Identifier CAR_MODEL = Identifier.of("sparkwitch", "item/seeker_car_placed");
-        private static final Identifier MOUNT_MODEL = Identifier.of("sparkwitch", "item/seeker_camera_placed");
-        private static final Identifier HEAD_MODEL = Identifier.of("sparkwitch", "item/seeker_camera_placed_head");
-        private static final Identifier LED_MODEL = Identifier.of("sparkwitch", "item/seeker_camera_placed_led");
+        private static final Identifier CAR_MODEL = Identifier.of("sparkdlc", "item/seeker_car_placed");
+        private static final Identifier MOUNT_MODEL = Identifier.of("sparkdlc", "item/seeker_camera_placed");
+        private static final Identifier HEAD_MODEL = Identifier.of("sparkdlc", "item/seeker_camera_placed_head");
+        private static final Identifier LED_MODEL = Identifier.of("sparkdlc", "item/seeker_camera_placed_led");
         /** Lifts the centred car model onto its feet (SeekerCarEntityRenderer). 把居中的小车模型抬到脚底。 */
         private static final double CAR_MODEL_LIFT = 0.5;
         /** The camera cube's size (SeekerRules.CAMERA_SIZE). 摄像头立方体的边长。 */
@@ -1975,12 +1975,12 @@ final class SparkWitchCivilianScenes {
     }
 
     /**
-     * One pulse of the Blind's echo view, as sparkwitch_blind_echo.fsh draws it: as the front grows to {@code radius}
+     * One pulse of the Blind's echo view, as sparkdlc_blind_echo.fsh draws it: as the front grows to {@code radius}
      * over {@code expandTicks} (the shader's ease-out), every solid block above the floor it reaches joins one white
      * cluster outline (its creases and corners are the depth edges the shader lights; a flat floor has none), which
      * fades from max(expand, 40%) of {@code ticks} to the end; a faint ring on the floor marks the front and fades
      * over 0.3 s after it stops.
-     * 盲人回声视图的一个脉冲，与 sparkwitch_blind_echo.fsh 的画法对应：波前在 expandTicks 内按着色器的缓出曲线扩张到 radius，
+     * 盲人回声视图的一个脉冲，与 sparkdlc_blind_echo.fsh 的画法对应：波前在 expandTicks 内按着色器的缓出曲线扩张到 radius，
      * 它扫到的地面以上实心方块并入同一个白色整体描边（折角与棱角就是着色器点亮的深度边缘；平坦地面没有边缘），描边从
      * ticks 的 max(扩张, 40%) 处淡出到结束；地面上一圈淡淡的环标出波前，停止扩张后 0.3 秒内淡出。
      */

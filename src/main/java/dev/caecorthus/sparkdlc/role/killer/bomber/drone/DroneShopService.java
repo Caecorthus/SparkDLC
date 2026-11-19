@@ -49,9 +49,9 @@ public final class DroneShopService {
         // Builder has no name/description API; display components must not enter the purchased stack.
         // Builder 无名称/描述接口；展示组件不应进入实际购买的物品堆。
         ItemStack display = bombDrone.getDefaultStack();
-        display.set(DataComponentTypes.ITEM_NAME, Text.translatable("shop.sparkstrength.bomb_drone"));
+        display.set(DataComponentTypes.ITEM_NAME, Text.translatable("shop.sparkdlc.bomb_drone"));
         display.set(DataComponentTypes.LORE, new LoreComponent(List.of(
-                Text.translatable("shop.sparkstrength.bomb_drone.description")
+                Text.translatable("shop.sparkdlc.bomb_drone.description")
                         .styled(style -> style.withColor(0x808080).withItalic(false)))));
         ShopEntry entry = new ShopEntry.Builder(
                 DroneRules.BOMB_DRONE_SHOP_ENTRY_ID,

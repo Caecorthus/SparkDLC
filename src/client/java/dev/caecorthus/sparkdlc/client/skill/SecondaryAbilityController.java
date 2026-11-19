@@ -16,7 +16,7 @@ import java.util.Objects;
 
 /** Registers key 2 once and dispatches it by the current role id. / 只注册一次技能键 2，并按当前角色 id 分发。 */
 public final class SecondaryAbilityController {
-    private static final String TRANSLATION_KEY = "key.sparkwitch.secondary_skill";
+    private static final String TRANSLATION_KEY = "key.sparkdlc.role_skill_2";
     private static final String CATEGORY = "category.wathe.keybinds";
     private static KeyBinding keyBinding;
     private static Identifier activeRoleId;

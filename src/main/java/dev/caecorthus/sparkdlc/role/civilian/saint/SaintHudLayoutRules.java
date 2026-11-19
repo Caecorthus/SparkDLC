@@ -48,7 +48,7 @@ public final class SaintHudLayoutRules {
         if (MediumRules.ROLE_ID.equals(roleId)) {
             return fontHeight * 2 + LINE_GAP + SPARKWITCH_BOTTOM_PADDING;
         }
-        if ("sparkwitch".equals(roleId.getNamespace()) && (hasSparkWitchSkill || ownsCornerSkillLine(roleId))) {
+        if ("sparkdlc".equals(roleId.getNamespace()) && (hasSparkWitchSkill || ownsCornerSkillLine(roleId))) {
             return fontHeight + SPARKWITCH_BOTTOM_PADDING;
         }
         if (!"noellesroles".equals(roleId.getNamespace())) {
@@ -74,7 +74,7 @@ public final class SaintHudLayoutRules {
         if (roleId == null) {
             return 0;
         }
-        if ("sparkwitch".equals(roleId.getNamespace()) && (hasSparkWitchSkill || ownsCornerSkillLine(roleId))) {
+        if ("sparkdlc".equals(roleId.getNamespace()) && (hasSparkWitchSkill || ownsCornerSkillLine(roleId))) {
             return SPARKWITCH_BOTTOM_PADDING;
         }
         return "noellesroles".equals(roleId.getNamespace()) && "assassin".equals(roleId.getPath()) ? 5 : 0;

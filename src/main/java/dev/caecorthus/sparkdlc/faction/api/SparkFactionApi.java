@@ -48,11 +48,11 @@ public final class SparkFactionApi {
 
     /**
      * Faction id of a Wathe {@code Faction} constant: built-ins give {@code wathe:*}, constants appended for a native
-     * faction declared under {@code sparkfactionapi:native_wathe_factions} in a fabric.mod.json give their declared
+     * faction declared under {@code sparkdlc:native_wathe_factions} in a fabric.mod.json give their declared
      * id. Empty for null or for a constant SparkFactionAPI did not append. Match records carry {@code Faction.name()};
      * map them with {@code factionIdOf(Faction.valueOf(name))} (valueOf throws for a name this side lacks).
      * Wathe {@code Faction} 常量对应的阵营 id：内置常量给出 {@code wathe:*}，为 fabric.mod.json 中
-     * {@code sparkfactionapi:native_wathe_factions} 声明的原生阵营追加的常量给出声明的 id；null 或非 SparkFactionAPI
+     * {@code sparkdlc:native_wathe_factions} 声明的原生阵营追加的常量给出声明的 id；null 或非 SparkFactionAPI
      * 追加的常量返回空。对局记录保存 {@code Faction.name()}，可用 {@code factionIdOf(Faction.valueOf(name))} 映射
      * （本端没有该名字时 valueOf 会抛出异常）。
      *
@@ -122,9 +122,9 @@ public final class SparkFactionApi {
     }
 
     /**
-     * True for a declared native custom faction id (a {@code sparkfactionapi:native_wathe_factions} entry), whether
+     * True for a declared native custom faction id (a {@code sparkdlc:native_wathe_factions} entry), whether
      * or not it is registered or has a lineup; false for null, the {@code wathe:*} built-ins and non-native factions.
-     * 对已声明的原生自定义阵营 id（{@code sparkfactionapi:native_wathe_factions} 条目）返回 true，无论是否已注册或有阵容；
+     * 对已声明的原生自定义阵营 id（{@code sparkdlc:native_wathe_factions} 条目）返回 true，无论是否已注册或有阵容；
      * null、{@code wathe:*} 内置阵营与非原生阵营返回 false。
      *
      * @since 2.0.0
@@ -169,9 +169,9 @@ public final class SparkFactionApi {
 
     /**
      * Server-wide minimum player count for the third-faction draw (default 18; 0 = no minimum). Saved with the
-     * server scoreboard; read at each round start. SparkWitch's {@code /sparkwitch:thirdFactionMinRequirement} writes it.
+     * server scoreboard; read at each round start. SparkWitch's {@code /sparkdlc:thirdFactionMinRequirement} writes it.
      * 全服第三方阵营抽取的最低人数（默认 18；0 = 无最低人数）。随服务器计分板保存，每局开始时读取。由 SparkWitch 的
-     * {@code /sparkwitch:thirdFactionMinRequirement} 写入。
+     * {@code /sparkdlc:thirdFactionMinRequirement} 写入。
      *
      * @since 2.0.0
      */

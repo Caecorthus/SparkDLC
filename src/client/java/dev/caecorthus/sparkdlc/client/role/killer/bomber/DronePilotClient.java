@@ -469,7 +469,7 @@ public final class DronePilotClient {
             // Stale clicks must not fire after a reconnect. / 重连后不能补发旧的点击。
             fireQueued = false;
             if (++missingTicks > MISSING_GRACE_TICKS) {
-                end(client, Text.translatable("hud.sparkstrength.drone.link_lost").formatted(Formatting.RED), true, true);
+                end(client, Text.translatable("hud.sparkdlc.drone.link_lost").formatted(Formatting.RED), true, true);
             }
             return;
         }
@@ -484,7 +484,7 @@ public final class DronePilotClient {
             fire(bound);
         }
         if (lastPayload && !bound.hasPayload()) {
-            feedback(Text.translatable("hud.sparkstrength.drone.feedback.released"), DronePilotHud.accent(bound.kind()));
+            feedback(Text.translatable("hud.sparkdlc.drone.feedback.released"), DronePilotHud.accent(bound.kind()));
         }
         lastPayload = bound.hasPayload();
     }
@@ -577,7 +577,7 @@ public final class DronePilotClient {
 
     private static void fire(DroneEntity bound) {
         if (bound.kind() == DroneKind.GRENADE && !bound.hasPayload()) {
-            feedback(Text.translatable("hud.sparkstrength.drone.feedback.no_payload"), DronePilotHud.WARNING);
+            feedback(Text.translatable("hud.sparkdlc.drone.feedback.no_payload"), DronePilotHud.WARNING);
             return;
         }
         sendFire(bound.getId());

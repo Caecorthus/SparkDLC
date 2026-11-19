@@ -61,7 +61,7 @@ public final class CurserFeatureService {
                         && caster.squaredDistanceTo(player) <= CurserRules.RANGE * CurserRules.RANGE
         );
         if (targets.isEmpty()) {
-            caster.sendMessage(Text.translatable("message.sparkwitch.curser.no_target"), true);
+            caster.sendMessage(Text.translatable("message.sparkdlc.curser.no_target"), true);
             return;
         }
         if (!state.startCooldown()) {

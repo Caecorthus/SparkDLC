@@ -42,7 +42,7 @@ public final class BellTollService {
                 || ringer.isSpectator()
                 || ringer.getItemCooldownManager().isCoolingDown(bell)
                 || SparkTraitsKillerBridge.blocksWeaponAction(ringer, stack)) {
-            ringer.sendMessage(Text.translatable("message.sparkwitch.toll_bell.blocked"), true);
+            ringer.sendMessage(Text.translatable("message.sparkdlc.toll_bell.blocked"), true);
             return TypedActionResult.fail(stack);
         }
 
@@ -51,7 +51,7 @@ public final class BellTollService {
         List<ServerPlayerEntity> targets = findTargets(ringer);
         if (targets.isEmpty()) {
             BellEchoPlayerComponent.KEY.get(ringer).setTollReady(false);
-            ringer.sendMessage(Text.translatable("message.sparkwitch.toll_bell.no_target"), true);
+            ringer.sendMessage(Text.translatable("message.sparkdlc.toll_bell.no_target"), true);
             return TypedActionResult.fail(stack);
         }
 
@@ -69,8 +69,8 @@ public final class BellTollService {
         // Singular variant only fixes English grammar; the contract's plural key covers every other count.
         // 单数键仅用于修正英文语法；其余人数仍使用契约规定的复数键。
         String tolledKey = claimed == 1
-                ? "message.sparkwitch.toll_bell.tolled.one"
-                : "message.sparkwitch.toll_bell.tolled";
+                ? "message.sparkdlc.toll_bell.tolled.one"
+                : "message.sparkdlc.toll_bell.tolled";
         ringer.sendMessage(Text.translatable(tolledKey, claimed), true);
         BellEchoPlayerComponent.KEY.get(ringer).setTollReady(
                 BellRingerEchoTargeting.isParticipant(ringer) && hasAnyTarget(ringer));
@@ -105,10 +105,10 @@ public final class BellTollService {
      * effective mood type there; the {@code isLowerThan*} helpers are avoided because Well Trained overrides them.
      * A Rift Gate occupant is a living SPECTATOR, which {@code isParticipant} rejects, so it is admitted explicitly:
      * the toll pierces a gate like poison (owner decision C13/C16); the Riftwalker's occupant policy allows
-     * {@code sparkwitch:bell_toll}, and the kill's {@code KillPlayer.AFTER} ends the session as DIED.
+     * {@code sparkdlc:bell_toll}, and the kill's {@code KillPlayer.AFTER} ends the session as DIED.
      * 直接使用 {@code getMood() < 0}：FAKE/NONE 情绪在 Wathe 中返回 1，SparkTraits 已在该处解析有效情绪类型；
      * 不使用 {@code isLowerThan*}，因为“训练有素”会覆盖它们。裂隙门内的玩家是存活的旁观者，{@code isParticipant} 会拒绝，
-     * 因此单独放行：钟声与毒一样穿透裂隙门（所有者决定 C13/C16）；隙行者的门内策略放行 {@code sparkwitch:bell_toll}，
+     * 因此单独放行：钟声与毒一样穿透裂隙门（所有者决定 C13/C16）；隙行者的门内策略放行 {@code sparkdlc:bell_toll}，
      * 击杀后的 {@code KillPlayer.AFTER} 以 DIED 结束会话。
      */
     private static boolean isTarget(ServerPlayerEntity ringer, ServerPlayerEntity candidate, GameWorldComponent game) {

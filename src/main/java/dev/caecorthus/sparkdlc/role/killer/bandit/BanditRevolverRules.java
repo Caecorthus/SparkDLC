@@ -29,7 +29,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class BanditRevolverRules {
     /** Shop entry id prefix of every part and round; the client puts these on the shop's second page. / 配件与子弹商店条目的 id 前缀。 */
-    public static final String SHOP_ENTRY_PREFIX = "sparkstrength_bandit_";
+    public static final String SHOP_ENTRY_PREFIX = "sparkdlc_bandit_";
     /** Wathe's shop entry the Bandit no longer gets. / 强盗不再拥有的 Wathe 商店条目。 */
     public static final String REMOVED_SHOP_ENTRY_ID = "revolver";
 

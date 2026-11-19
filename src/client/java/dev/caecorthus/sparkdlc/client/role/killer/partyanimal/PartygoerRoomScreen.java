@@ -40,7 +40,7 @@ final class PartygoerRoomScreen extends Screen {
     private int scroll;
 
     PartygoerRoomScreen(List<String> rooms) {
-        super(Text.translatable("screen.sparkstrength.partygoer.title"));
+        super(Text.translatable("screen.sparkdlc.partygoer.title"));
         this.rooms = List.copyOf(rooms);
     }
 
@@ -120,10 +120,10 @@ final class PartygoerRoomScreen extends Screen {
         canvas.glow(x + PANEL_W / 2.0F, y + 8, 70, TabletTheme.withAlpha(PARTY, 0x30));
 
         canvas.text(textRenderer, title.getString(), x + PAD, y + 10, PARTY_SOFT);
-        String cost = Text.translatable("screen.sparkstrength.partygoer.cost", PartyAnimalRules.SKILL_PRICE).getString();
+        String cost = Text.translatable("screen.sparkdlc.partygoer.cost", PartyAnimalRules.SKILL_PRICE).getString();
         canvas.textRight(textRenderer, cost, x + PANEL_W - PAD, y + 10, TabletTheme.WARNING);
         canvas.text(textRenderer, TabletCanvas.trim(textRenderer,
-                Text.translatable("screen.sparkstrength.partygoer.hint").getString(), PANEL_W - PAD * 2), x + PAD, y + 23,
+                Text.translatable("screen.sparkdlc.partygoer.hint").getString(), PANEL_W - PAD * 2), x + PAD, y + 23,
                 TabletTheme.TEXT_3);
 
         drawColumn(canvas, 0, mouseX, mouseY);
@@ -132,7 +132,7 @@ final class PartygoerRoomScreen extends Screen {
         drawButton(canvas, cancelX(), buttonY(), 64, Text.translatable("gui.cancel").getString(),
                 inside(mouseX, mouseY, cancelX(), buttonY(), 64, BUTTON_H), true, TabletTheme.NONE.base());
         drawButton(canvas, confirmX(), buttonY(), confirmWidth(),
-                Text.translatable("screen.sparkstrength.partygoer.summon").getString(),
+                Text.translatable("screen.sparkdlc.partygoer.summon").getString(),
                 inside(mouseX, mouseY, confirmX(), buttonY(), confirmWidth(), BUTTON_H), ready(), PARTY);
     }
 
@@ -140,8 +140,8 @@ final class PartygoerRoomScreen extends Screen {
         int cx = columnX(column);
         int w = columnWidth();
         int accent = column == 0 ? PARTY : DESTINATION;
-        String label = Text.translatable(column == 0 ? "screen.sparkstrength.partygoer.spawn"
-                : "screen.sparkstrength.partygoer.destination").getString();
+        String label = Text.translatable(column == 0 ? "screen.sparkdlc.partygoer.spawn"
+                : "screen.sparkdlc.partygoer.destination").getString();
         canvas.circle(cx + 3, top() + HEADER_H + 4, 2.5F, accent);
         canvas.text(textRenderer, label, cx + 9, top() + HEADER_H, TabletTheme.TEXT_2);
         int selected = column == 0 ? spawn : destination;

@@ -7,7 +7,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 
 public final class VersionProtocol {
-    public static final Identifier VERSION_CHECK_ID = SparkFactionApiMod.id("version_check");
+    public static final Identifier VERSION_CHECK_ID = SparkFactionApiMod.id("faction_version_check");
 
     private static final String MOD_NAME = "SparkFactionAPI";
     /**

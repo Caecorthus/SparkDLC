@@ -56,9 +56,9 @@ public final class EngineerShopService {
 
     private static ItemStack captureDeviceDisplayStack() {
         ItemStack stack = SparkStrengthItems.captureDevice().getDefaultStack();
-        stack.set(DataComponentTypes.ITEM_NAME, Text.translatable("shop.sparkstrength.engineer.capture_device"));
+        stack.set(DataComponentTypes.ITEM_NAME, Text.translatable("shop.sparkdlc.engineer.capture_device"));
         stack.set(DataComponentTypes.LORE, new LoreComponent(List.of(
-                Text.translatable("shop.sparkstrength.engineer.capture_device.description")
+                Text.translatable("shop.sparkdlc.engineer.capture_device.description")
                         .styled(style -> style.withColor(0x808080).withItalic(false))
         )));
         return stack;
@@ -66,9 +66,9 @@ public final class EngineerShopService {
 
     private static ItemStack sabotageRepairDisplayStack() {
         ItemStack stack = SparkStrengthItems.powerRestoration().getDefaultStack();
-        stack.set(DataComponentTypes.ITEM_NAME, Text.translatable("shop.sparkstrength.engineer.power_restoration"));
+        stack.set(DataComponentTypes.ITEM_NAME, Text.translatable("shop.sparkdlc.engineer.power_restoration"));
         stack.set(DataComponentTypes.LORE, new LoreComponent(List.of(
-                Text.translatable("shop.sparkstrength.engineer.power_restoration.description")
+                Text.translatable("shop.sparkdlc.engineer.power_restoration.description")
                         .styled(style -> style.withColor(0x808080).withItalic(false))
         )));
         return stack;

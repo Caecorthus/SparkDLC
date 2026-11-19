@@ -32,7 +32,7 @@ public final class NatsumeTargetScreen extends Screen {
     private UUID selected;
 
     public NatsumeTargetScreen(List<UUID> targets, List<String> names) {
-        super(Text.translatable("screen.sparkwitch.natsume.title"));
+        super(Text.translatable("screen.sparkdlc.natsume.title"));
         this.targets.addAll(targets);
         this.names.addAll(names);
     }
@@ -57,9 +57,9 @@ public final class NatsumeTargetScreen extends Screen {
             this.addDrawableChild(tile);
         }
         int buttonY = Math.min(this.height - 40, top + rows * CELL_HEIGHT + 26);
-        this.addDrawableChild(ButtonWidget.builder(Text.translatable("screen.sparkwitch.natsume.back"), b -> this.close())
+        this.addDrawableChild(ButtonWidget.builder(Text.translatable("screen.sparkdlc.natsume.back"), b -> this.close())
                 .dimensions(this.width / 2 - 154, buttonY, 150, 20).build());
-        this.addDrawableChild(ButtonWidget.builder(Text.translatable("screen.sparkwitch.natsume.confirm"), b -> {
+        this.addDrawableChild(ButtonWidget.builder(Text.translatable("screen.sparkdlc.natsume.confirm"), b -> {
             if (this.selected != null) {
                 ClientPlayNetworking.send(new ConfirmNatsumeTargetC2SPacket(this.selected));
                 this.close();
@@ -81,7 +81,7 @@ public final class NatsumeTargetScreen extends Screen {
         super.render(context, mouseX, mouseY, delta);
         context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 14, TITLE_COLOR);
         context.drawCenteredTextWithShadow(this.textRenderer,
-                Text.translatable("screen.sparkwitch.natsume.hint").formatted(Formatting.GRAY),
+                Text.translatable("screen.sparkdlc.natsume.hint").formatted(Formatting.GRAY),
                 this.width / 2, 26, 0xFFFFFF);
         // Owner 2026-11-03: names are not drawn under the tiles (tooltip only); the pick is named once here.
         // 所有者 2026-11-03：格子下方不画名字（只有 tooltip）；所选目标只在这里显示一次。
@@ -93,7 +93,7 @@ public final class NatsumeTargetScreen extends Screen {
             }
         }
         context.drawCenteredTextWithShadow(this.textRenderer,
-                Text.translatable("screen.sparkwitch.natsume.current", chosen), this.width / 2,
+                Text.translatable("screen.sparkdlc.natsume.current", chosen), this.width / 2,
                 this.height - 62, 0xFFFFFF);
     }
 

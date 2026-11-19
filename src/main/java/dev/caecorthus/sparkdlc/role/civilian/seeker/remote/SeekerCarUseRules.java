@@ -61,10 +61,10 @@ public final class SeekerCarUseRules {
      */
     public static final double FORWARD_CONE_MIN_HORIZONTAL = 0.3;
     private static final double FORWARD_CONE_COS = Math.cos(Math.toRadians(FORWARD_CONE_DEGREES));
-    static final String HINT_OPEN = "hud.sparkwitch.seeker.view.use_open";
-    static final String HINT_CLOSE = "hud.sparkwitch.seeker.view.use_close";
-    static final String HINT_PRESS = "hud.sparkwitch.seeker.view.use_press";
-    static final String HINT_LEVER = "hud.sparkwitch.seeker.view.use_lever";
+    static final String HINT_OPEN = "hud.sparkdlc.seeker.view.use_open";
+    static final String HINT_CLOSE = "hud.sparkdlc.seeker.view.use_close";
+    static final String HINT_PRESS = "hud.sparkdlc.seeker.view.use_press";
+    static final String HINT_LEVER = "hud.sparkdlc.seeker.view.use_lever";
 
     private SeekerCarUseRules() {
     }

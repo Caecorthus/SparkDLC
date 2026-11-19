@@ -27,7 +27,7 @@ public final class ClairvoyanceAbility {
                 context,
                 MANA_COST,
                 COOLDOWN_TICKS,
-                "message.sparkwitch.skill.clairvoyance.activated",
+                "message.sparkdlc.skill.clairvoyance.activated",
                 () -> {
                     WitchPlayerComponent.KEY.get(context.player()).beginClairvoyance(SELF_TICKS, OTHERS_TICKS);
                     ApprenticePlayerComponent.KEY.get(context.player()).beginExposure(SELF_TICKS);

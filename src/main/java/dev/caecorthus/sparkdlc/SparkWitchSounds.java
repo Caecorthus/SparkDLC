@@ -72,9 +72,9 @@ public final class SparkWitchSounds {
     public static final Identifier M1903A4_KILL_ID = SparkWitch.id("item.m1903a4.kill");
     /**
      * Savior pistol sounds (ids live in SaviorRules): the shot carries at Wathe's revolver volume 5.0 and the click at
-     * 0.5. The bundled audio lives under {@code sparkwitch:sounds/item/} so it can be replaced.
+     * 0.5. The bundled audio lives under {@code sparkdlc:sounds/item/} so it can be replaced.
      * 救世主手枪音效（id 定义在 SaviorRules）：枪声沿用 Wathe 左轮的 5.0 音量，点击声 0.5。音频位于
-     * {@code sparkwitch:sounds/item/}，可直接替换。
+     * {@code sparkdlc:sounds/item/}，可直接替换。
      */
     public static final Identifier SAVIOR_PISTOL_SHOOT_ID = SaviorRules.PISTOL_SHOOT_SOUND_ID;
     public static final Identifier SAVIOR_PISTOL_CLICK_ID = SaviorRules.PISTOL_CLICK_SOUND_ID;

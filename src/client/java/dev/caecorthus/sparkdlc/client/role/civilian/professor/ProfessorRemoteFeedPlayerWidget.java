@@ -48,7 +48,7 @@ public class ProfessorRemoteFeedPlayerWidget extends ButtonWidget {
             InventoryWidgetPaint.highlight(context, getX(), getY(), 0x907FD8FF);
             Text name = targetPlayerEntry != null
                     ? Text.literal(targetPlayerEntry.getProfile().getName())
-                    : Text.translatable("ui.sparkstrength.professor.unknown_player");
+                    : Text.translatable("ui.sparkdlc.professor.unknown_player");
             TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
             context.drawTooltip(
                     textRenderer,

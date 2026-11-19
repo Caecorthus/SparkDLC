@@ -9,7 +9,7 @@ final class EmblemsCoven {
 
     static void register(Map<String, String[]> table) {
         // 大魔女：歪尖的魔女高帽，帽带上一枚新月扣
-        table.put("sparkwitch:grand_witch", new String[] {
+        table.put("sparkdlc:grand_witch", new String[] {
                 ".................",
                 ".............##..",
                 "...........###...",
@@ -29,7 +29,7 @@ final class EmblemsCoven {
                 "................."});
 
         // 共犯：一副锁在一起的手铐
-        table.put("sparkwitch:accomplice", new String[] {
+        table.put("sparkdlc:accomplice", new String[] {
                 ".................",
                 ".................",
                 ".................",
@@ -49,7 +49,7 @@ final class EmblemsCoven {
                 "................."});
 
         // 聆渊者：螺号张口尖啸，声波外扩
-        table.put("sparkwitch:abyss_listener", new String[] {
+        table.put("sparkdlc:abyss_listener", new String[] {
                 ".................",
                 ".................",
                 "........##.......",
@@ -69,7 +69,7 @@ final class EmblemsCoven {
                 "................."});
 
         // 隙行者：拱门正中裂开一道发光的裂隙
-        table.put("sparkwitch:riftwalker", new String[] {
+        table.put("sparkdlc:riftwalker", new String[] {
                 ".................",
                 "......#####......",
                 "....####*####....",
@@ -89,7 +89,7 @@ final class EmblemsCoven {
                 "................."});
 
         // 药炮手：炮筒口顶着一瓶药水弹
-        table.put("sparkwitch:potion_gunner", new String[] {
+        table.put("sparkdlc:potion_gunner", new String[] {
                 ".................",
                 ".................",
                 ".................",
@@ -109,7 +109,7 @@ final class EmblemsCoven {
                 "................."});
 
         // 诅咒者：带柄的假面，眼角淌下诅咒
-        table.put("sparkwitch:curser", new String[] {
+        table.put("sparkdlc:curser", new String[] {
                 ".................",
                 ".................",
                 ".................",
@@ -129,7 +129,7 @@ final class EmblemsCoven {
                 "................."});
 
         // 冤魂：双眼发光的布单幽灵
-        table.put("sparkwitch:wraith", new String[] {
+        table.put("sparkdlc:wraith", new String[] {
                 ".................",
                 "......#####......",
                 ".....#######.....",
@@ -149,7 +149,7 @@ final class EmblemsCoven {
                 "................."});
 
         // 魔女因子：发光的泪滴种子，四溅火星
-        table.put("sparkwitch:witch_factor", new String[] {
+        table.put("sparkdlc:witch_factor", new String[] {
                 ".................",
                 "........#........",
                 "..+.....#.....+..",
@@ -169,7 +169,7 @@ final class EmblemsCoven {
                 "................."});
 
         // 魔化使：张开的手，掌心烙着魔女的印记
-        table.put("sparkwitch:bewitched", new String[] {
+        table.put("sparkdlc:bewitched", new String[] {
                 ".................",
                 ".......##........",
                 ".......##.##.....",
@@ -189,7 +189,7 @@ final class EmblemsCoven {
                 ".....#######....."});
 
         // 仪礼剑：华丽的仪式长剑，护手嵌宝石
-        table.put("sparkwitch:ceremonial_sword", new String[] {
+        table.put("sparkdlc:ceremonial_sword", new String[] {
                 "........#........",
                 ".......###.......",
                 "......##o##......",
@@ -209,7 +209,7 @@ final class EmblemsCoven {
                 ".......###......."});
 
         // 千里眼：底座上的水晶球，球中一只眼
-        table.put("sparkwitch:clairvoyance", new String[] {
+        table.put("sparkdlc:clairvoyance", new String[] {
                 ".................",
                 "......#####......",
                 "....#########....",
@@ -229,7 +229,7 @@ final class EmblemsCoven {
                 "................."});
 
         // 死亡射线：魔杖尖端射出三道射线
-        table.put("sparkwitch:death_ray", new String[] {
+        table.put("sparkdlc:death_ray", new String[] {
                 ".................",
                 "......###........",
                 "......###....##..",
@@ -249,7 +249,7 @@ final class EmblemsCoven {
                 "................."});
 
         // 疗愈：心口一枚十字，伴着微光
-        table.put("sparkwitch:healing", new String[] {
+        table.put("sparkdlc:healing", new String[] {
                 ".................",
                 "..+...........+..",
                 ".+++.........+++.",
@@ -269,7 +269,7 @@ final class EmblemsCoven {
                 "................."});
 
         // 巨力：攥紧的拳头和冲击纹
-        table.put("sparkwitch:mighty_force", new String[] {
+        table.put("sparkdlc:mighty_force", new String[] {
                 ".................",
                 ".................",
                 "...##.##.##.##...",
@@ -289,7 +289,7 @@ final class EmblemsCoven {
                 "................."});
 
         // 杀意感知：一只眼睛压在匕首之上
-        table.put("sparkwitch:murder_sense", new String[] {
+        table.put("sparkdlc:murder_sense", new String[] {
                 ".................",
                 "....#########....",
                 "...####***####...",
@@ -309,7 +309,7 @@ final class EmblemsCoven {
                 "........#........"});
 
         // 净化：一滴魔女因子沿裂纹碎开，碎片飞散成星屑
-        table.put("sparkwitch:purify", new String[] {
+        table.put("sparkdlc:purify", new String[] {
                 ".................",
                 "..............*..",
                 "......#......***.",
@@ -329,7 +329,7 @@ final class EmblemsCoven {
                 "................."});
 
         // 滑步：长着翅膀的靴子
-        table.put("sparkwitch:swift_step", new String[] {
+        table.put("sparkdlc:swift_step", new String[] {
                 ".................",
                 ".................",
                 "........+++++....",

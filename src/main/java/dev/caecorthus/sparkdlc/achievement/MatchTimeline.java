@@ -441,9 +441,9 @@ public final class MatchTimeline {
     // ---- Psycho mode 疯魔模式 ----
 
     /**
-     * When {@code player} was in psycho mode (any source), from {@code sparkfactionapi:psycho} events. A window that
+     * When {@code player} was in psycho mode (any source), from {@code sparkdlc:psycho} events. A window that
      * never ended closes at the player's death or at the end of the record.
-     * {@code player} 处于疯魔模式（任何来源）的时段，取自 {@code sparkfactionapi:psycho} 事件。没有结束的时段在玩家死亡或记录结束时关闭。
+     * {@code player} 处于疯魔模式（任何来源）的时段，取自 {@code sparkdlc:psycho} 事件。没有结束的时段在玩家死亡或记录结束时关闭。
      */
     public List<TickWindow> psychoWindows(UUID player) {
         return psychoWindows.getOrDefault(player, List.of());

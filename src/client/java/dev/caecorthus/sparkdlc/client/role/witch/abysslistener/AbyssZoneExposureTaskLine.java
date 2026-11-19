@@ -13,12 +13,12 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * The display-only pseudo task 「快离开这里！！！」 (owner D7) in Wathe's top-left task list. It is drawn while the LOCAL
- * player's owner-synced {@code sparkwitch:abyss_zone_exposure} is set; the client never decides exposure. It is never
+ * player's owner-synced {@code sparkdlc:abyss_zone_exposure} is set; the client never decides exposure. It is never
  * put into Wathe's task map, so it cannot be completed, fires no {@code TaskComplete}, pays nothing and never touches
  * the Bell Ringer task hold. It joins Wathe's layout as the last row (also with zero real tasks), so the mood bar
  * moves below it, and fades like a Wathe row.
  * 仅用于显示的临时任务「快离开这里！！！」（所有者 D7），位于 Wathe 左上角任务列表。只在本地玩家仅同步给本人的
- * {@code sparkwitch:abyss_zone_exposure} 生效时绘制；客户端从不判定暴露。它从不进入 Wathe 任务表，因此无法完成、不触发
+ * {@code sparkdlc:abyss_zone_exposure} 生效时绘制；客户端从不判定暴露。它从不进入 Wathe 任务表，因此无法完成、不触发
  * {@code TaskComplete}、不给任何奖励，也不影响敲钟人对任务生成的接管。它作为最后一行加入 Wathe 布局（没有真实任务时同样如此），
  * 理智条随之移到其下方，并像 Wathe 的任务行一样淡入淡出。
  * The fade is static client state, so {@link #settleFrame} drops it after any frame Wathe's layout skipped while the
@@ -28,7 +28,7 @@ import org.jetbrains.annotations.Nullable;
  * {@link #reset} 也会丢弃它。因此过期的淡入淡出永远不会让本行在新一局或其他服务器上闪现。
  */
 public final class AbyssZoneExposureTaskLine {
-    public static final String TRANSLATION_KEY = "task.sparkwitch.abyss_zone_exposure";
+    public static final String TRANSLATION_KEY = "task.sparkdlc.abyss_zone_exposure";
 
     private static float alpha;
     /** Wathe's layout path reached the line since the last {@link #settleFrame}. / 自上次结算以来 Wathe 布局是否运行过本行。 */

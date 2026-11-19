@@ -17,19 +17,19 @@ import org.ladysnake.cca.api.v3.component.ComponentRegistry;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 
 /**
- * Stable CCA contract {@code sparkwitch:koko_player} (NEVER_COPY). Server state: her traffic, three absolute world
+ * Stable CCA contract {@code sparkdlc:koko_player} (NEVER_COPY). Server state: her traffic, three absolute world
  * ticks (when a running stream ends, when the shared cooldown is over, when a lightstick's doubling ends) and the
  * corpses she already streamed (the dead players' UUIDs, see {@code KokoStreamService.corpseKey}).
  * <p>Sync: to the owner only, as traffic plus the stream-end and ready ticks, which her HUD, her instinct outline and
  * her predicted sprint drain count down against the client world clock (the Noa precedent). Nobody else receives
  * anything: other players see her through the vanilla Glowing effect, never through this component. NBT keeps
  * everything across a mid-round relog; role assignment and Wathe's {@code ResetPlayer} clear it. The forced-cooldown
- * store {@code sparkwitch:koko_stream} only ever moves the ready tick.
- * 稳定 CCA 契约 {@code sparkwitch:koko_player}（NEVER_COPY）。服务端状态：流量、三个绝对世界刻（进行中的直播何时结束、共用冷却
+ * store {@code sparkdlc:koko_stream} only ever moves the ready tick.
+ * 稳定 CCA 契约 {@code sparkdlc:koko_player}（NEVER_COPY）。服务端状态：流量、三个绝对世界刻（进行中的直播何时结束、共用冷却
  * 何时结束、应援棒翻倍何时结束），以及她已直播过的尸体（死者的 UUID，见 {@code KokoStreamService.corpseKey}）。
  * <p>同步：只发给本人，内容为流量、直播结束刻与就绪刻；她的 HUD、本能描边与体力消耗预测都依据客户端世界时钟倒数（沿用诺亚的
  * 先例）。其他人收不到任何数据：别人是通过原版发光效果看到她的，从不经过本组件。NBT 使全部状态在局中重新登录后保留；身份分配与
- * Wathe 的 {@code ResetPlayer} 会清空。强制冷却存储 {@code sparkwitch:koko_stream} 只会移动就绪刻。
+ * Wathe 的 {@code ResetPlayer} 会清空。强制冷却存储 {@code sparkdlc:koko_stream} 只会移动就绪刻。
  */
 public final class KokoComponent implements AutoSyncedComponent {
     public static final ComponentKey<KokoComponent> KEY = ComponentRegistry.getOrCreate(

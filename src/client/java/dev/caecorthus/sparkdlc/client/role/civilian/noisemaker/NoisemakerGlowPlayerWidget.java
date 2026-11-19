@@ -66,7 +66,7 @@ public class NoisemakerGlowPlayerWidget extends ButtonWidget {
             InventoryWidgetPaint.highlight(context, this.getX(), this.getY(), 0x90FFBF49);
             Text name = targetPlayerEntry != null
                     ? Text.literal(targetPlayerEntry.getProfile().getName())
-                    : Text.translatable("ui.sparkstrength.noisemaker.unknown_player");
+                    : Text.translatable("ui.sparkdlc.noisemaker.unknown_player");
             context.drawTooltip(
                     MinecraftClient.getInstance().textRenderer,
                     name,

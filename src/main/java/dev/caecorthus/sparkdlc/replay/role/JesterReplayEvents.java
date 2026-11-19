@@ -21,14 +21,14 @@ public final class JesterReplayEvents {
                 (event, match, world) -> ReplayText.onePlayerEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.jester_positions_shuffled"
+                        "replay.global.sparkdlc.jester_positions_shuffled"
                 ));
         // Actor = the Jester whose fake corpse shrugged off a kill. / actor 为假尸体挡下一次击杀的小丑。
         ReplayRegistry.registerGlobalEventFormatter(JESTER_FAKE_DEATH_KILL_BLOCKED,
                 (event, match, world) -> ReplayText.onePlayerEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.jester_fake_death_kill_blocked"
+                        "replay.global.sparkdlc.jester_fake_death_kill_blocked"
                 ));
     }
 }

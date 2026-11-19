@@ -93,7 +93,7 @@ public final class CoronerShopService {
 
     private static ItemStack bodyBagDisplayStack() {
         return ShopStacks.display(SparkStrengthItems.coronerBodyBag().getDefaultStack(),
-                "shop.sparkstrength.coroner_body_bag");
+                "shop.sparkdlc.coroner_body_bag");
     }
 
     private static void addToxicologistShop(BuildShopEntries.ShopContext context) {
@@ -257,29 +257,29 @@ public final class CoronerShopService {
     }
 
     private static ItemStack capsuleDisplayStack() {
-        return ShopStacks.display(SparkStrengthItems.capsule().getDefaultStack(), "shop.sparkstrength.capsule");
+        return ShopStacks.display(SparkStrengthItems.capsule().getDefaultStack(), "shop.sparkdlc.capsule");
     }
 
     private static ItemStack refreshAntidoteCooldownDisplayStack() {
         return ShopStacks.display(Items.CLOCK.getDefaultStack(),
-                "shop.sparkstrength.toxicologist.refresh_antidote_cooldown");
+                "shop.sparkdlc.toxicologist.refresh_antidote_cooldown");
     }
 
     private static ItemStack professorSerumDisplayStack(ProfessorSerumType type) {
-        return ShopStacks.display(type.defaultStack(), "shop.sparkstrength.professor." + type.id());
+        return ShopStacks.display(type.defaultStack(), "shop.sparkdlc.professor." + type.id());
     }
 
     private static ItemStack professorRefreshDisplayStack() {
-        return ShopStacks.display(Items.CLOCK.getDefaultStack(), "shop.sparkstrength.professor.refresh_cooldown");
+        return ShopStacks.display(Items.CLOCK.getDefaultStack(), "shop.sparkdlc.professor.refresh_cooldown");
     }
 
     private static ItemStack captureDeviceDisplayStack() {
         return ShopStacks.display(SparkStrengthItems.captureDevice().getDefaultStack(),
-                "shop.sparkstrength.engineer.capture_device");
+                "shop.sparkdlc.engineer.capture_device");
     }
 
     private static ItemStack sabotageRepairDisplayStack() {
         return ShopStacks.display(SparkStrengthItems.powerRestoration().getDefaultStack(),
-                "shop.sparkstrength.engineer.power_restoration");
+                "shop.sparkdlc.engineer.power_restoration");
     }
 }

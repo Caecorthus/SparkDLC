@@ -31,8 +31,8 @@ import net.minecraft.world.RaycastContext;
  * 眼睛射出，因此靠近主人的目标会被直接瞄准。
  */
 public final class CrimsonSkullFireService {
-    static final String NO_WITHER_KEY = "message.sparkwitch.mini_wither.not_summoned";
-    static final String NOT_ENOUGH_MANA_KEY = "message.sparkwitch.mini_wither.not_enough_mana";
+    static final String NO_WITHER_KEY = "message.sparkdlc.mini_wither.not_summoned";
+    static final String NOT_ENOUGH_MANA_KEY = "message.sparkdlc.mini_wither.not_enough_mana";
     private static final float LAUNCH_VOLUME = 1.0F;
     private static final float LAUNCH_PITCH = 0.75F;
 

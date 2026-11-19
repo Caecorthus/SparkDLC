@@ -45,8 +45,8 @@ public final class ReplayRoleTimeline {
     }
 
     /**
-     * Reads Wathe {@code role_assigned} snapshots and {@code sparkfactionapi:role_changed} events in sequence order.
-     * 按序号读取 Wathe {@code role_assigned} 快照与 {@code sparkfactionapi:role_changed} 事件。
+     * Reads Wathe {@code role_assigned} snapshots and {@code sparkdlc:role_changed} events in sequence order.
+     * 按序号读取 Wathe {@code role_assigned} 快照与 {@code sparkdlc:role_changed} 事件。
      */
     public static ReplayRoleTimeline fromEvents(List<GameRecordEvent> events) {
         List<GameRecordEvent> ordered = new ArrayList<>(events);

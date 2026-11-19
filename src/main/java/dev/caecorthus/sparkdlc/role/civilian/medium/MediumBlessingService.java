@@ -246,14 +246,14 @@ public final class MediumBlessingService {
         }
         Text actor = ReplayGenerator.formatPlayerName(data.getUuid("actor"), ReplayGenerator.getPlayerInfoCache(match));
         if (!data.contains(REPLAY_BLESSING, NbtElement.NUMBER_TYPE)) {
-            return Text.translatable("replay.skill.sparkwitch.medium_blessing_skill", actor);
+            return Text.translatable("replay.skill.sparkdlc.medium_blessing_skill", actor);
         }
         MediumBlessing blessing = MediumBlessing.byIndex(data.getInt(REPLAY_BLESSING));
         if (blessing == null) {
             return null;
         }
         return Text.translatable(
-                "replay.skill.sparkwitch.medium_blessing_skill.granted",
+                "replay.skill.sparkdlc.medium_blessing_skill.granted",
                 actor,
                 Text.translatable(blessing.translationKey())
         );

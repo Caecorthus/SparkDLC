@@ -35,8 +35,8 @@ import java.util.function.Predicate;
  * 连发时不会在两次射击之间闪烁；更长的冷却（封印、光环、强制延长）显示空准星。
  */
 public final class HunterShotgunCrosshair {
-    public static final Identifier IDLE = Identifier.of("sparkwitch", "hud/double_barrel_crosshair_idle");
-    public static final Identifier TARGET = Identifier.of("sparkwitch", "hud/double_barrel_crosshair_target");
+    public static final Identifier IDLE = Identifier.of("sparkdlc", "hud/double_barrel_crosshair_idle");
+    public static final Identifier TARGET = Identifier.of("sparkdlc", "hud/double_barrel_crosshair_target");
     /** Sprite edge at the auto GUI scale, in GUI pixels. / 自动界面尺寸下的贴图边长（GUI 像素）。 */
     public static final int SIZE = 15;
 

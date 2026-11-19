@@ -9,7 +9,7 @@ final class EmblemsKillerTraits {
 
     static void register(Map<String, String[]> table) {
         // 善良：头顶光环、刀尖朝下的小刀
-        table.put("sparktraits:conscience", new String[] {
+        table.put("sparkdlc:conscience", new String[] {
                 "....*********....",
                 "..***.......***..",
                 "....*********....",
@@ -29,7 +29,7 @@ final class EmblemsKillerTraits {
                 "......##........."});
 
         // 嗜血：张开的双唇露出獠牙，牙尖滴血
-        table.put("sparktraits:bloodthirsty", new String[] {
+        table.put("sparkdlc:bloodthirsty", new String[] {
                 ".................",
                 ".................",
                 ".....+++.+++.....",
@@ -49,7 +49,7 @@ final class EmblemsKillerTraits {
                 "................."});
 
         // 作秀：礼帽与手杖
-        table.put("sparktraits:the_showman", new String[] {
+        table.put("sparkdlc:the_showman", new String[] {
                 ".................",
                 "...........####..",
                 "...#######.##.##.",
@@ -69,7 +69,7 @@ final class EmblemsKillerTraits {
                 "................."});
 
         // 掠夺者：钱袋旁插着一把匕首
-        table.put("sparktraits:plunderer", new String[] {
+        table.put("sparkdlc:plunderer", new String[] {
                 ".................",
                 ".................",
                 "..##...##.....#..",
@@ -89,7 +89,7 @@ final class EmblemsKillerTraits {
                 "................."});
 
         // 魅力：系着爱心的价签
-        table.put("sparktraits:charisma", new String[] {
+        table.put("sparkdlc:charisma", new String[] {
                 ".................",
                 ".................",
                 "..######.........",
@@ -109,7 +109,7 @@ final class EmblemsKillerTraits {
                 "................."});
 
         // 偏执狂：一只大眼周围环伺着小眼
-        table.put("sparktraits:paranoid", new String[] {
+        table.put("sparkdlc:paranoid", new String[] {
                 ".................",
                 "..#####...#####..",
                 ".##.#.##.##.#.##.",
@@ -129,7 +129,7 @@ final class EmblemsKillerTraits {
                 "................."});
 
         // 突刺：刺出的细剑与疾行线
-        table.put("sparktraits:thrust", new String[] {
+        table.put("sparkdlc:thrust", new String[] {
                 ".................",
                 ".................",
                 ".................",
@@ -149,7 +149,7 @@ final class EmblemsKillerTraits {
                 "................."});
 
         // 二次打击：被一刀劈开、错位的盾牌
-        table.put("sparktraits:second_strike", new String[] {
+        table.put("sparkdlc:second_strike", new String[] {
                 ".................",
                 "..#######.*......",
                 "..#o#####.*.####.",
@@ -169,7 +169,7 @@ final class EmblemsKillerTraits {
                 "................."});
 
         // 震慑：长角的巨影，双目发光
-        table.put("sparktraits:oppressive", new String[] {
+        table.put("sparkdlc:oppressive", new String[] {
                 ".................",
                 "..#...........#..",
                 "..##.........##..",
@@ -189,7 +189,7 @@ final class EmblemsKillerTraits {
                 "...###########..."});
 
         // 走投无路：被逼到墙角的孤影与一枚铜钱
-        table.put("sparktraits:cornered", new String[] {
+        table.put("sparkdlc:cornered", new String[] {
                 ".................",
                 ".................",
                 ".++..###.........",
@@ -209,7 +209,7 @@ final class EmblemsKillerTraits {
                 "................."});
 
         // 团队至上：铜钱投进大家的存钱猪
-        table.put("sparktraits:team_first", new String[] {
+        table.put("sparkdlc:team_first", new String[] {
                 ".................",
                 ".......###.......",
                 "......#***#......",
@@ -229,7 +229,7 @@ final class EmblemsKillerTraits {
                 "................."});
 
         // 亢奋：一道闪电贯穿心脏
-        table.put("sparktraits:exhilarated", new String[] {
+        table.put("sparkdlc:exhilarated", new String[] {
                 ".................",
                 ".................",
                 "...........***...",
@@ -249,7 +249,7 @@ final class EmblemsKillerTraits {
                 "................."});
 
         // 狭路相逢：两把交击的刀刃迸出火花
-        table.put("sparktraits:close_quarters", new String[] {
+        table.put("sparkdlc:close_quarters", new String[] {
                 ".................",
                 ".................",
                 ".##...........##.",
@@ -269,7 +269,7 @@ final class EmblemsKillerTraits {
                 "................."});
 
         // 绝处逢生：奔向敞开的逃生门
-        table.put("sparktraits:last_escape", new String[] {
+        table.put("sparkdlc:last_escape", new String[] {
                 ".................",
                 "....###########..",
                 "....###########..",
@@ -289,7 +289,7 @@ final class EmblemsKillerTraits {
                 "................."});
 
         // 力大无穷：沉甸甸的杠铃
-        table.put("sparktraits:herculean_strength", new String[] {
+        table.put("sparkdlc:herculean_strength", new String[] {
                 ".................",
                 ".................",
                 ".................",
@@ -309,7 +309,7 @@ final class EmblemsKillerTraits {
                 "................."});
 
         // 破坏大师：裂开熄灭的灯泡，底座迸出火花
-        table.put("sparktraits:master_saboteur", new String[] {
+        table.put("sparkdlc:master_saboteur", new String[] {
                 ".................",
                 "......#####......",
                 "....#########....",
@@ -329,7 +329,7 @@ final class EmblemsKillerTraits {
                 "................."});
 
         // 老练：旧刀旁刻满记数的划痕
-        table.put("sparktraits:seasoned", new String[] {
+        table.put("sparkdlc:seasoned", new String[] {
                 ".................",
                 "..............#..",
                 ".............##..",
@@ -349,7 +349,7 @@ final class EmblemsKillerTraits {
                 "................."});
 
         // 狂躁：钉满铁钉的球棒
-        table.put("sparktraits:manic", new String[] {
+        table.put("sparkdlc:manic", new String[] {
                 ".................",
                 "........#........",
                 "...####.#........",

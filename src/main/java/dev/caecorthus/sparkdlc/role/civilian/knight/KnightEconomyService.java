@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
  * 骑士沿用法官的任务经济：开局 0 金币，每完成一个任务 +50，金钱始终可见。
  */
 public final class KnightEconomyService {
-    private static final Identifier IMPOSTOR = Identifier.of("sparktraits", "impostor");
+    private static final Identifier IMPOSTOR = Identifier.of("sparkdlc", "impostor");
     private static boolean registered;
 
     private KnightEconomyService() {

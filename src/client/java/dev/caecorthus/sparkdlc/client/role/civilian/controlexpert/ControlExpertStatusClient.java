@@ -9,10 +9,10 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Local reads of the owner-only {@code sparkwitch:control_expert_status} copy. The server picks targets and runs the
+ * Local reads of the owner-only {@code sparkdlc:control_expert_status} copy. The server picks targets and runs the
  * timers; this client only honours its own synced counters, and only while it is a living participant, so dead,
  * spectating, creative or Wraith players keep their spectator and Wraith instinct.
- * 对仅拥有者可见的 {@code sparkwitch:control_expert_status} 副本的本地读取。目标与计时由服务端决定；
+ * 对仅拥有者可见的 {@code sparkdlc:control_expert_status} 副本的本地读取。目标与计时由服务端决定；
  * 本客户端只遵守自己收到的同步计时，且仅在自己是存活参与者时生效，因此死亡、旁观、创造或冤魂玩家
  * 保留其旁观与冤魂本能。
  */

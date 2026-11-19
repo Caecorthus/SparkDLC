@@ -61,24 +61,24 @@ import static dev.caecorthus.sparkdlc.client.role.civilian.usec.UsecAttachmentLa
  * {@code UsecAttachmentCursorLoading}), plus the suppressor, single-round chambering (Q4+) and loading or unloading
  * rounds, one button per {@code UsecAttachmentAction}. A plain {@link Screen} with no screen handler (like the Seeker
  * Console and Judge selection): each frame it reads the rifle at {@code rifleSlot} and the inventory from the client
- * player, offers the {@link UsecAttachmentModel} buttons, and every press sends one {@code sparkwitch:usec_attachment}
+ * player, offers the {@link UsecAttachmentModel} buttons, and every press sends one {@code sparkdlc:usec_attachment}
  * packet that the server validates. Buttons are a prediction only; after a press all buttons wait until the synced
  * inventory changes or a short timeout passes, so a double click never sends a swap twice. Esc and the inventory key
  * return to the parent inventory screen; like Wathe's own inventory it closes outright during a fade or on death, and
  * it returns to the parent when the rifle leaves its slot. The rifle is always named by its item display name.
  * Geometry is {@link UsecAttachmentLayout}, colours and shapes {@link UsecAttachmentPaint}; all text uses
- * {@code gui.sparkwitch.usec_attachment.*}.
+ * {@code gui.sparkdlc.usec_attachment.*}.
  * 仅客户端。USEC 步枪配件界面（D16），采用所有者选定的 U2「野战手册蓝图」样式：更换弹匣（Q4；自 2026-10-24 起也可在光标拿着弹匣时右键步枪，见
  * {@code UsecAttachmentCursorLoading}），另含消音器、
  * 单发压膛（Q4+）以及子弹的装填与退出，每个 {@code UsecAttachmentAction} 都有一个按钮。普通 {@link Screen}，没有界面处理器
  * （同搜寻者控制台与法官选择）：每帧从客户端玩家读取 {@code rifleSlot} 上的步枪与背包，提供 {@link UsecAttachmentModel} 的
- * 按钮，每次按下发送一个由服务端校验的 {@code sparkwitch:usec_attachment} 数据包。按钮只是预测；按下后所有按钮会等到已同步
+ * 按钮，每次按下发送一个由服务端校验的 {@code sparkdlc:usec_attachment} 数据包。按钮只是预测；按下后所有按钮会等到已同步
  * 的背包发生变化或短暂超时，因此双击绝不会把交换发送两次。Esc 与物品栏键返回父背包界面；与 Wathe 自己的背包一样，淡入淡出
  * 期间或死亡时直接关闭；步枪离开所在栏位时返回父界面。步枪名称始终取自物品显示名。几何见 {@link UsecAttachmentLayout}，
- * 颜色与形状见 {@link UsecAttachmentPaint}；所有文字使用 {@code gui.sparkwitch.usec_attachment.*}。
+ * 颜色与形状见 {@link UsecAttachmentPaint}；所有文字使用 {@code gui.sparkdlc.usec_attachment.*}。
  */
 public final class UsecAttachmentScreen extends Screen {
-    static final String KEY = "gui.sparkwitch.usec_attachment.";
+    static final String KEY = "gui.sparkdlc.usec_attachment.";
     /** Ticks the buttons wait for the server's answer before re-enabling. 按钮等待服务端回应的刻数，超时后重新启用。 */
     static final int PENDING_TICKS = 10;
     private static final String ELLIPSIS = "…";
@@ -773,7 +773,7 @@ public final class UsecAttachmentScreen extends Screen {
             List<UsecAmmoType> order = contents.firingOrder();
             for (int index = 0; index < order.size(); index++) {
                 if (index > 0) {
-                    compact.append(Text.translatable("item.sparkwitch.usec_magazine.separator"));
+                    compact.append(Text.translatable("item.sparkdlc.usec_magazine.separator"));
                 }
                 UsecAmmoType type = order.get(index);
                 compact.append(Text.literal(type.name().substring(0, 1)).withColor(type.color()));

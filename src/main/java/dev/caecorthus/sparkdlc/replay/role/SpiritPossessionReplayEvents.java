@@ -30,7 +30,7 @@ public final class SpiritPossessionReplayEvents {
             }
             var playerInfoCache = ReplayGenerator.getPlayerInfoCache(match);
             return Text.translatable(
-                    "replay.global.sparkstrength.spirit_possession_started",
+                    "replay.global.sparkdlc.spirit_possession_started",
                     ReplayGenerator.formatPlayerName(actorUuid, playerInfoCache),
                     ReplayGenerator.formatPlayerName(targetUuid, playerInfoCache)
             );

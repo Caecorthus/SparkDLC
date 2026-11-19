@@ -121,7 +121,7 @@ public final class ForcedMeleeCooldownService {
     }
 
     /**
-     * Admin clear of one item (SparkFactionAPI {@code /sparkfactionapi:clearCooldown}): drops only its forced floor, so
+     * Admin clear of one item (SparkFactionAPI {@code /sparkdlc:clearCooldown}): drops only its forced floor, so
      * the command's {@code remove} is no longer cancelled and the floor is not restored next tick. The vanilla cooldown
      * is left to the caller.
      */

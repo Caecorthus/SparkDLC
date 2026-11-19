@@ -19,9 +19,9 @@ import org.jetbrains.annotations.Nullable;
  * 到时、对局收尾或管理员关闭功能时关闭。
  */
 public final class AntiFastRound {
-    private static final String START_KEY = "message.sparkfactionapi.anti_fast_round.start";
-    private static final String END_KEY = "message.sparkfactionapi.anti_fast_round.end";
-    private static final String BLOCKED_KEY = "message.sparkfactionapi.anti_fast_round.blocked";
+    private static final String START_KEY = "message.sparkdlc.anti_fast_round.start";
+    private static final String END_KEY = "message.sparkdlc.anti_fast_round.end";
+    private static final String BLOCKED_KEY = "message.sparkdlc.anti_fast_round.blocked";
 
     private AntiFastRound() {
     }

@@ -13,12 +13,12 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Client-only device availability of the local Seeker, shared by the console screen and quick connect so both predict
  * the same "Control car" / "View camera" state. Availability comes only from the owner-synced
- * {@code sparkwitch:seeker_status} (car DEPLOYED, camera list) and the stun gate: devices have no distance limit
+ * {@code sparkdlc:seeker_status} (car DEPLOYED, camera list) and the stun gate: devices have no distance limit
  * (2026-10-04) and a far device is usually not tracked by this client, so entity presence never decides. Device
  * entities are resolved in the client world only for the optional distance shown in the status rows. Every value is a
  * presentation-only prediction and the server re-validates each open request.
  * 本地搜寻者设备可用性的纯客户端计算，由控制台界面与快速连接共用，使两者对“操控小车”“查看摄像头”的预测一致。
- * 可用性只来自仅同步给拥有者的 {@code sparkwitch:seeker_status}（小车已部署、摄像头列表）与眩晕门槛：设备没有距离限制
+ * 可用性只来自仅同步给拥有者的 {@code sparkdlc:seeker_status}（小车已部署、摄像头列表）与眩晕门槛：设备没有距离限制
  * （2026-10-04），且远处的设备通常不被本客户端追踪，因此从不以实体是否存在作判断。只有状态行中可选的距离才会在客户端
  * 世界中解析设备实体。所有值都只是用于展示的预测，服务端会重新校验每个打开请求。
  */

@@ -65,9 +65,9 @@ public final class MorphlingShopService {
 
     private static ItemStack reagentDisplayStack() {
         ItemStack stack = new ItemStack(SparkStrengthItems.morphReagent());
-        stack.set(DataComponentTypes.ITEM_NAME, Text.translatable("shop.sparkstrength.morphling.morph_reagent"));
+        stack.set(DataComponentTypes.ITEM_NAME, Text.translatable("shop.sparkdlc.morphling.morph_reagent"));
         stack.set(DataComponentTypes.LORE, new LoreComponent(List.of(
-                Text.translatable("shop.sparkstrength.morphling.morph_reagent.description")
+                Text.translatable("shop.sparkdlc.morphling.morph_reagent.description")
                         .styled(style -> style.withColor(0x808080).withItalic(false))
         )));
         return stack;

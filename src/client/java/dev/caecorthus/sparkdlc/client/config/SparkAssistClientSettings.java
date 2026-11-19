@@ -18,8 +18,8 @@ import dev.caecorthus.sparkdlc.sound.EventSoundGroup;
  * 一次（滑块在松手时写，而不是每动一格写一次）。
  */
 public final class SparkAssistClientSettings {
-    /** {@code config/sparkassist.json}. */
-    public static final SettingsStore STORE = new SettingsStore("sparkassist", SparkAssistClientSettings::save);
+    /** {@code config/sparkdlc.json}. */
+    public static final SettingsStore STORE = new SettingsStore("sparkdlc", SparkAssistClientSettings::save);
 
     private SparkAssistClientSettings() {
     }

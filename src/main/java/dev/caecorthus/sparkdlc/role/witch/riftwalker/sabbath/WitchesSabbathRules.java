@@ -14,23 +14,23 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class WitchesSabbathRules {
     // --- Message keys (actionbar) / 消息键（动作栏） ---
-    public static final String UNAVAILABLE = "message.sparkwitch.skill.unavailable";
-    public static final String NOT_ENOUGH_MANA = "message.sparkwitch.skill.not_enough_mana";
-    public static final String NO_TARGETS = "message.sparkwitch.riftwalker.sabbath.no_targets";
-    public static final String NO_SPACE = "message.sparkwitch.riftwalker.sabbath.no_space";
+    public static final String UNAVAILABLE = "message.sparkdlc.skill.unavailable";
+    public static final String NOT_ENOUGH_MANA = "message.sparkdlc.skill.not_enough_mana";
+    public static final String NO_TARGETS = "message.sparkdlc.riftwalker.sabbath.no_targets";
+    public static final String NO_SPACE = "message.sparkdlc.riftwalker.sabbath.no_space";
     /**
      * No spot because the caster stands in a door cell: every sight ray would cross it (N-5).
      * 施放者站在门格里导致没有落点：每条视线射线都会穿过该门格（N-5）。
      */
-    public static final String IN_DOORWAY = "message.sparkwitch.riftwalker.sabbath.in_doorway";
+    public static final String IN_DOORWAY = "message.sparkdlc.riftwalker.sabbath.in_doorway";
     /** Caster feedback: {@code %s} = teammates pulled. / 施放者反馈：{@code %s} = 召集人数。 */
-    public static final String CAST = "message.sparkwitch.riftwalker.sabbath.cast";
+    public static final String CAST = "message.sparkdlc.riftwalker.sabbath.cast";
     /** Caster feedback: pulled, then left behind for lack of room. / 施放者反馈：召集人数与因空位不足未召集的人数。 */
-    public static final String CAST_PARTIAL = "message.sparkwitch.riftwalker.sabbath.cast_partial";
+    public static final String CAST_PARTIAL = "message.sparkdlc.riftwalker.sabbath.cast_partial";
     /** Pulled teammate: {@code %s} = the caster's name. / 被召集的队友：{@code %s} = 施放者名字。 */
-    public static final String SUMMONED = "message.sparkwitch.riftwalker.sabbath.summoned";
+    public static final String SUMMONED = "message.sparkdlc.riftwalker.sabbath.summoned";
     /** Replay line: actor, then the pulled names. / 回放：施放者，随后为被召集者名单。 */
-    public static final String REPLAY = "replay.skill.sparkwitch.witches_sabbath";
+    public static final String REPLAY = "replay.skill.sparkdlc.witches_sabbath";
 
     // --- Landing search (research/04 §2) / 落点搜索（research/04 §2） ---
     /** Rings around the caster's feet, inner first. / 以施放者脚下为中心的圆环，由内向外。 */
@@ -146,7 +146,7 @@ public final class WitchesSabbathRules {
 
         boolean participant();
 
-        /** SFA effective faction is exactly {@code sparkwitch:witch} (raw role; unknown → false). / 有效阵营恰为魔女阵营。 */
+        /** SFA effective faction is exactly {@code sparkdlc:witch} (raw role; unknown → false). / 有效阵营恰为魔女阵营。 */
         boolean witchFaction();
 
         boolean ownCamera();
@@ -177,9 +177,9 @@ public final class WitchesSabbathRules {
 
     /**
      * First refusal in a fixed order, or null when the caster may proceed. There is no separate "inside a gate"
-     * refusal: the occupant's {@code sparkwitch:use_skill} payload is already dropped by the in-gate payload guard, and
+     * refusal: the occupant's {@code sparkdlc:use_skill} payload is already dropped by the in-gate payload guard, and
      * the in-gate body is a living spectator, so it would fail {@code participant} anyway.
-     * 按固定顺序返回第一个拒绝原因；可继续时返回 null。没有单独的「在门内」拒绝：门内玩家的 {@code sparkwitch:use_skill}
+     * 按固定顺序返回第一个拒绝原因；可继续时返回 null。没有单独的「在门内」拒绝：门内玩家的 {@code sparkdlc:use_skill}
      * 数据包已被门内数据包守卫丢弃，且门内本体是活着的旁观者，本就无法通过 {@code participant}。
      */
     public static @Nullable CasterRefusal casterRefusal(CasterProbe caster) {

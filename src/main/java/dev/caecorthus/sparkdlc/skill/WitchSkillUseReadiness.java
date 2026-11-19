@@ -29,28 +29,28 @@ final class WitchSkillUseReadiness {
             @Nullable WitchSkillDefinition skill
     ) {
         if (skillId == null) {
-            return Result.reject("message.sparkwitch.skill.no_skill");
+            return Result.reject("message.sparkdlc.skill.no_skill");
         }
         if (GrandWitchActiveSkillService.CEREMONIAL_SWORD_SKILL_ID.equals(skillId)
                 && WitchFactionRules.isGrandWitch(role)
                 && !state.hasUnlockedGrandWitchCeremonialSword()) {
             return Result.reject(
-                    "message.sparkwitch.skill.ceremonial_sword.locked",
+                    "message.sparkdlc.skill.ceremonial_sword.locked",
                     state.grandWitchCeremonialSwordTasks(),
                     GrandWitchRules.CEREMONIAL_SWORD_UNLOCK_TASKS
             );
         }
         if (state.cooldownTicks() > 0) {
-            return Result.reject("message.sparkwitch.skill.cooldown", cooldownSeconds(state.cooldownTicks()));
+            return Result.reject("message.sparkdlc.skill.cooldown", cooldownSeconds(state.cooldownTicks()));
         }
         if (state.hasDeferredCooldown()) {
             return Result.reject(
-                    "message.sparkwitch.skill.cooldown",
+                    "message.sparkdlc.skill.cooldown",
                     cooldownSeconds(state.activeSkillWindowTicks())
             );
         }
         if (skill == null) {
-            return Result.rejectAndClear("message.sparkwitch.skill.unknown");
+            return Result.rejectAndClear("message.sparkdlc.skill.unknown");
         }
         return Result.accept();
     }

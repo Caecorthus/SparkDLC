@@ -71,7 +71,7 @@ public final class TimekeeperWatchService {
 
         TimekeeperWatchMode mode = TimekeeperWatchMode.fromOrdinal(modeOrdinal);
         setMode(stack, mode);
-        sendActionbar(player, Text.translatable("message.sparkstrength.dying_watch.mode_changed", mode.text()));
+        sendActionbar(player, Text.translatable("message.sparkdlc.dying_watch.mode_changed", mode.text()));
     }
 
     public static boolean tryUse(net.minecraft.entity.player.PlayerEntity user, ItemStack stack, TimekeeperWatchMode mode) {
@@ -88,7 +88,7 @@ public final class TimekeeperWatchService {
                     ? watch.getItemRefreshCooldownTicks()
                     : watch.getAbilityRefreshCooldownTicks();
             sendActionbar(player, Text.translatable(
-                    "message.sparkstrength.dying_watch.cooldown",
+                    "message.sparkdlc.dying_watch.cooldown",
                     (ticks + 19) / 20
             ));
             return false;
@@ -99,7 +99,7 @@ public final class TimekeeperWatchService {
                 : TimekeeperConstants.ABILITY_REFRESH_COST_COINS;
         PlayerShopComponent shop = PlayerShopComponent.KEY.get(player);
         if (shop.getBalance() < cost) {
-            sendActionbar(player, Text.translatable("message.sparkstrength.dying_watch.not_enough_money", cost));
+            sendActionbar(player, Text.translatable("message.sparkdlc.dying_watch.not_enough_money", cost));
             return false;
         }
 
@@ -112,16 +112,16 @@ public final class TimekeeperWatchService {
         for (ServerPlayerEntity target : targets) {
             if (itemRefresh) {
                 clearItemCooldowns(target);
-                sendActionbar(target, Text.translatable("message.sparkstrength.dying_watch.item_refreshed"));
+                sendActionbar(target, Text.translatable("message.sparkdlc.dying_watch.item_refreshed"));
             } else {
                 clearAbilityCooldowns(target);
-                sendActionbar(target, Text.translatable("message.sparkstrength.dying_watch.ability_refreshed"));
+                sendActionbar(target, Text.translatable("message.sparkdlc.dying_watch.ability_refreshed"));
             }
         }
 
         shop.addToBalance(-cost);
         watch.startCooldown(itemRefresh);
-        sendActionbar(player, Text.translatable("message.sparkstrength.dying_watch.used", cost));
+        sendActionbar(player, Text.translatable("message.sparkdlc.dying_watch.used", cost));
         if (player.getServerWorld() instanceof ServerWorld serverWorld) {
             net.minecraft.nbt.NbtCompound extra = new net.minecraft.nbt.NbtCompound();
             extra.putString("mode", itemRefresh ? "item_refresh" : "ability_refresh");

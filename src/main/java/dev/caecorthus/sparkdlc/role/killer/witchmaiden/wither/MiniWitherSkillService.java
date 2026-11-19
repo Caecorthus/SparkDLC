@@ -51,7 +51,7 @@ public final class MiniWitherSkillService {
         }
         MiniWitherPlayerComponent wither = MiniWitherPlayerComponent.KEY.get(player);
         if (!wither.isUnlocked()) {
-            send(player, Text.translatable("message.sparkwitch.mini_wither.locked",
+            send(player, Text.translatable("message.sparkdlc.mini_wither.locked",
                     wither.getCompletedTasks(), MiniWitherRules.UNLOCK_TASKS));
             return;
         }
@@ -59,7 +59,7 @@ public final class MiniWitherSkillService {
             return;
         }
         if (wither.getToggleCooldownTicks() > 0) {
-            send(player, Text.translatable("message.sparkwitch.skill.cooldown",
+            send(player, Text.translatable("message.sparkdlc.skill.cooldown",
                     TickTime.ceilSecondsRaw(wither.getToggleCooldownTicks())));
             return;
         }
@@ -106,8 +106,8 @@ public final class MiniWitherSkillService {
         var playerInfo = ReplayGenerator.getPlayerInfoCache(match);
         return Text.translatable(
                 data.getBoolean(SUMMONED_KEY)
-                        ? "replay.skill.sparkwitch.mini_wither.summon"
-                        : "replay.skill.sparkwitch.mini_wither.dismiss",
+                        ? "replay.skill.sparkdlc.mini_wither.summon"
+                        : "replay.skill.sparkdlc.mini_wither.dismiss",
                 ReplayGenerator.formatPlayerName(data.getUuid("actor"), playerInfo)
         );
     }

@@ -11,10 +11,10 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 /**
- * The one creative tab of SparkDLC. It replaces the two tabs the separate mods had ({@code sparkstrength:items},
- * {@code sparkwitch:items}) and holds what they held: the SparkStrength entries first, then the SparkWitch entries,
+ * The one creative tab of SparkDLC. It replaces the two tabs the separate mods had ({@code sparkdlc:items},
+ * {@code sparkdlc:items}) and holds what they held: the SparkStrength entries first, then the SparkWitch entries,
  * each in its former order. Operator-only items stay in vanilla's Operator Utilities tab.
- * SparkDLC 唯一的创造模式物品栏。它取代两个独立 mod 各自的物品栏（{@code sparkstrength:items}、{@code sparkwitch:items}），
+ * SparkDLC 唯一的创造模式物品栏。它取代两个独立 mod 各自的物品栏（{@code sparkdlc:items}、{@code sparkdlc:items}），
  * 内容不变：先是 SparkStrength 的条目，再是 SparkWitch 的条目，各自保持原有顺序。管理员专用物品仍只在原版「管理员用品」物品栏。
  */
 public final class SparkDlcItemGroups {

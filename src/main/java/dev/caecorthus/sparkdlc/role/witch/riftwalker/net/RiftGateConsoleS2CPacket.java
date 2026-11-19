@@ -14,13 +14,13 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Stable packet contract {@code sparkwitch:rift_gate_console} (S2C, the requesting Riftwalker only): {@code
+ * Stable packet contract {@code sparkdlc:rift_gate_console} (S2C, the requesting Riftwalker only): {@code
  * consoleSessionId:varint, count:varint, count × entry}; entry = {@code number:varint, x:double, y:double, z:double,
  * facing:enum(Direction), occupantCount:varint, occupantCount × name:string(16)}. {@code consoleSessionId == }
  * {@link #CLOSED} (0) tells the client to close the console (denied or invalidated) and carries no entries. At most
  * {@link #MAX_ENTRIES} rows (lowest numbers first) and {@link #MAX_OCCUPANTS} names per row; the server never sends
  * placer identities.
- * 稳定数据包契约 {@code sparkwitch:rift_gate_console}（S2C，仅发给请求的隙行者）：{@code consoleSessionId:varint,
+ * 稳定数据包契约 {@code sparkdlc:rift_gate_console}（S2C，仅发给请求的隙行者）：{@code consoleSessionId:varint,
  * count:varint, count × entry}；entry = {@code number:varint, x/y/z:double, facing:enum(Direction), occupantCount:varint,
  * occupantCount × name:string(16)}。{@code consoleSessionId ==} {@link #CLOSED}（0）表示客户端应关闭控制台（被拒绝或已失效），
  * 且不带条目。最多 {@link #MAX_ENTRIES} 行（编号从小到大）、每行最多 {@link #MAX_OCCUPANTS} 个名字；服务端从不发送放置者身份。

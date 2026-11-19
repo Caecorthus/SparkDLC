@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc;
 import net.minecraft.util.Identifier;
 
 public final class SparkAssist {
-    public static final String MOD_ID = "sparkassist";
+    public static final String MOD_ID = "sparkdlc";
 
     private SparkAssist() {
     }

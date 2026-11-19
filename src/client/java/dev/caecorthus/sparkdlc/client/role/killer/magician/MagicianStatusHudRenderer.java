@@ -26,16 +26,16 @@ public final class MagicianStatusHudRenderer {
         MagicianPlayerComponent c=MagicianPlayerComponent.KEY.get(player);
         Text key = SparkWitchClient.abilityKeyText();
         Text line = switch(c.stage()) {
-            case RECORDING -> Text.translatable("hud.sparkwitch.magician.recording", seconds(c.stageTicks()), key);
+            case RECORDING -> Text.translatable("hud.sparkdlc.magician.recording", seconds(c.stageTicks()), key);
             // The server refuses playback while any cooldown remains, including a forced one raised during recording.
             // 只要仍有冷却（包括录制期间被强制抬高的冷却），服务端就拒绝播放。
             case READY_PLAYBACK -> c.cooldownTicks() > 0
-                    ? Text.translatable("hud.sparkwitch.magician.ready_cooldown", seconds(c.cooldownTicks()))
-                    : Text.translatable("hud.sparkwitch.magician.ready", key);
-            case PLAYING -> Text.translatable("hud.sparkwitch.magician.playing", seconds(c.stageTicks()), key);
+                    ? Text.translatable("hud.sparkdlc.magician.ready_cooldown", seconds(c.cooldownTicks()))
+                    : Text.translatable("hud.sparkdlc.magician.ready", key);
+            case PLAYING -> Text.translatable("hud.sparkdlc.magician.playing", seconds(c.stageTicks()), key);
             default -> c.cooldownTicks() > 0
-                    ? Text.translatable("hud.sparkwitch.magician.cooldown", seconds(c.cooldownTicks()))
-                    : Text.translatable("hud.sparkwitch.magician.idle", c.selectedName(), key);
+                    ? Text.translatable("hud.sparkdlc.magician.cooldown", seconds(c.cooldownTicks()))
+                    : Text.translatable("hud.sparkdlc.magician.idle", c.selectedName(), key);
         };
         var renderer=MinecraftClient.getInstance().textRenderer;
         int width = context.getScaledWindowWidth();

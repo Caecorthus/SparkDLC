@@ -28,7 +28,7 @@ public final class UpstreamTextKeys {
     private static final Set<String> RETUNED_GOAL_ROLES = Set.of("assassin", "bodyguard", "pathogen", "undercover");
     /** Upstream key to SparkStrength key: the reworked Bodyguard's letter line. / 上游键到 SparkStrength 键：重做后保镖的信件附言。 */
     private static final Map<String, String> RETUNED_KEYS = Map.of(
-            "tip.letter.bodyguard.tooltip2", "tip.letter.sparkstrength.bodyguard.tooltip2"
+            "tip.letter.bodyguard.tooltip2", "tip.letter.sparkdlc.bodyguard.tooltip2"
     );
 
     private UpstreamTextKeys() {
@@ -45,7 +45,7 @@ public final class UpstreamTextKeys {
      * 沿用 Wathe 的目标句键形（全车恰好一个非杀手时用 {@code goal}，否则 {@code goals}），放在 SparkStrength 的命名空间下。
      */
     public static String goalKey(String path, int targets) {
-        return (targets == 1 ? "announcement.goal.sparkstrength." : "announcement.goals.sparkstrength.") + path;
+        return (targets == 1 ? "announcement.goal.sparkdlc." : "announcement.goals.sparkdlc.") + path;
     }
 
     /** Wathe's goal line with SparkStrength's key, same colour. / 换成 SparkStrength 键的 Wathe 目标行，颜色不变。 */

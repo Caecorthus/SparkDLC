@@ -223,7 +223,7 @@ public final class ReplaySession {
     /** Gray title, one line per participant in timeline order, then a spacer. 灰色标题、按时间线顺序每人一行，末尾空行。 */
     public List<Text> rosterLines() {
         List<Text> lines = new ArrayList<>(names.size() + 2);
-        lines.add(Text.translatable("replay.sparkfactionapi.roster.title").formatted(Formatting.GRAY));
+        lines.add(Text.translatable("replay.sparkdlc.roster.title").formatted(Formatting.GRAY));
         for (UUID uuid : names.keySet()) {
             lines.add(Text.literal("  ")
                     .append(plainName(uuid))

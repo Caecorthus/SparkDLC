@@ -146,7 +146,7 @@ public final class GuardianAngelFeatureService {
             return;
         }
         if (target.hasStatusEffect(GuardianAngelEffects.guardianShield())) {
-            caster.sendMessage(Text.translatable("message.sparkwitch.guardian_angel.already_shielded"), true);
+            caster.sendMessage(Text.translatable("message.sparkdlc.guardian_angel.already_shielded"), true);
             return;
         }
         if (!GuardianAngelTargeting.isValidDirectTarget(caster, target)) {
@@ -300,7 +300,7 @@ public final class GuardianAngelFeatureService {
         }
         var playerInfo = ReplayGenerator.getPlayerInfoCache(match);
         return Text.translatable(
-                "replay.skill.sparkwitch.guardian_angel.guardian",
+                "replay.skill.sparkdlc.guardian_angel.guardian",
                 ReplayGenerator.formatPlayerName(data.getUuid("actor"), playerInfo),
                 ReplayGenerator.formatPlayerName(data.getUuid("target"), playerInfo)
         );
@@ -318,10 +318,10 @@ public final class GuardianAngelFeatureService {
         var playerInfo = ReplayGenerator.getPlayerInfoCache(match);
         Text target = ReplayGenerator.formatPlayerName(data.getUuid("target"), playerInfo);
         if (!data.containsUuid("actor")) {
-            return Text.translatable("replay.global.sparkwitch.guardian_shield_activated.no_owner", target);
+            return Text.translatable("replay.global.sparkdlc.guardian_shield_activated.no_owner", target);
         }
         return Text.translatable(
-                "replay.global.sparkwitch.guardian_shield_activated",
+                "replay.global.sparkdlc.guardian_shield_activated",
                 ReplayGenerator.formatPlayerName(data.getUuid("actor"), playerInfo),
                 target
         );

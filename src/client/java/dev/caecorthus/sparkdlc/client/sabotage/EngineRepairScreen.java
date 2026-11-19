@@ -74,12 +74,12 @@ final class EngineRepairScreen extends AbstractRepairScreen {
 
     private static String titleKey(EngineRepairMode mode, int sessionId) {
         if (sessionId == 0) {
-            return "screen.sparkstrength.engine.title";
+            return "screen.sparkdlc.engine.title";
         }
         return switch (mode) {
-            case QUICK -> "screen.sparkstrength.engine.title_quick";
-            case OVERHAUL -> "screen.sparkstrength.engine.title_overhaul";
-            case STATUS -> "screen.sparkstrength.engine.title";
+            case QUICK -> "screen.sparkdlc.engine.title_quick";
+            case OVERHAUL -> "screen.sparkdlc.engine.title_overhaul";
+            case STATUS -> "screen.sparkdlc.engine.title";
         };
     }
 
@@ -138,7 +138,7 @@ final class EngineRepairScreen extends AbstractRepairScreen {
         // The completion never arrived; the server session is still open, so restart again.
         // 完成包没有送达；服务端会话仍然有效，重新按住重启即可。
         game.restarted = false;
-        banner = Text.translatable("screen.sparkstrength.engine.retry");
+        banner = Text.translatable("screen.sparkdlc.engine.retry");
         bannerColor = TabletTheme.DANGER;
         game.bannerRetry = true;
     }
@@ -269,22 +269,22 @@ final class EngineRepairScreen extends AbstractRepairScreen {
     protected void closedByServer(int reason) {
         switch (reason) {
             case CloseBreakerRepairS2CPacket.REASON_REPAIRED -> {
-                banner = Text.translatable("screen.sparkstrength.engine.repaired");
+                banner = Text.translatable("screen.sparkdlc.engine.repaired");
                 bannerColor = TabletTheme.SUCCESS;
                 game.endState = END_SUCCESS;
             }
             case CloseBreakerRepairS2CPacket.REASON_POWER_BACK -> {
-                banner = Text.translatable("screen.sparkstrength.engine.power_back");
+                banner = Text.translatable("screen.sparkdlc.engine.power_back");
                 bannerColor = TabletTheme.SUCCESS;
                 game.endState = END_SUCCESS;
             }
             case CloseBreakerRepairS2CPacket.REASON_PHASE_CHANGED -> {
-                banner = Text.translatable("screen.sparkstrength.engine.phase_changed");
+                banner = Text.translatable("screen.sparkdlc.engine.phase_changed");
                 bannerColor = TabletTheme.DANGER;
                 game.endState = END_FAILURE;
             }
             default -> {
-                banner = Text.translatable("screen.sparkstrength.engine.interrupted");
+                banner = Text.translatable("screen.sparkdlc.engine.interrupted");
                 bannerColor = TabletTheme.DANGER;
                 game.endState = END_FAILURE;
             }

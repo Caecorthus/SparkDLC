@@ -18,12 +18,12 @@ import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
 /**
- * Per-player, owner-private Bell Ringer state kept outside the shared {@code sparkwitch:player} schema:
+ * Per-player, owner-private Bell Ringer state kept outside the shared {@code sparkdlc:player} schema:
  * the forced Echo task marker and its deadline, the red "heard the bell" hint window, and (for the
  * ringer only) whether the bell currently has a valid target. The server is authoritative; the owner's
  * client receives the Echo task type, the toll flag and remaining-tick counters (never absolute server
  * ticks), and decrements the counters locally until the next sync.
- * 每名玩家独立、仅拥有者可见的敲钟人状态，不进入共享的 {@code sparkwitch:player} 结构：
+ * 每名玩家独立、仅拥有者可见的敲钟人状态，不进入共享的 {@code sparkdlc:player} 结构：
  * 强制回响任务标记及其截止时间、红色“听到钟声”提示窗口，以及（仅敲钟人）钟当前是否存在有效目标。
  * 服务端为权威；拥有者客户端接收回响任务类型、敲钟标记与剩余 tick 计数（从不接收服务端绝对 tick），
  * 并在下次同步前本地递减计数。

@@ -5,10 +5,10 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * The Mini Wither's own sound events ({@code sparkwitch:mini_wither.<key>}). Each one defaults, in sounds.json, to the
+ * The Mini Wither's own sound events ({@code sparkdlc:mini_wither.<key>}). Each one defaults, in sounds.json, to the
  * vanilla files it replaced, so nothing changes by default; resource packs and the client skin setting can then
  * replace the Mini Wither alone without touching the real Wither. The key is also the skin folder's sound file stem.
- * 小凋灵自有的声音事件（{@code sparkwitch:mini_wither.<key>}）。每个事件在 sounds.json 中默认指向它所替换的原版音频，
+ * 小凋灵自有的声音事件（{@code sparkdlc:mini_wither.<key>}）。每个事件在 sounds.json 中默认指向它所替换的原版音频，
  * 因此默认效果不变；之后资源包与客户端皮肤设置可以只替换小凋灵，而不影响真正的凋灵。键名同时也是皮肤文件夹中声音文件的
  * 文件名主干。
  */

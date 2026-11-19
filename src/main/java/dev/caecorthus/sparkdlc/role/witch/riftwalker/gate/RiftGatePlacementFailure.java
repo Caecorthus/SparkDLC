@@ -10,30 +10,30 @@ public enum RiftGatePlacementFailure {
      * Round not active, not a living Riftwalker, stunned, Kidnapper-controlled, interaction-locked or no match bound.
      * 当前不能放置。
      */
-    UNAVAILABLE("message.sparkwitch.riftwalker.place.unavailable"),
+    UNAVAILABLE("message.sparkdlc.riftwalker.place.unavailable"),
     /** The placer is inside a gate. / 放置者在门内。 */
-    INSIDE_GATE("message.sparkwitch.riftwalker.place.inside_gate"),
+    INSIDE_GATE("message.sparkdlc.riftwalker.place.inside_gate"),
     /** No floor within reach under the feet. / 脚下没有可用的地面。 */
-    NO_FLOOR("message.sparkwitch.riftwalker.place.no_floor"),
+    NO_FLOOR("message.sparkdlc.riftwalker.place.no_floor"),
     /**
      * Below Wathe's fall line ({@code playArea.minY}); the rest of the play area is ignored since 2026-10-05 and there
      * is no height cap since 2026-10-06.
      * 低于 Wathe 坠落线（{@code playArea.minY}）；自 2026-10-05 起忽略 play area 的其余部分，自 2026-10-06 起不限高度。
      */
-    OUT_OF_BOUNDS("message.sparkwitch.riftwalker.place.out_of_bounds"),
+    OUT_OF_BOUNDS("message.sparkdlc.riftwalker.place.out_of_bounds"),
     /** The slab would intersect a block. / 薄板会与方块相交。 */
-    BLOCKED("message.sparkwitch.riftwalker.place.blocked"),
+    BLOCKED("message.sparkdlc.riftwalker.place.blocked"),
     /** Water (or any fluid) in the slab. / 薄板内有水（或任何流体）。 */
-    IN_FLUID("message.sparkwitch.riftwalker.place.in_fluid"),
+    IN_FLUID("message.sparkdlc.riftwalker.place.in_fluid"),
     /** A block in the standing cell in front of the gate (C15: no dead exit). / 门正前方一格内有方块（C15：不放死门）。 */
-    FRONT_BLOCKED("message.sparkwitch.riftwalker.place.front_blocked"),
+    FRONT_BLOCKED("message.sparkdlc.riftwalker.place.front_blocked"),
     /** Another gate closer than the minimum spacing, or a Seeker device within one block. / 离其他门或搜寻者设备太近。 */
-    TOO_CLOSE("message.sparkwitch.riftwalker.place.too_close"),
+    TOO_CLOSE("message.sparkdlc.riftwalker.place.too_close"),
     /** A door, vent hatch, seat, bed or interactive block within one block. / 1 格内有门、通风口、座位、床或可交互方块。 */
-    NEAR_INTERACTIVE("message.sparkwitch.riftwalker.place.near_interactive");
+    NEAR_INTERACTIVE("message.sparkdlc.riftwalker.place.near_interactive");
 
     /** Success actionbar (argument: gate number). / 成功提示（参数：门编号）。 */
-    public static final String PLACED_MESSAGE_KEY = "message.sparkwitch.riftwalker.place.success";
+    public static final String PLACED_MESSAGE_KEY = "message.sparkdlc.riftwalker.place.success";
 
     private final String messageKey;
 

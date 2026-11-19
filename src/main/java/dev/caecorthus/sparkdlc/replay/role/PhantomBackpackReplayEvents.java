@@ -31,7 +31,7 @@ public final class PhantomBackpackReplayEvents {
             }
 
             return Text.translatable(
-                    "replay.global.sparkstrength.phantom_backpack_invisibility_started",
+                    "replay.global.sparkdlc.phantom_backpack_invisibility_started",
                     ReplayGenerator.formatPlayerName(actorUuid, playerInfoCache),
                     ReplayGenerator.formatPlayerName(targetUuid, playerInfoCache)
             );
@@ -41,7 +41,7 @@ public final class PhantomBackpackReplayEvents {
                 (event, match, world) -> ReplayText.onePlayerEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.phantom_backpack_invisibility_ended"
+                        "replay.global.sparkdlc.phantom_backpack_invisibility_ended"
                 ));
     }
 }

@@ -42,8 +42,8 @@ import java.util.UUID;
 public final class ShadowJesterShowdownService {
     public static final int REVOLVER_COOLDOWN_TICKS = 80; // 4 秒
     // Plain SparkTraits trait ids for its round-end view; no SparkTraits class is loaded. / SparkTraits 词条纯 id，不加载其类。
-    private static final Identifier IMPOSTOR_TRAIT_ID = Identifier.of("sparktraits", "impostor");
-    private static final Identifier CONSCIENCE_TRAIT_ID = Identifier.of("sparktraits", "conscience");
+    private static final Identifier IMPOSTOR_TRAIT_ID = Identifier.of("sparkdlc", "impostor");
+    private static final Identifier CONSCIENCE_TRAIT_ID = Identifier.of("sparkdlc", "conscience");
     private static boolean winPriorityListenerRegistered;
 
     private ShadowJesterShowdownService() {
@@ -328,11 +328,11 @@ public final class ShadowJesterShowdownService {
 
         for (ServerPlayerEntity player : world.getPlayers()) {
             player.networkHandler.sendPacket(new net.minecraft.network.packet.s2c.play.TitleS2CPacket(
-                    Text.translatable("title.sparkstrength.shadow_jester_showdown")
+                    Text.translatable("title.sparkdlc.shadow_jester_showdown")
                             .formatted(Formatting.DARK_PURPLE, Formatting.BOLD)
             ));
             player.networkHandler.sendPacket(new net.minecraft.network.packet.s2c.play.SubtitleS2CPacket(
-                    Text.translatable("subtitle.sparkstrength.shadow_jester_showdown")
+                    Text.translatable("subtitle.sparkdlc.shadow_jester_showdown")
             ));
             player.networkHandler.sendPacket(new net.minecraft.network.packet.s2c.play.TitleFadeS2CPacket(
                     10, 100, 10

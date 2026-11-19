@@ -38,7 +38,7 @@ public final class SaintHudRenderer {
 
         if (state.karmaCooldownTicks() > 0) {
             lines.add(Text.translatable(
-                    "hud.sparkwitch.saint.karma.active",
+                    "hud.sparkdlc.saint.karma.active",
                     TickTime.ceilSecondsAtLeastOne(state.karmaCooldownTicks())
             ));
         }
@@ -48,21 +48,21 @@ public final class SaintHudRenderer {
     private static Text hellfireLine(SaintPlayerState state, int balance) {
         if (state.isHellfireActive()) {
             return Text.translatable(
-                    "hud.sparkwitch.saint.hellfire.active",
+                    "hud.sparkdlc.saint.hellfire.active",
                     TickTime.ceilSecondsAtLeastOne(state.hellfireActiveTicks())
             );
         }
         if (state.hellfireCooldownTicks() > 0) {
             return Text.translatable(
-                    "hud.sparkwitch.saint.hellfire.cooldown",
+                    "hud.sparkdlc.saint.hellfire.cooldown",
                     TickTime.ceilSecondsAtLeastOne(state.hellfireCooldownTicks())
             );
         }
         if (!SaintRules.hasHellfireCoinRequirement(balance)) {
-            return Text.translatable("hud.sparkwitch.saint.hellfire.not_enough_money");
+            return Text.translatable("hud.sparkdlc.saint.hellfire.not_enough_money");
         }
         return Text.translatable(
-                "hud.sparkwitch.saint.hellfire.ready",
+                "hud.sparkdlc.saint.hellfire.ready",
                 SparkWitchClient.abilityKeyText()
         );
     }

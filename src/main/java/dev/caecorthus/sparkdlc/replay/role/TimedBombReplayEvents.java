@@ -27,25 +27,25 @@ public final class TimedBombReplayEvents {
                 (event, match, world) -> ReplayText.onePlayerEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.timed_bomb_tray_embedded"
+                        "replay.global.sparkdlc.timed_bomb_tray_embedded"
                 ));
         ReplayRegistry.registerGlobalEventFormatter(TIMED_BOMB_BED_EMBEDDED,
                 (event, match, world) -> ReplayText.onePlayerEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.timed_bomb_bed_embedded"
+                        "replay.global.sparkdlc.timed_bomb_bed_embedded"
                 ));
         ReplayRegistry.registerGlobalEventFormatter(TIMED_BOMB_TRAY_TRIGGERED,
                 (event, match, world) -> actorAndBomberEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.timed_bomb_tray_triggered"
+                        "replay.global.sparkdlc.timed_bomb_tray_triggered"
                 ));
         ReplayRegistry.registerGlobalEventFormatter(TIMED_BOMB_BED_TRIGGERED,
                 (event, match, world) -> actorAndBomberEvent(
                         event.data(),
                         match,
-                        "replay.global.sparkstrength.timed_bomb_bed_triggered"
+                        "replay.global.sparkdlc.timed_bomb_bed_triggered"
                 ));
     }
 

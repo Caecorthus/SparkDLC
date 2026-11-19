@@ -396,7 +396,7 @@ final class EngineRepairGame {
                 holdingRestart = false;
                 screen.playSound(SoundEvents.ENTITY_IRON_GOLEM_REPAIR, 1.0F, 0.7F);
                 if (!screen.submitDue()) {
-                    screen.banner = Text.translatable("screen.sparkstrength.engine.settling");
+                    screen.banner = Text.translatable("screen.sparkdlc.engine.settling");
                     screen.bannerColor = TabletTheme.WARNING;
                     bannerRetry = false;
                 }
@@ -407,7 +407,7 @@ final class EngineRepairGame {
         // 已完成但快于服务端最短用时：让引擎保持怠速直到时间够了（服务端的计时早于界面打开，因此在这里等就足够）。
         if (restarted && screen.submitDue()) {
             bannerRetry = false;
-            screen.submit(Text.translatable("screen.sparkstrength.engine.restarting"));
+            screen.submit(Text.translatable("screen.sparkdlc.engine.restarting"));
         }
     }
 }

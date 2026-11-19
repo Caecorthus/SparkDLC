@@ -8,9 +8,9 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 
 /**
- * Stable C2S contract {@code sparkwitch:black_raven_crow_drop_feather}: empty; the owner pressed the drop key while
+ * Stable C2S contract {@code sparkdlc:black_raven_crow_drop_feather}: empty; the owner pressed the drop key while
  * flying. The server (crow-world) drops the one-use Homing Feather marker at the crow, at most once per session.
- * 稳定 C2S 契约 {@code sparkwitch:black_raven_crow_drop_feather}：空包；主人飞行期间按下丢弃键。服务端（crow-world）在乌鸦位置
+ * 稳定 C2S 契约 {@code sparkdlc:black_raven_crow_drop_feather}：空包；主人飞行期间按下丢弃键。服务端（crow-world）在乌鸦位置
  * 丢下一次性的归羽标记，每次会话至多一次。
  */
 public record BlackRavenCrowDropFeatherC2SPayload() implements CustomPayload {

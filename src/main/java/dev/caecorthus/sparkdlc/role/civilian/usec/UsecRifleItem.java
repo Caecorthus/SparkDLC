@@ -22,23 +22,23 @@ import java.util.List;
 
 /**
  * The USEC bolt-action sniper rifle. Holding use only scopes (the client reads {@code isUsingItem()}); firing is the
- * {@code sparkwitch:fire_usec_rifle} C2S intent and attachments use {@code sparkwitch:usec_attachment}, both validated
+ * {@code sparkdlc:fire_usec_rifle} C2S intent and attachments use {@code sparkdlc:usec_attachment}, both validated
  * by the server. Its state lives in {@link UsecRifleState}. It is deliberately outside {@code wathe:guns}, so Wathe's
  * gun packets, gun-drop and pickup rules never apply to it (plan conclusion 3).
- * USEC 栓动狙击步枪。按住使用键只会开镜（客户端读取 {@code isUsingItem()}）；开火是 {@code sparkwitch:fire_usec_rifle}
- * C2S 意图，配件操作走 {@code sparkwitch:usec_attachment}，均由服务端校验。状态存放在 {@link UsecRifleState}。
+ * USEC 栓动狙击步枪。按住使用键只会开镜（客户端读取 {@code isUsingItem()}）；开火是 {@code sparkdlc:fire_usec_rifle}
+ * C2S 意图，配件操作走 {@code sparkdlc:usec_attachment}，均由服务端校验。状态存放在 {@link UsecRifleState}。
  * 刻意不加入 {@code wathe:guns}，因此 Wathe 的开枪数据包、掉枪与拾枪规则都不适用（计划结论 3）。
  */
 public class UsecRifleItem extends Item {
     /** Scope hold length: effectively endless, use ends on release. / 开镜持续时间：近乎无限，松开即结束。 */
     public static final int MAX_USE_TICKS = 72_000;
-    static final String CHAMBER_TOOLTIP_KEY = "item.sparkwitch.usec_rifle.tooltip.chamber";
-    static final String MAGAZINE_TOOLTIP_KEY = "item.sparkwitch.usec_rifle.tooltip.magazine";
-    static final String NO_MAGAZINE_TOOLTIP_KEY = "item.sparkwitch.usec_rifle.tooltip.no_magazine";
-    static final String SUPPRESSOR_ON_TOOLTIP_KEY = "item.sparkwitch.usec_rifle.tooltip.suppressor_on";
-    static final String SUPPRESSOR_OFF_TOOLTIP_KEY = "item.sparkwitch.usec_rifle.tooltip.suppressor_off";
-    static final String HINT_TOOLTIP_KEY = "item.sparkwitch.usec_rifle.tooltip.hint";
-    static final String EMPTY_KEY = "item.sparkwitch.usec.empty";
+    static final String CHAMBER_TOOLTIP_KEY = "item.sparkdlc.usec_rifle.tooltip.chamber";
+    static final String MAGAZINE_TOOLTIP_KEY = "item.sparkdlc.usec_rifle.tooltip.magazine";
+    static final String NO_MAGAZINE_TOOLTIP_KEY = "item.sparkdlc.usec_rifle.tooltip.no_magazine";
+    static final String SUPPRESSOR_ON_TOOLTIP_KEY = "item.sparkdlc.usec_rifle.tooltip.suppressor_on";
+    static final String SUPPRESSOR_OFF_TOOLTIP_KEY = "item.sparkdlc.usec_rifle.tooltip.suppressor_off";
+    static final String HINT_TOOLTIP_KEY = "item.sparkdlc.usec_rifle.tooltip.hint";
+    static final String EMPTY_KEY = "item.sparkdlc.usec.empty";
 
     public UsecRifleItem(Settings settings) {
         super(settings);

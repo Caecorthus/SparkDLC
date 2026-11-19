@@ -25,7 +25,7 @@ public final class RiftwalkerRules {
      * Wathe {@code ShopEntry.id()} of the gate entry; prefixed so it never collides with a Grand Witch spell id.
      * 裂隙门商品的 Wathe {@code ShopEntry.id()}；带前缀，避免与大魔女法术 id 冲突。
      */
-    public static final String GATE_SHOP_ENTRY_ID = "sparkwitch_rift_gate";
+    public static final String GATE_SHOP_ENTRY_ID = "sparkdlc_rift_gate";
     /** Mana per gate, charged inside the 0-gold entry's onBuy. / 每扇门的魔力价格，在 0 金币商品的 onBuy 中扣除。 */
     public static final int GATE_MANA_COST = 50;
     public static final int GATE_MAX_STACK = 16;

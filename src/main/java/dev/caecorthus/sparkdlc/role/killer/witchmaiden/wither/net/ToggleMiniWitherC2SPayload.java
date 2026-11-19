@@ -8,10 +8,10 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 
 /**
- * Stable C2S contract {@code sparkwitch:mini_wither_toggle}: an empty summon/dismiss request sent by the Witch Maiden's
+ * Stable C2S contract {@code sparkdlc:mini_wither_toggle}: an empty summon/dismiss request sent by the Witch Maiden's
  * secondary key; the server validates everything. Classified as a role skill in the Control Expert stun, Seeker session,
  * Riftwalker session and Fear deny-lists.
- * 稳定 C2S 契约 {@code sparkwitch:mini_wither_toggle}：巫女按副技能键发送的空召唤/收回请求，全部校验在服务端完成。
+ * 稳定 C2S 契约 {@code sparkdlc:mini_wither_toggle}：巫女按副技能键发送的空召唤/收回请求，全部校验在服务端完成。
  * 已作为职业技能归入控场专家眩晕、搜寻者会话、隙行者会话与恐惧的拦截名单。
  */
 public record ToggleMiniWitherC2SPayload() implements CustomPayload {

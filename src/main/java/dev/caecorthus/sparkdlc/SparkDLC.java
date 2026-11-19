@@ -4,8 +4,10 @@ import dev.caecorthus.sparkdlc.SparkFactionApiMod;
 import dev.caecorthus.sparkdlc.SparkStrength;
 import dev.caecorthus.sparkdlc.SparkTraits;
 import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.legacy.LegacyFiles;
 import dev.caecorthus.sparkdlc.legacy.LegacyRegistryAliases;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +24,11 @@ public final class SparkDLC implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        // Files written under the old names, before any module reads the new ones (the team-list cache is read by
+        // SparkFactionApiMod's start-up on both sides; the client-only files follow in SparkDLCClient).
+        // 以旧名字写出的文件，要在任何模块读取新名字之前带过来（团队名单缓存在两端都由 SparkFactionApiMod 启动时读取；
+        // 仅客户端的文件在 SparkDLCClient 中处理）。
+        LegacyFiles.carryOverCommon(FabricLoader.getInstance().getConfigDir());
         new SparkFactionApiMod().onInitialize();
         new SparkStrength().onInitialize();
         new SparkTraits().onInitialize();

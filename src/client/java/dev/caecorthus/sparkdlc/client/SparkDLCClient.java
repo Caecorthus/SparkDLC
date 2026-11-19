@@ -5,6 +5,7 @@ import dev.caecorthus.sparkdlc.client.SparkFactionApiClient;
 import dev.caecorthus.sparkdlc.client.SparkStrengthClient;
 import dev.caecorthus.sparkdlc.client.SparkTraitsClient;
 import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.client.legacy.LegacyClientNames;
 import net.fabricmc.api.ClientModInitializer;
 
 /**
@@ -16,6 +17,9 @@ import net.fabricmc.api.ClientModInitializer;
 public final class SparkDLCClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+        // Files and key bindings saved under the old names, before any module reads the new ones.
+        // 以旧名字保存的文件与按键绑定，要在任何模块读取新名字之前带过来。
+        LegacyClientNames.carryOver();
         new SparkAssistClient().onInitializeClient();
         new SparkFactionApiClient().onInitializeClient();
         new SparkStrengthClient().onInitializeClient();

@@ -482,7 +482,7 @@ Current build baseline:
     acting-role change cleanup, mask tooltip, `CanSeeMoney` phase), `BlackRavenDisguiseClientRules`,
     `BlackRavenDisguiseInstinctClientHooks`, and the disguise HUD line in `BlackRavenHudRenderer`.
   - Its packets are `net/OpenBlackRavenDisguiseS2CPacket` and `net/SelectBlackRavenDisguiseC2SPacket`.
-  - Its cross-mod seams go through `bridge/witch/SparkTraitsBlackRavenBridge` and
+  - Its cross-mod seams go through `SparkTraitsApi` and
     `bridge/witch/SparkStrengthDisguiseCompat`.
   - `crow/`: Raven Form (化鸦, plan `docs/plans/2026-10-21-black-raven-police.md` §3.6), the Black Raven's
     key-2 skill. This package is the server core and the shared contract; see the "Black Raven Raven Form" paragraph
@@ -1147,7 +1147,7 @@ Current build baseline:
   - Role flags (`ROLE_FLAGS`, by role id): Grand Witch only (owner: the other witch roles keep Wathe's flag until their
     art exists), Bewitched, Murderous Witch, Insider, NoellesRoles Corrupt Cop, Fiend, and NoellesRoles Jester,
     Pathogen, Taotie and Vulture (literal ids, no class reference). The Shadow Jester has no flag.
-  - Trait flags, through `bridge/witch/SparkTraitsMoodFlagBridge` (public `SparkTraitsApi.hasActiveTrait` only; absent or
+  - Trait flags, through `SparkTraitsApi` (public `SparkTraitsApi.hasActiveTrait` only; absent or
     failing reads as false): Conscience (owner art `Kindness`) on `renderCivilian`'s icon, Impostor on
     `renderKiller`'s. A role flag wins over a trait flag; Natsume's and Noa's role-owned icons win over Conscience.
   - No sanity (owner pick): an effective `MoodType.NONE` (Curser, Guardian Angel, Wind Spirit, Vendetta, Saboteur,
@@ -2279,7 +2279,7 @@ Current build baseline:
   - Kills (`KillPlayer.AFTER`): every `wathe:knife` kill costs 0.35 mood (35 sanity); a knife kill of a good player
     (SparkFactionAPI effective faction CIVILIAN: Impostor out, Conscience in, neutrals not good) or a train-fall kill
     of one credited to the Recruit kills it with Wathe's `shot_innocent` (non-forced). An active SparkTraits Impostor
-    trait (`bridge/witch/SparkTraitsRecruitBridge`, public facade only, fails closed to "not Impostor") lifts both.
+    trait (`SparkTraitsApi`, public facade only, fails closed to "not Impostor") lifts both.
     Revolver kills cost no mood (`mixin/role/civilian/recruit/RecruitGunSanityMixin`, role spec PR #176), but the Recruit is not a
     police role, so its revolver stays on Wathe's 15 s passenger cooldown (owner 2026-11-16); Wathe's own
     innocent-shot punishment still applies.
@@ -2342,7 +2342,7 @@ Current build baseline:
     Depression, USEC) never overlap it; jump costs are not reduced.
   - Economy: no passive income and a 0 starting balance (owner OK). Each `TaskComplete` pays +50 through
     `addToBalance` (so SparkFactionAPI income records and SparkTraits Snowball see it), never to a SparkTraits
-    Impostor (`bridge/witch/SparkTraitsTaskIncomeBridge`: SparkTraits absent → pay, confirmed non-Impostor → pay, unknown →
+    Impostor (`SparkTraitsApi`: SparkTraits absent → pay, confirmed non-Impostor → pay, unknown →
     no pay), because SparkTraits pays an Impostor's task income itself.
   - Shop (`DiscovererShopService`, both sides via `BuildShopEntries`): only the vanilla spyglass (`discoverer_spyglass`,
     150, stock 1), priced through `SparkTraitsCharismaBridge`. The PR's conductor key is no longer sold here; it became
@@ -2446,7 +2446,7 @@ Current build baseline:
     (every round end) clears both. The forced-cooldown store `sparkdlc:noa_paint` (appended last in
     `SparkWitchForcedCooldowns`) only raises it. No static per-player state.
   - Coins and shop (`NoaEconomyService`, all gated to a living Noa in an ACTIVE round, survival, not a restricted
-    Wraith): +50 per task for a confirmed non-Impostor (`bridge/witch/SparkTraitsNoaBridge`, public facade only), +5 on
+    Wraith): +50 per task for a confirmed non-Impostor (`SparkTraitsApi`, public facade only), +5 on
     Wathe's 10 s passive-money ticks (`addToBalance`), two 50-coin rows restoring or spending 25% sanity (a row at the
     end of the bar refuses for free), and `CanSeeMoney` DENY once dead or outside a running round (Saint precedent).
   - Kills (`NoaKillWatch`, `KillPlayer.AFTER`): a Noa who kills a good player (SparkFactionAPI effective faction
@@ -2565,7 +2565,7 @@ Current build baseline:
     `SmokeCloudService.carveTunnel` (no-op until WP5), `SparkWitchApi.carveSmoke(ServerWorld, Vec3d, double)` and the
     client facade `client.api.BearSmokeViewApi` (`opticalDepth`, `hasSmoke`; render thread).
   - Economy (`BearEconomyService`, USEC model): balance 0 in its own `ON_FINISH_INITIALIZE` phase, +50 per task
-    (never for a SparkTraits Impostor, `SparkTraitsTaskIncomeBridge`), +5 every 200 world ticks with no cap, both through
+    (never for a SparkTraits Impostor, `SparkTraitsApi`), +5 every 200 world ticks with no cap, both through
     `addToBalance`; `CanSeeMoney` ALLOW for a living BEAR, DENY for a dead one (Insider model, 2026-11-10; no answer
     while STARTING). Stamina: the single USEC regen mixin boosts
     `UsecStaminaRules.boostsRole` (USEC or BEAR).
@@ -3269,7 +3269,7 @@ Current build baseline:
     new entries only at the end).
   - Coins (`MediumEconomyService`, the USEC/Accountant task-pay model): balance overwritten with 0 for every living
     final Medium in its own `ON_FINISH_INITIALIZE` phase after the default one, +50 per completed task through
-    `addToBalance` (never for a SparkTraits Impostor or an unknown answer, `SparkTraitsTaskIncomeBridge`), no passive
+    `addToBalance` (never for a SparkTraits Impostor or an unknown answer, `SparkTraitsApi`), no passive
     income; `CanSeeMoney` ALLOW for a living Medium.
   - Death tier: `tier = floor(deaths / max(1, roster / 6))` over Wathe's roster and dead set, read live. Prices are
     always read live: 通灵 300 − 50 per tier (floor 0), 加护 通灵's live price + 100 (`blessingPrice`, so never under
@@ -3433,7 +3433,7 @@ Current build baseline:
     component and starts the 40 s opening cooldown for a drawn Hanna; Wathe's `ResetPlayer` clears it. The
     forced-cooldown store `sparkdlc:hanna_float` (store 25) only moves the ready tick later.
   - Coins and shop (`HannaEconomyService`, gated to a living Hanna in an ACTIVE round, survival, not a restricted
-    Wraith): +50 per task for a confirmed non-Impostor (`bridge/witch/SparkTraitsTaskIncomeBridge`), +15 every 30 s of world
+    Wraith): +50 per task for a confirmed non-Impostor (`SparkTraitsApi`), +15 every 30 s of world
     time, `CanSeeMoney` ALLOW while alive and DENY otherwise, and two `TOOL` rows (parasol 150, handkerchief 100) that
     hand over the real items and pass through `SparkTraitsCharismaBridge`.
   - Items (owner: any holder can use them; uses are vanilla durability, `maxCount(1)`, nothing in custom data, no
@@ -3481,7 +3481,7 @@ Current build baseline:
     role) and cleared on a real death, `ResetPlayer`, round end and role change; a SparkTraits Last Stand hold and an
     alive spectator keep it counting (Medium precedent). No static per-player maps.
   - Coins and mana: `SherryEconomyService` pays +5 coins every 10 s (driven by the component's server tick) and +50
-    per completed task through `addToBalance` (never to a SparkTraits Impostor, `SparkTraitsTaskIncomeBridge`), behind
+    per completed task through `addToBalance` (never to a SparkTraits Impostor, `SparkTraitsApi`), behind
     the USEC/Medium `canEarn` gate; `CanSeeMoney` ALLOW for a living Sherry. Mana is `WitchManaRules`: a mana role
     from assignment (starts at 0), 1 per 5 s up to the default cap of 100, +10 per task, no kill reward.
   - Sanity: below light level 10 (`World.getLightLevel` at her feet) her task drain is halved by scaling Wathe's own
@@ -3576,7 +3576,7 @@ Current build baseline:
   - Lifecycle: the marked task is an ordinary task for Wathe and every `TaskComplete` listener (Wathe's +0.5
     included). `PlannerEconomyService`'s single `TaskComplete` listener first pays the planner's own +75 (living
     planner in an ACTIVE round, survival, not a restricted Wraith, confirmed non-Impostor via
-    `SparkTraitsTaskIncomeBridge`), then, for a live recommendation, pays its holder 50 coins (Wathe faction CIVILIAN)
+    `SparkTraitsApi`), then, for a live recommendation, pays its holder 50 coins (Wathe faction CIVILIAN)
     or 25 (anyone else) through `addToBalance` and +0.75 through `setMood` (Wathe clamps; FAKE mood stays 1) and clears
     the marker; it never touches the task map (Wathe is iterating it). `PlannerLifecycleService` (END_WORLD_TICK)
     settles markers with `PlannerRules.markerAction`: a task map a Bell Ringer Echo holds (`PlannerTasks.isLocked`;
@@ -5992,7 +5992,7 @@ protocol, Last Escape vision and the inventory presenter handshake stay bespoke.
 For the Black Raven disguise, the allowlist grows by two queries:
 - `isRoleSkillBlocked`, through the existing `SparkTraitsApi`, gates mask use and every
   switch;
-- `hasActiveTrait`, through `bridge/witch/SparkTraitsBlackRavenBridge`, reads Conscience and Impostor
+- `hasActiveTrait`, through `SparkTraitsApi`, reads Conscience and Impostor
   only, to decide disguise task money.
 
 When SparkTraits is absent, nothing is blocked and both traits count as inactive. When a present
@@ -6161,7 +6161,7 @@ it is ever synced to another player.
     While disguised, none of these receipts adds to the SparkStrength killer-team purse either,
     because `KillerTeamEconomyBlackRavenWalletMixin` rejects income that was not routed to the Raven
     wallet. Routing them would need a SparkTraits public-facade seam (for example a kill-income
-    recipient hook on `SparkTraitsApi`) used through `bridge/witch/SparkTraitsBlackRavenBridge` and failing
+    recipient hook on `SparkTraitsApi`) used through `SparkTraitsApi` and failing
     closed. A mixin into `sparktraits.impl` is not allowed.
 - **Death and exits.** At death, `BlackRavenStashedDeathDrops` first takes every stashed stack that Wathe's
   `shouldDropOnDeath` would drop (the revolver) out of every stash and drops it like Wathe's death loop

@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.recruit;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsRecruitBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.doctor4t.wathe.api.event.KillPlayer;
 import dev.doctor4t.wathe.api.event.ResetPlayer;
 import dev.doctor4t.wathe.api.event.RoleAssigned;
@@ -125,7 +126,7 @@ public final class RecruitRuntime {
         // apply. Absent/older/failing Traits reads as not Impostor, so the ordinary rule stays.
         // 拥有 SparkTraits 内鬼词条时按杀手处理：免除新兵的用刀理智消耗与误杀处死。Traits 缺失、过旧或出错时视为非内鬼，
         // 保留普通规则。
-        if (SparkTraitsRecruitBridge.isImpostor(killer)) {
+        if (SparkTraitsApi.hasActiveTrait(killer, TraitIds.IMPOSTOR)) {
             return;
         }
         boolean knifeKill = GameConstants.DeathReasons.KNIFE.equals(deathReason);

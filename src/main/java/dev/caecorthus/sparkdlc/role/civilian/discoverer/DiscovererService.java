@@ -1,7 +1,8 @@
 package dev.caecorthus.sparkdlc.role.civilian.discoverer;
 
 import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsTaskIncomeBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.doctor4t.wathe.Wathe;
 import dev.doctor4t.wathe.api.event.TaskComplete;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -47,7 +48,7 @@ public final class DiscovererService {
      */
     static void onTaskComplete(ServerPlayerEntity player) {
         if (canUsePassives(player)
-                && DiscovererRules.receivesTaskMoney(SparkTraitsTaskIncomeBridge.isImpostor(player))) {
+                && DiscovererRules.receivesTaskMoney(SparkTraitsApi.hasActiveTrait(player, TraitIds.IMPOSTOR))) {
             PlayerShopComponent.KEY.get(player).addToBalance(DiscovererRules.TASK_REWARD);
         }
     }

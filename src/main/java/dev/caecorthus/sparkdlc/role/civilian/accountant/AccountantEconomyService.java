@@ -1,7 +1,8 @@
 package dev.caecorthus.sparkdlc.role.civilian.accountant;
 
 import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsTaskIncomeBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.TaskComplete;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -40,7 +41,7 @@ final class AccountantEconomyService {
     }
 
     static void onTaskComplete(ServerPlayerEntity player) {
-        if (canEarn(player) && AccountantRules.receivesTaskMoney(SparkTraitsTaskIncomeBridge.isImpostor(player))) {
+        if (canEarn(player) && AccountantRules.receivesTaskMoney(SparkTraitsApi.hasActiveTrait(player, TraitIds.IMPOSTOR))) {
             PlayerShopComponent.KEY.get(player).addToBalance(AccountantRules.TASK_REWARD);
         }
     }

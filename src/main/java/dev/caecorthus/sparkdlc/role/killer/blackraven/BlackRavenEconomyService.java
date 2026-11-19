@@ -1,7 +1,8 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven;
 
 import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsBlackRavenBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.BlackRavenActingRole;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.BlackRavenDisguiseService;
 import dev.doctor4t.wathe.api.Role;
@@ -43,7 +44,7 @@ public final class BlackRavenEconomyService {
 
     static void onTaskComplete(ServerPlayerEntity player) {
         if (!canEarn(player)
-                || !BlackRavenPoliceRules.receivesTaskMoney(SparkTraitsBlackRavenBridge.isImpostor(player))) {
+                || !BlackRavenPoliceRules.receivesTaskMoney(SparkTraitsApi.hasActiveTrait(player, TraitIds.IMPOSTOR))) {
             return;
         }
         if (BlackRavenDisguiseService.routesKillerIncome(player)) {

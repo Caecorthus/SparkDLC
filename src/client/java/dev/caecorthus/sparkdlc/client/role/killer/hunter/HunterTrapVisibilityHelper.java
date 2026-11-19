@@ -1,7 +1,8 @@
 package dev.caecorthus.sparkdlc.client.role.killer.hunter;
 
 import dev.caecorthus.sparkdlc.client.hooks.WitchInstinctSuppressionClientHooks;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsMoodFlagBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
 import dev.caecorthus.sparkdlc.role.killer.hunter.HunterRules;
 import dev.caecorthus.sparkdlc.role.killer.hunter.HunterTrapEntity;
@@ -65,7 +66,7 @@ public final class HunterTrapVisibilityHelper {
                 && !HunterRules.isInstinctTrapViewer(roleId)
                 && (HunterRules.isTrapKiller(roleId, false)
                 || HunterRules.isTrapPolice(roleId, isRegisteredPolice(role))
-                || SparkTraitsMoodFlagBridge.isImpostorActive(viewer));
+                || SparkTraitsApi.hasActiveTrait(viewer, TraitIds.IMPOSTOR));
         // The instinct key stays eager: its Fear gate may post the "instinct blocked" action-bar line, so it keeps its
         // old call count. The pure Obscure/Fear check and the raycast run only when the rule reads them.
         // 本能键保持立即求值：其恐惧门禁可能发送“本能被封锁”动作栏提示，因此调用次数不变。纯粹的障眼/恐惧检查与

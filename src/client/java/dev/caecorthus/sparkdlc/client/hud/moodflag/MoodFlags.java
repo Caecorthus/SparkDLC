@@ -2,7 +2,8 @@ package dev.caecorthus.sparkdlc.client.hud.moodflag;
 
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.SparkWitchRoles;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsMoodFlagBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.noa.NoaRules;
 import dev.caecorthus.sparkdlc.role.killer.natsume.NatsumeRules;
@@ -172,7 +173,7 @@ public final class MoodFlags {
             return watheSprite;
         }
         Identifier roleId = roleId(player);
-        boolean impostor = roleFlag(roleId) == null && SparkTraitsMoodFlagBridge.isImpostorActive(player);
+        boolean impostor = roleFlag(roleId) == null && SparkTraitsApi.hasActiveTrait(player, TraitIds.IMPOSTOR);
         Identifier flag = killerFlag(watheSprite, roleId, impostor);
         return flag != null ? flag : watheSprite;
     }
@@ -190,7 +191,7 @@ public final class MoodFlags {
             return watheSprite;
         }
         Identifier roleId = roleId(player);
-        boolean conscience = roleFlag(roleId) == null && SparkTraitsMoodFlagBridge.isConscienceActive(player);
+        boolean conscience = roleFlag(roleId) == null && SparkTraitsApi.hasActiveTrait(player, TraitIds.CONSCIENCE);
         Identifier flag = civilianFlag(watheSprite, roleId, conscience);
         return flag != null ? flag : watheSprite;
     }

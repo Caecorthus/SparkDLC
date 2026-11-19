@@ -1,7 +1,8 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven.disguise;
 
 import dev.caecorthus.sparkdlc.economy.KillerTeamEconomyService;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsBlackRavenBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenRules;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.adapter.BlackRavenDisguiseAdapter;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.adapter.BlackRavenDisguiseAdapters;
@@ -144,8 +145,8 @@ public final class BlackRavenDisguiseEconomy {
         int amount = switch (policy) {
             case NOELLES_NATIVE, SPARKSTRENGTH_GOOD_ROLE -> taskRewardAmount(
                     policy,
-                    SparkTraitsBlackRavenBridge.isConscienceActive(player),
-                    SparkTraitsBlackRavenBridge.isImpostor(player),
+                    SparkTraitsApi.hasActiveTrait(player, TraitIds.CONSCIENCE),
+                    SparkTraitsApi.hasActiveTrait(player, TraitIds.IMPOSTOR),
                     // SparkStrength is fused into SparkDLC: always loaded. / SparkStrength 已融合进 SparkDLC：始终已加载。
                     true
             );

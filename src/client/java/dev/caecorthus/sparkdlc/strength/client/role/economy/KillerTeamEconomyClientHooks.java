@@ -92,9 +92,9 @@ public final class KillerTeamEconomyClientHooks {
     }
 
     /**
-     * Public optional seam, reflected by SparkTraits' inventory card: the exclusive bottom y of the rows SparkStrength
+     * Public cross-module seam, called directly by SparkTraits' inventory card since the SparkDLC fusion: the exclusive bottom y of the rows SparkStrength
      * stacks under Wathe's money, or 0 when none is showing. Client render thread only.
-     * 公开可选接缝，供 SparkTraits 背包信息卡反射查询：返回 Wathe 金币下方 SparkStrength 叠加行的底边 y（不含），
+     * 公开的跨模块接缝，融合进 SparkDLC 后由 SparkTraits 背包信息卡直接调用：返回 Wathe 金币下方 SparkStrength 叠加行的底边 y（不含），
      * 未显示时为 0。仅限客户端渲染线程。
      */
     public static int topRightHudBottom() {

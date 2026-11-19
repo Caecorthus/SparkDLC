@@ -1,0 +1,161 @@
+# Third-Party Notices
+
+## NoellesRoles Saint bell
+
+`src/main/resources/assets/sparkwitch/sounds/ambient/saint_bell.ogg` is redistributed from
+[Caecorthus/NoellesRoles](https://github.com/Caecorthus/NoellesRoles) commit
+`45934af010561e22251cbfcfbc022f87ad581a36`.
+
+The upstream repository licenses this work under LGPL-3.0-or-later. A copy of that license is
+included at `licenses/NoellesRoles-LGPL-3.0-or-later.txt`.
+
+## NoellesRoles Hunter and Orthopedist
+
+The Hunter and Orthopedist role implementations, item and effect artwork, and placed-trap model
+were copied or adapted from
+[Caecorthus/NoellesRoles](https://github.com/Caecorthus/NoellesRoles) commit
+`45934af010561e22251cbfcfbc022f87ad581a36`.
+
+The adapted implementation is primarily under:
+
+- `src/main/java/dev/caecorthus/sparkdlc/witch/roles/killer/hunter/`
+- `src/main/java/dev/caecorthus/sparkdlc/witch/roles/civilian/orthopedist/`
+- `src/client/java/dev/caecorthus/sparkdlc/witch/client/hunter/`
+- `src/client/java/dev/caecorthus/sparkdlc/witch/client/hooks/HunterTrapClientHooks.java`
+- `src/client/java/dev/caecorthus/sparkdlc/witch/client/renderer/HunterTrapEntityRenderer.java`
+
+Copied or namespace-adapted assets include the Hunter trap, double-barrel shotgun, shell, Fracture,
+and Bone Setting models, textures, and icons under `src/main/resources/assets/sparkwitch/`.
+
+SparkWitch's 2026-07-14 modifications use `sparkwitch` identifiers, integrate Wathe's native role,
+shop, death, replay, and component contracts, pair random Hunter assignment with one Orthopedist,
+and apply the project-specific balance and visibility rules documented by SparkWitch.
+
+The upstream repository licenses this work under LGPL-3.0-or-later. A copy of that license is
+included at `licenses/NoellesRoles-LGPL-3.0-or-later.txt`.
+
+## StarRailExpress Ninja
+
+The Ninja role mechanics, shop/loadout design, weapon implementation, and item models were
+adapted or copied from
+[catmoon-train/StarRailExpress](https://github.com/catmoon-train/StarRailExpress) at commit
+`220d03ede335fc7971fcffbc302bc68bb91b0209`, credited upstream to the Catmoon Train Team
+and commit author `wifi-left`.
+
+The following files contain adapted code:
+
+- `src/main/java/dev/caecorthus/sparkdlc/witch/roles/killer/ninja/`, primarily from
+  `src/main/java/org/agmas/noellesroles/game/roles/killer/ninja/NinjaPlayerComponent.java`,
+  `src/main/java/org/agmas/noellesroles/init/RoleInitialItems.java`, and
+  `src/main/java/org/agmas/noellesroles/init/RoleShopHandler.java`
+- `src/main/java/dev/caecorthus/sparkdlc/witch/item/ninja/NinjaKnifeItem.java`, from
+  `src/main/java/org/agmas/noellesroles/content/item/NinjaKnifeItem.java`
+- `src/main/java/dev/caecorthus/sparkdlc/witch/item/ninja/NinjaShurikenItem.java`, from
+  `src/main/java/org/agmas/noellesroles/content/item/NinjaShurikenItem.java`
+- `src/main/java/dev/caecorthus/sparkdlc/witch/entity/NinjaShurikenEntity.java`, from
+  `src/main/java/org/agmas/noellesroles/content/entity/ThrowingKnifeEntity.java`
+
+The following files are copied item models with namespace-only changes:
+
+- `src/main/resources/assets/sparkwitch/models/item/ninja_knife.json`
+- `src/main/resources/assets/sparkwitch/models/item/ninja_shuriken.json`
+
+On 2026-09-25, SparkWitch replaced the upstream `ninja_knife.png` and `ninja_shuriken.png` item
+textures with new 16x16 artwork. The upstream item textures are no longer included in SparkWitch
+builds from that change onward.
+
+SparkWitch's 2026-07-14 modifications port the code to Minecraft 1.21.1 Yarn/Fabric APIs,
+replace the upstream custom throw packet with server-authoritative vanilla item release,
+integrate Wathe's kill/replay event pipeline, use SparkWitch identifiers, and render the
+projectile from the shuriken item model instead of the generic throwing-knife texture.
+
+The upstream README and root license declare GPL-3.0-only, while its Fabric metadata says
+LGPL-3.0. This distribution follows the stricter GPL-3.0-only declaration. The upstream-derived
+portion remains covered by GPL-3.0-only; SparkWitch's AGPL-3.0-only work is combined with it under
+GPLv3 section 13. A verbatim copy of the upstream license is included at
+`licenses/StarRailExpress-GPL-3.0-only.txt`.
+
+## StarRailExpress Perception grayscale
+
+`src/client/resources/assets/minecraft/shaders/program/sparkwitch_perception.fsh` adapts the
+desaturation pass from SparkTraits commit `2f1c5adc4d1bc75e1bc6f4b8ec9d9123b2b96328`. That
+shader was itself adapted from
+[catmoon-train/StarRailExpress](https://github.com/catmoon-train/StarRailExpress) `insanity.fsh`
+at commit `f8d84137e36e08349a10542438944ef2f010ec37`.
+
+SparkWitch removes the spread transformation and keeps a configurable grayscale pass. Black Raven
+Perception uses full BT.709 grayscale at 0.85 luminance, matching NoellesRoles Spiritualist's visual
+treatment while retaining SparkWitch's processor lifecycle and final outline recomposition. The adapted
+shader remains covered by GPL-3.0-only; the existing copy is included at
+`licenses/StarRailExpress-GPL-3.0-only.txt`.
+
+## NoellesRoles master-key model transforms (Spare Key)
+
+The `display` transforms (`thirdperson_righthand`, `firstperson_righthand`) in
+`src/main/resources/assets/sparkwitch/models/item/spare_key.json` are copied from
+`assets/noellesroles/models/item/master_key.json` in
+[Caecorthus/NoellesRoles](https://github.com/Caecorthus/NoellesRoles) commit
+`45934af010561e22251cbfcfbc022f87ad581a36`. SparkWitch keeps the transforms unchanged and points the
+model at its own texture.
+
+The upstream repository licenses this work under LGPL-3.0-or-later. A copy of that license is
+included at `licenses/NoellesRoles-LGPL-3.0-or-later.txt`.
+
+The 16x16 item texture `src/main/resources/assets/sparkwitch/textures/item/spare_key.png` is not
+the NoellesRoles master-key texture: it was contributed by Ranmeng-Someya in
+[Caecorthus/SparkWitch#189](https://github.com/Caecorthus/SparkWitch/pull/189) and is covered by
+`LICENSE-TEXTURES.md`.
+
+## NoellesRoles defense vial texture (Defense Vial)
+
+`src/main/resources/assets/sparkwitch/textures/item/defense_vial.png` is redistributed unchanged from
+`assets/noellesroles/textures/item/defense_vial.png` in
+[Caecorthus/NoellesRoles](https://github.com/Caecorthus/NoellesRoles) commit
+`45934af010561e22251cbfcfbc022f87ad581a36`.
+
+The upstream repository licenses this work under LGPL-3.0-or-later. A copy of that license is
+included at `licenses/NoellesRoles-LGPL-3.0-or-later.txt`.
+
+## StarRailExpress Depression grayscale
+
+The following files adapt the `insanity` shader program from
+[catmoon-train/StarRailExpress](https://github.com/catmoon-train/StarRailExpress) at commit
+`f8d84137e36e08349a10542438944ef2f010ec37`, credited upstream to the Catmoon Train Team:
+
+- `src/client/resources/assets/minecraft/shaders/program/sparktraits_depression_insanity.fsh`, from
+  `src/main/resources/assets/minecraft/shaders/program/insanity.fsh`
+- `src/client/resources/assets/minecraft/shaders/program/sparktraits_depression_insanity.json`, from
+  `src/main/resources/assets/minecraft/shaders/program/insanity.json`
+
+SparkTraits renames the program to its own identifier, replaces the fixed 1.2 output multiplier
+with a `Brightness` uniform, and drives the desaturation from the Depression trait's sanity level.
+
+The upstream README and root license declare GPL-3.0-only. The upstream-derived portion remains
+covered by GPL-3.0-only; SparkTraits' AGPL-3.0-only work is combined with it under GPLv3 section 13.
+A verbatim copy of the upstream license is included at `licenses/StarRailExpress-GPL-3.0-only.txt`.
+
+## Wathe Extended Guidebook Reference
+
+The SparkAssist Guidebook UI is a clean reimplementation based on Wathe
+Extended, pinned to commit
+`cf3c5c51f3dbc173778597bfb628a7b8e09ccadc`:
+
+https://github.com/rezelyn/Wathe-Extended/tree/cf3c5c51f3dbc173778597bfb628a7b8e09ccadc
+
+No upstream source code was copied.
+
+Wathe Extended identifies Rezelyn as the upstream author and distributes the
+referenced version under GNU General Public License version 3. A verbatim copy
+of that license is included at
+`META-INF/licenses/WATHE_EXTENDED_GPL-3.0.txt` for attribution and reference.
+
+## Wathe Visual Assets
+
+Selected Wathe visual assets are © 2024 doctor4t. Wathe source code is
+not copied or modified.
+
+Wathe source and license reference:
+
+https://github.com/XruiDD/TrainMurderMystery
+
+The selected visual assets remain subject to their original copyright.

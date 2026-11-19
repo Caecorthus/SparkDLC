@@ -1,0 +1,223 @@
+{
+  "schemaVersion": 1,
+  "id": "sparkdlc",
+  "version": "${version}",
+  "name": "SparkDLC",
+  "description": "Spark Wathe DLC: the faction API, role buffs, traits, witch-faction roles and client assist tools in one mod. DLC textures made by Claude, GPT-Image & I_siya.",
+  "authors": [
+    "Caecorthus"
+  ],
+  "license": [
+    "AGPL-3.0-only",
+    "LicenseRef-Textures-ARR"
+  ],
+  "environment": "*",
+  "provides": [
+    "sparkfactionapi",
+    "sparkstrength",
+    "sparktraits",
+    "sparkwitch",
+    "sparkassist"
+  ],
+  "entrypoints": {
+    "main": [
+      "dev.caecorthus.sparkdlc.SparkDLC"
+    ],
+    "client": [
+      "dev.caecorthus.sparkdlc.client.SparkDLCClient"
+    ],
+    "cardinal-components": [
+      "dev.caecorthus.sparkdlc.factionapi.component.SparkFactionComponents",
+      "dev.caecorthus.sparkdlc.strength.component.SparkStrengthComponents",
+      "dev.caecorthus.sparkdlc.traits.component.SparkTraitsComponents",
+      "dev.caecorthus.sparkdlc.witch.component.SparkWitchComponents"
+    ],
+    "voicechat": [
+      "dev.caecorthus.sparkdlc.strength.voice.SparkStrengthVoiceChatPlugin",
+      "dev.caecorthus.sparkdlc.traits.voice.SparkTraitsVoiceChatPlugin",
+      "dev.caecorthus.sparkdlc.witch.voice.SparkWitchVoiceChatPlugin"
+    ],
+    "lambdynlights:initializer": [
+      "dev.caecorthus.sparkdlc.witch.client.savior.SaviorDynamicLightsInitializer"
+    ],
+    "dynamiclights": [
+      "dev.caecorthus.sparkdlc.witch.client.savior.SaviorDynamicLightsInitializer"
+    ]
+  },
+  "custom": {
+    "cardinal-components": [
+      "sparkfactionapi:round_end",
+      "sparkfactionapi:anti_fast_round",
+      "sparkfactionapi:map_reset",
+      "sparkfactionapi:third_faction_draw",
+      "sparkstrength:corrupt_cop_ability",
+      "sparkstrength:undercover_player",
+      "sparkstrength:noisemaker_glow_user",
+      "sparkstrength:noisemaker_glow_target",
+      "sparkstrength:phantom_backpack_user",
+      "sparkstrength:phantom_backpack_target",
+      "sparkstrength:professor_serum_user",
+      "sparkstrength:professor_serum_target",
+      "sparkstrength:detective_case_player",
+      "sparkstrength:coroner_player",
+      "sparkstrength:coroner_body_snapshot",
+      "sparkstrength:partygoer_corpse",
+      "sparkstrength:partygoer_owner",
+      "sparkstrength:demon_hunter_sniff",
+      "sparkstrength:veteran_knife",
+      "sparkstrength:engineer_stunned",
+      "sparkstrength:morph_mark_player",
+      "sparkstrength:toxicologist_antidote",
+      "sparkstrength:reporter_communication",
+      "sparkstrength:perfumer_scent",
+      "sparkstrength:skateboard_ride",
+      "sparkstrength:vulture_super_curse",
+      "sparkstrength:party_animal_skill",
+      "sparkstrength:bodyguard_gear",
+      "sparkstrength:detective_case_world",
+      "sparkstrength:killer_team_economy",
+      "sparkstrength:tablet_world",
+      "sparkstrength:sabotage_world",
+      "sparkstrength:removed_doors",
+      "sparkstrength:morph_body_disguise_world",
+      "sparkstrength:pathogen_strain",
+      "sparkstrength:virus_carrier",
+      "sparkstrength:party_balloon_mark",
+      "sparkstrength:shadow_jester_showdown",
+      "sparkstrength:waiter_task_reveal",
+      "sparkstrength:timekeeper_watch",
+      "sparkstrength:spirit_possession",
+      "sparkstrength:taotie_head",
+      "sparkstrength:taotie_head_daze",
+      "sparkstrength:assassin_misfire",
+      "sparkstrength:player_collision_grace",
+      "sparktraits:traits",
+      "sparktraits:preparefull",
+      "sparktraits:world",
+      "sparkwitch:judge_round",
+      "sparkwitch:player",
+      "sparkwitch:perfumer_player",
+      "sparkwitch:prophet_player",
+      "sparkwitch:curser_player",
+      "sparkwitch:kidnapper_control",
+      "sparkwitch:hunter",
+      "sparkwitch:orthopedist",
+      "sparkwitch:guardian_angel",
+      "sparkwitch:vendetta",
+      "sparkwitch:black_raven_mark",
+      "sparkwitch:black_raven_perception",
+      "sparkwitch:black_raven_disguise",
+      "sparkwitch:bell_echo",
+      "sparkwitch:time_stealer",
+      "sparkwitch:time_theft",
+      "sparkwitch:time_gift",
+      "sparkwitch:control_expert_status",
+      "sparkwitch:rope_hold",
+      "sparkwitch:holy_flash",
+      "sparkwitch:seeker_status",
+      "sparkwitch:fisher_spirit",
+      "sparkwitch:blind",
+      "sparkwitch:fiend_moment",
+      "sparkwitch:grand_witch_runtime",
+      "sparkwitch:witch_factor_world",
+      "sparkwitch:emma_player",
+      "sparkwitch:emma_round",
+      "sparkwitch:world",
+      "sparkwitch:wraith_player",
+      "sparkwitch:saboteur_player",
+      "sparkwitch:magician",
+      "sparkwitch:wraith_round",
+      "sparktraits:wraith_player",
+      "sparktraits:wraith_round",
+      "sparkwitch:accomplice_variant_round",
+      "sparkwitch:abyss_zone_exposure",
+      "sparkwitch:rift_session",
+      "sparkwitch:rift_gates",
+      "sparkwitch:bewitched",
+      "sparkwitch:apprentice_player",
+      "sparkwitch:usec_player",
+      "sparkwitch:fiend_feign",
+      "sparkwitch:mini_wither",
+      "sparkwitch:black_raven_crow",
+      "sparkwitch:knight_duel",
+      "sparkwitch:recruit",
+      "sparkwitch:athlete",
+      "sparkwitch:noa_player",
+      "sparkwitch:ragpicker_player",
+      "sparkwitch:ragpicker_loot",
+      "sparkwitch:dominator",
+      "sparkwitch:dominator_forced_shot",
+      "sparkwitch:natsume_anan_player",
+      "sparkwitch:headset",
+      "sparkwitch:specter",
+      "sparkwitch:specter_fear",
+      "sparkwitch:specter_second_skill",
+      "sparkwitch:specter_cowardice",
+      "sparkwitch:specter_otherworld",
+      "sparkwitch:savior",
+      "sparkwitch:medium",
+      "sparkwitch:medium_seance",
+      "sparkwitch:ferryman",
+      "sparkwitch:ferryman_feign",
+      "sparkwitch:ferryman_feign_veil",
+      "sparkwitch:ferryman_moment",
+      "sparkwitch:hanna_player",
+      "sparkwitch:sherry",
+      "sparkwitch:nikaido_hiro_return",
+      "sparkwitch:nikaido_hiro_witchification",
+      "sparkwitch:koko_player",
+      "sparkwitch:criminal_reasoner_player",
+      "sparkwitch:planner_master_player",
+      "sparkwitch:sphinx_hao_player",
+      "sparkwitch:sphinx_hao_world"
+    ],
+    "sparkfactionapi:native_wathe_factions": {
+      "sparkwitch:jiahao": "JIAHAO",
+      "sparkwitch:witch": "WITCH"
+    }
+  },
+  "mixins": [
+    {
+      "config": "sparkassist.client.mixins.json",
+      "environment": "client"
+    },
+    "sparkfactionapi.mixins.json",
+    {
+      "config": "sparkfactionapi.client.mixins.json",
+      "environment": "client"
+    },
+    "sparkstrength.mixins.json",
+    {
+      "config": "sparkstrength.client.mixins.json",
+      "environment": "client"
+    },
+    "sparktraits.mixins.json",
+    {
+      "config": "sparktraits.client.mixins.json",
+      "environment": "client"
+    },
+    "sparkwitch.mixins.json",
+    {
+      "config": "sparkwitch.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": "${minecraft_version}",
+    "java": ">=21",
+    "fabric-api": "*",
+    "fabric-permissions-api-v0": "*",
+    "wathe": "${wathe_version}",
+    "noellesroles": "${noellesroles_version}",
+    "ratatouille": "${ratatouille_version}",
+    "cardinal-components-base": ">=${cca_version}",
+    "cardinal-components-entity": ">=${cca_version}",
+    "cardinal-components-world": ">=${cca_version}",
+    "cardinal-components-scoreboard": ">=${cca_version}"
+  },
+  "suggests": {
+    "ponder": "*",
+    "lambdynlights": ">=3.0.0"
+  }
+}

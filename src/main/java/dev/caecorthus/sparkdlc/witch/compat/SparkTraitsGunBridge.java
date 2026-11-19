@@ -1,110 +1,73 @@
 package dev.caecorthus.sparkdlc.witch.compat;
 
+import dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.witch.SparkWitch;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaGunService;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
 import java.util.UUID;
 
-/** Only the provider's public facade is inspected; missing protocols never invent a kill.
- * 仅访问提供方公共门面；缺失协议时不得猜测确认击杀。 */
+/** Only the provider's public facade is named. SparkTraits is fused into SparkDLC, so the Emma protocol is always
+ * complete and every call (and the shot-cycle listener) is direct instead of reflective.
+ * 仅引用提供方公共门面。SparkTraits 已融合进 SparkDLC，因此 Emma 协议始终完整，所有调用（以及射击周期监听器）均为直接
+ * 调用而非反射。 */
 public final class SparkTraitsGunBridge {
-    private static final String API = "dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi";
     private static boolean initialized;
-    private static Method intercepted;
-    private static Method roleSkillBlocked;
-    private static Method exactCooldown;
-    private static Method terminalReason;
 
     private SparkTraitsGunBridge() { }
 
     public static synchronized void register() {
         if (initialized) return;
         initialized = true;
-        if (!FabricLoader.getInstance().isModLoaded("sparktraits")) return;
-        try {
-            Class<?> api = Class.forName(API);
-            intercepted = api.getMethod("isLastStandDeathIntercepted", PlayerEntity.class);
-            roleSkillBlocked = api.getMethod("isRoleSkillBlocked", PlayerEntity.class);
-            terminalReason = api.getMethod("registerTerminalDeathReason", Identifier.class);
-            terminalReason.invoke(null, SparkWitch.id("factor_backlash"));
-            exactCooldown = api.getMethod("setExactItemCooldownRemaining", ServerPlayerEntity.class, Item.class, int.class);
-            // Probe only, kept from the original protocol check: a facade without it registers no Emma cycle listener.
-            // 仅作探测，保留自原有协议检查：门面缺少该方法时不注册 Emma 射击周期监听器。
-            api.getMethod("getItemCooldownTick", PlayerEntity.class);
-            Class<?> listener = Class.forName(API + "$GunShotCycleListener");
-            Object proxy = Proxy.newProxyInstance(listener.getClassLoader(), new Class<?>[]{listener},
-                    (object, method, args) -> {
-                        if (method.getDeclaringClass() == Object.class) {
-                            return switch (method.getName()) {
-                                case "toString" -> "SparkWitchEmmaGunListener";
-                                case "hashCode" -> System.identityHashCode(object);
-                                case "equals" -> object == args[0];
-                                default -> null;
-                            };
-                        }
-                        return switch (method.getName()) {
-                            case "cycleStarted" -> {
-                                EmmaGunService.cycleStarted((ServerPlayerEntity) args[0], (UUID) args[1], (Item) args[2]);
-                                yield null;
-                            }
-                            case "beforeTargetKill" -> EmmaGunService.beforeTargetKill(
-                                    (ServerPlayerEntity) args[0], (UUID) args[1], (ServerPlayerEntity) args[2]);
-                            case "afterTargetKill" -> {
-                                EmmaGunService.afterTargetKill((ServerPlayerEntity) args[0], (UUID) args[1],
-                                        (ServerPlayerEntity) args[2], args[3]);
-                                yield null;
-                            }
-                            case "initialCooldownEstablished" -> {
-                                EmmaGunService.initialCooldownEstablished((ServerPlayerEntity) args[0], (UUID) args[1],
-                                        (Item) args[2], (int) args[3], (int) args[4], (int) args[5]);
-                                yield null;
-                            }
-                            case "cycleClosed" -> {
-                                EmmaGunService.cycleClosed((ServerPlayerEntity) args[0], (UUID) args[1]);
-                                yield null;
-                            }
-                            default -> null;
-                        };
-                    });
-            api.getMethod("registerGunShotCycleListener", listener).invoke(null, proxy);
-        } catch (ReflectiveOperationException | LinkageError exception) {
-            SparkWitch.LOGGER.warn("SparkTraits does not expose the complete Emma protocol; provider-dependent Emma abilities are disabled.", exception);
-        }
+        SparkTraitsApi.registerTerminalDeathReason(SparkWitch.id("factor_backlash"));
+        SparkTraitsApi.registerGunShotCycleListener(new EmmaGunListener());
     }
 
     public static boolean isRoleSkillBlocked(PlayerEntity player) {
-        if (!FabricLoader.getInstance().isModLoaded("sparktraits")) return false;
-        if (roleSkillBlocked == null) return true;
-        try {
-            return Boolean.TRUE.equals(roleSkillBlocked.invoke(null, player));
-        } catch (ReflectiveOperationException | LinkageError exception) {
-            return true;
-        }
+        return SparkTraitsApi.isRoleSkillBlocked(player);
     }
 
     public static boolean deathWasIntercepted(PlayerEntity target) {
-        if (!FabricLoader.getInstance().isModLoaded("sparktraits")) return false;
-        if (intercepted == null) return true;
-        try {
-            return Boolean.TRUE.equals(intercepted.invoke(null, target));
-        } catch (ReflectiveOperationException | LinkageError exception) {
-            return true;
-        }
+        return SparkTraitsApi.isLastStandDeathIntercepted(target);
     }
 
     public static boolean setExactCooldown(ServerPlayerEntity player, Item item, int ticks) {
-        if (exactCooldown == null) return false;
-        try {
-            exactCooldown.invoke(null, player, item, Math.max(0, ticks));
-            return true;
-        } catch (ReflectiveOperationException | LinkageError exception) {
-            return false;
+        SparkTraitsApi.setExactItemCooldownRemaining(player, item, Math.max(0, ticks));
+        return true;
+    }
+
+    /** Forwards Traits' accepted-shot cycle to Emma's own service. / 把 Traits 的有效射击周期转发给 Emma 自己的服务。 */
+    private static final class EmmaGunListener implements SparkTraitsApi.GunShotCycleListener {
+        @Override
+        public void cycleStarted(ServerPlayerEntity shooter, UUID cycleId, Item weapon) {
+            EmmaGunService.cycleStarted(shooter, cycleId, weapon);
+        }
+
+        @Override
+        public Object beforeTargetKill(ServerPlayerEntity shooter, UUID cycleId, ServerPlayerEntity target) {
+            return EmmaGunService.beforeTargetKill(shooter, cycleId, target);
+        }
+
+        @Override
+        public void afterTargetKill(ServerPlayerEntity shooter, UUID cycleId, ServerPlayerEntity target, Object token) {
+            EmmaGunService.afterTargetKill(shooter, cycleId, target, token);
+        }
+
+        @Override
+        public void initialCooldownEstablished(ServerPlayerEntity shooter, UUID cycleId, Item weapon,
+                                               int startTick, int endTick, int currentTick) {
+            EmmaGunService.initialCooldownEstablished(shooter, cycleId, weapon, startTick, endTick, currentTick);
+        }
+
+        @Override
+        public void cycleClosed(ServerPlayerEntity shooter, UUID cycleId) {
+            EmmaGunService.cycleClosed(shooter, cycleId);
+        }
+
+        @Override
+        public String toString() {
+            return "SparkWitchEmmaGunListener";
         }
     }
 }

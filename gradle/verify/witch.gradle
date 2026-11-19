@@ -56,8 +56,9 @@ def compatibilityProviderFiles = fileTree("libs") {
 // `suggests`/`breaks`（版本下限）以及 `suggests sparkstrength`；witch 的兼容桥仍以 FabricLoader#isModLoaded 判断这些 id，
 // 融合后的 mod 通过 `provides` 满足该判断。
 def witchProvidedModIds = ["sparkwitch", "sparkfactionapi", "sparktraits", "sparkstrength"]
-// Public SparkTraits facade the witch bridges reflect by name; it now ships in this same jar.
-// witch 兼容桥按名称反射的 SparkTraits 公共门面；现在随同一个 jar 发布。
+// Public SparkTraits facade the witch bridges call (directly since the fusion; the two vision bridges still reflect
+// it by name); it ships in this same jar.
+// witch 兼容桥调用的 SparkTraits 公共门面（融合后为直接调用；两个视觉桥仍按名称反射）；随同一个 jar 发布。
 def sparkTraitsApiEntry = "dev/caecorthus/sparkdlc/traits/api/SparkTraitsApi.class"
 
 def sha256 = { File input ->
@@ -2001,10 +2002,11 @@ def verifyWitchArchitecture = tasks.register("verifyWitchArchitecture") {
             }
         }
 
-        // SparkTraits integration may reflect its public facade, never internal implementation packages. The traits
-        // module is now in the same source tree, so this also keeps witch code from importing them directly.
-        // SparkTraits 集成只能反射公共门面，不能反射内部实现包。traits 模块现在位于同一源码树，因此这条规则同样阻止
-        // witch 代码直接 import 这些包。
+        // SparkTraits integration may use only its public facade (called directly since the fusion, or reflected by
+        // the bridges not yet converted), never internal implementation packages. The traits module is in the same
+        // source tree, so this scan is what keeps witch code from importing or naming them.
+        // SparkTraits 集成只能使用公共门面（融合后直接调用，尚未转换的桥仍为反射），不能触及内部实现包。traits 模块位于
+        // 同一源码树，因此正是这项扫描阻止 witch 代码 import 或引用这些包。
         def forbiddenSparkTraitsTargets = [
                 "dev.caecorthus.sparkdlc.traits.impl",
                 "dev.caecorthus.sparkdlc.traits.component"

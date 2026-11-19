@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.savior;
 
+import dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.witch.compat.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.witch.compat.OptionalStaticMethod;
 import dev.caecorthus.sparkdlc.witch.net.SaviorDomainS2CPayload;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
 import dev.caecorthus.sparkdlc.witch.roles.civilian.savior.SaviorRules;
@@ -40,16 +40,6 @@ public final class SaviorDomainClient {
      * {@code skip()}（100）、黑羽鸦（101）与压制（102）。
      */
     private static final int PSYCHO_HIGHLIGHT_PRIORITY = 94;
-    /**
-     * External seam (optional SparkTraits): the Savior's own copy of the public {@code SparkTraitsApi
-     * .isInstinctHidden(viewer, target)} facade read, like the Seeker and Dominator marks. An absent mod, older build,
-     * wrong type or throwing call hides nothing (fail closed), so the outline then follows the vanilla gates only.
-     * 外部接缝（可选 SparkTraits）：救世主自有的一份公共 {@code SparkTraitsApi.isInstinctHidden(viewer, target)} 门面读取，
-     * 与搜寻者、支配者标记相同。模组缺失、旧版本、类型不符或调用抛异常时都不隐藏任何人（失败关闭），描边只按原版门槛判断。
-     */
-    private static final OptionalStaticMethod IS_INSTINCT_HIDDEN = OptionalStaticMethod.of("sparktraits",
-            "dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi", "isInstinctHidden",
-            PlayerEntity.class, PlayerEntity.class).returning(boolean.class);
     private static int saviorEntityId = -1;
     private static long domainEndWorldTime;
     private static boolean registered;
@@ -160,7 +150,7 @@ public final class SaviorDomainClient {
                 && !target.isInvisibleTo(viewer)
                 && !NoellesTaotieSeekerBridge.isSwallowed(target)
                 && !NoellesTaotieSeekerBridge.isSwallowed(viewer)
-                && !IS_INSTINCT_HIDDEN.callBoolean(false, false, false, viewer, target);
+                && !isInstinctHidden(viewer, target);
     }
 
     private static @Nullable PlayerEntity activeSavior(MinecraftClient client) {
@@ -183,5 +173,15 @@ public final class SaviorDomainClient {
             return null;
         }
         return savior;
+    }
+
+    /**
+     * Cross-module seam (SparkTraits, fused into SparkDLC, so a direct call): the Savior's own read of the public
+     * {@code SparkTraitsApi.isInstinctHidden(viewer, target)} facade, like the Seeker and Dominator marks.
+     * 跨模块接缝（SparkTraits 已融合进 SparkDLC，因此为直接调用）：救世主自有的一份公共
+     * {@code SparkTraitsApi.isInstinctHidden(viewer, target)} 门面读取，与搜寻者、支配者标记相同。
+     */
+    private static boolean isInstinctHidden(PlayerEntity viewer, PlayerEntity target) {
+        return SparkTraitsApi.isInstinctHidden(viewer, target);
     }
 }

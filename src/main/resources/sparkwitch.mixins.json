@@ -50,7 +50,6 @@
     "EmmaRoundStartMixin",
     "EmmaPoliceGunMixin",
     "BlackRavenPoliceGunMixin",
-    "EmmaNativeGunFallbackMixin",
     "EmmaExactCooldownMixin",
     "ItemCooldownRemovalMixin",
     "SparkFactionClearCooldownMixin",
@@ -323,6 +322,5 @@
   ],
   "injectors": {
     "defaultRequire": 1
-  },
-  "plugin": "dev.caecorthus.sparkdlc.witch.mixin.EmmaMixinPlugin"
+  }
 }

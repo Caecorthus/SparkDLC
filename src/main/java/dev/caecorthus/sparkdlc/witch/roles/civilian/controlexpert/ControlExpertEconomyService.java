@@ -8,7 +8,6 @@ import dev.doctor4t.wathe.api.event.TaskComplete;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerShopComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.jetbrains.annotations.Nullable;
@@ -20,7 +19,6 @@ import org.jetbrains.annotations.Nullable;
  * （该词条的任务收入由 SparkTraits 自行支付，此处再发会重复）。
  */
 public final class ControlExpertEconomyService {
-    private static final String SPARKTRAITS_MOD_ID = "sparktraits";
     private static boolean registered;
 
     private ControlExpertEconomyService() {
@@ -41,8 +39,8 @@ public final class ControlExpertEconomyService {
     }
 
     static void onTaskComplete(ServerPlayerEntity player) {
-        if (canEarn(player) && receivesTaskMoney(FabricLoader.getInstance().isModLoaded(SPARKTRAITS_MOD_ID),
-                SparkTraitsControlExpertBridge.isImpostor(player))) {
+        // SparkTraits is fused into SparkDLC: always loaded. / SparkTraits 已融合进 SparkDLC：恒为已加载。
+        if (canEarn(player) && receivesTaskMoney(true, SparkTraitsControlExpertBridge.isImpostor(player))) {
             PlayerShopComponent.KEY.get(player).addToBalance(ControlExpertRules.TASK_MONEY_REWARD);
         }
     }

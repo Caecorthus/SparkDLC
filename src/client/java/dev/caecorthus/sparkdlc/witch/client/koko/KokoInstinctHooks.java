@@ -1,10 +1,10 @@
 package dev.caecorthus.sparkdlc.witch.client.koko;
 
+import dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.witch.compat.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.koko.KokoComponent;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.koko.KokoRules;
-import dev.caecorthus.sparkdlc.witch.compat.OptionalStaticMethod;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -29,16 +29,6 @@ import org.jetbrains.annotations.Nullable;
  * 看到她不在这里：那是服务端给她挂上的原版发光效果。
  */
 public final class KokoInstinctHooks {
-    /**
-     * External seam (optional SparkTraits): her own copy of the public {@code SparkTraitsApi.isInstinctHidden(viewer,
-     * target)} facade read, like the Seeker, Dominator, Savior and 橘雪莉 outlines. An absent mod, older build, wrong
-     * type or throwing call hides nothing (fail closed).
-     * 外部接缝（可选 SparkTraits）：她自有的一份公共 {@code SparkTraitsApi.isInstinctHidden(viewer, target)} 门面读取，与
-     * 搜寻者、支配者、救世主、橘雪莉的描边相同。模组缺失、旧版本、类型不符或调用抛异常时都不隐藏任何人（失败关闭）。
-     */
-    private static final OptionalStaticMethod IS_INSTINCT_HIDDEN = OptionalStaticMethod.of("sparktraits",
-            "dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi", "isInstinctHidden",
-            PlayerEntity.class, PlayerEntity.class).returning(boolean.class);
     private static boolean registered;
 
     private KokoInstinctHooks() {
@@ -92,6 +82,17 @@ public final class KokoInstinctHooks {
                 && !target.isInvisible()
                 && !target.isInvisibleTo(viewer)
                 && !NoellesTaotieSeekerBridge.isSwallowed(target)
-                && !IS_INSTINCT_HIDDEN.callBoolean(false, false, false, viewer, target);
+                && !isInstinctHidden(viewer, target);
+    }
+
+    /**
+     * Cross-module seam (SparkTraits, fused into SparkDLC, so a direct call): her own read of the public
+     * {@code SparkTraitsApi.isInstinctHidden(viewer, target)} facade, like the Seeker, Dominator, Savior and 橘雪莉
+     * outlines.
+     * 跨模块接缝（SparkTraits 已融合进 SparkDLC，因此为直接调用）：她自有的一份公共
+     * {@code SparkTraitsApi.isInstinctHidden(viewer, target)} 门面读取，与搜寻者、支配者、救世主、橘雪莉的描边相同。
+     */
+    private static boolean isInstinctHidden(PlayerEntity viewer, PlayerEntity target) {
+        return SparkTraitsApi.isInstinctHidden(viewer, target);
     }
 }

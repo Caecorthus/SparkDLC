@@ -1,24 +1,22 @@
 package dev.caecorthus.sparkdlc.witch.compat;
 
+import dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Optional SparkTraits seam for the Black Raven disguise economy; reflects only the public facade
- * {@code SparkTraitsApi.hasActiveTrait(PlayerEntity, Identifier)} for Conscience and Impostor.
- * FALSE when SparkTraits is absent; null when the facade is missing or fails (callers pay nothing).
- * 黑羽鸦伪装经济的可选 SparkTraits 接缝；仅反射公共门面 hasActiveTrait 查询良知与内鬼词条。
- * 未安装 SparkTraits 时为 FALSE；门面缺失或出错时为 null（调用方不发放）。
+ * SparkTraits seam for the Black Raven disguise economy; calls only the public facade
+ * {@code SparkTraitsApi.hasActiveTrait(PlayerEntity, Identifier)} for Conscience and Impostor. SparkTraits is fused
+ * into SparkDLC, so the call is direct and the answer is always TRUE or FALSE (FALSE for a null player); the nullable
+ * return type is kept for callers, which pay nothing on null.
+ * 黑羽鸦伪装经济的 SparkTraits 接缝；仅调用公共门面 hasActiveTrait 查询良知与内鬼词条。SparkTraits 已融合进 SparkDLC，
+ * 因此为直接调用，结果恒为 TRUE 或 FALSE（玩家为空时为 FALSE）；为调用方保留可空返回类型（null 时调用方不发放）。
  */
 public final class SparkTraitsBlackRavenBridge {
-    static final String MOD_ID = "sparktraits";
-    static final String API_CLASS = "dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi";
+    private static final String MOD_ID = "sparktraits";
     static final Identifier CONSCIENCE = Identifier.of(MOD_ID, "conscience");
     static final Identifier IMPOSTOR = Identifier.of(MOD_ID, "impostor");
-
-    private static final OptionalStaticMethod HAS_ACTIVE_TRAIT = OptionalStaticMethod.of(MOD_ID, API_CLASS,
-            "hasActiveTrait", PlayerEntity.class, Identifier.class);
 
     private SparkTraitsBlackRavenBridge() {
     }
@@ -32,9 +30,6 @@ public final class SparkTraitsBlackRavenBridge {
     }
 
     private static @Nullable Boolean hasActiveTrait(@Nullable PlayerEntity player, Identifier traitId) {
-        if (player == null) {
-            return Boolean.FALSE;
-        }
-        return HAS_ACTIVE_TRAIT.callNullableBoolean(Boolean.FALSE, null, null, player, traitId);
+        return player != null && SparkTraitsApi.hasActiveTrait(player, traitId);
     }
 }

@@ -1,35 +1,31 @@
 package dev.caecorthus.sparkdlc.witch.compat;
 
+import dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi;
 import net.minecraft.entity.Entity;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Weak, fail-closed body query through SparkTraits' public API only.
- * 仅通过 SparkTraits 公共 API 弱反射查询尸体，并在兼容失败时拒绝拖动。
+ * Body query through SparkTraits' public API only. SparkTraits is fused into SparkDLC, so the call is direct.
+ * 仅通过 SparkTraits 公共 API 查询尸体。SparkTraits 已融合进 SparkDLC，因此为直接调用。
  */
 public final class SparkTraitsBodyDragBridge {
-    private static final String MOD_ID = "sparktraits";
-    private static final String API_CLASS = "dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi";
-    private static final OptionalStaticMethod IS_FAKE_DEATH_BODY = OptionalStaticMethod.of(
-            MOD_ID, API_CLASS, "isFakeDeathBody", Entity.class).initializingClass();
-
     private SparkTraitsBodyDragBridge() {
     }
 
-    /** Absent SparkTraits drags any body; a missing or failing facade (null) never does.
-     * 未安装 SparkTraits 时可拖动任意尸体；门面缺失或出错（null）时一律不可拖动。 */
+    /** Drags any body SparkTraits does not report as a fake-death body.
+     * 可拖动 SparkTraits 未报告为假死尸体的任意尸体。 */
     public static boolean canDragBody(Entity body) {
-        return canDragFromQuery(IS_FAKE_DEATH_BODY.isModLoaded(),
-                IS_FAKE_DEATH_BODY.callNullableBoolean(null, null, null, body));
+        // SparkTraits always ships in this jar: "loaded" is constant. / SparkTraits 始终随本 jar 发布：“已加载”恒为真。
+        return canDragFromQuery(true, SparkTraitsApi.isFakeDeathBody(body));
     }
 
     /**
-     * True only when SparkTraits positively reports a Depression fake-death body; absent or broken API reads as real,
-     * so Death Sense keeps working without SparkTraits.
-     * 仅当 SparkTraits 明确报告为抑郁假死尸体时返回 true；API 缺失或异常视为真尸体，保证无 SparkTraits 时死亡感知照常工作。
+     * True only when SparkTraits positively reports a Depression fake-death body, so Death Sense treats every other
+     * body as real.
+     * 仅当 SparkTraits 明确报告为抑郁假死尸体时返回 true，死亡感知把其他尸体一律视为真尸体。
      */
     public static boolean isConfirmedFakeDeathBody(Entity body) {
-        return IS_FAKE_DEATH_BODY.callBoolean(false, false, false, body);
+        return SparkTraitsApi.isFakeDeathBody(body);
     }
 
     static boolean canDragFromQuery(boolean loaded, @Nullable Boolean fakeDeathBody) {

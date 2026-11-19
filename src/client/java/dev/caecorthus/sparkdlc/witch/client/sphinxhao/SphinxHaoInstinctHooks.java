@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.sphinxhao;
 
+import dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.witch.compat.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.witch.compat.OptionalStaticMethod;
 import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.sphinxhao.SphinxHaoRules;
 import dev.caecorthus.sparkdlc.witch.roles.neutral.sphinxhao.SphinxHaoWorldComponent;
@@ -30,15 +30,6 @@ import org.jetbrains.annotations.Nullable;
  * 陆泳者仍显示金色。仅用于展示；感染与清除只由服务端决定。
  */
 public final class SphinxHaoInstinctHooks {
-    /**
-     * External seam (optional SparkTraits): its own read of the public {@code SparkTraitsApi.isInstinctHidden(viewer,
-     * target)} facade, like Koko's. An absent mod, older build, wrong type or throwing call hides nothing (fail closed).
-     * 外部接缝（可选 SparkTraits）：自有的一份公共 {@code SparkTraitsApi.isInstinctHidden(viewer, target)} 门面读取，同可可。
-     * 模组缺失、旧版本、类型不符或调用抛异常时都不隐藏任何人（失败关闭）。
-     */
-    private static final OptionalStaticMethod IS_INSTINCT_HIDDEN = OptionalStaticMethod.of("sparktraits",
-            "dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi", "isInstinctHidden",
-            PlayerEntity.class, PlayerEntity.class).returning(boolean.class);
     private static boolean registered;
 
     private SphinxHaoInstinctHooks() {
@@ -84,10 +75,20 @@ public final class SphinxHaoInstinctHooks {
                 GameFunctions.isPlayerSpectatingOrCreative(targetPlayer),
                 targetPlayer.isInvisible() || targetPlayer.isInvisibleTo(viewer),
                 NoellesTaotieSeekerBridge.isSwallowed(targetPlayer),
-                IS_INSTINCT_HIDDEN.callBoolean(false, false, false, viewer, targetPlayer))) {
+                isInstinctHidden(viewer, targetPlayer))) {
             return null;
         }
         return GetInstinctHighlight.HighlightResult.withKeybind(SphinxHaoInstinctRules.OUTLINE_COLOR,
                 SphinxHaoInstinctRules.OUTLINE_PRIORITY);
+    }
+
+    /**
+     * Cross-module seam (SparkTraits, fused into SparkDLC, so a direct call): its own read of the public
+     * {@code SparkTraitsApi.isInstinctHidden(viewer, target)} facade, like Koko's.
+     * 跨模块接缝（SparkTraits 已融合进 SparkDLC，因此为直接调用）：自有的一份公共
+     * {@code SparkTraitsApi.isInstinctHidden(viewer, target)} 门面读取，同可可。
+     */
+    private static boolean isInstinctHidden(PlayerEntity viewer, PlayerEntity target) {
+        return SparkTraitsApi.isInstinctHidden(viewer, target);
     }
 }

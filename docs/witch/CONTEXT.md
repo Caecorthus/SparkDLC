@@ -4583,7 +4583,7 @@ without a second redirect. During the moment only, the moment Fiend has Dash on 
 both sides by `FiendNetworking` from `FiendFeatureService`) reaches `FiendDashService`, which re-checks against server
 state, in `FiendDashRules.verdict` order, the role-gated moment Fiend, an ACTIVE round, a running moment (active and
 not complete), playing and alive, not swallowed, not stunned, not SparkTraits role-skill blocked
-(`SparkTraitsKillerBridge.isRoleSkillBlocked`; absent or failing SparkTraits means no block) and ready, with Grand
+(`SparkTraitsApi.isRoleSkillBlocked`; absent or failing SparkTraits means no block) and ready, with Grand
 Witch Fear last (refused with the Fear skill message); every refusal costs nothing. A use grants Speed IV for 10 s
 (`FiendMomentEffects.grantDash`; vanilla upgrades the moment's Speed II instance in place, so it falls back to
 Speed II, and the moment end removes the owned instance at either level) and moves the absolute Dash ready tick to
@@ -5438,7 +5438,7 @@ The Abyss Listener (`sparkdlc:abyss_listener`) is a special accomplice. Its own 
   stores the pusher, the pushing `Item`, and the window end (`FirePokerRules.FALL_ATTRIBUTION_WINDOW_TICKS`, 200
   ticks), and the latest push wins regardless of weapon. `GameWorldComponentMixin` still redirects only Wathe's
   fall-death `killPlayer`: a `wathe:fell_out_of_train` death inside the window is credited to the online pusher and
-  runs inside `SparkTraitsKillerBridge.runWithNonFinalKillWeapon(recordedWeapon, kill)`, with Judge responsibility read
+  runs inside `SparkTraitsApi.runWithNonFinalKillWeapon(recordedWeapon, kill)`, with Judge responsibility read
   first as before. The Fire Poker records itself as before; the Shriek Gun records every push, ally or enemy, with
   itself, so anyone it pushes off the train is the Abyss Listener's kill (kill money, mana, replay, attributed death
   for Wraith conversion; a dormant Fiend can die this way). Owner decision D12: a teammate knocked off the train is
@@ -5476,7 +5476,7 @@ The Abyss Listener (`sparkdlc:abyss_listener`) is a special accomplice. Its own 
     `/give`'s pickup-animation copy never duplicates the gun.
 - **Deep Dark Zone terrain.** The zone is a client-only overlay: the server world is never written.
   - A Deep Dark Spore Flask (item and thrown entity) is thrown only in an ACTIVE round by a living, non-creative,
-    non-Wraith participant who passes `SparkTraitsKillerBridge.blocksWeaponAction`; it has no cooldown, and any holder
+    non-Wraith participant who passes `SparkTraitsApi.blocksWeaponAction`; it has no cooldown, and any holder
     may throw it. On the server it breaks on a block or on a living, survival, non-Wraith player other than its
     thrower; every non-player entity (e.g. Wathe `PlayerBodyEntity` corpses) is transparent. It opens a zone at the
     cell in front of the struck face (a player hit uses the hit-point cell). A landing that converts no block plays
@@ -5893,7 +5893,7 @@ client renders and sends requests. Its `gui.sparkdlc.skills` panel shows only `s
   victim is always the Swapper, so the Saint and dormant-Fiend guards need no
   opt-out; a vetoed kill (older SparkTraits) moves the Swapper back with NR's 60 s cooldown.
 - **Cross-mod seams.** SparkTraits only through existing bridges, failing closed: `isKillerInteractionBlocked`,
-  `isRoleSkillBlocked`, `isLastEscapeActive`, `registerTerminalDeathReason` (`SparkTraitsKillerBridge`),
+  `isRoleSkillBlocked`, `isLastEscapeActive`, `registerTerminalDeathReason` (`SparkTraitsApi`),
   `isLastStandPending` (`SparkTraitsSeekerBridge`), `isLastStandDeathIntercepted` (`WitchFactorTraitsBridge`).
   SparkStrength only by id (tablet, M67, `sparkdlc:engineer_stunned`). SparkTraits
   `feat/accomplice-riftwalker-support` adds the Riftwalker to its five hard-coded accomplice id sets.
@@ -5990,7 +5990,7 @@ warning is opt-in and fires at most once. Each bridge still owns its fallbacks, 
 protocol, Last Escape vision and the inventory presenter handshake stay bespoke.
 
 For the Black Raven disguise, the allowlist grows by two queries:
-- `isRoleSkillBlocked`, through the existing `SparkTraitsKillerBridge`, gates mask use and every
+- `isRoleSkillBlocked`, through the existing `SparkTraitsApi`, gates mask use and every
   switch;
 - `hasActiveTrait`, through `bridge/witch/SparkTraitsBlackRavenBridge`, reads Conscience and Impostor
   only, to decide disguise task money.
@@ -6007,7 +6007,7 @@ or older build means no block, no terminal registration, and a vanilla cooldown.
 The Time Stealer may query only `isRoleSkillBlocked`, `blocksWeaponAction` (with its
 `isKillerInteractionBlocked` and `getForcedMeleeCooldownTicks` reads), `isLastEscapeActive`,
 `registerTerminalDeathReason`, and `setExactItemCooldownRemaining` through
-`SparkTraitsKillerBridge`, and `isLastStandDeathIntercepted` through the existing
+`SparkTraitsApi`, and `isLastStandDeathIntercepted` through the existing
 `WitchFactorTraitsBridge`; an absent or older build means no skill or weapon block, no Last Escape
 refusal, no terminal registration (the Clock kill is then only forced), and a vanilla Clock
 cooldown, while a present build whose facade lacks or fails `isLastStandDeathIntercepted` counts
@@ -6015,18 +6015,18 @@ every death as intercepted: the `KillPlayer.AFTER` cleanup is skipped and no Clo
 round time or grants a stamp; the curse tick clears a victim who stops playing, and the 20-tick
 non-holder sweep removes a dead Time Stealer's Clock and stamps.
 The Riftwalker may query only `isKillerInteractionBlocked`, `isRoleSkillBlocked`, `isLastEscapeActive` and
-`registerTerminalDeathReason` through `SparkTraitsKillerBridge`, `isLastStandPending` through
+`registerTerminalDeathReason` through `SparkTraitsApi`, `isLastStandPending` through
 `SparkTraitsSeekerBridge`, and the Last Stand interception read through `WitchFactorTraitsBridge` (details in its
 section); an absent or older build means no block and no terminal registration for `sparkdlc:portal_crushed`.
 The Ceremonial Sword and a credited Fire Poker fall may query only
 `isNonFinalKillPending`, `getNonFinalKillCooldownTicks`, and
-`runWithNonFinalKillWeapon` through `SparkTraitsKillerBridge` for non-final
+`runWithNonFinalKillWeapon` through `SparkTraitsApi` for non-final
 (Depression fake death) kills; an absent or older build means no non-final
 kill, the original cooldown, and the kill running directly exactly once. A credited Shriek Gun push fall takes the
 same fall path (`runWithNonFinalKillWeapon` with the gun as the weapon) and the same fallbacks.
 Control Expert may query only `getMarksmanRangeMultiplier` and `hasActiveTrait` (Impostor) through
 `bridge/witch/SparkTraitsControlExpertBridge`, and `isLastStandDeathIntercepted` through the existing
-`WitchFactorTraitsBridge`, beyond the existing `SparkTraitsKillerBridge` seams
+`WitchFactorTraitsBridge`, beyond the existing `SparkTraitsApi` seams
 (`isRoleSkillBlocked`, `blocksWeaponAction`, `isLastEscapeActive`,
 `setExactItemCooldownRemaining`). An absent SparkTraits means a 1.0 Taser range multiplier,
 normal task money, a vanilla round-start cooldown, and death cleanup on every death; a present
@@ -6038,7 +6038,7 @@ The Seeker may query only `isLastStandPending` and `hasActiveTrait` (Impostor) t
 `bridge/witch/SparkTraitsSeekerBridge`, `isInstinctHidden` through its own client
 `SeekerInstinctVisibilityBridge`, `discountShopEntryForCharisma` through
 `SparkTraitsCharismaBridge`, and `isLastStandDeathIntercepted` through the existing
-`WitchFactorTraitsBridge`, beyond the existing `SparkTraitsKillerBridge` seams
+`WitchFactorTraitsBridge`, beyond the existing `SparkTraitsApi` seams
 (`isRoleSkillBlocked`, `blocksWeaponAction` with its `getForcedMeleeCooldownTicks` read,
 `isKillerInteractionBlocked`, `setExactItemCooldownRemaining`). An absent SparkTraits means not
 pending, not Impostor (devices and task money allowed), nothing instinct-hidden, full shop prices,
@@ -6049,7 +6049,7 @@ cooldown, or an intercepted death: the `KillPlayer.AFTER` cleanup is skipped and
 tick's final-death fallback cleans up once the Seeker is dead and not Last Stand pending.
 The Angler may query only `isInstinctHidden` through its own client
 `FisherInstinctVisibilityBridge` and `isLastStandDeathIntercepted` through the existing
-`WitchFactorTraitsBridge`, beyond the existing `SparkTraitsKillerBridge` seams
+`WitchFactorTraitsBridge`, beyond the existing `SparkTraitsApi` seams
 (`blocksWeaponAction`, `isLastEscapeActive`, `shouldCancelMeleeAttack`, `isNonFinalKillPending`)
 and `SparkTraitsShopEntryPreserver`. An absent SparkTraits means nothing hidden, no weapon block, no
 Last Escape, no parry, no pending fake death, and cleanup on every death; a present build whose
@@ -6065,36 +6065,36 @@ the round for killers or passengers while a lone Insider lives. Since 2026-11-17
 狮身豪 defers those verdicts), and the Going Dark description names it.
 狮身豪 may query only `isInstinctHidden` (its infected outline, through its own `OptionalStaticMethod` like Koko's),
 `isRoleSkillBlocked` (both skills), `blocksWeaponAction` and `isLastEscapeActive` (the fist shot and its targets)
-through `SparkTraitsKillerBridge`, `deathWasIntercepted` through `SparkTraitsGunBridge` (fails closed: the shot is
+through `SparkTraitsApi`, `deathWasIntercepted` through `SparkTraitsGunBridge` (fails closed: the shot is
 then no kill), `isDeathIntercepted` through `WitchFactorTraitsBridge` (the kit strip) and
 `SparkTraitsShopEntryPreserver`. Trait effects that need no seam: Final Moment's +1000 coins stay hidden and
 unspendable (`CanSeeMoney` DENY), money traits never roll for it, Fast Hands shortens the gun's 20-tick cooldown to
 18, and Stands Firm cancels a fist kill between Team Jiahao members, which then pays the no-kill branch.
 The Blind may query only `isRoleSkillBlocked` (Attune), `setExactItemCooldownRemaining` (the cane)
-and `isLastStandDeathIntercepted` (the kit strip) through `SparkTraitsKillerBridge`, beyond
+and `isLastStandDeathIntercepted` (the kit strip) through `SparkTraitsApi`, beyond
 `SparkTraitsShopEntryPreserver` (its shop rebuild keeps the `sparkdlc:*` entries). An absent,
 older or failing SparkTraits falls back per method to no skill block, a vanilla cane cooldown, and a
 death that is not intercepted (fail closed): the `KillPlayer.AFTER` strip runs and the 20-tick
 sweep spares no dead Blind.
 Saint Karma may query only `setExactItemCooldownRemaining` (its per-tick raise of every carried item) through
-`SparkTraitsKillerBridge`; an absent, older or failing SparkTraits means a vanilla Karma write.
+`SparkTraitsApi`; an absent, older or failing SparkTraits means a vanilla Karma write.
 The Abyss Listener may query only `isLastStandPending` and `hasActiveTrait` (Conscience and Impostor) through
 `bridge/witch/SparkTraitsAbyssListenerBridge`; `isLastEscapeActive`, `isRoleSkillBlocked` (the shriek), and
 `blocksWeaponAction` (the gun and the flask throw, with its `isKillerInteractionBlocked` and
-`getForcedMeleeCooldownTicks` reads) through the existing `SparkTraitsKillerBridge`; `isLastStandDeathIntercepted`
+`getForcedMeleeCooldownTicks` reads) through the existing `SparkTraitsApi`; `isLastStandDeathIntercepted`
 (gun removal at death) through the existing `WitchFactorTraitsBridge`; and the push-fall queries above. Its Wraith
 check uses SparkWitch's own `WraithStateService.isActive`, which SparkTraits `isWraithActive` delegates to, so it never
 queries `isWraithActive`; Fast Hands reaches the gun through the vanilla cooldown write, with no SparkWitch call. An
 absent SparkTraits means not pending, no Last Escape, no skill or weapon block, both traits inactive (real sanity
 follows the base role), and gun removal on every death. A present build whose facade lacks or fails a method falls
 back per method: not pending (the spectator gate still excludes a pending Last Stand player), no Last Escape and no
-block (as `SparkTraitsKillerBridge` defines), traits unknown (which `hasRealSanity` never counts as real sanity), or an
+block (as `SparkTraitsApi` defines), traits unknown (which `hasRealSanity` never counts as real sanity), or an
 intercepted death (the `KillPlayer.AFTER` removal is skipped, and the 20-tick sweep strips the dead holder).
 USEC may query only `getMarksmanRangeMultiplier` (FMJ range and AP flight cost on the server, the reticle's AP holds
 on the client, clamped to 1.0-1.3) and `hasActiveTrait` (Fast Reload, the 1.4 s bolt) through
 `bridge/witch/SparkTraitsUsecBridge`, `hasActiveTrait` (Impostor, task money) through its own `UsecEconomyTraitsProbe`,
 `discountShopEntryForCharisma` through `SparkTraitsCharismaBridge`, and `isLastStandDeathIntercepted` through the
-existing `WitchFactorTraitsBridge`, beyond the existing `SparkTraitsKillerBridge` seams (`blocksWeaponAction` with its
+existing `WitchFactorTraitsBridge`, beyond the existing `SparkTraitsApi` seams (`blocksWeaponAction` with its
 `isKillerInteractionBlocked` and `getForcedMeleeCooldownTicks` reads, `isLastEscapeActive`, `isNonFinalKillPending`,
 `setExactItemCooldownRemaining`) and `SparkTraitsShopEntryPreserver`. An absent SparkTraits means a 1.0 multiplier, a
 2 s bolt, task money paid, full prices, no weapon block, no Last Escape, no pending fake death, a vanilla cooldown
@@ -6104,7 +6104,7 @@ intercepted death: the `KillPlayer.AFTER` cleanup and revolver drop are skipped 
 kit), and an innocent shot goes unpunished.
 The Savior pistol may query only `getServerGunTargetRange` (the server's player-target distance for this shooter and
 gun; a sneaking Niko holder gets 300 blocks) through `bridge/witch/SparkTraitsSaviorBridge`, beyond the existing
-`SparkTraitsKillerBridge.blocksWeaponAction`; Niko's 60 s cooldown, Fast Reload and Fast Hands reach the pistol
+`SparkTraitsApi.blocksWeaponAction`; Niko's 60 s cooldown, Fast Reload and Fast Hands reach the pistol
 through the vanilla cooldown write, with no SparkWitch call. An absent, older (before SparkTraits PR #76) or failing
 SparkTraits means the 65-block tolerance; the answer is widen-only and capped at 300 blocks.
 
@@ -6639,7 +6639,7 @@ Server:
   else runs once per 20 ticks per player, offset by entity id (owner decision 2026-10-22), so a stray knife can stay up
   to 1 s (drops stay blocked by the mixins).
 - `PlayerHitboxHistory` keeps recording every tick everywhere: off-match shells and early-round rewinds read across
-  round edges. `SparkTraitsKillerBridge.isLastEscapeActive` uses a cached MethodHandle.
+  round edges. `SparkTraitsApi.isLastEscapeActive` is a plain static call.
 - `SparkStrengthCoronerCompat` and `SparkStrengthJunctionBoxCompat` are direct calls since the fusion (before, each
   resolved its reflection once); `ShadowJesterShowdownBridge` calls the pinned NoellesRoles component
   directly. `CeremonialSwordDashService.DASHES` is cleared on SERVER_STOPPING.
@@ -6669,7 +6669,7 @@ Network:
 
 2026-11 review pass, second wave (authority, private state and request cadence):
 - The shared `sparkdlc:use_skill` dispatch (`WitchSkillUseService.use`) asks
-  `SparkTraitsKillerBridge.isRoleSkillBlocked` after the role, life and Fear gates and before the Saint delegation and
+  `SparkTraitsApi.isRoleSkillBlocked` after the role, life and Fear gates and before the Saint delegation and
   every registered skill, with the shared "unavailable" line. It is the rule the dedicated handlers already apply
   (Last Escape, or a silenced effective killer); the bridge fails open without SparkTraits, and Wathe-dead Wraiths
   never reach it.

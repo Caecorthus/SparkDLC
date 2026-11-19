@@ -4,6 +4,7 @@ import dev.caecorthus.sparkdlc.SparkFactionApiMod;
 import dev.caecorthus.sparkdlc.SparkStrength;
 import dev.caecorthus.sparkdlc.SparkTraits;
 import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.legacy.LegacyRegistryAliases;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,5 +29,8 @@ public final class SparkDLC implements ModInitializer {
         // One creative tab for the whole mod, once every module has registered its items.
         // 所有模块注册完物品后，注册全模组唯一的创造模式物品栏。
         SparkDlcItemGroups.register();
+        // Old registry ids of the five former mods, once every new id is registered and before the registries freeze.
+        // 五个旧模组的旧注册表 id：在所有新 id 注册完成之后、注册表冻结之前设为别名。
+        LegacyRegistryAliases.register();
     }
 }

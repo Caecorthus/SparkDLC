@@ -1,110 +1,57 @@
-plugins {
-    id 'fabric-loom' version '1.13-SNAPSHOT'
-    id 'maven-publish'
-}
+// Verification tasks of the traits module (formerly the SparkTraits build script), applied by the root build.gradle.
+// Every task carries the `Traits` infix; `verifyTraits` at the bottom runs them all. The root build owns plugins,
+// repositories, dependencies, resources and the jar; this script only verifies.
+// traits 模块的校验任务（原 SparkTraits 构建脚本），由根 build.gradle 应用。所有任务名都带 `Traits` 中缀，文件末尾的
+// `verifyTraits` 汇总运行全部任务。插件、仓库、依赖、资源与 jar 由根构建负责，本脚本只做校验。
 
-version = project.mod_version
-group = project.maven_group
-
-base {
-    archivesName = project.archives_base_name
-}
-
-def watheJarName = "wathe-${project.wathe_version}.jar"
-def noellesRolesJarName = "noellesroles-${project.noellesroles_version}.jar"
-def sparkFactionApiJarName = "sparkfactionapi-${project.sparkfactionapi_version}.jar"
-
-loom {
-    splitEnvironmentSourceSets()
-
-    mods {
-        "sparktraits" {
-            sourceSet sourceSets.main
-            sourceSet sourceSets.client
-        }
+// A script applied with `apply from:` does not see the root build's plugin classpath, so the ASM classes the bytecode
+// checks use (Loom brought them along while this was the SparkTraits build script) are declared here.
+// 通过 `apply from:` 应用的脚本看不到根构建的插件类路径，因此字节码校验用到的 ASM 类（本脚本还是 SparkTraits 构建脚本时
+// 由 Loom 附带）在此显式声明。
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.ow2.asm:asm-tree:9.9"
+        classpath "org.ow2.asm:asm-analysis:9.9"
     }
 }
 
-repositories {
-    mavenCentral()
-    maven {
-        name = "Ladysnake Mods"
-        url = 'https://maven.ladysnake.org/releases'
-    }
-    maven {
-        name = "Modrinth"
-        url = "https://api.modrinth.com/maven"
-        content {
-            includeGroup "maven.modrinth"
-        }
-    }
-    maven {
-        name = "Xander Maven"
-        url = "https://maven.isxander.dev/releases"
-    }
-    maven {
-        name = "Datasync"
-        url = "https://maven.uuid.gg/releases"
-    }
-    maven {
-        name = "Lucko"
-        url = "https://repo.lucko.me/"
-    }
-}
-
-dependencies {
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-    modApi files(watheJarName)
-    modImplementation files(noellesRolesJarName)
-    modImplementation files(sparkFactionApiJarName)
-    modLocalRuntime "maven.modrinth:carpet:1.4.147"
-    modCompileOnly "maven.modrinth:simple-voice-chat:fabric-1.21.1-2.5.36"
-    modLocalRuntime "maven.modrinth:simple-voice-chat:fabric-1.21.1-2.5.36"
-    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}"
-    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}"
-    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-world:${project.cca_version}"
-    modRuntimeOnly "org.ladysnake.cardinal-components-api:cardinal-components-scoreboard:${project.cca_version}"
-    modRuntimeOnly "maven.modrinth:midnightlib:${project.midnightlib_version}"
-    modRuntimeOnly "dev.isxander:yet-another-config-lib:${project.yacl_version}"
-    modImplementation("dev.doctor4t:ratatouille:${project.ratatouille_version}") {
-        exclude group: "dev.upcraft.datasync"
-    }
-    modRuntimeOnly "dev.upcraft.datasync:datasync-minecraft-1.21.1-fabric:0.10.2"
-    modRuntimeOnly "me.lucko:fabric-permissions-api:0.3.1"
-
-    testImplementation "org.junit.jupiter:junit-jupiter:5.10.3"
-    testRuntimeOnly "org.junit.platform:junit-platform-launcher"
-}
-
-processResources {
-    inputs.property "version", project.version
-    inputs.property "minecraft_version", project.minecraft_version
-    inputs.property "loader_version", project.loader_version
-    inputs.property "wathe_version", project.wathe_version
-    inputs.property "noellesroles_version", project.noellesroles_version
-    inputs.property "sparkfactionapi_version", project.sparkfactionapi_version
-    inputs.property "cca_version", project.cca_version
-    inputs.property "ratatouille_version", project.ratatouille_version
-
-    filteringCharset "UTF-8"
-
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version,
-                "minecraft_version": project.minecraft_version,
-                "loader_version": project.loader_version,
-                "wathe_version": project.wathe_version,
-                "noellesroles_version": project.noellesroles_version,
-                "sparkfactionapi_version": project.sparkfactionapi_version,
-                "cca_version": project.cca_version,
-                "ratatouille_version": project.ratatouille_version
-    }
-}
+// The Wathe / NoellesRoles jars moved from the SparkTraits repository root to libs/; their checksums are pinned once
+// for the whole mod in gradle.properties (`wathe_sha256`, `noellesroles_sha256`). SparkFactionAPI is no longer a
+// dependency jar: it is the factionapi module of this same source tree.
+// Wathe / NoellesRoles jar 已从 SparkTraits 仓库根目录移到 libs/；校验和在 gradle.properties 中为整个 mod 统一固定
+// （`wathe_sha256`、`noellesroles_sha256`）。SparkFactionAPI 不再是依赖 jar：它是同一源码树中的 factionapi 模块。
+def watheJarName = "libs/wathe-${project.wathe_version}.jar"
+def noellesRolesJarName = "libs/noellesroles-${project.noellesroles_version}.jar"
 
 def remappedModJar = tasks.named("remapJar")
+
+// Legacy mod ids the traits module needs the fused mod to answer for. As a separate mod SparkTraits was `sparktraits`
+// and had `depends sparkfactionapi`; its compat bridges still gate on FabricLoader#isModLoaded for `sparkstrength` and
+// `sparkwitch`, which the fused mod answers through `provides`.
+// traits 模块需要融合后的 mod 代为应答的旧 mod id。独立 mod 时期 SparkTraits 的 id 是 `sparktraits`，并且
+// `depends sparkfactionapi`；它的兼容桥仍以 FabricLoader#isModLoaded 判断 `sparkstrength` 与 `sparkwitch`，
+// 融合后的 mod 通过 `provides` 满足这些判断。
+def traitsProvidedModIds = ["sparktraits", "sparkfactionapi", "sparkstrength", "sparkwitch"]
+// Replaces the SparkFactionAPI jar pin and the `depends sparkfactionapi` predicate: the sibling modules ship in this
+// jar, so their ids must be provided and must not come back as dependency predicates on this mod itself.
+// 取代 SparkFactionAPI jar 的校验和固定与 `depends sparkfactionapi` 谓词：兄弟模块随本 jar 发布，因此它们的 id 必须由
+// provides 提供，且不得再作为针对本 mod 自身的依赖谓词出现。
+def verifyTraitsProvidedModIds = { metadata, String label ->
+    def provides = metadata.provides ?: []
+    traitsProvidedModIds.each { modId ->
+        if (!provides.contains(modId)) {
+            throw new GradleException("Missing provided mod id ${modId} in ${label}")
+        }
+        ["depends", "recommends", "suggests", "conflicts", "breaks"].each { relation ->
+            if (metadata.get(relation)?.containsKey(modId)) {
+                throw new GradleException("Stale ${relation} entry for the fused module id ${modId} in ${label}")
+            }
+        }
+    }
+}
 
 def readClassNode = { java.util.zip.ZipFile archive, String entryName ->
     def entry = archive.getEntry(entryName)
@@ -131,7 +78,9 @@ def annotationValue = { annotation, String key ->
     null
 }
 
-def verifyAssassinScreenSelector = tasks.register("verifyAssassinScreenSelector") {
+def verifyTraitsAssassinScreenSelector = tasks.register("verifyTraitsAssassinScreenSelector") {
+    group = "verification"
+    description = "Checks the packaged AssassinScreenMixin selector against the pinned NoellesRoles jar."
     dependsOn remappedModJar
     inputs.file(remappedModJar.flatMap { it.archiveFile })
     inputs.file(noellesRolesJarName)
@@ -201,7 +150,9 @@ def verifyAssassinScreenSelector = tasks.register("verifyAssassinScreenSelector"
     }
 }
 
-tasks.register("verifyInventoryScreenSelector") {
+def verifyTraitsInventoryScreenSelector = tasks.register("verifyTraitsInventoryScreenSelector") {
+    group = "verification"
+    description = "Checks the packaged TraitInventoryScreenMixin selector against the pinned Wathe jar."
     dependsOn remappedModJar
     inputs.file(remappedModJar.flatMap { it.archiveFile })
     inputs.file(watheJarName)
@@ -233,7 +184,16 @@ tasks.register("verifyInventoryScreenSelector") {
     }
 }
 
-tasks.register("verifyModJarVersion") {
+// ADAPT (was verifyModJarVersion): SparkTraits is no longer its own jar. The fused jar is checked for what the traits
+// module still needs from it: the jar/metadata version, the Wathe/NoellesRoles pins, the fused entrypoints starting
+// SparkTraits / SparkTraitsClient, the voicechat entrypoint, both traits mixin configs being listed, the legacy mod
+// ids being provided, and the required runtime classes.
+// 调整（原 verifyModJarVersion）：SparkTraits 不再是独立 jar。此处校验融合 jar 中 traits 模块仍然依赖的内容：jar 与元数据
+// 版本、Wathe/NoellesRoles 版本固定、融合后的入口会启动 SparkTraits / SparkTraitsClient、voicechat 入口、两份 traits mixin
+// 配置均已列出、旧 mod id 由 provides 提供，以及必需的运行时类。
+def verifyTraitsModJar = tasks.register("verifyTraitsModJar") {
+    group = "verification"
+    description = "Checks the traits module's entrypoints, mixin configs, dependency pins and required classes in the remapped SparkDLC jar."
     dependsOn remappedModJar
     inputs.file(remappedModJar.flatMap { it.archiveFile })
 
@@ -272,10 +232,31 @@ tasks.register("verifyModJarVersion") {
                 )
             }
 
-            def clientEntrypoint = "dev.caecorthus.sparkdlc.traits.client.SparkTraitsClient"
-            def clientEntrypoints = metadata.entrypoints?.client ?: []
-            if (!clientEntrypoints.contains(clientEntrypoint)) {
-                throw new GradleException("Missing client entrypoint ${clientEntrypoint} in ${jarFile.name}")
+            // The fused client entrypoint replaces the listed SparkTraitsClient and must still start it. The common
+            // SparkTraits initializer is started the same way by the fused main entrypoint.
+            // 融合后的客户端入口取代了原先列出的 SparkTraitsClient，且必须仍然启动它；通用端的 SparkTraits 初始化同样由
+            // 融合后的 main 入口启动。
+            [
+                    [key: "main", entrypoint: "dev.caecorthus.sparkdlc.SparkDLC", method: "onInitialize",
+                     moduleOwner: "dev/caecorthus/sparkdlc/traits/SparkTraits"],
+                    [key: "client", entrypoint: "dev.caecorthus.sparkdlc.client.SparkDLCClient",
+                     method: "onInitializeClient",
+                     moduleOwner: "dev/caecorthus/sparkdlc/traits/client/SparkTraitsClient"]
+            ].each { fused ->
+                if (!(metadata.entrypoints?.get(fused.key) ?: []).contains(fused.entrypoint)) {
+                    throw new GradleException("Missing ${fused.key} entrypoint ${fused.entrypoint} in ${jarFile.name}")
+                }
+                def entrypointNode = readClassNode(zipFile, fused.entrypoint.replace('.', '/') + ".class")
+                def entrypointMethod = entrypointNode.methods.find { it.name == fused.method && it.desc == "()V" }
+                def startsModule = entrypointMethod != null && entrypointMethod.instructions.toArray().any {
+                    it instanceof org.objectweb.asm.tree.MethodInsnNode && it.owner == fused.moduleOwner
+                            && it.name == fused.method && it.desc == "()V"
+                }
+                if (!startsModule) {
+                    throw new GradleException(
+                            "${fused.entrypoint}#${fused.method} no longer starts ${fused.moduleOwner} in ${jarFile.name}"
+                    )
+                }
             }
 
             def voicechatEntrypoint = "dev.caecorthus.sparkdlc.traits.voice.SparkTraitsVoiceChatPlugin"
@@ -283,6 +264,24 @@ tasks.register("verifyModJarVersion") {
             if (!voicechatEntrypoints.contains(voicechatEntrypoint)) {
                 throw new GradleException("Missing voicechat entrypoint ${voicechatEntrypoint} in ${jarFile.name}")
             }
+
+            // fabric.mod.json is now shared by five modules: both traits mixin configs must stay listed, the client
+            // one for the client environment only, or the mixin checks below and in the selector tasks guard nothing.
+            // fabric.mod.json 现在由五个模块共用：两份 traits mixin 配置都必须保持列出，其中客户端配置仅限客户端环境，
+            // 否则下方以及选择器任务中的 mixin 校验就失去意义。
+            def listedMixins = metadata.mixins ?: []
+            if (!listedMixins.contains("sparktraits.mixins.json")) {
+                throw new GradleException("sparktraits.mixins.json is not listed in fabric.mod.json of ${jarFile.name}")
+            }
+            if (!listedMixins.any {
+                it instanceof Map && it.config == "sparktraits.client.mixins.json" && it.environment == "client"
+            }) {
+                throw new GradleException(
+                        "sparktraits.client.mixins.json is not listed for the client environment in fabric.mod.json of ${jarFile.name}"
+                )
+            }
+
+            verifyTraitsProvidedModIds(metadata, jarFile.name)
 
             def clientMixinEntry = zipFile.getEntry("sparktraits.client.mixins.json")
             if (clientMixinEntry == null) {
@@ -326,43 +325,34 @@ tasks.register("verifyModJarVersion") {
     }
 }
 
-tasks.named("build") {
-}
-
-def targetJavaVersion = 21
-tasks.withType(JavaCompile).configureEach {
-    it.options.encoding = "UTF-8"
-    it.options.release.set(targetJavaVersion)
-}
-
-sourceSets.test {
-    compileClasspath += sourceSets.client.output
-    runtimeClasspath += sourceSets.client.output
-}
-
-tasks.test {
-    useJUnitPlatform()
-}
-
 def publicFacade = "src/main/java/dev/caecorthus/sparkdlc/traits/api/SparkTraitsApi.java"
 def publicFacadeContractTest = "src/test/java/dev/caecorthus/sparkdlc/traits/api/SparkTraitsApiContractTest.java"
 def syncVisibilityContractTest = "src/test/java/dev/caecorthus/sparkdlc/traits/component/TraitSyncVisibilityTest.java"
 // src/test/ is gitignored and local-only, so the two contract tests are required only in a checkout that has the
-// local test tree; a fresh clone (CI) skips them.
+// local test tree; a fresh clone (CI) skips them. In SparkDLC src/test/ itself exists on a fresh clone (a few assist
+// tests are tracked), so the condition is the traits module's own test package.
 // src/test/ 已被 gitignore 且仅存于本地，因此只在拥有本地测试树的检出中要求这两个契约测试；全新克隆（CI）会跳过。
-def localTestTree = file("src/test")
+// 在 SparkDLC 中，全新克隆也存在 src/test/（assist 有少量已跟踪的测试），因此改以 traits 模块自己的测试包是否存在为条件。
+def traitsLocalTests = "src/test/java/dev/caecorthus/sparkdlc/traits"
+def localTestTree = file(traitsLocalTests)
 def localContractTests = [publicFacadeContractTest, syncVisibilityContractTest]
 
-tasks.register("verifyArchitecture") {
+// ADAPT: the Wathe / NoellesRoles jar checks stay (now in libs/, pinned in the root gradle.properties). The
+// SparkFactionAPI jar pin, its embedded Wathe predicate and the `depends sparkfactionapi` predicate are gone with the
+// sibling jar; the processed metadata must instead identify `sparkdlc` and provide the legacy ids
+// (see verifyTraitsProvidedModIds).
+// 调整：Wathe / NoellesRoles jar 校验保留（现位于 libs/，校验和固定在根 gradle.properties）。SparkFactionAPI jar 的校验和
+// 固定、其内嵌的 Wathe 谓词以及 `depends sparkfactionapi` 谓词随兄弟 jar 一并移除；处理后的元数据改为必须标识 `sparkdlc`
+// 并通过 provides 提供旧 mod id（见 verifyTraitsProvidedModIds）。
+def verifyTraitsArchitecture = tasks.register("verifyTraitsArchitecture") {
     group = "verification"
-    description = "Verifies architecture governance, public facade, and local dependency metadata."
+    description = "Verifies the traits module's architecture governance, public facade, and local dependency metadata."
     inputs.file(publicFacade)
     if (localTestTree.isDirectory()) {
         localContractTests.each { inputs.file(it) }
     }
     inputs.file(watheJarName)
     inputs.file(noellesRolesJarName)
-    inputs.file(sparkFactionApiJarName)
     inputs.file("src/main/resources/fabric.mod.json")
     dependsOn tasks.named("processResources")
     inputs.file(layout.buildDirectory.file("resources/main/fabric.mod.json"))
@@ -373,7 +363,7 @@ tasks.register("verifyArchitecture") {
         if (localTestTree.isDirectory()) {
             requiredPaths += localContractTests
         } else {
-            logger.lifecycle("No local src/test tree: skipped ${localContractTests.size()} local-only architecture contract tests.")
+            logger.lifecycle("No local ${traitsLocalTests} tree: skipped ${localContractTests.size()} local-only architecture contract tests.")
         }
         def missingPaths = requiredPaths.findAll { !file(it).isFile() }
         if (!missingPaths.isEmpty()) {
@@ -434,20 +424,6 @@ tasks.register("verifyArchitecture") {
             )
         }
 
-        def sparkFactionApiMetadata = verifyDependencyJar(
-                sparkFactionApiJarName,
-                "sparkfactionapi",
-                project.sparkfactionapi_version.toString(),
-                project.sparkfactionapi_sha256.toString()
-        )
-        def expectedSparkFactionApiWatheDependency = ">=${project.wathe_version}"
-        if (sparkFactionApiMetadata.depends?.wathe?.toString() != expectedSparkFactionApiWatheDependency) {
-            throw new GradleException(
-                    "SparkFactionAPI embedded Wathe dependency mismatch: expected ${expectedSparkFactionApiWatheDependency}, " +
-                            "found ${sparkFactionApiMetadata.depends?.wathe}"
-            )
-        }
-
         def metadata = new groovy.json.JsonSlurper().parse(file("src/main/resources/fabric.mod.json"))
         def expectedWatheVersionTemplate = '${wathe_version}'
         if (metadata.depends?.wathe != expectedWatheVersionTemplate) {
@@ -468,17 +444,18 @@ tasks.register("verifyArchitecture") {
             throw new GradleException("Missing processed metadata: ${processedMetadataFile}")
         }
         def processedMetadata = new groovy.json.JsonSlurper().parse(processedMetadataFile)
-        if (processedMetadata.id?.toString() != "sparktraits" ||
+        // The mod id is now `sparkdlc`; the legacy `sparktraits` id lives on under `provides` (checked below).
+        // mod id 现在是 `sparkdlc`；旧的 `sparktraits` id 保留在 `provides` 中（见下方校验）。
+        if (processedMetadata.id?.toString() != "sparkdlc" ||
                 processedMetadata.version?.toString() != project.mod_version.toString()) {
             throw new GradleException(
-                    "Processed metadata must identify sparktraits ${project.mod_version}; " +
+                    "Processed metadata must identify sparkdlc ${project.mod_version}; " +
                             "found ${processedMetadata.id} ${processedMetadata.version}"
             )
         }
         [
                 wathe           : project.wathe_version.toString(),
-                noellesroles    : project.noellesroles_version.toString(),
-                sparkfactionapi : ">=${project.sparkfactionapi_version}"
+                noellesroles    : project.noellesroles_version.toString()
         ].each { modId, expectedVersion ->
             if (processedMetadata.depends?.get(modId)?.toString() != expectedVersion) {
                 throw new GradleException(
@@ -487,43 +464,17 @@ tasks.register("verifyArchitecture") {
                 )
             }
         }
+        verifyTraitsProvidedModIds(processedMetadata, "processed fabric.mod.json")
     }
 }
 
-tasks.named("check") {
-    setDependsOn([])
-}
-
-jar {
-    from("LICENSE") {
-        rename { "${it}_${project.base.archivesName.get()}" }
-    }
-    from("LICENSE-TEXTURES.md") {
-        rename { "LICENSE-TEXTURES_${project.base.archivesName.get()}.md" }
-    }
-    from("THIRD_PARTY_NOTICES.md") {
-        into "META-INF"
-    }
-    from("licenses/StarRailExpress-GPL-3.0-only.txt") {
-        into "META-INF/licenses"
-    }
-}
-
-java {
-    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
-    sourceCompatibility = javaVersion
-    targetCompatibility = javaVersion
-    if (JavaVersion.current() < javaVersion) {
-        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
-    }
-    withSourcesJar()
-}
-
-tasks.withType(JavaExec).configureEach {
-    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
-    if (JavaVersion.current() < javaVersion) {
-        javaLauncher.set(javaToolchains.launcherFor {
-            languageVersion = JavaLanguageVersion.of(targetJavaVersion)
-        })
-    }
+// Aggregate for the traits module; the root build's verifyAll depends on it.
+// traits 模块的汇总任务；根构建的 verifyAll 依赖它。
+tasks.register("verifyTraits") {
+    group = "verification"
+    description = "Runs every traits-module verify task."
+    dependsOn verifyTraitsAssassinScreenSelector
+    dependsOn verifyTraitsInventoryScreenSelector
+    dependsOn verifyTraitsModJar
+    dependsOn verifyTraitsArchitecture
 }

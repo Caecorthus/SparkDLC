@@ -10,15 +10,22 @@ One Fabric mod for Minecraft 1.21.1 that fuses the five Spark add-ons for Spark-
 - 把 `sparkdlc-<版本>.jar` 放进 `mods`，并**移除**原来的五个 jar（`sparkfactionapi`、`sparkstrength`、`sparktraits`、
   `sparkwitch`、`sparkassist`）。SparkDLC 已经包含这五个 mod，不能与它们同时安装。
 - 服务端和客户端都要装同一个版本。
-- 存档、地图、资源包、配置文件都不用改：所有物品、职业、数据包、组件、语言键和配置文件仍然使用原来的命名空间
-  （`sparkdlc:…`、`sparkdlc:…` 等）。
+- 所有物品、职业、数据包、组件、语言键、命令和配置文件现在都在唯一的命名空间 `sparkdlc` 下（例如
+  `sparkdlc:m67`、`/sparkdlc:forceAbility`、`config/sparkdlc.json`）。针对旧命名空间（`sparkwitch:…`、
+  `sparkstrength:…` 等）制作的资源包和数据包需要改名。
+- 旧存档、旧配置和旧命令名的兼容层尚未完成（统一化第二阶段 b）；在它完成之前，用旧版本保存的存档、成就和设置不会被读取，
+  升级前请先备份。
 
-Put `sparkdlc-<version>.jar` into `mods` on both sides and remove the five legacy jars. Worlds, maps, resource packs
-and config files keep working: every id keeps its legacy namespace.
+Put `sparkdlc-<version>.jar` into `mods` on both sides and remove the five legacy jars. Every item, role, packet,
+component, lang key, command and config file is now under the single namespace `sparkdlc` (`sparkdlc:m67`,
+`/sparkdlc:forceAbility`, `config/sparkdlc.json`). Resource packs and data packs made for the old namespaces
+(`sparkwitch:…`, `sparkstrength:…`) have to be renamed. The compatibility layer for old worlds, old config files
+and old command names is not finished yet (unification stage 2b): until it is, worlds, achievements and settings
+saved with an older build are not read. Back up before upgrading.
 
 ## 模块 / Modules
 
-| 原模块 | 现在的主要包（`dev.caecorthus.sparkdlc` 下） | 命名空间 | 内容 |
+| 原模块 | 现在的主要包（`dev.caecorthus.sparkdlc` 下） | 旧 mod id（仅作为 `provides` 别名） | 内容 |
 | --- | --- | --- | --- |
 | factionapi | `faction`, `round`, `cooldown`, `replay`, `record`, `team`, `net.version` | `sparkfactionapi` | 阵营 API、回合结算、数据包策略、回放等公共服务 |
 | strength | `role.<category>.<role>`, `item`, `entity`, `sabotage`, `tablet`, `economy`, `viewpoint` | `sparkstrength` | 职业增强、物品（M67、平板、无人机…）、破坏系统 |

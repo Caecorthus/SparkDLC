@@ -1,12 +1,12 @@
 # SparkDLC context map
 
-SparkDLC is one Fabric mod for Minecraft 1.21.1 (`sparkdlc`, version shared by all modules) built on Spark-era
+SparkDLC is one Fabric mod for Minecraft 1.21.1 (mod id and only namespace `sparkdlc`, version shared by all modules) built on Spark-era
 Wathe and NoellesRoles. It was created on 2026-11-19 by fusing five mods; their histories are merged in, so
 `git log --follow` and `git blame` reach back into each legacy repository.
 
 ## Modules
 
-| Legacy module | Main packages now (under `dev.caecorthus.sparkdlc`) | Namespace (legacy mod id) | What it owns | Module notes |
+| Legacy module | Main packages now (under `dev.caecorthus.sparkdlc`) | Legacy mod id (a `provides` alias, no longer a namespace) | What it owns | Module notes |
 | --- | --- | --- | --- | --- |
 | factionapi | `faction`, `round`, `cooldown`, `replay`, `record`, `team`, `net.version` | `sparkfactionapi` | Faction registration, native Wathe factions, round end and win services, payload policy, replay, anti-fast-round, lobby map reset, version handshake | `docs/factionapi/CONTEXT.md` |
 | strength | `role.<category>.<role>`, `item`, `entity`, `sabotage`, `tablet`, `economy`, `viewpoint` | `sparkstrength` | Buffs and reworks for Wathe/NoellesRoles roles, items (M67, tablet, drones...), sabotage, Partygoer | — |
@@ -27,10 +27,17 @@ only reached from client code.
 
 ## Stable contracts of the fusion
 
-- **Namespaces never change.** Registry ids, packet ids, component ids, asset paths, lang keys, config file names,
-  and commands keep the legacy mod ids (the nine mixin configs were merged into two `sparkdlc.*` files). `fabric.mod.json` lists the five ids under `provides`,
-  so `FabricLoader#isModLoaded("sparkdlc")` and `#getModContainer("sparkdlc")` resolve to the SparkDLC container.
-  Code that needs a module's display name uses `SparkDlcModule`, not the container name.
+- **One namespace, `sparkdlc`.** Since the stage-2a rename (`tools/unify/README.md`) every registry id, packet id,
+  component key, role / faction / trait / skill id, shop-entry id, command, permission node, lang key, asset and
+  data path and config file name of the mod is under `sparkdlc`; the lang files and `sounds.json` are single merged
+  files under `assets/sparkdlc` in `src/main/resources`. `tools/unify/legacy-ids.tsv` lists every renamed id with its
+  kind (old id, new id). The five legacy mod ids are no namespaces any more. They stay in `fabric.mod.json` under
+  `provides`, so `FabricLoader#isModLoaded("sparkwitch")` and `#getModContainer("sparkwitch")` still resolve to the
+  SparkDLC container, and `SparkDlcModule` holds them with the module display names. What deliberately keeps a legacy
+  name: the existing legacy migrations (`WraithLegacyRoleIds`, `RetiredTraitIds`, the two `Legacy*` Wraith
+  components), private NBT / custom-data field names, `sparkwitch$`-style mixin member prefixes and Java class names
+  (`tools/unify/namespace-keep.tsv`, `namespace-overrides.tsv`). Reading worlds, configs and packs that still use
+  the old names is the job of the compatibility layer (stage 2b), not of the code that owns an id.
 - **Start order.** `SparkDLC#onInitialize` runs factionapi, strength, traits, witch; `SparkDLCClient` runs assist,
   factionapi, strength, traits, witch. This is the alphabetical mod-id order Fabric used for the separate mods.
   The two mixin configs (`sparkdlc.mixins.json`, `sparkdlc.client.mixins.json`) list the mixins of the former

@@ -13,13 +13,16 @@ hand-written rule classes alias those sets. Standard library only.
 
 Since the five mods were fused into SparkDLC, ``--repo`` is the one SparkDLC checkout for every module. The whole tree
 is still indexed (constants resolve across modules), but a registration belongs to the legacy module of the
-registering file, and its row's ``owner`` must be that module's namespace. Until the stage-1 package move that module
+registering file, and its row's ``owner`` must be that module's legacy mod id. Since the stage-2a namespace rename
+every SparkDLC payload id is ``sparkdlc:<path>``, so ``owner`` no longer repeats the id's namespace: it is the label
+of the module that registers the payload (``sparkwitch``, ``sparkstrength``, ...), and a row whose owner is one of
+those labels must carry a ``sparkdlc:`` id. Until the stage-1 package move that module
 was the file's package (``src/{main,client}/java/dev/caecorthus/sparkdlc/<module>/``); the move left no module
 directory, so it is now read from the move manifest ``tools/unify/file-moves.tsv`` (the module is the first segment of
 the file's ``old_fqcn``). A file the manifest does not list has no module and fails the check.
 
 Table rules: UTF-8, tab-separated, LF, sorted by payload_id, one complete row per id (every profile cell exactly
-``allow`` or ``deny``), ``owner`` is the registering mod id, ``note`` (English) and ``note_zh`` (Chinese) are ``-`` or
+``allow`` or ``deny``), ``owner`` is the registering mod id (for SparkDLC: the legacy id of the module), ``note`` (English) and ``note_zh`` (Chinese) are ``-`` or
 the facts and reasons behind the row (a pinning test/comment, or ``migration-parity`` / ``迁移保持原状（原因未记录）``
 when the reason is unknown); the notes are never used for generation. VENDETTA_TARGET is not
 emitted: VendettaTargetingPacketGuard keeps its typed adapters and the column records which payloads it judges.
@@ -29,7 +32,9 @@ emitted: VendettaTargetingPacketGuard keeps its typed adapters and the column re
 ``GeneratedPayloadPolicy`` 类，为其使用的每个配置提供一个不可变 ``Set<Identifier>``（即 ``deny`` 的 id）；手写规则类
 只是这些集合的别名。仅使用标准库。``check`` 在内存中重新生成并逐字节比较，且模块注册了表中没有的 C2S id、或注册
 表达式无法解析为字面量 id 时都会失败。五个 mod 融合为 SparkDLC 之后，所有模块的 ``--repo`` 都是同一个 SparkDLC 检出：
-仍然索引整棵源码树（常量可跨模块解析），但一条注册属于注册文件的旧模块，其表行的 ``owner`` 必须是该模块的命名空间。
+仍然索引整棵源码树（常量可跨模块解析），但一条注册属于注册文件的旧模块，其表行的 ``owner`` 必须是该模块的旧 mod id。
+第二阶段 a 的命名空间改名之后，SparkDLC 的所有数据包 id 都是 ``sparkdlc:<path>``，``owner`` 不再与 id 的命名空间重复：
+它是注册该数据包的模块的标签（``sparkwitch``、``sparkstrength`` 等），owner 为这些标签之一的行必须使用 ``sparkdlc:`` id。
 第一阶段包搬迁之前，旧模块就是文件所在的包（``src/{main,client}/java/dev/caecorthus/sparkdlc/<module>/``）；搬迁后不再有
 模块目录，因此改为读取搬迁清单 ``tools/unify/file-moves.tsv``（模块即文件 ``old_fqcn`` 的第一段）。清单未列出的文件
 没有模块，检查会失败。
@@ -56,6 +61,8 @@ PROFILES = (
 HEADER = ("payload_id", "owner") + PROFILES + ("note", "note_zh")
 DECISIONS = ("allow", "deny")
 OWNERS = ("noellesroles", "sparkfactionapi", "sparkstrength", "sparkwitch", "wathe")
+# The one namespace of every SparkDLC payload id since the stage-2a rename. / 第二阶段 a 改名后 SparkDLC 全部数据包 id 的唯一命名空间。
+PAYLOAD_NAMESPACE = "sparkdlc"
 ID_PATTERN = re.compile(r"[a-z0-9_.-]+:[a-z0-9_./-]+")
 
 
@@ -86,10 +93,11 @@ MODS = {
 }
 
 
-# Every SparkDLC module and the namespace (legacy mod id) its payloads are registered under. A module without a
-# MODS entry carries no generated class; it must still not register a C2S payload the table does not know.
-# SparkDLC 的每个模块及其数据包注册所用的命名空间（旧 mod id）。没有 MODS 条目的模块不带生成类，但同样不得注册
-# 规范表不认识的 C2S 数据包。
+# Every SparkDLC module and its legacy mod id, which is the ``owner`` label of the payloads it registers (their ids
+# are all ``sparkdlc:<path>`` now). A module without a MODS entry carries no generated class; it must still not
+# register a C2S payload the table does not know.
+# SparkDLC 的每个模块及其旧 mod id，也就是该模块所注册数据包的 ``owner`` 标签（它们的 id 现在都是 ``sparkdlc:<path>``）。
+# 没有 MODS 条目的模块不带生成类，但同样不得注册规范表不认识的 C2S 数据包。
 MODULE_NAMESPACES = {
     "factionapi": "sparkfactionapi",
     "strength": "sparkstrength",
@@ -232,6 +240,13 @@ def load_table(path: Path = TABLE_PATH) -> Table:
         previous = payload_id
         if owner not in OWNERS:
             fail(number, payload_id, "owner", f"unknown owner {owner!r}; expected one of {', '.join(OWNERS)}")
+        else:
+            # A SparkDLC module's payload lives in the one sparkdlc namespace; a provider's payload in its own.
+            # SparkDLC 模块的数据包位于唯一的 sparkdlc 命名空间；提供方的数据包位于其自己的命名空间。
+            expected_namespace = PAYLOAD_NAMESPACE if owner in MODULE_NAMESPACES.values() else owner
+            if payload_id.split(":", 1)[0] != expected_namespace:
+                fail(number, payload_id, "payload_id",
+                     f"owner {owner} registers its payloads as {expected_namespace}:<path>")
         decisions = {}
         for profile, cell in zip(PROFILES, cells[2:2 + len(PROFILES)]):
             if cell not in DECISIONS:

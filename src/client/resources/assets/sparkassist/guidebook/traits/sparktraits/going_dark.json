@@ -1,0 +1,51 @@
+{
+  "entries": [
+    {
+      "id": "sparktraits:going_dark",
+      "tab": "TRAIT",
+      "sourceModId": "sparktraits",
+      "nameKey": "trait.sparktraits.going_dark.name",
+      "summaryKey": "trait.sparktraits.going_dark.description",
+      "pages": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": "停电时从敌人的本能里消失。警职词条，只会出现在老兵身上。"
+            },
+            {
+              "type": "section",
+              "text": "效果",
+              "tone": "info"
+            },
+            {
+              "type": "bullet",
+              "text": "停电期间，杀手（包括内鬼）、大魔女及其共犯（含特殊共犯与魔化使）、杀意魔女、黑警、内应和狮身豪的本能都看不到你：不光按本能键透视不到，连不用按键就显示的描边（例如连环杀手的目标描边、黑警处决时刻的透视）也不会出现在你身上。终局时刻例外。"
+            },
+            {
+              "type": "bullet",
+              "text": "任何停电期间，这些人按本能键本来就只看得到自己的队友；这个词条真正多挡掉的是不用按键的那些描边。"
+            },
+            {
+              "type": "section",
+              "text": "建议",
+              "tone": "good"
+            },
+            {
+              "type": "bullet",
+              "text": "停电时老兵本来就有夜视。你看得清对方，对方却透视不到你，正是反击的好时机。"
+            }
+          ]
+        }
+      ],
+      "ownerRoleIds": [
+        "wathe:veteran"
+      ],
+      "requiredModIds": [
+        "sparktraits"
+      ],
+      "color": "#2E4057",
+      "order": 960
+    }
+  ]
+}

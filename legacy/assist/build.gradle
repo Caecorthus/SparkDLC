@@ -1,0 +1,446 @@
+plugins {
+    id "fabric-loom" version "1.13-SNAPSHOT"
+    id "maven-publish"
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "Fabric"
+        url = "https://maven.fabricmc.net/"
+    }
+    maven {
+        name = "Ladysnake Mods"
+        url = "https://maven.ladysnake.org/releases"
+    }
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+    }
+    maven {
+        name = "Datasync"
+        url = "https://maven.uuid.gg/releases"
+    }
+    maven {
+        name = "Simple Voice Chat"
+        url = "https://maven.maxhenkel.de/repository/public"
+    }
+    maven {
+        name = "Create Mod"
+        url = "https://maven.createmod.net"
+        content {
+            includeGroup "net.createmod.ponder"
+            includeGroup "dev.engine-room.flywheel"
+        }
+    }
+    maven {
+        name = "Fuzs Mod Resources"
+        url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
+        content {
+            includeGroup "fuzs.forgeconfigapiport"
+        }
+    }
+}
+
+loom {
+    splitEnvironmentSourceSets()
+
+    mods {
+        "sparkassist" {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+        }
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modImplementation files("libs/wathe-${project.wathe_version}.jar")
+    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}"
+    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}"
+    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-world:${project.cca_version}"
+    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-scoreboard:${project.cca_version}"
+    // Wathe bundles MidnightLib; the settings screen writes Wathe's client config through it.
+    // Wathe 自带 MidnightLib；设置界面通过它写入 Wathe 的客户端配置。
+    modCompileOnly "maven.modrinth:midnightlib:${project.midnightlib_version}"
+    modRuntimeOnly "maven.modrinth:midnightlib:${project.midnightlib_version}"
+    modRuntimeOnly "me.lucko:fabric-permissions-api:0.3.1"
+    modRuntimeOnly("dev.doctor4t:ratatouille:${project.ratatouille_version}") {
+        exclude group: "dev.upcraft.datasync"
+    }
+    modRuntimeOnly "dev.upcraft.datasync:datasync-minecraft-1.21.1-fabric:0.10.2"
+    modCompileOnly "de.maxhenkel.voicechat:voicechat-api:${project.voicechat_api_version}"
+    // Ponder is optional: the pack ships it with Flywheel, and SparkAssist only loads its scenes when it is present.
+    // Ponder 为可选依赖：整合包自带它和 Flywheel，SparkAssist 只在它存在时加载演示场景。
+    modCompileOnly("net.createmod.ponder:ponder-fabric:${project.ponder_version}") { transitive = false }
+    modCompileOnly("dev.engine-room.flywheel:flywheel-fabric-api-1.21.1:${project.flywheel_version}") { transitive = false }
+    modLocalRuntime("net.createmod.ponder:ponder-fabric:${project.ponder_version}") { transitive = false }
+    modLocalRuntime("dev.engine-room.flywheel:flywheel-fabric-1.21.1:${project.flywheel_version}") { transitive = false }
+    // Bundled inside the released Ponder jar, but Loom does not unpack nested jars for the dev runtime.
+    // 正式版 Ponder jar 内已打包，但 Loom 开发运行环境不会解开内嵌 jar。
+    modLocalRuntime("fuzs.forgeconfigapiport:forgeconfigapiport-fabric:21.1.3") { transitive = false }
+    localRuntime "com.electronwill.night-config:core:3.8.0"
+    localRuntime "com.electronwill.night-config:toml:3.8.0"
+    modRuntimeOnly "maven.modrinth:simple-voice-chat:fabric-${project.voicechat_version}"
+
+    testImplementation "org.junit.jupiter:junit-jupiter:5.10.3"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "minecraft_version", project.minecraft_version
+    inputs.property "loader_version", project.loader_version
+    inputs.property "wathe_version", project.wathe_version
+
+    filteringCharset "UTF-8"
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version,
+                "minecraft_version": project.minecraft_version,
+                "loader_version": project.loader_version,
+                "wathe_version": project.wathe_version
+    }
+}
+
+tasks.named("jar") {
+    from("LICENSE") {
+        into("META-INF")
+        rename { "LICENSE_SPARKASSIST" }
+    }
+    from("LICENSE-TEXTURES.md") {
+        into("META-INF")
+        rename { "LICENSE-TEXTURES_SPARKASSIST.md" }
+    }
+    from("THIRD_PARTY_NOTICES.md") {
+        into("META-INF")
+    }
+}
+
+def remappedModJar = tasks.named("remapJar")
+def optionalGuideProviders = ["noellesroles", "sparkwitch", "sparktraits", "sparkstrength"]
+def supportedWatheVersion = "1.5.6-spark-1.21.1"
+def supportedWatheJar = file("libs/wathe-${supportedWatheVersion}.jar")
+def supportedWatheSha256 = "a4e0355c61def0b482c197a7ccd1f86ee91752b7af1b5bdafae8716c652f207f"
+def watheExtendedCommit = "cf3c5c51f3dbc173778597bfb628a7b8e09ccadc"
+def requiredWatheNotice = "Selected Wathe visual assets are \u00a9 2024 doctor4t. Wathe source code is\nnot copied or modified."
+
+tasks.register("verifyWatheDependency") {
+    inputs.file(supportedWatheJar)
+    inputs.property("wathe_version", project.wathe_version)
+    inputs.property("expected_sha256", supportedWatheSha256)
+
+    doLast {
+        if (project.wathe_version != supportedWatheVersion) {
+            throw new GradleException("wathe_version must remain pinned to ${supportedWatheVersion}")
+        }
+        if (!supportedWatheJar.isFile()) {
+            throw new GradleException("Missing authorized Wathe dependency: ${supportedWatheJar}")
+        }
+
+        def digest = java.security.MessageDigest.getInstance("SHA-256")
+        supportedWatheJar.withInputStream { input ->
+            byte[] buffer = new byte[8192]
+            int bytesRead
+            while ((bytesRead = input.read(buffer)) != -1) {
+                digest.update(buffer, 0, bytesRead)
+            }
+        }
+        def actualSha256 = digest.digest().encodeHex().toString()
+        if (actualSha256 != supportedWatheSha256) {
+            throw new GradleException("Unexpected Wathe jar checksum for ${supportedWatheJar.name}: ${actualSha256}")
+        }
+
+        def zipFile = new java.util.zip.ZipFile(supportedWatheJar)
+        try {
+            def metadataEntry = zipFile.getEntry("fabric.mod.json")
+            if (metadataEntry == null) {
+                throw new GradleException("Missing fabric.mod.json in ${supportedWatheJar.name}")
+            }
+            def metadata = new groovy.json.JsonSlurper().parse(zipFile.getInputStream(metadataEntry))
+            if (metadata.id != "wathe"
+                    || metadata.version != supportedWatheVersion
+                    || metadata.environment != "*"
+                    || metadata.depends?.minecraft != "~${project.minecraft_version}") {
+                throw new GradleException("Unexpected embedded Wathe metadata in ${supportedWatheJar.name}")
+            }
+        } finally {
+            zipFile.close()
+        }
+    }
+}
+
+tasks.register("verifyModJarVersion") {
+    dependsOn remappedModJar
+    inputs.file(remappedModJar.flatMap { it.archiveFile })
+
+    doLast {
+        def jarFile = remappedModJar.get().archiveFile.get().asFile
+        def archiveName = remappedModJar.get().archiveBaseName.get()
+        def suffix = ".jar"
+        if (!jarFile.name.startsWith("${archiveName}-") || !jarFile.name.endsWith(suffix)) {
+            throw new GradleException("Cannot read version from jar filename: ${jarFile.name}")
+        }
+
+        // Keep the loader-visible mod version tied to the shipped jar filename.
+        // 将加载器可见版本绑定到发布 jar 文件名，避免软件里显示旧版本。
+        def jarVersion = jarFile.name.substring(archiveName.length() + 1, jarFile.name.length() - suffix.length())
+        def zipFile = new java.util.zip.ZipFile(jarFile)
+        try {
+            def entry = zipFile.getEntry("fabric.mod.json")
+            if (entry == null) {
+                throw new GradleException("Missing fabric.mod.json in ${jarFile.name}")
+            }
+
+            def metadata = new groovy.json.JsonSlurper().parse(zipFile.getInputStream(entry))
+            def metadataVersion = metadata.version?.toString()
+            if (metadataVersion != jarVersion) {
+                throw new GradleException("Jar version mismatch: ${jarFile.name} says ${jarVersion}, but fabric.mod.json says ${metadataVersion}")
+            }
+        } finally {
+            zipFile.close()
+        }
+    }
+}
+
+tasks.register("verifyArchitecture") {
+    // docs/ and src/test/ are gitignored and local-only (the two tracked Ponder tests aside), so the contract files
+    // under them are required only in a checkout that has the local docs/ tree; a fresh clone (CI) skips them.
+    // docs/ 与 src/test/ 已被 gitignore 且仅存于本地（两个已入库的 Ponder 测试除外），因此只在拥有本地 docs/ 树的检出中
+    // 要求其下的契约文件；全新克隆（CI）会跳过。
+    def localDocsTree = file("docs")
+    def isLocalOnlyContractFile = { File contractFile ->
+        def path = project.relativePath(contractFile).replace(File.separatorChar, '/' as char)
+        path.startsWith("docs/") || path.startsWith("src/test/")
+    }
+    def contractFiles = [
+            file("CONTEXT.md"),
+            file("THIRD_PARTY_NOTICES.md"),
+            file("docs/adr/0001-risk-based-tests.md"),
+            file("src/main/resources/META-INF/licenses/WATHE_EXTENDED_GPL-3.0.txt"),
+            file("src/test/java/dev/caecorthus/sparkdlc/assist/config/SparkAssistConfigTest.java"),
+            file("src/test/java/dev/caecorthus/sparkdlc/assist/guidebook/GuidebookCatalogTest.java"),
+            file("src/test/java/dev/caecorthus/sparkdlc/assist/guidebook/GuidebookObservationRulesTest.java"),
+            file("src/test/java/dev/caecorthus/sparkdlc/assist/guidebook/GuidebookSearchTest.java"),
+            file("src/test/java/dev/caecorthus/sparkdlc/assist/guidebook/GuidebookSessionStateTest.java"),
+            file("src/test/java/dev/caecorthus/sparkdlc/assist/input/InstinctKeyRulesTest.java"),
+            file("src/test/java/dev/caecorthus/sparkdlc/assist/input/InstinctToggleStateTest.java"),
+            file("src/test/java/dev/caecorthus/sparkdlc/assist/sound/EventSoundCatalogTest.java"),
+            file("src/test/java/dev/caecorthus/sparkdlc/assist/sound/EventSoundRefreshCategoriesTest.java"),
+            file("src/test/java/dev/caecorthus/sparkdlc/assist/sound/EventSoundVolumeRulesTest.java")
+    ]
+    def requiredFiles = contractFiles.findAll { localDocsTree.isDirectory() || !isLocalOnlyContractFile(it) }
+    inputs.files(requiredFiles)
+    inputs.file("src/main/resources/fabric.mod.json")
+    inputs.property("wathe_version", project.wathe_version)
+
+    doLast {
+        if (requiredFiles.size() < contractFiles.size()) {
+            logger.lifecycle("No local docs/ tree: skipped "
+                    + "${contractFiles.size() - requiredFiles.size()} local-only architecture contract files.")
+        }
+        requiredFiles.each { requiredFile ->
+            if (!requiredFile.isFile()) {
+                throw new GradleException("Missing architecture contract file: ${requiredFile}")
+            }
+        }
+
+        def metadata = new groovy.json.JsonSlurper().parse(file("src/main/resources/fabric.mod.json"))
+        if (metadata.environment != "client" || metadata.entrypoints?.main) {
+            throw new GradleException("SparkAssist must remain client-only")
+        }
+        if (project.wathe_version != "1.5.6-spark-1.21.1") {
+            throw new GradleException("wathe_version must remain aligned with the Spark fork")
+        }
+        if (metadata.depends?.wathe != '${wathe_version}') {
+            throw new GradleException("Wathe must be a hard dependency pinned through wathe_version")
+        }
+        if (metadata.suggests?.containsKey("wathe")) {
+            throw new GradleException("Wathe cannot also be declared as an optional suggestion")
+        }
+        optionalGuideProviders.each { optionalModId ->
+            if (metadata.suggests?.get(optionalModId) != "*") {
+                throw new GradleException("Catalog provider ${optionalModId} must be declared in fabric.mod.json suggests")
+            }
+        }
+        if (metadata.depends?.containsKey("ponder") || metadata.suggests?.get("ponder") != "*") {
+            throw new GradleException("Ponder must stay an optional suggestion, never a hard dependency")
+        }
+
+        def notices = file("THIRD_PARTY_NOTICES.md").getText("UTF-8")
+        if (!notices.replace("\r\n", "\n").contains(requiredWatheNotice)) {
+            throw new GradleException("THIRD_PARTY_NOTICES.md is missing the required Wathe asset notice")
+        }
+        if (!notices.contains(watheExtendedCommit)
+                || !notices.contains("clean reimplementation")
+                || !notices.contains("No upstream source code was copied.")) {
+            throw new GradleException("THIRD_PARTY_NOTICES.md is missing the Guidebook reimplementation provenance")
+        }
+
+        def upstreamLicense = file("src/main/resources/META-INF/licenses/WATHE_EXTENDED_GPL-3.0.txt").getText("UTF-8")
+        if (!upstreamLicense.contains("GNU GENERAL PUBLIC LICENSE")
+                || !upstreamLicense.contains("Version 3, 29 June 2007")) {
+            throw new GradleException("Vendored Wathe Extended license must contain the verbatim GPLv3 text")
+        }
+    }
+}
+
+tasks.register("verifyDistributionMetadata") {
+    dependsOn remappedModJar
+    inputs.file(remappedModJar.flatMap { it.archiveFile })
+
+    doLast {
+        def jarFile = remappedModJar.get().archiveFile.get().asFile
+        def zipFile = new java.util.zip.ZipFile(jarFile)
+        try {
+            [
+                    "META-INF/LICENSE_SPARKASSIST",
+                    "META-INF/LICENSE-TEXTURES_SPARKASSIST.md",
+                    "META-INF/THIRD_PARTY_NOTICES.md",
+                    "META-INF/licenses/WATHE_EXTENDED_GPL-3.0.txt"
+            ].each { requiredEntry ->
+                if (zipFile.getEntry(requiredEntry) == null) {
+                    throw new GradleException("Missing distribution notice ${requiredEntry} in ${jarFile.name}")
+                }
+            }
+
+            def packagedNotices = zipFile.getInputStream(zipFile.getEntry("META-INF/THIRD_PARTY_NOTICES.md")).getText("UTF-8")
+            if (!packagedNotices.replace("\r\n", "\n").contains(requiredWatheNotice)
+                    || !packagedNotices.contains(watheExtendedCommit)
+                    || !packagedNotices.contains("No upstream source code was copied.")) {
+                throw new GradleException("Packaged third-party notice is incomplete in ${jarFile.name}")
+            }
+
+            def packagedUpstreamLicense = zipFile.getInputStream(zipFile.getEntry("META-INF/licenses/WATHE_EXTENDED_GPL-3.0.txt")).getText("UTF-8")
+            if (!packagedUpstreamLicense.contains("GNU GENERAL PUBLIC LICENSE")
+                    || !packagedUpstreamLicense.contains("Version 3, 29 June 2007")) {
+                throw new GradleException("Packaged Wathe Extended license is not GPLv3")
+            }
+
+            def metadataEntry = zipFile.getEntry("fabric.mod.json")
+            if (metadataEntry == null) {
+                throw new GradleException("Missing fabric.mod.json in ${jarFile.name}")
+            }
+            def metadata = new groovy.json.JsonSlurper().parse(zipFile.getInputStream(metadataEntry))
+            if (metadata.environment != "client" || metadata.entrypoints?.main) {
+                throw new GradleException("Packaged SparkAssist metadata must remain client-only")
+            }
+            if (metadata.license != ["AGPL-3.0-only", "LicenseRef-Textures-ARR"]) {
+                throw new GradleException("Packaged SparkAssist metadata must declare AGPL-3.0-only code and ARR textures")
+            }
+            if (metadata.depends?.wathe != project.wathe_version.toString()) {
+                throw new GradleException("Packaged Wathe dependency must match wathe_version")
+            }
+            if (metadata.suggests?.containsKey("wathe")) {
+                throw new GradleException("Packaged metadata cannot suggest the required Wathe dependency")
+            }
+            optionalGuideProviders.each { optionalModId ->
+                if (metadata.suggests?.get(optionalModId) != "*") {
+                    throw new GradleException("Packaged metadata must suggest optional mod ${optionalModId}")
+                }
+            }
+
+            def copiedUpstreamClass = zipFile.entries().find { entry ->
+                entry.name.startsWith("cat/rezelyn/") || entry.name.startsWith("dev/doctor4t/")
+                        || entry.name.startsWith("net/createmod/") || entry.name.startsWith("dev/engine_room/")
+                        || entry.name.startsWith("META-INF/jars/")
+            }
+            if (copiedUpstreamClass != null) {
+                throw new GradleException("Upstream class unexpectedly bundled in ${jarFile.name}: ${copiedUpstreamClass.name}")
+            }
+        } finally {
+            zipFile.close()
+        }
+    }
+}
+
+def targetJavaVersion = 21
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = "UTF-8"
+    it.options.release.set(targetJavaVersion)
+}
+
+tasks.named("check") {
+    setDependsOn([])
+}
+
+
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+    withSourcesJar()
+}
+
+def sourceArchive = tasks.named("sourcesJar")
+sourceArchive.configure {
+    from("LICENSE") {
+        into("META-INF")
+        rename { "LICENSE_SPARKASSIST" }
+    }
+    from("LICENSE-TEXTURES.md") {
+        into("META-INF")
+        rename { "LICENSE-TEXTURES_SPARKASSIST.md" }
+    }
+    from("THIRD_PARTY_NOTICES.md") {
+        into("META-INF")
+    }
+}
+
+tasks.named("verifyDistributionMetadata") {
+    dependsOn sourceArchive
+    inputs.file(sourceArchive.flatMap { it.archiveFile })
+
+    doLast {
+        def sourcesFile = sourceArchive.get().archiveFile.get().asFile
+        def sourcesZip = new java.util.zip.ZipFile(sourcesFile)
+        try {
+            [
+                    "META-INF/LICENSE_SPARKASSIST",
+                    "META-INF/LICENSE-TEXTURES_SPARKASSIST.md",
+                    "META-INF/THIRD_PARTY_NOTICES.md",
+                    "META-INF/licenses/WATHE_EXTENDED_GPL-3.0.txt"
+            ].each { requiredEntry ->
+                if (sourcesZip.getEntry(requiredEntry) == null) {
+                    throw new GradleException("Missing source-distribution notice ${requiredEntry} in ${sourcesFile.name}")
+                }
+            }
+            def sourceNotices = sourcesZip.getInputStream(
+                    sourcesZip.getEntry("META-INF/THIRD_PARTY_NOTICES.md")
+            ).getText("UTF-8")
+            if (!sourceNotices.replace("\r\n", "\n").contains(requiredWatheNotice)
+                    || !sourceNotices.contains(watheExtendedCommit)
+                    || !sourceNotices.contains("No upstream source code was copied.")) {
+                throw new GradleException("Source-distribution third-party notice is incomplete in ${sourcesFile.name}")
+            }
+        } finally {
+            sourcesZip.close()
+        }
+    }
+}
+
+tasks.withType(JavaExec).configureEach {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    if (JavaVersion.current() < javaVersion) {
+        javaLauncher.set(javaToolchains.launcherFor {
+            languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+        })
+    }
+}

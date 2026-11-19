@@ -1,0 +1,72 @@
+{
+  "entries": [
+    {
+      "id": "sparkwitch:mighty_force",
+      "tab": "SKILL",
+      "sourceModId": "sparkwitch",
+      "nameKey": "skill.sparkwitch.mighty_force.name",
+      "summaryKey": "skill.sparkwitch.mighty_force.description",
+      "pages": [
+        {
+          "blocks": [
+            {
+              "type": "quote",
+              "text": "预备魔女随机技能之一"
+            },
+            {
+              "type": "paragraph",
+              "text": "一次性的致命一击：开启后空手打中谁，谁就会被击飞并当场死亡。"
+            },
+            {
+              "type": "section",
+              "text": "效果",
+              "tone": "info"
+            },
+            {
+              "type": "bullet",
+              "text": "按技能键（默认 G），消耗 60 魔力，进入 10 秒的巨力状态。"
+            },
+            {
+              "type": "bullet",
+              "text": "期间空手左键一名玩家，对方会被猛烈击飞并直接死亡，巨力状态随即结束。手里拿着任何东西都不会触发；护盾可以挡下这一击。打中派对狂召唤的派对客也会打死它，同样结束巨力，不算误杀。"
+            },
+            {
+              "type": "bullet",
+              "text": "10 秒内没打中人，魔力照样扣除。巨力状态结束后进入 45 秒冷却；开局另有 30 秒冷却。"
+            },
+            {
+              "type": "section",
+              "text": "使用建议",
+              "tone": "good"
+            },
+            {
+              "type": "bullet",
+              "text": "10 秒很短：先把手空出来、走到目标身边，再开巨力出手。"
+            },
+            {
+              "type": "section",
+              "text": "需要注意",
+              "tone": "danger"
+            },
+            {
+              "type": "bullet",
+              "text": "打死好人阵营玩家会像好人用枪误杀一样受罚：默认你会连自己一起赔上（死因“小脑”）；如果服务器的误杀惩罚是不能再捡枪，你不会死，但本局再也不能使用巨力。"
+            },
+            {
+              "type": "bullet",
+              "text": "巨力对谁都能一击致命，出手前先确认目标。"
+            }
+          ]
+        }
+      ],
+      "ownerRoleIds": [
+        "sparkwitch:apprentice_witch"
+      ],
+      "requiredModIds": [
+        "sparkwitch"
+      ],
+      "color": "#75EDFA",
+      "order": 110
+    }
+  ]
+}

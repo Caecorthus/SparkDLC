@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "id": "sparkassist",
+  "version": "${version}",
+  "name": "SparkAssist",
+  "description": "Client-side accessibility helpers for Spark wathe sessions.",
+  "authors": [
+    "Caecorthus"
+  ],
+  "license": [
+    "AGPL-3.0-only",
+    "LicenseRef-Textures-ARR"
+  ],
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.caecorthus.sparkdlc.assist.client.SparkAssistClient"
+    ]
+  },
+  "mixins": [
+    {
+      "config": "sparkassist.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": "~${minecraft_version}",
+    "java": ">=21",
+    "fabric-api": "*",
+    "wathe": "${wathe_version}"
+  },
+  "suggests": {
+    "noellesroles": "*",
+    "sparkwitch": "*",
+    "sparktraits": "*",
+    "sparkstrength": "*",
+    "sparkfactionapi": "*",
+    "ponder": "*"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "entries": [
+    {
+      "id": "sparktraits:master_saboteur",
+      "tab": "TRAIT",
+      "sourceModId": "sparktraits",
+      "nameKey": "trait.sparktraits.master_saboteur.name",
+      "summaryKey": "trait.sparktraits.master_saboteur.description",
+      "pages": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": "你撬箱、入侵更快，你发动的破坏也更难修。只会给原本就是杀手、不带【善良】或【内鬼】的人。"
+            },
+            {
+              "type": "section",
+              "text": "效果",
+              "tone": "danger"
+            },
+            {
+              "type": "bullet",
+              "text": "撬【接线箱】每秒 5%，约 20 秒撬开（一般约 33 秒）；用【平板电脑】入侵只要 10 秒（一般 15 秒）。"
+            },
+            {
+              "type": "bullet",
+              "text": "由你点「触发」的灯光破坏：电闸多 2 个跳闸空开（共 5–7 个），主闸要按住 3 秒（一般 2 秒）。"
+            },
+            {
+              "type": "bullet",
+              "text": "由你触发的动力破坏：抢修多 1 块压力表（共 4 块），「重启」要按住 3 秒（一般 2 秒）；大修多 1 根保险丝（共 4 根），压力表和按住时间不变。"
+            },
+            {
+              "type": "bullet",
+              "text": "同伴触发的破坏不受影响；工程师的【破坏维修】照样能远程修好你的破坏。"
+            },
+            {
+              "type": "section",
+              "text": "建议",
+              "tone": "good"
+            },
+            {
+              "type": "bullet",
+              "text": "撬箱和入侵交给你来做，能比同伴更早解锁破坏。"
+            },
+            {
+              "type": "bullet",
+              "text": "破坏尽量由你来点「触发」：好人修电闸、修动力装置都要多花几秒，动力破坏也更容易拖到列车停驶。"
+            }
+          ]
+        }
+      ],
+      "ownerRoleIds": [
+        "wathe:killer"
+      ],
+      "requiredModIds": [
+        "sparktraits"
+      ],
+      "color": "#4A5A8C",
+      "order": 1140
+    }
+  ]
+}

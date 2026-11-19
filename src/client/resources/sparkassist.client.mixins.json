@@ -1,0 +1,32 @@
+{
+  "required": true,
+  "package": "dev.caecorthus.sparkdlc.assist.client.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "AccessibilityOptionsScreenMixin",
+    "ActorBlindGateMixin",
+    "ActorJesterMomentMixin",
+    "ActorMuzzleMixin",
+    "ActorTextureMixin",
+    "AdvancementsScreenMixin",
+    "BloodParticleMixin",
+    "ClientAdvancementManagerMixin",
+    "GameMenuScreenMixin",
+    "GameRoundEndComponentMixin",
+    "GunDropPayloadMixin",
+    "KeyBindingMixin",
+    "LimitedInventoryScreenMixin",
+    "ParticleAccessorMixin",
+    "PoisonOverlayPayloadMixin",
+    "PonderCaptionMixin",
+    "PonderSceneCaptionMixin",
+    "PonderTimingMixin",
+    "SoundOptionsScreenMixin",
+    "SoundSystemMixin",
+    "TaskCompletePayloadMixin",
+    "WatheBloodClientMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

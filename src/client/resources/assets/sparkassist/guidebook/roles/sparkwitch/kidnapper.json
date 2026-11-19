@@ -1,0 +1,136 @@
+{
+  "entries": [
+    {
+      "id": "sparkwitch:kidnapper",
+      "tab": "ROLE",
+      "sourceModId": "sparkwitch",
+      "nameKey": "announcement.role.kidnapper",
+      "summaryKey": "guidebook.sparkassist.content.role.overview",
+      "pages": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": "杀手阵营的控场位。用迷药把目标劫持到身边，带到没人的地方再动手；还能拖走、扔出尸体，推迟命案被发现的时间。"
+            },
+            {
+              "type": "section",
+              "text": "能力",
+              "tone": "danger"
+            },
+            {
+              "type": "bullet",
+              "runs": [
+                {
+                  "text": "迷药",
+                  "tone": "danger"
+                },
+                {
+                  "text": "：开局自带 1 瓶，对准一名存活玩家右键使用，劫持对方 30 秒。开局 40 秒内不能用，用后冷却 45 秒；商店还能花 50 金币再买。"
+                }
+              ]
+            },
+            {
+              "type": "bullet",
+              "runs": [
+                {
+                  "text": "劫持",
+                  "tone": "danger"
+                },
+                {
+                  "text": "：被劫持的人会一直被拉到你身上，眼前黑屏，不能攻击、使用物品、切换快捷栏，语音也被静音。你按潜行键可以提前放人；两人相距超过 5 格时也会自动结束。"
+                }
+              ]
+            },
+            {
+              "type": "bullet",
+              "runs": [
+                {
+                  "text": "绑架赏金",
+                  "tone": "danger"
+                },
+                {
+                  "text": "：亲手杀死正被你劫持的人，额外获得 100 金币。"
+                }
+              ]
+            },
+            {
+              "type": "bullet",
+              "runs": [
+                {
+                  "text": "拖动尸体",
+                  "tone": "danger"
+                },
+                {
+                  "text": "（技能键）：瞄准 2 格内看得见的尸体开始拖动，再按一次放下；免费、无冷却。拖动期间移速变为 80%。"
+                }
+              ]
+            },
+            {
+              "type": "bullet",
+              "runs": [
+                {
+                  "text": "扔尸体",
+                  "tone": "danger"
+                },
+                {
+                  "text": "：拖着尸体时潜行并右键，把尸体朝你看的方向扔出去。"
+                }
+              ]
+            },
+            {
+              "type": "demo",
+              "scene": "sparkassist:roles/sparkwitch/kidnapper",
+              "text": "演示：迷药、拖尸与扔尸"
+            },
+            {
+              "type": "section",
+              "text": "商店",
+              "tone": "money"
+            },
+            {
+              "type": "bullet",
+              "text": "和普通杀手的区别：没有【毒药瓶】和【蝎子】，换成 50 金币的【迷药】。"
+            },
+            {
+              "type": "section",
+              "text": "玩法建议",
+              "tone": "good"
+            },
+            {
+              "type": "bullet",
+              "text": "迷到人后先离开人群，到偏僻处再动手：既安全，又能多拿 100 金币。"
+            },
+            {
+              "type": "bullet",
+              "text": "杀完别急着走，把尸体拖进房间或角落再离开，让别人晚一点发现。"
+            },
+            {
+              "type": "section",
+              "text": "需要注意",
+              "tone": "danger"
+            },
+            {
+              "type": "bullet",
+              "text": "劫持期间一按潜行就会放人，潜行或扔尸体之前想清楚。"
+            },
+            {
+              "type": "bullet",
+              "text": "被劫持的人会和你挤在一起，旁人看得见，别当着别人的面下药。"
+            },
+            {
+              "type": "bullet",
+              "text": "假尸体拖不动：拖不动的“尸体”，主人很可能还活着。派对客的尸体也拖不动，不过它顶着派对客的皮肤，一看就认得出。"
+            }
+          ]
+        }
+      ],
+      "ownerRoleIds": [],
+      "requiredModIds": [
+        "sparkwitch"
+      ],
+      "color": "#9B59B6",
+      "order": 420
+    }
+  ]
+}

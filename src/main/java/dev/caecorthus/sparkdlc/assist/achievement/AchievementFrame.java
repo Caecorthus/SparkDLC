@@ -1,0 +1,20 @@
+package dev.caecorthus.sparkdlc.assist.achievement;
+
+/**
+ * The frame an achievement is drawn with, matching vanilla's three advancement frames and derived from its level:
+ * levels 1–2 are tasks, 3–4 goals and 5–6 challenges, which also get the challenge fanfare in the toast.
+ * 成就使用的边框，对应原版的三种进度边框，由等级决定：1–2 级为任务，3–4 级为目标，5–6 级为挑战，挑战的弹窗还会播放号角声。
+ */
+public enum AchievementFrame {
+    TASK,
+    GOAL,
+    CHALLENGE;
+
+    /** The frame for a level from 1 to 6. 1 到 6 级对应的边框。 */
+    public static AchievementFrame forLevel(int level) {
+        if (level < Achievement.MIN_LEVEL || level > Achievement.MAX_LEVEL) {
+            throw new IllegalArgumentException("level " + level);
+        }
+        return level <= 2 ? TASK : level <= 4 ? GOAL : CHALLENGE;
+    }
+}

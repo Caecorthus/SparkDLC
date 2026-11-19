@@ -1,0 +1,20 @@
+/.gradle/
+.idea/
+/ARCHITECTURE.md
+/ARCHITECTURE_LOGS.md
+/ARCHITECTURE LOGS.md
+/build/
+/bin/
+/out/
+/run/
+/logs/
+*.class
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+!/libs/wathe-*.jar
+*.iml
+*.log
+
+# Local test sources
+/src/test/
+/docs/

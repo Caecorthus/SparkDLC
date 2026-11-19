@@ -1,0 +1,42 @@
+{
+  "entries": [
+    {
+      "id": "sparktraits:paranoid",
+      "tab": "TRAIT",
+      "sourceModId": "sparktraits",
+      "nameKey": "trait.sparktraits.paranoid.name",
+      "summaryKey": "trait.sparktraits.paranoid.description",
+      "pages": [
+        {
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": "疯魔模式更持久、更耐打。只会出现在商店里有【疯魔模式】的杀手身上。"
+            },
+            {
+              "type": "section",
+              "text": "效果",
+              "tone": "danger"
+            },
+            {
+              "type": "bullet",
+              "text": "疯魔模式延长 20 秒，默认的 30 秒变为 50 秒。"
+            },
+            {
+              "type": "bullet",
+              "text": "开启时额外获得一层护盾，一共两层。"
+            }
+          ]
+        }
+      ],
+      "ownerRoleIds": [
+        "wathe:killer"
+      ],
+      "requiredModIds": [
+        "sparktraits"
+      ],
+      "color": "#8B3FA8",
+      "order": 1040
+    }
+  ]
+}

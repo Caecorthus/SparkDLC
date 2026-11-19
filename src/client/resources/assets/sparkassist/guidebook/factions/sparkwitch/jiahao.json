@@ -1,0 +1,162 @@
+{
+  "entries": [
+    {
+      "id": "sparkassist:faction/sparkwitch/jiahao",
+      "tab": "FACTION",
+      "sourceModId": "sparkwitch",
+      "nameKey": "guidebook.sparkassist.faction.jiahao.name",
+      "summaryKey": "guidebook.sparkassist.faction.pending",
+      "pages": [
+        {
+          "blocks": [
+            {
+              "type": "section",
+              "text": "胜利条件",
+              "tone": "money"
+            },
+            {
+              "type": "paragraph",
+              "text": "场上存活的玩家只剩嘉豪阵营成员时，嘉豪阵营共同获胜，已经阵亡的成员也算赢。被饕餮吞下的人不算存活。"
+            },
+            {
+              "type": "paragraph",
+              "text": "只要还有嘉豪阵营成员活着，好人和杀手都无法靠消灭对方提前获胜；不过列车时间耗尽时，仍然算好人阵营获胜。"
+            },
+            {
+              "type": "paragraph",
+              "text": "嘉豪阵营有自己的阵营色土豪金：获胜时结算显示金色的「嘉豪胜利！」。本局没有内应或狮身豪、黑警独自获胜时也一样。"
+            },
+            {
+              "type": "section",
+              "text": "阵营成员",
+              "tone": "money"
+            },
+            {
+              "type": "bullet",
+              "runs": [
+                {
+                  "text": "黑警",
+                  "tone": "money"
+                },
+                {
+                  "text": "：每一局都属于嘉豪阵营，有没有同伙都一样。杀死除自己和同伙以外的所有人；开局自带【左轮手枪】，打死谁都不受罚。"
+                }
+              ]
+            },
+            {
+              "type": "bullet",
+              "runs": [
+                {
+                  "text": "内应",
+                  "tone": "money"
+                },
+                {
+                  "text": "：黑警的同伙，占用好人的名额开局。混在乘客中做任务攒钱，买到【左轮手枪】后就能放心开火。"
+                }
+              ]
+            },
+            {
+              "type": "bullet",
+              "runs": [
+                {
+                  "text": "狮身豪",
+                  "tone": "money"
+                },
+                {
+                  "text": "：黑警的另一种同伙，和内应二选一，同样占用好人的名额开局。不赚金币，靠感染乘客、发动豪气冲天让大家一起“陆泳”攒豪度值，再用“手”枪的拳头子弹一拳砸死人。"
+                }
+              ]
+            },
+            {
+              "type": "section",
+              "text": "阵营共同点",
+              "tone": "money"
+            },
+            {
+              "type": "bullet",
+              "runs": [
+                {
+                  "text": "认出同伙",
+                  "tone": "money"
+                },
+                {
+                  "text": "：黑警和同伙（内应或狮身豪）看向对方时会显示金色的“嘉豪同伙”；全车停电期间，本能只看得到彼此。"
+                }
+              ]
+            },
+            {
+              "type": "bullet",
+              "text": "杀手眼里内应和普通乘客没有区别，同样会对内应下手；狮身豪也一样。"
+            },
+            {
+              "type": "bullet",
+              "text": "黑警和内应开局都有【中立万能钥匙】和接入义警频道的平板电脑，能用频道里的聊天、紧急会议和嫌疑人功能；狮身豪开局有【中立万能钥匙】和一把没装子弹的“手”枪；装了 SparkStrength 时它的平板电脑只有公共频道，接不进义警频道。"
+            },
+            {
+              "type": "section",
+              "text": "出现方式",
+              "tone": "info"
+            },
+            {
+              "type": "paragraph",
+              "text": "以下为默认规则，服务器可能有所调整。",
+              "tone": "muted"
+            },
+            {
+              "type": "bullet",
+              "text": "嘉豪阵营和魔女阵营都属于第三方阵营（好人、中立、杀手以外的阵营）。每局最多出现一个第三方阵营：在杀手和警职分配完后、中立角色分配前抽取，两个都能出现时各有 50% 的概率。"
+            },
+            {
+              "type": "bullet",
+              "text": "18 人以上的对局才会抽取第三方阵营，名额为开局人数 ÷ 10（向下取整）。第三方阵营不占用中立名额，占用的是好人的名额。"
+            },
+            {
+              "type": "bullet",
+              "text": "抽中嘉豪阵营时，开局有 1 名黑警；名额至少 2 个时（20 人以上）再加 1 名同伙：内应和狮身豪各 50%，同一局只会有其中一个。嘉豪阵营最多 2 人。"
+            },
+            {
+              "type": "bullet",
+              "text": "黑警不再从中立名额里抽取，也不占用中立名额：只有嘉豪阵营成为本局的第三方阵营时才会出现，不到 18 人的对局没有黑警。"
+            },
+            {
+              "type": "bullet",
+              "text": "服务器指定的身份会保留：被指定为黑警、内应或狮身豪的玩家会让本局的第三方阵营成为嘉豪阵营，并计入名额。"
+            },
+            {
+              "type": "bullet",
+              "text": "嘉豪阵营成员（黑警、内应、狮身豪）死亡后不会变成冤魂。"
+            },
+            {
+              "type": "section",
+              "text": "新手建议",
+              "tone": "good"
+            },
+            {
+              "type": "bullet",
+              "text": "黑警和同伙只要有一人活着就能拖住其他阵营，别一起去冒险。"
+            },
+            {
+              "type": "bullet",
+              "text": "内应在杀手眼里只是普通乘客：混在人群里，让杀手和好人先互相消耗。"
+            },
+            {
+              "type": "bullet",
+              "text": "义警频道的会议和嫌疑人情报对你们同样开放，找机会提醒同伙避开风头。"
+            }
+          ]
+        }
+      ],
+      "ownerRoleIds": [
+        "noellesroles:corrupt_cop",
+        "sparkwitch:insider",
+        "sparkwitch:sphinx_hao"
+      ],
+      "requiredModIds": [
+        "sparkwitch",
+        "noellesroles"
+      ],
+      "color": "#FFC125",
+      "order": 50
+    }
+  ]
+}

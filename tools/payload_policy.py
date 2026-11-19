@@ -72,12 +72,12 @@ class ModTarget:
 # SparkFactionAPI 唯一的使用方与生成类同包，因此保持包私有；SparkWitch 与 SparkStrength 在多个职业包中引用，必须公开
 # （仍不跨模组引用）。
 MODS = {
-    "factionapi": ModTarget("sparkfactionapi", "dev.caecorthus.sparkdlc.factionapi.impl.antifastround", False,
+    "factionapi": ModTarget("sparkfactionapi", "dev.caecorthus.sparkdlc.round.antifastround", False,
                             ("SAFE_TIME",)),
-    "witch": ModTarget("sparkwitch", "dev.caecorthus.sparkdlc.witch.payloadpolicy", True,
+    "witch": ModTarget("sparkwitch", "dev.caecorthus.sparkdlc.net.policy.witch", True,
                        ("STUN", "SEEKER", "RIFT", "FEAR", "FEAR_SILENT", "DUEL_PRIMARY", "DUEL_WEAPON",
                         "HYPNOSIS_EXTRA", "HYPNOSIS_SILENT")),
-    "strength": ModTarget("sparkstrength", "dev.caecorthus.sparkdlc.strength.payloadpolicy", True, ("DAZE", "CARRY_EXTRA")),
+    "strength": ModTarget("sparkstrength", "dev.caecorthus.sparkdlc.net.policy.strength", True, ("DAZE", "CARRY_EXTRA")),
 }
 
 

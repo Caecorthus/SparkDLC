@@ -6,27 +6,35 @@ Wathe and NoellesRoles. It was created on 2026-11-19 by fusing five mods; their 
 
 ## Modules
 
-| Module | Package | Namespace (legacy mod id) | What it owns | Module notes |
+| Legacy module | Main packages now (under `dev.caecorthus.sparkdlc`) | Namespace (legacy mod id) | What it owns | Module notes |
 | --- | --- | --- | --- | --- |
-| factionapi | `dev.caecorthus.sparkdlc.factionapi` | `sparkfactionapi` | Faction registration, native Wathe factions, round end and win services, payload policy, replay, anti-fast-round, lobby map reset, version handshake | `docs/factionapi/CONTEXT.md` |
-| strength | `dev.caecorthus.sparkdlc.strength` | `sparkstrength` | Buffs and reworks for Wathe/NoellesRoles roles, items (M67, tablet, drones...), sabotage, Partygoer | — |
-| traits | `dev.caecorthus.sparkdlc.traits` | `sparktraits` | Passive trait mechanics and their planning, sync and client presentation | — |
-| witch | `dev.caecorthus.sparkdlc.witch` | `sparkwitch` | Witch and Jiahao factions, their roles, the active skill framework, most new roles and items | `docs/witch/CONTEXT.md` |
-| assist | `dev.caecorthus.sparkdlc.assist` | `sparkassist` | Client-side helpers: guidebook, achievements, unified settings screen, Ponder scenes, HUD aids | `docs/assist/CONTEXT.md` |
+| factionapi | `faction`, `round`, `cooldown`, `replay`, `record`, `team`, `net.version` | `sparkfactionapi` | Faction registration, native Wathe factions, round end and win services, payload policy, replay, anti-fast-round, lobby map reset, version handshake | `docs/factionapi/CONTEXT.md` |
+| strength | `role.<category>.<role>`, `item`, `entity`, `sabotage`, `tablet`, `economy`, `viewpoint` | `sparkstrength` | Buffs and reworks for Wathe/NoellesRoles roles, items (M67, tablet, drones...), sabotage, Partygoer | — |
+| traits | `trait` | `sparktraits` | Passive trait mechanics and their planning, sync and client presentation | — |
+| witch | `role.<category>.<role>`, `skill`, `faction.witch`, `item`, `net` | `sparkwitch` | Witch and Jiahao factions, their roles, the active skill framework, most new roles and items | `docs/witch/CONTEXT.md` |
+| assist | `guidebook`, `achievement`, `ponder`, `config`, `sound`, `client.settings` | `sparkassist` | Client-side helpers: guidebook, achievements, unified settings screen, Ponder scenes, HUD aids | `docs/assist/CONTEXT.md` |
 
-Common code is in `src/main/java`, client code in `src/client/java` (each module's client classes sit in its
-`client` subpackage). `assist` is client-only in behaviour: its common-side classes are pure data and rules and are
+Since the stage-1 unification move the code is organised by function, not by legacy module: a role's items,
+components, payloads and services live in `role.<category>.<role>` (categories `civilian`, `killer`, `neutral`,
+`jiahao`, `witch`, `special`), shared systems in packages such as `trait`, `faction`, `round`, `cooldown`, `skill`,
+`item`, `net`, and every mixin under `mixin.*` / `client.mixin.*`. The legacy initializers, registries and
+facades still exist as classes (root package, `bridge.*`); `tools/unify/README.md` describes the move, and
+`tools/unify/file-moves.tsv` lists where every file came from.
+
+Common code is in `src/main/java`, client code in `src/client/java` (every client class sits under the
+`client` package). `assist` is client-only in behaviour: its common-side classes are pure data and rules and are
 only reached from client code.
 
 ## Stable contracts of the fusion
 
 - **Namespaces never change.** Registry ids, packet ids, component ids, asset paths, lang keys, config file names,
-  commands and mixin config names keep the legacy mod ids. `fabric.mod.json` lists the five ids under `provides`,
+  and commands keep the legacy mod ids (the nine mixin configs were merged into two `sparkdlc.*` files). `fabric.mod.json` lists the five ids under `provides`,
   so `FabricLoader#isModLoaded("sparkwitch")` and `#getModContainer("sparkwitch")` resolve to the SparkDLC container.
   Code that needs a module's display name uses `SparkDlcModule`, not the container name.
 - **Start order.** `SparkDLC#onInitialize` runs factionapi, strength, traits, witch; `SparkDLCClient` runs assist,
   factionapi, strength, traits, witch. This is the alphabetical mod-id order Fabric used for the separate mods.
-  The nine mixin configs are listed in `fabric.mod.json` in the same order.
+  The two mixin configs (`sparkdlc.mixins.json`, `sparkdlc.client.mixins.json`) list the mixins of the former
+  nine configs in the same module order on each side; the common config is listed first.
 - **Shared resource files.** Five files that several mods used to ship are single merged files now:
   `assets/minecraft/font/default.json`, `data/sparktraits/tags/item/{bloodthirsty_weapons,throwables,thrust_weapons}.json`
   and `data/wathe/tags/item/guns.json`. A module adds its entries to the shared file.

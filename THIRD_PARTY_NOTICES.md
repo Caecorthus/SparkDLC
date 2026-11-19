@@ -18,11 +18,11 @@ were copied or adapted from
 
 The adapted implementation is primarily under:
 
-- `src/main/java/dev/caecorthus/sparkdlc/witch/roles/killer/hunter/`
-- `src/main/java/dev/caecorthus/sparkdlc/witch/roles/civilian/orthopedist/`
-- `src/client/java/dev/caecorthus/sparkdlc/witch/client/hunter/`
-- `src/client/java/dev/caecorthus/sparkdlc/witch/client/hooks/HunterTrapClientHooks.java`
-- `src/client/java/dev/caecorthus/sparkdlc/witch/client/renderer/HunterTrapEntityRenderer.java`
+- `src/main/java/dev/caecorthus/sparkdlc/role/killer/hunter/`
+- `src/main/java/dev/caecorthus/sparkdlc/role/civilian/orthopedist/`
+- `src/client/java/dev/caecorthus/sparkdlc/client/role/killer/hunter/`
+- `src/client/java/dev/caecorthus/sparkdlc/client/hooks/HunterTrapClientHooks.java`
+- `src/client/java/dev/caecorthus/sparkdlc/client/render/entity/HunterTrapEntityRenderer.java`
 
 Copied or namespace-adapted assets include the Hunter trap, double-barrel shotgun, shell, Fracture,
 and Bone Setting models, textures, and icons under `src/main/resources/assets/sparkwitch/`.
@@ -44,15 +44,15 @@ and commit author `wifi-left`.
 
 The following files contain adapted code:
 
-- `src/main/java/dev/caecorthus/sparkdlc/witch/roles/killer/ninja/`, primarily from
+- `src/main/java/dev/caecorthus/sparkdlc/role/killer/ninja/`, primarily from
   `src/main/java/org/agmas/noellesroles/game/roles/killer/ninja/NinjaPlayerComponent.java`,
   `src/main/java/org/agmas/noellesroles/init/RoleInitialItems.java`, and
   `src/main/java/org/agmas/noellesroles/init/RoleShopHandler.java`
-- `src/main/java/dev/caecorthus/sparkdlc/witch/item/ninja/NinjaKnifeItem.java`, from
+- `src/main/java/dev/caecorthus/sparkdlc/item/ninja/NinjaKnifeItem.java`, from
   `src/main/java/org/agmas/noellesroles/content/item/NinjaKnifeItem.java`
-- `src/main/java/dev/caecorthus/sparkdlc/witch/item/ninja/NinjaShurikenItem.java`, from
+- `src/main/java/dev/caecorthus/sparkdlc/item/ninja/NinjaShurikenItem.java`, from
   `src/main/java/org/agmas/noellesroles/content/item/NinjaShurikenItem.java`
-- `src/main/java/dev/caecorthus/sparkdlc/witch/entity/NinjaShurikenEntity.java`, from
+- `src/main/java/dev/caecorthus/sparkdlc/entity/NinjaShurikenEntity.java`, from
   `src/main/java/org/agmas/noellesroles/content/entity/ThrowingKnifeEntity.java`
 
 The following files are copied item models with namespace-only changes:

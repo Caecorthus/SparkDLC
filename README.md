@@ -18,13 +18,19 @@ and config files keep working: every id keeps its legacy namespace.
 
 ## 模块 / Modules
 
-| 模块 | 包 | 命名空间 | 内容 |
+| 原模块 | 现在的主要包（`dev.caecorthus.sparkdlc` 下） | 命名空间 | 内容 |
 | --- | --- | --- | --- |
-| factionapi | `dev.caecorthus.sparkdlc.factionapi` | `sparkfactionapi` | 阵营 API、回合结算、数据包策略、回放等公共服务 |
-| strength | `dev.caecorthus.sparkdlc.strength` | `sparkstrength` | 职业增强、物品（M67、平板、无人机…）、破坏系统 |
-| traits | `dev.caecorthus.sparkdlc.traits` | `sparktraits` | 被动特质 |
-| witch | `dev.caecorthus.sparkdlc.witch` | `sparkwitch` | 魔女/嘉豪阵营、职业、主动技能框架 |
-| assist | `dev.caecorthus.sparkdlc.assist` | `sparkassist` | 客户端辅助：指南、成就、统一设置、Ponder 演示 |
+| factionapi | `faction`, `round`, `cooldown`, `replay`, `record`, `team`, `net.version` | `sparkfactionapi` | 阵营 API、回合结算、数据包策略、回放等公共服务 |
+| strength | `role.<category>.<role>`, `item`, `entity`, `sabotage`, `tablet`, `economy`, `viewpoint` | `sparkstrength` | 职业增强、物品（M67、平板、无人机…）、破坏系统 |
+| traits | `trait` | `sparktraits` | 被动特质 |
+| witch | `role.<category>.<role>`, `skill`, `faction.witch`, `item`, `net` | `sparkwitch` | 魔女/嘉豪阵营、职业、主动技能框架 |
+| assist | `guidebook`, `achievement`, `ponder`, `config`, `sound`, `client.settings` | `sparkassist` | 客户端辅助：指南、成就、统一设置、Ponder 演示 |
+
+代码按功能而不是按原模块组织：职业在 `role.<类别>.<职业>`（类别为 civilian、killer、neutral、jiahao、witch、special），客户端代码在 `client.*`，全部 mixin 在 `mixin.*` 与 `client.mixin.*`（两个 mixin 配置）。命名空间保持不变；搬迁脚本与包映射见 [`tools/unify/README.md`](tools/unify/README.md)。
+
+Code is organised by function, not by legacy module: roles live in `role.<category>.<role>`, client code in
+`client.*`, every mixin in `mixin.*` / `client.mixin.*` (two mixin configs). Namespaces are unchanged; the move
+script and the package map are in [`tools/unify/README.md`](tools/unify/README.md).
 
 更完整的说明见 [`CONTEXT.md`](CONTEXT.md)，各模块的细节在 `docs/<module>/CONTEXT.md`。
 

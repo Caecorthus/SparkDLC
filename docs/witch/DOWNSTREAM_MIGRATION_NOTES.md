@@ -14,7 +14,7 @@ interfaces rather than add public mutation hooks to production code.
 ## 2026-07-09 SparkTraits Public Facade Migration
 
 SparkWitch's optional Last Stand and final-moment bridges now reflect only
-`dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi`. No SparkWitch public API changed,
+`dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi`. No SparkWitch public API changed,
 and no downstream migration is required.
 
 Integrations must not depend on SparkTraits `impl` or `component` classes. A
@@ -29,7 +29,7 @@ SparkWitch. All live identities and components use `sparkwitch:*`, including
 legacy readers.
 
 Optional downstream queries must use the null-safe
-`dev.caecorthus.sparkdlc.witch.api.SparkWitchApi` facade. SparkTraits remains an
+`dev.caecorthus.sparkdlc.skill.api.SparkWitchApi` facade. SparkTraits remains an
 optional provider of generic trait and Last Stand state only and no longer owns
 Wraith lifecycle, rendering, faction, role, or component contracts.
 

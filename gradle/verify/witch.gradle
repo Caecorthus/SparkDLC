@@ -18,9 +18,9 @@ buildscript {
     }
 }
 
-def witchMainSources = "src/main/java/dev/caecorthus/sparkdlc/witch"
-def witchClientSources = "src/client/java/dev/caecorthus/sparkdlc/witch"
-def witchLocalTests = "src/test/java/dev/caecorthus/sparkdlc/witch"
+def witchMainSources = "src/main/java/dev/caecorthus/sparkdlc"
+def witchClientSources = "src/client/java/dev/caecorthus/sparkdlc"
+def witchLocalTests = "src/test/java/dev/caecorthus/sparkdlc"
 
 def remappedModJar = tasks.named("remapJar")
 def compatibilityReleaseVersion = "2.0.0"
@@ -63,7 +63,7 @@ def witchProvidedModIds = ["sparkwitch", "sparkfactionapi", "sparktraits", "spar
 // Public SparkTraits facade the witch bridges call (directly since the fusion; the two vision bridges still reflect
 // it by name); it ships in this same jar.
 // witch 兼容桥调用的 SparkTraits 公共门面（融合后为直接调用；两个视觉桥仍按名称反射）；随同一个 jar 发布。
-def sparkTraitsApiEntry = "dev/caecorthus/sparkdlc/traits/api/SparkTraitsApi.class"
+def sparkTraitsApiEntry = "dev/caecorthus/sparkdlc/trait/api/SparkTraitsApi.class"
 
 def sha256 = { File input ->
     java.security.MessageDigest.getInstance("SHA-256")
@@ -74,8 +74,8 @@ def sha256 = { File input ->
 
 def watheClientMixinContracts = [
         [
-                configName: "WitchSkillInventoryScreenMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/WitchSkillInventoryScreenMixin.class",
+                configName: "faction.witch.WitchSkillInventoryScreenMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/faction/witch/WitchSkillInventoryScreenMixin.class",
                 handler: "sparkwitch\$scopeOwnerInventory",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapmethod/WrapMethod;",
                 selector: "method_25394(Lnet/minecraft/class_332;IIF)V",
@@ -84,8 +84,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_332;IIF)V"
         ],
         [
-                configName: "WitchSkillInventoryScreenMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/WitchSkillInventoryScreenMixin.class",
+                configName: "faction.witch.WitchSkillInventoryScreenMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/faction/witch/WitchSkillInventoryScreenMixin.class",
                 handler: "sparkwitch\$renderOwnerSkill",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "method_25394(Lnet/minecraft/class_332;IIF)V",
@@ -94,8 +94,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_332;IIF)V"
         ],
         [
-                configName: "WitchShopPriceMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/WitchShopPriceMixin.class",
+                configName: "faction.witch.WitchShopPriceMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/faction/witch/WitchShopPriceMixin.class",
                 handler: "sparkwitch\$renderManaPrice",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Redirect;",
                 selector: "method_48579(Lnet/minecraft/class_332;IIF)V",
@@ -105,8 +105,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_332;IIF)V"
         ],
         [
-                configName: "WraithNameTagRaycastMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/WraithNameTagRaycastMixin.class",
+                configName: "role.special.wraith.WraithNameTagRaycastMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/special/wraith/WraithNameTagRaycastMixin.class",
                 handler: "sparkwitch\$nameTagThroughHiddenWraiths",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/ModifyArg;",
                 selector: "renderHud(Lnet/minecraft/class_327;Lnet/minecraft/class_746;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V",
@@ -118,8 +118,8 @@ def watheClientMixinContracts = [
         [
                 // BEAR smoke (owner, 2026-11-05): the crosshair labels skip players and corpses hidden by smoke.
                 // BEAR 烟雾（所有者 2026-11-05）：准星标签跳过被烟挡住的玩家与尸体。
-                configName: "bear.SmokeRoleNameRaycastMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/bear/SmokeRoleNameRaycastMixin.class",
+                configName: "role.civilian.bear.SmokeRoleNameRaycastMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/civilian/bear/SmokeRoleNameRaycastMixin.class",
                 handler: "sparkwitch\$skipSmokeHiddenLabelTargets",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/ModifyArg;",
                 selector: "renderHud(Lnet/minecraft/class_327;Lnet/minecraft/class_746;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V",
@@ -133,8 +133,8 @@ def watheClientMixinContracts = [
         // BEAR 烟雾（所有者 2026-11-10）：Wathe 的枪、刀、球棒准星提示在 renderCrosshair 的三处目标读取上跳过被烟挡住的
         // 目标（仅提示；选靶方法本身不改动）。
         [
-                configName: "bear.SmokeCrosshairHintMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/bear/SmokeCrosshairHintMixin.class",
+                configName: "role.civilian.bear.SmokeCrosshairHintMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/civilian/bear/SmokeCrosshairHintMixin.class",
                 handler: "sparkwitch\$gunHintSkipsSmokeHiddenTarget",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/ModifyExpressionValue;",
                 selector: "renderCrosshair(Lnet/minecraft/class_310;Lnet/minecraft/class_746;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V",
@@ -144,8 +144,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_310;Lnet/minecraft/class_746;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V"
         ],
         [
-                configName: "bear.SmokeCrosshairHintMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/bear/SmokeCrosshairHintMixin.class",
+                configName: "role.civilian.bear.SmokeCrosshairHintMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/civilian/bear/SmokeCrosshairHintMixin.class",
                 handler: "sparkwitch\$knifeHintSkipsSmokeHiddenTarget",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/ModifyExpressionValue;",
                 selector: "renderCrosshair(Lnet/minecraft/class_310;Lnet/minecraft/class_746;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V",
@@ -155,8 +155,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_310;Lnet/minecraft/class_746;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V"
         ],
         [
-                configName: "bear.SmokeCrosshairHintMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/bear/SmokeCrosshairHintMixin.class",
+                configName: "role.civilian.bear.SmokeCrosshairHintMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/civilian/bear/SmokeCrosshairHintMixin.class",
                 handler: "sparkwitch\$batHintSkipsSmokeHiddenTarget",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/ModifyExpressionValue;",
                 selector: "renderCrosshair(Lnet/minecraft/class_310;Lnet/minecraft/class_746;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V",
@@ -168,8 +168,8 @@ def watheClientMixinContracts = [
         [
                 // BEAR M32A1 (owner, 2026-11-06): the slot badge replaces Wathe's selected-slot cooldown number.
                 // BEAR M32A1（所有者 2026-11-06）：格标记取代 Wathe 选中格冷却数字。
-                configName: "bear.M32CooldownNumberMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/bear/M32CooldownNumberMixin.class",
+                configName: "role.civilian.bear.M32CooldownNumberMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/civilian/bear/M32CooldownNumberMixin.class",
                 handler: "sparkwitch\$yieldToM32Badge",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
                 selector: "renderHud(Lnet/minecraft/class_327;Lnet/minecraft/class_746;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V",
@@ -179,8 +179,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_327;Lnet/minecraft/class_746;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V"
         ],
         [
-                configName: "witchmaiden.WitchMaidenInventoryScreenMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/witchmaiden/WitchMaidenInventoryScreenMixin.class",
+                configName: "role.killer.witchmaiden.WitchMaidenInventoryScreenMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/killer/witchmaiden/WitchMaidenInventoryScreenMixin.class",
                 handler: "sparkwitch\$attachWitchMaidenUi",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "method_25426()V",
@@ -189,8 +189,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "()V"
         ],
         [
-                configName: "witchmaiden.WitchMaidenInventoryScreenMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/witchmaiden/WitchMaidenInventoryScreenMixin.class",
+                configName: "role.killer.witchmaiden.WitchMaidenInventoryScreenMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/killer/witchmaiden/WitchMaidenInventoryScreenMixin.class",
                 handler: "sparkwitch\$renderWitchMaidenEmptyState",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "method_25394(Lnet/minecraft/class_332;IIF)V",
@@ -201,8 +201,8 @@ def watheClientMixinContracts = [
         [
                 // Medium 招魂 drawer (owner, 2026-11-13): attached at init, gate and layout re-checked at render head.
                 // 通灵师招魂抽屉（所有者 2026-11-13）：init 时挂载，渲染开头重新检查门槛与布局。
-                configName: "medium.MediumHauntInventoryScreenMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/medium/MediumHauntInventoryScreenMixin.class",
+                configName: "role.civilian.medium.MediumHauntInventoryScreenMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/civilian/medium/MediumHauntInventoryScreenMixin.class",
                 handler: "sparkwitch\$attachHauntDrawer",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "method_25426()V",
@@ -211,8 +211,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "()V"
         ],
         [
-                configName: "medium.MediumHauntInventoryScreenMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/medium/MediumHauntInventoryScreenMixin.class",
+                configName: "role.civilian.medium.MediumHauntInventoryScreenMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/civilian/medium/MediumHauntInventoryScreenMixin.class",
                 handler: "sparkwitch\$refreshHauntDrawer",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "method_25394(Lnet/minecraft/class_332;IIF)V",
@@ -221,8 +221,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_332;IIF)V"
         ],
         [
-                configName: "WraithRevolverAimMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/WraithRevolverAimMixin.class",
+                configName: "role.special.wraith.WraithRevolverAimMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/special/wraith/WraithRevolverAimMixin.class",
                 handler: "sparkwitch\$aimThroughWraiths",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapmethod/WrapMethod;",
                 selector: "getGunTarget(Lnet/minecraft/class_1657;)Lnet/minecraft/class_239;",
@@ -231,8 +231,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_1657;)Lnet/minecraft/class_239;"
         ],
         [
-                configName: "WraithRevolverAimMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/WraithRevolverAimMixin.class",
+                configName: "role.special.wraith.WraithRevolverAimMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/special/wraith/WraithRevolverAimMixin.class",
                 handler: "sparkwitch\$skipSleepingWraith",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/ModifyReturnValue;",
                 selector: "findSleepingPlayerOnBed(Lnet/minecraft/class_1937;Lnet/minecraft/class_3965;)Ljava/util/Optional;",
@@ -241,8 +241,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_1937;Lnet/minecraft/class_3965;)Ljava/util/Optional;"
         ],
         [
-                configName: "WraithDerringerAimMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/WraithDerringerAimMixin.class",
+                configName: "role.special.wraith.WraithDerringerAimMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/special/wraith/WraithDerringerAimMixin.class",
                 handler: "sparkwitch\$aimThroughWraiths",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapmethod/WrapMethod;",
                 selector: "getGunTarget(Lnet/minecraft/class_1657;)Lnet/minecraft/class_239;",
@@ -251,8 +251,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_1657;)Lnet/minecraft/class_239;"
         ],
         [
-                configName: "WraithKnifeAimMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/WraithKnifeAimMixin.class",
+                configName: "role.special.wraith.WraithKnifeAimMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/special/wraith/WraithKnifeAimMixin.class",
                 handler: "sparkwitch\$aimThroughWraiths",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapmethod/WrapMethod;",
                 selector: "getKnifeTarget(Lnet/minecraft/class_1657;)Lnet/minecraft/class_239;",
@@ -261,8 +261,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_1657;)Lnet/minecraft/class_239;"
         ],
         [
-                configName: "WatheClientFearInstinctMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/WatheClientFearInstinctMixin.class",
+                configName: "faction.witch.WatheClientFearInstinctMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/faction/witch/WatheClientFearInstinctMixin.class",
                 handler: "sparkwitch\$suppressInstinctHighlightDuringAreaSpell",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapmethod/WrapMethod;",
                 selector: "getInstinctHighlight(Lnet/minecraft/class_1297;)I",
@@ -273,8 +273,8 @@ def watheClientMixinContracts = [
         [
                 // Black Raven never visible to instinct (owner, 2026-10-21): outermost veto on a living raw Black Raven.
                 // 黑羽鸦永不被本能透视（所有者 2026-10-21）：对存活的原始黑羽鸦的最外层否决。
-                configName: "blackraven.BlackRavenInstinctVetoMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/blackraven/BlackRavenInstinctVetoMixin.class",
+                configName: "role.killer.blackraven.BlackRavenInstinctVetoMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/killer/blackraven/BlackRavenInstinctVetoMixin.class",
                 handler: "sparkwitch\$vetoBlackRavenInstinct",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapmethod/WrapMethod;",
                 selector: "getInstinctHighlight(Lnet/minecraft/class_1297;)I",
@@ -285,8 +285,8 @@ def watheClientMixinContracts = [
         [
                 // A floating 远野汉娜 is never visible to instinct (PR #212, owner 2026-11-11): veto just inside the
                 // Black Raven one. / 浮游中的远野汉娜永不被本能透视（PR #212，所有者 2026-11-11）：紧贴黑羽鸦否决之内。
-                configName: "hanna.HannaInstinctVetoMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/hanna/HannaInstinctVetoMixin.class",
+                configName: "role.civilian.hanna.HannaInstinctVetoMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/civilian/hanna/HannaInstinctVetoMixin.class",
                 handler: "sparkwitch\$vetoFloatingHannaInstinct",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapmethod/WrapMethod;",
                 selector: "getInstinctHighlight(Lnet/minecraft/class_1297;)I",
@@ -298,8 +298,8 @@ def watheClientMixinContracts = [
                 // 豪气冲天's crawlers are never visible to instinct for the window (狮身豪, owner 2026-11-17): a
                 // veto-only wrap at Hanna's priority. / 豪气冲天窗口内陆泳者永不被本能透视（狮身豪，所有者 2026-11-17）：
                 // 与汉娜同优先级的纯否决包装。
-                configName: "sphinxhao.SphinxHaoInstinctVetoMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/sphinxhao/SphinxHaoInstinctVetoMixin.class",
+                configName: "role.jiahao.sphinxhao.SphinxHaoInstinctVetoMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/jiahao/sphinxhao/SphinxHaoInstinctVetoMixin.class",
                 handler: "sparkwitch\$vetoSphinxHaoCrawlerInstinct",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapmethod/WrapMethod;",
                 selector: "getInstinctHighlight(Lnet/minecraft/class_1297;)I",
@@ -311,8 +311,8 @@ def watheClientMixinContracts = [
                 // USEC scoped instinct cloak (owner, 2026-10-08): a cloaked target's whole highlight runs with Wathe's
                 // two keyed instinct gates closed. / USEC 开镜本能隐蔽（所有者 2026-10-08）：被隐蔽目标的整个高亮求值
                 // 在 Wathe 两个按键本能入口关闭的状态下运行。
-                configName: "usec.UsecInstinctCloakMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/usec/UsecInstinctCloakMixin.class",
+                configName: "role.civilian.usec.UsecInstinctCloakMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/civilian/usec/UsecInstinctCloakMixin.class",
                 handler: "sparkwitch\$cloakScopedUsec",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapmethod/WrapMethod;",
                 selector: "getInstinctHighlight(Lnet/minecraft/class_1297;)I",
@@ -321,8 +321,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_1297;)I"
         ],
         [
-                configName: "usec.UsecInstinctCloakMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/usec/UsecInstinctCloakMixin.class",
+                configName: "role.civilian.usec.UsecInstinctCloakMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/civilian/usec/UsecInstinctCloakMixin.class",
                 handler: "sparkwitch\$closeInstinctForCloakedUsec",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapmethod/WrapMethod;",
                 selector: "isInstinctEnabled()Z",
@@ -331,8 +331,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "()Z"
         ],
         [
-                configName: "usec.UsecInstinctCloakMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/usec/UsecInstinctCloakMixin.class",
+                configName: "role.civilian.usec.UsecInstinctCloakMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/civilian/usec/UsecInstinctCloakMixin.class",
                 handler: "sparkwitch\$closeKillerInstinctForCloakedUsec",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapmethod/WrapMethod;",
                 selector: "isInstinctEnabledAndIsKiller()Z",
@@ -341,8 +341,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "()Z"
         ],
         [
-                configName: "AssassinVendettaTargetMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/AssassinVendettaTargetMixin.class",
+                configName: "role.civilian.vendetta.AssassinVendettaTargetMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/civilian/vendetta/AssassinVendettaTargetMixin.class",
                 handler: "sparkwitch\$appendBoundVendetta",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Redirect;",
                 selector: "method_25426()V",
@@ -354,8 +354,8 @@ def watheClientMixinContracts = [
         ],
         [
                 // Savior (PR #200): the Assassin guess panel hides the Savior. / 救世主（PR #200）：刺客猜测面板隐藏救世主。
-                configName: "AssassinSaviorGuessMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/AssassinSaviorGuessMixin.class",
+                configName: "role.civilian.savior.AssassinSaviorGuessMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/civilian/savior/AssassinSaviorGuessMixin.class",
                 handler: "sparkwitch\$hideSaviorFromAssassinGuess",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "getAllGuessableRoles()Ljava/util/List;",
@@ -368,8 +368,8 @@ def watheClientMixinContracts = [
                 // Savior (PR #200): the lightsaber takes the bat crosshair and the pistol the revolver crosshair, by
                 // widening Wathe's isOf branch checks. / 救世主（PR #200）：放宽 Wathe 的 isOf 分支判定，光剑使用球棒准星、
                 // 手枪使用左轮准星。
-                configName: "savior.SaviorLightsaberCrosshairMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/savior/SaviorLightsaberCrosshairMixin.class",
+                configName: "role.civilian.savior.SaviorLightsaberCrosshairMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/civilian/savior/SaviorLightsaberCrosshairMixin.class",
                 handler: "sparkwitch\$lightsaberUsesBatCrosshair",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
                 selector: "renderCrosshair(Lnet/minecraft/class_310;Lnet/minecraft/class_746;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V",
@@ -383,8 +383,8 @@ def watheClientMixinContracts = [
                 // call in renderHud. SparkFactionAPI's @Redirect on the winText read that follows it is untouched.
                 // 嘉豪阵营结算标题：中立胜利标题的职业文本查找，即 renderHud 中唯一的 getForRole(Identifier) 调用；
                 // 其后 SparkFactionAPI 对 winText 读取的 @Redirect 不受影响。
-                configName: "insider.RoundTextRendererJiahaoTitleMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/insider/RoundTextRendererJiahaoTitleMixin.class",
+                configName: "role.jiahao.insider.RoundTextRendererJiahaoTitleMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/jiahao/insider/RoundTextRendererJiahaoTitleMixin.class",
                 handler: "sparkwitch\$teamJiahaoWinTitle",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/ModifyExpressionValue;",
                 selector: "renderHud(Lnet/minecraft/class_327;Lnet/minecraft/class_746;Lnet/minecraft/class_332;)V",
@@ -394,8 +394,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_327;Lnet/minecraft/class_746;Lnet/minecraft/class_332;)V"
         ],
         [
-                configName: "insider.InsiderCohortRoleNameMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/insider/InsiderCohortRoleNameMixin.class",
+                configName: "role.jiahao.insider.InsiderCohortRoleNameMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/jiahao/insider/InsiderCohortRoleNameMixin.class",
                 handler: "sparkwitch\$renderJiahaoCohort",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "renderHud(Lnet/minecraft/class_327;Lnet/minecraft/class_746;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V",
@@ -404,8 +404,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_327;Lnet/minecraft/class_746;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V"
         ],
         [
-                configName: "ferryman.FerrymanCohortRoleNameMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/ferryman/FerrymanCohortRoleNameMixin.class",
+                configName: "role.neutral.ferryman.FerrymanCohortRoleNameMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/neutral/ferryman/FerrymanCohortRoleNameMixin.class",
                 handler: "sparkwitch\$renderLostSoulCohort",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "renderHud(Lnet/minecraft/class_327;Lnet/minecraft/class_746;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V",
@@ -414,8 +414,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_327;Lnet/minecraft/class_746;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V"
         ],
         [
-                configName: "blind.BlindGateRoleNameRendererMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/blind/BlindGateRoleNameRendererMixin.class",
+                configName: "role.civilian.blind.BlindGateRoleNameRendererMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/civilian/blind/BlindGateRoleNameRendererMixin.class",
                 handler: "sparkwitch\$blindHidesRoleNames",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapmethod/WrapMethod;",
                 selector: "renderHud(Lnet/minecraft/class_327;Lnet/minecraft/class_746;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V",
@@ -424,8 +424,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_327;Lnet/minecraft/class_746;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V"
         ],
         [
-                configName: "blind.BlindGateCrosshairRendererMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/blind/BlindGateCrosshairRendererMixin.class",
+                configName: "role.civilian.blind.BlindGateCrosshairRendererMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/civilian/blind/BlindGateCrosshairRendererMixin.class",
                 handler: "sparkwitch\$blindPlainCrosshair",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapmethod/WrapMethod;",
                 selector: "renderCrosshair(Lnet/minecraft/class_310;Lnet/minecraft/class_746;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V",
@@ -434,8 +434,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_310;Lnet/minecraft/class_746;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V"
         ],
         [
-                configName: "blind.BlindDoorDepthMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/blind/BlindDoorDepthMixin.class",
+                configName: "role.civilian.blind.BlindDoorDepthMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/civilian/blind/BlindDoorDepthMixin.class",
                 handler: "sparkwitch\$blindDoorDepth",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "render(Ldev/doctor4t/wathe/block_entity/SmallDoorBlockEntity;FLnet/minecraft/class_4587;Lnet/minecraft/class_4597;II)V",
@@ -444,8 +444,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Ldev/doctor4t/wathe/block_entity/SmallDoorBlockEntity;FLnet/minecraft/class_4587;Lnet/minecraft/class_4597;II)V"
         ],
         [
-                configName: "armor.LimitedInventoryArmorSlotsMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/armor/LimitedInventoryArmorSlotsMixin.class",
+                configName: "inventory.LimitedInventoryArmorSlotsMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/inventory/LimitedInventoryArmorSlotsMixin.class",
                 handler: "sparkwitch\$addArmorPanel",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "method_25426()V",
@@ -454,8 +454,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "()V"
         ],
         [
-                configName: "armor.LimitedInventoryArmorSlotsMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/armor/LimitedInventoryArmorSlotsMixin.class",
+                configName: "inventory.LimitedInventoryArmorSlotsMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/inventory/LimitedInventoryArmorSlotsMixin.class",
                 handler: "sparkwitch\$focusArmorSlot",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "method_25394(Lnet/minecraft/class_332;IIF)V",
@@ -464,8 +464,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_332;IIF)V"
         ],
         [
-                configName: "armor.LimitedInventoryArmorSlotsMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/armor/LimitedInventoryArmorSlotsMixin.class",
+                configName: "inventory.LimitedInventoryArmorSlotsMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/inventory/LimitedInventoryArmorSlotsMixin.class",
                 handler: "sparkwitch\$armorSlotAt",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/ModifyReturnValue;",
                 selector: "getSlotAt(DD)Lnet/minecraft/class_1735;",
@@ -474,8 +474,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(DD)Lnet/minecraft/class_1735;"
         ],
         [
-                configName: "armor.LimitedInventoryArmorSlotsMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/armor/LimitedInventoryArmorSlotsMixin.class",
+                configName: "inventory.LimitedInventoryArmorSlotsMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/inventory/LimitedInventoryArmorSlotsMixin.class",
                 handler: "sparkwitch\$armorBlockIsInside",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/ModifyReturnValue;",
                 selector: "isClickOutsideBounds(DDIII)Z",
@@ -484,8 +484,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(DDIII)Z"
         ],
         [
-                configName: "armor.LimitedInventoryArmorSlotsMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/armor/LimitedInventoryArmorSlotsMixin.class",
+                configName: "inventory.LimitedInventoryArmorSlotsMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/inventory/LimitedInventoryArmorSlotsMixin.class",
                 handler: "sparkwitch\$shiftClickArmor",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
                 selector: "method_25402(DDI)Z",
@@ -495,8 +495,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(DDI)Z"
         ],
         [
-                configName: "armor.LimitedInventoryArmorSlotsMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/armor/LimitedInventoryArmorSlotsMixin.class",
+                configName: "inventory.LimitedInventoryArmorSlotsMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/inventory/LimitedInventoryArmorSlotsMixin.class",
                 handler: "sparkwitch\$returnCursorArmorOnClose",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "method_25419()V",
@@ -505,8 +505,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "()V"
         ],
         [
-                configName: "armor.LimitedInventoryArmorSlotsMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/armor/LimitedInventoryArmorSlotsMixin.class",
+                configName: "inventory.LimitedInventoryArmorSlotsMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/inventory/LimitedInventoryArmorSlotsMixin.class",
                 handler: "sparkwitch\$returnCursorArmorOnForcedClose",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "method_25393()V",
@@ -518,8 +518,8 @@ def watheClientMixinContracts = [
         [
                 // Riftwalker C7: NR Swapper head-click lambda; the occupant pick falls back to a listed alive spectator.
                 // 隙行者 C7：NR 交换者头像点击 lambda；查询落空时放行列表中存活的旁观者。
-                configName: "riftwalker.RiftSwapperWidgetMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/riftwalker/RiftSwapperWidgetMixin.class",
+                configName: "role.witch.riftwalker.RiftSwapperWidgetMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/witch/riftwalker/RiftSwapperWidgetMixin.class",
                 handler: "sparkwitch\$allowListedAliveSpectator",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
                 selector: "lambda\$new\$0(Ljava/util/UUID;Lnet/minecraft/class_4185;)V",
@@ -533,8 +533,8 @@ def watheClientMixinContracts = [
                 // Magician D6: a live puppet stops Wathe's player name-tag raycast (ordinal 0, next to the Wraith
                 // narrowing) and the hit is reported as the copied player. / 魔术师 D6：存活皮套挡住 Wathe 玩家名牌射线
                 // （第 0 个，与冤魂收窄并列），命中改报为被复制的玩家。
-                configName: "MagicianPlaybackRoleNameMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/MagicianPlaybackRoleNameMixin.class",
+                configName: "role.killer.magician.MagicianPlaybackRoleNameMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/killer/magician/MagicianPlaybackRoleNameMixin.class",
                 handler: "sparkwitch\$nameTagStopsAtPuppets",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/ModifyArg;",
                 selector: "renderHud(Lnet/minecraft/class_327;Lnet/minecraft/class_746;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V",
@@ -544,8 +544,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_327;Lnet/minecraft/class_746;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V"
         ],
         [
-                configName: "MagicianPlaybackRoleNameMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/MagicianPlaybackRoleNameMixin.class",
+                configName: "role.killer.magician.MagicianPlaybackRoleNameMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/killer/magician/MagicianPlaybackRoleNameMixin.class",
                 handler: "sparkwitch\$labelPuppetAsCopiedPlayer",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/ModifyExpressionValue;",
                 selector: "renderHud(Lnet/minecraft/class_327;Lnet/minecraft/class_746;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V",
@@ -558,8 +558,8 @@ def watheClientMixinContracts = [
                 // Magician puppets never wear the copied player's live psycho (forum T-0016): no psycho scramble on a
                 // puppet label, no psycho read for its stand-in while its look resolves. / 魔术师皮套从不带上被复制
                 // 玩家的实时疯魔（论坛 T-0016）：皮套名牌无疯魔乱码，解析其外观时替身的疯魔读数为 0。
-                configName: "MagicianPlaybackRoleNameMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/MagicianPlaybackRoleNameMixin.class",
+                configName: "role.killer.magician.MagicianPlaybackRoleNameMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/killer/magician/MagicianPlaybackRoleNameMixin.class",
                 handler: "sparkwitch\$noPsychoScrambleOnPuppet",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/ModifyExpressionValue;",
                 selector: "renderHud(Lnet/minecraft/class_327;Lnet/minecraft/class_746;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V",
@@ -569,8 +569,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_327;Lnet/minecraft/class_746;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V"
         ],
         [
-                configName: "MagicianPuppetPsychoMaskMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/MagicianPuppetPsychoMaskMixin.class",
+                configName: "role.killer.magician.MagicianPuppetPsychoMaskMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/killer/magician/MagicianPuppetPsychoMaskMixin.class",
                 handler: "sparkwitch\$noPsychoOnPuppetLook",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/ModifyReturnValue;",
                 selector: "getPsychoTicks()I",
@@ -580,8 +580,8 @@ def watheClientMixinContracts = [
         ],
         [
                 // Magician D6: a puppet's instinct colour is its copied player's. / 魔术师 D6：皮套的本能颜色即被复制玩家的颜色。
-                configName: "MagicianPlaybackInstinctMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/MagicianPlaybackInstinctMixin.class",
+                configName: "role.killer.magician.MagicianPlaybackInstinctMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/killer/magician/MagicianPlaybackInstinctMixin.class",
                 handler: "sparkwitch\$highlightPuppetAsCopiedPlayer",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "getInstinctHighlight(Lnet/minecraft/class_1297;)I",
@@ -593,8 +593,8 @@ def watheClientMixinContracts = [
                 // Magician D6: Wathe gun and knife client pickers prefer a strictly nearer puppet; whole-method wraps
                 // enclose SparkTraits Marksman HEAD replacements. / 魔术师 D6：Wathe 枪与刀的客户端选靶优先严格更近的
                 // 皮套；整方法包装包住 SparkTraits 神射手的 HEAD 替换。
-                configName: "MagicianRevolverTargetMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/MagicianRevolverTargetMixin.class",
+                configName: "role.killer.magician.MagicianRevolverTargetMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/killer/magician/MagicianRevolverTargetMixin.class",
                 handler: "sparkwitch\$preferNearerPuppet",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapmethod/WrapMethod;",
                 selector: "getGunTarget(Lnet/minecraft/class_1657;)Lnet/minecraft/class_239;",
@@ -603,8 +603,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_1657;)Lnet/minecraft/class_239;"
         ],
         [
-                configName: "MagicianDerringerTargetMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/MagicianDerringerTargetMixin.class",
+                configName: "role.killer.magician.MagicianDerringerTargetMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/killer/magician/MagicianDerringerTargetMixin.class",
                 handler: "sparkwitch\$preferNearerPuppet",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapmethod/WrapMethod;",
                 selector: "getGunTarget(Lnet/minecraft/class_1657;)Lnet/minecraft/class_239;",
@@ -613,8 +613,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_1657;)Lnet/minecraft/class_239;"
         ],
         [
-                configName: "MagicianKnifeTargetMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/MagicianKnifeTargetMixin.class",
+                configName: "role.killer.magician.MagicianKnifeTargetMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/killer/magician/MagicianKnifeTargetMixin.class",
                 handler: "sparkwitch\$preferNearerPuppet",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapmethod/WrapMethod;",
                 selector: "getKnifeTarget(Lnet/minecraft/class_1657;)Lnet/minecraft/class_239;",
@@ -623,8 +623,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_1657;)Lnet/minecraft/class_239;"
         ],
         [
-                configName: "MagicianRevolverCrosshairMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/MagicianRevolverCrosshairMixin.class",
+                configName: "role.killer.magician.MagicianRevolverCrosshairMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/killer/magician/MagicianRevolverCrosshairMixin.class",
                 handler: "sparkwitch\$preferNearerVisiblePuppet",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapmethod/WrapMethod;",
                 selector: "getVisibleGunTarget(Lnet/minecraft/class_1657;D)Lnet/minecraft/class_239;",
@@ -635,8 +635,8 @@ def watheClientMixinContracts = [
         // Raven Form crow aim (plan v2 §2.5): the gun, knife and crosshair picks prefer a strictly nearer crow.
         // 化鸦乌鸦选靶（计划 v2 §2.5）：枪械、刀与准星选靶优先严格更近的乌鸦。
         [
-                configName: "blackraven.BlackRavenCrowRevolverAimMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/blackraven/BlackRavenCrowRevolverAimMixin.class",
+                configName: "role.killer.blackraven.BlackRavenCrowRevolverAimMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/killer/blackraven/BlackRavenCrowRevolverAimMixin.class",
                 handler: "sparkwitch\$preferNearerCrow",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapmethod/WrapMethod;",
                 selector: "getGunTarget(Lnet/minecraft/class_1657;)Lnet/minecraft/class_239;",
@@ -645,8 +645,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_1657;)Lnet/minecraft/class_239;"
         ],
         [
-                configName: "blackraven.BlackRavenCrowDerringerAimMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/blackraven/BlackRavenCrowDerringerAimMixin.class",
+                configName: "role.killer.blackraven.BlackRavenCrowDerringerAimMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/killer/blackraven/BlackRavenCrowDerringerAimMixin.class",
                 handler: "sparkwitch\$preferNearerCrow",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapmethod/WrapMethod;",
                 selector: "getGunTarget(Lnet/minecraft/class_1657;)Lnet/minecraft/class_239;",
@@ -655,8 +655,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_1657;)Lnet/minecraft/class_239;"
         ],
         [
-                configName: "blackraven.BlackRavenCrowKnifeAimMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/blackraven/BlackRavenCrowKnifeAimMixin.class",
+                configName: "role.killer.blackraven.BlackRavenCrowKnifeAimMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/killer/blackraven/BlackRavenCrowKnifeAimMixin.class",
                 handler: "sparkwitch\$preferNearerCrow",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapmethod/WrapMethod;",
                 selector: "getKnifeTarget(Lnet/minecraft/class_1657;)Lnet/minecraft/class_239;",
@@ -665,8 +665,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_1657;)Lnet/minecraft/class_239;"
         ],
         [
-                configName: "blackraven.BlackRavenCrowGunCrosshairMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/blackraven/BlackRavenCrowGunCrosshairMixin.class",
+                configName: "role.killer.blackraven.BlackRavenCrowGunCrosshairMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/killer/blackraven/BlackRavenCrowGunCrosshairMixin.class",
                 handler: "sparkwitch\$preferNearerCrow",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapmethod/WrapMethod;",
                 selector: "getVisibleGunTarget(Lnet/minecraft/class_1657;D)Lnet/minecraft/class_239;",
@@ -677,8 +677,8 @@ def watheClientMixinContracts = [
         [
                 // USEC D16: an empty-cursor right press on the rifle opens the attachment screen (chains with the
                 // armor wrapper). / USEC D16：空光标右键按下步枪时打开配件界面（与护甲包装串联）。
-                configName: "usec.UsecLimitedInventoryRifleClickMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/usec/UsecLimitedInventoryRifleClickMixin.class",
+                configName: "role.civilian.usec.UsecLimitedInventoryRifleClickMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/civilian/usec/UsecLimitedInventoryRifleClickMixin.class",
                 handler: "sparkwitch\$openUsecAttachments",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
                 selector: "method_25402(DDI)Z",
@@ -691,8 +691,8 @@ def watheClientMixinContracts = [
                 // Kidnapper carried corpse: Wathe's only riding write (skin model). The inherited field must remap
                 // to PlayerEntityModel's owner. / 绑架者携带尸体：Wathe 唯一的 riding 写入（皮肤模型），继承字段须按
                 // PlayerEntityModel 所有者重映射。
-                configName: "kidnapper.KidnapperBodyPoseMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/kidnapper/KidnapperBodyPoseMixin.class",
+                configName: "role.killer.kidnapper.KidnapperBodyPoseMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/killer/kidnapper/KidnapperBodyPoseMixin.class",
                 handler: "sparkwitch\$keepKidnappedSkinFlat",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
                 selector: "render(Ldev/doctor4t/wathe/entity/PlayerBodyEntity;FFLnet/minecraft/class_4587;Lnet/minecraft/class_4597;ILnet/minecraft/class_572;Lnet/minecraft/class_1921;FF)V",
@@ -705,8 +705,8 @@ def watheClientMixinContracts = [
                 // Noa mood icon: the civilian icon's only drawGuiTexture(Identifier, IIII) in renderCivilian (the arrow
                 // uses the sprite overload). / 诺亚心情图标：renderCivilian 中平民图标唯一的 drawGuiTexture(Identifier,
                 // IIII) 调用（箭头使用 sprite 重载）。
-                configName: "noa.NoaMoodRendererMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/noa/NoaMoodRendererMixin.class",
+                configName: "role.civilian.noa.NoaMoodRendererMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/civilian/noa/NoaMoodRendererMixin.class",
                 handler: "sparkwitch\$noaCyanMoodIcon",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
                 selector: "renderCivilian(Lnet/minecraft/class_327;Lnet/minecraft/class_332;F)V",
@@ -718,8 +718,8 @@ def watheClientMixinContracts = [
         [
                 // 夏目安安 sketchbook mood icon: a REAL-mood killer's icon is drawn by renderCivilian, on the same
                 // icon call as Noa's. / 夏目安安素描本心情图标：真实理智杀手的图标由 renderCivilian 绘制，与诺亚同一调用。
-                configName: "natsume.NatsumeMoodRendererMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/natsume/NatsumeMoodRendererMixin.class",
+                configName: "role.killer.natsume.NatsumeMoodRendererMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/killer/natsume/NatsumeMoodRendererMixin.class",
                 handler: "sparkwitch\$natsumeSketchMoodIcon",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
                 selector: "renderCivilian(Lnet/minecraft/class_327;Lnet/minecraft/class_332;F)V",
@@ -731,8 +731,8 @@ def watheClientMixinContracts = [
         [
                 // Faction mood flags: the killer flag's only drawGuiTexture(Identifier, IIII) in renderKiller.
                 // 阵营心情旗帜：renderKiller 中杀手旗帜唯一的 drawGuiTexture(Identifier, IIII) 调用。
-                configName: "moodflag.MoodFlagRendererMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/moodflag/MoodFlagRendererMixin.class",
+                configName: "hud.MoodFlagRendererMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/hud/MoodFlagRendererMixin.class",
                 handler: "sparkwitch\$killerMoodFlag",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
                 selector: "renderKiller(Lnet/minecraft/class_327;Lnet/minecraft/class_332;)V",
@@ -744,8 +744,8 @@ def watheClientMixinContracts = [
         [
                 // Faction mood flags: the same civilian icon call Noa and Natsume wrap. / 阵营心情旗帜：与诺亚、夏目安安
                 // 包装的同一平民图标调用。
-                configName: "moodflag.MoodFlagRendererMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/moodflag/MoodFlagRendererMixin.class",
+                configName: "hud.MoodFlagRendererMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/hud/MoodFlagRendererMixin.class",
                 handler: "sparkwitch\$civilianMoodFlag",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
                 selector: "renderCivilian(Lnet/minecraft/class_327;Lnet/minecraft/class_332;F)V",
@@ -757,8 +757,8 @@ def watheClientMixinContracts = [
         [
                 // Faction mood flags: renderHud's FAKE dispatch, marked so the TAIL knows an icon path ran.
                 // 阵营心情旗帜：renderHud 的 FAKE 分派，标记后 TAIL 即知已进入图标路径。
-                configName: "moodflag.MoodFlagRendererMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/moodflag/MoodFlagRendererMixin.class",
+                configName: "hud.MoodFlagRendererMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/hud/MoodFlagRendererMixin.class",
                 handler: "sparkwitch\$markKillerMoodDispatch",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "renderHud(Lnet/minecraft/class_1657;Lnet/minecraft/class_327;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V",
@@ -769,8 +769,8 @@ def watheClientMixinContracts = [
         ],
         [
                 // Faction mood flags: renderHud's REAL dispatch. / 阵营心情旗帜：renderHud 的 REAL 分派。
-                configName: "moodflag.MoodFlagRendererMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/moodflag/MoodFlagRendererMixin.class",
+                configName: "hud.MoodFlagRendererMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/hud/MoodFlagRendererMixin.class",
                 handler: "sparkwitch\$markCivilianMoodDispatch",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "renderHud(Lnet/minecraft/class_1657;Lnet/minecraft/class_327;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V",
@@ -782,8 +782,8 @@ def watheClientMixinContracts = [
         [
                 // Faction mood flags: renderHud's normal end, where a NONE mood gets the no-sanity flag.
                 // 阵营心情旗帜：renderHud 的正常结尾，NONE 理智在此获得无理智旗帜。
-                configName: "moodflag.MoodFlagRendererMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/moodflag/MoodFlagRendererMixin.class",
+                configName: "hud.MoodFlagRendererMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/hud/MoodFlagRendererMixin.class",
                 handler: "sparkwitch\$noSanityMoodFlag",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "renderHud(Lnet/minecraft/class_1657;Lnet/minecraft/class_327;Lnet/minecraft/class_332;Lnet/minecraft/class_9779;)V",
@@ -795,8 +795,8 @@ def watheClientMixinContracts = [
                 // 规划大师 recommended task row: TaskRenderer.tick TAIL (its single return), after Wathe rebuilt the
                 // row text for this frame; Wathe-named, remap = false. / 规划大师推荐任务行：TaskRenderer.tick 的 TAIL
                 // （唯一返回点），位于 Wathe 本帧重建行文本之后；Wathe 命名成员，remap = false。
-                configName: "planner.PlannerTaskRowMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/planner/PlannerTaskRowMixin.class",
+                configName: "role.civilian.planner.PlannerTaskRowMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/civilian/planner/PlannerTaskRowMixin.class",
                 handler: "sparkwitch\$plannerRecommendedTaskRow",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "tick(Ldev/doctor4t/wathe/cca/PlayerMoodComponent\$TrainTask;FZ)Z",
@@ -807,8 +807,8 @@ def watheClientMixinContracts = [
         [
                 // 夏目安安 hypnosis: no instinct at all for the hypnotised viewer (outermost veto + both keyed gates).
                 // 夏目安安催眠：被催眠的观察者完全没有本能（最外层否决 + 两个按键入口）。
-                configName: "natsume.NatsumeInstinctGateMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/natsume/NatsumeInstinctGateMixin.class",
+                configName: "role.killer.natsume.NatsumeInstinctGateMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/killer/natsume/NatsumeInstinctGateMixin.class",
                 handler: "sparkwitch\$vetoHypnotisedInstinct",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapmethod/WrapMethod;",
                 selector: "getInstinctHighlight(Lnet/minecraft/class_1297;)I",
@@ -817,8 +817,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "(Lnet/minecraft/class_1297;)I"
         ],
         [
-                configName: "natsume.NatsumeInstinctGateMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/natsume/NatsumeInstinctGateMixin.class",
+                configName: "role.killer.natsume.NatsumeInstinctGateMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/killer/natsume/NatsumeInstinctGateMixin.class",
                 handler: "sparkwitch\$gateHypnotisedInstinct",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapmethod/WrapMethod;",
                 selector: "isInstinctEnabled()Z",
@@ -827,8 +827,8 @@ def watheClientMixinContracts = [
                 providerDescriptor: "()Z"
         ],
         [
-                configName: "natsume.NatsumeInstinctGateMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/natsume/NatsumeInstinctGateMixin.class",
+                configName: "role.killer.natsume.NatsumeInstinctGateMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/killer/natsume/NatsumeInstinctGateMixin.class",
                 handler: "sparkwitch\$gateHypnotisedKillerInstinct",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapmethod/WrapMethod;",
                 selector: "isInstinctEnabledAndIsKiller()Z",
@@ -839,8 +839,8 @@ def watheClientMixinContracts = [
         [
                 // Hunter shotgun: confirms the predicted first-person flash against Wathe's muzzle packet.
                 // 猎人霰弹枪：用 Wathe 枪口数据包核对预测的第一人称火焰。
-                configName: "hunter.DoubleBarrelOwnMuzzlePacketMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/client/mixin/hunter/DoubleBarrelOwnMuzzlePacketMixin.class",
+                configName: "role.killer.hunter.DoubleBarrelOwnMuzzlePacketMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/client/mixin/role/killer/hunter/DoubleBarrelOwnMuzzlePacketMixin.class",
                 handler: "sparkwitch\$confirmDoubleBarrelFlash",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "receive(Ldev/doctor4t/wathe/util/ShootMuzzleS2CPayload;Lnet/fabricmc/fabric/api/client/networking/v1/ClientPlayNetworking\$Context;)V",
@@ -851,16 +851,16 @@ def watheClientMixinContracts = [
 ]
 
 // Common (server-side) mixins on Wathe/NoellesRoles members, checked by the same task against the shipped common config
-// (`sparkwitch.mixins.json` `mixins`). `priority` (optional) pins the class-level @Mixin priority where the order among
+// (`sparkdlc.mixins.json` `mixins`). `priority` (optional) pins the class-level @Mixin priority where the order among
 // HEAD callbacks is part of the contract. Vanilla targets stay pinned by local tests.
-// Wathe/NoellesRoles 成员上的通用（服务端）mixin，由同一任务按发布的通用配置（`sparkwitch.mixins.json` 的 `mixins`）校验。
+// Wathe/NoellesRoles 成员上的通用（服务端）mixin，由同一任务按发布的通用配置（`sparkdlc.mixins.json` 的 `mixins`）校验。
 // `priority`（可选）在 HEAD 回调顺序属于契约时固定类级 @Mixin 优先级。原版目标仍由本地测试固定。
 def watheCommonMixinContracts = [
         [
                 // BEAR Rys-T ricochet: HEAD 1050, after the default-1000 immunity guards, before the 1100 vest.
                 // BEAR Rys-T 跳弹：HEAD 1050，位于默认 1000 的免疫守卫之后、1100 护甲之前。
-                configName: "bear.RicochetKillPlayerMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/mixin/bear/RicochetKillPlayerMixin.class",
+                configName: "role.civilian.bear.RicochetKillPlayerMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/civilian/bear/RicochetKillPlayerMixin.class",
                 handler: "sparkwitch\$rysTRicochet",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "killPlayer(Lnet/minecraft/class_3222;ZLnet/minecraft/class_3222;Lnet/minecraft/class_2960;Z)V",
@@ -872,8 +872,8 @@ def watheCommonMixinContracts = [
         [
                 // BEAR bullet tunnel for the Wathe revolver family, at the accepted-shot record anchor.
                 // Wathe 左轮系的 BEAR 弹道通道，挂在已接受射击的记录锚点。
-                configName: "bear.GunShootPayloadSmokeCarveMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/mixin/bear/GunShootPayloadSmokeCarveMixin.class",
+                configName: "role.civilian.bear.GunShootPayloadSmokeCarveMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/civilian/bear/GunShootPayloadSmokeCarveMixin.class",
                 handler: "sparkwitch\$carveBulletTunnel",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "receive(Ldev/doctor4t/wathe/util/GunShootPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V",
@@ -884,8 +884,8 @@ def watheCommonMixinContracts = [
         ],
         [
                 // BEAR bullet tunnel for the NoellesRoles Demon Hunter pistol. / NoellesRoles 猎魔枪的 BEAR 弹道通道。
-                configName: "bear.DemonHunterShotSmokeCarveMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/mixin/bear/DemonHunterShotSmokeCarveMixin.class",
+                configName: "role.civilian.bear.DemonHunterShotSmokeCarveMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/civilian/bear/DemonHunterShotSmokeCarveMixin.class",
                 handler: "sparkwitch\$carveBulletTunnel",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "receive(Lorg/agmas/noellesroles/demonhunter/DemonHunterShootC2SPacket;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V",
@@ -898,8 +898,8 @@ def watheCommonMixinContracts = [
         [
                 // BEAR: the Wathe grenade's whole onCollision runs in its origin scope, then carves smoke.
                 // BEAR：Wathe 手雷整个 onCollision 在其来源作用域内执行，随后在烟雾中开洞。
-                configName: "bear.GrenadeEntityOriginSmokeCarveMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/mixin/bear/GrenadeEntityOriginSmokeCarveMixin.class",
+                configName: "role.civilian.bear.GrenadeEntityOriginSmokeCarveMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/civilian/bear/GrenadeEntityOriginSmokeCarveMixin.class",
                 handler: "sparkwitch\$scopeGrenadeBlast",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapmethod/WrapMethod;",
                 selector: "method_7488(Lnet/minecraft/class_239;)V",
@@ -909,8 +909,8 @@ def watheCommonMixinContracts = [
         ],
         [
                 // BEAR: the firecracker's bang, at the only discard() in its tick. / BEAR：鞭炮炸响，挂在其 tick 唯一的 discard()。
-                configName: "bear.FirecrackerSmokeCarveMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/mixin/bear/FirecrackerSmokeCarveMixin.class",
+                configName: "role.civilian.bear.FirecrackerSmokeCarveMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/civilian/bear/FirecrackerSmokeCarveMixin.class",
                 handler: "sparkwitch\$carveFirecrackerBang",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "method_5773()V",
@@ -922,8 +922,8 @@ def watheCommonMixinContracts = [
         [
                 // BEAR: the NoellesRoles bomb blast, HEAD 900 so it precedes SparkTraits' Conscience-bomb cancel.
                 // BEAR：NoellesRoles 炸弹爆炸，HEAD 900，先于 SparkTraits 的善良炸弹取消。
-                configName: "bear.BomberExplosionSmokeCarveMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/mixin/bear/BomberExplosionSmokeCarveMixin.class",
+                configName: "role.civilian.bear.BomberExplosionSmokeCarveMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/civilian/bear/BomberExplosionSmokeCarveMixin.class",
                 handler: "sparkwitch\$carveBombBlast",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "explode()V",
@@ -935,8 +935,8 @@ def watheCommonMixinContracts = [
         ],
         [
                 // BEAR: the throwing-axe kill runs in its flight-origin scope. / BEAR：飞斧击杀在其飞行来源作用域内执行。
-                configName: "bear.ThrowingAxeRangedOriginMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/mixin/bear/ThrowingAxeRangedOriginMixin.class",
+                configName: "role.civilian.bear.ThrowingAxeRangedOriginMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/civilian/bear/ThrowingAxeRangedOriginMixin.class",
                 handler: "sparkwitch\$scopeAxeOrigin",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
                 selector: "method_7454(Lnet/minecraft/class_3966;)V",
@@ -952,8 +952,8 @@ def watheCommonMixinContracts = [
                 // blocked attack on a strangling player still breaks the strangle.
                 // 绳索打断观察者：HEAD 1030，位于默认 1000 的结构性守卫之后、所有护盾与免疫（1040 里世界作废、1050 跳弹、
                 // 1100 魔人/防弹衣、1200 宽恕）之前，因此被挡下的攻击同样会打断勒杀。
-                configName: "rope.GameFunctionsRopeStrangleInterruptMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/mixin/rope/GameFunctionsRopeStrangleInterruptMixin.class",
+                configName: "item.rope.GameFunctionsRopeStrangleInterruptMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/item/rope/GameFunctionsRopeStrangleInterruptMixin.class",
                 handler: "sparkwitch\$interruptRopeStrangle",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "killPlayer(Lnet/minecraft/class_3222;ZLnet/minecraft/class_3222;Lnet/minecraft/class_2960;Z)V",
@@ -965,8 +965,8 @@ def watheCommonMixinContracts = [
         [
                 // Rope shield pass, NoellesRoles Iron Man layer: the buff read inside the pinned BEFORE listener.
                 // 绳索穿盾之 NoellesRoles 铁人层：固定版本 BEFORE 监听内的增益读取。
-                configName: "rope.NoellesRopeShieldPassMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/mixin/rope/NoellesRopeShieldPassMixin.class",
+                configName: "item.rope.NoellesRopeShieldPassMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/item/rope/NoellesRopeShieldPassMixin.class",
                 handler: "sparkwitch\$ropePassesIronMan",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/ModifyExpressionValue;",
                 selector: "lambda\$registerEvents\$5(Lnet/minecraft/class_3222;Lnet/minecraft/class_3222;Lnet/minecraft/class_2960;)Ldev/doctor4t/wathe/api/event/KillPlayer\$KillResult;",
@@ -980,8 +980,8 @@ def watheCommonMixinContracts = [
                 // Rope shield pass, NoellesRoles whiskey layer: the listener's only hasStatusEffect call (vanilla
                 // target, remapped in the shipped jar).
                 // 绳索穿盾之 NoellesRoles 威士忌层：该监听内唯一的 hasStatusEffect 调用（原版目标，发布包中已重映射）。
-                configName: "rope.NoellesRopeShieldPassMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/mixin/rope/NoellesRopeShieldPassMixin.class",
+                configName: "item.rope.NoellesRopeShieldPassMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/item/rope/NoellesRopeShieldPassMixin.class",
                 handler: "sparkwitch\$ropePassesWhiskey",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/ModifyExpressionValue;",
                 selector: "lambda\$registerEvents\$5(Lnet/minecraft/class_3222;Lnet/minecraft/class_3222;Lnet/minecraft/class_2960;)Ldev/doctor4t/wathe/api/event/KillPlayer\$KillResult;",
@@ -995,8 +995,8 @@ def watheCommonMixinContracts = [
                 // Specter Otherworld targeting rule: HEAD 1040, after the default-1000 immunity guards and before the
                 // 1050 ricochet and the 1100 Fiend/vest, so a kill it voids (any weapon) spends no protection.
                 // 幽魂里世界索敌规则：HEAD 1040，位于默认 1000 的免疫守卫之后，并先于 1050 跳弹与 1100 魔人/防弹衣，被作废的击杀（任何武器）不消耗任何保护。
-                configName: "specter.GameFunctionsSpecterOtherworldTargetMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/mixin/specter/GameFunctionsSpecterOtherworldTargetMixin.class",
+                configName: "role.killer.specter.GameFunctionsSpecterOtherworldTargetMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/killer/specter/GameFunctionsSpecterOtherworldTargetMixin.class",
                 handler: "sparkwitch\$blockOtherworldKillOnInvalidTarget",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "killPlayer(Lnet/minecraft/class_3222;ZLnet/minecraft/class_3222;Lnet/minecraft/class_2960;Z)V",
@@ -1008,8 +1008,8 @@ def watheCommonMixinContracts = [
         [
                 // Specter Otherworld shield, at the psycho-armour branch (first getPsychoTicks: non-forced, non-piercing).
                 // 幽魂里世界护盾，挂在疯魔护甲分支（第一次 getPsychoTicks：非强制、非穿盾）。
-                configName: "specter.GameFunctionsSpecterShieldMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/mixin/specter/GameFunctionsSpecterShieldMixin.class",
+                configName: "role.killer.specter.GameFunctionsSpecterShieldMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/killer/specter/GameFunctionsSpecterShieldMixin.class",
                 handler: "sparkwitch\$absorbWithOtherworldShield",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "killPlayer(Lnet/minecraft/class_3222;ZLnet/minecraft/class_3222;Lnet/minecraft/class_2960;Z)V",
@@ -1021,8 +1021,8 @@ def watheCommonMixinContracts = [
         [
                 // Specter Otherworld knife drop: HEAD 900, before the default-1000 knife guards (rejected targets only).
                 // 幽魂里世界刀刺丢弃：HEAD 900，先于默认 1000 的刀守卫（仅被拒绝的目标）。
-                configName: "specter.SpecterOtherworldKnifeMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/mixin/specter/SpecterOtherworldKnifeMixin.class",
+                configName: "role.killer.specter.SpecterOtherworldKnifeMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/killer/specter/SpecterOtherworldKnifeMixin.class",
                 handler: "sparkwitch\$dropRejectedOtherworldStab",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "receive(Ldev/doctor4t/wathe/util/KnifeStabPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V",
@@ -1035,8 +1035,8 @@ def watheCommonMixinContracts = [
                 // Specter Otherworld gun drop: HEAD 900, before the default-1000 gun guards (rejected targets only), so a
                 // shot the 1040 rule would void never reaches Wathe's shot-an-innocent branch.
                 // 幽魂里世界枪击丢弃：HEAD 900，先于默认 1000 的枪械守卫（仅被拒绝的目标），使会被 1040 规则作废的射击不会进入 Wathe 的误杀无辜分支。
-                configName: "specter.SpecterOtherworldGunMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/mixin/specter/SpecterOtherworldGunMixin.class",
+                configName: "role.killer.specter.SpecterOtherworldGunMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/killer/specter/SpecterOtherworldGunMixin.class",
                 handler: "sparkwitch\$dropRejectedOtherworldShot",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "receive(Ldev/doctor4t/wathe/util/GunShootPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V",
@@ -1050,8 +1050,8 @@ def watheCommonMixinContracts = [
                 // pinned by the local HiroReturnMixinContractTest; this task pins the shipped selectors).
                 // 二阶堂希罗死亡回归：HEAD order 0，假死的受害者不会再次被杀（@Inject 的 order 由本地 HiroReturnMixinContractTest 固定；
                 // 本任务固定发布的选择器）。
-                configName: "hiro.GameFunctionsHiroReturnMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/mixin/hiro/GameFunctionsHiroReturnMixin.class",
+                configName: "role.killer.hiro.GameFunctionsHiroReturnMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/killer/hiro/GameFunctionsHiroReturnMixin.class",
                 handler: "sparkwitch\$feignedVictimIsUntouchable",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "killPlayer(Lnet/minecraft/class_3222;ZLnet/minecraft/class_3222;Lnet/minecraft/class_2960;Z)V",
@@ -1062,8 +1062,8 @@ def watheCommonMixinContracts = [
         [
                 // 二阶堂希罗 死亡回归: HEAD order 900, a kill attempt on Hiro, before every default-order HEAD shield guard.
                 // 二阶堂希罗死亡回归：HEAD order 900，针对希罗的击杀尝试，先于所有默认 order 的 HEAD 护盾守卫。
-                configName: "hiro.GameFunctionsHiroReturnMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/mixin/hiro/GameFunctionsHiroReturnMixin.class",
+                configName: "role.killer.hiro.GameFunctionsHiroReturnMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/killer/hiro/GameFunctionsHiroReturnMixin.class",
                 handler: "sparkwitch\$returnOnAttack",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "killPlayer(Lnet/minecraft/class_3222;ZLnet/minecraft/class_3222;Lnet/minecraft/class_2960;Z)V",
@@ -1074,8 +1074,8 @@ def watheCommonMixinContracts = [
         [
                 // 二阶堂希罗 死亡回归: the commit point (changeGameMode call), order 1200, after Tofana, Last Escape and the Cat.
                 // 二阶堂希罗死亡回归：提交点（changeGameMode 调用），order 1200，位于托法娜、绝境逃生与猫之后。
-                configName: "hiro.GameFunctionsHiroReturnMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/mixin/hiro/GameFunctionsHiroReturnMixin.class",
+                configName: "role.killer.hiro.GameFunctionsHiroReturnMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/killer/hiro/GameFunctionsHiroReturnMixin.class",
                 handler: "sparkwitch\$feignAtDeathCommit",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "killPlayer(Lnet/minecraft/class_3222;ZLnet/minecraft/class_3222;Lnet/minecraft/class_2960;Z)V",
@@ -1086,8 +1086,8 @@ def watheCommonMixinContracts = [
         ],
         [
                 // 二阶堂希罗 死亡回归: the Swapper never swaps a fake-dead victim. / 二阶堂希罗死亡回归：换位者不会换走假死的受害者。
-                configName: "hiro.NoellesSwapperHiroFeignMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/mixin/hiro/NoellesSwapperHiroFeignMixin.class",
+                configName: "role.killer.hiro.NoellesSwapperHiroFeignMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/killer/hiro/NoellesSwapperHiroFeignMixin.class",
                 handler: "sparkwitch\$swapperSkipsFeignedVictim",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "lambda\$registerPackets\$4(Lorg/agmas/noellesroles/packet/SwapperC2SPacket;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V",
@@ -1098,8 +1098,8 @@ def watheCommonMixinContracts = [
         ],
         [
                 // 二阶堂希罗 死亡回归: the Vulture never eats a fake corpse. / 二阶堂希罗死亡回归：秃鹫不会吃掉假尸体。
-                configName: "hiro.NoellesVultureHiroFakeBodyMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/mixin/hiro/NoellesVultureHiroFakeBodyMixin.class",
+                configName: "role.killer.hiro.NoellesVultureHiroFakeBodyMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/killer/hiro/NoellesVultureHiroFakeBodyMixin.class",
                 handler: "sparkwitch\$vultureSkipsHiroFakeBodies",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
                 selector: "lambda\$registerPackets\$2(Lorg/agmas/noellesroles/packet/VultureEatC2SPacket;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V",
@@ -1112,8 +1112,8 @@ def watheCommonMixinContracts = [
         [
                 // 二阶堂希罗 死亡回归: a fake-dead victim counts as alive for the NoellesRoles moment triggers.
                 // 二阶堂希罗死亡回归：假死的受害者在 NoellesRoles 时刻触发计数中算作存活。
-                configName: "hiro.NoellesRolesHiroFeignAliveCountMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/mixin/hiro/NoellesRolesHiroFeignAliveCountMixin.class",
+                configName: "role.killer.hiro.NoellesRolesHiroFeignAliveCountMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/killer/hiro/NoellesRolesHiroFeignAliveCountMixin.class",
                 handler: "sparkwitch\$feignedVictimCountsAsAlive",
                 annotationDesc: "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
                 selector: "countAliveAndNotSwallowed(Lnet/minecraft/class_3218;)I",
@@ -1128,8 +1128,8 @@ def watheCommonMixinContracts = [
                 // 1040, ricochet 1050, Fiend/vest 1100) and before every KillPlayer.BEFORE listener; sees force.
                 // 卡戎宽恕窗口 /「瞥视」假死：HEAD 1200，位于其他所有 HEAD 守卫（默认 1000、幽魂 1040、跳弹 1050、
                 // 魔人/防弹衣 1100）之后，并先于所有 KillPlayer.BEFORE 监听器；可见 force。
-                configName: "ferryman.GameFunctionsFerrymanPardonMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/mixin/ferryman/GameFunctionsFerrymanPardonMixin.class",
+                configName: "role.neutral.ferryman.GameFunctionsFerrymanPardonMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/neutral/ferryman/GameFunctionsFerrymanPardonMixin.class",
                 handler: "sparkwitch\$holdCharonKill",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "killPlayer(Lnet/minecraft/class_3222;ZLnet/minecraft/class_3222;Lnet/minecraft/class_2960;Z)V",
@@ -1143,8 +1143,8 @@ def watheCommonMixinContracts = [
                 // (Wathe, NoellesRoles, SparkStrength, SparkTraits) makes; its 4-arg overload delegates here.
                 // 防御药剂（PR #240）：挂在 Wathe 五参餐盘取用记录的 TAIL，所有取用路径（Wathe、NoellesRoles、
                 // SparkStrength、SparkTraits）都会调用它；四参重载委托到这里。
-                configName: "defensevial.GameRecordManagerDefenseVialTakeMixin",
-                mixinEntry: "dev/caecorthus/sparkdlc/witch/mixin/defensevial/GameRecordManagerDefenseVialTakeMixin.class",
+                configName: "item.defense.GameRecordManagerDefenseVialTakeMixin",
+                mixinEntry: "dev/caecorthus/sparkdlc/mixin/item/defense/GameRecordManagerDefenseVialTakeMixin.class",
                 handler: "sparkwitch\$shieldDefenseVialTaker",
                 annotationDesc: "Lorg/spongepowered/asm/mixin/injection/Inject;",
                 selector: "recordPlatterTake(Lnet/minecraft/class_3222;Lnet/minecraft/class_2960;Lnet/minecraft/class_2338;Ljava/lang/String;Lnet/minecraft/class_2487;)V",
@@ -1186,8 +1186,8 @@ def verifyWitchClientMixinSelectors = tasks.register("verifyWitchClientMixinSele
     inputs.file(remappedModJar.flatMap { it.archiveFile })
     inputs.file("libs/wathe-${project.wathe_version}.jar")
     inputs.file("libs/noellesroles-${project.noellesroles_version}.jar")
-    inputs.file("src/client/resources/sparkwitch.client.mixins.json")
-    inputs.file("src/main/resources/sparkwitch.mixins.json")
+    inputs.file("src/client/resources/sparkdlc.client.mixins.json")
+    inputs.file("src/main/resources/sparkdlc.mixins.json")
 
     doLast {
         def jarFile = remappedModJar.get().archiveFile.get().asFile
@@ -1203,9 +1203,9 @@ def verifyWitchClientMixinSelectors = tasks.register("verifyWitchClientMixinSele
                 noellesroles: [zip: noellesRolesZip, label: "NoellesRoles ${project.noellesroles_version}"]
         ]
         try {
-            def configEntry = modZip.getEntry("sparkwitch.client.mixins.json")
+            def configEntry = modZip.getEntry("sparkdlc.client.mixins.json")
             if (configEntry == null) {
-                throw new GradleException("Missing sparkwitch.client.mixins.json in ${jarFile.name}")
+                throw new GradleException("Missing sparkdlc.client.mixins.json in ${jarFile.name}")
             }
             def config = new groovy.json.JsonSlurper().parse(modZip.getInputStream(configEntry))
             if (config.required != true) {
@@ -1217,9 +1217,9 @@ def verifyWitchClientMixinSelectors = tasks.register("verifyWitchClientMixinSele
                 )
             }
             def configuredMixins = config.client ?: []
-            def commonConfigEntry = modZip.getEntry("sparkwitch.mixins.json")
+            def commonConfigEntry = modZip.getEntry("sparkdlc.mixins.json")
             if (commonConfigEntry == null) {
-                throw new GradleException("Missing sparkwitch.mixins.json in ${jarFile.name}")
+                throw new GradleException("Missing sparkdlc.mixins.json in ${jarFile.name}")
             }
             def commonConfig = new groovy.json.JsonSlurper().parse(modZip.getInputStream(commonConfigEntry))
             if (commonConfig.injectors?.defaultRequire?.toString() != "1") {
@@ -1233,7 +1233,7 @@ def verifyWitchClientMixinSelectors = tasks.register("verifyWitchClientMixinSele
             def allContracts = watheClientMixinContracts.collect { it + [common: false] } +
                     watheCommonMixinContracts.collect { it + [common: true] }
             allContracts.each { contract ->
-                def configLabel = contract.common ? "sparkwitch.mixins.json" : "sparkwitch.client.mixins.json"
+                def configLabel = contract.common ? "sparkdlc.mixins.json" : "sparkdlc.client.mixins.json"
                 if (!(contract.common ? commonMixins : configuredMixins).contains(contract.configName)) {
                     throw new GradleException(
                             "Missing ${contract.common ? 'common' : 'client'} mixin ${contract.configName} from ${configLabel}"
@@ -1476,10 +1476,10 @@ def verifyWitchModJar = tasks.register("verifyWitchModJar") {
             // 融合后的 main 入口启动。
             [
                     [key: "main", entrypoint: "dev.caecorthus.sparkdlc.SparkDLC", method: "onInitialize",
-                     moduleOwner: "dev/caecorthus/sparkdlc/witch/SparkWitch"],
+                     moduleOwner: "dev/caecorthus/sparkdlc/SparkWitch"],
                     [key: "client", entrypoint: "dev.caecorthus.sparkdlc.client.SparkDLCClient",
                      method: "onInitializeClient",
-                     moduleOwner: "dev/caecorthus/sparkdlc/witch/client/SparkWitchClient"]
+                     moduleOwner: "dev/caecorthus/sparkdlc/client/SparkWitchClient"]
             ].each { fused ->
                 if (!(metadata.entrypoints?.get(fused.key) ?: []).contains(fused.entrypoint)) {
                     throw new GradleException("Missing ${fused.key} entrypoint ${fused.entrypoint} in ${jarFile.name}")
@@ -1498,10 +1498,10 @@ def verifyWitchModJar = tasks.register("verifyWitchModJar") {
             }
 
             [
-                    "cardinal-components"      : "dev.caecorthus.sparkdlc.witch.component.SparkWitchComponents",
-                    "voicechat"                : "dev.caecorthus.sparkdlc.witch.voice.SparkWitchVoiceChatPlugin",
-                    "lambdynlights:initializer": "dev.caecorthus.sparkdlc.witch.client.savior.SaviorDynamicLightsInitializer",
-                    "dynamiclights"            : "dev.caecorthus.sparkdlc.witch.client.savior.SaviorDynamicLightsInitializer"
+                    "cardinal-components"      : "dev.caecorthus.sparkdlc.SparkWitchComponents",
+                    "voicechat"                : "dev.caecorthus.sparkdlc.voice.SparkWitchVoiceChatPlugin",
+                    "lambdynlights:initializer": "dev.caecorthus.sparkdlc.client.role.civilian.savior.SaviorDynamicLightsInitializer",
+                    "dynamiclights"            : "dev.caecorthus.sparkdlc.client.role.civilian.savior.SaviorDynamicLightsInitializer"
             ].each { key, entrypoint ->
                 if (!(metadata.entrypoints?.get(key) ?: []).contains(entrypoint)) {
                     throw new GradleException("Missing ${key} entrypoint ${entrypoint} in ${jarFile.name}")
@@ -1514,14 +1514,14 @@ def verifyWitchModJar = tasks.register("verifyWitchModJar") {
             // Both witch mixin configs must stay listed, the client one for the client environment only.
             // 两份 witch mixin 配置都必须保持列出，其中客户端配置仅限客户端环境。
             def listedMixins = metadata.mixins ?: []
-            if (!listedMixins.contains("sparkwitch.mixins.json")) {
-                throw new GradleException("sparkwitch.mixins.json is not listed in fabric.mod.json of ${jarFile.name}")
+            if (!listedMixins.contains("sparkdlc.mixins.json")) {
+                throw new GradleException("sparkdlc.mixins.json is not listed in fabric.mod.json of ${jarFile.name}")
             }
             if (!listedMixins.any {
-                it instanceof Map && it.config == "sparkwitch.client.mixins.json" && it.environment == "client"
+                it instanceof Map && it.config == "sparkdlc.client.mixins.json" && it.environment == "client"
             }) {
                 throw new GradleException(
-                        "sparkwitch.client.mixins.json is not listed for the client environment in fabric.mod.json of ${jarFile.name}"
+                        "sparkdlc.client.mixins.json is not listed for the client environment in fabric.mod.json of ${jarFile.name}"
                 )
             }
 
@@ -1562,11 +1562,11 @@ def verifyWitchModJar = tasks.register("verifyWitchModJar") {
             }
 
             [
-                    "dev/caecorthus/sparkdlc/witch/client/SparkWitchClient.class",
-                    "dev/caecorthus/sparkdlc/witch/net/SparkWitchServerConnection.class",
-                    "dev/caecorthus/sparkdlc/witch/net/SparkWitchPackets.class",
-                    "dev/caecorthus/sparkdlc/witch/net/SparkWitchServerConfirmS2CPacket.class",
-                    "dev/caecorthus/sparkdlc/witch/client/net/version/SparkWitchClientVersionHandshake.class"
+                    "dev/caecorthus/sparkdlc/client/SparkWitchClient.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkWitchServerConnection.class",
+                    "dev/caecorthus/sparkdlc/net/SparkWitchPackets.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkWitchServerConfirmS2CPacket.class",
+                    "dev/caecorthus/sparkdlc/client/net/version/SparkWitchClientVersionHandshake.class"
             ].each { requiredEntry ->
                 // Client display gates need both login and play-stage Spark server confirmation.
                 // 客户端显示开关需要登录阶段和 play 阶段的 Spark 服务端确认。
@@ -1859,15 +1859,15 @@ def requiredArchitectureDocs = [
         "docs/witch/DOWNSTREAM_MIGRATION_NOTES.md"
 ]
 def requiredArchitectureSources = [
-        "src/main/java/dev/caecorthus/sparkdlc/witch/api/SparkWitchApi.java",
-        "src/main/java/dev/caecorthus/sparkdlc/witch/roles/civilian/apprentice/ApprenticeInstinctRules.java",
-        "src/main/java/dev/caecorthus/sparkdlc/witch/roles/civilian/apprentice/abilities/ApprenticeAbilityRuntime.java",
-        "src/main/java/dev/caecorthus/sparkdlc/witch/roles/civilian/piggod/PigGodChaseRuntime.java",
-        "src/main/java/dev/caecorthus/sparkdlc/witch/roles/witch/grandwitch/GrandWitchRules.java",
-        "src/main/java/dev/caecorthus/sparkdlc/witch/roles/witch/grandwitch/GrandWitchWorldRuntime.java",
-        "src/client/java/dev/caecorthus/sparkdlc/witch/client/render/entity/EntityRedraw.java",
-        "src/client/java/dev/caecorthus/sparkdlc/witch/client/render/entity/EntityModelCapture.java",
-        "src/client/java/dev/caecorthus/sparkdlc/witch/client/render/entity/SecondaryWorldPass.java"
+        "src/main/java/dev/caecorthus/sparkdlc/skill/api/SparkWitchApi.java",
+        "src/main/java/dev/caecorthus/sparkdlc/role/civilian/apprentice/ApprenticeInstinctRules.java",
+        "src/main/java/dev/caecorthus/sparkdlc/role/civilian/apprentice/abilities/ApprenticeAbilityRuntime.java",
+        "src/main/java/dev/caecorthus/sparkdlc/role/civilian/piggod/PigGodChaseRuntime.java",
+        "src/main/java/dev/caecorthus/sparkdlc/role/witch/grandwitch/GrandWitchRules.java",
+        "src/main/java/dev/caecorthus/sparkdlc/role/witch/grandwitch/GrandWitchWorldRuntime.java",
+        "src/client/java/dev/caecorthus/sparkdlc/client/render/entity/EntityRedraw.java",
+        "src/client/java/dev/caecorthus/sparkdlc/client/render/entity/EntityModelCapture.java",
+        "src/client/java/dev/caecorthus/sparkdlc/client/render/entity/SecondaryWorldPass.java"
 ]
 // Contract tests for the API and rule classes above. src/test/ is gitignored and local-only, so they are required
 // only in a checkout that has the local test tree; a fresh clone skips them. In SparkDLC src/test/ itself exists on a
@@ -1876,16 +1876,16 @@ def requiredArchitectureSources = [
 // 在 SparkDLC 中，全新克隆也存在 src/test/（assist 有少量已跟踪的测试），因此改以 witch 模块自己的测试包是否存在为条件。
 def localTestTree = file(witchLocalTests)
 def localArchitectureTests = [
-        "src/test/java/dev/caecorthus/sparkdlc/witch/api/SparkWitchApiTest.java",
-        "src/test/java/dev/caecorthus/sparkdlc/witch/roles/civilian/apprentice/abilities/ApprenticeAbilityWindowRulesTest.java",
-        "src/test/java/dev/caecorthus/sparkdlc/witch/roles/witch/grandwitch/GrandWitchRulesTest.java"
+        "src/test/java/dev/caecorthus/sparkdlc/skill/api/SparkWitchApiTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/role/civilian/apprentice/abilities/ApprenticeAbilityWindowRulesTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/role/witch/grandwitch/GrandWitchRulesTest.java"
 ]
 // Entity render protocol (EMF/ETF and animation-pack compatibility, 2026-10-25; docs/witch/CONTEXT.md "Entity render protocol"):
 // an entity is drawn outside the world's own entity loop only through EntityRedraw, and a second world render runs
 // only inside SecondaryWorldPass.run. Returns the violations in one source file, comments stripped.
 // 实体渲染协议（EMF/ETF 与动画包兼容，2026-10-25；见 docs/witch/CONTEXT.md「Entity render protocol」）：在世界自身的实体循环之外
 // 只能经由 EntityRedraw 绘制实体，第二次世界渲染只能在 SecondaryWorldPass.run 内执行。返回单个源文件（已去掉注释）的违规项。
-def entityRenderRedrawOwner = "src/client/java/dev/caecorthus/sparkdlc/witch/client/render/entity/EntityRedraw.java"
+def entityRenderRedrawOwner = "src/client/java/dev/caecorthus/sparkdlc/client/render/entity/EntityRedraw.java"
 def entityRenderProtocolViolations = { String source, boolean redrawOwner ->
     def code = source.replaceAll(/(?s)\/\*.*?\*\//, " ").replaceAll(/(?m)\/\/.*$/, " ")
     def found = []
@@ -2014,8 +2014,8 @@ def verifyWitchArchitecture = tasks.register("verifyWitchArchitecture") {
         // SparkTraits 集成只能使用公共门面（融合后直接调用，尚未转换的桥仍为反射），不能触及内部实现包。traits 模块位于
         // 同一源码树，因此正是这项扫描阻止 witch 代码 import 或引用这些包。
         def forbiddenSparkTraitsTargets = [
-                "dev.caecorthus.sparkdlc.traits.impl",
-                "dev.caecorthus.sparkdlc.traits.component"
+                "dev.caecorthus.sparkdlc",
+                "dev.caecorthus.sparkdlc.trait.component"
         ]
         witchSourceTrees.each { sourceTree ->
             sourceTree.matching { include "**/*.java" }.files.each { sourceFile ->

@@ -87,7 +87,7 @@ def verifyTraitsAssassinScreenSelector = tasks.register("verifyTraitsAssassinScr
     dependsOn remappedModJar
     inputs.file(remappedModJar.flatMap { it.archiveFile })
     inputs.file(noellesRolesJarName)
-    inputs.file("src/client/resources/sparktraits.client.mixins.json")
+    inputs.file("src/client/resources/sparkdlc.client.mixins.json")
 
     doLast {
         def jarFile = remappedModJar.get().archiveFile.get().asFile
@@ -95,21 +95,21 @@ def verifyTraitsAssassinScreenSelector = tasks.register("verifyTraitsAssassinScr
         def modZip = new java.util.zip.ZipFile(jarFile)
         def noellesRolesZip = new java.util.zip.ZipFile(noellesRolesFile)
         try {
-            def configEntry = modZip.getEntry("sparktraits.client.mixins.json")
+            def configEntry = modZip.getEntry("sparkdlc.client.mixins.json")
             if (configEntry == null) {
-                throw new GradleException("Missing sparktraits.client.mixins.json in ${jarFile.name}")
+                throw new GradleException("Missing sparkdlc.client.mixins.json in ${jarFile.name}")
             }
             def config = new groovy.json.JsonSlurper().parse(modZip.getInputStream(configEntry))
             if (config.required != true || config.injectors?.defaultRequire?.toString() != "1") {
                 throw new GradleException("SparkTraits client mixins must remain required with defaultRequire 1")
             }
-            if (!(config.client ?: []).contains("AssassinScreenMixin")) {
-                throw new GradleException("Missing AssassinScreenMixin from sparktraits.client.mixins.json")
+            if (!(config.client ?: []).contains("trait.AssassinScreenMixin")) {
+                throw new GradleException("Missing AssassinScreenMixin from sparkdlc.client.mixins.json")
             }
 
             def mixinNode = readClassNode(
                     modZip,
-                    "dev/caecorthus/sparkdlc/traits/client/mixin/AssassinScreenMixin.class"
+                    "dev/caecorthus/sparkdlc/client/mixin/trait/AssassinScreenMixin.class"
             )
             def handler = mixinNode.methods.find { it.name == "sparktraits\$paginateRoleGuessPanel" }
             if (handler == null) {
@@ -163,12 +163,12 @@ def verifyTraitsInventoryScreenSelector = tasks.register("verifyTraitsInventoryS
         def modZip = new java.util.zip.ZipFile(remappedModJar.get().archiveFile.get().asFile)
         def providerZip = new java.util.zip.ZipFile(file(watheJarName))
         try {
-            def config = new groovy.json.JsonSlurper().parse(modZip.getInputStream(modZip.getEntry("sparktraits.client.mixins.json")))
+            def config = new groovy.json.JsonSlurper().parse(modZip.getInputStream(modZip.getEntry("sparkdlc.client.mixins.json")))
             if (config.required != true || config.injectors?.defaultRequire?.toString() != "1" ||
-                    !(config.client ?: []).contains("TraitInventoryScreenMixin")) {
+                    !(config.client ?: []).contains("trait.TraitInventoryScreenMixin")) {
                 throw new GradleException("Owner inventory mixin must remain required and configured")
             }
-            def node = readClassNode(modZip, "dev/caecorthus/sparkdlc/traits/client/mixin/TraitInventoryScreenMixin.class")
+            def node = readClassNode(modZip, "dev/caecorthus/sparkdlc/client/mixin/trait/TraitInventoryScreenMixin.class")
             def handler = node.methods.find { it.name == 'sparktraits$renderOwnerTraits' }
             def annotations = (handler?.visibleAnnotations ?: []) + (handler?.invisibleAnnotations ?: [])
             def injection = annotations.find { it.desc == "Lorg/spongepowered/asm/mixin/injection/Inject;" }
@@ -241,10 +241,10 @@ def verifyTraitsModJar = tasks.register("verifyTraitsModJar") {
             // 融合后的 main 入口启动。
             [
                     [key: "main", entrypoint: "dev.caecorthus.sparkdlc.SparkDLC", method: "onInitialize",
-                     moduleOwner: "dev/caecorthus/sparkdlc/traits/SparkTraits"],
+                     moduleOwner: "dev/caecorthus/sparkdlc/SparkTraits"],
                     [key: "client", entrypoint: "dev.caecorthus.sparkdlc.client.SparkDLCClient",
                      method: "onInitializeClient",
-                     moduleOwner: "dev/caecorthus/sparkdlc/traits/client/SparkTraitsClient"]
+                     moduleOwner: "dev/caecorthus/sparkdlc/client/SparkTraitsClient"]
             ].each { fused ->
                 if (!(metadata.entrypoints?.get(fused.key) ?: []).contains(fused.entrypoint)) {
                     throw new GradleException("Missing ${fused.key} entrypoint ${fused.entrypoint} in ${jarFile.name}")
@@ -262,7 +262,7 @@ def verifyTraitsModJar = tasks.register("verifyTraitsModJar") {
                 }
             }
 
-            def voicechatEntrypoint = "dev.caecorthus.sparkdlc.traits.voice.SparkTraitsVoiceChatPlugin"
+            def voicechatEntrypoint = "dev.caecorthus.sparkdlc.voice.SparkTraitsVoiceChatPlugin"
             def voicechatEntrypoints = metadata.entrypoints?.voicechat ?: []
             if (!voicechatEntrypoints.contains(voicechatEntrypoint)) {
                 throw new GradleException("Missing voicechat entrypoint ${voicechatEntrypoint} in ${jarFile.name}")
@@ -273,27 +273,27 @@ def verifyTraitsModJar = tasks.register("verifyTraitsModJar") {
             // fabric.mod.json 现在由五个模块共用：两份 traits mixin 配置都必须保持列出，其中客户端配置仅限客户端环境，
             // 否则下方以及选择器任务中的 mixin 校验就失去意义。
             def listedMixins = metadata.mixins ?: []
-            if (!listedMixins.contains("sparktraits.mixins.json")) {
-                throw new GradleException("sparktraits.mixins.json is not listed in fabric.mod.json of ${jarFile.name}")
+            if (!listedMixins.contains("sparkdlc.mixins.json")) {
+                throw new GradleException("sparkdlc.mixins.json is not listed in fabric.mod.json of ${jarFile.name}")
             }
             if (!listedMixins.any {
-                it instanceof Map && it.config == "sparktraits.client.mixins.json" && it.environment == "client"
+                it instanceof Map && it.config == "sparkdlc.client.mixins.json" && it.environment == "client"
             }) {
                 throw new GradleException(
-                        "sparktraits.client.mixins.json is not listed for the client environment in fabric.mod.json of ${jarFile.name}"
+                        "sparkdlc.client.mixins.json is not listed for the client environment in fabric.mod.json of ${jarFile.name}"
                 )
             }
 
             verifyTraitsProvidedModIds(metadata, jarFile.name)
 
-            def clientMixinEntry = zipFile.getEntry("sparktraits.client.mixins.json")
+            def clientMixinEntry = zipFile.getEntry("sparkdlc.client.mixins.json")
             if (clientMixinEntry == null) {
-                throw new GradleException("Missing sparktraits.client.mixins.json in ${jarFile.name}")
+                throw new GradleException("Missing sparkdlc.client.mixins.json in ${jarFile.name}")
             }
             def clientMixinConfig = new groovy.json.JsonSlurper().parse(zipFile.getInputStream(clientMixinEntry))
             [
-                    "CautiousClientWorldSoundMixin",
-                    "CautiousPresenceFootstepsVolumeMixin"
+                    "trait.CautiousClientWorldSoundMixin",
+                    "trait.CautiousPresenceFootstepsVolumeMixin"
             ].each { requiredMixin ->
                 if (!(clientMixinConfig.client ?: []).contains(requiredMixin)) {
                     throw new GradleException("Missing client mixin ${requiredMixin} in ${jarFile.name}")
@@ -301,20 +301,20 @@ def verifyTraitsModJar = tasks.register("verifyTraitsModJar") {
             }
 
             [
-                    "dev/caecorthus/sparkdlc/traits/api/SparkTraitsApi.class",
-                    "dev/caecorthus/sparkdlc/traits/compat/SparkWitchKillAttributionBridge.class",
-                    "dev/caecorthus/sparkdlc/traits/client/SparkTraitsClient.class",
-                    "dev/caecorthus/sparkdlc/traits/client/audio/CautiousSoundDebug.class",
-                    "dev/caecorthus/sparkdlc/traits/client/audio/DepressionRageLoopController.class",
-                    "dev/caecorthus/sparkdlc/traits/client/audio/DepressionRageLoopSoundInstance.class",
-                    "dev/caecorthus/sparkdlc/traits/client/mixin/CautiousClientWorldSoundMixin.class",
-                    "dev/caecorthus/sparkdlc/traits/client/mixin/CautiousPresenceFootstepsVolumeMixin.class",
-                    "dev/caecorthus/sparkdlc/traits/impl/traits/global/CautiousSoundRules.class",
-                    "dev/caecorthus/sparkdlc/traits/net/version/SparkTraitsServerConnection.class",
-                    "dev/caecorthus/sparkdlc/traits/net/version/SparkTraitsPackets.class",
-                    "dev/caecorthus/sparkdlc/traits/net/version/SparkTraitsServerConfirmS2CPacket.class",
-                    "dev/caecorthus/sparkdlc/traits/client/net/version/SparkTraitsClientVersionHandshake.class",
-                    "dev/caecorthus/sparkdlc/traits/voice/SparkTraitsVoiceChatPlugin.class"
+                    "dev/caecorthus/sparkdlc/trait/api/SparkTraitsApi.class",
+                    "dev/caecorthus/sparkdlc/bridge/traits/SparkWitchKillAttributionBridge.class",
+                    "dev/caecorthus/sparkdlc/client/SparkTraitsClient.class",
+                    "dev/caecorthus/sparkdlc/client/trait/audio/CautiousSoundDebug.class",
+                    "dev/caecorthus/sparkdlc/client/trait/audio/DepressionRageLoopController.class",
+                    "dev/caecorthus/sparkdlc/client/trait/audio/DepressionRageLoopSoundInstance.class",
+                    "dev/caecorthus/sparkdlc/client/mixin/trait/CautiousClientWorldSoundMixin.class",
+                    "dev/caecorthus/sparkdlc/client/mixin/trait/CautiousPresenceFootstepsVolumeMixin.class",
+                    "dev/caecorthus/sparkdlc/trait/global/CautiousSoundRules.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkTraitsServerConnection.class",
+                    "dev/caecorthus/sparkdlc/net/SparkTraitsPackets.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkTraitsServerConfirmS2CPacket.class",
+                    "dev/caecorthus/sparkdlc/client/net/version/SparkTraitsClientVersionHandshake.class",
+                    "dev/caecorthus/sparkdlc/voice/SparkTraitsVoiceChatPlugin.class"
             ].each { requiredEntry ->
                 // Runtime compatibility depends on these packaged confirmation and optional voice bridge classes.
                 // 运行时兼容依赖这些随 jar 发布的确认类和可选语音桥类。
@@ -328,15 +328,15 @@ def verifyTraitsModJar = tasks.register("verifyTraitsModJar") {
     }
 }
 
-def publicFacade = "src/main/java/dev/caecorthus/sparkdlc/traits/api/SparkTraitsApi.java"
-def publicFacadeContractTest = "src/test/java/dev/caecorthus/sparkdlc/traits/api/SparkTraitsApiContractTest.java"
-def syncVisibilityContractTest = "src/test/java/dev/caecorthus/sparkdlc/traits/component/TraitSyncVisibilityTest.java"
+def publicFacade = "src/main/java/dev/caecorthus/sparkdlc/trait/api/SparkTraitsApi.java"
+def publicFacadeContractTest = "src/test/java/dev/caecorthus/sparkdlc/trait/api/SparkTraitsApiContractTest.java"
+def syncVisibilityContractTest = "src/test/java/dev/caecorthus/sparkdlc/trait/component/TraitSyncVisibilityTest.java"
 // src/test/ is gitignored and local-only, so the two contract tests are required only in a checkout that has the
 // local test tree; a fresh clone (CI) skips them. In SparkDLC src/test/ itself exists on a fresh clone (a few assist
 // tests are tracked), so the condition is the traits module's own test package.
 // src/test/ 已被 gitignore 且仅存于本地，因此只在拥有本地测试树的检出中要求这两个契约测试；全新克隆（CI）会跳过。
 // 在 SparkDLC 中，全新克隆也存在 src/test/（assist 有少量已跟踪的测试），因此改以 traits 模块自己的测试包是否存在为条件。
-def traitsLocalTests = "src/test/java/dev/caecorthus/sparkdlc/traits"
+def traitsLocalTests = "src/test/java/dev/caecorthus/sparkdlc"
 def localTestTree = file(traitsLocalTests)
 def localContractTests = [publicFacadeContractTest, syncVisibilityContractTest]
 

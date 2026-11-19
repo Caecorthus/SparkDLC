@@ -101,10 +101,10 @@ tasks.register("verifyStrengthArchitecture") {
             "docs/strength/CONTEXT.md",
             "gradle.properties",
             "src/main/resources/fabric.mod.json",
-            "src/main/java/dev/caecorthus/sparkdlc/strength/compat/SparkTraitsCompat.java",
-            "src/main/java/dev/caecorthus/sparkdlc/strength/SparkStrengthItems.java",
-            "src/main/java/dev/caecorthus/sparkdlc/strength/SparkStrengthEntities.java",
-            "src/main/java/dev/caecorthus/sparkdlc/strength/replay/CaptureDeviceReplayEvents.java"
+            "src/main/java/dev/caecorthus/sparkdlc/bridge/strength/SparkTraitsCompat.java",
+            "src/main/java/dev/caecorthus/sparkdlc/SparkStrengthItems.java",
+            "src/main/java/dev/caecorthus/sparkdlc/SparkStrengthEntities.java",
+            "src/main/java/dev/caecorthus/sparkdlc/replay/role/CaptureDeviceReplayEvents.java"
     )
     inputs.files(fileTree("libs") { include "*.jar" })
     inputs.files(tasks.named("processResources").map { it.destinationDir })
@@ -130,33 +130,33 @@ tasks.register("verifyStrengthArchitecture") {
         // SparkTraitsCompat 只经公开门面访问 SparkTraits。融合进 SparkDLC 后，该桥接 import 门面并直接调用
         // hasActiveTrait，不再按名称查找。
         requireText(
-                "src/main/java/dev/caecorthus/sparkdlc/strength/compat/SparkTraitsCompat.java",
-                "import dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi;"
+                "src/main/java/dev/caecorthus/sparkdlc/bridge/strength/SparkTraitsCompat.java",
+                "import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;"
         )
         requireText(
-                "src/main/java/dev/caecorthus/sparkdlc/strength/compat/SparkTraitsCompat.java",
+                "src/main/java/dev/caecorthus/sparkdlc/bridge/strength/SparkTraitsCompat.java",
                 "SparkTraitsApi.hasActiveTrait(player, traitId)"
         )
 
         def forbiddenSparkTraitsPackages = [
-                "dev.caecorthus.sparkdlc.traits.SparkTraits",
-                "dev.caecorthus.sparkdlc.traits.client.",
-                "dev.caecorthus.sparkdlc.traits.command.",
-                "dev.caecorthus.sparkdlc.traits.component.",
-                "dev.caecorthus.sparkdlc.traits.impl.",
-                "dev.caecorthus.sparkdlc.traits.mixin.",
-                "dev.caecorthus.sparkdlc.traits.net.",
-                "dev.caecorthus.sparkdlc.traits.voice."
+                "dev.caecorthus.sparkdlc.SparkTraits",
+                "dev.caecorthus.sparkdlc.client.",
+                "dev.caecorthus.sparkdlc.command.",
+                "dev.caecorthus.sparkdlc.trait.component.",
+                "dev.caecorthus.sparkdlc.",
+                "dev.caecorthus.sparkdlc.mixin.",
+                "dev.caecorthus.sparkdlc.",
+                "dev.caecorthus.sparkdlc.voice."
         ]
         // `src` now holds all five modules, and the traits module names its own packages, so the scan covers only
         // the strength packages of every source set (main, client and the local-only test tree when present).
         // `src` 现在包含全部五个模块，而 traits 模块自然会引用自己的包，因此只扫描各源码集（main、client，以及存在时的
         // 本地 test）中的 strength 包。
         def strengthSources = fileTree("src") {
-            include "*/java/dev/caecorthus/sparkdlc/strength/**/*.java"
+            include "*/java/dev/caecorthus/sparkdlc/**/*.java"
         }.files
         if (strengthSources.isEmpty()) {
-            throw new GradleException("No SparkStrength sources found under src/*/java/dev/caecorthus/sparkdlc/strength")
+            throw new GradleException("No SparkStrength sources found under src/*/java/dev/caecorthus/sparkdlc")
         }
         def internalTraitReferences = strengthSources.findAll { sourceFile ->
             def sourceText = sourceFile.getText("UTF-8")
@@ -167,9 +167,9 @@ tasks.register("verifyStrengthArchitecture") {
         }
 
         requireText("src/main/resources/fabric.mod.json", "sparkstrength:engineer_stunned")
-        requireText("src/main/java/dev/caecorthus/sparkdlc/strength/SparkStrengthItems.java", "SparkStrength.id(\"capture_device\")")
-        requireText("src/main/java/dev/caecorthus/sparkdlc/strength/SparkStrengthItems.java", "SparkStrength.id(\"power_restoration\")")
-        requireText("src/main/java/dev/caecorthus/sparkdlc/strength/SparkStrengthEntities.java", "SparkStrength.id(\"capture_device\")")
+        requireText("src/main/java/dev/caecorthus/sparkdlc/SparkStrengthItems.java", "SparkStrength.id(\"capture_device\")")
+        requireText("src/main/java/dev/caecorthus/sparkdlc/SparkStrengthItems.java", "SparkStrength.id(\"power_restoration\")")
+        requireText("src/main/java/dev/caecorthus/sparkdlc/SparkStrengthEntities.java", "SparkStrength.id(\"capture_device\")")
         [
                 "capture_device_placed",
                 "capture_device_triggered",
@@ -177,7 +177,7 @@ tasks.register("verifyStrengthArchitecture") {
                 "capture_device_expired"
         ].each { replayId ->
             requireText(
-                    "src/main/java/dev/caecorthus/sparkdlc/strength/replay/CaptureDeviceReplayEvents.java",
+                    "src/main/java/dev/caecorthus/sparkdlc/replay/role/CaptureDeviceReplayEvents.java",
                     "SparkStrength.id(\"${replayId}\")"
             )
         }
@@ -291,8 +291,8 @@ tasks.register("verifyStrengthCompatibilityArtifact") {
     dependsOn remappedModJar
     inputs.file(remappedModJar.flatMap { it.archiveFile })
     inputs.files(
-            "src/main/resources/sparkstrength.mixins.json",
-            "src/client/resources/sparkstrength.client.mixins.json"
+            "src/main/resources/sparkdlc.mixins.json",
+            "src/client/resources/sparkdlc.client.mixins.json"
     )
 
     doLast {
@@ -349,13 +349,13 @@ tasks.register("verifyStrengthCompatibilityArtifact") {
                     throw new GradleException("Entrypoint class ${className} is missing from ${jarFile.name}")
                 }
             }
-            requireEntrypoint("voicechat", "dev.caecorthus.sparkdlc.strength.voice.SparkStrengthVoiceChatPlugin")
-            requireEntrypoint("cardinal-components", "dev.caecorthus.sparkdlc.strength.component.SparkStrengthComponents")
+            requireEntrypoint("voicechat", "dev.caecorthus.sparkdlc.voice.SparkStrengthVoiceChatPlugin")
+            requireEntrypoint("cardinal-components", "dev.caecorthus.sparkdlc.SparkStrengthComponents")
             [
                     main  : ["dev.caecorthus.sparkdlc.SparkDLC", "onInitialize",
-                             "dev/caecorthus/sparkdlc/strength/SparkStrength"],
+                             "dev/caecorthus/sparkdlc/SparkStrength"],
                     client: ["dev.caecorthus.sparkdlc.client.SparkDLCClient", "onInitializeClient",
-                             "dev/caecorthus/sparkdlc/strength/client/SparkStrengthClient"]
+                             "dev/caecorthus/sparkdlc/client/SparkStrengthClient"]
             ].each { key, expectation ->
                 def (String entrypointClass, String initializerMethod, String moduleInitializer) = expectation
                 requireEntrypoint(key, entrypointClass)
@@ -387,8 +387,8 @@ tasks.register("verifyStrengthCompatibilityArtifact") {
                         : [(entry.toString()): null]
             }
             def expectedMixinEnvironments = [
-                    "sparkstrength.mixins.json"        : null,
-                    "sparkstrength.client.mixins.json" : "client"
+                    "sparkdlc.mixins.json"        : null,
+                    "sparkdlc.client.mixins.json" : "client"
             ]
             expectedMixinEnvironments.each { configName, environment ->
                 if (!listedMixinConfigs.containsKey(configName) || listedMixinConfigs[configName] != environment) {
@@ -399,8 +399,8 @@ tasks.register("verifyStrengthCompatibilityArtifact") {
                 }
             }
             def expectedMixinConfigs = [
-                    "sparkstrength.mixins.json"        : "corruptcop.CorruptCopAbilityPacketMixin",
-                    "sparkstrength.client.mixins.json" : "hud.MainHudDispatchMixin"
+                    "sparkdlc.mixins.json"        : "role.jiahao.corruptcop.CorruptCopAbilityPacketMixin",
+                    "sparkdlc.client.mixins.json" : "hud.MainHudDispatchMixin"
             ]
             expectedMixinConfigs.each { configName, requiredMixin ->
                 def mixinEntry = zipFile.getEntry(configName)
@@ -408,7 +408,7 @@ tasks.register("verifyStrengthCompatibilityArtifact") {
                     throw new GradleException("Missing ${configName} in ${jarFile.name}")
                 }
                 def packagedBytes = zipFile.getInputStream(mixinEntry).bytes
-                def sourcePath = configName == "sparkstrength.mixins.json"
+                def sourcePath = configName == "sparkdlc.mixins.json"
                         ? "src/main/resources/${configName}"
                         : "src/client/resources/${configName}"
                 if (!java.util.Arrays.equals(packagedBytes, file(sourcePath).bytes)) {
@@ -420,7 +420,7 @@ tasks.register("verifyStrengthCompatibilityArtifact") {
                     throw new GradleException("Missing required mixin ${requiredMixin} in ${configName}")
                 }
             }
-            def corruptCopMixinEntry = "dev/caecorthus/sparkdlc/strength/mixin/corruptcop/CorruptCopAbilityPacketMixin.class"
+            def corruptCopMixinEntry = "dev/caecorthus/sparkdlc/mixin/role/jiahao/corruptcop/CorruptCopAbilityPacketMixin.class"
             def corruptCopMixin = readClassNode(zipFile, corruptCopMixinEntry)
             def packetDescriptor = "(Lorg/agmas/noellesroles/packet/AbilityC2SPacket;" +
                     "Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V"
@@ -498,7 +498,7 @@ tasks.register("verifyStrengthCompatibilityArtifact") {
             def verifyUndercoverImmunity = { label, mixinName, handlerMethod, providerHandler, packet ->
                 def expectedSelector = ("${providerHandler}(Lorg/agmas/noellesroles/packet/${packet};" +
                         "Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V").toString()
-                def mixinNode = readClassNode(zipFile, "dev/caecorthus/sparkdlc/strength/mixin/undercover/${mixinName}.class")
+                def mixinNode = readClassNode(zipFile, "dev/caecorthus/sparkdlc/mixin/role/civilian/undercover/${mixinName}.class")
                 def handlerNode = mixinNode.methods.find { it.name == handlerMethod }
                 if (handlerNode == null) {
                     throw new GradleException("Missing remapped Undercover ${label} immunity handler")
@@ -542,7 +542,7 @@ tasks.register("verifyStrengthCompatibilityArtifact") {
                     "(Lorg/agmas/noellesroles/packet/AssassinGuessRoleC2SPacket;" +
                     "Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V").toString()
             def assassinGuessMixin = readClassNode(
-                    zipFile, "dev/caecorthus/sparkdlc/strength/mixin/noellesroles/AssassinGuessOutcomeMixin.class")
+                    zipFile, "dev/caecorthus/sparkdlc/mixin/compat/noellesroles/AssassinGuessOutcomeMixin.class")
             [
                     "sparkstrength\$forgivenMissIsSilent"      :
                             "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
@@ -696,7 +696,7 @@ tasks.register("verifyStrengthSiblingSeams") {
             def legacyGates = new TreeSet<String>()
             def traitsFacadeCallers = new TreeSet<String>()
             zipFile.entries().findAll { entry ->
-                entry.name.startsWith("dev/caecorthus/sparkdlc/strength/") && entry.name.endsWith(".class")
+                entry.name.startsWith("dev/caecorthus/sparkdlc/") && entry.name.endsWith(".class")
             }.each { entry ->
                 def classNode = readClassNode(zipFile, entry.name)
                 classStringConstants(classNode).each { constant ->
@@ -718,7 +718,7 @@ tasks.register("verifyStrengthSiblingSeams") {
                                 legacyGates.add("${entry.name}#${method.name} isModLoaded(\"${lastConstant}\")".toString())
                             }
                             if (instruction.getOpcode() == org.objectweb.asm.Opcodes.INVOKESTATIC &&
-                                    instruction.owner == "dev/caecorthus/sparkdlc/traits/api/SparkTraitsApi" &&
+                                    instruction.owner == "dev/caecorthus/sparkdlc/trait/api/SparkTraitsApi" &&
                                     instruction.name == "hasActiveTrait" &&
                                     instruction.desc == "(Lnet/minecraft/class_1657;Lnet/minecraft/class_2960;)Z") {
                                 traitsFacadeCallers.add(entry.name)
@@ -780,7 +780,7 @@ tasks.register("verifyStrengthSiblingSeams") {
             // 源码契约所钉的门面调用：SparkTraitsCompat 以编译期 invokestatic 访问 public static boolean
             // SparkTraitsApi.hasActiveTrait(PlayerEntity, Identifier)。jar 已重映射，参数类型使用 intermediary 名称
             // （class_1657 = PlayerEntity，class_2960 = Identifier）。该方法及其描述符的存在已由编译器保证。
-            if (!traitsFacadeCallers.contains("dev/caecorthus/sparkdlc/strength/compat/SparkTraitsCompat.class")) {
+            if (!traitsFacadeCallers.contains("dev/caecorthus/sparkdlc/bridge/strength/SparkTraitsCompat.class")) {
                 throw new GradleException(
                         "SparkTraitsCompat must call SparkTraitsApi.hasActiveTrait(PlayerEntity, Identifier) directly; " +
                                 "direct callers found: ${traitsFacadeCallers}"

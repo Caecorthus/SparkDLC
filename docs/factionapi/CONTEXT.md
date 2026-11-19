@@ -49,7 +49,7 @@ This glossary describes the runtime contract vocabulary used by code and tests.
 - **Match record payload**: the structured, non-display copy of one finished
   Wathe `MatchRecord` (`MatchRecordSnapshot`: event `seq`, `type`, `tick` since
   the match start, and Wathe's NBT `data`), pushed to clients at round end and
-  read on the client through `client.api.SparkMatchRecordClient.latest()`.
+  read on the client through `client.record.SparkMatchRecordClient.latest()`.
 - **Kill-start snapshot**: the victim's and killer's role, effective faction,
   psycho state, the killer's main-hand item and the feet-to-feet distance, read
   when `GameFunctions.killPlayer` starts and written onto that kill's Wathe
@@ -65,7 +65,7 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   actual balance changes (after − before) of those calls. Starting money and
   other `setBalance` writes are not income.
 - **Hidden equipment registration**: an item-identity registration through
-  `api/compat/NoellesHiddenEquipment`. When NoellesRoles is present, the
+  `compat/noellesroles/NoellesHiddenEquipment`. When NoellesRoles is present, the
   optional Adapter adds registered items to its existing held-item hiding path.
 - **Limited inventory second row**: player-inventory main slots 27-35, shown
   directly above the hotbar in Wathe's `LimitedInventoryScreen`. Main slots
@@ -73,7 +73,7 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   survival, and Wathe `TrainWorldComponent#hasHud`, the same condition under
   which Wathe swaps in that screen.
 - **Settlement exclusion**: a role registered through
-  `api/settlement/SettlementExclusions` whose holders never count as a living
+  `round/settlement/SettlementExclusions` whose holders never count as a living
   player for round settlement in any mod (killer win checks, SparkTraits Last
   Stand and Final Moment thresholds, neutral "last one alive" wins). It is a
   classification read by each settlement point; it changes no win rule, event or
@@ -82,7 +82,7 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   per-player condition holds (SparkWitch's Charon without a running Soul
   Moment).
 - **Forced cooldown**: a cooldown imposed on a player by another feature (penalty,
-  aura, debuff) through `api/cooldown/ForcedCooldowns`, covering both
+  aura, debuff) through `cooldown/api/ForcedCooldowns`, covering both
   registered role-skill stores (`RoleSkillCooldownStore`) and vanilla item
   cooldowns on carried items. A `CooldownSlot` is a read-only snapshot; writes
   re-read the live value.
@@ -281,7 +281,7 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   answer and only for a holder of exactly that raw role, so no other role's
   players ever reach a condition; `containsRole` and `isExcludedRole` stay
   unconditional-only. The player is resolved from the component's own world
-  (`mixin/settlement/GameWorldComponentWorldAccessor`) and only on a
+  (`mixin/round/settlement/GameWorldComponentWorldAccessor`) and only on a
   `ServerWorld`; a client world, an offline holder and a throwing condition
   (`RuntimeException` or `LinkageError`, logged once per role) all answer "not
   excluded". With no conditional role registered the query is exactly the old
@@ -502,8 +502,8 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   by `GameSettingsCommandMixin`. `GameSettingsCommandThirdFactionMixin` adds the
   `roleDividend third_faction` option at TAIL of `GameSettingsCommand.register`.
 - SparkTraits may integrate through optional public seams; it contributes
-  replay trait tooltips and trait badges through `api/replay`.
-- `client/api/card` (`InventoryCardLayout`, `InventoryCardPaint`,
+  replay trait tooltips and trait badges through `replay/api`.
+- `client/gui/card` (`InventoryCardLayout`, `InventoryCardPaint`,
   `InventoryInfoCard`, `GuideDecorBridge`) is the single shared owner
   inventory info card engine: SparkTraits uses it now and SparkWitch is moving
   to it. Each mod creates its own `InventoryInfoCard` (own caches, overflow
@@ -511,7 +511,7 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   `GuideDecorBridge`; instances are never shared between mods.
   SparkAssist decoration is reached by name only (factionapi must not import
   a sibling module); the lookup is no longer gated on the `sparkassist` id.
-- `api/settlement/SettlementExclusions`: SparkWitch registers
+- `round/settlement/SettlementExclusions`: SparkWitch registers
   `sparkwitch:black_raven`, `sparkwitch:stowaway` and
   `sparkwitch:schrodingers_cat` unconditionally and `sparkwitch:charon` as a
   conditional role (excluded while he owns no running Soul Moment with a
@@ -519,10 +519,10 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   read `isExcluded(GameWorldComponent, UUID)` at their own settlement points
   and need no change for a conditional role.
 - SparkStrength and SparkAssist are not current Java API consumers.
-  SparkStrength reaches `api/cooldown` (store registration,
+  SparkStrength reaches `cooldown/api` (store registration,
   `clearItemKeepingForced`) only by reflection and falls back when it is
   missing. SparkAssist reads the match record through
-  `client.api.SparkMatchRecordClient` and the faction ids through
-  `api.SparkFactionApi` and `SparkFactionRoundEndComponent` by direct calls
+  `client.record.SparkMatchRecordClient` and the faction ids through
+  `faction.api.SparkFactionApi` and `SparkFactionRoundEndComponent` by direct calls
   since the fusion (the achievement record events and `death` fields are
   still read by name).

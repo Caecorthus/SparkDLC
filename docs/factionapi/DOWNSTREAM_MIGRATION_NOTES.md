@@ -81,7 +81,7 @@ registered every answer is unchanged.
   player and must be cheap, side-effect-free reads. Fail closed: a client
   world, an offline holder, or a predicate that throws (logged once per role)
   means "not excluded".
-- New read-only accessor mixin `mixin/settlement/GameWorldComponentWorldAccessor`
+- New read-only accessor mixin `mixin/round/settlement/GameWorldComponentWorldAccessor`
   on Wathe's private `GameWorldComponent.world`.
 
 中文摘要：新增 `SettlementExclusions.registerConditionalRole(身份 id, 玩家谓词)`，用于“仅在条件成立时才被结算排除”的身份
@@ -118,7 +118,7 @@ evaluation order are unchanged.
   the owning registries, and each policy list now lives in its evaluator. The
   unused `startTick` getter of the `ItemCooldownManager$Entry` accessor mixin is
   gone too (its setter stays).
-- New shared client package `client/api/card` (`InventoryCardLayout`,
+- New shared client package `client/gui/card` (`InventoryCardLayout`,
   `InventoryCardPaint`, `InventoryInfoCard`, `GuideDecorBridge`): the owner
   inventory info card that SparkWitch and SparkTraits each used to ship. Create
   one `InventoryInfoCard` (and one `GuideDecorBridge`) per mod; never share an
@@ -129,7 +129,7 @@ evaluation order are unchanged.
 `targetTags`/`toBuilder`，`FactionAssignmentPolicy.minimumPlayers`，`FactionDefinition` 的 8 参数构造器，
 `ForcedCooldowns.registerItemNominal`/`isItemExempt`，`SettlementExclusions.isExcluded(PlayerEntity)`/`roleIds`，
 `SparkFactionRoundEndComponent.getWinners`，`ReplayPlayerView` 的 `name`/`onlinePlayer`/`roleHistory`）；行为、
-载荷、NBT 键、组件 id、mixin 目标与策略评估顺序均不变。新增共享客户端包 `client/api/card`（物品栏信息卡引擎）：
+载荷、NBT 键、组件 id、mixin 目标与策略评估顺序均不变。新增共享客户端包 `client/gui/card`（物品栏信息卡引擎）：
 每个模组各建一个 `InventoryInfoCard` 与 `GuideDecorBridge` 实例，不在模组之间共用。
 
 ## 2026-11-04 Native Wathe Factions (0.1.6.0, provisional)
@@ -298,7 +298,7 @@ on call counts or on internal `impl` helpers.
 
 Additive and source/binary compatible. No migration is required.
 
-- New `api/settlement/SettlementExclusions`: role ids whose holders never count
+- New `round/settlement/SettlementExclusions`: role ids whose holders never count
   as a living player for round settlement (killer win checks, Last Stand and
   Final Moment thresholds, neutral "last one alive" wins). Role owners call
   `registerRole(Identifier)` during initialization; settlement code skips a
@@ -354,7 +354,7 @@ Additive. No migration is required.
   (Wathe record order, no `door_interaction`, earliest 8192 within 900 KiB,
   `tick` since the match start, Wathe NBT unchanged). It arrives before the
   round-end announcement and opens nothing; replay behavior is unchanged.
-- Client read access: `dev.caecorthus.sparkdlc.factionapi.client.api.SparkMatchRecordClient.latest()`
+- Client read access: `dev.caecorthus.sparkdlc.client.record.SparkMatchRecordClient.latest()`
   returns the latest `MatchRecordSnapshot` or null (cleared on disconnect).
   The class name, `latest()`, and the record accessors are a stable contract
   that SparkAssist reads by reflection.
@@ -423,7 +423,7 @@ flag defaults to on, so this includes the lobby):
 
 Additive and source/binary compatible. No migration is required.
 
-- New package `api/replay`: `SparkReplayApi.withRoleChangeCause(...)` tags a
+- New package `replay/api`: `SparkReplayApi.withRoleChangeCause(...)` tags a
   mid-round `GameWorldComponent#addRole` with a replay cause and optional source
   player; `registerPlayerTooltipContributor(...)` appends lines to each
   participant's replay hover tooltip.
@@ -439,7 +439,7 @@ Additive and source/binary compatible. No migration is required.
 This change is additive and source- and binary-compatible. No immediate
 downstream migration is required.
 
-New package `api/cooldown` (`ForcedCooldowns`, `RoleSkillCooldownStore`,
+New package `cooldown/api` (`ForcedCooldowns`, `RoleSkillCooldownStore`,
 `CooldownSlot`, `CooldownKind`, `ItemCooldownNominalProvider`) gives features
 that force cooldowns on another player one monotonic, exact path for role
 skills and carried items. Integrations that own a role-skill counter should

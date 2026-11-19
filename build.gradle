@@ -184,11 +184,11 @@ dependencies {
 
     // LambDynamicLights API: compile-only from Gegy's maven, never committed or bundled (the Lambda License forbids
     // redistributing its binaries). Optional at runtime: only the "lambdynlights:initializer" and legacy
-    // "dynamiclights" entrypoints name witch/client/savior/SaviorDynamicLightsInitializer, so nothing loads the API
+    // "dynamiclights" entrypoints name client/role/civilian/savior/SaviorDynamicLightsInitializer, so nothing loads the API
     // without LambDynamicLights. Non-transitive: compiling the initializer needs only the API's own classes.
     // LambDynamicLights API：仅编译期，从 Gegy maven 获取，绝不提交到仓库或打包进 jar（Lambda License 禁止再分发其二进制）。
     // 运行时可选：只有 "lambdynlights:initializer" 与旧版 "dynamiclights" 入口指向
-    // witch/client/savior/SaviorDynamicLightsInitializer，未安装 LambDynamicLights 时不会加载该 API。
+    // client/role/civilian/savior/SaviorDynamicLightsInitializer，未安装 LambDynamicLights 时不会加载该 API。
     // 不传递依赖：编译该入口类只需要 API 自身的类。
     modCompileOnly("dev.lambdaurora.lambdynamiclights:lambdynamiclights-api:${project.lambdynlights_version}") {
         transitive = false

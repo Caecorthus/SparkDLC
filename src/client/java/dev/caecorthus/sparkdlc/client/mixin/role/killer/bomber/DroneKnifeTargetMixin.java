@@ -22,8 +22,15 @@ import org.spongepowered.asm.mixin.injection.At;
  *
  * <p>A Partygoer strictly nearer than that result replaces it in turn; {@code DroneKnifeStabPayloadMixin} validates and
  * kills it. / 严格比该结果更近的派对客再次替换它；由 DroneKnifeStabPayloadMixin 校验并击杀。</p>
+ *
+ * <p>Priority 999 (set when the nine mixin configs were merged into two): keeps this mixin applied before the Seeker
+ * target mixin on the same method, as it was while SparkStrength's client config was listed before SparkWitch's
+ * common config. With equal priority the merged configs would let a Seeker device lose a near-tie to a drone.
+ * 优先级 999（九个 mixin 配置合并为两个时设定）：使本 mixin 仍先于同一方法上的 Seeker 目标 mixin 应用，与原先
+ * SparkStrength 客户端配置排在 SparkWitch 通用配置之前时一致；若优先级相同，合并后的配置会让探查者装置在近似并列时
+ * 输给无人机。</p>
  */
-@Mixin(KnifeItem.class)
+@Mixin(value = KnifeItem.class, priority = 999)
 public abstract class DroneKnifeTargetMixin {
     @ModifyReturnValue(method = "getKnifeTarget", at = @At("RETURN"), remap = false)
     private static HitResult sparkstrength$preferNearerDrone(HitResult original, PlayerEntity user) {

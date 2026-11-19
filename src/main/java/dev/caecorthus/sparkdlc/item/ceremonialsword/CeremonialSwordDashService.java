@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.item.ceremonialsword;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit.BlackRavenCrowHits;
 import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPuppetHits;
 import net.minecraft.item.ItemStack;
@@ -43,7 +43,7 @@ public final class CeremonialSwordDashService {
     }
 
     public static void start(ServerPlayerEntity player) {
-        if (SparkTraitsKillerBridge.blocksWeaponAction(player, new ItemStack(SparkWitchItems.ceremonialSword()))) {
+        if (SparkTraitsApi.blocksWeaponAction(player, new ItemStack(SparkWitchItems.ceremonialSword()))) {
             return;
         }
         Vec3d direction = horizontalDirection(player);
@@ -96,7 +96,7 @@ public final class CeremonialSwordDashService {
             Map.Entry<UUID, DashState> entry = iterator.next();
             ServerPlayerEntity player = server.getPlayerManager().getPlayer(entry.getKey());
             if (player == null || !shouldKeepDashActive(true, player.isAlive(), player.isSpectator())
-                    || SparkTraitsKillerBridge.blocksWeaponAction(player, new ItemStack(SparkWitchItems.ceremonialSword()))) {
+                    || SparkTraitsApi.blocksWeaponAction(player, new ItemStack(SparkWitchItems.ceremonialSword()))) {
                 iterator.remove();
                 continue;
             }

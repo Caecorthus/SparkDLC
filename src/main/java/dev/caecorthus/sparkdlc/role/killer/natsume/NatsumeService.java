@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.killer.natsume;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesSilenceBridge;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.net.OpenNatsumeMenuS2CPacket;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerExitReason;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.remote.SeekerRemoteSessionService;
@@ -220,7 +220,7 @@ public final class NatsumeService {
                         && !NoellesTaotieSeekerBridge.isSwallowed(caster),
                 NinjaGrappleService.isHeld(caster),
                 NoellesSilenceBridge.isSilenced(caster),
-                SparkTraitsKillerBridge.isRoleSkillBlocked(caster),
+                SparkTraitsApi.isRoleSkillBlocked(caster),
                 state.isHypnotised(),
                 state.cooldownRemainingTicks(caster.getWorld().getTime()) <= 0,
                 GrandWitchFearService.isPlayerFeared(caster));

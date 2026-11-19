@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.replay.api.SparkReplayApi;
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
 import dev.caecorthus.sparkdlc.SparkWitchRoles;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -112,7 +112,7 @@ public final class FerrymanMomentService {
         // SparkTraits 在击杀时读取终结原因，背水一战因此不会把“随之而去”变成复活；服务端启动时注册即足够早且幂等
         // （与魔人被吞食、钟声的做法相同）。
         ServerLifecycleEvents.SERVER_STARTING.register(server ->
-                SparkTraitsKillerBridge.registerTerminalDeathReason(SparkWitchDeathReasons.FERRYMAN_MOMENT_LOST));
+                SparkTraitsApi.registerTerminalDeathReason(SparkWitchDeathReasons.FERRYMAN_MOMENT_LOST));
     }
 
     /** Shop predicate: true means the purchase went through. / 商店谓词：返回 true 表示购买完成。 */
@@ -172,7 +172,7 @@ public final class FerrymanMomentService {
                     game.hasAnyRole(id),
                     game.isPlayerDead(id),
                     FerrymanParticipation.isFerryman(player),
-                    SparkTraitsKillerBridge.isLastStandDeathIntercepted(player),
+                    SparkTraitsApi.isLastStandDeathIntercepted(player),
                     WraithStateService.isActive(player))) {
                 eligible.add(player);
             }

@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither;
 
 import dev.caecorthus.sparkdlc.SparkWitchSounds;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.killer.witchmaiden.WitchMaidenRules;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
 import dev.caecorthus.sparkdlc.util.TickTime;
@@ -46,7 +46,7 @@ public final class MiniWitherSkillService {
         }
         // Same silent refusals as the other dedicated role skills (Apprentice Purify, Blind Attune).
         // 与其他自有流程职业技能（预备魔女净化、盲人凝神）相同的静默拒绝。
-        if (SparkTraitsKillerBridge.isRoleSkillBlocked(player) || NoellesTaotieSeekerBridge.isSwallowed(player)) {
+        if (SparkTraitsApi.isRoleSkillBlocked(player) || NoellesTaotieSeekerBridge.isSwallowed(player)) {
             return;
         }
         MiniWitherPlayerComponent wither = MiniWitherPlayerComponent.KEY.get(player);

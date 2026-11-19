@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.usec;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsUsecBridge;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
@@ -60,7 +60,7 @@ public final class UsecCooldowns {
         }
         Item rifle = SparkWitchItems.usecRifle();
         return write(remainingTicks(player), ticks,
-                merged -> SparkTraitsKillerBridge.setExactItemCooldownRemaining(player, rifle, merged),
+                merged -> SparkTraitsApi.setExactItemCooldownRemaining(player, rifle, merged),
                 merged -> player.getItemCooldownManager().set(rifle, merged));
     }
 

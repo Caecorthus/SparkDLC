@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.riftwalker.gate;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.ApprenticeResonance;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerDeviceEntity;
@@ -144,7 +144,7 @@ public final class RiftGatePlacementService {
                 || !RiftwalkerRules.isRiftwalker(game.getRole(player))
                 || ControlExpertStun.isStunned(player)
                 || isKidnapperControlled(player)
-                || SparkTraitsKillerBridge.isKillerInteractionBlocked(player)) {
+                || SparkTraitsApi.isKillerInteractionBlocked(player)) {
             return RiftGatePlacementFailure.UNAVAILABLE;
         }
         return null;

@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.item.rope;
 
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsSeekerBridge;
 import dev.caecorthus.sparkdlc.role.killer.hiro.returning.HiroReturnService;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
@@ -189,7 +189,7 @@ public final class RopeStrangleService {
         ItemStack rope = user.getStackInHand(hand);
         // SparkTraits' new-action gate (Last Escape, a Close Quarters lock on this item): silent, like every weapon.
         // SparkTraits 的新动作门槛（脱险、近身格挡对该物品的锁定）：与其他武器一样静默拒绝。
-        if (!rope.isOf(SparkWitchItems.rope()) || SparkTraitsKillerBridge.blocksWeaponAction(user, rope)) {
+        if (!rope.isOf(SparkWitchItems.rope()) || SparkTraitsApi.blocksWeaponAction(user, rope)) {
             return false;
         }
         boolean mayAct = RopeTargeting.mayAct(user);
@@ -206,7 +206,7 @@ public final class RopeStrangleService {
         }
         // Trait protection, not a shield: a Close Quarters parry stops the grab and applies its own counter.
         // 词条保护而非护盾：近身格挡会挡下这次出手并施加自己的反制。
-        if (SparkTraitsKillerBridge.shouldCancelMeleeAttack(user, victim, rope)) {
+        if (SparkTraitsApi.shouldCancelMeleeAttack(user, victim, rope)) {
             return false;
         }
         start(user, victim);

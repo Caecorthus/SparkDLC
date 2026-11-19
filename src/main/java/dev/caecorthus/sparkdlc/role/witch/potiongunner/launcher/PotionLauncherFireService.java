@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.potiongunner.launcher;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.net.FirePotionLauncherC2SPacket;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.remote.SeekerRemoteSessionService;
@@ -49,7 +49,7 @@ public final class PotionLauncherFireService {
                 player.isSpectator(),
                 ControlExpertStun.isStunned(player),
                 SeekerRemoteSessionService.isLocked(player),
-                holdingLauncher && SparkTraitsKillerBridge.blocksWeaponAction(player, launcher),
+                holdingLauncher && SparkTraitsApi.blocksWeaponAction(player, launcher),
                 holdingLauncher && player.getItemCooldownManager().isCoolingDown(launcher.getItem()),
                 PotionLauncherLoad.isLoaded(launcher)));
         switch (decision) {

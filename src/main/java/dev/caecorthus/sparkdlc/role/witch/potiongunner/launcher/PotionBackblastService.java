@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.potiongunner.launcher;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.BearRicochetRules;
@@ -116,7 +116,7 @@ public final class PotionBackblastService {
             if (target == gunner
                     || !GameFunctions.isPlayerPlayingAndAlive(target)
                     || !GameFunctions.isPlayerAliveAndSurvival(target)
-                    || SparkTraitsKillerBridge.isLastEscapeActive(target)) {
+                    || SparkTraitsApi.isLastEscapeActive(target)) {
                 continue;
             }
             Box box = target.getBoundingBox();

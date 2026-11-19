@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.killer.dominator;
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthPartygoerCompat;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStunRules;
 import dev.caecorthus.sparkdlc.role.civilian.knight.KnightDuelSkillLock;
@@ -70,7 +70,7 @@ public final class DominatorReleaseGate {
                 // SparkTraits Last Escape cancels the receiver at HEAD (LastEscapeGunReceiverMixin), which would
                 // otherwise spend the use on a shot that never fires. / SparkTraits 脱险会在接收器 HEAD 处取消射击，
                 // 否则次数会白白耗在一发不会射出的枪上。
-                || blocked(() -> SparkTraitsKillerBridge.isLastEscapeActive(marked))
+                || blocked(() -> SparkTraitsApi.isLastEscapeActive(marked))
                 // Knight duel: both duelists' revolvers are sealed (KnightDuelSeal), and the forced shot always fires a
                 // revolver. / 骑士决斗：双方的左轮都被封印，而强制开枪始终使用左轮。
                 || blocked(() -> KnightDuelSkillLock.isLocked(marked))

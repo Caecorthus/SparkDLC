@@ -84,11 +84,20 @@ public final class SparkTraitsApi {
     }
 
     /** Updates and syncs exact remaining time without applying cooldown modifiers twice.
-     * 精确修改并同步剩余时间，不重复计算冷却倍率。 */
-    public static void setExactItemCooldownRemaining(ServerPlayerEntity player, net.minecraft.item.Item item, int ticks) {
-        if (player != null && item != null) {
-            dev.caecorthus.sparkdlc.trait.killer.combat.ExactItemCooldowns.setExact(player, item, ticks);
+     * 精确修改并同步剩余时间，不重复计算冷却倍率。
+     * <p>The exact write runs past the trait cooldown modifiers and performs the vanilla set itself (negative
+     * {@code ticks} count as 0). Returns true once it wrote; false, with nothing written, only for a null player or
+     * item, and then the caller must fall back to {@code ItemCooldownManager.set}: never run both, that would send
+     * two cooldown packets.
+     * <p>精确写入越过词条冷却倍率，并自行完成原版写入（负的 {@code ticks} 按 0 处理）。写入后返回 true；仅在玩家或物品
+     * 为空时不写入并返回 false，此时调用方需回退到 {@code ItemCooldownManager.set}：二者不可同时执行，否则会发送两次
+     * 冷却数据包。 */
+    public static boolean setExactItemCooldownRemaining(ServerPlayerEntity player, net.minecraft.item.Item item, int ticks) {
+        if (player == null || item == null) {
+            return false;
         }
+        dev.caecorthus.sparkdlc.trait.killer.combat.ExactItemCooldowns.setExact(player, item, ticks);
+        return true;
     }
 
     public static int getItemCooldownTick(PlayerEntity player) {
@@ -159,14 +168,24 @@ public final class SparkTraitsApi {
                         .knifeReleaseThreshold(player, knife, baseTicks - 1) + 1;
     }
 
+    /** Makes a death reason terminal: kills with it skip the trait revive/counter hooks (an unprotectable penalty).
+     * Read live at kill time, so registering at server start is early enough; idempotent; {@code reason} must not
+     * be null.
+     * 把死亡原因登记为终结原因：以它造成的击杀会跳过词条的复活/反击钩子（不可保护的惩罚）。击杀时实时读取，因此在服务端
+     * 启动时登记即足够早；可重复登记；{@code reason} 不可为空。 */
     public static void registerTerminalDeathReason(Identifier reason) {
         dev.caecorthus.sparkdlc.trait.lifecycle.TerminalDeathRules.register(reason);
     }
 
+    /** Whether a death reason is registered terminal (an unprotectable penalty); a null reason answers false.
+     * 该死亡原因是否已登记为终结原因（不可保护的惩罚）；原因为空时返回 false。 */
     public static boolean isTerminalDeathReason(Identifier reason) {
         return dev.caecorthus.sparkdlc.trait.lifecycle.TerminalDeathRules.contains(reason);
     }
 
+    /** Last Escape or silenced effective killer. The trait feature gates NoellesRoles' skill packets itself; every
+     * other role's own skill packets must ask this themselves.
+     * 脱险或被沉默的有效杀手。词条功能只自行拦截 NoellesRoles 的技能数据包；其余职业自有的技能数据包必须自行查询。 */
     public static boolean isRoleSkillBlocked(PlayerEntity player) {
         return player != null && (isKillerInteractionBlocked(player)
                 || dev.caecorthus.sparkdlc.trait.compat.noellesroles.SilencedKillerRestrictionService.isRestricted(player));
@@ -214,6 +233,14 @@ public final class SparkTraitsApi {
     public static int getForcedMeleeCooldownTicks(PlayerEntity player, ItemStack weapon) {
         return player == null || weapon == null || weapon.isEmpty()
                 ? 0 : ForcedMeleeCooldownService.remainingTicks(player, weapon);
+    }
+
+    /** New action gate, not a kill-source filter: emitted projectiles and marks keep resolving. True while killer
+     * interactions are blocked (Last Escape) or the weapon is under a forced melee cooldown. Null-safe, both sides.
+     * 仅拦截新动作，不过滤击杀来源；已发出的投射物与标记继续结算。杀手交互被禁用（脱险）或该武器处于强制近战冷却时为
+     * true。支持空值，两端均可调用。 */
+    public static boolean blocksWeaponAction(PlayerEntity player, ItemStack weapon) {
+        return isKillerInteractionBlocked(player) || getForcedMeleeCooldownTicks(player, weapon) > 0;
     }
 
     /**
@@ -507,8 +534,9 @@ public final class SparkTraitsApi {
     /**
      * Weapon cooldown to keep after a non-final kill: 20% of the original, rounded up.
      * SparkTraits already applies it to item cooldowns; weapons with their own cooldown state use this value.
+     * Never negative and never longer than the original (0 for a non-positive original).
      * 非最终击杀后武器应保留的冷却：原冷却的 20%，向上取整。物品冷却已由 SparkTraits 处理，
-     * 自带冷却状态的武器使用此值。
+     * 自带冷却状态的武器使用此值。不会为负，也不会超过原冷却（原冷却不为正时为 0）。
      */
     public static int getNonFinalKillCooldownTicks(int originalTicks) {
         return dev.caecorthus.sparkdlc.trait.civilian.depression.DepressionFakeKillCooldowns.discountedTicks(originalTicks);
@@ -517,7 +545,10 @@ public final class SparkTraitsApi {
     /**
      * Runs a kill that happens away from the attacker's hands (e.g. a push that later makes the victim fall),
      * naming the weapon item that keeps the non-final-kill cooldown if the kill turns out non-final.
+     * The kill always runs exactly once, inside the weapon-hint scope (a null weapon runs it without a hint), and
+     * whatever it throws surfaces unchanged.
      * 执行不在攻击者手中发生的击杀（如推人后受害者坠车），并指明若成为非最终击杀时应缩短冷却的武器物品。
+     * 击杀恰好执行一次：在武器提示作用域内执行（武器为空时不带提示直接执行），击杀抛出的异常原样抛出。
      */
     public static void runWithNonFinalKillWeapon(net.minecraft.item.Item weapon, Runnable kill) {
         if (weapon == null) {

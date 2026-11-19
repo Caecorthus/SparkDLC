@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.SparkWitchSounds;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsGunBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RangedSmokeCarve;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertTaserTargeting;
@@ -86,7 +86,7 @@ public final class M1903A4Combat {
         OffMatchUse.Mode mode = OffMatchUse.mode(shooter,
                 GameFunctions.isPlayerPlayingAndAlive(shooter) && !shooter.isSpectator());
         return M1903A4Rules.decide(new M1903A4Rules.Facts(mode, mainHand, shooter.isSpectator(), isHeld(shooter),
-                mainHand && SparkTraitsKillerBridge.blocksWeaponAction(shooter, rifle), coolingDown, loaded));
+                mainHand && SparkTraitsApi.blocksWeaponAction(shooter, rifle), coolingDown, loaded));
     }
 
     /**
@@ -210,7 +210,7 @@ public final class M1903A4Combat {
         }
         return RoundParticipants.ROLE_HOLDER.test(candidate, game)
                 && SparkFactionApi.canAffectPlayer(shooter, candidate, GameConstants.DeathReasons.GUN, game)
-                && !SparkTraitsKillerBridge.isLastEscapeActive(candidate)
+                && !SparkTraitsApi.isLastEscapeActive(candidate)
                 && M1903A4Rules.vendettaAllows(VendettaInteractionService.isActiveVendetta(shooter),
                 VendettaInteractionService.isActiveVendetta(candidate),
                 VendettaInteractionService.isExactPair(shooter, candidate));

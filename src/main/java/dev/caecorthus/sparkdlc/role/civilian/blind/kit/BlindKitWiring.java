@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.blind.kit;
 
 import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindParticipants;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
 import dev.doctor4t.wathe.api.event.BlackoutEffect;
@@ -66,7 +66,7 @@ public final class BlindKitWiring {
         // A SparkTraits-intercepted death keeps the player in play, so the kit stays; an unknown answer strips.
         // 被 SparkTraits 拦截的死亡仍在局，保留道具；无法确认时清除。
         KillPlayer.AFTER.register((victim, killer, reason) -> {
-            if (victim != null && !SparkTraitsKillerBridge.isLastStandDeathIntercepted(victim)) {
+            if (victim != null && !SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
                 BlindLoadoutService.strip(victim);
             }
         });

@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.seeker;
 
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.compat.noellesroles.SeekerControlExpertBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsSeekerBridge;
 import dev.caecorthus.sparkdlc.role.killer.kidnapper.KidnapperControlComponent;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
@@ -94,7 +94,7 @@ public final class SeekerTargeting {
         return commonDenyReason(player) == null
                 && isBodyAvailable(player)
                 && SeekerStatusComponent.KEY.get(player).sessionMode() == SeekerSessionMode.NONE
-                && !SparkTraitsKillerBridge.blocksWeaponAction(player, stack);
+                && !SparkTraitsApi.blocksWeaponAction(player, stack);
     }
 
     /** Body not swallowed, not Last-Stand pending, not kidnapper-controlled. / 本体未被吞噬、非最后一搏、未被绑架控制。 */
@@ -128,7 +128,7 @@ public final class SeekerTargeting {
                 () -> NoellesTaotieSeekerBridge.isSwallowed(player),
                 () -> isActiveParticipant(player),
                 () -> GrandWitchFearService.isPlayerFeared(player),
-                () -> SparkTraitsKillerBridge.isRoleSkillBlocked(player),
+                () -> SparkTraitsApi.isRoleSkillBlocked(player),
                 () -> SeekerControlExpertBridge.isStunned(player),
                 () -> isKidnapped(player),
                 () -> SeekerRules.devicesDenied(SparkTraitsSeekerBridge.isImpostorOrUnknown(player)));

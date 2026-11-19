@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.savior;
 
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.net.SaviorDomainS2CPayload;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
@@ -103,7 +103,7 @@ public final class SaviorDomainService {
         GameWorldComponent game = GameWorldComponent.KEY.get(caster.getWorld());
         SaviorPlayerComponent component = SaviorPlayerComponent.KEY.get(caster);
         if (!mayUse(holdsDomain(game, caster),
-                SparkTraitsKillerBridge.isRoleSkillBlocked(caster),
+                SparkTraitsApi.isRoleSkillBlocked(caster),
                 component.getCooldownTicks() > 0,
                 component.isDomainActive())) {
             return;

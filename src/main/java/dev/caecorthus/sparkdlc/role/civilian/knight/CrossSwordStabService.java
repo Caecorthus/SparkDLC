@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.knight;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.net.CrossSwordStabC2SPayload;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.civilian.knight.duel.KnightDuelWorldComponent;
@@ -131,7 +131,7 @@ public final class CrossSwordStabService {
         // （自 2026-11-13 起该数据包与剑鱼的一样也在裂隙拦截名单中），SFA 的裂隙策略拒绝其作为目标。
         GameWorldComponent game = GameWorldComponent.KEY.get(world);
         if (!SparkFactionApi.canAffectPlayer(player, victim, GameConstants.DeathReasons.KNIFE, game)
-                || SparkTraitsKillerBridge.isLastEscapeActive(victim)) {
+                || SparkTraitsApi.isLastEscapeActive(victim)) {
             return;
         }
         world.playSound(null, victim.getX(), victim.getY(), victim.getZ(), WatheSounds.ITEM_KNIFE_STAB,

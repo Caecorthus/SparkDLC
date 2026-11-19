@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.civilian.apprentice.abilities.purify;
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.SparkWitchRoles;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.ApprenticePlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.ApprenticeRules;
@@ -62,7 +62,7 @@ public final class PurifyAbility {
         }
         // Same silent refusals as the other dedicated role skills (Blind Attune, Warden's Shriek).
         // 与其他自有流程职业技能（盲人凝神、监守之啸）相同的静默拒绝。
-        if (SparkTraitsKillerBridge.isRoleSkillBlocked(player) || NoellesTaotieSeekerBridge.isSwallowed(player)) {
+        if (SparkTraitsApi.isRoleSkillBlocked(player) || NoellesTaotieSeekerBridge.isSwallowed(player)) {
             return;
         }
         ApprenticePlayerComponent apprentice = ApprenticePlayerComponent.KEY.get(player);

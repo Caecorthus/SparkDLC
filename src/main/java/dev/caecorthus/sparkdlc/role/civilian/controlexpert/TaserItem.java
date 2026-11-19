@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.controlexpert;
 
 import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsControlExpertBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceHits;
 import dev.caecorthus.sparkdlc.util.hitscan.PlayerHitboxHistory;
 import dev.doctor4t.wathe.record.GameRecordManager;
@@ -59,7 +59,7 @@ public final class TaserItem extends Item {
         }
         if (!(user instanceof ServerPlayerEntity ce) || !(world instanceof ServerWorld serverWorld)
                 || !ControlExpertTargeting.canUse(ce)
-                || SparkTraitsKillerBridge.blocksWeaponAction(ce, stack)) {
+                || SparkTraitsApi.blocksWeaponAction(ce, stack)) {
             return TypedActionResult.fail(stack);
         }
         double range = ControlExpertRules.taserRange(SparkTraitsControlExpertBridge.marksmanRangeMultiplier(ce));

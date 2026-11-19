@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.hunter;
 
 import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthJunctionBoxCompat;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RangedSmokeCarve;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerDeviceEntity;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceHits;
@@ -96,7 +96,7 @@ public final class DoubleBarrelShotgunItem extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack shotgun = user.getStackInHand(hand);
-        if (SparkTraitsKillerBridge.blocksWeaponAction(user, shotgun)) {
+        if (SparkTraitsApi.blocksWeaponAction(user, shotgun)) {
             return TypedActionResult.fail(shotgun);
         }
         if (user.getItemCooldownManager().isCoolingDown(this)) {
@@ -320,7 +320,7 @@ public final class DoubleBarrelShotgunItem extends Item {
      * 背包右键与弹药直接使用统一走这里，避免冷却、装填窗口与创造模式规则分叉。
      */
     public static boolean tryReload(PlayerEntity player, ItemStack shotgun, ItemStack shells) {
-        if (SparkTraitsKillerBridge.isKillerInteractionBlocked(player)) {
+        if (SparkTraitsApi.isKillerInteractionBlocked(player)) {
             return false;
         }
         if (!(shotgun.getItem() instanceof DoubleBarrelShotgunItem shotgunItem)

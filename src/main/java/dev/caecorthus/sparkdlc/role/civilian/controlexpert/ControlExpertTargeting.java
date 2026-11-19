@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.controlexpert;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaInteractionService;
 import dev.caecorthus.sparkdlc.util.RoundParticipants;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -49,7 +49,7 @@ public final class ControlExpertTargeting {
                 isSamePlayer(ce, target),
                 () -> isParticipant(target),
                 () -> SparkFactionApi.canAffectPlayer(ce, target, actionId, game),
-                () -> SparkTraitsKillerBridge.isLastEscapeActive(target),
+                () -> SparkTraitsApi.isLastEscapeActive(target),
                 () -> vendettaAllows(ce, target));
     }
 
@@ -68,7 +68,7 @@ public final class ControlExpertTargeting {
                 ControlExpertRules.isControlExpert(game.getRole(ce)),
                 () -> isParticipant(ce),
                 () -> ControlExpertStun.isStunned(ce),
-                () -> SparkTraitsKillerBridge.isRoleSkillBlocked(ce));
+                () -> SparkTraitsApi.isRoleSkillBlocked(ce));
     }
 
     /** Pure gate; later seams are consulted only after every earlier one passed. / 纯判定；前序条件全部通过后才查询后续接缝。 */

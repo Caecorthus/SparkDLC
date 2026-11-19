@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.kidnapper;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
@@ -14,7 +14,7 @@ public final class KidnapperThrowService {
     }
 
     public static void throwCarriedBody(ServerPlayerEntity player) {
-        if (SparkTraitsKillerBridge.isKillerInteractionBlocked(player)) {
+        if (SparkTraitsApi.isKillerInteractionBlocked(player)) {
             return;
         }
         Role role = GameWorldComponent.KEY.get(player.getWorld()).getRole(player);

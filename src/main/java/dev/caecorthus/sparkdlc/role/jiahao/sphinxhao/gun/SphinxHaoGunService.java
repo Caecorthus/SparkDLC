@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.gun;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsGunBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.entity.SphinxHaoFistEntity;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RangedSmokeCarve;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
@@ -109,7 +109,7 @@ public final class SphinxHaoGunService {
             case FIRE -> {
                 // SparkTraits weapon gate (silence, Last Escape, ...): a blocked shot costs nothing.
                 // SparkTraits 武器门槛（沉默、绝处逢生等）：被阻止的射击不产生任何代价。
-                if (SparkTraitsKillerBridge.blocksWeaponAction(shooter, gun)) {
+                if (SparkTraitsApi.blocksWeaponAction(shooter, gun)) {
                     return false;
                 }
                 fire(shooter, world, gun);
@@ -290,7 +290,7 @@ public final class SphinxHaoGunService {
         }
         return RoundParticipants.ROLE_HOLDER.test(candidate, game)
                 && SparkFactionApi.canAffectPlayer(shooter, candidate, SparkWitchDeathReasons.SPHINX_HAO_FIST, game)
-                && !SparkTraitsKillerBridge.isLastEscapeActive(candidate)
+                && !SparkTraitsApi.isLastEscapeActive(candidate)
                 && vendettaAllows(VendettaInteractionService.isActiveVendetta(shooter),
                 VendettaInteractionService.isActiveVendetta(candidate),
                 VendettaInteractionService.isExactPair(shooter, candidate));

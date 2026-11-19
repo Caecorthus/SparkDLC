@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.ninja;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.item.ceremonialsword.CeremonialSwordProtectionPolicy;
 import dev.caecorthus.sparkdlc.item.rope.RopeShieldPolicy;
 import dev.caecorthus.sparkdlc.SparkWitchItems;
@@ -67,7 +67,7 @@ public final class NinjaFeatureService {
             @Nullable ServerPlayerEntity killer,
             Identifier deathReason
     ) {
-        if (SparkTraitsKillerBridge.isLastEscapeActive(victim)) {
+        if (SparkTraitsApi.isLastEscapeActive(victim)) {
             return null;
         }
         // Current forced/admin/scripted call sites pass no killer; only a real, distinct player killer may be parried.

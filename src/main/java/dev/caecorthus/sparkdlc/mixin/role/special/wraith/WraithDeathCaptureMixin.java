@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.role.special.wraith;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.game.GameConstants;
 import dev.caecorthus.sparkdlc.role.special.wraith.conversion.WraithConversion;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -29,7 +29,7 @@ public abstract class WraithDeathCaptureMixin {
             boolean force,
             CallbackInfo ci
     ) {
-        if (SparkTraitsKillerBridge.isLastEscapeActive(victim)
+        if (SparkTraitsApi.isLastEscapeActive(victim)
                 && !GameConstants.DeathReasons.FELL_OUT_OF_TRAIN.equals(deathReason)) {
             return;
         }

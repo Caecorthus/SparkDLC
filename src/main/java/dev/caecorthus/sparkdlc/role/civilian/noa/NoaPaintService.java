@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.noa;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -58,7 +58,7 @@ public final class NoaPaintService {
                 GameFunctions.isPlayerPlayingAndAlive(player) && !player.isSpectator(),
                 NoellesTaotieSeekerBridge.isSwallowed(player),
                 ControlExpertStun.isStunned(player),
-                SparkTraitsKillerBridge.isRoleSkillBlocked(player),
+                SparkTraitsApi.isRoleSkillBlocked(player),
                 state.paintCooldownRemaining(now) <= 0,
                 GrandWitchFearService.isPlayerFeared(player));
         switch (verdict) {

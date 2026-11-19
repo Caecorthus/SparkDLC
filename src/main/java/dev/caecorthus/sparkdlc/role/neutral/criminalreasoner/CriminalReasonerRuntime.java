@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.neutral.criminalreasoner;
 
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.net.OpenCriminalReasonerS2CPacket;
 import dev.caecorthus.sparkdlc.role.SparkWitchRoleRegistry;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
@@ -392,7 +392,7 @@ public final class CriminalReasonerRuntime {
                 || !GameFunctions.isPlayerPlayingAndAlive(player) || player.isSpectator()
                 || NoellesTaotieSeekerBridge.isSwallowed(player)
                 || ControlExpertStun.isStunned(player)
-                || SparkTraitsKillerBridge.isRoleSkillBlocked(player)) {
+                || SparkTraitsApi.isRoleSkillBlocked(player)) {
             return false;
         }
         return !GrandWitchFearService.denyRoleSkillIfFeared(player);

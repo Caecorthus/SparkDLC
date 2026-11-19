@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsSeekerBridge;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStatusComponent;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertTaserTargeting;
@@ -88,7 +88,7 @@ final class RopeTargeting {
                 || RiftwalkerStatusProbes.isCaptureStunned(user)
                 || NoellesTaotieSeekerBridge.isSwallowed(user)
                 || SparkTraitsSeekerBridge.isLastStandPending(user)
-                || SparkTraitsKillerBridge.isLastEscapeActive(user)
+                || SparkTraitsApi.isLastEscapeActive(user)
                 || SeekerRemoteSessionService.isLocked(user)
                 || SeekerInventoryRules.isInSession(user)
                 || user.getCameraEntity() != user
@@ -123,7 +123,7 @@ final class RopeTargeting {
     static boolean staysVictim(ServerPlayerEntity target) {
         KidnapperControlComponent kidnap = KidnapperControlComponent.KEY.getNullable(target);
         return isParticipant(target)
-                && !SparkTraitsKillerBridge.isLastEscapeActive(target)
+                && !SparkTraitsApi.isLastEscapeActive(target)
                 && !SparkTraitsSeekerBridge.isLastStandPending(target)
                 && !NoellesTaotieSeekerBridge.isSwallowed(target)
                 && !(kidnap != null && kidnap.isControlled())

@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthCoronerCompat;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.killer.kidnapper.KidnapperControlComponent;
 import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendFeignRules.Trigger;
 import dev.caecorthus.sparkdlc.role.special.wraith.conversion.WraithBodyRoleAccess;
@@ -88,7 +88,7 @@ public final class FiendFeignService {
         // revive; registering at server start is early enough and idempotent.
         // SparkTraits 在击杀时读取终结原因，背水一战因此不会把被吞食的死亡变成复活；服务端启动时注册即足够早且幂等。
         ServerLifecycleEvents.SERVER_STARTING.register(server ->
-                SparkTraitsKillerBridge.registerTerminalDeathReason(SparkWitchDeathReasons.FIEND_DEVOURED));
+                SparkTraitsApi.registerTerminalDeathReason(SparkWitchDeathReasons.FIEND_DEVOURED));
     }
 
     /** Server truth for a feigning player. / 服务端判断玩家是否正在假死。 */

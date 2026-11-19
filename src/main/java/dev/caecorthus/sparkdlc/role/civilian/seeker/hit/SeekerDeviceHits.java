@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker.hit;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.fisher.FisherRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerBreakSource;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerDeviceEntity;
@@ -237,7 +237,7 @@ public final class SeekerDeviceHits {
         }
         ItemStack knife = heldKnife(attacker);
         if (knife.isEmpty() || attacker.getItemCooldownManager().isCoolingDown(knife.getItem())
-                || SparkTraitsKillerBridge.blocksWeaponAction(attacker, knife)) {
+                || SparkTraitsApi.blocksWeaponAction(attacker, knife)) {
             return false;
         }
         double reach = SeekerDamageRules.KNIFE_REACH + SeekerDamageRules.KNIFE_REACH_TOLERANCE;
@@ -263,7 +263,7 @@ public final class SeekerDeviceHits {
         ItemStack swordfish = attacker.getMainHandStack();
         if (swordfish.isEmpty() || !swordfish.isOf(SparkWitchItems.swordfish())
                 || attacker.getItemCooldownManager().isCoolingDown(swordfish.getItem())
-                || SparkTraitsKillerBridge.blocksWeaponAction(attacker, swordfish)) {
+                || SparkTraitsApi.blocksWeaponAction(attacker, swordfish)) {
             return false;
         }
         double reach = FisherRules.SWORDFISH_REACH + SeekerDamageRules.KNIFE_REACH_TOLERANCE;

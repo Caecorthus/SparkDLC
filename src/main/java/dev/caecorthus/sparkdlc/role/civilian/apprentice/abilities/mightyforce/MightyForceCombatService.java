@@ -5,7 +5,7 @@ import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
 import dev.caecorthus.sparkdlc.SparkWitchRoles;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthPartygoerCompat;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.ApprenticePlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.ApprenticeRules;
@@ -66,8 +66,8 @@ public final class MightyForceCombatService {
             return ActionResult.PASS;
         }
 
-        if (SparkTraitsKillerBridge.isKillerInteractionBlocked(serverAttacker)
-                || SparkTraitsKillerBridge.shouldCancelMeleeAttack(
+        if (SparkTraitsApi.isKillerInteractionBlocked(serverAttacker)
+                || SparkTraitsApi.shouldCancelMeleeAttack(
                         serverAttacker, (ServerPlayerEntity) target, serverAttacker.getStackInHand(hand))) {
             return ActionResult.FAIL;
         }
@@ -120,7 +120,7 @@ public final class MightyForceCombatService {
         if (!hasLiveMightyForce(attacker) || !SparkStrengthPartygoerCompat.isKillable(partygoer)) {
             return ActionResult.PASS;
         }
-        if (SparkTraitsKillerBridge.isKillerInteractionBlocked(attacker)) {
+        if (SparkTraitsApi.isKillerInteractionBlocked(attacker)) {
             return ActionResult.FAIL;
         }
         strikePartygoer(attacker, partygoer);
@@ -250,7 +250,7 @@ public final class MightyForceCombatService {
                 deadBefore,
                 game.isPlayerDead(target.getUuid()),
                 WitchFactorTraitsBridge.isDeathIntercepted(target),
-                SparkTraitsKillerBridge.isNonFinalKillPending(target, attacker),
+                SparkTraitsApi.isNonFinalKillPending(target, attacker),
                 game.getShootInnocentPunishment()
         );
         switch (outcome) {

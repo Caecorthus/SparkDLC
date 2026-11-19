@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.killer.timestealer;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesSilenceBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaInteractionService;
 import dev.caecorthus.sparkdlc.util.RoundParticipants;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -56,7 +56,7 @@ public final class TimeStealerTargeting {
         return affects(
                 isSamePlayer(user, target),
                 () -> isParticipant(target, game),
-                () -> SparkTraitsKillerBridge.isLastEscapeActive(target),
+                () -> SparkTraitsApi.isLastEscapeActive(target),
                 () -> vendettaAllows(user, target),
                 () -> SparkFactionApi.canAffectPlayer(user, target, SparkWitchDeathReasons.TIME_STOLEN, game),
                 () -> TimeTheftPlayerComponent.KEY.get(target).isStolen());
@@ -86,7 +86,7 @@ public final class TimeStealerTargeting {
         return affects(
                 isSamePlayer(user, target),
                 () -> isParticipant(target, game),
-                () -> SparkTraitsKillerBridge.isLastEscapeActive(target),
+                () -> SparkTraitsApi.isLastEscapeActive(target),
                 () -> vendettaAllows(user, target),
                 () -> SparkFactionApi.canAffectPlayer(user, target, TimeStealerRules.GIFT_ACTION_ID, game),
                 () -> TimeGiftPlayerComponent.KEY.get(target).isGifted());
@@ -106,8 +106,8 @@ public final class TimeStealerTargeting {
                         SparkFactionApi.resolveEffectiveFaction(user, game)),
                 () -> GameFunctions.isPlayerPlayingAndAlive(user) && !user.isSpectator(),
                 () -> NoellesSilenceBridge.isSilenced(user),
-                () -> SparkTraitsKillerBridge.isRoleSkillBlocked(user),
-                () -> SparkTraitsKillerBridge.blocksWeaponAction(user, watch));
+                () -> SparkTraitsApi.isRoleSkillBlocked(user),
+                () -> SparkTraitsApi.blocksWeaponAction(user, watch));
     }
 
     /** Authoritative cooldown gate: world time has reached {@code ClockReadyAt}. / 权威冷却判定：世界时间已到 {@code ClockReadyAt}。 */
@@ -127,8 +127,8 @@ public final class TimeStealerTargeting {
                 TimeStealerRules.isTimeStealer(game.getRole(user)),
                 () -> GameFunctions.isPlayerPlayingAndAlive(user) && !user.isSpectator(),
                 () -> NoellesSilenceBridge.isSilenced(user),
-                () -> SparkTraitsKillerBridge.isRoleSkillBlocked(user),
-                () -> SparkTraitsKillerBridge.blocksWeaponAction(user, clock));
+                () -> SparkTraitsApi.isRoleSkillBlocked(user),
+                () -> SparkTraitsApi.blocksWeaponAction(user, clock));
     }
 
     /** Pure gate; later seams are consulted only after every earlier one passed. / 纯判定；前序条件全部通过后才查询后续接缝。 */

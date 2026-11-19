@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.controlexpert;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import java.util.List;
 import net.minecraft.entity.player.PlayerEntity;
@@ -47,7 +47,7 @@ public final class ShockDeviceItem extends Item {
         }
         if (!(user instanceof ServerPlayerEntity ce) || !(world instanceof ServerWorld serverWorld)
                 || !ControlExpertTargeting.canUse(ce)
-                || SparkTraitsKillerBridge.blocksWeaponAction(ce, stack)) {
+                || SparkTraitsApi.blocksWeaponAction(ce, stack)) {
             return TypedActionResult.fail(stack);
         }
         ShockDeviceEntity device = new ShockDeviceEntity(serverWorld, ce);

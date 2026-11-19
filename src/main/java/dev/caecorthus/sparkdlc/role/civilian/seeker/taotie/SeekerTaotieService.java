@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.civilian.seeker.taotie;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.compat.noellesroles.SeekerControlExpertBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsSeekerBridge;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerCarState;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
@@ -182,7 +182,7 @@ public final class SeekerTaotieService {
 
         @Override
         public boolean roleSkillBlocked() {
-            return SparkTraitsKillerBridge.isRoleSkillBlocked(taotie);
+            return SparkTraitsApi.isRoleSkillBlocked(taotie);
         }
 
         @Override

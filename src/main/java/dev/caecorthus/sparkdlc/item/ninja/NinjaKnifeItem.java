@@ -5,7 +5,7 @@
  */
 package dev.caecorthus.sparkdlc.item.ninja;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
 import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaInteractionService;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit.BlackRavenCrowHits;
@@ -37,7 +37,7 @@ public final class NinjaKnifeItem extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, net.minecraft.entity.player.PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);
-        if (SparkTraitsKillerBridge.blocksWeaponAction(user, stack)) {
+        if (SparkTraitsApi.blocksWeaponAction(user, stack)) {
             return TypedActionResult.fail(stack);
         }
         if (world.isClient()
@@ -68,7 +68,7 @@ public final class NinjaKnifeItem extends Item {
             return TypedActionResult.pass(stack);
         }
 
-        if (SparkTraitsKillerBridge.shouldCancelMeleeAttack(attacker, victim, stack)) {
+        if (SparkTraitsApi.shouldCancelMeleeAttack(attacker, victim, stack)) {
             return TypedActionResult.fail(stack);
         }
         GameFunctions.killPlayer(victim, true, attacker, SparkWitchDeathReasons.NINJA_KNIFE_KILL);

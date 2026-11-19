@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.item.ceremonialsword;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchRules;
 import net.minecraft.component.type.AttributeModifierSlot;
@@ -110,7 +110,7 @@ public class CeremonialSwordItem extends Item {
     @Override
     public TypedActionResult<ItemStack> use(@NotNull World world, @NotNull PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);
-        if (SparkTraitsKillerBridge.blocksWeaponAction(user, stack)) {
+        if (SparkTraitsApi.blocksWeaponAction(user, stack)) {
             return TypedActionResult.fail(stack);
         }
         if (world.isClient) {

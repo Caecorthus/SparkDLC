@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.blind.kit;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkFactionSecondRowCompat;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.headset.HeadsetSlots;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindComponent;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindParticipants;
@@ -87,7 +87,7 @@ public final class BlindLoadoutService {
         boolean realBlind = BlindRules.isBlind(game.getRole(player));
         boolean playingAndAlive = GameFunctions.isPlayerPlayingAndAlive(player);
         return BlindKitRules.keepsKit(running, realBlind, playingAndAlive, running && realBlind && !playingAndAlive
-                && SparkTraitsKillerBridge.isLastStandDeathIntercepted(player));
+                && SparkTraitsApi.isLastStandDeathIntercepted(player));
     }
 
     /**

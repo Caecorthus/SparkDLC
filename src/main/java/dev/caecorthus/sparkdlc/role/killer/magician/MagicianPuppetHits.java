@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.killer.magician;
 
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.fisher.FisherRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDamageRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceRaycast;
@@ -193,7 +193,7 @@ public final class MagicianPuppetHits {
         }
         ItemStack knife = heldKnife(attacker);
         if (knife.isEmpty() || attacker.getItemCooldownManager().isCoolingDown(knife.getItem())
-                || SparkTraitsKillerBridge.blocksWeaponAction(attacker, knife)) {
+                || SparkTraitsApi.blocksWeaponAction(attacker, knife)) {
             return false;
         }
         double reach = SeekerDamageRules.KNIFE_REACH + SeekerDamageRules.KNIFE_REACH_TOLERANCE;
@@ -748,7 +748,7 @@ public final class MagicianPuppetHits {
         ItemStack swordfish = attacker.getMainHandStack();
         if (!swordfish.isOf(SparkWitchItems.swordfish())
                 || attacker.getItemCooldownManager().isCoolingDown(swordfish.getItem())
-                || SparkTraitsKillerBridge.blocksWeaponAction(attacker, swordfish)) {
+                || SparkTraitsApi.blocksWeaponAction(attacker, swordfish)) {
             return false;
         }
         double reach = FisherRules.SWORDFISH_REACH + SeekerDamageRules.KNIFE_REACH_TOLERANCE;
@@ -779,7 +779,7 @@ public final class MagicianPuppetHits {
         }
         ItemStack bat = attacker.getMainHandStack();
         if (!bat.isOf(WatheItems.BAT) || attacker.getAttackCooldownProgress(0.5F) < 1.0F
-                || SparkTraitsKillerBridge.blocksWeaponAction(attacker, bat)
+                || SparkTraitsApi.blocksWeaponAction(attacker, bat)
                 || !hittableBy(attacker, puppet) || !inMeleeReach(attacker, puppet)) {
             return false;
         }
@@ -893,7 +893,7 @@ public final class MagicianPuppetHits {
         ItemStack sword = new ItemStack(SparkWitchItems.ceremonialSword());
         if (!GrandWitchRules.canAttemptCeremonialSwordKill(runtime.getSwordKillCooldownTicks(),
                 runtime.isSwordStrikeInProgress())
-                || SparkTraitsKillerBridge.blocksWeaponAction(attacker, sword)) {
+                || SparkTraitsApi.blocksWeaponAction(attacker, sword)) {
             return false;
         }
         Vec3d at = puppet.getPos();

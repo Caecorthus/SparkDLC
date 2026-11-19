@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.util;
 
 import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsAbyssListenerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -221,7 +221,7 @@ public final class RoundParticipants {
                     && WraithStateService.isActive(serverPlayer));
             case HAS_ROLE -> game(player, callerGame, ownWorld).getRole(player) != null;
             case NOT_LAST_STAND_PENDING -> !SparkTraitsAbyssListenerBridge.isLastStandPending(player);
-            case NOT_LAST_ESCAPE -> !SparkTraitsKillerBridge.isLastEscapeActive(player);
+            case NOT_LAST_ESCAPE -> !SparkTraitsApi.isLastEscapeActive(player);
         };
     }
 

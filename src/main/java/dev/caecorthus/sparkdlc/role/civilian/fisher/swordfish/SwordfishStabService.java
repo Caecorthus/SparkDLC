@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthPartygoerCompat;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.civilian.fisher.FisherRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerDeviceEntity;
@@ -141,7 +141,7 @@ public final class SwordfishStabService {
         }
         GameWorldComponent game = GameWorldComponent.KEY.get(attacker.getWorld());
         if (!SparkFactionApi.canAffectPlayer(attacker, target, SparkWitchDeathReasons.SWORDFISH_STAB, game)
-                || SparkTraitsKillerBridge.isLastEscapeActive(target)) {
+                || SparkTraitsApi.isLastEscapeActive(target)) {
             return;
         }
 
@@ -151,7 +151,7 @@ public final class SwordfishStabService {
         // This facade parries non-knife melee too. Query before costs while the exact stack is still nonempty;
         // Q4 consumes an accepted hit even when parried, shielded, revived, or met by Tofana retaliation.
         // 此门面也格挡非刀近战；在原栈尚非空、扣费前查询。Q4：有效命中被格挡、护盾、复活或托法娜反击也消耗。
-        boolean parried = SparkTraitsKillerBridge.shouldCancelMeleeAttack(attacker, target, stack);
+        boolean parried = SparkTraitsApi.shouldCancelMeleeAttack(attacker, target, stack);
         consume(attacker, stack);
         playStab(attacker, target);
         if (parried) {
@@ -160,7 +160,7 @@ public final class SwordfishStabService {
         GameFunctions.killPlayer(target, true, attacker, SparkWitchDeathReasons.SWORDFISH_STAB);
         if (SwordfishRules.shouldPunish(attackerFaction, victimFaction, deadBefore,
                 game.isPlayerDead(target.getUuid()), WitchFactorTraitsBridge.isDeathIntercepted(target),
-                SparkTraitsKillerBridge.isNonFinalKillPending(target, attacker))
+                SparkTraitsApi.isNonFinalKillPending(target, attacker))
                 && GameFunctions.isPlayerPlayingAndAlive(attacker)
                 && GameFunctions.isPlayerAliveAndSurvival(attacker)) {
             GameFunctions.killPlayer(attacker, true, null, GameConstants.DeathReasons.SHOT_INNOCENT);
@@ -175,7 +175,7 @@ public final class SwordfishStabService {
                 && !player.getItemCooldownManager().isCoolingDown(stack.getItem())
                 && !ControlExpertStun.isStunned(player)
                 && !SeekerRemoteSessionService.isLocked(player)
-                && !SparkTraitsKillerBridge.blocksWeaponAction(player, stack);
+                && !SparkTraitsApi.blocksWeaponAction(player, stack);
     }
 
     // The Fisher's living participant, then status exactly ACTIVE, then not an active Wraith.

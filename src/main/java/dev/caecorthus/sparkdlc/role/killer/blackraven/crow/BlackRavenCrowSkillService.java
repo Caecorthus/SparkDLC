@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven.crow;
 
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerSessionMode;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerStatusComponent;
@@ -102,7 +102,7 @@ public final class BlackRavenCrowSkillService {
         return new BlackRavenCrowRules.ToggleFacts(
                 eligible,
                 component.isLandingHeld(player.getServerWorld().getTime()),
-                SparkTraitsKillerBridge.isRoleSkillBlocked(player),
+                SparkTraitsApi.isRoleSkillBlocked(player),
                 NoellesTaotieSeekerBridge.isSwallowed(player),
                 component.isUnlocked(),
                 GrandWitchFearService.isPlayerFeared(player),

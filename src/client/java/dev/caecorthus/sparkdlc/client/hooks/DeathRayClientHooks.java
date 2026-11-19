@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.hooks;
 
 import dev.caecorthus.sparkdlc.client.input.MacControlClickRules;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.role.neutral.murderouswitch.deathray.MurderousWitchDeathRayRules;
 import dev.caecorthus.sparkdlc.net.FireDeathRayC2SPacket;
@@ -40,7 +40,7 @@ public final class DeathRayClientHooks {
         if (!ownsAttack(client, player)) {
             return false;
         }
-        if (SparkTraitsKillerBridge.isKillerInteractionBlocked(player)) {
+        if (SparkTraitsApi.isKillerInteractionBlocked(player)) {
             attackHeld = true;
             return true;
         }

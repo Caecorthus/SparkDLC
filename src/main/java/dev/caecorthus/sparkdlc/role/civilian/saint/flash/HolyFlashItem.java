@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.saint.flash;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertTargeting;
 import dev.doctor4t.wathe.index.WatheSounds;
 import dev.doctor4t.wathe.record.GameRecordManager;
@@ -51,7 +51,7 @@ public final class HolyFlashItem extends Item {
         if (!(user instanceof ServerPlayerEntity thrower) || !(world instanceof ServerWorld serverWorld)
                 || !HolyFlashRules.isActivePhase(serverWorld)
                 || !ControlExpertTargeting.isParticipant(thrower)
-                || SparkTraitsKillerBridge.blocksWeaponAction(thrower, stack)) {
+                || SparkTraitsApi.blocksWeaponAction(thrower, stack)) {
             return TypedActionResult.fail(stack);
         }
         HolyFlashEntity flash = new HolyFlashEntity(serverWorld, thrower);

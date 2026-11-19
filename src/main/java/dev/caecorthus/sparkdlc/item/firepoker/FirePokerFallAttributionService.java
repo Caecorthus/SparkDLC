@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.item.firepoker;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendFeignService;
 import dev.doctor4t.wathe.game.GameConstants;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -65,7 +65,7 @@ public final class FirePokerFallAttributionService {
         dev.caecorthus.sparkdlc.role.civilian.judge.JudgeKillAttribution.runWith(
                 victim.getServerWorld(), responsible,
                 pusher == null ? kill
-                        : () -> SparkTraitsKillerBridge.runWithNonFinalKillWeapon(credit.weapon(), kill));
+                        : () -> SparkTraitsApi.runWithNonFinalKillWeapon(credit.weapon(), kill));
     }
 
     public static void clearPlayer(ServerPlayerEntity player) {

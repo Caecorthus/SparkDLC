@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.killer.bellringer;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.session.RiftSessionService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
@@ -41,7 +41,7 @@ public final class BellTollService {
                 || !GameFunctions.isPlayerPlayingAndAlive(ringer)
                 || ringer.isSpectator()
                 || ringer.getItemCooldownManager().isCoolingDown(bell)
-                || SparkTraitsKillerBridge.blocksWeaponAction(ringer, stack)) {
+                || SparkTraitsApi.blocksWeaponAction(ringer, stack)) {
             ringer.sendMessage(Text.translatable("message.sparkdlc.toll_bell.blocked"), true);
             return TypedActionResult.fail(stack);
         }
@@ -126,7 +126,7 @@ public final class BellTollService {
      * 仅在 Traits 缺失或过旧时回退到原版写入（二者不会同时执行，以免发送两次冷却数据包）。
      */
     private static void applyCooldown(ServerPlayerEntity ringer, Item bell) {
-        if (!SparkTraitsKillerBridge.setExactItemCooldownRemaining(ringer, bell, BellRingerRules.TOLL_COOLDOWN_TICKS)) {
+        if (!SparkTraitsApi.setExactItemCooldownRemaining(ringer, bell, BellRingerRules.TOLL_COOLDOWN_TICKS)) {
             ringer.getItemCooldownManager().set(bell, BellRingerRules.TOLL_COOLDOWN_TICKS);
         }
     }

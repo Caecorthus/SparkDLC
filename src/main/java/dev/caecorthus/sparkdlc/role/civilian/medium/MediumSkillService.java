@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.medium;
 
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesSilenceBridge;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.killer.ninja.NinjaGrappleService;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -247,7 +247,7 @@ public final class MediumSkillService {
                 && !NoellesTaotieSeekerBridge.isSwallowed(player)
                 && !NinjaGrappleService.isHeld(player)
                 && !NoellesSilenceBridge.isSilenced(player)
-                && !SparkTraitsKillerBridge.isRoleSkillBlocked(player);
+                && !SparkTraitsApi.isRoleSkillBlocked(player);
     }
 
     /**

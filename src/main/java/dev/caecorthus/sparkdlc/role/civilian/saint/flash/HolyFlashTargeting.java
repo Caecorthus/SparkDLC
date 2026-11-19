@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.saint.flash;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertTargeting;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDamageRules;
 import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaInteractionService;
@@ -45,7 +45,7 @@ public final class HolyFlashTargeting {
                     false,
                     () -> ControlExpertTargeting.isParticipant(target),
                     () -> true,
-                    () -> SparkTraitsKillerBridge.isLastEscapeActive(target),
+                    () -> SparkTraitsApi.isLastEscapeActive(target),
                     () -> !VendettaInteractionService.isActiveVendetta(target));
         }
         GameWorldComponent game = GameWorldComponent.KEY.get(thrower.getWorld());
@@ -53,7 +53,7 @@ public final class HolyFlashTargeting {
                 thrower == target || thrower.getUuid().equals(target.getUuid()),
                 () -> ControlExpertTargeting.isParticipant(target),
                 () -> SparkFactionApi.canAffectPlayer(thrower, target, ACTION_ID, game),
-                () -> SparkTraitsKillerBridge.isLastEscapeActive(target),
+                () -> SparkTraitsApi.isLastEscapeActive(target),
                 () -> vendettaAllows(thrower, target));
     }
 

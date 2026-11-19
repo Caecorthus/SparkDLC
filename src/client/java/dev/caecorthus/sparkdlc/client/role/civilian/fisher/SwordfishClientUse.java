@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.fisher;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.fisher.swordfish.SwordfishRules;
 import dev.caecorthus.sparkdlc.role.civilian.fisher.swordfish.SwordfishStabC2SPayload;
 import dev.doctor4t.wathe.item.KnifeItem;
@@ -26,7 +26,7 @@ public final class SwordfishClientUse {
         if (!world.isClient || !(user instanceof PlayerEntity attacker) || attacker.isSpectator()
                 || attacker.getActiveHand() != Hand.MAIN_HAND || attacker.getMainHandStack() != stack
                 || !SwordfishRules.qualifiedHold(maxUseTicks - remainingUseTicks)
-                || SparkTraitsKillerBridge.blocksWeaponAction(attacker, stack)) {
+                || SparkTraitsApi.blocksWeaponAction(attacker, stack)) {
             return;
         }
         // Both static producers already carry the Wraith filter; the knife producer also selects nearer devices.

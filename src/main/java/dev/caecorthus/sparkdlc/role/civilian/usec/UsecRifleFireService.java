@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.usec;
 
 import dev.caecorthus.sparkdlc.SparkWitchSounds;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsUsecBridge;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RangedSmokeCarve;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
@@ -85,7 +85,7 @@ public final class UsecRifleFireService {
                 SeekerRemoteSessionService.isLocked(player),
                 isKidnapped(player),
                 WraithStateService.isActive(player),
-                holding && SparkTraitsKillerBridge.blocksWeaponAction(player, rifle),
+                holding && SparkTraitsApi.blocksWeaponAction(player, rifle),
                 holding && player.getItemCooldownManager().isCoolingDown(rifle.getItem()),
                 state.chamber() != null));
         switch (decision) {

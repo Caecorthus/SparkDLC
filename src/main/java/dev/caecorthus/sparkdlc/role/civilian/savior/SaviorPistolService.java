@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.civilian.savior;
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.SparkWitchSounds;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthPartygoerCompat;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsSaviorBridge;
 import dev.caecorthus.sparkdlc.net.SaviorGunDropS2CPayload;
 import dev.caecorthus.sparkdlc.net.SaviorMuzzleS2CPayload;
@@ -184,7 +184,7 @@ public final class SaviorPistolService {
      * 搜寻者远程锁定、绑匪操控、激活的冤魂，以及支配者强制开枪序列中拒绝亲手开枪的规则。
      */
     private static boolean refusesShooter(ServerPlayerEntity shooter, ItemStack pistol) {
-        return SparkTraitsKillerBridge.blocksWeaponAction(shooter, pistol)
+        return SparkTraitsApi.blocksWeaponAction(shooter, pistol)
                 || ControlExpertStun.isStunned(shooter)
                 || SeekerRemoteSessionService.isLocked(shooter)
                 || isKidnapped(shooter)

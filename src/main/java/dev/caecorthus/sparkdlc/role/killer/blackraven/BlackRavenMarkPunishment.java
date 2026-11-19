@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.BlackRavenStashedDeathDrops;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -51,7 +51,7 @@ final class BlackRavenMarkPunishment {
         boolean qualifying = BlackRavenPoliceRules.shouldPunishMarkKill(snapshot.markerFaction(),
                 snapshot.victimFaction(), snapshot.deadBefore(), game.isPlayerDead(victim.getUuid()),
                 WitchFactorTraitsBridge.isDeathIntercepted(victim),
-                SparkTraitsKillerBridge.isNonFinalKillPending(victim, marker));
+                SparkTraitsApi.isNonFinalKillPending(victim, marker));
         switch (BlackRavenPoliceRules.punishment(qualifying, true, GameFunctions.isPlayerPlayingAndAlive(marker),
                 GameFunctions.isPlayerAliveAndSurvival(marker), game.getShootInnocentPunishment())) {
             case KILL_MARKER -> GameFunctions.killPlayer(marker, true, null, GameConstants.DeathReasons.SHOT_INNOCENT);

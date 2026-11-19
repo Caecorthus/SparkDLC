@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.witch.riftwalker.session;
 
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsSeekerBridge;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.ApprenticeResonance;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
@@ -548,7 +548,7 @@ public final class RiftSessionService {
         KidnapperControlComponent kidnap = KidnapperControlComponent.KEY.getNullable(player);
         return NoellesTaotieSeekerBridge.isSwallowed(player)
                 || SparkTraitsSeekerBridge.isLastStandPending(player)
-                || SparkTraitsKillerBridge.isLastEscapeActive(player)
+                || SparkTraitsApi.isLastEscapeActive(player)
                 || kidnap != null && kidnap.isControlled()
                 || ControlExpertStun.isStunned(player)
                 || SeekerRemoteSessionService.isLocked(player)

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.fiend;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import net.minecraft.entity.player.PlayerEntity;
@@ -136,7 +136,7 @@ public final class FiendMomentService {
         if (player.isCreative() || !FiendParticipation.isMomentFiend(player)) {
             return;
         }
-        if (!SparkTraitsKillerBridge.setExactItemCooldownRemaining(player, crowbar,
+        if (!SparkTraitsApi.setExactItemCooldownRemaining(player, crowbar,
                 FiendRules.MOMENT_CROWBAR_COOLDOWN_TICKS)) {
             player.getItemCooldownManager().set(crowbar, FiendRules.MOMENT_CROWBAR_COOLDOWN_TICKS);
         }

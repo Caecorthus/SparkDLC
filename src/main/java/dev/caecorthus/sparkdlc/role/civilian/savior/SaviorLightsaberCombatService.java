@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.civilian.savior;
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.SparkWitchSounds;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthPartygoerCompat;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.net.SaviorLightsaberIgniteC2SPayload;
 import dev.caecorthus.sparkdlc.net.SaviorLightsaberSwingC2SPayload;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDamageRules;
@@ -195,7 +195,7 @@ public final class SaviorLightsaberCombatService {
         if (resolved instanceof ServerPlayerEntity candidate && candidate.isSpectator()) {
             return ActionResult.PASS;
         }
-        if (!SaviorRules.mayUseWeapons(attacker) || SparkTraitsKillerBridge.blocksWeaponAction(attacker, stack)) {
+        if (!SaviorRules.mayUseWeapons(attacker) || SparkTraitsApi.blocksWeaponAction(attacker, stack)) {
             return ActionResult.FAIL;
         }
         // Creative mode ignores the weapon cooldown entirely (testing/building). / 创造模式完全忽略武器冷却（测试/建造）。
@@ -223,7 +223,7 @@ public final class SaviorLightsaberCombatService {
         }
         // Close Quarters parry / forced melee lock, after eligibility and before any real side effect.
         // 近身格斗格挡 / 强制近战锁：在资格校验之后、任何实际副作用之前。
-        if (SparkTraitsKillerBridge.shouldCancelMeleeAttack(attacker, victim, stack)) {
+        if (SparkTraitsApi.shouldCancelMeleeAttack(attacker, victim, stack)) {
             return ActionResult.FAIL;
         }
         // Decide the innocent-kill punishment while the victim is still alive, like the pistol does.
@@ -356,7 +356,7 @@ public final class SaviorLightsaberCombatService {
         }
         ItemStack stack = player.getMainHandStack();
         if (!stack.isOf(SparkWitchItems.saviorLightsaber())
-                || SparkTraitsKillerBridge.blocksWeaponAction(player, stack)) {
+                || SparkTraitsApi.blocksWeaponAction(player, stack)) {
             return;
         }
         long now = player.getWorld().getTime();

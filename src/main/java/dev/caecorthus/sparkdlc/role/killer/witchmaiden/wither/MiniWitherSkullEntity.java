@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
 import dev.caecorthus.sparkdlc.SparkWitchSounds;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceHits;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit.BlackRavenCrowHits;
 import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPuppetHits;
@@ -202,7 +202,7 @@ public class MiniWitherSkullEntity extends ThrownEntity {
         if (getWorld().isClient()) {
             return !self;
         }
-        if (SparkTraitsKillerBridge.isLastEscapeActive(player)) {
+        if (SparkTraitsApi.isLastEscapeActive(player)) {
             return false;
         }
         if (kind() == Kind.CRIMSON) {

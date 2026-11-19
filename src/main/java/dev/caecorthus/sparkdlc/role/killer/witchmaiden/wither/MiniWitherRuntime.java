@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkWitchSounds;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.remote.SeekerRemoteSessionService;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
@@ -67,7 +67,7 @@ public final class MiniWitherRuntime {
         return player.isSpectator()
                 || ControlExpertStun.isStunned(player)
                 || GrandWitchFearService.isPlayerFeared(player)
-                || SparkTraitsKillerBridge.isRoleSkillBlocked(player)
+                || SparkTraitsApi.isRoleSkillBlocked(player)
                 || SeekerRemoteSessionService.isLocked(player);
     }
 

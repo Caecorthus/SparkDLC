@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.item.ninja;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.killer.ninja.NinjaGrappleService;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -34,7 +34,7 @@ public final class NinjaGrapplingHookItem extends Item {
         // SparkTraits Last Escape forbids attacking and interacting (like the Rift Gate placement and corpse throw);
         // not the weapon gate, since the hook is no weapon. / SparkTraits 脱险期间禁止攻击与交互（同裂隙门放置与
         // 尸体投掷）；钩爪不是武器，因此不用武器门槛。
-        if (SparkTraitsKillerBridge.isKillerInteractionBlocked(user)) {
+        if (SparkTraitsApi.isKillerInteractionBlocked(user)) {
             return TypedActionResult.fail(stack);
         }
         if (world.isClient()) {

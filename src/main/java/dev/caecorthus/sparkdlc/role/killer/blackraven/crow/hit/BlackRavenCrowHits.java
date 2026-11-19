@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.judge.JudgeKillAttribution;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDamageRules;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenRules;
@@ -157,12 +157,12 @@ public final class BlackRavenCrowHits {
         }
         ItemStack bat = attacker.getMainHandStack();
         if (!bat.isOf(WatheItems.BAT) || attacker.getAttackCooldownProgress(0.5F) < 1.0F
-                || SparkTraitsKillerBridge.blocksWeaponAction(attacker, bat)
+                || SparkTraitsApi.blocksWeaponAction(attacker, bat)
                 || !BlackRavenCrowTargets.inMeleeReach(attacker, target, BlackRavenCrowHitRules.MELEE_REACH)) {
             return false;
         }
         attacker.resetLastAttackedTicks();
-        if (SparkTraitsKillerBridge.shouldCancelMeleeAttack(attacker, target.owner(), bat)) {
+        if (SparkTraitsApi.shouldCancelMeleeAttack(attacker, target.owner(), bat)) {
             return true;
         }
         Vec3d at = target.crow().getPos();
@@ -476,7 +476,7 @@ public final class BlackRavenCrowHits {
         List<PotionBackblastRules.Hit<BlackRavenCrowTargets.Target>> hits = new ArrayList<>();
         for (BlackRavenCrowTargets.Target target : BlackRavenCrowTargets.live(world, gunner)) {
             ServerPlayerEntity owner = target.owner();
-            if (!GameFunctions.isPlayerPlayingAndAlive(owner) || SparkTraitsKillerBridge.isLastEscapeActive(owner)
+            if (!GameFunctions.isPlayerPlayingAndAlive(owner) || SparkTraitsApi.isLastEscapeActive(owner)
                     || !SparkFactionApi.canAffectPlayer(gunner, owner, action, game)) {
                 continue;
             }

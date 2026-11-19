@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.killer.specter;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkFactionSecondRowCompat;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.item.BoundItemRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameConstants;
@@ -284,8 +284,8 @@ public final class SpecterPeachwoodService {
             return ActionResult.FAIL;
         }
         if (charge < 1.0F
-                || SparkTraitsKillerBridge.blocksWeaponAction(attacker, stack)
-                || SparkTraitsKillerBridge.shouldCancelMeleeAttack(attacker, victim, stack)) {
+                || SparkTraitsApi.blocksWeaponAction(attacker, stack)
+                || SparkTraitsApi.shouldCancelMeleeAttack(attacker, victim, stack)) {
             return ActionResult.FAIL;
         }
         GameRecordManager.recordItemUse(attacker, SparkWitchItems.PEACHWOOD_SWORD_ID, victim, null);

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.usec;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaInteractionService;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.caecorthus.sparkdlc.util.hitscan.PlayerHitboxHistory;
@@ -106,7 +106,7 @@ final class UsecShotTargets {
                 GameFunctions.isPlayerSpectatingOrCreative(candidate),
                 GameFunctions.isPlayerPlayingAndAlive(candidate),
                 WraithStateService.isActive(candidate),
-                SparkTraitsKillerBridge.isLastEscapeActive(candidate),
+                SparkTraitsApi.isLastEscapeActive(candidate),
                 VendettaInteractionService.isActiveVendetta(shooter),
                 VendettaInteractionService.isActiveVendetta(candidate),
                 !self && VendettaInteractionService.isExactPair(shooter, candidate));

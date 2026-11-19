@@ -5,7 +5,7 @@ import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.SparkWitchSounds;
 import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.net.KnightDuelStopSoundS2CPayload;
 import dev.caecorthus.sparkdlc.net.KnightDuelUiLockS2CPayload;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
@@ -72,9 +72,9 @@ public final class KnightDuelService {
         // 所有者批准的强制击杀（2026-10-30）：SparkTraits 在击杀时实时读取终结原因集合，服务端启动时注册即足够早且幂等；
         // 缺失或旧版 SparkTraits 不注册任何内容。
         ServerLifecycleEvents.SERVER_STARTING.register(server -> {
-            SparkTraitsKillerBridge.registerTerminalDeathReason(SparkWitchDeathReasons.DUEL_SUICIDE);
-            SparkTraitsKillerBridge.registerTerminalDeathReason(SparkWitchDeathReasons.DUEL_FAILED);
-            SparkTraitsKillerBridge.registerTerminalDeathReason(SparkWitchDeathReasons.DUEL_INTERFERENCE);
+            SparkTraitsApi.registerTerminalDeathReason(SparkWitchDeathReasons.DUEL_SUICIDE);
+            SparkTraitsApi.registerTerminalDeathReason(SparkWitchDeathReasons.DUEL_FAILED);
+            SparkTraitsApi.registerTerminalDeathReason(SparkWitchDeathReasons.DUEL_INTERFERENCE);
         });
         ServerLifecycleEvents.SERVER_STARTED.register(KnightDuelService::resetDuelTeams);
         KillPlayer.AFTER.register(KnightDuelService::afterKill);
@@ -139,7 +139,7 @@ public final class KnightDuelService {
         }
         // Stun and Last Escape/silence refuse silently (their own HUD explains); Fear names the block, as the Judge.
         // 眩晕与脱险/沉默静默拒绝（其自身 HUD 会说明）；恐惧会提示被阻止，与法官一致。
-        if (ControlExpertStun.isStunned(knight) || SparkTraitsKillerBridge.isRoleSkillBlocked(knight)
+        if (ControlExpertStun.isStunned(knight) || SparkTraitsApi.isRoleSkillBlocked(knight)
                 || GrandWitchFearService.denyRoleSkillIfFeared(knight)) {
             return;
         }

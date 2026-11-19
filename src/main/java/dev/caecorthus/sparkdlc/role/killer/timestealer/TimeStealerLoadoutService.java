@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.killer.timestealer;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkFactionSecondRowCompat;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.util.StaggeredSweep;
 import dev.doctor4t.wathe.api.Role;
 import java.util.Objects;
@@ -298,7 +298,7 @@ public final class TimeStealerLoadoutService {
         int ticks = TimeStealerRules.CLOCK_INITIAL_COOLDOWN_TICKS;
         state.setClockReadyAt(player.getServerWorld().getTime() + ticks);
         Item clock = SparkWitchItems.timeStealerClock();
-        if (!SparkTraitsKillerBridge.setExactItemCooldownRemaining(player, clock, ticks)) {
+        if (!SparkTraitsApi.setExactItemCooldownRemaining(player, clock, ticks)) {
             player.getItemCooldownManager().set(clock, ticks);
         }
     }

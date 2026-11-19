@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.killer.dominator;
 
 import dev.caecorthus.sparkdlc.SparkWitchRoles;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesSilenceBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.killer.ninja.NinjaGrappleService;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
 import dev.doctor4t.wathe.api.Role;
@@ -127,7 +127,7 @@ public final class DominatorSkillService {
                 && DominatorRules.isActiveCaster(caster)
                 && !NinjaGrappleService.isHeld(caster)
                 && !NoellesSilenceBridge.isSilenced(caster)
-                && !SparkTraitsKillerBridge.isRoleSkillBlocked(caster);
+                && !SparkTraitsApi.isRoleSkillBlocked(caster);
     }
 
     /**

@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.killer.timestealer;
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthPartygoerCompat;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceHits;
@@ -169,7 +169,7 @@ public final class TimeStealerClockService {
         Item clock = SparkWitchItems.timeStealerClock();
         long remaining = TimeStealerPlayerComponent.KEY.get(user).clockReadyAt() - user.getWorld().getTime();
         if (TimeStealerRules.clockDisplayLags(remaining, displayedTicks(user, clock))) {
-            SparkTraitsKillerBridge.setExactItemCooldownRemaining(user, clock, (int) Math.min(Integer.MAX_VALUE, remaining));
+            SparkTraitsApi.setExactItemCooldownRemaining(user, clock, (int) Math.min(Integer.MAX_VALUE, remaining));
         }
     }
 
@@ -186,7 +186,7 @@ public final class TimeStealerClockService {
      * （二者不会同时执行，以免发送两次冷却数据包）。
      */
     private static void showCooldown(ServerPlayerEntity user, Item clock, int ticks) {
-        if (!SparkTraitsKillerBridge.setExactItemCooldownRemaining(user, clock, ticks)) {
+        if (!SparkTraitsApi.setExactItemCooldownRemaining(user, clock, ticks)) {
             user.getItemCooldownManager().set(clock, ticks);
         }
     }

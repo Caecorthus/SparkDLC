@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.killer.timestealer;
 
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.KillPlayer;
@@ -123,7 +123,7 @@ public final class TimeStealerFeatureService {
         // 第二个所有者批准的例外：与丧钟相同，时钟诅咒击杀注册为 SparkTraits 终结原因。SparkTraits 在击杀时实时读取
         // 终结原因集合，因此服务端启动时注册即足够早，且多次启动重复注册是幂等的；缺失或旧版本不注册（失败关闭）。
         ServerLifecycleEvents.SERVER_STARTING.register(server ->
-                SparkTraitsKillerBridge.registerTerminalDeathReason(SparkWitchDeathReasons.TIME_STOLEN));
+                SparkTraitsApi.registerTerminalDeathReason(SparkWitchDeathReasons.TIME_STOLEN));
     }
 
     private static void clearPlayer(ServerPlayerEntity player) {

@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.killer.specter;
 
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -56,7 +56,7 @@ public final class GhostTriggerItem extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);
-        if (SparkTraitsKillerBridge.isKillerInteractionBlocked(user)) {
+        if (SparkTraitsApi.isKillerInteractionBlocked(user)) {
             return TypedActionResult.fail(stack);
         }
         BlockHitResult hitResult = Item.raycast(world, user, RaycastContext.FluidHandling.NONE);

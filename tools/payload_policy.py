@@ -1,15 +1,20 @@
 #!/usr/bin/env python3
-"""Locked-player C2S payload policy: one canonical table, generated per-repo Java sets.
+"""Locked-player C2S payload policy: one canonical table, generated per-module Java sets.
 
-The canonical table is ``config/payload-policy/actions.tsv`` next to this tool (SparkFactionAPI). It holds one row
-per payload id with an explicit ``allow``/``deny`` cell for every profile. Each repo gets a generated
+The canonical table is ``config/payload-policy/actions.tsv`` next to this tool. It holds one row per payload id with
+an explicit ``allow``/``deny`` cell for every profile. Each module that uses a profile gets a generated
 ``GeneratedPayloadPolicy`` class with one immutable ``Set<Identifier>`` per profile it uses (the ``deny`` ids); the
 hand-written rule classes alias those sets. Standard library only.
 
-    generate  --repo <path> --mod <factionapi|witch|strength>   write that repo's generated Java
+    generate  --repo <path> --mod <factionapi|witch|strength>   write that module's generated Java
     check     --repo <path> --mod <factionapi|witch|strength>   regenerate in memory, fail on any byte difference
-                                                                or on a registered C2S id without a table row
-    check-all --factionapi <path> --witch <path> --strength <path>
+                                                                or on a C2S id the module registers without a table row
+    check-all --repo <path>                                     check every module of the SparkDLC tree
+
+Since the five mods were fused into SparkDLC, ``--repo`` is the one SparkDLC checkout for every module. The whole tree
+is still indexed (constants resolve across modules), but a registration belongs to the module whose package holds the
+registering file (``src/{main,client}/java/dev/caecorthus/sparkdlc/<module>/``), and its row's ``owner`` must be that
+module's namespace.
 
 Table rules: UTF-8, tab-separated, LF, sorted by payload_id, one complete row per id (every profile cell exactly
 ``allow`` or ``deny``), ``owner`` is the registering mod id, ``note`` (English) and ``note_zh`` (Chinese) are ``-`` or
@@ -17,11 +22,13 @@ the facts and reasons behind the row (a pinning test/comment, or ``migration-par
 when the reason is unknown); the notes are never used for generation. VENDETTA_TARGET is not
 emitted: VendettaTargetingPacketGuard keeps its typed adapters and the column records which payloads it judges.
 
-锁定玩家 C2S 数据包策略：一张规范表，按仓库生成 Java 集合。规范表为本工具旁的 ``config/payload-policy/actions.tsv``
-（SparkFactionAPI），每个数据包 id 一行，每个配置一格显式的 ``allow``/``deny``。每个仓库得到一个生成的
+锁定玩家 C2S 数据包策略：一张规范表，按模块生成 Java 集合。规范表为本工具旁的 ``config/payload-policy/actions.tsv``，
+每个数据包 id 一行，每个配置一格显式的 ``allow``/``deny``。每个用到配置的模块得到一个生成的
 ``GeneratedPayloadPolicy`` 类，为其使用的每个配置提供一个不可变 ``Set<Identifier>``（即 ``deny`` 的 id）；手写规则类
-只是这些集合的别名。仅使用标准库。``check`` 在内存中重新生成并逐字节比较，且仓库注册了表中没有的 C2S id、或注册
-表达式无法解析为字面量 id 时都会失败。
+只是这些集合的别名。仅使用标准库。``check`` 在内存中重新生成并逐字节比较，且模块注册了表中没有的 C2S id、或注册
+表达式无法解析为字面量 id 时都会失败。五个 mod 融合为 SparkDLC 之后，所有模块的 ``--repo`` 都是同一个 SparkDLC 检出：
+仍然索引整棵源码树（常量可跨模块解析），但一条注册属于“注册文件所在包”对应的模块
+（``src/{main,client}/java/dev/caecorthus/sparkdlc/<module>/``），其表行的 ``owner`` 必须是该模块的命名空间。
 """
 
 from __future__ import annotations
@@ -72,6 +79,26 @@ MODS = {
                         "HYPNOSIS_EXTRA", "HYPNOSIS_SILENT")),
     "strength": ModTarget("sparkstrength", "dev.caecorthus.sparkdlc.strength.payloadpolicy", True, ("DAZE", "CARRY_EXTRA")),
 }
+
+
+# Every SparkDLC module and the namespace (legacy mod id) its payloads are registered under. A module without a
+# MODS entry carries no generated class; it must still not register a C2S payload the table does not know.
+# SparkDLC 的每个模块及其数据包注册所用的命名空间（旧 mod id）。没有 MODS 条目的模块不带生成类，但同样不得注册
+# 规范表不认识的 C2S 数据包。
+MODULE_NAMESPACES = {
+    "factionapi": "sparkfactionapi",
+    "strength": "sparkstrength",
+    "traits": "sparktraits",
+    "witch": "sparkwitch",
+    "assist": "sparkassist",
+}
+MODULE_PATH = re.compile(r"^src/(?:main|client)/java/dev/caecorthus/sparkdlc/([a-z]+)/")
+
+
+def module_of(where: str) -> "str | None":
+    """The module that holds a ``path:line`` location, or None outside every module. / 位置所在的模块。"""
+    match = MODULE_PATH.match(where.replace("\\", "/"))
+    return match.group(1) if match and match.group(1) in MODULE_NAMESPACES else None
 
 
 class PolicyError(Exception):
@@ -759,7 +786,14 @@ def generate(repo: Path, mod_key: str) -> Path:
 
 
 def check(repo: Path, mod_key: str) -> list:
-    """All problems for one repo; empty means the repo matches the canonical table. / 返回该仓库的全部问题。"""
+    """All problems for one module; empty means it matches the canonical table. / 返回该模块的全部问题。
+
+    Registrations of other modules that have their own ``--mod`` target are left to that target. Registrations of a
+    module without one (traits, assist) and registrations outside every module are reported under ``factionapi``,
+    the owner of the table, so no C2S payload can slip past ``check-all``.
+    有自己 ``--mod`` 目标的其他模块的注册留给对应目标检查；没有目标的模块（traits、assist）以及不在任何模块内的注册
+    归到规范表的所有者 ``factionapi`` 名下报告，保证没有 C2S 数据包能绕过 ``check-all``。
+    """
     problems = []
     table = load_table()
     target = MODS[mod_key]
@@ -777,13 +811,21 @@ def check(repo: Path, mod_key: str) -> list:
         problems.append(f"{repo}: registration scan failed: {error}")
         registrations = []
     for payload_id, where in registrations:
+        module = module_of(where)
+        if module != mod_key and (module in MODS or mod_key != "factionapi"):
+            continue
+        if module is None:
+            problems.append(f"{where}: registers C2S payload {payload_id} outside every SparkDLC module package; "
+                            f"move the registration into its module")
+            continue
+        namespace = MODULE_NAMESPACES[module]
         row = rows.get(payload_id)
         if row is None:
             problems.append(f"{where}: registers C2S payload {payload_id}, which has no row in {TABLE_DISPLAY}; add a "
                             f"complete row with a deliberate allow/deny decision for every profile")
-        elif row.owner != target.mod_id:
+        elif row.owner != namespace:
             problems.append(f"{where}: registers C2S payload {payload_id}, but {TABLE_DISPLAY}:{row.line} names "
-                            f"owner {row.owner}, not {target.mod_id}")
+                            f"owner {row.owner}, not {namespace}")
     return problems
 
 
@@ -795,14 +837,13 @@ def main(argv=None) -> int:
         command.add_argument("--repo", required=True, type=Path)
         command.add_argument("--mod", required=True, choices=sorted(MODS))
     check_all = commands.add_parser("check-all")
-    for mod_key in MODS:
-        check_all.add_argument(f"--{mod_key}", required=True, type=Path)
+    check_all.add_argument("--repo", required=True, type=Path)
     args = parser.parse_args(argv)
     try:
         if args.command == "generate":
             print(f"wrote {generate(args.repo, args.mod)}")
             return 0
-        targets = [(args.mod, args.repo)] if args.command == "check" else [(key, getattr(args, key)) for key in MODS]
+        targets = [(args.mod, args.repo)] if args.command == "check" else [(key, args.repo) for key in MODS]
         failed = False
         for mod_key, repo in targets:
             problems = check(repo, mod_key)

@@ -516,9 +516,26 @@ def verifyFactionApiArchitecture = tasks.register("verifyFactionApiArchitecture"
 
 // Aggregate for the factionapi module; the root build's verifyAll depends on it.
 // factionapi 模块的汇总任务；根构建的 verifyAll 依赖它。
+// The locked-player payload policy: every C2S payload any module registers has a row in
+// config/payload-policy/actions.tsv, owned by the registering module, and each GeneratedPayloadPolicy.java is
+// byte-identical to what the table generates. One run covers all modules now that they share the tree.
+// 锁定玩家数据包策略：任何模块注册的每个 C2S 数据包在 config/payload-policy/actions.tsv 中都有一行、归属于注册它的
+// 模块，且每个 GeneratedPayloadPolicy.java 与规范表生成结果逐字节一致。模块共用一棵源码树后，一次运行即可覆盖全部模块。
+def verifyFactionApiPayloadPolicy = tasks.register("verifyFactionApiPayloadPolicy", Exec) {
+    group = "verification"
+    description = "Checks every module against the canonical payload policy table."
+    inputs.file("tools/payload_policy.py")
+    inputs.dir("config/payload-policy")
+    inputs.files(fileTree("src/main/java") { include "**/*.java" }, fileTree("src/client/java") { include "**/*.java" })
+    outputs.upToDateWhen { true }
+    workingDir = rootDir
+    commandLine "python3", "tools/payload_policy.py", "check-all", "--repo", "."
+}
+
 tasks.register("verifyFactionApi") {
     group = "verification"
     description = "Runs every factionapi-module verify task."
     dependsOn verifyFactionApiModJar
     dependsOn verifyFactionApiArchitecture
+    dependsOn verifyFactionApiPayloadPolicy
 }

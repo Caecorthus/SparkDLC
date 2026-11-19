@@ -1,0 +1,552 @@
+plugins {
+    id "fabric-loom" version "1.13-SNAPSHOT"
+    id "maven-publish"
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "Mojang Libraries"
+        url = "https://libraries.minecraft.net/"
+    }
+    maven {
+        name = "Fabric"
+        url = "https://maven.fabricmc.net/"
+    }
+    maven {
+        name = "Ladysnake Mods"
+        url = "https://maven.ladysnake.org/releases"
+    }
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+        content {
+            includeGroup "maven.modrinth"
+        }
+    }
+    maven {
+        name = "Terraformers"
+        url = "https://maven.terraformersmc.com/releases/"
+    }
+    maven {
+        name = "Max Henkel"
+        url = "https://maven.maxhenkel.de/repository/public"
+    }
+    maven {
+        name = "Datasync"
+        url = "https://maven.uuid.gg/releases"
+    }
+    maven {
+        name = "Lucko"
+        url = "https://repo.lucko.me/"
+    }
+}
+
+loom {
+    splitEnvironmentSourceSets()
+
+    mods {
+        "sparkfactionapi" {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+        }
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    modApi files("libs/wathe-${project.wathe_version}.jar")
+    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}"
+    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-world:${project.cca_version}"
+    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-scoreboard:${project.cca_version}"
+    modRuntimeOnly "org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}"
+    modRuntimeOnly "maven.modrinth:midnightlib:${project.midnightlib_version}"
+    modRuntimeOnly("dev.doctor4t:ratatouille:${project.ratatouille_version}") {
+        exclude group: "dev.upcraft.datasync"
+    }
+    modRuntimeOnly "dev.upcraft.datasync:datasync-minecraft-1.21.1-fabric:0.10.2"
+    modImplementation "me.lucko:fabric-permissions-api:0.3.1"
+
+    testImplementation "org.junit.jupiter:junit-jupiter:5.10.3"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "minecraft_version", project.minecraft_version
+    inputs.property "loader_version", project.loader_version
+    inputs.property "wathe_version", project.wathe_version
+    inputs.property "cca_version", project.cca_version
+
+    filteringCharset "UTF-8"
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version,
+                "minecraft_version": project.minecraft_version,
+                "loader_version": project.loader_version,
+                "wathe_version": project.wathe_version,
+                "cca_version": project.cca_version
+    }
+}
+
+def remappedModJar = tasks.named("remapJar")
+
+tasks.register("verifyModJarVersion") {
+    dependsOn remappedModJar
+    inputs.file(remappedModJar.flatMap { it.archiveFile })
+
+    doLast {
+        def jarFile = remappedModJar.get().archiveFile.get().asFile
+        def archiveName = remappedModJar.get().archiveBaseName.get()
+        def suffix = ".jar"
+        if (!jarFile.name.startsWith("${archiveName}-") || !jarFile.name.endsWith(suffix)) {
+            throw new GradleException("Cannot read version from jar filename: ${jarFile.name}")
+        }
+
+        // Keep the loader-visible mod version tied to the shipped jar filename.
+        // 将加载器可见版本绑定到发布 jar 文件名，避免软件里显示旧版本。
+        def jarVersion = jarFile.name.substring(archiveName.length() + 1, jarFile.name.length() - suffix.length())
+        def zipFile = new java.util.zip.ZipFile(jarFile)
+        try {
+            def entry = zipFile.getEntry("fabric.mod.json")
+            if (entry == null) {
+                throw new GradleException("Missing fabric.mod.json in ${jarFile.name}")
+            }
+
+            def metadata = new groovy.json.JsonSlurper().parse(zipFile.getInputStream(entry))
+            def metadataVersion = metadata.version?.toString()
+            if (metadataVersion != jarVersion) {
+                throw new GradleException("Jar version mismatch: ${jarFile.name} says ${jarVersion}, but fabric.mod.json says ${metadataVersion}")
+            }
+
+            def mainEntrypoint = "dev.caecorthus.sparkdlc.factionapi.SparkFactionApiMod"
+            def mainEntrypoints = metadata.entrypoints?.main ?: []
+            if (!mainEntrypoints.contains(mainEntrypoint)) {
+                throw new GradleException("Missing main entrypoint ${mainEntrypoint} in ${jarFile.name}")
+            }
+
+            def clientEntrypoint = "dev.caecorthus.sparkdlc.factionapi.client.SparkFactionApiClient"
+            def clientEntrypoints = metadata.entrypoints?.client ?: []
+            if (!clientEntrypoints.contains(clientEntrypoint)) {
+                throw new GradleException("Missing client entrypoint ${clientEntrypoint} in ${jarFile.name}")
+            }
+
+            def registeredMixins = (metadata.mixins ?: []).collect { mixin ->
+                mixin instanceof Map ? mixin.config?.toString() : mixin?.toString()
+            }
+            if (!registeredMixins.contains("sparkfactionapi.mixins.json")) {
+                throw new GradleException("Missing common mixin registration in ${jarFile.name}")
+            }
+
+            [
+                    "dev/caecorthus/sparkdlc/factionapi/client/SparkFactionApiClient.class",
+                    "dev/caecorthus/sparkdlc/factionapi/client/net/version/ClientVersionHandshake.class",
+                    "dev/caecorthus/sparkdlc/factionapi/net/version/ServerVersionHandshake.class",
+                    "dev/caecorthus/sparkdlc/factionapi/net/version/VersionProtocol.class",
+                    "dev/caecorthus/sparkdlc/factionapi/api/PlayerAffectPolicy.class",
+                    "dev/caecorthus/sparkdlc/factionapi/api/PoliceRoles.class",
+                    "dev/caecorthus/sparkdlc/factionapi/api/settlement/SettlementExclusions.class",
+                    "dev/caecorthus/sparkdlc/factionapi/api/EntityCollisionExemption.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/collision/EntityCollisionExemptions.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/gun/FactionGunPunishmentAdapter.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/economy/FactionPassiveMoneyAdapter.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/target/PlayerAffectRules.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/target/PlayerAffectMixinGuard.class",
+                    "dev/caecorthus/sparkdlc/factionapi/api/compat/NoellesHiddenEquipment.class",
+                    "dev/caecorthus/sparkdlc/factionapi/api/cooldown/ForcedCooldowns.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/cooldown/ForcedCooldownRegistry.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/cooldown/ItemCooldownEntryAccessor.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/cooldown/ItemCooldownManagerAccessor.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesCollisionCompatibility.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesHiddenEquipmentRegistry.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesNeutralPerkRules.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesScavengerBodyHideRewrite.class",
+                    "dev/caecorthus/sparkdlc/factionapi/client/SparkFactionClientMixinPlugin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/client/mixin/compat/noellesroles/NoellesScavengerBodyHideNeutralPerkMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/client/mixin/compat/noellesroles/NoellesScavengerBodyTargetNeutralPerkMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/compat/noellesroles/NoellesHiddenEquipmentHelperMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/compat/noellesroles/NoellesRolesDemonHunterAffectMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/compat/noellesroles/NoellesRolesPacketAffectMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/compat/noellesroles/NoellesRolesPoisonGasAffectMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/compat/sparkstrength/NoisemakerAffectMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/compat/sparkstrength/ProfessorSerumAffectMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/compat/sparkstrength/VeteranKnifeAffectMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/compat/sparkwitch/SparkWitchCombatAffectMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/compat/sparkwitch/WitchSkillUseAffectMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/EntityAffectMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/EntityCollisionMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/GameFunctionsPlayerAffectMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/GameSettingsCommandMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/GunShootPayloadReceiverMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/KnifeStabPayloadReceiverMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/LivingEntityCollisionMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/MurderGameModeMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/FactionMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/RoleMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/nativefaction/FactionEnumAccessor.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/nativefaction/FactionEnumExtensionMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/nativefaction/ScoreboardRoleSelectorNeutralPoolMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/nativefaction/NativeWatheFactions.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/nativefaction/NativeWatheFactionDeclarations.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/nativefaction/NativeFactionRules.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/MurderGameModePassiveMoneyMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/PlayerEntityAffectMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/ServerPlayerEntityAffectMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/WorldProjectileAffectMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/GameRoundEndComponentMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/client/mixin/RoundTextRendererMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/api/replay/SparkReplayApi.class",
+                    "dev/caecorthus/sparkdlc/factionapi/api/replay/ReplayTooltipContributor.class",
+                    "dev/caecorthus/sparkdlc/factionapi/api/replay/ReplayPlayerView.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/replay/SparkReplayBootstrap.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/replay/RoleChangeRecorder.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/replay/RoleChangeRecordRules.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/replay/RoleChangedReplayFormatter.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/replay/ReplayPresentation.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/replay/ReplaySession.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/replay/ReplayRenderContext.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/replay/ReplayArchive.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesShadowTransformReplayCompat.class",
+                    "dev/caecorthus/sparkdlc/factionapi/command/replay/ReplayCommand.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/GameWorldComponentReplayMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/ReplayGeneratorMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/api/replay/ReplayBadge.class",
+                    "dev/caecorthus/sparkdlc/factionapi/api/replay/ReplayBadgeContributor.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/replay/ReplayContributors.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/replay/ReplaySnapshotBuilder.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/replay/ReplayTextRewriter.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/replay/ReplayLineCategories.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/replay/ReplayInvolvedPlayers.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/replay/ReplaySnapshotTrimRules.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/replay/ReplaySummary.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/replay/ReplayOutcomeRules.class",
+                    "dev/caecorthus/sparkdlc/factionapi/net/replay/ReplaySnapshot.class",
+                    "dev/caecorthus/sparkdlc/factionapi/net/replay/ReplaySnapshotPayload.class",
+                    "dev/caecorthus/sparkdlc/factionapi/net/replay/ReplayTextTags.class",
+                    "dev/caecorthus/sparkdlc/factionapi/net/replay/ReplayNetworking.class",
+                    "dev/caecorthus/sparkdlc/factionapi/client/replay/ReplayClient.class",
+                    "dev/caecorthus/sparkdlc/factionapi/client/replay/ReplayScreen.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/inventory/LimitedInventoryRows.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/inventory/LimitedInventoryScope.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/inventory/PlayerInventoryRowOrderMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/inventory/ShopEntrySecondRowMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/inventory/ScreenHandlerPsychoSecondRowMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/client/inventory/LimitedInventorySecondRow.class",
+                    "dev/caecorthus/sparkdlc/factionapi/client/inventory/LimitedInventorySecondRow\$Bounds.class",
+                    "dev/caecorthus/sparkdlc/factionapi/client/inventory/SecondRowPalette.class",
+                    "dev/caecorthus/sparkdlc/factionapi/client/inventory/SecondRowTexture.class",
+                    "dev/caecorthus/sparkdlc/factionapi/client/mixin/inventory/LimitedHandledScreenSecondRowMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/client/mixin/inventory/LimitedInventoryScreenSecondRowMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/antifastround/AntiFastRound.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/antifastround/AntiFastRoundRules.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/antifastround/AntiFastRoundGuards.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/antifastround/AntiFastRoundBootstrap.class",
+                    "dev/caecorthus/sparkdlc/factionapi/component/SparkFactionAntiFastRoundComponent.class",
+                    "dev/caecorthus/sparkdlc/factionapi/command/admin/AntiFastRoundCommand.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/AntiFastRoundPayloadGuardMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/mapreset/LobbyMapReset.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/mapreset/LobbyMapResetBootstrap.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/mapreset/LobbyMapResetRules.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/mapreset/LobbyMapResetState.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/mapreset/MapResetJob.class",
+                    "dev/caecorthus/sparkdlc/factionapi/component/SparkFactionMapResetComponent.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/mapreset/AutoStartComponentMapResetMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/mapreset/CommandManagerMapResetMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/mapreset/GameFunctionsMapResetMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/mapreset/MapVotingComponentMapResetMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/client/mapreset/MapResetHud.class",
+                    "dev/caecorthus/sparkdlc/factionapi/client/api/card/InventoryCardLayout.class",
+                    "dev/caecorthus/sparkdlc/factionapi/client/api/card/InventoryCardPaint.class",
+                    "dev/caecorthus/sparkdlc/factionapi/client/api/card/InventoryInfoCard.class",
+                    "dev/caecorthus/sparkdlc/factionapi/client/api/card/InventoryInfoCard\$Decor.class",
+                    "dev/caecorthus/sparkdlc/factionapi/client/api/card/GuideDecorBridge.class",
+                    "dev/caecorthus/sparkdlc/factionapi/api/FactionCategory.class",
+                    "dev/caecorthus/sparkdlc/factionapi/api/ThirdFactionLineup.class",
+                    "dev/caecorthus/sparkdlc/factionapi/api/ThirdFactionDrawContext.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/thirdfaction/ThirdFactionDraw.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/thirdfaction/ThirdFactionDrawRules.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/thirdfaction/ThirdFactionDrawSettings.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/thirdfaction/ThirdFactionLineups.class",
+                    "dev/caecorthus/sparkdlc/factionapi/component/SparkFactionThirdFactionComponent.class",
+                    "dev/caecorthus/sparkdlc/factionapi/command/settings/ThirdFactionDividendCommand.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/thirdfaction/GameSettingsCommandThirdFactionMixin.class"
+            ].each { requiredEntry ->
+                // Runtime compatibility depends on these shipped adapter classes, not just successful compilation.
+                // 运行时兼容依赖这些随 jar 发布的适配类，而不只是编译成功。
+                if (zipFile.getEntry(requiredEntry) == null) {
+                    throw new GradleException("Missing required runtime class ${requiredEntry} in ${jarFile.name}")
+                }
+            }
+
+            [
+                    "dev/caecorthus/sparkdlc/factionapi/impl/collision/EntityCollisionTrackedState.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/EntityCollisionStateMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/ServerEntityHandlerCollisionMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/compat/PlayerAffectMixinGuard.class",
+                    "dev/caecorthus/sparkdlc/factionapi/mixin/compat/sparkstrength/CriminologistAffectMixin.class",
+                    "dev/caecorthus/sparkdlc/factionapi/client/net/SparkFactionClientVersionHandshake.class",
+                    "dev/caecorthus/sparkdlc/factionapi/net/SparkFactionVersionHandshake.class",
+                    "dev/caecorthus/sparkdlc/factionapi/net/SparkFactionVersionCheck.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/FactionCapabilityBridge.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/FactionAssignmentService.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/FactionSlotAllocator.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/FactionRoundEndTextRules.class",
+                    "dev/caecorthus/sparkdlc/factionapi/impl/GameSettingsCommandRules.class",
+                    "dev/caecorthus/sparkdlc/factionapi/command/SparkFactionAdminCommands.class",
+                    "dev/caecorthus/sparkdlc/factionapi/util/SparkFactionPermissions.class"
+            ].each { forbiddenEntry ->
+                // Stale incremental class outputs must not resurrect retired internal seams in release jars.
+                // 旧的增量编译 class 不允许把已退役的内部接缝重新带进发布 jar。
+                if (zipFile.getEntry(forbiddenEntry) != null) {
+                    throw new GradleException("Forbidden retired class ${forbiddenEntry} is still packaged in ${jarFile.name}")
+                }
+            }
+
+            [
+                    "sparkfactionapi.mixins.json": [
+                            "compat.noellesroles.NoellesHiddenEquipmentHelperMixin",
+                            "compat.noellesroles.NoellesRolesDemonHunterAffectMixin",
+                            "compat.noellesroles.NoellesRolesPacketAffectMixin",
+                            "compat.noellesroles.NoellesRolesPoisonGasAffectMixin",
+                            "compat.sparkstrength.NoisemakerAffectMixin",
+                            "compat.sparkstrength.ProfessorSerumAffectMixin",
+                            "compat.sparkstrength.VeteranKnifeAffectMixin",
+                            "compat.sparkwitch.SparkWitchCombatAffectMixin",
+                    "compat.sparkwitch.WitchSkillUseAffectMixin",
+                    "cooldown.ItemCooldownEntryAccessor",
+                    "cooldown.ItemCooldownManagerAccessor",
+                    "EntityAffectMixin",
+                    "EntityCollisionMixin",
+                    "GameFunctionsPlayerAffectMixin",
+                    "GameSettingsCommandMixin",
+                    "GunShootPayloadReceiverMixin",
+                    "KnifeStabPayloadReceiverMixin",
+                    "LivingEntityCollisionMixin",
+                    "MurderGameModeMixin",
+                    "MurderGameModePassiveMoneyMixin",
+                    "FactionMixin",
+                    "RoleMixin",
+                    "nativefaction.FactionEnumAccessor",
+                    "nativefaction.FactionEnumExtensionMixin",
+                    "nativefaction.ScoreboardRoleSelectorNeutralPoolMixin",
+                    "PlayerEntityAffectMixin",
+                    "ServerPlayerEntityAffectMixin",
+                    "WorldProjectileAffectMixin",
+                    "GameRoundEndComponentMixin",
+                    "GameWorldComponentReplayMixin",
+                    "ReplayGeneratorMixin",
+                    "record.GameFunctionsKillSnapshotMixin",
+                    "record.GameRecordManagerDeathMixin",
+                    "record.GameRecordManagerIncomeMixin",
+                    "record.ItemStackConsumeMixin",
+                    "record.PlayerShopComponentIncomeMixin",
+                    "record.PoisonUtilsConsumeMixin",
+                    "mapreset.AutoStartComponentMapResetMixin",
+                    "mapreset.CommandManagerMapResetMixin",
+                    "mapreset.GameFunctionsMapResetMixin",
+                    "mapreset.MapVotingComponentMapResetMixin",
+                    "inventory.PlayerInventoryRowOrderMixin",
+                    "inventory.ScreenHandlerPsychoSecondRowMixin",
+                    "inventory.ShopEntrySecondRowMixin",
+                    "AntiFastRoundPayloadGuardMixin",
+                    "team.GameFunctionsLetterNameMixin",
+                    "team.PlayerEntityTeamTagMixin",
+                    "thirdfaction.GameSettingsCommandThirdFactionMixin"
+            ],
+                    "sparkfactionapi.client.mixins.json": [
+                            "RoundTextRendererMixin",
+                            "compat.noellesroles.NoellesScavengerBodyHideNeutralPerkMixin",
+                            "compat.noellesroles.NoellesScavengerBodyTargetNeutralPerkMixin",
+                            "inventory.LimitedHandledScreenSecondRowMixin",
+                            "inventory.LimitedInventoryScreenSecondRowMixin",
+                            "team.NoellesPuppetNameTeamTagMixin",
+                            "team.PlayerListHudTeamTagMixin",
+                            "team.RoleNameRendererTeamTagMixin"
+                    ]
+            ].each { mixinConfigEntry, requiredMixins ->
+                def mixinEntry = zipFile.getEntry(mixinConfigEntry)
+                if (mixinEntry == null) {
+                    throw new GradleException("Missing mixin config ${mixinConfigEntry} in ${jarFile.name}")
+                }
+                def mixinConfig = new groovy.json.JsonSlurper().parse(zipFile.getInputStream(mixinEntry))
+                def configuredMixins = (mixinConfig.mixins ?: []) + (mixinConfig.client ?: []) + (mixinConfig.server ?: [])
+                requiredMixins.each { requiredMixin ->
+                    if (!configuredMixins.contains(requiredMixin)) {
+                        throw new GradleException("Missing mixin ${requiredMixin} in ${mixinConfigEntry} inside ${jarFile.name}")
+                    }
+                }
+                // The client plugin rewrites NoellesRoles' merged Scavenger handler; without it D3 silently breaks.
+                // 客户端插件改写 NoellesRoles 合并的清道夫处理器；缺少它 D3 会静默失效。
+                def requiredPlugin = [
+                        "sparkfactionapi.client.mixins.json": "dev.caecorthus.sparkdlc.factionapi.client.SparkFactionClientMixinPlugin"
+                ][mixinConfigEntry]
+                if (requiredPlugin != null && mixinConfig.plugin?.toString() != requiredPlugin) {
+                    throw new GradleException("Missing mixin plugin ${requiredPlugin} in ${mixinConfigEntry} inside ${jarFile.name}")
+                }
+            }
+        } finally {
+            zipFile.close()
+        }
+    }
+}
+
+tasks.named("build") {
+}
+
+def targetJavaVersion = 21
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = "UTF-8"
+    it.options.release.set(targetJavaVersion)
+}
+
+// The shared owner info card (client/api/card) is unit-tested from src/test, so tests see the client classes.
+// 共享的物品栏信息卡（client/api/card）在 src/test 中做单元测试，因此测试需要能看到客户端类。
+sourceSets.test {
+    compileClasspath += sourceSets.client.output
+    runtimeClasspath += sourceSets.client.output
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
+
+def contractFiles = [
+        "AGENTS.md",
+        "CONTEXT.md",
+        "DOWNSTREAM_MIGRATION_NOTES.md",
+        "docs/adr/0001-risk-based-tests.md"
+]
+def architectureContractFiles = [
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/api/SparkFactionApi.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/api/PlayerAffectPolicy.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/api/PoliceRoles.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/api/replay/SparkReplayApi.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/net/replay/ReplaySnapshot.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/net/record/MatchRecordSnapshot.java",
+        "src/client/java/dev/caecorthus/sparkdlc/factionapi/client/api/SparkMatchRecordClient.java",
+        "src/client/java/dev/caecorthus/sparkdlc/factionapi/client/api/card/InventoryCardLayout.java",
+        "src/client/java/dev/caecorthus/sparkdlc/factionapi/client/api/card/InventoryCardPaint.java",
+        "src/client/java/dev/caecorthus/sparkdlc/factionapi/client/api/card/InventoryInfoCard.java",
+        "src/client/java/dev/caecorthus/sparkdlc/factionapi/client/api/card/GuideDecorBridge.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/client/api/card/InventoryCardLayoutTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/client/api/card/InventoryCardFallbackTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/client/api/card/InventoryCardMetricsTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/client/api/card/InventoryInfoCardContractTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/net/record/MatchRecordSnapshotTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/api/PoliceRolesTest.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/api/settlement/SettlementExclusions.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/api/settlement/SettlementExclusionsTest.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/api/compat/NoellesHiddenEquipment.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/api/cooldown/ForcedCooldowns.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/api/cooldown/RoleSkillCooldownStore.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/impl/cooldown/ForcedCooldownRegistry.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesCollisionCompatibility.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/impl/shop/FactionShopAccessRules.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/api/PlayerAffectPolicyTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/api/SparkFactionApiCompatibilityTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/api/compat/NoellesHiddenEquipmentTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/cooldown/ForcedCooldownContractTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/cooldown/RoleSkillStoreRegistryTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/target/PlayerAffectAdapterContractTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/target/OptionalModPlayerAffectAdapterContractTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/assignment/FactionSlotAllocatorTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/command/settings/GameSettingsCommandRulesTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/command/settings/GameSettingsCommandMixinCompatibilityTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/roundend/FactionWinRulesTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/collision/EntityCollisionExemptionsTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/collision/EntityCollisionMixinContractTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/collision/LivingEntityCollisionMixinContractTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesCollisionCompatibilityContractTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/net/version/VersionProtocolTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/replay/ReplayRoleTimelineTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/replay/RoleChangeRecordRulesTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/inventory/LimitedInventoryRowsTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/inventory/LimitedInventorySeamTest.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/impl/antifastround/AntiFastRoundRules.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/antifastround/AntiFastRoundRulesTest.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/impl/mapreset/LobbyMapResetRules.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/mapreset/LobbyMapResetRulesTest.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/impl/nativefaction/NativeWatheFactions.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/impl/nativefaction/NativeWatheFactionDeclarations.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/nativefaction/NativeWatheFactionDeclarationsTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/nativefaction/NativeWatheFactionSeamTest.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesNeutralPerkRules.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesScavengerBodyHideRewrite.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesNeutralPerkRulesTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/compat/noellesroles/NoellesRolesPinnedSelectorTest.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/api/ThirdFactionLineup.java",
+        "src/main/java/dev/caecorthus/sparkdlc/factionapi/impl/thirdfaction/ThirdFactionDrawRules.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/impl/thirdfaction/ThirdFactionDrawRulesTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/api/ThirdFactionApiTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/factionapi/command/settings/ThirdFactionDividendCommandTest.java"
+]
+
+// docs/ and src/test/ are gitignored and local-only, so the contract files under them are required only in a
+// checkout that has the local test tree; a fresh clone (CI) skips them.
+// docs/ 与 src/test/ 已被 gitignore 且仅存于本地，因此只在拥有本地测试树的检出中要求其下的契约文件；全新克隆（CI）会跳过。
+def localTestTree = file("src/test")
+def isLocalOnlyContractFile = { String path -> path.startsWith("docs/") || path.startsWith("src/test/") }
+
+tasks.register("verifyArchitecture") {
+    group = "verification"
+    description = "Verifies public compatibility and representative contract tests."
+    def allContractFiles = contractFiles + architectureContractFiles
+    def requiredContractFiles = allContractFiles.findAll { localTestTree.isDirectory() || !isLocalOnlyContractFile(it) }
+    inputs.files(requiredContractFiles.collect { file(it) })
+
+    doLast {
+        if (requiredContractFiles.size() < allContractFiles.size()) {
+            logger.lifecycle("No local src/test tree: skipped "
+                    + "${allContractFiles.size() - requiredContractFiles.size()} local-only architecture contract files.")
+        }
+        requiredContractFiles.each { requiredPath ->
+            if (!file(requiredPath).isFile()) {
+                throw new GradleException("Missing architecture contract file: ${requiredPath}")
+            }
+        }
+    }
+}
+
+tasks.named("check") {
+    setDependsOn([])
+}
+
+
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+    withSourcesJar()
+}
+
+tasks.withType(JavaExec).configureEach {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    if (JavaVersion.current() < javaVersion) {
+        javaLauncher.set(javaToolchains.launcherFor {
+            languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+        })
+    }
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.base.archivesName.get()}" }
+    }
+    from("LICENSE-TEXTURES.md") {
+        rename { "LICENSE-TEXTURES_${project.base.archivesName.get()}.md" }
+    }
+}

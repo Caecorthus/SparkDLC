@@ -1,0 +1,21 @@
+package dev.caecorthus.sparkdlc.factionapi.component;
+
+import org.jetbrains.annotations.NotNull;
+import org.ladysnake.cca.api.v3.scoreboard.ScoreboardComponentFactoryRegistry;
+import org.ladysnake.cca.api.v3.scoreboard.ScoreboardComponentInitializer;
+
+public final class SparkFactionComponents implements ScoreboardComponentInitializer {
+    @Override
+    public void registerScoreboardComponentFactories(@NotNull ScoreboardComponentFactoryRegistry registry) {
+        registry.registerScoreboardComponent(SparkFactionRoundEndComponent.KEY, SparkFactionRoundEndComponent::new);
+        registry.registerScoreboardComponent(
+                SparkFactionAntiFastRoundComponent.KEY,
+                SparkFactionAntiFastRoundComponent::new
+        );
+        registry.registerScoreboardComponent(SparkFactionMapResetComponent.KEY, SparkFactionMapResetComponent::new);
+        registry.registerScoreboardComponent(
+                SparkFactionThirdFactionComponent.KEY,
+                SparkFactionThirdFactionComponent::new
+        );
+    }
+}

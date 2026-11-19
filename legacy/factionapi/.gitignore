@@ -1,0 +1,18 @@
+/.gradle/
+.idea/
+/ARCHITECTURE.md
+/ARCHITECTURE_LOGS.md
+/ARCHITECTURE LOGS.md
+/build/
+/run/
+/out/
+/bin/
+/logs/
+.worktrees/
+*.iml
+.DS_Store
+*.log
+
+# Keep test sources local-only.
+/src/test/
+/docs/

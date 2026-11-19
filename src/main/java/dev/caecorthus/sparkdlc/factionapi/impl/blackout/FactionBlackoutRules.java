@@ -1,0 +1,42 @@
+package dev.caecorthus.sparkdlc.factionapi.impl.blackout;
+
+import dev.caecorthus.sparkdlc.factionapi.api.FactionCapabilities;
+import dev.caecorthus.sparkdlc.factionapi.impl.capability.FactionCapabilityLookup;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Identifier;
+
+public final class FactionBlackoutRules {
+    private FactionBlackoutRules() {
+    }
+
+    /**
+     * Resolves per-player blackout night vision without granting shop, economy, cohort, or instinct access.
+     * The canUseKillerFeatures fallback keeps blackout night vision compatible with older killer-feature capability
+     * users.
+     * 按玩家解析黑灯夜视，不额外授予商店、经济、同伙或直觉能力。canUseKillerFeatures 兜底让黑灯夜视兼容旧的杀手功能
+     * 能力使用者。
+     */
+    public static boolean hasBlackoutImmunity(PlayerEntity player, GameWorldComponent gameComponent) {
+        if (player == null || gameComponent == null) {
+            return false;
+        }
+        FactionCapabilities capabilities = FactionCapabilityLookup.capabilities(player, gameComponent);
+        return capabilities.hasBlackoutImmunity() || capabilities.canUseKillerFeatures();
+    }
+
+    /**
+     * Adds blackout cooldown sharing only for custom faction players skipped by Wathe's native killer path.
+     * 只给 wathe 原生杀手路径跳过的自定义阵营玩家追加熄灯冷却共享。
+     */
+    public static boolean sharesCustomBlackoutCooldown(PlayerEntity player, GameWorldComponent gameComponent) {
+        Identifier factionId = FactionCapabilityLookup.effectiveFaction(player, gameComponent);
+        return FactionCapabilityLookup.isCustomFaction(factionId)
+                && !gameComponent.canUseKillerFeatures(player)
+                && canUseKillerFeatureAccess(factionId);
+    }
+
+    private static boolean canUseKillerFeatureAccess(Identifier effectiveFaction) {
+        return FactionCapabilityLookup.capabilitiesForFaction(effectiveFaction).canUseKillerFeatures();
+    }
+}

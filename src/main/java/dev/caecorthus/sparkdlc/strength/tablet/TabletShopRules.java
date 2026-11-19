@@ -46,8 +46,10 @@ public final class TabletShopRules {
             return false;
         }
         Boolean police = SparkFactionCompat.isPoliceRole(role);
-        // Old/absent APIs keep exactly the original whitelist, never infer police from gear/faction.
-        // 缺失或旧版 API 严格保留原白名单，绝不通过装备或阵营推断警职。
+        // The police registry decides (the bridge calls it directly since the SparkDLC fusion and never answers null
+        // for a role); the original whitelist stays only as the null-safe default. Never infer police from gear/faction.
+        // 由警职注册表决定（融合进 SparkDLC 后桥接直接调用它，对非 null 身份不再返回 null）；原白名单仅作为 null 安全的默认值保留。
+        // 绝不通过装备或阵营推断警职。
         return police != null ? police : isVigilante(role) || CorruptCopRules.isCorruptCop(role);
     }
 

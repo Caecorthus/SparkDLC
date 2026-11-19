@@ -44,10 +44,10 @@ public final class SerialPistolItem extends RevolverItem {
             // Same target pick as the revolver (Wathe's 30-block getGunTarget, sleeping players on beds included), so
             // client hooks on getGunTarget apply alike (SparkWitch's active-Wraith pass-through and nearer Magician
             // puppet); SparkWitch's Seeker device step, which it wraps inside RevolverItem#use, is added through its
-            // public API (unchanged pick without SparkWitch). The server re-validates everything.
+            // public API (a direct call since the SparkDLC fusion). The server re-validates everything.
             // 与左轮相同的选靶（Wathe 30 格 getGunTarget，包括床上睡觉的玩家），getGunTarget 上的客户端钩子同样生效（SparkWitch
             // 的激活冤魂穿透与更近的魔术师皮套）；SparkWitch 包装在 RevolverItem#use 内的搜寻者设备一步经其公开 API 补上
-            // （未安装 SparkWitch 时选靶不变）。服务端会全部复核。
+            // （融合进 SparkDLC 后为直接调用）。服务端会全部复核。
             // A Partygoer strictly nearer than that pick takes the shot (the server re-validates and kills it).
             // 严格比该选择更近的派对客改为中枪（服务端复核并将其击杀）。
             HitResult aim = PartygoerHitGeometry.preferNearer(user,

@@ -95,9 +95,11 @@ public final class SparkWitchDeathReasons {
     public static final Identifier STRANGLED = SparkWitch.id("strangled");
     /**
      * Sphinx Hao's "手"枪 fist landed (被嘉豪的铁拳砸死了). One non-forced kill, so every shield applies; the same id as
-     * {@code SphinxHaoRules.DEATH_REASON}. SparkStrength reads this field by name (Partygoer / Bomber drone parity).
+     * {@code SphinxHaoRules.DEATH_REASON}. SparkStrength reads this field directly since the SparkDLC
+     * fusion (Partygoer / Bomber drone parity).
      * 狮身豪的“手”枪拳头命中（被嘉豪的铁拳砸死了）。一次非强制击杀，因此所有护盾都生效；与
-     * {@code SphinxHaoRules.DEATH_REASON} 是同一 id。SparkStrength 按名称读取此字段（派对客 / 轰炸者无人机一致处理）。
+     * {@code SphinxHaoRules.DEATH_REASON} 是同一 id。融合进 SparkDLC 后 SparkStrength 直接读取此字段
+     * （派对客 / 轰炸者无人机一致处理）。
      */
     public static final Identifier SPHINX_HAO_FIST = SparkWitch.id("sphinx_hao_fist");
 

@@ -8,13 +8,13 @@ import java.util.function.BiPredicate;
 
 /**
  * Stable cross-mod contract (client only, 2026-10-07): lets another mod reveal active Wraiths' bodies to chosen
- * viewers. SparkStrength reaches it by reflection, so this FQCN and the JDK-only signature must not change. A gate is
+ * viewers. SparkStrength calls it directly since the SparkDLC fusion; this FQCN and the JDK-only signature stay frozen. A gate is
  * asked {@code (viewer, wraith)} on the render thread, only for an active Wraith (promoted ones included) and never for
  * the Wraith itself; any gate answering true draws that Wraith's body translucent for that viewer, as vanilla does for
  * a spectator. It reveals the body only: held items, outlines, instinct colour, name tags and aim pass-through keep
  * their ordinary-viewer rules.
- * 稳定跨模组契约（仅客户端，2026-10-07）：允许其他模组向指定观察者显示活跃冤魂（含晋升形态）的身体。SparkStrength
- * 通过反射访问本类，因此完整类名与仅使用 JDK 类型的签名都不得更改。闸门在渲染线程以 {@code (观察者, 冤魂)} 调用，
+ * 稳定跨模组契约（仅客户端，2026-10-07）：允许其他模组向指定观察者显示活跃冤魂（含晋升形态）的身体。融合进 SparkDLC 后
+ * SparkStrength 直接调用本类；完整类名与仅使用 JDK 类型的签名都不得更改。闸门在渲染线程以 {@code (观察者, 冤魂)} 调用，
  * 只针对活跃冤魂且从不针对冤魂本人；任一闸门返回 true，该观察者就会像原版旁观者那样看到半透明的冤魂身体。
  * 只显示身体：手持物、描边、本能颜色、名字与准星穿透仍按普通观察者规则处理。
  */

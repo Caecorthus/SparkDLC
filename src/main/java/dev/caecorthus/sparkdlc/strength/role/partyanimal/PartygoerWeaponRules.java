@@ -42,8 +42,6 @@ public final class PartygoerWeaponRules {
     public static final String BLACK_RAVEN_ROLE_ID = "sparkwitch:black_raven";
     public static final int FEATHER_COOLDOWN_TICKS = 60 * 20;
     public static final String CEREMONIAL_SWORD_ID = "sparkwitch:ceremonial_sword";
-    /** CCA key of the Grand Witch runtime (sword kill cooldown). / 大魔女运行时组件的 CCA key（剑杀冷却）。 */
-    public static final String GRAND_WITCH_RUNTIME_ID = "sparkwitch:grand_witch_runtime";
     public static final int CEREMONIAL_SWORD_KILL_COOLDOWN_TICKS = 30 * 20;
     /** Only the TR shell kills (DK/AC/MR only debuff). / 只有 TR 炮弹会致死（DK/AC/MR 只是减益）。 */
     public static final String TR_SHELL_ID = "sparkwitch:tr_shell";

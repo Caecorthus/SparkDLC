@@ -101,8 +101,8 @@ public final class VultureSuperCurseService {
             return;
         }
 
-        // Live trait check; without SparkTraits this is false and the normal clip plays.
-        // 实时词条判定；未安装 SparkTraits 时为 false，播放普通版本。
+        // Live trait check (a direct SparkTraits facade call since the SparkDLC fusion); false plays the normal clip.
+        // 实时词条判定（融合进 SparkDLC 后为对 SparkTraits 门面的直接调用）；为 false 时播放普通版本。
         boolean childish = SparkTraitsCompat.hasTrait(player, VultureSuperCurseRules.CHILDISH_TRAIT_ID);
         SoundEvent curse = childish
                 ? SparkStrengthSounds.VULTURE_SUPER_CURSE_HELIUM

@@ -10,6 +10,8 @@ import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DroneWeaponHits;
 import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DroneWeaponRules;
 import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.strength.role.silencer.SilencerQuietService;
+import dev.caecorthus.sparkdlc.witch.SparkWitchDeathReasons;
+import dev.caecorthus.sparkdlc.witch.roles.witch.grandwitch.GrandWitchRuntimeComponent;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameConstants;
@@ -44,15 +46,10 @@ import net.minecraft.world.World;
 import org.agmas.noellesroles.Noellesroles;
 import org.agmas.noellesroles.bomber.BomberPlayerComponent;
 import org.jetbrains.annotations.Nullable;
-import org.ladysnake.cca.api.v3.component.ComponentKey;
-import org.ladysnake.cca.api.v3.component.ComponentRegistry;
 
-import java.lang.reflect.Method;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * One entry per LETHAL weapon path that must also kill a Partygoer in one hit (owner rule 2026-10-21: anything that can
@@ -82,9 +79,6 @@ public final class PartygoerWeaponHits {
      */
     public static final TagKey<EntityType<?>> PARTYGOER_KILLING_PROJECTILES =
             TagKey.of(RegistryKeys.ENTITY_TYPE, SparkStrength.id("partygoer_killing_projectiles"));
-    private static final String SPARKWITCH_DEATH_REASONS = "dev.caecorthus.sparkdlc.witch.SparkWitchDeathReasons";
-    /** Resolved SparkWitch death reasons by field name (the provider's own instances when present). / 已解析的 SparkWitch 死因。 */
-    private static final Map<String, Identifier> SPARKWITCH_REASONS = new ConcurrentHashMap<>();
     private static boolean registered;
 
     private PartygoerWeaponHits() {
@@ -271,7 +265,7 @@ public final class PartygoerWeaponHits {
         HitResult aimed = ProjectileUtil.getCollision(user, entity -> entity instanceof ServerPlayerEntity victim
                 && victim != user && GameFunctions.isPlayerAliveAndSurvival(victim), range);
         if (!killNearestOnLook(user, range, aimed instanceof EntityHitResult hit ? hit.getEntity() : null,
-                sparkWitchReason("NINJA_KNIFE_KILL", "ninja_knife_kill"), true)) {
+                SparkWitchDeathReasons.NINJA_KNIFE_KILL, true)) {
             return false;
         }
         user.swingHand(hand, true);
@@ -294,7 +288,7 @@ public final class PartygoerWeaponHits {
         }
         String type = Registries.ENTITY_TYPE.getId(projectile.getType()).toString();
         Identifier reason = PartygoerWeaponRules.SHURIKEN_ENTITY_ID.equals(type)
-                ? sparkWitchReason("NINJA_SHURIKEN_KILL", "ninja_shuriken_kill")
+                ? SparkWitchDeathReasons.NINJA_SHURIKEN_KILL
                 : GameConstants.DeathReasons.GENERIC;
         if (!PartygoerService.killByWeapon(owner instanceof ServerPlayerEntity player ? player : null, partygoer,
                 reason)) {
@@ -500,7 +494,7 @@ public final class PartygoerWeaponHits {
     public static boolean onSparkWitchSphinxHaoFist(@Nullable ServerPlayerEntity shooter, @Nullable PlayerEntity target,
                                                     double range) {
         return shooter != null && mayKill(shooter) && killNearestOnLook(shooter, range, target,
-                sparkWitchReason("SPHINX_HAO_FIST", "sphinx_hao_fist"), true);
+                SparkWitchDeathReasons.SPHINX_HAO_FIST, true);
     }
 
     /**
@@ -527,7 +521,7 @@ public final class PartygoerWeaponHits {
     public static boolean onSparkWitchClock(@Nullable ServerPlayerEntity user, @Nullable PlayerEntity target,
                                             double range) {
         return user != null && !PartygoerCarry.isCarried(user)
-                && killNearestOnLook(user, range, target, sparkWitchReason("TIME_STOLEN", "time_stolen"), false);
+                && killNearestOnLook(user, range, target, SparkWitchDeathReasons.TIME_STOLEN, false);
     }
 
     /**
@@ -543,7 +537,7 @@ public final class PartygoerWeaponHits {
             return;
         }
         Vec3d end = start.add(direction.normalize().multiply(cutDistance));
-        Identifier reason = sparkWitchReason("PIERCED_BY_RAY", "pierced_by_ray");
+        Identifier reason = SparkWitchDeathReasons.PIERCED_BY_RAY;
         for (PartygoerHitGeometry.PartygoerHit hit : PartygoerHitGeometry.allBefore(user.getWorld(), start, end,
                 Double.POSITIVE_INFINITY, user)) {
             PartygoerService.killByWeapon(user, hit.partygoer(), reason);
@@ -564,7 +558,7 @@ public final class PartygoerWeaponHits {
         Vec3d end = DroneHitGeometry.clipToBlocks(gunner.getWorld(), start,
                 start.add(direction.normalize().multiply(reach)), gunner);
         return killNearestOnSegment(gunner, start, end, reach * reach,
-                sparkWitchReason("POTION_BACKBLAST", "potion_backblast"), true);
+                SparkWitchDeathReasons.POTION_BACKBLAST, true);
     }
 
     /**
@@ -622,7 +616,7 @@ public final class PartygoerWeaponHits {
             return false;
         }
         return PartygoerService.killByWeapon(owner instanceof ServerPlayerEntity player ? player : null, partygoer,
-                sparkWitchReason("CRIMSON_WITHER_SKULL", "crimson_wither_skull"));
+                SparkWitchDeathReasons.CRIMSON_WITHER_SKULL);
     }
 
     /**
@@ -676,9 +670,10 @@ public final class PartygoerWeaponHits {
     /**
      * A sword kill on a Partygoer, gated and paid like SparkWitch's own (no sword kill cooldown, no strike in progress,
      * the SparkTraits weapon gate; then the 30 s sword kill cooldown and the trident hit sound). The Grand Witch runtime
-     * is read by its CCA key (no compile dependency); when it can't be read the kill still happens, uncharged.
+     * is read through its own CCA key (a direct call since the SparkDLC fusion); for an attacker without the component
+     * the kill still happens, uncharged.
      * 对派对客的一次剑杀，门槛与代价同 SparkWitch 自身（无剑杀冷却、无进行中的攻击、SparkTraits 武器门槛；之后 30 秒剑杀冷却与三叉戟
-     * 命中声）。大魔女运行时按其 CCA key 读取（无编译期依赖）；读取失败时仍然击杀，但不计冷却。
+     * 命中声）。大魔女运行时经其自身的 CCA key 读取（融合进 SparkDLC 后为直接调用）；玩家没有该组件时仍然击杀，但不计冷却。
      */
     private static boolean ceremonialSwordKill(ServerPlayerEntity attacker, PartygoerEntity partygoer) {
         Item sword = heldItem(attacker, PartygoerWeaponRules.CEREMONIAL_SWORD_ID);
@@ -688,7 +683,7 @@ public final class PartygoerWeaponHits {
         }
         Vec3d at = partygoer.getPos();
         if (!PartygoerService.killByWeapon(attacker, partygoer,
-                sparkWitchReason("CEREMONIAL_BLADE", "ceremonial_blade"))) {
+                SparkWitchDeathReasons.CEREMONIAL_BLADE)) {
             return false;
         }
         GrandWitchSword.startKillCooldown(attacker);
@@ -714,7 +709,7 @@ public final class PartygoerWeaponHits {
                 || !GameWorldComponent.KEY.get(world).isRunning()) {
             return;
         }
-        Identifier reason = sparkWitchReason("POTION_SHELL", "potion_shell");
+        Identifier reason = SparkWitchDeathReasons.POTION_SHELL;
         for (PartygoerEntity partygoer : PartygoerService.live(world)) {
             Box box = partygoer.getBoundingBox();
             if (!PartygoerHitGeometry.isTargetable(partygoer)
@@ -796,84 +791,26 @@ public final class PartygoerWeaponHits {
     }
 
     /**
-     * SparkWitch death reason by field name: the provider's own static instance when SparkWitch is loaded, else an
-     * equal identifier (only the Partygoer's corpse reads it, by equality).
-     * 按字段名取 SparkWitch 死因：SparkWitch 已加载时使用其自身的静态实例，否则使用相等的标识符（只有派对客尸体读取，按 equals 比较）。
-     */
-    static Identifier sparkWitchReason(String field, String path) {
-        return SPARKWITCH_REASONS.computeIfAbsent(field, key -> {
-            try {
-                Object value = Class.forName(SPARKWITCH_DEATH_REASONS).getField(key).get(null);
-                if (value instanceof Identifier identifier) {
-                    return identifier;
-                }
-            } catch (ReflectiveOperationException | LinkageError | RuntimeException ignored) {
-                // SparkWitch absent or changed: fall back to the plain id. / SparkWitch 缺失或变更：退回普通 id。
-            }
-            return Identifier.of("sparkwitch", path);
-        });
-    }
-
-    /**
-     * Reflective view of SparkWitch's Grand Witch runtime component ({@code getSwordKillCooldownTicks},
-     * {@code isSwordStrikeInProgress}, {@code setSwordKillCooldownTicks}), looked up by its CCA key. Fails open.
-     * 通过 CCA key 反射访问 SparkWitch 大魔女运行时组件。失败时放行。
+     * SparkWitch's Grand Witch runtime component ({@code getSwordKillCooldownTicks}, {@code isSwordStrikeInProgress},
+     * {@code setSwordKillCooldownTicks}). The modules are fused in SparkDLC, so it is read through its own CCA key and
+     * called directly; a player without the component still fails open.
+     * SparkWitch 大魔女运行时组件。各模块已融合进 SparkDLC，因此经其自身的 CCA key 读取并直接调用；没有该组件的玩家仍然放行。
      */
     private static final class GrandWitchSword {
-        private static final Map<Class<?>, Method[]> METHODS = new ConcurrentHashMap<>();
-
         private GrandWitchSword() {
         }
 
         static boolean mayStrike(ServerPlayerEntity player) {
-            Object runtime = runtime(player);
-            Method[] methods = runtime == null ? null : methods(runtime.getClass());
-            if (methods == null) {
-                return true;
-            }
-            try {
-                return ((Integer) methods[0].invoke(runtime)) <= 0 && !((Boolean) methods[1].invoke(runtime));
-            } catch (ReflectiveOperationException | RuntimeException | LinkageError ignored) {
-                return true;
-            }
+            GrandWitchRuntimeComponent runtime = GrandWitchRuntimeComponent.KEY.getNullable(player);
+            return runtime == null
+                    || runtime.getSwordKillCooldownTicks() <= 0 && !runtime.isSwordStrikeInProgress();
         }
 
         static void startKillCooldown(ServerPlayerEntity player) {
-            Object runtime = runtime(player);
-            Method[] methods = runtime == null ? null : methods(runtime.getClass());
-            if (methods == null) {
-                return;
+            GrandWitchRuntimeComponent runtime = GrandWitchRuntimeComponent.KEY.getNullable(player);
+            if (runtime != null) {
+                runtime.setSwordKillCooldownTicks(PartygoerWeaponRules.CEREMONIAL_SWORD_KILL_COOLDOWN_TICKS);
             }
-            try {
-                methods[2].invoke(runtime, PartygoerWeaponRules.CEREMONIAL_SWORD_KILL_COOLDOWN_TICKS);
-            } catch (ReflectiveOperationException | RuntimeException | LinkageError ignored) {
-                // Uncharged kill. / 不计冷却。
-            }
-        }
-
-        private static @Nullable Object runtime(ServerPlayerEntity player) {
-            try {
-                ComponentKey<?> key = ComponentRegistry.get(Identifier.of(PartygoerWeaponRules.GRAND_WITCH_RUNTIME_ID));
-                return key == null ? null : key.getNullable(player);
-            } catch (RuntimeException | LinkageError ignored) {
-                return null;
-            }
-        }
-
-        /** The three accessors, or null when SparkWitch changed them. / 三个访问方法；SparkWitch 变更时为 null。 */
-        private static Method[] methods(Class<?> type) {
-            Method[] methods = METHODS.computeIfAbsent(type, owner -> {
-                try {
-                    return new Method[] {
-                            owner.getMethod("getSwordKillCooldownTicks"),
-                            owner.getMethod("isSwordStrikeInProgress"),
-                            owner.getMethod("setSwordKillCooldownTicks", int.class)
-                    };
-                } catch (ReflectiveOperationException | RuntimeException | LinkageError ignored) {
-                    return new Method[0];
-                }
-            });
-            return methods.length == 3 ? methods : null;
         }
     }
 }

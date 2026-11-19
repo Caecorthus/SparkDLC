@@ -240,3 +240,20 @@ tasks.withType(JavaExec).configureEach {
         })
     }
 }
+
+// Per-module verification tasks, ported from the five legacy build scripts. Each script registers its own
+// verify<Module>* tasks plus one aggregate named verify<Module>; verifyAll runs every module's aggregate.
+// 各模块的校验任务，由五份旧构建脚本迁移而来。每个脚本注册自己的 verify<Module>* 任务和一个名为
+// verify<Module> 的汇总任务；verifyAll 运行所有模块的汇总任务。
+def verifyModules = ["factionapi": "FactionApi", "strength": "Strength", "traits": "Traits", "witch": "Witch", "assist": "Assist"]
+verifyModules.each { module, taskInfix ->
+    def script = file("gradle/verify/${module}.gradle")
+    if (script.isFile()) {
+        apply from: script
+    }
+}
+tasks.register("verifyAll") {
+    group = "verification"
+    description = "Runs every module's verify<Module> aggregate."
+    dependsOn verifyModules.values().collect { "verify${it}" }.findAll { tasks.names.contains(it) }
+}

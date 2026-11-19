@@ -1,0 +1,10 @@
+dev.caecorthus.sparkfactionapi==>dev.caecorthus.sparkdlc.factionapi
+dev/caecorthus/sparkfactionapi==>dev/caecorthus/sparkdlc/factionapi
+annina.sparkstrength==>dev.caecorthus.sparkdlc.strength
+annina/sparkstrength==>dev/caecorthus/sparkdlc/strength
+dev.caecorthus.sparktraits==>dev.caecorthus.sparkdlc.traits
+dev/caecorthus/sparktraits==>dev/caecorthus/sparkdlc/traits
+dev.caecorthus.sparkwitch==>dev.caecorthus.sparkdlc.witch
+dev/caecorthus/sparkwitch==>dev/caecorthus/sparkdlc/witch
+dev.caecorthus.sparkassist==>dev.caecorthus.sparkdlc.assist
+dev/caecorthus/sparkassist==>dev/caecorthus/sparkdlc/assist

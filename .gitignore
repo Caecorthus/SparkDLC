@@ -1,0 +1,25 @@
+.DS_Store
+/.gradle/
+.idea/
+/.vscode/
+/build/
+/bin/
+/out/
+/run/
+/logs/
+.worktrees/
+*.iml
+*.log
+*.class
+local.properties
+
+# Architecture notes stay local-only. / 架构笔记只留在本地。
+/ARCHITECTURE.md
+/ARCHITECTURE_LOGS.md
+/ARCHITECTURE LOGS.md
+
+# Local-only test sources and working docs, as in the five legacy repositories. Files already tracked
+# under these paths stay tracked.
+# 与五个旧仓库一致：测试源码和工作文档只留在本地；这些路径下已被 git 跟踪的文件继续跟踪。
+/src/test/
+/docs/local/

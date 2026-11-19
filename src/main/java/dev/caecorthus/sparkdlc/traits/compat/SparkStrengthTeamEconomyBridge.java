@@ -1,50 +1,17 @@
 package dev.caecorthus.sparkdlc.traits.compat;
 
-import net.fabricmc.loader.api.FabricLoader;
-
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import dev.caecorthus.sparkdlc.strength.role.economy.KillerTeamEconomyService;
 
 /**
- * Only an economy provider that applies the contribution bonus makes Team First selectable.
- * 只有支持团队贡献加成的经济提供方才允许抽取团队至上。
+ * Only an economy provider that applies the contribution bonus makes Team First selectable. The modules are fused in
+ * SparkDLC, so SparkStrength's capability probe is asked directly.
+ * 只有支持团队贡献加成的经济提供方才允许抽取团队至上。各模块已融合进 SparkDLC，因此直接询问 SparkStrength 的能力探针。
  */
 public final class SparkStrengthTeamEconomyBridge {
-    private static boolean resolved;
-    private static Method supportsBonus;
-
     private SparkStrengthTeamEconomyBridge() {
     }
 
     public static boolean isAvailable() {
-        resolve();
-        if (supportsBonus == null) {
-            return false;
-        }
-        try {
-            return Boolean.TRUE.equals(supportsBonus.invoke(null));
-        } catch (ReflectiveOperationException | LinkageError | RuntimeException ignored) {
-            return false;
-        }
-    }
-
-    private static synchronized void resolve() {
-        if (resolved) {
-            return;
-        }
-        resolved = true;
-        if (!FabricLoader.getInstance().isModLoaded("sparkstrength")) {
-            return;
-        }
-        try {
-            Method method = Class.forName("dev.caecorthus.sparkdlc.strength.role.economy.KillerTeamEconomyService")
-                    .getMethod("supportsTraitContributionBonus");
-            if (Modifier.isStatic(method.getModifiers()) && method.getReturnType() == boolean.class) {
-                supportsBonus = method;
-            }
-        } catch (ReflectiveOperationException | LinkageError | SecurityException ignored) {
-            // Older or absent providers keep the trait out of the pool without adding a hard dependency.
-            // 旧版或缺失的提供方使该词条退出抽取池，不引入强制依赖。
-        }
+        return KillerTeamEconomyService.supportsTraitContributionBonus();
     }
 }

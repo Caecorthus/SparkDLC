@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.witch.client.blackraven;
 import net.minecraft.entity.player.PlayerEntity;
 import com.google.gson.JsonSyntaxException;
 import com.mojang.blaze3d.systems.RenderSystem;
+import dev.caecorthus.sparkdlc.traits.client.render.DepressionScreenEffects;
 import dev.caecorthus.sparkdlc.witch.SparkWitch;
 import dev.caecorthus.sparkdlc.witch.client.render.WraithClientState;
 import dev.caecorthus.sparkdlc.witch.client.render.WraithVisionRules;
@@ -49,20 +50,30 @@ public final class BlackRavenPerceptionScreenEffects {
         if (processor == null && !SparkWitchServerConnection.isConfirmedServer()) {
             return;
         }
-        // Traits renders the combined pass through our public facade. This gate is independent
-        // of which GameRenderer mixin runs first; querying parameters never renders recursively.
-        if (LastEscapeTraitsVisionBridge.composition(player)[0] >= 0.5f) {
+        // Traits renders the combined pass by calling renderLastEscape directly (the modules are fused in SparkDLC).
+        // This gate is independent of which GameRenderer mixin runs first; querying parameters never renders
+        // recursively, and the neutral answer is a shared array, so nothing is allocated while no escape is active.
+        // Traits 直接调用 renderLastEscape 绘制合成后处理（各模块已融合进 SparkDLC）。此判断与哪个 GameRenderer mixin
+        // 先执行无关；参数查询不会递归渲染，中性结果是共享数组，因此没有脱险时不分配内存。
+        if (DepressionScreenEffects.getLastEscapeComposition(player)[0] >= 0.5f) {
             return;
         }
         renderComposition(player, delta, null);
     }
 
+    /**
+     * Called directly by SparkTraits' {@code LastEscapeWitchBridge} for the sole combined escape pass. Render thread
+     * only. True means a composed pass was actually rendered, not merely supported; false (not the local player, no
+     * escape composition, shader load failure) lets Traits render its fallback. The escape parameters are read-only.
+     * 由 SparkTraits 的 {@code LastEscapeWitchBridge} 直接调用，负责唯一合成的脱险后处理。仅在渲染线程调用；成功执行合成
+     * 后处理才返回 true，返回 false（非本地玩家、无脱险参数、着色器加载失败）时由 Traits 回退渲染。脱险参数只读。
+     */
     public static boolean renderLastEscape(PlayerEntity player, float delta) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (!(player instanceof ClientPlayerEntity localPlayer) || player != client.player || client.world == null) {
             return false;
         }
-        float[] escape = LastEscapeTraitsVisionBridge.composition(player);
+        float[] escape = DepressionScreenEffects.getLastEscapeComposition(player);
         return escape[0] >= 0.5f && renderComposition(localPlayer, delta, escape);
     }
 
@@ -154,7 +165,7 @@ public final class BlackRavenPerceptionScreenEffects {
      * SparkTraits 自行回退绘制）；否则由普通路径的未确认服务端跳过、着色器加载失败与 {@link #resolveVision} 决定。从不渲染。
      */
     public static boolean isActiveFor(ClientPlayerEntity player) {
-        if (LastEscapeTraitsVisionBridge.composition(player)[0] >= 0.5f) {
+        if (DepressionScreenEffects.getLastEscapeComposition(player)[0] >= 0.5f) {
             return true;
         }
         if (processor == null && !SparkWitchServerConnection.isConfirmedServer()) {
@@ -181,7 +192,6 @@ public final class BlackRavenPerceptionScreenEffects {
         }
         closeProcessor();
         loadFailed = false;
-        LastEscapeTraitsVisionBridge.forgetProtocol();
     }
 
     private static PostEffectProcessor ensureProcessor(MinecraftClient client) {

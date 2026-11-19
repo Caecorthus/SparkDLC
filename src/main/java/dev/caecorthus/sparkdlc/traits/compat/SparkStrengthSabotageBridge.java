@@ -1,60 +1,28 @@
 package dev.caecorthus.sparkdlc.traits.compat;
 
-import net.fabricmc.loader.api.FabricLoader;
+import dev.caecorthus.sparkdlc.strength.sabotage.SabotageAccess;
 import net.minecraft.entity.player.PlayerEntity;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-
 /**
- * SparkStrength's tablet sabotage replaced Wathe's shop blackout. When that provider is present, Master Saboteur is
- * offered to players who may sabotage (SparkStrength applies the trait's effects itself); otherwise the shop rule
- * still decides. No hard dependency: an absent or older provider simply answers false.
- * SparkStrength 的平板破坏取代了 Wathe 的商店关灯。存在该提供方时，破坏大师会提供给可以破坏的玩家（词条效果由
- * SparkStrength 自己实现）；否则仍按商店规则判断。无强制依赖：缺失或旧版提供方直接返回 false。
+ * SparkStrength's tablet sabotage replaced Wathe's shop blackout. Master Saboteur is offered to players who may
+ * sabotage (SparkStrength applies the trait's effects itself); the shop rule still covers Wathe's blackout. The
+ * modules are fused in SparkDLC, so the provider is always present and {@link SabotageAccess} is called directly.
+ * SparkStrength 的平板破坏取代了 Wathe 的商店关灯。破坏大师会提供给可以破坏的玩家（词条效果由 SparkStrength 自己实现）；
+ * Wathe 关灯仍由商店规则覆盖。各模块已融合进 SparkDLC，因此该提供方始终存在，这里直接调用 {@link SabotageAccess}。
  */
 public final class SparkStrengthSabotageBridge {
-    private static boolean resolved;
-    private static Method hasSabotageIdentity;
-
     private SparkStrengthSabotageBridge() {
     }
 
     public static boolean canSabotage(PlayerEntity player) {
-        resolve();
-        if (player == null || hasSabotageIdentity == null) {
-            return false;
-        }
-        try {
-            return Boolean.TRUE.equals(hasSabotageIdentity.invoke(null, player));
-        } catch (ReflectiveOperationException | LinkageError | RuntimeException ignored) {
-            return false;
-        }
+        return player != null && SabotageAccess.hasSabotageIdentity(player);
     }
 
-    /** Whether SparkStrength's tablet sabotage is present (it then owns the trait's effects). / SparkStrength 的平板破坏是否存在（存在时由它实现词条效果）。 */
+    /**
+     * Whether SparkStrength's tablet sabotage is present (it then owns the trait's effects); always true in SparkDLC.
+     * SparkStrength 的平板破坏是否存在（存在时由它实现词条效果）；在 SparkDLC 中恒为 true。
+     */
     public static boolean isAvailable() {
-        resolve();
-        return hasSabotageIdentity != null;
-    }
-
-    private static synchronized void resolve() {
-        if (resolved) {
-            return;
-        }
-        resolved = true;
-        if (!FabricLoader.getInstance().isModLoaded("sparkstrength")) {
-            return;
-        }
-        try {
-            Method method = Class.forName("dev.caecorthus.sparkdlc.strength.sabotage.SabotageAccess")
-                    .getMethod("hasSabotageIdentity", PlayerEntity.class);
-            if (Modifier.isStatic(method.getModifiers()) && method.getReturnType() == boolean.class) {
-                hasSabotageIdentity = method;
-            }
-        } catch (ReflectiveOperationException | LinkageError | SecurityException ignored) {
-            // Older providers still sell Wathe's blackout, which the shop rule covers.
-            // 旧版提供方仍出售 Wathe 关灯，由商店规则覆盖。
-        }
+        return true;
     }
 }

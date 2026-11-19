@@ -10,6 +10,7 @@ import dev.caecorthus.sparkdlc.traits.impl.resource.SparkTraitsSounds;
 import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.impostor.ImpostorTrait;
 import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.ConscienceTrait;
 import dev.caecorthus.sparkdlc.traits.mixin.RoleHistoryComponentAccessor;
+import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.factionapi.api.FactionDefinition;
 import dev.caecorthus.sparkdlc.factionapi.api.FactionIds;
 import dev.caecorthus.sparkdlc.factionapi.api.SparkFactionApi;
@@ -29,7 +30,6 @@ import dev.doctor4t.wathe.game.GameFunctions;
 import dev.doctor4t.wathe.game.rotation.GameEntry;
 import dev.doctor4t.wathe.game.rotation.RoleCategory;
 import dev.doctor4t.wathe.index.WatheItems;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -46,11 +46,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import org.agmas.noellesroles.professor.IronManPlayerComponent;
 import org.jetbrains.annotations.Nullable;
-import org.ladysnake.cca.api.v3.component.ComponentKey;
-import org.ladysnake.cca.api.v3.component.ComponentRegistry;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Deque;
@@ -710,57 +706,25 @@ public final class LastStandFinalMomentService {
     }
 
     /**
-     * Optional SparkWitch bridge that avoids a hard compile-time dependency.
-     * 可选 SparkWitch 桥接：不让 SparkTraits 对 SparkWitch 形成硬依赖。
+     * SparkWitch mana bridge. The modules are fused in SparkDLC, so the Witch player component is used directly.
+     * SparkWitch 魔力桥接。各模块已融合进 SparkDLC，因此直接使用魔女玩家组件。
      */
     private static final class SparkWitchManaCompatibility {
-        private static final String SPARKWITCH_MOD_ID = "sparkwitch";
-        private static final Identifier WITCH_PLAYER_COMPONENT_ID = Identifier.of(SPARKWITCH_MOD_ID, "player");
-
-        private static ComponentKey<?> key;
-        private static Method hasManaSystem;
-        private static Method initializeMana;
-        private static Method addMana;
-        private static boolean initialized;
-
         private SparkWitchManaCompatibility() {
         }
 
         static void addMana(ServerPlayerEntity player, int amount) {
-            if (amount <= 0 || !FabricLoader.getInstance().isModLoaded(SPARKWITCH_MOD_ID) || !initialize()) {
+            if (amount <= 0) {
                 return;
             }
-            try {
-                Object component = key.maybeGet(player).orElse(null);
-                if (component == null) {
-                    return;
-                }
-                initializeMethods(component.getClass());
-                if (!Boolean.TRUE.equals(hasManaSystem.invoke(component))) {
-                    initializeMana.invoke(component);
-                }
-                addMana.invoke(component, amount);
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | RuntimeException exception) {
-                SparkTraits.LOGGER.debug("Unable to grant SparkWitch final moment mana", exception);
-            }
-        }
-
-        private static boolean initialize() {
-            if (initialized) {
-                return key != null;
-            }
-            initialized = true;
-            key = ComponentRegistry.get(WITCH_PLAYER_COMPONENT_ID);
-            return key != null;
-        }
-
-        private static void initializeMethods(Class<?> componentClass) throws NoSuchMethodException {
-            if (hasManaSystem != null && hasManaSystem.getDeclaringClass() == componentClass) {
+            WitchPlayerComponent component = WitchPlayerComponent.KEY.maybeGet(player).orElse(null);
+            if (component == null) {
                 return;
             }
-            hasManaSystem = componentClass.getMethod("hasManaSystem");
-            initializeMana = componentClass.getMethod("initializeMana");
-            addMana = componentClass.getMethod("addMana", int.class);
+            if (!component.hasManaSystem()) {
+                component.initializeMana();
+            }
+            component.addMana(amount);
         }
     }
 }

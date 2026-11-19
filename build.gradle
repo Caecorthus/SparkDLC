@@ -46,6 +46,10 @@ sourceSets.gametest {
 
 loom {
     runs {
+        // Same DEBUG_INJECTORS reason as clientAudit below. / 与下方 clientAudit 相同的 DEBUG_INJECTORS 原因。
+        gameTest {
+            vmArg "-Dmixin.debug=false"
+        }
         clientAudit {
             client()
             configName = "Client Audit"

@@ -1,8 +1,8 @@
 # Fresh-clone checks for every PR and every push to main.
-# The local test suite (src/test) is gitignored, so `test` has no sources here and the four local-only
-# architecture contract tests are skipped; run the full suite locally (CONTEXT.md, Verification).
-# 每个 PR 与每次推送 main 时的全新克隆检查。本地测试（src/test）不进 git，因此这里的 `test` 没有源码，
-# 四个仅本地的架构契约测试会被跳过；完整测试仍在本地运行（见 CONTEXT.md 的 Verification）。
+# The local test suite (src/test) is gitignored, so `test` only has the two tracked assist tests here and the
+# local-only contract tests are skipped; run the full suite locally (AGENTS.md, Verification).
+# 每个 PR 与每次推送 main 时的全新克隆检查。本地测试（src/test）不进 git，因此这里的 `test` 只有两个已跟踪的
+# assist 测试，仅本地的契约测试会被跳过；完整测试仍在本地运行（见 AGENTS.md 的 Verification）。
 name: build
 
 on:
@@ -21,7 +21,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       # Depth 2 so the whitespace check can diff against the first parent (the base tip on a PR merge ref).
       # 深度 2，使空白检查能与第一父提交比较（PR 合并引用上即基础分支末端）。
@@ -36,20 +36,22 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v6
 
-      # `build` runs none of the verify tasks, so each is named explicitly. verifyArchitecture brings in
-      # verifyBlackRavenActingRoleSeams and verifySoundAssets.
-      # `build` 不会运行任何校验任务，因此需逐个显式列出。verifyArchitecture 会带上
-      # verifyBlackRavenActingRoleSeams 与 verifySoundAssets。
+      # `build` runs none of the verify tasks, so verifyAll is named explicitly: it runs every module's
+      # verify<Module> aggregate from gradle/verify/.
+      # `build` 不会运行任何校验任务，因此显式指定 verifyAll：它运行 gradle/verify/ 下每个模块的 verify<Module> 汇总任务。
       - name: Build and verify
-        run: >-
-          ./gradlew --no-daemon --console=plain build
-          verifyArchitecture verifyClientMixinSelectors verifyModJarVersion verifyCompatibilityBaselines
+        run: ./gradlew --no-daemon --console=plain build verifyAll
+
+      # Boots a real headless server with all five modules and force-applies every common mixin.
+      # 启动加载全部五个模块的真实无界面服务器，并强制应用所有通用端 mixin。
+      - name: Headless boot test
+        run: ./gradlew --no-daemon --console=plain runGameTest
 
       - name: Whitespace check
         run: git diff --check HEAD^1 HEAD
 
       - uses: actions/upload-artifact@v7
         with:
-          name: sparkwitch-${{ github.sha }}
+          name: sparkdlc-${{ github.sha }}
           path: build/libs/*.jar
           retention-days: 14

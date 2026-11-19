@@ -1,198 +1,47 @@
-plugins {
-    id "fabric-loom" version "1.13-SNAPSHOT"
-    id "maven-publish"
-}
+// Verification tasks of the witch module (formerly the SparkWitch build script), applied by the root build.gradle.
+// Every task carries the `Witch` infix; `verifyWitch` at the bottom runs them all. The root build owns plugins,
+// repositories, dependencies, resources and the jar; this script only verifies.
+// witch 模块的校验任务（原 SparkWitch 构建脚本），由根 build.gradle 应用。所有任务名都带 `Witch` 中缀，文件末尾的
+// `verifyWitch` 汇总运行全部任务。插件、仓库、依赖、资源与 jar 由根构建负责，本脚本只做校验。
 
-version = project.mod_version
-group = project.maven_group
-
-base {
-    archivesName = project.archives_base_name
-}
-
-loom {
-    splitEnvironmentSourceSets()
-
-    mods {
-        "sparkwitch" {
-            sourceSet sourceSets.main
-            sourceSet sourceSets.client
-        }
+// A script applied with `apply from:` does not see the root build's plugin classpath, so the ASM classes the bytecode
+// checks use (Loom brought them along while this was the SparkWitch build script) are declared here.
+// 通过 `apply from:` 应用的脚本看不到根构建的插件类路径，因此字节码校验用到的 ASM 类（本脚本还是 SparkWitch 构建脚本时
+// 由 Loom 附带）在此显式声明。
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.ow2.asm:asm-tree:9.9"
+        classpath "org.ow2.asm:asm-analysis:9.9"
     }
 }
 
-sourceSets.test {
-    compileClasspath += sourceSets.client.output
-    runtimeClasspath += sourceSets.client.output
-}
-
-repositories {
-    mavenCentral()
-    maven {
-        name = "Mojang Libraries"
-        url = "https://libraries.minecraft.net/"
-    }
-    maven {
-        name = "Fabric"
-        url = "https://maven.fabricmc.net/"
-    }
-    maven {
-        name = "Ladysnake Mods"
-        url = "https://maven.ladysnake.org/releases"
-    }
-    maven {
-        name = "Modrinth"
-        url = "https://api.modrinth.com/maven"
-        content {
-            includeGroup "maven.modrinth"
-        }
-    }
-    maven {
-        name = "Xander Maven"
-        url = "https://maven.isxander.dev/releases"
-        content {
-            includeGroup "dev.isxander"
-            includeGroup "org.quiltmc.parsers"
-        }
-    }
-    maven {
-        name = "Terraformers"
-        url = "https://maven.terraformersmc.com/releases/"
-    }
-    maven {
-        name = "Datasync"
-        url = "https://maven.uuid.gg/releases"
-    }
-    maven {
-        name = "Lucko"
-        url = "https://repo.lucko.me/"
-    }
-    maven {
-        name = "Gegy"
-        url = "https://maven.gegy.dev"
-    }
-    maven {
-        // LambDynamicLights API, compile-only (see dependencies). / LambDynamicLights API，仅编译期（见 dependencies）。
-        name = "Gegy Releases"
-        url = "https://maven.gegy.dev/releases"
-        content {
-            includeGroup "dev.lambdaurora.lambdynamiclights"
-        }
-    }
-}
-
-dependencies {
-    def watheJar = file("libs/wathe-${project.wathe_version}.jar")
-    if (!watheJar.isFile()) {
-        throw new GradleException("Missing Wathe dependency jar: ${watheJar}")
-    }
-    def noellesRolesJar = file("libs/noellesroles-${project.noellesroles_version}.jar")
-    if (!noellesRolesJar.isFile()) {
-        throw new GradleException("Missing NoellesRoles dependency jar: ${noellesRolesJar}")
-    }
-    def sparkFactionApiJar = file("libs/sparkfactionapi-${project.sparkfactionapi_version}.jar")
-    if (!sparkFactionApiJar.isFile()) {
-        throw new GradleException("Missing bundled SparkFactionAPI jar: ${sparkFactionApiJar}")
-    }
-
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-    modImplementation files(watheJar)
-    modImplementation files(noellesRolesJar)
-    modImplementation files(sparkFactionApiJar)
-    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}"
-    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}"
-    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-world:${project.cca_version}"
-    modRuntimeOnly "org.ladysnake.cardinal-components-api:cardinal-components-scoreboard:${project.cca_version}"
-    modRuntimeOnly "maven.modrinth:midnightlib:${project.midnightlib_version}"
-    modImplementation("dev.doctor4t:ratatouille:${project.ratatouille_version}") {
-        exclude group: "dev.upcraft.datasync"
-    }
-    modRuntimeOnly "dev.isxander:yet-another-config-lib:${project.yacl_version}"
-    modCompileOnly "maven.modrinth:simple-voice-chat:fabric-${project.minecraft_version}-${project.voicechat_version}"
-    modLocalRuntime "maven.modrinth:simple-voice-chat:fabric-${project.minecraft_version}-${project.voicechat_version}"
-    modRuntimeOnly "dev.upcraft.datasync:datasync-minecraft-1.21.1-fabric:0.10.2"
-    modCompileOnly "me.lucko:fabric-permissions-api:0.3.1"
-    // LambDynamicLights API: compile-only from Gegy's maven, never committed or bundled (the Lambda License forbids
-    // redistributing its binaries). Optional at runtime: only the "lambdynlights:initializer" and legacy
-    // "dynamiclights" entrypoints name client/savior/SaviorDynamicLightsInitializer, so nothing loads the API without
-    // LambDynamicLights. Non-transitive: compiling the initializer needs only the API's own classes.
-    // LambDynamicLights API：仅编译期，从 Gegy maven 获取，绝不提交到仓库或打包进 jar（Lambda License 禁止再分发其二进制）。
-    // 运行时可选：只有 "lambdynlights:initializer" 与旧版 "dynamiclights" 入口指向 client/savior/SaviorDynamicLightsInitializer，
-    // 未安装 LambDynamicLights 时不会加载该 API。不传递依赖：编译该入口类只需要 API 自身的类。
-    modCompileOnly("dev.lambdaurora.lambdynamiclights:lambdynamiclights-api:${project.lambdynlights_version}") {
-        transitive = false
-    }
-    modRuntimeOnly "me.lucko:fabric-permissions-api:0.3.1"
-    testImplementation "org.junit.jupiter:junit-jupiter:5.10.3"
-    testRuntimeOnly "org.junit.platform:junit-platform-launcher"
-}
-
-processResources {
-    inputs.property "version", project.version
-    inputs.property "minecraft_version", project.minecraft_version
-    inputs.property "loader_version", project.loader_version
-    inputs.property "wathe_version", project.wathe_version
-    inputs.property "noellesroles_version", project.noellesroles_version
-    inputs.property "sparkfactionapi_version", project.sparkfactionapi_version
-    inputs.property "cca_version", project.cca_version
-    inputs.property "ratatouille_version", project.ratatouille_version
-
-    filteringCharset "UTF-8"
-
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version,
-                "minecraft_version": project.minecraft_version,
-                "loader_version": project.loader_version,
-                "wathe_version": project.wathe_version,
-                "noellesroles_version": project.noellesroles_version,
-                "sparkfactionapi_version": project.sparkfactionapi_version,
-                "cca_version": project.cca_version,
-                "ratatouille_version": project.ratatouille_version
-    }
-}
-
-tasks.named("jar") {
-    from("LICENSE") {
-        rename { "${it}_${project.base.archivesName.get()}" }
-    }
-    from("LICENSE-TEXTURES.md") {
-        rename { "LICENSE-TEXTURES_${project.base.archivesName.get()}.md" }
-    }
-    from("THIRD_PARTY_NOTICES.md") {
-        into "META-INF"
-    }
-    from("licenses/NoellesRoles-LGPL-3.0-or-later.txt") {
-        into "META-INF/licenses"
-    }
-    from("licenses/StarRailExpress-GPL-3.0-only.txt") {
-        into "META-INF/licenses"
-    }
-}
+def witchMainSources = "src/main/java/dev/caecorthus/sparkdlc/witch"
+def witchClientSources = "src/client/java/dev/caecorthus/sparkdlc/witch"
+def witchLocalTests = "src/test/java/dev/caecorthus/sparkdlc/witch"
 
 def remappedModJar = tasks.named("remapJar")
 def compatibilityReleaseVersion = "2.0.0"
+// The Wathe / NoellesRoles versions the witch mixin contracts below were audited against. The checksums are pinned
+// once for the whole mod in gradle.properties (`wathe_sha256`, `noellesroles_sha256`). SparkFactionAPI is no longer a
+// provider jar: it is the factionapi module of this same source tree, so its baseline row is gone.
+// 下方 witch mixin 契约所审计的 Wathe / NoellesRoles 版本。校验和在 gradle.properties 中为整个 mod 统一固定
+// （`wathe_sha256`、`noellesroles_sha256`）。SparkFactionAPI 不再是提供方 jar：它是同一源码树中的 factionapi 模块，
+// 因此其基线条目已移除。
 def compatibilityBaselines = [
         wathe: [
                 property: "wathe_version",
                 version: "1.5.6-spark-1.21.1",
-                sha256: "a4e0355c61def0b482c197a7ccd1f86ee91752b7af1b5bdafae8716c652f207f",
+                sha256Property: "wathe_sha256",
                 depends: [:]
         ],
         noellesroles: [
                 property: "noellesroles_version",
                 version: "1.7.6-h1.5.6-spark",
-                sha256: "fcb0da6995197afff8637dd9236f96d9d07cfc0e26484ad3777e5cf3de37d8b7",
+                sha256Property: "noellesroles_sha256",
                 depends: [wathe: "1.5.6-spark-1.21.1"]
-        ],
-        sparkfactionapi: [
-                property: "sparkfactionapi_version",
-                version: "2.0.0",
-                sha256: "6eac3fc345a7bdbf7ba4beba9f5342a5e8a120f967bccc1c2f01319a50d59421",
-                depends: [wathe: ">=1.5.6-spark-1.21.1"]
         ]
 ]
 def compatibilityProviderFiles = fileTree("libs") {
@@ -200,7 +49,16 @@ def compatibilityProviderFiles = fileTree("libs") {
         include "${modId}-*.jar"
     }
 }
-def sparkTraitsCompatibilityFloor = "0.1.9.11"
+// Sibling Spark mod ids the witch module needs at runtime. As separate mods these were `depends sparkfactionapi`,
+// `suggests`/`breaks sparktraits` (version floor) and `suggests sparkstrength`; the witch compat bridges still gate
+// on FabricLoader#isModLoaded for these ids, which the fused mod answers through `provides`.
+// witch 模块运行时需要的兄弟 Spark mod id。独立 mod 时期它们是 `depends sparkfactionapi`、对 sparktraits 的
+// `suggests`/`breaks`（版本下限）以及 `suggests sparkstrength`；witch 的兼容桥仍以 FabricLoader#isModLoaded 判断这些 id，
+// 融合后的 mod 通过 `provides` 满足该判断。
+def witchProvidedModIds = ["sparkwitch", "sparkfactionapi", "sparktraits", "sparkstrength"]
+// Public SparkTraits facade the witch bridges reflect by name; it now ships in this same jar.
+// witch 兼容桥按名称反射的 SparkTraits 公共门面；现在随同一个 jar 发布。
+def sparkTraitsApiEntry = "dev/caecorthus/sparkdlc/traits/api/SparkTraitsApi.class"
 
 def sha256 = { File input ->
     java.security.MessageDigest.getInstance("SHA-256")
@@ -1316,7 +1174,9 @@ def annotationValue = { annotation, String key ->
     null
 }
 
-def verifyClientMixinSelectors = tasks.register("verifyClientMixinSelectors") {
+def verifyWitchClientMixinSelectors = tasks.register("verifyWitchClientMixinSelectors") {
+    group = "verification"
+    description = "Checks the witch client and common mixin selectors shipped in the remapped jar against the pinned Wathe/NoellesRoles jars."
     dependsOn remappedModJar
     inputs.file(remappedModJar.flatMap { it.archiveFile })
     inputs.file("libs/wathe-${project.wathe_version}.jar")
@@ -1454,7 +1314,14 @@ def verifyClientMixinSelectors = tasks.register("verifyClientMixinSelectors") {
     }
 }
 
-tasks.register("verifyCompatibilityBaselines") {
+// ADAPT: the Wathe / NoellesRoles baselines stay; the SparkFactionAPI provider jar row, the `depends sparkfactionapi`
+// placeholder and the SparkTraits suggests/breaks floor are gone with the sibling jars (see verifyWitchModJar for
+// what replaces them inside the fused jar).
+// 调整：Wathe / NoellesRoles 基线保留；SparkFactionAPI 提供方 jar 条目、`depends sparkfactionapi` 占位符以及 SparkTraits
+// 的 suggests/breaks 下限随兄弟 jar 一并移除（融合 jar 内的替代校验见 verifyWitchModJar）。
+def verifyWitchCompatibilityBaselines = tasks.register("verifyWitchCompatibilityBaselines") {
+    group = "verification"
+    description = "Checks the Wathe/NoellesRoles provider jars against the witch module's audited baseline and the gradle.properties pins."
     inputs.file("gradle.properties")
     inputs.file("src/main/resources/fabric.mod.json")
     inputs.files(compatibilityBaselines.collect { modId, baseline ->
@@ -1463,6 +1330,8 @@ tasks.register("verifyCompatibilityBaselines") {
     inputs.files(compatibilityProviderFiles)
 
     doLast {
+        // The baseline is confirmed per release; the release is now SparkDLC's own version.
+        // 基线按发布版本确认；发布版本现在是 SparkDLC 自身的版本。
         if (project.mod_version.toString() != compatibilityReleaseVersion) {
             throw new GradleException(
                     "Compatibility release drift: expected ${compatibilityReleaseVersion}, found ${project.mod_version}"
@@ -1491,10 +1360,18 @@ tasks.register("verifyCompatibilityBaselines") {
             if (!providerJar.isFile()) {
                 throw new GradleException("Missing provider baseline jar: ${providerJar}")
             }
-            def actualHash = sha256(providerJar)
-            if (actualHash != baseline.sha256) {
+            // The checksum pin lives in gradle.properties, shared by every module's verify script.
+            // 校验和固定在 gradle.properties 中，由所有模块的校验脚本共用。
+            def expectedHash = project.findProperty(baseline.sha256Property)?.toString()
+            if (!(expectedHash ==~ /[0-9a-f]{64}/)) {
                 throw new GradleException(
-                        "Provider baseline checksum drift for ${providerJar.name}: expected ${baseline.sha256}, found ${actualHash}"
+                        "Missing or malformed ${baseline.sha256Property} pin in gradle.properties: ${expectedHash}"
+                )
+            }
+            def actualHash = sha256(providerJar)
+            if (actualHash != expectedHash) {
+                throw new GradleException(
+                        "Provider baseline checksum drift for ${providerJar.name}: expected ${expectedHash}, found ${actualHash}"
                 )
             }
 
@@ -1536,8 +1413,7 @@ tasks.register("verifyCompatibilityBaselines") {
         }
         [
                 wathe: '${wathe_version}',
-                noellesroles: '${noellesroles_version}',
-                sparkfactionapi: '>=${sparkfactionapi_version}'
+                noellesroles: '${noellesroles_version}'
         ].each { modId, expectedPredicate ->
             def actualPredicate = metadata.depends?.get(modId)?.toString()
             if (actualPredicate != expectedPredicate) {
@@ -1546,44 +1422,18 @@ tasks.register("verifyCompatibilityBaselines") {
                 )
             }
         }
-
-        def expectedSuggests = ">=${sparkTraitsCompatibilityFloor}"
-        def expectedBreaks = "<${sparkTraitsCompatibilityFloor}"
-        if (metadata.suggests?.sparktraits?.toString() != expectedSuggests) {
-            throw new GradleException(
-                    "SparkTraits suggested floor drift: expected ${expectedSuggests}, found ${metadata.suggests?.sparktraits}"
-            )
-        }
-        if (metadata.breaks?.sparktraits?.toString() != expectedBreaks) {
-            throw new GradleException(
-                    "SparkTraits break floor drift: expected ${expectedBreaks}, found ${metadata.breaks?.sparktraits}"
-            )
-        }
     }
 }
 
-// Compare Spark-style numeric versions used by SparkFactionAPI dependency floors.
-// 比较 SparkFactionAPI 依赖下限使用的 Spark 数字版本。
-def versionAtLeast = { String actualVersion, String minimumVersion ->
-    def parse = { String version ->
-        version.tokenize(".").collect { part ->
-            part ==~ /\d+/ ? part.toInteger() : 0
-        }
-    }
-    def actualParts = parse(actualVersion)
-    def minimumParts = parse(minimumVersion)
-    def length = Math.max(actualParts.size(), minimumParts.size())
-    for (int index = 0; index < length; index++) {
-        def actualPart = index < actualParts.size() ? actualParts[index] : 0
-        def minimumPart = index < minimumParts.size() ? minimumParts[index] : 0
-        if (actualPart != minimumPart) {
-            return actualPart > minimumPart
-        }
-    }
-    return true
-}
-
-tasks.register("verifyModJarVersion") {
+// ADAPT: SparkWitch is no longer its own jar. The fused jar is checked for what the witch module still needs from it:
+// the jar/metadata version, the fused client entrypoint starting SparkWitchClient, the witch entrypoints and mixin
+// configs, the Wathe/NoellesRoles/Ratatouille pins, and the sibling ids and SparkTraits facade the witch bridges look up.
+// 调整：SparkWitch 不再是独立 jar。此处校验融合 jar 中 witch 模块仍然依赖的内容：jar 与元数据版本、融合后的客户端入口
+// 会启动 SparkWitchClient、witch 的各入口与 mixin 配置、Wathe/NoellesRoles/Ratatouille 版本固定，以及 witch 兼容桥查找的
+// 兄弟 mod id 与 SparkTraits 门面。
+def verifyWitchModJar = tasks.register("verifyWitchModJar") {
+    group = "verification"
+    description = "Checks the witch module's entrypoints, mixin configs, dependency pins and required classes in the remapped SparkDLC jar."
     dependsOn remappedModJar
     inputs.file(remappedModJar.flatMap { it.archiveFile })
 
@@ -1611,23 +1461,69 @@ tasks.register("verifyModJarVersion") {
                 throw new GradleException("Jar version mismatch: ${jarFile.name} says ${jarVersion}, but fabric.mod.json says ${metadataVersion}")
             }
 
-            def clientEntrypoint = "dev.caecorthus.sparkdlc.witch.client.SparkWitchClient"
-            def clientEntrypoints = metadata.entrypoints?.client ?: []
-            if (!clientEntrypoints.contains(clientEntrypoint)) {
-                throw new GradleException("Missing client entrypoint ${clientEntrypoint} in ${jarFile.name}")
+            if (metadata.id?.toString() != "sparkdlc") {
+                throw new GradleException("Mod id drift in ${jarFile.name}: expected sparkdlc, found ${metadata.id}")
             }
 
-            def voicechatEntrypoint = "dev.caecorthus.sparkdlc.witch.voice.SparkWitchVoiceChatPlugin"
-            def voicechatEntrypoints = metadata.entrypoints?.voicechat ?: []
-            if (!voicechatEntrypoints.contains(voicechatEntrypoint)) {
-                throw new GradleException("Missing voicechat entrypoint ${voicechatEntrypoint} in ${jarFile.name}")
+            // The fused client entrypoint replaces the listed SparkWitchClient and must still start it. The common
+            // SparkWitch initializer is started the same way by the fused main entrypoint.
+            // 融合后的客户端入口取代了原先列出的 SparkWitchClient，且必须仍然启动它；通用端的 SparkWitch 初始化同样由
+            // 融合后的 main 入口启动。
+            [
+                    [key: "main", entrypoint: "dev.caecorthus.sparkdlc.SparkDLC", method: "onInitialize",
+                     moduleOwner: "dev/caecorthus/sparkdlc/witch/SparkWitch"],
+                    [key: "client", entrypoint: "dev.caecorthus.sparkdlc.client.SparkDLCClient",
+                     method: "onInitializeClient",
+                     moduleOwner: "dev/caecorthus/sparkdlc/witch/client/SparkWitchClient"]
+            ].each { fused ->
+                if (!(metadata.entrypoints?.get(fused.key) ?: []).contains(fused.entrypoint)) {
+                    throw new GradleException("Missing ${fused.key} entrypoint ${fused.entrypoint} in ${jarFile.name}")
+                }
+                def entrypointNode = readClassNode(zipFile, fused.entrypoint.replace('.', '/') + ".class")
+                def entrypointMethod = entrypointNode.methods.find { it.name == fused.method && it.desc == "()V" }
+                def startsModule = entrypointMethod != null && entrypointMethod.instructions.toArray().any {
+                    it instanceof org.objectweb.asm.tree.MethodInsnNode && it.owner == fused.moduleOwner
+                            && it.name == fused.method && it.desc == "()V"
+                }
+                if (!startsModule) {
+                    throw new GradleException(
+                            "${fused.entrypoint}#${fused.method} no longer starts ${fused.moduleOwner} in ${jarFile.name}"
+                    )
+                }
+            }
+
+            [
+                    "cardinal-components"      : "dev.caecorthus.sparkdlc.witch.component.SparkWitchComponents",
+                    "voicechat"                : "dev.caecorthus.sparkdlc.witch.voice.SparkWitchVoiceChatPlugin",
+                    "lambdynlights:initializer": "dev.caecorthus.sparkdlc.witch.client.savior.SaviorDynamicLightsInitializer",
+                    "dynamiclights"            : "dev.caecorthus.sparkdlc.witch.client.savior.SaviorDynamicLightsInitializer"
+            ].each { key, entrypoint ->
+                if (!(metadata.entrypoints?.get(key) ?: []).contains(entrypoint)) {
+                    throw new GradleException("Missing ${key} entrypoint ${entrypoint} in ${jarFile.name}")
+                }
+                if (zipFile.getEntry(entrypoint.replace('.', '/') + ".class") == null) {
+                    throw new GradleException("Missing ${key} entrypoint class ${entrypoint} in ${jarFile.name}")
+                }
+            }
+
+            // Both witch mixin configs must stay listed, the client one for the client environment only.
+            // 两份 witch mixin 配置都必须保持列出，其中客户端配置仅限客户端环境。
+            def listedMixins = metadata.mixins ?: []
+            if (!listedMixins.contains("sparkwitch.mixins.json")) {
+                throw new GradleException("sparkwitch.mixins.json is not listed in fabric.mod.json of ${jarFile.name}")
+            }
+            if (!listedMixins.any {
+                it instanceof Map && it.config == "sparkwitch.client.mixins.json" && it.environment == "client"
+            }) {
+                throw new GradleException(
+                        "sparkwitch.client.mixins.json is not listed for the client environment in fabric.mod.json of ${jarFile.name}"
+                )
             }
 
             [
                     "wathe"           : project.wathe_version,
                     "ratatouille"     : project.ratatouille_version,
-                    "noellesroles"    : project.noellesroles_version,
-                    "sparkfactionapi" : ">=${project.sparkfactionapi_version}"
+                    "noellesroles"    : project.noellesroles_version
             ].each { modId, versionPredicate ->
                 def actualPredicate = metadata.depends?.get(modId)?.toString()
                 if (actualPredicate != versionPredicate) {
@@ -1635,36 +1531,27 @@ tasks.register("verifyModJarVersion") {
                 }
             }
 
-            def expectedSparkTraitsSuggests = ">=${sparkTraitsCompatibilityFloor}"
-            def expectedSparkTraitsBreaks = "<${sparkTraitsCompatibilityFloor}"
-            if (metadata.suggests?.sparktraits?.toString() != expectedSparkTraitsSuggests) {
-                throw new GradleException(
-                        "SparkTraits suggestion mismatch in ${jarFile.name}: expected ${expectedSparkTraitsSuggests}, found ${metadata.suggests?.sparktraits}"
-                )
-            }
-            if (metadata.breaks?.sparktraits?.toString() != expectedSparkTraitsBreaks) {
-                throw new GradleException(
-                        "SparkTraits break mismatch in ${jarFile.name}: expected ${expectedSparkTraitsBreaks}, found ${metadata.breaks?.sparktraits}"
-                )
-            }
-
-            def dependencyJar = file("libs/sparkfactionapi-${project.sparkfactionapi_version}.jar")
-            if (!dependencyJar.isFile()) {
-                throw new GradleException("Missing bundled SparkFactionAPI jar: ${dependencyJar}")
-            }
-            def dependencyZip = new java.util.zip.ZipFile(dependencyJar)
-            try {
-                def dependencyEntry = dependencyZip.getEntry("fabric.mod.json")
-                if (dependencyEntry == null) {
-                    throw new GradleException("Missing fabric.mod.json in ${dependencyJar.name}")
+            // Replaces `depends sparkfactionapi`, the SparkTraits suggests/breaks floor and the bundled
+            // SparkFactionAPI jar floor: the sibling modules ship in this jar, so the ids must be provided (the witch
+            // bridges gate on isModLoaded) and must not come back as dependency predicates on this mod itself.
+            // 取代 `depends sparkfactionapi`、SparkTraits 的 suggests/breaks 下限以及内置 SparkFactionAPI jar 的版本下限：
+            // 兄弟模块随本 jar 发布，因此这些 id 必须由 provides 提供（witch 兼容桥以 isModLoaded 判断），且不得再作为
+            // 针对本 mod 自身的依赖谓词出现。
+            def provides = metadata.provides ?: []
+            witchProvidedModIds.each { modId ->
+                if (!provides.contains(modId)) {
+                    throw new GradleException("Missing provided mod id ${modId} in ${jarFile.name}")
                 }
-                def dependencyMetadata = new groovy.json.JsonSlurper().parse(dependencyZip.getInputStream(dependencyEntry))
-                def dependencyVersion = dependencyMetadata.version?.toString()
-                if (!versionAtLeast(dependencyVersion, project.sparkfactionapi_version.toString())) {
-                    throw new GradleException("Bundled SparkFactionAPI ${dependencyVersion} is below required ${project.sparkfactionapi_version}")
+                ["depends", "recommends", "suggests", "conflicts", "breaks"].each { relation ->
+                    if (metadata.get(relation)?.containsKey(modId)) {
+                        throw new GradleException(
+                                "Stale ${relation} entry for the fused module id ${modId} in ${jarFile.name}"
+                        )
+                    }
                 }
-            } finally {
-                dependencyZip.close()
+            }
+            if (zipFile.getEntry(sparkTraitsApiEntry) == null) {
+                throw new GradleException("Missing SparkTraits facade ${sparkTraitsApiEntry} in ${jarFile.name}")
             }
 
             [
@@ -1696,7 +1583,7 @@ tasks.register("verifyModJarVersion") {
 def blackRavenRoleDescriptor = "Ldev/doctor4t/wathe/api/Role;"
 def blackRavenIdentifierDescriptor = "Lnet/minecraft/class_2960;"
 def blackRavenGameWorldOwner = "dev/doctor4t/wathe/cca/GameWorldComponent"
-// Allowed NoellesRoles role constants (the SparkWitch-owned allowed roles are not in the provider jars).
+// Allowed NoellesRoles role constants (the witch-module-owned allowed roles are not in the provider jars).
 // Each *_ID twin is checked too; the mapping itself is re-proven from Noellesroles.<clinit>.
 // 可伪装的 NoellesRoles 职业常量（SparkWitch 自有的可伪装职业不在提供方 jar 中）；同名 *_ID 常量一并检查，
 // 映射关系本身会从 Noellesroles.<clinit> 重新验证。
@@ -1723,7 +1610,9 @@ def blackRavenOverlayTags = ["SELF", "RECIPIENT", "LOCAL", "DEATH", "BEFORE", "T
 def blackRavenGapTags = ["GAP_KIT", "GAP_TASK_MONEY", "GAP_DOOR_NOTICE"]
 def blackRavenSeamKinds = ["isRole", "getAllWithRole", "equals", "idEquals", "acmp"]
 
-def verifyBlackRavenActingRoleSeams = tasks.register("verifyBlackRavenActingRoleSeams") {
+def verifyWitchBlackRavenActingRoleSeams = tasks.register("verifyWitchBlackRavenActingRoleSeams") {
+    group = "verification"
+    description = "Checks every Black Raven acting-role gate in the pinned Wathe/NoellesRoles jars against config/blackraven/acting_role_seams.txt."
     def seamsFile = file("config/blackraven/acting_role_seams.txt")
     inputs.file("libs/wathe-${project.wathe_version}.jar")
     inputs.file("libs/noellesroles-${project.noellesroles_version}.jar")
@@ -1956,9 +1845,11 @@ def verifyBlackRavenActingRoleSeams = tasks.register("verifyBlackRavenActingRole
     }
 }
 
+// The module docs moved from the SparkWitch repository root to docs/witch/.
+// 模块文档已从 SparkWitch 仓库根目录移到 docs/witch/。
 def requiredArchitectureDocs = [
-        "CONTEXT.md",
-        "DOWNSTREAM_MIGRATION_NOTES.md"
+        "docs/witch/CONTEXT.md",
+        "docs/witch/DOWNSTREAM_MIGRATION_NOTES.md"
 ]
 def requiredArchitectureSources = [
         "src/main/java/dev/caecorthus/sparkdlc/witch/api/SparkWitchApi.java",
@@ -1972,18 +1863,20 @@ def requiredArchitectureSources = [
         "src/client/java/dev/caecorthus/sparkdlc/witch/client/render/entity/SecondaryWorldPass.java"
 ]
 // Contract tests for the API and rule classes above. src/test/ is gitignored and local-only, so they are required
-// only in a checkout that has the local test tree; a fresh clone skips them.
+// only in a checkout that has the local test tree; a fresh clone skips them. In SparkDLC src/test/ itself exists on a
+// fresh clone (a few assist tests are tracked), so the condition is the witch module's own test package.
 // 上述 API 与规则类的契约测试。src/test/ 已被 gitignore 且仅存于本地，因此只在拥有本地测试树的检出中要求它们；全新克隆会跳过。
-def localTestTree = file("src/test")
+// 在 SparkDLC 中，全新克隆也存在 src/test/（assist 有少量已跟踪的测试），因此改以 witch 模块自己的测试包是否存在为条件。
+def localTestTree = file(witchLocalTests)
 def localArchitectureTests = [
         "src/test/java/dev/caecorthus/sparkdlc/witch/api/SparkWitchApiTest.java",
         "src/test/java/dev/caecorthus/sparkdlc/witch/roles/civilian/apprentice/abilities/ApprenticeAbilityWindowRulesTest.java",
         "src/test/java/dev/caecorthus/sparkdlc/witch/roles/witch/grandwitch/GrandWitchRulesTest.java"
 ]
-// Entity render protocol (EMF/ETF and animation-pack compatibility, 2026-10-25; CONTEXT.md "Entity render protocol"):
+// Entity render protocol (EMF/ETF and animation-pack compatibility, 2026-10-25; docs/witch/CONTEXT.md "Entity render protocol"):
 // an entity is drawn outside the world's own entity loop only through EntityRedraw, and a second world render runs
 // only inside SecondaryWorldPass.run. Returns the violations in one source file, comments stripped.
-// 实体渲染协议（EMF/ETF 与动画包兼容，2026-10-25；见 CONTEXT.md「Entity render protocol」）：在世界自身的实体循环之外
+// 实体渲染协议（EMF/ETF 与动画包兼容，2026-10-25；见 docs/witch/CONTEXT.md「Entity render protocol」）：在世界自身的实体循环之外
 // 只能经由 EntityRedraw 绘制实体，第二次世界渲染只能在 SecondaryWorldPass.run 内执行。返回单个源文件（已去掉注释）的违规项。
 def entityRenderRedrawOwner = "src/client/java/dev/caecorthus/sparkdlc/witch/client/render/entity/EntityRedraw.java"
 def entityRenderProtocolViolations = { String source, boolean redrawOwner ->
@@ -2024,10 +1917,14 @@ def entityRenderProtocolViolations = { String source, boolean redrawOwner ->
 
 // Minecraft decodes a sound file's FIRST Ogg logical stream with stb_vorbis, so a file whose first stream is not
 // Vorbis (e.g. cover art that ffmpeg re-muxed into a Theora stream) plays silence with no error. Every shipped .ogg
-// must be exactly one Vorbis stream. Runs on a fresh clone (CI).
+// must be exactly one Vorbis stream. Runs on a fresh clone (CI). The asset tree is now shared, so "every shipped .ogg"
+// includes the strength and traits modules' sounds as well.
 // Minecraft 用 stb_vorbis 解码声音文件的第一个 Ogg 逻辑流；若第一个流不是 Vorbis（例如 ffmpeg 把封面重封装成
 // Theora 流），播放时静音且不报错。每个发布的 .ogg 必须恰好是一个 Vorbis 流。全新克隆（CI）上也会运行。
-def verifySoundAssets = tasks.register("verifySoundAssets") {
+// 资源树现在是共用的，因此「每个发布的 .ogg」也包含 strength 与 traits 模块的声音。
+def verifyWitchSoundAssets = tasks.register("verifyWitchSoundAssets") {
+    group = "verification"
+    description = "Checks that every shipped .ogg is exactly one Vorbis stream."
     def soundTree = fileTree("src/main/resources/assets") { include "**/*.ogg" }
     inputs.files(soundTree)
 
@@ -2074,21 +1971,29 @@ def verifySoundAssets = tasks.register("verifySoundAssets") {
     }
 }
 
-tasks.register("verifyArchitecture") {
-    dependsOn verifyBlackRavenActingRoleSeams
-    dependsOn verifySoundAssets
+// The source scans below cover the witch module's own packages only: the rules are SparkWitch's, and the other
+// modules' sources now share src/main/java and src/client/java (the traits module legitimately lives in the very
+// packages the first scan forbids witch code from naming).
+// 下方的源码扫描只覆盖 witch 模块自己的包：这些规则属于 SparkWitch，而其他模块的源码现在共用 src/main/java 与
+// src/client/java（traits 模块本身就位于第一项扫描禁止 witch 代码引用的包中）。
+def witchSourceTrees = [fileTree(witchMainSources), fileTree(witchClientSources)]
+
+def verifyWitchArchitecture = tasks.register("verifyWitchArchitecture") {
+    group = "verification"
+    description = "Checks the witch module's required docs and sources, SparkTraits facade-only rule and entity render protocol."
+    dependsOn verifyWitchBlackRavenActingRoleSeams
+    dependsOn verifyWitchSoundAssets
     inputs.files(requiredArchitectureDocs.collect { file(it) })
     inputs.files(requiredArchitectureSources.collect { file(it) })
     inputs.files(localArchitectureTests.collect { file(it) })
-    inputs.files(fileTree("src/main/java") { include "**/*.java" })
-    inputs.files(fileTree("src/client/java") { include "**/*.java" })
+    inputs.files(witchSourceTrees.collect { it.matching { include "**/*.java" } })
 
     doLast {
         def requiredPaths = requiredArchitectureDocs + requiredArchitectureSources
         if (localTestTree.isDirectory()) {
             requiredPaths += localArchitectureTests
         } else {
-            logger.lifecycle("No local src/test tree: skipped ${localArchitectureTests.size()} local-only architecture contract tests.")
+            logger.lifecycle("No local ${witchLocalTests} tree: skipped ${localArchitectureTests.size()} local-only architecture contract tests.")
         }
         requiredPaths.each { path ->
             if (!file(path).isFile()) {
@@ -2096,13 +2001,15 @@ tasks.register("verifyArchitecture") {
             }
         }
 
-        // Optional SparkTraits integration may reflect its public facade, never internal implementation packages.
-        // 可选 SparkTraits 集成只能反射公共门面，不能反射内部实现包。
+        // SparkTraits integration may reflect its public facade, never internal implementation packages. The traits
+        // module is now in the same source tree, so this also keeps witch code from importing them directly.
+        // SparkTraits 集成只能反射公共门面，不能反射内部实现包。traits 模块现在位于同一源码树，因此这条规则同样阻止
+        // witch 代码直接 import 这些包。
         def forbiddenSparkTraitsTargets = [
                 "dev.caecorthus.sparkdlc.traits.impl",
                 "dev.caecorthus.sparkdlc.traits.component"
         ]
-        [fileTree("src/main/java"), fileTree("src/client/java")].each { sourceTree ->
+        witchSourceTrees.each { sourceTree ->
             sourceTree.matching { include "**/*.java" }.files.each { sourceFile ->
                 def sourceText = sourceFile.getText("UTF-8")
                 forbiddenSparkTraitsTargets.each { target ->
@@ -2117,7 +2024,7 @@ tasks.register("verifyArchitecture") {
 
         // Entity render protocol: see entityRenderProtocolViolations above.
         // 实体渲染协议：见上方 entityRenderProtocolViolations。
-        [fileTree("src/main/java"), fileTree("src/client/java")].each { sourceTree ->
+        witchSourceTrees.each { sourceTree ->
             sourceTree.matching { include "**/*.java" }.files.each { sourceFile ->
                 def relative = project.relativePath(sourceFile).replace(File.separatorChar, '/' as char)
                 def violations = entityRenderProtocolViolations(sourceFile.getText("UTF-8"),
@@ -2127,43 +2034,22 @@ tasks.register("verifyArchitecture") {
                             + violations.join("; ") + ". Draw entities again only through "
                             + "client/render/entity/EntityRedraw (or reuse EntityModelCapture geometry), run a "
                             + "second world render inside SecondaryWorldPass.run, and build hand-posed models from "
-                            + "their TexturedModelData; see CONTEXT.md.")
+                            + "their TexturedModelData; see docs/witch/CONTEXT.md.")
                 }
             }
         }
     }
 }
 
-def targetJavaVersion = 21
-tasks.withType(JavaCompile).configureEach {
-    it.options.encoding = "UTF-8"
-    it.options.release.set(targetJavaVersion)
-}
-
-tasks.test {
-    useJUnitPlatform()
-}
-
-tasks.named("check") {
-    setDependsOn([])
-}
-
-
-java {
-    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
-    sourceCompatibility = javaVersion
-    targetCompatibility = javaVersion
-    if (JavaVersion.current() < javaVersion) {
-        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
-    }
-    withSourcesJar()
-}
-
-tasks.withType(JavaExec).configureEach {
-    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
-    if (JavaVersion.current() < javaVersion) {
-        javaLauncher.set(javaToolchains.launcherFor {
-            languageVersion = JavaLanguageVersion.of(targetJavaVersion)
-        })
-    }
+// Aggregate for the witch module; the root build's verifyAll depends on it.
+// witch 模块的汇总任务；根构建的 verifyAll 依赖它。
+tasks.register("verifyWitch") {
+    group = "verification"
+    description = "Runs every witch-module verify task."
+    dependsOn verifyWitchClientMixinSelectors
+    dependsOn verifyWitchCompatibilityBaselines
+    dependsOn verifyWitchModJar
+    dependsOn verifyWitchBlackRavenActingRoleSeams
+    dependsOn verifyWitchSoundAssets
+    dependsOn verifyWitchArchitecture
 }

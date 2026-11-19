@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.bodyguard;
 
-import dev.caecorthus.sparkdlc.strength.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkStrengthItems;
 import net.minecraft.client.network.ClientPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

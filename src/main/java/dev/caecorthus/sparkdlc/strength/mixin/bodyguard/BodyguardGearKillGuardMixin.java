@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.bodyguard;
 
-import dev.caecorthus.sparkdlc.strength.role.bodyguard.BodyguardProtectionService;
+import dev.caecorthus.sparkdlc.role.civilian.bodyguard.BodyguardProtectionService;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;

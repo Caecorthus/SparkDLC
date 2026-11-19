@@ -1,10 +1,10 @@
 package dev.caecorthus.sparkdlc.strength.mixin.wathe;
 
-import dev.caecorthus.sparkdlc.strength.item.m67.M67ShopService;
-import dev.caecorthus.sparkdlc.strength.role.bartender.BartenderShopService;
-import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DroneShopService;
-import dev.caecorthus.sparkdlc.strength.role.perfumer.PerfumerShopService;
-import dev.caecorthus.sparkdlc.strength.sabotage.SabotageShopFilter;
+import dev.caecorthus.sparkdlc.item.m67.M67ShopService;
+import dev.caecorthus.sparkdlc.role.civilian.bartender.BartenderShopService;
+import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneShopService;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerShopService;
+import dev.caecorthus.sparkdlc.sabotage.SabotageShopFilter;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.doctor4t.wathe.util.ShopEntry;

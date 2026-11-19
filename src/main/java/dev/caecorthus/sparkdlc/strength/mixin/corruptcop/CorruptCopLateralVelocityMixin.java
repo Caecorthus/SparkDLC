@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.mixin.corruptcop;
 
-import dev.caecorthus.sparkdlc.strength.component.corruptcop.CorruptCopAbilityComponent;
-import dev.caecorthus.sparkdlc.strength.role.corruptcop.CorruptCopRules;
+import dev.caecorthus.sparkdlc.role.jiahao.corruptcop.CorruptCopAbilityComponent;
+import dev.caecorthus.sparkdlc.role.jiahao.corruptcop.CorruptCopRules;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;

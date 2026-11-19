@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.ferryman;
 
-import dev.caecorthus.sparkdlc.witch.roles.neutral.ferryman.FerrymanFeignService;
+import dev.caecorthus.sparkdlc.role.neutral.ferryman.FerrymanFeignService;
 import net.minecraft.network.packet.c2s.play.SpectatorTeleportC2SPacket;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;

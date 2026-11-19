@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.KnifeKnockbackService;
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.KillerWeaponTags;
+import dev.caecorthus.sparkdlc.trait.killer.KnifeKnockbackService;
+import dev.caecorthus.sparkdlc.trait.killer.KillerWeaponTags;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.attribute.EntityAttributes;

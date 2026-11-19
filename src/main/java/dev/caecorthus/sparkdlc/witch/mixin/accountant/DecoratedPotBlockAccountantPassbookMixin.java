@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.accountant;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.accountant.AccountantPassbookService;
+import dev.caecorthus.sparkdlc.role.civilian.accountant.AccountantPassbookService;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DecoratedPotBlock;
 import net.minecraft.entity.player.PlayerEntity;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.undercover;
 
-import dev.caecorthus.sparkdlc.strength.role.undercover.UndercoverRoleRules;
+import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverRoleRules;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import dev.doctor4t.wathe.api.Role;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.timekeeper;
 
-import dev.caecorthus.sparkdlc.strength.client.role.timekeeper.TimekeeperWatchClientHooks;
+import dev.caecorthus.sparkdlc.client.role.civilian.timekeeper.TimekeeperWatchClientHooks;
 import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

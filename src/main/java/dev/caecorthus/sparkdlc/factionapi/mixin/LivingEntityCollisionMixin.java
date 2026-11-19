@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.factionapi.mixin;
 
-import dev.caecorthus.sparkdlc.factionapi.impl.collision.EntityCollisionExemptions;
+import dev.caecorthus.sparkdlc.faction.collision.EntityCollisionExemptions;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;

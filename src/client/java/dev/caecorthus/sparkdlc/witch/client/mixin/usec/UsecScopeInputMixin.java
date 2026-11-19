@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.usec;
 
-import dev.caecorthus.sparkdlc.witch.client.usec.UsecScopeInput;
+import dev.caecorthus.sparkdlc.client.role.civilian.usec.UsecScopeInput;
 import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

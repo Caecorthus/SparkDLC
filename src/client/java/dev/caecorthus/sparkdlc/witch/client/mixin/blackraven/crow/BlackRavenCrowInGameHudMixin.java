@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.blackraven.crow;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.witch.client.blackraven.crow.BlackRavenCrowHud;
-import dev.caecorthus.sparkdlc.witch.client.blackraven.crow.BlackRavenCrowPilotClient;
+import dev.caecorthus.sparkdlc.client.role.killer.blackraven.crow.BlackRavenCrowHud;
+import dev.caecorthus.sparkdlc.client.role.killer.blackraven.crow.BlackRavenCrowPilotClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.RenderTickCounter;

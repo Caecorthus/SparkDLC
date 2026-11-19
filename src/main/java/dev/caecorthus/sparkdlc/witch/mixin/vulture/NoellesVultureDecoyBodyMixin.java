@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.mixin.vulture;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.compat.NoellesVultureDecoyGuard;
+import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesVultureDecoyGuard;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
 import java.util.List;
 import java.util.function.Predicate;

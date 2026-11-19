@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.factionapi.mixin.nativefaction;
 
-import dev.caecorthus.sparkdlc.factionapi.impl.nativefaction.NativeWatheFactionDeclarations;
-import dev.caecorthus.sparkdlc.factionapi.impl.nativefaction.NativeWatheFactions;
+import dev.caecorthus.sparkdlc.faction.nativefaction.NativeWatheFactionDeclarations;
+import dev.caecorthus.sparkdlc.faction.nativefaction.NativeWatheFactions;
 import dev.doctor4t.wathe.api.Faction;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

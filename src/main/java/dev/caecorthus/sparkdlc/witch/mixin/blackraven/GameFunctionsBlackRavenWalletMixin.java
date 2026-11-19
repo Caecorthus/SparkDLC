@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.mixin.blackraven;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.disguise.BlackRavenDisguiseEconomy;
+import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.BlackRavenDisguiseEconomy;
 import dev.doctor4t.wathe.cca.PlayerShopComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import org.spongepowered.asm.mixin.Mixin;

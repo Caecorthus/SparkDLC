@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.veteran;
 
-import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranKnifeService;
+import dev.caecorthus.sparkdlc.role.civilian.veteran.VeteranKnifeService;
 import dev.doctor4t.wathe.util.KnifeStabPayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.spongepowered.asm.mixin.Mixin;

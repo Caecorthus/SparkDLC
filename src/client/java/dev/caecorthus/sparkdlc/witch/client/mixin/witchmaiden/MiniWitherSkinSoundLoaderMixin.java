@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.witchmaiden;
 
-import dev.caecorthus.sparkdlc.witch.client.witchmaiden.skin.sound.MiniWitherSoundOverrides;
+import dev.caecorthus.sparkdlc.client.role.killer.witchmaiden.skin.sound.MiniWitherSoundOverrides;
 import net.minecraft.client.sound.SoundLoader;
 import net.minecraft.client.sound.StaticSound;
 import net.minecraft.util.Identifier;

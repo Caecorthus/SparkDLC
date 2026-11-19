@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.serialkiller;
 
-import dev.caecorthus.sparkdlc.strength.role.serialkiller.SerialPistolInventoryRules;
+import dev.caecorthus.sparkdlc.role.killer.serialkiller.SerialPistolInventoryRules;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

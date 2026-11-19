@@ -1,10 +1,10 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.bomber;
 
-import dev.caecorthus.sparkdlc.strength.client.world.LoadedEntities;
-import dev.caecorthus.sparkdlc.strength.entity.DroneEntity;
-import dev.caecorthus.sparkdlc.strength.entity.PartygoerEntity;
-import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DroneHitGeometry;
-import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerHitGeometry;
+import dev.caecorthus.sparkdlc.client.world.LoadedEntities;
+import dev.caecorthus.sparkdlc.entity.DroneEntity;
+import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
+import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneHitGeometry;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerHitGeometry;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.doctor4t.wathe.client.gui.CrosshairRenderer;

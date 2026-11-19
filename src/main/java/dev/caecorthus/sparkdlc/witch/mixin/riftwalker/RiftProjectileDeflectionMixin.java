@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.witch.mixin.riftwalker;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.gate.RiftGateEntity;
+import dev.caecorthus.sparkdlc.role.witch.riftwalker.gate.RiftGateEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;

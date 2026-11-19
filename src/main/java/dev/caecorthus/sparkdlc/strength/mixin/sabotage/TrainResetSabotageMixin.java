@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.sabotage;
 
-import dev.caecorthus.sparkdlc.strength.sabotage.SabotageService;
+import dev.caecorthus.sparkdlc.sabotage.SabotageService;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.server.world.ServerWorld;
 import org.spongepowered.asm.mixin.Mixin;

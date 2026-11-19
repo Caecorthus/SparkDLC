@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.morphling;
 
-import dev.caecorthus.sparkdlc.strength.client.role.morphling.MorphlingAppearanceClientHelper;
+import dev.caecorthus.sparkdlc.client.role.killer.morphling.MorphlingAppearanceClientHelper;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;

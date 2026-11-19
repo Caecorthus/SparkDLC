@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.witch.mixin.ferryman;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.hiro.returning.HiroFakeBodies;
-import dev.caecorthus.sparkdlc.witch.roles.neutral.ferryman.FerrymanFeignService;
-import dev.caecorthus.sparkdlc.witch.roles.neutral.ferryman.FerrymanMercyService;
+import dev.caecorthus.sparkdlc.role.killer.hiro.returning.HiroFakeBodies;
+import dev.caecorthus.sparkdlc.role.neutral.ferryman.FerrymanFeignService;
+import dev.caecorthus.sparkdlc.role.neutral.ferryman.FerrymanMercyService;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
 import dev.doctor4t.wathe.item.BodyBagItem;
 import net.minecraft.entity.LivingEntity;

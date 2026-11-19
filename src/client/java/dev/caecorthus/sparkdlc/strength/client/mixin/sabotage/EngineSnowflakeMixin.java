@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.sabotage;
 
-import dev.caecorthus.sparkdlc.strength.client.sabotage.EngineTrainMotion;
+import dev.caecorthus.sparkdlc.client.sabotage.EngineTrainMotion;
 import dev.doctor4t.wathe.client.particle.SnowflakeParticle;
 import net.minecraft.client.particle.SpriteBillboardParticle;
 import net.minecraft.client.particle.SpriteProvider;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.input;
 
-import dev.caecorthus.sparkdlc.strength.client.input.ClientKeyGate;
+import dev.caecorthus.sparkdlc.client.input.ClientKeyGate;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;

@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.m1903a4;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.SparkWitchItems;
-import dev.caecorthus.sparkdlc.witch.client.m1903a4.M1903A4FirstPersonRules;
+import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.client.item.m1903a4.M1903A4FirstPersonRules;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.item.HeldItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;

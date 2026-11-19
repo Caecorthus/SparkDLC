@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.blackraven;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.disguise.BlackRavenDisguiseService;
+import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.BlackRavenDisguiseService;
 import net.minecraft.network.packet.c2s.play.ClickSlotC2SPacket;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;

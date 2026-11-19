@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.potiongunner;
 
-import dev.caecorthus.sparkdlc.witch.roles.witch.potiongunner.PotionGunnerInventoryRules;
+import dev.caecorthus.sparkdlc.role.witch.potiongunner.PotionGunnerInventoryRules;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

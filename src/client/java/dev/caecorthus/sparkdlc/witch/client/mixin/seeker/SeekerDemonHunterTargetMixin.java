@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.seeker;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.hit.SeekerDeviceRaycast;
+import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceRaycast;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.hit.HitResult;
 import org.agmas.noellesroles.client.demonhunter.DemonHunterClientHelper;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
-import dev.caecorthus.sparkdlc.witch.client.render.WraithSteveProjection;
+import dev.caecorthus.sparkdlc.client.render.WraithSteveProjection;
 import org.agmas.noellesroles.scavenger.HiddenBodiesWorldComponent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

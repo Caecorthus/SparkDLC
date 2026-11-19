@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.compat.cooldown.SparkWitchItemCooldownReleases;
+import dev.caecorthus.sparkdlc.cooldown.provider.SparkWitchItemCooldownReleases;
 import dev.caecorthus.sparkdlc.witch.mixin.accessor.ServerItemCooldownManagerAccessor;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.item.Item;

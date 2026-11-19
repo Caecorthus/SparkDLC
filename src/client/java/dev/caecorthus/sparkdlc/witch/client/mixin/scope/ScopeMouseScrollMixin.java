@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.scope;
 
-import dev.caecorthus.sparkdlc.witch.client.scope.ScopeRules;
-import dev.caecorthus.sparkdlc.witch.client.scope.ScopeRuntime;
+import dev.caecorthus.sparkdlc.client.scope.ScopeRules;
+import dev.caecorthus.sparkdlc.client.scope.ScopeRuntime;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.Mouse;
 import org.objectweb.asm.Opcodes;

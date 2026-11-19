@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.impostor.ImpostorTimekeeperService;
+import dev.caecorthus.sparkdlc.trait.civilian.impostor.ImpostorTimekeeperService;
 import dev.doctor4t.wathe.cca.GameTimeComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;

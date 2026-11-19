@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.client.mixin;
 
-import dev.caecorthus.sparkdlc.traits.client.hud.DepressionHud;
-import dev.caecorthus.sparkdlc.traits.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.client.trait.hud.DepressionHud;
+import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;

@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.witch.mixin.blackraven;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.crow.BlackRavenCrowEntity;
-import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.crow.BlackRavenCrowStreaming;
+import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowEntity;
+import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowStreaming;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerChunkLoadingManager;
 import net.minecraft.util.math.ChunkPos;

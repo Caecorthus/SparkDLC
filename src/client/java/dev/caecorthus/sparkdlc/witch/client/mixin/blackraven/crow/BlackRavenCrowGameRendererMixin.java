@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.blackraven.crow;
 
-import dev.caecorthus.sparkdlc.witch.client.blackraven.crow.BlackRavenCrowPilotClient;
+import dev.caecorthus.sparkdlc.client.role.killer.blackraven.crow.BlackRavenCrowPilotClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
 import org.spongepowered.asm.mixin.Final;

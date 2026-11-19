@@ -2,9 +2,9 @@ package dev.caecorthus.sparkdlc.witch.client.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.client.render.WraithClientState;
-import dev.caecorthus.sparkdlc.witch.client.render.WraithSteveProjection;
-import dev.caecorthus.sparkdlc.witch.client.vendetta.VendettaClientPresentation;
+import dev.caecorthus.sparkdlc.client.render.WraithClientState;
+import dev.caecorthus.sparkdlc.client.render.WraithSteveProjection;
+import dev.caecorthus.sparkdlc.client.role.civilian.vendetta.VendettaClientPresentation;
 import dev.doctor4t.wathe.api.event.CanSeeBodyRole;
 import dev.doctor4t.wathe.api.event.ShouldShowCohort;
 import dev.doctor4t.wathe.client.gui.RoleNameRenderer;

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.impl.compatibility.noellesroles.SilencedKillerRestrictionService;
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.escape.LastEscapeService;
+import dev.caecorthus.sparkdlc.trait.compat.noellesroles.SilencedKillerRestrictionService;
+import dev.caecorthus.sparkdlc.trait.killer.escape.LastEscapeService;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.agmas.noellesroles.demonhunter.DemonHunterShootC2SPacket;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.hiro;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.hiro.returning.HiroVictimFeignService;
+import dev.caecorthus.sparkdlc.role.killer.hiro.returning.HiroVictimFeignService;
 import net.minecraft.network.packet.c2s.play.SpectatorTeleportC2SPacket;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.specter;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.specter.SpecterPeachwoodService;
+import dev.caecorthus.sparkdlc.role.killer.specter.SpecterPeachwoodService;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DecoratedPotBlock;
 import net.minecraft.entity.player.PlayerEntity;

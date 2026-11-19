@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.blackraven.crow;
 
-import dev.caecorthus.sparkdlc.witch.client.blackraven.crow.BlackRavenCrowBodyVisibility;
+import dev.caecorthus.sparkdlc.client.role.killer.blackraven.crow.BlackRavenCrowBodyVisibility;
 import net.minecraft.client.render.Frustum;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.entity.Entity;

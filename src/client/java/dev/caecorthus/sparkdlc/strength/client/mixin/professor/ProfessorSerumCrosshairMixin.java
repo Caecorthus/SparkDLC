@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.professor;
 
-import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumRules;
-import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumType;
+import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumRules;
+import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumType;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.doctor4t.wathe.client.gui.CrosshairRenderer;

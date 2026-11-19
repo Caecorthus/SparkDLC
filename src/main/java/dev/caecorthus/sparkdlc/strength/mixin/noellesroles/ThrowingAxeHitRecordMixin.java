@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.noellesroles;
 
-import dev.caecorthus.sparkdlc.strength.record.AchievementRecords;
+import dev.caecorthus.sparkdlc.record.AchievementRecords;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.server.network.ServerPlayerEntity;

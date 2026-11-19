@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.spiritualist;
 
-import dev.caecorthus.sparkdlc.strength.client.role.spiritualist.SpiritPossessionClient;
+import dev.caecorthus.sparkdlc.client.role.civilian.spiritualist.SpiritPossessionClient;
 import net.minecraft.client.MinecraftClient;
 import org.agmas.noellesroles.client.spiritualist.SpiritCameraHandler;
 import org.spongepowered.asm.mixin.Mixin;

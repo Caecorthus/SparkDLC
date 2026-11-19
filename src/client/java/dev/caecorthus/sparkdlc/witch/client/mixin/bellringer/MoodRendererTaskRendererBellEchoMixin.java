@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.bellringer;
 
-import dev.caecorthus.sparkdlc.witch.client.bellringer.BellEchoTaskLine;
+import dev.caecorthus.sparkdlc.client.role.killer.bellringer.BellEchoTaskLine;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;

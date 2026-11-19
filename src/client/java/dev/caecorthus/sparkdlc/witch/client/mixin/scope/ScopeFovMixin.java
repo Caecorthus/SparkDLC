@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.scope;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import dev.caecorthus.sparkdlc.witch.client.scope.ScopeRuntime;
+import dev.caecorthus.sparkdlc.client.scope.ScopeRuntime;
 import net.minecraft.client.render.GameRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

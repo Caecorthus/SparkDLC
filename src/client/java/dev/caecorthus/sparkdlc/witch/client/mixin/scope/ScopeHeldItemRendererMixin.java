@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.scope;
 
-import dev.caecorthus.sparkdlc.witch.client.scope.ScopeRuntime;
+import dev.caecorthus.sparkdlc.client.scope.ScopeRuntime;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.HeldItemRenderer;

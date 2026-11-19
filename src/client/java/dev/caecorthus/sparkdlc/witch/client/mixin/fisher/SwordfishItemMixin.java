@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.fisher;
 
-import dev.caecorthus.sparkdlc.witch.client.fisher.SwordfishClientUse;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.fisher.swordfish.SwordfishItem;
+import dev.caecorthus.sparkdlc.client.role.civilian.fisher.SwordfishClientUse;
+import dev.caecorthus.sparkdlc.role.civilian.fisher.swordfish.SwordfishItem;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;

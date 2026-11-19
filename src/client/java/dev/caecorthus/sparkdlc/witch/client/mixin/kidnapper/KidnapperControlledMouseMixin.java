@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.kidnapper;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.kidnapper.KidnapperControlComponent;
+import dev.caecorthus.sparkdlc.role.killer.kidnapper.KidnapperControlComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.Mouse;

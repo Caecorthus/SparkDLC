@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaTerminalService;
+import dev.caecorthus.sparkdlc.role.civilian.emma.EmmaTerminalService;
 import dev.doctor4t.wathe.api.event.KillPlayer;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.server.network.ServerPlayerEntity;

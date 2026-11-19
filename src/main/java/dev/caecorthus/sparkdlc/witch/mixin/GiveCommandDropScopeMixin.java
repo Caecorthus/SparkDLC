@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.util.GiveCommandDropScope;
+import dev.caecorthus.sparkdlc.util.GiveCommandDropScope;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.command.GiveCommand;

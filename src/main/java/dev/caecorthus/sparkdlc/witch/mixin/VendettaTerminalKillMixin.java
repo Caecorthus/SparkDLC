@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsKillerBridge;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.vendetta.VendettaTerminalService;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.vendetta.VendettaDisconnectService;
+import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaTerminalService;
+import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaDisconnectService;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;

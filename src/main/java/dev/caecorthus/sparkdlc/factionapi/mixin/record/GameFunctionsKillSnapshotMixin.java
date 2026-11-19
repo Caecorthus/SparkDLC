@@ -2,9 +2,9 @@ package dev.caecorthus.sparkdlc.factionapi.mixin.record;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.factionapi.impl.record.DeathRecordEnricher;
-import dev.caecorthus.sparkdlc.factionapi.impl.record.DeathSnapshot;
-import dev.caecorthus.sparkdlc.factionapi.impl.record.PlayerScopeStack;
+import dev.caecorthus.sparkdlc.record.DeathRecordEnricher;
+import dev.caecorthus.sparkdlc.record.DeathSnapshot;
+import dev.caecorthus.sparkdlc.record.PlayerScopeStack;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.bomber;
 
-import dev.caecorthus.sparkdlc.strength.role.bomber.TimedBombMarkerSync;
+import dev.caecorthus.sparkdlc.role.killer.bomber.TimedBombMarkerSync;
 import net.minecraft.server.network.ChunkDataSender;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.world.ServerWorld;

@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.windspirit.WindSpiritRules;
-import dev.caecorthus.sparkdlc.witch.roles.killer.saboteur.SaboteurRules;
-import dev.caecorthus.sparkdlc.witch.roles.witch.curser.CurserFeatureService;
-import dev.caecorthus.sparkdlc.witch.roles.special.wraith.WraithStateService;
+import dev.caecorthus.sparkdlc.role.civilian.windspirit.WindSpiritRules;
+import dev.caecorthus.sparkdlc.role.killer.saboteur.SaboteurRules;
+import dev.caecorthus.sparkdlc.role.witch.curser.CurserFeatureService;
+import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.doctor4t.wathe.cca.PlayerShopComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.player.PlayerEntity;

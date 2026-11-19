@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.bomber;
 
-import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DronePilotService;
+import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DronePilotService;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;

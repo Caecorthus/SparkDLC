@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.hunter;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.DoubleBarrelShotgunItem;
+import dev.caecorthus.sparkdlc.role.killer.hunter.DoubleBarrelShotgunItem;
 import dev.doctor4t.wathe.util.GunShootPayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.spongepowered.asm.mixin.Mixin;

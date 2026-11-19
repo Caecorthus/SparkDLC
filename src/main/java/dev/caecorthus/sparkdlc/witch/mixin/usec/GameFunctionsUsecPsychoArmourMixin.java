@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.witch.mixin.usec;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.usec.UsecRules;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.usec.UsecShieldPierce;
+import dev.caecorthus.sparkdlc.role.civilian.usec.UsecRules;
+import dev.caecorthus.sparkdlc.role.civilian.usec.UsecShieldPierce;
 import dev.doctor4t.wathe.cca.PlayerPsychoComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import dev.doctor4t.wathe.index.WatheSounds;

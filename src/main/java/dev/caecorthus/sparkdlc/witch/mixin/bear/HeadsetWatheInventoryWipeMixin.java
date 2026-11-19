@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.bear;
 
-import dev.caecorthus.sparkdlc.witch.headset.HeadsetLifecycle;
+import dev.caecorthus.sparkdlc.headset.HeadsetLifecycle;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.usec;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import dev.caecorthus.sparkdlc.witch.client.usec.UsecCrosshairTargeting;
+import dev.caecorthus.sparkdlc.client.role.civilian.usec.UsecCrosshairTargeting;
 import dev.doctor4t.wathe.client.gui.CrosshairRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;

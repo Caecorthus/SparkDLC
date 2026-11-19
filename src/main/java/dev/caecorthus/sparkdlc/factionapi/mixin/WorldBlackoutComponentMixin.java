@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.factionapi.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.factionapi.impl.blackout.FactionBlackoutRules;
+import dev.caecorthus.sparkdlc.faction.blackout.FactionBlackoutRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.WorldBlackoutComponent;
 import net.minecraft.entity.player.PlayerEntity;

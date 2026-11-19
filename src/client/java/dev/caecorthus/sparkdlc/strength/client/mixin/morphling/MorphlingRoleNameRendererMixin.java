@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.morphling;
 
-import dev.caecorthus.sparkdlc.strength.client.role.morphling.MorphlingAppearanceClientHelper;
+import dev.caecorthus.sparkdlc.client.role.killer.morphling.MorphlingAppearanceClientHelper;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.doctor4t.wathe.client.gui.RoleNameRenderer;

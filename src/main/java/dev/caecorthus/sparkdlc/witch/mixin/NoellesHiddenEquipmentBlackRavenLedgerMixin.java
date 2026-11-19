@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.BlackRavenLedgerEquipmentFilter;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.vendetta.VendettaKnifeEquipmentFilter;
+import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenLedgerEquipmentFilter;
+import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaKnifeEquipmentFilter;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.s2c.play.EntityEquipmentUpdateS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;

@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.traits.client.mixin;
 
-import dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.traits.client.render.PigPlayerRenderer;
-import dev.caecorthus.sparkdlc.traits.impl.traits.global.pig.PigTraitService;
-import dev.caecorthus.sparkdlc.traits.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.client.trait.render.PigPlayerRenderer;
+import dev.caecorthus.sparkdlc.trait.global.pig.PigTraitService;
+import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;

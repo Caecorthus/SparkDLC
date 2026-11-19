@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.factionapi.mixin.compat.sparkstrength;
 
-import dev.caecorthus.sparkdlc.factionapi.impl.target.PlayerAffectMixinGuard;
+import dev.caecorthus.sparkdlc.faction.target.PlayerAffectMixinGuard;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,7 +16,7 @@ import java.util.UUID;
  * 在消耗冷却前拦截噪音制造者选中的目标。
  */
 @Pseudo
-@Mixin(targets = "dev.caecorthus.sparkdlc.strength.role.noisemaker.NoisemakerGlowService", remap = false)
+@Mixin(targets = "dev.caecorthus.sparkdlc.role.civilian.noisemaker.NoisemakerGlowService", remap = false)
 public abstract class NoisemakerAffectMixin {
     private static final Identifier ACTION = Identifier.of("sparkstrength", "noisemaker_glow");
 

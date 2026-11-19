@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.corruptcop;
 
-import dev.caecorthus.sparkdlc.strength.role.corruptcop.CorruptCopAbilityService;
+import dev.caecorthus.sparkdlc.role.jiahao.corruptcop.CorruptCopAbilityService;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.agmas.noellesroles.Noellesroles;
 import org.agmas.noellesroles.packet.AbilityC2SPacket;

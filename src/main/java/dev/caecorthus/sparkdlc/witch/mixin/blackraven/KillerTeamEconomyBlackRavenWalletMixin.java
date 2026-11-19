@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.witch.mixin.blackraven;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.disguise.BlackRavenDisguiseEconomy;
-import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.disguise.BlackRavenDisguiseService;
+import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.BlackRavenDisguiseEconomy;
+import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.BlackRavenDisguiseService;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.Pseudo;
  * 可能动用团队资金（降级，资金不会丢失）。
  */
 @Pseudo
-@Mixin(targets = "dev.caecorthus.sparkdlc.strength.role.economy.KillerTeamEconomyService", remap = false)
+@Mixin(targets = "dev.caecorthus.sparkdlc.economy.KillerTeamEconomyService", remap = false)
 public abstract class KillerTeamEconomyBlackRavenWalletMixin {
     @WrapMethod(method = "recordIncome", require = 0)
     private static void sparkwitch$reportOnlyKillerIncome(

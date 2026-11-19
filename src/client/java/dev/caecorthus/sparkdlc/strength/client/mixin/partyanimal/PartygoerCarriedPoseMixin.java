@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.partyanimal;
 
-import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerCarry;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerCarry;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.render.entity.LivingEntityRenderer;

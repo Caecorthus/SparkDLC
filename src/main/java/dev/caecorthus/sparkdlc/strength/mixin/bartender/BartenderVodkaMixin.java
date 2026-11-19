@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.bartender;
 
-import dev.caecorthus.sparkdlc.strength.role.bartender.BartenderRules;
+import dev.caecorthus.sparkdlc.role.civilian.bartender.BartenderRules;
 import org.agmas.noellesroles.item.ingredient.VodkaItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;

@@ -1,0 +1,62 @@
+package dev.caecorthus.sparkdlc.client.trait.killer;
+
+import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.client.trait.render.DepressionScreenEffects;
+import dev.caecorthus.sparkdlc.trait.killer.combat.ForcedMeleeCooldownService;
+import dev.caecorthus.sparkdlc.trait.net.ForcedMeleeCooldownPayload;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.resource.ResourceManager;
+import net.minecraft.resource.ResourceType;
+import net.minecraft.util.Identifier;
+
+public final class NewKillerTraitsClient {
+    private static boolean initialized;
+
+    private NewKillerTraitsClient() {
+    }
+
+    public static void initialize() {
+        if (initialized) {
+            return;
+        }
+        initialized = true;
+        ClientPlayNetworking.registerGlobalReceiver(ForcedMeleeCooldownPayload.ID,
+                (payload, context) -> ForcedMeleeCooldownService.acceptClientSnapshot(context.player(), payload));
+        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> ForcedMeleeCooldownService.clearClient());
+        ClientTickEvents.START_CLIENT_TICK.register(client -> {
+            if (client.world == null || client.player == null) {
+                DepressionScreenEffects.close();
+            } else {
+                LastEscapeInput.suppress(client);
+            }
+        });
+        // DISCONNECT can fire on the Netty thread: the cooldown map belongs to the client thread and closing the
+        // post-effect processor asserts the render thread, so both are marshalled, in their original order.
+        // DISCONNECT 可能在 Netty 线程触发：冷却表属于客户端线程，关闭后处理器会断言渲染线程，因此两者按原顺序转交客户端线程执行。
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) ->
+                dev.caecorthus.sparkdlc.client.SparkTraitsClient.runSessionCleanup(client, handler, () -> {
+                    ForcedMeleeCooldownService.clearClient();
+                    DepressionScreenEffects.close();
+                }));
+        ClientLifecycleEvents.CLIENT_STOPPING.register(client -> DepressionScreenEffects.close());
+        ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(
+                new SimpleSynchronousResourceReloadListener() {
+                    @Override
+                    public Identifier getFabricId() {
+                        return SparkTraits.id("killer_world_effects");
+                    }
+
+                    @Override
+                    public void reload(ResourceManager manager) {
+                        MinecraftClient.getInstance().execute(DepressionScreenEffects::close);
+                    }
+                });
+    }
+
+}

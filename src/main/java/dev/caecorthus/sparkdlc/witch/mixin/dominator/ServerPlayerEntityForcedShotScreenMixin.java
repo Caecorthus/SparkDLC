@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.dominator;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.dominator.DominatorForcedShotComponent;
+import dev.caecorthus.sparkdlc.role.killer.dominator.DominatorForcedShotComponent;
 import java.util.OptionalInt;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.server.network.ServerPlayerEntity;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.timestealer;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.timestealer.TimeStealerInventoryRules;
+import dev.caecorthus.sparkdlc.role.killer.timestealer.TimeStealerInventoryRules;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DecoratedPotBlock;
 import net.minecraft.entity.player.PlayerEntity;

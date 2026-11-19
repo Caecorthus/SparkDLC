@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.factionapi.mixin.record;
 
-import dev.caecorthus.sparkdlc.factionapi.impl.record.ConsumeRecorder;
+import dev.caecorthus.sparkdlc.record.ConsumeRecorder;
 import dev.doctor4t.wathe.util.PoisonUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

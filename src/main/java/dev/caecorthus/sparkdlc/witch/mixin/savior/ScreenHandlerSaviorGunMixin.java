@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.savior;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.savior.SaviorGunPickupRules;
+import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorGunPickupRules;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.SlotActionType;

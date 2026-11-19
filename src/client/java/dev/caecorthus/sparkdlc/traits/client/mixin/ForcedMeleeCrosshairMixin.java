@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.traits.client.mixin;
 
-import dev.caecorthus.sparkdlc.traits.client.killer.ForcedMeleeHud;
+import dev.caecorthus.sparkdlc.client.trait.killer.ForcedMeleeHud;
 import dev.doctor4t.wathe.client.gui.CrosshairRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;

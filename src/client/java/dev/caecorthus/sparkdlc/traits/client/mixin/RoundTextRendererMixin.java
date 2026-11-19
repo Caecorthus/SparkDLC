@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.traits.client.mixin;
 
-import dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveTraitService;
-import dev.caecorthus.sparkdlc.traits.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.effective.EffectiveTraitService;
+import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.gui.RoundTextRenderer;
 import net.minecraft.client.MinecraftClient;

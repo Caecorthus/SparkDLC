@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.m67;
 
-import dev.caecorthus.sparkdlc.strength.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkStrengthItems;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.network.ClientPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,13 +1,13 @@
 package dev.caecorthus.sparkdlc.traits.client.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.traits.client.hud.ConscienceSerialKillerHud;
-import dev.caecorthus.sparkdlc.traits.client.hud.TraitNameplateTags;
-import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
-import dev.caecorthus.sparkdlc.traits.component.TraitWorldComponent;
-import dev.caecorthus.sparkdlc.traits.impl.traits.TraitDisplayService;
-import dev.caecorthus.sparkdlc.traits.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.client.trait.hud.ConscienceSerialKillerHud;
+import dev.caecorthus.sparkdlc.client.trait.hud.TraitNameplateTags;
+import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
+import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
+import dev.caecorthus.sparkdlc.trait.TraitDisplayService;
+import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.CanSeeBodyRole;
 import dev.doctor4t.wathe.api.event.CanTargetBody;

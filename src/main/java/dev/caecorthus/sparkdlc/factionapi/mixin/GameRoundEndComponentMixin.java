@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.factionapi.mixin;
 
-import dev.caecorthus.sparkdlc.factionapi.component.SparkFactionRoundEndComponent;
-import dev.caecorthus.sparkdlc.factionapi.impl.roundend.FactionRoundEndRows;
-import dev.caecorthus.sparkdlc.factionapi.impl.roundend.FactionRoundEndStateRules;
+import dev.caecorthus.sparkdlc.component.SparkFactionRoundEndComponent;
+import dev.caecorthus.sparkdlc.round.end.FactionRoundEndRows;
+import dev.caecorthus.sparkdlc.round.end.FactionRoundEndStateRules;
 import dev.doctor4t.wathe.cca.GameRoundEndComponent;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;

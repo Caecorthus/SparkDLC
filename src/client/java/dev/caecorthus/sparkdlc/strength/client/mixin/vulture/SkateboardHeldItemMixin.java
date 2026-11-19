@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.vulture;
 
-import dev.caecorthus.sparkdlc.strength.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.strength.client.role.vulture.SkateboardRenderer;
+import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.client.role.neutral.vulture.SkateboardRenderer;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.HeldItemRenderer;

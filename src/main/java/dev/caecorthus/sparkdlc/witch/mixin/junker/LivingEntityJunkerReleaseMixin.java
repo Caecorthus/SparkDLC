@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.mixin.junker;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.junker.JunkerLootSpend;
+import dev.caecorthus.sparkdlc.role.civilian.junker.JunkerLootSpend;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;

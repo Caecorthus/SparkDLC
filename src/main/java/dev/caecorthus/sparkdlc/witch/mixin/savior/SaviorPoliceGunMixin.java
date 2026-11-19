@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.mixin.savior;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.savior.SaviorRules;
+import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorRules;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.util.GunShootPayload;

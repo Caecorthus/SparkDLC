@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.dominator;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.dominator.DominatorRules;
+import dev.caecorthus.sparkdlc.role.killer.dominator.DominatorRules;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.game.GameFunctions;
 import java.util.ArrayList;

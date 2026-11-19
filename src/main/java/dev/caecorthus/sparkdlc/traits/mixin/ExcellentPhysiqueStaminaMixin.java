@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.depression.DepressionStaminaPenalty;
-import dev.caecorthus.sparkdlc.traits.impl.traits.global.GlobalTraitService;
+import dev.caecorthus.sparkdlc.trait.civilian.depression.DepressionStaminaPenalty;
+import dev.caecorthus.sparkdlc.trait.global.GlobalTraitService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerStaminaComponent;
 import dev.doctor4t.wathe.game.GameFunctions;

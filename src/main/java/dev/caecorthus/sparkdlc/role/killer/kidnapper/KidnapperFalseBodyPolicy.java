@@ -1,0 +1,51 @@
+package dev.caecorthus.sparkdlc.role.killer.kidnapper;
+
+import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthPartygoerCompat;
+import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsBodyDragBridge;
+import dev.caecorthus.sparkdlc.role.killer.magician.MagicianDecoyBodies;
+import dev.caecorthus.sparkdlc.role.killer.hiro.returning.HiroFakeBodies;
+import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendFakeBodies;
+import dev.doctor4t.wathe.entity.PlayerBodyEntity;
+import dev.doctor4t.wathe.game.GameFunctions;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+
+/** Owns cross-mod fake-corpse rejection. / 只负责跨模组假尸体拒绝规则。 */
+public final class KidnapperFalseBodyPolicy {
+    private KidnapperFalseBodyPolicy() {
+    }
+
+    public static boolean canDrag(PlayerBodyEntity body) {
+        return !isMagicianDecoy(body)
+                && SparkTraitsBodyDragBridge.canDragBody(body)
+                // A Fiend feign-death corpse, even after its camera falls back (2026-10-16).
+                // 魔人假死尸体，即使视角已回落到本人（2026-10-16）。
+                && !FiendFakeBodies.isFake(body)
+                // The fake corpse of a 二阶堂希罗 victim, even after its camera falls back (2026-11-11).
+                // 二阶堂希罗受害者的假尸体，即使视角已回落到本人（2026-11-11）。
+                && !HiroFakeBodies.isFake(body)
+                // A killed SparkStrength Partygoer is no passenger's body (2026-10-21).
+                // 被打死的 SparkStrength 派对客不是乘客的尸体（2026-10-21）。
+                && !SparkStrengthPartygoerCompat.isPartygoerCorpse(body)
+                && !isCameraBoundFakeBody(body);
+    }
+
+    /**
+     * Owner decision 2026-10-07 D2: a Magician decoy body is never dragged, and the refusal names it as an illusion.
+     * Server-only answer (the decoy registry is never synced).
+     * 所有者 2026-10-07 决定 D2：魔术师的诱饵尸体永远不能被拖动，拒绝提示会点明它是幻象。仅服务端可判定（诱饵登记表从不同步）。
+     */
+    public static boolean isMagicianDecoy(PlayerBodyEntity body) {
+        return MagicianDecoyBodies.isDecoy(body);
+    }
+
+    private static boolean isCameraBoundFakeBody(PlayerBodyEntity body) {
+        if (!(body.getWorld() instanceof ServerWorld world)) {
+            return true;
+        }
+        ServerPlayerEntity owner = world.getServer().getPlayerManager().getPlayer(body.getPlayerUuid());
+        return owner != null
+                && GameFunctions.isPlayerPlayingAndAlive(owner)
+                && owner.getCameraEntity() == body;
+    }
+}

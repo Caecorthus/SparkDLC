@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
-import dev.caecorthus.sparkdlc.witch.client.moodflag.MoodFlags;
+import dev.caecorthus.sparkdlc.client.hud.moodflag.MoodFlags;
 import dev.doctor4t.wathe.client.gui.MoodRenderer;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;

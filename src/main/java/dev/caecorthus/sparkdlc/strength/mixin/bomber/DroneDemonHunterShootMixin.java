@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.mixin.bomber;
 
-import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DroneWeaponHits;
-import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerWeaponHits;
+import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneWeaponHits;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponHits;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;

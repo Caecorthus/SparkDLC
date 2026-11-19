@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.blackraven;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.crow.hit.BlackRavenCrowHits;
+import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit.BlackRavenCrowHits;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.server.network.ServerPlayerEntity;

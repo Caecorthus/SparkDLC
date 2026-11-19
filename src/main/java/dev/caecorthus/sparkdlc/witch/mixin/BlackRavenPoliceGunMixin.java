@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.BlackRavenPoliceRules;
+import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenPoliceRules;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.util.GunShootPayload;

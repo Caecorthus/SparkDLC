@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.factionapi.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.factionapi.impl.shop.FactionShopAccessRules;
+import dev.caecorthus.sparkdlc.faction.shop.FactionShopAccessRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.KillerShopBuilder;
 import net.minecraft.entity.player.PlayerEntity;

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.riftwalker;
 
-import dev.caecorthus.sparkdlc.witch.client.riftwalker.session.RiftGrayscaleFilter;
-import dev.caecorthus.sparkdlc.witch.client.riftwalker.session.RiftSessionClient;
+import dev.caecorthus.sparkdlc.client.role.witch.riftwalker.session.RiftGrayscaleFilter;
+import dev.caecorthus.sparkdlc.client.role.witch.riftwalker.session.RiftSessionClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.RenderTickCounter;

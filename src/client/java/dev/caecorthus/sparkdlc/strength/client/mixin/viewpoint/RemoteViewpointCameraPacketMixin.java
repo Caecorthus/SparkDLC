@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.viewpoint;
 
-import dev.caecorthus.sparkdlc.strength.client.viewpoint.RemoteViewpointClient;
+import dev.caecorthus.sparkdlc.client.viewpoint.RemoteViewpointClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.packet.s2c.play.SetCameraEntityS2CPacket;

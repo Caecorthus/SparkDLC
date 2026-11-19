@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.potiongunner;
 
-import dev.caecorthus.sparkdlc.witch.roles.witch.potiongunner.PotionGunnerLoadoutService;
+import dev.caecorthus.sparkdlc.role.witch.potiongunner.PotionGunnerLoadoutService;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

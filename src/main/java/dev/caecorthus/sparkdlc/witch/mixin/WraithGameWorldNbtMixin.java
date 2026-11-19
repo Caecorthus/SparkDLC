@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.compat.WraithLegacyRoleIds;
+import dev.caecorthus.sparkdlc.compat.noellesroles.WraithLegacyRoleIds;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;

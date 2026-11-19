@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.blind;
 
-import dev.caecorthus.sparkdlc.witch.client.blind.render.BlindEchoView;
+import dev.caecorthus.sparkdlc.client.role.civilian.blind.render.BlindEchoView;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.LightmapTextureManager;

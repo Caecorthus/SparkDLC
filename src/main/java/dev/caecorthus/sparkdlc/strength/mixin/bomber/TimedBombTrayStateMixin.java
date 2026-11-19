@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.strength.mixin.bomber;
 
-import dev.caecorthus.sparkdlc.strength.role.bomber.BomberTrapService;
-import dev.caecorthus.sparkdlc.strength.role.bomber.TimedBombMarkerSync;
-import dev.caecorthus.sparkdlc.strength.role.bomber.TimedBombTrapHolder;
+import dev.caecorthus.sparkdlc.role.killer.bomber.BomberTrapService;
+import dev.caecorthus.sparkdlc.role.killer.bomber.TimedBombMarkerSync;
+import dev.caecorthus.sparkdlc.role.killer.bomber.TimedBombTrapHolder;
 import dev.doctor4t.wathe.block_entity.BeveragePlateBlockEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;

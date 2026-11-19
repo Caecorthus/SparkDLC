@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.input;
 
-import dev.caecorthus.sparkdlc.strength.client.input.ClientKeyGate;
+import dev.caecorthus.sparkdlc.client.input.ClientKeyGate;
 import net.minecraft.client.option.StickyKeyBinding;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

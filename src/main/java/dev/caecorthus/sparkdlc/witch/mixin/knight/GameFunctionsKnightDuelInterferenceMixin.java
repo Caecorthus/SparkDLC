@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.knight;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.knight.duel.KnightDuelInterference;
+import dev.caecorthus.sparkdlc.role.civilian.knight.duel.KnightDuelInterference;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;

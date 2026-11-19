@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.bear;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.client.bear.launcher.M32FireInput;
+import dev.caecorthus.sparkdlc.client.role.civilian.bear.launcher.M32FireInput;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import org.spongepowered.asm.mixin.Mixin;

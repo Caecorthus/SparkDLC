@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.strength.mixin.bomber;
 
-import dev.caecorthus.sparkdlc.strength.entity.DroneEntity;
-import dev.caecorthus.sparkdlc.strength.entity.PartygoerEntity;
-import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DroneWeaponHits;
-import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerWeaponHits;
+import dev.caecorthus.sparkdlc.entity.DroneEntity;
+import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
+import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneWeaponHits;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponHits;
 import dev.doctor4t.wathe.util.KnifeStabPayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;

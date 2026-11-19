@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.mixin.sabotage;
 
-import dev.caecorthus.sparkdlc.strength.sabotage.BlackoutNightVision;
-import dev.caecorthus.sparkdlc.strength.sabotage.LightsSabotageService;
+import dev.caecorthus.sparkdlc.sabotage.BlackoutNightVision;
+import dev.caecorthus.sparkdlc.sabotage.LightsSabotageService;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;

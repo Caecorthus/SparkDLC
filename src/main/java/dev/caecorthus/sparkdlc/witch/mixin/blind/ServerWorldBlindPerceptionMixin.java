@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.blind;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.blind.perception.BlindSoundPerception;
+import dev.caecorthus.sparkdlc.role.civilian.blind.perception.BlindSoundPerception;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.assist.client.mixin;
 
-import dev.caecorthus.sparkdlc.assist.client.ponder.PonderCaptionText;
+import dev.caecorthus.sparkdlc.client.ponder.PonderCaptionText;
 import net.createmod.ponder.foundation.PonderScene;
 import net.createmod.ponder.foundation.ui.PonderUI;
 import net.minecraft.client.gui.DrawContext;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.witchmaiden;
 
-import dev.caecorthus.sparkdlc.witch.client.witchmaiden.skin.screen.MiniWitherSkinEntryButton;
+import dev.caecorthus.sparkdlc.client.role.killer.witchmaiden.skin.screen.MiniWitherSkinEntryButton;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.screen.option.SkinOptionsScreen;

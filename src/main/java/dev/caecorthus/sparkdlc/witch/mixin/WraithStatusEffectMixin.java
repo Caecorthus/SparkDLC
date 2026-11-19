@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.vendetta.VendettaInteractionService;
+import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaInteractionService;
 
-import dev.caecorthus.sparkdlc.witch.roles.special.wraith.WraithStateService;
+import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;

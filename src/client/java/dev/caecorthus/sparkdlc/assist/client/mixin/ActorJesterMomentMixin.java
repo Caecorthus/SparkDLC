@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.assist.client.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.caecorthus.sparkdlc.assist.client.ponder.ActorPlayer;
+import dev.caecorthus.sparkdlc.client.ponder.ActorPlayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;

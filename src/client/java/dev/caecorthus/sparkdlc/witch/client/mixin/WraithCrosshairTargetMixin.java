@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
-import dev.caecorthus.sparkdlc.witch.client.render.WraithAimPassThrough;
+import dev.caecorthus.sparkdlc.client.render.WraithAimPassThrough;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Box;

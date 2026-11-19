@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.mixin.bomber;
 
-import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DroneWeaponHits;
-import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerWeaponHits;
+import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneWeaponHits;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponHits;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -42,7 +42,7 @@ import java.util.List;
  * 炮弹飞行与爆炸在别处处理（TR 爆炸经 MagicianPuppetHits），因此仍只处理无人机。</p>
  */
 @Pseudo
-@Mixin(targets = "dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.hit.SeekerDeviceHits", remap = false)
+@Mixin(targets = "dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceHits", remap = false)
 public abstract class DroneSparkWitchHitsMixin {
     /** Hunter double-barrel shotgun: {@code onShotgunFired(PlayerEntity, T, double)}. / 双管猎枪。 */
     @Inject(method = "onShotgunFired", at = @At("HEAD"), cancellable = true, require = 0)

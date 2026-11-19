@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.vendetta.VendettaPlayerComponent;
+import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaPlayerComponent;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;

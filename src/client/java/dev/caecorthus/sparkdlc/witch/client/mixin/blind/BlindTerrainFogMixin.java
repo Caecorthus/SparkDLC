@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.blind;
 
-import dev.caecorthus.sparkdlc.witch.client.blind.render.BlindTerrainFog;
+import dev.caecorthus.sparkdlc.client.role.civilian.blind.render.BlindTerrainFog;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.LightmapTextureManager;

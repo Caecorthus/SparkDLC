@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
 import dev.doctor4t.wathe.game.GameConstants;
-import dev.caecorthus.sparkdlc.witch.roles.special.wraith.conversion.WraithConversion;
+import dev.caecorthus.sparkdlc.role.special.wraith.conversion.WraithConversion;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;

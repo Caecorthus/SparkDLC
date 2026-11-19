@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.mixin.seeker;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.hit.SeekerDeviceRaycast;
+import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceRaycast;
 import dev.doctor4t.wathe.item.DerringerItem;
 import dev.doctor4t.wathe.item.RevolverItem;
 import net.minecraft.entity.player.PlayerEntity;

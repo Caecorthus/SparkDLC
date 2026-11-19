@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.witch.mixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.judge.PoliceSlotAssignmentService;
+import dev.caecorthus.sparkdlc.role.civilian.judge.PoliceSlotAssignmentService;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
 import dev.doctor4t.wathe.cca.GameWorldComponent;

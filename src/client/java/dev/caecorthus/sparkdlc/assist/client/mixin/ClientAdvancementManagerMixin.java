@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.assist.client.mixin;
 
 import com.llamalad7.mixinextras.injector.WrapWithCondition;
-import dev.caecorthus.sparkdlc.assist.client.achievement.AchievementAdvancements;
+import dev.caecorthus.sparkdlc.client.achievement.AchievementAdvancements;
 import net.minecraft.advancement.AdvancementEntry;
 import net.minecraft.client.network.ClientAdvancementManager;
 import net.minecraft.client.network.ClientPlayNetworkHandler;

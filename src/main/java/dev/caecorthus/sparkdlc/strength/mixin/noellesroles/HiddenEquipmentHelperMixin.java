@@ -1,15 +1,15 @@
 package dev.caecorthus.sparkdlc.strength.mixin.noellesroles;
 
-import dev.caecorthus.sparkdlc.strength.item.BanditAmmoItem;
-import dev.caecorthus.sparkdlc.strength.item.BanditAttachmentItem;
-import dev.caecorthus.sparkdlc.strength.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
-import dev.caecorthus.sparkdlc.strength.role.detective.DetectiveRules;
-import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerCaptureReport;
-import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerRules;
-import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartyAnimalRules;
-import dev.caecorthus.sparkdlc.strength.role.perfumer.PerfumerRules;
-import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumRules;
+import dev.caecorthus.sparkdlc.item.BanditAmmoItem;
+import dev.caecorthus.sparkdlc.item.BanditAttachmentItem;
+import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
+import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveRules;
+import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerCaptureReport;
+import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerRules;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartyAnimalRules;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerRules;
+import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

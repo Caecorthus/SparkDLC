@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
-import dev.caecorthus.sparkdlc.witch.client.curser.CurserClientHooks;
+import dev.caecorthus.sparkdlc.client.role.witch.curser.CurserClientHooks;
 import dev.doctor4t.wathe.client.WatheClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

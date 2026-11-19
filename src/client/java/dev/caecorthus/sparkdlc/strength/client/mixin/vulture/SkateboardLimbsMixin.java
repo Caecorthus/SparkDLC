@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.vulture;
 
-import dev.caecorthus.sparkdlc.strength.client.role.vulture.SkateboardClient;
+import dev.caecorthus.sparkdlc.client.role.neutral.vulture.SkateboardClient;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;

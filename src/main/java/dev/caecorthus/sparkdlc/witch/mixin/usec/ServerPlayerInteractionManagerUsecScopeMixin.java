@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.witch.mixin.usec;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.bear.launcher.M32A1Item;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.usec.UsecRifleItem;
+import dev.caecorthus.sparkdlc.role.civilian.bear.launcher.M32A1Item;
+import dev.caecorthus.sparkdlc.role.civilian.usec.UsecRifleItem;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.item.Item;
 import net.minecraft.server.network.ServerPlayerInteractionManager;

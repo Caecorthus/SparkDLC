@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.factionapi.mixin.nativefaction;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.factionapi.impl.nativefaction.NativeFactionRules;
+import dev.caecorthus.sparkdlc.faction.nativefaction.NativeFactionRules;
 import dev.doctor4t.wathe.api.Faction;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.ScoreboardRoleSelectorComponent;

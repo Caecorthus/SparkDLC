@@ -1,11 +1,11 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
-import dev.caecorthus.sparkdlc.witch.client.bear.smoke.SmokeTargetOcclusion;
-import dev.caecorthus.sparkdlc.witch.client.hooks.WitchCohortClientHooks;
-import dev.caecorthus.sparkdlc.witch.client.magician.MagicianPuppetNameTags;
-import dev.caecorthus.sparkdlc.witch.client.render.WraithNameTagPassThrough;
-import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
-import dev.caecorthus.sparkdlc.witch.roles.witch.WitchFactionRules;
+import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeTargetOcclusion;
+import dev.caecorthus.sparkdlc.client.hooks.WitchCohortClientHooks;
+import dev.caecorthus.sparkdlc.client.role.killer.magician.MagicianPuppetNameTags;
+import dev.caecorthus.sparkdlc.client.render.WraithNameTagPassThrough;
+import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.role.witch.WitchFactionRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.WatheClient;
 import dev.doctor4t.wathe.client.gui.RoleNameRenderer;

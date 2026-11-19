@@ -1,5 +1,5 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
-import dev.caecorthus.sparkdlc.witch.roles.killer.magician.MagicianServerHooks;
+import dev.caecorthus.sparkdlc.role.killer.magician.MagicianServerHooks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;

@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.mixin.hiro;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.roles.killer.hiro.returning.HiroFakeBodies;
+import dev.caecorthus.sparkdlc.role.killer.hiro.returning.HiroFakeBodies;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
 import java.util.List;
 import java.util.function.Predicate;

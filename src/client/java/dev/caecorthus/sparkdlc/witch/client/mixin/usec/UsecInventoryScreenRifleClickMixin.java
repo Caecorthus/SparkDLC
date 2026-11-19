@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.usec;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.client.usec.UsecAttachmentClient;
+import dev.caecorthus.sparkdlc.client.role.civilian.usec.UsecAttachmentClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;

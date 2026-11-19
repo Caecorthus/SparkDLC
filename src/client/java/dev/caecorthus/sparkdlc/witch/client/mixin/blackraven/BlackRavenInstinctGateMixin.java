@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.blackraven;
 
-import dev.caecorthus.sparkdlc.witch.client.blackraven.BlackRavenClientState;
+import dev.caecorthus.sparkdlc.client.role.killer.blackraven.BlackRavenClientState;
 import dev.doctor4t.wathe.client.WatheClient;
 import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.Mixin;

@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.traits.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.escape.RaycastShapeScope;
+import dev.caecorthus.sparkdlc.trait.killer.escape.RaycastShapeScope;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;

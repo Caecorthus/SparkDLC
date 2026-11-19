@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.dominator;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.dominator.DominatorForcedShotRewards;
+import dev.caecorthus.sparkdlc.role.killer.dominator.DominatorForcedShotRewards;
 import dev.doctor4t.wathe.cca.PlayerShopComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Final;

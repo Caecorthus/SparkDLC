@@ -2,10 +2,10 @@ package dev.caecorthus.sparkdlc.witch.mixin.seeker;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.device.SeekerDeviceEntity;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.hit.SeekerDeviceHits;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.hit.SeekerDeviceRaycast;
-import dev.caecorthus.sparkdlc.witch.roles.killer.magician.MagicianPuppetHits;
+import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerDeviceEntity;
+import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceHits;
+import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceRaycast;
+import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPuppetHits;
 import java.util.List;
 import java.util.Optional;
 import net.minecraft.util.math.Box;

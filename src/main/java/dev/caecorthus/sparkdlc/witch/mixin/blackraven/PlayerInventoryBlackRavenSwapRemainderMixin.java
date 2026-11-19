@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.mixin.blackraven;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.disguise.BlackRavenDisguiseService;
+import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.BlackRavenDisguiseService;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;

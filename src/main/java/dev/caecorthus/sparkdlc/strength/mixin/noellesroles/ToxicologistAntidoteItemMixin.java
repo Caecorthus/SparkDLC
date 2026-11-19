@@ -1,11 +1,11 @@
 package dev.caecorthus.sparkdlc.strength.mixin.noellesroles;
 
-import dev.caecorthus.sparkdlc.strength.component.pathogen.VirusCarrierComponent;
+import dev.caecorthus.sparkdlc.role.neutral.pathogen.VirusCarrierComponent;
 import dev.caecorthus.sparkdlc.strength.mixin.wathe.PlayerPoisonComponentAccessor;
-import dev.caecorthus.sparkdlc.strength.role.pathogen.PathogenRules;
-import dev.caecorthus.sparkdlc.strength.role.pathogen.VirusService;
-import dev.caecorthus.sparkdlc.strength.role.toxicologist.ToxicologistAntidoteService;
-import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
+import dev.caecorthus.sparkdlc.role.neutral.pathogen.PathogenRules;
+import dev.caecorthus.sparkdlc.role.neutral.pathogen.VirusService;
+import dev.caecorthus.sparkdlc.role.civilian.toxicologist.ToxicologistAntidoteService;
+import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;

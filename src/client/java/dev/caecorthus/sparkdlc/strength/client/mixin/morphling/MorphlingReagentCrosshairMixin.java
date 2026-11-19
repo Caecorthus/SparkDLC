@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.morphling;
 
-import dev.caecorthus.sparkdlc.strength.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.strength.component.partyanimal.PartygoerCorpseComponent;
-import dev.caecorthus.sparkdlc.strength.role.morphling.MorphlingRules;
-import dev.caecorthus.sparkdlc.strength.role.morphling.MorphlingService;
+import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerCorpseComponent;
+import dev.caecorthus.sparkdlc.role.killer.morphling.MorphlingRules;
+import dev.caecorthus.sparkdlc.role.killer.morphling.MorphlingService;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.doctor4t.wathe.api.event.CanTargetBody;

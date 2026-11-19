@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.seeker;
 
-import dev.caecorthus.sparkdlc.witch.client.seeker.remote.SeekerRemoteViewClient;
+import dev.caecorthus.sparkdlc.client.role.civilian.seeker.remote.SeekerRemoteViewClient;
 import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

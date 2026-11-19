@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin.bear;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.bear.ricochet.BearRicochetRules;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.bear.ricochet.RangedSmokeCarve;
+import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.BearRicochetRules;
+import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RangedSmokeCarve;
 import dev.doctor4t.wathe.util.GunShootPayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.spongepowered.asm.mixin.Mixin;

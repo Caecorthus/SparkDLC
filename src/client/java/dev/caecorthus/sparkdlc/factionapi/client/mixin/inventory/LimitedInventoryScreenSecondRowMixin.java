@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.factionapi.client.mixin.inventory;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.factionapi.client.inventory.LimitedInventorySecondRow;
-import dev.caecorthus.sparkdlc.factionapi.client.inventory.SecondRowTexture;
+import dev.caecorthus.sparkdlc.client.inventory.LimitedInventorySecondRow;
+import dev.caecorthus.sparkdlc.client.inventory.SecondRowTexture;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedInventoryScreen;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Identifier;

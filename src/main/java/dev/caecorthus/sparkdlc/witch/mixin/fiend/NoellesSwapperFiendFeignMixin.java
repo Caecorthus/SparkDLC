@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.fiend;
 
-import dev.caecorthus.sparkdlc.witch.roles.neutral.fiend.FiendFeignService;
+import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendFeignService;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.agmas.noellesroles.Noellesroles;
 import org.agmas.noellesroles.packet.SwapperC2SPacket;

@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.accountant;
 
-import dev.caecorthus.sparkdlc.witch.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.witch.client.mixin.input.SelectedSlotFlushInvoker;
-import dev.caecorthus.sparkdlc.witch.net.AccountantWithdrawC2SPacket;
+import dev.caecorthus.sparkdlc.net.AccountantWithdrawC2SPacket;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;

@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.natsume;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.witch.client.natsume.NatsumeHudGarble;
+import dev.caecorthus.sparkdlc.client.role.killer.natsume.NatsumeHudGarble;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.RenderTickCounter;

@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.witch.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaRoundComponent;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaRules;
+import dev.caecorthus.sparkdlc.role.civilian.emma.EmmaRoundComponent;
+import dev.caecorthus.sparkdlc.role.civilian.emma.EmmaRules;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import java.util.UUID;

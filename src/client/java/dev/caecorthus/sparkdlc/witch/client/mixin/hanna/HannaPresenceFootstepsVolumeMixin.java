@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.hanna;
 
-import dev.caecorthus.sparkdlc.witch.client.hanna.HannaFootstepSilence;
+import dev.caecorthus.sparkdlc.client.role.civilian.hanna.HannaFootstepSilence;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;

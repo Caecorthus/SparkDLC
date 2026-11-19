@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.vulture;
 
-import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerCorpseService;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerCorpseService;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;

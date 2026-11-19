@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.hiro;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.hiro.returning.HiroVictimFeignService;
+import dev.caecorthus.sparkdlc.role.killer.hiro.returning.HiroVictimFeignService;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.agmas.noellesroles.Noellesroles;
 import org.agmas.noellesroles.packet.SwapperC2SPacket;

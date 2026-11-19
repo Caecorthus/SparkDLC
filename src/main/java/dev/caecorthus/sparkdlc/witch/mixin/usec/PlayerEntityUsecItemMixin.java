@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin.usec;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.usec.UsecDeathDrops;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.usec.UsecLoadoutService;
+import dev.caecorthus.sparkdlc.role.civilian.usec.UsecDeathDrops;
+import dev.caecorthus.sparkdlc.role.civilian.usec.UsecLoadoutService;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

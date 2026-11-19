@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.bear;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.bear.BearLoadoutService;
+import dev.caecorthus.sparkdlc.role.civilian.bear.BearLoadoutService;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

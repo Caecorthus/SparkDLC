@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.m67;
 
-import dev.caecorthus.sparkdlc.strength.item.m67.M67UseService;
+import dev.caecorthus.sparkdlc.item.m67.M67UseService;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.network.packet.c2s.play.ClickSlotC2SPacket;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.knight;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.knight.KnightDuelBodyCollision;
+import dev.caecorthus.sparkdlc.role.civilian.knight.KnightDuelBodyCollision;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;

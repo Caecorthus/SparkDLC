@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.fiend;
 
-import dev.caecorthus.sparkdlc.witch.roles.neutral.fiend.FiendMomentService;
+import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendMomentService;
 import dev.doctor4t.wathe.item.CrowbarItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUsageContext;

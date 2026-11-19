@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.compat.cooldown.SparkWitchItemCooldownReleases;
+import dev.caecorthus.sparkdlc.cooldown.provider.SparkWitchItemCooldownReleases;
 import dev.caecorthus.sparkdlc.witch.mixin.accessor.ServerItemCooldownManagerAccessor;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.item.Item;
@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.At;
  * {@code remove} 真正清除了手持物品的冷却时，该清除对圣徒业障也保持有效。移除冷却的职业机制（NoellesRoles 催化剂、
  * 投弹手传递）不经过这里，因此业障仍会重新覆盖那些物品。
  */
-@Mixin(targets = "dev.caecorthus.sparkdlc.factionapi.command.admin.CooldownCommand")
+@Mixin(targets = "dev.caecorthus.sparkdlc.command.admin.CooldownCommand")
 public abstract class SparkFactionClearCooldownMixin {
     @WrapOperation(method = "clearCooldown", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/entity/player/ItemCooldownManager;remove(Lnet/minecraft/item/Item;)V"), require = 1)

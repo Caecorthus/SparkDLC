@@ -1,0 +1,203 @@
+package dev.caecorthus.sparkdlc.tablet;
+
+import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
+import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.tablet.TabletWorldComponent;
+import dev.caecorthus.sparkdlc.role.civilian.attendant.AttendantRules;
+import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerRules;
+import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
+import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverRoleRules;
+import dev.caecorthus.sparkdlc.sabotage.SabotageAccess;
+import dev.doctor4t.wathe.api.Role;
+import dev.doctor4t.wathe.api.WatheRoles;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.game.GameFunctions;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.UUID;
+
+/**
+ * Gathers identity facts for tablet channels from role flags, owner-synced traits and the role-only base faction.
+ * 从身份标记、同步给本人的天赋与仅由身份决定的基础阵营收集平板频道事实。
+ *
+ * <p>{@link #identityChannels(PlayerEntity)} is side-agnostic (only owner-synced data); the tablet grant
+ * ({@code TabletShopService}), links and the server-only live/frozen access all build on it.
+ * identityChannels 与端无关（只读取同步给本人的数据）；平板发放、互认与服务端的存活/冻结访问都建立在其之上。</p>
+ */
+public final class TabletChannelResolver {
+    private TabletChannelResolver() {
+    }
+
+    public static TabletChannelRules.Facts facts(PlayerEntity player) {
+        if (player == null) {
+            return new TabletChannelRules.Facts(false, false, false, false, false, false, false);
+        }
+        Role role = GameWorldComponent.KEY.get(player.getWorld()).getRole(player);
+        boolean hasRole = role != null && role != WatheRoles.NO_ROLE;
+        return new TabletChannelRules.Facts(
+                hasRole,
+                hasRole && TabletShopRules.isPoliceNetworkRole(role),
+                hasRole && role.canUseKiller(),
+                hasRole && SparkTraitsCompat.hasImpostor(player),
+                hasRole && SparkTraitsCompat.hasConscience(player),
+                hasRole && SparkFactionCompat.isWitchFactionRole(role),
+                // Real round role only: a disguise (e.g. a Coroner shown as Undercover) never joins the network.
+                // 仅看真实局内身份：伪装（如显示为卧底的验尸官）不会加入该网络。
+                hasRole && UndercoverRoleRules.isUndercover(role)
+        );
+    }
+
+    public static EnumSet<TabletChannel> identityChannels(PlayerEntity player) {
+        return TabletChannelRules.allowed(facts(player));
+    }
+
+    /**
+     * Server-authoritative access for one holder. Resolving it records the alive-time allowed set and persists the
+     * chosen selection, so every packet handler and sync pass sees the same channel.
+     * 服务端权威的单个持有者访问状态。解析时会记录存活时的允许集合并回写所选频道，保证所有处理器与同步轮次一致。
+     *
+     * <p>Alive holders use live identity; dead holders are read-only and keep the set frozen at their last alive
+     * resolution because SparkTraits clears traits at death (a dead Impostor must keep both networks).
+     * 存活者使用实时身份；死亡者只读，并沿用最后一次存活时冻结的集合，因为 SparkTraits 会在死亡时清除天赋。</p>
+     *
+     * <p>{@link #features} are resolved live for alive and dead holders alike; see there for the dead-holder rule.
+     * 功能对存活与死亡持有者都实时解析；死亡持有者的规则见 features。</p>
+     */
+    public static Access access(ServerPlayerEntity player) {
+        TabletWorldComponent state = TabletWorldComponent.KEY.get(player.getServerWorld());
+        UUID uuid = player.getUuid();
+        boolean alive = GameFunctions.isPlayerPlayingAndAlive(player);
+        EnumSet<TabletChannel> allowed;
+        if (alive) {
+            allowed = identityChannels(player);
+            state.freezeAllowedChannels(uuid, allowed);
+        } else {
+            EnumSet<TabletChannel> frozen = state.frozenAllowedChannels(uuid);
+            allowed = frozen != null ? frozen : identityChannels(player);
+        }
+        TabletChannel selected = TabletChannelRules.choose(allowed, state.selectedChannel(uuid));
+        state.setSelectedChannel(uuid, selected);
+        return new Access(allowed, selected, alive, TabletChannelRules.canSend(selected, alive), features(player));
+    }
+
+    /**
+     * Server-only role-granted sections, independent of channels (a no-signal holder keeps them) and never part of
+     * {@link TabletChannelRules.Facts}, so channel membership, links and the police electorate are unaffected.
+     * 服务端的身份授予分区，与频道无关（无信号的持有者仍保留），且从不进入 Facts，因此不影响频道成员资格、互认与义警选民。
+     *
+     * <p>Door log: the REAL round role is Attendant (Wathe keeps the role after death, so a dead Attendant keeps read
+     * access like a frozen channel), or a live Coroner disguise as Attendant ({@code CoronerService.afterKill} clears
+     * the disguise at death, so it ends there).
+     * 房门监控：真实局内身份为乘务员（Wathe 死亡后保留身份，因此死亡的乘务员与冻结频道一样保留只读权限），
+     * 或当前伪装成乘务员的验尸官（死亡时 CoronerService.afterKill 会清除伪装，权限随之结束）。</p>
+     *
+     * <p>Drones: an ALIVE player whose REAL round role is Bomber (a Coroner's Bomber disguise never counts). A dead
+     * Bomber's drones are cleaned up, so the section ends with the life.
+     * 无人机：真实局内身份为炸弹客且仍存活（验尸官的炸弹客伪装不算）。炸弹客死亡后其无人机会被清理，该分区随之结束。</p>
+     *
+     * <p>Sabotage: an alive player who may sabotage ({@code SabotageAccess}: the killer network by identity, which
+     * keeps it independent of the selected channel, so an Impostor viewing the police channel keeps it).
+     * 破坏：可以破坏的存活玩家（SabotageAccess：按身份属于杀手网络，因此与所选频道无关，内鬼查看义警频道时仍保留）。</p>
+     */
+    public static EnumSet<TabletFeature> features(ServerPlayerEntity player) {
+        EnumSet<TabletFeature> features = EnumSet.noneOf(TabletFeature.class);
+        Role realRole = GameWorldComponent.KEY.get(player.getWorld()).getRole(player);
+        if (AttendantRules.hasDoorLog(realRole, CoronerService.hasAttendantDisguise(player))) {
+            features.add(TabletFeature.DOOR_LOG);
+        }
+        if (CoronerRules.isBomber(realRole) && GameFunctions.isPlayerPlayingAndAlive(player)) {
+            features.add(TabletFeature.DRONE);
+        }
+        if (SabotageAccess.canUse(player)) {
+            features.add(TabletFeature.SABOTAGE);
+        }
+        return features;
+    }
+
+    /**
+     * Resolves each holder once per sync pass so reflective identity lookups scale with holders, not viewers x holders.
+     * 每轮同步只解析每个持有者一次，使反射身份查询随持有者数量线性增长，而非观看者 x 持有者。
+     */
+    public static Map<UUID, Access> roster(Collection<ServerPlayerEntity> holders) {
+        LinkedHashMap<UUID, Access> roster = new LinkedHashMap<>();
+        for (ServerPlayerEntity holder : holders) {
+            roster.put(holder.getUuid(), access(holder));
+        }
+        return roster;
+    }
+
+    public static Map<UUID, Access> roster(ServerWorld world) {
+        return roster(TabletAccess.tabletHolders(world));
+    }
+
+    /**
+     * @param allowed  networks the holder belongs to (push fan-out, member lists, police electorate; member lists are
+     *                 filtered per viewer by TabletIdentityRules, and no channel draws member outlines) / 持有者所属的网络（成员列表还会经 TabletIdentityRules 按查看者过滤，且任何频道都不描边成员）
+     * @param selected channel currently viewed and posted to; null means no signal / 当前查看与发言的频道，null 表示无信号
+     * @param alive    {@code GameFunctions.isPlayerPlayingAndAlive} / 是否局内存活
+     * @param canSend  {@link TabletChannelRules#canSend} / 是否可发送聊天
+     * @param features {@link TabletChannelResolver#features} granted to the holder, independent of {@code allowed} / 持有者获得的功能，与 allowed 无关
+     */
+    public record Access(
+            EnumSet<TabletChannel> allowed,
+            @Nullable TabletChannel selected,
+            boolean alive,
+            boolean canSend,
+            EnumSet<TabletFeature> features
+    ) {
+        public Access {
+            allowed = allowed == null ? EnumSet.noneOf(TabletChannel.class) : EnumSet.copyOf(allowed);
+            features = features == null ? EnumSet.noneOf(TabletFeature.class) : EnumSet.copyOf(features);
+        }
+
+        @Override
+        public EnumSet<TabletChannel> allowed() {
+            return EnumSet.copyOf(allowed);
+        }
+
+        @Override
+        public EnumSet<TabletFeature> features() {
+            return EnumSet.copyOf(features);
+        }
+
+        public boolean hasFeature(@Nullable TabletFeature feature) {
+            return feature != null && features.contains(feature);
+        }
+
+        public int featureMask() {
+            return TabletFeature.mask(features);
+        }
+
+        public boolean isMember(@Nullable TabletChannel channel) {
+            return channel != null && allowed.contains(channel);
+        }
+
+        public int allowedMask() {
+            return TabletChannel.mask(allowed);
+        }
+
+        public boolean canSwitchChannels() {
+            return allowed.size() > 1;
+        }
+
+        /** Meeting and suspect features follow the viewed channel only. / 会议与嫌疑人功能只跟随当前查看的频道。 */
+        public boolean viewsMeetingFeatures() {
+            return selected != null && selected.hasMeetingFeatures();
+        }
+
+        /**
+         * Police electorate membership is identity-based, independent of the viewed channel.
+         * 义警选民资格由身份决定，与当前查看的频道无关。
+         */
+        public boolean isPoliceElector() {
+            return alive && allowed.contains(TabletChannel.POLICE);
+        }
+    }
+}

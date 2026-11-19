@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.partyanimal;
 
-import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerWeaponHits;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponHits;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * 静默失效。SparkWitch 只在瞄准到玩家时才调用该接缝，因此身后没有玩家时对派对客使用时钟无法从这里处理。
  */
 @Pseudo
-@Mixin(targets = "dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.hit.SeekerDeviceHits", remap = false)
+@Mixin(targets = "dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceHits", remap = false)
 public abstract class PartygoerSeekerHitsMixin {
     /** {@code onClockFired(ServerPlayerEntity, T extends PlayerEntity, double)}. / 窃时者时钟。 */
     @Inject(method = "onClockFired", at = @At("HEAD"), cancellable = true, require = 0)

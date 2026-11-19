@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.impl.traits.global.GlobalTraitService;
-import dev.caecorthus.sparkdlc.traits.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.trait.global.GlobalTraitService;
+import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import org.agmas.noellesroles.item.FineDrinkItem;

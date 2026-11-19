@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.client.hooks.WitchInstinctClientHooks;
+import dev.caecorthus.sparkdlc.client.hooks.WitchInstinctClientHooks;
 import dev.doctor4t.wathe.client.WatheClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

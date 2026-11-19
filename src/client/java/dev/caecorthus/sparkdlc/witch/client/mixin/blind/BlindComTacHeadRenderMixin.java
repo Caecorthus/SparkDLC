@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.blind;
 
-import dev.caecorthus.sparkdlc.witch.client.blind.BlindComTacHeadVisibility;
+import dev.caecorthus.sparkdlc.client.role.civilian.blind.BlindComTacHeadVisibility;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.HeadFeatureRenderer;
 import net.minecraft.client.util.math.MatrixStack;

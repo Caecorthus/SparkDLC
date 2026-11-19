@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.witchmaiden;
 
-import dev.caecorthus.sparkdlc.witch.client.witchmaiden.FocusedFootstepsInputController;
+import dev.caecorthus.sparkdlc.client.role.killer.witchmaiden.FocusedFootstepsInputController;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.input.KeyboardInput;
 import org.spongepowered.asm.mixin.Mixin;

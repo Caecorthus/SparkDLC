@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.mixin.serialkiller;
 
-import dev.caecorthus.sparkdlc.strength.item.BanditRevolverItem;
-import dev.caecorthus.sparkdlc.strength.item.SerialPistolItem;
+import dev.caecorthus.sparkdlc.item.BanditRevolverItem;
+import dev.caecorthus.sparkdlc.item.SerialPistolItem;
 import dev.doctor4t.wathe.util.GunShootPayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.spongepowered.asm.mixin.Mixin;

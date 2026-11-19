@@ -2,10 +2,10 @@ package dev.caecorthus.sparkdlc.traits.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.escape.LastEscapeService;
-import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveTraitService;
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.KillerTraitService;
-import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.laststand.LastStandService;
+import dev.caecorthus.sparkdlc.trait.killer.escape.LastEscapeService;
+import dev.caecorthus.sparkdlc.trait.effective.EffectiveTraitService;
+import dev.caecorthus.sparkdlc.trait.killer.KillerTraitService;
+import dev.caecorthus.sparkdlc.trait.civilian.laststand.LastStandService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.player.PlayerEntity;
@@ -41,7 +41,7 @@ public abstract class GameFunctionsMixin {
         // 已存在的批准属于同一受害者的外层尝试，由外层负责处理。
         boolean lastStandApprovedByOuterAttempt = LastStandService.hasUnconsumedApproval(victim);
         boolean completed = false;
-        try (var scope = new dev.caecorthus.sparkdlc.traits.impl.traits.killer.escape.LastEscapeKillScope()) {
+        try (var scope = new dev.caecorthus.sparkdlc.trait.killer.escape.LastEscapeKillScope()) {
             original.call(victim, spawnBody, killer, deathReason, force || trainEscape);
             completed = true;
         } finally {

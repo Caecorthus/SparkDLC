@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.bodyguard;
 
-import dev.caecorthus.sparkdlc.strength.role.bodyguard.SacrificeSuppressionScope;
+import dev.caecorthus.sparkdlc.role.civilian.bodyguard.SacrificeSuppressionScope;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.doctor4t.wathe.api.event.KillPlayer;

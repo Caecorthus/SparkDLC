@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.timestealer;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.timestealer.TimeStealerInventoryRules;
+import dev.caecorthus.sparkdlc.role.killer.timestealer.TimeStealerInventoryRules;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

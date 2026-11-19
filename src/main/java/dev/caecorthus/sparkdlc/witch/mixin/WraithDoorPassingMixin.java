@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.roles.special.wraith.WraithStateService;
-import dev.caecorthus.sparkdlc.witch.util.RaycastShapeScope;
+import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
+import dev.caecorthus.sparkdlc.util.hitscan.RaycastShapeScope;
 import dev.doctor4t.wathe.block.DoorPartBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.wathe;
 
-import dev.caecorthus.sparkdlc.strength.role.jester.JesterMomentService;
+import dev.caecorthus.sparkdlc.role.neutral.jester.JesterMomentService;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.jester.JesterMomentLoadoutService;
+import dev.caecorthus.sparkdlc.trait.civilian.jester.JesterMomentLoadoutService;
 import dev.doctor4t.wathe.cca.PlayerPsychoComponent;
 import dev.doctor4t.wathe.game.GameConstants;
 import net.minecraft.entity.player.PlayerEntity;

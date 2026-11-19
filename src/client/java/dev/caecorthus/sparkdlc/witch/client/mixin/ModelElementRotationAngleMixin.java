@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.witch.client.render.ModelElementRotationRules;
+import dev.caecorthus.sparkdlc.client.render.ModelElementRotationRules;
 import net.minecraft.util.JsonHelper;
 import org.spongepowered.asm.mixin.Mixin;
 

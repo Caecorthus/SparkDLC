@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.factionapi.mixin;
 
-import dev.caecorthus.sparkdlc.factionapi.api.SparkFactionApi;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameConstants;
 import dev.doctor4t.wathe.util.KnifeStabPayload;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.sphinxhao;
 
-import dev.caecorthus.sparkdlc.witch.roles.neutral.sphinxhao.gun.SphinxHaoGunInventory;
+import dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.gun.SphinxHaoGunInventory;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

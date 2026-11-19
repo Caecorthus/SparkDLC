@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.mixin.knight;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.knight.KnightDuelBodyCollision;
+import dev.caecorthus.sparkdlc.role.civilian.knight.KnightDuelBodyCollision;
 import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 

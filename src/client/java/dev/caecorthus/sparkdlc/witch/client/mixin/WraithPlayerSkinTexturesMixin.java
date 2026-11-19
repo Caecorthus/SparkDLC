@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
-import dev.caecorthus.sparkdlc.witch.client.render.WraithSteveProjection;
+import dev.caecorthus.sparkdlc.client.render.WraithSteveProjection;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.util.SkinTextures;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.fiend;
 
-import dev.caecorthus.sparkdlc.witch.roles.neutral.fiend.FiendMomentService;
+import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendMomentService;
 import dev.doctor4t.wathe.block.VentHatchBlock;
 import dev.doctor4t.wathe.index.WatheItems;
 import net.minecraft.block.BlockState;

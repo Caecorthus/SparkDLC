@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.windspirit.WindSpiritRules;
-import dev.caecorthus.sparkdlc.witch.roles.special.wraith.WraithStateService;
+import dev.caecorthus.sparkdlc.role.civilian.windspirit.WindSpiritRules;
+import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;

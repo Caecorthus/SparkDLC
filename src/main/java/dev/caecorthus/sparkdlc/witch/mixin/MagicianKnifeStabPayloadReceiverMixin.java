@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.magician.MagicianPlaybackEntity;
-import dev.caecorthus.sparkdlc.witch.roles.killer.magician.MagicianPuppetHits;
-import dev.caecorthus.sparkdlc.witch.roles.killer.magician.MagicianRecordedAction;
-import dev.caecorthus.sparkdlc.witch.roles.killer.magician.MagicianServerHooks;
+import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPlaybackEntity;
+import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPuppetHits;
+import dev.caecorthus.sparkdlc.role.killer.magician.MagicianRecordedAction;
+import dev.caecorthus.sparkdlc.role.killer.magician.MagicianServerHooks;
 import dev.doctor4t.wathe.util.KnifeStabPayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.network.ServerPlayerEntity;

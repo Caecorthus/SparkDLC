@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.bear;
 
-import dev.caecorthus.sparkdlc.witch.client.bear.smoke.render.SmokeRenderer;
+import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.render.SmokeRenderer;
 import net.minecraft.client.render.WorldRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

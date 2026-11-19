@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.ConsciencePoisonerService;
+import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
+import dev.caecorthus.sparkdlc.trait.killer.conscience.ConsciencePoisonerService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerStaminaComponent;
 import dev.doctor4t.wathe.game.GameFunctions;

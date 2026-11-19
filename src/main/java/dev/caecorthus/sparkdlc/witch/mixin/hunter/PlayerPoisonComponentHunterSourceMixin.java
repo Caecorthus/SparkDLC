@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin.hunter;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterPlayerComponent;
-import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterTrapEntity;
+import dev.caecorthus.sparkdlc.role.killer.hunter.HunterPlayerComponent;
+import dev.caecorthus.sparkdlc.role.killer.hunter.HunterTrapEntity;
 import dev.doctor4t.wathe.cca.PlayerPoisonComponent;
 import java.util.UUID;
 import net.minecraft.entity.player.PlayerEntity;

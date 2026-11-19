@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.bear;
 
-import dev.caecorthus.sparkdlc.witch.client.bear.helmet.RysTHeadVisibility;
-import dev.caecorthus.sparkdlc.witch.client.bear.helmet.RysTWornCracks;
+import dev.caecorthus.sparkdlc.client.role.civilian.bear.helmet.RysTHeadVisibility;
+import dev.caecorthus.sparkdlc.client.role.civilian.bear.helmet.RysTWornCracks;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.HeadFeatureRenderer;
 import net.minecraft.client.util.math.MatrixStack;

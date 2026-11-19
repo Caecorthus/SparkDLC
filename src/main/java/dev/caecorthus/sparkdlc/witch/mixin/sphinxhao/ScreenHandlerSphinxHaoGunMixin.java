@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.sphinxhao;
 
-import dev.caecorthus.sparkdlc.witch.roles.neutral.sphinxhao.gun.SphinxHaoGunInventory;
+import dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.gun.SphinxHaoGunInventory;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.SlotActionType;

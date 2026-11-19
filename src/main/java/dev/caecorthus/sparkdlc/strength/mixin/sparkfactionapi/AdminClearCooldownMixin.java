@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.sparkfactionapi;
 
-import dev.caecorthus.sparkdlc.strength.compat.SparkFactionAdminClear;
+import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionAdminClear;
 import dev.caecorthus.sparkdlc.strength.mixin.minecraft.ServerItemCooldownManagerAccessor;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.At;
  * 职业机制不会经过这里。@Pseudo 与 require = 0：未安装 SparkFactionAPI 或命令变更时静默失效。
  */
 @Pseudo
-@Mixin(targets = "dev.caecorthus.sparkdlc.factionapi.command.admin.CooldownCommand", remap = false)
+@Mixin(targets = "dev.caecorthus.sparkdlc.command.admin.CooldownCommand", remap = false)
 public abstract class AdminClearCooldownMixin {
     @WrapOperation(method = "clearCooldown", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/entity/player/ItemCooldownManager;remove(Lnet/minecraft/item/Item;)V", remap = true),

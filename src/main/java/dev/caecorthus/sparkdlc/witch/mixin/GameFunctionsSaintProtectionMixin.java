@@ -1,11 +1,11 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsKillerBridge;
-import dev.caecorthus.sparkdlc.witch.item.ceremonialsword.CeremonialSwordProtectionPolicy;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.SaintFeatureService;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.savior.SaviorRules;
-import dev.caecorthus.sparkdlc.witch.roles.killer.bellringer.BellRingerRules;
-import dev.caecorthus.sparkdlc.witch.roles.killer.timestealer.TimeStealerRules;
+import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.item.ceremonialsword.CeremonialSwordProtectionPolicy;
+import dev.caecorthus.sparkdlc.role.civilian.saint.SaintFeatureService;
+import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorRules;
+import dev.caecorthus.sparkdlc.role.killer.bellringer.BellRingerRules;
+import dev.caecorthus.sparkdlc.role.killer.timestealer.TimeStealerRules;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
@@ -44,7 +44,7 @@ public abstract class GameFunctionsSaintProtectionMixin {
                 || TimeStealerRules.piercesProtection(deathReason, force)) {
             return;
         }
-        if (killer == null && dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaTerminalService.isBacklash(deathReason)) {
+        if (killer == null && dev.caecorthus.sparkdlc.role.civilian.emma.EmmaTerminalService.isBacklash(deathReason)) {
             return;
         }
         // Traits owns active-phase immunity and its train/lifecycle exceptions before protection costs.

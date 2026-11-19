@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.serialkiller;
 
-import dev.caecorthus.sparkdlc.strength.role.serialkiller.SerialKillerCooldownService;
+import dev.caecorthus.sparkdlc.role.killer.serialkiller.SerialKillerCooldownService;
 import net.minecraft.entity.player.PlayerEntity;
 import org.agmas.noellesroles.serialkiller.SerialKillerPlayerComponent;
 import org.spongepowered.asm.mixin.Final;

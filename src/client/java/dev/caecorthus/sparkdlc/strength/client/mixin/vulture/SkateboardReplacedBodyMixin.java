@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.vulture;
 
-import dev.caecorthus.sparkdlc.strength.client.role.vulture.SkateboardRenderer;
+import dev.caecorthus.sparkdlc.client.role.neutral.vulture.SkateboardRenderer;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.client.network.AbstractClientPlayerEntity;

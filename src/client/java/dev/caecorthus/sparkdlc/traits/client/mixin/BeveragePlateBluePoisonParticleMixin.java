@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.traits.client.mixin;
 
-import dev.caecorthus.sparkdlc.traits.client.killer.BluePoisonMarkerClientStore;
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.ConsciencePoisonerService;
-import dev.caecorthus.sparkdlc.traits.impl.resource.SparkTraitsParticles;
-import dev.caecorthus.sparkdlc.traits.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.client.trait.killer.BluePoisonMarkerClientStore;
+import dev.caecorthus.sparkdlc.trait.killer.conscience.ConsciencePoisonerService;
+import dev.caecorthus.sparkdlc.SparkTraitsParticles;
+import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
 import dev.doctor4t.wathe.block_entity.BeveragePlateBlockEntity;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.WatheClient;

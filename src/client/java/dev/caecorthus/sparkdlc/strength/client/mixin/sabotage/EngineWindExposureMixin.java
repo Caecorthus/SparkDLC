@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.sabotage;
 
-import dev.caecorthus.sparkdlc.strength.client.sabotage.EngineTrainMotion;
+import dev.caecorthus.sparkdlc.client.sabotage.EngineTrainMotion;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.doctor4t.wathe.Wathe;

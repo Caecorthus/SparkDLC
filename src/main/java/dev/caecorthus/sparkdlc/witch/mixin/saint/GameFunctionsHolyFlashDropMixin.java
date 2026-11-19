@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.saint;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.flash.HolyFlashInventoryRules;
+import dev.caecorthus.sparkdlc.role.civilian.saint.flash.HolyFlashInventoryRules;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.impl.replay.SparkTraitsAchievementRecords;
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.escape.LastEscapeService;
+import dev.caecorthus.sparkdlc.trait.replay.SparkTraitsAchievementRecords;
+import dev.caecorthus.sparkdlc.trait.killer.escape.LastEscapeService;
 import dev.doctor4t.wathe.game.GameConstants;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -21,7 +21,7 @@ public abstract class LastEscapeTerminalMixin {
             dev.doctor4t.wathe.cca.PlayerPsychoComponent psycho,
             com.llamalad7.mixinextras.injector.wrapoperation.Operation<Void> original,
             ServerPlayerEntity victim, boolean spawnBody, ServerPlayerEntity killer, Identifier reason, boolean force) {
-        dev.caecorthus.sparkdlc.traits.impl.traits.killer.escape.LastEscapeKillScope.beforePsychoStop(victim);
+        dev.caecorthus.sparkdlc.trait.killer.escape.LastEscapeKillScope.beforePsychoStop(victim);
         original.call(psycho);
     }
 
@@ -30,7 +30,7 @@ public abstract class LastEscapeTerminalMixin {
             cancellable = true, require = 1, allow = 1)
     private static void sparktraits$lastSave(ServerPlayerEntity victim, boolean spawnBody,
             ServerPlayerEntity killer, Identifier reason, boolean force, CallbackInfo ci) {
-        if (!dev.caecorthus.sparkdlc.traits.impl.lifecycle.TerminalDeathRules.contains(reason)
+        if (!dev.caecorthus.sparkdlc.trait.lifecycle.TerminalDeathRules.contains(reason)
                 && !LastEscapeService.isTrainDeath(reason) && !GameConstants.DeathReasons.ESCAPED.equals(reason)
                 && LastEscapeService.tryActivate(victim)) {
             ci.cancel();

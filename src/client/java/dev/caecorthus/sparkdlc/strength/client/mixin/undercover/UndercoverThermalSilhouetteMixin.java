@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.undercover;
 
-import dev.caecorthus.sparkdlc.strength.client.role.undercover.UndercoverThermalRenderer;
+import dev.caecorthus.sparkdlc.client.role.civilian.undercover.UndercoverThermalRenderer;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;

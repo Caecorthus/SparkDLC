@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.blackraven;
 
-import dev.caecorthus.sparkdlc.witch.client.blackraven.BlackRavenPerceptionScreenEffects;
+import dev.caecorthus.sparkdlc.client.role.killer.blackraven.BlackRavenPerceptionScreenEffects;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.GameRenderer;

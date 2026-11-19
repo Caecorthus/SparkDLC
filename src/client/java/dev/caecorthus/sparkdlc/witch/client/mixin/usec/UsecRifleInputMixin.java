@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.usec;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.client.usec.UsecFireInput;
+import dev.caecorthus.sparkdlc.client.role.civilian.usec.UsecFireInput;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import org.spongepowered.asm.mixin.Mixin;

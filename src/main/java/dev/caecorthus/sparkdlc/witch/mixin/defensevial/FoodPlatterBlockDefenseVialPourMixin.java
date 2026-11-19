@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin.defensevial;
 
-import dev.caecorthus.sparkdlc.witch.SparkWitchItems;
-import dev.caecorthus.sparkdlc.witch.item.defense.DefenseVialTrays;
+import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.item.defense.DefenseVialTrays;
 import dev.doctor4t.wathe.block.FoodPlatterBlock;
 import dev.doctor4t.wathe.block_entity.BeveragePlateBlockEntity;
 import net.minecraft.block.BlockState;

@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.witch.mixin.usec;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.witch.compat.NoellesShieldLayersCompat;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.usec.UsecShieldPierce;
+import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesShieldLayersCompat;
+import dev.caecorthus.sparkdlc.role.civilian.usec.UsecShieldPierce;
 import dev.doctor4t.wathe.api.event.KillPlayer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;

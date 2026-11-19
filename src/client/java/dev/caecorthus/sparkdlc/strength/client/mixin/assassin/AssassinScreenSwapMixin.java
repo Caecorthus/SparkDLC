@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.assassin;
 
-import dev.caecorthus.sparkdlc.strength.client.screen.assassin.AssassinGuessSources;
+import dev.caecorthus.sparkdlc.client.role.killer.assassin.AssassinGuessSources;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import org.jetbrains.annotations.Nullable;

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.timestealer;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import dev.caecorthus.sparkdlc.witch.client.timestealer.TimeStealerClientTargeting;
+import dev.caecorthus.sparkdlc.client.role.killer.timestealer.TimeStealerClientTargeting;
 import dev.doctor4t.wathe.client.gui.CrosshairRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;

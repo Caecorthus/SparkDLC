@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.bandit;
 
-import dev.caecorthus.sparkdlc.strength.client.role.bandit.BanditRevolverClient;
-import dev.caecorthus.sparkdlc.strength.item.BanditRevolverItem;
+import dev.caecorthus.sparkdlc.client.role.killer.bandit.BanditRevolverClient;
+import dev.caecorthus.sparkdlc.item.BanditRevolverItem;
 import dev.doctor4t.wathe.client.gui.CrosshairRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;

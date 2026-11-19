@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.witch.mixin.seeker;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.hit.SeekerDeviceHits;
-import dev.caecorthus.sparkdlc.witch.roles.killer.magician.MagicianPuppetHits;
+import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceHits;
+import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPuppetHits;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.world.ServerWorld;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.perfumer;
 
-import dev.caecorthus.sparkdlc.strength.client.role.perfumer.PerfumerClientEffects;
+import dev.caecorthus.sparkdlc.client.role.civilian.perfumer.kit.PerfumerClientEffects;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import dev.doctor4t.wathe.client.WatheClient;

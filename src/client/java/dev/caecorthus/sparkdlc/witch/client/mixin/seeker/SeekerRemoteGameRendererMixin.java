@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.seeker;
 
-import dev.caecorthus.sparkdlc.witch.client.seeker.remote.SeekerRemoteViewClient;
-import dev.caecorthus.sparkdlc.witch.client.seeker.remote.SeekerViewFilter;
+import dev.caecorthus.sparkdlc.client.role.civilian.seeker.remote.SeekerRemoteViewClient;
+import dev.caecorthus.sparkdlc.client.role.civilian.seeker.remote.SeekerViewFilter;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.RenderTickCounter;

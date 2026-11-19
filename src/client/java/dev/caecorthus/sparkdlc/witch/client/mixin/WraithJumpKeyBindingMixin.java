@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
-import dev.caecorthus.sparkdlc.witch.roles.special.wraith.WraithParticipationRules;
-import dev.caecorthus.sparkdlc.witch.roles.special.wraith.WraithStateService;
+import dev.caecorthus.sparkdlc.role.special.wraith.WraithParticipationRules;
+import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.doctor4t.wathe.cca.MapEnhancementsWorldComponent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.GameOptions;

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.roles.special.wraith.WraithParticipationRules;
-import dev.caecorthus.sparkdlc.witch.roles.special.wraith.WraithStateService;
+import dev.caecorthus.sparkdlc.role.special.wraith.WraithParticipationRules;
+import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;

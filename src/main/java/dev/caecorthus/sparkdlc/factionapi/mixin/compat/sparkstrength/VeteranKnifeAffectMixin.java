@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.factionapi.mixin.compat.sparkstrength;
 
-import dev.caecorthus.sparkdlc.factionapi.impl.target.PlayerAffectMixinGuard;
+import dev.caecorthus.sparkdlc.faction.target.PlayerAffectMixinGuard;
 import dev.doctor4t.wathe.game.GameConstants;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * 在消耗刺击次数前拦截 Strength 的老兵刀。
  */
 @Pseudo
-@Mixin(targets = "dev.caecorthus.sparkdlc.strength.role.veteran.VeteranKnifeService", remap = false)
+@Mixin(targets = "dev.caecorthus.sparkdlc.role.civilian.veteran.VeteranKnifeService", remap = false)
 public abstract class VeteranKnifeAffectMixin {
     @Inject(method = "handleKnifeStab", at = @At("HEAD"), cancellable = true, require = 0, remap = false)
     private static void sparkfactionapi$guardVeteranKnife(

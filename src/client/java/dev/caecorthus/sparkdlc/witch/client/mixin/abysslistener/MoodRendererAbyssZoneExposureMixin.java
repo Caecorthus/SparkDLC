@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.abysslistener;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import dev.caecorthus.sparkdlc.witch.client.abysslistener.AbyssZoneExposureTaskLine;
+import dev.caecorthus.sparkdlc.client.role.witch.abysslistener.AbyssZoneExposureTaskLine;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import dev.doctor4t.wathe.client.gui.MoodRenderer;
 import java.util.Map;

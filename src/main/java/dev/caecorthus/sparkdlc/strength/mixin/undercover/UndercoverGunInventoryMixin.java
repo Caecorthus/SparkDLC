@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.undercover;
 
-import dev.caecorthus.sparkdlc.strength.role.undercover.UndercoverService;
+import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverService;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;

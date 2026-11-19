@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.wathe;
 
-import dev.caecorthus.sparkdlc.strength.component.collision.PlayerCollisionGraceWorldComponent;
+import dev.caecorthus.sparkdlc.collision.PlayerCollisionGraceWorldComponent;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.entity.Entity;

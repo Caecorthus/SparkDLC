@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.sabotage;
 
-import dev.caecorthus.sparkdlc.strength.client.sabotage.BlackoutSightClient;
+import dev.caecorthus.sparkdlc.client.sabotage.BlackoutSightClient;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import dev.doctor4t.wathe.client.WatheClient;

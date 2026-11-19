@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.witch.client.gui.OwnerInventoryPresenter;
+import dev.caecorthus.sparkdlc.client.gui.OwnerInventoryPresenter;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedHandledScreen;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedInventoryScreen;
 import net.minecraft.client.gui.DrawContext;

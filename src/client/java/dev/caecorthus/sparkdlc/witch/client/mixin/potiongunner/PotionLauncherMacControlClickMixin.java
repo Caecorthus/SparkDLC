@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.potiongunner;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.caecorthus.sparkdlc.witch.client.potiongunner.PotionFireInput;
+import dev.caecorthus.sparkdlc.client.role.witch.potiongunner.PotionFireInput;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.Mouse;
 import org.objectweb.asm.Opcodes;

@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.factionapi.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.factionapi.impl.replay.RoleChangeRecorder;
+import dev.caecorthus.sparkdlc.replay.RoleChangeRecorder;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.player.PlayerEntity;

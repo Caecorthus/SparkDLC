@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.combat.CloseQuartersService;
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.combat.CombatTimingRules;
+import dev.caecorthus.sparkdlc.trait.killer.combat.CloseQuartersService;
+import dev.caecorthus.sparkdlc.trait.killer.combat.CombatTimingRules;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;

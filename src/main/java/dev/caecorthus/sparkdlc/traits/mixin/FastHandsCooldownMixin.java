@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.impl.traits.global.FastHandsTrait;
-import dev.caecorthus.sparkdlc.traits.impl.traits.global.GlobalTraitService;
-import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.police.VigilanteVeteranTraitService;
+import dev.caecorthus.sparkdlc.trait.global.FastHandsTrait;
+import dev.caecorthus.sparkdlc.trait.global.GlobalTraitService;
+import dev.caecorthus.sparkdlc.trait.civilian.police.VigilanteVeteranTraitService;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.item.Item;
 import net.minecraft.server.network.ServerItemCooldownManager;

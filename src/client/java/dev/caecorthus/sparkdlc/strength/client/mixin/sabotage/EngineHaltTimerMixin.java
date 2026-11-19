@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.sabotage;
 
-import dev.caecorthus.sparkdlc.strength.client.sabotage.EngineHaltHud;
+import dev.caecorthus.sparkdlc.client.sabotage.EngineHaltHud;
 import dev.doctor4t.wathe.client.gui.TimeRenderer;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;

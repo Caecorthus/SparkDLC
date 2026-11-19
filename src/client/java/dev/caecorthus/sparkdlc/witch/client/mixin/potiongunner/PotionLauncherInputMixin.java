@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.potiongunner;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.client.potiongunner.PotionFireInput;
+import dev.caecorthus.sparkdlc.client.role.witch.potiongunner.PotionFireInput;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import org.spongepowered.asm.mixin.Mixin;

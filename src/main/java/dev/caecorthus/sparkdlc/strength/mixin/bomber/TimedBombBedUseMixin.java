@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.mixin.bomber;
 
-import dev.caecorthus.sparkdlc.strength.role.bomber.BomberTrapService;
-import dev.caecorthus.sparkdlc.strength.role.bomber.TimedBombTrapHolder;
+import dev.caecorthus.sparkdlc.role.killer.bomber.BomberTrapService;
+import dev.caecorthus.sparkdlc.role.killer.bomber.TimedBombTrapHolder;
 import dev.doctor4t.wathe.block.TrimmedBedBlock;
 import dev.doctor4t.wathe.block_entity.TrimmedBedBlockEntity;
 import dev.doctor4t.wathe.index.WatheItems;

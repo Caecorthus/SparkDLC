@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.noellesroles;
 
-import dev.caecorthus.sparkdlc.strength.role.shadowjester.ShadowJesterShowdownService;
+import dev.caecorthus.sparkdlc.role.neutral.shadowjester.ShadowJesterShowdownService;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.agmas.noellesroles.shadowjester.ShadowJesterPlayerComponent;

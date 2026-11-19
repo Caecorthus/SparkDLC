@@ -1,12 +1,12 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import dev.caecorthus.sparkdlc.witch.client.guardianangel.GuardianAngelClientHooks;
-import dev.caecorthus.sparkdlc.witch.client.render.WraithViewerRules;
-import dev.caecorthus.sparkdlc.witch.client.vendetta.VendettaClientPresentation;
-import dev.caecorthus.sparkdlc.witch.roles.killer.saboteur.SaboteurRules;
-import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
-import dev.caecorthus.sparkdlc.witch.roles.special.wraith.conversion.WraithBodyRoleResolver;
+import dev.caecorthus.sparkdlc.client.role.civilian.guardianangel.GuardianAngelClientHooks;
+import dev.caecorthus.sparkdlc.client.render.WraithViewerRules;
+import dev.caecorthus.sparkdlc.client.role.civilian.vendetta.VendettaClientPresentation;
+import dev.caecorthus.sparkdlc.role.killer.saboteur.SaboteurRules;
+import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.role.special.wraith.conversion.WraithBodyRoleResolver;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
 import dev.doctor4t.wathe.cca.GameWorldComponent;

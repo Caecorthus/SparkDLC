@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.natsume;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.witch.client.natsume.NatsumeClientState;
+import dev.caecorthus.sparkdlc.client.role.killer.natsume.NatsumeClientState;
 import dev.doctor4t.wathe.client.WatheClient;
 import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;

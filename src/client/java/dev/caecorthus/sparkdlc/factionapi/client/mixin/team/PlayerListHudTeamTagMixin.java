@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.factionapi.client.mixin.team;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.caecorthus.sparkdlc.factionapi.impl.team.CaecorthusTeamTag;
+import dev.caecorthus.sparkdlc.team.CaecorthusTeamTag;
 import net.minecraft.client.gui.hud.PlayerListHud;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.text.MutableText;

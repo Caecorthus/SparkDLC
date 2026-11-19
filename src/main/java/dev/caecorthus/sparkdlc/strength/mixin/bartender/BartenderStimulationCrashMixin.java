@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.bartender;
 
-import dev.caecorthus.sparkdlc.strength.role.bartender.BartenderRules;
+import dev.caecorthus.sparkdlc.role.civilian.bartender.BartenderRules;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.entity.effect.StatusEffectInstance;

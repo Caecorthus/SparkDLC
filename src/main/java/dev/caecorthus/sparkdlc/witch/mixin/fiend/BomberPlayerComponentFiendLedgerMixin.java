@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.mixin.fiend;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.roles.neutral.fiend.FiendBombLedger;
+import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendBombLedger;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;

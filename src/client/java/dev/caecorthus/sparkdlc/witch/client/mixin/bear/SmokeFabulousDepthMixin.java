@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.bear;
 
-import dev.caecorthus.sparkdlc.witch.client.bear.smoke.render.SmokeRenderer;
+import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.render.SmokeRenderer;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.LightmapTextureManager;

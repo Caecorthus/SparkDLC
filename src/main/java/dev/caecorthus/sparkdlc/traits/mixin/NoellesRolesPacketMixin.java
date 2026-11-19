@@ -1,10 +1,10 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
-import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveConsequenceService;
-import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.laststand.LastStandService;
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.escape.LastEscapeService;
-import dev.caecorthus.sparkdlc.traits.impl.compatibility.noellesroles.SilencedKillerRestrictionService;
+import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
+import dev.caecorthus.sparkdlc.trait.effective.EffectiveConsequenceService;
+import dev.caecorthus.sparkdlc.trait.civilian.laststand.LastStandService;
+import dev.caecorthus.sparkdlc.trait.killer.escape.LastEscapeService;
+import dev.caecorthus.sparkdlc.trait.compat.noellesroles.SilencedKillerRestrictionService;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;

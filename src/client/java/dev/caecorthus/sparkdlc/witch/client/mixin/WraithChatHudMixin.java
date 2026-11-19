@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
-import dev.caecorthus.sparkdlc.witch.client.render.WraithClientState;
-import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.guardianangel.GuardianAngelRules;
-import dev.caecorthus.sparkdlc.witch.roles.special.wraith.WraithParticipationRules;
+import dev.caecorthus.sparkdlc.client.render.WraithClientState;
+import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.role.civilian.guardianangel.GuardianAngelRules;
+import dev.caecorthus.sparkdlc.role.special.wraith.WraithParticipationRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.WatheClient;
 import net.minecraft.client.MinecraftClient;

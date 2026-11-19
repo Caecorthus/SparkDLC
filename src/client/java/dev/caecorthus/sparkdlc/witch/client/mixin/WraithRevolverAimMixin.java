@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.witch.client.render.WraithAimPassThrough;
+import dev.caecorthus.sparkdlc.client.render.WraithAimPassThrough;
 import dev.doctor4t.wathe.item.RevolverItem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.hit.BlockHitResult;

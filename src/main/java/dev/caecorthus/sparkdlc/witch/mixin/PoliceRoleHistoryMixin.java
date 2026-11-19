@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.judge.PoliceSlotAssignmentService;
+import dev.caecorthus.sparkdlc.role.civilian.judge.PoliceSlotAssignmentService;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.RoleHistoryComponent;
 import dev.doctor4t.wathe.game.rotation.RoleCategory;

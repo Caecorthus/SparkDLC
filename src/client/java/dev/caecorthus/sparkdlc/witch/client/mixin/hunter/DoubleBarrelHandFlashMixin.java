@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.hunter;
 
-import dev.caecorthus.sparkdlc.witch.SparkWitchItems;
-import dev.caecorthus.sparkdlc.witch.client.hunter.DoubleBarrelMuzzleFlash;
+import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.client.role.killer.hunter.DoubleBarrelMuzzleFlash;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.HeldItemRenderer;
 import net.minecraft.client.render.model.json.ModelTransformationMode;

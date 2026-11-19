@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.economy;
 
-import dev.caecorthus.sparkdlc.strength.client.role.economy.KillerTeamEconomyClientHooks;
+import dev.caecorthus.sparkdlc.client.economy.KillerTeamEconomyClientHooks;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;

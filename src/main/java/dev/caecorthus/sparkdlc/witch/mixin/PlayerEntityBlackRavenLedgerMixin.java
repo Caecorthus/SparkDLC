@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.BlackRavenInventoryRules;
+import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenInventoryRules;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.factionapi.mixin.inventory;
 
-import dev.caecorthus.sparkdlc.factionapi.impl.inventory.LimitedInventoryRows;
-import dev.caecorthus.sparkdlc.factionapi.impl.inventory.LimitedInventoryScope;
+import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
+import dev.caecorthus.sparkdlc.inventory.LimitedInventoryScope;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;

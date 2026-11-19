@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.insider;
 
-import dev.caecorthus.sparkdlc.witch.roles.neutral.insider.JiahaoTeamWinSeam;
+import dev.caecorthus.sparkdlc.role.jiahao.insider.JiahaoTeamWinSeam;
 import dev.doctor4t.wathe.cca.GameRoundEndComponent;
 import net.minecraft.server.world.ServerWorld;
 import org.spongepowered.asm.mixin.Mixin;

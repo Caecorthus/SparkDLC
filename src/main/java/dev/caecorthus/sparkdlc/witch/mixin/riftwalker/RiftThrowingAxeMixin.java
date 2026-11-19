@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.witch.mixin.riftwalker;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.gate.RiftGateEntity;
-import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.projectile.RiftGateProjectileService;
+import dev.caecorthus.sparkdlc.role.witch.riftwalker.gate.RiftGateEntity;
+import dev.caecorthus.sparkdlc.role.witch.riftwalker.projectile.RiftGateProjectileService;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import org.agmas.noellesroles.entity.ThrowingAxeEntity;

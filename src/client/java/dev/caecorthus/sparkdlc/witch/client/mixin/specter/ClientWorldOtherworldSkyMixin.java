@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.specter;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.specter.SpecterOtherworldComponent;
+import dev.caecorthus.sparkdlc.role.killer.specter.SpecterOtherworldComponent;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin.discoverer;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.discoverer.DiscovererRules;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.discoverer.DiscovererStaminaService;
+import dev.caecorthus.sparkdlc.role.civilian.discoverer.DiscovererRules;
+import dev.caecorthus.sparkdlc.role.civilian.discoverer.DiscovererStaminaService;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.savior;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.savior.SaviorRules;
+import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorRules;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;

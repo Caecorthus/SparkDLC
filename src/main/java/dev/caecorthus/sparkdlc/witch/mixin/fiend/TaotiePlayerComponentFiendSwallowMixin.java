@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.fiend;
 
-import dev.caecorthus.sparkdlc.witch.roles.neutral.fiend.FiendSwallowPolicy;
+import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendSwallowPolicy;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.agmas.noellesroles.taotie.TaotiePlayerComponent;
 import org.spongepowered.asm.mixin.Mixin;

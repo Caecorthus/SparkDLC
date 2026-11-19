@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
-import dev.caecorthus.sparkdlc.witch.SparkWitchItems;
-import dev.caecorthus.sparkdlc.witch.client.grandwitch.GrandWitchClientPresentation;
-import dev.caecorthus.sparkdlc.witch.client.grandwitch.GrandWitchSwordHud;
-import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.client.role.witch.grandwitch.GrandWitchClientPresentation;
+import dev.caecorthus.sparkdlc.client.role.witch.grandwitch.GrandWitchSwordHud;
+import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
 import dev.doctor4t.wathe.client.gui.CrosshairRenderer;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.client.MinecraftClient;

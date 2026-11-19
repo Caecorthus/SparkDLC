@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.assist.client.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.assist.client.ponder.ActorPlayer;
-import dev.caecorthus.sparkdlc.assist.client.ponder.ActorSkinCompat;
+import dev.caecorthus.sparkdlc.client.ponder.ActorPlayer;
+import dev.caecorthus.sparkdlc.client.ponder.ActorSkinCompat;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.util.Identifier;

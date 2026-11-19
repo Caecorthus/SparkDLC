@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.kidnapper;
 
-import dev.caecorthus.sparkdlc.witch.client.hooks.KidnapperThrowClientHooks;
+import dev.caecorthus.sparkdlc.client.hooks.KidnapperThrowClientHooks;
 import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

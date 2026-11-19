@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.savior;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.doctor4t.wathe.client.gui.CrosshairRenderer;
 import dev.doctor4t.wathe.index.WatheItems;
 import net.minecraft.item.Item;

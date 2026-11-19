@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.factionapi.mixin.record;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.factionapi.impl.record.IncomeRecorder;
-import dev.caecorthus.sparkdlc.factionapi.impl.record.PlayerScopeStack;
+import dev.caecorthus.sparkdlc.record.IncomeRecorder;
+import dev.caecorthus.sparkdlc.record.PlayerScopeStack;
 import dev.doctor4t.wathe.cca.PlayerShopComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Final;

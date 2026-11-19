@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.assist.client.mixin;
 
-import dev.caecorthus.sparkdlc.assist.client.config.SparkAssistClientSettings;
-import dev.caecorthus.sparkdlc.assist.config.BloodAppearance;
+import dev.caecorthus.sparkdlc.client.config.SparkAssistClientSettings;
+import dev.caecorthus.sparkdlc.config.BloodAppearance;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.VertexConsumer;
 import org.spongepowered.asm.mixin.Mixin;

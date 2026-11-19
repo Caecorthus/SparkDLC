@@ -1,10 +1,10 @@
 package dev.caecorthus.sparkdlc.witch.mixin.witchmaiden;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.PoisonApplePlateAccess;
-import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.PoisonApplePlateNbt;
-import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.PoisonApplePlateState;
-import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.PoisonApplePlateService;
-import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.PoisonApplePlateTracker;
+import dev.caecorthus.sparkdlc.role.killer.witchmaiden.PoisonApplePlateAccess;
+import dev.caecorthus.sparkdlc.role.killer.witchmaiden.PoisonApplePlateNbt;
+import dev.caecorthus.sparkdlc.role.killer.witchmaiden.PoisonApplePlateState;
+import dev.caecorthus.sparkdlc.role.killer.witchmaiden.PoisonApplePlateService;
+import dev.caecorthus.sparkdlc.role.killer.witchmaiden.PoisonApplePlateTracker;
 import dev.doctor4t.wathe.block_entity.BeveragePlateBlockEntity;
 import java.util.Objects;
 import java.util.UUID;

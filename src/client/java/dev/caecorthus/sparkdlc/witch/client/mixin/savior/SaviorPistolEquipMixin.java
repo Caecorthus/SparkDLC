@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.savior;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import dev.caecorthus.sparkdlc.witch.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkWitchItems;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.item.HeldItemRenderer;

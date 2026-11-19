@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.traits.client.mixin;
 
-import dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.traits.client.killer.LastEscapeInput;
-import dev.caecorthus.sparkdlc.traits.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.client.trait.killer.LastEscapeInput;
+import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
 import dev.doctor4t.wathe.item.KnifeItem;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;

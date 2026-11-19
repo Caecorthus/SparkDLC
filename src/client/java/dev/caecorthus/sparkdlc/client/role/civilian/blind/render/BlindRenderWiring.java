@@ -1,0 +1,107 @@
+package dev.caecorthus.sparkdlc.client.role.civilian.blind.render;
+
+import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.role.civilian.blind.BlindRules;
+import net.fabricmc.fabric.api.client.networking.v1.ClientLoginConnectionEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.resource.ResourceManager;
+import net.minecraft.resource.ResourceType;
+import net.minecraft.text.OrderedText;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+
+/**
+ * Client wiring of the Blind's black screen and line-art pipeline: the body pick at {@code WorldRenderEvents.START},
+ * the frame capture at {@code WorldRenderEvents.BEFORE_DEBUG_RENDER}, the fallback depth copy at {@code WorldRenderEvents.LAST} for a frame
+ * whose particle draw never ran, the fail-closed HUD hint, and {@link BlindEchoView#reset()} on disconnect and
+ * resource reload. The usual depth copy runs from {@code BlindDepthCaptureMixin}, the end-of-frame pass from
+ * {@code BlindGameRendererMixin}.
+ * 盲人黑屏与线稿管线的客户端接线：在 {@code WorldRenderEvents.START} 选出身体，在 {@code WorldRenderEvents.BEFORE_DEBUG_RENDER} 捕获本帧，在
+ * {@code WorldRenderEvents.LAST} 为粒子绘制未运行的帧补做深度拷贝，失败即全黑时的 HUD 提示，以及断线与资源重载时的
+ * {@link BlindEchoView#reset()}。通常的深度拷贝由 {@code BlindDepthCaptureMixin} 运行，帧末 pass 由
+ * {@code BlindGameRendererMixin} 运行。
+ */
+public final class BlindRenderWiring {
+    /** Iris reports a shader pack. / Iris 报告正在使用光影包。 */
+    public static final String SHADER_PACK_HINT_KEY = "hud.sparkwitch.blind.view_unavailable";
+    /** The pipeline failed or no depth was captured, with no shader pack. / 无光影包时管线失败或未捕获深度。 */
+    public static final String RENDER_FAILED_HINT_KEY = "hud.sparkwitch.blind.view_failed";
+    private static final Identifier RELOAD_LISTENER_ID = SparkWitch.id("blind_echo_view");
+    private static boolean registered;
+
+    private BlindRenderWiring() {
+    }
+
+    public static synchronized void register() {
+        if (registered) {
+            return;
+        }
+        registered = true;
+        WorldRenderEvents.START.register(BlindEchoView::beginFrame);
+        WorldRenderEvents.BEFORE_DEBUG_RENDER.register(BlindEchoView::captureWorld);
+        // A mod that cancels or swallows the particle draw would otherwise leave the Blind black for good; this copy then
+        // also holds that frame's particles. / 若有模组取消或吞掉粒子绘制，盲人会一直黑屏；此时的补拷贝会包含该帧的粒子。
+        WorldRenderEvents.LAST.register(context -> BlindEchoView.captureDepth());
+        HudRenderCallback.EVENT.register((context, tickCounter) -> renderFallbackHint(context));
+        ClientLoginConnectionEvents.INIT.register((handler, client) -> BlindEchoView.reset());
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> BlindEchoView.reset());
+        // Also on JOIN: a proxy backend switch re-joins without a disconnect, and play state only arrives after JOIN.
+        // JOIN 时同样重置：代理切换后端时不会断线而是重新加入，而 play 阶段的状态只会在 JOIN 之后到达。
+        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> BlindEchoView.reset());
+        // Reload listeners apply on the render thread, where GL objects may be released.
+        // 重载监听器在渲染线程执行，可在此安全释放 GL 对象。
+        ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(
+                new SimpleSynchronousResourceReloadListener() {
+                    @Override
+                    public Identifier getFabricId() {
+                        return RELOAD_LISTENER_ID;
+                    }
+
+                    @Override
+                    public void reload(ResourceManager manager) {
+                        BlindEchoView.reset();
+                    }
+                });
+    }
+
+    @Nullable
+    static String hintKey(BlindEchoMode.Hint hint) {
+        return switch (hint) {
+            case NONE -> null;
+            case SHADER_PACK -> SHADER_PACK_HINT_KEY;
+            case RENDER_FAILED -> RENDER_FAILED_HINT_KEY;
+        };
+    }
+
+    private static void renderFallbackHint(DrawContext context) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        // HudRenderCallback fires even with F1; the hint is HUD text, so F1 hides it like the rest of the HUD.
+        // HudRenderCallback 在 F1 下仍会触发；该提示属于 HUD 文字，因此与其余 HUD 一样随 F1 隐藏。
+        if (client.options.hudHidden) {
+            return;
+        }
+        String key = hintKey(BlindEchoView.currentHint());
+        if (key == null) {
+            return;
+        }
+        TextRenderer textRenderer = client.textRenderer;
+        int width = context.getScaledWindowWidth();
+        // Wrapped so the hint stays on screen at narrow GUI widths. / 自动换行，窄 GUI 宽度下提示仍在屏幕内。
+        List<OrderedText> lines = textRenderer.wrapLines(Text.translatable(key), Math.max(64, width - 32));
+        int y = context.getScaledWindowHeight() / 2 - 24 - (lines.size() - 1) * (textRenderer.fontHeight + 1);
+        for (OrderedText line : lines) {
+            context.drawCenteredTextWithShadow(textRenderer, line, width / 2, y, BlindRules.COLOR);
+            y += textRenderer.fontHeight + 1;
+        }
+    }
+}

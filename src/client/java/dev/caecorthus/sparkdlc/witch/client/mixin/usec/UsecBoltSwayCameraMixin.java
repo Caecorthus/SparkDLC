@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.usec;
 
-import dev.caecorthus.sparkdlc.witch.client.usec.UsecBoltSway;
-import dev.caecorthus.sparkdlc.witch.client.usec.UsecBoltSwayClient;
+import dev.caecorthus.sparkdlc.client.role.civilian.usec.UsecBoltSway;
+import dev.caecorthus.sparkdlc.client.role.civilian.usec.UsecBoltSwayClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;

@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.factionapi.mixin.record;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.factionapi.impl.record.ConsumeRecorder;
-import dev.caecorthus.sparkdlc.factionapi.impl.record.PlayerScopeStack;
+import dev.caecorthus.sparkdlc.record.ConsumeRecorder;
+import dev.caecorthus.sparkdlc.record.PlayerScopeStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;

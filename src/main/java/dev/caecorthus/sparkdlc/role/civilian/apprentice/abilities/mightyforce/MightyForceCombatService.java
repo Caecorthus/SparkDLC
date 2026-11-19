@@ -1,0 +1,296 @@
+package dev.caecorthus.sparkdlc.role.civilian.apprentice.abilities.mightyforce;
+
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
+import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
+import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
+import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthPartygoerCompat;
+import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
+import dev.caecorthus.sparkdlc.role.civilian.apprentice.ApprenticePlayerComponent;
+import dev.caecorthus.sparkdlc.role.civilian.apprentice.ApprenticeRules;
+import dev.caecorthus.sparkdlc.role.civilian.sherry.SherryMightyForceService;
+import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaInteractionService;
+import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit.BlackRavenCrowHits;
+import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.entity.PlayerBodyEntity;
+import dev.doctor4t.wathe.game.GameConstants;
+import dev.doctor4t.wathe.game.GameFunctions;
+import dev.doctor4t.wathe.index.WatheEntities;
+import dev.doctor4t.wathe.record.GameRecordManager;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
+import net.minecraft.entity.Entity;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+
+public final class MightyForceCombatService {
+    private static boolean registered;
+
+    private MightyForceCombatService() {
+    }
+
+    public static synchronized void register() {
+        if (registered) {
+            return;
+        }
+        registered = true;
+        AttackEntityCallback.EVENT.register((player, world, hand, entity, hitResult) ->
+                tryHandleAttack(player, world, hand, entity));
+    }
+
+    public static ActionResult tryHandleAttack(Entity attacker, World world, Hand hand, Entity attacked) {
+        if (world.isClient
+                || !(attacker instanceof ServerPlayerEntity serverAttacker)
+                || !serverAttacker.getStackInHand(hand).isEmpty()) {
+            return ActionResult.PASS;
+        }
+        if (SparkStrengthPartygoerCompat.isPartygoer(attacked)) {
+            return tryStrikePartygoer(serverAttacker, attacked);
+        }
+        // Raven Form seam: a crow in reach stands in for its owner, so the strike and its misfire rule hit the Black Raven.
+        // 化鸦接缝：近战距离内的乌鸦以其主人代入，因此这一击及其误杀规则作用于黑羽鸦。
+        Entity target = BlackRavenCrowHits.meleeStandIn(serverAttacker, attacked);
+        if (!canStrike(serverAttacker, target)) {
+            return ActionResult.PASS;
+        }
+
+        if (SparkTraitsKillerBridge.isKillerInteractionBlocked(serverAttacker)
+                || SparkTraitsKillerBridge.shouldCancelMeleeAttack(
+                        serverAttacker, (ServerPlayerEntity) target, serverAttacker.getStackInHand(hand))) {
+            return ActionResult.FAIL;
+        }
+        strike(serverAttacker, (ServerPlayerEntity) target);
+        return ActionResult.SUCCESS;
+    }
+
+    private static boolean canStrike(ServerPlayerEntity attacker, Entity target) {
+        if (!hasLiveMightyForce(attacker)
+                || !(target instanceof ServerPlayerEntity serverTarget)
+                || attacker.getUuid().equals(serverTarget.getUuid())) {
+            return false;
+        }
+        return VendettaInteractionService.isOrdinaryAliveOrBoundKillerTarget(attacker, serverTarget)
+                && GameFunctions.isPlayerAliveAndSurvival(serverTarget);
+    }
+
+    /**
+     * The living current Apprentice inside her own Mighty Force window, or the living current 橘雪莉 inside hers
+     * (PR #206: her window lives in her own component and never needs the Apprentice's active skill). Fabric fires
+     * {@link AttackEntityCallback} before vanilla's spectator check, and a Taotie-swallowed player is a Wathe-alive
+     * spectator riding the Taotie's camera, so both are refused here or she could strike whoever stands in front of
+     * the Taotie.
+     * 处于自己巨力窗口内的存活现任预备魔女，或处于自己窗口内的存活现任橘雪莉（PR #206：她的窗口保存在自己的组件中，
+     * 不需要预备魔女的当前技能）。Fabric 的 {@link AttackEntityCallback} 在原版旁观者检查之前触发，而被饕餮吞下的
+     * 玩家是 Wathe 视为存活、视角锁在饕餮身上的旁观者，因此两者都在此拒绝，否则她能在肚子里击杀饕餮面前的玩家。
+     */
+    private static boolean hasLiveMightyForce(ServerPlayerEntity attacker) {
+        WitchPlayerComponent component = WitchPlayerComponent.KEY.get(attacker);
+        GameWorldComponent gameComponent = GameWorldComponent.KEY.get(attacker.getWorld());
+        boolean apprenticeWindow = gameComponent.getRole(attacker) == SparkWitchRoles.apprenticeWitch()
+                && MightyForceAbility.ID.equals(component.getActiveSkillId())
+                && component.hasActiveMightyForce();
+        return (apprenticeWindow || SherryMightyForceService.hasLiveWindow(attacker))
+                && GameFunctions.isPlayerPlayingAndAlive(attacker)
+                && !attacker.isSpectator()
+                && !NoellesTaotieSeekerBridge.isSwallowed(attacker);
+    }
+
+    /**
+     * SparkStrength Partygoer seam (owner rule 2026-10-21: whatever kills a player kills a Partygoer in one hit): a bare
+     * hand strike inside the window kills it with {@code MIGHTY_FORCE} and spends the window like a player strike. The
+     * attacker gates are the player strike's (vanilla's server reach check included); the target gates are
+     * SparkStrength's {@code isKillable}. PASS for anything else, so the attack reaches vanilla untouched.
+     * SparkStrength 派对客接缝（所有者规则 2026-10-21：能杀死玩家的东西一击打死派对客）：窗口内的空手一击以 {@code MIGHTY_FORCE}
+     * 打死它，并与击中玩家一样用掉窗口。攻击者门槛与玩家一击相同（含原版服务端距离检查）；目标门槛为 SparkStrength 的
+     * {@code isKillable}。其他情况一律 PASS，攻击原样交给原版。
+     */
+    private static ActionResult tryStrikePartygoer(ServerPlayerEntity attacker, Entity partygoer) {
+        if (!hasLiveMightyForce(attacker) || !SparkStrengthPartygoerCompat.isKillable(partygoer)) {
+            return ActionResult.PASS;
+        }
+        if (SparkTraitsKillerBridge.isKillerInteractionBlocked(attacker)) {
+            return ActionResult.FAIL;
+        }
+        strikePartygoer(attacker, partygoer);
+        return ActionResult.SUCCESS;
+    }
+
+    /**
+     * Spends the window that allowed this strike: 橘雪莉's own window when she holds one, otherwise the Apprentice's.
+     * 用掉允许这一击的窗口：橘雪莉持有自己的窗口时用掉她的，否则用掉预备魔女的。
+     */
+    private static void spendWindow(ServerPlayerEntity attacker) {
+        if (SherryMightyForceService.hasLiveWindow(attacker)) {
+            SherryMightyForceService.onStrike(attacker);
+            return;
+        }
+        WitchPlayerComponent.KEY.get(attacker).clearMightyForceWindow();
+    }
+
+    private static void strike(ServerPlayerEntity attacker, ServerPlayerEntity target) {
+        boolean sherryStrike = SherryMightyForceService.hasLiveWindow(attacker);
+        spendWindow(attacker);
+
+        ServerWorld world = attacker.getServerWorld();
+        Vec3d impulse = knockbackImpulse(attacker, target);
+        applyKnockback(target, impulse);
+
+        // Wathe spawns the corpse synchronously; remember old bodies so a cancelled death cannot launch one.
+        // Wathe 会同步生成尸体；先记录旧尸体，避免死亡被拦截时误把旧尸体击飞。
+        Set<UUID> existingBodyUuids = new HashSet<>();
+        for (PlayerBodyEntity body : world.getEntitiesByType(
+                WatheEntities.PLAYER_BODY,
+                body -> body.getPlayerUuid().equals(target.getUuid())
+        )) {
+            existingBodyUuids.add(body.getUuid());
+        }
+
+        boolean terminalVendetta = VendettaInteractionService.isBoundKillerTargetingVendetta(
+                attacker, target);
+        if (!terminalVendetta) {
+            GameRecordManager.recordSkillUse(attacker, MightyForceAbility.ID, target, null);
+        }
+        // Pre-hit snapshots for the misfire rule, taken like the Swordfish stab's (owner D5).
+        // 误杀规则所需的命中前快照，取法与剑鱼刺杀相同（所有者 D5）。
+        GameWorldComponent game = GameWorldComponent.KEY.get(world);
+        Identifier attackerFaction = SparkFactionApi.resolveEffectiveFaction(attacker, game);
+        Identifier victimFaction = SparkFactionApi.resolveEffectiveFaction(target, game);
+        boolean deadBefore = game.isPlayerDead(target.getUuid());
+        GameFunctions.killPlayer(target, true, attacker, SparkWitchDeathReasons.MIGHTY_FORCE);
+        punishMisfire(attacker, target, game, attackerFaction, victimFaction, deadBefore, sherryStrike);
+        if (terminalVendetta) {
+            // The terminal handler installs suppression before this caller-owned record is attempted.
+            // 终止结算会先安装抑制标记，再尝试写入调用方自己的技能回放。
+            GameRecordManager.recordSkillUse(attacker, MightyForceAbility.ID, target, null);
+        }
+
+        Entity impactRecipient = world.getEntitiesByType(
+                WatheEntities.PLAYER_BODY,
+                body -> body.getPlayerUuid().equals(target.getUuid())
+                        && body.getDeathGameTime() == (int) world.getTime()
+                        && SparkWitchDeathReasons.MIGHTY_FORCE.equals(body.getDeathReason())
+                        && !existingBodyUuids.contains(body.getUuid())
+        ).stream().findFirst().orElse(null);
+        if (!GameFunctions.isPlayerPlayingAndAlive(target) && impactRecipient != null) {
+            applyKnockback(impactRecipient, impulse);
+        }
+
+        world.playSound(
+                null,
+                target.getX(),
+                target.getEyeY(),
+                target.getZ(),
+                SoundEvents.ENTITY_PLAYER_ATTACK_KNOCKBACK,
+                SoundCategory.PLAYERS,
+                1.0f,
+                0.8f
+        );
+    }
+
+    /**
+     * The window ends first, as in {@link #strike}; the Partygoer is never an innocent (no misfire, no skill record:
+     * SparkStrength records the kill). Its corpse (a Wathe body under the Partygoer's UUID, spawned during the kill)
+     * flies like a player's body.
+     * 与 {@link #strike} 一样先结束窗口；派对客永远不是好人（不算误杀，也不写技能记录：由 SparkStrength 记录这次击杀）。
+     * 它的尸体（击杀时生成、以派对客 UUID 为主人的 Wathe 尸体）与玩家尸体一样被击飞。
+     */
+    private static void strikePartygoer(ServerPlayerEntity attacker, Entity partygoer) {
+        spendWindow(attacker);
+
+        ServerWorld world = attacker.getServerWorld();
+        Vec3d impulse = knockbackImpulse(attacker, partygoer);
+        UUID partygoerUuid = partygoer.getUuid();
+        double x = partygoer.getX();
+        double y = partygoer.getEyeY();
+        double z = partygoer.getZ();
+        if (!SparkStrengthPartygoerCompat.killByWeapon(attacker, partygoer, SparkWitchDeathReasons.MIGHTY_FORCE)) {
+            return;
+        }
+        world.getEntitiesByType(
+                WatheEntities.PLAYER_BODY,
+                body -> body.getPlayerUuid().equals(partygoerUuid)
+                        && body.getDeathGameTime() == (int) world.getTime()
+                        && SparkWitchDeathReasons.MIGHTY_FORCE.equals(body.getDeathReason())
+        ).stream().findFirst().ifPresent(corpse -> applyKnockback(corpse, impulse));
+        world.playSound(null, x, y, z, SoundEvents.ENTITY_PLAYER_ATTACK_KNOCKBACK, SoundCategory.PLAYERS,
+                1.0f, 0.8f);
+    }
+
+    /**
+     * Killing an innocent follows Wathe's shoot-innocent punishment: KILL_SHOOTER kills her with Wathe's own
+     * {@code shot_innocent} reason, PREVENT_GUN_PICKUP takes Mighty Force away for the round (owner D5). 橘雪莉's
+     * strike follows the same rule (owner 2026-11-11); only where the forfeit is stored differs.
+     * 误杀好人沿用 Wathe 的误杀惩罚：KILL_SHOOTER 以 Wathe 自带的 {@code shot_innocent} 死因击杀她，PREVENT_GUN_PICKUP
+     * 让巨力本局失效（所有者 D5）。橘雪莉的出拳沿用同一规则（所有者 2026-11-11）；只有失效标记的存放位置不同。
+     */
+    private static void punishMisfire(
+            ServerPlayerEntity attacker,
+            ServerPlayerEntity target,
+            GameWorldComponent game,
+            Identifier attackerFaction,
+            Identifier victimFaction,
+            boolean deadBefore,
+            boolean sherryStrike
+    ) {
+        ApprenticeRules.MisfireOutcome outcome = ApprenticeRules.misfireOutcome(
+                attackerFaction,
+                victimFaction,
+                deadBefore,
+                game.isPlayerDead(target.getUuid()),
+                WitchFactorTraitsBridge.isDeathIntercepted(target),
+                SparkTraitsKillerBridge.isNonFinalKillPending(target, attacker),
+                game.getShootInnocentPunishment()
+        );
+        switch (outcome) {
+            case KILL_ATTACKER -> {
+                if (GameFunctions.isPlayerPlayingAndAlive(attacker) && GameFunctions.isPlayerAliveAndSurvival(attacker)) {
+                    GameFunctions.killPlayer(attacker, true, null, GameConstants.DeathReasons.SHOT_INNOCENT);
+                }
+            }
+            case FORFEIT_MIGHTY_FORCE -> {
+                if (sherryStrike) {
+                    SherryMightyForceService.forfeit(attacker);
+                } else {
+                    ApprenticePlayerComponent.KEY.get(attacker).forfeitMightyForce();
+                }
+                attacker.sendMessage(Text.translatable("message.sparkwitch.skill.mighty_force.forfeited"), true);
+            }
+            case NONE -> {
+            }
+        }
+    }
+
+    private static Vec3d knockbackImpulse(ServerPlayerEntity attacker, Entity target) {
+        Vec3d direction = target.getPos().subtract(attacker.getPos());
+        Vec3d horizontal = new Vec3d(direction.x, 0.0, direction.z);
+        if (horizontal.lengthSquared() < 1.0E-6) {
+            horizontal = attacker.getRotationVec(1.0f).multiply(1.0, 0.0, 1.0);
+        }
+        if (horizontal.lengthSquared() < 1.0E-6) {
+            return Vec3d.ZERO;
+        }
+        return horizontal.normalize()
+                .multiply(MightyForceAbility.KNOCKBACK_STRENGTH)
+                .add(0.0, 0.35, 0.0);
+    }
+
+    private static void applyKnockback(Entity target, Vec3d impulse) {
+        if (impulse.lengthSquared() < 1.0E-6) {
+            return;
+        }
+        target.addVelocity(impulse.x, impulse.y, impulse.z);
+        target.velocityModified = true;
+    }
+}

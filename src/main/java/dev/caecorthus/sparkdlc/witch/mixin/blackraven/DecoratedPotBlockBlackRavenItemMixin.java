@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.blackraven;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.BlackRavenInventoryRules;
+import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenInventoryRules;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DecoratedPotBlock;
 import net.minecraft.entity.player.PlayerEntity;

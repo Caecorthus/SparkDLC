@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.saboteur;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.saboteur.SaboteurLightOutageService;
+import dev.caecorthus.sparkdlc.role.killer.saboteur.SaboteurLightOutageService;
 import dev.doctor4t.wathe.cca.WorldBlackoutComponent;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;

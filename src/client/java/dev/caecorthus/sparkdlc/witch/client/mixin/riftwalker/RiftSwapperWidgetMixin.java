@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.riftwalker;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.client.riftwalker.swapper.RiftSwapperClient;
+import dev.caecorthus.sparkdlc.client.role.witch.riftwalker.swapper.RiftSwapperClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 import org.agmas.noellesroles.client.SwapperPlayerWidget;

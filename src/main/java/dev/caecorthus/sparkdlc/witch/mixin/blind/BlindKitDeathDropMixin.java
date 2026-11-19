@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.blind;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.blind.kit.BlindInventoryRules;
+import dev.caecorthus.sparkdlc.role.civilian.blind.kit.BlindInventoryRules;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

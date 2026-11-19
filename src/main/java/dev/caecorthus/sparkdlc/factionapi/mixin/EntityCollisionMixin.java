@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.factionapi.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.factionapi.impl.collision.EntityCollisionExemptions;
+import dev.caecorthus.sparkdlc.faction.collision.EntityCollisionExemptions;
 import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 

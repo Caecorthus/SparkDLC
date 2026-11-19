@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.client.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.caecorthus.sparkdlc.traits.client.instinct.ImpostorKillerView;
+import dev.caecorthus.sparkdlc.client.trait.instinct.ImpostorKillerView;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import org.spongepowered.asm.mixin.Mixin;

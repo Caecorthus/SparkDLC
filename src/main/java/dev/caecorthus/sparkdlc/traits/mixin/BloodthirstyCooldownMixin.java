@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.SparkTraits;
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.KillerTraitService;
+import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.trait.killer.KillerTraitService;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;

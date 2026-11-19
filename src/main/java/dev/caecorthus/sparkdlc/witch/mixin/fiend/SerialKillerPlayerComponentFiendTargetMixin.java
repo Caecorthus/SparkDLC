@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin.fiend;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.caecorthus.sparkdlc.witch.roles.neutral.fiend.FiendTargetExclusion;
+import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendTargetExclusion;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.server.world.ServerWorld;
 import org.agmas.noellesroles.serialkiller.SerialKillerPlayerComponent;

@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.savior;
 
-import dev.caecorthus.sparkdlc.witch.SparkWitchItems;
-import dev.caecorthus.sparkdlc.witch.client.savior.SaviorHandFlash;
-import dev.caecorthus.sparkdlc.witch.client.savior.SaviorMuzzleTracker;
+import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.client.role.civilian.savior.SaviorHandFlash;
+import dev.caecorthus.sparkdlc.client.role.civilian.savior.SaviorMuzzleTracker;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.HeldItemRenderer;

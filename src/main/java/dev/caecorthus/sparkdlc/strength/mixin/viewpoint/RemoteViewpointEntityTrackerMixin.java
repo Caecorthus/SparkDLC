@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.viewpoint;
 
-import dev.caecorthus.sparkdlc.strength.viewpoint.RemoteViewpoint;
+import dev.caecorthus.sparkdlc.viewpoint.RemoteViewpoint;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.Entity;

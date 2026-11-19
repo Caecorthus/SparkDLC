@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.client.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import dev.caecorthus.sparkdlc.traits.client.killer.ForcedMeleeHud;
+import dev.caecorthus.sparkdlc.client.trait.killer.ForcedMeleeHud;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.option.AttackIndicator;

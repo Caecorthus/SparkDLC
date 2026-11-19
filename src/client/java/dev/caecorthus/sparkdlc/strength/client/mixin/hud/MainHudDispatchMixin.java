@@ -1,15 +1,15 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.hud;
 
-import dev.caecorthus.sparkdlc.strength.client.role.bodyguard.BodyguardHud;
-import dev.caecorthus.sparkdlc.strength.client.role.bomber.DronePilotHud;
-import dev.caecorthus.sparkdlc.strength.client.role.corruptcop.CorruptCopAbilityHud;
-import dev.caecorthus.sparkdlc.strength.client.role.demonhunter.DemonHunterSniffHudRenderer;
-import dev.caecorthus.sparkdlc.strength.client.role.detective.DetectiveMagnifierHudRenderer;
-import dev.caecorthus.sparkdlc.strength.client.role.partyanimal.PartygoerHud;
-import dev.caecorthus.sparkdlc.strength.client.role.spiritualist.SpiritPossessionHud;
-import dev.caecorthus.sparkdlc.strength.client.role.taotie.TaotieHeadHudRenderer;
-import dev.caecorthus.sparkdlc.strength.client.role.vulture.SkateboardHud;
-import dev.caecorthus.sparkdlc.strength.client.role.vulture.VultureSuperCurseHud;
+import dev.caecorthus.sparkdlc.client.role.civilian.bodyguard.BodyguardHud;
+import dev.caecorthus.sparkdlc.client.role.killer.bomber.DronePilotHud;
+import dev.caecorthus.sparkdlc.client.role.jiahao.corruptcop.CorruptCopAbilityHud;
+import dev.caecorthus.sparkdlc.client.role.civilian.demonhunter.DemonHunterSniffHudRenderer;
+import dev.caecorthus.sparkdlc.client.role.civilian.detective.DetectiveMagnifierHudRenderer;
+import dev.caecorthus.sparkdlc.client.role.killer.partyanimal.PartygoerHud;
+import dev.caecorthus.sparkdlc.client.role.civilian.spiritualist.SpiritPossessionHud;
+import dev.caecorthus.sparkdlc.client.role.neutral.taotie.TaotieHeadHudRenderer;
+import dev.caecorthus.sparkdlc.client.role.neutral.vulture.SkateboardHud;
+import dev.caecorthus.sparkdlc.client.role.neutral.vulture.VultureSuperCurseHud;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;

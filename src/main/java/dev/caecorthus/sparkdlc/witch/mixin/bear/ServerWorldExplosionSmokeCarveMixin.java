@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.bear;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.bear.ricochet.RangedSmokeCarve;
+import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RangedSmokeCarve;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.particle.ParticleEffect;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.witchmaiden;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.wither.WitherGoheiLoadoutService;
+import dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither.WitherGoheiLoadoutService;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

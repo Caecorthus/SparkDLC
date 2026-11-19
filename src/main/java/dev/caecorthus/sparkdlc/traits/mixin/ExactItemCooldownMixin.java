@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.depression.DepressionFakeKillCooldowns;
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.combat.ExactItemCooldowns;
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.combat.ForcedMeleeCooldownService;
+import dev.caecorthus.sparkdlc.trait.civilian.depression.DepressionFakeKillCooldowns;
+import dev.caecorthus.sparkdlc.trait.killer.combat.ExactItemCooldowns;
+import dev.caecorthus.sparkdlc.trait.killer.combat.ForcedMeleeCooldownService;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.item.Item;
 import net.minecraft.server.network.ServerItemCooldownManager;

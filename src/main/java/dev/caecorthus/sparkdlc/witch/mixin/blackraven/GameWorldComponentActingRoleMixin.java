@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.mixin.blackraven;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.disguise.BlackRavenActingRole;
+import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.BlackRavenActingRole;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import java.util.HashMap;

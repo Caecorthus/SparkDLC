@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.assist.client.mixin;
 
-import dev.caecorthus.sparkdlc.assist.client.input.InstinctKeyController;
+import dev.caecorthus.sparkdlc.client.input.InstinctKeyController;
 import net.minecraft.client.option.KeyBinding;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

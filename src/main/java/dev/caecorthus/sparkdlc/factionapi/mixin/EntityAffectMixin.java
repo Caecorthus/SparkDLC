@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.factionapi.mixin;
 
-import dev.caecorthus.sparkdlc.factionapi.api.SparkFactionApi;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;

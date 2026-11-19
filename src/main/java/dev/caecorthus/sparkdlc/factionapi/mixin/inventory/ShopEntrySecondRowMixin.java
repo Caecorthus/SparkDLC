@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.factionapi.mixin.inventory;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.factionapi.impl.inventory.LimitedInventoryRows;
-import dev.caecorthus.sparkdlc.factionapi.impl.inventory.LimitedInventoryScope;
+import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
+import dev.caecorthus.sparkdlc.inventory.LimitedInventoryScope;
 import dev.doctor4t.wathe.util.ShopEntry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;

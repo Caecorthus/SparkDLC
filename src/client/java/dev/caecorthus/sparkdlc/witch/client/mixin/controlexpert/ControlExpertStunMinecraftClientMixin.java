@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.controlexpert;
 
-import dev.caecorthus.sparkdlc.witch.client.controlexpert.ControlExpertStunClient;
+import dev.caecorthus.sparkdlc.client.role.civilian.controlexpert.ControlExpertStunClient;
 import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

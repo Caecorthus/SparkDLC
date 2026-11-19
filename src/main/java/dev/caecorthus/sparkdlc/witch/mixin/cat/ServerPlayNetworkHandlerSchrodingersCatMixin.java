@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.cat;
 
-import dev.caecorthus.sparkdlc.witch.roles.neutral.cat.SchrodingersCatService;
+import dev.caecorthus.sparkdlc.role.neutral.cat.SchrodingersCatService;
 import net.minecraft.network.packet.c2s.play.SpectatorTeleportC2SPacket;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;

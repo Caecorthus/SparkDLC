@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.saboteur;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.saboteur.SaboteurShopStockAccess;
+import dev.caecorthus.sparkdlc.role.killer.saboteur.SaboteurShopStockAccess;
 import dev.doctor4t.wathe.cca.PlayerShopComponent;
 import java.util.Map;
 import org.spongepowered.asm.mixin.Final;

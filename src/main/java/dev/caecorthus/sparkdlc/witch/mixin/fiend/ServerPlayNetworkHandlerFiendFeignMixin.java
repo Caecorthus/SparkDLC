@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.fiend;
 
-import dev.caecorthus.sparkdlc.witch.roles.neutral.fiend.FiendFeignService;
+import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendFeignService;
 import net.minecraft.network.packet.c2s.play.SpectatorTeleportC2SPacket;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;

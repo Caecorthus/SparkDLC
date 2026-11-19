@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.scope;
 
-import dev.caecorthus.sparkdlc.witch.client.scope.ScopePictureInPicture;
+import dev.caecorthus.sparkdlc.client.scope.ScopePictureInPicture;
 import net.minecraft.client.particle.ParticleManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

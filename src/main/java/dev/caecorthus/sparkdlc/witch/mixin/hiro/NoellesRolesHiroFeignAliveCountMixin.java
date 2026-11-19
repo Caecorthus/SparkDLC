@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.mixin.hiro;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.roles.killer.hiro.returning.HiroVictimFeignService;
+import dev.caecorthus.sparkdlc.role.killer.hiro.returning.HiroVictimFeignService;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

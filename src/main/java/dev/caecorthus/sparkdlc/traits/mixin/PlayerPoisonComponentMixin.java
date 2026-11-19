@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveConsequenceService;
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.PlayerPoisonComponentAccess;
+import dev.caecorthus.sparkdlc.trait.effective.EffectiveConsequenceService;
+import dev.caecorthus.sparkdlc.trait.killer.conscience.PlayerPoisonComponentAccess;
 import dev.doctor4t.wathe.cca.PlayerPoisonComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;

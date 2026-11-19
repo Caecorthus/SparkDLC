@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.blackraven;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.witch.client.blackraven.crow.BlackRavenCrowAim;
+import dev.caecorthus.sparkdlc.client.role.killer.blackraven.crow.BlackRavenCrowAim;
 import dev.doctor4t.wathe.client.gui.CrosshairRenderer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.hit.HitResult;

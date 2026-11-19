@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.bear;
 
-import dev.caecorthus.sparkdlc.witch.client.bear.helmet.RysTVisorOverlay;
+import dev.caecorthus.sparkdlc.client.role.civilian.bear.helmet.RysTVisorOverlay;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.RenderTickCounter;

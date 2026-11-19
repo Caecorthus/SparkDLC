@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.witchmaiden;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.WitchMaidenFeatureService;
+import dev.caecorthus.sparkdlc.role.killer.witchmaiden.WitchMaidenFeatureService;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;

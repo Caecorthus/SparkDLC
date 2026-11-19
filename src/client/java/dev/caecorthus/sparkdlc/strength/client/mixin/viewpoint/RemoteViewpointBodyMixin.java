@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.viewpoint;
 
-import dev.caecorthus.sparkdlc.strength.client.viewpoint.RemoteViewpointClient;
+import dev.caecorthus.sparkdlc.client.viewpoint.RemoteViewpointClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.util.math.Vec3d;

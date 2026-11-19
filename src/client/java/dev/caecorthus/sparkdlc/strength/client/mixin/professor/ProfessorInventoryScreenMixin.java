@@ -1,12 +1,12 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.professor;
 
-import dev.caecorthus.sparkdlc.strength.client.ui.common.PlayerPageLayout;
-import dev.caecorthus.sparkdlc.strength.client.ui.common.PlayerPageSwitchWidget;
-import dev.caecorthus.sparkdlc.strength.client.ui.common.PlayerSelectionPageState;
-import dev.caecorthus.sparkdlc.strength.client.ui.professor.ProfessorRemoteFeedPlayerWidget;
-import dev.caecorthus.sparkdlc.strength.client.ui.professor.ProfessorSerumButtonWidget;
-import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumRules;
-import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumType;
+import dev.caecorthus.sparkdlc.client.gui.widget.PlayerPageLayout;
+import dev.caecorthus.sparkdlc.client.gui.widget.PlayerPageSwitchWidget;
+import dev.caecorthus.sparkdlc.client.gui.widget.PlayerSelectionPageState;
+import dev.caecorthus.sparkdlc.client.role.civilian.professor.ProfessorRemoteFeedPlayerWidget;
+import dev.caecorthus.sparkdlc.client.role.civilian.professor.ProfessorSerumButtonWidget;
+import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumRules;
+import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumType;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedHandledScreen;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedInventoryScreen;

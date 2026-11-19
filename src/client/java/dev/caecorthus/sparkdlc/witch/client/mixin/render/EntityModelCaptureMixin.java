@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.render;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.client.render.entity.EntityModelCapture;
+import dev.caecorthus.sparkdlc.client.render.entity.EntityModelCapture;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.model.EntityModel;

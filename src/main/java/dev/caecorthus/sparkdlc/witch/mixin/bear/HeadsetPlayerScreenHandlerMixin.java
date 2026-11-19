@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.witch.mixin.bear;
 
-import dev.caecorthus.sparkdlc.witch.headset.HeadsetQuickMove;
-import dev.caecorthus.sparkdlc.witch.headset.HeadsetSlot;
-import dev.caecorthus.sparkdlc.witch.headset.HeadsetSlots;
+import dev.caecorthus.sparkdlc.headset.HeadsetQuickMove;
+import dev.caecorthus.sparkdlc.headset.HeadsetSlot;
+import dev.caecorthus.sparkdlc.headset.HeadsetSlots;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;

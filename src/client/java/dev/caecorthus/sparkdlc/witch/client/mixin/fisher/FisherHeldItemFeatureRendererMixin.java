@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.fisher;
 
-import dev.caecorthus.sparkdlc.witch.client.fisher.FisherGlimmerClient;
-import dev.caecorthus.sparkdlc.witch.client.fisher.FisherGlimmerClientRules;
+import dev.caecorthus.sparkdlc.client.role.civilian.fisher.FisherGlimmerClient;
+import dev.caecorthus.sparkdlc.client.role.civilian.fisher.FisherGlimmerClientRules;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.HeldItemFeatureRenderer;

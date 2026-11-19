@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.vendetta.VendettaKnifeInventoryRules;
+import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaKnifeInventoryRules;
 import net.minecraft.entity.ItemEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

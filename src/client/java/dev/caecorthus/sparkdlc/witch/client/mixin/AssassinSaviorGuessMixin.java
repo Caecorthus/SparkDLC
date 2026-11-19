@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.savior.SaviorRules;
+import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorRules;
 import dev.doctor4t.wathe.api.Role;
 import org.agmas.noellesroles.client.screen.AssassinScreen;
 import org.spongepowered.asm.mixin.Mixin;

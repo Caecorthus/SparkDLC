@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.traits.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.combat.ForcedMeleeCooldownService;
+import dev.caecorthus.sparkdlc.trait.killer.combat.ForcedMeleeCooldownService;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.item.Item;
 import net.minecraft.server.network.ServerItemCooldownManager;
@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
  * on the held item; otherwise {@code ExactItemCooldownMixin} cancels its {@code remove}. Only this admin path does so;
  * every other {@code remove} still keeps the floor.
  */
-@Mixin(targets = "dev.caecorthus.sparkdlc.factionapi.command.admin.CooldownCommand", remap = false)
+@Mixin(targets = "dev.caecorthus.sparkdlc.command.admin.CooldownCommand", remap = false)
 public abstract class SparkFactionClearCooldownMixin {
     @WrapOperation(method = "clearCooldown", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/entity/player/ItemCooldownManager;remove(Lnet/minecraft/item/Item;)V", remap = true),

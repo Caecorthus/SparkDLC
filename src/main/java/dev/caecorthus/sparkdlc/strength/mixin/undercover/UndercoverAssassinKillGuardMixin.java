@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.undercover;
 
-import dev.caecorthus.sparkdlc.strength.role.undercover.UndercoverRoles;
+import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverRoles;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;

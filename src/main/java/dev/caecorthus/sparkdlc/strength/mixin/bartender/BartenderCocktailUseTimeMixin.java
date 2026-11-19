@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.bartender;
 
-import dev.caecorthus.sparkdlc.strength.role.bartender.BartenderRules;
+import dev.caecorthus.sparkdlc.role.civilian.bartender.BartenderRules;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.doctor4t.wathe.item.CocktailItem;

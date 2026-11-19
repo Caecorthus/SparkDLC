@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.riftwalker;
 
-import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.swapper.RiftSwapperCrushService;
+import dev.caecorthus.sparkdlc.role.witch.riftwalker.swapper.RiftSwapperCrushService;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.agmas.noellesroles.Noellesroles;
 import org.agmas.noellesroles.packet.SwapperC2SPacket;

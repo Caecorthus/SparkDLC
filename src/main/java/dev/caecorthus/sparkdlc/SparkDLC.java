@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc;
 
-import dev.caecorthus.sparkdlc.factionapi.SparkFactionApiMod;
-import dev.caecorthus.sparkdlc.strength.SparkStrength;
-import dev.caecorthus.sparkdlc.traits.SparkTraits;
-import dev.caecorthus.sparkdlc.witch.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkFactionApiMod;
+import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkWitch;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

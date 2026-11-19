@@ -2,9 +2,9 @@ package dev.caecorthus.sparkdlc.traits.client.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
-import dev.caecorthus.sparkdlc.traits.impl.traits.global.SpiritSleuthTrait;
-import dev.caecorthus.sparkdlc.traits.impl.traits.global.SpiritSleuthVisibilityRules;
+import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
+import dev.caecorthus.sparkdlc.trait.global.SpiritSleuthTrait;
+import dev.caecorthus.sparkdlc.trait.global.SpiritSleuthVisibilityRules;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.entity.LivingEntity;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.usec;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.usec.UsecGunRules;
+import dev.caecorthus.sparkdlc.role.civilian.usec.UsecGunRules;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;

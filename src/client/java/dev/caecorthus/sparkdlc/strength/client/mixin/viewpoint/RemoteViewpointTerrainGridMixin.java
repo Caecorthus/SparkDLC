@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.viewpoint;
 
-import dev.caecorthus.sparkdlc.strength.client.viewpoint.RemoteViewpointClient;
+import dev.caecorthus.sparkdlc.client.viewpoint.RemoteViewpointClient;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.render.Camera;

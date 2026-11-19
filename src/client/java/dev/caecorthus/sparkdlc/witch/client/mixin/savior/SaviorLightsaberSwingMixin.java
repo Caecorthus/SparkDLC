@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.savior;
 
-import dev.caecorthus.sparkdlc.witch.SparkWitchItems;
-import dev.caecorthus.sparkdlc.witch.client.savior.SaviorLightsaberAnimation;
-import dev.caecorthus.sparkdlc.witch.net.SaviorLightsaberSwingC2SPayload;
+import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.client.role.civilian.savior.SaviorLightsaberAnimation;
+import dev.caecorthus.sparkdlc.net.SaviorLightsaberSwingC2SPayload;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.roles.special.wraith.WraithConsumableInventoryRules;
-import dev.caecorthus.sparkdlc.witch.roles.special.wraith.WraithStateService;
+import dev.caecorthus.sparkdlc.role.special.wraith.WraithConsumableInventoryRules;
+import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;

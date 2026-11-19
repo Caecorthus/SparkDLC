@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.waiter;
 
-import dev.caecorthus.sparkdlc.strength.role.waiter.WaiterHelpingEconomyService;
+import dev.caecorthus.sparkdlc.role.civilian.waiter.WaiterHelpingEconomyService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import net.minecraft.component.DataComponentTypes;

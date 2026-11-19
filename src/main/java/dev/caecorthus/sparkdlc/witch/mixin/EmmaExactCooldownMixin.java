@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaCooldowns;
+import dev.caecorthus.sparkdlc.role.civilian.emma.EmmaCooldowns;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.item.Item;
 import org.spongepowered.asm.mixin.Mixin;

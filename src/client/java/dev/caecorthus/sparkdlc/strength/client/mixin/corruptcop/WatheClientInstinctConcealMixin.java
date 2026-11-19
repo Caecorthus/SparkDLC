@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.corruptcop;
 
-import dev.caecorthus.sparkdlc.strength.client.role.corruptcop.CorruptCopClientHooks;
+import dev.caecorthus.sparkdlc.client.role.jiahao.corruptcop.CorruptCopClientHooks;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import dev.doctor4t.wathe.client.WatheClient;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.stowaway;
 
-import dev.caecorthus.sparkdlc.witch.roles.neutral.stowaway.StowawayRules;
+import dev.caecorthus.sparkdlc.role.neutral.stowaway.StowawayRules;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Final;

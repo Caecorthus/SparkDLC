@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.traits.client.mixin;
 
-import dev.caecorthus.sparkdlc.traits.client.render.ChildishPlayerRendering;
+import dev.caecorthus.sparkdlc.client.trait.render.ChildishPlayerRendering;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;

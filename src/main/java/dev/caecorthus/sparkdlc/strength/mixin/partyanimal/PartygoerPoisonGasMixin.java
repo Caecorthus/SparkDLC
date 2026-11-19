@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.partyanimal;
 
-import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerWeaponHits;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponHits;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;

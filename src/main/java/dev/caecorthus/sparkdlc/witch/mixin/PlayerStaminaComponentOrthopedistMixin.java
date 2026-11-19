@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistEffects;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistRules;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.orthopedist.OrthopedistStaminaRules;
-import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterPlayerComponent;
+import dev.caecorthus.sparkdlc.role.civilian.orthopedist.OrthopedistEffects;
+import dev.caecorthus.sparkdlc.role.civilian.orthopedist.OrthopedistRules;
+import dev.caecorthus.sparkdlc.role.civilian.orthopedist.OrthopedistStaminaRules;
+import dev.caecorthus.sparkdlc.role.killer.hunter.HunterPlayerComponent;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerStaminaComponent;

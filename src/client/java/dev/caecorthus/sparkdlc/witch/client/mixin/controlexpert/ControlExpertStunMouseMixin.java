@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.controlexpert;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import dev.caecorthus.sparkdlc.witch.client.controlexpert.ControlExpertStunClient;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertStunRules;
+import dev.caecorthus.sparkdlc.client.role.civilian.controlexpert.ControlExpertStunClient;
+import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStunRules;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.Mouse;
 import net.minecraft.client.network.ClientPlayerEntity;

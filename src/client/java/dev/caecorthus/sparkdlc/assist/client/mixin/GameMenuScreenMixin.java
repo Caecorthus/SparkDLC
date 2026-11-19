@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.assist.client.mixin;
 
-import dev.caecorthus.sparkdlc.assist.client.settings.screen.SettingsGearButton;
+import dev.caecorthus.sparkdlc.client.settings.screen.SettingsGearButton;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.Screen;

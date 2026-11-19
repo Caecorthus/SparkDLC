@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.BluePoisonMarkerSync;
+import dev.caecorthus.sparkdlc.trait.killer.conscience.BluePoisonMarkerSync;
 import net.minecraft.server.network.ChunkDataSender;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.world.ServerWorld;

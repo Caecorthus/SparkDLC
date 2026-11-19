@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
-import dev.caecorthus.sparkdlc.witch.client.render.WraithSteveProjection;
-import dev.caecorthus.sparkdlc.witch.client.vendetta.VendettaClientPresentation;
+import dev.caecorthus.sparkdlc.client.render.WraithSteveProjection;
+import dev.caecorthus.sparkdlc.client.role.civilian.vendetta.VendettaClientPresentation;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.serialkiller;
 
-import dev.caecorthus.sparkdlc.strength.role.serialkiller.SerialPistolHotbar;
+import dev.caecorthus.sparkdlc.role.killer.serialkiller.SerialPistolHotbar;
 import dev.doctor4t.wathe.cca.PlayerPsychoComponent;
 import net.minecraft.entity.player.PlayerInventory;
 import org.spongepowered.asm.mixin.Mixin;

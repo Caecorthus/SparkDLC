@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.ferryman;
 
-import dev.caecorthus.sparkdlc.witch.roles.neutral.ferryman.FerrymanFeignService;
+import dev.caecorthus.sparkdlc.role.neutral.ferryman.FerrymanFeignService;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.agmas.noellesroles.Noellesroles;
 import org.agmas.noellesroles.packet.SwapperC2SPacket;

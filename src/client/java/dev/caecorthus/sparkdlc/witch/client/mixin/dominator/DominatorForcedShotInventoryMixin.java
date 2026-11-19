@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.dominator;
 
-import dev.caecorthus.sparkdlc.witch.client.dominator.DominatorForcedShotClientState;
+import dev.caecorthus.sparkdlc.client.role.killer.dominator.DominatorForcedShotClientState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import org.spongepowered.asm.mixin.Mixin;

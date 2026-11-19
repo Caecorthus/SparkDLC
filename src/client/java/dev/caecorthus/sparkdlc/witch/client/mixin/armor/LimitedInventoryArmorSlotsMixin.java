@@ -3,10 +3,10 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.armor;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.client.armor.LimitedInventoryArmorLayout;
-import dev.caecorthus.sparkdlc.witch.client.armor.LimitedInventoryArmorPanel;
-import dev.caecorthus.sparkdlc.witch.client.armor.LimitedInventoryArmorSlots;
-import dev.caecorthus.sparkdlc.witch.client.headset.LimitedInventoryHeadsetCell;
+import dev.caecorthus.sparkdlc.client.inventory.armor.LimitedInventoryArmorLayout;
+import dev.caecorthus.sparkdlc.client.inventory.armor.LimitedInventoryArmorPanel;
+import dev.caecorthus.sparkdlc.client.inventory.armor.LimitedInventoryArmorSlots;
+import dev.caecorthus.sparkdlc.client.headset.LimitedInventoryHeadsetCell;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedHandledScreen;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -180,7 +180,7 @@ public abstract class LimitedInventoryArmorSlotsMixin extends Screen {
             }
             // BEAR WP2: a right press on the worn Rys-T toggles its visor and never picks it up, so the gate below
             // does not apply. / BEAR WP2：右键已戴的 Rys-T 只开合面罩、从不拿起，因此不受下方门槛限制。
-            if (dev.caecorthus.sparkdlc.witch.client.bear.helmet.RysTVisorClicks.exemptsPickUpGate(client.player, handler,
+            if (dev.caecorthus.sparkdlc.client.role.civilian.bear.helmet.RysTVisorClicks.exemptsPickUpGate(client.player, handler,
                     slot, button)) {
                 original.call(screen, slot, slotId, button, action);
                 return;

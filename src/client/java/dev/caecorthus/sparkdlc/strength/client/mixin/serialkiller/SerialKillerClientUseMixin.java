@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.serialkiller;
 
-import dev.caecorthus.sparkdlc.strength.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkStrengthItems;
 import dev.doctor4t.wathe.cca.PlayerPsychoComponent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;

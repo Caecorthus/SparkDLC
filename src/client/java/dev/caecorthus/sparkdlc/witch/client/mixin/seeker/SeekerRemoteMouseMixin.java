@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.seeker;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.client.seeker.remote.SeekerRemoteViewClient;
+import dev.caecorthus.sparkdlc.client.role.civilian.seeker.remote.SeekerRemoteViewClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.Mouse;
 import net.minecraft.client.network.ClientPlayerEntity;

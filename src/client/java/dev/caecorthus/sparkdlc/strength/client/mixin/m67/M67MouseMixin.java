@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.m67;
 
-import dev.caecorthus.sparkdlc.strength.client.item.M67Client;
+import dev.caecorthus.sparkdlc.client.item.M67Client;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.Mouse;

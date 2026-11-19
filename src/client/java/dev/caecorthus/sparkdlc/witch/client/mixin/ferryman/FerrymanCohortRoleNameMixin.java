@@ -1,10 +1,10 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.ferryman;
 
-import dev.caecorthus.sparkdlc.witch.client.bear.smoke.SmokeTargetOcclusion;
-import dev.caecorthus.sparkdlc.witch.client.magician.MagicianPuppetNameTags;
-import dev.caecorthus.sparkdlc.witch.client.render.WraithNameTagPassThrough;
-import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
-import dev.caecorthus.sparkdlc.witch.roles.neutral.ferryman.FerrymanRules;
+import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeTargetOcclusion;
+import dev.caecorthus.sparkdlc.client.role.killer.magician.MagicianPuppetNameTags;
+import dev.caecorthus.sparkdlc.client.render.WraithNameTagPassThrough;
+import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.role.neutral.ferryman.FerrymanRules;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.WatheClient;

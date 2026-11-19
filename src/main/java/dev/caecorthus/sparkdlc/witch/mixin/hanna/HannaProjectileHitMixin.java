@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.hanna;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.hanna.HannaFloatService;
+import dev.caecorthus.sparkdlc.role.civilian.hanna.HannaFloatService;
 import net.minecraft.entity.ProjectileDeflection;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.server.network.ServerPlayerEntity;

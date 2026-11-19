@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.mixin.fiend;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.witch.roles.neutral.fiend.FiendStabScope;
+import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendStabScope;
 import dev.doctor4t.wathe.util.KnifeStabPayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.spongepowered.asm.mixin.Mixin;

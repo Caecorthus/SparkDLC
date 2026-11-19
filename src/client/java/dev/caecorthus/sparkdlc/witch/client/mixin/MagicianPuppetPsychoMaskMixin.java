@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.caecorthus.sparkdlc.witch.client.magician.MagicianPuppetPsychoMask;
+import dev.caecorthus.sparkdlc.client.role.killer.magician.MagicianPuppetPsychoMask;
 import dev.doctor4t.wathe.cca.PlayerPsychoComponent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.spiritualist;
 
-import dev.caecorthus.sparkdlc.strength.client.role.spiritualist.SpiritPossessionClient;
+import dev.caecorthus.sparkdlc.client.role.civilian.spiritualist.SpiritPossessionClient;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.Mouse;

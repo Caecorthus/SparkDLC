@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.mixin.savior;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.savior.SaviorObservationService;
+import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorObservationService;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;

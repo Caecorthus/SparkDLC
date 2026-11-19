@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.traits.client.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
-import dev.caecorthus.sparkdlc.traits.impl.traits.global.SensitiveTrait;
-import dev.caecorthus.sparkdlc.traits.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
+import dev.caecorthus.sparkdlc.trait.global.SensitiveTrait;
+import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
 import dev.doctor4t.wathe.client.gui.TimeRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;

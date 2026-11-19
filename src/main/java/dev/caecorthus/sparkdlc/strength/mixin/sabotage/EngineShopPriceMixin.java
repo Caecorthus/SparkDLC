@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.sabotage;
 
-import dev.caecorthus.sparkdlc.strength.sabotage.EngineEconomy;
+import dev.caecorthus.sparkdlc.sabotage.EngineEconomy;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import dev.doctor4t.wathe.util.ShopEntry;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.bomber;
 
-import dev.caecorthus.sparkdlc.strength.client.role.bomber.DronePilotClient;
-import dev.caecorthus.sparkdlc.strength.client.role.bomber.DronePilotHud;
+import dev.caecorthus.sparkdlc.client.role.killer.bomber.DronePilotClient;
+import dev.caecorthus.sparkdlc.client.role.killer.bomber.DronePilotHud;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.RenderTickCounter;

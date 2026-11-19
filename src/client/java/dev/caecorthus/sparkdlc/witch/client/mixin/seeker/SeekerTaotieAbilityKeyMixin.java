@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.seeker;
 
-import dev.caecorthus.sparkdlc.witch.client.seeker.SeekerTaotieClient;
+import dev.caecorthus.sparkdlc.client.role.civilian.seeker.SeekerTaotieClient;
 import net.minecraft.client.option.KeyBinding;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

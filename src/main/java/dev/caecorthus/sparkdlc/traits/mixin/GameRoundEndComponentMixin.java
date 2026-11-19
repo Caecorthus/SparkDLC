@@ -1,10 +1,10 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
 import com.mojang.authlib.GameProfile;
-import dev.caecorthus.sparkdlc.traits.component.TraitWorldComponent;
-import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveWinService;
-import dev.caecorthus.sparkdlc.traits.impl.lifecycle.RoundEndTraitResolver;
-import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.laststand.LastStandFinalMomentService;
+import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
+import dev.caecorthus.sparkdlc.trait.effective.EffectiveWinService;
+import dev.caecorthus.sparkdlc.trait.lifecycle.RoundEndTraitResolver;
+import dev.caecorthus.sparkdlc.trait.civilian.laststand.LastStandFinalMomentService;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
 import dev.doctor4t.wathe.cca.GameRoundEndComponent;
@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import dev.caecorthus.sparkdlc.traits.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkTraits;
 
 /**
  * Applies SparkTraits effective-team winners to Wathe's round-end data.

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.wathe;
 
-import dev.caecorthus.sparkdlc.strength.client.ui.shop.ShopPageSwitchWidget;
+import dev.caecorthus.sparkdlc.client.gui.shop.ShopPageSwitchWidget;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedHandledScreen;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedInventoryScreen;
 import net.minecraft.client.gui.Element;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.bodyguard;
 
-import dev.caecorthus.sparkdlc.strength.role.bodyguard.SacrificeSuppressionScope;
+import dev.caecorthus.sparkdlc.role.civilian.bodyguard.SacrificeSuppressionScope;
 import net.minecraft.entity.player.PlayerEntity;
 import org.agmas.noellesroles.bodyguard.BodyguardPlayerComponent;
 import org.spongepowered.asm.mixin.Final;

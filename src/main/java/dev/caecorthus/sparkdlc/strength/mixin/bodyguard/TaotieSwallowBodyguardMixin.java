@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.strength.mixin.bodyguard;
 
-import dev.caecorthus.sparkdlc.strength.role.bodyguard.BodyguardEconomyService;
-import dev.caecorthus.sparkdlc.strength.role.bodyguard.BodyguardProtectionService;
-import dev.caecorthus.sparkdlc.strength.role.bodyguard.SacrificeSuppressionScope;
+import dev.caecorthus.sparkdlc.role.civilian.bodyguard.BodyguardEconomyService;
+import dev.caecorthus.sparkdlc.role.civilian.bodyguard.BodyguardProtectionService;
+import dev.caecorthus.sparkdlc.role.civilian.bodyguard.SacrificeSuppressionScope;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.entity.player.PlayerEntity;

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.BluePoisonMarkerSync;
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.ConsciencePoisonedPlate;
+import dev.caecorthus.sparkdlc.trait.killer.conscience.BluePoisonMarkerSync;
+import dev.caecorthus.sparkdlc.trait.killer.conscience.ConsciencePoisonedPlate;
 import dev.doctor4t.wathe.block_entity.BeveragePlateBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.coroner;
 
-import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
+import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.doctor4t.wathe.block.FoodPlatterBlock;
 import dev.doctor4t.wathe.block_entity.BeveragePlateBlockEntity;
 import dev.doctor4t.wathe.index.WatheDataComponentTypes;

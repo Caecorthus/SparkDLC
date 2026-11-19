@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.professor;
 
-import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumTargetComponent;
+import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumTargetComponent;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Final;

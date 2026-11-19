@@ -1,0 +1,191 @@
+package dev.caecorthus.sparkdlc.role.killer.bomber;
+
+import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.strength.mixin.bomber.BomberPlayerComponentAccessor;
+import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.game.GameFunctions;
+import dev.doctor4t.wathe.record.GameRecordManager;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerBlockEntityEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import org.agmas.noellesroles.ModItems;
+import org.agmas.noellesroles.Noellesroles;
+import org.agmas.noellesroles.bomber.BomberPlayerComponent;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
+/**
+ * 炸弹客定时炸弹陷阱的服务端通用逻辑。
+ *
+ * <p>自改版 NoellesRoles 依赖 wathe 的公共托盘/床效果接口；Spark 版 wathe 暂无该接口，
+ * 所以 Strength 在这里集中实现“能不能安置、如何挂到玩家身上、如何记录回放、如何清局”。</p>
+ */
+public final class BomberTrapService {
+    public static final String TRAP_OWNER_NBT_KEY = "SparkStrengthTimedBombOwner";
+
+    public static final Identifier TIMED_BOMB_TRAY_EMBEDDED = SparkStrength.id("timed_bomb_tray_embedded");
+    public static final Identifier TIMED_BOMB_BED_EMBEDDED = SparkStrength.id("timed_bomb_bed_embedded");
+    public static final Identifier TIMED_BOMB_TRAY_TRIGGERED = SparkStrength.id("timed_bomb_tray_triggered");
+    public static final Identifier TIMED_BOMB_BED_TRIGGERED = SparkStrength.id("timed_bomb_bed_triggered");
+
+    private static final Map<net.minecraft.registry.RegistryKey<World>, Set<BlockPos>> TRACKED_TRAPS = new HashMap<>();
+    private static boolean registered;
+
+    private BomberTrapService() {
+    }
+
+    /**
+     * Keyed by world key, which every singleplayer save shares: forget a world's traps when it unloads, so a save
+     * quit mid-round does not hand its positions to the next one. The owner is saved in the bed's or tray's NBT, so a
+     * trap read back from a chunk (same save reopened, server restart) is tracked again as its block entity loads;
+     * vanilla reads that NBT before adding the block entity to the chunk, on the server thread.
+     * 以世界键为索引，而所有单人存档共用同一个键：世界卸载时忘掉它的陷阱，避免中途退出的存档把坐标带进下一个存档。
+     * 埋设者保存在床或托盘的 NBT 里，因此从区块读回的陷阱（重新打开同一存档、服务器重启）会在其方块实体载入时重新登记；
+     * 原版会在服务端线程上先读入 NBT，再把方块实体加入区块。
+     */
+    public static synchronized void register() {
+        if (registered) {
+            return;
+        }
+        registered = true;
+        ServerBlockEntityEvents.BLOCK_ENTITY_LOAD.register((blockEntity, world) -> {
+            if (blockEntity instanceof TimedBombTrapHolder holder && holder.sparkstrength$hasTimedBombTrap()) {
+                rememberTrap(world, blockEntity.getPos());
+            }
+        });
+        ServerWorldEvents.UNLOAD.register((server, world) -> TRACKED_TRAPS.remove(world.getRegistryKey()));
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> TRACKED_TRAPS.clear());
+        TimedBombMarkerSync.register();
+    }
+
+    /**
+     * Who may see planted traps: killer-feature roles and a Coroner disguised as the Bomber. The client's warning smoke
+     * ({@code TimedBomb*ViewMixin}) and the server's private marker delivery ({@link TimedBombMarkerSync}) both ask this.
+     * 谁能看到已埋设的陷阱：拥有杀手功能的职业，以及伪装成炸弹客的验尸官。客户端的警示烟雾（TimedBomb*ViewMixin）与服务端的
+     * 私有标记下发（TimedBombMarkerSync）都使用这一判断。
+     */
+    public static boolean seesTimedBombTraps(@Nullable PlayerEntity player) {
+        return player != null
+                && (GameWorldComponent.KEY.get(player.getWorld()).canUseKillerFeatures(player)
+                || CoronerService.hasBomberDisguise(player));
+    }
+
+    /** Trap positions remembered for this world (a copy). / 本世界记录的陷阱位置（副本）。 */
+    public static Set<BlockPos> trackedTraps(World world) {
+        Set<BlockPos> positions = world == null ? null : TRACKED_TRAPS.get(world.getRegistryKey());
+        return positions == null ? Set.of() : Set.copyOf(positions);
+    }
+
+    /** Whether any trap is remembered for this world, without copying. / 本世界是否记录了任何陷阱（不复制）。 */
+    public static boolean hasTrackedTraps(World world) {
+        Set<BlockPos> positions = world == null ? null : TRACKED_TRAPS.get(world.getRegistryKey());
+        return positions != null && !positions.isEmpty();
+    }
+
+    public static boolean canPlantTimedBomb(PlayerEntity player) {
+        if (!GameFunctions.isPlayerAliveAndSurvival(player) || !GameFunctions.isPlayerPlayingAndAlive(player)) {
+            return false;
+        }
+        if (BomberPlayerComponent.KEY.get(player).hasBomb()) {
+            return false;
+        }
+        if (player.getItemCooldownManager().isCoolingDown(ModItems.TIMED_BOMB)) {
+            return false;
+        }
+
+        GameWorldComponent gameWorld = GameWorldComponent.KEY.get(player.getWorld());
+        return gameWorld.isRole(player, Noellesroles.BOMBER) || CoronerService.hasBomberDisguise(player);
+    }
+
+    public static boolean tryAttachTimedBomb(ServerPlayerEntity target, @Nullable UUID bomberUuid) {
+        if (!GameFunctions.isPlayerAliveAndSurvival(target) || !GameFunctions.isPlayerPlayingAndAlive(target)) {
+            return false;
+        }
+
+        BomberPlayerComponent component = BomberPlayerComponent.KEY.get(target);
+        if (component.hasBomb()) {
+            return false;
+        }
+
+        /*
+         * 这里故意不调用 component.placeBomb(...)：
+         * placeBomb 会写入“直接安置炸弹”的 NoellesRoles 回放，而托盘/床触发需要显示 Strength 的专属文案。
+         */
+        BomberPlayerComponentAccessor accessor = (BomberPlayerComponentAccessor) component;
+        accessor.sparkstrength$setHasBomb(true);
+        accessor.sparkstrength$setBombTimer(BomberPlayerComponent.BOMB_DELAY_TICKS);
+        accessor.sparkstrength$setBeepTimer(0);
+        accessor.sparkstrength$setBeeping(false);
+        accessor.sparkstrength$setBomberUuid(bomberUuid);
+        accessor.sparkstrength$setLastDisplayedSeconds(-1);
+        component.sync();
+        return true;
+    }
+
+    public static void recordTrapPlacement(ServerPlayerEntity planter, Identifier eventId, BlockPos pos) {
+        NbtCompound extra = new NbtCompound();
+        GameRecordManager.putBlockPos(extra, "pos", pos);
+        GameRecordManager.recordGlobalEvent(planter.getServerWorld(), eventId, planter, extra);
+    }
+
+    public static void recordTrapTrigger(ServerPlayerEntity victim, Identifier eventId, @Nullable UUID bomberUuid) {
+        NbtCompound extra = new NbtCompound();
+        if (bomberUuid != null) {
+            extra.putUuid("bomber", bomberUuid);
+        }
+        GameRecordManager.recordGlobalEvent(victim.getServerWorld(), eventId, victim, extra);
+    }
+
+    public static void rememberTrap(@Nullable World world, BlockPos pos) {
+        if (world == null || world.isClient) {
+            return;
+        }
+        TRACKED_TRAPS.computeIfAbsent(world.getRegistryKey(), key -> new HashSet<>()).add(pos.toImmutable());
+    }
+
+    public static void forgetTrap(@Nullable World world, BlockPos pos) {
+        if (world == null || world.isClient) {
+            return;
+        }
+        Set<BlockPos> positions = TRACKED_TRAPS.get(world.getRegistryKey());
+        if (positions == null) {
+            return;
+        }
+        positions.remove(pos);
+        if (positions.isEmpty()) {
+            TRACKED_TRAPS.remove(world.getRegistryKey());
+        }
+    }
+
+    public static void clearRoundState(ServerWorld world) {
+        Set<BlockPos> positions = TRACKED_TRAPS.remove(world.getRegistryKey());
+        if (positions == null || positions.isEmpty()) {
+            return;
+        }
+
+        /*
+         * wathe 正常会在终局重置地图；这里额外按已记录位置清状态，
+         * 防止地图重置失败或同一张图局内复用时，方块实体 NBT 里残留上一局炸弹。
+         */
+        for (BlockPos pos : positions) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof TimedBombTrapHolder holder && holder.sparkstrength$hasTimedBombTrap()) {
+                holder.sparkstrength$setTimedBombTrapOwner(null);
+            }
+        }
+    }
+}

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.emma.EmmaLifecycle;
+import dev.caecorthus.sparkdlc.role.civilian.emma.EmmaLifecycle;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.gamemode.MurderGameMode;
 import java.util.List;

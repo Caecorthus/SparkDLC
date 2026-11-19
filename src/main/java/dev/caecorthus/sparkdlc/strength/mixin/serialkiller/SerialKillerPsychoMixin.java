@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.strength.mixin.serialkiller;
 
-import dev.caecorthus.sparkdlc.strength.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.strength.role.serialkiller.SerialPistolGuardService;
-import dev.caecorthus.sparkdlc.strength.role.serialkiller.SerialPistolHotbar;
+import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.role.killer.serialkiller.SerialPistolGuardService;
+import dev.caecorthus.sparkdlc.role.killer.serialkiller.SerialPistolHotbar;
 import dev.doctor4t.wathe.api.event.PsychoModeEvents;
 import dev.doctor4t.wathe.api.event.PsychoType;
 import dev.doctor4t.wathe.cca.GameWorldComponent;

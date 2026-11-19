@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.mixin.silencer;
 
-import dev.caecorthus.sparkdlc.strength.compat.SparkTraitsCompat;
-import dev.caecorthus.sparkdlc.strength.role.silencer.SilencerQuietService;
+import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.role.killer.silencer.SilencerQuietService;
 import dev.doctor4t.wathe.item.KnifeItem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

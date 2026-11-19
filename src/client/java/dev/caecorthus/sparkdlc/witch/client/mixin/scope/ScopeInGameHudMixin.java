@@ -2,9 +2,9 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.scope;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.witch.client.scope.ScopeClient;
-import dev.caecorthus.sparkdlc.witch.client.scope.ScopeHud;
-import dev.caecorthus.sparkdlc.witch.client.scope.ScopeProfile;
+import dev.caecorthus.sparkdlc.client.scope.ScopeClient;
+import dev.caecorthus.sparkdlc.client.scope.ScopeHud;
+import dev.caecorthus.sparkdlc.client.scope.ScopeProfile;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.RenderTickCounter;

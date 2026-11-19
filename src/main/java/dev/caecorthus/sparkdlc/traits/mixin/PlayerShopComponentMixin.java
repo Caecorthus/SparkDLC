@@ -2,10 +2,10 @@ package dev.caecorthus.sparkdlc.traits.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
-import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveTraitService;
-import dev.caecorthus.sparkdlc.traits.impl.traits.global.GlobalTraitService;
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.KillerTraitService;
+import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
+import dev.caecorthus.sparkdlc.trait.effective.EffectiveTraitService;
+import dev.caecorthus.sparkdlc.trait.global.GlobalTraitService;
+import dev.caecorthus.sparkdlc.trait.killer.KillerTraitService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerShopComponent;
 import dev.doctor4t.wathe.cca.WorldBlackoutComponent;

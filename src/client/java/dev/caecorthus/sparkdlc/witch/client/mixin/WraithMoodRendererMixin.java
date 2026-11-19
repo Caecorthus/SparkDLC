@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
-import dev.caecorthus.sparkdlc.witch.client.render.WraithClientState;
+import dev.caecorthus.sparkdlc.client.render.WraithClientState;
 import dev.doctor4t.wathe.client.WatheClient;
 import dev.doctor4t.wathe.client.gui.MoodRenderer;
 import net.minecraft.client.MinecraftClient;

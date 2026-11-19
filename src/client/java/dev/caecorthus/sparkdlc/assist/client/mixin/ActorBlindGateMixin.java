@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.assist.client.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.caecorthus.sparkdlc.assist.client.ponder.ActorPlayer;
+import dev.caecorthus.sparkdlc.client.ponder.ActorPlayer;
 import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.At;
  * 每次调用都要分配的可取消回调。
  */
 @Pseudo
-@Mixin(targets = "dev.caecorthus.sparkdlc.witch.client.blind.gate.BlindClientGates", remap = false)
+@Mixin(targets = "dev.caecorthus.sparkdlc.client.role.civilian.blind.gate.BlindClientGates", remap = false)
 public abstract class ActorBlindGateMixin {
     @ModifyReturnValue(method = "suppressesFeatures", at = @At("RETURN"), require = 0)
     private static boolean sparkassist$keepActorFeatures(boolean suppresses, @Local(argsOnly = true) Entity entity) {

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.blackraven;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.disguise.BlackRavenActingRole;
+import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.BlackRavenActingRole;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import java.util.UUID;
 import net.minecraft.world.World;

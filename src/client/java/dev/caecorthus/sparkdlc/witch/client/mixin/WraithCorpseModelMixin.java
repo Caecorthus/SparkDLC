@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
-import dev.caecorthus.sparkdlc.witch.client.render.WraithSteveProjection;
+import dev.caecorthus.sparkdlc.client.render.WraithSteveProjection;
 import dev.doctor4t.wathe.client.render.entity.PlayerBodyEntityRenderer;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
 import net.minecraft.client.render.VertexConsumerProvider;

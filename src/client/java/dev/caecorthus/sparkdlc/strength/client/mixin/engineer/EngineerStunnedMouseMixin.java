@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.engineer;
 
-import dev.caecorthus.sparkdlc.strength.component.engineer.EngineerStunnedPlayerComponent;
+import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.Mouse;
 import org.spongepowered.asm.mixin.Mixin;

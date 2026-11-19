@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.bear;
 
-import dev.caecorthus.sparkdlc.witch.client.headset.HeadsetScreenFrames;
-import dev.caecorthus.sparkdlc.witch.headset.HeadsetSlot;
+import dev.caecorthus.sparkdlc.client.headset.HeadsetScreenFrames;
+import dev.caecorthus.sparkdlc.headset.HeadsetSlot;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;

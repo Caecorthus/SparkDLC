@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.blind;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.client.blind.render.BlindSilhouettePass;
+import dev.caecorthus.sparkdlc.client.role.civilian.blind.render.BlindSilhouettePass;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;

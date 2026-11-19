@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
-import dev.caecorthus.sparkdlc.witch.client.magician.MagicianPuppetAim;
+import dev.caecorthus.sparkdlc.client.role.killer.magician.MagicianPuppetAim;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.hit.HitResult;
 import org.agmas.noellesroles.demonhunter.DemonHunterPistolItem;

@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.caecorthus.sparkdlc.witch.roles.killer.bellringer.BellRingerEchoRuntime;
+import dev.caecorthus.sparkdlc.role.killer.bellringer.BellRingerEchoRuntime;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import org.objectweb.asm.Opcodes;

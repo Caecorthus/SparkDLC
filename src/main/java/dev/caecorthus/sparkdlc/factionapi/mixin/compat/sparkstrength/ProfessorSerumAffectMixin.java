@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.factionapi.mixin.compat.sparkstrength;
 
-import dev.caecorthus.sparkdlc.factionapi.impl.target.PlayerAffectMixinGuard;
+import dev.caecorthus.sparkdlc.faction.target.PlayerAffectMixinGuard;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
@@ -21,7 +21,7 @@ import java.util.UUID;
  * 在消耗血清物品前拦截教授的近程与远程喂药。
  */
 @Pseudo
-@Mixin(targets = "dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumService", remap = false)
+@Mixin(targets = "dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumService", remap = false)
 public abstract class ProfessorSerumAffectMixin {
     private static final Identifier ACTION = Identifier.of("sparkstrength", "professor_serum");
 

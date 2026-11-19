@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.caecorthus.sparkdlc.witch.roles.special.wraith.conversion.WraithBodyRoleResolver;
+import dev.caecorthus.sparkdlc.role.special.wraith.conversion.WraithBodyRoleResolver;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.client.gui.RoleNameRenderer;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;

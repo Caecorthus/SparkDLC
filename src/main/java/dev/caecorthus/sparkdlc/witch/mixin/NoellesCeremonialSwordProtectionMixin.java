@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.compat.NoellesCeremonialSwordProtectionCompat;
-import dev.caecorthus.sparkdlc.witch.item.ceremonialsword.CeremonialSwordProtectionPolicy;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.savior.SaviorRules;
+import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesCeremonialSwordProtectionCompat;
+import dev.caecorthus.sparkdlc.item.ceremonialsword.CeremonialSwordProtectionPolicy;
+import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorRules;
 import dev.doctor4t.wathe.api.event.KillPlayer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;

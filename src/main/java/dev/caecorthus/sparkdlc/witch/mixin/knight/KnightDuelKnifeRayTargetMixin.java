@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.witch.mixin.knight;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.knight.duel.KnightDuelKnives;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.knight.duel.KnightDuelRules;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.knight.duel.KnightDuelWorldComponent;
+import dev.caecorthus.sparkdlc.role.civilian.knight.duel.KnightDuelKnives;
+import dev.caecorthus.sparkdlc.role.civilian.knight.duel.KnightDuelRules;
+import dev.caecorthus.sparkdlc.role.civilian.knight.duel.KnightDuelWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import dev.doctor4t.wathe.item.KnifeItem;
 import net.minecraft.entity.player.PlayerEntity;

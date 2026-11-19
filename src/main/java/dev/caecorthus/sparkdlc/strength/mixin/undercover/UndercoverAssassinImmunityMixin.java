@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.undercover;
 
-import dev.caecorthus.sparkdlc.strength.role.undercover.UndercoverRoles;
+import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverRoles;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;

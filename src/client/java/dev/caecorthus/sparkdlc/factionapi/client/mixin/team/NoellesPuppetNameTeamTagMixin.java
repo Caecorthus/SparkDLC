@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.factionapi.client.mixin.team;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.caecorthus.sparkdlc.factionapi.client.team.ShownPlayerNames;
-import dev.caecorthus.sparkdlc.factionapi.impl.team.CaecorthusTeamTag;
+import dev.caecorthus.sparkdlc.client.team.ShownPlayerNames;
+import dev.caecorthus.sparkdlc.team.CaecorthusTeamTag;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;

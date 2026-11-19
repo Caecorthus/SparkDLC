@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.traits.client.mixin;
 
-import dev.caecorthus.sparkdlc.traits.client.killer.LastEscapeInput;
+import dev.caecorthus.sparkdlc.client.trait.killer.LastEscapeInput;
 import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

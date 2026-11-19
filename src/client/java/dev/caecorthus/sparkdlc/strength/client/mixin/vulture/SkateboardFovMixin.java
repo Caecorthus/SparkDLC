@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.vulture;
 
-import dev.caecorthus.sparkdlc.strength.role.vulture.VultureSkateboardRules;
-import dev.caecorthus.sparkdlc.strength.role.vulture.VultureSkateboardService;
+import dev.caecorthus.sparkdlc.role.neutral.vulture.VultureSkateboardRules;
+import dev.caecorthus.sparkdlc.role.neutral.vulture.VultureSkateboardService;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.entity.attribute.EntityAttributeInstance;

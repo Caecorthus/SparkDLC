@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.ferryman;
 
-import dev.caecorthus.sparkdlc.witch.roles.neutral.ferryman.FerrymanFeignService;
+import dev.caecorthus.sparkdlc.role.neutral.ferryman.FerrymanFeignService;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;

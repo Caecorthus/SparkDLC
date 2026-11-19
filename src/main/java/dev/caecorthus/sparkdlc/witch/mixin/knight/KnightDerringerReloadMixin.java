@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin.knight;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.knight.KnightKillService;
+import dev.caecorthus.sparkdlc.role.civilian.knight.KnightKillService;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;

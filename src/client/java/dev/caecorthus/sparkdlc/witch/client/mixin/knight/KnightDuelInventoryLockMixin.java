@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.knight;
 
-import dev.caecorthus.sparkdlc.witch.client.knight.KnightDuelUiLock;
+import dev.caecorthus.sparkdlc.client.role.civilian.knight.KnightDuelUiLock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import org.spongepowered.asm.mixin.Mixin;

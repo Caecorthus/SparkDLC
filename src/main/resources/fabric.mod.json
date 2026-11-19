@@ -27,21 +27,21 @@
       "dev.caecorthus.sparkdlc.client.SparkDLCClient"
     ],
     "cardinal-components": [
-      "dev.caecorthus.sparkdlc.factionapi.component.SparkFactionComponents",
-      "dev.caecorthus.sparkdlc.strength.component.SparkStrengthComponents",
-      "dev.caecorthus.sparkdlc.traits.component.SparkTraitsComponents",
-      "dev.caecorthus.sparkdlc.witch.component.SparkWitchComponents"
+      "dev.caecorthus.sparkdlc.SparkFactionComponents",
+      "dev.caecorthus.sparkdlc.SparkStrengthComponents",
+      "dev.caecorthus.sparkdlc.SparkTraitsComponents",
+      "dev.caecorthus.sparkdlc.SparkWitchComponents"
     ],
     "voicechat": [
-      "dev.caecorthus.sparkdlc.strength.voice.SparkStrengthVoiceChatPlugin",
-      "dev.caecorthus.sparkdlc.traits.voice.SparkTraitsVoiceChatPlugin",
-      "dev.caecorthus.sparkdlc.witch.voice.SparkWitchVoiceChatPlugin"
+      "dev.caecorthus.sparkdlc.voice.SparkStrengthVoiceChatPlugin",
+      "dev.caecorthus.sparkdlc.voice.SparkTraitsVoiceChatPlugin",
+      "dev.caecorthus.sparkdlc.voice.SparkWitchVoiceChatPlugin"
     ],
     "lambdynlights:initializer": [
-      "dev.caecorthus.sparkdlc.witch.client.savior.SaviorDynamicLightsInitializer"
+      "dev.caecorthus.sparkdlc.client.role.civilian.savior.SaviorDynamicLightsInitializer"
     ],
     "dynamiclights": [
-      "dev.caecorthus.sparkdlc.witch.client.savior.SaviorDynamicLightsInitializer"
+      "dev.caecorthus.sparkdlc.client.role.civilian.savior.SaviorDynamicLightsInitializer"
     ]
   },
   "custom": {

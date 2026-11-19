@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.seeker;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.SeekerInventoryRules;
+import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerInventoryRules;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.SlotActionType;

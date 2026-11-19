@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.sabotage;
 
-import dev.caecorthus.sparkdlc.strength.client.sabotage.SabotageFixtureIndex;
+import dev.caecorthus.sparkdlc.client.sabotage.SabotageFixtureIndex;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.BlockPos;

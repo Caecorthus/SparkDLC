@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.bear;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.witch.client.bear.smoke.shaderpack.SmokeEntityOcclusion;
+import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.shaderpack.SmokeEntityOcclusion;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;

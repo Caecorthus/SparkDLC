@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.magician.MagicianPuppetHits;
+import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPuppetHits;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.agmas.noellesroles.demonhunter.DemonHunterShootC2SPacket;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.vendetta.VendettaInteractionService;
+import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaInteractionService;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.player.PlayerEntity;

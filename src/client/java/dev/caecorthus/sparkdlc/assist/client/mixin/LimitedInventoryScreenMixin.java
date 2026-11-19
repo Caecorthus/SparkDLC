@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.assist.client.mixin;
 
-import dev.caecorthus.sparkdlc.assist.client.guidebook.GuidebookScreen;
-import dev.caecorthus.sparkdlc.assist.guidebook.GuidebookInputState;
+import dev.caecorthus.sparkdlc.client.guidebook.GuidebookScreen;
+import dev.caecorthus.sparkdlc.guidebook.GuidebookInputState;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedHandledScreen;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedInventoryScreen;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;

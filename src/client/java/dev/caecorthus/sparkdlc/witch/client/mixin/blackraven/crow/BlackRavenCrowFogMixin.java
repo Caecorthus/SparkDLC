@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.blackraven.crow;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import dev.caecorthus.sparkdlc.witch.client.blackraven.crow.BlackRavenCrowVision;
+import dev.caecorthus.sparkdlc.client.role.killer.blackraven.crow.BlackRavenCrowVision;
 import net.minecraft.client.render.BackgroundRenderer;
 import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;

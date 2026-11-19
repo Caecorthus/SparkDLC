@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.kidnapper.KidnapperPassengerPositioning;
-import dev.caecorthus.sparkdlc.witch.roles.killer.kidnapper.KidnapperRules;
+import dev.caecorthus.sparkdlc.role.killer.kidnapper.KidnapperPassengerPositioning;
+import dev.caecorthus.sparkdlc.role.killer.kidnapper.KidnapperRules;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;

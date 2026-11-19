@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin.ferryman;
 
-import dev.caecorthus.sparkdlc.witch.roles.neutral.ferryman.FerrymanSettlement;
-import dev.caecorthus.sparkdlc.witch.roles.neutral.stowaway.StowawayWinScope;
+import dev.caecorthus.sparkdlc.role.neutral.ferryman.FerrymanSettlement;
+import dev.caecorthus.sparkdlc.role.neutral.stowaway.StowawayWinScope;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;

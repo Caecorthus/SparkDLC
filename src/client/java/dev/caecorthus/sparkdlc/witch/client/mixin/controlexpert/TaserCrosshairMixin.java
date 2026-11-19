@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.controlexpert;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import dev.caecorthus.sparkdlc.witch.client.controlexpert.TaserClientTargeting;
+import dev.caecorthus.sparkdlc.client.role.civilian.controlexpert.TaserClientTargeting;
 import dev.doctor4t.wathe.client.gui.CrosshairRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;

@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.mixin.hanna;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.hanna.HannaSilence;
+import dev.caecorthus.sparkdlc.role.civilian.hanna.HannaSilence;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;

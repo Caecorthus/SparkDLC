@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.m67;
 
-import dev.caecorthus.sparkdlc.strength.client.item.M67Client;
-import dev.caecorthus.sparkdlc.strength.entity.M67GrenadeEntity;
+import dev.caecorthus.sparkdlc.client.item.M67Client;
+import dev.caecorthus.sparkdlc.entity.M67GrenadeEntity;
 import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

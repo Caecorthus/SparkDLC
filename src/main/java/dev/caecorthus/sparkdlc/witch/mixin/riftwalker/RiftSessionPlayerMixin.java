@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.riftwalker;
 
-import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.session.RiftSessionService;
+import dev.caecorthus.sparkdlc.role.witch.riftwalker.session.RiftSessionService;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;

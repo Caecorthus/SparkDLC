@@ -1,11 +1,11 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.component.TraitPlayerComponent;
-import dev.caecorthus.sparkdlc.traits.impl.effective.EffectiveConsequenceService;
-import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.CivilianTraitService;
-import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.depression.DepressionFakeKillCooldowns;
-import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.fakedeath.FakeDeathDerringerService;
-import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.police.VigilanteVeteranTraitService;
+import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
+import dev.caecorthus.sparkdlc.trait.effective.EffectiveConsequenceService;
+import dev.caecorthus.sparkdlc.trait.civilian.CivilianTraitService;
+import dev.caecorthus.sparkdlc.trait.civilian.depression.DepressionFakeKillCooldowns;
+import dev.caecorthus.sparkdlc.trait.civilian.fakedeath.FakeDeathDerringerService;
+import dev.caecorthus.sparkdlc.trait.civilian.police.VigilanteVeteranTraitService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import dev.doctor4t.wathe.util.GunShootPayload;
@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import dev.caecorthus.sparkdlc.traits.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkTraits;
 
 /** Hooks SparkTraits gun behavior into Wathe's gun packet handler.
  *  将 SparkTraits 的枪械行为接入 Wathe 枪械发包处理。 */
@@ -30,8 +30,8 @@ public abstract class GunShootPayloadMixin {
             method = "receive(Ldev/doctor4t/wathe/util/GunShootPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V")
     private void sparktraits$gunCycleScope(GunShootPayload payload, ServerPlayNetworking.Context context,
             com.llamalad7.mixinextras.injector.wrapoperation.Operation<Void> original) {
-        var previous = dev.caecorthus.sparkdlc.traits.impl.traits.civilian.police.GunShotCycles.current();
-        dev.caecorthus.sparkdlc.traits.impl.traits.civilian.police.GunShotCycles.setCurrent(null);
+        var previous = dev.caecorthus.sparkdlc.trait.civilian.police.GunShotCycles.current();
+        dev.caecorthus.sparkdlc.trait.civilian.police.GunShotCycles.setCurrent(null);
         Object pendingFakeKill = DepressionFakeKillCooldowns.pendingFakeKill(context.player());
         try {
             original.call(payload, context);
@@ -39,9 +39,9 @@ public abstract class GunShootPayloadMixin {
             // 在 finishNative 之前执行，使枪械循环监听者读到缩短后的结束时间。
             DepressionFakeKillCooldowns.flushStartedSince(context.player(), pendingFakeKill);
         } finally {
-            dev.caecorthus.sparkdlc.traits.impl.traits.civilian.police.GunShotCycles.finishNative(
-                    dev.caecorthus.sparkdlc.traits.impl.traits.civilian.police.GunShotCycles.current());
-            dev.caecorthus.sparkdlc.traits.impl.traits.civilian.police.GunShotCycles.setCurrent(previous);
+            dev.caecorthus.sparkdlc.trait.civilian.police.GunShotCycles.finishNative(
+                    dev.caecorthus.sparkdlc.trait.civilian.police.GunShotCycles.current());
+            dev.caecorthus.sparkdlc.trait.civilian.police.GunShotCycles.setCurrent(previous);
         }
     }
 
@@ -53,7 +53,7 @@ public abstract class GunShootPayloadMixin {
     )
     private void sparktraits$scheduleNikoRevolverBurst(GunShootPayload payload,
             ServerPlayNetworking.Context context, CallbackInfo ci) {
-        dev.caecorthus.sparkdlc.traits.impl.traits.civilian.police.GunShotCycles.begin(
+        dev.caecorthus.sparkdlc.trait.civilian.police.GunShotCycles.begin(
                 context.player(), context.player().getMainHandStack().getItem());
         VigilanteVeteranTraitService.scheduleNikoRevolverBurstRepeats(context.player());
     }

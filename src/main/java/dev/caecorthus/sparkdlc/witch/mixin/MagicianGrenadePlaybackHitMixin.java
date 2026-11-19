@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.hit.SeekerDamageRules;
-import dev.caecorthus.sparkdlc.witch.roles.killer.magician.MagicianPuppetHits;
+import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDamageRules;
+import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPuppetHits;
 import dev.doctor4t.wathe.entity.GrenadeEntity;
 import dev.doctor4t.wathe.game.GameConstants;
 import net.minecraft.entity.EntityType;

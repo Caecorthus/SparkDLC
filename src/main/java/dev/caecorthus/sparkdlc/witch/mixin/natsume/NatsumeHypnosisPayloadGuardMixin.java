@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.witch.mixin.natsume;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.caecorthus.sparkdlc.witch.roles.killer.natsume.NatsumeHypnosisGuards;
+import dev.caecorthus.sparkdlc.role.killer.natsume.NatsumeHypnosisGuards;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.impl.networking.server.ServerPlayNetworkAddon;
 import net.minecraft.network.packet.CustomPayload;

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.factionapi.mixin.thirdfaction;
 
 import com.mojang.brigadier.CommandDispatcher;
-import dev.caecorthus.sparkdlc.factionapi.command.settings.ThirdFactionDividendCommand;
+import dev.caecorthus.sparkdlc.command.settings.ThirdFactionDividendCommand;
 import dev.doctor4t.wathe.command.GameSettingsCommand;
 import net.minecraft.server.command.ServerCommandSource;
 import org.spongepowered.asm.mixin.Mixin;

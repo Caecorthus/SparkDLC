@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.mixin.bartender;
 
-import dev.caecorthus.sparkdlc.strength.role.bartender.BartenderCocktailNames;
-import dev.caecorthus.sparkdlc.strength.role.bartender.BartenderRules;
+import dev.caecorthus.sparkdlc.role.civilian.bartender.BartenderCocktailNames;
+import dev.caecorthus.sparkdlc.role.civilian.bartender.BartenderRules;
 import net.minecraft.text.MutableText;
 import org.agmas.noellesroles.bartender.CocktailRegistry;
 import org.spongepowered.asm.mixin.Mixin;

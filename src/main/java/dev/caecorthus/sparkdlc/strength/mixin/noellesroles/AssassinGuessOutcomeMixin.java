@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.noellesroles;
 
-import dev.caecorthus.sparkdlc.strength.role.assassin.AssassinGuessService;
+import dev.caecorthus.sparkdlc.role.killer.assassin.AssassinGuessService;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;

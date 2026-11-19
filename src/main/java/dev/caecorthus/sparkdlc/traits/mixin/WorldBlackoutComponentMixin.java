@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.police.GoingDarkSyncService;
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.KillerTraitService;
+import dev.caecorthus.sparkdlc.trait.civilian.police.GoingDarkSyncService;
+import dev.caecorthus.sparkdlc.trait.killer.KillerTraitService;
 import dev.doctor4t.wathe.cca.WorldBlackoutComponent;
 import net.minecraft.server.world.ServerWorld;
 import org.spongepowered.asm.mixin.Mixin;
@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import dev.caecorthus.sparkdlc.traits.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkTraits;
 
 /**
  * Publishes blackout-only Going Dark state through SparkTraits' synced player component.

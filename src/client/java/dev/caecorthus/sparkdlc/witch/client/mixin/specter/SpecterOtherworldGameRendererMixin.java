@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.specter;
 
-import dev.caecorthus.sparkdlc.witch.client.specter.SpecterOtherworldScreenEffects;
+import dev.caecorthus.sparkdlc.client.role.killer.specter.SpecterOtherworldScreenEffects;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.GameRenderer;

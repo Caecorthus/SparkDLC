@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.factionapi.client.mixin.compat.noellesroles;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.factionapi.impl.compat.noellesroles.NoellesNeutralPerkRules;
+import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesNeutralPerkRules;
 import dev.doctor4t.wathe.api.Faction;
 import dev.doctor4t.wathe.api.Role;
 import org.spongepowered.asm.mixin.Mixin;

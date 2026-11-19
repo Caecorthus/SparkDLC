@@ -1,0 +1,219 @@
+package dev.caecorthus.sparkdlc;
+
+import dev.caecorthus.sparkdlc.entity.AromaOrbEntity;
+import dev.caecorthus.sparkdlc.entity.CapsuleEntity;
+import dev.caecorthus.sparkdlc.entity.CaptureDeviceEntity;
+import dev.caecorthus.sparkdlc.entity.CoolingOilEntity;
+import dev.caecorthus.sparkdlc.entity.DroneEntity;
+import dev.caecorthus.sparkdlc.entity.M67GrenadeEntity;
+import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
+import dev.caecorthus.sparkdlc.entity.TaotieHeadEntity;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.util.Identifier;
+
+public final class SparkStrengthEntities {
+    public static final Identifier CAPSULE_ID = SparkStrength.id("capsule");
+    public static final Identifier CAPTURE_DEVICE_ID = SparkStrength.id("capture_device");
+    public static final Identifier M67_ID = SparkStrength.id("m67");
+    public static final Identifier COOLING_OIL_ID = SparkStrength.id("cooling_oil");
+    public static final Identifier AROMA_ORB_ID = SparkStrength.id("aroma_orb");
+    public static final Identifier GRENADE_DRONE_ID = SparkStrength.id("grenade_drone");
+    public static final Identifier BOMB_DRONE_ID = SparkStrength.id("bomb_drone");
+    public static final Identifier TAOTIE_HEAD_ID = SparkStrength.id("taotie_head");
+    public static final Identifier PARTYGOER_ID = SparkStrength.id("partygoer");
+    private static EntityType<M67GrenadeEntity> m67;
+    private static EntityType<CapsuleEntity> capsule;
+    private static EntityType<CaptureDeviceEntity> captureDevice;
+    private static EntityType<CoolingOilEntity> coolingOil;
+    private static EntityType<AromaOrbEntity> aromaOrb;
+    private static EntityType<DroneEntity> grenadeDrone;
+    private static EntityType<DroneEntity> bombDrone;
+    private static EntityType<TaotieHeadEntity> taotieHead;
+    private static EntityType<PartygoerEntity> partygoer;
+    private static boolean registered;
+
+    private SparkStrengthEntities() {
+    }
+
+    public static synchronized void register() {
+        if (registered) {
+            return;
+        }
+        capsule = Registry.register(
+                Registries.ENTITY_TYPE,
+                CAPSULE_ID,
+                EntityType.Builder.<CapsuleEntity>create(CapsuleEntity::new, SpawnGroup.MISC)
+                        .dimensions(0.25F, 0.25F)
+                        .maxTrackingRange(4)
+                        .trackingTickInterval(10)
+                        .build(CAPSULE_ID.toString())
+        );
+        captureDevice = Registry.register(
+                Registries.ENTITY_TYPE,
+                CAPTURE_DEVICE_ID,
+                EntityType.Builder.<CaptureDeviceEntity>create(CaptureDeviceEntity::new, SpawnGroup.MISC)
+                        .dimensions(0.35F, 0.08F)
+                        .maxTrackingRange(8)
+                        .trackingTickInterval(10)
+                        .build(CAPTURE_DEVICE_ID.toString())
+        );
+        m67 = Registry.register(
+                Registries.ENTITY_TYPE,
+                M67_ID,
+                EntityType.Builder.<M67GrenadeEntity>create(M67GrenadeEntity::new, SpawnGroup.MISC)
+                        .dimensions(0.25F, 0.25F)
+                        .maxTrackingRange(8)
+                        .trackingTickInterval(1)
+                        .disableSaving()
+                        .disableSummon()
+                        .build(M67_ID.toString())
+        );
+        coolingOil = Registry.register(
+                Registries.ENTITY_TYPE,
+                COOLING_OIL_ID,
+                EntityType.Builder.<CoolingOilEntity>create(CoolingOilEntity::new, SpawnGroup.MISC)
+                        .dimensions(0.25F, 0.25F)
+                        .maxTrackingRange(4)
+                        .trackingTickInterval(10)
+                        .disableSaving()
+                        .disableSummon()
+                        .build(COOLING_OIL_ID.toString())
+        );
+        aromaOrb = Registry.register(
+                Registries.ENTITY_TYPE,
+                AROMA_ORB_ID,
+                EntityType.Builder.<AromaOrbEntity>create(AromaOrbEntity::new, SpawnGroup.MISC)
+                        .dimensions(0.25F, 0.25F)
+                        .maxTrackingRange(4)
+                        .trackingTickInterval(10)
+                        .disableSaving()
+                        .disableSummon()
+                        .build(AROMA_ORB_ID.toString())
+        );
+        // Transient round entities; tracked every tick for smooth remote flight. Range is widened further for the
+        // pilot by the drone streaming hooks.
+        // 临时回合实体；每刻追踪以保证远端飞行平滑。驾驶者的追踪范围由无人机串流钩子进一步放宽。
+        grenadeDrone = Registry.register(
+                Registries.ENTITY_TYPE,
+                GRENADE_DRONE_ID,
+                EntityType.Builder.<DroneEntity>create(DroneEntity::new, SpawnGroup.MISC)
+                        .dimensions(0.7F, 0.3F)
+                        .maxTrackingRange(16)
+                        .trackingTickInterval(1)
+                        .alwaysUpdateVelocity(true)
+                        .disableSaving()
+                        .disableSummon()
+                        .build(GRENADE_DRONE_ID.toString())
+        );
+        bombDrone = Registry.register(
+                Registries.ENTITY_TYPE,
+                BOMB_DRONE_ID,
+                EntityType.Builder.<DroneEntity>create(DroneEntity::new, SpawnGroup.MISC)
+                        .dimensions(0.6F, 0.3F)
+                        .maxTrackingRange(16)
+                        .trackingTickInterval(1)
+                        .alwaysUpdateVelocity(true)
+                        .disableSaving()
+                        .disableSummon()
+                        .build(BOMB_DRONE_ID.toString())
+        );
+        // Transient round projectile; tracked every tick with velocity so remote clients can follow its homing.
+        // 临时回合弹射物；每刻追踪并同步速度，使远端客户端能跟上其追踪转向。
+        taotieHead = Registry.register(
+                Registries.ENTITY_TYPE,
+                TAOTIE_HEAD_ID,
+                EntityType.Builder.<TaotieHeadEntity>create(TaotieHeadEntity::new, SpawnGroup.MISC)
+                        .dimensions(0.5F, 0.5F)
+                        .maxTrackingRange(8)
+                        .trackingTickInterval(1)
+                        .alwaysUpdateVelocity(true)
+                        .disableSaving()
+                        .disableSummon()
+                        .build(TAOTIE_HEAD_ID.toString())
+        );
+        // The Party Animal's summoned zombie: a round-only mob moved by its own brain, tracked every tick so the carry
+        // looks smooth. / 派对狂召唤的僵尸：仅存在于本局、由自身大脑驱动的生物；每刻追踪，扛人画面才流畅。
+        partygoer = Registry.register(
+                Registries.ENTITY_TYPE,
+                PARTYGOER_ID,
+                EntityType.Builder.<PartygoerEntity>create(PartygoerEntity::new, SpawnGroup.MISC)
+                        .dimensions(0.6F, 1.95F)
+                        .eyeHeight(1.74F)
+                        .maxTrackingRange(10)
+                        .trackingTickInterval(1)
+                        .makeFireImmune()
+                        .disableSaving()
+                        .disableSummon()
+                        .build(PARTYGOER_ID.toString())
+        );
+        FabricDefaultAttributeRegistry.register(partygoer, PartygoerEntity.createAttributes());
+        registered = true;
+    }
+
+    public static EntityType<M67GrenadeEntity> m67() {
+        if (m67 == null) {
+            throw new IllegalStateException("SparkStrength entities are not registered yet");
+        }
+        return m67;
+    }
+
+    public static EntityType<CapsuleEntity> capsule() {
+        if (capsule == null) {
+            throw new IllegalStateException("SparkStrength entities are not registered yet");
+        }
+        return capsule;
+    }
+
+    public static EntityType<CaptureDeviceEntity> captureDevice() {
+        if (captureDevice == null) {
+            throw new IllegalStateException("SparkStrength entities are not registered yet");
+        }
+        return captureDevice;
+    }
+
+    public static EntityType<CoolingOilEntity> coolingOil() {
+        if (coolingOil == null) {
+            throw new IllegalStateException("SparkStrength entities are not registered yet");
+        }
+        return coolingOil;
+    }
+
+    public static EntityType<AromaOrbEntity> aromaOrb() {
+        if (aromaOrb == null) {
+            throw new IllegalStateException("SparkStrength entities are not registered yet");
+        }
+        return aromaOrb;
+    }
+
+    public static EntityType<DroneEntity> grenadeDrone() {
+        if (grenadeDrone == null) {
+            throw new IllegalStateException("SparkStrength entities are not registered yet");
+        }
+        return grenadeDrone;
+    }
+
+    public static EntityType<DroneEntity> bombDrone() {
+        if (bombDrone == null) {
+            throw new IllegalStateException("SparkStrength entities are not registered yet");
+        }
+        return bombDrone;
+    }
+
+    public static EntityType<TaotieHeadEntity> taotieHead() {
+        if (taotieHead == null) {
+            throw new IllegalStateException("SparkStrength entities are not registered yet");
+        }
+        return taotieHead;
+    }
+
+    public static EntityType<PartygoerEntity> partygoer() {
+        if (partygoer == null) {
+            throw new IllegalStateException("SparkStrength entities are not registered yet");
+        }
+        return partygoer;
+    }
+}

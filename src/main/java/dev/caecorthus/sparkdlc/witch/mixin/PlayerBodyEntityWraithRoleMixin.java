@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.roles.special.wraith.conversion.WraithBodyRoleAccess;
+import dev.caecorthus.sparkdlc.role.special.wraith.conversion.WraithBodyRoleAccess;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;

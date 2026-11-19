@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.medium;
 
-import dev.caecorthus.sparkdlc.witch.client.medium.MediumHauntDrawer;
+import dev.caecorthus.sparkdlc.client.role.civilian.medium.MediumHauntDrawer;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedHandledScreen;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedInventoryScreen;
 import net.minecraft.client.gui.DrawContext;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.bear;
 
-import dev.caecorthus.sparkdlc.witch.client.bear.smoke.occlusion.SmokeOutlineMask;
+import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.occlusion.SmokeOutlineMask;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;

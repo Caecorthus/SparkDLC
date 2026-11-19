@@ -1,0 +1,84 @@
+package dev.caecorthus.sparkdlc.role.civilian.judge;
+
+import dev.doctor4t.wathe.api.Role;
+import dev.doctor4t.wathe.api.RoleSelectionContext;
+import dev.doctor4t.wathe.api.WatheRoles;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import net.minecraft.util.Identifier;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Predicate;
+
+/** Only Vigilante variants share this budget; police shop membership does not change allocation.
+ * 这里只共享义警变体的警位预算，警类商店资格不改变其他身份的分配。 */
+public final class PoliceSlotAssignmentService {
+    public static final Identifier EMMA_ID = Identifier.of("sparkwitch", "emma");
+    public static final Identifier CONTROL_EXPERT_ID = Identifier.of("sparkwitch", "control_expert");
+    public static final Identifier SEEKER_ID = Identifier.of("sparkwitch", "seeker");
+    /** Literal on purpose: the judge package never imports role packages. / 刻意使用字面量：法官包从不导入职业包。 */
+    public static final Identifier USEC_ID = Identifier.of("sparkwitch", "usec");
+    /** Literal on purpose, like USEC_ID (police variant since 2026-10-21). / 与 USEC_ID 相同刻意使用字面量（2026-10-21 起为警察变体）。 */
+    public static final Identifier BLACK_RAVEN_ID = Identifier.of("sparkwitch", "black_raven");
+    /** Literal on purpose, like USEC_ID. / 与 USEC_ID 相同刻意使用字面量。 */
+    public static final Identifier KNIGHT_ID = Identifier.of("sparkwitch", "knight");
+    /** Literal on purpose, like USEC_ID. / 与 USEC_ID 相同刻意使用字面量。 */
+    public static final Identifier SAVIOR_ID = Identifier.of("sparkwitch", "savior");
+    private static final Identifier VIGILANTE_ID = Identifier.of("wathe", "vigilante");
+    private static final List<Identifier> VARIANT_IDS =
+            List.of(JudgeRules.ROLE_ID, EMMA_ID, CONTROL_EXPERT_ID, SEEKER_ID, USEC_ID, BLACK_RAVEN_ID, KNIGHT_ID,
+                    SAVIOR_ID);
+
+    private PoliceSlotAssignmentService() {
+    }
+
+    public static boolean isVariant(Role role) {
+        return role != null && VARIANT_IDS.contains(role.identifier());
+    }
+
+    public static Role choose(RoleSelectionContext context) {
+        return choose(context, role -> false);
+    }
+
+    /**
+     * The same pool, minus the variants the caller cannot assign right now (a mid-round pick: Schrödinger's Cat skips
+     * an Emma whose one claim per round is already taken). The round start passes nothing and is unchanged.
+     * 同一警位池，去掉调用方此刻无法分配的变体（中途抽取：薛定谔之猫跳过本局唯一声明已被占用的艾玛）。开局不传入任何
+     * 限制，行为不变。
+     */
+    public static Role choose(RoleSelectionContext context, Predicate<Role> unavailable) {
+        GameWorldComponent game = context.gameComponent();
+        Set<Identifier> eligible = new HashSet<>();
+        Set<Identifier> assigned = new HashSet<>();
+        for (Identifier id : VARIANT_IDS) {
+            Role role = WatheRoles.getRole(id);
+            if (role == null || !id.equals(role.identifier())) {
+                continue;
+            }
+            if (game.isRoleEnabled(role) && role.shouldAppear(context) && !unavailable.test(role)) {
+                eligible.add(id);
+            }
+            if (!game.getAllWithRole(role).isEmpty()) {
+                assigned.add(id);
+            }
+        }
+        List<Identifier> choices = candidates(eligible, assigned);
+        Identifier selected = choices.get(context.world().getRandom().nextInt(choices.size()));
+        return VIGILANTE_ID.equals(selected) ? WatheRoles.VIGILANTE : WatheRoles.getRole(selected);
+    }
+
+    /** Special police fill the slots first; the plain Vigilante is only the fallback once every eligible variant
+     * is held (owner 2026-10-21).
+     * 特殊警职优先占用警位；只有所有可出现的变体都已有人担任时，普通义警才作为兜底出现（所有者 2026-10-21）。 */
+    static List<Identifier> candidates(Set<Identifier> eligible, Set<Identifier> assigned) {
+        List<Identifier> result = new ArrayList<>();
+        for (Identifier variant : VARIANT_IDS) {
+            if (eligible.contains(variant) && !assigned.contains(variant)) {
+                result.add(variant);
+            }
+        }
+        return result.isEmpty() ? List.of(VIGILANTE_ID) : List.copyOf(result);
+    }
+}

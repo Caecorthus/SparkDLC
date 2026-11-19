@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.scope;
 
-import dev.caecorthus.sparkdlc.witch.client.compat.SparkDlcSettingsBridge;
-import dev.caecorthus.sparkdlc.witch.client.scope.ScopeOptions;
+import dev.caecorthus.sparkdlc.client.bridge.witch.SparkDlcSettingsBridge;
+import dev.caecorthus.sparkdlc.client.scope.ScopeOptions;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.AccessibilityOptionsScreen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;

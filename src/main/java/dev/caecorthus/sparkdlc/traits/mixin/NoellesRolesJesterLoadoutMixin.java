@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.jester.JesterMomentLoadoutService;
+import dev.caecorthus.sparkdlc.trait.civilian.jester.JesterMomentLoadoutService;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.agmas.noellesroles.jester.JesterPlayerComponent;

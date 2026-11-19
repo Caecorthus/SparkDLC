@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.serialkiller;
 
-import dev.caecorthus.sparkdlc.strength.role.serialkiller.SerialPistolInventoryRules;
+import dev.caecorthus.sparkdlc.role.killer.serialkiller.SerialPistolInventoryRules;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

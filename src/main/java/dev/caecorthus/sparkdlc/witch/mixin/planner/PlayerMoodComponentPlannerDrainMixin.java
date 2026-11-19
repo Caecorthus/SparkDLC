@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.witch.mixin.planner;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.noa.NoaMoodLock;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.planner.PlannerComponent;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.planner.PlannerRules;
+import dev.caecorthus.sparkdlc.role.civilian.noa.NoaMoodLock;
+import dev.caecorthus.sparkdlc.role.civilian.planner.PlannerComponent;
+import dev.caecorthus.sparkdlc.role.civilian.planner.PlannerRules;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Final;

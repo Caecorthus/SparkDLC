@@ -2,9 +2,9 @@ package dev.caecorthus.sparkdlc.witch.client.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.SparkWitchItems;
-import dev.caecorthus.sparkdlc.witch.client.bear.smoke.SmokeTargetOcclusion;
-import dev.caecorthus.sparkdlc.witch.client.knight.CrossSwordClientStab;
+import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeTargetOcclusion;
+import dev.caecorthus.sparkdlc.client.role.civilian.knight.CrossSwordClientStab;
 import dev.doctor4t.wathe.client.gui.CrosshairRenderer;
 import dev.doctor4t.wathe.index.WatheItems;
 import net.minecraft.client.MinecraftClient;

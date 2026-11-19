@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.natsume;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.client.natsume.NatsumeMoodIcon;
+import dev.caecorthus.sparkdlc.client.role.killer.natsume.NatsumeMoodIcon;
 import dev.doctor4t.wathe.client.gui.MoodRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Identifier;

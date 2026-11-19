@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.hunter;
 
-import dev.caecorthus.sparkdlc.witch.client.hunter.HunterShotgunAimClient;
+import dev.caecorthus.sparkdlc.client.role.killer.hunter.HunterShotgunAimClient;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ActionResult;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.factionapi.mixin.compat.sparkwitch;
 
-import dev.caecorthus.sparkdlc.factionapi.impl.target.PlayerAffectMixinGuard;
+import dev.caecorthus.sparkdlc.faction.target.PlayerAffectMixinGuard;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,7 +17,7 @@ import java.util.UUID;
  * 在目标型魔女技能主体与冷却策略运行前拦截使用。
  */
 @Pseudo
-@Mixin(targets = "dev.caecorthus.sparkdlc.witch.skill.WitchSkillUseService", remap = false)
+@Mixin(targets = "dev.caecorthus.sparkdlc.skill.WitchSkillUseService", remap = false)
 public abstract class WitchSkillUseAffectMixin {
     private static final Identifier ACTION = Identifier.of("sparkwitch", "witch_skill");
 

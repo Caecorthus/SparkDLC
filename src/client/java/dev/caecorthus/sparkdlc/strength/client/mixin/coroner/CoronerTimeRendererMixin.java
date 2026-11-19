@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.coroner;
 
-import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
+import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.doctor4t.wathe.api.Role;

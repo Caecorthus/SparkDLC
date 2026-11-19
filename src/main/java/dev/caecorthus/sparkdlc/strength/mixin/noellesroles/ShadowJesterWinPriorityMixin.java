@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.noellesroles;
 
-import dev.caecorthus.sparkdlc.strength.role.shadowjester.ShadowJesterShowdownService;
+import dev.caecorthus.sparkdlc.role.neutral.shadowjester.ShadowJesterShowdownService;
 import org.agmas.noellesroles.Noellesroles;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

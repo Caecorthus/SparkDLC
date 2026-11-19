@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.engineer;
 
-import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerCaptureReport;
+import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerCaptureReport;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;

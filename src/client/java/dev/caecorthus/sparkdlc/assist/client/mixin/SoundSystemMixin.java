@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.assist.client.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.caecorthus.sparkdlc.assist.client.sound.EventSoundVolumeController;
+import dev.caecorthus.sparkdlc.client.sound.EventSoundVolumeController;
 import net.minecraft.client.sound.Sound;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.client.sound.SoundSystem;

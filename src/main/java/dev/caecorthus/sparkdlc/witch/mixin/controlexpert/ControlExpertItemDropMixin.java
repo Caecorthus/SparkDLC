@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.controlexpert;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.controlexpert.ControlExpertInventoryRules;
+import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertInventoryRules;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.factionapi.mixin.mapreset;
 
-import dev.caecorthus.sparkdlc.factionapi.impl.mapreset.LobbyMapReset;
+import dev.caecorthus.sparkdlc.round.mapreset.LobbyMapReset;
 import dev.doctor4t.wathe.cca.MapVotingComponent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

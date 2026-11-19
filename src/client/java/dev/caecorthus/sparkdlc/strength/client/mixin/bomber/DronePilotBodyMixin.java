@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.bomber;
 
-import dev.caecorthus.sparkdlc.strength.client.role.bomber.DronePilotClient;
+import dev.caecorthus.sparkdlc.client.role.killer.bomber.DronePilotClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

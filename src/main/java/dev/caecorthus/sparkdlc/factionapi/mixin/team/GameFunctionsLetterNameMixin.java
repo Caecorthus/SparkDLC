@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.factionapi.mixin.team;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.caecorthus.sparkdlc.factionapi.impl.team.CaecorthusTeamTag;
+import dev.caecorthus.sparkdlc.team.CaecorthusTeamTag;
 import dev.doctor4t.wathe.game.GameFunctions;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

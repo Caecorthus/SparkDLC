@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.usec;
 
-import dev.caecorthus.sparkdlc.witch.client.usec.UsecFireInput;
-import dev.caecorthus.sparkdlc.witch.client.usec.UsecRecoil;
+import dev.caecorthus.sparkdlc.client.role.civilian.usec.UsecFireInput;
+import dev.caecorthus.sparkdlc.client.role.civilian.usec.UsecRecoil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;

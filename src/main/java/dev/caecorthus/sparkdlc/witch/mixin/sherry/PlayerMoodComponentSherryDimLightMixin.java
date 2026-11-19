@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin.sherry;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.sherry.SherryDimLight;
+import dev.caecorthus.sparkdlc.role.civilian.sherry.SherryDimLight;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import org.objectweb.asm.Opcodes;

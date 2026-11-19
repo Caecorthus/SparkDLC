@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.perfumer;
 
-import dev.caecorthus.sparkdlc.strength.client.role.perfumer.PerfumerOverlayRenderer;
+import dev.caecorthus.sparkdlc.client.role.civilian.perfumer.kit.PerfumerOverlayRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.RenderTickCounter;

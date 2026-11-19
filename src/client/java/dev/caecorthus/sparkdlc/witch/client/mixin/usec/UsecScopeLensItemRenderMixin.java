@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.usec;
 
-import dev.caecorthus.sparkdlc.witch.client.usec.UsecScopeLensAnchors;
+import dev.caecorthus.sparkdlc.client.role.civilian.usec.UsecScopeLensAnchors;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.BakedModel;

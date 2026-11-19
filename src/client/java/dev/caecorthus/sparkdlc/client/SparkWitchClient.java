@@ -1,0 +1,676 @@
+package dev.caecorthus.sparkdlc.client;
+
+import dev.caecorthus.sparkdlc.client.role.killer.witchmaiden.MiniWitherClient;
+import dev.caecorthus.sparkdlc.client.role.killer.blackraven.crow.BlackRavenCrowClient;
+import dev.caecorthus.sparkdlc.client.role.witch.potiongunner.PotionGunnerClient;
+import dev.caecorthus.sparkdlc.client.role.witch.potiongunner.PotionShellEntityRenderer;
+import dev.caecorthus.sparkdlc.role.witch.potiongunner.shell.PotionGunnerEntities;
+import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkWitchEntities;
+import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.client.role.witch.bewitched.BewitchedClientPresentation;
+import dev.caecorthus.sparkdlc.client.role.civilian.recruit.RecruitClientPresentation;
+import dev.caecorthus.sparkdlc.client.role.killer.hiro.HiroClientModule;
+import dev.caecorthus.sparkdlc.client.role.killer.specter.SpecterClientModule;
+import dev.caecorthus.sparkdlc.role.killer.hiro.HiroRules;
+import dev.caecorthus.sparkdlc.role.killer.hiro.returning.HiroReturnComponent;
+import dev.caecorthus.sparkdlc.role.killer.hiro.returning.UseHiroSkillC2SPacket;
+import dev.caecorthus.sparkdlc.role.killer.specter.SpecterPlayerComponent;
+import dev.caecorthus.sparkdlc.role.killer.specter.SpecterRules;
+import dev.caecorthus.sparkdlc.role.killer.specter.UseSpecterSkillC2SPacket;
+import dev.caecorthus.sparkdlc.client.role.civilian.medium.MediumClientModule;
+import dev.caecorthus.sparkdlc.client.role.civilian.medium.MediumVoteClient;
+import dev.caecorthus.sparkdlc.role.civilian.medium.MediumRules;
+import dev.caecorthus.sparkdlc.role.civilian.medium.UseMediumSkillC2SPacket;
+import dev.caecorthus.sparkdlc.client.role.civilian.sherry.SherryClient;
+import dev.caecorthus.sparkdlc.role.civilian.sherry.SherryRules;
+import dev.caecorthus.sparkdlc.client.role.civilian.athlete.AthleteClient;
+import dev.caecorthus.sparkdlc.client.role.civilian.athlete.AthleteDashClient;
+import dev.caecorthus.sparkdlc.client.role.civilian.noa.NoaClient;
+import dev.caecorthus.sparkdlc.client.role.civilian.noa.NoaPaintClient;
+import dev.caecorthus.sparkdlc.client.role.civilian.hanna.HannaClient;
+import dev.caecorthus.sparkdlc.client.role.neutral.koko.KokoClient;
+import dev.caecorthus.sparkdlc.client.role.jiahao.sphinxhao.SphinxHaoClient;
+import dev.caecorthus.sparkdlc.client.role.neutral.criminalreasoner.CriminalReasonerClientModule;
+import dev.caecorthus.sparkdlc.client.role.civilian.planner.PlannerClient;
+import dev.caecorthus.sparkdlc.client.role.civilian.blind.BlindClient;
+import dev.caecorthus.sparkdlc.client.role.civilian.blind.kit.BlindKitClientWiring;
+import dev.caecorthus.sparkdlc.client.role.neutral.fiend.FiendDashClient;
+import dev.caecorthus.sparkdlc.client.role.neutral.ferryman.FerrymanClient;
+import dev.caecorthus.sparkdlc.client.role.civilian.fisher.FisherClient;
+import dev.caecorthus.sparkdlc.client.role.civilian.judge.JudgeClientModule;
+import dev.caecorthus.sparkdlc.client.role.civilian.junker.JunkerClientModule;
+import dev.caecorthus.sparkdlc.client.role.civilian.knight.KnightDuelClient;
+import dev.caecorthus.sparkdlc.client.role.civilian.knight.KnightSwordClient;
+import dev.caecorthus.sparkdlc.client.role.civilian.savior.SaviorClient;
+import dev.caecorthus.sparkdlc.client.role.civilian.savior.SaviorDomainClient;
+import dev.caecorthus.sparkdlc.client.role.civilian.prophet.ProphetClientModule;
+import dev.caecorthus.sparkdlc.role.civilian.judge.JudgeRules;
+import dev.caecorthus.sparkdlc.role.civilian.junker.JunkerRules;
+import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityController;
+import dev.caecorthus.sparkdlc.client.role.civilian.apprentice.ApprenticeClientModule;
+import dev.caecorthus.sparkdlc.client.role.civilian.emma.EmmaClientModule;
+import dev.caecorthus.sparkdlc.client.role.witch.grandwitch.GrandWitchClientModule;
+import dev.caecorthus.sparkdlc.client.role.killer.bellringer.BellRingerClient;
+import dev.caecorthus.sparkdlc.client.role.killer.timestealer.TimeStealerClient;
+import dev.caecorthus.sparkdlc.client.role.killer.blackraven.BlackRavenClientModule;
+import dev.caecorthus.sparkdlc.client.role.killer.blackraven.BlackRavenLedgerScreen;
+import dev.caecorthus.sparkdlc.client.role.killer.blackraven.crow.BlackRavenCrowWorldClient;
+import dev.caecorthus.sparkdlc.client.role.civilian.prophet.ProphetNecrologyBookScreen;
+import dev.caecorthus.sparkdlc.client.role.civilian.controlexpert.ControlExpertStatusHud;
+import dev.caecorthus.sparkdlc.client.role.civilian.controlexpert.ControlExpertStunClient;
+import dev.caecorthus.sparkdlc.client.role.jiahao.insider.InsiderClient;
+import dev.caecorthus.sparkdlc.client.role.neutral.stowaway.StowawaySensesClient;
+import dev.caecorthus.sparkdlc.client.role.witch.abysslistener.AbyssListenerClient;
+import dev.caecorthus.sparkdlc.client.role.witch.riftwalker.RiftwalkerClient;
+import dev.caecorthus.sparkdlc.client.role.civilian.seeker.SeekerClientModule;
+import dev.caecorthus.sparkdlc.client.role.civilian.usec.UsecClientModule;
+import dev.caecorthus.sparkdlc.client.hooks.DeathRayClientHooks;
+import dev.caecorthus.sparkdlc.client.hooks.GrandWitchFearClientHooks;
+import dev.caecorthus.sparkdlc.client.hooks.HunterTrapClientHooks;
+import dev.caecorthus.sparkdlc.client.role.killer.hunter.DoubleBarrelMuzzleClient;
+import dev.caecorthus.sparkdlc.client.role.killer.hunter.HunterTrapDismantleHud;
+import dev.caecorthus.sparkdlc.client.hooks.KidnapperThrowClientHooks;
+import dev.caecorthus.sparkdlc.client.hooks.OrthopedistClientHooks;
+import dev.caecorthus.sparkdlc.client.hooks.ProphetCorpseHighlightClientHooks;
+import dev.caecorthus.sparkdlc.client.hooks.WitchAbilityKeyBridge;
+import dev.caecorthus.sparkdlc.client.hooks.WitchCohortClientHooks;
+import dev.caecorthus.sparkdlc.client.hooks.WitchInstinctSuppressionClientHooks;
+import dev.caecorthus.sparkdlc.client.hooks.WitchPoisonVisionClientHooks;
+import dev.caecorthus.sparkdlc.client.role.witch.curser.CurserClientHooks;
+import dev.caecorthus.sparkdlc.client.net.version.SparkWitchClientVersionHandshake;
+import dev.caecorthus.sparkdlc.client.role.killer.ninja.NinjaGrappleClientPull;
+import dev.caecorthus.sparkdlc.client.render.LocalViewerSnapshot;
+import dev.caecorthus.sparkdlc.client.render.WraithClientState;
+import dev.caecorthus.sparkdlc.client.render.entity.HunterTrapEntityRenderer;
+import dev.caecorthus.sparkdlc.client.render.entity.NinjaGrapplingHookEntityRenderer;
+import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotDivinationSelectorScreen;
+import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotDivinationClientState;
+import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotReadingLog;
+import dev.caecorthus.sparkdlc.client.role.civilian.vendetta.VendettaKnifeModelLoadingPlugin;
+import dev.caecorthus.sparkdlc.client.role.killer.witchmaiden.WitchMaidenClientModule;
+import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
+import dev.caecorthus.sparkdlc.component.WitchWorldComponent;
+import dev.caecorthus.sparkdlc.net.OpenBlackRavenLedgerS2CPacket;
+import dev.caecorthus.sparkdlc.net.OpenProphetNecrologyS2CPacket;
+import dev.caecorthus.sparkdlc.net.OpenTarotDivinationSelectorS2CPacket;
+import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.TarotDivinationReadingS2CPacket;
+import dev.caecorthus.sparkdlc.net.TarotDivinationSnapshotS2CPacket;
+import dev.caecorthus.sparkdlc.net.UseWitchSkillC2SPacket;
+import dev.caecorthus.sparkdlc.net.WraithRoleAnnouncementS2CPacket;
+import dev.caecorthus.sparkdlc.role.civilian.athlete.AthleteRules;
+import dev.caecorthus.sparkdlc.role.civilian.blind.BlindRules;
+import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertEntities;
+import dev.caecorthus.sparkdlc.role.civilian.guardianangel.GuardianAngelRules;
+import dev.caecorthus.sparkdlc.role.civilian.guardianangel.UseGuardianAngelSkillC2SPacket;
+import dev.caecorthus.sparkdlc.role.civilian.hanna.HannaRules;
+import dev.caecorthus.sparkdlc.role.neutral.koko.KokoRules;
+import dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.SphinxHaoRules;
+import dev.caecorthus.sparkdlc.role.neutral.criminalreasoner.CriminalReasonerRules;
+import dev.caecorthus.sparkdlc.role.civilian.noa.NoaRules;
+import dev.caecorthus.sparkdlc.role.civilian.planner.PlannerRules;
+import dev.caecorthus.sparkdlc.role.civilian.orthopedist.UseOrthopedistSkillC2SPacket;
+import dev.caecorthus.sparkdlc.role.killer.dominator.DominatorPlayerComponent;
+import dev.caecorthus.sparkdlc.role.killer.dominator.DominatorRules;
+import dev.caecorthus.sparkdlc.role.killer.dominator.UseDominatorSkillC2SPacket;
+import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorPlayerComponent;
+import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorRules;
+import dev.caecorthus.sparkdlc.role.civilian.savior.UseSaviorSkillC2SPacket;
+import dev.caecorthus.sparkdlc.role.civilian.saint.SaintRules;
+import dev.caecorthus.sparkdlc.role.civilian.saint.flash.HolyFlashEntities;
+import dev.caecorthus.sparkdlc.role.killer.hunter.HunterEntities;
+import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendParticipation;
+import dev.caecorthus.sparkdlc.role.killer.saboteur.SaboteurRole;
+import dev.caecorthus.sparkdlc.client.role.killer.saboteur.SaboteurClientAbilityRules;
+import dev.caecorthus.sparkdlc.role.killer.saboteur.UseSaboteurSkillC2SPacket;
+import dev.caecorthus.sparkdlc.role.killer.witchmaiden.WitchMaidenRules;
+import dev.caecorthus.sparkdlc.role.special.wraith.WraithParticipationRules;
+import dev.caecorthus.sparkdlc.role.witch.curser.UseCurserAbilityC2SPacket;
+import dev.doctor4t.ratatouille.client.util.ambience.AmbienceUtil;
+import dev.doctor4t.ratatouille.client.util.ambience.BackgroundAmbience;
+import dev.doctor4t.wathe.api.event.AllowPlayerChat;
+import dev.doctor4t.wathe.api.event.CanSeePoison;
+import dev.doctor4t.wathe.api.event.ShouldAllowSuppressedKey;
+import dev.doctor4t.wathe.api.event.ShouldShowCohort;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.client.gui.RoleAnnouncementTexts;
+import dev.doctor4t.wathe.client.gui.RoundTextRenderer;
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.networking.v1.ClientLoginConnectionEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.text.Text;
+import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
+import net.minecraft.util.Util;
+import dev.caecorthus.sparkdlc.client.role.killer.magician.MagicianPlaybackEntityRenderer;
+import dev.caecorthus.sparkdlc.client.role.killer.magician.MagicianKeyRepeatGuard;
+import dev.caecorthus.sparkdlc.client.role.killer.magician.MagicianPuppetStandIn;
+import dev.caecorthus.sparkdlc.role.killer.magician.UseMagicianAbilityC2SPacket;
+import dev.doctor4t.wathe.client.WatheClient;
+
+public final class SparkWitchClient implements ClientModInitializer {
+    @Override
+    public void onInitializeClient() {
+        SparkWitch.LOGGER.info("Initializing SparkWitch client hooks.");
+        SparkWitchServerConnection.reset();
+        // Per-world-pass memo of local-viewer facts read by the instinct, outline and Blind hooks.
+        // 本能、描边与盲人钩子读取的本地观察者事实，按世界渲染 pass 缓存。
+        LocalViewerSnapshot.register();
+        SecondaryAbilityController.registerKeyBinding();
+        BlackRavenClientModule.register();
+        GrandWitchClientModule.register();
+        ApprenticeClientModule.register();
+        SpecterClientModule.register();
+        // 二阶堂希罗 (2026-11-11): role-owned HUD hub. / 二阶堂希罗（2026-11-11）：职业自有 HUD 注册中心。
+        HiroClientModule.register();
+        WitchMaidenClientModule.register();
+        MiniWitherClient.register();
+        BlackRavenCrowClient.register();
+        BellRingerClient.init();
+        TimeStealerClient.init();
+        FerrymanClient.register();
+        VendettaKnifeModelLoadingPlugin.register();
+        SecondaryAbilityController.reset();
+        SparkWitchClientVersionHandshake.registerClient();
+        registerEntityRenderers();
+        registerTarotDivinationNetworking();
+        registerBlackRavenNetworking();
+        registerProphetNecrologyNetworking();
+        registerWraithRoleAnnouncementNetworking();
+        JudgeClientModule.register();
+        JunkerClientModule.register();
+        KnightSwordClient.register();
+        KnightDuelClient.register();
+        dev.caecorthus.sparkdlc.client.role.killer.dominator.DominatorClientModule.register();
+        // 夏目安安 (PR #194): the target-menu receiver (instinct is gated by NatsumeInstinctGateMixin).
+        // 夏目安安（PR #194）：目标菜单接收器（本能由 NatsumeInstinctGateMixin 屏蔽）。
+        dev.caecorthus.sparkdlc.client.role.killer.natsume.NatsumeClientModule.register();
+        SaviorClient.register();
+        ProphetClientModule.register();
+        ControlExpertStunClient.register();
+        ControlExpertStatusHud.register();
+        InsiderClient.init();
+        PotionGunnerClient.init();
+        SeekerClientModule.register();
+        FisherClient.register();
+        dev.caecorthus.sparkdlc.client.role.neutral.fiend.FiendClient.init();
+        StowawaySensesClient.register();
+        BlindClient.register();
+        dev.caecorthus.sparkdlc.client.role.civilian.saint.HolyFlashAudioClient.register();
+        AbyssListenerClient.init();
+        RiftwalkerClient.init();
+        // Bewitched promotion progress line (role-owned HUD). / 魔化使晋升进度行（职业自有 HUD）。
+        BewitchedClientPresentation.register();
+        // Recruit first-task knife progress line (role-owned HUD). / 新兵首个任务发刀进度行（职业自有 HUD）。
+        RecruitClientPresentation.register();
+        // Athlete Dash line (role-owned HUD); the dash itself rides the shared ability key below.
+        // 运动员冲刺行（职业自有 HUD）；冲刺本身走下方的共享技能键。
+        AthleteClient.init();
+        // Noa painting line (role-owned HUD); the painting itself rides the shared ability key below.
+        // 诺亚作画行（职业自有 HUD）；作画本身走下方的共享技能键。
+        NoaClient.init();
+        // Hanna float line (role-owned HUD); the float itself rides the shared ability key below.
+        // 汉娜浮游行（职业自有 HUD）；浮游本身走下方的共享技能键。
+        HannaClient.init();
+        // Koko traffic and stream rows plus her live instinct outline (role-owned); going live rides the shared
+        // ability key below. / 可可的流量行、直播行与直播期间的本能描边（职业自有）；开播走下方的共享技能键。
+        KokoClient.init();
+        // 狮身豪 (Team Jiahao): HUD rows, its keyed infected outline, 《Fade》 for every client and its N key (role-owned);
+        // 嘉豪病毒 rides the shared ability key below. / 狮身豪（嘉豪阵营）：HUD 行、按键型感染者描边、所有客户端的《Fade》与
+        // N 键（职业自有）；嘉豪病毒走下方的共享技能键。
+        SphinxHaoClient.init();
+        // 犯罪推理学家 (PR #228): reasoning menu, invisibility key, instinct hide and HUD rows (role-owned); the menu
+        // request rides the shared ability key below. / 犯罪推理学家（PR #228）：推理菜单、隐身键、本能屏蔽与 HUD 行（职业自有）；
+        // 菜单请求走下方的共享技能键。
+        CriminalReasonerClientModule.register();
+        // BEAR smoke (spike): the S2C receivers that write SmokeClientState, and the disconnect cleanup.
+        // BEAR 烟雾（原型）：写入 SmokeClientState 的 S2C 接收器与断线清理。
+        dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeNetworkClient.register();
+        // BEAR volumetric smoke (client presentation only; reads SmokeClientState). / BEAR 体积烟雾（纯客户端展示；只读 SmokeClientState）。
+        dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.render.SmokeRenderWiring.register();
+        // BEAR smoke under an Iris shader pack: liveness, billboard fallback, per-entity outline veto (no-op without a pack).
+        // Iris 光影包下的 BEAR 烟雾：存活判定、公告板兜底、逐实体描边否决（未用光影包时不做任何事）。
+        dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.shaderpack.SmokeShaderPackWiring.register();
+        AllowPlayerChat.EVENT.register(player -> {
+            if (!SparkWitchServerConnection.isConfirmedServer()) {
+                return false;
+            }
+            var role = GameWorldComponent.KEY.get(player.getWorld()).getRole(player);
+            return WraithParticipationRules.mayUseTextChat(
+                    WraithClientState.isActive(player),
+                    GuardianAngelRules.isGuardianAngel(role),
+                    player.isCreative()
+            );
+        });
+        ShouldAllowSuppressedKey.EVENT.register(keyBinding -> {
+            MinecraftClient client = MinecraftClient.getInstance();
+            if (!SparkWitchServerConnection.isConfirmedServer()
+                    || client.player == null
+                    || keyBinding != client.options.jumpKey) {
+                return false;
+            }
+            // Wathe 会先询问该事件再压制跳跃键；活跃冤魂必须无视地图禁跳和跳跃体力检查。
+            boolean activeWraith = WraithClientState.isActive(client.player);
+            return activeWraith && WraithParticipationRules.mayJump(true, false);
+        });
+
+        // Reset on every connection lifecycle edge so failed login attempts cannot leak confirmed state.
+        // 在每个连接生命周期节点清理状态，避免失败的登录尝试残留已确认标记。
+        ClientLoginConnectionEvents.INIT.register((handler, client) -> resetConnectionState());
+        ClientLoginConnectionEvents.DISCONNECT.register((handler, client) -> resetConnectionState());
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> resetConnectionState());
+        // A proxy backend switch goes play -> configuration -> play on one connection: no DISCONNECT and no login INIT
+        // fire, only another JOIN, so the previous backend's session state is dropped here too. Play-phase state of the
+        // new session only arrives after JOIN, so nothing of it can be wiped. The confirmed-server flag is NOT reset
+        // here: on a direct connection it was set by this same connection's login query and must survive its own JOIN.
+        // 代理切换后端时，同一连接经历 play -> configuration -> play：既不触发 DISCONNECT 也不触发登录 INIT，只会再次 JOIN，
+        // 因此在这里同样丢弃上一个后端的会话状态。新会话的 play 阶段状态只会在 JOIN 之后到达，所以不会被误清。已确认服务端
+        // 标记不在此重置：直连时它由同一连接的登录查询设置，必须在自己的 JOIN 之后保留。
+        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> resetSessionState());
+        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> releaseClosedWorldPlayers());
+        WitchInstinctSuppressionClientHooks.register();
+        HunterTrapClientHooks.register();
+        HunterTrapDismantleHud.register();
+        DoubleBarrelMuzzleClient.register();
+        NinjaGrappleClientPull.register();
+        OrthopedistClientHooks.register();
+        ProphetCorpseHighlightClientHooks.register();
+        registerGrandWitchCeremonialSwordBgm();
+
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            TarotDivinationClientState.tick(client);
+            JudgeClientModule.tick(client);
+            ProphetClientModule.tick(client);
+            SecondaryAbilityController.tick(client);
+            if (!SparkWitchServerConnection.isConfirmedServer()) {
+                WitchAbilityKeyBridge.reset();
+                DeathRayClientHooks.reset();
+                KidnapperThrowClientHooks.reset();
+                return;
+            }
+            KidnapperThrowClientHooks.tick(client);
+            GrandWitchFearClientHooks.tick();
+            DeathRayClientHooks.tick(client);
+            dev.caecorthus.sparkdlc.client.gui.OwnerInventoryPresenter.tick(client);
+            MagicianKeyRepeatGuard.observe(WitchAbilityKeyBridge.isHeld());
+            if (client.player != null
+                    && client.getNetworkHandler() != null
+                    && WitchAbilityKeyBridge.wasPressed()) {
+                var role = GameWorldComponent.KEY.get(client.player.getWorld()).getRole(client.player);
+                boolean exactSaboteurRole = role != null
+                        && SaboteurRole.ID.equals(role.identifier());
+                if (MediumVoteClient.ownsAbilityKey(client)) {
+                    // Ahead of every role branch: during a live Medium vote window (a 通灵 question or 幽灵的加护) a
+                    // dead round member's press opens that window's vote screen, whatever role they held (the dead
+                    // have no other use for the key). The server re-checks every vote.
+                    // 位于所有职业分支之前：通灵师投票窗口（通灵提问或幽灵的加护）进行期间，本局死者的按下打开该窗口的
+                    // 投票界面，无论其原职业为何（死者的技能键别无他用）。每一票都由服务端重新校验。
+                    MediumVoteClient.onAbilityKey(client);
+                } else if (KnightDuelClient.ownsAbilityKey(client.player, role)) {
+                    // Checked first: either duelist's press does nothing (any role, owner 2026-10-30; the server also
+                    // drops their G-skill payloads), and a Knight's press opens the duel target panel.
+                    // 最先判定：任一决斗者的按下无效（任何职业，所有者 2026-10-30；服务端也会丢弃其 G 键技能包），
+                    // 骑士的按下打开决斗目标面板。
+                    KnightDuelClient.onAbilityKey(client);
+                } else if (role != null && role.identifier().equals(dev.caecorthus.sparkdlc.SparkWitchRoles.MAGICIAN_ID)) {
+                    // Real role only; the server re-checks the role and every skill lock before advancing the stage.
+                    // Key-repeat presses while the key stays held are dropped (one stage step per physical press).
+                    // 仅限真实职业；服务端会再次检查职业与所有技能锁后才推进阶段。按住不放时的重复按下被丢弃（每次物理按键只推进一步）。
+                    if (MagicianKeyRepeatGuard.accept() && ClientPlayNetworking.canSend(UseMagicianAbilityC2SPacket.ID)) {
+                        ClientPlayNetworking.send(new UseMagicianAbilityC2SPacket(UseMagicianAbilityC2SPacket.ADVANCE));
+                    }
+                } else if (JudgeRules.isJudge(role)) {
+                    JudgeClientModule.requestSelection(client);
+                } else if (CriminalReasonerRules.isReasoner(role)) {
+                    // Real role only; the module drops a dead, spectating or swallowed Reasoner's press. The key opens
+                    // his own reasoning menu. / 仅限真实职业；死亡、旁观或被吞下的推理学家的按键由模块丢弃。该键打开推理菜单。
+                    CriminalReasonerClientModule.requestSelection(client);
+                } else if (JunkerRules.isRagpicker(role)) {
+                    // Real role only; a dead or swallowed Ragpicker's press is dropped here, not sent as a witch skill.
+                    // 仅限真实职业；死亡或被吞下的拾荒者的按键在此被丢弃，不会作为魔女技能发送。
+                    JunkerClientModule.onAbilityKey(client);
+                } else if (ProphetClientModule.ownsAbilityKey(client.player, role)) {
+                    // Prophecy opens its own session instead of sending the generic skill packet.
+                    // 预言打开自有会话，而不是发送通用技能包。
+                    ProphetClientModule.requestProphecy(client);
+                } else if (EmmaClientModule.isEmma(client.player)) {
+                    EmmaClientModule.use(client.player);
+                } else if (exactSaboteurRole) {
+                    if (SaboteurClientAbilityRules.shouldSend(
+                            true,
+                            true,
+                            WraithClientState.isPromoted(client.player),
+                            ClientPlayNetworking.canSend(UseSaboteurSkillC2SPacket.ID)
+                    )) {
+                        ClientPlayNetworking.send(new UseSaboteurSkillC2SPacket());
+                    }
+                } else if (DominatorRules.isDominator(role)) {
+                    // Real role only. Sends nothing while the press cannot do anything: dead, in spectator mode or
+                    // swallowed (the shared side-neutral caster gate), no uses left, or on cooldown. The server re-checks
+                    // all of this plus its own gates, so this only saves a doomed request.
+                    // 仅限真实职业。按键无效时不发送：死亡、旁观模式或被吞下（两端共用的施放者门槛）、次数为 0 或冷却中。
+                    // 服务端会再次检查这些以及其自身门槛，此处只是省掉注定被拒的请求。
+                    DominatorPlayerComponent dominator = DominatorPlayerComponent.KEY.get(client.player);
+                    if (DominatorRules.isActiveCaster(client.player)
+                            && dominator.getRemainingUses() > 0
+                            && !dominator.isOnCooldown()
+                            && ClientPlayNetworking.canSend(UseDominatorSkillC2SPacket.ID)) {
+                        ClientPlayNetworking.send(new UseDominatorSkillC2SPacket());
+                    }
+                } else if (SpecterRules.isSpecter(role)) {
+                    // The server owns the full validation; the synced cooldown only trims obviously dead presses.
+                    // 完整校验在服务端；本地同步的冷却只用来过滤明显无效的按键。
+                    if (!SpecterPlayerComponent.KEY.get(client.player).isOnCooldown()
+                            && ClientPlayNetworking.canSend(UseSpecterSkillC2SPacket.ID)) {
+                        ClientPlayNetworking.send(new UseSpecterSkillC2SPacket());
+                    }
+                } else if (HiroRules.isHiro(role)) {
+                    // 二阶堂希罗 死亡回归, real role only: an empty request. The server owns the full validation (mana,
+                    // window, gates); the synced cooldown only trims obviously dead presses, as for the Specter.
+                    // 二阶堂希罗的死亡回归，仅限真实职业：空请求。完整校验（魔力、窗口、门槛）在服务端；与幽魂一样，本地同步的冷却
+                    // 只用来过滤明显无效的按键。
+                    if (!HiroReturnComponent.KEY.get(client.player).isOnCooldown()
+                            && ClientPlayNetworking.canSend(UseHiroSkillC2SPacket.ID)) {
+                        ClientPlayNetworking.send(new UseHiroSkillC2SPacket());
+                    }
+                } else if (role != null && role.identifier().equals(dev.caecorthus.sparkdlc.SparkWitchRoles.CURSER_ID)) {
+                    if (CurserClientHooks.canUse(client.player)) {
+                        CurserClientHooks.use();
+                    }
+                } else if (GuardianAngelRules.isGuardianAngel(role)) {
+                    ClientPlayNetworking.send(new UseGuardianAngelSkillC2SPacket());
+                } else if (GameWorldComponent.KEY.get(client.player.getWorld())
+                        .isRole(client.player, dev.caecorthus.sparkdlc.SparkWitchRoles.orthopedist())) {
+                    // Widened by the Black Raven acting overlay; getRole stays raw. / 黑羽鸦扮演覆盖层会放宽此判定；getRole 仍为真实身份。
+                    ClientPlayNetworking.send(new UseOrthopedistSkillC2SPacket());
+                } else if (SaviorRules.isSavior(role)) {
+                    // Client-side guard is presentation only; the server re-checks role, round, cooldown and the active domain.
+                    // 客户端门槛仅用于表现；服务端会重新校验职业、回合、冷却与领域是否已展开。
+                    SaviorPlayerComponent savior = SaviorPlayerComponent.KEY.get(client.player);
+                    if (savior.getCooldownTicks() <= 0
+                            && savior.getDomainTicks() <= 0
+                            && ClientPlayNetworking.canSend(UseSaviorSkillC2SPacket.ID)) {
+                        ClientPlayNetworking.send(new UseSaviorSkillC2SPacket());
+                    }
+                } else if (BlindRules.isBlind(role)) {
+                    // Real role only (the Blind is never a disguise target). / 仅真实职业（盲人不可被伪装）。
+                    BlindKitClientWiring.onAbilityKey(client);
+                } else if (FiendParticipation.isMomentFiend(client.player)) {
+                    // Real role plus the synced moment owner; Dash exists only during the moment. The server decides use.
+                    // 真实职业加同步的时刻拥有者；疾驰只在时刻中存在，是否生效由服务端决定。
+                    FiendDashClient.onAbilityKey(client);
+                } else if (FerrymanClient.isLocalFerryman(client)) {
+                    // Real role only; the press asks the server to pardon a held lethal hit (1.5 s window).
+                    // 仅真实职业；按下即请求服务端宽恕一次被扣住的致命击杀（1.5 秒窗口）。
+                    FerrymanClient.onAbilityKey(client);
+                } else if (AthleteRules.isAthlete(role)) {
+                    // Real role only (the Athlete is never a disguise target); the server decides use.
+                    // 仅真实职业（运动员不可被伪装）；是否生效由服务端决定。
+                    AthleteDashClient.onAbilityKey(client);
+                } else if (SphinxHaoRules.isSphinxHao(role)) {
+                    // 嘉豪病毒, real role only (getRole stays raw): an empty request; the synced cooldown only trims
+                    // obviously refused presses (with a local hint), the server decides use.
+                    // 嘉豪病毒，仅真实职业（getRole 始终是真实身份）：空请求；同步的冷却只过滤明显被拒的按键（并给出本地提示），
+                    // 是否生效由服务端决定。
+                    SphinxHaoClient.onAbilityKey(client);
+                } else if (role != null
+                        && dev.caecorthus.sparkdlc.role.killer.natsume.NatsumeRules.ROLE_ID
+                                .equals(role.identifier())) {
+                    // 夏目安安 (PR #194, fork order: right before Noa): the key asks the server for the target menu.
+                    // 夏目安安（PR #194，fork 中的顺序：紧挨诺亚之前）：按键向服务端请求目标菜单。
+                    dev.caecorthus.sparkdlc.client.role.killer.natsume.NatsumeClientModule.onAbilityKey(client);
+                } else if (NoaRules.isNoa(role)) {
+                    // Real role only (getRole stays raw, so a Black Raven acting as Noa keeps its own key); the server
+                    // decides use. / 仅真实职业（getRole 始终是真实身份，扮演诺亚的黑羽鸦保留自己的按键）；是否生效由服务端决定。
+                    NoaPaintClient.onAbilityKey(client);
+                } else if (PlannerRules.isPlanner(role)) {
+                    // 规划大师 recommendation, real role only (getRole stays raw, so a Black Raven acting as the planner
+                    // keeps its own key): sends the aimed player's UUID, or her own; the server decides use.
+                    // 规划大师的推荐，仅真实职业（getRole 始终是真实身份，扮演规划大师的黑羽鸦保留自己的按键）：发送准星下
+                    // 玩家的 UUID，没有目标时为她自己的；是否生效由服务端决定。
+                    PlannerClient.onAbilityKey(client);
+                } else if (MediumRules.isMedium(role)) {
+                    // 通灵 (the shared ability key): empty request, the server owns every check and opens the box.
+                    // 幽灵的加护 is on the SparkWitch skill key (MediumClientModule) and 招魂 in the inventory drawer.
+                    // 通灵（共享技能键）：空请求，全部校验在服务端，并由服务端打开提问框。幽灵的加护在 SparkWitch 技能键上
+                    // （MediumClientModule），招魂在背包抽屉中。
+                    if (ClientPlayNetworking.canSend(UseMediumSkillC2SPacket.ID)) {
+                        ClientPlayNetworking.send(new UseMediumSkillC2SPacket());
+                    }
+                } else if (KokoRules.isKoko(role)) {
+                    // Go live (the shared ability key), real role only (getRole stays raw): empty request, the server
+                    // decides use. / 开播（共享技能键），仅真实职业（getRole 始终是真实身份）：空请求，是否生效由服务端决定。
+                    KokoClient.onAbilityKey(client);
+                } else if (HannaRules.isHanna(role)) {
+                    // Real role only (getRole stays raw, so a Black Raven acting as Hanna keeps its own key); the server
+                    // decides use. / 仅真实职业（getRole 始终是真实身份，扮演汉娜的黑羽鸦保留自己的按键）；是否生效由服务端决定。
+                    HannaClient.onAbilityKey(client);
+                } else if (SherryRules.isSherry(role)) {
+                    // 推演 (the shared ability key), real role only: empty request, the server checks the corpse,
+                    // cooldown and coins and answers with the candidate panel.
+                    // 推演（共享技能键），仅限真实职业：空请求，服务端检查尸体、冷却与金币后以候选面板应答。
+                    SherryClient.onAbilityKey(client);
+                } else if (!WitchMaidenRules.isWitchMaiden(role)
+                        && (WitchPlayerComponent.KEY.get(client.player).hasSkill()
+                        || SaintRules.isSaint(role))) {
+                    ClientPlayNetworking.send(new UseWitchSkillC2SPacket());
+                }
+            }
+        });
+
+        ShouldShowCohort.EVENT.register((viewer, target) -> {
+            if (!SparkWitchServerConnection.isConfirmedServer()) {
+                return null;
+            }
+            if (WitchCohortClientHooks.isGrandWitchCohortPair(viewer, target)) {
+                return ShouldShowCohort.CohortResult.hide(110);
+            }
+            return null;
+        });
+        CanSeePoison.EVENT.register(WitchPoisonVisionClientHooks::canSeeHiddenPoison);
+        // BEAR client hub (work packages append there), before USEC, which stays last.
+        // BEAR 客户端注册中心（各工作包在其中追加），位于 USEC 之前，USEC 保持最后。
+        dev.caecorthus.sparkdlc.client.role.civilian.bear.BearClientModule.register();
+        // Medium client hub (Role Skill 2 key = 幽灵的加护), after BEAR and before USEC, which stays last.
+        // 通灵师客户端注册中心（职业技能 2 键 = 幽灵的加护），位于 BEAR 之后、USEC 之前，USEC 保持最后。
+        MediumClientModule.register();
+        // 橘雪莉 client hub (PR #206: panel, Role Skill 2 key, private outlines, corner HUD), after the Medium and
+        // before USEC, which stays last.
+        // 橘雪莉客户端注册中心（PR #206：面板、职业技能 2 键、私有描边、右下角 HUD），位于通灵师之后、USEC 之前，USEC 保持最后。
+        SherryClient.register();
+        // USEC client hub, appended last: scope, HUD, attachment screen, impact cracks.
+        // USEC 客户端注册中心，追加在最后：开镜、HUD、配件界面、命中裂痕。
+        UsecClientModule.register();
+    }
+
+    public static Text abilityKeyText() {
+        return WitchAbilityKeyBridge.keyText();
+    }
+
+    private static void registerEntityRenderers() {
+        // The projectile renders its synced shuriken item stack, never the upstream generic knife texture.
+        // 投射物始终渲染同步的手里剑物品模型，不复用上游通用飞刀贴图。
+        EntityRendererRegistry.register(
+                SparkWitchEntities.ninjaShuriken(),
+                context -> new FlyingItemEntityRenderer<>(context, 1.0F, true)
+        );
+        // The grappling hook draws its 3D head model and the chain to the owner's hand.
+        // 钩爪绘制 3D 钩头模型与连到主人手上的锁链。
+        NinjaGrapplingHookEntityRenderer.registerHeadModel();
+        EntityRendererRegistry.register(SparkWitchEntities.ninjaGrapplingHook(), NinjaGrapplingHookEntityRenderer::new);
+        EntityRendererRegistry.register(HunterEntities.hunterTrap(), HunterTrapEntityRenderer::new);
+        // The thrown Shock Device renders its synced item stack like vanilla thrown items.
+        // 投出的电击装置与原版投掷物一样渲染其同步的物品。
+        EntityRendererRegistry.register(ControlExpertEntities.shockDevice(), FlyingItemEntityRenderer::new);
+        // The thrown Holy Flash renders its synced item stack. / 投出的圣光弹渲染其同步的物品。
+        EntityRendererRegistry.register(HolyFlashEntities.holyFlash(), FlyingItemEntityRenderer::new);
+        // The flying shell draws its 3D model by stack type. / 飞行中的炮弹按物品种类绘制 3D 模型。
+        EntityRendererRegistry.register(PotionGunnerEntities.potionShell(), PotionShellEntityRenderer::new);
+        SeekerClientModule.registerEntityRenderers();
+        // BEAR smoke round (WP0 stub renderer). / BEAR 烟雾榴弹（WP0 桩渲染器）。
+        dev.caecorthus.sparkdlc.client.role.civilian.bear.BearClientModule.registerEntityRenderers();
+        EntityRendererRegistry.register(SparkWitchEntities.magicianPlayback(), MagicianPlaybackEntityRenderer::new);
+        // Raven Form world content: Homing Feather marker and black feather particle. / 化鸦世界内容：归羽标记与黑羽粒子。
+        BlackRavenCrowWorldClient.register();
+        // 狮身豪's "手"枪: loaded-model predicate, fist model and the spring-fist renderer (lattice + fist).
+        // 狮身豪的“手”枪：装填模型谓词、拳头模型与弹簧拳头渲染器（剪刀架 + 拳头）。
+        dev.caecorthus.sparkdlc.client.role.jiahao.sphinxhao.SphinxHaoGunClient.register();
+    }
+
+    private static void registerWraithRoleAnnouncementNetworking() {
+        ClientPlayNetworking.registerGlobalReceiver(WraithRoleAnnouncementS2CPacket.ID, (payload, context) ->
+                context.client().execute(() -> {
+                    var roleId = net.minecraft.util.Identifier.tryParse(payload.roleId());
+                    RoundTextRenderer.startWelcome(
+                            RoleAnnouncementTexts.getForRole(roleId),
+                            payload.killers(),
+                            payload.targets()
+                    );
+                }));
+    }
+
+    private static void registerGrandWitchCeremonialSwordBgm() {
+        AmbienceUtil.registerBackgroundAmbience(new BackgroundAmbience(
+                SparkWitchSounds.GRAND_WITCH_CEREMONIAL_SWORD_BGM,
+                player -> SparkWitchServerConnection.isConfirmedServer()
+                        && WitchWorldComponent.KEY.get(player.getWorld()).hasGrandWitchCeremonialSwordBgm(),
+                20
+        ));
+    }
+
+    private static void registerTarotDivinationNetworking() {
+        ClientPlayNetworking.registerGlobalReceiver(TarotDivinationSnapshotS2CPacket.ID, (payload, context) ->
+                context.client().execute(() -> {
+                    if (!SparkWitchServerConnection.isConfirmedServer()) {
+                        return;
+                    }
+                    TarotDivinationClientState.snapshotState().overwrite(
+                            payload.civilianCount(),
+                            payload.killerCount(),
+                            payload.neutralCount(),
+                            payload.witchCount(),
+                            payload.jiahaoCount()
+                    );
+                }));
+        ClientPlayNetworking.registerGlobalReceiver(OpenTarotDivinationSelectorS2CPacket.ID, (payload, context) ->
+                context.client().execute(() -> {
+                    if (!SparkWitchServerConnection.isConfirmedServer()) {
+                        return;
+                    }
+                    context.client().setScreen(new TarotDivinationSelectorScreen(
+                            payload.mode(),
+                            payload.playerIds(),
+                            payload.playerNames()
+                    ));
+                }));
+        // Purchaser-only result; stored so the slip and the selector's stamps repeat what the server already said.
+        // 仅购买者可见的结果；保存下来，供结果条与选择界面的印记重复展示服务端已给出的结论。
+        ClientPlayNetworking.registerGlobalReceiver(TarotDivinationReadingS2CPacket.ID, (payload, context) ->
+                context.client().execute(() -> {
+                    if (!SparkWitchServerConnection.isConfirmedServer()) {
+                        return;
+                    }
+                    TarotDivinationClientState.readingLog().record(new TarotReadingLog.Reading(
+                            payload.mode(),
+                            payload.target(),
+                            payload.displayName(),
+                            payload.positive(),
+                            Util.getMeasuringTimeMs()
+                    ));
+                }));
+    }
+
+    private static void registerBlackRavenNetworking() {
+        ClientPlayNetworking.registerGlobalReceiver(OpenBlackRavenLedgerS2CPacket.ID, (payload, context) ->
+                context.client().execute(() -> {
+                    if (SparkWitchServerConnection.isConfirmedServer()) {
+                        BlackRavenLedgerScreen.open(context.client());
+                    }
+                }));
+    }
+
+    /**
+     * The Necrology opens only on the server's empty authorization; its pages come from the owner-synced component.
+     * 亡者名录只在收到服务端的空授权包后打开；书页内容来自仅同步给所有者的组件。
+     */
+    private static void registerProphetNecrologyNetworking() {
+        ClientPlayNetworking.registerGlobalReceiver(OpenProphetNecrologyS2CPacket.ID, (payload, context) ->
+                context.client().execute(() -> {
+                    if (SparkWitchServerConnection.isConfirmedServer()) {
+                        ProphetNecrologyBookScreen.open(context.client());
+                    }
+                }));
+    }
+
+    /**
+     * Connection edges (login INIT, login DISCONNECT, play DISCONNECT). These fire on the server-connector or Netty
+     * thread. The confirmed flag is volatile and is the point of the early reset, so it is cleared at once; everything
+     * else is client-thread state (two of the resets close a screen, which grabs the cursor through GLFW), so it is
+     * handed to the client thread. Tasks run in order, so the reset still precedes every play packet of a new session.
+     * 连接生命周期节点（登录 INIT、登录 DISCONNECT、play DISCONNECT）。这些事件在连接线程或 Netty 线程触发。已确认标记是
+     * volatile 的，且提前重置正是为了它，因此立即清除；其余都是客户端线程状态（其中两个重置会关闭界面，进而通过 GLFW 抓取
+     * 光标），因此交给客户端线程执行。任务按顺序执行，所以重置仍先于新会话的任何 play 数据包。
+     */
+    private static void resetConnectionState() {
+        SparkWitchServerConnection.reset();
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (!client.isOnThread()) {
+            client.execute(SparkWitchClient::resetClientThreadState);
+            return;
+        }
+        resetClientThreadState();
+    }
+
+    private static void resetClientThreadState() {
+        resetSessionState();
+        releaseClosedWorldPlayers();
+    }
+
+    /** Client thread: per-session state of the shared modules; never the confirmed flag. / 客户端线程：共享模块的逐会话状态；绝不包含已确认标记。 */
+    private static void resetSessionState() {
+        dev.caecorthus.sparkdlc.client.gui.OwnerInventoryPresenter.reset();
+        WitchAbilityKeyBridge.reset();
+        SecondaryAbilityController.reset();
+        KidnapperThrowClientHooks.reset();
+        DoubleBarrelMuzzleClient.reset();
+        WitchMaidenClientModule.clear();
+        TarotDivinationClientState.clear();
+        CriminalReasonerClientModule.clear();
+        JudgeClientModule.clear();
+        ProphetClientModule.clear();
+        SeekerClientModule.reset();
+        StowawaySensesClient.reset();
+        BlindClient.reset();
+        SaviorDomainClient.reset();
+    }
+
+    /**
+     * Connection edges (login, disconnect, join): drops client-side player references that would otherwise keep a
+     * closed ClientWorld alive, namely the Magician stand-in copies, the Savior client caches (lightsaber hums and
+     * held-stack state, pistol muzzle positions; {@code SaviorClient.releaseClosedWorld}) and Wathe's muzzle-position map
+     * ({@code WatheClient.particleMap}, keyed by player and never cleared by Wathe). Wathe only reads and writes that
+     * map on the client thread (held-item render, muzzle packet task) and never iterates it, so all of them are cleared
+     * there; calls from another thread (login events run on the network thread) are deferred to it.
+     * 连接生命周期节点（登录、断开、加入）：丢弃否则会让已关闭 ClientWorld 一直存活的客户端玩家引用，即魔术师替身副本、
+     * 救世主客户端缓存（光剑嗡鸣与手持物品状态、手枪枪口位置；{@code SaviorClient.releaseClosedWorld}）与 Wathe 的枪口位置表
+     * （{@code WatheClient.particleMap}，以玩家为键且 Wathe 从不清空）。Wathe 只在客户端线程（手持物品渲染、枪口数据包任务）
+     * 读写该表且从不遍历它，因此它们都在该线程清理；来自其他线程的调用（登录事件在网络线程触发）会推迟到该线程。
+     */
+    private static void releaseClosedWorldPlayers() {
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (!client.isOnThread()) {
+            client.execute(SparkWitchClient::releaseClosedWorldPlayers);
+            return;
+        }
+        MagicianPuppetStandIn.reset();
+        SaviorClient.releaseClosedWorld();
+        var muzzles = WatheClient.particleMap;
+        if (muzzles != null) {
+            muzzles.clear();
+        }
+    }
+}

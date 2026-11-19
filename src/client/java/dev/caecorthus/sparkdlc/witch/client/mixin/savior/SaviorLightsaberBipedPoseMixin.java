@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.savior;
 
-import dev.caecorthus.sparkdlc.witch.SparkWitchItems;
-import dev.caecorthus.sparkdlc.witch.client.savior.SaviorLightsaberDrawAnimation;
+import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.client.role.civilian.savior.SaviorLightsaberDrawAnimation;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.LivingEntity;

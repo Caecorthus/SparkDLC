@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.witchmaiden;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.wither.WitherGoheiInventoryRules;
+import dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither.WitherGoheiInventoryRules;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

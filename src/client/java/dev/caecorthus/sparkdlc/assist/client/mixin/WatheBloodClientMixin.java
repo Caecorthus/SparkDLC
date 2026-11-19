@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.assist.client.mixin;
 
-import dev.caecorthus.sparkdlc.assist.client.blood.ScavengerBlood;
-import dev.caecorthus.sparkdlc.assist.client.config.SparkAssistClientSettings;
+import dev.caecorthus.sparkdlc.client.blood.ScavengerBlood;
+import dev.caecorthus.sparkdlc.client.config.SparkAssistClientSettings;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;

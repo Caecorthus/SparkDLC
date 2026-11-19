@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.vulture;
 
-import dev.caecorthus.sparkdlc.strength.component.vulture.SkateboardRideComponent;
+import dev.caecorthus.sparkdlc.role.neutral.vulture.SkateboardRideComponent;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;

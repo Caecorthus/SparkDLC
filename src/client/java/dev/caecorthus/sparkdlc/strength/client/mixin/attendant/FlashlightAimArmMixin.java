@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.attendant;
 
-import dev.caecorthus.sparkdlc.strength.client.role.attendant.flashlight.FlashlightAim;
+import dev.caecorthus.sparkdlc.client.role.civilian.attendant.flashlight.FlashlightAim;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;

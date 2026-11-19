@@ -2,10 +2,10 @@ package dev.caecorthus.sparkdlc.witch.mixin.witchmaiden;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.PoisonApplePlateAccess;
-import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.PoisonApplePlateService;
-import dev.caecorthus.sparkdlc.witch.roles.special.wraith.WraithConsumableInventoryRules;
-import dev.caecorthus.sparkdlc.witch.roles.special.wraith.WraithStateService;
+import dev.caecorthus.sparkdlc.role.killer.witchmaiden.PoisonApplePlateAccess;
+import dev.caecorthus.sparkdlc.role.killer.witchmaiden.PoisonApplePlateService;
+import dev.caecorthus.sparkdlc.role.special.wraith.WraithConsumableInventoryRules;
+import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.doctor4t.wathe.block.FoodPlatterBlock;
 import dev.doctor4t.wathe.block_entity.BeveragePlateBlockEntity;
 import dev.doctor4t.wathe.index.WatheItems;

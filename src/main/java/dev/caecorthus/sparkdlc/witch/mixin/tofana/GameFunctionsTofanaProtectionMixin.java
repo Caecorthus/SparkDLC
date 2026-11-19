@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.witch.mixin.tofana;
 
-import dev.caecorthus.sparkdlc.witch.compat.SparkTraitsKillerBridge;
-import dev.caecorthus.sparkdlc.witch.item.ceremonialsword.CeremonialSwordProtectionPolicy;
-import dev.caecorthus.sparkdlc.witch.item.tofana.TofanaProtectionService;
+import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.item.ceremonialsword.CeremonialSwordProtectionPolicy;
+import dev.caecorthus.sparkdlc.item.tofana.TofanaProtectionService;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;

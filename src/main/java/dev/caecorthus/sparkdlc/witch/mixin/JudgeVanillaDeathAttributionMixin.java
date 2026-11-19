@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.witch.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.judge.JudgeKillAttribution;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.judge.JudgeVanillaDamage;
+import dev.caecorthus.sparkdlc.role.civilian.judge.JudgeKillAttribution;
+import dev.caecorthus.sparkdlc.role.civilian.judge.JudgeVanillaDamage;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;

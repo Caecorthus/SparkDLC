@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.sphinxhao;
 
-import dev.caecorthus.sparkdlc.witch.roles.neutral.sphinxhao.SphinxHaoCrawlPose;
+import dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.SphinxHaoCrawlPose;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;

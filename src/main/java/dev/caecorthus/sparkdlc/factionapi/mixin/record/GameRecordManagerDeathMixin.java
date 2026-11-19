@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.factionapi.mixin.record;
 
-import dev.caecorthus.sparkdlc.factionapi.impl.record.DeathRecordEnricher;
+import dev.caecorthus.sparkdlc.record.DeathRecordEnricher;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;

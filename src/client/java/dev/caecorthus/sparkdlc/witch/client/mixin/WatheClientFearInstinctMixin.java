@@ -2,9 +2,9 @@ package dev.caecorthus.sparkdlc.witch.client.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.witch.client.fiend.FiendMomentHighlightClient;
-import dev.caecorthus.sparkdlc.witch.client.hooks.GrandWitchFearClientHooks;
-import dev.caecorthus.sparkdlc.witch.client.hooks.WitchInstinctSuppressionClientHooks;
+import dev.caecorthus.sparkdlc.client.role.neutral.fiend.FiendMomentHighlightClient;
+import dev.caecorthus.sparkdlc.client.hooks.GrandWitchFearClientHooks;
+import dev.caecorthus.sparkdlc.client.hooks.WitchInstinctSuppressionClientHooks;
 import dev.doctor4t.wathe.client.WatheClient;
 import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;

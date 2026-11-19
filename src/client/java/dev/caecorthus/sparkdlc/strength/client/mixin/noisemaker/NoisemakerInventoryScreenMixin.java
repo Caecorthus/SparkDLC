@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.noisemaker;
 
-import dev.caecorthus.sparkdlc.strength.client.ui.noisemaker.NoisemakerGlowPlayerWidget;
-import dev.caecorthus.sparkdlc.strength.client.ui.common.PlayerPageLayout;
-import dev.caecorthus.sparkdlc.strength.client.ui.common.PlayerPageSwitchWidget;
-import dev.caecorthus.sparkdlc.strength.client.ui.common.PlayerSelectionPageState;
+import dev.caecorthus.sparkdlc.client.role.civilian.noisemaker.NoisemakerGlowPlayerWidget;
+import dev.caecorthus.sparkdlc.client.gui.widget.PlayerPageLayout;
+import dev.caecorthus.sparkdlc.client.gui.widget.PlayerPageSwitchWidget;
+import dev.caecorthus.sparkdlc.client.gui.widget.PlayerSelectionPageState;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedHandledScreen;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedInventoryScreen;

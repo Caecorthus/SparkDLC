@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.mixin.perfumer;
 
-import dev.caecorthus.sparkdlc.strength.component.perfumer.PerfumerScentComponent;
-import dev.caecorthus.sparkdlc.strength.role.perfumer.PerfumerRules;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerScentComponent;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerRules;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.At;
  * 目前只确认 0.1.6.0 字节码（一次 GETSTATIC {@code MOOD_DRAIN}，一个 {@code ServerPlayerEntity} 参数）可匹配。
  */
 @Pseudo
-@Mixin(targets = "dev.caecorthus.sparkdlc.witch.roles.civilian.perfumer.PerfumerRuntime", remap = false)
+@Mixin(targets = "dev.caecorthus.sparkdlc.role.civilian.perfumer.PerfumerRuntime", remap = false)
 public abstract class SparkWitchPerfumerCorpseDrainMixin {
     @ModifyExpressionValue(
             method = "tickPlayer",

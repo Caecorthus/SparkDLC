@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.bear;
 
-import dev.caecorthus.sparkdlc.witch.client.bear.smoke.shaderpack.SmokeShaderPackBridge;
+import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.shaderpack.SmokeShaderPackBridge;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;

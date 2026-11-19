@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.factionapi.mixin.compat.noellesroles;
 
-import dev.caecorthus.sparkdlc.factionapi.impl.compat.noellesroles.NoellesHiddenEquipmentRegistry;
+import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesHiddenEquipmentRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;

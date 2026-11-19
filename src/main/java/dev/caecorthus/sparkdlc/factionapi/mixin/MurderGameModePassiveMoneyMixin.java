@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.factionapi.mixin;
 
-import dev.caecorthus.sparkdlc.factionapi.impl.economy.FactionPassiveMoneyAdapter;
+import dev.caecorthus.sparkdlc.faction.economy.FactionPassiveMoneyAdapter;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.gamemode.MurderGameMode;
 import net.minecraft.server.world.ServerWorld;

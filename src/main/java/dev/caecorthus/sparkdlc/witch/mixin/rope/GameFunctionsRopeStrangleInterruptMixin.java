@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.rope;
 
-import dev.caecorthus.sparkdlc.witch.item.rope.RopeStrangleService;
+import dev.caecorthus.sparkdlc.item.rope.RopeStrangleService;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;

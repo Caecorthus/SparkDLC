@@ -1,10 +1,10 @@
 package dev.caecorthus.sparkdlc.strength.mixin.wathe;
 
-import dev.caecorthus.sparkdlc.strength.item.grenade.GrenadeBlastRules;
-import dev.caecorthus.sparkdlc.strength.item.grenade.GrenadeBlastService;
-import dev.caecorthus.sparkdlc.strength.role.bodyguard.AttackOriginScope;
-import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DroneCombatService;
-import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerWeaponHits;
+import dev.caecorthus.sparkdlc.item.grenade.GrenadeBlastRules;
+import dev.caecorthus.sparkdlc.item.grenade.GrenadeBlastService;
+import dev.caecorthus.sparkdlc.role.civilian.bodyguard.AttackOriginScope;
+import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneCombatService;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponHits;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;

@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.blind;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.witch.client.blind.gate.BlindClientGates;
-import dev.caecorthus.sparkdlc.witch.client.blind.gate.BlindCrosshair;
+import dev.caecorthus.sparkdlc.client.role.civilian.blind.gate.BlindClientGates;
+import dev.caecorthus.sparkdlc.client.role.civilian.blind.gate.BlindCrosshair;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;

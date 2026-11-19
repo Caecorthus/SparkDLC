@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.seeker;
 
-import dev.caecorthus.sparkdlc.witch.client.seeker.remote.SeekerBodyHold;
+import dev.caecorthus.sparkdlc.client.role.civilian.seeker.remote.SeekerBodyHold;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.util.math.Vec3d;

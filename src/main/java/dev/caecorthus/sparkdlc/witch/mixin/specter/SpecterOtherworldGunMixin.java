@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.specter;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.specter.SpecterOtherworldService;
+import dev.caecorthus.sparkdlc.role.killer.specter.SpecterOtherworldService;
 import dev.doctor4t.wathe.util.GunShootPayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.spongepowered.asm.mixin.Mixin;

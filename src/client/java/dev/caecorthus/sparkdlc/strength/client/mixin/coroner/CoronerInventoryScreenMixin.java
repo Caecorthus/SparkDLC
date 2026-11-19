@@ -1,11 +1,11 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.coroner;
 
-import dev.caecorthus.sparkdlc.strength.client.ui.common.PlayerPageLayout;
-import dev.caecorthus.sparkdlc.strength.client.ui.common.PlayerPageSwitchWidget;
-import dev.caecorthus.sparkdlc.strength.client.ui.common.PlayerSelectionPageState;
-import dev.caecorthus.sparkdlc.strength.client.ui.coroner.CoronerPlayerWidget;
-import dev.caecorthus.sparkdlc.strength.component.coroner.CoronerPlayerComponent;
-import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerRules;
+import dev.caecorthus.sparkdlc.client.gui.widget.PlayerPageLayout;
+import dev.caecorthus.sparkdlc.client.gui.widget.PlayerPageSwitchWidget;
+import dev.caecorthus.sparkdlc.client.gui.widget.PlayerSelectionPageState;
+import dev.caecorthus.sparkdlc.client.role.civilian.coroner.CoronerPlayerWidget;
+import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerPlayerComponent;
+import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedHandledScreen;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedInventoryScreen;

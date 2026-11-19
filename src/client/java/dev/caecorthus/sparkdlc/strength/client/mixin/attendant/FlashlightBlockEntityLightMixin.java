@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.attendant;
 
-import dev.caecorthus.sparkdlc.strength.client.role.attendant.flashlight.FlashlightLights;
+import dev.caecorthus.sparkdlc.client.role.civilian.attendant.flashlight.FlashlightLights;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.VertexConsumerProvider;

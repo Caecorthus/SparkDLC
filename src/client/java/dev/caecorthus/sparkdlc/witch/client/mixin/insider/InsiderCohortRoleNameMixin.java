@@ -1,13 +1,13 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.insider;
 
-import dev.caecorthus.sparkdlc.witch.client.bear.smoke.SmokeTargetOcclusion;
-import dev.caecorthus.sparkdlc.witch.client.insider.InsiderCohortClientHooks;
-import dev.caecorthus.sparkdlc.witch.client.insider.InsiderCohortRules;
-import dev.caecorthus.sparkdlc.witch.client.magician.MagicianPuppetNameTags;
-import dev.caecorthus.sparkdlc.witch.client.render.WraithNameTagPassThrough;
-import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
-import dev.caecorthus.sparkdlc.witch.roles.neutral.insider.InsiderParticipation;
-import dev.caecorthus.sparkdlc.witch.roles.neutral.insider.InsiderRules;
+import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeTargetOcclusion;
+import dev.caecorthus.sparkdlc.client.role.jiahao.insider.InsiderCohortClientHooks;
+import dev.caecorthus.sparkdlc.client.role.jiahao.insider.InsiderCohortRules;
+import dev.caecorthus.sparkdlc.client.role.killer.magician.MagicianPuppetNameTags;
+import dev.caecorthus.sparkdlc.client.render.WraithNameTagPassThrough;
+import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.role.jiahao.insider.InsiderParticipation;
+import dev.caecorthus.sparkdlc.role.jiahao.insider.InsiderRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.WatheClient;
 import dev.doctor4t.wathe.client.gui.RoleNameRenderer;

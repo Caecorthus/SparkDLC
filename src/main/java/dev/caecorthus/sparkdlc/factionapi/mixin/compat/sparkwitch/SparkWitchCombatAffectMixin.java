@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.factionapi.mixin.compat.sparkwitch;
 
-import dev.caecorthus.sparkdlc.factionapi.impl.target.PlayerAffectMixinGuard;
+import dev.caecorthus.sparkdlc.faction.target.PlayerAffectMixinGuard;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
@@ -20,9 +20,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  */
 @Pseudo
 @Mixin(targets = {
-        "dev.caecorthus.sparkdlc.witch.item.firepoker.FirePokerCombatService",
-        "dev.caecorthus.sparkdlc.witch.item.ceremonialsword.CeremonialSwordCombatService",
-        "dev.caecorthus.sparkdlc.witch.roles.civilian.apprentice.abilities.MightyForce.MightyForceCombatService"
+        "dev.caecorthus.sparkdlc.item.firepoker.FirePokerCombatService",
+        "dev.caecorthus.sparkdlc.item.ceremonialsword.CeremonialSwordCombatService",
+        "dev.caecorthus.sparkdlc.role.civilian.apprentice.abilities.mightyforce.MightyForceCombatService"
 }, remap = false)
 public abstract class SparkWitchCombatAffectMixin {
     private static final Identifier CUSTOM_MELEE_ACTION = Identifier.of("sparkwitch", "custom_melee");

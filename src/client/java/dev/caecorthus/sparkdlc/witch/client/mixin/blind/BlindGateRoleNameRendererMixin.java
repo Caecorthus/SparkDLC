@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.blind;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.witch.client.blind.gate.BlindClientGates;
+import dev.caecorthus.sparkdlc.client.role.civilian.blind.gate.BlindClientGates;
 import dev.doctor4t.wathe.client.gui.RoleNameRenderer;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;

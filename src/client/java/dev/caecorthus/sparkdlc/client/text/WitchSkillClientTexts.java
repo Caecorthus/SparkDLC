@@ -1,0 +1,80 @@
+package dev.caecorthus.sparkdlc.client.text;
+
+import dev.caecorthus.sparkdlc.skill.api.WitchSkillDefinition;
+import dev.caecorthus.sparkdlc.skill.api.WitchSkillRegistry;
+import dev.caecorthus.sparkdlc.client.role.witch.grandwitch.GrandWitchClientPresentation;
+import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchRules;
+import dev.caecorthus.sparkdlc.skill.WitchSkillHudRules;
+import dev.caecorthus.sparkdlc.util.TickTime;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public final class WitchSkillClientTexts {
+    private static final int UNKNOWN_SKILL_COLOR = 0xAAAAAA;
+
+    private WitchSkillClientTexts() {
+    }
+
+    public static int color(Identifier skillId) {
+        WitchSkillDefinition skill = WitchSkillRegistry.get(skillId);
+        return skill == null ? UNKNOWN_SKILL_COLOR : skill.color();
+    }
+
+    public static MutableText name(Identifier skillId) {
+        WitchSkillDefinition skill = WitchSkillRegistry.get(skillId);
+        return skill == null ? Text.literal(skillId.toString()) : skill.name();
+    }
+
+    public static MutableText tag(Identifier skillId) {
+        return Text.literal("[")
+                .append(name(skillId))
+                .append(Text.literal("]"));
+    }
+
+    public static List<Text> tooltip(Identifier skillId, int cooldownTicks) {
+        return tooltip(skillId, cooldownTicks, 0, 0);
+    }
+
+    public static List<Text> tooltip(Identifier skillId, int cooldownTicks, int activeTicks) {
+        return tooltip(skillId, cooldownTicks, activeTicks, 0);
+    }
+
+    public static List<Text> tooltip(Identifier skillId, int cooldownTicks, int activeTicks, int ceremonialSwordTasks) {
+        WitchSkillDefinition skill = WitchSkillRegistry.get(skillId);
+        List<Text> lines = new ArrayList<>();
+        if (skill == null) {
+            lines.add(Text.literal(skillId.toString()));
+        } else {
+            lines.add(skill.name());
+            lines.add(skill.description());
+        }
+        if (GrandWitchClientPresentation.FACTOR_ID.equals(skillId)) {
+            lines.add(Text.translatable("skill.sparkwitch.witch_factor.income"));
+            lines.add(Text.translatable("skill.sparkwitch.witch_factor.sanity"));
+            lines.add(Text.translatable("skill.sparkwitch.witch_factor.transfer"));
+        }
+        if (activeTicks > 0) {
+            lines.add(Text.translatable("gui.sparkwitch.skill.active", TickTime.ceilSecondsUnclamped(activeTicks)));
+        } else if (WitchSkillHudRules.shouldShowCeremonialSwordTaskUnlock(
+                skillId,
+                ceremonialSwordTasks,
+                activeTicks,
+                cooldownTicks
+        )) {
+            lines.add(Text.translatable(
+                    "gui.sparkwitch.skill.ceremonial_sword.locked",
+                    ceremonialSwordTasks,
+                    GrandWitchRules.CEREMONIAL_SWORD_UNLOCK_TASKS
+            ));
+        } else if (cooldownTicks > 0) {
+            lines.add(Text.translatable("gui.sparkwitch.skill.cooldown", TickTime.ceilSecondsUnclamped(cooldownTicks)));
+        } else {
+            lines.add(Text.translatable("gui.sparkwitch.skill.ready"));
+        }
+        return lines;
+    }
+}

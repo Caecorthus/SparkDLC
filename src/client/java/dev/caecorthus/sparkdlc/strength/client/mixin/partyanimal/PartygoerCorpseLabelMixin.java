@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.partyanimal;
 
-import dev.caecorthus.sparkdlc.strength.client.role.partyanimal.PartygoerCorpseClient;
+import dev.caecorthus.sparkdlc.client.role.killer.partyanimal.PartygoerCorpseClient;
 import dev.doctor4t.wathe.client.gui.RoleNameRenderer;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;

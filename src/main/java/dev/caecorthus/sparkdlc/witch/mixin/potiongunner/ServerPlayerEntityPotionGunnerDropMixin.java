@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.potiongunner;
 
-import dev.caecorthus.sparkdlc.witch.roles.witch.potiongunner.PotionGunnerInventoryRules;
+import dev.caecorthus.sparkdlc.role.witch.potiongunner.PotionGunnerInventoryRules;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

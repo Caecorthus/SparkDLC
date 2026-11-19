@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.mixin.stowaway;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.roles.neutral.stowaway.StowawayWinScope;
+import dev.caecorthus.sparkdlc.role.neutral.stowaway.StowawayWinScope;
 import dev.doctor4t.wathe.api.event.CheckWinCondition;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.roles.special.wraith.WraithStateService;
-import dev.caecorthus.sparkdlc.witch.roles.special.wraith.progression.WraithProgression;
+import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
+import dev.caecorthus.sparkdlc.role.special.wraith.progression.WraithProgression;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Final;

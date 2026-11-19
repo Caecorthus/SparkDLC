@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
-import dev.caecorthus.sparkdlc.witch.client.vendetta.VendettaKnifeClientUse;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.vendetta.VendettaKnifeItem;
+import dev.caecorthus.sparkdlc.client.role.civilian.vendetta.VendettaKnifeClientUse;
+import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaKnifeItem;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;

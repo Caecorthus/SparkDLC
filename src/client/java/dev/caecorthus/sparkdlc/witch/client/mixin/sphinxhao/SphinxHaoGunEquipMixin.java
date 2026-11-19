@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.sphinxhao;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import dev.caecorthus.sparkdlc.witch.roles.neutral.sphinxhao.gun.SphinxHaoGunInventory;
+import dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.gun.SphinxHaoGunInventory;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.item.HeldItemRenderer;

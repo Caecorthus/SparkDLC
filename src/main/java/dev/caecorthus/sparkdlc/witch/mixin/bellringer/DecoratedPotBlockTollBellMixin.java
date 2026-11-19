@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.bellringer;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.bellringer.BellRingerInventoryRules;
+import dev.caecorthus.sparkdlc.role.killer.bellringer.BellRingerInventoryRules;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DecoratedPotBlock;
 import net.minecraft.entity.player.PlayerEntity;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.m67;
 
-import dev.caecorthus.sparkdlc.strength.item.m67.M67UseService;
+import dev.caecorthus.sparkdlc.item.m67.M67UseService;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.server.network.ServerPlayerEntity;

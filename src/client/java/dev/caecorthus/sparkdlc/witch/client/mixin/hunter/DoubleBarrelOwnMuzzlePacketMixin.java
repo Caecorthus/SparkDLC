@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.hunter;
 
-import dev.caecorthus.sparkdlc.witch.client.hunter.DoubleBarrelMuzzleClient;
+import dev.caecorthus.sparkdlc.client.role.killer.hunter.DoubleBarrelMuzzleClient;
 import dev.doctor4t.wathe.util.ShootMuzzleS2CPayload;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;

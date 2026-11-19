@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.serialkiller;
 
-import dev.caecorthus.sparkdlc.strength.role.serialkiller.SerialPistolHotbar;
+import dev.caecorthus.sparkdlc.role.killer.serialkiller.SerialPistolHotbar;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.doctor4t.wathe.cca.PlayerPsychoComponent;

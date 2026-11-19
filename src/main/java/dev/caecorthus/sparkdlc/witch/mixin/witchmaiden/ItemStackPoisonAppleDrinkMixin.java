@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin.witchmaiden;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.PoisonAppleDrinkMarker;
-import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.PoisonAppleDrinkRules;
+import dev.caecorthus.sparkdlc.role.killer.witchmaiden.PoisonAppleDrinkMarker;
+import dev.caecorthus.sparkdlc.role.killer.witchmaiden.PoisonAppleDrinkRules;
 import dev.doctor4t.wathe.index.WatheDataComponentTypes;
 import dev.doctor4t.wathe.item.CocktailItem;
 import dev.doctor4t.wathe.util.PoisonUtils;

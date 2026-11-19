@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.wathe;
 
-import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
+import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
 import dev.doctor4t.wathe.game.GameFunctions;

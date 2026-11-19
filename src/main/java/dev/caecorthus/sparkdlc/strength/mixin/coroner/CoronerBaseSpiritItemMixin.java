@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.coroner;
 
-import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
+import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;

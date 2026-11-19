@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.wathe;
 
-import dev.caecorthus.sparkdlc.strength.util.UpstreamTextKeys;
+import dev.caecorthus.sparkdlc.util.UpstreamTextKeys;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.component.DataComponentTypes;

@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.witchmaiden;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.caecorthus.sparkdlc.witch.client.witchmaiden.skin.sound.MiniWitherSoundOverrides;
+import dev.caecorthus.sparkdlc.client.role.killer.witchmaiden.skin.sound.MiniWitherSoundOverrides;
 import net.minecraft.client.sound.SoundManager;
 import net.minecraft.client.sound.WeightedSoundSet;
 import net.minecraft.util.Identifier;

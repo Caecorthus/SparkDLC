@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.dominator;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.dominator.DominatorForcedShotScope;
+import dev.caecorthus.sparkdlc.role.killer.dominator.DominatorForcedShotScope;
 import dev.doctor4t.wathe.game.GameConstants;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.server.network.ServerPlayerEntity;

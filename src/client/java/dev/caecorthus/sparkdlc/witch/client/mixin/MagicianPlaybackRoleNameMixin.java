@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
-import dev.caecorthus.sparkdlc.witch.client.magician.MagicianPuppetNameTags;
+import dev.caecorthus.sparkdlc.client.role.killer.magician.MagicianPuppetNameTags;
 import dev.doctor4t.wathe.client.gui.RoleNameRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.hit.HitResult;

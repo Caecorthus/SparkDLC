@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.silencer;
 
-import dev.caecorthus.sparkdlc.strength.role.silencer.SilencerKnifeService;
+import dev.caecorthus.sparkdlc.role.killer.silencer.SilencerKnifeService;
 import dev.doctor4t.wathe.util.KnifeStabPayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.spongepowered.asm.mixin.Mixin;

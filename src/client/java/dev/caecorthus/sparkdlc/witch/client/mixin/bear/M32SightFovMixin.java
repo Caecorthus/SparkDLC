@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.bear;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.caecorthus.sparkdlc.witch.client.bear.launcher.M32SightState;
+import dev.caecorthus.sparkdlc.client.role.civilian.bear.launcher.M32SightState;
 import net.minecraft.client.render.GameRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

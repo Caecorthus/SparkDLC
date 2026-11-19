@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.traits.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.escape.LastEscapeService;
+import dev.caecorthus.sparkdlc.trait.killer.escape.LastEscapeService;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;

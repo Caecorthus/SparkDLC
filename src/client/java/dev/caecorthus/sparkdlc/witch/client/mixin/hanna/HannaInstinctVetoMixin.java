@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.hanna;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.witch.client.hanna.HannaInstinctVeto;
+import dev.caecorthus.sparkdlc.client.role.civilian.hanna.HannaInstinctVeto;
 import dev.doctor4t.wathe.client.WatheClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;

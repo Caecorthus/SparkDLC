@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.mixin.professor;
 
-import dev.caecorthus.sparkdlc.strength.component.professor.ProfessorSerumTargetComponent;
-import dev.caecorthus.sparkdlc.strength.util.RaycastShapeScope;
+import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumTargetComponent;
+import dev.caecorthus.sparkdlc.util.RaycastShapeScope;
 import dev.doctor4t.wathe.block.DoorPartBlock;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.block.BlockState;

@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.mixin.bear;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.util.hitscan.RangedOriginScope;
+import dev.caecorthus.sparkdlc.util.hitscan.RangedOriginScope;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;

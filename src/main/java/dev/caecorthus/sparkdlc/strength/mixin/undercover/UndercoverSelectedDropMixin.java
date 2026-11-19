@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.undercover;
 
-import dev.caecorthus.sparkdlc.strength.role.undercover.UndercoverService;
+import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverService;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

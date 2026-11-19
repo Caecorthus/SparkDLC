@@ -1,6 +1,6 @@
 #version 150
 
-// Flashlight beam math, mirrored line by line from dev.caecorthus.sparkdlc.strength.role.attendant.FlashlightBeamRules. Every
+// Flashlight beam math, mirrored line by line from dev.caecorthus.sparkdlc.role.civilian.attendant.FlashlightBeamRules. Every
 // number arrives as a uniform built by FlashlightShaderConstants, so the values live only in Java. Import <fog.glsl>
 // and <light.glsl> before this file (it calls linear_fog and minecraft_sample_lightmap).
 // 手电筒光束数学，逐行镜像 FlashlightBeamRules。所有数值都由 FlashlightShaderConstants 以 uniform 传入，

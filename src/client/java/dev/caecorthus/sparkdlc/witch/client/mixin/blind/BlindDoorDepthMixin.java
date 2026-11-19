@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.blind;
 
-import dev.caecorthus.sparkdlc.witch.client.blind.gate.BlindClientGates;
+import dev.caecorthus.sparkdlc.client.role.civilian.blind.gate.BlindClientGates;
 import dev.doctor4t.wathe.block_entity.SmallDoorBlockEntity;
 import dev.doctor4t.wathe.client.render.block_entity.AnimatableBlockEntityRenderer;
 import dev.doctor4t.wathe.client.render.block_entity.SmallDoorBlockEntityRenderer;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.attendant;
 
-import dev.caecorthus.sparkdlc.strength.role.attendant.DoorLogService;
+import dev.caecorthus.sparkdlc.role.civilian.attendant.DoorLogService;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import dev.doctor4t.wathe.block.SmallDoorBlock;

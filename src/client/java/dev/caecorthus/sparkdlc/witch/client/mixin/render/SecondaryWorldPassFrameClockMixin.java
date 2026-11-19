@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.render;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.caecorthus.sparkdlc.witch.client.render.entity.SecondaryWorldPass;
+import dev.caecorthus.sparkdlc.client.render.entity.SecondaryWorldPass;
 import net.minecraft.client.render.RenderTickCounter;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

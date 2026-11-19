@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.mixin.partyanimal;
 
-import dev.caecorthus.sparkdlc.strength.entity.PartygoerEntity;
-import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerWeaponHits;
+import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponHits;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

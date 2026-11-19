@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.bear;
 
-import dev.caecorthus.sparkdlc.witch.client.bear.ricochet.RysTDazeClient;
-import dev.caecorthus.sparkdlc.witch.client.bear.ricochet.RysTDazeCurve;
+import dev.caecorthus.sparkdlc.client.role.civilian.bear.ricochet.RysTDazeClient;
+import dev.caecorthus.sparkdlc.client.role.civilian.bear.ricochet.RysTDazeCurve;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;

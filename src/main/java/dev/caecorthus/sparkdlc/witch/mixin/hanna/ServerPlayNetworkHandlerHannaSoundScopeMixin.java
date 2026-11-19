@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.mixin.hanna;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.hanna.HannaSoundScope;
+import dev.caecorthus.sparkdlc.role.civilian.hanna.HannaSoundScope;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
 import net.minecraft.server.network.ServerPlayNetworkHandler;

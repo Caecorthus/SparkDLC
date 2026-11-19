@@ -2,9 +2,9 @@ package dev.caecorthus.sparkdlc.traits.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.combat.CloseQuartersService;
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.combat.ForcedMeleeCooldownService;
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.escape.LastEscapeService;
+import dev.caecorthus.sparkdlc.trait.killer.combat.CloseQuartersService;
+import dev.caecorthus.sparkdlc.trait.killer.combat.ForcedMeleeCooldownService;
+import dev.caecorthus.sparkdlc.trait.killer.escape.LastEscapeService;
 import dev.doctor4t.wathe.index.WatheItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;

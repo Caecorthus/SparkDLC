@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.prophet;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.prophet.ProphetNecrologyRules;
+import dev.caecorthus.sparkdlc.role.civilian.prophet.ProphetNecrologyRules;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

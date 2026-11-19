@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.silencer;
 
-import dev.caecorthus.sparkdlc.strength.role.silencer.SilencerQuietService;
+import dev.caecorthus.sparkdlc.role.killer.silencer.SilencerQuietService;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.doctor4t.wathe.index.WatheSounds;

@@ -1,0 +1,86 @@
+package dev.caecorthus.sparkdlc.client.net.version;
+
+import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConfirmS2CPacket;
+import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkTraitsVersionCheck;
+import dev.caecorthus.sparkdlc.net.version.SparkTraitsVersionHandshake;
+import net.fabricmc.fabric.api.client.networking.v1.ClientLoginNetworking;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.text.Text;
+
+import java.util.concurrent.CompletableFuture;
+
+public final class SparkTraitsClientVersionHandshake {
+    private static boolean clientRegistered;
+
+    private SparkTraitsClientVersionHandshake() {
+    }
+
+    public static synchronized void registerClient() {
+        if (clientRegistered) {
+            SparkTraits.LOGGER.info("SparkTraits client login version receiver is already registered.");
+            return;
+        }
+        clientRegistered = true;
+
+        boolean registered = ClientLoginNetworking.registerGlobalReceiver(SparkTraitsVersionHandshake.VERSION_CHECK_ID,
+                (client, handler, buf, callbacks) -> {
+                    String serverVersion = SparkTraitsVersionHandshake.readVersion(buf);
+                    String clientVersion = SparkTraitsVersionHandshake.localVersion();
+                    confirmSparkTraitsServer(serverVersion, clientVersion, "login");
+                    SparkTraits.LOGGER.info(
+                            "Answering SparkTraits login version query: server={}, client={}.",
+                            serverVersion,
+                            clientVersion
+                    );
+                    return CompletableFuture.completedFuture(
+                            SparkTraitsVersionHandshake.writeVersion(clientVersion));
+                });
+        if (registered) {
+            // The server treats an unregistered receiver as a missing client-side mod.
+            // 服务端会把未注册的接收器判定为客户端缺少该模组。
+            SparkTraits.LOGGER.info(
+                    "Registered SparkTraits client login version receiver on channel {}.",
+                    SparkTraitsVersionHandshake.VERSION_CHECK_ID
+            );
+        } else {
+            SparkTraits.LOGGER.warn(
+                    "SparkTraits client login version receiver already existed on channel {}.",
+                    SparkTraitsVersionHandshake.VERSION_CHECK_ID
+            );
+        }
+
+        ClientPlayNetworking.registerGlobalReceiver(SparkTraitsServerConfirmS2CPacket.ID, (payload, context) -> {
+            String clientVersion = SparkTraitsVersionHandshake.localVersion();
+            if (!SparkTraitsVersionCheck.isCompatible(payload.serverVersion(), clientVersion)) {
+                SparkTraits.LOGGER.warn(
+                        "Disconnecting from SparkTraits play confirmation mismatch: server={}, client={}.",
+                        payload.serverVersion(),
+                        clientVersion
+                );
+                context.responseSender().disconnect(Text.literal(
+                        SparkTraitsVersionCheck.mismatchMessage(payload.serverVersion(), clientVersion)
+                ));
+                return;
+            }
+            confirmSparkTraitsServer(payload.serverVersion(), clientVersion, "play");
+        });
+    }
+
+    private static void confirmSparkTraitsServer(String serverVersion, String clientVersion, String stage) {
+        if ("login".equals(stage)) {
+            // A login confirmation belongs to the connection being established and must survive its JOIN reset.
+            // 登录阶段的确认属于正在建立的连接，必须保留到其 JOIN 重置之后。
+            SparkTraitsServerConnection.confirmServerAtLogin();
+        } else {
+            SparkTraitsServerConnection.confirmServer();
+        }
+        SparkTraits.LOGGER.info(
+                "Confirmed SparkTraits server through {} channel: server={}, client={}.",
+                stage,
+                serverVersion,
+                clientVersion
+        );
+    }
+}

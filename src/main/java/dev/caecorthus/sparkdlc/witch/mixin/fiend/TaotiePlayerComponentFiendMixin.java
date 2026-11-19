@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.mixin.fiend;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.roles.neutral.fiend.FiendWinExclusion;
+import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendWinExclusion;
 import net.minecraft.entity.player.PlayerEntity;
 import org.agmas.noellesroles.taotie.TaotiePlayerComponent;
 import org.spongepowered.asm.mixin.Mixin;

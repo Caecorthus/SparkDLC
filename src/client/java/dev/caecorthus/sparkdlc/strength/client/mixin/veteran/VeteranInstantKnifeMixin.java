@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.veteran;
 
-import dev.caecorthus.sparkdlc.strength.compat.SparkTraitsCompat;
-import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
-import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranRules;
+import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
+import dev.caecorthus.sparkdlc.role.civilian.veteran.VeteranRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.item.KnifeItem;
 import dev.doctor4t.wathe.item.RevolverItem;

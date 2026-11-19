@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.witchmaiden;
 
-import dev.caecorthus.sparkdlc.witch.client.witchmaiden.WitchMaidenInventoryUi;
+import dev.caecorthus.sparkdlc.client.role.killer.witchmaiden.WitchMaidenInventoryUi;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedHandledScreen;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedInventoryScreen;
 import net.minecraft.client.gui.DrawContext;

@@ -1,16 +1,16 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
-import dev.caecorthus.sparkdlc.witch.client.magician.MagicianTargetWidget;
-import dev.caecorthus.sparkdlc.witch.client.magician.MagicianTargetSelectionApi;
-import dev.caecorthus.sparkdlc.witch.client.magician.MagicianPageSwitchWidget;
-import dev.caecorthus.sparkdlc.witch.client.magician.MagicianActionWidget;
-import dev.caecorthus.sparkdlc.witch.roles.killer.magician.UseMagicianAbilityC2SPacket;
-import dev.caecorthus.sparkdlc.witch.client.inventory.SparkWitchInventoryButtonLayout;
+import dev.caecorthus.sparkdlc.client.role.killer.magician.MagicianTargetWidget;
+import dev.caecorthus.sparkdlc.client.role.killer.magician.MagicianTargetSelectionApi;
+import dev.caecorthus.sparkdlc.client.role.killer.magician.MagicianPageSwitchWidget;
+import dev.caecorthus.sparkdlc.client.role.killer.magician.MagicianActionWidget;
+import dev.caecorthus.sparkdlc.role.killer.magician.UseMagicianAbilityC2SPacket;
+import dev.caecorthus.sparkdlc.client.inventory.SparkWitchInventoryButtonLayout;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedHandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedInventoryScreen;
 import net.minecraft.client.network.ClientPlayerEntity;
-import dev.caecorthus.sparkdlc.witch.roles.killer.magician.MagicianPlayerComponent;
+import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPlayerComponent;
 import net.minecraft.item.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.PlayerScreenHandler;
@@ -50,7 +50,7 @@ public abstract class MagicianInventoryButtonsMixin extends LimitedHandledScreen
     private void sparkwitch$addMagicianTargets(CallbackInfo ci) {
         if (player == null || player.networkHandler == null) return;
         var role = dev.doctor4t.wathe.cca.GameWorldComponent.KEY.get(player.getWorld()).getRole(player);
-        if (role == null || !dev.caecorthus.sparkdlc.witch.SparkWitchRoles.MAGICIAN_ID.equals(role.identifier())) return;
+        if (role == null || !dev.caecorthus.sparkdlc.SparkWitchRoles.MAGICIAN_ID.equals(role.identifier())) return;
         sparkwitch$magicianTargets.clear();
         sparkwitch$magicianPage = 0;
         int y = SparkWitchInventoryButtonLayout.getPlayerRowY(this.height);

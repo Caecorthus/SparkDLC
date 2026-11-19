@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.client.mixin;
 
-import dev.caecorthus.sparkdlc.factionapi.client.api.card.InventoryInfoCard;
-import dev.caecorthus.sparkdlc.traits.client.gui.OwnerInventoryClientAdapter;
+import dev.caecorthus.sparkdlc.client.gui.card.InventoryInfoCard;
+import dev.caecorthus.sparkdlc.client.trait.gui.OwnerInventoryClientAdapter;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedHandledScreen;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedInventoryScreen;
 import net.minecraft.client.gui.DrawContext;

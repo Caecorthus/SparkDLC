@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.serialkiller;
 
-import dev.caecorthus.sparkdlc.strength.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.strength.client.world.LoadedEntities;
-import dev.caecorthus.sparkdlc.strength.item.SerialPistolItem;
+import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.client.world.LoadedEntities;
+import dev.caecorthus.sparkdlc.item.SerialPistolItem;
 import dev.doctor4t.wathe.client.gui.CrosshairRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;

@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.riftwalker;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.client.riftwalker.gate.RiftGateCrosshairClient;
+import dev.caecorthus.sparkdlc.client.role.witch.riftwalker.gate.RiftGateCrosshairClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.entity.Entity;

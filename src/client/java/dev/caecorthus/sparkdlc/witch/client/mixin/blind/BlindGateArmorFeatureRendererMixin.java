@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.blind;
 
-import dev.caecorthus.sparkdlc.witch.client.blind.gate.BlindClientGates;
+import dev.caecorthus.sparkdlc.client.role.civilian.blind.gate.BlindClientGates;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.ArmorFeatureRenderer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;

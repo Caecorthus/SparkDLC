@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
-import dev.caecorthus.sparkdlc.witch.client.hooks.GrandWitchFearClientHooks;
+import dev.caecorthus.sparkdlc.client.hooks.GrandWitchFearClientHooks;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.network.packet.CustomPayload;
 import org.spongepowered.asm.mixin.Mixin;

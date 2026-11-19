@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.witch.mixin.dominator;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.roles.killer.dominator.DominatorForcedShotGuns;
-import dev.caecorthus.sparkdlc.witch.roles.killer.dominator.DominatorForcedShotScope;
+import dev.caecorthus.sparkdlc.role.killer.dominator.DominatorForcedShotGuns;
+import dev.caecorthus.sparkdlc.role.killer.dominator.DominatorForcedShotScope;
 import dev.doctor4t.wathe.api.event.ShouldPunishGunShooter;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import dev.doctor4t.wathe.util.GunShootPayload;

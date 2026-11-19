@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.partyanimal;
 
-import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerWeaponHits;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponHits;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
@@ -29,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * 使 SparkWitch 缺失或方法变更时静默失效。
  */
 @Pseudo
-@Mixin(targets = "dev.caecorthus.sparkdlc.witch.roles.killer.magician.MagicianPuppetHits", remap = false)
+@Mixin(targets = "dev.caecorthus.sparkdlc.role.killer.magician.MagicianPuppetHits", remap = false)
 public abstract class PartygoerMagicianHitsMixin {
     /**
      * Crimson wither skull hit a non-player: {@code onCrimsonSkullHit(Entity, Entity, EntityHitResult)}; true = the skull

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin.ferryman;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.caecorthus.sparkdlc.witch.roles.neutral.ferryman.FerrymanFeignService;
+import dev.caecorthus.sparkdlc.role.neutral.ferryman.FerrymanFeignService;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.agmas.noellesroles.Noellesroles;

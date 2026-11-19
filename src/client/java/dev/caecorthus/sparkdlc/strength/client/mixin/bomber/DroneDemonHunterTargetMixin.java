@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.bomber;
 
-import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DroneHitGeometry;
-import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DroneWeaponRules;
-import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerHitGeometry;
+import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneHitGeometry;
+import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneWeaponRules;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerHitGeometry;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.hit.HitResult;

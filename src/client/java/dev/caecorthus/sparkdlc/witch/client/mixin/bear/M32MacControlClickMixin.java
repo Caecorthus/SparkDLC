@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.bear;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.caecorthus.sparkdlc.witch.client.bear.launcher.M32FireInput;
+import dev.caecorthus.sparkdlc.client.role.civilian.bear.launcher.M32FireInput;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.Mouse;
 import org.objectweb.asm.Opcodes;

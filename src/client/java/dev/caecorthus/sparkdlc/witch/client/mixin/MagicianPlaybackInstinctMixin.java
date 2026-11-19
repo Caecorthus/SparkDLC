@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
-import dev.caecorthus.sparkdlc.witch.client.magician.MagicianPuppetStandIn;
-import dev.caecorthus.sparkdlc.witch.roles.killer.magician.MagicianPlaybackEntity;
+import dev.caecorthus.sparkdlc.client.role.killer.magician.MagicianPuppetStandIn;
+import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPlaybackEntity;
 import dev.doctor4t.wathe.client.WatheClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;

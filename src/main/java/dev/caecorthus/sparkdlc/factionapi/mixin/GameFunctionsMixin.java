@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.factionapi.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.factionapi.impl.economy.FactionKillRewardAdapter;
-import dev.caecorthus.sparkdlc.factionapi.impl.text.FactionLetterTextRules;
+import dev.caecorthus.sparkdlc.faction.economy.FactionKillRewardAdapter;
+import dev.caecorthus.sparkdlc.faction.text.FactionLetterTextRules;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.item.ItemStack;

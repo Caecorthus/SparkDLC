@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.bear;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.client.bear.launcher.M32SightRenderer;
+import dev.caecorthus.sparkdlc.client.role.civilian.bear.launcher.M32SightRenderer;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.HeldItemRenderer;

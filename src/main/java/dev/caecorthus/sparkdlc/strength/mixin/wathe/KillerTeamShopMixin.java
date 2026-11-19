@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.mixin.wathe;
 
-import dev.caecorthus.sparkdlc.strength.role.economy.KillerTeamEconomyService;
-import dev.caecorthus.sparkdlc.strength.role.economy.KillerTeamIncomeScope;
+import dev.caecorthus.sparkdlc.economy.KillerTeamEconomyService;
+import dev.caecorthus.sparkdlc.economy.KillerTeamIncomeScope;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;

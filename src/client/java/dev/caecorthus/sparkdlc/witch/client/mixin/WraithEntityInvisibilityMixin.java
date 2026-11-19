@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.caecorthus.sparkdlc.witch.client.render.WraithViewerGates;
-import dev.caecorthus.sparkdlc.witch.client.render.WraithViewerRules;
-import dev.caecorthus.sparkdlc.witch.client.vendetta.VendettaClientPresentation;
+import dev.caecorthus.sparkdlc.client.render.WraithViewerGates;
+import dev.caecorthus.sparkdlc.client.render.WraithViewerRules;
+import dev.caecorthus.sparkdlc.client.role.civilian.vendetta.VendettaClientPresentation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;

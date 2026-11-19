@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.witchmaiden;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.wither.WitherGoheiInventoryRules;
+import dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither.WitherGoheiInventoryRules;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

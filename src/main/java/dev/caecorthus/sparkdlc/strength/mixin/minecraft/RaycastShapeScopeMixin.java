@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.minecraft;
 
-import dev.caecorthus.sparkdlc.strength.util.RaycastShapeScope;
+import dev.caecorthus.sparkdlc.util.RaycastShapeScope;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.block.BlockState;

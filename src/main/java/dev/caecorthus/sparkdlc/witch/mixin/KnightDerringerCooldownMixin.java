@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
 import dev.caecorthus.sparkdlc.witch.mixin.accessor.ServerItemCooldownManagerAccessor;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.knight.KnightRules;
+import dev.caecorthus.sparkdlc.role.civilian.knight.KnightRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.index.WatheItems;
 import net.minecraft.entity.player.ItemCooldownManager;

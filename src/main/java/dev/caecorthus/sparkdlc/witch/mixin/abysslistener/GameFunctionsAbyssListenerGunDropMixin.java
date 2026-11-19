@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.abysslistener;
 
-import dev.caecorthus.sparkdlc.witch.roles.witch.abysslistener.loadout.AbyssListenerInventoryRules;
+import dev.caecorthus.sparkdlc.role.witch.abysslistener.loadout.AbyssListenerInventoryRules;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

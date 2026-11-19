@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.bomber;
 
-import dev.caecorthus.sparkdlc.strength.client.role.bomber.DronePilotClient;
+import dev.caecorthus.sparkdlc.client.role.killer.bomber.DronePilotClient;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.WorldRenderer;

@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.mixin.recruit;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.recruit.RecruitRules;
+import dev.caecorthus.sparkdlc.role.civilian.recruit.RecruitRules;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
 import dev.doctor4t.wathe.cca.GameWorldComponent;

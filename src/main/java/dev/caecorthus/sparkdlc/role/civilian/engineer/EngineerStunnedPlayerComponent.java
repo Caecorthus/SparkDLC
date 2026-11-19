@@ -1,0 +1,166 @@
+package dev.caecorthus.sparkdlc.role.civilian.engineer;
+
+import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.doctor4t.wathe.game.GameFunctions;
+import dev.doctor4t.wathe.record.GameRecordManager;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.math.Vec3d;
+import org.jetbrains.annotations.NotNull;
+import org.ladysnake.cca.api.v3.component.ComponentKey;
+import org.ladysnake.cca.api.v3.component.ComponentRegistry;
+import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
+import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
+
+/**
+ * 捕捉装置造成的“定身”状态。
+ *
+ * <p>客户端 mixin 会根据这个组件禁用键鼠输入；服务端这里每 tick 清速度并把玩家拉回锁定点。
+ * 两边同时做，是为了防止单靠客户端输入拦截被网络移动包或延迟边缘情况绕过。</p>
+ *
+ * <p>小丑时刻的全员定身也复用这里（{@link #freeze}）：效果完全相同，只是自然到期时不记“捕捉装置释放”回放。</p>
+ *
+ * <p>Only the stunned player's own client reads this (its input mixins ask {@link #isStunned}), so it is synced to
+ * them alone and only when the lock starts, moves or ends; the client never counts down by itself.
+ * 只有被定身者本人的客户端读取它（输入 mixin 只问 {@link #isStunned}），因此只同步给本人，且只在定身开始、锁定点改变
+ * 或结束时同步；客户端从不自行倒计时。</p>
+ */
+public final class EngineerStunnedPlayerComponent implements AutoSyncedComponent, ServerTickingComponent {
+    public static final ComponentKey<EngineerStunnedPlayerComponent> KEY = ComponentRegistry.getOrCreate(
+            SparkStrength.id("engineer_stunned"),
+            EngineerStunnedPlayerComponent.class
+    );
+
+    private final PlayerEntity player;
+    private int stunTicks;
+    private double lockedX;
+    private double lockedY;
+    private double lockedZ;
+    private boolean recordRelease;
+
+    public EngineerStunnedPlayerComponent(PlayerEntity player) {
+        this.player = player;
+    }
+
+    public void stun(int ticks) {
+        this.recordRelease = true;
+        lock(ticks);
+    }
+
+    /**
+     * Same lock as {@link #stun}, but its natural end is not replayed as a capture-device release (Jester Moment freeze).
+     * 与 {@link #stun} 相同的定身，但自然结束时不记为捕捉装置释放（小丑时刻全员定身）。
+     */
+    public void freeze(int ticks) {
+        this.recordRelease = isStunned() && this.recordRelease;
+        lock(ticks);
+    }
+
+    private void lock(int ticks) {
+        this.stunTicks = Math.max(this.stunTicks, ticks);
+        Vec3d pos = player.getPos();
+        this.lockedX = pos.x;
+        this.lockedY = pos.y;
+        this.lockedZ = pos.z;
+        // The stunned client releases every key (ClientKeyGate.releasesEveryKey), so it sends RELEASE_USE_ITEM and a
+        // charged bow-class weapon would fire in onStoppedUsing (SparkWitch's M1903A4). Cancel the use without a
+        // release, as SparkWitch's Control Expert stun does; the cleared using flag syncs, so the client stops too.
+        // Covers both the capture stun and the Jester Moment freeze, which share this lock.
+        // 被定身的客户端会松开所有按键（ClientKeyGate.releasesEveryKey），从而发送 RELEASE_USE_ITEM，使蓄力中的弓类武器在
+        // onStoppedUsing 中开火（SparkWitch 的 M1903A4）。因此像 SparkWitch 控场专家眩晕一样取消使用而不触发松手；清除后的
+        // 使用标志会同步，客户端也随之停止。捕捉定身与小丑时刻全员定身共用此锁，两者都被覆盖。
+        if (player.isUsingItem()) {
+            player.clearActiveItem();
+        }
+        sync();
+    }
+
+    public boolean isStunned() {
+        return stunTicks > 0;
+    }
+
+    public void clear() {
+        boolean wasStunned = isStunned();
+        this.stunTicks = 0;
+        player.setVelocity(Vec3d.ZERO);
+        if (wasStunned) {
+            sync();
+        }
+    }
+
+    @Override
+    public void serverTick() {
+        if (stunTicks <= 0) {
+            return;
+        }
+
+        if (!GameFunctions.isPlayerPlayingAndAlive(player) || player.isSpectator() || player.isCreative()) {
+            clear();
+            return;
+        }
+
+        // Server authority keeps clearing velocity and restoring the lock point despite late movement packets.
+        // 服务端是最终权威：即使客户端还有输入或移动包到达，也持续清速度并把位置拉回捕捉点。
+        player.setVelocity(Vec3d.ZERO);
+        player.velocityModified = true;
+        player.fallDistance = 0.0F;
+        if (player.squaredDistanceTo(lockedX, lockedY, lockedZ) > 0.0025D) {
+            player.requestTeleport(lockedX, lockedY, lockedZ);
+        }
+
+        stunTicks--;
+        if (stunTicks <= 0) {
+            stunTicks = 0;
+            if (recordRelease && player instanceof ServerPlayerEntity serverPlayer) {
+                GameRecordManager.recordGlobalEvent(
+                        serverPlayer.getServerWorld(),
+                        SparkStrengthReplayFormatters.CAPTURE_DEVICE_RELEASED,
+                        serverPlayer,
+                        null
+                );
+            }
+            sync();
+        }
+    }
+
+    @Override
+    public boolean shouldSyncWith(ServerPlayerEntity recipient) {
+        return recipient == player;
+    }
+
+    @Override
+    public void writeSyncPacket(RegistryByteBuf buf, ServerPlayerEntity recipient) {
+        buf.writeVarInt(stunTicks);
+    }
+
+    @Override
+    public void applySyncPacket(RegistryByteBuf buf) {
+        stunTicks = buf.readVarInt();
+    }
+
+    @Override
+    public void writeToNbt(@NotNull NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
+        tag.putInt("StunTicks", stunTicks);
+        tag.putDouble("LockedX", lockedX);
+        tag.putDouble("LockedY", lockedY);
+        tag.putDouble("LockedZ", lockedZ);
+        tag.putBoolean("RecordRelease", recordRelease);
+    }
+
+    @Override
+    public void readFromNbt(@NotNull NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
+        stunTicks = tag.getInt("StunTicks");
+        lockedX = tag.getDouble("LockedX");
+        lockedY = tag.getDouble("LockedY");
+        lockedZ = tag.getDouble("LockedZ");
+        recordRelease = !tag.contains("RecordRelease") || tag.getBoolean("RecordRelease");
+    }
+
+    private void sync() {
+        KEY.sync(player);
+    }
+}

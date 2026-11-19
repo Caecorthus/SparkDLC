@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.traits.client.mixin;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.caecorthus.sparkdlc.traits.client.render.ChildishPlayerRendering;
+import dev.caecorthus.sparkdlc.client.trait.render.ChildishPlayerRendering;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import org.spongepowered.asm.mixin.Mixin;

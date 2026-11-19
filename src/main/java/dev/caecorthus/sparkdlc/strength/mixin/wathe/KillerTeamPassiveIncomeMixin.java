@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.wathe;
 
-import dev.caecorthus.sparkdlc.strength.role.economy.KillerTeamIncomeScope;
+import dev.caecorthus.sparkdlc.economy.KillerTeamIncomeScope;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.doctor4t.wathe.cca.PlayerShopComponent;

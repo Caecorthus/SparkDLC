@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin.bear;
 
-import dev.caecorthus.sparkdlc.witch.headset.HeadsetSlot;
-import dev.caecorthus.sparkdlc.witch.headset.HeadsetSlots;
+import dev.caecorthus.sparkdlc.headset.HeadsetSlot;
+import dev.caecorthus.sparkdlc.headset.HeadsetSlots;
 import net.minecraft.network.packet.c2s.play.CreativeInventoryActionC2SPacket;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin.fiend;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.caecorthus.sparkdlc.witch.roles.neutral.fiend.FiendFeignService;
+import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendFeignService;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.agmas.noellesroles.Noellesroles;

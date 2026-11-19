@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin.abysslistener;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import dev.caecorthus.sparkdlc.witch.roles.witch.abysslistener.zone.DeepDarkZoneStandingDrain;
+import dev.caecorthus.sparkdlc.role.witch.abysslistener.zone.DeepDarkZoneStandingDrain;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import org.objectweb.asm.Opcodes;

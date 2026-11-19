@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.morphling;
 
-import dev.caecorthus.sparkdlc.strength.client.role.morphling.MorphlingCorpseStandIn;
+import dev.caecorthus.sparkdlc.client.role.killer.morphling.MorphlingCorpseStandIn;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.client.render.VertexConsumerProvider;

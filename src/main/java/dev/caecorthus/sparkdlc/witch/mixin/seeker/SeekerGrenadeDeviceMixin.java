@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.witch.mixin.seeker;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.SeekerBreakSource;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.hit.SeekerDamageRules;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.hit.SeekerDeviceHits;
+import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerBreakSource;
+import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDamageRules;
+import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceHits;
 import dev.doctor4t.wathe.entity.GrenadeEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;

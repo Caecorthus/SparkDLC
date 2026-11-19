@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.riftwalker;
 
-import dev.caecorthus.sparkdlc.witch.client.riftwalker.gate.RiftGateCrosshairAccess;
-import dev.caecorthus.sparkdlc.witch.client.riftwalker.gate.RiftGateCrosshairClient;
+import dev.caecorthus.sparkdlc.client.role.witch.riftwalker.gate.RiftGateCrosshairAccess;
+import dev.caecorthus.sparkdlc.client.role.witch.riftwalker.gate.RiftGateCrosshairClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.GameRenderer;

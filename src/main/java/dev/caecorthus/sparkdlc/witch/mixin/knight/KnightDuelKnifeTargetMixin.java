@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin.knight;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.knight.duel.KnightDuelKnives;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.knight.duel.KnightDuelWorldComponent;
+import dev.caecorthus.sparkdlc.role.civilian.knight.duel.KnightDuelKnives;
+import dev.caecorthus.sparkdlc.role.civilian.knight.duel.KnightDuelWorldComponent;
 import dev.doctor4t.wathe.util.KnifeStabPayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;

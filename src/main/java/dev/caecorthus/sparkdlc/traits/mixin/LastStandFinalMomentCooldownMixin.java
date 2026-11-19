@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.laststand.LastStandFinalMomentService;
+import dev.caecorthus.sparkdlc.trait.civilian.laststand.LastStandFinalMomentService;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.item.Item;
 import net.minecraft.server.network.ServerItemCooldownManager;

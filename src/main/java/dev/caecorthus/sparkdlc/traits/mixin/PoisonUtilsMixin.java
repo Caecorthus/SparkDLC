@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.component.SparkTraitsDataComponentTypes;
-import dev.caecorthus.sparkdlc.traits.impl.traits.killer.conscience.ConsciencePoisonerService;
+import dev.caecorthus.sparkdlc.SparkTraitsDataComponentTypes;
+import dev.caecorthus.sparkdlc.trait.killer.conscience.ConsciencePoisonerService;
 import dev.doctor4t.wathe.util.PoisonUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.mixin.hunter;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterPlayerComponent;
+import dev.caecorthus.sparkdlc.role.killer.hunter.HunterPlayerComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Mixin;

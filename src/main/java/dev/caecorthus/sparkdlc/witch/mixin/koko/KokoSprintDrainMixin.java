@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin.koko;
 
-import dev.caecorthus.sparkdlc.witch.roles.neutral.koko.KokoRules;
-import dev.caecorthus.sparkdlc.witch.roles.neutral.koko.KokoStaminaService;
+import dev.caecorthus.sparkdlc.role.neutral.koko.KokoRules;
+import dev.caecorthus.sparkdlc.role.neutral.koko.KokoStaminaService;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

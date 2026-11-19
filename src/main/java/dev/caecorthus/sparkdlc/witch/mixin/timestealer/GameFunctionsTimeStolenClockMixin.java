@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.mixin.timestealer;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.roles.killer.timestealer.TimeStealerRules;
+import dev.caecorthus.sparkdlc.role.killer.timestealer.TimeStealerRules;
 import dev.doctor4t.wathe.cca.GameTimeComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.server.network.ServerPlayerEntity;

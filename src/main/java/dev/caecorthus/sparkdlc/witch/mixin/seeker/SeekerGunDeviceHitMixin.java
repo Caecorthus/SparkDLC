@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin.seeker;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.device.SeekerDeviceEntity;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.hit.SeekerDeviceHits;
+import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerDeviceEntity;
+import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceHits;
 import dev.doctor4t.wathe.util.GunShootPayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.assist.client.mixin;
 
-import dev.caecorthus.sparkdlc.assist.client.achievement.AchievementClientState;
+import dev.caecorthus.sparkdlc.client.achievement.AchievementClientState;
 import dev.doctor4t.wathe.cca.GameRoundEndComponent;
 import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.Mixin;

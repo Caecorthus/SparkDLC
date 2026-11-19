@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin.rope;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import dev.caecorthus.sparkdlc.witch.item.rope.RopeShieldPolicy;
+import dev.caecorthus.sparkdlc.item.rope.RopeShieldPolicy;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import org.agmas.noellesroles.Noellesroles;

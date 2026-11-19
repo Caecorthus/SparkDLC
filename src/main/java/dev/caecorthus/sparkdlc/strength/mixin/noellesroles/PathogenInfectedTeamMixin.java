@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.noellesroles;
 
-import dev.caecorthus.sparkdlc.strength.role.pathogen.PathogenVisibility;
+import dev.caecorthus.sparkdlc.role.neutral.pathogen.PathogenVisibility;
 import net.minecraft.entity.player.PlayerEntity;
 import org.agmas.noellesroles.pathogen.InfectedPlayerComponent;
 import org.spongepowered.asm.mixin.Final;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.sabotage;
 
-import dev.caecorthus.sparkdlc.strength.client.sabotage.EngineTrainMotion;
+import dev.caecorthus.sparkdlc.client.sabotage.EngineTrainMotion;
 import dev.doctor4t.wathe.client.particle.BlackSmokeParticle;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

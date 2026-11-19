@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.attendant;
 
-import dev.caecorthus.sparkdlc.strength.client.role.attendant.flashlight.FlashlightRenderer;
+import dev.caecorthus.sparkdlc.client.role.civilian.attendant.flashlight.FlashlightRenderer;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.BlockPos;

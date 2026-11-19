@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.factionapi.mixin.mapreset;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.caecorthus.sparkdlc.factionapi.impl.mapreset.LobbyMapReset;
+import dev.caecorthus.sparkdlc.round.mapreset.LobbyMapReset;
 import dev.doctor4t.wathe.api.GameMode;
 import dev.doctor4t.wathe.api.MapEffect;
 import dev.doctor4t.wathe.cca.MapVariablesWorldComponent;

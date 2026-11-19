@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.cat;
 
-import dev.caecorthus.sparkdlc.witch.roles.neutral.cat.SchrodingersCatService;
+import dev.caecorthus.sparkdlc.role.neutral.cat.SchrodingersCatService;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.agmas.noellesroles.Noellesroles;
 import org.agmas.noellesroles.packet.SwapperC2SPacket;

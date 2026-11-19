@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.factionapi.client.mixin.inventory;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.caecorthus.sparkdlc.factionapi.client.inventory.LimitedInventorySecondRow;
-import dev.caecorthus.sparkdlc.factionapi.impl.inventory.LimitedInventoryRows;
+import dev.caecorthus.sparkdlc.client.inventory.LimitedInventorySecondRow;
+import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedHandledScreen;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;

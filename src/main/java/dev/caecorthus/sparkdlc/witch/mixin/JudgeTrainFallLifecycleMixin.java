@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.judge.JudgeTrainFallAttribution;
+import dev.caecorthus.sparkdlc.role.civilian.judge.JudgeTrainFallAttribution;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;

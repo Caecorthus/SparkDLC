@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.ferryman;
 
-import dev.caecorthus.sparkdlc.witch.roles.neutral.ferryman.FerrymanPardonService;
+import dev.caecorthus.sparkdlc.role.neutral.ferryman.FerrymanPardonService;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;

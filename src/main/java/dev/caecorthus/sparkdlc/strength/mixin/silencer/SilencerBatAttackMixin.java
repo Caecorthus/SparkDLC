@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.strength.mixin.silencer;
 
-import dev.caecorthus.sparkdlc.strength.compat.SparkFactionCompat;
-import dev.caecorthus.sparkdlc.strength.compat.SparkTraitsCompat;
-import dev.caecorthus.sparkdlc.strength.role.silencer.SilencerQuietService;
+import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
+import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.role.killer.silencer.SilencerQuietService;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import dev.doctor4t.wathe.game.GameConstants;

@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.mixin.riftwalker;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import dev.caecorthus.sparkdlc.witch.roles.witch.riftwalker.session.RiftSessionService;
+import dev.caecorthus.sparkdlc.role.witch.riftwalker.session.RiftSessionService;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.network.packet.c2s.play.SpectatorTeleportC2SPacket;
 import net.minecraft.network.packet.c2s.play.VehicleMoveC2SPacket;

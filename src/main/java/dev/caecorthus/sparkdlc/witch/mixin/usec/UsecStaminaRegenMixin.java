@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.usec;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.usec.UsecStaminaService;
+import dev.caecorthus.sparkdlc.role.civilian.usec.UsecStaminaService;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

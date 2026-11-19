@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.factionapi.mixin;
 
-import dev.caecorthus.sparkdlc.factionapi.api.FactionAssignmentPhase;
-import dev.caecorthus.sparkdlc.factionapi.impl.assignment.FactionAssignmentService;
-import dev.caecorthus.sparkdlc.factionapi.impl.thirdfaction.ThirdFactionDraw;
+import dev.caecorthus.sparkdlc.faction.api.FactionAssignmentPhase;
+import dev.caecorthus.sparkdlc.faction.assignment.FactionAssignmentService;
+import dev.caecorthus.sparkdlc.faction.thirdfaction.ThirdFactionDraw;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.ScoreboardRoleSelectorComponent;
 import dev.doctor4t.wathe.game.gamemode.MurderGameMode;

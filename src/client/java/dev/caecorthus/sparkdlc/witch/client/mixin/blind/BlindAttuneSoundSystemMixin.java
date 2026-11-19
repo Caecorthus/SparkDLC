@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.blind;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.caecorthus.sparkdlc.witch.client.blind.gate.BlindAttuneDucking;
+import dev.caecorthus.sparkdlc.client.role.civilian.blind.gate.BlindAttuneDucking;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.client.sound.SoundSystem;
 import org.spongepowered.asm.mixin.Mixin;

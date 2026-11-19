@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.roles.special.wraith.WraithStateService;
-import dev.caecorthus.sparkdlc.witch.roles.special.wraith.runtime.WraithPresence;
+import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
+import dev.caecorthus.sparkdlc.role.special.wraith.runtime.WraithPresence;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;

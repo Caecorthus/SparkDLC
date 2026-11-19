@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.mixin.engineer;
 
-import dev.caecorthus.sparkdlc.strength.component.engineer.EngineerStunnedPlayerComponent;
-import dev.caecorthus.sparkdlc.strength.role.taotie.TaotieHeadRules;
+import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
+import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadRules;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;

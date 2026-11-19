@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.saint;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.caecorthus.sparkdlc.witch.client.saint.HolyFlashAudioClient;
+import dev.caecorthus.sparkdlc.client.role.civilian.saint.HolyFlashAudioClient;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.client.sound.SoundSystem;
 import org.spongepowered.asm.mixin.Mixin;

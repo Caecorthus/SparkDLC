@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.traits.client.mixin;
 
-import dev.caecorthus.sparkdlc.traits.client.killer.LastEscapeInput;
+import dev.caecorthus.sparkdlc.client.trait.killer.LastEscapeInput;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;

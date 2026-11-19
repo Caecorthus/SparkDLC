@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.timestealer;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.timestealer.TimeStealerItemDrops;
+import dev.caecorthus.sparkdlc.role.killer.timestealer.TimeStealerItemDrops;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

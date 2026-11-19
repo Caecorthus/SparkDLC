@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.wathe;
 
-import dev.caecorthus.sparkdlc.strength.role.pathogen.PathogenTeamService;
+import dev.caecorthus.sparkdlc.role.neutral.pathogen.PathogenTeamService;
 import dev.doctor4t.wathe.api.event.CheckWinCondition;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.factionapi.mixin.text;
 
-import dev.caecorthus.sparkdlc.factionapi.impl.text.WatheTextRepairs;
+import dev.caecorthus.sparkdlc.faction.text.WatheTextRepairs;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.component.DataComponentTypes;

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.assist.client.mixin;
 
-import dev.caecorthus.sparkdlc.assist.client.settings.SparkDlcSettingsPages;
-import dev.caecorthus.sparkdlc.assist.client.settings.screen.SparkDlcSettingsScreen;
+import dev.caecorthus.sparkdlc.client.settings.SparkDlcSettingsPages;
+import dev.caecorthus.sparkdlc.client.settings.screen.SparkDlcSettingsScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.screen.option.SoundOptionsScreen;

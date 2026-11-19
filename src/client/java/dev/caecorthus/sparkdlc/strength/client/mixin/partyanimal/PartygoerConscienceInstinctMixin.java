@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.partyanimal;
 
-import dev.caecorthus.sparkdlc.strength.client.role.partyanimal.PartygoerInstinctClientHooks;
+import dev.caecorthus.sparkdlc.client.role.killer.partyanimal.PartygoerInstinctClientHooks;
 import dev.doctor4t.wathe.client.WatheClient;
 import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;

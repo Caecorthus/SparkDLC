@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.hunter;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.caecorthus.sparkdlc.witch.client.hunter.DoubleBarrelShotAudio;
+import dev.caecorthus.sparkdlc.client.role.killer.hunter.DoubleBarrelShotAudio;
 import net.minecraft.client.sound.Channel;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.client.sound.SoundSystem;

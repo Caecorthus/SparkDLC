@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.blackraven.crow;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.client.blackraven.crow.BlackRavenCrowVision;
+import dev.caecorthus.sparkdlc.client.role.killer.blackraven.crow.BlackRavenCrowVision;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.entity.LivingEntity;

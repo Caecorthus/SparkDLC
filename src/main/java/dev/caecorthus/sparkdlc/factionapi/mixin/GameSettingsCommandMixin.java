@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.factionapi.mixin;
 
-import dev.caecorthus.sparkdlc.factionapi.command.settings.GameSettingsCommandRules;
+import dev.caecorthus.sparkdlc.command.settings.GameSettingsCommandRules;
 import dev.doctor4t.wathe.api.WatheRoles;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.command.GameSettingsCommand;

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.mixin.stowaway;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.caecorthus.sparkdlc.witch.roles.neutral.stowaway.StowawayRules;
+import dev.caecorthus.sparkdlc.role.neutral.stowaway.StowawayRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -22,7 +22,7 @@ import java.util.UUID;
  * 因此会作为共同赢家同步，结算行与 {@code SparkFactionRoundEndComponent.didWin} 都会把它视作获胜阵营的一员；死亡的
  * 偷渡客永远不会加入。
  */
-@Mixin(targets = "dev.caecorthus.sparkdlc.factionapi.impl.roundend.FactionWinnerCollector", remap = false)
+@Mixin(targets = "dev.caecorthus.sparkdlc.round.end.FactionWinnerCollector", remap = false)
 public abstract class FactionWinnerCollectorStowawayWinnerMixin {
     @ModifyReturnValue(
             method = "collectFactionWinners(Lnet/minecraft/server/world/ServerWorld;Ldev/doctor4t/wathe/cca/GameWorldComponent;Lnet/minecraft/util/Identifier;)Ljava/util/Set;",

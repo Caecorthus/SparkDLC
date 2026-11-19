@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.traits.mixin;
 
-import dev.caecorthus.sparkdlc.traits.impl.traits.civilian.depression.DepressionFakeKillCooldowns;
+import dev.caecorthus.sparkdlc.trait.civilian.depression.DepressionFakeKillCooldowns;
 import dev.doctor4t.wathe.entity.GrenadeEntity;
 import dev.doctor4t.wathe.game.GameFunctions;
 import dev.doctor4t.wathe.index.WatheItems;

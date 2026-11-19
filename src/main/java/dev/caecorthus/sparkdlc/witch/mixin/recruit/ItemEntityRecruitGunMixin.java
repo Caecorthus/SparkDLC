@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.witch.mixin.recruit;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.recruit.RecruitRuntime;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.recruit.RecruitRules;
+import dev.caecorthus.sparkdlc.role.civilian.recruit.RecruitRuntime;
+import dev.caecorthus.sparkdlc.role.civilian.recruit.RecruitRules;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;

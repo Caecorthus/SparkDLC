@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.undercover;
 
-import dev.caecorthus.sparkdlc.strength.client.role.undercover.UndercoverThermalRenderer;
+import dev.caecorthus.sparkdlc.client.role.civilian.undercover.UndercoverThermalRenderer;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;

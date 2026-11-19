@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.witchmaiden;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.client.witchmaiden.WitherGoheiFireInput;
+import dev.caecorthus.sparkdlc.client.role.killer.witchmaiden.WitherGoheiFireInput;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import org.spongepowered.asm.mixin.Mixin;

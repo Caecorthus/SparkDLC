@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.bomber;
 
-import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DroneWeaponHits;
+import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneWeaponHits;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.Vec3d;
@@ -29,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * SparkWitch 缺失或方法变更时静默失效。USEC 步枪与尾焰已能让无人机胜出（其乌鸦步骤缩短了设备步骤使用的距离），因此不受影响。
  */
 @Pseudo
-@Mixin(targets = "dev.caecorthus.sparkdlc.witch.roles.killer.blackraven.crow.hit.BlackRavenCrowTargets", remap = false)
+@Mixin(targets = "dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit.BlackRavenCrowTargets", remap = false)
 public abstract class DroneSparkWitchCrowTargetsMixin {
     /** {@code deviceSquared(ServerPlayerEntity, Vec3d, Vec3d)}: squared distance, +inf when none. / 平方距离。 */
     @Inject(method = "deviceSquared", at = @At("RETURN"), cancellable = true, require = 0)

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.abysslistener;
 
-import dev.caecorthus.sparkdlc.witch.roles.witch.abysslistener.loadout.AbyssListenerInventoryRules;
+import dev.caecorthus.sparkdlc.role.witch.abysslistener.loadout.AbyssListenerInventoryRules;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DecoratedPotBlock;
 import net.minecraft.entity.player.PlayerEntity;

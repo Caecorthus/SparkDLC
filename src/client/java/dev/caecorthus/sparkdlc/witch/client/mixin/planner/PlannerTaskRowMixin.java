@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.planner;
 
-import dev.caecorthus.sparkdlc.witch.client.planner.PlannerTaskLine;
+import dev.caecorthus.sparkdlc.client.role.civilian.planner.PlannerTaskLine;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;

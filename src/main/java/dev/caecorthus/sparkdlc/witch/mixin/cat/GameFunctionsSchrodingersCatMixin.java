@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.cat;
 
-import dev.caecorthus.sparkdlc.witch.roles.neutral.cat.SchrodingersCatService;
+import dev.caecorthus.sparkdlc.role.neutral.cat.SchrodingersCatService;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;

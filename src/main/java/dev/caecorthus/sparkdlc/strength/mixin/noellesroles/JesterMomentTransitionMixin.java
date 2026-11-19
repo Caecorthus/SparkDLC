@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.noellesroles;
 
-import dev.caecorthus.sparkdlc.strength.role.jester.JesterMomentService;
+import dev.caecorthus.sparkdlc.role.neutral.jester.JesterMomentService;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.agmas.noellesroles.jester.JesterPlayerComponent;

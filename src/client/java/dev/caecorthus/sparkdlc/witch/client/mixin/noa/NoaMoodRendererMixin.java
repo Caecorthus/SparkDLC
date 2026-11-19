@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.witch.client.mixin.noa;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.witch.client.noa.NoaMoodIcon;
+import dev.caecorthus.sparkdlc.client.role.civilian.noa.NoaMoodIcon;
 import dev.doctor4t.wathe.client.gui.MoodRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Identifier;

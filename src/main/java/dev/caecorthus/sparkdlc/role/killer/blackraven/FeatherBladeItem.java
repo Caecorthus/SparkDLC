@@ -1,0 +1,73 @@
+package dev.caecorthus.sparkdlc.role.killer.blackraven;
+
+import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceHits;
+import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaInteractionService;
+import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit.BlackRavenCrowHits;
+import dev.caecorthus.sparkdlc.util.hitscan.PlayerHitboxHistory;
+
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.game.GameFunctions;
+import java.util.UUID;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
+import net.minecraft.world.World;
+
+/** Applies one silent, non-refreshable delayed mark on right click. */
+public final class FeatherBladeItem extends Item {
+    public FeatherBladeItem(Settings settings) {
+        super(settings);
+    }
+
+    @Override
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        ItemStack stack = user.getStackInHand(hand);
+        if (SparkTraitsKillerBridge.blocksWeaponAction(user, stack)) {
+            return TypedActionResult.fail(stack);
+        }
+        if (world.isClient) {
+            return TypedActionResult.success(stack);
+        }
+        if (!(user instanceof ServerPlayerEntity serverUser)) {
+            return TypedActionResult.fail(stack);
+        }
+        // The Black Raven aimed at its delayed client view of others, so the server tests their rewound volumes.
+        // 黑羽鸦瞄准的是客户端延迟画面中的其他玩家，因此服务端改为检测其回溯后的命中体积。
+        BlackRavenTargeting.Aim<ServerPlayerEntity> aim = BlackRavenTargeting.findAimedPlayer(serverUser,
+                serverUser.getServerWorld().getPlayers(),
+                candidate -> PlayerHitboxHistory.hitVolumes(
+                        serverUser, candidate, BlackRavenTargeting.FEATHER_BOX_EXPANSION));
+        // Raven Form seam: a crow the aim enters before the aimed player and every breakable device takes the blade, and
+        // its OWNER is marked (the mark is player state that settles after 20 s, outliving the crow).
+        // 化鸦接缝：瞄准先于被瞄准玩家与所有可打坏设备进入的乌鸦承受羽刃，被标记的是其主人（标记是玩家状态，20 秒后结算，比乌鸦存续更久）。
+        BlackRavenCrowHits.FeatherHit crow = BlackRavenCrowHits.onFeatherBladeFired(serverUser, aim);
+        // Seeker seam: a nearer Seeker device within reach absorbs the blade and breaks; nobody is marked.
+        // 搜寻者接缝：射程内更近的搜寻者设备吸收羽刃并被打坏；不标记任何人。
+        ServerPlayerEntity target = crow != null ? crow.target().owner() : SeekerDeviceHits.onFeatherBladeFired(serverUser,
+                aim == null ? null : aim.player(), BlackRavenRules.FEATHER_REACH);
+        UUID matchId = BlackRavenMatch.currentId();
+        BlackRavenMarkPlayerComponent mark = target == null ? null : BlackRavenMarkPlayerComponent.KEY.get(target);
+        boolean allowed = BlackRavenRules.canMark(
+                BlackRavenRules.isBlackRaven(GameWorldComponent.KEY.get(world).getRole(serverUser)),
+                GameFunctions.isPlayerPlayingAndAlive(serverUser),
+                target != null && VendettaInteractionService.isOrdinaryAliveOrBoundKillerTarget(serverUser, target),
+                target == serverUser,
+                mark != null && mark.hasMark(),
+                // Sight and reach come from the rewound hit, not the current position: the aim is block-clipped.
+                // 可见性与距离取自回溯命中处而非当前位置：瞄准射线已被方块截断。
+                target != null,
+                crow != null ? crow.distanceSquared()
+                        : target == null || aim == null ? Double.POSITIVE_INFINITY : aim.feetDistanceSquared()
+        );
+        if (!allowed || matchId == null || mark == null
+                || !mark.mark(serverUser.getUuid(), world.getTime() + BlackRavenRules.MARK_DURATION_TICKS, matchId)) {
+            return TypedActionResult.fail(stack);
+        }
+        serverUser.getItemCooldownManager().set(this, BlackRavenRules.FEATHER_COOLDOWN_TICKS);
+        return TypedActionResult.success(stack);
+    }
+}

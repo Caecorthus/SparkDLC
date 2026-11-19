@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.factionapi.mixin.mapreset;
 
-import dev.caecorthus.sparkdlc.factionapi.impl.mapreset.LobbyMapResetState;
+import dev.caecorthus.sparkdlc.round.mapreset.LobbyMapResetState;
 import dev.doctor4t.wathe.cca.AutoStartComponent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

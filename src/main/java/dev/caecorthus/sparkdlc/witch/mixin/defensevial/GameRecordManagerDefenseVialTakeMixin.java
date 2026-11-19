@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.defensevial;
 
-import dev.caecorthus.sparkdlc.witch.item.defense.DefenseVialTrays;
+import dev.caecorthus.sparkdlc.item.defense.DefenseVialTrays;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;

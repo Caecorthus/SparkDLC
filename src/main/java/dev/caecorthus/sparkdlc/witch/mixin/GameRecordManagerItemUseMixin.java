@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.witch.mixin;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.junker.JunkerLootSpend;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.saint.SaintKarmaService;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.vendetta.VendettaReplayService;
-import dev.caecorthus.sparkdlc.witch.roles.special.wraith.conversion.WraithSwapperFallAttribution;
+import dev.caecorthus.sparkdlc.role.civilian.junker.JunkerLootSpend;
+import dev.caecorthus.sparkdlc.role.civilian.saint.SaintKarmaService;
+import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaReplayService;
+import dev.caecorthus.sparkdlc.role.special.wraith.conversion.WraithSwapperFallAttribution;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;

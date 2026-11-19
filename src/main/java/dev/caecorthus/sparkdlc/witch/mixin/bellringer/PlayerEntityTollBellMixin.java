@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.bellringer;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.bellringer.BellRingerInventoryRules;
+import dev.caecorthus.sparkdlc.role.killer.bellringer.BellRingerInventoryRules;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

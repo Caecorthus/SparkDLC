@@ -1,10 +1,10 @@
 package dev.caecorthus.sparkdlc.client;
 
-import dev.caecorthus.sparkdlc.assist.client.SparkAssistClient;
-import dev.caecorthus.sparkdlc.factionapi.client.SparkFactionApiClient;
-import dev.caecorthus.sparkdlc.strength.client.SparkStrengthClient;
-import dev.caecorthus.sparkdlc.traits.client.SparkTraitsClient;
-import dev.caecorthus.sparkdlc.witch.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.client.SparkAssistClient;
+import dev.caecorthus.sparkdlc.client.SparkFactionApiClient;
+import dev.caecorthus.sparkdlc.client.SparkStrengthClient;
+import dev.caecorthus.sparkdlc.client.SparkTraitsClient;
+import dev.caecorthus.sparkdlc.client.SparkWitchClient;
 import net.fabricmc.api.ClientModInitializer;
 
 /**

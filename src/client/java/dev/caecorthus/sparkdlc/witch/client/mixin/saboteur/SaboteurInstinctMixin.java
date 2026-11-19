@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.saboteur;
 
-import dev.caecorthus.sparkdlc.witch.client.render.LocalViewerSnapshot;
-import dev.caecorthus.sparkdlc.witch.client.render.WraithClientState;
-import dev.caecorthus.sparkdlc.witch.client.saboteur.SaboteurInstinctClientRules;
-import dev.caecorthus.sparkdlc.witch.net.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.client.render.LocalViewerSnapshot;
+import dev.caecorthus.sparkdlc.client.render.WraithClientState;
+import dev.caecorthus.sparkdlc.client.role.killer.saboteur.SaboteurInstinctClientRules;
+import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.client.WatheClient;
 import net.minecraft.client.MinecraftClient;

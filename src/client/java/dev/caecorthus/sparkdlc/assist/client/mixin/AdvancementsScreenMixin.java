@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.assist.client.mixin;
 
-import dev.caecorthus.sparkdlc.assist.client.achievement.AchievementAdvancements;
-import dev.caecorthus.sparkdlc.assist.client.achievement.AchievementGalaxyScreen;
+import dev.caecorthus.sparkdlc.client.achievement.AchievementAdvancements;
+import dev.caecorthus.sparkdlc.client.achievement.AchievementGalaxyScreen;
 import net.minecraft.advancement.AdvancementEntry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;

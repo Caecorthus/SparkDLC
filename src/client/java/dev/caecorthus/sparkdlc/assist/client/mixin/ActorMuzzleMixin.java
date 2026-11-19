@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.assist.client.mixin;
 
-import dev.caecorthus.sparkdlc.assist.client.ponder.ActorPlayer;
+import dev.caecorthus.sparkdlc.client.ponder.ActorPlayer;
 import dev.doctor4t.wathe.util.MatrixParticleManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;

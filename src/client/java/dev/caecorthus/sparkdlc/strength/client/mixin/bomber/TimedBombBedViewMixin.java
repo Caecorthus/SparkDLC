@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.bomber;
 
-import dev.caecorthus.sparkdlc.strength.client.role.bomber.TimedBombMarkerClientStore;
-import dev.caecorthus.sparkdlc.strength.role.bomber.BomberTrapService;
+import dev.caecorthus.sparkdlc.client.role.killer.bomber.TimedBombMarkerClientStore;
+import dev.caecorthus.sparkdlc.role.killer.bomber.BomberTrapService;
 import dev.doctor4t.wathe.block_entity.TrimmedBedBlockEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;

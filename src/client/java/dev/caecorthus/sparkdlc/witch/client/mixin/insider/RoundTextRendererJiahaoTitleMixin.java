@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.insider;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import dev.caecorthus.sparkdlc.witch.client.insider.JiahaoWinTitleClient;
+import dev.caecorthus.sparkdlc.client.role.jiahao.insider.JiahaoWinTitleClient;
 import dev.doctor4t.wathe.client.gui.RoleAnnouncementTexts;
 import dev.doctor4t.wathe.client.gui.RoundTextRenderer;
 import org.spongepowered.asm.mixin.Mixin;

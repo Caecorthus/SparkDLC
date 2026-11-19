@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.partyanimal;
 
-import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerCarry;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerCarry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.KeyBinding;

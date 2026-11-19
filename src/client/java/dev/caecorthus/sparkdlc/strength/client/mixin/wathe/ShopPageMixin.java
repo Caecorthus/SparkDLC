@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.wathe;
 
-import dev.caecorthus.sparkdlc.strength.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.strength.client.ui.shop.ShopPageSwitchWidget;
-import dev.caecorthus.sparkdlc.strength.client.ui.shop.ShopPages;
+import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.client.gui.shop.ShopPageSwitchWidget;
+import dev.caecorthus.sparkdlc.client.gui.shop.ShopPages;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedHandledScreen;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedInventoryScreen;
 import dev.doctor4t.wathe.index.WatheItems;

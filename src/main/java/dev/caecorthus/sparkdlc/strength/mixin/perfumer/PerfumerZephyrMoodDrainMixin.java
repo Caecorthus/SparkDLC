@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.strength.mixin.perfumer;
 
-import dev.caecorthus.sparkdlc.strength.component.perfumer.PerfumerScentComponent;
-import dev.caecorthus.sparkdlc.strength.role.perfumer.PerfumerRules;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerScentComponent;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerRules;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import net.minecraft.entity.player.PlayerEntity;

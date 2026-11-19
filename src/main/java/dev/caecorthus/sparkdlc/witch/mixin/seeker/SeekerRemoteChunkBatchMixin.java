@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.witch.mixin.seeker;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.device.SeekerDeviceEntity;
-import dev.caecorthus.sparkdlc.witch.roles.civilian.seeker.remote.SeekerRemoteStreaming;
+import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerDeviceEntity;
+import dev.caecorthus.sparkdlc.role.civilian.seeker.remote.SeekerRemoteStreaming;
 import net.minecraft.server.network.ChunkDataSender;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.ChunkPos;

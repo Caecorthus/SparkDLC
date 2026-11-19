@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.hunter;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.hunter.HunterInventoryRules;
+import dev.caecorthus.sparkdlc.role.killer.hunter.HunterInventoryRules;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

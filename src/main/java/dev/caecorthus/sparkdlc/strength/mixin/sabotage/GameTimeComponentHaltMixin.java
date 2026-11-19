@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.sabotage;
 
-import dev.caecorthus.sparkdlc.strength.sabotage.EngineHalt;
+import dev.caecorthus.sparkdlc.sabotage.EngineHalt;
 import dev.doctor4t.wathe.cca.GameTimeComponent;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;

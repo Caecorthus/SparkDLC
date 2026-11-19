@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin;
 
-import dev.caecorthus.sparkdlc.witch.client.render.WraithNameTagPassThrough;
+import dev.caecorthus.sparkdlc.client.render.WraithNameTagPassThrough;
 import dev.doctor4t.wathe.client.gui.RoleNameRenderer;
 import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;

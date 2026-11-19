@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.mixin.wathe;
 
-import dev.caecorthus.sparkdlc.strength.role.shadowjester.ShadowJesterShowdownService;
+import dev.caecorthus.sparkdlc.role.neutral.shadowjester.ShadowJesterShowdownService;
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.doctor4t.wathe.util.GunShootPayload;
 import net.minecraft.server.network.ServerPlayerEntity;

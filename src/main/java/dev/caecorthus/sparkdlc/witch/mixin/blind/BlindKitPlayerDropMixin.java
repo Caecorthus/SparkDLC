@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.witch.mixin.blind;
 
-import dev.caecorthus.sparkdlc.witch.roles.civilian.blind.kit.BlindItemDrops;
+import dev.caecorthus.sparkdlc.role.civilian.blind.kit.BlindItemDrops;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

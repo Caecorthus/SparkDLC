@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.morphling;
 
-import dev.caecorthus.sparkdlc.strength.client.role.morphling.MorphlingAppearanceClientHelper;
+import dev.caecorthus.sparkdlc.client.role.killer.morphling.MorphlingAppearanceClientHelper;
 import dev.doctor4t.wathe.client.render.entity.PlayerBodyEntityRenderer;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
 import net.minecraft.client.render.VertexConsumerProvider;

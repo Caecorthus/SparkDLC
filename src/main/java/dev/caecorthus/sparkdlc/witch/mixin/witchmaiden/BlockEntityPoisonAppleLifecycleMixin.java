@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.witch.mixin.witchmaiden;
 
-import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.PoisonApplePlateAccess;
-import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.PoisonApplePlateService;
-import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.PoisonApplePlateTracker;
+import dev.caecorthus.sparkdlc.role.killer.witchmaiden.PoisonApplePlateAccess;
+import dev.caecorthus.sparkdlc.role.killer.witchmaiden.PoisonApplePlateService;
+import dev.caecorthus.sparkdlc.role.killer.witchmaiden.PoisonApplePlateTracker;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;

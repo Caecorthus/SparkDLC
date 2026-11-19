@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.witchmaiden;
 
-import dev.caecorthus.sparkdlc.witch.client.witchmaiden.WitchMaidenClientModule;
-import dev.caecorthus.sparkdlc.witch.component.WitchPlayerComponent;
+import dev.caecorthus.sparkdlc.client.role.killer.witchmaiden.WitchMaidenClientModule;
+import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import net.minecraft.network.RegistryByteBuf;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

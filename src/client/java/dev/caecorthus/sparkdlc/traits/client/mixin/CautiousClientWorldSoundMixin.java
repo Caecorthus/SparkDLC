@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.traits.client.mixin;
 
-import dev.caecorthus.sparkdlc.traits.client.audio.CautiousSoundDebug;
-import dev.caecorthus.sparkdlc.traits.impl.traits.global.CautiousSoundRules;
-import dev.caecorthus.sparkdlc.traits.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.client.trait.audio.CautiousSoundDebug;
+import dev.caecorthus.sparkdlc.trait.global.CautiousSoundRules;
+import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;

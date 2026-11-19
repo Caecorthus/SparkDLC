@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.strength.client.mixin.m67;
 
-import dev.caecorthus.sparkdlc.strength.client.item.M67Client;
+import dev.caecorthus.sparkdlc.client.item.M67Client;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.entity.player.PlayerEntity;

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.factionapi.mixin.mapreset;
 
 import com.mojang.brigadier.ParseResults;
-import dev.caecorthus.sparkdlc.factionapi.impl.mapreset.LobbyMapReset;
+import dev.caecorthus.sparkdlc.round.mapreset.LobbyMapReset;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import org.spongepowered.asm.mixin.Mixin;

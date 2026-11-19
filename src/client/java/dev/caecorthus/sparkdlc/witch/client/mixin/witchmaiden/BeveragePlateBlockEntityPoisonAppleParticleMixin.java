@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.witchmaiden;
 
-import dev.caecorthus.sparkdlc.witch.client.witchmaiden.PoisonAppleParticleClientHooks;
-import dev.caecorthus.sparkdlc.witch.roles.killer.witchmaiden.PoisonApplePlateAccess;
+import dev.caecorthus.sparkdlc.client.role.killer.witchmaiden.PoisonAppleParticleClientHooks;
+import dev.caecorthus.sparkdlc.role.killer.witchmaiden.PoisonApplePlateAccess;
 import dev.doctor4t.wathe.block_entity.BeveragePlateBlockEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

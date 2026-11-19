@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.witch.client.mixin.blackraven;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.caecorthus.sparkdlc.witch.client.blackraven.BlackRavenInstinctClientHooks;
+import dev.caecorthus.sparkdlc.client.role.killer.blackraven.BlackRavenInstinctClientHooks;
 import dev.doctor4t.wathe.client.WatheClient;
 import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;

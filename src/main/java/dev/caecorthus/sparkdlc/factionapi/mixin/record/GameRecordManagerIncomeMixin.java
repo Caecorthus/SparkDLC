@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.factionapi.mixin.record;
 
-import dev.caecorthus.sparkdlc.factionapi.impl.record.IncomeRecorder;
+import dev.caecorthus.sparkdlc.record.IncomeRecorder;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import net.minecraft.server.world.ServerWorld;

@@ -242,6 +242,25 @@ Legacy names kept on purpose / 有意保留的旧名字：
   module id as the label of the registering module; payload ids are `sparkdlc:<path>` and the table is re-sorted.
   校验脚本与数据包策略工具里带引号的旧 id 是 `provides` 检查或模块标签，不是命名空间，保持不变。
 
+Rules that exist only for the local tests (`namespace-keep.tsv`, rows `src/test/*`) / 仅用于本地测试的规则：
+
+- the tests of the existing legacy migrations and of the `provides` list keep their legacy literals;
+  已有迁移与 `provides` 列表的测试保留旧字面量；
+- a negative assertion about the bare name of a legacy module (`assertFalse(source.contains("sparkstrength"))`,
+  `assertNotIn("sparkwitch", ...)`, a `forbidden` / `gone` / `foreign` token list) keeps that name: rewritten, it
+  would forbid the mod's own namespace. Such an assertion is weaker than before by nature, because an id can no
+  longer contain the word; `--report` lists them (28 lines in 26 test files at the time of the rename).
+  针对旧模块裸名的否定断言保留该名字：改写后它会禁止本模组自己的命名空间。这类断言天然比以前弱，因为 id 里不会再出现这个词；
+  `--report` 会列出它们（改名时为 26 个测试文件中的 28 行）。
+- `path` rows of `namespace-overrides.tsv` name a file that changed its source set (the assist lang file).
+  `namespace-overrides.tsv` 的 `path` 行用于改变了源码集的文件（assist 的语言文件）。
+
+A test that told things apart by namespace (`id.startsWith("sparkwitch:")`, "the SparkStrength lang file") cannot be
+rewritten by a rule: such tests were restated by hand to select the same set, using `legacy-ids.tsv`,
+`resource-moves.tsv` or the `owner` column of `config/payload-policy/actions.tsv`.
+按命名空间区分事物的测试（`id.startsWith("sparkwitch:")`、“SparkStrength 的语言文件”）无法用规则改写：这些测试已手工改为借助
+`legacy-ids.tsv`、`resource-moves.tsv` 或 `config/payload-policy/actions.tsv` 的 `owner` 列选出同一集合。
+
 ## What the script cannot decide / 脚本无法判断的内容
 
 Done by hand, in separate commits / 手工完成，单独提交：

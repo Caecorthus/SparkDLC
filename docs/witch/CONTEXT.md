@@ -5045,7 +5045,7 @@ Witch, Apprentice Witch and Murderous Witch, plus accomplices (owner decision D1
 `WitchFactionRules.isAccompliceLike`); each shows only its own skills. An accomplice's own skills are exactly
 `AccompliceVariants.hooks(role).ownSkillIds()` (`AccompliceVariantHooks`, default empty). The plain Accomplice and the
 Bewitched (accomplice-like, not a variant) get `NONE` hooks, so they never show the panel; a variant that owns no
-skill does not either. Registration in `WitchSkillRegistry`, the `sparkwitch` namespace, or shared dispatch, storage,
+skill does not either. Registration in `WitchSkillRegistry`, the `sparkdlc` namespace, or shared dispatch, storage,
 packets and cooldowns grants no access, and every other role stays excluded. The gate runs every client frame, so
 `AccompliceVariants.hooks` reads the same lock-free snapshot as `isVariant` and `variants`. Mana in the panel (header
 tail, cost line, "not enough mana" pill) stays gated by `WitchManaRules.isManaRole`.
@@ -5138,7 +5138,7 @@ tasks it is promoted to an accomplice role through the pool above.
   seat of a lock the dead player held returns to the pool.
 - **Forced lock (D4, C5).** `/sparkdlc:forceAccompliceRole <role> <players>` (`command/ForceAccompliceRoleCommand`,
   permission `sparkdlc.command.forceaccomplicerole`, default level 2, run through `Wathe.executeSupporterCommand`; a
-  bare path resolves to the `sparkwitch` namespace; suggestions are `accomplice` plus every registered special
+  bare path resolves to the `sparkdlc` namespace; suggestions are `accomplice` plus every registered special
   accomplice). There is no round guard. The lock has the same lifetime as Wathe's forced roles (owner, 2026-10-10:
   "forceRole bewitched + lock" queued during one round used to reach the next round without its lock), decided per
   target by `BewitchedPromotionRules.appliesToCurrentRound`:

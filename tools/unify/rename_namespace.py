@@ -256,8 +256,10 @@ class Rewriter:
             lines = text.split('\n')
             for i, line in enumerate(lines):
                 if TOKEN_RE.search(line) and (keeps == [None] or any(r.search(line) for r in keeps)):
-                    def keep_token(m):
+                    def keep_token(m, line=line):
                         self.log['keep: namespace-keep.tsv'] += 1
+                        if self.report is not None:
+                            self.report.append((rel, 'keep: namespace-keep.tsv', line.strip()[:240]))
                         return stash(m.group(0))
                     lines[i] = TOKEN_RE.sub(keep_token, line)
             text = '\n'.join(lines)

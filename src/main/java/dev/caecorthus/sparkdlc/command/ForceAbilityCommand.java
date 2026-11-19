@@ -7,13 +7,14 @@ import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.legacy.LegacyCommandIds;
+import dev.caecorthus.sparkdlc.legacy.LegacyPermissions;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillDefinition;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillRegistry;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.skill.WitchSkillLockValidationService;
 import dev.caecorthus.sparkdlc.util.SparkWitchPermissions;
 import dev.doctor4t.wathe.Wathe;
-import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.command.argument.IdentifierArgumentType;
@@ -41,7 +42,7 @@ public final class ForceAbilityCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(
                 CommandManager.literal("sparkdlc:forceAbility")
-                        .requires(Permissions.require(
+                        .requires(LegacyPermissions.require(
                                 SparkWitchPermissions.COMMAND_FORCE_ABILITY,
                                 SparkWitchPermissions.DEFAULT_COMMAND_LEVEL
                         ))
@@ -102,7 +103,8 @@ public final class ForceAbilityCommand {
         if (parsed.getNamespace().equals(Identifier.DEFAULT_NAMESPACE)) {
             return SparkWitch.id(parsed.getPath());
         }
-        return parsed;
+        // An id typed in the former namespace (sparkwitch:x) means today's skill. / 以旧命名空间输入的 id（sparkwitch:x）指现在的技能。
+        return LegacyCommandIds.skill(parsed);
     }
 
     private static WitchSkillDefinition requireSkill(Identifier skillId) throws CommandSyntaxException {

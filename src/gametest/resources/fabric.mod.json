@@ -9,7 +9,8 @@
     "fabric-gametest": [
       "dev.caecorthus.sparkdlc.gametest.SparkDlcBootTest",
       "dev.caecorthus.sparkdlc.gametest.LegacyRegistryAliasesGameTest",
-      "dev.caecorthus.sparkdlc.gametest.LegacySavedDataGameTest"
+      "dev.caecorthus.sparkdlc.gametest.LegacySavedDataGameTest",
+      "dev.caecorthus.sparkdlc.gametest.SparkDlcCommandTest"
     ],
     "client": [
       "dev.caecorthus.sparkdlc.gametest.SparkDlcClientAudit"

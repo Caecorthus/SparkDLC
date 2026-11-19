@@ -12,11 +12,11 @@ import net.minecraft.text.Text;
 import java.util.Collection;
 import java.util.List;
 
-final class SanityCommand {
+public final class SanityCommand {
     private SanityCommand() {
     }
 
-    static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
+    public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(CommandManager.literal("sparkdlc:setSanity")
                 .requires(SparkFactionPermissions.admin())
                 .then(CommandManager.argument("value", FloatArgumentType.floatArg(-100.0f, 125.0f))

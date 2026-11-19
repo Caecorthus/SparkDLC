@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_21",
   "plugin": "dev.caecorthus.sparkdlc.client.SparkDlcClientMixinPlugin",
   "client": [
+    "legacy.ChatInputSuggestorLegacyCommandMixin",
     "settings.AccessibilityOptionsScreenMixin",
     "ponder.ActorBlindGateMixin",
     "ponder.ActorJesterMomentMixin",

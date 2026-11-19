@@ -3,9 +3,9 @@ package dev.caecorthus.sparkdlc.command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import dev.caecorthus.sparkdlc.component.WitchWorldComponent;
+import dev.caecorthus.sparkdlc.legacy.LegacyPermissions;
 import dev.caecorthus.sparkdlc.util.SparkWitchPermissions;
 import dev.doctor4t.wathe.Wathe;
-import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
@@ -17,14 +17,14 @@ public final class GhostSettingsCommand {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(CommandManager.literal("sparkdlc:ghostChance")
-                .requires(Permissions.require(
+                .requires(LegacyPermissions.require(
                         SparkWitchPermissions.COMMAND_GHOST_CHANCE,
                         SparkWitchPermissions.DEFAULT_COMMAND_LEVEL))
                 .then(CommandManager.argument("chance", IntegerArgumentType.integer(0, 100))
                         .executes(context -> setChance(
                                 context.getSource(), IntegerArgumentType.getInteger(context, "chance")))));
         dispatcher.register(CommandManager.literal("sparkdlc:ghostMinRequirement")
-                .requires(Permissions.require(
+                .requires(LegacyPermissions.require(
                         SparkWitchPermissions.COMMAND_GHOST_MIN_REQUIREMENT,
                         SparkWitchPermissions.DEFAULT_COMMAND_LEVEL))
                 .then(CommandManager.argument("players", IntegerArgumentType.integer(0))

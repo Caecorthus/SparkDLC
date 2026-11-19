@@ -9,13 +9,14 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.legacy.LegacyCommandIds;
+import dev.caecorthus.sparkdlc.legacy.LegacyPermissions;
 import dev.caecorthus.sparkdlc.component.WitchWorldComponent;
 import dev.caecorthus.sparkdlc.util.RoleDisplayTextRules;
 import dev.caecorthus.sparkdlc.util.SparkWitchPermissions;
 import dev.doctor4t.wathe.Wathe;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
-import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.command.argument.IdentifierArgumentType;
@@ -51,7 +52,7 @@ public final class ForcePromotionCommand {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(CommandManager.literal("sparkdlc:forcePromotion")
-                .requires(Permissions.require(
+                .requires(LegacyPermissions.require(
                         SparkWitchPermissions.COMMAND_FORCE_PROMOTION,
                         SparkWitchPermissions.DEFAULT_COMMAND_LEVEL
                 ))
@@ -93,9 +94,10 @@ public final class ForcePromotionCommand {
     }
 
     static Identifier normalizeRoleId(Identifier parsed) {
+        // An id typed in the former namespace (sparkwitch:x) means today's role. / 以旧命名空间输入的 id（sparkwitch:x）指现在的职业。
         return parsed.getNamespace().equals(Identifier.DEFAULT_NAMESPACE)
                 ? SparkWitch.id(parsed.getPath())
-                : parsed;
+                : LegacyCommandIds.role(parsed);
     }
 
     private static Role requireRole(Identifier id) throws CommandSyntaxException {

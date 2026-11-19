@@ -4,9 +4,9 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
+import dev.caecorthus.sparkdlc.legacy.LegacyPermissions;
 import dev.caecorthus.sparkdlc.util.SparkWitchPermissions;
 import dev.doctor4t.wathe.Wathe;
-import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
@@ -25,7 +25,7 @@ public final class SetManaCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(
                 CommandManager.literal("sparkdlc:setMana")
-                        .requires(Permissions.require(
+                        .requires(LegacyPermissions.require(
                                 SparkWitchPermissions.COMMAND_SET_MANA,
                                 SparkWitchPermissions.DEFAULT_COMMAND_LEVEL
                         ))

@@ -9,6 +9,7 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.legacy.LegacyPermissions;
 import dev.caecorthus.sparkdlc.component.WitchWorldComponent;
 import dev.caecorthus.sparkdlc.role.witch.accomplice.variant.AccompliceVariants;
 import dev.caecorthus.sparkdlc.role.witch.bewitched.BewitchedPromotionRules;
@@ -18,7 +19,6 @@ import dev.caecorthus.sparkdlc.util.SparkWitchPermissions;
 import dev.doctor4t.wathe.Wathe;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
-import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.command.argument.IdentifierArgumentType;
@@ -67,7 +67,7 @@ public final class ForceAccompliceRoleCommand {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(CommandManager.literal("sparkdlc:forceAccompliceRole")
-                .requires(Permissions.require(
+                .requires(LegacyPermissions.require(
                         SparkWitchPermissions.COMMAND_FORCE_ACCOMPLICE_ROLE,
                         SparkWitchPermissions.DEFAULT_COMMAND_LEVEL
                 ))

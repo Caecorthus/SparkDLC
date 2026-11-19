@@ -11,11 +11,11 @@ import net.minecraft.text.Text;
 import java.util.Collection;
 import java.util.List;
 
-final class CooldownCommand {
+public final class CooldownCommand {
     private CooldownCommand() {
     }
 
-    static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
+    public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(CommandManager.literal("sparkdlc:clearCooldown")
                 .requires(SparkFactionPermissions.admin())
                 .executes(context -> clearCooldown(

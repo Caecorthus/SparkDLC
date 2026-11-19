@@ -25,7 +25,6 @@ import net.createmod.ponder.foundation.PonderScene;
 import net.createmod.ponder.foundation.element.AnimatedSceneElementBase;
 import net.createmod.ponder.foundation.element.ElementLinkImpl;
 import net.createmod.ponder.foundation.instruction.TickingInstruction;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -79,18 +78,14 @@ final class PartyAnimalScenes {
     }
 
     static void register() {
-        // The Partygoer is summoned with SparkWitch's Role Skill 2 key; without SparkWitch the skill has no key
-        // (PartygoerClientHooks), so its scene is added only when SparkWitch is loaded.
-        // 派对客用 SparkWitch 的“职业技能 2”键召唤；没有 SparkWitch 时这个技能没有按键（PartygoerClientHooks），所以仅在
-        // 加载 SparkWitch 时追加它的场景。
-        if (FabricLoader.getInstance().isModLoaded("sparkwitch")) {
-            role("sparkassist:roles/noellesroles/party_animal", NOELLES_STRENGTH,
-                    scene("noellesroles/party_cabins", PartyAnimalScenes::balloon),
-                    scene("noellesroles/party_cabins", PartyAnimalScenes::partygoer));
-        } else {
-            role("sparkassist:roles/noellesroles/party_animal", NOELLES_STRENGTH,
-                    scene("noellesroles/party_cabins", PartyAnimalScenes::balloon));
-        }
+        // The Partygoer is summoned with SparkWitch's Role Skill 2 key (PartygoerClientHooks). The modules are fused
+        // in SparkDLC, so the key always exists and its scene is always added (it used to be gated on SparkWitch
+        // being loaded).
+        // 派对客用 SparkWitch 的“职业技能 2”键召唤（PartygoerClientHooks）。各模块已融合进 SparkDLC，这个按键始终存在，
+        // 因此始终追加它的场景（原先仅在加载 SparkWitch 时追加）。
+        role("sparkassist:roles/noellesroles/party_animal", NOELLES_STRENGTH,
+                scene("noellesroles/party_cabins", PartyAnimalScenes::balloon),
+                scene("noellesroles/party_cabins", PartyAnimalScenes::partygoer));
         item("sparkstrength:party_balloon", NOELLES_STRENGTH,
                 scene("noellesroles/party_cabins", PartyAnimalScenes::balloon));
     }
@@ -625,7 +620,10 @@ final class PartyAnimalScenes {
         }
 
         /**
-         * Set PartygoerEntity.STATE as the brain does, so the model poses for it. 像大脑那样设置 STATE，让模型摆出对应姿势。
+         * Set PartygoerEntity.STATE as the brain does, so the model poses for it. The modules are fused in SparkDLC,
+         * but STATE is private to SparkStrength's PartygoerEntity, so it is still looked up by name.
+         * 像大脑那样设置 STATE，让模型摆出对应姿势。各模块已融合进 SparkDLC，但 STATE 是 SparkStrength 的 PartygoerEntity 的
+         * 私有字段，所以仍按名字查找。
          */
         @SuppressWarnings("unchecked")
         private static void setState(Entity goer, byte wire) {

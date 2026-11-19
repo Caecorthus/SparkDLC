@@ -52,12 +52,12 @@ final class WatheShopScenes {
         // (SparkStrengthKillerItemScenes::circuitBreaker).
         // 没有 wathe:blackout 的演示：SparkStrength 已把停电器从所有商店下架（SabotageShopFilter），关灯改由杀手的平板发动；
         // 灯光破坏见 sparkstrength:circuit_breaker 演示（SparkStrengthKillerItemScenes::circuitBreaker）。
-        // With SparkStrength a NoellesRoles Serial Killer's psycho mode hands out twin pistols instead of the bat; that
-        // scene is appended only when both mods are loaded, so plain Wathe keeps the bat demo alone.
-        // 装了 SparkStrength 时，NoellesRoles 连环杀手的疯魔模式改发两把手枪而不是球棒；仅在两个模组都加载时追加该场景，
-        // 纯 Wathe 下仍只有球棒演示。
-        if (FabricLoader.getInstance().isModLoaded("noellesroles")
-                && FabricLoader.getInstance().isModLoaded("sparkstrength")) {
+        // With SparkStrength a NoellesRoles Serial Killer's psycho mode hands out twin pistols instead of the bat.
+        // SparkStrength is fused into SparkDLC and always present, so that scene is appended whenever NoellesRoles
+        // is loaded (it used to need both mods); without NoellesRoles the bat demo stays alone.
+        // 装了 SparkStrength 时，NoellesRoles 连环杀手的疯魔模式改发两把手枪而不是球棒。SparkStrength 已融合进 SparkDLC、
+        // 始终存在，因此只要加载了 NoellesRoles 就追加该场景（原先需要两个模组都加载）；没有 NoellesRoles 时仍只有球棒演示。
+        if (FabricLoader.getInstance().isModLoaded("noellesroles")) {
             item("wathe:psycho_mode", scene("wathe/aisle", WatheShopScenes::psychoMode),
                     scene("wathe/aisle", SparkStrengthKillerItemScenes::serialPistols));
         } else {

@@ -1,41 +1,29 @@
 package dev.caecorthus.sparkdlc.assist.client.achievement;
 
 import dev.caecorthus.sparkdlc.assist.achievement.Factions;
+import dev.caecorthus.sparkdlc.factionapi.api.SparkFactionApi;
+import dev.caecorthus.sparkdlc.factionapi.component.SparkFactionRoundEndComponent;
 import dev.doctor4t.wathe.api.Faction;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.Identifier;
-import org.ladysnake.cca.api.v3.component.ComponentKey;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
- * Reads factions from SparkFactionAPI's public API when it is installed, so witch and other custom factions are
- * named correctly; without it, falls back to Wathe's own faction of the role, named by {@link Factions#fromWatheName}
- * ({@code wathe:civilian}, and {@code sparkwitch:witch} / {@code sparkwitch:jiahao} for the native custom constants
- * SparkFactionAPI appends to Wathe's enum). A failing call falls back for that call only and never switches the API
- * off for the session.
- * 安装了 SparkFactionAPI 时通过其公开 API 读取阵营，使魔女等自定义阵营得到正确的 id；未安装时回退到 Wathe 给该身份的
+ * Reads factions from SparkFactionAPI's public API, so witch and other custom factions are named correctly. The
+ * modules are fused in SparkDLC, so these are direct calls (they used to be reflective and fell back per call when
+ * SparkFactionAPI was absent or a call failed). When the API has no faction for a player or role, falls back to
+ * Wathe's own faction of the role, named by {@link Factions#fromWatheName} ({@code wathe:civilian}, and
+ * {@code sparkwitch:witch} / {@code sparkwitch:jiahao} for the native custom constants SparkFactionAPI appends to
+ * Wathe's enum).
+ * 通过 SparkFactionAPI 的公开 API 读取阵营，使魔女等自定义阵营得到正确的 id。各模块已融合进 SparkDLC，因此这里是直接调用
+ * （原先是反射调用，SparkFactionAPI 不在或单次调用失败时按次回退）。API 对某个玩家或身份没有阵营时，回退到 Wathe 给该身份的
  * 阵营，由 {@link Factions#fromWatheName} 命名（{@code wathe:civilian} 等；SparkFactionAPI 追加到 Wathe 枚举的原生自定义
- * 常量为 {@code sparkwitch:witch} / {@code sparkwitch:jiahao}）。单次调用失败只让这一次回退，不会在本次会话中关闭该 API。
+ * 常量为 {@code sparkwitch:witch} / {@code sparkwitch:jiahao}）。
  */
 final class SparkFactionAchievementBridge {
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkAssist/Achievements");
-    private static final PerCallFallback CALLS = new PerCallFallback(LOGGER);
-    private static boolean resolved;
-    private static boolean available;
-    private static Method resolveEffectiveFaction;
-    // Optional: older SparkFactionAPI builds may lack it. 可选：旧版 SparkFactionAPI 可能没有。
-    private static Method resolveBaseFaction;
-    private static ComponentKey<?> roundEndKey;
-    private static Method winningFaction;
-
     private SparkFactionAchievementBridge() {
     }
 
@@ -44,23 +32,16 @@ final class SparkFactionAchievementBridge {
         if (role == null) {
             return null;
         }
-        resolve();
-        if (available) {
-            String id = CALLS.call("faction lookup",
-                    () -> idOrNull(resolveEffectiveFaction.invoke(null, player, game)));
-            if (id != null) {
-                return id;
-            }
-        }
-        return watheFaction(role);
+        String id = idOrNull(SparkFactionApi.resolveEffectiveFaction(player, game));
+        return id != null ? id : watheFaction(role);
     }
 
     /**
      * The base faction of a role id (no player context, so no trait flips), or null when this client does not know
-     * the role. SparkFactionAPI names custom factions such as {@code sparkwitch:witch}; without it, Wathe's base
-     * factions are used.
+     * the role. SparkFactionAPI names custom factions such as {@code sparkwitch:witch}; a role it has no faction for
+     * uses Wathe's base faction.
      * 身份 id 的基础阵营（没有玩家上下文，因此不含词条翻转）；本客户端不认识该身份时为 null。
-     * SparkFactionAPI 能给出 {@code sparkwitch:witch} 等自定义阵营；没有它时使用 Wathe 的基础阵营。
+     * SparkFactionAPI 能给出 {@code sparkwitch:witch} 等自定义阵营；它没有给出阵营的身份使用 Wathe 的基础阵营。
      */
     static String baseFaction(String roleId) {
         Identifier id = roleId == null ? null : Identifier.tryParse(roleId);
@@ -68,30 +49,18 @@ final class SparkFactionAchievementBridge {
         if (role == null) {
             return null;
         }
-        resolve();
-        if (available && resolveBaseFaction != null) {
-            String factionId = CALLS.call("base faction lookup", () -> idOrNull(resolveBaseFaction.invoke(null, role)));
-            if (factionId != null) {
-                return factionId;
-            }
-        }
-        return watheFaction(role);
+        String factionId = idOrNull(SparkFactionApi.resolveBaseFaction(role));
+        return factionId != null ? factionId : watheFaction(role);
     }
 
     /**
      * The custom winning faction SparkFactionAPI recorded for the last round, or null when the round ended with a
-     * plain Wathe win (or the mod is absent).
-     * SparkFactionAPI 记录的上一局自定义获胜阵营；普通 Wathe 胜利（或未安装该模组）时为 null。
+     * plain Wathe win.
+     * SparkFactionAPI 记录的上一局自定义获胜阵营；普通 Wathe 胜利时为 null。
      */
     static String customWinningFaction(Scoreboard scoreboard) {
-        resolve();
-        if (!available) {
-            return null;
-        }
-        return CALLS.call("round-end lookup", () -> {
-            Object component = roundEndKey.getNullable(scoreboard);
-            return component == null ? null : idOrNull(winningFaction.invoke(component));
-        });
+        SparkFactionRoundEndComponent component = SparkFactionRoundEndComponent.KEY.getNullable(scoreboard);
+        return component == null ? null : idOrNull(component.getWinningFaction());
     }
 
     /**
@@ -103,33 +72,7 @@ final class SparkFactionAchievementBridge {
         return Factions.fromWatheName(Faction.fromRole(role).name());
     }
 
-    private static String idOrNull(Object faction) {
-        return faction instanceof Identifier id ? id.toString() : null;
-    }
-
-    private static synchronized void resolve() {
-        if (resolved) {
-            return;
-        }
-        resolved = true;
-        if (!FabricLoader.getInstance().isModLoaded("sparkfactionapi")) {
-            return;
-        }
-        try {
-            Class<?> api = Class.forName("dev.caecorthus.sparkdlc.factionapi.api.SparkFactionApi");
-            resolveEffectiveFaction = api.getMethod("resolveEffectiveFaction", PlayerEntity.class, GameWorldComponent.class);
-            try {
-                resolveBaseFaction = api.getMethod("resolveBaseFaction", Role.class);
-            } catch (NoSuchMethodException missing) {
-                resolveBaseFaction = null;
-            }
-            Class<?> roundEnd = Class.forName("dev.caecorthus.sparkdlc.factionapi.component.SparkFactionRoundEndComponent");
-            Field key = roundEnd.getField("KEY");
-            roundEndKey = (ComponentKey<?>) key.get(null);
-            winningFaction = roundEnd.getMethod("getWinningFaction");
-            available = true;
-        } catch (ReflectiveOperationException | ClassCastException exception) {
-            LOGGER.warn("SparkFactionAPI is installed but its faction API is unavailable", exception);
-        }
+    private static String idOrNull(Identifier faction) {
+        return faction == null ? null : faction.toString();
     }
 }

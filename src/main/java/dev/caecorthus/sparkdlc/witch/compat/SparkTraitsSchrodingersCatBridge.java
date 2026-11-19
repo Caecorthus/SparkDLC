@@ -5,6 +5,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 
@@ -28,6 +29,14 @@ public final class SparkTraitsSchrodingersCatBridge {
         if (player == null) {
             return;
         }
-        SparkTraitsApi.replaceTraitsIneligibleForCurrentRole(player, visitor);
+        // As through the former reflective wrapper: the provider always gets a non-null visitor (so a null one still
+        // lets the traits be revalidated), and the caller's visitor receives its own mutable copies of the name lists.
+        // 与原先的反射包装一致：提供方总是拿到非空回调（回调为空时仍会重新校验词条），调用方的回调收到的是名称列表的
+        // 可变副本。
+        SparkTraitsApi.replaceTraitsIneligibleForCurrentRole(player, (lost, gained) -> {
+            if (visitor != null) {
+                visitor.accept(new ArrayList<>(lost), new ArrayList<>(gained));
+            }
+        });
     }
 }

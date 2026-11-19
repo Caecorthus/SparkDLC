@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.judge;
 
-import dev.caecorthus.sparkdlc.witch.mixin.JudgeProjectileOwnerAccessor;
+import dev.caecorthus.sparkdlc.mixin.role.civilian.judge.JudgeProjectileOwnerAccessor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageTypes;

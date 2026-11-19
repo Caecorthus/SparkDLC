@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.item.m1903a4;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
-import dev.caecorthus.sparkdlc.witch.mixin.accessor.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.witch.mixin.accessor.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.server.network.ServerPlayerEntity;

@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bodyguard;
 
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.strength.mixin.minecraft.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.strength.mixin.minecraft.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.role.civilian.bodyguard.BodyguardRules;
 import dev.caecorthus.sparkdlc.role.civilian.bodyguard.BodyguardVestService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker.remote;
 
-import dev.caecorthus.sparkdlc.witch.mixin.seeker.SeekerTrapdoorBlockAccessor;
+import dev.caecorthus.sparkdlc.mixin.role.civilian.seeker.SeekerTrapdoorBlockAccessor;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
 import dev.doctor4t.wathe.api.event.DoorInteraction;
 import dev.doctor4t.wathe.block.SmallDoorBlock;

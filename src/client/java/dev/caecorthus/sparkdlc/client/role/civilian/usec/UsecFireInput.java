@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.usec;
 
 import dev.caecorthus.sparkdlc.client.input.MacControlClickRules;
-import dev.caecorthus.sparkdlc.witch.client.mixin.input.SelectedSlotFlushInvoker;
+import dev.caecorthus.sparkdlc.client.mixin.input.SelectedSlotFlushInvoker;
 import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecRifleState;
 import dev.caecorthus.sparkdlc.role.civilian.usec.net.FireUsecRifleC2SPacket;

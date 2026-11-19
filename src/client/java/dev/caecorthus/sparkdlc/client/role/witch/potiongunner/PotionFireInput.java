@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.witch.potiongunner;
 
 import dev.caecorthus.sparkdlc.client.input.MacControlClickRules;
-import dev.caecorthus.sparkdlc.witch.client.mixin.input.SelectedSlotFlushInvoker;
+import dev.caecorthus.sparkdlc.client.mixin.input.SelectedSlotFlushInvoker;
 import dev.caecorthus.sparkdlc.net.FirePotionLauncherC2SPacket;
 import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;

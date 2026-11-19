@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.util;
 
-import dev.caecorthus.sparkdlc.strength.mixin.minecraft.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.strength.mixin.minecraft.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownManagerAccessor;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.item.Item;
 import net.minecraft.network.packet.s2c.play.CooldownUpdateS2CPacket;

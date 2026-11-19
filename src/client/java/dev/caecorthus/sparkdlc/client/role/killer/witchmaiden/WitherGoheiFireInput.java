@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.killer.witchmaiden;
 
 import dev.caecorthus.sparkdlc.client.input.MacControlClickRules;
-import dev.caecorthus.sparkdlc.witch.client.mixin.input.SelectedSlotFlushInvoker;
+import dev.caecorthus.sparkdlc.client.mixin.input.SelectedSlotFlushInvoker;
 import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
 import dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither.WitherGoheiInventoryRules;
 import dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither.net.FireCrimsonSkullC2SPayload;

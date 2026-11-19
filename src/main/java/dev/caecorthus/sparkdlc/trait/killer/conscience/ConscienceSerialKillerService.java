@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.trait.killer.conscience;
 
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
-import dev.caecorthus.sparkdlc.traits.mixin.SerialKillerPlayerComponentAccessor;
+import dev.caecorthus.sparkdlc.mixin.trait.SerialKillerPlayerComponentAccessor;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.cca.GameWorldComponent;

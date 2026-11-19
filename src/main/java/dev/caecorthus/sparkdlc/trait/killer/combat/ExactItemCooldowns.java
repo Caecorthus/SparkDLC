@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.trait.killer.combat;
 
-import dev.caecorthus.sparkdlc.traits.mixin.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.traits.mixin.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.trait.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.trait.ItemCooldownManagerAccessor;
 import dev.doctor4t.wathe.index.WatheItems;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.entity.player.PlayerEntity;

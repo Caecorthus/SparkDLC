@@ -6,7 +6,7 @@ import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.replay.SparkTraitsReplayEvents;
 import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
 import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
-import dev.caecorthus.sparkdlc.traits.mixin.GameWorldComponentAccessor;
+import dev.caecorthus.sparkdlc.mixin.trait.GameWorldComponentAccessor;
 import dev.caecorthus.sparkdlc.round.settlement.SettlementExclusions;
 import dev.doctor4t.wathe.api.Faction;
 import dev.doctor4t.wathe.api.Role;

@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.role.killer.bomber.drone;
 
 import dev.caecorthus.sparkdlc.entity.DroneEntity;
 import dev.caecorthus.sparkdlc.item.DroneItem;
-import dev.caecorthus.sparkdlc.strength.mixin.minecraft.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.strength.mixin.minecraft.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.tablet.net.TabletSnapshot;
 import dev.caecorthus.sparkdlc.tablet.TabletRules;
 import net.minecraft.entity.player.ItemCooldownManager;

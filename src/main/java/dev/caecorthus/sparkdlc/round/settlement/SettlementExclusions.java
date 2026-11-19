@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.round.settlement;
 
 import dev.caecorthus.sparkdlc.SparkFactionApiMod;
-import dev.caecorthus.sparkdlc.factionapi.mixin.settlement.GameWorldComponentWorldAccessor;
+import dev.caecorthus.sparkdlc.mixin.round.settlement.GameWorldComponentWorldAccessor;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.player.PlayerEntity;

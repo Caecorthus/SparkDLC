@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.killer.assassin;
 
-import dev.caecorthus.sparkdlc.strength.client.mixin.assassin.AssassinScreenInvoker;
-import dev.caecorthus.sparkdlc.strength.client.mixin.assassin.ScreenInitInvoker;
+import dev.caecorthus.sparkdlc.client.mixin.role.killer.assassin.AssassinScreenInvoker;
+import dev.caecorthus.sparkdlc.client.mixin.role.killer.assassin.ScreenInitInvoker;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
 import dev.doctor4t.wathe.cca.GameWorldComponent;

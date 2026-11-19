@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.global;
 
-import dev.caecorthus.sparkdlc.traits.mixin.GameWorldComponentAccessor;
+import dev.caecorthus.sparkdlc.mixin.trait.GameWorldComponentAccessor;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.player.PlayerEntity;
 

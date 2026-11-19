@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.client.role.killer.hunter;
 
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeTargetOcclusion;
-import dev.caecorthus.sparkdlc.witch.mixin.accessor.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.witch.mixin.accessor.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.role.killer.hunter.DoubleBarrelShotgunItem;
 import dev.caecorthus.sparkdlc.role.killer.hunter.HunterRules;
 import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPlaybackEntity;

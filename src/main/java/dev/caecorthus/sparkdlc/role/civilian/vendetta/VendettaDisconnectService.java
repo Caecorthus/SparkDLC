@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.vendetta;
 
-import dev.caecorthus.sparkdlc.witch.mixin.PlayerManagerVendettaAccessor;
+import dev.caecorthus.sparkdlc.mixin.role.civilian.vendetta.PlayerManagerVendettaAccessor;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameConstants;
 import dev.doctor4t.wathe.game.GameFunctions;

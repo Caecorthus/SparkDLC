@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.trait.render;
 
-import dev.caecorthus.sparkdlc.traits.client.mixin.ArmorFeatureRendererInvoker;
+import dev.caecorthus.sparkdlc.client.mixin.trait.ArmorFeatureRendererInvoker;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.network.AbstractClientPlayerEntity;

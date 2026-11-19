@@ -15,7 +15,7 @@ import dev.doctor4t.wathe.game.GameFunctions;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import dev.caecorthus.sparkdlc.traits.mixin.LastEscapePlayerManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.trait.LastEscapePlayerManagerAccessor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;

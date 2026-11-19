@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.role.civilian.emma;
 
 import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsGunBridge;
-import dev.caecorthus.sparkdlc.witch.mixin.accessor.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.witch.mixin.accessor.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.item.Item;
 import net.minecraft.server.network.ServerPlayerEntity;

@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.spiritualist;
 import dev.caecorthus.sparkdlc.SparkStrength;
 import dev.caecorthus.sparkdlc.client.bridge.strength.SparkWitchSecondaryKeyCompat;
 import dev.caecorthus.sparkdlc.client.bridge.strength.SparkWitchWraithViewerCompat;
-import dev.caecorthus.sparkdlc.strength.client.mixin.spiritualist.SpiritPossessionCameraAccessor;
+import dev.caecorthus.sparkdlc.client.mixin.role.civilian.spiritualist.SpiritPossessionCameraAccessor;
 import dev.caecorthus.sparkdlc.client.viewpoint.BodySettleHold;
 import dev.caecorthus.sparkdlc.bridge.strength.SparkWitchCompat;
 import dev.caecorthus.sparkdlc.role.civilian.spiritualist.SpiritPossessionPlayerComponent;

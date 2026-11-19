@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.faction.blackout;
 
-import dev.caecorthus.sparkdlc.factionapi.mixin.PlayerShopComponentMixin;
+import dev.caecorthus.sparkdlc.mixin.faction.PlayerShopComponentMixin;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerShopComponent;
 import dev.doctor4t.wathe.game.GameConstants;

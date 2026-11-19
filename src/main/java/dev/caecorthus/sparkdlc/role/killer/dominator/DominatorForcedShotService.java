@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.role.killer.dominator;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.witch.mixin.accessor.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.witch.mixin.accessor.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerShopComponent;

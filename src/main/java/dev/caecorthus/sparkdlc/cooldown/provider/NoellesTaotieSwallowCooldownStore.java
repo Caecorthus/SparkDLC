@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.cooldown.provider;
 
 import dev.caecorthus.sparkdlc.cooldown.api.RoleSkillCooldownStore;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesRoleIds;
-import dev.caecorthus.sparkdlc.witch.mixin.NoellesTaotieForcedCooldownAccessor;
+import dev.caecorthus.sparkdlc.mixin.faction.witch.NoellesTaotieForcedCooldownAccessor;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import org.agmas.noellesroles.taotie.TaotiePlayerComponent;

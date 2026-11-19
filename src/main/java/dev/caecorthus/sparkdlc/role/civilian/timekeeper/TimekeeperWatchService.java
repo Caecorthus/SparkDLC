@@ -15,7 +15,7 @@ import dev.caecorthus.sparkdlc.role.civilian.spiritualist.SpiritPossessionPlayer
 import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.timekeeper.TimekeeperWatchComponent;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
-import dev.caecorthus.sparkdlc.strength.mixin.minecraft.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownManagerAccessor;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.KillPlayer;
 import dev.doctor4t.wathe.cca.GameWorldComponent;

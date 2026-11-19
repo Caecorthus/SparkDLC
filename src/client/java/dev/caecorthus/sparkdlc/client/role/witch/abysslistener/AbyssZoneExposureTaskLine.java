@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.witch.abysslistener;
 
-import dev.caecorthus.sparkdlc.witch.client.mixin.abysslistener.MoodRendererTaskRowAbyssAccessor;
+import dev.caecorthus.sparkdlc.client.mixin.role.witch.abysslistener.MoodRendererTaskRowAbyssAccessor;
 import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
 import dev.caecorthus.sparkdlc.role.witch.abysslistener.zone.DeepDarkZoneStandingDrain;
 import dev.doctor4t.wathe.client.gui.MoodRenderer;

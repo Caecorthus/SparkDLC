@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.scope;
 
-import dev.caecorthus.sparkdlc.witch.client.mixin.scope.ScopeGameRendererInvoker;
+import dev.caecorthus.sparkdlc.client.mixin.scope.ScopeGameRendererInvoker;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;

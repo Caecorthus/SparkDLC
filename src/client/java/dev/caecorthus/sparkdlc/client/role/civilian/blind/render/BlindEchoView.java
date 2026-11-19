@@ -7,7 +7,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.client.role.civilian.blind.BlindPerceptionClientState;
 import dev.caecorthus.sparkdlc.client.role.civilian.blind.BlindView;
-import dev.caecorthus.sparkdlc.witch.client.mixin.PostEffectProcessorAccessor;
+import dev.caecorthus.sparkdlc.client.mixin.faction.witch.PostEffectProcessorAccessor;
 import dev.caecorthus.sparkdlc.client.render.WraithClientState;
 import dev.caecorthus.sparkdlc.client.render.entity.SecondaryWorldPass;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;

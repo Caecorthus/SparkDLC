@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.usec;
 
-import dev.caecorthus.sparkdlc.witch.client.mixin.usec.UsecCreativeSlotAccessor;
+import dev.caecorthus.sparkdlc.client.mixin.role.civilian.usec.UsecCreativeSlotAccessor;
 import dev.caecorthus.sparkdlc.client.role.civilian.usec.UsecAttachmentModel.SlotRef;
 import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecAttachmentCursorLoading;

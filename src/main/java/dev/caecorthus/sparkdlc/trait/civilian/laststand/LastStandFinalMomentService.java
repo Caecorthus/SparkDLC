@@ -9,7 +9,7 @@ import dev.caecorthus.sparkdlc.trait.replay.SparkTraitsReplayEvents;
 import dev.caecorthus.sparkdlc.SparkTraitsSounds;
 import dev.caecorthus.sparkdlc.trait.civilian.impostor.ImpostorTrait;
 import dev.caecorthus.sparkdlc.trait.killer.conscience.ConscienceTrait;
-import dev.caecorthus.sparkdlc.traits.mixin.RoleHistoryComponentAccessor;
+import dev.caecorthus.sparkdlc.mixin.trait.RoleHistoryComponentAccessor;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.faction.api.FactionDefinition;
 import dev.caecorthus.sparkdlc.faction.api.FactionIds;

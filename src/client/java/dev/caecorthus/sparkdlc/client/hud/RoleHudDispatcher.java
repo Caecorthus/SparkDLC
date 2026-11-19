@@ -36,7 +36,7 @@ import net.minecraft.util.Identifier;
 
 /**
  * The role HUD panels behind the two {@code InGameHud} TAIL seams, as two hard-coded ordered layer lists. The order is
- * the former per-role mixins' order in {@code sparkwitch.client.mixins.json}: they shared one config and priority 1000,
+ * the former per-role mixins' order in {@code sparkdlc.client.mixins.json}: they shared one config and priority 1000,
  * so Mixin applied, and therefore ran, their TAIL injects in declaration order. Each layer keeps its former mixin's gate
  * verbatim and reads the player itself; there is no shared preamble, so layers that never checked the confirmed server
  * (Vendetta, Kidnapper, Magician) still do not. No layer is wrapped: a throwing layer aborts the rest of the frame, as
@@ -44,7 +44,7 @@ import net.minecraft.util.Identifier;
  * returns on vanilla {@code options.hudHidden} itself, like the {@code HudRenderCallback} corner lines; only the
  * Kidnapper control screen keeps drawing, because its black fill is the drug's blindness, not HUD text.
  * 两个 {@code InGameHud} TAIL 接口背后的职业 HUD 面板，以两份写死的有序层列表组织。顺序即原各职业 mixin 在
- * {@code sparkwitch.client.mixins.json} 中的声明顺序：它们同属一个配置且优先级均为 1000，Mixin 按声明顺序应用并执行
+ * {@code sparkdlc.client.mixins.json} 中的声明顺序：它们同属一个配置且优先级均为 1000，Mixin 按声明顺序应用并执行
  * 这些 TAIL 注入。每层逐字保留原 mixin 的门槛并自行读取玩家；没有共享前置判定，因此原本不检查已确认服务器的层
  * （仇杀客、绑匪、魔术师）仍不检查。各层不做异常包裹：某层抛出异常时与原注入一样中止本帧其余绘制。
  * {@code InGameHud.render} TAIL 在 F1 下仍会执行，因此 {@link #renderTail} 的每个文字层都自行在原版

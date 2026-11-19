@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
  * Keeps Entity Texture Features' skin extras off demo actors. ETF draws a player's extra skin features (a villager or
  * textured nose, the coat, emissive and enchanted skin parts) from a note it keeps on each player renderer, "the skin
  * features of the player being drawn", which it refreshes from inside the renderer's getTexture. Actors answer
- * getTexture themselves ({@link dev.caecorthus.sparkdlc.assist.client.mixin.ActorTextureMixin}), so for an actor the note
+ * getTexture themselves ({@link dev.caecorthus.sparkdlc.client.mixin.ponder.ActorTextureMixin}), so for an actor the note
  * would still describe the last real player drawn, and the actor would wear that player's nose and coat. An actor has
  * no skin features: the note is blanked whenever an actor answers, and the next real player writes it again. Reached
  * by reflection, so nothing changes without ETF.

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.compat.noellesroles;
 
-import dev.caecorthus.sparkdlc.witch.mixin.seeker.SeekerTaotieCooldownAccessor;
+import dev.caecorthus.sparkdlc.mixin.role.civilian.seeker.SeekerTaotieCooldownAccessor;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.taotie.SeekerTaotieRules;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;

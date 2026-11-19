@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.jiahao.corruptcop;
 
-import dev.caecorthus.sparkdlc.strength.client.mixin.corruptcop.SoundManagerAccessor;
-import dev.caecorthus.sparkdlc.strength.client.mixin.corruptcop.SoundSystemAccessor;
+import dev.caecorthus.sparkdlc.client.mixin.role.jiahao.corruptcop.SoundManagerAccessor;
+import dev.caecorthus.sparkdlc.client.mixin.role.jiahao.corruptcop.SoundSystemAccessor;
 import net.minecraft.client.sound.Channel;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.client.sound.SoundManager;

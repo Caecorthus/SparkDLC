@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.cooldown.api.CooldownKind;
 import dev.caecorthus.sparkdlc.cooldown.api.CooldownSlot;
 import dev.caecorthus.sparkdlc.cooldown.api.ItemCooldownNominalProvider;
 import dev.caecorthus.sparkdlc.cooldown.api.RoleSkillCooldownStore;
-import dev.caecorthus.sparkdlc.factionapi.mixin.cooldown.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
 import dev.doctor4t.wathe.game.GameConstants;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.entity.player.PlayerInventory;

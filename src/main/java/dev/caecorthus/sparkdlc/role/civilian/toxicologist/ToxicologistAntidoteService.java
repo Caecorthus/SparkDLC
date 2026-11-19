@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.role.civilian.toxicologist;
 
 import dev.caecorthus.sparkdlc.role.civilian.toxicologist.ToxicologistAntidoteComponent;
-import dev.caecorthus.sparkdlc.strength.mixin.minecraft.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.strength.mixin.minecraft.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.role.PoisonOnset;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.util.SparkPlayers;

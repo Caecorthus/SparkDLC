@@ -5,8 +5,8 @@ import dev.caecorthus.sparkdlc.role.killer.morphling.MorphBodyDisguiseWorldCompo
 import dev.caecorthus.sparkdlc.role.neutral.pathogen.PathogenStrainComponent;
 import dev.caecorthus.sparkdlc.role.neutral.pathogen.VirusCarrierComponent;
 import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsReviveCompat;
-import dev.caecorthus.sparkdlc.strength.mixin.noellesroles.HiddenBodiesWorldComponentAccessor;
-import dev.caecorthus.sparkdlc.strength.mixin.wathe.GameWorldComponentDeadPlayersAccessor;
+import dev.caecorthus.sparkdlc.mixin.compat.noellesroles.HiddenBodiesWorldComponentAccessor;
+import dev.caecorthus.sparkdlc.mixin.wathe.GameWorldComponentDeadPlayersAccessor;
 import dev.caecorthus.sparkdlc.util.SparkPlayers;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.RoleAssigned;

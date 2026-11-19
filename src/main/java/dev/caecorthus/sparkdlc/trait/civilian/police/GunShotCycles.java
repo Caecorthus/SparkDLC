@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.trait.civilian.police;
 
 import dev.caecorthus.sparkdlc.SparkTraits;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi.GunShotCycleListener;
-import dev.caecorthus.sparkdlc.traits.mixin.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.traits.mixin.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.trait.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.trait.ItemCooldownManagerAccessor;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import java.util.ArrayList;
 import java.util.HashSet;

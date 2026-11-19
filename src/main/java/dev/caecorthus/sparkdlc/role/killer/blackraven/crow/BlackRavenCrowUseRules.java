@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven.crow;
 
-import dev.caecorthus.sparkdlc.witch.mixin.seeker.SeekerTrapdoorBlockAccessor;
+import dev.caecorthus.sparkdlc.mixin.role.civilian.seeker.SeekerTrapdoorBlockAccessor;
 import dev.doctor4t.wathe.api.event.DoorInteraction;
 import dev.doctor4t.wathe.block.SmallDoorBlock;
 import dev.doctor4t.wathe.block.TrainDoorBlock;

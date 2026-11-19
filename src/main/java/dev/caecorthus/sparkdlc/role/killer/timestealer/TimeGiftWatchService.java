@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.role.killer.timestealer;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
-import dev.caecorthus.sparkdlc.witch.mixin.accessor.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.witch.mixin.accessor.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

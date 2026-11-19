@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.planner;
 
-import dev.caecorthus.sparkdlc.witch.mixin.PlayerMoodComponentAccessor;
+import dev.caecorthus.sparkdlc.mixin.faction.witch.PlayerMoodComponentAccessor;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import dev.doctor4t.wathe.game.GameFunctions;

@@ -12,13 +12,13 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Plugin of {@code sparkfactionapi.client.mixins.json}. Every client mixin applies as configured; the only extra
+ * Plugin of {@code sparkdlc.client.mixins.json}. Every client mixin applies as configured; the only extra
  * behavior is for the anchor {@code NoellesScavengerBodyHideNeutralPerkMixin}: it is skipped without NoellesRoles, and
  * after all mixins were applied to Wathe's {@code PlayerBodyEntityRenderer} its {@code postApply} rewrites
  * NoellesRoles' merged Scavenger body-hide handler ({@link NoellesScavengerBodyHideRewrite}). Mixin classes are named
  * by string here because loading one directly is illegal; this class lives outside the mixin package for the same
  * reason.
- * {@code sparkfactionapi.client.mixins.json} 的插件。所有客户端 mixin 照常应用；唯一的额外行为针对锚点
+ * {@code sparkdlc.client.mixins.json} 的插件。所有客户端 mixin 照常应用；唯一的额外行为针对锚点
  * {@code NoellesScavengerBodyHideNeutralPerkMixin}：未安装 NoellesRoles 时跳过它；在 Wathe {@code PlayerBodyEntityRenderer}
  * 应用完所有 mixin 之后，于其 {@code postApply} 改写 NoellesRoles 合并后的清道夫尸体隐藏处理器
  * （{@link NoellesScavengerBodyHideRewrite}）。这里以字符串指代 mixin 类，因为直接加载 mixin 类是非法的；
@@ -26,7 +26,7 @@ import java.util.Set;
  */
 public final class SparkFactionClientMixinPlugin implements IMixinConfigPlugin {
     public static final String SCAVENGER_BODY_HIDE_ANCHOR =
-            "dev.caecorthus.sparkdlc.factionapi.client.mixin.compat.noellesroles.NoellesScavengerBodyHideNeutralPerkMixin";
+            "dev.caecorthus.sparkdlc.client.mixin.compat.noellesroles.NoellesScavengerBodyHideNeutralPerkMixin";
     private static final String NOELLES_ROLES = "noellesroles";
     private static final Logger LOGGER = LoggerFactory.getLogger("SparkFactionAPI/ClientMixinPlugin");
 

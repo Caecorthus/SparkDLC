@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker.remote;
 
-import dev.caecorthus.sparkdlc.witch.mixin.seeker.SeekerFenceGateBlockAccessor;
-import dev.caecorthus.sparkdlc.witch.mixin.seeker.SeekerTrapdoorBlockAccessor;
+import dev.caecorthus.sparkdlc.mixin.role.civilian.seeker.SeekerFenceGateBlockAccessor;
+import dev.caecorthus.sparkdlc.mixin.role.civilian.seeker.SeekerTrapdoorBlockAccessor;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerCarState;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerSessionMode;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerStatusComponent;

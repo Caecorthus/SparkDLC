@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.killer.hunter;
 
-import dev.caecorthus.sparkdlc.witch.client.mixin.hunter.DoubleBarrelSourceAccessor;
+import dev.caecorthus.sparkdlc.client.mixin.role.killer.hunter.DoubleBarrelSourceAccessor;
 import dev.caecorthus.sparkdlc.role.killer.hunter.HunterRules;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.client.sound.Source;

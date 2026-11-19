@@ -177,28 +177,9 @@
     }
   },
   "mixins": [
+    "sparkdlc.mixins.json",
     {
-      "config": "sparkassist.client.mixins.json",
-      "environment": "client"
-    },
-    "sparkfactionapi.mixins.json",
-    {
-      "config": "sparkfactionapi.client.mixins.json",
-      "environment": "client"
-    },
-    "sparkstrength.mixins.json",
-    {
-      "config": "sparkstrength.client.mixins.json",
-      "environment": "client"
-    },
-    "sparktraits.mixins.json",
-    {
-      "config": "sparktraits.client.mixins.json",
-      "environment": "client"
-    },
-    "sparkwitch.mixins.json",
-    {
-      "config": "sparkwitch.client.mixins.json",
+      "config": "sparkdlc.client.mixins.json",
       "environment": "client"
     }
   ],

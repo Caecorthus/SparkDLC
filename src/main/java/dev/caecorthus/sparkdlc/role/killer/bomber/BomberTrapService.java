@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.bomber;
 
 import dev.caecorthus.sparkdlc.SparkStrength;
-import dev.caecorthus.sparkdlc.strength.mixin.bomber.BomberPlayerComponentAccessor;
+import dev.caecorthus.sparkdlc.mixin.role.killer.bomber.BomberPlayerComponentAccessor;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;

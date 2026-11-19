@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.client.role.neutral.vulture;
 
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
 import dev.caecorthus.sparkdlc.role.neutral.vulture.SkateboardRideComponent;
-import dev.caecorthus.sparkdlc.strength.mixin.minecraft.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.strength.mixin.minecraft.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.role.neutral.vulture.VultureSkateboardRules;
 import dev.caecorthus.sparkdlc.util.ItemCooldownSyncRules;
 import net.minecraft.client.network.ClientPlayerEntity;

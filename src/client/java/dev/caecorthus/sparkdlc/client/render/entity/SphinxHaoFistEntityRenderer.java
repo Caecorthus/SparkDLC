@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.render.entity;
 
 import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.witch.client.mixin.scope.ScopeGameRendererInvoker;
+import dev.caecorthus.sparkdlc.client.mixin.scope.ScopeGameRendererInvoker;
 import dev.caecorthus.sparkdlc.entity.SphinxHaoFistEntity;
 import dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.SphinxHaoRules;
 import net.minecraft.client.MinecraftClient;

@@ -2,13 +2,13 @@ package dev.caecorthus.sparkdlc.client.item;
 
 import dev.caecorthus.sparkdlc.SparkStrengthEntities;
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.strength.client.mixin.m67.M67KeyBindingAccessor;
+import dev.caecorthus.sparkdlc.client.mixin.item.m67.M67KeyBindingAccessor;
 import dev.caecorthus.sparkdlc.entity.M67GrenadeEntity;
 import dev.caecorthus.sparkdlc.item.m67.M67Rules;
 import dev.caecorthus.sparkdlc.item.m67.M67CancelPayload;
 import dev.caecorthus.sparkdlc.item.m67.M67SoundPayload;
-import dev.caecorthus.sparkdlc.strength.mixin.minecraft.ItemCooldownManagerAccessor;
-import dev.caecorthus.sparkdlc.strength.mixin.minecraft.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownEntryAccessor;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;

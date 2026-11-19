@@ -6,7 +6,7 @@ import dev.caecorthus.sparkdlc.block.CircuitBreakerBlock;
 import dev.caecorthus.sparkdlc.block.JunctionBoxBlock;
 import dev.caecorthus.sparkdlc.sabotage.SabotageWorldComponent;
 import dev.caecorthus.sparkdlc.tablet.TabletWorldComponent;
-import dev.caecorthus.sparkdlc.strength.mixin.sabotage.GameWorldComponentResetAccessor;
+import dev.caecorthus.sparkdlc.mixin.sabotage.GameWorldComponentResetAccessor;
 import dev.caecorthus.sparkdlc.sabotage.net.SabotageStatusS2CPacket;
 import dev.caecorthus.sparkdlc.tablet.TabletAccess;
 import dev.caecorthus.sparkdlc.tablet.TabletStateService;

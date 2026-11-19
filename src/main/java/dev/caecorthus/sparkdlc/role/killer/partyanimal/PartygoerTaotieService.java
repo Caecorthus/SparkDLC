@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsDroneCompat;
 import dev.caecorthus.sparkdlc.bridge.strength.SparkWitchCompat;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
-import dev.caecorthus.sparkdlc.strength.mixin.partyanimal.PartygoerTaotieCooldownAccessor;
+import dev.caecorthus.sparkdlc.mixin.role.killer.partyanimal.PartygoerTaotieCooldownAccessor;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerSwallowC2SPacket;
 import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
 import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadDaze;

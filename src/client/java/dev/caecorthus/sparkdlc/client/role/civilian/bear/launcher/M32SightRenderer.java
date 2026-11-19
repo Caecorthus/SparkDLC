@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.bear.launcher;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.witch.client.mixin.scope.ScopeGameRendererInvoker;
+import dev.caecorthus.sparkdlc.client.mixin.scope.ScopeGameRendererInvoker;
 import dev.caecorthus.sparkdlc.role.civilian.bear.launcher.M32Ballistics;
 import net.fabricmc.fabric.api.client.model.loading.v1.FabricBakedModelManager;
 import net.minecraft.client.MinecraftClient;

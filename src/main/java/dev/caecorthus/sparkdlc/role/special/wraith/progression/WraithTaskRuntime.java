@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.special.wraith.progression;
 
-import dev.caecorthus.sparkdlc.witch.mixin.PlayerMoodComponentAccessor;
+import dev.caecorthus.sparkdlc.mixin.faction.witch.PlayerMoodComponentAccessor;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.doctor4t.wathe.api.event.TaskComplete;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;

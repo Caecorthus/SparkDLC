@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.neutral.stowaway;
 
-import dev.caecorthus.sparkdlc.witch.client.mixin.stowaway.StowawayInGameHudOverlayAccessor;
+import dev.caecorthus.sparkdlc.client.mixin.role.neutral.stowaway.StowawayInGameHudOverlayAccessor;
 import dev.caecorthus.sparkdlc.role.neutral.stowaway.StowawayRules;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
 import dev.doctor4t.wathe.cca.GameWorldComponent;

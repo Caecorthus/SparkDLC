@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.role.civilian.seeker.device;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
-import dev.caecorthus.sparkdlc.witch.mixin.accessor.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.witch.mixin.accessor.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerCooldownReason;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
 import net.minecraft.entity.player.ItemCooldownManager;

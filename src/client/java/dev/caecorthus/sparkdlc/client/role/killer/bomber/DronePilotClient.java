@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.killer.bomber;
 
-import dev.caecorthus.sparkdlc.strength.client.mixin.m67.M67KeyBindingAccessor;
+import dev.caecorthus.sparkdlc.client.mixin.item.m67.M67KeyBindingAccessor;
 import dev.caecorthus.sparkdlc.client.tablet.screen.TabletClientState;
 import dev.caecorthus.sparkdlc.client.viewpoint.BodySettleHold;
 import dev.caecorthus.sparkdlc.entity.DroneEntity;

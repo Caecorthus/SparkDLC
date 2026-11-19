@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.role.civilian.saint;
 
 import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
 import dev.caecorthus.sparkdlc.component.WitchWorldComponent;
-import dev.caecorthus.sparkdlc.witch.mixin.accessor.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.witch.mixin.accessor.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;

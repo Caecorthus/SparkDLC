@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bear.launcher;
 
 import dev.caecorthus.sparkdlc.client.input.MacControlClickRules;
-import dev.caecorthus.sparkdlc.witch.client.mixin.input.SelectedSlotFlushInvoker;
+import dev.caecorthus.sparkdlc.client.mixin.input.SelectedSlotFlushInvoker;
 import dev.caecorthus.sparkdlc.client.role.witch.potiongunner.PotionFireLatch;
 import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.bear.net.FireM32A1C2SPayload;

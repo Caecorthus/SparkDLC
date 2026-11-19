@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.role.civilian.bear.launcher;
 
 import dev.caecorthus.sparkdlc.SparkWitchSounds;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
-import dev.caecorthus.sparkdlc.witch.mixin.accessor.ItemCooldownEntryAccessor;
-import dev.caecorthus.sparkdlc.witch.mixin.accessor.ItemCooldownManagerAccessor;
+import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
+import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.SparkWitchDataComponents;
 import dev.caecorthus.sparkdlc.role.civilian.bear.BearItems;
 import dev.caecorthus.sparkdlc.role.civilian.bear.BearRules;

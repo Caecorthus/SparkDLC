@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bear.hearing;
 
-import dev.caecorthus.sparkdlc.witch.client.mixin.bear.HearingSourceAccessor;
+import dev.caecorthus.sparkdlc.client.mixin.role.civilian.bear.HearingSourceAccessor;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.client.sound.Source;
 import org.jetbrains.annotations.Nullable;

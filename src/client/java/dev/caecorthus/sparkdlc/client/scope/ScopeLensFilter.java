@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.scope;
 import com.mojang.blaze3d.platform.GlDebugInfo;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.witch.client.mixin.PostEffectProcessorAccessor;
+import dev.caecorthus.sparkdlc.client.mixin.faction.witch.PostEffectProcessorAccessor;
 import dev.doctor4t.wathe.compat.IrisHelper;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;

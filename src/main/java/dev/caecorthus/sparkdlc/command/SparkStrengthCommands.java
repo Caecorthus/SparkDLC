@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.command;
 
-import dev.caecorthus.sparkdlc.strength.mixin.wathe.GameWorldComponentDeadPlayersAccessor;
+import dev.caecorthus.sparkdlc.mixin.wathe.GameWorldComponentDeadPlayersAccessor;
 import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
 import dev.caecorthus.sparkdlc.tablet.TabletWorldComponent;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCaseRules;

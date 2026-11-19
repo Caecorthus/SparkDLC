@@ -92,7 +92,7 @@ public final class SparkTraitsApi {
     }
 
     public static int getItemCooldownTick(PlayerEntity player) {
-        return player == null ? 0 : ((dev.caecorthus.sparkdlc.traits.mixin.ItemCooldownManagerAccessor)
+        return player == null ? 0 : ((dev.caecorthus.sparkdlc.mixin.trait.ItemCooldownManagerAccessor)
                 player.getItemCooldownManager()).sparktraits$getTick();
     }
 

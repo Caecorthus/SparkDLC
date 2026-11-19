@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.render;
 
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeClientState;
-import dev.caecorthus.sparkdlc.witch.client.mixin.bear.SmokeLightmapImageAccessor;
+import dev.caecorthus.sparkdlc.client.mixin.role.civilian.bear.SmokeLightmapImageAccessor;
 import dev.caecorthus.sparkdlc.role.civilian.bear.smoke.SmokeCloudSnapshot;
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.WorldRenderer;

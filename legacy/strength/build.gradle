@@ -1,0 +1,585 @@
+plugins {
+    id 'fabric-loom' version '1.13-SNAPSHOT'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+loom {
+    splitEnvironmentSourceSets()
+
+    mods {
+        "sparkstrength" {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "Terraformers"
+        url = "https://maven.terraformersmc.com/releases/"
+    }
+    maven {
+        name = "Ladysnake Mods"
+        url = "https://maven.ladysnake.org/releases"
+    }
+    maven {
+        name = "Xander Maven"
+        url = "https://maven.isxander.dev/releases"
+    }
+    maven {
+        name = "MaxHenkel"
+        url = "https://maven.maxhenkel.de/repository/public"
+    }
+    maven {
+        name = "Datasync"
+        url = "https://maven.uuid.gg/releases"
+    }
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+        content {
+            includeGroup "maven.modrinth"
+        }
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    modApi files("libs/wathe-${project.wathe_version}.jar")
+    modApi files("libs/noellesroles-${project.noellesroles_version}.jar")
+
+    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}"
+    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}"
+    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-world:${project.cca_version}"
+    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-scoreboard:${project.cca_version}"
+    modImplementation "dev.isxander:yet-another-config-lib:${project.yacl_version}"
+    modImplementation "dev.doctor4t:ratatouille:${project.ratatouille_version}"
+
+    implementation "de.maxhenkel.voicechat:voicechat-api:${project.voicechat_api_version}"
+    modRuntimeOnly "maven.modrinth:simple-voice-chat:fabric-${project.voicechat_version}"
+    modRuntimeOnly "de.maxhenkel.voicechat:voicechat-api:${project.voicechat_api_version}:fabric-stub"
+    // Wathe's main entrypoint needs MidnightLib at runtime; it is not in Wathe's jar on the dev classpath, so
+    // runClient/runServer crash without it. Dev runtime only: nothing compiles against it and it is not shipped.
+    // Wathe 的主入口在运行时需要 MidnightLib；开发类路径上的 Wathe jar 不带它，缺少时 runClient/runServer 会崩溃。
+    // 仅用于开发运行：不参与编译，也不随本模组发布。
+    modRuntimeOnly "maven.modrinth:midnightlib:${project.midnightlib_version}"
+
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "minecraft_version", project.minecraft_version
+    inputs.property "loader_version", project.loader_version
+    inputs.property "wathe_version", project.wathe_version
+    inputs.property "noellesroles_version", project.noellesroles_version
+    inputs.property "cca_version", project.cca_version
+
+    filteringCharset "UTF-8"
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version,
+                "minecraft_version": project.minecraft_version,
+                "loader_version": project.loader_version,
+                "wathe_version": project.wathe_version,
+                "noellesroles_version": project.noellesroles_version,
+                "cca_version": project.cca_version
+    }
+}
+
+def compatibilityBaseline = [
+        mod_version          : "2.0.0",
+        wathe_version        : "1.5.6-spark-1.21.1",
+        noellesroles_version : "1.7.6-h1.5.6-spark"
+]
+def providerBaselines = [
+        // The runtime Wathe build that the released 1.5.6 pack ships and the other four Spark mods pin. The
+        // historical Windows build of the same commit (sha256 95d7c06…) numbers javac lambdas differently.
+        // 正式版 1.5.6 整合包所带、其余四个 Spark mod 所钉的运行时 Wathe 构建；同一提交的旧 Windows 构建
+        // （sha256 95d7c06…）的 javac lambda 编号不同。
+        wathe: [
+                fileName : "wathe-1.5.6-spark-1.21.1.jar",
+                version  : "1.5.6-spark-1.21.1",
+                sha256   : "a4e0355c61def0b482c197a7ccd1f86ee91752b7af1b5bdafae8716c652f207f"
+        ],
+        // The runtime baseline build (sha1 b2302b9…). Its AbilityC2SPacket handler is $5; the historical
+        // Windows build of the same sources numbers it $36. 运行时基线构建；同一源码的旧 Windows 构建编号为 $36。
+        noellesroles: [
+                fileName       : "noellesroles-1.7.6-h1.5.6-spark.jar",
+                version        : "1.7.6-h1.5.6-spark",
+                sha256         : "fcb0da6995197afff8637dd9236f96d9d07cfc0e26484ad3777e5cf3de37d8b7",
+                abilityHandler : "lambda\$registerPackets\$5",
+                // The Assassin guess and Swapper swap handlers, where the stage-2 Undercover's immunities cancel them.
+                // 刺客猜测与交换者交换的处理函数，二阶段卧底的免疫在此取消它们。
+                assassinHandler: "lambda\$registerPackets\$6",
+                swapperHandler : "lambda\$registerPackets\$4"
+        ]
+]
+def supersededProviderJars = [
+        "wathe-1.5.7-spark-1.21.1.jar",
+        "noellesroles-1.7.7-h1.5.7-spark.jar"
+]
+def sha256 = { File target ->
+    def digest = java.security.MessageDigest.getInstance("SHA-256")
+    target.withInputStream { input ->
+        byte[] buffer = new byte[8192]
+        for (int count = input.read(buffer); count != -1; count = input.read(buffer)) {
+            digest.update(buffer, 0, count)
+        }
+    }
+    digest.digest().collect { String.format("%02x", it & 0xff) }.join()
+}
+def readJarMetadata = { File jarFile ->
+    def zipFile = new java.util.zip.ZipFile(jarFile)
+    try {
+        def metadataEntry = zipFile.getEntry("fabric.mod.json")
+        if (metadataEntry == null) {
+            throw new GradleException("Missing fabric.mod.json in ${jarFile.name}")
+        }
+        new groovy.json.JsonSlurper().parse(zipFile.getInputStream(metadataEntry))
+    } finally {
+        zipFile.close()
+    }
+}
+
+def targetJavaVersion = 21
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = "UTF-8"
+    it.options.release.set(targetJavaVersion)
+}
+
+tasks.register("verifyArchitecture") {
+    group = "verification"
+    description = "Checks architecture contracts and the exact provider compatibility baseline."
+    dependsOn tasks.named("processResources")
+
+    inputs.files(
+            "CONTEXT.md",
+            "gradle.properties",
+            "src/main/resources/fabric.mod.json",
+            "src/main/java/dev/caecorthus/sparkdlc/strength/compat/SparkTraitsCompat.java",
+            "src/main/java/dev/caecorthus/sparkdlc/strength/SparkStrengthItems.java",
+            "src/main/java/dev/caecorthus/sparkdlc/strength/SparkStrengthEntities.java",
+            "src/main/java/dev/caecorthus/sparkdlc/strength/replay/CaptureDeviceReplayEvents.java"
+    )
+    inputs.files(fileTree("libs") { include "*.jar" })
+    inputs.files(tasks.named("processResources").map { it.destinationDir })
+    compatibilityBaseline.each { propertyName, expectedValue ->
+        inputs.property(propertyName, project.property(propertyName))
+    }
+
+    doLast {
+        def requireFile = { String path ->
+            if (!file(path).isFile()) {
+                throw new GradleException("Missing required verification file: ${path}")
+            }
+        }
+        def requireText = { String path, String snippet ->
+            requireFile(path)
+            if (!file(path).getText("UTF-8").contains(snippet)) {
+                throw new GradleException("Missing required contract '${snippet}' in ${path}")
+            }
+        }
+
+        requireText(
+                "src/main/java/dev/caecorthus/sparkdlc/strength/compat/SparkTraitsCompat.java",
+                "dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi"
+        )
+        requireText(
+                "src/main/java/dev/caecorthus/sparkdlc/strength/compat/SparkTraitsCompat.java",
+                "getMethod(\"hasActiveTrait\", PlayerEntity.class, Identifier.class)"
+        )
+
+        def forbiddenSparkTraitsPackages = [
+                "dev.caecorthus.sparkdlc.traits.SparkTraits",
+                "dev.caecorthus.sparkdlc.traits.client.",
+                "dev.caecorthus.sparkdlc.traits.command.",
+                "dev.caecorthus.sparkdlc.traits.component.",
+                "dev.caecorthus.sparkdlc.traits.impl.",
+                "dev.caecorthus.sparkdlc.traits.mixin.",
+                "dev.caecorthus.sparkdlc.traits.net.",
+                "dev.caecorthus.sparkdlc.traits.voice."
+        ]
+        def internalTraitReferences = fileTree("src") {
+            include "**/*.java"
+        }.findAll { sourceFile ->
+            def sourceText = sourceFile.getText("UTF-8")
+            forbiddenSparkTraitsPackages.any { sourceText.contains(it) }
+        }
+        if (!internalTraitReferences.isEmpty()) {
+            throw new GradleException("Internal SparkTraits references are forbidden: ${internalTraitReferences}")
+        }
+
+        requireText("src/main/resources/fabric.mod.json", "sparkstrength:engineer_stunned")
+        requireText("src/main/java/dev/caecorthus/sparkdlc/strength/SparkStrengthItems.java", "SparkStrength.id(\"capture_device\")")
+        requireText("src/main/java/dev/caecorthus/sparkdlc/strength/SparkStrengthItems.java", "SparkStrength.id(\"power_restoration\")")
+        requireText("src/main/java/dev/caecorthus/sparkdlc/strength/SparkStrengthEntities.java", "SparkStrength.id(\"capture_device\")")
+        [
+                "capture_device_placed",
+                "capture_device_triggered",
+                "capture_device_released",
+                "capture_device_expired"
+        ].each { replayId ->
+            requireText(
+                    "src/main/java/dev/caecorthus/sparkdlc/strength/replay/CaptureDeviceReplayEvents.java",
+                    "SparkStrength.id(\"${replayId}\")"
+            )
+        }
+
+        def properties = new Properties()
+        file("gradle.properties").withInputStream { properties.load(it) }
+        compatibilityBaseline.each { propertyName, expectedValue ->
+            def configuredValue = properties.getProperty(propertyName)
+            if (configuredValue != expectedValue || project.property(propertyName).toString() != expectedValue) {
+                throw new GradleException(
+                        "${propertyName} must be exactly ${expectedValue}; found file=${configuredValue}, project=${project.property(propertyName)}"
+                )
+            }
+        }
+
+        def providerJarNames = fileTree("libs") {
+            include "wathe-*.jar"
+            include "noellesroles-*.jar"
+        }.files.collect { it.name }.sort()
+        def expectedProviderJarNames = providerBaselines.values().collect { it.fileName }.sort()
+        if (providerJarNames != expectedProviderJarNames) {
+            throw new GradleException(
+                    "Provider jar inputs must be exactly ${expectedProviderJarNames}; found ${providerJarNames}"
+            )
+        }
+        supersededProviderJars.each { fileName ->
+            if (file("libs/${fileName}").exists()) {
+                throw new GradleException("Superseded provider jar must be absent: ${fileName}")
+            }
+        }
+
+        providerBaselines.each { modId, baseline ->
+            def jarFile = file("libs/${baseline.fileName}")
+            requireFile("libs/${baseline.fileName}")
+            def actualChecksum = sha256(jarFile)
+            if (actualChecksum != baseline.sha256) {
+                throw new GradleException(
+                        "${baseline.fileName} checksum mismatch: expected ${baseline.sha256}, found ${actualChecksum}"
+                )
+            }
+            def jarMetadata = readJarMetadata(jarFile)
+            if (jarMetadata.id?.toString() != modId || jarMetadata.version?.toString() != baseline.version) {
+                throw new GradleException(
+                        "${baseline.fileName} metadata mismatch: expected ${modId} ${baseline.version}, " +
+                                "found ${jarMetadata.id} ${jarMetadata.version}"
+                )
+            }
+        }
+
+        def sourceMetadata = new groovy.json.JsonSlurper().parse(file("src/main/resources/fabric.mod.json"))
+        [wathe: '${wathe_version}', noellesroles: '${noellesroles_version}'].each { modId, template ->
+            if (sourceMetadata.depends?.get(modId)?.toString() != template) {
+                throw new GradleException("Source metadata dependency ${modId} must remain parameterized as ${template}")
+            }
+        }
+
+        def processedMetadataFile = file("build/resources/main/fabric.mod.json")
+        if (!processedMetadataFile.isFile()) {
+            throw new GradleException("Missing processed fabric.mod.json: ${processedMetadataFile}")
+        }
+        def processedMetadata = new groovy.json.JsonSlurper().parse(processedMetadataFile)
+        if (processedMetadata.version?.toString() != compatibilityBaseline.mod_version) {
+            throw new GradleException("Processed metadata version must be ${compatibilityBaseline.mod_version}")
+        }
+        [
+                wathe        : compatibilityBaseline.wathe_version,
+                noellesroles : compatibilityBaseline.noellesroles_version
+        ].each { modId, expectedVersion ->
+            if (processedMetadata.depends?.get(modId)?.toString() != expectedVersion) {
+                throw new GradleException(
+                        "Processed metadata dependency ${modId} must be ${expectedVersion}; " +
+                                "found ${processedMetadata.depends?.get(modId)}"
+                )
+            }
+        }
+    }
+}
+
+def remappedModJar = tasks.named("remapJar")
+def readClassNode = { java.util.zip.ZipFile archive, String entryName ->
+    def entry = archive.getEntry(entryName)
+    if (entry == null) {
+        throw new GradleException("Missing class ${entryName} in ${archive.name}")
+    }
+    def node = new org.objectweb.asm.tree.ClassNode()
+    archive.getInputStream(entry).withCloseable { input ->
+        new org.objectweb.asm.ClassReader(input).accept(
+                node,
+                org.objectweb.asm.ClassReader.SKIP_DEBUG | org.objectweb.asm.ClassReader.SKIP_FRAMES
+        )
+    }
+    node
+}
+def annotationValue = { annotation, String key ->
+    def values = annotation?.values ?: []
+    for (int index = 0; index < values.size(); index += 2) {
+        if (values[index] == key) {
+            return values[index + 1]
+        }
+    }
+    null
+}
+tasks.register("verifyCompatibilityArtifact") {
+    group = "verification"
+    description = "Checks final metadata, mixins, and provider isolation in the remapped jar."
+    dependsOn remappedModJar
+    inputs.file(remappedModJar.flatMap { it.archiveFile })
+    inputs.files(
+            "src/main/resources/sparkstrength.mixins.json",
+            "src/client/resources/sparkstrength.client.mixins.json"
+    )
+
+    doLast {
+        def jarFile = remappedModJar.get().archiveFile.get().asFile
+        def expectedJarName = "${project.archives_base_name}-${compatibilityBaseline.mod_version}.jar"
+        if (jarFile.name != expectedJarName) {
+            throw new GradleException("Remapped jar must be named ${expectedJarName}; found ${jarFile.name}")
+        }
+
+        def zipFile = new java.util.zip.ZipFile(jarFile)
+        try {
+            def metadataEntry = zipFile.getEntry("fabric.mod.json")
+            if (metadataEntry == null) {
+                throw new GradleException("Missing fabric.mod.json in ${jarFile.name}")
+            }
+            def metadata = new groovy.json.JsonSlurper().parse(zipFile.getInputStream(metadataEntry))
+            if (metadata.id?.toString() != "sparkstrength" || metadata.version?.toString() != compatibilityBaseline.mod_version) {
+                throw new GradleException(
+                        "Final metadata must identify sparkstrength ${compatibilityBaseline.mod_version}; " +
+                                "found ${metadata.id} ${metadata.version}"
+                )
+            }
+            [
+                    wathe        : compatibilityBaseline.wathe_version,
+                    noellesroles : compatibilityBaseline.noellesroles_version
+            ].each { modId, expectedVersion ->
+                if (metadata.depends?.get(modId)?.toString() != expectedVersion) {
+                    throw new GradleException(
+                            "Final metadata dependency ${modId} must be ${expectedVersion}; found ${metadata.depends?.get(modId)}"
+                    )
+                }
+            }
+
+            def expectedMixinConfigs = [
+                    "sparkstrength.mixins.json"        : "corruptcop.CorruptCopAbilityPacketMixin",
+                    "sparkstrength.client.mixins.json" : "hud.MainHudDispatchMixin"
+            ]
+            expectedMixinConfigs.each { configName, requiredMixin ->
+                def mixinEntry = zipFile.getEntry(configName)
+                if (mixinEntry == null) {
+                    throw new GradleException("Missing ${configName} in ${jarFile.name}")
+                }
+                def packagedBytes = zipFile.getInputStream(mixinEntry).bytes
+                def sourcePath = configName == "sparkstrength.mixins.json"
+                        ? "src/main/resources/${configName}"
+                        : "src/client/resources/${configName}"
+                if (!java.util.Arrays.equals(packagedBytes, file(sourcePath).bytes)) {
+                    throw new GradleException("Packaged ${configName} differs from ${sourcePath}")
+                }
+                def mixinMetadata = new groovy.json.JsonSlurper().parseText(new String(packagedBytes, "UTF-8"))
+                def configuredMixins = (mixinMetadata.mixins ?: []) + (mixinMetadata.client ?: [])
+                if (!configuredMixins.contains(requiredMixin)) {
+                    throw new GradleException("Missing required mixin ${requiredMixin} in ${configName}")
+                }
+            }
+            def corruptCopMixinEntry = "dev/caecorthus/sparkdlc/strength/mixin/corruptcop/CorruptCopAbilityPacketMixin.class"
+            def corruptCopMixin = readClassNode(zipFile, corruptCopMixinEntry)
+            def packetDescriptor = "(Lorg/agmas/noellesroles/packet/AbilityC2SPacket;" +
+                    "Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V"
+            def binarySelectors = [
+                    "sparkstrength\$toggleCorruptCopAbilityHistorical" : "lambda\$registerPackets\$36${packetDescriptor}",
+                    "sparkstrength\$toggleCorruptCopAbilityShared"     : "lambda\$registerPackets\$5${packetDescriptor}"
+            ]
+            binarySelectors.each { handlerName, expectedSelector ->
+                def handler = corruptCopMixin.methods.find { it.name == handlerName }
+                if (handler == null) {
+                    throw new GradleException("Missing remapped CorruptCop handler ${handlerName}")
+                }
+                def annotations = []
+                annotations.addAll(handler.visibleAnnotations ?: [])
+                annotations.addAll(handler.invisibleAnnotations ?: [])
+                def injection = annotations.find {
+                    it.desc == "Lorg/spongepowered/asm/mixin/injection/Inject;"
+                }
+                def group = annotations.find {
+                    it.desc == "Lorg/spongepowered/asm/mixin/injection/Group;"
+                }
+                if (injection == null || group == null) {
+                    throw new GradleException("Missing @Inject/@Group on CorruptCop handler ${handlerName}")
+                }
+                def selectorValue = annotationValue(injection, "method")
+                def selectors = selectorValue instanceof Collection
+                        ? selectorValue.collect { it.toString() }
+                        : [selectorValue?.toString()].findAll { it != null }
+                if (selectors != [expectedSelector]) {
+                    throw new GradleException(
+                            "Packaged CorruptCop selector drift for ${handlerName}: expected ${expectedSelector}, found ${selectors}"
+                    )
+                }
+                if (annotationValue(injection, "require")?.toString() != "0") {
+                    throw new GradleException("Binary-specific CorruptCop injection must use require=0 within its group")
+                }
+                if (annotationValue(group, "name")?.toString() != "sparkstrength\$corruptCopAbility" ||
+                        annotationValue(group, "min")?.toString() != "1" ||
+                        annotationValue(group, "max")?.toString() != "1") {
+                    throw new GradleException(
+                            "CorruptCop compatibility group must require exactly one injection: ${handlerName}"
+                    )
+                }
+            }
+
+            // Like the mixin's @Group(min = 1, max = 1): of both selectors, only the pinned jar's handler may resolve.
+            // 与 mixin 的 @Group(min = 1, max = 1) 一致：两个入口中只能命中锁定 jar 的那一个。
+            def verifyProviderSeam = { File providerJar, String handlerName ->
+                def providerZip = new java.util.zip.ZipFile(providerJar)
+                try {
+                    def noellesRoles = readClassNode(providerZip, "org/agmas/noellesroles/Noellesroles.class")
+                    def expectedSelector = "${handlerName}${packetDescriptor}".toString()
+                    def resolvedSelectors = binarySelectors.values().collect { it.toString() }.findAll { selector ->
+                        noellesRoles.methods.any { it.name + it.desc == selector }
+                    }
+                    if (resolvedSelectors != [expectedSelector]) {
+                        throw new GradleException(
+                                "${providerJar.name} must resolve exactly ${expectedSelector} among the CorruptCop " +
+                                        "selectors; found ${resolvedSelectors}"
+                        )
+                    }
+                } finally {
+                    providerZip.close()
+                }
+            }
+            verifyProviderSeam(
+                    file("libs/${providerBaselines.noellesroles.fileName}"),
+                    providerBaselines.noellesroles.abilityHandler
+            )
+
+            // The Undercover's Assassin and swap immunities each bind one exact lambda with require = 0: a renumbered
+            // NoellesRoles build must fail here instead of silently losing the immunity.
+            // 卧底的刺杀免疫与交换免疫各以 require = 0 绑定一个确切的 lambda：NoellesRoles 编号变化必须在这里失败，
+            // 而不是悄悄失去免疫。
+            def verifyUndercoverImmunity = { label, mixinName, handlerMethod, providerHandler, packet ->
+                def expectedSelector = ("${providerHandler}(Lorg/agmas/noellesroles/packet/${packet};" +
+                        "Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V").toString()
+                def mixinNode = readClassNode(zipFile, "dev/caecorthus/sparkdlc/strength/mixin/undercover/${mixinName}.class")
+                def handlerNode = mixinNode.methods.find { it.name == handlerMethod }
+                if (handlerNode == null) {
+                    throw new GradleException("Missing remapped Undercover ${label} immunity handler")
+                }
+                def injection = ((handlerNode.visibleAnnotations ?: []) +
+                        (handlerNode.invisibleAnnotations ?: [])).find {
+                    it.desc == "Lorg/spongepowered/asm/mixin/injection/Inject;"
+                }
+                def selectors = annotationValue(injection, "method")
+                selectors = selectors instanceof Collection
+                        ? selectors.collect { it.toString() }
+                        : [selectors?.toString()].findAll { it != null }
+                if (selectors != [expectedSelector]) {
+                    throw new GradleException(
+                            "Undercover ${label} selector drift: expected ${expectedSelector}, found ${selectors}")
+                }
+                def provider = new java.util.zip.ZipFile(file("libs/${providerBaselines.noellesroles.fileName}"))
+                try {
+                    def noellesRoles = readClassNode(provider, "org/agmas/noellesroles/Noellesroles.class")
+                    if (!noellesRoles.methods.any { it.name + it.desc == expectedSelector }) {
+                        throw new GradleException(
+                                "${provider.name} has no ${expectedSelector} for the Undercover ${label} immunity")
+                    }
+                } finally {
+                    provider.close()
+                }
+            }
+            verifyUndercoverImmunity("Assassin", "UndercoverAssassinImmunityMixin",
+                    "sparkstrength\$stage2UndercoverCannotBeAssassinated",
+                    providerBaselines.noellesroles.assassinHandler, "AssassinGuessRoleC2SPacket")
+            verifyUndercoverImmunity("Swapper", "UndercoverSwapImmunityMixin",
+                    "sparkstrength\$stage2UndercoverCannotBeSwapped",
+                    providerBaselines.noellesroles.swapperHandler, "SwapperC2SPacket")
+
+            // The Assassin buff (silent, forgiven first miss; 3 s cooldown after a correct guess) binds the same guess
+            // lambda with require = 0, through @WrapOperation and @Inject: every selector must still name the pinned
+            // handler.
+            // 刺客加强（首次猜错无声免死、猜对后 3 秒冷却）同样以 require = 0 绑定这个猜测 lambda（@WrapOperation 与 @Inject）：
+            // 每个选择器都必须仍指向锁定的处理函数。
+            def assassinGuessSelector = ("${providerBaselines.noellesroles.assassinHandler}" +
+                    "(Lorg/agmas/noellesroles/packet/AssassinGuessRoleC2SPacket;" +
+                    "Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V").toString()
+            def assassinGuessMixin = readClassNode(
+                    zipFile, "dev/caecorthus/sparkdlc/strength/mixin/noellesroles/AssassinGuessOutcomeMixin.class")
+            [
+                    "sparkstrength\$forgivenMissIsSilent"      :
+                            "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
+                    "sparkstrength\$firstMissIsForgiven"        :
+                            "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
+                    "sparkstrength\$correctGuessCoolsDownFast" : "Lorg/spongepowered/asm/mixin/injection/Inject;"
+            ].each { handlerMethod, annotationDesc ->
+                def handlerNode = assassinGuessMixin.methods.find { it.name == handlerMethod }
+                if (handlerNode == null) {
+                    throw new GradleException("Missing remapped Assassin guess handler ${handlerMethod}")
+                }
+                def injection = ((handlerNode.visibleAnnotations ?: []) +
+                        (handlerNode.invisibleAnnotations ?: [])).find { it.desc == annotationDesc }
+                def selectors = annotationValue(injection, "method")
+                selectors = selectors instanceof Collection
+                        ? selectors.collect { it.toString() }
+                        : [selectors?.toString()].findAll { it != null }
+                if (selectors != [assassinGuessSelector]) {
+                    throw new GradleException("Assassin guess selector drift on ${handlerMethod}: expected " +
+                            "${assassinGuessSelector}, found ${selectors}")
+                }
+            }
+
+            def nestedProviderBinary = zipFile.entries().find { entry ->
+                def entryName = entry.name.toLowerCase(Locale.ROOT)
+                (entryName.endsWith(".jar") && (entryName.contains("wathe") || entryName.contains("noellesroles"))) ||
+                        entryName.startsWith("dev/doctor4t/wathe/") ||
+                        entryName.startsWith("org/agmas/noellesroles/")
+            }
+            if (nestedProviderBinary != null) {
+                throw new GradleException(
+                        "Provider binary must not be nested in ${jarFile.name}: ${nestedProviderBinary.name}"
+                )
+            }
+        } finally {
+            zipFile.close()
+        }
+    }
+}
+
+tasks.named("check") {
+    setDependsOn([])
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.base.archivesName.get()}" }
+    }
+    from("LICENSE-TEXTURES.md") {
+        rename { "LICENSE-TEXTURES_${project.base.archivesName.get()}.md" }
+    }
+}
+
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+
+    withSourcesJar()
+}

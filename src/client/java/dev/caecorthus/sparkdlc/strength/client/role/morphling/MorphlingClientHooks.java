@@ -1,0 +1,76 @@
+package dev.caecorthus.sparkdlc.strength.client.role.morphling;
+
+import dev.caecorthus.sparkdlc.strength.component.morphling.MorphMarkPlayerComponent;
+import dev.caecorthus.sparkdlc.strength.role.morphling.MorphlingRules;
+import dev.doctor4t.wathe.api.Role;
+import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.client.WatheClient;
+import dev.doctor4t.wathe.game.GameFunctions;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+
+/**
+ * 变形怪增强的客户端事件。
+ */
+public final class MorphlingClientHooks {
+    private static boolean registered;
+
+    private MorphlingClientHooks() {
+    }
+
+    public static synchronized void register() {
+        if (registered) {
+            return;
+        }
+        registered = true;
+        GetInstinctHighlight.EVENT.register(MorphlingClientHooks::markedPlayerHighlight);
+        // The skin memo lives only inside a world render. / 皮肤备忘只在世界渲染期间存在。
+        WorldRenderEvents.END.register(context -> MorphlingAppearanceClientHelper.forgetFrame());
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) ->
+                client.execute(MorphlingAppearanceClientHelper::forgetFrame));
+        // Corpse mode draws a Wathe corpse stand-in. / 尸体模式改画 Wathe 尸体替身。
+        ClientTickEvents.END_CLIENT_TICK.register(MorphlingCorpseStandIn::tick);
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) ->
+                client.execute(MorphlingCorpseStandIn::forget));
+    }
+
+    private static GetInstinctHighlight.HighlightResult markedPlayerHighlight(Entity entity) {
+        if (!(entity instanceof PlayerEntity target)) {
+            return null;
+        }
+
+        MinecraftClient client = MinecraftClient.getInstance();
+        PlayerEntity localPlayer = client.player;
+        if (localPlayer == null || target == localPlayer) {
+            return null;
+        }
+
+        // Role first: nearly every viewer is no Morphling. / 先判身份：几乎所有观察者都不是变形怪。
+        GameWorldComponent game = GameWorldComponent.KEY.get(localPlayer.getWorld());
+        Role localRole = game.getRole(localPlayer);
+        if (!MorphlingRules.isMorphling(localRole)
+                || !GameFunctions.isPlayerPlayingAndAlive(localPlayer)
+                || !GameFunctions.isPlayerAliveAndSurvival(localPlayer)) {
+            return null;
+        }
+
+        MorphMarkPlayerComponent component = MorphMarkPlayerComponent.KEY.get(target);
+        if (!component.hasMark() || !component.isMarkedBy(localPlayer.getUuid())) {
+            return null;
+        }
+
+        if (WatheClient.isInstinctEnabled()) {
+            // 按住本能键时交还给 Wathe 默认杀手本能，让阵营颜色和其它本能规则自然覆盖标记高亮。
+            return null;
+        }
+        return GetInstinctHighlight.HighlightResult.always(
+                localRole.color(),
+                MorphlingRules.MARK_HIGHLIGHT_PRIORITY
+        );
+    }
+}

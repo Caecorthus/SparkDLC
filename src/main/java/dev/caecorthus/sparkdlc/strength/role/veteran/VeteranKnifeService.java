@@ -1,0 +1,241 @@
+package dev.caecorthus.sparkdlc.strength.role.veteran;
+
+import dev.caecorthus.sparkdlc.strength.compat.SparkFactionCompat;
+import dev.caecorthus.sparkdlc.strength.compat.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.strength.component.veteran.VeteranKnifeComponent;
+import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
+import dev.doctor4t.wathe.api.Role;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.cca.PlayerVeteranComponent;
+import dev.doctor4t.wathe.game.GameConstants;
+import dev.doctor4t.wathe.game.GameFunctions;
+import dev.doctor4t.wathe.index.WatheItems;
+import dev.doctor4t.wathe.record.GameRecordManager;
+import dev.doctor4t.wathe.util.KnifeStabPayload;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Hand;
+
+/**
+ * 老兵匕首的服务端规则。
+ *
+ * <p>这个服务由 mixin 在 {@link KnifeStabPayload.Receiver#receive} 开头调用。
+ * 如果发包者是老兵，就由这里完整接管刺杀并取消 Wathe 原逻辑，从而同时做到：
+ * 无刺杀音效、刺杀后无刀 CD、支持多把商店匕首累计次数，以及避免原版 0/1/2 次组件吞掉新买的刀。</p>
+ */
+public final class VeteranKnifeService {
+    private VeteranKnifeService() {
+    }
+
+    public static void assignForRole(ServerPlayerEntity player, Role role) {
+        VeteranKnifeComponent knife = VeteranKnifeComponent.KEY.get(player);
+        if (VeteranRules.isVeteran(role)) {
+            knife.initializeStartingKnife();
+            syncWatheVeteranGuard(player, knife);
+        } else {
+            knife.reset();
+            PlayerVeteranComponent.KEY.get(player).reset();
+        }
+    }
+
+    public static void reset(ServerPlayerEntity player) {
+        VeteranKnifeComponent.KEY.get(player).reset();
+        PlayerVeteranComponent.KEY.get(player).reset();
+    }
+
+    /**
+     * @return true 表示本次 payload 已由老兵逻辑处理，原 Wathe 刀人逻辑必须取消。
+     */
+    public static boolean handleKnifeStab(KnifeStabPayload payload, ServerPlayNetworking.Context context) {
+        ServerPlayerEntity player = context.player();
+        GameWorldComponent game = GameWorldComponent.KEY.get(player.getWorld());
+        Role role = game.getRole(player);
+        if (!VeteranRules.isVeteran(role) && CoronerService.hasInstantSilentKnifeDisguise(player)) {
+            return handleCoronerInstantSilentKnifeDisguise(payload, player);
+        }
+        if (!VeteranRules.isVeteran(role)) {
+            return false;
+        }
+
+        // 只要是老兵的刀包，就不再放回原逻辑；无效目标直接整刀无效，避免原版播放声音/设置 CD。
+        if (SparkTraitsCompat.isKillerInteractionBlocked(player) || player.isSpectator()) {
+            return true;
+        }
+        // A SparkWitch Raven Form crow id resolves to its owner (KnifeStabTargets); the Veteran rules below apply to it.
+        // SparkWitch 化鸦乌鸦 id 解析为其主人（KnifeStabTargets）；下方老兵规则同样作用于它。
+        ServerPlayerEntity target = KnifeStabTargets.resolve(player, payload.target());
+        if (target == null) {
+            return true;
+        }
+        if (!isHoldingKnife(player)) {
+            return true;
+        }
+
+        VeteranKnifeComponent knife = VeteranKnifeComponent.KEY.get(player);
+        adoptExistingWatheUsesIfNeeded(player, knife);
+        if (!knife.hasStabUsesLeft()) {
+            syncWatheVeteranGuard(player, knife);
+            return true;
+        }
+
+        Hand usedHand = heldKnifeHand(player);
+        if (!SparkFactionCompat.canAffectPlayer(player, target, GameConstants.DeathReasons.KNIFE)
+                || SparkTraitsCompat.shouldCancelMeleeAttack(player, target, player.getStackInHand(usedHand))) {
+            return true;
+        }
+        knife.useStab();
+        if (VeteranRules.shouldRemoveKnifeAfterUse(knife.getStabUsesLeft())) {
+            removeOneHeldOrInventoryKnife(player);
+        }
+        syncWatheVeteranGuard(player, knife);
+
+        // 保留 Wathe 的回放记录：之后复盘仍能看到老兵使用了刀。
+        GameRecordManager.recordItemUse(
+                player,
+                Registries.ITEM.getId(WatheItems.KNIFE),
+                target,
+                null
+        );
+
+        InnocentKnifeKillRules.PreKill preKill = captureInnocentKnifeKill(game, player, target);
+        GameFunctions.killPlayer(target, true, player, GameConstants.DeathReasons.KNIFE);
+        punishVeteranForStabbingInnocent(game, player, target, preKill);
+        player.swingHand(usedHand);
+        // 老兵加强要求刺杀后没有刀 CD；这里显式清掉，防止其他逻辑在同 tick 写入冷却。
+        player.getItemCooldownManager().remove(WatheItems.KNIFE);
+        return true;
+    }
+
+    private static boolean handleCoronerInstantSilentKnifeDisguise(KnifeStabPayload payload, ServerPlayerEntity player) {
+        if (SparkTraitsCompat.isKillerInteractionBlocked(player) || player.isSpectator()) {
+            return true;
+        }
+        ServerPlayerEntity target = KnifeStabTargets.resolve(player, payload.target());
+        if (target == null) {
+            return true;
+        }
+        if (!isHoldingKnife(player)) {
+            return true;
+        }
+
+        /*
+         * 验尸官只从“老兵/清道夫尸体身份”借到无蓄力、无声音出刀，
+         * 不接入老兵 2 次次数池，也不继承老兵“小脑惩罚”：无论老兵还是清道夫尸体，借刀杀到好人都不会“小脑”；
+         * 临时匕首会在解除/切换变形时统一回收。
+         * Neither the Veteran nor the Scavenger body inherits the Veteran knife penalty: a Coroner is never punished
+         * for a borrowed-knife innocent kill.
+         */
+        Hand usedHand = heldKnifeHand(player);
+        if (!SparkFactionCompat.canAffectPlayer(player, target, GameConstants.DeathReasons.KNIFE)
+                || SparkTraitsCompat.shouldCancelMeleeAttack(player, target, player.getStackInHand(usedHand))) {
+            return true;
+        }
+        GameRecordManager.recordItemUse(
+                player,
+                Registries.ITEM.getId(WatheItems.KNIFE),
+                target,
+                null
+        );
+        GameFunctions.killPlayer(target, true, player, GameConstants.DeathReasons.KNIFE);
+        player.swingHand(usedHand);
+        player.getItemCooldownManager().remove(WatheItems.KNIFE);
+        return true;
+    }
+
+    public static void addPurchasedKnife(ServerPlayerEntity player) {
+        VeteranKnifeComponent knife = VeteranKnifeComponent.KEY.get(player);
+        knife.addKnife();
+        syncWatheVeteranGuard(player, knife);
+    }
+
+    private static InnocentKnifeKillRules.PreKill captureInnocentKnifeKill(
+            GameWorldComponent game,
+            ServerPlayerEntity attacker,
+            ServerPlayerEntity target
+    ) {
+        // Read before killPlayer: SparkTraits clears the victim's active traits in its KillPlayer.AFTER listener.
+        // 必须在 killPlayer 之前读取：SparkTraits 会在 KillPlayer.AFTER 监听中清空死者的生效天赋。
+        return InnocentKnifeKillRules.beforeKill(
+                game.isInnocent(target),
+                SparkTraitsCompat.hasImpostor(target),
+                SparkTraitsCompat.hasConscience(target),
+                SparkTraitsCompat.hasImpostor(attacker)
+        );
+    }
+
+    private static void punishVeteranForStabbingInnocent(
+            GameWorldComponent game,
+            ServerPlayerEntity veteran,
+            ServerPlayerEntity target,
+            InnocentKnifeKillRules.PreKill preKill
+    ) {
+        if (!InnocentKnifeKillRules.shouldPunish(
+                preKill,
+                game.isPlayerDead(target.getUuid()),
+                GameFunctions.isPlayerPlayingAndAlive(veteran))) {
+            return;
+        }
+
+        // 需求指定“使用匕首 knife 杀到好人阵营时老兵小脑死亡”；好人阵营按 InnocentKnifeKillRules 的有效阵营判定。
+        // 先确认目标已死亡，避免疯魔盾或其它 KillPlayer.BEFORE 取消死亡时误罚老兵。
+        // 此服务只接管 Wathe knife 的刺杀包，所以这里天然只覆盖明确使用匕首的成功击杀。
+        // SparkTraits 对真老兵刀杀善良杀手的特判可能已在 AFTER 中先处死老兵，此时上面的存活检查会跳过，不会重复击杀。
+        GameFunctions.killPlayer(veteran, true, null, GameConstants.DeathReasons.SHOT_INNOCENT);
+    }
+
+    private static void adoptExistingWatheUsesIfNeeded(ServerPlayerEntity player, VeteranKnifeComponent knife) {
+        if (knife.hasStabUsesLeft()) {
+            return;
+        }
+        PlayerVeteranComponent watheVeteran = PlayerVeteranComponent.KEY.get(player);
+        if (watheVeteran.hasStabUsesLeft()) {
+            // 兼容中途加载/旧局状态：如果 Wathe 原组件还有开局刀次数，而我们还没记录，就接管过来。
+            knife.addStabUses(watheVeteran.getStabUsesLeft());
+        }
+    }
+
+    private static void syncWatheVeteranGuard(ServerPlayerEntity player, VeteranKnifeComponent knife) {
+        PlayerVeteranComponent watheVeteran = PlayerVeteranComponent.KEY.get(player);
+        if (knife.hasStabUsesLeft()) {
+            // 原组件最多只能记 2 次，这里只把它当作“老兵仍有可用刀，不能捡枪”的布尔标记。
+            watheVeteran.initialize();
+        } else {
+            watheVeteran.reset();
+        }
+    }
+
+    private static boolean isHoldingKnife(ServerPlayerEntity player) {
+        return player.getMainHandStack().isOf(WatheItems.KNIFE)
+                || player.getOffHandStack().isOf(WatheItems.KNIFE);
+    }
+
+    private static Hand heldKnifeHand(ServerPlayerEntity player) {
+        return player.getMainHandStack().isOf(WatheItems.KNIFE) ? Hand.MAIN_HAND : Hand.OFF_HAND;
+    }
+
+    private static void removeOneHeldOrInventoryKnife(ServerPlayerEntity player) {
+        if (removeOneKnifeFromStack(player.getMainHandStack())) {
+            return;
+        }
+        if (removeOneKnifeFromStack(player.getOffHandStack())) {
+            return;
+        }
+        for (int slot = 0; slot < player.getInventory().size(); slot++) {
+            ItemStack stack = player.getInventory().getStack(slot);
+            if (stack.isOf(WatheItems.KNIFE)) {
+                player.getInventory().removeStack(slot, 1);
+                return;
+            }
+        }
+    }
+
+    private static boolean removeOneKnifeFromStack(ItemStack stack) {
+        if (!stack.isOf(WatheItems.KNIFE)) {
+            return false;
+        }
+        stack.decrement(1);
+        return true;
+    }
+}

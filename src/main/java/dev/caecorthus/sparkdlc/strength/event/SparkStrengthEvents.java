@@ -1,0 +1,289 @@
+package dev.caecorthus.sparkdlc.strength.event;
+
+import dev.caecorthus.sparkdlc.strength.compat.SparkFactionCompat;
+import dev.caecorthus.sparkdlc.strength.component.collision.PlayerCollisionGraceWorldComponent;
+import dev.caecorthus.sparkdlc.strength.component.morphling.MorphBodyDisguiseWorldComponent;
+import dev.caecorthus.sparkdlc.strength.item.m67.M67RoundService;
+import dev.caecorthus.sparkdlc.strength.role.bandit.BanditRevolverService;
+import dev.caecorthus.sparkdlc.strength.role.bandit.BanditShopService;
+import dev.caecorthus.sparkdlc.strength.role.noisemaker.NoisemakerGlowService;
+import dev.caecorthus.sparkdlc.strength.role.phantom.PhantomBackpackService;
+import dev.caecorthus.sparkdlc.strength.role.attendant.AttendantFlashlightService;
+import dev.caecorthus.sparkdlc.strength.role.attendant.DoorLogService;
+import dev.caecorthus.sparkdlc.strength.role.bodyguard.BodyguardEconomyService;
+import dev.caecorthus.sparkdlc.strength.role.bodyguard.BodyguardProtectionService;
+import dev.caecorthus.sparkdlc.strength.role.bodyguard.BodyguardShieldService;
+import dev.caecorthus.sparkdlc.strength.role.bodyguard.BodyguardShopService;
+import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DroneCombatService;
+import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DronePilotService;
+import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DroneService;
+import dev.caecorthus.sparkdlc.strength.role.bomber.BomberTrapService;
+import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerEconomyService;
+import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerEngineerService;
+import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerService;
+import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerShopService;
+import dev.caecorthus.sparkdlc.strength.role.corruptcop.CorruptCopAbilityService;
+import dev.caecorthus.sparkdlc.strength.role.corruptcop.CorruptCopFeatureService;
+import dev.caecorthus.sparkdlc.strength.role.detective.DetectiveCaseService;
+import dev.caecorthus.sparkdlc.strength.role.demonhunter.DemonHunterSniffService;
+import dev.caecorthus.sparkdlc.strength.role.economy.RoleEconomyService;
+import dev.caecorthus.sparkdlc.strength.role.economy.KillerTeamEconomyService;
+import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerCaptureDeviceService;
+import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerSabotageRepairService;
+import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerShopService;
+import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerStunGuards;
+import dev.caecorthus.sparkdlc.strength.role.morphling.MorphlingService;
+import dev.caecorthus.sparkdlc.strength.role.morphling.MorphlingShopService;
+import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartyBalloonService;
+import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartyBalloonShopService;
+import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerService;
+import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerSkillService;
+import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerTaotieService;
+import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartygoerWeaponHits;
+import dev.caecorthus.sparkdlc.strength.role.pathogen.PathogenFeatureService;
+import dev.caecorthus.sparkdlc.strength.role.spiritualist.SpiritPossessionService;
+import dev.caecorthus.sparkdlc.strength.role.taotie.TaotieHeadFeatureService;
+import dev.caecorthus.sparkdlc.strength.role.poisoner.PoisonerEconomyService;
+import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumShopService;
+import dev.caecorthus.sparkdlc.strength.role.recaller.RecallerEconomyService;
+import dev.caecorthus.sparkdlc.strength.role.recaller.RecallerShopService;
+import dev.caecorthus.sparkdlc.strength.role.reporter.ReporterCommunicationManager;
+import dev.caecorthus.sparkdlc.strength.role.toxicologist.ToxicologistAntidoteService;
+import dev.caecorthus.sparkdlc.strength.role.toxicologist.ToxicologistBluePassiveService;
+import dev.caecorthus.sparkdlc.strength.role.toxicologist.ToxicologistBlueVitriolService;
+import dev.caecorthus.sparkdlc.strength.role.toxicologist.ToxicologistCapsuleShop;
+import dev.caecorthus.sparkdlc.strength.role.attendant.FlashlightBlackoutService;
+import dev.caecorthus.sparkdlc.strength.role.undercover.DoorBreachService;
+import dev.caecorthus.sparkdlc.strength.role.undercover.UndercoverRoles;
+import dev.caecorthus.sparkdlc.strength.role.undercover.UndercoverService;
+import dev.caecorthus.sparkdlc.strength.role.undercover.UndercoverShopService;
+import dev.caecorthus.sparkdlc.strength.role.undercover.UndercoverTomahawkService;
+import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranBlackoutService;
+import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranEconomyService;
+import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranKnifeService;
+import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranShopService;
+import dev.caecorthus.sparkdlc.strength.role.vulture.VultureSkateboardService;
+import dev.caecorthus.sparkdlc.strength.role.vulture.VultureSuperCurseService;
+import dev.caecorthus.sparkdlc.strength.role.shadowjester.ShadowJesterShowdownService;
+import dev.caecorthus.sparkdlc.strength.role.waiter.WaiterTaskRevealService;
+import dev.caecorthus.sparkdlc.strength.role.timekeeper.TimekeeperWatchService;
+import dev.caecorthus.sparkdlc.strength.component.timekeeper.TimekeeperWatchComponent;
+import dev.caecorthus.sparkdlc.strength.sabotage.BlackoutSightService;
+import dev.caecorthus.sparkdlc.strength.sabotage.ImpostorLockpickService;
+import dev.caecorthus.sparkdlc.strength.sabotage.SabotageService;
+import dev.caecorthus.sparkdlc.strength.tablet.TabletShopService;
+import dev.caecorthus.sparkdlc.strength.tablet.TabletStateService;
+import dev.doctor4t.wathe.api.event.GameEvents;
+import dev.doctor4t.wathe.api.event.KillPlayer;
+import dev.doctor4t.wathe.api.event.ResetPlayer;
+import dev.doctor4t.wathe.api.event.RoleAssigned;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import dev.caecorthus.sparkdlc.strength.role.serialkiller.SerialKillerCooldownService;
+import dev.caecorthus.sparkdlc.strength.role.serialkiller.SerialPistolGuardService;
+
+/**
+ * 统一注册 SparkStrength 的服务端事件。
+ */
+public final class SparkStrengthEvents {
+    private SparkStrengthEvents() {
+    }
+
+    public static void register() {
+        M67RoundService.initialize();
+        DroneService.register();
+        BomberTrapService.register();
+        DroneCombatService.register();
+        DronePilotService.register();
+        CorruptCopFeatureService.register();
+        CorruptCopAbilityService.register();
+        CoronerEngineerService.register();
+        CoronerService.register();
+        CoronerShopService.register();
+        DetectiveCaseService.register();
+        DoorLogService.register();
+        FlashlightBlackoutService.register();
+        VeteranBlackoutService.register();
+        RoleEconomyService.register();
+        KillerTeamEconomyService.register();
+        EngineerSabotageRepairService.register();
+        EngineerShopService.register();
+        // Server-side interaction lock of the capture stun (also runs on the client). / 捕捉定身的服务端交互锁（客户端同样运行）。
+        EngineerStunGuards.register();
+        MorphlingService.register();
+        MorphlingShopService.register();
+        // Party Animal: the Party Balloon (25), right after Wathe's firecracker. / 派对狂：派对气球（25），紧跟在鞭炮之后。
+        PartyBalloonShopService.register();
+        PathogenFeatureService.register();
+        TaotieHeadFeatureService.register();
+        // Spiritualist Wraith possession: opening cooldown, round cleanup and the far-view tick.
+        // 灵界行者附身冤魂：开局冷却、单局清理与远距离视野的每刻处理。
+        SpiritPossessionService.register();
+        PoisonerEconomyService.register();
+        ProfessorSerumShopService.register();
+        ReporterCommunicationManager.register();
+        RecallerShopService.register();
+        ToxicologistAntidoteService.register();
+        ToxicologistBluePassiveService.register();
+        ToxicologistCapsuleShop.register();
+        ToxicologistBlueVitriolService.register();
+        TabletShopService.register();
+        TabletStateService.register();
+        SabotageService.register();
+        // Reworked Undercover (2026-10-19): shop (CQCM mask), stage 2, blackout look; immune to the Bell Ringer's
+        // echo like before, now that it gets fake tasks.
+        // 重做后的卧底（2026-10-19）：商店（CQCM 面具）、第二阶段、熄灯形态；有了假任务后仍和以前一样不受敲钟人回响影响。
+        UndercoverShopService.register();
+        UndercoverTomahawkService.register();
+        DoorBreachService.register();
+        ServerTickEvents.END_WORLD_TICK.register(UndercoverService::tick);
+        SparkFactionCompat.denyAction(UndercoverService.BELL_ECHO_ACTION, UndercoverRoles::isUndercover);
+        VeteranShopService.register();
+        VultureSkateboardService.register();
+        // Super Curse death scream / curse stop on KillPlayer.AFTER and round end; registered after the skateboard.
+        // 超级骂的死亡惨叫与停止逻辑挂在 KillPlayer.AFTER 与回合结束上；注册在滑板之后。
+        VultureSuperCurseService.register();
+        // Party Animal's Partygoer: task unlock, lifecycle, rage on KillPlayer.AFTER and round-end cleanup.
+        // 派对狂的派对客：任务解锁、生命周期、KillPlayer.AFTER 上的狂怒与对局结束清理。
+        PartygoerSkillService.register();
+        PartygoerService.register();
+        // Wathe bat on a Partygoer (left-click callback in the drone weapon phase); every other weapon hooks in place.
+        // Wathe 球棒打派对客（无人机武器阶段的左键回调）；其余武器各自就地挂钩。
+        PartygoerWeaponHits.register();
+        // Taotie swallowing a Partygoer: the 5 s kick-to-death countdown and early release on death, disconnect, round end.
+        // 饕餮吞派对客：5 秒踢死倒计时，以及死亡、掉线、对局结束时提前放出。
+        PartygoerTaotieService.register();
+        // 老兵经济服务同时注册死亡前阵营快照和死亡后金币结算。
+        VeteranEconomyService.register();
+        ShadowJesterShowdownService.register();
+        // 任务完成后记录 30 秒的服务员专属透视状态。
+        WaiterTaskRevealService.register();
+        TimekeeperWatchService.register();
+        SerialKillerCooldownService.register();
+        // 保镖：商店（防弹衣/民主盾牌）、目标死亡罚款、盾挡下的左轮不惩罚射手。
+        BodyguardShopService.register();
+        BodyguardEconomyService.register();
+        BodyguardProtectionService.register();
+        // Serial pistols exist only during their Serial Killer's psycho: sweep + world-use guard.
+        // 连环手枪只在其连环杀手疯魔期间存在：清扫与世界交互防护。
+        SerialPistolGuardService.register();
+        // Bandit moddable revolver: shop (late phase, after NoellesRoles' Bandit handler) and round seating/reconcile.
+        // 强盗改装左轮：商店（晚于 NoellesRoles 强盗处理器的阶段）与子弹到位/对账。
+        BanditShopService.register();
+        ServerTickEvents.END_WORLD_TICK.register(BanditRevolverService::tick);
+        // 回溯者被动收入需要按世界 tick 定时结算，注册在服务端世界 tick 末尾。
+        ServerTickEvents.END_WORLD_TICK.register(CoronerEconomyService::tick);
+        ServerTickEvents.END_WORLD_TICK.register(CoronerService::tick);
+        ServerTickEvents.END_WORLD_TICK.register(RecallerEconomyService::tick);
+        ServerTickEvents.END_WORLD_TICK.register(TabletStateService::tick);
+        // Mid-round tablet grant reconciliation (replaces a RoleAssigned-time grant; see TabletShopService#tick).
+        // 局中平板补发对账（取代 RoleAssigned 时发放；见 TabletShopService#tick）。
+        ServerTickEvents.END_WORLD_TICK.register(TabletShopService::tick);
+        // Must stay on END_WORLD_TICK: it reads what SparkTraits' player component tick did earlier in the same world tick.
+        // 必须挂在 END_WORLD_TICK：它读取同一世界 tick 内 SparkTraits 玩家组件刚做的结果。
+        ServerTickEvents.END_WORLD_TICK.register(ToxicologistBluePassiveService::tick);
+        ServerTickEvents.END_WORLD_TICK.register(VeteranBlackoutService::tick);
+        BlackoutSightService.register();
+        ServerTickEvents.END_WORLD_TICK.register(BlackoutSightService::tick);
+        // After packet handling in the same tick: sees hotbar switches and raises opened this tick.
+        // 位于同一 tick 的数据包处理之后：能看到本 tick 的快捷栏切换与举盾。
+        ServerTickEvents.END_WORLD_TICK.register(BodyguardShieldService::tick);
+
+        RoleAssigned.EVENT.register((player, role) -> {
+            if (player instanceof ServerPlayerEntity serverPlayer) {
+                CorruptCopAbilityService.reset(serverPlayer);
+                CoronerService.assignForRole(serverPlayer, role);
+                RoleEconomyService.assignForRole(serverPlayer, role);
+                UndercoverService.assignForRole(serverPlayer);
+                AttendantFlashlightService.assignForRole(serverPlayer, role);
+                DetectiveCaseService.assignForRole(serverPlayer, role);
+                DemonHunterSniffService.assignForRole(serverPlayer, role);
+                VultureSuperCurseService.assignForRole(serverPlayer, role);
+                PartygoerSkillService.assignForRole(serverPlayer, role);
+                MorphlingService.assignForRole(serverPlayer, role);
+                PhantomBackpackService.assignForRole(serverPlayer, role);
+                ToxicologistAntidoteService.clearPlayer(serverPlayer);
+                VeteranKnifeService.assignForRole(serverPlayer, role);
+                BodyguardShieldService.resetRound(serverPlayer);
+                if (role == org.agmas.noellesroles.Noellesroles.TIMEKEEPER) {
+                    TimekeeperWatchComponent.KEY.get(serverPlayer).reset();
+                    serverPlayer.giveItemStack(dev.caecorthus.sparkdlc.strength.SparkStrengthItems.dyingWatch().getDefaultStack());
+                }
+            }
+        });
+
+        // Per-player round reset (round start, round end, lobby); PlayerRoundReset lists where Wathe fires it.
+        // 单人回合重置（开局、终局、大厅）；Wathe 的触发位置见 PlayerRoundReset。
+        ResetPlayer.EVENT.register(PlayerRoundReset::reset);
+
+        KillPlayer.AFTER.register((victim, killer, deathReason) -> {
+            // 大嗓门死亡后的“杀手发光 15 秒”是被动效果，不写入回放。
+            NoisemakerGlowService.glowKillerWhenNoisemakerDies(victim, killer);
+            CoronerService.afterKill(victim);
+            MorphlingService.afterKill(victim, killer, deathReason);
+            ToxicologistBluePassiveService.clearPlayer(victim);
+            // The vest and shield die with the Bodyguard: nothing to loot or keep. / 防弹衣与盾随保镖死亡消失，无从拾取或保留。
+            BodyguardShieldService.clearGear(victim, true);
+            UndercoverService.afterDeath(victim);
+            PartyBalloonService.clearPlayer(victim);
+            // A dead Bandit leaves a plain revolver behind. / 强盗死亡时留下一把普通左轮。
+            BanditRevolverService.afterKill(victim);
+        });
+
+        GameEvents.ON_FINISH_FINALIZE.register((world, gameComponent) -> {
+            if (world instanceof ServerWorld serverWorld) {
+                DetectiveCaseService.clearRoundState(serverWorld);
+                // 对局结束后清掉开局 tick，避免下一局开始前沿用上一局的保护时间。
+                PlayerCollisionGraceWorldComponent.KEY.get(serverWorld).clearRoundState();
+                MorphBodyDisguiseWorldComponent.KEY.get(serverWorld).clearRoundState();
+                BomberTrapService.clearRoundState(serverWorld);
+                EngineerCaptureDeviceService.clearRoundState(serverWorld);
+                TabletStateService.clearRoundState(serverWorld);
+                VeteranBlackoutService.clear(serverWorld);
+                BlackoutSightService.clear(serverWorld);
+                VeteranEconomyService.clearRoundState();
+                BanditRevolverService.clearRoundState();
+                // Per-player state is already reset: finalizeGame runs resetPlayer, and with it PlayerRoundReset, for
+                // every player of this world just before it clears the role map and fires this event.
+                // 单人状态此时已重置：finalizeGame 在清空身份表并触发本事件之前，已对本世界每名玩家执行 resetPlayer，
+                // 也就执行了 PlayerRoundReset。
+                // Chopped-down doors come back for the next round. / 被拆掉的门在下一局前放回。
+                DoorBreachService.restoreAll(serverWorld);
+            }
+        });
+
+        GameEvents.ON_FINISH_INITIALIZE.register((world, gameComponent) -> {
+            if (world instanceof ServerWorld serverWorld) {
+                // Doors chopped down last round (or before a crash) are back before this one starts.
+                // 上一局（或崩溃前）被拆的门在本局开始前放回。
+                DoorBreachService.restoreAll(serverWorld);
+                // 该事件发生在 Wathe 完成角色/地图初始化、切换 ACTIVE 之前，正好作为本局保护期起点。
+                PlayerCollisionGraceWorldComponent.KEY.get(serverWorld).markRoundStart(serverWorld.getTime());
+                MorphBodyDisguiseWorldComponent.KEY.get(serverWorld).clearRoundState();
+                BomberTrapService.clearRoundState(serverWorld);
+                EngineerCaptureDeviceService.clearRoundState(serverWorld);
+                // Also clear at round start: an aborted round or restart must not carry tablet chat/suspects forward.
+                // 开局时也清理：异常结束或重启的对局不能把平板聊天/嫌疑人带入下一局。
+                TabletStateService.clearRoundState(serverWorld);
+                // After the clear (it resets the per-round grant set): every tablet-eligible player gets one free tablet.
+                // 必须在清理之后（清理会重置本局发放记录）：每名符合条件的玩家免费获得一台平板。
+                TabletShopService.grantStarterTablets(serverWorld, gameComponent);
+                // Every Impostor also gets one free pry tool for junction boxes. / 每名内鬼还免费获得一把撬接线箱的撬锁工具。
+                ImpostorLockpickService.grantStarterLockpicks(serverWorld, gameComponent);
+                // Every Bandit starts with one empty moddable revolver. / 每名强盗开局获得一把空的改装左轮。
+                BanditRevolverService.grantStarterRevolvers(serverWorld, gameComponent);
+                // Crime-scene snapshots are round state; clear before granting kits so a new round starts empty.
+                // 案发快照属于单局状态；先清空再发放侦探道具，保证新一局从空白开始。
+                DetectiveCaseService.clearRoundState(serverWorld);
+                DetectiveCaseService.grantStarterKits(serverWorld);
+                VeteranEconomyService.clearRoundState();
+                for (ServerPlayerEntity player : serverWorld.getPlayers()) {
+                    // 新一局初始化时清理上一局可能残留的服务员任务透视倒计时。
+                    WaiterTaskRevealService.reset(player);
+                    TimekeeperWatchComponent.KEY.get(player).reset();
+                }
+            }
+        });
+    }
+}

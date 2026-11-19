@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "id": "sparkstrength",
+  "version": "${version}",
+  "name": "SparkStrength",
+  "description": "",
+  "authors": [
+    "Caecorthus"
+  ],
+  "contact": {},
+  "license": [
+    "AGPL-3.0-only",
+    "LicenseRef-Textures-ARR"
+  ],
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.caecorthus.sparkdlc.strength.SparkStrength"
+    ],
+    "client": [
+      "dev.caecorthus.sparkdlc.strength.client.SparkStrengthClient"
+    ],
+    "voicechat": [
+      "dev.caecorthus.sparkdlc.strength.voice.SparkStrengthVoiceChatPlugin"
+    ],
+    "cardinal-components": [
+      "dev.caecorthus.sparkdlc.strength.component.SparkStrengthComponents"
+    ]
+  },
+  "custom": {
+    "cardinal-components": [
+      "sparkstrength:corrupt_cop_ability",
+      "sparkstrength:undercover_player",
+      "sparkstrength:noisemaker_glow_user",
+      "sparkstrength:noisemaker_glow_target",
+      "sparkstrength:phantom_backpack_user",
+      "sparkstrength:phantom_backpack_target",
+      "sparkstrength:professor_serum_user",
+      "sparkstrength:professor_serum_target",
+      "sparkstrength:detective_case_player",
+      "sparkstrength:coroner_player",
+      "sparkstrength:coroner_body_snapshot",
+      "sparkstrength:partygoer_corpse",
+      "sparkstrength:partygoer_owner",
+      "sparkstrength:demon_hunter_sniff",
+      "sparkstrength:veteran_knife",
+      "sparkstrength:engineer_stunned",
+      "sparkstrength:morph_mark_player",
+      "sparkstrength:toxicologist_antidote",
+      "sparkstrength:reporter_communication",
+      "sparkstrength:perfumer_scent",
+      "sparkstrength:skateboard_ride",
+      "sparkstrength:vulture_super_curse",
+      "sparkstrength:party_animal_skill",
+      "sparkstrength:bodyguard_gear",
+      "sparkstrength:detective_case_world",
+      "sparkstrength:killer_team_economy",
+      "sparkstrength:tablet_world",
+      "sparkstrength:sabotage_world",
+      "sparkstrength:removed_doors",
+      "sparkstrength:morph_body_disguise_world",
+      "sparkstrength:pathogen_strain",
+      "sparkstrength:virus_carrier",
+      "sparkstrength:party_balloon_mark",
+      "sparkstrength:shadow_jester_showdown",
+      "sparkstrength:waiter_task_reveal",
+      "sparkstrength:timekeeper_watch",
+      "sparkstrength:spirit_possession",
+      "sparkstrength:taotie_head",
+      "sparkstrength:taotie_head_daze",
+      "sparkstrength:assassin_misfire",
+      "sparkstrength:player_collision_grace"
+    ]
+  },
+  "mixins": [
+    "sparkstrength.mixins.json",
+    {
+      "config": "sparkstrength.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}",
+    "java": ">=21",
+    "wathe": "${wathe_version}",
+    "noellesroles": "${noellesroles_version}",
+    "cardinal-components-base": ">=${cca_version}",
+    "cardinal-components-entity": ">=${cca_version}",
+    "cardinal-components-world": ">=${cca_version}"
+  },
+  "suggests": {
+    "sparkwitch": "*",
+    "sparkfactionapi": ">=0.1.5.10"
+  }
+}

@@ -1,0 +1,48 @@
+package dev.caecorthus.sparkdlc.strength.role.economy;
+
+import dev.caecorthus.sparkdlc.strength.role.bodyguard.BodyguardRules;
+import dev.caecorthus.sparkdlc.strength.role.detective.DetectiveRules;
+import dev.caecorthus.sparkdlc.strength.role.coroner.CoronerRules;
+import dev.caecorthus.sparkdlc.strength.role.engineer.EngineerRules;
+import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumRules;
+import dev.caecorthus.sparkdlc.strength.role.toxicologist.ToxicologistCapsuleRules;
+import dev.caecorthus.sparkdlc.strength.role.undercover.UndercoverRoleRules;
+import dev.caecorthus.sparkdlc.strength.role.veteran.VeteranRules;
+import dev.doctor4t.wathe.api.Role;
+import org.jetbrains.annotations.Nullable;
+
+/**
+ * Economy rules shared by the NoellesRoles enhancements.
+ * NoellesRoles 增强共享的金币经济规则。
+ *
+ * <p>金币不是某一个道具或技能的内部状态，所以集中在 economy 包里；
+ * 但它只引用各角色自己的规则类，不再把所有角色常量塞回一个 Noelles 总规则类。</p>
+ */
+public final class RoleEconomyRules {
+    public static final int INITIAL_GOOD_ROLE_MONEY = 0;
+    public static final int TASK_MONEY_REWARD = 50;
+
+    private RoleEconomyRules() {
+    }
+
+    public static boolean isGoodMoneyRole(@Nullable Role role) {
+        return DetectiveRules.isDetective(role)
+                || CoronerRules.isCoroner(role)
+                || ToxicologistCapsuleRules.isToxicologist(role)
+                || ProfessorSerumRules.isProfessor(role)
+                || EngineerRules.isEngineer(role)
+                || VeteranRules.isVeteran(role)
+                || BodyguardRules.isBodyguard(role)
+                // Reworked Undercover (2026-10-19): starts at 0, +50 per (fake) task, sees its money.
+                // 重做后的卧底（2026-10-19）：开局 0，每个（假）任务 +50，能看到金币。
+                || UndercoverRoleRules.isUndercover(role);
+    }
+
+    public static boolean shouldInitializeGoodMoney(@Nullable Role role) {
+        return isGoodMoneyRole(role);
+    }
+
+    public static boolean earnsTaskMoney(@Nullable Role role) {
+        return isGoodMoneyRole(role);
+    }
+}

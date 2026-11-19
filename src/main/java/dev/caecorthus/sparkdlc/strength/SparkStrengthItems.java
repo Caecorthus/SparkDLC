@@ -1,0 +1,699 @@
+package dev.caecorthus.sparkdlc.strength;
+
+import dev.caecorthus.sparkdlc.strength.item.BlueBelladonnaItem;
+import dev.caecorthus.sparkdlc.strength.item.BlueVitriolItem;
+import dev.caecorthus.sparkdlc.strength.item.BodyguardVestItem;
+import dev.caecorthus.sparkdlc.strength.item.CqcmMaskItem;
+import dev.caecorthus.sparkdlc.strength.item.TacticalTomahawkItem;
+import dev.caecorthus.sparkdlc.strength.item.CaptureDeviceItem;
+import dev.caecorthus.sparkdlc.strength.item.CapsuleItem;
+import dev.caecorthus.sparkdlc.strength.item.CircuitConfiguratorItem;
+import dev.caecorthus.sparkdlc.strength.item.CaseFolderItem;
+import dev.caecorthus.sparkdlc.strength.item.CoronerBodyBagItem;
+import dev.caecorthus.sparkdlc.strength.item.AromaOrbItem;
+import dev.caecorthus.sparkdlc.strength.item.BanditAmmoItem;
+import dev.caecorthus.sparkdlc.strength.item.BanditAttachmentItem;
+import dev.caecorthus.sparkdlc.strength.item.BanditRevolverItem;
+import dev.caecorthus.sparkdlc.strength.item.CoolingOilItem;
+import dev.caecorthus.sparkdlc.strength.item.DemocracyShieldItem;
+import dev.caecorthus.sparkdlc.strength.item.DroneItem;
+import dev.caecorthus.sparkdlc.strength.item.EmberSugarItem;
+import dev.caecorthus.sparkdlc.strength.item.FlashlightItem;
+import dev.caecorthus.sparkdlc.strength.item.GhostflameBittersItem;
+import dev.caecorthus.sparkdlc.strength.item.ImpostorLockpickItem;
+import dev.caecorthus.sparkdlc.strength.item.M67Item;
+import dev.caecorthus.sparkdlc.strength.item.MagnifierItem;
+import dev.caecorthus.sparkdlc.strength.item.MorphDeviceItem;
+import dev.caecorthus.sparkdlc.strength.item.MorphReagentItem;
+import dev.caecorthus.sparkdlc.strength.item.PartyBalloonItem;
+import dev.caecorthus.sparkdlc.strength.item.PowerRestorationItem;
+import dev.caecorthus.sparkdlc.strength.item.ProfessorSerumItem;
+import dev.caecorthus.sparkdlc.strength.item.SkateboardItem;
+import dev.caecorthus.sparkdlc.strength.item.TVirusItem;
+import dev.caecorthus.sparkdlc.strength.item.TabletItem;
+import dev.caecorthus.sparkdlc.strength.item.TimekeeperWatchItem;
+import dev.caecorthus.sparkdlc.strength.item.VirusItem;
+import dev.caecorthus.sparkdlc.strength.item.ZephyrPerfumeItem;
+import dev.caecorthus.sparkdlc.strength.role.bandit.BanditAmmo;
+import dev.caecorthus.sparkdlc.strength.role.bandit.BanditAttachment;
+import dev.caecorthus.sparkdlc.strength.role.bandit.BanditRevolverRules;
+import dev.caecorthus.sparkdlc.strength.role.bandit.BanditRevolverState;
+import dev.caecorthus.sparkdlc.strength.role.bomber.drone.DroneKind;
+import dev.caecorthus.sparkdlc.strength.role.partyanimal.PartyBalloonRules;
+import dev.caecorthus.sparkdlc.strength.role.perfumer.PerfumerRules;
+import dev.caecorthus.sparkdlc.strength.item.SerialPistolItem;
+import dev.caecorthus.sparkdlc.strength.role.professor.ProfessorSerumType;
+import dev.caecorthus.sparkdlc.strength.role.toxicologist.ToxicologistBlueRules;
+import dev.caecorthus.sparkdlc.strength.role.undercover.UndercoverRules;
+import com.mojang.serialization.Codec;
+import net.minecraft.component.ComponentType;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.ArmorMaterial;
+import net.minecraft.item.Item;
+import net.minecraft.network.codec.PacketCodecs;
+import net.minecraft.recipe.Ingredient;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.Rarity;
+import org.agmas.noellesroles.item.IngredientItem;
+
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+
+public final class SparkStrengthItems {
+    public static final Identifier CAPSULE_ID = SparkStrength.id("capsule");
+    public static final Identifier FLASHLIGHT_ID = SparkStrength.id("flashlight");
+    public static final Identifier TABLET_ID = SparkStrength.id("tablet");
+    public static final Identifier INVISIBILITY_SERUM_ID = SparkStrength.id("invisibility_serum");
+    public static final Identifier DOORPASSING_POTION_ID = SparkStrength.id("doorpassing_potion");
+    public static final Identifier SEDATIVE_ID = SparkStrength.id("sedative");
+    public static final Identifier TRUTH_SERUM_ID = SparkStrength.id("truth_serum");
+    public static final Identifier CAPTURE_DEVICE_ID = SparkStrength.id("capture_device");
+    public static final Identifier POWER_RESTORATION_ID = SparkStrength.id("power_restoration");
+    public static final Identifier CIRCUIT_CONFIGURATOR_ID = SparkStrength.id("circuit_configurator");
+    public static final Identifier MORPH_REAGENT_ID = SparkStrength.id("morph_reagent");
+    public static final Identifier MORPH_DEVICE_ID = SparkStrength.id("morph_device");
+    public static final Identifier CORONER_BODY_BAG_ID = SparkStrength.id("coroner_body_bag");
+    public static final Identifier M67_ID = SparkStrength.id("m67");
+    public static final Identifier MAGNIFIER_ID = SparkStrength.id("magnifier");
+    public static final Identifier CASE_FOLDER_ID = SparkStrength.id("case_folder");
+    public static final Identifier COOLING_OIL_ID = SparkStrength.id("cooling_oil");
+    public static final Identifier AROMA_ORB_ID = SparkStrength.id("aroma_orb");
+    public static final Identifier ZEPHYR_PERFUME_ID = SparkStrength.id("zephyr_perfume");
+    public static final Identifier BLUE_VITRIOL_ID = SparkStrength.id("blue_vitriol");
+    public static final Identifier BLUE_BELLADONNA_ID = SparkStrength.id("blue_belladonna");
+    public static final Identifier GRENADE_DRONE_ID = SparkStrength.id("grenade_drone");
+    public static final Identifier BOMB_DRONE_ID = SparkStrength.id("bomb_drone");
+    public static final Identifier SKATEBOARD_ID = SparkStrength.id("skateboard");
+    public static final Identifier GHOSTFLAME_BITTERS_ID = SparkStrength.id("ghostflame_bitters");
+    public static final Identifier EMBER_SUGAR_ID = SparkStrength.id("ember_sugar");
+    public static final Identifier VIRUS_ID = SparkStrength.id("virus");
+    public static final Identifier T_VIRUS_ID = SparkStrength.id("t_virus");
+    private static Item m67;
+    public static final Identifier DYING_WATCH_ID = SparkStrength.id("dying_watch");
+    public static final Identifier SERIAL_PISTOL_ID = SparkStrength.id("serial_pistol");
+    public static final Identifier SERIAL_LEFT_PISTOL_ID = SparkStrength.id("serial_left_pistol");
+    public static final Identifier DEMOCRACY_SHIELD_ID = SparkStrength.id("democracy_shield");
+    public static final Identifier BODYGUARD_VEST_ID = SparkStrength.id("bodyguard_vest");
+    public static final Identifier CQCM_MASK_ID = SparkStrength.id("cqcm_mask");
+    public static final Identifier TACTICAL_TOMAHAWK_ID = SparkStrength.id("tactical_tomahawk");
+    public static final Identifier PARTY_BALLOON_ID = SparkStrength.id("party_balloon");
+    public static final Identifier IMPOSTOR_LOCKPICK_ID = SparkStrength.id("impostor_lockpick");
+    public static final Identifier BANDIT_REVOLVER_ID = SparkStrength.id("bandit_revolver");
+
+    /** 怀表模式数据组件：0=刷新物品冷却，1=刷新技能冷却。 */
+    public static final ComponentType<Integer> TIMEKEEPER_WATCH_MODE = Registry.register(
+            Registries.DATA_COMPONENT_TYPE,
+            SparkStrength.id("timekeeper_watch_mode"),
+            ComponentType.<Integer>builder()
+                    .codec(Codec.INT)
+                    .packetCodec(PacketCodecs.INTEGER)
+                    .build()
+    );
+    private static Item capsule;
+    private static Item flashlight;
+    private static Item tablet;
+    private static Item invisibilitySerum;
+    private static Item doorpassingPotion;
+    private static Item sedative;
+    private static Item truthSerum;
+    private static Item captureDevice;
+    private static Item powerRestoration;
+    private static Item circuitConfigurator;
+    private static Item morphReagent;
+    private static Item morphDevice;
+    private static Item coronerBodyBag;
+    private static Item magnifier;
+    private static Item caseFolder;
+    private static Item coolingOil;
+    private static Item aromaOrb;
+    private static Item zephyrPerfume;
+    private static Item blueVitriol;
+    private static Item blueBelladonna;
+    private static Item grenadeDrone;
+    private static Item bombDrone;
+    private static Item skateboard;
+    private static Item ghostflameBitters;
+    private static Item emberSugar;
+    private static Item virus;
+    private static Item tVirus;
+    private static Item dyingWatch;
+    private static Item serialPistol;
+    private static Item serialLeftPistol;
+    private static Item democracyShield;
+    private static Item bodyguardVest;
+    private static Item cqcmMask;
+    private static Item tacticalTomahawk;
+    private static Item partyBalloon;
+    private static Item impostorLockpick;
+    private static Item banditRevolver;
+    /** Bandit revolver parts ({@code bandit_<key>}) and rounds ({@code <key>_round}). / 强盗左轮配件与子弹。 */
+    private static final Map<BanditAttachment, Item> BANDIT_ATTACHMENTS = new EnumMap<>(BanditAttachment.class);
+    private static final Map<BanditAmmo, Item> BANDIT_AMMO = new EnumMap<>(BanditAmmo.class);
+    private static boolean registered;
+
+    private SparkStrengthItems() {
+    }
+
+    public static synchronized void register() {
+        if (registered) {
+            return;
+        }
+        capsule = Registry.register(
+                Registries.ITEM,
+                CAPSULE_ID,
+                new CapsuleItem(new Item.Settings().maxCount(1))
+        );
+        flashlight = Registry.register(
+                Registries.ITEM,
+                FLASHLIGHT_ID,
+                new FlashlightItem(new Item.Settings().maxCount(1))
+        );
+        tablet = Registry.register(
+                Registries.ITEM,
+                TABLET_ID,
+                new TabletItem(new Item.Settings().maxCount(1))
+        );
+        invisibilitySerum = Registry.register(
+                Registries.ITEM,
+                INVISIBILITY_SERUM_ID,
+                new ProfessorSerumItem(new Item.Settings().maxCount(1), ProfessorSerumType.INVISIBILITY)
+        );
+        doorpassingPotion = Registry.register(
+                Registries.ITEM,
+                DOORPASSING_POTION_ID,
+                new ProfessorSerumItem(new Item.Settings().maxCount(1), ProfessorSerumType.DOORPASSING)
+        );
+        sedative = Registry.register(
+                Registries.ITEM,
+                SEDATIVE_ID,
+                new ProfessorSerumItem(new Item.Settings().maxCount(1), ProfessorSerumType.SEDATIVE)
+        );
+        truthSerum = Registry.register(
+                Registries.ITEM,
+                TRUTH_SERUM_ID,
+                new ProfessorSerumItem(new Item.Settings().maxCount(1), ProfessorSerumType.TRUTH)
+        );
+        captureDevice = Registry.register(
+                Registries.ITEM,
+                CAPTURE_DEVICE_ID,
+                new CaptureDeviceItem(new Item.Settings().maxCount(1))
+        );
+        powerRestoration = Registry.register(
+                Registries.ITEM,
+                POWER_RESTORATION_ID,
+                new PowerRestorationItem(new Item.Settings().maxCount(1))
+        );
+        circuitConfigurator = Registry.register(
+                Registries.ITEM,
+                CIRCUIT_CONFIGURATOR_ID,
+                new CircuitConfiguratorItem(new Item.Settings().maxCount(1).rarity(Rarity.EPIC))
+        );
+        morphReagent = Registry.register(
+                Registries.ITEM,
+                MORPH_REAGENT_ID,
+                new MorphReagentItem(new Item.Settings().maxCount(1))
+        );
+        morphDevice = Registry.register(
+                Registries.ITEM,
+                MORPH_DEVICE_ID,
+                new MorphDeviceItem(new Item.Settings().maxCount(1))
+        );
+        coronerBodyBag = Registry.register(
+                Registries.ITEM,
+                CORONER_BODY_BAG_ID,
+                new CoronerBodyBagItem(new Item.Settings().maxCount(1))
+        );
+        m67 = Registry.register(
+                Registries.ITEM,
+                M67_ID,
+                new M67Item(new Item.Settings().maxCount(1))
+        );
+        magnifier = Registry.register(
+                Registries.ITEM,
+                MAGNIFIER_ID,
+                new MagnifierItem(new Item.Settings().maxCount(1))
+        );
+        caseFolder = Registry.register(
+                Registries.ITEM,
+                CASE_FOLDER_ID,
+                new CaseFolderItem(new Item.Settings().maxCount(1))
+        );
+        coolingOil = Registry.register(
+                Registries.ITEM,
+                COOLING_OIL_ID,
+                new CoolingOilItem(new Item.Settings().maxCount(PerfumerRules.THROWABLE_MAX_STACK))
+        );
+        aromaOrb = Registry.register(
+                Registries.ITEM,
+                AROMA_ORB_ID,
+                new AromaOrbItem(new Item.Settings().maxCount(PerfumerRules.THROWABLE_MAX_STACK))
+        );
+        zephyrPerfume = Registry.register(
+                Registries.ITEM,
+                ZEPHYR_PERFUME_ID,
+                new ZephyrPerfumeItem(new Item.Settings().maxCount(1))
+        );
+        blueVitriol = Registry.register(
+                Registries.ITEM,
+                BLUE_VITRIOL_ID,
+                new BlueVitriolItem(new Item.Settings().maxCount(ToxicologistBlueRules.MAX_STACK))
+        );
+        blueBelladonna = Registry.register(
+                Registries.ITEM,
+                BLUE_BELLADONNA_ID,
+                new BlueBelladonnaItem(new Item.Settings()
+                        .maxCount(ToxicologistBlueRules.MAX_STACK)
+                        .food(BlueBelladonnaItem.FOOD))
+        );
+        grenadeDrone = Registry.register(
+                Registries.ITEM,
+                GRENADE_DRONE_ID,
+                new DroneItem(DroneKind.GRENADE, new Item.Settings().maxCount(1))
+        );
+        bombDrone = Registry.register(
+                Registries.ITEM,
+                BOMB_DRONE_ID,
+                new DroneItem(DroneKind.BOMB, new Item.Settings().maxCount(1))
+        );
+        skateboard = Registry.register(
+                Registries.ITEM,
+                SKATEBOARD_ID,
+                new SkateboardItem(new Item.Settings().maxCount(1))
+        );
+        ghostflameBitters = registerIngredient(
+                GHOSTFLAME_BITTERS_ID,
+                new GhostflameBittersItem(new Item.Settings().maxCount(1))
+        );
+        emberSugar = registerIngredient(
+                EMBER_SUGAR_ID,
+                new EmberSugarItem(new Item.Settings().maxCount(1))
+        );
+        virus = Registry.register(
+                Registries.ITEM,
+                VIRUS_ID,
+                new VirusItem(new Item.Settings().maxCount(16))
+        );
+        tVirus = Registry.register(
+                Registries.ITEM,
+                T_VIRUS_ID,
+                new TVirusItem(new Item.Settings().maxCount(1))
+        );
+        // 计时员濒毁怀表：只保留两种刷新冷却模式，状态由 SparkStrength 数据组件保存。
+        dyingWatch = Registry.register(
+                Registries.ITEM,
+                DYING_WATCH_ID,
+                new TimekeeperWatchItem(new Item.Settings()
+                        .maxCount(1)
+                        .component(TIMEKEEPER_WATCH_MODE, 0))
+        );
+        serialPistol = Registry.register(
+                Registries.ITEM,
+                SERIAL_PISTOL_ID,
+                new SerialPistolItem(new Item.Settings().maxCount(1))
+        );
+        serialLeftPistol = Registry.register(
+                Registries.ITEM,
+                SERIAL_LEFT_PISTOL_ID,
+                new SerialPistolItem(new Item.Settings().maxCount(1))
+        );
+        democracyShield = Registry.register(
+                Registries.ITEM,
+                DEMOCRACY_SHIELD_ID,
+                new DemocracyShieldItem(new Item.Settings().maxCount(1))
+        );
+        // Zero defence: the vest only matters to Wathe kills (BodyguardVestService), and no vanilla armour bar shows.
+        // 护甲值为 0：防弹衣只对 Wathe 击杀生效（BodyguardVestService），也不会显示原版护甲条。
+        RegistryEntry<ArmorMaterial> vestMaterial = Registry.registerReference(
+                Registries.ARMOR_MATERIAL,
+                BODYGUARD_VEST_ID,
+                new ArmorMaterial(
+                        Map.of(ArmorItem.Type.CHESTPLATE, 0),
+                        0,
+                        SoundEvents.ITEM_ARMOR_EQUIP_CHAIN,
+                        () -> Ingredient.EMPTY,
+                        List.of(new ArmorMaterial.Layer(BODYGUARD_VEST_ID)),
+                        0.0F,
+                        0.0F
+                )
+        );
+        bodyguardVest = Registry.register(
+                Registries.ITEM,
+                BODYGUARD_VEST_ID,
+                new BodyguardVestItem(vestMaterial, new Item.Settings().maxCount(1))
+        );
+        // Same idea as the vest: zero defence, the vanilla armour layer draws the mask on the face. It does resist
+        // knockback like a netherite helmet. / 与防弹衣同理：护甲值为 0，由原版盔甲层把面具画在脸上；击退抗性同下界合金头盔。
+        RegistryEntry<ArmorMaterial> maskMaterial = Registry.registerReference(
+                Registries.ARMOR_MATERIAL,
+                CQCM_MASK_ID,
+                new ArmorMaterial(
+                        Map.of(ArmorItem.Type.HELMET, 0),
+                        0,
+                        SoundEvents.ITEM_ARMOR_EQUIP_LEATHER,
+                        () -> Ingredient.EMPTY,
+                        List.of(new ArmorMaterial.Layer(CQCM_MASK_ID)),
+                        0.0F,
+                        UndercoverRules.KNOCKBACK_RESISTANCE_PER_PIECE
+                )
+        );
+        cqcmMask = Registry.register(
+                Registries.ITEM,
+                CQCM_MASK_ID,
+                new CqcmMaskItem(maskMaterial, new Item.Settings().maxCount(1))
+        );
+        tacticalTomahawk = Registry.register(
+                Registries.ITEM,
+                TACTICAL_TOMAHAWK_ID,
+                new TacticalTomahawkItem(new Item.Settings().maxCount(1))
+        );
+        partyBalloon = Registry.register(
+                Registries.ITEM,
+                PARTY_BALLOON_ID,
+                new PartyBalloonItem(new Item.Settings().maxCount(PartyBalloonRules.MAX_STACK))
+        );
+        impostorLockpick = Registry.register(
+                Registries.ITEM,
+                IMPOSTOR_LOCKPICK_ID,
+                new ImpostorLockpickItem(new Item.Settings().maxCount(1))
+        );
+        banditRevolver = Registry.register(
+                Registries.ITEM,
+                BANDIT_REVOLVER_ID,
+                new BanditRevolverItem(new Item.Settings().maxCount(1)
+                        .component(SparkStrengthDataComponents.banditRevolver(), BanditRevolverState.EMPTY))
+        );
+        for (BanditAttachment attachment : BanditAttachment.values()) {
+            BANDIT_ATTACHMENTS.put(attachment, Registry.register(
+                    Registries.ITEM,
+                    SparkStrength.id("bandit_" + attachment.key()),
+                    new BanditAttachmentItem(new Item.Settings().maxCount(1), attachment)
+            ));
+        }
+        for (BanditAmmo ammo : BanditAmmo.values()) {
+            BANDIT_AMMO.put(ammo, Registry.register(
+                    Registries.ITEM,
+                    SparkStrength.id(ammo.key() + "_round"),
+                    new BanditAmmoItem(new Item.Settings().maxCount(BanditRevolverRules.AMMO_MAX_STACK), ammo)
+            ));
+        }
+        registered = true;
+    }
+
+    public static Item m67() {
+        if (m67 == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return m67;
+    }
+
+    public static Item capsule() {
+        if (capsule == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return capsule;
+    }
+
+    public static Item flashlight() {
+        if (flashlight == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return flashlight;
+    }
+
+    public static Item tablet() {
+        if (tablet == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return tablet;
+    }
+
+    public static Item invisibilitySerum() {
+        if (invisibilitySerum == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return invisibilitySerum;
+    }
+
+    public static Item doorpassingPotion() {
+        if (doorpassingPotion == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return doorpassingPotion;
+    }
+
+    public static Item sedative() {
+        if (sedative == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return sedative;
+    }
+
+    public static Item truthSerum() {
+        if (truthSerum == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return truthSerum;
+    }
+
+    public static Item captureDevice() {
+        if (captureDevice == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return captureDevice;
+    }
+
+    public static Item powerRestoration() {
+        if (powerRestoration == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return powerRestoration;
+    }
+
+    public static Item circuitConfigurator() {
+        if (circuitConfigurator == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return circuitConfigurator;
+    }
+
+    public static Item morphReagent() {
+        if (morphReagent == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return morphReagent;
+    }
+
+    public static Item morphDevice() {
+        if (morphDevice == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return morphDevice;
+    }
+
+    public static Item coronerBodyBag() {
+        if (coronerBodyBag == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return coronerBodyBag;
+    }
+
+    public static Item magnifier() {
+        if (magnifier == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return magnifier;
+    }
+
+    public static Item caseFolder() {
+        if (caseFolder == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return caseFolder;
+    }
+
+    public static Item coolingOil() {
+        if (coolingOil == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return coolingOil;
+    }
+
+    public static Item aromaOrb() {
+        if (aromaOrb == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return aromaOrb;
+    }
+
+    public static Item zephyrPerfume() {
+        if (zephyrPerfume == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return zephyrPerfume;
+    }
+
+    public static Item blueVitriol() {
+        if (blueVitriol == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return blueVitriol;
+    }
+
+    public static Item blueBelladonna() {
+        if (blueBelladonna == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return blueBelladonna;
+    }
+
+    public static Item grenadeDrone() {
+        if (grenadeDrone == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return grenadeDrone;
+    }
+
+    public static Item bombDrone() {
+        if (bombDrone == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return bombDrone;
+    }
+
+    public static Item democracyShield() {
+        if (democracyShield == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return democracyShield;
+    }
+
+    public static Item cqcmMask() {
+        if (cqcmMask == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return cqcmMask;
+    }
+
+    public static Item tacticalTomahawk() {
+        if (tacticalTomahawk == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return tacticalTomahawk;
+    }
+
+    public static Item partyBalloon() {
+        if (partyBalloon == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return partyBalloon;
+    }
+
+    public static Item banditRevolver() {
+        if (banditRevolver == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return banditRevolver;
+    }
+
+    public static Item banditAttachment(BanditAttachment attachment) {
+        Item item = BANDIT_ATTACHMENTS.get(attachment);
+        if (item == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return item;
+    }
+
+    public static Item banditAmmo(BanditAmmo ammo) {
+        Item item = BANDIT_AMMO.get(ammo);
+        if (item == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return item;
+    }
+
+    public static Item impostorLockpick() {
+        if (impostorLockpick == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return impostorLockpick;
+    }
+
+    public static Item bodyguardVest() {
+        if (bodyguardVest == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return bodyguardVest;
+    }
+
+    public static Item skateboard() {
+        if (skateboard == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return skateboard;
+    }
+
+    public static Item ghostflameBitters() {
+        if (ghostflameBitters == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return ghostflameBitters;
+    }
+
+    public static Item emberSugar() {
+        if (emberSugar == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return emberSugar;
+    }
+
+    /**
+     * Bartender spices also join NoellesRoles' ingredient registry, which a base spirit uses to resolve the ids in
+     * its NBT (effects, naming, tooltip).
+     * 酒保调料同时登记到 NoellesRoles 的调剂注册表；基酒靠它解析 NBT 里的 id（效果、命名、提示）。
+     */
+    private static Item registerIngredient(Identifier id, IngredientItem ingredient) {
+        Item item = Registry.register(Registries.ITEM, id, ingredient);
+        IngredientItem.register(ingredient);
+        return item;
+    }
+
+    public static Item drone(DroneKind kind) {
+        return kind == DroneKind.BOMB ? bombDrone() : grenadeDrone();
+    }
+
+    public static Item virus() {
+        if (virus == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return virus;
+    }
+
+    public static Item tVirus() {
+        if (tVirus == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return tVirus;
+    }
+
+    public static Item dyingWatch() {
+        if (dyingWatch == null) {
+            throw new IllegalStateException("SparkStrength items are not registered yet");
+        }
+        return dyingWatch;
+    }
+
+    public static Item serialPistol() {
+        if (serialPistol == null) throw new IllegalStateException("SparkStrength items are not registered yet");
+        return serialPistol;
+    }
+
+    public static Item serialLeftPistol() {
+        if (serialLeftPistol == null) throw new IllegalStateException("SparkStrength items are not registered yet");
+        return serialLeftPistol;
+    }
+}

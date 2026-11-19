@@ -1,0 +1,41 @@
+package dev.caecorthus.sparkdlc.strength.compat;
+
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+
+import java.lang.reflect.Method;
+
+/**
+ * Optional bridge to SparkTraits' public facade for the Pathogen's T-Virus: SparkTraits' fake corpses (Depression,
+ * Last Stand pending) and deaths Last Stand still owns must never be revived. Only
+ * {@code dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi} is reflected. Without SparkTraits, or with an older facade,
+ * both answers are false, so the revive keeps its own checks: the body owner must be in Wathe's dead set and spectating.
+ * The Coroner also asks {@link #isFakeDeathBody} so such corpses pay no proximity coins and cannot be bagged.
+ * 病原体 T病毒使用的 SparkTraits 公开门面可选桥接：SparkTraits 的假尸体（抑郁、背水一战待决）以及仍由背水一战接管的
+ * 死亡绝不能被复活。只反射公开门面；未安装或门面较旧时两个查询都返回 false，复活仍保留自身检查：尸体主人必须在 Wathe
+ * 死亡名单中且处于旁观。验尸官同样通过 {@link #isFakeDeathBody} 判定，这类尸体不给靠近金币、也不能装袋。
+ */
+public final class SparkTraitsReviveCompat {
+    private static final String API_CLASS = "dev.caecorthus.sparkdlc.traits.api.SparkTraitsApi";
+    private static final boolean INSTALLED = FabricLoader.getInstance().isModLoaded("sparktraits");
+    private static final Method IS_FAKE_DEATH_BODY = findOptionalMethod("isFakeDeathBody", Entity.class);
+    private static final Method IS_LAST_STAND_DEATH_INTERCEPTED =
+            findOptionalMethod("isLastStandDeathIntercepted", PlayerEntity.class);
+
+    private SparkTraitsReviveCompat() {
+    }
+
+    public static boolean isFakeDeathBody(Entity body) {
+        return body != null && Boolean.TRUE.equals(OptionalReflection.invokeStatic(IS_FAKE_DEATH_BODY, body));
+    }
+
+    public static boolean isLastStandDeathIntercepted(PlayerEntity player) {
+        return player != null
+                && Boolean.TRUE.equals(OptionalReflection.invokeStatic(IS_LAST_STAND_DEATH_INTERCEPTED, player));
+    }
+
+    private static Method findOptionalMethod(String name, Class<?>... parameters) {
+        return INSTALLED ? OptionalReflection.staticMethod(API_CLASS, name, boolean.class, parameters) : null;
+    }
+}

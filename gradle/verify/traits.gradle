@@ -268,10 +268,11 @@ def verifyTraitsModJar = tasks.register("verifyTraitsModJar") {
                 throw new GradleException("Missing voicechat entrypoint ${voicechatEntrypoint} in ${jarFile.name}")
             }
 
-            // fabric.mod.json is now shared by five modules: both traits mixin configs must stay listed, the client
-            // one for the client environment only, or the mixin checks below and in the selector tasks guard nothing.
-            // fabric.mod.json 现在由五个模块共用：两份 traits mixin 配置都必须保持列出，其中客户端配置仅限客户端环境，
-            // 否则下方以及选择器任务中的 mixin 校验就失去意义。
+            // fabric.mod.json is now shared by five modules: the two merged mixin configs, which carry the traits
+            // mixins since the stage-1 package move, must stay listed, the client one for the client environment
+            // only, or the mixin checks below and in the selector tasks guard nothing.
+            // fabric.mod.json 现在由五个模块共用：两份合并后的 mixin 配置（第一阶段包搬迁之后由它们承载 traits 的 mixin）
+            // 都必须保持列出，其中客户端配置仅限客户端环境，否则下方以及选择器任务中的 mixin 校验就失去意义。
             def listedMixins = metadata.mixins ?: []
             if (!listedMixins.contains("sparkdlc.mixins.json")) {
                 throw new GradleException("sparkdlc.mixins.json is not listed in fabric.mod.json of ${jarFile.name}")
@@ -333,11 +334,14 @@ def publicFacadeContractTest = "src/test/java/dev/caecorthus/sparkdlc/trait/api/
 def syncVisibilityContractTest = "src/test/java/dev/caecorthus/sparkdlc/trait/component/TraitSyncVisibilityTest.java"
 // src/test/ is gitignored and local-only, so the two contract tests are required only in a checkout that has the
 // local test tree; a fresh clone (CI) skips them. In SparkDLC src/test/ itself exists on a fresh clone (a few assist
-// tests are tracked), so the condition is the traits module's own test package.
+// tests are tracked), so the condition is the traits module's own local tests. Before the stage-1 package move that
+// was "its test package exists"; the tests left that package with the move, so `legacyModules.localTestsPresent` now
+// answers from the local test manifest (src/test/.unify-file-moves.tsv) instead.
 // src/test/ 已被 gitignore 且仅存于本地，因此只在拥有本地测试树的检出中要求这两个契约测试；全新克隆（CI）会跳过。
-// 在 SparkDLC 中，全新克隆也存在 src/test/（assist 有少量已跟踪的测试），因此改以 traits 模块自己的测试包是否存在为条件。
-def traitsLocalTests = "src/test/java/dev/caecorthus/sparkdlc"
-def localTestTree = file(traitsLocalTests)
+// 在 SparkDLC 中，全新克隆也存在 src/test/（assist 有少量已跟踪的测试），因此改以 traits 模块自己的本地测试是否存在为条件。
+// 第一阶段包搬迁之前这等同于“它的测试包存在”；测试随搬迁离开了该包，因此现在由 `legacyModules.localTestsPresent`
+// 根据本地测试清单（src/test/.unify-file-moves.tsv）回答。
+apply from: rootProject.file("gradle/verify/legacy-modules.gradle")
 def localContractTests = [publicFacadeContractTest, syncVisibilityContractTest]
 
 // ADAPT: the Wathe / NoellesRoles jar checks stay (now in libs/, pinned in the root gradle.properties). The
@@ -351,9 +355,7 @@ def verifyTraitsArchitecture = tasks.register("verifyTraitsArchitecture") {
     group = "verification"
     description = "Verifies the traits module's architecture governance, public facade, and local dependency metadata."
     inputs.file(publicFacade)
-    if (localTestTree.isDirectory()) {
-        localContractTests.each { inputs.file(it) }
-    }
+    inputs.files(localContractTests)
     inputs.file(watheJarName)
     inputs.file(noellesRolesJarName)
     inputs.file("src/main/resources/fabric.mod.json")
@@ -363,10 +365,10 @@ def verifyTraitsArchitecture = tasks.register("verifyTraitsArchitecture") {
 
     doLast {
         def requiredPaths = [publicFacade]
-        if (localTestTree.isDirectory()) {
+        if (legacyModules.localTestsPresent("traits")) {
             requiredPaths += localContractTests
         } else {
-            logger.lifecycle("No local ${traitsLocalTests} tree: skipped ${localContractTests.size()} local-only architecture contract tests.")
+            logger.lifecycle("No local traits tests under src/test: skipped ${localContractTests.size()} local-only architecture contract tests.")
         }
         def missingPaths = requiredPaths.findAll { !file(it).isFile() }
         if (!missingPaths.isEmpty()) {

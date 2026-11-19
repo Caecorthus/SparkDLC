@@ -16,6 +16,7 @@ lang key, asset or data namespace, config file name or command name changed.
 | `package-map.tsv` | the map: old package prefix (+ class-name regex) -> new package prefix / 包映射 |
 | `file-moves.tsv` | generated manifest: old path, new path, old and new class name, source root, phase / 生成的清单 |
 | `src/test/.unify-file-moves.tsv` | the same for the local-only tests (not in this repository) / 本地测试的清单（不在本仓库） |
+| `applied-phases.txt` | the phases that were applied (`src/test/.unify-applied-phases.txt` for the tests) / 已执行的阶段 |
 
 Base commit of the move: `0f7f6db71` (main repository), `0b83061` (local tests).
 搬迁的基准提交：主仓库 `0f7f6db71`，本地测试 `0b83061`。
@@ -30,13 +31,20 @@ python3 tools/unify/move_packages.py apply --phase tooling  # gradle/verify, bui
 python3 tools/unify/move_packages.py apply --phase tests    # local-only src/test (JUnit, Strength Java and Python)
 ```
 
-Each phase is deterministic and idempotent. Files are moved with a plain rename (git records it as a rename
+Each phase is deterministic and idempotent, and an applied phase is recorded and skipped on the next run
+(`--force` overrides). The record matters after the move: `file-moves.tsv` is now the only place that says which
+legacy module a file came from, and the verify scripts (`gradle/verify/legacy-modules.gradle`),
+`tools/payload_policy.py` and some local tests look files up there by their LEGACY module and package names. Those
+names are deliberate and must not be rewritten again. Files are moved with a plain rename (git records it as a rename
 because only `package`, `import` and fully-qualified names change), so `git log --follow` keeps working.
 `plan` fails on a class-name collision, on a mixin outside the two merged config packages (or an ordinary class
 inside one), on a client class outside `client.*`, and when a legacy client mixin plugin names a mixin that its
 former config did not list.
 
-每个阶段都是确定且幂等的。文件用普通重命名移动（只改 `package`、`import` 和全限定名，git 会识别为重命名），
+每个阶段都是确定且幂等的；已执行的阶段会被记录，再次运行时跳过（`--force` 可强制执行）。搬迁之后这份记录很重要：
+`file-moves.tsv` 是唯一还记录“文件来自哪个旧模块”的地方，校验脚本（`gradle/verify/legacy-modules.gradle`）、
+`tools/payload_policy.py` 和部分本地测试会按旧模块名、旧包名在其中查找文件。这些旧名字是有意保留的，不能再次改写。
+文件用普通重命名移动（只改 `package`、`import` 和全限定名，git 会识别为重命名），
 `git log --follow` 仍然可用。出现类名冲突、mixin 落在两个合并配置包之外（或普通类落在其中）、客户端类落在 `client.*`
 之外，或旧客户端 mixin 插件点名了不属于其原配置的 mixin 时，`plan` 会失败。
 
@@ -85,6 +93,7 @@ No rule had to change for package-private access, and no visibility was widened.
   directory constant, `.resolve("seeker")` below a root the same file names. A piece is rewritten only when it
   matches exactly one production file or directory (after narrowing by the modules and source sets the file
   names); ambiguous pieces are left alone and logged.
+- A `package` line inside a stub source kept in a test string follows the class the stub declares.
 - Config-relative mixin names: dotted entries, entries that carry JSON quotes (`\"FooMixin\"`), package-prefix
   literals (`"bear."`), and in `gradle/verify/*.gradle` every whole-literal mixin name. The nine config file names.
 

@@ -18,9 +18,12 @@ buildscript {
     }
 }
 
-def witchMainSources = "src/main/java/dev/caecorthus/sparkdlc"
-def witchClientSources = "src/client/java/dev/caecorthus/sparkdlc"
-def witchLocalTests = "src/test/java/dev/caecorthus/sparkdlc"
+// `legacyModules`: which sources and local tests belonged to the witch module before the stage-1 package move, read
+// from the move manifests (tools/unify/file-moves.tsv, src/test/.unify-file-moves.tsv). The module no longer has
+// source or test directories of its own.
+// `legacyModules`：第一阶段包搬迁之前属于 witch 模块的源码与本地测试，读取自搬迁清单（tools/unify/file-moves.tsv、
+// src/test/.unify-file-moves.tsv）。该模块不再有自己的源码目录或测试目录。
+apply from: rootProject.file("gradle/verify/legacy-modules.gradle")
 
 def remappedModJar = tasks.named("remapJar")
 def compatibilityReleaseVersion = "2.0.0"
@@ -1511,8 +1514,10 @@ def verifyWitchModJar = tasks.register("verifyWitchModJar") {
                 }
             }
 
-            // Both witch mixin configs must stay listed, the client one for the client environment only.
-            // 两份 witch mixin 配置都必须保持列出，其中客户端配置仅限客户端环境。
+            // The two merged mixin configs, which carry the witch mixins since the stage-1 package move, must stay
+            // listed, the client one for the client environment only.
+            // 两份合并后的 mixin 配置（第一阶段包搬迁之后由它们承载 witch 的 mixin）都必须保持列出，其中客户端配置仅限
+            // 客户端环境。
             def listedMixins = metadata.mixins ?: []
             if (!listedMixins.contains("sparkdlc.mixins.json")) {
                 throw new GradleException("sparkdlc.mixins.json is not listed in fabric.mod.json of ${jarFile.name}")
@@ -1871,10 +1876,11 @@ def requiredArchitectureSources = [
 ]
 // Contract tests for the API and rule classes above. src/test/ is gitignored and local-only, so they are required
 // only in a checkout that has the local test tree; a fresh clone skips them. In SparkDLC src/test/ itself exists on a
-// fresh clone (a few assist tests are tracked), so the condition is the witch module's own test package.
+// fresh clone (a few assist tests are tracked), so the condition is the witch module's own local tests
+// (legacyModules.localTestsPresent; before the stage-1 package move: its own test package).
 // 上述 API 与规则类的契约测试。src/test/ 已被 gitignore 且仅存于本地，因此只在拥有本地测试树的检出中要求它们；全新克隆会跳过。
-// 在 SparkDLC 中，全新克隆也存在 src/test/（assist 有少量已跟踪的测试），因此改以 witch 模块自己的测试包是否存在为条件。
-def localTestTree = file(witchLocalTests)
+// 在 SparkDLC 中，全新克隆也存在 src/test/（assist 有少量已跟踪的测试），因此改以 witch 模块自己的本地测试是否存在为条件
+// （legacyModules.localTestsPresent；第一阶段包搬迁之前是它自己的测试包）。
 def localArchitectureTests = [
         "src/test/java/dev/caecorthus/sparkdlc/skill/api/SparkWitchApiTest.java",
         "src/test/java/dev/caecorthus/sparkdlc/role/civilian/apprentice/abilities/ApprenticeAbilityWindowRulesTest.java",
@@ -1978,12 +1984,15 @@ def verifyWitchSoundAssets = tasks.register("verifyWitchSoundAssets") {
     }
 }
 
-// The source scans below cover the witch module's own packages only: the rules are SparkWitch's, and the other
-// modules' sources now share src/main/java and src/client/java (the traits module legitimately lives in the very
-// packages the first scan forbids witch code from naming).
-// 下方的源码扫描只覆盖 witch 模块自己的包：这些规则属于 SparkWitch，而其他模块的源码现在共用 src/main/java 与
-// src/client/java（traits 模块本身就位于第一项扫描禁止 witch 代码引用的包中）。
-def witchSourceTrees = [fileTree(witchMainSources), fileTree(witchClientSources)]
+// The source scans below cover the witch module's own sources only: the rules are SparkWitch's, and the other
+// modules' sources now share src/main/java and src/client/java (the traits module legitimately holds the very
+// classes the first scan forbids witch code from naming). Since the stage-1 package move the module has no source
+// directory, so its sources are the main and client files tools/unify/file-moves.tsv lists under the witch module;
+// the lookup fails when it finds none.
+// 下方的源码扫描只覆盖 witch 模块自己的源码：这些规则属于 SparkWitch，而其他模块的源码现在共用 src/main/java 与
+// src/client/java（第一项扫描禁止 witch 代码引用的类本就属于 traits 模块）。第一阶段包搬迁之后该模块没有源码目录，
+// 因此其源码即 tools/unify/file-moves.tsv 归在 witch 模块下的 main 与 client 文件；找不到任何文件时该查询会失败。
+def witchSources = { legacyModules.sources("witch") }
 
 def verifyWitchArchitecture = tasks.register("verifyWitchArchitecture") {
     group = "verification"
@@ -1993,14 +2002,18 @@ def verifyWitchArchitecture = tasks.register("verifyWitchArchitecture") {
     inputs.files(requiredArchitectureDocs.collect { file(it) })
     inputs.files(requiredArchitectureSources.collect { file(it) })
     inputs.files(localArchitectureTests.collect { file(it) })
-    inputs.files(witchSourceTrees.collect { it.matching { include "**/*.java" } })
+    // The witch sources are picked from these two trees by the move manifest when the task runs; reading the manifest
+    // here would abort the whole build, not just this task, when it is missing.
+    // witch 的源码在任务运行时由搬迁清单从这两棵树中选出；若在此处读取清单，清单缺失时中断的将是整个构建而不只是本任务。
+    inputs.files("tools/unify/file-moves.tsv")
+    inputs.files(fileTree("src/main/java") { include "**/*.java" }, fileTree("src/client/java") { include "**/*.java" })
 
     doLast {
         def requiredPaths = requiredArchitectureDocs + requiredArchitectureSources
-        if (localTestTree.isDirectory()) {
+        if (legacyModules.localTestsPresent("witch")) {
             requiredPaths += localArchitectureTests
         } else {
-            logger.lifecycle("No local ${witchLocalTests} tree: skipped ${localArchitectureTests.size()} local-only architecture contract tests.")
+            logger.lifecycle("No local witch tests under src/test: skipped ${localArchitectureTests.size()} local-only architecture contract tests.")
         }
         requiredPaths.each { path ->
             if (!file(path).isFile()) {
@@ -2013,39 +2026,40 @@ def verifyWitchArchitecture = tasks.register("verifyWitchArchitecture") {
         // source tree, so this scan is what keeps witch code from importing or naming them.
         // SparkTraits 集成只能使用公共门面（融合后直接调用，尚未转换的桥仍为反射），不能触及内部实现包。traits 模块位于
         // 同一源码树，因此正是这项扫描阻止 witch 代码 import 或引用这些包。
+        // The two packages are named as they were before the stage-1 package move; the rule is evaluated on the
+        // classes that used to be under them (tools/unify/file-moves.tsv), wherever they live now.
+        // 这两个包按第一阶段包搬迁之前的名字列出；规则针对原先位于其下的类执行（tools/unify/file-moves.tsv），无论它们
+        // 现在位于何处。
         def forbiddenSparkTraitsTargets = [
-                "dev.caecorthus.sparkdlc",
-                "dev.caecorthus.sparkdlc.trait.component"
+                "dev.caecorthus.sparkdlc.traits.impl",
+                "dev.caecorthus.sparkdlc.traits.component"
         ]
-        witchSourceTrees.each { sourceTree ->
-            sourceTree.matching { include "**/*.java" }.files.each { sourceFile ->
-                def sourceText = sourceFile.getText("UTF-8")
-                forbiddenSparkTraitsTargets.each { target ->
-                    if (sourceText.contains(target)) {
-                        throw new GradleException(
-                                "Forbidden SparkTraits internal target '${target}' in ${sourceFile}"
-                        )
-                    }
-                }
-            }
+        def forbiddenSparkTraitsClasses = legacyModules.classesFormerlyUnder(forbiddenSparkTraitsTargets.collect { it + "." })
+        def witchSourceFiles = witchSources()
+        def internalTraitReferences = legacyModules.forbiddenReferences(witchSourceFiles, forbiddenSparkTraitsClasses)
+        if (!internalTraitReferences.isEmpty()) {
+            throw new GradleException(
+                    "Forbidden SparkTraits internal targets (formerly under ${forbiddenSparkTraitsTargets}): " +
+                            internalTraitReferences.join("; ")
+            )
         }
 
         // Entity render protocol: see entityRenderProtocolViolations above.
         // 实体渲染协议：见上方 entityRenderProtocolViolations。
-        witchSourceTrees.each { sourceTree ->
-            sourceTree.matching { include "**/*.java" }.files.each { sourceFile ->
-                def relative = project.relativePath(sourceFile).replace(File.separatorChar, '/' as char)
-                def violations = entityRenderProtocolViolations(sourceFile.getText("UTF-8"),
-                        relative == entityRenderRedrawOwner)
-                if (!violations.isEmpty()) {
-                    throw new GradleException("Entity render protocol violation in ${relative}: "
-                            + violations.join("; ") + ". Draw entities again only through "
-                            + "client/render/entity/EntityRedraw (or reuse EntityModelCapture geometry), run a "
-                            + "second world render inside SecondaryWorldPass.run, and build hand-posed models from "
-                            + "their TexturedModelData; see docs/witch/CONTEXT.md.")
-                }
+        witchSourceFiles.each { sourceFile ->
+            def relative = project.relativePath(sourceFile).replace(File.separatorChar, '/' as char)
+            def violations = entityRenderProtocolViolations(sourceFile.getText("UTF-8"),
+                    relative == entityRenderRedrawOwner)
+            if (!violations.isEmpty()) {
+                throw new GradleException("Entity render protocol violation in ${relative}: "
+                        + violations.join("; ") + ". Draw entities again only through "
+                        + "client/render/entity/EntityRedraw (or reuse EntityModelCapture geometry), run a "
+                        + "second world render inside SecondaryWorldPass.run, and build hand-posed models from "
+                        + "their TexturedModelData; see docs/witch/CONTEXT.md.")
             }
         }
+        logger.lifecycle("verifyWitchArchitecture: ${witchSourceFiles.size()} SparkWitch sources follow the entity render " +
+                "protocol and name none of the ${forbiddenSparkTraitsClasses.size()} SparkTraits internal classes")
     }
 }
 

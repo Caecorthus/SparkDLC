@@ -24,6 +24,11 @@ buildscript {
     }
 }
 
+// `legacyModules`: which sources and classes belonged to the strength module and its siblings before the stage-1
+// package move, read from tools/unify/file-moves.tsv.
+// `legacyModules`：第一阶段包搬迁之前属于 strength 模块及其兄弟模块的源码与类，读取自 tools/unify/file-moves.tsv。
+apply from: rootProject.file("gradle/verify/legacy-modules.gradle")
+
 def pinnedProperties = [
         "mod_version",
         "wathe_version",
@@ -108,6 +113,11 @@ tasks.register("verifyStrengthArchitecture") {
     )
     inputs.files(fileTree("libs") { include "*.jar" })
     inputs.files(tasks.named("processResources").map { it.destinationDir })
+    // The strength sources are picked from these two trees by the move manifest when the task runs; reading the
+    // manifest here would abort the whole build, not just this task, when it is missing.
+    // strength 的源码在任务运行时由搬迁清单从这两棵树中选出；若在此处读取清单，清单缺失时中断的将是整个构建而不只是本任务。
+    inputs.files("tools/unify/file-moves.tsv")
+    inputs.files(fileTree("src/main/java") { include "**/*.java" }, fileTree("src/client/java") { include "**/*.java" })
     pinnedProperties.each { propertyName ->
         inputs.property(propertyName, project.property(propertyName))
     }
@@ -138,33 +148,34 @@ tasks.register("verifyStrengthArchitecture") {
                 "SparkTraitsApi.hasActiveTrait(player, traitId)"
         )
 
+        // The SparkTraits internals, by their names before the stage-1 package move (everything of the traits module
+        // except its `api` and `compat` packages). The move spread these packages over the function-first layout, so
+        // the rule is evaluated on the classes that used to be under them (tools/unify/file-moves.tsv).
+        // SparkTraits 的内部实现，按第一阶段包搬迁之前的名字列出（traits 模块中除 `api` 与 `compat` 包以外的全部内容）。
+        // 搬迁把这些包分散到了按功能组织的布局中，因此规则改为针对原先位于其下的类（tools/unify/file-moves.tsv）执行。
         def forbiddenSparkTraitsPackages = [
-                "dev.caecorthus.sparkdlc.SparkTraits",
-                "dev.caecorthus.sparkdlc.client.",
-                "dev.caecorthus.sparkdlc.command.",
-                "dev.caecorthus.sparkdlc.trait.component.",
-                "dev.caecorthus.sparkdlc.",
-                "dev.caecorthus.sparkdlc.mixin.",
-                "dev.caecorthus.sparkdlc.",
-                "dev.caecorthus.sparkdlc.voice."
+                "dev.caecorthus.sparkdlc.traits.SparkTraits",
+                "dev.caecorthus.sparkdlc.traits.client.",
+                "dev.caecorthus.sparkdlc.traits.command.",
+                "dev.caecorthus.sparkdlc.traits.component.",
+                "dev.caecorthus.sparkdlc.traits.impl.",
+                "dev.caecorthus.sparkdlc.traits.mixin.",
+                "dev.caecorthus.sparkdlc.traits.net.",
+                "dev.caecorthus.sparkdlc.traits.voice."
         ]
-        // `src` now holds all five modules, and the traits module names its own packages, so the scan covers only
-        // the strength packages of every source set (main, client and the local-only test tree when present).
-        // `src` 现在包含全部五个模块，而 traits 模块自然会引用自己的包，因此只扫描各源码集（main、client，以及存在时的
-        // 本地 test）中的 strength 包。
-        def strengthSources = fileTree("src") {
-            include "*/java/dev/caecorthus/sparkdlc/**/*.java"
-        }.files
-        if (strengthSources.isEmpty()) {
-            throw new GradleException("No SparkStrength sources found under src/*/java/dev/caecorthus/sparkdlc")
-        }
-        def internalTraitReferences = strengthSources.findAll { sourceFile ->
-            def sourceText = sourceFile.getText("UTF-8")
-            forbiddenSparkTraitsPackages.any { sourceText.contains(it) }
-        }
+        def forbiddenSparkTraitsClasses = legacyModules.classesFormerlyUnder(forbiddenSparkTraitsPackages)
+        // `src` now holds all five modules, and the traits module names its own classes, so the scan covers only the
+        // strength module's own sources: the main and client files that were under its packages before the move
+        // (its tests live in src/test/strength and were never part of this scan). The lookup fails when it finds none.
+        // `src` 现在包含全部五个模块，而 traits 模块自然会引用自己的类，因此只扫描 strength 模块自己的源码：搬迁前位于其
+        // 包下的 main 与 client 文件（它的测试在 src/test/strength，从未属于本扫描）。找不到任何文件时该查询会失败。
+        def strengthSources = legacyModules.sources("strength")
+        def internalTraitReferences = legacyModules.forbiddenReferences(strengthSources, forbiddenSparkTraitsClasses)
         if (!internalTraitReferences.isEmpty()) {
             throw new GradleException("Internal SparkTraits references are forbidden: ${internalTraitReferences}")
         }
+        logger.lifecycle("verifyStrengthArchitecture: ${strengthSources.size()} SparkStrength sources name none of the " +
+                "${forbiddenSparkTraitsClasses.size()} SparkTraits internal classes")
 
         requireText("src/main/resources/fabric.mod.json", "sparkstrength:engineer_stunned")
         requireText("src/main/java/dev/caecorthus/sparkdlc/SparkStrengthItems.java", "SparkStrength.id(\"capture_device\")")
@@ -654,15 +665,21 @@ tasks.register("verifyStrengthSiblingSeams") {
         // @Mixin target that way), and any sibling type descriptor inside a longer constant (an @At target).
         // 整个常量就是兄弟模块类名的情况：点分形式（Class.forName）或斜杠形式（Loom 会这样写出字符串 @Mixin 目标）；
         // 以及较长常量中出现的兄弟模块类型描述符（@At 目标）。
+        // Since the stage-1 package move a class name no longer carries its module, so the patterns match any SparkDLC
+        // class name and the module is looked up in tools/unify/file-moves.tsv (legacyModules.moduleOfClass): a
+        // strength class is one the manifest lists under the strength module, a sibling class one it lists under
+        // `siblingModules`.
+        // 第一阶段包搬迁之后，类名不再带有模块，因此这些模式匹配任意 SparkDLC 类名，模块则从
+        // tools/unify/file-moves.tsv 查得（legacyModules.moduleOfClass）：清单归在 strength 模块下的是 strength 的类，
+        // 归在 `siblingModules` 下的是兄弟模块的类。
         def identifier = "[A-Za-z_\$][A-Za-z0-9_\$]*"
-        def modules = "(?:${siblingModules.join('|')})"
         def dottedClassName = java.util.regex.Pattern.compile(
-                "dev\\.caecorthus\\.sparkdlc\\.${modules}(?:\\.${identifier})+")
+                "dev\\.caecorthus\\.sparkdlc(?:\\.${identifier})+")
         def internalClassName = java.util.regex.Pattern.compile(
-                "dev/caecorthus/sparkdlc/${modules}(?:/${identifier})+")
+                "dev/caecorthus/sparkdlc(?:/${identifier})+")
         def embeddedDescriptor = java.util.regex.Pattern.compile(
-                "L(dev/caecorthus/sparkdlc/${modules}(?:/${identifier})+);")
-        def namedSiblingClasses = { String constant ->
+                "L(dev/caecorthus/sparkdlc(?:/${identifier})+);")
+        def namedSparkDlcClasses = { String constant ->
             if (internalClassName.matcher(constant).matches()) {
                 return [constant]
             }
@@ -693,18 +710,38 @@ tasks.register("verifyStrengthSiblingSeams") {
 
             def seams = new TreeMap<String, Set<String>>()
             def byNameLookups = new TreeMap<String, Set<String>>()
+            def unknownNames = new TreeMap<String, Set<String>>()
             def legacyGates = new TreeSet<String>()
             def traitsFacadeCallers = new TreeSet<String>()
-            zipFile.entries().findAll { entry ->
-                entry.name.startsWith("dev/caecorthus/sparkdlc/") && entry.name.endsWith(".class")
-            }.each { entry ->
+            def strengthEntries = zipFile.entries().findAll { entry ->
+                entry.name.endsWith(".class") && legacyModules.moduleOfClass(entry.name) == "strength"
+            }
+            if (strengthEntries.isEmpty()) {
+                throw new GradleException("No SparkStrength class found in ${jarFile.name}; the seam scan would check nothing")
+            }
+            // A SparkDLC class name that is neither in the manifest nor in the jar cannot be given a module, so it
+            // cannot be shown to stay inside SparkStrength: it fails like a sibling name that does not resolve.
+            // 既不在清单中也不在 jar 中的 SparkDLC 类名无法确定模块，也就无法证明它没有越出 SparkStrength：它与无法解析的
+            // 兄弟模块类名一样判为失败。
+            def isUnknown = { String internalName ->
+                legacyModules.moduleOfClass(internalName) == null && zipFile.getEntry(internalName + ".class") == null
+            }
+            strengthEntries.each { entry ->
                 def classNode = readClassNode(zipFile, entry.name)
                 classStringConstants(classNode).each { constant ->
                     if (dottedClassName.matcher(constant).matches()) {
-                        byNameLookups.computeIfAbsent(constant) { new TreeSet<String>() }.add(entry.name)
+                        if (siblingModules.contains(legacyModules.moduleOfClass(constant))) {
+                            byNameLookups.computeIfAbsent(constant) { new TreeSet<String>() }.add(entry.name)
+                        } else if (isUnknown(constant.replace('.', '/'))) {
+                            unknownNames.computeIfAbsent(constant) { new TreeSet<String>() }.add(entry.name)
+                        }
                     }
-                    namedSiblingClasses(constant).each { className ->
-                        seams.computeIfAbsent(className) { new TreeSet<String>() }.add(entry.name)
+                    namedSparkDlcClasses(constant).each { className ->
+                        if (siblingModules.contains(legacyModules.moduleOfClass(className))) {
+                            seams.computeIfAbsent(className) { new TreeSet<String>() }.add(entry.name)
+                        } else if (isUnknown(className)) {
+                            unknownNames.computeIfAbsent(className) { new TreeSet<String>() }.add(entry.name)
+                        }
                     }
                 }
                 classNode.methods.each { method ->
@@ -752,6 +789,13 @@ tasks.register("verifyStrengthSiblingSeams") {
                                 legacyGates.join("; ")
                 )
             }
+            if (!unknownNames.isEmpty()) {
+                throw new GradleException(
+                        "SparkStrength names SparkDLC classes that are neither in tools/unify/file-moves.tsv nor in ${jarFile.name}: " +
+                                unknownNames.collect { className, users -> "${className} (named by ${users.join(', ')})" }
+                                        .join("; ")
+                )
+            }
             def unresolved = seams.findAll { className, users ->
                 zipFile.getEntry(className + ".class") == null
             }
@@ -771,7 +815,7 @@ tasks.register("verifyStrengthSiblingSeams") {
                         "Sibling seam scan found no string-named sibling class in ${jarFile.name}; the scan no longer sees SparkStrength's string @Mixin targets"
                 )
             }
-            logger.lifecycle("verifyStrengthSiblingSeams: ${seams.size()} sibling classes named as strings by SparkStrength resolve in ${jarFile.name}; no by-name lookup, no legacy-id gate")
+            logger.lifecycle("verifyStrengthSiblingSeams: ${strengthEntries.size()} SparkStrength classes scanned; ${seams.size()} sibling classes named as strings by SparkStrength resolve in ${jarFile.name}; no by-name lookup, no legacy-id gate")
 
             // The facade call the source contract pins: SparkTraitsCompat reaches public static boolean
             // SparkTraitsApi.hasActiveTrait(PlayerEntity, Identifier) as a compiled invokestatic. The jar is remapped,

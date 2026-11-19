@@ -17,7 +17,8 @@ Usage / 用法:
     python3 tools/unify/move_packages.py apply --phase mixins  # mixin classes + the two merged configs / mixin 类与合并配置
     python3 tools/unify/move_packages.py apply --phase tooling # gradle/verify, tools, config, docs / 构建工具与文档
     python3 tools/unify/move_packages.py apply --phase tests   # local-only src/test / 本地测试
-Every phase is idempotent: running it again changes nothing. / 每个阶段都是幂等的：重复运行不产生变化。
+Every phase is idempotent, and a phase that was applied is recorded (applied-phases.txt) and skipped on the next
+run. / 每个阶段都是幂等的；已执行的阶段会被记录（applied-phases.txt），再次运行时跳过。
 """
 import argparse
 import collections
@@ -40,6 +41,11 @@ RESOURCE_ROOTS = ('src/main/resources', 'src/client/resources', 'src/test/resour
 MAP_FILE = os.path.join(HERE, 'package-map.tsv')
 MOVES_FILE = os.path.join(HERE, 'file-moves.tsv')
 MOVES_TEST_FILE_REL = 'src/test/.unify-file-moves.tsv'  # local-only half of the manifest / 清单的本地测试部分
+# Phases already applied. After the move a few verify scripts and tests name the LEGACY modules on purpose (they
+# look files up in the manifest), so a finished phase must not rewrite text a second time.
+# 已执行的阶段。搬迁之后，少数校验脚本和测试有意使用旧模块名（它们用清单查找文件），因此已完成的阶段不能再次改写文本。
+APPLIED_FILE = os.path.join(HERE, 'applied-phases.txt')
+APPLIED_TEST_FILE_REL = 'src/test/.unify-applied-phases.txt'
 
 # The nine legacy configs in today's fabric.mod.json order; the merged lists keep this order per side.
 # 九个旧配置，按当前 fabric.mod.json 的顺序；合并后的列表在每一侧都保持该顺序。
@@ -637,6 +643,34 @@ class Mapper:
             text = self.PIECE_DOT.sub(sub_dot, text)
         return text
 
+    STUB_PACKAGE = re.compile(r'(package\s+)dev\.caecorthus\.sparkdlc\.((?:' + '|'.join(MODULES)
+                              + r')(?:\.\w+)*)(\s*;)')
+    STUB_TYPE = re.compile(r'\b(?:class|interface|enum|record)\s+([A-Z]\w*)')
+
+    def rewrite_stub_packages(self, text):
+        """A `package` line inside a stub source kept in a string follows the class that the stub declares, so
+        that the stub of a class from a split package lands where the real class went.
+
+        字符串里保存的桩源码中的 `package` 行跟随该桩声明的类，这样被拆分包里的类的桩会落在真实类所在的新包。
+        """
+        def sub(m):
+            nxt = self.STUB_PACKAGE.search(text, m.end())
+            end = nxt.start() if nxt else min(len(text), m.end() + 4000)
+            decl = self.STUB_TYPE.search(text, m.end(), end)
+            if decl is None:
+                return m.group(0)
+            pkg, cls = m.group(2), decl.group(1)
+            e = self.cls.get(pkg + '.' + cls)
+            if e is not None:
+                new = self.new_pkg(e)
+            elif phase_of('src/main/java', pkg) in self.phases:
+                new = self.rules.resolve(pkg, cls)
+            else:
+                return m.group(0)
+            return m.group(1) + ROOT_PKG + ('.' + new if new else '') + m.group(3)
+
+        return self.STUB_PACKAGE.sub(sub, text)
+
     RESOLVE_ONE = re.compile(r'(\.resolve\(\s*")([a-z][a-z0-9_]*)("\s*\))')
 
     def rewrite_anchored_dirs(self, text, anchors):
@@ -836,6 +870,7 @@ def rewrite_text(mapper, text, kind, own_module=None, path=''):
         anchors = mapper.old_dir_anchors(text)
         text = mapper.rewrite_anchored_dirs(text, anchors)
         text = mapper.rewrite_config_entries(text, mods)
+        text = mapper.rewrite_stub_packages(text)
         text = mapper.rewrite_full(text)
         text = rewrite_non_code(mapper, text, lambda s: mapper.rewrite_config_names(
             mapper.rewrite_pieces(s, mods, roots)))
@@ -1095,7 +1130,14 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('command', choices=('plan', 'apply'))
     ap.add_argument('--phase', choices=('code', 'mixins', 'tooling', 'tests'))
+    ap.add_argument('--force', action='store_true',
+                    help='apply a phase again although it is recorded as applied / 即使已记录为执行过也再次执行')
     args = ap.parse_args()
+    applied_path = os.path.join(REPO, APPLIED_TEST_FILE_REL) if args.phase == 'tests' else APPLIED_FILE
+    applied = read(applied_path).split() if os.path.isfile(applied_path) else []
+    if args.command == 'apply' and args.phase in applied and not args.force:
+        print('phase %s is recorded as applied in %s: nothing to do' % (args.phase, os.path.relpath(applied_path, REPO)))
+        return 0
     rules = Rules()
     entries, test_notes = build_plan(rules)
     problems, notes = checks(entries, rules)
@@ -1151,6 +1193,8 @@ def main():
     print('rewritten: ' + ', '.join('%d %s' % (v, k) for k, v in sorted(mapper.log.items()) if ':' not in k))
     for p in problems:
         print('PROBLEM:', p)
+    if not problems and args.phase not in applied:
+        write(applied_path, ''.join(x + '\n' for x in applied + [args.phase]))
     return 1 if problems else 0
 
 

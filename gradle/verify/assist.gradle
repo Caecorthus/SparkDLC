@@ -57,8 +57,24 @@ def distributionNotices = [
 // SparkAssist 原本是仅客户端 mod：`"environment": "client"` 且没有 `main` 入口。融合后的 mod 两端都会加载，因此这条规则
 // 现在只针对 assist 模块：它没有任何内容在通用端启动。除 `client` 外没有入口指向 assist 的类，没有声明 `sparkassist:`
 // 组件，且 assist 唯一的 mixin 配置是仅限客户端环境的客户端配置。返回 fabric.mod.json（源文件或打包后）中违反规则之处。
-def assistPackage = "dev.caecorthus.sparkdlc."
+//
+// Since the stage-1 package move the assist module has neither a package nor a mixin config of its own, so the rule is
+// restated on what replaced them:
+// - "an assist class" is a class tools/unify/file-moves.tsv lists under the assist module (`legacyModules`);
+// - the assist mixins are entries of the merged client config sparkdlc.client.mixins.json, which must be listed once,
+//   for the client environment, and no sparkassist.* config may come back;
+// - every assist mixin must be a `client` entry of that config and none may be in the merged common config
+//   sparkdlc.mixins.json, which is what "no common assist mixin config" means now (assistMixinPlacementViolations).
+// 第一阶段包搬迁之后，assist 模块既没有自己的包，也没有自己的 mixin 配置，因此这条规则改为针对取代它们的东西：
+// - “assist 的类”即 tools/unify/file-moves.tsv 归在 assist 模块下的类（`legacyModules`）；
+// - assist 的 mixin 是合并后的客户端配置 sparkdlc.client.mixins.json 中的条目，该配置必须只列出一次且仅限客户端环境，
+//   并且不得再出现任何 sparkassist.* 配置；
+// - 每个 assist mixin 都必须是该配置的 `client` 条目，且不得出现在合并后的通用配置 sparkdlc.mixins.json 中——这就是
+//   “不存在 assist 的通用 mixin 配置”现在的含义（assistMixinPlacementViolations）。
+apply from: rootProject.file("gradle/verify/legacy-modules.gradle")
+def clientPackage = "dev.caecorthus.sparkdlc.client."
 def assistClientMixinConfig = "sparkdlc.client.mixins.json"
+def commonMixinConfig = "sparkdlc.mixins.json"
 def assistClientOnlyViolations = { metadata ->
     def violations = []
     (metadata.entrypoints ?: [:]).each { key, listed ->
@@ -67,7 +83,7 @@ def assistClientOnlyViolations = { metadata ->
         }
         (listed ?: []).each { entrypoint ->
             def className = (entrypoint instanceof Map ? entrypoint.value : entrypoint)?.toString()
-            if (className?.startsWith(assistPackage)) {
+            if (className != null && legacyModules.moduleOfClass(className) == "assist") {
                 violations.add("entrypoint '${key}' lists ${className}".toString())
             }
         }
@@ -77,14 +93,45 @@ def assistClientOnlyViolations = { metadata ->
             violations.add("cardinal component ${componentId} is declared".toString())
         }
     }
-    def assistMixinEntries = (metadata.mixins ?: []).findAll { entry ->
-        (entry instanceof Map ? entry.config : entry)?.toString()?.startsWith("sparkassist.")
+    def configName = { entry -> (entry instanceof Map ? entry.config : entry)?.toString() }
+    def legacyAssistConfigs = (metadata.mixins ?: []).findAll { configName(it)?.startsWith("sparkassist.") }
+    if (!legacyAssistConfigs.isEmpty()) {
+        violations.add("mixins must not list a sparkassist.* config any more; found ${legacyAssistConfigs}".toString())
     }
+    def assistMixinEntries = (metadata.mixins ?: []).findAll { configName(it) == assistClientMixinConfig }
     def listsOnlyClientConfig = assistMixinEntries.size() == 1 && assistMixinEntries[0] instanceof Map &&
-            assistMixinEntries[0].config == assistClientMixinConfig && assistMixinEntries[0].environment == "client"
+            assistMixinEntries[0].environment == "client"
     if (!listsOnlyClientConfig) {
-        violations.add(("mixins must list only ${assistClientMixinConfig}, for the client environment; " +
+        violations.add(("mixins must list ${assistClientMixinConfig} once, for the client environment; " +
                 "found ${assistMixinEntries}").toString())
+    }
+    violations
+}
+// Where the assist mixins sit in the two merged mixin configs (parsed JSON, source or packaged): all of them under
+// `client` of the client config, none anywhere else. Fails when the manifest lists no assist mixin.
+// assist 的 mixin 在两份合并 mixin 配置（已解析的 JSON，源文件或打包后）中的位置：全部位于客户端配置的 `client` 下，
+// 其他位置一个都没有。清单中没有任何 assist mixin 时失败。
+def assistMixinPlacementViolations = { commonConfig, clientConfig ->
+    def assistMixins = legacyModules.classNames("assist", "mixins")
+    def listedClasses = { config, String key ->
+        (config?.get(key) ?: []).collect { "${config.package}.${it}".toString() } as Set
+    }
+    def violations = []
+    def missing = assistMixins - listedClasses(clientConfig, "client")
+    if (!missing.isEmpty()) {
+        violations.add("${assistClientMixinConfig} does not list the assist client mixins ${missing.sort()}".toString())
+    }
+    [(commonMixinConfig): commonConfig, (assistClientMixinConfig): clientConfig].each { label, config ->
+        ["mixins", "server"].each { key ->
+            def misplaced = listedClasses(config, key).intersect(assistMixins)
+            if (!misplaced.isEmpty()) {
+                violations.add("${label} lists assist mixins under '${key}': ${misplaced.sort()}".toString())
+            }
+        }
+    }
+    def inCommonClient = listedClasses(commonConfig, "client").intersect(assistMixins)
+    if (!inCommonClient.isEmpty()) {
+        violations.add("${commonMixinConfig} lists assist mixins under 'client': ${inCommonClient.sort()}".toString())
     }
     violations
 }
@@ -243,8 +290,13 @@ def verifyAssistModJar = tasks.register("verifyAssistModJar") {
             // 初始化器现在是被调用而不是被列出，因此“没有 main 入口”即：融合后的通用入口（专用服务器上也会运行）
             // 不引用 assist 模块的任何类。类文件调用、实例化、读取字段或作为常量加载的每个类，都会在常量池中留下
             // CONSTANT_Class 条目（tag 7），因此这里扫描的就是这些条目。
+            // An assist class is one the move manifest lists under the assist module; a CONSTANT_Class entry holds an
+            // internal name or, for an array type, a descriptor, so the SparkDLC class names are cut out of it.
+            // assist 的类即搬迁清单归在 assist 模块下的类；CONSTANT_Class 条目保存内部名，数组类型则保存描述符，因此从中
+            // 截取 SparkDLC 的类名。
             def fusedMainEntrypoint = "dev.caecorthus.sparkdlc.SparkDLC"
-            def assistInternalPrefix = assistPackage.replace('.', '/')
+            def sparkDlcClassName = java.util.regex.Pattern.compile("dev/caecorthus/sparkdlc/[A-Za-z0-9_/\$]+")
+            def scannedClassNames = new TreeSet<String>()
             def mainEntry = zipFile.getEntry(fusedMainEntrypoint.replace('.', '/') + ".class")
             if (mainEntry == null) {
                 throw new GradleException("Missing main entrypoint class ${fusedMainEntrypoint} in ${jarFile.name}")
@@ -256,10 +308,20 @@ def verifyAssistModJar = tasks.register("verifyAssistModJar") {
                 int offset = mainReader.getItem(index)
                 if (offset > 0 && mainReader.readByte(offset - 1) == 7) {
                     def className = mainReader.readUTF8(offset, nameBuffer)
-                    if (className.contains(assistInternalPrefix)) {
-                        assistReferences.add(className)
+                    def named = sparkDlcClassName.matcher(className)
+                    while (named.find()) {
+                        scannedClassNames.add(named.group())
+                        if (legacyModules.moduleOfClass(named.group()) == "assist") {
+                            assistReferences.add(className)
+                        }
                     }
                 }
+            }
+            // The entrypoint starts the four common module initializers, so a scan that sees no SparkDLC class is
+            // broken, not clean.
+            // 该入口会启动四个通用模块初始化器，因此扫描不到任何 SparkDLC 类意味着扫描失效，而不是结果干净。
+            if ((scannedClassNames - [fusedMainEntrypoint.replace('.', '/')]).isEmpty()) {
+                throw new GradleException("The constant pool scan of ${fusedMainEntrypoint} found no SparkDLC class in ${jarFile.name}")
             }
             if (!assistReferences.isEmpty()) {
                 throw new GradleException(
@@ -267,9 +329,11 @@ def verifyAssistModJar = tasks.register("verifyAssistModJar") {
                 )
             }
 
-            // The assist mixin config ships with client mixins only, all in the assist client package, and no
-            // common assist mixin config exists.
-            // assist 的 mixin 配置只携带客户端 mixin，且全部位于 assist 的客户端包内；不存在 assist 的通用 mixin 配置。
+            // The config that carries the assist mixins ships with client mixins only, all in a client package, and
+            // no common assist mixin config exists: the legacy file is gone and no assist mixin is in the merged
+            // common config.
+            // 承载 assist mixin 的配置只携带客户端 mixin，且全部位于客户端包内；不存在 assist 的通用 mixin 配置：旧文件已不
+            // 存在，合并后的通用配置中也没有任何 assist mixin。
             if (zipFile.getEntry("sparkassist.mixins.json") != null) {
                 throw new GradleException("SparkAssist must remain client-only: sparkassist.mixins.json is packaged in ${jarFile.name}")
             }
@@ -279,8 +343,8 @@ def verifyAssistModJar = tasks.register("verifyAssistModJar") {
             }
             def mixinConfig = new groovy.json.JsonSlurper().parse(zipFile.getInputStream(mixinConfigEntry))
             def mixinPackage = mixinConfig.package?.toString()
-            if (!mixinPackage?.startsWith("${assistPackage}client.")) {
-                throw new GradleException("${assistClientMixinConfig} must keep its mixins in the assist client package; found ${mixinPackage}")
+            if (!mixinPackage?.startsWith(clientPackage)) {
+                throw new GradleException("${assistClientMixinConfig} must keep its mixins in a client package; found ${mixinPackage}")
             }
             if (mixinConfig.mixins || mixinConfig.server || !mixinConfig.client) {
                 throw new GradleException("${assistClientMixinConfig} must declare client mixins only in ${jarFile.name}")
@@ -291,6 +355,18 @@ def verifyAssistModJar = tasks.register("verifyAssistModJar") {
                     throw new GradleException("Missing client mixin class ${mixinClass} in ${jarFile.name}")
                 }
             }
+            def commonConfigEntry = zipFile.getEntry(commonMixinConfig)
+            if (commonConfigEntry == null) {
+                throw new GradleException("Missing ${commonMixinConfig} in ${jarFile.name}")
+            }
+            def placementViolations = assistMixinPlacementViolations(
+                    new groovy.json.JsonSlurper().parse(zipFile.getInputStream(commonConfigEntry)), mixinConfig)
+            if (!placementViolations.isEmpty()) {
+                throw new GradleException("SparkAssist must remain client-only in ${jarFile.name}: ${placementViolations.join('; ')}")
+            }
+            logger.lifecycle("verifyAssistModJar: ${fusedMainEntrypoint} names ${scannedClassNames.size()} SparkDLC classes, none of the " +
+                    "${legacyModules.classNames('assist').size()} assist classes; ${legacyModules.classNames('assist', 'mixins').size()} " +
+                    "assist mixins are client entries of ${assistClientMixinConfig}")
         } finally {
             zipFile.close()
         }
@@ -309,6 +385,11 @@ def verifyAssistArchitecture = tasks.register("verifyAssistArchitecture") {
     // 要求其下的契约文件；全新克隆（CI）会跳过。本地 ADR 在模块的本地文档树 docs/local/assist/ 存在时才要求。由于已入库的
     // Ponder 测试，全新克隆也存在 src/test/，因此契约测试在 assist 测试包中出现这两个以外的测试时才要求；若再入库其他
     // assist 测试，需把它加入 trackedAssistTests。
+    // Since the stage-1 package move there is no assist test package: "an assist test besides those two" is a file the
+    // local test manifest lists under the assist module (legacyModules.localTestsPresent), and the paths below are
+    // relative to the shared test package root.
+    // 第一阶段包搬迁之后不再有 assist 测试包：“这两个以外的 assist 测试”即本地测试清单归在 assist 模块下的文件
+    // （legacyModules.localTestsPresent），下方路径相对于共用的测试包根目录。
     def localDocsTree = file("docs/local/assist")
     def assistTestPackage = "src/test/java/dev/caecorthus/sparkdlc"
     def trackedAssistTests = [
@@ -339,6 +420,8 @@ def verifyAssistArchitecture = tasks.register("verifyAssistArchitecture") {
     inputs.files(localContractDocs)
     inputs.files(localContractTests)
     inputs.file("src/main/resources/fabric.mod.json")
+    inputs.files("tools/unify/file-moves.tsv", "src/main/resources/${commonMixinConfig}",
+            "src/client/resources/${assistClientMixinConfig}")
     inputs.property("wathe_version", project.wathe_version)
 
     doLast {
@@ -349,14 +432,12 @@ def verifyAssistArchitecture = tasks.register("verifyAssistArchitecture") {
             logger.lifecycle("No local docs/local/assist tree: skipped "
                     + "${localContractDocs.size()} local-only architecture contract docs.")
         }
-        def hasLocalTests = !fileTree(assistTestPackage) {
-            include "**/*.java"
-            exclude trackedAssistTests
-        }.isEmpty()
+        def hasLocalTests = legacyModules.localTestsPresent(
+                "assist", trackedAssistTests.collect { "${assistTestPackage}/${it}".toString() })
         if (hasLocalTests) {
             requiredFiles += localContractTests
         } else {
-            logger.lifecycle("No local ${assistTestPackage} tests: skipped "
+            logger.lifecycle("No local assist tests under ${assistTestPackage}: skipped "
                     + "${localContractTests.size()} local-only architecture contract tests.")
         }
         requiredFiles.each { requiredPath ->
@@ -372,6 +453,12 @@ def verifyAssistArchitecture = tasks.register("verifyAssistArchitecture") {
         }
         if (!file("src/client/resources/${assistClientMixinConfig}").isFile()) {
             clientOnlyViolations.add("src/client/resources/${assistClientMixinConfig} is missing".toString())
+        } else if (!file("src/main/resources/${commonMixinConfig}").isFile()) {
+            clientOnlyViolations.add("src/main/resources/${commonMixinConfig} is missing".toString())
+        } else {
+            clientOnlyViolations.addAll(assistMixinPlacementViolations(
+                    new groovy.json.JsonSlurper().parse(file("src/main/resources/${commonMixinConfig}")),
+                    new groovy.json.JsonSlurper().parse(file("src/client/resources/${assistClientMixinConfig}"))))
         }
         if (!clientOnlyViolations.isEmpty()) {
             throw new GradleException("SparkAssist must remain client-only: ${clientOnlyViolations.join('; ')}")

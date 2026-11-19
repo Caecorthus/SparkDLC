@@ -12,9 +12,11 @@ hand-written rule classes alias those sets. Standard library only.
     check-all --repo <path>                                     check every module of the SparkDLC tree
 
 Since the five mods were fused into SparkDLC, ``--repo`` is the one SparkDLC checkout for every module. The whole tree
-is still indexed (constants resolve across modules), but a registration belongs to the module whose package holds the
-registering file (``src/{main,client}/java/dev/caecorthus/sparkdlc/<module>/``), and its row's ``owner`` must be that
-module's namespace.
+is still indexed (constants resolve across modules), but a registration belongs to the legacy module of the
+registering file, and its row's ``owner`` must be that module's namespace. Until the stage-1 package move that module
+was the file's package (``src/{main,client}/java/dev/caecorthus/sparkdlc/<module>/``); the move left no module
+directory, so it is now read from the move manifest ``tools/unify/file-moves.tsv`` (the module is the first segment of
+the file's ``old_fqcn``). A file the manifest does not list has no module and fails the check.
 
 Table rules: UTF-8, tab-separated, LF, sorted by payload_id, one complete row per id (every profile cell exactly
 ``allow`` or ``deny``), ``owner`` is the registering mod id, ``note`` (English) and ``note_zh`` (Chinese) are ``-`` or
@@ -27,14 +29,17 @@ emitted: VendettaTargetingPacketGuard keeps its typed adapters and the column re
 ``GeneratedPayloadPolicy`` 类，为其使用的每个配置提供一个不可变 ``Set<Identifier>``（即 ``deny`` 的 id）；手写规则类
 只是这些集合的别名。仅使用标准库。``check`` 在内存中重新生成并逐字节比较，且模块注册了表中没有的 C2S id、或注册
 表达式无法解析为字面量 id 时都会失败。五个 mod 融合为 SparkDLC 之后，所有模块的 ``--repo`` 都是同一个 SparkDLC 检出：
-仍然索引整棵源码树（常量可跨模块解析），但一条注册属于“注册文件所在包”对应的模块
-（``src/{main,client}/java/dev/caecorthus/sparkdlc/<module>/``），其表行的 ``owner`` 必须是该模块的命名空间。
+仍然索引整棵源码树（常量可跨模块解析），但一条注册属于注册文件的旧模块，其表行的 ``owner`` 必须是该模块的命名空间。
+第一阶段包搬迁之前，旧模块就是文件所在的包（``src/{main,client}/java/dev/caecorthus/sparkdlc/<module>/``）；搬迁后不再有
+模块目录，因此改为读取搬迁清单 ``tools/unify/file-moves.tsv``（模块即文件 ``old_fqcn`` 的第一段）。清单未列出的文件
+没有模块，检查会失败。
 """
 
 from __future__ import annotations
 
 import argparse
 import hashlib
+import os
 import re
 import sys
 from dataclasses import dataclass, field
@@ -92,17 +97,67 @@ MODULE_NAMESPACES = {
     "witch": "sparkwitch",
     "assist": "sparkassist",
 }
-MODULE_PATH = re.compile(r"^src/(?:main|client)/java/dev/caecorthus/sparkdlc/([a-z]+)/")
-
-
-def module_of(where: str) -> "str | None":
-    """The module that holds a ``path:line`` location, or None outside every module. / 位置所在的模块。"""
-    match = MODULE_PATH.match(where.replace("\\", "/"))
-    return match.group(1) if match and match.group(1) in MODULE_NAMESPACES else None
+# The stage-1 package move (tools/unify) took every class out of its module directory, so the module of a file can no
+# longer be read from its path. The move manifest keeps it: one row per production file with its path before and
+# after the move, and ``old_fqcn`` (relative to dev.caecorthus.sparkdlc) starts with the legacy module.
+# 第一阶段包搬迁（tools/unify）把所有类移出了模块目录，文件所属模块无法再从路径读出。搬迁清单保留了这一信息：每个生产
+# 文件一行，记录搬迁前后的路径；``old_fqcn``（相对于 dev.caecorthus.sparkdlc）以旧模块名开头。
+MOVES_PATH = TOOL_PATH.parent / "unify" / "file-moves.tsv"
+MOVES_DISPLAY = "tools/unify/file-moves.tsv"
+MOVES_HEADER = ("old_path", "new_path", "old_fqcn", "new_fqcn", "source_root", "phase")
+MODULE_SOURCE_ROOTS = ("src/main/java", "src/client/java")
 
 
 class PolicyError(Exception):
     pass
+
+
+def load_module_files(path: Path = MOVES_PATH) -> dict:
+    """Repo-relative path of every moved production file -> its legacy module. / 已搬迁生产文件的仓库相对路径 -> 旧模块。
+
+    Fails when the manifest is missing or malformed, or when a module has no file left in it: an empty module would
+    make every registration look ownerless, or hide a module from the check.
+    清单缺失、格式不符或某个模块在清单中没有任何文件时失败：空模块会让所有注册都显得无主，或让某个模块逃过检查。
+    """
+    try:
+        text = path.read_text(encoding="utf-8")
+    except OSError as error:
+        raise PolicyError(f"{path}: cannot read the move manifest that maps files to legacy modules: {error}") from error
+    lines = text.split("\n")
+    if tuple(lines[0].split("\t")) != MOVES_HEADER:
+        raise PolicyError(f"{MOVES_DISPLAY}:1: header must be exactly {' '.join(MOVES_HEADER)!r}")
+    modules = {}
+    for number, line in enumerate(lines[1:], start=2):
+        if not line:
+            continue
+        cells = line.split("\t")
+        if len(cells) != len(MOVES_HEADER):
+            raise PolicyError(f"{MOVES_DISPLAY}:{number}: expected {len(MOVES_HEADER)} tab-separated cells")
+        row = dict(zip(MOVES_HEADER, cells))
+        module = row["old_fqcn"].split(".", 1)[0]
+        if module not in MODULE_NAMESPACES:
+            raise PolicyError(f"{MOVES_DISPLAY}:{number}: {row['old_fqcn']} is in no SparkDLC module")
+        if row["source_root"] in MODULE_SOURCE_ROOTS:
+            modules[row["new_path"]] = module
+    empty = sorted(set(MODULE_NAMESPACES) - set(modules.values()))
+    if empty:
+        raise PolicyError(f"{MOVES_DISPLAY}: no production file of module(s) {', '.join(empty)}; the manifest is "
+                          f"incomplete")
+    return modules
+
+
+def module_of(where: str, repo: "Path | None" = None, modules: "dict | None" = None) -> "str | None":
+    """The legacy module of the file at a ``path:line`` location, or None for a file the move manifest does not list.
+
+    ``repo`` is the checkout the path belongs to (the path is looked up relative to it).
+    ``path:line`` 位置所在文件的旧模块；搬迁清单未列出的文件返回 None。``repo`` 是该路径所属的检出，查找时取相对路径。
+    """
+    if modules is None:
+        modules = load_module_files()
+    path = where.rsplit(":", 1)[0]
+    if repo is not None:
+        path = os.path.relpath(os.path.abspath(path), os.path.abspath(repo))
+    return modules.get(path.replace(os.sep, "/"))
 
 
 # ---------------------------------------------------------------------------------------------------------------
@@ -789,7 +844,7 @@ def check(repo: Path, mod_key: str) -> list:
     """All problems for one module; empty means it matches the canonical table. / 返回该模块的全部问题。
 
     Registrations of other modules that have their own ``--mod`` target are left to that target. Registrations of a
-    module without one (traits, assist) and registrations outside every module are reported under ``factionapi``,
+    module without one (traits, assist) and registrations in a file of no module are reported under ``factionapi``,
     the owner of the table, so no C2S payload can slip past ``check-all``.
     有自己 ``--mod`` 目标的其他模块的注册留给对应目标检查；没有目标的模块（traits、assist）以及不在任何模块内的注册
     归到规范表的所有者 ``factionapi`` 名下报告，保证没有 C2S 数据包能绕过 ``check-all``。
@@ -805,18 +860,20 @@ def check(repo: Path, mod_key: str) -> list:
         problems.append(f"{output}: differs from what {TABLE_DISPLAY} generates (sha256 {table.sha256}); "
                         f"regenerate it, never edit it by hand")
     rows = {row.payload_id: row for row in table.rows}
+    module_files = load_module_files()
     try:
         registrations = Repo(repo).c2s_registrations()
     except PolicyError as error:
         problems.append(f"{repo}: registration scan failed: {error}")
         registrations = []
     for payload_id, where in registrations:
-        module = module_of(where)
+        module = module_of(where, repo, module_files)
         if module != mod_key and (module in MODS or mod_key != "factionapi"):
             continue
         if module is None:
-            problems.append(f"{where}: registers C2S payload {payload_id} outside every SparkDLC module package; "
-                            f"move the registration into its module")
+            problems.append(f"{where}: registers C2S payload {payload_id} in a file that {MOVES_DISPLAY} assigns to "
+                            f"no SparkDLC module, so its owner cannot be checked; register it from a file of the "
+                            f"owning module")
             continue
         namespace = MODULE_NAMESPACES[module]
         row = rows.get(payload_id)

@@ -10,7 +10,6 @@
     "compat.noellesroles.NoellesRolesDemonHunterAffectMixin",
     "compat.noellesroles.NoellesRolesPacketAffectMixin",
     "compat.noellesroles.NoellesRolesPoisonGasAffectMixin",
-    "faction.affect.WitchSkillUseAffectMixin",
     "cooldown.ItemCooldownEntryAccessor",
     "cooldown.ItemCooldownManagerAccessor",
     "faction.EntityAffectMixin",

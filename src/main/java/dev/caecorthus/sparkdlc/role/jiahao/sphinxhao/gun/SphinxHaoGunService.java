@@ -2,7 +2,6 @@ package dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.gun;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsGunBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.entity.SphinxHaoFistEntity;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RangedSmokeCarve;
@@ -249,7 +248,7 @@ public final class SphinxHaoGunService {
         boolean aliveBefore = GameFunctions.isPlayerPlayingAndAlive(victim);
         GameFunctions.killPlayer(victim, true, shooter, SparkWitchDeathReasons.SPHINX_HAO_FIST);
         return SphinxHaoGunRules.outcome(true, aliveBefore, game.isPlayerDead(victim.getUuid()),
-                SparkTraitsGunBridge.deathWasIntercepted(victim));
+                SparkTraitsApi.isLastStandDeathIntercepted(victim));
     }
 
     /**

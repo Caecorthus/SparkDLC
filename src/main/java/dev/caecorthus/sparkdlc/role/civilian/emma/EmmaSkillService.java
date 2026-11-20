@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkWitchRoles;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseContext;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseResult;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsGunBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.role.witch.WitchFactionRules;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
@@ -33,7 +33,7 @@ public final class EmmaSkillService {
         WitchPlayerComponent mana = WitchPlayerComponent.KEY.get(player);
         if (!context.gameComponent().isRunning() || !EmmaRules.isEmma(context.role())
                 || !GameFunctions.isPlayerPlayingAndAlive(player) || mana.getMana() < EmmaRules.MANA_COST
-                || GrandWitchFearService.isPlayerFeared(player) || SparkTraitsGunBridge.isRoleSkillBlocked(player)) {
+                || GrandWitchFearService.isPlayerFeared(player) || SparkTraitsApi.isRoleSkillBlocked(player)) {
             return WitchSkillUseResult.fail(null);
         }
         ServerPlayerEntity target = GrandWitchTargeting.findTarget(player,

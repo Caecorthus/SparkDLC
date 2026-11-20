@@ -1577,7 +1577,7 @@ Current build baseline:
     `GameFunctions.killPlayer(victim, true, shooter, SparkWitchDeathReasons.SPHINX_HAO_FIST)`.
   - Outcomes (`SphinxHaoGunRules.outcome` / `effects`, applied only while the shooter is still a living participant):
     KILL only for a victim alive before, on Wathe's dead list after and not intercepted
-    (`SparkTraitsGunBridge.deathWasIntercepted`, Emma semantics, fails closed: an unreadable probe means NO_KILL) →
+    (`SparkTraitsApi.isLastStandDeathIntercepted`, Emma semantics: an intercepted death means NO_KILL) →
     Glowing 60 ticks and Speed I 200 ticks; NO_KILL (miss, absorbed, shield, block, interception, Stands Firm) → +5
     hao, Speed III 60 ticks and 「嘉豪击中了敌人身后的恶灵」 on the action bar. Effects show no particles.
   - Death reason `sparkdlc:sphinx_hao_fist` (`SparkWitchDeathReasons.SPHINX_HAO_FIST` = `SphinxHaoRules.DEATH_REASON`;
@@ -6065,8 +6065,8 @@ the round for killers or passengers while a lone Insider lives. Since 2026-11-17
 狮身豪 defers those verdicts), and the Going Dark description names it.
 狮身豪 may query only `isInstinctHidden` (its infected outline, through its own `OptionalStaticMethod` like Koko's),
 `isRoleSkillBlocked` (both skills), `blocksWeaponAction` and `isLastEscapeActive` (the fist shot and its targets)
-through `SparkTraitsApi`, `deathWasIntercepted` through `SparkTraitsGunBridge` (fails closed: the shot is
-then no kill), `isDeathIntercepted` through `WitchFactorTraitsBridge` (the kit strip) and
+and `isLastStandDeathIntercepted` (an intercepted death: the shot is then no kill) through `SparkTraitsApi`,
+`isDeathIntercepted` through `WitchFactorTraitsBridge` (the kit strip) and
 `TraitShopEntries.capture` / `restore`. Trait effects that need no seam: Final Moment's +1000 coins stay hidden and
 unspendable (`CanSeeMoney` DENY), money traits never roll for it, Fast Hands shortens the gun's 20-tick cooldown to
 18, and Stands Firm cancels a fist kill between Team Jiahao members, which then pays the no-kill branch.

@@ -3,7 +3,6 @@ package dev.caecorthus.sparkdlc.item.m1903a4;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.SparkWitchSounds;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsGunBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RangedSmokeCarve;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
@@ -195,7 +194,7 @@ public final class M1903A4Combat {
         boolean aliveBefore = GameFunctions.isPlayerPlayingAndAlive(victim);
         GameFunctions.killPlayer(victim, true, shooter, GameConstants.DeathReasons.GUN);
         return M1903A4Rules.confirmsKill(true, aliveBefore, game.isPlayerDead(victim.getUuid()),
-                SparkTraitsGunBridge.deathWasIntercepted(victim));
+                SparkTraitsApi.isLastStandDeathIntercepted(victim));
     }
 
     /**

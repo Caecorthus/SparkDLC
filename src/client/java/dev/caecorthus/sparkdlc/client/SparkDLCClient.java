@@ -34,6 +34,7 @@ import dev.caecorthus.sparkdlc.client.item.FlashlightModelClient;
 import dev.caecorthus.sparkdlc.client.item.M67Client;
 import dev.caecorthus.sparkdlc.client.item.PerfumerItemsClient;
 import dev.caecorthus.sparkdlc.client.legacy.LegacyClientNames;
+import dev.caecorthus.sparkdlc.client.net.SparkDlcClientPackets;
 import dev.caecorthus.sparkdlc.client.net.version.SparkDlcClientVersionHandshake;
 import dev.caecorthus.sparkdlc.client.ponder.PonderSupport;
 import dev.caecorthus.sparkdlc.client.record.MatchRecordClient;
@@ -55,8 +56,6 @@ import dev.caecorthus.sparkdlc.client.role.civilian.controlexpert.ControlExpertS
 import dev.caecorthus.sparkdlc.client.role.civilian.controlexpert.ControlExpertStunClient;
 import dev.caecorthus.sparkdlc.client.role.civilian.coroner.CoronerClientHooks;
 import dev.caecorthus.sparkdlc.client.role.civilian.demonhunter.DemonHunterSniffClientHooks;
-import dev.caecorthus.sparkdlc.client.role.civilian.detective.DetectiveFolderScreen;
-import dev.caecorthus.sparkdlc.client.role.civilian.detective.DetectiveInterrogationScreen;
 import dev.caecorthus.sparkdlc.client.role.civilian.emma.EmmaClientModule;
 import dev.caecorthus.sparkdlc.client.role.civilian.engineer.EngineerClientHooks;
 import dev.caecorthus.sparkdlc.client.role.civilian.fisher.FisherClient;
@@ -73,7 +72,6 @@ import dev.caecorthus.sparkdlc.client.role.civilian.perfumer.kit.PerfumerClientH
 import dev.caecorthus.sparkdlc.client.role.civilian.planner.PlannerClient;
 import dev.caecorthus.sparkdlc.client.role.civilian.professor.ProfessorSerumClientHooks;
 import dev.caecorthus.sparkdlc.client.role.civilian.prophet.ProphetClientModule;
-import dev.caecorthus.sparkdlc.client.role.civilian.prophet.ProphetNecrologyBookScreen;
 import dev.caecorthus.sparkdlc.client.role.civilian.recruit.RecruitClientPresentation;
 import dev.caecorthus.sparkdlc.client.role.civilian.savior.SaviorClient;
 import dev.caecorthus.sparkdlc.client.role.civilian.savior.SaviorDomainClient;
@@ -81,8 +79,6 @@ import dev.caecorthus.sparkdlc.client.role.civilian.seeker.SeekerClientModule;
 import dev.caecorthus.sparkdlc.client.role.civilian.sherry.SherryClient;
 import dev.caecorthus.sparkdlc.client.role.civilian.spiritualist.SpiritPossessionClient;
 import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotDivinationClientState;
-import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotDivinationSelectorScreen;
-import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotReadingLog;
 import dev.caecorthus.sparkdlc.client.role.civilian.timekeeper.TimekeeperWatchClientHooks;
 import dev.caecorthus.sparkdlc.client.role.civilian.undercover.UndercoverClient;
 import dev.caecorthus.sparkdlc.client.role.civilian.usec.UsecClientModule;
@@ -96,7 +92,6 @@ import dev.caecorthus.sparkdlc.client.role.killer.assassin.AssassinGuessSources;
 import dev.caecorthus.sparkdlc.client.role.killer.bandit.BanditRevolverClient;
 import dev.caecorthus.sparkdlc.client.role.killer.bellringer.BellRingerClient;
 import dev.caecorthus.sparkdlc.client.role.killer.blackraven.BlackRavenClientModule;
-import dev.caecorthus.sparkdlc.client.role.killer.blackraven.BlackRavenLedgerScreen;
 import dev.caecorthus.sparkdlc.client.role.killer.blackraven.crow.BlackRavenCrowClient;
 import dev.caecorthus.sparkdlc.client.role.killer.blackraven.crow.BlackRavenCrowWorldClient;
 import dev.caecorthus.sparkdlc.client.role.killer.bomber.BomberDroneClient;
@@ -143,7 +138,6 @@ import dev.caecorthus.sparkdlc.client.tablet.TabletChatNotifier;
 import dev.caecorthus.sparkdlc.client.tablet.TabletClientHighlights;
 import dev.caecorthus.sparkdlc.client.tablet.TabletHeldHud;
 import dev.caecorthus.sparkdlc.client.tablet.screen.TabletClientState;
-import dev.caecorthus.sparkdlc.client.tablet.screen.TabletScreen;
 import dev.caecorthus.sparkdlc.client.trait.audio.DepressionRageLoopController;
 import dev.caecorthus.sparkdlc.client.trait.audio.FinalMomentMusicController;
 import dev.caecorthus.sparkdlc.client.trait.hud.DepressionHud;
@@ -153,25 +147,15 @@ import dev.caecorthus.sparkdlc.client.trait.killer.NewKillerTraitsClient;
 import dev.caecorthus.sparkdlc.client.world.LoadedEntities;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.component.WitchWorldComponent;
-import dev.caecorthus.sparkdlc.economy.SyncKillerTeamEconomyS2CPacket;
 import dev.caecorthus.sparkdlc.faction.api.FactionInstinctPolicy;
 import dev.caecorthus.sparkdlc.faction.vision.FactionCohortRules;
 import dev.caecorthus.sparkdlc.faction.vision.FactionInstinctRules;
 import dev.caecorthus.sparkdlc.item.TimekeeperWatchItem;
-import dev.caecorthus.sparkdlc.net.OpenBlackRavenLedgerS2CPacket;
-import dev.caecorthus.sparkdlc.net.OpenProphetNecrologyS2CPacket;
-import dev.caecorthus.sparkdlc.net.OpenTarotDivinationSelectorS2CPacket;
-import dev.caecorthus.sparkdlc.net.TarotDivinationReadingS2CPacket;
-import dev.caecorthus.sparkdlc.net.TarotDivinationSnapshotS2CPacket;
 import dev.caecorthus.sparkdlc.net.UseWitchSkillC2SPacket;
-import dev.caecorthus.sparkdlc.net.WraithRoleAnnouncementS2CPacket;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.athlete.AthleteRules;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindRules;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertEntities;
-import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveInterrogationResultS2CPacket;
-import dev.caecorthus.sparkdlc.role.civilian.detective.OpenDetectiveFolderS2CPacket;
-import dev.caecorthus.sparkdlc.role.civilian.detective.OpenDetectiveInterrogationS2CPacket;
 import dev.caecorthus.sparkdlc.role.civilian.guardianangel.GuardianAngelRules;
 import dev.caecorthus.sparkdlc.role.civilian.guardianangel.UseGuardianAngelSkillC2SPacket;
 import dev.caecorthus.sparkdlc.role.civilian.hanna.HannaRules;
@@ -209,16 +193,11 @@ import dev.caecorthus.sparkdlc.role.killer.witchmaiden.WitchMaidenRules;
 import dev.caecorthus.sparkdlc.role.neutral.criminalreasoner.CriminalReasonerRules;
 import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendParticipation;
 import dev.caecorthus.sparkdlc.role.neutral.koko.KokoRules;
-import dev.caecorthus.sparkdlc.role.neutral.shadowjester.SyncShadowJesterShowdownMusicS2CPacket;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithParticipationRules;
 import dev.caecorthus.sparkdlc.role.witch.curser.UseCurserAbilityC2SPacket;
 import dev.caecorthus.sparkdlc.role.witch.potiongunner.shell.PotionGunnerEntities;
-import dev.caecorthus.sparkdlc.sabotage.net.SyncBlackoutSightS2CPacket;
-import dev.caecorthus.sparkdlc.tablet.net.OpenTabletScreenS2CPacket;
-import dev.caecorthus.sparkdlc.tablet.net.SyncTabletSnapshotS2CPacket;
 import dev.caecorthus.sparkdlc.trait.civilian.laststand.LastStandFinalMomentService;
 import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
-import dev.caecorthus.sparkdlc.trait.net.BluePoisonMarkersPayload;
 import dev.doctor4t.ratatouille.client.util.ambience.AmbienceUtil;
 import dev.doctor4t.ratatouille.client.util.ambience.BackgroundAmbience;
 import dev.doctor4t.wathe.api.event.AllowPlayerChat;
@@ -228,8 +207,6 @@ import dev.doctor4t.wathe.api.event.ShouldAllowSuppressedKey;
 import dev.doctor4t.wathe.api.event.ShouldShowCohort;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.WatheClient;
-import dev.doctor4t.wathe.client.gui.RoleAnnouncementTexts;
-import dev.doctor4t.wathe.client.gui.RoundTextRenderer;
 import dev.doctor4t.wathe.client.particle.PoisonParticle;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.fabricmc.api.ClientModInitializer;
@@ -246,7 +223,6 @@ import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -288,8 +264,12 @@ public final class SparkDLCClient implements ClientModInitializer {
         LegacyClientNames.carryOver();
         startSettingsGuidebookAndAchievements();
         startFactionAndReplayClient();
+        // The play receivers that belong to no client feature module, for the whole mod. Receivers are kept per
+        // payload id, so this line has no order to keep. / 不属于任何客户端功能模块的 play 接收器，覆盖全模组。接收器按数据包 id
+        // 保存，因此这一行没有需要保持的顺序。
+        SparkDlcClientPackets.register();
         registerRoleKitClient();
-        registerRoleKitTicksAndReceivers();
+        registerRoleKitTicksAndSessionResets();
         registerTraitClient();
         registerOwnRoleClient();
         registerWraithChatAndJumpRules();
@@ -450,10 +430,10 @@ public final class SparkDLCClient implements ClientModInitializer {
     }
 
     /**
-     * End-of-tick listeners, the Dying Watch tooltip, the session resets and the screen and state receivers of those
-     * kits. 这些套件的 tick 结束监听器、濒死怀表提示、会话重置，以及界面与状态接收器。
+     * End-of-tick listeners, the Dying Watch tooltip and the session resets of those kits.
+     * 这些套件的 tick 结束监听器、濒死怀表提示与会话重置。
      */
-    private static void registerRoleKitTicksAndReceivers() {
+    private static void registerRoleKitTicksAndSessionResets() {
         ClientTickEvents.END_CLIENT_TICK.register(CorruptCopMusicController::tick);
         ClientTickEvents.END_CLIENT_TICK.register(client ->
                 KillerTeamEconomyClientHooks.tick(client.world));
@@ -494,56 +474,17 @@ public final class SparkDLCClient implements ClientModInitializer {
         // 客户端线程上执行。JOIN（客户端线程、任何游戏数据包之前）再重置一次，以防排队的任务被 MinecraftClient.disconnect 丢弃。
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> client.execute(SparkDLCClient::resetRoleKitSessionState));
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> resetRoleKitSessionState());
-        // The server syncs the case component before this packet, so the screen reads fresh data on open.
-        // 服务端在发送此包前已同步命案组件，界面打开时即可读取最新数据。
-        ClientPlayNetworking.registerGlobalReceiver(OpenDetectiveFolderS2CPacket.ID,
-                (payload, context) -> context.client().execute(() ->
-                        context.client().setScreen(new DetectiveFolderScreen())));
-        ClientPlayNetworking.registerGlobalReceiver(OpenDetectiveInterrogationS2CPacket.ID,
-                (payload, context) -> context.client().execute(() ->
-                        context.client().setScreen(new DetectiveInterrogationScreen())));
-        ClientPlayNetworking.registerGlobalReceiver(DetectiveInterrogationResultS2CPacket.ID,
-                (payload, context) -> context.client().execute(() -> DetectiveInterrogationScreen.acceptResult(payload)));
-        ClientPlayNetworking.registerGlobalReceiver(OpenTabletScreenS2CPacket.ID,
-                (payload, context) -> context.client().execute(() ->
-                        context.client().setScreen(new TabletScreen())));
-        ClientPlayNetworking.registerGlobalReceiver(SyncTabletSnapshotS2CPacket.ID,
-                (payload, context) -> context.client().execute(() -> {
-                    TabletClientState.apply(payload.snapshot());
-                    if (context.client().currentScreen instanceof TabletScreen tabletScreen) {
-                        tabletScreen.handleSnapshotUpdate();
-                    }
-                }));
-        ClientPlayNetworking.registerGlobalReceiver(SyncBlackoutSightS2CPacket.ID,
-                (payload, context) -> context.client().execute(() -> BlackoutSightClient.apply(payload)));
-        ClientPlayNetworking.registerGlobalReceiver(SyncKillerTeamEconomyS2CPacket.ID,
-                (payload, context) -> context.client().execute(() ->
-                        KillerTeamEconomyClientHooks.applySnapshot(
-                                context.client().world,
-                                payload.visible(),
-                                payload.balance()
-                        )));
-        ClientPlayNetworking.registerGlobalReceiver(
-                SyncShadowJesterShowdownMusicS2CPacket.ID,
-                (payload, context) -> context.client().execute(() ->
-                        ShadowJesterShowdownMusicController.setServerRequestedActive(payload.active()))
-        );
     }
 
     /**
-     * Owner-inventory adapter, killer-trait client, blue-poison particles and markers, session resets (with the
+     * Owner-inventory adapter, killer-trait client, blue-poison particles, session resets (with the
      * confirmed-server flag's login and JOIN edges), the Final Moment highlight and the trait tick.
-     * 所有者背包适配器、杀手词条客户端、蓝毒粒子与标记、会话重置（含已确认服务端标记的登录与 JOIN 节点）、终局时刻高亮与词条 tick。
+     * 所有者背包适配器、杀手词条客户端、蓝毒粒子、会话重置（含已确认服务端标记的登录与 JOIN 节点）、终局时刻高亮与词条 tick。
      */
     private static void registerTraitClient() {
         dev.caecorthus.sparkdlc.client.trait.gui.OwnerInventoryClientAdapter.install();
         NewKillerTraitsClient.initialize();
         ParticleFactoryRegistry.getInstance().register(SparkTraitsParticles.BLUE_POISON, PoisonParticle.Factory::new);
-        // Private blue-poison markers: the server sends this only to viewers that may see blue poison. Play payload
-        // handlers run on the client thread, which owns the store.
-        // 私有蓝毒标记：服务端只发给可以看到蓝毒的观察者。play 数据包处理器在客户端线程执行，存储也归该线程所有。
-        ClientPlayNetworking.registerGlobalReceiver(BluePoisonMarkersPayload.ID,
-                (payload, context) -> BluePoisonMarkerClientStore.accept(context.client().world, payload));
         // A new connection starts unconfirmed, even if the previous one never reached its play session.
         // 新连接从未确认状态开始，即使上一个连接没有进入 play 会话。
         ClientLoginConnectionEvents.INIT.register((handler, client) -> SparkDlcServerConnection.reset());
@@ -584,8 +525,8 @@ public final class SparkDLCClient implements ClientModInitializer {
     }
 
     /**
-     * Client hubs of the mod's own roles: the Role Skill 2 key binding, entity renderers, screen receivers and the
-     * role-owned HUD rows. 本模组自有职业的客户端注册中心：“职业技能 2”按键绑定、实体渲染器、界面接收器与各职业自有的 HUD 行。
+     * Client hubs of the mod's own roles: the Role Skill 2 key binding, entity renderers and the role-owned HUD
+     * rows. 本模组自有职业的客户端注册中心：“职业技能 2”按键绑定、实体渲染器与各职业自有的 HUD 行。
      */
     private static void registerOwnRoleClient() {
         SparkDLC.LOGGER.info("Initializing SparkWitch client hooks.");
@@ -608,10 +549,6 @@ public final class SparkDLCClient implements ClientModInitializer {
         VendettaKnifeModelLoadingPlugin.register();
         SecondaryAbilityController.reset();
         registerEntityRenderers();
-        registerTarotDivinationNetworking();
-        registerBlackRavenNetworking();
-        registerProphetNecrologyNetworking();
-        registerWraithRoleAnnouncementNetworking();
         JudgeClientModule.register();
         JunkerClientModule.register();
         KnightSwordClient.register();
@@ -1116,18 +1053,6 @@ public final class SparkDLCClient implements ClientModInitializer {
         dev.caecorthus.sparkdlc.client.role.jiahao.sphinxhao.SphinxHaoGunClient.register();
     }
 
-    private static void registerWraithRoleAnnouncementNetworking() {
-        ClientPlayNetworking.registerGlobalReceiver(WraithRoleAnnouncementS2CPacket.ID, (payload, context) ->
-                context.client().execute(() -> {
-                    var roleId = net.minecraft.util.Identifier.tryParse(payload.roleId());
-                    RoundTextRenderer.startWelcome(
-                            RoleAnnouncementTexts.getForRole(roleId),
-                            payload.killers(),
-                            payload.targets()
-                    );
-                }));
-    }
-
     private static void registerGrandWitchCeremonialSwordBgm() {
         AmbienceUtil.registerBackgroundAmbience(new BackgroundAmbience(
                 SparkWitchSounds.GRAND_WITCH_CEREMONIAL_SWORD_BGM,
@@ -1135,70 +1060,6 @@ public final class SparkDLCClient implements ClientModInitializer {
                         && WitchWorldComponent.KEY.get(player.getWorld()).hasGrandWitchCeremonialSwordBgm(),
                 20
         ));
-    }
-
-    private static void registerTarotDivinationNetworking() {
-        ClientPlayNetworking.registerGlobalReceiver(TarotDivinationSnapshotS2CPacket.ID, (payload, context) ->
-                context.client().execute(() -> {
-                    if (!SparkDlcServerConnection.isConfirmedServer()) {
-                        return;
-                    }
-                    TarotDivinationClientState.snapshotState().overwrite(
-                            payload.civilianCount(),
-                            payload.killerCount(),
-                            payload.neutralCount(),
-                            payload.witchCount(),
-                            payload.jiahaoCount()
-                    );
-                }));
-        ClientPlayNetworking.registerGlobalReceiver(OpenTarotDivinationSelectorS2CPacket.ID, (payload, context) ->
-                context.client().execute(() -> {
-                    if (!SparkDlcServerConnection.isConfirmedServer()) {
-                        return;
-                    }
-                    context.client().setScreen(new TarotDivinationSelectorScreen(
-                            payload.mode(),
-                            payload.playerIds(),
-                            payload.playerNames()
-                    ));
-                }));
-        // Purchaser-only result; stored so the slip and the selector's stamps repeat what the server already said.
-        // 仅购买者可见的结果；保存下来，供结果条与选择界面的印记重复展示服务端已给出的结论。
-        ClientPlayNetworking.registerGlobalReceiver(TarotDivinationReadingS2CPacket.ID, (payload, context) ->
-                context.client().execute(() -> {
-                    if (!SparkDlcServerConnection.isConfirmedServer()) {
-                        return;
-                    }
-                    TarotDivinationClientState.readingLog().record(new TarotReadingLog.Reading(
-                            payload.mode(),
-                            payload.target(),
-                            payload.displayName(),
-                            payload.positive(),
-                            Util.getMeasuringTimeMs()
-                    ));
-                }));
-    }
-
-    private static void registerBlackRavenNetworking() {
-        ClientPlayNetworking.registerGlobalReceiver(OpenBlackRavenLedgerS2CPacket.ID, (payload, context) ->
-                context.client().execute(() -> {
-                    if (SparkDlcServerConnection.isConfirmedServer()) {
-                        BlackRavenLedgerScreen.open(context.client());
-                    }
-                }));
-    }
-
-    /**
-     * The Necrology opens only on the server's empty authorization; its pages come from the owner-synced component.
-     * 亡者名录只在收到服务端的空授权包后打开；书页内容来自仅同步给所有者的组件。
-     */
-    private static void registerProphetNecrologyNetworking() {
-        ClientPlayNetworking.registerGlobalReceiver(OpenProphetNecrologyS2CPacket.ID, (payload, context) ->
-                context.client().execute(() -> {
-                    if (SparkDlcServerConnection.isConfirmedServer()) {
-                        ProphetNecrologyBookScreen.open(context.client());
-                    }
-                }));
     }
 
     /**

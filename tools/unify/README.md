@@ -344,3 +344,71 @@ the new ones, in the sequence the fused entrypoints used to call them.
   `configManager()`、`runSessionCleanup(...)` / `shouldRunSessionCleanup(...)` 与 `abilityKeyText()` 转发给
   `SparkDLCClient`，供仍然引用它们的约一千处调用使用。之后的脚本化改名会把这些调用点指向 `SparkDLC` / `SparkDLCClient`
   并删除这些持有类。
+
+## One wire / 一条线
+
+The mod spoke to its own client as three mods: three version handshakes, three generated payload-policy classes,
+three packet hubs. Each is one now.
+
+- **Handshake.** `net.version.SparkDlcVersionHandshake` asks one login query (`sparkdlc:version_check`) and sends one
+  play confirmation (`SparkDlcServerConfirmS2CPacket`, `sparkdlc:server_confirm`); `SparkDlcVersionCheck` is the
+  decision as pure logic with the one pair of kick messages, which name SparkDLC; `SparkDlcServerConnection` is the one
+  "the server runs SparkDLC and is confirmed" flag; `client.net.version.SparkDlcClientVersionHandshake` answers. The
+  three old login channels and the two old confirmation payloads are retired, nothing listens on them (notes of the
+  `login_channel` and `server_confirm` rows of `legacy-ids.tsv`, set in `id-inventory.tsv` and
+  `namespace-overrides.tsv`). The flag keeps the lifecycle of the former SparkTraits flag, the stricter one: a JOIN
+  keeps only a confirmation that this connection's own login earned, so after a proxy backend switch the readers of the
+  former SparkWitch flag are unconfirmed until the new backend's confirmation arrives (that flag used to survive every
+  JOIN). The confirmation is sent from a player-join listener and stands where the first of the two former ones stood:
+  after the join listeners of the role kits, before those of the traits and the mod's own roles
+  (`SparkDlcVersionHandshake.registerServer()` in `SparkDLC#onInitialize`). Game test `SparkDlcHandshakeGameTest` logs
+  three scripted clients in over a loopback socket: same version, other version, no answer.
+- **Payload policy.** One generated class, `net.policy.GeneratedPayloadPolicy`, with every emitted profile.
+  `tools/payload_policy.py` has no per-module target (`generate --repo .`, `check --repo .`) and no longer reads
+  `file-moves.tsv`. In `config/payload-policy/actions.tsv` the `owner` column is the registering mod again and equals
+  the namespace of the id (`sparkdlc`, `wathe`, `noellesroles`); what the former labels `sparkstrength` / `sparkwitch`
+  still carried for a rule is the new `group` column: `role_kit` (kits of the Wathe and NoellesRoles roles, sabotage,
+  tablet, killer team economy) or `own_role`. `check` also fails on a `sparkdlc` row that no source registers. The
+  `tools/payload_policy.py` row of `namespace-keep.tsv` no longer matches anything.
+- **Packets.** `net.SparkDlcPackets.register()` is the one call for payload types and server receivers, a list of
+  features by role category. A feature with several payloads has a registrar in its own package (`*Packets`,
+  `*Networking`; fourteen were split out of the former hubs), a feature with one or two is registered in the hub under
+  its name. Payload types and global receivers are kept per payload id, so nothing in the hub depends on order; what
+  does is an event listener, and the hub registers none: the services that register listeners together with their
+  payloads (`CrossSwordStabService`, the Savior's three services, `HunterShotgunAimClaims`) are called from
+  `registerOwnRoleGameplay`, in the place and order they had inside the former hub. On the client the fifteen
+  receivers that the start-up wrote out itself are `client.net.SparkDlcClientPackets.register()`; client feature
+  modules keep their own receivers.
+- **Proof.** The server start-up dump before and after differs only in what the handshake merge changes on purpose:
+  one `QueryStart` listener instead of three, one join listener of `SparkDlcVersionHandshake` in the place of the
+  one of `SparkTraitsPackets` and none in the place of the one of `SparkWitchPackets`, and `sparkdlc:server_confirm`
+  instead of the two old payload ids. The packet hub merge changes nothing in the dump. The 12 profile sets of the
+  one policy class equal the sets of the three classes that carried them (109 payload ids x 12 profiles).
+
+本模组原先以三个模组的身份与自己的客户端通信：三个版本握手、三个生成的数据包策略类、三个数据包注册中心。现在各只有一个。
+
+- **握手。**`net.version.SparkDlcVersionHandshake` 只提出一个登录查询（`sparkdlc:version_check`），只发送一个 play 确认
+  （`SparkDlcServerConfirmS2CPacket`，`sparkdlc:server_confirm`）；`SparkDlcVersionCheck` 以纯逻辑给出判定及唯一一对踢出提示
+  （提示中的名字是 SparkDLC）；`SparkDlcServerConnection` 是唯一的“服务端运行 SparkDLC 且已确认”标记；
+  `client.net.version.SparkDlcClientVersionHandshake` 负责应答。三个旧登录频道与两个旧确认数据包已退役，不再有任何监听
+  （见 `legacy-ids.tsv` 中 `login_channel` 与 `server_confirm` 行的备注，在 `id-inventory.tsv` 与 `namespace-overrides.tsv` 中设置）。
+  该标记沿用原 SparkTraits 标记的生命周期（两者中更严格的一个）：JOIN 只保留由本连接自己的登录取得的确认，因此代理切换后端之后，
+  原 SparkWitch 标记的读取方在新后端的确认到达之前处于未确认状态（该标记原先会保留到每次 JOIN 之后）。确认由玩家加入监听器发送，
+  位置与原先两个确认中的第一个相同：晚于职业套件的加入监听器，早于词条与本模组自有职业的加入监听器
+  （`SparkDLC#onInitialize` 中的 `SparkDlcVersionHandshake.registerServer()`）。game test `SparkDlcHandshakeGameTest` 通过回环 socket
+  让三个脚本客户端登录：版本相同、版本不同、不应答。
+- **数据包策略。**只有一个生成类 `net.policy.GeneratedPayloadPolicy`，包含全部生成的配置。`tools/payload_policy.py` 不再有按模块的
+  目标（`generate --repo .`、`check --repo .`），也不再读取 `file-moves.tsv`。`config/payload-policy/actions.tsv` 的 `owner` 列重新表示
+  注册数据包的模组，并与 id 的命名空间相同（`sparkdlc`、`wathe`、`noellesroles`）；旧标签 `sparkstrength` / `sparkwitch` 仍为某条规则
+  携带的信息成为新的 `group` 列：`role_kit`（Wathe 与 NoellesRoles 职业的套件、破坏、平板电脑、杀手团队经济）或 `own_role`。
+  `check` 还会在某个 `sparkdlc` 行没有任何源码注册时失败。`namespace-keep.tsv` 中 `tools/payload_policy.py` 那一行已不再匹配任何内容。
+- **数据包。**`net.SparkDlcPackets.register()` 是注册数据包类型与服务端接收器的唯一调用，按职业类别列出各功能。数据包较多的功能在
+  自己的包里有注册类（`*Packets`、`*Networking`；其中十四个从原注册中心拆出），只有一两个数据包的功能在注册中心内按功能名注册。
+  数据包类型与全局接收器按数据包 id 保存，因此注册中心内没有任何内容依赖顺序；依赖顺序的是事件监听器，而注册中心不注册监听器：
+  连同数据包一起注册监听器的服务（`CrossSwordStabService`、救世主的三个服务、`HunterShotgunAimClaims`）由 `registerOwnRoleGameplay`
+  调用，位置与顺序同它们在原注册中心内时一致。客户端方面，启动流程原先自己写出的十五个接收器现在是
+  `client.net.SparkDlcClientPackets.register()`；各客户端功能模块仍保留自己的接收器。
+- **证明。**改动前后的服务端启动导出只有握手合并有意造成的差异：`QueryStart` 监听器由三个变为一个；`SparkDlcVersionHandshake` 的
+  一个加入监听器取代了 `SparkTraitsPackets` 的那个，`SparkWitchPackets` 的那个不再存在；两个旧数据包 id 变为
+  `sparkdlc:server_confirm`。数据包注册中心的合并在导出中没有任何变化。合并后的策略类的 12 个配置集合与原先三个类中的对应集合
+  完全相同（109 个数据包 id × 12 个配置）。

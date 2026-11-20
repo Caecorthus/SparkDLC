@@ -1574,7 +1574,7 @@ def verifyWitchModJar = tasks.register("verifyWitchModJar") {
             [
                     "dev/caecorthus/sparkdlc/client/SparkDLCClient.class",
                     "dev/caecorthus/sparkdlc/net/version/SparkDlcServerConnection.class",
-                    "dev/caecorthus/sparkdlc/net/SparkWitchPackets.class",
+                    "dev/caecorthus/sparkdlc/net/SparkDlcPackets.class",
                     "dev/caecorthus/sparkdlc/net/version/SparkDlcServerConfirmS2CPacket.class",
                     "dev/caecorthus/sparkdlc/client/net/version/SparkDlcClientVersionHandshake.class"
             ].each { requiredEntry ->

@@ -11,10 +11,10 @@ import java.util.List;
 
 /**
  * Stable packet contract (G0): registers every Riftwalker payload (the only place that does, called once from
- * {@code SparkWitchPackets}) and routes each C2S receiver to a frozen service method, which performs all validation on
+ * {@code SparkDlcPackets}) and routes each C2S receiver to a frozen service method, which performs all validation on
  * the server thread. The client S2C receiver lives in {@code RiftwalkerClient}. Payload ids are deliberately classified
  * for the Control Expert stun list and the Seeker session guard ({@code RiftwalkerPayloadClassificationTest}).
- * 稳定数据包契约（G0）：注册所有隙行者数据包（唯一注册处，由 {@code SparkWitchPackets} 调用一次），并把每个 C2S 接收器
+ * 稳定数据包契约（G0）：注册所有隙行者数据包（唯一注册处，由 {@code SparkDlcPackets} 调用一次），并把每个 C2S 接收器
  * 转交给冻结的服务方法，由其在服务端线程完成全部校验。客户端 S2C 接收器位于 {@code RiftwalkerClient}。数据包 id 已针对
  * 控场专家眩晕名单与搜寻者会话拦截有意识地归类（{@code RiftwalkerPayloadClassificationTest}）。
  */

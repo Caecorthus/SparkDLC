@@ -8,10 +8,10 @@ import net.minecraft.server.world.ServerWorld;
 
 /**
  * Stable packet contract: registers every BEAR smoke payload type (the only place that does), from
- * {@code SparkWitchPackets.register()} on both sides. All four are S2C and visual only: the client draws smoke from
+ * {@code SparkDlcPackets.register()} on both sides. All four are S2C and visual only: the client draws smoke from
  * them, and no server rule (line of sight included, owner 2026-11-05) reads smoke. The receivers live in the client
  * source set ({@code client/bear/smoke/SmokeNetworkClient}). Sends skip players whose client lacks the channel.
- * 稳定数据包契约：注册全部 BEAR 烟雾数据包类型（唯一注册处），由双端的 {@code SparkWitchPackets.register()} 调用。
+ * 稳定数据包契约：注册全部 BEAR 烟雾数据包类型（唯一注册处），由双端的 {@code SparkDlcPackets.register()} 调用。
  * 四个都是 S2C 且纯视觉：客户端据此绘制烟雾，任何服务端规则（包括视线，所有者 2026-11-05）都不读取烟雾。接收器位于客户端
  * 源码集（{@code client/bear/smoke/SmokeNetworkClient}）。客户端没有该通道的玩家会被跳过。
  */

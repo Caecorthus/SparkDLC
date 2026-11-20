@@ -168,6 +168,9 @@ def verifyFactionApiModJar = tasks.register("verifyFactionApiModJar") {
                     "dev/caecorthus/sparkdlc/client/net/version/SparkDlcClientVersionHandshake.class",
                     "dev/caecorthus/sparkdlc/net/version/SparkDlcVersionHandshake.class",
                     "dev/caecorthus/sparkdlc/net/version/SparkDlcVersionCheck.class",
+                    "dev/caecorthus/sparkdlc/net/SparkDlcPackets.class",
+                    "dev/caecorthus/sparkdlc/client/net/SparkDlcClientPackets.class",
+                    "dev/caecorthus/sparkdlc/net/policy/GeneratedPayloadPolicy.class",
                     "dev/caecorthus/sparkdlc/faction/api/PlayerAffectPolicy.class",
                     "dev/caecorthus/sparkdlc/faction/api/PoliceRoles.class",
                     "dev/caecorthus/sparkdlc/round/settlement/SettlementExclusions.class",
@@ -328,6 +331,15 @@ def verifyFactionApiModJar = tasks.register("verifyFactionApiModJar") {
                     "dev/caecorthus/sparkdlc/net/version/SparkWitchVersionCheck.class",
                     "dev/caecorthus/sparkdlc/net/version/SparkWitchServerConfirmS2CPacket.class",
                     "dev/caecorthus/sparkdlc/net/version/SparkWitchServerConnection.class",
+                    // The three packet hubs (now net.SparkDlcPackets) and the three generated payload policy classes
+                    // (now net.policy.GeneratedPayloadPolicy). / 三个数据包注册中心（现为 net.SparkDlcPackets）与三个生成的
+                    // 数据包策略类（现为 net.policy.GeneratedPayloadPolicy）。
+                    "dev/caecorthus/sparkdlc/net/SparkStrengthPackets.class",
+                    "dev/caecorthus/sparkdlc/net/SparkTraitsPackets.class",
+                    "dev/caecorthus/sparkdlc/net/SparkWitchPackets.class",
+                    "dev/caecorthus/sparkdlc/net/policy/strength/GeneratedPayloadPolicy.class",
+                    "dev/caecorthus/sparkdlc/net/policy/witch/GeneratedPayloadPolicy.class",
+                    "dev/caecorthus/sparkdlc/round/antifastround/GeneratedPayloadPolicy.class",
                     "dev/caecorthus/sparkdlc/factionapi/client/net/SparkFactionClientVersionHandshake.class",
                     "dev/caecorthus/sparkdlc/factionapi/net/SparkFactionVersionHandshake.class",
                     "dev/caecorthus/sparkdlc/factionapi/net/SparkFactionVersionCheck.class",

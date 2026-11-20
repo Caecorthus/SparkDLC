@@ -147,8 +147,9 @@ SparkStrength and SparkAssist do not own SparkWitch gameplay.
 Round-start subtitles are one short sentence per role (owner, 2026-10-25): Wathe shows `announcement.goal.<role>`
 with one killer and `announcement.goals.<role>` with more, so both keys carry the same line; rules, costs and
 cooldowns go in letters, skill descriptions and the SparkAssist guidebook (`roles/RoleGoalSubtitleTest` caps them).
-Seeker availability requires the SparkStrength tablet item (`sparkdlc:tablet`), resolved by
-registry id only; SparkStrength owns no Seeker gameplay. SparkWitch never sells or grants the tablet: SparkStrength
+The Seeker's console is the tablet (`sparkdlc:tablet`), matched by registry id only. The tablet is registered by
+this mod itself, so the former "Seeker availability requires the tablet item" draw condition and the car-as-console
+fallback are gone (they were constant in one mod); SparkStrength owns no Seeker gameplay. SparkWitch never sells or grants the tablet: SparkStrength
 issues it free at round start to every tablet-eligible player (SparkWitch's `PoliceRoles` members and the witch
 faction included) and, through a mid-round reconciliation pass, to players who become eligible later.
 

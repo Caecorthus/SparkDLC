@@ -18,10 +18,10 @@ import java.util.List;
 /**
  * The Search Car item: the "garage". It stays in its slot while deployed and carries every car cooldown (vanilla
  * {@code interactItem} already refuses use while it cools down). Server authority: READY → {@code deployCar};
- * DEPLOYED → the tablet hint (or, without SparkStrength, the client console opener has already intercepted the use).
+ * DEPLOYED → the tablet hint.
  * The client only reports CONSUME so the use packet goes out without a swing or an off-hand fallthrough.
  * 搜寻小车物品即“车库”：部署后仍留在槽位中，并承载所有小车冷却（原版 {@code interactItem} 在冷却中已拒绝使用）。
- * 服务端权威：READY → {@code deployCar}；DEPLOYED → 提示改用平板（未装 SparkStrength 时客户端控制台打开器已先行拦截）。
+ * 服务端权威：READY → {@code deployCar}；DEPLOYED → 提示改用平板。
  * 客户端只返回 CONSUME，使用数据包照常发出，但不挥手、也不落到副手。
  */
 public class SeekerCarItem extends Item {

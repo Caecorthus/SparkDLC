@@ -1,7 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
-import dev.caecorthus.sparkdlc.tablet.TabletItemLookup;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -228,14 +227,6 @@ public final class SeekerRules {
 
     public static boolean isSeeker(@Nullable Role role) {
         return role != null && isSeekerId(role.identifier());
-    }
-
-    /**
-     * Q7: the Seeker is drawn only when the SparkStrength tablet item exists (registry id only).
-     * Q7：仅当 SparkStrength 平板物品存在时（只按注册 id）才会抽到搜寻者。
-     */
-    public static boolean shouldAppear() {
-        return TabletItemLookup.tabletItem().isPresent();
     }
 
     /**

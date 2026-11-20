@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.item;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsBluePoisonCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.entity.CapsuleEntity;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.role.civilian.toxicologist.ToxicologistCapsuleRules;
@@ -224,7 +224,7 @@ public final class CapsuleItem extends Item {
             return false;
         }
         ItemStack contents = getContents(capsuleStack, registryLookup);
-        if (!SparkTraitsBluePoisonCompat.convertStackPoisonToBlue(contents, poisoner)) {
+        if (!SparkTraitsApi.convertStackPoisonToBlue(contents, poisoner)) {
             return false;
         }
         setContents(capsuleStack, contents, registryLookup);

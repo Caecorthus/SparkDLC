@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.item;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsBluePoisonCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.toxicologist.ToxicologistBlueRules;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.component.type.FoodComponent;
@@ -84,12 +84,12 @@ public final class BlueBelladonnaItem extends Item {
             return;
         }
         if (ToxicologistBlueRules.isToxicologistLike(eater)) {
-            SparkTraitsBluePoisonCompat.applyBlueSanityDrain(eater, ToxicologistBlueRules.BELLADONNA_BLUE_TICKS);
+            SparkTraitsApi.applyBlueSanityDrain(eater, ToxicologistBlueRules.BELLADONNA_BLUE_TICKS);
             return;
         }
-        UUID poisoner = SparkTraitsBluePoisonCompat.getStackBluePoisoner(fruit);
+        UUID poisoner = SparkTraitsApi.getStackBluePoisoner(fruit);
         if (poisoner != null) {
-            SparkTraitsBluePoisonCompat.applyBlueTrap(eater, poisoner);
+            SparkTraitsApi.applyBlueTrap(eater, poisoner);
         }
     }
 

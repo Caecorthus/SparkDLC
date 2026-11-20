@@ -34,7 +34,7 @@ public final class SpiritPossessionHud {
 
     public static void render(DrawContext context, @Nullable ClientPlayerEntity player) {
         MinecraftClient client = MinecraftClient.getInstance();
-        if (player == null || !SpiritPossessionClient.isKeyAvailable() || !SpiritPossessionClient.isLocalSpiritualist(player)) {
+        if (player == null || !SpiritPossessionClient.isLocalSpiritualist(player)) {
             return;
         }
         Text line = stateText(client, player);

@@ -1,6 +1,5 @@
 package dev.caecorthus.sparkdlc.client.role.killer.partyanimal;
 
-import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.SparkDlcEntities;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityRegistry;
 import dev.caecorthus.sparkdlc.client.render.entity.PartygoerEntityRenderer;
@@ -18,14 +17,12 @@ import org.agmas.noellesroles.Noellesroles;
  * room picker, the server's answer opens it, and the Partygoer gets its renderer.
  * 派对客技能的客户端部分：“职业技能 2”键（共享键，默认 N）向服务端请求选房界面，服务端回复后打开界面；并注册派对客渲染器。
  *
- * <p>Like the Vulture's Super Curse, the key comes from {@code SecondaryAbilityRegistry}, called directly; the
- * skill has no key (and no HUD line) only when another handler already took the role.
- * 与秃鹫超级骂一样，按键来自 {@code SecondaryAbilityRegistry}（直接调用）；只有该职业已被其他处理器占用时，
- * 技能才没有按键，也不显示 HUD。</p>
+ * <p>Like the Vulture's Super Curse, the key comes from {@code SecondaryAbilityRegistry}, called directly; the Party
+ * Animal's role id is registered there only here.
+ * 与秃鹫超级骂一样，按键来自 {@code SecondaryAbilityRegistry}（直接调用）；派对狂的职业 id 只在这里注册。</p>
  */
 public final class PartygoerClientHooks {
     private static boolean registered;
-    private static boolean keyAvailable;
 
     private PartygoerClientHooks() {
     }
@@ -40,16 +37,7 @@ public final class PartygoerClientHooks {
         ClientPlayNetworking.registerGlobalReceiver(PartygoerMenuS2CPacket.ID,
                 (payload, context) -> context.client().setScreen(new PartygoerRoomScreen(payload.rooms())));
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> client.execute(PartygoerCorpseClient::reset));
-        keyAvailable = SecondaryAbilityRegistry.tryRegisterAction(Noellesroles.PARTY_ANIMAL.identifier(),
-                PartygoerClientHooks::requestMenu);
-        if (!keyAvailable) {
-            SparkDLC.LOGGER.warn("Partygoer has no key: the Role Skill 2 hook is unavailable or taken.");
-        }
-    }
-
-    /** Whether Role Skill 2 reaches the Partygoer skill. / “职业技能 2”是否能触发派对客技能。 */
-    public static boolean isKeyAvailable() {
-        return keyAvailable;
+        SecondaryAbilityRegistry.register(Noellesroles.PARTY_ANIMAL.identifier(), client -> requestMenu());
     }
 
     private static void requestMenu() {

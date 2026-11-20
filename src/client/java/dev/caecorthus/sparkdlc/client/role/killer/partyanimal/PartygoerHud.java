@@ -28,8 +28,7 @@ public final class PartygoerHud {
     }
 
     public static void render(TextRenderer renderer, ClientPlayerEntity player, DrawContext context) {
-        if (!PartygoerClientHooks.isKeyAvailable()
-                || !ClientPlayNetworking.canSend(PartygoerMenuC2SPacket.ID)
+        if (!ClientPlayNetworking.canSend(PartygoerMenuC2SPacket.ID)
                 || !GameFunctions.isPlayerPlayingAndAlive(player)
                 || SwallowedPlayerComponent.isPlayerSwallowed(player)) {
             return;

@@ -23,8 +23,7 @@ public abstract class KidnapperControlledKeyMixin {
         // player skips the survival check and the key comparisons. Same AND of pure checks as before.
         // 每个按键的每次 isPressed/wasPressed 都会到这里：先做 O(1) 的受控判断，未受控玩家跳过生存模式检查与按键比较。
         // 与原先是同一组纯判断的与运算。
-        KidnapperControlComponent control = KidnapperControlComponent.KEY.getNullable(client.player);
-        if (control == null || !control.isControlled()
+        if (!KidnapperControlComponent.KEY.get(client.player).isControlled()
                 || !GameFunctions.isPlayerAliveAndSurvival(client.player)) {
             return;
         }

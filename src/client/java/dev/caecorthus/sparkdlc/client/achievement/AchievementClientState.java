@@ -151,8 +151,7 @@ public final class AchievementClientState {
      * 因此只对本地玩家有意义。
      */
     private static UUID depressionPsychoAttacker(ClientPlayerEntity player) {
-        TraitPlayerComponent component = TraitPlayerComponent.KEY.getNullable(player);
-        return component == null ? null : component.getDepressionPsychoAttacker();
+        return TraitPlayerComponent.KEY.get(player).getDepressionPsychoAttacker();
     }
 
     private static boolean explosiveNearby(ClientWorld world, ClientPlayerEntity player) {

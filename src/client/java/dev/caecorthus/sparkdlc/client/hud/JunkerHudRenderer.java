@@ -75,9 +75,8 @@ public final class JunkerHudRenderer {
      */
     private static void renderSearchReadout(DrawContext context, TextRenderer renderer, ClientPlayerEntity player,
                                             float progress) {
-        ControlExpertStatusComponent status = ControlExpertStatusComponent.KEY.getNullable(player);
-        int statusLines = status == null ? 0
-                : ControlExpertStatusHudRules.maxLineCount(status.isStunned(), status.isDisrupted());
+        ControlExpertStatusComponent status = ControlExpertStatusComponent.KEY.get(player);
+        int statusLines = ControlExpertStatusHudRules.maxLineCount(status.isStunned(), status.isDisrupted());
         int bandTop = ControlExpertStatusHudRules.blockTop(context.getScaledWindowHeight(), renderer.fontHeight,
                 statusLines);
         int centerX = context.getScaledWindowWidth() / 2;

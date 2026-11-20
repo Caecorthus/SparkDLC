@@ -45,8 +45,8 @@ public final class ControlExpertStatusClient {
         if (player == null) {
             return null;
         }
-        ControlExpertStatusComponent status = ControlExpertStatusComponent.KEY.getNullable(player);
-        if (status == null || !status.blocksInstinct() || !ControlExpertTargeting.isParticipant(player)) {
+        ControlExpertStatusComponent status = ControlExpertStatusComponent.KEY.get(player);
+        if (!status.blocksInstinct() || !ControlExpertTargeting.isParticipant(player)) {
             return null;
         }
         return status;

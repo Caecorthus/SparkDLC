@@ -37,11 +37,10 @@ public final class PlannerTaskLine {
             return null;
         }
         PlayerMoodComponent.Task type = present.getType();
-        // Fail closed: a missing component marks nothing. / 失败即关闭：缺失组件即无标记。
-        PlannerComponent planner = PlannerComponent.KEY.getNullable(player);
-        BellEchoPlayerComponent echo = BellEchoPlayerComponent.KEY.getNullable(player);
-        if (!PlannerTaskRowRules.restyles(true, true, planner != null && planner.isRecommended(type),
-                echo != null && echo.isEchoTask(type))) {
+        PlannerComponent planner = PlannerComponent.KEY.get(player);
+        BellEchoPlayerComponent echo = BellEchoPlayerComponent.KEY.get(player);
+        if (!PlannerTaskRowRules.restyles(true, true, planner.isRecommended(type),
+                echo.isEchoTask(type))) {
             return null;
         }
         return Text.translatable(PlannerTaskRowRules.taskRowKey(type))

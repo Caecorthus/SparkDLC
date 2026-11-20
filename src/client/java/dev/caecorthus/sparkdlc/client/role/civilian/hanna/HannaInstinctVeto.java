@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
  * see spectator information (Wathe's {@code canSeeSpectatorInformation}: spectator or creative AND not a living
  * participant, i.e. dead spectators, spectating non-participants, creative admins), who see everything as before.
  * Living participants in spectator mode (a Rift Gate occupant, a feign-dead Fiend) keep their living instinct and are
- * vetoed like anyone else. Fail closed: an unconfirmed server, a missing viewer or a missing component never vetoes.
+ * vetoed like anyone else. Fail closed: an unconfirmed server or a missing viewer never vetoes.
  * Applied by the {@code getInstinctHighlight} wrap {@code hanna.HannaInstinctVetoMixin} only; vanilla GLOWING and other
  * non-instinct outlines are left alone.
  * 汉娜的浮游无法被本能透视（所有者 2026-11-11）：玩家浮游期间，任何观察者的本能都描不出其轮廓，无论隔墙还是直视。浮游剩余刻
@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
  * <p>豁免沿用 {@code BlackRavenInstinctVeto}：浮游者本人的客户端，以及可查看旁观信息的观察者（Wathe 的
  * {@code canSeeSpectatorInformation}：旁观或创造模式，且不是存活的参与者，即死亡旁观者、旁观中的非参与者、创造模式管理员），
  * 他们照旧看到一切。处于旁观模式的存活参与者（传送门内的玩家、假死的魔人）仍保有存活时的本能，与其他人一样被否决。失败即关闭：
- * 服务端未确认、无观察者或组件缺失时从不否决。仅由 {@code getInstinctHighlight} 包装 {@code hanna.HannaInstinctVetoMixin} 执行；
+ * 服务端未确认或无观察者时从不否决。仅由 {@code getInstinctHighlight} 包装 {@code hanna.HannaInstinctVetoMixin} 执行；
  * 原版发光与其他非本能描边不受影响。
  */
 public final class HannaInstinctVeto {
@@ -42,8 +42,7 @@ public final class HannaInstinctVeto {
         if (viewer == null || !(target instanceof PlayerEntity targetPlayer) || targetPlayer == viewer) {
             return false;
         }
-        HannaComponent state = HannaComponent.KEY.getNullable(targetPlayer);
-        if (state == null || !state.isFloating()) {
+        if (!HannaComponent.KEY.get(targetPlayer).isFloating()) {
             return false;
         }
         return vetoes(

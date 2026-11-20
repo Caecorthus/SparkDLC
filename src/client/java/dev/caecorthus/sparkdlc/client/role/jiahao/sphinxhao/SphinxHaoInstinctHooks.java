@@ -57,8 +57,8 @@ public final class SphinxHaoInstinctHooks {
         if (viewer == null || targetPlayer == viewer || viewer.getWorld() == null) {
             return null;
         }
-        SphinxHaoWorldComponent world = SphinxHaoWorldComponent.KEY.getNullable(viewer.getWorld());
-        if (world == null || !world.isInfected(targetPlayer.getUuid())) {
+        SphinxHaoWorldComponent world = SphinxHaoWorldComponent.KEY.get(viewer.getWorld());
+        if (!world.isInfected(targetPlayer.getUuid())) {
             return null;
         }
         boolean answers = SphinxHaoInstinctRules.viewerAnswers(

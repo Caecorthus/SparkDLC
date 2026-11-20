@@ -57,11 +57,7 @@ public final class HannaFloatHud {
                 GameFunctions.isPlayerPlayingAndAlive(player), NoellesTaotieSeekerBridge.isSwallowed(player))) {
             return;
         }
-        // Fail closed: no synced component, no line. / 失败即关闭：没有同步组件就不画这一行。
-        HannaComponent state = HannaComponent.KEY.getNullable(player);
-        if (state == null) {
-            return;
-        }
+        HannaComponent state = HannaComponent.KEY.get(player);
         WitchPlayerComponent witch = WitchPlayerComponent.KEY.get(player);
         HannaFloatHudRules.Line line = HannaFloatHudRules.line(state.clientFloatTicks(),
                 state.floatCooldownRemaining(client.world.getTime()), witch.hasManaSystem(), witch.getMana());

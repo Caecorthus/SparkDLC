@@ -41,9 +41,6 @@ public final class BlackRavenHudRenderer {
      */
     private static void renderCrow(DrawContext context, ClientPlayerEntity player, boolean disguised) {
         Text line = BlackRavenCrowHud.statusLine(player);
-        if (line == null) {
-            return;
-        }
         TextRenderer renderer = MinecraftClient.getInstance().textRenderer;
         int height = context.getScaledWindowHeight();
         int y = disguised

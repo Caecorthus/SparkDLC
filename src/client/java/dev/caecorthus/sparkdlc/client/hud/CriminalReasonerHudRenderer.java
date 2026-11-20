@@ -64,11 +64,7 @@ public final class CriminalReasonerHudRenderer {
                 CriminalReasonerClientModule.isActiveReasoner(client))) {
             return;
         }
-        // Fail closed: no synced component, no rows. / 失败即关闭：没有同步组件就不画。
-        CriminalReasonerComponent state = CriminalReasonerComponent.KEY.getNullable(player);
-        if (state == null) {
-            return;
-        }
+        CriminalReasonerComponent state = CriminalReasonerComponent.KEY.get(player);
         StatusEffectInstance invisibility = player.getStatusEffect(StatusEffects.INVISIBILITY);
         CriminalReasonerHudRules.Line reasoning = CriminalReasonerHudRules.reasoningLine(state.getCooldownSeconds());
         CriminalReasonerHudRules.Line progress = CriminalReasonerHudRules.progressLine(

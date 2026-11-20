@@ -68,8 +68,8 @@ public final class SphinxHaoClient {
      */
     public static void onAbilityKey(MinecraftClient client) {
         ClientPlayerEntity player = client == null ? null : client.player;
-        SphinxHaoPlayerComponent state = player == null ? null : SphinxHaoPlayerComponent.KEY.getNullable(player);
-        SphinxHaoWorldComponent world = player == null ? null : SphinxHaoWorldComponent.KEY.getNullable(player.getWorld());
+        SphinxHaoPlayerComponent state = player == null ? null : SphinxHaoPlayerComponent.KEY.get(player);
+        SphinxHaoWorldComponent world = player == null ? null : SphinxHaoWorldComponent.KEY.get(player.getWorld());
         if (state == null || world == null) {
             return;
         }
@@ -87,8 +87,8 @@ public final class SphinxHaoClient {
 
     private static void onRoarKey(MinecraftClient client) {
         ClientPlayerEntity player = client == null ? null : client.player;
-        SphinxHaoPlayerComponent state = player == null ? null : SphinxHaoPlayerComponent.KEY.getNullable(player);
-        SphinxHaoWorldComponent world = player == null ? null : SphinxHaoWorldComponent.KEY.getNullable(player.getWorld());
+        SphinxHaoPlayerComponent state = player == null ? null : SphinxHaoPlayerComponent.KEY.get(player);
+        SphinxHaoWorldComponent world = player == null ? null : SphinxHaoWorldComponent.KEY.get(player.getWorld());
         if (state == null || world == null) {
             return;
         }

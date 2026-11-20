@@ -57,11 +57,7 @@ public final class KokoStreamHud {
                 GameFunctions.isPlayerPlayingAndAlive(player), NoellesTaotieSeekerBridge.isSwallowed(player))) {
             return;
         }
-        // Fail closed: no synced component, no rows. / 失败即关闭：没有同步组件就不画。
-        KokoComponent state = KokoComponent.KEY.getNullable(player);
-        if (state == null) {
-            return;
-        }
+        KokoComponent state = KokoComponent.KEY.get(player);
         long now = client.world.getTime();
         WitchPlayerComponent witch = WitchPlayerComponent.KEY.get(player);
         KokoStreamHudRules.Line stream = KokoStreamHudRules.streamLine(state.streamRemaining(now),

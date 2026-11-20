@@ -56,8 +56,8 @@ public final class UsecScopeLensAnchors {
     public static void beginPlayer(PlayerEntityRenderer renderer, AbstractClientPlayerEntity player, float tickDelta,
                                    Matrix4fc root) {
         holder = null;
-        UsecPlayerComponent component = UsecPlayerComponent.KEY.getNullable(player);
-        if (component == null || !component.isScoped() || !(Math.abs(root.determinant3x3()) > 1.0E-12)) {
+        UsecPlayerComponent component = UsecPlayerComponent.KEY.get(player);
+        if (!component.isScoped() || !(Math.abs(root.determinant3x3()) > 1.0E-12)) {
             return;
         }
         root.invertAffine(HOLDER_ROOT_INVERSE);

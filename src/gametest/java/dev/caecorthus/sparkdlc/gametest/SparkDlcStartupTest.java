@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -54,6 +55,48 @@ public final class SparkDlcStartupTest implements FabricGameTest {
                     + ", declared but not registered " + unregistered);
         }
         context.complete();
+    }
+
+    /**
+     * Two places where the order of the start-up steps reaches the player, pinned so that a reordered step fails here
+     * and not in somebody's round. The three version checks answer a login in registration order, so the first one
+     * that fails decides which message the player is kicked with. A chat message is offered to the Pathogen's and the
+     * Reporter's gates before the Wraith gate, which the start-up registers itself after every role hub.
+     * 启动步骤的顺序会影响到玩家的两处，在此固定，使被调换的步骤在这里失败，而不是在某局游戏中。三个版本检查按注册顺序应答登录，
+     * 因此第一个失败的检查决定玩家被踢出时看到的消息。聊天消息先交给病原体与记者的限制，再交给冤魂的限制；后者由启动流程自身在
+     * 所有职业注册中心之后注册。
+     */
+    @GameTest(templateName = EMPTY_STRUCTURE)
+    public void orderSensitiveListenersKeepTheirOrder(TestContext context) throws ReflectiveOperationException {
+        Map<String, List<List<String>>> events = StartupOrderDump.eventHandlerHosts();
+        requireOwnHosts(events, "net.fabricmc.fabric.api.networking.v1.ServerLoginConnectionEvents$QueryStart", List.of(
+                "dev.caecorthus.sparkdlc.net.version.ServerVersionHandshake",
+                "dev.caecorthus.sparkdlc.net.version.SparkTraitsVersionHandshake",
+                "dev.caecorthus.sparkdlc.net.version.SparkWitchVersionHandshake"));
+        requireOwnHosts(events, "net.fabricmc.fabric.api.message.v1.ServerMessageEvents$AllowChatMessage", List.of(
+                "dev.caecorthus.sparkdlc.role.neutral.pathogen.PathogenFeatureService",
+                "dev.caecorthus.sparkdlc.role.civilian.reporter.ReporterCommunicationManager",
+                "dev.caecorthus.sparkdlc.SparkDLC"));
+        context.complete();
+    }
+
+    /** The mod's own handlers of the one event with this callback, in dispatch order. / 使用该回调的唯一事件中本模组处理器的分发顺序。 */
+    private static void requireOwnHosts(Map<String, List<List<String>>> events, String callback, List<String> expected) {
+        List<List<String>> lists = events.getOrDefault(callback, List.of());
+        if (lists.size() != 1) {
+            throw new GameTestException("expected one event with handlers of sparkdlc for " + callback + ", found "
+                    + lists.size());
+        }
+        List<String> own = new ArrayList<>();
+        for (String host : lists.get(0)) {
+            if (host.startsWith("dev.caecorthus.sparkdlc.")) {
+                own.add(host.replace(" (lambda)", ""));
+            }
+        }
+        if (!own.equals(expected)) {
+            throw new GameTestException("listener order of " + callback + " changed: expected " + expected
+                    + ", found " + own);
+        }
     }
 
     /**

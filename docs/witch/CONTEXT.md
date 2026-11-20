@@ -602,7 +602,7 @@ Current build baseline:
     targets are picked like Wathe's own (`ProjectileUtil.getCollision`, cut by blocks) and never the owner; a
     recorded left-click replays as a punch, a knife stab needs the knife in hand, a bat kill needs `BAT_HIT`.
     A recorded SparkStrength M67 throw replays through SparkStrength's own session
-    (`bridge/witch/SparkStrengthM67ReplayCompat`, forum T-0015, 2026-10-25): the replayed use first lets SparkStrength note
+    (`role/killer/magician/MagicianM67Replay`, forum T-0015, 2026-10-25): the replayed use first lets SparkStrength note
     the proxy's M67 and drops its equip lock, an unchanged hand M67 keeps its stack object across frames
     (`MagicianReplayFrame`), and the recorded release runs inside SparkStrength's release scope. SparkStrength's round,
     charge and cooldown rules still decide (an under-charged release never throws); the grenade's thrower is the
@@ -1830,7 +1830,7 @@ Current build baseline:
   and `client/mixin/role/civilian/seeker/`; client presentation (console screen, remote view and car driver,
   device renderers) in `client/role/civilian/seeker/`. Cross-mod seams go through `SparkTraitsApi` (asked directly),
   `compat/noellesroles/SeekerControlExpertBridge`, `compat/noellesroles/NoellesTaotieSeekerBridge`,
-  `tablet/TabletItemLookup`, and `bridge/witch/SparkStrengthM67Compat`.
+  `tablet/TabletItemLookup`, and `item/m67/M67MatchBlastHits`.
 - `role/civilian/usec/`: USEC (`sparkdlc:usec`), the fifth police variant. Its only weapon is the AXMC bolt-action
   sniper rifle (`sparkdlc:usec_rifle`; the owner named it AXMC on 2026-10-07, while ids, classes and the role name
   stay "USEC"). Qn/Dn/Sn are the owner decisions in `docs/plans/2026-10-07-usec.md` (all answered).
@@ -4448,7 +4448,7 @@ break a device with that revolver rule (recorded as `REVOLVER`) through `SparkWi
 projectiles are nearest-wins (a nearer device takes the hit, the player behind is not hit); blasts (Wathe grenade,
 SparkStrength M67, Potion Gunner shell) break every device in a sphere with line of sight and still kill players as
 before. An M67 breaks devices only when the round is ACTIVE and its thrower holds a match role
-(`bridge/witch/SparkStrengthM67Compat`, the `util/OffMatchUse` rule); SparkStrength's presentation-only M67s
+(`item/m67/M67MatchBlastHits`, the `util/OffMatchUse` rule); SparkStrength's presentation-only M67s
 (non-participants, or thrown during STARTING or STOPPING) break nothing. Sources with no hit or damage geometry never
 break a device: the firecracker (sound only), the Bomber timed bomb (kills only its holder), and the
 poison gas cloud (status effect). A breaker other than the owner is marked for the owner only (10 s,
@@ -5956,8 +5956,8 @@ SparkDLC fusion note, batch 2 (2026-11-19): SparkStrength and SparkAssist also a
 SparkWitch seams into them are compiled calls on the same members the reflection used to resolve, with no
 `sparkstrength` / `sparkassist` mod gate: `bridge/witch/SparkStrengthCoronerCompat` (`CoronerService.hasKidnapperDisguise`,
 `CoronerBodySnapshotComponent.KEY` + `setRoleId`), `bridge/witch/SparkStrengthJunctionBoxCompat`
-(`JunctionBoxService.damageByWeapon`), `bridge/witch/SparkStrengthM67Compat` (`M67GrenadeEntity.getDetonateAt` /
-`getThrowerUuid`), `bridge/witch/SparkStrengthM67ReplayCompat` (`M67UseService.refreshEquipment` /
+(`JunctionBoxService.damageByWeapon`), `item/m67/M67MatchBlastHits` (`M67GrenadeEntity.getDetonateAt` /
+`getThrowerUuid`), `role/killer/magician/MagicianM67Replay` (`M67UseService.refreshEquipment` /
 `withReleaseAuthorization`), `bridge/witch/SparkStrengthPartygoerCompat` (`PartygoerService`, `PartygoerCorpseComponent`,
 `PartygoerHitGeometry`), `SparkStrengthBlastOrigin` (`AttackOriginScope.currentBlast`), `BlackRavenDisguiseEconomy`
 (`KillerTeamEconomyService.recordIncome`), `RiftwalkerStatusProbes` (`EngineerStunnedPlayerComponent.KEY`, `isStunned`,
@@ -6220,7 +6220,7 @@ always present, see the batch 2 fusion note):
   seam was deleted on 2026-10-21: its SparkStrength target class no longer exists.)
   `bridge/witch/SparkStrengthDisguiseCompat` touches only the `sparkdlc:flashlight` registry id.
 - **Rest of SparkWitch.** Elsewhere, SparkStrength implementation classes are named by
-  `bridge/witch/SparkStrengthM67Compat`, `bridge/witch/SparkStrengthCoronerCompat`,
+  `item/m67/M67MatchBlastHits`, `bridge/witch/SparkStrengthCoronerCompat`,
   `bridge/witch/SparkStrengthJunctionBoxCompat` (the Hunter shotgun's junction-box hit),
   `bridge/witch/SparkStrengthPartygoerCompat` (the Party Animal's Partygoer, below), and the client
   `client/role/civilian/emma/EmmaVisibleName`.
@@ -6520,7 +6520,7 @@ Seeker car.
       `sparkdlc:potion_shell` / `sparkdlc:potion_backblast`; none.
     - Murderous Witch Death Ray: `withPiercedCrows` adds every crow on the visible ray (volumes +0.2);
       `sparkdlc:pierced_by_ray`; none.
-    - SparkStrength M67: `SparkStrengthM67Compat` → `onM67Blast` (sphere 5, line of sight); `killOwnerVia`,
+    - SparkStrength M67: `M67MatchBlastHits` → `onM67Blast` (sphere 5, line of sight); `killOwnerVia`,
       `wathe:grenade`; none. SparkStrength Serial Killer pistols: `SparkWitchApi.hitGunWorldTarget` →
       `onAddonGunShot` (SparkFactionAPI veto, `ShouldPunishGunShooter` custom punishment, `killOwnerVia`, `wathe:gun`).
     - SparkStrength Veteran knife, Coroner instant silent knife and Silencer knife: their HEAD takeovers in

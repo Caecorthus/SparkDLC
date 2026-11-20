@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthM67Compat;
+import dev.caecorthus.sparkdlc.item.m67.M67MatchBlastHits;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerDeviceService;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceAttackHandlers;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.remote.SeekerInteractionGuards;
@@ -33,7 +33,7 @@ public final class SeekerFeatureService {
         SeekerReplayFormatters.register();
         SeekerDeviceService.register();
         SeekerDeviceAttackHandlers.register();
-        SparkStrengthM67Compat.register();
+        M67MatchBlastHits.register();
         SeekerTaotieService.register();
         SeekerRemoteSessionService.register();
         SeekerRemoteStreaming.register();

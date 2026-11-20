@@ -635,10 +635,10 @@ public final class BlackRavenCrowHits {
     }
 
     /**
-     * SparkStrength M67 blast, from {@code SparkStrengthM67Compat} after its match-grenade gate (SparkStrength kills the
+     * SparkStrength M67 blast, from {@code M67MatchBlastHits} after its match-grenade gate (SparkStrength kills the
      * players itself): every crow whose box centre lies in the M67 kill sphere with a clear line from the centre (the
      * Magician puppet's measure) kills its owner ({@code killOwnerVia}, {@code wathe:grenade}, the thrower credited).
-     * Never the thrower's own crow. / SparkStrength M67 爆炸，由 {@code SparkStrengthM67Compat} 在其对局手雷门槛之后调用
+     * Never the thrower's own crow. / SparkStrength M67 爆炸，由 {@code M67MatchBlastHits} 在其对局手雷门槛之后调用
      * （玩家由 SparkStrength 自行击杀）：箱体中心位于 M67 击杀球内且与爆心视线畅通（魔术师皮套的量法）的每只乌鸦处死其主人
      * （{@code killOwnerVia}，{@code wathe:grenade}，记在投掷者名下）。从不包括投掷者自己的乌鸦。
      */

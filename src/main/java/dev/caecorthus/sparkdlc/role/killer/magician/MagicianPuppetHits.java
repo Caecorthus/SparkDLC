@@ -720,10 +720,10 @@ public final class MagicianPuppetHits {
     }
 
     /**
-     * SparkStrength M67 blast, from {@code SparkStrengthM67Compat} after its match-grenade gate (ACTIVE round, thrower
+     * SparkStrength M67 blast, from {@code M67MatchBlastHits} after its match-grenade gate (ACTIVE round, thrower
      * with a match role, fuse run out, thrower online): {@link #onBlast} with the M67's own kill radius and Wathe's
      * {@code grenade} reason, as the M67 uses for players.
-     * SparkStrength M67 爆炸，由 {@code SparkStrengthM67Compat} 在其对局手雷门槛（对局 ACTIVE、投掷者持有对局职业、引信到时、
+     * SparkStrength M67 爆炸，由 {@code M67MatchBlastHits} 在其对局手雷门槛（对局 ACTIVE、投掷者持有对局职业、引信到时、
      * 投掷者在线）之后调用：以 M67 自身的击杀半径与 Wathe 的 {@code grenade} 死因（M67 对玩家使用的死因）调用 {@link #onBlast}。
      */
     public static void onM67Blast(ServerWorld world, Vec3d center, @Nullable ServerPlayerEntity thrower) {

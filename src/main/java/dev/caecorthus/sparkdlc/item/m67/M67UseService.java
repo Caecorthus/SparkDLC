@@ -31,10 +31,10 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Server-owned sessions; packets never supply charge duration. Stable cross-mod contract (SparkWitch's Magician replay
- * reflects it, SparkStrengthM67ReplayCompat): this class name and the public static {@link #refreshEquipment} and
+ * Server-owned sessions; packets never supply charge duration. Stable cross-mod contract (the Magician puppet's
+ * replay calls it, MagicianM67Replay): this class name and the public static {@link #refreshEquipment} and
  * {@link #withReleaseAuthorization} signatures.
- * 服务端管理蓄力，数据包不能指定蓄力时间。稳定的跨模组契约（SparkWitch 魔术师回放通过 SparkStrengthM67ReplayCompat 反射调用）：
+ * 服务端管理蓄力，数据包不能指定蓄力时间。稳定的跨模组契约（魔术师皮套的回放经 MagicianM67Replay 调用）：
  * 本类名，以及 public static {@link #refreshEquipment} 与 {@link #withReleaseAuthorization} 的签名。
  */
 public final class M67UseService {

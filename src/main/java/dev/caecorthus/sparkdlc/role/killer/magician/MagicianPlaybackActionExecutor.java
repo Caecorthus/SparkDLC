@@ -1,6 +1,5 @@
 package dev.caecorthus.sparkdlc.role.killer.magician;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthM67ReplayCompat;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponTarget;
 import dev.caecorthus.sparkdlc.record.witch.AchievementRecords;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RangedSmokeCarve;
@@ -110,7 +109,7 @@ public final class MagicianPlaybackActionExecutor {
         if (stack.isOf(WatheItems.REVOLVER)) return;
         // SparkStrength M67 seam: the proxy's M67 is not refused as freshly equipped (no-op for other items).
         // SparkStrength M67 接缝：代理的 M67 不会因“刚装备”被拒（其他物品不受影响）。
-        SparkStrengthM67ReplayCompat.beforeReplayedUse(proxy, stack);
+        MagicianM67Replay.beforeReplayedUse(proxy, stack);
         ActionResult result = proxy.interactionManager.interactItem(proxy, proxy.getWorld(), stack, hand);
         if (result.isAccepted() && !proxy.isUsingItem()) visible.playReplaySwing(hand);
     }
@@ -121,7 +120,7 @@ public final class MagicianPlaybackActionExecutor {
         // 不会回放成击杀。
         // A held SparkStrength M67 releases inside SparkStrength's release scope, as the recorded packet did; anything
         // else stops as before. / 手持的 SparkStrength M67 与录制的数据包一样在其松手作用域内松手；其他物品照旧停止使用。
-        SparkStrengthM67ReplayCompat.releaseUse(proxy); visible.setReplayUseState(false, null); visible.setReplayItemUseTimeLeft(0);
+        MagicianM67Replay.releaseUse(proxy); visible.setReplayUseState(false, null); visible.setReplayItemUseTimeLeft(0);
     }
     private static void shoot(ServerPlayerEntity owner, MagicianPlaybackFakePlayer proxy, MagicianPlaybackEntity visible) {
         ItemStack stack = proxy.getMainHandStack();

@@ -124,11 +124,9 @@ public final class M67GrenadeEntity extends ThrownItemEntity {
     }
 
     /**
-     * Thrower uuid: the concealed server-only value when set, else the tracked one. Public contract: SparkWitch's
-     * {@code SparkStrengthM67Compat} calls this getter on the server (blast attribution; a direct call since the
-     * SparkDLC fusion).
-     * 投掷者 uuid：设置了隐藏的服务器字段时取它，否则取追踪值。公开契约：SparkWitch 的 SparkStrengthM67Compat 在服务器调用此 getter
-     * （爆炸归属；融合进 SparkDLC 后为直接调用）。
+     * Thrower uuid: the concealed server-only value when set, else the tracked one. Public contract:
+     * {@code M67MatchBlastHits} calls this getter on the server (blast attribution).
+     * 投掷者 uuid：设置了隐藏的服务器字段时取它，否则取追踪值。公开契约：M67MatchBlastHits 在服务器调用此 getter（爆炸归属）。
      */
     public @Nullable UUID getThrowerUuid() {
         return concealedThrowerUuid != null ? concealedThrowerUuid : dataTracker.get(THROWER_UUID).orElse(null);

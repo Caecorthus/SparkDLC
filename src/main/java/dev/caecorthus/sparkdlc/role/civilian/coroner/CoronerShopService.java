@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.coroner;
 
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkWitchKidnapperCompat;
+import dev.caecorthus.sparkdlc.role.killer.kidnapper.KidnapperKnockoutService;
 import dev.caecorthus.sparkdlc.role.civilian.bartender.BartenderRules;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerRules;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerSabotageRepairService;
@@ -234,15 +234,13 @@ public final class CoronerShopService {
     }
 
     private static void addSparkWitchKidnapperShop(PlayerEntity player, BuildShopEntries.ShopContext context) {
-        ShopEntry entry = SparkWitchKidnapperCompat.createKnockoutDrugShopEntry(player);
-        if (entry == null) {
-            return;
-        }
         /*
-         * SparkWitch 自己拥有迷药的物品、贴图、价格与描述。
-         * 这里仅在验尸官采尸袋之后追加该条目，不直接引用 SparkWitch 类，保持软兼容。
+         * 绑架者功能自己拥有迷药的物品、贴图、价格与描述（含持有者的【魅力】折扣）。
+         * 这里仅在验尸官采尸袋之后追加该条目。
+         * The Kidnapper feature owns the drug's item, texture, price and description (the holder's Charisma
+         * discount included); this only appends its entry after the Coroner's body bag.
          */
-        insertAfterBodyBag(context, 0, entry);
+        insertAfterBodyBag(context, 0, KidnapperKnockoutService.shopEntry(player));
     }
 
     private static int insertAfterBodyBag(BuildShopEntries.ShopContext context, int offset, ShopEntry entry) {

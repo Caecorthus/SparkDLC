@@ -63,8 +63,8 @@ public final class FactionGunPunishmentAdapter {
             return null;
         }
 
-        // Returning null preserves native Wathe, SparkTraits, and NoellesRoles decisions for unrelated cases.
-        // 返回 null 可保留无关场景下 wathe、SparkTraits 与 NoellesRoles 的原有判定。
+        // Returning null preserves native Wathe, trait, and NoellesRoles decisions for unrelated cases.
+        // 返回 null 可保留无关场景下 wathe、词条与 NoellesRoles 的原有判定。
         if (Boolean.FALSE.equals(shooterOverride)
                 || (customShooter
                 && shooterOverride == null

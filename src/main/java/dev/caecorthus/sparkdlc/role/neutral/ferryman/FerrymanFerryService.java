@@ -21,12 +21,12 @@ import java.util.UUID;
 /**
  * The Ferryman's second skill on the secondary key: ferry a fresh corpse for 50 gold and mark it with 怜悯. Only a real
  * corpse can be ferried: its owner must be dead in Wathe, and no fake body (the Charon's feign corpses, Fiend feign
- * corpses, Magician decoys, SparkTraits fake-death bodies) ever qualifies. The body must have died within 60 s, be
+ * corpses, Magician decoys, the traits' fake-death bodies) ever qualifies. The body must have died within 60 s, be
  * targetable, within reach and in line of sight, and each one pays once; the Charon must be playing, alive, visible
  * (not a spectator) and not swallowed. Every check runs on the server against the synced body entity, never on a
  * client claim. Server only.
  * 摆渡人第二技能（第二技能键）：摆渡一具新鲜遗体，获得 50 金币并挂上「怜悯」。只有真正的尸体才能被摆渡：其主人必须在
- * Wathe 中已死亡，任何假尸体（摆渡人引发的假死尸体、魔人假死尸体、魔术师诱饵、SparkTraits 假死尸体）都不算。遗体须死亡
+ * Wathe 中已死亡，任何假尸体（摆渡人引发的假死尸体、魔人假死尸体、魔术师诱饵、词条假死尸体）都不算。遗体须死亡
  * 60 秒内、可被选中、够得着且在视线内，每具只付一次；摆渡人须在局内存活、可见（非旁观）且未被吞下。所有判定都在服务端
  * 针对已同步的遗体实体执行，从不相信客户端声明。仅服务端。
  */
@@ -134,10 +134,9 @@ public final class FerrymanFerryService {
 
     /**
      * Every fake-body registry the repo knows, server only: the Charon's own feign corpses, Fiend feign corpses,
-     * Magician decoys, and SparkTraits fake-death bodies through its public facade (fail closed: a present but broken
-     * facade counts as fake, an absent SparkTraits as real).
-     * 仓库已知的所有假尸体登记（仅服务端）：摆渡人引发的假死尸体、魔人假死尸体、魔术师诱饵，以及经公共门面查询的
-     * SparkTraits 假死尸体（失败关闭：已安装但门面异常视为假尸体，未安装视为真尸体）。
+     * Magician decoys, and the traits' fake-death bodies through {@code SparkTraitsApi.isFakeDeathBody}.
+     * 仓库已知的所有假尸体登记（仅服务端）：摆渡人引发的假死尸体、魔人假死尸体、魔术师诱饵，以及经
+     * {@code SparkTraitsApi.isFakeDeathBody} 查询的词条假死尸体。
      */
     static boolean isFakeBody(@Nullable PlayerBodyEntity body) {
         return body == null

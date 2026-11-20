@@ -15,8 +15,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 /**
- * Replaces Depression psycho players with the SparkTraits grayscale skin after other texture hooks.
- * 在其他贴图 hook 判定后，再把抑郁疯魔玩家替换为 SparkTraits 命名空间下的灰度疯魔皮肤。
+ * Replaces Depression psycho players with the Depression trait's grayscale skin after other texture hooks.
+ * 在其他贴图 hook 判定后，再把抑郁疯魔玩家替换为抑郁词条的灰度疯魔皮肤。
  */
 @Mixin(value = PlayerEntityRenderer.class, priority = 500)
 public abstract class DepressionPsychoSkinMixin {
@@ -58,10 +58,10 @@ public abstract class DepressionPsychoSkinMixin {
     /*
      * The grey skin is a variant of Wathe's psycho skin, so it also needs Wathe psycho, read through getPsychoTicks()
      * rather than the field. Depression psycho holds Wathe psycho on for its whole run, so real players are unchanged,
-     * and a look query that reads that player's Wathe psycho as off (SparkWitch's Magician puppet stand-in) gets no
+     * and a look query that reads that player's Wathe psycho as off (the Magician puppet stand-in) gets no
      * grey skin either.
      * 灰度皮肤是 Wathe 疯魔皮肤的变体，因此同样要求 Wathe 疯魔，且经 getPsychoTicks() 读取而非字段。抑郁疯魔全程维持
-     * Wathe 疯魔，真实玩家不受影响；而把该玩家的 Wathe 疯魔读作关闭的外观查询（SparkWitch 魔术师皮套替身）也不会得到灰度皮肤。
+     * Wathe 疯魔，真实玩家不受影响；而把该玩家的 Wathe 疯魔读作关闭的外观查询（魔术师皮套替身）也不会得到灰度皮肤。
      */
     private static Identifier depressionPsychoTexture(AbstractClientPlayerEntity player) {
         if (!SparkDlcServerConnection.isConfirmedServer()

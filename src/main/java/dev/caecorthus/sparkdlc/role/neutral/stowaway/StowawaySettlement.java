@@ -20,12 +20,12 @@ import java.util.UUID;
  * Settlement exclusion: a Stowaway NEVER counts as a living player for win determination, so every win, block and
  * moment comes out as if the Stowaway were not in the round. Seams: every {@code CheckWinCondition} listener through
  * {@link StowawayWinScope}, the NoellesRoles moment-trigger and head counts through
- * {@code FiendWinExclusion.countsAsAlive}, and SparkTraits / SparkStrength through SparkFactionAPI's
+ * {@code FiendWinExclusion.countsAsAlive}, and the traits and role kits through
  * {@code SettlementExclusions}. Its real death state is untouched: at settlement a living Stowaway joins the winning
  * side ({@link #completeRoundEndRows}) while a dead one loses.
  * 结算排除：偷渡客在胜负判定中永远不算存活，因此所有胜利、阻止与时刻的结果都与偷渡客不在本局时完全相同。接缝：所有
  * {@code CheckWinCondition} 监听器经由 {@link StowawayWinScope}，NoellesRoles 的时刻触发与人数计数经由
- * {@code FiendWinExclusion.countsAsAlive}，SparkTraits / SparkStrength 经由 SparkFactionAPI 的
+ * {@code FiendWinExclusion.countsAsAlive}，词条与职业强化经由
  * {@code SettlementExclusions}。其真实死亡状态不受影响：结算时活着的偷渡客加入获胜一方
  * （{@link #completeRoundEndRows}），死亡的偷渡客判负。
  */

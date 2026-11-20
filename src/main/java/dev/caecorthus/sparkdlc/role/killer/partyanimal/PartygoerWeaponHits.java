@@ -62,20 +62,20 @@ import java.util.UUID;
  * 原样执行）；由客户端选定的命中会在服务端重新校验（武器、距离、瞄准、视线）。
  *
  * <p>Entry points (callers): Wathe bat (left-click callback, {@link DroneWeaponHits#PHASE}), Wathe revolver/derringer,
- * knife stab, NoellesRoles Demon Hunter pistol and throwing axe, SparkWitch shuriken (the drone mixins), Wathe grenade /
- * M67 / bomb drone blasts, Serial Killer pistols, Undercover tomahawk, SparkWitch kunai ({@code DroneWeaponHits}),
- * NoellesRoles timed bomb, poison needle and poison gas (own mixins), SparkWitch seams (called by
+ * knife stab, NoellesRoles Demon Hunter pistol and throwing axe, the shuriken (the drone mixins), Wathe grenade /
+ * M67 / bomb drone blasts, Serial Killer pistols, Undercover tomahawk, the kunai ({@code DroneWeaponHits}),
+ * NoellesRoles timed bomb, poison needle and poison gas (own mixins), the hit-hub seams (called by
  * {@code SeekerDeviceHits} and {@code MagicianPuppetHits} at the head of their entries).
- * 入口（调用方）：Wathe 球棒（左键回调，PHASE 阶段）、Wathe 左轮/德林加、刀刺、NoellesRoles 猎魔枪与飞斧、SparkWitch 手里剑
- * （无人机 mixin）、Wathe 手雷 / M67 / 炸弹无人机爆炸、连环杀手手枪、卧底战术斧、SparkWitch 苦无（DroneWeaponHits）、
- * NoellesRoles 定时炸弹、毒针与毒气（各自的 mixin）、SparkWitch 接缝（由 {@code SeekerDeviceHits} 与
+ * 入口（调用方）：Wathe 球棒（左键回调，PHASE 阶段）、Wathe 左轮/德林加、刀刺、NoellesRoles 猎魔枪与飞斧、手里剑
+ * （无人机 mixin）、Wathe 手雷 / M67 / 炸弹无人机爆炸、连环杀手手枪、卧底战术斧、苦无（DroneWeaponHits）、
+ * NoellesRoles 定时炸弹、毒针与毒气（各自的 mixin）、命中枢纽接缝（由 {@code SeekerDeviceHits} 与
  * {@code MagicianPuppetHits} 在其入口开头调用）。</p>
  */
 public final class PartygoerWeaponHits {
     /**
      * Thrown weapons with their own player-only (lethal) hit logic that also kill a Partygoer on contact; optional
-     * entries, e.g. SparkWitch's shuriken. Lethal only: unlike the drone tag, nothing non-lethal may join it.
-     * 自带只认玩家（致命）命中逻辑、接触派对客时也应将其击杀的投掷武器；条目可选，如 SparkWitch 手里剑。仅限致命武器：与无人机标签不同，
+     * entries, e.g. the shuriken. Lethal only: unlike the drone tag, nothing non-lethal may join it.
+     * 自带只认玩家（致命）命中逻辑、接触派对客时也应将其击杀的投掷武器；条目可选，如手里剑。仅限致命武器：与无人机标签不同，
      * 不致命的东西不得加入。
      */
     public static final TagKey<EntityType<?>> PARTYGOER_KILLING_PROJECTILES =
@@ -91,9 +91,9 @@ public final class PartygoerWeaponHits {
         }
         registered = true;
         // Same phase as the drone's left-click hook (ordered by DroneWeaponHits after the lock phases, before default):
-        // only the Wathe bat answers here; every other item PASSes to its own handler (tomahawk, SparkWitch sword...).
+        // only the Wathe bat answers here; every other item PASSes to its own handler (tomahawk, ceremonial sword...).
         // 与无人机左键钩子同一阶段（由 DroneWeaponHits 排在锁定阶段之后、默认阶段之前）：这里只处理 Wathe 球棒；
-        // 其余物品一律 PASS，交给各自的处理器（战术斧、SparkWitch 仪礼剑……）。
+        // 其余物品一律 PASS，交给各自的处理器（战术斧、仪礼剑……）。
         AttackEntityCallback.EVENT.register(DroneWeaponHits.PHASE, PartygoerWeaponHits::onAttack);
     }
 
@@ -150,8 +150,8 @@ public final class PartygoerWeaponHits {
 
     /**
      * The tomahawk's stage-2, charge and cooldown gates were applied by {@code UndercoverTomahawkService}; this adds the
-     * shared attacker gate, the SparkTraits weapon gate and reach + sight. No 小脑: a Partygoer is never an innocent.
-     * 战术斧的第二阶段、蓄力与冷却门槛已由 UndercoverTomahawkService 检查；这里补上通用攻击者门槛、SparkTraits 武器门槛与距离和视线。
+     * shared attacker gate, the trait weapon gate and reach + sight. No 小脑: a Partygoer is never an innocent.
+     * 战术斧的第二阶段、蓄力与冷却门槛已由 UndercoverTomahawkService 检查；这里补上通用攻击者门槛、词条武器门槛与距离和视线。
      * 不会小脑：派对客永远不是好人。
      */
     public static boolean onTomahawk(ServerPlayerEntity attacker, PartygoerEntity partygoer, ItemStack tomahawk,
@@ -248,7 +248,7 @@ public final class PartygoerWeaponHits {
         return PartygoerService.killByWeapon(shooter, partygoer, deathReason);
     }
 
-    // ---- Use item: SparkWitch kunai (called first by DroneWeaponHits) / 使用物品：SparkWitch 苦无 ----
+    // ---- Use item: kunai (called first by DroneWeaponHits) / 使用物品：苦无 ----
 
     /**
      * Kunai: its own use is a server raycast that only sees players, so a Partygoer strictly nearer than the player it
@@ -277,9 +277,9 @@ public final class PartygoerWeaponHits {
     // ---- Projectiles / 投射物 ----
 
     /**
-     * Tagged thrown weapon (SparkWitch shuriken, whose own hit logic only kills players) met a Partygoer (server): kill
+     * Tagged thrown weapon (the shuriken, whose own hit logic only kills players) met a Partygoer (server): kill
      * it and stop the projectile. True = handled.
-     * 带标签的投掷武器（SparkWitch 手里剑，其命中逻辑只杀玩家）命中派对客（服务端）：将其击杀并让投射物停下。返回 true 表示已处理。
+     * 带标签的投掷武器（手里剑，其命中逻辑只杀玩家）命中派对客（服务端）：将其击杀并让投射物停下。返回 true 表示已处理。
      */
     public static boolean onTaggedProjectileHit(ProjectileEntity projectile, PartygoerEntity partygoer) {
         Entity owner = projectile.getOwner();
@@ -450,7 +450,7 @@ public final class PartygoerWeaponHits {
         return false;
     }
 
-    // ---- SparkWitch seams (called by its hit hubs) / SparkWitch 接缝（由其命中枢纽调用） ----
+    // ---- Hit-hub seams (called by the hit hubs) / 命中枢纽接缝（由命中枢纽调用） ----
 
     /**
      * Hunter shotgun ({@code SeekerDeviceHits.onShotgunFired}): a Partygoer strictly nearer than the target and any drone
@@ -464,11 +464,11 @@ public final class PartygoerWeaponHits {
     }
 
     /**
-     * Black Raven feather blade ({@code onFeatherBladeFired}, which SparkWitch calls before its Black Raven check): the
+     * Black Raven feather blade ({@code onFeatherBladeFired}, called before the Black Raven check): the
      * blade's mark kills after 20 s, so a nearer Partygoer dies at once ({@code wathe:knife}) and the blade cools down as
-     * after a mark. True = absorbed (SparkWitch then marks nobody and sets no cooldown itself).
-     * 黑鸦羽刃（SparkWitch 在黑羽鸦身份检查之前调用 onFeatherBladeFired）：羽刃的标记 20 秒后致死，因此更近的派对客立即死亡
-     * （wathe:knife），羽刃与标记后一样进入冷却。返回 true 表示已吸收（SparkWitch 随后不标记任何人，也不自行设冷却）。
+     * after a mark. True = absorbed (the caller then marks nobody and sets no cooldown itself).
+     * 黑鸦羽刃（onFeatherBladeFired 在黑羽鸦身份检查之前调用）：羽刃的标记 20 秒后致死，因此更近的派对客立即死亡
+     * （wathe:knife），羽刃与标记后一样进入冷却。返回 true 表示已吸收（调用方随后不标记任何人，也不自行设冷却）。
      */
     public static boolean onSparkWitchFeatherBlade(@Nullable ServerPlayerEntity user, @Nullable PlayerEntity target,
                                                    double range) {
@@ -484,13 +484,13 @@ public final class PartygoerWeaponHits {
     }
 
     /**
-     * 狮身豪 (Sphinx Hao) hand-gun fist ({@code SeekerDeviceHits.onSphinxHaoFistFired}, called by SparkWitch's fist shot
+     * 狮身豪 (Sphinx Hao) hand-gun fist ({@code SeekerDeviceHits.onSphinxHaoFistFired}, called by the fist shot
      * after it picked its rewound target): a lethal straight hitscan, so a Partygoer strictly nearer than the target and
      * any drone dies with the fist's own reason ({@code sparkdlc:sphinx_hao_fist}). True = absorbed, the caller hits
-     * nobody (SparkWitch then settles the shot as "not a kill").
-     * 狮身豪“手”枪铁拳（SparkWitch 铁拳射击在选出回溯目标后调用 onSphinxHaoFistFired）：致命的直线即时射线，因此严格近于目标
+     * nobody (the caller then settles the shot as "not a kill").
+     * 狮身豪“手”枪铁拳（铁拳射击在选出回溯目标后调用 onSphinxHaoFistFired）：致命的直线即时射线，因此严格近于目标
      * 与任何无人机的派对客以铁拳自身死因（sparkdlc:sphinx_hao_fist）死亡。返回 true 表示已吸收，调用方不再命中任何人
-     * （SparkWitch 随后按“未击杀”结算这一枪）。
+     * （调用方随后按“未击杀”结算这一枪）。
      */
     public static boolean onSparkWitchSphinxHaoFist(@Nullable ServerPlayerEntity shooter, @Nullable PlayerEntity target,
                                                     double range) {
@@ -503,7 +503,7 @@ public final class PartygoerWeaponHits {
      * lethal straight hitscan like a revolver shot, so a Partygoer strictly nearer than the target and any drone dies
      * with Wathe's gunshot reason ({@code wathe:gun_shot}, the rifle's own reason). True = absorbed, the caller hits
      * nobody.
-     * 狙击手 M1903A4（SparkWitch 每发调用一次 onM1903A4Fired，传入完整 50 格射程）：与左轮相同的致命直线即时射线，因此严格近于
+     * 狙击手 M1903A4（每发调用一次 onM1903A4Fired，传入完整 50 格射程）：与左轮相同的致命直线即时射线，因此严格近于
      * 目标与任何无人机的派对客以 Wathe 枪击死因（wathe:gun_shot，即该步枪自身死因）死亡。返回 true 表示已吸收，调用方不再命中任何人。
      */
     public static boolean onSparkWitchM1903A4(@Nullable ServerPlayerEntity shooter, @Nullable PlayerEntity target,
@@ -514,10 +514,10 @@ public final class PartygoerWeaponHits {
 
     /**
      * Time Stealer clock ({@code onClockFired}, reached only when a player was aimed): a nearer Partygoer takes the
-     * curse, which kills, so it dies now ({@code sparkdlc:time_stolen}); true = absorbed, and SparkWitch then starts
+     * curse, which kills, so it dies now ({@code sparkdlc:time_stolen}); true = absorbed, and the caller then starts
      * the clock's cooldown itself. Drones never stop the clock, so they are not measured.
      * 窃时者时钟（onClockFired，仅在瞄准到玩家时才会调用）：更近的派对客承受会致死的诅咒，因此立即死亡（sparkdlc:time_stolen）；
-     * 返回 true 表示已吸收，SparkWitch 随后自行开始时钟冷却。无人机从不挡下时钟，因此不参与测量。
+     * 返回 true 表示已吸收，调用方随后自行开始时钟冷却。无人机从不挡下时钟，因此不参与测量。
      */
     public static boolean onSparkWitchClock(@Nullable ServerPlayerEntity user, @Nullable PlayerEntity target,
                                             double range) {
@@ -563,11 +563,11 @@ public final class PartygoerWeaponHits {
     }
 
     /**
-     * USEC sniper rifle match shot ({@code onUsecRifleFired}): walks the bullet's polyline (already bent and cut by
-     * SparkWitch) and lets the first Partygoer OR drone it enters strictly before {@code reach} win. Only a Partygoer win
+     * USEC sniper rifle match shot ({@code onUsecRifleFired}): walks the bullet's polyline (already bent and cut by the
+     * rifle) and lets the first Partygoer OR drone it enters strictly before {@code reach} win. Only a Partygoer win
      * acts here (it dies, {@code wathe:gun}, and its path distance is returned); a drone win returns {@code reach}
      * unchanged so the drone hook breaks it exactly as before.
-     * USEC 狙击步枪对局射击：沿子弹折线（已由 SparkWitch 处理下坠与截断）遍历，让其在 reach 之前严格先进入的第一只派对客或第一架无人机
+     * USEC 狙击步枪对局射击：沿子弹折线（已由步枪处理下坠与截断）遍历，让其在 reach 之前严格先进入的第一只派对客或第一架无人机
      * 获胜。只有派对客获胜时在此处理（其死亡，wathe:gun，并返回其路径距离）；无人机获胜时原样返回 reach，由无人机钩子照旧击毁。
      */
     public static double onSparkWitchUsecRifle(@Nullable ServerPlayerEntity shooter, @Nullable List<Vec3d> path,
@@ -622,8 +622,8 @@ public final class PartygoerWeaponHits {
 
     /**
      * Grand Witch ceremonial sword, fully charged left click ({@code MagicianPuppetHits.onCeremonialSwordStrike}, which
-     * SparkWitch reaches for any non-player target): a Partygoer in reach dies as a sword kill.
-     * 大魔女仪礼剑蓄满左键（SparkWitch 对任何非玩家目标都会调用该接缝）：距离内的派对客按一次剑杀死亡。
+     * is reached for any non-player target): a Partygoer in reach dies as a sword kill.
+     * 大魔女仪礼剑蓄满左键（任何非玩家目标都会调用该接缝）：距离内的派对客按一次剑杀死亡。
      */
     public static boolean onCeremonialSwordStrike(@Nullable ServerPlayerEntity attacker, @Nullable Entity target) {
         if (attacker == null || attacker.getWorld().isClient() || !(target instanceof PartygoerEntity partygoer)
@@ -669,12 +669,12 @@ public final class PartygoerWeaponHits {
     }
 
     /**
-     * A sword kill on a Partygoer, gated and paid like SparkWitch's own (no sword kill cooldown, no strike in progress,
-     * the SparkTraits weapon gate; then the 30 s sword kill cooldown and the trident hit sound). The Grand Witch runtime
-     * is read through its own CCA key (a direct call since the SparkDLC fusion); for an attacker without the component
-     * the kill still happens, uncharged.
-     * 对派对客的一次剑杀，门槛与代价同 SparkWitch 自身（无剑杀冷却、无进行中的攻击、SparkTraits 武器门槛；之后 30 秒剑杀冷却与三叉戟
-     * 命中声）。大魔女运行时经其自身的 CCA key 读取（融合进 SparkDLC 后为直接调用）；玩家没有该组件时仍然击杀，但不计冷却。
+     * A sword kill on a Partygoer, gated and paid like the sword's own (no sword kill cooldown, no strike in progress,
+     * the trait weapon gate; then the 30 s sword kill cooldown and the trident hit sound). The Grand Witch runtime
+     * is read through its own CCA key; the branch for an attacker without the component (the kill still happens,
+     * uncharged) is unreachable since the fusion.
+     * 对派对客的一次剑杀，门槛与代价同仪礼剑自身（无剑杀冷却、无进行中的攻击、词条武器门槛；之后 30 秒剑杀冷却与三叉戟
+     * 命中声）。大魔女运行时经其自身的 CCA key 读取；玩家没有该组件的分支（仍然击杀，但不计冷却）融合后不可达。
      */
     private static boolean ceremonialSwordKill(ServerPlayerEntity attacker, PartygoerEntity partygoer) {
         Item sword = heldItem(attacker, PartygoerWeaponRules.CEREMONIAL_SWORD_ID);
@@ -731,10 +731,10 @@ public final class PartygoerWeaponHits {
 
     /**
      * Attackers we are the authority for must be live round participants in survival, not Last-Escape blocked, not
-     * inside a pending SparkTraits Last Stand (our callback phase runs before the default phase where SparkTraits
+     * inside a pending Last Stand (our callback phase runs before the default phase where the trait
      * enforces that lock) and not carried by a Partygoer (a carried player can't hit one).
-     * 由我们裁定的攻击者必须是存活、生存模式的对局参与者，未被最后逃脱阻止，不处于 SparkTraits 背水一战待决中（我们的回调阶段早于
-     * SparkTraits 执行该锁的默认阶段），且没有被派对客扛着（被扛着的人不能打派对客）。
+     * 由我们裁定的攻击者必须是存活、生存模式的对局参与者，未被最后逃脱阻止，不处于背水一战待决中（我们的回调阶段早于
+     * 该词条执行该锁的默认阶段），且没有被派对客扛着（被扛着的人不能打派对客）。
      */
     public static boolean mayKill(@Nullable ServerPlayerEntity player) {
         return player != null && !player.isRemoved() && player.isAlive()
@@ -792,10 +792,10 @@ public final class PartygoerWeaponHits {
     }
 
     /**
-     * SparkWitch's Grand Witch runtime component ({@code getSwordKillCooldownTicks}, {@code isSwordStrikeInProgress},
-     * {@code setSwordKillCooldownTicks}). The modules are fused in SparkDLC, so it is read through its own CCA key and
-     * called directly; a player without the component still fails open.
-     * SparkWitch 大魔女运行时组件。各模块已融合进 SparkDLC，因此经其自身的 CCA key 读取并直接调用；没有该组件的玩家仍然放行。
+     * The Grand Witch runtime component ({@code getSwordKillCooldownTicks}, {@code isSwordStrikeInProgress},
+     * {@code setSwordKillCooldownTicks}), read through its own CCA key. The fail-open branches for a player without
+     * the component are unreachable since the fusion.
+     * 大魔女运行时组件，经其自身的 CCA key 读取。玩家没有该组件时放行的分支融合后不可达。
      */
     private static final class GrandWitchSword {
         private GrandWitchSword() {

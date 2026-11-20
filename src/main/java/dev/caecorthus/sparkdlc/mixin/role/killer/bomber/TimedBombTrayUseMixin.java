@@ -39,7 +39,7 @@ import java.util.UUID;
 /**
  * 定时炸弹托盘增强。
  *
- * <p>这个 mixin 优先级高于 NoellesRoles/Strength 的服务员双拿取 mixin。
+ * <p>这个 mixin 优先级高于 NoellesRoles 与本模组的服务员双拿取 mixin。
  * 如果托盘里有炸弹，就由这里统一完成拿取，避免服务员或验尸官伪装服务员提前拿走物品却漏触发炸弹。</p>
  */
 @Mixin(value = FoodPlatterBlock.class, priority = 1300)

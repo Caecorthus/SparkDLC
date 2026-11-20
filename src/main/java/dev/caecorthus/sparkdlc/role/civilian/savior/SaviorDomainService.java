@@ -60,8 +60,8 @@ public final class SaviorDomainService {
         ServerPlayNetworking.registerGlobalReceiver(UseSaviorSkillC2SPacket.ID,
                 (payload, context) -> use(context.player()));
         ServerTickEvents.END_SERVER_TICK.register(SaviorDomainService::tick);
-        // A death SparkTraits intercepted (Last Stand revive) is not a death: the revived Savior keeps its domain state
-        // (Dominator precedent). / SparkTraits 拦截的死亡（背水一战复活）不算死亡：复活的救世主保留领域状态（支配者先例）。
+        // A death the Last Stand trait intercepted (a revive) is not a death: the revived Savior keeps its domain state
+        // (Dominator precedent). / 背水一战词条拦截的死亡（复活）不算死亡：复活的救世主保留领域状态（支配者先例）。
         KillPlayer.AFTER.register((victim, killer, reason) -> {
             if (victim != null && !SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
                 clearPlayer(victim);
@@ -92,10 +92,10 @@ public final class SaviorDomainService {
     /**
      * G request. The client only sends an empty intent; everything is decided here against server state: an ACTIVE
      * round (not STOPPING), the raw Savior role, a present caster (playing and alive, not a spectator, not inside a
-     * Taotie), no SparkTraits role-skill block (Last Escape, silenced), no cooldown and no running domain. Feared
+     * Taotie), no trait role-skill block (Last Escape, silenced), no cooldown and no running domain. Feared
      * Saviors are then refused by the same shared check as the other role skills.
      * G 请求。客户端只发空意图；一切都按服务端状态判定：ACTIVE 回合（不含 STOPPING）、真实救世主职业、在场的施放者（存活在局、
-     * 非旁观、未被饕餮吞下）、没有 SparkTraits 职业技能封锁（脱险、沉默）、不在冷却且没有进行中的领域。随后被大魔女恐惧时与其他
+     * 非旁观、未被饕餮吞下）、没有词条造成的职业技能封锁（脱险、沉默）、不在冷却且没有进行中的领域。随后被大魔女恐惧时与其他
      * 职业技能一样经共用判定拒绝。
      */
     private static void use(ServerPlayerEntity caster) {

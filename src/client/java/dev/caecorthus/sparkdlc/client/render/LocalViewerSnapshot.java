@@ -17,7 +17,7 @@ import java.util.function.Predicate;
 
 /**
  * Per-world-pass memo of LOCAL-VIEWER facts: answers that depend only on the local player and client state, never on
- * the entity being drawn. Wathe asks {@code getInstinctHighlight} (and SparkWitch's {@code isInstinctEnabled*} gates,
+ * the entity being drawn. Wathe asks {@code getInstinctHighlight} (and this mod's {@code isInstinctEnabled*} gates,
  * outline vetoes and Blind gates) for every rendered entity every frame, and each hook re-derived the same viewer facts
  * (role, liveness, Wraith state, Perception, Curser confusion, Fear, Blind view, ...) several times per call.
  * <p>Contract: a fact is memoized only between {@code WorldRenderEvents.START} and {@code WorldRenderEvents.END} of one
@@ -29,10 +29,10 @@ import java.util.function.Predicate;
  * callbacks run in {@code glfwPollEvents} at {@code swapBuffers}, after the frame. The pass is also closed at every
  * frame start ({@code MinecraftClient#render} HEAD, {@code WraithMinecraftClientMixin}), at START/END_CLIENT_TICK and
  * on disconnect, so even a skipped END can never carry a value across a frame, a task drain or a tick. Facts must stay
- * viewer-only and must never read the instinct key ({@code isPressed}/{@code isInstinctEnabled}): SparkStrength's
+ * viewer-only and must never read the instinct key ({@code isPressed}/{@code isInstinctEnabled}): the sabotage
  * Blackout and the USEC cloak release it per target. Each {@link Fact} has exactly one owner rule.
  * 按世界渲染 pass 缓存的本地观察者事实：只取决于本地玩家与客户端状态、从不取决于正在绘制的实体的结果。Wathe 每帧对每个
- * 渲染实体调用 {@code getInstinctHighlight}（以及 SparkWitch 的 {@code isInstinctEnabled*} 门禁、描边否决与盲人闸门），
+ * 渲染实体调用 {@code getInstinctHighlight}（以及本模组的 {@code isInstinctEnabled*} 门禁、描边否决与盲人闸门），
  * 每个钩子在一次调用中多次重复计算相同的观察者事实（职业、存活、冤魂状态、感知、诅咒混乱、恐惧、盲人视图等）。
  * <p>契约：事实只在一次世界渲染的 {@code WorldRenderEvents.START} 与 {@code WorldRenderEvents.END} 之间、在渲染线程上、
  * 且 {@code client.player}、{@code client.world} 与服务端确认标记仍为 START 时记录的值时被缓存。其他任何场合（tick、HUD、
@@ -42,7 +42,7 @@ import java.util.function.Predicate;
  * {@code glfwPollEvents} 中、即本帧之后运行。每帧开始（{@code MinecraftClient#render} HEAD，见
  * {@code WraithMinecraftClientMixin}）、START/END_CLIENT_TICK 与断开连接时也会关闭 pass，因此即使 END 被跳过，缓存值也不会
  * 跨越帧、任务队列或 tick。事实必须只与观察者有关，且绝不能读取本能键（{@code isPressed}/{@code isInstinctEnabled}）：
- * SparkStrength 熄灯与 USEC 隐蔽会按目标松开它。每个 {@link Fact} 只有一个所属规则。
+ * 破坏的熄灯与 USEC 隐蔽会按目标松开它。每个 {@link Fact} 只有一个所属规则。
  */
 public final class LocalViewerSnapshot {
     /** One memo bit per fact, each with exactly one owner rule. / 每个事实一个缓存位，各自只有一个所属规则。 */

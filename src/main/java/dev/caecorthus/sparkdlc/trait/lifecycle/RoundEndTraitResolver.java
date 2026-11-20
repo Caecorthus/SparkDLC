@@ -12,8 +12,8 @@ import java.util.UUID;
 
 /**
  * Single source of the traits a participant ended the round with, shared by round-end win data and replay tooltips.
- * Only valid before Wathe's finalize resets players and SparkTraits clears round state.
- * 回合结束数据与回放提示共用的"本局最终词条"唯一来源；仅在 Wathe 结算重置玩家、SparkTraits 清理本局状态之前有效。
+ * Only valid before Wathe's finalize resets players and the trait hooks clear round state.
+ * 回合结束数据与回放提示共用的"本局最终词条"唯一来源；仅在 Wathe 结算重置玩家、天赋钩子清理本局状态之前有效。
  */
 public final class RoundEndTraitResolver {
     private RoundEndTraitResolver() {

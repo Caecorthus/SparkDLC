@@ -7,13 +7,13 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Feats with one SparkTraits trait, and the trait collections kept in {@link LifetimeStats}. A trait "held" at an
+ * Feats with one trait, and the trait collections kept in {@link LifetimeStats}. A trait "held" at an
  * event is checked against my owner-visible trait timeline within {@link RoundFacts#RECORD_TICK_TOLERANCE} of the
- * event's record tick. A shield, as SparkTraits' Second Strike counts them, is psycho armour or any other
+ * event's record tick. A shield, as the Second Strike trait counts them, is psycho armour or any other
  * {@code shield_blocked} protection, an Iron Man Vial buff or a whiskey shield layer; Noelle's Roles writes the last two
  * as {@code death_blocked}.
- * 与单个 SparkTraits 词条相关的成就，以及 {@link LifetimeStats} 中的词条收集。某事件发生时“持有”的词条，按该事件记录 tick 前后
- * {@link RoundFacts#RECORD_TICK_TOLERANCE} 以内对照我自身可见的词条时间线判断。护盾按 SparkTraits 二次打击的口径：疯魔护甲或其他
+ * 与单个词条相关的成就，以及 {@link LifetimeStats} 中的词条收集。某事件发生时“持有”的词条，按该事件记录 tick 前后
+ * {@link RoundFacts#RECORD_TICK_TOLERANCE} 以内对照我自身可见的词条时间线判断。护盾按二次打击词条的口径：疯魔护甲或其他
  * 写成 {@code shield_blocked} 的保护、铁人药剂增益或一层威士忌护盾；后两者由 Noelle's Roles 写成 {@code death_blocked}。
  */
 final class TraitFeatRules {

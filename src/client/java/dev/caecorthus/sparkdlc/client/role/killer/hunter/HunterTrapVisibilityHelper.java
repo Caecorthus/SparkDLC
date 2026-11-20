@@ -52,13 +52,13 @@ public final class HunterTrapVisibilityHelper {
         Identifier roleId = role == null ? null : role.identifier();
         boolean killerFaction = role != null && role.getFaction() == Faction.KILLER;
         boolean deadSpectator = isDeadMatchSpectator(viewer, gameComponent);
-        // Class 1 (police, plus any SparkTraits Impostor holder) and class 2 (every killer, the Loose End and the
+        // Class 1 (police, plus any Impostor trait holder) and class 2 (every killer, the Loose End and the
         // Undercover) both see a trap through the police rule: line of sight. Only the killer faction keeps the old
         // x-ray, and only while the instinct key is held; the Loose End and the Undercover are class 2 by id, have no
         // killer instinct, and so stay on line of sight whatever key they hold. Killers and the witch-side instinct
         // viewers never read the police answer, so the registry and trait lookups run only for the remaining viewers
         // (this is evaluated per trap, per frame). The trait probe fails closed. Owner 2026-11-11.
-        // 第一类（警职，外加任何带 SparkTraits 内鬼词条的玩家）与第二类（所有杀手、亡命徒和卧底）都走警察规则看见捕兽夹：
+        // 第一类（警职，外加任何带内鬼词条的玩家）与第二类（所有杀手、亡命徒和卧底）都走警察规则看见捕兽夹：
         // 需要视线。只有杀手阵营保留旧的透视，且仅在按住本能键时；亡命徒与卧底按 ID 归入第二类，没有杀手本能，无论按什么键都
         // 只走视线。杀手与魔女方本能观察者不会读取警察判定，因此注册表与词条查询只对其余观察者执行（本方法每帧对每个夹子求值）。
         // 词条查询失败即关闭（所有者 2026-11-11）。

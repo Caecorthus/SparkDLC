@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
  * alive for settlement either, so the same wrapped counts also skip a living raw Black Raven
  * ({@link BlackRavenSettlement}), and neither is a living Stowaway (owner 2026-11-02, {@link StowawaySettlement}) or
  * an untransformed Schrödinger's Cat (owner 2026-11-03, {@link SchrodingersCatSettlement}); the class name is kept.
- * SparkWitch's own counts call
+ * This mod's own counts call
  * {@link FiendParticipation#isDormantFiend} and {@link BlackRavenSettlement#isExcluded} directly; the NoellesRoles
  * counts (Jester moment, Corrupt Cop, Taotie swallow-all, and the shared moment-trigger counter) reach this through
  * {@code mixin/fiend/} wrappers around their per-player alive check. A moment Fiend and every other player keep the
@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
  * 所有者决定 D1：休眠魔人对所有“最后存活者”计数都不可见，因此等待其他人全部死亡的胜利或时刻不会等待无法击杀的魔人。
  * 计划 v2 §3.3（2026-10-21）：黑羽鸦在结算中同样永不算存活，因此这些被包装的计数也跳过存活的原始黑羽鸦
  * （{@link BlackRavenSettlement}），存活的偷渡客（所有者 2026-11-02，{@link StowawaySettlement}）与未转化的薛定谔之猫（所有者 2026-11-03，
- * {@link SchrodingersCatSettlement}）同样不计入；类名保持不变。SparkWitch 自身计数直接调用 {@link FiendParticipation#isDormantFiend}
+ * {@link SchrodingersCatSettlement}）同样不计入；类名保持不变。本模组自身的计数直接调用 {@link FiendParticipation#isDormantFiend}
  * 与 {@link BlackRavenSettlement#isExcluded}；NoellesRoles 的计数（小丑时刻、黑警、饕餮吞尽、以及时刻触发共用计数器）
  * 通过 {@code mixin/fiend/} 对其逐人存活判断的包装接入此处。时刻中的魔人与其他所有玩家保持宿主原本的结果，因此没有
  * 存活的上述玩家时，每个被包装的计数都不变。

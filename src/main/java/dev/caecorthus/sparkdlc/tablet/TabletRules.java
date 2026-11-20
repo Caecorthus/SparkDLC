@@ -17,8 +17,8 @@ public final class TabletRules {
     public static final int HOTBAR_END_SLOT = 8;
     public static final int CHAT_MESSAGE_MAX_LENGTH = 120;
     // Minimum time between two chat messages of one holder, any channel; admins set it with
-    // /sparkStrength:tabletChatInterval (0 = no interval, the default, as before the command existed).
-    // 同一持有者两条聊天消息之间的最短间隔，不分频道；管理员用 /sparkStrength:tabletChatInterval 设置（0 为不限制，即默认值，
+    // /sparkdlc:tabletChatInterval (0 = no interval, the default, as before the command existed).
+    // 同一持有者两条聊天消息之间的最短间隔，不分频道；管理员用 /sparkdlc:tabletChatInterval 设置（0 为不限制，即默认值，
     // 与命令出现之前相同）。
     public static final int DEFAULT_CHAT_INTERVAL_TICKS = 0;
     public static final int MAX_CHAT_INTERVAL_SECONDS = 600;

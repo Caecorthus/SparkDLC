@@ -24,13 +24,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * started the session, so a jump or a ledge can leave it airborne) still falls straight down under gravity until it
  * lands, while its chunks are loaded and it is out of water; its horizontal motion is dropped. The server follows that
  * fall (its anchor grace and falling rule) instead of ending the session for an ungrounded body. Both handlers chain
- * with the Seeker's and SparkStrength's drone hooks on the same methods. First statement of each handler: the
+ * with the Seeker's and the Bomber drone's hooks on the same methods. First statement of each handler: the
  * {@code isActive()} / hold gate.
  * 黑羽鸦操控乌鸦期间对本体的纯客户端保持（搜寻者遥控视角做法）。isCamera：原版只在本体是镜头时发送其移动包，而本体漂移会让服务端结束
  * 化鸦，因此被绑定的本体持续返回 true，上报其冻结（零输入）的位置。move 开头：本体自身的 SELF 移动（行走、击退速度）在整个会话期间
  * 被取消，会话结束后保持到其区块送达；活塞推动与服务端传送照常生效。会话期间唯一的例外：在半空中被冻结的本体（冻结最多在服务端开始
  * 会话一个往返之后才生效，跳跃或走下台阶都可能让它悬空）在其区块已加载且不在水中时，仍受重力竖直下落直到落地，水平运动被舍弃。
- * 服务端跟随这次下落（锚点宽限与下落规则），而不会因本体离地结束会话。两个处理器都可与搜寻者及 SparkStrength 无人机在同一方法上的
+ * 服务端跟随这次下落（锚点宽限与下落规则），而不会因本体离地结束会话。两个处理器都可与搜寻者及炸弹客无人机在同一方法上的
  * 钩子串联。
  */
 @Mixin(ClientPlayerEntity.class)

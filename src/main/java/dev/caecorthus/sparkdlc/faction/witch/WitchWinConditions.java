@@ -18,8 +18,8 @@ import net.minecraft.server.world.ServerWorld;
 
 
 /**
- * Custom Witch faction round-end rules for SparkFactionAPI.
- * 魔女阵营的自定义结算规则，由 SparkFactionAPI 统一接入回合结束流程。
+ * Custom Witch faction round-end rules for the faction core.
+ * 魔女阵营的自定义结算规则，由阵营核心统一接入回合结束流程。
  */
 public final class WitchWinConditions {
     private WitchWinConditions() {

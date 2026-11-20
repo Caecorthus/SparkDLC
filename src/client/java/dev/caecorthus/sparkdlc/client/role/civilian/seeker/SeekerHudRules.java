@@ -77,9 +77,9 @@ public final class SeekerHudRules {
     }
 
     /**
-     * HUD gates: a confirmed SparkWitch server, HUD not hidden (F1), Wathe's own HUD showing, a living Seeker, and no
+     * HUD gates: a confirmed SparkDLC server, HUD not hidden (F1), Wathe's own HUD showing, a living Seeker, and no
      * remote view or its overlay on screen.
-     * HUD 门槛：已确认的 SparkWitch 服务端、HUD 未隐藏（F1）、Wathe 自身 HUD 正在显示、存活的搜寻者，且没有遥控视角或其叠加层。
+     * HUD 门槛：已确认的 SparkDLC 服务端、HUD 未隐藏（F1）、Wathe 自身 HUD 正在显示、存活的搜寻者，且没有遥控视角或其叠加层。
      */
     public static boolean visible(boolean confirmedServer, boolean hudHidden, boolean watheHud, boolean seeker,
                                   boolean playingAndAlive, boolean remoteOverlayActive) {

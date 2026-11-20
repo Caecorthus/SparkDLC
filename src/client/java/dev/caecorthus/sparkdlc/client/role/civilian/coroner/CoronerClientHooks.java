@@ -45,12 +45,11 @@ public final class CoronerClientHooks {
     /**
      * Returns the killer-coloured instinct result for a Coroner killer disguise.
      *
-     * <p>This small public seam is intentionally kept on the client side. SparkTraits
-     * calls it directly when its own early WatheClient mixin runs before Wathe dispatches {@code GetInstinctHighlight}.
-     * SparkStrength itself never calls into SparkTraits here.</p>
+     * <p>This small public seam is intentionally kept on the client side. The trait code calls it directly when its
+     * own early WatheClient mixin runs before Wathe dispatches {@code GetInstinctHighlight}.</p>
      *
-     * <p>这里提供一个客户端公开接缝：当 SparkTraits 的 WatheClient 早期 Mixin
-     * 先于 Wathe 本能事件执行时，SparkTraits 会直接调用这里的判断。SparkStrength 在此处不会反向调用 SparkTraits。</p>
+     * <p>这里提供一个客户端公开接缝：当特质的 WatheClient 早期 Mixin
+     * 先于 Wathe 本能事件执行时，特质代码会直接调用这里的判断。</p>
      */
     public static @Nullable Integer resolveKillerDisguiseInstinctColor(Entity target) {
         if (!(target instanceof PlayerEntity targetPlayer) || targetPlayer.isSpectator()) {

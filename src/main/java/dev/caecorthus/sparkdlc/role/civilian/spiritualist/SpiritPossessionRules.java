@@ -17,7 +17,7 @@ public final class SpiritPossessionRules {
     /** Leaving must always get through, so payload blockers never see it. / 退出必须始终送达，因此不进入任何拦截名单。 */
     public static final Identifier EXIT_PAYLOAD_ID = Identifier.of("sparkdlc", "spirit_possess_exit");
     public static final Identifier STATE_PAYLOAD_ID = Identifier.of("sparkdlc", "spirit_possess_state");
-    /** SparkFactionAPI forced-cooldown store id. / SparkFactionAPI 强制冷却存储 id。 */
+    /** Forced-cooldown store id. / 强制冷却存储 id。 */
     public static final Identifier COOLDOWN_STORE_ID = Identifier.of("sparkdlc", "spirit_possession");
 
     public static final int TICKS_PER_SECOND = 20;

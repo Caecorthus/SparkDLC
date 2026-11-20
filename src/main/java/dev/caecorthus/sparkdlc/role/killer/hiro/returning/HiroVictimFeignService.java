@@ -284,12 +284,12 @@ public final class HiroVictimFeignService {
      * The fake corpse is laid exactly as Wathe's {@code killPlayer} lays the real one (one block ahead of the victim at
      * its height, head yaw, the real death reason, the death tick and the live role {@code setPlayerUuid} captures),
      * so nobody can tell it from the corpse this death would have left; the real corpse of a later replay appears on
-     * the same spot. The fake mark stays server-only. SparkStrength's Coroner snapshot gets the same role a real
-     * corpse would carry (a direct call since the SparkDLC fusion); its Coroner already ignores a corpse whose owner is
+     * the same spot. The fake mark stays server-only. The Coroner snapshot gets the same role a real
+     * corpse would carry; the Coroner already ignores a corpse whose owner is
      * alive in Wathe.
      * 假尸体的铺设方式与 Wathe {@code killPlayer} 铺设真尸体完全一致（受害者前方一格、同高度、头部朝向、真实死因、死亡刻，以及
      * {@code setPlayerUuid} 捕获的实时身份），因此无人能把它与这次死亡本应留下的尸体区分开；之后重放产生的真尸体会出现在同一
-     * 位置。假尸标记只留在服务端。SparkStrength 验尸官快照写入与真尸体相同的身份（融合进 SparkDLC 后为直接调用）；其验尸官
+     * 位置。假尸标记只留在服务端。验尸官快照写入与真尸体相同的身份；验尸官
      * 本就忽略主人在 Wathe 中仍存活的尸体。
      */
     private static @Nullable PlayerBodyEntity spawnCorpse(ServerWorld world, ServerPlayerEntity victim,
@@ -430,14 +430,14 @@ public final class HiroVictimFeignService {
      * {@code KillPlayer.AFTER}, the kill rewards, the derringer reload and the death record see her. Two guards on
      * {@code killPlayer} ignore {@code force} and judge the killer, not the victim; neither may undo a death that
      * committed 15 s ago: the Judge's sentence check skips this one call ({@link #isSettling}), and a Hiro who is no
-     * longer a living participant the SparkFactionAPI affect veto accepts (offline, dead, an active Wraith…;
+     * longer a living participant the faction core's affect veto accepts (offline, dead, an active Wraith…;
      * {@link HiroReturnRules#replaysWithHiroAsKiller}) is not passed as the killer: the replay then runs inside the
      * Judge attribution scope of her UUID, so {@code JudgeKillAttribution.committedResponsible} still names her and
      * nobody else is credited. If a late protection of the victim still stops the replay, the victim simply lives.
      * 受害者自己的计时结束（或其正在离线）：在锚点还原为普通玩家，移除假尸体，并立即以强制方式重放原击杀，凶手为希罗，使
      * {@code KillPlayer.AFTER}、击杀奖励、德林加装填与死亡记录都记在她头上。{@code killPlayer} 上有两个守卫无视 {@code force}
      * 且审查的是凶手而非受害者，它们都不能撤销 15 秒前已落定的死亡：法官的判决检查跳过这一次调用（{@link #isSettling}）；希罗
-     * 若已不是 SparkFactionAPI 影响否决所接受的存活参与者（离线、已死亡、成为激活冤魂……，见
+     * 若已不是阵营核心影响否决所接受的存活参与者（离线、已死亡、成为激活冤魂……，见
      * {@link HiroReturnRules#replaysWithHiroAsKiller}），则不作为凶手传入：此时重放在以她的 UUID 建立的法官归因作用域内运行，
      * {@code JudgeKillAttribution.committedResponsible} 仍指向她，也不会记到别人头上。若受害者自身的保护仍拦下重放，受害者
      * 就此存活。
@@ -449,7 +449,7 @@ public final class HiroVictimFeignService {
         ServerPlayerEntity online = server.getPlayerManager().getPlayer(feign.hiro());
         ServerPlayerEntity hiro = online != null && HiroReturnRules.replaysWithHiroAsKiller(true,
                 GameFunctions.isPlayerPlayingAndAlive(online),
-                // The exact question SparkFactionAPI's HEAD veto asks about a kill. / 与 SFA 的 HEAD 否决对击杀所问完全相同。
+                // The exact question the faction core's HEAD veto asks about a kill. / 与阵营核心的 HEAD 否决对击杀所问完全相同。
                 SparkFactionApi.canAffectPlayer(online, victim, feign.deathReason(),
                         GameWorldComponent.KEY.get(online.getWorld())))
                 ? online

@@ -4,15 +4,15 @@ import java.util.Set;
 
 /**
  * Pure weapon rules for breaking Bomber drones (no Minecraft state): melee id whitelist, reaches, aim tolerance and
- * the knife cooldown formula. Ids are plain strings so optional mods (SparkWitch) need no compile dependency.
+ * the knife cooldown formula. Ids are plain strings, kept from when some of these weapons lived in another jar.
  * 击毁炸弹客无人机的纯武器规则（不依赖 Minecraft 状态）：近战 id 白名单、距离、瞄准容差与刀冷却公式。
- * id 使用纯字符串，可选模组（SparkWitch）无需编译期依赖。
+ * id 使用纯字符串，沿用自其中部分武器位于另一个 jar 时的做法。
  */
 public final class DroneWeaponRules {
     /**
      * Melee weapons matched by registry id: they carry no positive attack-damage modifier (the Wathe bat's is +0) or
-     * belong to an optional mod. Everything else is judged by item tags and attack-damage modifiers.
-     * 按注册 id 匹配的近战武器：它们没有正的攻击伤害修饰（Wathe 球棒为 +0）或来自可选模组。其余物品按物品标签与攻击伤害修饰判断。
+     * were listed while they lived in another jar. Everything else is judged by item tags and attack-damage modifiers.
+     * 按注册 id 匹配的近战武器：它们没有正的攻击伤害修饰（Wathe 球棒为 +0）或在位于另一个 jar 时按 id 列入。其余物品按物品标签与攻击伤害修饰判断。
      */
     public static final Set<String> MELEE_WEAPON_IDS = Set.of(
             "wathe:knife",
@@ -22,9 +22,9 @@ public final class DroneWeaponRules {
             "sparkdlc:fire_poker",
             "sparkdlc:vendetta_knife");
 
-    /** SparkWitch kunai: server-side right-click hitscan. / SparkWitch 苦无：服务端右键即时射线。 */
+    /** Kunai: server-side right-click hitscan. / 苦无：服务端右键即时射线。 */
     public static final String NINJA_KNIFE_ID = "sparkdlc:ninja_knife";
-    /** SparkWitch Grand Witch sword: right-click dash. / SparkWitch 大魔女仪礼剑：右键冲刺。 */
+    /** Grand Witch sword: right-click dash. / 大魔女仪礼剑：右键冲刺。 */
     public static final String CEREMONIAL_SWORD_ID = "sparkdlc:ceremonial_sword";
 
     /** Server melee reach: vanilla interaction range 3 plus its own 1-block allowance. / 服务端近战距离：原版 3 格加 1 格余量。 */
@@ -40,7 +40,7 @@ public final class DroneWeaponRules {
     public static final double GUN_MAX_DISTANCE = 65.0;
     /** Latency fallback cone between the look vector and a drone sample point. / 视线与无人机采样点的延迟兜底夹角。 */
     public static final double GUN_AIM_CONE_DEGREES = 25.0;
-    /** SparkWitch kunai ray and its kill cooldown, mirrored by value. / SparkWitch 苦无射线与击杀冷却（按数值镜像）。 */
+    /** Kunai ray and its kill cooldown, mirrored by value. / 苦无射线与击杀冷却（按数值镜像）。 */
     public static final double NINJA_KNIFE_RANGE = 4.0;
     public static final int NINJA_KNIFE_COOLDOWN_TICKS = 30 * 20;
     /** Ceremonial sword dash watch: ticks, minimum step that counts as dashing, sweep padding. / 仪礼剑冲刺监视参数。 */
@@ -88,15 +88,15 @@ public final class DroneWeaponRules {
     }
 
     /**
-     * Polyline nearest-wins (SparkWitch USEC rifle, whose AP rounds pierce blocks and sink). Walks the segments in flight
+     * Polyline nearest-wins (the USEC rifle, whose AP rounds pierce blocks and sink). Walks the segments in flight
      * order, cutting the one that crosses {@code reach} (a path distance), and accepts the first probe entry strictly
      * inside its cut. Returns that path distance (travelled segment lengths plus the entry), always strictly less than
      * {@code reach}; -1 when nothing is entered before {@code reach} or the input is unusable. Zero-length, negative or
-     * non-finite segments are skipped and add no distance, like SparkWitch's own walk.
-     * 折线的最近者命中（SparkWitch USEC 步枪，其 AP 子弹会穿透方块并下坠）。按飞行顺序逐段检查，在跨过 {@code reach}（路径距离）
+     * non-finite segments are skipped and add no distance, like the rifle's own walk.
+     * 折线的最近者命中（USEC 步枪，其 AP 子弹会穿透方块并下坠）。按飞行顺序逐段检查，在跨过 {@code reach}（路径距离）
      * 的那一段处截断，接受第一个严格位于截断长度之内的探测结果。返回该路径距离（已走过的各段长度加段内距离），始终严格小于
      * {@code reach}；在 {@code reach} 之前没有命中或输入不可用时返回 -1。长度为零、为负或非有限的段被跳过且不计距离，
-     * 与 SparkWitch 自身的遍历一致。
+     * 与步枪自身的遍历一致。
      */
     public static double firstPathEntry(double[] segmentLengths, double reach, SegmentProbe probe) {
         if (segmentLengths == null || probe == null || !(reach > 0.0) || !Double.isFinite(reach)) {

@@ -7,12 +7,12 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Pure USEC (and BEAR, {@link #boostsRole}) stamina-regeneration math (twice the police regen, stacking with traits). The cap needs no code: the role's
  * {@code maxSprintTime} is {@link UsecRules#MAX_SPRINT_TICKS} (twice the Vigilante's), which Wathe writes as the
- * {@code wathe:max_sprint_time} base every tick, so SparkTraits Excellent Physique's +1.0 ADD_MULTIPLIED_TOTAL doubles it
- * again. The regen boost doubles the whole per-tick gain measured from before Wathe's tick to after SparkTraits'
- * Excellent Physique bonus, so the two stack multiplicatively on purpose (2 × (0.25 + 0.25) = ×4 with that trait).
+ * {@code wathe:max_sprint_time} base every tick, so the Excellent Physique trait's +1.0 ADD_MULTIPLIED_TOTAL doubles it
+ * again. The regen boost doubles the whole per-tick gain measured from before Wathe's tick to after the Excellent
+ * Physique trait's bonus, so the two stack multiplicatively on purpose (2 × (0.25 + 0.25) = ×4 with that trait).
  * 纯 USEC 体力恢复计算（警察恢复的两倍，可与词条叠加）。上限无需代码：职业 {@code maxSprintTime} 为
  * {@link UsecRules#MAX_SPRINT_TICKS}（义警的两倍），Wathe 每刻把它写成 {@code wathe:max_sprint_time} 基础值，
- * SparkTraits 体质优异的 +1.0 ADD_MULTIPLIED_TOTAL 会再翻倍。恢复加成把“Wathe 体力刻之前”到“SparkTraits 体质优异
+ * 体质优异词条的 +1.0 ADD_MULTIPLIED_TOTAL 会再翻倍。恢复加成把“Wathe 体力刻之前”到“体质优异词条
  * 加成之后”的整段每刻增量翻倍，因此两者有意按乘法叠加（带该词条时 2 × (0.25 + 0.25) = ×4）。
  */
 public final class UsecStaminaRules {

@@ -13,10 +13,10 @@ import java.util.UUID;
  * Stable C2S contract {@code sparkdlc:use_planner_recommend}: the planner's ability key, carrying the UUID of the
  * player under the client's crosshair (the planner's own UUID when nothing is aimed at). The UUID is only a hint: the
  * server re-checks role, round, control state, cooldown, coins, and the target's distance and line of sight. Its row
- * in SparkFactionAPI's payload policy table classifies it as a role skill.
+ * in the payload policy table ({@code net.policy}) classifies it as a role skill.
  * 稳定 C2S 契约 {@code sparkdlc:use_planner_recommend}：规划大师的技能键，携带客户端准星下玩家的 UUID（无目标时为自己的
- * UUID）。该 UUID 只是提示：服务端会重新校验身份、回合、受控状态、冷却、金币，以及目标的距离与视线。它在 SparkFactionAPI
- * 数据包策略表中的行把它归为职业技能。
+ * UUID）。该 UUID 只是提示：服务端会重新校验身份、回合、受控状态、冷却、金币，以及目标的距离与视线。它在数据包策略表
+ * （{@code net.policy}）中的行把它归为职业技能。
  */
 public record UsePlannerRecommendC2SPayload(UUID target) implements CustomPayload {
     public static final Identifier PAYLOAD_ID = SparkDLC.id("use_planner_recommend");

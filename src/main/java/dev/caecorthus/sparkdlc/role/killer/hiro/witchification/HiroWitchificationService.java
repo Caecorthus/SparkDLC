@@ -35,7 +35,7 @@ import org.jetbrains.annotations.Nullable;
  * in Wathe, in an ACTIVE round, counts; the responsible player is the killer, else {@code JudgeKillAttribution}'s
  * committed cause. She counts while swallowed by a Taotie or inside a Rift Gate too (alive, but a spectator); if that
  * kill reaches the threshold, the moment below waits until she is back in her own body
- * ({@code HiroWitchificationRules.isPending}). Self-kills and SparkTraits-intercepted deaths do not count. A 死亡回归
+ * ({@code HiroWitchificationRules.isPending}). Self-kills and trait-intercepted deaths do not count. A 死亡回归
  * fake death counts only when it becomes a real kill, because only then does {@code AFTER} fire. The threshold is
  * {@code HiroRules.requiredKills} of the round's player count, written at role assignment and again at
  * {@code ON_FINISH_INITIALIZE}.
@@ -49,7 +49,7 @@ import org.jetbrains.annotations.Nullable;
  * 二阶堂希罗的被动「魔女化」，服务端权威（所有者规则 2026-11-11）。
  * <p>击杀：Wathe 提交的每一次击杀（{@code KillPlayer.AFTER}），只要责任人是 ACTIVE 对局中在 Wathe 里未死亡的真实身份希罗就计数；
  * 责任人取凶手，否则取 {@code JudgeKillAttribution} 已提交的归因。她被饕餮吞下或身处裂隙门内时（存活但为旁观者）同样计数；若这次
- * 击杀达到所需数，下述的魔女化时刻会等到她回到自己身体后再发生（{@code HiroWitchificationRules.isPending}）。自杀与被 SparkTraits
+ * 击杀达到所需数，下述的魔女化时刻会等到她回到自己身体后再发生（{@code HiroWitchificationRules.isPending}）。自杀与被词条
  * 拦截的死亡不计数。死亡回归的假死只有在变成真正击杀时才计数，因为那时 {@code AFTER} 才会触发。所需数为本局玩家数的 {@code HiroRules.requiredKills}，在分配职业时写入，并在
  * {@code ON_FINISH_INITIALIZE} 时再次写入。
  * <p>达到后每局仅一次：若没有魔女因子则获得一个不占额度的因子（{@code WitchFactorService.grantSelfMade}），此后终生在魔女因子

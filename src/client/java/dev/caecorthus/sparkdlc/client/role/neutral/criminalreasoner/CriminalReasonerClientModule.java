@@ -36,9 +36,9 @@ import java.util.UUID;
 public final class CriminalReasonerClientModule {
 
     /**
-     * Instinct hide priority while a Reasoner is invisible: above every SparkWitch outline, the Specter's mark (1000)
+     * Instinct hide priority while a Reasoner is invisible: above every other role outline, the Specter's mark (1000)
      * included, so no instinct sees him (PR rule "隐身期间任何本能透视都看不见他"). Wathe keeps the highest priority.
-     * 推理学家隐身期间的本能隐藏优先级：高于所有 SparkWitch 描边（包括幽魂标记的 1000），因此任何本能都看不见他
+     * 推理学家隐身期间的本能隐藏优先级：高于其他所有职业描边（包括幽魂标记的 1000），因此任何本能都看不见他
      * （PR 规则“隐身期间任何本能透视都看不见他”）。Wathe 保留优先级最高的结果。
      */
     public static final int INVISIBLE_HIDE_PRIORITY = 1_100;
@@ -96,9 +96,9 @@ public final class CriminalReasonerClientModule {
     /**
      * Instinct highlights are evaluated on the client only, so the hide lives here. Only an invisible Criminal Reasoner
      * (role from Wathe's synced component, which every client holds) is hidden; other invisible players keep whatever
-     * outline their own rules give them. Off a confirmed SparkWitch server nothing is hidden.
+     * outline their own rules give them. Off a confirmed SparkDLC server nothing is hidden.
      * 本能高亮只在客户端求值，因此屏蔽放在这里。只隐藏处于隐身中的犯罪推理学家（职业取自 Wathe 同步给每个客户端的组件）；
-     * 其他隐身玩家保持各自规则给出的描边。不在已确认的 SparkWitch 服务器上时不隐藏任何人。
+     * 其他隐身玩家保持各自规则给出的描边。不在已确认的 SparkDLC 服务器上时不隐藏任何人。
      */
     private static GetInstinctHighlight.@Nullable HighlightResult hideInvisibleReasoner(@Nullable Entity target) {
         if (!SparkDlcServerConnection.isConfirmedServer() || !(target instanceof PlayerEntity player)

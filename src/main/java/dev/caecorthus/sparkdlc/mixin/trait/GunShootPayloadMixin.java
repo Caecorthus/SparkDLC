@@ -22,8 +22,8 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import dev.caecorthus.sparkdlc.SparkDLC;
 
-/** Hooks SparkTraits gun behavior into Wathe's gun packet handler.
- *  将 SparkTraits 的枪械行为接入 Wathe 枪械发包处理。 */
+/** Hooks trait gun behavior into Wathe's gun packet handler.
+ *  将天赋的枪械行为接入 Wathe 枪械发包处理。 */
 @Mixin(value = GunShootPayload.Receiver.class, remap = false)
 public abstract class GunShootPayloadMixin {
     @com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod(

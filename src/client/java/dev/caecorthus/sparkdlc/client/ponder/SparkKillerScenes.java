@@ -66,14 +66,14 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
 /**
- * Demos for SparkWitch's killer, witch and neutral roles, opened only from the role's guide page; each needs
- * SparkWitch. Casts the game shows to nobody (a mark, a theft) are captioned with who can see what, and waits the
+ * Demos for the mod's own killer, witch and neutral roles, opened only from the role's guide page.
+ * Casts the game shows to nobody (a mark, a theft) are captioned with who can see what, and waits the
  * game takes longer over are shortened, which the captions say.
- * SparkWitch 杀手、魔女与中立阵营职业的演示，只从该职业的指南页打开；都需要 SparkWitch。游戏里谁也看不到的施放
+ * 本模组自有的杀手、魔女与中立阵营职业的演示，只从该职业的指南页打开。游戏里谁也看不到的施放
  * （标记、窃取）由字幕说明谁能看到什么；游戏里耗时更长的等待做了缩短，字幕会注明。
  */
 final class SparkKillerScenes {
-    /** NoellesRoles' shared ability key, which SparkWitch skills reuse. SparkWitch 技能沿用的 NoellesRoles 技能键。 */
+    /** NoellesRoles' shared ability key, which this mod's role skills reuse. 本模组职业技能沿用的 NoellesRoles 技能键。 */
     private static final String ABILITY_KEY = "key.noellesroles.ability";
     /** Facing the camera corner (towards small x and small z). 朝向镜头所在的角（x 与 z 都变小的方向）。 */
     private static final float TO_CAMERA = 135;
@@ -95,8 +95,8 @@ final class SparkKillerScenes {
     private static final int CHAIN_STEEL = 0x4A4C54;
     /**
      * The hook head's old flat texture, a 0.5 square (NinjaGrapplingHookEntityRenderer.renderHead before the 3D head),
-     * drawn only when SparkWitch has no 3D head model. 钩头旧的平面贴图，画成边长 0.5 的方块（3D 钩头之前的画法），只在
-     * SparkWitch 没有 3D 钩头模型时绘制。
+     * drawn only when the 3D head model is not baked. 钩头旧的平面贴图，画成边长 0.5 的方块（3D 钩头之前的画法），只在
+     * 3D 钩头模型未烘焙时绘制。
      */
     private static final Identifier HOOK_HEAD = Identifier.of("sparkdlc", "textures/entity/ninja_grappling_hook.png");
     private static final float HOOK_HEAD_SIZE = 0.5f;
@@ -526,13 +526,13 @@ final class SparkKillerScenes {
      * right-click (swing) from the eyes along the aim at 2.5 blocks a tick, latches onto the first block within 24;
      * another right-click within 5 s pulls its holder there at up to 1.4 blocks a tick (a top face puts the feet on
      * the hook point), and the hook is gone once the feet are within 0.9 of it. Its head and chain draw nothing
-     * without a real owner, so the scene draws the head itself (SparkWitch's 3D head, or the old flat sprite before
-     * it) and a steel line from the head's ring stands in for the chain.
+     * without a real owner, so the scene draws the head itself (the 3D head, or the old flat sprite when that is not
+     * baked) and a steel line from the head's ring stands in for the chain.
      * 忍者：所有武器都要购买，手持都不隐藏。苦无右键立即击杀准星上 4 格内的玩家，不用蓄力、不挥手（客户端放行、服务端
      * 消耗）；杀人后冷却 30 秒，不会用掉。手里剑按住（掷矛姿势）至少 4 tick 后松手掷出：无重力、每 tick 1.3 格直线飞行，
      * 命中的玩家在暴击粒子中死亡；每次用掉一枚，冷却 1 秒。钩爪右键（挥手）从眼睛沿准星以每 tick 2.5 格抛出，钩住 24 格内
      * 遇到的第一个方块；5 秒内再右键，把持有者以至多每 tick 1.4 格拉过去（钩在顶面时双脚落在钩点），双脚离钩点不到 0.9 格
-     * 时钩爪消失。钩头和铁链没有真实主人时不绘制，所以由场景自己画出钩头（SparkWitch 的 3D 钩头，更早的版本为旧的平面
+     * 时钩爪消失。钩头和铁链没有真实主人时不绘制，所以由场景自己画出钩头（3D 钩头，未烘焙时为旧的平面
      * 贴图），并用从钩头圆环连出的钢色线代替铁链。
      */
     private static void ninja(SceneBuilder scene, SceneBuildingUtil util) {
@@ -1304,12 +1304,13 @@ final class SparkKillerScenes {
      * BellRingerEchoTargeting, BellRingerEchoRuntime, BellRingerRules): the bell comes with the role, is hidden in hand
      * (NoellesHiddenEquipment) and glints only on its owner's screen while any target exists. A right-click (the client
      * returns success, so the arm swings) kills at once every other participant whose Wathe mood is below 0, anywhere
-     * on the train (forced, a SparkTraits-terminal reason: shields and revives do not stop it); roles without real
-     * mood read 1 and are never claimed. 30 s cooldown; with no target nothing happens and no cooldown starts. The
-     * Echo (ability key) costs 45 s of round time and tolls for every player; every participant with real sanity on
-     * the civilian side loses all tasks for one random task due in 60 s (drain x1.5; missing it costs 0.5 mood).
+     * on the train (forced, a death reason the traits treat as terminal: shields and revives do not stop it); roles
+     * without real mood read 1 and are never claimed. 30 s cooldown; with no target nothing happens and no cooldown
+     * starts. The Echo (ability key) costs 45 s of round time and tolls for every player; every participant with real
+     * sanity on the civilian side loses all tasks for one random task due in 60 s (drain x1.5; missing it costs 0.5
+     * mood).
      * 敲钟人：钟随职业发放，手持隐藏（NoellesHiddenEquipment），只要存在目标，钟只在持有者自己的画面里发光。右键（客户端返回
-     * 成功，所以会挥手）立即击杀全车所有 Wathe 理智低于 0 的其他参与者，不论远近（强制击杀，SparkTraits 终结死因：护盾和复活
+     * 成功，所以会挥手）立即击杀全车所有 Wathe 理智低于 0 的其他参与者，不论远近（强制击杀，词条视为终结的死因：护盾和复活
      * 都挡不住）；没有真实理智的职业读数为 1，永远不会被敲死。冷却 30 秒；没有目标时什么也不发生，也不进入冷却。回响（技能键）
      * 消耗 45 秒对局时间，向所有玩家敲响钟声；所有有真实理智的平民阵营参与者失去全部任务，换成一项 60 秒内完成的随机任务
      * （理智下降 ×1.5；超时扣 0.5 理智）。
@@ -1390,12 +1391,12 @@ final class SparkKillerScenes {
      * Curser (CurserFeatureService, CurserRules, CurserPlayerComponent, CurserConfusionSkinMixin,
      * CurserInstinctGateMixin, WraithPromotionRoles, WraithEntityInvisibilityMixin, WraithViewerRules,
      * WraithViewerGates): a witch-faction Wraith's promotion. It stays invisible to the living except witch-faction
-     * roles (and SparkStrength's Spiritualist, through the viewer gate); Wathe-dead spectators see it too. The ability
+     * roles (and the Spiritualist, through the viewer gate); Wathe-dead spectators see it too. The ability
      * key, 60 s after promotion and then every 90 s, confuses for 10 s every other living, non-spectator player whose
      * feet are within 8 blocks, allies included, no line of sight needed and with no sound or particle; with nobody in
      * range nothing happens and no cooldown starts. A confused player's own client draws every other player with
      * Wathe's psycho skin (bodies keep theirs) and refuses instinct. Here the curse's victims stand in for that view.
-     * 诅咒者：魔女阵营冤魂的晋升身份。活人看不见它，魔女阵营身份除外（SparkStrength 的灵界行者经观察者闸门也能看见）；
+     * 诅咒者：魔女阵营冤魂的晋升身份。活人看不见它，魔女阵营身份除外（灵界行者经观察者闸门也能看见）；
      * Wathe 判定已死亡的旁观者同样看得见。技能键在晋升 60 秒后可用，之后每 90 秒一次：让脚下位置 8 格内所有其他活着、非旁观的
      * 玩家混乱 10 秒，同伴也不例外，不需要视线，也没有任何声音或粒子；范围内没人时什么也不发生，也不进入冷却。混乱的玩家自己的
      * 客户端把其他所有玩家画成 Wathe 的疯魔皮肤（尸体不变），并且不能开本能。这里由中招的人代表那样的画面。
@@ -1794,9 +1795,9 @@ final class SparkKillerScenes {
     }
 
     /**
-     * The Ninja's hook head flying from {@code from} to the latch point {@code to}, where it stays: SparkWitch's 3D
-     * head, or before it the hook's old texture as a 0.5 square around the hook's centre.
-     * 从 from 飞到钩点 to 并停在那里的忍者钩头：SparkWitch 的 3D 钩头；更早的版本为钩爪旧贴图，是以钩爪中心为中心、
+     * The Ninja's hook head flying from {@code from} to the latch point {@code to}, where it stays: the 3D head, or,
+     * when that is not baked, the hook's old texture as a 0.5 square around the hook's centre.
+     * 从 from 飞到钩点 to 并停在那里的忍者钩头：3D 钩头；未烘焙时为钩爪旧贴图，是以钩爪中心为中心、
      * 边长 0.5 的方块。
      */
     private static ProjectileModelElement hookHead(Vec3d from, Vec3d to, int ticks) {
@@ -1806,8 +1807,8 @@ final class SparkKillerScenes {
 
     /**
      * A Potion Gunner shell of {@code type} (dk, ac, mr or tr) flying from {@code from} to {@code to} over
-     * {@code ticks}, gone on impact: SparkWitch's 3D shell, or before it the {@code shell} item's sprite.
-     * 种类为 type（dk、ac、mr 或 tr）的药炮手炮弹在 ticks 内从 from 飞到 to，命中即消失：SparkWitch 的 3D 炮弹；更早的版本为
+     * {@code ticks}, gone on impact: the 3D shell, or, when that is not baked, the {@code shell} item's sprite.
+     * 种类为 type（dk、ac、mr 或 tr）的药炮手炮弹在 ticks 内从 from 飞到 to，命中即消失：3D 炮弹；未烘焙时为
      * shell 物品的贴图。
      */
     static void shellFlight(SceneBuilder scene, String type, ItemStack shell, Vec3d from, Vec3d to, int ticks) {
@@ -2348,8 +2349,8 @@ final class SparkKillerScenes {
 
     /**
      * {@code stack} with its enchantment glint forced on: the lit Toll Bell as its owner sees it (TollBellGlint reads
-     * a flag only a confirmed SparkWitch server sends). 强制带附魔光效的物品：持有者眼中发光的钟（TollBellGlint 读取的标记
-     * 只有确认的 SparkWitch 服务器才会发送）。
+     * a flag only a confirmed SparkDLC server sends). 强制带附魔光效的物品：持有者眼中发光的钟（TollBellGlint 读取的标记
+     * 只有确认的 SparkDLC 服务器才会发送）。
      */
     private static ItemStack glowing(ItemStack stack) {
         stack.set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true);

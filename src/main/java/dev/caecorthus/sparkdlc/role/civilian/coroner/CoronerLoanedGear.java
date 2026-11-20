@@ -175,7 +175,7 @@ final class CoronerLoanedGear {
             giveTemporaryItem(player, ModItems.REPAIR_TOOL, disguiseUuid, snapshot.roleId(), "repair_tool");
         }
         if (CoronerRules.isTimekeeper(role)) {
-            // 计时员伪装获得完整的 SparkStrength 濒毁怀表；临时标记会随伪装结束自动回收。
+            // 计时员伪装获得完整的濒毁怀表；临时标记会随伪装结束自动回收。
             giveTemporaryItem(player, SparkDlcItems.dyingWatch(), disguiseUuid, snapshot.roleId(), "dying_watch");
         }
         if (CoronerRules.grantsTimedBomb(role)) {

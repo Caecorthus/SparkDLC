@@ -12,13 +12,11 @@ import java.util.Optional;
 import java.util.function.ToIntFunction;
 
 /**
- * Harpy Express dark tokens and primitives, the single copy shared by SparkWitch and SparkTraits (each mod used to
- * ship its own) and value-identical to SparkAssist's ExpressPalette/ExpressPaint. Pure DrawContext fills: no
- * textures, no namespace.
+ * Harpy Express dark tokens and primitives, shared by the role-skill card and the trait card and value-identical to
+ * the guidebook's ExpressPalette/ExpressPaint. Pure DrawContext fills: no textures, no namespace.
  * Composite primitives batch their own fills with {@code context.draw(Runnable)}; text is never drawn inside a
  * batch, because batched vertices are flushed per render layer rather than in call order.
- * 哈比特快暗色令牌与绘制原语：SparkWitch 与 SparkTraits 共用的唯一实现（原先两个模组各带一份），与 SparkAssist 的
- * ExpressPalette/ExpressPaint 同值。
+ * 哈比特快暗色令牌与绘制原语：由职业技能卡与天赋卡共用，与指南的 ExpressPalette/ExpressPaint 同值。
  * 纯 fill 绘制，无贴图、无命名空间。组合原语自行批量提交填充；文字从不放进批次（批次按渲染层而非调用顺序提交）。
  */
 public final class InventoryCardPaint {
@@ -326,9 +324,9 @@ public final class InventoryCardPaint {
     }
 
     /**
-     * Per-channel ARGB lerp with rounding, identical to the mockup renderer and SparkAssist's DecorPalette.mix
-     * (ColorHelper floors instead); keep the rounding in step with Assist.
-     * 逐通道四舍五入插值，与模型渲染器及 SparkAssist 的 DecorPalette.mix 取整一致（ColorHelper 为向下取整）。
+     * Per-channel ARGB lerp with rounding, identical to the mockup renderer and the guidebook's DecorPalette.mix
+     * (ColorHelper floors instead); keep the rounding in step with it.
+     * 逐通道四舍五入插值，与模型渲染器及指南的 DecorPalette.mix 取整一致（ColorHelper 为向下取整）。
      */
     public static int mix(int a, int b, double t) {
         int alpha = (int) Math.round((a >>> 24) * (1 - t) + (b >>> 24) * t);

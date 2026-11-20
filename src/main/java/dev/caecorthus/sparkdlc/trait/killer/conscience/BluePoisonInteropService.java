@@ -18,10 +18,10 @@ import java.util.UUID;
 import java.util.function.Predicate;
 
 /**
- * Server-authoritative blue-poison operations that downstream mods reach through {@code SparkTraitsApi}.
+ * Server-authoritative blue-poison operations that other features reach through {@code SparkTraitsApi}.
  * Conversions reuse the same storage as Conscience Poisoner (plate/bed duck interfaces, stack component),
  * so converted traps spring through the existing blue-trap paths unchanged.
- * 下游模组经 {@code SparkTraitsApi} 调用的服务端权威蓝毒操作。转换复用善良毒师的同一存储
+ * 天赋功能之外的代码经 {@code SparkTraitsApi} 调用的服务端权威蓝毒操作。转换复用善良毒师的同一存储
  * （餐盘/床的鸭子接口与物品组件），转换后的陷阱沿现有蓝毒触发路径生效。
  */
 public final class BluePoisonInteropService {

@@ -19,13 +19,14 @@ import java.util.function.BooleanSupplier;
 
 /**
  * Server-only Holy Flash victim predicates. Unlike the Control Expert gate, the thrower IS flashed (owner decision
- * 2026-10-03) and only has to be a participant; everyone else must also pass SparkFactionAPI's structural veto for
- * {@link #ACTION_ID}, SparkTraits Last Escape and Vendetta isolation.
+ * 2026-10-03) and only has to be a participant; everyone else must also pass the faction core's structural veto
+ * ({@code SparkFactionApi#canAffectPlayer}) for {@link #ACTION_ID}, the Last Escape trait and Vendetta isolation.
  * 仅服务端使用的圣光弹受害者判定。与控场专家不同，投掷者本人也会被闪（所有者 2026-10-03 决定），且只要求是参与者；
- * 其他人还必须通过 SparkFactionAPI 对 {@link #ACTION_ID} 的结构性否决、SparkTraits 最后逃脱与复仇者隔离。
+ * 其他人还必须通过阵营核心（{@code SparkFactionApi#canAffectPlayer}）对 {@link #ACTION_ID} 的结构性否决、最后逃脱词条
+ * 与复仇者隔离。
  */
 public final class HolyFlashTargeting {
-    /** SparkFactionAPI action id for the flash. / 圣光弹在 SparkFactionAPI 中的动作 id。 */
+    /** Action id of the flash for the faction core's veto. / 圣光弹在阵营核心否决中的动作 id。 */
     public static final Identifier ACTION_ID = HolyFlashRules.ITEM_ID;
     /** Half size of the head box whose sample points are tested for sight. / 视线检测所用头部箱体的半边长。 */
     static final double HEAD_HALF_SIZE = 0.25D;
@@ -34,9 +35,9 @@ public final class HolyFlashTargeting {
     }
 
     /**
-     * With no live participant thrower (died or left mid-flight) there is no actor for SparkFactionAPI, so the flash
+     * With no live participant thrower (died or left mid-flight) there is no actor for the faction veto, so the flash
      * skips that veto, still honours Last Escape, and never reaches an active Vendetta endpoint.
-     * 没有存活参与者投掷者（飞行途中死亡或离线）时 SparkFactionAPI 没有发起者，因此跳过该否决，
+     * 没有存活参与者投掷者（飞行途中死亡或离线）时阵营否决没有发起者，因此跳过该否决，
      * 仍遵守最后逃脱，且永不影响处于激活状态的复仇者一端。
      */
     public static boolean canFlash(@Nullable ServerPlayerEntity thrower, ServerPlayerEntity target) {

@@ -67,7 +67,7 @@ public final class CaptureDeviceItem extends Item implements AdventureUsable {
             entity.setPosition(hitPos.x, hitPos.y, hitPos.z);
             entity.setYaw(player.getHeadYaw());
             entity.setOwnerUuid(player.getUuid());
-            // Record the placer's REAL role via getRole (SparkWitch's Black Raven overlay only wraps isRole, and
+            // Record the placer's REAL role via getRole (the Black Raven's role overlay only wraps isRole, and
             // Coroner disguises keep the real role), so the device stops reporting once that role changes, e.g. after
             // a Grand Witch recruitment.
             // 用 getRole 记录放置者的真实职业（黑羽鸦扮演只包装 isRole，验尸官伪装不改真实职业）；

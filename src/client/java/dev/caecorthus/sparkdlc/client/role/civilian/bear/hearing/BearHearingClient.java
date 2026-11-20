@@ -18,7 +18,7 @@ import java.util.Set;
  * Frozen contract (client thread only): the local player's BEAR hearing state that other BEAR packages call.
  * <ul>
  *   <li>{@link #factor()}: the volume multiplier applied to every scaled in-game sound and to voice chat
- *   ({@code BearHearingRules.factorFor} of the local player on a confirmed SparkWitch server, times any active
+ *   ({@code BearHearingRules.factorFor} of the local player on a confirmed SparkDLC server, times any active
  *   {@link #muffle}). Which sounds are scaled: {@link BearHearingSoundRules}.</li>
  *   <li>{@link #muffle}: a ricochet daze muffles world sounds for {@code ticks} (WP3 calls it); see
  *   {@link BearMuffleEnvelope}.</li>
@@ -29,7 +29,7 @@ import java.util.Set;
  * (gain only: this push never stops a source, see {@link #isGainOnlyPush()}), so taking the earplugs out or a muffle
  * easing back is heard at once.
  * 冻结契约（仅客户端线程）：本地玩家的 BEAR 听力状态，供其他 BEAR 工作包调用。{@link #factor()}：作用于所有受影响的游戏内声音与
- * 语音的音量倍数（已确认 SparkWitch 服务器上本地玩家的 {@code BearHearingRules.factorFor}，再乘以生效中的 {@link #muffle}；哪些
+ * 语音的音量倍数（已确认 SparkDLC 服务器上本地玩家的 {@code BearHearingRules.factorFor}，再乘以生效中的 {@link #muffle}；哪些
  * 声音受影响见 {@link BearHearingSoundRules}）；{@link #muffle}：跳弹眩晕让世界声音在 {@code ticks} 内发闷（由 WP3 调用，见
  * {@link BearMuffleEnvelope}）；{@link #EXEMPT_SOUND_IDS}：佩戴者自己的头盔跳弹、面罩命中与耳鸣声不受该倍数影响。只改音量不改范围
  * （H7）。每个客户端刻把倍数快照给 Simple Voice Chat 的音频线程（{@link #voiceFactor()}），倍数变化时经由原版逐声音重算为正在播放

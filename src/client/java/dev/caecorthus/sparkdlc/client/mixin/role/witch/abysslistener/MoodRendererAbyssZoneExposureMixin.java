@@ -23,13 +23,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * ({@link AbyssZoneExposureTaskLine}). Pinned Wathe 1.5.6 {@code renderHud}: the only {@code Map.isEmpty()} is the
  * {@code renderers.isEmpty()} mood-bar alpha gate, and {@code moodTextWidth} is written once per branch right before the
  * mood icon/bar are drawn (after the psycho early return and after every task row was drawn). Name-only selector and
- * JDK/Wathe-only targets, so {@code remap = false}; no {@code @Redirect}, so it coexists with the SparkTraits and Wraith
+ * JDK/Wathe-only targets, so {@code remap = false}; no {@code @Redirect}, so it coexists with the trait and Wraith
  * redirects in the same method. Never touches Wathe's task map.
  * Wathe 左上角任务列表中仅用于显示的临时任务「快离开这里！！！」的客户端表现接缝（{@link AbyssZoneExposureTaskLine}）。
  * 锁定 Wathe 1.5.6 {@code renderHud}：唯一的 {@code Map.isEmpty()} 是理智条透明度判断 {@code renderers.isEmpty()}，
  * {@code moodTextWidth} 在两个分支中各写入一次，紧接着绘制理智图标与理智条（位于疯魔提前返回与所有任务行绘制之后）。
  * 仅按名称选择方法且目标只含 JDK/Wathe 类型，因此 {@code remap = false}；不使用 {@code @Redirect}，可与同一方法中
- * SparkTraits 与冤魂的重定向共存。从不触碰 Wathe 任务表。
+ * 词条与冤魂的重定向共存。从不触碰 Wathe 任务表。
  */
 @Mixin(value = MoodRenderer.class, remap = false)
 public abstract class MoodRendererAbyssZoneExposureMixin {

@@ -22,9 +22,10 @@ import org.spongepowered.asm.mixin.injection.At;
  *   Abyss Listener zone handler on the same read in any order. Only the marked task is subtracted, so the zone's +1
  *   pseudo task survives; for a Noa-locked player it does nothing, since her handler already removes every real task
  *   (subtracting again would cancel the zone's pseudo task). The result never goes below 0.</li>
- *   <li>No {@code setMood} call is added or removed: SparkTraits and SparkStrength still adjust the drain through their
- *   delta-based {@code setMood} argument modifiers, the Bell Echo / Sherry {@code MOOD_DRAIN} scalers still scale the
- *   per-task rate, and the task itself still ticks, completes and fires {@code TaskComplete} like any other task.</li>
+ *   <li>No {@code setMood} call is added or removed: the traits and the Professor's sedative still adjust the drain
+ *   through their delta-based {@code setMood} argument modifiers, the Bell Echo / Sherry {@code MOOD_DRAIN} scalers
+ *   still scale the per-task rate, and the task itself still ticks, completes and fires {@code TaskComplete} like any
+ *   other task.</li>
  *   <li>Every target uses only JDK types, so {@code remap = false} holds in dev and production.</li>
  * </ul>
  * Both sides read the owner-synced marker against their own task map (the server also requires the exact task object
@@ -39,7 +40,7 @@ import org.spongepowered.asm.mixin.injection.At;
  *   <li>只用 {@code @ModifyExpressionValue}，从不 {@code @Redirect}：MixinExtras 会把它与诺亚锁定、聆渊者领域在同一读取上的
  *   处理器按任意顺序串联。只减去被标记的任务，因此领域的 +1 临时任务得以保留；对诺亚锁定的玩家不做任何事，因为她的处理器已
  *   减去全部真实任务（再减一次会抵消领域的临时任务）。结果不会低于 0。</li>
- *   <li>不增删任何 {@code setMood} 调用：SparkTraits 与 SparkStrength 仍通过按差值计算的 {@code setMood} 参数修改调整下降，
+ *   <li>不增删任何 {@code setMood} 调用：天赋与教授镇静剂仍通过按差值计算的 {@code setMood} 参数修改调整下降，
  *   敲钟人回响与橘雪莉的 {@code MOOD_DRAIN} 缩放仍作用于单任务速率，该任务本身也照常计时、完成并像其他任务一样触发
  *   {@code TaskComplete}。</li>
  *   <li>所有目标只含 JDK 类型，因此 {@code remap = false} 在开发与生产环境均成立。</li>

@@ -117,9 +117,9 @@ public final class WitchFactionRules {
     /**
      * A Wathe-alive viewer keeps its own role instinct in every game mode; only a Wathe-dead spectator falls through to
      * Wathe's spectator information colours. A Rift Gate occupant is an alive spectator whose instinct colours stay
-     * (D10), and a null answer for it would hand it SparkFactionAPI's faction-colour fallback, which reveals roles.
+     * (D10), and a null answer for it would hand it the faction core's faction-colour fallback, which reveals roles.
      * 存活（wathe 判定）的观察者在任何游戏模式下都保留自身职业本能；只有已死亡的旁观者回落到 wathe 旁观信息颜色。
-     * 裂隙门内的玩家是存活的旁观者，本能颜色保留（D10）；若对其返回 null，会落入 SparkFactionAPI 的阵营色兜底而暴露身份。
+     * 裂隙门内的玩家是存活的旁观者，本能颜色保留（D10）；若对其返回 null，会落入阵营核心的阵营色兜底而暴露身份。
      */
     public static boolean shouldUseCustomInstinctHighlight(boolean viewerAlive) {
         return viewerAlive;
@@ -128,13 +128,13 @@ public final class WitchFactionRules {
     /**
      * Whether the Witch instinct policy must answer an explicit skip for a player target when it gives the viewer no
      * Witch instinct (an ineligible Curser, or a viewer that is not Wathe-alive). A null answer for a Witch-faction
-     * viewer reaches SparkFactionAPI's client fallback, which outlines every player in its faction colour on the
-     * instinct key and so tells killers and neutrals apart. Only a Wathe-dead spectator keeps the null answer: it
-     * falls through to Wathe's spectator information colours (the same gate SparkFactionAPI applies). Other viewers
-     * are not this policy's to answer.
-     * 魔女本能策略不给观察者魔女本能时（不合格的诅咒者，或 wathe 判定未存活的观察者），是否必须对玩家目标显式跳过。
-     * 对魔女阵营观察者返回 null 会落入 SparkFactionAPI 客户端兜底：按住本能键时以阵营色描边所有玩家，从而分辨杀手与中立。
-     * 只有已死亡的旁观者保留 null，回落到 wathe 旁观信息颜色（与 SparkFactionAPI 的门槛一致）；其他观察者不由此策略作答。
+     * viewer reaches the faction core's client fallback, which outlines every player in its faction colour on the
+     * instinct key and so tells killers and neutrals apart. Only a Wathe-dead spectator keeps the null answer: it falls
+     * through to Wathe's spectator information colours (the same gate the fallback applies). Other viewers are not this
+     * policy's to answer.
+     * 魔女本能策略不给观察者魔女本能时（不合格的诅咒者，或 wathe 判定未存活的观察者），是否必须对玩家目标显式跳过。对魔
+     * 女阵营观察者返回 null 会落入阵营核心的客户端兜底：按住本能键时以阵营色描边所有玩家，从而分辨杀手与中立。只有已死
+     * 亡的旁观者保留 null，回落到 wathe 旁观信息颜色（与该兜底的门槛一致）；其他观察者不由此策略作答。
      */
     public static boolean shouldSkipUnansweredViewer(
             boolean witchFactionViewer,
@@ -280,9 +280,9 @@ public final class WitchFactionRules {
     /**
      * Task pay (+{@link #WITCH_TASK_MONEY_REWARD}): an active, living, participating Grand Witch or accomplice (plain or
      * special) that is not a spectator, creative or Wraith-restricted. No Impostor skip, as for the Insider: witch roles
-     * roll only universal SparkTraits, and SparkTraits bonuses stack on top. The Curser earns nothing here.
+     * roll only universal traits, and trait bonuses stack on top. The Curser earns nothing here.
      * 任务收入（+{@link #WITCH_TASK_MONEY_REWARD}）：处于 ACTIVE、存活且参与对局、非旁观/创造、未受灵体限制的大魔女或共犯
-     * （普通或特殊）。与内应一样不跳过内鬼：魔女职业只抽通用 SparkTraits 词条，其加成叠加在此之上。诅咒者不在此领钱。
+     * （普通或特殊）。与内应一样不跳过内鬼：魔女职业只抽通用词条，其加成叠加在此之上。诅咒者不在此领钱。
      */
     public static boolean earnsTaskMoney(
             boolean active,

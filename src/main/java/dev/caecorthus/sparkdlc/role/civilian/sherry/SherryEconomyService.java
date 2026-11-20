@@ -20,13 +20,13 @@ import org.jetbrains.annotations.Nullable;
 /**
  * 橘雪莉 coins and shop: +{@link SherryRules#PASSIVE_COINS} every {@link SherryRules#PASSIVE_INTERVAL_TICKS} ticks
  * (driven by her component's server tick) and +{@link SherryRules#TASK_COINS} per completed task, both through
- * {@code addToBalance} so income observers see ordinary income; the task pay is never given to a SparkTraits Impostor
- * (SparkTraits pays that itself, Medium/Accountant precedent). Her mana (natural regeneration and
+ * {@code addToBalance} so income observers see ordinary income; the task pay is never given to an Impostor-trait
+ * holder (the trait pays that itself, Medium/Accountant precedent). Her mana (natural regeneration and
  * +{@link SherryRules#TASK_MANA} per task) is owned by {@code WitchManaRules}, not here. The shop sells the detective
  * badge only; having an entry is also what lets her open the shop, and {@code CanSeeMoney} shows the money HUD.
  * 橘雪莉的金币与商店：每 {@link SherryRules#PASSIVE_INTERVAL_TICKS} 刻 +{@link SherryRules#PASSIVE_COINS}（由她的组件
  * 服务端 tick 驱动），每完成一个任务 +{@link SherryRules#TASK_COINS}，都经 {@code addToBalance} 发放，收入观察者视其为普通
- * 收入；SparkTraits 内鬼不发任务金币（由 SparkTraits 自行支付，通灵师/会计先例）。魔力（自然恢复与每任务
+ * 收入；内鬼词条持有者不发任务金币（由该词条自行支付，通灵师/会计先例）。魔力（自然恢复与每任务
  * +{@link SherryRules#TASK_MANA}）由 {@code WitchManaRules} 负责，不在此处。商店只卖侦探徽章；有条目本身就让她能打开商店，
  * {@code CanSeeMoney} 则让金币 HUD 显示。
  */

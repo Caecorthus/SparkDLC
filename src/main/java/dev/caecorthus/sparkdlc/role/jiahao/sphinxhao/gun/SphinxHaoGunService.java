@@ -48,16 +48,16 @@ import java.util.List;
  * Server half of the 「“手”枪」 (owner spec 2026-11-17): load, dry click and the fist shot. The shot is a
  * server-authoritative hitscan along the shooter's aim (vanilla already applied the use packet's rotation): the Taser's
  * eye ray of {@link SphinxHaoRules#GUN_RANGE} cut at the first block, nearest eligible player against lag-compensated
- * volumes, then nearest wins against Raven Form crows, Magician puppets and the Seeker / SparkStrength seam
+ * volumes, then nearest wins against Raven Form crows, Magician puppets and the Seeker / Partygoer / drone seam
  * ({@link #resolve}). A hit (a crow's owner included) is ONE non-forced {@code killPlayer} with
- * {@link SparkDlcDeathReasons#SPHINX_HAO_FIST}, so every shield, veto and SparkTraits interception applies. The shooter
+ * {@link SparkDlcDeathReasons#SPHINX_HAO_FIST}, so every shield, veto and trait interception applies. The shooter
  * then gets the KILL or NO_KILL effects ({@link SphinxHaoGunRules#effects}); hao is paid only through
  * {@link SphinxHaoPlayerComponent#addHao}. No innocent-shot punishment, no mood cost (not a Wathe gun).
  * 「“手”枪」的服务端部分（所有者规格 2026-11-17）：装填、空响与拳头射击。射击是沿射手瞄准方向（原版已应用使用数据包的朝向）的
  * 服务端权威即时射线：与电击枪相同的眼睛射线，长 {@link SphinxHaoRules#GUN_RANGE}、在第一个方块处截断，对延迟补偿后的体积
- * 选取最近的合格玩家，然后与化鸦乌鸦、魔术师皮套及搜寻者 / SparkStrength 接缝比较最近者（{@link #resolve}）。命中（含乌鸦的主人）
+ * 选取最近的合格玩家，然后与化鸦乌鸦、魔术师皮套及搜寻者 / 派对客 / 无人机接缝比较最近者（{@link #resolve}）。命中（含乌鸦的主人）
  * 即一次以 {@link SparkDlcDeathReasons#SPHINX_HAO_FIST}
- * 进行的非强制 {@code killPlayer}，因此所有护盾、否决与 SparkTraits 拦截都生效。随后射手获得击杀或未击杀效果
+ * 进行的非强制 {@code killPlayer}，因此所有护盾、否决与词条拦截都生效。随后射手获得击杀或未击杀效果
  * （{@link SphinxHaoGunRules#effects}）；豪度值只经 {@link SphinxHaoPlayerComponent#addHao} 支付。没有误杀惩罚，也不扣理智
  * （不是 Wathe 枪械）。
  */
@@ -106,8 +106,8 @@ public final class SphinxHaoGunService {
         SphinxHaoGunRules.Action action = SphinxHaoGunRules.decide(mayUse(shooter), loaded, !ammo.isEmpty());
         switch (action) {
             case FIRE -> {
-                // SparkTraits weapon gate (silence, Last Escape, ...): a blocked shot costs nothing.
-                // SparkTraits 武器门槛（沉默、绝处逢生等）：被阻止的射击不产生任何代价。
+                // Trait weapon gate (silence, Last Escape, ...): a blocked shot costs nothing.
+                // 词条武器门槛（沉默、绝处逢生等）：被阻止的射击不产生任何代价。
                 if (SparkTraitsApi.blocksWeaponAction(shooter, gun)) {
                     return false;
                 }
@@ -221,8 +221,8 @@ public final class SphinxHaoGunService {
         if (target != null) {
             return new Hit(target, impactPoint(shooter, target, start, rayEnd), true);
         }
-        // A broken device stops the fist at its box; a SparkStrength absorber has no position here, so the ray's end.
-        // 被打坏的设备让拳头停在其箱体处；SparkStrength 吸收者在此没有位置信息，因此停在射线终点。
+        // A broken device stops the fist at its box; a Partygoer or drone absorber has no position, so the ray's end.
+        // 被打坏的设备让拳头停在其箱体处；派对客或无人机吸收者在此没有位置信息，因此停在射线终点。
         boolean deviceTook = device != null && device.isRemoved();
         return new Hit(null, deviceTook ? deviceStop : rayEnd, false);
     }
@@ -240,8 +240,8 @@ public final class SphinxHaoGunService {
     }
 
     /**
-     * One non-forced kill; KILL only when the victim was alive before, is dead after, and SparkTraits did not intercept
-     * the death. / 一次非强制击杀；只有受害者此前存活、之后死亡且 SparkTraits 未拦截死亡时才算击杀。
+     * One non-forced kill; KILL only when the victim was alive before, is dead after, and no trait intercepted
+     * the death. / 一次非强制击杀；只有受害者此前存活、之后死亡且词条未拦截死亡时才算击杀。
      */
     private static SphinxHaoGunRules.Outcome strike(ServerPlayerEntity shooter, ServerPlayerEntity victim,
                                                     GameWorldComponent game) {
@@ -279,9 +279,9 @@ public final class SphinxHaoGunService {
 
     /**
      * Eligibility before geometry: never the shooter, only a living role holder (no spectator, creative or active
-     * Wraith), honouring SparkFactionAPI's structural veto, SparkTraits Last Escape and Vendetta isolation.
-     * 资格先于几何：永不选中射手本人，只选存活的职业持有者（非旁观、非创造、非激活冤魂），并遵守 SparkFactionAPI 结构性否决、
-     * SparkTraits 绝处逢生与复仇者隔离。
+     * Wraith), honouring canAffectPlayer's structural veto, the Last Escape trait and Vendetta isolation.
+     * 资格先于几何：永不选中射手本人，只选存活的职业持有者（非旁观、非创造、非激活冤魂），并遵守 canAffectPlayer 结构性否决、
+     * 绝处逢生词条与复仇者隔离。
      */
     static boolean isEligible(ServerPlayerEntity shooter, ServerPlayerEntity candidate, GameWorldComponent game) {
         if (candidate == shooter || candidate.getUuid().equals(shooter.getUuid())) {

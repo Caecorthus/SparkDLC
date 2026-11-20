@@ -14,10 +14,10 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Control Expert task economy on the Judge model: 0 at round start, +50 per completed task, nothing for a
- * SparkTraits Impostor (SparkTraits pays that trait's task income itself, so paying here would double it).
- * 控场专家沿用法官的任务经济：开局 0 金币，每完成一个任务 +50；SparkTraits 内鬼不在此发放
- * （该词条的任务收入由 SparkTraits 自行支付，此处再发会重复）。
+ * Control Expert task economy on the Judge model: 0 at round start, +50 per completed task, nothing for an
+ * Impostor (the Impostor trait pays its holder's task income itself, so paying here would double it).
+ * 控场专家沿用法官的任务经济：开局 0 金币，每完成一个任务 +50；内鬼不在此发放
+ * （内鬼词条自行支付其持有者的任务收入，此处再发会重复）。
  */
 public final class ControlExpertEconomyService {
     private static boolean registered;
@@ -40,7 +40,7 @@ public final class ControlExpertEconomyService {
     }
 
     static void onTaskComplete(ServerPlayerEntity player) {
-        // SparkTraits is fused into SparkDLC: always loaded. / SparkTraits 已融合进 SparkDLC：恒为已加载。
+        // Traits are part of this mod: always loaded. / 词条属于本模组：恒为已加载。
         if (canEarn(player) && receivesTaskMoney(true, SparkTraitsApi.hasActiveTrait(player, TraitIds.IMPOSTOR))) {
             PlayerShopComponent.KEY.get(player).addToBalance(ControlExpertRules.TASK_MONEY_REWARD);
         }
@@ -64,8 +64,10 @@ public final class ControlExpertEconomyService {
     }
 
     /**
-     * SparkTraits absent → pay; present → pay only on a confirmed non-Impostor (unknown fails closed, Judge semantics).
-     * 未安装 SparkTraits → 发放；已安装 → 仅在确认不是内鬼时发放（无法确认时不发放，与法官一致）。
+     * {@code traitsLoaded} false → pay, the branch for a jar without traits, unreachable since the fusion (the caller
+     * always passes true); true → pay only on a confirmed non-Impostor (unknown fails closed, Judge semantics).
+     * {@code traitsLoaded} 为 false → 发放，这是为没有词条的 jar 准备的分支，融合后不可达（调用方恒传入 true）；
+     * 为 true → 仅在确认不是内鬼时发放（无法确认时不发放，与法官一致）。
      */
     static boolean receivesTaskMoney(boolean traitsLoaded, @Nullable Boolean impostor) {
         return !traitsLoaded || Boolean.FALSE.equals(impostor);

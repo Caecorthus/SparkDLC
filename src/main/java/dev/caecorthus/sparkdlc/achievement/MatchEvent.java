@@ -6,13 +6,13 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * One event of Wathe's server-side match record, as SparkFactionAPI hands it to clients when a round ends. Values
+ * One event of Wathe's server-side match record, as a SparkDLC server hands it to clients when a round ends. Values
  * are the event's NBT fields flattened to strings by {@link RecordFlattener}: nested fields use dotted keys
  * ({@code player.role}), UUIDs are in their usual text form, booleans are {@code "1"}/{@code "0"} and lists are
- * comma-joined. Servers without a given mod never send its fields, so every typed accessor takes a fallback.
- * Wathe 服务端对局记录中的一条事件，由 SparkFactionAPI 在回合结束时交给客户端。{@code values} 是该事件的 NBT 字段，
+ * comma-joined. Older servers never send the fields added since, so every typed accessor takes a fallback.
+ * Wathe 服务端对局记录中的一条事件，由 SparkDLC 服务端在回合结束时交给客户端。{@code values} 是该事件的 NBT 字段，
  * 由 {@link RecordFlattener} 统一转成字符串：嵌套字段用带点的键（{@code player.role}），UUID 为常见的文本形式，
- * 布尔值为 {@code "1"}/{@code "0"}，列表以逗号连接。没有对应模组的服务器不会发送其字段，所以每个类型化读取方法都带默认值。
+ * 布尔值为 {@code "1"}/{@code "0"}，列表以逗号连接。旧服务器不会发送后来新增的字段，所以每个类型化读取方法都带默认值。
  *
  * @param type   Wathe record type, e.g. {@code death}, {@code shop_purchase} Wathe 记录类型
  * @param tick   world ticks since the match started 对局开始后的世界 tick 数
@@ -72,9 +72,9 @@ public record MatchEvent(String type, int tick, UUID actor, UUID target, Map<Str
     public static final String PLATTER_TAKE = "platter_take";
 
     /**
-     * {@link #GLOBAL_EVENT} id: {@code actor}'s death just before it was SparkTraits' Last Stand false death; they come
+     * {@link #GLOBAL_EVENT} id: {@code actor}'s death just before it was a Last Stand false death; they come
      * back about 5 seconds later.
-     * {@link #GLOBAL_EVENT} 的 id：{@code actor} 紧挨着的上一次死亡是 SparkTraits 背水一战的假死，约 5 秒后复活。
+     * {@link #GLOBAL_EVENT} 的 id：{@code actor} 紧挨着的上一次死亡是背水一战的假死，约 5 秒后复活。
      */
     public static final String LAST_STAND_TRIGGERED = "sparkdlc:last_stand_triggered";
     /**

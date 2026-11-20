@@ -25,8 +25,8 @@ import dev.caecorthus.sparkdlc.trait.global.pig.PigTrait;
 import dev.caecorthus.sparkdlc.trait.civilian.police.PoliceTraits;
 
 /**
- * Registers bundled SparkTraits trait definitions.
- * 注册 SparkTraits 自带的天赋定义。
+ * Registers the built-in trait definitions.
+ * 注册内置的天赋定义。
  */
 public final class BuiltInTraits {
     private BuiltInTraits() {

@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.function.IntUnaryOperator;
 
 /**
- * Pure rules for SparkStrength's tweaks to the NoellesRoles Jester Moment: the kill-driven screen grayscale, who is
+ * Pure rules for this mod's tweaks to the NoellesRoles Jester Moment: the kill-driven screen grayscale, who is
  * cut off from voice chat, how long the shot freezes everyone, how everyone is shuffled when the Jester revives, and
  * how high a shuffled spot's feet must be to stand on it. No Minecraft types, so local tests run it as is.
- * SparkStrength 对 NoellesRoles 小丑时刻的调整规则：按击杀累积的屏幕灰度、谁被切断语音、中枪后全员定身多久、
+ * 本模组对 NoellesRoles 小丑时刻的调整规则：按击杀累积的屏幕灰度、谁被切断语音、中枪后全员定身多久、
  * 小丑复活时如何打乱所有人的位置、打乱后的位置脚要多高才能站住。不依赖 Minecraft 类型，本地测试可直接运行。
  */
 public final class JesterMomentRules {

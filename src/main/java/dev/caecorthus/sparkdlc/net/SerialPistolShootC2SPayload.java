@@ -23,8 +23,8 @@ public record SerialPistolShootC2SPayload(int targetId, Hand hand) implements Cu
     @Override public Id<? extends CustomPayload> getId() { return ID; }
 
     /**
-     * Thin receiver: all authority lives in {@link SerialPistolShotService}. SparkWitch deny-lists key on this id.
-     * 轻量接收器：全部服务端校验在 SerialPistolShotService 中；SparkWitch 的拒绝名单以此 id 为准。
+     * Thin receiver: all authority lives in {@link SerialPistolShotService}. The payload deny-lists key on this id.
+     * 轻量接收器：全部服务端校验在 SerialPistolShotService 中；数据包拒绝名单以此 id 为准。
      */
     public static void receive(SerialPistolShootC2SPayload payload, ServerPlayNetworking.Context context) {
         SerialPistolShotService.handle(context.player(), payload.targetId(), payload.hand());

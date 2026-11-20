@@ -36,11 +36,11 @@ import java.util.UUID;
 
 /**
  * T-Virus (T病毒) on a corpse: the dead player stands up where the body lay and becomes a converted Pathogen (Q5, Q6).
- * The revive follows SparkTraits' Last Stand: leave Wathe's dead set, adventure mode, full health, back to the body,
+ * The revive follows the Last Stand trait: leave Wathe's dead set, adventure mode, full health, back to the body,
  * body discarded, voice group reset. Then the inventory is cleared and the Pathogen role is set and announced through
  * {@code RoleAssigned}, so NoellesRoles gives its master key and infect cooldown. The balance is 0 and the shop is
  * rebuilt as Virus only. Kill rewards and replay death lines already written stay as they are.
- * 对尸体使用 T病毒：死者在尸体位置站起并成为转化病原体（Q5、Q6）。复活流程与 SparkTraits 背水一战一致：移出 Wathe 死亡
+ * 对尸体使用 T病毒：死者在尸体位置站起并成为转化病原体（Q5、Q6）。复活流程与背水一战词条一致：移出 Wathe 死亡
  * 名单、冒险模式、回满血、回到尸体处、移除尸体、重置语音分组。随后清空背包，设置病原体身份并通过 {@code RoleAssigned}
  * 通知（NoellesRoles 会发放万能钥匙并设置感染冷却），余额归零，商店重建为只有病毒。已发放的击杀奖励与已写入的回放死亡记录
  * 保持不变。
@@ -120,8 +120,8 @@ public final class PathogenReviveService {
         game.addRole(owner, pathogen);
         PlayerShopComponent shop = PlayerShopComponent.KEY.get(owner);
         try {
-            // NoellesRoles: master key, infect cooldown by player count; other mods reset their role state.
-            // NoellesRoles：发放万能钥匙并按人数设置感染冷却；其他模组重置各自的身份状态。
+            // NoellesRoles: master key, infect cooldown by player count; the other listeners reset their role state.
+            // NoellesRoles：发放万能钥匙并按人数设置感染冷却；其他监听器重置各自的身份状态。
             RoleAssigned.EVENT.invoker().assignRole(owner, pathogen);
         } catch (RuntimeException exception) {
             // The role is committed: log the listener failure, never undo. / 身份已提交：记录监听器故障，绝不撤销。
@@ -195,7 +195,7 @@ public final class PathogenReviveService {
         }
     }
 
-    /** Same reflective call SparkTraits' Last Stand uses. / 与 SparkTraits 背水一战相同的反射调用。 */
+    /** Same reflective call the Last Stand trait uses. / 与背水一战词条相同的反射调用。 */
     private static void resetVoiceChatGroup(UUID uuid) {
         try {
             Class<?> plugin = Class.forName("dev.doctor4t.wathe.compat.TrainVoicePlugin");

@@ -50,9 +50,9 @@ public final class KnightEconomyService {
     }
 
     static void onTaskComplete(ServerPlayerEntity player) {
-        // Pays only a non-Impostor (SparkTraits pays that trait's task income itself). SparkTraits is fused into
-        // SparkDLC, so the facade call is direct.
-        // 仅向非内鬼发放（内鬼词条的任务收入由 SparkTraits 自行支付）。SparkTraits 已融合进 SparkDLC，门面为直接调用。
+        // Pays only a non-Impostor (the Impostor trait pays its own task income), asked directly through
+        // SparkTraitsApi.
+        // 仅向非内鬼发放（内鬼词条的任务收入由该词条自行支付），经 SparkTraitsApi 直接查询。
         if (canEarn(player) && !SparkTraitsApi.hasActiveTrait(player, TraitIds.IMPOSTOR)) {
             PlayerShopComponent.KEY.get(player).addToBalance(KnightRules.TASK_MONEY_REWARD);
         }

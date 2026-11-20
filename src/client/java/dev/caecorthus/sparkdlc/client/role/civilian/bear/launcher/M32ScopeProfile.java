@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * The M32A1's M2A1 reflex sight for the shared {@code client/scope} module (registered once through
  * {@link ScopeClient#registerProvider} by {@code M32LauncherClient}). It is offered while the local player aims
- * ({@link M32ClientState#isAiming}: use held with the launcher in the main hand) on a confirmed SparkWitch server;
+ * ({@link M32ClientState#isAiming}: use held with the launcher in the main hand) on a confirmed SparkDLC server;
  * {@code ScopeClient}'s view gate adds first person, the camera being the player and no screen. The sight is lensless
  * ({@link #drawsLens} false: no lens, rim, mask or periphery blur) and keeps the held launcher
  * ({@link #hidesHeldItem} false): the aimed 3-D launcher with its screen-centred sight, the centre mark and the fixed
@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
  * same time. Client only and presentation only: an aimed shot leaves along the look exactly like a hip shot
  * ({@link M32FireInput}), and the scale shows how far below the centre the round is at each range.
  * M32A1 的 M2A1 反射式瞄具，供共享 {@code client/scope} 模块使用（由 {@code M32LauncherClient} 经
- * {@link ScopeClient#registerProvider} 注册一次）。在已确认的 SparkWitch 服务器上、本地玩家瞄准时提供
+ * {@link ScopeClient#registerProvider} 注册一次）。在已确认的 SparkDLC 服务器上、本地玩家瞄准时提供
  * （{@link M32ClientState#isAiming}：主手持发射器并按住使用键）；{@code ScopeClient} 的视角条件再加上第一人称、相机即玩家与
  * 未打开界面。该瞄具无镜片（{@link #drawsLens} 为 false：没有镜片、镜框、遮罩或镜外模糊），并保留手中的发射器
  * （{@link #hidesHeldItem} 为 false）：瞄准中的三维发射器（瞄具居于屏幕正中）、中心分划及其下方的固定射程刻度尺由 {@link M32SightRenderer} 在手部渲染中绘制，

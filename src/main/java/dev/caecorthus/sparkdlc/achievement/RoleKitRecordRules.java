@@ -9,14 +9,14 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Achievements read from the record events SparkStrength writes for them (contract S8-S14): blackout edges, a
+ * Achievements read from the record events the role kits write for them (contract S8-S14): blackout edges, a
  * flashlight beating the blackout, the capture device's owner, tablet meetings and Bandit throwing axes; plus the
- * Undercover's tomahawk kills, which are plain deaths with a SparkStrength death reason. Servers without that
- * SparkStrength never write these events, so every rule here simply finds nothing. "As role X" is my real role at that
+ * Undercover's tomahawk kills, which are plain deaths with a role-kit death reason. Older servers from before these
+ * events never write them, so every rule here simply finds nothing. "As role X" is my real role at that
  * event from the match record.
- * 依据 SparkStrength 专为成就写下的记录事件（契约 S8-S14）判断的成就：停电边沿、手电筒挡下停电、捕捉装置的主人、平板会议与强盗飞斧；
- * 另有卧底的战术斧击杀，它们是带 SparkStrength 死因的普通死亡记录。
- * 没有该版本 SparkStrength 的服务器不会写这些事件，因此这里的规则只是什么也找不到。“以 X 身份”指对局记录中该事件发生时我的真实身份。
+ * 依据职业套件专为成就写下的记录事件（契约 S8-S14）判断的成就：停电边沿、手电筒挡下停电、捕捉装置的主人、平板会议与强盗飞斧；
+ * 另有卧底的战术斧击杀，它们是带职业套件死因的普通死亡记录。
+ * 早于这些事件的旧服务器不会写这些事件，因此这里的规则只是什么也找不到。“以 X 身份”指对局记录中该事件发生时我的真实身份。
  */
 final class RoleKitRecordRules {
     static final String ATTENDANT = "noellesroles:attendant";
@@ -48,10 +48,10 @@ final class RoleKitRecordRules {
     /** S14: the axe {@code throw_id} hit target; {@code killed} whether that hit killed. S14：飞斧命中 target。 */
     static final String THROWING_AXE_HIT = "sparkdlc:throwing_axe_hit";
     /**
-     * The death reason of a tactical tomahawk kill. SparkStrength hands the tomahawk only to the real Undercover, the
+     * The death reason of a tactical tomahawk kill. The role kit hands the tomahawk only to the real Undercover, the
      * first time its CQCM mask goes on (stage 2), and nobody else can hold it, so a kill with this reason is always made
      * as the Undercover after putting the mask on (taking the mask off later does not end stage 2).
-     * 战术斧击杀的死因。SparkStrength 只在真卧底第一次戴上 CQCM 面具（进入第二阶段）时发给它战术斧，别人拿不到，
+     * 战术斧击杀的死因。职业套件只在真卧底第一次戴上 CQCM 面具（进入第二阶段）时发给它战术斧，别人拿不到，
      * 所以带这个死因的击杀一定是以卧底身份、戴上面具之后做出的（之后摘下面具也不会退出第二阶段）。
      */
     static final String TOMAHAWK = "sparkdlc:tomahawk";

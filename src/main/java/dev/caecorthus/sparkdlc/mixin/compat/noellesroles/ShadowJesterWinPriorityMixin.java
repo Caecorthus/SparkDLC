@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * 在 NoellesRoles 注册自身胜利检查之前，先注册 SparkStrength 的新版影子小丑谢幕检查。
+ * 在 NoellesRoles 注册自身胜利检查之前，先注册本模组的新版影子小丑谢幕检查。
  *
  * <p>旧实现直接注入编译器生成的 {@code lambda$registerEvents$19}。
  * 该方法编号和内部调用顺序会随着 NoellesRoles 构建变化，容易造成启动时

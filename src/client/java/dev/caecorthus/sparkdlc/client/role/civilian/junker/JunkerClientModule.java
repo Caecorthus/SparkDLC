@@ -42,9 +42,9 @@ public final class JunkerClientModule {
 
     /**
      * Exactly a living, non-spectating, not-swallowed Ragpicker (real synced role, not an acting overlay) in an ACTIVE
-     * round on a confirmed SparkWitch server: the first five of the server's search gates ({@code JunkerService}),
+     * round on a confirmed SparkDLC server: the first five of the server's search gates ({@code JunkerService}),
      * read the same way. Cheapest test first: every other client leaves at the role check.
-     * 已确认的 SparkWitch 服务器上、ACTIVE 回合中、存活、非旁观、未被饕餮吞下的拾荒者（真实同步身份，非扮演覆盖层）：
+     * 已确认的 SparkDLC 服务器上、ACTIVE 回合中、存活、非旁观、未被饕餮吞下的拾荒者（真实同步身份，非扮演覆盖层）：
      * 即服务端搜刮门槛（{@code JunkerService}）的前五项，读法相同。先做开销最小的判断：其他所有客户端都在职业检查处返回。
      */
     public static boolean isActiveRagpicker(@Nullable ClientPlayerEntity player) {

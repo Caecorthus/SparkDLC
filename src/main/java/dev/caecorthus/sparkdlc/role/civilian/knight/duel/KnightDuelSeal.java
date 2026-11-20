@@ -35,7 +35,7 @@ import java.util.Optional;
  * Duel weapon seal (spec: every weapon except the knife and the derringer is sealed until the duel ends). Applies to
  * BOTH duelists, the Knight's revolver included; the cross sword is whitelisted.
  * <ul>
- *   <li>Seal: SparkFactionAPI's exact, monotonic {@code ForcedCooldowns.raise} on every carried non-whitelisted item,
+ *   <li>Seal: the exact, monotonic {@code ForcedCooldowns.raise} on every carried non-whitelisted item,
  *   so Fast Hands or NoellesRoles Stimulation cannot shorten it. Re-raised every
  *   {@link KnightDuelRules#REFRESH_INTERVAL_TICKS} to the remaining duel time, which also seals items picked up
  *   mid-duel and re-seals an entry something removed.</li>
@@ -46,7 +46,7 @@ import java.util.Optional;
  *   timer (Clock, Gift Watch, Ceremonial Sword, White Cane, fish) that was genuinely running before the duel. A zero
  *   result writes a zero-length entry that vanilla expiry drops on the next tick without calling {@code remove}.</li>
  *   <li>Guards: use paths that skip the vanilla cooldown check are refused while a non-whitelisted stack is in the
- *   acting hand: item use (which also covers items SparkFactionAPI exempts from forced cooldowns), {@code useOnEntity}
+ *   acting hand: item use (which also covers items exempt from forced cooldowns), {@code useOnEntity}
  *   (the NoellesRoles Catalyst, the timed bomb hand-off), left-click weapons (the poison needle), and block use only on
  *   the blocks whose use applies the held item ({@code appliesHeldItem}), so a sealed revolver still opens doors.
  *   Weapons fired by C2S payload instead of an item are dropped by {@code KnightDuelSkillLock}.</li>
@@ -54,7 +54,7 @@ import java.util.Optional;
  * 决斗武器封印（规格：决斗双方除刀与德林加外的武器均被封印，决斗结束后恢复）。作用于决斗双方，包括骑士的左轮；
  * 十字剑在白名单内。
  * <ul>
- *   <li>封印：对每件携带的非白名单物品使用 SparkFactionAPI 精确且单调的 {@code ForcedCooldowns.raise}，快手或
+ *   <li>封印：对每件携带的非白名单物品使用精确且单调的 {@code ForcedCooldowns.raise}，快手或
  *   NoellesRoles 兴奋剂无法缩短。每 {@link KnightDuelRules#REFRESH_INTERVAL_TICKS} 刻重新抬高到决斗剩余时间，
  *   因此决斗中捡到的物品也会被封印，被移除的条目也会重新封印。</li>
  *   <li>恢复：只处理决斗封印过的物品，各自精确写回“决斗前剩余时间 − 决斗占用时间”；若决斗期间他人施加的惩罚仍超出封印
@@ -62,7 +62,7 @@ import java.util.Optional;
  *   {@code ItemCooldownManager.remove}：其 TAIL 钩子（{@code RoleItemCooldownReleases}）会释放决斗前确实在运行的
  *   职业计时（怀表、赠时怀表、仪礼剑、盲杖、鱼）。结果为 0 时写入零时长条目，原版到期逻辑会在下一刻移除它而不调用
  *   {@code remove}。</li>
- *   <li>拦截：手持非白名单物品时，拒绝绕过原版冷却检查的使用途径：物品使用（同时覆盖 SparkFactionAPI 豁免强制冷却的
+ *   <li>拦截：手持非白名单物品时，拒绝绕过原版冷却检查的使用途径：物品使用（同时覆盖豁免强制冷却的
  *   物品）、{@code useOnEntity}（NoellesRoles 催化剂、定时炸弹转手）、左键武器（毒针），以及仅限
  *   会施用手中物品的方块（{@code appliesHeldItem}）的方块交互，因此被封印的左轮仍可开门。经 C2S 数据包而非物品发射的武器
  *   由 {@code KnightDuelSkillLock} 丢弃。</li>
@@ -132,14 +132,14 @@ public final class KnightDuelSeal {
     /**
      * Blocks whose use reads the main-hand stack and applies it as a weapon without the vanilla cooldown check, so a
      * sealed stack is refused on them even while it is cooling down: {@link FoodPlatterBlock} (and its
-     * {@code DrinkTrayBlock} subclass: Wathe poison vial, SparkWitch Witch Maiden poison apple, SparkStrength Bomber
-     * timed bomb and Toxicologist blue vitriol) and {@link TrimmedBedBlock} (Wathe scorpion, SparkStrength timed bomb
-     * and blue vitriol). Doors, buttons, vents and SparkStrength junction boxes only read whitelisted keys, lockpicks,
+     * {@code DrinkTrayBlock} subclass: Wathe poison vial, the Witch Maiden's poison apple, the Bomber kit's
+     * timed bomb and the Toxicologist kit's blue vitriol) and {@link TrimmedBedBlock} (Wathe scorpion, the timed bomb
+     * and blue vitriol). Doors, buttons, vents and the sabotage junction boxes only read whitelisted keys, lockpicks,
      * crowbars, master keys, the tablet or non-weapon tools, and stay usable. A new weapon-applying block goes here.
      * 交互时读取主手物品并将其作为武器施用、且不经原版冷却检查的方块，因此即使物品正在冷却也会被拒绝：
-     * {@link FoodPlatterBlock}（及其子类 {@code DrinkTrayBlock}：Wathe 毒药瓶、SparkWitch 巫女毒苹果、SparkStrength 炸弹客
-     * 定时炸弹与毒理学家蓝矾）与 {@link TrimmedBedBlock}（Wathe 蝎子、SparkStrength 定时炸弹与蓝矾）。门、按钮、通风口与
-     * SparkStrength 接线盒只读取白名单内的钥匙、撬锁器、撬棍、万能钥匙、平板或非武器工具，仍可使用。新增施用武器的方块须加在此处。
+     * {@link FoodPlatterBlock}（及其子类 {@code DrinkTrayBlock}：Wathe 毒药瓶、巫女毒苹果、炸弹客职业增强的
+     * 定时炸弹与毒理学家职业增强的蓝矾）与 {@link TrimmedBedBlock}（Wathe 蝎子、上述定时炸弹与蓝矾）。门、按钮、通风口与
+     * 破坏系统的接线盒只读取白名单内的钥匙、撬锁器、撬棍、万能钥匙、平板或非武器工具，仍可使用。新增施用武器的方块须加在此处。
      */
     static boolean appliesHeldItem(Block block) {
         return block instanceof FoodPlatterBlock || block instanceof TrimmedBedBlock;
@@ -153,8 +153,8 @@ public final class KnightDuelSeal {
 
     /**
      * Items a duelist keeps: letters, keys, lockpick, crowbar, the Wathe knife, the derringer, the cross sword,
-     * cocktails, NoellesRoles master keys, the SparkStrength tablet and vanilla non-weapons. Everything else is sealed.
-     * 决斗者保留的物品：信件、钥匙、撬锁器、撬棍、Wathe 小刀、德林加、十字剑、鸡尾酒、NoellesRoles 万能钥匙、SparkStrength
+     * cocktails, NoellesRoles master keys, the tablet and vanilla non-weapons. Everything else is sealed.
+     * 决斗者保留的物品：信件、钥匙、撬锁器、撬棍、Wathe 小刀、德林加、十字剑、鸡尾酒、NoellesRoles 万能钥匙、
      * 平板与原版非武器。其余全部封印。
      */
     public static boolean whitelisted(Item item) {
@@ -217,12 +217,13 @@ public final class KnightDuelSeal {
     }
 
     /**
-     * The one deliberate shortening write, so it cannot be a monotonic {@code ForcedCooldowns.raise}. SparkTraits'
+     * The one deliberate shortening write, so it cannot be a monotonic {@code ForcedCooldowns.raise}. The traits'
      * exact write performs the vanilla set itself after Fast Hands (and keeps its forced melee floor); the plain set
-     * runs only when SparkTraits is absent or older, never both. A zero write is exact whatever the modifier.
-     * 唯一有意缩短的写入，因此不能使用单调的 {@code ForcedCooldowns.raise}。SparkTraits 的精确写入会在快手之后自行完成
-     * 原版写入（并保留其强制近战下限）；仅当 SparkTraits 缺失或过旧时才回退到原版写入，二者不会同时执行。写入 0 时无论
-     * 何种倍率都是精确的。
+     * is the fallback for an exact write that did not happen, unreachable since the fusion (the exact write refuses
+     * only a null player or item), never both. A zero write is exact whatever the modifier.
+     * 唯一有意缩短的写入，因此不能使用单调的 {@code ForcedCooldowns.raise}。词条的精确写入会在快手之后自行完成
+     * 原版写入（并保留其强制近战下限）；回退到原版写入的分支只在精确写入未执行时运行，融合后不可达（精确写入只在玩家或
+     * 物品为空时拒绝），二者不会同时执行。写入 0 时无论何种倍率都是精确的。
      */
     private static void restoreExact(ServerPlayerEntity player, Item item, int ticks) {
         if (!SparkTraitsApi.setExactItemCooldownRemaining(player, item, ticks)) {

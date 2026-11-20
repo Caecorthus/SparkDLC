@@ -34,11 +34,11 @@ public final class TimeStealerLoadoutService {
     }
 
     /**
-     * Every RoleAssigned (round start, SparkTraits compensation, a mid-round role change). An exact Time Stealer ends
+     * Every RoleAssigned (round start, trait compensation, a mid-round role change). An exact Time Stealer ends
      * with exactly one Clock in the hotbar; the round-start cooldown (N1) is written only when the role is newly
      * acquired or the round state belongs to another match, so a repeated assignment keeps the cooldown and stamps.
      * Anyone else loses Clocks and stamps and has the round flag cleared.
-     * 每次 RoleAssigned（开局、SparkTraits 补偿、局中职业变化）。精确窃时者最终在快捷栏恰好持有一个时钟；开局冷却（N1）
+     * 每次 RoleAssigned（开局、词条补偿、局中职业变化）。精确窃时者最终在快捷栏恰好持有一个时钟；开局冷却（N1）
      * 只在新获得该职业或回合状态属于其他对局时写入，因此重复分配保留冷却与邮票。其他玩家失去时钟与邮票，并清除回合标记。
      */
     public static void onRoleAssigned(ServerPlayerEntity player, @Nullable Role role) {
@@ -64,7 +64,7 @@ public final class TimeStealerLoadoutService {
         if (TimeStealerStampService.mayHold(player)) {
             ensureClockInHotbar(player);
             TimeStealerClockService.keepDisplayedCooldown(player);
-            // Granted lazily: SparkTraits Conscience settles after RoleAssigned. / 延迟发放：SparkTraits 善良在 RoleAssigned 之后才确定。
+            // Granted lazily: the Conscience trait settles after RoleAssigned. / 延迟发放：善良词条在 RoleAssigned 之后才确定。
             TimeGiftWatchLoadout.tickHolder(player);
             TimeStealerStampService.tickOwner(player);
             return;
@@ -166,12 +166,12 @@ public final class TimeStealerLoadoutService {
 
     /**
      * Keeps exactly one Clock and forces it into the hotbar: the leftmost hotbar Clock is kept, every other copy (main
-     * slots 9-35, including the second row 27-35 that SparkFactionAPI 0.1.5.13+ shows, armor, offhand, crafting grid or
+     * slots 9-35, including the second row 27-35 that the limited inventory shows, armor, offhand, crafting grid or
      * open container) is removed, and a missing hotbar Clock is recreated in the hotbar. A Clock on the cursor counts as
      * the kept copy while the hotbar has none, so a left-click pickup holds; it is removed only beside a hotbar Clock.
      * Cheap when nothing is wrong: a slot scan with no writes.
-     * 保持恰好一个时钟并强制其位于快捷栏：保留最左侧的快捷栏时钟，移除其他所有副本（主背包 9-35，包括 SparkFactionAPI
-     * 0.1.5.13+ 显示的第二行 27-35、盔甲、副手、合成格或已打开的容器），并在快捷栏缺失时重新创建。快捷栏没有时钟时，
+     * 保持恰好一个时钟并强制其位于快捷栏：保留最左侧的快捷栏时钟，移除其他所有副本（主背包 9-35，包括受限物品栏
+     * 显示的第二行 27-35、盔甲、副手、合成格或已打开的容器），并在快捷栏缺失时重新创建。快捷栏没有时钟时，
      * 光标上的时钟视为保留的那一份，因此左键拿起能保持住；只有快捷栏已有时钟时才移除它。一切正常时开销很低：只扫描栏位而不写入。
      */
     private static void ensureClockInHotbar(ServerPlayerEntity player) {
@@ -289,10 +289,10 @@ public final class TimeStealerLoadoutService {
 
     /**
      * Round-start cooldown: the authoritative {@code ClockReadyAt} plus the matching display cooldown, written exactly
-     * through the SparkTraits facade (past Traits cooldown modifiers) with a vanilla fallback when Traits is absent or
-     * older; never both, so only one cooldown packet is sent.
-     * 开局冷却：写入权威的 {@code ClockReadyAt} 及对应的显示冷却；显示冷却经 SparkTraits 门面精确写入（越过 Traits 冷却倍率），
-     * Traits 缺失或过旧时回退到原版写入；二者不会同时执行，因此只发送一次冷却数据包。
+     * through the trait API (past the trait cooldown modifiers); the vanilla fallback for a refused exact write is
+     * unreachable since the fusion; never both, so only one cooldown packet is sent.
+     * 开局冷却：写入权威的 {@code ClockReadyAt} 及对应的显示冷却；显示冷却经词条 API 精确写入（越过词条冷却倍率），
+     * 精确写入被拒时回退到原版写入的分支融合后不可达；二者不会同时执行，因此只发送一次冷却数据包。
      */
     private static void writeInitialCooldown(ServerPlayerEntity player, TimeStealerPlayerComponent state) {
         int ticks = TimeStealerRules.CLOCK_INITIAL_COOLDOWN_TICKS;

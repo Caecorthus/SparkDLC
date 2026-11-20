@@ -59,11 +59,11 @@ public final class MediumVoteClient {
     }
 
     /**
-     * The local player could answer right now: confirmed SparkWitch server, a live window whose content the server
+     * The local player could answer right now: confirmed SparkDLC server, a live window whose content the server
      * revealed to this client (question text or the blessing choices), and the server's own side-neutral voter gate
      * (a dead member of the running round who is not a Wraith; a Wraith keeps the ability key for its own play).
      * A living Medium also has the content revealed (its own window) but fails the voter gate.
-     * 本地玩家此刻可以作答：已确认的 SparkWitch 服务器、窗口进行中且服务端已向本客户端公开内容（提问文本或加护选项），并满足
+     * 本地玩家此刻可以作答：已确认的 SparkDLC 服务器、窗口进行中且服务端已向本客户端公开内容（提问文本或加护选项），并满足
      * 与服务端相同的两端通用投票门槛（进行中对局的本局死者，且不是冤魂；冤魂的技能键留给自己使用）。存活的通灵师同样获得内容
      * （自己的窗口），但不满足投票门槛。
      */

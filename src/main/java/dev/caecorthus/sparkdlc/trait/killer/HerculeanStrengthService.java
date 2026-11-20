@@ -20,8 +20,8 @@ import net.minecraft.server.network.ServerPlayerEntity;
 public final class HerculeanStrengthService {
     public static final double THROW_SPEED_MULTIPLIER = 1.3;
     public static final int THROW_CHARGE_PERCENT = 70;
-    // Additive gate: downstream mods contribute their own throwables to this tag.
-    // 可扩展门槛：下游模组向该标签追加各自的投掷物。
+    // Additive gate: other features and add-ons contribute their own throwables to this tag.
+    // 可扩展门槛：其他功能与附属模组向该标签追加各自的投掷物。
     private static final TagKey<Item> THROWABLES = TagKey.of(RegistryKeys.ITEM, SparkDLC.id("throwables"));
 
     private HerculeanStrengthService() {

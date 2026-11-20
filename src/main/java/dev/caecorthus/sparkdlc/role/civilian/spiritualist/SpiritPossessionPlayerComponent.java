@@ -39,7 +39,7 @@ public final class SpiritPossessionPlayerComponent implements AutoSyncedComponen
         return cooldownTicks;
     }
 
-    /** Exact write (possession end, round start, SparkFactionAPI forced cooldowns). / 精确写入（附身结束、开局、SparkFactionAPI 强制冷却）。 */
+    /** Exact write (possession end, round start, forced cooldowns). / 精确写入（附身结束、开局、强制冷却）。 */
     public void setCooldownTicks(int ticks) {
         int next = Math.max(0, ticks);
         if (next == cooldownTicks) {

@@ -16,9 +16,9 @@ import net.minecraft.server.network.ServerPlayerEntity;
 /**
  * Server-side Clock gates: whether the user may use the Clock now, and whether a candidate may be affected.
  * Participant, Last Escape and Vendetta semantics follow the Control Expert's targeting, kept role-owned so neither
- * module depends on the other.
+ * role depends on the other.
  * 服务端时钟判定：使用者当前能否使用时钟，以及候选者能否被影响。参与者、最后逃脱与复仇者隔离的语义与控场专家一致，
- * 但由本职业自行持有，两个模块互不依赖。
+ * 但由本职业自行持有，两个职业互不依赖。
  */
 public final class TimeStealerTargeting {
     private TimeStealerTargeting() {
@@ -28,10 +28,10 @@ public final class TimeStealerTargeting {
      * Use gate (plan §2): the round is exactly ACTIVE (not merely running), the user is exactly the Time Stealer
      * whatever their effective faction (owner decision 2026-10-05 replaces Q10: a Conscience Time Stealer uses the
      * Clock too), alive and not a spectator, the authoritative {@code ClockReadyAt} tick has passed, not silenced by
-     * NoellesRoles or SparkTraits, and SparkTraits allows the weapon action. Absent optional providers add no block.
+     * NoellesRoles or traits, and traits allow the weapon action. A failed NoellesRoles silence read adds no block.
      * 使用判定（计划 §2）：对局恰为 ACTIVE（而非仅在进行中）；使用者精确为窃时者，不论有效阵营（所有者决定 2026-10-05
      * 取代 Q10：善良窃时者同样能使用时钟）；存活且非旁观；权威的 {@code ClockReadyAt} tick 已到；未被 NoellesRoles 或
-     * SparkTraits 沉默；SparkTraits 允许该武器动作。可选提供方缺失时不附加限制。
+     * 词条沉默；词条允许该武器动作。读取 NoellesRoles 沉默状态失败时不附加限制。
      */
     public static boolean canUse(ServerPlayerEntity user, ItemStack clock) {
         return user != null && clock != null && isClockReady(user) && canUseWhenReady(user, clock);
@@ -40,12 +40,12 @@ public final class TimeStealerTargeting {
     /**
      * Target veto (plan N5); ineligible candidates are transparent to the ray. Never the user; only living,
      * non-spectator participants of any faction (owner decision 2026-10-05: the Clock ignores factions, so fellow
-     * killers are no longer see-through); not in SparkTraits Last Escape; Vendetta exact-pair isolation;
-     * SparkFactionAPI's structural veto for {@code sparkdlc:time_stolen}; and not already stolen (N7). Kill
+     * killers are no longer see-through); not under the Last Escape trait; Vendetta exact-pair isolation;
+     * the faction core's structural veto for {@code sparkdlc:time_stolen}; and not already stolen (N7). Kill
      * protections are never evaluated here; they resolve at the curse's death.
      * 目标否决（计划 N5）；不合格者对射线透明。永不影响使用者本人；影响任何阵营的存活且非旁观参与者（所有者决定
-     * 2026-10-05：时钟无视阵营，同阵营杀手不再被射线穿过）；不处于 SparkTraits 最后逃脱；遵守复仇者精确配对隔离；遵守
-     * SparkFactionAPI 对 {@code sparkdlc:time_stolen} 的结构性否决；且目标当前未被窃（N7）。这里从不评估击杀保护，
+     * 2026-10-05：时钟无视阵营，同阵营杀手不再被射线穿过）；不处于最后逃脱词条状态；遵守复仇者精确配对隔离；遵守
+     * 阵营核心对 {@code sparkdlc:time_stolen} 的结构性否决；且目标当前未被窃（N7）。这里从不评估击杀保护，
      * 它们在诅咒致死时结算。
      */
     public static boolean canAffect(ServerPlayerEntity user, ServerPlayerEntity target) {

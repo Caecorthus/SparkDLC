@@ -168,9 +168,10 @@ public final class TaotieHeadService {
             return;
         }
 
-        // The shooter may be dead (the head keeps flying); offline means SparkFactionAPI cannot be asked, so no player
-        // is a valid target (fail closed) and the head only flies on to a wall.
-        // 发射者可能已死亡（头颅继续飞行）；若已离线则无法询问 SparkFactionAPI，因此没有合法目标（失败即关闭），头颅只会飞向墙壁。
+        // The shooter may be dead (the head keeps flying); offline means SparkFactionApi.canAffectPlayer cannot be
+        // asked, so no player is a valid target (fail closed) and the head only flies on to a wall.
+        // 发射者可能已死亡（头颅继续飞行）；若已离线则无法询问 SparkFactionApi.canAffectPlayer，因此没有合法目标（失败
+        // 即关闭），头颅只会飞向墙壁。
         ServerPlayerEntity shooter = head.getShooterUuid() == null
                 ? null : world.getServer().getPlayerManager().getPlayer(head.getShooterUuid());
         Vec3d centre = head.getHeadCenter();
@@ -242,9 +243,9 @@ public final class TaotieHeadService {
 
     /**
      * Valid targets near the head: any other player that is playing, alive, in survival, not swallowed and allowed by
-     * SparkFactionAPI for this shooter. Everyone else is passed through, never collided with.
-     * 头颅附近的合法目标：除发射者外仍在局内存活、生存模式、未被吞下且 SparkFactionAPI 允许该发射者影响的玩家。
-     * 其他玩家一律穿过，不会碰撞。
+     * {@code SparkFactionApi.canAffectPlayer} for this shooter. Everyone else is passed through, never collided with.
+     * 头颅附近的合法目标：除发射者外仍在局内存活、生存模式、未被吞下且 {@code SparkFactionApi.canAffectPlayer} 允许该发
+     * 射者影响的玩家。其他玩家一律穿过，不会碰撞。
      */
     private static List<ServerPlayerEntity> validTargets(ServerWorld world, TaotieHeadEntity head,
                                                          @Nullable ServerPlayerEntity shooter, Vec3d centre) {

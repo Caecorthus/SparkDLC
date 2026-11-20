@@ -36,12 +36,12 @@ import net.minecraft.util.math.Vec3d;
 import org.joml.Vector3f;
 
 /**
- * Item demos for SparkWitch items that no role demo shows (hold W over the item): the Fire Poker, the Tofana Elixir,
- * the Gift Watch, Cologne, the Disruptor, the Angler's fish and bait, the USEC suppressor and the three non-lethal
- * potion shells. Effects only some players notice (sanity, coins, cooldowns, a private chime, an instinct view) are
- * told in captions or drawn as boxes the captions call illustrations; waits the game takes longer over are shortened,
- * which the captions say.
- * SparkWitch 物品演示（在物品上按住 W），覆盖职业演示没有展示的物品：烧火棍、托法娜仙液、赠时怀表、古龙水、干扰器、钓鱼
+ * Item demos for items of the mod's own roles that no role demo shows (hold W over the item): the Fire Poker, the
+ * Tofana Elixir, the Gift Watch, Cologne, the Disruptor, the Angler's fish and bait, the USEC suppressor and the three
+ * non-lethal potion shells. Effects only some players notice (sanity, coins, cooldowns, a private chime, an instinct
+ * view) are told in captions or drawn as boxes the captions call illustrations; waits the game takes longer over are
+ * shortened, which the captions say.
+ * 本模组自有职业的物品演示（在物品上按住 W），覆盖职业演示没有展示的物品：烧火棍、托法娜仙液、赠时怀表、古龙水、干扰器、钓鱼
  * 佬的鱼与鱼饵、USEC 的消音器，以及三种不致命的药剂炮弹。只有部分玩家察觉得到的效果（理智、金币、冷却、私有钟声、本能视
  * 角）用字幕说明，或画成方框并在字幕中注明是示意；游戏中更长的等待做了缩短，字幕会注明。
  */
@@ -239,13 +239,13 @@ final class SparkRoleItemScenes {
 
     /**
      * Gift Watch (TimeGiftWatchItem, TimeGiftWatchService, TimeGiftWatchLoadout, TimeGiftRuntime, TimeStealerRules,
-     * TimeStealerTargeting; SparkWitch's NoellesHiddenEquipment list): only a Time Stealer whose effective faction is
-     * not the killers' (SparkTraits Conscience) holds it, next to the curse watch; it is hidden in hand and its use
+     * TimeStealerTargeting; the NoellesHiddenEquipment list): only a Time Stealer whose effective faction is
+     * not the killers' (the Conscience trait) holds it, next to the curse watch; it is hidden in hand and its use
      * never swings. Aimed at a player within 7 blocks and in sight (any faction, never oneself, not one currently being
      * gifted) it starts a gift: nothing for 15 s, then Speed I-IV with a chime only the target hears at 15, 20, 25 and
      * 30 s, and at 35 s Speed V for 5 s and full sanity. No particles. 45 s cooldown after a gift and at round start; a
      * miss is free. The Timekeeper never lifts a gift. The notes over the head stand in for the private chimes.
-     * 赠时怀表：只有有效阵营不是杀手的窃时者（SparkTraits 善良）才有，和诅咒用的时间怀表放在一起；手持隐藏，使用不挥手。
+     * 赠时怀表：只有有效阵营不是杀手的窃时者（善良词条）才有，和诅咒用的时间怀表放在一起；手持隐藏，使用不挥手。
      * 对准 7 格内看得见的玩家（不分阵营，不能对自己，正在受赠的不行）即开始赠时：前 15 秒毫无动静，之后在 15、20、25、
      * 30 秒依次获得速度 I～IV 并听到只有自己听得见的钟声，35 秒时速度 V 持续 5 秒并恢复全部理智。没有粒子。赠时成功后冷
      * 却 45 秒，开局亦然；没对准不进冷却。计时员解除不了赠时。头顶的音符代表私有钟声。
@@ -305,7 +305,7 @@ final class SparkRoleItemScenes {
     }
 
     /**
-     * Cologne (CologneItem, PerfumerRules, PerfumerState, PerfumerRuntime, PerfumerShopService; SparkWitch's
+     * Cologne (CologneItem, PerfumerRules, PerfumerState, PerfumerRuntime, PerfumerShopService; the
      * NoellesHiddenEquipment list): 50 coins in the Perfumer's shop, no stock limit, hidden in hand from other living
      * players, usable only by an active Perfumer. A right-click on a living player within 3 blocks and in sight, or any
      * right-click that reaches no player (the air) for oneself, swings (the client returns success), uses one up and
@@ -368,16 +368,16 @@ final class SparkRoleItemScenes {
      * Control Expert's shop, one per round, 30 s locked at round start, usable only by an unstunned Control Expert and
      * never droppable; not hidden in hand. A right-click (no swing: the client returns success without a swing) gives
      * every other affectable participant whose feet are within 6 blocks of the user's, walls ignored and allies
-     * included (Wraiths, SparkTraits Last Escape, Vendetta isolation and SparkFactionAPI vetoes excepted), 10 s without
+     * included (Wraiths, the Last Escape trait, Vendetta isolation and faction-core vetoes excepted), 10 s without
      * keyed instinct: no instinct highlights that need the key and no instinct light; keyless outlines stay. Each one
      * hears a private sound and sees an on-screen countdown (the action-bar line is best effort); the user alone hears
-     * a fixed use sound. Not used up; a plain 90 s cooldown that SparkTraits Fast Hands may shorten. Outlines are
+     * a fixed use sound. Not used up; a plain 90 s cooldown that the Fast Hands trait may shorten. Outlines are
      * boxes, the 6-block edge gold dust.
      * 干扰器：控场专家商店 100 金币，每局限 1 个，开局锁 30 秒，只有未被电住的控场专家能用，丢不出去；手持不隐藏。右键
      * （不挥手：客户端返回成功但不挥手）让脚下距使用者 6 格内的其他所有可影响参与者 10 秒内失去按键本能：需要按键的本能
-     * 高亮和本能夜视都失效，不需按键的描边不受影响；墙挡不住，队友也算（冤魂、SparkTraits 最后逃脱、复仇者隔离与
-     * SparkFactionAPI 否决除外）。每人听到一声私密音效，屏幕上显示倒计时（动作栏提示只是尽力而为）；使用声固定、只有使
-     * 用者听得到。不会用掉，普通原版冷却 90 秒，SparkTraits 快手可缩短。描边用方框表示，6 格边界用金色粉尘表示。
+     * 高亮和本能夜视都失效，不需按键的描边不受影响；墙挡不住，队友也算（冤魂、最后逃脱词条、复仇者隔离与
+     * 阵营核心否决除外）。每人听到一声私密音效，屏幕上显示倒计时（动作栏提示只是尽力而为）；使用声固定、只有使
+     * 用者听得到。不会用掉，普通原版冷却 90 秒，快手词条可缩短。描边用方框表示，6 格边界用金色粉尘表示。
      */
     private static void disruptor(SceneBuilder scene, SceneBuildingUtil util) {
         scene.title("sparkdlc_disruptor", "干扰器：关掉附近的本能");
@@ -423,7 +423,7 @@ final class SparkRoleItemScenes {
 
     /**
      * The Angler's bait and edible fish (FisherFishingService, FisherInventory, FisherRules, FisherFishItem,
-     * FisherFishUse, FisherParticipants; SparkWitch's NoellesHiddenEquipment list): bait costs 25 in the Angler's shop.
+     * FisherFishUse, FisherParticipants; the NoellesHiddenEquipment list): bait costs 25 in the Angler's shop.
      * Each cast (the rod in the main hand, a right-click on a drink tray, one swing) needs a free hotbar slot and uses
      * one bait from anywhere in the inventory; the catch is a weighted roll (nothing at all 10% of the time; this demo
      * happens to land a cod, a goldfish and a clownfish) and goes into the hotbar (here straight into the hand). Any
@@ -520,13 +520,13 @@ final class SparkRoleItemScenes {
      * starts (or restarts) a 156-tick window: vanilla invisibility without particles and, for every non-spectator
      * viewer, no held items either; doors (not trapdoors or gates) have no collision for the eater, nor do other
      * players; the eater usually sees every other living player outlined in the Angler's colour through walls with no
-     * key (not other glimmering or SparkTraits-hidden players, and nobody under a Fear or Obscure suppression), while
+     * key (not other glimmering or trait-hidden players, and nobody under a Fear or Obscure suppression), while
      * living viewers usually lose the eater's instinct outline (dead spectators and a few role views keep it). When the
      * window ends inside a door, the eater is moved to a safe spot out of it if one exists. The demo stretches the
      * window; the outlines are boxes; the white box only marks where the invisible eater is.
      * 灵光鱼：任何存活参与者都能吃（不挥手），理智回满并开始（或重新开始）156 tick 的窗口：原版隐身且没有粒子，所有非旁
      * 观者也看不到其手持物；门（不含活板门和栅栏门）对他没有碰撞，其他玩家也没有；他一般不用按键就能隔墙看到其他活人，
-     * 颜色统一为钓鱼佬色（同在灵光中或被 SparkTraits 隐藏的人除外，被恐惧或障眼压制时什么都看不到），活着的旁人一般看不
+     * 颜色统一为钓鱼佬色（同在灵光中或被词条隐藏的人除外，被恐惧或障眼压制时什么都看不到），活着的旁人一般看不
      * 到他的本能描边（已死亡的旁观者和少数职业视角除外）。窗口结束时若人在门里，有安全位置的话会被挪到门外。演示拉长了
      * 窗口；描边用方框表示；白框只标出隐身者的位置。
      */
@@ -577,13 +577,13 @@ final class SparkRoleItemScenes {
 
     /**
      * Swordfish (SwordfishItem, SwordfishRules, SwordfishStabService, FisherRules): usable by any living participant of
-     * an active round except an active Wraith, a stunned player, one in a Seeker session or one SparkTraits locks; not
+     * an active round except an active Wraith, a stunned player, one in a Seeker session or one a trait locks; not
      * hidden in hand. Held like the knife (the spear pose, the knife's raise sound everyone near hears), it stabs on
      * release after at least 11 ticks: the player under the aim within 3 blocks, in sight, is killed (an ordinary kill,
      * so protections may stop it) and the attacker swings. Every accepted hit uses the fish up, even one a shield or
      * Tofana stops; a miss does not. A civilian-faction attacker who kills a civilian-faction player usually dies too
      * (an ordinary kill, so a shield can stop it).
-     * 剑鱼：进行中的对局里任何存活参与者都能用（激活的冤魂、被电住、处于搜寻者遥控或被 SparkTraits 锁住的人除外）；手持
+     * 剑鱼：进行中的对局里任何存活参与者都能用（激活的冤魂、被电住、处于搜寻者遥控或被词条锁住的人除外）；手持
      * 不隐藏。像刀一样按住（掷矛姿势，附近的人都听得到举刀声），至少 11 tick 后松手刺出：准心对着的 3 格内、看得见的玩
      * 家被杀（普通击杀，保护效果可能挡下），出手者挥一下手。每次被接纳的命中都会用掉剑鱼，哪怕被护盾或托法娜挡下；没刺
      * 中不算。好人阵营的人刺死好人阵营的人，自己一般也会死（普通击杀，护盾能挡）。

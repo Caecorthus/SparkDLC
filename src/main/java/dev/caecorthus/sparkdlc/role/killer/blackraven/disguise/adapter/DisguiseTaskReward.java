@@ -5,11 +5,14 @@ package dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.adapter;
  * 伪装任务收入所镜像的真实付款方；金额规则位于 BlackRavenDisguiseEconomy。
  */
 public enum DisguiseTaskReward {
-    /** NoellesRoles +50, skipped when SparkTraits Conscience/Impostor already pays or the facade fails. / 诺艾尔职业 +50。 */
+    /**
+     * NoellesRoles +50, skipped when the Conscience/Impostor trait already pays or the trait answer is null
+     * (unreachable since the fusion). / 诺艾尔职业 +50；良知/内鬼词条已支付或词条结果为 null（融合后不可达）时跳过。
+     */
     NOELLES_NATIVE,
-    /** SparkStrength good-role +50, only when SparkStrength is loaded and not Impostor. / SparkStrength 好人职业 +50。 */
+    /** {@code RoleEconomyService} good-role +50, only when not Impostor (loaded flag: constant true). / 好人职业 +50。 */
     SPARKSTRENGTH_GOOD_ROLE,
-    /** SparkWitch civilian economy +50, unconditional. / SparkWitch 平民经济 +50，无条件。 */
+    /** The mod's own civilian roles' economy +50, unconditional. / 本模组自有平民职业经济 +50，无条件。 */
     SPARKWITCH,
     NONE
 }

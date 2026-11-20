@@ -10,10 +10,10 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Who may see carriers, on both sides. Pathogens are read from the real role ({@code getRole}). Toxicologists go through
- * {@code isRole} on purpose, so SparkWitch's Black Raven acting overlay gets the same view. A Coroner disguised as a
+ * {@code isRole} on purpose, so the Black Raven's acting overlay gets the same view. A Coroner disguised as a
  * Toxicologist does too, like its other Toxicologist copies.
  * 双端共用：谁可以看到带毒者。病原体读取真实身份（{@code getRole}）；毒理学家刻意经由 {@code isRole} 判定，
- * 使 SparkWitch 黑羽鸦的扮演覆盖层获得相同视角；伪装成毒理学家的验尸官也同样可见，与其他毒理学家复刻一致。
+ * 使黑羽鸦的扮演覆盖层获得相同视角；伪装成毒理学家的验尸官也同样可见，与其他毒理学家复刻一致。
  */
 public final class PathogenVisibility {
     private PathogenVisibility() {

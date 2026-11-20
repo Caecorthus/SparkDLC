@@ -14,30 +14,30 @@ import java.util.function.Supplier;
 /**
  * Stable contract (owner O3, 2026-10-07): AXMC shield piercing. One rifle kill is ONE ordinary
  * {@code killPlayer(victim, true, shooter, wathe:gun_shot)} run inside a scoped pierce budget ({@link #run}): FMJ 2
- * layers, AP 5, +1 on a SparkTraits Heavy Artillery shot. Only the shield-layer consumers spend it, each through
+ * layers, AP 5, +1 on a Heavy Artillery trait shot. Only the shield-layer consumers spend it, each through
  * {@link #tryPierce}: the NoellesRoles whiskey / Iron Man BEFORE listener (re-invoked by
  * {@code mixin/usec/NoellesUsecShieldPierceMixin} through {@link #pierceLayers}), the Guardian Angel shield
  * ({@code GuardianAngelFeatureService}), Wathe psycho armour, Jester-moment armour included
- * ({@code mixin/usec/GameFunctionsUsecPsychoArmourMixin}), and add-on layers through the frozen
- * {@code SparkRoleApi.tryPierceShieldLayer} (owner 2026-10-07: SparkStrength's Bodyguard vest). A pierced layer is
+ * ({@code mixin/usec/GameFunctionsUsecPsychoArmourMixin}), and other shield layers through the frozen
+ * {@code SparkRoleApi.tryPierceShieldLayer} (owner 2026-10-07: the Bodyguard vest). A pierced layer is
  * spent as if it had blocked, then the shot goes on; the layer that finds the budget empty blocks as usual. The scope
- * also carries the round ({@link #scopedAmmo}), which {@code SparkRoleApi.piercingShotAmmoId} exposes so an add-on
- * shield that is never pierced (SparkStrength's Democracy Shield) can price its block by round. Every other
- * protection (Saint, Judge, the SparkFactionAPI veto, Fiend, Ninja parry, Pig God, Last Stand, Last Escape,
+ * also carries the round ({@link #scopedAmmo}), which {@code SparkRoleApi.piercingShotAmmoId} exposes so a
+ * shield that is never pierced (the Bodyguard's Democracy Shield) can price its block by round. Every other
+ * protection (Saint, Judge, the {@code PlayerAffectPolicy} veto, Fiend, Ninja parry, Pig God, Last Stand, Last Escape,
  * Depression, Jester fake death, Tofana) runs exactly once in its native place and is never pierced, because nothing
  * calls {@code killPlayer} again. Only the exact scoped victim, killer and {@code wathe:gun_shot} reason match, so
  * nested kills inside the scope (a Bodyguard sacrifice, a death in AFTER, Tofana retaliation) never spend it. The
  * scope is a server-thread {@link ThreadLocal}, restored in {@code finally}. Holds no item, world or registry state,
  * so it is unit-testable.
  * 稳定契约（所有者 O3，2026-10-07）：AXMC 穿盾。一次步枪击杀就是在限定作用域的穿盾预算内（{@link #run}）执行的一次普通
- * {@code killPlayer(victim, true, shooter, wathe:gun_shot)}：FMJ 2 层，AP 5 层，SparkTraits 重炮手射击再 +1。只有护盾层
+ * {@code killPlayer(victim, true, shooter, wathe:gun_shot)}：FMJ 2 层，AP 5 层，重炮手词条射击再 +1。只有护盾层
  * 消耗方会通过 {@link #tryPierce} 花费它：NoellesRoles 威士忌 / 铁人 BEFORE 监听（由
  * {@code mixin/usec/NoellesUsecShieldPierceMixin} 经 {@link #pierceLayers} 重复调用）、守护天使护盾
  * （{@code GuardianAngelFeatureService}）、Wathe 疯魔护甲，含小丑时刻护甲（{@code mixin/usec/GameFunctionsUsecPsychoArmourMixin}），
- * 以及经冻结的 {@code SparkRoleApi.tryPierceShieldLayer} 接入的附属模组护盾层（所有者 2026-10-07：SparkStrength 保镖防弹衣）。
+ * 以及经冻结的 {@code SparkRoleApi.tryPierceShieldLayer} 接入的其他护盾层（所有者 2026-10-07：保镖防弹衣）。
  * 被击穿的一层如同挡下一样被消耗，随后子弹继续；遇到预算已空的那一层照常挡下。作用域还携带弹种（{@link #scopedAmmo}），由
- * {@code SparkRoleApi.piercingShotAmmoId} 对外提供，使从不被击穿的附属模组盾牌（SparkStrength 民主盾牌）能按弹种为格挡定价。
- * 其他所有保护（圣徒、法官、SparkFactionAPI 否决、
+ * {@code SparkRoleApi.piercingShotAmmoId} 对外提供，使从不被击穿的盾牌（保镖的民主盾牌）能按弹种为格挡定价。
+ * 其他所有保护（圣徒、法官、{@code PlayerAffectPolicy} 否决、
  * 魔人、忍者格挡、猪神、背水一战、绝处逢生、抑郁、小丑假死、托法娜）都只在原处执行一次且从不被击穿，因为没有任何地方再次调用
  * {@code killPlayer}。只有作用域内确切的受害者、击杀者与 {@code wathe:gun_shot} 死因才匹配，因此作用域内的嵌套击杀（保镖牺牲、
  * AFTER 中的死亡、托法娜反击）从不花费预算。作用域是服务端线程上的 {@link ThreadLocal}，在 {@code finally} 中恢复。不持有任何

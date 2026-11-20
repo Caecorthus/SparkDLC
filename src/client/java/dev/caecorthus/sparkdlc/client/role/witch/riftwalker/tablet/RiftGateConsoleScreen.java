@@ -31,14 +31,14 @@ import java.util.List;
  * {@code #n} (the in-gate HUD's numbering; never renumbered), distance in blocks plus a direction arrow relative to the
  * player's yaw (computed live from the snapshot position), the names inside (D16) or 「空」, and a 「关闭」 button that
  * needs a second click (「确认关闭？」 for about 3 s) before {@code rift_gate_close} is sent. Empty state 「还没有裂隙门」.
- * "Witch network" closes the console, arms a one-shot bypass and re-issues the vanilla use so SparkStrength opens its
- * own tablet. Polls {@code rift_gate_console_request(session)} about once per second, never pauses, and closes itself
+ * "Witch network" closes the console, arms a one-shot bypass and re-issues the vanilla use so the tablet opens its
+ * own screen. Polls {@code rift_gate_console_request(session)} about once per second, never pauses, and closes itself
  * on role/life/gate/tablet loss or when the server stops answering. Presentation only; the server validates everything.
  * 职业自有的裂隙门控制台（键名 {@code gui.sparkdlc.riftwalker.console.*}；绝不使用魔女技能面板）。中文优先，
  * GUI 缩放 2–3 下清晰可读，风格同搜寻者控制台。每扇门一行，按编号排序：固定的 {@code #n}（与门内 HUD 编号一致，
  * 从不重排）、距离（格）与相对玩家朝向的方向箭头（由快照位置实时计算）、门内玩家名（D16）或「空」，以及需要二次点击
  * （约 3 秒内显示「确认关闭？」）才发送 {@code rift_gate_close} 的「关闭」按钮。空列表显示「还没有裂隙门」。
- * 「魔女网络」关闭控制台、设置一次性旁路并重发原版使用，由 SparkStrength 打开自己的平板。打开期间约每秒发送一次
+ * 「魔女网络」关闭控制台、设置一次性旁路并重发原版使用，由平板打开自己的界面。打开期间约每秒发送一次
  * {@code rift_gate_console_request(session)} 轮询，不暂停游戏，并在失去职业/死亡/进门/失去平板或服务端不再应答时自行关闭。
  * 仅负责展示；一切由服务端校验。
  */
@@ -304,8 +304,8 @@ public class RiftGateConsoleScreen extends Screen {
     }
 
     /**
-     * Re-issues the vanilla use once so SparkStrength opens its own tablet; our opener passes because of the bypass.
-     * 重发一次原版使用，由 SparkStrength 打开自己的平板；因旁路标记，我们的拦截器会放行。
+     * Re-issues the vanilla use once so the tablet opens its own screen; our opener passes because of the bypass.
+     * 重发一次原版使用，由平板打开自己的界面；因旁路标记，我们的拦截器会放行。
      */
     private void openWitchNetwork() {
         if (client == null || client.player == null || client.interactionManager == null || !networkVisible()) {

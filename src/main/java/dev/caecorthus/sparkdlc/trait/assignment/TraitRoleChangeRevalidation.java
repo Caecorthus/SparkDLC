@@ -36,10 +36,10 @@ import java.util.function.Predicate;
 
 /**
  * Replaces the traits a living player could not have rolled for the role they now hold with as many fresh draws from
- * that role's pool. Reached only through the public facade; built for the former SparkWitch Grand Witch recruitment
+ * that role's pool. Reached only through the public facade; built for the former Grand Witch recruitment
  * (removed 2026-10-05) and kept as a public role-change seam. No role-change listener runs it.
  * 将存活玩家在当前身份下无法于开局获得的天赋，替换为从该身份候选池重新抽取的同等数量天赋。仅经公共门面调用；原为
- * SparkWitch 大魔女招募（已于 2026-10-05 移除）而建，作为公共换身份接口保留。不挂接任何换身份监听。
+ * 大魔女招募（已于 2026-10-05 移除）而建，作为公共换身份接口保留。不挂接任何换身份监听。
  */
 public final class TraitRoleChangeRevalidation {
     /**

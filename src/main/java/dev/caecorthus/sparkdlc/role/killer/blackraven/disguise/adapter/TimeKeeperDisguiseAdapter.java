@@ -10,8 +10,8 @@ import org.agmas.noellesroles.ModItems;
 
 /**
  * Disguise parity surface of the Time Keeper: TimekeeperShopHandler reads isRole, so the native entry (and any
- * SparkTraits redirect of it) is kept; the fallback replicates it only if the native entry is missing.
- * 时间管理员的伪装对等面：TimekeeperShopHandler 读取 isRole，因此保留原生条目（及 SparkTraits 对其的改写）；
+ * trait redirect of it) is kept; the fallback replicates it only if the native entry is missing.
+ * 时间管理员的伪装对等面：TimekeeperShopHandler 读取 isRole，因此保留原生条目（及词条对其的改写）；
  * 仅在原生条目缺失时使用复刻的回退条目。
  */
 public final class TimeKeeperDisguiseAdapter implements BlackRavenDisguiseAdapter {

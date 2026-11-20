@@ -35,20 +35,20 @@ import org.jetbrains.annotations.Nullable;
  * 其他杀手的商店不受影响。
  *
  * <p>Kidnapper-style deny-list: only poison vial and scorpion are removed; grenade and psycho_mode are replaced in place
- * by 0-coin stamp entries and "+1 minute" is inserted after psycho, so every other entry (blackout, SparkTraits
- * entries, SparkStrength's final appends) keeps its exact coin price, stock, cooldown and callback. The stamp grenade
- * shows the normal Wathe grenade, so SparkStrength still appends its own coin-priced M67 entry (owner decision Q6).
- * Stamp entries cost 0 coins, so SparkTraits Charisma never wraps them and they are identified by id alone.
+ * by 0-coin stamp entries and "+1 minute" is inserted after psycho, so every other entry (blackout, trait
+ * entries, the role kits' final appends) keeps its exact coin price, stock, cooldown and callback. The stamp grenade
+ * shows the normal Wathe grenade, so {@code M67ShopEntriesMixin} still appends the coin-priced M67 entry (owner
+ * decision Q6). Stamp entries cost 0 coins, so the Charisma trait never wraps them and they are identified by id alone.
  * 绑架者式黑名单：只删除毒药瓶与蝎子；手雷与 psycho_mode 原位替换为 0 金币邮票商品，并在疯魔后插入“+1 分钟”，
- * 因此其余商品（停电、SparkTraits 商品、SparkStrength 的末尾追加）保持原有金币价格、库存、冷却与回调。邮票手雷显示
- * 普通 Wathe 手雷，因此 SparkStrength 照常追加其自有金币定价的 M67 商品（所有者决定 Q6）。
- * 邮票商品为 0 金币，SparkTraits 魅力从不包装它们，因此仅按 id 识别。
+ * 因此其余商品（停电、词条商品、职业套件的末尾追加）保持原有金币价格、库存、冷却与回调。邮票手雷显示
+ * 普通 Wathe 手雷，因此 {@code M67ShopEntriesMixin} 照常追加金币定价的 M67 商品（所有者决定 Q6）。
+ * 邮票商品为 0 金币，魅力词条从不包装它们，因此仅按 id 识别。
  *
  * <p>Authority: the list is built on both sides from the synced role only; the server alone charges stamps, inside
  * each entry's {@code onBuy} via {@link TimeStealerStampService#purchase}. BEFORE only explains refusals and never
- * returns {@code allow}, so later listeners (SparkTraits restrictions) still run and the price stays 0.
+ * returns {@code allow}, so later listeners (trait restrictions) still run and the price stays 0.
  * 权威：两端仅根据已同步的职业构建列表；只有服务端在各商品的 {@code onBuy} 中经 {@link TimeStealerStampService#purchase}
- * 扣除邮票。BEFORE 只负责说明拒绝原因、从不返回允许，因此后续监听器（SparkTraits 限制）仍会运行且价格保持 0。
+ * 扣除邮票。BEFORE 只负责说明拒绝原因、从不返回允许，因此后续监听器（词条限制）仍会运行且价格保持 0。
  */
 public final class TimeStealerShopService {
     private static final int SHOP_DESCRIPTION_COLOR = 0x808080;
@@ -120,8 +120,8 @@ public final class TimeStealerShopService {
                 : new CopiedFields(nativeEntry.cooldownTicks(), nativeEntry.initialCooldownTicks(),
                 nativeEntry.maxStock()));
         ShopEntry.Builder builder = switch (kind) {
-            // Always the normal grenade display (Q6): SparkStrength's M67 keys on it.
-            // 始终使用普通手雷展示（Q6）：SparkStrength 的 M67 依赖它。
+            // Always the normal grenade display (Q6): the M67 entry keys on it.
+            // 始终使用普通手雷展示（Q6）：M67 商品依赖它。
             case GRENADE -> new ShopEntry.Builder(kind.id(), WatheItems.GRENADE.getDefaultStack(), 0,
                     ShopEntry.Type.WEAPON);
             case PSYCHO -> new ShopEntry.Builder(kind.id(), nativeEntry == null

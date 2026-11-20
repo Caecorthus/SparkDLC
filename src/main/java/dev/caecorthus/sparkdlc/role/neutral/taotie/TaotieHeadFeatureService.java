@@ -15,12 +15,11 @@ import net.minecraft.server.world.ServerWorld;
 import java.util.OptionalInt;
 
 /**
- * Taotie head registration, called once from {@code RoleKitEvents} (main initializer, so the daze guards also run
- * on the client): the daze interaction lock, the SparkFactionAPI forced-cooldown store (registered directly since the
- * SparkDLC fusion) and the per-round cleanup. The packet, entity, components, payload guard and replay line are wired
- * in their own registries.
- * 饕餮头颅注册入口，由 {@code RoleKitEvents} 调用一次（主初始化器，因此眩晕守卫在客户端也会运行）：眩晕交互锁、
- * SparkFactionAPI 强制冷却存储（融合进 SparkDLC 后直接注册）与单局清理。数据包、实体、组件、数据包拦截与回放文本在各自的注册处接入。
+ * Taotie head registration, called once from {@code RoleKitEvents} (main initializer, so the daze guards also run on
+ * the client): the daze interaction lock, the forced-cooldown store ({@code ForcedCooldowns}) and the per-round
+ * cleanup. The packet, entity, components, payload guard and replay line are wired in their own registries.
+ * 饕餮头颅注册入口，由 {@code RoleKitEvents} 调用一次（主初始化器，因此眩晕守卫在客户端也会运行）：眩晕交互锁、强制冷却
+ * 存储（{@code ForcedCooldowns}）与单局清理。数据包、实体、组件、数据包拦截与回放文本在各自的注册处接入。
  */
 public final class TaotieHeadFeatureService {
     private static boolean registered;
@@ -34,9 +33,9 @@ public final class TaotieHeadFeatureService {
         }
         registered = true;
         TaotieHeadDazeGuards.register();
-        // Optional SFA seam: forced-cooldown features may floor/extend the head cooldown. Nominal = the tier for the
-        // current living stomach (60 s when empty). / 可选 SFA 接缝：强制冷却功能可为头颅冷却设下限或延长；
-        // 标称值为当前体内存活人数对应的档位（体内为空时 60 秒）。
+        // Forced-cooldown seam: forced-cooldown features may floor/extend the head cooldown. Nominal = the tier for the
+        // current living stomach (60 s when empty).
+        // 强制冷却接缝：强制冷却功能可为头颅冷却设下限或延长；标称值为当前体内存活人数对应的档位（体内为空时 60 秒）。
         ForcedCooldowns.registerRoleSkillStore(new FunctionRoleSkillCooldownStore(
                 TaotieHeadRules.COOLDOWN_STORE_ID,
                 TaotieHeadService::isTaotie,

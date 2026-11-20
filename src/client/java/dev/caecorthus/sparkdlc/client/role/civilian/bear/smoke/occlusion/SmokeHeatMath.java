@@ -1,12 +1,12 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.occlusion;
 
 /**
- * Pure rules of the heat-image smoke mask ({@link SmokeHeatMask}, BEAR WP5 for SparkStrength's Undercover thermal, S4):
- * argument checks of the cross-mod entry and the heat-target rectangle the passes cover. The CPU reference of what
+ * Pure rules of the heat-image smoke mask ({@link SmokeHeatMask}, BEAR WP5 for the Undercover thermal, S4):
+ * argument checks of the entry points and the heat-target rectangle the passes cover. The CPU reference of what
  * {@code heat_mask.fsh} writes per pixel (masked heat {@code heat * v}, hazed heat {@code max(heat, haze * (1 - v))},
  * v the outline visibility at the pixel's optical depth) lives in the test sources ({@code SmokeShaderReference}),
  * where tests pin the shader to it.
- * 热成像图像烟雾遮罩（{@link SmokeHeatMask}，BEAR WP5，供 SparkStrength 卧底热成像 S4 使用）的纯规则：跨模组入口的参数
+ * 热成像图像烟雾遮罩（{@link SmokeHeatMask}，BEAR WP5，供卧底热成像 S4 使用）的纯规则：各入口的参数
  * 检查与各步骤覆盖的热图矩形。{@code heat_mask.fsh} 逐像素写入结果的 CPU 参照（遮罩热值 {@code heat * v}，热雾热值
  * {@code max(heat, haze * (1 - v))}，v 为该像素光学厚度处的描边可见度）位于测试源码（{@code SmokeShaderReference}），
  * 测试据此固定着色器。
@@ -30,7 +30,7 @@ public final class SmokeHeatMath {
     private SmokeHeatMath() {
     }
 
-    /** Texture names and size the facade accepts. / 门面接受的纹理名与尺寸。 */
+    /** Texture names and size the entries accept. / 各入口接受的纹理名与尺寸。 */
     public static boolean validTarget(int colorTexture, int depthTexture, int width, int height) {
         return colorTexture > 0 && depthTexture > 0 && colorTexture != depthTexture
                 && width > 0 && height > 0 && width <= MAX_TARGET_SIZE && height <= MAX_TARGET_SIZE;

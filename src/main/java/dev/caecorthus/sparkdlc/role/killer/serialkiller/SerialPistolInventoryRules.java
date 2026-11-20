@@ -20,11 +20,11 @@ import org.jetbrains.annotations.Nullable;
  * {@link SerialPistolGuardService}. The pistols exist only while their Serial Killer is in psycho mode: they never
  * become item entities, never drop on death, never move out of the slot psycho put them in, are never handed to a
  * world container (item frame, armor stand, allay, decorated pot), and are stripped from anyone else. Identified by
- * class, so the checks stay safe before registry lookups. Mirrors, never shares, SparkWitch's bound-item guards.
+ * class, so the checks stay safe before registry lookups. Mirrors, never shares, other roles' bound-item guards.
  * 两把连环手枪的绑定规则，供 {@code mixin/serialkiller/} 中的防护 mixin 与 {@link SerialPistolGuardService} 使用。
  * 手枪只在其连环杀手疯魔期间存在：永不变成掉落物、死亡不掉落、不能离开疯魔放入的栏位、不能交给世界容器
  * （物品展示框、盔甲架、悦灵、饰纹陶罐），且会从其他任何人身上收走。按物品类识别，不依赖注册表。
- * 仿照（但不共享）SparkWitch 的绑定物品防护。
+ * 仿照（但不共享）其他职业的绑定物品防护。
  */
 public final class SerialPistolInventoryRules {
     private SerialPistolInventoryRules() {

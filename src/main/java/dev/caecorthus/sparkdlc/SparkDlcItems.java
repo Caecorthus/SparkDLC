@@ -399,7 +399,7 @@ public final class SparkDlcItems {
                 T_VIRUS_ID,
                 new TVirusItem(new Item.Settings().maxCount(1))
         );
-        // 计时员濒毁怀表：只保留两种刷新冷却模式，状态由 SparkStrength 数据组件保存。
+        // 计时员濒毁怀表：只保留两种刷新冷却模式，状态由数据组件保存。
         dyingWatch = Registry.register(
                 Registries.ITEM,
                 DYING_WATCH_ID,

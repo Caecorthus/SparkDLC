@@ -4,8 +4,8 @@ import java.util.Optional;
 import java.util.OptionalLong;
 
 /**
- * Pure arithmetic and predicates behind the SparkWitch forced-cooldown stores; no game state.
- * SparkWitch 强制冷却存储背后的纯算术与判定，不读取任何游戏状态。
+ * Pure arithmetic and predicates behind the role forced-cooldown stores; no game state.
+ * 职业强制冷却存储背后的纯算术与判定，不读取任何游戏状态。
  */
 public final class ForcedCooldownMath {
     private ForcedCooldownMath() {

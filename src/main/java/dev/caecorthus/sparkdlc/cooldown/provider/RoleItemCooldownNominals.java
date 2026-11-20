@@ -45,11 +45,11 @@ import java.util.Map;
 import java.util.OptionalInt;
 
 /**
- * Nominal (full post-use) cooldowns of the items whose cooldown SparkWitch writes, plus the public NoellesRoles item
- * constants, keyed by registry id so the provider works before and after item registration. Initial round-start
+ * Nominal (full post-use) cooldowns of the items whose cooldown the mod's own roles write, plus the public NoellesRoles
+ * item constants, keyed by registry id so the provider works before and after item registration. Initial round-start
  * cooldowns are not nominals. Items without a cooldown (traps, shells, stamps, camera, Swordfish) are absent, the
  * Seeker car is exempt instead, and Wathe items fall through to Wathe's own table.
- * SparkWitch 写入其冷却的物品与 NoellesRoles 公开物品常量的标准（使用后完整）冷却，按注册 id 索引，物品注册前后均可用。
+ * 本模组职业写入其冷却的物品与 NoellesRoles 公开物品常量的标准（使用后完整）冷却，按注册 id 索引，物品注册前后均可用。
  * 开局冷却不算标准冷却。没有冷却的物品（陷阱、弹壳、邮票、摄像头、剑鱼）不在表内，搜寻者小车改为豁免，Wathe 物品回落到
  * Wathe 自身的表。
  */
@@ -113,8 +113,8 @@ final class RoleItemCooldownNominals implements ItemCooldownNominalProvider {
             entries.put(SparkDlcItems.FIRE_POKER_ID, FirePokerRules.COOLDOWN_TICKS);
             // Abyss Listener Shriek Gun: the post-shot cooldown, not the 60 s initial one. / 聆渊者啸音铳：开火后冷却，而非首次 60 秒。
             entries.put(SparkDlcItems.SHRIEK_GUN_ID, AbyssListenerRules.GUN_COOLDOWN_TICKS);
-            // Potion launcher and Rift Gate: 1 s anti-repeat writes, listed so every SparkWitch item write has a nominal.
-            // 药炮筒与裂隙门：1 秒防连按写入，列入以保证每个 SparkWitch 物品写入都有标准冷却。
+            // Potion launcher and Rift Gate: 1 s anti-repeat writes, listed so every own-role item write has a nominal.
+            // 药炮筒与裂隙门：1 秒防连按写入，列入以保证本模组职业的每个物品写入都有标准冷却。
             entries.put(SparkDlcItems.POTION_LAUNCHER_ID, PotionGunnerRules.FIRE_COOLDOWN_TICKS);
             entries.put(SparkDlcItems.RIFT_GATE_ID, RiftGatePlacementService.PLACE_COOLDOWN_TICKS);
             // USEC rifle: the 2 s bolt (Fast Reload x0.7 is per player), not the 60 s round-start lock; UsecCooldowns is
@@ -154,9 +154,9 @@ final class RoleItemCooldownNominals implements ItemCooldownNominalProvider {
             entries.put(SparkDlcItems.M1903A4_ID, M1903A4Rules.SHOT_COOLDOWN_TICKS);
             // NoellesRoles items: public constants of the pinned 1.7.6 jar, plus the master key, which both
             // NoellesRoles (literal) and the Insider door path write as 200 ticks. The timed bomb stays exempt in
-            // SparkFactionAPI itself (Bomber pass gate).
+            // the cooldown core itself (ItemCooldownCatalog; Bomber pass gate).
             // NoellesRoles 物品：锁定 1.7.6 jar 的公开常量；万能钥匙由 NoellesRoles（字面量）与内应开门路径都写为 200 tick。
-            // 定时炸弹由 SparkFactionAPI 自身豁免（炸弹客转手门槛）。
+            // 定时炸弹由冷却核心（ItemCooldownCatalog）自身豁免（炸弹客转手门槛）。
             entries.put(noelles("antidote"), AntidoteItem.COOLDOWN_TICKS);
             entries.put(noelles("repair_tool"), RepairToolItem.COOLDOWN_TICKS);
             entries.put(noelles("poison_needle"), PoisonNeedleItem.USE_COOLDOWN_TICKS);

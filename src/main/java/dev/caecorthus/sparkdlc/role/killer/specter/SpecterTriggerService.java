@@ -22,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
  *       subtraction like {@code AbyssSuppression.drainSanity}: a bar already below 0 is never raised, and reaching
  *       Wathe's -100% floor is a normal (unattributed) mental breakdown.</li>
  *   <li>If the placer is still a living Specter who could cast skill one now and it is ready (no cooldown, no active
- *       mark), marks the victim for the normal 10 s through the shriek target gate and SparkFactionAPI. Pressing G
+ *       mark), marks the victim for the normal 10 s through the shriek target gate and the faction core. Pressing G
  *       then shrieks exactly as after a manual mark.</li>
  *   <li>Grants cowardice to living, non-Wraith participants outside the killer team (non-Conscience killers +
  *       Impostors) that have no effective real bar, and to the Savior, who otherwise never sits below 25 sanity.</li>
@@ -30,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
  * 鬼魂触发器效果，服务端权威：对拥有有效真实理智条（{@link SpecterRules#hasRealSanity}）的踩中者扣除 30 理智，与
  * {@code AbyssSuppression.drainSanity} 一样是单纯相减：已低于 0 的理智绝不会被抬高，降至 Wathe 的 -100% 下限即为正常的
  * （不记功）精神崩溃。若放置者仍是存活且此刻能施放技能一的幽魂，并且技能一可用（不在冷却、没有标记），经尖啸目标门槛与
- * SparkFactionAPI 按正常 10 秒标记该玩家，之后按 G 即正常尖啸。杀手队（非善良杀手 + 内鬼）以外、没有有效真实理智条的存活
+ * 阵营核心按正常 10 秒标记该玩家，之后按 G 即正常尖啸。杀手队（非善良杀手 + 内鬼）以外、没有有效真实理智条的存活
  * 非冤魂参与者获得怯懦，救世主同样获得怯懦。
  */
 public final class SpecterTriggerService {
@@ -79,11 +79,11 @@ public final class SpecterTriggerService {
     }
 
     /**
-     * Fail-closed role-id check for the Savior ({@code sparkdlc:savior}), which only exists in the still-open PR #200
-     * (feat/savior-role). Matching by id keeps the Specter module free of the Savior class; while that role is not
-     * registered the id never matches and nobody gains cowardice through this branch.
-     * 救世主（{@code sparkdlc:savior}）的失败关闭职业 ID 判定，该职业目前只存在于仍未合并的 PR #200（feat/savior-role）。
-     * 按 ID 匹配使幽魂模块不依赖救世主类；该职业未注册时 ID 永不匹配，没有人会经此分支获得怯懦。
+     * Role-id check for the Savior ({@code sparkdlc:savior}), written while that role only existed in the then-open
+     * PR #200 (feat/savior-role): matching by id kept the Specter code free of the Savior class and failed closed
+     * while the role was not registered (the id never matched, so nobody gained cowardice through this branch).
+     * 救世主（{@code sparkdlc:savior}）的职业 ID 判定，写于该职业仍只存在于当时未合并的 PR #200（feat/savior-role）时：
+     * 按 ID 匹配使幽魂代码不依赖救世主类，并在该职业未注册时失败关闭（ID 永不匹配，没有人会经此分支获得怯懦）。
      */
     private static boolean isSaviorRole(@Nullable Role role) {
         return role != null && Identifier.of("sparkdlc", "savior").equals(role.identifier());

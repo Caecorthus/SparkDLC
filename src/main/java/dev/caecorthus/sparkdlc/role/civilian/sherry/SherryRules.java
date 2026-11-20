@@ -130,8 +130,14 @@ public final class SherryRules {
         return offset.dotProduct(look) / (Math.sqrt(distanceSquared) * lookLength) >= CORPSE_AIM_COSINE;
     }
 
-    /** Coins are never paid to a SparkTraits Impostor or on an unknown answer (Medium/Accountant precedent). */
-    /** SparkTraits 内鬼或无法判定时不发任务金币（通灵师/会计先例）。 */
+    /**
+     * Coins are never paid to a holder of the Impostor trait (Medium/Accountant precedent). An unknown (null) answer is
+     * refused too, but is unreachable since the fusion: {@code SparkTraitsApi.hasActiveTrait} always answers.
+     */
+    /**
+     * 内鬼词条持有者不发任务金币（通灵师/会计先例）。无法判定（null）时同样不发，但融合后不可达：
+     * {@code SparkTraitsApi.hasActiveTrait} 总会给出答案。
+     */
     public static boolean receivesTaskMoney(@Nullable Boolean impostor) {
         return Boolean.FALSE.equals(impostor);
     }

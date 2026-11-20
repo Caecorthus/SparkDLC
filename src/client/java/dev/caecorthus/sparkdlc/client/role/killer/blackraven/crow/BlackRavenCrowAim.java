@@ -15,17 +15,17 @@ import java.util.Optional;
 
 /**
  * Client weapon targeting against Raven Form crows (Wathe revolver, derringer, knife and the gun crosshair; through
- * {@code getGunTarget} also SparkStrength's Serial Killer pistols, and through {@code getKnifeTarget} the Swordfish and
+ * {@code getGunTarget} also the Serial Killer pistols, and through {@code getKnifeTarget} the Swordfish and
  * the instant stabs). The selectors keep whatever they returned (a player, a Magician puppet, a Seeker device later,
- * the Wraith pass-through, a SparkTraits Marksman range) unless a crow on the same look ray is strictly nearer than
+ * the Wraith pass-through, a Marksman trait range) unless a crow on the same look ray is strictly nearer than
  * that result, entity or block; then the crow's {@link EntityHitResult} is returned and the caller sends its id. The
  * ray mirrors {@code ProjectileUtil}'s collision helper (eye, {@code getRotationVec(0)}, cut at the first COLLIDER
  * block), with crow boxes grown by {@link BlackRavenCrowHitRules#CLIENT_AIM_GROWTH} because the crow is a small, fast
  * target. The local player's own crow is never picked. Client prediction only: the server re-checks every crow id on
  * lag-compensated volumes ({@code BlackRavenCrowHits}).
- * 客户端武器对化鸦乌鸦的选靶（Wathe 左轮、德林加、刀与枪械准星；经 {@code getGunTarget} 同时覆盖 SparkStrength 连环杀手手枪，
+ * 客户端武器对化鸦乌鸦的选靶（Wathe 左轮、德林加、刀与枪械准星；经 {@code getGunTarget} 同时覆盖连环杀手手枪，
  * 经 {@code getKnifeTarget} 覆盖剑鱼与各种瞬刺）。选靶器保留其原有结果（玩家、魔术师皮套、之后的搜寻者设备、冤魂穿透、
- * SparkTraits 神射手射程），除非同一视线上有乌鸦严格近于该结果（实体或方块），此时返回乌鸦的 {@link EntityHitResult}，
+ * 神射手特质射程），除非同一视线上有乌鸦严格近于该结果（实体或方块），此时返回乌鸦的 {@link EntityHitResult}，
  * 调用方便发送其 id。射线与 {@code ProjectileUtil} 的碰撞辅助一致（眼睛位置、{@code getRotationVec(0)}、在第一个 COLLIDER
  * 方块处截断），乌鸦箱体按 {@link BlackRavenCrowHitRules#CLIENT_AIM_GROWTH} 扩大，因为乌鸦又小又快。本地玩家自己的乌鸦永远
  * 不会被选中。仅为客户端预测：服务端会以延迟补偿体积复查每个乌鸦 id（{@code BlackRavenCrowHits}）。

@@ -37,9 +37,9 @@ import org.jetbrains.annotations.Nullable;
  * ShouldPunishGunShooter 自定义惩罚、以 GUN 死因击杀、枪声、枪口火光、冷却。在此之上：射手须为主手持改装左轮且已有上膛子弹的
  * 存活强盗；射程与冷却取决于所装配件；每枪消耗第一发上膛子弹；长枪管与 PS12B 各自在上一次判定未击杀目标时追加一次击杀判定。
  *
- * <p>A shot refused by a shooter gate, SparkTraits Last Escape or SparkFactionAPI leaves no trace and keeps its round;
+ * <p>A shot refused by a shooter gate, the Last Escape trait or the faction core leaves no trace and keeps its round;
  * a target that fails the liveness or sight check turns the shot into a recorded miss that still spends the round.</p>
- * <p>被射手门槛、SparkTraits 脱险或 SparkFactionAPI 拒绝的射击不留痕迹，也不消耗子弹；目标未通过存活或视线检查时按空枪
+ * <p>被射手门槛、脱险词条或阵营核心拒绝的射击不留痕迹，也不消耗子弹；目标未通过存活或视线检查时按空枪
  * 记录，子弹照常消耗。</p>
  */
 public final class BanditRevolverShotService {
@@ -70,8 +70,8 @@ public final class BanditRevolverShotService {
         double range = BanditRevolverRules.rangeBlocks(state.barrelPart())
                 + SerialPistolShotService.SERVER_RANGE_SLACK_BLOCKS;
         ServerPlayerEntity candidate = claimedTarget(shooter, targetId, range);
-        // SparkFactionAPI drops a revolver shot at a protected player outright: no sound, record, cooldown or round.
-        // SparkFactionAPI 对受保护玩家的左轮射击整包丢弃：无声音、无记录、无冷却，也不消耗子弹。
+        // The faction core drops a revolver shot at a protected player outright: no sound, record, cooldown or round.
+        // 阵营核心对受保护玩家的左轮射击整包丢弃：无声音、无记录、无冷却，也不消耗子弹。
         if (candidate != null && !SparkFactionApi.canAffectPlayer(shooter, candidate, GameConstants.DeathReasons.GUN)) {
             return;
         }
@@ -81,8 +81,8 @@ public final class BanditRevolverShotService {
         BanditRevolverItem.write(gun, state.withRoundFired());
 
         if (candidate == null) {
-            // Non-player ids: SparkWitch's Magician puppet / Seeker device, then a Partygoer; the shot stays a miss.
-            // 非玩家 id：先交给 SparkWitch 的魔术师皮套/搜寻者设备，再看派对客；这一枪仍按未命中记录。
+            // Non-player ids: a Magician puppet / Seeker device first, then a Partygoer; the shot stays a miss.
+            // 非玩家 id：先交给魔术师皮套/搜寻者设备，再看派对客；这一枪仍按未命中记录。
             Entity entity = targetId < 0 ? null : world.getEntityById(targetId);
             if (entity != null && !(entity instanceof PlayerEntity)) {
                 SparkRoleApi.hitGunWorldTarget(shooter, entity, gun, range);

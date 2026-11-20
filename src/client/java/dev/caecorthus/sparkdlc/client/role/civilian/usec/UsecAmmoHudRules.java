@@ -70,13 +70,13 @@ public final class UsecAmmoHudRules {
     }
 
     /**
-     * HUD gates: a confirmed SparkWitch server, HUD not hidden (F1), not spectating, holding the rifle in the main hand,
+     * HUD gates: a confirmed SparkDLC server, HUD not hidden (F1), not spectating, holding the rifle in the main hand,
      * and a use mode that may fire ({@code OffMatchUse}). The role is never read (owner, 2026-11-05: any holder sees
      * the line). A live participant of an ACTIVE round also needs Wathe's own HUD showing; an off-match holder (no
      * round, STARTING/STOPPING, a lobby player) sees it without Wathe's HUD; a dead participant never does.
      * Owner-facing choice: the line describes the stack that fires, so it shows only while that stack is in hand; the
      * hotbar cooldown overlay still covers the rifle when it is not held.
-     * HUD 门槛：已确认的 SparkWitch 服务端、HUD 未隐藏（F1）、非旁观、主手持步枪，且使用模式允许开火（{@code OffMatchUse}）。
+     * HUD 门槛：已确认的 SparkDLC 服务端、HUD 未隐藏（F1）、非旁观、主手持步枪，且使用模式允许开火（{@code OffMatchUse}）。
      * 从不读取职业（所有者 2026-11-05：任何持有者都能看到该行）。ACTIVE 对局的存活参与者还需要 Wathe 自身 HUD 正在显示；
      * 对局外的持有者（没有对局、STARTING/STOPPING、大厅玩家）无需 Wathe HUD 也能看到；已死亡的参与者永远看不到。面向所有者的
      * 取舍：该行描述的是实际开火的那把枪，因此只在它在手中时显示；不手持时快捷栏冷却遮罩仍会显示步枪冷却。

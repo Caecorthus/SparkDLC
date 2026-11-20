@@ -1,6 +1,6 @@
 #version 150
 
-// SparkWitch scope, pass 3: the ZOOM_BLUR composite. Inside a circle of LensRadius x the short screen side (aspect
+// Scope, pass 3: the ZOOM_BLUR composite. Inside a circle of LensRadius x the short screen side (aspect
 // corrected): the sharp main image with slight barrel distortion near the edge, edge transmittance loss, a faint
 // coating tint, very subtle smudges and dust fixed to the glass, a soft reflection streak, and the scope shadow (the
 // exit pupil shifted by ShadowOffset; a dark crescent enters from the opposite edge). Outside: the half-resolution
@@ -9,7 +9,7 @@
 // Java sets LensCenter, LensRadius, ShadowOffset, Fade and PeripheryBlur; the look is tuned by the constants below. The
 // two "shared lens look" blocks are kept identical to sparkdlc_scope_pip.fsh (post shaders cannot #moj_import; a unit
 // test compares them).
-// SparkWitch 开镜第 3 步：全画面放大档的合成。在半径为 LensRadius x 屏幕短边的圆内（已做宽高比校正）：清晰的主画面，
+// 开镜第 3 步：全画面放大档的合成。在半径为 LensRadius x 屏幕短边的圆内（已做宽高比校正）：清晰的主画面，
 // 边缘带轻微桶形畸变、透光衰减、淡淡的镀膜色调、附着在镜片上的极淡污渍与灰尘、柔和的反光条纹，以及镜内阴影（出瞳按
 // ShadowOffset 偏移，暗色月牙从相反一侧边缘进入）。圆外：半分辨率模糊画面，向暗色（绝不全黑）的镜筒边逐渐变暗；PeripheryBlur
 // 让模糊与压暗（不含镜筒边）淡出到画中画那样清晰的镜外（USEC 1 倍时为 0）。开镜时 Fade 从原画面过渡。Java 设置

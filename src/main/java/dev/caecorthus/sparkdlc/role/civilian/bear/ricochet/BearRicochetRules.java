@@ -19,7 +19,7 @@ import java.util.function.Supplier;
  *   <li>D2 ranged set: hitscan, projectiles, rays, the TR shell and every explosion; never melee, poison, curses,
  *   falls, {@code gun_shot_backfire} or {@code shot_innocent}. {@link #BLAST_REASONS} never borrow the shooter's eye
  *   as the origin (the thrower is not where the blast is).</li>
- *   <li>D3 front: the horizontal 180° hemisphere around the wearer's head yaw (SparkStrength
+ *   <li>D3 front: the horizontal 180° hemisphere around the wearer's head yaw (the Bodyguard's
  *   {@code BodyguardRules.isInFront} precedent); an unknown origin or one inside the head's footprint is "not front".</li>
  *   <li>H3: visor DOWN rolls from every direction; visor UP never ricochets a shot from the front.</li>
  *   <li>D4: a glass hit (crack) iff the visor is down and the shot came from the front.</li>
@@ -28,7 +28,7 @@ import java.util.function.Supplier;
  * （{@link BearRicochetService}）传入受害者头部朝向、解析出的射击来源与面罩状态；客户端眩晕只读取时长常量。D2 远程集合：
  * 命中扫描、投射物、射线、TR 炮弹与所有爆炸；从不包括近战、中毒、诅咒、坠落、{@code gun_shot_backfire} 与
  * {@code shot_innocent}。{@link #BLAST_REASONS} 从不借用射手眼睛作为来源（投掷者不在爆点）。D3 正面：以佩戴者头部朝向为中心的
- * 水平 180° 半球（SparkStrength {@code BodyguardRules.isInFront} 先例）；来源未知或落在头部投影内视为“非正面”。H3：面罩放下时
+ * 水平 180° 半球（保镖的 {@code BodyguardRules.isInFront} 先例）；来源未知或落在头部投影内视为“非正面”。H3：面罩放下时
  * 任意方向都掷骰；面罩抬起时正面来的射击永不跳弹。D4：面罩放下且来自正面时才命中玻璃（留下裂纹）。
  */
 public final class BearRicochetRules {
@@ -128,12 +128,14 @@ public final class BearRicochetRules {
     }
 
     /**
-     * D3 origin order: an open SparkWitch {@code RangedOriginScope} decides alone (its unknown scope stays unknown);
-     * else, for a blast, SparkStrength's blast scope; else, for direct fire, the killer's eye; else unknown (null).
-     * {@code sparkStrengthBlast} is asked only for blasts. Sources whose origin IS the killer's eye at kill time push no
-     * scope: the revolver family, the Hunter shotgun, the USEC rifle, the Death Ray, the Demon Hunter and the backblast.
-     * D3 来源顺序：打开的 SparkWitch {@code RangedOriginScope} 单独决定（其未知作用域保持未知）；否则爆炸类取 SparkStrength 的
-     * 爆炸作用域；否则直射类取击杀者眼睛；否则未知（null）。只有爆炸类才询问 {@code sparkStrengthBlast}。击杀时来源就是击杀者
+     * D3 origin order: an open {@code RangedOriginScope} decides alone (its unknown scope stays unknown); else, for a
+     * blast, the blast scope ({@code AttackOriginScope}); else, for direct fire, the killer's eye; else unknown (null).
+     * {@code sparkStrengthBlast}, that blast scope's centre, is asked only for blasts. Sources whose origin IS the
+     * killer's eye at kill time push no scope: the revolver family, the Hunter shotgun, the USEC rifle, the Death Ray,
+     * the Demon Hunter and the backblast.
+     * D3 来源顺序：打开的 {@code RangedOriginScope} 单独决定（其未知作用域保持未知）；否则爆炸类取爆炸作用域
+     * （{@code AttackOriginScope}）；否则直射类取击杀者眼睛；否则未知（null）。只有爆炸类才询问
+     * {@code sparkStrengthBlast}（即该爆炸作用域的爆心）。击杀时来源就是击杀者
      * 眼睛的来源不压作用域：左轮系、猎人霰弹枪、USEC 步枪、死亡射线、猎魔枪与尾焰。
      */
     public static @Nullable Vec3d resolveOrigin(Identifier reason, boolean scopeOpen, @Nullable Vec3d scoped,
@@ -225,15 +227,16 @@ public final class BearRicochetRules {
     }
 
     /**
-     * One attack source, the best identity the attempt carries (owner 2026-11-13). In order: an open SparkWitch
+     * One attack source, the best identity the attempt carries (owner 2026-11-13). In order: an open
      * {@code RangedOriginScope} ({@code frame}: a projectile entity's UUID, one shell's token, or the scope's own
-     * identity), plus SparkStrength's innermost blast centre so a blast it chains inside that scope stays apart; else
-     * SparkStrength's blast alone (one blast, one tick); else the call burst: the killer entity (its network id, so a
-     * Magician's stand-in is not the Magician) in one server tick. The burst is the fallback for bare hitscan: it cannot
-     * tell two scope-less weapons of one killer landing in one tick apart.
-     * 一个攻击来源，取本次尝试所带的最佳身份（所有者 2026-11-13）。依次为：打开的 SparkWitch {@code RangedOriginScope}
-     * （{@code frame}：投射物实体的 UUID、一发炮弹的令牌或该作用域自身的身份），并附上 SparkStrength 最内层爆心，使其在该作用域内
-     * 连锁引发的爆炸仍各自独立；否则单独取 SparkStrength 爆炸（一次爆炸、一刻）；否则取调用批次：同一服务端刻内的击杀者实体（按其
+     * identity), plus the innermost blast centre of {@code AttackOriginScope} so a blast it chains inside that scope
+     * stays apart; else that blast centre alone (one blast, one tick); else the call burst: the killer entity (its
+     * network id, so a Magician's stand-in is not the Magician) in one server tick. The burst is the fallback for bare
+     * hitscan: it cannot tell two scope-less weapons of one killer landing in one tick apart.
+     * 一个攻击来源，取本次尝试所带的最佳身份（所有者 2026-11-13）。依次为：打开的 {@code RangedOriginScope}
+     * （{@code frame}：投射物实体的 UUID、一发炮弹的令牌或该作用域自身的身份），并附上 {@code AttackOriginScope} 的最内层
+     * 爆心，使其在该作用域内
+     * 连锁引发的爆炸仍各自独立；否则单独取该爆心（一次爆炸、一刻）；否则取调用批次：同一服务端刻内的击杀者实体（按其
      * 网络 id，因此魔术师的替身不等于魔术师本人）。调用批次是裸命中扫描的回退：它分不清同一击杀者在同一刻命中的两件无作用域武器。
      */
     public record AttackSource(@Nullable Object frame, @Nullable Vec3d blast, @Nullable Integer killer, long tick) {

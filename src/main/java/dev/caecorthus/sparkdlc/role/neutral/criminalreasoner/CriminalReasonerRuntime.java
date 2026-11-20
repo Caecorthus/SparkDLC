@@ -195,7 +195,7 @@ public final class CriminalReasonerRuntime {
      */
     private static void afterKill(ServerPlayerEntity victim, @Nullable ServerPlayerEntity killer,
                                   @Nullable Identifier deathReason) {
-        // A SparkTraits Last Stand interception is not a death. / SparkTraits 背水一战的拦截不算死亡。
+        // A Last Stand interception is not a death. / 背水一战的拦截不算死亡。
         if (SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
             return;
         }
@@ -379,9 +379,9 @@ public final class CriminalReasonerRuntime {
 
     /**
      * Server gate shared by the three payloads: the exact role in an ACTIVE round, alive and not spectating, not
-     * swallowed, stunned or role-skill-blocked by SparkTraits, and not under the Grand Witch's Fear (which answers
+     * swallowed, stunned or role-skill-blocked by a trait, and not under the Grand Witch's Fear (which answers
      * with its own action-bar line). The payload policy drops most of these earlier; this re-checks server state.
-     * 三个数据包共用的服务端门槛：ACTIVE 回合中的精确职业、存活且非旁观、未被吞下、未被眩晕、未被 SparkTraits 禁用职业技能，
+     * 三个数据包共用的服务端门槛：ACTIVE 回合中的精确职业、存活且非旁观、未被吞下、未被眩晕、未被词条禁用职业技能，
      * 且不在大魔女的恐惧中（恐惧会回复自己的动作栏提示）。数据包策略通常已更早丢弃这些请求；这里按服务端状态复查。
      */
     private static boolean mayAct(ServerPlayerEntity player) {
@@ -425,9 +425,9 @@ public final class CriminalReasonerRuntime {
 
     /**
      * Forced-cooldown store writer: sets the reasoning cooldown to exactly {@code ticks} from now (0 or less clears it)
-     * and refreshes the owner's HUD second. SparkFactionAPI's raise/extend only ever pass a longer value.
+     * and refreshes the owner's HUD second. The forced-cooldown raise/extend only ever pass a longer value.
      * 强制冷却存储的写入：把推理冷却精确设为从现在起 {@code ticks} 刻（0 或更小即清除），并刷新本人 HUD 的秒数。
-     * SparkFactionAPI 的抬高 / 延长只会传入更长的值。
+     * 强制冷却的抬高 / 延长只会传入更长的值。
      */
     public static void setReasoningCooldownTicks(ServerPlayerEntity player, int ticks) {
         if (ticks <= 0) {
@@ -472,10 +472,10 @@ public final class CriminalReasonerRuntime {
 
     /**
      * Announces that a murder was seen through.
-     * <p>The source build spoke to the police, neutrals, killers and spectators only; with no cross-mod police
-     * registry here, the notice goes to everyone but the reasoner — it names nobody and reveals nothing.
+     * <p>The source build spoke to the police, neutrals, killers and spectators only; this was written with no shared
+     * police list in reach, so the notice goes to everyone but the reasoner — it names nobody and reveals nothing.
      * 公告“有人看穿了列车上的命案”。
-     * <p>原实现只通知警类、中立、杀手与旁观者；这里没有跨模组的“警类”名单，因此除推理学家本人外全部通知——
+     * <p>原实现只通知警类、中立、杀手与旁观者；编写时拿不到共用的“警类”名单，因此除推理学家本人外全部通知——
      * 这条公告不点名、也不泄露信息。
      */
     private static void broadcastNotice(MinecraftServer server, UUID reasonerId) {

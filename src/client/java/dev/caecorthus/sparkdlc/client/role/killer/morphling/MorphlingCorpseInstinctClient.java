@@ -13,11 +13,11 @@ import java.util.function.IntSupplier;
 
 /**
  * Client side of {@link MorphlingCorpseRules}. For a corpse-mode Morphling the highlight is evaluated as if the
- * instinct key were released, like blackout sight: every key-gated answer (Wathe's killer path, SparkTraits' Impostor
+ * instinct key were released, like blackout sight: every key-gated answer (Wathe's killer path, the Impostor trait
  * and effective-killer colours, faction policies, add-on listeners) drops out and keyless ability outlines survive.
  * Render thread only.
  * {@link MorphlingCorpseRules} 的客户端部分。对尸体模式的变形者，按“未按本能键”计算描边，与熄灯视野相同：所有需要按键的
- * 结果（Wathe 杀手路径、SparkTraits 内鬼与有效杀手颜色、阵营策略、附属模组监听器）都会消失，无需按键的技能描边保留。
+ * 结果（Wathe 杀手路径、内鬼特质与有效杀手颜色、阵营策略、附属模组监听器）都会消失，无需按键的技能描边保留。
  * 仅在渲染线程使用。
  */
 public final class MorphlingCorpseInstinctClient {

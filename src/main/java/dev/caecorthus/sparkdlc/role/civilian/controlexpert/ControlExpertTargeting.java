@@ -14,8 +14,8 @@ import java.util.function.BooleanSupplier;
 
 /**
  * Control Expert participant and targeting predicates. Same participant profile as the Bell Ringer's
- * ({@link RoundParticipants#ROLE_HOLDER}); neither module depends on the other.
- * 控场专家的参与者与目标判定。参与者档案与敲钟人一致（{@link RoundParticipants#ROLE_HOLDER}）；两个模块互不依赖。
+ * ({@link RoundParticipants#ROLE_HOLDER}); neither role depends on the other.
+ * 控场专家的参与者与目标判定。参与者档案与敲钟人一致（{@link RoundParticipants#ROLE_HOLDER}）；两个职业互不依赖。
  */
 public final class ControlExpertTargeting {
     private ControlExpertTargeting() {
@@ -33,10 +33,10 @@ public final class ControlExpertTargeting {
 
     /**
      * Server only. Whether {@code ce}'s {@code actionId} may affect {@code target}: never the user, only
-     * participants, honouring SparkFactionAPI's structural veto, SparkTraits Last Escape and Vendetta isolation.
+     * participants, honouring the faction core's structural veto, the Last Escape trait and Vendetta isolation.
      * Players who fail it are treated as absent by every item (no hit, no detonation, no notice).
      * 仅服务端。{@code ce} 的 {@code actionId} 能否影响 {@code target}：永不影响使用者本人，只影响参与者，
-     * 并遵守 SparkFactionAPI 的结构性否决、SparkTraits 最后逃脱与复仇者隔离。未通过者对所有道具而言视同不存在
+     * 并遵守阵营核心的结构性否决、最后逃脱词条与复仇者隔离。未通过者对所有道具而言视同不存在
      * （不被命中、不触发引爆、不收到提示）。
      */
     public static boolean canAffect(@Nullable ServerPlayerEntity ce, @Nullable ServerPlayerEntity target,
@@ -55,8 +55,8 @@ public final class ControlExpertTargeting {
 
     /**
      * Server only. The user must be a Control Expert participant in a running game, not stunned, and not under a
-     * SparkTraits role-skill block.
-     * 仅服务端。使用者必须是进行中对局里的控场专家参与者，未被眩晕，且未被 SparkTraits 封锁职业技能。
+     * trait role-skill block.
+     * 仅服务端。使用者必须是进行中对局里的控场专家参与者，未被眩晕，且未被词条封锁职业技能。
      */
     public static boolean canUse(@Nullable ServerPlayerEntity ce) {
         if (ce == null) {

@@ -15,13 +15,13 @@ public interface FactionEconomyPolicy {
         /** The reward for a kill the player made. / 玩家亲手击杀的奖励。 */
         DIRECT_KILL,
         /**
-         * Reserved: SparkFactionAPI does not consult policies with this kind yet, so answering for it has no effect.
-         * 预留：SparkFactionAPI 目前不会用该类型询问策略，对它作答不会产生效果。
+         * Reserved: the faction core does not consult policies with this kind yet, so answering for it has no effect.
+         * 预留：阵营核心目前不会用该类型询问策略，对它作答不会产生效果。
          */
         TEAM_KILL,
         /**
-         * Reserved: SparkFactionAPI does not consult policies with this kind yet, so answering for it has no effect.
-         * 预留：SparkFactionAPI 目前不会用该类型询问策略，对它作答不会产生效果。
+         * Reserved: the faction core does not consult policies with this kind yet, so answering for it has no effect.
+         * 预留：阵营核心目前不会用该类型询问策略，对它作答不会产生效果。
          */
         TASK
     }

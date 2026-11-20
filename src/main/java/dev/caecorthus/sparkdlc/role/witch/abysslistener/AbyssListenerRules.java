@@ -36,7 +36,7 @@ public final class AbyssListenerRules {
     // --- Shriek Gun / 啸音铳 ---
     public static final Identifier GUN_ITEM_ID = SparkDLC.id("shriek_gun");
     public static final Identifier GUN_ACTION_ID = SparkDLC.id("abyss_listener_gun");
-    /** Written with vanilla ItemCooldownManager.set, so SparkTraits Fast Hands applies (owner spec). / 原版写入，吃快手。 */
+    /** Written with vanilla ItemCooldownManager.set, so the Fast Hands trait applies (owner spec). / 原版写入，吃快手。 */
     public static final int GUN_INITIAL_COOLDOWN_TICKS = 60 * 20;
     public static final int GUN_COOLDOWN_TICKS = 30 * 20;
     public static final double GUN_RANGE = 12.0;

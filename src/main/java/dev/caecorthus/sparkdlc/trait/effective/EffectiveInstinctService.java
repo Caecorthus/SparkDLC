@@ -90,8 +90,8 @@ public final class EffectiveInstinctService {
         return lastStandPending || killerInstinctHidden;
     }
 
-    /** Final Moment overrides every SparkTraits-owned instinct suppression, matching Wathe's highlight priority.
-     *  终局时刻覆盖所有 SparkTraits 本能屏蔽，与 Wathe 的高亮优先级保持一致。 */
+    /** Final Moment overrides every trait-owned instinct suppression, matching Wathe's highlight priority.
+     *  终局时刻覆盖所有天赋的本能屏蔽，与 Wathe 的高亮优先级保持一致。 */
     public static boolean shouldHideFromInstinct(
             boolean finalMomentActive,
             boolean lastStandPending,
@@ -105,8 +105,8 @@ public final class EffectiveInstinctService {
                 ));
     }
 
-    /** Keeps Phantom invisibility from leaking through SparkTraits instinct overrides.
-     *  防止幽灵隐身被 SparkTraits 的本能透视覆盖逻辑暴露。 */
+    /** Keeps Phantom invisibility from leaking through the traits' instinct overrides.
+     *  防止幽灵隐身被天赋的本能透视覆盖逻辑暴露。 */
     public static boolean shouldSkipInvisibleTargetFromEffectiveInstinct(
             boolean targetInvisible,
             boolean targetHasConscienceOverlay,
@@ -207,14 +207,14 @@ public final class EffectiveInstinctService {
         return targetAppearsAsKiller ? KILLER_INSTINCT_COLOR : CIVILIAN_INSTINCT_COLOR;
     }
 
-    /** Mirrors NoellesRoles' Undercover deception for SparkTraits' Impostor instinct.
-     *  为 SparkTraits 的内鬼本能同步 NoellesRoles 卧底伪装成杀手同伙的规则。 */
+    /** Mirrors NoellesRoles' Undercover deception for the Impostor trait's instinct.
+     *  为内鬼天赋的本能同步 NoellesRoles 卧底伪装成杀手同伙的规则。 */
     public static boolean appearsAsKillerToKillerInstinct(Role targetRole, boolean targetCanUseKillerFeatures) {
         return appearsAsKillerToKillerInstinct(targetRole, targetCanUseKillerFeatures, false);
     }
 
-    /** Also mirrors SparkStrength's Coroner killer/Undercover body disguise, which native killers see as a cohort.
-     *  同时同步 SparkStrength 验尸官伪装成杀手/卧底尸体身份时被原生杀手视为同伙的规则。 */
+    /** Also mirrors the Coroner's killer/Undercover body disguise, which native killers see as a cohort.
+     *  同时同步验尸官伪装成杀手/卧底尸体身份时被原生杀手视为同伙的规则。 */
     public static boolean appearsAsKillerToKillerInstinct(
             Role targetRole,
             boolean targetCanUseKillerFeatures,
@@ -432,8 +432,8 @@ public final class EffectiveInstinctService {
         if (EffectiveTraitService.hasImpostor(targetTraits)) {
             return Boolean.TRUE;
         }
-        // SparkStrength's Coroner cohort hook requires native killer features, so Impostor needs it mirrored here.
-        // SparkStrength 的验尸官同伙提示要求原生杀手功能，内鬼需要在这里同步。
+        // The Coroner's cohort hook requires native killer features, so Impostor needs it mirrored here.
+        // 验尸官的同伙提示要求原生杀手功能，内鬼需要在这里同步。
         if (EffectiveTraitService.hasImpostor(viewerTraits)
                 && (EffectiveTraitService.isUndercover(targetRole) || targetHasCoronerKillerDisguise)) {
             return Boolean.TRUE;

@@ -65,8 +65,8 @@ public final class VigilanteVeteranTraitService {
     private static final int NIKO_REPEAT_SHOT_PUNISHMENT_DELAY_TICKS = 4;
     private static final int NIKO_NIGHT_VISION_AMPLIFIER = 0;
     private static final int NIKO_NIGHT_VISION_TOLERANCE_TICKS = 5;
-    /** SparkWitch's Savior pistol, matched by id so SparkWitch stays an optional dependency.
-     *  SparkWitch 的救世主手枪，按 id 匹配，保持 SparkWitch 为可选依赖。 */
+    /** The Savior pistol, matched by id because the item used to live in another jar.
+     *  救世主手枪，按 id 匹配，因为该物品曾位于另一个 jar。 */
     private static final Identifier SAVIOR_PISTOL_ID = Identifier.of("sparkdlc", "savior_pistol");
     /** The pistol kills with its own death reason instead of {@code wathe:gun_shot}; Heavy Artillery counts both.
      *  手枪用自己的死因而非 {@code wathe:gun_shot} 击杀；重炮手对两者都算数。 */
@@ -166,9 +166,9 @@ public final class VigilanteVeteranTraitService {
     }
 
     /**
-     * Guns that take Niko's sneaking range: the revolver, the derringer and SparkWitch's Savior pistol. The pistol
-     * checks its target on SparkWitch's server, which asks {@link #serverGunTargetRange} through the public facade.
-     * 享有 Niko 潜行射程的枪：左轮、德林加与 SparkWitch 的救世主手枪。手枪的目标校验在 SparkWitch 服务端进行，
+     * Guns that take Niko's sneaking range: the revolver, the derringer and the Savior pistol. The pistol
+     * checks its target in its own server receiver, which asks {@link #serverGunTargetRange} through the public facade.
+     * 享有 Niko 潜行射程的枪：左轮、德林加与救世主手枪。手枪的目标校验在其自身的服务端接收器中进行，
      * 由其经公共门面查询 {@link #serverGunTargetRange}。
      */
     private static boolean isNikoGun(Item item) {
@@ -185,8 +185,8 @@ public final class VigilanteVeteranTraitService {
         return item == WatheItems.REVOLVER || isSaviorPistol(item);
     }
 
-    /** Marksman-only range multiplier for downstream police weapons; never Niko's fixed range.
-     *  供下游警用武器使用的精确枪手射程倍率，仅看精确枪手，绝不返回 Niko 固定射程。 */
+    /** Marksman-only range multiplier for other police weapons; never Niko's fixed range.
+     *  供其他警用武器使用的精确枪手射程倍率，仅看精确枪手，绝不返回 Niko 固定射程。 */
     public static double marksmanRangeMultiplier(Role role, Collection<Identifier> traits) {
         return canUseVigilanteTrait(role, traits, PoliceTraits.MARKSMAN) ? MARKSMAN_RANGE_MULTIPLIER : 1.0;
     }
@@ -257,9 +257,9 @@ public final class VigilanteVeteranTraitService {
     /**
      * Server-side target range of a shot with {@code item}: Niko's 300 blocks for a sneaking holder firing a gun in
      * {@link #isNikoGun}, otherwise the gun's own tolerance. Wathe's receiver gets it from {@code GunShootPayloadMixin};
-     * downstream receivers ask {@code SparkTraitsApi.getServerGunTargetRange}.
+     * other receivers ask {@code SparkTraitsApi.getServerGunTargetRange}.
      * 用 {@code item} 开枪时的服务端目标距离：潜行的 Niko 持有者使用 {@link #isNikoGun} 中的枪时为 300 格，否则为该枪自身
-     * 的容差。Wathe 的接收器经 {@code GunShootPayloadMixin} 取得；下游接收器调用
+     * 的容差。Wathe 的接收器经 {@code GunShootPayloadMixin} 取得；其他接收器调用
      * {@code SparkTraitsApi.getServerGunTargetRange}。
      */
     public static double serverGunTargetRange(double originalRange, PlayerEntity player, Item item) {
@@ -780,8 +780,8 @@ public final class VigilanteVeteranTraitService {
         if (expectedRemainingTicks <= 0) {
             return false;
         }
-        // Only remove effects that still match SparkTraits' own Niko refresh window.
-        // 只移除仍匹配 SparkTraits Niko 刷新窗口的夜视，避免误删关灯、金酒、人鱼等来源。
+        // Only remove effects that still match Niko's own refresh window.
+        // 只移除仍匹配 Niko 刷新窗口的夜视，避免误删关灯、金酒、人鱼等来源。
         return Math.abs(currentNightVisionDurationTicks - expectedRemainingTicks) <= NIKO_NIGHT_VISION_TOLERANCE_TICKS;
     }
 

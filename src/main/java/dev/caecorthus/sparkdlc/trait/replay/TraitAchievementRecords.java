@@ -14,10 +14,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 
 /**
- * Record-only match events that SparkAssist reads at round end to award local hidden achievements.
+ * Record-only match events that the client achievement tracker reads at round end to award local hidden achievements.
  * These types deliberately have no replay formatter, so Wathe's end-of-round replay skips them.
  * A failed write is logged and swallowed: recording must never break the gameplay path that called it.
- * 仅写入对局记录的事件，SparkAssist 在回合结束时读取它们以颁发本地隐藏成就。
+ * 仅写入对局记录的事件，客户端成就追踪器在回合结束时读取它们以颁发本地隐藏成就。
  * 这些类型刻意不注册回放格式化器，Wathe 的回合结束回放会跳过它们。
  * 写入失败只记日志并吞掉异常：记录绝不能打断调用它的玩法流程。
  */

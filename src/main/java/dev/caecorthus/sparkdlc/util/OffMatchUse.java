@@ -6,14 +6,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Owner rule (2026-10-04) for the heavy weapons any holder may use: the Anti-Tank Launcher (with its shells) and the
- * Shriek Gun here, and the SparkStrength M67. Use never checks the role. A living participant of an ACTIVE match fires
+ * Owner rule (2026-10-04) for the heavy weapons any holder may use: the Anti-Tank Launcher (with its shells), the
+ * Shriek Gun and the M67. Use never checks the role. A living participant of an ACTIVE match fires
  * a full match shot. A non-participant fires a presentation-only shot that plays its sound and particles but hits no
  * one: this covers no running match, the STARTING/STOPPING transitions, and a lobby player while a match is ACTIVE. A
  * dead participant of an ACTIVE match, including a Wraith, is refused, so nothing from inside a live match leaks. The
  * bound-item rules (never dropped, stripped from non-owners) bind only match participants; everyone else is a free
  * holder whose copy no sweep touches.
- * 所有者规则（2026-10-04），适用于任何持有者都能使用的重武器：本模组的反坦克炮筒（含炮弹）与啸音铳，以及 SparkStrength 的
+ * 所有者规则（2026-10-04），适用于任何持有者都能使用的重武器：反坦克炮筒（含炮弹）、啸音铳与
  * M67。使用从不检查职业。ACTIVE 对局中存活的参与者打出完整的对局射击。非参与者打出仅表现的射击：播放声音与粒子，但不命中
  * 任何人；这包括没有对局、STARTING/STOPPING 过渡阶段，以及对局 ACTIVE 时身在大厅的玩家。ACTIVE 对局中已死亡的参与者
  * （含冤魂）被拒绝，因此进行中的对局里不会漏出任何表现。绑定物品规则（永不掉落、从非持有职业者身上收走）只约束对局参与者；

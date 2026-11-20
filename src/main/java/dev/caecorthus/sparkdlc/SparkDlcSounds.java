@@ -30,8 +30,8 @@ public final class SparkDlcSounds {
     // Role kit sounds / 职业套件声音
     // ---------------------------------------------------------------------------------------------------------------
     /*
-     * Registers SparkStrength sound events through Wathe's ambience registrar path.
-     * 通过 Wathe 环境音使用的 registrar 链路注册 SparkStrength 声音事件。
+     * Registers the role kit sound events through Wathe's ambience registrar path.
+     * 通过 Wathe 环境音使用的 registrar 链路注册职业套件的声音事件。
      */
 
     private static final SoundEventRegistrar ROLE_KIT_REGISTRAR = new SoundEventRegistrar(SparkDLC.MOD_ID);
@@ -113,8 +113,8 @@ public final class SparkDlcSounds {
     // Trait sounds / 词条声音
     // ---------------------------------------------------------------------------------------------------------------
     /*
-     * Registers SparkTraits sound events through the same registrar path used by Wathe ambience.
-     * 通过 Wathe 环境音同款 registrar 链路注册 SparkTraits 自定义声音事件。
+     * Registers the trait sound events through the same registrar path used by Wathe ambience.
+     * 通过 Wathe 环境音同款 registrar 链路注册词条的自定义声音事件。
      */
 
     private static final SoundEventRegistrar TRAIT_REGISTRAR = new SoundEventRegistrar(SparkDLC.MOD_ID);

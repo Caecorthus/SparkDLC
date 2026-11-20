@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * 在 NoellesRoles 影子小丑结盟状态真正写入组件后补充 SparkStrength 的强化内容。
+ * 在 NoellesRoles 影子小丑结盟状态真正写入组件后补充本模组的强化内容。
  *
  * <p>旧实现注入了 NoellesRoles 编译器生成的
  * {@code lambda$registerPackets$42}。这个编号会随着 NoellesRoles 的其他网络包注册顺序

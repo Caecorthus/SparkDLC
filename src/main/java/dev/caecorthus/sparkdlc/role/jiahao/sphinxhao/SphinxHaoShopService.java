@@ -23,14 +23,14 @@ import org.jetbrains.annotations.Nullable;
  * Rift Gate pattern): one 0-coin entry, 拳头子弹, whose {@code onBuy} charges {@link SphinxHaoRules#FIST_AMMO_PRICE}
  * hao on the server atomically with the hotbar insert (refunded if the insert fails), with unlimited stock, and a
  * deny-only {@code ShopPurchase.BEFORE} that explains a refusal and never allows. The list is rebuilt on both sides
- * from the exact synced role only, keeping SparkTraits entries. The ammo item belongs to the GUN work package and is
+ * from the exact synced role only, keeping trait shop entries. The ammo item belongs to the GUN work package and is
  * looked up by registry id ({@link SphinxHaoRules#FIST_AMMO_ID}): without it the shop simply offers nothing. The client
  * labels the price in hao through {@code ShopCurrencyTexts}.
  * <p>Sphinx Hao earns and holds no coins (owner spec), so {@code CanSeeMoney} answers DENY for it: the coin counter
  * stays hidden and its hao is drawn by its own HUD.
  * 狮身豪的商店与金币计数。Wathe 商店只认金币，因此沿用泽渡可可应援棒（隙行者裂隙门模式）：唯一的 0 金币条目“拳头子弹”，在
  * 服务端的 {@code onBuy} 中扣除 {@link SphinxHaoRules#FIST_AMMO_PRICE} 豪度值，并与放入快捷栏原子执行（放入失败则退还），
- * 库存不限；{@code ShopPurchase.BEFORE} 只负责说明拒绝原因、从不允许。列表在两端只按已同步的精确职业重建，并保留 SparkTraits
+ * 库存不限；{@code ShopPurchase.BEFORE} 只负责说明拒绝原因、从不允许。列表在两端只按已同步的精确职业重建，并保留词条商店
  * 条目。子弹物品属于 GUN 工作包，按注册 id（{@link SphinxHaoRules#FIST_AMMO_ID}）查找：缺失时商店不提供任何东西。客户端通过
  * {@code ShopCurrencyTexts} 以豪度值显示价格。
  * <p>狮身豪不赚也不持有金币（所有者规格），因此 {@code CanSeeMoney} 对它返回 DENY：金币计数保持隐藏，豪度值由它自己的 HUD

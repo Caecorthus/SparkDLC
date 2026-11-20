@@ -36,10 +36,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Server-ticked M67. Stable cross-module contract (SparkWitch calls it directly since the SparkDLC fusion): this class
- * name, the {@code sparkdlc:m67} id, public {@link #getDetonateAt()} and {@link #getThrowerUuid()}, and discard only after the blast's kills.
- * 由服务端驱动的 M67。稳定的跨模块契约（融合进 SparkDLC 后由 SparkWitch 直接调用）：本类名、{@code sparkdlc:m67} id、public
- * {@link #getDetonateAt()} 与 {@link #getThrowerUuid()}，以及爆炸击杀之后才移除自身。
+ * Server-ticked M67. {@code M67MatchBlastHits} recognises a detonation from this class, the {@code sparkdlc:m67} id,
+ * public {@link #getDetonateAt()} and {@link #getThrowerUuid()}, and relies on the discard coming only after the
+ * blast's kills.
+ * 由服务端驱动的 M67。{@code M67MatchBlastHits} 依据本类、{@code sparkdlc:m67} id、public {@link #getDetonateAt()} 与
+ * {@link #getThrowerUuid()} 识别引爆，并依赖爆炸击杀之后才移除自身这一顺序。
  */
 public final class M67GrenadeEntity extends ThrownItemEntity {
     private static final TrackedData<Long> DETONATE_AT = DataTracker.registerData(
@@ -93,11 +94,11 @@ public final class M67GrenadeEntity extends ThrownItemEntity {
 
     /**
      * Server: an M67 released by a Bomber drone, with the thrower concealed. The thrower is kept only in a server
-     * field ({@link #getThrowerUuid} still answers it, so blast attribution, disconnect cleanup and SparkWitch's
-     * M67 seam keep working) and the vanilla projectile owner is never set, because 1.21.1's
+     * field ({@link #getThrowerUuid} still answers it, so blast attribution, disconnect cleanup and
+     * {@code M67MatchBlastHits} keep working) and the vanilla projectile owner is never set, because 1.21.1's
      * {@code setOwner(null)} cannot clear it and its entity id would ride in the spawn packet. Pose comes from the drone.
      * 服务器：炸弹客无人机投下的 M67，投掷者被隐藏。投掷者只存于服务器字段（{@link #getThrowerUuid} 仍返回它，因此爆炸归属、
-     * 断线清理与 SparkWitch 的 M67 接缝照常工作），且从不设置原版投射物主人——1.21.1 的 setOwner(null) 无法清除它，
+     * 断线清理与 {@code M67MatchBlastHits} 照常工作），且从不设置原版投射物主人——1.21.1 的 setOwner(null) 无法清除它，
      * 其实体 id 会随生成包下发。位姿取自无人机。
      */
     public static M67GrenadeEntity droppedConcealed(ServerWorld world, ServerPlayerEntity owner, UUID roundId,
@@ -216,8 +217,8 @@ public final class M67GrenadeEntity extends ThrownItemEntity {
             discard();
             return;
         }
-        // Breaks drones itself below; SparkWitch's onBlast (fired from the discard) must not break them again.
-        // 下方自行击毁无人机；SparkWitch 的 onBlast（由 discard 触发）不得再次处理无人机。
+        // Breaks drones itself below; SeekerDeviceHits.onBlast (fired from the discard) must not break them again.
+        // 下方自行击毁无人机；SeekerDeviceHits.onBlast（由 discard 触发）不得再次处理无人机。
         DroneCombatService.runOwnBlast(() -> explode(world, owner));
     }
 
@@ -233,8 +234,8 @@ public final class M67GrenadeEntity extends ThrownItemEntity {
             discard();
             return;
         }
-        // Only a real blast clears SparkWitch BEAR smoke (visual only), matching SparkWitch's off-match rule.
-        // 只有真实爆炸才会炸开 SparkWitch BEAR 烟雾（仅视觉），与 SparkWitch 自身的局外规则一致。
+        // Only a real blast clears BEAR smoke (visual only), matching the off-match rule (OffMatchUse).
+        // 只有真实爆炸才会炸开 BEAR 烟雾（仅视觉），与局外规则（OffMatchUse）一致。
         SparkRoleApi.carveSmoke(world, getPos(), M67Rules.BLAST_RADIUS);
 
         List<ServerPlayerEntity> candidates = List.copyOf(world.getPlayers(GameFunctions::isPlayerAliveAndSurvival));

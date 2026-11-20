@@ -11,10 +11,10 @@ import net.minecraft.util.math.BlockPos;
 /**
  * Opens an engine unit panel. A status panel ({@code modeWire} 0) has session 0 and can submit nothing; a repair panel
  * finishes with {@link CompleteBreakerRepairC2SPacket} and is dropped with {@link CancelBreakerRepairC2SPacket} (the
- * wire ids are shared with the breaker panel so every mod's action restriction list keeps covering them), and the
+ * wire ids are shared with the breaker panel so every action restriction list keeps covering them), and the
  * server closes it with {@link CloseBreakerRepairS2CPacket}. {@code seed} lays out the needles and the burnt fuses.
  * 打开动力装置面板。状态面板（modeWire 为 0）的会话为 0，不能提交；维修面板用 CompleteBreakerRepairC2SPacket 完成、用
- * CancelBreakerRepairC2SPacket 放弃（wire id 与电闸面板共用，各模组的动作限制名单因此继续覆盖它们），服务端用
+ * CancelBreakerRepairC2SPacket 放弃（wire id 与电闸面板共用，各动作限制名单因此继续覆盖它们），服务端用
  * CloseBreakerRepairS2CPacket 关闭。seed 决定指针位置与哪些保险丝烧坏。
  *
  * @param modeWire  {@code EngineRepairMode} wire / 面板模式

@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Repairs for Wathe text that renders wrongly, kept on SparkFactionAPI's side because Wathe is upstream.
- * 修正显示有误的 Wathe 文字；Wathe 是上游模组，所以修正放在 SparkFactionAPI 这边。
+ * Repairs for Wathe text that renders wrongly, kept on this mod's side because Wathe is upstream.
+ * 修正显示有误的 Wathe 文字；Wathe 是上游模组，所以修正放在本模组这边。
  */
 public final class WatheTextRepairs {
     private static final String LETTER_PREFIX = "tip.letter.";

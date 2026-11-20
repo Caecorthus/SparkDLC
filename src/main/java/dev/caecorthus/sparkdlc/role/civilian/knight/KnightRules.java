@@ -31,11 +31,11 @@ public final class KnightRules {
     }
 
     /**
-     * "Good" for every Knight rule (duel pick, kill reward, derringer misfire, push-off): SparkFactionAPI's effective
-     * faction is CIVILIAN, which already folds Impostor out and Conscience in. Neutrals are not good (owner,
-     * 2026-10-30).
-     * 骑士所有规则（选决斗目标、击杀奖励、德林加误杀、推下车）的“好人”：SparkFactionAPI 有效阵营为 CIVILIAN，
-     * 内鬼已排除、善良已计入。中立不算好人（所有者，2026-10-30）。
+     * "Good" for every Knight rule (duel pick, kill reward, derringer misfire, push-off): the effective faction
+     * ({@code SparkFactionApi.resolveEffectiveFaction}) is CIVILIAN, which already folds Impostor out and Conscience
+     * in. Neutrals are not good (owner, 2026-10-30).
+     * 骑士所有规则（选决斗目标、击杀奖励、德林加误杀、推下车）的“好人”：有效阵营
+     * （{@code SparkFactionApi.resolveEffectiveFaction}）为 CIVILIAN，内鬼已排除、善良已计入。中立不算好人（所有者，2026-10-30）。
      */
     public static boolean isGoodForKnight(@Nullable PlayerEntity player, GameWorldComponent game) {
         return player != null && FactionIds.CIVILIAN.equals(SparkFactionApi.resolveEffectiveFaction(player, game));

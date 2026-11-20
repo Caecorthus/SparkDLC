@@ -22,12 +22,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  *     <li>{@code renderKiller} and {@code renderCivilian} each draw the flag with one
  *     {@code drawGuiTexture(Identifier, int, int, int, int)} call; both are {@code @WrapOperation}s (never
  *     {@code @Redirect}) that swap only Wathe's own sprites, at the same 14x17 footprint. They compose in any nesting
- *     order with Natsume's and Noa's wraps of the same civilian call and with SparkTraits' {@code @ModifyArg}s there,
+ *     order with Natsume's and Noa's wraps of the same civilian call and with the traits' {@code @ModifyArg}s there,
  *     and an icon NoellesRoles' getter hooks already replaced (Stimulation) passes through.</li>
- *     <li>{@code renderHud} dispatches FAKE to {@code renderKiller} and REAL to {@code renderCivilian} after SparkTraits'
- *     effective-mood {@code @Redirect}; NONE draws nothing. Two {@code @Inject}s right before those calls mark the
- *     dispatch in a {@code @Share}d local, and the TAIL {@code @Inject} (the normal end only: the not-playing and Psycho
- *     early returns never reach it) draws the no-sanity flag when neither ran, at {@code renderKiller}'s spot
+ *     <li>{@code renderHud} dispatches FAKE to {@code renderKiller} and REAL to {@code renderCivilian} after the
+ *     traits' effective-mood {@code @Redirect}; NONE draws nothing. Two {@code @Inject}s right before those calls mark
+ *     the dispatch in a {@code @Share}d local, and the TAIL {@code @Inject} (the normal end only: the not-playing and
+ *     Psycho early returns never reach it) draws the no-sanity flag when neither ran, at {@code renderKiller}'s spot
  *     ({@code 3 * moodOffset}) without a bar.</li>
  * </ul>
  * Client-only and display-only: the server owns roles, traits and sanity, and no value is ever shown.
@@ -35,9 +35,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * <ul>
  *     <li>{@code renderKiller} 与 {@code renderCivilian} 各自用一次 {@code drawGuiTexture(Identifier, int, int, int, int)}
  *     绘制旗帜；两者都使用只替换 Wathe 自有 sprite 的 {@code @WrapOperation}（绝不用 {@code @Redirect}），尺寸同为 14x17。
- *     它们与夏目安安、诺亚在同一平民调用上的包装以及 SparkTraits 在该处的 {@code @ModifyArg} 以任意嵌套顺序共存；
+ *     它们与夏目安安、诺亚在同一平民调用上的包装以及词条在该处的 {@code @ModifyArg} 以任意嵌套顺序共存；
  *     NoellesRoles 取图钩子已替换的图标（亢奋）原样放行。</li>
- *     <li>{@code renderHud} 在 SparkTraits 有效理智类型 {@code @Redirect} 之后，把 FAKE 分派给 {@code renderKiller}、REAL
+ *     <li>{@code renderHud} 在词条的有效理智类型 {@code @Redirect} 之后，把 FAKE 分派给 {@code renderKiller}、REAL
  *     分派给 {@code renderCivilian}；NONE 什么都不画。两个紧贴这两处调用之前的 {@code @Inject} 在 {@code @Share} 局部变量中
  *     标记已分派，TAIL {@code @Inject}（只在正常结尾：未在局与疯魔的提前返回不会到达）在两者都未执行时于
  *     {@code renderKiller} 的位置（{@code 3 * moodOffset}）绘制无理智旗帜，不画理智条。</li>

@@ -34,7 +34,7 @@ import java.util.UUID;
 /**
  * 给 Wathe 受限背包界面追加记者“接线 / 广播采访”头像栏。
  *
- * <p>这里不改 NoellesRolesspark 的记者本体，所有按钮和页码状态都放在 SparkStrength 内；
+ * <p>这里不改 NoellesRolesspark 的记者本体，所有按钮和页码状态都放在本模组内；
  * 服务端收到两次点击后再判断接线或广播，这样旧的 G 键标记透视逻辑和冷却完全独立。</p>
  */
 @Mixin(LimitedInventoryScreen.class)

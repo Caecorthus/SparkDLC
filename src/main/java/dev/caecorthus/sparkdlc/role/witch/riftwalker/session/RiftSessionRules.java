@@ -13,10 +13,10 @@ import java.util.Set;
 /**
  * Pure rules of the "inside a Rift Gate" session (plan §6–§7; D3, D5, D5b, D11, D14, C1–C3, C10): entry refusal order,
  * per-exit-reason body handling, the game-mode ownership rule of the alive-spectator body model, the re-entry
- * cooldown, the occupant payload deny-list and the SparkFactionAPI actions an occupant still receives. Tuning numbers
+ * cooldown, the occupant payload deny-list and the player-affect actions an occupant still receives. Tuning numbers
  * that are not frozen in {@code RiftwalkerRules} live here.
  * 「在裂隙门内」会话的纯规则（plan §6–§7；D3、D5、D5b、D11、D14、C1–C3、C10）：进门拒绝顺序、各出门原因的本体处理、活着的旁观者
- * 模型的游戏模式归属规则、再次进门冷却、门内玩家的数据包拦截名单，以及门内玩家仍会受到的 SparkFactionAPI 行为。
+ * 模型的游戏模式归属规则、再次进门冷却、门内玩家的数据包拦截名单，以及门内玩家仍会受到的玩家影响行为。
  * 未在 {@code RiftwalkerRules} 中冻结的调参数值放在这里。
  */
 public final class RiftSessionRules {
@@ -43,7 +43,7 @@ public final class RiftSessionRules {
     public static final String STAY_EXPIRED_KEY = MESSAGE_PREFIX + "stay_expired";
     public static final String GATE_CLOSED_KEY = MESSAGE_PREFIX + "gate_closed";
     public static final String INELIGIBLE_KEY = MESSAGE_PREFIX + "ineligible";
-    /** C10 entry refusals: held by a Hunter trap / a SparkStrength capture device. / C10 进门拒绝：被捕兽夹 / 捕捉装置定住。 */
+    /** C10 entry refusals: held by a Hunter trap / an Engineer capture device. / C10 进门拒绝：被捕兽夹 / 捕捉装置定住。 */
     public static final String ROOTED_KEY = MESSAGE_PREFIX + "rooted";
     public static final String CAPTURE_STUNNED_KEY = MESSAGE_PREFIX + "capture_stunned";
     /** Shop denial reason shown by Wathe's shop screen. / Wathe 商店界面显示的拒绝原因。 */
@@ -58,22 +58,22 @@ public final class RiftSessionRules {
      * 所有已知职业技能包）去掉门内玩家自己的操作 {@code sparkdlc:rift_hop}。{@code sparkdlc:rift_exit} 从不在列：出门必须
      * 始终放行。控制台快照请求保持放行（仅界面），关门被拦截。
      */
-    // Generated RIFT column of SparkFactionAPI config/payload-policy/actions.tsv: edit that table and
+    // Generated RIFT column of config/payload-policy/actions.tsv: edit that table and
     // rerun tools/payload_policy.py, never list ids here; per-id reasons are in its note column.
-    // 生成的 RIFT 列（SparkFactionAPI config/payload-policy/actions.tsv）：请修改该表并重新运行
+    // 生成的 RIFT 列（config/payload-policy/actions.tsv）：请修改该表并重新运行
     // tools/payload_policy.py，不要在此列出 id；各 id 的理由见其 note 列。
     public static final Set<Identifier> BLOCKED_WHILE_INSIDE = GeneratedPayloadPolicy.RIFT;
 
     /**
-     * SparkFactionAPI actions that may still target an occupant. {@code noellesroles:swapper} must pass so the D13
+     * Player-affect actions that may still target an occupant. {@code noellesroles:swapper} must pass so the D13
      * portal crush (P9) runs; {@code wathe:poison} is the poisoner-attributed poison death (Wathe
-     * {@code PlayerPoisonComponent}, routed through SFA's {@code killPlayer} veto with the death reason as the action),
+     * {@code PlayerPoisonComponent}, routed through the {@code killPlayer} veto with the death reason as the action),
      * which D3 keeps lethal inside. C13 adds the two piercing forced-terminal deaths, {@code sparkdlc:bell_toll} and
      * {@code sparkdlc:time_stolen}: their services ask {@code SparkFactionApi.canAffectPlayer} with the death reason
      * as the action and then call a ringer/stealer-attributed {@code killPlayer} with the same id, so both checks pass
      * here. Everything else targeting an occupant is denied.
-     * 仍可作用于门内玩家的 SparkFactionAPI 行为。必须放行 {@code noellesroles:swapper}，D13 的传送门夹死（P9）才能运行；
-     * {@code wathe:poison} 是可归因到下毒者的毒杀（Wathe {@code PlayerPoisonComponent}，经 SFA 的 {@code killPlayer} 否决，
+     * 仍可作用于门内玩家的玩家影响行为。必须放行 {@code noellesroles:swapper}，D13 的传送门夹死（P9）才能运行；
+     * {@code wathe:poison} 是可归因到下毒者的毒杀（Wathe {@code PlayerPoisonComponent}，经 {@code killPlayer} 影响否决，
      * 以死因作为行为 id），D3 规定门内仍会被毒死。C13 再放行两种穿透一切的强制终结死亡 {@code sparkdlc:bell_toll} 与
      * {@code sparkdlc:time_stolen}：它们的服务先以死因为行为 id 询问 {@code SparkFactionApi.canAffectPlayer}，再以同一 id
      * 调用归因到敲钟人/窃时者的 {@code killPlayer}，两处检查都在这里放行。其余作用于门内玩家的行为一律拒绝。
@@ -150,11 +150,11 @@ public final class RiftSessionRules {
      * Live facts for one entry request, gathered by the service. {@code participant} = playing and alive, not
      * spectator, not creative, not an active Wraith; {@code controlled} = Taotie-swallowed, Last Stand pending, Last
      * Escape, Kidnapper control, Control Expert stun, a Seeker session or a foreign camera; {@code hunterRooted} /
-     * {@code captureStunned} = held by a Hunter trap / the SparkStrength capture device (C10: entering would be a free
+     * {@code captureStunned} = held by a Hunter trap / the Engineer's capture device (C10: entering would be a free
      * escape).
      * 一次进门请求的实时事实，由服务收集。{@code participant} = 正在参赛且存活、非旁观、非创造、非激活冤魂；
      * {@code controlled} = 被饕餮吞下、背水一战待决、最后逃亡、被绑架者控制、被控场专家眩晕、处于搜寻者会话或镜头被他人占用；
-     * {@code hunterRooted} / {@code captureStunned} = 被猎人捕兽夹 / SparkStrength 捕捉装置定住（C10：否则进门等于挣脱）。
+     * {@code hunterRooted} / {@code captureStunned} = 被猎人捕兽夹 / 工程师捕捉装置定住（C10：否则进门等于挣脱）。
      */
     public record EntryFacts(RiftGateUser user, boolean roundActive, boolean participant, boolean alreadyInside,
                              boolean controlled, boolean hunterRooted, boolean captureStunned,

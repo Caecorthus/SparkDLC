@@ -10,8 +10,8 @@ import net.minecraft.client.gui.DrawContext;
  * Draws one reading in one style. Everything is a plain fill: no texture, no text, nothing that needs a resource pack.
  * 以某一样式绘制一个读数。全部是纯色填充：没有贴图，没有文字，不依赖任何资源包。
  *
- * <p>The positions are fitted around what Wathe and the sibling mods already draw:
- * 各位置都是绕开 Wathe 与兄弟模组已有的绘制内容定下的：</p>
+ * <p>The positions are fitted around what Wathe and the rest of this mod already draw:
+ * 各位置都是绕开 Wathe 与本模组其他部分已有的绘制内容定下的：</p>
  * <ul>
  * <li>Wathe's knife, bat and swordfish glyph is 10x7 at (centre-5, centre+5). The open ring stops one row above it, the
  * small ring ends at centre+4, and the bar sits in the rows below it.

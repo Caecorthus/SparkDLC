@@ -19,7 +19,7 @@ public final class InventoryButtonLayout {
 
     /**
      * Centers the complete player/control group. The page buttons occupy the same
-     * 36-pixel slot as an avatar, matching SparkStrength's inventory layout.
+     * 36-pixel slot as an avatar, matching the role kits' inventory layout.
      */
     public static int getCenteredGroupStartX(
             int screenWidth,

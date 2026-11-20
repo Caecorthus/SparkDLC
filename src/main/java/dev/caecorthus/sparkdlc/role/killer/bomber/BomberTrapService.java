@@ -32,7 +32,7 @@ import java.util.UUID;
  * 炸弹客定时炸弹陷阱的服务端通用逻辑。
  *
  * <p>自改版 NoellesRoles 依赖 wathe 的公共托盘/床效果接口；Spark 版 wathe 暂无该接口，
- * 所以 Strength 在这里集中实现“能不能安置、如何挂到玩家身上、如何记录回放、如何清局”。</p>
+ * 所以在这里集中实现“能不能安置、如何挂到玩家身上、如何记录回放、如何清局”。</p>
  */
 public final class BomberTrapService {
     public static final String TRAP_OWNER_NBT_KEY = "SparkStrengthTimedBombOwner";
@@ -123,7 +123,7 @@ public final class BomberTrapService {
 
         /*
          * 这里故意不调用 component.placeBomb(...)：
-         * placeBomb 会写入“直接安置炸弹”的 NoellesRoles 回放，而托盘/床触发需要显示 Strength 的专属文案。
+         * placeBomb 会写入“直接安置炸弹”的 NoellesRoles 回放，而托盘/床触发需要显示本功能的专属文案。
          */
         BomberPlayerComponentAccessor accessor = (BomberPlayerComponentAccessor) component;
         accessor.sparkdlc$setHasBomb(true);

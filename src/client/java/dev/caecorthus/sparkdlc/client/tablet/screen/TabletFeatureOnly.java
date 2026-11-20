@@ -24,8 +24,8 @@ final class TabletFeatureOnly {
 
     /**
      * Feature sections are the holder's only content: no channel now and none to switch to (a plain Attendant, a
-     * SparkTraits Conscience Bomber).
-     * 功能分区是持有者唯一的内容：当前无频道且没有可切换的频道（普通乘务员、SparkTraits 善良炸弹客）。
+     * Bomber with the Conscience trait).
+     * 功能分区是持有者唯一的内容：当前无频道且没有可切换的频道（普通乘务员、带善良词条的炸弹客）。
      */
     static boolean featureOnly(TabletSnapshot snapshot) {
         return snapshot.localHasTablet()

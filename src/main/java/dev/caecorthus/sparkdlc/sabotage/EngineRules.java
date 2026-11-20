@@ -247,10 +247,10 @@ public final class EngineRules {
 
     /**
      * The instance field through which a shop entry of {@code type} wraps another entry, or null for an entry that lists
-     * its own price. A wrapper (SparkTraits' Charisma entry keeps its delegate and stores a price computed from the
+     * its own price. A wrapper (the Charisma trait's entry keeps its delegate and stores a price computed from the
      * delegate's {@code price()}) already carries the discount, so it must not get it again. Only the declared fields
      * below {@code entryType} are looked at.
-     * type 类型的商店条目用来包装另一个条目的实例字段；条目自己定价时为 null。包装条目（SparkTraits 的魅力条目保留被包装的
+     * type 类型的商店条目用来包装另一个条目的实例字段；条目自己定价时为 null。包装条目（魅力词条的条目保留被包装的
      * 条目，并保存由其 price() 算出的价格）已经带上了折扣，不能再打一次。只查看 entryType 之下各层声明的字段。
      */
     public static @Nullable Field wrappedEntryField(Class<?> type, Class<?> entryType) {

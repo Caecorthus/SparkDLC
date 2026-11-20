@@ -32,10 +32,10 @@ public final class WitchEconomyService {
 
     /**
      * Server-side task pay for the Grand Witch and every accomplice; eligibility lives in
-     * {@link WitchFactionRules#earnsTaskMoney}. SparkWitch owns this income: Wathe, SparkStrength and NoellesRoles pay
+     * {@link WitchFactionRules#earnsTaskMoney}. This service owns the income: Wathe, the role kits and NoellesRoles pay
      * witch roles nothing per task.
-     * 大魔女与所有共犯的服务端任务收入；资格判定见 {@link WitchFactionRules#earnsTaskMoney}。该收入由 SparkWitch 负责：
-     * wathe、SparkStrength 与 NoellesRoles 都不按任务给魔女职业发钱。
+     * 大魔女与所有共犯的服务端任务收入；资格判定见 {@link WitchFactionRules#earnsTaskMoney}。该收入由本服务负责：
+     * wathe、职业套件与 NoellesRoles 都不按任务给魔女职业发钱。
      */
     public static void onTaskComplete(ServerPlayerEntity player) {
         GameWorldComponent game = GameWorldComponent.KEY.get(player.getServerWorld());

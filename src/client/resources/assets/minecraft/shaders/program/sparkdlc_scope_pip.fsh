@@ -1,13 +1,13 @@
 #version 150
 
-// SparkWitch scope, PICTURE_IN_PICTURE composite. Outside the lens: the sharp, unblurred 1x main view, with only a
+// Scope, PICTURE_IN_PICTURE composite. Outside the lens: the sharp, unblurred 1x main view, with only a
 // short dark tube rim right at the lens edge. Inside a circle of LensRadius x the short screen side (aspect corrected):
 // the second, magnified world render (LensSampler, a square covering LensMargin lens radii), with the same lens look as
 // ZOOM_BLUR: slight barrel distortion near the edge, edge transmittance loss, a faint coating tint, very subtle smudges
 // and dust fixed to the glass, a soft reflection streak, and the scope shadow. Fade blends from the plain picture while
 // scoping in. Java sets LensCenter, LensRadius, LensMargin, ShadowOffset and Fade. The two "shared lens look" blocks
 // are kept identical to sparkdlc_scope_lens.fsh (post shaders cannot #moj_import; a unit test compares them).
-// SparkWitch 开镜画中画合成。镜外：清晰、不模糊的 1 倍主画面，只在镜片边缘有一圈短的暗色镜筒边。在半径为 LensRadius x 屏幕
+// 开镜画中画合成。镜外：清晰、不模糊的 1 倍主画面，只在镜片边缘有一圈短的暗色镜筒边。在半径为 LensRadius x 屏幕
 // 短边的圆内（已做宽高比校正）：第二次放大的世界渲染（LensSampler，覆盖 LensMargin 个镜片半径的正方形），镜片外观与全画面
 // 放大相同：边缘轻微桶形畸变、透光衰减、淡淡的镀膜色调、附着在镜片上的极淡污渍与灰尘、柔和的反光条纹以及镜内阴影。开镜时
 // Fade 从原画面过渡。Java 设置 LensCenter、LensRadius、LensMargin、ShadowOffset 与 Fade。两段 “shared lens look” 与

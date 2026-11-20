@@ -17,13 +17,13 @@ import org.jetbrains.annotations.Nullable;
  * {@link HeadsetInventory}; only what {@link HeadsetSlots#accepts} allows (the CENS earplugs or the Blind ComTac VIII),
  * one at a time. Its vanilla position (77,44) is the free cell above the offhand in the survival inventory; the
  * creative tab and Wathe's limited inventory reposition it on the client. Client presentation gate: on the client it is
- * enabled (drawn, hit-tested) only on a confirmed SparkWitch server, whose handler has the same slot; the server side
+ * enabled (drawn, hit-tested) only on a confirmed SparkDLC server, whose handler has the same slot; the server side
  * is always enabled.
  * 第五个“耳机”栏位（E1，方案 A）：由 {@code mixin.bear.HeadsetPlayerScreenHandlerMixin} 在两端追加到每个
  * {@code PlayerScreenHandler} 的真实 {@code Slot}，因此其界面下标为 {@link HeadsetSlots#HANDLER_SLOT_ID}（46），普通栏位点击、
  * 界面同步与创造模式操作都能到达它。由 {@link HeadsetInventory} 支撑；只接受 {@link HeadsetSlots#accepts} 允许的物品（CENS
  * 耳塞或盲人的 ComTac VIII），每次一件。原版坐标 (77,44) 是生存背包副手上方的空格；创造模式物品栏页与 Wathe 局内背包在客户端
- * 重新定位它。客户端展示开关：客户端仅在已确认的 SparkWitch 服务器上（其界面有同一栏位）启用（绘制、命中检测）；服务端始终启用。
+ * 重新定位它。客户端展示开关：客户端仅在已确认的 SparkDLC 服务器上（其界面有同一栏位）启用（绘制、命中检测）；服务端始终启用。
  */
 public final class HeadsetSlot extends Slot {
     /** Vanilla survival inventory position (item corner). / 原版生存背包中的位置（物品左上角）。 */

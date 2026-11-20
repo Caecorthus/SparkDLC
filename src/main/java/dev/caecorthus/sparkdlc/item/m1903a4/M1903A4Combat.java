@@ -47,15 +47,15 @@ import java.util.List;
  * shooter's current server rotation (no aim payload: vanilla has applied the latest movement packet's rotation, which
  * can trail the client's release by about a tick): the eye ray of {@link #RANGE} cut at the first collider block,
  * nearest eligible player against lag-compensated volumes, then nearest wins against Raven Form crows, Magician
- * puppets and the Seeker / SparkStrength seam ({@link #resolve}). A player hit (a crow's owner included) is ONE
+ * puppets and the Seeker / Partygoer / drone seam ({@link #resolve}). A player hit (a crow's owner included) is ONE
  * non-forced {@code killPlayer} with Wathe's {@code GUN} reason, so every shield, veto, BEAR ricochet, Bodyguard vest,
- * Knight duel rule and SparkTraits interception applies; only a real terminal death plays the kill confirmation, to
+ * Knight duel rule and trait interception applies; only a real terminal death plays the kill confirmation, to
  * the shooter alone.
  * M1903A4 的开火门槛与服务端即时射线，沿用狮身豪“手”枪。射击沿射手当前的服务端朝向进行，为服务端权威（没有瞄准数据包：
  * 原版已应用最近一个移动数据包的朝向，可能比客户端松手晚约一刻）：长 {@link #RANGE}、在第一个碰撞方块处截断的眼睛射线，
- * 对延迟补偿后的体积选取最近的合格玩家，然后与化鸦乌鸦、魔术师皮套及搜寻者 / SparkStrength 接缝比较最近者
+ * 对延迟补偿后的体积选取最近的合格玩家，然后与化鸦乌鸦、魔术师皮套及搜寻者 / 派对客 / 无人机接缝比较最近者
  * （{@link #resolve}）。命中玩家（含乌鸦的主人）即一次以 Wathe {@code GUN} 死因进行的非强制 {@code killPlayer}，因此所有
- * 护盾、否决、BEAR 跳弹、保镖防弹衣、骑士决斗规则与 SparkTraits 拦截都生效；只有真正的最终死亡才会播放击杀确认音效，且只给
+ * 护盾、否决、BEAR 跳弹、保镖防弹衣、骑士决斗规则与词条拦截都生效；只有真正的最终死亡才会播放击杀确认音效，且只给
  * 射手本人。
  */
 public final class M1903A4Combat {
@@ -89,11 +89,11 @@ public final class M1903A4Combat {
     }
 
     /**
-     * The Savior pistol's refusal set minus the SparkTraits gate (asked separately): Control Expert stun, Seeker remote
-     * view, Kidnapper control, an active Wraith, a running Dominator forced-shot sequence. SparkStrength control
-     * (Engineer stun, Taotie daze) has no SparkFactionAPI query and is not seen here.
-     * 救世主手枪的拒绝集合（SparkTraits 门槛另行询问）：控场专家眩晕、搜寻者远程视角、绑匪操控、激活的冤魂、进行中的支配者强制
-     * 开枪序列。SparkStrength 的控制（工程师眩晕、饕餮眩晕）没有 SparkFactionAPI 查询，这里看不到。
+     * The Savior pistol's refusal set minus the trait gate (asked separately): Control Expert stun, Seeker remote
+     * view, Kidnapper control, an active Wraith, a running Dominator forced-shot sequence. The Engineer stun and the
+     * Taotie daze had no query this class could reach when it was written and are not seen here.
+     * 救世主手枪的拒绝集合（词条门槛另行询问）：控场专家眩晕、搜寻者远程视角、绑匪操控、激活的冤魂、进行中的支配者强制
+     * 开枪序列。工程师眩晕与饕餮眩晕在编写本类时没有可用的查询，这里看不到。
      */
     private static boolean isHeld(ServerPlayerEntity shooter) {
         return ControlExpertStun.isStunned(shooter)
@@ -180,8 +180,8 @@ public final class M1903A4Combat {
         if (target != null) {
             return new Hit(target, impactPoint(shooter, target, start, rayEnd));
         }
-        // A broken device stops the round at its box; a SparkStrength absorber has no position here, so the ray's end.
-        // 被打坏的设备让子弹停在其箱体处；SparkStrength 吸收者在此没有位置信息，因此停在射线终点。
+        // A broken device stops the round at its box; a Partygoer or drone has no position here, so the ray's end.
+        // 被打坏的设备让子弹停在其箱体处；派对客或无人机在此没有位置信息，因此停在射线终点。
         boolean deviceTook = device != null && device.isRemoved();
         return new Hit(null, deviceTook ? deviceStop : rayEnd);
     }
@@ -199,9 +199,9 @@ public final class M1903A4Combat {
 
     /**
      * Eligibility before geometry: never the shooter, only a living role holder (no spectator, creative or active
-     * Wraith), honouring SparkFactionAPI's structural veto, SparkTraits Last Escape and Vendetta isolation.
-     * 资格先于几何：永不选中射手本人，只选存活的职业持有者（非旁观、非创造、非激活冤魂），并遵守 SparkFactionAPI 结构性否决、
-     * SparkTraits 绝处逢生与复仇者隔离。
+     * Wraith), honouring the faction core's structural veto, the Last Escape trait and Vendetta isolation.
+     * 资格先于几何：永不选中射手本人，只选存活的职业持有者（非旁观、非创造、非激活冤魂），并遵守阵营核心的结构性否决、
+     * 绝处逢生词条与复仇者隔离。
      */
     static boolean isEligible(ServerPlayerEntity shooter, ServerPlayerEntity candidate, GameWorldComponent game) {
         if (candidate == shooter || candidate.getUuid().equals(shooter.getUuid())) {

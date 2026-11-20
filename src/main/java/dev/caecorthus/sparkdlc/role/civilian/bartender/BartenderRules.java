@@ -7,10 +7,10 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Pure tuning for the SparkStrength Bartender buff: longer drink effects, a lighter vodka crash, cheaper
- * shop prices, the two SparkStrength spices and the two signature cocktails they name.
+ * Pure tuning for the Bartender buff: longer drink effects, a lighter vodka crash, cheaper
+ * shop prices, the two added spices and the two signature cocktails they name.
  * Ingredients are matched by the string ids NoellesRoles stores in a base spirit's NBT.
- * SparkStrength 酒保增强的纯数值：更长的酒效、更轻的伏特加副作用、更低的商店价格、两种新调料及其命名的两款特调。
+ * 酒保增强的纯数值：更长的酒效、更轻的伏特加副作用、更低的商店价格、两种新调料及其命名的两款特调。
  * 调剂按 NoellesRoles 写入基酒 NBT 的字符串 id 匹配。
  */
 public final class BartenderRules {
@@ -178,10 +178,10 @@ public final class BartenderRules {
     }
 
     /**
-     * Points upstream's effect line at SparkStrength's retuned text ({@code item.noellesroles.<id>.effect} to
+     * Points upstream's effect line at this mod's retuned text ({@code item.noellesroles.<id>.effect} to
      * {@code item.sparkdlc.bartender.<id>.effect}); other keys pass through. Done in code so it never depends
      * on which mod's language file loads last.
-     * 把上游效果说明指向 SparkStrength 的新文案；其他 key 原样返回。在代码里改写，不依赖语言文件的加载顺序。
+     * 把上游效果说明指向本模组的新文案；其他 key 原样返回。在代码里改写，不依赖语言文件的加载顺序。
      */
     public static String effectTextKey(String key) {
         String prefix = "item.noellesroles.";

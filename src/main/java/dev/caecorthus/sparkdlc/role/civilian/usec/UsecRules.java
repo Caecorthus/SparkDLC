@@ -68,7 +68,7 @@ public final class UsecRules {
     // ---- Cooldowns ----
     public static final int ROUND_START_COOLDOWN_TICKS = 1200;
     public static final int BOLT_TICKS = 40;
-    /** SparkTraits Quick Reload: bolt 2 s x 0.7 = 1.4 s (Q7 default). / 快速装填：拉栓 2 秒 x 0.7 = 1.4 秒（Q7 默认）。 */
+    /** Quick Reload trait: bolt 2 s x 0.7 = 1.4 s (Q7 default). / 快速装填词条：拉栓 2 秒 x 0.7 = 1.4 秒（Q7 默认）。 */
     public static final double FAST_RELOAD_BOLT_FACTOR = 0.7;
 
     // ---- Ballistics (Q3+/D4; shared by the server tracer and the client reticle through UsecBallistics) ----
@@ -89,8 +89,8 @@ public final class UsecRules {
     public static final List<Double> AP_SINK_BAND_STARTS = List.of(0.0, 0.375, 0.625, 0.875);
     public static final List<Double> AP_SINK_RATES = List.of(0.0, 0.01, 0.025, 0.04);
     /**
-     * Bounds of the SparkTraits Marksman multiplier m: FMJ range x m, AP per-block flight cost / m (penetration cost
-     * unchanged). / SparkTraits 精确枪手倍率 m 的上下限：FMJ 射程 x m，AP 每格飞行耗能 / m（穿透耗能不变）。
+     * Bounds of the Marksman trait's multiplier m: FMJ range x m, AP per-block flight cost / m (penetration cost
+     * unchanged). / 精确枪手词条倍率 m 的上下限：FMJ 射程 x m，AP 每格飞行耗能 / m（穿透耗能不变）。
      */
     public static final double MIN_MARKSMAN_MULTIPLIER = 1.0;
     public static final double MAX_MARKSMAN_MULTIPLIER = 1.3;
@@ -123,8 +123,7 @@ public final class UsecRules {
     /** Shield layers one AP round pierces. / 一发 AP 可击穿的护盾层数。 */
     public static final int AP_SHIELD_PIERCE = 5;
     /**
-     * Extra layers on a SparkTraits Heavy Artillery shot (within its 5-block reach). / SparkTraits 重炮手射击（5 格内）
-     * 额外击穿的层数。
+     * Extra layers on a Heavy Artillery trait shot (within its 5-block reach). / 重炮手词条射击（5 格内）额外击穿的层数。
      */
     public static final int HEAVY_ARTILLERY_SHIELD_PIERCE_BONUS = 1;
 

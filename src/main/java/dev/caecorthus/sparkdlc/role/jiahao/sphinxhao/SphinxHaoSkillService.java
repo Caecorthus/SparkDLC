@@ -31,7 +31,7 @@ import org.jetbrains.annotations.Nullable;
  * Server authority of Sphinx Hao's two skills (CORE).
  * <ul>
  *   <li>嘉豪病毒 ({@code sparkdlc:use_sphinx_hao_infect}, ability key): {@link #mayCast} (silent), the cooldown, the
- *   crosshair target ({@link SphinxHaoTargeting}), not already infected, SparkFactionAPI {@code canAffectPlayer}, then
+ *   crosshair target ({@link SphinxHaoTargeting}), not already infected, {@code SparkFactionApi.canAffectPlayer}, then
  *   the Grand Witch Fear re-check; it infects with a private notice 15–25 s later and starts the 10 s cooldown. The
  *   caster reads why on its actionbar.</li>
  *   <li>豪气冲天 ({@code sparkdlc:use_sphinx_hao_roar}, secondary key): {@link #mayCast}, the cooldown, one window per
@@ -46,7 +46,7 @@ import org.jetbrains.annotations.Nullable;
  * 狮身豪两个技能的服务端权威（CORE）。
  * <ul>
  *   <li>嘉豪病毒（{@code sparkdlc:use_sphinx_hao_infect}，技能键）：{@link #mayCast}（静默）、冷却、准星目标
- *   （{@link SphinxHaoTargeting}）、未被感染、SparkFactionAPI {@code canAffectPlayer}，最后再检查大魔女恐惧；感染后 15–25 秒
+ *   （{@link SphinxHaoTargeting}）、未被感染、{@code SparkFactionApi.canAffectPlayer}，最后再检查大魔女恐惧；感染后 15–25 秒
  *   发出私人提示，并开始 10 秒冷却。施法者在动作栏看到原因。</li>
  *   <li>豪气冲天（{@code sparkdlc:use_sphinx_hao_roar}，第二技能键）：{@link #mayCast}、冷却、每个世界同时只有一个窗口、恐惧；
  *   陆泳者为施法者与所有存活的感染者，每名被感染的陆泳者给施法者 1 点豪度值（所有者 Q4），冷却先设为计划结束后 30 秒，
@@ -88,9 +88,9 @@ public final class SphinxHaoSkillService {
     /**
      * Server caster gate of both skills (Specter / Dominator {@code mayCast} pattern): an ACTIVE round, the raw Sphinx
      * Hao role, alive and playing, not spectating/creative, not swallowed, not held (Ninja hook, Kidnapper, stun, Last
-     * Escape/Stand, Hunter root, Seeker session), not silenced, and not role-skill-blocked by SparkTraits.
+     * Escape/Stand, Hunter root, Seeker session), not silenced, and not role-skill-blocked by a trait.
      * 两个技能共用的服务端施放门槛（幽魂 / 支配者 {@code mayCast} 模式）：回合处于 ACTIVE、真实身份为狮身豪、存活且参与对局、
-     * 非旁观/创造、未被吞下、未被控制（忍者钩爪、绑匪、眩晕、脱险/背水、猎人定身、搜寻者会话）、未被沉默，且未被 SparkTraits
+     * 非旁观/创造、未被吞下、未被控制（忍者钩爪、绑匪、眩晕、脱险/背水、猎人定身、搜寻者会话）、未被沉默，且未被词条
      * 封锁职业技能。
      */
     public static boolean mayCast(ServerPlayerEntity caster) {
@@ -133,8 +133,8 @@ public final class SphinxHaoSkillService {
                     Formatting.GRAY);
             case ALREADY_INFECTED -> feedback(caster, Text.translatable(SphinxHaoSkillRules.INFECT_ALREADY_KEY),
                     Formatting.GRAY);
-            // SparkFactionAPI's structural veto (Wraith, Vendetta, Rift occupant, Knight duel): silent, no cooldown.
-            // SparkFactionAPI 结构性否决（冤魂、复仇者、裂隙门内、骑士决斗）：静默，不进冷却。
+            // canAffectPlayer's structural veto (Wraith, Vendetta, Rift occupant, Knight duel): silent, no cooldown.
+            // canAffectPlayer 结构性否决（冤魂、复仇者、裂隙门内、骑士决斗）：静默，不进冷却。
             case VETOED -> {
             }
             case INFECT -> {

@@ -22,12 +22,12 @@ import java.util.function.BooleanSupplier;
 
 /**
  * Role-private suppression toolkit shared by the Warden's Shriek, the Shriek Gun and the Deep Dark Zone: target
- * eligibility, ally detection, sanity drain, forced cooldowns and status effects. Server-only; every caller runs on
- * the server thread. Effects, mood and cooldowns are not hooked by SparkFactionAPI, so callers ask {@link #canAffect}
- * once per bundle and skip the whole bundle when it is false.
- * 监守之啸、啸音铳与深暗领域共用的职业私有压制工具：目标资格、队友判定、理智扣除、强制冷却与状态效果。仅服务端，
- * 所有调用都在服务端线程。SparkFactionAPI 不拦截状态效果、理智与冷却，因此调用方每组效果先询问一次 {@link #canAffect}，
- * 为 false 时整组跳过。
+ * eligibility, ally detection, sanity drain, forced cooldowns and status effects. Server-only; every caller runs on the
+ * server thread. Effects, mood and cooldowns are not hooked by the faction core's affect guards, so callers ask
+ * {@link #canAffect} once per bundle and skip the whole bundle when it is false.
+ * 监守之啸、啸音铳与深暗领域共用的职业私有压制工具：目标资格、队友判定、理智扣除、强制冷却与状态效果。仅服务端，所有调
+ * 用都在服务端线程。阵营核心的影响守卫不拦截状态效果、理智与冷却，因此调用方每组效果先询问一次 {@link #canAffect}，为
+ * false 时整组跳过。
  */
 public final class AbyssSuppression {
     private AbyssSuppression() {
@@ -35,22 +35,23 @@ public final class AbyssSuppression {
 
     /**
      * Living participant of a running game: playing and alive, not spectating (which also covers Taotie-swallowed
-     * players and fake deaths), not creative, not an active Wraith, has a role, not SparkTraits Last Stand pending and
-     * not in SparkTraits Last Escape (N16), in that order ({@link RoundParticipants#ABYSS_TARGET}: the two trait queries
-     * are asked last and only after every earlier gate passed).
-     * 进行中对局的存活参与者：参与且存活、非旁观（同时排除被饕餮吞下与假死的玩家）、非创造、非激活冤魂、拥有职业、
-     * 不处于 SparkTraits 背水一战待定且不处于绝处逢生（N16），按此顺序（{@link RoundParticipants#ABYSS_TARGET}：
-     * 两项词条查询最后进行，且只在前序条件全部通过后进行）。
+     * players and fake deaths), not creative, not an active Wraith, has a role, not Last Stand pending and not in Last
+     * Escape (N16), in that order ({@link RoundParticipants#ABYSS_TARGET}: the two trait queries are asked last and
+     * only after every earlier gate passed).
+     * 进行中对局的存活参与者：参与且存活、非旁观（同时排除被饕餮吞下与假死的玩家）、非创造、非激活冤魂、拥有职业、不处
+     * 于背水一战待定且不处于绝处逢生（N16），按此顺序（{@link RoundParticipants#ABYSS_TARGET}：两项词条查询最后进行，且
+     * 只在前序条件全部通过后进行）。
      */
     public static boolean isParticipantTarget(ServerPlayerEntity player) {
         return RoundParticipants.ABYSS_TARGET.test(player);
     }
 
     /**
-     * Ally of the Abyss Listener: SparkFactionAPI effective faction is {@code sparkdlc:witch} (N6: Grand Witch,
-     * Accomplice, special accomplices, Curser; not the Apprentice or the Murderous Witch). Wraith-aware via SFA.
-     * 聆渊者的队友：SparkFactionAPI 有效阵营为 {@code sparkdlc:witch}（N6：大魔女、共犯、各特殊共犯、诅咒者；
-     * 不含预备魔女与杀意魔女）。冤魂状态由 SFA 解析。
+     * Ally of the Abyss Listener: the effective faction ({@code SparkFactionApi.resolveEffectiveFaction}) is
+     * {@code sparkdlc:witch} (N6: Grand Witch, Accomplice, special accomplices, Curser; not the Apprentice or the
+     * Murderous Witch). Wraith-aware through that lookup.
+     * 聆渊者的队友：有效阵营（{@code SparkFactionApi.resolveEffectiveFaction}）为 {@code sparkdlc:witch}（N6：大魔女、
+     * 共犯、各特殊共犯、诅咒者；不含预备魔女与杀意魔女）。冤魂状态由该查询解析。
      */
     public static boolean isAlly(ServerPlayerEntity player) {
         if (player == null) {
@@ -61,11 +62,11 @@ public final class AbyssSuppression {
     }
 
     /**
-     * Full eligibility plus SparkFactionAPI's structural veto for {@code actionId} when an actor is known. Allies and
-     * the actor itself are NOT excluded here (the gun pushes allies, the zone speeds up its own thrower); callers
-     * exclude them where their spec says so.
-     * 完整资格判定；已知施加者时再加上 SparkFactionAPI 对 {@code actionId} 的结构性否决。这里不排除队友与施加者本人
-     * （枪会推动队友，领域会加速投掷者本人），由调用方按各自规格排除。
+     * Full eligibility plus {@code SparkFactionApi.canAffectPlayer}'s structural veto for {@code actionId} when an
+     * actor is known. Allies and the actor itself are NOT excluded here (the gun pushes allies, the zone speeds up its
+     * own thrower); callers exclude them where their spec says so.
+     * 完整资格判定；已知施加者时再加上 {@code SparkFactionApi.canAffectPlayer} 对 {@code actionId} 的结构性否决。这里不
+     * 排除队友与施加者本人（枪会推动队友，领域会加速投掷者本人），由调用方按各自规格排除。
      */
     public static boolean canAffect(@Nullable ServerPlayerEntity actor, ServerPlayerEntity target, Identifier actionId) {
         if (target == null) {
@@ -79,11 +80,12 @@ public final class AbyssSuppression {
     }
 
     /**
-     * Whether the target's sanity is effectively REAL, mirroring SparkTraits' effective mood type: Conscience makes it
-     * REAL, Impostor makes it FAKE, otherwise the base role decides; an active Wraith never has real sanity. Absent
-     * SparkTraits: the base role's mood type. An unknown trait answer fails closed (no real sanity).
-     * 目标理智是否实际为真实理智，与 SparkTraits 的有效情绪类型一致：良知使其为真实，内鬼使其为伪装，否则由基础职业决定；
-     * 激活冤魂永远没有真实理智。未安装 SparkTraits：取基础职业情绪类型。词条查询结果未知时失败关闭（视为无真实理智）。
+     * Whether the target's sanity is effectively REAL, mirroring the traits' effective mood type: Conscience makes it
+     * REAL, Impostor makes it FAKE, otherwise the base role decides; an active Wraith never has real sanity. An unknown
+     * trait answer (null, which {@code SparkTraitsApi} never returns; unreachable since the fusion) fails closed (no
+     * real sanity).
+     * 目标理智是否实际为真实理智，与词条的有效情绪类型一致：良知使其为真实，内鬼使其为伪装，否则由基础职业决定；激活冤魂永远
+     * 没有真实理智。词条查询结果未知（null，{@code SparkTraitsApi} 从不返回；融合后不可达）时失败关闭（视为无真实理智）。
      */
     public static boolean hasRealSanity(ServerPlayerEntity player) {
         if (player == null) {
@@ -98,9 +100,9 @@ public final class AbyssSuppression {
     }
 
     /**
-     * Lowers Wathe mood by {@code amount} (1 point = 0.01). Wathe (and the SparkTraits redirect) ignores non-REAL
+     * Lowers Wathe mood by {@code amount} (1 point = 0.01). Wathe (and the trait redirect) ignores non-REAL
      * targets; a breakdown at −1 is allowed and unattributed (owner D6).
-     * 降低 Wathe 理智 {@code amount}（1 点 = 0.01）。Wathe（及 SparkTraits 重定向）会忽略非真实理智目标；
+     * 降低 Wathe 理智 {@code amount}（1 点 = 0.01）。Wathe（及词条重定向）会忽略非真实理智目标；
      * 降至 −1 的精神崩溃允许发生且不记功（所有者 D6）。
      */
     public static void drainSanity(ServerPlayerEntity player, float amount) {
@@ -112,9 +114,9 @@ public final class AbyssSuppression {
     }
 
     /**
-     * Floors every role-skill and carried-item cooldown at {@code ticks} through SparkFactionAPI's exact, monotonic
+     * Floors every role-skill and carried-item cooldown at {@code ticks} through the exact, monotonic
      * {@code ForcedCooldowns.raiseAll}; never writes a cooldown store directly.
-     * 通过 SparkFactionAPI 精确且单调的 {@code ForcedCooldowns.raiseAll} 把所有职业技能与携带物品冷却抬高到至少
+     * 通过精确且单调的 {@code ForcedCooldowns.raiseAll} 把所有职业技能与携带物品冷却抬高到至少
      * {@code ticks}；从不直接写任何冷却存储。
      */
     public static void forceCooldowns(ServerPlayerEntity player, int ticks) {
@@ -142,7 +144,7 @@ public final class AbyssSuppression {
         player.addStatusEffect(new StatusEffectInstance(effect, ticks, amplifier, false, false, true), source);
     }
 
-    /** Pure gate: eligibility first, then the SFA veto only when an actor is known. / 纯判定：先资格，有施加者时再查 SFA 否决。 */
+    /** Pure gate: eligibility first, then the affect veto only when an actor is known. / 纯判定：先资格，有施加者时再查影响否决。 */
     static boolean affects(BooleanSupplier participant, boolean hasActor, BooleanSupplier factionAllows) {
         return participant.getAsBoolean() && (!hasActor || factionAllows.getAsBoolean());
     }
@@ -154,9 +156,10 @@ public final class AbyssSuppression {
 
     /**
      * Pure effective-REAL rule: an active Wraith never; Conscience (TRUE) always; otherwise a REAL base role that is
-     * proven not Impostor (FALSE). {@code null} means the SparkTraits answer is unknown and never grants real sanity.
-     * 纯判定：激活冤魂永不；良知（TRUE）总是；否则需基础职业为真实理智且确认非内鬼（FALSE）。{@code null} 表示 SparkTraits
-     * 结果未知，从不据此认定真实理智。
+     * proven not Impostor (FALSE). {@code null} means the trait answer is unknown and never grants real sanity
+     * (unreachable since the fusion: the caller always passes a value).
+     * 纯判定：激活冤魂永不；良知（TRUE）总是；否则需基础职业为真实理智且确认非内鬼（FALSE）。{@code null} 表示词条结果
+     * 未知，从不据此认定真实理智（融合后不可达：调用方总会传入确定值）。
      */
     static boolean effectiveRealSanity(boolean baseReal, @Nullable Boolean conscience, @Nullable Boolean impostor,
                                        boolean activeWraith) {

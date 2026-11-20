@@ -35,7 +35,7 @@ import java.util.UUID;
  * 带毒者的病毒与感染（Q3）。
  */
 public final class VirusService {
-    /** SparkFactionAPI action id for the Virus. / 病毒在 SparkFactionAPI 中的行为 id。 */
+    /** {@code SparkFactionApi.canAffectPlayer} action id for the Virus. / 病毒的 canAffectPlayer 行为 id。 */
     public static final Identifier VIRUS_ACTION_ID = SparkDLC.id("pathogen_virus");
     public static final Identifier VIRUS_USED_EVENT = SparkDLC.id("pathogen_virus_used");
     public static final Identifier VIRUS_SPREAD_EVENT = SparkDLC.id("pathogen_virus_spread");

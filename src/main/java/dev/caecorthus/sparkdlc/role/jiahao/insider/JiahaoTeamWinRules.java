@@ -15,7 +15,7 @@ import java.util.UUID;
  * three wraps inside NoellesRoles' Corrupt Cop win branch, so NoellesRoles keeps its own win order and its
  * {@code aliveCount == 1} test, and the round-end rows that Wathe's end title and win records read.
  * <p>
- * Rule: members are every Corrupt Cop and every SparkWitch partner (Insider, Sphinx Hao or Sniper). The rules apply
+ * Rule: members are every Corrupt Cop and every partner (Insider, Sphinx Hao or Sniper). The rules apply
  * only in a round that has a partner (any role-map entry with a partner role, online or not, dead or alive); without
  * one, every answer is NoellesRoles' own, so several Corrupt Cops behave exactly as in NoellesRoles (C13). Only the end
  * title is no longer NoellesRoles' there: since owner D7 (2026-11-04) the client titles a lone Corrupt Cop win
@@ -29,7 +29,7 @@ import java.util.UUID;
  * 三个包装使用，因此 NoellesRoles 保留自己的胜利优先级与 {@code aliveCount == 1} 判断；另决定 Wathe 结算标题与胜负记录
  * 读取的回合结算行。
  * <p>
- * 规则：所有黑警与所有 SparkWitch 搭档（内应、狮身豪或狙击手）都是成员。只有本局有搭档（职业表中存在搭档职业条目，不论在线
+ * 规则：所有黑警与所有搭档（内应、狮身豪或狙击手）都是成员。只有本局有搭档（职业表中存在搭档职业条目，不论在线
  * 与否、死活）时才生效；没有搭档时所有结果都是 NoellesRoles 原值，多名黑警的表现与 NoellesRoles 完全一致（C13）。唯一
  * 例外是结算标题：自所有者 D7（2026-11-04）起，客户端对单独的黑警胜利同样显示“嘉豪胜利！”（{@code JiahaoWinTitleClient}），
  * 胜者不变。有搭档时，至少一名成员存活且未被吞，并且其余存活且未被吞的玩家全是成员，阵营即获胜。所有成员不论死活、是否
@@ -45,10 +45,10 @@ public final class JiahaoTeamWinRules {
 
     /**
      * A Team Jiahao seat by exact role id, in tie order: the Corrupt Cop (NoellesRoles' own pick) first, then the
-     * SparkWitch partners: the Insider, then Sphinx Hao, then the Sniper (appended last, so the older ordinals and every
+     * partners: the Insider, then Sphinx Hao, then the Sniper (appended last, so the older ordinals and every
      * Insider / Sphinx Hao answer are unchanged). Every ordering below breaks ties with this order. Here the Sniper is a
      * partner like the other two, unlike {@link InsiderParticipation#isPartnerRole}.
-     * 按精确职业 id 区分的嘉豪阵营席位，按并列顺序排列：黑警（NoellesRoles 自身的选择）在前，其后是 SparkWitch 搭档：内应、
+     * 按精确职业 id 区分的嘉豪阵营席位，按并列顺序排列：黑警（NoellesRoles 自身的选择）在前，其后是搭档：内应、
      * 狮身豪、狙击手（追加在最后，因此原有序号以及内应 / 狮身豪的所有结果不变）。下文所有排序都以此顺序打破并列。此处狙击手
      * 与另外两者一样是搭档，这与 {@link InsiderParticipation#isPartnerRole} 不同。
      */

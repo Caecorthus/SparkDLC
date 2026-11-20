@@ -121,8 +121,8 @@ public final class UsecTracer {
 
     /**
      * Traces one round from {@code start} along {@code direction} (need not be normalized; a zero direction traces
-     * nothing). {@code marksman} is the SparkTraits Marksman multiplier (sanitized by {@link UsecBallistics}).
-     * 从 {@code start} 沿 {@code direction}（无需归一化；零向量不追踪）追踪一发子弹。{@code marksman} 为 SparkTraits 精确枪手倍率
+     * nothing). {@code marksman} is the Marksman trait's multiplier (sanitized by {@link UsecBallistics}).
+     * 从 {@code start} 沿 {@code direction}（无需归一化；零向量不追踪）追踪一发子弹。{@code marksman} 为精确枪手词条的倍率
      * （由 {@link UsecBallistics} 清理）。
      */
     public static Trace trace(Vec3d start, Vec3d direction, UsecAmmoType ammo, double marksman, BlockProbe probe) {

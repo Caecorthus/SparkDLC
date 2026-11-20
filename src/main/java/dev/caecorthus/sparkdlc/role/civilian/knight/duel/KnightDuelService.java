@@ -67,10 +67,9 @@ public final class KnightDuelService {
         }
         registered = true;
         KnightDuelSeal.registerGuards();
-        // Owner-approved forced kills (2026-10-30): SparkTraits reads terminal reasons from a live set at kill time, so
-        // registering on server start is early enough and idempotent; an absent or older SparkTraits registers nothing.
-        // 所有者批准的强制击杀（2026-10-30）：SparkTraits 在击杀时实时读取终结原因集合，服务端启动时注册即足够早且幂等；
-        // 缺失或旧版 SparkTraits 不注册任何内容。
+        // Owner-approved forced kills (2026-10-30): the traits read terminal reasons from a live set at kill time, so
+        // registering on server start is early enough and idempotent.
+        // 所有者批准的强制击杀（2026-10-30）：词条在击杀时实时读取终结原因集合，服务端启动时注册即足够早且幂等。
         ServerLifecycleEvents.SERVER_STARTING.register(server -> {
             SparkTraitsApi.registerTerminalDeathReason(SparkDlcDeathReasons.DUEL_SUICIDE);
             SparkTraitsApi.registerTerminalDeathReason(SparkDlcDeathReasons.DUEL_FAILED);
@@ -146,9 +145,9 @@ public final class KnightDuelService {
         if (PlayerShopComponent.KEY.get(knight).getBalance() < KnightDuelRules.COST) {
             return;
         }
-        // Structural vetoes (Rift occupants, Wraiths, add-on protections) refuse before alignment is read, so a refusal
-        // never tells the Knight whether the target is good.
-        // 结构性否决（门内玩家、冤魂、附属模组保护）在读取阵营之前拒绝，因此拒绝不会向骑士透露目标是否为好人。
+        // Structural vetoes (Rift occupants, Wraiths, other registered protections) refuse before alignment is read, so
+        // a refusal never tells the Knight whether the target is good.
+        // 结构性否决（门内玩家、冤魂、其他已登记的保护）在读取阵营之前拒绝，因此拒绝不会向骑士透露目标是否为好人。
         if (!SparkFactionApi.canAffectPlayer(knight, target, KnightDuelRules.DUEL_ACTION_ID, game)) {
             return;
         }
@@ -170,7 +169,7 @@ public final class KnightDuelService {
                                     ServerPlayerEntity knight, ServerPlayerEntity target) {
         GameFunctions.killPlayer(knight, true, null, SparkDlcDeathReasons.DUEL_SUICIDE, true);
         if (GameFunctions.isPlayerPlayingAndAlive(knight)) {
-            // Should not happen (forced + SparkTraits-terminal): no sting without a death. / 不应发生：未死亡则不播放。
+            // Should not happen (forced + trait-terminal): no sting without a death. / 不应发生：未死亡则不播放。
             return;
         }
         playSoundToAll(world.getServer(), SparkDlcSounds.DUEL_MANBA);

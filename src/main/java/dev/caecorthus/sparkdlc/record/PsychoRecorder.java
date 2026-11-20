@@ -7,12 +7,12 @@ import net.minecraft.server.network.ServerPlayerEntity;
 
 /**
  * Records {@code sparkdlc:psycho} (actor = player, {@code active} bool) when psycho mode really starts or
- * ends. Every psycho source (killer shop, Pig God chase, Serial Killer, Silencer, Jester moment, SparkTraits
- * Depression, ...) goes through Wathe's {@code PlayerPsychoComponent.startPsycho/stopPsycho} or, for SparkStrength's
+ * ends. Every psycho source (killer shop, Pig God chase, Serial Killer, Silencer, Jester moment, the Depression
+ * trait, ...) goes through Wathe's {@code PlayerPsychoComponent.startPsycho/stopPsycho} or, for the
  * Serial Killer override, fires {@code ON_PSYCHO_START} itself; both events fire on the server only.
  * 当疯魔模式真正开始或结束时记录 {@code sparkdlc:psycho}（actor = 玩家，{@code active} 布尔值）。所有疯魔来源
- * （杀手商店、猪神追逐、连环杀手、消音者、小丑时刻、SparkTraits 抑郁……）都经过 Wathe 的
- * {@code PlayerPsychoComponent.startPsycho/stopPsycho}，或（SparkStrength 连环杀手的覆盖实现）自行触发
+ * （杀手商店、猪神追逐、连环杀手、消音者、小丑时刻、抑郁词条……）都经过 Wathe 的
+ * {@code PlayerPsychoComponent.startPsycho/stopPsycho}，或（连环杀手的覆盖实现）自行触发
  * {@code ON_PSYCHO_START}；两个事件都只在服务端触发。
  */
 public final class PsychoRecorder {

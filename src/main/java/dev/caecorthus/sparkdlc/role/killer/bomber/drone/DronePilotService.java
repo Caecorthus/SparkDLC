@@ -33,13 +33,13 @@ import java.util.UUID;
  * <ul>
  *   <li>{@link #start}: the sender is alive, playing and in survival, standing on the ground with its own camera, its
  *   REAL role is Bomber, the tablet is in its main hand, and the drone is one of its own drones in its world, of the
- *   current round, not falling or empty; the opening lock is over and the sender is neither Engineer- nor SparkWitch
- *   Control-Expert-stunned nor SparkTraits killer-interaction- or role-skill-blocked. A start for the drone already
+ *   current round, not falling or empty; the opening lock is over and the sender is neither Engineer- nor
+ *   Control-Expert-stunned nor trait killer-interaction- or role-skill-blocked. A start for the drone already
  *   piloted is a no-op, and starts closer than {@link #START_COOLDOWN_TICKS} to the previous one are ignored. Any
  *   previous session ends first.
  *   Success sets {@link DroneEntity#setPilotUuid} and sends a start state; a refusal sends an end state with the reason.
  *   发送者存活、在局内且为生存模式，站在地面上且镜头为自身，真实身份为炸弹客，主手持平板；无人机属于发送者、位于其所在世界、
- *   属于本回合、未下坠且仍有电；开局锁已结束，且发送者未被工程师或 SparkWitch 控场专家眩晕、未被 SparkTraits 禁止杀手交互或
+ *   属于本回合、未下坠且仍有电；开局锁已结束，且发送者未被工程师或控场专家眩晕、未被词条禁止杀手交互或
  *   封锁职业技能。
  *   请求驾驶正在驾驶的无人机时不做任何事，距上次请求不足 START_COOLDOWN_TICKS 的请求被忽略。先结束旧会话；
  *   成功时设置驾驶者并发送开始状态，拒绝时发送带原因的结束状态。</li>
@@ -69,8 +69,8 @@ import java.util.UUID;
  */
 public final class DronePilotService {
     /**
-     * Engineer stun or SparkWitch Control Expert stun. The CE stun's payload deny-list leaves drone moves and exit open,
-     * so the session itself must end here. / 工程师眩晕或 SparkWitch 控场专家眩晕。控场专家的数据包拦截放行无人机移动与退出，
+     * Engineer stun or Control Expert stun. The CE stun's payload deny-list leaves drone moves and exit open,
+     * so the session itself must end here. / 工程师眩晕或控场专家眩晕。控场专家的数据包拦截放行无人机移动与退出，
      * 因此须在此结束会话本身。
      */
     private static final Set<Lock> STUN_LOCKS = AbilityLocks.of(Lock.ENGINEER_STUN, Lock.CONTROL_EXPERT_STUN);
@@ -289,7 +289,7 @@ public final class DronePilotService {
             return DronePilotEndReason.PILOT_DOWN;
         }
         // The body sends no movement packets while piloting, so it must not be left floating (anti-fly kick), and
-        // another mod must not hold its camera. / 驾驶期间身体不发送移动包，因此不能悬空（防飞行踢出），镜头也不能被其他模组占用。
+        // nothing else may hold its camera. / 驾驶期间身体不发送移动包，因此不能悬空（防飞行踢出），镜头也不能被别处占用。
         if (!DroneService.isRealBomber(player) || !player.isOnGround() || player.getCameraEntity() != player) {
             return DronePilotEndReason.UNAVAILABLE;
         }
@@ -359,7 +359,7 @@ public final class DronePilotService {
         if (SparkTraitsApi.isKillerInteractionBlocked(pilot)) {
             return DronePilotEndReason.UNAVAILABLE;
         }
-        // SparkTraits role-skill block (also covers NoellesRoles' silenced killer). / SparkTraits 职业技能封锁（也涵盖 NoellesRoles 被沉默的杀手）。
+        // Trait role-skill block (also covers NoellesRoles' silenced killer). / 词条职业技能封锁（也涵盖 NoellesRoles 被沉默的杀手）。
         if (SparkTraitsApi.isRoleSkillBlocked(pilot)) {
             return DronePilotEndReason.SKILL_BLOCKED;
         }

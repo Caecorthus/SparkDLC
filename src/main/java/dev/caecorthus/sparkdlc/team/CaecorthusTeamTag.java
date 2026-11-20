@@ -19,8 +19,8 @@ import java.util.function.Function;
  */
 public final class CaecorthusTeamTag {
     /**
-     * Private-use glyph of the badge. E780 is Ratatouille's supporter icon, E781 Wathe's coin, E782/E783 SparkWitch.
-     * 标签用的私用区字符。E780 是 Ratatouille 的赞助者图标，E781 是 Wathe 的金币，E782、E783 是 SparkWitch 的。
+     * Private-use glyph of the badge. E780 is Ratatouille's supporter icon, E781 Wathe's coin, E782/E783 this mod's.
+     * 标签用的私用区字符。E780 是 Ratatouille 的赞助者图标，E781 是 Wathe 的金币，E782、E783 是本模组的。
      */
     public static final char GLYPH = '';
     public static final char RATATOUILLE_SUPPORTER_GLYPH = '';

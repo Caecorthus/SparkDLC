@@ -90,9 +90,9 @@ public final class TarotDivinationHudLayout {
 
     /**
      * Title y under every row stacked beneath Wathe's money. {@code strengthRowsBottom} is the exclusive bottom of
-     * SparkStrength's killer team-wallet row (0 when it is not showing, e.g. a Tarot Reader with the Impostor trait
+     * the killer team-wallet row (0 when it is not showing, e.g. a Tarot Reader with the Impostor trait
      * only sees it on a killer team); the table drops by the same amount, so it keeps the gap it has under the money.
-     * Wathe 金币下方所有叠加行之下的标题 y。{@code strengthRowsBottom} 为 SparkStrength 杀手团队余额行的底边（不含，
+     * Wathe 金币下方所有叠加行之下的标题 y。{@code strengthRowsBottom} 为杀手团队余额行的底边（不含，
      * 未显示时为 0；例如带“内鬼”词条的塔罗牌师处于杀手团队时才会看到该行）；表格下移相同距离，与金币行保持原有间距。
      */
     public static int headerY(int strengthRowsBottom) {

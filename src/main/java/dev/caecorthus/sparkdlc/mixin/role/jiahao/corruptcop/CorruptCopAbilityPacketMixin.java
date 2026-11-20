@@ -12,13 +12,13 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * Reuses NoellesRoles' shared ability packet without adding a SparkStrength payload id.
- * 复用 NoellesRoles 的通用技能包，不新增 SparkStrength 数据包 id。
+ * Reuses NoellesRoles' shared ability packet without adding a payload id of this mod.
+ * 复用 NoellesRoles 的通用技能包，不新增本模组的数据包 id。
  */
 @Mixin(value = Noellesroles.class, remap = false)
 public abstract class CorruptCopAbilityPacketMixin {
     // Two authorized NoellesRoles 1.7.6 builds exist: the historical Windows build uses $36,
-    // while the runtime baseline that libs/, SparkTraits and SparkWitch share uses $5 for the same packet handler.
+    // while the runtime baseline in libs/ uses $5 for the same packet handler.
     // The group requires exactly one binary-specific seam to resolve at runtime.
     // 两个已授权的 NoellesRoles 1.7.6 构建分别在 $36 与 $5 处理同一个技能包；运行时必须且只能命中一个。
     @Group(name = "sparkdlc$corruptCopAbility", min = 1, max = 1)

@@ -29,8 +29,8 @@ import dev.caecorthus.sparkdlc.trait.effective.EffectiveTraitService;
 import dev.caecorthus.sparkdlc.trait.effective.EffectiveConsequenceService;
 
 /**
- * Shared rules for global SparkTraits traits.
- * SparkTraits 全局天赋的共用规则入口。
+ * Shared rules for global traits.
+ * 全局天赋的共用规则入口。
  */
 public final class GlobalTraitService {
     public static final int CAUTIOUS_COLOR = 0xA7C7C7;
@@ -278,8 +278,8 @@ public final class GlobalTraitService {
 
     /**
      * Reads Childish from the synced scale modifier, so every client can tell without the hidden trait list. Any living
-     * entity may carry it: SparkWitch copies it onto a Magician puppet that copies a Childish player.
-     * 通过已同步的体型修饰符判断幼稚，任何客户端都无需读取隐藏的天赋列表。任何生物实体都可能带有它：SparkWitch 会把它复制到
+     * entity may carry it: it is copied onto a Magician puppet that copies a Childish player.
+     * 通过已同步的体型修饰符判断幼稚，任何客户端都无需读取隐藏的天赋列表。任何生物实体都可能带有它：它会被复制到
      * 复制幼稚玩家的魔术师皮套上。
      */
     public static boolean hasChildishScale(LivingEntity entity) {

@@ -5,9 +5,9 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Pixel geometry only. The single shared copy for SparkWitch and SparkTraits (each mod used to ship its own);
- * SparkWitch also places other panels with {@link Rect}.
- * 仅含像素几何。SparkWitch 与 SparkTraits 共用的唯一实现（原先两个模组各带一份）；SparkWitch 的其他面板也使用 {@link Rect}。
+ * Pixel geometry only, shared by the role-skill card and the trait card; the role-skill presenter also places other
+ * panels with {@link Rect}.
+ * 仅含像素几何，由职业技能卡与天赋卡共用；职业技能展示方的其他面板也使用 {@link Rect}。
  */
 public final class InventoryCardLayout {
     public record Rect(int x, int y, int width, int height) {
@@ -63,8 +63,8 @@ public final class InventoryCardLayout {
         int slotX = Math.max(0, width - margin - slotWidth);
         int x;
         if (compatibilityFallback) {
-            // Native Traits may fill the entire height of its slot. Use the slot's left neighbour (not the
-            // content-fit card's), not a guessed vertical offset or the top-left occupied by legacy Traits.
+            // The native trait card may fill the entire height of its slot. Use the slot's left neighbour (not the
+            // content-fit card's), not a guessed vertical offset or the top-left the old trait card occupied.
             // Tiny windows shrink to the remaining strip; unreadably small viewports cannot fit two native cards.
             // 原生天赋卡可能占满整列高度：回退卡锚定在整列左侧而非内容宽度卡片左侧。
             int right = Math.max(0, slotX - 4);

@@ -172,11 +172,11 @@ public final class BanditRevolverItem extends RevolverItem {
 
     /**
      * Client pick for a shot of {@code range} blocks. Starts from Wathe's 30-block {@code getGunTarget}, so the client
-     * hooks other mods put on it apply (SparkWitch's active-Wraith pass-through and nearer Magician puppet). A shorter
+     * hooks on it apply (the active-Wraith pass-through and the nearer Magician puppet). A shorter
      * barrel drops whatever that ray found beyond its reach; a longer one casts again only when that ray hit nothing at
      * all. Then the same Seeker-device and Partygoer steps as the Serial Killer pistols.
-     * 射程为 {@code range} 格时的客户端选靶。以 Wathe 30 格的 {@code getGunTarget} 为起点，其他模组挂在其上的客户端钩子照常
-     * 生效（SparkWitch 激活冤魂穿透与更近的魔术师皮套）。短枪管丢弃该射线在射程外找到的目标；长枪管仅在该射线什么都没打到时
+     * 射程为 {@code range} 格时的客户端选靶。以 Wathe 30 格的 {@code getGunTarget} 为起点，挂在其上的客户端钩子照常
+     * 生效（激活冤魂穿透与更近的魔术师皮套）。短枪管丢弃该射线在射程外找到的目标；长枪管仅在该射线什么都没打到时
      * 才以更长的射程重新投射。之后与连环杀手手枪一样补上搜寻者设备与派对客两步。
      */
     public static HitResult gunTarget(PlayerEntity user, double range) {

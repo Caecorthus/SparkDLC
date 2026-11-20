@@ -47,20 +47,20 @@ import java.util.Map;
 
 public final class OwnerInventoryPresenter {
     private record Frame(InventoryRenderScope.Binding binding, InventoryInfoCard.Snapshot card, boolean ownsTraits) {}
-    /** One visited trait as Traits handed it over (not yet copied). 从天赋模组收到的一项天赋（尚未复制）。 */
+    /** One visited trait as the trait feature handed it over (not yet copied). 从天赋功能收到的一项天赋（尚未复制）。 */
     private record VisitedTrait(Text name, List<Text> tooltip) {}
     /**
-     * SparkWitch's own instance of SparkFactionAPI's shared info card (client/api/card): its caches, its "+N more"
-     * lang key, its SparkStrength HUD bridge and its SparkAssist decoration (own logger and failure latch). Never hand
-     * this instance to another mod. Created on first use, so a linkage failure still surfaces inside the guarded
-     * prepare/draw paths below. SparkFactionAPI 0.1.5.13+ draws a 22 px second row above the hotbar strip (its
+     * The role-skill card's own instance of the shared info card ({@code client.gui.card}): its caches, its "+N more"
+     * lang key, the killer team-wallet HUD row and the guidebook decoration (own logger and failure latch). Never hand
+     * this instance to the trait card. Created on first use, so a failure to create it still surfaces inside the
+     * guarded prepare/draw paths below. The limited inventory draws a 22 px second row above the hotbar strip (its
      * inactive widget there is already scanned by the card); the second-row rule counts it too, so the block stays
      * reserved without relying on that widget. It goes through {@link LimitedInventoryRows#isSecondRowShown()} so the
      * wiring point stays shared.
-     * SparkWitch 自己的共享信息卡实例（由 SparkFactionAPI 的 client/api/card 提供）：自己的缓存、“+N 项”语言键、
-     * SparkStrength HUD 桥接与 SparkAssist 点缀（独立的日志名与失败锁存）。不要把该实例交给其他模组。首次使用时才创建，
-     * 因此链接失败仍发生在下方受保护的准备与绘制路径内。SparkFactionAPI 0.1.5.13+ 会在热栏上方绘制 22 像素高的第二行
-     * （其非激活控件已在卡片的扫描中避开）；第二行规则也将其计入，使物品栏块的预留不依赖该控件。该规则经由
+     * 职业技能卡自己的共享信息卡实例（{@code client.gui.card}）：自己的缓存、“+N 项”语言键、杀手团队余额 HUD 行与
+     * 指南点缀（独立的日志名与失败锁存）。不要把该实例交给天赋卡。首次使用时才创建，因此创建失败仍发生在下方受保护的
+     * 准备与绘制路径内。受限物品栏会在热栏上方绘制 22 像素高的第二行（其非激活控件已在卡片的扫描中避开）；
+     * 第二行规则也将其计入，使物品栏块的预留不依赖该控件。该规则经由
      * {@link LimitedInventoryRows#isSecondRowShown()}，以保持同一个接线点。
      */
     private static final class Card {
@@ -102,7 +102,7 @@ public final class OwnerInventoryPresenter {
     public static RenderCall begin(Screen screen, PlayerEntity player, TextRenderer font) {
         var scope = CALLS.open();
         MinecraftClient client = MinecraftClient.getInstance();
-        // After a draw failure nothing is published, so Traits keeps its native card. 绘制失败后不再发布，天赋使用原生卡。
+        // After a draw failure nothing is published, so the trait card stays native. 绘制失败后不再发布，天赋使用原生卡。
         if (cardFailed) return scope::close;
         if (player != client.player || client.world == null || player.getWorld() != client.world || client.currentScreen != screen) return scope::close;
         try {
@@ -115,12 +115,12 @@ public final class OwnerInventoryPresenter {
             traits.ifPresent(entries -> {
                 if (!entries.isEmpty()) sections.add(traitsSection(entries));
             });
-            // Publish only AFTER all text conversion, eligibility, collection and geometry succeeded. Traits is always
-            // present (fused into SparkDLC). / 天赋模块恒存在（已融合进 SparkDLC）。
+            // Publish only AFTER all text conversion, eligibility, collection and geometry succeeded. The trait feature
+            // is part of this mod, so traitsPresent is always true. / 天赋功能属于本模组，traitsPresent 恒为 true。
             var card = Card.INSTANCE.prepare(screen, font, sections, true, traits.isPresent());
             scope.publish(new Frame(new InventoryRenderScope.Binding(screen, player, client.world, client.getNetworkHandler()), card, traits.isPresent()));
         } catch (RuntimeException | LinkageError failure) {
-            // No committed snapshot: Traits keeps its native TAIL and Witch uses its native fallback. Warn once per
+            // No committed snapshot: the trait card keeps its native TAIL and the role card its fallback. Warn once per
             // connection; the fallback retries every frame. 每个连接只警告一次，回退路径每帧重试。
             if (!prepareWarned) {
                 prepareWarned = true;
@@ -175,7 +175,7 @@ public final class OwnerInventoryPresenter {
             if (showsManaTail(card)) manaTailScreen = screen;
             if (showsSkillSection(card)) skillSectionScreen = screen;
         } catch (RuntimeException | LinkageError failure) {
-            // The current commitment stays frozen: a previously skipped Traits TAIL cannot be replayed.
+            // The current commitment stays frozen: a previously skipped trait-card TAIL cannot be replayed.
             // Stop drawing and taking over subsequent frames until the next connection lifecycle reset, and log once.
             // 当前帧的承诺无法撤回；此后直到连接重置都不再绘制或接管天赋，并只记录一次错误。
             cardFailed = true;

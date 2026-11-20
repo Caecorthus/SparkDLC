@@ -18,11 +18,11 @@ import java.io.IOException;
 
 /**
  * One private {@link PostEffectProcessor} over the main framebuffer, separate from GameRenderer's shared slot and from
- * every other add-on processor; each reads and writes the main framebuffer in turn, so they stack. Loaded on the first
+ * every other such processor; each reads and writes the main framebuffer in turn, so they stack. Loaded on the first
  * frame that needs it, resized in place with the window, rebuilt when the main target changes, released when the
  * effect ends. A load failure is logged once and blocks retries until {@link #close()} (resource reload, disconnect,
  * shutdown). All calls run on the render thread.
- * 主帧缓冲上的一个私有后处理器，独立于 GameRenderer 的共享槽位与其他附属模组的处理器；各处理器依次读写主帧缓冲，因此可以叠加。
+ * 主帧缓冲上的一个私有后处理器，独立于 GameRenderer 的共享槽位与其他同类处理器；各处理器依次读写主帧缓冲，因此可以叠加。
  * 首个需要它的帧才加载，随窗口原地调整尺寸，主目标变化时重建，效果结束即释放。加载失败只记录一次日志，并在 close()
  * （资源重载、断开连接、关闭客户端）之前不再重试。所有调用都在渲染线程上执行。
  */

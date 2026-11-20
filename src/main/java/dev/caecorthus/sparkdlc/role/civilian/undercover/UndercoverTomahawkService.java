@@ -98,8 +98,8 @@ public final class UndercoverTomahawkService {
             }
             return ActionResult.SUCCESS;
         }
-        // A SparkWitch Raven Form crow is a target too (owner 2026-10-21): the client sends the swing, the server
-        // resolves it to the Black Raven. / SparkWitch 化鸦乌鸦同样是目标（所有者 2026-10-21）：客户端发送挥砍，服务端将其
+        // A Raven Form crow is a target too (owner 2026-10-21): the client sends the swing, the server
+        // resolves it to the Black Raven. / 化鸦乌鸦同样是目标（所有者 2026-10-21）：客户端发送挥砍，服务端将其
         // 解析为黑羽鸦。
         boolean crow = !(entity instanceof PlayerEntity) && SparkRoleApi.isBlackRavenCrow(entity);
         if (!(entity instanceof PlayerEntity) && !crow || !UndercoverRoles.isLivingStage2(player) || !charged
@@ -113,9 +113,9 @@ public final class UndercoverTomahawkService {
             if (entity instanceof ServerPlayerEntity victim) {
                 strike(attacker, victim, held, tomahawk, null);
             } else if (crow) {
-                // SparkWitch measured the reach and line on the crow and armed its owner substitution, so the strike
-                // below (gates, kill, cooldown, 小脑) runs on the Black Raven exactly as on a direct hit.
-                // SparkWitch 已在乌鸦上量取距离与视线并装好主人替身，因此下方的劈砍（门槛、击杀、冷却、小脑）与直接命中黑羽鸦完全一致。
+                // crowMeleeStandIn measures the reach and line on the crow and arms its owner substitution, so the
+                // strike below (gates, kill, cooldown, 小脑) runs on the Black Raven exactly as on a direct hit.
+                // crowMeleeStandIn 在乌鸦上量取距离与视线并装好主人替身，因此下方的劈砍（门槛、击杀、冷却、小脑）与直接命中黑羽鸦完全一致。
                 ServerPlayerEntity owner = SparkRoleApi.crowMeleeStandIn(attacker, entity,
                         UndercoverRules.TOMAHAWK_RANGE);
                 if (owner != null) {
@@ -141,8 +141,8 @@ public final class UndercoverTomahawkService {
             return;
         }
         GameWorldComponent game = GameWorldComponent.KEY.get(attacker.getServerWorld());
-        // Read before killPlayer: SparkTraits clears the victim's traits in its KillPlayer.AFTER listener.
-        // 必须在 killPlayer 之前读取：SparkTraits 会在 KillPlayer.AFTER 中清空死者天赋。
+        // Read before killPlayer: the trait feature clears the victim's traits in its KillPlayer.AFTER listener.
+        // 必须在 killPlayer 之前读取：词条功能会在 KillPlayer.AFTER 中清空死者天赋。
         InnocentKnifeKillRules.PreKill preKill = InnocentKnifeKillRules.beforeKill(
                 game.isInnocent(victim),
                 SparkTraitsApi.hasActiveTrait(victim, TraitIds.IMPOSTOR),

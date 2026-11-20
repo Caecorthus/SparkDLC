@@ -29,10 +29,10 @@ public final class BlackRavenLoadoutService {
         // Police kit (plan v2 §3.1): a Wathe revolver only when none is held anywhere (a forced re-assign has already
         // returned the stashed one). At round start this runs from RoleAssigned inside initializeGame, before Wathe
         // writes its per-Item 60 s revolver cooldown, so the grant shares it like every other police revolver. The
-        // plain insertStack keeps SparkTraits' Impostor free-gun refusal, which is deliberately not bypassed.
+        // plain insertStack keeps the Impostor trait's free-gun refusal, which is deliberately not bypassed.
         // 警察套装（计划 v2 §3.1）：只有身上任何位置都没有左轮时才发放 Wathe 左轮（强制重新指定时暂存的左轮已先归还）。
         // 开局时本方法在 initializeGame 内的 RoleAssigned 中执行，早于 Wathe 按物品写入的 60 秒左轮冷却，因此与其他警察的
-        // 左轮共享该冷却。普通 insertStack 保留 SparkTraits 对内鬼的免费枪械拒绝，刻意不绕过。
+        // 左轮共享该冷却。普通 insertStack 保留内鬼词条的免费枪械拒绝，刻意不绕过。
         if (BlackRavenPoliceRules.grantsStartingRevolver(holdsRevolver(player))) {
             player.getInventory().insertStack(new ItemStack(WatheItems.REVOLVER));
         }

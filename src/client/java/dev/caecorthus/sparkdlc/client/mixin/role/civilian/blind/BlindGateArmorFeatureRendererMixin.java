@@ -13,9 +13,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * Covers armor drawn outside the feature loop (SparkTraits' Pig body draws its helmet through an invoker on this
+ * Covers armor drawn outside the feature loop (the Pig trait's body draws its helmet through an invoker on this
  * private method): while the Blind view is active no armor piece renders on another player. Presentation only.
- * 覆盖在附加层循环之外绘制的护甲（SparkTraits 的猪身体通过调用器直接调用此私有方法绘制头盔）：盲人视图生效期间，
+ * 覆盖在附加层循环之外绘制的护甲（猪形态词条的身体通过调用器直接调用此私有方法绘制头盔）：盲人视图生效期间，
  * 其他玩家身上不渲染任何护甲。仅为展示。
  */
 @Mixin(ArmorFeatureRenderer.class)

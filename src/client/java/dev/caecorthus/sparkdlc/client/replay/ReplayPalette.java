@@ -4,10 +4,10 @@ import dev.caecorthus.sparkdlc.replay.net.ReplaySnapshot;
 
 /**
  * Replay screen colours (ARGB). Frame, brass and text values are copied from the Spark "Harpy Express" tokens
- * (SparkAssist {@code ExpressPalette}) so the screen matches the guidebook and inventory cards; this mod does not
- * depend on SparkAssist.
- * 回放界面配色（ARGB）。边框、黄铜与文字颜色复制自 Spark“哈比特快”设计令牌（SparkAssist {@code ExpressPalette}），
- * 与图鉴、物品信息卡保持一致；本模组不依赖 SparkAssist。
+ * (the guidebook's {@code ExpressPalette}) so the screen matches the guidebook and inventory cards; they are copies
+ * because the replay screen used to live in a jar that could not see the guidebook.
+ * 回放界面配色（ARGB）。边框、黄铜与文字颜色复制自 Spark“哈比特快”设计令牌（指南的 {@code ExpressPalette}），
+ * 与图鉴、物品信息卡保持一致；之所以是副本，是因为回放界面原先所在的 jar 看不到指南。
  */
 final class ReplayPalette {
     // ---- mahogany frame / 桃花心木边框

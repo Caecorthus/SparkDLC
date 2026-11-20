@@ -12,11 +12,11 @@ import org.spongepowered.asm.mixin.Shadow;
 
 /**
  * Measures the actual personal balance change of every {@code addToBalance} call for {@code sparkdlc:income}.
- * SparkStrength also wraps this method (killer-team purse) and only reads the balance around its own original call,
- * so either wrapper order sees the same change; SparkTraits' {@code @ModifyArg} on the inner {@code setBalance} is
+ * The killer-team purse also wraps this method and only reads the balance around its own original call,
+ * so either wrapper order sees the same change; the traits' {@code @ModifyArg} on the inner {@code setBalance} is
  * included. The amount is passed through unchanged.
- * 为 {@code sparkdlc:income} 测量每次 {@code addToBalance} 调用对个人余额的实际变化。SparkStrength 也包裹此
- * 方法（杀手团队资金），且只在自身 original 调用前后读取余额，因此无论包裹顺序如何看到的变化都相同；SparkTraits 对内部
+ * 为 {@code sparkdlc:income} 测量每次 {@code addToBalance} 调用对个人余额的实际变化。杀手团队资金也包裹此
+ * 方法，且只在自身 original 调用前后读取余额，因此无论包裹顺序如何看到的变化都相同；天赋对内部
  * {@code setBalance} 的 {@code @ModifyArg} 会被计入。金额原样传递。
  */
 @Mixin(value = PlayerShopComponent.class, remap = false)

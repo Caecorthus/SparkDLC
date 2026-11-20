@@ -34,9 +34,9 @@ public final class GrandWitchFearClientHooks {
     /**
      * Both instinct gates ask this for every rendered entity. Only the viewer-only Fear fact is memoized per world pass
      * ({@link LocalViewerSnapshot}); the key read and the rate-limited message stay per call, because the key can read
-     * as released for one target (SparkStrength Blackout, the USEC cloak).
+     * as released for one target (the sabotage Blackout, the USEC cloak).
      * 两个本能入口会对每个渲染实体询问。只有与观察者有关的恐惧事实按世界 pass 缓存；按键读取与限频提示仍逐次执行，
-     * 因为本能键可能只对某个目标视为松开（SparkStrength 熄灯、USEC 隐蔽）。
+     * 因为本能键可能只对某个目标视为松开（破坏的熄灯、USEC 隐蔽）。
      */
     public static boolean shouldBlockInstinct() {
         if (!SparkDlcServerConnection.isConfirmedServer()) {

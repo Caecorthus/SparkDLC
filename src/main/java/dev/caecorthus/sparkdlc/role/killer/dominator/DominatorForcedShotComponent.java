@@ -26,13 +26,13 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
  * {@link DominatorForcedShotScope}); it never reads or writes the player's item cooldowns.
  * <p>Stash settlement (stable contract): expiry, a disconnect (before Wathe's disconnect kill) and a mid-round role
  * change put the stack back; a committed death puts it back right before Wathe's own death-drop loop
- * ({@code GameFunctionsForcedShotDeathMixin}), so Wathe drops or keeps it exactly as it would have; a SparkTraits
- * intercepted death (Last Stand) is not a death; a reset, round finalize or a load from disk discards it, because the
- * inventory it belonged to is gone.</p>
+ * ({@code GameFunctionsForcedShotDeathMixin}), so Wathe drops or keeps it exactly as it would have; a death
+ * intercepted by the Last Stand trait is not a death; a reset, round finalize or a load from disk discards it,
+ * because the inventory it belonged to is gone.</p>
  * 被标记者身上的仅服务端强制开枪序列：收起手持物品，在同一快捷栏槽位发一把带标记的左轮 1 秒，之后没收并结算原物品。
  * 序列本身不提供任何保护（见 {@link DominatorForcedShotScope}），也从不读写该玩家的物品冷却。
  * 原物品结算（稳定契约）：到期、断线（先于 Wathe 的断线击杀）与回合中途换职业时放回；死亡确定时在 Wathe 自身的死亡掉落
- * 循环之前放回，使 Wathe 按原本的方式掉落或保留；SparkTraits 拦截的死亡（背水一战）不算死亡；重置、回合结算或从存档读取时
+ * 循环之前放回，使 Wathe 按原本的方式掉落或保留；背水一战词条拦截的死亡不算死亡；重置、回合结算或从存档读取时
  * 丢弃，因为它所属的物品栏已不存在。
  */
 public final class DominatorForcedShotComponent implements ServerTickingComponent {

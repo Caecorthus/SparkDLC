@@ -16,14 +16,14 @@ import java.util.UUID;
 
 /**
  * Stable contract: the Fiend Moment win listener runs in {@link #PHASE}, ordered before {@link Event#DEFAULT_PHASE}
- * on Wathe's first-non-null {@code CheckWinCondition}, so it decides before NoellesRoles, SparkTraits, the Murderous
- * Witch and SparkFactionAPI's faction wins (all default phase). No moment: {@code null}. Invalid moment (Fiend gone,
+ * on Wathe's first-non-null {@code CheckWinCondition}, so it decides before NoellesRoles, the trait wins, the Murderous
+ * Witch and the faction wins (all default phase). No moment: {@code null}. Invalid moment (Fiend gone,
  * dead, swallowed by a Taotie, no longer the Fiend, or another match): end it, then {@code null} so normal resolution
  * resumes this tick. The swallow is polled here every tick from NoellesRoles' synced
  * {@code SwallowedPlayerComponent}; a swallowed Fiend never wins and is marked spent.
  * Completed with the Fiend alive: the Fiend wins alone. Otherwise every other win, TIME included, is suspended (D2).
  * 稳定契约：魔人时刻胜负监听器运行于 {@link #PHASE}，在 Wathe「首个非 null 生效」的 {@code CheckWinCondition} 上排在
- * {@link Event#DEFAULT_PHASE} 之前，因此先于 NoellesRoles、SparkTraits、杀意魔女与 SparkFactionAPI 阵营胜利（均为默认阶段）
+ * {@link Event#DEFAULT_PHASE} 之前，因此先于 NoellesRoles、词条胜利、杀意魔女与阵营胜利（均为默认阶段）
  * 作出决定。无时刻：{@code null}。时刻失效（魔人离开、死亡、被饕餮吞噬、不再是魔人或对局已变）：结束时刻后返回
  * {@code null}，本 tick 即恢复常规结算。吞噬状态每 tick 从 NoellesRoles 已同步的 {@code SwallowedPlayerComponent} 轮询；
  * 被吞噬的魔人绝不获胜，并被登记为已耗尽。魔人存活且时刻完成：魔人独自获胜。其余情况暂停所有其他胜利，包括 TIME（D2）。

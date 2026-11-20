@@ -10,7 +10,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Keeps Pig God's good-role coin economy in SparkWitch after NoellesRoles buffs move out.
+ * Keeps Pig God's own good-role coin economy after the NoellesRoles buffs moved out.
  * NoellesRoles 增强迁出后，保留皮革噶的自己的好人金币逻辑。
  */
 public final class PigGodEconomyService {

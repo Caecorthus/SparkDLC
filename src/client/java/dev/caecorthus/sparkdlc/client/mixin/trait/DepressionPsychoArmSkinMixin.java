@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 /**
  * Re-applies the Depression arm texture after Wathe's default psycho arm override.
- * 在 wathe 默认疯魔手臂覆盖之后，再把抑郁手臂贴图切回 SparkTraits 路径。
+ * 在 wathe 默认疯魔手臂覆盖之后，再把抑郁手臂贴图切回抑郁词条自己的贴图。
  */
 @Mixin(value = PlayerEntityRenderer.class, priority = 500)
 public abstract class DepressionPsychoArmSkinMixin {

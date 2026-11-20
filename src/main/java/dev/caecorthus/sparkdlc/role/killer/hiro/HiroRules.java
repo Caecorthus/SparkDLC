@@ -26,9 +26,9 @@ public final class HiroRules {
     public static final int COLOR = 0xC8324B;
 
     /**
-     * Stable id of 死亡回归: the SparkFactionAPI role-skill cooldown store id, and the id the feature should use for its
+     * Stable id of 死亡回归: the id of its role-skill cooldown store, and the id the feature should use for its
      * replay skill line and {@code canAffectPlayer} action.
-     * 死亡回归的稳定 id：SparkFactionAPI 职业技能冷却存储的 id；功能实现的回放技能条目与 {@code canAffectPlayer} 行为也应使用它。
+     * 死亡回归的稳定 id：职业技能冷却存储的 id；功能实现的回放技能条目与 {@code canAffectPlayer} 行为也应使用它。
      */
     public static final Identifier RETURN_SKILL_ID = SparkDLC.id("nikaido_hiro_return");
 

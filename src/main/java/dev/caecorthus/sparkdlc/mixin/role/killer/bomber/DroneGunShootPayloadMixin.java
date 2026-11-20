@@ -13,11 +13,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
  * Wathe revolver/derringer shot at a Bomber drone (server), at the {@code recordItemUse} anchor: after Wathe's
- * spectator, gun-tag, cooldown and spent-derringer checks (the anchor SparkTraits and SparkWitch also use). A drone id
- * never becomes Wathe's player target, so Wathe finishes the shot as a miss (click/shot sounds, derringer spent,
- * cooldown, no punishment); SilencerGunShootPayloadMixin only wraps the sounds and is unaffected.
+ * spectator, gun-tag, cooldown and spent-derringer checks (the anchor the traits, the Seeker and the Magician also
+ * use). A drone id never becomes Wathe's player target, so Wathe finishes the shot as a miss (click/shot sounds,
+ * derringer spent, cooldown, no punishment); SilencerGunShootPayloadMixin only wraps the sounds and is unaffected.
  * Wathe 左轮/德林加射向炸弹客无人机（服务端），挂在 recordItemUse 锚点：位于 Wathe 的旁观、枪械标签、冷却与德林加已用检查之后
- * （SparkTraits 与 SparkWitch 使用同一锚点）。无人机 id 永远不会成为 Wathe 的玩家目标，因此 Wathe 按未命中完成这一枪
+ * （天赋、搜寻者与魔术师使用同一锚点）。无人机 id 永远不会成为 Wathe 的玩家目标，因此 Wathe 按未命中完成这一枪
  * （扳机/射击声、德林加用尽、冷却、无惩罚）；SilencerGunShootPayloadMixin 只包装音效，不受影响。
  *
  * <p>The same anchor kills a Partygoer the client picked ({@code PartygoerWeaponHits#onGunShot}, {@code wathe:gun});

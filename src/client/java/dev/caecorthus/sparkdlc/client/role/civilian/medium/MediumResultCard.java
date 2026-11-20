@@ -64,9 +64,9 @@ public final class MediumResultCard {
     }
 
     /**
-     * Client thread. Only a confirmed SparkWitch server can put a card on screen. A granted Speed also starts the
+     * Client thread. Only a confirmed SparkDLC server can put a card on screen. A granted Speed also starts the
      * corner chip's grace timer ({@link MediumHudRenderer#noteSpeedGranted}).
-     * 客户端线程。只有已确认的 SparkWitch 服务器才能让卡片显示。获得速度时同时启动角落图标的计时
+     * 客户端线程。只有已确认的 SparkDLC 服务器才能让卡片显示。获得速度时同时启动角落图标的计时
      * （{@link MediumHudRenderer#noteSpeedGranted}）。
      */
     static void receive(MinecraftClient client, MediumSeanceResultS2CPacket packet) {

@@ -25,14 +25,14 @@ import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * One of SparkWitch's standalone 3D projectile models (the Ninja's hook head, a Potion Gunner shell) moving from
- * {@code from} to {@code to} over {@code ticks} with its nose along the path, then held there or gone, drawn as
- * SparkWitch's own renderer draws it. SparkWitch bakes these models through Fabric's ModelLoadingPlugin; while one is
- * not baked (SparkWitch missing or older than its 3D projectiles, a broken resource pack) the element draws its
- * {@code fallback} sprite instead, so the demo still plays.
- * SparkWitch 的独立 3D 投射物模型之一（忍者钩头、药炮手炮弹），在 ticks 内从 from 移到 to、头部沿路径方向，之后停在那里
- * 或消失，画法与 SparkWitch 自己的渲染器相同。这些模型由 SparkWitch 经 Fabric ModelLoadingPlugin 烘焙；某个模型未烘焙时
- * （没装 SparkWitch、版本早于 3D 投射物、资源包损坏），改画 fallback 贴图，演示照常播放。
+ * One of the standalone 3D projectile models of {@code ProjectileModels} (the Ninja's hook head, a Potion Gunner
+ * shell) moving from {@code from} to {@code to} over {@code ticks} with its nose along the path, then held there or
+ * gone, drawn as the projectile's own entity renderer draws it. The models are baked through Fabric's
+ * ModelLoadingPlugin; while one is not baked (a broken resource pack; a missing or older provider of the models is
+ * unreachable since the fusion) the element draws its {@code fallback} sprite instead, so the demo still plays.
+ * {@code ProjectileModels} 的独立 3D 投射物模型之一（忍者钩头、药炮手炮弹），在 ticks 内从 from 移到 to、头部沿路径方向，
+ * 之后停在那里或消失，画法与该投射物自己的实体渲染器相同。这些模型经 Fabric ModelLoadingPlugin 烘焙；某个模型未烘焙时
+ * （资源包损坏；提供模型的一方缺失或版本过旧的情况在融合后不可达），改画 fallback 贴图，演示照常播放。
  */
 public final class ProjectileModelElement extends AnimatedSceneElementBase {
     private static final long QUAD_SEED = 42;
@@ -177,8 +177,8 @@ public final class ProjectileModelElement extends AnimatedSceneElementBase {
     }
 
     /**
-     * The baked standalone model {@code id}, or null when SparkWitch did not add it (Fabric keeps no entry then).
-     * SparkWitch 加入的独立模型 id 的烘焙结果；SparkWitch 没有加入时为 null（此时 Fabric 没有对应条目）。
+     * The baked standalone model {@code id}, or null when it was not baked (Fabric keeps no entry then).
+     * 独立模型 id 的烘焙结果；未烘焙时为 null（此时 Fabric 没有对应条目）。
      */
     @Nullable
     private static BakedModel baked(Identifier id) {

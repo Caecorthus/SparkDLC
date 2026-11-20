@@ -30,11 +30,11 @@ import java.util.UUID;
 
 /**
  * Thrown Holy Flash. Bursts on its first block or entity impact like Wathe's grenade, but it is a role-owned entity
- * and never a {@code GrenadeEntity}, so grenade-only hooks (Judge, Bomb Maniac, Seeker device breaks, SparkStrength)
+ * and never a {@code GrenadeEntity}, so grenade-only hooks (Judge, Bomb Maniac, Seeker device breaks, the role kits)
  * never fire. Server-authoritative: only the server picks victims and writes {@link HolyFlashComponent}; the client
  * merely predicts the flight. Deals no damage, breaks nothing, never outlives the round and is never saved.
  * 投出的圣光弹。与 Wathe 手雷一样在首次碰到方块或实体时爆开，但它是本职业自有实体而非 {@code GrenadeEntity}，
- * 因此只针对手雷的钩子（法官、炸弹狂、搜寻者设备损坏、SparkStrength）永不触发。由服务端权威决定：只有服务端挑选受害者
+ * 因此只针对手雷的钩子（法官、炸弹狂、搜寻者设备损坏、职业套件）永不触发。由服务端权威决定：只有服务端挑选受害者
  * 并写入 {@link HolyFlashComponent}，客户端只预测飞行轨迹。不造成伤害、不破坏任何东西、永不跨出本局、从不保存。
  */
 public final class HolyFlashEntity extends ThrownItemEntity {

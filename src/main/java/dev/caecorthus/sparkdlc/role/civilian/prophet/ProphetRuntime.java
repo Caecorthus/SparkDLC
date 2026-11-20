@@ -141,8 +141,8 @@ public final class ProphetRuntime {
                         // So is the fake corpse of a 二阶堂希罗 victim whose death is still undecided (2026-11-11).
                         // 死亡尚未落定的二阶堂希罗受害者的假尸体同样被静默跳过（2026-11-11）。
                         && !HiroFakeBodies.isFake(body)
-                        // A killed SparkStrength Partygoer is no passenger's death: skipped silently (2026-10-21).
-                        // 被打死的 SparkStrength 派对客不是乘客死亡：静默跳过（2026-10-21）。
+                        // A killed Partygoer is no passenger's death: skipped silently (2026-10-21).
+                        // 被打死的派对客不是乘客死亡：静默跳过（2026-10-21）。
                         && !PartygoerCorpseComponent.isPartygoerCorpse(body)
         );
         // Owner decision D8: a Magician decoy is skipped like a fake-death body (no count, outline or Necrology line);

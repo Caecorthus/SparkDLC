@@ -36,10 +36,10 @@ public abstract class ChildishLivingEntityRendererMixin {
     }
 
     /*
-     * Fill scale for a non-player drawn as a Childish player (a SparkWitch Magician puppet): it runs right after the
+     * Fill scale for a non-player drawn as a Childish player (a Magician puppet): it runs right after the
      * renderer's own scale step, where PlayerEntityRenderer.scale fills players, so the puppet stands as tall as the
      * Childish player it copies even when its renderer overrides scale. Players never match here.
-     * 为按幼稚玩家绘制的非玩家实体（SparkWitch 魔术师皮套）补上填充缩放：紧跟渲染器自身的缩放步骤执行，即
+     * 为按幼稚玩家绘制的非玩家实体（魔术师皮套）补上填充缩放：紧跟渲染器自身的缩放步骤执行，即
      * PlayerEntityRenderer.scale 为玩家填充的位置，因此即使其渲染器重写了 scale，皮套也与被复制的幼稚玩家等高。玩家从不命中此处。
      */
     @Inject(

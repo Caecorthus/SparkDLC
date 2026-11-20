@@ -19,11 +19,11 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
- * Adds each participant's round-end traits to SparkFactionAPI's replay hover tooltip and, as coloured badges, to
+ * Adds each participant's round-end traits to the faction core's replay hover tooltip and, as coloured badges, to
  * their card in the replay screen.
  * Read-only: runs during replay generation before Wathe resets players, and never throws into the replay.
  * Hidden-at-start traits are shown on purpose, because the round is over.
- * 将每名参与者的本局最终词条追加到 SparkFactionAPI 的回放悬停提示，并以彩色标签显示在回放界面的玩家卡片上。只读：在 Wathe 重置玩家前的回放生成期间运行，
+ * 将每名参与者的本局最终词条追加到阵营核心的回放悬停提示，并以彩色标签显示在回放界面的玩家卡片上。只读：在 Wathe 重置玩家前的回放生成期间运行，
  * 不向回放抛出异常。开局隐藏的词条在局末同样展示（对局已结束）。
  */
 public final class TraitReplayTooltips {

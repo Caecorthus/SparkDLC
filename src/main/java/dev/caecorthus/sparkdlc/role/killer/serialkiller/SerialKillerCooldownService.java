@@ -83,7 +83,7 @@ public final class SerialKillerCooldownService {
 
     /**
      * 在 NoellesRoles 连环杀手组件自己的 serverTick 返回后执行清零。
-     * 该时点晚于其“刀 CD 覆盖”代码，专门解决原版延迟写入覆盖 SparkStrength 清零的问题。
+     * 该时点晚于其“刀 CD 覆盖”代码，专门解决原版延迟写入覆盖本服务清零的问题。
      */
     public static void applyComponentTickReset(PlayerEntity player) {
         if (player == null) return;
@@ -101,8 +101,8 @@ public final class SerialKillerCooldownService {
     private static void clearCooldowns(PlayerEntity player) {
         // set(item, 0) 不会明确删除 ItemCooldownManager.entries 中的旧条目；
         // remove 才会清除对应物品的冷却状态和客户端读条。
-        // Only the natural knife/revolver cooldowns reset: penalties other features forced through SparkFactionAPI keep
-        // running. / 只重置刀与左轮的自然冷却：其他功能经 SparkFactionAPI 强制施加的惩罚继续生效。
+        // Only the natural knife/revolver cooldowns reset: penalties other features forced through ForcedCooldowns keep
+        // running. / 只重置刀与左轮的自然冷却：其他功能经 ForcedCooldowns 强制施加的惩罚继续生效。
         if (player instanceof ServerPlayerEntity serverPlayer) {
             ForcedCooldowns.clearItemKeepingForced(serverPlayer, WatheItems.KNIFE);
             ForcedCooldowns.clearItemKeepingForced(serverPlayer, WatheItems.REVOLVER);

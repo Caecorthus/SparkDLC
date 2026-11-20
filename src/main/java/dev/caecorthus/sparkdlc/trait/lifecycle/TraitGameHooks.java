@@ -178,8 +178,8 @@ public final class TraitGameHooks {
     }
 
     /**
-     * Active Wraith trait cleanup is deferred to SparkWitch so listener order cannot downgrade GAME_END to RESET.
-     * 激活冤魂的天赋清理由 SparkWitch 接管，避免监听顺序把 GAME_END 降级为 RESET。
+     * Active Wraith trait cleanup is deferred to the Wraith role so listener order cannot downgrade GAME_END to RESET.
+     * 激活冤魂的天赋清理由冤魂职业接管，避免监听顺序把 GAME_END 降级为 RESET。
      */
     static boolean shouldClearTraitsOnReset(boolean wraithActive) {
         return !wraithActive;

@@ -16,7 +16,7 @@ import java.util.Optional;
 
 /**
  * Client weapon targeting against Magician puppets (Wathe revolver, derringer, knife, the gun crosshair, and the
- * NoellesRoles Demon Hunter pistol). The selectors keep whatever they returned (Wathe's pick, a SparkTraits Marksman
+ * NoellesRoles Demon Hunter pistol). The selectors keep whatever they returned (Wathe's pick, a Marksman trait
  * replacement, the Wraith pass-through) unless a live puppet on the same look ray is strictly nearer than that result,
  * entity or block; then the puppet's {@link EntityHitResult} is returned and the caller sends its id. The ray mirrors
  * {@code ProjectileUtil}'s collision helper: eye position, {@code getRotationVec(0)}, cut at the first COLLIDER block,
@@ -24,7 +24,7 @@ import java.util.Optional;
  * selector's own range, so an extended Marksman range is kept); {@code range} is only the fallback. Client only: the
  * server validates the id ({@code MagicianPuppetHits}).
  * 客户端武器对魔术师皮套的选靶（Wathe 左轮、德林加、刀、枪械准星以及 NoellesRoles 猎魔枪）。选靶器保留其原有结果（Wathe
- * 选取、SparkTraits 神射手替换、冤魂穿透），除非同一视线上有存活皮套严格近于该结果（实体或方块），此时返回皮套的
+ * 选取、神射手特质替换、冤魂穿透），除非同一视线上有存活皮套严格近于该结果（实体或方块），此时返回皮套的
  * {@link EntityHitResult}，调用方便发送其 id。射线与 {@code ProjectileUtil} 的碰撞辅助一致：眼睛位置、
  * {@code getRotationVec(0)}、在第一个 COLLIDER 方块处截断、皮套箱体不加余量、取最早进入的箱体。射线长度取原结果的距离
  * （未命中时即选靶器自身射程，因此保留神射手的延长射程）；{@code range} 仅作兜底。仅客户端：服务端校验该 id

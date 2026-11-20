@@ -43,9 +43,9 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class AbyssListenerLoadout {
     /**
-     * ON_FINISH_INITIALIZE phase ordered after the default phase, so SparkTraits' default-phase assignment and
+     * ON_FINISH_INITIALIZE phase ordered after the default phase, so the traits' default-phase assignment and
      * Conscience compensation have settled final roles and traits (Fast Hands then shortens the first cooldown).
-     * 排在默认阶段之后的 ON_FINISH_INITIALIZE 阶段，确保 SparkTraits 默认阶段的词条分配与良知补偿已确定最终身份与词条
+     * 排在默认阶段之后的 ON_FINISH_INITIALIZE 阶段，确保默认阶段的词条分配与良知补偿已确定最终身份与词条
      * （「快手」随后会缩短首次冷却）。
      */
     static final Identifier FINISH_INITIALIZE_PHASE = SparkDLC.id("abyss_listener_finish_initialize");
@@ -84,8 +84,8 @@ public final class AbyssListenerLoadout {
         UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) ->
                 AbyssListenerInventoryRules.blocksEntityUse(player.getStackInHand(hand), entity)
                         ? ActionResult.FAIL : ActionResult.PASS);
-        // A SparkTraits-intercepted death (Last Stand etc.) leaves the player in play, so the gun stays.
-        // 被 SparkTraits 拦截的死亡（背水一战等）使玩家仍留在对局中，因此保留枪。
+        // A trait-intercepted death (Last Stand etc.) leaves the player in play, so the gun stays.
+        // 被词条拦截的死亡（背水一战等）使玩家仍留在对局中，因此保留枪。
         KillPlayer.AFTER.register((victim, killer, deathReason) -> {
             if (victim != null && !SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
                 removeAll(victim);
@@ -138,9 +138,9 @@ public final class AbyssListenerLoadout {
     }
 
     /**
-     * Places exactly one gun, then writes the initial cooldown with the VANILLA {@code set} (owner spec: SparkTraits
+     * Places exactly one gun, then writes the initial cooldown with the VANILLA {@code set} (owner spec: the trait
      * Fast Hands applies to it). Item cooldowns are per Item, so later re-grants by the sweep keep whatever is left.
-     * 放入恰好一把枪，然后用原版 {@code set} 写入首次冷却（所有者要求：SparkTraits「快手」对其生效）。
+     * 放入恰好一把枪，然后用原版 {@code set} 写入首次冷却（所有者要求：「快手」词条对其生效）。
      * 物品冷却按物品类型记录，因此之后清理补发的枪会保留剩余冷却。
      */
     private static void grantWithInitialCooldown(ServerPlayerEntity player) {
@@ -264,12 +264,12 @@ public final class AbyssListenerLoadout {
      * non-selected hotbar item moves to {@link AbyssListenerGunSweep#displacementSlot}: the slot a stray gun just
      * vacated (Time Stealer rule), kept visible in the shown second row when possible; with no room at all nothing is
      * moved or destroyed and it returns false (the sweep retries next time; {@link #keepRefusedDrop} evicts).
-     * Reusing the vacated slot matters since SparkFactionAPI 0.1.5.13 lets a player park the gun in the visible row
+     * Reusing the vacated slot matters because a player can park the gun in the visible row
      * 27-35: the displaced item takes the gun's place there instead of disappearing into hidden storage.
      * 把 {@code gun} 放入第一个空快捷栏位（Wathe 商店的插入方式）。快捷栏已满时，最右侧非选中快捷栏物品移到
      * {@link AbyssListenerGunSweep#displacementSlot}：错放的枪刚腾出的栏位（窃时者规则），并尽可能留在显示中的第二行
      * 使其可见；完全没有空间时不移动也不销毁任何物品并返回 false（清扫下次重试；{@link #keepRefusedDrop} 则挤出物品）。
-     * SparkFactionAPI 0.1.5.13 起玩家可把枪放进可见的 27-35 行，复用腾出的栏位能让被移出的物品留在那里，而不是消失进隐藏栏位。
+     * 玩家可把枪放进可见的 27-35 行，复用腾出的栏位能让被移出的物品留在那里，而不是消失进隐藏栏位。
      */
     private static boolean placeGun(ServerPlayerEntity player, ItemStack gun, int vacated) {
         if (ShopEntry.insertStackInFreeSlot(player, gun)) {

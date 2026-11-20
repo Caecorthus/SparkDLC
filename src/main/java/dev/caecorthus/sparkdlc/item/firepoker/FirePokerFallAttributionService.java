@@ -18,11 +18,11 @@ import java.util.UUID;
  * Short-lived push credit for train-fall deaths, shared by every pushing weapon (owner decision D3, generalised from
  * the Fire Poker for the Abyss Listener Shriek Gun; the class keeps its historical name). Each record stores the
  * pusher, the pushing weapon and the window end; a {@code wathe:fell_out_of_train} death inside the window is credited
- * to the latest pusher and runs with that weapon as the SparkTraits non-final kill weapon. Pushes by different weapons
+ * to the latest pusher and runs with that weapon as the traits' non-final kill weapon. Pushes by different weapons
  * share one ledger, so the latest push wins regardless of weapon. Server-only.
  * 坠车死亡的短期推人归因，所有推人武器共用（所有者决定 D3：为聆渊者啸音铳从烧火棍通用化而来，类名保持历史名称）。
  * 每条记录保存推人者、推人所用武器与窗口结束时间；窗口内的 {@code wathe:fell_out_of_train} 死亡记给最近一次推人者，
- * 并以该武器作为 SparkTraits 非最终击杀武器执行。不同武器的推人共用一本账，因此无论武器如何，都以最近一次推人为准。仅服务端。
+ * 并以该武器作为词条的非最终击杀武器执行。不同武器的推人共用一本账，因此无论武器如何，都以最近一次推人为准。仅服务端。
  */
 public final class FirePokerFallAttributionService {
     private static final Ledger<Item> LEDGER = new Ledger<>();

@@ -12,20 +12,20 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Predicate;
 
 /**
- * Thin SparkFactionAPI adapter for Team Jiahao's third-faction lineup (registered in {@code SparkDlcRoleRegistry} as
- * a method reference): reads the draw context and maps {@link JiahaoThirdFactionLineupRules} seats to roles. The
- * Corrupt Cop is found by its exact id among Wathe's registered roles, so a missing NoellesRoles just makes Team Jiahao
- * undrawable. It never writes a role or any state; SparkFactionAPI deals the returned roles. Its only RNG read is the
- * second seat's 50/50 coin (Insider or Sphinx Hao, owner Q1), flipped from the draw world's random source and only when
- * a partner seat is actually dealt, so SparkFactionAPI's own draw sequence is otherwise unchanged. A forced (pre-round)
- * Sniper, which SparkFactionAPI counts toward the faction cap, fills the partner seat like a forced Insider or Sphinx
- * Hao; the Sniper itself is never dealt by this draw.
- * 嘉豪阵营“第三阵营”阵容的 SparkFactionAPI 薄适配层（在 {@code SparkDlcRoleRegistry} 中以方法引用注册）：读取抽取上下文，
- * 把 {@link JiahaoThirdFactionLineupRules} 的席位映射为职业。黑警按精确 id 在 Wathe 已注册职业中查找，因此未安装 NoellesRoles
- * 时嘉豪阵营只是不可抽取。从不写入职业或任何状态；由 SparkFactionAPI 发放返回的职业。唯一的随机数读取是第二个席位的 50/50
- * 硬币（内应或狮身豪，所有者 Q1），取自抽取世界的随机源，且只在确实发放同伴席位时抛出，因此 SparkFactionAPI 自身的抽取序列
- * 在其他情况下不变。开局前强制指定的狙击手（SparkFactionAPI 将其计入阵营上限）与强制的内应或狮身豪一样占用同伴席位；狙击手
- * 本身从不由本抽取发放。
+ * Thin adapter for Team Jiahao's third-faction lineup (registered in {@code SparkDlcRoleRegistry} as a method
+ * reference): reads the draw context and maps {@link JiahaoThirdFactionLineupRules} seats to roles. The Corrupt Cop is
+ * found by its exact id among Wathe's registered roles; a list without it would just make Team Jiahao undrawable, which
+ * cannot happen now that NoellesRoles is a required dependency. It never writes a role or any state; the third-faction
+ * draw deals the returned roles. Its only RNG read is the second seat's 50/50 coin (Insider or Sphinx Hao, owner Q1),
+ * flipped from the draw world's random source and only when a partner seat is actually dealt, so the draw's own RNG
+ * sequence is otherwise unchanged. A forced (pre-round) Sniper, which the draw counts toward the faction cap, fills the
+ * partner seat like a forced Insider or Sphinx Hao; the Sniper itself is never dealt by this draw.
+ * 嘉豪阵营“第三阵营”阵容的薄适配层（在 {@code SparkDlcRoleRegistry} 中以方法引用注册）：读取抽取上下文，把
+ * {@link JiahaoThirdFactionLineupRules} 的席位映射为职业。黑警按精确 id 在 Wathe 已注册职业中查找；列表中没有它时嘉豪阵
+ * 营只是不可抽取，而 NoellesRoles 现为必需依赖，这种情况不会出现。从不写入职业或任何状态；由第三阵营抽取发放返回的职
+ * 业。唯一的随机数读取是第二个席位的 50/50 硬币（内应或狮身豪，所有者 Q1），取自抽取世界的随机源，且只在确实发放同伴席
+ * 位时抛出，因此抽取自身的随机序列在其他情况下不变。开局前强制指定的狙击手（抽取将其计入阵营上限）与强制的内应或狮身豪
+ * 一样占用同伴席位；狙击手本身从不由本抽取发放。
  */
 public final class JiahaoThirdFactionLineup {
     private JiahaoThirdFactionLineup() {
@@ -83,7 +83,7 @@ public final class JiahaoThirdFactionLineup {
         return List.copyOf(roles);
     }
 
-    /** NoellesRoles' Corrupt Cop by exact id, or null without NoellesRoles. / 按精确 id 查找黑警；未安装 NoellesRoles 时为 null。 */
+    /** NoellesRoles' Corrupt Cop by exact id; null only if it is not registered. / 按精确 id 查找黑警；仅在未注册时为 null。 */
     static @Nullable Role registeredCorruptCop(List<Role> registeredRoles) {
         for (Role role : registeredRoles) {
             if (InsiderParticipation.isCorruptCopRole(role)) {

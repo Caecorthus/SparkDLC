@@ -36,7 +36,7 @@ import org.jetbrains.annotations.Nullable;
  * <ul>
  *   <li>While the world Otherworld window is open, every alive player who is not effective-killer faction and is
  *       either cowardly or at effective real sanity 25 or below ({@link SpecterRules#isLowSanity}) holds one peachwood
- *       sword. It is placed only in a visible slot (hotbar, then SparkFactionAPI's second row 27-35 when shown); with
+ *       sword. It is placed only in a visible slot (hotbar, then the second row 27-35 when shown); with
  *       both full it waits for the next sweep. A copy in the offhand, on the cursor or in the 2×2 crafting grid counts as
  *       held; a copy in a hidden slot cannot be used and is removed. Everyone else loses every copy (inventory, cursor,
  *       crafting grid, open container) when the window closes or they stop qualifying.</li>
@@ -48,7 +48,7 @@ import org.jetbrains.annotations.Nullable;
  * </ul>
  * 桃木剑的发放与唯一有效的攻击。
  * 世界里世界窗口开启期间，所有存活、不属于有效杀手阵营，且怯懦或有效真实理智不高于 25（{@link SpecterRules#isLowSanity}）的
- * 玩家持有一把桃木剑。剑只放入可见栏位（快捷栏，其次是显示时的 SparkFactionAPI 第二行 27-35）；两者都满时等待下一轮检查。
+ * 玩家持有一把桃木剑。剑只放入可见栏位（快捷栏，其次是显示时的第二行 27-35）；两者都满时等待下一轮检查。
  * 副手、光标或 2×2 合成格中的剑视为已持有；隐藏栏位中的剑无法使用，会被移除。其他人在窗口结束或不再符合条件时失去所有副本
  * （背包、光标、合成格与已打开的容器）。
  * 只有幽魂能被命中。满蓄力的一次攻击连续结算 4 次刀刺，每刀消耗 1 层里世界护盾；护盾不足 4 层时剩余刀数会击杀幽魂。
@@ -130,9 +130,9 @@ public final class SpecterPeachwoodService {
 
     /**
      * Alive and playing, not creative/spectating (a Taotie-swallowed player is a spectator), not the Specter itself,
-     * not SparkFactionAPI effective killer faction (an Impostor at low sanity never gets one), and either cowardly or at
+     * not faction-core effective killer faction (an Impostor at low sanity never gets one), and either cowardly or at
      * effective real sanity 25 or below.
-     * 存活且参与对局、非创造/旁观（被饕餮吞下的玩家是旁观者）、不是幽魂本身、不属于 SFA 有效杀手阵营（低理智的内鬼也不会获得），
+     * 存活且参与对局、非创造/旁观（被饕餮吞下的玩家是旁观者）、不是幽魂本身、不属于阵营核心的有效杀手阵营（低理智的内鬼也不会获得），
      * 且怯懦或有效真实理智不高于 25。
      */
     private static boolean canHoldSword(ServerPlayerEntity player) {
@@ -251,10 +251,10 @@ public final class SpecterPeachwoodService {
 
     /**
      * Only a peachwood sword in the main hand against the Specter does anything. Every other target is cancelled so the
-     * sword never hurts players or mobs; a non-full charge, a SparkTraits weapon block and a SparkTraits parry also do
+     * sword never hurts players or mobs; a non-full charge, a trait weapon block and a trait parry also do
      * nothing. FAIL/SUCCESS skip vanilla {@code attack()}, so the attack charge is reset here on every swing (as Wathe's
      * bat path does): a client spamming attack packets never gets more than one full-charge hit.
-     * 只有主手桃木剑攻击幽魂才有效。其他目标一律取消，桃木剑不会伤到玩家或生物；蓄力未满、SparkTraits 武器封锁与 SparkTraits
+     * 只有主手桃木剑攻击幽魂才有效。其他目标一律取消，桃木剑不会伤到玩家或生物；蓄力未满、词条武器封锁与词条
      * 格挡同样无效。FAIL/SUCCESS 会跳过原版 {@code attack()}，因此每次挥剑都在此重置攻击蓄力（与 Wathe 球棒路径一致）：
      * 狂发攻击包的客户端也拿不到超过一次满蓄力命中。
      */

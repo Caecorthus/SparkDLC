@@ -61,11 +61,11 @@ import static dev.caecorthus.sparkdlc.client.tablet.screen.TabletSectionPainter.
  * 频道切换浮层与输入分发，并向当前页面获取其控件、滚动、页眉胶囊与主体。</p>
  *
  * <p>Feature sections (the Attendant door log, the Bomber drone link) ride along with any channel. A holder whose only
- * content is feature sections ("feature-only": no channel and none to switch to, e.g. a plain Attendant or a SparkTraits
- * Conscience Bomber; see {@link TabletFeatureOnly}) gets that feature's chrome instead of "No Signal": a non-clickable
- * status chip naming it, its badge glyph and its accent ({@link TabletTheme#accentFor(TabletFeature)}).
+ * content is feature sections ("feature-only": no channel and none to switch to, e.g. a plain Attendant or a Bomber
+ * with the Conscience trait; see {@link TabletFeatureOnly}) gets that feature's chrome instead of "No Signal": a
+ * non-clickable status chip naming it, its badge glyph and its accent ({@link TabletTheme#accentFor(TabletFeature)}).
  * 功能分区（乘务员房门记录、炸弹客无人机链路）可与任意频道并存。只有功能分区的持有者（“仅功能”：无频道且无可切换频道，
- * 例如普通乘务员或 SparkTraits 善良炸弹客）显示该功能的外观，而非“无信号”：写着功能名的不可点击状态胶囊、
+ * 例如普通乘务员或带善良词条的炸弹客）显示该功能的外观，而非“无信号”：写着功能名的不可点击状态胶囊、
  * 功能徽标图形与功能强调色。</p>
  *
  * <p>The drone section only asks to connect ({@link DronePilotStartC2SPacket}); the server re-validates ownership,

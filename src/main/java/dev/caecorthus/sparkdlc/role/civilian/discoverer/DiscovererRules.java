@@ -61,7 +61,7 @@ public final class DiscovererRules {
 
     // ---- Shop ----
 
-    /** Bare shop-entry id, like the other SparkWitch shops. / 不带命名空间的商店条目 id，与其他 SparkWitch 商店一致。 */
+    /** Bare shop-entry id, like the mod's other role shops. / 不带命名空间的商店条目 id，与本模组其他职业商店一致。 */
     public static final String SPYGLASS_ENTRY_ID = "discoverer_spyglass";
     public static final int SPYGLASS_PRICE = 150;
     public static final int SPYGLASS_STOCK = 1;
@@ -86,10 +86,10 @@ public final class DiscovererRules {
     }
 
     /**
-     * Pays only on a confirmed non-Impostor: SparkTraits pays an Impostor's task income itself, so the two never stack.
-     * An absent SparkTraits reads as FALSE (pay); an unknown answer (null) never pays.
-     * 只在确认不是内鬼时发放：SparkTraits 自行支付内鬼的任务收入，两者绝不叠加。未安装 SparkTraits 视为 FALSE（发放）；
-     * 未知答案（null）从不发放。
+     * Pays only on a confirmed non-Impostor: the Impostor trait pays its holder's task income itself, so the two never
+     * stack. An unknown answer (null) never pays; unreachable since the fusion, the caller passes a plain boolean.
+     * 只在确认不是内鬼时发放：内鬼词条自行支付持有者的任务收入，两者绝不叠加。未知答案（null）从不发放；
+     * 融合后不可达，调用方传入的是普通 boolean。
      */
     public static boolean receivesTaskMoney(@Nullable Boolean impostor) {
         return Boolean.FALSE.equals(impostor);

@@ -6,12 +6,12 @@ import net.minecraft.util.Identifier;
 import java.util.OptionalInt;
 
 /**
- * One role-skill cooldown counter that downstream mods expose so other features can force it. The owning mod
- * registers it once during initialization; SparkFactionAPI only enumerates and writes through it, on the server
+ * One role-skill cooldown counter that a role feature or an add-on exposes so other features can force it. Its owner
+ * registers it once during initialization; {@code ForcedCooldowns} only enumerates and writes through it, on the server
  * thread. Implementations own syncing and any side state (for example a deferred cooldown that starts when an
  * active window ends): override {@link #raiseTo} and {@link #extendBy} when a plain read-then-write would lose the
  * penalty.
- * 下游模组暴露的一项职业技能冷却计数，供其他功能强制施加。由所属模组在初始化时注册一次；SparkFactionAPI 只在服务端线程上
+ * 职业功能或附属模组暴露的一项职业技能冷却计数，供其他功能强制施加。由所有者在初始化时注册一次；ForcedCooldowns 只在服务端线程上
  * 枚举并通过它写入。实现方负责同步及附带状态（例如主动窗口结束时才开始的延后冷却）：若简单的先读后写会丢失惩罚，
  * 请覆写 {@link #raiseTo} 与 {@link #extendBy}。
  */
@@ -29,9 +29,9 @@ public interface RoleSkillCooldownStore {
     OptionalInt nominalTicks(ServerPlayerEntity player);
 
     /**
-     * Writes the exact remaining ticks and syncs them to the owner. SparkFactionAPI never calls it with a value
+     * Writes the exact remaining ticks and syncs them to the owner. {@code ForcedCooldowns} never calls it with a value
      * below the current remaining time.
-     * 精确写入剩余 tick 并同步给本人。SparkFactionAPI 不会用低于当前剩余值的数调用它。
+     * 精确写入剩余 tick 并同步给本人。ForcedCooldowns 不会用低于当前剩余值的数调用它。
      */
     void setRemainingTicks(ServerPlayerEntity player, int ticks);
 

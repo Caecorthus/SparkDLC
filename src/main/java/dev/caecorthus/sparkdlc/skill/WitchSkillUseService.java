@@ -54,13 +54,13 @@ public final class WitchSkillUseService {
         if (GrandWitchFearService.denyRoleSkillIfFeared(player)) {
             return false;
         }
-        // SparkWitch packets are outside SparkTraits' own packet gate, so the shared skill packet asks the facade
+        // The skill packets are outside the traits' own packet gate, so the shared skill packet asks SparkTraitsApi
         // itself, as every dedicated skill handler already does: without this a silenced effective killer (Ninja
-        // parry, Focused Footsteps, Kidnapper drag) or a Last Escape player still used the skill. Absent, older or
-        // failing SparkTraits blocks nothing (the bridge fails open). Wathe-dead Wraiths never reach this line.
-        // SparkWitch 自有数据包不在 SparkTraits 的数据包拦截范围内，因此共享技能包与所有自有流程技能处理器一样主动查询公共
-        // 门面：否则被沉默的有效杀手（忍者招架、专注脚步、绑架者拖尸）或处于脱险的玩家仍能使用技能。SparkTraits 缺失、过旧或
-        // 调用失败时不拦截（桥接失败即放行）。Wathe 判定已死亡的冤魂到不了这一行。
+        // parry, Focused Footsteps, Kidnapper drag) or a Last Escape player still used the skill.
+        // Wathe-dead Wraiths never reach this line.
+        // 技能数据包不在词条功能的数据包拦截范围内，因此共享技能包与所有自有流程技能处理器一样主动查询 SparkTraitsApi：
+        // 否则被沉默的有效杀手（忍者招架、专注脚步、绑架者拖尸）或处于脱险的玩家仍能使用技能。
+        // Wathe 判定已死亡的冤魂到不了这一行。
         if (SparkTraitsApi.isRoleSkillBlocked(player)) {
             send(player, "message.sparkdlc.skill.unavailable");
             return false;

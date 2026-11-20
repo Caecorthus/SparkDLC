@@ -27,16 +27,17 @@ import java.util.function.BooleanSupplier;
 /**
  * Server-only blast targeting, grenade rules plus line of sight. A candidate is a living round participant in
  * survival/adventure whose body overlaps the N×N×N cube ({@link PotionBlastRings#inCube}) with a clear COLLIDER segment
- * from the blast centre to its feet, body centre or eye (closed doors block). Factions use the target's real
- * SparkFactionAPI effective faction, never the Black Raven {@code isRole} overlay; an unknown faction counts as an
- * ally (fail closed). GW-DK/AC/MR drop allies and the gunner; TR keeps everyone and flags them. Every non-self target
- * also needs the online gunner's SparkFactionAPI affect permission ({@link PotionGunnerRules#BLAST_ACTION}: Wraith
- * isolation) and Vendetta exact-pair isolation; an offline gunner vetoes nobody, the faction filter still applies.
- * 仅服务端的爆炸目标判定：手雷规则加视线。候选者为生存/冒险模式、存活的对局参与者，其身体与 N×N×N 立方体重叠，
- * 且爆心到其脚部、身体中心或眼睛至少一条 COLLIDER 线段无遮挡（关闭的门会挡住）。阵营取目标真实的 SparkFactionAPI 有效阵营，
- * 绝不使用黑羽鸦 {@code isRole} 伪装覆盖；阵营未知按己方处理（失败关闭）。GW-DK/AC/MR 排除己方与药炮手本人；TR 保留所有人
- * 并加以标记。每个非本人目标还须通过在线药炮手的 SparkFactionAPI 影响许可（冤魂隔离）与复仇者精确配对隔离；
- * 药炮手离线时不做该否决，但阵营过滤照常。
+ * from the blast centre to its feet, body centre or eye (closed doors block). Factions use the target's real effective
+ * faction ({@code SparkFactionApi.resolveEffectiveFaction}), never the Black Raven {@code isRole} overlay; an unknown
+ * faction counts as an ally (fail closed). GW-DK/AC/MR drop allies and the gunner; TR keeps everyone and flags them.
+ * Every non-self target also needs the online gunner's affect permission ({@link PotionGunnerRules#BLAST_ACTION}:
+ * Wraith isolation) and Vendetta exact-pair isolation; an offline gunner vetoes nobody, the faction filter still
+ * applies.
+ * 仅服务端的爆炸目标判定：手雷规则加视线。候选者为生存/冒险模式、存活的对局参与者，其身体与 N×N×N 立方体重叠，且爆心到
+ * 其脚部、身体中心或眼睛至少一条 COLLIDER 线段无遮挡（关闭的门会挡住）。阵营取目标真实的有效阵营
+ * （{@code SparkFactionApi.resolveEffectiveFaction}），绝不使用黑羽鸦 {@code isRole} 伪装覆盖；阵营未知按己方处理（失败
+ * 关闭）。GW-DK/AC/MR 排除己方与药炮手本人；TR 保留所有人并加以标记。每个非本人目标还须通过在线药炮手的影响许可（冤魂隔
+ * 离）与复仇者精确配对隔离；药炮手离线时不做该否决，但阵营过滤照常。
  */
 public final class PotionBlastResolver {
     private PotionBlastResolver() {
@@ -140,9 +141,9 @@ public final class PotionBlastResolver {
     }
 
     /**
-     * Living, playing, survival/adventure; Wathe-dead or role-less players are never caught. A SparkTraits Last Escape
+     * Living, playing, survival/adventure; Wathe-dead or role-less players are never caught. A Last Escape (trait)
      * player is untouchable, as for the Shock Device and the Time Stealer.
-     * 存活参与者；Wathe 判定死亡或无职业的玩家永不被波及。处于 SparkTraits 最后逃脱的玩家不可被影响，与电击装置、窃时者一致。
+     * 存活参与者；Wathe 判定死亡或无职业的玩家永不被波及。处于最后逃脱词条的玩家不可被影响，与电击装置、窃时者一致。
      */
     private static boolean isCandidate(PlayerEntity player) {
         return GameFunctions.isPlayerAliveAndSurvival(player) && GameFunctions.isPlayerPlayingAndAlive(player)

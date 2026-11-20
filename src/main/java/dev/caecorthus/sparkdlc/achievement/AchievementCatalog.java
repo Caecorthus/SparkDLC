@@ -6,12 +6,12 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Every achievement SparkAssist knows. Players never see this list as a whole: the page shows only earned
+ * Every achievement the mod knows. Players never see this list as a whole: the page shows only earned
  * achievements and those they link to (see {@link AchievementGalaxy}), and several earned in one round unlock in this
  * order. Ids go into players' saves and never change; the rules live in
  * the {@code *Rules} classes of this package (e.g. {@link RoundRules}, {@link KillRules}, {@link GeneralRules}), except
  * the rule of the level 6 achievement, which is about this list itself.
- * SparkAssist 已知的全部成就。玩家看不到完整的列表：成就页只显示已达成的成就及其连向的成就（见 {@link AchievementGalaxy}），
+ * 本模组已知的全部成就。玩家看不到完整的列表：成就页只显示已达成的成就及其连向的成就（见 {@link AchievementGalaxy}），
  * 同一局达成的多个成就按此顺序解锁。
  * id 会写进玩家存档，永不修改；规则见本包中的各个 {@code *Rules} 类（例如 {@link RoundRules}、{@link KillRules}、{@link GeneralRules}）；只有 6 级成就的规则写在这里，因为它针对的就是这份列表本身。
  */

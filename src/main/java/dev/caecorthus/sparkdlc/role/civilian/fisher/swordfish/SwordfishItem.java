@@ -19,9 +19,10 @@ import net.minecraft.world.World;
 import java.util.List;
 
 /**
- * Independent item with knife-like charging. Inheriting the knife would also inherit other mods' instant-use
- * replacements; only the target selector is shared. Visible in hand, with ordinary prepare/stab sounds.
- * 独立物品，手感同刀；继承刀还会继承其他模组的瞬刺替换，因此仅共享选靶。手持可见，正常播放蓄力与刺击声。
+ * Independent item with knife-like charging. Inheriting the knife would also inherit the knife's instant-use
+ * replacements (such as the Veteran's); only the target selector is shared. Visible in hand, with ordinary
+ * prepare/stab sounds.
+ * 独立物品，手感同刀；继承刀还会继承挂在刀上的瞬刺替换（如老兵的），因此仅共享选靶。手持可见，正常播放蓄力与刺击声。
  */
 public final class SwordfishItem extends Item {
     private static final int TOOLTIP_LINES = 2;

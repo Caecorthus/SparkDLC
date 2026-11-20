@@ -124,11 +124,11 @@ public final class WitchFactorService {
     /**
      * Pure classification. Open refusals come first, so a hidden one is only ever reported where an ordinary target
      * would have succeeded; otherwise the two would differ again (free against charged) and tell the caster the same
-     * thing. Open: the cast itself is not possible (round, caster, self, world, life), SparkFactionAPI vetoes the
+     * thing. Open: the cast itself is not possible (round, caster, self, world, life), canAffectPlayer vetoes the
      * pair, the shared quota is closed, or the target visibly holds a factor (mature and in the caster's own network
      * view). Hidden: the target's role makes it no carrier, or it holds a factor the caster cannot see (dormant).
      * 纯分类。公开的拒绝优先判定，因此只有在普通目标本会成功的情况下才会报告隐藏的拒绝；否则两者又会出现差别（免费与扣费），
-     * 等于把同样的信息告诉施放者。公开：施放本身不成立（对局、施放者、自身、世界、存活）、SparkFactionAPI 否决这一对、
+     * 等于把同样的信息告诉施放者。公开：施放本身不成立（对局、施放者、自身、世界、存活）、canAffectPlayer 否决这一对、
      * 共用额度已关闭，或目标可见地持有因子（已成熟且在施放者自己的网络视图中）。隐藏：目标的职业使其不能携带因子，或它持有
      * 施放者看不到的因子（潜伏）。
      */

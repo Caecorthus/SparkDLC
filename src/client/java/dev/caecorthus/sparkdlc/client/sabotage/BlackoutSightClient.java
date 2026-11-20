@@ -27,16 +27,16 @@ import java.util.function.IntSupplier;
 
 /**
  * Client side of {@link BlackoutSightRules}. For a player the instinct key may not reveal, the highlight is evaluated
- * as if the key were released: every key-gated answer (Wathe's killer path, SparkTraits, faction policies, add-on
+ * as if the key were released: every key-gated answer (Wathe's killer path, the traits, faction policies, other
  * listeners) drops out, while outlines that show without the key survive untouched. Releasing the key, rather than
- * returning -1, is what keeps ability outlines alive; the same trick SparkWitch's USEC cloak uses.
+ * returning -1, is what keeps ability outlines alive; the same trick the USEC cloak uses.
  * BlackoutSightRules 的客户端部分。对本能键不能透视的玩家，按“未按本能键”重新计算描边：所有需要按键的结果（Wathe 杀手
- * 路径、SparkTraits、阵营策略、附属模组监听器）都会消失，而不用按键就显示的描边原样保留。之所以模拟松开按键而不是直接
- * 返回 -1，正是为了保留技能描边；SparkWitch 的 USEC 隐匿用的也是这种做法。
+ * 路径、词条、阵营策略、其他监听器）都会消失，而不用按键就显示的描边原样保留。之所以模拟松开按键而不是直接
+ * 返回 -1，正是为了保留技能描边；USEC 隐匿用的也是这种做法。
  *
  * <p>Render thread only. The viewer's team is cached per world tick, since outlines are asked for every entity every
- * frame and the trait and Wraith checks go through reflection.
- * 仅在渲染线程使用。观察者的阵营按世界 tick 缓存，因为每帧每个实体都要查询描边，而词条与冤魂判定都经过反射。</p>
+ * frame.
+ * 仅在渲染线程使用。观察者的阵营按世界 tick 缓存，因为每帧每个实体都要查询描边。</p>
  */
 public final class BlackoutSightClient {
     private static boolean blackout;

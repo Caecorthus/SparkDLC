@@ -88,7 +88,10 @@ public final class TimeGiftWatchService {
         }
     }
 
-    /** SparkTraits' exact write first; vanilla only as the fallback (never both). / 优先 SparkTraits 精确写入；原版仅作回退（二者不会同时执行）。 */
+    /**
+     * The trait API's exact write first; the vanilla fallback (never both) is unreachable since the fusion.
+     * 优先词条 API 精确写入；原版回退（二者不会同时执行）融合后不可达。
+     */
     static void showCooldown(ServerPlayerEntity user, Item watch, int ticks) {
         if (!SparkTraitsApi.setExactItemCooldownRemaining(user, watch, ticks)) {
             user.getItemCooldownManager().set(watch, ticks);

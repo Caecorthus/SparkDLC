@@ -32,14 +32,14 @@ import java.util.UUID;
  * <p>Markers reach a viewer on a plant (and are taken back on a trigger or clear), when a chunk holding one is sent to
  * them, and as a scan of the loaded traps when they become a viewer (round start, Bomber disguise, join). The viewer
  * set is re-checked every tick while the world has traps or a viewer still holds some; every send re-checks the live
- * rule as well. Same shape as SparkTraits' blue-poison markers. Server thread only.
+ * rule as well. Same shape as the traits' blue-poison markers. Server thread only.
  * 安全闸门：把已埋设的定时炸弹陷阱（床与托盘）只发送给有权查看的玩家。埋设者原本随方块实体的客户端 NBT 下发，所有追踪该区块
  * 的客户端都能收到，且每次埋设或触发都会发送公开的方块实体更新；现在该 NBT 不再包含陷阱信息（TimedBomb*StateMixin），由本类
  * 仅向“陷阱观察者”（BomberTrapService#seesTimedBombTraps，即客户端警示烟雾原本使用的规则）发送 TimedBombMarkersPayload。
  * 不在该集合中的玩家不会从这里收到任何数据包，空包也没有。
  * <p>观察者在陷阱被埋设时收到标记（触发或清除时收回），在含有陷阱的区块发送给他们时收到，并在成为观察者时（开局、伪装成炸弹客、
  * 加入）通过扫描已加载的陷阱补齐。只要本世界有陷阱或仍有观察者持有标记，就每 tick 重新检查观察者集合；每次发送也会再次检查
- * 实时规则。结构与 SparkTraits 的蓝毒标记相同。仅在服务端线程使用。
+ * 实时规则。结构与词条的蓝毒标记相同。仅在服务端线程使用。
  */
 public final class TimedBombMarkerSync {
     /** Stale markers (a broken block, an unloaded chunk) are withdrawn within this many ticks. / 失效标记在此 tick 数内收回。 */

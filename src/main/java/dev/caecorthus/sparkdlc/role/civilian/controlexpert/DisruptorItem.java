@@ -57,7 +57,7 @@ public final class DisruptorItem extends Item {
             return TypedActionResult.fail(stack);
         }
         disruptNearby(ce, serverWorld);
-        // Plain vanilla cooldown so SparkTraits Fast Hands may shorten it. / 普通原版冷却，SparkTraits 快手可缩短。
+        // Plain vanilla cooldown so the Fast Hands trait may shorten it. / 普通原版冷却，快手词条可缩短。
         ce.getItemCooldownManager().set(this, ControlExpertRules.DISRUPTOR_COOLDOWN);
         GameRecordManager.recordItemUse(ce, ControlExpertRules.DISRUPTOR_ID, null, null);
         // Fixed and heard only by the user: identical whether nobody or many were affected.
@@ -69,11 +69,11 @@ public final class DisruptorItem extends Item {
     /**
      * Uniform per-target effect with no role, faction or instinct branch. The owner-only HUD countdown is the primary
      * notice; the action bar line is best effort because blackout re-sends the action bar every tick. Chat is no
-     * fallback: Wathe hides the chat HUD from playing-and-alive, non-creative players, and SparkWitch reopens it only
-     * for active Wraiths, who are never targets.
+     * fallback: Wathe hides the chat HUD from playing-and-alive, non-creative players, and the Wraith feature reopens
+     * it only for active Wraiths, who are never targets.
      * 对每个目标施加完全相同的效果，不按职业、阵营或本能能力分支。仅拥有者可见的 HUD 倒计时是主要提示；
      * 动作栏提示只是尽力而为，因为停电期间动作栏每刻都会被覆盖。聊天栏不能作为后备：Wathe 会对存活且非创造
-     * 模式的参赛玩家隐藏聊天栏，SparkWitch 仅为激活的冤魂重新开放，而冤魂从不是目标。
+     * 模式的参赛玩家隐藏聊天栏，冤魂功能仅为激活的冤魂重新开放，而冤魂从不是目标。
      */
     private static void disruptNearby(ServerPlayerEntity ce, ServerWorld world) {
         for (ServerPlayerEntity target : world.getPlayers()) {

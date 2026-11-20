@@ -14,7 +14,7 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
 /**
- * SparkStrength 版濒毁怀表。
+ * 本模组版濒毁怀表。
  * 这里只保留刷新物品冷却和刷新技能冷却，不包含自改版中的回溯、损坏、修复和升级机制。
  */
 public final class TimekeeperWatchItem extends Item {

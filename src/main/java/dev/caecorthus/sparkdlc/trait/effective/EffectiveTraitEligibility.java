@@ -18,14 +18,14 @@ import java.util.UUID;
 public final class EffectiveTraitEligibility {
     private static final Identifier SPARKWITCH_PIG_GOD_ID = Identifier.of("sparkdlc", "pig_god");
     private static final Identifier SPARKWITCH_SAINT_ID = Identifier.of("sparkdlc", "saint");
-    // SparkWitch's Blind sees only through sounds, so Impostor instinct and night vision would void the role.
-    // SparkWitch 盲人只能靠声音感知，内鬼的本能透视与夜视会让该职业失效。
+    // The Blind sees only through sounds, so Impostor instinct and night vision would void the role.
+    // 盲人只能靠声音感知，内鬼的本能透视与夜视会让该职业失效。
     private static final Identifier SPARKWITCH_BLIND_ID = Identifier.of("sparkdlc", "blind");
-    // Owner 2026-11-04: SparkWitch's Noa paints from her real Wathe mood, which Impostor's fake mood would pin at 1.0.
-    // 所有者 2026-11-04：SparkWitch 城崎诺亚按真实 Wathe 心情作画，内鬼的虚假心情会把它固定在 1.0。
+    // Owner 2026-11-04: Noa paints from her real Wathe mood, which Impostor's fake mood would pin at 1.0.
+    // 所有者 2026-11-04：城崎诺亚按真实 Wathe 心情作画，内鬼的虚假心情会把它固定在 1.0。
     private static final Identifier SPARKWITCH_NOA_ID = Identifier.of("sparkdlc", "noa");
-    // PR SparkWitch #206: SparkWitch's Sherry is the passenger-side detective (real sanity, killer deduction), so she must never roll Impostor.
-    // PR SparkWitch #206：SparkWitch 橘雪莉是乘客阵营的侦探（真实理智、推演凶手），不能被抽成内鬼。
+    // PR SparkWitch #206: Sherry is the passenger-side detective (real sanity, killer deduction), so she must never roll Impostor.
+    // PR SparkWitch #206：橘雪莉是乘客阵营的侦探（真实理智、推演凶手），不能被抽成内鬼。
     private static final Identifier SPARKWITCH_SHERRY_ID = Identifier.of("sparkdlc", "sherry");
     private static final Identifier SPARKWITCH_BELL_RINGER_ID = Identifier.of("sparkdlc", "bell_ringer");
     // Owner report 2026-11-14: the Specter owns otherworld roaming and karma, which Conscience would flip to passengers.
@@ -61,8 +61,8 @@ public final class EffectiveTraitEligibility {
                 && !EffectiveTraitService.hasImpostor(selectedTraits);
     }
 
-    /** Owner rule: SparkWitch's Bell Ringer and Specter never receive Conscience; other killer traits stay eligible.
-     *  所有者规则：SparkWitch 的敲钟人与幽魂永不获得善良；其他杀手词条不受影响。 */
+    /** Owner rule: the Bell Ringer and the Specter never receive Conscience; other killer traits stay eligible.
+     *  所有者规则：敲钟人与幽魂永不获得善良；其他杀手词条不受影响。 */
     public static boolean isConscienceBlockedRole(Role role) {
         return role != null
                 && (role.identifier().equals(SPARKWITCH_BELL_RINGER_ID)
@@ -114,8 +114,8 @@ public final class EffectiveTraitEligibility {
                 && (PoliceRoleCategory.isPolice(role)
                 || EffectiveTraitService.isUndercover(role)
                 || role.identifier().equals(Noellesroles.SURVIVAL_MASTER_ID)
-                // Toxicologist owns SparkStrength's blue-poison kit, which must stay on the innocent side.
-                // 毒理学家持有 SparkStrength 的蓝毒道具，必须保持好人身份。
+                // Toxicologist owns the blue-poison kit, which must stay on the innocent side.
+                // 毒理学家持有蓝毒道具，必须保持好人身份。
                 || role.identifier().equals(Noellesroles.TOXICOLOGIST_ID)
                 || role.identifier().equals(SPARKWITCH_PIG_GOD_ID)
                 || role.identifier().equals(SPARKWITCH_SAINT_ID)

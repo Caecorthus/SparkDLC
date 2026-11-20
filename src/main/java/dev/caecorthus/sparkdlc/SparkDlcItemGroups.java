@@ -39,7 +39,7 @@ public final class SparkDlcItemGroups {
             RegistryKey.of(RegistryKeys.ITEM_GROUP, Identifier.of(SparkDLC.MOD_ID, "items"));
     private static boolean registered;
 
-    /** Called once, after every module has registered its items. / 在所有模块注册完物品之后调用一次。 */
+    /** Called once, after every feature has registered its items. / 在所有功能注册完物品之后调用一次。 */
     public static synchronized void register() {
         if (registered) {
             return;
@@ -64,11 +64,11 @@ public final class SparkDlcItemGroups {
     // ---------------------------------------------------------------------------------------------------------------
 
     /**
-     * The items SparkStrength registered, in registration order. Captured when this module finishes registering,
-     * before SparkWitch registers anything: every module shares one namespace, so the namespace alone no longer
-     * says which module an item belongs to.
-     * SparkStrength 注册的物品，按注册顺序。在本模块注册完成时、SparkWitch 注册任何物品之前记录：所有模块共用一个命名空间，
-     * 仅凭命名空间已无法判断物品属于哪个模块。
+     * The role kit items, in registration order. Captured when the role kits finish registering,
+     * before the mod's own roles register anything: every item shares one namespace, so the namespace alone does not
+     * say which section an item belongs to.
+     * 职业套件的物品，按注册顺序。在职业套件注册完成时、本模组自有职业注册任何物品之前记录：所有物品共用一个命名空间，
+     * 仅凭命名空间无法判断物品属于哪个部分。
      */
     private static final Set<Item> ROLE_KIT_ITEMS = new LinkedHashSet<>();
     private static boolean roleKitSectionRegistered;
@@ -91,15 +91,15 @@ public final class SparkDlcItemGroups {
         roleKitSectionRegistered = true;
     }
 
-    /** Whether SparkStrength registered {@code item}. / 该物品是否由 SparkStrength 注册。 */
+    /** Whether {@code item} is a role kit item. / 该物品是否为职业套件物品。 */
     public static boolean isRoleKitItem(Item item) {
         return ROLE_KIT_ITEMS.contains(item);
     }
 
     /**
-     * The SparkStrength section of the tab: every item this module registered, in registration order, so new items
+     * The role kit section of the tab: every role kit item, in registration order, so new items
      * join automatically.
-     * 物品栏的 SparkStrength 部分：按注册顺序列出本模块注册的全部物品，新增物品无需再手动加入。
+     * 物品栏的职业套件部分：按注册顺序列出职业套件的全部物品，新增物品无需再手动加入。
      */
     static void addRoleKitEntries(ItemGroup.Entries entries) {
         for (Item item : ROLE_KIT_ITEMS) {
@@ -126,7 +126,7 @@ public final class SparkDlcItemGroups {
         roleSectionRegistered = true;
     }
 
-    /** The SparkWitch section of the tab. / 物品栏的 SparkWitch 部分。 */
+    /** The section of the mod's own roles. / 物品栏的本模组自有职业部分。 */
     static void addRoleEntries(ItemGroup.Entries entries) {
         // Default stacks only: the creative search index builds their tooltips off-thread with a null player.
         // 只列出默认物品堆：创造模式搜索索引会在后台线程以空玩家构建其提示文本。
@@ -230,11 +230,11 @@ public final class SparkDlcItemGroups {
                 SparkDlcItems.rope()
         );
         factionOrder.forEach(entries::add);
-        // Any other item of this module (ours, and not one SparkStrength registered) follows in registration order,
+        // Any other item of the mod (ours, and not a role kit item) follows in registration order,
         // so new items join automatically.
         // Operator-only items are the exception: they live in vanilla's Operator Utilities tab only;
         // hidden items stay out of creative entirely.
-        // 本模块的其他物品（属于本模组且不是 SparkStrength 注册的）按注册顺序追加在后，新增物品无需再手动加入。
+        // 本模组的其他物品（属于本模组且不是职业套件物品）按注册顺序追加在后，新增物品无需再手动加入。
         // 管理员专用物品例外：只放在原版「管理员用品」物品栏；隐藏物品则完全不出现在创造模式物品栏。
         List<Item> operatorOnly = operatorOnlyItems();
         List<Item> creativeHidden = creativeHiddenItems();
@@ -251,7 +251,7 @@ public final class SparkDlcItemGroups {
         }
     }
 
-    /** SparkWitch items kept out of the SparkWitch tab and listed under Operator Utilities. / 管理员专用物品。 */
+    /** Items of the mod's own roles kept out of the tab and listed under Operator Utilities. / 管理员专用物品。 */
     private static List<Item> operatorOnlyItems() {
         return List.of(SparkDlcItems.riftGateRemover());
     }

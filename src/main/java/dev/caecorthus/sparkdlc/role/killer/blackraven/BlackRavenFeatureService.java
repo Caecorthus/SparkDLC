@@ -20,10 +20,10 @@ import net.minecraft.util.Identifier;
 public final class BlackRavenFeatureService {
     /**
      * Wathe's ON_FINISH_INITIALIZE phase for the Black Raven, ordered after the default phase so Wathe has started
-     * the replay match (the binding id) and every default listener (e.g. SparkTraits compensation) has settled final
+     * the replay match (the binding id) and every default listener (e.g. the trait compensation) has settled final
      * roles, whatever the mod initializer order.
      * 黑羽鸦在 Wathe ON_FINISH_INITIALIZE 上使用的阶段，排在默认阶段之后：无论模组初始化顺序如何，此时 Wathe
-     * 已开始回放对局（绑定 id），所有默认监听器（如 SparkTraits 补偿）也已确定最终身份。
+     * 已开始回放对局（绑定 id），所有默认监听器（如词条补偿）也已确定最终身份。
      */
     static final Identifier FINISH_INITIALIZE_PHASE = SparkDLC.id("black_raven_finish_initialize");
 

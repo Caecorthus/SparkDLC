@@ -20,14 +20,14 @@ import net.minecraft.util.Identifier;
  * add through {@code ShouldDropOnDeath}) is taken out of the stash and dropped the way Wathe's own death loop drops the
  * live inventory ({@code victim.dropItem(stack, true, false)}); the rest of each stash still vanishes in the default
  * phase ({@code BlackRavenDisguiseService.endForDeath}). Runs in its own {@code KillPlayer.AFTER} phase ordered BEFORE
- * {@link Event#DEFAULT_PHASE}: after BEFORE, where a death can still be cancelled, and before SparkTraits consumes its
- * Last Stand set in the default AFTER phase (a revival must not find a revolver left over). Raw role only. Server only.
+ * {@link Event#DEFAULT_PHASE}: after BEFORE, where a death can still be cancelled, and before Last Stand consumes its
+ * set in the default AFTER phase (a revival must not find a revolver left over). Raw role only. Server only.
  * 计划 v2 §3.4：黑羽鸦死亡时，暂存中的左轮同样掉落。死亡时，任何伪装暂存中满足 Wathe
  * {@code GameFunctions.shouldDropOnDeath(stack, victim)} 的物品（左轮，以及其他模组通过 {@code ShouldDropOnDeath} 加入的物品）
  * 会从暂存中取出，并按 Wathe 自身死亡循环掉落当前背包的方式掉落（{@code victim.dropItem(stack, true, false)}）；
  * 各暂存的其余物品仍在默认阶段消失（{@code BlackRavenDisguiseService.endForDeath}）。使用独立的 {@code KillPlayer.AFTER}
- * 阶段，排在 {@link Event#DEFAULT_PHASE} 之前：晚于死亡仍可被取消的 BEFORE，早于 SparkTraits 在 AFTER 默认阶段消费其
- * 背水一战集合（复活时不能多出一把左轮）。只按原始职业判断。仅服务端。
+ * 阶段，排在 {@link Event#DEFAULT_PHASE} 之前：晚于死亡仍可被取消的 BEFORE，早于背水一战词条在 AFTER 默认阶段消费其
+ * 集合（复活时不能多出一把左轮）。只按原始职业判断。仅服务端。
  */
 public final class BlackRavenStashedDeathDrops {
     /** The early {@code KillPlayer.AFTER} phase. / {@code KillPlayer.AFTER} 的提前阶段。 */

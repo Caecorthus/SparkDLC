@@ -15,10 +15,10 @@ public final class CorruptCopConcealmentRules {
 
     /**
      * Whether the local viewer's instinct highlight of the target must be vetoed.
-     * Final Moment, spectators and non-playing targets are exempt; a SparkWitch Team Jiahao member (Insider, Sphinx
+     * Final Moment, spectators and non-playing targets are exempt; a Team Jiahao partner (Insider, Sphinx
      * Hao or Sniper, passed as {@code viewerInsider}/{@code targetInsider}) and a concealing cop keep seeing each other;
      * a concealing cop in its Moment regains sight of nearby players, but they still cannot see the cop.
-     * 是否必须否决本地观察者对目标的本能高亮。终局时刻、旁观者与非对局目标不受影响；SparkWitch 嘉豪成员（内应、狮身豪或
+     * 是否必须否决本地观察者对目标的本能高亮。终局时刻、旁观者与非对局目标不受影响；嘉豪阵营搭档（内应、狮身豪或
      * 狙击手，以 viewerInsider/targetInsider 传入）与黑警仍互相可见；
      * 黑警时刻中的黑警重新看得见附近玩家，但附近玩家仍看不见黑警。
      */

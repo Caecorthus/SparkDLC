@@ -7,13 +7,13 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * The SparkWitch witch faction (Grand Witch, Accomplices and the Bewitched), the Murderous Witch and the Fiend. The
+ * The witch faction (Grand Witch, Accomplices and the Bewitched), the Murderous Witch and the Fiend. The
  * witch faction is {@link Factions#WITCH}; the Murderous Witch has a faction of her own
  * ({@link Factions#MURDEROUS_WITCH}) and is not in it. Accomplices are never drawn at round start: every one is a
- * Bewitched promoted after two tasks (SparkWitch {@code BewitchedPromotionService}).
- * SparkWitch 的魔女阵营（大魔女、共犯与魔化使）、杀意魔女与魔人。魔女阵营为 {@link Factions#WITCH}；杀意魔女有自己的阵营
+ * Bewitched promoted after two tasks ({@code BewitchedPromotionService}).
+ * 魔女阵营（大魔女、共犯与魔化使）、杀意魔女与魔人。魔女阵营为 {@link Factions#WITCH}；杀意魔女有自己的阵营
  * （{@link Factions#MURDEROUS_WITCH}），不属于魔女阵营。共犯从不在开局抽取：每名共犯都是完成两个任务后晋升的魔化使
- * （SparkWitch {@code BewitchedPromotionService}）。
+ * （{@code BewitchedPromotionService}）。
  */
 final class WitchRules {
     static final String GRAND_WITCH = RoleGroups.GRAND_WITCH_ROLE;
@@ -53,9 +53,9 @@ final class WitchRules {
     static final String KILLER_ITEM = "killer_item";
 
     /**
-     * How long a push keeps the train-fall kill credit, 10 s (SparkWitch
-     * {@code FirePokerRules.FALL_ATTRIBUTION_WINDOW_TICKS}).
-     * 推人保留坠车击杀归属的时长（SparkWitch {@code FirePokerRules.FALL_ATTRIBUTION_WINDOW_TICKS}，10 秒）。
+     * How long a push keeps the train-fall kill credit, 10 s
+     * ({@code FirePokerRules.FALL_ATTRIBUTION_WINDOW_TICKS}).
+     * 推人保留坠车击杀归属的时长（{@code FirePokerRules.FALL_ATTRIBUTION_WINDOW_TICKS}，10 秒）。
      */
     static final int FALL_CREDIT_TICKS = 200;
     /** The Grand Witch's Blindness lasts 20 s ({@code GrandWitchSpell.BLINDNESS}). 大魔女的失明持续 20 秒。 */
@@ -133,8 +133,8 @@ final class WitchRules {
 
     /**
      * 图穷匕见: a promotion of mine out of the Bewitched: a {@code role_changed} with cause
-     * {@code sparkdlc:bewitched_promotion}, which SparkWitch writes once the second task is done.
-     * 我作为魔化使的一次晋升：原因为 {@code sparkdlc:bewitched_promotion} 的 {@code role_changed}，SparkWitch 在完成第二个任务后写下。
+     * {@code sparkdlc:bewitched_promotion}, which is written once the second task is done.
+     * 我作为魔化使的一次晋升：原因为 {@code sparkdlc:bewitched_promotion} 的 {@code role_changed}，在完成第二个任务后写下。
      */
     static boolean bewitchedPromoted(AchievementContext context) {
         return myRoleChanges(context).stream().anyMatch(change ->
@@ -228,14 +228,14 @@ final class WitchRules {
     // ---- Fiend 魔人 ----
 
     /**
-     * 挨打致富: 300 coins gained in one round while the Fiend for the whole round, by SparkFactionAPI's
+     * 挨打致富: 300 coins gained in one round while the Fiend for the whole round, by {@code IncomeRecorder}'s
      * {@code sparkdlc:income}, which counts every coin credited this round. The Fiend has no task or starting
      * money; its gold comes from being hit while dormant (a hit its immunity cancels) and from a bomb it passes on
-     * when the new holder dies of it (SparkWitch's {@code FiendBombLedger}). The income also includes anything else
-     * credited, such as SparkTraits' Snowball bonus or eating a goldfish, which the record cannot tell apart.
-     * 整局都是魔人时，一局内获得 300 金币，按 SparkFactionAPI 的 {@code sparkdlc:income} 计（本局入账的全部金币）。
+     * when the new holder dies of it ({@code FiendBombLedger}). The income also includes anything else
+     * credited, such as the Snowball trait's bonus or eating a goldfish, which the record cannot tell apart.
+     * 整局都是魔人时，一局内获得 300 金币，按 {@code IncomeRecorder} 的 {@code sparkdlc:income} 计（本局入账的全部金币）。
      * 魔人没有任务收入与开局金币；它的金币来自休眠期间挨打（被其免疫抵消的攻击），以及把炸弹转手后新持有者被炸死
-     * （SparkWitch 的 {@code FiendBombLedger}）。入账也包括其他来源，例如 SparkTraits 雪球的加成或吃下金鱼，记录无法区分。
+     * （{@code FiendBombLedger}）。入账也包括其他来源，例如雪球词条的加成或吃下金鱼，记录无法区分。
      */
     static boolean fiendIncome(AchievementContext context) {
         return context.timeline().roleHistory(context.self()).equals(List.of(FIEND))

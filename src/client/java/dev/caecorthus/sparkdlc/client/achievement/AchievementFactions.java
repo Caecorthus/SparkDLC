@@ -35,10 +35,10 @@ final class AchievementFactions {
 
     /**
      * The base faction of a role id (no player context, so no trait flips), or null when this client does not know
-     * the role. SparkFactionAPI names custom factions such as {@code sparkdlc:witch}; a role it has no faction for
+     * the role. The faction contract names custom factions such as {@code sparkdlc:witch}; a role it has no faction for
      * uses Wathe's base faction.
      * 身份 id 的基础阵营（没有玩家上下文，因此不含词条翻转）；本客户端不认识该身份时为 null。
-     * SparkFactionAPI 能给出 {@code sparkdlc:witch} 等自定义阵营；它没有给出阵营的身份使用 Wathe 的基础阵营。
+     * 阵营契约能给出 {@code sparkdlc:witch} 等自定义阵营；它没有给出阵营的身份使用 Wathe 的基础阵营。
      */
     static String baseFaction(String roleId) {
         Identifier id = roleId == null ? null : Identifier.tryParse(roleId);
@@ -51,9 +51,9 @@ final class AchievementFactions {
     }
 
     /**
-     * The custom winning faction SparkFactionAPI recorded for the last round, or null when the round ended with a
-     * plain Wathe win.
-     * SparkFactionAPI 记录的上一局自定义获胜阵营；普通 Wathe 胜利时为 null。
+     * The custom winning faction {@code FactionRoundEndComponent} recorded for the last round, or null when the round
+     * ended with a plain Wathe win.
+     * {@code FactionRoundEndComponent} 记录的上一局自定义获胜阵营；普通 Wathe 胜利时为 null。
      */
     static String customWinningFaction(Scoreboard scoreboard) {
         FactionRoundEndComponent component = FactionRoundEndComponent.KEY.getNullable(scoreboard);
@@ -61,9 +61,9 @@ final class AchievementFactions {
     }
 
     /**
-     * Wathe's own faction of {@code role}: built-ins as {@code wathe:*}, SparkFactionAPI's appended native constants
+     * Wathe's own faction of {@code role}: built-ins as {@code wathe:*}, the native constants the faction core appends
      * by their declared ids (see {@link Factions#fromWatheName}).
-     * Wathe 给 {@code role} 的阵营：内置阵营为 {@code wathe:*}，SparkFactionAPI 追加的原生常量取其声明的 id。
+     * Wathe 给 {@code role} 的阵营：内置阵营为 {@code wathe:*}，阵营核心追加的原生常量取其声明的 id。
      */
     private static String watheFaction(Role role) {
         return Factions.fromWatheName(Faction.fromRole(role).name());

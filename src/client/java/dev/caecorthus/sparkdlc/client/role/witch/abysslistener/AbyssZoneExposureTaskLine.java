@@ -37,7 +37,7 @@ public final class AbyssZoneExposureTaskLine {
     private AbyssZoneExposureTaskLine() {
     }
 
-    /** Synced exposure of the local player on a confirmed SparkWitch server. / 已确认 SparkWitch 服务端上本地玩家的暴露。 */
+    /** Synced exposure of the local player on a confirmed SparkDLC server. / 已确认 SparkDLC 服务端上本地玩家的暴露。 */
     public static boolean isVisible(@Nullable PlayerEntity player) {
         return player != null
                 && SparkDlcServerConnection.isConfirmedServer()

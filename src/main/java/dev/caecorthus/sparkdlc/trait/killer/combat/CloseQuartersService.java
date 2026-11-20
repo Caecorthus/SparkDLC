@@ -248,9 +248,8 @@ public final class CloseQuartersService {
         return player.getServer().getOverworld().getTime();
     }
 
-    // SparkStrength is fused in SparkDLC, so the Coroner's instant-knife disguise is asked directly: an instant knife
-    // must not be granted a raised stance.
-    // SparkStrength 已融合进 SparkDLC，因此直接查询验尸官的瞬发刀伪装：瞬发刀不得获得举刀姿态。
+    // The Coroner's instant-knife disguise is asked directly: an instant knife must not be granted a raised stance.
+    // 直接查询验尸官的瞬发刀伪装：瞬发刀不得获得举刀姿态。
     private static boolean instantCoroner(PlayerEntity player) {
         return CoronerService.hasInstantSilentKnifeDisguise(player);
     }

@@ -276,9 +276,9 @@ public class SmokeRoundEntity extends ThrownItemEntity {
     }
 
     /**
-     * What stops the round: corpses never, a Raven Form crow only when SparkFactionAPI lets the shooter affect its
-     * owner, a player only per {@link SmokeRoundFlight#playerStopsRound}; every other hittable entity does.
-     * 什么会挡下榴弹：尸体永远不会；化鸦乌鸦仅当 SparkFactionAPI 允许射手影响其主人时会；玩家按
+     * What stops the round: corpses never, a Raven Form crow only when the faction affect rule lets the shooter affect
+     * its owner, a player only per {@link SmokeRoundFlight#playerStopsRound}; every other hittable entity does.
+     * 什么会挡下榴弹：尸体永远不会；化鸦乌鸦仅当阵营影响规则允许射手影响其主人时会；玩家按
      * {@link SmokeRoundFlight#playerStopsRound} 判定；其余可被命中的实体都会。
      */
     @Override

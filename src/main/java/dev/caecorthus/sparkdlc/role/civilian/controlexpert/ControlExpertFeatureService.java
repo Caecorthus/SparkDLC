@@ -38,9 +38,9 @@ public final class ControlExpertFeatureService {
         ControlExpertEconomyService.register();
         ControlExpertStunGuards.register();
         ControlExpertReplayFormatters.register();
-        // Final roles only: fires after every RoleAssigned (including SparkTraits Conscience compensation) and
+        // Final roles only: fires after every RoleAssigned (including the Conscience trait's compensation) and
         // Wathe's per-Item revolver start cooldown, and before the round becomes ACTIVE.
-        // 仅按最终身份发放：在所有 RoleAssigned（含 SparkTraits 良心补偿）与 Wathe 按物品写入的左轮开局冷却之后、
+        // 仅按最终身份发放：在所有 RoleAssigned（含良心词条的补偿）与 Wathe 按物品写入的左轮开局冷却之后、
         // 对局进入 ACTIVE 之前触发。
         GameEvents.ON_FINISH_INITIALIZE.register((world, game) -> {
             if (world instanceof ServerWorld serverWorld) {
@@ -57,8 +57,8 @@ public final class ControlExpertFeatureService {
      */
     private static void registerCleanup() {
         KillPlayer.AFTER.register((victim, killer, reason) -> {
-            // SparkTraits Last Stand keeps the victim in play; the component's participant check covers that state.
-            // SparkTraits 背水一战会让受害者继续留在对局中；该状态由组件自身的参与者检查处理。
+            // The Last Stand trait keeps the victim in play; the component's participant check covers that state.
+            // 背水一战词条会让受害者继续留在对局中；该状态由组件自身的参与者检查处理。
             if (SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
                 return;
             }
@@ -104,9 +104,9 @@ public final class ControlExpertFeatureService {
     }
 
     private static void grantRoundStartLoadout(ServerPlayerEntity player) {
-        // The revolver shares Wathe's per-Item start cooldown written earlier in initializeGame. SparkTraits refuses
-        // free guns to an Impostor at this point; that trait rule is deliberately not bypassed.
-        // 左轮沿用 initializeGame 先前按物品写入的开局冷却。SparkTraits 此时会拒绝向内鬼发放免费枪械；刻意不绕过该词条规则。
+        // The revolver shares Wathe's per-Item start cooldown written earlier in initializeGame. The Impostor trait
+        // refuses free guns to its holder at this point; that trait rule is deliberately not bypassed.
+        // 左轮沿用 initializeGame 先前按物品写入的开局冷却。内鬼词条此时会拒绝向其持有者发放免费枪械；刻意不绕过该词条规则。
         player.getInventory().insertStack(new ItemStack(WatheItems.REVOLVER));
         for (Item item : List.of(SparkDlcItems.disruptor(), SparkDlcItems.taser(), SparkDlcItems.shockDevice())) {
             applyExactCooldown(player, item, ControlExpertRules.INITIAL_COOLDOWN);
@@ -117,10 +117,11 @@ public final class ControlExpertFeatureService {
     }
 
     /**
-     * Exact anti-abuse floor: SparkTraits' exact write performs the vanilla set itself after Fast Hands, so the plain
-     * vanilla write runs only when SparkTraits is absent or older (never both, which would send two packets).
-     * 精确的防滥用冷却下限：SparkTraits 的精确写入会在“快手”之后自行完成原版写入，因此仅在其缺失或过旧时
-     * 回退到原版写入（二者不会同时执行，以免发送两次数据包）。
+     * Exact anti-abuse floor: the trait feature's exact write performs the vanilla set itself after Fast Hands. The
+     * plain vanilla write is the fallback for a refused exact write (never both, which would send two packets); the
+     * exact write now refuses only a null player or item, so the fallback is unreachable since the fusion.
+     * 精确的防滥用冷却下限：词条功能的精确写入会在“快手”之后自行完成原版写入。原版写入是精确写入被拒绝时的回退
+     * （二者不会同时执行，以免发送两次数据包）；精确写入如今只拒绝为空的玩家或物品，因此该回退在融合后不可达。
      */
     static void applyExactCooldown(ServerPlayerEntity player, Item item, int ticks) {
         if (!SparkTraitsApi.setExactItemCooldownRemaining(player, item, ticks)) {

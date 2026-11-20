@@ -19,9 +19,9 @@ import java.util.function.Predicate;
  */
 final class ItemCooldownCatalog<I> {
     /**
-     * Built-in exemptions matched by registry id, so SparkFactionAPI needs no NoellesRoles class. The timed bomb's
+     * Built-in exemptions matched by registry id, so the cooldown core names no NoellesRoles class. The timed bomb's
      * cooldown is the Bomber pass gate; forcing it would let or stop a pass outside the Bomber's rules.
-     * 按注册 id 匹配的内置豁免，SparkFactionAPI 因此无需引用 NoellesRoles 的类。定时炸弹的冷却是炸弹客的转手门槛，
+     * 按注册 id 匹配的内置豁免，冷却核心因此无需引用 NoellesRoles 的类。定时炸弹的冷却是炸弹客的转手门槛，
      * 强制写入会在炸弹客规则之外放行或阻止转手。
      */
     static final Set<Identifier> DEFAULT_EXEMPT_IDS = Set.of(Identifier.of("noellesroles", "timed_bomb"));

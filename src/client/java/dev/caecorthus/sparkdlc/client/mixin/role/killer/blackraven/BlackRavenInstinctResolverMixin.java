@@ -7,7 +7,7 @@ import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-/** Final low-priority player-outline resolver, after Wathe/Noelles/SparkTraits hooks. / 在 Wathe、Noelles 与 SparkTraits 后执行的低优先级最终外框裁决。 */
+/** Final low-priority player-outline resolver, after the Wathe, Noelles and trait hooks. / 在 Wathe、Noelles 与词条钩子后执行的低优先级最终外框裁决。 */
 @Mixin(value = WatheClient.class, remap = false, priority = 400)
 public abstract class BlackRavenInstinctResolverMixin {
     @ModifyReturnValue(method = "getInstinctHighlight", at = @At("RETURN"))

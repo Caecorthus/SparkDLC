@@ -11,10 +11,10 @@ import org.spongepowered.asm.mixin.Mixin;
 /**
  * Keeps Wathe's revolver and derringer crosshair target pip consistent with the selectors: its private
  * {@code getVisibleGunTarget(player, range)} also lights up for a Raven Form crow strictly nearer than its pick, with
- * the same geometry as {@link BlackRavenCrowAim}. Chains with the Magician puppet wrapper and SparkTraits Marksman's
+ * the same geometry as {@link BlackRavenCrowAim}. Chains with the Magician puppet wrapper and the Marksman trait's
  * HEAD range replacement. Presentation only.
  * 使 Wathe 左轮与德林加的准星目标提示与选靶一致：其私有的 {@code getVisibleGunTarget(player, range)} 对严格更近的化鸦乌鸦
- * 同样亮起，几何与 {@link BlackRavenCrowAim} 相同。与魔术师皮套包装及 SparkTraits 神射手的 HEAD 射程替换串联。仅用于展示。
+ * 同样亮起，几何与 {@link BlackRavenCrowAim} 相同。与魔术师皮套包装及神射手词条的 HEAD 射程替换串联。仅用于展示。
  */
 @Mixin(value = CrosshairRenderer.class, remap = false)
 public abstract class BlackRavenCrowGunCrosshairMixin {

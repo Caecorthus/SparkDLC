@@ -50,8 +50,8 @@ public final class PotionGunnerLifecycle {
                 PotionGunnerLoadoutService.stripAll(serverPlayer);
             }
         });
-        // A SparkTraits-intercepted death (Last Stand) leaves the player in play, so nothing is stripped.
-        // 被 SparkTraits 拦截的死亡（最后的坚守）使玩家仍留在对局中，因此不收走任何物品。
+        // A trait-intercepted death (Last Stand) leaves the player in play, so nothing is stripped.
+        // 被词条拦截的死亡（最后的坚守）使玩家仍留在对局中，因此不收走任何物品。
         KillPlayer.AFTER.register((victim, killer, deathReason) -> {
             if (SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
                 return;

@@ -15,20 +15,20 @@ import java.util.Set;
  * Duel interference rule: while the duel variable ({@link KnightDuelWorldComponent#active()} is 1), a player outside
  * the pair whose human-caused lethal death reason is in {@link #HUMAN_LETHAL_REASONS} kills a duelist is force-killed
  * with {@link SparkDlcDeathReasons#DUEL_INTERFERENCE}. Ordinary non-lethal hits and non-damage kills never trigger
- * it. The attacker's kill is forced and SparkTraits-terminal, so their traits and every shield are bypassed; the
+ * it. The attacker's kill is forced and trait-terminal, so their traits and every shield are bypassed; the
  * victim's damage still resolves.
  * 决斗干扰规则：决斗变量（{@link KnightDuelWorldComponent#active()} 为 1）期间，局外玩家以
  * {@link #HUMAN_LETHAL_REASONS} 中的人为致死原因击杀决斗者时，会以
  * {@link SparkDlcDeathReasons#DUEL_INTERFERENCE} 强制击杀该玩家。普通非致命攻击与非伤害类死亡不会触发。攻击者的
- * 死亡为强制且是 SparkTraits 终结原因，绕过其词条与一切护盾；受害者的伤害仍正常结算。
+ * 死亡为强制且是词条的终结原因，绕过其词条与一切护盾；受害者的伤害仍正常结算。
  */
 public final class KnightDuelInterference {
     /**
-     * Human-caused lethal reasons from this pack: Wathe weapon damage, every player-caused SparkWitch kill, the
-     * SparkStrength kills, and the NoellesRoles attacks reachable here (the SparkStrength bomber drone credits
+     * Human-caused lethal reasons from this pack: Wathe weapon damage, every player-caused kill of the mod's own
+     * roles, the role-kit kills, and the NoellesRoles attacks reachable here (the Bomber kit's bomber drone credits
      * {@code noellesroles:bomb}). Self-inflicted penalties, duel-rule deaths and environment reasons stay out.
-     * 本整合包中的人为致死原因：Wathe 武器伤害、全部由玩家造成的 SparkWitch 击杀、SparkStrength 击杀，以及此处可触发的
-     * NoellesRoles 攻击（SparkStrength 轰炸无人机记 {@code noellesroles:bomb}）。自杀式惩罚、决斗规则死亡与环境死因不在其中。
+     * 本整合包中的人为致死原因：Wathe 武器伤害、本模组自有职业全部由玩家造成的击杀、职业增强的击杀，以及此处可触发的
+     * NoellesRoles 攻击（炸弹客职业增强的轰炸无人机记 {@code noellesroles:bomb}）。自杀式惩罚、决斗规则死亡与环境死因不在其中。
      */
     private static final Set<Identifier> HUMAN_LETHAL_REASONS = Set.of(
             // Wathe weapon damage. / Wathe 武器伤害。
@@ -38,7 +38,7 @@ public final class KnightDuelInterference {
             GameConstants.DeathReasons.BAT,
             GameConstants.DeathReasons.GRENADE,
             GameConstants.DeathReasons.POISON,
-            // SparkWitch player-caused kills. / SparkWitch 玩家造成的击杀。
+            // Player-caused kills of the mod's own roles. / 本模组自有职业由玩家造成的击杀。
             SparkDlcDeathReasons.CEREMONIAL_BLADE,
             SparkDlcDeathReasons.MIGHTY_FORCE,
             SparkDlcDeathReasons.PIERCED_BY_RAY,
@@ -56,7 +56,7 @@ public final class KnightDuelInterference {
             // Savior pistol and lightsaber: terminal, but still a player's kill. / 救世主手枪与光剑：终结死因，但仍是玩家击杀。
             SaviorRules.PISTOL_DEATH_REASON,
             SaviorRules.LIGHTSABER_DEATH_REASON,
-            // SparkStrength player-caused kills. / SparkStrength 玩家造成的击杀。
+            // Role-kit player-caused kills (Undercover tomahawk, Partygoer). / 职业增强由玩家造成的击杀（卧底战术斧、派对客）。
             Identifier.of("sparkdlc", "tomahawk"),
             Identifier.of("sparkdlc", "partygoer_eaten"),
             Identifier.of("sparkdlc", "partygoer_kicked"),

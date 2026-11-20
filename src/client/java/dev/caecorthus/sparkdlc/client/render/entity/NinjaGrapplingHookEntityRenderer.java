@@ -29,10 +29,10 @@ import org.joml.Vector3f;
  * and whose claws point away from the thrower along the chain, and a steel chain from the head's ring to the owner's
  * hand (vanilla leash strip, thinner, in alternating dark/light links). Taut while LATCHED or PULLING, a slight sag
  * while FLYING. Nothing is drawn without a loaded owner. The old billboard texture
- * {@code textures/entity/ninja_grappling_hook.png} is no longer drawn here but stays for SparkAssist's ponder scene.
+ * {@code textures/entity/ninja_grappling_hook.png} is no longer drawn here but stays for the Ponder scene.
  * 绘制忍者钩爪：3D 钩头（{@link ProjectileModels}），钩冠尖端位于钩爪位置，爪尖沿链条背离投掷者；以及从钩头圆环连到
  * 主人手上的钢链（原版拴绳条带，更细，深浅链节交替）。钩住或拉拽时绷直，飞行中略微下垂。主人未加载时什么都不画。
- * 旧的公告板贴图 {@code textures/entity/ninja_grappling_hook.png} 不再在此绘制，但为 SparkAssist 的 ponder 场景保留。
+ * 旧的公告板贴图 {@code textures/entity/ninja_grappling_hook.png} 不再在此绘制，但为 Ponder 场景保留。
  */
 public final class NinjaGrapplingHookEntityRenderer extends EntityRenderer<NinjaGrapplingHookEntity> {
     /**

@@ -18,20 +18,21 @@ import org.agmas.noellesroles.ModItems;
  * <ul>
  *   <li>The key is handed out in {@code ON_FINISH_INITIALIZE}, on final roles after every {@code RoleAssigned}
  *   listener, one per living Koko that does not already hold one; a full inventory drops it at her feet.</li>
- *   <li>NoellesRoles' own key listener only serves its three key roles, and SparkStrength's any-neutral rule covers
- *   train doors only when that mod is installed. This SparkWitch-owned {@code DoorInteraction} listener gives her
- *   train doors and key-locked room doors through {@link InsiderDoorRules}, whose answers never conflict with the
- *   other two listeners, and writes the key's single nominal cooldown ({@code InsiderRules.MASTER_KEY_COOLDOWN_TICKS},
- *   10 s). It runs on both logical sides, so the client predicts the same answer and cooldown.</li>
+ *   <li>NoellesRoles' own key listener only serves its three key roles, and the any-neutral rule of the Corrupt Cop
+ *   kit ({@code CorruptCopRules.neutralMasterKeyDoorResult}) covers train doors only. This {@code DoorInteraction}
+ *   listener gives her train doors and key-locked room doors through {@link InsiderDoorRules}, whose answers never
+ *   conflict with the other two listeners, and writes the key's single nominal cooldown
+ *   ({@code InsiderRules.MASTER_KEY_COOLDOWN_TICKS}, 10 s). It runs on both logical sides, so the client predicts the
+ *   same answer and cooldown.</li>
  * </ul>
- * The key is never taken back when her role changes, like every other SparkWitch kit item.
- * 可可唯一的开局物品：一把 NoellesRoles 的中立万能钥匙（{@code noellesroles:neutral_master_key}），以及它为她打开的门。两者都
- * 沿用内应的做法：钥匙在 {@code ON_FINISH_INITIALIZE} 按最终身份发放（晚于所有 {@code RoleAssigned} 监听器），每名存活且尚未
- * 持有钥匙的可可一把，背包已满时掉在脚下。NoellesRoles 自己的钥匙监听只服务它的三个钥匙职业，SparkStrength 的“任意中立”规则
- * 只在装有该模组时覆盖列车门；这个由 SparkWitch 自有的 {@code DoorInteraction} 监听让她能开列车门与上锁的房间门，并带有通常的
- * 10 秒钥匙冷却（规则见 {@link InsiderDoorRules}，其结果与另外两个监听从不冲突；冷却写入该物品唯一的标准值
- * {@code InsiderRules.MASTER_KEY_COOLDOWN_TICKS}）。它在两个逻辑端运行，因此客户端会预测相同的结果与
- * 冷却。与其他 SparkWitch 开局物品一样，身份变化时从不收回钥匙。
+ * The key is never taken back when her role changes, like every other starting item of the mod's own roles.
+ * 可可唯一的开局物品：一把 NoellesRoles 的中立万能钥匙（{@code noellesroles:neutral_master_key}），以及它为她打开的门。
+ * 两者都沿用内应的做法：钥匙在 {@code ON_FINISH_INITIALIZE} 按最终身份发放（晚于所有 {@code RoleAssigned} 监听器），每
+ * 名存活且尚未持有钥匙的可可一把，背包已满时掉在脚下。NoellesRoles 自己的钥匙监听只服务它的三个钥匙职业，黑警职业强化的
+ * “任意中立”规则（{@code CorruptCopRules.neutralMasterKeyDoorResult}）只覆盖列车门；这个 {@code DoorInteraction} 监听
+ * 让她能开列车门与上锁的房间门，并带有通常的 10 秒钥匙冷却（规则见 {@link InsiderDoorRules}，其结果与另外两个监听从不冲
+ * 突；冷却写入该物品唯一的标准值 {@code InsiderRules.MASTER_KEY_COOLDOWN_TICKS}）。它在两个逻辑端运行，因此客户端会预测
+ * 相同的结果与冷却。与本模组自有职业的其他开局物品一样，身份变化时从不收回钥匙。
  */
 public final class KokoKeyService {
     private static boolean registered;

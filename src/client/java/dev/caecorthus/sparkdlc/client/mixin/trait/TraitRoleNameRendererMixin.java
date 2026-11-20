@@ -59,9 +59,10 @@ public abstract class TraitRoleNameRendererMixin {
     /*
      * Wathe's own body raycast (its second getCollision) with Wathe's range, captured for this renderHud call. Its
      * predicate is the one updateBodyTraitLine uses, so when both ranges agree the tags reuse the hit instead of casting
-     * again. The player raycast (the first) is not reused: SparkWitch narrows and relabels it (Wraiths, Magician puppets).
+     * again. The player raycast (the first) is not reused: role mixins narrow and relabel it (Wraiths, Magician
+     * puppets).
      * 本次 renderHud 中 Wathe 自身的尸体射线（第二个 getCollision）及其距离。其判定与 updateBodyTraitLine 相同，因此两者距离
-     * 一致时标签直接复用命中结果，不再重复投射。玩家射线（第一个）不复用：SparkWitch 会收窄并改写它（冤魂、魔术师皮套）。
+     * 一致时标签直接复用命中结果，不再重复投射。玩家射线（第一个）不复用：职业 mixin 会收窄并改写它（冤魂、魔术师皮套）。
      */
     private static HitResult sparkdlc$watheBodyHit;
     private static boolean sparkdlc$watheBodyHitCaptured;
@@ -107,8 +108,8 @@ public abstract class TraitRoleNameRendererMixin {
         }
 
         float delta = tickCounter.getTickDelta(true) / 4.0f;
-        // Read once per frame: it costs a reflective state query and a component lookup.
-        // 每帧只读取一次：它需要一次反射状态查询与一次组件查找。
+        // Read once per frame: it costs a Wraith state query and a component lookup.
+        // 每帧只读取一次：它需要一次冤魂状态查询与一次组件查找。
         boolean canSeeTraitInformation = sparkdlc$canSeeTraitInformation(player);
         float range = canSeeTraitInformation ? 8.0f : 2.0f;
         // Wathe casts its body ray with the spectator-information range; reuse it only when that is our range too.
@@ -196,13 +197,13 @@ public abstract class TraitRoleNameRendererMixin {
     }
 
     /**
-     * 判断当前查看者是否拥有 SparkTraits 的旁观词条查看权限。
+     * 判断当前查看者是否拥有旁观词条查看权限。
      *
      * <p>正常情况下沿用 Wathe 的旁观/创造模式判断；当玩家只是通过调试命令被
      * 加入 deadPlayers 时，补充 Wathe 的逻辑死亡标记，使其不必真正执行一次死亡
      * 流程就能看到自身和目标的词条准心显示。</p>
      *
-     * <p>激活中的 SparkWitch 冤魂仍带着 Wathe 的死亡标记，但已重新参与对局，与服务端同步一致，
+     * <p>激活中的冤魂仍带着 Wathe 的死亡标记，但已重新参与对局，与服务端同步一致，
      * 不获得旁观词条权限。</p>
      */
     private static boolean sparkdlc$canSeeTraitInformation(ClientPlayerEntity player) {

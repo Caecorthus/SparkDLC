@@ -23,9 +23,9 @@ import java.util.Set;
  * 本体与设备之间没有距离限制（所有者决定 2026-10-04）：Wathe 游戏区域是唯一的空间边界。
  */
 public final class SeekerRemoteRules {
-    // Generated SEEKER column of SparkFactionAPI config/payload-policy/actions.tsv: edit that table and
+    // Generated SEEKER column of the payload policy table config/payload-policy/actions.tsv: edit that table and
     // rerun tools/payload_policy.py, never list ids here; per-id reasons are in its note column.
-    // 生成的 SEEKER 列（SparkFactionAPI config/payload-policy/actions.tsv）：请修改该表并重新运行
+    // 生成的 SEEKER 列（数据包策略表 config/payload-policy/actions.tsv）：请修改该表并重新运行
     // tools/payload_policy.py，不要在此列出 id；各 id 的理由见其 note 列。
     public static final Set<Identifier> BLOCKED_WHILE_VIEWING = GeneratedPayloadPolicy.SEEKER;
 

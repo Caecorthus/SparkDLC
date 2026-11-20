@@ -19,8 +19,8 @@ public final class EffectiveEconomyRules {
 
     /**
      * Grants the Conscience/Impostor +50 task money. Owner rule: it stacks on top of any role-owned task income
-     * (NoellesRoles Bartender, SparkStrength Detective, ...), so the role never suppresses it.
-     * 发放善良/内鬼的 +50 任务金币。所有者规则：与职业自带的任务收入（NoellesRoles 酒保、SparkStrength 侦探等）叠加，
+     * (NoellesRoles Bartender, this mod's Detective income, ...), so the role never suppresses it.
+     * 发放善良/内鬼的 +50 任务金币。所有者规则：与职业自带的任务收入（NoellesRoles 酒保、本模组的侦探收入等）叠加，
      * 职业本身不会取消该奖励。
      */
     public static boolean shouldRewardTaskMoney(Role role, Collection<Identifier> traits) {

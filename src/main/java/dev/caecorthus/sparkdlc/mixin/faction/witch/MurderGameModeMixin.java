@@ -29,9 +29,9 @@ public abstract class MurderGameModeMixin {
             CallbackInfoReturnable<Integer> cir
     ) {
         HunterOrthopedistPairingService.ensurePairBeforeCivilians(world, gameComponent, players);
-        // Witch and Team Jiahao members are no longer dealt here: SparkFactionAPI's third-faction draw deals them before
-        // Wathe's neutral pass from SparkWitch's lineups (owner 2026-11-16, see SparkDlcRoleRegistry).
-        // 魔女与嘉豪阵营成员不再在此发放：由 SparkFactionAPI 第三方阵营抽取在 Wathe 中立分配之前按 SparkWitch 阵容发放
+        // Witch and Team Jiahao members are no longer dealt here: the third-faction draw deals them before Wathe's
+        // neutral pass from the Witch and Jiahao lineups (owner 2026-11-16, see SparkDlcRoleRegistry).
+        // 魔女与嘉豪阵营成员不再在此发放：由第三方阵营抽取在 Wathe 中立分配之前按魔女与嘉豪阵容发放
         //（所有者 2026-11-16，见 SparkDlcRoleRegistry）。
     }
 }

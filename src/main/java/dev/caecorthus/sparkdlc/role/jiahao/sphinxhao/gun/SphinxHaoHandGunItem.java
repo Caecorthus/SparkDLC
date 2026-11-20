@@ -56,7 +56,7 @@ public final class SphinxHaoHandGunItem extends Item {
         return new Settings().maxCount(1);
     }
 
-    /** Installed once by the client module. / 由客户端模块安装一次。 */
+    /** Installed once by the client side. / 由客户端安装一次。 */
     public static void installClientFire(ClientFire hook) {
         clientFire = Objects.requireNonNull(hook, "hook");
     }

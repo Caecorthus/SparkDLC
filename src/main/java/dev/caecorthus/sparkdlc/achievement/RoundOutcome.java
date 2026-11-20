@@ -6,10 +6,10 @@ import java.util.UUID;
 
 /**
  * How a round ended, read when the client sees it become inactive: Wathe's round-end result for every participant,
- * the winning faction, and the server's match record when SparkFactionAPI sent one (otherwise {@code events} is
+ * the winning faction, and the server's match record when a SparkDLC server sent one (otherwise {@code events} is
  * empty).
  * 一局如何结束，在客户端看到对局变为未进行时读取：Wathe 给每名参与者的结算结果、获胜阵营，
- * 以及 SparkFactionAPI 发来的服务端对局记录（没有时 {@code events} 为空）。
+ * 以及 SparkDLC 服务端发来的对局记录（没有时 {@code events} 为空）。
  *
  * @param winStatus        Wathe {@code WinStatus} name, e.g. {@code KILLERS} Wathe 的 {@code WinStatus} 名称
  * @param won              whether the local player won 本地玩家是否获胜
@@ -28,8 +28,8 @@ public record RoundOutcome(
     }
 
     /**
-     * The faction a plain Wathe win status stands for; custom (SparkFactionAPI) wins override it.
-     * 普通 Wathe 胜利状态对应的阵营；自定义（SparkFactionAPI）胜利会覆盖它。
+     * The faction a plain Wathe win status stands for; custom faction wins override it.
+     * 普通 Wathe 胜利状态对应的阵营；自定义阵营胜利会覆盖它。
      */
     public static String defaultWinningFaction(String winStatus) {
         if (winStatus == null) {

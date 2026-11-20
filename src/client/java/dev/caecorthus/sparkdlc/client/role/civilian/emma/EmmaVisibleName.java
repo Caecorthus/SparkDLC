@@ -24,8 +24,8 @@ public final class EmmaVisibleName {
         MorphlingPlayerComponent morph = MorphlingPlayerComponent.KEY.get(target);
         if (morph.corpseMode) return hidden();
         if (morph.getMorphTicks() > 0) return morph.disguise == null ? hidden() : profileName(morph.disguise);
-        // SparkStrength's own disguises (Coroner, morph potion); a direct call since the SparkDLC fusion.
-        // SparkStrength 自身的伪装（验尸官、变形试剂）；融合进 SparkDLC 后为直接调用。
+        // This mod's own disguises (Coroner, morph potion), resolved by a direct call.
+        // 本模组自身的伪装（验尸官、变形试剂），直接调用解析。
         Text strengthName = MorphlingAppearanceClientHelper.resolveActiveDisplayName(target);
         if (strengthName != null) return strengthName.copy();
         return Text.literal(target.getGameProfile().getName());

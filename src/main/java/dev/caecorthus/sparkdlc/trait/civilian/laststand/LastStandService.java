@@ -745,9 +745,9 @@ public final class LastStandService {
     }
 
     /**
-     * Civilian population gate of a Last Stand trigger. SparkFactionAPI settlement-excluded players (raw role) count
+     * Civilian population gate of a Last Stand trigger. Settlement-excluded players (raw role) count
      * toward neither the starting civilians nor the living civilians, as if they were not in the round.
-     * 背水一战触发的好人人数门槛。SparkFactionAPI 结算排除玩家（按原始身份判断）既不计入开局好人数，
+     * 背水一战触发的好人人数门槛。结算排除玩家（按原始身份判断）既不计入开局好人数，
      * 也不计入存活好人数，如同其不在本局。
      */
     static boolean meetsPopulationThresholdAfterDeath(

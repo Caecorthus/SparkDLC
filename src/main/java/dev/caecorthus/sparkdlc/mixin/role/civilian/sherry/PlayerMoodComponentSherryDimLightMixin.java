@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.At;
  * bytecode: serverTick and clientTick each have exactly one GETSTATIC {@code MOOD_DRAIN}. Only
  * {@code @ModifyExpressionValue}, never {@code @Redirect}: MixinExtras chains this handler with the Bell Echo scaler on
  * the same read in either order (both multiply), and nothing here touches the Noa / Abyss {@code Map.size()} handlers
- * or the SparkTraits redirects. Non-Sherry players get the constant back unchanged. Both sides read Wathe's synced role
+ * or the trait redirects. Non-Sherry players get the constant back unchanged. Both sides read Wathe's synced role
  * map and compute the light level the same way (see {@code SherryDimLight}), so the client drain prediction follows the
  * server value. The target uses only a
  * Wathe constant, so {@code remap = false} holds in dev and production.
@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.At;
  * 缩放使用完全相同的接缝，因此其他所有 {@code setMood} 调用方（恐惧、枪械惩罚、她自己的推演失败惩罚、任务回复）仍全额生效。
  * 锁定 Wathe 1.5.6 字节码：serverTick 与 clientTick 各恰有一次 GETSTATIC {@code MOOD_DRAIN}。只用
  * {@code @ModifyExpressionValue}，从不 {@code @Redirect}：MixinExtras 会把本处理器与回响缩放按任意顺序串联（两者都是相乘），
- * 不触碰诺亚/聆渊者的 {@code Map.size()} 处理器与 SparkTraits 的重定向。非雪莉玩家原样拿回常量。双端都读取 Wathe 已同步的
+ * 不触碰诺亚/聆渊者的 {@code Map.size()} 处理器与天赋的重定向。非雪莉玩家原样拿回常量。双端都读取 Wathe 已同步的
  * 职业表与本地亮度，因此客户端的消耗预测跟随服务端数值。目标只含 Wathe 常量，因此 {@code remap = false} 在开发与生产环境均成立。
  */
 @Mixin(value = PlayerMoodComponent.class, remap = false)

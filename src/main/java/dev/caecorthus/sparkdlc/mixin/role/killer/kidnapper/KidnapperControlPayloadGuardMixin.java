@@ -26,8 +26,8 @@ import org.spongepowered.asm.mixin.injection.At;
  * Owner decision 2026-11 ("禁掉"): a controlled player uses no role skill and buys nothing either, although the
  * client lock leaves the ability keys and the inventory open. The payload set is reused, not copied:
  * {@link ControlExpertStunRules#isBlockedPayload}, the stun deny-list (Wathe knife, gun and {@code wathe:storebuy},
- * the only shop purchase path, and every classified role-skill payload of NoellesRoles, SparkWitch and
- * SparkStrength), so a new skill payload is still classified in one place. It is asked through
+ * the only shop purchase path, and every classified role-skill payload of NoellesRoles and this
+ * mod), so a new skill payload is still classified in one place. It is asked through
  * {@link NatsumeHypnosisGuards#blocksPayloadWhileLocked}, the hypnosis lock's predicate, which adds the two item-release
  * stabs the stun list leaves to their own handlers (cross sword, Swordfish): those handlers refuse a stunned sender
  * but know nothing of the Knockout Drug, and a controlled player stabs with nothing either. Dropped silently: the
@@ -40,7 +40,7 @@ import org.spongepowered.asm.mixin.injection.At;
  * 修改过的客户端可以贴脸射杀或刺杀绑架者。
  * 所有者 2026-11 决定（“禁掉”）：被控制的玩家同样不能使用职业技能、不能购物，尽管客户端锁没有锁住技能键与物品栏。数据包集合
  * 是复用而非复制：{@link ControlExpertStunRules#isBlockedPayload}，即眩晕拦截名单（Wathe 刀、枪与唯一的购物路径
- * {@code wathe:storebuy}，以及 NoellesRoles、SparkWitch 与 SparkStrength 所有已归类的职业技能包），因此新增技能包仍只需在
+ * {@code wathe:storebuy}，以及 NoellesRoles 与本模组所有已归类的职业技能包），因此新增技能包仍只需在
  * 一处归类。判定经由催眠锁的 {@link NatsumeHypnosisGuards#blocksPayloadWhileLocked}：它在眩晕名单之外补上两种由各自处理器
  * 自行拒绝眩晕者的“松手刺击”（十字剑、剑鱼）——这些处理器并不知道迷药，而被控制的玩家同样什么都不能刺。静默丢弃：受害者本就黑屏。Netty 线程上只判断数据包 id；控制状态在被调度的 Runnable 内读取。其他数据包以及未被
  * 控制的发送者一律原样调度。与其他 {@code MinecraftServer#execute} 包装链式叠加。

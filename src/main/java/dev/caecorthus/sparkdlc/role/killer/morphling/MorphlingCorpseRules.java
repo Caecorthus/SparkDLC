@@ -10,7 +10,7 @@ import java.util.UUID;
  * <ul>
  *   <li>Instinct: Wathe never outlines a real corpse for a living viewer, so the keyed instinct x-ray skips a
  *   corpse-mode Morphling for every viewer except spectators, creative players and active Wraiths (the viewers
- *   blackout sight exempts too). Outlines that need no key stay. This replaces the old SparkTraits rule that hid only a
+ *   blackout sight exempts too). Outlines that need no key stay. This replaces the old trait rule that hid only a
  *   Conscience Morphling.</li>
  *   <li>Look: the client draws a Wathe corpse in its place that only slides with the player ("尸体平移"): facing frozen
  *   when it lies down, no walking, sneaking, arm swing or held items. It lies down at once, like NoellesRoles did: Wathe
@@ -19,7 +19,7 @@ import java.util.UUID;
  * </ul>
  * NoellesRoles 变形者尸体模式（{@code MorphlingPlayerComponent.corpseMode}）的规则，所有者 2026-11-03 决定：它必须像一具真尸体。
  * 本能：Wathe 从不为存活观察者描出真尸体，因此除旁观者、创造模式玩家与激活中的冤魂外（熄灯视野同样放行这些观察者），按键
- * 本能透视对所有观察者跳过尸体模式的变形者；无需按键的描边保留。它取代了 SparkTraits 旧有的仅隐藏善良变形者的规则。
+ * 本能透视对所有观察者跳过尸体模式的变形者；无需按键的描边保留。它取代了旧有的仅隐藏善良变形者的词条规则。
  * 外观：客户端在其位置画一具 Wathe 尸体，只随玩家平移（“尸体平移”）：朝向在躺下时固定，不迈腿、不下蹲、不摆手、不显示
  * 手持物品。与 NoellesRoles 原来一样立刻躺平：Wathe 尸体以脚为轴倒下，而脚位于玩家身后一格，播放倒地会先在身后一格出现
  * 一个站着的身体；若把尸体前移，玩家碰撞箱又会从躯干移到脚边。
@@ -61,8 +61,8 @@ public final class MorphlingCorpseRules {
 
     /**
      * Whose corpse it looks like, in the order the standing player's skin is chosen: NoellesRoles' own morph, then the
-     * SparkStrength reagent, then the Coroner disguise, then the player.
-     * 尸体长成谁的样子，与站立玩家选择皮肤的顺序相同：NoellesRoles 原变形，然后 SparkStrength 试剂，然后验尸官伪装，最后是玩家本人。
+     * Morphling reagent, then the Coroner disguise, then the player.
+     * 尸体长成谁的样子，与站立玩家选择皮肤的顺序相同：NoellesRoles 原变形，然后变形者试剂，然后验尸官伪装，最后是玩家本人。
      */
     public static UUID appearanceUuid(UUID self, boolean morphing, @Nullable UUID morphDisguise,
                                       boolean reagentActive, @Nullable UUID reagentSample,

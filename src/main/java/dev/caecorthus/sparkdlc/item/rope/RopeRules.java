@@ -274,10 +274,10 @@ public final class RopeRules {
     }
 
     /**
-     * The kill succeeded when the victim is dead in Wathe and no SparkTraits Last Stand is about to revive them, or
+     * The kill succeeded when the victim is dead in Wathe and no Last Stand trait is about to revive them, or
      * when 死亡回归 turned the kill into one of Hiro's fake deaths. Every other survival (a trait, a role immunity, a
      * veto) keeps the rope and starts the interrupt cooldown.
-     * 击杀成功的条件：目标在 Wathe 中已死亡且没有 SparkTraits 背水一战即将复活，或「死亡回归」把这次击杀变成了希罗的假死。其余任何
+     * 击杀成功的条件：目标在 Wathe 中已死亡且没有背水一战词条即将复活，或「死亡回归」把这次击杀变成了希罗的假死。其余任何
      * 幸存（词条、职业免疫、否决）都保留绳索并进入打断冷却。
      */
     public static Outcome outcome(boolean victimDeadInWathe, boolean lastStandPending, boolean feignedByHiro) {

@@ -6,16 +6,16 @@ import java.util.Set;
 
 /**
  * Pure 夏目安安 shop plan over the exact plain Wathe {@code KillerShopBuilder} entry ids (no substring matching, so
- * SparkTraits, SparkStrength and other mods' rows are never touched by accident). Seven native rows are removed and the
- * poison vial is repriced to 25 coins; every other row keeps its exact price, stock, cooldown and callback. Removing
- * {@code grenade} also removes SparkStrength's M67: SparkStrength appends it after all listeners only while a grenade
- * row is still sellable (owner: the M67 is not kept). {@code blackout} is dead content (SparkStrength strips it
- * globally and other SparkWitch killer shops filter it too), removed here explicitly. The rewrite depends only on the
- * ids, because Wathe builds the list on both sides and resolves a purchase by index.
- * 夏目安安商店的纯规划，只匹配 Wathe {@code KillerShopBuilder} 的精确原生商品 id（不做子串匹配，因此绝不会误伤 SparkTraits、
- * SparkStrength 或其他模组的条目）。移除七个原生条目，并把毒药瓶改价为 25 金币；其余条目保持原有价格、库存、冷却与回调。
- * 移除 {@code grenade} 也会移除 SparkStrength 的 M67：SparkStrength 只在手雷条目仍可购买时才在所有监听器之后追加它（所有者：
- * 不保留 M67）。{@code blackout} 是失效内容（SparkStrength 全局移除，其他 SparkWitch 杀手商店也会过滤），此处显式移除。改写只取决于
+ * trait rows, other features' rows and other mods' rows are never touched by accident). Seven native rows are removed
+ * and the poison vial is repriced to 25 coins; every other row keeps its exact price, stock, cooldown and callback.
+ * Removing {@code grenade} also removes the M67: {@code M67ShopService} appends it after all listeners only while a
+ * grenade row is still sellable (owner: the M67 is not kept). {@code blackout} is dead content (the sabotage shop
+ * filter strips it globally and the other killer role shops filter it too), removed here explicitly. The rewrite
+ * depends only on the ids, because Wathe builds the list on both sides and resolves a purchase by index.
+ * 夏目安安商店的纯规划，只匹配 Wathe {@code KillerShopBuilder} 的精确原生商品 id（不做子串匹配，因此绝不会误伤词条、
+ * 其他功能或其他模组的条目）。移除七个原生条目，并把毒药瓶改价为 25 金币；其余条目保持原有价格、库存、冷却与回调。
+ * 移除 {@code grenade} 也会移除 M67：{@code M67ShopService} 只在手雷条目仍可购买时才在所有监听器之后追加它（所有者：
+ * 不保留 M67）。{@code blackout} 是失效内容（破坏商店过滤器全局移除，其他杀手职业商店也会过滤），此处显式移除。改写只取决于
  * id，因为 Wathe 在两端构建列表并按下标解析购买。
  */
 public final class NatsumeShopRules {

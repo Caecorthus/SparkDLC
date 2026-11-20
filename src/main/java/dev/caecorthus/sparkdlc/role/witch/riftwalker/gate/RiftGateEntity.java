@@ -118,7 +118,7 @@ public class RiftGateEntity extends Entity {
             }
             // Static: never drifts, whatever pushed it. / 静止：无论受到什么推动都不漂移。
             setVelocity(Vec3d.ZERO);
-            // P4: catch projectiles that skip entity collision (SparkStrength M67). / P4：捕获不走实体碰撞的投掷物。
+            // P4: catch projectiles that skip entity collision (the M67). / P4：捕获不走实体碰撞的投掷物。
             if (!isRemoved()) {
                 RiftGateProjectileService.sweepUncollidable(this);
             }

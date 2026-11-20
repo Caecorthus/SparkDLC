@@ -85,10 +85,11 @@ final class UsecShotTargets {
      * External seam: Wathe's own sleeper lookup ({@code RevolverItem.findSleepingPlayerOnBed}: a head or foot part
      * resolves to the head cell, then the first sleeping player whose sleeping position is that head cell or the hit
      * cell), so the AXMC finds exactly the player the revolver would. Only the hit result's block position is read.
-     * SparkWitch's client-only Wraith filter on that method returns server-world answers unchanged.
+     * The client-only Wraith filter on that method ({@code WraithRevolverAimMixin}) returns server-world answers
+     * unchanged.
      * 外部接缝：Wathe 自身的睡觉玩家查找（{@code RevolverItem.findSleepingPlayerOnBed}：床头或床尾都解析到床头格，再取睡眠位置为
-     * 该床头格或命中格的第一名睡觉玩家），因此 AXMC 找到的正是左轮会找到的玩家。只读取命中结果的方块位置。SparkWitch 挂在该方法
-     * 上的仅客户端冤魂过滤对服务端世界的结果原样返回。
+     * 该床头格或命中格的第一名睡觉玩家），因此 AXMC 找到的正是左轮会找到的玩家。只读取命中结果的方块位置。挂在该方法上的
+     * 仅客户端冤魂过滤（{@code WraithRevolverAimMixin}）对服务端世界的结果原样返回。
      */
     private static @Nullable ServerPlayerEntity sleeperOn(ServerWorld world, UsecShotBeds.BedContact bed) {
         return RevolverItem.findSleepingPlayerOnBed(world,

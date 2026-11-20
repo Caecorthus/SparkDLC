@@ -40,9 +40,9 @@ import java.util.UUID;
 
 /**
  * Junction box interactions: prying with a lockpick (continuous, the damage stays), hacking with the tablet (restarts
- * when interrupted), weapon hits from other mods, the Engineer's repair, healing and the vanilla crack overlay. Server
+ * when interrupted), hits from role weapons, the Engineer's repair, healing and the vanilla crack overlay. Server
  * thread only.
- * 接线箱交互：用开锁器撬（可连续，伤害保留）、用平板入侵（中断后重来）、其他模组的武器命中、工程师修复、自然恢复与原版裂纹显示。
+ * 接线箱交互：用开锁器撬（可连续，伤害保留）、用平板入侵（中断后重来）、职业武器的命中、工程师修复、自然恢复与原版裂纹显示。
  * 仅限服务端线程。
  *
  * <p>Holding right-click re-sends the block interaction every 4 ticks; each one refreshes the channel's heartbeat, and

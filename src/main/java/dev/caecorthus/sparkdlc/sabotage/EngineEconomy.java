@@ -114,10 +114,10 @@ public final class EngineEconomy {
     }
 
     /**
-     * {@code ShopEntry.price()} of {@code entry} as read on this thread right now. A wrapper entry (SparkTraits' Charisma)
+     * {@code ShopEntry.price()} of {@code entry} as read on this thread right now. A wrapper entry (the Charisma trait)
      * stores a price it took from the wrapped entry's {@code price()}, which already carried the discount, so it is not
      * discounted again: "20% off first, then Charisma" on both sides.
-     * 当前在本线程上读取到的 entry 的 ShopEntry.price()。包装条目（SparkTraits 的魅力）保存的价格取自被包装条目的 price()，
+     * 当前在本线程上读取到的 entry 的 ShopEntry.price()。包装条目（魅力词条）保存的价格取自被包装条目的 price()，
      * 那时已经带上了折扣，所以不再打折：两端都是「先 8 折、再魅力」。
      */
     public static int price(ShopEntry entry, int listed) {

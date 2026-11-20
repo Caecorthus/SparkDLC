@@ -50,9 +50,9 @@ public final class UsecScopeTracker {
     }
 
     /**
-     * Disconnect or a non-SparkWitch server: forget everything; the server's flag is per connection and its tick sweep
+     * Disconnect or a non-SparkDLC server: forget everything; the server's flag is per connection and its tick sweep
      * clears a stale one.
-     * 断线或非 SparkWitch 服务器：全部遗忘；服务端标记按连接保存，其逐刻清理会清除过期标记。
+     * 断线或非 SparkDLC 服务器：全部遗忘；服务端标记按连接保存，其逐刻清理会清除过期标记。
      */
     public void reset() {
         wasUsing = false;

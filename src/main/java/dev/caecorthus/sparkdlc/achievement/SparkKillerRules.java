@@ -11,10 +11,10 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * SparkWitch's killer roles (Hunter, Kidnapper, Magician, Ninja, Time Stealer, Witch Maiden) and the Insider, the
+ * The mod's own killer roles (Hunter, Kidnapper, Magician, Ninja, Time Stealer, Witch Maiden) and the Insider, the
  * neutral who wins with the Corrupt Cop. "As role X" is my role at the event, from the record's {@code killer_role}
  * for a kill.
- * SparkWitch 的杀手身份（猎人、绑架者、魔术师、忍者、窃时者、巫女）以及与黑警一同获胜的中立身份内应。“以 X 身份”指该事件
+ * 本模组自有的杀手身份（猎人、绑架者、魔术师、忍者、窃时者、巫女）以及与黑警一同获胜的中立身份内应。“以 X 身份”指该事件
  * 发生时我的身份，击杀取记录中的 {@code killer_role}。
  */
 final class SparkKillerRules {
@@ -64,12 +64,12 @@ final class SparkKillerRules {
      * 瓮中捉鳖: as the Hunter, a Double-Barrel Shotgun kill ({@code wathe:gun_shot} in the same tick as one of my
      * shotgun {@code item_use}s with {@code action} {@code fire}) of a player my trap rooted: my
      * {@code sparkdlc:hunter_trap_triggered} on them less than 3 s before. Nothing records the root ending early; a
-     * new root starts a fresh 3 s. A buckshot shot can kill up to three players but SparkWitch writes one fire record
+     * new root starts a fresh 3 s. A buckshot shot can kill up to three players but the shotgun writes one fire record
      * naming only the first victim (plus {@code hit_rays} and {@code victims}), so the record's target is not compared
      * with the victim; reload records share the item id and are excluded by {@code action}.
      * 以猎人身份用双管猎枪击杀（{@code wathe:gun_shot}，同一 tick 有我的一条 {@code action} 为 {@code fire} 的猎枪
      * {@code item_use}）一名被我的捕兽夹定住的玩家：此前不到 3 秒内我的 {@code sparkdlc:hunter_trap_triggered} 夹中了此人。
-     * 定身提前结束没有记录；再次被夹会重新定身 3 秒。一发霰弹最多能打死三人，但 SparkWitch 每枪只写一条开火记录，目标只记第一个
+     * 定身提前结束没有记录；再次被夹会重新定身 3 秒。一发霰弹最多能打死三人，但猎枪每枪只写一条开火记录，目标只记第一个
      * 死者（另带 {@code hit_rays} 与 {@code victims}），所以不比对记录目标与死者；装填记录与开火同一物品 id，靠 {@code action} 排除。
      */
     static boolean shotgunTrappedPrey(AchievementContext context) {

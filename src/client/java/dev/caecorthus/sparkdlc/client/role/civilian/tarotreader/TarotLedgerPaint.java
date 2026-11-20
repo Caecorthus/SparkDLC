@@ -7,17 +7,17 @@ import net.minecraft.client.gui.DrawContext;
 
 /**
  * Role-local Harpy Express tokens and fill primitives for the Tarot Reader ledger (selector and reading slip).
- * InventoryCardPaint is SparkFactionAPI's copy, shared with SparkTraits, so the few SparkAssist ExpressPalette tokens and
+ * InventoryCardPaint is the shared set, also used by the trait screens, so the few guidebook ExpressPalette tokens and
  * ExpressPaint recipes it lacks are copied here value for value. Sizes and width rules belong to
  * {@link TarotLedgerLayout}, so what is painted is what is hit-tested. Every primitive is fill-only: none batches and
  * none draws text, so callers wrap them in {@link InventoryCardPaint#batch} and draw text after the batch.
- * 塔罗牌师占卜台账（选择界面与结果纸条）的职业自有令牌与填充原语。InventoryCardPaint 位于 SparkFactionAPI、与 SparkTraits 共用，
- * 因此它缺少的 SparkAssist ExpressPalette 令牌与 ExpressPaint 配方按原值复制于此。尺寸与宽度规则归
+ * 塔罗牌师占卜台账（选择界面与结果纸条）的职业自有令牌与填充原语。InventoryCardPaint 是共用原语、特质界面也在用，
+ * 因此它缺少的指南书 ExpressPalette 令牌与 ExpressPaint 配方按原值复制于此。尺寸与宽度规则归
  * {@link TarotLedgerLayout} 所有，绘制位置与命中判定一致。所有原语只做填充，既不自行分批也不绘制文字；调用方用
  * {@link InventoryCardPaint#batch} 包裹，批次结束后再绘制文字。
  */
 public final class TarotLedgerPaint {
-    // ---- tokens (values = SparkAssist ExpressPalette) ----
+    // ---- tokens (values = the guidebook's ExpressPalette) ----
     public static final int BAND = 0xFF381406, SELECT = 0xFF4E2614, WELL_LIP = 0xFF3D1E0E, ETCH_LIGHT = 0x80542818;
     public static final int THUMB_SHADE = 0xFF5E3F0C, BUTTON_HOVER = 0xFF3A1A0B;
     public static final int ICON_HOVER = 0x30FFBF49, ICON_ACTIVE = 0x18FFBF49;
@@ -28,8 +28,8 @@ public final class TarotLedgerPaint {
      */
     public static final int LEDGER_SCRIM = 0xA8070302;
     /**
-     * Special-section colour, the same value SparkFactionAPI's listroles uses for its special header (private there).
-     * 特殊分区颜色，与 SparkFactionAPI listroles 特殊分区标题同值（该常量在其内部为私有）。
+     * Special-section colour, the same value the listroles command uses for its special header (private there).
+     * 特殊分区颜色，与 listroles 命令特殊分区标题同值（该常量在其内部为私有）。
      */
     public static final int SPECIAL = 0xFF79C7D4;
 
@@ -270,9 +270,9 @@ public final class TarotLedgerPaint {
     }
 
     /**
-     * The role colour with alpha forced opaque (Wathe and SparkWitch colours carry alpha 0x00, two NoellesRoles
+     * The role colour with alpha forced opaque (Wathe and this mod's colours carry alpha 0x00, two NoellesRoles
      * colours 0xC0), lifted 35% toward white when its contrast against BODY is below 2.0:1.
-     * 强制不透明（Wathe 与 SparkWitch 颜色 alpha 为 0x00，两个 NoellesRoles 颜色为 0xC0）；与 BODY 对比度低于 2.0:1 时
+     * 强制不透明（Wathe 与本模组的颜色 alpha 为 0x00，两个 NoellesRoles 颜色为 0xC0）；与 BODY 对比度低于 2.0:1 时
      * 向白色提亮 35%。
      */
     static int gemCore(int rgb) {

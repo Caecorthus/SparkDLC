@@ -22,10 +22,10 @@ import net.minecraft.text.Text;
  * real synced role, its owner-synced {@link SphinxHaoPlayerComponent} (hao and both ready ticks, counted down against
  * the client world clock) and the synced {@link SphinxHaoWorldComponent} (its own crawl window and the infected set
  * only a Sphinx Hao receives), and never predicts a skill. Called by {@link SphinxHaoClient} only on a confirmed
- * SparkWitch server. Role-owned presentation: never the action bar and never the {@code gui.sparkdlc.skills} panel.
+ * SparkDLC server. Role-owned presentation: never the action bar and never the {@code gui.sparkdlc.skills} panel.
  * 绘制狮身豪仅本人可见的四行（{@link SphinxHaoHudRules}）。仅用于展示：读取本地玩家同步的真实职业、只同步给本人的
  * {@link SphinxHaoPlayerComponent}（豪度值与两个就绪刻，依据客户端世界时钟倒数）以及同步的 {@link SphinxHaoWorldComponent}
- * （自己的陆泳窗口与只发给狮身豪的感染集合），从不预测技能。仅在已确认的 SparkWitch 服务器上由 {@link SphinxHaoClient} 调用。
+ * （自己的陆泳窗口与只发给狮身豪的感染集合），从不预测技能。仅在已确认的 SparkDLC 服务器上由 {@link SphinxHaoClient} 调用。
  * 属于职业自有展示：绝不使用动作栏，也绝不进入 {@code gui.sparkdlc.skills} 面板。
  */
 final class SphinxHaoHud {

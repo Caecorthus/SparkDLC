@@ -12,11 +12,11 @@ import net.minecraft.util.Identifier;
  * cell there, so a vanilla 18x18 slot frame ({@code minecraft:container/slot}) is drawn under it. Survival: the slot's
  * own position (77,44), above the offhand. Creative tab: (127,20), the mirror of the offhand cell across the player
  * preview (vanilla would otherwise stack it on hotbar cell 37). Drawn only while the slot is enabled (a confirmed
- * SparkWitch server).
+ * SparkDLC server).
  * 耳机栏位（E1）在原版生存背包与创造模式物品栏页的客户端展示。栏位本身由原版绘制与点击（它是真实的界面栏位）；这些界面的背景
  * 贴图在那里没有格子，因此在其下方绘制原版 18x18 栏位框（{@code minecraft:container/slot}）。生存：栏位自身坐标 (77,44)，位于副手
  * 上方。创造模式物品栏页：(127,20)，即副手格隔着玩家预览的镜像位置（否则原版会把它叠在快捷栏 37 号格上）。仅在栏位启用（已确认的
- * SparkWitch 服务器）时绘制。
+ * SparkDLC 服务器）时绘制。
  */
 public final class HeadsetScreenFrames {
     /** Vanilla's plain slot frame sprite (18x18). / 原版普通栏位框精灵（18x18）。 */

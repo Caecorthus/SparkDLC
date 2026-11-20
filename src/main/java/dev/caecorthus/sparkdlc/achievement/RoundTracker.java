@@ -94,7 +94,7 @@ public final class RoundTracker {
                 deathTick = Math.max(0, now - startWorldTime);
                 deathWorldTime = now;
                 deadBeforeSeenAlive = !seenAliveWithRole;
-                // SparkTraits clears traits on a real death. SparkTraits 在真正死亡时清空词条。
+                // Traits are cleared on a real death. 词条在真正死亡时清空。
                 traits.observe(deathTick, Set.of());
             }
         } else if (roleId != null) {
@@ -159,8 +159,8 @@ public final class RoundTracker {
     }
 
     /**
-     * The local player is in Depression psycho because {@code attacker} attacked them (SparkTraits' owner-only state).
-     * 本地玩家因 {@code attacker} 的攻击进入抑郁疯魔（SparkTraits 仅本人可见的状态）。
+     * The local player is in Depression psycho because {@code attacker} attacked them (the trait's owner-only state).
+     * 本地玩家因 {@code attacker} 的攻击进入抑郁疯魔（该词条仅本人可见的状态）。
      */
     public void onDepressionAttacker(UUID attacker) {
         if (active && attacker != null) {

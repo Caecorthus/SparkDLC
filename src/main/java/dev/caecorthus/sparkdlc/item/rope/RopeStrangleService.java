@@ -38,7 +38,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Server-authoritative Rope strangle (owner spec 2026-11-11; numbers and pure decisions in {@link RopeRules}).
  * <ul>
  *   <li><b>Start</b> ({@link #tryStart}, from {@code RopeItem.use}): the user gate, the Taser-style aimed target, the
- *       back check and SparkTraits' melee seams. A refusal costs nothing (private action-bar line, no cooldown).</li>
+ *       back check and the traits' melee seams. A refusal costs nothing (private action-bar line, no cooldown).</li>
  *   <li><b>Hold</b>: both players are held for {@link RopeRules#CHANNEL_TICKS}. {@link RopeStrangleHold} plugs the
  *       session table into {@code ControlExpertStun.isStunned}, so every stun guard, payload deny-list and the client
  *       key lock apply to both; the owner-synced {@link RopeHoldComponent} drives the client. Each player is snapped to
@@ -64,7 +64,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Server thread only, except the two session lookups behind {@link #isStrangling} / {@link RopeStrangleHold}, which
  * payload guards may read from a network thread (hence the concurrent maps).
  * 服务端权威的绳索勒杀（所有者规格 2026-11-11；数值与纯判定见 {@link RopeRules}）。开始：使用者门槛、电击枪式的瞄准目标、背后判定与
- * SparkTraits 近战接缝；被拒绝没有任何代价（仅私有提示，无冷却）。定身：双方被定身 {@link RopeRules#CHANNEL_TICKS}；
+ * 词条的近战接缝；被拒绝没有任何代价（仅私有提示，无冷却）。定身：双方被定身 {@link RopeRules#CHANNEL_TICKS}；
  * {@link RopeStrangleHold} 把会话表接入 {@code ControlExpertStun.isStunned}，因此所有眩晕拦截、数据包拦截名单与客户端按键锁都对双方
  * 生效，仅同步给本人的 {@link RopeHoldComponent} 驱动客户端；开始时把双方对齐到锚点，漂移时拉回（发送的朝向就是玩家自己的朝向，视角
  * 自由）；目标无论偏离多远都会被送回锚点，因此它自身的移动永远无法脱身。受击：
@@ -186,8 +186,8 @@ public final class RopeStrangleService {
      */
     static boolean tryStart(ServerPlayerEntity user, Hand hand) {
         ItemStack rope = user.getStackInHand(hand);
-        // SparkTraits' new-action gate (Last Escape, a Close Quarters lock on this item): silent, like every weapon.
-        // SparkTraits 的新动作门槛（脱险、近身格挡对该物品的锁定）：与其他武器一样静默拒绝。
+        // The traits' new-action gate (Last Escape, a Close Quarters lock on this item): silent, like every weapon.
+        // 词条的新动作门槛（脱险、近身格挡对该物品的锁定）：与其他武器一样静默拒绝。
         if (!rope.isOf(SparkDlcItems.rope()) || SparkTraitsApi.blocksWeaponAction(user, rope)) {
             return false;
         }
@@ -431,7 +431,7 @@ public final class RopeStrangleService {
         }
     }
 
-    // Plain vanilla cooldown so SparkTraits Fast Hands may shorten it (Taser precedent). / 使用普通原版冷却，SparkTraits 快手可缩短（电击枪先例）。
+    // Plain vanilla cooldown so the Fast Hands trait may shorten it (Taser precedent). / 使用普通原版冷却，快手词条可缩短（电击枪先例）。
     private static void coolDown(ServerPlayerEntity user) {
         user.getItemCooldownManager().set(SparkDlcItems.rope(), RopeRules.INTERRUPT_COOLDOWN_TICKS);
     }

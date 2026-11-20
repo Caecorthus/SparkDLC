@@ -2,11 +2,11 @@ package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
 /**
  * Pure weapon rules for killing a Partygoer (no Minecraft state): reaches, mirrored provider values, nearest-wins against
- * the player target and Bomber drones, blast shapes. Ids are plain strings so optional mods (SparkWitch) need no compile
- * dependency. Owner rule (2026-10-21): anything that can kill a player kills a Partygoer in one hit; non-lethal things
+ * the player target and Bomber drones, blast shapes. Ids stay plain strings from when these weapons lived in another
+ * jar. Owner rule (2026-10-21): anything that can kill a player kills a Partygoer in one hit; non-lethal things
  * never do.
  * 击杀派对客的纯武器规则（不依赖 Minecraft 状态）：距离、镜像的提供方数值、相对玩家目标与炸弹客无人机的“最近者命中”、爆炸形状。
- * id 使用纯字符串，可选模组（SparkWitch）无需编译期依赖。主人规则（2026-10-21）：任何能杀死玩家的东西都能一击打死派对客；
+ * id 使用纯字符串，沿用自这些武器位于另一个 jar 时的做法。主人规则（2026-10-21）：任何能杀死玩家的东西都能一击打死派对客；
  * 不致命的东西永远不能。
  */
 public final class PartygoerWeaponRules {
@@ -33,7 +33,7 @@ public final class PartygoerWeaponRules {
     /** Poison needle cooldown ({@code PoisonNeedleItem.USE_COOLDOWN_TICKS}). / 毒针冷却。 */
     public static final int POISON_NEEDLE_COOLDOWN_TICKS = 45 * 20;
 
-    // ---- SparkWitch ids and values, mirrored (optional mod) / SparkWitch id 与数值镜像（可选模组） ----
+    // ---- Ids and values of other roles' weapons, mirrored / 其他职业武器的 id 与数值镜像 ----
 
     public static final String NINJA_KNIFE_ID = "sparkdlc:ninja_knife";
     public static final double NINJA_KNIFE_RANGE = 4.0;
@@ -91,9 +91,9 @@ public final class PartygoerWeaponRules {
     }
 
     /**
-     * SparkWitch TR shell cube ({@code PotionBlastRings.inCube}): feet inside the horizontal N×N square and the body
+     * TR shell cube ({@code PotionBlastRings.inCube}): feet inside the horizontal N×N square and the body
      * overlapping the vertical slab [−N/2, N/2]. Non-finite input is outside.
-     * SparkWitch TR 炮弹立方体：脚下位于水平 N×N 正方形内，且身体与竖直区间 [−N/2, N/2] 重叠。非有限输入视为在外。
+     * TR 炮弹立方体：脚下位于水平 N×N 正方形内，且身体与竖直区间 [−N/2, N/2] 重叠。非有限输入视为在外。
      */
     public static boolean inShellCube(int size, double dx, double dz, double dyMin, double dyMax) {
         if (size <= 0 || !Double.isFinite(dx) || !Double.isFinite(dz) || !Double.isFinite(dyMin)

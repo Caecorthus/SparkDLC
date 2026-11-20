@@ -17,13 +17,13 @@ import org.jetbrains.annotations.Nullable;
 /**
  * 会计 income: +{@link AccountantRules#TASK_REWARD} per task and +{@link AccountantRules#PASSIVE_INCOME} every
  * {@link AccountantRules#PASSIVE_INCOME_INTERVAL_TICKS} world ticks, only while {@link #canEarn} holds (so a dead,
- * swallowed or Wraith Accountant earns nothing). Both use {@code addToBalance}, so income observers (SparkFactionAPI's
- * income record, SparkTraits Snowball) see ordinary income. Task pay skips a SparkTraits Impostor, whose task income
- * SparkTraits pays itself; the passive income has no other payer, so it is paid either way (USEC precedent).
+ * swallowed or Wraith Accountant earns nothing). Both use {@code addToBalance}, so income observers (the income
+ * record, the Snowball trait) see ordinary income. Task pay skips a holder of the Impostor trait, whose task income
+ * that trait pays itself; the passive income has no other payer, so it is paid either way (USEC precedent).
  * 会计收入：每个任务 +{@link AccountantRules#TASK_REWARD}，另每 {@link AccountantRules#PASSIVE_INCOME_INTERVAL_TICKS}
  * 世界刻 +{@link AccountantRules#PASSIVE_INCOME}，只在 {@link #canEarn} 成立时发放（死亡、被吞或成为冤魂的会计不再获得收入）。
- * 两者都用 {@code addToBalance}，收入观察者（SparkFactionAPI 收入记录、SparkTraits 滚雪球）视其为普通收入。任务收入不发给
- * SparkTraits 内鬼（内鬼任务收入由 SparkTraits 自行支付）；被动收入没有其他来源，因此照常发放（沿用 USEC）。
+ * 两者都用 {@code addToBalance}，收入观察者（收入记录、滚雪球词条）视其为普通收入。任务收入不发给
+ * 内鬼词条持有者（内鬼任务收入由该词条自行支付）；被动收入没有其他来源，因此照常发放（沿用 USEC）。
  */
 final class AccountantEconomyService {
     private static boolean registered;

@@ -55,13 +55,14 @@ public final class DeathRayClientHooks {
     /**
      * {@code Mouse.onMouseButton}, at its only {@code IS_SYSTEM_MAC} read (macOS only): true keeps this left press as
      * button 0, uncounted, so Ctrl + left-click (sprint is Left Ctrl) reaches the attack key and {@link #tryFire} (via
-     * {@code doAttack} or held-attack block breaking) instead of using the held item. The ray owns the press exactly when {@link #tryFire} would take it; a SparkTraits
-     * block or a held latch then still swallows it there, as for a plain left click. Never fires by itself and never
-     * touches a release; see {@link MacControlClickRules#keepsLeftPress}.
+     * {@code doAttack} or held-attack block breaking) instead of using the held item. The ray owns the press exactly
+     * when {@link #tryFire} would take it; a trait interaction block or a held latch then still swallows it there, as
+     * for a plain left click. Never fires by itself and never touches a release; see
+     * {@link MacControlClickRules#keepsLeftPress}.
      * {@code Mouse.onMouseButton} 中唯一一次读取 {@code IS_SYSTEM_MAC} 处（仅 macOS）：返回 true 时本次左键按下保持为按键 0
      * 且不计数，于是 Ctrl + 左键（疾跑是左 Ctrl）会到达攻击键与 {@link #tryFire}（经由 {@code doAttack} 或按住攻击的方块
      * 挖掘），而不是使用手持物品。射线恰好在
-     * {@link #tryFire} 会接管按键时占有它；SparkTraits 封锁或按住闩锁随后仍会在那里吞掉它，与普通左键相同。它自身从不发射，
+     * {@link #tryFire} 会接管按键时占有它；词条的交互封锁或按住闩锁随后仍会在那里吞掉它，与普通左键相同。它自身从不发射，
      * 也从不改动松开；见 {@link MacControlClickRules#keepsLeftPress}。
      */
     public static boolean keepsMacLeftPress(MinecraftClient client, int button, int action,
@@ -75,9 +76,9 @@ public final class DeathRayClientHooks {
     }
 
     /**
-     * The single claim gate of {@link #tryFire} (and so of the Mac press): a confirmed SparkWitch server, a local
+     * The single claim gate of {@link #tryFire} (and so of the Mac press): a confirmed SparkDLC server, a local
      * player and network handler, and an active Death Ray window.
-     * {@link #tryFire} 的唯一接管条件（也是 Mac 按下的条件）：已确认的 SparkWitch 服务器、本地玩家与网络处理器，以及生效中的
+     * {@link #tryFire} 的唯一接管条件（也是 Mac 按下的条件）：已确认的 SparkDLC 服务器、本地玩家与网络处理器，以及生效中的
      * 死亡射线窗口。
      */
     private static boolean ownsAttack(MinecraftClient client, @Nullable ClientPlayerEntity player) {

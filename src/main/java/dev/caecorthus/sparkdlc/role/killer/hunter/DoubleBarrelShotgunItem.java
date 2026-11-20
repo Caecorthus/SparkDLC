@@ -189,7 +189,7 @@ public final class DoubleBarrelShotgunItem extends Item {
      * interceptors against that ray's nearest player in the old single-shot order (Raven Form crow, Magician puppet,
      * Seeker device). Nothing is ended or broken yet, so a puppet or device that one pellet takes still absorbs every
      * other pellet that reached it first.</li>
-     * <li>SparkStrength seam: the frozen {@link SeekerDeviceHits#onShotgunFired(PlayerEntity, PlayerEntity, double)}
+     * <li>World-target seam: the {@link SeekerDeviceHits#onShotgunFired(PlayerEntity, PlayerEntity, double)}
      * hook, once, for the centre ray, skipped when a crow or puppet took that ray (as before). Its Bomber drone and
      * Partygoer steps measure only the shooter's look and promise "the caller hits nobody", so a drone or Partygoer
      * that takes the centre ray absorbs the whole shot.</li>
@@ -202,7 +202,7 @@ public final class DoubleBarrelShotgunItem extends Item {
      * <ol>
      * <li>只读，逐条射线：穿过的玩家（客户端声明由服务端确认），随后按旧单发顺序（化鸦乌鸦、魔术师皮套、搜寻者设备）与该射线最近的
      * 玩家做最近者比较。此时不结束、不打坏任何东西，因此被某颗弹丸命中的皮套或设备仍会吸收其他所有先到达它的弹丸。</li>
-     * <li>SparkStrength 接缝：冻结的 {@link SeekerDeviceHits#onShotgunFired(PlayerEntity, PlayerEntity, double)} 钩子，只为中心
+     * <li>世界目标接缝：{@link SeekerDeviceHits#onShotgunFired(PlayerEntity, PlayerEntity, double)} 钩子，只为中心
      * 射线调用一次；乌鸦或皮套取走中心射线时跳过（与之前一致）。其轰炸者无人机与派对客步骤只沿射手视线测量，并承诺“调用方不再命中
      * 任何人”，因此取走中心射线的无人机或派对客吸收整枪。</li>
      * <li>写入：每个吸收弹丸的皮套只结束一次、每个设备只打坏一次，然后击杀、接线箱（仅中心射线）与记录。</li>
@@ -227,11 +227,11 @@ public final class DoubleBarrelShotgunItem extends Item {
             PlayerEntity aimed = centre.nearest();
             if (SeekerDeviceHits.onShotgunFired(shooter, aimed, range) == null) {
                 // Null means something nearer than the aimed player took the centre ray: the Seeker device this ray
-                // already found (the hook has now broken it), else a SparkStrength drone or Partygoer. With no aimed
-                // player only a device that survived the call tells SparkStrength apart; a drone or Partygoer on an
+                // already found (the hook has now broken it), else a Bomber drone or Partygoer. With no aimed
+                // player only a device that survived the call tells those two apart; a drone or Partygoer on an
                 // empty centre ray absorbs just that ray, as on the old miss.
                 // 返回 null 表示有比被瞄准玩家更近的东西取走了中心射线：本射线已找到的搜寻者设备（钩子已将其打坏），否则是
-                // SparkStrength 无人机或派对客。没有被瞄准玩家时，只有调用后仍存在的设备能区分出 SparkStrength；空中心射线上的
+                // 轰炸者无人机或派对客。没有被瞄准玩家时，只有调用后仍存在的设备能区分出后两者；空中心射线上的
                 // 无人机或派对客只吸收该射线，与旧的未命中一致。
                 sparkStrengthAbsorbed = centre.device() != null ? !centre.device().isRemoved() : aimed != null;
             }
@@ -522,10 +522,10 @@ public final class DoubleBarrelShotgunItem extends Item {
     /**
      * The buckshot's pellet rays (2026-10-29): {@link HunterShotgunAim#RAY_COUNT} block-clipped rays — the centre
      * first, then up/down, left/right and the four diagonals, each {@link HunterRules#SHOTGUN_SPREAD_DEGREES} off the
-     * centre in yaw/pitch. The centre is the vanilla look vector, the same ray the SparkStrength hook and the junction
+     * centre in yaw/pitch. The centre is the vanilla look vector, the same ray the world-target hook and the junction
      * box measure.
      * 霰弹的弹丸射线（2026-10-29）：{@link HunterShotgunAim#RAY_COUNT} 条按方块截断的射线——中心在前，然后是上下、左右与四角，
-     * 各在偏航/俯仰上偏离中心 {@link HunterRules#SHOTGUN_SPREAD_DEGREES}。中心即原版视线向量，与 SparkStrength 钩子和接线箱
+     * 各在偏航/俯仰上偏离中心 {@link HunterRules#SHOTGUN_SPREAD_DEGREES}。中心即原版视线向量，与世界目标钩子和接线箱
      * 测量的是同一条射线。
      */
     public static List<Aim> spreadAims(PlayerEntity user) {

@@ -10,11 +10,11 @@ import net.minecraft.util.Identifier;
 
 /**
  * Owns a private Cooling Oil blur {@link PostEffectProcessor}, separate from GameRenderer's shared post-processor slot
- * (NoellesRoles Spiritualist) and from the SparkTraits/SparkWitch grayscale processors. Each processor reads and
+ * (NoellesRoles Spiritualist) and from the trait and role grayscale processors. Each processor reads and
  * writes the main framebuffer in turn, so they stack in any order. Lazy-loaded on the first blurred frame, closed
  * when the effect ends; a load failure is logged once and the victim keeps the HUD overlay only.
  * 持有私有的风油精模糊后处理器，不占用 GameRenderer 的共享后处理槽位（NoellesRoles 通灵者），也独立于
- * SparkTraits/SparkWitch 的灰阶处理器。各处理器依次读写主帧缓冲，因此任意顺序都能叠加。首个模糊帧时才加载，
+ * 特质与职业的灰阶处理器。各处理器依次读写主帧缓冲，因此任意顺序都能叠加。首个模糊帧时才加载，
  * 效果结束即关闭；加载失败只记录一次日志，受害者仅保留 HUD 覆盖层。
  */
 public final class PerfumerBlurRenderer {

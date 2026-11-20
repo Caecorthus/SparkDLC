@@ -113,13 +113,13 @@ public final class MightyForceCombatService {
     }
 
     /**
-     * SparkStrength Partygoer seam (owner rule 2026-10-21: whatever kills a player kills a Partygoer in one hit): a bare
+     * Partygoer seam (owner rule 2026-10-21: whatever kills a player kills a Partygoer in one hit): a bare
      * hand strike inside the window kills it with {@code MIGHTY_FORCE} and spends the window like a player strike. The
      * attacker gates are the player strike's (vanilla's server reach check included); the target gates are
-     * SparkStrength's {@code isKillable}. PASS for anything else, so the attack reaches vanilla untouched.
-     * SparkStrength 派对客接缝（所有者规则 2026-10-21：能杀死玩家的东西一击打死派对客）：窗口内的空手一击以 {@code MIGHTY_FORCE}
-     * 打死它，并与击中玩家一样用掉窗口。攻击者门槛与玩家一击相同（含原版服务端距离检查）；目标门槛为 SparkStrength 的
-     * {@code isKillable}。其他情况一律 PASS，攻击原样交给原版。
+     * {@code PartygoerWeaponTarget.isKillable}. PASS for anything else, so the attack reaches vanilla untouched.
+     * 派对客接缝（所有者规则 2026-10-21：能杀死玩家的东西一击打死派对客）：窗口内的空手一击以 {@code MIGHTY_FORCE}
+     * 打死它，并与击中玩家一样用掉窗口。攻击者门槛与玩家一击相同（含原版服务端距离检查）；目标门槛为
+     * {@code PartygoerWeaponTarget.isKillable}。其他情况一律 PASS，攻击原样交给原版。
      */
     private static ActionResult tryStrikePartygoer(ServerPlayerEntity attacker, Entity partygoer) {
         if (!hasLiveMightyForce(attacker) || !PartygoerWeaponTarget.isKillable(partygoer)) {
@@ -206,9 +206,9 @@ public final class MightyForceCombatService {
 
     /**
      * The window ends first, as in {@link #strike}; the Partygoer is never an innocent (no misfire, no skill record:
-     * SparkStrength records the kill). Its corpse (a Wathe body under the Partygoer's UUID, spawned during the kill)
-     * flies like a player's body.
-     * 与 {@link #strike} 一样先结束窗口；派对客永远不是好人（不算误杀，也不写技能记录：由 SparkStrength 记录这次击杀）。
+     * its own kill path records the kill). Its corpse (a Wathe body under the Partygoer's UUID, spawned during the
+     * kill) flies like a player's body.
+     * 与 {@link #strike} 一样先结束窗口；派对客永远不是好人（不算误杀，也不写技能记录：由派对客自身的击杀流程记录这次击杀）。
      * 它的尸体（击杀时生成、以派对客 UUID 为主人的 Wathe 尸体）与玩家尸体一样被击飞。
      */
     private static void strikePartygoer(ServerPlayerEntity attacker, Entity partygoer) {

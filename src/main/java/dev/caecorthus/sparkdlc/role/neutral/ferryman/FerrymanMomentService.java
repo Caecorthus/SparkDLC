@@ -43,12 +43,12 @@ import java.util.UUID;
  * derringer, a crowbar and a knife, and marks them for everyone with server-spawned soul-fire particles. The moment ends
  * when every Lost Soul is dead (the Ferryman dies with them), when the Ferryman is gone (the souls die with him), or
  * when nobody outside the moment is left alive (the Ferryman and the souls win, decided by {@link FerrymanWinService}).
- * Both "dies with them" kills are forced and use a SparkTraits-terminal death reason, so no protection or Last Stand
+ * Both "dies with them" kills are forced and use a trait-terminal death reason, so no protection or Last Stand
  * can veto them. Server only.
  * 亡魂时刻：把摆渡人已经摆渡（怜悯）的遗体作为迷失的灵魂在他身边复活，发给它们一把空膛（已用过的）德林加、撬棍与匕首，
  * 并由服务端在其周身生成灵魂火粒子让全场看见。所有迷失的灵魂死亡时时刻结束（摆渡人随之死亡）；摆渡人消失时灵魂随他
  * 而去；时刻之外再无存活者时，摆渡人与迷失的灵魂获胜（由 {@link FerrymanWinService} 判定）。两种“随之而去”的死亡都是
- * 强制击杀，且死因已登记为 SparkTraits 终结原因，任何保护或背水一战都无法否决。仅服务端。
+ * 强制击杀，且死因已登记为词条终结原因，任何保护或背水一战都无法否决。仅服务端。
  */
 public final class FerrymanMomentService {
     private static final String START_KEY = "message.sparkdlc.ferryman.moment.start";
@@ -58,8 +58,8 @@ public final class FerrymanMomentService {
     private static final String TITLE_KEY = "title.sparkdlc.lost_soul.warcry";
 
     /**
-     * SparkFactionAPI replay cause for the Lost Soul role write; the Charon is its source player.
-     * Lost Soul 职业写入时使用的 SparkFactionAPI 回放原因；来源玩家为摆渡人。
+     * Replay cause for the Lost Soul role write; the Charon is its source player.
+     * Lost Soul 职业写入时使用的回放原因；来源玩家为摆渡人。
      */
     public static final Identifier REVIVE_REPLAY_CAUSE = SparkDLC.id("ferryman_moment_revive");
 
@@ -107,9 +107,9 @@ public final class FerrymanMomentService {
                 end(world);
             }
         });
-        // SparkTraits reads terminal reasons at kill time, so a Last Stand never turns "dies with them" into a revive;
+        // The traits read terminal reasons at kill time, so a Last Stand never turns "dies with them" into a revive;
         // registering at server start is early enough and idempotent (Fiend devoured / Bell toll precedent).
-        // SparkTraits 在击杀时读取终结原因，背水一战因此不会把“随之而去”变成复活；服务端启动时注册即足够早且幂等
+        // 词条在击杀时读取终结原因，背水一战因此不会把“随之而去”变成复活；服务端启动时注册即足够早且幂等
         // （与魔人被吞食、钟声的做法相同）。
         ServerLifecycleEvents.SERVER_STARTING.register(server ->
                 SparkTraitsApi.registerTerminalDeathReason(SparkDlcDeathReasons.FERRYMAN_MOMENT_LOST));
@@ -155,9 +155,9 @@ public final class FerrymanMomentService {
 
     /**
      * Online players that {@link FerrymanMomentRules#isEligibleSoul} accepts: ferried by this Charon, a round
-     * participant Wathe holds dead, not a Charon, no SparkTraits Last Stand holding the death, not an active Wraith.
+     * participant Wathe holds dead, not a Charon, no Last Stand trait holding the death, not an active Wraith.
      * {@link FerrymanMomentRules#isEligibleSoul} 接受的在线玩家：被本摆渡人摆渡、Wathe 记为死亡的本局参与者、不是摆渡人、
-     * 死亡未被 SparkTraits 背水一战持有、不是活跃冤魂。
+     * 死亡未被背水一战词条持有、不是活跃冤魂。
      */
     private static List<ServerPlayerEntity> eligibleSouls(ServerWorld world, GameWorldComponent game,
                                                           FerrymanPlayerComponent component) {
@@ -214,9 +214,9 @@ public final class FerrymanMomentService {
         // 复活的灵魂不再是已摆渡的尸体：它的下一具遗体重新计入摆渡、报酬与标记。
         component.removeFerried(soulId);
 
-        // Same body restore as SparkTraits' Last Stand and SparkStrength's T-Virus revive: ADVENTURE (Wathe's round
+        // Same body restore as the Last Stand trait and the T-Virus revive: ADVENTURE (Wathe's round
         // mode, so souls cannot break the train), full health, air and food, no fall distance, own camera.
-        // 与 SparkTraits 背水一战、SparkStrength T 病毒复活相同的身体复原：冒险模式（Wathe 的对局模式，灵魂因此不能破坏
+        // 与背水一战词条、T 病毒复活相同的身体复原：冒险模式（Wathe 的对局模式，灵魂因此不能破坏
         // 列车）、满血、满氧气与饱食度、清除摔落距离、视角回到自身。
         soul.setCameraEntity(soul);
         soul.changeGameMode(GameMode.ADVENTURE);
@@ -418,9 +418,9 @@ public final class FerrymanMomentService {
 
     /**
      * The moment ends because the Charon is gone: every Lost Soul Wathe still reports alive (swallowed ones included)
-     * is killed with a forced, SparkTraits-terminal death, then the state is cleared. The names are copied before the
+     * is killed with a forced, trait-terminal death, then the state is cleared. The names are copied before the
      * state is cleared, and the state is cleared before the kills so a re-entrant win check sees no moment.
-     * 时刻因卡戎消失而结束：Wathe 仍报告存活的每一名迷失灵魂（包括被吞下的）都以强制、SparkTraits 终结的死因被杀死，然后
+     * 时刻因卡戎消失而结束：Wathe 仍报告存活的每一名迷失灵魂（包括被吞下的）都以强制、词条终结的死因被杀死，然后
      * 清空状态。名单在清空前复制；清空发生在击杀之前，因此重入的胜负判定看不到时刻。
      */
     public static void endWithSouls(ServerWorld world, FerrymanMomentWorldComponent moment) {

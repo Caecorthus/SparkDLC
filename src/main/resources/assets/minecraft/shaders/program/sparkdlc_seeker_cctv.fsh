@@ -1,6 +1,6 @@
 #version 150
 
-// SparkWitch Seeker remote view (car / camera CCTV look): tint, desaturation, scanlines, vignette, film grain.
+// Seeker remote view (car / camera CCTV look): tint, desaturation, scanlines, vignette, film grain.
 // Interference adds rolling band jitter and extra static; SignalLost blanks the feed to near-black static.
 // Uniform values come from shaders/post/seeker_car.json and seeker_camera.json; Java sets only Interference/SignalLost.
 // 搜寻者遥控视角（小车 / 摄像头监控）：色调、去饱和、扫描线、暗角与胶片噪点。Interference 增加滚动条带抖动与噪声；

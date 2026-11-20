@@ -7,8 +7,8 @@ import net.minecraft.util.Identifier;
 import java.util.Set;
 
 /**
- * Public passive trait contract for SparkTraits.
- * SparkTraits 的公开被动天赋接口；主动技能仍应放在 wathe Role 中。
+ * Public passive trait contract of the mod.
+ * 本模组的公开被动天赋接口；主动技能仍应放在 wathe Role 中。
  */
 public interface Trait {
     Identifier id();

@@ -86,8 +86,8 @@ public final class TraitLockValidationService {
         if (trait.id().equals(ConscienceTrait.ID) && EffectiveTraitEligibility.isConscienceBlockedRole(role)) {
             return false;
         }
-        // Settlement-excluded roles never hold Last Stand (process-lifetime SparkFactionAPI registration).
-        // 结算排除身份永远不能获得背水一战（SparkFactionAPI 注册在进程生命周期内持续有效）。
+        // Settlement-excluded roles never hold Last Stand (process-lifetime SettlementExclusions registration).
+        // 结算排除身份永远不能获得背水一战（SettlementExclusions 注册在进程生命周期内持续有效）。
         if (trait.id().equals(LastStandTrait.ID) && LastStandTrait.isSettlementExcludedRole(role)) {
             return false;
         }
@@ -130,9 +130,9 @@ public final class TraitLockValidationService {
                 + formatRoleId(conflict.role()) + " 冲突。";
     }
 
-    /** Command-facing trait id shared by lock messages, command feedback and suggestions: SparkTraits ids drop the
+    /** Command-facing trait id shared by lock messages, command feedback and suggestions: the mod's own ids drop the
      *  namespace, foreign ids stay fully qualified.
-     *  锁定提示、命令反馈与补全共用的命令侧天赋 id：SparkTraits 的 id 省略命名空间，外部 id 保留完整形式。 */
+     *  锁定提示、命令反馈与补全共用的命令侧天赋 id：本模组的 id 省略命名空间，外部 id 保留完整形式。 */
     static String formatTraitId(Identifier traitId) {
         if (traitId.getNamespace().equals(SparkDLC.MOD_ID)) {
             return traitId.getPath();

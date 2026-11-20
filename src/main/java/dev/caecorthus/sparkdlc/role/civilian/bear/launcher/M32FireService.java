@@ -25,14 +25,14 @@ import net.minecraft.util.math.Vec3d;
 /**
  * Server-authoritative M32A1 fire (WP1). The client sends only {@code sparkdlc:fire_m32a1} with its click-time aim;
  * this service resolves the {@link OffMatchUse} mode and validates the held launcher, the stun/session/Kidnapper/Wraith
- * locks, SparkTraits weapon blocks, the cooldown and a loaded chamber ({@link M32FireRules}) before it spawns a
+ * locks, the traits' weapon blocks, the cooldown and a loaded chamber ({@link M32FireRules}) before it spawns a
  * {@link SmokeRoundEntity} from its OWN eye position. Only a spawned round advances the cylinder ({@link
  * M32Cylinder#fire()}, D8: the next loaded chamber in rotation), starts the 1 s cooldown through the exact floor writer
  * (bypasses Fast Hands, never shortens a longer lock) and plays the public shot (the sound already contains the
  * cylinder clack). An empty cylinder answers with a dry click only the shooter hears, and no cooldown. Fabric runs play
  * receivers on the server thread (the stun and Seeker payload guards wrap that hand-off), so nothing else is needed.
  * 服务端权威的 M32A1 开火（WP1）。客户端只发送带点击瞬间朝向的 {@code sparkdlc:fire_m32a1}；本服务判定 {@link OffMatchUse}
- * 模式，并复核手持发射器、眩晕/会话/绑匪/冤魂锁定、SparkTraits 武器封锁、冷却与已装填弹膛（{@link M32FireRules}）后，才从服务端
+ * 模式，并复核手持发射器、眩晕/会话/绑匪/冤魂锁定、词条的武器封锁、冷却与已装填弹膛（{@link M32FireRules}）后，才从服务端
  * 自身的眼部位置生成 {@link SmokeRoundEntity}。只有成功生成的榴弹才会转动转轮（{@link M32Cylinder#fire()}，D8：按转动顺序的下一
  * 个已装填弹膛）、经精确取大写入开始 1 秒冷却（绕过快手，绝不缩短更长的锁定），并播放公开的射击声（该声音已包含转轮咔哒声）。
  * 空转轮只给射手一声空响，不开始冷却。Fabric 在服务端线程执行游戏数据包接收器（眩晕与搜寻者拦截包装了该切换），因此无需其他处理。
@@ -109,10 +109,13 @@ public final class M32FireService {
     }
 
     /**
-     * Server only, the M32A1's single cooldown writer: {@code max(existing, ticks)} written once, SparkTraits' exact write first (it bypasses Fast Hands),
-     * the vanilla set only when that answers false; the USEC writer rule. Returns true when a new value was written.
-     * 仅服务端，M32A1 唯一的冷却写入方：写入一次 {@code max(既有, ticks)}，优先使用 SparkTraits 精确写入（绕过快手），仅当其返回 false 时才执行原版写入；
-     * 即 USEC 的写入规则。写入了新值时返回 true。
+     * Server only, the M32A1's single cooldown writer: {@code max(existing, ticks)} written once, the exact write
+     * ({@code SparkTraitsApi.setExactItemCooldownRemaining}) first (it bypasses Fast Hands), the vanilla set only when
+     * that answers false, which since the fusion happens only for a null player or item, so it is unreachable here; the
+     * USEC writer rule. Returns true when a new value was written.
+     * 仅服务端，M32A1 唯一的冷却写入方：写入一次 {@code max(既有, ticks)}，优先使用精确写入
+     * （{@code SparkTraitsApi.setExactItemCooldownRemaining}，绕过快手），仅当其返回 false 时才执行原版写入；融合后只有玩家
+     * 或物品为 null 时才返回 false，因此此处不可达；即 USEC 的写入规则。写入了新值时返回 true。
      */
     static boolean writeFloorExact(ServerPlayerEntity player, int ticks) {
         Item item = BearItems.M32A1;

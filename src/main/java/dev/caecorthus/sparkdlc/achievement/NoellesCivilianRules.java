@@ -61,11 +61,11 @@ final class NoellesCivilianRules {
     /** The Voodoo curse kills 5 s after the chain record (NR 1.7.6), give or take a tick. 巫毒诅咒在连锁记录后 5 秒致死，误差一 tick。 */
     static final int VOODOO_CURSE_TICKS = 100;
     static final int VOODOO_CURSE_SLACK = 2;
-    /** A Noisemaker glow lasts 30 s (SparkStrength). 大嗓门点亮持续 30 秒（SparkStrength）。 */
+    /** A Noisemaker glow lasts 30 s (role kit). 大嗓门点亮持续 30 秒（职业套件）。 */
     static final int GLOW_TICKS = 600;
     /** 15 seconds. 15 秒。 */
     static final int LAST_SCREAM_TICKS = 300;
-    /** A Reporter broadcast lasts 30 s (SparkStrength). 记者广播采访持续 30 秒（SparkStrength）。 */
+    /** A Reporter broadcast lasts 30 s (role kit). 记者广播采访持续 30 秒（职业套件）。 */
     static final int BROADCAST_TICKS = 600;
     /** 30 seconds. 30 秒。 */
     static final int REPAIR_WINDOW_TICKS = 600;
@@ -80,7 +80,7 @@ final class NoellesCivilianRules {
      */
     static final int ROUND_END_FADE_TICKS = 60;
     static final int ROUND_END_SLACK = 5;
-    /** The Time Stealer's curse kills at its fifth chime, 35 s after the theft (SparkWitch). 窃时诅咒在第 5 声钟响（被窃后 35 秒）致死。 */
+    /** The Time Stealer's curse kills at its fifth chime, 35 s after the theft. 窃时诅咒在第 5 声钟响（被窃后 35 秒）致死。 */
     static final int TIME_THEFT_LETHAL_TICKS = 700;
     static final int REVOLVER_SHOTS = 2;
     static final int VETERAN_KNIFE_KILLS = 3;
@@ -427,13 +427,13 @@ final class NoellesCivilianRules {
 
     /**
      * 物归原主: as the Timekeeper, buy 「减少45秒游戏时间」 while a Time Stealer curse is still pending, which lifts it
-     * (SparkWitch {@code TimekeeperCounter}; the lift itself is not recorded). A curse is a pocket-watch theft
+     * ({@code TimekeeperCounter}; the lift itself is not recorded). A curse is a pocket-watch theft
      * ({@code sparkdlc:time_stealer_pocket_watch}, target = the victim) less than 35 s (its lethal chime) before the
      * purchase, whose victim has not died since, and that no earlier Timekeeper purchase already lifted. The lift only
      * happens when the buyer is not on the killer faction, so a purchase while holding Impostor does not count. It also
      * only happens while the round is live, so a purchase at most {@link #ROUND_END_FADE_TICKS} before
      * {@code match_end} (during the round-end fade) does not count either.
-     * 以计时员身份在窃时诅咒尚未生效时购买「减少45秒游戏时间」，从而解除诅咒（SparkWitch {@code TimekeeperCounter}；解除本身
+     * 以计时员身份在窃时诅咒尚未生效时购买「减少45秒游戏时间」，从而解除诅咒（{@code TimekeeperCounter}；解除本身
      * 不写记录）。诅咒指购买前不到 35 秒（致死钟响）的一次怀表窃时（{@code sparkdlc:time_stealer_pocket_watch}，target
      * 为受害者），受害者此后没有死亡，也没有被更早的计时员购买解除。只有购买者不属于杀手阵营时才会解除，所以持有内鬼时的购买不算。
      * 解除只在对局进行中发生，所以距 {@code match_end} 不超过 {@link #ROUND_END_FADE_TICKS} tick 的购买（结束淡出期间）也不算。

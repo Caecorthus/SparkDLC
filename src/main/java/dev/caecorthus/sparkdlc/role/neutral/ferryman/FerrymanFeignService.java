@@ -75,9 +75,9 @@ public final class FerrymanFeignService {
         KillPlayer.AFTER.register(FerrymanFeignService::afterKill);
         ResetPlayer.EVENT.register(FerrymanFeignService::onReset);
         ServerDisconnectCleanup.register((player, server) -> onDisconnect(player));
-        // SparkTraits reads terminal reasons at kill time, so a Last Stand never turns the devoured death into a
+        // The traits read terminal reasons at kill time, so a Last Stand never turns the devoured death into a
         // revive; registering at server start is early enough and idempotent (the Fiend's FIEND_DEVOURED pattern).
-        // SparkTraits 在击杀时读取终结原因，背水一战因此不会把被吞食的死亡变成复活；服务端启动时注册即足够早且幂等
+        // 词条在击杀时读取终结原因，背水一战因此不会把被吞食的死亡变成复活；服务端启动时注册即足够早且幂等
         // （沿用魔人 FIEND_DEVOURED 的做法）。
         ServerLifecycleEvents.SERVER_STARTING.register(server ->
                 SparkTraitsApi.registerTerminalDeathReason(SparkDlcDeathReasons.FERRYMAN_FEIGN));
@@ -114,11 +114,11 @@ public final class FerrymanFeignService {
     }
 
     /**
-     * A Vulture ate the fake corpse: the feigning player dies for real, forced, body-less and SparkTraits-terminal
+     * A Vulture ate the fake corpse: the feigning player dies for real, forced, body-less and trait-terminal
      * (the Fiend's devoured pattern), credited to the Vulture. The eat itself already ran (cooldown, win credit, body
      * discarded), so this only settles the death, and gets the player up if a guard that ignores {@code force} refused
      * it.
-     * 秃鹫吃掉了假尸体：假死玩家真正死亡——强制、不留尸体、SparkTraits 终结（沿用魔人被吞食的做法），记为秃鹫所杀。进食本身
+     * 秃鹫吃掉了假尸体：假死玩家真正死亡——强制、不留尸体、词条终结（沿用魔人被吞食的做法），记为秃鹫所杀。进食本身
      * 已经执行（冷却、胜利进度、尸体移除），这里只结算死亡；若无视 {@code force} 的守卫拒绝了这次死亡，则按普通假死结束起身。
      */
     public static void onBodyDevoured(@Nullable PlayerBodyEntity body, @Nullable ServerPlayerEntity vulture) {

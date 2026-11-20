@@ -57,9 +57,10 @@ import java.util.function.IntPredicate;
 public final class SparkDlcCommandTest implements FabricGameTest {
     /**
      * Every executable path of the mod's own roots, in registration order (the order the five mods registered in
-     * before the fusion): 44 current paths, {@code /replay}, and the three misspelt aliases SparkStrength always had.
+     * before the fusion): 44 current paths, {@code /replay}, and the three misspelt aliases the role-kit commands
+     * always had.
      * 本模组自有根节点的全部可执行路径，按注册顺序排列（即融合前五个模组的注册顺序）：44 条当前路径、{@code /replay}，以及
-     * SparkStrength 一直保留的三个拼写别名。
+     * 职业套件命令一直保留的三个拼写别名。
      */
     private static final List<String> CURRENT_COMMANDS = List.of(
             "replay",

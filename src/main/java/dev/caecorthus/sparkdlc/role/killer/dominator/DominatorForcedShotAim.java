@@ -29,7 +29,7 @@ import org.jetbrains.annotations.Nullable;
  * The one server-side target pick of the forced shot, shared by {@link DominatorForcedShotService#fireNow} and the
  * release gate's Vendetta check so they cannot drift. Wathe picks a revolver target on the client
  * ({@code RevolverItem.getGunTarget} + {@code use}); the forced shot has no client, so this restates on the server
- * what SparkWitch's client selector mixins add, in the same nearest-wins order:
+ * what the client selector mixins add, in the same nearest-wins order:
  * <ol>
  *   <li>Wathe's 30-block players-only ray, lengthened by an active Marksman range trait, through which active Wraiths
  *   pass (except the exact Vendetta pair), as the client Wraith revolver-aim pass-through does; a
@@ -39,13 +39,13 @@ import org.jetbrains.annotations.Nullable;
  *   receiver then resolves the crow id to its owner ({@code BlackRavenCrowGunReceiverMixin}).</li>
  *   <li>A Seeker device strictly nearer, through the side-neutral {@link SeekerDeviceRaycast} ({@code SeekerGunTargetMixin}).</li>
  * </ol>
- * Not restated: SparkStrength's client-only drone and Partygoer balloon picks (no SparkWitch seam), so the forced ray
- * passes through those. Server only.
+ * Not restated: the client-only drone and Partygoer balloon picks (left out while this role was another jar's), so
+ * the forced ray passes through those. Server only.
  * 强制开枪唯一的服务端选靶，由 {@link DominatorForcedShotService#fireNow} 与释放门槛的仇杀检查共用，二者不会分歧。Wathe 在客户端
- * 选左轮目标；强制开枪没有客户端，因此这里按同样的“最近者命中”顺序在服务端重述 SparkWitch 客户端选靶 mixin 的规则：
+ * 选左轮目标；强制开枪没有客户端，因此这里按同样的“最近者命中”顺序在服务端重述客户端选靶 mixin 的规则：
  * 30 格仅玩家射线（精确枪手词条延长），激活的冤魂被穿透（仇杀精确配对除外），床铺回退选中睡着的冤魂视为未命中；严格更近的
  * 魔术师皮套；严格更近的化鸦乌鸦（绝不是射手自己的），随后由 Wathe 接收器解析为其主人；严格更近的搜寻者设备。未重述：
- * SparkStrength 仅客户端的无人机与派对气球选靶（SparkWitch 无接缝），强制射线会穿过它们。仅服务端。
+ * 仅客户端的无人机与派对气球选靶（本职业曾属于另一个 jar 时未接入），强制射线会穿过它们。仅服务端。
  */
 public final class DominatorForcedShotAim {
     /** Vanilla search-box growth around the ray. / 原版射线搜索箱外扩量。 */
@@ -90,7 +90,7 @@ public final class DominatorForcedShotAim {
 
     /**
      * Server form of the client Wraith pass-through: another player's active Wraith, unless the two are the exact
-     * Vendetta pair (the SparkFactionAPI isolation exception). / 客户端冤魂穿透的服务端形式。
+     * Vendetta pair (the faction core's isolation exception). / 客户端冤魂穿透的服务端形式。
      */
     static boolean passesThroughWraith(ServerPlayerEntity shooter, PlayerEntity candidate) {
         return candidate != shooter

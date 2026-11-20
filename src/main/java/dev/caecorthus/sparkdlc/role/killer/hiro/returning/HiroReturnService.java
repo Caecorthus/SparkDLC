@@ -192,10 +192,10 @@ public final class HiroReturnService {
      * Server caster gate (the Specter's {@code mayCast} shape): an ACTIVE round, the raw role, alive and playing, not
      * spectating or creative (so never while she is fake-dead herself), not swallowed, not held (Ninja hook,
      * Kidnapper, stun, Last Escape/Stand, Hunter root, Seeker session, a foreign camera), not silenced, not
-     * role-skill-blocked by SparkTraits and not inside a Rift Gate. {@link #use} then applies the Fear re-check itself.
+     * role-skill-blocked by a trait and not inside a Rift Gate. {@link #use} then applies the Fear re-check itself.
      * 服务端施放者门槛（沿用幽魂 {@code mayCast} 的形状）：回合处于 ACTIVE、真实身份、存活且参与对局、非旁观或创造（因此她自己
      * 假死时绝不能施放）、未被吞下、未被控制（忍者钩爪、绑匪、眩晕、脱险/背水、猎人定身、搜寻者会话、镜头被占用）、未被沉默、
-     * 未被 SparkTraits 封锁职业技能，且不在裂隙门内。{@link #use} 随后自行再检查恐惧。
+     * 未被词条封锁职业技能，且不在裂隙门内。{@link #use} 随后自行再检查恐惧。
      */
     static boolean mayCast(ServerPlayerEntity caster) {
         return GameWorldComponent.KEY.get(caster.getWorld()).getGameStatus() == GameWorldComponent.GameStatus.ACTIVE
@@ -345,10 +345,10 @@ public final class HiroReturnService {
     }
 
     /**
-     * All-item cooldown of the Return through SparkFactionAPI {@code ForcedCooldowns.raiseAll} ({@code ITEM} only:
+     * All-item cooldown of the Return through {@code ForcedCooldowns.raiseAll} ({@code ITEM} only:
      * exact, never shortened, role skills untouched, registry item exemptions kept), settled at
      * {@code END_SERVER_TICK} like the Fiend's aura. A self-inflicted lock, so no {@code canAffectPlayer} question.
-     * 回归的全物品冷却经 SparkFactionAPI {@code ForcedCooldowns.raiseAll}（仅 {@code ITEM}：精确写入、绝不缩短、不动职业技能、
+     * 回归的全物品冷却经 {@code ForcedCooldowns.raiseAll}（仅 {@code ITEM}：精确写入、绝不缩短、不动职业技能、
      * 保留注册表的物品豁免），与魔人光环一样在 {@code END_SERVER_TICK} 结算。这是施加于自身的锁定，因此无需询问
      * {@code canAffectPlayer}。
      */

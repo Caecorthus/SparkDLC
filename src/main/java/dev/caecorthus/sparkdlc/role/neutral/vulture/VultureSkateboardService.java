@@ -150,20 +150,20 @@ public final class VultureSkateboardService {
         }
         world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.BLOCK_BAMBOO_WOOD_PLACE,
                 SoundCategory.PLAYERS, 0.7F, 1.3F);
-        // has_speed / speed_amplifier (vanilla Speed at ride start) are read by SparkAssist's achievements.
-        // has_speed / speed_amplifier（上板时的原版速度效果）供 SparkAssist 成就读取。
+        // has_speed / speed_amplifier (vanilla Speed at ride start) are read by the achievements.
+        // has_speed / speed_amplifier（上板时的原版速度效果）供成就读取。
         GameRecordManager.recordGlobalEvent(world, RoleKitReplayFormatters.SKATEBOARD_RIDE_STARTED, player,
                 AchievementRecords.skateboardRideExtra(player));
         return true;
     }
 
     /**
-     * Admin path only: SparkFactionAPI {@code /sparkdlc:clearCooldown} just removed this player's skateboard
+     * Admin path only: the admin command {@code /sparkdlc:clearCooldown} just removed this player's skateboard
      * cooldown (called through {@code AdminClearedItemLocks}). That remove alone does not stick (the opening lock
      * and the ride cooldown are re-synced every tick from the round), so the player's board ignores the opening lock
      * for the rest of this round and the current ride + cooldown is over now. A ride in progress keeps going; the next
      * ride sets a normal cooldown. No-op outside a round; role mechanics that remove cooldowns never call this.
-     * 仅管理员路径：SparkFactionAPI /sparkdlc:clearCooldown 刚移除了该玩家的滑板冷却（经由 AdminClearedItemLocks
+     * 仅管理员路径：管理员命令 /sparkdlc:clearCooldown 刚移除了该玩家的滑板冷却（经由 AdminClearedItemLocks
      * 调用）。仅移除原版冷却无效（开局锁与滑行冷却每刻按回合状态重新同步），因此本回合剩余时间内该玩家的滑板不再受开局锁约束，
      * 当前的“滑行 + 冷却”也立即结束。进行中的滑行继续；下一次滑行照常设置冷却。不在回合中时不做任何事；移除冷却的职业机制
      * 不会调用此方法。
@@ -243,9 +243,10 @@ public final class VultureSkateboardService {
             }
             SkateboardRideComponent ride = SkateboardRideComponent.KEY.get(player);
             if (round != null && active && isActiveVulture(player)) {
-                // Mid-round reconciliation, like DroneService: Wraith promotion and SparkWitch recruitment can make a
-                // Vulture without a RoleAssigned we can rely on, so new Vultures are found by polling.
-                // 局中对账，同 DroneService：冤魂晋升与 SparkWitch 招募可能产生秃鹫而不触发可依赖的 RoleAssigned，因此靠轮询发现。
+                // Mid-round reconciliation, like DroneService: Wraith promotion and other mid-round role conversions
+                // can make a Vulture without a RoleAssigned we can rely on, so new Vultures are found by polling.
+                // 局中对账，同 DroneService：冤魂晋升与其他局中身份转化可能产生秃鹫而不触发可依赖的 RoleAssigned，因此
+                // 靠轮询发现。
                 settleStarter(round, player);
                 int opening = round.openingRemaining(player.getUuid(), now);
                 int cooldown = round.cooldownRemaining(player.getUuid(), now);

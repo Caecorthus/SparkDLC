@@ -69,10 +69,10 @@ public class PotionShellEntity extends ThrownItemEntity {
      */
     private static final double PLAYER_HIT_MARGIN = 0.3;
     /**
-     * SparkFactionAPI's action for player-owned projectiles. Its {@code WorldProjectileAffectMixin} drops denied
-     * players from vanilla's candidate query, so the lag-compensated check, which lists players itself, asks the same
-     * question. / SparkFactionAPI 对玩家发射物使用的行为 id。其 {@code WorldProjectileAffectMixin} 会从原版候选查询中移除
-     * 被禁止的玩家；延迟补偿判定自行列出玩家，因此提出同一问题。
+     * The faction core's action for player-owned projectiles. {@code WorldProjectileAffectMixin} drops denied players
+     * from vanilla's candidate query, so the lag-compensated check, which lists players itself, asks the same question.
+     * 阵营核心对玩家发射物使用的行为 id。{@code WorldProjectileAffectMixin} 会从原版候选查询中移除被禁止的玩家；延迟补
+     * 偿判定自行列出玩家，因此提出同一问题。
      */
     private static final Identifier PROJECTILE_ACTION = Identifier.of("sparkdlc", "projectile");
 
@@ -265,20 +265,19 @@ public class PotionShellEntity extends ThrownItemEntity {
     }
 
     /**
-     * D-R4: the shell passes through everything its blast could never catch. Wathe corpses ({@link PlayerBodyEntity},
-     * a {@code LivingEntity}) are transparent, and so are players who are spectators, creative, or not
+     * D-R4: the shell passes through everything its blast could never catch. Wathe corpses ({@link PlayerBodyEntity}, a
+     * {@code LivingEntity}) are transparent, and so are players who are spectators, creative, or not
      * {@code isPlayerPlayingAndAlive} (Wathe-dead, e.g. Wraiths); both sides decide these from synced state, so client
-     * prediction matches. SparkTraits Last Escape is server-only (like {@code ShockDeviceEntity}): the client keeps
+     * prediction matches. The Last Escape trait is server-only (like {@code ShockDeviceEntity}): the client keeps
      * flying through until the server's position corrects it. Every other living player stops the shell, allies
      * included (it is a physical shell); doors stop it through the shared {@code RaycastShapeScope}. A Raven Form crow
-     * whose owner SparkFactionAPI shields from the gunner is passed on the server, as SparkFactionAPI's collision filter
+     * whose owner the affect veto shields from the gunner is passed on the server, as the projectile collision filter
      * passes such a player.
-     * D-R4：炮弹穿过所有其爆炸永远波及不到的对象。Wathe 尸体（{@link PlayerBodyEntity}，属于 {@code LivingEntity}）
-     * 对炮弹透明；旁观、创造模式以及不满足 {@code isPlayerPlayingAndAlive}（Wathe 判定死亡，如冤魂）的玩家同样透明；
-     * 两端都依据同步状态判定，客户端预测一致。SparkTraits 最后逃脱只在服务端判定（与 {@code ShockDeviceEntity} 相同）：
-     * 客户端继续飞行，直到服务端位置纠正。其余存活玩家都会挡下炮弹，包括己方（这是实体炮弹）；门通过共享的
-     * {@code RaycastShapeScope} 挡住炮弹。SparkFactionAPI 禁止药炮手影响其主人的化鸦乌鸦在服务端放行，正如 SparkFactionAPI 的
-     * 碰撞过滤放行此类玩家。
+     * D-R4：炮弹穿过所有其爆炸永远波及不到的对象。Wathe 尸体（{@link PlayerBodyEntity}，属于 {@code LivingEntity}）对炮弹透
+     * 明；旁观、创造模式以及不满足 {@code isPlayerPlayingAndAlive}（Wathe 判定死亡，如冤魂）的玩家同样透明；两端都依据同步状
+     * 态判定，客户端预测一致。最后逃脱词条只在服务端判定（与 {@code ShockDeviceEntity} 相同）：客户端继续飞行，直到服务端位置
+     * 纠正。其余存活玩家都会挡下炮弹，包括己方（这是实体炮弹）；门通过共享的 {@code RaycastShapeScope} 挡住炮弹。影响否决禁止
+     * 药炮手影响其主人的化鸦乌鸦在服务端放行，正如发射物碰撞过滤放行此类玩家。
      */
     @Override
     protected boolean canHit(Entity entity) {
@@ -304,7 +303,7 @@ public class PotionShellEntity extends ThrownItemEntity {
      *     <li>The path is tested against each player's view-delayed volumes
      *     ({@link PlayerHitboxHistory#projectileHitVolumes}, entry by {@link HitscanLagRules#laggedEntrySquared}).
      *     The gunner is never rewound: their client draws them at their real position.</li>
-     *     <li>The nearest such player counts only when {@link #canHit} accepts them and SparkFactionAPI's projectile
+     *     <li>The nearest such player counts only when {@link #canHit} accepts them and the faction core's projectile
      *     action lets the gunner affect them, the same filters vanilla applies.</li>
      *     <li>The hit takes the tick only when it is strictly nearer than vanilla's own result
      *     ({@link PotionShellFlight#lagCompensatedHitFirst}), so blocks, closed doors and Rift Gates keep shielding a
@@ -317,7 +316,7 @@ public class PotionShellEntity extends ThrownItemEntity {
      * <ul>
      *     <li>路径与每名玩家的视图滞后体积（{@link PlayerHitboxHistory#projectileHitVolumes}，进入点由
      *     {@link HitscanLagRules#laggedEntrySquared} 计算）做检测。药炮手本人从不回溯：其客户端按真实位置绘制自己。</li>
-     *     <li>最近的这类玩家只有在被 {@link #canHit} 接受、且 SparkFactionAPI 的发射物行为允许药炮手影响时才算，
+     *     <li>最近的这类玩家只有在被 {@link #canHit} 接受、且阵营核心的发射物行为允许药炮手影响时才算，
      *     与原版的过滤相同。</li>
      *     <li>只有严格近于原版自身结果时（{@link PotionShellFlight#lagCompensatedHitFirst}）才接管本刻，因此方块、关闭的门
      *     与裂隙门仍会挡住其后的玩家。</li>

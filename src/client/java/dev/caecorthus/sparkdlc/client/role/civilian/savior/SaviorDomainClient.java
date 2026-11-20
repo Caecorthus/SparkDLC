@@ -26,10 +26,10 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class SaviorDomainClient {
     /**
-     * The Seeker mark's and Dominator mark's slot ({@code SeekerRules.MARK_OUTLINE_PRIORITY}): above SparkWitch's 90
+     * The Seeker mark's and Dominator mark's slot ({@code SeekerRules.MARK_OUTLINE_PRIORITY}): above the 90-level role
      * outlines, below {@code skip()} (100), the Black Raven (101) and the Grand Witch suppression (102), so every
      * hiding skip and veto still wins over the domain outline.
-     * 与搜寻者标记、支配者标记同级（{@code SeekerRules.MARK_OUTLINE_PRIORITY}）：高于 SparkWitch 的 90 级描边，低于
+     * 与搜寻者标记、支配者标记同级（{@code SeekerRules.MARK_OUTLINE_PRIORITY}）：高于 90 级职业描边，低于
      * {@code skip()}（100）、黑羽鸦（101）与大魔女压制（102），因此所有隐藏用的 skip 与否决仍压过领域描边。
      */
     private static final int DOMAIN_HIGHLIGHT_PRIORITY = 95;
@@ -137,10 +137,10 @@ public final class SaviorDomainClient {
     /**
      * The target gates of the other always-on outlines (Seeker mark, Dominator mark): a living, non-spectating,
      * non-creative participant, not invisible or invisible to the viewer, not swallowed by a Taotie, not hidden from the
-     * viewer's instinct by SparkTraits, and a viewer who is not swallowed either. A failing target gets no answer, so
+     * viewer's instinct by a trait, and a viewer who is not swallowed either. A failing target gets no answer, so
      * Wathe's own rules decide it exactly as without the Savior.
      * 与其他常亮描边（搜寻者标记、支配者标记）相同的目标门槛：存活、非旁观、非创造模式的参与者，未隐身且对观察者不隐身，
-     * 未被饕餮吞下，未被 SparkTraits 从观察者本能中隐藏，且观察者自身也未被吞下。不满足的目标不作答，由 Wathe 自身规则
+     * 未被饕餮吞下，未被特质从观察者本能中隐藏，且观察者自身也未被吞下。不满足的目标不作答，由 Wathe 自身规则
      * 判定，与没有救世主时完全相同。
      */
     private static boolean isShownTo(ClientPlayerEntity viewer, PlayerEntity target) {
@@ -176,10 +176,10 @@ public final class SaviorDomainClient {
     }
 
     /**
-     * Cross-module seam (SparkTraits, fused into SparkDLC, so a direct call): the Savior's own read of the public
-     * {@code SparkTraitsApi.isInstinctHidden(viewer, target)} facade, like the Seeker and Dominator marks.
-     * 跨模块接缝（SparkTraits 已融合进 SparkDLC，因此为直接调用）：救世主自有的一份公共
-     * {@code SparkTraitsApi.isInstinctHidden(viewer, target)} 门面读取，与搜寻者、支配者标记相同。
+     * Trait contract ({@code trait.api}), called directly: the Savior's own read of the public
+     * {@code SparkTraitsApi.isInstinctHidden(viewer, target)}, like the Seeker and Dominator marks.
+     * 特质契约（{@code trait.api}），直接调用：救世主自有的一份公共
+     * {@code SparkTraitsApi.isInstinctHidden(viewer, target)} 读取，与搜寻者、支配者标记相同。
      */
     private static boolean isInstinctHidden(PlayerEntity viewer, PlayerEntity target) {
         return SparkTraitsApi.isInstinctHidden(viewer, target);

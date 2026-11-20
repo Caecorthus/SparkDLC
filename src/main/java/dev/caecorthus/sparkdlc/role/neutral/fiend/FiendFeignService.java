@@ -43,7 +43,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * Feign death (owner request 2026-10-16), server only. A dormant Fiend fakes death for 5 s once 60 s have passed since
  * the round start or its last revival; a kill the dormant immunity blocks ({@link #onBlockedKill}, any reason) starts
  * one at once that lasts 20 s. A feigning Fiend leaves a Wathe fake corpse (a random common reason, or the blocked
- * kill's own reason) and goes into spectator mode with its camera on that corpse, the SparkTraits Depression / Jester
+ * kill's own reason) and goes into spectator mode with its camera on that corpse, the Depression / Jester trait
  * pattern: it stays playing and alive in Wathe (never marked dead), so it keeps its dormant immunity, its role and
  * every win exclusion, and the vanilla spectator rule hides it from every other client. It cannot move, act, buy or
  * speak until it revives at its anchor and the corpse is discarded. If a Vulture eats that corpse during the feign
@@ -52,7 +52,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * returns at once unless the player is a dormant Fiend or already feigning.
  * 假死（所有者 2026-10-16 需求），仅服务端。休眠魔人在开局或上次复活后满 60 秒时假死 5 秒；被休眠免疫挡下的击杀
  * （{@link #onBlockedKill}，任意死因）会立即触发一次持续 20 秒的假死。假死的魔人留下一具 Wathe 假尸体（随机常见死因，
- * 或被挡下击杀自身的死因），并进入旁观模式、视角锁定在该尸体上，沿用 SparkTraits 抑郁 / 小丑的做法：它在 Wathe 中仍在
+ * 或被挡下击杀自身的死因），并进入旁观模式、视角锁定在该尸体上，沿用抑郁 / 小丑词条的做法：它在 Wathe 中仍在
  * 参与且存活（从不标记为死亡），因此保留休眠免疫、职业与所有胜负排除，原版旁观规则会让其他客户端都看不到它。它在原地
  * 复活、假尸体被移除之前无法移动、行动、购买或说话。若秃鹫在假死期间吃掉这具尸体（{@link #onBodyDevoured}），魔人立即以
  * {@link SparkDlcDeathReasons#FIEND_DEVOURED} 死亡。魔人时刻开始后不再假死（魔人不再休眠）。其他玩家不受影响：除休眠魔人
@@ -84,9 +84,9 @@ public final class FiendFeignService {
         GameEvents.ON_FINISH_INITIALIZE.register((world, game) -> clearBodies());
         GameEvents.ON_FINISH_FINALIZE.register((world, game) -> clearBodies());
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> clearBodies());
-        // SparkTraits reads terminal reasons at kill time, so a Last Stand never turns the devoured death into a
+        // The traits read terminal reasons at kill time, so a Last Stand never turns the devoured death into a
         // revive; registering at server start is early enough and idempotent.
-        // SparkTraits 在击杀时读取终结原因，背水一战因此不会把被吞食的死亡变成复活；服务端启动时注册即足够早且幂等。
+        // 词条在击杀时读取终结原因，背水一战因此不会把被吞食的死亡变成复活；服务端启动时注册即足够早且幂等。
         ServerLifecycleEvents.SERVER_STARTING.register(server ->
                 SparkTraitsApi.registerTerminalDeathReason(SparkDlcDeathReasons.FIEND_DEVOURED));
     }
@@ -357,8 +357,8 @@ public final class FiendFeignService {
             return null;
         }
         FiendFakeBodies.mark(body);
-        // The same cover for SparkStrength's Coroner snapshot (a direct call since the SparkDLC fusion).
-        // 同样的掩护身份写入 SparkStrength 验尸官快照（融合进 SparkDLC 后为直接调用）。
+        // The same cover for the Coroner's snapshot.
+        // 同样的掩护身份写入验尸官快照。
         CoronerService.recordBodyRole(body, WatheRoles.CIVILIAN.identifier());
         return body;
     }

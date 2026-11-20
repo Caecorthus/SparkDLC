@@ -17,13 +17,13 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Black Raven police economy (owner, 2026-10-25): +{@link BlackRavenPoliceRules#TASK_MONEY_REWARD} per completed task,
- * like the Judge, Seeker and Control Expert, and a visible balance while undisguised. SparkStrength and Wathe pay new
- * police roles nothing, so SparkWitch owns this income. It always lands in the Black Raven's own wallet: the live
+ * like the Judge, Seeker and Control Expert, and a visible balance while undisguised. {@code RoleEconomyService} and
+ * Wathe pay new police roles nothing, so this class pays it. It always lands in the Black Raven's own wallet: the live
  * wallet while undisguised, the stashed Raven wallet while disguised, never a disguise wallet. A disguise's own task
  * income ({@code BlackRavenDisguiseEconomy}) is separate and stacks.
  * 黑羽鸦警察经济（所有者 2026-10-25）：与法官、搜寻者、控场专家一样，每完成一个任务
- * +{@link BlackRavenPoliceRules#TASK_MONEY_REWARD}，未伪装时金钱可见。SparkStrength 与 Wathe 不给新警察职业发钱，
- * 因此该收入由 SparkWitch 负责。它总是进入黑羽鸦自己的钱包：未伪装时为当前钱包，伪装时为存档中的黑羽鸦钱包，
+ * +{@link BlackRavenPoliceRules#TASK_MONEY_REWARD}，未伪装时金钱可见。{@code RoleEconomyService} 与 Wathe 不给新警察职业发钱，
+ * 因此该收入由本类负责。它总是进入黑羽鸦自己的钱包：未伪装时为当前钱包，伪装时为存档中的黑羽鸦钱包，
  * 从不进入伪装钱包。伪装身份自己的任务收入（{@code BlackRavenDisguiseEconomy}）独立发放并叠加。
  */
 public final class BlackRavenEconomyService {

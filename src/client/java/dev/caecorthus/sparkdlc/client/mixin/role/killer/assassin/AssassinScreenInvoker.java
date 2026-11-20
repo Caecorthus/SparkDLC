@@ -8,9 +8,9 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 import java.util.List;
 
 /**
- * Reads NoellesRoles' own guessable-role list, so whatever other mods mix into it (SparkWitch hides the Savior and keeps
- * the Saboteur) also shapes SparkStrength's guess screen.
- * 读取 NoellesRoles 自己的可猜身份列表，让其他模组对它的修改（SparkWitch 隐藏救世主、保留破坏者）同样作用于 SparkStrength 的猜测界面。
+ * Reads NoellesRoles' own guessable-role list, so whatever is mixed into it (this mod's mixins hide the Savior and keep
+ * the Saboteur) also shapes the grouped guess screen.
+ * 读取 NoellesRoles 自己的可猜身份列表，让对它的修改（本模组的 mixin 隐藏救世主、保留破坏者）同样作用于分组猜测界面。
  */
 @Mixin(value = AssassinScreen.class, remap = false)
 public interface AssassinScreenInvoker {

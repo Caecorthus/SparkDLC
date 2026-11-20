@@ -332,9 +332,9 @@ public final class GuidebookScreen extends Screen {
 
     /**
      * Obstacles for the persistent directory: every visible clickable widget of the inventory plus Wathe's HUD band.
-     * Shop items reserve the slot frame and the price tag (wide enough for SparkWitch's "N ✦" labels); 16x16 widgets
+     * Shop items reserve the slot frame and the price tag (wide enough for the mana-priced "N ✦" labels); 16x16 widgets
      * (target heads) reserve their 30x30 frame; everything gets 2 px padding.
-     * 常驻目录的障碍物：背包中所有可见的可点击控件与 Wathe 顶部 HUD 带。商品保留槽框与价签（宽度足以容纳 SparkWitch 的
+     * 常驻目录的障碍物：背包中所有可见的可点击控件与 Wathe 顶部 HUD 带。商品保留槽框与价签（宽度足以容纳魔力定价的
      * “N ✦” 标签），16x16 控件（目标头像）保留 30x30 边框，所有障碍物再外扩 2 像素。
      */
     private List<Region> obstacles() {

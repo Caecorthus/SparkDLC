@@ -34,16 +34,16 @@ import java.util.List;
  * this client tracks the device, since a far device has no range limit and is usually untracked), "Control car" and
  * "View camera" (send {@code seeker_remote_open} and close; "View camera" lets the server pick the default camera; the server
  * opens the possession session and the remote view takes over), "Recall car" (remote, after a confirm step;
- * {@code seeker_car_recall}, 180 s), and "Police network" (only for the SparkStrength tablet: one-shot bypass and
- * vanilla re-use so SparkStrength opens its own tablet). Every enablement is a client prediction shared with quick
+ * {@code seeker_car_recall}, 180 s), and "Police network" (only for the tablet: one-shot bypass and
+ * vanilla re-use so the tablet opens its own screen). Every enablement is a client prediction shared with quick
  * connect through {@link SeekerDeviceAvailability}; the server validates each packet. The console never pauses and
  * closes itself when the device leaves the inventory, the role changes, the player dies, or a session starts.
  * 职业自有的搜寻者控制台（键名 {@code screen.sparkdlc.seeker_console.*}；绝不使用魔女技能面板）。仅客户端展示：
  * 状态行（小车、电量、摄像头数量与最近距离、标记；仅当本客户端追踪到设备时才显示距离，因为远处设备没有距离限制且通常
  * 不被追踪）；“操控小车”“查看摄像头”（发送 {@code seeker_remote_open} 并关闭，
  * “查看摄像头”由服务端选择默认摄像头；由服务端开启附身会话、遥控视角接管）；“回收小车”（远程，二次确认后发送
- * {@code seeker_car_recall}，180 秒）；“警察网络”（仅限 SparkStrength 平板：一次性旁路后重发原版使用，由 SparkStrength
- * 打开自己的平板）。所有启用状态都只是客户端预测，经 {@link SeekerDeviceAvailability} 与快速连接共用，
+ * {@code seeker_car_recall}，180 秒）；“警察网络”（仅限平板：一次性旁路后重发原版使用，由平板
+ * 打开自己的界面）。所有启用状态都只是客户端预测，经 {@link SeekerDeviceAvailability} 与快速连接共用，
  * 服务端校验每个数据包。控制台不暂停游戏，并在设备离开背包、职业变化、死亡或会话开始时自动关闭。
  */
 public class SeekerConsoleScreen extends Screen {
@@ -239,8 +239,8 @@ public class SeekerConsoleScreen extends Screen {
     }
 
     /**
-     * Re-issues the vanilla use once so SparkStrength opens its own tablet; our opener passes because of the bypass.
-     * 重发一次原版使用，由 SparkStrength 打开自己的平板；因旁路标记，我们的拦截器会放行。
+     * Re-issues the vanilla use once so the tablet opens its own screen; our opener passes because of the bypass.
+     * 重发一次原版使用，由平板打开自己的界面；因旁路标记，我们的拦截器会放行。
      */
     private void openPoliceNetwork() {
         if (client == null || client.player == null || client.interactionManager == null || !networkVisible()) {

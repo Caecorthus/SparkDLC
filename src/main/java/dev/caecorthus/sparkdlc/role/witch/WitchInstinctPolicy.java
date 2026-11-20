@@ -19,8 +19,8 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
 /**
- * SparkFactionAPI instinct policy for Witch faction outlines and suppression.
- * 魔女阵营轮廓和压制规则的 SparkFactionAPI 本能策略。
+ * Instinct policy ({@code FactionInstinctPolicy}) for Witch faction outlines and suppression.
+ * 魔女阵营轮廓和压制规则的本能策略（{@code FactionInstinctPolicy}）。
  */
 public final class WitchInstinctPolicy {
     private static final int GRAND_WITCH_INSTINCT_PRIORITY = WitchFactionRules.INSTINCT_PRIORITY;
@@ -129,10 +129,10 @@ public final class WitchInstinctPolicy {
 
     /**
      * The answer for a viewer this policy gives no Witch instinct to. A Witch-faction viewer gets a skip for player
-     * targets so SparkFactionAPI's faction-colour fallback never runs (see
+     * targets so the faction core's faction-colour fallback never runs (see
      * {@link WitchFactionRules#shouldSkipUnansweredViewer}); a Wathe-dead spectator, any other viewer and non-player
      * targets (which the fallback ignores) keep null.
-     * 此策略不给魔女本能时的答复。魔女阵营观察者对玩家目标得到跳过，使 SparkFactionAPI 的阵营色兜底永不运行
+     * 此策略不给魔女本能时的答复。魔女阵营观察者对玩家目标得到跳过，使阵营核心的阵营色兜底永不运行
      * （见 {@link WitchFactionRules#shouldSkipUnansweredViewer}）；已死亡的旁观者、其他观察者以及非玩家目标
      * （兜底本就忽略）仍返回 null。
      */

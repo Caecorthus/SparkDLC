@@ -14,7 +14,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
 /**
- * The one way a SparkWitch module registers per-player cleanup for a disconnect. Each module still registers its own
+ * The one way a role or item feature registers per-player cleanup for a disconnect. Each one still registers its own
  * cleanup at its own place, in its own order; this class only decides where and when that cleanup runs.
  * <p>Thread: Fabric fires {@code ServerPlayConnectionEvents.DISCONNECT} once per connection, usually from
  * {@code ClientConnection.channelInactive} on a Netty thread and otherwise from {@code handleDisconnection} on the
@@ -31,10 +31,10 @@ import net.minecraft.util.Identifier;
  * middle of a tick, and a kit stripped after the save comes back on the next login. So
  * {@code mixin/ServerPlayNetworkHandlerDisconnectCleanupMixin} calls {@link #runPending} at the head of
  * {@code onDisconnected}, which runs on the server thread before {@code PlayerManager.remove}.</li>
- * <li>Among SparkWitch's own cleanups: registration order, exactly as before.</li>
+ * <li>Among the cleanups registered here: registration order, exactly as before.</li>
  * </ul>
  * Each task runs exactly once, whichever of the two server-thread callers reaches it first.
- * <p>SparkWitch 模块为断线注册逐玩家清理的唯一途径。各模块仍在自己的位置、按自己的顺序注册自己的清理；本类只决定清理在
+ * <p>职业或物品功能为断线注册逐玩家清理的唯一途径。各功能仍在自己的位置、按自己的顺序注册自己的清理；本类只决定清理在
  * 何处、何时运行。
  * <p>线程：Fabric 对每个连接只触发一次 {@code ServerPlayConnectionEvents.DISCONNECT}，通常来自 Netty 线程上的
  * {@code ClientConnection.channelInactive}，否则来自服务端线程上的 {@code handleDisconnection}。清理会修改服务端 tick
@@ -47,7 +47,7 @@ import net.minecraft.util.Identifier;
  * <li>先于原版保存并移除玩家。断线落在一刻中途时，排队的任务可能输掉这场竞争，而保存之后才清除的装备会在下次登录时回来。
  * 因此 {@code mixin/ServerPlayNetworkHandlerDisconnectCleanupMixin} 在 {@code onDisconnected} 开头调用
  * {@link #runPending}，它在服务端线程上、先于 {@code PlayerManager.remove} 运行。</li>
- * <li>SparkWitch 自身各清理之间：保持注册顺序，与此前完全一致。</li>
+ * <li>在此注册的各清理之间：保持注册顺序，与此前完全一致。</li>
  * </ul>
  * 每个任务恰好运行一次，由两个服务端线程调用方中先到达的那个执行。
  */
@@ -66,7 +66,7 @@ public final class ServerDisconnectCleanup {
     private ServerDisconnectCleanup() {
     }
 
-    /** One module's cleanup for a leaving player; always called on the server thread. / 某模块对离开玩家的清理；始终在服务端线程调用。 */
+    /** One feature's cleanup for a leaving player; always called on the server thread. / 某功能对离开玩家的清理；始终在服务端线程调用。 */
     @FunctionalInterface
     public interface Cleanup {
         void run(ServerPlayerEntity player, MinecraftServer server);

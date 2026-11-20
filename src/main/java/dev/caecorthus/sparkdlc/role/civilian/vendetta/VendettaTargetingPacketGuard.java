@@ -19,27 +19,28 @@ import java.util.OptionalInt;
 
 /**
  * Rejects target payloads before they spend items or emit effects for an isolated Vendetta pair: Wathe's knife stab
- * and gun shot, plus the SparkStrength Serial Killer pistol shot (owner 2026-10-07), the Savior pistol shot
- * (PR #200) and the SparkStrength Bandit moddable revolver shot (SparkStrength #135), all treated exactly like the
+ * and gun shot, plus the Serial Killer pistol shot (owner 2026-10-07), the Savior pistol shot
+ * (PR #200) and the Bandit moddable revolver shot (SparkStrength #135), all treated exactly like the
  * gun shot.
  * 在目标数据包消耗物品或生成效果前，拒绝不属于仇杀绑定双方的请求：Wathe 刀刺与开枪，以及与开枪完全同等处理的
- * SparkStrength 连环杀手手枪射击（所有者 2026-10-07）、救世主手枪射击（PR #200）与 SparkStrength 强盗改装左轮射击
+ * 连环杀手手枪射击（所有者 2026-10-07）、救世主手枪射击（PR #200）与强盗改装左轮射击
  * （SparkStrength #135）。
  */
 public final class VendettaTargetingPacketGuard {
     /**
-     * SparkStrength {@code SerialPistolShootC2SPayload}: wire layout VAR_INT target entity id, then VAR_INT hand. It is
-     * matched by registered id and read through its registered codec, so no SparkStrength class is named here.
-     * SparkStrength 连环手枪开火包：线格式为 VAR_INT 目标实体 id，其后为 VAR_INT 手位。按注册 id 匹配并经其注册编解码器读取，
-     * 此处不引用任何 SparkStrength 类。
+     * The Serial Killer's {@code SerialPistolShootC2SPayload}: wire layout VAR_INT target entity id, then VAR_INT hand.
+     * It is matched by registered id and read through its registered codec, not by class, because it used to belong
+     * to another jar.
+     * 连环杀手的手枪开火包：线格式为 VAR_INT 目标实体 id，其后为 VAR_INT 手位。按注册 id 匹配并经其注册编解码器读取，
+     * 而不按类引用，因为它曾属于另一个 jar。
      */
     public static final Identifier SERIAL_PISTOL_SHOOT_ID = Identifier.of("sparkdlc", "serial_pistol_shoot");
 
     /**
-     * SparkStrength {@code BanditRevolverShootC2SPayload} (SparkStrength #135), the Bandit's moddable revolver shot:
+     * {@code BanditRevolverShootC2SPayload} (SparkStrength #135), the Bandit's moddable revolver shot:
      * wire layout one VAR_INT target entity id, -1 when the shot picked nobody. Matched and read like the Serial Killer
      * pistol shot. The Bandit used to fire Wathe's revolver through {@code wathe:gunshoot}, which this guard judges.
-     * SparkStrength 强盗改装左轮开火包（SparkStrength #135）：线格式为一个 VAR_INT 目标实体 id，未选中任何人时为 -1。
+     * 强盗改装左轮开火包（SparkStrength #135）：线格式为一个 VAR_INT 目标实体 id，未选中任何人时为 -1。
      * 匹配与读取方式同连环杀手手枪射击。强盗原先经 {@code wathe:gunshoot} 发射 Wathe 左轮，而该包由本防护判定。
      */
     public static final Identifier BANDIT_REVOLVER_SHOOT_ID = Identifier.of("sparkdlc", "bandit_revolver_shoot");

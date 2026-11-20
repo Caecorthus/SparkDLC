@@ -41,10 +41,10 @@ public record RoundObservation(
     public static final double EXPLOSIVE_RANGE_BLOCKS = 15;
 
     /**
-     * Entity type ids that count as explosives: Wathe's grenade, SparkStrength's M67 and grenade drone, and
-     * SparkWitch's Potion Gunner shell. Matched by id so SparkAssist needs neither mod at compile time.
-     * 算作爆炸物的实体类型 id：Wathe 的手雷、SparkStrength 的 M67 与榴弹无人机、SparkWitch 的药炮手炮弹。按 id 匹配，
-     * 因此 SparkAssist 编译时不依赖这些模组。
+     * Entity type ids that count as explosives: Wathe's grenade, the mod's M67 and grenade drone, and the Potion
+     * Gunner's shell. Matched by id string because this used to be a jar that compiled against none of their owners.
+     * 算作爆炸物的实体类型 id：Wathe 的手雷、本模组的 M67 与榴弹无人机，以及药炮手的炮弹。按 id 字符串匹配，
+     * 因为这里原先是一个编译时不依赖它们任何一方的独立 jar。
      */
     public static final Set<String> EXPLOSIVE_ENTITY_IDS = Set.of(
             "wathe:grenade",

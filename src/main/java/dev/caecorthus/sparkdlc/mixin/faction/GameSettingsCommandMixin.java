@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * Displays SparkFactionAPI factions in Wathe's role list command.
- * 在 wathe 的角色列表命令中显示 SparkFactionAPI 阵营，避免自定义阵营被误标为原生阵营。
+ * Displays custom factions in Wathe's role list command.
+ * 在 wathe 的角色列表命令中显示自定义阵营，避免它们被误标为原生阵营。
  */
 @Mixin(GameSettingsCommand.class)
 public abstract class GameSettingsCommandMixin {

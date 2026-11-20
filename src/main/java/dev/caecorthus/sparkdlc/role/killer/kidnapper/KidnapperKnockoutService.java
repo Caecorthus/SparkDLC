@@ -69,7 +69,7 @@ public final class KidnapperKnockoutService {
     public static ShopEntry shopEntry(@Nullable PlayerEntity player) {
         ShopEntry entry = buildBaseShopEntry();
         /*
-         * 这里把条目交给 SparkTraits 的公共折扣 API 处理。
+         * 这里把条目交给词条 API 的魅力折扣处理。
          * 这样当绑架者自己拥有【魅力】时，商店里显示的价格和最终购买价都会一致地打折。
          */
         return SparkTraitsApi.discountShopEntryForCharisma(player, entry);
@@ -107,7 +107,7 @@ public final class KidnapperKnockoutService {
 
         /*
          * 真实绑架者开局自带一瓶迷药，并立即进入 40 秒开局冷却。
-         * 这只处理 SparkWitch 的真实绑架者；验尸官伪装的临时迷药由 SparkStrength 通过软兼容发放。
+         * 这只处理真实绑架者；验尸官伪装的临时迷药由 CoronerLoanedGear 发放。
          */
         serverPlayer.giveItemStack(SparkDlcItems.knockoutDrug().getDefaultStack());
         serverPlayer.getItemCooldownManager().set(
@@ -125,7 +125,7 @@ public final class KidnapperKnockoutService {
 
         /*
          * 绑架者继承 Wathe 默认杀手商店，只替换毒药槽：
-         * 删除毒药瓶与蝎子，并在原毒药瓶位置放入 SparkWitch 自己的迷药。
+         * 删除毒药瓶与蝎子，并在原毒药瓶位置放入绑架者的迷药。
          */
         int poisonIndex = findEntryIndex(context, "poison_vial");
         context.getEntries().removeIf(entry ->

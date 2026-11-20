@@ -15,13 +15,14 @@ import java.util.Optional;
 
 /**
  * Counts the shield layers a player has right now, each worth 5 more seconds of the Partygoer's meal: Wathe psycho
- * armour, NR Iron Man, NR whiskey (one per level), the SparkWitch Guardian Angel shield and the Bodyguard vest. Each
+ * armour, NR Iron Man, NR whiskey (one per level), the Guardian Angel shield and the Bodyguard vest. Each
  * 5 s bite then spends one through its own normal break, by a non-forced kill attempt.
- * 统计玩家当前的盾层数，每层让派对客多吃 5 秒：Wathe 疯魔护甲、NR 铁人、NR 威士忌（每级一层）、SparkWitch 守护天使护盾、保镖防弹衣。
+ * 统计玩家当前的盾层数，每层让派对客多吃 5 秒：Wathe 疯魔护甲、NR 铁人、NR 威士忌（每级一层）、守护天使护盾、保镖防弹衣。
  * 之后每 5 秒的一口通过一次非强制击杀，让一层盾按其原本方式碎掉。
  */
 public final class PartygoerShieldLayers {
-    /** SparkWitch is not a compile dependency; its effect is looked up by id. / SparkWitch 不是编译依赖，按 id 查找其效果。 */
+    /** Guardian Angel shield effect, looked up by id because it used to be another jar's; always found now.
+     * 守护天使护盾效果，因曾属于另一个 jar 而按 id 查找；现在必定能找到。 */
     private static final Identifier GUARDIAN_SHIELD_ID = Identifier.of("sparkdlc", "guardian_shield");
 
     private PartygoerShieldLayers() {

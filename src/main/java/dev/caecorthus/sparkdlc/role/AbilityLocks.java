@@ -19,9 +19,9 @@ import java.util.function.Predicate;
  */
 public final class AbilityLocks {
     /**
-     * Engineer stun, SparkTraits role-skill block and a pending Last Stand: the Vulture's skateboard (refuses a ride
+     * Engineer stun, the trait role-skill block and a pending Last Stand: the Vulture's skateboard (refuses a ride
      * and ends one in progress) and Super Curse, and the Party Animal's summon.
-     * 工程师定身、SparkTraits 职业技能封锁与待决的背水一战：秃鹫的滑板（拒绝上板并结束进行中的滑行）与超级骂，以及派对狂的召唤。
+     * 工程师定身、词条的职业技能封锁与待决的背水一战：秃鹫的滑板（拒绝上板并结束进行中的滑行）与超级骂，以及派对狂的召唤。
      */
     public static final Set<Lock> ROLE_SKILL = of(Lock.ENGINEER_STUN, Lock.ROLE_SKILL_BLOCK, Lock.LAST_STAND_PENDING);
 
@@ -51,17 +51,17 @@ public final class AbilityLocks {
     public enum Lock {
         /** Engineer capture stun. / 工程师定身。 */
         ENGINEER_STUN(player -> EngineerStunnedPlayerComponent.KEY.get(player).isStunned()),
-        /** SparkWitch Control Expert stun. / SparkWitch 控场专家眩晕。 */
+        /** Control Expert stun. / 控场专家眩晕。 */
         CONTROL_EXPERT_STUN(SparkRoleApi::isControlExpertStunned),
         /** Taotie head daze. / 饕餮眩晕。 */
         TAOTIE_DAZE(TaotieHeadDaze::isDazed),
         /** Swallowed by the NoellesRoles Taotie. / 被 NoellesRoles 饕餮吞下。 */
         SWALLOWED(SwallowedPlayerComponent::isPlayerSwallowed),
-        /** SparkTraits role-skill block (Last Escape, silenced killer ...). / SparkTraits 职业技能封锁（脱险、被沉默的杀手等）。 */
+        /** Trait role-skill block (Last Escape, silenced killer ...). / 词条的职业技能封锁（脱险、被沉默的杀手等）。 */
         ROLE_SKILL_BLOCK(SparkTraitsApi::isRoleSkillBlocked),
-        /** SparkTraits killer-interaction block. / SparkTraits 杀手交互封锁。 */
+        /** Trait killer-interaction block. / 词条的杀手交互封锁。 */
         KILLER_INTERACTION_BLOCK(SparkTraitsApi::isKillerInteractionBlocked),
-        /** A pending SparkTraits Last Stand. / 待决的 SparkTraits 背水一战。 */
+        /** A pending Last Stand (trait). / 待决的背水一战（词条）。 */
         LAST_STAND_PENDING(SparkTraitsApi::isLastStandPending);
 
         private final Predicate<ServerPlayerEntity> holds;

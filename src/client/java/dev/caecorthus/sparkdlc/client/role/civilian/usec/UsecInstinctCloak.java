@@ -22,7 +22,7 @@ import java.util.function.IntSupplier;
  * not holding the instinct key, for this target only": a keybind event result and Wathe's null-result default (which
  * is gated by {@code isInstinctEnabledAndIsKiller()}) both fall to -1, and so does every HEAD answer, RETURN fallback
  * and listener that keys its x-ray on those gates, even one that answers {@code always} only while the key is held
- * (the Insider, the SparkStrength Corrupt Cop). Highlights that need no key ({@code always} event results, Feather
+ * (the Insider, the Corrupt Cop). Highlights that need no key ({@code always} event results, Feather
  * marks, Fiend Moment, Judge sentence, Vendetta, Guardian Shield) are untouched. Presentation only: nothing is sent.
  * The evaluation depth is per thread, so a nested evaluation (the Magician puppet asks again for its copied player)
  * restores correctly and no other thread ever reads the gates closed.
@@ -31,7 +31,7 @@ import java.util.function.IntSupplier;
  * 按键本能入口 {@code isInstinctEnabled()} 与 {@code isInstinctEnabledAndIsKiller()} 读为 false。这正是“仅对该目标而言，
  * 观察者没有按住本能键”：需按键的事件结果与 Wathe 无事件结果时的默认逻辑（由 {@code isInstinctEnabledAndIsKiller()}
  * 门控）都落为 -1，所有依这两个入口决定透视的 HEAD 结果、RETURN 兜底与监听器也一样，包括只在按住按键时才回答
- * {@code always} 的监听器（内应、SparkStrength 黑警）。无需按键的高亮（{@code always} 事件结果、羽刃标记、魔人时刻、
+ * {@code always} 的监听器（内应、黑警）。无需按键的高亮（{@code always} 事件结果、羽刃标记、魔人时刻、
  * 大法官判决、仇杀客、守护护盾）不受影响。仅为显示，不发送任何数据。求值深度按线程记录，因此嵌套求值（魔术师皮套
  * 为其复制的玩家再次询问）能正确恢复，其他线程也永远不会读到关闭的入口。
  */

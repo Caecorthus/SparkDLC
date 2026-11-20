@@ -54,11 +54,11 @@ public final class DepressionScreenEffects {
             closeProcessor();
             return;
         }
-        // Delegation performs the pass now, so mixin ordering cannot cause a second pass. SparkWitch's compositor is
-        // called directly (the modules are fused in SparkDLC); it reads the parameters back through
+        // Delegation performs the pass now, so mixin ordering cannot cause a second pass. The perception compositor
+        // (BlackRavenPerceptionScreenEffects) is called directly; it reads the parameters back through
         // getLastEscapeComposition.
-        // 委托在此刻执行后处理，因此 mixin 顺序不会造成第二次后处理。各模块已融合进 SparkDLC，这里直接调用 SparkWitch
-        // 合成器；它通过 getLastEscapeComposition 取回参数。
+        // 委托在此刻执行后处理，因此 mixin 顺序不会造成第二次后处理。这里直接调用感知合成器
+        // （BlackRavenPerceptionScreenEffects）；它通过 getLastEscapeComposition 取回参数。
         if (SparkTraitsApi.hasLastEscapeGrayscale(player) && LastEscapeComposedPass.tryRender(player, delta)) {
             releaseIfIdle(player);
             return;
@@ -104,8 +104,8 @@ public final class DepressionScreenEffects {
         if (SparkTraitsApi.hasLastEscapeGrayscale(player)) {
             return escapeComposition(player);
         }
-        // SparkWitch supplies the exact Wraith grayscale, so Depression must not stack another processor.
-        // SparkWitch 提供精确的冤魂灰阶，因此抑郁效果不得再叠加后处理器。
+        // The Wraith's own view supplies the exact Wraith grayscale, so Depression must not stack another processor.
+        // 冤魂自己的视野提供精确的冤魂灰阶，因此抑郁效果不得再叠加后处理器。
         if (SparkTraitsApi.isWraithActive(player)) {
             return NO_EFFECT;
         }
@@ -113,13 +113,13 @@ public final class DepressionScreenEffects {
     }
 
     /**
-     * Witch compositor contract, called directly by SparkWitch's {@code BlackRavenPerceptionScreenEffects} (the
-     * modules are fused in SparkDLC): client visual parameters [desaturation, spread, brightness], including stronger
+     * What the perception compositor reads, called directly by {@code BlackRavenPerceptionScreenEffects}: client
+     * visual parameters [desaturation, spread, brightness], including stronger
      * Depression. Without an escape (null player, unconfirmed server, no escape grayscale) or with invalid parameters
      * it returns one shared neutral array [0, 0, 1], so the per-frame query allocates nothing while no escape is
      * active; callers must treat every result as read-only. This query must never delegate to another compositor or
      * render anything.
-     * Witch 合成器契约，由 SparkWitch 的 {@code BlackRavenPerceptionScreenEffects} 直接调用（各模块已融合进 SparkDLC）：
+     * 感知合成器读取的参数，由 {@code BlackRavenPerceptionScreenEffects} 直接调用：
      * 客户端返回含更强抑郁效果的[灰阶、扩散、亮度]。无脱险（玩家为空、服务端未确认、无脱险灰阶）或参数无效时返回同一个
      * 共享中性数组 [0, 0, 1]，因此没有脱险时每帧查询不分配内存；调用方必须把结果视为只读。此查询不调用其他合成器，
      * 也不执行渲染。
@@ -133,8 +133,8 @@ public final class DepressionScreenEffects {
         float desaturation = effect.desaturateFactor();
         float spread = effect.spreadFactor();
         float brightness = effect.brightness();
-        // Never hand malformed parameters to the compositor: they read as "no escape", so Traits' fallback draws.
-        // 不向合成器交出无效参数：它们视为“无脱险”，由 Traits 回退绘制。
+        // Never hand malformed parameters to the compositor: they read as "no escape", so the trait fallback draws.
+        // 不向合成器交出无效参数：它们视为“无脱险”，由特质功能回退绘制。
         if (!LastEscapeVisionRules.isValid(desaturation, spread, brightness)) {
             return NO_ESCAPE_COMPOSITION;
         }

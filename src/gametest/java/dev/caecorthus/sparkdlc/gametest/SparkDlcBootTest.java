@@ -37,13 +37,13 @@ import java.util.TreeSet;
 import java.util.function.BiConsumer;
 
 /**
- * Boots a real dedicated server with every module loaded (`./gradlew runGameTest`, no window, no EULA) and checks
- * what the unit tests cannot: that all common-side mixins of all five modules apply against the real Wathe,
+ * Boots a real dedicated server with the whole mod loaded (`./gradlew runGameTest`, no window, no EULA) and checks
+ * what the unit tests cannot: that all common-side mixins of the mod apply against the real Wathe,
  * NoellesRoles and Minecraft classes, that the fused mod still answers for the five legacy mod ids, and that the
  * rename to the single {@code sparkdlc} namespace is complete: nothing the running server knows of this mod is left
  * in a legacy namespace, and every registered item, block, entity type and effect has its name in both locales.
- * 启动一个加载了全部模块的真实专用服务器（`./gradlew runGameTest`，无窗口、无需 EULA），检查单元测试覆盖不到的内容：
- * 五个模块的全部通用端 mixin 都能应用到真实的 Wathe、NoellesRoles 与 Minecraft 类上，融合后的 mod 仍然能以五个旧 mod id
+ * 启动一个加载了整个模组的真实专用服务器（`./gradlew runGameTest`，无窗口、无需 EULA），检查单元测试覆盖不到的内容：
+ * 本模组的全部通用端 mixin 都能应用到真实的 Wathe、NoellesRoles 与 Minecraft 类上，融合后的 mod 仍然能以五个旧 mod id
  * 被识别，并且统一到 {@code sparkdlc} 命名空间的改名是完整的：运行中的服务器所知的本模组内容没有留在旧命名空间里的，
  * 每个已注册的物品、方块、实体类型和状态效果在两种语言里都有名称。
  */
@@ -136,11 +136,11 @@ public final class SparkDlcBootTest implements FabricGameTest {
         TraitRegistry.values().forEach(trait -> see.accept("trait", trait.id()));
         WitchSkillRegistry.values().forEach(skill -> see.accept("skill", skill.id()));
         // Command roots are `namespace:camelCaseName`, which is not a valid Identifier. The three misspelt aliases
-        // SparkStrength always had (`sparkstength:voteTime`, `sparkStrength:detectiveCaseLimit`,
+        // the role-kit commands always had (`sparkstength:voteTime`, `sparkStrength:detectiveCaseLimit`,
         // `sparkStrength:tabletChatInterval`) are no legacy namespace and stay as they are. The old command names
         // of the legacy table are in a legacy namespace on purpose: they are the aliases the compatibility layer
         // adds (SparkDlcCommandTest pins them); any other root in a legacy namespace is a leftover.
-        // 命令根节点形如 `namespace:camelCaseName`，不是合法的 Identifier。SparkStrength 一直保留的三个拼写别名不属于旧命名空间，保持原样。
+        // 命令根节点形如 `namespace:camelCaseName`，不是合法的 Identifier。职业套件命令一直保留的三个拼写别名不属于旧命名空间，保持原样。
         // 对照表中的旧命令名有意位于旧命名空间：它们是兼容层添加的别名（由 SparkDlcCommandTest 固定）；旧命名空间里的其他根节点才是遗漏。
         Set<String> commandAliases = LegacyCommandAliases.names().keySet();
         context.getWorld().getServer().getCommandManager().getDispatcher().getRoot().getChildren().forEach(node -> {

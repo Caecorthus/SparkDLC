@@ -32,8 +32,8 @@ public final class FisherSpiritService {
             return;
         }
         registered = true;
-        // The pinned SFA evaluates this predicate locally on BOTH entities, on both logical sides.
-        // 固定版本的 SFA 在双端对双方实体分别本地求值；依靠 CCA 公共同步标记，不依靠他人收不到的状态效果。
+        // The collision exemption evaluates this predicate locally on BOTH entities, on both logical sides.
+        // 碰撞豁免在双端对双方实体分别本地求值；依靠 CCA 公共同步标记，不依靠他人收不到的状态效果。
         SparkFactionApi.registerEntityCollisionExemption(entity -> entity instanceof PlayerEntity player
                 && FisherSpiritComponent.KEY.get(player).isActive());
         KillPlayer.AFTER.register((victim, killer, reason) -> {

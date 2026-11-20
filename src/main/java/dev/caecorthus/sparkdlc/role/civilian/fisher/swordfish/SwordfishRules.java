@@ -74,8 +74,8 @@ public final class SwordfishRules {
     }
 
     /**
-     * A SparkStrength Partygoer takes the player rule's reach and sight (owner rule 2026-10-21: it dies in one hit to
-     * anything that kills a player); killable replaces the participant check. / SparkStrength 派对客沿用玩家规则的距离与视线
+     * A Partygoer takes the player rule's reach and sight (owner rule 2026-10-21: it dies in one hit to
+     * anything that kills a player); killable replaces the participant check. / 派对客沿用玩家规则的距离与视线
      * （所有者规则 2026-10-21：能杀死玩家的东西一击打死它）；“可击杀”取代参与者判定。
      */
     public static boolean acceptsPartygoerHit(boolean killable, double squaredDistance, boolean lineOfSight) {
@@ -91,9 +91,9 @@ public final class SwordfishRules {
     }
 
     /**
-     * A stab submitted on a SparkStrength Partygoer still lands when the nearest candidate on the server ray is at most
+     * A stab submitted on a Partygoer still lands when the nearest candidate on the server ray is at most
      * {@link #PARTYGOER_TIE_MARGIN} blocks nearer (the client's thinner aim box). Arguments are squared entry distances.
-     * 提交给 SparkStrength 派对客的刺击在服务端射线上最近的候选者至多近 PARTYGOER_TIE_MARGIN 格时仍然命中（客户端瞄准盒更薄）。
+     * 提交给派对客的刺击在服务端射线上最近的候选者至多近 PARTYGOER_TIE_MARGIN 格时仍然命中（客户端瞄准盒更薄）。
      * 参数为入射距离的平方。
      */
     public static boolean withinPartygoerTie(double submittedSquared, double nearestSquared) {

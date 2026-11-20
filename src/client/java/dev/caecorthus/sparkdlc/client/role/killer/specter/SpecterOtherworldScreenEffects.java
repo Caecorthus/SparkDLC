@@ -41,7 +41,7 @@ import org.jetbrains.annotations.Nullable;
  * earlier), so {@link #captureDepth} copies it during the world pass into the chain's {@code otherworld_depth} target;
  * a frame without that copy draws the look with no wave and no fog. When the window closes the filter fades back to normal over five seconds
  * ({@link #FADE_TICKS}); death, spectating, a stopped round, a disconnect or a new connection drops it at once.
- * Players with a known shader/filter (Wraith/Vendetta/Perception/Last Escape, SparkTraits Depression grayscale, Blind,
+ * Players with a known shader/filter (Wraith/Vendetta/Perception/Last Escape, the Depression trait grayscale, Blind,
  * Rift Gate, Seeker camera, any active scope, Iris shader pack, vanilla post effects) are never touched by this pass;
  * if their effect ends while the Otherworld is still open, this one resumes at the current world progress. The GL
  * pipeline lives only while the filter is on screen: it is released when the fade ends or the filter drops, and on
@@ -52,7 +52,7 @@ import org.jetbrains.annotations.Nullable;
  * 所以 {@link #captureDepth} 在世界 pass 期间把它拷贝到管线的 {@code otherworld_depth} 目标；没有该拷贝的帧只画色调，
  * 没有波纹和雾。
  * 窗口结束后滤镜在 5 秒内（{@link #FADE_TICKS}）渐隐恢复；死亡、旁观、回合停止、断线或新连接时立即撤下。已知滤镜
- * （冤魂/复仇/感知/脱险、SparkTraits 抑郁灰阶、盲人、裂隙门、搜寻者相机、任何开镜状态、Iris 光影、原版后处理）激活时
+ * （冤魂/复仇/感知/脱险、抑郁特质灰阶、盲人、裂隙门、搜寻者相机、任何开镜状态、Iris 光影、原版后处理）激活时
  * 本 pass 完全不介入；若其效果在里世界仍开启时结束，本效果按当前世界进度恢复。GL 管线只在滤镜显示期间存在：渐隐结束或
  * 滤镜撤下时释放，断线、登录、客户端关闭与资源重载时也会释放（资源重载同时清除加载失败标记）。
  */
@@ -262,9 +262,9 @@ public final class SpecterOtherworldScreenEffects {
         } finally {
             client.getFramebuffer().beginWrite(false);
         }
-        // Keep entity outlines coloured after the graded world pass, matching the other SparkWitch filters. Safe only
+        // Keep entity outlines coloured after the graded world pass, matching the mod's other screen filters. Safe only
         // because every scope (whose PiP lens pass re-fills the outline buffer) makes this pass yield.
-        // 世界调色后重新合成实体描边，保持颜色，与其他 SparkWitch 滤镜一致。只有在任何开镜（其画中画镜内渲染会重写描边
+        // 世界调色后重新合成实体描边，保持颜色，与本模组其他滤镜一致。只有在任何开镜（其画中画镜内渲染会重写描边
         // 缓冲）都会让本 pass 让路的前提下才安全。
         client.worldRenderer.drawEntityOutlinesFramebuffer();
     }

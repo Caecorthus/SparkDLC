@@ -43,9 +43,9 @@ public abstract class SabotageBlackoutEffectsMixin {
     }
 
     /*
-     * The killer check right before is SparkFactionAPI's @Redirect, so this sits on the Veteran check that shares its
-     * Night Vision branch; it only runs for players that check already turned down.
-     * 前面的杀手判定已被 SparkFactionAPI 的 @Redirect 占用，所以挂在共用同一夜视分支的老兵判定上；只有杀手判定为否的玩家
+     * The killer check right before is taken by the faction core's wrapper, so this sits on the Veteran check that
+     * shares its Night Vision branch; it only runs for players that check already turned down.
+     * 前面的杀手判定已被阵营核心的包装占用，所以挂在共用同一夜视分支的老兵判定上；只有杀手判定为否的玩家
      * 才会走到这里。
      */
     @ModifyExpressionValue(method = "applyBlackoutEffects", at = @At(value = "INVOKE",

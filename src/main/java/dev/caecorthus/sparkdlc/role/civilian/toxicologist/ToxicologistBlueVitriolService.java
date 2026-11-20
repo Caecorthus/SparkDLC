@@ -29,9 +29,9 @@ import net.minecraft.world.World;
 import java.util.UUID;
 
 /**
- * Blue Vitriol: converts native Wathe poison on plates, beds, held food/drink and filled capsules into SparkTraits blue
- * poison owned by the Toxicologist. Every conversion is server-authoritative and silent to other players.
- * 蓝矾：把餐盘、床、食物/饮品与已装填胶囊上的 Wathe 原生毒转化为归属毒理学家的 SparkTraits 蓝毒。
+ * Blue Vitriol: converts native Wathe poison on plates, beds, held food/drink and filled capsules into the traits'
+ * blue poison owned by the Toxicologist. Every conversion is server-authoritative and silent to other players.
+ * 蓝矾：把餐盘、床、食物/饮品与已装填胶囊上的 Wathe 原生毒转化为归属毒理学家的词条蓝毒。
  * 所有转化都由服务端权威结算，且不会被其他玩家听到。
  */
 public final class ToxicologistBlueVitriolService {

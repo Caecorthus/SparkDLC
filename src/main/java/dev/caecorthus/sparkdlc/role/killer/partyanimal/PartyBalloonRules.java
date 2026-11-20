@@ -30,10 +30,10 @@ public final class PartyBalloonRules {
     public static final int HIGHLIGHT_COLOR = 0xFFD84A;
     /**
      * Above NoellesRoles' helium pink (its Party Animal branch answers {@code always(color)}, priority 0), so the
-     * yellow wins on a player who is both. Below SparkWitch's Black Raven teammate colour (+50), every explicit
+     * yellow wins on a player who is both. Below the Black Raven teammate colour (+50), every explicit
      * {@code skip()} (+100, e.g. NoellesRoles' Jester Moment) and the Professor's invisibility skip (300).
      * 高于 NoellesRoles 氦气粉色（其派对狂分支返回 {@code always(color)}，优先级 0），同时受两者影响的玩家显示黄色。
-     * 低于 SparkWitch 黑羽鸦队友色（+50）、所有显式 {@code skip()}（+100，如 NoellesRoles 小丑时刻）与教授隐身跳过（300）。
+     * 低于黑羽鸦队友色（+50）、所有显式 {@code skip()}（+100，如 NoellesRoles 小丑时刻）与教授隐身跳过（300）。
      */
     public static final int HIGHLIGHT_PRIORITY = 45;
 
@@ -49,9 +49,9 @@ public final class PartyBalloonRules {
 
     /**
      * Giving a balloon. The user must be the living Party Animal in an active round, not swallowed; the target a living
-     * participant, not swallowed, allowed by SparkFactionAPI. Then: already marked, reach and sight. The target's
+     * participant, not swallowed, allowed by the faction core. Then: already marked, reach and sight. The target's
      * faction never matters.
-     * 塞气球。使用者须为进行中对局里存活且未被吞下的派对狂；目标须为存活参与者、未被吞下且 SparkFactionAPI 允许。
+     * 塞气球。使用者须为进行中对局里存活且未被吞下的派对狂；目标须为存活参与者、未被吞下且阵营核心允许。
      * 之后依次检查：已被标记、距离与视线。目标阵营不影响结果。
      */
     public static Verdict verdict(boolean userIsLivingPartyAnimal, boolean userSwallowed,

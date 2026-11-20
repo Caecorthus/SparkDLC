@@ -62,7 +62,7 @@ public final class ActorElement extends AnimatedSceneElementBase {
     private static final double BED_HEIGHT = 0.6875;
     /** Vanilla shifts a sleeper's feet this far from the head block (eye height - 0.1). 原版睡觉时脚离床头方块的距离。 */
     private static final double BED_REACH = 1.52;
-    /** SparkStrength lifts a skateboard rider onto the deck by this much (SkateboardRenderer.DECK_TOP_HEIGHT). 滑板骑手被抬到板面上的高度。 */
+    /** A skateboard rider is lifted onto the deck by this much (SkateboardRenderer.DECK_TOP_HEIGHT). 滑板骑手被抬到板面上的高度。 */
     private static final double DECK_HEIGHT = 3 / 16.0;
     @Nullable
     private static PlayerEntityModel<LivingEntity> bodyModel;
@@ -254,10 +254,10 @@ public final class ActorElement extends AnimatedSceneElementBase {
     }
 
     /**
-     * Stand on {@code board} (SparkStrength's skateboard), or step off with an empty stack. As SkateboardRenderer draws
+     * Stand on {@code board} (the skateboard), or step off with an empty stack. As SkateboardRenderer draws
      * a rider for every viewer: the board under the feet, nose along the body, the body lifted onto its deck, the legs
      * still while it rolls along.
-     * 站上 board（SparkStrength 的滑板），空物品即下板。与 SkateboardRenderer 在所有观察者眼中绘制骑手的方式一致：滑板在
+     * 站上 board（滑板），空物品即下板。与 SkateboardRenderer 在所有观察者眼中绘制骑手的方式一致：滑板在
      * 脚下、板头朝向身体朝向，身体抬到板面上，滑行时双腿不动。
      */
     public void ride(ItemStack board) {
@@ -466,9 +466,9 @@ public final class ActorElement extends AnimatedSceneElementBase {
     }
 
     /**
-     * The ridden board as SparkStrength's SkateboardRenderer draws it: the item model at real size, nose (+Z) along
+     * The ridden board as SkateboardRenderer draws it: the item model at real size, nose (+Z) along
      * the body yaw, wheels (model y = 0) on the floor. An invisible rider's board is not drawn, as there.
-     * 按 SparkStrength 的 SkateboardRenderer 绘制脚下的滑板：真实尺寸的物品模型，板头（+Z）朝身体朝向，轮子（模型 y = 0）
+     * 按 SkateboardRenderer 绘制脚下的滑板：真实尺寸的物品模型，板头（+Z）朝身体朝向，轮子（模型 y = 0）
      * 贴地。与原版一致，隐身骑手的滑板不绘制。
      */
     private void board(PonderLevel world, MatrixStack ms, VertexConsumerProvider buffer, Vec3d feet, float bodyYaw,

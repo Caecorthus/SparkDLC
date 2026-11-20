@@ -14,10 +14,10 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Sniper money: {@link SniperRules#INITIAL_MONEY} at role assignment, +{@link SniperRules#TASK_MONEY_REWARD} per
- * completed task with SparkTraits bonuses stacking on top, and the coin counter visible while alive. Kills pay nothing:
+ * completed task with trait bonuses stacking on top, and the coin counter visible while alive. Kills pay nothing:
  * no kill payout is registered here.
  * 狙击手金钱：分配职业时为 {@link SniperRules#INITIAL_MONEY}，每完成一个任务 +{@link SniperRules#TASK_MONEY_REWARD}
- *（SparkTraits 加成在其上叠加），存活时金币可见。杀人没有任何收入：这里不注册击杀奖励。
+ *（词条加成在其上叠加），存活时金币可见。杀人没有任何收入：这里不注册击杀奖励。
  */
 public final class SniperEconomyService {
     private static boolean registered;

@@ -51,18 +51,18 @@ import java.util.UUID;
  * One entry per weapon path that can break a drone ("any weapon breaks it; fists and non-weapons don't"). Every
  * accepted hit ends in {@link DroneCombatService#destroy}. Ray entries are nearest-wins: a drone strictly nearer than
  * the player target absorbs the hit and shields that player. Client-picked hits (knife stab, Wathe guns, Demon Hunter
- * pistol) are re-validated on the server (weapon, reach/distance, aim, line of sight) like SparkWitch's Seeker devices.
+ * pistol) are re-validated on the server (weapon, reach/distance, aim, line of sight) like the Seeker devices.
  * 每条能击毁无人机的武器路径一个入口（“任何武器都能击毁，空手与非武器不能”）。所有被接受的命中都汇入
  * {@link DroneCombatService#destroy}。射线入口遵循“最近者命中”：严格比玩家目标更近的无人机吸收命中并挡住该玩家。
- * 由客户端选定的命中（刀刺、Wathe 枪械、猎魔枪）会在服务端重新校验（武器、距离、瞄准、视线），做法同 SparkWitch 搜寻者设备。
+ * 由客户端选定的命中（刀刺、Wathe 枪械、猎魔枪）会在服务端重新校验（武器、距离、瞄准、视线），做法同搜寻者设备。
  */
 public final class DroneWeaponHits {
     /**
-     * Fabric callback phase for the left-click and use-item hooks: after the lock phases (SparkWitch's session, stun,
-     * rift, created on demand and inert without SparkWitch; SparkStrength's Taotie head daze and Engineer stun) and
-     * before the default phase, where SparkWitch's ceremonial sword answers SUCCESS and its shuriken FAIL for any entity.
-     * 左键与使用物品钩子的 Fabric 回调阶段：在各锁定阶段（SparkWitch 的会话、眩晕、裂隙，按需创建，未安装 SparkWitch 时无效；
-     * SparkStrength 的饕餮头颅眩晕与工程师定身）之后、默认阶段之前（默认阶段中 SparkWitch 仪礼剑对任何实体返回 SUCCESS，手里剑返回 FAIL）。
+     * Fabric callback phase for the left-click and use-item hooks: after the lock phases (the Seeker session, Control
+     * Expert stun and Rift session locks, named by id below; the Taotie head daze and Engineer stun) and
+     * before the default phase, where the ceremonial sword answers SUCCESS and the shuriken FAIL for any entity.
+     * 左键与使用物品钩子的 Fabric 回调阶段：在各锁定阶段（搜寻者会话、控场专家眩晕与裂隙会话锁，下方按 id 指名；
+     * 饕餮头颅眩晕与工程师定身）之后、默认阶段之前（默认阶段中仪礼剑对任何实体返回 SUCCESS，手里剑返回 FAIL）。
      */
     public static final Identifier PHASE = SparkDLC.id("drone_weapon");
     private static final Identifier[] LOCK_PHASES = {
@@ -74,8 +74,8 @@ public final class DroneWeaponHits {
     };
     /**
      * Thrown weapons with their own (player-only) hit logic that should still break a drone on contact; optional
-     * entries, e.g. SparkWitch's shuriken. Arrows, tridents and fireballs break drones through damage() already.
-     * 自带（仅玩家）命中逻辑、但接触无人机时仍应将其击毁的投掷武器；条目可选，如 SparkWitch 手里剑。
+     * entries, e.g. the shuriken. Arrows, tridents and fireballs break drones through damage() already.
+     * 自带（仅玩家）命中逻辑、但接触无人机时仍应将其击毁的投掷武器；条目可选，如手里剑。
      * 箭、三叉戟与火球已经通过 damage() 击毁无人机。
      */
     public static final TagKey<EntityType<?>> DRONE_BREAKING_PROJECTILES =
@@ -166,11 +166,11 @@ public final class DroneWeaponHits {
 
     /**
      * Server stab receiver for a drone id (the client pick comes from the widened {@code KnifeItem#getKnifeTarget}).
-     * Validates a Wathe knife in either hand, no knife cooldown, the SparkTraits weapon-action gate, reach (3 + 0.5,
+     * Validates a Wathe knife in either hand, no knife cooldown, the trait weapon-action gate, reach (3 + 0.5,
      * eye to box) and line of sight, then breaks the drone and costs the knife cooldown a real stab would (none for the
      * Veteran / instant-knife Coroner disguise, whose stabs never set one). No Veteran stab use is consumed.
      * 无人机 id 的服务端刀刺接收（客户端目标来自扩展后的 KnifeItem#getKnifeTarget）。校验任一手持 Wathe 刀、刀未冷却、
-     * SparkTraits 武器动作门槛、距离（眼到箱体 3 + 0.5）与视线，然后击毁无人机，并按真实刺杀付出刀冷却
+     * 词条武器动作门槛、距离（眼到箱体 3 + 0.5）与视线，然后击毁无人机，并按真实刺杀付出刀冷却
      * （老兵/验尸官瞬刀伪装的刺杀本就没有冷却）。不消耗老兵刺杀次数。
      */
     public static void onKnifeStab(ServerPlayerEntity attacker, DroneEntity drone) {
@@ -203,11 +203,11 @@ public final class DroneWeaponHits {
     /**
      * Wathe revolver/derringer receiver at its {@code recordItemUse} anchor (after Wathe's spectator, gun-tag, cooldown
      * and spent-derringer checks). A drone id never resolves to Wathe's player target, so Wathe then finishes the shot
-     * as a miss: sounds, derringer spent, cooldown, no innocent penalty. The SparkWitch shotgun shares the gun tag but
+     * as a miss: sounds, derringer spent, cooldown, no innocent penalty. The Hunter shotgun shares the gun tag but
      * never sends a drone id, so only the revolver and derringer count.
      * Wathe 左轮/德林加接收器的 recordItemUse 锚点（位于 Wathe 的旁观、枪械标签、冷却与德林加已用检查之后）。无人机 id 永远不会被
      * Wathe 解析为玩家目标，因此 Wathe 随后按未命中完成这一枪：音效、德林加用尽、冷却，无误伤惩罚。
-     * SparkWitch 猎枪同属枪械标签但不会发送无人机 id，因此只认左轮与德林加。
+     * 猎人猎枪同属枪械标签但不会发送无人机 id，因此只认左轮与德林加。
      */
     public static void onGunShot(ServerPlayerEntity shooter, @Nullable Entity target) {
         if (shooter == null || !(target instanceof DroneEntity drone)) {
@@ -240,7 +240,7 @@ public final class DroneWeaponHits {
         return true;
     }
 
-    // ---- Use item: SparkWitch kunai and ceremonial sword dash (id only) / 使用物品：SparkWitch 苦无与仪礼剑冲刺（仅按 id） ----
+    // ---- Use item: kunai and ceremonial sword dash (id only) / 使用物品：苦无与仪礼剑冲刺（仅按 id） ----
 
     /**
      * Server only. Kunai: its own use is a server raycast that only sees players, so a drone strictly nearer than the
@@ -374,7 +374,7 @@ public final class DroneWeaponHits {
         return hit;
     }
 
-    // ---- SparkWitch server hitscans (via its SeekerDeviceHits seams) / SparkWitch 服务端即时射线 ----
+    // ---- Server hitscans (via the SeekerDeviceHits seams) / 服务端即时射线 ----
 
     /**
      * Shotgun, feather blade, Sphinx Hao fist, Sniper M1903A4, taser, shriek gun: nearest-wins along the shooter's aim;
@@ -472,15 +472,15 @@ public final class DroneWeaponHits {
     }
 
     /**
-     * USEC sniper rifle match shot (SparkWitch {@code onUsecRifleFired}): {@code path} is the bullet's polyline from the
-     * eye in flight order, already bent and cut at blocks by SparkWitch (AP pierces up to two), so it is not re-clipped.
-     * The first live drone the path enters strictly before {@code reach} (path distance) breaks and absorbs the shot;
-     * returns its path distance (strictly less than {@code reach}), else {@code reach} unchanged. Eligibility follows the
-     * death ray (any live drone, no breaker gate), plus SparkWitch's own running-round guard for this entry.
-     * USEC 狙击步枪的对局射击（SparkWitch {@code onUsecRifleFired}）：{@code path} 是子弹自眼睛起、按飞行顺序的折线，已由
-     * SparkWitch 处理下坠并在方块处截断（AP 最多穿透两格），因此不再重新截断。路径在 {@code reach}（路径距离）之前严格先进入的
+     * USEC sniper rifle match shot ({@code SeekerDeviceHits.onUsecRifleFired}): {@code path} is the bullet's polyline
+     * from the eye in flight order, already bent and cut at blocks by the rifle (AP pierces up to two), so it is not
+     * re-clipped. The first live drone the path enters strictly before {@code reach} (path distance) breaks and absorbs
+     * the shot; returns its path distance (strictly less than {@code reach}), else {@code reach} unchanged. Eligibility
+     * follows the death ray (any live drone, no breaker gate), plus the caller's running-round guard for this entry.
+     * USEC 狙击步枪的对局射击（{@code SeekerDeviceHits.onUsecRifleFired}）：{@code path} 是子弹自眼睛起、按飞行顺序的折线，已由
+     * 步枪处理下坠并在方块处截断（AP 最多穿透两格），因此不再重新截断。路径在 {@code reach}（路径距离）之前严格先进入的
      * 第一架存活无人机被击毁并吸收这一枪；返回其路径距离（严格小于 {@code reach}），否则原样返回 {@code reach}。资格判定与死光一致
-     * （任何存活无人机，不检查击毁者），另加 SparkWitch 此入口自身的“对局进行中”守卫。
+     * （任何存活无人机，不检查击毁者），另加调用方此入口自身的“对局进行中”守卫。
      */
     public static double onSparkWitchUsecRifle(@Nullable ServerPlayerEntity shooter, @Nullable List<Vec3d> path,
                                                double reach) {
@@ -514,16 +514,16 @@ public final class DroneWeaponHits {
     }
 
     /**
-     * SparkWitch area blasts. Only its own (potion shell) blasts break drones here: Wathe grenades and M67s already break
-     * drones through their own hooks, after their kills, so their SparkWitch reports are ignored.
-     * SparkWitch 范围爆炸。此处只处理其自有（药炮手炮弹）爆炸：Wathe 手雷与 M67 已通过自身钩子在击杀之后击毁无人机，因此忽略它们的
-     * SparkWitch 上报。
+     * Area blasts reported through {@code SeekerDeviceHits.onBlast}. Only the potion shell blasts break drones here:
+     * Wathe grenades and M67s break drones through their own hooks after their kills, so their reports are ignored.
+     * 经 {@code SeekerDeviceHits.onBlast} 上报的范围爆炸。此处只处理药炮手炮弹爆炸：Wathe 手雷与 M67 已通过自身钩子在击杀之后
+     * 击毁无人机，因此忽略它们的上报。
      */
     public static void onSparkWitchBlast(@Nullable ServerWorld world, @Nullable Vec3d center, double radius,
                                          @Nullable ServerPlayerEntity owner) {
-        // Inside a Wathe grenade / M67 detonation our own hooks break drones after its kills; SparkWitch reports the
-        // grenade at its HEAD (before them), so skip here. / Wathe 手雷 / M67 引爆期间由自身钩子在击杀后处理；SparkWitch 在 HEAD
-        // （击杀之前）上报手雷，因此此处跳过。
+        // Inside a Wathe grenade / M67 detonation our own hooks break drones after its kills; the blast report for the
+        // grenade comes at its HEAD (before them), so skip here. / Wathe 手雷 / M67 引爆期间由自身钩子在击杀后处理；爆炸上报在 HEAD
+        // （击杀之前）到达，因此此处跳过。
         if (DroneCombatService.inOwnBlast()) {
             return;
         }
@@ -533,12 +533,12 @@ public final class DroneWeaponHits {
     }
 
     /**
-     * Read-only competitor distance for SparkWitch's Raven Form crow step (asked by its
+     * Read-only competitor distance for the Raven Form crow step (asked by
      * {@code BlackRavenCrowTargets.deviceSquared}): the squared entry of the block-clipped segment into the nearest live
      * drone, measured like {@link #onSparkWitchRay}; +inf when none. Breaks nothing: a drone that beats the crow then
-     * absorbs in SparkWitch's Seeker step through this class's existing hooks.
-     * 供 SparkWitch 化鸦乌鸦步骤使用的只读竞争距离（由其 {@code BlackRavenCrowTargets.deviceSquared} 询问）：按方块截断的线段进入最近存活无人机处的平方距离，量法同
-     * {@link #onSparkWitchRay}；没有时为正无穷。本方法不击毁任何东西：胜过乌鸦的无人机随后经本类现有钩子在 SparkWitch 搜寻者
+     * absorbs in the Seeker step through this class's existing hooks.
+     * 供化鸦乌鸦步骤使用的只读竞争距离（由 {@code BlackRavenCrowTargets.deviceSquared} 询问）：按方块截断的线段进入最近存活无人机处的平方距离，量法同
+     * {@link #onSparkWitchRay}；没有时为正无穷。本方法不击毁任何东西：胜过乌鸦的无人机随后经本类现有钩子在搜寻者
      * 步骤中吸收这一击。
      */
     public static double nearestDroneSquared(@Nullable ServerPlayerEntity attacker, @Nullable Vec3d start,
@@ -557,10 +557,10 @@ public final class DroneWeaponHits {
 
     /**
      * Melee and client-picked breakers must be live round participants in survival, not Last-Escape blocked and not
-     * inside a pending SparkTraits Last Stand (our callback phase runs before the default phase where SparkTraits
+     * inside a pending Last Stand (our callback phase runs before the default phase where the trait
      * enforces that lock, so it is re-checked here).
-     * 近战与客户端选目标的击毁者必须是存活、生存模式的对局参与者，未被最后逃脱阻止，且不处于 SparkTraits 背水一战待决中
-     * （我们的回调阶段早于 SparkTraits 执行该锁的默认阶段，因此在此复查）。
+     * 近战与客户端选目标的击毁者必须是存活、生存模式的对局参与者，未被最后逃脱阻止，且不处于背水一战待决中
+     * （我们的回调阶段早于该词条执行该锁的默认阶段，因此在此复查）。
      */
     static boolean mayBreak(@Nullable ServerPlayerEntity player) {
         return player != null && !player.isRemoved() && player.isAlive()

@@ -16,9 +16,9 @@ import java.util.Set;
  */
 public final class TaotieHeadRules {
     public static final Identifier TAOTIE_ID = Identifier.of("noellesroles", "taotie");
-    /** SparkFactionAPI {@code canAffectPlayer} action of a head hit. / 头颅命中使用的 SparkFactionAPI 行为 id。 */
+    /** {@code SparkFactionApi.canAffectPlayer} action of a head hit. / 头颅命中使用的 canAffectPlayer 行为 id。 */
     public static final Identifier HEAD_ACTION_ID = Identifier.of("sparkdlc", "taotie_head");
-    /** SparkFactionAPI forced-cooldown store id. / SparkFactionAPI 强制冷却存储 id。 */
+    /** Forced-cooldown store id. / 强制冷却存储 id。 */
     public static final Identifier COOLDOWN_STORE_ID = Identifier.of("sparkdlc", "taotie_head");
     public static final Identifier FIRE_PAYLOAD_ID = Identifier.of("sparkdlc", "taotie_head_fire");
 
@@ -64,13 +64,13 @@ public final class TaotieHeadRules {
     public static final float BONK_PITCH = 1.0F;
 
     /**
-     * Stable contract: C2S payloads dropped on the server while the sender is dazed (and, through their own guard
-     * mixins, while carried by a Partygoer or held by an Engineer stun). Plain ids only, so no optional
-     * mod class is ever loaded. Built from SparkWitch's {@code ControlExpertStunRules.BLOCKED_PAYLOADS}, with these
+     * C2S payloads dropped on the server while the sender is dazed (and, through their own guard
+     * mixins, while carried by a Partygoer or held by an Engineer stun). Plain ids only. Built from the Control Expert
+     * stun list {@code ControlExpertStunRules.BLOCKED_PAYLOADS}, with these
      * deliberate differences:
      * <ul>
      *   <li>removed {@code wathe:storebuy}: the shop stays usable while dazed;</li>
-     *   <li>added the SparkStrength skills that list misses: {@code reporter_communication} (Reporter link/broadcast,
+     *   <li>added the role-kit skills that list misses: {@code reporter_communication} (Reporter link/broadcast,
      *       cooldown skill), {@code drone_pilot_start}
      *       (taking control of a drone) and {@code drone_pilot_action} (drone drop/detonate),
      *       {@code taotie_head_fire} itself, the Party Animal's {@code partygoer_summon}, the Taotie swallowing a
@@ -84,15 +84,15 @@ public final class TaotieHeadRules {
      *       ({@code select_detective_case}, {@code update_detective_case_notes}, {@code set_detective_killer_guess},
      *       {@code set_detective_presumed_killer}; opening the magnifier roster is a vanilla item use), and, since
      *       2026-11-13, {@code timekeeper_watch_mode} (the Dying Watch mode pick only stores the mode; the watch's use
-     *       is an item use the daze already refuses). The same day the SparkWitch cross sword and Swordfish stabs
+     *       is an item use the daze already refuses). The same day the cross sword and Swordfish stabs
      *       joined the list, classified like {@code wathe:knifestab};</li>
      *   <li>NoellesRoles: all 14 C2S ids registered by the pinned runtime jar (sha fcb0da) are already in the list,
      *       so none are added.</li>
      * </ul>
      * A new skill payload must be classified deliberately, as a complete row of the canonical table (below).
-     * 稳定契约：发送者处于眩晕时（以及经各自的拦截 mixin，被派对客扛着或被工程师定身时）在服务端丢弃的 C2S 数据包。只保存纯 id，从不加载可选模组的类。以 SparkWitch 的
-     * {@code ControlExpertStunRules.BLOCKED_PAYLOADS} 为基础，刻意的差异如下：
-     * 移除 {@code wathe:storebuy}（眩晕时仍可使用商店）；补充该表缺少的 SparkStrength 技能包：记者通讯
+     * 发送者处于眩晕时（以及经各自的拦截 mixin，被派对客扛着或被工程师定身时）在服务端丢弃的 C2S 数据包。只保存纯 id。
+     * 以控场专家眩晕名单 {@code ControlExpertStunRules.BLOCKED_PAYLOADS} 为基础，刻意的差异如下：
+     * 移除 {@code wathe:storebuy}（眩晕时仍可使用商店）；补充该表缺少的职业强化技能包：记者通讯
      * {@code reporter_communication}（有冷却的技能）、接管无人机
      * {@code drone_pilot_start}、无人机投弹/引爆 {@code drone_pilot_action}、本技能 {@code taotie_head_fire}、派对狂召唤
      * {@code partygoer_summon}、饕餮吞派对客 {@code partygoer_swallow}、破坏系统的
@@ -102,7 +102,7 @@ public final class TaotieHeadRules {
      * {@code partygoer_menu}（选房界面）、
      * {@code cancel_sabotage_channel}、{@code cancel_breaker_repair}、
      * 平板快照/聊天/频道以及侦探文件夹相关 id（打开放大镜名单是原版物品使用），以及自 2026-11-13 起的
-     * {@code timekeeper_watch_mode}（怀表模式选择只存储模式；怀表的使用是眩晕已拒绝的物品使用）。同日 SparkWitch 十字剑与
+     * {@code timekeeper_watch_mode}（怀表模式选择只存储模式；怀表的使用是眩晕已拒绝的物品使用）。同日十字剑与
      * 剑鱼刺击加入本列表，与 {@code wathe:knifestab} 同样归类；NoellesRoles：锁定运行时 jar（sha fcb0da）注册的 14 个 C2S id
      * 均已在表中，无需补充。
      * 新增技能包必须作为规范表中完整的一行有意识地归类（见下）。

@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  * Client only, pure: tells a real bolt cycle from a short forced lock on the local player's rifle cooldown. The entry
- * length cannot: SparkFactionAPI's exact forced writer (the Shriek Gun's 40 ticks, the AC shell's up to 8) restarts
+ * length cannot: the cooldown core's exact forced writer (the Shriek Gun's 40 ticks, the AC shell's up to 8) restarts
  * the entry, so a forced lock on a ready rifle looks exactly like a bolt. The evidence is the rifle state instead.
  * Every server bolt ({@code UsecCooldowns.bolt}: an accepted shot, an attachment action or a cursor load) is written in
  * the same handler as a {@link UsecRifleState} change (a round fired, or a round chambered), and a forced lock never
@@ -23,7 +23,7 @@ import java.util.Map;
  * stays a bolt (latched by its start tick), whatever changes later; an entry that starts later (a forced lock that
  * restarts a running bolt) needs its own evidence. {@code UsecCooldowns.Status} still caps a bolt at 40 ticks, so the
  * round-start grant (a new rifle under a 60 s lock) never reads as one.
- * 仅客户端，纯逻辑：区分本地玩家步枪冷却中的真实拉栓与短暂的强制锁定。条目时长无法区分：SparkFactionAPI 的精确强制写入
+ * 仅客户端，纯逻辑：区分本地玩家步枪冷却中的真实拉栓与短暂的强制锁定。条目时长无法区分：冷却核心的精确强制写入
  * （尖啸枪的 40 刻、AC 炮弹最多 8 刻）会重置条目起点，因此落在就绪步枪上的强制锁定与拉栓完全一样。改用步枪状态作为证据：
  * 服务端的每次拉栓（{@code UsecCooldowns.bolt}：被接受的射击、配件动作或光标装填）都与一次 {@link UsecRifleState} 变化
  * （打出一发或推弹上膛）在同一处理器中写入，而强制锁定从不改动步枪。因此若玩家携带的步枪的同步状态在条目开始前后

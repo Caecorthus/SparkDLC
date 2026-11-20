@@ -49,10 +49,10 @@ public final class ShriekGunService {
 
     /**
      * Server fire decision; any holder may fire (owner rule 2026-10-04, {@link OffMatchUse}). The live test is a
-     * playing, living, non-spectator, non-Wraith participant; the spectator, cooldown and SparkTraits weapon-action
+     * playing, living, non-spectator, non-Wraith participant; the spectator, cooldown and trait weapon-action
      * checks apply to every mode. A refused use costs nothing.
      * 服务端开火判定；任何持有者都可开火（所有者 2026-10-04 规则，{@link OffMatchUse}）。存活判定为在局、存活、非旁观、
-     * 非激活冤魂的参与者；旁观、冷却与 SparkTraits 武器动作检查对每种模式都生效。被拒绝的使用不产生任何代价。
+     * 非激活冤魂的参与者；旁观、冷却与词条武器动作检查对每种模式都生效。被拒绝的使用不产生任何代价。
      */
     static OffMatchUse.Mode fireMode(ServerPlayerEntity shooter, ItemStack gun) {
         return ShriekGunRules.fireMode(
@@ -121,10 +121,10 @@ public final class ShriekGunService {
     }
 
     /**
-     * Eligibility before geometry: the shared Abyss suppression gate (participant, SFA veto, Last Stand / Last Escape;
-     * allies stay eligible because they get the ally branch) plus Vendetta pair isolation.
-     * 资格先于几何：共享的聆渊压制门槛（参与者、SFA 否决、背水一战/绝处逢生；队友仍然合格，因为他们走队友分支）
-     * 加上复仇者配对隔离。
+     * Eligibility before geometry: the shared Abyss suppression gate (participant, affect veto, Last Stand / Last
+     * Escape; allies stay eligible because they get the ally branch) plus Vendetta pair isolation.
+     * 资格先于几何：共享的聆渊压制门槛（参与者、影响否决、背水一战/绝处逢生；队友仍然合格，因为他们走队友分支）加上复仇
+     * 者配对隔离。
      */
     static boolean isEligible(ServerPlayerEntity shooter, ServerPlayerEntity candidate) {
         return AbyssSuppression.canAffect(shooter, candidate, AbyssListenerRules.GUN_ACTION_ID)

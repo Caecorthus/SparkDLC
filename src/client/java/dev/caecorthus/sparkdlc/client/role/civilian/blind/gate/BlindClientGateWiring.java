@@ -28,8 +28,9 @@ public final class BlindClientGateWiring {
             return;
         }
         registered = true;
-        // Public seam for feature-like extras that other mods draw outside the feature loop (see the facade method).
-        // 供其他模组在附加层循环之外绘制的类附加层物件使用的公开接口（见门面方法说明）。
+        // Public seam for feature-like extras that other features or add-ons draw outside the feature loop (see the
+        // API method).
+        // 供其他功能或附属模组在附加层循环之外绘制的类附加层物件使用的公开接口（见 API 方法说明）。
         SparkRoleApi.installBlindFeatureGate(BlindClientGates::hidesFeaturesFromBlind);
         // Animation packs pose other players from their real hands (Fresh Animations raises an item holder's arm), so
         // under EMF they keep the vanilla model while the view is active and the empty arm pose holds.

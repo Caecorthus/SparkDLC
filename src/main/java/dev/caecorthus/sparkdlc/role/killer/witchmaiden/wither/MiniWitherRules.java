@@ -22,7 +22,7 @@ public final class MiniWitherRules {
     public static final Identifier SKILL_ID = SparkDLC.id("mini_wither");
     public static final Identifier SKULL_ENTITY_ID = SparkDLC.id("mini_wither_skull");
     public static final Identifier GOHEI_ID = SparkDLC.id("wither_gohei");
-    /** SparkFactionAPI action asked before a skull or burst touches a player. / 头颅或爆炸触及玩家前询问的 SFA 行为 id。 */
+    /** Affect-policy action asked before a skull or burst touches a player. / 头颅或爆炸触及玩家前询问的影响策略行为 id。 */
     public static final Identifier AFFECT_ACTION = SKILL_ID;
 
     public static final int UNLOCK_TASKS = 2;
@@ -81,9 +81,9 @@ public final class MiniWitherRules {
     }
 
     /**
-     * Whom the Mini Wither works against. A Witch Maiden whose effective faction is no longer the killers (SparkTraits
-     * Conscience) fires at anyone and her bursts grant Speed (owner Q9); otherwise she fires at non-killers.
-     * 小凋灵针对的对象。有效阵营不再是杀手的巫女（SparkTraits 善良）向任何人射击，爆炸给予速度（所有者 Q9）；否则只打非杀手。
+     * Whom the Mini Wither works against. A Witch Maiden whose effective faction is no longer the killers (the
+     * Conscience trait) fires at anyone and her bursts grant Speed (owner Q9); otherwise she fires at non-killers.
+     * 小凋灵针对的对象。有效阵营不再是杀手的巫女（善良词条）向任何人射击，爆炸给予速度（所有者 Q9）；否则只打非杀手。
      */
     public enum Mode {
         HOSTILE,

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
  * 会计 Accountant (PR #195): a plain task civilian with no active skill. Ids, numbers and the pure gates; the runtime
  * lives in the services next to this class.
  * <ul>
- *   <li>Income: +{@link #TASK_REWARD} per task (never for a SparkTraits Impostor) and +{@link #PASSIVE_INCOME} every
+ *   <li>Income: +{@link #TASK_REWARD} per task (never for an Impostor-trait holder) and +{@link #PASSIVE_INCOME} every
  *   {@link #PASSIVE_INCOME_INTERVAL_TICKS} ticks, both through {@code addToBalance} and only while {@link #canEarn}.</li>
  *   <li>Shop: one 存折 passbook entry, {@link #PASSBOOK_PRICE} coins, unlimited stock,
  *   {@link #PASSBOOK_PURCHASE_COOLDOWN_TICKS} ticks between purchases.</li>
@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
  *   (the passbook is used up); sneak + right-click drops it; it drops on the death of whoever carries it.</li>
  * </ul>
  * 会计（PR #195）：没有主动技能的普通任务平民。此处只放 id、数值与纯判定；运行逻辑在同包的各服务中。
- * 收入：每个任务 +{@link #TASK_REWARD}（SparkTraits 内鬼不发），另每 {@link #PASSIVE_INCOME_INTERVAL_TICKS} 刻
+ * 收入：每个任务 +{@link #TASK_REWARD}（内鬼词条持有者不发），另每 {@link #PASSIVE_INCOME_INTERVAL_TICKS} 刻
  * +{@link #PASSIVE_INCOME}，都通过 {@code addToBalance} 发放，且只在 {@link #canEarn} 成立时发放。
  * 商店：一个存折条目，{@link #PASSBOOK_PRICE} 金币，不限购，两次购买间隔 {@link #PASSBOOK_PURCHASE_COOLDOWN_TICKS} 刻。
  * 存折（所有者 2026-11-04）：只有存活的会计能存钱；任何持有者都能全部取出（存折随之用掉）；潜行 + 右键丢出；
@@ -38,7 +38,7 @@ public final class AccountantRules {
 
     // ---- Shop / 商店 ----
 
-    /** Bare shop-entry id, like the other SparkWitch shops. / 不带命名空间的商店条目 id，与其他 SparkWitch 商店一致。 */
+    /** Bare shop-entry id, like the mod's other role shops. / 不带命名空间的商店条目 id，与本模组其他职业商店一致。 */
     public static final String PASSBOOK_ENTRY_ID = "accountant_passbook";
     public static final int PASSBOOK_PRICE = 75;
     public static final int PASSBOOK_PURCHASE_COOLDOWN_TICKS = 30 * 20;
@@ -85,10 +85,10 @@ public final class AccountantRules {
     }
 
     /**
-     * Pays only on a confirmed non-Impostor: SparkTraits pays an Impostor's task income itself, so the two never stack.
-     * An absent SparkTraits reads as FALSE (pay); an unknown answer (null) never pays.
-     * 只在确认不是内鬼时发放：SparkTraits 自行支付内鬼的任务收入，两者绝不叠加。未安装 SparkTraits 视为 FALSE（发放）；
-     * 未知答案（null）从不发放。
+     * Pays only on a confirmed non-Impostor: the Impostor trait pays its holder's task income itself, so the two never
+     * stack. An unknown answer (null) never pays; unreachable since the fusion, the caller passes a plain boolean.
+     * 只在确认不是内鬼时发放：内鬼词条自行支付持有者的任务收入，两者绝不叠加。未知答案（null）从不发放；
+     * 融合后不可达，调用方传入的是普通 boolean。
      */
     public static boolean receivesTaskMoney(@Nullable Boolean impostor) {
         return Boolean.FALSE.equals(impostor);

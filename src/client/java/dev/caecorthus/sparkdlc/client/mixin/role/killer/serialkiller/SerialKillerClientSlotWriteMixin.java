@@ -13,12 +13,12 @@ import org.spongepowered.asm.mixin.injection.At;
 /**
  * Client hotbar lock, number keys: the {@code selectedSlot} write in {@code handleInputEvents} goes back to the serial
  * pistol at once, without waiting for the next tick's restore in {@link SerialKillerClientSlotLockMixin}. Wrapped, not
- * redirected, so it composes with the other wrappers of that write (SparkStrength M67's cancel, Wathe's psycho bat
+ * redirected, so it composes with the other wrappers of that write (the M67's cancel, Wathe's psycho bat
  * lock). MixinExtras nests wrappers in apply order, the first one innermost; priority 900 applies this one before
  * theirs (default 1000), so it stays innermost, right on the field write, where the old {@code @Redirect} sat, and they
  * still see the slot the player asked for.
  * 客户端快捷栏锁定（数字键）：{@code handleInputEvents} 中写入 {@code selectedSlot} 的位置立即回到连环手枪，不必等下一 tick
- * 的恢复。用包装而不是重定向，因此能与同一写入的其他包装（SparkStrength M67 取消、Wathe 疯魔球棒锁）组合。MixinExtras
+ * 的恢复。用包装而不是重定向，因此能与同一写入的其他包装（M67 取消、Wathe 疯魔球棒锁）组合。MixinExtras
  * 按应用顺序嵌套包装，先应用的在最内层；优先级 900 使它先于它们（默认 1000）应用，因此仍在最内层、紧贴字段写入，也就是
  * 原先 {@code @Redirect} 的位置，它们看到的仍是玩家请求的槽位。
  */

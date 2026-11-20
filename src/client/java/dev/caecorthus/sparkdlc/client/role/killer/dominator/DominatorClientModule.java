@@ -35,9 +35,9 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class DominatorClientModule {
     /**
-     * The Seeker mark's level ({@code SeekerRules.MARK_OUTLINE_PRIORITY}): above SparkWitch's 90 outlines, below
+     * The Seeker mark's level ({@code SeekerRules.MARK_OUTLINE_PRIORITY}): above the 90-level role outlines, below
      * {@code skip()} (100), Black Raven (101) and suppression (102), so a hiding skip always wins over the mark.
-     * 与搜寻者标记同级：高于 SparkWitch 的 90 级描边，低于 {@code skip()}（100）、黑鸦（101）与压制（102），
+     * 与搜寻者标记同级：高于 90 级职业描边，低于 {@code skip()}（100）、黑鸦（101）与压制（102），
      * 因此隐藏用的 skip 总能压过标记。
      */
     private static final int MARK_OUTLINE_PRIORITY = 95;
@@ -63,10 +63,10 @@ public final class DominatorClientModule {
     }
 
     /**
-     * The local player is the Dominator (raw synced role, never an acting overlay) on a confirmed SparkWitch server and
+     * The local player is the Dominator (raw synced role, never an acting overlay) on a confirmed SparkDLC server and
      * passes the shared caster gate ({@link DominatorRules#isActiveCaster}: alive, not spectating, not swallowed).
      * Role check first, so every other client leaves at once.
-     * 本地玩家在已确认的 SparkWitch 服务器上是支配者（真实同步身份，绝非扮演覆盖层），且通过共用施放者门槛
+     * 本地玩家在已确认的 SparkDLC 服务器上是支配者（真实同步身份，绝非扮演覆盖层），且通过共用施放者门槛
      * （{@link DominatorRules#isActiveCaster}：存活、非旁观、未被吞下）。先查职业，其他客户端立即返回。
      */
     public static boolean isActiveDominator(@Nullable ClientPlayerEntity player) {
@@ -99,10 +99,10 @@ public final class DominatorClientModule {
     /**
      * The name other players see (owner decision "按别人看到的来"): Wathe's psycho scramble first, as Wathe's own
      * name tag does for every viewer, then {@link EmmaVisibleName}, which resolves the NoellesRoles Morphling
-     * disguise and corpse mode, SparkStrength's Morphling mark and Coroner disguises, the Jester moment and
+     * disguise and corpse mode, this mod's Morphling mark and Coroner disguises, the Jester moment and
      * invisibility. The Black Raven disguise changes the acting role, never the name, so it needs nothing here.
      * 其他玩家看到的名字（所有者决定“按别人看到的来”）：先套用 Wathe 对所有观察者都生效的疯魔名牌乱码，再交给
-     * {@link EmmaVisibleName}，它解析 NoellesRoles 变形者伪装与尸体模式、SparkStrength 变形者标记与验尸官伪装、小丑时刻和
+     * {@link EmmaVisibleName}，它解析 NoellesRoles 变形者伪装与尸体模式、本模组的变形者标记与验尸官伪装、小丑时刻和
      * 隐身。黑羽鸦伪装只改变扮演职业、从不改名字，因此这里无需处理。
      */
     public static Text visibleName(PlayerEntity target) {
@@ -114,9 +114,9 @@ public final class DominatorClientModule {
 
     /**
      * Client-only presentation gates, SeekerMarkClientHooks style: a creative target or a swallowed viewer (whose
-     * view is the Taotie's stomach). SparkTraits instinct hiding is part of the common {@link DominatorRules#isMarkable}
+     * view is the Taotie's stomach). Trait instinct hiding is part of the common {@link DominatorRules#isMarkable}
      * filter, so the server never marks a target the HUD would refuse to name.
-     * 仅客户端的展示门槛，与 SeekerMarkClientHooks 一致：目标为创造模式，或观察者自己被吞下（其视野在饕餮腹中）。SparkTraits
+     * 仅客户端的展示门槛，与 SeekerMarkClientHooks 一致：目标为创造模式，或观察者自己被吞下（其视野在饕餮腹中）。特质的
      * 本能隐藏属于通用的 {@link DominatorRules#isMarkable} 过滤，因此服务端绝不会标记 HUD 拒绝点名的目标。
      */
     private static boolean passesClientGates(ClientPlayerEntity viewer, PlayerEntity target) {

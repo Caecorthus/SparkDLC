@@ -13,7 +13,7 @@ import org.ladysnake.cca.api.v3.component.ComponentRegistry;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 
 /**
- * SparkStrength 自己维护的老兵刀次数。
+ * 本模组自己维护的老兵刀次数。
  *
  * <p>原版 {@code PlayerVeteranComponent} 只有 0/1/2 三种次数状态，适合“开局一把刀”，
  * 但无法表示商店无限购买后的多把刀累计次数。这里用单独组件保存总剩余次数：

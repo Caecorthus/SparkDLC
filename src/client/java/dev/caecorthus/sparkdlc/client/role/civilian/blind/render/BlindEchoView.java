@@ -53,7 +53,7 @@ import java.util.List;
  *   panels) and the full entity flush, but before particles, so glass reads as a wall and no particle enters the
  *   line art. In Fabulous! that depth lives in the translucent target, which started as a copy of main's.</li>
  *   <li>{@link #renderFrame} right after {@code GameRenderer#render}'s {@code Framebuffer#beginWrite(Z)} (after every
- *   other SparkWitch filter, before the GUI): writes black plus white line art over the whole main framebuffer, so
+ *   other filter of the mod, before the GUI): writes black plus white line art over the whole main framebuffer, so
  *   every earlier image (sky, particles, outlines, other filters) is consumed; the entity-outline framebuffer is never
  *   composited again.</li>
  * </ol>
@@ -69,7 +69,7 @@ import java.util.List;
  * {@code ParticleManager#renderParticles} 的开头（两种画质分支都有）：在半透明地形（玻璃、Wathe 船体与隐私玻璃板）
  * 和实体全部刷新之后、粒子之前，把世界深度拷贝到 {@code blind_depth}，使玻璃被当作墙，且粒子不会进入线稿。
  * Fabulous! 下该深度位于半透明目标中，它起初就是主深度的拷贝。3）{@link #renderFrame} 紧接在 {@code GameRenderer#render} 的
- * {@code Framebuffer#beginWrite(Z)} 之后（其他所有 SparkWitch 滤镜之后、GUI 之前）：把整个主帧缓冲写成黑底白线，
+ * {@code Framebuffer#beginWrite(Z)} 之后（本模组其他所有滤镜之后、GUI 之前）：把整个主帧缓冲写成黑底白线，
  * 吞掉之前的所有画面（天空、粒子、描边、其他滤镜），且不再合成实体描边帧缓冲。
  * 失败即全黑：开着 Iris 光影包、加载失败、缺少捕获或镜头不在盲人身上时，世界画成全黑，绝不显示未过滤画面；
  * 只有 Iris 报告光影包时 HUD 提示才提到光影包，失败的管线会在逐渐变长的退避后重建

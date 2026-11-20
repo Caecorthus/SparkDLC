@@ -30,9 +30,9 @@ public final class NatsumeRules {
     public static final Identifier ROLE_ID = SparkDLC.id("natsume_anan");
 
     /**
-     * Stable id of the hypnosis skill: the SparkFactionAPI role-skill cooldown store and the
+     * Stable id of the hypnosis skill: the id of its role-skill cooldown store and the
      * {@code canAffectPlayer} action id (Wraith, Vendetta and Rift occupant policies answer it).
-     * 催眠技能的稳定 id：SparkFactionAPI 职业技能冷却存储的 id，同时也是 {@code canAffectPlayer} 的行为 id
+     * 催眠技能的稳定 id：职业技能冷却存储的 id，同时也是 {@code canAffectPlayer} 的行为 id
      * （冤魂、复仇者与裂隙门内玩家策略据此作答）。
      */
     public static final Identifier HYPNOSIS_SKILL_ID = SparkDLC.id("natsume_hypnosis");
@@ -73,7 +73,7 @@ public final class NatsumeRules {
     public enum TargetClass {
         /** A non-police civilian. / 非警察平民。 */
         CIVILIAN,
-        /** A SparkFactionAPI police role whose base faction is civilian. / 基础阵营为平民的 SparkFactionAPI 警职。 */
+        /** A {@code PoliceRoles} police role whose base faction is civilian. / 基础阵营为平民的 {@code PoliceRoles} 警职。 */
         POLICE,
         /** Effective faction killer. / 有效阵营为杀手。 */
         KILLER,
@@ -85,9 +85,9 @@ public final class NatsumeRules {
 
     /**
      * Pure classification, in this order: Loose End by id; police (PoliceRoles membership on a role whose base faction
-     * is civilian, the SparkTraits police rule, so the Jiahao Insider and Corrupt Cop never count); then the effective
+     * is civilian, the police traits' rule, so the Jiahao Insider and Corrupt Cop never count); then the effective
      * faction: civilian, killer, anything else.
-     * 纯分类，依次为：按 id 判定亡命徒；警察（在 PoliceRoles 中登记且基础阵营为平民的职业，与 SparkTraits 的警察规则相同，
+     * 纯分类，依次为：按 id 判定亡命徒；警察（在 PoliceRoles 中登记且基础阵营为平民的职业，与警察词条的规则相同，
      * 因此嘉豪阵营的内应与黑警不算）；然后看有效阵营：平民、杀手、其他。
      */
     public static TargetClass classify(@Nullable Identifier roleId, boolean police,
@@ -120,10 +120,10 @@ public final class NatsumeRules {
     }
 
     /**
-     * Live hypnosis length for {@code target}: the raw role for Loose End and police, SparkFactionAPI's effective
-     * faction for the rest (so a SparkTraits Impostor civilian counts as a killer). No role reads as
+     * Live hypnosis length for {@code target}: the raw role for Loose End and police, the faction core's effective
+     * faction for the rest (so a civilian with the Impostor trait counts as a killer). No role reads as
      * {@link TargetClass#OTHER_FACTION}.
-     * {@code target} 的实时催眠时长：亡命徒与警察读取真实职业，其余读取 SparkFactionAPI 的有效阵营（因此 SparkTraits 内鬼平民
+     * {@code target} 的实时催眠时长：亡命徒与警察读取真实职业，其余读取阵营核心的有效阵营（因此带内鬼词条的平民
      * 视为杀手）。没有职业时视为 {@link TargetClass#OTHER_FACTION}。
      */
     public static int durationTicksFor(PlayerEntity target, GameWorldComponent game) {
@@ -148,10 +148,10 @@ public final class NatsumeRules {
     /**
      * Caster gate for both the menu request and the cast, in the Dominator's order: the raw role in an exactly ACTIVE
      * round; alive, not spectating and not swallowed; not held by another mechanic; not NoellesRoles-silenced; not
-     * SparkTraits role-skill blocked; not hypnotised herself; ready. Fear is checked last, so its message only appears
+     * role-skill blocked by a trait; not hypnotised herself; ready. Fear is checked last, so its message only appears
      * when the skill would otherwise run.
      * 菜单请求与施放共用的施放者门槛，顺序同支配者：对局恰为 ACTIVE 且真实职业为夏目安安；存活、非旁观、未被吞下；未被其他
-     * 机制持有；未被 NoellesRoles 沉默；未被 SparkTraits 封锁职业技能；自己未被催眠；已就绪。恐惧最后检查，使其提示只在技能
+     * 机制持有；未被 NoellesRoles 沉默；未被词条封锁职业技能；自己未被催眠；已就绪。恐惧最后检查，使其提示只在技能
      * 本可生效时出现。
      */
     public static CastVerdict casterVerdict(boolean natsume, boolean roundActive, boolean activeCaster, boolean held,
@@ -167,9 +167,9 @@ public final class NatsumeRules {
     /**
      * Target gate shared by the menu list and the cast. The caster herself always passes (owner: self-target allowed;
      * her own gates already ran). Anyone else must be a living participant, not spectating, in her world, not
-     * swallowed and not inside a Rift Gate; SparkFactionAPI {@code canAffectPlayer} is asked last and only then.
+     * swallowed and not inside a Rift Gate; the faction core's {@code canAffectPlayer} is asked last and only then.
      * 菜单列表与施放共用的目标门槛。施放者本人始终通过（所有者：允许以自己为目标；她自己的门槛已经检查过）。其他人必须是
-     * 存活参与者、非旁观、与她同一世界、未被吞下且不在裂隙门内；最后且仅在此时才询问 SparkFactionAPI {@code canAffectPlayer}。
+     * 存活参与者、非旁观、与她同一世界、未被吞下且不在裂隙门内；最后且仅在此时才询问阵营核心的 {@code canAffectPlayer}。
      */
     public static boolean isTargetable(boolean self, boolean playingAndAlive, boolean spectator, boolean sameWorld,
                                        boolean swallowed, boolean riftOccupant, BooleanSupplier factionAllows) {

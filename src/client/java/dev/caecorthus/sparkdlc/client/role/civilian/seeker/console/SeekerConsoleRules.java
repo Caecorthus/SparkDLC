@@ -12,7 +12,7 @@ import dev.caecorthus.sparkdlc.util.TickTime;
  * 以及快速连接打开什么。这里的所有值都只是用于展示的客户端预测；控制台发出的每个数据包都由服务端重新校验。
  */
 public final class SeekerConsoleRules {
-    /** Minimum ticks between two intercepts; SparkStrength's tablet re-fires about every 4 ticks. / 两次拦截的最小间隔刻数。 */
+    /** Minimum ticks between two intercepts; the tablet re-fires about every 4 ticks. / 两次拦截的最小间隔刻数。 */
     public static final int INTERCEPT_THROTTLE_TICKS = 10;
     /** Client-side spacing of quick-connect packets, matching the server's open throttle. / 快速连接发包的客户端间隔。 */
     public static final int QUICK_CONNECT_THROTTLE_TICKS = 10;
@@ -54,14 +54,14 @@ public final class SeekerConsoleRules {
 
     /** What the tablet intercept does with one use. / 拦截器对一次使用的处理方式。 */
     public enum InterceptAction {
-        /** Not ours: vanilla (and SparkStrength) handle the use. / 不归我们处理：交给原版（及 SparkStrength）。 */
+        /** Not ours: vanilla (and the tablet item) handle the use. / 不归我们处理：交给原版（及平板物品）。 */
         PASS,
         /** Open the console and CONSUME. / 打开控制台并返回 CONSUME。 */
         OPEN,
         /**
          * A console use inside the throttle window: CONSUME without opening, so it never falls through to
-         * SparkStrength's own tablet.
-         * 节流窗口内的控制台使用：返回 CONSUME 但不打开，避免落到 SparkStrength 自己的平板。
+         * the tablet's own screen.
+         * 节流窗口内的控制台使用：返回 CONSUME 但不打开，避免落到平板自己的界面。
          */
         SWALLOW
     }
@@ -69,9 +69,9 @@ public final class SeekerConsoleRules {
     /**
      * The full intercept gate of §3.10.3. Sneaking is deliberately not an input (toggle-sneak and Niko players must
      * still reach the console). The throttle only decides between opening and swallowing: a throttled console use is
-     * still consumed, because passing it would send the use packet and SparkStrength would open its own tablet.
+     * still consumed, because passing it would send the use packet and the tablet would open its own screen.
      * §3.10.3 的完整拦截门槛。刻意不把潜行作为输入（切换式潜行与 Niko 玩家也必须能进入控制台）。节流只决定打开还是
-     * 吞掉：被节流的控制台使用仍返回 CONSUME，否则会发出使用包，由 SparkStrength 打开它自己的平板。
+     * 吞掉：被节流的控制台使用仍返回 CONSUME，否则会发出使用包，由平板打开它自己的界面。
      */
     public static InterceptAction interceptAction(boolean confirmedServer, boolean liveSeeker, boolean inSession,
                                                   boolean screenOpen, boolean consoleDevice, boolean bypassMatches,
@@ -135,12 +135,12 @@ public final class SeekerConsoleRules {
         return blocked ? Availability.UNAVAILABLE : Availability.AVAILABLE;
     }
 
-    /** "Police network" exists only for the SparkStrength tablet held in the used hand. / 仅手持 SS 平板时显示“警察网络”。 */
+    /** "Police network" exists only for the tablet held in the used hand. / 仅手持平板时显示“警察网络”。 */
     public static boolean networkVisible(boolean heldIsTablet) {
         return heldIsTablet;
     }
 
-    /** SparkStrength opens its tablet only from the hotbar, so warn for the offhand. / SS 只认快捷栏，副手时提示。 */
+    /** The tablet opens its screen only from the hotbar, so warn for the offhand. / 平板只认快捷栏，副手时提示。 */
     public static boolean hotbarHintVisible(boolean heldIsTablet, boolean offhand) {
         return heldIsTablet && offhand;
     }

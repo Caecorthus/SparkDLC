@@ -152,8 +152,8 @@ public final class KillerTeamEconomyService {
         int purseBefore = purse.getBalance();
         if (purse.recordIncome(actualIncome, SparkTraitsApi.hasActiveTrait(serverPlayer, TraitIds.TEAM_FIRST))) {
             syncWorld(world);
-            // Achievement record S7 for SparkAssist: this killer's income raised the purse (amount = after - before).
-            // 成就记录 S7（供 SparkAssist）：该杀手的收入使团队钱包增加（amount = 入账后 - 入账前）。
+            // Achievement record S7: this killer's income raised the purse (amount = after - before).
+            // 成就记录 S7：该杀手的收入使团队钱包增加（amount = 入账后 - 入账前）。
             AchievementRecords.teamContribution(serverPlayer, purseBefore, purse.getBalance());
         }
     }

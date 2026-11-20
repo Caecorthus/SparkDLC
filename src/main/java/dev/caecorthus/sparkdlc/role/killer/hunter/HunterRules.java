@@ -47,9 +47,9 @@ public final class HunterRules {
     // 猎枪开局锁定 40 秒（所有者 2026-10-07 决定），短于 Wathe 左轮的 60 秒开局锁定。
     public static final int SHOTGUN_INITIAL_COOLDOWN_TICKS = 40 * 20;
     public static final int SECOND_SHELL_WINDOW_TICKS = 20 * 10;
-    // A shot into a SparkStrength junction box takes 70% of its durability (owner decision 2026-10-21), in
-    // SparkStrength's unit where 10_000 = 100%, so two shots open a full box.
-    // 一枪打中 SparkStrength 接线箱扣除其 70% 耐久（所有者 2026-10-21 决定），单位为 SparkStrength 的 10_000 = 100%，
+    // A shot into a junction box takes 70% of its durability (owner decision 2026-10-21), in
+    // the box's own unit where 10_000 = 100%, so two shots open a full box.
+    // 一枪打中接线箱扣除其 70% 耐久（所有者 2026-10-21 决定），单位为接线箱自身的 10_000 = 100%，
     // 因此满耐久的箱子两枪即开。
     public static final int SHOTGUN_JUNCTION_BOX_DAMAGE = 7_000;
 
@@ -97,12 +97,12 @@ public final class HunterRules {
     public static final Identifier LOOSE_END_ROLE_ID = Identifier.of("wathe", "loose_end");
     public static final Identifier UNDERCOVER_ROLE_ID = Identifier.of("noellesroles", "undercover");
 
-    // Trap rule class 1 (police): every police role and any SparkTraits Impostor holder. This single class owns the
-    // trap's police-side rules (visibility today; dismantling reuses it). The live SparkFactionAPI PoliceRoles registry
+    // Trap rule class 1 (police): every police role and any Impostor trait holder. This single class owns the
+    // trap's police-side rules (visibility today; dismantling reuses it). The live PoliceRoles registry
     // is checked alongside this fixed list, so later police variants are covered without editing it; corrupt_cop and the
     // Insider are Jiahao-factioned but still count. Owner 2026-11-11.
-    // 夹子规则第一类（警察类）：所有警职与任何带 SparkTraits 内鬼词条的玩家。夹子所有警察侧规则都归这一类（目前是可见性，
-    // 拆除也复用）。实时 SparkFactionAPI PoliceRoles 注册表与此固定名单一起检查，之后新增的警察变体无需改这里；
+    // 夹子规则第一类（警察类）：所有警职与任何带内鬼词条的玩家。夹子所有警察侧规则都归这一类（目前是可见性，
+    // 拆除也复用）。实时 PoliceRoles 注册表与此固定名单一起检查，之后新增的警察变体无需改这里；
     // 黑警与内应属嘉豪阵营但仍算数。
     private static final Set<Identifier> TRAP_POLICE_IDS = Set.of(
             VIGILANTE_ROLE_ID,
@@ -117,9 +117,9 @@ public final class HunterRules {
     // Trap rule class 2: every killer-faction role plus the Loose End and NoellesRoles' Undercover, which are
     // neutral/civilian-factioned but still count (instant dismantle, poisoning). For sight, class 2 uses the police
     // line-of-sight rule; only the killer faction adds the instinct x-ray, so the Loose End and the Undercover never
-    // see a trap through a wall (the Undercover's SparkStrength thermal view shows players only). Owner 2026-11-11.
+    // see a trap through a wall (the Undercover's thermal view shows players only). Owner 2026-11-11.
     // 夹子规则第二类：所有杀手阵营职业，外加亡命徒与 NoellesRoles 卧底（属中立/平民阵营但仍算数：瞬间拆除、可淬毒）。可见性上
-    // 第二类走警察的视线规则；只有杀手阵营额外拥有本能透视，所以亡命徒与卧底永远不能隔墙看见捕兽夹（卧底在 SparkStrength 里的
+    // 第二类走警察的视线规则；只有杀手阵营额外拥有本能透视，所以亡命徒与卧底永远不能隔墙看见捕兽夹（卧底的
     // 热成像只显示玩家）。所有者 2026-11-11。
     public static boolean isTrapKiller(@Nullable Identifier roleId, boolean killerFaction) {
         return killerFaction || LOOSE_END_ROLE_ID.equals(roleId) || UNDERCOVER_ROLE_ID.equals(roleId);
@@ -282,9 +282,9 @@ public final class HunterRules {
     }
 
     /**
-     * The police half of {@link #trapVisibility}: {@code registeredPolice} is the live SparkFactionAPI PoliceRoles
+     * The police half of {@link #trapVisibility}: {@code registeredPolice} is the live PoliceRoles
      * answer, so every police variant counts even when this build does not name it.
-     * {@link #trapVisibility} 的警察一半：{@code registeredPolice} 是实时 SparkFactionAPI PoliceRoles 的结果，因此即使本
+     * {@link #trapVisibility} 的警察一半：{@code registeredPolice} 是实时 PoliceRoles 的结果，因此即使本
      * 构建没有点名，任何警察变体也算数。
      */
     public static boolean isTrapPolice(@Nullable Identifier roleId, boolean registeredPolice) {

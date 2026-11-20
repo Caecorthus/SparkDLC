@@ -16,7 +16,7 @@ import java.util.function.BooleanSupplier;
 /**
  * The Rys-T visor toggle (H9, the only way to raise or lower it): a right-click with an EMPTY cursor on the helmet
  * while it sits in the player's own head armor slot, in any inventory screen that shows that slot (Wathe's in-round
- * inventory with the SparkWitch armor block, the vanilla survival inventory, the creative inventory tab). It runs from
+ * inventory with this mod's armor panel, the vanilla survival inventory, the creative inventory tab). It runs from
  * {@code RysTHelmetItem#onClicked}, wherever the click is resolved; every such side claims the click, so the press
  * never turns into a vanilla pick-up. Left-clicks, shift-clicks, other slots and a held cursor stay vanilla. Exactly
  * one side writes each click (the USEC writer rule, {@code UsecAttachmentCursorLoading}):
@@ -27,7 +27,7 @@ import java.util.function.BooleanSupplier;
  *   packets; there the client writes and plays the sound locally. The probe for that screen is installed by the client
  *   ({@code client.bear.helmet.RysTHelmetClient}).</li>
  * </ul>
- * Rys-T 面罩开合（H9，唯一的开合方式）：头盔位于玩家自己的头部护甲槽时，在任何显示该槽的背包界面（带 SparkWitch 护甲块的
+ * Rys-T 面罩开合（H9，唯一的开合方式）：头盔位于玩家自己的头部护甲槽时，在任何显示该槽的背包界面（带本模组护甲面板的
  * Wathe 局内背包、原版生存背包、创造模式背包标签页）中用空光标右键它。由 {@code RysTHelmetItem#onClicked} 在结算点击的一端执行；
  * 每一端都认领这次点击，因此不会变成原版拿起。左键、Shift 点击、其他栏位与光标持物保持原版。每次点击恰好由一端写入（USEC 写入
  * 规则，见 {@code UsecAttachmentCursorLoading}）：生存、冒险与 Wathe 背包中的点击在两端都会结算，只有服务端写入并播放公开面罩音效，

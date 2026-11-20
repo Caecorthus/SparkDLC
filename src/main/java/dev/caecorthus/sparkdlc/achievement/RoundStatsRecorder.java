@@ -25,7 +25,7 @@ import java.util.UUID;
  *     and each {@link RoleGroups} group the player was in at the end (at their death if they died);</li>
  *     <li>food and drink since the last death (emptied by a death this round, which also keeps this round's from
  *     counting), every item consumed, and food eaten per owner-visible trait held around the meal;</li>
- *     <li>SparkWitch Fisher catches, kills of players on another faction per role (with the traits held around
+ *     <li>Fisher catches, kills of players on another faction per role (with the traits held around
  *     them), and roles the player was turned into mid-round with their causes;</li>
  *     <li>kills of 非好人 per death reason, and separately those made during a blackout.</li>
  * </ul>
@@ -43,7 +43,7 @@ import java.util.UUID;
  * 跨局延续一条命：本局在该分组中死亡时清空该分组的集合，且不计入本局该分组的击杀；玩家各次死亡的死因（以记录为准，
  * 否则取尸体上的死因；断线不算）；连胜（{@link LifetimeStats#recordWinStreaks}）：存活连胜按 {@link LifetimeStats#ALL_ROUNDS}
  * 和玩家结束时（死亡则为死亡时）所在的每个 {@link RoleGroups} 分组分别计；上次死亡以来的吃喝数（本局死亡则清空，且本局的不计入）、
- * 吃喝过的每种物品，以及进食时持有的每个自身可见词条的进食数；SparkWitch 钓鱼佬的渔获、按身份统计的对其他阵营的击杀（及当时持有的词条），
+ * 吃喝过的每种物品，以及进食时持有的每个自身可见词条的进食数；钓鱼佬的渔获、按身份统计的对其他阵营的击杀（及当时持有的词条），
  * 玩家在对局中途变成的身份及其原因，以及按死因统计的对非好人的击杀（停电期间的另计一份）。
  * （连续击杀、连胜和上次死亡以来的吃喝里的）“本局死亡”按用户定的规则指真正的死亡：背水一战的假死不算，被 T 病毒复活的
  * 死亡算。记录里有玩家的真死亡、或记录完整时以记录为准；否则客户端看到的死亡算数，除非记录里只有玩家的一次假死且玩家结算时存活。

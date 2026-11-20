@@ -20,9 +20,9 @@ import org.spongepowered.asm.mixin.injection.At;
  * sendWatchPackets 每刻为观察区块的玩家执行，原版会比较新旧视野、推送乌鸦周围区块并卸载其余区块；focusOf 返回 null 后自动恢复为
  * 本体中心。只移动客户端视野：玩家区块票据仍位于本体所在区段。
  *
- * <p>Chains with the Seeker's and SparkStrength's drone mixins on the same call ({@code @ModifyExpressionValue}); each
+ * <p>Chains with the Seeker's and the Bomber drone's mixins on the same call ({@code @ModifyExpressionValue}); each
  * returns the incoming value unless its own player has a live session. Default {@code require}.
- * 与搜寻者及 SparkStrength 无人机在同一调用上的 mixin 链式叠加；各自只在自己的玩家有有效会话时改写传入值。使用默认 require。</p>
+ * 与搜寻者及炸弹客无人机在同一调用上的 mixin 链式叠加；各自只在自己的玩家有有效会话时改写传入值。使用默认 require。</p>
  */
 @Mixin(ServerChunkLoadingManager.class)
 public abstract class BlackRavenCrowChunkViewMixin {

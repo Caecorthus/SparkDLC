@@ -46,7 +46,7 @@ public final class InsiderParticipation {
     }
 
     /**
-     * SparkWitch partner of the Corrupt Cops: an Insider or a Sphinx Hao. / 黑警的 SparkWitch 搭档：内应或狮身豪。
+     * Team Jiahao partner of the Corrupt Cops: an Insider or a Sphinx Hao. / 黑警的嘉豪阵营搭档：内应或狮身豪。
      */
     public static boolean isPartnerRole(@Nullable Role role) {
         return isInsiderRole(role) || isSphinxHaoRole(role);

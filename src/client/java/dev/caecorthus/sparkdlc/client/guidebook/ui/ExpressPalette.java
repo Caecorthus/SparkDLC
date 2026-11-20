@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.client.guidebook.ui;
 
 /**
- * Harpy Express tokens (spec-final §3.1). Names and values are identical to the constants block of SparkWitch and
- * SparkTraits {@code InventoryCardPaint}; the card only uses the dark subset. All values are ARGB.
- * 哈比特快设计令牌（spec-final §3.1）。名称与数值与 SparkWitch、SparkTraits 的 {@code InventoryCardPaint} 常量完全一致；
+ * Harpy Express tokens (spec-final §3.1). Names and values are identical to the constants block of the info card's
+ * {@code InventoryCardPaint}; the card only uses the dark subset. All values are ARGB.
+ * 哈比特快设计令牌（spec-final §3.1）。名称与数值与信息卡的 {@code InventoryCardPaint} 常量完全一致；
  * 信息卡只使用暗色子集。所有数值均为 ARGB。
  */
 public final class ExpressPalette {
@@ -48,7 +48,7 @@ public final class ExpressPalette {
     public static final int TIP_DESC = 0xFFCDBB9C;
     public static final int HEADING = BRASS_HI;
     public static final int TITLE = POLISHED;
-    /** Mana numbers (= SparkWitch HUD); the mana glyph itself is drawn with {@link #GLYPH}. 魔力数字；魔力图标用 GLYPH 绘制。 */
+    /** Mana numbers (= the witch mana HUD); the mana glyph itself is drawn with {@link #GLYPH}. 魔力数字；魔力图标用 GLYPH 绘制。 */
     public static final int MANA = 0xFFD6B0FF;
     /** Untinted colour for font icons (coin, mana) so their native pixels show. 字体图标不着色，保留原生像素。 */
     public static final int GLYPH = 0xFFFFFFFF;

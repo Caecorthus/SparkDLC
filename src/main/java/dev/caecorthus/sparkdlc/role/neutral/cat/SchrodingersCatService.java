@@ -171,7 +171,7 @@ public final class SchrodingersCatService {
         return true;
     }
 
-    /** The killer's side, read from the live role map and SparkFactionAPI. / 凶手的阵营，读取实时身份表与 SparkFactionAPI。 */
+    /** The killer's side, read from the live role map and SparkFactionApi. / 凶手的阵营，读取实时身份表与 SparkFactionApi。 */
     private static SchrodingersCatRules.Side sideOf(GameWorldComponent game, ServerPlayerEntity killer) {
         Role role = game.getRole(killer);
         return SchrodingersCatRules.sideOf(
@@ -302,9 +302,9 @@ public final class SchrodingersCatService {
     /**
      * Gets up with the new role: body back, role written under the replay cause, {@code RoleAssigned} for the role's
      * own kit and skills, the higher of the old and new balance kept, the shop rebuilt, ineligible traits swapped
-     * through the SparkTraits facade, then the totem sound, the role announcement and a chat line.
+     * through {@code SparkTraitsApi}, then the totem sound, the role announcement and a chat line.
      * 以新身份起身：恢复身体，在回放原因下写入身份，触发 {@code RoleAssigned} 发放该职业自己的装备与技能，保留新旧余额中
-     * 较高者并重建商店，经 SparkTraits 门面替换不合资格的词条，随后播放图腾音效、公告新身份并发送聊天提示。
+     * 较高者并重建商店，经 {@code SparkTraitsApi} 替换不合资格的词条，随后播放图腾音效、公告新身份并发送聊天提示。
      */
     private static void transform(ServerPlayerEntity cat, ServerWorld world, GameWorldComponent game,
                                   Spectre spectre) {

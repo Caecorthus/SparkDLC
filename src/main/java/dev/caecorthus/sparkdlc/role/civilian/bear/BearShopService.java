@@ -22,16 +22,17 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 /**
- * Replaces the BEAR shop on both sides with {@link BearShopRules#entries()} (the USEC rebuild pattern): SparkTraits
- * entries (e.g. the Impostor revolver) survive the rebuild and every entry passes through the optional SparkTraits
- * Charisma discount. Purchases are server-side ({@code PlayerShopComponent.tryBuy}): the helmet and earplugs land in
+ * Replaces the BEAR shop on both sides with {@link BearShopRules#entries()} (the USEC rebuild pattern): trait shop
+ * entries (e.g. the Impostor revolver) survive the rebuild and every entry passes through the Charisma trait's
+ * discount. Purchases are server-side ({@code PlayerShopComponent.tryBuy}): the helmet and earplugs land in
  * their worn slot when it is empty (D9), else, like the round's fallback, through a handler-less twin whose default
- * {@code onBuy} carries SparkFactionAPI's second-row wrapper ("nothing fits" returns false and charges nothing). A
- * second helmet or pair of earplugs is refused with a message in {@code ShopPurchase.BEFORE} and again in the handler.
- * 在两端把 BEAR 商店替换为 {@link BearShopRules#entries()}（沿用 USEC 重建方式）：SparkTraits 条目（如内鬼左轮）在重建后保留，
- * 每个条目经过可选的 SparkTraits 魅力折扣。购买在服务端执行（{@code PlayerShopComponent.tryBuy}）：头盔与耳塞在其穿戴槽为空时
- * 直接戴上（D9），否则与榴弹的回退一样交给不带处理器的孪生条目，其默认 {@code onBuy} 带有 SparkFactionAPI 第二行包装（放不下
- * 时返回 false、不扣钱）。已持有头盔或耳塞时，{@code ShopPurchase.BEFORE} 带提示拒绝，处理器中再兜底拒绝一次。
+ * {@code onBuy} carries the second-row wrapper of {@code ShopEntrySecondRowMixin} ("nothing fits" returns false and
+ * charges nothing). A second helmet or pair of earplugs is refused with a message in {@code ShopPurchase.BEFORE} and
+ * again in the handler.
+ * 在两端把 BEAR 商店替换为 {@link BearShopRules#entries()}（沿用 USEC 重建方式）：词条商店条目（如内鬼左轮）在重建后保留，
+ * 每个条目经过魅力词条的折扣。购买在服务端执行（{@code PlayerShopComponent.tryBuy}）：头盔与耳塞在其穿戴槽为空时
+ * 直接戴上（D9），否则与榴弹的回退一样交给不带处理器的孪生条目，其默认 {@code onBuy} 带有
+ * {@code ShopEntrySecondRowMixin} 的第二行包装（放不下时返回 false、不扣钱）。已持有头盔或耳塞时，{@code ShopPurchase.BEFORE} 带提示拒绝，处理器中再兜底拒绝一次。
  */
 final class BearShopService {
     /** Wathe's head armor slot in {@code PlayerInventory} (36 + 3). / {@code PlayerInventory} 中的头部盔甲槽（36 + 3）。 */
@@ -56,7 +57,7 @@ final class BearShopService {
         if (!BearShopRules.rebuildsShopFor(role)) {
             return;
         }
-        // SparkTraits entries may already be present; keep them across the rebuild. / SparkTraits 条目可能已先加入；重建时保留。
+        // Trait shop entries may already be present; keep them across the rebuild. / 词条商店条目可能已先加入；重建时保留。
         List<ShopEntry> preservedTraitEntries = TraitShopEntries.capture(context);
         context.clearEntries();
         for (BearShopRules.EntrySpec spec : BearShopRules.entries()) {

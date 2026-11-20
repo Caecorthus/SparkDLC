@@ -28,7 +28,7 @@ public final class SchrodingersCatRules {
     /** The vanished window between the lethal hit and the new identity: 3 s. / 致命一击到获得新身份之间的消失时长：3 秒。 */
     public static final int SPECTRE_TICKS = GameConstants.getInTicks(0, 3);
 
-    /** SparkFactionAPI replay cause of the role change. / 身份变更在 SparkFactionAPI 回放中的原因。 */
+    /** Replay cause of the role change. / 身份变更在回放中的原因。 */
     public static final Identifier TRANSFORM_CAUSE = SparkDLC.id("schrodingers_cat_transform");
 
     /**

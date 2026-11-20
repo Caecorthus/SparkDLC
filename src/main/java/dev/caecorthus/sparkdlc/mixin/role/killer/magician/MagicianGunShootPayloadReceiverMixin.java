@@ -15,12 +15,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
  * Server gun receiver at Wathe's {@code recordItemUse} anchor, i.e. only for a shot Wathe accepted (after its spectator,
- * gun-tag, cooldown and spent-derringer checks and after SparkTraits' Last Escape HEAD cancel): records the shot for a
+ * gun-tag, cooldown and spent-derringer checks and after the Last Escape trait's HEAD cancel): records the shot for a
  * recording Magician, and ends a validated puppet target. A puppet id never resolves to Wathe's player target, so Wathe
  * then finishes the shot as a miss (sound, muzzle flash, cooldown; no punishment, no mood loss). Never cancels.
  * Wathe member: class-level {@code remap = false}.
  * 服务端枪械接收器的 Wathe {@code recordItemUse} 锚点，即只处理 Wathe 已接受的射击（位于其旁观、枪械标签、冷却与德林加已用检查
- * 之后，也在 SparkTraits 最后逃脱的 HEAD 取消之后）：为录制中的魔术师记录这一枪，并结束经校验的皮套目标。皮套 id 永远不会
+ * 之后，也在最后逃脱天赋的 HEAD 取消之后）：为录制中的魔术师记录这一枪，并结束经校验的皮套目标。皮套 id 永远不会
  * 解析为 Wathe 的玩家目标，因此 Wathe 随后按未命中收尾（声音、枪口火光、冷却；无惩罚、不扣理智）。从不取消。
  * Wathe 成员：类级 {@code remap = false}。
  */

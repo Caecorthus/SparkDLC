@@ -46,8 +46,8 @@ public final class FactionRoleCatalog {
 
         Faction nativeWatheFaction = definition.nativeWatheFaction();
         Faction wathe = watheFactionFor(definition, nativeWatheFaction);
-        // Custom factions keep their real Identifier in SparkFactionAPI while Wathe sees their native bucket.
-        // 自定义阵营的真实 Identifier 由 SparkFactionAPI 保存，Wathe 只读取它们的原生阵营桶。
+        // Custom factions keep their real Identifier in the faction core while Wathe sees their native bucket.
+        // 自定义阵营的真实 Identifier 由阵营核心保存，Wathe 只读取它们的原生阵营桶。
         Role role = new Role(
                 definition.roleId(),
                 definition.color(),
@@ -98,9 +98,9 @@ public final class FactionRoleCatalog {
     }
 
     /**
-     * Binds a role SparkFactionAPI did not register (for example a NoellesRoles role) to a registered custom faction.
+     * Binds a role the faction core did not register (for example a NoellesRoles role) to a registered custom faction.
      * Resolved lazily by role id, so the role may be registered with Wathe before or after this call.
-     * 把非 SparkFactionAPI 注册的角色（例如 NoellesRoles 角色）绑定到已注册的自定义阵营。按角色 id 惰性解析，
+     * 把非阵营核心注册的角色（例如 NoellesRoles 角色）绑定到已注册的自定义阵营。按角色 id 惰性解析，
      * 因此该角色在 Wathe 中注册早于或晚于本调用都可以。
      */
     public static synchronized void bindRoleFaction(Identifier roleId, Identifier factionId) {
@@ -135,9 +135,9 @@ public final class FactionRoleCatalog {
     }
 
     /**
-     * Makes default SparkFactionAPI roles visible to Wathe as neutral instead of NONE, roles of a native faction (and
+     * Makes default faction-core roles visible to Wathe as neutral instead of NONE, roles of a native faction (and
      * roles bound to one) as its constant.
-     * 让默认 SparkFactionAPI 角色在 Wathe 侧显示为中立阵营而不是 NONE，原生阵营的角色（及绑定到原生阵营的角色）
+     * 让默认的阵营核心角色在 Wathe 侧显示为中立阵营而不是 NONE，原生阵营的角色（及绑定到原生阵营的角色）
      * 显示为其常量。
      * Allocation-free for the hot Faction#fromRole mixin; null means no override.
      * 供高频 Faction#fromRole mixin 使用，不分配对象；null 表示不覆盖。

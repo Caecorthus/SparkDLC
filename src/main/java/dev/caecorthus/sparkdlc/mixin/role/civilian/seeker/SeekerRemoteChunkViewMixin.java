@@ -21,9 +21,9 @@ import org.spongepowered.asm.mixin.injection.At;
  * tickEntityMovement 每刻都会为观察区块的玩家调用 sendWatchPackets，因此原版会比较新旧视野、发送渲染中心、推送设备周围区块并卸载其余区块；
  * focusOf 返回 null 后，下一刻自动恢复为本体中心。只移动客户端视野：玩家区块票据仍位于本体真实所在区段。
  *
- * <p>Coexists with SparkStrength's drone mixin on the same call: {@code @ModifyExpressionValue} chains, and each
+ * <p>Coexists with the Bomber drone's mixin on the same call: {@code @ModifyExpressionValue} chains, and each
  * returns the incoming value unless its own player has a live session. Default {@code require} (Seeker mixin rule).
- * 与 SparkStrength 无人机 mixin 在同一调用上共存：{@code @ModifyExpressionValue} 可链式叠加，各自只在自己的玩家有存活会话时
+ * 与炸弹客无人机 mixin 在同一调用上共存：{@code @ModifyExpressionValue} 可链式叠加，各自只在自己的玩家有存活会话时
  * 改写传入值。使用默认 {@code require}（搜寻者 mixin 规则）。</p>
  */
 @Mixin(ServerChunkLoadingManager.class)

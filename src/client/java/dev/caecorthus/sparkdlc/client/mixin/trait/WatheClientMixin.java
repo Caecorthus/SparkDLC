@@ -118,8 +118,8 @@ public abstract class WatheClientMixin {
                     playerTarget,
                     game,
                     context.traitWorld().isFinalMomentLooseEnd(playerTarget.getUuid()),
-                    // Answering here skips SparkStrength's Coroner disguise event, so ask it for the disguise color.
-                    // 这里提前返回会跳过 SparkStrength 的验尸官伪装事件，因此直接查询其伪装色。
+                    // Answering here skips the Coroner disguise event, so ask the Coroner for the disguise color.
+                    // 这里提前返回会跳过验尸官伪装事件，因此直接向验尸官查询伪装色。
                     CoronerClientHooks.resolveKillerDisguiseInstinctColor(playerTarget)
             ));
             return;
@@ -145,14 +145,14 @@ public abstract class WatheClientMixin {
             return;
         }
 
-        // A corpse-mode Morphling, Conscience or not, is cloaked from keyed instinct for every viewer by SparkStrength
-        // (MorphlingCorpseInstinctClient), so corpse mode needs no branch here.
-        // 尸体模式的变形者（无论是否善良）由 SparkStrength 对所有观察者隐藏按键本能（MorphlingCorpseInstinctClient），这里无需分支。
+        // A corpse-mode Morphling, Conscience or not, is cloaked from keyed instinct for every viewer by
+        // MorphlingCorpseInstinctClient, so corpse mode needs no branch here.
+        // 尸体模式的变形者（无论是否善良）由 MorphlingCorpseInstinctClient 对所有观察者隐藏按键本能，这里无需分支。
         MorphlingPlayerComponent morphling = MorphlingPlayerComponent.KEY.get(playerTarget);
 
-        // Phantom invisibility must beat SparkTraits' effective-alignment instinct overlays.
+        // Phantom invisibility must beat the traits' effective-alignment instinct overlays.
         // Only effective-killer viewers receive the Conscience flag; others treat the target like any Phantom.
-        // 幽灵隐身优先于 SparkTraits 的有效阵营本能高亮覆盖。
+        // 幽灵隐身优先于词条的有效阵营本能高亮覆盖。
         // 只有有效杀手观察者能收到善良标记；其他观察者把目标当作普通幽灵处理。
         if (EffectiveInstinctService.shouldSkipInvisibleTargetFromEffectiveInstinct(
                 playerTarget.isInvisible(),
@@ -192,15 +192,15 @@ public abstract class WatheClientMixin {
         }
 
         /*
-         * SparkWitch's Black Raven is an always-civilian police role (2026-10-21): while it holds the instinct key,
+         * The Black Raven is an always-civilian police role (2026-10-21): while it holds the instinct key,
          * players it has sensed within 8 blocks show one raven-feather color. This priority-1000 HEAD callback runs
-         * before SparkWitch's priority-2000 HEAD hook, so SparkWitch is asked here, ahead of the Conscience and
-         * effective-killer branches below, for every viewer. null means SparkWitch does not take over; a color or -1
-         * is final.
-         * SparkWitch 黑羽鸦现为始终属于好人的警察身份（2026-10-21）：按住本能键时，8 格内被感知过的玩家显示
-         * 统一的鸦羽色描边。此优先级 1000 的 HEAD 回调早于 SparkWitch 优先级 2000 的 HEAD 钩子执行，因此对所有
-         * 观察者都在下方善良与有效杀手分支之前，先直接询问 SparkWitch。返回 null 表示不接管；返回颜色
-         * 或 -1 即为最终结果，SparkTraits 不再覆盖。
+         * before the priority-2000 HEAD hook of BlackRavenInstinctPriorityMixin, so the Black Raven is asked here,
+         * ahead of the Conscience and effective-killer branches below, for every viewer. null means the Black Raven
+         * does not take over; a color or -1 is final.
+         * 黑羽鸦现为始终属于好人的警察身份（2026-10-21）：按住本能键时，8 格内被感知过的玩家显示
+         * 统一的鸦羽色描边。此优先级 1000 的 HEAD 回调早于 BlackRavenInstinctPriorityMixin 优先级 2000 的 HEAD 钩子
+         * 执行，因此对所有观察者都在下方善良与有效杀手分支之前，先直接询问黑羽鸦。返回 null 表示不接管；返回颜色
+         * 或 -1 即为最终结果，词条分支不再覆盖。
          */
         Integer blackRavenSensedHighlight = BlackRavenInstinctClientHooks.resolvePrioritySensedHighlight(target);
         if (blackRavenSensedHighlight != null) {
@@ -282,8 +282,8 @@ public abstract class WatheClientMixin {
         } else if (EffectiveInstinctService.isConscienceVisibleToInstinct(playerTarget)) {
             cir.setReturnValue(EffectiveInstinctService.CIVILIAN_INSTINCT_COLOR);
         } else {
-            // Answering here skips SparkStrength's Coroner disguise event, so mirror it.
-            // 这里提前返回会跳过 SparkStrength 的验尸官伪装事件，因此同步其判定。
+            // Answering here skips the Coroner disguise event, so mirror it.
+            // 这里提前返回会跳过验尸官伪装事件，因此同步其判定。
             Integer coronerDisguiseColor = CoronerClientHooks.resolveKillerDisguiseInstinctColor(playerTarget);
             if (coronerDisguiseColor != null) {
                 cir.setReturnValue(coronerDisguiseColor);

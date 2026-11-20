@@ -18,10 +18,10 @@ import java.util.Optional;
  * Revolver shots pass through active Wraiths during client target selection.
  * 左轮选靶时子弹穿过激活的冤魂。
  *
- * <p>{@code @WrapMethod} encloses other mods' HEAD replacements (SparkTraits Marksman), so the scope
+ * <p>{@code @WrapMethod} encloses other HEAD replacements (the Marksman trait), so the scope
  * covers every selector raycast; {@link WraithAimRaycastMixin} applies the filter. The bed-hit fallback
  * is shared by the revolver, derringer, Demon Hunter pistol and knife stabs.
- * {@code @WrapMethod} 包住其他模组的 HEAD 替换（SparkTraits 精确枪手），作用域覆盖所有选靶射线。
+ * {@code @WrapMethod} 包住其他 HEAD 替换（精确枪手词条），作用域覆盖所有选靶射线。
  * 床铺命中回退由左轮、德林格、猎魔人手枪与刀刺共用。</p>
  */
 @Mixin(value = RevolverItem.class, remap = false)

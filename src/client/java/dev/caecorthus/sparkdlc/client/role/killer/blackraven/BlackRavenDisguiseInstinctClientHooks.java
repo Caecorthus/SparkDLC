@@ -14,22 +14,22 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Amendment fix 1: a disguised Raven keeps Wathe's killer-teammate colors. Acting-role highlights returned through
- * {@code GetInstinctHighlight.EVENT} (NoellesRoles and SparkTraits event listeners at PRIORITY_DEFAULT) would
+ * {@code GetInstinctHighlight.EVENT} (NoellesRoles and trait event listeners at PRIORITY_DEFAULT) would
  * otherwise repaint teammates, so this listener re-states Wathe 1.5.6's own killer branch of
  * {@code WatheClient.getInstinctHighlight} for raw killer-team targets, above PRIORITY_DEFAULT but below explicit
  * skips (PRIORITY_HIGH) and the Feather mark (PRIORITY_HIGH + 1).
- * It outranks only event results. SparkTraits' HEAD-cancel mixin {@code client/mixin/WatheClientMixin
+ * It outranks only event results. The trait HEAD-cancel mixin {@code client/mixin/trait/WatheClientMixin
  * #getInstinctHighlight} (Toxicologist, Serial Killer, Morphling and trait branches) returns before the event runs,
  * so no listener priority can beat it. Batch 2 gate: before {@code noellesroles:toxicologist} becomes selectable,
- * the teammate color must be placed ahead of that HEAD path (a higher-priority SparkWitch HEAD inject on
- * {@code WatheClient.getInstinctHighlight} or a SparkTraits public-facade check), with a test.
+ * the teammate color must be placed ahead of that HEAD path (a higher-priority Black Raven HEAD inject on
+ * {@code WatheClient.getInstinctHighlight} or a check inside the trait HEAD path), with a test.
  * 修订 1：伪装中的黑羽鸦保留 Wathe 杀手队友颜色。通过 {@code GetInstinctHighlight.EVENT} 返回的扮演职业高亮
- * （诺艾尔与 SparkTraits 的默认优先级事件监听器）否则会覆盖队友颜色；此监听器按 Wathe 1.5.6
+ * （诺艾尔与特质的默认优先级事件监听器）否则会覆盖队友颜色；此监听器按 Wathe 1.5.6
  * getInstinctHighlight 的杀手分支，对真实杀手阵营目标给出同样结果，优先级高于默认、低于显式跳过（PRIORITY_HIGH）
- * 与羽刃标记（PRIORITY_HIGH + 1）。它只能压过事件结果：SparkTraits 在 HEAD 取消的 mixin
- * （WatheClientMixin#getInstinctHighlight，含毒理学家、连环杀手、变形者与词条分支）在事件触发前就已返回，
+ * 与羽刃标记（PRIORITY_HIGH + 1）。它只能压过事件结果：特质在 HEAD 取消的 mixin
+ * （client/mixin/trait/WatheClientMixin#getInstinctHighlight，含毒理学家、连环杀手、变形者与词条分支）在事件触发前就已返回，
  * 任何监听器优先级都无法胜过。批次二门槛：毒理学家可选之前，必须把队友颜色置于该 HEAD 路径之前
- * （更高优先级的 SparkWitch HEAD 注入或 SparkTraits 公共门面检查），并补充测试。
+ * （更高优先级的黑羽鸦 HEAD 注入，或在特质 HEAD 路径内加入检查），并补充测试。
  */
 public final class BlackRavenDisguiseInstinctClientHooks {
     /** Wathe's teammate red: {@code MathHelper.hsvToRgb(0F, 1.0F, 0.6F)}. / Wathe 杀手队友红色。 */

@@ -9,12 +9,12 @@ import net.minecraft.server.network.ServerPlayerEntity;
 
 /**
  * Exact vanilla item-cooldown reads and writes for forced cooldowns. Duration modifiers hook
- * {@code ItemCooldownManager.set} (SparkTraits Fast Hands x0.9, NoellesRoles Stimulation x0.8, ...), so a penalty
- * written through {@code set} alone would shrink. Instead the live entry is rewritten in place
+ * {@code ItemCooldownManager.set} (the Fast Hands trait x0.9, NoellesRoles Stimulation x0.8, ...), so a
+ * penalty written through {@code set} alone would shrink. Instead the live entry is rewritten in place
  * (start = now, end = now + ticks); when no entry exists, {@code set} only creates one and is then corrected the
  * same way. The client gets an explicit exact packet: those modifiers are server-gated, so the client
  * {@code set} applies the packet duration unchanged.
- * 强制冷却的精确原版物品冷却读写。时长倍率挂在 {@code ItemCooldownManager.set} 上（SparkTraits 快手 ×0.9、
+ * 强制冷却的精确原版物品冷却读写。时长倍率挂在 {@code ItemCooldownManager.set} 上（快手词条 ×0.9、
  * NoellesRoles 亢奋 ×0.8 等），仅靠 {@code set} 写入的惩罚会被缩短。因此直接原地改写现有条目（起点 = 当前，
  * 终点 = 当前 + ticks）；若无条目，只借 {@code set} 创建条目再同样校正。随后向客户端发送精确的数据包：这些倍率仅在
  * 服务端生效，客户端的 {@code set} 会原样采用包内时长。

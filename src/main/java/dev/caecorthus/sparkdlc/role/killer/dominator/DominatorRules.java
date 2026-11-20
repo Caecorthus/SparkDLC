@@ -77,12 +77,12 @@ public final class DominatorRules {
     /**
      * Common (both sides) mark filter, owner decision "按别人看到的来" (go by what others see): never the caster; a
      * living, non-spectator Wathe participant (so never a Rift Gate occupant or a swallowed player, both living
-     * spectators); not invisible (the invisibility flag also covers SparkTraits Last Escape and Last Stand pending) and
-     * not invisible to the caster; not swallowed; not hidden from the caster's instinct by SparkTraits
+     * spectators); not invisible (the invisibility flag also covers the Last Escape and Last Stand pending traits)
+     * and not invisible to the caster; not swallowed; not hidden from the caster's instinct by a trait
      * ({@link #isInstinctHidden}, e.g. Going Dark). Disguises are not filtered: the player is marked and the HUD shows
      * the disguised name. Client-only hidden states go through {@link #findAimedPlayer(PlayerEntity, Predicate)}.
      * 两端通用的标记过滤，所有者决定“按别人看到的来”：不是施放者本人；在 Wathe 中存活且非旁观的参与者（因此不会是裂隙门内的玩家
-     * 或被吞下的玩家，二者都是活体旁观者）；未隐身（隐身标记也覆盖 SparkTraits 脱险与背水一战待定），且对施放者不隐身；未被吞下；未被 SparkTraits 对施放者本能隐藏（如隐匿）。
+     * 或被吞下的玩家，二者都是活体旁观者）；未隐身（隐身标记也覆盖脱险与背水一战待定词条），且对施放者不隐身；未被吞下；未被词条对施放者本能隐藏（如隐匿）。
      * 伪装不过滤：玩家照常可被标记，HUD 显示伪装后的名字。仅客户端的隐藏状态经 {@link #findAimedPlayer(PlayerEntity, Predicate)}
      * 传入。
      */
@@ -98,12 +98,12 @@ public final class DominatorRules {
     }
 
     /**
-     * Cross-module seam (SparkTraits, fused into SparkDLC, so a direct call): the Dominator's own read of the public,
-     * side-neutral {@code SparkTraitsApi.isInstinctHidden(viewer, target)} facade (Going Dark and other instinct
+     * Trait seam: the Dominator's own read of the trait API's
+     * side-neutral {@code SparkTraitsApi.isInstinctHidden(viewer, target)} (Going Dark and other instinct
      * hiding). The through-wall mark is an instinct-like sight, so a target hidden from the caster's instinct is
      * neither marked by the server nor named or outlined on the client.
-     * 跨模块接缝（SparkTraits 已融合进 SparkDLC，因此为直接调用）：支配者自有的一份公共、两端通用的
-     * {@code SparkTraitsApi.isInstinctHidden(viewer, target)} 门面读取（隐匿等本能隐藏）。穿墙标记属于类本能视野，因此对
+     * 词条接缝：支配者自有的一份对词条 API 两端通用的
+     * {@code SparkTraitsApi.isInstinctHidden(viewer, target)} 的读取（隐匿等本能隐藏）。穿墙标记属于类本能视野，因此对
      * 施放者本能隐藏的目标既不会被服务端标记，也不会在客户端被点名或描边。
      */
     private static boolean isInstinctHidden(PlayerEntity viewer, PlayerEntity target) {

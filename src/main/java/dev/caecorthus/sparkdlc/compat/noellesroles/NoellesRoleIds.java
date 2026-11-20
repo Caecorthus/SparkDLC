@@ -5,8 +5,8 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Weak role-id bridge for narrow NoellesRoles compatibility that remains owned by SparkWitch.
- * SparkWitch 保留的 NoellesRoles 弱身份桥，只覆盖明确的跨模组交互。
+ * Weak role-id bridge for narrow NoellesRoles compatibility that the mod's own roles keep.
+ * 本模组职业保留的 NoellesRoles 弱身份桥，只覆盖明确的跨模组交互。
  */
 public final class NoellesRoleIds {
     public static final String NAMESPACE = "noellesroles";
@@ -15,16 +15,16 @@ public final class NoellesRoleIds {
     public static final Identifier UNDERCOVER = Identifier.of(NAMESPACE, "undercover");
     /**
      * NoellesRoles Timekeeper. The stable signal is this id: {@code Noellesroles.TIMEKEEPER} is public but not
-     * final, and SparkStrength keys on the same id; NoellesRoles registers exactly one role for it.
+     * final, and the role kits key on the same id; NoellesRoles registers exactly one role for it.
      * NoellesRoles 计时员。稳定信号是该 id：{@code Noellesroles.TIMEKEEPER} 虽为 public 但非 final，
-     * SparkStrength 也按同一 id 识别；NoellesRoles 只为该 id 注册一个职业。
+     * 职业套件也按同一 id 识别；NoellesRoles 只为该 id 注册一个职业。
      */
     public static final Identifier TIMEKEEPER = Identifier.of(NAMESPACE, "time_keeper");
     /**
-     * NoellesRoles Attendant (乘务员), keyed by id like SparkStrength's {@code AttendantRules.ATTENDANT_ID}; it starts
-     * each round with one SparkWitch Spare Key.
-     * NoellesRoles 乘务员，与 SparkStrength 的 {@code AttendantRules.ATTENDANT_ID} 一样按 id 识别；每局开局获得一把
-     * SparkWitch 备用钥匙。
+     * NoellesRoles Attendant (乘务员), keyed by id like {@code AttendantRules.ATTENDANT_ID}; it starts
+     * each round with one Spare Key.
+     * NoellesRoles 乘务员，与 {@code AttendantRules.ATTENDANT_ID} 一样按 id 识别；每局开局获得一把
+     * 备用钥匙。
      */
     public static final Identifier ATTENDANT = Identifier.of(NAMESPACE, "attendant");
     public static final Identifier VOODOO_CURSE_DEATH_REASON = Identifier.of(NAMESPACE, "voodoo");

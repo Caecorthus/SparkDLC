@@ -20,11 +20,11 @@ final class LifetimeRules {
 
     /**
      * The neutral roles that can win a round of their own: Noelle's Roles' Jester, Shadow Jester, Vulture, Corrupt
-     * Cop, Pathogen and Taotie, and SparkWitch's Fiend, Insider and Murderous Witch. The Corrupt Cop and the Insider
+     * Cop, Pathogen and Taotie, and the mod's own Fiend, Insider and Murderous Witch. The Corrupt Cop and the Insider
      * are Team Jiahao ({@link Factions#JIAHAO}) since 2026-11-04 but keep counting here, so 墙头草 and 永久中立国 mean
      * what they meant when released.
      * 能自己赢下对局的中立身份：Noelle's Roles 的小丑、影子小丑、秃鹫、黑警、病原体、饕餮，
-     * 以及 SparkWitch 的魔人、内应、杀意魔女。黑警与内应自 2026-11-04 起属于嘉豪阵营（{@link Factions#JIAHAO}），但仍计入此处，
+     * 以及本模组自有的魔人、内应、杀意魔女。黑警与内应自 2026-11-04 起属于嘉豪阵营（{@link Factions#JIAHAO}），但仍计入此处，
      * 使墙头草与永久中立国保持发布时的含义。
      */
     static final Set<String> WINNING_NEUTRAL_ROLES = Set.of(
@@ -44,11 +44,12 @@ final class LifetimeRules {
     /**
      * 墙头草: won at least once on each of the civilian, killer, neutral and witch factions. The civilian, killer and
      * witch wins go by my effective faction at the end of the round; the neutral one is a round won while holding one
-     * of the {@link #WINNING_NEUTRAL_ROLES} ({@link LifetimeStats#winsHolding}), since a Loose Ends round or SparkTraits'
-     * Final Moment (which turns its holder into a Loose End) also leaves a winner on Wathe's neutral faction without a
-     * neutral role. The Murderous Witch is one of those roles, on her own faction ({@link Factions#MURDEROUS_WITCH}).
+     * of the {@link #WINNING_NEUTRAL_ROLES} ({@link LifetimeStats#winsHolding}), since a Loose Ends round or
+     * Last Stand's Final Moment (which turns its holder into a Loose End) also leaves a winner on Wathe's neutral
+     * faction without a neutral role. The Murderous Witch is one of those roles, on her own faction
+     * ({@link Factions#MURDEROUS_WITCH}).
      * 以好人、杀手、中立、魔女阵营各获胜至少一次。好人、杀手、魔女的胜场按一局结束时我的实际阵营计；中立的胜场指担任过
-     * {@link #WINNING_NEUTRAL_ROLES} 之一并获胜的一局（{@link LifetimeStats#winsHolding}），因为亡命徒模式和 SparkTraits 的
+     * {@link #WINNING_NEUTRAL_ROLES} 之一并获胜的一局（{@link LifetimeStats#winsHolding}），因为亡命徒模式和背水一战的
      * 最终时刻（把持有者变成亡命徒）也会让获胜者处在 Wathe 的中立阵营，却没有中立身份。杀意魔女也是这些身份之一，自成一个阵营
      * （{@link Factions#MURDEROUS_WITCH}）。
      */

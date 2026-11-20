@@ -90,9 +90,9 @@ public final class RiftGateProjectileService {
     }
 
     /**
-     * Server tick of each gate: catch projectiles that skip entity collision (SparkStrength M67) on their last
-     * segment. Fail-closed when SparkStrength or its M67 id is absent.
-     * 每扇门的服务端 tick：在最后一段轨迹上捕获不走实体碰撞的投掷物（SparkStrength M67）。缺少 SparkStrength 或其 M67 id 时不生效。
+     * Server tick of each gate: catch projectiles that skip entity collision (the M67) on their last segment. The
+     * fail-closed path for an absent M67 id is unreachable since the fusion.
+     * 每扇门的服务端 tick：在最后一段轨迹上捕获不走实体碰撞的投掷物（M67）。M67 id 缺失时不生效的路径融合后不可达。
      */
     public static void sweepUncollidable(RiftGateEntity gate) {
         RiftGateM67Sweep.sweep(gate);
@@ -299,9 +299,9 @@ public final class RiftGateProjectileService {
     }
 
     /**
-     * Moves the projectile in place (never re-spawned, so spawn-time boosts such as SparkTraits Herculean are not
+     * Moves the projectile in place (never re-spawned, so spawn-time boosts such as the Herculean trait are not
      * applied twice) and forces the tracker to resend position and velocity this tick.
-     * 原地移动投掷物（从不重新生成，因此 SparkTraits 大力士等生成时加成不会重复生效），并强制追踪器在本刻重发位置与速度。
+     * 原地移动投掷物（从不重新生成，因此大力士词条等生成时加成不会重复生效），并强制追踪器在本刻重发位置与速度。
      */
     private static void place(ProjectileEntity projectile, Vec3d position, Vec3d velocity, float yaw, float pitch) {
         projectile.refreshPositionAndAngles(position.x, position.y, position.z, yaw, pitch);

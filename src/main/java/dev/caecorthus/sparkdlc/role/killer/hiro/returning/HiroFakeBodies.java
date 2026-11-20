@@ -12,10 +12,10 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Server-only registry of the fake corpses of 二阶堂希罗's fake-dead victims, keyed by the body entity's UUID (the owner
  * UUID belongs to a living player and would also match the later real body). Never synced, so no client can tell the
- * corpse is fake. Stable contract: every corpse consumer (Vulture, body bag, Kidnapper, Ragpicker, Charon ferry,
+ * corpse is fake. Rule: every corpse consumer (Vulture, body bag, Kidnapper, Ragpicker, Charon ferry,
  * Prophet, Wraith conversion) asks {@link #isFake} and leaves the corpse alone, silently. Cleared at round boundaries.
  * 仅服务端的二阶堂希罗假死受害者假尸体登记表，以尸体实体 UUID 为键（尸体主人 UUID 属于仍存活的玩家，也会匹配之后的真尸体）。
- * 从不同步，客户端无法看出尸体是假的。稳定契约：所有尸体使用方（秃鹫、裹尸袋、绑匪、拾荒者、卡戎摆渡、先知、冤魂转化）都
+ * 从不同步，客户端无法看出尸体是假的。规则：所有尸体使用方（秃鹫、裹尸袋、绑匪、拾荒者、卡戎摆渡、先知、冤魂转化）都
  * 通过 {@link #isFake} 查询并静默地不碰这具尸体。在回合边界清空。
  */
 public final class HiroFakeBodies {

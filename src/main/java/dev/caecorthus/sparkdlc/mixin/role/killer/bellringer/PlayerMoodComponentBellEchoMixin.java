@@ -16,13 +16,13 @@ import org.spongepowered.asm.mixin.injection.At;
 /**
  * Bell Echo seams inside Wathe's mood loop: hold normal task generation, keep the Echo completion out of
  * {@code TaskComplete.EVENT}, and scale drain while an Echo task is active. Never {@code @Redirect}
- * (SparkTraits already redirects call sites here); coexists with the Wraith HEAD cancel. Every target
+ * (the traits already redirect call sites here); coexists with the Wraith HEAD cancel. Every target
  * descriptor uses only Wathe/Fabric/JDK types, so {@code remap = false} holds in dev and production.
  * Pinned Wathe 1.5.6 bytecode: serverTick has exactly one {@code generateTask()} call, one
  * {@code Event.invoker()} call (TaskComplete) with a single TrainTask local in scope, and one GETSTATIC
  * {@code MOOD_DRAIN}; clientTick has one GETSTATIC {@code MOOD_DRAIN}.
  * Wathe 情绪循环中的钟声回响接口：暂停常规任务生成、使回响任务完成不触发 {@code TaskComplete.EVENT}、
- * 并在回响任务期间放大消耗。禁止使用 {@code @Redirect}（SparkTraits 已重定向此处调用点）；与冤魂的 HEAD 取消共存。
+ * 并在回响任务期间放大消耗。禁止使用 {@code @Redirect}（天赋已重定向此处调用点）；与冤魂的 HEAD 取消共存。
  * 所有目标描述符仅含 Wathe/Fabric/JDK 类型，因此 {@code remap = false} 在开发与生产环境均成立。
  * 锁定 Wathe 1.5.6 字节码：serverTick 恰有一次 {@code generateTask()} 调用、一次 {@code Event.invoker()}
  * 调用（TaskComplete，作用域内仅一个 TrainTask 局部变量）和一次 GETSTATIC {@code MOOD_DRAIN}；
@@ -81,9 +81,9 @@ public abstract class PlayerMoodComponentBellEchoMixin {
 
     /**
      * Both sides: multiplies the per-task drain constant, so it composes multiplicatively with the
-     * SparkTraits and SparkStrength {@code setMood} argument modifiers instead of replacing them.
+     * traits' and the Professor sedative's {@code setMood} argument modifiers instead of replacing them.
      * The client reads the owner-synced Echo marker for its local drain prediction.
-     * 双端：放大单任务消耗常量，从而与 SparkTraits、SparkStrength 对 {@code setMood} 参数的修改相乘叠加而非覆盖。
+     * 双端：放大单任务消耗常量，从而与天赋、教授镇静剂对 {@code setMood} 参数的修改相乘叠加而非覆盖。
      * 客户端依据仅同步给拥有者的回响标记进行本地消耗预测。
      */
     @ModifyExpressionValue(

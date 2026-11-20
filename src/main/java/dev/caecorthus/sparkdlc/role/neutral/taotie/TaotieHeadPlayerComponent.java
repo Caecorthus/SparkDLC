@@ -37,7 +37,7 @@ public final class TaotieHeadPlayerComponent implements AutoSyncedComponent, Ser
         return cooldownTicks;
     }
 
-    /** Exact write (fire, SparkFactionAPI forced cooldowns). / 精确写入（发射、SparkFactionAPI 强制冷却）。 */
+    /** Exact write (fire, forced cooldowns). / 精确写入（发射、强制冷却）。 */
     public void setCooldownTicks(int ticks) {
         int next = Math.max(0, ticks);
         if (next == cooldownTicks) {

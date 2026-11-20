@@ -51,7 +51,7 @@ import org.lwjgl.opengl.GL30;
  * compare them with {@code heat * v} (mask) and {@code max(heat, haze * (1 - v))} (haze), v being the outline
  * visibility (1 up to optical depth 0.3, 0 from 1.5, linear between) of {@code SmokeVolumes.opticalDepth} along the
  * pixel ray. Purely visual: the server never reads smoke.</p>
- * 另一模组热图中的 BEAR 烟雾（BEAR WP5；SparkStrength 卧底热成像，所有者 S4“热烟挡住热成像”，所有者 Q6“显示为一团亮白并遮住
+ * 另一功能热图中的 BEAR 烟雾（BEAR WP5；卧底热成像，所有者 S4“热烟挡住热成像”，所有者 Q6“显示为一团亮白并遮住
  * 人体”），入口为 {@link #maskHeatTarget}、{@link #drawHeatHaze} 与 {@link #smokeRect}。调用方持有一个热图帧缓冲（颜色纹理的 alpha 与颜色即热值，深度纹理
  * 含世界深度以及其画人体之处的人体深度），在一次 {@code WorldRenderer#render} 中画完人体后调用本类。每次调用（仅渲染线程）：
  * 1. 本次渲染没有烟（{@link SmokeOutlineMask#passCoverage()} 为 null）时不做任何事。2. 对本次渲染的整个烟雾矩形步进
@@ -287,7 +287,7 @@ public final class SmokeHeatMask {
             SmokeGlState.scissor(rect);
             GL30.glClearBufferfv(GL11.GL_COLOR, 0, new float[]{0.0F, 0.0F, 0.0F, 0.0F});
         } catch (RuntimeException ignored) {
-            // The caller hides the rectangle itself (documented on the facade). / 调用方自行隐藏该矩形（见门面说明）。
+            // The caller hides the rectangle itself (documented on the class). / 调用方自行隐藏该矩形（见类说明）。
         } finally {
             detach();
             state.restore();

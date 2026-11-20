@@ -13,11 +13,11 @@ import java.util.List;
 /**
  * Session lifecycle edges (research 03 §4.3). Death and disconnect only clear the state and never touch the game mode
  * (Wathe already made the body a spectator, or kills it as ESCAPED next). A Last-Stand-intercepted death is
- * INTERCEPTED: SparkTraits now owns the body. Round edges ({@code ResetPlayer}, which Wathe fires after its own
+ * INTERCEPTED: Last Stand now owns the body. Round edges ({@code ResetPlayer}, which Wathe fires after its own
  * ADVENTURE + spawn teleport, game start and finalize) clear silently with no cooldown. Everything else (role change,
  * gate loss, foreign moves, Depression, stay limit) is decided by the per-tick check. Server only.
  * 会话生命周期边界（调研 03 §4.3）。死亡与断线只清除状态，从不改动游戏模式（Wathe 已把本体设为旁观，或随后以 ESCAPED 处死）。
- * 被背水一战拦截的死亡记为 INTERCEPTED：本体此后归 SparkTraits 管理。对局边界（Wathe 在自身的冒险模式 + 出生点传送之后
+ * 被背水一战拦截的死亡记为 INTERCEPTED：本体此后归背水一战管理。对局边界（Wathe 在自身的冒险模式 + 出生点传送之后
  * 触发的 {@code ResetPlayer}、开局与结算）静默清理、不上冷却。其余情况（职业变化、门丢失、外力移动、抑郁、停留上限）
  * 都由逐刻检查判定。仅服务端。
  */

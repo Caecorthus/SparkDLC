@@ -8,9 +8,9 @@ import java.util.UUID;
 
 /**
  * Noelle's Roles killer roles (Swapper, Party Animal, Scavenger, Morphling, Phantom, Silencer, Assassin, Bandit), plus
- * SparkTraits' Last Escape. Every window is in record ticks, measured from the record event that started it; "as role
+ * the Last Escape trait. Every window is in record ticks, measured from the record event that started it; "as role
  * X" is my role at that event.
- * Noelle's Roles 的杀手身份（交换者、派对狂、清道夫、变形者、幽灵、静语者、刺客、强盗），以及 SparkTraits 的绝处逢生。
+ * Noelle's Roles 的杀手身份（交换者、派对狂、清道夫、变形者、幽灵、静语者、刺客、强盗），以及绝处逢生词条。
  * 所有时间窗口都以记录 tick 计，从开启它的那条记录事件算起；“以 X 身份”指该事件发生时我的身份。
  */
 final class NoellesKillerRules {
@@ -204,10 +204,10 @@ final class NoellesKillerRules {
     // ---- Morphling 变形者 ----
 
     /**
-     * 真假美猴王: as the Morphling, kill the player I look like, as SparkStrength decides it for its kill reward: my own
+     * 真假美猴王: as the Morphling, kill the player I look like, as the role kit decides it for its kill reward: my own
      * morph (35 s, ended early if that player disconnects) or, when none is on, a morph reagent triggered on myself
      * (60 s).
-     * 以变形者身份杀死我当时伪装成的玩家，判定与 SparkStrength 的击杀奖励相同：我自身的变形（35 秒，被伪装者断线会提前结束），
+     * 以变形者身份杀死我当时伪装成的玩家，判定与职业套件的击杀奖励相同：我自身的变形（35 秒，被伪装者断线会提前结束），
      * 没有变形时则看对自己触发的变形试剂（60 秒）。
      */
     static boolean killTheOneIMimic(AchievementContext context) {

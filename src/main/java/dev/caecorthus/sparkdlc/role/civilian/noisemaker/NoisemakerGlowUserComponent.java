@@ -16,7 +16,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
  * 大嗓门点亮技能的“使用者冷却”。
  *
  * <p>NoellesRolesspark 已经把 {@code noellesroles:noisemaker} 组件用于语音广播，
- * 并且通用能力冷却也被多个职业共用。所以这里用 SparkStrength 自己的组件单独保存
+ * 并且通用能力冷却也被多个职业共用。所以这里用本模组自己的组件单独保存
  * 80 秒点亮冷却，避免影响原本的大嗓门广播技能。</p>
  */
 public class NoisemakerGlowUserComponent implements AutoSyncedComponent, ServerTickingComponent {

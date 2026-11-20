@@ -32,9 +32,9 @@ public final class BlackRavenMarkRuntime {
                 ? null
                 : victim.getServer().getPlayerManager().getPlayer(markerUuid);
         // Only a living, playing marker is passed as the killer. A dead marker (often already an active Wraith,
-        // whom SparkFactionAPI's affect veto forbids touching the living) would otherwise cancel the kill; the
+        // whom the faction core's affect veto forbids touching the living) would otherwise cancel the kill; the
         // responsible UUID below still keeps the credit.
-        // 只有存活且在局内的标记者才作为凶手传入。死亡的标记者（常常已成为活跃冤魂，SparkFactionAPI 的影响否决
+        // 只有存活且在局内的标记者才作为凶手传入。死亡的标记者（常常已成为活跃冤魂，阵营核心的影响否决
         // 禁止其接触活人）否则会让击杀被取消；下方的责任 UUID 仍保留归属。
         ServerPlayerEntity killer = online != null && GameFunctions.isPlayerPlayingAndAlive(online) ? online : null;
         // Friendly-fire snapshot before the kill: a death may change factions (plan v2 §2.1). The mark still kills

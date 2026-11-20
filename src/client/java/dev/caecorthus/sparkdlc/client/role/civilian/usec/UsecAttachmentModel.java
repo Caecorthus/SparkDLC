@@ -162,11 +162,11 @@ public final class UsecAttachmentModel {
 
     /**
      * The inventory right-click seam opens the screen only for a plain right press (PICKUP, button 1) with an empty
-     * cursor on a rifle in the player's own inventory slot, for a non-spectator connected to a SparkWitch server. A
+     * cursor on a rifle in the player's own inventory slot, for a non-spectator connected to a SparkDLC server. A
      * press with rounds on the cursor is never intercepted, so cursor loading still runs as a normal click (on the
      * server in survival, on the client in the creative inventory).
      * 背包右键接缝仅在以下情况打开界面：空光标下普通右键（PICKUP、按键 1），点在玩家自己背包栏位里的步枪上，玩家不是旁观者且
-     * 连接的是 SparkWitch 服务端。光标拿着子弹的按下从不拦截，因此光标装填仍按普通点击执行（生存模式在服务端，创造模式物品栏
+     * 连接的是 SparkDLC 服务端。光标拿着子弹的按下从不拦截，因此光标装填仍按普通点击执行（生存模式在服务端，创造模式物品栏
      * 在客户端）。
      */
     public static boolean opensOnClick(int button, boolean pickup, boolean cursorEmpty, boolean ownInventorySlot,

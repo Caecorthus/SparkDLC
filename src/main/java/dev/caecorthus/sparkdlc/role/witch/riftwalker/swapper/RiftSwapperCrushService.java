@@ -34,15 +34,15 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * NoellesRoles Swapper vs. a Rift occupant (D13, C4, C7, C8; plan §16, research 06): a SparkWitch-owned HEAD inject on
- * the Swapper server handler cancels any swap that involves a player inside a gate and kills the Swapper with the
+ * NoellesRoles Swapper vs. a Rift occupant (D13, C4, C7, C8; plan §16, research 06): the Riftwalker's own HEAD inject
+ * on the Swapper server handler cancels any swap that involves a player inside a gate and kills the Swapper with the
  * forced, terminal, killer-less death reason {@code RiftwalkerRules.PORTAL_CRUSHED_DEATH_REASON}, body at the
- * occupant's gate. Registers that reason as SparkTraits-terminal at {@code SERVER_STARTING}. Owned by P9 (with its
- * server mixin and the client Swapper widget patch).
- * NoellesRoles 交换者对门内玩家（D13、C4、C7、C8；plan §16，调研 06）：SparkWitch 自有的 HEAD 注入挂在交换者服务端
- * 处理器上，取消任何涉及门内玩家的交换，并以强制、终结、无凶手的死因 {@code RiftwalkerRules.PORTAL_CRUSHED_DEATH_REASON}
- * 处死交换者，尸体落在门内玩家所在的门前。在 {@code SERVER_STARTING} 时把该死因注册为 SparkTraits 终结死因。
- * 归属 P9（含其服务端 mixin 与客户端交换界面补丁）。
+ * occupant's gate. Registers that reason as trait-terminal at {@code SERVER_STARTING}. Owned by P9 (with its server
+ * mixin and the client Swapper widget patch).
+ * NoellesRoles 交换者对门内玩家（D13、C4、C7、C8；plan §16，调研 06）：隙行者自有的 HEAD 注入挂在交换者服务端处理器上，
+ * 取消任何涉及门内玩家的交换，并以强制、终结、无凶手的死因 {@code RiftwalkerRules.PORTAL_CRUSHED_DEATH_REASON} 处死交换
+ * 者，尸体落在门内玩家所在的门前。在 {@code SERVER_STARTING} 时把该死因注册为词条终结死因。归属 P9（含其服务端 mixin 与
+ * 客户端交换界面补丁）。
  */
 public final class RiftSwapperCrushService {
     private static boolean registered;
@@ -57,25 +57,25 @@ public final class RiftSwapperCrushService {
         registered = true;
         ReplayRegistry.registerGlobalEventFormatter(RiftSwapperCrushRules.REPLAY_EVENT_ID,
                 RiftSwapperCrushService::formatReplay);
-        // Third owner-approved forced-terminal exception (D13/C8, after bell_toll and time_stolen): SparkTraits reads
+        // Third owner-approved forced-terminal exception (D13/C8, after bell_toll and time_stolen): the traits read
         // terminal reasons from a live set at kill time, so registering on server start is early enough and idempotent;
-        // an absent or older SparkTraits registers nothing (fail-closed: the vetoed-kill revert below takes over).
-        // 第三个所有者批准的强制终结例外（D13/C8，继丧钟与时光耗尽之后）：SparkTraits 在击杀时实时读取终结原因集合，
-        // 服务端启动时注册即足够早且幂等；缺失或旧版 SparkTraits 不注册（失败关闭：由下方被否决时的回退处理）。
+        // if the kill is vetoed anyway, the revert below takes over (fail closed).
+        // 第三个所有者批准的强制终结例外（D13/C8，继丧钟与时光耗尽之后）：词条在击杀时实时读取终结原因集合，服务端启动
+        // 时注册即足够早且幂等；若击杀仍被否决，由下方的回退处理（失败关闭）。
         ServerLifecycleEvents.SERVER_STARTING.register(server ->
                 SparkTraitsApi.registerTerminalDeathReason(RiftwalkerRules.PORTAL_CRUSHED_DEATH_REASON));
     }
 
     /**
      * Called from {@code RiftSwapperCrushMixin} at the HEAD of NoellesRoles' Swapper handler, on the server thread,
-     * after the SparkFactionAPI and SparkTraits HEAD guards let the payload through. Mirrors NoellesRoles' own early
+     * after the faction-core and trait HEAD guards let the payload through. Mirrors NoellesRoles' own early
      * returns exactly (same world lookups, {@code isRole} so an acting overlay is followed), then applies
      * {@link RiftSwapperCrushRules#decide}. Any spectator target that is not an occupant — alive (Last Stand, Depression
      * fake death) or dead (the client's alive list lags up to 1 s behind a death) — only cancels the swap (C7).
      * Deliberately no cooldown check: NR has none server-side, so skipping the crush on cooldown would let a crafted
      * packet pull an occupant out. Returns whether NR's handler must be cancelled.
-     * 由 {@code RiftSwapperCrushMixin} 在 NoellesRoles 交换处理器开头（服务端线程）调用，此时 SparkFactionAPI 与
-     * SparkTraits 的 HEAD 守卫已放行。逐条复刻 NR 自身的提前返回（相同的世界查询；用 {@code isRole} 以跟随扮演覆盖），再按
+     * 由 {@code RiftSwapperCrushMixin} 在 NoellesRoles 交换处理器开头（服务端线程）调用，此时阵营核心与
+     * 词条的 HEAD 守卫已放行。逐条复刻 NR 自身的提前返回（相同的世界查询；用 {@code isRole} 以跟随扮演覆盖），再按
      * {@link RiftSwapperCrushRules#decide} 处理。不在门内的旁观者目标——无论活着（背水一战、抑郁假死）还是已死亡（客户端
      * 存活列表比死亡最多滞后 1 秒）——只会取消交换（C7）。刻意不检查冷却：NR 服务端也不检查，否则伪造数据包可把门内的人
      * 拉出来。返回是否必须取消 NR 处理器。
@@ -152,17 +152,18 @@ public final class RiftSwapperCrushService {
         }
         GameFunctions.killPlayer(swapper, true, null, RiftwalkerRules.PORTAL_CRUSHED_DEATH_REASON, true);
         if (GameFunctions.isPlayerPlayingAndAlive(swapper)) {
-            // Should not happen (forced + SparkTraits-terminal); e.g. an older SparkTraits Last Escape. Undo the move.
-            // 不应发生（强制且为 SparkTraits 终结死因），例如旧版 SparkTraits 的脱险。撤销移动。
+            // Should not happen (forced + trait-terminal); kept for a guard that ignores both (it was written for an
+            // older traits jar's Last Escape). Undo the move.
+            // 不应发生（强制且为词条终结死因）；为无视二者的守卫保留（原为旧版词条 jar 的脱险而写）。撤销移动。
             swapper.teleport(originWorld, origin.x, origin.y, origin.z, Set.of(), originYaw, originPitch);
             AbilityPlayerComponent.KEY.get(swapper).setCooldown(RiftSwapperCrushRules.VETOED_CRUSH_COOLDOWN_TICKS);
         }
     }
 
     /**
-     * A SparkWitch global event, never NR's {@code recordSkillUse}: NR's formatter always prints "swapped A and B", and
+     * A mod-owned global event, never NR's {@code recordSkillUse}: NR's formatter always prints "swapped A and B", and
      * the Judge and Wraith observers key off that record. Written before the kill so the replay reads attempt → death.
-     * 使用 SparkWitch 全局事件，绝不使用 NR 的 {@code recordSkillUse}：NR 格式化器总会写成「交换了 A 和 B」，且法官与
+     * 使用本模组自己的全局事件，绝不使用 NR 的 {@code recordSkillUse}：NR 格式化器总会写成「交换了 A 和 B」，且法官与
      * 冤魂的观察者依赖该记录。在处死前写入，回放顺序为「尝试 → 死亡」。
      */
     private static void recordReplay(ServerPlayerEntity swapper, ServerPlayerEntity occupant,

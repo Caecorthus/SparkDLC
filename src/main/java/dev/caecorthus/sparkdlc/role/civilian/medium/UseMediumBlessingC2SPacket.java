@@ -7,9 +7,9 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 
 /**
- * Empty request for 幽灵的加护 (the SparkWitch skill key). Unlike 通灵 there is no input box: the server charges on
+ * Empty request for 幽灵的加护 (the Role Skill 2 key). Unlike 通灵 there is no input box: the server charges on
  * receipt once every gate passes.
- * 幽灵的加护（SparkWitch 技能键）的空请求。与通灵不同，它没有输入框：所有门槛通过后服务端在收到时即扣费。
+ * 幽灵的加护（职业技能 2 键）的空请求。与通灵不同，它没有输入框：所有门槛通过后服务端在收到时即扣费。
  */
 public record UseMediumBlessingC2SPacket() implements CustomPayload {
     public static final Identifier PAYLOAD_ID = SparkDLC.id("use_medium_blessing");

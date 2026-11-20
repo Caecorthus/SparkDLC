@@ -50,16 +50,16 @@ public final class WitchFactorClientHooks {
         // 其职业色显示。职业取自 Wathe 同步的身份表，因此这个共用后备不依赖任何职业实现。
         boolean roleColored = WitchFactorWorldComponent.KEY.get(viewer.getWorld()).isRoleColored(target.getUuid());
         // Both exits return the original color and every check is a side-effect-free read, so the cheap carrier/Emma/
-        // role-colour bits run before the costlier hard-hide gates (reflection, Traits bridge) without changing any
+        // role-colour bits run before the costlier hard-hide gates (trait and component lookups) without changing any
         // answer.
         // 两个出口都返回原颜色且各项检查均为无副作用读取，因此先做廉价的携带者/艾玛/职业色判断，再做较贵的硬隐藏门禁
-        // （反射、Traits 桥接），结果不变。
+        // （特质与组件查询），结果不变。
         if (!carrier && !emma && !roleColored || isHardHidden(viewer, target)) {
             return originalColor;
         }
 
-        // Requery only when adding a fallback: Traits HEAD may have bypassed the event entirely.
-        // 仅补后备色时复核事件；Traits 的 HEAD 返回可能完全跳过了事件。
+        // Requery only when adding a fallback: the trait HEAD return may have bypassed the event entirely.
+        // 仅补后备色时复核事件；特质的 HEAD 返回可能完全跳过了事件。
         GetInstinctHighlight.HighlightResult event = GetInstinctHighlight.EVENT.invoker().getHighlight(target);
         Role targetRole = roleColored ? game.getRole(target) : null;
         return WitchFactorOutlineRules.resolve(originalColor, false, event != null && event.isSkip(),

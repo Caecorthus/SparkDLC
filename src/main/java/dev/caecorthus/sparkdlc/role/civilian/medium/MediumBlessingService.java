@@ -36,13 +36,13 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * 幽灵的加护 Ghost's Blessing (the Medium's SparkWitch skill-key skill), server-authoritative. The empty
+ * 幽灵的加护 Ghost's Blessing (the Medium's Role Skill 2 key skill), server-authoritative. The empty
  * {@link UseMediumBlessingC2SPacket} is the paid act (there is no input box): it re-checks every gate, charges 通灵's
  * live price + 100, starts both cooldowns and opens the world vote window in {@link MediumWindowKind#BLESSING} mode.
  * The dead then pick one of the four {@link MediumBlessing}s for 20 s with the same weights and tie rule as 通灵; when
  * nobody voted a random available blessing is granted instead (owner rule). The blessing lands only on a caster who is
  * still online, still the Medium and alive.
- * 幽灵的加护（通灵师的 SparkWitch 技能键技能），服务端权威。空的 {@link UseMediumBlessingC2SPacket} 即付费动作（没有输入框）：
+ * 幽灵的加护（通灵师的职业技能 2 键技能），服务端权威。空的 {@link UseMediumBlessingC2SPacket} 即付费动作（没有输入框）：
  * 重新复核所有门槛、扣除通灵实时价格 +100、同时进入两个冷却，并以 {@link MediumWindowKind#BLESSING} 模式开启世界级投票窗口。
  * 随后死者在 20 秒内从四种 {@link MediumBlessing} 中选一种，票权与平票规则与通灵相同；无人投票时改为随机给予一种可用加护
  * （所有者规则）。只有仍在线、仍是通灵师且存活的施放者才会获得加护。
@@ -98,8 +98,8 @@ public final class MediumBlessingService {
 
     /**
      * Decided once at window start and frozen in the window. Owner rule: 回满 san is greyed out for a Medium without
-     * real sanity, i.e. a SparkTraits Impostor (FAKE mood); the shared rule fails closed on an unknown trait answer.
-     * 在窗口开启时一次性决定并冻结在窗口中。所有者规则：通灵师没有真实理智（即 SparkTraits 内鬼，伪装理智）时「回满 san」
+     * real sanity, i.e. an Impostor by trait (FAKE mood); the shared rule fails closed on an unknown trait answer.
+     * 在窗口开启时一次性决定并冻结在窗口中。所有者规则：通灵师没有真实理智（即内鬼词条，伪装理智）时「回满 san」
      * 置灰；共用规则在词条查询结果未知时失败关闭。
      */
     static int disabledMask(ServerPlayerEntity caster) {
@@ -173,8 +173,8 @@ public final class MediumBlessingService {
                     StatusEffects.SPEED, MediumRules.BLESSING_SPEED_TICKS, 0, false, false, true));
             case SHIELD -> addRoundLongShieldLayer(caster);
             case CORPSE_SIGHT -> MediumPlayerComponent.KEY.get(caster).addCorpseSightBodies(corpses);
-            // The setter clamps to the true maximum (1.0, or 1.25 under SparkTraits Steady).
-            // setter 会钳制到真正的最大值（1.0，SparkTraits 沉稳下为 1.25）。
+            // The setter clamps to the true maximum (1.0, or 1.25 under the Steady trait).
+            // setter 会钳制到真正的最大值（1.0，沉稳词条下为 1.25）。
             case SANITY -> PlayerMoodComponent.KEY.get(caster).setMood(MediumRules.BLESSING_SANITY_REQUEST);
         }
     }
@@ -203,10 +203,10 @@ public final class MediumBlessingService {
 
     /**
      * Entity UUIDs of the REAL corpses in the caster's world right now: the Prophet's Death Sense filter (hidden
-     * bodies, SparkTraits fake-death bodies, Fiend and Hiro fake corpses, Partygoer corpses, Magician decoys) plus the
+     * bodies, the traits' fake-death bodies, Fiend and Hiro fake corpses, Partygoer corpses, Magician decoys) plus the
      * Charon's feign corpses, and the owner must be in Wathe's dead set, which also drops any stand-in corpse of a
      * living player.
-     * 施放者所在世界此刻的真实尸体的实体 UUID：沿用先知死亡感知的过滤（被隐藏的尸体、SparkTraits 假死尸体、魔人与希罗的
+     * 施放者所在世界此刻的真实尸体的实体 UUID：沿用先知死亡感知的过滤（被隐藏的尸体、词条的假死尸体、魔人与希罗的
      * 假尸体、派对客尸体、魔术师诱饵），再排除卡戎的假死尸体，并要求尸体主人在 Wathe 的死亡集合中，这同时排除了活人的任何
      * 替身尸体。
      */

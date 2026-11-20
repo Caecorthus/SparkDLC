@@ -13,9 +13,9 @@ import net.minecraft.util.Identifier;
 
 /**
  * Stowaway opening loadout: exactly one lockpick, no room key and no role letter. Runs after Wathe has handed out both
- * default items, in a SparkWitch {@code ON_FINISH_INITIALIZE} phase ordered after the default one, like the other
+ * default items, in its own {@code ON_FINISH_INITIALIZE} phase ordered after the default one, like the other
  * role loadouts (final roles already assigned, round still STARTING).
- * 偷渡客开局装备：恰好一个开锁器，没有房间钥匙与职业信件。与其他职业开局装备一样，在排于默认阶段之后的 SparkWitch
+ * 偷渡客开局装备：恰好一个开锁器，没有房间钥匙与职业信件。与其他职业开局装备一样，在排于默认阶段之后的自有
  * {@code ON_FINISH_INITIALIZE} 阶段执行，此时 Wathe 已发放两件默认物品（最终职业已确定，对局仍为 STARTING）。
  */
 public final class StowawayLoadoutService {

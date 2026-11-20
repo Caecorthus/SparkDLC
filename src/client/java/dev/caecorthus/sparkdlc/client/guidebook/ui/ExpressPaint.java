@@ -15,9 +15,9 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Harpy Express drawing primitives (spec-final §3.4), ported literally from the mockup renderer
  * {@code tools/final/mock/Ui.java}. The shared recipes (rounded fills, panel, header, gem, icons, tooltip) have the
- * same bodies as SparkWitch/SparkTraits {@code InventoryCardPaint}. Pure {@code DrawContext} fills, integer geometry,
+ * same bodies as the info card's {@code InventoryCardPaint}. Pure {@code DrawContext} fills, integer geometry,
  * no textures except the reused book icon; {@code fill(x1, y1, x2, y2)} has exclusive x2/y2.
- * 哈比特快绘制原语（spec-final §3.4），逐条移植自样稿渲染器 {@code Ui.java}；共享配方与 SparkWitch/SparkTraits 的
+ * 哈比特快绘制原语（spec-final §3.4），逐条移植自样稿渲染器 {@code Ui.java}；共享配方与信息卡的
  * {@code InventoryCardPaint} 完全一致。只使用 {@code DrawContext} 填充与整数坐标，除复用的书本图标外不使用贴图。
  */
 public final class ExpressPaint {

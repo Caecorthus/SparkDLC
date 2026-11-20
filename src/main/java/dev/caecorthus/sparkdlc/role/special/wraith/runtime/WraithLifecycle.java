@@ -46,8 +46,8 @@ import java.util.UUID;
  */
 public final class WraithLifecycle {
     private static final double CROUCH_RELEASE_UPWARD_VELOCITY = 0.08D;
-    // SparkFactionAPI replay causes for the shared transitionRole addRole; neither has a source player.
-    // 共用 transitionRole 中 addRole 的 SparkFactionAPI 回放原因；两者都没有来源玩家。
+    // Replay causes (SparkReplayApi) for the shared transitionRole addRole; neither has a source player.
+    // 共用 transitionRole 中 addRole 的回放原因（SparkReplayApi）；两者都没有来源玩家。
     private static final Identifier CONVERSION_REPLAY_CAUSE = SparkDLC.id("wraith_conversion");
     private static final Identifier PROMOTION_REPLAY_CAUSE = SparkDLC.id("wraith_promotion");
     private static boolean registered;

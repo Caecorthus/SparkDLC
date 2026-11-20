@@ -22,11 +22,11 @@ import net.minecraft.util.math.Vec3d;
 /**
  * Draws the skateboard item under a riding player's feet, at real size with its nose (model +Z) along the body yaw
  * and its wheels (model y = 0) on the ground. Other players get it from a player-renderer feature; the camera's own
- * player, which first person never renders, gets it in world space; a player whose body another mod replaced (Pig)
+ * player, which first person never renders, gets it in world space; a player whose body the Pig trait replaced
  * gets it right after that body. All paths end in the same frame: origin at the entity's feet, +Y up, +Z = facing,
  * scaled by the entity scale.
  * 在滑行玩家脚下绘制滑板物品：真实尺寸，板头（模型 +Z）朝向身体朝向，轮子（模型 y = 0）贴地。其他玩家由玩家渲染器特征
- * 绘制；第一人称不渲染的镜头玩家本人改在世界空间绘制；身体被其他模组替换（猪形态）的玩家在替换身体之后绘制。所有路径
+ * 绘制；第一人称不渲染的镜头玩家本人改在世界空间绘制；身体被猪特质替换（猪形态）的玩家在替换身体之后绘制。所有路径
  * 最终坐标系一致：原点在实体脚下，+Y 向上，+Z 为朝向，按实体缩放比例缩放。
  */
 public final class SkateboardRenderer {
@@ -95,14 +95,14 @@ public final class SkateboardRenderer {
     }
 
     /**
-     * Board under a player whose whole body another mod drew in place of the player model (SparkTraits' Pig body), so
+     * Board under a player whose whole body the Pig trait drew in place of the player model (its Pig body), so
      * {@link Feature} never ran. Called in the frame {@code EntityRenderDispatcher} hands the player renderer: origin
-     * at the feet plus the position offset, world units, unrotated. Skipped while SparkWitch's Blind view strips that
+     * at the feet plus the position offset, world units, unrotated. Skipped while the Blind view strips that
      * body's features ({@link SparkRoleApi#hidesFeaturesFromBlind}). Its feature-loop gate already drops the board
      * from normal bodies, so this keeps a Pig rider's board out of the Blind's line art and silhouette too. The pig
      * outline itself stays (owner 2026-10-07).
-     * 为身体被其他模组整体替换绘制的玩家（SparkTraits 猪形态）绘制滑板，此时 {@link Feature} 不会运行。调用时处于
-     * {@code EntityRenderDispatcher} 交给玩家渲染器的坐标系：原点在脚下加位置偏移，世界单位，未旋转。SparkWitch 的盲人
+     * 为身体被猪特质整体替换绘制的玩家（猪形态）绘制滑板，此时 {@link Feature} 不会运行。调用时处于
+     * {@code EntityRenderDispatcher} 交给玩家渲染器的坐标系：原点在脚下加位置偏移，世界单位，未旋转。盲人
      * 视图去掉该身体的附加层时跳过（{@link SparkRoleApi#hidesFeaturesFromBlind}）。其附加层循环闸门已经去掉普通身体的
      * 滑板，因此这里让骑板的猪也不会在盲人的线稿与轮廓中露出滑板。猪形轮廓本身保留（所有者 2026-10-07）。
      */

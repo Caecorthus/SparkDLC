@@ -15,13 +15,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * Guards NoellesRoles' UUID-targeted packets before cooldowns or effects.
  * 在冷却与效果发生前拦截 NoellesRoles 的 UUID 定向数据包。
  * Each receiver is a javac-numbered lambda in {@code registerPackets}, pinned by name and payload
- * descriptor to the NoellesRoles 1.7.6-h1.5.6-spark jar that SparkWitch ships (sha256 fcb0da69...).
+ * descriptor to the NoellesRoles 1.7.6-h1.5.6-spark jar in {@code libs/} (sha256 fcb0da69...).
  * Lambda numbers change between builds, so {@code require = 1} fails loading on a stale selector
- * instead of silently dropping the guard; {@code @Pseudo} still skips this mixin when NoellesRoles is absent.
+ * instead of silently dropping the guard. {@code @Pseudo} would skip this mixin without NoellesRoles; it is a
+ * required dependency now, so that case is unreachable since the fusion.
  * 每个接收器都是 {@code registerPackets} 中由 javac 编号的 lambda，按名称和载荷描述符固定到
- * SparkWitch 随附的 NoellesRoles 1.7.6-h1.5.6-spark（sha256 fcb0da69...）。编号会随构建变化，
- * 因此 {@code require = 1} 让过期选择器在加载时报错，而不是静默丢失拦截；未安装 NoellesRoles 时
- * {@code @Pseudo} 仍会跳过此 mixin。
+ * {@code libs/} 中的 NoellesRoles 1.7.6-h1.5.6-spark（sha256 fcb0da69...）。编号会随构建变化，
+ * 因此 {@code require = 1} 让过期选择器在加载时报错，而不是静默丢失拦截。未安装 NoellesRoles 时
+ * {@code @Pseudo} 会跳过此 mixin；它现在是必需依赖，这种情况融合后不可达。
  */
 @Pseudo
 @Mixin(targets = "org.agmas.noellesroles.Noellesroles", remap = false)

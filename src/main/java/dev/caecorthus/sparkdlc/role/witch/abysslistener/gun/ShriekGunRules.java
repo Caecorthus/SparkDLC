@@ -38,11 +38,11 @@ public final class ShriekGunRules {
      * Pure fire decision (owner rule 2026-10-04, {@link OffMatchUse}): use never checks the role. A spectator is always
      * refused; otherwise {@code useMode} decides (MATCH for a live participant of an ACTIVE round, PRESENTATION for a
      * non-participant or the STARTING/STOPPING transitions, REFUSED for a dead participant or Wraith), and the cooldown
-     * and the SparkTraits weapon-action block apply to every mode. Later seams are consulted only after every earlier
+     * and the trait weapon-action block apply to every mode. Later seams are consulted only after every earlier
      * one passed. A refusal costs nothing.
      * 纯开火判定（所有者 2026-10-04 规则，{@link OffMatchUse}）：使用从不检查职业。旁观者一律拒绝；否则由
      * {@code useMode} 决定（ACTIVE 对局的存活参与者为 MATCH，非参与者或 STARTING/STOPPING 过渡阶段为 PRESENTATION，
-     * 已死亡的参与者或冤魂为 REFUSED），冷却与 SparkTraits 武器动作封锁对每种模式都生效。前序条件全部通过后才查询后续
+     * 已死亡的参与者或冤魂为 REFUSED），冷却与词条武器动作封锁对每种模式都生效。前序条件全部通过后才查询后续
      * 接缝。被拒绝时不产生任何代价。
      */
     public static OffMatchUse.Mode fireMode(boolean spectator, OffMatchUse.Mode useMode,

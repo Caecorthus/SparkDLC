@@ -28,13 +28,13 @@ public final class TimekeeperCounter {
     /**
      * Server-authoritative AFTER listener. Wathe fires AFTER only after {@code onBuy} returned true and the price was
      * debited, and NoellesRoles lists the entry only for the current Timekeeper. The decision is identity-based:
-     * the SparkStrength Coroner copy is excluded by the exact role, the SparkTraits Impostor inversion by the
-     * SparkFactionAPI effective faction. SparkWitch never touches {@code TimekeeperShopHandler$1} or
+     * the Coroner's copied entry is excluded by the exact role, the Impostor trait's inversion by the effective
+     * faction ({@code SparkFactionApi}). This counter never touches {@code TimekeeperShopHandler$1} or
      * {@code addTime} and never measures the time change. Neither the AFTER invoker nor {@code tryBuy} catches
      * exceptions (an escape would skip the shop sync), so any failure is logged once and grants no rescue.
      * 服务端权威的 AFTER 监听器。Wathe 仅在 {@code onBuy} 返回 true 且已扣款后才触发 AFTER，NoellesRoles 也只为当前
-     * 计时员列出该条目。判定完全基于身份：SparkStrength 验尸官的复制条目由精确职业排除，SparkTraits 内鬼的反转由
-     * SparkFactionAPI 有效阵营排除。SparkWitch 从不触碰 {@code TimekeeperShopHandler$1} 或 {@code addTime}，也从不测量
+     * 计时员列出该条目。判定完全基于身份：验尸官的复制条目由精确职业排除，内鬼词条的反转由有效阵营
+     * （{@code SparkFactionApi}）排除。本反制从不触碰 {@code TimekeeperShopHandler$1} 或 {@code addTime}，也从不测量
      * 时间变化。AFTER 调用器与 {@code tryBuy} 都不捕获异常（逃逸会跳过商店同步），因此任何失败只记录一次日志且不救人。
      */
     public static void onPurchase(ServerPlayerEntity buyer, ShopEntry entry, int index, int pricePaid) {

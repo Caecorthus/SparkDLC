@@ -72,11 +72,11 @@ public final class SherryClient {
     }
 
     /**
-     * The local player is 橘雪莉 (raw synced role, never an acting overlay) on a confirmed SparkWitch server in an
+     * The local player is 橘雪莉 (raw synced role, never an acting overlay) on a confirmed SparkDLC server in an
      * ACTIVE round, playing and alive, not an alive spectator (Rift occupant), not creative and not Taotie-swallowed:
      * the client-visible part of the server's {@code SherryDeductionService.mayUse}. Role check first, so every other
      * client leaves at once.
-     * 本地玩家在已确认的 SparkWitch 服务器上是橘雪莉（真实同步身份，绝非扮演覆盖层），回合为 ACTIVE、在局存活，不是存活
+     * 本地玩家在已确认的 SparkDLC 服务器上是橘雪莉（真实同步身份，绝非扮演覆盖层），回合为 ACTIVE、在局存活，不是存活
      * 旁观者（裂隙门内）、创造模式或被饕餮吞下：即服务端 {@code SherryDeductionService.mayUse} 中客户端可见的部分。
      * 先查职业，其他客户端立即返回。
      */

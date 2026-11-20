@@ -20,7 +20,7 @@ import java.util.List;
  * {@code ScavengerBodyHideMixin.hideScavengerBodies}, merged into Wathe's {@code PlayerBodyEntityRenderer} under a
  * per-session unique name ({@code handler$<uid>$noellesroles$hideScavengerBodies}). Mixin selectors need that exact
  * name (regex selectors skip merged methods), and injection points are resolved before any injector runs, so neither
- * the handler nor the call to it can be targeted. SparkFactionAPI's client mixin plugin therefore calls
+ * the handler nor the call to it can be targeted. The mod's client mixin plugin therefore calls
  * {@link #rewrite} from {@code postApply}, after every mixin, NoellesRoles' included, has been applied to that class.
  * The handler is found by its {@code @MixinMerged(mixin = ...)} owner and original name, never by the unique part.
  * <p>
@@ -33,7 +33,7 @@ import java.util.List;
  * 为何改写类节点而非注入：该判定是 {@code ScavengerBodyHideMixin.hideScavengerBodies} 这个 {@code @Inject} 处理器，
  * 以每次会话唯一的名字（{@code handler$<uid>$noellesroles$hideScavengerBodies}）合并进 Wathe 的
  * {@code PlayerBodyEntityRenderer}。Mixin 选择器需要确切名字（正则选择器会跳过合并方法），注入点又在任何注入器运行前
- * 解析，因此处理器本身和对它的调用都无法作为目标。于是由 SparkFactionAPI 客户端 mixin 插件在 {@code postApply}
+ * 解析，因此处理器本身和对它的调用都无法作为目标。于是由本模组的客户端 mixin 插件在 {@code postApply}
  * （该类的所有 mixin，含 NoellesRoles 的，均已应用之后）调用 {@link #rewrite}。处理器按 {@code @MixinMerged(mixin = ...)}
  * 归属和原始名字查找，从不依赖唯一部分。固定到 noellesroles-1.7.6-h1.5.6-spark（sha256 fcb0da69...）：恰好一个这样的
  * 处理器，且每次 {@code getFaction()} 读取都与 {@code Faction.KILLER} 或 {@code Faction.NEUTRAL} 比较。其它形状会抛出异常，

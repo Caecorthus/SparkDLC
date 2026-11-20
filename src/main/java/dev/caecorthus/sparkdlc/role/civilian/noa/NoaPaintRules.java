@@ -21,11 +21,11 @@ public final class NoaPaintRules {
 
     /**
      * Painting gate, checked in order (the Blind Attune set): the real Noa in an ACTIVE round, playing, alive and not a
-     * spectator, not swallowed by a Taotie, not stunned by the Control Expert, not role-skill blocked (SparkTraits),
+     * spectator, not swallowed by a Taotie, not stunned by the Control Expert, not role-skill blocked (SparkTraitsApi),
      * ready; Fear is checked last so its message only appears when the painting would otherwise happen. The Seeker,
      * Riftwalker and Knight duel sessions drop the payload before it gets here.
      * 作画门槛，按顺序检查（与盲人凝神相同）：处于 ACTIVE 回合的真实诺亚，在局存活且不是旁观者，未被饕餮吞下，未被控场专家
-     * 眩晕，未被职业技能封锁（SparkTraits），已就绪；恐惧最后检查，使其提示只在本可作画时出现。搜寻者、隙行者与骑士决斗
+     * 眩晕，未被职业技能封锁（SparkTraitsApi），已就绪；恐惧最后检查，使其提示只在本可作画时出现。搜寻者、隙行者与骑士决斗
      * 会话会在此之前丢弃数据包。
      */
     public static Verdict verdict(boolean noa, boolean roundActive, boolean playingAndAlive, boolean swallowed,

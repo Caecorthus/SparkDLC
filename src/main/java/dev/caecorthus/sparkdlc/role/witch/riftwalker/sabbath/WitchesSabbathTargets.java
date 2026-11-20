@@ -21,20 +21,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Server adapters that feed {@link WitchesSabbathRules}' probes from live state (research/04 §1.2–§1.3). Roles are
- * RAW ({@code GameWorldComponent#getRole}) and the faction is SparkFactionAPI's effective faction through
+ * Server adapters that feed {@link WitchesSabbathRules}' probes from live state (research/04 §1.2–§1.3). Roles are RAW
+ * ({@code GameWorldComponent#getRole}) and the faction is the effective faction through
  * {@link RiftGateUsers#isWitchFaction}, so a disguised Black Raven, an active Wraith or the promoted Curser is never
- * pulled. Other modules are only read through their public queries or SparkWitch's fail-safe compat bridges; the
- * per-tick position holders (Taotie stomach, Last Stand, Knockout control) are skipped because they would undo — or,
- * for Knockout control, break — the pull. Control-Expert-stunned, Hunter-rooted and capture-stunned teammates are pulled
- * and stay held at the landing spot (D19): the stun and the root never anchor a position, and the capture stun's lock
- * point is moved there after the teleport; a capture stun whose lock cannot move is skipped (fail closed).
+ * pulled. Other features are only read through their public queries; the per-tick position holders (Taotie stomach,
+ * Last Stand, Knockout control) are skipped because they would undo — or, for Knockout control, break — the pull.
+ * Control-Expert-stunned, Hunter-rooted and capture-stunned teammates are pulled and stay held at the landing spot
+ * (D19): the stun and the root never anchor a position, and the capture stun's lock point is moved there after the
+ * teleport; a capture stun whose lock cannot move is skipped (fail closed).
  * 以实时状态为 {@link WitchesSabbathRules} 的探针提供输入的服务端适配器（research/04 §1.2–§1.3）。职业取原始职业
- * （{@code GameWorldComponent#getRole}），阵营取经 {@link RiftGateUsers#isWitchFaction} 的 SparkFactionAPI 有效阵营，
- * 因此伪装中的黑羽鸦、激活冤魂与晋升诅咒者永远不会被召集。其他模块只通过其公共查询或 SparkWitch 的安全兼容桥读取；
- * 每 tick 固定位置的状态（饕餮胃、背水一战、迷药控制）会被跳过，因为它们会抵消召集——迷药控制甚至会被召集打断。
- * 被控场专家眩晕、被捕兽夹定住或被捕捉装置眩晕的队友会被召集，并在落点保持原状态（D19）：眩晕与定身从不锚定位置，
- * 捕捉眩晕的锁定点会在传送后移到落点；锁定点无法移动的捕捉眩晕会被跳过（失败即关闭）。
+ * （{@code GameWorldComponent#getRole}），阵营取经 {@link RiftGateUsers#isWitchFaction} 的有效阵营，因此伪装中的黑羽
+ * 鸦、激活冤魂与晋升诅咒者永远不会被召集。其他功能只通过其公共查询读取；每 tick 固定位置的状态（饕餮胃、背水一战、迷药
+ * 控制）会被跳过，因为它们会抵消召集——迷药控制甚至会被召集打断。被控场专家眩晕、被捕兽夹定住或被捕捉装置眩晕的队友会
+ * 被召集，并在落点保持原状态（D19）：眩晕与定身从不锚定位置，捕捉眩晕的锁定点会在传送后移到落点；锁定点无法移动的捕捉眩
+ * 晕会被跳过（失败即关闭）。
  */
 final class WitchesSabbathTargets {
     private WitchesSabbathTargets() {
@@ -98,13 +98,13 @@ final class WitchesSabbathTargets {
 
             @Override
             public boolean captureStunned() {
-                // SparkStrength locks the stunned player's input client-side only. / SparkStrength 只在客户端锁定输入。
+                // The capture stun locks the stunned player's input client-side only. / 捕捉眩晕只在客户端锁定输入。
                 return RiftwalkerStatusProbes.isCaptureStunned(caster);
             }
 
             @Override
             public boolean roleSkillBlocked() {
-                // SparkWitch packets are outside SparkTraits' packet gate, so ask the facade. / SparkWitch 数据包不在 Traits 拦截范围内。
+                // Witch-skill packets are outside the traits' packet gate, so ask SparkTraitsApi. / 魔女技能数据包不在词条拦截范围内。
                 return SparkTraitsApi.isRoleSkillBlocked(caster);
             }
 

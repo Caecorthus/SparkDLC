@@ -8,8 +8,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 /**
- * Extends Wathe's instinct lightmap gate for SparkWitch roles only.
- * 仅为 SparkWitch 指定角色扩展 wathe 本能亮度入口。
+ * Extends Wathe's instinct lightmap gate for chosen roles of this mod only.
+ * 仅为本模组指定角色扩展 wathe 本能亮度入口。
  */
 @Mixin(value = WatheClient.class, remap = false)
 public abstract class WatheClientInstinctLightMixin {

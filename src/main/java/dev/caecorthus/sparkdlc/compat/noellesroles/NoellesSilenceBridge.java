@@ -7,10 +7,10 @@ import org.agmas.noellesroles.silencer.SilencedPlayerComponent;
 
 /**
  * Narrow adapter for NoellesRoles silencing ({@code SilencedPlayerComponent.isPlayerSilenced}); any failure reports
- * "not silenced" and is logged once. It exists so the Time Stealer's silence gate holds even when SparkTraits (whose
- * {@code isRoleSkillBlocked} also covers silenced killers) is absent; it never writes NoellesRoles state.
+ * "not silenced" and is logged once. Role silence gates (first the Time Stealer's) read it directly;
+ * {@code SparkTraitsApi.isRoleSkillBlocked} also covers silenced killers. It never writes NoellesRoles state.
  * NoellesRoles 沉默状态的窄适配器（{@code SilencedPlayerComponent.isPlayerSilenced}）；任何失败都视为“未被沉默”并只记录一次日志。
- * 它的存在使窃时者的沉默判定在 SparkTraits（其 {@code isRoleSkillBlocked} 也覆盖被沉默的杀手）缺失时依然成立；
+ * 职业的沉默判定（最早是窃时者）直接读取它；{@code SparkTraitsApi.isRoleSkillBlocked} 也覆盖被沉默的杀手。
  * 从不写入 NoellesRoles 状态。
  */
 public final class NoellesSilenceBridge {

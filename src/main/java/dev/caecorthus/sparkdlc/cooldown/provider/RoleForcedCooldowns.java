@@ -75,13 +75,13 @@ import static dev.caecorthus.sparkdlc.cooldown.provider.SimpleRoleSkillCooldownS
 import static dev.caecorthus.sparkdlc.cooldown.provider.SimpleRoleSkillCooldownStore.whileActive;
 
 /**
- * Registers SparkWitch's and NoellesRoles' cooldown counters with the SparkFactionAPI forced-cooldown contract
- * ({@code api.cooldown}), so features that force cooldowns on other players (penalties, auras) write them through
+ * Registers the cooldown counters of the mod's own roles and of NoellesRoles with the forced-cooldown contract
+ * ({@code cooldown.api}), so features that force cooldowns on other players (penalties, auras) write them through
  * one monotonic API instead of each counter. Called once from {@code SparkDLC#registerOwnRoleGameplay}. The store order is
  * observable (it is the {@code ForcedCooldowns.slots} order) and must stay stable. NoellesRoles is a hard dependency.
  * Stores that override a {@code RoleSkillCooldownStore} default keep their own class; the others are built here from
  * {@link SimpleRoleSkillCooldownStore}, each with its own round gate and write kind.
- * 将 SparkWitch 与 NoellesRoles 的冷却计数注册到 SparkFactionAPI 强制冷却契约（api.cooldown），使对他人强制冷却的功能
+ * 将本模组职业与 NoellesRoles 的冷却计数注册到强制冷却契约（cooldown.api），使对他人强制冷却的功能
  * （惩罚、光环）经由统一的单调 API 写入，而不是逐个写各计数。由 SparkDLC#registerOwnRoleGameplay 调用一次。存储顺序可观察
  * （即 ForcedCooldowns.slots 的顺序），必须保持稳定。NoellesRoles 是硬依赖。覆盖了 RoleSkillCooldownStore 默认方法的存储
  * 保留各自的类；其余存储在此由 SimpleRoleSkillCooldownStore 构建，各自声明回合门控与写入方式。
@@ -240,12 +240,12 @@ public final class RoleForcedCooldowns {
      * {@code sparkdlc:sphinx_hao_player} component. An ACTIVE round and the raw role (the
      * {@code SphinxHaoSkillService.mayCast} role and round gates). Remaining time counts to the ready tick, so it
      * includes the 60 s opening cooldown; the nominal is the 10 s after an infection. Writes only move the ready tick
-     * later through {@code setInfectReadyTick}. The skill has no item, so SparkFactionAPI's admin {@code clearCooldown}
+     * later through {@code setInfectReadyTick}. The skill has no item, so the admin {@code clearCooldown}
      * (held item only) does not reach it.
      * 狮身豪嘉豪病毒的冷却（2026-11-17），以绝对就绪刻保存在只同步给本人的 {@code sparkdlc:sphinx_hao_player} 组件中。ACTIVE
      * 回合且为真实职业（与 {@code SphinxHaoSkillService.mayCast} 的职业与回合门控一致）。剩余时间计到就绪刻，因此包含 60 秒开局
-     * 冷却；标准冷却为每次感染后的 10 秒。写入只经 {@code setInfectReadyTick} 把就绪刻推后。该技能没有物品，因此 SparkFactionAPI
-     * 的管理员 {@code clearCooldown}（只清手持物品）触及不到它。
+     * 冷却；标准冷却为每次感染后的 10 秒。写入只经 {@code setInfectReadyTick} 把就绪刻推后。该技能没有物品，因此管理员
+     * {@code clearCooldown}（只清手持物品）触及不到它。
      */
     static SimpleRoleSkillCooldownStore sphinxHaoInfect() {
         return SimpleRoleSkillCooldownStore.raisedReadyTick(
@@ -290,12 +290,12 @@ public final class RoleForcedCooldowns {
      * {@code sparkdlc:planner_master_player} component. An ACTIVE round and the raw role (the
      * {@code PlannerRecommendService} role and round gates). Remaining time counts to the ready tick, so it includes
      * the 45 s opening cooldown; the nominal is the 70 s cooldown after a recommendation. Writes only move the ready
-     * tick later through {@code setSkillReadyTick}. The skill has no item, so SparkFactionAPI's admin
+     * tick later through {@code setSkillReadyTick}. The skill has no item, so the admin
      * {@code clearCooldown} (held item only) does not reach it; the task slip writes no item cooldown.
      * 规划大师的推荐冷却（PR #219），以绝对就绪刻保存在只同步给本人的 {@code sparkdlc:planner_master_player} 组件中。
      * ACTIVE 回合且为真实职业（与 PlannerRecommendService 的职业与回合门控一致）。剩余时间计到就绪刻，因此包含 45 秒开局
      * 冷却；标准冷却为每次推荐后的 70 秒。写入只经 {@code setSkillReadyTick} 把就绪刻推后。该技能没有物品，因此
-     * SparkFactionAPI 的管理员 {@code clearCooldown}（只清手持物品）触及不到它；任务单不写物品冷却。
+     * 管理员 {@code clearCooldown}（只清手持物品）触及不到它；任务单不写物品冷却。
      */
     static SimpleRoleSkillCooldownStore plannerRecommend() {
         return SimpleRoleSkillCooldownStore.raisedReadyTick(
@@ -314,13 +314,13 @@ public final class RoleForcedCooldowns {
      * {@code sparkdlc:nikaido_hiro_return} component. An ACTIVE round, the raw role and no running window: the
      * cooldown is written when the window ends, so a running window is never forced (Dominator / Specter / Charon
      * precedent). Remaining time includes the 90 s opening cooldown; the nominal is the 45 s cooldown after the skill
-     * ends. The setter is exact (floored at 0) and syncs the owner. The skill has no item, so SparkFactionAPI's admin
+     * ends. The setter is exact (floored at 0) and syncs the owner. The skill has no item, so the admin
      * {@code clearCooldown} (held item only) does not reach it. The Rope's interrupt cooldown is an item cooldown and
      * goes through the item nominal table instead.
      * 二阶堂希罗的死亡回归冷却（2026-11-11），以倒计时刻数保存在只同步给本人的 {@code sparkdlc:nikaido_hiro_return} 组件中。
      * ACTIVE 回合、真实职业且没有进行中的窗口：冷却在窗口结束时写入，因此进行中的窗口绝不强制（支配者、幽魂、卡戎先例）。剩余
      * 时间包含 90 秒开局冷却；标准冷却为技能结束后的 45 秒。setter 为精确写入（下限为 0）并同步给本人。该技能没有物品，因此
-     * SparkFactionAPI 的管理员 {@code clearCooldown}（只清手持物品）触及不到它。绳索的打断冷却属于物品冷却，改由物品标准冷却表处理。
+     * 管理员 {@code clearCooldown}（只清手持物品）触及不到它。绳索的打断冷却属于物品冷却，改由物品标准冷却表处理。
      */
     static SimpleRoleSkillCooldownStore hiroReturn() {
         return SimpleRoleSkillCooldownStore.exact(
@@ -339,12 +339,12 @@ public final class RoleForcedCooldowns {
      * and round gates). Remaining time counts to the ready tick, so it includes the 60 s opening cooldown and, while
      * she is live, the rest of the stream (the cooldown starts when the stream ends). The nominal is the 45 s cooldown
      * after a stream or a streamed corpse; writes only move the ready tick later through {@code setReadyTick}, so a
-     * running stream is never cut short. The skill has no item, so SparkFactionAPI's admin {@code clearCooldown} (held
+     * running stream is never cut short. The skill has no item, so the admin {@code clearCooldown} (held
      * item only) does not reach it; the lightstick's 30 s is an item cooldown in the item nominal table.
      * 泽渡可可的直播共用冷却（PR #223），以绝对就绪刻保存在只同步给本人的 {@code sparkdlc:koko_player} 组件中。ACTIVE 回合
      * 且为真实职业（与 KokoStreamService 的职业与回合门控一致）。剩余时间计到就绪刻，因此包含 60 秒开局冷却，以及直播期间
      * 尚未走完的直播时间（冷却从直播结束起算）。标准冷却为直播或尸体直播之后的 45 秒；写入只经 {@code setReadyTick} 把就绪刻
-     * 推后，因此绝不打断进行中的直播。该技能没有物品，因此 SparkFactionAPI 的管理员 {@code clearCooldown}（只清手持物品）
+     * 推后，因此绝不打断进行中的直播。该技能没有物品，因此管理员 {@code clearCooldown}（只清手持物品）
      * 触及不到它；应援棒的 30 秒属于物品冷却，由物品标准冷却表处理。
      */
     static SimpleRoleSkillCooldownStore kokoStream() {
@@ -364,11 +364,11 @@ public final class RoleForcedCooldowns {
      * deadline per player and mirrored to the owner's HUD in whole seconds. An ACTIVE round and the raw role (the
      * runtime's role and round gates). Remaining time includes the 45 s opening cooldown; the nominal is the 60 s
      * cooldown after a wrong reasoning (a correct one earns the short 5 s). The setter is exact (0 clears). The skill has
-     * no item, so SparkFactionAPI's admin {@code clearCooldown} (held item only) does not reach it; the neutral master
+     * no item, so the admin {@code clearCooldown} (held item only) does not reach it; the neutral master
      * key's door cooldown is an item cooldown in the item nominal table.
      * 犯罪推理学家的推理冷却（PR #228），由 {@code CriminalReasonerRuntime} 在服务端按玩家保存为服务器刻截止时间，并以整秒同步给
      * 本人 HUD。ACTIVE 回合且为真实职业（与运行期的职业与回合门控一致）。剩余时间包含 45 秒开局冷却；标准冷却为推理错误后的
-     * 60 秒（推理正确只有 5 秒的短冷却）。setter 为精确写入（0 即清除）。该技能没有物品，因此 SparkFactionAPI 的管理员
+     * 60 秒（推理正确只有 5 秒的短冷却）。setter 为精确写入（0 即清除）。该技能没有物品，因此管理员
      * {@code clearCooldown}（只清手持物品）触及不到它；中立万能钥匙的开门冷却属于物品冷却，由物品标准冷却表处理。
      */
     static SimpleRoleSkillCooldownStore criminalReasonerReasoning() {
@@ -389,13 +389,13 @@ public final class RoleForcedCooldowns {
      * use starts). The cooldown starts at the paid act, so a running vote window is unaffected by a forced write. The
      * setter is exact (floored at 0), writes the 通灵 cooldown alone and syncs the owner. 幽灵的加护 has its own
      * cooldown and store ({@link #mediumBlessing()}, store 29); 招魂 has no cooldown and no store. The skill has no
-     * item, so SparkFactionAPI's admin {@code clearCooldown} (held item only) does not reach it.
+     * item, so the admin {@code clearCooldown} (held item only) does not reach it.
      * 通灵师通灵冷却（PR #209），以倒计时刻数保存在只同步给本人的 {@code sparkdlc:medium} 组件中。ACTIVE 回合且为真实职业
      * （与 MediumSkillService.mayUse 的职业与回合门控一致）。剩余时间包含 180 秒开局冷却；标准冷却为付费通灵或幽灵的加护后
      * 进入的、未按档位缩短的 60 秒通灵冷却（任一技能付费使用都会同时开始两个冷却；死亡档位只缩短真实使用进入的冷却）。冷却在
      * 付费动作时开始，因此强制写入不影响进行中的投票窗口。setter 为精确写入（下限为 0），只写通灵冷却并同步给本人。幽灵的加护
      * 有自己的冷却与存储（{@link #mediumBlessing()}，第 29 个存储）；招魂没有冷却，也没有存储。该技能没有物品，因此
-     * SparkFactionAPI 的管理员 {@code clearCooldown}（只清手持物品）触及不到它。
+     * 管理员 {@code clearCooldown}（只清手持物品）触及不到它。
      */
     static SimpleRoleSkillCooldownStore mediumSeance() {
         return SimpleRoleSkillCooldownStore.exact(
@@ -416,13 +416,13 @@ public final class RoleForcedCooldowns {
      * tier only shortens the cooldown a real use starts). The cooldown starts at the paid act (the empty
      * {@code UseMediumBlessingC2SPacket}), so a running vote window is unaffected by a forced write. The setter is
      * exact (floored at 0), writes the 加护 cooldown alone and syncs the owner. The skill has no item, so
-     * SparkFactionAPI's admin {@code clearCooldown} (held item only) does not reach it.
+     * the admin {@code clearCooldown} (held item only) does not reach it.
      * 通灵师幽灵的加护冷却（职业技能 2，2026-11 重做），即只同步给本人的 {@code sparkdlc:medium} 组件中的第二个倒计时刻数。
      * 门控与 {@link #mediumSeance()} 相同：ACTIVE 回合且为真实职业（加护共用的 MediumSkillService.mayUse 职业与回合门控）。
      * 剩余时间包含 300 秒开局冷却；标准冷却为付费通灵或幽灵的加护后进入的、未按档位缩短的 180 秒加护冷却
      * （{@code MediumRules.blessingCooldownAfterUse(0)}：通灵的 60 秒 + 120 秒；死亡档位只缩短真实使用进入的冷却）。冷却在
      * 付费动作（空的 {@code UseMediumBlessingC2SPacket}）时开始，因此强制写入不影响进行中的投票窗口。setter 为精确写入
-     * （下限为 0），只写加护冷却并同步给本人。该技能没有物品，因此 SparkFactionAPI 的管理员 {@code clearCooldown}
+     * （下限为 0），只写加护冷却并同步给本人。该技能没有物品，因此管理员 {@code clearCooldown}
      * （只清手持物品）触及不到它。
      */
     static SimpleRoleSkillCooldownStore mediumBlessing() {
@@ -623,11 +623,11 @@ public final class RoleForcedCooldowns {
      * {@code sparkdlc:black_raven_crow} component. An ACTIVE round, the RAW role (never the disguise overlay) and
      * the two-task unlock. The nominal is the 45 s cooldown that starts when a session ends. The setter is exact
      * (floored at 0). A forced raise during a session keeps running and the session end only ever lengthens it. Raven
-     * Form has no item, so SparkFactionAPI's admin {@code clearCooldown} (held-item only) does not reach it, like the
+     * Form has no item, so the admin {@code clearCooldown} (held-item only) does not reach it, like the
      * Mini Wither toggle.
      * 黑羽鸦化鸦冷却（2026-10-21 计划 §3.6），保存在只同步给本人的 {@code sparkdlc:black_raven_crow} 组件中。ACTIVE 回合、
      * 原始职业（绝不使用伪装覆盖层）并要求已完成两个任务解锁。标准冷却为会话结束后开始的 45 秒。setter 为精确写入（下限为 0）。
-     * 会话期间被强制提高的冷却照常倒数，会话结束只会延长它。化鸦没有物品，因此 SparkFactionAPI 的管理员
+     * 会话期间被强制提高的冷却照常倒数，会话结束只会延长它。化鸦没有物品，因此管理员
      * {@code clearCooldown}（只清手持物品）触及不到它，与小凋灵切换相同。
      */
     static SimpleRoleSkillCooldownStore blackRavenCrow() {
@@ -691,16 +691,16 @@ public final class RoleForcedCooldowns {
      * Dominator is never a Black Raven disguise target, so {@code DominatorSkillService}'s {@code isRole} gate reads
      * the same) and no active mark: the same counter gates the release press, and the mark's end writes the post-mark
      * cooldown, so a running mark is never forced (like the Kidnapper's carried body and a burning Hellfire).
-     * {@code SimpleRoleSkillCooldownStore} has no {@code mayForce}, so that clause sits in the gate; SparkFactionAPI
+     * {@code SimpleRoleSkillCooldownStore} has no {@code mayForce}, so that clause sits in the gate; the registry
      * leaves out a store for which either is false. Remaining time includes the 45 s round-start cooldown; the nominal
      * is the 10 s cooldown after each mark ends. The setter is exact (floored at 0) and syncs the owner. The skill has
-     * no item, so SparkFactionAPI's admin {@code clearCooldown} (held item only) does not reach it, like Raven Form.
+     * no item, so the admin {@code clearCooldown} (held item only) does not reach it, like Raven Form.
      * 支配者 G 键冷却（PR #192），以倒计时刻数保存在只同步给本人的 {@code sparkdlc:dominator} 组件中；它同时拦住标记与
      * 释放。ACTIVE 回合、真实职业（支配者不可能是黑羽鸦的伪装目标，因此 DominatorSkillService 的 isRole 门控读到的相同）
      * 且没有进行中的标记：同一计数也拦着释放键，且标记结束时会写入标记后冷却，因此进行中的标记绝不强制（与绑架者携尸、
-     * 业火燃烧相同）。SimpleRoleSkillCooldownStore 没有 mayForce，因此该条件放在门控中；二者任一为假时 SparkFactionAPI
+     * 业火燃烧相同）。SimpleRoleSkillCooldownStore 没有 mayForce，因此该条件放在门控中；二者任一为假时注册表
      * 都会略过该存储。剩余时间包含 45 秒回合初始冷却；标准冷却为每次标记结束后的 10 秒。setter 为精确写入（下限为 0）并
-     * 同步给本人。该技能没有物品，因此 SparkFactionAPI 的管理员 {@code clearCooldown}（只清手持物品）触及不到它，与化鸦相同。
+     * 同步给本人。该技能没有物品，因此管理员 {@code clearCooldown}（只清手持物品）触及不到它，与化鸦相同。
      */
     static SimpleRoleSkillCooldownStore dominatorSkill() {
         return SimpleRoleSkillCooldownStore.exact(
@@ -719,11 +719,11 @@ public final class RoleForcedCooldowns {
      * and the raw role (she is never a Black Raven disguise target). Remaining time counts to the ready tick, so it
      * includes the 60 s opening cooldown; the nominal is the 90 s cooldown after each cast. Every write only moves the
      * ready tick later through {@code setCooldownReadyTick}, which syncs the shown second to the owner. The skill has no
-     * item, so SparkFactionAPI's admin {@code clearCooldown} (held item only) does not reach it.
+     * item, so the admin {@code clearCooldown} (held item only) does not reach it.
      * 夏目安安催眠冷却（PR #194），以绝对就绪刻保存在只同步给本人的 {@code sparkdlc:natsume_anan_player} 组件中。与
      * NatsumeService 的职业与回合门控一致：ACTIVE 回合且为真实职业（她不可能是黑羽鸦的伪装目标）。剩余时间计到就绪刻，因此包含
      * 60 秒开局冷却；标准冷却为每次施放后的 90 秒。每次写入都只经 {@code setCooldownReadyTick} 把就绪刻推后（并把显示秒数同步给
-     * 本人）。该技能没有物品，因此 SparkFactionAPI 的管理员 {@code clearCooldown}（只清手持物品）触及不到它。
+     * 本人）。该技能没有物品，因此管理员 {@code clearCooldown}（只清手持物品）触及不到它。
      */
     static SimpleRoleSkillCooldownStore natsumeHypnosis() {
         return SimpleRoleSkillCooldownStore.raisedReadyTick(
@@ -743,12 +743,12 @@ public final class RoleForcedCooldowns {
      * Specter is never a Black Raven disguise target, as for {@code SpecterRules.mayCast}) and no active mark: the same
      * counter gates the shriek press and an expired mark costs nothing, so a running mark is never forced (Dominator
      * precedent). Remaining time includes the 45 s round-start cooldown; the nominal is the 45 s cooldown after each
-     * shriek. The setter is exact (floored at 0) and syncs the owner. The skill has no item, so SparkFactionAPI's admin
+     * shriek. The setter is exact (floored at 0) and syncs the owner. The skill has no item, so the admin
      * {@code clearCooldown} (held item only) does not reach it.
      * 幽魂技能一冷却（PR #207），以倒计时刻数保存在只同步给本人的 {@code sparkdlc:specter} 组件中；它同时拦住标记与尖啸。
      * ACTIVE 回合、真实职业（幽魂不可能是黑羽鸦的伪装目标，与 SpecterRules.mayCast 一致）且没有进行中的标记：同一计数也拦着
      * 尖啸键，且标记自然过期不进冷却，因此进行中的标记绝不强制（支配者先例）。剩余时间包含 45 秒回合初始冷却；标准冷却为每次
-     * 尖啸后的 45 秒。setter 为精确写入（下限为 0）并同步给本人。该技能没有物品，因此 SparkFactionAPI 的管理员
+     * 尖啸后的 45 秒。setter 为精确写入（下限为 0）并同步给本人。该技能没有物品，因此管理员
      * {@code clearCooldown}（只清手持物品）触及不到它。
      */
     static SimpleRoleSkillCooldownStore specterSkill() {
@@ -769,12 +769,12 @@ public final class RoleForcedCooldowns {
      * window plus the cooldown that starts when it ends. The nominal is that 120 s post-window cooldown. The setter
      * only ever lengthens and syncs the owner; during a window the forced time is held as the pending post-window
      * cooldown, so a running Otherworld is never cut short and the penalty still lands when it ends (as the witch-skill
-     * deferred cooldown). The skill has no item, so SparkFactionAPI's admin {@code clearCooldown} (held item only)
+     * deferred cooldown). The skill has no item, so the admin {@code clearCooldown} (held item only)
      * does not reach it.
      * 幽魂里世界（技能二，PR #207），以倒计时刻数保存在只同步给本人的 {@code sparkdlc:specter_second_skill} 组件中。ACTIVE
      * 回合且为真实职业（幽魂不可能是黑羽鸦的伪装目标）。剩余时间包含 120 秒解锁；在 30 秒窗口期间为剩余窗口加上窗口结束时开始的
      * 冷却。标准冷却即该 120 秒窗口后冷却。setter 只会延长并同步本人；窗口期间被强制的时间作为挂起的窗口后冷却保存，因此进行中的
-     * 里世界绝不会被提前结束，惩罚仍在窗口结束时生效（与魔女技能的延后冷却相同）。该技能没有物品，因此 SparkFactionAPI 的管理员
+     * 里世界绝不会被提前结束，惩罚仍在窗口结束时生效（与魔女技能的延后冷却相同）。该技能没有物品，因此管理员
      * {@code clearCooldown}（只清手持物品）触及不到它。
      */
     static SimpleRoleSkillCooldownStore specterOtherworld() {
@@ -793,11 +793,11 @@ public final class RoleForcedCooldowns {
      * raw role; and no running domain, because the cast already wrote the post-cast cooldown and a running domain is
      * never forced (the Dominator's running mark precedent). Remaining time includes the 60 s round-start cooldown; the
      * nominal is the 60 s cooldown after each cast. The setter is exact (floored at 0) and syncs the owner. The skill
-     * has no item, so SparkFactionAPI's admin {@code clearCooldown} (held item only) does not reach it.
+     * has no item, so the admin {@code clearCooldown} (held item only) does not reach it.
      * 救世主 G 领域冷却（PR #200），以倒计时刻数保存在只同步给本人的 {@code sparkdlc:savior} 组件中。与
      * SaviorDomainService 的职业与回合门控一致：ACTIVE 回合且为真实职业；并且没有进行中的领域，因为施放时已写入施放后冷却，
      * 进行中的领域绝不强制（沿用支配者进行中标记的先例）。剩余时间包含 60 秒开局冷却；标准冷却为每次施放后的 60 秒。setter
-     * 为精确写入（下限为 0）并同步给本人。该技能没有物品，因此 SparkFactionAPI 的管理员 {@code clearCooldown}（只清手持物品）
+     * 为精确写入（下限为 0）并同步给本人。该技能没有物品，因此管理员 {@code clearCooldown}（只清手持物品）
      * 触及不到它。
      */
     static SimpleRoleSkillCooldownStore saviorDomain() {
@@ -818,12 +818,12 @@ public final class RoleForcedCooldowns {
      * window: a press inside the window writes the post-pardon cooldown, so a running window is never forced
      * (Dominator / Specter precedent). Remaining time includes the 60 s round-start cooldown; the nominal is the 5 s
      * cooldown after each successful block (not the 15 s whiff). The setter is exact (floored at 0) and syncs the owner. The skill has no item, so
-     * SparkFactionAPI's admin {@code clearCooldown} (held item only) does not reach it; forced raises and extends
+     * the admin {@code clearCooldown} (held item only) does not reach it; forced raises and extends
      * on role skills (the Abyss Listener's suppression, the Potion Gunner's AC shell) do.
      * 卡戎宽恕冷却（PR #202），以倒计时刻数保存在只同步给本人的 {@code sparkdlc:ferryman} 组件中；它决定致命一击能否开启
      * 宽恕窗口。ACTIVE 回合、真实职业（与 FerrymanParticipation 的读取方式一致，伪装覆盖层绝不放宽）且没有开启的窗口：窗口内
      * 按键会写入宽恕后冷却，因此进行中的窗口绝不强制（支配者、幽魂先例）。剩余时间包含 60 秒开局冷却；标准冷却为每次成功格挡后的
-     * 5 秒（不是空放的 15 秒）。setter 为精确写入（下限为 0）并同步给本人。该技能没有物品，因此 SparkFactionAPI 的管理员 {@code clearCooldown}
+     * 5 秒（不是空放的 15 秒）。setter 为精确写入（下限为 0）并同步给本人。该技能没有物品，因此管理员 {@code clearCooldown}
      * （只清手持物品）触及不到它；作用于职业技能的强制抬高与延长（聆渊者压制、药炮手 AC 弹）可以。
      */
     static SimpleRoleSkillCooldownStore ferrymanPardon() {
@@ -841,10 +841,10 @@ public final class RoleForcedCooldowns {
      * The Charon's ferry cooldown (Role Skill 2, PR #202), kept as a counting-down tick total in the owner-synced
      * {@code sparkdlc:ferryman} component. An ACTIVE round and the raw role. It starts at 0 each round; the nominal
      * is the 5 s cooldown after each successful ferry. The setter is exact (floored at 0) and syncs the owner. The skill
-     * has no item, so SparkFactionAPI's admin {@code clearCooldown} (held item only) does not reach it.
+     * has no item, so the admin {@code clearCooldown} (held item only) does not reach it.
      * 卡戎摆渡冷却（职业技能 2，PR #202），以倒计时刻数保存在只同步给本人的 {@code sparkdlc:ferryman} 组件中。ACTIVE 回合且为
      * 真实职业。每局从 0 开始；标准冷却为每次成功摆渡后的 5 秒。setter 为精确写入（下限为 0）并同步给本人。该技能没有物品，因此
-     * SparkFactionAPI 的管理员 {@code clearCooldown}（只清手持物品）触及不到它。
+     * 管理员 {@code clearCooldown}（只清手持物品）触及不到它。
      */
     static SimpleRoleSkillCooldownStore ferrymanFerry() {
         return SimpleRoleSkillCooldownStore.exact(
@@ -862,12 +862,12 @@ public final class RoleForcedCooldowns {
      * ACTIVE round and the real Hanna. Remaining time counts to the ready tick, so it includes the 40 s round-start
      * cooldown and, while she floats, the rest of the float (the cooldown starts when the float ends). The nominal is
      * the 45 s cooldown after a float; writes only move the ready tick later through {@code setFloatReadyTick}, so a
-     * running float is never cut short. The skill has no item, so SparkFactionAPI's admin {@code clearCooldown} (held
+     * running float is never cut short. The skill has no item, so the admin {@code clearCooldown} (held
      * item only) does not reach it.
      * 远野汉娜浮游冷却（PR #212），以绝对就绪刻保存在 {@code sparkdlc:hanna_player} 组件中（就绪刻只同步给本人）。与
      * HannaFloatService 的职业与回合门控一致：ACTIVE 回合且为真实汉娜。剩余时间计到就绪刻，因此包含 40 秒开局冷却，以及
      * 浮游期间尚未走完的浮游时间（冷却从浮游结束起算）。标准冷却为浮游结束后的 45 秒；写入只经 {@code setFloatReadyTick}
-     * 把就绪刻推后，因此绝不打断进行中的浮游。该技能没有物品，因此 SparkFactionAPI 的管理员 {@code clearCooldown}
+     * 把就绪刻推后，因此绝不打断进行中的浮游。该技能没有物品，因此管理员 {@code clearCooldown}
      * （只清手持物品）触及不到它。
      */
     static SimpleRoleSkillCooldownStore hannaFloat() {
@@ -886,11 +886,11 @@ public final class RoleForcedCooldowns {
      * 橘雪莉's 推演 cooldown (PR #206), kept as counting-down ticks in the owner-synced {@code sparkdlc:sherry}
      * component. An ACTIVE round and the raw role (the {@code SherryDeductionService.mayUse} role and round gates). The
      * remaining time includes the 45 s opening cooldown; the nominal is the 30 s cooldown after a paid deduction. The
-     * setter is exact (floored at 0) and syncs the owner. The skill has no item, so SparkFactionAPI's admin
+     * setter is exact (floored at 0) and syncs the owner. The skill has no item, so the admin
      * {@code clearCooldown} (held item only) does not reach it.
      * 橘雪莉推演冷却（PR #206），以倒计时刻数保存在只同步给本人的 {@code sparkdlc:sherry} 组件中。ACTIVE 回合且为真实职业
      * （与 SherryDeductionService.mayUse 的职业与回合门控一致）。剩余时间包含 45 秒开局冷却；标准冷却为付费推演后的 30 秒。
-     * setter 为精确写入（下限为 0）并同步给本人。该技能没有物品，因此 SparkFactionAPI 的管理员 {@code clearCooldown}
+     * setter 为精确写入（下限为 0）并同步给本人。该技能没有物品，因此管理员 {@code clearCooldown}
      * （只清手持物品）触及不到它。
      */
     static SimpleRoleSkillCooldownStore sherryDeduction() {

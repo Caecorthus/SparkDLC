@@ -6,7 +6,7 @@ import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.network.packet.CustomPayload;
 
-/** SparkWitch-owned replay of Wathe's role-opening presentation. */
+/** The mod's own replay of Wathe's role-opening presentation. */
 public record WraithRoleAnnouncementS2CPacket(
         String roleId,
         int killers,

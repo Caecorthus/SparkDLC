@@ -30,7 +30,7 @@ import java.util.UUID;
 /**
  * 给 Wathe 的受限背包界面追加大嗓门“点亮玩家”头像栏。
  *
- * <p>这里不修改 NoellesRolesspark 本体，而是在 SparkStrength 里单独混入
+ * <p>这里不修改 NoellesRolesspark 本体，而是在本模组里单独混入
  * {@link LimitedInventoryScreen}。所有字段和方法都使用 {@code sparkdlc$noisemaker}
  * 前缀，避免和其它扩展 mod 也混同一个背包界面时发生名字碰撞。</p>
  */

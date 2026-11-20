@@ -16,7 +16,7 @@ public final class DetectiveCaseRules {
     public static final int MIN_SUSPECT_LIMIT = 1;
     public static final int MAX_SUSPECT_LIMIT = 4;
     public static final int DEFAULT_SUSPECT_LIMIT = 3;
-    // 15 s before SparkTraits Fast Hands; always applied as a server-side vanilla item cooldown.
+    // 15 s before the Fast Hands trait; always applied as a server-side vanilla item cooldown.
     // 15 秒（快手特质生效前）；只在服务端作为原版物品冷却设置。
     public static final int MAGNIFIER_COOLDOWN_TICKS = 300;
     public static final int MAX_CASES = 32;
@@ -45,9 +45,9 @@ public final class DetectiveCaseRules {
     }
 
     /**
-     * Role picker bands, in display order. Witch faction and Team Jiahao have their own bands since SparkFactionAPI
+     * Role picker bands, in display order. Witch faction and Team Jiahao have their own bands since the faction core
      * made them native Wathe factions (they no longer read as {@code isNeutral()}).
-     * 身份选择浮层的分组，按显示顺序。SparkFactionAPI 将魔女阵营与嘉豪阵营设为原生 Wathe 阵营后（不再是 isNeutral()），
+     * 身份选择浮层的分组，按显示顺序。阵营核心将魔女阵营与嘉豪阵营设为原生 Wathe 阵营后（不再是 isNeutral()），
      * 两者各自成组。
      */
     public enum RolePickerBand {
@@ -62,11 +62,11 @@ public final class DetectiveCaseRules {
     }
 
     /**
-     * The picker band of a role: killers first, then the role-only SparkFactionAPI base faction (witch faction, Team
-     * Jiahao), then neutral-aligned, else innocents. Without a faction answer both faction flags are false, so the
-     * old neutral/innocent split applies.
-     * 身份所属分组：先看杀手，再看 SparkFactionAPI 仅由身份决定的基础阵营（魔女阵营、嘉豪阵营），再看是否与中立对齐，
-     * 否则为平民。拿不到阵营时两个阵营标记都为 false，沿用原来的中立/平民划分。
+     * The picker band of a role: killers first, then the role-only base faction of {@code SparkFactionApi} (witch
+     * faction, Team Jiahao), then neutral-aligned, else innocents. For any other base faction both faction flags are
+     * false, so the old neutral/innocent split applies.
+     * 身份所属分组：先看杀手，再看 SparkFactionApi 仅由身份决定的基础阵营（魔女阵营、嘉豪阵营），再看是否与中立对齐，
+     * 否则为平民。基础阵营为其他阵营时两个阵营标记都为 false，沿用原来的中立/平民划分。
      */
     public static RolePickerBand rolePickerBand(boolean canUseKiller, boolean witchFaction, boolean jiahaoFaction,
                                                 boolean neutralAligned) {
@@ -147,10 +147,10 @@ public final class DetectiveCaseRules {
      * Whether a remote target answers with a distance. They need a kill-time position, must not be the case's victim,
      * real or displayed (a real victim stands at the origin; the living owner of a fake body, or the living player a
      * disguised body shows, must answer the same way or the fake would show), and must not be shielded by a
-     * SparkFactionAPI player-affect policy: a shielded target answers like an absent one, so the protection itself
-     * stays hidden.
+     * {@code SparkFactionApi} player-affect policy: a shielded target answers like an absent one, so the protection
+     * itself stays hidden.
      * 远程目标能否给出距离：须有案发时位置；不能是本案受害人（真实或显示的均算：真实受害人就在原点；假尸体的存活主人、
-     * 伪装尸体所显示的存活玩家都必须给出相同回应，否则会暴露伪装）；也不能受 SparkFactionAPI 玩家影响策略保护：
+     * 伪装尸体所显示的存活玩家都必须给出相同回应，否则会暴露伪装）；也不能受 SparkFactionApi 玩家影响策略保护：
      * 受保护的目标按不在场回应，保护本身不外露。
      */
     public static boolean answersWithDistance(boolean hadKillTimePosition, boolean isCaseVictim, boolean shielded) {
@@ -222,10 +222,10 @@ public final class DetectiveCaseRules {
 
     /**
      * Picks the uuid a suspect is DISPLAYED as. Precedence mirrors the client appearance order: NoellesRoles morph,
-     * then SparkStrength morph reagent, then Coroner body disguise (checked last on purpose), else the real uuid.
+     * then the morph reagent, then Coroner body disguise (checked last on purpose), else the real uuid.
      * The first ACTIVE source wins even if it names the player themself (no fall-through). Returns null only when
      * {@code realUuid} is null and no source applies.
-     * 选择嫌疑人“显示成谁”：Noelles 变形 > SparkStrength 试剂 > 验尸官伪装（刻意最后判断）> 真实身份；
+     * 选择嫌疑人“显示成谁”：Noelles 变形 > 变形试剂 > 验尸官伪装（刻意最后判断）> 真实身份；
      * 第一个生效的来源即决定结果，即使它指向本人也不再向下回退。
      */
     public static @Nullable UUID pickDisplayedUuid(UUID realUuid,

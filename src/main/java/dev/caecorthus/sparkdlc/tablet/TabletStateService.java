@@ -229,9 +229,9 @@ public final class TabletStateService {
         }
         ServerWorld world = sender.getServerWorld();
         TabletWorldComponent tablet = TabletWorldComponent.KEY.get(world);
-        // The admin-set send interval (/sparkStrength:tabletChatInterval). The client already waits it out, so this only
+        // The admin-set send interval (/sparkdlc:tabletChatInterval). The client already waits it out, so this only
         // stops a client that does not; the resync hands it the deadline.
-        // 管理员设置的发送间隔（/sparkStrength:tabletChatInterval）。客户端本身会等待，因此这里只拦下不等待的客户端；重新同步把截止
+        // 管理员设置的发送间隔（/sparkdlc:tabletChatInterval）。客户端本身会等待，因此这里只拦下不等待的客户端；重新同步把截止
         // 时间交给它。
         int waitTicks = tablet.chatCooldownTicks(sender.getUuid(), world.getTime());
         if (TabletRules.chatSendTooEarly(waitTicks, tablet.chatIntervalTicks())) {

@@ -66,15 +66,15 @@ public final class PerfumerFeatureService {
                 return null;
             }
         } else if (target instanceof PlayerBodyEntity body) {
-            // Distance first: a corpse out of every outline range skips the hidden-body lookup, the reflective
-            // SparkStrength call and the raycast below. Each check alone still refuses, so the result is unchanged.
-            // 先判断距离：超出所有轮廓范围的尸体跳过隐藏尸体查询、对 SparkStrength 的反射调用以及下方的射线检测。每个条件
+            // Distance first: a corpse out of every outline range skips the hidden-body lookup, the Partygoer
+            // corpse check and the raycast below. Each check alone still refuses, so the result is unchanged.
+            // 先判断距离：超出所有轮廓范围的尸体跳过隐藏尸体查询、派对客尸体判断以及下方的射线检测。每个条件
             // 单独仍会拒绝，因此结果不变。
             double squaredDistance = viewer.squaredDistanceTo(body);
             if (!PerfumerRules.canOutlineAtDistance(squaredDistance)) {
                 return null;
             }
-            // A killed SparkStrength Partygoer is no passenger's body. / 被打死的 SparkStrength 派对客不是乘客的尸体。
+            // A killed Partygoer is no passenger's body. / 被打死的派对客不是乘客的尸体。
             if (NoellesHiddenBodiesBridge.isHidden(viewer.getWorld(), body.getPlayerUuid())
                     || PartygoerCorpseComponent.isPartygoerCorpse(body)) {
                 return null;

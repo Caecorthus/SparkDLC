@@ -148,7 +148,7 @@ public final class MorphlingAppearanceClientHelper {
         }
 
         /*
-         * 验尸官的尸体身份变形优先级最低：只有原 Morphling 和 SparkStrength 变形试剂都没生效，
+         * 验尸官的尸体身份变形优先级最低：只有原 Morphling 和本模组的变形试剂都没生效，
          * 才使用验尸官自己的长期变形，满足“低于变形怪增强机制”的需求。
          */
         UUID coronerDisguiseUuid = CoronerService.activeDisguiseUuid(player);

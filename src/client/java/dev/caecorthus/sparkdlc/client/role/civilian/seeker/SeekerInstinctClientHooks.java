@@ -17,12 +17,12 @@ import org.jetbrains.annotations.Nullable;
  * Client seam: Wathe {@link GetInstinctHighlight} listener for Seeker devices only (plan §3.15). Priority
  * {@code SUPPRESSION_PRIORITY - 1}, the same slot as Hunter traps, so fear/obscure suppression still wins. The owner
  * sees their own car with an always-on dim outline; instinct viewers get a key-gated outline, which keeps the CE
- * Disruptor gate and the SparkAssist instinct toggle in force because both act on Wathe's keyed instinct check.
+ * Disruptor gate and the instinct toggle setting in force because both act on Wathe's keyed instinct check.
  * Cameras are explicitly never outlined. Ownership is read from the owner-only synced car entity id, never from the
  * entity (device owners are server-only).
  * 客户端接缝：仅针对搜寻者设备的 Wathe {@link GetInstinctHighlight} 监听器（计划 §3.15）。优先级为
  * {@code SUPPRESSION_PRIORITY - 1}，与猎人陷阱相同，因此恐惧/遮蔽压制仍然优先。拥有者对自己的小车看到常亮暗色描边；
- * 有本能的观察者得到按键描边，控场专家干扰器与 SparkAssist 本能切换都作用于 Wathe 的按键本能判定，因此依旧生效。
+ * 有本能的观察者得到按键描边，控场专家干扰器与本能切换设置都作用于 Wathe 的按键本能判定，因此依旧生效。
  * 摄像头明确从不描边。归属只读取仅同步给拥有者的小车实体 id，从不读取实体本身（设备拥有者仅存在于服务端）。
  */
 public final class SeekerInstinctClientHooks {
@@ -61,8 +61,8 @@ public final class SeekerInstinctClientHooks {
 
     private static boolean hasInstinct(ClientPlayerEntity viewer) {
         Role role = GameWorldComponent.KEY.get(viewer.getWorld()).getRole(viewer);
-        // isKiller() already counts SparkTraits Impostors (it reads canUseKillerFeatures).
-        // isKiller() 已包含 SparkTraits 内鬼（它读取 canUseKillerFeatures）。
+        // isKiller() already counts Impostor-trait holders (it reads canUseKillerFeatures).
+        // isKiller() 已包含带内鬼特质的玩家（它读取 canUseKillerFeatures）。
         return SeekerInstinctRules.hasInstinct(WatheClient.isPlayerPlayingAndAlive(), WatheClient.isKiller(),
                 WatheClient.canSeeSpectatorInformation(), role == null ? null : role.identifier());
     }

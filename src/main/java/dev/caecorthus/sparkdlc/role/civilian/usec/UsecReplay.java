@@ -35,10 +35,11 @@ public final class UsecReplay {
     static final String PENETRATED_KEY = "penetrated";
     static final String PUNISHMENT_KEY = "punishment";
     /**
-     * Achievement record contract W1 (2026-10-09), read by SparkAssist: path distance in blocks to the player the shot
-     * hit (only on a player hit) and the shooter's server-side scope state when firing. No replay line reads them.
-     * 成就记录契约 W1（2026-10-09），由 SparkAssist 读取：沿弹道到被命中玩家的路径距离（方块，仅命中玩家时写入），以及开火时
-     * 射手的服务端开镜状态。回放行不读取它们。
+     * Achievement record contract W1 (2026-10-09), read by the achievement rules ({@code achievement.KillRules}): path
+     * distance in blocks to the player the shot hit (only on a player hit) and the shooter's server-side scope state
+     * when firing. No replay line reads them.
+     * 成就记录契约 W1（2026-10-09），由成就规则（{@code achievement.KillRules}）读取：沿弹道到被命中玩家的路径距离
+     * （方块，仅命中玩家时写入），以及开火时射手的服务端开镜状态。回放行不读取它们。
      */
     static final String DISTANCE_KEY = "distance";
     static final String SCOPED_KEY = "scoped";

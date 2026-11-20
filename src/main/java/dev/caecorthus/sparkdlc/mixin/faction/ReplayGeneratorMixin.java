@@ -27,9 +27,9 @@ import java.util.UUID;
 /**
  * Adapter for Wathe's end-of-round replay. Wathe runs {@code generateAndSend} synchronously from
  * {@code GameRecordManager.endMatch}, before players and roles are reset, so the whole generation is wrapped in a
- * thread-local session that every add-on formatter reaches through the shared static {@code formatPlayerName}.
+ * thread-local session that every registered formatter reaches through the shared static {@code formatPlayerName}.
  * Wathe 局末回放的适配器。Wathe 在 {@code GameRecordManager.endMatch} 中同步执行 {@code generateAndSend}，
- * 早于玩家与身份重置；因此整个生成过程被包在线程内会话中，所有附属模组的格式化器经由共享的静态
+ * 早于玩家与身份重置；因此整个生成过程被包在线程内会话中，所有已注册的格式化器经由共享的静态
  * {@code formatPlayerName} 进入该会话。
  */
 @Mixin(value = ReplayGenerator.class, remap = false)
@@ -99,9 +99,9 @@ public abstract class ReplayGeneratorMixin {
             GameRecordManager.MatchRecord match,
             CallbackInfoReturnable<Map<UUID, ReplayGenerator.PlayerInfo>> cir
     ) {
-        // Covers both generateAndSend and the public getPlayerInfoCache, which add-on formatters call per event
+        // Covers both generateAndSend and the public getPlayerInfoCache, which registered formatters call per event
         // and which otherwise rescans every record event each time.
-        // 同时覆盖 generateAndSend 与公开的 getPlayerInfoCache；附属格式化器每个事件都会调用后者，原实现每次都重扫全部事件。
+        // 同时覆盖 generateAndSend 与公开的 getPlayerInfoCache；已注册的格式化器每个事件都会调用后者，原实现每次都重扫全部事件。
         Map<UUID, ReplayGenerator.PlayerInfo> cached = ReplayPresentation.sessionPlayerInfo(match);
         if (cached != null) {
             cir.setReturnValue(cached);

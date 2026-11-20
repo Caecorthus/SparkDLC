@@ -24,20 +24,20 @@ import org.jetbrains.annotations.Nullable;
  * <ul>
  *   <li>Start: the balance is overwritten with {@link UsecRules#INITIAL_MONEY} for every living final USEC at
  *   {@code ON_FINISH_INITIALIZE}, in a phase after the default one, like the Seeker. Roles are final by then
- *   (SparkTraits Conscience compensation rewrites them during role assignment, before the roles are announced). The round-start
- *   loadout never writes the balance.</li>
- *   <li>Tasks: +{@link UsecRules#TASK_REWARD}, never for a SparkTraits Impostor or an unknown answer (SparkTraits pays
- *   an Impostor's task income itself), Control Expert semantics.</li>
+ *   (the Conscience trait's compensation rewrites them during role assignment, before the roles are announced). The
+ *   round-start loadout never writes the balance.</li>
+ *   <li>Tasks: +{@link UsecRules#TASK_REWARD}, never for an Impostor-trait holder or an unknown answer (the Impostor
+ *   trait pays its holder's task income itself), Control Expert semantics.</li>
  *   <li>Passive: +{@link UsecRules#PASSIVE_INCOME} on the same world tick as Wathe's killer ticker
  *   ({@code getTime() % interval == 0}) with no balance cap, to every earning USEC (Impostor or not: no other system
  *   pays a USEC passive income).</li>
  * </ul>
  * 归 WP1 所有：初始金币、任务收入与不设上限的被动收入（Q1/Q1+、D11）。由 {@link UsecFeatureService#register()} 调用一次。
  * 只有服务端写入余额；客户端只读取 {@code CanSeeMoney}。
- * 开局：在 {@code ON_FINISH_INITIALIZE} 默认阶段之后的阶段，与搜寻者一样（此时身份已是最终身份：SparkTraits 良心补偿在分配
+ * 开局：在 {@code ON_FINISH_INITIALIZE} 默认阶段之后的阶段，与搜寻者一样（此时身份已是最终身份：良心词条的补偿在分配
  * 职业期间、公布身份之前就已改写身份），
  * 把每名存活的最终 USEC 的余额覆盖为 {@link UsecRules#INITIAL_MONEY}；开局装备流程从不写余额。
- * 任务：+{@link UsecRules#TASK_REWARD}，SparkTraits 内鬼或无法判定时不发（内鬼任务收入由 SparkTraits 自行支付），沿用控场专家语义。
+ * 任务：+{@link UsecRules#TASK_REWARD}，内鬼词条持有者或无法判定时不发（内鬼任务收入由内鬼词条自行支付），沿用控场专家语义。
  * 被动：与 Wathe 杀手计时器同一世界刻（{@code getTime() % interval == 0}）发放 +{@link UsecRules#PASSIVE_INCOME}，
  * 不设余额上限，发给每名可获得收入的 USEC（无论是否内鬼：没有其他系统给 USEC 发被动收入）。
  */
@@ -95,15 +95,17 @@ public final class UsecEconomyService {
     // ---- Tasks ----
 
     static void onTaskComplete(ServerPlayerEntity player) {
-        // SparkTraits is fused into SparkDLC: always loaded. / SparkTraits 已融合进 SparkDLC：恒为已加载。
+        // Traits are part of this mod: traitsLoaded is always true. / 词条属于本模组：traitsLoaded 恒为 true。
         if (canEarn(player) && receivesTaskMoney(true, UsecEconomyTraitsProbe.isImpostor(player))) {
             PlayerShopComponent.KEY.get(player).addToBalance(UsecRules.TASK_REWARD);
         }
     }
 
     /**
-     * SparkTraits absent → pay; present → pay only on a confirmed non-Impostor (unknown fails closed).
-     * 未安装 SparkTraits → 发放；已安装 → 仅在确认不是内鬼时发放（无法确认时不发放）。
+     * {@code traitsLoaded} false → pay (unreachable since the fusion: the only caller passes true); true → pay only on
+     * a confirmed non-Impostor (unknown fails closed).
+     * {@code traitsLoaded} 为 false → 发放（融合后不可达：唯一调用方恒传 true）；为 true → 仅在确认不是内鬼时发放
+     * （无法确认时不发放）。
      */
     static boolean receivesTaskMoney(boolean traitsLoaded, @Nullable Boolean impostor) {
         return !traitsLoaded || Boolean.FALSE.equals(impostor);
@@ -114,9 +116,9 @@ public final class UsecEconomyService {
     /**
      * Pays every earning USEC on Wathe's passive-money ticks. END_WORLD_TICK sees the same {@code getTime()} as
      * Wathe's game loop in that world tick, so both payouts land on the same tick. Uses {@code addToBalance}, so income
-     * observers (e.g. SparkTraits Snowball) see it as ordinary income; never compared with a balance cap.
+     * observers (e.g. the Snowball trait) see it as ordinary income; never compared with a balance cap.
      * 在 Wathe 被动金币刻给每名可获得收入的 USEC 发钱。END_WORLD_TICK 与同一世界刻内 Wathe 游戏循环读到的
-     * {@code getTime()} 相同，因此两者在同一刻发放。使用 {@code addToBalance}，收入观察者（如 SparkTraits 滚雪球）
+     * {@code getTime()} 相同，因此两者在同一刻发放。使用 {@code addToBalance}，收入观察者（如滚雪球词条）
      * 视其为普通收入；从不与余额上限比较。
      */
     static void tickPassiveIncome(ServerWorld world) {
@@ -178,12 +180,12 @@ public final class UsecEconomyService {
      * For the exact USEC role: DENY once it is dead (the Insider precedent), ALLOW while playing and alive, otherwise
      * no answer as before. The explicit DENY is needed because with no answer Wathe falls back to
      * {@code ShopUtils.canAccessShop}, and the USEC shop is built from the role alone, so a dead USEC kept the coin HUD.
-     * A USEC that is not dead but not playing (the round still STARTING, when SparkTraits rolls money traits) is
+     * A USEC that is not dead but not playing (the round still STARTING, when the money traits are rolled) is
      * deliberately left to that fallback, unchanged. Other roles get no answer. Reads only synced facts (role, dead
      * set), so both sides agree.
      * 对精确的 USEC 职业：死亡后返回 DENY（沿用内应先例），参与且存活时返回 ALLOW，其余情况与之前一样不作答。显式 DENY 是必要
      * 的：不作答时 Wathe 退回 {@code ShopUtils.canAccessShop}，而 USEC 商店只按职业构建，死亡的 USEC 因此仍看得到金币 HUD。
-     * 未死亡但未参与的 USEC（对局仍为 STARTING、SparkTraits 抽取金钱词条时）刻意保持交给该回退，行为不变。其他职业不作答。只读取
+     * 未死亡但未参与的 USEC（对局仍为 STARTING、抽取金钱词条时）刻意保持交给该回退，行为不变。其他职业不作答。只读取
      * 已同步的信息（职业、死亡名单），因此两端一致。
      */
     static @Nullable CanSeeMoney.Result moneyVisibility(@Nullable Role role, boolean dead, boolean playingAndAlive) {

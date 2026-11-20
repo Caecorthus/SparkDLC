@@ -13,17 +13,17 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 
 /**
- * Safe-time interaction lock, copied from SparkWitch's Control Expert stun guards and SparkStrength's Taotie daze
+ * Safe-time interaction lock, copied from the Control Expert stun guards and the Taotie daze
  * guards. Server-authoritative; it also runs on the client, where FAIL means no packet is sent. The listeners sit in a
  * dedicated phase ordered before {@link Event#DEFAULT_PHASE}, so they decide before every default-phase listener,
- * including add-on callbacks that kill or apply knockback inside the callback. Other mods' early lock phases are
+ * including add-on callbacks that kill or apply knockback inside the callback. The other early lock phases are
  * unordered relative to this one, which is harmless because each only returns FAIL or PASS. Unrestricted players
  * always get PASS, so the relative order of all other listeners is unchanged. Bare-hand block use (doors, buttons)
  * and bare-hand non-player entity use (seats) stay allowed; every entity attack is denied, which is the "no knockback"
  * guarantee.
- * 安全时间交互锁，照搬 SparkWitch 控场专家眩晕与 SparkStrength 饕餮眩晕的写法。服务端权威；客户端同样运行，FAIL 时
+ * 安全时间交互锁，照搬控场专家眩晕与饕餮眩晕的写法。服务端权威；客户端同样运行，FAIL 时
  * 不会发送数据包。监听器位于排在 {@link Event#DEFAULT_PHASE} 之前的专用阶段，先于所有默认阶段监听器做出决定，包括在
- * 回调内直接击杀或施加击退的附属模组回调。其他模组的提前锁定阶段与本阶段之间没有顺序约束，但它们都只返回 FAIL 或
+ * 回调内直接击杀或施加击退的附属模组回调。其他提前锁定阶段与本阶段之间没有顺序约束，但它们都只返回 FAIL 或
  * PASS，因此无害。不受限的玩家始终得到 PASS，其他监听器之间的相对顺序不变。空手使用方块（门、按钮）与空手交互
  * 非玩家实体（座位）仍然放行；所有实体攻击都被拒绝，以此保证"无击退"。
  */

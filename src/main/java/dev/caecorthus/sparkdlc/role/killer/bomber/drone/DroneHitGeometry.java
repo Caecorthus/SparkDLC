@@ -18,10 +18,10 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 /**
- * Side-neutral hit geometry for drones (mirrors SparkWitch's Seeker-device rules): nearest-wins rays clipped at the
+ * Side-neutral hit geometry for drones (mirrors the Seeker-device rules): nearest-wins rays clipped at the
  * first COLLIDER block, sample-point line of sight, gun aim validation and blast spheres. The client uses it to pick a
  * drone target; the server uses it to validate client picks and to resolve its own rays.
- * 无人机命中几何（两端通用，对应 SparkWitch 搜寻者设备规则）：在第一个 COLLIDER 方块处截断的“最近者命中”射线、
+ * 无人机命中几何（两端通用，对应搜寻者设备规则）：在第一个 COLLIDER 方块处截断的“最近者命中”射线、
  * 采样点视线、枪械瞄准校验与爆炸球。客户端用它选择无人机目标，服务端用它校验客户端选择并结算自身射线。
  */
 public final class DroneHitGeometry {
@@ -157,9 +157,9 @@ public final class DroneHitGeometry {
 
     /**
      * Client target wrappers: keep {@code original} unless a drone lies strictly nearer on the shooter's look ray (the
-     * ray length is the original pick's distance, so extended ranges such as SparkTraits Marksman are kept; {@code range}
+     * ray length is the original pick's distance, so trait-extended ranges such as Marksman are kept; {@code range}
      * is only the fallback). Uses Wathe's own aim ({@code getRotationVec(0)}).
-     * 客户端目标包装：除非射手视线上有严格更近的无人机，否则保留原结果（射线长度取原选择的距离，自动保留 SparkTraits 神射手等延长射程，
+     * 客户端目标包装：除非射手视线上有严格更近的无人机，否则保留原结果（射线长度取原选择的距离，自动保留神射手词条等延长射程，
      * range 仅作兜底）。朝向与 Wathe 相同（getRotationVec(0)）。
      */
     public static HitResult preferNearerDrone(Entity shooter, HitResult original, double range) {

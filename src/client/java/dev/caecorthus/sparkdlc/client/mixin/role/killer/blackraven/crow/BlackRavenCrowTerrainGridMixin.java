@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
  * through the crow the three player coordinate reads answer the camera position instead (the server re-centres the
  * chunk view on the crow separately). Like {@code SeekerRemoteTerrainGridMixin}, {@code SparkDlcClientMixinPlugin}
  * never applies this class when Sodium (which {@code @Overwrite}s {@code setupTerrain} and already centres on the
- * camera) is loaded, so it holds only these injectors. Chains with the Seeker's and SparkStrength's drone grid hooks.
+ * camera) is loaded, so it holds only these injectors. Chains with the Seeker's and the Bomber drone's grid hooks.
  * 操控乌鸦期间的纯客户端渲染网格：原版 setupTerrain 以 client.player 为中心布置区块段网格，超出本体渲染距离的乌鸦将画不出地形；镜头通过
  * 乌鸦观看时，三处玩家坐标读取改为返回镜头位置（服务端另行把区块视野以乌鸦为中心）。与 SeekerRemoteTerrainGridMixin 相同，Sodium
  * （以 @Overwrite 替换 setupTerrain 且本就以镜头为中心）存在时 SparkDlcClientMixinPlugin 不应用本类，因此本类只包含这些注入。

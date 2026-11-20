@@ -50,12 +50,12 @@ import org.lwjgl.opengl.GL30;
  * white-hot monochrome image, living players and Partygoers (and the Undercover's own first-person arm) as white bodies
  * with a soft bloom, the world in readable greys, inside a rounded eyepiece. Line of sight is real: bodies are re-rendered flat
  * white into the private {@code heat} target over a copy of the world depth, so walls and furniture hide them exactly
- * like they hide anything else, and invisible players still show (their body heat is there). SparkWitch's BEAR smoke,
- * when installed, hides bodies behind it too and shows as a bright white blob ({@link #applyBearSmoke}).
+ * like they hide anything else, and invisible players still show (their body heat is there). The BEAR smoke
+ * hides bodies behind it too and shows as a bright white blob ({@link #applyBearSmoke}).
  * 二阶段卧底的热成像，参照塔科夫 T-7 夜视仪（负责人 2026-10-19）：干净的全分辨率白热单色画面，活人与派对客（以及卧底自己的
  * 第一人称手臂）是带柔光的白色人形，世界是看得清的灰色，外加圆角目镜。视线遮挡是真实的：人体以纯白重新渲染到私有 {@code heat}
- * 目标，并以世界深度做深度测试，所以墙和家具会像遮挡其他东西一样遮住人；隐身的人照样显示（体温还在）。安装了 SparkWitch
- * 时，BEAR 烟雾同样遮住其后的人体，并显示为一团亮白（applyBearSmoke）。
+ * 目标，并以世界深度做深度测试，所以墙和家具会像遮挡其他东西一样遮住人；隐身的人照样显示（体温还在）。
+ * BEAR 烟雾同样遮住其后的人体，并显示为一团亮白（applyBearSmoke）。
  *
  * <p>Two steps per frame on the render thread: {@link #captureHeat} at {@code WorldRenderEvents.BEFORE_DEBUG_RENDER}
  * (world depth still intact, before the hand clears it), then {@link #render} before the HUD. With an Iris shader pack
@@ -140,11 +140,11 @@ public final class UndercoverThermalRenderer {
     }
 
     /**
-     * SparkWitch BEAR smoke (owner S4 "hot smoke blocks thermal", owner Q6 "一坨亮白"): after the bodies and before the bloom
+     * BEAR smoke (owner S4 "hot smoke blocks thermal", owner Q6 "一坨亮白"): after the bodies and before the bloom
      * composite, heat behind smoke fades and the smoke itself glows bright white ({@link UndercoverThermalSmoke}).
      * Without smoke nothing changes. When the mask cannot run, the area smoke may touch is cleared here instead (fail
      * closed).
-     * SparkWitch BEAR 烟雾（所有者 S4“热烟挡住热成像”，所有者 Q6“一坨亮白”）：画完人体之后、柔光合成之前，
+     * BEAR 烟雾（所有者 S4“热烟挡住热成像”，所有者 Q6“一坨亮白”）：画完人体之后、柔光合成之前，
      * 让烟后的热值变淡、烟本身显示为一团亮白（{@link UndercoverThermalSmoke}）。没有烟时一切照旧。
      * 遮罩无法执行时改在此处清空烟可能触及的区域（失败即遮挡）。
      */
@@ -388,9 +388,9 @@ public final class UndercoverThermalRenderer {
 
     /**
      * Keeps positions only and paints every vertex opaque white. Valid for one pass: writes after {@link #close()} are
-     * dropped, since another mod may keep the provider (same guard as SparkWitch's Blind silhouettes).
+     * dropped, since another mod may keep the provider (same guard as the Blind silhouettes).
      * 只保留位置并把每个顶点涂成不透明白色。仅在一次 pass 内有效：close() 之后的写入全部丢弃，因为其他模组可能保留提供器
-     * （与 SparkWitch 盲人轮廓同样的防护）。
+     * （与盲人轮廓同样的防护）。
      */
     private static final class WhiteVertexConsumer implements VertexConsumer {
         private @Nullable VertexConsumer delegate;

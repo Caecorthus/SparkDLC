@@ -8,11 +8,11 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 
 /**
- * GW-AC: for every forcible cooldown the target has (role skills and carried items, through the SparkFactionAPI
+ * GW-AC: for every forcible cooldown the target has (role skills and carried items, through the
  * forced-cooldown registry), add 20% of that cooldown's nominal length, scaled by falloff, on top of what remains; a
  * ready skill or item starts a fresh cooldown of that length. Slots without a known nominal are skipped. The registry
  * writes exactly (Fast Hands cannot shrink it) and never shortens; the affect veto already ran in the blast resolver.
- * GW-AC：对目标每一项可被强制的冷却（经 SparkFactionAPI 强制冷却注册表的职业技能与携带物品），在剩余冷却之上追加该项
+ * GW-AC：对目标每一项可被强制的冷却（经强制冷却注册表的职业技能与携带物品），在剩余冷却之上追加该项
  * 标准冷却的 20%（按衰减缩放）；已就绪的技能或物品则从头进入这段冷却。未知标准冷却的项被跳过。注册表精确写入（快手无法缩短）
  * 且绝不缩短；影响否决已在爆炸判定中执行。
  */

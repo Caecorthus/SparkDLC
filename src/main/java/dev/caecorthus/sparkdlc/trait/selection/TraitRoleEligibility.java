@@ -8,8 +8,8 @@ import net.minecraft.util.Identifier;
 import java.util.Set;
 
 /**
- * Candidate-level role restrictions, decoupled from optional addon classes.
- * 候选天赋的身份限制：只按完整身份 ID 识别可选附属模组，避免新增编译依赖。
+ * Candidate-level role restrictions. The roles are matched by full role id because they used to live in another jar.
+ * 候选天赋的身份限制：按完整身份 ID 识别这些身份，因为它们曾位于另一个 jar。
  */
 public final class TraitRoleEligibility {
     private static final String SPARKWITCH_MOD_ID = "sparkdlc";
@@ -18,11 +18,11 @@ public final class TraitRoleEligibility {
     private static final Set<Identifier> UNIVERSAL_ONLY_ROLE_IDS = Set.of(
             Identifier.of(SPARKWITCH_MOD_ID, "grand_witch"),
             Identifier.of(SPARKWITCH_MOD_ID, "accomplice"),
-            // SparkWitch special accomplices share every Accomplice rule. / SparkWitch 特殊共犯沿用共犯的全部规则。
+            // The special accomplices share every Accomplice rule. / 特殊共犯沿用共犯的全部规则。
             Identifier.of(SPARKWITCH_MOD_ID, "abyss_listener"),
             Identifier.of(SPARKWITCH_MOD_ID, "potion_gunner"),
             Identifier.of(SPARKWITCH_MOD_ID, "riftwalker"),
-            // SparkWitch's Bewitched (魔化使) is an accomplice before promotion. / SparkWitch 魔化使是晋升前的共犯。
+            // The Bewitched (魔化使) is an accomplice before promotion. / 魔化使是晋升前的共犯。
             Identifier.of(SPARKWITCH_MOD_ID, "bewitched"),
             Identifier.of(SPARKWITCH_MOD_ID, "apprentice_witch"),
             Identifier.of(SPARKWITCH_MOD_ID, "murderous_witch"),

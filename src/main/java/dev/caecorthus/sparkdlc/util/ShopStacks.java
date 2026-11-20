@@ -12,9 +12,9 @@ import net.minecraft.text.Text;
 import java.util.List;
 
 /**
- * Small stack helpers shared by SparkStrength's role shops. Each shop keeps its own entries, ids, order, stock, role
+ * Small stack helpers shared by the role kits' role shops. Each shop keeps its own entries, ids, order, stock, role
  * checks and purchase callbacks; only the display stack and the hotbar top-up live here.
- * SparkStrength 各职业商店共用的小型物品堆辅助方法。各商店保留自己的条目、id、顺序、库存、身份判定与购买回调；
+ * 职业套件各职业商店共用的小型物品堆辅助方法。各商店保留自己的条目、id、顺序、库存、身份判定与购买回调；
  * 这里只放展示物品堆与快捷栏补充逻辑。
  */
 public final class ShopStacks {

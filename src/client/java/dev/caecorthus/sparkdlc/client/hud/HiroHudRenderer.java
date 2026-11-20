@@ -22,12 +22,12 @@ import org.jetbrains.annotations.Nullable;
  * castable, the mana shortfall, the cooldown seconds, or the running window's seconds). Upper row: 魔女化 progress
  * ({@code kills/required}) or the witchified state. {@code SaintHudLayoutRules} reserves both rows for the role so the
  * Karma line stacks above. Hidden unless the local player's raw synced role is Hiro, alive and playing, on a confirmed
- * SparkWitch server. Reads only owner-synced state; the server re-validates every press. Never the witch skill panel.
+ * SparkDLC server. Reads only owner-synced state; the server re-validates every press. Never the witch skill panel.
  * Mana itself is not drawn here: the shared top-right {@code WitchManaHudRenderer} row shows it for every mana role.
  * 二阶堂希罗的职业自有 HUD，由 {@code HiroClientModule} 注册的 {@code HudRenderCallback} 绘制：与幽魂一样，在共享右下角绘制两行
  * 右对齐提示。下行为死亡回归（可施放时的按键提示、魔力不足、冷却秒数或窗口剩余秒数），上行为魔女化进度（{@code 击杀/所需}）或
  * 已魔女化状态。{@code SaintHudLayoutRules} 为本职业预留这两行，使业障行叠放在其上方。仅当本地玩家真实同步身份为希罗、存活且参与
- * 对局，并处于已确认的 SparkWitch 服务器时显示。只读取仅同步给本人的状态；每次按键都由服务端重新校验。绝不使用魔女技能面板。
+ * 对局，并处于已确认的 SparkDLC 服务器时显示。只读取仅同步给本人的状态；每次按键都由服务端重新校验。绝不使用魔女技能面板。
  * 魔力数值不在此绘制：右上角共享的 {@code WitchManaHudRenderer} 已为所有魔力职业显示。
  */
 public final class HiroHudRenderer {
@@ -85,8 +85,8 @@ public final class HiroHudRenderer {
     }
 
     /**
-     * Local player is Hiro (raw synced role) on a confirmed SparkWitch server, alive, playing, not swallowed.
-     * 本地玩家在已确认的 SparkWitch 服务器上是希罗（真实同步身份），存活、参与对局、未被吞下。
+     * Local player is Hiro (raw synced role) on a confirmed SparkDLC server, alive, playing, not swallowed.
+     * 本地玩家在已确认的 SparkDLC 服务器上是希罗（真实同步身份），存活、参与对局、未被吞下。
      */
     static boolean isActiveHiro(@Nullable ClientPlayerEntity player) {
         return player != null

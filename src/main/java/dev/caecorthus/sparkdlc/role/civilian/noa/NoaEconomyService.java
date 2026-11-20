@@ -25,14 +25,14 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Noa's coins and shop, all server authority, all gated to a living Noa in an ACTIVE round:
  * <ul>
- *   <li>Tasks: +{@link NoaRules#TASK_COINS}, only for a confirmed non-Impostor (SparkTraits pays an Impostor's task
+ *   <li>Tasks: +{@link NoaRules#TASK_COINS}, only for a non-Impostor (the Impostor trait pays its holder's task
  *   income itself; owner rule from #189: no double pay).</li>
  *   <li>Passive: +{@link NoaRules#PASSIVE_COINS} on Wathe's passive-money ticks (world time, every 10 s).</li>
  *   <li>Shop: two rows, 50 coins each, restoring or spending 25% sanity. A row at the end of the bar refuses and costs
  *   nothing. The shop and the balance are hidden once she is dead (Saint precedent).</li>
  * </ul>
  * 诺亚的金币与商店，全部由服务端决定，且只对 ACTIVE 回合中存活的诺亚生效：
- * 任务 +{@link NoaRules#TASK_COINS}，只发给确认不是内鬼的诺亚（内鬼的任务收入由 SparkTraits 自行支付；#189 的所有者规则：
+ * 任务 +{@link NoaRules#TASK_COINS}，只发给不是内鬼的诺亚（内鬼的任务收入由内鬼词条自行支付；#189 的所有者规则：
  * 不重复发放）。被动：在 Wathe 被动金币刻（世界时间，每 10 秒）+{@link NoaRules#PASSIVE_COINS}。商店：两行，各 50 金币，
  * 回复或扣除 25% 理智；理智条已到该端点时该行拒绝且不扣钱。死亡后隐藏商店与余额（沿用圣徒的先例）。
  */
@@ -58,8 +58,8 @@ final class NoaEconomyService {
     }
 
     /**
-     * Same world tick as Wathe's killer ticker; {@code addToBalance} so income observers (SparkTraits Snowball) see it.
-     * 与 Wathe 杀手计时器同一世界刻；使用 {@code addToBalance}，收入观察者（SparkTraits 滚雪球）视其为普通收入。
+     * Same world tick as Wathe's killer ticker; {@code addToBalance} so income observers (the Snowball trait) see it.
+     * 与 Wathe 杀手计时器同一世界刻；使用 {@code addToBalance}，收入观察者（滚雪球词条）视其为普通收入。
      */
     private static void tickPassiveIncome(ServerWorld world) {
         int income = NoaRules.passiveIncomeAt(world.getTime());

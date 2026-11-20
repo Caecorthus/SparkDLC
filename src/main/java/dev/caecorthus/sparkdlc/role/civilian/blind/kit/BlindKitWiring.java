@@ -26,13 +26,13 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Server wiring of the Blind's kit, economy, shop, blackout exemption and lifecycle. Round start grants in an own
- * {@code ON_FINISH_INITIALIZE} phase after Wathe's default phase, where SparkTraits' Conscience compensation has settled
+ * {@code ON_FINISH_INITIALIZE} phase after Wathe's default phase, where the Conscience trait's compensation has settled
  * final roles and Wathe has started the match record (the id bound here). The kit and the {@code sparkdlc:blind}
- * state are stripped on role loss, terminal death (not a SparkTraits-intercepted one), reset, finalize and disconnect,
+ * state are stripped on role loss, terminal death (not a Last Stand-intercepted one), reset, finalize and disconnect,
  * and by a staggered sweep for anyone who is not a living, playing, exact Blind.
  * 盲人道具、经济、商店、停电豁免与生命周期的服务端接线。开局发放位于 Wathe 默认阶段之后的自有 {@code ON_FINISH_INITIALIZE}
- * 阶段：此时 SparkTraits 良知补偿已确定最终身份，Wathe 也已开始对局记录（此处绑定其 id）。失去职业、终结死亡
- * （非 SparkTraits 拦截的死亡）、重置、局末与断线时清除道具与 {@code sparkdlc:blind} 状态，并对所有不是存活、
+ * 阶段：此时良知词条的补偿已确定最终身份，Wathe 也已开始对局记录（此处绑定其 id）。失去职业、终结死亡
+ * （非背水一战词条拦截的死亡）、重置、局末与断线时清除道具与 {@code sparkdlc:blind} 状态，并对所有不是存活、
  * 在局的精确盲人的玩家错峰清理。
  */
 public final class BlindKitWiring {
@@ -63,8 +63,8 @@ public final class BlindKitWiring {
                 BlindLoadoutService.onRoleAssigned(serverPlayer, role);
             }
         });
-        // A SparkTraits-intercepted death keeps the player in play, so the kit stays; an unknown answer strips.
-        // 被 SparkTraits 拦截的死亡仍在局，保留道具；无法确认时清除。
+        // A death the Last Stand trait intercepts keeps the player in play, so the kit stays; any other death strips.
+        // 被背水一战词条拦截的死亡仍在局，保留道具；其余死亡一律清除。
         KillPlayer.AFTER.register((victim, killer, reason) -> {
             if (victim != null && !SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
                 BlindLoadoutService.strip(victim);
@@ -108,10 +108,10 @@ public final class BlindKitWiring {
 
     /**
      * Every server tick: an active Blind gets its upkeep (grant self-heal, one cane in the hotbar, cane re-scan); anyone
-     * else is swept on a staggered 20-tick cadence unless they are a real Blind inside a SparkTraits-intercepted (Last
-     * Stand) death. Cheap when idle: one role check per player.
+     * else is swept on a staggered 20-tick cadence unless they are a real Blind inside a death intercepted by the Last
+     * Stand trait. Cheap when idle: one role check per player.
      * 每个服务端 tick：激活的盲人执行维护（发放自愈、快捷栏一根盲杖、盲杖补扫）；其他人按错开的 20 刻节奏清理，
-     * 处于 SparkTraits 拦截（背水一战）死亡中的真实盲人除外。空闲时开销很低：每名玩家一次职业判断。
+     * 处于背水一战词条拦截的死亡中的真实盲人除外。空闲时开销很低：每名玩家一次职业判断。
      */
     private static void tick(MinecraftServer server) {
         for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {

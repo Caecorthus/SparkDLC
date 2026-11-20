@@ -64,10 +64,10 @@ public final class HiroReturnRules {
     /**
      * Owner rule 6: an attack is a kill attempt by ANOTHER player (the {@code killer} argument or the Judge-attributed
      * cause), whether or not something would have blocked it. Only a plain lethal hit can be undone (the Charon
-     * pardon's scope): never a forced kill, a SparkTraits-terminal or Savior-terminal reason, or a hit while Hiro is a
+     * pardon's scope): never a forced kill, a trait-terminal or Savior-terminal reason, or a hit while Hiro is a
      * Knight duelist (the duel must end in a death).
      * 所有者规则 6：攻击指其他玩家发起的击杀尝试（{@code killer} 参数或法官归因的责任人），不论是否会被其他机制挡下。只有普通
-     * 致命一击可以撤销（与卡戎宽恕范围一致）：强制击杀、SparkTraits 终结或救世主终结死因，以及希罗身为骑士决斗者时受到的
+     * 致命一击可以撤销（与卡戎宽恕范围一致）：强制击杀、词条终结或救世主终结死因，以及希罗身为骑士决斗者时受到的
      * 攻击（决斗必须以死亡收场）都不可撤销。
      */
     public static Attack classifyAttack(@Nullable UUID hiro, @Nullable UUID attacker, @Nullable Identifier deathReason,
@@ -100,12 +100,12 @@ public final class HiroReturnRules {
     }
 
     /**
-     * Who counts as "on the killer team" for the anti-farm rule: the attacker's SparkFactionAPI EFFECTIVE faction (the
-     * Specter's {@code isEffectiveKiller} convention), so a SparkTraits Impostor civilian pays nothing and a Conscience
+     * Who counts as "on the killer team" for the anti-farm rule: the attacker's faction-core EFFECTIVE faction (the
+     * Specter's {@code isEffectiveKiller} convention), so an Impostor-trait civilian pays nothing and a Conscience
      * killer, who effectively plays for the civilians, pays. Only an attacker whose effective faction cannot be read
      * (an attributed attacker who is offline) falls back to the raw role's {@code canUseKiller}.
-     * 防刷规则中“属于杀手阵营”的判定：攻击者的 SparkFactionAPI 有效阵营（与幽魂 {@code isEffectiveKiller} 的约定一致），因此
-     * SparkTraits 内鬼平民不提供金币，而实际站在平民一方的善良杀手会提供。只有读不到有效阵营的攻击者（被归因但已离线）才回退
+     * 防刷规则中“属于杀手阵营”的判定：攻击者在阵营核心中的有效阵营（与幽魂 {@code isEffectiveKiller} 的约定一致），因此
+     * 带内鬼词条的平民不提供金币，而实际站在平民一方的善良杀手会提供。只有读不到有效阵营的攻击者（被归因但已离线）才回退
      * 到原始职业的 {@code canUseKiller}。
      */
     public static boolean attackerOnKillerTeam(@Nullable Identifier effectiveFaction, boolean rawRoleCanUseKiller) {
@@ -159,12 +159,12 @@ public final class HiroReturnRules {
 
     /**
      * Whether the real-death replay passes Hiro as the {@code killer} argument: only while she is online, still a
-     * living round participant (a re-roled Hiro is) and SparkFactionAPI's structural veto would let her affect the
+     * living round participant (a re-roled Hiro is) and the faction core's structural veto would let her affect the
      * victim. Otherwise (offline, dead, an active Wraith, any actor the veto refuses) the replay runs without a killer
      * inside the Judge attribution scope of her UUID: Wathe's {@code killPlayer} guards that ignore {@code force} judge
      * the actor, and a death that committed 15 s ago must not be refused because of what its killer became since.
      * 真正死亡的重放是否把希罗作为 {@code killer} 参数传入：仅当她在线、仍是存活的对局参与者（被换职业的希罗也算），且
-     * SparkFactionAPI 的结构性否决允许她影响受害者时。否则（离线、已死亡、成为激活冤魂、任何会被否决的行动者）重放不带凶手，
+     * 阵营核心的结构性否决允许她影响受害者时。否则（离线、已死亡、成为激活冤魂、任何会被否决的行动者）重放不带凶手，
      * 在以她的 UUID 建立的法官归因作用域内运行：Wathe {@code killPlayer} 上无视 {@code force} 的守卫审查的是行动者，而 15 秒前
      * 已经落定的死亡不能因凶手此后的变化而被拒绝。
      */

@@ -54,8 +54,8 @@ import java.util.UUID;
 
 /**
  * Lifecycle of every Partygoer: summoning, endings (ate, gave up, killed, quiet), owner feedback, rewards and the
- * cross-mod kill seam. Server thread only.
- * 所有派对客的生命周期：召唤、结局（吃完、放弃、被打死、安静离场）、召唤者反馈、奖励与跨模组击杀接缝。仅限服务端线程。
+ * weapon kill seam. Server thread only.
+ * 所有派对客的生命周期：召唤、结局（吃完、放弃、被打死、安静离场）、召唤者反馈、奖励与武器击杀接缝。仅限服务端线程。
  */
 public final class PartygoerService {
     private static final List<Identifier> CLIP_IDS = List.of(
@@ -326,13 +326,12 @@ public final class PartygoerService {
     // ---- Kill seam / 击杀接缝 ----
 
     /**
-     * Frozen cross-module seam: anything that can kill a player kills a Partygoer in one hit (owner rule, 2026-10-21).
-     * SparkWitch calls it (directly since the SparkDLC fusion), so the class {@code dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerService},
-     * the name {@code killByWeapon} and the parameter types {@code (ServerPlayerEntity, Entity, Identifier)} stay frozen.
+     * Weapon kill entry: anything that can kill a player kills a Partygoer in one hit (owner rule, 2026-10-21).
+     * Other features' weapons reach it through {@link PartygoerWeaponTarget#killByWeapon}.
      * The caller has already validated its own weapon; this only checks the target. The attacker (may be null for an
      * offline thrower) gets 25 coins and 20% sanity; the Partygoer drops whoever it holds and leaves a corpse.
-     * 冻结的跨模块接缝：任何能杀死玩家的东西都能一击打死派对客（主人规则，2026-10-21）。SparkWitch 会调用它（融合进 SparkDLC 后为
-     * 直接调用），因此类名、方法名 killByWeapon 与参数类型 (ServerPlayerEntity, Entity, Identifier) 保持冻结。调用方已校验其武器；这里只检查目标。
+     * 武器击杀入口：任何能杀死玩家的东西都能一击打死派对客（主人规则，2026-10-21）。其他功能的武器经
+     * {@link PartygoerWeaponTarget#killByWeapon} 到达这里。调用方已校验其武器；这里只检查目标。
      * 攻击者（离线投掷者可为 null）获得 25 金币与 20% 理智；派对客放下手中的人并留下尸体。
      *
      * @return true iff the target was a killable Partygoer and is now dead / 仅当目标是可被打死的派对客且已死亡时返回 true

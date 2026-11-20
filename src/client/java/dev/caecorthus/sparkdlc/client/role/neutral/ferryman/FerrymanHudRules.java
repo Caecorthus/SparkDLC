@@ -43,9 +43,9 @@ public final class FerrymanHudRules {
 
     /**
      * The view gates on top of {@link FerrymanClient#isActiveLocalCharon} (the Charon's own client, confirmed
-     * SparkWitch server, ACTIVE round, playing and alive in the world, so never while swallowed or dead): Wathe's
+     * SparkDLC server, ACTIVE round, playing and alive in the world, so never while swallowed or dead): Wathe's
      * round-start fade is over, Wathe's train HUD is shown and F1 is off.
-     * 在 {@link FerrymanClient#isActiveLocalCharon}（卡戎自己的客户端、已确认的 SparkWitch 服务器、ACTIVE 回合、在局存活且
+     * 在 {@link FerrymanClient#isActiveLocalCharon}（卡戎自己的客户端、已确认的 SparkDLC 服务器、ACTIVE 回合、在局存活且
      * 身处世界中，因此被吞下或死亡时从不绘制）之上的视图门槛：Wathe 开局淡入已结束、Wathe 列车 HUD 显示且未按 F1。
      */
     public static boolean showsHud(boolean hudHidden, int fade, boolean trainHudActive) {

@@ -78,8 +78,9 @@ public final class SeekerRules {
     public static final String CAMERA_ENTRY_ID = "seeker_camera";
     public static final int CAMERA_PRICE = 150;
     /**
-     * Owner decision: 0. The old 50 only paid for the 50-coin tablet, which SparkStrength now issues free at round start.
-     * 所有者决定：0。原先的 50 只用于购买 50 金币的平板，而 SparkStrength 现已在开局免费发放平板。
+     * Owner decision: 0. The old 50 only paid for the 50-coin tablet, which {@code TabletShopService} now issues free
+     * at round start.
+     * 所有者决定：0。原先的 50 只用于购买 50 金币的平板，而 {@code TabletShopService} 现已在开局免费发放平板。
      */
     public static final int INITIAL_MONEY = 0;
     public static final int TASK_MONEY_REWARD = 50;
@@ -104,7 +105,7 @@ public final class SeekerRules {
     // ---- Mark ----
     public static final int MARK_TICKS = 200;
     public static final int MARK_COLOR = 0xFF4D4D;
-    /** Above SparkWitch's 90 outlines, below skip (100), Black Raven (101) and suppression (102). / 位于 90 之上、100 之下。 */
+    /** Above other roles' 90 outlines, below skip (100), Black Raven (101) and suppression (102). / 位于 90 之上、100 之下。 */
     public static final int MARK_OUTLINE_PRIORITY = 95;
     public static final int OWN_DEVICE_COLOR = 0x3A5F99;
     public static final int CAR_INSTINCT_COLOR = 0xFFB02E;
@@ -142,8 +143,11 @@ public final class SeekerRules {
      */
     public static final LockScope LOCK_SCOPE = LockScope.SESSION;
     /**
-     * Owner decision Q5-b: with SparkTraits present, an Impostor (or unknown) Seeker may not use devices or earn pay.
-     * 所有者决定 Q5-b：装有 SparkTraits 时，内鬼（或无法判定）的搜寻者不能使用设备，也不获得报酬。
+     * Owner decision Q5-b: an Impostor (or unknown) Seeker may not use devices or earn pay. ("Unknown" was a failed
+     * trait lookup while traits were another jar; the direct {@code SparkTraitsApi.hasActiveTrait} query never
+     * yields it now.)
+     * 所有者决定 Q5-b：内鬼（或无法判定）的搜寻者不能使用设备，也不获得报酬。（“无法判定”原指词条还在另一个 jar 时查询失败；
+     * 如今直接调用 {@code SparkTraitsApi.hasActiveTrait}，不会再出现。）
      */
     public static final boolean DENY_IMPOSTOR_DEVICES = true;
 
@@ -207,7 +211,7 @@ public final class SeekerRules {
     /** Fixed broadcast range of the motor sound in blocks. / 电机声的固定广播半径（格）。 */
     public static final float MOTOR_SOUND_RANGE = 6.0F;
 
-    // ---- SparkFactionAPI action ids (canAffectPlayer proxies, owner as the proxy target) ----
+    // ---- SparkFactionApi action ids (canAffectPlayer proxies, owner as the proxy target) ----
     public static final Identifier BREAK_ACTION_ID = SparkDLC.id("seeker_break_device");
     public static final Identifier MARK_ACTION_ID = SparkDLC.id("seeker_mark");
     public static final Identifier SWALLOW_ACTION_ID = SparkDLC.id("seeker_swallow_car");

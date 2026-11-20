@@ -74,7 +74,7 @@ public final class TimeStealerRules {
      * 与时钟的冷却相互独立。
      */
     public static final Identifier GIFT_WATCH_ID = SparkDLC.id("time_stealer_gift_watch");
-    /** SparkFactionAPI action id the Gift Watch asks {@code canAffectPlayer} about. / 赠时怀表向 {@code canAffectPlayer} 询问的动作 id。 */
+    /** Action id the Gift Watch asks {@code canAffectPlayer} about. / 赠时怀表向 {@code canAffectPlayer} 询问的动作 id。 */
     public static final Identifier GIFT_ACTION_ID = SparkDLC.id("time_gift");
     public static final int GIFT_COOLDOWN_TICKS = 45 * 20;
     public static final int GIFT_INITIAL_COOLDOWN_TICKS = 45 * 20;
@@ -157,9 +157,9 @@ public final class TimeStealerRules {
 
     /**
      * Who a settling curse is attributed to. An online stealer who is still the exact Time Stealer is the killer
-     * unless SparkFactionAPI's structural veto refuses him, in which case the curse is spent (toll parity). A
+     * unless the faction core's structural veto refuses him, in which case the curse is spent (toll parity). A
      * stealer who is offline or changed role leaves the kill unattributed (owner decision Q7: the curse still kills).
-     * 结算中的诅咒归属于谁。在线且仍为精确窃时者时记为击杀者，除非 SparkFactionAPI 结构性否决拒绝他，
+     * 结算中的诅咒归属于谁。在线且仍为精确窃时者时记为击杀者，除非阵营核心的结构性否决拒绝他，
      * 此时诅咒作废（与丧钟一致）。窃时者离线或已换职业时击杀无归属（所有者决定 Q7：诅咒照样致死）。
      */
     public static SettleActor settleActor(boolean stealerOnline, boolean stillTimeStealer, boolean affectAllowed) {
@@ -192,9 +192,9 @@ public final class TimeStealerRules {
     /**
      * Owner decision 2026-10-05: a Conscience Time Stealer earns {@link #TASK_STAMP_REWARD} per completed task. Wathe
      * also fires {@code TaskComplete} for a killer's fake tasks, so the holder's effective faction must be known and
-     * not {@code wathe:killer} (SparkTraits Conscience resolves to civilian); a plain Time Stealer earns nothing.
+     * not {@code wathe:killer} (the Conscience trait resolves to civilian); a plain Time Stealer earns nothing.
      * 所有者决定 2026-10-05：善良窃时者每完成一个任务获得 {@link #TASK_STAMP_REWARD} 枚邮票。Wathe 对杀手的假任务也会
-     * 触发 {@code TaskComplete}，因此持有者的有效阵营必须已知且不是 {@code wathe:killer}（SparkTraits 善良解析为平民）；
+     * 触发 {@code TaskComplete}，因此持有者的有效阵营必须已知且不是 {@code wathe:killer}（善良词条解析为平民）；
      * 普通窃时者不获得邮票。
      */
     public static boolean earnsTaskStamp(@Nullable Identifier effectiveFaction) {
@@ -210,7 +210,7 @@ public final class TimeStealerRules {
         return exactTimeStealer && isConscienceFaction(effectiveFaction);
     }
 
-    /** SparkTraits Conscience resolves a killer role to a non-killer faction. / SparkTraits 善良把杀手职业解析为非杀手阵营。 */
+    /** The Conscience trait resolves a killer role to a non-killer faction. / 善良词条把杀手职业解析为非杀手阵营。 */
     static boolean isConscienceFaction(@Nullable Identifier effectiveFaction) {
         return effectiveFaction != null && !FactionIds.KILLER.equals(effectiveFaction);
     }

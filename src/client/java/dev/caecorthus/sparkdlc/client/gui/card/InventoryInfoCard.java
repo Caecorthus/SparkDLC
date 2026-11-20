@@ -33,18 +33,19 @@ import java.util.function.ToIntFunction;
 /**
  * Owner inventory only. No input handlers; tooltips deliberately avoid vanilla's z=400 path.
  * <p>
- * The single shared copy of the owner info card that SparkWitch (role skills) and SparkTraits (traits) each used to
- * ship. The value types and the pure measuring/wrapping helpers are static; everything a mod owns is per instance:
- * one {@code InventoryInfoCard} per mod holds that mod's prepare/plan/tooltip caches, its overflow lang key, its
- * second-row height rule and its HUD/decoration hooks. Never share an instance between mods: a role card and a
- * trait card must not see each other's cached snapshot. Client only; create and use it on the render thread.
+ * The one owner info card, with two users: the role-skill card ({@code OwnerInventoryPresenter}) and the native trait
+ * card ({@code OwnerInventoryClientAdapter}). The value types and the pure measuring/wrapping helpers are static;
+ * everything a user owns is per instance: one {@code InventoryInfoCard} per user holds that user's prepare/plan/tooltip
+ * caches, its overflow lang key, its second-row height rule and its HUD/decoration hooks. Never share an instance
+ * between the two: a role card and a trait card must not see each other's cached snapshot. Client only; create and
+ * use it on the render thread.
  * <p>
  * 仅用于拥有者物品栏。不处理输入；提示框刻意不走原版 z=400 的路径。
  * <p>
- * SparkWitch（职业技能）与 SparkTraits（天赋）原先各自携带一份的信息卡，现为唯一的共享实现。值类型与纯测量、换行函数为静态；
- * 属于各模组的内容都在实例上：每个模组持有一个 {@code InventoryInfoCard}，其中是该模组自己的准备、绘制计划与提示缓存，
- * 溢出行语言键、第二行预留高度规则，以及 HUD 与点缀钩子。不要在模组之间共用实例：职业卡与天赋卡不能看到对方缓存的快照。
- * 仅客户端；请在渲染线程创建和使用。
+ * 唯一的本人信息卡实现，有两个使用方：职业技能卡（{@code OwnerInventoryPresenter}）与原生天赋卡
+ * （{@code OwnerInventoryClientAdapter}）。值类型与纯测量、换行函数为静态；属于各使用方的内容都在实例上：每个使用方持有一个
+ * {@code InventoryInfoCard}，其中是该使用方自己的准备、绘制计划与提示缓存，溢出行语言键、第二行预留高度规则，以及 HUD 与
+ * 点缀钩子。不要在两者之间共用实例：职业卡与天赋卡不能看到对方缓存的快照。仅客户端；请在渲染线程创建和使用。
  */
 public final class InventoryInfoCard {
     /** Skill state. Shape and glyph encode it as well as colour (spec-final §3.5). 技能状态：形状与图形同样编码状态。 */
@@ -198,35 +199,35 @@ public final class InventoryInfoCard {
         void cardOverlay(DrawContext context, int x, int y, int width, int height);
     }
 
-    // Per-mod configuration, fixed for the instance's lifetime. 各模组的配置，实例生命周期内不变。
+    // Per-user configuration, fixed for the instance's lifetime. 各使用方的配置，实例生命周期内不变。
     private final String overflowKey;
     private final IntSupplier secondRowHeight;
     private final IntSupplier topRightHudBottom;
     private final Decor decor;
 
     // Render-thread caches, each a single entry keyed by everything its value depends on (spec-v2 §4).
-    // Instance fields: every mod's card keeps its own. 渲染线程缓存：各一项，键包含其值所依赖的全部输入。
-    // 为实例字段：每个模组的卡片各自持有。
+    // Instance fields: each user's card keeps its own. 渲染线程缓存：各一项，键包含其值所依赖的全部输入。
+    // 为实例字段：每个使用方的卡片各自持有。
     private @Nullable Prepared prepared;
     private @Nullable Plan plan;
     private @Nullable TipCache tipCache;
 
     /**
-     * One card renderer for one mod.
-     * 一个模组的一个卡片渲染器。
+     * One card renderer for one user.
+     * 一个使用方的一个卡片渲染器。
      *
-     * @param overflowKey       the mod's own lang key of the "+N more" row; it gets the omitted count as {@code %s}.
-     *                          模组自己的“+N 项”溢出行语言键，参数为省略条数。
+     * @param overflowKey       the user's lang key of the "+N more" row; it gets the omitted count as {@code %s}.
+     *                          使用方的“+N 项”溢出行语言键，参数为省略条数。
      * @param secondRowHeight   extra pixels to reserve above Wathe's 176x32 hotbar strip (0 = the strip alone; 22 for
-     *                          SparkFactionAPI's second inventory row). Read on a prepare-cache miss only and NOT part
-     *                          of the cache key, exactly as the per-mod copies behaved.
-     *                          在 Wathe 176x32 热栏框上方额外预留的像素（0 表示只预留热栏框；SparkFactionAPI 第二行为 22）。
-     *                          仅在准备缓存未命中时读取，且不属于缓存键，与原先各模组副本的行为一致。
-     * @param topRightHudBottom exclusive bottom y of extra rows under Wathe's money (SparkStrength's team wallet), or
+     *                          the limited inventory's second row). Read on a prepare-cache miss only and NOT part
+     *                          of the cache key, exactly as the two former copies behaved.
+     *                          在 Wathe 176x32 热栏框上方额外预留的像素（0 表示只预留热栏框；受限物品栏第二行为 22）。
+     *                          仅在准备缓存未命中时读取，且不属于缓存键，与原先两份副本的行为一致。
+     * @param topRightHudBottom exclusive bottom y of extra rows under Wathe's money (the killer team wallet), or
      *                          0; read every prepare and part of the cache key. The band never ends above y = 16.
-     *                          Wathe 金币下方额外 HUD 行（SparkStrength 团队余额）的底边 y（不含），没有时为 0；
+     *                          Wathe 金币下方额外 HUD 行（杀手团队余额）的底边 y（不含），没有时为 0；
      *                          每次准备都会读取并计入缓存键。顶带底边不会高于 y = 16。
-     * @param decor             the mod's own decoration hook, or {@link Decor#NONE}. 模组自己的点缀钩子。
+     * @param decor             the user's decoration hook, or {@link Decor#NONE}. 使用方的点缀钩子。
      */
     public InventoryInfoCard(String overflowKey, IntSupplier secondRowHeight, IntSupplier topRightHudBottom, Decor decor) {
         this.overflowKey = Objects.requireNonNull(overflowKey, "overflowKey");
@@ -271,15 +272,15 @@ public final class InventoryInfoCard {
         return prepare(screen, font, sections, false, false);
     }
 
-    /** Content-fit card in the right column (or beside the native Traits slot when the handoff failed). */
+    /** Content-fit card in the right column (or beside the native trait card's slot when the handoff failed). */
     public Snapshot prepare(Screen screen, TextRenderer font, List<Section> sections, boolean traitsPresent, boolean ownsTraits) {
         return prepare(screen, font, sections, false, traitsPresent, ownsTraits);
     }
 
     /**
-     * Native Traits card. {@code fillSlot} makes it take its whole slot, so a Witch fallback card anchored to the
-     * slot sits flush beside it; the caller decides (the shared code never names the other mod).
-     * 原生天赋卡：fillSlot 时占满整列，使魔女回退卡紧贴其左侧；由调用方决定，共享代码不引用另一个模组。
+     * Native trait card. {@code fillSlot} makes it take its whole slot, so a role-skill fallback card anchored to the
+     * slot sits flush beside it; the caller decides (the card code never names its users).
+     * 原生天赋卡：fillSlot 时占满整列，使职业技能回退卡紧贴其左侧；由调用方决定，卡片代码不引用它的使用方。
      */
     public Snapshot prepareNative(Screen screen, TextRenderer font, List<Section> sections, boolean fillSlot) {
         return prepare(screen, font, sections, fillSlot, false, false);
@@ -318,9 +319,9 @@ public final class InventoryInfoCard {
     }
 
     /**
-     * Bottom of the top HUD band: Wathe's money, timer and first task line end at y = 15, and SparkStrength may stack
-     * its killer team-wallet row directly under the money while it is showing.
-     * 顶部 HUD 带的底边：Wathe 金币、计时与首行任务止于 y = 15；SparkStrength 显示杀手团队余额时会把该行紧贴在金币下方。
+     * Bottom of the top HUD band: Wathe's money, timer and first task line end at y = 15, and the killer team-wallet
+     * row is stacked directly under the money while it is showing.
+     * 顶部 HUD 带的底边：Wathe 金币、计时与首行任务止于 y = 15；显示杀手团队余额时该行紧贴在金币下方。
      */
     int hudBandBottom() {
         return Math.max(16, topRightHudBottom.getAsInt());
@@ -368,10 +369,10 @@ public final class InventoryInfoCard {
             }
         }
         // Mirrors Wathe 1.5.6: the HUD band (see hudBandBottom), LimitedHandledScreen's 176x32 hotbar strip, and
-        // LimitedInventoryScreen.drawBackground's logo transform (0.28 scale). The strip grows upwards by the mod's
-        // own second-row height (0 keeps the 176x32 strip exactly).
+        // LimitedInventoryScreen.drawBackground's logo transform (0.28 scale). The strip grows upwards by this
+        // instance's second-row height (0 keeps the 176x32 strip exactly).
         // 对应 Wathe 1.5.6：HUD 顶带（见 hudBandBottom）、LimitedHandledScreen 的 176x32 热栏框、drawBackground 的标志变换。
-        // 热栏框按模组自己的第二行高度向上扩展（为 0 时就是原来的 176x32）。
+        // 热栏框按本实例的第二行高度向上扩展（为 0 时就是原来的 176x32）。
         controls.add(new InventoryCardLayout.Rect(0, 0, screen.width, hudBottom));
         int secondRow = secondRowHeight.getAsInt();
         controls.add(new InventoryCardLayout.Rect((screen.width - 176) / 2, (screen.height - 32) / 2 - secondRow, 176,
@@ -786,11 +787,11 @@ public final class InventoryInfoCard {
     private record TipCache(Snapshot snapshot, TextRenderer font, InventoryCardLayout.Row row, int width, int height, @Nullable Tip tip) {}
 
     /**
-     * Brass tooltip left of the card at z=450: above Wathe's z=400 price tags and item tooltips, below SparkAssist's z=500
-     * guide modal (which also hides inventory hover while open). Never scaled. Content-top candidates: the hovered
+     * Brass tooltip left of the card at z=450: above Wathe's z=400 price tags and item tooltips, below the guidebook's
+     * z=500 modal (which also hides inventory hover while open). Never scaled. Content-top candidates: the hovered
      * label's row, above the first price tag it would hit, below the price band; when none fits (tall tooltips on
      * 320x240) it overlaps the price tags instead of being covered by them. The wrapped layout is cached per hovered row.
-     * 黄铜提示框位于卡片左侧 z=450：高于 Wathe 价签与物品提示（400），低于 SparkAssist 指南模态层（500，打开时也屏蔽背包悬停），
+     * 黄铜提示框位于卡片左侧 z=450：高于 Wathe 价签与物品提示（400），低于指南模态层（500，打开时也屏蔽背包悬停），
      * 绝不缩放；依次尝试三个候选位置，都放不下时（如 320x240 的长提示）盖在价签之上而不是被遮住；排版按悬停行缓存。
      */
     private void drawTooltip(DrawContext context, TextRenderer font, Snapshot snapshot, InventoryCardLayout.Row row,
@@ -809,7 +810,7 @@ public final class InventoryInfoCard {
         context.getMatrices().push();
         try {
             // Vanilla drawTooltip internally adds 400; drawing ourselves pins background and glyphs to 450, between
-            // the price tags (400) and Assist's modal layer (500). 自行绘制以固定在价签（400）与指南模态层（500）之间。
+            // the price tags (400) and the guide's modal layer (500). 自行绘制以固定在价签（400）与指南模态层（500）之间。
             context.getMatrices().translate(x, y, 450);
             InventoryCardPaint.brassTooltip(context, 0, 0, tip.width(), tip.height());
             int lineY = 0;
@@ -946,13 +947,13 @@ public final class InventoryInfoCard {
     }
 
     /**
-     * Greedy fill over tokens (a port of SparkAssist's guide CjkLineBreaker, spec-final §2.4): a space is a break
+     * Greedy fill over tokens (a port of the guidebook's CjkLineBreaker, spec-final §2.4): a space is a break
      * opportunity dropped at line ends; a word run of ASCII letters/digits and {@code + - . % / × ÷ _ ' #} is never
      * split, and one containing a digit is glued to the next ideograph (optionally after one space); closing punctuation
      * attaches to the token before it, opening punctuation to the token after it; {@code 【…】} of at most 8 glyphs is
      * one token; any other glyph is its own token; a token wider than the line falls back to glyph breaking.
      * Always returns at least one (possibly empty) line.
-     * 按记号贪心填充（移植自 SparkAssist 指南的 CjkLineBreaker）：空格为断点且行尾丢弃；ASCII 单词不拆开，含数字的单词与其后汉字粘连；
+     * 按记号贪心填充（移植自指南的 CjkLineBreaker）：空格为断点且行尾丢弃；ASCII 单词不拆开，含数字的单词与其后汉字粘连；
      * 收尾标点附着前一记号、开启标点附着后一记号；不超过 8 字的【…】整体不拆；其余每字一个记号；超宽记号退回逐字断行。
      */
     static List<List<Cell>> wrap(List<Cell> cells, int maxWidth, ToIntFunction<Cell> advance) {

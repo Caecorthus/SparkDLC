@@ -49,15 +49,14 @@ import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Demos for the NoellesRoles Party Animal's SparkStrength kit: the Party Balloon and the summoned Partygoer, opened
- * from the role's guide page (the balloon scene also by holding W over the balloon); they need NoellesRoles and
- * SparkStrength, and the Partygoer scene also SparkWitch, whose Role Skill 2 key summons it. The Partygoer is
- * SparkStrength's own entity drawn by its own renderer, and the player it holds rides it, so SparkStrength's hold pose
- * applies. Its brain runs only on the server, so the scenes walk it along the route it would plan. It hunts and carries
- * several times faster than shown; the captions say the demo is slowed.
- * NoellesRoles 派对狂的 SparkStrength 技能演示：派对气球与召唤出来的派对客，从该职业的指南页打开（气球场景也可在气球上
- * 按住 W 播放）；需要 NoellesRoles 与 SparkStrength，派对客场景还需要 SparkWitch（用它的“职业技能 2”键召唤）。派对客是
- * SparkStrength 自己的实体，由它自己的渲染器绘制，被抱住的玩家真的骑在它身上，所以套用的是 SparkStrength 的抱人姿势。它的
+ * Demos for the NoellesRoles Party Animal's role kit: the Party Balloon and the summoned Partygoer, opened
+ * from the role's guide page (the balloon scene also by holding W over the balloon); the Role Skill 2 key summons the
+ * Partygoer. The Partygoer is the mod's own entity drawn by its own renderer, and the player it holds rides it, so the
+ * real hold pose applies. Its brain runs only on the server, so the scenes walk it along the route it would plan. It
+ * hunts and carries several times faster than shown; the captions say the demo is slowed.
+ * NoellesRoles 派对狂的职业套件演示：派对气球与召唤出来的派对客，从该职业的指南页打开（气球场景也可在气球上
+ * 按住 W 播放）；派对客用“职业技能 2”键召唤。派对客是本模组自己的实体，由它自己的渲染器绘制，被抱住的玩家真的
+ * 骑在它身上，所以套用的是真实的抱人姿势。它的
  * 大脑只在服务端运行，所以场景按它会规划的路线移动它。它追人和带人走比演示快好几倍，字幕会注明演示放慢了。
  */
 final class PartyAnimalScenes {
@@ -78,11 +77,8 @@ final class PartyAnimalScenes {
     }
 
     static void register() {
-        // The Partygoer is summoned with SparkWitch's Role Skill 2 key (PartygoerClientHooks). The modules are fused
-        // in SparkDLC, so the key always exists and its scene is always added (it used to be gated on SparkWitch
-        // being loaded).
-        // 派对客用 SparkWitch 的“职业技能 2”键召唤（PartygoerClientHooks）。各模块已融合进 SparkDLC，这个按键始终存在，
-        // 因此始终追加它的场景（原先仅在加载 SparkWitch 时追加）。
+        // The Partygoer is summoned with the Role Skill 2 key (PartygoerClientHooks), so its scene is always added.
+        // 派对客用“职业技能 2”键召唤（PartygoerClientHooks），因此始终追加它的场景。
         role("sparkdlc:roles/noellesroles/party_animal", NOELLES_STRENGTH,
                 scene("noellesroles/party_cabins", PartyAnimalScenes::balloon),
                 scene("noellesroles/party_cabins", PartyAnimalScenes::partygoer));
@@ -92,7 +88,7 @@ final class PartyAnimalScenes {
 
     /**
      * Party Balloon (PartyBalloonItem, PartyBalloonService, PartyBalloonRules, PartyBalloonClientHooks; NoellesRoles
-     * hidden equipment via SparkStrength's HiddenEquipmentHelperMixin): 25 coins in the Party Animal's shop only,
+     * hidden equipment via HiddenEquipmentHelperMixin): 25 coins in the Party Animal's shop only,
      * stacks to 16, hidden from others while held. Right-click a player within 3 blocks (eye to hitbox) in sight: one
      * balloon is used and the target is marked for the round, with no message, sound or item (only the giver hears a
      * soft pop). Any faction can be given one, killer teammates and Undercovers included (owner 2026-10-25); only
@@ -405,22 +401,22 @@ final class PartyAnimalScenes {
     }
 
     /**
-     * SparkStrength's Partygoer, a PartygoerEntity drawn by PartygoerEntityRenderer: the wide player model in the
+     * The Partygoer, a PartygoerEntity drawn by PartygoerEntityRenderer: the wide player model in the
      * Partygoer skin, arms out like a zombie, legs swinging with its steps. It never joins a world: like
      * {@link ActorPlayer} it is posed here each tick. A held player is an {@link ActorPlayer} riding it, drawn where
-     * PartygoerEntity places a passenger, so SparkStrength draws the hold as in a round: PartygoerCarriedPoseMixin
+     * PartygoerEntity places a passenger, so the hold is drawn as in a round: PartygoerCarriedPoseMixin
      * keeps the player standing rather than seated, and PartygoerModel lowers and spreads the arms around them. Killed,
      * it becomes the Wathe body PartygoerCorpseService spawns where it stood: Partygoer skin, falling face down along
-     * its facing with the feet a block behind (Wathe's body renderer), as the Jester's fake body does. SparkAssist does
-     * not build against SparkStrength, so the entity comes from the registry and its state field is found by name;
-     * without them nothing is drawn but the body.
-     * SparkStrength 的派对客：由 PartygoerEntityRenderer 绘制的 PartygoerEntity，宽手臂玩家模型配派对客皮肤，像僵尸那样
+     * its facing with the feet a block behind (Wathe's body renderer), as the Jester's fake body does. The entity
+     * still comes from the registry by id (this class used to be in a jar that could not see PartygoerEntity); the
+     * "nothing is drawn but the body" path for a missing entity type is unreachable since the fusion.
+     * 派对客：由 PartygoerEntityRenderer 绘制的 PartygoerEntity，宽手臂玩家模型配派对客皮肤，像僵尸那样
      * 伸着双臂，走路时双腿摆动。它从不加入世界：与 ActorPlayer 一样每 tick 在这里摆好姿态。被抱的人是骑在它身上的
-     * ActorPlayer，画在 PartygoerEntity 安放乘客的位置，于是 SparkStrength 会像对局中一样画出抱人的样子：
+     * ActorPlayer，画在 PartygoerEntity 安放乘客的位置，于是会像对局中一样画出抱人的样子：
      * PartygoerCarriedPoseMixin 让他站着而不是坐着，PartygoerModel 把双臂放低并张开抱住他。
      * 被打死后变成 PartygoerCorpseService 在原地生成的 Wathe 尸体：派对客皮肤，沿朝向脸朝下倒下，脚在后方一格（Wathe 尸体
-     * 渲染器），与小丑的假尸体相同。SparkAssist 不依赖 SparkStrength 编译，所以实体从注册表取得、状态字段按名字查找；找不到
-     * 时只画尸体。
+     * 渲染器），与小丑的假尸体相同。实体仍按 id 从注册表取得（本类原先所在的 jar 看不到 PartygoerEntity）；
+     * 实体类型缺失时“只画尸体”的路径在融合后不可达。
      */
     private static final class Partygoer extends AnimatedSceneElementBase {
         private static final Identifier TYPE = Identifier.of("sparkdlc", "partygoer");

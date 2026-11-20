@@ -19,8 +19,8 @@ import dev.caecorthus.sparkdlc.trait.global.GlobalTraitService;
 import dev.caecorthus.sparkdlc.trait.civilian.police.PoliceRoleCategory;
 
 /**
- * Shared rules for civilian-side SparkTraits traits.
- * SparkTraits 平民阵营天赋的共享规则入口；保持原始阵营判断，避免扩大到内鬼或中立。
+ * Shared rules for civilian-side traits.
+ * 平民阵营天赋的共享规则入口；保持原始阵营判断，避免扩大到内鬼或中立。
  */
 public final class CivilianTraitService {
     public static final int EXTROVERTED_COLOR = 0x54C6A4;
@@ -61,7 +61,7 @@ public final class CivilianTraitService {
 
     /** Focus never goes to the police category ({@link PoliceRoleCategory}), so registered police variants
      *  inherit Vigilante's exclusion; selection and the gun mood-penalty skip share this gate.
-     *  专注不给警职类别身份（见 {@link PoliceRoleCategory}），下游注册的警职沿用义警的排除；
+     *  专注不给警职类别身份（见 {@link PoliceRoleCategory}），已注册的警职沿用义警的排除；
      *  抽取与左轮理智惩罚豁免共用此判定。 */
     public static boolean canSelectFocus(Role role, Collection<Identifier> selectedTraits) {
         return canSelectNonUndercoverCivilianTrait(role, selectedTraits) && !PoliceRoleCategory.isPolice(role);

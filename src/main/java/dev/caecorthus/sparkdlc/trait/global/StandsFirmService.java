@@ -37,9 +37,9 @@ public final class StandsFirmService {
                 return null;
             }
             GameWorldComponent game = GameWorldComponent.KEY.get(victim.getWorld());
-            // Faction after SparkTraits alignment flips: an Impostor plays for the killers and a Conscience killer for
+            // Faction after the traits' alignment flips: an Impostor plays for the killers and a Conscience killer for
             // the civilians, so the role's own faction would protect them from the wrong side.
-            // SparkTraits 阵营翻转后的阵营：内鬼属于杀手方、善良杀手属于好人方，直接用身份原始阵营会保护错对象。
+            // 天赋阵营翻转后的阵营：内鬼属于杀手方、善良杀手属于好人方，直接用身份原始阵营会保护错对象。
             Faction victimFaction = EffectiveTraitService.effectiveFaction(game, victim);
             if (victimFaction == Faction.NONE || victimFaction != EffectiveTraitService.effectiveFaction(game, killer)) {
                 return null;

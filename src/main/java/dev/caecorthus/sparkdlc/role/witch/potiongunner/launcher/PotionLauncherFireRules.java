@@ -43,7 +43,7 @@ public final class PotionLauncherFireRules {
      * @param spectator       the shooter is in spectator mode (e.g. swallowed by the Taotie)
      * @param stunned         stunned by a Control Expert
      * @param sessionLocked   locked in a Seeker remote session
-     * @param weaponBlocked   SparkTraits blocks a weapon action with the held launcher
+     * @param weaponBlocked   a trait blocks a weapon action with the held launcher
      * @param coolingDown     the launcher's item cooldown is active
      * @param loaded          the held launcher carries a shell
      */

@@ -42,8 +42,8 @@ import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
 /**
- * The owner's Raven Form view (化鸦): camera, flight prediction, input lock and the body hold, modelled on the SparkWitch
- * Seeker remote view (body stays {@code isCamera()} and frozen) and SparkStrength's drone pilot (flight and steering).
+ * The owner's Raven Form view (化鸦): camera, flight prediction, input lock and the body hold, modelled on the Seeker
+ * remote view (body stays {@code isCamera()} and frozen) and the Bomber drone pilot (flight and steering).
  * <p>
  * Authority: the server alone opens and ends a session; this client only reacts to the owner-synced
  * {@code sparkdlc:black_raven_crow} component (active bit + crow entity id). It predicts the crow it flies
@@ -60,7 +60,7 @@ import org.lwjgl.glfw.GLFW;
  * {@link BlackRavenCrowClientRules#MISSING_GRACE_TICKS}. End edge: hand the camera back only while it is still ours,
  * restore the keyboard input, culling and hand, then hold the body until its chunks are back.
  * <p>
- * 本人的化鸦画面：镜头、飞行预测、输入锁与本体保持，仿照 SparkWitch 搜寻者遥控视角（本体保持 isCamera() 并冻结）与 SparkStrength
+ * 本人的化鸦画面：镜头、飞行预测、输入锁与本体保持，仿照搜寻者遥控视角（本体保持 isCamera() 并冻结）与炸弹客的
  * 无人机驾驶（飞行与转向）。权威：只有服务端能开始与结束会话；本客户端只响应仅同步给本人的组件（在场标记 + 乌鸦实体 id）。它预测自己
  * 操控的乌鸦（按服务端同样的上限截断），每刻上报 black_raven_crow_move，应用 black_raven_crow_correction，并发送右键
  * （black_raven_crow_use）与丢弃键（black_raven_crow_drop_feather）；全部由服务端校验。它从不自行发送切换包（多余的切换会开始新会话），

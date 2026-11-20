@@ -21,7 +21,8 @@ import net.minecraft.util.Identifier;
  * 对讲机与中立万能钥匙也永不消耗，而搜刮来的房间钥匙开门时会被消耗。
  */
 public final class JunkerLoot {
-    /** Custom-data key; namespaced like the other SparkWitch item markers. / 自定义数据键，与其它 SparkWitch 物品标记一样带命名空间。 */
+    /** Custom-data key; it keeps the legacy {@code sparkwitch} namespace, like the other item markers saved under it.
+     * 自定义数据键，沿用旧的 {@code sparkwitch} 命名空间，与其它以该命名空间保存的物品标记一致。 */
     public static final String MARKER = "sparkwitch:ragpicker_loot";
 
     private static final Identifier NEUTRAL_MASTER_KEY_ID = Identifier.of("noellesroles", "neutral_master_key");

@@ -18,9 +18,9 @@ import net.minecraft.util.Identifier;
  * levelled gun) and held-item rendering apply exactly as in a round. Skin = the role colour; no vanilla name tag.
  * 演示演员绘制时使用的玩家实体。它从不加入世界：ActorElement 每 tick 设置它的姿态字段，再交给原版玩家渲染器，
  * 因此 Wathe 自己的手臂姿势（刀的蓄力、端平的枪）和手持物品渲染与对局中完全一致。皮肤为身份颜色，不显示原版名牌。
- * Public (with {@link #texture} and {@link #isDrawing}) only for SparkAssist's mixins that keep the reader's role views
- * off actors; it never touches Ponder, so those mixins load without it.
- * 仅为让 SparkAssist 的 mixin（把读者身份视角挡在演员之外）能访问而设为公开；本类不引用 Ponder，那些 mixin 在未安装
+ * Public (with {@link #texture} and {@link #isDrawing}) only for the {@code mixin.ponder} mixins that keep the
+ * reader's role views off actors; it never touches Ponder, so those mixins load without it.
+ * 仅为让 {@code mixin.ponder} 的 mixin（把读者身份视角挡在演员之外）能访问而设为公开；本类不引用 Ponder，那些 mixin 在未安装
  * Ponder 时也能加载。
  */
 public final class ActorPlayer extends OtherClientPlayerEntity {

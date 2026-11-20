@@ -48,13 +48,13 @@ import java.util.function.ObjIntConsumer;
  * beyond the render distance show too); junction boxes not yet hacked show for saboteurs while the instinct key is held
  * (amber for lights, teal for the engine); an admin holding the configurator sees every fixture with its sabotage
  * label. Drawn at {@code LAST} (after Fabulous' composite) with the fog-free position_color shader,
- * so neither walls nor darkness hide them. SparkWitch's Blind echo view paints over {@code LAST}, so the public part
+ * so neither walls nor darkness hide them. The Blind's echo view paints over {@code LAST}, so the public part
  * (breakers and engine units only) also goes to it through {@link #publicOutlines}.
  * 透视方块描边：维修模式熄灯期间，跳闸的电闸对所有人红色呼吸闪烁，动力破坏期间动力装置对本局所有人橙红色闪烁（按状态包下发的
  * 坐标绘制，渲染距离外的装置也有描边）；按住本能键时，可以破坏的人
  * 能看到尚未入侵的接线箱（灯光为琥珀色，动力为青色）；
  * 手持配置器的管理员能看到全部设施及其破坏类型标签。在 LAST 阶段（Fabulous 合成之后）用无雾的 position_color
- * 着色器绘制，墙体与黑暗都挡不住。SparkWitch 盲人的回声画面会覆盖 LAST 阶段，因此公开部分（仅电闸与动力装置）
+ * 着色器绘制，墙体与黑暗都挡不住。盲人的回声画面会覆盖 LAST 阶段，因此公开部分（仅电闸与动力装置）
  * 另经 {@link #publicOutlines} 交给它。
  */
 final class SabotageOutlineRenderer {
@@ -187,12 +187,12 @@ final class SabotageOutlineRenderer {
     }
 
     /**
-     * The see-through outlines every in-round player sees, for SparkWitch's Blind echo view (render thread, once per
+     * The see-through outlines every in-round player sees, for the Blind's echo view (render thread, once per
      * shown echo frame): tripped breakers during a repair-mode outage and engine units during an engine sabotage, as
      * world-space boxes {@code (box, 0xAARRGGBB)} with the same colours and pulse as {@link #render}. Never the admin
      * configurator view or the saboteurs' junction boxes, so a Blind learns nothing a sighted player would not; draws
      * nothing itself.
-     * 每个本局玩家都能看到的透视描边，供 SparkWitch 盲人回声画面使用（渲染线程，回声画面每显示一帧调用一次）：维修模式熄灯时
+     * 每个本局玩家都能看到的透视描边，供盲人回声画面使用（渲染线程，回声画面每显示一帧调用一次）：维修模式熄灯时
      * 跳闸的电闸、动力破坏时的动力装置，以世界坐标包围盒 {@code (box, 0xAARRGGBB)} 输出，颜色与呼吸闪烁同 {@link #render}。
      * 绝不包含管理员配置器视图或破坏者的接线箱，盲人不会因此得知明眼玩家看不到的信息；本方法自身不绘制。
      */

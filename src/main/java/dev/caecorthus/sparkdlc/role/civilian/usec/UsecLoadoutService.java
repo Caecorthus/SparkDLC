@@ -40,12 +40,12 @@ public final class UsecLoadoutService {
     /**
      * Grants once per assignment: an empty {@code usec_rifle} (a fresh stack has no CUSTOM_DATA, i.e.
      * {@link UsecRifleState#EMPTY}: no magazine, empty chamber, no suppressor) unless one is already held, then the
-     * 60 s round-start lock. The rifle goes through {@code insertStack} like the Seeker's revolver, so any SparkTraits
+     * 60 s round-start lock. The rifle goes through {@code insertStack} like the Seeker's revolver, so any trait
      * insert veto (the Impostor gun rule targets {@code wathe:guns} only, which the rifle is outside of) is never
      * bypassed.
      * 每次分配发放一次：一把空 {@code usec_rifle}（新物品堆没有 CUSTOM_DATA，即 {@link UsecRifleState#EMPTY}：无弹匣、空膛、
      * 无消音器；已持有时不再发放），然后写入 60 秒开局锁定。步枪与搜寻者的左轮一样经由 {@code insertStack} 放入，因此绝不绕过
-     * SparkTraits 的任何入包否决（内鬼枪械规则只针对 {@code wathe:guns}，步枪不在其中）。
+     * 词条的任何入包否决（内鬼枪械规则只针对 {@code wathe:guns}，步枪不在其中）。
      */
     public static void grant(ServerPlayerEntity player) {
         GRANTED.add(player.getUuid());

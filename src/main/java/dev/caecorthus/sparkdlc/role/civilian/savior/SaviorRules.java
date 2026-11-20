@@ -49,9 +49,9 @@ public final class SaviorRules {
     /** Wathe's innocent-shooting punishment is scheduled four ticks later. / Wathe 误杀惩罚延迟四刻执行。 */
     public static final int PUNISH_DELAY_TICKS = 4;
     /**
-     * Player-inventory indices of the two main rows Wathe's LimitedInventoryScreen locks (only client-side; SFA
+     * Player-inventory indices of the two main rows Wathe's LimitedInventoryScreen locks (only client-side; this mod's
      * LimitedInventoryRows reopens 27–35). The hidden revolver lives at 9 ({@code SaviorLoadoutService}).
-     * Wathe LimitedInventoryScreen 锁定的两行主背包索引（仅客户端锁定；SFA LimitedInventoryRows 重新开放 27–35）。
+     * Wathe LimitedInventoryScreen 锁定的两行主背包索引（仅客户端锁定；本模组的 LimitedInventoryRows 重新开放 27–35）。
      * 隐藏左轮位于 9 号（{@code SaviorLoadoutService}）。
      */
     public static final int HIDDEN_REVOLVER_SLOT = 9;
@@ -65,10 +65,11 @@ public final class SaviorRules {
     public static final Identifier PISTOL_CLICK_SOUND_ID = SparkDLC.id("item.savior_pistol.click");
     public static final Identifier LIGHTSABER_HIT_SOUND_ID = SparkDLC.id("item.savior_lightsaber.hit");
     /**
-     * The weapons' own kill reasons. They are SparkWitch-terminal ({@link #isTerminalKill}) but never SparkTraits-terminal:
-     * trait protections (Last Escape, Last Stand, Depression, Stands Firm) still apply to them.
-     * 两把武器自己的击杀死因。它们在 SparkWitch 内部算终结（{@link #isTerminalKill}），但从不登记为 SparkTraits 终结死因：
-     * 词条保护（绝处逢生、背水一战、抑郁、立场坚定）对其照常生效。
+     * The weapons' own kill reasons. They are terminal for the role rules that ask {@link #isTerminalKill}, but are
+     * never registered as trait terminal death reasons ({@code SparkTraitsApi.registerTerminalDeathReason}): trait
+     * protections (Last Escape, Last Stand, Depression, Stands Firm) still apply to them.
+     * 两把武器自己的击杀死因。对查询 {@link #isTerminalKill} 的职业规则而言它们算终结，但从不登记为词条终结死因
+     * （{@code SparkTraitsApi.registerTerminalDeathReason}）：词条保护（绝处逢生、背水一战、抑郁、立场坚定）对其照常生效。
      */
     public static final Identifier PISTOL_DEATH_REASON = SparkDLC.id("savior_pistol_kill");
     public static final Identifier LIGHTSABER_DEATH_REASON = SparkDLC.id("lightsaber_kill");
@@ -121,11 +122,11 @@ public final class SaviorRules {
     }
 
     /**
-     * Server, before any sound or consequence: SparkFactionAPI must allow both the weapon's action and the kill's own
-     * death reason, because its {@code killPlayer} HEAD veto judges the kill by that reason; checking both keeps the
-     * punishment from firing for a kill that would then be vetoed.
-     * 服务端，在任何音效或后果之前：SparkFactionAPI 必须同时放行武器动作与击杀自身的死因，因为其 {@code killPlayer} HEAD
-     * 否决按该死因判定；两者都查，避免惩罚已触发而击杀随后被否决。
+     * Server, before any sound or consequence: {@code SparkFactionApi.canAffectPlayer} must allow both the weapon's
+     * action and the kill's own death reason, because the faction core's {@code killPlayer} HEAD veto judges the kill
+     * by that reason; checking both keeps the punishment from firing for a kill that would then be vetoed.
+     * 服务端，在任何音效或后果之前：{@code SparkFactionApi.canAffectPlayer} 必须同时放行武器动作与击杀自身的死因，因为阵营核心的
+     * {@code killPlayer} HEAD 否决按该死因判定；两者都查，避免惩罚已触发而击杀随后被否决。
      */
     public static boolean mayAffect(ServerPlayerEntity actor, ServerPlayerEntity target, Identifier action,
                                     Identifier deathReason, GameWorldComponent game) {
@@ -144,11 +145,11 @@ public final class SaviorRules {
     }
 
     /**
-     * True for the two Savior weapon reasons. "Terminal" here is SparkWitch-local only: the Saint, the NoellesRoles
-     * shields, the Charon pardon and the Hiro return treat these kills as unstoppable. SparkTraits trait protections are
-     * not part of it (see {@link #PISTOL_DEATH_REASON}).
-     * 救世主两把武器的死因。这里的“终结”仅限 SparkWitch 内部：圣徒、NoellesRoles 护盾、卡戎宽恕与希罗回归视其为不可阻挡。
-     * SparkTraits 词条保护不在此列（见 {@link #PISTOL_DEATH_REASON}）。
+     * True for the two Savior weapon reasons. "Terminal" here is local to the role rules that ask this method: the
+     * Saint, the NoellesRoles shields, the Charon pardon and the Hiro return treat these kills as unstoppable. Trait
+     * protections are not part of it (see {@link #PISTOL_DEATH_REASON}).
+     * 救世主两把武器的死因。这里的“终结”仅限查询本方法的职业规则：圣徒、NoellesRoles 护盾、卡戎宽恕与希罗回归视其为不可阻挡。
+     * 词条保护不在此列（见 {@link #PISTOL_DEATH_REASON}）。
      */
     public static boolean isTerminalKill(@Nullable Identifier deathReason) {
         return PISTOL_DEATH_REASON.equals(deathReason) || LIGHTSABER_DEATH_REASON.equals(deathReason);
@@ -226,10 +227,10 @@ public final class SaviorRules {
 
     /**
      * Pure: where the stack pushed out of the hand may go, in order: the other hotbar slots, then the second visible
-     * row 27–35 (SparkFactionAPI limited inventory). Never rows 9–26, which Wathe's LimitedInventoryScreen locks: a
-     * key or tool parked there could not be taken back.
-     * 纯函数：被挤出手的物品可去的槽位，按顺序：其余快捷栏槽，再到第二可见行 27–35（SparkFactionAPI 受限物品栏）。绝不放进
-     * Wathe LimitedInventoryScreen 锁住的 9–26 行：钥匙或工具放进去就再也拿不回来。
+     * row 27–35 (the limited inventory, {@code LimitedInventoryRows}). Never rows 9–26, which Wathe's
+     * LimitedInventoryScreen locks: a key or tool parked there could not be taken back.
+     * 纯函数：被挤出手的物品可去的槽位，按顺序：其余快捷栏槽，再到第二可见行 27–35（受限物品栏，
+     * {@code LimitedInventoryRows}）。绝不放进 Wathe LimitedInventoryScreen 锁住的 9–26 行：钥匙或工具放进去就再也拿不回来。
      */
     static int[] displacedHandOrder(int selected) {
         return IntStream.concat(

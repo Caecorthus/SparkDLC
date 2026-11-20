@@ -21,12 +21,12 @@ import org.jetbrains.annotations.Nullable;
  * Client seam over Fabric's {@code UseItemCallback} (default phase, so the Control Expert stun lock, the Seeker session
  * lock and the Wraith checks decide first): the Seeker's right-click on a console device (the tablet, matched by
  * registry id) opens {@link SeekerConsoleScreen} and returns CONSUME.
- * CONSUME cancels vanilla use without sending the use packet or swinging, so SparkStrength's server {@code use()} never
+ * CONSUME cancels vanilla use without sending the use packet or swinging, so the tablet's server {@code use()} never
  * runs. Sneaking is deliberately ignored. The "Police network" button re-issues the vanilla use once through
  * {@link #bypassOnce(Hand)}. The integrated server shares this JVM, so the listener passes on every server world.
  * 基于 Fabric {@code UseItemCallback} 的客户端接缝（默认阶段，让控场专家眩晕锁、搜寻者会话锁与冤魂检查先决定）：
  * 搜寻者右键控制台设备（按注册 id 识别的平板）会打开
- * {@link SeekerConsoleScreen} 并返回 CONSUME。CONSUME 取消原版使用、不发使用包也不挥手，因此 SparkStrength
+ * {@link SeekerConsoleScreen} 并返回 CONSUME。CONSUME 取消原版使用、不发使用包也不挥手，因此平板
  * 服务端的 {@code use()} 不会执行。刻意不判断潜行。“警察网络”按钮通过 {@link #bypassOnce(Hand)} 重发一次原版使用。
  * 集成服务端与客户端同处一个 JVM，因此监听器对所有服务端世界一律放行。
  */
@@ -97,8 +97,8 @@ public final class SeekerConsoleOpener {
             client.setScreen(new SeekerConsoleScreen(hand));
         }
         // CONSUME, never SUCCESS: only SUCCESS makes Fabric send the use packet, so a throttled console use is swallowed
-        // here instead of reaching SparkStrength's own tablet.
-        // 只有 SUCCESS 才会发包，所以用 CONSUME；被节流的控制台使用也在此吞掉，不会落到 SparkStrength 自己的平板。
+        // here instead of reaching the tablet's own screen.
+        // 只有 SUCCESS 才会发包，所以用 CONSUME；被节流的控制台使用也在此吞掉，不会落到平板自己的界面。
         return TypedActionResult.consume(stack);
     }
 

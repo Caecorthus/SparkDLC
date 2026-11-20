@@ -22,11 +22,11 @@ import java.util.Objects;
  * Draws the moment Fiend's owner-only Dash line ({@link FiendDashHudRules}). Reads only the local player's synced role,
  * the all-player {@link FiendMomentWorldComponent} and its Dash cooldown, which the server sends with a real value only
  * to the moment Fiend and the client counts down locally for display; the server alone decides a Dash. Called by
- * {@link FiendClient} only on a confirmed SparkWitch server. Role-owned presentation: never the action bar and never
+ * {@link FiendClient} only on a confirmed SparkDLC server. Role-owned presentation: never the action bar and never
  * the {@code gui.sparkdlc.skills} panel.
  * 绘制时刻中魔人仅本人可见的疾驰行（{@link FiendDashHudRules}）。只读取本地玩家同步的职业、全员同步的
  * {@link FiendMomentWorldComponent} 及其疾驰冷却；服务端只向时刻中的魔人发送真实冷却值，客户端在本地倒数用于展示，
- * 疾驰是否生效只由服务端决定。仅在已确认的 SparkWitch 服务器上由 {@link FiendClient} 调用。属于职业自有展示：
+ * 疾驰是否生效只由服务端决定。仅在已确认的 SparkDLC 服务器上由 {@link FiendClient} 调用。属于职业自有展示：
  * 绝不使用动作栏，也绝不进入 {@code gui.sparkdlc.skills} 面板。
  */
 public final class FiendDashHud {

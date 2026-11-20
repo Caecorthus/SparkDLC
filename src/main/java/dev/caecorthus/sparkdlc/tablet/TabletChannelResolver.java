@@ -65,8 +65,8 @@ public final class TabletChannelResolver {
      * 服务端权威的单个持有者访问状态。解析时会记录存活时的允许集合并回写所选频道，保证所有处理器与同步轮次一致。
      *
      * <p>Alive holders use live identity; dead holders are read-only and keep the set frozen at their last alive
-     * resolution because SparkTraits clears traits at death (a dead Impostor must keep both networks).
-     * 存活者使用实时身份；死亡者只读，并沿用最后一次存活时冻结的集合，因为 SparkTraits 会在死亡时清除天赋。</p>
+     * resolution because traits are cleared at death (a dead Impostor must keep both networks).
+     * 存活者使用实时身份；死亡者只读，并沿用最后一次存活时冻结的集合，因为天赋会在死亡时被清除。</p>
      *
      * <p>{@link #features} are resolved live for alive and dead holders alike; see there for the dead-holder rule.
      * 功能对存活与死亡持有者都实时解析；死亡持有者的规则见 features。</p>
@@ -123,8 +123,8 @@ public final class TabletChannelResolver {
     }
 
     /**
-     * Resolves each holder once per sync pass so reflective identity lookups scale with holders, not viewers x holders.
-     * 每轮同步只解析每个持有者一次，使反射身份查询随持有者数量线性增长，而非观看者 x 持有者。
+     * Resolves each holder once per sync pass so identity lookups scale with holders, not viewers x holders.
+     * 每轮同步只解析每个持有者一次，使身份查询随持有者数量线性增长，而非观看者 x 持有者。
      */
     public static Map<UUID, Access> roster(Collection<ServerPlayerEntity> holders) {
         LinkedHashMap<UUID, Access> roster = new LinkedHashMap<>();

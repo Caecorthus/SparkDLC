@@ -33,7 +33,7 @@ public final class SphinxHaoGunRules {
     /** Whether a shot killed: decides the shooter's effects. / 一次射击是否击杀：决定射手获得的效果。 */
     public enum Outcome {
         KILL,
-        /** A miss, a block, a shield, or a death SparkTraits intercepted. / 未命中、被挡、护盾或被 SparkTraits 拦截的死亡。 */
+        /** A miss, a block, a shield, or a death a trait intercepted. / 未命中、被挡、护盾或被词条拦截的死亡。 */
         NO_KILL
     }
 
@@ -68,9 +68,9 @@ public final class SphinxHaoGunRules {
     }
 
     /**
-     * Loaded-flag transitions of one accepted use. A refused use never reaches here; the SparkTraits weapon gate is
+     * Loaded-flag transitions of one accepted use. A refused use never reaches here; the trait weapon gate is
      * asked only for {@link Action#FIRE}.
-     * 一次被接受的使用对应的装填标记转换。被拒绝的使用不会到达这里；SparkTraits 武器门槛只在 {@link Action#FIRE} 时询问。
+     * 一次被接受的使用对应的装填标记转换。被拒绝的使用不会到达这里；词条武器门槛只在 {@link Action#FIRE} 时询问。
      */
     public static Action decide(boolean mayUse, boolean loaded, boolean hasAmmo) {
         if (!mayUse) {
@@ -97,9 +97,9 @@ public final class SphinxHaoGunRules {
     }
 
     /**
-     * A KILL needs a player hit who was alive before, is dead after the one non-forced kill, and whose death SparkTraits
+     * A KILL needs a player hit who was alive before, is dead after the one non-forced kill, and whose death a trait
      * did not intercept; everything else is NO_KILL.
-     * 击杀需要：命中了一名此前存活的玩家，在这一次非强制击杀之后已死亡，且其死亡未被 SparkTraits 拦截；其余都算未击杀。
+     * 击杀需要：命中了一名此前存活的玩家，在这一次非强制击杀之后已死亡，且其死亡未被词条拦截；其余都算未击杀。
      */
     public static Outcome outcome(boolean hitPlayer, boolean aliveBefore, boolean deadAfter, boolean intercepted) {
         return hitPlayer && aliveBefore && deadAfter && !intercepted ? Outcome.KILL : Outcome.NO_KILL;

@@ -62,9 +62,9 @@ import java.util.UUID;
  *   45 s cooldown; bomb drone detonates immediately.
  *   投弹无人机掉落可拾取的 M67（不会爆炸）并以 45 秒冷却返还主人；炸弹无人机立即引爆。</li>
  *   <li>{@link #detonate}: bomb drone blast, radius {@link DroneRules#BOMB_BLAST_RADIUS}, M67 path judgement, kills
- *   credited to the owner with the NoellesRoles bomb death reason; then kills the Black Raven behind every SparkWitch
+ *   credited to the owner with the NoellesRoles bomb death reason; then kills the Black Raven behind every
  *   Raven Form crow in the radius ({@code SparkRoleApi.killCrowsInBlast}); chains into other drones in the blast.
- *   炸弹无人机爆炸，沿用 M67 路径判定，击杀归属主人并使用 NoellesRoles 炸弹死因；随后处死半径内每只 SparkWitch 化鸦乌鸦
+ *   炸弹无人机爆炸，沿用 M67 路径判定，击杀归属主人并使用 NoellesRoles 炸弹死因；随后处死半径内每只化鸦乌鸦
  *   背后的黑羽鸦（SparkRoleApi.killCrowsInBlast）；会连锁击毁范围内的其他无人机。</li>
  * </ul>
  *
@@ -74,12 +74,12 @@ import java.util.UUID;
  * 重入：正在移除的无人机记录在 BUSY 中，所有入口都会忽略它；因此爆炸击毁另一架炸弹无人机时可安全连锁，
  * 永远不会递归回发起爆炸的无人机（也不会处理刚被炸死主人的同一架无人机）。</p>
  *
- * <p>Own blasts: Wathe grenades and M67s break drones through their own hooks, after their kills. SparkWitch also
- * reports those blasts to {@code SeekerDeviceHits.onBlast} (at the Wathe grenade's HEAD, before its kills), so its
+ * <p>Own blasts: Wathe grenades and M67s break drones through their own hooks, after their kills. They are also
+ * reported to {@code SeekerDeviceHits.onBlast} (at the Wathe grenade's HEAD, before its kills), so that
  * drone hook is muted while {@link #runOwnBlast} is on the stack; otherwise chained bomb-drone kills would land before
  * the grenade's own.
- * 自有爆炸：Wathe 手雷与 M67 在各自击杀之后通过自身钩子击毁无人机。SparkWitch 也会把这些爆炸报给 SeekerDeviceHits.onBlast
- * （Wathe 手雷在 HEAD、即其击杀之前），因此在 runOwnBlast 执行期间其无人机钩子保持静默；否则连锁的炸弹无人机击杀会早于手雷自身的击杀。</p>
+ * 自有爆炸：Wathe 手雷与 M67 在各自击杀之后通过自身钩子击毁无人机。这些爆炸也会报给 SeekerDeviceHits.onBlast
+ * （Wathe 手雷在 HEAD、即其击杀之前），因此在 runOwnBlast 执行期间该无人机钩子保持静默；否则连锁的炸弹无人机击杀会早于手雷自身的击杀。</p>
  */
 public final class DroneCombatService {
     /** The M67 leaves the hull with this small extra downward speed. / M67 离开机身时额外的少量向下速度。 */
@@ -227,7 +227,7 @@ public final class DroneCombatService {
             world.spawnParticles(new ItemStackParticleEffect(ParticleTypes.ITEM,
                             new ItemStack(SparkDlcItems.bombDrone())),
                     center.x, center.y, center.z, 100, 0, 0, 0, 1.0);
-            // The blast clears SparkWitch BEAR smoke around it (visual only). / 爆炸炸开周围的 SparkWitch BEAR 烟雾（仅视觉）。
+            // The blast clears BEAR smoke around it (visual only). / 爆炸炸开周围的 BEAR 烟雾（仅视觉）。
             SparkRoleApi.carveSmoke(world, center, DroneRules.BOMB_BLAST_RADIUS);
 
             UUID ownerUuid = drone.ownerUuid();
@@ -255,9 +255,9 @@ public final class DroneCombatService {
                 }
             }
             if (roundId.equals(DroneService.currentRoundId(world))) {
-                // A SparkWitch Raven Form crow in the blast kills its Black Raven like a player here (owner 2026-10-21):
+                // A Raven Form crow in the blast kills its Black Raven like a player here (owner 2026-10-21):
                 // same radius, the pilot credited, NoellesRoles' bomb reason instance, inside this blast's scope.
-                // 爆炸范围内的 SparkWitch 化鸦乌鸦与此处的玩家一样处死其黑羽鸦（所有者 2026-10-21）：同一半径、记在驾驶者
+                // 爆炸范围内的化鸦乌鸦与此处的玩家一样处死其黑羽鸦（所有者 2026-10-21）：同一半径、记在驾驶者
                 // 名下、NoellesRoles 炸弹死因实例，并处于本次爆炸作用域内。
                 AttackOriginScope.runBlast(center, () -> SparkRoleApi.killCrowsInBlast(world, center,
                         DroneRules.BOMB_BLAST_RADIUS, owner, Noellesroles.DEATH_REASON_BOMB));
@@ -361,9 +361,9 @@ public final class DroneCombatService {
     }
 
     /**
-     * Server thread: run a Wathe grenade / M67 detonation that breaks drones itself; SparkWitch's blast hook stays
+     * Server thread: run a Wathe grenade / M67 detonation that breaks drones itself; the blast-report hook stays
      * muted until it returns (see the class note). Re-entrant.
-     * 服务器线程：执行会自行击毁无人机的 Wathe 手雷 / M67 引爆；返回前 SparkWitch 的爆炸钩子保持静默（见类说明）。可重入。
+     * 服务器线程：执行会自行击毁无人机的 Wathe 手雷 / M67 引爆；返回前爆炸上报钩子保持静默（见类说明）。可重入。
      */
     public static void runOwnBlast(Runnable blast) {
         ownBlastDepth++;

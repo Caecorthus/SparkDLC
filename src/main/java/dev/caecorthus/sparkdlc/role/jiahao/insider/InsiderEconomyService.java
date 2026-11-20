@@ -13,12 +13,13 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Insider task economy (C4): {@link InsiderRules#INITIAL_MONEY} at role assignment, +{@link InsiderRules#TASK_MONEY_REWARD}
- * per completed task, coin counter visible. SparkStrength pays nothing to the Insider, so SparkWitch owns all of its
- * income; SparkTraits Task Master adds its own bonus on top. Decisions live in {@link InsiderEconomyRules}.
+ * Insider task economy (C4): {@link InsiderRules#INITIAL_MONEY} at role assignment,
+ * +{@link InsiderRules#TASK_MONEY_REWARD} per completed task, coin counter visible. No role kit pays the Insider, so
+ * this service owns all of its income; the Task Master trait adds its own bonus on top. Decisions live in
+ * {@link InsiderEconomyRules}.
  * 内应任务经济（C4）：分配职业时余额为 {@link InsiderRules#INITIAL_MONEY}，每完成一个任务
- * +{@link InsiderRules#TASK_MONEY_REWARD}，金币可见。SparkStrength 不给内应发钱，因此全部收入由 SparkWitch 负责；
- * SparkTraits 任务大师在此之上自行追加。判定逻辑位于 {@link InsiderEconomyRules}。
+ * +{@link InsiderRules#TASK_MONEY_REWARD}，金币可见。职业强化不给内应发钱，因此全部收入由本服务负责；任务大师词条在此之
+ * 上自行追加。判定逻辑位于 {@link InsiderEconomyRules}。
  */
 public final class InsiderEconomyService {
     private static boolean registered;

@@ -52,9 +52,9 @@ public final class FisherFishUse {
     }
 
     /**
-     * Any cooling fish refuses every fish, so removing one fish's cooldown (SparkFactionAPI {@code clearCooldown})
+     * Any cooling fish refuses every fish, so removing one fish's cooldown (the admin {@code clearCooldown})
      * removes the others too. Only cooling fish are removed, so the removals this triggers stop by themselves.
-     * 任一鱼冷却中都会拒绝所有鱼，因此移除一条鱼的冷却（SparkFactionAPI {@code clearCooldown}）时一并移除其余鱼的冷却。
+     * 任一鱼冷却中都会拒绝所有鱼，因此移除一条鱼的冷却（管理员 {@code clearCooldown}）时一并移除其余鱼的冷却。
      * 只移除冷却中的鱼，因此由此引发的移除会自行终止。
      */
     public static void releaseSharedCooldown(ServerPlayerEntity player) {

@@ -10,8 +10,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * Extends NoellesRoles' hidden-equipment decision without making it a hard dependency.
- * 在不硬依赖 NoellesRoles 的前提下，扩展其隐藏装备判定。
+ * Extends NoellesRoles' hidden-equipment decision. {@code @Pseudo}, the string target and {@code require = 0} kept
+ * NoellesRoles a soft dependency; it is a required one now, so the tolerant path is unreachable since the fusion.
+ * 扩展 NoellesRoles 的隐藏装备判定。{@code @Pseudo}、字符串目标与 {@code require = 0} 原本用于不硬依赖 NoellesRoles；
+ * 它现在是必需依赖，这条宽容路径融合后不可达。
  */
 @Pseudo
 @Mixin(targets = "org.agmas.noellesroles.util.HiddenEquipmentHelper", remap = false)

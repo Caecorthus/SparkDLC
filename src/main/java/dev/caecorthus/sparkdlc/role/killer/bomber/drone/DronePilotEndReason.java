@@ -15,7 +15,7 @@ public enum DronePilotEndReason {
     ROUND_OVER(7, "round_over"),
     UNAVAILABLE(8, "unavailable"),
     OPENING(9, "opening"),
-    /** SparkTraits blocks the pilot's role skills (incl. NoellesRoles' silenced killer). / SparkTraits 封锁驾驶者的职业技能（含 NoellesRoles 被沉默的杀手）。 */
+    /** A trait blocks the pilot's role skills (incl. NoellesRoles' silenced killer). / 词条封锁驾驶者的职业技能（含 NoellesRoles 被沉默的杀手）。 */
     SKILL_BLOCKED(10, "skill_blocked");
 
     private final int wire;

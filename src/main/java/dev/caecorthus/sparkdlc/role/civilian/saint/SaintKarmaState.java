@@ -18,9 +18,9 @@ import java.util.UUID;
 public final class SaintKarmaState {
     private final LinkedHashMap<UUID, Integer> remainingTicks = new LinkedHashMap<>();
     /**
-     * Items an admin cleared during the running Karma (SparkFactionAPI {@code clearCooldown}); transient, never saved.
+     * Items an admin cleared during the running Karma ({@code /sparkdlc:clearCooldown}); transient, never saved.
      * Dropped when the Karma ends, is triggered again (a new penalty covers every item), or is unmarked.
-     * 业障进行中被管理员清除冷却的物品（SparkFactionAPI {@code clearCooldown}）；仅在内存中，从不保存。业障结束、再次触发
+     * 业障进行中被管理员清除冷却的物品（{@code /sparkdlc:clearCooldown}）；仅在内存中，从不保存。业障结束、再次触发
      * （新的惩罚覆盖所有物品）或取消标记时丢弃。
      */
     private final Map<UUID, Set<Identifier>> adminClearedItems = new HashMap<>();

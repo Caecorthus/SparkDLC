@@ -29,15 +29,15 @@ import java.util.UUID;
  *
  * <p>Mirrors the client appearance precedence ({@code MorphlingAppearanceClientHelper} and the NoellesRoles name
  * renderer) from server-synced state only: Jester moment / Wathe psycho / insane viewer (anonymous) > NoellesRoles
- * morph > SparkStrength reagent > Coroner disguise > real identity. The NoellesRoles insane shuffle is gated by
+ * morph > morph reagent > Coroner disguise > real identity. The NoellesRoles insane shuffle is gated by
  * server-synced state (world {@code insaneSeesMorphs} plus the viewer's Wathe mood below depressed) and hides every
- * name, so it is reproduced as anonymous; only its per-client skin mapping and the SparkWitch
+ * name, so it is reproduced as anonymous; only its per-client skin mapping and the
  * Wraith/BlackRaven/Curser hallucinations stay out of scope. Callers must never forward the target's real uuid to
  * the client.
  * 仅用服务端同步状态复刻客户端外观优先级：小丑时刻/Wathe 疯魔/精神错乱的观察者（匿名）> NoellesRoles 变形 >
- * SparkStrength 试剂 > 验尸官伪装 > 真实身份。NoellesRoles 精神错乱洗牌由服务端同步状态决定（世界 insaneSeesMorphs
+ * 变形试剂 > 验尸官伪装 > 真实身份。NoellesRoles 精神错乱洗牌由服务端同步状态决定（世界 insaneSeesMorphs
  * 且观察者 Wathe 情绪低于抑郁），会隐藏所有名字，因此按匿名复刻；只有其客户端本地的皮肤对应关系以及
- * SparkWitch 怨灵/黑鸦/诅咒幻觉不在复刻范围内。调用方绝不能把目标的真实 UUID 发给客户端。</p>
+ * 怨灵/黑鸦/诅咒幻觉不在复刻范围内。调用方绝不能把目标的真实 UUID 发给客户端。</p>
  */
 public final class DetectiveIdentityResolver {
     private DetectiveIdentityResolver() {
@@ -73,9 +73,9 @@ public final class DetectiveIdentityResolver {
     }
 
     /**
-     * Apparent identity of a corpse: the SparkStrength body disguise (Coroner / morph reagent) if one is recorded for
+     * Apparent identity of a corpse: the body disguise (Coroner / morph reagent) if one is recorded for
      * its owner, else the real owner. Clients render bodies from the same owner-keyed record.
-     * 尸体的表面身份：若其主人记录了 SparkStrength 尸体伪装（验尸官/变形试剂）则取伪装，否则取真实主人；
+     * 尸体的表面身份：若其主人记录了尸体伪装（验尸官/变形试剂）则取伪装，否则取真实主人；
      * 客户端渲染尸体也读取同一份按主人索引的记录。
      */
     public static DisplayedIdentity resolveBody(ServerWorld world, PlayerBodyEntity body) {
@@ -132,10 +132,10 @@ public final class DetectiveIdentityResolver {
 
     /**
      * Viewer-independent name obfuscation: the target is in Wathe psycho mode (its own name), or a NoellesRoles Jester
-     * moment is on, which obfuscates every name for living viewers (from the Jester's transformation, as SparkStrength
-     * starts the moment view there).
+     * moment is on, which obfuscates every name for living viewers (from the Jester's transformation, as the Jester
+     * Moment tweaks start the moment view there).
      * 与观察者无关的名字乱码：目标处于 Wathe 疯魔（只影响其本人名字），或正处于 NoellesRoles 小丑时刻（对存活观察者隐藏
-     * 所有名字；SparkStrength 让时刻视角从小丑转变时开始）。
+     * 所有名字；小丑时刻调整让时刻视角从小丑转变时开始）。
      */
     public static boolean isSubjectAnonymised(ServerPlayerEntity target) {
         if (PlayerPsychoComponent.KEY.get(target).getPsychoTicks() > 0) {

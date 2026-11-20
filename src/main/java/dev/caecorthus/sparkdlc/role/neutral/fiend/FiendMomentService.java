@@ -126,11 +126,13 @@ public final class FiendMomentService {
     }
 
     /**
-     * Crowbar door pry by the moment Fiend: an exact 5 s cooldown, written after Wathe's (and SparkTraits') own writes.
-     * SparkTraits' exact write performs the vanilla set itself, so the vanilla write runs only when it is absent or
-     * older (never both). Non-Fiend users and creative players are untouched.
-     * 时刻中的魔人用撬棍撬门：写入精确的 5 秒冷却，位于 Wathe（及 SparkTraits）自身写入之后。SparkTraits 的精确写入会
-     * 自行完成原版写入，因此仅在其缺失或过旧时回退到原版写入（二者不会同时执行）。非魔人与创造模式玩家不受影响。
+     * Crowbar door pry by the moment Fiend: an exact 5 s cooldown, written after Wathe's (and the traits') own writes.
+     * The exact write ({@code SparkTraitsApi.setExactItemCooldownRemaining}) performs the vanilla set itself; the
+     * vanilla fallback below was for an absent or older traits jar and is unreachable since the fusion (never both).
+     * Non-Fiend users and creative players are untouched.
+     * 时刻中的魔人用撬棍撬门：写入精确的 5 秒冷却，位于 Wathe（及词条）自身写入之后。精确写入
+     * （{@code SparkTraitsApi.setExactItemCooldownRemaining}）会自行完成原版写入；下方的原版回退原为词条 jar 缺失或过旧
+     * 而设，融合后不可达（二者不会同时执行）。非魔人与创造模式玩家不受影响。
      */
     public static void applyCrowbarCooldown(ServerPlayerEntity player, Item crowbar) {
         if (player.isCreative() || !FiendParticipation.isMomentFiend(player)) {

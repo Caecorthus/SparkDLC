@@ -26,20 +26,20 @@ import dev.caecorthus.sparkdlc.role.civilian.waiter.WaiterTaskRevealService;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 /**
- * The one per-player round reset: every SparkStrength per-player state that must not outlive a round.
- * 唯一的单人回合重置：所有不能跨局保留的 SparkStrength 单人状态。
+ * The one per-player round reset: every role-kit per-player state that must not outlive a round.
+ * 唯一的单人回合重置：所有不能跨局保留的职业套件单人状态。
  *
  * <p>Runs on Wathe's ResetPlayer, which fires after the player's inventory and effects are cleared, never on death:
  * in baseInitialize at round start (before any RoleAssigned, so role setup is never wiped); in resetPlayer, which
  * finalizeGame runs for every player of the game world, spectators included, before it clears the role map and fires
  * ON_FINISH_FINALIZE; and in resetPlayer from serverTick while no game runs (non-creative players inside the play area,
- * spectators without the bypass permission). SparkWitch also calls resetPlayer for a disconnected Vendetta-bound killer.
+ * spectators without the bypass permission). The Vendetta also calls resetPlayer for a disconnected bound killer.
  * No step branches on the role map or the game status, so it does the same at round start, round end and in the
  * lobby.</p>
  * <p>在 Wathe 的 ResetPlayer 上执行；该事件在清空玩家物品栏与效果之后触发，死亡时不会触发：开局 baseInitialize
  * （早于任何 RoleAssigned，因此不会抹掉身份分配的设置）；finalizeGame 在清空身份表并触发 ON_FINISH_FINALIZE 之前，
  * 对游戏世界的每名玩家（含旁观者）调用的 resetPlayer；以及非对局期间 serverTick 调用的 resetPlayer（游戏区域内的非创造模式玩家、
- * 没有绕过权限的旁观者）。SparkWitch 也会对掉线的复仇绑定杀手调用 resetPlayer。没有任何一步依据身份表或对局状态分支，
+ * 没有绕过权限的旁观者）。仇杀客功能也会对掉线的复仇绑定杀手调用 resetPlayer。没有任何一步依据身份表或对局状态分支，
  * 因此开局、终局与大厅中的效果完全相同。</p>
  */
 public final class PlayerRoundReset {

@@ -19,13 +19,13 @@ import net.minecraft.text.Text;
 
 /**
  * Server-authoritative launcher fire. The client only states intent and aim; this service resolves the shot's
- * {@link OffMatchUse} mode and validates the held and loaded launcher, cooldown, stun/session locks, and SparkTraits
+ * {@link OffMatchUse} mode and validates the held and loaded launcher, cooldown, stun/session locks, and trait
  * weapon blocks before spawning a shell. Use never checks the role (owner rule 2026-10-04): a living participant of an
  * exactly {@code ACTIVE} round fires a full match shot, a dead one nothing, and anyone else a presentation-only one.
  * Fabric runs play-payload receivers on the server thread ({@code ServerPlayNetworkAddon} hands them to
  * {@code MinecraftServer#execute}, which the stun and Seeker payload guards wrap), so no extra hand-off is needed.
  * 服务端权威的炮筒发射。客户端只表达意图与朝向；本服务判定该次射击的 {@link OffMatchUse} 模式，并复核手持且已装填的
- * 炮筒、冷却、眩晕/遥控锁定与 SparkTraits 武器封锁后才生成炮弹。使用从不检查职业（所有者规则 2026-10-04）：恰为
+ * 炮筒、冷却、眩晕/遥控锁定与词条武器封锁后才生成炮弹。使用从不检查职业（所有者规则 2026-10-04）：恰为
  * {@code ACTIVE} 的对局中存活的参与者打出完整的对局射击，该对局中已死亡的参与者无法发射，其他人打出仅表现的射击。
  * Fabric 在服务端线程上执行游戏数据包接收器（{@code ServerPlayNetworkAddon} 把它们交给
  * 眩晕与搜寻者拦截所包装的 {@code MinecraftServer#execute}），因此无需额外切换线程。

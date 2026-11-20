@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * SparkStrength items: drones, grenades, the Professor's truth serum, the Engineer's power restoration and the
- * Bomber's bed trap, from the records SparkStrength (and the Wathe / Noelle's Roles code it drives) writes when they
+ * Role-kit items: drones, grenades, the Professor's truth serum, the Engineer's power restoration and the
+ * Bomber's bed trap, from the records the role kits (and the Wathe / Noelle's Roles code they drive) write when they
  * really take effect. "As role X" is my real role at that event, so a Coroner disguised as X never counts.
- * SparkStrength 道具：无人机、手雷、教授的吐真试剂、工程师的电力恢复系统与炸弹客的床铺陷阱，依据 SparkStrength
+ * 职业套件道具：无人机、手雷、教授的吐真试剂、工程师的电力恢复系统与炸弹客的床铺陷阱，依据职业套件
  * （及其驱动的 Wathe / Noelle's Roles 代码）在其真正生效时写下的记录。“以 X 身份”指该事件发生时我的真实身份，
  * 因此伪装成 X 的验尸官永远不算。
  */

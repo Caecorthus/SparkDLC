@@ -60,8 +60,8 @@ public final class MiniWitherRuntime {
 
     /**
      * The states that refuse her skills also pause the auto-fire: spectating (inside a Rift Gate, swallowed), a Control
-     * Expert stun, Fear, a SparkTraits skill block, or a Seeker remote session.
-     * 拒绝她技能的状态同样暂停自动射击：旁观（裂隙门内、被吞下）、控场专家眩晕、恐惧、SparkTraits 技能封锁或搜寻者遥控会话。
+     * Expert stun, Fear, a trait skill block, or a Seeker remote session.
+     * 拒绝她技能的状态同样暂停自动射击：旁观（裂隙门内、被吞下）、控场专家眩晕、恐惧、词条技能封锁或搜寻者遥控会话。
      */
     static boolean isSilenced(ServerPlayerEntity player) {
         return player.isSpectator()

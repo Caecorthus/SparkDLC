@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/** Lower priority than Witch's explicit priority-1000 Tofana terminal protection. */
+/** Lower priority than Tofana's explicit priority-1000 terminal protection. */
 @Mixin(value = GameFunctions.class, priority = 900, remap = false)
 public abstract class LastEscapeTerminalMixin {
     @com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation(

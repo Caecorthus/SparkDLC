@@ -15,8 +15,8 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Filters forced roles that conflict with already locked SparkWitch abilities.
- * 过滤与已锁定 SparkWitch 能力冲突的 Wathe 强制身份目标。
+ * Filters forced roles that conflict with already locked skill-role abilities.
+ * 过滤与已锁定技能职业能力冲突的 Wathe 强制身份目标。
  */
 @Mixin(value = ForceRoleCommand.class, priority = 1500, remap = false)
 public abstract class ForceRoleCommandMixin {

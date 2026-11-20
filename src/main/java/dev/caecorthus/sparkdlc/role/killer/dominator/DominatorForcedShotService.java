@@ -28,11 +28,11 @@ import org.jetbrains.annotations.Nullable;
  * receiver's cooldown gate and final cooldown write are bypassed inside the scope ({@code DominatorForcedShotGunMixin});
  * any other write to that entry during the shot (NoellesRoles' Corrupt Cop RETURN rewrite, gun-cycle listeners such as
  * Emma's, a Depression fake-kill discount) is reverted to the exact pre-shot entry, without passing through
- * {@code set}/{@code remove} again, so SparkFactionAPI forced locks and SparkWitch timer releases are untouched.</p>
+ * {@code set}/{@code remove} again, so forced cooldown locks and the roles' timer releases are untouched.</p>
  * 强制开枪的服务端编排：开始换枪序列，在 {@link DominatorForcedShotScope} 内通过 Wathe 自身的枪械接收器开一枪，并在这一枪的
  * 受害者确定死亡时向支配者发放奖金。冷却契约：强制开枪既不依赖也不改变射手自己的左轮冷却。作用域内绕过接收器的冷却检查与
  * 最终冷却写入；开枪期间对该条目的其他写入（NoellesRoles 黑警的 RETURN 重写、艾玛等枪械循环监听者、抑郁假死折扣）都被精确
- * 还原为开枪前的条目，且不再经过 {@code set}/{@code remove}，因此 SparkFactionAPI 强制锁与 SparkWitch 计时释放均不受影响。
+ * 还原为开枪前的条目，且不再经过 {@code set}/{@code remove}，因此强制冷却锁与各职业的计时释放均不受影响。
  */
 public final class DominatorForcedShotService {
     private DominatorForcedShotService() {
@@ -47,9 +47,9 @@ public final class DominatorForcedShotService {
         ServerPlayerEntity victim = shot.victim();
         boolean victimWasAlive = victim != null && GameFunctions.isPlayerPlayingAndAlive(victim);
         if (refusedByFaction(shooter, shot.targetId())) {
-            // SparkFactionAPI's own HEAD guard skips this check while the shooter's revolver cools down (it expects
+            // The faction core's own HEAD guard skips this check while the shooter's revolver cools down (it expects
             // Wathe to refuse); the forced shot ignores that cooldown, so the guard is asked here and, like it,
-            // cancels the whole shot. / SparkFactionAPI 自身的 HEAD 拦截在射手左轮冷却中时跳过此检查（它预期 Wathe 会拒绝）；
+            // cancels the whole shot. / 阵营核心自身的 HEAD 拦截在射手左轮冷却中时跳过此检查（它预期 Wathe 会拒绝）；
             // 强制开枪无视该冷却，因此在此询问该拦截，并与其一致地取消整次射击。
             return;
         }

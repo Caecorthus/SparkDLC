@@ -19,11 +19,11 @@ import java.util.UUID;
  * Server-only writer of {@code sparkdlc:wind_spirit_fall} (achievement record contract W2). A promoted Wind Spirit's
  * wind charge that catches a living participant in its blast is noted in {@link WindSpiritKnockLedger}; a later
  * {@code wathe:fell_out_of_train} death inside the window records the event after Wathe's own death record. Record
- * only: the active Wraith's charge sets no attacker, and Wathe's fall credit (and SparkWitch's push credit) stay as
+ * only: the active Wraith's charge sets no attacker, and Wathe's fall credit (and this mod's push credit) stay as
  * they are.
  * {@code sparkdlc:wind_spirit_fall}（成就记录契约 W2）的仅服务端写入方。晋升风精灵的风弹爆炸波及存活参赛者时记入
  * {@link WindSpiritKnockLedger}；窗口内随后发生的 {@code wathe:fell_out_of_train} 死亡会在 Wathe 自身死亡记录之后写入该事件。
- * 只做记录：激活冤魂的风弹不设置攻击者，Wathe 的坠车归属（以及 SparkWitch 的推人归属）保持原样。
+ * 只做记录：激活冤魂的风弹不设置攻击者，Wathe 的坠车归属（以及本模组的推人归属）保持原样。
  */
 public final class WindSpiritFallRecords {
     private static final WindSpiritKnockLedger LEDGER = new WindSpiritKnockLedger();

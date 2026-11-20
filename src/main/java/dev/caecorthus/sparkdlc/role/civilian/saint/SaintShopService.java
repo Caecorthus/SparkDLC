@@ -47,8 +47,8 @@ public final class SaintShopService {
         if (!SaintRules.isSaint(role)) {
             return;
         }
-        // SparkTraits entries (e.g. the Impostor revolver) may already be present; keep them across the rebuild.
-        // SparkTraits 条目（如内鬼左轮）可能已先加入；重建时保留它们。
+        // Trait shop entries (e.g. the Impostor revolver) may already be present; keep them across the rebuild.
+        // 词条商店条目（如内鬼左轮）可能已先加入；重建时保留它们。
         List<ShopEntry> preservedTraitEntries = TraitShopEntries.capture(context);
         context.clearEntries();
         // Re-buyable consumable like Wathe's grenade: no stock and no purchase cooldown; the per-Item use cooldown

@@ -18,11 +18,11 @@ import net.minecraft.text.Text;
 /**
  * Draws the Athlete's owner-only Dash line ({@link AthleteDashHudRules}). Reads only the local player's real synced
  * role and its owner-only {@link AthleteComponent} ready tick, counted down against the client world clock for display;
- * the server alone decides a dash. Called by {@link AthleteClient} only on a confirmed SparkWitch server. Role-owned
+ * the server alone decides a dash. Called by {@link AthleteClient} only on a confirmed SparkDLC server. Role-owned
  * presentation: never the action bar and never the {@code gui.sparkdlc.skills} panel.
  * 绘制运动员仅本人可见的冲刺行（{@link AthleteDashHudRules}）。只读取本地玩家同步的真实职业及其仅本人同步的
  * {@link AthleteComponent} 就绪刻，并依据客户端世界时钟倒数用于展示；冲刺是否生效只由服务端决定。仅在已确认的
- * SparkWitch 服务器上由 {@link AthleteClient} 调用。属于职业自有展示：绝不使用动作栏，也绝不进入
+ * SparkDLC 服务器上由 {@link AthleteClient} 调用。属于职业自有展示：绝不使用动作栏，也绝不进入
  * {@code gui.sparkdlc.skills} 面板。
  */
 public final class AthleteDashHud {

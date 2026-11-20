@@ -20,9 +20,9 @@ public enum BlindEchoMode {
     public static final int MAX_RETRY_SECONDS = 30;
 
     /**
-     * The Blind sees its own view: the camera is on itself, it is not a spectator (SparkTraits Last Stand pending or
+     * The Blind sees its own view: the camera is on itself, it is not a spectator (the traits' Last Stand pending or
      * Depression fake death; their camera falls back to the player when the body is gone) and not swallowed (C7).
-     * 盲人能看到自己的视角：镜头在自己身上、不是旁观者（SparkTraits 最后一搏待定或抑郁假死；找不到身体时镜头会回到玩家
+     * 盲人能看到自己的视角：镜头在自己身上、不是旁观者（特质的最后一搏待定或抑郁假死；找不到身体时镜头会回到玩家
      * 自己身上）且未被吞下（C7）。
      */
     public static boolean seesOwnView(boolean cameraOnSelf, boolean spectator, boolean swallowed) {

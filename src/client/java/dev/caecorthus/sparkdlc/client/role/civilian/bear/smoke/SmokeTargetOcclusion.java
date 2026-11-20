@@ -17,14 +17,14 @@ import java.util.function.Predicate;
 
 /**
  * Client-only, stable contract (owner 2026-11-10): the one answer to "does BEAR smoke hide this target from the local
- * viewer?" for every HUD target hint (Wathe's gun, knife and bat crosshair, SparkWitch's own weapon crosshairs) and for
- * the label raycasts SparkWitch adds. Players and corpses are answered by {@link SmokeLabelOcclusion} itself, so a hint
+ * viewer?" for every HUD target hint (Wathe's gun, knife and bat crosshair, the mod's own weapon crosshairs) and for
+ * the label raycasts the mod adds. Players and corpses are answered by {@link SmokeLabelOcclusion} itself, so a hint
  * and a name label can never disagree. The targets it leaves alone get its rule on the same primitives: a Magician
  * puppet (it must read exactly as its copied player), a Raven Form crow, a Seeker device. With no smoke every method
  * returns its input and does no work. Presentation only: ask this for what the HUD shows, never for what a shot or
  * stab sends; packets and the server's line of sight are untouched. Render thread only.
- * 纯客户端稳定契约（所有者 2026-11-10）：所有 HUD 目标提示（Wathe 的枪、刀、球棒准星，SparkWitch 自己的武器准星）以及
- * SparkWitch 自行发出的标签射线，对“BEAR 烟雾是否把该目标挡在本地观察者视线外”只有这一个答案。玩家与尸体由
+ * 纯客户端稳定契约（所有者 2026-11-10）：所有 HUD 目标提示（Wathe 的枪、刀、球棒准星，本模组自己的武器准星）以及
+ * 本模组自行发出的标签射线，对“BEAR 烟雾是否把该目标挡在本地观察者视线外”只有这一个答案。玩家与尸体由
  * {@link SmokeLabelOcclusion} 本身回答，因此提示与名字标签不会不一致；它不处理的目标按同一规则、同一组基础函数判断：
  * 魔术师皮套（必须与被复制的玩家表现完全一致）、化鸦乌鸦、搜寻者设备。没有烟时所有方法原样返回且不做任何计算。
  * 仅用于展示：只用来决定 HUD 显示什么，绝不用来决定开枪或刺击发送什么；数据包与服务端视线判定不变。仅限渲染线程。

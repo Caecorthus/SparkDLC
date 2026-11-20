@@ -32,8 +32,8 @@ public final class SparkDlcBlocks {
     // Sabotage fixtures / 破坏系统的地图设施
     // ---------------------------------------------------------------------------------------------------------------
     /*
-     * SparkStrength blocks and their block items. Both are map fixtures: unbreakable outside creative, no drops.
-     * SparkStrength 的方块及其方块物品。两者都是地图设施：创造模式以外无法破坏，不掉落。
+     * The sabotage blocks and their block items. Both are map fixtures: unbreakable outside creative, no drops.
+     * 破坏系统的方块及其方块物品。两者都是地图设施：创造模式以外无法破坏，不掉落。
      */
 
     public static final Identifier JUNCTION_BOX_ID = SparkDLC.id("junction_box");
@@ -101,13 +101,13 @@ public final class SparkDlcBlocks {
     // Map-maker beds / 供地图作者使用的床
     // ---------------------------------------------------------------------------------------------------------------
     /*
-     * Blocks added by SparkWitch: two map-maker beds (PR #239). They copy Wathe's trimmed bed settings and are added to
+     * The two map-maker beds (PR #239). They copy Wathe's trimmed bed settings and are added to
      * Wathe's own {@code wathe:trimmed_bed} block entity type through Fabric's {@code addSupportedBlock}, so the block
      * entity they create is Wathe's {@code TrimmedBedBlockEntity} with Wathe's type: scorpion poison, its client
      * particles and every add-on hook that checks that type or class see them as ordinary trimmed beds. Registered from
      * {@code SparkDlcItems.registerRoleItems()}, after every existing item, so earlier raw ids keep their order.
      * <p>
-     * SparkWitch 新增的方块：两张供地图作者使用的床（PR #239）。沿用 Wathe 裁剪床的方块设置，并通过 Fabric 的
+     * 两张供地图作者使用的床（PR #239）。沿用 Wathe 裁剪床的方块设置，并通过 Fabric 的
      * {@code addSupportedBlock} 加入 Wathe 自己的 {@code wathe:trimmed_bed} 方块实体类型，因此它们创建的方块实体就是
      * 带 Wathe 类型的 {@code TrimmedBedBlockEntity}：蝎子毒、其客户端粒子以及所有按该类型或类判断的附属钩子都把它们视为
      * 普通裁剪床。由 {@code SparkDlcItems.registerRoleItems()} 在所有既有物品之后注册，保持既有注册顺序。

@@ -5,9 +5,9 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Pure rules for the SparkStrength Bodyguard rework: prices, shield timings, stamina points and the front-arc check.
+ * Pure rules for the Bodyguard rework: prices, shield timings, stamina points and the front-arc check.
  * Matches the NoellesRoles Bodyguard by its stable id, so the rules never touch NoellesRoles classes.
- * SparkStrength 保镖改造的纯规则：价格、盾的时长、体力点数与前方半圆判定。按稳定 id 识别 NoellesRoles 保镖，
+ * 保镖改造的纯规则：价格、盾的时长、体力点数与前方半圆判定。按稳定 id 识别 NoellesRoles 保镖，
  * 不引用 NoellesRoles 的类。
  */
 public final class BodyguardRules {
@@ -34,11 +34,11 @@ public final class BodyguardRules {
     public static final int SHIELD_CEREMONIAL_SWORD_POINTS = 10;
     public static final int SHIELD_TR_SHELL_POINTS = 15;
     /**
-     * SparkWitch's USEC AXMC never pierces the shield; a blocked round costs by type (owner 2026-10-07): FMJ 10 points,
-     * AP 25, so an AP block always breaks a base-bar shield. The ids are SparkWitch's frozen round ids
-     * ({@code SparkRoleApi.piercingShotAmmoId}).
-     * SparkWitch 的 USEC AXMC 从不击穿盾牌；被挡下的子弹按弹种消耗体力（所有者 2026-10-07）：FMJ 10 点，AP 25 点，因此 AP
-     * 格挡总会打破基础体力条的盾。id 为 SparkWitch 冻结的弹种 id（{@code SparkRoleApi.piercingShotAmmoId}）。
+     * The USEC's AXMC never pierces the shield; a blocked round costs by type (owner 2026-10-07): FMJ 10 points,
+     * AP 25, so an AP block always breaks a base-bar shield. The ids are the frozen round ids that
+     * {@code SparkRoleApi.piercingShotAmmoId} returns.
+     * USEC 的 AXMC 从不击穿盾牌；被挡下的子弹按弹种消耗体力（所有者 2026-10-07）：FMJ 10 点，AP 25 点，因此 AP
+     * 格挡总会打破基础体力条的盾。id 为 {@code SparkRoleApi.piercingShotAmmoId} 返回的冻结弹种 id。
      */
     public static final String AXMC_FMJ_ROUND_ID = "fmj";
     public static final String AXMC_AP_ROUND_ID = "ap";
@@ -103,8 +103,8 @@ public final class BodyguardRules {
 
     /**
      * Whether a target death costs this Bodyguard coins: a living, unswallowed, non-Impostor Bodyguard whose current
-     * target died, once per target. An Impostor Bodyguard is paid by SparkTraits for the same death instead.
-     * 目标死亡是否扣该保镖的钱：存活、未被吞、非内鬼、且死者正是当前目标，每个目标只扣一次。内鬼保镖由 SparkTraits 为同一次死亡发奖励。
+     * target died, once per target. An Impostor Bodyguard is paid by the Impostor trait for the same death instead.
+     * 目标死亡是否扣该保镖的钱：存活、未被吞、非内鬼、且死者正是当前目标，每个目标只扣一次。内鬼保镖由内鬼特质为同一次死亡发奖励。
      */
     public static boolean shouldPenalize(
             boolean bodyguardAlive,

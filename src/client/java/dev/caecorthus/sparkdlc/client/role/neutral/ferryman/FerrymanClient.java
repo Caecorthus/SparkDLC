@@ -71,11 +71,11 @@ public final class FerrymanClient {
 
     /**
      * The client mirror of the server's acting gate ({@code FerrymanParticipation.isActiveFerryman} plus the ferry's
-     * spectator / swallow checks): the raw synced Charon role on a confirmed SparkWitch server, in an ACTIVE round,
+     * spectator / swallow checks): the raw synced Charon role on a confirmed SparkDLC server, in an ACTIVE round,
      * playing and alive, not a spectator (so not swallowed) and not in creative. Presentation and request trimming
      * only; the server re-checks everything. Cheapest test first: every other client leaves at the role check.
      * 服务端行动门槛（{@code FerrymanParticipation.isActiveFerryman} 加上摆渡的旁观 / 吞噬检查）的客户端镜像：已确认的
-     * SparkWitch 服务器上、ACTIVE 回合中、真实同步职业为卡戎、在局存活、非旁观（因此未被吞下）且非创造模式。只用于展示
+     * SparkDLC 服务器上、ACTIVE 回合中、真实同步职业为卡戎、在局存活、非旁观（因此未被吞下）且非创造模式。只用于展示
      * 与过滤无效请求；服务端会重新检查全部条件。先做开销最小的判断：其他所有客户端都在职业检查处返回。
      */
     public static boolean isActiveLocalCharon(@Nullable ClientPlayerEntity player) {
@@ -88,11 +88,11 @@ public final class FerrymanClient {
     }
 
     /**
-     * The Lost Soul's twin of {@link #isActiveLocalCharon}: the raw synced Lost Soul role on a confirmed SparkWitch
+     * The Lost Soul's twin of {@link #isActiveLocalCharon}: the raw synced Lost Soul role on a confirmed SparkDLC
      * server, in an ACTIVE round, playing and alive, not a spectator (so not swallowed) and not in creative. Wathe
      * keeps a dead player's role until the round is finalized, so the soul's sight and its order line must ask this
      * instead of the bare role, or a fallen soul would keep both as a spectator. Presentation only.
-     * {@link #isActiveLocalCharon} 的迷失灵魂版本：已确认的 SparkWitch 服务器上、ACTIVE 回合中、真实同步职业为迷失的灵魂、
+     * {@link #isActiveLocalCharon} 的迷失灵魂版本：已确认的 SparkDLC 服务器上、ACTIVE 回合中、真实同步职业为迷失的灵魂、
      * 在局存活、非旁观（因此未被吞下）且非创造模式。Wathe 会把死者的职业保留到对局结算，因此灵魂的视野与命令行必须询问本
      * 判定而不是只看职业，否则倒下的灵魂在旁观时仍会保留两者。仅用于展示。
      */

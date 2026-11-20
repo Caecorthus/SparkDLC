@@ -28,9 +28,9 @@ public final class TraitClientTexts {
     }
 
     /**
-     * Theme colour, registered in SparkFactionAPI, of the faction the trait is reserved for (its audience, so
+     * Theme colour, registered with the faction core, of the faction the trait is reserved for (its audience, so
      * Impostor reads civilian and Conscience killer). Universal and unknown traits are gray.
-     * 天赋专属阵营（按其 audience，故内鬼为平民、善良为杀手）在 SparkFactionAPI 中登记的主题色；通用与未知天赋为灰色。
+     * 天赋专属阵营（按其 audience，故内鬼为平民、善良为杀手）在阵营核心中登记的主题色；通用与未知天赋为灰色。
      */
     public static int factionColor(Identifier traitId) {
         Trait trait = TraitRegistry.get(traitId);

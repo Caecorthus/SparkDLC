@@ -9,14 +9,14 @@ public final class SparkDlcDeathReasons {
     public static final Identifier NINJA_KNIFE_KILL = SparkDLC.id("ninja_knife_kill");
     public static final Identifier NINJA_SHURIKEN_KILL = SparkDLC.id("ninja_shuriken_kill");
     /**
-     * Owner-approved exception: a forced kill that pierces every shield, registered as SparkTraits-terminal.
-     * 所有者批准的例外：穿透所有护盾的强制击杀，并注册为 SparkTraits 终结死亡原因。
+     * Owner-approved exception: a forced kill that pierces every shield, registered as trait-terminal.
+     * 所有者批准的例外：穿透所有护盾的强制击杀，并注册为天赋终结死亡原因。
      */
     public static final Identifier BELL_TOLL = SparkDLC.id("bell_toll");
     /**
-     * Second owner-approved exception: the Clock curse kill is forced and registered SparkTraits-terminal, so it
+     * Second owner-approved exception: the Clock curse kill is forced and registered trait-terminal, so it
      * pierces every role, item, and trait protection; only a Timekeeper purchase lifts the curse before it settles.
-     * 第二个所有者批准的例外：时钟诅咒击杀为强制击杀并注册为 SparkTraits 终结死亡原因，穿透所有职业、物品与天赋保护；
+     * 第二个所有者批准的例外：时钟诅咒击杀为强制击杀并注册为天赋终结死亡原因，穿透所有职业、物品与天赋保护；
      * 仅计时员购买可在结算前解除诅咒。
      */
     public static final Identifier TIME_STOLEN = SparkDLC.id("time_stolen");
@@ -27,9 +27,9 @@ public final class SparkDlcDeathReasons {
     /** Ordinary, non-forced Potion Gunner launcher backblast kill. / 普通、非强制的药炮筒尾焰击杀。 */
     public static final Identifier POTION_BACKBLAST = SparkDLC.id("potion_backblast");
     /**
-     * A Vulture ate a feigning Fiend's fake corpse: forced, body-less, and registered SparkTraits-terminal, so the
+     * A Vulture ate a feigning Fiend's fake corpse: forced, body-less, and registered trait-terminal, so the
      * Fiend dies outright (owner request 2026-10-16).
-     * 秃鹫吃掉了假死魔人的假尸体：强制、不留尸体，并注册为 SparkTraits 终结死亡原因，魔人直接死亡（所有者 2026-10-16 需求）。
+     * 秃鹫吃掉了假死魔人的假尸体：强制、不留尸体，并注册为天赋终结死亡原因，魔人直接死亡（所有者 2026-10-16 需求）。
      */
     public static final Identifier FIEND_DEVOURED = SparkDLC.id("fiend_devoured");
     /**
@@ -39,15 +39,15 @@ public final class SparkDlcDeathReasons {
     public static final Identifier CRIMSON_WITHER_SKULL = SparkDLC.id("crimson_wither_skull");
     /**
      * The Knight challenged a good player and dies at once. Forced, body kept, no killer, and registered
-     * SparkTraits-terminal (owner 2026-10-30).
-     * 骑士对好人发起决斗，当场自裁。强制击杀、保留尸体、无凶手，并注册为 SparkTraits 终结死亡原因（所有者 2026-10-30）。
+     * trait-terminal (owner 2026-10-30).
+     * 骑士对好人发起决斗，当场自裁。强制击杀、保留尸体、无凶手，并注册为天赋终结死亡原因（所有者 2026-10-30）。
      */
     public static final Identifier DUEL_SUICIDE = SparkDLC.id("duel_suicide");
     /**
      * The duel ran 120 s without a duel kill (both die). Forced, body kept, no killer, and registered
-     * SparkTraits-terminal (owner 2026-10-30). Third-party interference no longer kills the other duelist
+     * trait-terminal (owner 2026-10-30). Third-party interference no longer kills the other duelist
      * (owner 2026-10-31).
-     * 决斗 120 秒未分胜负（双方均死）。强制击杀、保留尸体、无凶手，并注册为 SparkTraits 终结死亡原因（所有者 2026-10-30）。
+     * 决斗 120 秒未分胜负（双方均死）。强制击杀、保留尸体、无凶手，并注册为天赋终结死亡原因（所有者 2026-10-30）。
      * 第三方干预不再使另一名决斗者死亡（所有者 2026-10-31）。
      */
     public static final Identifier DUEL_FAILED = SparkDLC.id("duel_failed");
@@ -67,9 +67,9 @@ public final class SparkDlcDeathReasons {
     public static final Identifier PARDON_EXPIRED = SparkDLC.id("pardon_expired");
     /**
      * A Vulture ate the fake corpse of a marked attacker feigning (10 s) before the Ferryman: forced, body-less and
-     * registered SparkTraits-terminal, so the player dies outright (the {@link #FIEND_DEVOURED} pattern). Never shown on
+     * registered trait-terminal, so the player dies outright (the {@link #FIEND_DEVOURED} pattern). Never shown on
      * the fake corpse itself, which carries a common murder reason.
-     * 秃鹫吃掉了在摆渡人面前假死（10 秒）的被标记者的假尸体：强制、不留尸体，并注册为 SparkTraits 终结死亡原因，该玩家直接
+     * 秃鹫吃掉了在摆渡人面前假死（10 秒）的被标记者的假尸体：强制、不留尸体，并注册为天赋终结死亡原因，该玩家直接
      * 死亡（沿用 {@link #FIEND_DEVOURED} 的做法）。假尸体本身从不显示该原因，而是显示常见谋杀死因。
      */
     public static final Identifier FERRYMAN_FEIGN = SparkDLC.id("ferryman_feign");
@@ -80,9 +80,9 @@ public final class SparkDlcDeathReasons {
     public static final Identifier FERRYMAN_MOMENT_LOST = SparkDLC.id("ferryman_moment_lost");
     /**
      * A third party attacked a duelist while the duel variable was 1. Forced, body kept, no killer, and registered
-     * SparkTraits-terminal, so the attacker's traits and every shield are bypassed; the attack itself resolves normally
+     * trait-terminal, so the attacker's traits and every shield are bypassed; the attack itself resolves normally
      * (owner 2026-10-31).
-     * 决斗变量为 1 时第三人攻击决斗者。强制击杀、保留尸体、无凶手，并注册为 SparkTraits 终结死亡原因，绕过攻击者
+     * 决斗变量为 1 时第三人攻击决斗者。强制击杀、保留尸体、无凶手，并注册为天赋终结死亡原因，绕过攻击者
      * 的词条与一切护盾；攻击本身正常结算（所有者 2026-10-31）。
      */
     public static final Identifier DUEL_INTERFERENCE = SparkDLC.id("duel_interference");
@@ -95,10 +95,10 @@ public final class SparkDlcDeathReasons {
     public static final Identifier STRANGLED = SparkDLC.id("strangled");
     /**
      * Sphinx Hao's "手"枪 fist landed (被嘉豪的铁拳砸死了). One non-forced kill, so every shield applies; the same id as
-     * {@code SphinxHaoRules.DEATH_REASON}. SparkStrength reads this field directly since the SparkDLC
-     * fusion (Partygoer / Bomber drone parity).
+     * {@code SphinxHaoRules.DEATH_REASON}. The role kits read this field directly
+     * (Partygoer / Bomber drone parity).
      * 狮身豪的“手”枪拳头命中（被嘉豪的铁拳砸死了）。一次非强制击杀，因此所有护盾都生效；与
-     * {@code SphinxHaoRules.DEATH_REASON} 是同一 id。融合进 SparkDLC 后 SparkStrength 直接读取此字段
+     * {@code SphinxHaoRules.DEATH_REASON} 是同一 id。职业套件直接读取此字段
      * （派对客 / 轰炸者无人机一致处理）。
      */
     public static final Identifier SPHINX_HAO_FIST = SparkDLC.id("sphinx_hao_fist");

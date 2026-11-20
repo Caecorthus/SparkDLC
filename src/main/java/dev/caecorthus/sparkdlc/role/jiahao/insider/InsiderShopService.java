@@ -13,10 +13,10 @@ import java.util.List;
 
 /**
  * Replaces the Insider's shop on both sides with {@link InsiderShopRules#entries}: revolver and crowbar. Every entry
- * keeps Wathe's default buy handler; there is no Charisma discount. The SparkStrength tablet is issued by
- * SparkStrength at round start, never sold here.
- * 在两端把内应商店替换为 {@link InsiderShopRules#entries}：左轮与撬棍。所有条目保留 Wathe 默认购买处理，
- * 不接入魅力折扣。SparkStrength 平板由 SparkStrength 开局发放，此处不出售。
+ * keeps Wathe's default buy handler; there is no Charisma discount. The tablet is issued at round start, never sold
+ * here.
+ * 在两端把内应商店替换为 {@link InsiderShopRules#entries}：左轮与撬棍。所有条目保留 Wathe 默认购买处理，不接入魅力折
+ * 扣。平板在开局发放，此处不出售。
  */
 public final class InsiderShopService {
     private static boolean registered;
@@ -37,8 +37,8 @@ public final class InsiderShopService {
         if (!InsiderShopRules.rebuildsShopFor(role)) {
             return;
         }
-        // SparkTraits entries may already be present; keep them across the rebuild.
-        // SparkTraits 条目可能已先加入；重建时保留它们。
+        // Trait shop entries may already be present; keep them across the rebuild.
+        // 词条商店条目可能已先加入；重建时保留它们。
         List<ShopEntry> preservedTraitEntries = TraitShopEntries.capture(context);
         context.clearEntries();
         for (InsiderShopRules.EntrySpec spec : InsiderShopRules.entries()) {

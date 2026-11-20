@@ -64,8 +64,8 @@ public final class ShriekGunItem extends Item {
             // 非对局参与者（或 STARTING/STOPPING 过渡阶段）：仅声音与粒子，不命中任何人。
             ShriekGunService.firePresentation(shooter, serverWorld);
         }
-        // A miss costs the same as a hit, in every mode. Plain vanilla cooldown so SparkTraits Fast Hands applies.
-        // 每种模式下未命中与命中代价相同。普通原版冷却，SparkTraits 快手可缩短。
+        // A miss costs the same as a hit, in every mode. Plain vanilla cooldown so the Fast Hands trait applies.
+        // 每种模式下未命中与命中代价相同。普通原版冷却，快手词条可缩短。
         shooter.getItemCooldownManager().set(this, AbyssListenerRules.GUN_COOLDOWN_TICKS);
         return TypedActionResult.consume(stack);
     }

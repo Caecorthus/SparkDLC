@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/** Adds the original corpse role as SparkWitch-owned tracked and persisted data. */
+/** Adds the original corpse role as tracked and persisted data owned by this mod. */
 @Mixin(PlayerBodyEntity.class)
 public abstract class PlayerBodyEntityWraithRoleMixin implements WraithBodyRoleAccess {
     @Unique

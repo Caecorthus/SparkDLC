@@ -84,12 +84,11 @@ public final class SeekerTaotieService {
     }
 
     /**
-     * {@code KillPlayer.AFTER} for any victim: returns every car held by exactly this victim unless SparkTraits Last
-     * Stand intercepted the death (an older SparkTraits without the query also reads as intercepted); the owner poll
-     * then returns the car at the final death. Disconnects arrive here as Wathe ESCAPED kills.
-     * 任意受害者的 {@code KillPlayer.AFTER}：归还恰由该受害者吞下的所有小车，除非 SparkTraits 最后一搏拦截了这次死亡
-     * （缺少查询接口的旧版 SparkTraits 也视为已拦截）；此时由拥有者轮询在最终死亡时归还。断线会以 Wathe 的
-     * ESCAPED 击杀到达此处。
+     * {@code KillPlayer.AFTER} for any victim: returns every car held by exactly this victim unless the Last Stand
+     * trait intercepted the death; the owner poll then returns the car at the final death. Disconnects arrive here as
+     * Wathe ESCAPED kills.
+     * 任意受害者的 {@code KillPlayer.AFTER}：归还恰由该受害者吞下的所有小车，除非最后一搏词条拦截了这次死亡；
+     * 此时由拥有者轮询在最终死亡时归还。断线会以 Wathe 的 ESCAPED 击杀到达此处。
      */
     public static void onKill(ServerPlayerEntity victim) {
         MinecraftServer server = victim == null ? null : victim.getServer();
@@ -105,8 +104,8 @@ public final class SeekerTaotieService {
                 holders.add(owner);
             }
         }
-        // The SparkTraits reflective query runs only when this victim actually holds a car.
-        // 只有受害者确实吞着小车时才执行 SparkTraits 反射查询。
+        // The Last Stand query runs only when this victim actually holds a car.
+        // 只有受害者确实吞着小车时才执行最后一搏查询。
         if (holders.isEmpty() || SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
             return;
         }
@@ -219,8 +218,9 @@ public final class SeekerTaotieService {
 
         @Override
         public boolean factionAllows() {
-            // Our own veto: SparkFactionAPI's Taotie packet guard targets a lambda absent from pinned 1.7.6.
-            // 自行调用否决：SparkFactionAPI 的饕餮数据包守卫指向固定 1.7.6 中不存在的 lambda。
+            // Our own veto: the Taotie packet guard in NoellesRolesPacketAffectMixin targets a lambda absent from
+            // pinned 1.7.6.
+            // 自行调用否决：NoellesRolesPacketAffectMixin 中的饕餮数据包守卫指向固定 1.7.6 中不存在的 lambda。
             return owner != null && SparkFactionApi.canAffectPlayer(taotie, owner, SeekerRules.SWALLOW_ACTION_ID, game);
         }
     }

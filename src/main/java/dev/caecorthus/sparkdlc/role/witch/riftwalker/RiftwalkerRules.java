@@ -32,7 +32,7 @@ public final class RiftwalkerRules {
 
     // --- Witches' Sabbath (role skill, shared skill key) / 魔女集会（职业技能，共享技能键） ---
     public static final Identifier SABBATH_SKILL_ID = SparkDLC.id("witches_sabbath");
-    /** SparkFactionAPI action id checked per pulled teammate. / 每名被召集队友校验的 SparkFactionAPI 行为 id。 */
+    /** {@code canAffectPlayer} action id checked per pulled teammate. / 每名被召集队友校验的 canAffectPlayer 行为 id。 */
     public static final Identifier SABBATH_ACTION_ID = SparkDLC.id("riftwalker_sabbath");
     /** The definition only displays it; the use handler spends it. / 技能定义只用于显示，由使用处理器实际扣除。 */
     public static final int SABBATH_MANA_COST = 150;

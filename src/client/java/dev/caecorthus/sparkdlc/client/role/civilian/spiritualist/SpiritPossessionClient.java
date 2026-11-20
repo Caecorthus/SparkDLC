@@ -95,7 +95,7 @@ public final class SpiritPossessionClient {
         // ((viewer, wraith), render thread).
         // 闸门与按键总会安装。闸门向其接受的观察者显示活跃冤魂的身体（参数为 (观察者, 冤魂)，渲染线程）。
         WraithViewerGates.add((viewer, wraith) -> seesWraiths(viewer));
-        // SparkWitch dispatches by the raw Wathe role id. / SparkWitch 按原始 Wathe 职业 id 分发。
+        // The registry dispatches by the raw Wathe role id. / 注册表按原始 Wathe 职业 id 分发。
         keyAvailable = SecondaryAbilityRegistry.tryRegisterAction(SpiritPossessionRules.SPIRITUALIST_ID,
                 SpiritPossessionClient::onKeyPressed);
         if (!keyAvailable) {
@@ -124,9 +124,9 @@ public final class SpiritPossessionClient {
     }
 
     /**
-     * SparkWitch viewer gate (render thread): a living Spiritualist on a SparkStrength server sees every active Wraith's
+     * Wraith viewer gate (render thread): a living Spiritualist on a SparkDLC server sees every active Wraith's
      * body, in its body, its spirit and while possessing.
-     * SparkWitch 观察者闸门（渲染线程）：SparkStrength 服务器上存活的灵界行者在肉身、灵魂与附身状态下都能看到所有活跃冤魂的身体。
+     * 冤魂观察者闸门（渲染线程）：SparkDLC 服务器上存活的灵界行者在肉身、灵魂与附身状态下都能看到所有活跃冤魂的身体。
      */
     public static boolean seesWraiths(@Nullable PlayerEntity viewer) {
         MinecraftClient client = MinecraftClient.getInstance();

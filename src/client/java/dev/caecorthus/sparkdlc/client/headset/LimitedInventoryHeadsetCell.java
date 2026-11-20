@@ -8,12 +8,12 @@ import net.minecraft.screen.ScreenTexts;
 
 /**
  * The headset cell under the armor block on Wathe's inventory screen (BEAR WP4, E1), as an inactive widget like
- * {@code LimitedInventoryArmorPanel}: while visible, the info card and SparkAssist's guidebook route around it; being
+ * {@code LimitedInventoryArmorPanel}: while visible, the info card and the guidebook route around it; being
  * inactive it never takes a press, so Wathe's own slot handling (extended by {@code LimitedInventoryArmorSlotsMixin})
  * receives every click. {@code visible} follows {@code LimitedInventoryArmorSlots.headsetShown} each frame. It paints
  * through the screen so the slot reuses Wathe's {@code drawSlot}.
  * Wathe 背包界面上护甲块下方的耳机格（BEAR WP4，E1），与 {@code LimitedInventoryArmorPanel} 一样是不可交互控件：可见时信息卡与
- * SparkAssist 指南会绕开它；它不可交互，从不吞掉按下，因此 Wathe 自己的栏位处理（由 {@code LimitedInventoryArmorSlotsMixin} 扩展）
+ * 指南会绕开它；它不可交互，从不吞掉按下，因此 Wathe 自己的栏位处理（由 {@code LimitedInventoryArmorSlotsMixin} 扩展）
  * 接收每次点击。{@code visible} 每帧跟随 {@code LimitedInventoryArmorSlots.headsetShown}。绘制交给界面完成，以复用 Wathe 的
  * {@code drawSlot}。
  */

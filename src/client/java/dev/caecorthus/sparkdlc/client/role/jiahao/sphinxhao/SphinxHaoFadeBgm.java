@@ -17,12 +17,12 @@ import net.minecraft.sound.SoundCategory;
  * {@link SphinxHaoFadeBgmRules}): the server opens and ends the window and syncs it to every client
  * ({@code sparkdlc:sphinx_hao_world}); every client in the world, alive, dead or spectating, then plays the 10 s
  * clip once per window (owner Q2: everyone hears it). Relative, non-attenuated, AMBIENT category (Wathe locks MUSIC;
- * SparkAssist's event-sound volume row samples it there), full volume from the first tick, faded out over 10 ticks
+ * the settings screen's event volume row samples it there), full volume from the first tick, faded out over 10 ticks
  * when the window ends first. A client that joins mid-window starts the clip from its beginning. JOIN and DISCONNECT
  * forget the played window (vanilla stops every sound on disconnect).
  * 豪气冲天期间的《Fade》，仅客户端展示（沿用幽魂里世界 BGM 的做法，规则见 {@link SphinxHaoFadeBgmRules}）：窗口的开启与结束由服务端
  * 决定并同步给每个客户端（{@code sparkdlc:sphinx_hao_world}）；世界中的每个客户端（存活、死亡或旁观）每个窗口播放一次 10 秒片段
- * （所有者 Q2：所有人都听得到）。相对玩家、无衰减、AMBIENT 类别（Wathe 锁定了 MUSIC；SparkAssist 的事件音量行在该类别取样），
+ * （所有者 Q2：所有人都听得到）。相对玩家、无衰减、AMBIENT 类别（Wathe 锁定了 MUSIC；设置界面的事件音量行在该类别取样），
  * 第一刻即满音量，窗口先结束时在 10 刻内淡出。窗口中途加入的客户端从头播放。加入与断开连接时忘掉已播放的窗口（原版断线时会停止
  * 所有声音）。
  */

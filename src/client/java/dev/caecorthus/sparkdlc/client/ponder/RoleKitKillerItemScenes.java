@@ -37,13 +37,13 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 /**
- * Demos for SparkStrength's killer and neutral items (Morphling, Bomber, Vulture, Pathogen, the Serial Killer's
+ * Demos for the role kits' killer and neutral items (Morphling, Bomber, Vulture, Pathogen, the Serial Killer's
  * psycho pistols, the M67) and for the killers' lights sabotage with the circuit breaker, opened by holding W over the
- * item and from the guide; each needs NoellesRoles and SparkStrength. Effects the server plays (a blast, a sneeze, a revive) or only some players see (a mark, a
+ * item and from the guide. Effects the server plays (a blast, a sneeze, a revive) or only some players see (a mark, a
  * carrier's outline, the trap's smoke) are scripted here and the captions say who sees what; times the game takes
  * longer over are shortened and the captions say so.
- * SparkStrength 杀手与中立阵营物品的演示（变形者、炸弹客、秃鹫、病原体、连环杀手的疯魔手枪、M67），以及杀手的灯光破坏与
- * 电闸，在物品上按住 W 或从指南书打开；都需要 NoellesRoles 与 SparkStrength。服务端播放的效果（爆炸、喷嚏、复活）或只有部分人看得到的
+ * 职业套件的杀手与中立阵营物品的演示（变形者、炸弹客、秃鹫、病原体、连环杀手的疯魔手枪、M67），以及杀手的灯光破坏与
+ * 电闸，在物品上按住 W 或从指南书打开。服务端播放的效果（爆炸、喷嚏、复活）或只有部分人看得到的
  * 效果（标记、带毒者轮廓、陷阱冒烟）由这里用脚本补上，并在字幕里说明谁能看到；游戏里耗时更长的过程做了缩短，字幕会注明。
  */
 final class RoleKitKillerItemScenes {
@@ -103,7 +103,7 @@ final class RoleKitKillerItemScenes {
     }
 
     /**
-     * Morph reagent and remote (SparkStrength MorphReagentItem, MorphDeviceItem, MorphlingService, MorphlingRules,
+     * Morph reagent and remote (SparkDLC MorphReagentItem, MorphDeviceItem, MorphlingService, MorphlingRules,
      * MorphMarkPlayerComponent, MorphlingClientHooks, MorphlingAppearanceClientHelper, HiddenEquipmentHelperMixin):
      * the Morphling's shop sells the reagent for 10; the remote is a starting item. The reagent's first right-click
      * samples the living player or body in the crosshair (vanilla's ~3-block reach; a 2.5-block raycast when no entity
@@ -206,10 +206,10 @@ final class RoleKitKillerItemScenes {
     }
 
     /**
-     * M67 (SparkStrength M67Item, M67UseService, M67Rules, M67Physics, M67GrenadeEntity, GrenadeBlastService,
+     * M67 (SparkDLC M67Item, M67UseService, M67Rules, M67Physics, M67GrenadeEntity, GrenadeBlastService,
      * M67ShopService, M67Client and its outline mixins): every shop that sells Wathe's grenade also sells it, 25 coins
      * or 10 for a Bomber; in a match it is locked for the first 90 s. Holding right-click (the bow pose) pulls the pin;
-     * after 20 charge ticks letting go throws it, earlier is a cancel with a 2 s cooldown (SparkTraits can shorten
+     * after 20 charge ticks letting go throws it, earlier is a cancel with a 2 s cooldown (traits can shorten
      * both). Thrown hard (2.25 blocks a tick: level, it first lands about 13 blocks out), it bounces off floors and walls
      * and rolls; the scene aims 77 degrees down and follows M67Physics tick by tick. 3.5 s after the throw it blows up
      * (one big explosion, 100 smoke and 100 fragments) and
@@ -217,7 +217,7 @@ final class RoleKitKillerItemScenes {
      * breaking drones too. Each viewer sees the grenade outlined red within 5 blocks of it and yellow within 7, by
      * distance only. 10 s cooldown after a throw. Not hidden in hand.
      * M67 手雷：凡是卖 Wathe 手雷的商店都会多卖它，25 金币，炸弹客 10 金币；对局中开局 90 秒内不能用。按住右键（拉弓姿势）
-     * 拉环，蓄力 20 tick 后松手扔出，更早松手算取消，冷却 2 秒（SparkTraits 可缩短两者）。出手很猛（每 tick 2.25 格，平着扔
+     * 拉环，蓄力 20 tick 后松手扔出，更早松手算取消，冷却 2 秒（词条可缩短两者）。出手很猛（每 tick 2.25 格，平着扔
      * 约 13 格外才第一次落地），会在地面和墙上弹跳、滚动；演示朝下 77 度扔，逐 tick 按 M67Physics 走位。扔出 3.5 秒后爆炸
      * （1 个大爆炸、100 个烟雾和 100 个碎片），沿路径一般炸死 5 格内所有活人（墙和关着的门能挡），扔的人也不例外，范围内的
      * 无人机同样被炸坏。每名观察者离它 5 格内看到红色描边、7 格内黄色，只按距离判断。投掷后冷却 10 秒。拿在手里别人看得见。
@@ -307,7 +307,7 @@ final class RoleKitKillerItemScenes {
     }
 
     /**
-     * Bomb drone (SparkStrength DroneItem, DroneEntity, DroneCombatService, DroneRules, DroneShopService,
+     * Bomb drone (SparkDLC DroneItem, DroneEntity, DroneCombatService, DroneRules, DroneShopService,
      * HiddenEquipmentHelperMixin): only the real Bomber's shop sells it, 400 by default; single use, and each Bomber may
      * have one undetonated bomb drone at a time. Placed and piloted with the tablet like the grenade drone (90 s
      * opening lock), it flies faster (0.7 blocks a tick) and drains faster (5% a second flying, 2% hovering). The
@@ -392,7 +392,7 @@ final class RoleKitKillerItemScenes {
     }
 
     /**
-     * Skateboard (SparkStrength SkateboardItem, VultureSkateboardService, VultureSkateboardRules,
+     * Skateboard (SparkDLC SkateboardItem, VultureSkateboardService, VultureSkateboardRules,
      * SkateboardRideComponent, SkateboardRenderer, SkateboardLiftMixin, SkateboardLimbsMixin, SkateboardStepSoundMixin,
      * HiddenEquipmentHelperMixin): every real Vulture gets one at round start (if a hotbar slot is free); it is hidden
      * in hand. Right-click rides it for 10 s at three times the walk and sprint speed; it is not used up. Everyone sees
@@ -440,7 +440,7 @@ final class RoleKitKillerItemScenes {
     }
 
     /**
-     * Virus (SparkStrength VirusItem, VirusService, PathogenRules, VirusCarrierComponent, PathogenShopService,
+     * Virus (SparkDLC VirusItem, VirusService, PathogenRules, VirusCarrierComponent, PathogenShopService,
      * HiddenEquipmentHelperMixin; NoellesRoles InfectedPlayerComponent): the Pathogen's shop sells it for 50, it stacks
      * and is hidden in hand. Right-clicking a living player within 3 blocks in sight makes them infected and a carrier
      * and they sneeze at once (the panda sneeze, volume 2); Pathogens and carriers are refused and the virus is kept.
@@ -521,7 +521,7 @@ final class RoleKitKillerItemScenes {
     }
 
     /**
-     * T-Virus (SparkStrength TVirusItem, PathogenReviveService, PathogenRules, PathogenShopService,
+     * T-Virus (SparkDLC TVirusItem, PathogenReviveService, PathogenRules, PathogenShopService,
      * PathogenTeamService, PathogenGrayCrowdClient, HiddenEquipmentHelperMixin): only an original Pathogen's shop sells
      * it, 150, one per round; hidden in hand. Right-clicking the newest real body of a dead, spectating player (not a
      * fake or hidden body, not oneself) revives that player at the body's position (Wathe spawns bodies a block ahead
@@ -589,7 +589,7 @@ final class RoleKitKillerItemScenes {
     }
 
     /**
-     * Serial Killer's psycho pistols (SparkStrength SerialKillerPsychoMixin, SerialPistolItem,
+     * Serial Killer's psycho pistols (SparkDLC SerialKillerPsychoMixin, SerialPistolItem,
      * SerialPistolShotService, SerialKillerConstants, SerialKillerClientUseMixin, SerialKillerBipedEntityModelMixin,
      * SerialPistolInventoryRules and the slot/drop guards; Wathe PlayerPsychoComponent): when a NoellesRoles Serial
      * Killer starts psycho mode (bought in the killer shop), there is no bat: the serial pistol goes into a free hotbar
@@ -661,7 +661,7 @@ final class RoleKitKillerItemScenes {
     }
 
     /**
-     * Timed bomb trap (SparkStrength TimedBombTrayUseMixin, TimedBombBedUseMixin, BomberTrapService,
+     * Timed bomb trap (SparkDLC TimedBombTrayUseMixin, TimedBombBedUseMixin, BomberTrapService,
      * TimedBombTrayViewMixin, TimedBombBedViewMixin; NoellesRoles BomberPlayerComponent): a Bomber (or a Coroner
      * disguised as one) right-clicks a food platter or drink tray that holds something and is not poisoned, or a Wathe
      * bed without a scorpion, with the timed bomb; the bomb is used up and hidden there (one per tray or bed; not while
@@ -669,13 +669,13 @@ final class RoleKitKillerItemScenes {
      * features see smoke over it. The next player who takes from that tray with an empty hand, or right-clicks that bed
      * or a bed joined to it to lie down (not holding a knife or gun), gets the bomb attached: 10 quiet seconds, then 15
      * s of beeping, passable while it beeps. Someone already carrying a bomb does not set it off; it waits for the next.
-     * It does not tell friend from foe, and it skips NoellesRoles' placeBomb, so a SparkTraits Conscience Bomber's trap
+     * It does not tell friend from foe, and it skips NoellesRoles' placeBomb, so a Conscience-trait Bomber's trap
      * bomb stays lethal until passed (as the guide says).
      * 定时炸弹陷阱：炸弹客（或伪装成炸弹客的验尸官）拿着定时炸弹右键放着东西、没下毒的餐盘或饮品托盘，或没有蝎子的 Wathe 床，
      * 炸弹随即用掉、藏进里面（每个托盘或床一颗；炸弹冷却中，包括开局 45 秒，或自己身上带着炸弹时放不了）。能用杀手阵营特性的
      * 客户端会看到上方冒烟。下一个空手从这个托盘取东西的人，或右键这张床（及与它相连的床）想躺下的人（手持刀枪时除外），会带上
      * 炸弹：先安静 10 秒，再滴滴响 15 秒，滴滴响时可以传走。已经带着炸弹的人不会触发，陷阱留给下一个人。陷阱不分敌我；它绕过
-     * NoellesRoles 的 placeBomb，所以 SparkTraits 善良炸弹客藏的炸弹在被传走前仍然致命（与指南书一致）。
+     * NoellesRoles 的 placeBomb，所以带善良词条的炸弹客藏的炸弹在被传走前仍然致命（与指南书一致）。
      */
     static void timedBombTrap(SceneBuilder scene, SceneBuildingUtil util) {
         scene.title("sparkdlc_timed_bomb_trap", "定时炸弹：藏进托盘或床里");
@@ -740,7 +740,7 @@ final class RoleKitKillerItemScenes {
     }
 
     /**
-     * Lights sabotage and the circuit breaker (SparkStrength SabotageService.handleTrigger, SabotageAccess,
+     * Lights sabotage and the circuit breaker (SparkDLC SabotageService.handleTrigger, SabotageAccess,
      * SabotageRules, SabotageShopFilter, JunctionBoxBlock / JunctionBoxService, LightsSabotageService,
      * SabotageBlackoutEffectsMixin, BlackoutNightVision, BreakerRepairService, CircuitBreakerBlock; client
      * SabotageSkyLight, SabotageOutlineRenderer, BreakerRepairScreen; Wathe WorldBlackoutComponent). Wathe's shop
@@ -756,7 +756,7 @@ final class RoleKitKillerItemScenes {
      * come back nearest the breaker first, 5-40 ticks apart by distance, and the team cooldown is 2.5 min from that
      * moment (90 s after the Engineer's remote Sabotage Repair). Maps without breakers get Wathe's 30-40 s timer.
      * Ponder keeps its world fully lit, so the stage is dimmed (StageLights) and the outline is a box; the breaker is
-     * the real SparkStrength block, set by name since SparkAssist does not compile against SparkStrength.
+     * the real block, still set by name because this class used to be in a jar that could not see it.
      * 灯光破坏与电闸：Wathe 商店的停电器已从所有商店下架；杀手在平板的「破坏」页免费发动（平板要在快捷栏里），前提是有人
      * 先用开锁器撬开一个灯光接线箱、再用平板入侵它（解锁 45 秒后才能用；没有接线箱的地图在开局约 90 秒后自动解锁）。同一时间
      * 只能有一个破坏。所有灯熄灭，客户端屏蔽车厢内的天空光照，车厢一片漆黑，但没人会失明（跳过了施加失明），所以照常能疾跑；
@@ -764,8 +764,8 @@ final class RoleKitKillerItemScenes {
      * 对所有人隔墙红色闪烁；任何存活玩家（杀手也行）右键电闸打开维修面板，把跳闸的空开拨回（8 个里 3～5 个；破坏大师开的
      * 多 2 个），再按住主闸 2 秒（破坏大师开的要 3 秒）。之后离电闸近的灯先亮，按距离相隔 5～40 tick，团队冷却从这一刻起算
      * 2.5 分钟（工程师远程破坏维修后为 90 秒）。没有电闸的地图按 Wathe 原有的 30～40 秒计时来电。Ponder 场景始终满亮度，所以
-     * 调暗舞台（StageLights），红色描边用方框表示；电闸是真正的 SparkStrength 方块，因为 SparkAssist 不依赖 SparkStrength
-     * 编译，所以按名字取得方块和属性。
+     * 调暗舞台（StageLights），红色描边用方框表示；电闸是真正的方块，仍按名字取得方块和属性，
+     * 因为本类原先所在的 jar 看不到它。
      */
     private static void circuitBreaker(SceneBuilder scene, SceneBuildingUtil util) {
         scene.title("sparkdlc_circuit_breaker", "灯光破坏与修电闸");
@@ -889,8 +889,8 @@ final class RoleKitKillerItemScenes {
     }
 
     /**
-     * SparkStrength's circuit breaker facing north, not tripped. SparkAssist does not compile against SparkStrength,
-     * so the block is looked up by id. SparkStrength 的电闸，朝北、未跳闸；SparkAssist 不依赖 SparkStrength 编译，所以按 id 取方块。
+     * The circuit breaker facing north, not tripped. The block is still looked up by id because this class used to be
+     * in a jar that could not see it. 电闸，朝北、未跳闸；仍按 id 取方块，因为本类原先所在的 jar 看不到它。
      */
     private static BlockState breaker() {
         BlockState state = Registries.BLOCK.get(Identifier.of("sparkdlc", "circuit_breaker")).getDefaultState();

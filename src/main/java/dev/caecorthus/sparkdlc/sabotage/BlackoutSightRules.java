@@ -7,22 +7,22 @@ package dev.caecorthus.sparkdlc.sabotage;
  *
  * <p>In the dark only teammates who already know each other stay visible: killers see only the players they linked
  * with on the tablet, the witch faction (Grand Witch and Accomplices) sees itself, and the Corrupt Cop and
- * SparkWitch's Team Jiahao members (Insider, Sphinx Hao, Sniper) see each other. Civilians and lone neutrals see
+ * the Team Jiahao members (Insider, Sphinx Hao, Sniper) see each other. Civilians and lone neutrals see
  * nobody, so "who is not outlined" never names a killer. Only the key is affected: outlines that show without it
- * (targets, marks, Moments, Final Moment) stay. Dead viewers, spectators and SparkWitch Wraiths are exempt.
+ * (targets, marks, Moments, Final Moment) stay. Dead viewers, spectators and Wraiths are exempt.
  * 黑暗中只有彼此已经认识的队友仍然可见：杀手只能看到在平板上互认过的玩家，魔女阵营（大魔女与共犯）彼此可见，
- * 黑警与 SparkWitch 嘉豪成员（内应、狮身豪、狙击手）彼此可见。好人与单独行动的中立谁都看不到，
+ * 黑警与嘉豪成员（内应、狮身豪、狙击手）彼此可见。好人与单独行动的中立谁都看不到，
  * 因此无法靠「谁没被描边」反推出杀手。只影响本能键：不用按键就显示的描边（目标、标记、各类时刻、终局时刻）照常。
- * 死亡观察者、旁观者与 SparkWitch 冤魂不受影响。</p>
+ * 死亡观察者、旁观者与冤魂不受影响。</p>
  */
 public final class BlackoutSightRules {
     public enum Team {
         /** Effective killers, Impostor included: tablet links only. / 有效杀手（含内鬼）：只看平板互认对象。 */
         KILLER,
-        /** SparkWitch witch faction: Grand Witch and Accomplices. / SparkWitch 魔女阵营：大魔女与共犯。 */
+        /** The witch faction: Grand Witch and Accomplices. / 魔女阵营：大魔女与共犯。 */
         WITCH,
-        /** Corrupt Cop and SparkWitch's Team Jiahao members (Insider, Sphinx Hao, Sniper).
-         *  黑警与 SparkWitch 嘉豪成员（内应、狮身豪、狙击手）。 */
+        /** Corrupt Cop and the Team Jiahao members (Insider, Sphinx Hao, Sniper).
+         *  黑警与嘉豪成员（内应、狮身豪、狙击手）。 */
         CORRUPT_COP,
         /** Civilians and lone neutrals. / 好人与单独行动的中立。 */
         ALONE

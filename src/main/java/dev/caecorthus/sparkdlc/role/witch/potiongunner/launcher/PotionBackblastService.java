@@ -33,15 +33,15 @@ import java.util.Optional;
  * non-forced kill attempt on the nearest player in the horizontal lane straight behind the gunner (D-R2: yaw only,
  * from the eye, clipped at the first block or door, line of sight required) — killed, or stopped by a shield. Any
  * faction is hit, allies included; the gunner never is; Wathe-dead, spectator or creative players, players under
- * SparkTraits Last Escape, and players a SparkFactionAPI affect veto isolates (Wraith/Vendetta) are transparent. The
+ * the Last Escape trait, and players the affect veto isolates (Wraith/Vendetta) are transparent. The
  * kill runs inside {@code JudgeKillAttribution.runWith} for the gunner, so a Judge sentence covers it. No fallback
  * effects and no +15 reward; the kill bounty follows the normal faction rules. An off-match presentation shot
  * ({@code OffMatchUse}) vents the same flame and sound but touches no player or Seeker device. The geometry lives in
  * {@link PotionBackblastRules}.
  * 仅服务端的炮筒尾焰（所有者规则）：每次真正射出炮弹时，对药炮手正后方水平通道内最近的一名玩家进行一次普通、非强制的
  * 击杀判定（D-R2：只跟随偏航角，从眼部出发，遇到第一个方块或门即截断，需要视线）——直接死亡，或被护盾挡下。不分阵营，
- * 含队友；永不包括药炮手本人；Wathe 判定死亡、旁观或创造模式的玩家、处于 SparkTraits 最后逃脱的玩家，以及被
- * SparkFactionAPI 影响否决隔离（怨灵/复仇者）的玩家视为透明。击杀在为药炮手执行的 {@code JudgeKillAttribution.runWith}
+ * 含队友；永不包括药炮手本人；Wathe 判定死亡、旁观或创造模式的玩家、处于最后逃脱词条的玩家，以及被
+ * 影响否决隔离（怨灵/复仇者）的玩家视为透明。击杀在为药炮手执行的 {@code JudgeKillAttribution.runWith}
  * 内进行，因此审判官的判决同样覆盖它。没有后续负面效果，也没有 +15 奖励；击杀赏金按正常阵营规则结算。场外仅表现的射击
  * （{@code OffMatchUse}）喷出同样的火焰与声音，但不触及任何玩家或搜寻者设备。几何判定位于 {@link PotionBackblastRules}。
  */

@@ -15,14 +15,14 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Owns the Wathe {@code Faction} constants that SparkFactionAPI appends from fabric.mod.json declarations, and the
+ * Owns the Wathe {@code Faction} constants that the faction core appends from fabric.mod.json declarations, and the
  * two-way mapping between every Wathe {@code Faction} and its faction id.
  * <p>
  * Initialization contract: {@link #install} is called exactly once, from {@code FactionEnumExtensionMixin} at the TAIL
  * of {@code Faction.<clinit>}. This class's own static initializer must never touch {@code Faction} (that could run
  * {@code install} before this class finished initializing); readers call {@link #ensureFactionInitialized} first, so a
  * lookup can never observe the table before Wathe's {@code Faction} class exists.
- * 持有 SparkFactionAPI 依据 fabric.mod.json 声明追加的 Wathe {@code Faction} 常量，以及每个 Wathe {@code Faction}
+ * 持有阵营核心依据 fabric.mod.json 声明追加的 Wathe {@code Faction} 常量，以及每个 Wathe {@code Faction}
  * 与阵营 id 的双向映射。初始化契约：{@link #install} 只会在 {@code Faction.<clinit>} 的 TAIL 由
  * {@code FactionEnumExtensionMixin} 调用一次。本类自身的静态初始化绝不能触碰 {@code Faction}（否则可能在本类
  * 初始化完成前就执行 {@code install}）；读取方先调用 {@link #ensureFactionInitialized}，因此查询不会早于

@@ -16,10 +16,10 @@ import java.util.EnumSet;
 import java.util.List;
 
 /**
- * Grants the SparkStrength tablet; it is never sold and takes no shop slot (the class name is historical). Every
+ * Grants the tablet; it is never sold and takes no shop slot (the class name is historical). Every
  * tablet-eligible player ({@link TabletShopRules#isTabletEligible}) gets one free at round start, and a reconciliation
  * pass covers players who become eligible mid-round. At most one grant per player per round.
- * 发放 SparkStrength 平板；平板从不出售，也不占用商店栏位（类名沿用旧称）。每名符合条件的玩家开局免费获得一台，
+ * 发放平板；平板从不出售，也不占用商店栏位（类名沿用旧称）。每名符合条件的玩家开局免费获得一台，
  * 局中才获得资格的玩家由对账轮次补发。每名玩家每局最多发放一次。
  */
 public final class TabletShopService {
@@ -33,17 +33,17 @@ public final class TabletShopService {
             return;
         }
         registered = true;
-        // Corrupt Cop joins SparkFactionAPI PoliceRoles, i.e. the police network (TabletShopRules#isPoliceNetworkRole).
-        // 黑警注册进 SparkFactionAPI PoliceRoles，即加入义警平板网络。
+        // Corrupt Cop joins the faction core's PoliceRoles: the police network (TabletShopRules#isPoliceNetworkRole).
+        // 黑警注册进阵营核心的 PoliceRoles，即加入义警平板网络。
         TabletShopRules.registerCorruptCopPoliceRole();
     }
 
     /**
      * Round-start grant from {@code GameEvents.ON_FINISH_INITIALIZE}: runs after every RoleAssigned of Wathe's
-     * initializeGame (including SparkTraits Conscience compensation, which may rewrite a role), so it sees final roles
+     * initializeGame (including the Conscience trait's compensation, which may rewrite a role), so it sees final roles
      * and traits, before the round becomes ACTIVE. Must run after the tablet round state is cleared.
-     * 开局发放（ON_FINISH_INITIALIZE）：在 Wathe initializeGame 的所有 RoleAssigned（含可能改写身份的 SparkTraits
-     * 良心补偿）之后、对局变为 ACTIVE 之前执行，因此看到的是最终身份与天赋。必须在清理平板本局状态之后调用。
+     * 开局发放（ON_FINISH_INITIALIZE）：在 Wathe initializeGame 的所有 RoleAssigned（含可能改写身份的
+     * 良心天赋补偿）之后、对局变为 ACTIVE 之前执行，因此看到的是最终身份与天赋。必须在清理平板本局状态之后调用。
      */
     public static void grantStarterTablets(ServerWorld world, GameWorldComponent game) {
         TabletWorldComponent state = TabletWorldComponent.KEY.get(world);
@@ -58,13 +58,13 @@ public final class TabletShopService {
 
     /**
      * Mid-round reconciliation (END_WORLD_TICK, every {@link TabletShopRules#GRANT_RECONCILE_INTERVAL_TICKS} while
-     * ACTIVE) instead of a RoleAssigned-time grant: SparkWitch Grand Witch recruitment fires RoleAssigned and then
+     * ACTIVE) instead of a RoleAssigned-time grant: Grand Witch recruitment fires RoleAssigned and then
      * rewrites every inventory slot from a snapshot (wiping anything given inside the event), and Wraith promotion uses
      * addRole without firing RoleAssigned at all. Each alive, eligible, not-yet-settled player gets a tablet only if
      * they hold none, and is settled either way; a missing tablet never re-triggers a grant, because the Black Raven
      * disguise stashes inventory items and a re-grant would duplicate when the stash returns. Since every round role is
      * settled at the start, an already-settled player who gains a network or feature mid-round gets only the new lines.
-     * 局中对账（ACTIVE 期间于 END_WORLD_TICK 每隔固定 tick 执行），取代 RoleAssigned 时发放：SparkWitch 大魔女招募会先触发
+     * 局中对账（ACTIVE 期间于 END_WORLD_TICK 每隔固定 tick 执行），取代 RoleAssigned 时发放：大魔女招募会先触发
      * RoleAssigned、再按快照重写所有物品栏槽位（事件内发放的物品会被抹掉）；冤魂晋升使用 addRole，根本不触发 RoleAssigned。
      * 每名存活、有资格且尚未结算的玩家只在身上没有平板时获得一台，无论是否发放都记为已结算；平板缺失绝不会再次触发发放，
      * 因为黑羽鸦伪装会暂存物品，重复发放会在暂存归还时产生第二台。由于每个局内身份开局即已结算，局中获得新网络或功能的已结算玩家

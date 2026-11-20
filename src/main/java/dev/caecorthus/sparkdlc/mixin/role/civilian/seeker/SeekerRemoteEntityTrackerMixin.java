@@ -28,10 +28,10 @@ import java.util.Set;
  * 其他实体则按与该设备的距离判断是否追踪，使拥有者能看到设备周围的事物。focusOf 返回 null 时两个分支都回退为原版；
  * SeekerRemoteStreaming 每刻调用 updatePosition 重新评估，从而恢复以本体为准的追踪。
  *
- * <p>Coexists with SparkStrength's drone tracker mixin (HEAD inject + {@code @ModifyExpressionValue} on the same
+ * <p>Coexists with the Bomber drone's tracker mixin (HEAD inject + {@code @ModifyExpressionValue} on the same
  * method): each HEAD inject cancels only for its own entity type and player, and the expression mixins chain.
  * NoellesRoles shadows the same fields for {@code sendToOtherNearbyPlayers} only. Default {@code require}.
- * 与 SparkStrength 无人机追踪 mixin（同一方法上的 HEAD 注入与 {@code @ModifyExpressionValue}）共存：各自的 HEAD 注入只对自己的
+ * 与炸弹客无人机追踪 mixin（同一方法上的 HEAD 注入与 {@code @ModifyExpressionValue}）共存：各自的 HEAD 注入只对自己的
  * 实体类型与玩家取消，表达式 mixin 可链式叠加。NoellesRoles 也影射相同字段，但只用于 sendToOtherNearbyPlayers。使用默认 require。</p>
  */
 @Mixin(targets = "net.minecraft.server.world.ServerChunkLoadingManager$EntityTracker")

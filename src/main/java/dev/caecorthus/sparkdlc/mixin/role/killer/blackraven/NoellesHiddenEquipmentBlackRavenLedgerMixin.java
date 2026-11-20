@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-/** Extends Noelles' packet seam for SparkWitch's observer-private bound equipment. */
+/** Extends Noelles' packet seam for this mod's observer-private bound equipment. */
 @Mixin(HiddenEquipmentHelper.class)
 public abstract class NoellesHiddenEquipmentBlackRavenLedgerMixin {
     @Inject(method = "filterPacket", at = @At("RETURN"), cancellable = true)

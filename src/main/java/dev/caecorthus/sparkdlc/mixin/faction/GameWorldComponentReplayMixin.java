@@ -18,10 +18,10 @@ import java.util.UUID;
 
 /**
  * Wathe's {@code addRole} overloads are plain map writes with no event; this Adapter records mid-round changes.
- * Both overloads are wrapped whole so the role is compared after other mods' HEAD cancels or rewrites
- * (e.g. SparkWitch Emma claims), and {@code readFromNbt} restores are excluded.
+ * Both overloads are wrapped whole so the role is compared after other mixins' HEAD cancels or rewrites
+ * (e.g. the Emma claim), and {@code readFromNbt} restores are excluded.
  * Wathe 的 {@code addRole} 两个重载只是写表、不发事件；本适配器记录对局内身份变化。整体包裹两个重载，
- * 使其他模组在 HEAD 取消或改写（如 SparkWitch Emma 唯一声明）后仍按实际结果比较，并排除 {@code readFromNbt} 恢复。
+ * 使其他 mixin 在 HEAD 取消或改写（如 Emma 唯一声明）后仍按实际结果比较，并排除 {@code readFromNbt} 恢复。
  */
 @Mixin(value = GameWorldComponent.class, remap = false)
 public abstract class GameWorldComponentReplayMixin {

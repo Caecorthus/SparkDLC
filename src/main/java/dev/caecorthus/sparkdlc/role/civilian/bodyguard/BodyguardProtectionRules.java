@@ -8,8 +8,10 @@ import java.util.Set;
 
 /**
  * Which kills the Bodyguard's vest and Democracy Shield stop (owner-confirmed table, 2026-10-07). Kills are told apart
- * by death reason; ids from other mods are value-compared here and never passed back to them.
- * 保镖防弹衣与民主盾牌能挡哪些击杀（所有者确认的表，2026-10-07）。按死因区分；其他模组的 id 在这里只做值比较，从不回传给它们。
+ * by death reason; the ids (Wathe's, NoellesRoles' and this mod's own, the latter still rebuilt from strings, in part
+ * because their roles used to live in another jar) are value-compared here and never passed back to their owners.
+ * 保镖防弹衣与民主盾牌能挡哪些击杀（所有者确认的表，2026-10-07）。按死因区分；这些 id（Wathe 的、NoellesRoles 的，以及本模组
+ * 自己的——后者仍用字符串重建，部分是因为所属职业曾在另一个 jar 中）在这里只做值比较，从不回传给其所有者。
  */
 public final class BodyguardProtectionRules {
     /** Where the shield measures the attack from. / 盾判定攻击方向时取的来源位置。 */
@@ -41,11 +43,11 @@ public final class BodyguardProtectionRules {
     private static final Identifier SAVIOR_PISTOL_KILL = Identifier.of("sparkdlc", "savior_pistol_kill");
     private static final Identifier SAVIOR_LIGHTSABER_KILL = Identifier.of("sparkdlc", "lightsaber_kill");
     /**
-     * Kill reasons settled by SparkWitch's {@code SaviorRules.settleKill}, which retries {@code killPlayer} up to ten
+     * Kill reasons settled by the Savior's {@code SaviorRules.settleKill}, which retries {@code killPlayer} up to ten
      * times in one server tick so that each retry spends one protection layer. A shield block of such a hit stops the
      * whole hit: same-tick retries with the same victim, killer and reason are blocked again at no cost
      * ({@link BodyguardSettlementMemo}). Every other reason keeps one block per {@code killPlayer} call.
-     * 由 SparkWitch 的 {@code SaviorRules.settleKill} 结算的死因：它在同一服务端刻内最多重试 10 次 {@code killPlayer}，
+     * 由救世主的 {@code SaviorRules.settleKill} 结算的死因：它在同一服务端刻内最多重试 10 次 {@code killPlayer}，
      * 每次重试消耗一层保护。盾挡下这样的一击就挡下整击：同一刻内受害者、击杀者与死因都相同的重试再次被免费挡下
      * （{@link BodyguardSettlementMemo}）。其他死因仍然每次 {@code killPlayer} 调用各自结算。
      */
@@ -69,16 +71,16 @@ public final class BodyguardProtectionRules {
             Map.entry(Identifier.of("sparkdlc", "ninja_shuriken_kill"), PHYSICAL),
             Map.entry(Identifier.of("sparkdlc", "swordfish_stab"), PHYSICAL),
             Map.entry(Identifier.of("sparkdlc", "mighty_force"), PHYSICAL),
-            // SparkWitch Witch Maiden crimson wither skull: a gunshot for protections (owner 2026-10-20).
-            // SparkWitch 巫女赤色凋灵之首：防护按枪击处理（所有者 2026-10-20）。
+            // The Witch Maiden's crimson wither skull: a gunshot for protections (owner 2026-10-20).
+            // 巫女的赤色凋灵之首：防护按枪击处理（所有者 2026-10-20）。
             Map.entry(Identifier.of("sparkdlc", "crimson_wither_skull"), PHYSICAL),
-            // SparkWitch 狮身豪 (Sphinx Hao) hand-gun fist: a gunshot for protections like the crimson skull (vest and
-            // shield both stop it; coordinator decision 2026-11-17). / SparkWitch 狮身豪“手”枪铁拳：防护与赤色凋灵之首
+            // The 狮身豪 (Sphinx Hao) hand-gun fist: a gunshot for protections like the crimson skull (vest and
+            // shield both stop it; coordinator decision 2026-11-17). / 狮身豪的“手”枪铁拳：防护与赤色凋灵之首
             // 一样按枪击处理（防弹衣与盾都能挡下；协调者 2026-11-17 决定）。
             Map.entry(Identifier.of("sparkdlc", "sphinx_hao_fist"), PHYSICAL),
-            // SparkWitch Savior pistol and lightsaber kills (SparkWitch PR #200): the shield blocks them, the vest does
+            // The Savior's pistol and lightsaber kills (SparkWitch PR #200): the shield blocks them, the vest does
             // not (owner 2026-11-09, "盾可以挡住它的击杀"). One hit is one settlement per tick, see SAME_TICK_SETTLEMENTS.
-            // SparkWitch 救世主手枪与光剑击杀（SparkWitch PR #200）：盾能挡，防弹衣不能（所有者 2026-11-09，
+            // 救世主的手枪与光剑击杀（SparkWitch PR #200）：盾能挡，防弹衣不能（所有者 2026-11-09，
             // “盾可以挡住它的击杀”）。一次命中在同一刻内只结算一次，见 SAME_TICK_SETTLEMENTS。
             Map.entry(SAVIOR_PISTOL_KILL, new Protection(false, BLOCK, Source.ATTACKER)),
             Map.entry(SAVIOR_LIGHTSABER_KILL, new Protection(false, BLOCK, Source.MELEE)),
@@ -93,11 +95,11 @@ public final class BodyguardProtectionRules {
     }
 
     /**
-     * Stamina points a shield block of this kill costs, given the round of the SparkWitch shield-piercing shot being
+     * Stamina points a shield block of this kill costs, given the round of the USEC shield-piercing shot being
      * settled (null when there is none): the AXMC never pierces the shield, but a blocked FMJ round costs
      * {@link BodyguardRules#SHIELD_AXMC_FMJ_POINTS} and an AP round {@link BodyguardRules#SHIELD_AXMC_AP_POINTS}
      * (owner 2026-10-07). Null or any other id keeps the table's cost, so revolvers and every other weapon are unchanged.
-     * 本次击杀被盾挡下时消耗的体力点数，取决于正在结算的 SparkWitch 穿盾射击的弹种（没有则为 null）：AXMC 从不击穿盾牌，但 FMJ
+     * 本次击杀被盾挡下时消耗的体力点数，取决于正在结算的 USEC 穿盾射击的弹种（没有则为 null）：AXMC 从不击穿盾牌，但 FMJ
      * 子弹消耗 {@link BodyguardRules#SHIELD_AXMC_FMJ_POINTS} 点，AP 子弹消耗 {@link BodyguardRules#SHIELD_AXMC_AP_POINTS} 点
      * （所有者 2026-10-07）。null 或其他 id 保持表中的消耗，因此左轮与其他所有武器不变。
      */

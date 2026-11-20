@@ -15,17 +15,17 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 
 /**
- * Settles a lethal curse exactly once: a forced, SparkTraits-terminal {@code TIME_STOLEN} kill inside the Judge ledger,
+ * Settles a lethal curse exactly once: a forced, terminal {@code TIME_STOLEN} kill inside the Judge ledger,
  * then the confirmed-death time penalty and the stamp grant (plan D6).
  * Second owner-approved piercing exception (after the bell toll): {@code force = true} skips Wathe's BEFORE cancels
- * and psycho armour, and the terminal registration skips every SparkTraits protection, so only the Timekeeper can lift
- * the curse beforehand. What still stops the kill: SparkFactionAPI's structural veto while the kill is attributed, a
+ * and psycho armour, and the terminal registration skips every trait protection, so only the Timekeeper can lift
+ * the curse beforehand. What still stops the kill: the faction core's structural veto while the kill is attributed, a
  * Judge sentence on the Time Stealer's UUID, and the round/match/alive checks. As with the toll, the first protecting
  * Wathe before-kill listener still pays its normal cost before the forced kill proceeds.
- * 对致死诅咒只结算一次：在审判者账本内执行强制、SparkTraits 终结的 {@code TIME_STOLEN} 击杀，
+ * 对致死诅咒只结算一次：在审判者账本内执行强制且终结的 {@code TIME_STOLEN} 击杀，
  * 随后在确认死亡后扣除时间并发放邮票（计划 D6）。
  * 继丧钟之后第二个所有者批准的穿透例外：{@code force = true} 跳过 Wathe 的 BEFORE 取消与疯魔护甲，终结原因注册跳过所有
- * SparkTraits 保护，因此只有计时员能提前解除诅咒。仍能拦下击杀的只有：有归属时 SparkFactionAPI 的结构性否决、对窃时者 UUID
+ * 词条保护，因此只有计时员能提前解除诅咒。仍能拦下击杀的只有：有归属时阵营核心的结构性否决、对窃时者 UUID
  * 的审判者判决，以及对局 / 对局 id / 存活检查。与丧钟一样，第一个出手的 Wathe 击杀前监听保护仍会先付出正常代价，
  * 然后强制击杀照常进行。
  */
@@ -52,8 +52,8 @@ public final class TimeStealerKillService {
         boolean allowed = still && SparkFactionApi.canAffectPlayer(stealer, victim, SparkDlcDeathReasons.TIME_STOLEN, game);
         SettleActor actor = TimeStealerRules.settleActor(stealer != null, still, allowed);
         if (actor == SettleActor.VETOED) {
-            // The SparkFactionAPI structural veto is honoured as for the toll: the curse is spent, never turned into an
-            // unattributed kill. / 与丧钟一样遵循 SparkFactionAPI 结构性否决：诅咒作废，绝不改成无归属击杀。
+            // The faction core's structural veto is honoured as for the toll: the curse is spent, never turned into an
+            // unattributed kill. / 与丧钟一样遵循阵营核心的结构性否决：诅咒作废，绝不改成无归属击杀。
             return;
         }
         // Offline or no longer the Time Stealer: the curse still kills with no killer (owner decision Q7); a dead but
@@ -66,9 +66,9 @@ public final class TimeStealerKillService {
         // 此处不做任何针对具体保护的放行。
         JudgeKillAttribution.runWith(world, stealerUuid,
                 () -> GameFunctions.killPlayer(victim, true, killer, SparkDlcDeathReasons.TIME_STOLEN, true));
-        // Only a confirmed death in the same ACTIVE match, not intercepted by an older SparkTraits build (fail-closed),
-        // moves the round time and grants a stamp. / 只有同一 ACTIVE 对局内确认的死亡、且未被旧版 SparkTraits 拦截
-        // （失败关闭）时，才扣除对局时间并发放邮票。
+        // Only a confirmed death in the same ACTIVE match moves the round time and grants a stamp; the Last Stand
+        // interception check (fail-closed) is unreachable since the fusion, the reason being always terminal. / 只有同一
+        // ACTIVE 对局内确认的死亡才扣除对局时间并发放邮票；背水一战拦截检查（失败关闭）融合后不可达：该死因始终是终结原因。
         if (!game.isPlayerDead(victim.getUuid())
                 || game.getGameStatus() != GameWorldComponent.GameStatus.ACTIVE
                 || !Objects.equals(match, TimeStealerMatch.currentId())

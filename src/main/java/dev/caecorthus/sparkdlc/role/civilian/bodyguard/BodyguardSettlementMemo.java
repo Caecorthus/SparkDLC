@@ -8,14 +8,14 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Shield blocks of the current server tick for the kill reasons that SparkWitch settles with same-tick retries
+ * Shield blocks of the current server tick for the kill reasons that the Savior settles with same-tick retries
  * ({@link BodyguardProtectionRules#settlesOncePerTick}). The first block of a hit pays stamina, and a later call with
  * the same key in the same tick is blocked again for free. A call on any other tick clears the memo first, so it never
  * holds more than one tick's blocks ({@link #MAX_ENTRIES} is a guard cap). Server thread only. Modelled on
- * SparkWitch's Rys-T {@code RicochetMemo} as it was before 2026-11-13 (per tick; that one is now keyed by attack source).
- * 当前服务端刻内、SparkWitch 以同刻重试结算的死因（{@link BodyguardProtectionRules#settlesOncePerTick}）的盾格挡记录。
+ * the Rys-T {@code RicochetMemo} as it was before 2026-11-13 (per tick; that one is now keyed by attack source).
+ * 当前服务端刻内、救世主以同刻重试结算的死因（{@link BodyguardProtectionRules#settlesOncePerTick}）的盾格挡记录。
  * 一击的第一次格挡消耗体力，同一刻内相同键的后续调用再次免费挡下。遇到其他刻先清空，因此不会超过一刻的格挡数
- * （{@link #MAX_ENTRIES} 为上限保护）。仅限服务端线程。仿照 2026-11-13 之前的 SparkWitch Rys-T
+ * （{@link #MAX_ENTRIES} 为上限保护）。仅限服务端线程。仿照 2026-11-13 之前的 Rys-T
  * {@code RicochetMemo}（按刻清空；后者现已改为按攻击来源记忆）。
  */
 final class BodyguardSettlementMemo {

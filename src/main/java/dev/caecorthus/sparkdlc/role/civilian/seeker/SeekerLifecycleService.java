@@ -38,9 +38,10 @@ import java.util.Objects;
 public final class SeekerLifecycleService {
     /**
      * Wathe's ON_FINISH_INITIALIZE phase for the Seeker, ordered after the default phase so Wathe has started the
-     * replay match (the binding id) and every default listener (e.g. SparkTraits compensation) has settled final roles.
+     * replay match (the binding id) and every default listener (e.g. the Conscience trait's compensation) has settled
+     * final roles.
      * 搜寻者在 Wathe ON_FINISH_INITIALIZE 上使用的阶段，排在默认阶段之后：此时 Wathe 已开始回放对局（绑定 id），
-     * 所有默认监听器（如 SparkTraits 补偿）也已确定最终身份。
+     * 所有默认监听器（如良心词条补偿）也已确定最终身份。
      */
     static final Identifier FINISH_INITIALIZE_PHASE = SparkDLC.id("seeker_finish_initialize");
 

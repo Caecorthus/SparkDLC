@@ -124,9 +124,9 @@ public final class SpecterPlayerComponent
     }
 
     /**
-     * Server only, the SparkFactionAPI forced-cooldown write path (store {@code sparkdlc:specter_skill}): sets the
+     * Server only, the forced-cooldown write path (store {@code sparkdlc:specter_skill}): sets the
      * skill-one cooldown exactly (floored at 0) and syncs the owner. The store's gate already excludes a running mark.
-     * 仅服务端，SparkFactionAPI 强制冷却的写入路径（存储 {@code sparkdlc:specter_skill}）：精确设置技能一冷却（下限为 0）
+     * 仅服务端，强制冷却的写入路径（存储 {@code sparkdlc:specter_skill}）：精确设置技能一冷却（下限为 0）
      * 并同步给本人。存储门控已排除进行中的标记。
      */
     public void setCooldownTicks(int ticks) {
@@ -166,8 +166,8 @@ public final class SpecterPlayerComponent
             ServerPlayerEntity target = owner.getServer() == null
                     ? null
                     : owner.getServer().getPlayerManager().getPlayer(markedTarget);
-            // Cheap per-tick validity; the shriek re-runs the full target gate (instinct hiding, SparkFactionAPI).
-            // 每刻只做低成本的有效性检查；尖啸时会重新执行完整的目标门槛（本能隐藏、SparkFactionAPI）。
+            // Cheap per-tick validity; the shriek re-runs the full target gate (instinct hiding, faction core).
+            // 每刻只做低成本的有效性检查；尖啸时会重新执行完整的目标门槛（本能隐藏、阵营核心）。
             if (target == null
                     || target.getServerWorld() != owner.getServerWorld()
                     || target.isSpectator()
@@ -215,9 +215,9 @@ public final class SpecterPlayerComponent
                     || !GameFunctions.isPlayerPlayingAndAlive(target)) {
                 continue;
             }
-            // Only effective real mood bars carry a sanity value (SparkTraits Conscience/Impostor applied, active
+            // Only effective real mood bars carry a sanity value (Conscience/Impostor traits applied, active
             // Wraiths never); FAKE/NONE bars stay at full mood and never highlight.
-            // 只有有效真实理智条带有理智值（已计入 SparkTraits 善良/内鬼，激活冤魂永不计入）；FAKE/NONE 始终满理智，永不高亮。
+            // 只有有效真实理智条带有理智值（已计入善良/内鬼词条，激活冤魂永不计入）；FAKE/NONE 始终满理智，永不高亮。
             if (!SpecterRules.hasRealSanity(target)) {
                 continue;
             }

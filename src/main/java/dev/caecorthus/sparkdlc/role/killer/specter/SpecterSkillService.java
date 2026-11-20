@@ -145,9 +145,9 @@ public final class SpecterSkillService {
     /**
      * Server target gate for a mark that is not aimed (a ghost-trigger mark, a shriek): same world as the caster, the
      * side-neutral {@link SpecterRules#isMarkable} filter (alive participant, not spectating, invisible, swallowed, an
-     * active Wraith or instinct-hidden), then SparkFactionAPI {@code canAffectPlayer} with {@code actionId} last.
+     * active Wraith or instinct-hidden), then the faction core's {@code canAffectPlayer} with {@code actionId} last.
      * 不经瞄准的标记（鬼魂触发器标记、尖啸）的服务端目标门槛：与施放者同一世界、两端通用的 {@link SpecterRules#isMarkable}
-     * 过滤（存活参与者，非旁观、隐身、被吞下、激活冤魂或被本能隐藏），最后以 {@code actionId} 询问 SparkFactionAPI
+     * 过滤（存活参与者，非旁观、隐身、被吞下、激活冤魂或被本能隐藏），最后以 {@code actionId} 询问阵营核心的
      * {@code canAffectPlayer}。
      */
     static boolean isValidMarkedTarget(ServerPlayerEntity caster, ServerPlayerEntity target, Identifier actionId) {
@@ -156,7 +156,7 @@ public final class SpecterSkillService {
                 && canAffect(caster, target, actionId);
     }
 
-    /** SparkFactionAPI's structural veto (Wraith, Vendetta, Rift occupant, Knight duel). / SFA 结构性否决。 */
+    /** The faction core's structural veto (Wraith, Vendetta, Rift occupant, Knight duel). / 阵营核心的结构性否决。 */
     private static boolean canAffect(ServerPlayerEntity caster, ServerPlayerEntity target, Identifier actionId) {
         return SparkFactionApi.canAffectPlayer(
                 caster, target, actionId, GameWorldComponent.KEY.get(caster.getServerWorld()));
@@ -165,10 +165,10 @@ public final class SpecterSkillService {
     /**
      * Living, non-spectator, non-creative participants within 5 blocks of the marked target that have an effective real
      * sanity bar ({@link SpecterRules#hasRealSanity}: Conscience killers count, Impostors and active Wraiths never) and
-     * that SparkFactionAPI lets the caster affect ({@link SpecterRules#FEAR_ACTION_ID}) gain one level; the marked
+     * that the faction core lets the caster affect ({@link SpecterRules#FEAR_ACTION_ID}) gain one level; the marked
      * target gains one extra.
      * 被标记者 5 格内、存活且非旁观/创造的参与者，若拥有有效真实理智条（{@link SpecterRules#hasRealSanity}：善良杀手计入，
-     * 内鬼与激活冤魂永不计入）且 SparkFactionAPI 允许施放者影响（{@link SpecterRules#FEAR_ACTION_ID}），则 +1 层；
+     * 内鬼与激活冤魂永不计入）且阵营核心允许施放者影响（{@link SpecterRules#FEAR_ACTION_ID}），则 +1 层；
      * 被标记者额外 +1 层。
      */
     private static void applyFear(ServerPlayerEntity caster, ServerPlayerEntity markedTarget) {

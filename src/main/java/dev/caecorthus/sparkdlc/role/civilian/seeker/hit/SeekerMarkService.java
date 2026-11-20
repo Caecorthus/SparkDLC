@@ -20,16 +20,17 @@ import java.util.function.BooleanSupplier;
  * Called only by {@code SeekerDeviceService.breakDevice} for attributable sources; car and camera breaks both mark
  * (Q8), while Taotie swallows, recalls and battery depletion never reach here. Server only. Conditions (plan §3.14):
  * a breaker other than the owner; the owner is the owner of record and alive in the round; the owner holds the
- * SparkStrength tablet anywhere in the inventory (the car-item console fallback does not count, the spec says
- * "tablet"); SparkFactionAPI lets the owner's {@code MARK_ACTION_ID} affect the breaker. The mark lives in the
- * owner-only {@code sparkdlc:seeker_status} component (decay is WP-02's tick, rendering WP-05's), so no other client
- * ever learns it; the owner is told only that a mark was applied, never the breaker's name.
+ * tablet anywhere in the inventory (the spec says "tablet"; the former car-item console fallback, since removed,
+ * never counted); {@code SparkFactionApi.canAffectPlayer} lets the owner's {@code MARK_ACTION_ID} affect the
+ * breaker. The mark lives in the owner-only {@code sparkdlc:seeker_status} component (decay is WP-02's tick,
+ * rendering WP-05's), so no other client ever learns it; the owner is told only that a mark was applied, never the
+ * breaker's name.
  * 冻结契约：拥有者背包任意位置持有平板时标记损坏者（10 秒、仅拥有者可见、新标记替换旧标记）。仅由
  * {@code SeekerDeviceService.breakDevice} 在可归属来源下调用；小车与摄像头被打坏都会标记（Q8），饕餮吞车、回收与电量耗尽
  * 永远不会走到这里。仅服务端。条件（计划 §3.14）：损坏者不是拥有者；拥有者是记录中的拥有者且在本局存活；拥有者背包任意位置
- * 持有 SparkStrength 平板（小车物品兜底不算，规格写的是“平板电脑”）；SparkFactionAPI 允许拥有者的 {@code MARK_ACTION_ID}
- * 影响损坏者。标记保存在仅同步给拥有者的组件中（衰减由 WP-02 负责、渲染由 WP-05 负责），因此其他客户端无从得知；
- * 拥有者只会被告知“已标记”，不会得知损坏者的名字。
+ * 持有平板（规格写的是“平板电脑”；已移除的小车物品兜底从来不算）；{@code SparkFactionApi.canAffectPlayer} 允许拥有者的
+ * {@code MARK_ACTION_ID} 影响损坏者。标记保存在仅同步给拥有者的组件中（衰减由 WP-02 负责、渲染由 WP-05 负责），
+ * 因此其他客户端无从得知；拥有者只会被告知“已标记”，不会得知损坏者的名字。
  */
 public final class SeekerMarkService {
     static final String APPLIED_MESSAGE_KEY = "message.sparkdlc.seeker.mark.applied";

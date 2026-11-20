@@ -25,7 +25,7 @@ import java.util.List;
  * {@link Profile#test(PlayerEntity)} reads the player's own world's game component;
  * {@link Profile#test(PlayerEntity, GameWorldComponent)} reads the caller's component for {@link Gate#HAS_ROLE} and
  * {@link Gate#STATUS_ACTIVE} (Wathe's own gate always reads the player's world). Both sides: a client may evaluate a
- * profile without SparkTraits gates.
+ * profile without trait gates.
  * 唯一的“存活对局参与者”判定（所有者批准的第 5 阶段合并），以具名 {@link Profile} 表示。每个档案都以 Wathe
  * {@code isPlayerPlayingAndAlive}（对局进行中、在玩家自身世界拥有职业、未被标记死亡）为基础，并且空值安全（null 玩家永不
  * 通过）。档案是有序的 {@link Gate} 列表，严格按声明顺序求值、遇到第一个失败即停止，因此词条查询（{@code SparkTraitsApi}）只在前序条件
@@ -33,7 +33,7 @@ import java.util.List;
  * 剑鱼要求状态恰为 ACTIVE 而非仅进行中；小凋灵只在服务端检查冤魂，且先查最后逃脱再查职业）。绑定物品范围
  * （{@link OffMatchUse}）与搜寻者的绑定对局拥有者规则刻意不做成档案。{@link Profile#test(PlayerEntity)} 读取玩家自身世界的
  * 对局组件；{@link Profile#test(PlayerEntity, GameWorldComponent)} 在 {@link Gate#HAS_ROLE} 与 {@link Gate#STATUS_ACTIVE}
- * 上读取调用方提供的组件（Wathe 自身的判定始终读取玩家所在世界）。双端可用：客户端可以求值不含 SparkTraits 条件的档案。
+ * 上读取调用方提供的组件（Wathe 自身的判定始终读取玩家所在世界）。双端可用：客户端可以求值不含词条条件的档案。
  */
 public final class RoundParticipants {
     /**
@@ -99,8 +99,8 @@ public final class RoundParticipants {
     public static final Profile SWORDFISH_TARGET = LIVING_SURVIVOR.then(Gate.STATUS_ACTIVE, Gate.NOT_ACTIVE_WRAITH);
 
     /**
-     * {@link #ROLE_HOLDER}, then SparkTraits Last Stand pending, then Last Escape (Abyss Listener suppression).
-     * {@link #ROLE_HOLDER}，随后依次为 SparkTraits 背水一战待定与绝处逢生（聆渊者压制）。
+     * {@link #ROLE_HOLDER}, then the traits Last Stand pending, then Last Escape (Abyss Listener suppression).
+     * {@link #ROLE_HOLDER}，随后依次为词条背水一战待定与绝处逢生（聆渊者压制）。
      */
     public static final Profile ABYSS_TARGET = ROLE_HOLDER.then(Gate.NOT_LAST_STAND_PENDING, Gate.NOT_LAST_ESCAPE);
 

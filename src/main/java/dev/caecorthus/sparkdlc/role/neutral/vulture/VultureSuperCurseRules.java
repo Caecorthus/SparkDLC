@@ -13,8 +13,8 @@ import java.util.Collection;
  */
 public final class VultureSuperCurseRules {
     /**
-     * SparkTraits' Childish trait. Read only through the public facade bridges (direct calls since the SparkDLC fusion).
-     * SparkTraits 的“幼稚”词条。只经公开门面桥接读取（融合进 SparkDLC 后为直接调用）。
+     * The Childish trait. Read only through {@code SparkTraitsApi}.
+     * “幼稚”词条。只经 {@code SparkTraitsApi} 读取。
      */
     public static final Identifier CHILDISH_TRAIT_ID = Identifier.of("sparkdlc", "childish");
 

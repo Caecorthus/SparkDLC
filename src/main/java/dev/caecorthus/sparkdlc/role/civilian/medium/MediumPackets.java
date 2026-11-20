@@ -15,9 +15,9 @@ public final class MediumPackets {
 
     public static void register() {
         PayloadTypeRegistry.playC2S().register(UseMediumSkillC2SPacket.ID, UseMediumSkillC2SPacket.CODEC);
-        // Medium 幽灵的加护 (SparkWitch skill key): paid on receipt, no menu. It took the place of the removed
+        // Medium 幽灵的加护 (Role Skill 2 key): paid on receipt, no menu. It took the place of the removed
         // use_medium_second_skill; 招魂 is now picked in the inventory screen.
-        // 通灵师幽灵的加护（SparkWitch 技能键）：收到即扣费，没有菜单。它取代了已移除的 use_medium_second_skill；
+        // 通灵师幽灵的加护（职业技能 2 键）：收到即扣费，没有菜单。它取代了已移除的 use_medium_second_skill；
         // 招魂改为在背包界面中选择。
         PayloadTypeRegistry.playC2S().register(
                 UseMediumBlessingC2SPacket.ID,

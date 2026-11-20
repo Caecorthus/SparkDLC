@@ -10,8 +10,8 @@ import net.minecraft.util.Identifier;
 import java.util.function.IntSupplier;
 
 /**
- * Writes SparkTraits' match-defining transitions through Wathe's replay API.
- * 通过 Wathe 回放 API 记录 SparkTraits 中会改变对局走向的状态转换。
+ * Writes the traits' match-defining transitions through Wathe's replay API.
+ * 通过 Wathe 回放 API 记录天赋中会改变对局走向的状态转换。
  */
 public final class TraitReplayEvents {
     static final Identifier LAST_STAND_TRIGGERED = SparkDLC.id("last_stand_triggered");
@@ -22,17 +22,17 @@ public final class TraitReplayEvents {
     }
 
     /**
-     * Keeps recording the Loose End event but hides its global line: SparkFactionAPI's cause-tagged
+     * Keeps recording the Loose End event but hides its global line: the faction core's cause-tagged
      * role-change line already shows the same conversion, and a null formatter result is skipped by Wathe.
-     * 继续记录亡命徒转换事件但隐藏其全局行：SparkFactionAPI 带原因的身份转变行已展示同一转换，Wathe 会跳过返回 null 的格式化结果。
+     * 继续记录亡命徒转换事件但隐藏其全局行：阵营核心带原因的身份转变行已展示同一转换，Wathe 会跳过返回 null 的格式化结果。
      */
     public static void registerFormatters() {
         ReplayRegistry.registerGlobalEventFormatter(LOOSE_END_CONVERSION, (event, match, world) -> null);
     }
 
     /**
-     * Also writes {@code alive_opponents} (int) for SparkAssist's achievements; the count is only taken during a match.
-     * 同时写入供 SparkAssist 成就读取的 alive_opponents（int）；仅在对局进行中才统计该数值。
+     * Also writes {@code alive_opponents} (int) for the client achievements; the count is only taken during a match.
+     * 同时写入供客户端成就读取的 alive_opponents（int）；仅在对局进行中才统计该数值。
      */
     public static void recordLastStandTriggered(ServerPlayerEntity player, IntSupplier aliveOpponents) {
         TraitAchievementRecords.guarded(LAST_STAND_TRIGGERED.toString(), () ->
@@ -41,8 +41,8 @@ public final class TraitReplayEvents {
     }
 
     /**
-     * Also writes {@code alive_opponents} (int) for SparkAssist's achievements; the count is only taken during a match.
-     * 同时写入供 SparkAssist 成就读取的 alive_opponents（int）；仅在对局进行中才统计该数值。
+     * Also writes {@code alive_opponents} (int) for the client achievements; the count is only taken during a match.
+     * 同时写入供客户端成就读取的 alive_opponents（int）；仅在对局进行中才统计该数值。
      */
     public static void recordFinalMomentStarted(ServerWorld world, IntSupplier aliveOpponents) {
         TraitAchievementRecords.guarded(FINAL_MOMENT_START.toString(), () ->

@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  *
  * <p>玩家互相挡路时，底层不只会问 {@code Entity.collidesWith}，还可能走到
  * {@code LivingEntity.isPushable} 与 {@code LivingEntity.pushAway(Entity)}。
- * 这里作为 SparkFactionAPI 碰撞豁免的本地兜底：只要任一方是冤魂透明态，就取消推挤。
+ * 这里作为阵营核心碰撞豁免的本地兜底：只要任一方是冤魂透明态，就取消推挤。
  * “透明态”同时接受 active 冤魂状态和 {@code noellesroles:no_collision} 同步状态效果，
  * 避免其他玩家客户端因为读不到目标玩法组件而仍然把冤魂当成实体墙。</p>
  *

@@ -39,7 +39,7 @@ public final class RiftGateConsoleRules {
      */
     public static final int OPEN_THROTTLE_TICKS = 5;
     public static final int CLOSE_THROTTLE_TICKS = 5;
-    /** Hotbar slots 0–8: SparkStrength opens its tablet only from these. / 快捷栏 0–8：SparkStrength 只从这些格打开平板。 */
+    /** Hotbar slots 0–8: the tablet opens only from these. / 快捷栏 0–8：平板只从这些格打开。 */
     public static final int HOTBAR_SIZE = 9;
 
     /** Close cue at the gate (plan §15: a small puff and sound nearby players notice). / 关门提示（plan §15：附近可见可闻）。 */
@@ -67,10 +67,10 @@ public final class RiftGateConsoleRules {
     /**
      * Ordered gate for viewing (open and every poll): round ACTIVE and the RAW role is exactly the Riftwalker, then not
      * inside a gate (checked before the participant test, whose spectator check would otherwise hide it), then a live
-     * participant, then a SparkStrength tablet in hotbar slots 0–8. Returns null when allowed, otherwise a deny suffix.
+     * participant, then a tablet in hotbar slots 0–8. Returns null when allowed, otherwise a deny suffix.
      * Later suppliers run only after every earlier check passed.
      * 查看门槛（打开与每次轮询）：对局 ACTIVE 且原始职业恰为隙行者，然后不在门内（先于参与者的旁观判定，以免被其掩盖），
-     * 然后是存活参与者，最后快捷栏 0–8 中有 SparkStrength 平板。允许时返回 null，否则返回拒绝后缀。
+     * 然后是存活参与者，最后快捷栏 0–8 中有平板。允许时返回 null，否则返回拒绝后缀。
      * 只有前序条件全部通过才会调用后续的 supplier。
      */
     @Nullable

@@ -27,7 +27,7 @@ public abstract class GameFunctionsBlackRavenWalletMixin {
             allow = 3
     )
     private static void sparkdlc$creditRavenWallet(PlayerShopComponent shop, int amount, Operation<Void> original) {
-        // Action rewards feed the SparkStrength purse like a normal killer receipt. / 行动奖励与普通杀手一样计入团队资金。
+        // Action rewards feed the killer-team purse like a normal killer receipt. / 行动奖励与普通杀手一样计入团队资金。
         if (!BlackRavenDisguiseEconomy.creditKillerIncome(shop, amount, true)) {
             original.call(shop, amount);
         }

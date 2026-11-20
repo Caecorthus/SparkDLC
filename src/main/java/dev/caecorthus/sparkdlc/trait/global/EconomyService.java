@@ -45,13 +45,13 @@ public final class EconomyService {
 
     /**
      * Whether this player's Wathe shop sells anything the refund can fire on. The shop is read the same way the
-     * Paranoid gate reads it, so every role whose own or inherited shop (Wathe's killer shop, NoellesRoles, SparkWitch,
-     * SparkStrength) has an entry above the threshold qualifies, and shops capped at the threshold, non-coin shops and
+     * Paranoid gate reads it, so every role whose own or inherited shop (Wathe's killer shop, NoellesRoles, this
+     * mod) has an entry above the threshold qualifies, and shops capped at the threshold, non-coin shops and
      * skills that deduct the balance directly never do. The shop is read through {@link PlanningRoundView}, so shops
      * built only for a running round count at round-start planning too. The Impostor revolver is counted from the traits
      * being chosen, because those traits are not active yet while the round's traits are planned.
      * 该玩家的 Wathe 商店里是否有能触发返还的商品。读取方式与偏执的抽取门槛相同：凡是本职业商店（含 Wathe 杀手商店、
-     * NoellesRoles、SparkWitch、SparkStrength）有高于门槛条目的都符合；商店封顶在门槛、非金币商店、技能直接扣余额的
+     * NoellesRoles、本模组）有高于门槛条目的都符合；商店封顶在门槛、非金币商店、技能直接扣余额的
      * 都不符合。商店经 {@link PlanningRoundView} 读取，因此仅在对局进行中才构建的商店在开局规划时同样计入。
      * 规划本局天赋时这些天赋尚未生效，因此内鬼左轮按正在选择的天赋计入。
      */
@@ -77,9 +77,9 @@ public final class EconomyService {
     }
 
     /**
-     * The Coroner opens with a 100-coin body bag only, but SparkStrength hands it the shop of the role it disguises as
+     * The Coroner opens with a 100-coin body bag only, but it is handed the shop of the role it disguises as
      * mid-round (Professor, Engineer, Recaller, Bomber...), which sells entries above the threshold.
-     * 验尸官开局只有 100 金币的尸袋，但 SparkStrength 会在局中按其伪装的身份给出对应商店（教授、工程师、回溯者、炸弹客等），
+     * 验尸官开局只有 100 金币的尸袋，但局中会按其伪装的身份得到对应商店（教授、工程师、回溯者、炸弹客等），
      * 其中有高于门槛的商品。
      */
     static boolean borrowsRefundableShopMidRound(Role role) {

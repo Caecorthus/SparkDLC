@@ -56,9 +56,9 @@ public final class WitchInstinctSuppressionClientHooks {
         // 中先于障眼作答。
         boolean apprentice = viewerRole == SparkDlcRoles.apprenticeWitch();
         // An active Final Moment only ever lifts a suppression (the rule returns false first), so it is passed as
-        // false and the SparkTraits read runs only when Fear or Obscure would suppress: same answer.
+        // false and the Final Moment read runs only when Fear or Obscure would suppress: same answer.
         // 激活的最终时刻只会解除压制（规则会先返回 false），因此此处传入 false，仅当恐惧或障眼会生效时才读取
-        // SparkTraits：结果不变。
+        // 最终时刻：结果不变。
         return WitchFactionRules.shouldSuppressAffectedInstinctHighlight(
                 witchWorld.getFearTicks() > 0 && !ApprenticeFearExemption.isExempt(viewer),
                 witchWorld.isInstinctObscured() && !apprentice,
@@ -81,8 +81,8 @@ public final class WitchInstinctSuppressionClientHooks {
         return target instanceof PlayerEntity targetPlayer && NoellesTaotieSeekerBridge.isSwallowed(targetPlayer);
     }
 
-    // SparkTraits is fused into SparkDLC: a direct call to its stable public facade; a null world is not active.
-    // SparkTraits 已融合进 SparkDLC：直接调用其稳定公共门面；世界为空时视为未激活。
+    // A direct call to the trait contract (SparkTraitsApi); a null world is not active.
+    // 直接调用词条契约（SparkTraitsApi）；世界为空时视为未激活。
     private static boolean isSparkTraitsFinalMomentActive(World world) {
         return world != null && SparkTraitsApi.isFinalMomentActive(world);
     }

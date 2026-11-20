@@ -75,11 +75,10 @@ public final class BlindLoadoutService {
 
     /**
      * Sweep test for a player who is not an active Blind ({@link BlindKitRules#keepsKit}): a real Blind in a running
-     * round keeps the kit while alive or inside a SparkTraits-intercepted (Last Stand) death; the intercept query runs
-     * only for such a dead Blind and fails closed (an absent, older or failing SparkTraits means not intercepted).
-     * 对非激活盲人的玩家的清理判定（{@link BlindKitRules#keepsKit}）：运行中对局里的真实盲人在存活或处于 SparkTraits
-     * 拦截的（背水一战）死亡期间保留道具；仅对这样的已死盲人查询拦截状态，且保守失败（SparkTraits 缺失、过旧或出错时视为
-     * 未拦截）。
+     * round keeps the kit while alive or inside a death the Last Stand trait intercepts; the intercept query runs
+     * only for such a dead Blind.
+     * 对非激活盲人的玩家的清理判定（{@link BlindKitRules#keepsKit}）：运行中对局里的真实盲人在存活或处于背水一战词条
+     * 拦截的死亡期间保留道具；仅对这样的已死盲人查询拦截状态。
      */
     public static boolean keepsKit(ServerPlayerEntity player) {
         GameWorldComponent game = GameWorldComponent.KEY.get(player.getWorld());
@@ -167,9 +166,9 @@ public final class BlindLoadoutService {
     }
 
     /**
-     * SparkTraits keeps a psycho-mode player's inventory bat-only every tick, so the cane waits until psycho mode ends
-     * instead of being re-granted against it each tick.
-     * SparkTraits 每 tick 都让疯魔模式玩家的背包只剩球棒，因此盲杖等到疯魔模式结束后再放回，而不是每 tick 与之反复争夺。
+     * The Depression trait keeps its psycho-mode player's inventory bat-only every tick, so the cane waits until psycho
+     * mode ends instead of being re-granted against it each tick.
+     * 抑郁词条每 tick 都让其疯魔模式玩家的背包只剩球棒，因此盲杖等到疯魔模式结束后再放回，而不是每 tick 与之反复争夺。
      */
     private static void placeCaneUnlessPsycho(ServerPlayerEntity player) {
         if (!BlindParticipants.isInPsychoMode(player)) {
@@ -199,12 +198,12 @@ public final class BlindLoadoutService {
 
     /**
      * Keeps exactly one cane and forces it into the hotbar: the leftmost hotbar cane is kept, every other copy (main
-     * slots 9-35, including the second row 27-35 that SparkFactionAPI 0.1.5.13+ shows, armor, offhand, cursor, crafting
+     * slots 9-35, including the second row 27-35 that the limited inventory shows, armor, offhand, cursor, crafting
      * grid or open container) is removed, and a missing hotbar cane is recreated there. A cane parked in the second row
      * therefore returns to the hotbar; the cane has no per-stack data and its cooldowns live on the component and the
      * per-Item cooldown, so nothing is lost.
-     * 保持恰好一根盲杖并强制其位于快捷栏：保留最左侧的快捷栏盲杖，移除其他所有副本（主背包 9-35，包括 SparkFactionAPI
-     * 0.1.5.13+ 显示的第二行 27-35、盔甲、副手、光标、合成格或已打开的容器），并在快捷栏缺失时重新创建。因此放进第二行的
+     * 保持恰好一根盲杖并强制其位于快捷栏：保留最左侧的快捷栏盲杖，移除其他所有副本（主背包 9-35，包括受限物品栏
+     * 显示的第二行 27-35、盔甲、副手、光标、合成格或已打开的容器），并在快捷栏缺失时重新创建。因此放进第二行的
      * 盲杖会回到快捷栏；盲杖没有逐堆数据，冷却记录在组件与按物品类型的冷却中，不会丢失任何东西。
      */
     private static void ensureCaneInHotbar(ServerPlayerEntity player) {

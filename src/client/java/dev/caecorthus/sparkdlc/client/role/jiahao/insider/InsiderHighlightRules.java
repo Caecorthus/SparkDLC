@@ -8,7 +8,7 @@ import dev.doctor4t.wathe.api.Role;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Pure Insider instinct-outline rules (D8, C7, C8), generalised to both SparkWitch partners of the Corrupt Cop, the
+ * Pure Insider instinct-outline rules (D8, C7, C8), generalised to both partners of the Corrupt Cop, the
  * Insider and 狮身豪 Sphinx Hao (coordinator 2026-11-17): a living Sphinx Hao gets the Insider's own view and
  * killer-style instinct light, and the Corrupt Cop sees a Sphinx Hao the way it sees the Insider. Wherever the Insider's
  * mint stands for a partner, a Sphinx Hao is painted in its own role colour {@code 0xFF7F50}; a Sphinx Hao's own view
@@ -24,9 +24,9 @@ import org.jetbrains.annotations.Nullable;
  * Insider green like any other passenger.
  * Every answer is always-style ({@code requiresKeybind = false}) and is only given while its own condition holds, so a
  * key-up frame answers nothing and never hides lower-priority always-on outlines. While the Insider holds the key its
- * own view stays below SparkStrength's tablet suspect mark (80), so that mark keeps its color, except on the Corrupt
+ * own view stays below the tablet suspect mark (80), so that mark keeps its color, except on the Corrupt
  * Cop, which always stays navy.
- * 内应本能描边的纯规则（D8、C7、C8），推广到黑警的两种 SparkWitch 搭档：内应与狮身豪（协调者 2026-11-17）：存活的狮身豪
+ * 内应本能描边的纯规则（D8、C7、C8），推广到黑警的两种搭档：内应与狮身豪（协调者 2026-11-17）：存活的狮身豪
  * 获得内应自身视角与杀手式本能夜视，黑警看狮身豪与看内应相同。凡是用内应薄荷青代表搭档之处，狮身豪改用其职业色
  * {@code 0xFF7F50}；狮身豪自身视角也用该颜色描绘其他目标。没有狮身豪的对局作答与以前完全相同。钩子只传入已同步的事实，
  * 这里不接触客户端或世界。
@@ -36,30 +36,30 @@ import org.jetbrains.annotations.Nullable;
  * </ul>
  * 杀手不会得到内应答复（所有者 2026-10-05 决定，取代 D3 的内鬼伪装）：Wathe 默认逻辑把内应与其他乘客一样描成绿色。
  * 所有答复均为常亮样式（{@code requiresKeybind = false}），且只在各自条件成立时给出；松开按键的帧不作答，
- * 因此不会遮住更低优先级的常亮描边。内应按住按键时，其自身视角低于 SparkStrength 平板嫌疑人标记（80），该标记保持原色；
+ * 因此不会遮住更低优先级的常亮描边。内应按住按键时，其自身视角低于平板嫌疑人标记（80），该标记保持原色；
  * 但黑警始终显示深蓝。
  */
 public final class InsiderHighlightRules {
     /**
-     * Wathe {@code GetInstinctHighlight} priority of the Corrupt Cop view: above SparkStrength's Corrupt Cop x-ray
-     * (90), SparkWitch's 90-level role outlines and NoellesRoles' Moment outline (0); below the Seeker mark (95),
+     * Wathe {@code GetInstinctHighlight} priority of the Corrupt Cop view: above the Corrupt Cop x-ray
+     * (90), the other 90-level role outlines and NoellesRoles' Moment outline (0); below the Seeker mark (95),
      * {@code skip()} (100), Black Raven and Final Moment (101) and Grand Witch suppression (102). No listener in the
      * modpack uses 91-94, so it ties with nothing.
-     * 黑警视角的 Wathe {@code GetInstinctHighlight} 优先级：高于 SparkStrength 黑警透视（90）、SparkWitch 的 90 级职业
+     * 黑警视角的 Wathe {@code GetInstinctHighlight} 优先级：高于黑警透视（90）、其他 90 级职业
      * 描边与 NoellesRoles 黑警时刻描边（0）；低于搜寻者标记（95）、{@code skip()}（100）、黑羽鸦与终局时刻（101）以及
      * 大魔女压制（102）。整合包中没有监听器使用 91-94，因此不会与任何监听器同级。
      */
     public static final int PRIORITY = 93;
 
     /**
-     * Priority of the Insider's own view: below SparkStrength's tablet suspect outline (80), so the Insider's issued
-     * tablet keeps that mark while the key is held, and above NoellesRoles' role-scoped outlines (0). SparkStrength no
+     * Priority of the Insider's own view: below the tablet suspect outline (80), so the Insider's issued
+     * tablet keeps that mark while the key is held, and above NoellesRoles' role-scoped outlines (0). The tablet no
      * longer outlines police-network members (its former 70 mark is gone), so 65 now sits below the suspect mark alone.
      * Apart from that mark, every answer between 65 and 93 is scoped to other viewer roles (Veteran 85, Corrupt Cop
      * x-ray 90, witch, Murderous Witch and Pig God 90) or to corpses (Prophet 90), so nothing else repaints or hides a
      * player for the Insider.
-     * 内应自身视角的优先级：低于 SparkStrength 平板嫌疑人描边（80），因此内应开局发放的平板在按住按键时仍保留该标记；
-     * 高于 NoellesRoles 按职业限定的描边（0）。SparkStrength 已不再描边警察网络成员（原 70 标记已移除），因此 65 现在只需
+     * 内应自身视角的优先级：低于平板嫌疑人描边（80），因此内应开局发放的平板在按住按键时仍保留该标记；
+     * 高于 NoellesRoles 按职业限定的描边（0）。平板已不再描边警察网络成员（原 70 标记已移除），因此 65 现在只需
      * 低于嫌疑人标记。除该标记外，65 与 93 之间的答复都只作用于其他观察者职业（老兵 85、黑警透视 90、魔女、杀意魔女与
      * 猪神 90）或尸体（先知 90），不会为内应重绘或隐藏其他玩家。
      */
@@ -117,10 +117,10 @@ public final class InsiderHighlightRules {
 
     /**
      * Whether a player target may carry an Insider outline for this viewer: another living, non-spectating, visible
-     * player, like NoellesRoles' Moment outline and SparkStrength's Corrupt Cop x-ray. {@link Viewer#NONE} never has
+     * player, like NoellesRoles' Moment outline and the Corrupt Cop x-ray. {@link Viewer#NONE} never has
      * an eligible target.
      * 对该观察者而言玩家目标是否可能带有内应描边：其他存活、非旁观且可见的玩家，与 NoellesRoles 黑警时刻描边及
-     * SparkStrength 黑警透视一致。{@link Viewer#NONE} 没有合格目标。
+     * 黑警透视一致。{@link Viewer#NONE} 没有合格目标。
      */
     public static boolean isEligibleTarget(Viewer viewer, boolean samePlayer, boolean targetPlayingAndAlive,
                                            boolean targetSpectatingOrCreative, boolean targetInvisible) {
@@ -196,9 +196,9 @@ public final class InsiderHighlightRules {
 
     /**
      * Both partners, the Insider (owner-approved A3) and Sphinx Hao (coordinator 2026-11-17), share killer-style
-     * instinct night vision. The Corrupt Cop is not added here: SparkStrength already grants it.
-     * 两种搭档——内应（所有者批准的 A3）与狮身豪（协调者 2026-11-17）——使用杀手式本能夜视。黑警不在此添加：SparkStrength
-     * 已经提供。
+     * instinct night vision. The Corrupt Cop is not added here: its own instinct-light mixin already grants it.
+     * 两种搭档——内应（所有者批准的 A3）与狮身豪（协调者 2026-11-17）——使用杀手式本能夜视。黑警不在此添加：它自己的本能夜视
+     * mixin 已经提供。
      */
     public static boolean usesKillerStyleInstinctLight(@Nullable Role role) {
         return InsiderParticipation.isPartnerRole(role) || InsiderParticipation.isSniperRole(role);

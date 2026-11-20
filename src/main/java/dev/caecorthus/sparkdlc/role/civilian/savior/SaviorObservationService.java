@@ -28,7 +28,7 @@ import org.jetbrains.annotations.Nullable;
  * it. Only another player's KILL counts: when such a victim is killed by a player who is neither the victim nor the
  * observing Savior, both of that Savior's weapons lose half of their own effective cooldown
  * ({@link SaviorCooldowns#reduceAfterObservedKill}). Killer-less deaths (an ESCAPED disconnect, a fall, Wathe's
- * innocent-shot punishment), suicides and deaths SparkTraits intercepted (Last Stand) count for nothing. Players who
+ * innocent-shot punishment), suicides and deaths the Last Stand trait intercepted count for nothing. Players who
  * merely leave the cone trigger nothing. The sword's hard left-click lock is handled client-side by
  * {@code SaviorLightsaberSwingMixin}.
  * <p>When it is sampled (owner 2026-11): once per kill attempt, at the very start of Wathe's {@code killPlayer}
@@ -43,7 +43,7 @@ import org.jetbrains.annotations.Nullable;
  * 击杀时的观测（规格“观测他人击杀按实际冷却减半”）：当死者位于某名救世主（存活在局、非旁观、未被饕餮吞下）64 格、120 度的
  * 视野锥内且 {@code canSee} 为真时，该救世主观测到这次击杀。只有他人的“击杀”才算：这样的死者被一名既不是死者本人、也不是该
  * 救世主的玩家击杀时，该救世主两把武器各减少自身实际冷却的一半（{@link SaviorCooldowns#reduceAfterObservedKill}）。没有
- * 击杀者的死亡（ESCAPED 断线、坠落、Wathe 误杀惩罚）、自杀以及被 SparkTraits 拦截的死亡（背水一战）都不算。只是离开视野
+ * 击杀者的死亡（ESCAPED 断线、坠落、Wathe 误杀惩罚）、自杀以及被背水一战词条拦截的死亡都不算。只是离开视野
  * 不触发任何效果。光剑冷却期硬禁左键由客户端 {@code SaviorLightsaberSwingMixin} 处理。
  * <p>采样时机（所有者 2026-11）：每次击杀尝试采样一次，位于 Wathe {@code killPlayer} 的最开头
  * （{@code mixin/savior/GameFunctionsSaviorObservationMixin}），此时死者击杀前的状态完好。此前本服务每个服务端刻都为每名

@@ -413,15 +413,15 @@ public final class SparkDLCClient implements ClientModInitializer {
         RoleEconomyClientHooks.register();
         SkateboardClient.register();
         TaotieHeadClientHooks.register();
-        // Spiritualist Wraith possession; the key and Wraith sight bind through SparkWitch's client facades (direct calls
-        // since the SparkDLC fusion). / 灵界行者附身冤魂；按键与冤魂可见经 SparkWitch 客户端门面挂接（融合进 SparkDLC 后为直接调用）。
+        // Spiritualist Wraith possession; the key and Wraith sight bind by direct calls to SecondaryAbilityRegistry and
+        // WraithViewerGates. / 灵界行者附身冤魂；按键与冤魂可见通过直接调用 SecondaryAbilityRegistry 与 WraithViewerGates 挂接。
         SpiritPossessionClient.register();
         TabletClientHighlights.register();
         TabletChatNotifier.register();
         TabletHeldHud.register();
         SabotageClient.register();
-        // Binds to SparkWitch's Role Skill 2 key facade (a direct call since the SparkDLC fusion).
-        // 挂接到 SparkWitch 的“职业技能 2”按键门面（融合进 SparkDLC 后为直接调用）。
+        // Binds to the Role Skill 2 key by a direct call to SecondaryAbilityRegistry.
+        // 直接调用 SecondaryAbilityRegistry 挂接到“职业技能 2”按键。
         VultureSuperCurseClientHooks.register();
         PartygoerClientHooks.register();
         PartygoerInstinctClientHooks.register();
@@ -826,8 +826,8 @@ public final class SparkDLCClient implements ClientModInitializer {
                     PlannerClient.onAbilityKey(client);
                 } else if (MediumRules.isMedium(role)) {
                     // 通灵 (the shared ability key): empty request, the server owns every check and opens the box.
-                    // 幽灵的加护 is on the SparkWitch skill key (MediumClientModule) and 招魂 in the inventory drawer.
-                    // 通灵（共享技能键）：空请求，全部校验在服务端，并由服务端打开提问框。幽灵的加护在 SparkWitch 技能键上
+                    // 幽灵的加护 is on the Role Skill 2 key (MediumClientModule) and 招魂 in the inventory drawer.
+                    // 通灵（共享技能键）：空请求，全部校验在服务端，并由服务端打开提问框。幽灵的加护在“职业技能 2”键上
                     // （MediumClientModule），招魂在背包抽屉中。
                     if (ClientPlayNetworking.canSend(UseMediumSkillC2SPacket.ID)) {
                         ClientPlayNetworking.send(new UseMediumSkillC2SPacket());

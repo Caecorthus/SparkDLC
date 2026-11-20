@@ -26,23 +26,24 @@ public final class EffectiveWinService {
     public static final Identifier SELF_REALIZATION = SparkDLC.id("self_realization");
     private static final Identifier SPARKWITCH_GRAND_WITCH_ID = Identifier.of("sparkdlc", "grand_witch");
     private static final Identifier SPARKWITCH_ACCOMPLICE_ID = Identifier.of("sparkdlc", "accomplice");
-    // SparkWitch special accomplices block team wins exactly like the Accomplice.
-    // SparkWitch 特殊共犯与共犯一样阻止队伍胜利。
+    // The special accomplices block team wins exactly like the Accomplice.
+    // 特殊共犯与共犯一样阻止队伍胜利。
     private static final Identifier SPARKWITCH_ABYSS_LISTENER_ID = Identifier.of("sparkdlc", "abyss_listener");
     private static final Identifier SPARKWITCH_POTION_GUNNER_ID = Identifier.of("sparkdlc", "potion_gunner");
     private static final Identifier SPARKWITCH_RIFTWALKER_ID = Identifier.of("sparkdlc", "riftwalker");
-    // SparkWitch's Bewitched (魔化使) is an accomplice before promotion.
-    // SparkWitch 魔化使是晋升前的共犯。
+    // The Bewitched (魔化使) is an accomplice before promotion.
+    // 魔化使是晋升前的共犯。
     private static final Identifier SPARKWITCH_BEWITCHED_ID = Identifier.of("sparkdlc", "bewitched");
     private static final Identifier SPARKWITCH_MURDEROUS_WITCH_ID = Identifier.of("sparkdlc", "murderous_witch");
-    // SparkWitch's Insider shares the Corrupt Cop's team and keeps its win rule after the Corrupt Cop dies.
-    // SparkWitch 内应与黑警同属一个阵营，黑警死后由内应继续承担该阵营的胜利规则。
+    // The Insider shares the Corrupt Cop's team and keeps its win rule after the Corrupt Cop dies.
+    // 内应与黑警同属一个阵营，黑警死后由内应继续承担该阵营的胜利规则。
     private static final Identifier SPARKWITCH_INSIDER_ID = Identifier.of("sparkdlc", "insider");
-    // SparkWitch's 狮身豪 (Sphinx Hao) is a second Team Jiahao member and blocks team wins exactly like the Insider.
-    // SparkWitch 狮身豪是嘉豪阵营的第二名成员，与内应完全一样阻止队伍胜利。
+    // 狮身豪 (Sphinx Hao) is a second Team Jiahao member and blocks team wins exactly like the Insider.
+    // 狮身豪是嘉豪阵营的第二名成员，与内应完全一样阻止队伍胜利。
     private static final Identifier SPARKWITCH_SPHINX_HAO_ID = Identifier.of("sparkdlc", "sphinx_hao");
-    // SparkWitch's Sniper (狙击手, PR #245) is a further Team Jiahao member and blocks team wins exactly like the Insider.
-    // SparkWitch 狙击手（PR #245）是嘉豪阵营的又一名成员，与内应完全一样阻止队伍胜利。
+    // The Sniper (狙击手, PR SparkWitch #245) is a further Team Jiahao member and blocks team wins exactly like the
+    // Insider.
+    // 狙击手（PR SparkWitch #245）是嘉豪阵营的又一名成员，与内应完全一样阻止队伍胜利。
     private static final Identifier SPARKWITCH_SNIPER_ID = Identifier.of("sparkdlc", "sniper");
     private static final Identifier NOELLES_SHADOW_JESTER_ID = Identifier.of("noellesroles", "shadow_jester");
 
@@ -205,9 +206,9 @@ public final class EffectiveWinService {
             if (!GameFunctions.isPlayerPlayingAndAlive(player) || !gameComponent.hasAnyRole(player)) {
                 continue;
             }
-            // SparkFactionAPI settlement-excluded roles (raw role, e.g. SparkWitch's Black Raven) take no part in this
+            // Settlement-excluded roles (raw role, e.g. the Black Raven) take no part in this
             // census at all, so every team-win outcome reads exactly as if they were not in the round.
-            // SparkFactionAPI 结算排除身份（按原始身份判断，如 SparkWitch 黑羽鸦）完全不参与本次统计，
+            // 结算排除身份（按原始身份判断，如黑羽鸦）完全不参与本次统计，
             // 所有队伍胜负都与该玩家不在本局时完全一致。
             if (SettlementExclusions.isExcluded(gameComponent, player.getUuid())) {
                 continue;

@@ -16,17 +16,17 @@ public final class GoingDarkRules {
             Identifier.of("sparkdlc", "grand_witch"),
             Identifier.of("sparkdlc", "murderous_witch"),
             Identifier.of("sparkdlc", "accomplice"),
-            // SparkWitch special accomplices share every Accomplice rule. / SparkWitch 特殊共犯沿用共犯的全部规则。
+            // The special accomplices share every Accomplice rule. / 特殊共犯沿用共犯的全部规则。
             Identifier.of("sparkdlc", "abyss_listener"),
             Identifier.of("sparkdlc", "potion_gunner"),
             Identifier.of("sparkdlc", "riftwalker"),
-            // SparkWitch's Bewitched (魔化使) is an accomplice before promotion. / SparkWitch 魔化使是晋升前的共犯。
+            // The Bewitched (魔化使) is an accomplice before promotion. / 魔化使是晋升前的共犯。
             Identifier.of("sparkdlc", "bewitched"),
             Identifier.of("noellesroles", "corrupt_cop"),
             Identifier.of("sparkdlc", "insider"),
-            // SparkWitch's 狮身豪 (Sphinx Hao) has the Insider's Team Jiahao instinct. / SparkWitch 狮身豪拥有与内应相同的嘉豪本能。
+            // 狮身豪 (Sphinx Hao) has the Insider's Team Jiahao instinct. / 狮身豪拥有与内应相同的嘉豪本能。
             Identifier.of("sparkdlc", "sphinx_hao"),
-            // SparkWitch's Sniper (狙击手, PR #245) has the Insider's Team Jiahao instinct. / SparkWitch 狙击手拥有与内应相同的嘉豪本能。
+            // The Sniper (狙击手, PR SparkWitch #245) has the Insider's Team Jiahao instinct. / 狙击手拥有与内应相同的嘉豪本能。
             Identifier.of("sparkdlc", "sniper")
     );
 

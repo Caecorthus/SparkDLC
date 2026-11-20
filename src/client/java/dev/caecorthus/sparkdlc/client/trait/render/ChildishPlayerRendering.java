@@ -49,12 +49,12 @@ public final class ChildishPlayerRendering {
     }
 
     /**
-     * A non-player entity drawn with a player model that carries Childish's synced scale modifier, such as a SparkWitch
+     * A non-player entity drawn with a player model that carries Childish's synced scale modifier, such as a
      * Magician puppet copying a Childish player, is drawn like that player: the baby model plus the same fill scale.
-     * Detected by the modifier and the model type only, never by another mod's classes; mobs, armor stands and other
+     * Detected by the modifier and the model type only, never by the entity's class; mobs, armor stands and other
      * mods' entities lack the modifier or the player model and stay vanilla.
-     * 使用玩家模型、且带有幼稚同步体型修饰符的非玩家实体（如复制幼稚玩家的 SparkWitch 魔术师皮套）按该玩家的方式绘制：
-     * 幼体模型加同样的填充缩放。只依据修饰符与模型类型判定，从不依赖其他模组的类；生物、盔甲架与其他模组实体缺少该修饰符
+     * 使用玩家模型、且带有幼稚同步体型修饰符的非玩家实体（如复制幼稚玩家的魔术师皮套）按该玩家的方式绘制：
+     * 幼体模型加同样的填充缩放。只依据修饰符与模型类型判定，从不依赖实体的类；生物、盔甲架与其他模组实体缺少该修饰符
      * 或玩家模型，保持原版。
      */
     static boolean wearsChildishPlayerLook(LivingEntity entity, EntityModel<?> model) {

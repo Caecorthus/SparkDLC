@@ -20,21 +20,21 @@ import net.minecraft.util.TypedActionResult;
 
 /**
  * Server-side Clock use flow: gates, target, theft, authoritative cooldown, feedback and replay. Returns CONSUME on a
- * committed theft, a Seeker device absorb (Q9) or a SparkStrength Partygoer kill (2026-10-21), FAIL otherwise, never
+ * committed theft, a Seeker device absorb (Q9) or a Partygoer kill (2026-10-21), FAIL otherwise, never
  * SUCCESS (a success would broadcast an arm swing).
- * 服务端时钟使用流程：判定、目标、窃取、权威冷却、反馈与回放。成功窃取、被搜寻者设备吸收（Q9）或打死 SparkStrength 派对客
+ * 服务端时钟使用流程：判定、目标、窃取、权威冷却、反馈与回放。成功窃取、被搜寻者设备吸收（Q9）或打死派对客
  * （2026-10-21）时返回 CONSUME，其余返回 FAIL，绝不返回 SUCCESS（SUCCESS 会广播挥手动作）。
  *
  * <p>Only two owner-only outcomes exist, "stolen" and one generic "no target", so a free miss cannot be used to probe
  * hidden states (invisibility, Last Escape, faction vetoes, an existing theft). A refusal costs nothing; the cooldown is
  * written only after {@link TimeTheftRuntime#steal} committed, or when a nearer Seeker device shielding an eligible
  * target absorbed the Clock (owner decision Q9; unlike the Taser and the Feather Blade, a miss never breaks a device),
- * or after the Clock killed a SparkStrength Partygoer. The authoritative deadline is {@code ClockReadyAt}; the item cooldown is
- * display only, written exactly through SparkTraits with a vanilla fallback.
+ * or after the Clock killed a Partygoer. The authoritative deadline is {@code ClockReadyAt}; the item cooldown is
+ * display only, written exactly through {@code SparkTraitsApi}; its vanilla fallback is unreachable since the fusion.
  * 只有两种仅所有者可见的结果：“已窃取”与一条通用的“无目标”，因此免费的未命中无法用来探测隐藏状态（隐身、最后逃脱、
  * 阵营否决、已被窃）。被拒绝不付出任何代价；只有在 {@link TimeTheftRuntime#steal} 提交之后，或更近的搜寻者设备吸收了
- * 时钟时（所有者决定 Q9；与电击枪和羽刃不同，未命中绝不打坏设备），或时钟打死 SparkStrength 派对客之后，才写入冷却。权威截止为 {@code ClockReadyAt}；物品冷却只作显示，
- * 经 SparkTraits 精确写入，缺失时回退到原版。
+ * 时钟时（所有者决定 Q9；与电击枪和羽刃不同，未命中绝不打坏设备），或时钟打死派对客之后，才写入冷却。权威截止为 {@code ClockReadyAt}；物品冷却只作显示，
+ * 经 {@code SparkTraitsApi} 精确写入；其原版回退分支融合后不可达。
  */
 public final class TimeStealerClockService {
     static final String STOLEN_KEY = "message.sparkdlc.time_stealer.stolen";
@@ -65,8 +65,9 @@ public final class TimeStealerClockService {
             return killPartygoerOrRefuse(user, stack, clock, state);
         }
         // A Partygoer strictly nearer on the same ray is decided here, with the Clock's own aim tolerance, before
-        // SparkStrength's device-seam hook could judge it with another one; it dies and the player behind keeps their time.
-        // 同一射线上更近的派对客在此处判定（使用时钟自身的瞄准容差），先于 SparkStrength 在设备接缝中的钩子以另一套容差判定；
+        // the Partygoer hook in the Seeker device seam could judge it with another one; it dies and the player behind
+        // keeps their time.
+        // 同一射线上更近的派对客在此处判定（使用时钟自身的瞄准容差），先于搜寻者设备接缝中的派对客钩子以另一套容差判定；
         // 派对客死亡，其后的玩家保住时间。
         Entity shield = ClockGeometry.findEntity(user, TimeStealerRules.CLOCK_RANGE,
                 PartygoerWeaponTarget::isKillable);
@@ -100,15 +101,15 @@ public final class TimeStealerClockService {
     }
 
     /**
-     * SparkStrength Partygoer seam (owner rule 2026-10-21: whatever kills a player kills a Partygoer in one hit), reached
-     * only when the Clock picked no eligible player: a killable Partygoer on the same Clock ray dies at once
-     * ({@code TIME_STOLEN}, the curse's own kill) and the Clock cools down as after a theft; SparkStrength's reward line
-     * is the feedback (no record: SparkStrength records the kill). Otherwise the usual free refusal. When a player was
-     * picked, a strictly nearer Partygoer is decided above, before the device seam, so one use kills at most once and
-     * starts one cooldown.
-     * SparkStrength 派对客接缝（所有者规则 2026-10-21：能杀死玩家的东西一击打死派对客），仅在时钟没有选中合格玩家时进入：同一条
-     * 时钟射线上的可击杀派对客立即死亡（{@code TIME_STOLEN}，即诅咒自身的击杀死因），时钟与窃取后一样进入冷却；以 SparkStrength
-     * 的奖励提示作为反馈（不写记录：由 SparkStrength 记录击杀）。否则照常免费拒绝。选中玩家时，更近的派对客已在上方、设备接缝之前
+     * Partygoer seam (owner rule 2026-10-21: whatever kills a player kills a Partygoer in one hit), reached only when
+     * the Clock picked no eligible player: a killable Partygoer on the same Clock ray dies at once
+     * ({@code TIME_STOLEN}, the curse's own kill) and the Clock cools down as after a theft; the Partygoer's reward
+     * line is the feedback (no record: the Partygoer feature records the kill). Otherwise the usual free refusal. When
+     * a player was picked, a strictly nearer Partygoer is decided above, before the device seam, so one use kills at
+     * most once and starts one cooldown.
+     * 派对客接缝（所有者规则 2026-10-21：能杀死玩家的东西一击打死派对客），仅在时钟没有选中合格玩家时进入：同一条
+     * 时钟射线上的可击杀派对客立即死亡（{@code TIME_STOLEN}，即诅咒自身的击杀死因），时钟与窃取后一样进入冷却；以派对客
+     * 的奖励提示作为反馈（不写记录：由派对客功能记录击杀）。否则照常免费拒绝。选中玩家时，更近的派对客已在上方、设备接缝之前
      * 判定，因此一次使用至多击杀一次、只开始一次冷却。
      */
     private static TypedActionResult<ItemStack> killPartygoerOrRefuse(ServerPlayerEntity user, ItemStack stack,
@@ -156,14 +157,12 @@ public final class TimeStealerClockService {
 
     /**
      * Holder's per-tick upkeep: the slot never shows less than {@code ClockReadyAt}, so it never looks ready while the
-     * Clock is refused. A removed cooldown (SparkFactionAPI {@code clearCooldown}) has already released
-     * {@code ClockReadyAt} ({@code RoleItemCooldownReleases}), so it stays cleared. Exact writes only: without
-     * SparkTraits a vanilla {@code set} is shortened again (NoellesRoles Stimulation) and would be rewritten every tick,
-     * so then only the refusal-time {@link #restoreDisplayedCooldown} repairs the display.
+     * Clock is refused. A removed cooldown (the admin {@code clearCooldown} command) has already released
+     * {@code ClockReadyAt} ({@code RoleItemCooldownReleases}), so it stays cleared. Exact writes only: a vanilla
+     * {@code set} would be shortened again (NoellesRoles Stimulation) and then rewritten every tick.
      * 持有者的每 tick 维护：栏位显示绝不少于 {@code ClockReadyAt}，因此时钟被拒绝时不会显示为就绪。被移除的冷却
-     * （SparkFactionAPI {@code clearCooldown}）已先释放 {@code ClockReadyAt}（{@code RoleItemCooldownReleases}），
-     * 因此保持清除。仅用精确写入：缺少 SparkTraits 时原版 {@code set} 会再次被缩短（NoellesRoles 兴奋剂）并每 tick 重写，
-     * 此时只由拒绝时的 {@link #restoreDisplayedCooldown} 修复显示。
+     * （管理员 {@code clearCooldown} 命令）已先释放 {@code ClockReadyAt}（{@code RoleItemCooldownReleases}），
+     * 因此保持清除。仅用精确写入：原版 {@code set} 会再次被缩短（NoellesRoles 兴奋剂）并每 tick 重写。
      */
     static void keepDisplayedCooldown(ServerPlayerEntity user) {
         Item clock = SparkDlcItems.timeStealerClock();
@@ -180,10 +179,11 @@ public final class TimeStealerClockService {
     }
 
     /**
-     * SparkTraits' exact write performs the vanilla {@code set} itself past cooldown modifiers, so it goes first and
-     * the plain vanilla write is only the fallback when Traits is absent or older (never both: two cooldown packets).
-     * SparkTraits 的精确写入会越过冷却倍率自行完成原版写入，因此优先调用；仅在 Traits 缺失或过旧时回退到原版写入
-     * （二者不会同时执行，以免发送两次冷却数据包）。
+     * The trait API's exact write performs the vanilla {@code set} itself past cooldown modifiers, so it goes first;
+     * the plain vanilla write is the fallback for a refused exact write (null player or item only), unreachable since
+     * the fusion (never both: two cooldown packets).
+     * 词条 API 的精确写入会越过冷却倍率自行完成原版写入，因此优先调用；原版写入是精确写入被拒（仅玩家或物品为空）时的回退，
+     * 融合后不可达（二者不会同时执行，以免发送两次冷却数据包）。
      */
     private static void showCooldown(ServerPlayerEntity user, Item clock, int ticks) {
         if (!SparkTraitsApi.setExactItemCooldownRemaining(user, clock, ticks)) {

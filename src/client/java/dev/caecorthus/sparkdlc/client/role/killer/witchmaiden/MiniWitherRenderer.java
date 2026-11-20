@@ -45,13 +45,13 @@ import java.util.function.Supplier;
  * following {@link MiniWitherAnchor} ({@link MiniWitherFollow}) and tilting into its flight. The body faces the owner's
  * body yaw; the three heads keep staring the way the last skull flew and snap to each new shot (owner 2026-10-20).
  * Other players get it from a player-renderer feature, so anything that hides a player (invisibility, the Blind gate)
- * hides it too; the camera's own player, which first person never renders, gets it in world space (SparkStrength
+ * hides it too; the camera's own player, which first person never renders, gets it in world space (the Vulture
  * skateboard pattern). A Mini Wither skin selected in the settings ({@link MiniWitherSkinManager}) replaces the model on
  * this client only, inside the same gates and frames.
  * 绘制已召唤的小凋灵：原版凋灵模型与贴图，模型缩放 0.4（约 0.7 格高），柔性跟随 {@link MiniWitherAnchor}
  * （{@link MiniWitherFollow}）并随飞行倾斜。身体朝向主人的身体偏航；三个头一直盯着上一枚头颅飞去的方向，每次射击时瞬间转到
  * 新方向（所有者 2026-10-20）。其他玩家由玩家渲染器特征绘制，因此任何隐藏玩家的效果（隐身、盲人遮蔽）也会隐藏它；第一人称
- * 不渲染的镜头玩家本人改在世界空间绘制（沿用 SparkStrength 滑板的做法）。在设置中选中的小凋灵皮肤
+ * 不渲染的镜头玩家本人改在世界空间绘制（沿用秃鹫滑板的做法）。在设置中选中的小凋灵皮肤
  * （{@link MiniWitherSkinManager}）只在本客户端、在相同的显示条件与坐标系内替换模型。
  */
 public final class MiniWitherRenderer {

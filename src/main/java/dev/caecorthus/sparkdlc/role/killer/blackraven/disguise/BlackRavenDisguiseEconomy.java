@@ -84,12 +84,12 @@ public final class BlackRavenDisguiseEconomy {
 
     /**
      * Task money the disguise earns on top of what other listeners already pay the raw Black Raven.
-     * SparkTraits pays +50 to a Conscience/Impostor holder whose raw role has no native task money, and
-     * black_raven has none, so the NoellesRoles and SparkStrength mirrors skip it to avoid double pay.
-     * An unknown trait answer (null) pays nothing for those two policies.
-     * 伪装在其他监听器已向真实黑羽鸦支付之外可获得的任务金钱。SparkTraits 会向真实职业无原生任务金钱的
-     * 良知/内鬼持有者支付 +50，而 black_raven 没有原生任务金钱，因此诺艾尔与 SparkStrength 镜像跳过以免重复。
-     * 词条结果未知（null）时这两种策略不发放。
+     * The trait feature pays +50 to a Conscience/Impostor holder whose raw role has no native task money, and
+     * black_raven has none, so the NoellesRoles and {@code RoleEconomyService} mirrors skip it to avoid double pay.
+     * An unknown trait answer (null, unreachable since the fusion) pays nothing for those two policies.
+     * 伪装在其他监听器已向真实黑羽鸦支付之外可获得的任务金钱。词条功能会向真实职业无原生任务金钱的
+     * 良知/内鬼持有者支付 +50，而 black_raven 没有原生任务金钱，因此诺艾尔与 {@code RoleEconomyService} 镜像跳过以免重复。
+     * 词条结果未知（null，融合后不可达）时这两种策略不发放。
      */
     static int taskRewardAmount(
             @Nullable DisguiseTaskReward policy,
@@ -120,9 +120,9 @@ public final class BlackRavenDisguiseEconomy {
 
     /**
      * Credits a Wathe killer receipt to the stashed Raven wallet; false leaves the caller's original credit
-     * in place. {@code purseReceipt} mirrors SparkStrength's rule that only action rewards (not Wathe's timed
-     * passive income) feed the killer-team purse.
-     * 将 Wathe 杀手收入记入存档黑羽鸦钱包；返回 false 时调用方保留原始入账。purseReceipt 对应 SparkStrength
+     * in place. {@code purseReceipt} mirrors {@code KillerTeamEconomyService}'s rule that only action rewards (not
+     * Wathe's timed passive income) feed the killer-team purse.
+     * 将 Wathe 杀手收入记入存档黑羽鸦钱包；返回 false 时调用方保留原始入账。purseReceipt 对应 {@code KillerTeamEconomyService} 的
      * 规则：只有行动奖励（非 Wathe 定时被动收入）计入杀手团队资金。
      */
     public static boolean creditKillerIncome(@Nullable PlayerShopComponent shop, int amount, boolean purseReceipt) {
@@ -140,9 +140,9 @@ public final class BlackRavenDisguiseEconomy {
     }
 
     /**
-     * SparkStrength purse gate: income landing in a disguise wallet is not killer income, so only a routed
+     * Killer-team purse gate: income landing in a disguise wallet is not killer income, so only a routed
      * Raven-wallet receipt may contribute while disguised.
-     * SparkStrength 团队资金门禁：进入伪装钱包的收入不是杀手收入，伪装期间只有转入黑羽鸦钱包的收入可计入。
+     * 杀手团队资金门禁：进入伪装钱包的收入不是杀手收入，伪装期间只有转入黑羽鸦钱包的收入可计入。
      */
     public static boolean acceptsKillerTeamContribution(@Nullable PlayerEntity player) {
         return player == null
@@ -166,7 +166,7 @@ public final class BlackRavenDisguiseEconomy {
                     policy,
                     SparkTraitsApi.hasActiveTrait(player, TraitIds.CONSCIENCE),
                     SparkTraitsApi.hasActiveTrait(player, TraitIds.IMPOSTOR),
-                    // SparkStrength is fused into SparkDLC: always loaded. / SparkStrength 已融合进 SparkDLC：始终已加载。
+                    // RoleEconomyService always runs: constant true. / RoleEconomyService 始终运行：恒为 true。
                     true
             );
             case SPARKWITCH, NONE -> taskRewardAmount(policy, Boolean.FALSE, Boolean.FALSE, false);
@@ -182,9 +182,9 @@ public final class BlackRavenDisguiseEconomy {
     }
 
     /**
-     * Reports a routed receipt to SparkStrength's killer-team purse service; the modules are fused in SparkDLC, so
-     * this calls only its {@code recordIncome(PlayerEntity, long)} directly. The Raven wallet was already credited.
-     * 向 SparkStrength 杀手团队资金服务上报转入收入；各模块已融合进 SparkDLC，因此只直接调用其
+     * Reports a routed receipt to the killer-team purse ({@code KillerTeamEconomyService}): this calls only its
+     * {@code recordIncome(PlayerEntity, long)}, directly. The Raven wallet was already credited.
+     * 向杀手团队资金（{@code KillerTeamEconomyService}）上报转入收入：只直接调用其
      * {@code recordIncome(PlayerEntity, long)}。此时黑羽鸦钱包已入账。
      */
     private static void recordPurseReceipt(PlayerEntity owner, long received) {

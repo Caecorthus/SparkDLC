@@ -53,14 +53,15 @@ public final class WitchesSabbathService {
     }
 
     /**
-     * Frozen skill handler ({@code WitchSkillDefinition.useHandler}). The shared path already checked the SparkWitch
-     * role, life, Fear and readiness, but it neither spends {@code manaCost} nor asks SparkTraits, so this handler
+     * Frozen skill handler ({@code WitchSkillDefinition.useHandler}). The shared path already checked the witch-skill
+     * role, life, Fear and readiness, but it neither spends {@code manaCost} nor asks the traits, so this handler
      * re-validates everything server-side, in this order and with no cost on any refusal: caster state → at least one
      * teammate → enough mana → at least one safe spot → spend 150 → teleport. Success returns
      * {@code success(SABBATH_COOLDOWN_TICKS)} (30 s); a refusal starts no cooldown.
-     * 冻结的技能处理器（{@code WitchSkillDefinition.useHandler}）。共享路径已检查 SparkWitch 职业、存活、恐惧与就绪，但既不扣除
-     * {@code manaCost} 也不询问 SparkTraits，因此本处理器在服务端按以下顺序重新校验，任何拒绝都不产生代价：施放者状态 →
-     * 至少一名队友 → 魔力足够 → 至少一个安全落点 → 扣除 150 → 传送。成功返回 {@code success(SABBATH_COOLDOWN_TICKS)}（30 秒）；任何拒绝都不进入冷却。
+     * 冻结的技能处理器（{@code WitchSkillDefinition.useHandler}）。共享路径已检查魔女技能职业、存活、恐惧与就绪，但既不
+     * 扣除 {@code manaCost} 也不询问词条，因此本处理器在服务端按以下顺序重新校验，任何拒绝都不产生代价：施放者状态 → 至
+     * 少一名队友 → 魔力足够 → 至少一个安全落点 → 扣除 150 → 传送。成功返回 {@code success(SABBATH_COOLDOWN_TICKS)}（30
+     * 秒）；任何拒绝都不进入冷却。
      */
     public static WitchSkillUseResult use(WitchSkillUseContext context) {
         ServerPlayerEntity caster = context.player();

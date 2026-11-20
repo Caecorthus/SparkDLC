@@ -12,11 +12,14 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * How the audio page lays out the event sound groups: train and round sounds first, then role moments by faction and
- * traits by category, each row named "role · sound" with the role's guide colour. A row shows only when the mod that
- * plays its sounds is installed. Role names come from the owning mod's own lang key (the guide's nameKey), with an
- * English fallback; colours copy the guide entries' {@code color}.
+ * traits by category, each row named "role · sound" with the role's guide colour. A row shows only when the mod id
+ * its sounds are listed under is loaded; every listed id always is (Wathe and NoellesRoles are required, the legacy
+ * ids are provided by SparkDLC itself), so hiding a row for that reason is unreachable since the fusion. Role names
+ * come from the role's own lang key (the guide's nameKey), with an English fallback; colours copy the guide entries'
+ * {@code color}.
  * 音频页如何排列事件音效分组：先列车与回合，再按阵营排角色时刻、按分类排天赋；每行写成「角色 · 声音」并配上角色在
- * 指南里的颜色。只有播放这些声音的模组已安装时才显示该行。角色名取自所属模组自己的 lang 键（即指南的 nameKey），并带
+ * 指南里的颜色。只有声音所登记的模组 id 已加载时才显示该行；所列 id 恒已加载（Wathe 与 NoellesRoles 是必需依赖，旧 id 由
+ * SparkDLC 自己提供），因此因该原因隐藏行在融合后不可达。角色名取自角色自己的 lang 键（即指南的 nameKey），并带
  * 英文后备；颜色照抄指南条目的 {@code color}。
  */
 final class EventVolumeRows {
@@ -54,7 +57,7 @@ final class EventVolumeRows {
      *
      * @param group       the volume group it controls / 控制的音量分组
      * @param section     where it sits / 所在分节
-     * @param mod         the mod whose sounds it scales; the row hides without it / 声音所属模组，未安装时隐藏
+     * @param mod         the mod id whose sounds it scales; the row hides without it / 声音所属模组 id，未加载时隐藏
      * @param whoKey      lang key of the role or trait, or null for a plain row / 角色或天赋名的 lang 键，普通行为 null
      * @param whoFallback English name used if that key is missing / 该键缺失时使用的英文名
      * @param colour      the role's guide colour as RGB, 0 for none / 角色在指南中的颜色，0 为无
@@ -144,11 +147,11 @@ final class EventVolumeRows {
     );
 
     /**
-     * Groups kept in the catalog and the config but given no row, because nothing in the shipped mods plays them:
-     * SparkWitch stopped starting the Grand Witch's ceremonial sword BGM when the sword became a permanent reward
+     * Groups kept in the catalog and the config but given no row, because nothing in the mod plays them:
+     * the Grand Witch's ceremonial sword BGM is no longer started since the sword became a permanent reward
      * (f29ea44d, 2026-09-14). The catalog still scales the sound if it ever comes back.
-     * 保留在目录和配置中、但不显示行的分组，因为当前随附的模组都不会播放它们：仪礼剑改为常驻奖励后
-     * （f29ea44d，2026-09-14），SparkWitch 不再启动大魔女仪礼剑 BGM。若以后恢复播放，目录仍会按设置缩放它。
+     * 保留在目录和配置中、但不显示行的分组，因为本模组不会播放它们：仪礼剑改为常驻奖励后
+     * （f29ea44d，2026-09-14），不再启动大魔女仪礼剑 BGM。若以后恢复播放，目录仍会按设置缩放它。
      */
     static final Set<EventSoundGroup> NOT_PLAYED = EnumSet.of(EventSoundGroup.GRAND_WITCH_CEREMONIAL_SWORD_BGM);
 

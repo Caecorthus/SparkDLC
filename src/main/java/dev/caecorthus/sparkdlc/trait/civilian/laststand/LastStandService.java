@@ -8,6 +8,7 @@ import dev.caecorthus.sparkdlc.trait.replay.TraitReplayEvents;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
 import dev.caecorthus.sparkdlc.round.settlement.SettlementExclusions;
+import dev.caecorthus.sparkdlc.voice.WatheVoiceGroups;
 import dev.doctor4t.wathe.api.Faction;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
@@ -58,7 +59,6 @@ import net.minecraft.world.GameMode;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Method;
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Comparator;
@@ -677,7 +677,7 @@ public final class LastStandService {
         TraitPlayerComponent.KEY.get(player).setKillerInstinctHidden(true);
         revivedImmunePlayers.add(player.getUuid());
         discardBody(player.getServer(), state);
-        resetVoiceChatGroup(player.getUuid());
+        WatheVoiceGroups.resetPlayer(player.getUuid(), "Unable to reset voice chat group for Last Stand revive");
         playTotemEffects(player);
     }
 
@@ -899,16 +899,6 @@ public final class LastStandService {
         world.sendEntityStatus(player, EntityStatuses.USE_TOTEM_OF_UNDYING);
         world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ITEM_TOTEM_USE, SoundCategory.PLAYERS, 1.0f, 1.0f);
         world.spawnParticles(ParticleTypes.TOTEM_OF_UNDYING, player.getX(), player.getBodyY(0.5), player.getZ(), 48, 0.5, 0.8, 0.5, 0.2);
-    }
-
-    private static void resetVoiceChatGroup(UUID uuid) {
-        try {
-            Class<?> plugin = Class.forName("dev.doctor4t.wathe.compat.TrainVoicePlugin");
-            Method resetPlayer = plugin.getMethod("resetPlayer", UUID.class);
-            resetPlayer.invoke(null, uuid);
-        } catch (ReflectiveOperationException exception) {
-            SparkDLC.LOGGER.debug("Unable to reset voice chat group for Last Stand revive", exception);
-        }
     }
 
     private record ReturnPoint(RegistryKey<World> worldKey, Vec3d pos, float yaw, float pitch) {

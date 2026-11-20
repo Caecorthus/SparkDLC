@@ -8,6 +8,7 @@ import dev.caecorthus.sparkdlc.role.neutral.pathogen.VirusCarrierComponent;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.mixin.compat.noellesroles.HiddenBodiesWorldComponentAccessor;
 import dev.caecorthus.sparkdlc.util.SparkPlayers;
+import dev.caecorthus.sparkdlc.voice.WatheVoiceGroups;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.RoleAssigned;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -30,7 +31,6 @@ import org.agmas.noellesroles.pathogen.InfectedPlayerComponent;
 import org.agmas.noellesroles.scavenger.HiddenBodiesWorldComponent;
 import org.agmas.noellesroles.taotie.SwallowedPlayerComponent;
 
-import java.lang.reflect.Method;
 import java.util.Set;
 import java.util.UUID;
 
@@ -135,7 +135,7 @@ public final class PathogenReviveService {
         }
 
         body.discard();
-        resetVoiceChatGroup(ownerId);
+        WatheVoiceGroups.resetPlayer(ownerId, "Unable to reset the voice chat group after a T-Virus revive");
         resyncPathogenViews(world);
 
         int killers = game.getStartingKillerCount();
@@ -192,17 +192,6 @@ public final class PathogenReviveService {
             if (carrier.isCarrier()) {
                 carrier.sync();
             }
-        }
-    }
-
-    /** Same reflective call the Last Stand trait uses. / 与背水一战词条相同的反射调用。 */
-    private static void resetVoiceChatGroup(UUID uuid) {
-        try {
-            Class<?> plugin = Class.forName("dev.doctor4t.wathe.compat.TrainVoicePlugin");
-            Method resetPlayer = plugin.getMethod("resetPlayer", UUID.class);
-            resetPlayer.invoke(null, uuid);
-        } catch (ReflectiveOperationException | LinkageError exception) {
-            SparkDLC.LOGGER.debug("Unable to reset the voice chat group after a T-Virus revive", exception);
         }
     }
 }

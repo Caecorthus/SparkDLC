@@ -274,7 +274,7 @@ public final class SparkRoleApi {
         }
         try {
             SmokeCloudService.carveHole(world, center, (float) radius);
-        } catch (RuntimeException | LinkageError ignored) {
+        } catch (RuntimeException ignored) {
             // Visual only: the blast itself is unaffected. / 仅视觉：爆炸本身不受影响。
         }
     }

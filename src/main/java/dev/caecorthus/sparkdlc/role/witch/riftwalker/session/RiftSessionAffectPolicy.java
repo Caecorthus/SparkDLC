@@ -38,7 +38,7 @@ final class RiftSessionAffectPolicy {
             try {
                 return RiftSessionRules.occupantPolicyAllows(RiftSessionService.isInside(target),
                         isSelf(actor, target), actionId);
-            } catch (RuntimeException | LinkageError error) {
+            } catch (RuntimeException error) {
                 if (ERROR_LOGGED.compareAndSet(false, true)) {
                     SparkDLC.LOGGER.error("Rift Gate occupant affect policy failed; denying", error);
                 }

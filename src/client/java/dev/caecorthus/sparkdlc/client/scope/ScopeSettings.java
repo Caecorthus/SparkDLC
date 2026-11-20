@@ -10,12 +10,12 @@ import java.util.Locale;
 
 /**
  * The player's scope settings and their JSON codec (keys {@value #MODE_KEY}, {@value #SENSITIVITY_KEY} and
- * {@value #LENS_RESOLUTION_KEY} in {@code config/sparkdlc-client.json}). Decoding is tolerant: a missing, mistyped or
+ * {@value #LENS_RESOLUTION_KEY} in {@code config/sparkdlc.json}). Decoding is tolerant: a missing, mistyped or
  * unknown value falls back to its default, the sensitivity is clamped to 10-200 % and snapped to 5 % steps, and a lens
  * resolution that is not one of {@link #LENS_RESOLUTION_STEPS} means the default (100 %), so a file written before the
  * lens resolution existed loads unchanged. Writing only touches these three keys, so other client settings stored in
  * the same file survive. Pure; unit-tested.
- * 玩家的开镜设置及其 JSON 编解码（{@code config/sparkdlc-client.json} 中的 {@value #MODE_KEY}、{@value #SENSITIVITY_KEY}
+ * 玩家的开镜设置及其 JSON 编解码（{@code config/sparkdlc.json} 中的 {@value #MODE_KEY}、{@value #SENSITIVITY_KEY}
  * 与 {@value #LENS_RESOLUTION_KEY}）。解码是宽容的：缺失、类型错误或未知的值回退为默认值，灵敏度钳制到 10-200 % 并按 5 %
  * 取整，不属于 {@link #LENS_RESOLUTION_STEPS} 的镜内分辨率视为默认值（100 %），因此镜内分辨率出现之前写入的文件照常加载。
  * 写入只改动这三个键，存放在同一文件中的其他客户端设置得以保留。纯逻辑，有单元测试。

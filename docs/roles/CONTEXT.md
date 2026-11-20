@@ -557,7 +557,8 @@ Current build baseline:
       player replace the model and sounds of every Mini Wither and its skulls **on their own client only** (nothing
       synced or sent). One folder per skin under `config/sparkdlc/mini_wither/<id>/` (`MiniWitherSkinFolder`, a
       bilingual README is written there; optional `skin.json`); the selection is `miniWitherSkin` in
-      `config/sparkdlc-client.json` (`MiniWitherSkinSettings`, merge-written beside the scope keys).
+      `config/sparkdlc.json`, the one client settings file (`MiniWitherSkinSettings` through `SparkDlcConfigManager`;
+      until stage 3 it was in `config/sparkdlc-client.json`, folded in by `LegacyClientSettingsFold`).
       `MiniWitherSkinManager` loads it (preloaded at client start; textures as `sparkdlc:dynamic/mini_wither_skin/...`,
       replaced per load) and never throws: failures show in `status()` and draw vanilla; a draw that throws calls
       `markBroken` until the next reload. Bodies and skulls are Bedrock geometry (`client/render/bedrock/`), auto-fitted
@@ -3164,9 +3165,10 @@ Current build baseline:
     2026-10-08) is a cycling button of 50 / 75 / 100 % of the native PiP lens size (default 100 %); it only matters in
     Picture-in-Picture, so its button is inactive (greyed) while Full-Screen Zoom is selected, follows the Scope View
     button at once, and its tooltip says so. Values persist
-    in `config/sparkdlc-client.json` (`scopeMode`, `scopedSensitivityPercent`, `scopeLensResolutionPercent`) through
-    `ScopeSettingsStore`, which merges saves into the existing file; a missing, unknown or non-step lens value loads as
-    100 %.
+    in the one client settings file `config/sparkdlc.json` (`scopeMode`, `scopedSensitivityPercent`,
+    `scopeLensResolutionPercent`) through `ScopeSettingsStore` and `SparkDlcConfigManager`, which keeps them beside the
+    other settings (until stage 3 they were in `config/sparkdlc-client.json`, folded in by `LegacyClientSettingsFold`);
+    a missing, unknown or non-step lens value loads as 100 %.
     `ScopeClient.effectiveMode()` reports what actually renders: Picture-in-Picture falls back to Full-Screen Zoom
     under an Iris shader pack, Fabulous! graphics, the Blind echo view, or while `ScopePictureInPicture` backs off
     after a failure (`ScopeRules.effectiveMode`).

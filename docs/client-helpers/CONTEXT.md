@@ -22,7 +22,7 @@ once, and each config file is written once per committed change. Server and admi
 _Avoid_: config menu, mod menu, options screen (vanilla's)
 
 **Settings store**:
-One config file that settings rows write into (`sparkdlc.json`, `sparkdlc-client.json`, `wathe.json`); the
+One config file that settings rows write into (`sparkdlc.json`, `wathe.json`); the
 **SparkDLC settings screen** saves each touched store once per flush, and "Undo" puts back the values it opened with.
 _Avoid_: config manager, save target
 

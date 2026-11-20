@@ -285,10 +285,12 @@ the vanilla registry (`item`, `block`, `entity_type`, `sound_event`, `data_compo
 `mob_effect`, `armor_material`, `creative_mode_tab`), tags are `tag/<registry>`. Other kinds: `payload_c2s`,
 `payload_s2c`, `login_channel`, `component`, `role`, `faction`, `trait`, `skill`, `secondary_ability`,
 `death_reason`, the replay kinds, `command`, `command_alias`, `permission`, `shop_entry`, `key_binding`,
-`key_category`, `settings_key`, `settings_store`, `file` (config and data files the mod writes), `mod_metadata_key`,
-`attribute_modifier`, `event_phase`, `action_id`, `role_change_cause`, `reload_listener`, `identifier` (other id
-constants), `lang_key` (only the keys that do not follow the plain rule), and the rows whose name did NOT change:
-`private_data_name`, `retired_trait`, `command_alias`. `legacy_role_alias` rows are the six older
+`key_category`, `settings_key`, `settings_store`, `file` (config and data files the mod writes), `file_fold` (a
+file whose keys are folded into another one, see "One name" below), `system_property` (`-D` developer switches),
+`mod_metadata_key`, `attribute_modifier`, `event_phase`, `action_id`, `role_change_cause`, `reload_listener`,
+`identifier` (other id constants), `lang_key` (only the keys that do not follow the plain rule), `command_alias` (the
+three misspelt roots of the role-kit commands, aliases of their current root since stage 3), and the rows whose name
+did NOT change: `private_data_name`, `retired_trait`. `legacy_role_alias` rows are the six older
 `sparktraits:<role>` ids of the Wraith family with the role's new id, and `component_fallback` rows are the two older
 `sparktraits:` keys of the Wraith components: both are a SECOND old name of something that also has a `role` /
 `component` row, and are read only after that row (`legacy.LegacySavedData`). Asset paths and the 4,100 lang keys that
@@ -299,7 +301,8 @@ dump of a running headless server taken before the rename; the same dump taken a
 mapped through this table (16,229 rows, no difference).
 
 改名前存在的每个 id 一行：`kind`、`old_id`、`new_id`、`note`。注册表种类以原版注册表命名，标签为 `tag/<注册表>`。名字没有变化的行
-（`private_data_name`、`retired_trait`、`command_alias`）也在表中。`legacy_role_alias` 与 `component_fallback` 行是同一职业、
+（`private_data_name`、`retired_trait`）也在表中；`command_alias` 是职业套件命令的三个拼写别名（自第三阶段起为当前根节点的别名），
+`file_fold` 是键被并入另一个文件的文件，`system_property` 是 `-D` 开发开关。`legacy_role_alias` 与 `component_fallback` 行是同一职业、
 同一组件更早的第二个旧名字（冤魂系的 `sparktraits:` id 与组件键），读取时排在对应的 `role` / `component` 行之后。资源路径和仅替换命名空间段的约 4100 个语言键
 不逐条列出；文件见 `resource-moves.tsv`。注册表、标签、数据包、组件、职业、阵营、天赋、技能、回放格式化器和命令的行来自改名前
 无界面服务器的运行时导出；改名后的同一导出与经本表映射的旧导出完全一致（16,229 行，无差异）。

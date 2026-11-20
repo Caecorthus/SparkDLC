@@ -25,6 +25,16 @@ public final class SparkDlcClientConfig {
     private static final String NOELLES_CREATIVE_ENTRIES = "noellesCreativeEntries";
     private static final String BLOOD_APPEARANCE = "bloodAppearance";
     private static final String SUPPRESS_SCAVENGER_BLOOD = "suppressScavengerBlood";
+    /**
+     * Every key of the settings file this model reads or writes, the retired single {@code eventSoundVolume}
+     * included (read, never written back). The file's other keys belong to other client features
+     * ({@code SparkDlcConfigManager} keeps them).
+     * 本模型读写的设置文件键，包括已退役的单一 {@code eventSoundVolume}（只读取、不写回）。文件中的其他键属于其他客户端功能
+     * （由 {@code SparkDlcConfigManager} 保留）。
+     */
+    public static final Set<String> KEYS = Set.of(INSTINCT_KEY_MODE, EVENT_SOUND_VOLUME, EVENT_SOUND_VOLUMES,
+            GUIDEBOOK_DECOR, GUIDEBOOK_FOLIAGE, EVENT_SOUND_MASTER_VOLUME, COLLAPSED_SETTINGS_GROUPS,
+            CHARGE_INDICATOR_STYLE, NOELLES_CREATIVE_ENTRIES, BLOOD_APPEARANCE, SUPPRESS_SCAVENGER_BLOOD);
 
     private InstinctKeyMode instinctKeyMode = InstinctKeyMode.HOLD;
     private GuidebookDecor guidebookDecor = GuidebookDecor.MEDIUM;

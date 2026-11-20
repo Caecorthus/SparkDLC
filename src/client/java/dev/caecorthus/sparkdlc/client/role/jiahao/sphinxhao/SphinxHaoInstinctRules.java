@@ -40,8 +40,8 @@ public final class SphinxHaoInstinctRules {
      */
     public static boolean outlinesTarget(boolean samePlayer, boolean infected, boolean playingAndAlive,
                                          boolean spectatingOrCreative, boolean invisibleToViewer, boolean swallowed,
-                                         boolean sparkTraitsHidden) {
+                                         boolean hiddenByTrait) {
         return !samePlayer && infected && playingAndAlive && !spectatingOrCreative && !invisibleToViewer && !swallowed
-                && !sparkTraitsHidden;
+                && !hiddenByTrait;
     }
 }

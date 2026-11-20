@@ -18,7 +18,10 @@ import dev.caecorthus.sparkdlc.sound.EventSoundGroup;
  * 一次（滑块在松手时写，而不是每动一格写一次）。
  */
 public final class SparkDlcClientSettings {
-    /** {@code config/sparkdlc.json}. */
+    /**
+     * {@code config/sparkdlc.json}, the one client settings file: the scope rows write into it too.
+     * 唯一的客户端设置文件 {@code config/sparkdlc.json}：开镜设置行也写入该文件。
+     */
     public static final SettingsStore STORE = new SettingsStore("sparkdlc", SparkDlcClientSettings::save);
 
     private SparkDlcClientSettings() {

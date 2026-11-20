@@ -65,7 +65,7 @@ public final class WitchInstinctSuppressionClientHooks {
                 viewerRole,
                 GameFunctions.isPlayerPlayingAndAlive(viewer),
                 false
-        ) && !isSparkTraitsFinalMomentActive(world);
+        ) && !finalMomentActive(world);
     }
 
     public static boolean shouldSuppressSwallowedInstinctHighlight(Entity target) {
@@ -83,7 +83,7 @@ public final class WitchInstinctSuppressionClientHooks {
 
     // A direct call to the trait contract (SparkTraitsApi); a null world is not active.
     // 直接调用词条契约（SparkTraitsApi）；世界为空时视为未激活。
-    private static boolean isSparkTraitsFinalMomentActive(World world) {
+    private static boolean finalMomentActive(World world) {
         return world != null && SparkTraitsApi.isFinalMomentActive(world);
     }
 }

@@ -42,6 +42,6 @@ public final class TarotReaderDisguiseAdapter implements BlackRavenDisguiseAdapt
 
     @Override
     public DisguiseTaskReward taskReward() {
-        return DisguiseTaskReward.SPARKWITCH;
+        return DisguiseTaskReward.OWN_ROLE;
     }
 }

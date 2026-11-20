@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.client.trait.audio;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.legacy.LegacySystemProperties;
 import net.minecraft.entity.Entity;
 import net.minecraft.registry.Registries;
 import net.minecraft.sound.SoundCategory;
@@ -8,10 +9,11 @@ import net.minecraft.util.Identifier;
 
 /** Client-only, opt-in diagnostics for Cautious sound adapters. */
 public final class CautiousSoundDebug {
-    private static final String ENABLED_PROPERTY = "sparktraits.debugCautiousSound";
+    private static final String ENABLED_PROPERTY = "sparkdlc.debugCautiousSound";
     // Read once at class load (set with -D at launch): every client sound asks, and a property lookup is not free.
-    // 类加载时读取一次（启动时以 -D 设置）：每个客户端声音都会询问，而系统属性查找并非零开销。
-    private static final boolean ENABLED = Boolean.getBoolean(ENABLED_PROPERTY);
+    // The name before stage 3 is still accepted (LegacySystemProperties).
+    // 类加载时读取一次（启动时以 -D 设置）：每个客户端声音都会询问，而系统属性查找并非零开销。第三阶段之前的名字仍然有效。
+    private static final boolean ENABLED = LegacySystemProperties.getBoolean(ENABLED_PROPERTY);
 
     private CautiousSoundDebug() {
     }

@@ -82,9 +82,9 @@ command	sparkwitch:ghostMinRequirement	sparkdlc:ghostMinRequirement
 command	sparkwitch:setMana	sparkdlc:setMana	
 command	sparkwitch:thirdFactionMinRequirement	sparkdlc:thirdFactionMinRequirement	
 command	sparkwitch:witchFactor	sparkdlc:witchFactor	
-command_alias	sparkStrength:detectiveCaseLimit	sparkStrength:detectiveCaseLimit	existing misspelt alias of the sparkdlc:detectiveCaseLimit command: literal unchanged
-command_alias	sparkStrength:tabletChatInterval	sparkStrength:tabletChatInterval	existing misspelt alias of the sparkdlc:tabletChatInterval command: literal unchanged
-command_alias	sparkstength:voteTime	sparkstength:voteTime	existing misspelt alias of the sparkdlc:voteTime command: literal unchanged
+command_alias	sparkStrength:detectiveCaseLimit	sparkdlc:detectiveCaseLimit	misspelt root SparkStrength always registered beside its command; an alias of the legacy layer since stage 3 (LegacyCommandAliases), hidden from suggestions
+command_alias	sparkStrength:tabletChatInterval	sparkdlc:tabletChatInterval	misspelt root SparkStrength always registered beside its command; an alias of the legacy layer since stage 3 (LegacyCommandAliases), hidden from suggestions
+command_alias	sparkstength:voteTime	sparkdlc:voteTime	misspelt root SparkStrength always registered beside its command; an alias of the legacy layer since stage 3 (LegacyCommandAliases), hidden from suggestions
 component	sparkfactionapi:anti_fast_round	sparkdlc:anti_fast_round	
 component	sparkfactionapi:map_reset	sparkdlc:map_reset	
 component	sparkfactionapi:round_end	sparkdlc:round_end	
@@ -329,8 +329,9 @@ faction	sparkwitch:witch	sparkdlc:witch
 file	config/sparkassist.json	config/sparkdlc.json	client settings (SparkDlcConfigManager)
 file	config/sparkassist/achievements/<account uuid>.json	config/sparkdlc/achievements/<account uuid>.json	client achievement save (AchievementStorage); holds role, faction, item, trait and death-reason ids
 file	config/sparkfactionapi/caecorthus_team.json	config/sparkdlc/caecorthus_team.json	downloaded cache, both sides (CaecorthusTeamSync)
-file	config/sparkwitch-client.json	config/sparkdlc-client.json	client scope settings and miniWitherSkin (ScopeSettingsStore)
 file	config/sparkwitch/mini_wither/	config/sparkdlc/mini_wither/	client folder of player-supplied Mini Wither skins
+file_fold	config/sparkdlc-client.json	config/sparkdlc.json	scope settings and miniWitherSkin of SparkDLC builds before stage 3: their keys are folded into the one settings file (client.legacy.LegacyClientSettingsFold); first row wins
+file_fold	config/sparkwitch-client.json	config/sparkdlc.json	scope settings and miniWitherSkin of SparkWitch: folded the same way, read only when config/sparkdlc-client.json does not exist
 identifier	sparkassist:achievements/root	sparkdlc:achievements/root	ROOT_ID
 identifier	sparkassist:guidebook_resources	sparkdlc:guidebook_resources	
 identifier	sparkfactionapi:consume	sparkdlc:consume	in MatchEvent.java
@@ -1011,7 +1012,7 @@ settings_key	sparkwitch.scope_lens_resolution	sparkdlc.scope_lens_resolution	in-
 settings_key	sparkwitch.scope_mode	sparkdlc.scope_mode	in-memory settings row id
 settings_key	sparkwitch.scope_sensitivity	sparkdlc.scope_sensitivity	in-memory settings row id
 settings_store	sparkassist	sparkdlc	SettingsStore id of config/sparkassist.json
-settings_store	sparkwitch-client	sparkdlc-client	SettingsStore id of config/sparkwitch-client.json
+settings_store	sparkwitch-client	sparkdlc	SettingsStore id of config/sparkwitch-client.json; its rows write config/sparkdlc.json since stage 3 (one settings file)
 shop_entry	sparkstrength_aroma_orb	sparkdlc_aroma_orb	in PerfumerRules.java
 shop_entry	sparkstrength_bodyguard_vest	sparkdlc_bodyguard_vest	in BodyguardRules.java
 shop_entry	sparkstrength_bomb_drone	sparkdlc_bomb_drone	in DroneRules.java
@@ -1209,6 +1210,8 @@ sound_event	sparkwitch:seeker_car_swallow	sparkdlc:seeker_car_swallow
 sound_event	sparkwitch:skill.holy_flash_tinnitus	sparkdlc:skill.holy_flash_tinnitus	
 sound_event	sparkwitch:skill.pig_chase	sparkdlc:skill.pig_chase	
 sound_namespace	sparkwitch_skin	sparkdlc_skin	private runtime namespace of Mini Wither skin sounds, never in a pack
+system_property	sparkassist.decorDebug	sparkdlc.decorDebug	-D developer switch: guidebook decoration no-go zones (DecorSettings); old name still read (LegacySystemProperties)
+system_property	sparktraits.debugCautiousSound	sparkdlc.debugCautiousSound	-D developer switch: Cautious sound adapter trace (CautiousSoundDebug); old name still read (LegacySystemProperties)
 tag/block	sparkwitch:sculk_conversion_immune	sparkdlc:sculk_conversion_immune	
 tag/entity_type	sparkstrength:drone_breaking_projectiles	sparkdlc:drone_breaking_projectiles	
 tag/entity_type	sparkstrength:partygoer_killing_projectiles	sparkdlc:partygoer_killing_projectiles	

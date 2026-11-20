@@ -41,7 +41,6 @@ public final class SparkDlcSettingsPages {
     private static final Text WATHE = Text.literal("Wathe");
     /** Serialized name of the Picture-in-Picture scope mode. 画中画开镜模式的序列化名称。 */
     private static final String PICTURE_IN_PICTURE = "picture_in_picture";
-    private static final SettingsStore SCOPE_STORE = new SettingsStore("sparkdlc-client", ScopeSettingsEditor::save);
 
     private SparkDlcSettingsPages() {
     }
@@ -158,7 +157,7 @@ public final class SparkDlcSettingsPages {
                 Text.translatable("option.sparkdlc.scope_mode"),
                 Text.translatable("option.sparkdlc.scope_mode.description"),
                 OWN,
-                SCOPE_STORE,
+                SparkDlcClientSettings.STORE,
                 ScopeSettingsEditor.scopeModes(),
                 ScopeSettingsEditor::scopeMode,
                 ScopeSettingsEditor::setScopeMode,
@@ -178,7 +177,7 @@ public final class SparkDlcSettingsPages {
                 Text.translatable("option.sparkdlc.scope_lens_resolution"),
                 Text.translatable("option.sparkdlc.scope_lens_resolution.tooltip"),
                 OWN,
-                SCOPE_STORE,
+                SparkDlcClientSettings.STORE,
                 Arrays.stream(ScopeSettingsEditor.lensResolutionChoices()).boxed().toList(),
                 ScopeSettingsEditor::lensResolutionPercent,
                 ScopeSettingsEditor::setLensResolutionPercent,
@@ -191,7 +190,7 @@ public final class SparkDlcSettingsPages {
                 Text.translatable("option.sparkdlc.scope_sensitivity"),
                 Text.translatable("option.sparkdlc.scope_sensitivity.tooltip"),
                 OWN,
-                SCOPE_STORE,
+                SparkDlcClientSettings.STORE,
                 ScopeSettingsEditor.scopedSensitivityMin(),
                 ScopeSettingsEditor.scopedSensitivityMax(),
                 ScopeSettingsEditor.scopedSensitivityStep(),

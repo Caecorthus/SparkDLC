@@ -95,8 +95,8 @@ public final class BlackRavenDisguiseEconomy {
         }
         boolean traitsPayNothing = !conscience && !impostor;
         return switch (policy) {
-            case NOELLES_NATIVE, SPARKSTRENGTH_GOOD_ROLE -> traitsPayNothing ? BlackRavenDisguiseRules.TASK_REWARD : 0;
-            case SPARKWITCH -> BlackRavenDisguiseRules.TASK_REWARD;
+            case NOELLES_NATIVE, ROLE_ECONOMY_GOOD_ROLE -> traitsPayNothing ? BlackRavenDisguiseRules.TASK_REWARD : 0;
+            case OWN_ROLE -> BlackRavenDisguiseRules.TASK_REWARD;
             case NONE -> 0;
         };
     }
@@ -153,12 +153,12 @@ public final class BlackRavenDisguiseEconomy {
         }
         DisguiseTaskReward policy = adapter.taskReward();
         int amount = switch (policy) {
-            case NOELLES_NATIVE, SPARKSTRENGTH_GOOD_ROLE -> taskRewardAmount(
+            case NOELLES_NATIVE, ROLE_ECONOMY_GOOD_ROLE -> taskRewardAmount(
                     policy,
                     SparkTraitsApi.hasActiveTrait(player, TraitIds.CONSCIENCE),
                     SparkTraitsApi.hasActiveTrait(player, TraitIds.IMPOSTOR)
             );
-            case SPARKWITCH, NONE -> taskRewardAmount(policy, false, false);
+            case OWN_ROLE, NONE -> taskRewardAmount(policy, false, false);
         };
         if (amount > 0) {
             // Live wallet = the disguise identity's own wallet (amendment W). / 当前钱包即伪装身份自己的钱包。

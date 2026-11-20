@@ -67,7 +67,7 @@ public final class UndercoverThermalSmoke {
             }
         } catch (RuntimeException e) {
             smokeUnknown = true;
-            warnOnce("SparkWitch BEAR smoke query failed; the thermal view now hides all heat while it is on.", e);
+            warnOnce("BEAR smoke query failed; the thermal view now hides all heat while it is on.", e);
             hide.accept(whole);
             return;
         }
@@ -89,7 +89,7 @@ public final class UndercoverThermalSmoke {
             return SmokeHeatMask.maskHeatTarget(colorTexture, depthTexture, width, height);
         } catch (RuntimeException e) {
             maskBroken = true;
-            warnOnce("SparkWitch BEAR smoke heat mask failed; the thermal view hides heat inside smoke instead.", e);
+            warnOnce("BEAR smoke heat mask failed; the thermal view hides heat inside smoke instead.", e);
             return false;
         }
     }
@@ -109,7 +109,7 @@ public final class UndercoverThermalSmoke {
             rect = SmokeHeatMask.smokeRect(width, height);
         } catch (RuntimeException e) {
             smokeUnknown = true;
-            warnOnce("SparkWitch BEAR smoke rectangle failed; the thermal view now hides all heat while it is on.", e);
+            warnOnce("BEAR smoke rectangle failed; the thermal view now hides all heat while it is on.", e);
             return whole;
         }
         if (rect == null) {
@@ -135,7 +135,7 @@ public final class UndercoverThermalSmoke {
                     SmokeHeatMath.DEFAULT_HAZE);
         } catch (RuntimeException e) {
             hazeBroken = true;
-            warnOnce("SparkWitch BEAR smoke heat haze failed; the thermal view shows no smoke haze.", e);
+            warnOnce("BEAR smoke heat haze failed; the thermal view shows no smoke haze.", e);
         }
     }
 

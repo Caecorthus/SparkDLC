@@ -64,10 +64,8 @@ public final class FunctionRoleSkillCooldownStore implements RoleSkillCooldownSt
         setRemainingTicks.accept(player, ticks);
     }
 
-    /** The text is kept from before the fusion, when only the former SparkStrength roles registered such stores.
-     *  文本沿用融合之前的写法，当时只有原 SparkStrength 的职业注册这种存储。 */
     @Override
     public String toString() {
-        return "SparkStrengthRoleSkillCooldownStore[" + id + "]";
+        return "FunctionRoleSkillCooldownStore[" + id + "]";
     }
 }

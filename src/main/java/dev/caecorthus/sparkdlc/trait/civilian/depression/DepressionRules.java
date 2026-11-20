@@ -36,7 +36,7 @@ public final class DepressionRules {
      * The Blind: its bat-only psycho phase, fake death and voice mute fight the black-screen kit.
      * 盲人：抑郁的只能持棒阶段、假死与语音静音都与黑屏道具冲突。
      */
-    public static final Identifier SPARKWITCH_BLIND_ID = Identifier.of("sparkdlc", "blind");
+    public static final Identifier BLIND_ID = Identifier.of("sparkdlc", "blind");
 
     private DepressionRules() {
     }
@@ -56,7 +56,7 @@ public final class DepressionRules {
                 && !PoliceRoleCategory.isPolice(role)
                 && !roleIdentifierEquals(role, Noellesroles.SURVIVAL_MASTER_ID)
                 && !roleIdentifierEquals(role, APPRENTICE_WITCH_ID)
-                && !roleIdentifierEquals(role, SPARKWITCH_BLIND_ID);
+                && !roleIdentifierEquals(role, BLIND_ID);
     }
 
     public static int randomDepressionCap(int startingPlayerCount) {

@@ -1,5 +1,5 @@
 {
-  "credit": "SparkWitch Potion Gunner launcher (placeholder art, generated)",
+  "credit": "Potion Gunner launcher (placeholder art, generated); first made for SparkWitch",
   "texture_size": [64, 64],
   "gui_light": "side",
   "textures": {"0": "sparkdlc:item/anti_tank_launcher", "particle": "sparkdlc:item/anti_tank_launcher"},

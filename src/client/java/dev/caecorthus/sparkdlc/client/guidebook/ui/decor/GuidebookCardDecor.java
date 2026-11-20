@@ -57,7 +57,7 @@ public final class GuidebookCardDecor implements InventoryInfoCard.Decor {
     private void disable(Throwable failure) {
         // Decoration must never take the inventory down with it: disable it for the session.
         // 点缀不能拖垮背包界面：本次会话内禁用。
-        logger.warn("SparkAssist guide decoration failed; disabling it for this session", failure);
+        logger.warn("Guidebook decoration failed; disabling it for this session", failure);
         disabled = true;
     }
 }

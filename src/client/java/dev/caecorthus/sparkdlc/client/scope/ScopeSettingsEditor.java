@@ -7,11 +7,11 @@ import java.util.List;
  * The scope settings as a settings screen edits them (client only, 2026-10-19): lets the SparkDLC settings screen
  * show and change the three scope settings (Scope View, Lens Resolution, Scoped Sensitivity) with its own widgets,
  * by serialized mode name and plain numbers. It reads and changes the live settings the game uses
- * ({@code ScopeSettingsStore}). Setters take effect in game at
- * once but never write {@code config/sparkdlc-client.json}; {@link #save()} does (on slider release, page switch or
- * screen close). Values are clamped and snapped as the file is; a mode or lens resolution that is not one of its
- * choices is ignored. Safe to call before the scope feature registered: the first call loads the file. Call
- * on the client thread.
+ ({@code ScopeSettingsStore}). Setters take effect in game at
+ * once but never write {@code config/sparkdlc.json}; the settings screen's save of that file does (on slider release,
+ * page switch or screen close). Values are clamped and snapped as the file is; a mode or lens resolution that is not
+ * one of its choices is ignored. Safe to call before the scope feature registered: the first call loads the settings.
+ * Call on the client thread.
  * <p>
  * Translation keys: {@code option.sparkdlc.scope_mode} (Scope View), each mode's
  * {@code option.sparkdlc.scope_mode.<name>} and {@code option.sparkdlc.scope_mode.<name>.tooltip};
@@ -20,8 +20,8 @@ import java.util.List;
  * 设置界面所编辑的开镜设置（仅客户端，2026-10-19）：允许 SparkDLC 设置界面用自己的控件、以模式的序列化名称与普通数值
  * 显示并修改三项开镜设置（开镜画面、镜内分辨率、开镜灵敏度）。
  * 它读写的是游戏所用的实时设置（{@code ScopeSettingsStore}）。设置方法在游戏中立即生效，
- * 但从不写入 {@code config/sparkdlc-client.json}；由 {@link #save()} 写入（松开滑块、切换页面或关闭界面时）。数值的钳制与
- * 取整与文件一致；不属于可选项的模式或镜内分辨率会被忽略。在开镜功能注册之前调用也安全：第一次调用会加载文件。
+ * 但从不写入 {@code config/sparkdlc.json}；由设置界面保存该文件时写入（松开滑块、切换页面或关闭界面时）。数值的钳制与
+ * 取整与文件一致；不属于可选项的模式或镜内分辨率会被忽略。在开镜功能注册之前调用也安全：第一次调用会加载设置。
  * 请在客户端线程调用。
  * <p>
  * 翻译键：{@code option.sparkdlc.scope_mode}（开镜画面）、各模式的 {@code option.sparkdlc.scope_mode.<name>}
@@ -130,17 +130,6 @@ public final class ScopeSettingsEditor {
 
     public static int defaultScopedSensitivityPercent() {
         return ScopeSettings.DEFAULT_SENSITIVITY_PERCENT;
-    }
-
-    /**
-     * Writes the settings changed through this class to {@code config/sparkdlc-client.json}; does nothing when none is
-     * unsaved. An I/O error is logged, never thrown, and the next call retries.
-     * 把经本类修改的设置写入 {@code config/sparkdlc-client.json}；没有未保存的修改时什么也不做。I/O 错误只记录日志、
-     * 不抛出，下一次调用会重试。
-     */
-    public static void save() {
-        ScopeSettingsStore.load();
-        ScopeSettingsStore.save();
     }
 
     private static ScopeSettings settings() {

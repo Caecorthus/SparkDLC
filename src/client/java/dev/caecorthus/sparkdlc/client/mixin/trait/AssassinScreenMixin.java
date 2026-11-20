@@ -26,21 +26,21 @@ import java.util.UUID;
 @Mixin(AssassinScreen.class)
 public abstract class AssassinScreenMixin extends Screen {
     @Unique
-    private static final int SPARKTRAITS_ROLE_COLUMNS = 3;
+    private static final int sparkdlc$ROLE_COLUMNS = 3;
     @Unique
-    private static final int SPARKTRAITS_ROLE_BUTTON_WIDTH = 90;
+    private static final int sparkdlc$ROLE_BUTTON_WIDTH = 90;
     @Unique
-    private static final int SPARKTRAITS_ROLE_BUTTON_HEIGHT = 20;
+    private static final int sparkdlc$ROLE_BUTTON_HEIGHT = 20;
     @Unique
-    private static final int SPARKTRAITS_ROLE_GAP_X = 5;
+    private static final int sparkdlc$ROLE_GAP_X = 5;
     @Unique
-    private static final int SPARKTRAITS_ROLE_GAP_Y = 5;
+    private static final int sparkdlc$ROLE_GAP_Y = 5;
     @Unique
-    private static final int SPARKTRAITS_ROLE_TOP_OFFSET = 55;
+    private static final int sparkdlc$ROLE_TOP_OFFSET = 55;
     @Unique
-    private static final int SPARKTRAITS_CONTROL_BOTTOM_PADDING = 28;
+    private static final int sparkdlc$CONTROL_BOTTOM_PADDING = 28;
     @Unique
-    private static final int SPARKTRAITS_NAV_BUTTON_WIDTH = 40;
+    private static final int sparkdlc$NAV_BUTTON_WIDTH = 40;
 
     @Shadow
     @Final
@@ -70,42 +70,42 @@ public abstract class AssassinScreenMixin extends Screen {
         // 重建猜身份阶段，让杀手身份可见，并把过长列表分页显示。
         List<Role> roles = sparkdlc$getGuessableRolesIncludingKillers();
         int centerX = this.width / 2;
-        int startY = Math.max(40, this.height / 2 - SPARKTRAITS_ROLE_TOP_OFFSET);
-        int controlY = this.height - SPARKTRAITS_CONTROL_BOTTOM_PADDING;
+        int startY = Math.max(40, this.height / 2 - sparkdlc$ROLE_TOP_OFFSET);
+        int controlY = this.height - sparkdlc$CONTROL_BOTTOM_PADDING;
         int pageSize = AssassinRolePage.pageSizeForHeight(
                 startY,
                 controlY,
-                SPARKTRAITS_ROLE_COLUMNS,
-                SPARKTRAITS_ROLE_BUTTON_HEIGHT,
-                SPARKTRAITS_ROLE_GAP_Y
+                sparkdlc$ROLE_COLUMNS,
+                sparkdlc$ROLE_BUTTON_HEIGHT,
+                sparkdlc$ROLE_GAP_Y
         );
         AssassinRolePage.Layout page = AssassinRolePage.layout(roles.size(), sparkdlc$rolePage, pageSize);
         sparkdlc$rolePage = page.page();
 
         this.clearChildren();
-        int totalWidth = SPARKTRAITS_ROLE_COLUMNS * SPARKTRAITS_ROLE_BUTTON_WIDTH
-                + (SPARKTRAITS_ROLE_COLUMNS - 1) * SPARKTRAITS_ROLE_GAP_X;
+        int totalWidth = sparkdlc$ROLE_COLUMNS * sparkdlc$ROLE_BUTTON_WIDTH
+                + (sparkdlc$ROLE_COLUMNS - 1) * sparkdlc$ROLE_GAP_X;
         int startX = centerX - totalWidth / 2;
 
         for (int roleIndex = page.startIndex(); roleIndex < page.endIndex(); roleIndex++) {
             int pageIndex = roleIndex - page.startIndex();
-            int column = pageIndex % SPARKTRAITS_ROLE_COLUMNS;
-            int row = pageIndex / SPARKTRAITS_ROLE_COLUMNS;
+            int column = pageIndex % sparkdlc$ROLE_COLUMNS;
+            int row = pageIndex / sparkdlc$ROLE_COLUMNS;
             AssassinRoleWidget widget = new AssassinRoleWidget(
                     null,
-                    startX + column * (SPARKTRAITS_ROLE_BUTTON_WIDTH + SPARKTRAITS_ROLE_GAP_X),
-                    startY + row * (SPARKTRAITS_ROLE_BUTTON_HEIGHT + SPARKTRAITS_ROLE_GAP_Y),
+                    startX + column * (sparkdlc$ROLE_BUTTON_WIDTH + sparkdlc$ROLE_GAP_X),
+                    startY + row * (sparkdlc$ROLE_BUTTON_HEIGHT + sparkdlc$ROLE_GAP_Y),
                     roles.get(roleIndex),
                     selectedTarget
             );
             this.addDrawableChild(widget);
         }
 
-        int visibleRows = Math.max(1, (page.visibleCount() + SPARKTRAITS_ROLE_COLUMNS - 1) / SPARKTRAITS_ROLE_COLUMNS);
+        int visibleRows = Math.max(1, (page.visibleCount() + sparkdlc$ROLE_COLUMNS - 1) / sparkdlc$ROLE_COLUMNS);
         int buttonY = Math.min(
                 controlY,
-                startY + visibleRows * SPARKTRAITS_ROLE_BUTTON_HEIGHT
-                        + (visibleRows - 1) * SPARKTRAITS_ROLE_GAP_Y
+                startY + visibleRows * sparkdlc$ROLE_BUTTON_HEIGHT
+                        + (visibleRows - 1) * sparkdlc$ROLE_GAP_Y
                         + 10
         );
         this.addDrawableChild(ButtonWidget.builder(Text.translatable("screen.assassin.button.cancel"), (button) -> {
@@ -121,7 +121,7 @@ public abstract class AssassinScreenMixin extends Screen {
                         sparkdlc$rolePage--;
                         this.clearAndInit();
                     })
-                    .dimensions(centerX - 95, buttonY, SPARKTRAITS_NAV_BUTTON_WIDTH, 20)
+                    .dimensions(centerX - 95, buttonY, sparkdlc$NAV_BUTTON_WIDTH, 20)
                     .build();
             previousButton.active = page.hasPrevious();
             this.addDrawableChild(previousButton);
@@ -130,7 +130,7 @@ public abstract class AssassinScreenMixin extends Screen {
                         sparkdlc$rolePage++;
                         this.clearAndInit();
                     })
-                    .dimensions(centerX + 55, buttonY, SPARKTRAITS_NAV_BUTTON_WIDTH, 20)
+                    .dimensions(centerX + 55, buttonY, sparkdlc$NAV_BUTTON_WIDTH, 20)
                     .build();
             nextButton.active = page.hasNext();
             this.addDrawableChild(nextButton);

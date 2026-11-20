@@ -1,8 +1,10 @@
 #version 150
 
-// Adapted from SparkTraits depression grayscale, itself adapted from StarRailExpress insanity.fsh.
-// License: GPL-3.0-only. SparkWitch keeps only the configurable grayscale pass; Black Raven uses full grayscale at 0.85 luminance.
-// 来源：SparkTraits 抑郁灰阶效果与 StarRailExpress insanity.fsh；这里只保留可配置灰阶，黑羽鸦使用全灰阶与 0.85 亮度。
+// Adapted from the Depression grayscale (written for SparkTraits, now sparkdlc_depression_insanity.fsh), itself adapted
+// from StarRailExpress insanity.fsh. License: GPL-3.0-only. This copy was first made for SparkWitch and keeps only the
+// configurable grayscale pass; Black Raven uses full grayscale at 0.85 luminance.
+// 来源：抑郁灰阶效果（为 SparkTraits 编写，现为 sparkdlc_depression_insanity.fsh）与 StarRailExpress insanity.fsh；本副本最初
+// 为 SparkWitch 制作，只保留可配置灰阶，黑羽鸦使用全灰阶与 0.85 亮度。
 
 uniform sampler2D DiffuseSampler;
 uniform float DesaturateFactor;

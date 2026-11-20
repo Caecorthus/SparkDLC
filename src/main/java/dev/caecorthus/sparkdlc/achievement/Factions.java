@@ -65,7 +65,7 @@ public final class Factions {
      * {@code wathe:} 形式。
      */
     public static String fromWatheName(String name) {
-        return fromWatheName(name, Factions::sparkFactionId);
+        return fromWatheName(name, Factions::factionIdOfConstant);
     }
 
     /**
@@ -75,12 +75,12 @@ public final class Factions {
      * 指定 {@code SparkFactionApi} 查询的 {@link #fromWatheName(String)}：查询返回 id；返回 null（或空白）时只对这一个名称
      * 回退。真正的查询是直接调用，因此这里不吞掉查询抛出的异常（原先查询走反射时会吞掉）。
      */
-    static String fromWatheName(String name, Function<String, String> sparkFactionLookup) {
+    static String fromWatheName(String name, Function<String, String> factionLookup) {
         if (name == null || name.isBlank()) {
             return null;
         }
         String constant = name.trim();
-        String id = sparkFactionLookup.apply(constant);
+        String id = factionLookup.apply(constant);
         if (id != null && !id.isBlank()) {
             return id;
         }
@@ -94,7 +94,7 @@ public final class Factions {
      * 按常量名调用 {@code SparkFactionApi.factionIdOf(Faction)}；本端的 {@code Faction} 没有该常量，或 API 没有对应 id 时
      * 返回 null。这里是直接调用（阵营核心还是独立模组时是反射查找，失败关闭）。
      */
-    private static String sparkFactionId(String constant) {
+    private static String factionIdOfConstant(String constant) {
         Faction faction;
         try {
             faction = Faction.valueOf(constant);

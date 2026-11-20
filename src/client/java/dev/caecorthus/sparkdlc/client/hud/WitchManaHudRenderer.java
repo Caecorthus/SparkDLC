@@ -44,14 +44,14 @@ public final class WitchManaHudRenderer {
     }
 
     /**
-     * Mana row y. {@code strengthRowsBottom} is the team-wallet band's exclusive bottom (0 when no row shows); that
+     * Mana row y. {@code walletRowsBottom} is the team-wallet band's exclusive bottom (0 when no row shows); that
      * band ends one pixel below its row's text, so the mana keeps the same {@link #ROW_GAP} under the team row as
      * under Wathe's money.
-     * 魔力行 y。{@code strengthRowsBottom} 为团队余额叠加行的底边（不含，未显示时为 0）；该底边比其文字底部低 1 像素，
+     * 魔力行 y。{@code walletRowsBottom} 为团队余额叠加行的底边（不含，未显示时为 0）；该底边比其文字底部低 1 像素，
      * 因此魔力行与团队余额行之间保持与 Wathe 金币行相同的 {@link #ROW_GAP} 间距。
      */
-    static int rowY(int fontHeight, int strengthRowsBottom) {
+    static int rowY(int fontHeight, int walletRowsBottom) {
         int underMoney = TOP_PADDING + fontHeight + ROW_GAP;
-        return strengthRowsBottom > 0 ? Math.max(underMoney, strengthRowsBottom - 1 + ROW_GAP) : underMoney;
+        return walletRowsBottom > 0 ? Math.max(underMoney, walletRowsBottom - 1 + ROW_GAP) : underMoney;
     }
 }

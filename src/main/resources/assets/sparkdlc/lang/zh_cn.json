@@ -1,7 +1,7 @@
 {
   "itemGroup.sparkdlc.items": "SparkDLC",
-  "modmenu.summaryTranslation.sparkdlc": "Spark Wathe DLC：阵营 API、职业增强、特质、魔女阵营职业与客户端辅助工具合为一个模组。",
-  "modmenu.descriptionTranslation.sparkdlc": "Spark Wathe DLC：阵营 API、职业增强、特质、魔女阵营职业与客户端辅助工具合为一个模组。\nDLC 材质由 Claude、GPT-Image 与 I_siya 制作。",
+  "modmenu.summaryTranslation.sparkdlc": "Spark Wathe DLC：为 Wathe 加入新的职业、阵营、词条与物品，并附带指南、成就与设置。",
+  "modmenu.descriptionTranslation.sparkdlc": "Spark Wathe DLC：为 Wathe 加入新的职业与阵营、职业改动、词条、物品与破坏玩法，并附带游戏内指南、成就与设置。\nDLC 材质由 Claude、GPT-Image 与 I_siya 制作。",
   "faction.sparkdlc.none": "无阵营",
   "faction.sparkdlc.custom": "自定义阵营",
   "commands.sparkdlc.faction.custom": "自定义阵营",

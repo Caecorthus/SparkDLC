@@ -181,7 +181,7 @@ final class CoronerLoanedGear {
         if (CoronerRules.grantsTimedBomb(role)) {
             giveTemporaryItem(player, ModItems.TIMED_BOMB, disguiseUuid, snapshot.roleId(), "timed_bomb");
         }
-        if (CoronerRules.isSparkWitchKidnapper(role)) {
+        if (CoronerRules.isKidnapper(role)) {
             /*
              * 验尸官伪装绑架者时拿 1 个临时迷药。
              * A Coroner disguised as the Kidnapper is loaned one temporary knockout drug.

@@ -223,18 +223,18 @@ public final class RoleHudDispatcher {
 
         Role role = GameWorldComponent.KEY.get(player.getWorld()).getRole(player);
         Identifier roleId = role == null ? null : role.identifier();
-        boolean hasSparkWitchSkill = WitchPlayerComponent.KEY.get(player).getActiveSkillId() != null;
+        boolean hasRoleSkill = WitchPlayerComponent.KEY.get(player).getActiveSkillId() != null;
         TextRenderer textRenderer = hud.getTextRenderer();
         int reservedHeight = SaintHudLayoutRules.reservedBottomHeight(
                 roleId,
                 textRenderer.fontHeight,
-                hasSparkWitchSkill
+                hasRoleSkill
         );
         for (Text line : lines) {
             int lineHeight = textRenderer.getWrappedLinesHeight(line, Integer.MAX_VALUE);
             int drawX = context.getScaledWindowWidth()
                     - textRenderer.getWidth(line)
-                    - SaintHudLayoutRules.rightPadding(roleId, hasSparkWitchSkill);
+                    - SaintHudLayoutRules.rightPadding(roleId, hasRoleSkill);
             int drawY = SaintHudLayoutRules.drawY(
                     context.getScaledWindowHeight(),
                     lineHeight,

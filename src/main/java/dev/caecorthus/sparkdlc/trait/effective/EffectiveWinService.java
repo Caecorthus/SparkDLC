@@ -24,27 +24,27 @@ import java.util.List;
  *  按有效阵营结算回合：队伍胜利监听、阻塞中立与 NoellesRoles 小丑/双影小丑的队伍胜利延后，以及失去真实杀手支持的内鬼自我觉悟。 */
 public final class EffectiveWinService {
     public static final Identifier SELF_REALIZATION = SparkDLC.id("self_realization");
-    private static final Identifier SPARKWITCH_GRAND_WITCH_ID = Identifier.of("sparkdlc", "grand_witch");
-    private static final Identifier SPARKWITCH_ACCOMPLICE_ID = Identifier.of("sparkdlc", "accomplice");
+    private static final Identifier GRAND_WITCH_ID = Identifier.of("sparkdlc", "grand_witch");
+    private static final Identifier ACCOMPLICE_ID = Identifier.of("sparkdlc", "accomplice");
     // The special accomplices block team wins exactly like the Accomplice.
     // 特殊共犯与共犯一样阻止队伍胜利。
-    private static final Identifier SPARKWITCH_ABYSS_LISTENER_ID = Identifier.of("sparkdlc", "abyss_listener");
-    private static final Identifier SPARKWITCH_POTION_GUNNER_ID = Identifier.of("sparkdlc", "potion_gunner");
-    private static final Identifier SPARKWITCH_RIFTWALKER_ID = Identifier.of("sparkdlc", "riftwalker");
+    private static final Identifier ABYSS_LISTENER_ID = Identifier.of("sparkdlc", "abyss_listener");
+    private static final Identifier POTION_GUNNER_ID = Identifier.of("sparkdlc", "potion_gunner");
+    private static final Identifier RIFTWALKER_ID = Identifier.of("sparkdlc", "riftwalker");
     // The Bewitched (魔化使) is an accomplice before promotion.
     // 魔化使是晋升前的共犯。
-    private static final Identifier SPARKWITCH_BEWITCHED_ID = Identifier.of("sparkdlc", "bewitched");
-    private static final Identifier SPARKWITCH_MURDEROUS_WITCH_ID = Identifier.of("sparkdlc", "murderous_witch");
+    private static final Identifier BEWITCHED_ID = Identifier.of("sparkdlc", "bewitched");
+    private static final Identifier MURDEROUS_WITCH_ID = Identifier.of("sparkdlc", "murderous_witch");
     // The Insider shares the Corrupt Cop's team and keeps its win rule after the Corrupt Cop dies.
     // 内应与黑警同属一个阵营，黑警死后由内应继续承担该阵营的胜利规则。
-    private static final Identifier SPARKWITCH_INSIDER_ID = Identifier.of("sparkdlc", "insider");
+    private static final Identifier INSIDER_ID = Identifier.of("sparkdlc", "insider");
     // 狮身豪 (Sphinx Hao) is a second Team Jiahao member and blocks team wins exactly like the Insider.
     // 狮身豪是嘉豪阵营的第二名成员，与内应完全一样阻止队伍胜利。
-    private static final Identifier SPARKWITCH_SPHINX_HAO_ID = Identifier.of("sparkdlc", "sphinx_hao");
+    private static final Identifier SPHINX_HAO_ID = Identifier.of("sparkdlc", "sphinx_hao");
     // The Sniper (狙击手, PR SparkWitch #245) is a further Team Jiahao member and blocks team wins exactly like the
     // Insider.
     // 狙击手（PR SparkWitch #245）是嘉豪阵营的又一名成员，与内应完全一样阻止队伍胜利。
-    private static final Identifier SPARKWITCH_SNIPER_ID = Identifier.of("sparkdlc", "sniper");
+    private static final Identifier SNIPER_ID = Identifier.of("sparkdlc", "sniper");
     private static final Identifier NOELLES_SHADOW_JESTER_ID = Identifier.of("noellesroles", "shadow_jester");
 
     private EffectiveWinService() {
@@ -108,17 +108,17 @@ public final class EffectiveWinService {
 
     private static boolean isBlockingTeamWinNeutral(Role role) {
         return role != null
-                && (SPARKWITCH_GRAND_WITCH_ID.equals(role.identifier())
-                || SPARKWITCH_ACCOMPLICE_ID.equals(role.identifier())
-                || SPARKWITCH_ABYSS_LISTENER_ID.equals(role.identifier())
-                || SPARKWITCH_POTION_GUNNER_ID.equals(role.identifier())
-                || SPARKWITCH_RIFTWALKER_ID.equals(role.identifier())
-                || SPARKWITCH_BEWITCHED_ID.equals(role.identifier())
-                || SPARKWITCH_MURDEROUS_WITCH_ID.equals(role.identifier())
+                && (GRAND_WITCH_ID.equals(role.identifier())
+                || ACCOMPLICE_ID.equals(role.identifier())
+                || ABYSS_LISTENER_ID.equals(role.identifier())
+                || POTION_GUNNER_ID.equals(role.identifier())
+                || RIFTWALKER_ID.equals(role.identifier())
+                || BEWITCHED_ID.equals(role.identifier())
+                || MURDEROUS_WITCH_ID.equals(role.identifier())
                 || Noellesroles.CORRUPT_COP_ID.equals(role.identifier())
-                || SPARKWITCH_INSIDER_ID.equals(role.identifier())
-                || SPARKWITCH_SPHINX_HAO_ID.equals(role.identifier())
-                || SPARKWITCH_SNIPER_ID.equals(role.identifier())
+                || INSIDER_ID.equals(role.identifier())
+                || SPHINX_HAO_ID.equals(role.identifier())
+                || SNIPER_ID.equals(role.identifier())
                 || Noellesroles.TAOTIE_ID.equals(role.identifier()));
     }
 

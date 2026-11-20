@@ -175,8 +175,8 @@ public final class SeekerDeviceHits {
      */
     @Nullable
     public static <T extends PlayerEntity> T onShotgunFired(PlayerEntity shooter, @Nullable T target, double range) {
-        if (PartygoerWeaponHits.onSparkWitchShotgun(shooter, target, range)
-                || DroneWeaponHits.onSparkWitchRay(shooter, target, range)) {
+        if (PartygoerWeaponHits.onShotgun(shooter, target, range)
+                || DroneWeaponHits.onRay(shooter, target, range)) {
             return null;
         }
         if (!(shooter instanceof ServerPlayerEntity serverShooter) || shooter.getWorld().isClient()) {
@@ -294,7 +294,7 @@ public final class SeekerDeviceHits {
     /** Control Expert taser server targeting; a device hit stuns nobody. / 控场专家电击枪；命中设备时不眩晕任何人。 */
     @Nullable
     public static <T extends PlayerEntity> T onTaserFired(ServerPlayerEntity user, @Nullable T target, double range) {
-        if (DroneWeaponHits.onSparkWitchRay(user, target, range)) {
+        if (DroneWeaponHits.onRay(user, target, range)) {
             return null;
         }
         if (user == null || user.getWorld().isClient()) {
@@ -316,9 +316,9 @@ public final class SeekerDeviceHits {
      */
     public static double onDeathRayFired(ServerPlayerEntity user, Vec3d start, Vec3d direction,
                                          double visibleDistance) {
-        visibleDistance = DroneWeaponHits.onSparkWitchDeathRay(user, start, direction, visibleDistance);
+        visibleDistance = DroneWeaponHits.onDeathRay(user, start, direction, visibleDistance);
         // Piercing: Partygoers before the cut die and do not shorten the ray. / 穿透：截断点之前的派对客死亡，且不缩短射线。
-        PartygoerWeaponHits.onSparkWitchDeathRay(user, start, direction, visibleDistance);
+        PartygoerWeaponHits.onDeathRay(user, start, direction, visibleDistance);
         if (user == null || user.getWorld().isClient() || start == null || direction == null
                 || !(visibleDistance > 0.0) || direction.lengthSquared() == 0.0) {
             return visibleDistance;
@@ -342,8 +342,8 @@ public final class SeekerDeviceHits {
     @Nullable
     public static <T extends PlayerEntity> T onFeatherBladeFired(ServerPlayerEntity user, @Nullable T target,
                                                                  double range) {
-        if (PartygoerWeaponHits.onSparkWitchFeatherBlade(user, target, range)
-                || DroneWeaponHits.onSparkWitchRay(user, target, range)) {
+        if (PartygoerWeaponHits.onFeatherBlade(user, target, range)
+                || DroneWeaponHits.onRay(user, target, range)) {
             return null;
         }
         if (user == null || user.getWorld().isClient()) {
@@ -398,7 +398,7 @@ public final class SeekerDeviceHits {
      */
     public static void onBlast(ServerWorld world, Vec3d center, double radius, @Nullable ServerPlayerEntity owner,
                                SeekerBreakSource source) {
-        DroneWeaponHits.onSparkWitchBlast(world, center, radius, owner);
+        DroneWeaponHits.onAreaBlast(world, center, radius, owner);
         if (world == null || center == null || source == null || !(radius > 0.0)
                 || !GameWorldComponent.KEY.get(world).isRunning()) {
             return;
@@ -446,7 +446,7 @@ public final class SeekerDeviceHits {
      */
     @Nullable
     public static <T extends PlayerEntity> T onClockFired(ServerPlayerEntity user, @Nullable T target, double range) {
-        if (PartygoerWeaponHits.onSparkWitchClock(user, target, range)) {
+        if (PartygoerWeaponHits.onClock(user, target, range)) {
             return null;
         }
         if (user == null || target == null || user.getWorld().isClient()) {
@@ -465,7 +465,7 @@ public final class SeekerDeviceHits {
     @Nullable
     public static <T extends PlayerEntity> T onShriekGunFired(ServerPlayerEntity user, @Nullable T target,
                                                               double range) {
-        if (DroneWeaponHits.onSparkWitchRay(user, target, range)) {
+        if (DroneWeaponHits.onRay(user, target, range)) {
             return null;
         }
         if (user == null || user.getWorld().isClient()) {
@@ -486,8 +486,8 @@ public final class SeekerDeviceHits {
     @Nullable
     public static <T extends PlayerEntity> T onSphinxHaoFistFired(ServerPlayerEntity shooter, @Nullable T target,
                                                                   double range) {
-        if (PartygoerWeaponHits.onSparkWitchSphinxHaoFist(shooter, target, range)
-                || DroneWeaponHits.onSparkWitchRay(shooter, target, range)) {
+        if (PartygoerWeaponHits.onSphinxHaoFist(shooter, target, range)
+                || DroneWeaponHits.onRay(shooter, target, range)) {
             return null;
         }
         if (shooter == null || shooter.getWorld().isClient()) {
@@ -528,8 +528,8 @@ public final class SeekerDeviceHits {
     @Nullable
     public static <T extends PlayerEntity> T onM1903A4Fired(ServerPlayerEntity shooter, @Nullable T target,
                                                             double range) {
-        if (PartygoerWeaponHits.onSparkWitchM1903A4(shooter, target, range)
-                || DroneWeaponHits.onSparkWitchRay(shooter, target, range)) {
+        if (PartygoerWeaponHits.onM1903A4(shooter, target, range)
+                || DroneWeaponHits.onRay(shooter, target, range)) {
             return null;
         }
         if (shooter == null || shooter.getWorld().isClient()) {
@@ -604,7 +604,7 @@ public final class SeekerDeviceHits {
     @Nullable
     public static Vec3d onPotionShellSweep(Entity shell, @Nullable Entity thrower, Vec3d from, Vec3d to) {
         // A drone on this tick's path bursts the shell at its own point first. / 本刻路径上的无人机先在其位置引爆炮弹。
-        Vec3d droneBurst = DroneWeaponHits.onSparkWitchShellSweep(shell, thrower, from, to);
+        Vec3d droneBurst = DroneWeaponHits.onShellSweep(shell, thrower, from, to);
         if (droneBurst != null) {
             return droneBurst;
         }
@@ -624,8 +624,8 @@ public final class SeekerDeviceHits {
      * 距离相同时命中玩家。返回 true 表示已被吸收，不再命中任何人。
      */
     public static boolean onPotionBackblast(ServerPlayerEntity gunner, Vec3d start, Vec3d direction, double reach) {
-        if (PartygoerWeaponHits.onSparkWitchBackblast(gunner, start, direction, reach)
-                || DroneWeaponHits.onSparkWitchBackblast(gunner, start, direction, reach)) {
+        if (PartygoerWeaponHits.onBackblast(gunner, start, direction, reach)
+                || DroneWeaponHits.onBackblast(gunner, start, direction, reach)) {
             return true;
         }
         if (gunner == null || gunner.getWorld().isClient() || start == null || direction == null
@@ -671,11 +671,11 @@ public final class SeekerDeviceHits {
      *         打坏设备的路径距离（严格小于 {@code reach}，调用方随后不命中任何人）
      */
     public static double onUsecRifleFired(ServerPlayerEntity shooter, List<Vec3d> path, double reach) {
-        double partygoer = PartygoerWeaponHits.onSparkWitchUsecRifle(shooter, path, reach);
+        double partygoer = PartygoerWeaponHits.onUsecRifle(shooter, path, reach);
         if (partygoer < reach) {
             return partygoer;
         }
-        double absorbed = DroneWeaponHits.onSparkWitchUsecRifle(shooter, path, reach);
+        double absorbed = DroneWeaponHits.onUsecRifle(shooter, path, reach);
         if (absorbed < reach) {
             return absorbed;
         }

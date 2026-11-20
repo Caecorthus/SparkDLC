@@ -557,7 +557,8 @@ Current build baseline:
       player replace the model and sounds of every Mini Wither and its skulls **on their own client only** (nothing
       synced or sent). One folder per skin under `config/sparkdlc/mini_wither/<id>/` (`MiniWitherSkinFolder`, a
       bilingual README is written there; optional `skin.json`); the selection is `miniWitherSkin` in
-      `config/sparkdlc-client.json` (`MiniWitherSkinSettings`, merge-written beside the scope keys).
+      `config/sparkdlc.json`, the one client settings file (`MiniWitherSkinSettings` through `SparkDlcConfigManager`;
+      until stage 3 it was in `config/sparkdlc-client.json`, folded in by `LegacyClientSettingsFold`).
       `MiniWitherSkinManager` loads it (preloaded at client start; textures as `sparkdlc:dynamic/mini_wither_skin/...`,
       replaced per load) and never throws: failures show in `status()` and draw vanilla; a draw that throws calls
       `markBroken` until the next reload. Bodies and skulls are Bedrock geometry (`client/render/bedrock/`), auto-fitted
@@ -759,7 +760,7 @@ Current build baseline:
     fork also put it after the Accountant), and guessed in the killer block right after the Dominator, before the
     Murderous Witch. The hypnosis lock also refuses the Accountant's `sparkdlc:accountant_withdraw`, since it is on
     the Control Expert stun list.
-    No witch skill (not in `isRegisteredSparkWitchRole`), never in the `gui.sparkdlc.skills` panel, never a Black
+    No witch skill (not in `isRegisteredSkillRole`), never in the `gui.sparkdlc.skills` panel, never a Black
     Raven disguise target. The accessor is `SparkDlcRoleRegistry.natsumeAnan()`; `SparkDlcRoles` has none.
   - State: `NatsumeComponent` (`sparkdlc:natsume_anan_player`, `NEVER_COPY`, appended last in the CCA list and in
     `fabric.mod.json`) on every player: the hypnosis end tick, caster and world, and her cooldown ready tick, all
@@ -851,7 +852,7 @@ Current build baseline:
     PR #206, sit between it
     and the Insider),
     and guessed in the killer block right after 夏目安安, before the Murderous
-    Witch. No witch skill (not in `isRegisteredSparkWitchRole`), never in the `gui.sparkdlc.skills` panel, never a
+    Witch. No witch skill (not in `isRegisteredSkillRole`), never in the `gui.sparkdlc.skills` panel, never a
     Black Raven disguise target; code reads the raw role.
   - State (all `NEVER_COPY`, appended after the headset in the CCA list and `fabric.mod.json`; only the Savior's
     `sparkdlc:savior`, PR #200, then the Medium's two ids, PR #209, the Charon's four, PR #202,
@@ -965,7 +966,7 @@ Current build baseline:
   - Registration: a SparkFactionAPI killer with the Specter's profile (Wathe-native KILLER, FAKE mood, unlimited
     sprint, round clock), one killer slot, no appearance condition, registered after 橘雪莉 (PR #206) and right
     before the Insider, and guessed in the killer block right after the Specter, before the Murderous Witch. No witch skill
-    (not in `isRegisteredSparkWitchRole`), never in the `gui.sparkdlc.skills` panel; code reads the raw role.
+    (not in `isRegisteredSkillRole`), never in the `gui.sparkdlc.skills` panel; code reads the raw role.
   - Mana (owner 2026-11-11): exactly the Witch Maiden's system through `skill/mana/WitchManaRules` (`isManaRole`,
     `naturalCap` 250, 20-tick regeneration; 0 at role assignment, no kill or task rewards). Nothing else is
     role-specific: `WitchManaService.assignForRole`, the component sync, `/sparkdlc:setMana`, the top-right
@@ -1369,7 +1370,7 @@ Current build baseline:
     other-witch colour.
   - Mana without witch skills: a mana role in `WitchManaRules` (`isManaRole`) on the Murderous Witch's natural
     regeneration (owner 2026-11-13): 0 at the deal, 1 per 40 ticks, natural cap 150, `taskReward` 0, `killReward` 0.
-    She is not in `isRegisteredSparkWitchRole`, never gets an active witch skill and never appears in the
+    She is not in `isRegisteredSkillRole`, never gets an active witch skill and never appears in the
     `gui.sparkdlc.skills` panel; the shared mana HUD row shows her pool because it reads only `hasManaSystem()`.
   - Go live (`KokoFeatureService` registers the empty C2S `sparkdlc:use_koko_stream`, the replay formatter, shop,
     key, win, the corpse interaction, the world tick and lifecycle): `KokoStreamService.tryGoLive` gates through the
@@ -1434,7 +1435,7 @@ Current build baseline:
   - Registration: a SparkFactionAPI neutral (Wathe-native NEUTRAL, FAKE mood so he has fake tasks, 10 s
     `maxSprintTime`, no round clock, no appearance condition) registered after 泽渡可可 and right before the Insider
     (which stays last), and guessed in the neutral block right after 泽渡可可. Drawn by Wathe's neutral pass, not
-    settlement-excluded. Not in `isRegisteredSparkWitchRole` (that list hands out witch skills), never in the
+    settlement-excluded. Not in `isRegisteredSkillRole` (that list hands out witch skills), never in the
     `gui.sparkdlc.skills` panel. `SparkDlcRoles` exposes `CRIMINAL_REASONER_ID` and `criminalReasoner()`.
   - Kit (`CriminalReasonerRuntime`): `RoleAssigned` resets his component and blocks revolver pickup; at
     `ON_FINISH_INITIALIZE` each living final Reasoner without one gets one `noellesroles:neutral_master_key` (Koko
@@ -1483,7 +1484,7 @@ Current build baseline:
     last), and guessed in the neutral block right after the Insider, before the Stowaway. No Wathe pass draws it; only
     the Team Jiahao lineup (see "Third-faction draw") or a force deals it. `SparkDlcRoles` exposes `SPHINX_HAO_ID`
     and `sphinxHao()`. Not in SFA `PoliceRoles` (unlike the Insider: no police channel, never a meeting elector), not
-    in `isRegisteredSparkWitchRole`, never in the `gui.sparkdlc.skills` panel, not a Witch Trial girl.
+    in `isRegisteredSkillRole`, never in the `gui.sparkdlc.skills` panel, not a Witch Trial girl.
   - Hub: `SphinxHaoFeatureService` is the only Sphinx Hao feature line in `RoleEvents` (after 规划大师's hub,
     before USEC, which stays last); the payload types are additionally registered once earlier through the idempotent
     `net/SphinxHaoPayloads.registerTypes()` right after `CriminalReasonerRuntime.register()` (the
@@ -1648,11 +1649,11 @@ Current build baseline:
     `message.sparkdlc.sphinx_hao_hand_gun.*`, `shop.sparkdlc.sphinx_hao_fist_ammo[.description]`,
     `shop.error.sparkdlc.sphinx_hao.*`, `gui.sparkdlc.shop.hao_price`, the seven `hud.sparkdlc.sphinx_hao.*`,
     the subtitle, item and entity names and tooltips, and the replay keys.
-  - Cross-mod seams: SparkStrength (id-only) adds `CorruptCopRules.SPHINX_HAO_ID` / `isSparkWitchJiahaoMember` (Insider
+  - Cross-mod seams: SparkStrength (id-only) adds `CorruptCopRules.SPHINX_HAO_ID` / `isCorruptCopTeammate` (Insider
     or 狮身豪) to the Arrogant ASF concealment pairing, the blackout sabotage team x-ray and the Partygoer role instinct
     key; `BodyguardProtectionRules` maps the fist to PHYSICAL (vest + 5-point shield);
     `SeekerDeviceHits.onSphinxHaoFistFired` first asks the Partygoer and the drone (a nearer Partygoer dies through
-    `PartygoerWeaponHits.onSparkWitchSphinxHaoFist`, else a nearer drone breaks; then null); its key rule opens train
+    `PartygoerWeaponHits.onSphinxHaoFist`, else a nearer drone breaks; then null); its key rule opens train
     doors for any neutral-aligned role and its free round-start tablet reaches only the public channel. SparkTraits:
     see the Insider paragraph under its optional seams. SparkAssist: guide page
     `guidebook/roles/sparkdlc/sphinx_hao.json` (after the Insider), plate, emblem, the Jiahao faction page and nav,
@@ -1848,11 +1849,11 @@ Current build baseline:
     within 12 blocks; spectators, Rift occupants and active Wraiths still see it, and always-on highlights stay (see
     `client/role/civilian/usec/` instinct cloak). Other holders are never cloaked.
   - Registration: a SparkFactionAPI civilian role (Wathe-native civilian, REAL mood, 20 s `maxSprintTime`, no appearance
-    condition) registered right before the Insider in `registerFactionApiRoles` and right after the Seeker in the
+    condition) registered right before the Insider in `registerOwnRoles` and right after the Seeker in the
     assassin-guess order. It is drawn only through the shared Vigilante slots
     (`PoliceSlotAssignmentService.VARIANT_IDS`; a slot never draws a variant someone already holds).
     `PoliceRoles.register` gives it the SparkTraits police traits and the free SparkStrength tablet; it is in the Black
-    Raven `POLICE_IDS`, is not in `isRegisteredSparkWitchRole` or `WitchSkillRegistry`, and never renders in the
+    Raven `POLICE_IDS`, is not in `isRegisteredSkillRole` or `WitchSkillRegistry`, and never renders in the
     `gui.sparkdlc.skills` panel.
   - Foundation: `UsecRules` holds every owner number and literal id (both sides read it; nothing redefines it).
     `UsecAmmoType` is FMJ or AP; its `id()` is the stable serialized id. `UsecMagazineContents` is immutable and ordered
@@ -2266,7 +2267,7 @@ Current build baseline:
     the civilian block of the assassin-guess order (between the Perfumer and the Athlete). Wathe's civilian pass draws
     it like the Fisher and the Blind; it is not a police variant
     (`PoliceRoles`, `PoliceSlotAssignmentService.VARIANT_IDS`) and never takes a cop slot. It has no coins, shop or
-    economy service, owns no witch skill (not in `isRegisteredSparkWitchRole`) and never renders in the
+    economy service, owns no witch skill (not in `isRegisteredSkillRole`) and never renders in the
     `gui.sparkdlc.skills` panel.
   - State: `RecruitPlayerComponent` (`sparkdlc:recruit`, `NEVER_COPY`, appended last in the CCA list) keeps the task
     count and the knife-granted flag (synced to the owner only) and the server-only "ground gun used" flag; NBT keeps
@@ -2294,7 +2295,7 @@ Current build baseline:
   - Registration: a SparkFactionAPI civilian role (Wathe-native civilian, REAL mood, `maxSprintTime(-1)` = unlimited
     stamina, no appearance condition) registered after the Recruit, before the Discoverer, Noa and the Insider, and in
     the civilian block of the assassin-guess order (right after the Recruit). Drawn by Wathe's civilian pass, never a police slot; no coins or
-    shop, no witch skill (not in `isRegisteredSparkWitchRole`), never in the `gui.sparkdlc.skills` panel. Real role
+    shop, no witch skill (not in `isRegisteredSkillRole`), never in the `gui.sparkdlc.skills` panel. Real role
     only: the Black Raven disguise `DENYLIST` lists it.
   - Dash (`AthleteFeatureService` registers the empty C2S `sparkdlc:use_athlete_dash`, the replay formatter and the
     lifecycle): `AthleteDashService.tryUse` gates through the pure `AthleteDashRules.verdict` (ACTIVE round, playing,
@@ -2419,7 +2420,7 @@ Current build baseline:
   - Registration: a SparkFactionAPI civilian role (Wathe-native civilian, REAL mood, 10 s `maxSprintTime`, no
     appearance condition) registered after the Discoverer, before the Ragpicker and the Insider, and in the civilian block of the
     assassin-guess order (right after the Discoverer). Drawn by Wathe's civilian pass, never a police slot; no witch skill (not in
-    `isRegisteredSparkWitchRole`), never in the `gui.sparkdlc.skills` panel. The Black Raven disguise pool does not
+    `isRegisteredSkillRole`), never in the `gui.sparkdlc.skills` panel. The Black Raven disguise pool does not
     support it. SparkTraits never gives her the Impostor trait (its Impostor role block, owner 2026-11-04).
   - Sanity lock: `mixin/role/civilian/noa/PlayerMoodComponentNoaMoodLockMixin` (common config, decisions in `NoaMoodLock`) zeroes
     only Wathe's own operands for a Noa: the ordinal-0 `Map.size()` drain count in `serverTick` and `clientTick` (minus
@@ -2497,7 +2498,7 @@ Current build baseline:
   - Registration: a SparkFactionAPI civilian (Wathe-native civilian, REAL mood, 10 s `maxSprintTime`, no round clock,
     no appearance condition) registered after the Dominator, right before the Insider, and guessed in the civilian
     block right after Noa. Drawn by Wathe's civilian pass, never a police variant or slot; no active skill, no witch
-    skill (not in `isRegisteredSparkWitchRole`), never in the `gui.sparkdlc.skills` panel; like the Discoverer and
+    skill (not in `isRegisteredSkillRole`), never in the `gui.sparkdlc.skills` panel; like the Discoverer and
     the Ragpicker it is in neither Black Raven disguise list (so never claimable). `SparkDlcRoles` exposes
     `ACCOUNTANT_ID`.
   - Classes: `AccountantRules` (ids, numbers, the pure `canAct`/`canEarn` gates and the deposit/withdraw verdicts),
@@ -2532,7 +2533,7 @@ Current build baseline:
   - Registration: a SparkFactionAPI civilian (Wathe-native CIVILIAN, REAL mood, `UsecRules.MAX_SPRINT_TICKS`, no round
     clock, no appearance condition) registered after 夏目安安, right before the Insider, and guessed in the civilian block
     right after the Accountant. Drawn by Wathe's civilian pass; not in `PoliceRoles` or the police `VARIANT_IDS` pool,
-    not in `isRegisteredSparkWitchRole`, never in the `gui.sparkdlc.skills` panel; in the Black Raven DENYLIST (never
+    not in `isRegisteredSkillRole`, never in the `gui.sparkdlc.skills` panel; in the Black Raven DENYLIST (never
     claimable, like USEC). `SparkDlcRoles` exposes `BEAR_ID` and `bear()`.
   - Hubs (all registered before USEC, which stays last; only the Medium's hubs, PR #209, sit between them and USEC
     in `RoleEvents` and `SparkDLCClient`): `BearFeatureService` in `RoleEvents`
@@ -3164,9 +3165,10 @@ Current build baseline:
     2026-10-08) is a cycling button of 50 / 75 / 100 % of the native PiP lens size (default 100 %); it only matters in
     Picture-in-Picture, so its button is inactive (greyed) while Full-Screen Zoom is selected, follows the Scope View
     button at once, and its tooltip says so. Values persist
-    in `config/sparkdlc-client.json` (`scopeMode`, `scopedSensitivityPercent`, `scopeLensResolutionPercent`) through
-    `ScopeSettingsStore`, which merges saves into the existing file; a missing, unknown or non-step lens value loads as
-    100 %.
+    in the one client settings file `config/sparkdlc.json` (`scopeMode`, `scopedSensitivityPercent`,
+    `scopeLensResolutionPercent`) through `ScopeSettingsStore` and `SparkDlcConfigManager`, which keeps them beside the
+    other settings (until stage 3 they were in `config/sparkdlc-client.json`, folded in by `LegacyClientSettingsFold`);
+    a missing, unknown or non-step lens value loads as 100 %.
     `ScopeClient.effectiveMode()` reports what actually renders: Picture-in-Picture falls back to Full-Screen Zoom
     under an Iris shader pack, Fabulous! graphics, the Blind echo view, or while `ScopePictureInPicture` backs off
     after a failure (`ScopeRules.effectiveMode`).
@@ -3235,7 +3237,7 @@ Current build baseline:
   - Registration: a SparkFactionAPI civilian (Wathe-native CIVILIAN, REAL mood, 10 s `maxSprintTime`, no round clock, no
     appearance condition) registered after the Specter, right before the Insider, and guessed in the civilian block
     right after BEAR. Drawn by Wathe's civilian pass, never a police variant or slot; no witch skill (not in
-    `isRegisteredSparkWitchRole`), never in the `gui.sparkdlc.skills` panel (招魂 is a role-owned drawer on the
+    `isRegisteredSkillRole`), never in the `gui.sparkdlc.skills` panel (招魂 is a role-owned drawer on the
     inventory screen, not that panel); in neither Black Raven disguise list (never claimable). `SparkDlcRoles` exposes
     `MEDIUM_ID` and `medium()`. The letter and title text still fall back to the Wathe civilian wording.
   - Hubs: `MediumFeatureService` in `RoleEvents` (economy, 通灵, 幽灵的加护, 招魂, in that order:
@@ -3405,7 +3407,7 @@ Current build baseline:
     `SparkDlcRoles` exposes `HANNA_ID` and `hanna()`.
   - Mana without witch skills: she is a mana role in `WitchManaRules` (`isManaRole`), with `initialMana` 40 granted by
     `WitchManaService.assignForRole` right after `initializeMana()`, `taskReward` 20, no natural regeneration
-    (`canRegenerateNaturally` is false for her only) and no kill reward. She is not in `isRegisteredSparkWitchRole`,
+    (`canRegenerateNaturally` is false for her only) and no kill reward. She is not in `isRegisteredSkillRole`,
     never gets an active witch skill and never appears in the `gui.sparkdlc.skills` panel; the shared mana HUD row
     shows her pool because it reads only `hasManaSystem()`.
   - Float (`HannaFeatureService` registers the empty C2S `sparkdlc:use_hanna_float`, the replay formatter, economy,
@@ -3464,7 +3466,7 @@ Current build baseline:
   - Registration: a SparkFactionAPI civilian (Wathe-native CIVILIAN, REAL mood, 15 s `maxSprintTime`, no round clock,
     no appearance condition) registered after Tono Hanna, before 二阶堂希罗 and the Insider (which stays last), and
     guessed in the civilian block right after Tono Hanna (规划大师 follows her). Drawn by Wathe's civilian pass, never a police variant; no
-    witch skill (not in `isRegisteredSparkWitchRole`), never in the `gui.sparkdlc.skills` panel (AGENTS.md panel
+    witch skill (not in `isRegisteredSkillRole`), never in the `gui.sparkdlc.skills` panel (AGENTS.md panel
     rule: being a mana role and owning a Mighty Force grants no panel access); in neither Black Raven disguise list.
     `SparkDlcRoles` exposes `SHERRY_ID` and `sherry()`. Companion: SparkTraits blocks her from the Impostor trait.
   - Hubs: `SherryFeatureService` in `RoleEvents` (economy, 推演, 巨力魔法, badge, in that order), after the
@@ -3547,7 +3549,7 @@ Current build baseline:
   - Registration: a SparkFactionAPI civilian (Wathe-native CIVILIAN, REAL mood, 10 s `maxSprintTime`, no round clock,
     no appearance condition) registered after the Criminal Reasoner (PR #228) and before 狮身豪 and the Insider (which
     stays last), and guessed in the civilian block right after 橘雪莉. Drawn by Wathe's civilian pass with Wathe's 0 starting coins, never a
-    police variant or slot; no witch skill (not in `isRegisteredSparkWitchRole`), never in the `gui.sparkdlc.skills`
+    police variant or slot; no witch skill (not in `isRegisteredSkillRole`), never in the `gui.sparkdlc.skills`
     panel; in neither Black Raven disguise list (Accountant/Hanna precedent: never claimable). `SparkDlcRoles`
     exposes `PLANNER_MASTER_ID` and `plannerMaster()`.
   - Hub: `PlannerFeatureService` in `RoleEvents` after 橘雪莉's and before USEC (which stays last): registers the
@@ -4595,7 +4597,7 @@ Obscure/Fear `@WrapMethod` veto (`WatheClientFearInstinctMixin`) exempts those m
 `HudRenderCallback` line for every player, never the action bar. The Dash HUD is a role-owned bottom-right line
 shown only to the moment Fiend (`client/role/neutral/fiend/FiendDashHud`, drawn from `FiendClient`'s HUD callback), and
 `SparkDLCClient`'s ability-key dispatch sends the request through `client/role/neutral/fiend/FiendDashClient`.
-The Fiend is absent from `isRegisteredSparkWitchRole` and `WitchSkillRegistry` and never renders in the
+The Fiend is absent from `isRegisteredSkillRole` and `WitchSkillRegistry` and never renders in the
 `gui.sparkdlc.skills` panel.
 Feign death (owner request 2026-10-16): a dormant Fiend fakes death for 5 s (`FiendRules.FEIGN_TICKS`) once 60 s
 (`FEIGN_INTERVAL_TICKS`) have passed since its cycle was scheduled on the first ACTIVE tick of the match or since its
@@ -4724,7 +4726,7 @@ server-only match of the last ComTac purchase; its owner-only sync packet is fou
 cooldown, Attune active), never absolute ticks, and the client rebuilds them against its own world
 time. Every Blind gate reads Wathe's real role (`getRole`), never the Black Raven acting overlay;
 the Blind is on the Black Raven `DENYLIST`, is not police, and is not in
-`isRegisteredSparkWitchRole` or `WitchSkillRegistry`. `sparkdlc:blind_pulse` goes only to a
+`isRegisteredSkillRole` or `WitchSkillRegistry`. `sparkdlc:blind_pulse` goes only to a
 living Blind and carries a position, radius, duration, kind, an optional emitter entity id and an
 optional list of entity ids, never a UUID, name or role. `sparkdlc:use_blind_attune` is empty and
 sits on the Control Expert stun, Seeker session and Grand Witch Fear deny-lists. The black screen
@@ -5019,13 +5021,13 @@ Bewitched. These rules are `HunterRules.isInstinctTrapViewer` (`BEWITCHED_ROLE_I
 
 `isAccomplice` stays exact, so the plain Accomplice shop (`AccompliceShopService`) never touches a variant or the
 Bewitched. These never include variants merely for being variants, nor the Bewitched: `WitchManaRules.isManaRole`
-(the Abyss Listener and the Riftwalker are added by exact role) and `SparkDlcRoleRegistry.isRegisteredSparkWitchRole`
+(the Abyss Listener and the Riftwalker are added by exact role) and `SparkDlcRoleRegistry.isRegisteredSkillRole`
 (the Abyss Listener and the Riftwalker are added by exact role, each for its shared skill).
 `WitchManaRules.isManaRole` also holds roles outside the witch faction, each by exact role: the Witch Maiden
 (crimson skull mana), the civilian Tono Hanna (PR #212), who starts at `initialMana` 40, gains 20 per task and is
 the only mana role with `canRegenerateNaturally` false, and the neutral 泽渡可可 (PR #223), who shares the Murderous
 Witch's natural cap (150) and default 40-tick interval with no task or kill reward; none is in
-`isRegisteredSparkWitchRole` for it, and the other mana roles' numbers are unchanged.
+`isRegisteredSkillRole` for it, and the other mana roles' numbers are unchanged.
 
 Witch task money (owner request 2026-10-04, lowered from 50 to 25 on 2026-10-07): `WitchEconomyService.onTaskComplete`
 pays `WitchFactionRules.WITCH_TASK_MONEY_REWARD` (+25) per completed task to the Grand Witch and every accomplice (plain or
@@ -5090,9 +5092,9 @@ Dn/Cn below are the owner decisions in `docs/plans/bewitched/decisions.md`). It 
 tasks it is promoted to an accomplice role through the pool above.
 - **Registration.** `BewitchedRole.DEFINITION`: witch faction, the Accomplice profile (`MoodType.FAKE`, unlimited
   sprint, `canSeeTime(true)`), `appearanceCondition(context -> false)`. It is registered right after the Riftwalker and
-  before the Wind Spirit in `registerFactionApiRoles` (the Abyss Listener stays right after the Accomplice, and
+  before the Wind Spirit in `registerOwnRoles` (the Abyss Listener stays right after the Accomplice, and
   nothing may follow the Insider), and it follows the Riftwalker in the assassin-guess order. It is not a Wathe
-  special role, so `/wathe:forceRole` can force it. It is not in `isRegisteredSparkWitchRole` (it owns no skill),
+  special role, so `/wathe:forceRole` can force it. It is not in `isRegisteredSkillRole` (it owns no skill),
   never shows the witch skill panel, and stays out of the Black Raven disguise pool like the Accomplice (not
   civilian-base).
 - **Dealing (D1, reworked 2026-11-16).** The witch third-faction lineup (`faction/witch/WitchThirdFactionLineup`) deals
@@ -5352,7 +5354,7 @@ after Last Escape halving), so the slot never shows ready while the Clock is ref
 The Abyss Listener (`sparkdlc:abyss_listener`) is a special accomplice. Its own Warden's Shriek renders in the
 `gui.sparkdlc.skills` panel (owner decision D13): its `AccompliceVariantHooks.ownSkillIds()` is exactly
 `sparkdlc:wardens_shriek`, and no other skill ever shows there for it.
-- **Registration.** It is registered right after the Accomplice in `registerFactionApiRoles` (nothing may follow the
+- **Registration.** It is registered right after the Accomplice in `registerOwnRoles` (nothing may follow the
   Insider, so like the Curser it sits mid-list), with the Accomplice's profile (`MoodType.FAKE`, unlimited sprint,
   `canSeeTime(true)`) and `appearanceCondition(context -> false)`, and it follows the Accomplice in the assassin-guess
   order. As a registered `AccompliceVariants` entry it reaches every basic Accomplice rule through
@@ -5360,7 +5362,7 @@ The Abyss Listener (`sparkdlc:abyss_listener`) is a special accomplice. Its own 
   plain Accomplice entry, then the Deep Dark Spore Flask (`sparkdlc:deep_dark_spore_flask`) at 75 coins with no
   stock limit and no purchase cooldown.
 - **Skill and mana.** Warden's Shriek (`sparkdlc:wardens_shriek`) is a `WitchSkillDefinition` with an exact-role
-  selector, registered right after the Bell Ringer's Echo. The role is in `isRegisteredSparkWitchRole` only for that
+  selector, registered right after the Bell Ringer's Echo. The role is in `isRegisteredSkillRole` only for that
   shared skill path; the skills panel reaches it only through its variant hooks (D13). It uses the Grand Witch's mana
   economy through `WitchManaRules.usesGrandWitchManaEconomy` (Grand Witch, exact Abyss Listener, or exact Riftwalker):
   it is a mana role (`isManaRole`), starts at 0 on every assignment (a mid-round promotion included), regenerates 1
@@ -5760,7 +5762,7 @@ client renders and sends requests. Its `gui.sparkdlc.skills` panel shows only `s
 (`ownSkillIds()`).
 - **Registration and shop.** Pool entry after `accomplice` in `SparkDlcRoleRegistry` (behind the Abyss Listener and
   the Potion Gunner, before the Wind Spirit; the assassin-guess order is the same), never drawn; exact-role
-  gates `isRegisteredSparkWitchRole`, `WitchManaRules.isManaRole` and `usesGrandWitchManaEconomy` (the Grand Witch
+  gates `isRegisteredSkillRole`, `WitchManaRules.isManaRole` and `usesGrandWitchManaEconomy` (the Grand Witch
   economy, starting at 0, D7). `RiftwalkerShopService` appends `sparkdlc_rift_gate` (50 mana, charged in `onBuy`;
   label in `ShopCurrencyTexts`) to the plain Accomplice entries.
 - **State and packets.** `sparkdlc:rift_session` (player, `NEVER_COPY`, owner-only sync, never persisted) and

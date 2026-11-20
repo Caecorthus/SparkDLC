@@ -19,11 +19,11 @@ import java.util.Map;
 
 /**
  * Owns the Mini Wither skins: the skins directory ({@code config/sparkdlc/mini_wither/<id>/}), the selected id
- * (key {@code miniWitherSkin} in {@code config/sparkdlc-client.json}, merged like {@code ScopeSettingsStore}),
+ * (key {@code miniWitherSkin} of the one settings file {@code config/sparkdlc.json}, {@code MiniWitherSkinSettings}),
  * loading the selected folder, registering its textures and pushing its sounds to {@code MiniWitherSoundOverrides}.
  * Client thread only.
  * 管理小凋灵皮肤：皮肤目录（{@code config/sparkdlc/mini_wither/<id>/}）、选中的 id（保存在
- * {@code config/sparkdlc-client.json} 的 {@code miniWitherSkin} 键，与 {@code ScopeSettingsStore} 一样合并写入）、
+ * 唯一设置文件 {@code config/sparkdlc.json} 的 {@code miniWitherSkin} 键，见 {@code MiniWitherSkinSettings}）、
  * 加载选中的文件夹、注册其贴图并把声音交给 {@code MiniWitherSoundOverrides}。仅限客户端线程。
  *
  * <p>Lifecycle: {@link #register()} reads the setting and preloads once the client has started (so the first frame

@@ -130,7 +130,7 @@ public final class EmmaGunService {
 
         @Override
         public String toString() {
-            return "SparkWitchEmmaGunListener";
+            return "EmmaGunListener";
         }
     }
 }

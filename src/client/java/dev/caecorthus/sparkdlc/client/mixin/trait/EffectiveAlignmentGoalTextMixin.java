@@ -21,7 +21,7 @@ import java.util.function.Function;
  */
 @Mixin(value = RoundTextRenderer.class, remap = false)
 public abstract class EffectiveAlignmentGoalTextMixin {
-    private static final Identifier SPARKWITCH_WRAITH_ID = Identifier.of("sparkdlc", "wraith");
+    private static final Identifier sparkdlc$WRAITH_ID = Identifier.of("sparkdlc", "wraith");
 
     @Redirect(
             method = "renderHud",
@@ -37,7 +37,7 @@ public abstract class EffectiveAlignmentGoalTextMixin {
         boolean transitionalWraith = SparkTraitsApi.isWraithActive(player)
                 && GameWorldComponent.KEY.maybeGet(player.getWorld())
                         .map(game -> game.getRole(player))
-                        .map(role -> SPARKWITCH_WRAITH_ID.equals(role.identifier()))
+                        .map(role -> sparkdlc$WRAITH_ID.equals(role.identifier()))
                         .orElse(false);
         if (transitionalWraith) {
             return goalText.apply((Integer) targets);

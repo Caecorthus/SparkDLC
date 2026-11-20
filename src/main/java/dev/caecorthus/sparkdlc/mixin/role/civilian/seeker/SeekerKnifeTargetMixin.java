@@ -29,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class SeekerKnifeTargetMixin {
     /** Wathe's knife ray length; only a fallback. / Wathe 刀的射线长度，仅作兜底。 */
     @Unique
-    private static final double SPARKWITCH$KNIFE_RANGE = 3.0;
+    private static final double sparkdlc$KNIFE_RANGE = 3.0;
 
     @ModifyReturnValue(
             method = "getKnifeTarget(Lnet/minecraft/entity/player/PlayerEntity;)Lnet/minecraft/util/hit/HitResult;",
@@ -39,6 +39,6 @@ public abstract class SeekerKnifeTargetMixin {
         if (user == null || !user.getWorld().isClient()) {
             return original;
         }
-        return SeekerDeviceRaycast.preferNearerDevice(user, original, SPARKWITCH$KNIFE_RANGE);
+        return SeekerDeviceRaycast.preferNearerDevice(user, original, sparkdlc$KNIFE_RANGE);
     }
 }

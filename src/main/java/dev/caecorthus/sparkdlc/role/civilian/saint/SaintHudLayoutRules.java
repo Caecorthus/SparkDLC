@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class SaintHudLayoutRules {
     private static final int LINE_GAP = 2;
-    private static final int SPARKWITCH_BOTTOM_PADDING = 5;
+    private static final int OWN_HUD_BOTTOM_PADDING = 5;
 
     private SaintHudLayoutRules() {
     }
@@ -26,30 +26,30 @@ public final class SaintHudLayoutRules {
     public static int reservedBottomHeight(
             @Nullable Identifier roleId,
             int fontHeight,
-            boolean hasSparkWitchSkill
+            boolean hasRoleSkill
     ) {
         if (roleId == null) {
             return 0;
         }
         if (ownsTwoCornerRows(roleId)) {
-            return fontHeight * 2 + LINE_GAP + SPARKWITCH_BOTTOM_PADDING;
+            return fontHeight * 2 + LINE_GAP + OWN_HUD_BOTTOM_PADDING;
         }
         // The Criminal Reasoner draws three corner rows ({@code client/hud/CriminalReasonerHudRenderer}): reasoning
         // key/cooldown, progress, invisibility; lifted above the hotbar column they also clear this Karma slot.
         // 犯罪推理学家在右下角绘制三行（{@code client/hud/CriminalReasonerHudRenderer}）：推理按键/冷却、进度、隐身；
         // 抬升到快捷栏列之上时同样避开此处的业障行。
         if (CriminalReasonerRules.ROLE_ID.equals(roleId)) {
-            return fontHeight * 3 + LINE_GAP * 2 + SPARKWITCH_BOTTOM_PADDING;
+            return fontHeight * 3 + LINE_GAP * 2 + OWN_HUD_BOTTOM_PADDING;
         }
         // The Medium draws two corner rows too: 通灵 above, 幽灵的加护 below (招魂 lives in the inventory drawer and
         // has no row); both lift above the hotbar column at narrow widths like the Charon's.
         // 通灵师同样在右下角绘制两行：上行为通灵，下行为幽灵的加护（招魂位于背包抽屉中，没有角落行）；GUI 较窄时两行与卡戎
         // 一样抬升到快捷栏列之上。
         if (MediumRules.ROLE_ID.equals(roleId)) {
-            return fontHeight * 2 + LINE_GAP + SPARKWITCH_BOTTOM_PADDING;
+            return fontHeight * 2 + LINE_GAP + OWN_HUD_BOTTOM_PADDING;
         }
-        if ("sparkdlc".equals(roleId.getNamespace()) && (hasSparkWitchSkill || ownsCornerSkillLine(roleId))) {
-            return fontHeight + SPARKWITCH_BOTTOM_PADDING;
+        if ("sparkdlc".equals(roleId.getNamespace()) && (hasRoleSkill || ownsCornerSkillLine(roleId))) {
+            return fontHeight + OWN_HUD_BOTTOM_PADDING;
         }
         if (!"noellesroles".equals(roleId.getNamespace())) {
             return 0;
@@ -70,12 +70,12 @@ public final class SaintHudLayoutRules {
         return screenHeight - reservedBottomHeight - lineHeight - gap;
     }
 
-    public static int rightPadding(@Nullable Identifier roleId, boolean hasSparkWitchSkill) {
+    public static int rightPadding(@Nullable Identifier roleId, boolean hasRoleSkill) {
         if (roleId == null) {
             return 0;
         }
-        if ("sparkdlc".equals(roleId.getNamespace()) && (hasSparkWitchSkill || ownsCornerSkillLine(roleId))) {
-            return SPARKWITCH_BOTTOM_PADDING;
+        if ("sparkdlc".equals(roleId.getNamespace()) && (hasRoleSkill || ownsCornerSkillLine(roleId))) {
+            return OWN_HUD_BOTTOM_PADDING;
         }
         return "noellesroles".equals(roleId.getNamespace()) && "assassin".equals(roleId.getPath()) ? 5 : 0;
     }

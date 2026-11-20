@@ -1,44 +1,31 @@
 package dev.caecorthus.sparkdlc.client.scope;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import dev.caecorthus.sparkdlc.SparkDLC;
-import net.fabricmc.loader.api.FabricLoader;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
+import dev.caecorthus.sparkdlc.client.config.SparkDlcConfigManager;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.function.UnaryOperator;
 
 /**
- * Client-only persistence of {@link ScopeSettings} in {@code config/sparkdlc-client.json} (after the precedent of
- * {@code SparkDlcConfigManager}): loaded once from {@link ScopeClient#register()} (or by the first
- * {@code ScopeSettingsEditor} call, whichever comes first). The {@code apply*} setters behind
- * {@link ScopeSettingsEditor} (the SparkDLC settings screen, the only place that edits them) change the live settings
- * without writing; {@link #save()} writes them. A missing or unreadable file means defaults; a save merges
- * into the file's existing JSON object, so unknown keys survive; I/O errors are logged and never break the options
- * screen.
- * {@link ScopeSettings} 的纯客户端持久化，保存在 {@code config/sparkdlc-client.json}（参照
- * {@code SparkDlcConfigManager}）：由 {@link ScopeClient#register()}（或第一次 {@code ScopeSettingsEditor} 调用，以先到者为准）
- * 加载一次。{@link ScopeSettingsEditor}（SparkDLC 设置界面，唯一编辑这些设置的地方）背后的 {@code apply*}
- * 方法修改实时设置但不写文件，由 {@link #save()} 写入。文件缺失或无法读取时使用默认值；保存时合并进文件已有的 JSON
- * 对象，未知键得以保留；I/O 错误只记录日志，绝不影响设置界面。
+ * The live {@link ScopeSettings}, kept in the one client settings file {@code config/sparkdlc.json}
+ * ({@link SparkDlcConfigManager}, which holds the three scope keys beside its own): loaded once from
+ * {@link ScopeClient#register()} (or by the first {@code ScopeSettingsEditor} call, whichever comes first). The
+ * {@code apply*} setters behind {@link ScopeSettingsEditor} (the SparkDLC settings screen, the only place that edits
+ * them) change the live settings and the settings file's keys in memory without writing; the screen's save of that
+ * file writes them. Until stage 3 they had a file of their own, {@code config/sparkdlc-client.json}, which is folded
+ * into the one file on the first start ({@code client.legacy.LegacyClientSettingsFold}).
+ * 实时的 {@link ScopeSettings}，保存在唯一的客户端设置文件 {@code config/sparkdlc.json} 中（{@link SparkDlcConfigManager}，三个开镜键
+ * 与其自身的键放在一起）：由 {@link ScopeClient#register()}（或第一次 {@code ScopeSettingsEditor} 调用，以先到者为准）加载一次。
+ * {@link ScopeSettingsEditor}（SparkDLC 设置界面，唯一编辑这些设置的地方）背后的 {@code apply*} 方法修改实时设置以及设置文件在内存中的键，
+ * 但不写文件；由设置界面保存该文件时写入。第三阶段之前它们有自己的文件 {@code config/sparkdlc-client.json}，首次启动时会并入这一个
+ * 文件（{@code client.legacy.LegacyClientSettingsFold}）。
  */
 public final class ScopeSettingsStore {
-    public static final String FILE_NAME = "sparkdlc-client.json";
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static volatile ScopeSettings current = ScopeSettings.DEFAULTS;
     private static boolean loaded;
-    /** An {@code apply*} change not yet written. / 尚未写入的 {@code apply*} 修改。 */
-    private static boolean unsaved;
-    /** Test seam ({@link #useFile}); null means the config directory. / 测试接缝；null 表示配置目录。 */
+    /** Test seam ({@link #useStore}); null means the client's settings file. / 测试接缝；null 表示客户端的设置文件。 */
     @Nullable
-    private static Path file;
+    private static SparkDlcConfigManager store;
 
     private ScopeSettingsStore() {
     }
@@ -48,7 +35,7 @@ public final class ScopeSettingsStore {
             return;
         }
         loaded = true;
-        current = ScopeSettings.fromJson(readObject(path()));
+        current = ScopeSettings.fromJson(store().otherKeys());
     }
 
     public static ScopeSettings current() {
@@ -56,8 +43,8 @@ public final class ScopeSettingsStore {
     }
 
     /**
-     * Live-only: the new mode takes effect at once and is written by the next {@link #save()}.
-     * 仅实时生效：新模式立即生效，由下一次 {@link #save()} 写入。
+     * Live-only: the new mode takes effect at once and is written by the next save of the settings file.
+     * 仅实时生效：新模式立即生效，由下一次保存设置文件时写入。
      */
     public static void applyMode(ScopeMode mode) {
         apply(settings -> settings.withMode(mode));
@@ -73,71 +60,29 @@ public final class ScopeSettingsStore {
         apply(settings -> settings.withLensResolutionPercent(percent));
     }
 
-    /**
-     * Writes the live settings when an {@code apply*} change is still unsaved; otherwise does nothing. A failed write
-     * stays unsaved, so the next call retries.
-     * 仍有未保存的 {@code apply*} 修改时写入实时设置，否则什么也不做。写入失败时保持未保存，下一次调用会重试。
-     */
-    public static synchronized void save() {
-        if (unsaved) {
-            write(current);
-        }
-    }
-
+    /** Sets all three keys in the settings file's memory, so any change goes with the next save. / 三个键一并写入内存。 */
     private static synchronized void apply(UnaryOperator<ScopeSettings> change) {
         ScopeSettings next = change.apply(current);
         if (next.equals(current)) {
             return;
         }
         current = next;
-        unsaved = true;
-    }
-
-    /** Writes all three keys, so any pending {@code apply*} change goes with it. / 写入全部三个键，未保存的修改一并写入。 */
-    private static void write(ScopeSettings settings) {
-        Path path = path();
-        JsonObject json = readObject(path);
-        if (json == null) {
-            json = new JsonObject();
-        }
-        settings.writeTo(json);
-        try {
-            Files.createDirectories(path.getParent());
-            Files.writeString(path, GSON.toJson(json), StandardCharsets.UTF_8);
-            unsaved = false;
-        } catch (IOException exception) {
-            SparkDLC.LOGGER.warn("Unable to save the SparkDLC client settings to {}", path, exception);
-        }
-    }
-
-    @Nullable
-    private static JsonObject readObject(Path path) {
-        if (!Files.isRegularFile(path)) {
-            return null;
-        }
-        try {
-            JsonElement element = JsonParser.parseString(Files.readString(path, StandardCharsets.UTF_8));
-            return element.isJsonObject() ? element.getAsJsonObject() : null;
-        } catch (IOException | RuntimeException exception) {
-            SparkDLC.LOGGER.warn("Unable to read the SparkDLC client settings {}; using defaults", path, exception);
-            return null;
-        }
+        store().editOtherKeys(next::writeTo);
     }
 
     /**
-     * Test seam: reads and writes {@code testFile} instead (null: the config directory again) and forgets the loaded
-     * and unsaved state, so the next {@link #load()} starts afresh.
-     * 测试接缝：改为读写 {@code testFile}（null：恢复配置目录），并清除已加载与未保存状态，下一次 {@link #load()} 重新开始。
+     * Test seam: reads and writes {@code testStore} instead (null: the client's settings file again) and forgets the
+     * loaded state, so the next {@link #load()} starts afresh.
+     * 测试接缝：改为读写 {@code testStore}（null：恢复客户端的设置文件），并清除已加载状态，下一次 {@link #load()} 重新开始。
      */
-    static synchronized void useFile(@Nullable Path testFile) {
-        file = testFile;
+    static synchronized void useStore(@Nullable SparkDlcConfigManager testStore) {
+        store = testStore;
         loaded = false;
-        unsaved = false;
         current = ScopeSettings.DEFAULTS;
     }
 
-    private static Path path() {
-        Path override = file;
-        return override != null ? override : FabricLoader.getInstance().getConfigDir().resolve(FILE_NAME);
+    private static SparkDlcConfigManager store() {
+        SparkDlcConfigManager override = store;
+        return override != null ? override : SparkDLCClient.configManager();
     }
 }

@@ -26,8 +26,8 @@ public final class EmmaVisibleName {
         if (morph.getMorphTicks() > 0) return morph.disguise == null ? hidden() : profileName(morph.disguise);
         // This mod's own disguises (Coroner, morph potion), resolved by a direct call.
         // 本模组自身的伪装（验尸官、变形试剂），直接调用解析。
-        Text strengthName = MorphlingAppearanceClientHelper.resolveActiveDisplayName(target);
-        if (strengthName != null) return strengthName.copy();
+        Text disguiseName = MorphlingAppearanceClientHelper.resolveActiveDisplayName(target);
+        if (disguiseName != null) return disguiseName.copy();
         return Text.literal(target.getGameProfile().getName());
     }
 

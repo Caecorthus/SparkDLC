@@ -47,10 +47,10 @@ import java.util.UUID;
 @Mixin(AntidoteItem.class)
 public abstract class ToxicologistAntidoteItemMixin {
     @Unique
-    private static final ThreadLocal<Boolean> SPARKSTRENGTH_CURED_TREATABLE_TARGET =
+    private static final ThreadLocal<Boolean> sparkdlc$CURED_TREATABLE_TARGET =
             ThreadLocal.withInitial(() -> false);
     @Unique
-    private static final ThreadLocal<UUID> SPARKSTRENGTH_CURE_TARGET =
+    private static final ThreadLocal<UUID> sparkdlc$CURE_TARGET =
             new ThreadLocal<>();
 
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
@@ -85,8 +85,8 @@ public abstract class ToxicologistAntidoteItemMixin {
             LivingEntity user,
             CallbackInfoReturnable<ItemStack> cir
     ) {
-        SPARKSTRENGTH_CURED_TREATABLE_TARGET.set(false);
-        SPARKSTRENGTH_CURE_TARGET.remove();
+        sparkdlc$CURED_TREATABLE_TARGET.set(false);
+        sparkdlc$CURE_TARGET.remove();
         if (world.isClient || !(user instanceof ServerPlayerEntity)) {
             return;
         }
@@ -99,9 +99,9 @@ public abstract class ToxicologistAntidoteItemMixin {
         PlayerPoisonComponent poisonComponent = PlayerPoisonComponent.KEY.get(target);
         boolean treatable = PathogenRules.antidoteCanTreat(
                 poisonComponent.poisonTicks > 0, VirusCarrierComponent.isCarrier(target));
-        SPARKSTRENGTH_CURED_TREATABLE_TARGET.set(treatable);
+        sparkdlc$CURED_TREATABLE_TARGET.set(treatable);
         if (treatable) {
-            SPARKSTRENGTH_CURE_TARGET.set(targetUuid);
+            sparkdlc$CURE_TARGET.set(targetUuid);
         }
     }
 
@@ -116,10 +116,10 @@ public abstract class ToxicologistAntidoteItemMixin {
             if (world.isClient || !(user instanceof ServerPlayerEntity serverUser)) {
                 return;
             }
-            if (!SPARKSTRENGTH_CURED_TREATABLE_TARGET.get()) {
+            if (!sparkdlc$CURED_TREATABLE_TARGET.get()) {
                 return;
             }
-            UUID targetUuid = SPARKSTRENGTH_CURE_TARGET.get();
+            UUID targetUuid = sparkdlc$CURE_TARGET.get();
             if (targetUuid == null || !(world.getPlayerByUuid(targetUuid) instanceof ServerPlayerEntity target)) {
                 return;
             }
@@ -131,8 +131,8 @@ public abstract class ToxicologistAntidoteItemMixin {
 
             ToxicologistAntidoteService.afterAntidoteCure(serverUser);
         } finally {
-            SPARKSTRENGTH_CURED_TREATABLE_TARGET.remove();
-            SPARKSTRENGTH_CURE_TARGET.remove();
+            sparkdlc$CURED_TREATABLE_TARGET.remove();
+            sparkdlc$CURE_TARGET.remove();
         }
     }
 

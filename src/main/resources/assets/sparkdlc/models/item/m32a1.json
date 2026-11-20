@@ -1,5 +1,5 @@
 {
-  "credit": "SparkWitch BEAR M32A1 MSGL v3 + M2A1 sight v7 (generated, 1 texel per unit)",
+  "credit": "BEAR M32A1 MSGL v3 + M2A1 sight v7 (generated, 1 texel per unit); first made for SparkWitch",
   "texture_size": [128, 128],
   "gui_light": "side",
   "textures": {"0": "sparkdlc:item/m32a1", "1": "sparkdlc:item/m32a1_m2a1", "particle": "sparkdlc:item/m32a1"},

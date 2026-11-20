@@ -228,7 +228,7 @@ public final class SparkDlcRoleRegistry {
         SparkFactionApi.bootstrap();
         registerFactions();
         bindCorruptCopToTeamJiahao();
-        registerFactionApiRoles();
+        registerOwnRoles();
         registerNativeWatheRoles();
         registerThirdFactionLineups();
         PoliceRoles.register(JUDGE_ID);
@@ -603,9 +603,9 @@ public final class SparkDlcRoleRegistry {
         return sphinxHao;
     }
 
-    public static boolean isSparkWitchRole(Role role) {
+    public static boolean isSkillRole(Role role) {
         ensureRegistered();
-        return isRegisteredSparkWitchRole(role);
+        return isRegisteredSkillRole(role);
     }
 
     public static List<Role> assassinGuessRoles() {
@@ -703,7 +703,7 @@ public final class SparkDlcRoleRegistry {
         SparkFactionApi.registerThirdFactionLineup(SparkDlcFactions.JIAHAO, JiahaoThirdFactionLineup::rolesToDeal);
     }
 
-    private static void registerFactionApiRoles() {
+    private static void registerOwnRoles() {
         emma = SparkFactionApi.registerRole(FactionRoleDefinition.builder(EMMA_ID, FactionIds.CIVILIAN)
                 .color(EmmaRules.COLOR)
                 .moodType(Role.MoodType.REAL)
@@ -750,9 +750,9 @@ public final class SparkDlcRoleRegistry {
         riftwalker = SparkFactionApi.registerRole(RiftwalkerRole.DEFINITION);
         // Bewitched (魔化使): dealt at round start by the third-faction draw in a Grand Witch round and promoted after two
         // tasks; it closes the witch block before the Wind Spirit (nothing may follow the Insider). Never a Witch-skill
-        // role: kept out of isRegisteredSparkWitchRole.
+        // role: kept out of isRegisteredSkillRole.
         // 魔化使：在有大魔女的对局开局时由第三阵营抽取发放，完成两个任务后晋升；排在魔女职业块末尾、风灵之前（内应之后
-        // 不得再注册）。不是魔女技能职业：不加入 isRegisteredSparkWitchRole。
+        // 不得再注册）。不是魔女技能职业：不加入 isRegisteredSkillRole。
         bewitched = SparkFactionApi.registerRole(BewitchedRole.DEFINITION);
         windSpirit = SparkFactionApi.registerRole(WindSpiritRole.DEFINITION);
         guardianAngel = SparkFactionApi.registerRole(GuardianAngelRole.DEFINITION);
@@ -821,11 +821,11 @@ public final class SparkDlcRoleRegistry {
                 .build());
         // Police variant since 2026-10-21 (plan v2 §3.1), changed in place so the registration order stays unchanged:
         // the Judge/Control Expert/Seeker civilian police profile with no appearance condition, so it is drawn only
-        // through the shared Vigilante slots (PoliceSlotAssignmentService). It stays in isRegisteredSparkWitchRole for
+        // through the shared Vigilante slots (PoliceSlotAssignmentService). It stays in isRegisteredSkillRole for
         // its Perception skill dispatch only; the witch skill panel never shows it (WitchSkillPresentationRules).
         // 自 2026-10-21 起为警察变体（计划 v2 §3.1），原地修改以保持注册顺序不变：与法官、控场专家、搜寻者相同的
         // 平民警察参数，无出现条件，只通过共享义警槽位抽取（PoliceSlotAssignmentService）。仍保留在
-        // isRegisteredSparkWitchRole 中，仅用于感知技能分发；魔女技能面板从不显示它（WitchSkillPresentationRules）。
+        // isRegisteredSkillRole 中，仅用于感知技能分发；魔女技能面板从不显示它（WitchSkillPresentationRules）。
         blackRaven = SparkFactionApi.registerRole(FactionRoleDefinition.builder(BLACK_RAVEN_ID, FactionIds.CIVILIAN)
                 .color(BlackRavenRules.COLOR)
                 .moodType(Role.MoodType.REAL)
@@ -934,9 +934,9 @@ public final class SparkDlcRoleRegistry {
                 .build());
         // Appended last so existing registration order stays unchanged; a Wathe-native neutral (FAKE mood, no tasks),
         // drawn only in rounds with 18+ players (the same population test as Wathe's own player-count condition).
-        // Never a Witch-skill role: kept out of isRegisteredSparkWitchRole.
+        // Never a Witch-skill role: kept out of isRegisteredSkillRole.
         // 追加在最后以保持既有注册顺序不变；Wathe 原生中立（伪装情绪、无任务），仅在 18 人及以上对局中抽取
-        // （与 Wathe 自带人数条件的判断相同）。不是魔女技能职业：不加入 isRegisteredSparkWitchRole。
+        // （与 Wathe 自带人数条件的判断相同）。不是魔女技能职业：不加入 isRegisteredSkillRole。
         fiend = SparkFactionApi.registerRole(FactionRoleDefinition.builder(FIEND_ID, FactionIds.NEUTRAL)
                 .color(FiendRules.COLOR)
                 .moodType(Role.MoodType.FAKE)
@@ -948,10 +948,10 @@ public final class SparkDlcRoleRegistry {
         // USEC (fifth police variant): registered right before the Insider, because nothing may follow the Insider
         // (InsiderRegistrationContractTest), so only the Insider's own index shifts; the assassin-guess tail is re-sorted.
         // Civilian police profile with a 20 s sprint cap (twice the Vigilante's) and no appearance condition (Q11): it is
-        // drawn only through the shared Vigilante slots. Never a Witch-skill role: kept out of isRegisteredSparkWitchRole.
+        // drawn only through the shared Vigilante slots. Never a Witch-skill role: kept out of isRegisteredSkillRole.
         // USEC（第五个警察变体）：注册在内应之前，因为内应之后不得再注册职业（InsiderRegistrationContractTest），
         // 因此只有内应自身的下标偏移；刺客猜测尾部会重新排序。平民警察参数，冲刺上限 20 秒（义警的两倍），
-        // 无出现条件（Q11）：只通过共享的义警槽位抽取。不是魔女技能职业：不加入 isRegisteredSparkWitchRole。
+        // 无出现条件（Q11）：只通过共享的义警槽位抽取。不是魔女技能职业：不加入 isRegisteredSkillRole。
         usec = SparkFactionApi.registerRole(FactionRoleDefinition.builder(USEC_ID, FactionIds.CIVILIAN)
                 .color(UsecRules.COLOR)
                 .moodType(Role.MoodType.REAL)
@@ -1022,9 +1022,9 @@ public final class SparkDlcRoleRegistry {
         // Registered after the Recruit, before the Discoverer, Noa and the Insider (nothing may follow the Insider): an
         // ordinary task civilian drawn by Wathe's civilian assignment, never through a police slot, with unlimited
         // stamina (-1). Its dash lives in roles/civilian/athlete. Never a Witch-skill role: kept out of
-        // isRegisteredSparkWitchRole.
+        // isRegisteredSkillRole.
         // 注册在新兵之后、探索者、诺亚与内应之前（内应之后不得再注册）：由 Wathe 平民分配抽取、从不占用警位的普通任务平民，体力无限
-        // （-1）。冲刺位于 roles/civilian/athlete。不是魔女技能职业：不加入 isRegisteredSparkWitchRole。
+        // （-1）。冲刺位于 roles/civilian/athlete。不是魔女技能职业：不加入 isRegisteredSkillRole。
         athlete = SparkFactionApi.registerRole(FactionRoleDefinition.builder(ATHLETE_ID, FactionIds.CIVILIAN)
                 .color(AthleteRules.COLOR)
                 .moodType(Role.MoodType.REAL)
@@ -1049,10 +1049,10 @@ public final class SparkDlcRoleRegistry {
         // Registered after the Discoverer, before the Ragpicker and the Insider (nothing may follow the Insider):
         // 城崎诺亚, a task civilian drawn by Wathe's civilian assignment, never through a police slot. REAL mood is
         // required: her sanity picks the painting table and a -100% breakdown still kills her. Her painting, coins, shop
-        // and kill rules live in roles/civilian/noa. Never a Witch-skill role: kept out of isRegisteredSparkWitchRole.
+        // and kill rules live in roles/civilian/noa. Never a Witch-skill role: kept out of isRegisteredSkillRole.
         // 注册在探索者之后、拾荒者与内应之前（内应之后不得再注册）：城崎诺亚，由 Wathe 平民分配抽取、从不占用警位的任务平民。
         // 必须是真实理智：她的理智决定作画结果表，-100% 的精神崩溃照样会杀死她。作画、金币、商店与击杀规则位于
-        // roles/civilian/noa。不是魔女技能职业：不加入 isRegisteredSparkWitchRole。
+        // roles/civilian/noa。不是魔女技能职业：不加入 isRegisteredSkillRole。
         noa = SparkFactionApi.registerRole(FactionRoleDefinition.builder(NOA_ID, FactionIds.CIVILIAN)
                 .color(NoaRules.COLOR)
                 .moodType(Role.MoodType.REAL)
@@ -1092,11 +1092,11 @@ public final class SparkDlcRoleRegistry {
         // Accountant (会计, PR #195): registered after the Dominator, right before the Insider (nothing may follow the
         // Insider, InsiderRegistrationContractTest), so only the Insider's own index shifts. An ordinary task civilian
         // (REAL mood, passenger stamina, no clock, no appearance condition) drawn by Wathe's civilian pass; never a
-        // police variant, never a Witch-skill role (kept out of isRegisteredSparkWitchRole) and never in the
+        // police variant, never a Witch-skill role (kept out of isRegisteredSkillRole) and never in the
         // gui.sparkdlc.skills panel. Its coins, shop and passbook live in roles/civilian/accountant.
         // 会计（PR #195）：注册在支配者之后、紧挨内应之前（内应之后不得再注册，InsiderRegistrationContractTest），因此只有
         // 内应自身的下标改变。普通任务平民（真实情绪、乘客体力、不可见回合时间、无出现条件），由 Wathe 平民分配抽取；
-        // 不是警察变体，不是魔女技能职业（不加入 isRegisteredSparkWitchRole），也不进入 gui.sparkdlc.skills 面板。
+        // 不是警察变体，不是魔女技能职业（不加入 isRegisteredSkillRole），也不进入 gui.sparkdlc.skills 面板。
         // 金币、商店与存折位于 roles/civilian/accountant。
         accountant = SparkFactionApi.registerRole(FactionRoleDefinition.builder(ACCOUNTANT_ID, FactionIds.CIVILIAN)
                 .color(AccountantRules.COLOR)
@@ -1121,12 +1121,12 @@ public final class SparkDlcRoleRegistry {
         // InsiderRegistrationContractTest), so only the Insider's own index shifts. An ordinary task civilian with the
         // USEC stamina cap (REAL mood, UsecRules.MAX_SPRINT_TICKS, no round clock, no appearance condition) drawn by
         // Wathe's civilian pass; never a police variant (not in PoliceRoles or the police VARIANT_IDS pool), never a
-        // Witch-skill role (kept out of isRegisteredSparkWitchRole) and never in the gui.sparkdlc.skills panel. Its
+        // Witch-skill role (kept out of isRegisteredSkillRole) and never in the gui.sparkdlc.skills panel. Its
         // coins, shop, kit and smoke live in roles/civilian/bear.
         // BEAR（2026-11-05）：注册在夏目安安之后、紧挨内应之前（内应之后不得再注册，InsiderRegistrationContractTest），因此
         // 只有内应自身的下标改变。普通任务平民，体力上限与 USEC 相同（真实情绪、UsecRules.MAX_SPRINT_TICKS、不可见回合时间、
         // 无出现条件），由 Wathe 平民分配抽取；不是警察变体（不在 PoliceRoles 与警察 VARIANT_IDS 池中），不是魔女技能职业
-        // （不加入 isRegisteredSparkWitchRole），也不进入 gui.sparkdlc.skills 面板。金币、商店、装备与烟雾位于
+        // （不加入 isRegisteredSkillRole），也不进入 gui.sparkdlc.skills 面板。金币、商店、装备与烟雾位于
         // roles/civilian/bear。
         bear = SparkFactionApi.registerRole(FactionRoleDefinition.builder(BEAR_ID, FactionIds.CIVILIAN)
                 .color(BearRules.COLOR)
@@ -1137,10 +1137,10 @@ public final class SparkDlcRoleRegistry {
                 .build());
         // Specter (PR #207): a killer (native Wathe KILLER, FAKE mood, unlimited sprint, round clock),
         // registered after BEAR and right before the Insider, which stays last; skills and state live in
-        // roles/killer/specter (CONTEXT.md). Never a Witch-skill role: kept out of isRegisteredSparkWitchRole.
+        // roles/killer/specter (CONTEXT.md). Never a Witch-skill role: kept out of isRegisteredSkillRole.
         // 幽魂（PR #207）：杀手（原生 Wathe KILLER、虚假理智、无限体力、可见回合时间），注册在 BEAR 之后、
         // 内应之前，内应仍为最后一个；技能与状态位于 roles/killer/specter（见 CONTEXT.md）。不是魔女技能职业：不加入
-        // isRegisteredSparkWitchRole。
+        // isRegisteredSkillRole。
         specter = SparkFactionApi.registerRole(FactionRoleDefinition.builder(SPECTER_ID, FactionIds.KILLER)
                 .color(SpecterRules.COLOR)
                 .moodType(Role.MoodType.FAKE)
@@ -1151,12 +1151,12 @@ public final class SparkDlcRoleRegistry {
         // Medium (通灵师, 2026-11-10): registered after the Specter, before the Charon and the Insider (nothing may follow
         // the Insider, InsiderRegistrationContractTest), so only the Insider's own index shifts. An ordinary task
         // civilian (REAL mood, passenger stamina, no round clock, no appearance condition) drawn by Wathe's civilian
-        // pass; never a police variant, never a Witch-skill role (kept out of isRegisteredSparkWitchRole). Its skills
+        // pass; never a police variant, never a Witch-skill role (kept out of isRegisteredSkillRole). Its skills
         // (通灵 on the shared ability key, 招魂 on Role Skill 2) and task coins live in roles/civilian/medium; the
         // letter/title text still falls back to the Wathe civilian wording.
         // 通灵师（2026-11-10）：注册在幽魂之后、卡戎与内应之前（内应之后不得再注册，InsiderRegistrationContractTest），
         // 因此只有内应自身的下标改变。普通任务平民（真实情绪、乘客体力、不可见回合时间、无出现条件），由 Wathe 平民
-        // 分配抽取；不是警察变体，不是魔女技能职业（不加入 isRegisteredSparkWitchRole）。技能（共享技能键上的通灵、
+        // 分配抽取；不是警察变体，不是魔女技能职业（不加入 isRegisteredSkillRole）。技能（共享技能键上的通灵、
         // 职业技能 2 上的招魂）与任务金币位于 roles/civilian/medium；信件/标题文本仍沿用 Wathe 平民措辞。
         medium = SparkFactionApi.registerRole(FactionRoleDefinition.builder(MEDIUM_ID, FactionIds.CIVILIAN)
                 .color(MediumRules.COLOR)
@@ -1169,11 +1169,11 @@ public final class SparkDlcRoleRegistry {
         // last (InsiderRegistrationContractTest), so only the Insider's own index shifts. A Wathe-native neutral with
         // the Fiend's stance (FAKE mood, no tasks, no round clock), drawn from MIN_PLAYERS up. The pardon, the ferry,
         // the marks, the feign death and the Soul Moment live in roles/neutral/ferryman. Never Witch-skill roles: kept
-        // out of isRegisteredSparkWitchRole.
+        // out of isRegisteredSkillRole.
         // 卡戎（PR #202）与迷失的灵魂：注册在通灵师之后、紧挨内应之前（内应仍为最后一个，InsiderRegistrationContractTest），
         // 因此只有内应自身的下标改变。原生 Wathe 中立，参数与魔人相同（虚假情绪、无任务、不可见回合时间），人数达到
         // MIN_PLAYERS 起才抽取。宽恕、摆渡、标记、假死与亡魂时刻位于 roles/neutral/ferryman。均不是魔女技能职业：不加入
-        // isRegisteredSparkWitchRole。
+        // isRegisteredSkillRole。
         ferryman = SparkFactionApi.registerRole(FactionRoleDefinition.builder(FERRYMAN_ID, FactionIds.NEUTRAL)
                 .color(FerrymanRules.COLOR)
                 .moodType(Role.MoodType.FAKE)
@@ -1198,12 +1198,12 @@ public final class SparkDlcRoleRegistry {
         // float penalty drains real sanity; passenger stamina, no round clock, no appearance condition) drawn by
         // Wathe's civilian pass; never a police variant. Her float, coins, shop and items live in
         // roles/civilian/hanna. She uses the shared mana pool (WitchManaRules) but is never a Witch-skill role: kept
-        // out of isRegisteredSparkWitchRole, so she never gets a witch skill or the witch skill panel.
+        // out of isRegisteredSkillRole, so she never gets a witch skill or the witch skill panel.
         // 远野汉娜（PR #212，2026-11-11 审核中重写）：注册在迷失的灵魂之后，橘雪莉（PR #206）、二阶堂希罗与内应之前（内应仍为
         // 最后一个，内应之后不得再注册，InsiderRegistrationContractTest），因此只有其后的下标改变。普通任务平民（真实理智：
         // 浮游惩罚扣的是真实理智；乘客体力、不可见回合时间、无出现条件），由 Wathe 平民分配抽取；不是警察变体。浮游、金币、
         // 商店与物品位于 roles/civilian/hanna。她使用共享魔力池（WitchManaRules），但不是魔女技能职业：不加入
-        // isRegisteredSparkWitchRole，因此既不会获得魔女技能，也不会出现魔女技能面板。
+        // isRegisteredSkillRole，因此既不会获得魔女技能，也不会出现魔女技能面板。
         hanna = SparkFactionApi.registerRole(FactionRoleDefinition.builder(HANNA_ID, FactionIds.CIVILIAN)
                 .color(HannaRules.COLOR)
                 .moodType(Role.MoodType.REAL)
@@ -1215,12 +1215,12 @@ public final class SparkDlcRoleRegistry {
         // stays last (InsiderRegistrationContractTest), so only the later indices shift. An ordinary task civilian
         // (REAL mood, 1.5x passenger stamina, no round clock, no appearance condition) drawn by Wathe's civilian pass;
         // never a police variant. A mana role (WitchManaRules) with her own 巨力魔法, but never a Witch-skill role: kept
-        // out of isRegisteredSparkWitchRole and out of the witch skill panel (AGENTS.md panel rule). Her skills, coins,
+        // out of isRegisteredSkillRole and out of the witch skill panel (AGENTS.md panel rule). Her skills, coins,
         // badge and reveals live in roles/civilian/sherry; the letter/title text falls back to the Wathe civilian wording.
         // 橘雪莉（PR #206）：注册在远野汉娜之后、二阶堂希罗与内应之前（内应仍为最后一个，InsiderRegistrationContractTest），
         // 因此只有其后的下标改变。普通任务平民（真实情绪、1.5 倍乘客体力、不可见回合时间、无出现条件），由 Wathe 平民分配
         // 抽取；不是警察变体。属于魔力职业（WitchManaRules）并拥有自己的巨力魔法，但不是魔女技能职业：不加入
-        // isRegisteredSparkWitchRole，也不进入魔女技能面板（AGENTS.md 面板规则）。技能、金币、徽章与揭示位于
+        // isRegisteredSkillRole，也不进入魔女技能面板（AGENTS.md 面板规则）。技能、金币、徽章与揭示位于
         // roles/civilian/sherry；信件/标题文本沿用 Wathe 平民措辞。
         sherry = SparkFactionApi.registerRole(FactionRoleDefinition.builder(SHERRY_ID, FactionIds.CIVILIAN)
                 .color(SherryRules.COLOR)
@@ -1234,13 +1234,13 @@ public final class SparkDlcRoleRegistry {
         // count). Registered after 橘雪莉 (main's PR #206) and right before the Insider, which stays last
         // (InsiderRegistrationContractTest), so only the Insider's own index shifts. Skills, shop and state live in
         // roles/killer/hiro, the Rope in item/rope (CONTEXT.md). A mana role on the Witch Maiden's numbers
-        // (mana/WitchManaRules) but never a Witch-skill role: kept out of isRegisteredSparkWitchRole and out of the
+        // (mana/WitchManaRules) but never a Witch-skill role: kept out of isRegisteredSkillRole and out of the
         // gui.sparkdlc.skills panel.
         // 二阶堂希罗（2026-11-11）：杀手，参数与幽魂相同（原生 Wathe KILLER、伪装情绪、无限冲刺、可见回合
         // 时间），占 1 个杀手名额，无出现条件（任何人数都可抽取）。注册在橘雪莉（PR #206）之后、紧挨内应之前（内应仍为最后一个，
         // InsiderRegistrationContractTest），因此只有内应自身的下标改变。技能、商店与状态位于 roles/killer/hiro，绳索位于
         // item/rope（见 CONTEXT.md）。魔力沿用巫女的数值（mana/WitchManaRules），但不是魔女技能职业：不加入
-        // isRegisteredSparkWitchRole，也不进入 gui.sparkdlc.skills 面板。
+        // isRegisteredSkillRole，也不进入 gui.sparkdlc.skills 面板。
         nikaidoHiro = SparkFactionApi.registerRole(FactionRoleDefinition.builder(NIKAIDO_HIRO_ID, FactionIds.KILLER)
                 .color(HiroRules.COLOR)
                 .moodType(Role.MoodType.FAKE)
@@ -1253,11 +1253,11 @@ public final class SparkDlcRoleRegistry {
         // before the Insider, which stays last (InsiderRegistrationContractTest), so only the Insider's own index
         // shifts. Streams, shop, key and win live in roles/neutral/koko (CONTEXT.md). A mana role on the Murderous
         // Witch's regeneration (mana/WitchManaRules) but never a Witch-skill role: kept out of
-        // isRegisteredSparkWitchRole and out of the gui.sparkdlc.skills panel.
+        // isRegisteredSkillRole and out of the gui.sparkdlc.skills panel.
         // 泽渡可可（PR #223，2026-11-13 审核时重建）：Wathe 原生中立职业，有假任务（伪装情绪）、乘客体力、不可见回合时间，
         // 任何人数都可抽取。注册在二阶堂希罗之后、紧挨内应之前（内应仍为最后一个，InsiderRegistrationContractTest），因此
         // 只有内应自身的下标改变。直播、商店、钥匙与胜利条件位于 roles/neutral/koko（见 CONTEXT.md）。魔力恢复与杀意魔女
-        // 相同（mana/WitchManaRules），但不是魔女技能职业：不加入 isRegisteredSparkWitchRole，也不进入
+        // 相同（mana/WitchManaRules），但不是魔女技能职业：不加入 isRegisteredSkillRole，也不进入
         // gui.sparkdlc.skills 面板。
         koko = SparkFactionApi.registerRole(FactionRoleDefinition.builder(KOKO_ID, FactionIds.NEUTRAL)
                 .color(KokoRules.COLOR)
@@ -1269,11 +1269,11 @@ public final class SparkDlcRoleRegistry {
         // 犯罪推理学家 Criminal Reasoner (PR #228): a Wathe-native neutral with fake tasks (FAKE mood), passenger
         // stamina and no round clock. Registered after 泽渡可可 and before the Insider, which stays last
         // (InsiderRegistrationContractTest). Menu, invisibility, key and win live in roles/neutral/criminalreasoner
-        // (CONTEXT.md). Never a Witch-skill role: kept out of isRegisteredSparkWitchRole and out of the
+        // (CONTEXT.md). Never a Witch-skill role: kept out of isRegisteredSkillRole and out of the
         // gui.sparkdlc.skills panel.
         // 犯罪推理学家（PR #228）：Wathe 原生中立职业，有假任务（伪装情绪）、乘客体力、不可见回合时间。注册在泽渡可可之后、
         // 内应之前（内应仍为最后一个，InsiderRegistrationContractTest）。菜单、隐身、钥匙与胜利条件位于
-        // roles/neutral/criminalreasoner（见 CONTEXT.md）。不是魔女技能职业：不加入 isRegisteredSparkWitchRole，也不进入
+        // roles/neutral/criminalreasoner（见 CONTEXT.md）。不是魔女技能职业：不加入 isRegisteredSkillRole，也不进入
         // gui.sparkdlc.skills 面板。
         criminalReasoner = SparkFactionApi.registerRole(FactionRoleDefinition.builder(CRIMINAL_REASONER_ID,
                         FactionIds.NEUTRAL)
@@ -1287,11 +1287,11 @@ public final class SparkDlcRoleRegistry {
         // right before the Insider, which stays last (InsiderRegistrationContractTest), so only the Insider's own index shifts. An
         // ordinary task civilian (REAL mood, passenger stamina, no round clock, no appearance condition) drawn by
         // Wathe's civilian pass; never a police variant, never a Witch-skill role (kept out of
-        // isRegisteredSparkWitchRole) and never in the gui.sparkdlc.skills panel. Recommendations, task income, the
+        // isRegisteredSkillRole) and never in the gui.sparkdlc.skills panel. Recommendations, task income, the
         // task slip and the next-task passive live in roles/civilian/planner.
         // 规划大师（PR #219，2026-11-16 审核时重建）：注册在犯罪推理学家（PR #228）之后、紧挨内应之前（内应仍为最后一个，
         // InsiderRegistrationContractTest），因此只有内应自身的下标改变。普通任务平民（真实理智、乘客体力、不可见回合时间、
-        // 无出现条件），由 Wathe 平民分配抽取；不是警察变体，不是魔女技能职业（不加入 isRegisteredSparkWitchRole），也不
+        // 无出现条件），由 Wathe 平民分配抽取；不是警察变体，不是魔女技能职业（不加入 isRegisteredSkillRole），也不
         // 进入 gui.sparkdlc.skills 面板。推荐、任务收入、任务单与下一任务被动位于 roles/civilian/planner。
         plannerMaster = SparkFactionApi.registerRole(FactionRoleDefinition.builder(PLANNER_MASTER_ID,
                         FactionIds.CIVILIAN)
@@ -1306,12 +1306,12 @@ public final class SparkDlcRoleRegistry {
         // (InsiderRegistrationContractTest), so only the Insider's own index shifts. Never drawn by a Wathe pass: the
         // Team Jiahao third-faction lineup deals the Insider or Sphinx Hao, 50/50, in the second seat
         // (JiahaoThirdFactionLineup, owner Q1). Not in PoliceRoles (the public tablet channel only, no police
-        // channel); never a Witch-skill role (kept out of isRegisteredSparkWitchRole and the gui.sparkdlc.skills
+        // channel); never a Witch-skill role (kept out of isRegisteredSkillRole and the gui.sparkdlc.skills
         // panel). Skills, hao, shop and key live in roles/neutral/sphinxhao.
         // 狮身豪（2026-11-17）：嘉豪阵营第二名成员（原生 Wathe JIAHAO），参数与内应相同（伪装情绪带假任务、平民体力、可见回合
         // 时间）。注册在内应之前、紧挨内应（内应仍为最后一个，InsiderRegistrationContractTest），因此只有内应自身的下标改变。
         // 从不由 Wathe 分配抽取：嘉豪阵营第三阵营阵容的第二个席位以各 50% 发放内应或狮身豪（JiahaoThirdFactionLineup，
-        // 所有者 Q1）。不加入 PoliceRoles（只有公共频道平板，没有警用频道）；不是魔女技能职业（不加入 isRegisteredSparkWitchRole，
+        // 所有者 Q1）。不加入 PoliceRoles（只有公共频道平板，没有警用频道）；不是魔女技能职业（不加入 isRegisteredSkillRole，
         // 也不进入 gui.sparkdlc.skills 面板）。技能、豪度值、商店与钥匙位于 roles/neutral/sphinxhao。
         sphinxHao = SparkFactionApi.registerRole(FactionRoleDefinition.builder(SPHINX_HAO_ID, SparkDlcFactions.JIAHAO)
                 .color(SphinxHaoRules.COLOR)
@@ -1324,11 +1324,11 @@ public final class SparkDlcRoleRegistry {
         // profile, registered right after 狮身豪 and right before the Insider, so the Insider stays the last entry
         // (InsiderRegistrationContractTest). It never appears in random rolling (owners will rework role drawing, so
         // admins hand it out for now); a forced Sniper fills Team Jiahao's partner seat beside the Corrupt Cop
-        // (JiahaoThirdFactionLineup). Never a Witch-skill role: kept out of isRegisteredSparkWitchRole.
+        // (JiahaoThirdFactionLineup). Never a Witch-skill role: kept out of isRegisteredSkillRole.
         // 狙击手（所有者 2026-11-17）是另一名嘉豪阵营成员（原生 Wathe JIAHAO），参数与黑警相同，注册在狮身豪之后、紧挨内应之前，
         // 使内应仍是最后一项（InsiderRegistrationContractTest）。不进入随机抽取（所有者之后会重做刷新规则，目前由管理员发放）；
         // 强制指定的狙击手占用黑警旁的嘉豪阵营同伴席位（JiahaoThirdFactionLineup）。不是魔女技能职业：不加入
-        // isRegisteredSparkWitchRole。
+        // isRegisteredSkillRole。
         sniper = SparkFactionApi.registerRole(FactionRoleDefinition.builder(SNIPER_ID, SparkDlcFactions.JIAHAO)
                 .color(SniperRules.COLOR)
                 .moodType(Role.MoodType.FAKE)
@@ -1339,10 +1339,10 @@ public final class SparkDlcRoleRegistry {
         // Appended last so existing registration order stays unchanged; a Team Jiahao member (native Wathe JIAHAO) with
         // the Corrupt Cop's profile (FAKE mood with tasks, civilian stamina, round clock). Never drawn by a Wathe pass:
         // the third-faction draw deals it beside the Corrupt Cop when Team Jiahao has a second slot
-        // (JiahaoThirdFactionLineup, owner 2026-11-16). Never a Witch-skill role: kept out of isRegisteredSparkWitchRole.
+        // (JiahaoThirdFactionLineup, owner 2026-11-16). Never a Witch-skill role: kept out of isRegisteredSkillRole.
         // 追加在最后以保持既有注册顺序不变；嘉豪阵营成员（原生 Wathe JIAHAO），参数与黑警相同（伪装情绪但有任务、平民体力、
         // 可见回合时间）。从不由 Wathe 分配抽取：嘉豪阵营有第二个名额时，由第三阵营抽取与黑警一起发放
-        //（JiahaoThirdFactionLineup，所有者 2026-11-16）。不是魔女技能职业：不加入 isRegisteredSparkWitchRole。
+        //（JiahaoThirdFactionLineup，所有者 2026-11-16）。不是魔女技能职业：不加入 isRegisteredSkillRole。
         insider = SparkFactionApi.registerRole(FactionRoleDefinition.builder(INSIDER_ID, SparkDlcFactions.JIAHAO)
                 .color(InsiderRules.COLOR)
                 .moodType(Role.MoodType.FAKE)
@@ -1485,7 +1485,7 @@ public final class SparkDlcRoleRegistry {
         );
     }
 
-    private static boolean isRegisteredSparkWitchRole(Role role) {
+    private static boolean isRegisteredSkillRole(Role role) {
         return role == emma
                 || role == grandWitch
                 || role == accomplice

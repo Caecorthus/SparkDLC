@@ -28,9 +28,9 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class SeekerGunTargetMixin {
     /** Wathe's native ranges; only a fallback, the original hit distance is used first. / Wathe 原生射程，仅作兜底。 */
     @Unique
-    private static final double SPARKWITCH$REVOLVER_RANGE = 30.0;
+    private static final double sparkdlc$REVOLVER_RANGE = 30.0;
     @Unique
-    private static final double SPARKWITCH$DERRINGER_RANGE = 7.0;
+    private static final double sparkdlc$DERRINGER_RANGE = 7.0;
 
     @WrapOperation(
             method = "use(Lnet/minecraft/world/World;Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/Hand;)Lnet/minecraft/util/TypedActionResult;",
@@ -44,7 +44,7 @@ public abstract class SeekerGunTargetMixin {
             })
     private HitResult sparkdlc$preferNearerSeekerDevice(PlayerEntity user, Operation<HitResult> original) {
         HitResult result = original.call(user);
-        double range = (Object) this instanceof DerringerItem ? SPARKWITCH$DERRINGER_RANGE : SPARKWITCH$REVOLVER_RANGE;
+        double range = (Object) this instanceof DerringerItem ? sparkdlc$DERRINGER_RANGE : sparkdlc$REVOLVER_RANGE;
         return SeekerDeviceRaycast.preferNearerDevice(user, result, range);
     }
 }

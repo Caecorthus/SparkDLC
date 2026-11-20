@@ -28,10 +28,8 @@ public final class DenyActionPolicy implements PlayerAffectPolicy {
         return !(action.equals(actionId) && target != null && protectedTarget.test(target));
     }
 
-    /** The text is kept from before the fusion, when only the former SparkStrength registered such vetoes.
-     *  文本沿用融合之前的写法，当时只有原 SparkStrength 注册这种否决。 */
     @Override
     public String toString() {
-        return "SparkStrength deny " + action;
+        return "DenyActionPolicy[" + action + "]";
     }
 }

@@ -2,10 +2,12 @@
 
 Three passes are scripted here: the stage-1 package move (`move_packages.py`, first part of this file), the stage-2a
 namespace rename (`rename_namespace.py`, second part) and the stage-3 class and mixin member rename
-(`rename_classes.py`, "One vocabulary" in the third part). Statements of the first part describe the tree as stage 1 left
+(`rename_classes.py`, "One vocabulary" in the third part); two smaller stage-3 scripts follow them (`move_mixins.py`,
+"No twins"; `rename_identifiers.py`, "One name"). Statements of the first part describe the tree as stage 1 left
 it: "no id or namespace changed" was true until stage 2a.
 这里有三次脚本化改造：第一阶段的包搬迁（`move_packages.py`，本文件第一部分）、第二阶段 a 的命名空间改名
-（`rename_namespace.py`，第二部分）以及第三阶段的类与 mixin 成员改名（`rename_classes.py`，第三部分的“统一词汇”）。前半部分描述的是第一阶段结束时的代码树：“id 与命名空间没有变化”在第二阶段 a 之前成立。
+（`rename_namespace.py`，第二部分）以及第三阶段的类与 mixin 成员改名（`rename_classes.py`，第三部分的“统一词汇”）；其后还有两个较小的
+第三阶段脚本（`move_mixins.py`，“没有双胞胎”；`rename_identifiers.py`，“统一名字”）。前半部分描述的是第一阶段结束时的代码树：“id 与命名空间没有变化”在第二阶段 a 之前成立。
 
 # Stage 1 — the package move / 第一阶段：包搬迁
 
@@ -285,10 +287,12 @@ the vanilla registry (`item`, `block`, `entity_type`, `sound_event`, `data_compo
 `mob_effect`, `armor_material`, `creative_mode_tab`), tags are `tag/<registry>`. Other kinds: `payload_c2s`,
 `payload_s2c`, `login_channel`, `component`, `role`, `faction`, `trait`, `skill`, `secondary_ability`,
 `death_reason`, the replay kinds, `command`, `command_alias`, `permission`, `shop_entry`, `key_binding`,
-`key_category`, `settings_key`, `settings_store`, `file` (config and data files the mod writes), `mod_metadata_key`,
-`attribute_modifier`, `event_phase`, `action_id`, `role_change_cause`, `reload_listener`, `identifier` (other id
-constants), `lang_key` (only the keys that do not follow the plain rule), and the rows whose name did NOT change:
-`private_data_name`, `retired_trait`, `command_alias`. `legacy_role_alias` rows are the six older
+`key_category`, `settings_key`, `settings_store`, `file` (config and data files the mod writes), `file_fold` (a
+file whose keys are folded into another one, see "One name" below), `system_property` (`-D` developer switches),
+`mod_metadata_key`, `attribute_modifier`, `event_phase`, `action_id`, `role_change_cause`, `reload_listener`,
+`identifier` (other id constants), `lang_key` (only the keys that do not follow the plain rule), `command_alias` (the
+three misspelt roots of the role-kit commands, aliases of their current root since stage 3), and the rows whose name
+did NOT change: `private_data_name`, `retired_trait`. `legacy_role_alias` rows are the six older
 `sparktraits:<role>` ids of the Wraith family with the role's new id, and `component_fallback` rows are the two older
 `sparktraits:` keys of the Wraith components: both are a SECOND old name of something that also has a `role` /
 `component` row, and are read only after that row (`legacy.LegacySavedData`). Asset paths and the 4,100 lang keys that
@@ -299,7 +303,8 @@ dump of a running headless server taken before the rename; the same dump taken a
 mapped through this table (16,229 rows, no difference).
 
 改名前存在的每个 id 一行：`kind`、`old_id`、`new_id`、`note`。注册表种类以原版注册表命名，标签为 `tag/<注册表>`。名字没有变化的行
-（`private_data_name`、`retired_trait`、`command_alias`）也在表中。`legacy_role_alias` 与 `component_fallback` 行是同一职业、
+（`private_data_name`、`retired_trait`）也在表中；`command_alias` 是职业套件命令的三个拼写别名（自第三阶段起为当前根节点的别名），
+`file_fold` 是键被并入另一个文件的文件，`system_property` 是 `-D` 开发开关。`legacy_role_alias` 与 `component_fallback` 行是同一职业、
 同一组件更早的第二个旧名字（冤魂系的 `sparktraits:` id 与组件键），读取时排在对应的 `role` / `component` 行之后。资源路径和仅替换命名空间段的约 4100 个语言键
 不逐条列出；文件见 `resource-moves.tsv`。注册表、标签、数据包、组件、职业、阵营、天赋、技能、回放格式化器和命令的行来自改名前
 无界面服务器的运行时导出；改名后的同一导出与经本表映射的旧导出完全一致（16,229 行，无差异）。
@@ -721,3 +726,81 @@ Rules / 规则:
   `GameRoundEndWinWritersOrderTest`, `LetterLoreTextMixinOrderTest`, `InstinctLightGateMixinSourceTest`,
   `MainHudDispatchTest`).
   证明：`70808d300` 与本节完成后（合并另一节前后）的启动导出逐字节相同（2051 行）；mixin 顺序在各提交说明中逐一证明，并由本地顺序测试固定。
+
+## One name / 统一名字
+
+Partly scripted. What a player, an admin or a reader still saw of five mods. The identifier renames are scripted
+(`rename_identifiers.py` from `identifier-renames.tsv`); texts, the commands and the config file were changed by hand.
+部分脚本化。玩家、管理员或读者仍能看到的“五个模组”的痕迹。标识符改名由脚本完成（`rename_identifiers.py` 按
+`identifier-renames.tsv`）；文字、命令与配置文件为手工修改。
+
+| Was / 原先 | Is / 现在 |
+| --- | --- |
+| Mod description and `modmenu.*` keys listing "the faction API, role buffs, traits, witch-faction roles and client assist tools in one mod" (特质) | one description of what the mod adds (词条) |
+| `sparkstength:voteTime`, `sparkStrength:detectiveCaseLimit`, `sparkStrength:tabletChatInterval` registered as roots of their own by `RoleKitCommands` (shown in Tab completion) | `command_alias` rows (old literal, current root) that `legacy.LegacyCommandAliases` adds after the 28 renamed roots: the same node, hidden by `LegacyCommandSuggestions` |
+| two client config files: `config/sparkdlc.json` (`SparkDlcConfigManager`) and `config/sparkdlc-client.json` (`ScopeSettingsStore`, `MiniWitherSkinSettings`, each with its own read-merge-write) | one file `config/sparkdlc.json`: `SparkDlcConfigManager` keeps the keys `SparkDlcClientConfig` does not own (`otherKeys`) and writes them all on every save; the old file is folded in by `client.legacy.LegacyClientSettingsFold` |
+| `-Dsparktraits.debugCautiousSound`, `-Dsparkassist.decorDebug` | `-Dsparkdlc.debugCautiousSound`, `-Dsparkdlc.decorDebug` (old names read by `legacy.LegacySystemProperties`, `system_property` rows) |
+| log lines "SparkWitch BEAR smoke ...", "the SparkFactionAPI match record", "SparkAssist guide decoration"; `toString` "SparkStrengthRoleSkillCooldownStore[...]", "SparkStrength deny ...", "SparkWitchEmmaGunListener" | the same lines without the former mod; `FunctionRoleSkillCooldownStore[...]`, `DenyActionPolicy[...]`, `EmmaGunListener` |
+| 18 item model `credit` strings and two shader headers naming a former mod as the current owner | the provenance in the past tense ("first made for SparkWitch"); licence lines unchanged |
+| 75 identifiers (`isSparkWitchRole`, `onSparkWitch*`, `SPARKWITCH_*_ID`, `SPARKWITCH$*`, `SPARKTRAITS_*`, `SparkWitchManaCompatibility`, ...) | what they mean (`isSkillRole`, `onRay`, `FIEND_ID`, `sparkdlc$PISTOL_RANGE`, `WitchMana`, ...): see the table |
+
+### The settings fold / 设置并入
+
+`file_fold` rows (old file, target), tried in table order: `config/sparkdlc-client.json` (SparkDLC before stage 3),
+then `config/sparkwitch-client.json` (SparkWitch; read only when the former does not exist, as the `file` copy row it
+replaces did). It runs in `LegacyClientNames.carryOverFiles`, after `LegacyFiles.carryOverAll` (which may create
+`sparkdlc.json` from `sparkassist.json`) and before `SparkDlcConfigManager.load`.
+- Lossless: every key of the old file is copied (the three scope keys, `miniWitherSkin`, any unknown key); every key
+  of `sparkdlc.json` stays. The two stores never wrote the same key, so a key in both means a hand edit or a key of a
+  newer version: **`sparkdlc.json` wins per key**, like every other carry-over (the file the running build writes is
+  never older than one that only older builds wrote).
+- Once: the target gets `"carriedOverFrom": "<old path>"`; a target that has it is never folded into again, so a
+  setting changed or removed later stays as it is. An earlier build started in between rewrites `sparkdlc.json`
+  without that key and without the scope keys and saves its own file; the next start folds that newer state in.
+- Backup: the old file is never changed or deleted.
+- Failures: an old file that is not a JSON object (broken, blank) carries nothing, is named in the log and marks the
+  fold done (the old readers also treated it as the defaults); an old file or target that cannot be read, or a broken
+  target, is left alone and tried again on the next start (the manager quarantines a broken target first).
+- Unit tests `client.legacy.LegacyClientSettingsFoldTest`, `client.config.SparkDlcConfigManagerTest` (local); the
+  client audit plants the five-mod upgrade in its real config folder and five more paths under
+  `build/run/clientAudit/legacy-fold-cases/` (`LegacyClientNamesFixture`, `LegacyClientNamesCheck`).
+
+`file_fold` 行（旧文件、目标），按表内顺序尝试：先 `config/sparkdlc-client.json`（第三阶段之前的 SparkDLC），再
+`config/sparkwitch-client.json`（SparkWitch；仅在前者不存在时读取，与它取代的 `file` 复制行相同）。在
+`LegacyClientNames.carryOverFiles` 中、`LegacyFiles.carryOverAll` 之后、`SparkDlcConfigManager.load` 之前执行。不丢失：旧文件的每个
+键都被复制，`sparkdlc.json` 的每个键都保留；两者都有的键以 `sparkdlc.json` 为准（与其他迁移相同）。只执行一次：目标获得
+`"carriedOverFrom"` 标记，带标记的目标不再被并入。旧文件绝不修改或删除。不是 JSON 对象的旧文件不带任何内容、记入日志并视为已并入；
+无法读取的旧文件或目标、损坏的目标保持不动，下次启动再试。
+
+### Rules / 规则
+
+- **An identifier is named for what it means**, never for the former mod that declared it; a mixin's static field
+  takes the member prefix `sparkdlc$` like its other members.
+  标识符按含义命名，绝不按声明它的旧模组命名；mixin 的静态字段与其他成员一样使用 `sparkdlc$` 前缀。
+- **A misspelt or old command name is an alias of the legacy layer**, never a root registered by a feature.
+  拼错的或旧的命令名都是兼容层的别名，绝不是功能代码注册的根节点。
+- **One client settings file.** A client feature that needs to persist a value keeps it in `config/sparkdlc.json`
+  through `SparkDlcConfigManager.editOtherKeys` (or a model key), not in a file of its own.
+  只有一个客户端设置文件：需要持久化的客户端功能通过 `SparkDlcConfigManager.editOtherKeys`（或模型键）存入 `config/sparkdlc.json`。
+
+### Left on purpose / 有意保留
+
+- the public facades `faction.api.SparkFactionApi` and `trait.api.SparkTraitsApi`; `SparkDlcModule` (the `provides`
+  catalogue) and everything in the `legacy` packages;
+- saved-data and wire names that carry an old name: NBT keys and item `CUSTOM_DATA` markers (`sparkwitch:stored_coins`,
+  `sparkwitch:poison_apple*`, `SparkStrengthCapsule`, `SparkStrengthEngineerCaptureReport`, `SparkStrengthMorphReagent`,
+  `sparktraitsConscience*`, `SparkWitchTrapPlacer`, `sparkstrength_undercover_outfit`,
+  `SparkStrengthCoronerTemporaryGrant`, `sparkwitch:ragpicker_loot`, `sparkwitch:fiend_moment_crowbar`,
+  `sparkwitch:poison_apple_drink`, `SparkWitchDeathRole`, `sparkwitch:judge_voodoo_actor`,
+  `SparkStrengthTimedBombOwner`), the entity tag `sparkwitch_fisher_pufferfish`, the scoreboard teams
+  `sparkwitch_duel_*`: they need read-both migration (owner decision);
+- the HTTP `User-Agent` `SparkFactionAPI/<version>` of `team.CaecorthusTeamSync` (external service, owner decision);
+- issue and PR references ("SparkWitch #195", "SparkStrength #135"), the licence notices and model provenance;
+- local test class names that name a former mod (only callers were renamed).
+- 公共门面 `SparkFactionApi` 与 `SparkTraitsApi`、`SparkDlcModule` 与 `legacy` 包中的一切；带旧名字的存档与网络名字（需要双读迁移，
+  由所有者决定）；`CaecorthusTeamSync` 的 HTTP `User-Agent`（外部服务，由所有者决定）；issue 与 PR 引用、许可声明与模型来源；
+  以旧模组命名的本地测试类名（只改了调用方）。
+
+`rename_identifiers.py plan` checks the table against the tree before `apply`; after the apply it reports every row
+as already done (old name missing, new name present). The phase is applied and is not run again.
+`rename_identifiers.py plan` 在 `apply` 之前对照源码树检查该表；应用之后它会把每一行报告为已完成。该阶段已经执行，不会再运行。

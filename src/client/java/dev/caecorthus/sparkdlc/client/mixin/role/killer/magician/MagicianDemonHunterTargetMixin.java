@@ -29,13 +29,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class MagicianDemonHunterTargetMixin {
     /** NoellesRoles' {@code getGunTarget} reach (5 blocks). / 与 NoellesRoles {@code getGunTarget} 的 5 格射程一致。 */
     @Unique
-    private static final double SPARKWITCH$PISTOL_RANGE = 5.0D;
+    private static final double sparkdlc$PISTOL_RANGE = 5.0D;
 
     @Inject(method = "getGunTarget", at = @At("RETURN"), cancellable = true)
     private static void sparkdlc$preferNearerPuppet(PlayerEntity user, CallbackInfoReturnable<HitResult> cir) {
         HitResult original = cir.getReturnValue();
         // Invisible puppets count, as NoellesRoles' pick counts invisible players. / 隐身皮套同样计入，与 NoellesRoles 计入隐身玩家一致。
-        HitResult preferred = MagicianPuppetAim.preferNearerPuppet(user, original, SPARKWITCH$PISTOL_RANGE, false);
+        HitResult preferred = MagicianPuppetAim.preferNearerPuppet(user, original, sparkdlc$PISTOL_RANGE, false);
         if (preferred != original) {
             cir.setReturnValue(preferred);
         }

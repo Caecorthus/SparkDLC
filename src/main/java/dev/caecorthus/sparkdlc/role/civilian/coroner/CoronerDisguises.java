@@ -128,7 +128,7 @@ public final class CoronerDisguises {
     }
 
     public static boolean hasKidnapperDisguise(PlayerEntity player) {
-        return CoronerRules.isSparkWitchKidnapper(activeDisguiseRole(player));
+        return CoronerRules.isKidnapper(activeDisguiseRole(player));
     }
 
     public static boolean isActualCoroner(PlayerEntity player) {

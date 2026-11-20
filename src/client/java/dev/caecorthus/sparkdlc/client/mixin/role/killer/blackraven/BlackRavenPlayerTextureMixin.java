@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 /** Terminal Steve texture override after lower-priority skin transformations. / 在其他皮肤转换后执行的终端 Steve 贴图覆盖。 */
 @Mixin(value = PlayerEntityRenderer.class, priority = 400)
 public abstract class BlackRavenPlayerTextureMixin {
-    private static final Identifier SPARKWITCH$STEVE_TEXTURE =
+    private static final Identifier sparkdlc$STEVE_TEXTURE =
             Identifier.ofVanilla("textures/entity/player/wide/steve.png");
 
     @ModifyReturnValue(
@@ -29,7 +29,7 @@ public abstract class BlackRavenPlayerTextureMixin {
                 && player != client.player
                 && BlackRavenClientState.isPerceptionActive(client.player)
                 && !VendettaClientPresentation.isBoundKillerViewingVendetta(client.player, player)
-                ? SPARKWITCH$STEVE_TEXTURE
+                ? sparkdlc$STEVE_TEXTURE
                 : originalTexture;
     }
 }

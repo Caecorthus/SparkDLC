@@ -130,22 +130,22 @@ public final class BearRicochetRules {
     /**
      * D3 origin order: an open {@code RangedOriginScope} decides alone (its unknown scope stays unknown); else, for a
      * blast, the blast scope ({@code AttackOriginScope}); else, for direct fire, the killer's eye; else unknown (null).
-     * {@code sparkStrengthBlast}, that blast scope's centre, is asked only for blasts. Sources whose origin IS the
+     * {@code blastCentre}, that blast scope's centre, is asked only for blasts. Sources whose origin IS the
      * killer's eye at kill time push no scope: the revolver family, the Hunter shotgun, the USEC rifle, the Death Ray,
      * the Demon Hunter and the backblast.
      * D3 来源顺序：打开的 {@code RangedOriginScope} 单独决定（其未知作用域保持未知）；否则爆炸类取爆炸作用域
      * （{@code AttackOriginScope}）；否则直射类取击杀者眼睛；否则未知（null）。只有爆炸类才询问
-     * {@code sparkStrengthBlast}（即该爆炸作用域的爆心）。击杀时来源就是击杀者
+     * {@code blastCentre}（即该爆炸作用域的爆心）。击杀时来源就是击杀者
      * 眼睛的来源不压作用域：左轮系、猎人霰弹枪、USEC 步枪、死亡射线、猎魔枪与尾焰。
      */
     public static @Nullable Vec3d resolveOrigin(Identifier reason, boolean scopeOpen, @Nullable Vec3d scoped,
-                                                Supplier<Vec3d> sparkStrengthBlast,
+                                                Supplier<Vec3d> blastCentre,
                                                 @Nullable Vec3d killerEye) {
         if (scopeOpen) {
             return scoped;
         }
         if (reason != null && BLAST_REASONS.contains(reason)) {
-            return sparkStrengthBlast.get();
+            return blastCentre.get();
         }
         return usesShooterOrigin(reason) ? killerEye : null;
     }

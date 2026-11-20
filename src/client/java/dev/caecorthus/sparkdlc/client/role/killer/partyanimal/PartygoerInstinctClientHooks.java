@@ -99,7 +99,7 @@ public final class PartygoerInstinctClientHooks {
      * NoellesRoles 影小丑与秃鹫）。
      */
     private static boolean hasRoleInstinctKey(ClientPlayerEntity viewer, GameWorldComponent game, @Nullable Role role) {
-        if (CorruptCopRules.isSparkWitchJiahaoMember(role)) {
+        if (CorruptCopRules.isCorruptCopTeammate(role)) {
             return true;
         }
         if (CorruptCopRules.isCorruptCop(role)) {

@@ -21,7 +21,7 @@ public abstract class CurserConfusionSkinMixin {
      * Every input is constant and the record is immutable, so one instance serves every call (as Black Raven's Steve).
      * 所有输入均为常量且该记录不可变，因此所有调用共用同一实例（与黑羽鸦的史蒂夫皮肤相同）。
      */
-    private static final SkinTextures SPARKWITCH$PSYCHO_SKIN = new SkinTextures(
+    private static final SkinTextures sparkdlc$PSYCHO_SKIN = new SkinTextures(
             WATHE_PSYCHO_TEXTURE,
             null,
             null,
@@ -37,6 +37,6 @@ public abstract class CurserConfusionSkinMixin {
                 || target == MinecraftClient.getInstance().player) {
             return;
         }
-        cir.setReturnValue(SPARKWITCH$PSYCHO_SKIN);
+        cir.setReturnValue(sparkdlc$PSYCHO_SKIN);
     }
 }

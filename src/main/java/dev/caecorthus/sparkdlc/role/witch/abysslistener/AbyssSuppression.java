@@ -36,11 +36,11 @@ public final class AbyssSuppression {
     /**
      * Living participant of a running game: playing and alive, not spectating (which also covers Taotie-swallowed
      * players and fake deaths), not creative, not an active Wraith, has a role, not SparkTraits Last Stand pending and
-     * not in SparkTraits Last Escape (N16), in that order ({@link RoundParticipants#ABYSS_TARGET}: the SparkTraits bridges
-     * are consulted last and only after every earlier gate passed). Absent SparkTraits adds no exclusion.
+     * not in SparkTraits Last Escape (N16), in that order ({@link RoundParticipants#ABYSS_TARGET}: the two trait queries
+     * are asked last and only after every earlier gate passed).
      * 进行中对局的存活参与者：参与且存活、非旁观（同时排除被饕餮吞下与假死的玩家）、非创造、非激活冤魂、拥有职业、
      * 不处于 SparkTraits 背水一战待定且不处于绝处逢生（N16），按此顺序（{@link RoundParticipants#ABYSS_TARGET}：
-     * SparkTraits 桥最后查询，且只在前序条件全部通过后查询）。未安装 SparkTraits 时不附加排除。
+     * 两项词条查询最后进行，且只在前序条件全部通过后进行）。
      */
     public static boolean isParticipantTarget(ServerPlayerEntity player) {
         return RoundParticipants.ABYSS_TARGET.test(player);

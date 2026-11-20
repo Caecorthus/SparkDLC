@@ -1266,6 +1266,6 @@ trait	sparktraits:the_showman	sparkdlc:the_showman
 trait	sparktraits:thrust	sparkdlc:thrust	
 trait	sparktraits:well_supplied	sparkdlc:well_supplied	
 trait	sparktraits:well_trained	sparkdlc:well_trained	
-voicechat_plugin	sparkstrength	sparkdlc	one plugin with the id sparkdlc since stage 3 (the id is only logged)
-voicechat_plugin	sparktraits	sparkdlc	one plugin with the id sparkdlc since stage 3 (the id is only logged)
-voicechat_plugin	sparkwitch	sparkdlc	one plugin with the id sparkdlc since stage 3 (the id is only logged)
+voicechat_plugin	sparkstrength	sparkdlc	merged: one plugin with the id sparkdlc since stage 3 (the id is only logged)
+voicechat_plugin	sparktraits	sparkdlc	merged: one plugin with the id sparkdlc since stage 3 (the id is only logged)
+voicechat_plugin	sparkwitch	sparkdlc	merged: one plugin with the id sparkdlc since stage 3 (the id is only logged)

@@ -24,10 +24,9 @@ public final class VendettaKnifeEquipmentFilter {
         if (packet == null || owner == null || observer == null) {
             return null;
         }
-        VendettaPlayerComponent component = VendettaPlayerComponent.KEY.maybeGet(owner).orElse(null);
-        UUID killerUuid = component == null ? null : component.getBoundKillerUuid();
-        boolean boundKillerView = component != null
-                && component.isActive()
+        VendettaPlayerComponent component = VendettaPlayerComponent.KEY.get(owner);
+        UUID killerUuid = component.getBoundKillerUuid();
+        boolean boundKillerView = component.isActive()
                 && killerUuid != null
                 && killerUuid.equals(observer.getUuid());
         if (VendettaPresentationRules.canSeeKnifeEquipment(

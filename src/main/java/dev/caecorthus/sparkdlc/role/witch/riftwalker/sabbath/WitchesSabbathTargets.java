@@ -111,7 +111,7 @@ final class WitchesSabbathTargets {
             @Override
             public boolean glimmering() {
                 // A glimmering (Angler spirit) caster may stand inside a door. / 灵光状态的施放者可能站在门里。
-                return FisherSpiritComponent.KEY.maybeGet(caster).map(FisherSpiritComponent::isActive).orElse(false);
+                return FisherSpiritComponent.KEY.get(caster).isActive();
             }
         };
     }
@@ -162,12 +162,6 @@ final class WitchesSabbathTargets {
             }
 
             @Override
-            public boolean captureStunPinned() {
-                // D19: pulled unless the lock point cannot follow (the pull re-locks it). / D19：锁定点无法跟随时才跳过。
-                return RiftwalkerStatusProbes.isCaptureStunPinned(player);
-            }
-
-            @Override
             public boolean seekerSession() {
                 // Read-only Seeker query; unreachable for witches today, kept as a cheap guard (research/04 §1.2).
                 // 只读的搜寻者查询；魔女目前不可能处于会话中，作为廉价防护保留（research/04 §1.2）。
@@ -200,6 +194,6 @@ final class WitchesSabbathTargets {
     }
 
     private static boolean isKidnapperControlled(PlayerEntity player) {
-        return KidnapperControlComponent.KEY.maybeGet(player).map(KidnapperControlComponent::isControlled).orElse(false);
+        return KidnapperControlComponent.KEY.get(player).isControlled();
     }
 }

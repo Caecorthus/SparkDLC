@@ -6,25 +6,25 @@ import java.util.List;
 /**
  * The scope settings as a settings screen edits them (client only, 2026-10-19): lets the SparkDLC settings screen
  * show and change the three scope settings (Scope View, Lens Resolution, Scoped Sensitivity) with its own widgets,
- * by serialized mode name and plain numbers. It reads and changes the same live settings
- * as Options → Accessibility ({@code ScopeSettingsStore}), so the two never disagree. Setters take effect in game at
+ * by serialized mode name and plain numbers. It reads and changes the live settings the game uses
+ * ({@code ScopeSettingsStore}). Setters take effect in game at
  * once but never write {@code config/sparkdlc-client.json}; {@link #save()} does (on slider release, page switch or
  * screen close). Values are clamped and snapped as the file is; a mode or lens resolution that is not one of its
  * choices is ignored. Safe to call before the scope feature registered: the first call loads the file. Call
  * on the client thread.
  * <p>
- * Translation keys, as on the vanilla screen: {@code option.sparkdlc.scope_mode} (Scope View), each mode's
+ * Translation keys: {@code option.sparkdlc.scope_mode} (Scope View), each mode's
  * {@code option.sparkdlc.scope_mode.<name>} and {@code option.sparkdlc.scope_mode.<name>.tooltip};
  * {@code option.sparkdlc.scope_lens_resolution} and its {@code .tooltip}; {@code option.sparkdlc.scope_sensitivity}
  * and its {@code .tooltip}.
  * 设置界面所编辑的开镜设置（仅客户端，2026-10-19）：允许 SparkDLC 设置界面用自己的控件、以模式的序列化名称与普通数值
  * 显示并修改三项开镜设置（开镜画面、镜内分辨率、开镜灵敏度）。
- * 它读写的是与「选项 → 辅助功能」相同的实时设置（{@code ScopeSettingsStore}），两者永不冲突。设置方法在游戏中立即生效，
+ * 它读写的是游戏所用的实时设置（{@code ScopeSettingsStore}）。设置方法在游戏中立即生效，
  * 但从不写入 {@code config/sparkdlc-client.json}；由 {@link #save()} 写入（松开滑块、切换页面或关闭界面时）。数值的钳制与
  * 取整与文件一致；不属于可选项的模式或镜内分辨率会被忽略。在开镜功能注册之前调用也安全：第一次调用会加载文件。
  * 请在客户端线程调用。
  * <p>
- * 翻译键与原版界面相同：{@code option.sparkdlc.scope_mode}（开镜画面）、各模式的 {@code option.sparkdlc.scope_mode.<name>}
+ * 翻译键：{@code option.sparkdlc.scope_mode}（开镜画面）、各模式的 {@code option.sparkdlc.scope_mode.<name>}
  * 与 {@code option.sparkdlc.scope_mode.<name>.tooltip}；{@code option.sparkdlc.scope_lens_resolution} 及其
  * {@code .tooltip}；{@code option.sparkdlc.scope_sensitivity} 及其 {@code .tooltip}。
  */

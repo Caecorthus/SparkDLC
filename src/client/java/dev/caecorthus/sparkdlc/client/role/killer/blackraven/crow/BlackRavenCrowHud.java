@@ -11,7 +11,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.Nullable;
+
 
 /**
  * The Raven's own Raven Form HUD: the status line in {@code BlackRavenHudRenderer} (never the witch skills panel), and
@@ -34,12 +34,9 @@ public final class BlackRavenCrowHud {
     private BlackRavenCrowHud() {
     }
 
-    /** The status line for the local Raven, or null without the component. / 本地黑羽鸦的状态行；没有组件时为 null。 */
-    public static @Nullable Text statusLine(ClientPlayerEntity player) {
-        BlackRavenCrowPlayerComponent crow = BlackRavenCrowPlayerComponent.KEY.getNullable(player);
-        if (crow == null) {
-            return null;
-        }
+    /** The status line for the local Raven. / 本地黑羽鸦的状态行。 */
+    public static Text statusLine(ClientPlayerEntity player) {
+        BlackRavenCrowPlayerComponent crow = BlackRavenCrowPlayerComponent.KEY.get(player);
         long now = player.getWorld().getTime();
         long landing = Math.max(0L, crow.getLandingHoldUntilTick() - now);
         Text key = SecondaryAbilityController.secondaryKeyText();

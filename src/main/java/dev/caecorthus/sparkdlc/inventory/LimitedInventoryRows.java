@@ -22,18 +22,6 @@ public final class LimitedInventoryRows {
     private LimitedInventoryRows() {
     }
 
-    /**
-     * Whether Wathe's limited inventory shows the second row: always (the one-row versions and their detection are
-     * gone). Kept as the single wiring point that the placement rules of the role features and their pure rules
-     * share, so none of them writes a fixed value. Hotbar-only rules for bound items are unchanged: 27-35 stays
-     * outside the hotbar.
-     * Wathe 受限物品栏是否显示第二行：恒为是（单行版本及其检测已移除）。保留为各职业功能的放置规则及其纯规则共用的唯一
-     * 接线点，使它们都不写死取值。绑定物品的“仅快捷栏”规则不变：27-35 仍不属于快捷栏。
-     */
-    public static boolean isSecondRowShown() {
-        return true;
-    }
-
     public static boolean isSecondRowIndex(int index) {
         return index >= SECOND_ROW_START && index < SECOND_ROW_START + ROW_SIZE;
     }

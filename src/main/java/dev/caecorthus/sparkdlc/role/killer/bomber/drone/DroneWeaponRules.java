@@ -4,9 +4,11 @@ import java.util.Set;
 
 /**
  * Pure weapon rules for breaking Bomber drones (no Minecraft state): melee id whitelist, reaches, aim tolerance and
- * the knife cooldown formula. Ids are plain strings, kept from when some of these weapons lived in another jar.
- * 击毁炸弹客无人机的纯武器规则（不依赖 Minecraft 状态）：近战 id 白名单、距离、瞄准容差与刀冷却公式。
- * id 使用纯字符串，沿用自其中部分武器位于另一个 jar 时的做法。
+ * the knife cooldown formula. The whitelist holds plain id strings so that this class stays free of Minecraft and item
+ * types; the kunai and the ceremonial sword are matched and paid in {@code DroneWeaponHits} through their own items and
+ * constants.
+ * 击毁炸弹客无人机的纯武器规则（不依赖 Minecraft 状态）：近战 id 白名单、距离、瞄准容差与刀冷却公式。白名单使用纯 id 字符串，
+ * 使本类不依赖 Minecraft 与物品类型；苦无与仪礼剑在 {@code DroneWeaponHits} 中经其自身的物品与常量识别和计价。
  */
 public final class DroneWeaponRules {
     /**
@@ -22,11 +24,6 @@ public final class DroneWeaponRules {
             "sparkdlc:fire_poker",
             "sparkdlc:vendetta_knife");
 
-    /** Kunai: server-side right-click hitscan. / 苦无：服务端右键即时射线。 */
-    public static final String NINJA_KNIFE_ID = "sparkdlc:ninja_knife";
-    /** Grand Witch sword: right-click dash. / 大魔女仪礼剑：右键冲刺。 */
-    public static final String CEREMONIAL_SWORD_ID = "sparkdlc:ceremonial_sword";
-
     /** Server melee reach: vanilla interaction range 3 plus its own 1-block allowance. / 服务端近战距离：原版 3 格加 1 格余量。 */
     public static final double MELEE_REACH = 4.0;
     /** Wathe knife stab ray plus latency tolerance. / Wathe 刀刺射线长度加延迟容差。 */
@@ -40,9 +37,6 @@ public final class DroneWeaponRules {
     public static final double GUN_MAX_DISTANCE = 65.0;
     /** Latency fallback cone between the look vector and a drone sample point. / 视线与无人机采样点的延迟兜底夹角。 */
     public static final double GUN_AIM_CONE_DEGREES = 25.0;
-    /** Kunai ray and its kill cooldown, mirrored by value. / 苦无射线与击杀冷却（按数值镜像）。 */
-    public static final double NINJA_KNIFE_RANGE = 4.0;
-    public static final int NINJA_KNIFE_COOLDOWN_TICKS = 30 * 20;
     /** Ceremonial sword dash watch: ticks, minimum step that counts as dashing, sweep padding. / 仪礼剑冲刺监视参数。 */
     public static final int SWORD_DASH_WATCH_TICKS = 7;
     public static final double SWORD_DASH_MIN_STEP = 0.5;

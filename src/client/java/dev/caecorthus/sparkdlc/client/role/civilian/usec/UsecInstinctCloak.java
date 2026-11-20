@@ -72,8 +72,8 @@ public final class UsecInstinctCloak {
         if (!(target instanceof PlayerEntity player)) {
             return false;
         }
-        UsecPlayerComponent component = UsecPlayerComponent.KEY.getNullable(player);
-        if (component == null || !component.isScoped()) {
+        UsecPlayerComponent component = UsecPlayerComponent.KEY.get(player);
+        if (!component.isScoped()) {
             return false;
         }
         // Any holder's scoped flag drives the glint; the cloak stays the USEC's own passive (owner, 2026-11-05), read

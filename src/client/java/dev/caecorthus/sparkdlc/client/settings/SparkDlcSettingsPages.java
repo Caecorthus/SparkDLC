@@ -18,8 +18,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Builds the pages of the SparkDLC settings screen from the settings the mod's features, Wathe and NoellesRoles
@@ -32,7 +30,6 @@ public final class SparkDlcSettingsPages {
     public static final String SCOPE = "scope";
     public static final String DISPLAY = "display";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/Settings");
     /**
      * The source of a row that is SparkDLC's own setting: none, so the description panel shows no "From ..." line.
      * Only a row whose value or sounds belong to another mod (Wathe, NoellesRoles) names that mod.
@@ -53,13 +50,7 @@ public final class SparkDlcSettingsPages {
         List<SettingsPage> pages = new ArrayList<>();
         pages.add(general());
         pages.add(audio());
-        try {
-            pages.add(scope());
-        } catch (IllegalArgumentException exception) {
-            // The scope settings answered with values their own defaults are not among; leave the page out.
-            // 开镜设置返回的取值不包含其默认值时，不显示此页。
-            LOGGER.warn("SparkDLC scope settings are inconsistent; hiding the scope page", exception);
-        }
+        pages.add(scope());
         pages.add(display());
         return pages.stream().filter(page -> !page.isEmpty()).toList();
     }
@@ -121,8 +112,9 @@ public final class SparkDlcSettingsPages {
         groups.add(new SettingsPage.Group("master",
                 Text.translatable("screen.sparkdlc.settings.group.event_master"), List.of(master)));
 
-        List<List<EventVolumeRows.Row>> sections = EventVolumeRows.visibleBySection(row ->
-                FabricLoader.getInstance().isModLoaded(row.mod()) && preview(row).available());
+        // Every row's mod is Wathe (required) or SparkDLC itself, so only the sample decides: a resource pack can
+        // still remove a sound. / 每行的模组都是 Wathe（必需依赖）或 SparkDLC 自身，因此只由试听样本决定：资源包仍可能移除声音。
+        List<List<EventVolumeRows.Row>> sections = EventVolumeRows.visibleBySection(row -> preview(row).available());
         EventVolumeRows.Section[] order = EventVolumeRows.Section.values();
         for (int i = 0; i < order.length; i++) {
             List<SettingsOption> volumes = new ArrayList<>();
@@ -293,11 +285,8 @@ public final class SparkDlcSettingsPages {
     }
 
     /**
-     * The mod named under a volume row's description, or null for a row of SparkDLC itself. {@code modId} may be one
-     * of the mod ids SparkDLC provides: the loader answers each of them with the SparkDLC container, and such a row
-     * gets no "From ..." line.
-     * 音量行说明下方标出的模组；SparkDLC 自己的行为 null。{@code modId} 可以是 SparkDLC 通过 provides 提供的 mod id：
-     * 加载器对它们都返回 SparkDLC 容器，这样的行不显示「来自……」。
+     * The mod named under a volume row's description, or null for a row of SparkDLC itself (no "From ..." line).
+     * 音量行说明下方标出的模组；SparkDLC 自己的行为 null（不显示「来自……」）。
      */
     @Nullable
     private static Text modName(String modId) {

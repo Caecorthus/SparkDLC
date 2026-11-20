@@ -1,6 +1,5 @@
 package dev.caecorthus.sparkdlc.client.role.neutral.vulture;
 
-import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityRegistry;
 import dev.caecorthus.sparkdlc.role.neutral.vulture.VultureSuperCurseC2SPacket;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -11,14 +10,13 @@ import org.agmas.noellesroles.Noellesroles;
  * Client key hook for the Vulture's Super Curse on the shared Role Skill 2 key (default N).
  *
  * <p>客户端只发送空请求包；职业、存活、冷却与幼稚词条全部由服务端判定，冷却通过组件同步回来供 HUD 显示。
- * 按键注册表（{@code SecondaryAbilityRegistry}）为直接调用；只有该职业已被其他处理器占用时技能才没有按键，HUD 同样隐藏。
+ * 按键注册表（{@code SecondaryAbilityRegistry}）为直接调用；秃鹫的职业 id 只在这里注册一次，因此按键总是可用。
  * The client only sends an empty request; the server decides role, liveness, cooldown and the Childish variant, and
  * syncs the cooldown back for the HUD. The key registry ({@code SecondaryAbilityRegistry}) is called directly; the
- * skill has no key and no HUD only when another handler already took the role.</p>
+ * Vulture's role id is registered there only here, so the key is always available.</p>
  */
 public final class VultureSuperCurseClientHooks {
     private static boolean registered;
-    private static boolean keyAvailable;
 
     private VultureSuperCurseClientHooks() {
     }
@@ -29,18 +27,7 @@ public final class VultureSuperCurseClientHooks {
         }
         registered = true;
         // The registry dispatches by the raw Wathe role id. / 注册表按原始 Wathe 职业 id 分发。
-        keyAvailable = SecondaryAbilityRegistry.tryRegisterAction(
-                Noellesroles.VULTURE.identifier(),
-                VultureSuperCurseClientHooks::requestSuperCurse
-        );
-        if (!keyAvailable) {
-            SparkDLC.LOGGER.warn("Vulture Super Curse has no key: the Role Skill 2 hook is unavailable or taken.");
-        }
-    }
-
-    /** Whether Role Skill 2 reaches the Super Curse. / “职业技能 2”是否能触发超级骂。 */
-    public static boolean isKeyAvailable() {
-        return keyAvailable;
+        SecondaryAbilityRegistry.register(Noellesroles.VULTURE.identifier(), client -> requestSuperCurse());
     }
 
     private static void requestSuperCurse() {

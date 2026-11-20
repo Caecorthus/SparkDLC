@@ -147,7 +147,7 @@ SparkStrength and SparkAssist do not own SparkWitch gameplay.
 Round-start subtitles are one short sentence per role (owner, 2026-10-25): Wathe shows `announcement.goal.<role>`
 with one killer and `announcement.goals.<role>` with more, so both keys carry the same line; rules, costs and
 cooldowns go in letters, skill descriptions and the SparkAssist guidebook (`roles/RoleGoalSubtitleTest` caps them).
-The Seeker's console is the tablet (`sparkdlc:tablet`), matched by registry id only. The tablet is registered by
+The Seeker's console is the tablet (`sparkdlc:tablet`), matched as the registered item (`SparkDlcItems.tablet()`). The tablet is registered by
 this mod itself, so the former "Seeker availability requires the tablet item" draw condition and the car-as-console
 fallback are gone (they were constant in one mod); SparkStrength owns no Seeker gameplay. SparkWitch never sells or grants the tablet: SparkStrength
 issues it free at round start to every tablet-eligible player (SparkWitch's `PoliceRoles` members and the witch
@@ -175,7 +175,7 @@ Current build baseline:
 ## Current Ownership
 
 - `api/`: the only public downstream SparkWitch Interface.
-  - The former `client/api/SecondarySkillKeyApi` facade (2026-10-07; dissolved in stage 3, its callers use `client/skill/SecondaryAbilityRegistry.tryRegisterAction` and `SecondaryAbilityController.secondaryKeyText`) was the cross-mod seam onto Role Skill 2
+  - The former `client/api/SecondarySkillKeyApi` facade (2026-10-07; dissolved in stage 3, its callers register a lambda handler through `client/skill/SecondaryAbilityRegistry.register` and use `SecondaryAbilityController.secondaryKeyText`) was the cross-mod seam onto Role Skill 2
     (key N): `static boolean register(Identifier roleId, Runnable onPressed)` (false, no throw, when the role already
     has a handler; null arguments throw NPE) and `static Text boundKeyText()`. It adapts the Runnable into
     `client/skill/SecondaryAbilityRegistry.tryRegister`, so a press fires on the client thread only while the local
@@ -402,7 +402,7 @@ Current build baseline:
   `BlackRavenShopService` is gone; the disguise shop seams M2-M4 stay).
   - Task pay (owner, 2026-10-25): `BlackRavenEconomyService` pays +50 (`BlackRavenPoliceRules.TASK_MONEY_REWARD`) per
     completed task, the Judge/Seeker/Control Expert amount, to an ACTIVE, playing, alive, survival raw Raven that is not
-    a restricted Wraith and not a SparkTraits Impostor (an unknown answer pays nothing), disguised or not. It lands in
+    a restricted Wraith and not a SparkTraits Impostor, disguised or not. It lands in
     the Raven's own wallet (see "Per-identity inventories and wallets") and its `CanSeeMoney` listener shows the
     balance while undisguised. The coins have nothing to buy yet.
   - Police rules are in `BlackRavenPoliceRules`: gun parity, the starting revolver, and Feather Blade friendly
@@ -1129,8 +1129,8 @@ Current build baseline:
   compiled, allocation-free Molang subset (unknown names read 0, evaluation never throws). `BedrockPose` carries a
   frame's extra rotation/position/scale per bone; `BedrockBounds` is a render-frame box.
 - `client/skill/`: generic configurable skill-key-2 registration and role-id
-  dispatch only; concrete roles own their handlers. `register` throws on a duplicate role; `tryRegister` (used only
-  by `SecondaryAbilityRegistry.tryRegisterAction`) returns false and keeps the first handler.
+  dispatch only; concrete roles own their handlers. `register` throws on a duplicate role; `tryRegister` (its non-throwing form) returns false
+  and keeps the first handler.
 - `client/input/` (2026-10-09): neutral pure client input rules only, no state and no Minecraft types.
   `MacControlClickRules.keepsLeftPress` is vanilla's macOS Ctrl-click remap rule (a left press with Ctrl becomes a
   counted right press; sprint is Left Ctrl), shared by all three left-click weapons: the AXMC
@@ -1298,9 +1298,7 @@ Current build baseline:
     `onWinDetermined` (he no longer keeps a sole surviving Loose End's win from being finalized). SparkTraits'
     other readers are no-ops for a neutral (Last Stand's civilian population gate, the killer-win `isInnocent`
     redirect, the Impostor cleanup, role-level Last Stand eligibility), and SparkStrength's only reader, the Shadow
-    Jester showdown `livingOthers` count, is a `CheckWinCondition` listener that the win scope already covered. The
-    registration fails closed (`LinkageError` caught and logged) against a SparkFactionAPI 2.0.0 jar built before
-    conditional roles existed. All
+    Jester showdown `livingOthers` count, is a `CheckWinCondition` listener that the win scope already covered. All
     souls dead kills the Charon and the Charon gone
     kills every soul, both forced with `sparkdlc:ferryman_moment_lost` (SparkTraits-terminal); round boundaries and a
     server stop end the moment silently.
@@ -1869,7 +1867,7 @@ Current build baseline:
     only the `scoped` flag, synced to everyone for the scope glint. `UsecFeatureService` (the single line appended last
     in `RoleEvents`) and `client/role/civilian/usec/UsecClientModule` (the single line appended last in `SparkDLCClient`) fix
     the registration order, which is the listener order within each event. `UsecCooldowns` is the single max + exact
-    writer of the rifle cooldown (the 60 s lock and the bolt): SparkTraits' exact write with a vanilla fallback, never
+    writer of the rifle cooldown (the 60 s lock and the bolt): SparkTraits' exact write, never
     shortening a longer running cooldown (Saint Karma, the Fiend aura). It is also the one shared classifier
     (`UsecCooldowns.read` / `classify`): remaining and total ticks from the vanilla entry's start and end ticks; an entry
     is a bolt only with the caller's evidence and a total of at most 40 ticks (Fast Reload's 28 included), anything else
@@ -1887,7 +1885,7 @@ Current build baseline:
     trait.
   - Economy (`UsecEconomyService`): its own `ON_FINISH_INITIALIZE` phase `sparkdlc:usec_economy_finish_initialize`
     (after the default phase) sets each living final USEC's balance to 0; the loadout never writes the balance. Each
-    task pays +50, never to a SparkTraits Impostor or on an unknown answer (`UsecEconomyTraitsProbe`, facade only).
+    task pays +50, never to a SparkTraits Impostor (`SparkTraitsApi.hasActiveTrait`, facade only).
     Wathe's passive-money ticks (`getTime() % 200 == 0`, `END_WORLD_TICK`) pay +5 with no cap to an ACTIVE, playing,
     alive, survival, exact USEC that is not a restricted Wraith. `CanSeeMoney` allows a living USEC and answers DENY
     for a dead one (Insider model, 2026-11-10; no answer while STARTING, so Wathe's role-only shop fallback no longer
@@ -3159,12 +3157,10 @@ Current build baseline:
     the FOV by 1, the PiP narrowing in `ScopeRules.lensClipScale` is exactly 1 (the lens pass only crops) and the
     `setupTerrain` projection swap still shows Sodium the main projection.
   - Settings: Scope View (Full-Screen Zoom, the default, or Picture-in-Picture), Lens Resolution beside it, and Scoped
-    Sensitivity (10–200 % in 5 % steps, default 100 %) are appended at the end of vanilla Options → Accessibility by
-    `ScopeAccessibilityOptionsMixin` (`addOptions` TAIL calls `ScopeOptions.addTo(body)`, one `addAll`; SparkAssist's
-    `getOptions` hook is left untouched). The rows are left out while SparkAssist's SparkDLC settings screen hosts them
-    (the mixin asks the settings screen's
-    `dev.caecorthus.sparkdlc.client.settings.SparkDlcSettingsApi.hostsScopeSettings()`, which answers true, a direct
-    call, asked at every screen init; false means the rows stay); that screen edits them through `client/scope/ScopeSettingsEditor`. Lens Resolution (owner,
+    Sensitivity (10–200 % in 5 % steps, default 100 %) live on the scope page of the SparkDLC settings screen, which
+    edits them through `client/scope/ScopeSettingsEditor` (vanilla Options → Accessibility shows no scope rows; the
+    former `ScopeAccessibilityOptionsMixin`, `ScopeOptions` and `SparkDlcSettingsApi` only served the case without that
+    screen and are gone). Lens Resolution (owner,
     2026-10-08) is a cycling button of 50 / 75 / 100 % of the native PiP lens size (default 100 %); it only matters in
     Picture-in-Picture, so its button is inactive (greyed) while Full-Screen Zoom is selected, follows the Scope View
     button at once, and its tooltip says so. Values persist
@@ -3270,7 +3266,7 @@ Current build baseline:
     new entries only at the end).
   - Coins (`MediumEconomyService`, the USEC/Accountant task-pay model): balance overwritten with 0 for every living
     final Medium in its own `ON_FINISH_INITIALIZE` phase after the default one, +50 per completed task through
-    `addToBalance` (never for a SparkTraits Impostor or an unknown answer, `SparkTraitsApi`), no passive
+    `addToBalance` (never for a SparkTraits Impostor, `SparkTraitsApi`), no passive
     income; `CanSeeMoney` ALLOW for a living Medium.
   - Death tier: `tier = floor(deaths / max(1, roster / 6))` over Wathe's roster and dead set, read live. Prices are
     always read live: 通灵 300 − 50 per tier (floor 0), 加护 通灵's live price + 100 (`blessingPrice`, so never under
@@ -3958,8 +3954,7 @@ pass it draws at most one of them per round, 50/50 between the drawable ones, on
 (`thirdFactionDividend`, default 10), and deals the roles a SparkWitch lineup returns; forced members of that faction are
 always kept, passed in as `presentMembers`, and count toward the cap (`remainingSlots()` = cap minus present).
 `SparkDlcRoleRegistry.registerThirdFactionLineups` (after factions, the Corrupt Cop binding and all roles) registers two
-pure lineups by method reference and fails closed on an older SparkFactionAPI jar (`LinkageError`: warning, no third
-faction dealt):
+pure lineups by method reference:
 - Witch (`faction/witch/WitchThirdFactionLineup`, rules in `WitchThirdFactionLineupRules`): without a Grand Witch present,
   one Grand Witch (empty, so undrawable, when she is disabled) then Bewitched on every remaining slot while the
   Bewitched is enabled; with a forced Grand Witch, Bewitched only. Her appearance condition is always false and is not
@@ -4904,8 +4899,8 @@ keeps exactly one cane in a living Blind's hotbar, except in Wathe psycho mode (
 Depression psycho keeps the inventory bat-only), where the cane waits until psycho mode ends.
 The cane window lasts 5 s and Attune's 10 s;
 their 10 s and 45 s cooldowns count from the end of the window (C2). The cane's hotbar cooldown is
-raise-only and written through SparkTraits' exact facade (Fast Hands never shortens it) with a
-vanilla fallback. The cane tap is public (`world.playSound` with the Blind as `except`, plus a
+raise-only and written through SparkTraits' exact facade (Fast Hands never shortens it).
+The cane tap is public (`world.playSound` with the Blind as `except`, plus a
 private copy for the Blind), and the CANE pulse (15-block environment radius) lists every other
 playing, alive, non-spectator, non-Wraith, unswallowed player within 5 blocks, invisible ones
 included; every 10 ticks inside the window, late entrants are sent as a zero-radius CANE pulse
@@ -5349,7 +5344,7 @@ exemption is transient and never saved. Role mechanics that remove a cooldown (N
 do not come through the command, so Karma still re-covers those items. SparkTraits lifts its own forced melee floor
 for the same command, as an `AdminCooldownClear` listener that runs before the `remove`. Not released: the Black Raven disguise switch, since
 the mask never carries an item cooldown.
-Saint Karma writes are exact (SparkTraits facade, vanilla fallback), so Fast Hands or Stimulation no longer leave a
+Saint Karma writes are exact (SparkTraits facade), so Fast Hands or Stimulation no longer leave a
 write below the Karma that restarts the slot's bar every tick. The Time Stealer holder's tick rewrites the Clock's
 display, exactly through SparkTraits only, whenever it shows more than one tick less than `ClockReadyAt` (for example
 after Last Escape halving), so the slot never shows ready while the Clock is refused.
@@ -5847,7 +5842,7 @@ client renders and sends requests. Its `gui.sparkdlc.skills` panel shows only `s
 - **Projectiles** (`projectile/RiftGateProjectileService`, vanilla deflection seam). Any projectile, pearls included
   (D8, C5), moves to the front of a random other gate with rotated velocity, else reflects at full speed; at most 3
   passes. The NR throwing axe uses `mixin/role/witch/riftwalker/RiftThrowingAxeMixin`, the SparkStrength M67 `RiftGateM67Sweep`
-  (registry id only). Hitscan ignores gates; a custom player-only `canHit` must accept gates via `isProjectileTarget`.
+  (matched by the registered type `SparkDlcEntities.m67()`). Hitscan ignores gates; a custom player-only `canHit` must accept gates via `isProjectileTarget`.
   D18: the Abyss Listener flask does so (`DeepDarkSporeFlaskEntity.canHit`), and the Potion Gunner shell, which every
   non-player entity already stops, keeps the gate's exit velocity and its flat-range path length across a pass
   (`PotionShellEntity.onDeflected`).
@@ -5862,8 +5857,8 @@ client renders and sends requests. Its `gui.sparkdlc.skills` panel shows only `s
   (`sparkdlc:riftwalker_sabbath`). Control-Expert-stunned, Hunter-rooted and SparkStrength capture-stunned teammates
   are pulled and stay held at the landing spot (D19, superseding C10's Sabbath half and M-2): the stun and the root
   anchor no position, and `RiftwalkerStatusProbes.relockCaptureStun` calls SparkStrength's `stun(1)` (keeps the
-  remaining ticks, re-locks at the current position) right after the teleport. A captured teammate whose lock cannot
-  move (`isCaptureStunPinned`) is skipped. A pulled Grand Witch's ceremonial-sword dash is cancelled. No target or no
+  remaining ticks, re-locks at the current position) right after the teleport, so no captured teammate is ever
+  skipped. A pulled Grand Witch's ceremonial-sword dash is cancelled. No target or no
   space costs nothing, the mana is refunded when nobody moved, and a caster in a doorway gets its own refusal (N-5).
 - **Presentation** (`client/role/witch/riftwalker/gate/`). `RiftGateEntityRenderer` draws model B (`RiftGateModels`) full-bright
   for everyone, skipping the gate around an occupant's camera; `RiftGateClientEffects` adds sparse particles;
@@ -5896,7 +5891,7 @@ client renders and sends requests. Its `gui.sparkdlc.skills` panel shows only `s
 - **Cross-mod seams.** SparkTraits only through existing bridges, failing closed: `isKillerInteractionBlocked`,
   `isRoleSkillBlocked`, `isLastEscapeActive`, `registerTerminalDeathReason` (`SparkTraitsApi`),
   `isLastStandPending` (`SparkTraitsApi`), `isLastStandDeathIntercepted` (`SparkTraitsApi`).
-  SparkStrength only by id (tablet, M67, `sparkdlc:engineer_stunned`). SparkTraits
+  SparkStrength's tablet, M67 and `sparkdlc:engineer_stunned` are referenced directly. SparkTraits
   `feat/accomplice-riftwalker-support` adds the Riftwalker to its five hard-coded accomplice id sets.
 - **Gaps and tests.** Open owner calls:
   - C11: the NR Pathogen can still infect an occupant within 3 blocks (non-lethal).
@@ -5963,13 +5958,12 @@ SparkWitch seams into them are compiled calls on the same members the reflection
 and `PartygoerHitGeometry` are asked directly), `RoleKitBlastOrigin` (`AttackOriginScope.currentBlast`), `BlackRavenDisguiseEconomy`
 (`KillerTeamEconomyService.recordIncome`), `RiftwalkerStatusProbes` (`EngineerStunnedPlayerComponent.KEY`, `isStunned`,
 `stun`), and on the client the mana row, Tarot table and inventory cards (`KillerTeamEconomyClientHooks.topRightHudBottom`),
-`client/role/civilian/emma/EmmaVisibleName` (`MorphlingAppearanceClientHelper.resolveActiveDisplayName`) and
-`client/mixin/scope/ScopeAccessibilityOptionsMixin` (`SparkDlcSettingsApi.hostsScopeSettings`, asked without the former `SparkDlcSettingsBridge`). The registry-id-only seams
-(`tablet/TabletItemLookup`, `RiftGateM67Sweep`; the disguise flashlight now comes from `AttendantFlashlightService`) keep their id lookups
-and only lost the mod gate. Where the role sections below and above describe an absent, older or failing SparkStrength
-or SparkAssist (fail closed, "disabled for the session", a logged warning, `isCaptureStunPinned` skipping a teammate),
-that branch can no longer occur: a sibling failure propagates instead of turning into a default, and
-`RiftwalkerStatusProbes.isCaptureStunPinned` is the constant false. `compat/OptionalStaticMethod` is deleted (the
+`client/role/civilian/emma/EmmaVisibleName` (`MorphlingAppearanceClientHelper.resolveActiveDisplayName`); the scope settings, which only the SparkDLC settings screen shows (the Accessibility rows behind the former `SparkDlcSettingsApi.hostsScopeSettings` are removed). The former registry-id-only seams
+(`tablet/TabletItemLookup`, `RiftGateM67Sweep`; the disguise flashlight now comes from `AttendantFlashlightService`) reference
+the registered tablet and M67 type directly. Where the role sections below and above describe an absent, older or failing SparkStrength
+or SparkAssist (fail closed, "disabled for the session", a logged warning),
+that branch can no longer occur: a sibling failure propagates instead of turning into a default.
+`compat/OptionalStaticMethod` is deleted (the
 junction-box bridge was its last user). Which packages may name which is checked by `verifyLayering`, and that nothing
 of the mod is looked up by name by `verifyNoLookupByName` (`gradle/verify/layering.gradle`); the local test
 `LookupHelperRemovalSourceTest` keeps the helper deleted; no string-named target is left (the purse seam is a
@@ -6090,7 +6084,7 @@ block (as `SparkTraitsApi` defines), traits unknown (which `hasRealSanity` never
 intercepted death (the `KillPlayer.AFTER` removal is skipped, and the 20-tick sweep strips the dead holder).
 USEC may query only `getMarksmanRangeMultiplier` (FMJ range and AP flight cost on the server, the reticle's AP holds
 on the client, clamped to 1.0-1.3) and `hasActiveTrait` (Fast Reload, the 1.4 s bolt) through
-`SparkTraitsApi`, `hasActiveTrait` (Impostor, task money) through its own `UsecEconomyTraitsProbe`,
+`SparkTraitsApi`, `hasActiveTrait` (Impostor, task money) through `SparkTraitsApi`,
 `discountShopEntryForCharisma` through `SparkTraitsApi`, and `isLastStandDeathIntercepted` directly on
 `SparkTraitsApi`, beyond the existing `SparkTraitsApi` seams (`blocksWeaponAction` with its
 `isKillerInteractionBlocked` and `getForcedMeleeCooldownTicks` reads, `isLastEscapeActive`, `isNonFinalKillPending`,
@@ -6619,7 +6613,8 @@ Client (render thread):
 - `BlackRavenPerceptionScreenEffects` reads the Last Escape parameters straight from SparkTraits'
   `DepressionScreenEffects.getLastEscapeComposition` (SparkDLC: the reflective `LastEscapeTraitsVisionBridge` and its
   protocol-version cache are gone; the neutral answer is one shared read-only array), and the screen effect returns
-  early off a confirmed server when no processor is open. `OwnerInventoryPresenter.traitsFacade()` resolves the facade once per session, failing closed.
+  early off a confirmed server when no processor is open. The owner inventory card visits the owner's traits through
+  `SparkTraitsApi.visitOwnerInventoryTraits` every frame; the former V1 presenter handshake is gone.
 
 Server:
 - Specter sweeps (PR #207): `SpecterOtherworldService` (Otherworld slowness) and `SpecterPeachwoodService`

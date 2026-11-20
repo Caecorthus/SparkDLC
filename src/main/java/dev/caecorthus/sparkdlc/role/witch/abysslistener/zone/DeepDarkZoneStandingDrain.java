@@ -22,13 +22,12 @@ public final class DeepDarkZoneStandingDrain {
     private DeepDarkZoneStandingDrain() {
     }
 
-    /** Both sides; false when the component is absent. / 双端；组件不存在时为 false。 */
+    /** Both sides; false for a null player. / 双端；玩家为 null 时为 false。 */
     public static boolean isExposed(@Nullable PlayerEntity player) {
         if (player == null) {
             return false;
         }
-        AbyssZoneExposureComponent exposure = AbyssZoneExposureComponent.KEY.getNullable(player);
-        return exposure != null && exposure.isExposed();
+        return AbyssZoneExposureComponent.KEY.get(player).isExposed();
     }
 
     /** Wathe's {@code tasks.isEmpty()} gate: the pseudo task keeps it draining. / 临时任务使下降不被跳过。 */

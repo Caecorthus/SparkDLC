@@ -87,10 +87,7 @@ public final class RiftSessionService {
         if (player == null || gate == null) {
             return ActionResult.FAIL;
         }
-        RiftSessionComponent session = RiftSessionComponent.KEY.getNullable(player);
-        if (session == null) {
-            return ActionResult.FAIL;
-        }
+        RiftSessionComponent session = RiftSessionComponent.KEY.get(player);
         ServerWorld world = player.getServerWorld();
         GameWorldComponent game = GameWorldComponent.KEY.get(world);
         String matchId = RiftwalkerMatch.currentMatchId(world);
@@ -100,7 +97,7 @@ public final class RiftSessionService {
         }
         RiftGateUser user = RiftGateUsers.classify(player);
         Optional<RiftGateRecord> record = registeredRecord(world, gate);
-        WitchPlayerComponent witch = WitchPlayerComponent.KEY.getNullable(player);
+        WitchPlayerComponent witch = WitchPlayerComponent.KEY.get(player);
         RiftSessionRules.EntryFacts facts = new RiftSessionRules.EntryFacts(
                 user,
                 game.getGameStatus() == GameWorldComponent.GameStatus.ACTIVE && matchId != null,
@@ -114,8 +111,8 @@ public final class RiftSessionService {
                 gate.getBoundingBox().squaredMagnitude(player.getEyePos())
                         <= RiftwalkerRules.ENTRY_REACH * RiftwalkerRules.ENTRY_REACH,
                 session.cooldownRemainingTicks(),
-                witch != null && witch.hasManaSystem(),
-                witch == null ? 0 : witch.getMana());
+                witch.hasManaSystem(),
+                witch.getMana());
         RiftSessionRules.EntryDenial denial = RiftSessionRules.entryDenial(facts);
         if (denial != null) {
             sendEntryDenial(player, denial, user, session);
@@ -148,8 +145,8 @@ public final class RiftSessionService {
         if (player == null || !RiftHopRing.isDirection(direction)) {
             return;
         }
-        RiftSessionComponent session = RiftSessionComponent.KEY.getNullable(player);
-        if (session == null || !session.inside() || sessionId == 0 || sessionId != session.sessionId()) {
+        RiftSessionComponent session = RiftSessionComponent.KEY.get(player);
+        if (!session.inside() || sessionId == 0 || sessionId != session.sessionId()) {
             return;
         }
         ServerWorld world = player.getServerWorld();
@@ -185,8 +182,8 @@ public final class RiftSessionService {
         if (player == null) {
             return;
         }
-        RiftSessionComponent session = RiftSessionComponent.KEY.getNullable(player);
-        if (session == null || !session.inside() || sessionId == 0 || sessionId != session.sessionId()) {
+        RiftSessionComponent session = RiftSessionComponent.KEY.get(player);
+        if (!session.inside() || sessionId == 0 || sessionId != session.sessionId()) {
             return;
         }
         // One exit search per tick: a search that was just refused is not repeated for further packets of this tick.
@@ -214,8 +211,8 @@ public final class RiftSessionService {
         }
         List<Integer> ring = numbers(RiftGateRegistry.gates(world));
         for (ServerPlayerEntity player : List.copyOf(world.getPlayers())) {
-            RiftSessionComponent session = RiftSessionComponent.KEY.getNullable(player);
-            if (session == null || !session.inside() || !world.getRegistryKey().equals(session.sessionWorld())) {
+            RiftSessionComponent session = RiftSessionComponent.KEY.get(player);
+            if (!session.inside() || !world.getRegistryKey().equals(session.sessionWorld())) {
                 continue;
             }
             if (session.gateNumber() == removed.number()) {
@@ -239,7 +236,7 @@ public final class RiftSessionService {
      * 不在门内时直接返回（冷却无需逐刻处理：两端分别由绝对 tick / 同步值计算）。
      */
     public static void tick(ServerPlayerEntity player) {
-        RiftSessionComponent session = player == null ? null : RiftSessionComponent.KEY.getNullable(player);
+        RiftSessionComponent session = player == null ? null : RiftSessionComponent.KEY.get(player);
         if (session == null || !session.inside()) {
             return;
         }
@@ -263,8 +260,7 @@ public final class RiftSessionService {
         if (player == null || reason == null) {
             return false;
         }
-        RiftSessionComponent session = RiftSessionComponent.KEY.getNullable(player);
-        return session != null && end(player, session, reason, null, null, null);
+        return end(player, RiftSessionComponent.KEY.get(player), reason, null, null, null);
     }
 
     /** Both sides (the client knows only its own state). / 双端（客户端只知道自己的状态）。 */
@@ -272,8 +268,7 @@ public final class RiftSessionService {
         if (player == null) {
             return false;
         }
-        RiftSessionComponent session = RiftSessionComponent.KEY.getNullable(player);
-        return session != null && session.inside();
+        return RiftSessionComponent.KEY.get(player).inside();
     }
 
     /**
@@ -288,15 +283,15 @@ public final class RiftSessionService {
             return false;
         }
         try {
-            RiftSessionComponent session = RiftSessionComponent.KEY.getNullable(player);
-            WitchPlayerComponent witch = WitchPlayerComponent.KEY.getNullable(player);
+            RiftSessionComponent session = RiftSessionComponent.KEY.get(player);
+            WitchPlayerComponent witch = WitchPlayerComponent.KEY.get(player);
             boolean participant = GameFunctions.isPlayerPlayingAndAlive(player)
                     && GameFunctions.isPlayerAliveAndSurvival(player)
                     && !WraithStateService.isActive(player);
             return RiftSessionRules.claimsRightClick(RiftGateUsers.classify(player), participant,
-                    session != null && session.inside(),
-                    session == null ? 0 : session.cooldownRemainingTicks(),
-                    witch != null && witch.hasManaSystem(), witch == null ? 0 : witch.getMana());
+                    session.inside(),
+                    session.cooldownRemainingTicks(),
+                    witch.hasManaSystem(), witch.getMana());
         } catch (RuntimeException | LinkageError failure) {
             return false;
         }
@@ -304,7 +299,7 @@ public final class RiftSessionService {
 
     /** Server: the gate number the player is inside, if any. / 服务端：玩家所在门的编号（若在门内）。 */
     public static OptionalInt currentGate(ServerPlayerEntity player) {
-        RiftSessionComponent session = player == null ? null : RiftSessionComponent.KEY.getNullable(player);
+        RiftSessionComponent session = player == null ? null : RiftSessionComponent.KEY.get(player);
         return session != null && session.inside() ? OptionalInt.of(session.gateNumber()) : OptionalInt.empty();
     }
 
@@ -342,8 +337,8 @@ public final class RiftSessionService {
                 || !RiftSessionRules.isForeignTeleport(RiftSessionBody.isOwnTeleport(), duringOwnMovePacket)) {
             return;
         }
-        RiftSessionComponent session = RiftSessionComponent.KEY.getNullable(player);
-        if (session != null && session.inside()) {
+        RiftSessionComponent session = RiftSessionComponent.KEY.get(player);
+        if (session.inside()) {
             session.markForeignMove();
         }
     }
@@ -543,11 +538,11 @@ public final class RiftSessionService {
      * 本体被其他机制持有或玩家被锁定：饕餮、背水一战、最后逃亡、绑架者控制、控场专家眩晕、搜寻者会话或镜头被他人占用。
      */
     private static boolean isControlled(ServerPlayerEntity player) {
-        KidnapperControlComponent kidnap = KidnapperControlComponent.KEY.getNullable(player);
+        KidnapperControlComponent kidnap = KidnapperControlComponent.KEY.get(player);
         return NoellesTaotieSeekerBridge.isSwallowed(player)
                 || SparkTraitsApi.isLastStandPending(player)
                 || SparkTraitsApi.isLastEscapeActive(player)
-                || kidnap != null && kidnap.isControlled()
+                || kidnap.isControlled()
                 || ControlExpertStun.isStunned(player)
                 || SeekerRemoteSessionService.isLocked(player)
                 || player.getCameraEntity() != player;

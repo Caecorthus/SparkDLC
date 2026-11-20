@@ -1,6 +1,5 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.spiritualist;
 
-import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.mixin.minecraft.MinecraftClientAccessor;
 import dev.caecorthus.sparkdlc.client.render.WraithViewerGates;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityRegistry;
@@ -73,7 +72,6 @@ public final class SpiritPossessionClient {
     private static final BodySettleHold BODY_HOLD = new BodySettleHold();
     // Aim, refreshed every tick for the HUD and the key. / 瞄准结果，每刻刷新，供 HUD 与按键使用。
     private static @Nullable PlayerEntity aimedWraith;
-    private static boolean keyAvailable;
     private static boolean registered;
 
     private SpiritPossessionClient() {
@@ -96,11 +94,7 @@ public final class SpiritPossessionClient {
         // 闸门与按键总会安装。闸门向其接受的观察者显示活跃冤魂的身体（参数为 (观察者, 冤魂)，渲染线程）。
         WraithViewerGates.add((viewer, wraith) -> seesWraiths(viewer));
         // The registry dispatches by the raw Wathe role id. / 注册表按原始 Wathe 职业 id 分发。
-        keyAvailable = SecondaryAbilityRegistry.tryRegisterAction(SpiritPossessionRules.SPIRITUALIST_ID,
-                SpiritPossessionClient::onKeyPressed);
-        if (!keyAvailable) {
-            SparkDLC.LOGGER.warn("Spiritualist possession has no key: the Role Skill 2 hook is unavailable or taken.");
-        }
+        SecondaryAbilityRegistry.register(SpiritPossessionRules.SPIRITUALIST_ID, client -> onKeyPressed());
     }
 
     // ------------------------------------------------------------------------------------------------ queries
@@ -108,11 +102,6 @@ public final class SpiritPossessionClient {
     /** A possession is running on this client. / 本客户端正在附身。 */
     public static boolean isPossessing() {
         return targetId >= 0;
-    }
-
-    /** Role skill 2 reaches the possession. / 职业技能 2 能触发附身。 */
-    public static boolean isKeyAvailable() {
-        return keyAvailable;
     }
 
     public static int remainingTicks() {
@@ -312,7 +301,7 @@ public final class SpiritPossessionClient {
         ClientPlayerEntity player = client.player;
         if (targetId < 0) {
             BODY_HOLD.tick(client);
-            aimedWraith = player != null && isLocalSpiritualist(player) && keyAvailable ? findAimedWraith(client) : null;
+            aimedWraith = player != null && isLocalSpiritualist(player) ? findAimedWraith(client) : null;
             return;
         }
         aimedWraith = null;

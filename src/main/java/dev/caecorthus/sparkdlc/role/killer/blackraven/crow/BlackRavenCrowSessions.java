@@ -54,8 +54,8 @@ public final class BlackRavenCrowSessions {
         if (owner == null) {
             return null;
         }
-        BlackRavenCrowPlayerComponent component = BlackRavenCrowPlayerComponent.KEY.getNullable(owner);
-        if (component == null || !component.isActive()) {
+        BlackRavenCrowPlayerComponent component = BlackRavenCrowPlayerComponent.KEY.get(owner);
+        if (!component.isActive()) {
             return null;
         }
         BlackRavenCrowEntity crow = findCrow(owner, component.getCrowEntityId());
@@ -74,8 +74,8 @@ public final class BlackRavenCrowSessions {
         if (owner == null) {
             return null;
         }
-        BlackRavenCrowPlayerComponent component = BlackRavenCrowPlayerComponent.KEY.getNullable(owner);
-        return component != null && component.isActive() && component.getCrowEntityId() == crow.getId()
+        BlackRavenCrowPlayerComponent component = BlackRavenCrowPlayerComponent.KEY.get(owner);
+        return component.isActive() && component.getCrowEntityId() == crow.getId()
                 ? owner : null;
     }
 
@@ -147,8 +147,8 @@ public final class BlackRavenCrowSessions {
         if (player == null || reason == null) {
             return;
         }
-        BlackRavenCrowPlayerComponent component = BlackRavenCrowPlayerComponent.KEY.getNullable(player);
-        if (component == null || !component.isActive()) {
+        BlackRavenCrowPlayerComponent component = BlackRavenCrowPlayerComponent.KEY.get(player);
+        if (!component.isActive()) {
             return;
         }
         BlackRavenCrowEntity crow = findCrow(player, component.getCrowEntityId());
@@ -244,8 +244,7 @@ public final class BlackRavenCrowSessions {
         if (ControlExpertStun.isStunned(player)) {
             return BlackRavenCrowEndReason.STUNNED;
         }
-        KidnapperControlComponent kidnap = KidnapperControlComponent.KEY.getNullable(player);
-        if (kidnap != null && kidnap.isControlled()) {
+        if (KidnapperControlComponent.KEY.get(player).isControlled()) {
             return BlackRavenCrowEndReason.KIDNAPPED;
         }
         if (GrandWitchFearService.isPlayerFeared(player)) {
@@ -309,10 +308,7 @@ public final class BlackRavenCrowSessions {
     /** Ends any session and wipes the component (role change, reset, round end). / 结束会话并清空组件。 */
     static void endAndClear(ServerPlayerEntity player, BlackRavenCrowEndReason reason) {
         end(player, reason);
-        BlackRavenCrowPlayerComponent component = BlackRavenCrowPlayerComponent.KEY.getNullable(player);
-        if (component != null) {
-            component.clear();
-        }
+        BlackRavenCrowPlayerComponent.KEY.get(player).clear();
     }
 
     /** Round-end sweep of every crow in the world. / 回合结束时清扫该世界中的所有乌鸦。 */

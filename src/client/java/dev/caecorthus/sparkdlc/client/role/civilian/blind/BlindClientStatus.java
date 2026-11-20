@@ -19,10 +19,7 @@ public record BlindClientStatus(int caneCooldownTicks, int caneActiveTicks,
         if (player == null) {
             return NONE;
         }
-        BlindComponent component = BlindComponent.KEY.getNullable(player);
-        if (component == null) {
-            return NONE;
-        }
+        BlindComponent component = BlindComponent.KEY.get(player);
         long now = player.getWorld().getTime();
         return new BlindClientStatus(
                 component.caneCooldownRemaining(now),

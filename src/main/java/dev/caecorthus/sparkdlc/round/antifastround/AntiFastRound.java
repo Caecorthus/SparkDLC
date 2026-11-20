@@ -38,8 +38,7 @@ public final class AntiFastRound {
             return false;
         }
         AntiFastRoundComponent state = state(player.getWorld());
-        return state != null
-                && isOpen(player.getWorld(), state)
+        return isOpen(player.getWorld(), state)
                 && GameFunctions.isPlayerAliveAndSurvival(player)
                 && GameFunctions.isPlayerPlayingAndAlive(player);
     }
@@ -49,7 +48,7 @@ public final class AntiFastRound {
             return 0;
         }
         AntiFastRoundComponent state = state(player.getWorld());
-        if (state == null || !isOpen(player.getWorld(), state)) {
+        if (!isOpen(player.getWorld(), state)) {
             return 0;
         }
         // A client clock running ahead of the server may already read zero while the lock still holds.
@@ -76,9 +75,6 @@ public final class AntiFastRound {
             return;
         }
         AntiFastRoundComponent state = state(serverWorld);
-        if (state == null) {
-            return;
-        }
         if (!state.isEnabled()) {
             state.closeWindow();
             return;
@@ -90,17 +86,14 @@ public final class AntiFastRound {
     /** Server only: Wathe {@code GameEvents.ON_FINISH_FINALIZE}. / 仅服务端：Wathe 对局收尾完成事件。 */
     static void onRoundFinalized(World world, GameWorldComponent gameComponent) {
         if (world instanceof ServerWorld serverWorld) {
-            AntiFastRoundComponent state = state(serverWorld);
-            if (state != null) {
-                state.closeWindow();
-            }
+            state(serverWorld).closeWindow();
         }
     }
 
     /** Server only: sends the delayed start notice and closes the window on time. / 仅服务端：延迟发送开局提示并按时关闭窗口。 */
     static void tick(MinecraftServer server) {
-        AntiFastRoundComponent state = AntiFastRoundComponent.KEY.getNullable(server.getScoreboard());
-        if (state == null || !state.hasOpenWindow()) {
+        AntiFastRoundComponent state = AntiFastRoundComponent.KEY.get(server.getScoreboard());
+        if (!state.hasOpenWindow()) {
             return;
         }
         ServerWorld world = state.getWindowWorld() == null ? null : server.getWorld(state.getWindowWorld());
@@ -156,7 +149,7 @@ public final class AntiFastRound {
                 : AntiFastRoundRules.isWithinWindow(world.getTime(), state.getWindowEnd());
     }
 
-    private static @Nullable AntiFastRoundComponent state(World world) {
-        return AntiFastRoundComponent.KEY.getNullable(world.getScoreboard());
+    private static AntiFastRoundComponent state(World world) {
+        return AntiFastRoundComponent.KEY.get(world.getScoreboard());
     }
 }

@@ -12,7 +12,6 @@ import net.createmod.ponder.api.scene.PonderStoryBoard;
 import net.createmod.ponder.foundation.PonderIndex;
 import net.createmod.ponder.foundation.PonderScene;
 import net.createmod.ponder.foundation.PonderStoryBoardEntry;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -50,24 +49,20 @@ final class SparkPonderDemos {
     record Scene(String stage, PonderStoryBoard board) {
     }
 
-    /** @param requiredMods the mods that must all be loaded for the demo to exist / 演示存在所需的全部模组 */
-    private record Demo(Identifier icon, List<Scene> scenes, boolean indexed, List<String> requiredMods) {
-        boolean available() {
-            return requiredMods.stream().allMatch(FabricLoader.getInstance()::isModLoaded);
-        }
+    /**
+     * Every demo exists unconditionally: the mods its scenes show (this mod, NoellesRoles, Wathe) are always loaded,
+     * the last two being required dependencies in {@code fabric.mod.json}.
+     * 每个演示都无条件存在：场景展示的模组（本模组、NoellesRoles、Wathe）总是已加载，后两者是 fabric.mod.json 中的必需依赖。
+     */
+    private record Demo(Identifier icon, List<Scene> scenes, boolean indexed) {
     }
 
     static void item(String itemId, Scene... scenes) {
-        DEMOS.put(itemId, new Demo(Identifier.of(itemId), List.of(scenes), true, List.of()));
+        DEMOS.put(itemId, new Demo(Identifier.of(itemId), List.of(scenes), true));
     }
 
-    /** A demo that names the mods it needs; only exists while those mods are loaded. 声明了所需模组的演示；仅在这些模组都已加载时存在。 */
-    static void item(String itemId, List<String> requiredMods, Scene... scenes) {
-        DEMOS.put(itemId, new Demo(Identifier.of(itemId), List.of(scenes), true, requiredMods));
-    }
-
-    static void role(String roleDemoId, List<String> requiredMods, Scene... scenes) {
-        DEMOS.put(roleDemoId, new Demo(ROLE_ICON, List.of(scenes), false, requiredMods));
+    static void role(String roleDemoId, Scene... scenes) {
+        DEMOS.put(roleDemoId, new Demo(ROLE_ICON, List.of(scenes), false));
     }
 
     static Scene scene(String stage, PonderStoryBoard board) {
@@ -75,8 +70,7 @@ final class SparkPonderDemos {
     }
 
     static boolean has(String id) {
-        Demo demo = DEMOS.get(id);
-        return demo != null && demo.available();
+        return DEMOS.containsKey(id);
     }
 
     static void open(String id, @Nullable Screen returnTo) {
@@ -96,7 +90,7 @@ final class SparkPonderDemos {
 
     /** Item demos join Ponder's own index and the hold-W hint. 物品演示加入 Ponder 自己的索引与按住 W 提示。 */
     static void registerIndexed(PonderSceneRegistrationHelper<Identifier> helper) {
-        DEMOS.values().stream().filter(demo -> demo.indexed() && demo.available()).forEach(demo -> {
+        DEMOS.values().stream().filter(Demo::indexed).forEach(demo -> {
             for (Scene scene : demo.scenes()) {
                 helper.addStoryBoard(demo.icon(), scene.stage(), scene.board());
             }

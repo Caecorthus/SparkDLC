@@ -29,11 +29,11 @@ import net.minecraft.util.TypedActionResult;
  * written only after {@link TimeTheftRuntime#steal} committed, or when a nearer Seeker device shielding an eligible
  * target absorbed the Clock (owner decision Q9; unlike the Taser and the Feather Blade, a miss never breaks a device),
  * or after the Clock killed a Partygoer. The authoritative deadline is {@code ClockReadyAt}; the item cooldown is
- * display only, written exactly through {@code SparkTraitsApi}; its vanilla fallback is unreachable since the fusion.
+ * display only, written exactly through {@code SparkTraitsApi}.
  * 只有两种仅所有者可见的结果：“已窃取”与一条通用的“无目标”，因此免费的未命中无法用来探测隐藏状态（隐身、最后逃脱、
  * 阵营否决、已被窃）。被拒绝不付出任何代价；只有在 {@link TimeTheftRuntime#steal} 提交之后，或更近的搜寻者设备吸收了
  * 时钟时（所有者决定 Q9；与电击枪和羽刃不同，未命中绝不打坏设备），或时钟打死派对客之后，才写入冷却。权威截止为 {@code ClockReadyAt}；物品冷却只作显示，
- * 经 {@code SparkTraitsApi} 精确写入；其原版回退分支融合后不可达。
+ * 经 {@code SparkTraitsApi} 精确写入。
  */
 public final class TimeStealerClockService {
     static final String STOLEN_KEY = "message.sparkdlc.time_stealer.stolen";
@@ -172,15 +172,11 @@ public final class TimeStealerClockService {
     }
 
     /**
-     * The trait API's exact write performs the vanilla {@code set} itself past cooldown modifiers, so it goes first;
-     * the plain vanilla write is the fallback for a refused exact write (null player or item only), unreachable since
-     * the fusion (never both: two cooldown packets).
-     * 词条 API 的精确写入会越过冷却倍率自行完成原版写入，因此优先调用；原版写入是精确写入被拒（仅玩家或物品为空）时的回退，
-     * 融合后不可达（二者不会同时执行，以免发送两次冷却数据包）。
+     * The trait API's exact write performs the vanilla {@code set} itself past cooldown modifiers (one cooldown
+     * packet).
+     * 词条 API 的精确写入会越过冷却倍率自行完成原版写入（只发送一次冷却数据包）。
      */
     private static void showCooldown(ServerPlayerEntity user, Item clock, int ticks) {
-        if (!SparkTraitsApi.setExactItemCooldownRemaining(user, clock, ticks)) {
-            user.getItemCooldownManager().set(clock, ticks);
-        }
+        SparkTraitsApi.setExactItemCooldownRemaining(user, clock, ticks);
     }
 }

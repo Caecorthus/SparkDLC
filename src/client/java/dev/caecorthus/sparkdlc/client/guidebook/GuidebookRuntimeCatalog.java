@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.client.guidebook;
 
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.guidebook.data.GuidebookResourceLoader;
 import dev.caecorthus.sparkdlc.guidebook.GuidebookCatalog;
 import dev.caecorthus.sparkdlc.guidebook.GuidebookDiscoveryRules;
@@ -40,7 +41,6 @@ public final class GuidebookRuntimeCatalog {
         discoverRegistry(
                 discovered,
                 authoredIds,
-                "sparkdlc",
                 TraitRegistry.values(),
                 Trait::id,
                 Trait::color,
@@ -50,7 +50,6 @@ public final class GuidebookRuntimeCatalog {
         discoverRegistry(
                 discovered,
                 authoredIds,
-                "sparkdlc",
                 WitchSkillRegistry.values(),
                 WitchSkillDefinition::id,
                 WitchSkillDefinition::color,
@@ -94,16 +93,16 @@ public final class GuidebookRuntimeCatalog {
     }
 
     /**
-     * Adds an entry for every value of one of the mod's own registries that has no authored page. {@code modId} is
-     * the registry's namespace, recorded as the entry's owner and required mod. The registry values are read directly
-     * (they used to be looked up by class name behind an isModLoaded gate, while the registries lived in other jars).
-     * 为本模组某个注册表中每个没有人工页面的值添加条目。{@code modId} 是该注册表的命名空间，记录为条目的所属模组与所需模组。
-     * 注册表的值直接读取（这些注册表还在其他 jar 中时，是在 isModLoaded 判断之后按类名查找）。
+     * Adds an entry for every value of one of the mod's own registries that has no authored page. The entry's owner is
+     * this mod and it requires no other mod: the registries are part of this mod, which is always loaded (they used to
+     * be looked up by class name behind an isModLoaded gate, and each entry named its former mod as required, while
+     * the registries lived in other jars).
+     * 为本模组某个注册表中每个没有人工页面的值添加条目。条目的所属模组是本模组，且不需要其他模组：这些注册表属于总是已加载的
+     * 本模组（它们还在其他 jar 中时，是在 isModLoaded 判断之后按类名查找，每个条目也把原模组声明为所需模组）。
      */
     private static <T> void discoverRegistry(
             List<GuidebookEntry> entries,
             Set<String> authoredIds,
-            String modId,
             Collection<T> values,
             Function<T, Identifier> idOf,
             ToIntFunction<T> colorOf,
@@ -125,12 +124,12 @@ public final class GuidebookRuntimeCatalog {
             entries.add(new GuidebookEntry(
                     id.toString(),
                     tab,
-                    modId,
+                    SparkDLC.MOD_ID,
                     baseKey + ".name",
                     baseKey + ".description",
                     List.of(baseKey + ".description"),
                     GuidebookDiscoveryRules.ownerRoleIds(id.toString()),
-                    List.of(modId),
+                    List.of(),
                     color,
                     order++
             ));
@@ -138,13 +137,15 @@ public final class GuidebookRuntimeCatalog {
     }
 
     /**
-     * Ids a guide page may name as its required mods. A container also answers for the ids it {@code provides}:
-     * SparkDLC is one container that provides {@code sparkwitch}, {@code sparktraits}, {@code sparkstrength},
-     * {@code sparkfactionapi} and {@code sparkassist}, so a guide page from a resource pack that still names one of
-     * those legacy module ids stays available (the built-in pages name {@code sparkdlc}).
-     * 指南页面可声明为“所需模组”的 id。容器同时代表它 {@code provides} 的 id：SparkDLC 是一个容器，提供
-     * {@code sparkwitch}、{@code sparktraits}、{@code sparkstrength}、{@code sparkfactionapi} 与
-     * {@code sparkassist}，因此资源包中仍按这些旧模块 id 声明的指南页面依然可用（内置页面声明的是 {@code sparkdlc}）。
+     * The loaded mod ids the discovered pages are checked against (authored pages, resource packs' included, are never
+     * filtered). Only a discovered role page names a required mod: its role's namespace, so a role another mod
+     * registers in Wathe's role list under a namespace that no loaded mod has or provides gets no page. A container
+     * also answers for the ids it {@code provides}: SparkDLC provides {@code sparkwitch}, {@code sparktraits},
+     * {@code sparkstrength}, {@code sparkfactionapi} and {@code sparkassist}.
+     * 用来检查自动发现页面的已加载 mod id（人工编写的页面，包括资源包中的，从不筛选）。只有自动发现的职业页面声明所需模组：
+     * 即该职业的命名空间，因此其他模组以任何已加载模组都没有、也不 provides 的命名空间注册到 Wathe 职业列表的职业不会有页面。
+     * 容器同时代表它 {@code provides} 的 id：SparkDLC 提供 {@code sparkwitch}、{@code sparktraits}、
+     * {@code sparkstrength}、{@code sparkfactionapi} 与 {@code sparkassist}。
      */
     private static Set<String> loadedModIds() {
         Set<String> ids = new HashSet<>();

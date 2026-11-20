@@ -14,7 +14,6 @@ import static dev.caecorthus.sparkdlc.client.ponder.WatheItemScenes.WEST;
 import static dev.caecorthus.sparkdlc.client.ponder.WatheItemScenes.stack;
 
 import dev.doctor4t.wathe.index.WatheParticles;
-import java.util.List;
 import java.util.function.Consumer;
 import net.createmod.catnip.math.Pointing;
 import net.createmod.ponder.api.PonderPalette;
@@ -108,31 +107,21 @@ final class RoleKitCivilianItemScenes {
     }
 
     static void register() {
-        List<String> noellesStrength = List.of("noellesroles", "sparkdlc");
-        List<String> bluePoison = List.of("noellesroles", "sparkdlc");
-        List<String> perfumer = List.of("sparkdlc");
-        item("sparkdlc:capsule", bluePoison, scene("wathe/bar", RoleKitCivilianItemScenes::capsule));
-        item("sparkdlc:blue_belladonna", bluePoison,
-                scene("wathe/aisle", RoleKitCivilianItemScenes::blueBelladonna));
-        item("sparkdlc:flashlight", noellesStrength,
-                scene("wathe/lit_carriage", RoleKitCivilianItemScenes::flashlight));
-        item("sparkdlc:sedative", noellesStrength,
-                scene("wathe/aisle", RoleKitCivilianItemScenes::professorSerums));
-        item("sparkdlc:truth_serum", noellesStrength,
-                scene("wathe/aisle", RoleKitCivilianItemScenes::professorSerums));
-        item("sparkdlc:capture_device", noellesStrength,
-                scene("wathe/aisle", RoleKitCivilianItemScenes::captureDevice));
-        item("sparkdlc:dying_watch", noellesStrength,
-                scene("wathe/aisle", RoleKitCivilianItemScenes::dyingWatch));
-        item("sparkdlc:aroma_orb", perfumer, scene("wathe/aisle", RoleKitCivilianItemScenes::aromaOrb));
-        item("sparkdlc:zephyr_perfume", perfumer,
-                scene("wathe/aisle", RoleKitCivilianItemScenes::zephyrPerfume));
+        item("sparkdlc:capsule", scene("wathe/bar", RoleKitCivilianItemScenes::capsule));
+        item("sparkdlc:blue_belladonna", scene("wathe/aisle", RoleKitCivilianItemScenes::blueBelladonna));
+        item("sparkdlc:flashlight", scene("wathe/lit_carriage", RoleKitCivilianItemScenes::flashlight));
+        item("sparkdlc:sedative", scene("wathe/aisle", RoleKitCivilianItemScenes::professorSerums));
+        item("sparkdlc:truth_serum", scene("wathe/aisle", RoleKitCivilianItemScenes::professorSerums));
+        item("sparkdlc:capture_device", scene("wathe/aisle", RoleKitCivilianItemScenes::captureDevice));
+        item("sparkdlc:dying_watch", scene("wathe/aisle", RoleKitCivilianItemScenes::dyingWatch));
+        item("sparkdlc:aroma_orb", scene("wathe/aisle", RoleKitCivilianItemScenes::aromaOrb));
+        item("sparkdlc:zephyr_perfume", scene("wathe/aisle", RoleKitCivilianItemScenes::zephyrPerfume));
         for (String spirit : SPIRITS) {
-            item(spirit, noellesStrength, scene("wathe/bar", NoellesCivilianScenes::bartender),
+            item(spirit, scene("wathe/bar", NoellesCivilianScenes::bartender),
                     scene("wathe/lit_carriage", RoleKitCivilianItemScenes::spirits));
         }
         for (String modifier : MODIFIERS) {
-            item(modifier, noellesStrength, scene("wathe/bar", NoellesCivilianScenes::bartender),
+            item(modifier, scene("wathe/bar", NoellesCivilianScenes::bartender),
                     scene("wathe/aisle", RoleKitCivilianItemScenes::modifiers));
         }
     }

@@ -10,17 +10,14 @@ import net.minecraft.item.Item;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.function.IntConsumer;
-import java.util.function.IntPredicate;
 
 /**
  * Frozen contract: the single "max + exact" writer of the {@code seeker_car} item cooldown. A longer existing cooldown
- * is kept; the exact write ({@code SparkTraitsApi.setExactItemCooldownRemaining}) is used first and the vanilla set
- * only when it returns false (never both). It returns false only for a null player or item, which
- * {@link #writeFloorExact} never passes, so the vanilla fallback is unreachable since the fusion.
+ * is kept; the write is the exact one ({@code SparkTraitsApi.setExactItemCooldownRemaining}), which performs the
+ * vanilla set itself (one write, one packet).
  * Only {@code SeekerStatusComponent#apply} calls {@link #writeFloorExact}; it is never written anywhere else.
  * 冻结契约：{@code seeker_car} 物品冷却“取大 + 精确”的唯一写入方。保留更长的既有冷却；
- * 优先使用精确写入（{@code SparkTraitsApi.setExactItemCooldownRemaining}），仅当其返回 false 时才回退原版写入（绝不写两次）。
- * 它只在玩家或物品为空时返回 false，而 {@link #writeFloorExact} 从不传入空值，因此原版回退融合后不可达。
+ * 写入使用精确写入（{@code SparkTraitsApi.setExactItemCooldownRemaining}），由它自行完成原版写入（只写一次、只发一个数据包）。
  * 只有 {@code SeekerStatusComponent#apply} 调用 {@link #writeFloorExact}，其他地方从不写入。
  */
 public final class SeekerCooldowns {
@@ -39,29 +36,24 @@ public final class SeekerCooldowns {
             return false;
         }
         Item car = SparkDlcItems.seekerCar();
-        // The exact write bypasses Fast Hands itself and performs the vanilla write; only on false do we write
-        // vanilla (unreachable since the fusion: player and item are never null here).
-        // 精确写入自行绕过快手并完成原版写入；仅当其返回 false 时才由我们写入原版冷却（融合后不可达：此处玩家与物品都不为空）。
+        // The exact write bypasses Fast Hands itself and performs the vanilla write.
+        // 精确写入自行绕过快手并完成原版写入。
         return write(remainingTicks(player), ticks,
-                merged -> SparkTraitsApi.setExactItemCooldownRemaining(player, car, merged),
-                merged -> player.getItemCooldownManager().set(car, merged));
+                merged -> SparkTraitsApi.setExactItemCooldownRemaining(player, car, merged));
     }
 
     /**
      * Pure write rule: nothing happens unless the merged value ({@link SeekerRules#mergeCooldownTicks}) is longer than
-     * what already runs; then exactly one writer runs: the exact one, or the vanilla one only when the exact one
-     * reports false.
-     * 纯写入规则：只有取大后的值长于当前剩余时间才写入；随后恰好执行一个写入方：精确写入，或仅当其返回 false 时的原版写入。
+     * what already runs; then the exact writer runs once.
+     * 纯写入规则：只有取大后的值长于当前剩余时间才写入；随后精确写入执行一次。
      */
-    static boolean write(int existingTicks, int requestedTicks, IntPredicate exactWriter, IntConsumer vanillaWriter) {
+    static boolean write(int existingTicks, int requestedTicks, IntConsumer exactWriter) {
         int existing = Math.max(0, existingTicks);
         int merged = SeekerRules.mergeCooldownTicks(existing, requestedTicks);
         if (merged <= existing) {
             return false;
         }
-        if (!exactWriter.test(merged)) {
-            vanillaWriter.accept(merged);
-        }
+        exactWriter.accept(merged);
         return true;
     }
 

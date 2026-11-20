@@ -313,7 +313,7 @@ public final class BlackRavenCrowPilotClient {
     /** The feather slot shows the Homing Feather. / 归羽格显示归羽。 */
     public static boolean showsFeather(@Nullable ClientPlayerEntity player) {
         BlackRavenCrowPlayerComponent component = player == null ? null
-                : BlackRavenCrowPlayerComponent.KEY.getNullable(player);
+                : BlackRavenCrowPlayerComponent.KEY.get(player);
         return component != null && BlackRavenCrowClientRules.showsFeather(component.hasFeather(), featherPendingTicks);
     }
 
@@ -345,8 +345,8 @@ public final class BlackRavenCrowPilotClient {
         if (player == null || candidate.getWorld() != player.getWorld()) {
             return false;
         }
-        BlackRavenCrowPlayerComponent component = BlackRavenCrowPlayerComponent.KEY.getNullable(player);
-        return component != null && component.isActive() && component.getCrowEntityId() == candidate.getId()
+        BlackRavenCrowPlayerComponent component = BlackRavenCrowPlayerComponent.KEY.get(player);
+        return component.isActive() && component.getCrowEntityId() == candidate.getId()
                 && candidate.isOwnedBy(player.getUuid());
     }
 
@@ -383,7 +383,7 @@ public final class BlackRavenCrowPilotClient {
     private static void requestDrop(MinecraftClient client) {
         BlackRavenCrowEntity bound = crow;
         BlackRavenCrowPlayerComponent component = client.player == null ? null
-                : BlackRavenCrowPlayerComponent.KEY.getNullable(client.player);
+                : BlackRavenCrowPlayerComponent.KEY.get(client.player);
         if (bound == null || component == null || client.getCameraEntity() != bound
                 || !BlackRavenCrowClientRules.sendsDrop(component.hasFeather(), featherPendingTicks)
                 || !ClientPlayNetworking.canSend(BlackRavenCrowDropFeatherC2SPayload.ID)) {
@@ -422,8 +422,8 @@ public final class BlackRavenCrowPilotClient {
             }
             return;
         }
-        BlackRavenCrowPlayerComponent component = BlackRavenCrowPlayerComponent.KEY.getNullable(player);
-        int sessionCrow = component != null && component.isActive() ? component.getCrowEntityId() : -1;
+        BlackRavenCrowPlayerComponent component = BlackRavenCrowPlayerComponent.KEY.get(player);
+        int sessionCrow = component.isActive() ? component.getCrowEntityId() : -1;
         if (active) {
             boolean sameSession = player == boundPlayer && client.world == boundWorld && sessionCrow == crowId
                     && player.isAlive() && !player.isSpectator();

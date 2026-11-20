@@ -6,9 +6,9 @@ import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Stable contract, side-neutral: which stacks act as the Seeker console. The tablet does (matched by registry id),
+ * Stable contract, side-neutral: which stacks act as the Seeker console. The tablet does,
  * and nothing else. The whole inventory counts (main, hotbar, offhand, cursor).
- * 稳定契约，两端通用：哪些物品可充当搜寻者控制台。平板可以（按注册 id 识别），除此之外没有别的。
+ * 稳定契约，两端通用：哪些物品可充当搜寻者控制台。平板可以，除此之外没有别的。
  * 整个背包都算（主背包、快捷栏、副手、光标）。
  *
  * <p>While the tablet belonged to another mod, the Search Car item stood in as the console when that mod was absent

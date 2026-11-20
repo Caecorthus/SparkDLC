@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import net.minecraft.nbt.NbtCompound;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,10 +29,10 @@ final class MatchRecordReader {
     }
 
     /**
-     * The latest record the client holds, as an opaque token; compare identities to tell whether a new one arrived.
-     * 客户端持有的最新记录，作为不透明的标记使用；比较引用即可判断是否收到了新记录。
+     * The latest record the client holds, or null; compare identities to tell whether a new one arrived.
+     * 客户端持有的最新记录，没有时为 null；比较引用即可判断是否收到了新记录。
      */
-    static Object latest() {
+    static @Nullable MatchRecordSnapshot latest() {
         return disabled ? null : SparkMatchRecordClient.latest();
     }
 
@@ -39,7 +40,7 @@ final class MatchRecordReader {
      * The record's events in record order, each with its NBT flattened by {@link RecordFlattener}.
      * 记录中的事件，按记录顺序排列，每条的 NBT 都由 {@link RecordFlattener} 展开。
      */
-    static List<MatchEvent> events(Object record) {
+    static List<MatchEvent> events(@Nullable MatchRecordSnapshot record) {
         if (record == null || disabled) {
             return List.of();
         }
@@ -48,7 +49,7 @@ final class MatchRecordReader {
         // 这个 try 覆盖对服务端发来的事件数据的读取（UUID、RecordFlattener）。读取失败的记录会让本次会话不再使用记录。
         try {
             List<MatchEvent> list = new ArrayList<>();
-            for (MatchRecordSnapshot.Event event : ((MatchRecordSnapshot) record).events()) {
+            for (MatchRecordSnapshot.Event event : record.events()) {
                 NbtCompound data = event.data();
                 list.add(new MatchEvent(
                         event.type(),

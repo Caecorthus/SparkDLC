@@ -40,7 +40,6 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.MinecraftServer;
@@ -57,6 +56,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameMode;
 import net.minecraft.world.World;
+import org.agmas.noellesroles.ModEffects;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayDeque;
@@ -81,7 +81,6 @@ public final class LastStandService {
     private static final int SAMPLE_INTERVAL_TICKS = 20 * 60;
     private static final int MAX_MOOD_SAMPLES = 5;
     private static final Identifier NOELLES_ASSASSINATED = Identifier.of("noellesroles", "assassinated");
-    private static final Identifier NOELLES_NO_COLLISION = Identifier.of("noellesroles", "no_collision");
     private static final Text ACTIONBAR = Text.literal("Let’s not give up just yet…");
     private static final Text CANNOT_ASSASSINATE = Text.literal("This target cannot be assassinated.");
     private static final Text CANNOT_SWAP = Text.literal("This target cannot be swapped.");
@@ -599,7 +598,7 @@ public final class LastStandService {
         player.teleport(player.getServerWorld(), state.deathPos().x, state.deathPos().y, state.deathPos().z, Set.of(), state.deathYaw(), state.deathPitch());
         applyPendingEffect(player, StatusEffects.BLINDNESS);
         applyPendingEffect(player, StatusEffects.INVISIBILITY);
-        applyPendingEffect(player, noellesNoCollisionEffect());
+        applyPendingEffect(player, ModEffects.NO_COLLISION);
         player.sendMessage(ACTIONBAR, true);
     }
 
@@ -796,11 +795,6 @@ public final class LastStandService {
         player.addStatusEffect(new StatusEffectInstance(effect, PENDING_TICKS + 10, 0, false, false, true));
     }
 
-    private static RegistryEntry<StatusEffect> noellesNoCollisionEffect() {
-        return Registries.STATUS_EFFECT.getEntry(NOELLES_NO_COLLISION).orElseThrow(() ->
-                new IllegalStateException("Missing NoellesRoles status effect: " + NOELLES_NO_COLLISION));
-    }
-
     private static PlayerBodyEntity findNewestBody(ServerWorld world, UUID playerUuid) {
         return world.getEntitiesByType(WatheEntities.PLAYER_BODY, body -> playerUuid.equals(body.getPlayerUuid()))
                 .stream()
@@ -940,14 +934,14 @@ public final class LastStandService {
             return new EffectSnapshot(
                     copy(player.getStatusEffect(StatusEffects.BLINDNESS)),
                     copy(player.getStatusEffect(StatusEffects.INVISIBILITY)),
-                    copy(player.getStatusEffect(noellesNoCollisionEffect()))
+                    copy(player.getStatusEffect(ModEffects.NO_COLLISION))
             );
         }
 
         void restore(ServerPlayerEntity player) {
             restore(player, StatusEffects.BLINDNESS, blindness);
             restore(player, StatusEffects.INVISIBILITY, invisibility);
-            restore(player, noellesNoCollisionEffect(), noCollision);
+            restore(player, ModEffects.NO_COLLISION, noCollision);
         }
 
         private static @Nullable StatusEffectInstance copy(@Nullable StatusEffectInstance effect) {

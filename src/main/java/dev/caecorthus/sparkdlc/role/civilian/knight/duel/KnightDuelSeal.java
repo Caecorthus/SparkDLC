@@ -160,12 +160,12 @@ public final class KnightDuelSeal {
     public static boolean whitelisted(Item item) {
         if (item == WatheItems.LETTER || item == WatheItems.KEY || item == WatheItems.LOCKPICK
                 || item == WatheItems.CROWBAR || item == WatheItems.KNIFE || item == WatheItems.DERRINGER
-                || item == SparkDlcItems.crossSword() || item instanceof CocktailItem) {
+                || item == SparkDlcItems.crossSword() || item == SparkDlcItems.tablet()
+                || item instanceof CocktailItem) {
             return true;
         }
         Identifier id = Registries.ITEM.getId(item);
-        if (id.equals(KnightDuelRules.MASTER_KEY_ID) || id.equals(KnightDuelRules.NEUTRAL_MASTER_KEY_ID)
-                || id.equals(KnightDuelRules.TABLET_ID)) {
+        if (id.equals(KnightDuelRules.MASTER_KEY_ID) || id.equals(KnightDuelRules.NEUTRAL_MASTER_KEY_ID)) {
             return true;
         }
         if (!id.getNamespace().equals(Identifier.DEFAULT_NAMESPACE)) {
@@ -218,16 +218,12 @@ public final class KnightDuelSeal {
 
     /**
      * The one deliberate shortening write, so it cannot be a monotonic {@code ForcedCooldowns.raise}. The traits'
-     * exact write performs the vanilla set itself after Fast Hands (and keeps its forced melee floor); the plain set
-     * is the fallback for an exact write that did not happen, unreachable since the fusion (the exact write refuses
-     * only a null player or item), never both. A zero write is exact whatever the modifier.
+     * exact write performs the vanilla set itself after Fast Hands (and keeps its forced melee floor). A zero write is
+     * exact whatever the modifier.
      * 唯一有意缩短的写入，因此不能使用单调的 {@code ForcedCooldowns.raise}。词条的精确写入会在快手之后自行完成
-     * 原版写入（并保留其强制近战下限）；回退到原版写入的分支只在精确写入未执行时运行，融合后不可达（精确写入只在玩家或
-     * 物品为空时拒绝），二者不会同时执行。写入 0 时无论何种倍率都是精确的。
+     * 原版写入（并保留其强制近战下限）。写入 0 时无论何种倍率都是精确的。
      */
     private static void restoreExact(ServerPlayerEntity player, Item item, int ticks) {
-        if (!SparkTraitsApi.setExactItemCooldownRemaining(player, item, ticks)) {
-            player.getItemCooldownManager().set(item, ticks);
-        }
+        SparkTraitsApi.setExactItemCooldownRemaining(player, item, ticks);
     }
 }

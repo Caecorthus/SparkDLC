@@ -15,7 +15,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -78,7 +77,7 @@ public final class NoaPaintService {
         world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.BLOCK_HONEY_BLOCK_SLIDE,
                 SoundCategory.PLAYERS, 1.0F, 1.0F);
         switch (outcome) {
-            case DOG -> giveItem(player, outcome, Registries.ITEM.get(NoaRules.DOG_PORTRAIT_ITEM_ID));
+            case DOG -> giveItem(player, outcome, SparkDlcItems.bigDogPortrait());
             case KEY -> giveItem(player, outcome, SparkDlcItems.spareKey());
             case SPYGLASS -> giveItem(player, outcome, Items.SPYGLASS);
             case FIRECRACKER -> giveItem(player, outcome, WatheItems.FIRECRACKER);

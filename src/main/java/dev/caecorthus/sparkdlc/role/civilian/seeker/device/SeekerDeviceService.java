@@ -104,8 +104,8 @@ public final class SeekerDeviceService {
         if (!(stack.getItem() instanceof SeekerCarItem)) {
             return TypedActionResult.pass(stack);
         }
-        SeekerStatusComponent status = SeekerStatusComponent.KEY.getNullable(owner);
-        if (status == null || status.carState() != SeekerCarState.READY
+        SeekerStatusComponent status = SeekerStatusComponent.KEY.get(owner);
+        if (status.carState() != SeekerCarState.READY
                 || status.sessionMode() != SeekerSessionMode.NONE
                 || owner.getItemCooldownManager().isCoolingDown(stack.getItem())
                 || !SeekerTargeting.canUseDevice(owner, stack)) {
@@ -157,8 +157,8 @@ public final class SeekerDeviceService {
         if (car.isRemoved() || !car.isOwnedBy(owner.getUuid())) {
             return ActionResult.PASS;
         }
-        SeekerStatusComponent status = SeekerStatusComponent.KEY.getNullable(owner);
-        if (status == null || !isReferenced(status, car)) {
+        SeekerStatusComponent status = SeekerStatusComponent.KEY.get(owner);
+        if (!isReferenced(status, car)) {
             return ActionResult.PASS;
         }
         if (status.sessionMode() != SeekerSessionMode.NONE || !SeekerTargeting.isActiveParticipant(owner)) {
@@ -187,8 +187,8 @@ public final class SeekerDeviceService {
             actionBar(owner, REMOTE_DENIED_NO_TABLET);
             return false;
         }
-        SeekerStatusComponent status = SeekerStatusComponent.KEY.getNullable(owner);
-        if (status == null || status.carState() != SeekerCarState.DEPLOYED) {
+        SeekerStatusComponent status = SeekerStatusComponent.KEY.get(owner);
+        if (status.carState() != SeekerCarState.DEPLOYED) {
             actionBar(owner, CAR_NOT_DEPLOYED);
             return false;
         }
@@ -213,7 +213,7 @@ public final class SeekerDeviceService {
      * 电量归零：结束小车会话（BATTERY_DEPLETED）、移除小车、写入 180 秒 DEPLETED 冷却、播放断电音；不标记、回放无损坏者。
      */
     public static boolean depleteCar(ServerPlayerEntity owner) {
-        SeekerStatusComponent status = owner == null ? null : SeekerStatusComponent.KEY.getNullable(owner);
+        SeekerStatusComponent status = owner == null ? null : SeekerStatusComponent.KEY.get(owner);
         if (status == null || status.carState() != SeekerCarState.DEPLOYED) {
             return false;
         }
@@ -237,8 +237,8 @@ public final class SeekerDeviceService {
         if (!(stack.getItem() instanceof SeekerCameraItem)) {
             return ActionResult.PASS;
         }
-        SeekerStatusComponent status = SeekerStatusComponent.KEY.getNullable(owner);
-        if (status == null || status.sessionMode() != SeekerSessionMode.NONE
+        SeekerStatusComponent status = SeekerStatusComponent.KEY.get(owner);
+        if (status.sessionMode() != SeekerSessionMode.NONE
                 || !SeekerTargeting.canUseDevice(owner, stack)) {
             actionBar(owner, DEVICE_BLOCKED);
             return ActionResult.FAIL;
@@ -339,7 +339,7 @@ public final class SeekerDeviceService {
         }
         SeekerDeviceKind kind = device.kind();
         ServerPlayerEntity owner = findOwner(device);
-        SeekerStatusComponent status = owner == null ? null : SeekerStatusComponent.KEY.getNullable(owner);
+        SeekerStatusComponent status = owner == null ? null : SeekerStatusComponent.KEY.get(owner);
         boolean referenced = status != null && isReferenced(status, device);
         if (referenced) {
             endSessionShowing(owner, status, kind, device.getId(), breakExitReason(kind));
@@ -370,7 +370,7 @@ public final class SeekerDeviceService {
             return false;
         }
         ServerPlayerEntity owner = findOwner(car);
-        SeekerStatusComponent status = owner == null ? null : SeekerStatusComponent.KEY.getNullable(owner);
+        SeekerStatusComponent status = owner == null ? null : SeekerStatusComponent.KEY.get(owner);
         if (status == null || !isReferenced(status, car)) {
             return false;
         }
@@ -402,7 +402,7 @@ public final class SeekerDeviceService {
      * 没有空位时保持被吞并设置 PendingReturn（只提示一次），由 WP-06 的刻重试。
      */
     public static boolean returnSwallowedCar(ServerPlayerEntity owner) {
-        SeekerStatusComponent status = owner == null ? null : SeekerStatusComponent.KEY.getNullable(owner);
+        SeekerStatusComponent status = owner == null ? null : SeekerStatusComponent.KEY.get(owner);
         if (status == null || (status.carState() != SeekerCarState.SWALLOWED && !status.pendingReturn())) {
             return false;
         }
@@ -416,8 +416,7 @@ public final class SeekerDeviceService {
             for (int index = 0; index < mainEmpty.length; index++) {
                 mainEmpty[index] = inventory.main.get(index).isEmpty();
             }
-            int slot = chooseReturnSlot(originalSlot, originalEmpty, mainEmpty, PlayerInventory.getHotbarSize(),
-                    LimitedInventoryRows.isSecondRowShown());
+            int slot = chooseReturnSlot(originalSlot, originalEmpty, mainEmpty, PlayerInventory.getHotbarSize());
             if (slot < 0) {
                 if (!status.pendingReturn()) {
                     status.apply(status.state().setPendingReturn(true));
@@ -502,7 +501,7 @@ public final class SeekerDeviceService {
 
     @Nullable
     public static SeekerCarEntity findCar(ServerPlayerEntity owner) {
-        SeekerStatusComponent status = owner == null ? null : SeekerStatusComponent.KEY.getNullable(owner);
+        SeekerStatusComponent status = owner == null ? null : SeekerStatusComponent.KEY.get(owner);
         if (status == null || status.carEntityId() < 0) {
             return null;
         }
@@ -516,7 +515,7 @@ public final class SeekerDeviceService {
      */
     @Nullable
     public static SeekerCameraEntity findCamera(ServerPlayerEntity owner, int entityId) {
-        SeekerStatusComponent status = owner == null ? null : SeekerStatusComponent.KEY.getNullable(owner);
+        SeekerStatusComponent status = owner == null ? null : SeekerStatusComponent.KEY.get(owner);
         if (status == null || entityId < 0 || !status.hasCamera(entityId)) {
             return null;
         }
@@ -644,16 +643,13 @@ public final class SeekerDeviceService {
     }
 
     /**
-     * Return slot: the original index when still empty, else the first empty hotbar slot, else (when the second row
-     * is shown) the first empty slot of the second row 27-35, so the car stays reachable, else the first empty main
-     * slot; -1 when the inventory is full. {@code LimitedInventoryRows.isSecondRowShown} is constant true now (it
-     * used to detect SparkFactionAPI 0.1.5.13+), so the not-shown path is unreachable since the fusion.
-     * 归还槽位：原索引仍为空时优先；否则快捷栏首个空位；否则（第二行显示时）第二行 27-35 的首个空位，使小车仍可取用；
-     * 否则主背包首个空位；背包已满时返回 -1。{@code LimitedInventoryRows.isSecondRowShown} 如今恒为 true（原先用于检测
-     * SparkFactionAPI 0.1.5.13+），因此“不显示”的路径融合后不可达。
+     * Return slot: the original index when still empty, else the first empty hotbar slot, else the first empty slot
+     * of the shown second row 27-35, so the car stays reachable, else the first empty main slot; -1 when the
+     * inventory is full.
+     * 归还槽位：原索引仍为空时优先；否则快捷栏首个空位；否则显示的第二行 27-35 的首个空位，使小车仍可取用；
+     * 否则主背包首个空位；背包已满时返回 -1。
      */
-    static int chooseReturnSlot(int originalSlot, boolean originalEmpty, boolean[] mainEmpty, int hotbarSize,
-                                boolean secondRowShown) {
+    static int chooseReturnSlot(int originalSlot, boolean originalEmpty, boolean[] mainEmpty, int hotbarSize) {
         if (originalSlot >= 0 && originalEmpty) {
             return originalSlot;
         }
@@ -663,12 +659,10 @@ public final class SeekerDeviceService {
                 return index;
             }
         }
-        if (secondRowShown) {
-            int end = Math.min(LimitedInventoryRows.SECOND_ROW_END, mainEmpty.length);
-            for (int index = LimitedInventoryRows.SECOND_ROW_START; index < end; index++) {
-                if (mainEmpty[index]) {
-                    return index;
-                }
+        int end = Math.min(LimitedInventoryRows.SECOND_ROW_END, mainEmpty.length);
+        for (int index = LimitedInventoryRows.SECOND_ROW_START; index < end; index++) {
+            if (mainEmpty[index]) {
+                return index;
             }
         }
         for (int index = hotbar; index < mainEmpty.length; index++) {

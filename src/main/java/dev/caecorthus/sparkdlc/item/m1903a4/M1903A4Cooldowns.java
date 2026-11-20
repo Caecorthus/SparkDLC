@@ -8,17 +8,16 @@ import net.minecraft.item.Item;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.function.IntConsumer;
-import java.util.function.IntPredicate;
 
 /**
  * Frozen contract: the single "max + exact" writer of the {@code m1903a4} item cooldown (round-start lock, shot and
  * reload floor), following {@code UsecCooldowns}. A longer running cooldown (round start, Knight duel seal, Fiend aura,
- * Abyss suppression, AC shell, Saint penalty) is never shortened; the traits' exact write bypasses Fast Hands and the
- * vanilla set runs only when it returns false. The cooldown lives on the holder's cooldown manager only (no per-stack
+ * Abyss suppression, AC shell, Saint penalty) is never shortened; the traits' exact write bypasses Fast Hands and
+ * performs the vanilla set itself. The cooldown lives on the holder's cooldown manager only (no per-stack
  * deadline), so the fire gate reads one clock.
  * 冻结契约：{@code m1903a4} 物品冷却（开局锁定、开火与装填下限）“取大 + 精确”的唯一写入方，沿用 {@code UsecCooldowns}。
  * 绝不缩短正在运行的更长冷却（开局、骑士决斗封印、魔人光环、深渊压制、AC 炮弹、圣徒惩罚）；词条的精确写入可绕过快手，
- * 仅当其返回 false 时才执行原版写入。冷却只存在于持有者的冷却管理器中（没有按物品堆的截止时间），因此开火门槛只读一个时钟。
+ * 并自行完成原版写入。冷却只存在于持有者的冷却管理器中（没有按物品堆的截止时间），因此开火门槛只读一个时钟。
  */
 public final class M1903A4Cooldowns {
     private M1903A4Cooldowns() {
@@ -49,20 +48,17 @@ public final class M1903A4Cooldowns {
         }
         Item rifle = SparkDlcItems.m1903a4();
         return write(remainingTicks(player), ticks,
-                merged -> SparkTraitsApi.setExactItemCooldownRemaining(player, rifle, merged),
-                merged -> player.getItemCooldownManager().set(rifle, merged));
+                merged -> SparkTraitsApi.setExactItemCooldownRemaining(player, rifle, merged));
     }
 
     /** Pure write rule (unit-testable). / 纯写入规则（可单测）。 */
-    static boolean write(int existingTicks, int requestedTicks, IntPredicate exactWriter, IntConsumer vanillaWriter) {
+    static boolean write(int existingTicks, int requestedTicks, IntConsumer exactWriter) {
         int existing = Math.max(0, existingTicks);
         int merged = Math.max(existing, Math.max(0, requestedTicks));
         if (merged <= existing) {
             return false;
         }
-        if (!exactWriter.test(merged)) {
-            vanillaWriter.accept(merged);
-        }
+        exactWriter.accept(merged);
         return true;
     }
 

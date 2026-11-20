@@ -78,8 +78,8 @@ public final class CriminalReasonerClientModule {
                         || !ClientPlayNetworking.canSend(CriminalReasonerInvisibilityC2SPacket.ID)) {
                     return;
                 }
-                CriminalReasonerComponent component = CriminalReasonerComponent.KEY.getNullable(player);
-                if (component == null || component.getInvisibilityCharges() <= 0) {
+                CriminalReasonerComponent component = CriminalReasonerComponent.KEY.get(player);
+                if (component.getInvisibilityCharges() <= 0) {
                     return;
                 }
                 ClientPlayNetworking.send(new CriminalReasonerInvisibilityC2SPacket());

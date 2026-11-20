@@ -24,12 +24,6 @@ public final class ToxicologistCapsuleRules {
     public static final int NORMAL_POISON_COLOR = 0x1E5014;
     public static final int BLUE_POISON_COLOR = 0x00BFFF;
 
-    /**
-     * 词条功能的蓝毒数据组件：这里只保存组件 ID。
-     * 读取方（CapsuleItem）仍先问注册表该组件是否存在；它如今必定已注册，“不存在”分支融合后不可达。
-     */
-    public static final Identifier BLUE_POISON_COMPONENT_ID = Identifier.of("sparkdlc", "conscience_poisoner");
-
     private ToxicologistCapsuleRules() {
     }
 

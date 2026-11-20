@@ -126,9 +126,7 @@ public final class SeekerDamageRules {
 
     /** Reads the owner-synced Seeker component; any non-NONE mode is "in session". / 读取搜寻者组件；非 NONE 即会话中。 */
     static boolean isInSeekerSession(PlayerEntity player) {
-        return SeekerStatusComponent.KEY.maybeGet(player)
-                .map(component -> component.sessionMode() != SeekerSessionMode.NONE)
-                .orElse(false);
+        return SeekerStatusComponent.KEY.get(player).sessionMode() != SeekerSessionMode.NONE;
     }
 
     static boolean isSamePlayer(PlayerEntity first, PlayerEntity second) {

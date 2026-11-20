@@ -28,18 +28,17 @@ public final class VendettaInteractionService {
     }
 
     public static boolean isActiveVendetta(PlayerEntity player) {
-        VendettaPlayerComponent component = VendettaPlayerComponent.KEY.maybeGet(player).orElse(null);
-        return component != null && component.isActive();
+        return player != null && VendettaPlayerComponent.KEY.get(player).isActive();
     }
 
     public static boolean isExactPair(PlayerEntity actor, PlayerEntity target) {
-        VendettaPlayerComponent actorComponent = VendettaPlayerComponent.KEY.maybeGet(actor).orElse(null);
+        VendettaPlayerComponent actorComponent = actor == null ? null : VendettaPlayerComponent.KEY.get(actor);
         if (actorComponent != null && VendettaRules.isExactPair(
                 actor.getUuid(), target.getUuid(), actor.getUuid(), actorComponent.getBoundKillerUuid(),
                 actorComponent.isActive())) {
             return true;
         }
-        VendettaPlayerComponent targetComponent = VendettaPlayerComponent.KEY.maybeGet(target).orElse(null);
+        VendettaPlayerComponent targetComponent = target == null ? null : VendettaPlayerComponent.KEY.get(target);
         return targetComponent != null && VendettaRules.isExactPair(
                 actor.getUuid(), target.getUuid(), target.getUuid(), targetComponent.getBoundKillerUuid(),
                 targetComponent.isActive());
@@ -50,10 +49,7 @@ public final class VendettaInteractionService {
         if (actor == null || target == null || actor == target) {
             return false;
         }
-        VendettaPlayerComponent component = VendettaPlayerComponent.KEY.maybeGet(target).orElse(null);
-        if (component == null) {
-            return false;
-        }
+        VendettaPlayerComponent component = VendettaPlayerComponent.KEY.get(target);
         UUID boundKillerUuid = component.getBoundKillerUuid();
         return component.isActive()
                 && boundKillerUuid != null

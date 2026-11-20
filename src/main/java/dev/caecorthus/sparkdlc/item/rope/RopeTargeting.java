@@ -76,13 +76,13 @@ final class RopeTargeting {
      * 探针 {@code RiftwalkerStatusProbes.isCaptureStunned} 读取；饕餮头颅眩晕在编写本类时没有绳索可用的接缝，未覆盖。
      */
     static boolean isControlled(ServerPlayerEntity user) {
-        ControlExpertStatusComponent stun = ControlExpertStatusComponent.KEY.getNullable(user);
-        KidnapperControlComponent kidnap = KidnapperControlComponent.KEY.getNullable(user);
-        return stun != null && stun.isStunned()
+        ControlExpertStatusComponent stun = ControlExpertStatusComponent.KEY.get(user);
+        KidnapperControlComponent kidnap = KidnapperControlComponent.KEY.get(user);
+        return stun.isStunned()
                 || BlackRavenCrowLandingHold.isHeld(user)
                 || GrandWitchFearService.isPlayerFeared(user)
                 || NatsumeHypnosisGuards.isLocked(user)
-                || kidnap != null && kidnap.isControlled()
+                || kidnap.isControlled()
                 || DominatorForcedShotComponent.isSequenceActive(user)
                 || RiftwalkerStatusProbes.isCaptureStunned(user)
                 || NoellesTaotieSeekerBridge.isSwallowed(user)
@@ -120,12 +120,12 @@ final class RopeTargeting {
      * 被勒者要保持被控制所必须满足的状态；引导中途不再满足即被放开。
      */
     static boolean staysVictim(ServerPlayerEntity target) {
-        KidnapperControlComponent kidnap = KidnapperControlComponent.KEY.getNullable(target);
+        KidnapperControlComponent kidnap = KidnapperControlComponent.KEY.get(target);
         return isParticipant(target)
                 && !SparkTraitsApi.isLastEscapeActive(target)
                 && !SparkTraitsApi.isLastStandPending(target)
                 && !NoellesTaotieSeekerBridge.isSwallowed(target)
-                && !(kidnap != null && kidnap.isControlled())
+                && !kidnap.isControlled()
                 && !isOutOfBody(target);
     }
 
@@ -186,7 +186,7 @@ final class RopeTargeting {
 
     // A running Knight duel seals every weapon but the knife and the derringer for its pair. / 进行中的骑士决斗对决斗双方封印刀与德林加之外的所有武器。
     private static boolean isDuelist(ServerPlayerEntity player) {
-        KnightDuelWorldComponent duel = KnightDuelWorldComponent.KEY.getNullable(player.getWorld());
-        return duel != null && duel.active() && duel.isDuelist(player.getUuid());
+        KnightDuelWorldComponent duel = KnightDuelWorldComponent.KEY.get(player.getWorld());
+        return duel.active() && duel.isDuelist(player.getUuid());
     }
 }

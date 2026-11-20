@@ -69,7 +69,7 @@ public final class DeathRecordEnricher {
             if (snapshot != null) {
                 snapshot.writeTo(data, killer == null ? null : killer.getUuid());
             }
-        } catch (RuntimeException | LinkageError e) {
+        } catch (RuntimeException e) {
             SparkDLC.LOGGER.warn("Failed to add kill-start fields to the death record of {}", victim.getUuid(), e);
         }
         return data;

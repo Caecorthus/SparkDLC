@@ -169,11 +169,13 @@ public final class SaviorCooldowns {
         return liveEndTick != null && liveEndTick == ownEndTick;
     }
 
-    /** The exact trait write first (past Fast Hands), the vanilla set only when it answers false. / 先精确写入，失败才原版写入。 */
+    /**
+     * The exact trait write (past Fast Hands); it performs the vanilla set itself. Every caller passes a non-null player
+     * and item, the only case it declines. / 精确写入（越过快手），自行完成原版写入；所有调用方传入的玩家与物品都不为空，
+     * 而这正是它唯一拒绝的情况。
+     */
     private static void writeExact(ServerPlayerEntity player, Item item, int ticks) {
-        if (!SparkTraitsApi.setExactItemCooldownRemaining(player, item, ticks)) {
-            player.getItemCooldownManager().set(item, ticks);
-        }
+        SparkTraitsApi.setExactItemCooldownRemaining(player, item, ticks);
     }
 
     /** The player's own item-cooldown clock, or null when unreadable. / 玩家自身物品冷却时钟；无法读取时为 null。 */

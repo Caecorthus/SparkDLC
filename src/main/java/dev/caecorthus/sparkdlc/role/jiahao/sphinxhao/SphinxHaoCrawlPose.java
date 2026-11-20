@@ -27,10 +27,8 @@ public final class SphinxHaoCrawlPose {
 
     /**
      * Whether {@code player} is forced into the swimming pose this tick. Called every tick for every server player and
-     * for the local player on its own client: the window test comes first and is a field read when no window runs. A
-     * missing component never forces.
+     * for the local player on its own client: the window test comes first and is a field read when no window runs.
      * 该玩家本刻是否被强制为游泳姿势。服务端每刻对每名玩家调用，客户端只对本地玩家调用：先判断窗口，没有窗口时只是一次字段读取。
-     * 组件缺失时从不强制。
      */
     public static boolean forcesCrawl(@Nullable PlayerEntity player) {
         if (player == null) {
@@ -40,8 +38,8 @@ public final class SphinxHaoCrawlPose {
         if (world == null) {
             return false;
         }
-        SphinxHaoWorldComponent window = SphinxHaoWorldComponent.KEY.getNullable(world);
-        if (window == null || !window.isRoarActive(world.getTime())) {
+        SphinxHaoWorldComponent window = SphinxHaoWorldComponent.KEY.get(world);
+        if (!window.isRoarActive(world.getTime())) {
             return false;
         }
         return forcesCrawl(window.isCrawling(player.getUuid(), world.getTime()), player.isSpectator(),

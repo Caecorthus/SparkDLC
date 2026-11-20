@@ -151,8 +151,7 @@ public final class RiftGatePlacementService {
     }
 
     private static boolean isKidnapperControlled(ServerPlayerEntity player) {
-        KidnapperControlComponent control = KidnapperControlComponent.KEY.getNullable(player);
-        return control != null && control.isControlled();
+        return KidnapperControlComponent.KEY.get(player).isControlled();
     }
 
     /**

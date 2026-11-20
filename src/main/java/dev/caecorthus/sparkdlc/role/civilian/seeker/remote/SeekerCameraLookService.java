@@ -25,10 +25,7 @@ public final class SeekerCameraLookService {
         if (player == null || packet == null || !Float.isFinite(packet.yaw()) || !Float.isFinite(packet.pitch())) {
             return;
         }
-        SeekerStatusComponent status = SeekerStatusComponent.KEY.getNullable(player);
-        if (status == null) {
-            return;
-        }
+        SeekerStatusComponent status = SeekerStatusComponent.KEY.get(player);
         SeekerSessionState session = status.sessionState();
         if (session == null || status.sessionMode() != SeekerSessionMode.CAMERA
                 || packet.sessionId() != status.sessionId() || session.sessionId != status.sessionId()) {

@@ -2,12 +2,12 @@ package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
 /**
  * Pure weapon rules for killing a Partygoer (no Minecraft state): reaches, mirrored provider values, nearest-wins against
- * the player target and Bomber drones, blast shapes. Ids stay plain strings from when these weapons lived in another
- * jar. Owner rule (2026-10-21): anything that can kill a player kills a Partygoer in one hit; non-lethal things
- * never do.
+ * the player target and Bomber drones, blast shapes. The mod's own weapons are matched and paid in
+ * {@code PartygoerWeaponHits} through their own items and rules constants. Owner rule (2026-10-21): anything that can
+ * kill a player kills a Partygoer in one hit; non-lethal things never do.
  * 击杀派对客的纯武器规则（不依赖 Minecraft 状态）：距离、镜像的提供方数值、相对玩家目标与炸弹客无人机的“最近者命中”、爆炸形状。
- * id 使用纯字符串，沿用自这些武器位于另一个 jar 时的做法。主人规则（2026-10-21）：任何能杀死玩家的东西都能一击打死派对客；
- * 不致命的东西永远不能。
+ * 本模组自己的武器在 {@code PartygoerWeaponHits} 中经其自身的物品与规则常量识别和计价。主人规则（2026-10-21）：任何能杀死
+ * 玩家的东西都能一击打死派对客；不致命的东西永远不能。
  */
 public final class PartygoerWeaponRules {
     /** Server melee reach for the Wathe bat: vanilla 3 plus its own 1-block allowance. / Wathe 球棒服务端近战距离。 */
@@ -33,20 +33,9 @@ public final class PartygoerWeaponRules {
     /** Poison needle cooldown ({@code PoisonNeedleItem.USE_COOLDOWN_TICKS}). / 毒针冷却。 */
     public static final int POISON_NEEDLE_COOLDOWN_TICKS = 45 * 20;
 
-    // ---- Ids and values of other roles' weapons, mirrored / 其他职业武器的 id 与数值镜像 ----
+    // ---- Values of other roles' weapons, mirrored / 其他职业武器的数值镜像 ----
 
-    public static final String NINJA_KNIFE_ID = "sparkdlc:ninja_knife";
-    public static final double NINJA_KNIFE_RANGE = 4.0;
-    public static final int NINJA_KNIFE_COOLDOWN_TICKS = 30 * 20;
-    public static final String FEATHER_BLADE_ID = "sparkdlc:feather_blade";
-    public static final String BLACK_RAVEN_ROLE_ID = "sparkdlc:black_raven";
-    public static final int FEATHER_COOLDOWN_TICKS = 60 * 20;
-    public static final String CEREMONIAL_SWORD_ID = "sparkdlc:ceremonial_sword";
     public static final int CEREMONIAL_SWORD_KILL_COOLDOWN_TICKS = 30 * 20;
-    /** Only the TR shell kills (DK/AC/MR only debuff). / 只有 TR 炮弹会致死（DK/AC/MR 只是减益）。 */
-    public static final String TR_SHELL_ID = "sparkdlc:tr_shell";
-    public static final int TR_SHELL_SIZE = 5;
-    public static final String SHURIKEN_ENTITY_ID = "sparkdlc:ninja_shuriken";
 
     private PartygoerWeaponRules() {
     }

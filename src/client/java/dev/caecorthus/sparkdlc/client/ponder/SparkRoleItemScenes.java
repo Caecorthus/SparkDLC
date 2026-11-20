@@ -46,8 +46,6 @@ import org.joml.Vector3f;
  * 角）用字幕说明，或画成方框并在字幕中注明是示意；游戏中更长的等待做了缩短，字幕会注明。
  */
 final class SparkRoleItemScenes {
-    private static final List<String> SW = List.of("sparkdlc");
-    private static final List<String> SW_TRAITS = List.of("sparkdlc");
     /** A standing actor's eyes above the feet. 站立演员的眼睛离脚底的高度。 */
     private static final double EYES = 1.62;
     /** The stages' plate width. 舞台底板的边长。 */
@@ -86,22 +84,21 @@ final class SparkRoleItemScenes {
     }
 
     static void register() {
-        item("sparkdlc:fire_poker", SW, scene("noellesroles/axe_wall", SparkRoleItemScenes::firePoker));
-        item("sparkdlc:tofana_elixir", SW, scene("wathe/aisle", SparkRoleItemScenes::tofanaElixir));
-        item("sparkdlc:time_stealer_gift_watch", SW_TRAITS,
-                scene("wathe/aisle", SparkRoleItemScenes::giftWatch));
-        item("sparkdlc:cologne", SW, scene("wathe/aisle", SparkRoleItemScenes::cologne));
-        item("sparkdlc:disruptor", SW, scene("wathe/cabin", SparkRoleItemScenes::disruptor));
-        item("sparkdlc:clownfish", SW, scene("sparkdlc/civ_tray_cabin", SparkRoleItemScenes::edibleFish));
+        item("sparkdlc:fire_poker", scene("noellesroles/axe_wall", SparkRoleItemScenes::firePoker));
+        item("sparkdlc:tofana_elixir", scene("wathe/aisle", SparkRoleItemScenes::tofanaElixir));
+        item("sparkdlc:time_stealer_gift_watch", scene("wathe/aisle", SparkRoleItemScenes::giftWatch));
+        item("sparkdlc:cologne", scene("wathe/aisle", SparkRoleItemScenes::cologne));
+        item("sparkdlc:disruptor", scene("wathe/cabin", SparkRoleItemScenes::disruptor));
+        item("sparkdlc:clownfish", scene("sparkdlc/civ_tray_cabin", SparkRoleItemScenes::edibleFish));
         for (String id : List.of("sparkdlc:cod", "sparkdlc:goldfish", "sparkdlc:fish_bait")) {
-            item(id, SW, scene("sparkdlc/civ_tray_cabin", SparkCivilianScenes::fisher),
+            item(id, scene("sparkdlc/civ_tray_cabin", SparkCivilianScenes::fisher),
                     scene("sparkdlc/civ_tray_cabin", SparkRoleItemScenes::edibleFish));
         }
-        item("sparkdlc:glimmerfish", SW, scene("wathe/cabin", SparkRoleItemScenes::glimmerfish));
-        item("sparkdlc:swordfish", SW, scene("wathe/aisle", SparkRoleItemScenes::swordfish));
-        item("sparkdlc:usec_suppressor", SW, scene("wathe/aisle", SparkRoleItemScenes::usecSuppressor));
+        item("sparkdlc:glimmerfish", scene("wathe/cabin", SparkRoleItemScenes::glimmerfish));
+        item("sparkdlc:swordfish", scene("wathe/aisle", SparkRoleItemScenes::swordfish));
+        item("sparkdlc:usec_suppressor", scene("wathe/aisle", SparkRoleItemScenes::usecSuppressor));
         for (String id : List.of("sparkdlc:gw_dk_shell", "sparkdlc:gw_ac_shell", "sparkdlc:gw_mr_shell")) {
-            item(id, SW, scene("wathe/aisle", SparkKillerScenes::potionGunner),
+            item(id, scene("wathe/aisle", SparkKillerScenes::potionGunner),
                     scene("wathe/aisle", SparkRoleItemScenes::potionShells));
         }
     }

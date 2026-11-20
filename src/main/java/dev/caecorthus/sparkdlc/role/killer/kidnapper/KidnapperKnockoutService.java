@@ -107,7 +107,7 @@ public final class KidnapperKnockoutService {
 
         /*
          * 真实绑架者开局自带一瓶迷药，并立即进入 40 秒开局冷却。
-         * 这只处理真实绑架者；验尸官伪装的临时迷药由 CoronerLoanedGear 发放。
+         * 这只处理真实绑架者；验尸官伪装的临时迷药由验尸官功能发放。
          */
         serverPlayer.giveItemStack(SparkDlcItems.knockoutDrug().getDefaultStack());
         serverPlayer.getItemCooldownManager().set(

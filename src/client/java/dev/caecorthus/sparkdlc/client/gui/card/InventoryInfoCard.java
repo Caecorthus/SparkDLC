@@ -269,21 +269,24 @@ public final class InventoryInfoCard {
     }
 
     public Snapshot prepare(Screen screen, TextRenderer font, List<Section> sections) {
-        return prepare(screen, font, sections, false, false);
-    }
-
-    /** Content-fit card in the right column (or beside the native trait card's slot when the handoff failed). */
-    public Snapshot prepare(Screen screen, TextRenderer font, List<Section> sections, boolean traitsPresent, boolean ownsTraits) {
-        return prepare(screen, font, sections, false, traitsPresent, ownsTraits);
+        return prepare(screen, font, sections, false, false, false);
     }
 
     /**
-     * Native trait card. {@code fillSlot} makes it take its whole slot, so a role-skill fallback card anchored to the
-     * slot sits flush beside it; the caller decides (the card code never names its users).
-     * 原生天赋卡：fillSlot 时占满整列，使职业技能回退卡紧贴其左侧；由调用方决定，卡片代码不引用它的使用方。
+     * Content-fit role-skill card in the right column; when it does not show the owner's traits ({@code ownsTraits}
+     * false, the native trait card draws them), it sits beside the native trait card's slot instead.
+     * 内容宽度的职业技能卡，位于右列；不显示本人天赋时（{@code ownsTraits} 为 false，由原生天赋卡显示），改为紧贴原生天赋卡所在整列的左侧。
      */
-    public Snapshot prepareNative(Screen screen, TextRenderer font, List<Section> sections, boolean fillSlot) {
-        return prepare(screen, font, sections, fillSlot, false, false);
+    public Snapshot prepare(Screen screen, TextRenderer font, List<Section> sections, boolean ownsTraits) {
+        return prepare(screen, font, sections, false, true, ownsTraits);
+    }
+
+    /**
+     * Native trait card. It takes its whole slot, so a role-skill card anchored to the slot sits flush beside it.
+     * 原生天赋卡：占满整列，使锚定在该列的职业技能卡紧贴其左侧。
+     */
+    public Snapshot prepareNative(Screen screen, TextRenderer font, List<Section> sections) {
+        return prepare(screen, font, sections, true, false, false);
     }
 
     /**

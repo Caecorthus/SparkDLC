@@ -30,10 +30,7 @@ public final class NatsumeHudRenderer {
         if (!NatsumeClientState.isNatsume(GameWorldComponent.KEY.get(player.getWorld()).getRole(player))) {
             return;
         }
-        NatsumeComponent component = NatsumeComponent.KEY.getNullable(player);
-        if (component == null) {
-            return;
-        }
+        NatsumeComponent component = NatsumeComponent.KEY.get(player);
         Text line = component.getCooldownSeconds() > 0
                 ? Text.translatable("message.sparkdlc.natsume.cooldown",
                         component.getCooldownSeconds()).formatted(Formatting.GRAY)

@@ -9,15 +9,11 @@ public final class FisherGlimmerClient {
     }
 
     public static boolean isGlimmering(PlayerEntity player) {
-        return player != null && FisherSpiritComponent.KEY.maybeGet(player)
-                .map(FisherSpiritComponent::isActive)
-                .orElse(false);
+        return player != null && FisherSpiritComponent.KEY.get(player).isActive();
     }
 
     /** Owner-only countdown; other clients only receive the flag. / 仅拥有者收到倒计时，其他客户端只收到标记。 */
     public static int remainingTicks(PlayerEntity player) {
-        return player == null ? 0 : FisherSpiritComponent.KEY.maybeGet(player)
-                .map(FisherSpiritComponent::remainingTicks)
-                .orElse(0);
+        return player == null ? 0 : FisherSpiritComponent.KEY.get(player).remainingTicks();
     }
 }

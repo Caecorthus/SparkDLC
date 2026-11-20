@@ -97,8 +97,8 @@ public final class BlackRavenCrowSkillService {
                 && GameFunctions.isPlayerPlayingAndAlive(player)
                 && !player.isSpectator()
                 && BlackRavenRules.isBlackRaven(game.getRole(player));
-        KidnapperControlComponent kidnap = KidnapperControlComponent.KEY.getNullable(player);
-        SeekerStatusComponent seeker = SeekerStatusComponent.KEY.getNullable(player);
+        KidnapperControlComponent kidnap = KidnapperControlComponent.KEY.get(player);
+        SeekerStatusComponent seeker = SeekerStatusComponent.KEY.get(player);
         return new BlackRavenCrowRules.ToggleFacts(
                 eligible,
                 component.isLandingHeld(player.getServerWorld().getTime()),
@@ -109,9 +109,9 @@ public final class BlackRavenCrowSkillService {
                 ControlExpertStun.isStunned(player),
                 component.getCooldownTicks(),
                 BlackRavenActingRole.isDisguised(player),
-                kidnap != null && kidnap.isControlled(),
+                kidnap.isControlled(),
                 RiftSessionService.isInside(player),
-                seeker != null && seeker.sessionMode() != SeekerSessionMode.NONE,
+                seeker.sessionMode() != SeekerSessionMode.NONE,
                 player.isSleeping(),
                 player.hasVehicle(),
                 BlackRavenCrowRules.isBodyGrounded(player.isOnGround(), player.hasVehicle(), player.isTouchingWater()));

@@ -36,7 +36,7 @@ import org.jetbrains.annotations.Nullable;
  * <ul>
  *   <li>While the world Otherworld window is open, every alive player who is not effective-killer faction and is
  *       either cowardly or at effective real sanity 25 or below ({@link SpecterRules#isLowSanity}) holds one peachwood
- *       sword. It is placed only in a visible slot (hotbar, then the second row 27-35 when shown); with
+ *       sword. It is placed only in a visible slot (hotbar, then the shown second row 27-35); with
  *       both full it waits for the next sweep. A copy in the offhand, on the cursor or in the 2×2 crafting grid counts as
  *       held; a copy in a hidden slot cannot be used and is removed. Everyone else loses every copy (inventory, cursor,
  *       crafting grid, open container) when the window closes or they stop qualifying.</li>
@@ -48,7 +48,7 @@ import org.jetbrains.annotations.Nullable;
  * </ul>
  * 桃木剑的发放与唯一有效的攻击。
  * 世界里世界窗口开启期间，所有存活、不属于有效杀手阵营，且怯懦或有效真实理智不高于 25（{@link SpecterRules#isLowSanity}）的
- * 玩家持有一把桃木剑。剑只放入可见栏位（快捷栏，其次是显示时的第二行 27-35）；两者都满时等待下一轮检查。
+ * 玩家持有一把桃木剑。剑只放入可见栏位（快捷栏，其次是显示的第二行 27-35）；两者都满时等待下一轮检查。
  * 副手、光标或 2×2 合成格中的剑视为已持有；隐藏栏位中的剑无法使用，会被移除。其他人在窗口结束或不再符合条件时失去所有副本
  * （背包、光标、合成格与已打开的容器）。
  * 只有幽魂能被命中。满蓄力的一次攻击连续结算 4 次刀刺，每刀消耗 1 层里世界护盾；护盾不足 4 层时剩余刀数会击杀幽魂。
@@ -157,14 +157,13 @@ public final class SpecterPeachwoodService {
      */
     private static boolean keepOneUsableSword(ServerPlayerEntity player) {
         PlayerInventory inventory = player.getInventory();
-        boolean secondRow = LimitedInventoryRows.isSecondRowShown();
         boolean usable = false;
         boolean changed = false;
         for (int slot = 0; slot < inventory.size(); slot++) {
             if (!isPeachwoodSword(inventory.getStack(slot))) {
                 continue;
             }
-            if (isUsableSlot(slot, secondRow)) {
+            if (isUsableSlot(slot)) {
                 usable = true;
             } else {
                 inventory.setStack(slot, ItemStack.EMPTY);
@@ -176,7 +175,7 @@ public final class SpecterPeachwoodService {
                 || holdsSword(player.playerScreenHandler.getCraftingInput())) {
             return changed;
         }
-        int target = firstFreeVisibleSlot(inventory, secondRow);
+        int target = firstFreeVisibleSlot(inventory);
         if (target == NO_SLOT) {
             return changed;
         }
@@ -185,25 +184,23 @@ public final class SpecterPeachwoodService {
     }
 
     /** Hotbar, the shown second row, or the offhand. / 快捷栏、显示中的第二行或副手。 */
-    static boolean isUsableSlot(int slot, boolean secondRowShown) {
+    static boolean isUsableSlot(int slot) {
         return PlayerInventory.isValidHotbarIndex(slot)
                 || slot == PlayerInventory.OFF_HAND_SLOT
-                || (secondRowShown && LimitedInventoryRows.isSecondRowIndex(slot));
+                || LimitedInventoryRows.isSecondRowIndex(slot);
     }
 
-    /** First empty hotbar slot, then (when shown) the first empty second-row slot; -1 when full. / 第一个空快捷栏位，其次（显示时）第一个空第二行栏位；全满时为 -1。 */
-    private static int firstFreeVisibleSlot(PlayerInventory inventory, boolean secondRowShown) {
+    /** First empty hotbar slot, then the first empty second-row slot; -1 when full. / 第一个空快捷栏位，其次第一个空第二行栏位；全满时为 -1。 */
+    private static int firstFreeVisibleSlot(PlayerInventory inventory) {
         for (int slot = 0; slot < PlayerInventory.getHotbarSize(); slot++) {
             if (inventory.getStack(slot).isEmpty()) {
                 return slot;
             }
         }
-        if (secondRowShown) {
-            for (int slot = LimitedInventoryRows.SECOND_ROW_START;
-                 slot < LimitedInventoryRows.SECOND_ROW_END; slot++) {
-                if (inventory.getStack(slot).isEmpty()) {
-                    return slot;
-                }
+        for (int slot = LimitedInventoryRows.SECOND_ROW_START;
+             slot < LimitedInventoryRows.SECOND_ROW_END; slot++) {
+            if (inventory.getStack(slot).isEmpty()) {
+                return slot;
             }
         }
         return NO_SLOT;

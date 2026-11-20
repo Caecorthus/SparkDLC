@@ -10,7 +10,6 @@ import static dev.caecorthus.sparkdlc.client.ponder.WatheItemScenes.SOUTH;
 import static dev.caecorthus.sparkdlc.client.ponder.WatheItemScenes.WEST;
 import static dev.caecorthus.sparkdlc.client.ponder.WatheItemScenes.stack;
 
-import java.util.List;
 import net.createmod.catnip.gui.element.ScreenElement;
 import net.createmod.catnip.math.Pointing;
 import net.createmod.ponder.api.PonderPalette;
@@ -54,19 +53,14 @@ final class WraithScenes {
     }
 
     static void register() {
-        role("sparkdlc:roles/sparkdlc/wraith", List.of("sparkdlc"),
-                scene("sparkdlc/wraith_cabin", WraithScenes::wraith));
-        role("sparkdlc:roles/sparkdlc/guardian_angel", List.of("sparkdlc"),
-                scene("wathe/aisle", WraithScenes::guardianAngel));
-        role("sparkdlc:roles/sparkdlc/wind_spirit", List.of("sparkdlc"),
-                scene("wathe/aisle", WraithScenes::windSpirit));
-        role("sparkdlc:roles/sparkdlc/vendetta", List.of("sparkdlc"),
-                scene("wathe/aisle", WraithScenes::vendetta));
+        role("sparkdlc:roles/sparkdlc/wraith", scene("sparkdlc/wraith_cabin", WraithScenes::wraith));
+        role("sparkdlc:roles/sparkdlc/guardian_angel", scene("wathe/aisle", WraithScenes::guardianAngel));
+        role("sparkdlc:roles/sparkdlc/wind_spirit", scene("wathe/aisle", WraithScenes::windSpirit));
+        role("sparkdlc:roles/sparkdlc/vendetta", scene("wathe/aisle", WraithScenes::vendetta));
 
         // Items whose use a demo above already shows; holding W over the item plays that demo.
         // 上面的演示已经演示过用法的物品；在物品上按住 W 即可播放对应演示。
-        item("sparkdlc:vendetta_knife", List.of("sparkdlc"),
-                scene("wathe/aisle", WraithScenes::vendetta));
+        item("sparkdlc:vendetta_knife", scene("wathe/aisle", WraithScenes::vendetta));
     }
 
     /**

@@ -1,6 +1,8 @@
 package dev.caecorthus.sparkdlc.trait.civilian.depression;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.effective.death.EffectiveDeathConsequenceRules;
 import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.mixin.cooldown.ItemCooldownManagerAccessor;
@@ -25,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 /**
  * A weapon whose hit starts a Depression fake death keeps at most 20% of its original cooldown.
@@ -43,19 +46,20 @@ public final class DepressionFakeKillCooldowns {
      * tick 中发生的击杀所对应、冷却更早就已开始的武器（投掷、标记、推击或注射），按死亡原因查找；
      * Wathe 手雷、Niko 连射和烧火棍坠车通过 {@link #withWeaponHint} 直接指明武器；
      * 单纯坠车不指明武器，因为 Wathe 会把任意最后攻击者记为凶手。
+     * The weapons are the mod's own items, read through their getters when a kill is handled (this map is built at
+     * class load, which may precede item registration).
+     * 这些武器都是本模组自己的物品，在处理击杀时才经其 getter 读取（此表在类加载时构建，可能早于物品注册）。
      */
-    private static final Map<Identifier, List<Identifier>> DELAYED_WEAPONS = Map.of(
-            GameConstants.DeathReasons.GRENADE, List.of(Identifier.of("sparkdlc", "m67")),
-            GameConstants.DeathReasons.KNIFE, List.of(Identifier.of("sparkdlc", "feather_blade")),
-            Identifier.of("noellesroles", "bodyguard_sacrifice"), List.of(Identifier.of("sparkdlc", "feather_blade")),
-            Identifier.of("sparkdlc", "ninja_shuriken_kill"), List.of(Identifier.of("sparkdlc", "ninja_shuriken")),
+    private static final Map<Identifier, List<Supplier<Item>>> DELAYED_WEAPONS = Map.of(
+            GameConstants.DeathReasons.GRENADE, List.of(SparkDlcItems::m67),
+            GameConstants.DeathReasons.KNIFE, List.of(SparkDlcItems::featherBlade),
+            Identifier.of("noellesroles", "bodyguard_sacrifice"), List.of(SparkDlcItems::featherBlade),
+            SparkDlcDeathReasons.NINJA_SHURIKEN_KILL, List.of(SparkDlcItems::ninjaShuriken),
             // The Witch Maiden's crimson skull kills in its own tick; the Gohei's cooldown started at the left click.
             // 巫女的赤色凋灵之首在自身 tick 中击杀；凋灵御币的冷却在左键时就已开始。
-            Identifier.of("sparkdlc", "crimson_wither_skull"), List.of(Identifier.of("sparkdlc", "wither_gohei"))
+            SparkDlcDeathReasons.CRIMSON_WITHER_SKULL, List.of(SparkDlcItems::witherGohei)
     );
     private static final Identifier POISON_NEEDLE = Identifier.of("noellesroles", "poison_needle");
-    /** Keeps its own kill cooldown through the API; its item cooldown is the dash. 通过 API 自管击杀冷却；其物品冷却是冲刺。 */
-    private static final Identifier CEREMONIAL_SWORD = Identifier.of("sparkdlc", "ceremonial_sword");
     private static final ThreadLocal<Item> WEAPON_HINT = new ThreadLocal<>();
     private static final Map<UUID, FakeKills> pendingFakeKills = new HashMap<>();
     /** Length of each item's latest ordinary cooldown write; exact rewrites keep it. 每件物品最近一次普通冷却写入的时长；精确改写不改变它。 */
@@ -281,7 +285,9 @@ public final class DepressionFakeKillCooldowns {
                 killTicks.merge(weapon, kill.killTick(), Math::min);
             }
         }
-        Registries.ITEM.getOrEmpty(CEREMONIAL_SWORD).ifPresent(killTicks::remove);
+        // The ceremonial sword keeps its own kill cooldown through the API; its item cooldown is the dash.
+        // 仪礼剑通过 API 自管击杀冷却；其物品冷却是冲刺。
+        killTicks.remove(SparkDlcItems.ceremonialSword());
         ItemCooldownManagerAccessor manager = (ItemCooldownManagerAccessor) attacker.getItemCooldownManager();
         Map<Item, OriginalCooldown> originals = originalCooldowns.getOrDefault(attacker.getUuid(), Map.of());
         int now = manager.sparkdlc$getTick();
@@ -304,11 +310,8 @@ public final class DepressionFakeKillCooldowns {
 
     private static Set<Item> delayedWeapons(FakeKill kill) {
         Set<Item> weapons = new LinkedHashSet<>();
-        for (Identifier itemId : DELAYED_WEAPONS.getOrDefault(kill.deathReason(), List.of())) {
-            // Looked up by id; an unregistered id would be skipped, which is unreachable since the fusion (every id
-            // here is one of this mod's own items).
-            // 按 id 查找；未注册的物品会被跳过，融合后不可达（此处的 id 都是本模组自己的物品）。
-            Registries.ITEM.getOrEmpty(itemId).ifPresent(weapons::add);
+        for (Supplier<Item> weapon : DELAYED_WEAPONS.getOrDefault(kill.deathReason(), List.of())) {
+            weapons.add(weapon.get());
         }
         if (kill.poisonedByNeedle()) {
             Registries.ITEM.getOrEmpty(POISON_NEEDLE).ifPresent(weapons::add);

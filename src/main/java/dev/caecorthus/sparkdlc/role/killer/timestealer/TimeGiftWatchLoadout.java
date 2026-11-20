@@ -2,7 +2,6 @@ package dev.caecorthus.sparkdlc.role.killer.timestealer;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkDlcItems;
-import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import java.util.function.IntPredicate;
 import net.minecraft.entity.player.PlayerInventory;
@@ -88,7 +87,7 @@ final class TimeGiftWatchLoadout {
             if (target == NO_SLOT) {
                 return false;
             }
-            int destination = TimeStealerLoadoutService.displacementSlot(LimitedInventoryRows.isSecondRowShown(), vacated,
+            int destination = TimeStealerLoadoutService.displacementSlot(vacated,
                     slot -> inventory.getStack(slot).isEmpty());
             if (destination == NO_SLOT) {
                 return false;

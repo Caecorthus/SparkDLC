@@ -53,12 +53,7 @@ public final class MapResetHud {
                 || client.options.playerListKey.isPressed()) {
             return;
         }
-        // getNullable: the component is optional on clients, so a mismatched server may not sync it.
-        // getNullable：该组件对客户端可选，版本不一致的服务端可能不会同步它。
-        LobbyMapResetComponent reset = LobbyMapResetComponent.KEY.getNullable(client.world.getScoreboard());
-        if (reset == null) {
-            return;
-        }
+        LobbyMapResetComponent reset = LobbyMapResetComponent.KEY.get(client.world.getScoreboard());
         int progress = reset.getProgress();
         boolean complete = progress == LobbyMapResetRules.COMPLETE;
         if (!complete && !LobbyMapResetRules.isResetting(progress)) {

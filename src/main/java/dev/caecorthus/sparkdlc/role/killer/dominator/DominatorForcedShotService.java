@@ -86,7 +86,7 @@ public final class DominatorForcedShotService {
 
     /** Disconnect, before Wathe's disconnect kill: gun out, stash back. / 断线，先于 Wathe 的断线击杀。 */
     public static void release(ServerPlayerEntity player) {
-        DominatorForcedShotComponent.KEY.maybeGet(player).ifPresent(DominatorForcedShotComponent::settle);
+        DominatorForcedShotComponent.KEY.get(player).settle();
     }
 
     /**
@@ -103,7 +103,7 @@ public final class DominatorForcedShotService {
 
     /** {@code ResetPlayer} / round finalize: Wathe has cleared the inventory. / Wathe 已清空物品栏。 */
     public static void discard(ServerPlayerEntity player) {
-        DominatorForcedShotComponent.KEY.maybeGet(player).ifPresent(DominatorForcedShotComponent::discard);
+        DominatorForcedShotComponent.KEY.get(player).discard();
     }
 
     private static boolean refusedByFaction(ServerPlayerEntity shooter, int targetId) {

@@ -120,14 +120,10 @@ public final class BellTollService {
 
     /**
      * Exact 30 s: the trait API's exact write performs the vanilla {@code set} itself after Fast Hands and other
-     * cooldown modifiers, so it goes first; the plain vanilla write is the fallback for a refused exact write,
-     * unreachable since the fusion (never both, which would send two cooldown packets).
-     * 精确 30 秒：词条 API 的精确写入会在“快手”等冷却倍率之后自行完成原版写入，因此优先调用；
-     * 原版写入是精确写入被拒绝时的回退，融合后不可达（二者不会同时执行，以免发送两次冷却数据包）。
+     * cooldown modifiers (one cooldown packet).
+     * 精确 30 秒：词条 API 的精确写入会在“快手”等冷却倍率之后自行完成原版写入（只发送一次冷却数据包）。
      */
     private static void applyCooldown(ServerPlayerEntity ringer, Item bell) {
-        if (!SparkTraitsApi.setExactItemCooldownRemaining(ringer, bell, BellRingerRules.TOLL_COOLDOWN_TICKS)) {
-            ringer.getItemCooldownManager().set(bell, BellRingerRules.TOLL_COOLDOWN_TICKS);
-        }
+        SparkTraitsApi.setExactItemCooldownRemaining(ringer, bell, BellRingerRules.TOLL_COOLDOWN_TICKS);
     }
 }

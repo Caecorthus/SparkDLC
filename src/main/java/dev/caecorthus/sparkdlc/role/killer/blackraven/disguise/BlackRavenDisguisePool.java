@@ -98,13 +98,14 @@ public final class BlackRavenDisguisePool {
         if (role == null || role == WatheRoles.NO_ROLE || role.identifier() == null) {
             return null;
         }
-        // Each probe fails closed: an exception unlists the role instead of aborting the snapshot.
-        // 每项探测均失败即关闭：异常只会让该职业不被列出，而不会中断整个快照。
+        // Each probe fails closed: an exception unlists the role instead of aborting the snapshot. The police lookup
+        // needs no probe: it is a set look-up of the identifier read unguarded above.
+        // 每项探测均失败即关闭：异常只会让该职业不被列出，而不会中断整个快照。警职查询无需探测：它只是用上方已直接读取的标识符查集合。
         boolean civilianBase = safely(() -> FactionIds.CIVILIAN.equals(SparkFactionApi.resolveBaseFaction(role)));
         boolean enabled = civilianBase && safely(() -> game.isRoleEnabled(role));
         boolean canAppear = enabled && context != null && safely(() -> role.shouldAppear(context));
         boolean absent = canAppear && safely(() -> game.getAllWithRole(role).isEmpty());
-        boolean police = safely(() -> PoliceRoles.contains(role));
+        boolean police = PoliceRoles.contains(role);
         return new Candidate(role.identifier(), police, civilianBase, enabled, canAppear, absent);
     }
 

@@ -21,8 +21,7 @@ public final class BlackRavenCrowForm {
         if (player == null) {
             return false;
         }
-        BlackRavenCrowPlayerComponent component = BlackRavenCrowPlayerComponent.KEY.getNullable(player);
-        return component != null && component.isActive();
+        return BlackRavenCrowPlayerComponent.KEY.get(player).isActive();
     }
 
     /** A left-behind body (a player in Raven Form). / 被留在原地的本体（化鸦中的玩家）。 */

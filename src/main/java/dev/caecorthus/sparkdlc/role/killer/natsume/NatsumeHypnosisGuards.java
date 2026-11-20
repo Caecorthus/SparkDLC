@@ -111,15 +111,14 @@ public final class NatsumeHypnosisGuards {
     }
 
     /**
-     * Side-neutral lock read for the acting player; a player without the component is never locked.
-     * 对行动玩家的两端通用锁读取；没有该组件的玩家从不被锁定。
+     * Side-neutral lock read for the acting player; a null player is never locked.
+     * 对行动玩家的两端通用锁读取；null 玩家从不被锁定。
      */
     public static boolean isLocked(@Nullable PlayerEntity player) {
         if (player == null) {
             return false;
         }
-        NatsumeComponent component = NatsumeComponent.KEY.getNullable(player);
-        return component != null && component.isLocked();
+        return NatsumeComponent.KEY.get(player).isLocked();
     }
 
     /**
@@ -183,10 +182,7 @@ public final class NatsumeHypnosisGuards {
     private static void notifyBlocked(PlayerEntity player) {
         // The throttle lives on this side's own component instance (no static per-player state).
         // 节流状态存放在本端自己的组件实例上（不使用静态的逐玩家状态）。
-        NatsumeComponent component = NatsumeComponent.KEY.getNullable(player);
-        if (component == null) {
-            return;
-        }
+        NatsumeComponent component = NatsumeComponent.KEY.get(player);
         long now = player.getWorld().getTime();
         if (!noticeDue(now, component.lastBlockedNoticeTick())) {
             return;

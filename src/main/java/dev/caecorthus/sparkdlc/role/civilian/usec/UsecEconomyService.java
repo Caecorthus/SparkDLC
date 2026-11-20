@@ -2,6 +2,8 @@ package dev.caecorthus.sparkdlc.role.civilian.usec;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.CanSeeMoney;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -26,8 +28,8 @@ import org.jetbrains.annotations.Nullable;
  *   {@code ON_FINISH_INITIALIZE}, in a phase after the default one, like the Seeker. Roles are final by then
  *   (the Conscience trait's compensation rewrites them during role assignment, before the roles are announced). The
  *   round-start loadout never writes the balance.</li>
- *   <li>Tasks: +{@link UsecRules#TASK_REWARD}, never for an Impostor-trait holder or an unknown answer (the Impostor
- *   trait pays its holder's task income itself), Control Expert semantics.</li>
+ *   <li>Tasks: +{@link UsecRules#TASK_REWARD}, never for an Impostor-trait holder (the Impostor trait pays its
+ *   holder's task income itself), Control Expert semantics.</li>
  *   <li>Passive: +{@link UsecRules#PASSIVE_INCOME} on the same world tick as Wathe's killer ticker
  *   ({@code getTime() % interval == 0}) with no balance cap, to every earning USEC (Impostor or not: no other system
  *   pays a USEC passive income).</li>
@@ -37,7 +39,7 @@ import org.jetbrains.annotations.Nullable;
  * 开局：在 {@code ON_FINISH_INITIALIZE} 默认阶段之后的阶段，与搜寻者一样（此时身份已是最终身份：良心词条的补偿在分配
  * 职业期间、公布身份之前就已改写身份），
  * 把每名存活的最终 USEC 的余额覆盖为 {@link UsecRules#INITIAL_MONEY}；开局装备流程从不写余额。
- * 任务：+{@link UsecRules#TASK_REWARD}，内鬼词条持有者或无法判定时不发（内鬼任务收入由内鬼词条自行支付），沿用控场专家语义。
+ * 任务：+{@link UsecRules#TASK_REWARD}，内鬼词条持有者不发（内鬼任务收入由内鬼词条自行支付），沿用控场专家语义。
  * 被动：与 Wathe 杀手计时器同一世界刻（{@code getTime() % interval == 0}）发放 +{@link UsecRules#PASSIVE_INCOME}，
  * 不设余额上限，发给每名可获得收入的 USEC（无论是否内鬼：没有其他系统给 USEC 发被动收入）。
  */
@@ -95,20 +97,17 @@ public final class UsecEconomyService {
     // ---- Tasks ----
 
     static void onTaskComplete(ServerPlayerEntity player) {
-        // Traits are part of this mod: traitsLoaded is always true. / 词条属于本模组：traitsLoaded 恒为 true。
-        if (canEarn(player) && receivesTaskMoney(true, UsecEconomyTraitsProbe.isImpostor(player))) {
+        if (canEarn(player) && receivesTaskMoney(SparkTraitsApi.hasActiveTrait(player, TraitIds.IMPOSTOR))) {
             PlayerShopComponent.KEY.get(player).addToBalance(UsecRules.TASK_REWARD);
         }
     }
 
     /**
-     * {@code traitsLoaded} false → pay (unreachable since the fusion: the only caller passes true); true → pay only on
-     * a confirmed non-Impostor (unknown fails closed).
-     * {@code traitsLoaded} 为 false → 发放（融合后不可达：唯一调用方恒传 true）；为 true → 仅在确认不是内鬼时发放
-     * （无法确认时不发放）。
+     * Pays only a non-Impostor (the Control Expert's rule).
+     * 仅向非内鬼发放（与控场专家一致）。
      */
-    static boolean receivesTaskMoney(boolean traitsLoaded, @Nullable Boolean impostor) {
-        return !traitsLoaded || Boolean.FALSE.equals(impostor);
+    static boolean receivesTaskMoney(boolean impostor) {
+        return !impostor;
     }
 
     // ---- Passive income ----

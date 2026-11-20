@@ -104,8 +104,8 @@ public final class RiftSessionClient {
         if (!active || player == null) {
             return null;
         }
-        RiftSessionComponent session = RiftSessionComponent.KEY.getNullable(player);
-        if (session == null || !session.inside()) {
+        RiftSessionComponent session = RiftSessionComponent.KEY.get(player);
+        if (!session.inside()) {
             return null;
         }
         return new View(session.gateNumber(), session.ringIndex(), session.ringSize(), session.stayRemainingTicks(),
@@ -172,8 +172,8 @@ public final class RiftSessionClient {
             }
             return;
         }
-        RiftSessionComponent session = RiftSessionComponent.KEY.getNullable(player);
-        boolean inside = session != null && session.inside() && session.sessionId() != 0;
+        RiftSessionComponent session = RiftSessionComponent.KEY.get(player);
+        boolean inside = session.inside() && session.sessionId() != 0;
         int sessionId = inside ? session.sessionId() : 0;
         switch (RiftSessionInputRules.transition(active, player != boundPlayer, inside, sessionId != activeSessionId)) {
             case START -> start(client, player, sessionId);

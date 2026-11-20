@@ -6,7 +6,6 @@ import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesNeutralPerkRules;
 import dev.doctor4t.wathe.api.Faction;
 import dev.doctor4t.wathe.api.Role;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 
 /**
@@ -18,18 +17,15 @@ import org.spongepowered.asm.mixin.injection.At;
  * this mod is built against (sha256 fcb0da69...). It is selected by name only because its descriptor holds a
  * Minecraft class that is intermediary in production but Yarn-named in Loom dev runs; the local seam test pins the
  * descriptor and the call shape. {@code require = 1} fails loading on a renumbered lambda instead of silently
- * dropping the perk; {@code @Pseudo} would skip the mixin without NoellesRoles, which cannot happen: it is a required
- * dependency.
+ * dropping the perk. NoellesRoles is a required dependency, so the target always exists.
  * 为中立同盟的原生阵营保留 NoellesRoles 清道夫隐藏尸体的选中能力（契约 D3）。NoellesRoles 的客户端 {@code CanTargetBody}
  * 监听器只允许 KILLER 或 NEUTRAL 选中隐藏尸体；其唯一一次 {@code Role#getFaction()} 读取经过
  * {@link NoellesNeutralPerkRules#neutralPerkFaction}，因此魔女阵营与嘉豪阵营在此读作 NEUTRAL，其余不变。该监听器是
  * 本模组构建所依赖的 NoellesRoles 1.7.6-h1.5.6-spark（sha256 fcb0da69...）中的 javac lambda
  * {@code lambda$onInitializeClient$6(Entity, PlayerBodyEntity)Z}。只按名称选择，因为描述符含 Minecraft 类，
  * 生产环境为 intermediary 名而 Loom 开发环境为 Yarn 名；本地接缝测试固定描述符与调用形状。lambda 重新编号时
- * {@code require = 1} 让加载失败，而不是静默丢失福利；{@code @Pseudo} 会在未安装 NoellesRoles 时跳过此 mixin，
- * 但它是必需依赖，这种情况不会出现。
+ * {@code require = 1} 让加载失败，而不是静默丢失福利。NoellesRoles 是必需依赖，目标类总是存在。
  */
-@Pseudo
 @Mixin(targets = "org.agmas.noellesroles.client.NoellesrolesClient", remap = false)
 public abstract class NoellesScavengerBodyTargetNeutralPerkMixin {
     @WrapOperation(

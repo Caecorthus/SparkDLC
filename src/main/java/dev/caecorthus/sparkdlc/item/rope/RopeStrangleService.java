@@ -425,10 +425,7 @@ public final class RopeStrangleService {
         if (player == null) {
             return;
         }
-        RopeHoldComponent component = RopeHoldComponent.KEY.getNullable(player);
-        if (component != null) {
-            component.set(RopeHoldComponent.Side.NONE);
-        }
+        RopeHoldComponent.KEY.get(player).set(RopeHoldComponent.Side.NONE);
     }
 
     // Plain vanilla cooldown so the Fast Hands trait may shorten it (Taser precedent). / 使用普通原版冷却，快手词条可缩短（电击枪先例）。

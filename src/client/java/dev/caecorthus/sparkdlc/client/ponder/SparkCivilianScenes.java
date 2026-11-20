@@ -144,61 +144,46 @@ final class SparkCivilianScenes {
     }
 
     static void register() {
-        role("sparkdlc:roles/sparkdlc/pig_god", List.of("sparkdlc"),
-                scene("wathe/cabin", SparkCivilianScenes::pigGod));
-        role("sparkdlc:roles/sparkdlc/fisher", List.of("sparkdlc"),
-                scene("sparkdlc/civ_tray_cabin", SparkCivilianScenes::fisher));
-        role("sparkdlc:roles/sparkdlc/usec", List.of("sparkdlc"),
-                scene("sparkdlc/civ_sniper_wall", SparkCivilianScenes::usec));
-        role("sparkdlc:roles/sparkdlc/control_expert", List.of("sparkdlc"),
-                scene("wathe/aisle", SparkCivilianScenes::controlExpert));
-        role("sparkdlc:roles/sparkdlc/seeker", List.of("sparkdlc"),
-                scene("wathe/cabin", SparkCivilianScenes::seeker));
-        role("sparkdlc:roles/sparkdlc/black_raven", List.of("sparkdlc", "noellesroles"),
-                scene("wathe/aisle", SparkCivilianScenes::blackRaven));
-        role("sparkdlc:roles/sparkdlc/insider", List.of("sparkdlc", "noellesroles"),
-                scene("sparkdlc/civ_train_cabin", SparkCivilianScenes::insider));
-        role("sparkdlc:roles/sparkdlc/saint", List.of("sparkdlc"),
-                scene("wathe/aisle", SparkCivilianScenes::saint));
-        role("sparkdlc:roles/sparkdlc/orthopedist", List.of("sparkdlc"),
-                scene("wathe/aisle", SparkCivilianScenes::orthopedist));
-        role("sparkdlc:roles/sparkdlc/apprentice_witch", List.of("sparkdlc"),
+        role("sparkdlc:roles/sparkdlc/pig_god", scene("wathe/cabin", SparkCivilianScenes::pigGod));
+        role("sparkdlc:roles/sparkdlc/fisher", scene("sparkdlc/civ_tray_cabin", SparkCivilianScenes::fisher));
+        role("sparkdlc:roles/sparkdlc/usec", scene("sparkdlc/civ_sniper_wall", SparkCivilianScenes::usec));
+        role("sparkdlc:roles/sparkdlc/control_expert", scene("wathe/aisle", SparkCivilianScenes::controlExpert));
+        role("sparkdlc:roles/sparkdlc/seeker", scene("wathe/cabin", SparkCivilianScenes::seeker));
+        role("sparkdlc:roles/sparkdlc/black_raven", scene("wathe/aisle", SparkCivilianScenes::blackRaven));
+        role("sparkdlc:roles/sparkdlc/insider", scene("sparkdlc/civ_train_cabin", SparkCivilianScenes::insider));
+        role("sparkdlc:roles/sparkdlc/saint", scene("wathe/aisle", SparkCivilianScenes::saint));
+        role("sparkdlc:roles/sparkdlc/orthopedist", scene("wathe/aisle", SparkCivilianScenes::orthopedist));
+        role("sparkdlc:roles/sparkdlc/apprentice_witch",
                 scene("wathe/lit_carriage", SparkCivilianScenes::apprenticeWitch));
-        role("sparkdlc:roles/sparkdlc/emma", List.of("sparkdlc"),
-                scene("wathe/aisle", SparkCivilianScenes::emma));
-        role("sparkdlc:roles/sparkdlc/perfumer", List.of("sparkdlc"),
-                scene("wathe/aisle", SparkCivilianScenes::perfumer));
-        role("sparkdlc:roles/sparkdlc/fiend", List.of("sparkdlc"),
-                scene("wathe/cabin", SparkCivilianScenes::fiend));
-        role("sparkdlc:roles/sparkdlc/blind", List.of("sparkdlc"),
-                scene("sparkdlc/civ_blind_carriage", SparkCivilianScenes::blind));
+        role("sparkdlc:roles/sparkdlc/emma", scene("wathe/aisle", SparkCivilianScenes::emma));
+        role("sparkdlc:roles/sparkdlc/perfumer", scene("wathe/aisle", SparkCivilianScenes::perfumer));
+        role("sparkdlc:roles/sparkdlc/fiend", scene("wathe/cabin", SparkCivilianScenes::fiend));
+        role("sparkdlc:roles/sparkdlc/blind", scene("sparkdlc/civ_blind_carriage", SparkCivilianScenes::blind));
 
         // Items whose use a demo above already shows; holding W over the item plays that demo.
         // 上面的演示已经演示过用法的物品；在物品上按住 W 即可播放对应演示。
         for (String id : List.of("sparkdlc:fishing_rod", "sparkdlc:salmon", "sparkdlc:key_fish")) {
-            item(id, List.of("sparkdlc"), scene("sparkdlc/civ_tray_cabin", SparkCivilianScenes::fisher));
+            item(id, scene("sparkdlc/civ_tray_cabin", SparkCivilianScenes::fisher));
         }
         for (String id : List.of("sparkdlc:usec_rifle", "sparkdlc:usec_338_fmj", "sparkdlc:usec_338_ap")) {
-            item(id, List.of("sparkdlc"), scene("sparkdlc/civ_sniper_wall", SparkCivilianScenes::usec));
+            item(id, scene("sparkdlc/civ_sniper_wall", SparkCivilianScenes::usec));
         }
         for (String id : List.of("sparkdlc:taser", "sparkdlc:shock_device")) {
-            item(id, List.of("sparkdlc"), scene("wathe/aisle", SparkCivilianScenes::controlExpert));
+            item(id, scene("wathe/aisle", SparkCivilianScenes::controlExpert));
         }
         for (String id : List.of("sparkdlc:seeker_car", "sparkdlc:seeker_camera")) {
-            item(id, List.of("sparkdlc"), scene("wathe/cabin", SparkCivilianScenes::seeker));
+            item(id, scene("wathe/cabin", SparkCivilianScenes::seeker));
         }
         for (String id : List.of("sparkdlc:feather_blade", "sparkdlc:black_raven_mask")) {
-            item(id, List.of("sparkdlc", "noellesroles"),
-                    scene("wathe/aisle", SparkCivilianScenes::blackRaven));
+            item(id, scene("wathe/aisle", SparkCivilianScenes::blackRaven));
         }
-        item("noellesroles:neutral_master_key", List.of("sparkdlc", "noellesroles"),
-                scene("sparkdlc/civ_train_cabin", SparkCivilianScenes::insider));
-        item("sparkdlc:holy_flash", List.of("sparkdlc"), scene("wathe/aisle", SparkCivilianScenes::saint));
+        item("noellesroles:neutral_master_key", scene("sparkdlc/civ_train_cabin", SparkCivilianScenes::insider));
+        item("sparkdlc:holy_flash", scene("wathe/aisle", SparkCivilianScenes::saint));
         for (String id : List.of("sparkdlc:perfume_essence", "sparkdlc:cooling_oil")) {
-            item(id, List.of("sparkdlc"), scene("wathe/aisle", SparkCivilianScenes::perfumer));
+            item(id, scene("wathe/aisle", SparkCivilianScenes::perfumer));
         }
         for (String id : List.of("sparkdlc:white_cane", "sparkdlc:comtac_viii")) {
-            item(id, List.of("sparkdlc"), scene("sparkdlc/civ_blind_carriage", SparkCivilianScenes::blind));
+            item(id, scene("sparkdlc/civ_blind_carriage", SparkCivilianScenes::blind));
         }
     }
 

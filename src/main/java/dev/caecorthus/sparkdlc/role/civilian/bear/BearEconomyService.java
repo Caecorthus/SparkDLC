@@ -23,16 +23,15 @@ import org.jetbrains.annotations.Nullable;
  * BEAR coins, the USEC model (owner 2026-11-05): the balance is overwritten with {@link BearRules#INITIAL_MONEY} for
  * every living final BEAR in BEAR's own {@code ON_FINISH_INITIALIZE} phase (after the default phase, so roles are
  * final), +{@link BearRules#TASK_PAY} per task (never for a holder of the Impostor trait, read through
- * {@code SparkTraitsApi.hasActiveTrait}: the trait pays an Impostor's task income itself, the Accountant precedent;
- * an unknown answer would not pay either, but is unreachable since the fusion) and
+ * {@code SparkTraitsApi.hasActiveTrait}: the trait pays an Impostor's task income itself, the Accountant precedent) and
  * +{@link BearRules#PASSIVE_INCOME} on Wathe's passive-money ticks with no cap (Impostor or not: nothing else pays it).
  * Income goes through {@code addToBalance} so income observers see it; the round-start overwrite is the only
  * {@code setBalance}. {@code CanSeeMoney} answers ALLOW for a living BEAR, so the money HUD shows, and DENY for a dead
  * one. Server is the only writer; the client only reads {@code CanSeeMoney}.
  * BEAR 金币，沿用 USEC 模式（所有者 2026-11-05）：在 BEAR 自有的 {@code ON_FINISH_INITIALIZE} 阶段（排在默认阶段之后，此时职业
  * 已是最终职业）把每名存活的最终 BEAR 的余额覆盖为 {@link BearRules#INITIAL_MONEY}；每个任务 +{@link BearRules#TASK_PAY}
- * （内鬼词条持有者不发，经 {@code SparkTraitsApi.hasActiveTrait} 读取：内鬼的任务收入由该词条自行支付，沿用会计先例；
- * 无法判定时同样不发，但融合后不可达）；在 Wathe 被动金币刻 +{@link BearRules#PASSIVE_INCOME}，不设上限（无论是否
+ * （内鬼词条持有者不发，经 {@code SparkTraitsApi.hasActiveTrait} 读取：内鬼的任务收入由该词条自行支付，沿用会计先例）；
+ * 在 Wathe 被动金币刻 +{@link BearRules#PASSIVE_INCOME}，不设上限（无论是否
  * 内鬼：没有其他系统支付）。收入经
  * {@code addToBalance} 发放，收入观察者都能看到；开局覆盖是唯一的 {@code setBalance}。{@code CanSeeMoney} 对存活的 BEAR 返回
  * ALLOW，使金币 HUD 显示；对死亡的 BEAR 返回 DENY。只有服务端写入；客户端只读取 {@code CanSeeMoney}。
@@ -88,13 +87,11 @@ final class BearEconomyService {
     }
 
     /**
-     * Pays only on a confirmed non-Impostor. The caller passes {@code SparkTraitsApi.hasActiveTrait}, a plain boolean,
-     * so the null "unsure" answer (no pay) is unreachable since the fusion.
-     * 仅在确认不是内鬼时发放。调用方传入 {@code SparkTraitsApi.hasActiveTrait} 的布尔值，因此表示“无法确认”的 null
-     * （不发放）融合后不可达。
+     * Pays only a non-Impostor ({@code SparkTraitsApi.hasActiveTrait}).
+     * 仅向非内鬼发放（{@code SparkTraitsApi.hasActiveTrait}）。
      */
-    static boolean receivesTaskMoney(@Nullable Boolean impostor) {
-        return Boolean.FALSE.equals(impostor);
+    static boolean receivesTaskMoney(boolean impostor) {
+        return !impostor;
     }
 
     // ---- Passive income ----

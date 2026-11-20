@@ -36,13 +36,11 @@ public final class BlackRavenPoliceRules {
     }
 
     /**
-     * Pays only on an exact FALSE Impostor answer; an unknown answer (null, unreachable since the fusion) never
-     * pays (Judge semantics; the Impostor trait pays its holder's task income itself).
-     * 仅在内鬼答案确切为 FALSE 时发放；未知（null，融合后不可达）从不发放（与法官相同；内鬼的任务收入由
-     * 内鬼词条自行支付）。
+     * Pays only a non-Impostor (Judge semantics; the Impostor trait pays its holder's task income itself).
+     * 仅向非内鬼发放（与法官相同；内鬼的任务收入由内鬼词条自行支付）。
      */
-    public static boolean receivesTaskMoney(@Nullable Boolean impostor) {
-        return Boolean.FALSE.equals(impostor);
+    public static boolean receivesTaskMoney(boolean impostor) {
+        return !impostor;
     }
 
     /**

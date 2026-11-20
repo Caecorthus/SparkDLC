@@ -1,17 +1,12 @@
 package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
 import dev.caecorthus.sparkdlc.role.civilian.bodyguard.BodyguardVestService;
+import dev.caecorthus.sparkdlc.role.civilian.guardianangel.GuardianAngelEffects;
 import dev.doctor4t.wathe.cca.PlayerPsychoComponent;
-import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
 import org.agmas.noellesroles.ModEffects;
 import org.agmas.noellesroles.professor.IronManPlayerComponent;
-
-import java.util.Optional;
 
 /**
  * Counts the shield layers a player has right now, each worth 5 more seconds of the Partygoer's meal: Wathe psycho
@@ -21,10 +16,6 @@ import java.util.Optional;
  * 之后每 5 秒的一口通过一次非强制击杀，让一层盾按其原本方式碎掉。
  */
 public final class PartygoerShieldLayers {
-    /** Guardian Angel shield effect, looked up by id because it used to be another jar's; always found now.
-     * 守护天使护盾效果，因曾属于另一个 jar 而按 id 查找；现在必定能找到。 */
-    private static final Identifier GUARDIAN_SHIELD_ID = Identifier.of("sparkdlc", "guardian_shield");
-
     private PartygoerShieldLayers() {
     }
 
@@ -41,8 +32,7 @@ public final class PartygoerShieldLayers {
         if (whiskey != null) {
             layers += whiskey.getAmplifier() + 1;
         }
-        Optional<RegistryEntry.Reference<StatusEffect>> guardian = Registries.STATUS_EFFECT.getEntry(GUARDIAN_SHIELD_ID);
-        if (guardian.isPresent() && player.hasStatusEffect(guardian.get())) {
+        if (player.hasStatusEffect(GuardianAngelEffects.guardianShield())) {
             layers++;
         }
         if (BodyguardVestService.isWorn(player)) {

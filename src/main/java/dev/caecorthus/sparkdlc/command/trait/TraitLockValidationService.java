@@ -7,9 +7,7 @@ import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.doctor4t.wathe.api.Faction;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
-import dev.doctor4t.wathe.cca.ScoreboardRoleSelectorComponent;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
@@ -26,11 +24,6 @@ import dev.caecorthus.sparkdlc.trait.killer.conscience.ConscienceTrait;
  */
 public final class TraitLockValidationService {
     private TraitLockValidationService() {
-    }
-
-    public static Role forcedRoleFor(ServerCommandSource source, ServerPlayerEntity player) {
-        ScoreboardRoleSelectorComponent selector = ScoreboardRoleSelectorComponent.KEY.get(source.getServer().getScoreboard());
-        return selector.getForcedRoleForPlayer(player.getUuid());
     }
 
     public static RoleConflict findAudienceConflict(Trait trait, Role role) {

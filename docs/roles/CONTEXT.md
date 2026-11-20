@@ -6613,7 +6613,8 @@ Client (render thread):
 - `BlackRavenPerceptionScreenEffects` reads the Last Escape parameters straight from SparkTraits'
   `DepressionScreenEffects.getLastEscapeComposition` (SparkDLC: the reflective `LastEscapeTraitsVisionBridge` and its
   protocol-version cache are gone; the neutral answer is one shared read-only array), and the screen effect returns
-  early off a confirmed server when no processor is open. `OwnerInventoryPresenter.traitsFacade()` resolves the facade once per session, failing closed.
+  early off a confirmed server when no processor is open. The owner inventory card visits the owner's traits through
+  `SparkTraitsApi.visitOwnerInventoryTraits` every frame; the former V1 presenter handshake is gone.
 
 Server:
 - Specter sweeps (PR #207): `SpecterOtherworldService` (Otherworld slowness) and `SpecterPeachwoodService`

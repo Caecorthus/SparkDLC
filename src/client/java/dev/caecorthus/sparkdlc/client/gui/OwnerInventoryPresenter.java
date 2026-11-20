@@ -13,7 +13,6 @@ import dev.caecorthus.sparkdlc.client.role.civilian.apprentice.ApprenticeClientP
 import dev.caecorthus.sparkdlc.client.economy.KillerTeamEconomyClientHooks;
 import dev.caecorthus.sparkdlc.client.role.witch.grandwitch.GrandWitchClientPresentation;
 import dev.caecorthus.sparkdlc.client.text.WitchSkillClientTexts;
-import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.skill.mana.WitchManaRules;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
@@ -47,21 +46,17 @@ import java.util.Map;
 
 public final class OwnerInventoryPresenter {
     private record Frame(InventoryRenderScope.Binding binding, InventoryInfoCard.Snapshot card, boolean ownsTraits) {}
-    /** One visited trait as the trait feature handed it over (not yet copied). 从天赋功能收到的一项天赋（尚未复制）。 */
-    private record VisitedTrait(Text name, List<Text> tooltip) {}
     /**
      * The role-skill card's own instance of the shared info card ({@code client.gui.card}): its caches, its "+N more"
      * lang key, the killer team-wallet HUD row and the guidebook decoration (own logger and failure latch). Never hand
      * this instance to the trait card. Created on first use, so a failure to create it still surfaces inside the
      * guarded prepare/draw paths below. The limited inventory draws a 22 px second row above the hotbar strip (its
      * inactive widget there is already scanned by the card); the second-row rule counts it too, so the block stays
-     * reserved without relying on that widget. It goes through {@link LimitedInventoryRows#isSecondRowShown()} so the
-     * wiring point stays shared.
+     * reserved without relying on that widget.
      * 职业技能卡自己的共享信息卡实例（{@code client.gui.card}）：自己的缓存、“+N 项”语言键、杀手团队余额 HUD 行与
      * 指南点缀（独立的日志名与失败锁存）。不要把该实例交给天赋卡。首次使用时才创建，因此创建失败仍发生在下方受保护的
      * 准备与绘制路径内。受限物品栏会在热栏上方绘制 22 像素高的第二行（其非激活控件已在卡片的扫描中避开）；
-     * 第二行规则也将其计入，使物品栏块的预留不依赖该控件。该规则经由
-     * {@link LimitedInventoryRows#isSecondRowShown()}，以保持同一个接线点。
+     * 第二行规则也将其计入，使物品栏块的预留不依赖该控件。
      */
     private static final class Card {
         private static final InventoryInfoCard INSTANCE = new InventoryInfoCard("gui.sparkdlc.inventory.more",
@@ -69,11 +64,6 @@ public final class OwnerInventoryPresenter {
                 KillerTeamEconomyClientHooks::topRightHudBottom, new GuidebookCardDecor("SparkDLC/GuideDecor"));
     }
     private static final InventoryRenderScope<Frame> CALLS = new InventoryRenderScope<>();
-    // The V1 handshake calls the trait contract directly through these two method references.
-    // V1 握手通过这两个方法引用直接调用词条契约。
-    private static final OwnerInventoryTraitsHandshake<PlayerEntity, Text> TRAITS = new OwnerInventoryTraitsHandshake<>(
-            SparkTraitsApi::registerExternalInventoryPresenterV1, SparkTraitsApi::visitOwnerInventoryTraits,
-            OwnerInventoryPresenter::ownsTraits);
     private static final SkillProgressTracker PROGRESS = new SkillProgressTracker();
     /** The Ceremonial Sword's kill cooldown, a Grand Witch timer beside the panel skill. 仪礼剑击杀冷却（大魔女专属计时）。 */
     private static final SkillProgressTracker SWORD_PROGRESS = new SkillProgressTracker();
@@ -89,8 +79,8 @@ public final class OwnerInventoryPresenter {
     // 上一帧卡片完整排出技能分节全部技能行的界面；此时技能 HUD 隐藏。
     private static Screen skillSectionScreen;
     // Presentation caches (spec-v2 §4): the skill section is rebuilt only when its SkillKey changes, the traits section
-    // only when the visited traits differ from the cached copies. Gauges stay live through InventoryInfoCard.Gauge.
-    // 展示缓存：技能分节仅在键变化时重建，天赋分节仅在访问结果与缓存副本不同时重建；进度条通过 Gauge 保持实时。
+    // only when the owner's trait entries differ from the cached ones. Gauges stay live through InventoryInfoCard.Gauge.
+    // 展示缓存：技能分节仅在键变化时重建，天赋分节仅在本人天赋条目与缓存不同时重建；进度条通过 Gauge 保持实时。
     private static @Nullable SkillKey skillKey;
     private static @Nullable InventoryInfoCard.Section skillCache;
     private static @Nullable InventoryInfoCard.Section traitsCache;
@@ -109,16 +99,15 @@ public final class OwnerInventoryPresenter {
             List<InventoryInfoCard.Section> sections = new ArrayList<>();
             var skill = skillSection(player);
             if (skill != null) sections.add(skill);
-            // The visit runs every frame (it is the V1 ownership handshake); only the copies and the section are cached.
-            // 每帧都要访问（V1 所有权握手的一部分），仅缓存副本与分节。
-            var traits = TRAITS.collect(player, (tag, tooltip) -> new VisitedTrait(tag, tooltip.stream().toList()));
-            traits.ifPresent(entries -> {
-                if (!entries.isEmpty()) sections.add(traitsSection(entries));
-            });
-            // Publish only AFTER all text conversion, eligibility, collection and geometry succeeded. The trait feature
-            // is part of this mod, so traitsPresent is always true. / 天赋功能属于本模组，traitsPresent 恒为 true。
-            var card = Card.INSTANCE.prepare(screen, font, sections, true, traits.isPresent());
-            scope.publish(new Frame(new InventoryRenderScope.Binding(screen, player, client.world, client.getNetworkHandler()), card, traits.isPresent()));
+            // The owner's traits are visited through the trait API every frame (only the section is cached), so this
+            // one card shows them and the native trait card stays hidden for the frame.
+            // 每帧经词条接口访问本人天赋（仅缓存分节），因此由本卡片显示，原生天赋卡在本帧隐藏。
+            var traits = traitEntries(player);
+            if (traits != null && !traits.isEmpty()) sections.add(traitsSection(traits));
+            // Publish only AFTER all text conversion, eligibility, collection and geometry succeeded.
+            // 只有在文本转换、资格判断、收集与几何计算全部成功后才发布。
+            var card = Card.INSTANCE.prepare(screen, font, sections, traits != null);
+            scope.publish(new Frame(new InventoryRenderScope.Binding(screen, player, client.world, client.getNetworkHandler()), card, traits != null));
         } catch (RuntimeException | LinkageError failure) {
             // No committed snapshot: the trait card keeps its native TAIL and the role card its fallback. Warn once per
             // connection; the fallback retries every frame. 每个连接只警告一次，回退路径每帧重试。
@@ -135,28 +124,41 @@ public final class OwnerInventoryPresenter {
         MinecraftClient client = MinecraftClient.getInstance();
         return frame != null && frame.binding.matches(client.currentScreen, client.player, client.world, client.getNetworkHandler()) ? frame : null;
     }
-    private static boolean ownsTraits() { Frame frame = current(); return frame != null && frame.ownsTraits; }
+    /**
+     * Whether this render call's committed card shows the owner's traits; the native trait card's TAIL asks it and
+     * stays hidden while it is true. Reads only the render scope and reference comparisons, so it cannot throw.
+     * 本次渲染调用已提交的卡片是否显示本人天赋；原生天赋卡的 TAIL 询问此值，为真时不绘制。只读取渲染作用域并做引用比较，不会抛出异常。
+     */
+    public static boolean ownsTraits() { Frame frame = current(); return frame != null && frame.ownsTraits; }
 
     /**
-     * The traits section, rebuilt only when the visited traits differ from the cached detached copies (Text equality
-     * is structural, so a fresh visit of the same traits matches). 天赋分节：仅当访问结果与缓存副本（按结构比较）不同时重建。
+     * The owner's visible traits as card entries (detached copies handed over by the trait API), or null when the
+     * visit failed: no partial section is published and the native trait card keeps the traits for this frame. An
+     * empty list is a successful visit (nothing to show).
+     * 本人可见天赋的卡片条目（词条接口交出的独立副本）；访问失败时为 null：不发布不完整的分节，本帧由原生天赋卡显示天赋。
+     * 空列表表示访问成功但没有可显示的天赋。
      */
-    private static InventoryInfoCard.Section traitsSection(List<VisitedTrait> visited) {
-        InventoryInfoCard.Section cached = traitsCache;
-        if (cached != null && sameTraits(visited, cached.entries())) return cached;
-        List<InventoryInfoCard.Entry> entries = visited.stream()
-                .map(trait -> new InventoryInfoCard.Entry(List.of(trait.name()), trait.tooltip())).toList();
-        return traitsCache = new InventoryInfoCard.Section(Text.translatable("gui.sparkdlc.traits"), entries);
+    private static @Nullable List<InventoryInfoCard.Entry> traitEntries(PlayerEntity player) {
+        try {
+            List<InventoryInfoCard.Entry> entries = new ArrayList<>();
+            SparkTraitsApi.visitOwnerInventoryTraits(player,
+                    (name, tooltip) -> entries.add(new InventoryInfoCard.Entry(List.of(name), tooltip.stream().toList())));
+            return List.copyOf(entries);
+        } catch (RuntimeException failure) {
+            // Not a lookup guard: a failing visit must leave no partial section. / 并非查找保护：访问失败不得留下不完整的分节。
+            return null;
+        }
     }
 
-    private static boolean sameTraits(List<VisitedTrait> visited, List<InventoryInfoCard.Entry> cached) {
-        if (visited.size() != cached.size()) return false;
-        for (int i = 0; i < visited.size(); i++) {
-            var entry = cached.get(i);
-            if (entry.lines().size() != 1 || !entry.lines().getFirst().equals(visited.get(i).name())
-                    || !entry.tooltip().equals(visited.get(i).tooltip())) return false;
-        }
-        return true;
+    /**
+     * The traits section, rebuilt only when the visited entries differ from the cached ones (records of Text, so the
+     * comparison is structural and a fresh visit of the same traits matches).
+     * 天赋分节：仅当访问得到的条目与缓存不同（按结构比较，同样的天赋再次访问即相等）时重建。
+     */
+    private static InventoryInfoCard.Section traitsSection(List<InventoryInfoCard.Entry> entries) {
+        InventoryInfoCard.Section cached = traitsCache;
+        if (cached != null && cached.entries().equals(entries)) return cached;
+        return traitsCache = new InventoryInfoCard.Section(Text.translatable("gui.sparkdlc.traits"), entries);
     }
 
     public static void draw(Screen screen, PlayerEntity player, TextRenderer font, DrawContext context, int mouseX, int mouseY) {
@@ -169,7 +171,7 @@ public final class OwnerInventoryPresenter {
             if (frame != null && frame.binding.screen() == screen && frame.binding.player() == player) card = frame.card;
             else {
                 var skill = skillSection(player);
-                card = Card.INSTANCE.prepare(screen, font, skill == null ? List.of() : List.of(skill), true, false);
+                card = Card.INSTANCE.prepare(screen, font, skill == null ? List.of() : List.of(skill), false);
             }
             Card.INSTANCE.draw(context, font, card, mouseX, mouseY, screen.width, screen.height);
             if (showsManaTail(card)) manaTailScreen = screen;
@@ -179,7 +181,6 @@ public final class OwnerInventoryPresenter {
             // Stop drawing and taking over subsequent frames until the next connection lifecycle reset, and log once.
             // 当前帧的承诺无法撤回；此后直到连接重置都不再绘制或接管天赋，并只记录一次错误。
             cardFailed = true;
-            TRAITS.disable();
             SparkDLC.LOGGER.error("Owner inventory card draw failed; disabling the card for this connection", failure);
         }
     }
@@ -222,7 +223,7 @@ public final class OwnerInventoryPresenter {
     }
 
     public static void reset() {
-        CALLS.invalidate(); TRAITS.reset(); PROGRESS.reset(); SWORD_PROGRESS.reset();
+        CALLS.invalidate(); PROGRESS.reset(); SWORD_PROGRESS.reset();
         cardFailed = false; prepareWarned = false; manaTailScreen = null; skillSectionScreen = null;
         skillKey = null; skillCache = null; traitsCache = null;
         Card.INSTANCE.invalidateCaches();

@@ -61,13 +61,14 @@ public final class SparkTraitsApi {
     }
 
     /**
-     * V1 optional inventory presentation protocol. Registration is retriable until client init.
-     * The supplier must report a complete, frozen decision scoped to the current render call,
-     * remain stable through every TAIL, and return false outside that scope. First registrant wins.
-     * Returning true commits to drawing the complete owner card (including exported traits).
+     * V1 inventory presentation protocol, kept for its signature: the mod's own owner inventory card shows the owner's
+     * traits itself (asked directly, it was this protocol's only registrant), so no external presenter is accepted
+     * and the answer is always false.
+     * V1 背包展示协议，仅为保留签名：本模组自己的本人背包卡片直接显示本人天赋（直接调用；它曾是该协议唯一的注册方），
+     * 因此不接受任何外部展示方，恒返回 false。
      */
     public static boolean registerExternalInventoryPresenterV1(BooleanSupplier presenter) {
-        return OwnerInventoryPresentation.register(presenter);
+        return false;
     }
 
     /** One accepted trigger pull, including synthetic repeats; observers never own punishment.

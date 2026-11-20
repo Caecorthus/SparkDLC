@@ -283,21 +283,13 @@ public final class SparkDlcRoleRegistry {
      * A Charon without a running Soul Moment of his own (at least one soul) does not count as alive in the settlement
      * counts of other features either (PR #232 follow-up): {@code SettlementExclusions} asks
      * {@code FerrymanSettlement.isExcluded(PlayerEntity)} per player, on server worlds only, for holders of the
-     * Charon's raw role. The {@code LinkageError} catch was the fail-closed path for a faction-core jar built before
-     * conditional roles existed (the trait counts kept counting him as before instead of the server failing to start);
-     * unreachable since the fusion.
+     * Charon's raw role.
      * 没有自己正在进行且至少有一名灵魂的亡魂时刻的卡戎，在其他功能的结算计数中同样不算存活（PR #232 后续）：
      * {@code SettlementExclusions} 只在服务端世界、只对原始身份为卡戎的玩家逐个询问
-     * {@code FerrymanSettlement.isExcluded(PlayerEntity)}。{@code LinkageError} 捕获原是为“在加入带条件身份之前构建的
-     * 阵营核心 jar”准备的失败即关闭路径（此时词条计数仍按原先方式把他计入，而不是让服务端无法启动）；融合后不可达。
+     * {@code FerrymanSettlement.isExcluded(PlayerEntity)}。
      */
     private static void registerCharonConditionalSettlementExclusion() {
-        try {
-            SettlementExclusions.registerConditionalRole(FERRYMAN_ID, FerrymanSettlement::isExcluded);
-        } catch (LinkageError olderSparkFactionApi) {
-            SparkDLC.LOGGER.warn("SparkDLC has no conditional settlement exclusions; "
-                    + "other mods' counts will still see a Charon without souls.", olderSparkFactionApi);
-        }
+        SettlementExclusions.registerConditionalRole(FERRYMAN_ID, FerrymanSettlement::isExcluded);
     }
 
     public static synchronized void refreshAssassinGuessRoleOrder() {
@@ -700,23 +692,15 @@ public final class SparkDlcRoleRegistry {
      * and Team Jiahao form the {@code third_faction} category. The third-faction draw deals at most one of them per
      * round, before Wathe's neutral pass (50/50 between the drawable ones, a player minimum and a member cap it owns),
      * and deals the roles these pure lineups return; forced members are passed in as present and always kept.
-     * Registered in common init after the factions, the Corrupt Cop binding and the roles exist. The method references
-     * and the {@code LinkageError} catch were the fail-closed path for a faction-core jar built before the draw (no
-     * third faction dealt instead of the server failing to start); unreachable since the fusion.
+     * Registered in common init after the factions, the Corrupt Cop binding and the roles exist.
      * 第三阵营阵容（{@code SparkFactionApi.registerThirdFactionLineup}，所有者 2026-11-16）：魔女阵营与嘉豪阵营组成
      * {@code third_faction} 类别。第三阵营抽取在 Wathe 中立分配之前每局至多抽取其中一个（在可抽取的阵营间 50/50，最低人
      * 数与成员上限由其负责），并发放这些纯阵容返回的职业；强制指定的成员作为已在场成员传入，始终保留。在双端通用初始化
-     * 中、阵营、黑警绑定与职业都已存在之后注册。方法引用与 {@code LinkageError} 捕获原是为“在加入该抽取之前构建的阵营
-     * 核心 jar”准备的失败即关闭路径（不发放任何第三阵营，而不是让服务端无法启动）；融合后不可达。
+     * 中、阵营、黑警绑定与职业都已存在之后注册。
      */
     private static void registerThirdFactionLineups() {
-        try {
-            SparkFactionApi.registerThirdFactionLineup(SparkDlcFactions.WITCH, WitchThirdFactionLineup::rolesToDeal);
-            SparkFactionApi.registerThirdFactionLineup(SparkDlcFactions.JIAHAO, JiahaoThirdFactionLineup::rolesToDeal);
-        } catch (LinkageError olderSparkFactionApi) {
-            SparkDLC.LOGGER.warn("SparkDLC has no third-faction draw; "
-                    + "no witch or Team Jiahao members will be dealt at round start.", olderSparkFactionApi);
-        }
+        SparkFactionApi.registerThirdFactionLineup(SparkDlcFactions.WITCH, WitchThirdFactionLineup::rolesToDeal);
+        SparkFactionApi.registerThirdFactionLineup(SparkDlcFactions.JIAHAO, JiahaoThirdFactionLineup::rolesToDeal);
     }
 
     private static void registerFactionApiRoles() {

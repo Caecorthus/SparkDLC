@@ -153,7 +153,7 @@ python3 tools/unify/rename_namespace.py plan                  # checks + legacy-
 python3 tools/unify/rename_namespace.py apply --phase main     # resources, production and gametest sources
 python3 tools/unify/rename_namespace.py apply --phase tooling  # gradle/verify, config, tools/payload_policy.py, docs
 python3 tools/unify/rename_namespace.py apply --phase tests    # local-only src/test (JUnit, Strength Java and Python)
-python3 tools/payload_policy.py generate --repo . --mod <factionapi|witch|strength>   # after the tooling phase
+python3 tools/payload_policy.py generate --repo .              # after the tooling phase (one class since stage 3)
 ```
 
 A phase is deterministic, and an applied phase is recorded and skipped on the next run (`--force` overrides; on a

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker.remote;
 
-import dev.caecorthus.sparkdlc.net.policy.witch.GeneratedPayloadPolicy;
+import dev.caecorthus.sparkdlc.net.policy.GeneratedPayloadPolicy;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerExitReason;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
 import net.minecraft.util.Identifier;

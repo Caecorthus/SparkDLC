@@ -1,50 +1,51 @@
 #!/usr/bin/env python3
-"""Locked-player C2S payload policy: one canonical table, generated per-module Java sets.
+"""Locked-player C2S payload policy: one canonical table, one generated Java class.
 
 The canonical table is ``config/payload-policy/actions.tsv`` next to this tool. It holds one row per payload id with
-an explicit ``allow``/``deny`` cell for every profile. Each module that uses a profile gets a generated
-``GeneratedPayloadPolicy`` class with one immutable ``Set<Identifier>`` per profile it uses (the ``deny`` ids); the
-hand-written rule classes alias those sets. Standard library only.
+an explicit ``allow``/``deny`` cell for every profile. The mod gets one generated class,
+``dev.caecorthus.sparkdlc.net.policy.GeneratedPayloadPolicy``, with one immutable ``Set<Identifier>`` per profile
+(the ``deny`` ids); the hand-written rule classes alias those sets. Standard library only.
 
-    generate  --repo <path> --mod <factionapi|witch|strength>   write that module's generated Java
-    check     --repo <path> --mod <factionapi|witch|strength>   regenerate in memory, fail on any byte difference
-                                                                or on a C2S id the module registers without a table row
-    check-all --repo <path>                                     check every module of the SparkDLC tree
-
-Since the five mods were fused into SparkDLC, ``--repo`` is the one SparkDLC checkout for every module. The whole tree
-is still indexed (constants resolve across modules), but a registration belongs to the legacy module of the
-registering file, and its row's ``owner`` must be that module's legacy mod id. Since the stage-2a namespace rename
-every SparkDLC payload id is ``sparkdlc:<path>``, so ``owner`` no longer repeats the id's namespace: it is the label
-of the module that registers the payload (``sparkwitch``, ``sparkstrength``, ...), and a row whose owner is one of
-those labels must carry a ``sparkdlc:`` id. Until the stage-1 package move that module
-was the file's package (``src/{main,client}/java/dev/caecorthus/sparkdlc/<module>/``); the move left no module
-directory, so it is now read from the move manifest ``tools/unify/file-moves.tsv`` (the module is the first segment of
-the file's ``old_fqcn``). A file the manifest does not list has no module and fails the check.
+    generate  --repo <path>   write the generated Java
+    check     --repo <path>   regenerate in memory and fail on any byte difference, on a C2S id the mod registers
+                              without a table row, and on a ``sparkdlc`` row no source registers
 
 Table rules: UTF-8, tab-separated, LF, sorted by payload_id, one complete row per id (every profile cell exactly
-``allow`` or ``deny``), ``owner`` is the registering mod id (for SparkDLC: the legacy id of the module), ``note`` (English) and ``note_zh`` (Chinese) are ``-`` or
-the facts and reasons behind the row (a pinning test/comment, or ``migration-parity`` / ``迁移保持原状（原因未记录）``
-when the reason is unknown); the notes are never used for generation. VENDETTA_TARGET is not
-emitted: VendettaTargetingPacketGuard keeps its typed adapters and the column records which payloads it judges.
+``allow`` or ``deny``). ``owner`` is the mod that registers the payload and is the namespace of the id: ``sparkdlc``
+for this mod, ``wathe`` or ``noellesroles`` for a payload of a mod this one builds on. ``group`` says which part of
+SparkDLC a ``sparkdlc`` payload belongs to (``-`` for another mod's payload): ``role_kit`` for the kits of the Wathe
+and NoellesRoles roles together with sabotage, the tablet and the killer team economy, ``own_role`` for the mod's own
+roles. The generator only validates that column; rules that are stated per group read it from the table (for example
+"Fear blocks every stun-blocked role-kit payload except ..." in the local tests). ``note`` (English) and ``note_zh``
+(Chinese) are ``-`` or the facts and reasons behind the row (a pinning test/comment, or ``migration-parity`` /
+``迁移保持原状（原因未记录）`` when the reason is unknown); the notes are never used for generation. VENDETTA_TARGET
+is not emitted: VendettaTargetingPacketGuard keeps its typed adapters and the column records which payloads it judges.
 
-锁定玩家 C2S 数据包策略：一张规范表，按模块生成 Java 集合。规范表为本工具旁的 ``config/payload-policy/actions.tsv``，
-每个数据包 id 一行，每个配置一格显式的 ``allow``/``deny``。每个用到配置的模块得到一个生成的
-``GeneratedPayloadPolicy`` 类，为其使用的每个配置提供一个不可变 ``Set<Identifier>``（即 ``deny`` 的 id）；手写规则类
-只是这些集合的别名。仅使用标准库。``check`` 在内存中重新生成并逐字节比较，且模块注册了表中没有的 C2S id、或注册
-表达式无法解析为字面量 id 时都会失败。五个 mod 融合为 SparkDLC 之后，所有模块的 ``--repo`` 都是同一个 SparkDLC 检出：
-仍然索引整棵源码树（常量可跨模块解析），但一条注册属于注册文件的旧模块，其表行的 ``owner`` 必须是该模块的旧 mod id。
-第二阶段 a 的命名空间改名之后，SparkDLC 的所有数据包 id 都是 ``sparkdlc:<path>``，``owner`` 不再与 id 的命名空间重复：
-它是注册该数据包的模块的标签（``sparkwitch``、``sparkstrength`` 等），owner 为这些标签之一的行必须使用 ``sparkdlc:`` id。
-第一阶段包搬迁之前，旧模块就是文件所在的包（``src/{main,client}/java/dev/caecorthus/sparkdlc/<module>/``）；搬迁后不再有
-模块目录，因此改为读取搬迁清单 ``tools/unify/file-moves.tsv``（模块即文件 ``old_fqcn`` 的第一段）。清单未列出的文件
-没有模块，检查会失败。
+History: until stage 3 of the unification the table fed three generated classes, one per former mod that used a
+profile, and ``owner`` named the former mod of the registering file (looked up in ``tools/unify/file-moves.tsv``).
+The three classes are one now and the tool knows no former module: ``owner`` is the registering mod again, and the
+one fact the old labels still carried for a rule, role kit or own role, is the ``group`` column.
+
+锁定玩家 C2S 数据包策略：一张规范表，一个生成的 Java 类。规范表为本工具旁的 ``config/payload-policy/actions.tsv``，
+每个数据包 id 一行，每个配置一格显式的 ``allow``/``deny``。本模组只有一个生成类
+``dev.caecorthus.sparkdlc.net.policy.GeneratedPayloadPolicy``，为每个配置提供一个不可变 ``Set<Identifier>``（即 ``deny``
+的 id）；手写规则类只是这些集合的别名。仅使用标准库。``check`` 在内存中重新生成并逐字节比较；本模组注册了表中没有的
+C2S id、注册表达式无法解析为字面量 id、或某个 ``sparkdlc`` 行没有任何源码注册时都会失败。
+
+表规则：``owner`` 是注册该数据包的模组，也就是 id 的命名空间：本模组为 ``sparkdlc``，本模组所依赖模组的数据包为 ``wathe``
+或 ``noellesroles``。``group`` 说明 ``sparkdlc`` 数据包属于本模组的哪一部分（其他模组的数据包填 ``-``）：``role_kit`` 是
+Wathe 与 NoellesRoles 职业的套件以及破坏、平板电脑与杀手团队经济，``own_role`` 是本模组自有职业。生成器只校验该列的取值；
+按分组表述的规则（例如本地测试中的“恐惧拦截所有被眩晕拦截的职业套件数据包，除了……”）从表中读取它。
+
+历史：统一化第三阶段之前，这张表生成三个类（每个用到配置的旧模组一个），``owner`` 标注注册文件所属的旧模组（从
+``tools/unify/file-moves.tsv`` 查得）。现在三个类合而为一，工具不再知道任何旧模块：``owner`` 重新表示注册模组，旧标签仍为
+某条规则携带的唯一事实（职业套件还是自有职业）成为 ``group`` 列。
 """
 
 from __future__ import annotations
 
 import argparse
 import hashlib
-import os
 import re
 import sys
 from dataclasses import dataclass, field
@@ -58,114 +59,27 @@ PROFILES = (
     "SAFE_TIME", "STUN", "SEEKER", "RIFT", "FEAR", "FEAR_SILENT", "DUEL_PRIMARY", "DUEL_WEAPON",
     "HYPNOSIS_EXTRA", "HYPNOSIS_SILENT", "CARRY_EXTRA", "VENDETTA_TARGET", "DAZE",
 )
-HEADER = ("payload_id", "owner") + PROFILES + ("note", "note_zh")
+# Recorded in the table, judged by typed adapters in Java, never generated. / 记录在表中，由 Java 的类型化适配器判定，不生成。
+NOT_EMITTED = ("VENDETTA_TARGET",)
+EMITTED_PROFILES = tuple(profile for profile in PROFILES if profile not in NOT_EMITTED)
+HEADER = ("payload_id", "owner", "group") + PROFILES + ("note", "note_zh")
 DECISIONS = ("allow", "deny")
-OWNERS = ("noellesroles", "sparkfactionapi", "sparkstrength", "sparkwitch", "wathe")
-# The one namespace of every SparkDLC payload id since the stage-2a rename. / 第二阶段 a 改名后 SparkDLC 全部数据包 id 的唯一命名空间。
-PAYLOAD_NAMESPACE = "sparkdlc"
+# The mod itself and the mods whose payloads it also judges. / 本模组自身，以及其数据包同样受本模组判定的模组。
+MOD_ID = "sparkdlc"
+OWNERS = ("noellesroles", MOD_ID, "wathe")
+# Parts of SparkDLC a rule may be stated for; see the module docstring. / 规则可以针对的 SparkDLC 组成部分；见模块文档。
+GROUPS = ("own_role", "role_kit")
+NO_GROUP = "-"
 ID_PATTERN = re.compile(r"[a-z0-9_.-]+:[a-z0-9_./-]+")
 
-
-@dataclass(frozen=True)
-class ModTarget:
-    """Where one repo's generated class lives and which profiles it carries."""
-    mod_id: str
-    package: str
-    public: bool
-    profiles: tuple
-
-    @property
-    def relative_path(self) -> str:
-        return "src/main/java/" + self.package.replace(".", "/") + "/GeneratedPayloadPolicy.java"
-
-
-# SparkFactionAPI's only consumer shares the package, so its class stays package-private; SparkWitch and SparkStrength
-# alias the sets from several role packages, so theirs must be public (still no cross-mod reference).
-# SparkFactionAPI 唯一的使用方与生成类同包，因此保持包私有；SparkWitch 与 SparkStrength 在多个职业包中引用，必须公开
-# （仍不跨模组引用）。
-MODS = {
-    "factionapi": ModTarget("sparkfactionapi", "dev.caecorthus.sparkdlc.round.antifastround", False,
-                            ("SAFE_TIME",)),
-    "witch": ModTarget("sparkwitch", "dev.caecorthus.sparkdlc.net.policy.witch", True,
-                       ("STUN", "SEEKER", "RIFT", "FEAR", "FEAR_SILENT", "DUEL_PRIMARY", "DUEL_WEAPON",
-                        "HYPNOSIS_EXTRA", "HYPNOSIS_SILENT")),
-    "strength": ModTarget("sparkstrength", "dev.caecorthus.sparkdlc.net.policy.strength", True, ("DAZE", "CARRY_EXTRA")),
-}
-
-
-# Every SparkDLC module and its legacy mod id, which is the ``owner`` label of the payloads it registers (their ids
-# are all ``sparkdlc:<path>`` now). A module without a MODS entry carries no generated class; it must still not
-# register a C2S payload the table does not know.
-# SparkDLC 的每个模块及其旧 mod id，也就是该模块所注册数据包的 ``owner`` 标签（它们的 id 现在都是 ``sparkdlc:<path>``）。
-# 没有 MODS 条目的模块不带生成类，但同样不得注册规范表不认识的 C2S 数据包。
-MODULE_NAMESPACES = {
-    "factionapi": "sparkfactionapi",
-    "strength": "sparkstrength",
-    "traits": "sparktraits",
-    "witch": "sparkwitch",
-    "assist": "sparkassist",
-}
-# The stage-1 package move (tools/unify) took every class out of its module directory, so the module of a file can no
-# longer be read from its path. The move manifest keeps it: one row per production file with its path before and
-# after the move, and ``old_fqcn`` (relative to dev.caecorthus.sparkdlc) starts with the legacy module.
-# 第一阶段包搬迁（tools/unify）把所有类移出了模块目录，文件所属模块无法再从路径读出。搬迁清单保留了这一信息：每个生产
-# 文件一行，记录搬迁前后的路径；``old_fqcn``（相对于 dev.caecorthus.sparkdlc）以旧模块名开头。
-MOVES_PATH = TOOL_PATH.parent / "unify" / "file-moves.tsv"
-MOVES_DISPLAY = "tools/unify/file-moves.tsv"
-MOVES_HEADER = ("old_path", "new_path", "old_fqcn", "new_fqcn", "source_root", "phase")
-MODULE_SOURCE_ROOTS = ("src/main/java", "src/client/java")
+# The one generated class. It is public: the rule classes that alias its sets live in many feature packages.
+# 唯一的生成类。它是公开的：为其集合取别名的规则类分布在许多功能包中。
+GENERATED_PACKAGE = "dev.caecorthus.sparkdlc.net.policy"
+GENERATED_PATH = "src/main/java/" + GENERATED_PACKAGE.replace(".", "/") + "/GeneratedPayloadPolicy.java"
 
 
 class PolicyError(Exception):
     pass
-
-
-def load_module_files(path: Path = MOVES_PATH) -> dict:
-    """Repo-relative path of every moved production file -> its legacy module. / 已搬迁生产文件的仓库相对路径 -> 旧模块。
-
-    Fails when the manifest is missing or malformed, or when a module has no file left in it: an empty module would
-    make every registration look ownerless, or hide a module from the check.
-    清单缺失、格式不符或某个模块在清单中没有任何文件时失败：空模块会让所有注册都显得无主，或让某个模块逃过检查。
-    """
-    try:
-        text = path.read_text(encoding="utf-8")
-    except OSError as error:
-        raise PolicyError(f"{path}: cannot read the move manifest that maps files to legacy modules: {error}") from error
-    lines = text.split("\n")
-    if tuple(lines[0].split("\t")) != MOVES_HEADER:
-        raise PolicyError(f"{MOVES_DISPLAY}:1: header must be exactly {' '.join(MOVES_HEADER)!r}")
-    modules = {}
-    for number, line in enumerate(lines[1:], start=2):
-        if not line:
-            continue
-        cells = line.split("\t")
-        if len(cells) != len(MOVES_HEADER):
-            raise PolicyError(f"{MOVES_DISPLAY}:{number}: expected {len(MOVES_HEADER)} tab-separated cells")
-        row = dict(zip(MOVES_HEADER, cells))
-        module = row["old_fqcn"].split(".", 1)[0]
-        if module not in MODULE_NAMESPACES:
-            raise PolicyError(f"{MOVES_DISPLAY}:{number}: {row['old_fqcn']} is in no SparkDLC module")
-        if row["source_root"] in MODULE_SOURCE_ROOTS:
-            modules[row["new_path"]] = module
-    empty = sorted(set(MODULE_NAMESPACES) - set(modules.values()))
-    if empty:
-        raise PolicyError(f"{MOVES_DISPLAY}: no production file of module(s) {', '.join(empty)}; the manifest is "
-                          f"incomplete")
-    return modules
-
-
-def module_of(where: str, repo: "Path | None" = None, modules: "dict | None" = None) -> "str | None":
-    """The legacy module of the file at a ``path:line`` location, or None for a file the move manifest does not list.
-
-    ``repo`` is the checkout the path belongs to (the path is looked up relative to it).
-    ``path:line`` 位置所在文件的旧模块；搬迁清单未列出的文件返回 None。``repo`` 是该路径所属的检出，查找时取相对路径。
-    """
-    if modules is None:
-        modules = load_module_files()
-    path = where.rsplit(":", 1)[0]
-    if repo is not None:
-        path = os.path.relpath(os.path.abspath(path), os.path.abspath(repo))
-    return modules.get(path.replace(os.sep, "/"))
 
 
 # ---------------------------------------------------------------------------------------------------------------
@@ -177,6 +91,7 @@ class Row:
     line: int
     payload_id: str
     owner: str
+    group: str
     decisions: dict
     note: str
     note_zh: str
@@ -231,7 +146,7 @@ def load_table(path: Path = TABLE_PATH) -> Table:
             fail(number, cells[0] if cells else "", None,
                  f"expected {len(HEADER)} tab-separated cells, found {len(cells)}")
             continue
-        payload_id, owner = cells[0], cells[1]
+        payload_id, owner, group = cells[0], cells[1], cells[2]
         if not ID_PATTERN.fullmatch(payload_id):
             fail(number, payload_id, "payload_id", "not a lowercase namespace:path identifier")
         if previous is not None and payload_id <= previous:
@@ -240,15 +155,16 @@ def load_table(path: Path = TABLE_PATH) -> Table:
         previous = payload_id
         if owner not in OWNERS:
             fail(number, payload_id, "owner", f"unknown owner {owner!r}; expected one of {', '.join(OWNERS)}")
-        else:
-            # A SparkDLC module's payload lives in the one sparkdlc namespace; a provider's payload in its own.
-            # SparkDLC 模块的数据包位于唯一的 sparkdlc 命名空间；提供方的数据包位于其自己的命名空间。
-            expected_namespace = PAYLOAD_NAMESPACE if owner in MODULE_NAMESPACES.values() else owner
-            if payload_id.split(":", 1)[0] != expected_namespace:
-                fail(number, payload_id, "payload_id",
-                     f"owner {owner} registers its payloads as {expected_namespace}:<path>")
+        elif payload_id.split(":", 1)[0] != owner:
+            # A mod registers its payloads in its own namespace. / 模组在自己的命名空间下注册数据包。
+            fail(number, payload_id, "payload_id", f"owner {owner} registers its payloads as {owner}:<path>")
+        if owner == MOD_ID and group not in GROUPS:
+            fail(number, payload_id, "group",
+                 f"a {MOD_ID} payload belongs to one of {', '.join(GROUPS)}, found {group!r}")
+        elif owner != MOD_ID and group != NO_GROUP:
+            fail(number, payload_id, "group", f"only {MOD_ID} payloads have a group; use {NO_GROUP!r}")
         decisions = {}
-        for profile, cell in zip(PROFILES, cells[2:2 + len(PROFILES)]):
+        for profile, cell in zip(PROFILES, cells[3:3 + len(PROFILES)]):
             if cell not in DECISIONS:
                 fail(number, payload_id, profile, f"decision must be exactly allow or deny, found {cell!r}")
             decisions[profile] = cell
@@ -259,7 +175,7 @@ def load_table(path: Path = TABLE_PATH) -> Table:
         if (note == "-") != (note_zh == "-"):
             # Notes are bilingual: English and Chinese come together or not at all. / 注释中英文必须同时存在或同时为空。
             fail(number, payload_id, "note_zh", "note and note_zh must both be '-' or both carry text")
-        rows.append(Row(number, payload_id, owner, decisions, note, note_zh))
+        rows.append(Row(number, payload_id, owner, group, decisions, note, note_zh))
 
     # The silent sets only mute the notice of an id the same lock already drops (see their Java comments).
     # 静默集合只会让同一锁已丢弃的 id 不再提示（见其 Java 注释）。
@@ -279,38 +195,34 @@ def load_table(path: Path = TABLE_PATH) -> Table:
 # Generation / 生成
 # ---------------------------------------------------------------------------------------------------------------
 
-def generate_java(table: Table, target: ModTarget, mod_key: str) -> str:
-    public = "public " if target.public else ""
+def generate_java(table: Table) -> str:
     out = [
-        f"package {target.package};",
+        f"package {GENERATED_PACKAGE};",
         "",
         "import net.minecraft.util.Identifier;",
         "",
         "import java.util.Set;",
         "",
         "/**",
-        " * GENERATED FILE, DO NOT EDIT BY HAND. Generated from SparkFactionAPI"
-        " {@code config/payload-policy/actions.tsv}",
-        f" * by {{@code tools/payload_policy.py generate --mod {mod_key}}};"
-        " {@code tools/payload_policy.py check} fails on any",
-        " * difference. Each set holds the ids whose column in that table reads {@code deny}:"
-        " the C2S payloads the profile",
-        " * drops. Reasons for individual decisions are in the table's {@code note} column.",
-        " * 生成文件，请勿手动编辑。由 SparkFactionAPI 的 {@code tools/payload_policy.py} 根据",
+        " * GENERATED FILE, DO NOT EDIT BY HAND. Generated from {@code config/payload-policy/actions.tsv} by",
+        " * {@code tools/payload_policy.py generate}; {@code tools/payload_policy.py check} fails on any difference.",
+        " * Each set holds the ids whose column in that table reads {@code deny}: the C2S payloads the profile drops.",
+        " * Reasons for individual decisions are in the table's {@code note} column.",
+        " * 生成文件，请勿手动编辑。由 {@code tools/payload_policy.py generate} 根据",
         " * {@code config/payload-policy/actions.tsv} 生成；任何差异都会使 {@code tools/payload_policy.py check} 失败。",
         " * 每个集合保存该表中对应列为 {@code deny} 的 id，即该配置丢弃的 C2S 数据包。各项决定的理由见表中的 {@code note} 列。",
         " */",
-        f"{public}final class GeneratedPayloadPolicy {{",
+        "public final class GeneratedPayloadPolicy {",
         "    /** SHA-256 of the canonical table this file was generated from. / 生成本文件所用规范表的 SHA-256。 */",
-        f"    {public}static final String CONTRACT_SHA256 = \"{table.sha256}\";",
+        f"    public static final String CONTRACT_SHA256 = \"{table.sha256}\";",
     ]
-    for profile in target.profiles:
+    for profile in EMITTED_PROFILES:
         ids = table.denied(profile)
         if not ids:
             raise PolicyError(f"{TABLE_DISPLAY}: column {profile} denies nothing; refusing to emit an empty set")
         out.append("")
         out.append(f"    /** Column {profile}: {len(ids)} ids. / {profile} 列：{len(ids)} 个 id。 */")
-        out.append(f"    {public}static final Set<Identifier> {profile} = Set.of(")
+        out.append(f"    public static final Set<Identifier> {profile} = Set.of(")
         for index, payload_id in enumerate(ids):
             namespace, path = payload_id.split(":", 1)
             end = "));" if index == len(ids) - 1 else "),"
@@ -846,58 +758,51 @@ class Repo:
 # Commands / 命令
 # ---------------------------------------------------------------------------------------------------------------
 
-def generate(repo: Path, mod_key: str) -> Path:
+def generate(repo: Path) -> Path:
     table = load_table()
-    target = MODS[mod_key]
-    output = repo / target.relative_path
+    output = repo / GENERATED_PATH
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_bytes(generate_java(table, target, mod_key).encode("utf-8"))
+    output.write_bytes(generate_java(table).encode("utf-8"))
     return output
 
 
-def check(repo: Path, mod_key: str) -> list:
-    """All problems for one module; empty means it matches the canonical table. / 返回该模块的全部问题。
+def check(repo: Path) -> list:
+    """All problems; empty means the tree matches the canonical table. / 返回全部问题；为空表示源码树与规范表一致。
 
-    Registrations of other modules that have their own ``--mod`` target are left to that target. Registrations of a
-    module without one (traits, assist) and registrations in a file of no module are reported under ``factionapi``,
-    the owner of the table, so no C2S payload can slip past ``check-all``.
-    有自己 ``--mod`` 目标的其他模块的注册留给对应目标检查；没有目标的模块（traits、assist）以及不在任何模块内的注册
-    归到规范表的所有者 ``factionapi`` 名下报告，保证没有 C2S 数据包能绕过 ``check-all``。
+    Both directions are checked: a C2S payload the mod registers must have a row owned by the mod, and a row owned by
+    the mod must be registered somewhere, so the table cannot keep judging a payload that no longer exists.
+    两个方向都检查：本模组注册的 C2S 数据包必须有一行且 owner 为本模组；owner 为本模组的行必须确有注册，
+    使规范表不会继续判定已不存在的数据包。
     """
     problems = []
     table = load_table()
-    target = MODS[mod_key]
-    expected = generate_java(table, target, mod_key).encode("utf-8")
-    output = repo / target.relative_path
+    expected = generate_java(table).encode("utf-8")
+    output = repo / GENERATED_PATH
     if not output.is_file():
-        problems.append(f"{output}: missing; run tools/payload_policy.py generate --repo {repo} --mod {mod_key}")
+        problems.append(f"{output}: missing; run tools/payload_policy.py generate --repo {repo}")
     elif output.read_bytes() != expected:
         problems.append(f"{output}: differs from what {TABLE_DISPLAY} generates (sha256 {table.sha256}); "
                         f"regenerate it, never edit it by hand")
     rows = {row.payload_id: row for row in table.rows}
-    module_files = load_module_files()
     try:
         registrations = Repo(repo).c2s_registrations()
     except PolicyError as error:
         problems.append(f"{repo}: registration scan failed: {error}")
-        registrations = []
+        return problems
+    registered = set()
     for payload_id, where in registrations:
-        module = module_of(where, repo, module_files)
-        if module != mod_key and (module in MODS or mod_key != "factionapi"):
-            continue
-        if module is None:
-            problems.append(f"{where}: registers C2S payload {payload_id} in a file that {MOVES_DISPLAY} assigns to "
-                            f"no SparkDLC module, so its owner cannot be checked; register it from a file of the "
-                            f"owning module")
-            continue
-        namespace = MODULE_NAMESPACES[module]
+        registered.add(payload_id)
         row = rows.get(payload_id)
         if row is None:
             problems.append(f"{where}: registers C2S payload {payload_id}, which has no row in {TABLE_DISPLAY}; add a "
                             f"complete row with a deliberate allow/deny decision for every profile")
-        elif row.owner != namespace:
+        elif row.owner != MOD_ID:
             problems.append(f"{where}: registers C2S payload {payload_id}, but {TABLE_DISPLAY}:{row.line} names "
-                            f"owner {row.owner}, not {namespace}")
+                            f"owner {row.owner}, not {MOD_ID}")
+    for row in table.rows:
+        if row.owner == MOD_ID and row.payload_id not in registered:
+            problems.append(f"{TABLE_DISPLAY}:{row.line}: {row.payload_id} is owned by {MOD_ID}, but no source "
+                            f"registers it with PayloadTypeRegistry.playC2S(); remove the row or restore the payload")
     return problems
 
 
@@ -907,23 +812,16 @@ def main(argv=None) -> int:
     for name in ("generate", "check"):
         command = commands.add_parser(name)
         command.add_argument("--repo", required=True, type=Path)
-        command.add_argument("--mod", required=True, choices=sorted(MODS))
-    check_all = commands.add_parser("check-all")
-    check_all.add_argument("--repo", required=True, type=Path)
     args = parser.parse_args(argv)
     try:
         if args.command == "generate":
-            print(f"wrote {generate(args.repo, args.mod)}")
+            print(f"wrote {generate(args.repo)}")
             return 0
-        targets = [(args.mod, args.repo)] if args.command == "check" else [(key, args.repo) for key in MODS]
-        failed = False
-        for mod_key, repo in targets:
-            problems = check(repo, mod_key)
-            for problem in problems:
-                print(f"[{mod_key}] {problem}", file=sys.stderr)
-            print(f"[{mod_key}] {'FAILED' if problems else 'ok'}: {repo}")
-            failed |= bool(problems)
-        return 1 if failed else 0
+        problems = check(args.repo)
+        for problem in problems:
+            print(problem, file=sys.stderr)
+        print(f"{'FAILED' if problems else 'ok'}: {args.repo}")
+        return 1 if problems else 0
     except PolicyError as error:
         print(error, file=sys.stderr)
         return 1

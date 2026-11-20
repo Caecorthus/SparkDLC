@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
-import dev.caecorthus.sparkdlc.net.policy.strength.GeneratedPayloadPolicy;
+import dev.caecorthus.sparkdlc.net.policy.GeneratedPayloadPolicy;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;

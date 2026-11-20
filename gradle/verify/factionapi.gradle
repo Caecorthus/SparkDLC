@@ -590,22 +590,20 @@ def verifyFactionApiArchitecture = tasks.register("verifyFactionApiArchitecture"
 
 // Aggregate for the factionapi module; the root build's verifyAll depends on it.
 // factionapi 模块的汇总任务；根构建的 verifyAll 依赖它。
-// The locked-player payload policy: every C2S payload any module registers has a row in
-// config/payload-policy/actions.tsv, owned by the registering module, and each GeneratedPayloadPolicy.java is
-// byte-identical to what the table generates. One run covers all modules now that they share the tree.
-// 锁定玩家数据包策略：任何模块注册的每个 C2S 数据包在 config/payload-policy/actions.tsv 中都有一行、归属于注册它的
-// 模块，且每个 GeneratedPayloadPolicy.java 与规范表生成结果逐字节一致。模块共用一棵源码树后，一次运行即可覆盖全部模块。
+// The locked-player payload policy: every C2S payload the mod registers has a row in
+// config/payload-policy/actions.tsv, every row owned by the mod is registered, and the one generated class
+// (net.policy.GeneratedPayloadPolicy) is byte-identical to what the table generates.
+// 锁定玩家数据包策略：本模组注册的每个 C2S 数据包在 config/payload-policy/actions.tsv 中都有一行，归属本模组的每一行都确有注册，
+// 且唯一的生成类（net.policy.GeneratedPayloadPolicy）与规范表生成结果逐字节一致。
 def verifyFactionApiPayloadPolicy = tasks.register("verifyFactionApiPayloadPolicy", Exec) {
     group = "verification"
-    description = "Checks every module against the canonical payload policy table."
+    description = "Checks the mod against the canonical payload policy table."
     inputs.file("tools/payload_policy.py")
-    // The tool reads the owning module of a registering file from the move manifest. / 工具从搬迁清单读取注册文件所属的模块。
-    inputs.files("tools/unify/file-moves.tsv")
     inputs.dir("config/payload-policy")
     inputs.files(fileTree("src/main/java") { include "**/*.java" }, fileTree("src/client/java") { include "**/*.java" })
     outputs.upToDateWhen { true }
     workingDir = rootDir
-    commandLine "python3", "tools/payload_policy.py", "check-all", "--repo", "."
+    commandLine "python3", "tools/payload_policy.py", "check", "--repo", "."
 }
 
 tasks.register("verifyFactionApi") {

@@ -7,7 +7,6 @@
   "client": [
     "legacy.ChatInputSuggestorLegacyCommandMixin",
     "settings.AccessibilityOptionsScreenMixin",
-    "ponder.ActorBlindGateMixin",
     "ponder.ActorJesterMomentMixin",
     "ponder.ActorMuzzleMixin",
     "ponder.ActorTextureMixin",

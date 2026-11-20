@@ -714,5 +714,10 @@ Rules / 规则:
 - **Merged mixins sit in the slot of the first of the merged entries**, after a check that no other entry of that
   config hooks the same point in between (entries of one config are contiguous in Mixin's order at equal priority).
   合并后的 mixin 占用被合并条目中第一个的位置，前提是该配置中两者之间没有其他条目挂同一个点。
-- **Proof.** The start-up dump before and after: see the report of the slice (the server listener lines are unchanged
-  but for the class names of the renamed listeners).
+- **Proof.** The start-up dump (`runGameTest -PstartupOrderDump=<dir>`) of `70808d300` and of the slice, before and
+  after merging the "nothing inside is optional" slice, is byte-identical (2051 lines: no registry entry, listener,
+  component factory or payload moved; the merged Perfumer shop listener kept its class name). Mixin order is proved
+  per merge in the commit messages and pinned by the local order tests (`ForceRoleCommandLockConflictMixinTest`,
+  `GameRoundEndWinWritersOrderTest`, `LetterLoreTextMixinOrderTest`, `InstinctLightGateMixinSourceTest`,
+  `MainHudDispatchTest`).
+  证明：`70808d300` 与本节完成后（合并另一节前后）的启动导出逐字节相同（2051 行）；mixin 顺序在各提交说明中逐一证明，并由本地顺序测试固定。

@@ -438,7 +438,7 @@ final class NoellesKillerScenes {
                 new Vec3d(6.4, 1, 0.5), SCREEN_RIGHT, Direction.DOWN);
         Actors.hold(scene, bandit, stack("noellesroles:throwing_axe"));
         scene.idle(20);
-        SceneCaptions.keyframeCaption(scene, 80, "强盗能在商店花 200 金币买【飞斧】（装了 SparkWitch 时杀意魔女也能买），用一次就没了");
+        SceneCaptions.keyframeCaption(scene, 80, "强盗能在商店花 200 金币买【飞斧】（杀意魔女也能买），用一次就没了");
         scene.idle(90);
         SceneCaptions.keyframeCaption(scene, 65, "按住右键蓄力：约 1 秒蓄满，蓄得越久飞得越快越远");
         scene.idle(30);

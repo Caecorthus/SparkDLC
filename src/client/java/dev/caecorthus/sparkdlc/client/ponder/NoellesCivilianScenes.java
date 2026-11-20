@@ -1482,7 +1482,7 @@ final class NoellesCivilianScenes {
         scene.idle(50);
         SceneCaptions.keyframeCaption(scene, 90, "肉身受伤、被挪走或被吞噬时，你也会被强制拉回，同样冷却 60 秒");
         scene.idle(100);
-        SceneCaptions.caption(scene, 90, "装有 SparkStrength 和 SparkWitch 时，可附身冤魂（默认 N），最多 20 秒");
+        SceneCaptions.caption(scene, 90, "可附身冤魂（默认 N），最多 20 秒");
         scene.idle(100);
         scene.markAsFinished();
     }

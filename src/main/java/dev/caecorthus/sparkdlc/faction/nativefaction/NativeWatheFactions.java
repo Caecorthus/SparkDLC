@@ -48,8 +48,8 @@ public final class NativeWatheFactions {
         try {
             return NativeWatheFactionDeclarations.plan(NativeWatheFactionDeclarations.readFabricMetadata(), names);
         } catch (RuntimeException exception) {
-            LOGGER.error("SparkFactionAPI cannot extend dev.doctor4t.wathe.api.Faction; fix the mod's fabric.mod.json. "
-                    + "SparkFactionAPI 无法扩展 Wathe Faction，请修正该模组的 fabric.mod.json。", exception);
+            LOGGER.error("SparkDLC cannot extend dev.doctor4t.wathe.api.Faction; fix the mod's fabric.mod.json. "
+                    + "SparkDLC 无法扩展 Wathe Faction，请修正该模组的 fabric.mod.json。", exception);
             throw exception;
         }
     }
@@ -100,10 +100,10 @@ public final class NativeWatheFactions {
         }
         table = new Table(original.length, created.clone(), ids, Collections.unmodifiableMap(byId), List.of(ids));
         if (created.length == 0) {
-            LOGGER.info("SparkFactionAPI native Wathe factions: none declared; Faction keeps its {} constants. "
+            LOGGER.info("SparkDLC native Wathe factions: none declared; Faction keeps its {} constants. "
                     + "未声明原生 Wathe 阵营。", original.length);
         } else {
-            LOGGER.info("SparkFactionAPI appended native Wathe factions to dev.doctor4t.wathe.api.Faction: {}. "
+            LOGGER.info("SparkDLC appended native Wathe factions to dev.doctor4t.wathe.api.Faction: {}. "
                     + "已追加原生 Wathe 阵营。", summary);
         }
         return extended;

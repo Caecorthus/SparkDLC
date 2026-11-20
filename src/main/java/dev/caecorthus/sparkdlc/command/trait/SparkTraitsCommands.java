@@ -201,7 +201,7 @@ public final class SparkTraitsCommands {
 
     private static AddResult canAddPending(ServerCommandSource source, ServerPlayerEntity player, TraitPlayerComponent component, Trait trait) {
         if (trait.id().equals(KillerTraits.TEAM_FIRST) && !SparkStrengthTeamEconomyBridge.isAvailable()) {
-            return AddResult.failure("Team First requires SparkStrength's trait-aware shared team economy");
+            return AddResult.failure("Team First requires the trait-aware shared team economy");
         }
         Collection<Identifier> pending = component.getPendingTraitIds();
         if (pending.contains(trait.id())) {

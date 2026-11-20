@@ -98,7 +98,7 @@ public final class SpiritPossessionClient {
         keyAvailable = SparkWitchSecondaryKeyCompat.register(SpiritPossessionRules.SPIRITUALIST_ID,
                 SpiritPossessionClient::onKeyPressed);
         if (!keyAvailable) {
-            SparkStrength.LOGGER.warn("Spiritualist possession has no key: SparkWitch Role Skill 2 hook unavailable or taken.");
+            SparkStrength.LOGGER.warn("Spiritualist possession has no key: the Role Skill 2 hook is unavailable or taken.");
         }
     }
 

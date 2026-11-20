@@ -81,7 +81,7 @@ public final class EmfVanillaModel {
             register.invoke(null, condition);
         } catch (ReflectiveOperationException | LinkageError | RuntimeException exception) {
             SparkWitch.LOGGER.warn("Entity Model Features is loaded but its vanilla-model API is unavailable ({}); "
-                    + "animation packs keep posing entities that SparkWitch draws with vanilla poses", exception.toString());
+                    + "animation packs keep posing entities that SparkDLC draws with vanilla poses", exception.toString());
         }
     }
 }

@@ -64,7 +64,7 @@ public final class ToxicologistBluePassiveService {
         supported = SparkTraitsBluePoisonCompat.registerBlueSanityDrainExemption(
                 ToxicologistBluePassiveService::exemptFromBlueSanityDrain);
         if (!supported) {
-            SparkStrength.LOGGER.info("Toxicologist blue-state passive disabled: SparkTraits blue sanity-drain exemption API is unavailable.");
+            SparkStrength.LOGGER.info("Toxicologist blue-state passive disabled: the blue sanity-drain exemption API is unavailable.");
         }
     }
 

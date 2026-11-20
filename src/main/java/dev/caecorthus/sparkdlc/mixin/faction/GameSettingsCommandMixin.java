@@ -33,7 +33,7 @@ public abstract class GameSettingsCommandMixin {
     ) {
         try {
             LOGGER.debug(
-                    "SparkFactionAPI listRoles diagnostic start: world={}, totalRoles={}, specialRoles={}",
+                    "SparkDLC listRoles diagnostic start: world={}, totalRoles={}, specialRoles={}",
                     source.getWorld().getRegistryKey().getValue(),
                     WatheRoles.ROLES.size(),
                     WatheRoles.SPECIAL_ROLES.size()
@@ -51,8 +51,8 @@ public abstract class GameSettingsCommandMixin {
             // Keep command failures visible without putting text rules back into the Mixin Adapter.
             // 保留命令失败诊断，但不把文本规则重新塞回 Mixin 适配器。
             LOGGER.error(
-                    "SparkFactionAPI listRoles failed while building or sending the role list. "
-                            + "SparkFactionAPI listRoles 在构建或发送角色列表时失败。",
+                    "SparkDLC listRoles failed while building or sending the role list. "
+                            + "SparkDLC listRoles 在构建或发送角色列表时失败。",
                     exception
             );
             throw exception;

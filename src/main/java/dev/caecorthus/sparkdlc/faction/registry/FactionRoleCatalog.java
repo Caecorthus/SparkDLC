@@ -112,7 +112,7 @@ public final class FactionRoleCatalog {
         }
         for (Role role : ROLE_FACTIONS.keySet()) {
             if (role.identifier().equals(roleId)) {
-                throw new IllegalArgumentException("Role " + roleId + " is registered through SparkFactionAPI; "
+                throw new IllegalArgumentException("Role " + roleId + " is registered through SparkDLC; "
                         + "its faction comes from its FactionRoleDefinition");
             }
         }

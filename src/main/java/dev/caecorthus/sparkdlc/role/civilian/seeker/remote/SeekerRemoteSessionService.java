@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.seeker.remote;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.compat.noellesroles.SeekerControlExpertBridge;
+import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStunCounter;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerCameraRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerCarState;
@@ -271,7 +271,7 @@ public final class SeekerRemoteSessionService {
         if (player.isSpectator()) {
             return SeekerExitReason.SPECTATOR;
         }
-        if (SeekerControlExpertBridge.isStunned(player)) {
+        if (ControlExpertStunCounter.isCounting(player)) {
             return SeekerExitReason.STUNNED;
         }
         KidnapperControlComponent kidnap = KidnapperControlComponent.KEY.getNullable(player);

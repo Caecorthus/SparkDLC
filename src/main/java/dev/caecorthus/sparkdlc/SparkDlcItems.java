@@ -72,7 +72,7 @@ import dev.caecorthus.sparkdlc.role.civilian.knight.CrossSwordItem;
 import dev.caecorthus.sparkdlc.role.civilian.noa.NoaRules;
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.CologneItem;
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.PerfumeEssenceItem;
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerRules;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerKitRules;
 import dev.caecorthus.sparkdlc.role.civilian.planner.PlannerRules;
 import dev.caecorthus.sparkdlc.role.civilian.planner.PlannerTaskSlipItem;
 import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumType;
@@ -342,12 +342,12 @@ public final class SparkDlcItems {
         coolingOil = Registry.register(
                 Registries.ITEM,
                 COOLING_OIL_ID,
-                new CoolingOilItem(new Item.Settings().maxCount(PerfumerRules.THROWABLE_MAX_STACK))
+                new CoolingOilItem(new Item.Settings().maxCount(PerfumerKitRules.THROWABLE_MAX_STACK))
         );
         aromaOrb = Registry.register(
                 Registries.ITEM,
                 AROMA_ORB_ID,
-                new AromaOrbItem(new Item.Settings().maxCount(PerfumerRules.THROWABLE_MAX_STACK))
+                new AromaOrbItem(new Item.Settings().maxCount(PerfumerKitRules.THROWABLE_MAX_STACK))
         );
         zephyrPerfume = Registry.register(
                 Registries.ITEM,

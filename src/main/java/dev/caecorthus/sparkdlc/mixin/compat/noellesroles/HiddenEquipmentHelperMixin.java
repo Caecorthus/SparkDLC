@@ -8,7 +8,7 @@ import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveRules;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerCaptureReport;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerRules;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartyAnimalRules;
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerRules;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerKitRules;
 import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.player.PlayerEntity;
@@ -88,7 +88,7 @@ public abstract class HiddenEquipmentHelperMixin {
         if ((stack.isOf(SparkDlcItems.coolingOil())
                 || stack.isOf(SparkDlcItems.aromaOrb())
                 || stack.isOf(SparkDlcItems.zephyrPerfume()))
-                && PerfumerRules.isPerfumer(GameWorldComponent.KEY.get(holder.getWorld()).getRole(holder))) {
+                && PerfumerKitRules.isPerfumer(GameWorldComponent.KEY.get(holder.getWorld()).getRole(holder))) {
             // Only the Perfumer's shop sells these; hide them while the holder's real role is Perfumer.
             // 这些道具只由调香师商店出售；持有者真实身份为调香师时对其他玩家隐藏。
             cir.setReturnValue(true);

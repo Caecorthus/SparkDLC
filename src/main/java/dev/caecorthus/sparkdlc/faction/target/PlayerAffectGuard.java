@@ -23,12 +23,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * {@code SparkFactionApi.allowsPlayerAction} 询问。它被直接加载，因此不放进 Mixin 所有的包；它不点名任何功能：不可被否决的规则
  * 以 {@link PlayerAffectExemption} 注册。
  */
-public final class PlayerAffectMixinGuard {
+public final class PlayerAffectGuard {
     // Asked in registration order, first true wins. Copy-on-write like the policy list: a check iterates a snapshot.
     // 按注册顺序询问，第一个 true 生效。与策略列表一样写时复制：检查遍历快照。
     private static final List<PlayerAffectExemption> EXEMPTIONS = new CopyOnWriteArrayList<>();
 
-    private PlayerAffectMixinGuard() {
+    private PlayerAffectGuard() {
     }
 
     /**

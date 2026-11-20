@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.perfumer.kit;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.render.ManagedPostEffect;
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerRules;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerKitRules;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gl.PostEffectProcessor;
@@ -30,7 +30,7 @@ public final class PerfumerBlurRenderer {
     public static void render(MinecraftClient client, float tickDelta) {
         Framebuffer framebuffer = client.getFramebuffer();
         float radius = PerfumerClientEffects.coolingOilBlurRadius(tickDelta)
-                * PerfumerRules.coolingOilBlurResolutionScale(framebuffer.textureHeight);
+                * PerfumerKitRules.coolingOilBlurResolutionScale(framebuffer.textureHeight);
         // box_blur rounds the radius, so anything below half a texel is a no-op. / box_blur 会取整，半个纹素以下无效果。
         if (radius < MIN_VISIBLE_RADIUS) {
             EFFECT.release();

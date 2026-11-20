@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.mixin.faction;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.caecorthus.sparkdlc.faction.target.PlayerAffectMixinGuard;
+import dev.caecorthus.sparkdlc.faction.target.PlayerAffectGuard;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -44,7 +44,7 @@ public abstract class WorldProjectileAffectMixin {
         int index = 0;
         for (Entity entity : original) {
             boolean allowed = !(entity instanceof ServerPlayerEntity target)
-                    || PlayerAffectMixinGuard.allows(actor, target, PROJECTILE_ACTION);
+                    || PlayerAffectGuard.allows(actor, target, PROJECTILE_ACTION);
             if (filtered == null) {
                 if (!allowed) {
                     filtered = new ArrayList<>(original.size() - 1);

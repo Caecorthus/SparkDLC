@@ -1829,7 +1829,7 @@ Current build baseline:
   service), and `taotie/` (NoellesRoles Taotie swallow seam). Its mixins live in `mixin/role/civilian/seeker/`
   and `client/mixin/role/civilian/seeker/`; client presentation (console screen, remote view and car driver,
   device renderers) in `client/role/civilian/seeker/`. Cross-mod seams go through `SparkTraitsApi` (asked directly),
-  `compat/noellesroles/SeekerControlExpertBridge`, `compat/noellesroles/NoellesTaotieSeekerBridge`,
+  `role/civilian/controlexpert/ControlExpertStunCounter`, `compat/noellesroles/NoellesTaotieSeekerBridge`,
   `tablet/TabletItemLookup`, and `item/m67/M67MatchBlastHits`.
 - `role/civilian/usec/`: USEC (`sparkdlc:usec`), the fifth police variant. Its only weapon is the AXMC bolt-action
   sniper rifle (`sparkdlc:usec_rifle`; the owner named it AXMC on 2026-10-07, while ids, classes and the role name
@@ -6444,7 +6444,7 @@ Seeker car.
     substitution that never reaches `killPlayer` (a backfire, a refused target) expires at the end of the tick, and a
     receiver that resolves a real player id drops a pending one (`forget`). Weapons without a reusable player path
     (the bat, sphere blasts, add-on guns) call `killOwnerVia` directly.
-  - **SparkFactionAPI veto** (`BlackRavenCrowTargets.mayAffect`, as `PlayerAffectMixinGuard`: a non-player attacker,
+  - **SparkFactionAPI veto** (`BlackRavenCrowTargets.mayAffect`, as `PlayerAffectGuard`: a non-player attacker,
     the owner itself or a null action pass): SparkFactionAPI's own guards resolve only player ids, and its
     `killPlayer` HEAD veto cancels a refused kill only after a session end, so a refused crow hit must leave the crow
     and its session alone. The kill link and `killOwnerVia` end nothing when the killer is refused for the death

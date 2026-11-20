@@ -48,7 +48,7 @@ public final class PerfumerKitService {
      * 客户端可用同一判定预测挥手动画；以服务端结果为准。
      */
     public static boolean canUse(PlayerEntity user) {
-        return PerfumerRules.isPerfumer(GameWorldComponent.KEY.get(user.getWorld()).getRole(user))
+        return PerfumerKitRules.isPerfumer(GameWorldComponent.KEY.get(user.getWorld()).getRole(user))
                 && GameFunctions.isPlayerPlayingAndAlive(user)
                 && GameFunctions.isPlayerAliveAndSurvival(user);
     }
@@ -82,7 +82,7 @@ public final class PerfumerKitService {
         ServerWorld world = player.getServerWorld();
         vial.setItem(stack.copyWithCount(1));
         vial.setVelocity(player, player.getPitch(), player.getYaw(), 0.0F,
-                PerfumerRules.THROW_SPEED, PerfumerRules.THROW_DIVERGENCE);
+                PerfumerKitRules.THROW_SPEED, PerfumerKitRules.THROW_DIVERGENCE);
         if (!world.spawnEntity(vial)) {
             vial.discard();
             return false;

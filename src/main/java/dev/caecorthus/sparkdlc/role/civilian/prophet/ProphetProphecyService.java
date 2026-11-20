@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.prophet;
 
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.net.OpenProphecyS2CPacket;
 import dev.caecorthus.sparkdlc.record.witch.AchievementRecords;
 import dev.caecorthus.sparkdlc.role.civilian.prophet.ProphetPlayerComponent.ProphecyRecord;
@@ -65,7 +65,7 @@ public final class ProphetProphecyService {
                 && ProphetRules.isProphet(game.getRole(player))
                 && GameFunctions.isPlayerPlayingAndAlive(player)
                 && !GameFunctions.isPlayerSpectatingOrCreative(player)
-                && !SparkWitchApi.isWraithRestricted(player);
+                && !SparkRoleApi.isWraithRestricted(player);
     }
 
     /**

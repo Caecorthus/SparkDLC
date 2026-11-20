@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.guidebook;
 
-import dev.caecorthus.sparkdlc.SparkAssist;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.guidebook.ui.decor.PlateArtLoader;
 import dev.caecorthus.sparkdlc.guidebook.GuidebookCatalog;
 import dev.doctor4t.wathe.api.WatheRoles;
@@ -33,7 +33,7 @@ public final class GuidebookResources {
                 new SimpleSynchronousResourceReloadListener() {
                     @Override
                     public Identifier getFabricId() {
-                        return Identifier.of(SparkAssist.MOD_ID, "guidebook_resources");
+                        return Identifier.of(SparkDLC.MOD_ID, "guidebook_resources");
                     }
 
                     @Override

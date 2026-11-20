@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(GrenadeEntity.class)
 public abstract class SeekerGrenadeDeviceMixin {
     @Inject(method = "onCollision(Lnet/minecraft/util/hit/HitResult;)V", at = @At("HEAD"))
-    private void sparkwitch$breakSeekerDevicesInBlast(HitResult hitResult, CallbackInfo ci) {
+    private void sparkdlc$breakSeekerDevicesInBlast(HitResult hitResult, CallbackInfo ci) {
         GrenadeEntity grenade = (GrenadeEntity) (Object) this;
         if (grenade.isRemoved() || !(grenade.getWorld() instanceof ServerWorld world)) {
             return;

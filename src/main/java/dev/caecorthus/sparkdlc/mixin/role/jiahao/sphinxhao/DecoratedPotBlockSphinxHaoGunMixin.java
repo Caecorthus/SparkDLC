@@ -33,7 +33,7 @@ public abstract class DecoratedPotBlockSphinxHaoGunMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$keepSphinxHaoKitOutOfPot(ItemStack stack, BlockState state, World world, BlockPos pos,
+    private void sparkdlc$keepSphinxHaoKitOutOfPot(ItemStack stack, BlockState state, World world, BlockPos pos,
                                                      PlayerEntity player, Hand hand, BlockHitResult hit,
                                                      CallbackInfoReturnable<ItemActionResult> cir) {
         if (SphinxHaoGunInventory.blocksBlockUse(stack, state)) {

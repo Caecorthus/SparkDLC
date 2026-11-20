@@ -38,7 +38,7 @@ public abstract class PlannerTaskRowMixin {
             require = 1,
             allow = 1
     )
-    private void sparkwitch$plannerRecommendedTaskRow(
+    private void sparkdlc$plannerRecommendedTaskRow(
             PlayerMoodComponent.TrainTask present,
             float delta,
             boolean fakeMood,

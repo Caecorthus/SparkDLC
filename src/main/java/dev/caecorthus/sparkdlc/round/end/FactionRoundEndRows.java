@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.round.end;
 
 import com.mojang.authlib.GameProfile;
-import dev.caecorthus.sparkdlc.component.SparkFactionRoundEndComponent;
+import dev.caecorthus.sparkdlc.component.FactionRoundEndComponent;
 import dev.doctor4t.wathe.api.GameMode;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
@@ -28,7 +28,7 @@ public final class FactionRoundEndRows {
     public static List<GameRoundEndComponent.RoundEndData> rows(
             ServerWorld serverWorld,
             GameWorldComponent game,
-            SparkFactionRoundEndComponent customRoundEnd
+            FactionRoundEndComponent customRoundEnd
     ) {
         return rows(
                 game.getRoles(),

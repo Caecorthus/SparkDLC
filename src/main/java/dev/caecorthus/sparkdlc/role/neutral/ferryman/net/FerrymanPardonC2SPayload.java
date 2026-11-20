@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.ferryman.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier;
  * 自己的窗口判定。
  */
 public record FerrymanPardonC2SPayload() implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("ferryman_pardon");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("ferryman_pardon");
     public static final Id<FerrymanPardonC2SPayload> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, FerrymanPardonC2SPayload> CODEC =
             PacketCodec.of(FerrymanPardonC2SPayload::write, FerrymanPardonC2SPayload::read);

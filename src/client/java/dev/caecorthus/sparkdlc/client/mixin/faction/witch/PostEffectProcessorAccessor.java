@@ -18,5 +18,5 @@ import java.util.List;
 @Mixin(PostEffectProcessor.class)
 public interface PostEffectProcessorAccessor {
     @Accessor("passes")
-    List<PostEffectPass> sparkwitch$getPasses();
+    List<PostEffectPass> sparkdlc$getPasses();
 }

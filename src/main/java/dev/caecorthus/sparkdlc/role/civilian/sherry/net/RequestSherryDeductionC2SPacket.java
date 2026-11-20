@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.sherry.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier;
  * 推演（共享技能键）的空请求：请服务端打开候选面板。此处不扣任何费用；全部校验在服务端。
  */
 public record RequestSherryDeductionC2SPacket() implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("request_sherry_deduction");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("request_sherry_deduction");
     public static final Id<RequestSherryDeductionC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, RequestSherryDeductionC2SPacket> CODEC =
             PacketCodec.unit(new RequestSherryDeductionC2SPacket());

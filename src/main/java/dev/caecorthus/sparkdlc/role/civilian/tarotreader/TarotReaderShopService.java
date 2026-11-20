@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.tarotreader;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.trait.api.TraitShopEntries;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -33,7 +33,7 @@ public final class TarotReaderShopService {
 
     private static void buildEntries(PlayerEntity player, BuildShopEntries.ShopContext context) {
         // Widened by the Black Raven acting overlay; getRole stays raw. / 黑羽鸦扮演覆盖层会放宽此判定；getRole 仍为真实身份。
-        if (!GameWorldComponent.KEY.get(player.getWorld()).isRole(player, SparkWitchRoles.tarotReader())) {
+        if (!GameWorldComponent.KEY.get(player.getWorld()).isRole(player, SparkDlcRoles.tarotReader())) {
             return;
         }
 
@@ -43,7 +43,7 @@ public final class TarotReaderShopService {
         context.clearEntries();
         context.addEntry(entry(
                 "sparkdlc_tarot_regular",
-                SparkWitchItems.tarotCard(),
+                SparkDlcItems.tarotCard(),
                 TarotReaderRules.REGULAR_PRICE,
                 "shop.sparkdlc.tarot.regular",
                 "shop.sparkdlc.tarot.regular.description",
@@ -51,7 +51,7 @@ public final class TarotReaderShopService {
         ));
         context.addEntry(entry(
                 "sparkdlc_tarot_identity",
-                SparkWitchItems.tarotCard(),
+                SparkDlcItems.tarotCard(),
                 TarotReaderRules.IDENTITY_PRICE,
                 "shop.sparkdlc.tarot.identity",
                 "shop.sparkdlc.tarot.identity.description",
@@ -59,7 +59,7 @@ public final class TarotReaderShopService {
         ));
         context.addEntry(entry(
                 "sparkdlc_tarot_survival",
-                SparkWitchItems.tarotCard(),
+                SparkDlcItems.tarotCard(),
                 TarotReaderRules.SURVIVAL_PRICE,
                 "shop.sparkdlc.tarot.survival",
                 "shop.sparkdlc.tarot.survival.description",

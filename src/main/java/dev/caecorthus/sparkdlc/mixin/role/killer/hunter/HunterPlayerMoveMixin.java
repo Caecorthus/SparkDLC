@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(PlayerEntity.class)
 public abstract class HunterPlayerMoveMixin {
     @WrapMethod(method = "travel")
-    private void sparkwitch$blockHunterTrapTravel(Vec3d movementInput, Operation<Void> original) {
+    private void sparkdlc$blockHunterTrapTravel(Vec3d movementInput, Operation<Void> original) {
         PlayerEntity player = (PlayerEntity) (Object) this;
         original.call(HunterPlayerComponent.KEY.get(player).isRooted() ? Vec3d.ZERO : movementInput);
     }

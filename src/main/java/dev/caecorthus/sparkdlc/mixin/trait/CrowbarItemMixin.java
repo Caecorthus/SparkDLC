@@ -24,7 +24,7 @@ public abstract class CrowbarItemMixin {
                     ordinal = 1
             )
     )
-    private void sparktraits$setConscienceCrowbarDoorCooldown(
+    private void sparkdlc$setConscienceCrowbarDoorCooldown(
             ItemCooldownManager cooldownManager,
             Item item,
             int cooldownTicks,

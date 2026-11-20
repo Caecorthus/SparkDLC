@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.trait;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.killer.KillerTraitService;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.item.Item;
@@ -21,14 +21,14 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 public abstract class BloodthirstyCooldownMixin {
     private static final TagKey<Item> BLOODTHIRSTY_WEAPONS = TagKey.of(
             RegistryKeys.ITEM,
-            SparkTraits.id("bloodthirsty_weapons")
+            SparkDLC.id("bloodthirsty_weapons")
     );
 
     @ModifyVariable(method = "set", at = @At("HEAD"), argsOnly = true, ordinal = 0)
-    private int sparktraits$reduceBloodthirstyWeaponCooldown(int duration, Item item) {
+    private int sparkdlc$reduceBloodthirstyWeaponCooldown(int duration, Item item) {
         if (Registries.ITEM.getEntry(item).isIn(BLOODTHIRSTY_WEAPONS)
                 && (Object) this instanceof ServerItemCooldownManager serverCooldownManager) {
-            ServerPlayerEntity player = ((ServerItemCooldownManagerAccessor) (Object) serverCooldownManager).sparktraits$getPlayer();
+            ServerPlayerEntity player = ((ServerItemCooldownManagerAccessor) (Object) serverCooldownManager).sparkdlc$getPlayerForTraits();
             return KillerTraitService.bloodthirstyCooldown(player, duration);
         }
         return duration;

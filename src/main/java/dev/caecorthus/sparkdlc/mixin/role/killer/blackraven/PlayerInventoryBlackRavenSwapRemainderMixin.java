@@ -31,7 +31,7 @@ public abstract class PlayerInventoryBlackRavenSwapRemainderMixin {
                     target = "Lnet/minecraft/entity/player/PlayerEntity;dropItem(Lnet/minecraft/item/ItemStack;Z)Lnet/minecraft/entity/ItemEntity;"
             )
     )
-    private ItemEntity sparkwitch$keepSwapRemainder(PlayerEntity instance, ItemStack stack, boolean retainOwnership,
+    private ItemEntity sparkdlc$keepSwapRemainder(PlayerEntity instance, ItemStack stack, boolean retainOwnership,
                                                    Operation<ItemEntity> original) {
         if (BlackRavenDisguiseService.captureSwapRemainder(player, stack)) {
             return null;

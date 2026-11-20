@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.specter;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.util.ShopEntry;
@@ -55,7 +55,7 @@ public final class SpecterShopService {
         context.getEntries().removeIf(nativeEntry -> isRemovedNativeEntry(nativeEntry.id()));
         ShopEntry entry = new ShopEntry.Builder(
                 ENTRY_ID,
-                new ItemStack(SparkWitchItems.ghostTrigger()),
+                new ItemStack(SparkDlcItems.ghostTrigger()),
                 PRICE,
                 ShopEntry.Type.POISON
         ).build();

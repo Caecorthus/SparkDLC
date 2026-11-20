@@ -2,9 +2,9 @@ package dev.caecorthus.sparkdlc.trait.killer.combat;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
-import dev.caecorthus.sparkdlc.trait.replay.SparkTraitsAchievementRecords;
+import dev.caecorthus.sparkdlc.trait.replay.TraitAchievementRecords;
 import dev.caecorthus.sparkdlc.trait.killer.KillerTraitService;
 import dev.caecorthus.sparkdlc.trait.killer.escape.LastEscapeService;
 import dev.doctor4t.wathe.api.Role;
@@ -39,8 +39,8 @@ import java.util.UUID;
 
 /** Owns a single server-verified raised stance, not a kill-reason heuristic. */
 public final class CloseQuartersService {
-    private static final Identifier TRAIT = SparkTraits.id("close_quarters");
-    private static final Identifier SPEED = SparkTraits.id("close_quarters_raised_speed");
+    private static final Identifier TRAIT = SparkDLC.id("close_quarters");
+    private static final Identifier SPEED = SparkDLC.id("close_quarters_raised_speed");
     private static final Set<String> NO_RAISE_ROLES = Set.of("wathe:veteran", "noellesroles:scavenger",
             "sparkdlc:vendetta", "sparkdlc:ninja", "noellesroles:ninja");
     private static final Map<UUID, Raise> RAISES = new HashMap<>();
@@ -193,7 +193,7 @@ public final class CloseQuartersService {
         attacker.clearActiveItem();
         // Record-only achievement signal for the real block; it cannot change the parry outcome.
         // 仅为真正的格挡写入成就记录，不会改变格挡结果。
-        SparkTraitsAchievementRecords.recordCloseQuartersParry(victim, attacker, weapon);
+        TraitAchievementRecords.recordCloseQuartersParry(victim, attacker, weapon);
         return true;
     }
 

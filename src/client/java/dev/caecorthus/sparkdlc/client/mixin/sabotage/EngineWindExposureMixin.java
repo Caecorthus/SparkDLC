@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(value = Wathe.class, remap = false)
 public abstract class EngineWindExposureMixin {
     @ModifyReturnValue(method = "isExposedToWind", at = @At("RETURN"))
-    private static boolean sparkstrength$calmWhenSlow(boolean exposed, @Local(argsOnly = true) Entity entity) {
+    private static boolean sparkdlc$calmWhenSlow(boolean exposed, @Local(argsOnly = true) Entity entity) {
         return exposed && (entity == null || !entity.getWorld().isClient() || EngineTrainMotion.windAllowed());
     }
 }

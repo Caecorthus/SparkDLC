@@ -23,7 +23,7 @@ public abstract class GameFunctionsKnightDuelInterferenceMixin {
             method = "killPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;ZLnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;Z)V",
             at = @At("HEAD"), require = 1, allow = 1
     )
-    private static void sparkwitch$punishDuelInterference(ServerPlayerEntity victim, boolean spawnBody,
+    private static void sparkdlc$punishDuelInterference(ServerPlayerEntity victim, boolean spawnBody,
             @Nullable ServerPlayerEntity killer, Identifier deathReason, boolean force, CallbackInfo ci) {
         KnightDuelInterference.onKillPlayer(victim, killer, deathReason);
     }

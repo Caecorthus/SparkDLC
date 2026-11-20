@@ -16,8 +16,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ServerPlayerInteractionManager.class)
 public abstract class MagicianRecordInteractionMixin {
  @Shadow @Final protected ServerPlayerEntity player;
- @Inject(method="interactItem",at=@At("RETURN")) private void sparkwitch$recordItem(ServerPlayerEntity p,World world,ItemStack stack,Hand hand,CallbackInfoReturnable<ActionResult> cir){if(cir.getReturnValue().isAccepted()&&!MagicianServerHooks.skipGenericUse(stack)) MagicianServerHooks.recordUse(player,hand);}
- @Inject(method="interactBlock",at=@At("RETURN")) private void sparkwitch$recordBlock(ServerPlayerEntity p,World world,ItemStack stack,Hand hand,BlockHitResult hit,CallbackInfoReturnable<ActionResult> cir){
+ @Inject(method="interactItem",at=@At("RETURN")) private void sparkdlc$recordItem(ServerPlayerEntity p,World world,ItemStack stack,Hand hand,CallbackInfoReturnable<ActionResult> cir){if(cir.getReturnValue().isAccepted()&&!MagicianServerHooks.skipGenericUse(stack)) MagicianServerHooks.recordUse(player,hand);}
+ @Inject(method="interactBlock",at=@At("RETURN")) private void sparkdlc$recordBlock(ServerPlayerEntity p,World world,ItemStack stack,Hand hand,BlockHitResult hit,CallbackInfoReturnable<ActionResult> cir){
   // Crowbar 的 Wathe 实现完成开门后返回 PASS，不能只看 ActionResult，否则该动作永远不会进入录制。
   boolean watheDoorTool = stack.isOf(dev.doctor4t.wathe.index.WatheItems.LOCKPICK)
           || stack.isOf(dev.doctor4t.wathe.index.WatheItems.CROWBAR);

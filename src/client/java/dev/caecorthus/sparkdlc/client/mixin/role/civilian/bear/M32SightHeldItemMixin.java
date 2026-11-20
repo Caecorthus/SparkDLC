@@ -44,7 +44,7 @@ public abstract class M32SightHeldItemMixin {
     @Inject(method = "renderItem(FLnet/minecraft/client/util/math/MatrixStack;"
             + "Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;"
             + "Lnet/minecraft/client/network/ClientPlayerEntity;I)V", at = @At("HEAD"))
-    private void sparkwitch$beginM32SightPass(float tickDelta, MatrixStack matrices,
+    private void sparkdlc$beginM32SightPass(float tickDelta, MatrixStack matrices,
                                               VertexConsumerProvider.Immediate vertexConsumers,
                                               ClientPlayerEntity player, int light, CallbackInfo ci) {
         M32SightRenderer.beginHandPass(matrices, tickDelta);
@@ -53,7 +53,7 @@ public abstract class M32SightHeldItemMixin {
     @Inject(method = "renderItem(FLnet/minecraft/client/util/math/MatrixStack;"
             + "Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;"
             + "Lnet/minecraft/client/network/ClientPlayerEntity;I)V", at = @At("TAIL"))
-    private void sparkwitch$endM32SightPass(float tickDelta, MatrixStack matrices,
+    private void sparkdlc$endM32SightPass(float tickDelta, MatrixStack matrices,
                                             VertexConsumerProvider.Immediate vertexConsumers,
                                             ClientPlayerEntity player, int light, CallbackInfo ci) {
         M32SightRenderer.endHandPass();
@@ -67,7 +67,7 @@ public abstract class M32SightHeldItemMixin {
                     + "Lnet/minecraft/client/render/model/json/ModelTransformationMode;Z"
                     + "Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;"
                     + "Lnet/minecraft/world/World;III)V"))
-    private void sparkwitch$drawAimedM32(ItemRenderer renderer, LivingEntity entity, ItemStack stack,
+    private void sparkdlc$drawAimedM32(ItemRenderer renderer, LivingEntity entity, ItemStack stack,
                                          ModelTransformationMode mode, boolean leftHanded, MatrixStack matrices,
                                          VertexConsumerProvider consumers, World world, int light, int overlay, int seed,
                                          Operation<Void> original) {

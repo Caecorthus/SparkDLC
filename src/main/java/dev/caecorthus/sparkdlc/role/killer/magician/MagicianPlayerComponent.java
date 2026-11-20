@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.magician;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.util.TickTime;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -38,7 +38,7 @@ import java.util.UUID;
  * 但不会越过当前显示的秒数，因此每行 HUD（包括 READY）都恰在服务端同步到达时变化。
  */
 public final class MagicianPlayerComponent implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
-    public static final ComponentKey<MagicianPlayerComponent> KEY = ComponentRegistry.getOrCreate(SparkWitch.id("magician"), MagicianPlayerComponent.class);
+    public static final ComponentKey<MagicianPlayerComponent> KEY = ComponentRegistry.getOrCreate(SparkDLC.id("magician"), MagicianPlayerComponent.class);
     final PlayerEntity player;
     private UUID selectedTarget;
     private String selectedName = "";
@@ -86,9 +86,9 @@ public final class MagicianPlayerComponent implements AutoSyncedComponent, Serve
     /**
      * Whether anything a Magician owns is still held here: a running stage, a cooldown, recorded or cached frames, the
      * roster or a disguise pick. False for a player who never was the Magician this round, so the role-change cleanup
-     * in {@code SparkWitchEvents} costs such players nothing (no reset, no sync packet).
+     * in {@code RoleEvents} costs such players nothing (no reset, no sync packet).
      * 此处是否仍持有魔术师的任何状态：进行中的阶段、冷却、已录制或已缓存的帧、名单或伪装选择。本局从未当过魔术师的玩家为
-     * false，因此 {@code SparkWitchEvents} 中的职业变更清理对这些玩家没有任何开销（不重置、不发同步包）。
+     * false，因此 {@code RoleEvents} 中的职业变更清理对这些玩家没有任何开销（不重置、不发同步包）。
      */
     public boolean holdsMagicianState() {
         return stage != MagicianStage.IDLE || cooldownTicks > 0 || !frames.isEmpty() || !actions.isEmpty()

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.sabotage.net;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier;
  * 维修面板已完成。服务端会校验会话、所属的熄灯、耗时与距离。
  */
 public record CompleteBreakerRepairC2SPacket(int sessionId) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("complete_breaker_repair");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("complete_breaker_repair");
     public static final Id<CompleteBreakerRepairC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, CompleteBreakerRepairC2SPacket> CODEC =
             PacketCodec.of(CompleteBreakerRepairC2SPacket::write, CompleteBreakerRepairC2SPacket::read);

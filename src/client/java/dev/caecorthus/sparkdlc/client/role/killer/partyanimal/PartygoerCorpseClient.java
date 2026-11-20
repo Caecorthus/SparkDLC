@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.killer.partyanimal;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.world.LoadedEntities;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerCorpseComponent;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerCorpseRules;
@@ -35,7 +35,7 @@ import org.jetbrains.annotations.Nullable;
  * {@code CanSeeBodyRole} 的验尸官）与 Wathe 一样额外看到死亡时长；其他人只看到死因。</p>
  */
 public final class PartygoerCorpseClient {
-    public static final Identifier TEXTURE = SparkStrength.id("textures/entity/partygoer.png");
+    public static final Identifier TEXTURE = SparkDLC.id("textures/entity/partygoer.png");
     private static final SkinTextures SKIN =
             new SkinTextures(TEXTURE, null, null, null, SkinTextures.Model.WIDE, false);
     private static final String NAME_KEY = "entity.sparkdlc.partygoer";

@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LivingEntity.class)
 public abstract class KillerTraitLivingEntityMixin {
     @Inject(method = "tick", at = @At("HEAD"))
-    private void sparktraits$updateHeldWeaponModifiers(CallbackInfo ci) {
+    private void sparkdlc$updateHeldWeaponModifiers(CallbackInfo ci) {
         if ((Object) this instanceof PlayerEntity player
                 && !SparkDlcServerConnection.isUnconfirmedClientEntity(player)) {
             KillerTraitService.updateThrustKnockback(player);

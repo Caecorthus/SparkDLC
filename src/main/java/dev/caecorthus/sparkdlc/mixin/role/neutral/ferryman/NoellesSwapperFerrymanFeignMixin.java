@@ -31,7 +31,7 @@ public abstract class NoellesSwapperFerrymanFeignMixin {
             cancellable = true,
             require = 1
     )
-    private static void sparkwitch$swapperSkipsFerrymanFeign(
+    private static void sparkdlc$swapperSkipsFerrymanFeign(
             SwapperC2SPacket payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci

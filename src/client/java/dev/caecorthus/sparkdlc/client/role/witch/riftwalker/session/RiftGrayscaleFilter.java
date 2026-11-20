@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.witch.riftwalker.session;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.compat.IrisHelper;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
@@ -33,8 +33,8 @@ import java.io.IOException;
  * 叠层与暗角。
  */
 public final class RiftGrayscaleFilter {
-    static final Identifier SHADER = SparkWitch.id("shaders/post/perception.json");
-    private static final Identifier RELOAD_LISTENER_ID = SparkWitch.id("rift_grayscale_filter");
+    static final Identifier SHADER = SparkDLC.id("shaders/post/perception.json");
+    private static final Identifier RELOAD_LISTENER_ID = SparkDLC.id("rift_grayscale_filter");
     /** Full desaturation, unscaled BT.709 luma, no spread, neutral brightness. / 全去饱和、未缩放 BT.709 亮度、无扩散、亮度不变。 */
     static final float DESATURATION = 1.0F;
     static final float LUMINANCE_SCALE = 1.0F;
@@ -178,7 +178,7 @@ public final class RiftGrayscaleFilter {
         } catch (IOException | RuntimeException exception) {
             // JSON or GL compile errors from shader/resource packs: keep the view usable (HUD fallback) until reset.
             // 光影包或资源包导致的 JSON / 编译错误：在重置前保持画面可用（HUD 回退）。
-            SparkWitch.LOGGER.warn("Unable to load the Riftwalker grayscale filter {}", SHADER, exception);
+            SparkDLC.LOGGER.warn("Unable to load the Riftwalker grayscale filter {}", SHADER, exception);
             release();
             failed = true;
             return null;
@@ -197,7 +197,7 @@ public final class RiftGrayscaleFilter {
             return IrisHelper.isIrisShaderPackInUse();
         } catch (LinkageError | RuntimeException exception) {
             irisCheckBroken = true;
-            SparkWitch.LOGGER.warn("Unable to query Iris; the Riftwalker grey view uses its HUD fallback", exception);
+            SparkDLC.LOGGER.warn("Unable to query Iris; the Riftwalker grey view uses its HUD fallback", exception);
             return true;
         }
     }

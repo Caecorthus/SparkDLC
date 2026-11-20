@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(targets = "net.createmod.ponder.foundation.PonderScene", remap = false)
 public abstract class PonderSceneCaptionMixin {
     @Inject(method = "renderOverlay", at = @At("HEAD"))
-    private void sparkassist$beginCaptionLayout(PonderUI screen, DrawContext graphics, float partialTicks,
+    private void sparkdlc$beginCaptionLayout(PonderUI screen, DrawContext graphics, float partialTicks,
                                                 CallbackInfo ci) {
         if (((PonderScene) (Object) this).getNamespace().equals("sparkdlc")) {
             PonderCaptionText.beginOverlay();

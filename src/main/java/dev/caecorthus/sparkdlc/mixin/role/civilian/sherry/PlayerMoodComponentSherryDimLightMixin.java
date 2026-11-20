@@ -44,7 +44,7 @@ public abstract class PlayerMoodComponentSherryDimLightMixin {
             require = 2,
             allow = 2
     )
-    private float sparkwitch$halveSherryDrainInDimLight(float drain) {
+    private float sparkdlc$halveSherryDrainInDimLight(float drain) {
         return SherryDimLight.scaleDrain(player, drain);
     }
 }

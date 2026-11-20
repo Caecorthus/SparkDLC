@@ -15,7 +15,7 @@ public abstract class PoisonOverlayPayloadMixin {
             method = "receive(Ldev/doctor4t/wathe/util/PoisonUtils$PoisonOverlayPayload;Lnet/fabricmc/fabric/api/client/networking/v1/ClientPlayNetworking$Context;)V",
             at = @At("HEAD")
     )
-    private void sparkassist$poisonOverlay(PoisonUtils.PoisonOverlayPayload payload,
+    private void sparkdlc$poisonOverlay(PoisonUtils.PoisonOverlayPayload payload,
                                            ClientPlayNetworking.Context context, CallbackInfo ci) {
         AchievementClientState.onPoisonOverlay(payload.translationKey());
     }

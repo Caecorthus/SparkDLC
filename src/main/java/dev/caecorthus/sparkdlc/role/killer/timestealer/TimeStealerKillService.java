@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.timestealer;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
 import dev.caecorthus.sparkdlc.role.civilian.judge.JudgeKillAttribution;
 import dev.caecorthus.sparkdlc.role.killer.timestealer.TimeStealerRules.SettleActor;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
@@ -49,7 +49,7 @@ public final class TimeStealerKillService {
         }
         ServerPlayerEntity stealer = server.getPlayerManager().getPlayer(stealerUuid);
         boolean still = stealer != null && TimeStealerRules.isTimeStealer(game.getRole(stealer));
-        boolean allowed = still && SparkFactionApi.canAffectPlayer(stealer, victim, SparkWitchDeathReasons.TIME_STOLEN, game);
+        boolean allowed = still && SparkFactionApi.canAffectPlayer(stealer, victim, SparkDlcDeathReasons.TIME_STOLEN, game);
         SettleActor actor = TimeStealerRules.settleActor(stealer != null, still, allowed);
         if (actor == SettleActor.VETOED) {
             // The SparkFactionAPI structural veto is honoured as for the toll: the curse is spent, never turned into an
@@ -65,7 +65,7 @@ public final class TimeStealerKillService {
         // runWith 即使在击杀者为 null 时也把审判者账本与判决绑定到窃时者 UUID；强制 + 终结原因是所有者批准的穿透路径，
         // 此处不做任何针对具体保护的放行。
         JudgeKillAttribution.runWith(world, stealerUuid,
-                () -> GameFunctions.killPlayer(victim, true, killer, SparkWitchDeathReasons.TIME_STOLEN, true));
+                () -> GameFunctions.killPlayer(victim, true, killer, SparkDlcDeathReasons.TIME_STOLEN, true));
         // Only a confirmed death in the same ACTIVE match, not intercepted by an older SparkTraits build (fail-closed),
         // moves the round time and grants a stamp. / 只有同一 ACTIVE 对局内确认的死亡、且未被旧版 SparkTraits 拦截
         // （失败关闭）时，才扣除对局时间并发放邮票。

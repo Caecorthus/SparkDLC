@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = CrosshairRenderer.class, remap = false)
 public abstract class ForcedMeleeCrosshairMixin {
     @Inject(method = "renderCrosshair", at = @At("HEAD"), cancellable = true)
-    private static void sparktraits$replaceLockedIndicator(MinecraftClient client, ClientPlayerEntity player,
+    private static void sparkdlc$replaceLockedIndicator(MinecraftClient client, ClientPlayerEntity player,
                                                            DrawContext context, RenderTickCounter tickCounter,
                                                            CallbackInfo ci) {
         if (ForcedMeleeHud.renderLockedCrosshair(context)) {

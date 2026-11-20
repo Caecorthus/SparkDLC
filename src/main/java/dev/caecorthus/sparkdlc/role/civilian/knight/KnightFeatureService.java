@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.knight;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -67,7 +67,7 @@ public final class KnightFeatureService {
         ItemStack derringer = new ItemStack(WatheItems.DERRINGER);
         derringer.set(WatheDataComponentTypes.USED, true);
         player.getInventory().insertStack(derringer);
-        player.getInventory().insertStack(new ItemStack(SparkWitchItems.crossSword()));
+        player.getInventory().insertStack(new ItemStack(SparkDlcItems.crossSword()));
         player.getInventory().markDirty();
         player.currentScreenHandler.sendContentUpdates();
     }

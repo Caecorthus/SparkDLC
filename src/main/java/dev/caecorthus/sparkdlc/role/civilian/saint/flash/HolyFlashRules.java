@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.saint.flash;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
@@ -18,8 +18,8 @@ import net.minecraft.world.World;
  * （原为减半）、全黑保持前 60%（原为 40%）。
  */
 public final class HolyFlashRules {
-    public static final Identifier ITEM_ID = SparkWitch.id("holy_flash");
-    public static final Identifier ENTITY_ID = SparkWitch.id("holy_flash");
+    public static final Identifier ITEM_ID = SparkDLC.id("holy_flash");
+    public static final Identifier ENTITY_ID = SparkDLC.id("holy_flash");
     public static final String SHOP_ENTRY_ID = "holy_flash";
     public static final int PRICE = 75;
     public static final int CARRY_LIMIT = 3;

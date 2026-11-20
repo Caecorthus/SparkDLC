@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.component;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithRoundSettingsSnapshot;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithSettings;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithSettingsNbtCodec;
@@ -25,7 +25,7 @@ import java.util.UUID;
  */
 public final class WraithRoundComponent implements Component {
     public static final ComponentKey<WraithRoundComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("wraith_round"),
+            SparkDLC.id("wraith_round"),
             WraithRoundComponent.class
     );
 

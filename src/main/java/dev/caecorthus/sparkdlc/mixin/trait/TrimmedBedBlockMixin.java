@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(TrimmedBedBlock.class)
 public abstract class TrimmedBedBlockMixin {
     @Inject(method = "onUse", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$placeConscienceScorpion(
+    private void sparkdlc$placeConscienceScorpion(
             BlockState state,
             World world,
             BlockPos pos,
@@ -47,8 +47,8 @@ public abstract class TrimmedBedBlockMixin {
 
         // Blue scorpions are a separate trap layer, so normal scorpions can still coexist.
         // 蓝蝎子是独立陷阱层，因此可以和普通蝎子同时存在。
-        if (!bed.sparktraits$hasConscienceScorpion()) {
-            bed.sparktraits$setConscienceScorpion(true, player.getUuid());
+        if (!bed.sparkdlc$hasConscienceScorpion()) {
+            bed.sparkdlc$setConscienceScorpion(true, player.getUuid());
             player.getStackInHand(Hand.MAIN_HAND).decrement(1);
             if (player instanceof ServerPlayerEntity serverPlayer) {
                 NbtCompound extra = new NbtCompound();

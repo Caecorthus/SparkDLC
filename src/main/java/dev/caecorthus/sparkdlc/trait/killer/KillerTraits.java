@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.killer;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.TraitAudience;
 import dev.caecorthus.sparkdlc.trait.api.TraitDefinition;
 import dev.caecorthus.sparkdlc.trait.api.TraitRegistry;
@@ -14,23 +14,23 @@ import dev.caecorthus.sparkdlc.trait.civilian.impostor.ImpostorTrait;
  * 注册 SparkTraits 的杀手专用天赋定义。
  */
 public final class KillerTraits {
-    public static final Identifier BLOODTHIRSTY = SparkTraits.id("bloodthirsty");
-    public static final Identifier THE_SHOWMAN = SparkTraits.id("the_showman");
-    public static final Identifier PLUNDERER = SparkTraits.id("plunderer");
-    public static final Identifier CHARISMA = SparkTraits.id("charisma");
-    public static final Identifier PARANOID = SparkTraits.id("paranoid");
-    public static final Identifier THRUST = SparkTraits.id("thrust");
-    public static final Identifier SECOND_STRIKE = SparkTraits.id("second_strike");
-    public static final Identifier OPPRESSIVE = SparkTraits.id("oppressive");
-    public static final Identifier CORNERED = SparkTraits.id("cornered");
-    public static final Identifier TEAM_FIRST = SparkTraits.id("team_first");
-    public static final Identifier EXHILARATED = SparkTraits.id("exhilarated");
-    public static final Identifier CLOSE_QUARTERS = SparkTraits.id("close_quarters");
-    public static final Identifier LAST_ESCAPE = SparkTraits.id("last_escape");
-    public static final Identifier HERCULEAN_STRENGTH = SparkTraits.id("herculean_strength");
-    public static final Identifier MASTER_SABOTEUR = SparkTraits.id("master_saboteur");
-    public static final Identifier SEASONED = SparkTraits.id("seasoned");
-    public static final Identifier MANIC = SparkTraits.id("manic");
+    public static final Identifier BLOODTHIRSTY = SparkDLC.id("bloodthirsty");
+    public static final Identifier THE_SHOWMAN = SparkDLC.id("the_showman");
+    public static final Identifier PLUNDERER = SparkDLC.id("plunderer");
+    public static final Identifier CHARISMA = SparkDLC.id("charisma");
+    public static final Identifier PARANOID = SparkDLC.id("paranoid");
+    public static final Identifier THRUST = SparkDLC.id("thrust");
+    public static final Identifier SECOND_STRIKE = SparkDLC.id("second_strike");
+    public static final Identifier OPPRESSIVE = SparkDLC.id("oppressive");
+    public static final Identifier CORNERED = SparkDLC.id("cornered");
+    public static final Identifier TEAM_FIRST = SparkDLC.id("team_first");
+    public static final Identifier EXHILARATED = SparkDLC.id("exhilarated");
+    public static final Identifier CLOSE_QUARTERS = SparkDLC.id("close_quarters");
+    public static final Identifier LAST_ESCAPE = SparkDLC.id("last_escape");
+    public static final Identifier HERCULEAN_STRENGTH = SparkDLC.id("herculean_strength");
+    public static final Identifier MASTER_SABOTEUR = SparkDLC.id("master_saboteur");
+    public static final Identifier SEASONED = SparkDLC.id("seasoned");
+    public static final Identifier MANIC = SparkDLC.id("manic");
 
     private KillerTraits() {
     }

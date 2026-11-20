@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityTeamTagMixin {
     @ModifyReturnValue(method = "getDisplayName", at = @At("RETURN"))
-    private Text sparkfactionapi$appendCaecorthusTeamTag(Text original) {
+    private Text sparkdlc$appendCaecorthusTeamTag(Text original) {
         return CaecorthusTeamTag.withTag(((PlayerEntity) (Object) this).getUuid(), original);
     }
 }

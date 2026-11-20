@@ -20,7 +20,7 @@ public final class CooldownCommand {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(CommandManager.literal("sparkdlc:clearCooldown")
-                .requires(SparkFactionPermissions.admin())
+                .requires(AdminToolPermissions.admin())
                 .executes(context -> clearCooldown(
                         context.getSource(),
                         List.of(context.getSource().getPlayerOrThrow())

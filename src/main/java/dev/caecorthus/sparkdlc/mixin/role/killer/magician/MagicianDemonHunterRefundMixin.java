@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MagicianDemonHunterRefundMixin {
     @Inject(method = "receive(Lorg/agmas/noellesroles/demonhunter/DemonHunterShootC2SPacket;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             at = @At("TAIL"))
-    private void sparkwitch$refundJesterPuppetShot(DemonHunterShootC2SPacket payload,
+    private void sparkdlc$refundJesterPuppetShot(DemonHunterShootC2SPacket payload,
                                                   ServerPlayNetworking.Context context, CallbackInfo ci) {
         MagicianPuppetHits.afterDemonHunterShot(context.player());
     }

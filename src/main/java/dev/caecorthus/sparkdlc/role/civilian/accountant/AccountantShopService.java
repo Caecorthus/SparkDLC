@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.accountant;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -38,7 +38,7 @@ final class AccountantShopService {
             return;
         }
         ShopEntry passbook = new ShopEntry.Builder(AccountantRules.PASSBOOK_ENTRY_ID,
-                new ItemStack(SparkWitchItems.accountantPassbook()), AccountantRules.PASSBOOK_PRICE,
+                new ItemStack(SparkDlcItems.accountantPassbook()), AccountantRules.PASSBOOK_PRICE,
                 ShopEntry.Type.TOOL)
                 .cooldown(AccountantRules.PASSBOOK_PURCHASE_COOLDOWN_TICKS)
                 .build();

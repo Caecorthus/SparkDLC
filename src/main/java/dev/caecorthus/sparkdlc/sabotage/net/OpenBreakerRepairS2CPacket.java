@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.sabotage.net;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -14,7 +14,7 @@ import net.minecraft.util.math.BlockPos;
  */
 public record OpenBreakerRepairS2CPacket(int sessionId, BlockPos pos, long seed, int switches, int holdTicks)
         implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("open_breaker_repair");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("open_breaker_repair");
     public static final Id<OpenBreakerRepairS2CPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, OpenBreakerRepairS2CPacket> CODEC =
             PacketCodec.of(OpenBreakerRepairS2CPacket::write, OpenBreakerRepairS2CPacket::read);

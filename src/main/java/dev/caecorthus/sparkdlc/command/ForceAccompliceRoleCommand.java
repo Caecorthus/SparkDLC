@@ -7,15 +7,15 @@ import com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.legacy.LegacyPermissions;
 import dev.caecorthus.sparkdlc.component.WitchWorldComponent;
 import dev.caecorthus.sparkdlc.role.witch.accomplice.variant.AccompliceVariants;
 import dev.caecorthus.sparkdlc.role.witch.bewitched.BewitchedPromotionRules;
 import dev.caecorthus.sparkdlc.role.witch.bewitched.BewitchedPromotionService;
 import dev.caecorthus.sparkdlc.util.RoleDisplayTextRules;
-import dev.caecorthus.sparkdlc.util.SparkWitchPermissions;
+import dev.caecorthus.sparkdlc.util.RoleCommandPermissions;
 import dev.doctor4t.wathe.Wathe;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -68,8 +68,8 @@ public final class ForceAccompliceRoleCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(CommandManager.literal("sparkdlc:forceAccompliceRole")
                 .requires(LegacyPermissions.require(
-                        SparkWitchPermissions.COMMAND_FORCE_ACCOMPLICE_ROLE,
-                        SparkWitchPermissions.DEFAULT_COMMAND_LEVEL
+                        RoleCommandPermissions.COMMAND_FORCE_ACCOMPLICE_ROLE,
+                        RoleCommandPermissions.DEFAULT_COMMAND_LEVEL
                 ))
                 .then(CommandManager.argument("role", IdentifierArgumentType.identifier())
                         .suggests(ForceAccompliceRoleCommand::suggestRoles)
@@ -183,7 +183,7 @@ public final class ForceAccompliceRoleCommand {
 
     /** The plain Accomplice or a registered special accomplice. / 普通共犯或已注册的特殊共犯。 */
     static Role requireRole(Identifier id) throws CommandSyntaxException {
-        Role role = BewitchedPromotionRules.resolveLock(id, SparkWitchRoles.accomplice(),
+        Role role = BewitchedPromotionRules.resolveLock(id, SparkDlcRoles.accomplice(),
                 AccompliceVariants.variants());
         if (role == null) {
             throw UNKNOWN_ROLE.create(id);
@@ -194,7 +194,7 @@ public final class ForceAccompliceRoleCommand {
     /** {@code accomplice}, then every registered special accomplice. / 先普通共犯，再每个已注册的特殊共犯。 */
     static List<String> suggestionIds() {
         List<String> ids = new ArrayList<>();
-        ids.add(suggestionId(SparkWitchRoles.ACCOMPLICE_ID));
+        ids.add(suggestionId(SparkDlcRoles.ACCOMPLICE_ID));
         for (Role variant : AccompliceVariants.variants()) {
             ids.add(suggestionId(variant.identifier()));
         }
@@ -202,7 +202,7 @@ public final class ForceAccompliceRoleCommand {
     }
 
     private static String suggestionId(Identifier id) {
-        return SparkWitch.MOD_ID.equals(id.getNamespace()) ? id.getPath() : id.toString();
+        return SparkDLC.MOD_ID.equals(id.getNamespace()) ? id.getPath() : id.toString();
     }
 
     static CompletableFuture<Suggestions> suggestRoles(

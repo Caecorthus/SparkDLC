@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.coroner;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerBodySnapshotComponent;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerPlayerComponent;
@@ -508,7 +508,7 @@ public final class CoronerService {
         GameRecordManager.putPos(extra, "body_pos", bodyPos);
         GameRecordManager.recordItemUse(
                 coroner,
-                Registries.ITEM.getId(SparkStrengthItems.coronerBodyBag()),
+                Registries.ITEM.getId(SparkDlcItems.coronerBodyBag()),
                 null,
                 extra
         );

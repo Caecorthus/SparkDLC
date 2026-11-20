@@ -4,8 +4,8 @@ import dev.caecorthus.sparkdlc.role.civilian.fisher.spirit.FisherSpiritService;
 import dev.caecorthus.sparkdlc.role.civilian.fisher.swordfish.SwordfishStabService;
 
 /**
- * Owns Angler event wiring while SparkWitchEvents stays an aggregator. Each service registers its own listeners.
- * 负责钓鱼佬的事件接线，SparkWitchEvents 仍只做汇总。各服务自行注册监听器。
+ * Owns Angler event wiring while RoleEvents stays an aggregator. Each service registers its own listeners.
+ * 负责钓鱼佬的事件接线，RoleEvents 仍只做汇总。各服务自行注册监听器。
  */
 public final class FisherFeatureService {
     private static boolean registered;

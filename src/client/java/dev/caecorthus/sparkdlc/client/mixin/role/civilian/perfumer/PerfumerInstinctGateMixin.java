@@ -40,7 +40,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = WatheClient.class, remap = false, priority = 500)
 public abstract class PerfumerInstinctGateMixin {
     @WrapMethod(method = "isInstinctEnabled()Z")
-    private static boolean sparkstrength$gateInstinctWhileBlinded(Operation<Boolean> original) {
+    private static boolean sparkdlc$gateInstinctWhileBlinded(Operation<Boolean> original) {
         if (PerfumerClientEffects.blocksInstinct()) {
             return false;
         }
@@ -48,7 +48,7 @@ public abstract class PerfumerInstinctGateMixin {
     }
 
     @WrapMethod(method = "isInstinctEnabledAndIsKiller()Z")
-    private static boolean sparkstrength$gateKillerInstinctWhileBlinded(Operation<Boolean> original) {
+    private static boolean sparkdlc$gateKillerInstinctWhileBlinded(Operation<Boolean> original) {
         if (PerfumerClientEffects.blocksInstinct()) {
             return false;
         }
@@ -56,7 +56,7 @@ public abstract class PerfumerInstinctGateMixin {
     }
 
     @WrapMethod(method = "getInstinctHighlight")
-    private static int sparkstrength$hideHighlightsWhileBlinded(Entity target, Operation<Integer> original) {
+    private static int sparkdlc$hideHighlightsWhileBlinded(Entity target, Operation<Integer> original) {
         if (PerfumerClientEffects.blocksInstinct()) {
             return -1;
         }

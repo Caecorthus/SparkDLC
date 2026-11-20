@@ -33,7 +33,7 @@ public abstract class GameFunctionsUsecPsychoArmourMixin {
             method = "killPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;ZLnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;Z)V",
             at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/api/event/ShouldPiercePsychoArmour;pierces(Lnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;)Z")
     )
-    private static boolean sparkwitch$pierceUsecPsychoArmour(boolean original, ServerPlayerEntity victim,
+    private static boolean sparkdlc$pierceUsecPsychoArmour(boolean original, ServerPlayerEntity victim,
             boolean spawnBody, @Nullable ServerPlayerEntity killer, Identifier deathReason, boolean force) {
         if (original || force || !UsecShieldPierce.isScoped(victim, killer, deathReason)) {
             return original;

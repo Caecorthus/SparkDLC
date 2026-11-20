@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
  * 演员没有皮肤特性：每当演员作答就清空这条记录，下一个真实玩家会重新写入。通过反射访问，未安装 ETF 时不产生任何影响。
  */
 public final class ActorSkinCompat {
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkAssist/Ponder");
+    private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/Ponder");
     private static final String ETF_MOD_ID = "entity_texture_features";
     /**
      * ETF's note on the renderer: MixinPlayerEntityRenderer's {@code etf$ETFPlayerTexture}, merged into

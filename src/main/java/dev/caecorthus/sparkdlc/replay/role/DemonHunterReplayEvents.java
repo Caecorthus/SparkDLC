@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.replay.role;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.record.replay.ReplayGenerator;
 import dev.doctor4t.wathe.record.replay.ReplayRegistry;
 import net.minecraft.nbt.NbtCompound;
@@ -14,9 +14,9 @@ import java.util.UUID;
  * 猎魔人嗅探的回放文本。
  */
 public final class DemonHunterReplayEvents {
-    public static final Identifier DEMON_HUNTER_SNIFF_FOUND = SparkStrength.id("demon_hunter_sniff_found");
-    public static final Identifier DEMON_HUNTER_SNIFF_NONE = SparkStrength.id("demon_hunter_sniff_none");
-    public static final Identifier DEMON_HUNTER_SNIFF_REVEALED = SparkStrength.id("demon_hunter_sniff_revealed");
+    public static final Identifier DEMON_HUNTER_SNIFF_FOUND = SparkDLC.id("demon_hunter_sniff_found");
+    public static final Identifier DEMON_HUNTER_SNIFF_NONE = SparkDLC.id("demon_hunter_sniff_none");
+    public static final Identifier DEMON_HUNTER_SNIFF_REVEALED = SparkDLC.id("demon_hunter_sniff_revealed");
 
     private DemonHunterReplayEvents() {
     }

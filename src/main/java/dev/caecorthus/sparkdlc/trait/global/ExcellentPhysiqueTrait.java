@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.global;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.Trait;
 import dev.caecorthus.sparkdlc.trait.api.TraitAssignmentReason;
 import dev.caecorthus.sparkdlc.trait.api.TraitRemovalReason;
@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
  * 全局天赋：翻倍有限体力条的上限与自然恢复速度。
  */
 public final class ExcellentPhysiqueTrait implements Trait {
-    public static final Identifier ID = SparkTraits.id("excellent_physique");
+    public static final Identifier ID = SparkDLC.id("excellent_physique");
 
     @Override
     public Identifier id() {

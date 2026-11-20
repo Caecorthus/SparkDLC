@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = GameFunctions.class, remap = false)
 public abstract class GameFunctionsFerrymanSettlementMixin {
     @Inject(method = "isPlayerPlayingAndAlive", at = @At("HEAD"), cancellable = true)
-    private static void sparkwitch$soullessCharonCountsAsDeadDuringWinCheck(
+    private static void sparkdlc$soullessCharonCountsAsDeadDuringWinCheck(
             PlayerEntity player,
             CallbackInfoReturnable<Boolean> cir
     ) {

@@ -33,7 +33,7 @@ public abstract class SabotageBlackoutEffectsMixin {
     @WrapOperation(method = "applyBlackoutEffects", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/server/network/ServerPlayerEntity;addStatusEffect(Lnet/minecraft/entity/effect/StatusEffectInstance;)Z",
             remap = true))
-    private boolean sparkstrength$skipSabotageBlindness(ServerPlayerEntity player, StatusEffectInstance effect,
+    private boolean sparkdlc$skipSabotageBlindness(ServerPlayerEntity player, StatusEffectInstance effect,
                                                         Operation<Boolean> original,
                                                         @Local(argsOnly = true) ServerWorld world) {
         if (effect.getEffectType() == StatusEffects.BLINDNESS && LightsSabotageService.suppressesBlindness(world)) {
@@ -50,12 +50,12 @@ public abstract class SabotageBlackoutEffectsMixin {
      */
     @ModifyExpressionValue(method = "applyBlackoutEffects", at = @At(value = "INVOKE",
             target = "Ldev/doctor4t/wathe/cca/GameWorldComponent;isRole(Ljava/util/UUID;Ldev/doctor4t/wathe/api/Role;)Z"))
-    private boolean sparkstrength$undercoverSeesLikeKiller(boolean veteran, @Local ServerPlayerEntity player) {
+    private boolean sparkdlc$undercoverSeesLikeKiller(boolean veteran, @Local ServerPlayerEntity player) {
         return veteran || BlackoutNightVision.seesLikeKiller(player);
     }
 
     @Inject(method = "sendBlackoutCountdown", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$repairHint(ServerWorld world, CallbackInfo ci) {
+    private void sparkdlc$repairHint(ServerWorld world, CallbackInfo ci) {
         if (LightsSabotageService.replacesCountdown(world)) {
             ci.cancel();
         }

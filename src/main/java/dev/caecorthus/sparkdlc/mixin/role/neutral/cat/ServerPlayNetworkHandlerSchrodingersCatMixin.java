@@ -31,7 +31,7 @@ public abstract class ServerPlayNetworkHandlerSchrodingersCatMixin {
                     shift = At.Shift.AFTER),
             cancellable = true
     )
-    private void sparkwitch$blockCatSpectreSpectatorTeleport(SpectatorTeleportC2SPacket packet, CallbackInfo ci) {
+    private void sparkdlc$blockCatSpectreSpectatorTeleport(SpectatorTeleportC2SPacket packet, CallbackInfo ci) {
         if (SchrodingersCatService.isSpectre(player)) {
             ci.cancel();
         }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.render;
 
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.minecraft.entity.player.PlayerEntity;
 
@@ -15,16 +15,16 @@ public final class WraithClientState {
     public static boolean isActive(PlayerEntity player) {
         return SparkDlcServerConnection.isConfirmedServer()
                 && player != null
-                && SparkWitchApi.isWraithActive(player);
+                && SparkRoleApi.isWraithActive(player);
     }
 
     public static boolean isRestricted(PlayerEntity player) {
-        return isActive(player) && SparkWitchApi.isWraithRestricted(player);
+        return isActive(player) && SparkRoleApi.isWraithRestricted(player);
     }
 
     public static boolean isPromoted(PlayerEntity player) {
         return SparkDlcServerConnection.isConfirmedServer()
                 && player != null
-                && SparkWitchApi.isWraithPromoted(player);
+                && SparkRoleApi.isWraithPromoted(player);
     }
 }

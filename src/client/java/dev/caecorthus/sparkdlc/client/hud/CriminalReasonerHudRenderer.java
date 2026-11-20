@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.hud;
 
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityController;
 import dev.caecorthus.sparkdlc.client.role.neutral.criminalreasoner.CriminalReasonerClientModule;
 import dev.caecorthus.sparkdlc.client.role.neutral.criminalreasoner.CriminalReasonerHudRules;
@@ -101,7 +101,7 @@ public final class CriminalReasonerHudRenderer {
 
     private static @Nullable Text keyText(CriminalReasonerHudRules.Line line) {
         return switch (line.argument()) {
-            case KEY_HINT -> SparkWitchClient.abilityKeyText();
+            case KEY_HINT -> SparkDLCClient.abilityKeyText();
             case CHARGES -> SecondaryAbilityController.secondaryKeyText();
             default -> null;
         };

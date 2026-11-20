@@ -32,8 +32,8 @@ public final class CorruptCopSoundAccess {
         if (manager == null || instance == null) {
             return false;
         }
-        SoundSystem soundSystem = ((SoundManagerAccessor) manager).sparkstrength$getSoundSystem();
-        Channel.SourceManager sourceManager = ((SoundSystemAccessor) soundSystem).sparkstrength$getSources().get(instance);
+        SoundSystem soundSystem = ((SoundManagerAccessor) manager).sparkdlc$getSoundSystem();
+        Channel.SourceManager sourceManager = ((SoundSystemAccessor) soundSystem).sparkdlc$getSources().get(instance);
         if (sourceManager == null || sourceManager.isStopped()) {
             return false;
         }

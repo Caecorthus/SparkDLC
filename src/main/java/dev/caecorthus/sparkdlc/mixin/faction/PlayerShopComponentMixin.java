@@ -13,5 +13,5 @@ import java.util.Map;
 @Mixin(PlayerShopComponent.class)
 public interface PlayerShopComponentMixin {
     @Accessor("cooldowns")
-    Map<String, Integer> sparkfactionapi$getCooldowns();
+    Map<String, Integer> sparkdlc$getCooldowns();
 }

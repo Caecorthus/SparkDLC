@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.jiahao.corruptcop;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
-import dev.caecorthus.sparkdlc.SparkStrengthSounds;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.role.jiahao.corruptcop.CorruptCopAbilityComponent;
 import dev.caecorthus.sparkdlc.role.jiahao.corruptcop.CorruptCopMusicRules;
 import dev.caecorthus.sparkdlc.role.jiahao.corruptcop.CorruptCopRules;
@@ -77,7 +77,7 @@ public final class CorruptCopMusicController {
     }
 
     private static boolean hasMusicResource(SoundManager soundManager) {
-        if (soundManager.get(SparkStrengthSounds.MUSIC_TAKEDISKRUSH_ID) != null) {
+        if (soundManager.get(SparkDlcSounds.MUSIC_TAKEDISKRUSH_ID) != null) {
             missingSoundResourceWarned = false;
             return true;
         }
@@ -85,9 +85,9 @@ public final class CorruptCopMusicController {
         if (!missingSoundResourceWarned) {
             // The event exists, but the client resource pack did not expose the sound set.
             // 声音事件已注册，但客户端资源包没有暴露对应的声音集合。
-            SparkStrength.LOGGER.warn(
+            SparkDLC.LOGGER.warn(
                     "Missing client sound resource {}. Check assets/sparkdlc/sounds.json and the installed client jar.",
-                    SparkStrengthSounds.MUSIC_TAKEDISKRUSH_ID
+                    SparkDlcSounds.MUSIC_TAKEDISKRUSH_ID
             );
             missingSoundResourceWarned = true;
         }

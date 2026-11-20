@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.hud;
 
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.saint.SaintPlayerState;
 import dev.caecorthus.sparkdlc.role.civilian.saint.SaintRules;
@@ -63,7 +63,7 @@ public final class SaintHudRenderer {
         }
         return Text.translatable(
                 "hud.sparkdlc.saint.hellfire.ready",
-                SparkWitchClient.abilityKeyText()
+                SparkDLCClient.abilityKeyText()
         );
     }
 }

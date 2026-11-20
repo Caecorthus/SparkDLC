@@ -12,14 +12,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = WatheClient.class, remap = false, priority = 1600)
 public abstract class BlackRavenInstinctGateMixin {
     @Inject(method = "isInstinctEnabled", at = @At("HEAD"), cancellable = true)
-    private static void sparkwitch$disableInstinctDuringPerception(CallbackInfoReturnable<Boolean> cir) {
+    private static void sparkdlc$disableInstinctDuringPerception(CallbackInfoReturnable<Boolean> cir) {
         if (BlackRavenClientState.isPerceptionActive(MinecraftClient.getInstance().player)) {
             cir.setReturnValue(false);
         }
     }
 
     @Inject(method = "isInstinctEnabledAndIsKiller", at = @At("HEAD"), cancellable = true)
-    private static void sparkwitch$disableKillerInstinctDuringPerception(CallbackInfoReturnable<Boolean> cir) {
+    private static void sparkdlc$disableKillerInstinctDuringPerception(CallbackInfoReturnable<Boolean> cir) {
         if (BlackRavenClientState.isPerceptionActive(MinecraftClient.getInstance().player)) {
             cir.setReturnValue(false);
         }

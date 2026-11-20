@@ -24,7 +24,7 @@ public abstract class CautiousLivingEntitySoundMixin {
                     target = "Lnet/minecraft/entity/LivingEntity;playSound(Lnet/minecraft/sound/SoundEvent;FF)V"
             )
     )
-    private void sparktraits$skipCautiousConsumptionSound(LivingEntity entity, SoundEvent sound, float volume, float pitch) {
+    private void sparkdlc$skipCautiousConsumptionSound(LivingEntity entity, SoundEvent sound, float volume, float pitch) {
         if (!SparkDlcServerConnection.isUnconfirmedClientEntity(entity)
                 && entity instanceof PlayerEntity player
                 && GlobalTraitService.shouldSuppressCautiousSounds(player)) {
@@ -40,7 +40,7 @@ public abstract class CautiousLivingEntitySoundMixin {
                     target = "Lnet/minecraft/world/World;playSound(Lnet/minecraft/entity/player/PlayerEntity;DDDLnet/minecraft/sound/SoundEvent;Lnet/minecraft/sound/SoundCategory;FF)V"
             )
     )
-    private void sparktraits$skipCautiousEatFoodSound(
+    private void sparkdlc$skipCautiousEatFoodSound(
             World world,
             PlayerEntity except,
             double x,

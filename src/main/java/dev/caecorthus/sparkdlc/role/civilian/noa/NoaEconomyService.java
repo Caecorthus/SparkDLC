@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.noa;
 
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.doctor4t.wathe.api.Role;
@@ -87,7 +87,7 @@ final class NoaEconomyService {
                 && GameFunctions.isPlayerPlayingAndAlive(player)
                 && NoaRules.isNoa(game.getRole(player))
                 && !player.isSpectator() && !player.isCreative()
-                && !SparkWitchApi.isWraithRestricted(player);
+                && !SparkRoleApi.isWraithRestricted(player);
     }
 
     /**

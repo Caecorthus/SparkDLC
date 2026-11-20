@@ -36,7 +36,7 @@ public abstract class MiniWitherSkinSoundLoaderMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$loadMiniWitherSkinSound(Identifier id,
+    private void sparkdlc$loadMiniWitherSkinSound(Identifier id,
                                                     CallbackInfoReturnable<CompletableFuture<StaticSound>> cir) {
         if (MiniWitherSoundOverrides.serves(id)) {
             cir.setReturnValue(loadedSounds.computeIfAbsent(id, MiniWitherSoundOverrides::loadAsync));

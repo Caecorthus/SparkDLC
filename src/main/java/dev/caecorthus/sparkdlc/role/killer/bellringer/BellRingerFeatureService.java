@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.bellringer;
 
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.KillPlayer;
@@ -87,7 +87,7 @@ public final class BellRingerFeatureService {
         // SparkTraits 在击杀时实时读取终结原因集合；在服务端启动时（所有模组已初始化、位于服务端线程）
         // 注册即足够早，且多次启动重复注册是幂等的。
         ServerLifecycleEvents.SERVER_STARTING.register(server ->
-                SparkTraitsApi.registerTerminalDeathReason(SparkWitchDeathReasons.BELL_TOLL));
+                SparkTraitsApi.registerTerminalDeathReason(SparkDlcDeathReasons.BELL_TOLL));
     }
 
     private static void clearPlayer(ServerPlayerEntity player) {

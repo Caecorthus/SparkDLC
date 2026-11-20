@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.piggod;
 
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseContext;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseResult;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
@@ -94,7 +94,7 @@ public final class PigGodSkillService {
         ServerPlayerEntity caster = context.player();
         // Same recipients as ServerWorld#playSound -> PlayerManager#sendToAround below.
         // 与下方 ServerWorld#playSound -> PlayerManager#sendToAround 的接收者完全一致。
-        double range = SparkWitchSounds.PIG_CHASE.getDistanceToTravel(PigGodRules.SOUND_VOLUME);
+        double range = SparkDlcSounds.PIG_CHASE.getDistanceToTravel(PigGodRules.SOUND_VOLUME);
         Set<UUID> listeners = new HashSet<>();
         for (ServerPlayerEntity listener : serverWorld.getPlayers()) {
             if (listener.squaredDistanceTo(caster.getX(), caster.getY(), caster.getZ()) < range * range) {
@@ -107,7 +107,7 @@ public final class PigGodSkillService {
                 caster.getX(),
                 caster.getY(),
                 caster.getZ(),
-                SparkWitchSounds.PIG_CHASE,
+                SparkDlcSounds.PIG_CHASE,
                 SoundCategory.PLAYERS,
                 PigGodRules.SOUND_VOLUME,
                 PigGodRules.SOUND_PITCH
@@ -123,7 +123,7 @@ public final class PigGodSkillService {
         if (listeners == null || caster.getServer() == null) {
             return;
         }
-        StopSoundS2CPacket packet = new StopSoundS2CPacket(SparkWitchSounds.PIG_CHASE_ID, SoundCategory.PLAYERS);
+        StopSoundS2CPacket packet = new StopSoundS2CPacket(SparkDlcSounds.PIG_CHASE_ID, SoundCategory.PLAYERS);
         for (UUID listenerId : listeners) {
             ServerPlayerEntity listener = caster.getServer().getPlayerManager().getPlayer(listenerId);
             if (listener != null) {

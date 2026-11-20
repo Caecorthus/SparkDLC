@@ -30,7 +30,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ClientPlayerInteractionManager.class)
 public abstract class SeekerRemoteInteractionMixin {
     @Inject(method = "attackBlock", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noBlockAttackWhileViewing(BlockPos pos, Direction direction,
+    private void sparkdlc$noBlockAttackWhileViewing(BlockPos pos, Direction direction,
                                                       CallbackInfoReturnable<Boolean> cir) {
         if (!SeekerRemoteViewClient.isActive()) {
             return;
@@ -39,7 +39,7 @@ public abstract class SeekerRemoteInteractionMixin {
     }
 
     @Inject(method = "attackEntity", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noEntityAttackWhileViewing(PlayerEntity player, Entity target, CallbackInfo ci) {
+    private void sparkdlc$noEntityAttackWhileViewing(PlayerEntity player, Entity target, CallbackInfo ci) {
         if (!SeekerRemoteViewClient.isActive()) {
             return;
         }
@@ -47,7 +47,7 @@ public abstract class SeekerRemoteInteractionMixin {
     }
 
     @Inject(method = "interactBlock", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noBlockUseWhileViewing(ClientPlayerEntity player, Hand hand, BlockHitResult hitResult,
+    private void sparkdlc$noBlockUseWhileViewing(ClientPlayerEntity player, Hand hand, BlockHitResult hitResult,
                                                    CallbackInfoReturnable<ActionResult> cir) {
         if (!SeekerRemoteViewClient.isActive()) {
             return;
@@ -56,7 +56,7 @@ public abstract class SeekerRemoteInteractionMixin {
     }
 
     @Inject(method = "interactItem", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noItemUseWhileViewing(PlayerEntity player, Hand hand,
+    private void sparkdlc$noItemUseWhileViewing(PlayerEntity player, Hand hand,
                                                   CallbackInfoReturnable<ActionResult> cir) {
         if (!SeekerRemoteViewClient.isActive()) {
             return;
@@ -65,7 +65,7 @@ public abstract class SeekerRemoteInteractionMixin {
     }
 
     @Inject(method = "interactEntity", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noEntityUseWhileViewing(PlayerEntity player, Entity entity, Hand hand,
+    private void sparkdlc$noEntityUseWhileViewing(PlayerEntity player, Entity entity, Hand hand,
                                                     CallbackInfoReturnable<ActionResult> cir) {
         if (!SeekerRemoteViewClient.isActive()) {
             return;
@@ -74,7 +74,7 @@ public abstract class SeekerRemoteInteractionMixin {
     }
 
     @Inject(method = "interactEntityAtLocation", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noEntityUseAtWhileViewing(PlayerEntity player, Entity entity, EntityHitResult hitResult,
+    private void sparkdlc$noEntityUseAtWhileViewing(PlayerEntity player, Entity entity, EntityHitResult hitResult,
                                                       Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         if (!SeekerRemoteViewClient.isActive()) {
             return;
@@ -83,7 +83,7 @@ public abstract class SeekerRemoteInteractionMixin {
     }
 
     @Inject(method = "stopUsingItem", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$clearInsteadOfRelease(PlayerEntity player, CallbackInfo ci) {
+    private void sparkdlc$clearInsteadOfRelease(PlayerEntity player, CallbackInfo ci) {
         if (!SeekerRemoteViewClient.isActive()) {
             return;
         }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.taotie;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
@@ -24,7 +24,7 @@ import net.minecraft.util.TypedActionResult;
  * 始终得到 PASS，其他监听器之间的相对顺序不变。空手使用方块仍然放行，被眩晕者仍可开门、按按钮。
  */
 public final class TaotieHeadDazeGuards {
-    public static final Identifier DAZE_PHASE = SparkStrength.id("taotie_head_daze");
+    public static final Identifier DAZE_PHASE = SparkDLC.id("taotie_head_daze");
     private static boolean registered;
 
     private TaotieHeadDazeGuards() {

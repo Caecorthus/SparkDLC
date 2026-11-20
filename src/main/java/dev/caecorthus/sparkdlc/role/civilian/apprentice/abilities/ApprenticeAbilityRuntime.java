@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.apprentice.abilities;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.abilities.healing.HealingAbility;
 import dev.doctor4t.wathe.api.Role;
@@ -22,7 +22,7 @@ public final class ApprenticeAbilityRuntime {
         }
 
         Role role = GameWorldComponent.KEY.get(player.getWorld()).getRole(player);
-        if (role != SparkWitchRoles.apprenticeWitch() || !GameFunctions.isPlayerPlayingAndAlive(player)) {
+        if (role != SparkDlcRoles.apprenticeWitch() || !GameFunctions.isPlayerPlayingAndAlive(player)) {
             component.clearApprenticeWindowState();
             component.sync();
             return;

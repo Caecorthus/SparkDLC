@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.usec;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecMagazineContents;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecMagazineItem;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecRifleState;
@@ -21,19 +21,19 @@ import net.minecraft.util.Identifier;
  * 散装 {@code usec_magazine} 上的 {@code sparkdlc:usec_loaded}：至少有一发子弹时为 1，使模型显示有弹或无弹图标（所有者 2026-10-07）。
  */
 public final class UsecModelPredicates {
-    public static final Identifier MAGAZINE_PREDICATE_ID = SparkWitch.id("usec_magazine");
-    public static final Identifier SUPPRESSOR_PREDICATE_ID = SparkWitch.id("usec_suppressor");
-    public static final Identifier LOADED_PREDICATE_ID = SparkWitch.id("usec_loaded");
+    public static final Identifier MAGAZINE_PREDICATE_ID = SparkDLC.id("usec_magazine");
+    public static final Identifier SUPPRESSOR_PREDICATE_ID = SparkDLC.id("usec_suppressor");
+    public static final Identifier LOADED_PREDICATE_ID = SparkDLC.id("usec_loaded");
 
     private UsecModelPredicates() {
     }
 
     static void register() {
-        ModelPredicateProviderRegistry.register(SparkWitchItems.usecRifle(), MAGAZINE_PREDICATE_ID,
+        ModelPredicateProviderRegistry.register(SparkDlcItems.usecRifle(), MAGAZINE_PREDICATE_ID,
                 (stack, world, entity, seed) -> magazineValue(UsecRifleState.read(stack)));
-        ModelPredicateProviderRegistry.register(SparkWitchItems.usecRifle(), SUPPRESSOR_PREDICATE_ID,
+        ModelPredicateProviderRegistry.register(SparkDlcItems.usecRifle(), SUPPRESSOR_PREDICATE_ID,
                 (stack, world, entity, seed) -> suppressorValue(UsecRifleState.read(stack)));
-        ModelPredicateProviderRegistry.register(SparkWitchItems.usecMagazine(), LOADED_PREDICATE_ID,
+        ModelPredicateProviderRegistry.register(SparkDlcItems.usecMagazine(), LOADED_PREDICATE_ID,
                 (stack, world, entity, seed) -> loadedValue(UsecMagazineItem.contents(stack)));
     }
 

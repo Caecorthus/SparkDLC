@@ -38,7 +38,7 @@ public abstract class NoellesRolesJesterShieldMixin {
     public abstract void sync();
 
     @Inject(method = "registerKill", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$countedShield(CallbackInfo ci) {
+    private void sparkdlc$countedShield(CallbackInfo ci) {
         this.killCount += 1;
         this.psychoModeTicks += GameConstants.getInTicks(0, 30);
         PlayerPsychoComponent psycho = PlayerPsychoComponent.KEY.get(this.player);

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.toxicologist;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.util.ShopEntry;
 import net.minecraft.component.DataComponentTypes;
@@ -30,13 +30,13 @@ public final class ToxicologistBlueShop {
         return List.of(
                 new ShopEntry.Builder(
                         ToxicologistBlueRules.BLUE_VITRIOL_ENTRY_ID,
-                        displayStack(SparkStrengthItems.blueVitriol(), "shop.sparkdlc.toxicologist.blue_vitriol"),
+                        displayStack(SparkDlcItems.blueVitriol(), "shop.sparkdlc.toxicologist.blue_vitriol"),
                         ToxicologistBlueRules.BLUE_VITRIOL_PRICE,
                         ShopEntry.Type.POISON
                 ).onBuy(ToxicologistBlueShop::buyBlueVitriol).build(),
                 new ShopEntry.Builder(
                         ToxicologistBlueRules.BLUE_BELLADONNA_ENTRY_ID,
-                        displayStack(SparkStrengthItems.blueBelladonna(), "shop.sparkdlc.toxicologist.blue_belladonna"),
+                        displayStack(SparkDlcItems.blueBelladonna(), "shop.sparkdlc.toxicologist.blue_belladonna"),
                         ToxicologistBlueRules.BLUE_BELLADONNA_PRICE,
                         ShopEntry.Type.POISON
                 ).onBuy(ToxicologistBlueShop::buyBlueBelladonna).build()
@@ -44,13 +44,13 @@ public final class ToxicologistBlueShop {
     }
 
     private static boolean buyBlueVitriol(PlayerEntity buyer) {
-        return giveToHotbar(buyer, SparkStrengthItems.blueVitriol().getDefaultStack());
+        return giveToHotbar(buyer, SparkDlcItems.blueVitriol().getDefaultStack());
     }
 
     /** The fruit is stamped with the buyer's blue marker, so whoever eats it is credited to the buyer.
      *  果实写入购买者的蓝毒标记，任何人吃下都记在购买者名下。 */
     private static boolean buyBlueBelladonna(PlayerEntity buyer) {
-        ItemStack fruit = SparkStrengthItems.blueBelladonna().getDefaultStack();
+        ItemStack fruit = SparkDlcItems.blueBelladonna().getDefaultStack();
         // Fail closed: the fruit is handed over (and charged) only when it really carries the buyer's marker. An
         // empty stack is never stamped, so the read-back also covers it.
         // 失败时关闭：只有果实确实带有购买者的标记才交付（并扣费）。空物品不会被写入标记，回读同样覆盖这种情况。

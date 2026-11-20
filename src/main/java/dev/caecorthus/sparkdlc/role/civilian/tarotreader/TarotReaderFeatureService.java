@@ -9,7 +9,7 @@ import dev.doctor4t.wathe.api.event.TaskComplete;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 
-/** Owns Tarot Reader event wiring while SparkWitchEvents stays an aggregator. */
+/** Owns Tarot Reader event wiring while RoleEvents stays an aggregator. */
 public final class TarotReaderFeatureService {
     private static boolean registered;
 

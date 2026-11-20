@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.item.rope;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStatusComponent;
@@ -110,7 +110,7 @@ final class RopeTargeting {
             return false;
         }
         GameWorldComponent game = GameWorldComponent.KEY.get(user.getWorld());
-        return SparkFactionApi.canAffectPlayer(user, target, SparkWitchDeathReasons.STRANGLED, game)
+        return SparkFactionApi.canAffectPlayer(user, target, SparkDlcDeathReasons.STRANGLED, game)
                 && staysVictim(target)
                 && !RopeStrangleHold.isHeld(target);
     }
@@ -168,8 +168,8 @@ final class RopeTargeting {
     }
 
     static boolean holdsRope(PlayerEntity player) {
-        return player.getMainHandStack().isOf(SparkWitchItems.rope())
-                || player.getOffHandStack().isOf(SparkWitchItems.rope());
+        return player.getMainHandStack().isOf(SparkDlcItems.rope())
+                || player.getOffHandStack().isOf(SparkDlcItems.rope());
     }
 
     // Not in their own visible body: a feign (Fiend, Charon, Hiro's victims), a Cat spectre, a Rift, Raven Form, or an

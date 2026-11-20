@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
@@ -13,7 +13,7 @@ import net.minecraft.network.packet.CustomPayload;
  * 白色/职业色描边；所有效果仍由服务端决定。
  */
 public record SaviorDomainS2CPayload(int saviorEntityId, int durationTicks) implements CustomPayload {
-    public static final Id<SaviorDomainS2CPayload> ID = new Id<>(SparkWitch.id("savior_domain"));
+    public static final Id<SaviorDomainS2CPayload> ID = new Id<>(SparkDLC.id("savior_domain"));
     public static final PacketCodec<RegistryByteBuf, SaviorDomainS2CPayload> CODEC = PacketCodec.tuple(
             PacketCodecs.VAR_INT,
             SaviorDomainS2CPayload::saviorEntityId,

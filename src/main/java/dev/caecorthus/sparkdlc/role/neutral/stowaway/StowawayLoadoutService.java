@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.stowaway;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.index.WatheItems;
@@ -19,7 +19,7 @@ import net.minecraft.util.Identifier;
  * {@code ON_FINISH_INITIALIZE} 阶段执行，此时 Wathe 已发放两件默认物品（最终职业已确定，对局仍为 STARTING）。
  */
 public final class StowawayLoadoutService {
-    private static final Identifier FINISH_INITIALIZE_PHASE = SparkWitch.id("stowaway_finish_initialize");
+    private static final Identifier FINISH_INITIALIZE_PHASE = SparkDLC.id("stowaway_finish_initialize");
     private static boolean registered;
 
     private StowawayLoadoutService() {

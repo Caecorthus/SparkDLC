@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(KnifeItem.class)
 public abstract class SilencerKnifeUseMixin {
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$silencerSilentKnifePrepare(
+    private void sparkdlc$silencerSilentKnifePrepare(
             World world,
             PlayerEntity user,
             Hand hand,

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.bear;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.doctor4t.wathe.api.Role;
@@ -37,7 +37,7 @@ import org.jetbrains.annotations.Nullable;
  */
 final class BearEconomyService {
     /** BEAR's own ON_FINISH_INITIALIZE phase, after the default one. / BEAR 自有的 ON_FINISH_INITIALIZE 阶段，排在默认阶段之后。 */
-    static final Identifier FINISH_INITIALIZE_PHASE = SparkWitch.id("bear_economy_finish_initialize");
+    static final Identifier FINISH_INITIALIZE_PHASE = SparkDLC.id("bear_economy_finish_initialize");
 
     private static boolean registered;
 
@@ -138,7 +138,7 @@ final class BearEconomyService {
         }
         return canEarn(game.getGameStatus() == GameWorldComponent.GameStatus.ACTIVE,
                 GameFunctions.isPlayerPlayingAndAlive(player), role, player.isSpectator(), player.isCreative(),
-                SparkWitchApi.isWraithRestricted(player));
+                SparkRoleApi.isWraithRestricted(player));
     }
 
     /**

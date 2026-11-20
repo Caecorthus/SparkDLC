@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.bear.smoke.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -15,7 +15,7 @@ import net.minecraft.util.Identifier;
  * （过期，或被强制淘汰且已无可消散的格）时发送。畸形正文解码为 {@link #INVALID_ID} 并被忽略。
  */
 public record SmokeCloudRemoveS2CPayload(int cloudId) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("bear_smoke_remove");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("bear_smoke_remove");
     public static final Id<SmokeCloudRemoveS2CPayload> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, SmokeCloudRemoveS2CPayload> CODEC =
             PacketCodec.of(SmokeCloudRemoveS2CPayload::write, SmokeCloudRemoveS2CPayload::read);

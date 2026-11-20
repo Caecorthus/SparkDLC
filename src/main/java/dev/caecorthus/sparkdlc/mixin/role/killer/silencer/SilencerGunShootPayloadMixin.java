@@ -28,7 +28,7 @@ public abstract class SilencerGunShootPayloadMixin {
                     target = "Lnet/minecraft/world/World;playSound(Lnet/minecraft/entity/player/PlayerEntity;DDDLnet/minecraft/sound/SoundEvent;Lnet/minecraft/sound/SoundCategory;FF)V"
             )
     )
-    private void sparkstrength$silencerQuietRevolverSound(
+    private void sparkdlc$silencerQuietRevolverSound(
             World world,
             PlayerEntity source,
             double x,

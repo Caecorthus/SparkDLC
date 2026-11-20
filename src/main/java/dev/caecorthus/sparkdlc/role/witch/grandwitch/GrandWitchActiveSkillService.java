@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.witch.grandwitch;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseContext;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseResult;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
@@ -20,7 +20,7 @@ import net.minecraft.util.Identifier;
  * 发放永久任务奖励；保留旧法术和窗口入口的链接兼容性。
  */
 public final class GrandWitchActiveSkillService {
-    public static final Identifier CEREMONIAL_SWORD_SKILL_ID = SparkWitch.id("ceremonial_sword");
+    public static final Identifier CEREMONIAL_SWORD_SKILL_ID = SparkDLC.id("ceremonial_sword");
 
     private GrandWitchActiveSkillService() {
     }
@@ -48,11 +48,11 @@ public final class GrandWitchActiveSkillService {
     private static void grantCeremonialSword(ServerPlayerEntity player) {
         PlayerInventory inventory = player.getInventory();
         for (int slot = 0; slot < inventory.size(); slot++) {
-            if (inventory.getStack(slot).isOf(SparkWitchItems.ceremonialSword())) {
+            if (inventory.getStack(slot).isOf(SparkDlcItems.ceremonialSword())) {
                 return;
             }
         }
-        ItemStack sword = new ItemStack(SparkWitchItems.ceremonialSword());
+        ItemStack sword = new ItemStack(SparkDlcItems.ceremonialSword());
         // Wathe exposes only the hotbar; add the reward without replacing knives in either hand.
         // Wathe 仅展示快捷栏；额外发放奖励，不替换主副手匕首。
         if (!ShopEntry.insertStackInFreeSlot(player, sword)) {
@@ -98,7 +98,7 @@ public final class GrandWitchActiveSkillService {
         PlayerInventory inventory = player.getInventory();
         boolean changed = false;
         for (int slot = 0; slot < inventory.size(); slot++) {
-            if (inventory.getStack(slot).isOf(SparkWitchItems.ceremonialSword())) {
+            if (inventory.getStack(slot).isOf(SparkDlcItems.ceremonialSword())) {
                 inventory.setStack(slot, ItemStack.EMPTY);
                 changed = true;
             }

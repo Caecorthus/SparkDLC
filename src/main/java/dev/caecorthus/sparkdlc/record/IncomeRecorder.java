@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.record;
 
-import dev.caecorthus.sparkdlc.SparkFactionApiMod;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -54,7 +54,7 @@ public final class IncomeRecorder {
             }
             return OPEN_CREDITS.push(player.getUuid(), balanceBefore);
         } catch (RuntimeException | LinkageError e) {
-            SparkFactionApiMod.LOGGER.warn("Failed to open a balance credit for the match record", e);
+            SparkDLC.LOGGER.warn("Failed to open a balance credit for the match record", e);
             return null;
         }
     }
@@ -72,7 +72,7 @@ public final class IncomeRecorder {
                 TOTALS.add(match.getMatchId(), frame.player(), income);
             }
         } catch (RuntimeException | LinkageError e) {
-            SparkFactionApiMod.LOGGER.warn("Failed to count a balance credit of {} for the match record", frame.player(), e);
+            SparkDLC.LOGGER.warn("Failed to count a balance credit of {} for the match record", frame.player(), e);
         }
     }
 
@@ -90,7 +90,7 @@ public final class IncomeRecorder {
                 record(world, total.getKey(), total.getValue());
             }
         } catch (RuntimeException | LinkageError e) {
-            SparkFactionApiMod.LOGGER.warn("Failed to record match income totals", e);
+            SparkDLC.LOGGER.warn("Failed to record match income totals", e);
         }
     }
 
@@ -110,7 +110,7 @@ public final class IncomeRecorder {
             }
             event.putInt(KEY_AMOUNT, amount).record();
         } catch (RuntimeException | LinkageError e) {
-            SparkFactionApiMod.LOGGER.warn("Failed to record the match income of {}", player, e);
+            SparkDLC.LOGGER.warn("Failed to record the match income of {}", player, e);
         }
     }
 }

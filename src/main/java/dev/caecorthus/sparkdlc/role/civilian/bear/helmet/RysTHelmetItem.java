@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.bear.helmet;
 
-import dev.caecorthus.sparkdlc.SparkWitchDataComponents;
+import dev.caecorthus.sparkdlc.SparkDlcDataComponents;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,13 +27,13 @@ import java.util.List;
 /**
  * The black Rys-T helmet with face shield ({@code sparkdlc:rys_t}), worn in the head slot. Its ricochet (H1-H6)
  * applies to whoever wears it (D1); its visor state and glass cracks live in
- * {@link SparkWitchDataComponents#RYS_T_VISOR} (default {@link RysTVisor#DEFAULT}: visor down, no cracks). WP2: it is a
+ * {@link SparkDlcDataComponents#RYS_T_VISOR} (default {@link RysTVisor#DEFAULT}: visor down, no cracks). WP2: it is a
  * head-slot {@link Equipment} (not an {@code ArmorItem}: no armor material, no protection, no armor points), so vanilla
  * {@code ArmorSlot.canInsert} takes it in the head slot only and a right-click in hand equips it; vanilla
  * {@code HeadFeatureRenderer} draws its item model ({@code display.head}) on the wearer for everyone. The visor is
  * toggled only by {@link RysTVisorToggle} (right-click in the head slot, H9). The ricochet is WP3.
  * 黑色 Rys-T 头盔与面罩（{@code sparkdlc:rys_t}），戴在头部槽。其跳弹（H1-H6）作用于佩戴者（D1）；面罩状态与玻璃裂纹存于
- * {@link SparkWitchDataComponents#RYS_T_VISOR}（默认 {@link RysTVisor#DEFAULT}：面罩放下、无裂纹）。WP2：它是头部槽
+ * {@link SparkDlcDataComponents#RYS_T_VISOR}（默认 {@link RysTVisor#DEFAULT}：面罩放下、无裂纹）。WP2：它是头部槽
  * {@link Equipment}（不是 {@code ArmorItem}：无护甲材质、无防护、无护甲值），因此原版 {@code ArmorSlot.canInsert} 只允许它放入
  * 头部槽，手持右键即可戴上；原版 {@code HeadFeatureRenderer} 为所有人在佩戴者头上绘制其物品模型（{@code display.head}）。面罩
  * 只能经由 {@link RysTVisorToggle} 开合（在头部槽右键，H9）。跳弹归 WP3。
@@ -49,12 +49,12 @@ public class RysTHelmetItem extends Item implements Equipment {
     }
 
     public static Settings createSettings() {
-        return new Settings().maxCount(1).component(SparkWitchDataComponents.RYS_T_VISOR, RysTVisor.DEFAULT);
+        return new Settings().maxCount(1).component(SparkDlcDataComponents.RYS_T_VISOR, RysTVisor.DEFAULT);
     }
 
     /** The stack's visor, {@link RysTVisor#DEFAULT} when absent. / 物品堆的面罩状态；缺失时为 {@link RysTVisor#DEFAULT}。 */
     public static RysTVisor visor(ItemStack stack) {
-        return stack.getOrDefault(SparkWitchDataComponents.RYS_T_VISOR, RysTVisor.DEFAULT);
+        return stack.getOrDefault(SparkDlcDataComponents.RYS_T_VISOR, RysTVisor.DEFAULT);
     }
 
     /**
@@ -89,7 +89,7 @@ public class RysTHelmetItem extends Item implements Equipment {
         if (crack == null || worn.isEmpty()) {
             return false;
         }
-        worn.set(SparkWitchDataComponents.RYS_T_VISOR, visor(worn).withCrack(crack));
+        worn.set(SparkDlcDataComponents.RYS_T_VISOR, visor(worn).withCrack(crack));
         return true;
     }
 

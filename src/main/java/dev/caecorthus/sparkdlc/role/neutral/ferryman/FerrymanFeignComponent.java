@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.ferryman;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
@@ -21,7 +21,7 @@ import java.util.UUID;
  */
 public final class FerrymanFeignComponent implements org.ladysnake.cca.api.v3.component.Component {
     public static final ComponentKey<FerrymanFeignComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("ferryman_feign"),
+            SparkDLC.id("ferryman_feign"),
             FerrymanFeignComponent.class
     );
 

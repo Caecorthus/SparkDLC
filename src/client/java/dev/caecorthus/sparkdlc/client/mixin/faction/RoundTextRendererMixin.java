@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.mixin.faction;
 
 import dev.caecorthus.sparkdlc.faction.api.FactionDefinition;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.component.SparkFactionRoundEndComponent;
+import dev.caecorthus.sparkdlc.component.FactionRoundEndComponent;
 import dev.caecorthus.sparkdlc.faction.text.FactionRoundEndTextRules;
 import dev.doctor4t.wathe.client.gui.RoleAnnouncementTexts;
 import dev.doctor4t.wathe.client.gui.RoundTextRenderer;
@@ -30,7 +30,7 @@ public abstract class RoundTextRendererMixin {
                     target = "Ldev/doctor4t/wathe/client/gui/RoleAnnouncementTexts$RoleAnnouncementText;winText:Lnet/minecraft/text/Text;"
             )
     )
-    private static Text sparkfactionapi$customFactionWinTitle(
+    private static Text sparkdlc$customFactionWinTitle(
             RoleAnnouncementTexts.RoleAnnouncementText roleText,
             TextRenderer renderer,
             ClientPlayerEntity player,
@@ -49,7 +49,7 @@ public abstract class RoundTextRendererMixin {
                     target = "Lnet/minecraft/util/Identifier;getPath()Ljava/lang/String;"
             )
     )
-    private static String sparkfactionapi$customFactionWinPhrasePath(
+    private static String sparkdlc$customFactionWinPhrasePath(
             Identifier roleId,
             TextRenderer renderer,
             ClientPlayerEntity player,
@@ -65,7 +65,7 @@ public abstract class RoundTextRendererMixin {
         if (player == null) {
             return Optional.empty();
         }
-        SparkFactionRoundEndComponent roundEnd = SparkFactionRoundEndComponent.KEY.get(player.getScoreboard());
+        FactionRoundEndComponent roundEnd = FactionRoundEndComponent.KEY.get(player.getScoreboard());
         Identifier winningFaction = roundEnd.getWinningFaction();
         if (winningFaction == null) {
             return Optional.empty();

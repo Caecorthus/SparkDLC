@@ -35,7 +35,7 @@ public abstract class BlackRavenCrowNetworkHandlerMixin {
             + "Lnet/minecraft/util/thread/ThreadExecutor;)V";
 
     @Inject(method = "onSetCameraEntity", at = @At(value = "INVOKE", target = FORCE_MAIN_THREAD, shift = At.Shift.AFTER))
-    private void sparkwitch$crowYieldsToServerCamera(SetCameraEntityS2CPacket packet, CallbackInfo ci) {
+    private void sparkdlc$crowYieldsToServerCamera(SetCameraEntityS2CPacket packet, CallbackInfo ci) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             return;
         }
@@ -43,7 +43,7 @@ public abstract class BlackRavenCrowNetworkHandlerMixin {
     }
 
     @Inject(method = "onPlayerRespawn", at = @At(value = "INVOKE", target = FORCE_MAIN_THREAD, shift = At.Shift.AFTER))
-    private void sparkwitch$crowResetOnRespawn(PlayerRespawnS2CPacket packet, CallbackInfo ci) {
+    private void sparkdlc$crowResetOnRespawn(PlayerRespawnS2CPacket packet, CallbackInfo ci) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             return;
         }
@@ -51,7 +51,7 @@ public abstract class BlackRavenCrowNetworkHandlerMixin {
     }
 
     @Inject(method = "onGameJoin", at = @At(value = "INVOKE", target = FORCE_MAIN_THREAD, shift = At.Shift.AFTER))
-    private void sparkwitch$crowResetOnJoin(GameJoinS2CPacket packet, CallbackInfo ci) {
+    private void sparkdlc$crowResetOnJoin(GameJoinS2CPacket packet, CallbackInfo ci) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             return;
         }
@@ -62,7 +62,7 @@ public abstract class BlackRavenCrowNetworkHandlerMixin {
     // onEntity 中唯一的该调用，位于 forceMainThread 之后。
     @WrapOperation(method = "onEntity", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/entity/Entity;isLogicalSideForUpdatingMovement()Z"))
-    private boolean sparkwitch$crowKeepsTrackedBase(Entity entity, Operation<Boolean> original, EntityS2CPacket packet) {
+    private boolean sparkdlc$crowKeepsTrackedBase(Entity entity, Operation<Boolean> original, EntityS2CPacket packet) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             return original.call(entity);
         }

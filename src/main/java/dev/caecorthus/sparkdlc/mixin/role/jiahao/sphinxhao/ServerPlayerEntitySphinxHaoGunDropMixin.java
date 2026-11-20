@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ServerPlayerEntity.class)
 public abstract class ServerPlayerEntitySphinxHaoGunDropMixin {
     @Inject(method = "dropSelectedItem(Z)Z", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$keepSelectedSphinxHaoKit(boolean entireStack, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$keepSelectedSphinxHaoKit(boolean entireStack, CallbackInfoReturnable<Boolean> cir) {
         ServerPlayerEntity player = (ServerPlayerEntity) (Object) this;
         if (SphinxHaoGunInventory.blocksDrop(player.getInventory().getMainHandStack())) {
             player.currentScreenHandler.syncState();

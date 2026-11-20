@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(KnifeStabPayload.Receiver.class)
 public abstract class VeteranKnifeStabPayloadMixin {
     @Inject(method = "receive", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$veteranKnifeStab(
+    private void sparkdlc$veteranKnifeStab(
             KnifeStabPayload payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci

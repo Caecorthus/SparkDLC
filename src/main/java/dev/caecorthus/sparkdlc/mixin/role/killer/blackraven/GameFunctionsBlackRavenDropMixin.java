@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.role.killer.blackraven;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -17,13 +17,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(GameFunctions.class)
 public abstract class GameFunctionsBlackRavenDropMixin {
     @Inject(method = "shouldDropOnDeath", at = @At("HEAD"), cancellable = true)
-    private static void sparkwitch$excludeBlackRavenLoadout(
+    private static void sparkdlc$excludeBlackRavenLoadout(
             ItemStack stack,
             PlayerEntity victim,
             CallbackInfoReturnable<Boolean> cir
     ) {
-        if (stack.isOf(SparkWitchItems.featherBlade()) || stack.isOf(SparkWitchItems.blackRavenLedger())
-                || stack.isOf(SparkWitchItems.blackRavenMask())) {
+        if (stack.isOf(SparkDlcItems.featherBlade()) || stack.isOf(SparkDlcItems.blackRavenLedger())
+                || stack.isOf(SparkDlcItems.blackRavenMask())) {
             cir.setReturnValue(false);
         }
     }

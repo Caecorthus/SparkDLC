@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.bear.headset;
 
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.headset.HeadsetSlots;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -39,7 +39,7 @@ public class CensEarplugsItem extends Item {
             return TypedActionResult.pass(held);
         }
         if (!world.isClient()) {
-            user.playSoundToPlayer(SparkWitchSounds.BEAR_EARPLUGS_INSERT, SoundCategory.PLAYERS, INSERT_VOLUME,
+            user.playSoundToPlayer(SparkDlcSounds.BEAR_EARPLUGS_INSERT, SoundCategory.PLAYERS, INSERT_VOLUME,
                     INSERT_PITCH);
         }
         return TypedActionResult.success(held, world.isClient());

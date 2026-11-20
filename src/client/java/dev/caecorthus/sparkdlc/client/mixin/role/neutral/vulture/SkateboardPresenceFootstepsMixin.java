@@ -25,40 +25,40 @@ import java.lang.reflect.Field;
 @Mixin(targets = "eu.ha3.presencefootsteps.sound.generator.TerrestrialStepSoundGenerator", remap = false)
 public abstract class SkateboardPresenceFootstepsMixin {
     @Unique
-    private static Field sparkstrength$entityField;
+    private static Field sparkdlc$entityField;
     @Unique
-    private static boolean sparkstrength$entityFieldResolved;
+    private static boolean sparkdlc$entityFieldResolved;
 
     @Inject(method = "generateFootsteps", at = @At("HEAD"), cancellable = true, require = 0)
-    private void sparkstrength$skipSkaterFootsteps(CallbackInfo ci) {
-        if (sparkstrength$entity(this) instanceof PlayerEntity player && SkateboardClient.isRiding(player)) {
+    private void sparkdlc$skipSkaterFootsteps(CallbackInfo ci) {
+        if (sparkdlc$entity(this) instanceof PlayerEntity player && SkateboardClient.isRiding(player)) {
             ci.cancel();
         }
     }
 
     @Unique
-    private static Object sparkstrength$entity(Object generator) {
-        if (!sparkstrength$entityFieldResolved) {
-            sparkstrength$entityFieldResolved = true;
+    private static Object sparkdlc$entity(Object generator) {
+        if (!sparkdlc$entityFieldResolved) {
+            sparkdlc$entityFieldResolved = true;
             // Declared on TerrestrialStepSoundGenerator; walk up in case a subclass (e.g. the winged one) runs first.
             // 声明于 TerrestrialStepSoundGenerator；若先遇到子类（如有翼生成器）则向上查找。
-            for (Class<?> type = generator.getClass(); type != null && sparkstrength$entityField == null;
+            for (Class<?> type = generator.getClass(); type != null && sparkdlc$entityField == null;
                  type = type.getSuperclass()) {
                 try {
                     Field field = type.getDeclaredField("entity");
                     field.setAccessible(true);
-                    sparkstrength$entityField = field;
+                    sparkdlc$entityField = field;
                 } catch (ReflectiveOperationException | RuntimeException ignored) {
                     // Keep looking; stays null (fail open) if no class declares it.
                     // 继续查找；若没有类声明该字段则保持为 null（不拦截）。
                 }
             }
         }
-        if (sparkstrength$entityField == null) {
+        if (sparkdlc$entityField == null) {
             return null;
         }
         try {
-            return sparkstrength$entityField.get(generator);
+            return sparkdlc$entityField.get(generator);
         } catch (ReflectiveOperationException | RuntimeException ignored) {
             return null;
         }

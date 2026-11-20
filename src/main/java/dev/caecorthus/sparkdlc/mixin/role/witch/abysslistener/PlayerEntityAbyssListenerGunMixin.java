@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityAbyssListenerGunMixin {
     @Inject(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$keepShriekGunBound(
+    private void sparkdlc$keepShriekGunBound(
             ItemStack stack,
             boolean throwRandomly,
             boolean retainOwnership,

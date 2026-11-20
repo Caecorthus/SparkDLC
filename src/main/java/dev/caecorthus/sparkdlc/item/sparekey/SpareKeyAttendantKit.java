@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.item.sparekey;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.fabricmc.fabric.api.event.Event;
@@ -23,7 +23,7 @@ import net.minecraft.util.Identifier;
  * SparkStrength 验尸官按其自有清单借出装备，不会获得钥匙。
  */
 public final class SpareKeyAttendantKit {
-    static final Identifier FINISH_INITIALIZE_PHASE = SparkWitch.id("spare_key_finish_initialize");
+    static final Identifier FINISH_INITIALIZE_PHASE = SparkDLC.id("spare_key_finish_initialize");
     private static boolean registered;
 
     private SpareKeyAttendantKit() {
@@ -47,12 +47,12 @@ public final class SpareKeyAttendantKit {
             // Still STARTING here, so no running-state gate. / 此时仍是 STARTING，因此不判断运行态。
             PlayerInventory inventory = player.getInventory();
             if (!SpareKeyRules.receivesRoundStartKey(game.hasAnyRole(player), game.isPlayerDead(player.getUuid()),
-                    game.getRole(player), inventory.contains(stack -> stack.isOf(SparkWitchItems.spareKey())))) {
+                    game.getRole(player), inventory.contains(stack -> stack.isOf(SparkDlcItems.spareKey())))) {
                 continue;
             }
             // A full inventory drops it at the player's feet, so the key is never lost.
             // 背包已满时掉落在玩家脚下，钥匙不会丢失。
-            inventory.offerOrDrop(new ItemStack(SparkWitchItems.spareKey()));
+            inventory.offerOrDrop(new ItemStack(SparkDlcItems.spareKey()));
             inventory.markDirty();
             player.currentScreenHandler.sendContentUpdates();
         }

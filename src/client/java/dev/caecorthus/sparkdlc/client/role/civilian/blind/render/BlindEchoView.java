@@ -4,7 +4,7 @@ import com.mojang.blaze3d.platform.GlConst;
 import com.mojang.blaze3d.platform.GlDebugInfo;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.role.civilian.blind.BlindPerceptionClientState;
 import dev.caecorthus.sparkdlc.client.role.civilian.blind.BlindView;
 import dev.caecorthus.sparkdlc.client.mixin.faction.witch.PostEffectProcessorAccessor;
@@ -75,7 +75,7 @@ import java.util.List;
  * （{@link BlindEchoMode#retryDelaySeconds}）。非激活帧都会释放；断线与资源重载时调用 {@link #reset()}。
  */
 public final class BlindEchoView {
-    public static final Identifier EFFECT = SparkWitch.id("shaders/post/blind_echo.json");
+    public static final Identifier EFFECT = SparkDLC.id("shaders/post/blind_echo.json");
     static final String DEPTH_TARGET = "blind_depth";
     static final String SILHOUETTE_TARGET = "blind_sil";
     static final String ECHO_PROGRAM = "sparkdlc_blind_echo";
@@ -321,7 +321,7 @@ public final class BlindEchoView {
         RenderSystem.disableDepthTest();
         RenderSystem.resetTextureMatrix();
         try {
-            for (PostEffectPass pass : ((PostEffectProcessorAccessor) active).sparkwitch$getPasses()) {
+            for (PostEffectPass pass : ((PostEffectProcessorAccessor) active).sparkdlc$getPasses()) {
                 String name = pass.getName();
                 if (!bodies && !ECHO_PROGRAM.equals(name)) {
                     // No perceived body: the silhouette mask and blur passes have nothing to do.
@@ -497,11 +497,11 @@ public final class BlindEchoView {
         if (failures == 1) {
             // The stack and the driver are what a report of a black Blind view without shader packs needs.
             // 没有光影包却黑屏的问题报告需要堆栈与显卡驱动信息。
-            SparkWitch.LOGGER.warn("The Blind's echo view failed on {} / {} / OpenGL {}; the screen stays black, "
+            SparkDLC.LOGGER.warn("The Blind's echo view failed on {} / {} / OpenGL {}; the screen stays black, "
                             + "retrying in {} s", GlDebugInfo.getRenderer(), GlDebugInfo.getVendor(),
                     GlDebugInfo.getVersion(), retrySeconds, exception);
         } else {
-            SparkWitch.LOGGER.warn("The Blind's echo view failed again (#{}): {}; retrying in {} s", failures,
+            SparkDLC.LOGGER.warn("The Blind's echo view failed again (#{}): {}; retrying in {} s", failures,
                     exception.toString(), retrySeconds);
         }
         release();

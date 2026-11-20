@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.entity;
 
-import dev.caecorthus.sparkdlc.SparkStrengthEntities;
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.item.CapsuleItem;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -23,12 +23,12 @@ public final class CapsuleEntity extends ThrownItemEntity {
     }
 
     public CapsuleEntity(World world, LivingEntity owner) {
-        super(SparkStrengthEntities.capsule(), owner, world);
+        super(SparkDlcEntities.capsule(), owner, world);
     }
 
     @Override
     protected Item getDefaultItem() {
-        return SparkStrengthItems.capsule();
+        return SparkDlcItems.capsule();
     }
 
     @Override

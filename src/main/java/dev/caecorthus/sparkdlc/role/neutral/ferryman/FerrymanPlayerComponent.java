@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.ferryman;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.RegistryByteBuf;
@@ -32,7 +32,7 @@ import java.util.UUID;
  */
 public final class FerrymanPlayerComponent implements AutoSyncedComponent, ClientTickingComponent {
     public static final ComponentKey<FerrymanPlayerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("ferryman"),
+            SparkDLC.id("ferryman"),
             FerrymanPlayerComponent.class
     );
 

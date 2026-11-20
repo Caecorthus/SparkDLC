@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.vulture;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -15,7 +15,7 @@ import net.minecraft.util.Identifier;
  * 跨模组契约：SparkWitch 会按 payload id {@code sparkdlc:vulture_super_curse} 拦截（定身、远程视角、裂隙会话），不得改名。
  */
 public record VultureSuperCurseC2SPacket() implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("vulture_super_curse");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("vulture_super_curse");
     public static final Id<VultureSuperCurseC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, VultureSuperCurseC2SPacket> CODEC =
             PacketCodec.of(VultureSuperCurseC2SPacket::write, VultureSuperCurseC2SPacket::read);

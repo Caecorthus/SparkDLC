@@ -17,7 +17,7 @@ public abstract class DemonHunterShootPacketMixin {
             cancellable = true,
             remap = false
     )
-    private void sparktraits$blockSilencedDemonHunterShot(
+    private void sparkdlc$blockSilencedDemonHunterShot(
             DemonHunterShootC2SPacket payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci

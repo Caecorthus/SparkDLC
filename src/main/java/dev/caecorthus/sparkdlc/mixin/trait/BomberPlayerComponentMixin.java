@@ -43,7 +43,7 @@ public abstract class BomberPlayerComponentMixin {
     private int lastDisplayedSeconds;
 
     @Unique
-    private boolean sparktraits$hadBombBeforeTransfer;
+    private boolean sparkdlc$hadBombBeforeTransfer;
 
     @Shadow
     private void removeBombFromInventory(PlayerEntity player) {
@@ -53,36 +53,36 @@ public abstract class BomberPlayerComponentMixin {
     public abstract void sync();
 
     @Inject(method = "placeBomb", at = @At("TAIL"))
-    private void sparktraits$trackPlacedConscienceBomb(PlayerEntity bomber, CallbackInfo ci) {
+    private void sparkdlc$trackPlacedConscienceBomb(PlayerEntity bomber, CallbackInfo ci) {
         if (hasBomb) {
             ConscienceBombService.markTimedBombPlaced(player, bomber);
         }
     }
 
     @Inject(method = "transferBomb", at = @At("HEAD"))
-    private void sparktraits$captureTransferStart(PlayerEntity target, CallbackInfo ci) {
-        sparktraits$hadBombBeforeTransfer = hasBomb;
+    private void sparkdlc$captureTransferStart(PlayerEntity target, CallbackInfo ci) {
+        sparkdlc$hadBombBeforeTransfer = hasBomb;
     }
 
     @Inject(method = "transferBomb", at = @At("TAIL"))
-    private void sparktraits$trackTransferredConscienceBomb(PlayerEntity target, CallbackInfo ci) {
-        if (sparktraits$hadBombBeforeTransfer
+    private void sparkdlc$trackTransferredConscienceBomb(PlayerEntity target, CallbackInfo ci) {
+        if (sparkdlc$hadBombBeforeTransfer
                 && target != null
                 && target != player
                 && !hasBomb
                 && BomberPlayerComponent.KEY.get(target).hasBomb()) {
             ConscienceBombService.markTimedBombTransferred(player, target, bomberUuid);
         }
-        sparktraits$hadBombBeforeTransfer = false;
+        sparkdlc$hadBombBeforeTransfer = false;
     }
 
     @Inject(method = "reset", at = @At("HEAD"))
-    private void sparktraits$clearTrackedConscienceBomb(CallbackInfo ci) {
+    private void sparkdlc$clearTrackedConscienceBomb(CallbackInfo ci) {
         ConscienceBombService.clearTimedBomb(player);
     }
 
     @Inject(method = "explode", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$makeTransferredConscienceBombNonLethal(CallbackInfo ci) {
+    private void sparkdlc$makeTransferredConscienceBombNonLethal(CallbackInfo ci) {
         if (!(player.getWorld() instanceof ServerWorld serverWorld)
                 || !ConscienceBombService.consumeTransferredTimedBomb(player, bomberUuid)) {
             return;

@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LimitedInventoryScreen.class)
 public abstract class MediumHauntInventoryScreenMixin extends LimitedHandledScreen<PlayerScreenHandler> {
     @Unique
-    private MediumHauntDrawer sparkwitch$hauntDrawer;
+    private MediumHauntDrawer sparkdlc$hauntDrawer;
 
     protected MediumHauntInventoryScreenMixin(PlayerScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -32,16 +32,16 @@ public abstract class MediumHauntInventoryScreenMixin extends LimitedHandledScre
     // Keep Yarn: intermediary selectors crash runClient; remapJar emits the intermediary form verifyClientMixinSelectors checks.
     // 保持 Yarn：intermediary 选择器会使 runClient 崩溃；remapJar 生成的 intermediary 形式由 verifyClientMixinSelectors 校验。
     @Inject(method = "init()V", at = @At("TAIL"))
-    private void sparkwitch$attachHauntDrawer(CallbackInfo ci) {
-        sparkwitch$hauntDrawer = MediumHauntDrawer.attach((LimitedInventoryScreen) (Object) this,
+    private void sparkdlc$attachHauntDrawer(CallbackInfo ci) {
+        sparkdlc$hauntDrawer = MediumHauntDrawer.attach((LimitedInventoryScreen) (Object) this,
                 this::addDrawableChild);
     }
 
     @Inject(method = "render(Lnet/minecraft/client/gui/DrawContext;IIF)V", at = @At("HEAD"))
-    private void sparkwitch$refreshHauntDrawer(DrawContext context, int mouseX, int mouseY, float delta,
+    private void sparkdlc$refreshHauntDrawer(DrawContext context, int mouseX, int mouseY, float delta,
                                                CallbackInfo ci) {
-        if (sparkwitch$hauntDrawer != null) {
-            sparkwitch$hauntDrawer.refresh();
+        if (sparkdlc$hauntDrawer != null) {
+            sparkdlc$hauntDrawer.refresh();
         }
     }
 }

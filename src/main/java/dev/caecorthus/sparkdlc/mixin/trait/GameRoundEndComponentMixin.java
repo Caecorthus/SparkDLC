@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 
 /**
  * Applies SparkTraits effective-team winners to Wathe's round-end data.
@@ -51,7 +51,7 @@ public abstract class GameRoundEndComponentMixin {
     @Inject(method = "setRoundEndData(Lnet/minecraft/server/world/ServerWorld;Ldev/doctor4t/wathe/game/GameFunctions$WinStatus;)V",
             at = @At("HEAD"),
             cancellable = true)
-    private void sparktraits$setEffectiveRoundEndData(
+    private void sparkdlc$setEffectiveRoundEndData(
             ServerWorld serverWorld,
             GameFunctions.WinStatus winStatus,
             CallbackInfo ci
@@ -72,7 +72,7 @@ public abstract class GameRoundEndComponentMixin {
 
             boolean wasDead = game.isPlayerDead(uuid);
             boolean isOnline = serverWorld.getPlayerByUuid(uuid) != null;
-            GameRoundEndComponent.PlayerEndStatus endStatus = sparktraits$endStatus(wasDead, isOnline);
+            GameRoundEndComponent.PlayerEndStatus endStatus = sparkdlc$endStatus(wasDead, isOnline);
             boolean isWinner = LastStandFinalMomentService.didFinalMomentPlayerWin(
                     winStatus,
                     role,
@@ -93,7 +93,7 @@ public abstract class GameRoundEndComponentMixin {
     }
 
     @Inject(method = "didWin", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$didWinFromRoundEndData(UUID uuid, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$didWinFromRoundEndData(UUID uuid, CallbackInfoReturnable<Boolean> cir) {
         if (GameFunctions.WinStatus.NONE == this.winStatus) {
             cir.setReturnValue(false);
             return;
@@ -121,7 +121,7 @@ public abstract class GameRoundEndComponentMixin {
         return player != null && JesterPlayerComponent.KEY.get(player).won;
     }
 
-    private static GameRoundEndComponent.PlayerEndStatus sparktraits$endStatus(boolean wasDead, boolean isOnline) {
+    private static GameRoundEndComponent.PlayerEndStatus sparkdlc$endStatus(boolean wasDead, boolean isOnline) {
         if (wasDead) {
             return isOnline
                     ? GameRoundEndComponent.PlayerEndStatus.DEAD

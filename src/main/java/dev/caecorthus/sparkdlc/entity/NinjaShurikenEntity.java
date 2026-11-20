@@ -5,9 +5,9 @@
  */
 package dev.caecorthus.sparkdlc.entity;
 
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
-import dev.caecorthus.sparkdlc.SparkWitchEntities;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceHits;
 import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaInteractionService;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit.BlackRavenCrowHits;
@@ -38,7 +38,7 @@ public final class NinjaShurikenEntity extends PersistentProjectileEntity implem
 
     public NinjaShurikenEntity(World world, LivingEntity owner, ItemStack stack) {
         super(
-                SparkWitchEntities.ninjaShuriken(),
+                SparkDlcEntities.ninjaShuriken(),
                 owner,
                 world,
                 stack.copyWithCount(1),
@@ -138,7 +138,7 @@ public final class NinjaShurikenEntity extends PersistentProjectileEntity implem
                     victim,
                     true,
                     thrower,
-                    SparkWitchDeathReasons.NINJA_SHURIKEN_KILL
+                    SparkDlcDeathReasons.NINJA_SHURIKEN_KILL
             ));
             discard();
         }
@@ -146,7 +146,7 @@ public final class NinjaShurikenEntity extends PersistentProjectileEntity implem
 
     @Override
     protected ItemStack getDefaultItemStack() {
-        return SparkWitchItems.ninjaShuriken().getDefaultStack();
+        return SparkDlcItems.ninjaShuriken().getDefaultStack();
     }
 
     @Override

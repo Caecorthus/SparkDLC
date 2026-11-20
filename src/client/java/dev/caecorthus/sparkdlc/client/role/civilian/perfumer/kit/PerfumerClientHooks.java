@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.perfumer.kit;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.render.ManagedPostEffect;
 
 /**
@@ -14,7 +14,7 @@ public final class PerfumerClientHooks {
     }
 
     public static void register() {
-        ManagedPostEffect.registerLifecycle(SparkStrength.id("perfumer_screen_effects"),
+        ManagedPostEffect.registerLifecycle(SparkDLC.id("perfumer_screen_effects"),
                 PerfumerBlurRenderer::close, PerfumerBlurRenderer::close, () -> {
                     PerfumerBlurRenderer.close();
                     PerfumerOverlayRenderer.resetTextureCache();

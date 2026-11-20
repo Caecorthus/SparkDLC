@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.item.rope;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.RegistryByteBuf;
@@ -26,7 +26,7 @@ import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
  */
 public final class RopeHoldComponent implements AutoSyncedComponent {
     public static final ComponentKey<RopeHoldComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("rope_hold"),
+            SparkDLC.id("rope_hold"),
             RopeHoldComponent.class
     );
 

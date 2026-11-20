@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = RevolverItem.class, remap = false)
 public abstract class MarksmanRevolverMixin {
     @Inject(method = "getGunTarget", at = @At("HEAD"), cancellable = true)
-    private static void sparktraits$extendMarksmanRevolverRange(
+    private static void sparkdlc$extendMarksmanRevolverRange(
             PlayerEntity user,
             CallbackInfoReturnable<HitResult> cir
     ) {

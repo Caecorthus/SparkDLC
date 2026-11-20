@@ -53,7 +53,7 @@ public abstract class BlindGateLivingEntityRendererMixin<T extends LivingEntity,
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/render/entity/feature/FeatureRenderer;render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/entity/Entity;FFFFFF)V")
     )
-    private void sparkwitch$blindSkipsOtherPlayerFeatures(FeatureRenderer<T, M> feature, MatrixStack matrices,
+    private void sparkdlc$blindSkipsOtherPlayerFeatures(FeatureRenderer<T, M> feature, MatrixStack matrices,
                                                           VertexConsumerProvider vertexConsumers, int light,
                                                           Entity entity, float limbAngle, float limbDistance,
                                                           float tickDelta, float animationProgress, float headYaw,
@@ -70,7 +70,7 @@ public abstract class BlindGateLivingEntityRendererMixin<T extends LivingEntity,
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/render/entity/LivingEntityRenderer;isVisible(Lnet/minecraft/entity/LivingEntity;)Z")
     )
-    private boolean sparkwitch$blindDrawsPerceivedInvisiblePlayers(boolean visible,
+    private boolean sparkdlc$blindDrawsPerceivedInvisiblePlayers(boolean visible,
                                                                   @Local(argsOnly = true) LivingEntity entity) {
         return visible || BlindClientGates.forcesVisible(entity);
     }
@@ -80,7 +80,7 @@ public abstract class BlindGateLivingEntityRendererMixin<T extends LivingEntity,
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/render/entity/LivingEntityRenderer;getRenderLayer(Lnet/minecraft/entity/LivingEntity;ZZZ)Lnet/minecraft/client/render/RenderLayer;")
     )
-    private @Nullable RenderLayer sparkwitch$blindPerceivedPlayersUseTheOpaqueLayer(
+    private @Nullable RenderLayer sparkdlc$blindPerceivedPlayersUseTheOpaqueLayer(
             LivingEntityRenderer<T, M> renderer, T entity, boolean showBody, boolean translucent, boolean showOutline,
             Operation<RenderLayer> original) {
         if (BlindClientGates.forcesVisible(entity)) {
@@ -94,7 +94,7 @@ public abstract class BlindGateLivingEntityRendererMixin<T extends LivingEntity,
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/render/entity/model/EntityModel;render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;III)V")
     )
-    private void sparkwitch$blindPerceivedPlayersDrawOpaque(EntityModel<T> model, MatrixStack matrices,
+    private void sparkdlc$blindPerceivedPlayersDrawOpaque(EntityModel<T> model, MatrixStack matrices,
                                                            VertexConsumer vertices, int light, int overlay, int color,
                                                            Operation<Void> original,
                                                            @Local(argsOnly = true) LivingEntity entity) {
@@ -106,7 +106,7 @@ public abstract class BlindGateLivingEntityRendererMixin<T extends LivingEntity,
     }
 
     @WrapMethod(method = "hasLabel(Lnet/minecraft/entity/LivingEntity;)Z")
-    private boolean sparkwitch$blindHidesOtherPlayerLabels(T entity, Operation<Boolean> original) {
+    private boolean sparkdlc$blindHidesOtherPlayerLabels(T entity, Operation<Boolean> original) {
         if (BlindClientGates.suppressesFeatures(entity)) {
             return false;
         }

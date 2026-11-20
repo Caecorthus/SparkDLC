@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.windspirit;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.event.BlackoutEffect;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -20,7 +20,7 @@ import net.minecraft.util.Identifier;
  * 统一持有风精灵的移动、熄灯视野与商店入口；任务金币由冤魂晋升经济策略补发。
  */
 public final class WindSpiritFeatureService {
-    public static final Identifier WIND_CHARGE_SHOP_ID = SparkWitch.id("wind_spirit_wind_charge");
+    public static final Identifier WIND_CHARGE_SHOP_ID = SparkDLC.id("wind_spirit_wind_charge");
     public static final int WIND_CHARGE_PRICE = 50;
     private static final int NIGHT_VISION_REFRESH_TICKS = 40;
     private static final int NIGHT_VISION_REFRESH_THRESHOLD_TICKS = 20;

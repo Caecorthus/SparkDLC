@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.orthopedist;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.player.PlayerEntity;
@@ -105,7 +105,7 @@ public final class OrthopedistPlayerComponent
             return true;
         }
         // Widened by the Black Raven acting overlay; getRole stays raw. / 黑羽鸦扮演覆盖层会放宽此判定；getRole 仍为真实身份。
-        return GameWorldComponent.KEY.get(recipient.getWorld()).isRole(recipient, SparkWitchRoles.orthopedist());
+        return GameWorldComponent.KEY.get(recipient.getWorld()).isRole(recipient, SparkDlcRoles.orthopedist());
     }
 
     /**

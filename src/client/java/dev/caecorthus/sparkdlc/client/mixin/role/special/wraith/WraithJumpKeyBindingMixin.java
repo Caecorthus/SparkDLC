@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(KeyBinding.class)
 public abstract class WraithJumpKeyBindingMixin {
     @Inject(method = "isPressed", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$blockWraithJumpKey(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$blockWraithJumpKey(CallbackInfoReturnable<Boolean> cir) {
         MinecraftClient client = MinecraftClient.getInstance();
         GameOptions options = client.options;
         if ((Object) this != options.jumpKey || client.player == null) {

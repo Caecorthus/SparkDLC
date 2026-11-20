@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = ServerPlayerEntity.class, priority = 500)
 public abstract class JudgeVanillaDeathAttributionMixin {
     @WrapMethod(method = "onDeath")
-    private void sparkwitch$scopeVanillaDeath(DamageSource source, Operation<Void> original) {
+    private void sparkdlc$scopeVanillaDeath(DamageSource source, Operation<Void> original) {
         ServerPlayerEntity victim = (ServerPlayerEntity) (Object) this;
         JudgeKillAttribution.runWith(victim.getServerWorld(), JudgeVanillaDamage.actor(victim, source),
                 () -> original.call(source));

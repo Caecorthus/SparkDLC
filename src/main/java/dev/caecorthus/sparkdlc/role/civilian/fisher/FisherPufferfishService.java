@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.fisher;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
@@ -28,7 +28,7 @@ import java.util.UUID;
 /** Tracked pufferfish at the tray: sanity sting, lifetime, sweeps. / 托盘河豚：扣理智、寿命、清扫。 */
 public final class FisherPufferfishService {
     static final String TAG = "sparkwitch_fisher_pufferfish";
-    private static final Identifier STING_ACTION = SparkWitch.id("fisher_pufferfish_sting");
+    private static final Identifier STING_ACTION = SparkDLC.id("fisher_pufferfish_sting");
     private static final Map<UUID, TrackedFish> FISH = new HashMap<>();
     private static final Map<UUID, Long> LAST_STING = new HashMap<>();
     private static boolean registered;

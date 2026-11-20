@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ServerPlayerEntity.class)
 public abstract class SeekerItemDropMixin {
     @Inject(method = "dropSelectedItem(Z)Z", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$keepSeekerItem(boolean entireStack, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$keepSeekerItem(boolean entireStack, CallbackInfoReturnable<Boolean> cir) {
         ServerPlayerEntity player = (ServerPlayerEntity) (Object) this;
         if (SeekerInventoryRules.blocksDrop(player, player.getInventory().getMainHandStack())) {
             player.currentScreenHandler.syncState();

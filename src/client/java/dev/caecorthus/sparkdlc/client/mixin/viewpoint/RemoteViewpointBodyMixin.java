@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ClientPlayerEntity.class)
 public abstract class RemoteViewpointBodyMixin {
     @Inject(method = "move", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$freezeBodyDuringRemoteView(MovementType type, Vec3d movement, CallbackInfo ci) {
+    private void sparkdlc$freezeBodyDuringRemoteView(MovementType type, Vec3d movement, CallbackInfo ci) {
         ClientPlayerEntity body = (ClientPlayerEntity) (Object) this;
         if (type == MovementType.SELF && RemoteViewpointClient.freezesBody(body)) {
             body.setVelocity(Vec3d.ZERO);

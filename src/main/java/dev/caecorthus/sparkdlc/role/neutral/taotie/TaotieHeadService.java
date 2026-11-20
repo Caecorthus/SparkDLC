@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.taotie;
 
-import dev.caecorthus.sparkdlc.SparkStrengthSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
@@ -8,7 +8,7 @@ import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadPlayerComponent;
 import dev.caecorthus.sparkdlc.entity.TaotieHeadEntity;
 import dev.caecorthus.sparkdlc.item.m67.M67RoundService;
 import dev.caecorthus.sparkdlc.record.AchievementRecords;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadRules.Heading;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -362,7 +362,7 @@ public final class TaotieHeadService {
                 TaotieHeadRules.SLOWNESS_AMPLIFIER), shooter);
         TaotieHeadDaze.apply(victim, TaotieHeadRules.DAZE_TICKS);
 
-        world.playSound(null, victim.getX(), victim.getY(), victim.getZ(), SparkStrengthSounds.TAOTIE_HEAD_BONK,
+        world.playSound(null, victim.getX(), victim.getY(), victim.getZ(), SparkDlcSounds.TAOTIE_HEAD_BONK,
                 SoundCategory.PLAYERS, TaotieHeadRules.BONK_VOLUME, TaotieHeadRules.BONK_PITCH);
         Vec3d at = head.getHeadCenter();
         world.spawnParticles(ParticleTypes.POOF, at.x, at.y, at.z, 12, 0.2D, 0.2D, 0.2D, 0.02D);
@@ -379,7 +379,7 @@ public final class TaotieHeadService {
             extra.putUuid("actor", head.getShooterUuid());
         }
         extra.putUuid("target", victim.getUuid());
-        GameRecordManager.recordGlobalEvent(world, SparkStrengthReplayFormatters.TAOTIE_HEAD_HIT, shooter, extra);
+        GameRecordManager.recordGlobalEvent(world, RoleKitReplayFormatters.TAOTIE_HEAD_HIT, shooter, extra);
         head.discard();
     }
 

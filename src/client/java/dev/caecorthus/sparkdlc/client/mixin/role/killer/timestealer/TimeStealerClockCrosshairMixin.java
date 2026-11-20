@@ -27,7 +27,7 @@ public abstract class TimeStealerClockCrosshairMixin {
                     target = "Ldev/doctor4t/wathe/client/gui/CrosshairRenderer;CROSSHAIR:Lnet/minecraft/util/Identifier;"
             )
     )
-    private static Identifier sparkwitch$showClockTargetCrosshair(
+    private static Identifier sparkdlc$showClockTargetCrosshair(
             Identifier original,
             MinecraftClient client,
             ClientPlayerEntity player,

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.natsume;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.net.policy.GeneratedPayloadPolicy;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStunRules;
 import net.fabricmc.fabric.api.event.Event;
@@ -37,7 +37,7 @@ import java.util.Set;
  * {@link #blocksPayloadWhileLocked} 拒绝。
  */
 public final class NatsumeHypnosisGuards {
-    public static final Identifier HYPNOSIS_PHASE = SparkWitch.id("natsume_hypnosis");
+    public static final Identifier HYPNOSIS_PHASE = SparkDLC.id("natsume_hypnosis");
     /** Lang key owned by the Natsume server module. / 由夏目安安服务端模块维护的语言键。 */
     public static final String BLOCKED_MESSAGE_KEY = "message.sparkdlc.natsume.blocked";
     /** At most one blocked notice per second per player, so a held button never spams. / 每名玩家每秒至多一条提示。 */

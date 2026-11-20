@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.knight.duel;
 
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
 import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorRules;
 import dev.doctor4t.wathe.game.GameConstants;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -14,12 +14,12 @@ import java.util.Set;
 /**
  * Duel interference rule: while the duel variable ({@link KnightDuelWorldComponent#active()} is 1), a player outside
  * the pair whose human-caused lethal death reason is in {@link #HUMAN_LETHAL_REASONS} kills a duelist is force-killed
- * with {@link SparkWitchDeathReasons#DUEL_INTERFERENCE}. Ordinary non-lethal hits and non-damage kills never trigger
+ * with {@link SparkDlcDeathReasons#DUEL_INTERFERENCE}. Ordinary non-lethal hits and non-damage kills never trigger
  * it. The attacker's kill is forced and SparkTraits-terminal, so their traits and every shield are bypassed; the
  * victim's damage still resolves.
  * 决斗干扰规则：决斗变量（{@link KnightDuelWorldComponent#active()} 为 1）期间，局外玩家以
  * {@link #HUMAN_LETHAL_REASONS} 中的人为致死原因击杀决斗者时，会以
- * {@link SparkWitchDeathReasons#DUEL_INTERFERENCE} 强制击杀该玩家。普通非致命攻击与非伤害类死亡不会触发。攻击者的
+ * {@link SparkDlcDeathReasons#DUEL_INTERFERENCE} 强制击杀该玩家。普通非致命攻击与非伤害类死亡不会触发。攻击者的
  * 死亡为强制且是 SparkTraits 终结原因，绕过其词条与一切护盾；受害者的伤害仍正常结算。
  */
 public final class KnightDuelInterference {
@@ -39,20 +39,20 @@ public final class KnightDuelInterference {
             GameConstants.DeathReasons.GRENADE,
             GameConstants.DeathReasons.POISON,
             // SparkWitch player-caused kills. / SparkWitch 玩家造成的击杀。
-            SparkWitchDeathReasons.CEREMONIAL_BLADE,
-            SparkWitchDeathReasons.MIGHTY_FORCE,
-            SparkWitchDeathReasons.PIERCED_BY_RAY,
-            SparkWitchDeathReasons.NINJA_KNIFE_KILL,
-            SparkWitchDeathReasons.NINJA_SHURIKEN_KILL,
-            SparkWitchDeathReasons.BELL_TOLL,
-            SparkWitchDeathReasons.TIME_STOLEN,
-            SparkWitchDeathReasons.SWORDFISH_STAB,
-            SparkWitchDeathReasons.POTION_SHELL,
-            SparkWitchDeathReasons.POTION_BACKBLAST,
-            SparkWitchDeathReasons.FIEND_DEVOURED,
-            SparkWitchDeathReasons.CRIMSON_WITHER_SKULL,
-            SparkWitchDeathReasons.STRANGLED,
-            SparkWitchDeathReasons.SPHINX_HAO_FIST,
+            SparkDlcDeathReasons.CEREMONIAL_BLADE,
+            SparkDlcDeathReasons.MIGHTY_FORCE,
+            SparkDlcDeathReasons.PIERCED_BY_RAY,
+            SparkDlcDeathReasons.NINJA_KNIFE_KILL,
+            SparkDlcDeathReasons.NINJA_SHURIKEN_KILL,
+            SparkDlcDeathReasons.BELL_TOLL,
+            SparkDlcDeathReasons.TIME_STOLEN,
+            SparkDlcDeathReasons.SWORDFISH_STAB,
+            SparkDlcDeathReasons.POTION_SHELL,
+            SparkDlcDeathReasons.POTION_BACKBLAST,
+            SparkDlcDeathReasons.FIEND_DEVOURED,
+            SparkDlcDeathReasons.CRIMSON_WITHER_SKULL,
+            SparkDlcDeathReasons.STRANGLED,
+            SparkDlcDeathReasons.SPHINX_HAO_FIST,
             // Savior pistol and lightsaber: terminal, but still a player's kill. / 救世主手枪与光剑：终结死因，但仍是玩家击杀。
             SaviorRules.PISTOL_DEATH_REASON,
             SaviorRules.LIGHTSABER_DEATH_REASON,
@@ -104,6 +104,6 @@ public final class KnightDuelInterference {
             return;
         }
         // Forced + terminal: bypasses the attacker's traits and every shield. / 强制 + 终结：绕过攻击者的词条与一切护盾。
-        GameFunctions.killPlayer(attacker, true, null, SparkWitchDeathReasons.DUEL_INTERFERENCE, true);
+        GameFunctions.killPlayer(attacker, true, null, SparkDlcDeathReasons.DUEL_INTERFERENCE, true);
     }
 }

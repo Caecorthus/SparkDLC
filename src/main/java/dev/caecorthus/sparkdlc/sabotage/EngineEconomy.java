@@ -151,7 +151,7 @@ public final class EngineEconomy {
                 return false;
             }
         }
-        int price = ((ShopEntryAccessor) listed).sparkstrength$listedPrice();
+        int price = ((ShopEntryAccessor) listed).sparkdlc$listedPrice();
         return EngineRules.discountedPrice(price) != price;
     }
 

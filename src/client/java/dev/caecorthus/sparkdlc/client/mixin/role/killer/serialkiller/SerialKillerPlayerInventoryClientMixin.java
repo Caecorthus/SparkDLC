@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(PlayerInventory.class)
 public abstract class SerialKillerPlayerInventoryClientMixin {
     @Inject(method = "scrollInHotbar", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$lockSerialPistolScroll(double scrollAmount, CallbackInfo ci) {
+    private void sparkdlc$lockSerialPistolScroll(double scrollAmount, CallbackInfo ci) {
         PlayerInventory inventory = (PlayerInventory) (Object) this;
         if (inventory.player == null || PlayerPsychoComponent.KEY.get(inventory.player).getPsychoTicks() <= 0) {
             return;

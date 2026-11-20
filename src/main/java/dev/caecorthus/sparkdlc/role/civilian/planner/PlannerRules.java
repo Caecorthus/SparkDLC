@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.planner;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.util.TickTime;
 import dev.doctor4t.wathe.api.Faction;
 import dev.doctor4t.wathe.api.Role;
@@ -38,16 +38,16 @@ import java.util.function.IntUnaryOperator;
  */
 public final class PlannerRules {
 
-    public static final Identifier ROLE_ID = SparkWitch.id("planner_master");
+    public static final Identifier ROLE_ID = SparkDLC.id("planner_master");
 
     /** Identity colour E8C46A. / 身份色 E8C46A。 */
     public static final int COLOR = 0xE8C46A;
 
     /** Stable item contract. / 稳定物品契约。 */
-    public static final Identifier TASK_SLIP_ID = SparkWitch.id("planner_task_slip");
+    public static final Identifier TASK_SLIP_ID = SparkDLC.id("planner_task_slip");
 
     /** Forced-cooldown store id for the recommendation. / 推荐的强制冷却存储 id。 */
-    public static final Identifier RECOMMEND_SKILL_ID = SparkWitch.id("planner_recommend");
+    public static final Identifier RECOMMEND_SKILL_ID = SparkDLC.id("planner_recommend");
 
     /** Recommendation: 25 coins, 45 s after the deal, 70 s after each use. / 推荐：25 金币，发牌后 45 秒，之后 70 秒。 */
     public static final int SKILL_COST = 25;

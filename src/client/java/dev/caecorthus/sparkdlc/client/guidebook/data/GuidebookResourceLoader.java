@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.guidebook.data;
 
-import dev.caecorthus.sparkdlc.SparkAssist;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.guidebook.GuidebookCatalog;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
  * 从资源包中递归加载人工编写的指南书条目文件。
  */
 public final class GuidebookResourceLoader {
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkAssist/Guidebook");
+    private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/Guidebook");
 
     private GuidebookResourceLoader() {
     }
@@ -29,7 +29,7 @@ public final class GuidebookResourceLoader {
     public static GuidebookCatalog load(ResourceManager resourceManager) {
         Map<Identifier, Resource> resources = resourceManager.findResources(
                 "guidebook",
-                id -> id.getNamespace().equals(SparkAssist.MOD_ID) && id.getPath().endsWith(".json")
+                id -> id.getNamespace().equals(SparkDLC.MOD_ID) && id.getPath().endsWith(".json")
         );
         List<GuidebookCatalog> catalogs = new ArrayList<>();
         Set<String> loadedEntryIds = new HashSet<>();

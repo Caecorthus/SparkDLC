@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.apprentice.abilities;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseContext;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseResult;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
@@ -21,7 +21,7 @@ public final class ApprenticeAbilitySupport {
             String successMessageKey,
             Runnable effect
     ) {
-        if (context.role() != SparkWitchRoles.apprenticeWitch()) {
+        if (context.role() != SparkDlcRoles.apprenticeWitch()) {
             return WitchSkillUseResult.fail("message.sparkdlc.skill.unavailable");
         }
         WitchPlayerComponent component = WitchPlayerComponent.KEY.get(context.player());
@@ -45,7 +45,7 @@ public final class ApprenticeAbilitySupport {
             Runnable effect,
             IntSupplier cooldownAfter
     ) {
-        if (context.role() != SparkWitchRoles.apprenticeWitch()) {
+        if (context.role() != SparkDlcRoles.apprenticeWitch()) {
             return WitchSkillUseResult.fail("message.sparkdlc.skill.unavailable");
         }
         WitchPlayerComponent component = WitchPlayerComponent.KEY.get(context.player());

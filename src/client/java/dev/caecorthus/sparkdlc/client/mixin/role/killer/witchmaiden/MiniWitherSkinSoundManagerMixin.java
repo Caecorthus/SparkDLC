@@ -26,7 +26,7 @@ public abstract class MiniWitherSkinSoundManagerMixin {
             method = "get(Lnet/minecraft/util/Identifier;)Lnet/minecraft/client/sound/WeightedSoundSet;",
             at = @At("RETURN")
     )
-    private WeightedSoundSet sparkwitch$miniWitherSkinSounds(WeightedSoundSet original,
+    private WeightedSoundSet sparkdlc$miniWitherSkinSounds(WeightedSoundSet original,
                                                              @Local(argsOnly = true) Identifier id) {
         return MiniWitherSoundOverrides.soundSet(id, original);
     }

@@ -35,7 +35,7 @@ public abstract class ScopeAccessibilityOptionsMixin extends GameOptionsScreen {
     }
 
     @Inject(method = "addOptions", at = @At("TAIL"))
-    private void sparkwitch$appendScopeOptions(CallbackInfo ci) {
+    private void sparkdlc$appendScopeOptions(CallbackInfo ci) {
         if (this.body != null && !SparkDlcSettingsApi.hostsScopeSettings()) {
             ScopeOptions.addTo(this.body);
         }

@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = LivingEntity.class, priority = 100)
 public abstract class WraithLivingEntityCollisionMixin {
     @Inject(method = "isPushable", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$makeWraithTransparentUnpushable(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$makeWraithTransparentUnpushable(CallbackInfoReturnable<Boolean> cir) {
         if (WraithCollisionRules.isCollisionTransparent((Entity) (Object) this)) {
             // 冤魂透明态实体不应作为可推动实体，否则普通玩家贴近时仍可能被体积反推。
             cir.setReturnValue(false);
@@ -36,7 +36,7 @@ public abstract class WraithLivingEntityCollisionMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$skipWraithPlayerPush(Entity other, CallbackInfo ci) {
+    private void sparkdlc$skipWraithPlayerPush(Entity other, CallbackInfo ci) {
         if (WraithCollisionRules.shouldIgnorePlayerBodyCollision((Entity) (Object) this, other)) {
             // 取消双方推挤兜底，避免普通存活玩家穿过冤魂时被重新弹开。
             ci.cancel();

@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(MinecraftClient.class)
 public abstract class KidnapperThrowUseMixin {
     @Inject(method = "doItemUse()V", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$throwKidnapperBody(CallbackInfo ci) {
+    private void sparkdlc$throwKidnapperBody(CallbackInfo ci) {
         if (KidnapperThrowClientHooks.tryThrow((MinecraftClient) (Object) this)) {
             ci.cancel();
         }

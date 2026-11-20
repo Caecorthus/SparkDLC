@@ -19,7 +19,7 @@ public abstract class MurderGameModePassiveMoneyMixin {
             method = "tickServerGameLoop",
             at = @At("HEAD")
     )
-    private void sparkfactionapi$applyCustomPassiveMoney(
+    private void sparkdlc$applyCustomPassiveMoney(
             ServerWorld serverWorld,
             GameWorldComponent gameComponent,
             CallbackInfo ci

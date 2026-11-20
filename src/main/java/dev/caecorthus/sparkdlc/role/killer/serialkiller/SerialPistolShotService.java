@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.killer.serialkiller;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.item.SerialPistolItem;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponHits;
 import dev.doctor4t.wathe.api.event.ShouldPunishGunShooter;
@@ -158,7 +158,7 @@ public final class SerialPistolShotService {
     private static void hitSparkWitchWorldTarget(ServerPlayerEntity shooter, int targetId, ItemStack stack) {
         Entity entity = targetId < 0 ? null : shooter.getServerWorld().getEntityById(targetId);
         if (entity != null && !(entity instanceof PlayerEntity)) {
-            SparkWitchApi.hitGunWorldTarget(shooter, entity, stack,
+            SparkRoleApi.hitGunWorldTarget(shooter, entity, stack,
                     SerialKillerConstants.PISTOL_RANGE_BLOCKS + SERVER_RANGE_SLACK_BLOCKS);
         }
     }
@@ -198,7 +198,7 @@ public final class SerialPistolShotService {
     private static boolean isHittable(ServerPlayerEntity shooter, ServerPlayerEntity target) {
         return GameFunctions.isPlayerAliveAndSurvival(target)
                 && (GameFunctions.isPlayerPlayingAndAlive(target)
-                || SparkWitchApi.isBoundKillerTargetingVendetta(shooter, target))
+                || SparkRoleApi.isBoundKillerTargetingVendetta(shooter, target))
                 && hasLineOfSight(shooter, target);
     }
 

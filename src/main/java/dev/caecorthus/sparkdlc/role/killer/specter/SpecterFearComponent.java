@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.specter;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -32,7 +32,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
  */
 public final class SpecterFearComponent implements AutoSyncedComponent, ServerTickingComponent {
     public static final ComponentKey<SpecterFearComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("specter_fear"),
+            SparkDLC.id("specter_fear"),
             SpecterFearComponent.class
     );
     private static final String LEVEL = "FearLevel";

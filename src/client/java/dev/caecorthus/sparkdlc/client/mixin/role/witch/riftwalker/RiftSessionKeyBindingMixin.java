@@ -30,7 +30,7 @@ public abstract class RiftSessionKeyBindingMixin implements RiftSessionKeyAccess
     private boolean pressed;
 
     @Inject(method = "isPressed", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$releaseInsideRift(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$releaseInsideRift(CallbackInfoReturnable<Boolean> cir) {
         if (!RiftSessionClient.isActive()) {
             return;
         }
@@ -40,7 +40,7 @@ public abstract class RiftSessionKeyBindingMixin implements RiftSessionKeyAccess
     }
 
     @Inject(method = "wasPressed", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$discardPressInsideRift(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$discardPressInsideRift(CallbackInfoReturnable<Boolean> cir) {
         if (!RiftSessionClient.isActive()) {
             return;
         }
@@ -51,19 +51,19 @@ public abstract class RiftSessionKeyBindingMixin implements RiftSessionKeyAccess
     }
 
     @Override
-    public void sparkwitch$riftDrainPresses() {
+    public void sparkdlc$riftDrainPresses() {
         timesPressed = 0;
     }
 
     @Override
-    public int sparkwitch$riftTakePresses() {
+    public int sparkdlc$riftTakePresses() {
         int presses = timesPressed;
         timesPressed = 0;
         return presses;
     }
 
     @Override
-    public boolean sparkwitch$riftRawPressed() {
+    public boolean sparkdlc$riftRawPressed() {
         return pressed;
     }
 }

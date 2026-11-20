@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.fisher.spirit;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.cca.MapVariablesWorldComponent;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
@@ -45,7 +45,7 @@ final class FisherSpiritExit {
         if (destination == null) {
             // A changed map can invalidate every safe location. Do not prolong phasing or teleport into unchecked blocks.
             // 地图变化可能让所有安全点失效；不延长穿门，也不传送到未通过检查的方块中。
-            SparkWitch.LOGGER.warn("No safe Glimmerfish door exit for {} in {}", player.getUuid(),
+            SparkDLC.LOGGER.warn("No safe Glimmerfish door exit for {} in {}", player.getUuid(),
                     player.getWorld().getRegistryKey().getValue());
             return;
         }

@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.neutral.murderouswitch.feature;
 import dev.caecorthus.sparkdlc.faction.api.FactionEconomyPolicy;
 import dev.caecorthus.sparkdlc.faction.api.FactionInstinctPolicy;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitchFactions;
+import dev.caecorthus.sparkdlc.SparkDlcFactions;
 import dev.caecorthus.sparkdlc.economy.WitchEconomyService;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenSettlement;
 import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendParticipation;
@@ -52,7 +52,7 @@ public final class MurderousWitchFeatureService {
 
     private static Identifier effectiveFaction(PlayerEntity player, GameWorldComponent gameComponent, Identifier currentFaction) {
         Role role = gameComponent.getRole(player);
-        return MurderousWitchRules.isMurderousWitch(role) ? SparkWitchFactions.MURDEROUS_WITCH : null;
+        return MurderousWitchRules.isMurderousWitch(role) ? SparkDlcFactions.MURDEROUS_WITCH : null;
     }
 
     private static Boolean economyDecision(

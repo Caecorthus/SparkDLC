@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(value = WatheClient.class, remap = false, priority = 300)
 public abstract class WatheClientFactorFallbackMixin {
     @ModifyReturnValue(method = "getInstinctHighlight", at = @At("RETURN"))
-    private static int sparkwitch$factorFallback(int originalColor, Entity target) {
+    private static int sparkdlc$factorFallback(int originalColor, Entity target) {
         return WitchFactorClientHooks.resolveHighlight(originalColor, target);
     }
 }

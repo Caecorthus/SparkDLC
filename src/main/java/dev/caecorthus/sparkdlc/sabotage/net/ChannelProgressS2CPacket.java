@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.sabotage.net;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -28,7 +28,7 @@ public record ChannelProgressS2CPacket(int channelId, int kind, BlockPos pos, in
     public static final int STATE_RUNNING = 0;
     public static final int STATE_FINISHED = 1;
     public static final int STATE_STOPPED = 2;
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("sabotage_channel_progress");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("sabotage_channel_progress");
     public static final Id<ChannelProgressS2CPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, ChannelProgressS2CPacket> CODEC =
             PacketCodec.of(ChannelProgressS2CPacket::write, ChannelProgressS2CPacket::read);

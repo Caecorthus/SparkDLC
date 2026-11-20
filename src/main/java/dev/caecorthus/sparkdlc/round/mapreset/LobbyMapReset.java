@@ -4,8 +4,8 @@ import com.mojang.brigadier.ParseResults;
 import com.mojang.brigadier.context.CommandContextBuilder;
 import com.mojang.brigadier.context.ParsedCommandNode;
 import com.mojang.brigadier.tree.LiteralCommandNode;
-import dev.caecorthus.sparkdlc.SparkFactionApiMod;
-import dev.caecorthus.sparkdlc.component.SparkFactionMapResetComponent;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.component.LobbyMapResetComponent;
 import dev.doctor4t.wathe.api.GameMode;
 import dev.doctor4t.wathe.api.MapEffect;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -156,7 +156,7 @@ public final class LobbyMapReset {
         }
         job = new MapResetJob(world, source, offset, chunks, template, areas.getResetPasteOffset());
         progress(server).setProgress(0);
-        SparkFactionApiMod.LOGGER.info(
+        SparkDLC.LOGGER.info(
                 "Lobby map reset started in {}: {} template blocks, {} chunks.",
                 world.getRegistryKey().getValue(), job.volume(), chunks.size()
         );
@@ -201,7 +201,7 @@ public final class LobbyMapReset {
         if (held != null && server.getTicks() >= held.releaseTick()) {
             releaseHeldTickets();
         }
-        SparkFactionMapResetComponent progress = progress(server);
+        LobbyMapResetComponent progress = progress(server);
         if (job == null) {
             if (completeDisplayTicks > 0 && --completeDisplayTicks == 0) {
                 progress.setProgress(LobbyMapResetRules.INACTIVE);
@@ -218,7 +218,7 @@ public final class LobbyMapReset {
             try {
                 current.tick();
             } catch (RuntimeException exception) {
-                SparkFactionApiMod.LOGGER.error("Lobby map reset failed; Wathe will copy the map at round start.", exception);
+                SparkDLC.LOGGER.error("Lobby map reset failed; Wathe will copy the map at round start.", exception);
                 current.fail(exception.toString());
             }
         }
@@ -241,14 +241,14 @@ public final class LobbyMapReset {
             );
             progress.setProgress(LobbyMapResetRules.COMPLETE);
             completeDisplayTicks = LobbyMapResetRules.COMPLETE_DISPLAY_TICKS;
-            SparkFactionApiMod.LOGGER.info(
+            SparkDLC.LOGGER.info(
                     "Lobby map reset finished in {}: {} blocks changed.",
                     current.world().getRegistryKey().getValue(), current.placed()
             );
         } else {
             releaseTickets(current.world(), current.chunks());
             progress.setProgress(LobbyMapResetRules.INACTIVE);
-            SparkFactionApiMod.LOGGER.warn(
+            SparkDLC.LOGGER.warn(
                     "Lobby map reset in {} stopped ({}); Wathe will copy the map at round start instead.",
                     current.world().getRegistryKey().getValue(), current.failure()
             );
@@ -294,7 +294,7 @@ public final class LobbyMapReset {
         if (!isResetting()) {
             return false;
         }
-        SparkFactionApiMod.LOGGER.warn("Map voting refused: the lobby map reset is still running.");
+        SparkDLC.LOGGER.warn("Map voting refused: the lobby map reset is still running.");
         return true;
     }
 
@@ -397,7 +397,7 @@ public final class LobbyMapReset {
         }
     }
 
-    private static SparkFactionMapResetComponent progress(MinecraftServer server) {
-        return SparkFactionMapResetComponent.KEY.get(server.getScoreboard());
+    private static LobbyMapResetComponent progress(MinecraftServer server) {
+        return LobbyMapResetComponent.KEY.get(server.getScoreboard());
     }
 }

@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.role.killer.bomber.drone;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.SparkStrengthSounds;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.entity.DroneEntity;
 import dev.caecorthus.sparkdlc.item.DroneItem;
 import dev.caecorthus.sparkdlc.item.m67.M67RoundService;
@@ -83,7 +83,7 @@ public final class DroneService {
      */
     private static final int IDLE_TICKET_RADIUS = 2;
     private static final ChunkTicketType<Integer> IDLE_TICKET =
-            ChunkTicketType.create(SparkStrength.MOD_ID + ":drone_idle", Integer::compare, 40);
+            ChunkTicketType.create(SparkDLC.MOD_ID + ":drone_idle", Integer::compare, 40);
     private static final Map<ServerWorld, Round> ROUNDS = new IdentityHashMap<>();
     private static boolean registered;
 
@@ -95,7 +95,7 @@ public final class DroneService {
             return;
         }
         registered = true;
-        // Registered after M67RoundService.initialize (SparkStrengthEvents order), so the M67 round already exists here.
+        // Registered after M67RoundService.initialize (RoleKitEvents order), so the M67 round already exists here.
         // 注册顺序在 M67RoundService.initialize 之后，此时 M67 回合已经建立。
         GameEvents.ON_FINISH_INITIALIZE.register((world, game) -> {
             if (world instanceof ServerWorld serverWorld) {
@@ -272,13 +272,13 @@ public final class DroneService {
             owner.sendMessage(Text.translatable("tip.sparkdlc.drone.hotbar_full"), true);
             return false;
         }
-        ItemStack stack = new ItemStack(SparkStrengthItems.grenadeDrone());
+        ItemStack stack = new ItemStack(SparkDlcItems.grenadeDrone());
         DroneItem.setCharge(stack, drone.charge());
         DroneItem.setPayload(stack, drone.hasPayload());
         // Camera back to the body before the entity goes away. / 实体移除前先把镜头还给本体。
         DronePilotService.endFor(drone, DronePilotEndReason.EXIT);
         owner.getInventory().setStack(slot, stack);
-        world.playSound(null, drone.getX(), drone.getY(), drone.getZ(), SparkStrengthSounds.DRONE_PLACE,
+        world.playSound(null, drone.getX(), drone.getY(), drone.getZ(), SparkDlcSounds.DRONE_PLACE,
                 SoundCategory.PLAYERS, 0.8F, 1.3F);
         round.drones.remove(drone);
         drone.discard();
@@ -308,7 +308,7 @@ public final class DroneService {
         if (cooldown > 0) {
             // Start the native clock now; queued returns are also listed on the tablet (pendingReturns).
             // 立即开始原版冷却计时；排队中的归还也会列在平板上（见 pendingReturns）。
-            preserveCooldown(owner, SparkStrengthItems.grenadeDrone(), cooldown);
+            preserveCooldown(owner, SparkDlcItems.grenadeDrone(), cooldown);
         }
         List<PendingReturn> queue = round.returns.get(ownerUuid);
         boolean active = isActiveBomber(owner);
@@ -354,12 +354,12 @@ public final class DroneService {
             return false;
         }
         long now = world.getTime();
-        ItemStack stack = new ItemStack(SparkStrengthItems.grenadeDrone());
+        ItemStack stack = new ItemStack(SparkDlcItems.grenadeDrone());
         DroneItem.setCharge(stack, chargeNow(pending, now));
         owner.getInventory().setStack(slot, stack);
         int remaining = (int) Math.max(0L, pending.readyAt() - now);
         if (remaining > 0) {
-            preserveCooldown(owner, SparkStrengthItems.grenadeDrone(), remaining);
+            preserveCooldown(owner, SparkDlcItems.grenadeDrone(), remaining);
             owner.sendMessage(Text.translatable("tip.sparkdlc.drone.returned", (remaining + 19) / 20), true);
         }
         return true;
@@ -373,8 +373,8 @@ public final class DroneService {
         Round round = new Round();
         ROUNDS.put(world, round);
         for (ServerPlayerEntity player : world.getPlayers()) {
-            preserveOpening(player, SparkStrengthItems.grenadeDrone(), DroneRules.OPENING_TICKS);
-            preserveOpening(player, SparkStrengthItems.bombDrone(), DroneRules.OPENING_TICKS);
+            preserveOpening(player, SparkDlcItems.grenadeDrone(), DroneRules.OPENING_TICKS);
+            preserveOpening(player, SparkDlcItems.bombDrone(), DroneRules.OPENING_TICKS);
             if (game.hasAnyRole(player) && !player.isSpectator() && isRealBomber(player)) {
                 settleStarter(round, player);
             }
@@ -395,8 +395,8 @@ public final class DroneService {
         }
         // Opening/lost cooldowns must not leak into the lobby or the next round. / 开局锁与损毁冷却不能带入大厅或下一局。
         for (ServerPlayerEntity player : world.getPlayers()) {
-            player.getItemCooldownManager().remove(SparkStrengthItems.grenadeDrone());
-            player.getItemCooldownManager().remove(SparkStrengthItems.bombDrone());
+            player.getItemCooldownManager().remove(SparkDlcItems.grenadeDrone());
+            player.getItemCooldownManager().remove(SparkDlcItems.bombDrone());
         }
     }
 
@@ -511,13 +511,13 @@ public final class DroneService {
                 return;
             }
             // No chat line: the Bomber's tablet grant message already explains drones. / 不发聊天提示：炸弹客的平板发放消息已介绍无人机。
-            player.getInventory().setStack(slot, new ItemStack(SparkStrengthItems.grenadeDrone()));
+            player.getInventory().setStack(slot, new ItemStack(SparkDlcItems.grenadeDrone()));
         }
         round.settled.add(uuid);
     }
 
     private static boolean hasGrenadeDrone(Round round, ServerPlayerEntity player) {
-        Item item = SparkStrengthItems.grenadeDrone();
+        Item item = SparkDlcItems.grenadeDrone();
         PlayerInventory inventory = player.getInventory();
         for (int slot = 0; slot < inventory.size(); slot++) {
             if (inventory.getStack(slot).isOf(item)) {
@@ -552,11 +552,11 @@ public final class DroneService {
         // 即使未持有也发送原版冷却，购买的炸弹无人机会立即显示；管理员已解除的型号跳过，清除的冷却不会被重新写回。
         int grenade = openingRemaining(player, DroneKind.GRENADE);
         if (grenade > 0) {
-            preserveOpening(player, SparkStrengthItems.grenadeDrone(), grenade);
+            preserveOpening(player, SparkDlcItems.grenadeDrone(), grenade);
         }
         int bomb = openingRemaining(player, DroneKind.BOMB);
         if (bomb > 0) {
-            preserveOpening(player, SparkStrengthItems.bombDrone(), bomb);
+            preserveOpening(player, SparkDlcItems.bombDrone(), bomb);
         }
     }
 
@@ -584,10 +584,10 @@ public final class DroneService {
      */
     private static void preserveCooldown(ServerPlayerEntity player, Item item, int minimumTicks) {
         ItemCooldownManager manager = player.getItemCooldownManager();
-        Object entry = ((ItemCooldownManagerAccessor) manager).sparkstrength$getEntries().get(item);
+        Object entry = ((ItemCooldownManagerAccessor) manager).sparkdlc$getEntriesForKits().get(item);
         int remaining = entry == null ? 0 : Math.max(0,
-                ((ItemCooldownEntryAccessor) entry).sparkstrength$getEndTick()
-                        - ((ItemCooldownManagerAccessor) manager).sparkstrength$getTick());
+                ((ItemCooldownEntryAccessor) entry).sparkdlc$getEndTickForKits()
+                        - ((ItemCooldownManagerAccessor) manager).sparkdlc$getTickForKits());
         if (remaining < minimumTicks) {
             manager.set(item, minimumTicks);
         }

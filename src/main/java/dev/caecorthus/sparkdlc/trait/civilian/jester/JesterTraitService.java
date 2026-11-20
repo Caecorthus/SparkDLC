@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.civilian.jester;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.effective.EffectiveConsequenceService;
 import dev.doctor4t.wathe.api.event.KillPlayer;
@@ -36,7 +36,7 @@ import org.jetbrains.annotations.Nullable;
  * 假尸体、复活、禁锢、疯魔、计时、护甲、盛宴文本、胜利条件和结算赢家全部交给 NoellesRoles。
  */
 public final class JesterTraitService {
-    private static final Identifier REPLAY_EVENT = SparkTraits.id("jester_trait_trigger");
+    private static final Identifier REPLAY_EVENT = SparkDLC.id("jester_trait_trigger");
     private static boolean registered;
 
     private JesterTraitService() {
@@ -107,7 +107,7 @@ public final class JesterTraitService {
             replayData.putUuid("target", victim.getUuid());
             GameRecordManager.recordGlobalEvent(victim.getServerWorld(), REPLAY_EVENT, killer, replayData);
         } catch (RuntimeException | LinkageError exception) {
-            SparkTraits.LOGGER.warn("Could not record Jester trait replay for {}", victim.getUuid(), exception);
+            SparkDLC.LOGGER.warn("Could not record Jester trait replay for {}", victim.getUuid(), exception);
         }
 
         // Normal round-start role announcement, replayed for this mid-round conversion, with NoellesRoles' own texts.
@@ -121,7 +121,7 @@ public final class JesterTraitService {
                     targets
             ));
         } catch (RuntimeException | LinkageError exception) {
-            SparkTraits.LOGGER.warn("Could not send Jester welcome for {}", victim.getUuid(), exception);
+            SparkDLC.LOGGER.warn("Could not send Jester welcome for {}", victim.getUuid(), exception);
         }
 
         jester.beginFakeDeath(killer.getUuid());

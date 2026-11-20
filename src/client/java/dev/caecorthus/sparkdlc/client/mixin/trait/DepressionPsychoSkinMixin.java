@@ -24,7 +24,7 @@ public abstract class DepressionPsychoSkinMixin {
             method = "getTexture(Lnet/minecraft/client/network/AbstractClientPlayerEntity;)Lnet/minecraft/util/Identifier;",
             at = @At("RETURN")
     )
-    private Identifier sparktraits$depressionPsychoTexture(
+    private Identifier sparkdlc$depressionPsychoTexture(
             Identifier originalTexture,
             AbstractClientPlayerEntity player
     ) {
@@ -36,7 +36,7 @@ public abstract class DepressionPsychoSkinMixin {
             method = "renderArm",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;getSkinTextures()Lnet/minecraft/client/util/SkinTextures;")
     )
-    private SkinTextures sparktraits$depressionPsychoArmTexture(
+    private SkinTextures sparkdlc$depressionPsychoArmTexture(
             AbstractClientPlayerEntity player,
             Operation<SkinTextures> original
     ) {

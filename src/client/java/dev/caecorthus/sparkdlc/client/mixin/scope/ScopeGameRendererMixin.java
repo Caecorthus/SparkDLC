@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class ScopeGameRendererMixin {
     @Inject(method = "render", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/gl/Framebuffer;beginWrite(Z)V"))
-    private void sparkwitch$renderScopeLens(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
+    private void sparkdlc$renderScopeLens(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
         ScopeRuntime.beforeGui(tickCounter);
     }
 }

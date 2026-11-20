@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.abysslistener.zone;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -30,7 +30,7 @@ final class DeepDarkZoneBlocks {
      * 数据包方块标签 {@code sparkdlc:sculk_conversion_immune}：地图作者不希望被转换的方块（初始为岩浆块）。稳定资源契约。
      */
     static final TagKey<Block> CONVERSION_IMMUNE = TagKey.of(RegistryKeys.BLOCK,
-            SparkWitch.id("sculk_conversion_immune"));
+            SparkDLC.id("sculk_conversion_immune"));
     private DeepDarkZoneBlocks() {
     }
 

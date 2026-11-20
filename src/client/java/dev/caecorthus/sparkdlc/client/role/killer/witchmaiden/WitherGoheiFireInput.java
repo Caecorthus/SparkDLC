@@ -93,7 +93,7 @@ public final class WitherGoheiFireInput {
         // The server fires only with the Gohei in the main hand: flush a hotbar change made earlier this tick first.
         // 服务端仅在主手持御币时射击：先同步本刻早先的快捷栏变化。
         if (client.interactionManager != null) {
-            ((SelectedSlotFlushInvoker) client.interactionManager).sparkwitch$flushSelectedSlot();
+            ((SelectedSlotFlushInvoker) client.interactionManager).sparkdlc$flushSelectedSlot();
         }
         ClientPlayNetworking.send(new FireCrimsonSkullC2SPayload(player.getYaw(), player.getPitch()));
     }

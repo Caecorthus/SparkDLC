@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.abysslistener;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.witch.accomplice.shop.AccompliceShopRules;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
@@ -45,7 +45,7 @@ public final class AbyssListenerShopService {
     static ShopEntry flaskEntry() {
         return new ShopEntry.Builder(
                 AbyssListenerRules.FLASK_SHOP_ENTRY_ID,
-                SparkWitchItems.deepDarkSporeFlask().getDefaultStack(),
+                SparkDlcItems.deepDarkSporeFlask().getDefaultStack(),
                 AbyssListenerRules.FLASK_PRICE,
                 ShopEntry.Type.TOOL
         ).build();

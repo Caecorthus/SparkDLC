@@ -26,7 +26,7 @@ public abstract class KillerShopBuilderMixin {
                     target = "Ldev/doctor4t/wathe/cca/GameWorldComponent;canUseKillerFeatures(Lnet/minecraft/entity/player/PlayerEntity;)Z"
             )
     )
-    private static boolean sparkfactionapi$useKillerFeatureAccessCapability(
+    private static boolean sparkdlc$useKillerFeatureAccessCapability(
             GameWorldComponent gameComponent,
             PlayerEntity player,
             Operation<Boolean> original

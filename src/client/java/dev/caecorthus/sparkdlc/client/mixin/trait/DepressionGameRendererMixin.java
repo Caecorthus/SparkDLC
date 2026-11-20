@@ -23,7 +23,7 @@ public abstract class DepressionGameRendererMixin {
     MinecraftClient client;
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gl/Framebuffer;beginWrite(Z)V"))
-    private void sparktraits$renderDepressionScreenEffects(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
+    private void sparkdlc$renderDepressionScreenEffects(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
         ClientPlayerEntity player = this.client.player;
         if (!tick
                 || this.client.world == null

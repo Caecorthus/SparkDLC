@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.attendant;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -25,7 +25,7 @@ public final class AttendantFlashlightService {
      * 一支新的开局手电筒（{@code sparkdlc:flashlight}）：乘务员随职业获得的物品，也是黑羽鸦乘务员伪装物品追加的物品。
      */
     public static ItemStack starterFlashlight() {
-        return new ItemStack(SparkStrengthItems.flashlight());
+        return new ItemStack(SparkDlcItems.flashlight());
     }
 
     /**
@@ -36,7 +36,7 @@ public final class AttendantFlashlightService {
     public static boolean hasFlashlight(ServerPlayerEntity player) {
         // 角色分配事件在某些流程里可能重复触发；先检查背包，避免刷出多个开局手电。
         for (int slot = 0; slot < player.getInventory().size(); slot++) {
-            if (player.getInventory().getStack(slot).isOf(SparkStrengthItems.flashlight())) {
+            if (player.getInventory().getStack(slot).isOf(SparkDlcItems.flashlight())) {
                 return true;
             }
         }

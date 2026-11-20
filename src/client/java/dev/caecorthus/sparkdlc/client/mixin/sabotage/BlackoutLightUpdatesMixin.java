@@ -31,7 +31,7 @@ public abstract class BlackoutLightUpdatesMixin {
 
     @WrapOperation(method = "setBlockState", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/chunk/light/LightingProvider;checkBlock(Lnet/minecraft/util/math/BlockPos;)V"))
-    private void sparkstrength$alwaysRelight(LightingProvider lighting, BlockPos pos, Operation<Void> original) {
+    private void sparkdlc$alwaysRelight(LightingProvider lighting, BlockPos pos, Operation<Void> original) {
         if (!world.isClient()) {
             original.call(lighting, pos);
             return;

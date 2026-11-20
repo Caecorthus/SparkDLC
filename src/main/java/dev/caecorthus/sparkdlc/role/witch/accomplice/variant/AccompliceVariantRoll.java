@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.accomplice.variant;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.doctor4t.wathe.api.Role;
 
 import java.util.ArrayList;
@@ -33,6 +33,6 @@ public final class AccompliceVariantRoll {
                 pool.add(candidate);
             }
         }
-        return pool.isEmpty() ? SparkWitchRoles.accomplice() : pool.get(random.nextInt(pool.size()));
+        return pool.isEmpty() ? SparkDlcRoles.accomplice() : pool.get(random.nextInt(pool.size()));
     }
 }

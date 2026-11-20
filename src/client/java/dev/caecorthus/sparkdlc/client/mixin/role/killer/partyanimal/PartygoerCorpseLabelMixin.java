@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = RoleNameRenderer.class, remap = false)
 public abstract class PartygoerCorpseLabelMixin {
     @Inject(method = "renderHud", at = @At("TAIL"))
-    private static void sparkstrength$drawPartygoerCorpseLabel(
+    private static void sparkdlc$drawPartygoerCorpseLabel(
             TextRenderer renderer,
             ClientPlayerEntity player,
             DrawContext context,

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.detective;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -15,7 +15,7 @@ import java.util.UUID;
  * 某起命案的凶手身份推测，空值表示清除；服务端只接受 WatheRoles.ROLES 中的非特殊角色。
  */
 public record SetDetectiveKillerGuessC2SPacket(UUID caseId, Optional<Identifier> roleId) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("set_detective_killer_guess");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("set_detective_killer_guess");
     public static final Id<SetDetectiveKillerGuessC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, SetDetectiveKillerGuessC2SPacket> CODEC =
             PacketCodec.of(SetDetectiveKillerGuessC2SPacket::write, SetDetectiveKillerGuessC2SPacket::read);

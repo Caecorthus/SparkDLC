@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.role.civilian.noisemaker;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.noisemaker.NoisemakerGlowConstants;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.doctor4t.wathe.game.GameFunctions;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import net.minecraft.entity.effect.StatusEffects;
@@ -27,7 +27,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
  */
 public class NoisemakerGlowTargetComponent implements AutoSyncedComponent, ServerTickingComponent {
     public static final ComponentKey<NoisemakerGlowTargetComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("noisemaker_glow_target"),
+            SparkDLC.id("noisemaker_glow_target"),
             NoisemakerGlowTargetComponent.class
     );
 
@@ -92,7 +92,7 @@ public class NoisemakerGlowTargetComponent implements AutoSyncedComponent, Serve
         if (serverPlayer.getWorld() instanceof ServerWorld serverWorld) {
             GameRecordManager.recordGlobalEvent(
                     serverWorld,
-                    SparkStrengthReplayFormatters.NOISEMAKER_GLOW_ENDED,
+                    RoleKitReplayFormatters.NOISEMAKER_GLOW_ENDED,
                     serverPlayer,
                     null
             );

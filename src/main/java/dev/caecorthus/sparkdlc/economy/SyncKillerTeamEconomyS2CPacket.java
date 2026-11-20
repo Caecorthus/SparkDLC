@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.economy;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier;
  * 服务端权威的私有团队钱包快照；客户端不会收到成员信息。
  */
 public record SyncKillerTeamEconomyS2CPacket(boolean visible, int balance) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("sync_killer_team_economy");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("sync_killer_team_economy");
     public static final Id<SyncKillerTeamEconomyS2CPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, SyncKillerTeamEconomyS2CPacket> CODEC =
             PacketCodec.of(SyncKillerTeamEconomyS2CPacket::write, SyncKillerTeamEconomyS2CPacket::read);

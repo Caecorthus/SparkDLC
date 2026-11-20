@@ -28,7 +28,7 @@ public abstract class WraithProjectileBlockHitMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$activeWraithProjectileTriggersNoBlocks(
+    private void sparkdlc$activeWraithProjectileTriggersNoBlocks(
             World world,
             BlockState state,
             BlockHitResult hit,

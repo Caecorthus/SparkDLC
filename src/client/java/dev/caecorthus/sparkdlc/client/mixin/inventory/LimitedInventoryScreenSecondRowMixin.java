@@ -33,7 +33,7 @@ public abstract class LimitedInventoryScreenSecondRowMixin {
                     target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"
             )
     )
-    private void sparkfactionapi$drawTwoRowStrip(
+    private void sparkdlc$drawTwoRowStrip(
             DrawContext context,
             Identifier texture,
             int x,

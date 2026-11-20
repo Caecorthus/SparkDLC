@@ -372,12 +372,12 @@ final class NoellesCivilianScenes {
      * blackout is reset (every lamp back on together) and everyone's Night Vision and Blindness are cleared. The price
      * paid is split among the living killers (nobody gets it when the sabotage was an Undercover's own), and the team
      * cooldown after a remote repair is 90 s instead of the 2.5 min after a breaker or engine repair. The killer
-     * triggers the lights from the tablet (SparkStrengthKillerItemScenes::circuitBreaker). Ponder keeps its world fully
+     * triggers the lights from the tablet (RoleKitKillerItemScenes::circuitBreaker). Ponder keeps its world fully
      * lit, so the stage is dimmed (StageLights).
      * 工程师的破坏维修：工程师商店里 250 金币的条目，只有破坏正在进行时才买得成（否则提示买不了）。买下立刻在任何位置、
      * 任何阶段结束当前的灯光破坏或动力破坏：灯光破坏时重置 Wathe 停电（所有灯一起亮），并清除所有人的夜视与失明。付的钱
      * 平分给存活的杀手（卧底自己开的破坏则谁也不给）；远程修好后团队冷却为 90 秒，而修电闸或修动力装置后是 2.5 分钟。
-     * 杀手用平板发动灯光破坏（见 SparkStrengthKillerItemScenes::circuitBreaker）。Ponder 场景始终满亮度，所以调暗舞台
+     * 杀手用平板发动灯光破坏（见 RoleKitKillerItemScenes::circuitBreaker）。Ponder 场景始终满亮度，所以调暗舞台
      * （StageLights）。
      */
     private static void engineerPower(SceneBuilder scene, SceneBuildingUtil util) {
@@ -1327,7 +1327,7 @@ final class NoellesCivilianScenes {
 
     /**
      * Noisemaker's death alarm (NoellesRoles NoisemakerKillMixin; SparkStrength NoisemakerGlowService,
-     * NoisemakerGlowConstants and SparkStrengthEvents; vanilla Glowing): when a Noisemaker dies and leaves a body, the
+     * NoisemakerGlowConstants and RoleKitEvents; vanilla Glowing): when a Noisemaker dies and leaves a body, the
      * body glows for 60 s and innocents and the dead hear an allay death sound and read a scream line. Separately, a
      * living player credited with killing a Noisemaker (or a Coroner disguised as one) glows for 15 s. Glowing is
      * vanilla's outline, white without a team (a viewer whose instinct highlights that entity sees that colour) and seen

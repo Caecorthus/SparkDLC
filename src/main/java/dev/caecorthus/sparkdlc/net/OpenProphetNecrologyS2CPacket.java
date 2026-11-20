@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier;
  * 组件，因此该包永远不会向他人泄露死亡信息。
  */
 public record OpenProphetNecrologyS2CPacket() implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("open_prophet_necrology");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("open_prophet_necrology");
     public static final Id<OpenProphetNecrologyS2CPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, OpenProphetNecrologyS2CPacket> CODEC =
             PacketCodec.of(OpenProphetNecrologyS2CPacket::write, OpenProphetNecrologyS2CPacket::read);

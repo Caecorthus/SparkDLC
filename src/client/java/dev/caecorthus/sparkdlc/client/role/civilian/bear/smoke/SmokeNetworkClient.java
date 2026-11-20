@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.bear.smoke.SmokeCloudSnapshot;
 import dev.caecorthus.sparkdlc.role.civilian.bear.smoke.SmokeHole;
 import dev.caecorthus.sparkdlc.role.civilian.bear.smoke.net.SmokeClearS2CPayload;
@@ -111,7 +111,7 @@ public final class SmokeNetworkClient {
     private static void warnMalformed(String what) {
         if (!warnedMalformed) {
             warnedMalformed = true;
-            SparkWitch.LOGGER.warn("Dropped a malformed BEAR smoke {} payload (further ones are dropped silently).",
+            SparkDLC.LOGGER.warn("Dropped a malformed BEAR smoke {} payload (further ones are dropped silently).",
                     what);
         }
     }

@@ -19,7 +19,7 @@ public abstract class WraithBodyRoleNameMixin {
                     target = "Ldev/doctor4t/wathe/cca/GameWorldComponent;getRole(Ljava/util/UUID;)Ldev/doctor4t/wathe/api/Role;"
             )
     )
-    private static Role sparkwitch$useCapturedBodyRole(
+    private static Role sparkdlc$useCapturedBodyRole(
             Role currentRole,
             @Local PlayerBodyEntity body
     ) {

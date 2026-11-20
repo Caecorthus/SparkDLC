@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = DebugHud.class, priority = 2000)
 public abstract class BlindGateDebugHudMixin {
     @WrapMethod(method = "shouldShowDebugHud")
-    private boolean sparkwitch$blindHidesDebugHud(Operation<Boolean> original) {
+    private boolean sparkdlc$blindHidesDebugHud(Operation<Boolean> original) {
         if (BlindClientGates.viewActive()) {
             return false;
         }

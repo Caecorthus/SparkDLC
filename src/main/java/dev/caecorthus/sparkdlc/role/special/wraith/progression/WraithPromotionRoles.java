@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.special.wraith.progression;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithState;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
@@ -20,34 +20,34 @@ final class WraithPromotionRoles {
         return switch (alignment) {
             case GOOD -> vendettaEligible
                     ? List.of(
-                            SparkWitchRoles.windSpirit(),
-                            SparkWitchRoles.guardianAngel(),
-                            SparkWitchRoles.vendetta()
+                            SparkDlcRoles.windSpirit(),
+                            SparkDlcRoles.guardianAngel(),
+                            SparkDlcRoles.vendetta()
                     )
                     : List.of(
-                            SparkWitchRoles.windSpirit(),
-                            SparkWitchRoles.guardianAngel()
+                            SparkDlcRoles.windSpirit(),
+                            SparkDlcRoles.guardianAngel()
                     );
-            case KILLER -> List.of(SparkWitchRoles.saboteur());
-            case WITCH -> List.of(SparkWitchRoles.curser());
+            case KILLER -> List.of(SparkDlcRoles.saboteur());
+            case WITCH -> List.of(SparkDlcRoles.curser());
         };
     }
 
     static Role find(Identifier roleId) {
-        if (SparkWitchRoles.WIND_SPIRIT_ID.equals(roleId)) {
-            return SparkWitchRoles.windSpirit();
+        if (SparkDlcRoles.WIND_SPIRIT_ID.equals(roleId)) {
+            return SparkDlcRoles.windSpirit();
         }
-        if (SparkWitchRoles.GUARDIAN_ANGEL_ID.equals(roleId)) {
-            return SparkWitchRoles.guardianAngel();
+        if (SparkDlcRoles.GUARDIAN_ANGEL_ID.equals(roleId)) {
+            return SparkDlcRoles.guardianAngel();
         }
-        if (SparkWitchRoles.VENDETTA_ID.equals(roleId)) {
-            return SparkWitchRoles.vendetta();
+        if (SparkDlcRoles.VENDETTA_ID.equals(roleId)) {
+            return SparkDlcRoles.vendetta();
         }
-        if (SparkWitchRoles.SABOTEUR_ID.equals(roleId)) {
-            return SparkWitchRoles.saboteur();
+        if (SparkDlcRoles.SABOTEUR_ID.equals(roleId)) {
+            return SparkDlcRoles.saboteur();
         }
-        if (SparkWitchRoles.CURSER_ID.equals(roleId)) {
-            return SparkWitchRoles.curser();
+        if (SparkDlcRoles.CURSER_ID.equals(roleId)) {
+            return SparkDlcRoles.curser();
         }
         return null;
     }
@@ -62,6 +62,6 @@ final class WraithPromotionRoles {
     }
 
     static boolean shouldExcludeFromAssassinGuess(Role role) {
-        return role.canUseKiller() && !SparkWitchRoles.SABOTEUR_ID.equals(role.identifier());
+        return role.canUseKiller() && !SparkDlcRoles.SABOTEUR_ID.equals(role.identifier());
     }
 }

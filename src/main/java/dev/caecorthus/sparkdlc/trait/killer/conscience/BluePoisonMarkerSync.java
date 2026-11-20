@@ -67,8 +67,8 @@ public final class BluePoisonMarkerSync {
 
     /** Whether the block entity carries a blue marker right now. 该方块实体当前是否带有蓝毒标记。 */
     public static boolean isMarked(@Nullable BlockEntity blockEntity) {
-        return (blockEntity instanceof ConsciencePoisonedPlate plate && plate.sparktraits$getConsciencePoisoner() != null)
-                || (blockEntity instanceof ConscienceScorpionBed bed && bed.sparktraits$hasConscienceScorpion());
+        return (blockEntity instanceof ConsciencePoisonedPlate plate && plate.sparkdlc$getConsciencePoisoner() != null)
+                || (blockEntity instanceof ConscienceScorpionBed bed && bed.sparkdlc$hasConscienceScorpion());
     }
 
     /**

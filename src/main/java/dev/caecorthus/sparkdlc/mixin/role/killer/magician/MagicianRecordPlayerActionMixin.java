@@ -18,14 +18,14 @@ public abstract class MagicianRecordPlayerActionMixin {
     @Shadow @Final public ServerPlayerEntity player;
 
     @Inject(method = "onPlayerAction", at = @At("RETURN"))
-    private void sparkwitch$recordRelease(PlayerActionC2SPacket packet, CallbackInfo ci) {
+    private void sparkdlc$recordRelease(PlayerActionC2SPacket packet, CallbackInfo ci) {
         if (packet.getAction() == PlayerActionC2SPacket.Action.RELEASE_USE_ITEM) {
             MagicianServerHooks.recordRelease(player);
         }
     }
 
     @Inject(method = "onHandSwing", at = @At("RETURN"))
-    private void sparkwitch$recordSwing(HandSwingC2SPacket packet, CallbackInfo ci) {
+    private void sparkdlc$recordSwing(HandSwingC2SPacket packet, CallbackInfo ci) {
         MagicianServerHooks.recordSwing(player, packet.getHand());
     }
 }

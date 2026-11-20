@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class UsecScopeLensPlayerRenderMixin {
     @Inject(method = "render(Lnet/minecraft/client/network/AbstractClientPlayerEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V",
             at = @At("HEAD"))
-    private void sparkwitch$openScopeLensHolder(AbstractClientPlayerEntity player, float yaw, float tickDelta,
+    private void sparkdlc$openScopeLensHolder(AbstractClientPlayerEntity player, float yaw, float tickDelta,
                                                 MatrixStack matrices, VertexConsumerProvider vertexConsumers,
                                                 int light, CallbackInfo ci) {
         UsecScopeLensAnchors.beginPlayer((PlayerEntityRenderer) (Object) this, player, tickDelta,
@@ -32,7 +32,7 @@ public abstract class UsecScopeLensPlayerRenderMixin {
 
     @Inject(method = "render(Lnet/minecraft/client/network/AbstractClientPlayerEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V",
             at = @At("RETURN"))
-    private void sparkwitch$closeScopeLensHolder(AbstractClientPlayerEntity player, float yaw, float tickDelta,
+    private void sparkdlc$closeScopeLensHolder(AbstractClientPlayerEntity player, float yaw, float tickDelta,
                                                  MatrixStack matrices, VertexConsumerProvider vertexConsumers,
                                                  int light, CallbackInfo ci) {
         UsecScopeLensAnchors.endPlayer();

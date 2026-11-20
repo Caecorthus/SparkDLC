@@ -44,11 +44,11 @@ public final class SeekerBodyClientHooks {
             return;
         }
         registered = true;
-        GetInstinctHighlight.EVENT.register(SeekerBodyClientHooks::sparkwitch$ownBodyHighlight);
+        GetInstinctHighlight.EVENT.register(SeekerBodyClientHooks::sparkdlc$ownBodyHighlight);
     }
 
     @Nullable
-    private static GetInstinctHighlight.HighlightResult sparkwitch$ownBodyHighlight(Entity target) {
+    private static GetInstinctHighlight.HighlightResult sparkdlc$ownBodyHighlight(Entity target) {
         ClientPlayerEntity viewer = MinecraftClient.getInstance().player;
         if (viewer == null || !SparkDlcServerConnection.isConfirmedServer()) {
             return null;

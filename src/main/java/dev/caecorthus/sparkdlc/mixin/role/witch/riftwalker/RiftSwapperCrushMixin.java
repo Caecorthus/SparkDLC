@@ -32,7 +32,7 @@ public abstract class RiftSwapperCrushMixin {
             require = 1,
             remap = false
     )
-    private static void sparkwitch$crushSwapperTargetingRiftOccupant(SwapperC2SPacket payload,
+    private static void sparkdlc$crushSwapperTargetingRiftOccupant(SwapperC2SPacket payload,
                                                                     ServerPlayNetworking.Context context,
                                                                     CallbackInfo ci) {
         if (RiftSwapperCrushService.intercept(context.player(), payload.player(), payload.player2())) {

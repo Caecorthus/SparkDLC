@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = KeyBinding.class, priority = 5000)
 public abstract class KidnapperControlledKeyMixin {
     @Unique
-    private void sparkwitch$lockControlledKeys(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$lockControlledKeys(CallbackInfoReturnable<Boolean> cir) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null) {
             return;
@@ -45,12 +45,12 @@ public abstract class KidnapperControlledKeyMixin {
     }
 
     @Inject(method = "wasPressed", at = @At("RETURN"), cancellable = true)
-    private void sparkwitch$lockWasPressed(CallbackInfoReturnable<Boolean> cir) {
-        sparkwitch$lockControlledKeys(cir);
+    private void sparkdlc$lockWasPressed(CallbackInfoReturnable<Boolean> cir) {
+        sparkdlc$lockControlledKeys(cir);
     }
 
     @Inject(method = "isPressed", at = @At("RETURN"), cancellable = true)
-    private void sparkwitch$lockIsPressed(CallbackInfoReturnable<Boolean> cir) {
-        sparkwitch$lockControlledKeys(cir);
+    private void sparkdlc$lockIsPressed(CallbackInfoReturnable<Boolean> cir) {
+        sparkdlc$lockControlledKeys(cir);
     }
 }

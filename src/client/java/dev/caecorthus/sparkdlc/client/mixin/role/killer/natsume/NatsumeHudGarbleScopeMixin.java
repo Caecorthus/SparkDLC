@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(InGameHud.class)
 public abstract class NatsumeHudGarbleScopeMixin {
     @WrapMethod(method = "render(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/render/RenderTickCounter;)V")
-    private void sparkwitch$scopeHudGarble(DrawContext context, RenderTickCounter tickCounter,
+    private void sparkdlc$scopeHudGarble(DrawContext context, RenderTickCounter tickCounter,
                                            Operation<Void> original) {
         NatsumeHudGarble.enterHud();
         try {
@@ -35,7 +35,7 @@ public abstract class NatsumeHudGarbleScopeMixin {
     }
 
     @WrapMethod(method = "renderChat(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/render/RenderTickCounter;)V")
-    private void sparkwitch$keepChatReadable(DrawContext context, RenderTickCounter tickCounter,
+    private void sparkdlc$keepChatReadable(DrawContext context, RenderTickCounter tickCounter,
                                              Operation<Void> original) {
         NatsumeHudGarble.suspend();
         try {
@@ -46,7 +46,7 @@ public abstract class NatsumeHudGarbleScopeMixin {
     }
 
     @WrapMethod(method = "renderHeldItemTooltip(Lnet/minecraft/client/gui/DrawContext;)V")
-    private void sparkwitch$keepHeldItemNameReadable(DrawContext context, Operation<Void> original) {
+    private void sparkdlc$keepHeldItemNameReadable(DrawContext context, Operation<Void> original) {
         NatsumeHudGarble.suspend();
         try {
             original.call(context);

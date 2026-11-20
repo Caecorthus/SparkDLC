@@ -26,7 +26,7 @@ public abstract class WraithCrosshairTargetMixin {
             ),
             index = 4
     )
-    private Predicate<Entity> sparkwitch$crosshairThroughWraiths(
+    private Predicate<Entity> sparkdlc$crosshairThroughWraiths(
             Entity camera,
             Vec3d start,
             Vec3d end,

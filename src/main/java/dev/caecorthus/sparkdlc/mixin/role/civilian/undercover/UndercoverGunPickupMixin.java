@@ -22,7 +22,7 @@ public abstract class UndercoverGunPickupMixin {
     public abstract ItemStack getStack();
 
     @Inject(method = "onPlayerCollision", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$stage2LeavesGuns(PlayerEntity player, CallbackInfo ci) {
+    private void sparkdlc$stage2LeavesGuns(PlayerEntity player, CallbackInfo ci) {
         if (player instanceof ServerPlayerEntity serverPlayer && UndercoverService.refusesStack(serverPlayer, getStack())) {
             ci.cancel();
         }

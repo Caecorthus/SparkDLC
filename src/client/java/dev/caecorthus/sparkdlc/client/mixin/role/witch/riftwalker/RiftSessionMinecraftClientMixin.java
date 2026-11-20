@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(MinecraftClient.class)
 public abstract class RiftSessionMinecraftClientMixin {
     @Inject(method = "handleInputEvents", at = @At("HEAD"))
-    private void sparkwitch$settleInsideRift(CallbackInfo ci) {
+    private void sparkdlc$settleInsideRift(CallbackInfo ci) {
         if (!RiftSessionClient.isActive()) {
             return;
         }
@@ -28,7 +28,7 @@ public abstract class RiftSessionMinecraftClientMixin {
     }
 
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noAttackInsideRift(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$noAttackInsideRift(CallbackInfoReturnable<Boolean> cir) {
         if (!RiftSessionClient.isActive()) {
             return;
         }
@@ -36,7 +36,7 @@ public abstract class RiftSessionMinecraftClientMixin {
     }
 
     @Inject(method = "doItemUse", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noItemUseInsideRift(CallbackInfo ci) {
+    private void sparkdlc$noItemUseInsideRift(CallbackInfo ci) {
         if (!RiftSessionClient.isActive()) {
             return;
         }
@@ -44,7 +44,7 @@ public abstract class RiftSessionMinecraftClientMixin {
     }
 
     @Inject(method = "doItemPick", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noItemPickInsideRift(CallbackInfo ci) {
+    private void sparkdlc$noItemPickInsideRift(CallbackInfo ci) {
         if (!RiftSessionClient.isActive()) {
             return;
         }
@@ -52,7 +52,7 @@ public abstract class RiftSessionMinecraftClientMixin {
     }
 
     @Inject(method = "handleBlockBreaking", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noBlockBreakingInsideRift(boolean breaking, CallbackInfo ci) {
+    private void sparkdlc$noBlockBreakingInsideRift(boolean breaking, CallbackInfo ci) {
         if (!RiftSessionClient.isActive()) {
             return;
         }

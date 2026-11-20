@@ -35,7 +35,7 @@ public abstract class BodyguardGearKillGuardMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private static void sparkstrength$bodyguardGearBlocksKill(
+    private static void sparkdlc$bodyguardGearBlocksKill(
             ServerPlayerEntity victim,
             boolean spawnBody,
             @Nullable ServerPlayerEntity killer,

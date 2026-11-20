@@ -26,7 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(BeveragePlateBlockEntity.class)
 public abstract class TimedBombTrayViewMixin {
     @Inject(method = "clientTick", at = @At("HEAD"), remap = false)
-    private static void sparkstrength$renderTimedBombTray(
+    private static void sparkdlc$renderTimedBombTray(
             World world,
             BlockPos pos,
             BlockState state,
@@ -36,7 +36,7 @@ public abstract class TimedBombTrayViewMixin {
         if (!TimedBombMarkerClientStore.contains(world, pos)) {
             return;
         }
-        if (!sparkstrength$canSeeTimedBombTrap(world)) {
+        if (!sparkdlc$canSeeTimedBombTrap(world)) {
             return;
         }
         if (world.getRandom().nextBetween(0, 20) < 17) {
@@ -54,7 +54,7 @@ public abstract class TimedBombTrayViewMixin {
         );
     }
 
-    private static boolean sparkstrength$canSeeTimedBombTrap(World world) {
+    private static boolean sparkdlc$canSeeTimedBombTrap(World world) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null) {
             return false;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.record;
 
-import dev.caecorthus.sparkdlc.SparkFactionApiMod;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.item.CocktailItem;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import net.minecraft.component.DataComponentTypes;
@@ -71,7 +71,7 @@ public final class ConsumeRecorder {
             }
             return OPEN_USES.push(player.getUuid(), new Use(itemId(stack), kindOf(stack), stack.getCount()));
         } catch (RuntimeException | LinkageError e) {
-            SparkFactionApiMod.LOGGER.warn("Failed to read a finished item use for the match record", e);
+            SparkDLC.LOGGER.warn("Failed to read a finished item use for the match record", e);
             return null;
         }
     }
@@ -120,7 +120,7 @@ public final class ConsumeRecorder {
                 record(player, use);
             }
         } catch (RuntimeException | LinkageError e) {
-            SparkFactionApiMod.LOGGER.warn("Failed to record a fed consumption for the match record", e);
+            SparkDLC.LOGGER.warn("Failed to record a fed consumption for the match record", e);
         }
     }
 
@@ -132,7 +132,7 @@ public final class ConsumeRecorder {
                     .put(KEY_KIND, use.kind().id())
                     .record();
         } catch (RuntimeException | LinkageError e) {
-            SparkFactionApiMod.LOGGER.warn("Failed to record a consumption by {}", player.getUuid(), e);
+            SparkDLC.LOGGER.warn("Failed to record a consumption by {}", player.getUuid(), e);
         }
     }
 

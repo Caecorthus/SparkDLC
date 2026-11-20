@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 import org.agmas.noellesroles.Noellesroles;
@@ -61,8 +61,8 @@ public final class PartyAnimalRules {
     /** Sounds reach about 24 blocks (vanilla range = 16 x volume). / 声音约 24 格可闻（原版范围 = 16 x 音量）。 */
     public static final float SOUND_VOLUME = 1.5F;
 
-    public static final Identifier DEATH_REASON_EATEN = SparkStrength.id("partygoer_eaten");
-    public static final Identifier DEATH_REASON_KICKED = SparkStrength.id("partygoer_kicked");
+    public static final Identifier DEATH_REASON_EATEN = SparkDLC.id("partygoer_eaten");
+    public static final Identifier DEATH_REASON_KICKED = SparkDLC.id("partygoer_kicked");
 
     private PartyAnimalRules() {
     }

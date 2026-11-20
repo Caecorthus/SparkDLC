@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceHits;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit.BlackRavenCrowHits;
@@ -260,7 +260,7 @@ public class MiniWitherSkullEntity extends ThrownEntity {
         ServerWorld world = (ServerWorld) getWorld();
         ServerPlayerEntity owner = getOwner() instanceof ServerPlayerEntity player ? player : null;
         world.spawnParticles(CRIMSON_DUST, at.x, at.y, at.z, 16, 0.2, 0.3, 0.2, 0.0);
-        world.playSound(null, at.x, at.y, at.z, SparkWitchSounds.miniWither(MiniWitherSoundSlot.CRIMSON_HIT),
+        world.playSound(null, at.x, at.y, at.z, SparkDlcSounds.miniWither(MiniWitherSoundSlot.CRIMSON_HIT),
                 SoundCategory.PLAYERS, 0.5F, 1.6F);
         GameWorldComponent game = GameWorldComponent.KEY.get(world);
         // A non-forced kill with the live owner as killer: money, records and every protection apply, and SparkTraits
@@ -269,7 +269,7 @@ public class MiniWitherSkullEntity extends ThrownEntity {
         if (owner == null || MiniWitherTargeting.mayAffect(owner, victim, game)) {
             // BEAR: this skull is the Rys-T attack source. / BEAR：这颗头颅即 Rys-T 的攻击来源。
             RangedOriginScope.run(getPos().subtract(getVelocity()), getUuid(),
-                    () -> GameFunctions.killPlayer(victim, true, owner, SparkWitchDeathReasons.CRIMSON_WITHER_SKULL));
+                    () -> GameFunctions.killPlayer(victim, true, owner, SparkDlcDeathReasons.CRIMSON_WITHER_SKULL));
         }
         discard();
     }

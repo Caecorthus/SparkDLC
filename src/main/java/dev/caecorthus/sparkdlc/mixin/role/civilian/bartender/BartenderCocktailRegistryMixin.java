@@ -21,7 +21,7 @@ import java.util.List;
 @Mixin(value = CocktailRegistry.class, remap = false)
 public abstract class BartenderCocktailRegistryMixin {
     @Inject(method = "getEntry", at = @At("HEAD"), cancellable = true)
-    private static void sparkstrength$signatureEntry(
+    private static void sparkdlc$signatureEntry(
             List<String> ingredients, CallbackInfoReturnable<CocktailRegistry.CocktailEntry> cir
     ) {
         BartenderRules.Signature signature = BartenderRules.signatureOf(ingredients);
@@ -31,7 +31,7 @@ public abstract class BartenderCocktailRegistryMixin {
     }
 
     @Inject(method = "getCocktailName", at = @At("HEAD"), cancellable = true)
-    private static void sparkstrength$signatureName(List<String> ingredients, CallbackInfoReturnable<MutableText> cir) {
+    private static void sparkdlc$signatureName(List<String> ingredients, CallbackInfoReturnable<MutableText> cir) {
         BartenderRules.Signature signature = BartenderRules.signatureOf(ingredients);
         if (signature != null) {
             cir.setReturnValue(BartenderCocktailNames.signatureName(signature));

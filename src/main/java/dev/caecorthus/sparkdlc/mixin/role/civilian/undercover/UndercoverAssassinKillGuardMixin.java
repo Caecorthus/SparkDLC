@@ -23,7 +23,7 @@ public abstract class UndercoverAssassinKillGuardMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private static void sparkstrength$stage2UndercoverSurvivesAssassination(
+    private static void sparkdlc$stage2UndercoverSurvivesAssassination(
             ServerPlayerEntity victim,
             boolean spawnBody,
             @Nullable ServerPlayerEntity killer,

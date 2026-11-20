@@ -46,8 +46,8 @@ public final class SaintKarmaCooldownService {
             WitchWorldComponent worldComponent = WitchWorldComponent.KEY.get(player.getServerWorld());
             ItemCooldownManager manager = player.getItemCooldownManager();
             ItemCooldownManagerAccessor managerAccessor = (ItemCooldownManagerAccessor) manager;
-            Map<Item, ?> entries = managerAccessor.sparkwitch$getEntries();
-            int currentTick = managerAccessor.sparkwitch$getTick();
+            Map<Item, ?> entries = managerAccessor.sparkdlc$getEntriesForRoles();
+            int currentTick = managerAccessor.sparkdlc$getTickForRoles();
             for (Item item : carriedItems) {
                 if (worldComponent.isSaintKarmaAdminCleared(player.getUuid(), Registries.ITEM.getId(item))) {
                     continue;
@@ -101,6 +101,6 @@ public final class SaintKarmaCooldownService {
         if (!(entry instanceof ItemCooldownEntryAccessor accessor)) {
             return 0;
         }
-        return Math.max(0, accessor.sparkwitch$getEndTick() - currentTick);
+        return Math.max(0, accessor.sparkdlc$getEndTickForRoles() - currentTick);
     }
 }

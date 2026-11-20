@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.trait.killer;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.trait.render.DepressionScreenEffects;
 import dev.caecorthus.sparkdlc.trait.killer.combat.ForcedMeleeCooldownService;
 import dev.caecorthus.sparkdlc.trait.net.ForcedMeleeCooldownPayload;
@@ -40,7 +40,7 @@ public final class NewKillerTraitsClient {
         // post-effect processor asserts the render thread, so both are marshalled, in their original order.
         // DISCONNECT 可能在 Netty 线程触发：冷却表属于客户端线程，关闭后处理器会断言渲染线程，因此两者按原顺序转交客户端线程执行。
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) ->
-                dev.caecorthus.sparkdlc.client.SparkTraitsClient.runSessionCleanup(client, handler, () -> {
+                dev.caecorthus.sparkdlc.client.SparkDLCClient.runSessionCleanup(client, handler, () -> {
                     ForcedMeleeCooldownService.clearClient();
                     DepressionScreenEffects.close();
                 }));
@@ -49,7 +49,7 @@ public final class NewKillerTraitsClient {
                 new SimpleSynchronousResourceReloadListener() {
                     @Override
                     public Identifier getFabricId() {
-                        return SparkTraits.id("killer_world_effects");
+                        return SparkDLC.id("killer_world_effects");
                     }
 
                     @Override

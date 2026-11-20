@@ -15,5 +15,5 @@ import java.util.List;
 @Mixin(value = AssassinScreen.class, remap = false)
 public interface AssassinScreenInvoker {
     @Invoker(value = "getAllGuessableRoles", remap = false)
-    List<Role> sparkstrength$guessableRoles();
+    List<Role> sparkdlc$guessableRoles();
 }

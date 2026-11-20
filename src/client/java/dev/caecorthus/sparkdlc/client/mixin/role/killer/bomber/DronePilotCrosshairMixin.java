@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = CrosshairRenderer.class, remap = false)
 public abstract class DronePilotCrosshairMixin {
     @Inject(method = "renderCrosshair", at = @At("HEAD"), cancellable = true)
-    private static void sparkstrength$hideWatheCrosshairWhilePiloting(MinecraftClient client, ClientPlayerEntity player,
+    private static void sparkdlc$hideWatheCrosshairWhilePiloting(MinecraftClient client, ClientPlayerEntity player,
                                                                       DrawContext context,
                                                                       RenderTickCounter tickCounter,
                                                                       CallbackInfo ci) {

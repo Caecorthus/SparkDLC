@@ -8,8 +8,8 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * The Ferryman's single registration hub: one line in {@code SparkWitchEvents}, every subsystem appended here.
- * 摆渡人的唯一注册中心：在 {@code SparkWitchEvents} 中占一行，各子系统在此追加。
+ * The Ferryman's single registration hub: one line in {@code RoleEvents}, every subsystem appended here.
+ * 摆渡人的唯一注册中心：在 {@code RoleEvents} 中占一行，各子系统在此追加。
  */
 public final class FerrymanFeatureService {
     private static boolean registered;

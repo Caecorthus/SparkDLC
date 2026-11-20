@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartyAnimalRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,7 +23,7 @@ import java.util.UUID;
  */
 public final class PartyBalloonMarkComponent implements AutoSyncedComponent {
     public static final ComponentKey<PartyBalloonMarkComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("party_balloon_mark"),
+            SparkDLC.id("party_balloon_mark"),
             PartyBalloonMarkComponent.class
     );
 

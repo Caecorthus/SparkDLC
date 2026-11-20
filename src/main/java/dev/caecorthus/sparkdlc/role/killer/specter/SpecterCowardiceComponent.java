@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.specter;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -29,7 +29,7 @@ import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
  */
 public final class SpecterCowardiceComponent implements AutoSyncedComponent {
     public static final ComponentKey<SpecterCowardiceComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("specter_cowardice"),
+            SparkDLC.id("specter_cowardice"),
             SpecterCowardiceComponent.class
     );
     private static final String COWARD = "Coward";

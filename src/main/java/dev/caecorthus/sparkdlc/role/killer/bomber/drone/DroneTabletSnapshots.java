@@ -95,11 +95,11 @@ public final class DroneTabletSnapshots {
      * 精确的物品剩余冷却（开局锁或损毁冷却）；原版只公开进度比例。
      */
     private static int remainingCooldownTicks(ItemCooldownManager cooldowns, Item item) {
-        Object entry = ((ItemCooldownManagerAccessor) cooldowns).sparkstrength$getEntries().get(item);
+        Object entry = ((ItemCooldownManagerAccessor) cooldowns).sparkdlc$getEntriesForKits().get(item);
         if (entry == null) {
             return 0;
         }
-        return Math.max(0, ((ItemCooldownEntryAccessor) entry).sparkstrength$getEndTick()
-                - ((ItemCooldownManagerAccessor) cooldowns).sparkstrength$getTick());
+        return Math.max(0, ((ItemCooldownEntryAccessor) entry).sparkdlc$getEndTickForKits()
+                - ((ItemCooldownManagerAccessor) cooldowns).sparkdlc$getTickForKits());
     }
 }

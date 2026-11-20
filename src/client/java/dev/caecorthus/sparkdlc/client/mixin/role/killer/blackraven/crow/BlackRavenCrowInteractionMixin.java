@@ -28,7 +28,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ClientPlayerInteractionManager.class)
 public abstract class BlackRavenCrowInteractionMixin {
     @Inject(method = "attackBlock", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noBlockAttackAsCrow(BlockPos pos, Direction direction, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$noBlockAttackAsCrow(BlockPos pos, Direction direction, CallbackInfoReturnable<Boolean> cir) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             return;
         }
@@ -36,7 +36,7 @@ public abstract class BlackRavenCrowInteractionMixin {
     }
 
     @Inject(method = "attackEntity", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noEntityAttackAsCrow(PlayerEntity player, Entity target, CallbackInfo ci) {
+    private void sparkdlc$noEntityAttackAsCrow(PlayerEntity player, Entity target, CallbackInfo ci) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             return;
         }
@@ -44,7 +44,7 @@ public abstract class BlackRavenCrowInteractionMixin {
     }
 
     @Inject(method = "interactBlock", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noBlockUseAsCrow(ClientPlayerEntity player, Hand hand, BlockHitResult hitResult,
+    private void sparkdlc$noBlockUseAsCrow(ClientPlayerEntity player, Hand hand, BlockHitResult hitResult,
                                             CallbackInfoReturnable<ActionResult> cir) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             return;
@@ -53,7 +53,7 @@ public abstract class BlackRavenCrowInteractionMixin {
     }
 
     @Inject(method = "interactItem", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noItemUseAsCrow(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+    private void sparkdlc$noItemUseAsCrow(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             return;
         }
@@ -61,7 +61,7 @@ public abstract class BlackRavenCrowInteractionMixin {
     }
 
     @Inject(method = "interactEntity", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noEntityUseAsCrow(PlayerEntity player, Entity entity, Hand hand,
+    private void sparkdlc$noEntityUseAsCrow(PlayerEntity player, Entity entity, Hand hand,
                                              CallbackInfoReturnable<ActionResult> cir) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             return;
@@ -70,7 +70,7 @@ public abstract class BlackRavenCrowInteractionMixin {
     }
 
     @Inject(method = "interactEntityAtLocation", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noEntityUseAtAsCrow(PlayerEntity player, Entity entity, EntityHitResult hitResult,
+    private void sparkdlc$noEntityUseAtAsCrow(PlayerEntity player, Entity entity, EntityHitResult hitResult,
                                                Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             return;
@@ -79,7 +79,7 @@ public abstract class BlackRavenCrowInteractionMixin {
     }
 
     @Inject(method = "stopUsingItem", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$clearInsteadOfReleaseAsCrow(PlayerEntity player, CallbackInfo ci) {
+    private void sparkdlc$clearInsteadOfReleaseAsCrow(PlayerEntity player, CallbackInfo ci) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             return;
         }

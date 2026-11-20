@@ -19,9 +19,9 @@ import java.util.function.Supplier;
  * {@code mixin/usec/NoellesUsecShieldPierceMixin} through {@link #pierceLayers}), the Guardian Angel shield
  * ({@code GuardianAngelFeatureService}), Wathe psycho armour, Jester-moment armour included
  * ({@code mixin/usec/GameFunctionsUsecPsychoArmourMixin}), and add-on layers through the frozen
- * {@code SparkWitchApi.tryPierceShieldLayer} (owner 2026-10-07: SparkStrength's Bodyguard vest). A pierced layer is
+ * {@code SparkRoleApi.tryPierceShieldLayer} (owner 2026-10-07: SparkStrength's Bodyguard vest). A pierced layer is
  * spent as if it had blocked, then the shot goes on; the layer that finds the budget empty blocks as usual. The scope
- * also carries the round ({@link #scopedAmmo}), which {@code SparkWitchApi.piercingShotAmmoId} exposes so an add-on
+ * also carries the round ({@link #scopedAmmo}), which {@code SparkRoleApi.piercingShotAmmoId} exposes so an add-on
  * shield that is never pierced (SparkStrength's Democracy Shield) can price its block by round. Every other
  * protection (Saint, Judge, the SparkFactionAPI veto, Fiend, Ninja parry, Pig God, Last Stand, Last Escape,
  * Depression, Jester fake death, Tofana) runs exactly once in its native place and is never pierced, because nothing
@@ -34,9 +34,9 @@ import java.util.function.Supplier;
  * 消耗方会通过 {@link #tryPierce} 花费它：NoellesRoles 威士忌 / 铁人 BEFORE 监听（由
  * {@code mixin/usec/NoellesUsecShieldPierceMixin} 经 {@link #pierceLayers} 重复调用）、守护天使护盾
  * （{@code GuardianAngelFeatureService}）、Wathe 疯魔护甲，含小丑时刻护甲（{@code mixin/usec/GameFunctionsUsecPsychoArmourMixin}），
- * 以及经冻结的 {@code SparkWitchApi.tryPierceShieldLayer} 接入的附属模组护盾层（所有者 2026-10-07：SparkStrength 保镖防弹衣）。
+ * 以及经冻结的 {@code SparkRoleApi.tryPierceShieldLayer} 接入的附属模组护盾层（所有者 2026-10-07：SparkStrength 保镖防弹衣）。
  * 被击穿的一层如同挡下一样被消耗，随后子弹继续；遇到预算已空的那一层照常挡下。作用域还携带弹种（{@link #scopedAmmo}），由
- * {@code SparkWitchApi.piercingShotAmmoId} 对外提供，使从不被击穿的附属模组盾牌（SparkStrength 民主盾牌）能按弹种为格挡定价。
+ * {@code SparkRoleApi.piercingShotAmmoId} 对外提供，使从不被击穿的附属模组盾牌（SparkStrength 民主盾牌）能按弹种为格挡定价。
  * 其他所有保护（圣徒、法官、SparkFactionAPI 否决、
  * 魔人、忍者格挡、猪神、背水一战、绝处逢生、抑郁、小丑假死、托法娜）都只在原处执行一次且从不被击穿，因为没有任何地方再次调用
  * {@code killPlayer}。只有作用域内确切的受害者、击杀者与 {@code wathe:gun_shot} 死因才匹配，因此作用域内的嵌套击杀（保镖牺牲、

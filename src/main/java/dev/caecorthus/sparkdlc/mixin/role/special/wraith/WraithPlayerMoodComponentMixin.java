@@ -22,7 +22,7 @@ public abstract class WraithPlayerMoodComponentMixin {
     private PlayerEntity player;
 
     @Inject(method = "serverTick", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$runWraithTasksWithoutMood(CallbackInfo ci) {
+    private void sparkdlc$runWraithTasksWithoutMood(CallbackInfo ci) {
         if (WraithStateService.isActive(player)) {
             WraithProgression.tick((PlayerMoodComponent) (Object) this, player);
             ci.cancel();

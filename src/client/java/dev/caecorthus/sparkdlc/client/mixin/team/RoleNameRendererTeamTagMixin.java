@@ -26,7 +26,7 @@ public abstract class RoleNameRendererTeamTagMixin {
                     opcode = Opcodes.GETSTATIC
             )
     )
-    private static Text sparkfactionapi$matchTeamTagToShownName(Text shown) {
+    private static Text sparkdlc$matchTeamTagToShownName(Text shown) {
         return CaecorthusTeamTag.withTagForShownName(shown, ShownPlayerNames::uuidOf);
     }
 }

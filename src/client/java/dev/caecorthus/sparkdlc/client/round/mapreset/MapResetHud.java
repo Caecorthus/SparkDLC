@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.round.mapreset;
 
-import dev.caecorthus.sparkdlc.component.SparkFactionMapResetComponent;
+import dev.caecorthus.sparkdlc.component.LobbyMapResetComponent;
 import dev.caecorthus.sparkdlc.round.mapreset.LobbyMapResetRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
@@ -55,7 +55,7 @@ public final class MapResetHud {
         }
         // getNullable: the component is optional on clients, so a mismatched server may not sync it.
         // getNullable：该组件对客户端可选，版本不一致的服务端可能不会同步它。
-        SparkFactionMapResetComponent reset = SparkFactionMapResetComponent.KEY.getNullable(client.world.getScoreboard());
+        LobbyMapResetComponent reset = LobbyMapResetComponent.KEY.getNullable(client.world.getScoreboard());
         if (reset == null) {
             return;
         }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.neutral.ferryman;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityHandler;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityRegistry;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
@@ -36,7 +36,7 @@ public final class FerrymanClient {
         FerrymanClientHighlights.register();
         FerrymanHud.register();
         LostSoulOrderHud.register();
-        SecondaryAbilityRegistry.register(SparkWitchRoles.FERRYMAN_ID, new SecondaryAbilityHandler() {
+        SecondaryAbilityRegistry.register(SparkDlcRoles.FERRYMAN_ID, new SecondaryAbilityHandler() {
             @Override
             public void onPressed(MinecraftClient client) {
                 ClientPlayerEntity player = client.player;

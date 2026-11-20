@@ -16,7 +16,7 @@ public abstract class SerialKillerClientSlotLockMixin {
      * 作为数字键、滚轮和其它客户端输入路径之外的最终兜底。
      */
     @org.spongepowered.asm.mixin.injection.Inject(method = "tick", at = @org.spongepowered.asm.mixin.injection.At("HEAD"))
-    private void sparkstrength$restoreSerialKillerSlot(org.spongepowered.asm.mixin.injection.callback.CallbackInfo ci) {
+    private void sparkdlc$restoreSerialKillerSlot(org.spongepowered.asm.mixin.injection.callback.CallbackInfo ci) {
         MinecraftClient client = (MinecraftClient) (Object) this;
         PlayerEntity player = client.player;
         if (player == null || PlayerPsychoComponent.KEY.get(player).getPsychoTicks() <= 0) return;

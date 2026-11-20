@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.criminalreasoner;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -18,10 +18,10 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class CriminalReasonerRules {
 
-    public static final Identifier ROLE_ID = SparkWitch.id("criminal_reasoner");
+    public static final Identifier ROLE_ID = SparkDLC.id("criminal_reasoner");
 
     /** Forced-cooldown store id of the reasoning skill (store 31). 推理技能的强制冷却存储 id（第 31 个存储）。 */
-    public static final Identifier REASONING_SKILL_ID = SparkWitch.id("criminal_reasoner_reasoning");
+    public static final Identifier REASONING_SKILL_ID = SparkDLC.id("criminal_reasoner_reasoning");
 
     /** Identity colour from the source build: (112, 75, 75). 沿用原实现的身份色 (112, 75, 75)。 */
     public static final int COLOR = 0x704B4B;

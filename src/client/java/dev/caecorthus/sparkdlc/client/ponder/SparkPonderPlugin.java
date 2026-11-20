@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.ponder;
 
-import dev.caecorthus.sparkdlc.SparkAssist;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.createmod.ponder.api.registration.PonderPlugin;
 import net.createmod.ponder.api.registration.PonderSceneRegistrationHelper;
 import net.createmod.ponder.foundation.PonderIndex;
@@ -16,7 +16,7 @@ public final class SparkPonderPlugin implements PonderPlugin {
 
     @Override
     public String getModId() {
-        return SparkAssist.MOD_ID;
+        return SparkDLC.MOD_ID;
     }
 
     @Override

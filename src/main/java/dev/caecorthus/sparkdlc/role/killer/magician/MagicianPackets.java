@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.magician;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -34,7 +34,7 @@ public final class MagicianPackets {
                     var entry = payload.target() == null ? null : component.rosterEntry(payload.target());
                     // Exactly ACTIVE, like the ability itself (owner 2026-11). / 必须恰为 ACTIVE，与技能本身一致（所有者 2026-11）。
                     if (entry != null && role != null
-                            && SparkWitchRoles.MAGICIAN_ID.equals(role.identifier())
+                            && SparkDlcRoles.MAGICIAN_ID.equals(role.identifier())
                             && game.getGameStatus() == GameWorldComponent.GameStatus.ACTIVE) {
                         component.setSelectedTarget(entry.uuid(), entry.name());
                     }

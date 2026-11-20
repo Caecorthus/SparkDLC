@@ -12,10 +12,10 @@ import java.util.UUID;
  * 交互逻辑只依赖这个接口，避免把托盘和床的具体 mixin 字段名散落到业务代码里。</p>
  */
 public interface TimedBombTrapHolder {
-    boolean sparkstrength$hasTimedBombTrap();
+    boolean sparkdlc$hasTimedBombTrap();
 
     @Nullable
-    UUID sparkstrength$getTimedBombTrapOwner();
+    UUID sparkdlc$getTimedBombTrapOwner();
 
-    void sparkstrength$setTimedBombTrapOwner(@Nullable UUID owner);
+    void sparkdlc$setTimedBombTrapOwner(@Nullable UUID owner);
 }

@@ -15,7 +15,7 @@ public abstract class LivingEntityCollisionMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkfactionapi$cancelExemptPush(Entity other, CallbackInfo ci) {
+    private void sparkdlc$cancelExemptPush(Entity other, CallbackInfo ci) {
         if (EntityCollisionExemptions.shouldCancelPush((Entity) (Object) this, other)) {
             ci.cancel();
         }

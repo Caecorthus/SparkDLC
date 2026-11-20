@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.curser;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -21,7 +21,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 public final class CurserPlayerComponent
         implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
     public static final ComponentKey<CurserPlayerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("curser_player"), CurserPlayerComponent.class);
+            SparkDLC.id("curser_player"), CurserPlayerComponent.class);
 
     private final PlayerEntity player;
     private final CurserState state = new CurserState();

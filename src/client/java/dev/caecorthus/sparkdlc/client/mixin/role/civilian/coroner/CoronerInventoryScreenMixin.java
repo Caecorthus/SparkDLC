@@ -38,17 +38,17 @@ import java.util.UUID;
 public abstract class CoronerInventoryScreenMixin extends LimitedHandledScreen<PlayerScreenHandler> {
     @Shadow @Final public ClientPlayerEntity player;
 
-    @Unique private final List<CoronerPlayerWidget> sparkstrength$coronerPlayerWidgets = new ArrayList<>();
-    @Unique private PlayerPageSwitchWidget sparkstrength$coronerPreviousPageWidget;
-    @Unique private PlayerPageSwitchWidget sparkstrength$coronerNextPageWidget;
-    @Unique private int sparkstrength$coronerCurrentPage;
+    @Unique private final List<CoronerPlayerWidget> sparkdlc$coronerPlayerWidgets = new ArrayList<>();
+    @Unique private PlayerPageSwitchWidget sparkdlc$coronerPreviousPageWidget;
+    @Unique private PlayerPageSwitchWidget sparkdlc$coronerNextPageWidget;
+    @Unique private int sparkdlc$coronerCurrentPage;
 
     public CoronerInventoryScreenMixin(PlayerScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
 
     @Inject(method = "init", at = @At("HEAD"))
-    private void sparkstrength$coronerAddMorphButtons(CallbackInfo ci) {
+    private void sparkdlc$coronerAddMorphButtons(CallbackInfo ci) {
         if (player == null || player.getWorld() == null) {
             return;
         }
@@ -58,20 +58,20 @@ public abstract class CoronerInventoryScreenMixin extends LimitedHandledScreen<P
             return;
         }
 
-        sparkstrength$coronerAddPlayerSelectionUI();
+        sparkdlc$coronerAddPlayerSelectionUI();
     }
 
     @Unique
-    private void sparkstrength$coronerAddPlayerSelectionUI() {
+    private void sparkdlc$coronerAddPlayerSelectionUI() {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null || client.player.networkHandler == null) {
             return;
         }
 
-        List<UUID> targetUuids = sparkstrength$coronerCollectTargets(player);
+        List<UUID> targetUuids = sparkdlc$coronerCollectTargets(player);
         int y = PlayerPageLayout.getPlayerRowY(this.height);
-        sparkstrength$coronerPlayerWidgets.clear();
-        sparkstrength$coronerCurrentPage = PlayerSelectionPageState.getCoronerPage();
+        sparkdlc$coronerPlayerWidgets.clear();
+        sparkdlc$coronerCurrentPage = PlayerSelectionPageState.getCoronerPage();
 
         for (UUID targetUuid : targetUuids) {
             PlayerListEntry playerListEntry = client.player.networkHandler.getPlayerListEntry(targetUuid);
@@ -82,36 +82,36 @@ public abstract class CoronerInventoryScreenMixin extends LimitedHandledScreen<P
                     targetUuid.equals(player.getUuid()),
                     playerListEntry
             );
-            sparkstrength$coronerPlayerWidgets.add(child);
+            sparkdlc$coronerPlayerWidgets.add(child);
             addDrawableChild(child);
         }
 
-        sparkstrength$coronerPreviousPageWidget = addDrawableChild(new PlayerPageSwitchWidget(
+        sparkdlc$coronerPreviousPageWidget = addDrawableChild(new PlayerPageSwitchWidget(
                 0,
                 y,
                 Items.PURPLE_DYE.getDefaultStack(),
                 Text.translatable("ui.sparkdlc.pagination.previous"),
                 button -> {
-                    sparkstrength$coronerCurrentPage--;
-                    sparkstrength$coronerRefreshPage();
+                    sparkdlc$coronerCurrentPage--;
+                    sparkdlc$coronerRefreshPage();
                 }
         ));
-        sparkstrength$coronerNextPageWidget = addDrawableChild(new PlayerPageSwitchWidget(
+        sparkdlc$coronerNextPageWidget = addDrawableChild(new PlayerPageSwitchWidget(
                 0,
                 y,
                 Items.LIME_DYE.getDefaultStack(),
                 Text.translatable("ui.sparkdlc.pagination.next"),
                 button -> {
-                    sparkstrength$coronerCurrentPage++;
-                    sparkstrength$coronerRefreshPage();
+                    sparkdlc$coronerCurrentPage++;
+                    sparkdlc$coronerRefreshPage();
                 }
         ));
 
-        sparkstrength$coronerRefreshPage();
+        sparkdlc$coronerRefreshPage();
     }
 
     @Unique
-    private List<UUID> sparkstrength$coronerCollectTargets(ClientPlayerEntity player) {
+    private List<UUID> sparkdlc$coronerCollectTargets(ClientPlayerEntity player) {
         List<UUID> targetUuids = new ArrayList<>();
         targetUuids.add(player.getUuid());
         targetUuids.addAll(CoronerPlayerComponent.KEY.get(player).unlockedBodyUuids());
@@ -119,27 +119,27 @@ public abstract class CoronerInventoryScreenMixin extends LimitedHandledScreen<P
     }
 
     @Unique
-    private void sparkstrength$coronerRefreshPage() {
-        int totalPages = PlayerPageLayout.getTotalPageCount(sparkstrength$coronerPlayerWidgets.size());
-        if (sparkstrength$coronerCurrentPage < 0) {
-            sparkstrength$coronerCurrentPage = 0;
+    private void sparkdlc$coronerRefreshPage() {
+        int totalPages = PlayerPageLayout.getTotalPageCount(sparkdlc$coronerPlayerWidgets.size());
+        if (sparkdlc$coronerCurrentPage < 0) {
+            sparkdlc$coronerCurrentPage = 0;
         }
-        if (sparkstrength$coronerCurrentPage >= totalPages) {
-            sparkstrength$coronerCurrentPage = totalPages - 1;
+        if (sparkdlc$coronerCurrentPage >= totalPages) {
+            sparkdlc$coronerCurrentPage = totalPages - 1;
         }
-        PlayerSelectionPageState.setCoronerPage(sparkstrength$coronerCurrentPage);
+        PlayerSelectionPageState.setCoronerPage(sparkdlc$coronerCurrentPage);
 
-        int startIndex = sparkstrength$coronerCurrentPage * PlayerPageLayout.PLAYERS_PER_PAGE;
-        int endIndex = Math.min(startIndex + PlayerPageLayout.PLAYERS_PER_PAGE, sparkstrength$coronerPlayerWidgets.size());
+        int startIndex = sparkdlc$coronerCurrentPage * PlayerPageLayout.PLAYERS_PER_PAGE;
+        int endIndex = Math.min(startIndex + PlayerPageLayout.PLAYERS_PER_PAGE, sparkdlc$coronerPlayerWidgets.size());
         int visibleCount = endIndex - startIndex;
         int y = PlayerPageLayout.getPlayerRowY(this.height);
-        boolean showPrevious = sparkstrength$coronerCurrentPage > 0;
-        boolean showNext = sparkstrength$coronerCurrentPage < totalPages - 1;
+        boolean showPrevious = sparkdlc$coronerCurrentPage > 0;
+        boolean showNext = sparkdlc$coronerCurrentPage < totalPages - 1;
         int groupStartX = PlayerPageLayout.getCenteredGroupStartX(this.width, visibleCount, showPrevious, showNext);
         int playerStartX = groupStartX + (showPrevious ? PlayerPageLayout.SLOT_APART : 0);
 
-        for (int i = 0; i < sparkstrength$coronerPlayerWidgets.size(); i++) {
-            CoronerPlayerWidget widget = sparkstrength$coronerPlayerWidgets.get(i);
+        for (int i = 0; i < sparkdlc$coronerPlayerWidgets.size(); i++) {
+            CoronerPlayerWidget widget = sparkdlc$coronerPlayerWidgets.get(i);
             boolean visible = i >= startIndex && i < endIndex;
             widget.visible = visible;
             widget.active = visible;
@@ -150,17 +150,17 @@ public abstract class CoronerInventoryScreenMixin extends LimitedHandledScreen<P
             }
         }
 
-        if (sparkstrength$coronerPreviousPageWidget != null) {
-            sparkstrength$coronerPreviousPageWidget.visible = showPrevious;
-            sparkstrength$coronerPreviousPageWidget.active = showPrevious;
-            sparkstrength$coronerPreviousPageWidget.setX(groupStartX);
-            sparkstrength$coronerPreviousPageWidget.setY(y);
+        if (sparkdlc$coronerPreviousPageWidget != null) {
+            sparkdlc$coronerPreviousPageWidget.visible = showPrevious;
+            sparkdlc$coronerPreviousPageWidget.active = showPrevious;
+            sparkdlc$coronerPreviousPageWidget.setX(groupStartX);
+            sparkdlc$coronerPreviousPageWidget.setY(y);
         }
-        if (sparkstrength$coronerNextPageWidget != null) {
-            sparkstrength$coronerNextPageWidget.visible = showNext;
-            sparkstrength$coronerNextPageWidget.active = showNext;
-            sparkstrength$coronerNextPageWidget.setX(playerStartX + visibleCount * PlayerPageLayout.SLOT_APART);
-            sparkstrength$coronerNextPageWidget.setY(y);
+        if (sparkdlc$coronerNextPageWidget != null) {
+            sparkdlc$coronerNextPageWidget.visible = showNext;
+            sparkdlc$coronerNextPageWidget.active = showNext;
+            sparkdlc$coronerNextPageWidget.setX(playerStartX + visibleCount * PlayerPageLayout.SLOT_APART);
+            sparkdlc$coronerNextPageWidget.setY(y);
         }
     }
 }

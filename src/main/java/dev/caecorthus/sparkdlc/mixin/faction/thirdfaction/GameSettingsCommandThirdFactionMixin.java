@@ -24,7 +24,7 @@ public abstract class GameSettingsCommandThirdFactionMixin {
             at = @At("TAIL"),
             require = 1
     )
-    private static void sparkfactionapi$attachThirdFactionDividend(
+    private static void sparkdlc$attachThirdFactionDividend(
             CommandDispatcher<ServerCommandSource> dispatcher,
             CallbackInfo ci
     ) {

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.bomber.drone;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.entity.DroneEntity;
 import dev.caecorthus.sparkdlc.role.NonPlayerTargetWeapons;
@@ -64,7 +64,7 @@ public final class DroneWeaponHits {
      * 左键与使用物品钩子的 Fabric 回调阶段：在各锁定阶段（SparkWitch 的会话、眩晕、裂隙，按需创建，未安装 SparkWitch 时无效；
      * SparkStrength 的饕餮头颅眩晕与工程师定身）之后、默认阶段之前（默认阶段中 SparkWitch 仪礼剑对任何实体返回 SUCCESS，手里剑返回 FAIL）。
      */
-    public static final Identifier PHASE = SparkStrength.id("drone_weapon");
+    public static final Identifier PHASE = SparkDLC.id("drone_weapon");
     private static final Identifier[] LOCK_PHASES = {
             Identifier.of("sparkdlc", "seeker_session_lock"),
             Identifier.of("sparkdlc", "control_expert_stun"),
@@ -79,7 +79,7 @@ public final class DroneWeaponHits {
      * 箭、三叉戟与火球已经通过 damage() 击毁无人机。
      */
     public static final TagKey<EntityType<?>> DRONE_BREAKING_PROJECTILES =
-            TagKey.of(RegistryKeys.ENTITY_TYPE, SparkStrength.id("drone_breaking_projectiles"));
+            TagKey.of(RegistryKeys.ENTITY_TYPE, SparkDLC.id("drone_breaking_projectiles"));
 
     // Server thread only. / 仅服务器线程。
     private static final Map<UUID, DashWatch> DASH_WATCHES = new HashMap<>();

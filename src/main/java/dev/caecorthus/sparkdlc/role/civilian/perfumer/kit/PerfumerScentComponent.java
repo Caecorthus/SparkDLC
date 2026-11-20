@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.perfumer.kit;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.AromaService;
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerRules;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -27,7 +27,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
  */
 public final class PerfumerScentComponent implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
     public static final ComponentKey<PerfumerScentComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("perfumer_scent"),
+            SparkDLC.id("perfumer_scent"),
             PerfumerScentComponent.class
     );
     private static final int AROMA_PARTICLE_INTERVAL_TICKS = 5;

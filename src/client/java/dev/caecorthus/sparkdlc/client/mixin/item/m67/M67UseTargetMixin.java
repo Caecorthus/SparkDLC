@@ -26,14 +26,14 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class M67UseTargetMixin {
     @WrapOperation(method = "doItemUse", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/network/ClientPlayerInteractionManager;interactBlock(Lnet/minecraft/client/network/ClientPlayerEntity;Lnet/minecraft/util/Hand;Lnet/minecraft/util/hit/BlockHitResult;)Lnet/minecraft/util/ActionResult;"))
-    private ActionResult sparkstrength$m67SkipBlock(ClientPlayerInteractionManager manager, ClientPlayerEntity player,
+    private ActionResult sparkdlc$m67SkipBlock(ClientPlayerInteractionManager manager, ClientPlayerEntity player,
                                                     Hand hand, BlockHitResult hit, Operation<ActionResult> original) {
         return M67Client.claimsUse(hand) ? ActionResult.PASS : original.call(manager, player, hand, hit);
     }
 
     @WrapOperation(method = "doItemUse", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/network/ClientPlayerInteractionManager;interactEntityAtLocation(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/entity/Entity;Lnet/minecraft/util/hit/EntityHitResult;Lnet/minecraft/util/Hand;)Lnet/minecraft/util/ActionResult;"))
-    private ActionResult sparkstrength$m67SkipEntityAt(ClientPlayerInteractionManager manager, PlayerEntity player,
+    private ActionResult sparkdlc$m67SkipEntityAt(ClientPlayerInteractionManager manager, PlayerEntity player,
                                                        Entity entity, EntityHitResult hit, Hand hand,
                                                        Operation<ActionResult> original) {
         return M67Client.claimsUse(hand) ? ActionResult.PASS : original.call(manager, player, entity, hit, hand);
@@ -41,7 +41,7 @@ public abstract class M67UseTargetMixin {
 
     @WrapOperation(method = "doItemUse", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/network/ClientPlayerInteractionManager;interactEntity(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/entity/Entity;Lnet/minecraft/util/Hand;)Lnet/minecraft/util/ActionResult;"))
-    private ActionResult sparkstrength$m67SkipEntity(ClientPlayerInteractionManager manager, PlayerEntity player,
+    private ActionResult sparkdlc$m67SkipEntity(ClientPlayerInteractionManager manager, PlayerEntity player,
                                                      Entity entity, Hand hand, Operation<ActionResult> original) {
         return M67Client.claimsUse(hand) ? ActionResult.PASS : original.call(manager, player, entity, hand);
     }

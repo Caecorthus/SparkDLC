@@ -29,7 +29,7 @@ public abstract class SpecterOtherworldKnifeMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$dropRejectedOtherworldStab(
+    private void sparkdlc$dropRejectedOtherworldStab(
             KnifeStabPayload payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci

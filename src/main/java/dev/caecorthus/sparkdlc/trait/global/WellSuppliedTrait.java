@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.global;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.Trait;
 import dev.caecorthus.sparkdlc.trait.api.TraitSelectionContext;
 import net.minecraft.util.Identifier;
@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
  * 全局天赋：提高拥有者的开局金钱。属于白送的额外天赋，不占用天赋槽位。
  */
 public final class WellSuppliedTrait implements Trait {
-    public static final Identifier ID = SparkTraits.id("well_supplied");
+    public static final Identifier ID = SparkDLC.id("well_supplied");
 
     @Override
     public Identifier id() {

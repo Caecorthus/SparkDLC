@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(Screen.class)
 public interface ScreenInitInvoker {
     @Invoker("init")
-    void sparkstrength$init();
+    void sparkdlc$init();
 
     @Accessor("client")
-    void sparkstrength$setClient(MinecraftClient client);
+    void sparkdlc$setClient(MinecraftClient client);
 }

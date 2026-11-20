@@ -27,7 +27,7 @@ public abstract class ShopEntrySecondRowMixin {
                     target = "Ldev/doctor4t/wathe/util/ShopEntry;insertStackInFreeSlot(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/item/ItemStack;)Z"
             )
     )
-    private boolean sparkfactionapi$fallBackToSecondRow(
+    private boolean sparkdlc$fallBackToSecondRow(
             PlayerEntity player,
             ItemStack stack,
             Operation<Boolean> original

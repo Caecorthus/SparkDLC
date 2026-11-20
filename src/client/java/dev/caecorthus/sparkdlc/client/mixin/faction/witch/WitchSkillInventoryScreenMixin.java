@@ -27,7 +27,7 @@ public abstract class WitchSkillInventoryScreenMixin extends LimitedHandledScree
     // Keep Yarn: intermediary selectors crash runClient; remapJar emits the intermediary form verifyClientMixinSelectors checks.
     // 保持 Yarn：intermediary 选择器会使 runClient 崩溃；remapJar 生成的 intermediary 形式由 verifyClientMixinSelectors 校验。
     @WrapMethod(method = "render(Lnet/minecraft/client/gui/DrawContext;IIF)V")
-    private void sparkwitch$scopeOwnerInventory(DrawContext context, int mouseX, int mouseY, float delta, Operation<Void> original) {
+    private void sparkdlc$scopeOwnerInventory(DrawContext context, int mouseX, int mouseY, float delta, Operation<Void> original) {
         // WrapMethod surrounds the complete body including all injected TAILs; neither TAIL owns cleanup.
         try (var call = OwnerInventoryPresenter.begin(this, player, textRenderer)) {
             original.call(context, mouseX, mouseY, delta);
@@ -35,7 +35,7 @@ public abstract class WitchSkillInventoryScreenMixin extends LimitedHandledScree
     }
 
     @Inject(method = "render(Lnet/minecraft/client/gui/DrawContext;IIF)V", at = @At("TAIL"))
-    private void sparkwitch$renderOwnerSkill(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+    private void sparkdlc$renderOwnerSkill(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         OwnerInventoryPresenter.draw(this, player, textRenderer, context, mouseX, mouseY);
     }
 }

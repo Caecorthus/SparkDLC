@@ -12,5 +12,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(ServerItemCooldownManager.class)
 public interface ServerItemCooldownManagerAccessor {
     @Accessor("player")
-    ServerPlayerEntity sparkwitch$getPlayer();
+    ServerPlayerEntity sparkdlc$getPlayerForRoles();
 }

@@ -13,7 +13,7 @@ import java.util.UUID;
 @Mixin(value = HiddenBodiesWorldComponent.class, remap = false)
 public abstract class WraithHiddenBodiesMixin {
     @Inject(method = "isHidden", at = @At("RETURN"), cancellable = true)
-    private void sparkwitch$revealHiddenBody(UUID playerUuid, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$revealHiddenBody(UUID playerUuid, CallbackInfoReturnable<Boolean> cir) {
         if (cir.getReturnValueZ() && WraithSteveProjection.shouldAnonymizeCorpses()) {
             cir.setReturnValue(false);
         }

@@ -21,7 +21,7 @@ public abstract class WraithLandingParticleMixin {
                     target = "Lnet/minecraft/server/world/ServerWorld;spawnParticles(Lnet/minecraft/particle/ParticleEffect;DDDIDDDD)I"
             )
     )
-    private int sparkwitch$hideWraithLandingParticles(
+    private int sparkdlc$hideWraithLandingParticles(
             ServerWorld world,
             ParticleEffect effect,
             double x,

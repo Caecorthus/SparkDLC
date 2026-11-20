@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.hunter;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.util.Identifier;
 
 /**
@@ -8,7 +8,7 @@ import net.minecraft.util.Identifier;
  * 独头弹：单颗实心弹丸，沿中心射线，射程 {@link HunterRules#SLUG_RANGE}（2026-10-29）。
  */
 public final class DoubleBarrelSlugItem extends DoubleBarrelAmmoItem {
-    public static final Identifier ID = SparkWitch.id("double_barrel_slug");
+    public static final Identifier ID = SparkDLC.id("double_barrel_slug");
 
     public DoubleBarrelSlugItem(Settings settings) {
         super(settings);

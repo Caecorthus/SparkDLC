@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.usec;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.remote.SeekerRemoteSessionService;
@@ -233,12 +233,12 @@ public final class UsecAttachmentService {
     static ItemStack releasedStack(Release release) {
         return switch (release) {
             case Magazine magazine -> {
-                ItemStack stack = new ItemStack(SparkWitchItems.usecMagazine());
+                ItemStack stack = new ItemStack(SparkDlcItems.usecMagazine());
                 UsecMagazineItem.setContents(stack, magazine.contents());
                 yield stack;
             }
             case Round round -> new ItemStack(round.type().item());
-            case Suppressor ignored -> new ItemStack(SparkWitchItems.usecSuppressor());
+            case Suppressor ignored -> new ItemStack(SparkDlcItems.usecSuppressor());
             case UsecAttachmentRules.None ignored -> ItemStack.EMPTY;
         };
     }
@@ -292,13 +292,13 @@ public final class UsecAttachmentService {
     /** Public cue at the player, then the bolt (sound + exact cooldown) when it cycled. / 公开提示音，拉栓时再写冷却。 */
     static void finish(ServerPlayerEntity player, Cue cue, boolean bolted) {
         switch (cue) {
-            case MAGAZINE -> play(player, SparkWitchSounds.USEC_RIFLE_MAGAZINE, 1.0F);
-            case SUPPRESSOR -> play(player, SparkWitchSounds.USEC_RIFLE_MAGAZINE, SUPPRESSOR_PITCH);
-            case ROUND -> play(player, SparkWitchSounds.USEC_RIFLE_LOAD_ROUND, 1.0F);
+            case MAGAZINE -> play(player, SparkDlcSounds.USEC_RIFLE_MAGAZINE, 1.0F);
+            case SUPPRESSOR -> play(player, SparkDlcSounds.USEC_RIFLE_MAGAZINE, SUPPRESSOR_PITCH);
+            case ROUND -> play(player, SparkDlcSounds.USEC_RIFLE_LOAD_ROUND, 1.0F);
         }
         if (bolted) {
             UsecCooldowns.bolt(player);
-            play(player, SparkWitchSounds.USEC_RIFLE_BOLT, 1.0F);
+            play(player, SparkDlcSounds.USEC_RIFLE_BOLT, 1.0F);
         }
     }
 

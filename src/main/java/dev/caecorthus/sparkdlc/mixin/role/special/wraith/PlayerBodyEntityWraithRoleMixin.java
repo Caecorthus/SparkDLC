@@ -24,25 +24,25 @@ public abstract class PlayerBodyEntityWraithRoleMixin implements WraithBodyRoleA
     );
 
     @Inject(method = "initDataTracker", at = @At("TAIL"))
-    private void sparkwitch$trackDeathRole(DataTracker.Builder builder, CallbackInfo ci) {
+    private void sparkdlc$trackDeathRole(DataTracker.Builder builder, CallbackInfo ci) {
         builder.add(SPARKWITCH_DEATH_ROLE, "");
     }
 
     @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
-    private void sparkwitch$writeDeathRole(NbtCompound nbt, CallbackInfo ci) {
-        Identifier roleId = sparkwitch$getDeathRole();
+    private void sparkdlc$writeDeathRole(NbtCompound nbt, CallbackInfo ci) {
+        Identifier roleId = sparkdlc$getDeathRole();
         if (roleId != null) {
             nbt.putString("SparkWitchDeathRole", roleId.toString());
         }
     }
 
     @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
-    private void sparkwitch$readDeathRole(NbtCompound nbt, CallbackInfo ci) {
-        sparkwitch$setDeathRole(Identifier.tryParse(nbt.getString("SparkWitchDeathRole")));
+    private void sparkdlc$readDeathRole(NbtCompound nbt, CallbackInfo ci) {
+        sparkdlc$setDeathRole(Identifier.tryParse(nbt.getString("SparkWitchDeathRole")));
     }
 
     @Override
-    public void sparkwitch$setDeathRole(@Nullable Identifier roleId) {
+    public void sparkdlc$setDeathRole(@Nullable Identifier roleId) {
         ((PlayerBodyEntity) (Object) this).getDataTracker().set(
                 SPARKWITCH_DEATH_ROLE,
                 roleId == null ? "" : roleId.toString()
@@ -50,7 +50,7 @@ public abstract class PlayerBodyEntityWraithRoleMixin implements WraithBodyRoleA
     }
 
     @Override
-    public @Nullable Identifier sparkwitch$getDeathRole() {
+    public @Nullable Identifier sparkdlc$getDeathRole() {
         return Identifier.tryParse(((PlayerBodyEntity) (Object) this)
                 .getDataTracker().get(SPARKWITCH_DEATH_ROLE));
     }

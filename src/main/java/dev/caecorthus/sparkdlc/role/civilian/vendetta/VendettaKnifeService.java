@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.role.civilian.vendetta;
 
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit.BlackRavenCrowHits;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit.BlackRavenCrowTargets;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
@@ -33,7 +33,7 @@ public final class VendettaKnifeService {
         if (attacker == null || attacker.isSpectator()) {
             return;
         }
-        if (SparkTraitsApi.blocksWeaponAction(attacker, new ItemStack(SparkWitchItems.vendettaKnife()))) {
+        if (SparkTraitsApi.blocksWeaponAction(attacker, new ItemStack(SparkDlcItems.vendettaKnife()))) {
             clearPlayer(attacker);
             return;
         }
@@ -54,7 +54,7 @@ public final class VendettaKnifeService {
         boolean crowStandIn = BlackRavenCrowTargets.isSubstituted(target);
         UUID boundKillerUuid = component.getBoundKillerUuid();
         boolean activeVendetta = game.isRunning()
-                && game.isRole(attacker, SparkWitchRoles.vendetta())
+                && game.isRole(attacker, SparkDlcRoles.vendetta())
                 && WraithStateService.isActive(attacker)
                 && component.isActive();
         boolean targetAlive = !target.isSpectator()
@@ -84,7 +84,7 @@ public final class VendettaKnifeService {
 
         GameRecordManager.recordItemUse(
                 attacker,
-                Registries.ITEM.getId(SparkWitchItems.vendettaKnife()),
+                Registries.ITEM.getId(SparkDlcItems.vendettaKnife()),
                 target,
                 null
         );
@@ -97,7 +97,7 @@ public final class VendettaKnifeService {
     /** Records the real server-side release so a custom payload cannot skip the half-second charge. */
     public static void recordServerRelease(ServerPlayerEntity player, int heldTicks) {
         if (player == null || heldTicks < VendettaKnifeRules.MINIMUM_HOLD_TICKS
-                || SparkTraitsApi.blocksWeaponAction(player, new ItemStack(SparkWitchItems.vendettaKnife()))) {
+                || SparkTraitsApi.blocksWeaponAction(player, new ItemStack(SparkDlcItems.vendettaKnife()))) {
             if (player != null) {
                 QUALIFIED_RELEASES.remove(player.getUuid());
             }
@@ -120,10 +120,10 @@ public final class VendettaKnifeService {
     }
 
     private static Hand heldKnifeHand(ServerPlayerEntity player) {
-        if (player.getMainHandStack().isOf(SparkWitchItems.vendettaKnife())) {
+        if (player.getMainHandStack().isOf(SparkDlcItems.vendettaKnife())) {
             return Hand.MAIN_HAND;
         }
-        if (player.getOffHandStack().isOf(SparkWitchItems.vendettaKnife())) {
+        if (player.getOffHandStack().isOf(SparkDlcItems.vendettaKnife())) {
             return Hand.OFF_HAND;
         }
         return null;

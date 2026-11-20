@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.replay.role;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneKind;
 import dev.doctor4t.wathe.record.replay.ReplayRegistry;
 import net.minecraft.nbt.NbtCompound;
@@ -11,10 +11,10 @@ import net.minecraft.util.Identifier;
  * 炸弹客无人机的回放文本。
  */
 public final class DroneReplayEvents {
-    public static final Identifier DRONE_PLACED = SparkStrength.id("drone_placed");
-    public static final Identifier DRONE_GRENADE_DROPPED = SparkStrength.id("drone_grenade_dropped");
-    public static final Identifier DRONE_DESTROYED = SparkStrength.id("drone_destroyed");
-    public static final Identifier BOMB_DRONE_DETONATED = SparkStrength.id("bomb_drone_detonated");
+    public static final Identifier DRONE_PLACED = SparkDLC.id("drone_placed");
+    public static final Identifier DRONE_GRENADE_DROPPED = SparkDLC.id("drone_grenade_dropped");
+    public static final Identifier DRONE_DESTROYED = SparkDLC.id("drone_destroyed");
+    public static final Identifier BOMB_DRONE_DETONATED = SparkDLC.id("bomb_drone_detonated");
 
     private DroneReplayEvents() {
     }

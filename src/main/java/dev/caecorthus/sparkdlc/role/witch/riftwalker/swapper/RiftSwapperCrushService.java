@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.riftwalker.swapper;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.RiftwalkerRules;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.gate.RiftGateRecord;
@@ -144,7 +144,7 @@ public final class RiftSwapperCrushService {
         if (cell == null) {
             // No safe cell in front of the gate: die where they stand rather than inside a wall or on the gate.
             // 门前没有安全格：原地死亡，而不是卡进墙里或压在门上。
-            SparkWitch.LOGGER.warn("No safe portal-crush body cell in front of gate {} for {}",
+            SparkDLC.LOGGER.warn("No safe portal-crush body cell in front of gate {} for {}",
                     gateNumber.orElse(0), swapper.getUuid());
             swapper.teleport(originWorld, origin.x, origin.y, origin.z, Set.of(), originYaw, 90.0F);
         } else {

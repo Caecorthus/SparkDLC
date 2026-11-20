@@ -23,12 +23,12 @@ import java.util.UUID;
 @Mixin(value = GameWorldComponent.class, remap = false)
 public abstract class GameWorldComponentImpostorKillerViewMixin {
     @ModifyReturnValue(method = "getRole(Ljava/util/UUID;)Ldev/doctor4t/wathe/api/Role;", at = @At("RETURN"))
-    private Role sparktraits$impostorReadsAsKiller(Role raw, UUID uuid) {
+    private Role sparkdlc$impostorReadsAsKiller(Role raw, UUID uuid) {
         return ImpostorKillerView.role(uuid, raw);
     }
 
     @ModifyReturnValue(method = "isRole(Ljava/util/UUID;Ldev/doctor4t/wathe/api/Role;)Z", at = @At("RETURN"))
-    private boolean sparktraits$impostorIsOnlyAKiller(boolean raw, UUID uuid, Role role) {
+    private boolean sparkdlc$impostorIsOnlyAKiller(boolean raw, UUID uuid, Role role) {
         return ImpostorKillerView.isRole(uuid, role, raw);
     }
 }

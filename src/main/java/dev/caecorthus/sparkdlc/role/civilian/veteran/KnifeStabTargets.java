@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.veteran;
 
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.jetbrains.annotations.Nullable;
@@ -9,14 +9,14 @@ import org.jetbrains.annotations.Nullable;
  * Server victim of a Wathe knife stab payload that a SparkStrength HEAD takeover of {@code KnifeStabPayload$Receiver}
  * handles itself (the Veteran knife, the Coroner's instant silent knife, the Silencer knife). Those takeovers cancel
  * Wathe's receiver, so SparkWitch's own crow lookup never runs for them: a SparkWitch Raven Form crow id is resolved here
- * to its owner through {@link SparkWitchApi#crowMeleeStandIn} (owner decision 2026-10-21: every weapon that kills a
+ * to its owner through {@link SparkRoleApi#crowMeleeStandIn} (owner decision 2026-10-21: every weapon that kills a
  * player kills the crow, and that kills the Black Raven), and the takeover then runs its own player path on that owner,
  * keeping its own knife rules (the Veteran's uses, no sound, no cooldown and innocent-kill 小脑; the Silencer's quiet
  * stab and cooldown). The bridge calls SparkWitch directly since the SparkDLC fusion; a non-player id that is no crow
  * stays a dead stab as before.
  * 由 SparkStrength 在 {@code KnifeStabPayload$Receiver} HEAD 自行接管的 Wathe 刀刺数据包（老兵匕首、验尸官无声瞬刺、沉默者
  * 匕首）在服务端的受害者。这些接管会取消 Wathe 接收器，因此 SparkWitch 自身的乌鸦查找不会为它们执行：SparkWitch 化鸦乌鸦 id
- * 在此经 {@link SparkWitchApi#crowMeleeStandIn} 解析为其主人（所有者 2026-10-21 决定：能杀死玩家的武器都能杀死乌鸦，且由此
+ * 在此经 {@link SparkRoleApi#crowMeleeStandIn} 解析为其主人（所有者 2026-10-21 决定：能杀死玩家的武器都能杀死乌鸦，且由此
  * 杀死黑羽鸦），接管随后对该主人执行自身的玩家路径，保留各自的刀规则（老兵的次数、无声、无冷却与误杀小脑；沉默者的静音刺击与
  * 冷却）。融合进 SparkDLC 后该桥接直接调用 SparkWitch；不是乌鸦的非玩家 id 与以往一样整刀无效。
  */
@@ -44,6 +44,6 @@ public final class KnifeStabTargets {
         if (entity instanceof ServerPlayerEntity target) {
             return target.isSpectator() || target.distanceTo(attacker) > STAB_REACH ? null : target;
         }
-        return SparkWitchApi.crowMeleeStandIn(attacker, entity, STAB_REACH);
+        return SparkRoleApi.crowMeleeStandIn(attacker, entity, STAB_REACH);
     }
 }

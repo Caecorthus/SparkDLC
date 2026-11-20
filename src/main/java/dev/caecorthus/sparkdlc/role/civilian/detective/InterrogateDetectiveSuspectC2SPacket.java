@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.detective;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -17,7 +17,7 @@ import java.util.UUID;
  * 并以 DetectiveInterrogationResultS2CPacket 回应。
  */
 public record InterrogateDetectiveSuspectC2SPacket(UUID playerUuid) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("interrogate_detective_suspect");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("interrogate_detective_suspect");
     public static final Id<InterrogateDetectiveSuspectC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, InterrogateDetectiveSuspectC2SPacket> CODEC =
             PacketCodec.of(InterrogateDetectiveSuspectC2SPacket::write, InterrogateDetectiveSuspectC2SPacket::read);

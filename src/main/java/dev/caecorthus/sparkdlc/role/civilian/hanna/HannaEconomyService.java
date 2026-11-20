@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.hanna;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.doctor4t.wathe.api.Role;
@@ -91,7 +91,7 @@ final class HannaEconomyService {
                 && GameFunctions.isPlayerPlayingAndAlive(player)
                 && HannaRules.isHanna(game.getRole(player))
                 && !player.isSpectator() && !player.isCreative()
-                && !SparkWitchApi.isWraithRestricted(player);
+                && !SparkRoleApi.isWraithRestricted(player);
     }
 
     /**
@@ -126,8 +126,8 @@ final class HannaEconomyService {
                 || !GameFunctions.isPlayerPlayingAndAlive(player)) {
             return;
         }
-        context.addEntry(row(player, UMBRELLA_ENTRY, SparkWitchItems.hannaUmbrella(), HannaRules.UMBRELLA_PRICE));
-        context.addEntry(row(player, HANDKERCHIEF_ENTRY, SparkWitchItems.hannaHandkerchief(),
+        context.addEntry(row(player, UMBRELLA_ENTRY, SparkDlcItems.hannaUmbrella(), HannaRules.UMBRELLA_PRICE));
+        context.addEntry(row(player, HANDKERCHIEF_ENTRY, SparkDlcItems.hannaHandkerchief(),
                 HannaRules.HANDKERCHIEF_PRICE));
     }
 

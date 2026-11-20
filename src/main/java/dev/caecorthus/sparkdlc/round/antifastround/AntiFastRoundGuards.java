@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.round.antifastround;
 
-import dev.caecorthus.sparkdlc.SparkFactionApiMod;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
@@ -28,7 +28,7 @@ import net.minecraft.util.TypedActionResult;
  * 非玩家实体（座位）仍然放行；所有实体攻击都被拒绝，以此保证"无击退"。
  */
 public final class AntiFastRoundGuards {
-    public static final Identifier SAFE_TIME_PHASE = SparkFactionApiMod.id("anti_fast_round");
+    public static final Identifier SAFE_TIME_PHASE = SparkDLC.id("anti_fast_round");
     private static boolean registered;
 
     private AntiFastRoundGuards() {

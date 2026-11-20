@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.koko;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
@@ -62,7 +62,7 @@ public final class KokoStreamService {
      * 排在 {@code UseEntityCallback} 默认阶段之后，因此所有锁定拦截（眩晕、催眠、裂隙门、绑匪控制、骑士决斗封印、开局安全
      * 时间、饕餮眩晕）都已先行拒绝被锁定玩家的点击，尸体直播才会看到它。
      */
-    static final Identifier CORPSE_PHASE = SparkWitch.id("koko_corpse_stream");
+    static final Identifier CORPSE_PHASE = SparkDLC.id("koko_corpse_stream");
 
     private KokoStreamService() {
     }

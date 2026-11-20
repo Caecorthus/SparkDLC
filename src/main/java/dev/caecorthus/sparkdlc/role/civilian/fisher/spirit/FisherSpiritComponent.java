@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.fisher.spirit;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.RegistryByteBuf;
@@ -30,7 +30,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
  */
 public final class FisherSpiritComponent implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
     public static final ComponentKey<FisherSpiritComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("fisher_spirit"), FisherSpiritComponent.class);
+            SparkDLC.id("fisher_spirit"), FisherSpiritComponent.class);
 
     private final PlayerEntity player;
     final FisherSpiritWindow window = new FisherSpiritWindow();

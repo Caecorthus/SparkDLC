@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.witch.bewitched;
 
 import dev.caecorthus.sparkdlc.replay.api.SparkReplayApi;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.component.WitchWorldComponent;
 import dev.caecorthus.sparkdlc.role.special.wraith.runtime.WraithRoleAnnouncementService;
 import dev.caecorthus.sparkdlc.role.witch.accomplice.variant.AccompliceVariantRoundComponent;
@@ -115,7 +115,7 @@ public final class BewitchedPromotionService {
      */
     private static Role choosePromotionRole(ServerWorld world, GameWorldComponent game, WitchWorldComponent locks,
                                             AccompliceVariantRoundComponent ledger, UUID self) {
-        Role plainAccomplice = SparkWitchRoles.accomplice();
+        Role plainAccomplice = SparkDlcRoles.accomplice();
         Map<UUID, Identifier> lockMap = locks.getForcedAccompliceRoles();
         Predicate<UUID> livingBewitched = holder -> isLivingBewitched(game, holder);
         Role locked = BewitchedPromotionRules.resolveLock(lockMap.get(self), plainAccomplice,
@@ -157,7 +157,7 @@ public final class BewitchedPromotionService {
         Text roleName = Text.translatable(RoleDisplayTextRules.roleTranslationKey(role)).withColor(role.color());
         player.sendMessage(Text.translatable(PROMOTED_KEY, roleName), false);
         Text line = Text.translatable(PROMOTED_GRAND_WITCH_KEY, player.getName(), roleName);
-        for (UUID grandWitchId : game.getAllWithRole(SparkWitchRoles.grandWitch())) {
+        for (UUID grandWitchId : game.getAllWithRole(SparkDlcRoles.grandWitch())) {
             ServerPlayerEntity grandWitch = world.getServer().getPlayerManager().getPlayer(grandWitchId);
             if (grandWitch != null && grandWitch != player && GameFunctions.isPlayerPlayingAndAlive(grandWitch)) {
                 grandWitch.sendMessage(line, false);

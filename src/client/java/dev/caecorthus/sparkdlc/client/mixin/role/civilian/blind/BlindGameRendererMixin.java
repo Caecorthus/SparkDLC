@@ -30,7 +30,7 @@ public abstract class BlindGameRendererMixin {
 
     @Inject(method = "render", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/gl/Framebuffer;beginWrite(Z)V", shift = At.Shift.AFTER))
-    private void sparkwitch$renderBlindEcho(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
+    private void sparkdlc$renderBlindEcho(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
         BlindEchoView.renderFrame(client);
     }
 }

@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  */
 @Mixin(GameSettingsCommand.class)
 public abstract class GameSettingsCommandMixin {
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkFactionAPI/GameSettingsCommandMixin");
+    private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/GameSettingsCommandMixin");
 
     @Inject(
             method = "listRoles(Lnet/minecraft/server/command/ServerCommandSource;)I",
@@ -27,7 +27,7 @@ public abstract class GameSettingsCommandMixin {
             cancellable = true,
             require = 1
     )
-    private static void sparkfactionapi$listRoles(
+    private static void sparkdlc$listRoles(
             ServerCommandSource source,
             CallbackInfoReturnable<Integer> cir
     ) {

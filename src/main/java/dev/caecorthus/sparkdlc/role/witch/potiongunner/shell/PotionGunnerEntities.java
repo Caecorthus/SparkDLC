@@ -7,8 +7,8 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
 /**
- * Registers the Potion Gunner shell entity; must run before SparkWitchItems so item code can capture the type.
- * 注册药炮手炮弹实体；必须先于 SparkWitchItems 执行，以便物品代码可以获取该实体类型。
+ * Registers the Potion Gunner shell entity; must run before SparkDlcItems so item code can capture the type.
+ * 注册药炮手炮弹实体；必须先于 SparkDlcItems 执行，以便物品代码可以获取该实体类型。
  */
 public final class PotionGunnerEntities {
     private static EntityType<PotionShellEntity> potionShell;

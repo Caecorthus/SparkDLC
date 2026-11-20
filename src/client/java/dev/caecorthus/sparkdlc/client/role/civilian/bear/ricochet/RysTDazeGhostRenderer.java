@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.bear.ricochet;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gl.SimpleFramebuffer;
@@ -79,7 +79,7 @@ public final class RysTDazeGhostRenderer {
             drawGhosts(context, pose);
         } catch (RuntimeException exception) {
             broken = true;
-            SparkWitch.LOGGER.error("Rys-T double vision failed; the daze keeps its view jolt only", exception);
+            SparkDLC.LOGGER.error("Rys-T double vision failed; the daze keeps its view jolt only", exception);
         } finally {
             saved.restore();
         }

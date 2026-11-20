@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven.disguise;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenRules;
 import dev.caecorthus.sparkdlc.util.TickTime;
 import java.util.Collections;
@@ -22,8 +22,8 @@ public final class BlackRavenDisguiseRules {
     /** Revert target and the Raven's own stash key. / 恢复目标与黑羽鸦自身存档键。 */
     public static final Identifier BLACK_RAVEN_ID = BlackRavenRules.ROLE_ID;
     /** Component id, replay skill id, and payload namespace root. / 组件 id、回放技能 id 与数据包命名根。 */
-    public static final Identifier DISGUISE_ID = SparkWitch.id("black_raven_disguise");
-    public static final Identifier MASK_ITEM_ID = SparkWitch.id("black_raven_mask");
+    public static final Identifier DISGUISE_ID = SparkDLC.id("black_raven_disguise");
+    public static final Identifier MASK_ITEM_ID = SparkDLC.id("black_raven_mask");
 
     public static final int UNLOCK_DELAY_TICKS = 60 * 20;
     public static final int SWITCH_COOLDOWN_TICKS = 20 * 20;
@@ -317,7 +317,7 @@ public final class BlackRavenDisguiseRules {
     }
 
     private static Identifier sparkwitch(String path) {
-        return Identifier.of(SparkWitch.MOD_ID, path);
+        return Identifier.of(SparkDLC.MOD_ID, path);
     }
 
     private static Identifier wathe(String path) {

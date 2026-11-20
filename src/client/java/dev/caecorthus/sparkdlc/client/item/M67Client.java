@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.item;
 
-import dev.caecorthus.sparkdlc.SparkStrengthEntities;
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.mixin.item.m67.M67KeyBindingAccessor;
 import dev.caecorthus.sparkdlc.entity.M67GrenadeEntity;
 import dev.caecorthus.sparkdlc.item.m67.M67Rules;
@@ -43,7 +43,7 @@ public final class M67Client {
 
     public static void initialize() {
         M67SoundClient.initialize();
-        EntityRendererRegistry.register(SparkStrengthEntities.m67(), FlyingItemEntityRenderer::new);
+        EntityRendererRegistry.register(SparkDlcEntities.m67(), FlyingItemEntityRenderer::new);
         ClientTickEvents.START_CLIENT_TICK.register(M67Client::tick);
     }
 
@@ -63,11 +63,11 @@ public final class M67Client {
 
     public static boolean isCharging() {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
-        return player != null && player.isUsingItem() && player.getActiveItem().isOf(SparkStrengthItems.m67());
+        return player != null && player.isUsingItem() && player.getActiveItem().isOf(SparkDlcItems.m67());
     }
 
     public static boolean blocksUse(ItemStack stack) {
-        return waitForUseRelease && stack.isOf(SparkStrengthItems.m67());
+        return waitForUseRelease && stack.isOf(SparkDlcItems.m67());
     }
 
     /**
@@ -80,15 +80,15 @@ public final class M67Client {
     public static boolean claimsUse(Hand hand) {
         refreshEquipment();
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
-        return player != null && player.getStackInHand(hand).isOf(SparkStrengthItems.m67())
+        return player != null && player.getStackInHand(hand).isOf(SparkDlcItems.m67())
                 && remainingCooldown(player) <= M67Rules.CANCEL_COOLDOWN_TICKS;
     }
 
     private static int remainingCooldown(ClientPlayerEntity player) {
         var accessor = (ItemCooldownManagerAccessor) player.getItemCooldownManager();
-        Object entry = accessor.sparkstrength$getEntries().get(SparkStrengthItems.m67());
+        Object entry = accessor.sparkdlc$getEntriesForKits().get(SparkDlcItems.m67());
         return entry instanceof ItemCooldownEntryAccessor value
-                ? value.sparkstrength$getEndTick() - accessor.sparkstrength$getTick() : 0;
+                ? value.sparkdlc$getEndTickForKits() - accessor.sparkdlc$getTickForKits() : 0;
     }
 
     /** Predict before vanilla's interactItem cooldown check; the server remains authoritative.
@@ -128,7 +128,7 @@ public final class M67Client {
             // Count is deliberately absent: consuming one grenade isn't a new equip.
             // 特意不比较数量：投掷消耗一枚不属于重新装备。
             if (remainingCooldown(player) < M67Rules.EQUIP_COOLDOWN_TICKS) {
-                player.getItemCooldownManager().set(SparkStrengthItems.m67(), M67Rules.EQUIP_COOLDOWN_TICKS);
+                player.getItemCooldownManager().set(SparkDlcItems.m67(), M67Rules.EQUIP_COOLDOWN_TICKS);
             }
             M67SoundClient.playLocal(M67SoundPayload.START_EQUIP);
         }
@@ -193,7 +193,7 @@ public final class M67Client {
     }
 
     private static ItemStack heldM67(ItemStack stack) {
-        return stack.isOf(SparkStrengthItems.m67()) ? stack : null;
+        return stack.isOf(SparkDlcItems.m67()) ? stack : null;
     }
 
     public static void interruptLocalAudio() {
@@ -292,7 +292,7 @@ public final class M67Client {
     }
 
     private static boolean matches(KeyBinding binding, InputUtil.Key input) {
-        return ((M67KeyBindingAccessor) binding).sparkstrength$m67BoundKey().equals(input);
+        return ((M67KeyBindingAccessor) binding).sparkdlc$m67BoundKey().equals(input);
     }
 
     private static void tick(MinecraftClient client) {

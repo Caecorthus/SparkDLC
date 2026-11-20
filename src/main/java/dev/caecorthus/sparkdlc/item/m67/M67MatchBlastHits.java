@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.item.m67;
 
-import dev.caecorthus.sparkdlc.SparkStrengthEntities;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
 import dev.caecorthus.sparkdlc.entity.M67GrenadeEntity;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerBreakSource;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDamageRules;
@@ -59,7 +59,7 @@ public final class M67MatchBlastHits {
         // 同时要求固定的 id 与固定的类：sparkdlc:m67 即 M67GrenadeEntity。
         if (world == null || !(entity instanceof M67GrenadeEntity grenade)
                 || entity.getRemovalReason() != Entity.RemovalReason.DISCARDED
-                || !SparkStrengthEntities.M67_ID.equals(Registries.ENTITY_TYPE.getId(entity.getType()))) {
+                || !SparkDlcEntities.M67_ID.equals(Registries.ENTITY_TYPE.getId(entity.getType()))) {
             return;
         }
         GameWorldComponent game = GameWorldComponent.KEY.get(world);

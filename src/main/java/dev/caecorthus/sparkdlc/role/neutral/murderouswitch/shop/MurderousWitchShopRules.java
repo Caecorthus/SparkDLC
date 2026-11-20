@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.neutral.murderouswitch.shop;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.index.WatheItems;
 import dev.doctor4t.wathe.util.ShopEntry;
 import net.minecraft.item.ItemStack;
@@ -16,7 +16,7 @@ import java.util.List;
  */
 public final class MurderousWitchShopRules {
     public static final Identifier THROWING_AXE_ID = Identifier.of("noellesroles", "throwing_axe");
-    public static final Identifier FIRE_POKER_ID = SparkWitch.id("fire_poker");
+    public static final Identifier FIRE_POKER_ID = SparkDLC.id("fire_poker");
 
     private MurderousWitchShopRules() {
     }
@@ -81,7 +81,7 @@ public final class MurderousWitchShopRules {
                 case LOCKPICK -> new ItemStack(WatheItems.LOCKPICK, count);
                 case CROWBAR -> new ItemStack(WatheItems.CROWBAR, count);
                 case THROWING_AXE -> new ItemStack(Registries.ITEM.get(THROWING_AXE_ID), count);
-                case FIRE_POKER -> new ItemStack(SparkWitchItems.firePoker(), count);
+                case FIRE_POKER -> new ItemStack(SparkDlcItems.firePoker(), count);
             };
         }
     }

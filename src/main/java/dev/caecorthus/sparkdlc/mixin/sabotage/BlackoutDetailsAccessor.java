@@ -12,11 +12,11 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(value = WorldBlackoutComponent.BlackoutDetails.class, remap = false)
 public interface BlackoutDetailsAccessor {
     @Accessor(value = "pos", remap = false)
-    BlockPos sparkstrength$getPos();
+    BlockPos sparkdlc$getPos();
 
     @Accessor(value = "time", remap = false)
-    int sparkstrength$getTime();
+    int sparkdlc$getTime();
 
     @Accessor(value = "time", remap = false)
-    void sparkstrength$setTime(int time);
+    void sparkdlc$setTime(int time);
 }

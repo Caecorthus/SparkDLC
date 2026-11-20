@@ -1,12 +1,12 @@
 package dev.caecorthus.sparkdlc.client.settings;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
-import dev.caecorthus.sparkdlc.client.config.SparkAssistClientSettings;
+import dev.caecorthus.sparkdlc.client.config.SparkDlcClientSettings;
 import dev.caecorthus.sparkdlc.client.scope.ScopeSettingsEditor;
 import dev.caecorthus.sparkdlc.config.BloodAppearance;
 import dev.caecorthus.sparkdlc.config.ChargeIndicatorStyle;
-import dev.caecorthus.sparkdlc.config.SparkAssistConfig.GuidebookDecor;
-import dev.caecorthus.sparkdlc.config.SparkAssistConfig.InstinctKeyMode;
+import dev.caecorthus.sparkdlc.config.SparkDlcClientConfig.GuidebookDecor;
+import dev.caecorthus.sparkdlc.config.SparkDlcClientConfig.InstinctKeyMode;
 import dev.caecorthus.sparkdlc.sound.EventSoundGroup;
 import dev.doctor4t.wathe.WatheConfig.SnowModeConfig;
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public final class SparkDlcSettingsPages {
     public static final String SCOPE = "scope";
     public static final String DISPLAY = "display";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkAssist/Settings");
+    private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/Settings");
     /**
      * The source of a row that is SparkDLC's own setting: none, so the description panel shows no "From ..." line.
      * Only a row whose value or sounds belong to another mod (Wathe, NoellesRoles) names that mod.
@@ -70,10 +70,10 @@ public final class SparkDlcSettingsPages {
                 Text.translatable("option.sparkdlc.instinct_key_mode"),
                 Text.translatable("option.sparkdlc.instinct_key_mode.description"),
                 OWN,
-                SparkAssistClientSettings.STORE,
+                SparkDlcClientSettings.STORE,
                 List.of(InstinctKeyMode.values()),
-                SparkAssistClientSettings::instinctKeyMode,
-                SparkAssistClientSettings::setInstinctKeyMode,
+                SparkDlcClientSettings::instinctKeyMode,
+                SparkDlcClientSettings::setInstinctKeyMode,
                 InstinctKeyMode.HOLD,
                 mode -> Text.translatable(mode.getTranslationKey()));
         ChoiceOption<GuidebookDecor> decor = new ChoiceOption<>(
@@ -81,10 +81,10 @@ public final class SparkDlcSettingsPages {
                 Text.translatable("option.sparkdlc.guidebook_decor"),
                 Text.translatable("option.sparkdlc.guidebook_decor.description"),
                 OWN,
-                SparkAssistClientSettings.STORE,
+                SparkDlcClientSettings.STORE,
                 List.of(GuidebookDecor.values()),
-                SparkAssistClientSettings::guidebookDecor,
-                SparkAssistClientSettings::setGuidebookDecor,
+                SparkDlcClientSettings::guidebookDecor,
+                SparkDlcClientSettings::setGuidebookDecor,
                 GuidebookDecor.MEDIUM,
                 decorLevel -> Text.translatable(decorLevel.getTranslationKey()));
         ToggleOption foliage = new ToggleOption(
@@ -92,11 +92,11 @@ public final class SparkDlcSettingsPages {
                 Text.translatable("option.sparkdlc.guidebook_foliage"),
                 Text.translatable("option.sparkdlc.guidebook_foliage.description"),
                 OWN,
-                SparkAssistClientSettings.STORE,
-                SparkAssistClientSettings::guidebookFoliage,
-                SparkAssistClientSettings::setGuidebookFoliage,
+                SparkDlcClientSettings.STORE,
+                SparkDlcClientSettings::guidebookFoliage,
+                SparkDlcClientSettings::setGuidebookFoliage,
                 true);
-        foliage.enabledWhen(() -> SparkAssistClientSettings.guidebookDecor() != GuidebookDecor.OFF,
+        foliage.enabledWhen(() -> SparkDlcClientSettings.guidebookDecor() != GuidebookDecor.OFF,
                 () -> Text.translatable("option.sparkdlc.guidebook_foliage.needs_decor"));
         return new SettingsPage(GENERAL, Text.translatable("screen.sparkdlc.settings.page.general"), List.of(
                 new SettingsPage.Group("controls", Text.translatable("screen.sparkdlc.settings.group.controls"),
@@ -112,10 +112,10 @@ public final class SparkDlcSettingsPages {
                 Text.translatable("option.sparkdlc.event_sound_volume.master"),
                 Text.translatable("option.sparkdlc.event_sound_volume.master.description"),
                 OWN,
-                SparkAssistClientSettings.STORE,
+                SparkDlcClientSettings.STORE,
                 0, 100, 1,
-                () -> (int) Math.round(SparkAssistClientSettings.eventSoundMasterVolume() * 100.0D),
-                percent -> SparkAssistClientSettings.setEventSoundMasterVolume(percent / 100.0D),
+                () -> (int) Math.round(SparkDlcClientSettings.eventSoundMasterVolume() * 100.0D),
+                percent -> SparkDlcClientSettings.setEventSoundMasterVolume(percent / 100.0D),
                 100,
                 SparkDlcSettingsPages::percent);
         groups.add(new SettingsPage.Group("master",
@@ -143,10 +143,10 @@ public final class SparkDlcSettingsPages {
                 label,
                 Text.translatable(group.translationKey() + ".description"),
                 modName(row.mod()),
-                SparkAssistClientSettings.STORE,
+                SparkDlcClientSettings.STORE,
                 0, 100, 1,
-                () -> (int) Math.round(SparkAssistClientSettings.eventSoundVolume(group) * 100.0D),
-                percent -> SparkAssistClientSettings.setEventSoundVolume(group, percent / 100.0D),
+                () -> (int) Math.round(SparkDlcClientSettings.eventSoundVolume(group) * 100.0D),
+                percent -> SparkDlcClientSettings.setEventSoundVolume(group, percent / 100.0D),
                 100,
                 SparkDlcSettingsPages::percent);
         if (row.whoKey() != null) {
@@ -242,10 +242,10 @@ public final class SparkDlcSettingsPages {
                 Text.translatable("option.sparkdlc.charge_indicator"),
                 Text.translatable("option.sparkdlc.charge_indicator.description"),
                 OWN,
-                SparkAssistClientSettings.STORE,
+                SparkDlcClientSettings.STORE,
                 List.of(ChargeIndicatorStyle.values()),
-                SparkAssistClientSettings::chargeIndicatorStyle,
-                SparkAssistClientSettings::setChargeIndicatorStyle,
+                SparkDlcClientSettings::chargeIndicatorStyle,
+                SparkDlcClientSettings::setChargeIndicatorStyle,
                 ChargeIndicatorStyle.RING_OPEN,
                 style -> Text.translatable(style.translationKey()))
                 .describeValues(style -> Text.translatable(style.translationKey() + ".description"));
@@ -254,19 +254,19 @@ public final class SparkDlcSettingsPages {
                 Text.translatable("option.sparkdlc.noelles_creative_entries"),
                 Text.translatable("option.sparkdlc.noelles_creative_entries.description"),
                 OWN,
-                SparkAssistClientSettings.STORE,
-                SparkAssistClientSettings::noellesCreativeEntries,
-                SparkAssistClientSettings::setNoellesCreativeEntries,
+                SparkDlcClientSettings.STORE,
+                SparkDlcClientSettings::noellesCreativeEntries,
+                SparkDlcClientSettings::setNoellesCreativeEntries,
                 true);
         ChoiceOption<BloodAppearance> blood = new ChoiceOption<>(
                 "blood_appearance",
                 Text.translatable("option.sparkdlc.blood_appearance"),
                 Text.translatable("option.sparkdlc.blood_appearance.description"),
                 OWN,
-                SparkAssistClientSettings.STORE,
+                SparkDlcClientSettings.STORE,
                 List.of(BloodAppearance.values()),
-                SparkAssistClientSettings::bloodAppearance,
-                SparkAssistClientSettings::setBloodAppearance,
+                SparkDlcClientSettings::bloodAppearance,
+                SparkDlcClientSettings::setBloodAppearance,
                 BloodAppearance.DEFAULT,
                 v -> Text.translatable(v.translationKey()));
         ToggleOption scavenger = new ToggleOption(
@@ -274,9 +274,9 @@ public final class SparkDlcSettingsPages {
                 Text.translatable("option.sparkdlc.suppress_scavenger_blood"),
                 Text.translatable("option.sparkdlc.suppress_scavenger_blood.description"),
                 OWN,
-                SparkAssistClientSettings.STORE,
-                SparkAssistClientSettings::suppressScavengerBlood,
-                SparkAssistClientSettings::setSuppressScavengerBlood,
+                SparkDlcClientSettings.STORE,
+                SparkDlcClientSettings::suppressScavengerBlood,
+                SparkDlcClientSettings::setSuppressScavengerBlood,
                 true);
         List<SettingsPage.Group> groups = new ArrayList<>();
         groups.add(new SettingsPage.Group("snow", Text.translatable("screen.sparkdlc.settings.group.train_effects"),

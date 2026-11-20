@@ -26,7 +26,7 @@ public abstract class RysTVisorHudMixin {
             method = "render(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/render/RenderTickCounter;)V",
             at = @At("HEAD")
     )
-    private void sparkwitch$renderRysTVisor(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+    private void sparkdlc$renderRysTVisor(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         RysTVisorOverlay.render(context);
     }
 }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.savior;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import net.minecraft.client.render.OverlayTexture;
@@ -25,7 +25,7 @@ import org.joml.Vector3f;
  * 四边形；加色渲染层复制自 {@code WatheRenderLayers.additive}。每次开枪生成，只在绘制第一人称手部时渲染。
  */
 public final class SaviorHandFlash {
-    private static final Identifier TEXTURE = SparkWitch.id("textures/particle/gunshot.png");
+    private static final Identifier TEXTURE = SparkDLC.id("textures/particle/gunshot.png");
     /** Wathe's hand-particle pose, fitted to the revolver-style first-person item display. / 与左轮式第一人称 display 对齐的手部位置。 */
     private static final float X = 0.1F;
     private static final float Y = 0.275F;

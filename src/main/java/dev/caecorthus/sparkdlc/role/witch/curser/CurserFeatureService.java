@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.curser;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.component.WraithPlayerComponent;
 import dev.caecorthus.sparkdlc.record.witch.AchievementRecords;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
@@ -43,7 +43,7 @@ public final class CurserFeatureService {
                 wraith.isActive(),
                 wraith.isPromoted(),
                 game.getRole(caster) != null
-                        && SparkWitchRoles.CURSER_ID.equals(game.getRole(caster).identifier()),
+                        && SparkDlcRoles.CURSER_ID.equals(game.getRole(caster).identifier()),
                 state.getCooldownTicks())) {
             return;
         }
@@ -84,7 +84,7 @@ public final class CurserFeatureService {
                 && WraithStateService.isActive(player)
                 && WraithStateService.isPromoted(player)
                 && GameWorldComponent.KEY.get(player.getWorld()).getRole(player) != null
-                && SparkWitchRoles.CURSER_ID.equals(
+                && SparkDlcRoles.CURSER_ID.equals(
                         GameWorldComponent.KEY.get(player.getWorld()).getRole(player).identifier());
     }
 }

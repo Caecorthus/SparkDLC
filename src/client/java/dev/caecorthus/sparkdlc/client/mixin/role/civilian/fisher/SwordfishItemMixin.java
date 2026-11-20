@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(SwordfishItem.class)
 public abstract class SwordfishItemMixin {
     @Inject(method = "onStoppedUsing", at = @At("TAIL"))
-    private void sparkwitch$submitSwordfishTarget(ItemStack stack, World world, LivingEntity user,
+    private void sparkdlc$submitSwordfishTarget(ItemStack stack, World world, LivingEntity user,
                                                  int remainingUseTicks, CallbackInfo ci) {
         SwordfishClientUse.onStoppedUsing(stack, world, user, remainingUseTicks, stack.getMaxUseTime(user));
     }

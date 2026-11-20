@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.knight;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.net.CrossSwordStabC2SPayload;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
@@ -95,7 +95,7 @@ public final class CrossSwordStabService {
         ServerWorld world = player.getServerWorld();
         ItemStack stack = player.getMainHandStack();
         if (release == null || release.world() != world || release.stack() != stack
-                || !stack.isOf(SparkWitchItems.crossSword())) {
+                || !stack.isOf(SparkDlcItems.crossSword())) {
             return;
         }
         long age = world.getTime() - release.releasedAt();

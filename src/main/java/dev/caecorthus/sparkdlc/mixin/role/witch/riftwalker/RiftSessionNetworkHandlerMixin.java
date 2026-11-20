@@ -49,7 +49,7 @@ public abstract class RiftSessionNetworkHandlerMixin {
 
     /** Server-thread depth of this player's own move-packet handling. / 本玩家移动包处理的服务端线程嵌套深度。 */
     @Unique
-    private int sparkwitch$ownMovePacketDepth;
+    private int sparkdlc$ownMovePacketDepth;
 
     @Inject(
             method = "onSpectatorTeleport",
@@ -59,52 +59,52 @@ public abstract class RiftSessionNetworkHandlerMixin {
                     shift = At.Shift.AFTER),
             cancellable = true
     )
-    private void sparkwitch$blockRiftSpectatorTeleport(SpectatorTeleportC2SPacket packet, CallbackInfo ci) {
+    private void sparkdlc$blockRiftSpectatorTeleport(SpectatorTeleportC2SPacket packet, CallbackInfo ci) {
         if (RiftSessionService.isInside(player)) {
             ci.cancel();
         }
     }
 
     @WrapMethod(method = "onPlayerMove")
-    private void sparkwitch$markOwnPlayerMove(PlayerMoveC2SPacket packet, Operation<Void> original) {
-        boolean counted = sparkwitch$enterOwnMovePacket();
+    private void sparkdlc$markOwnPlayerMove(PlayerMoveC2SPacket packet, Operation<Void> original) {
+        boolean counted = sparkdlc$enterOwnMovePacket();
         try {
             original.call(packet);
         } finally {
-            sparkwitch$leaveOwnMovePacket(counted);
+            sparkdlc$leaveOwnMovePacket(counted);
         }
     }
 
     @WrapMethod(method = "onVehicleMove")
-    private void sparkwitch$markOwnVehicleMove(VehicleMoveC2SPacket packet, Operation<Void> original) {
-        boolean counted = sparkwitch$enterOwnMovePacket();
+    private void sparkdlc$markOwnVehicleMove(VehicleMoveC2SPacket packet, Operation<Void> original) {
+        boolean counted = sparkdlc$enterOwnMovePacket();
         try {
             original.call(packet);
         } finally {
-            sparkwitch$leaveOwnMovePacket(counted);
+            sparkdlc$leaveOwnMovePacket(counted);
         }
     }
 
     @Inject(method = "requestTeleport(DDDFFLjava/util/Set;)V", at = @At("HEAD"))
-    private void sparkwitch$noteForeignRiftTeleport(double x, double y, double z, float yaw, float pitch,
+    private void sparkdlc$noteForeignRiftTeleport(double x, double y, double z, float yaw, float pitch,
                                                      Set<PositionFlag> flags, CallbackInfo ci) {
-        RiftSessionService.onTeleportRequested(player, sparkwitch$ownMovePacketDepth > 0);
+        RiftSessionService.onTeleportRequested(player, sparkdlc$ownMovePacketDepth > 0);
     }
 
     @Unique
-    private boolean sparkwitch$enterOwnMovePacket() {
+    private boolean sparkdlc$enterOwnMovePacket() {
         ServerPlayerEntity current = player;
         if (current == null || current.server == null || !current.server.isOnThread()) {
             return false;
         }
-        sparkwitch$ownMovePacketDepth++;
+        sparkdlc$ownMovePacketDepth++;
         return true;
     }
 
     @Unique
-    private void sparkwitch$leaveOwnMovePacket(boolean counted) {
-        if (counted && sparkwitch$ownMovePacketDepth > 0) {
-            sparkwitch$ownMovePacketDepth--;
+    private void sparkdlc$leaveOwnMovePacket(boolean counted) {
+        if (counted && sparkdlc$ownMovePacketDepth > 0) {
+            sparkdlc$ownMovePacketDepth--;
         }
     }
 }

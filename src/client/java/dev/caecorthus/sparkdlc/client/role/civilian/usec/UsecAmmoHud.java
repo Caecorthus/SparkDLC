@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.usec;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.text.HudFontOptions;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
@@ -83,7 +83,7 @@ public final class UsecAmmoHud {
         UsecRifleState state = rifleState(rifle);
         UsecCooldowns.Status cooldown = UsecBoltWatchClient.status(player);
         float progress = cooldown.coolingDown()
-                ? player.getItemCooldownManager().getCooldownProgress(SparkWitchItems.usecRifle(),
+                ? player.getItemCooldownManager().getCooldownProgress(SparkDlcItems.usecRifle(),
                 tickCounter.getTickDelta(true))
                 : 0.0F;
         UsecAmmoHudRules.Snapshot snapshot = new UsecAmmoHudRules.Snapshot(state.chamber(), state.magazine(),

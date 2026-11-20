@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.killer.magician;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPlayerComponent;
 import dev.caecorthus.sparkdlc.util.TickTime;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -22,9 +22,9 @@ public final class MagicianStatusHudRenderer {
         var role = GameWorldComponent.KEY.get(player.getWorld()).getRole(player);
         if (!GameFunctions.isPlayerPlayingAndAlive(player)
                 || role == null
-                || !SparkWitchRoles.MAGICIAN_ID.equals(role.identifier())) return;
+                || !SparkDlcRoles.MAGICIAN_ID.equals(role.identifier())) return;
         MagicianPlayerComponent c=MagicianPlayerComponent.KEY.get(player);
-        Text key = SparkWitchClient.abilityKeyText();
+        Text key = SparkDLCClient.abilityKeyText();
         Text line = switch(c.stage()) {
             case RECORDING -> Text.translatable("hud.sparkdlc.magician.recording", seconds(c.stageTicks()), key);
             // The server refuses playback while any cooldown remains, including a forced one raised during recording.

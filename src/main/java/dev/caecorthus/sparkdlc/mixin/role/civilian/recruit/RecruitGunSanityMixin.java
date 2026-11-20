@@ -30,7 +30,7 @@ public abstract class RecruitGunSanityMixin {
     @WrapOperation(method = "receive(Ldev/doctor4t/wathe/util/GunShootPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             at = @At(value = "INVOKE", ordinal = 0,
                     target = "Ldev/doctor4t/wathe/cca/GameWorldComponent;isRole(Lnet/minecraft/entity/player/PlayerEntity;Ldev/doctor4t/wathe/api/Role;)Z"))
-    private boolean sparkwitch$recruitGunKillKeepsSanity(GameWorldComponent game, PlayerEntity player,
+    private boolean sparkdlc$recruitGunKillKeepsSanity(GameWorldComponent game, PlayerEntity player,
                                                          Role queriedRole, Operation<Boolean> original) {
         return original.call(game, player, queriedRole)
                 || (queriedRole == WatheRoles.VIGILANTE && RecruitRules.isRecruit(game.getRole(player)));

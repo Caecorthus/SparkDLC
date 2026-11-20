@@ -20,7 +20,7 @@ public abstract class BlackRavenGameRendererMixin {
     MinecraftClient client;
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gl/Framebuffer;beginWrite(Z)V"))
-    private void sparkwitch$renderBlackRavenPerception(
+    private void sparkdlc$renderBlackRavenPerception(
             RenderTickCounter tickCounter,
             boolean tick,
             CallbackInfo ci

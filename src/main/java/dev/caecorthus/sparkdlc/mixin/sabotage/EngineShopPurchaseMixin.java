@@ -24,7 +24,7 @@ public abstract class EngineShopPurchaseMixin {
     private PlayerEntity player;
 
     @WrapMethod(method = "tryBuy(I)V", require = 1, allow = 1)
-    private void sparkstrength$engineWreckDiscountScope(int index, Operation<Void> original) {
+    private void sparkdlc$engineWreckDiscountScope(int index, Operation<Void> original) {
         if (player instanceof ServerPlayerEntity buyer) {
             EngineEconomy.purchase(buyer, () -> original.call(index));
         } else {

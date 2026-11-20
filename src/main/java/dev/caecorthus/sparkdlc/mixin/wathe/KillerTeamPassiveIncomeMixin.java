@@ -21,7 +21,7 @@ public abstract class KillerTeamPassiveIncomeMixin {
             require = 1,
             allow = 1
     )
-    private void sparkstrength$excludeTimedIncome(PlayerShopComponent shop, int amount, Operation<Void> original) {
+    private void sparkdlc$excludeTimedIncome(PlayerShopComponent shop, int amount, Operation<Void> original) {
         KillerTeamIncomeScope.withoutContribution(() -> original.call(shop, amount));
     }
 }

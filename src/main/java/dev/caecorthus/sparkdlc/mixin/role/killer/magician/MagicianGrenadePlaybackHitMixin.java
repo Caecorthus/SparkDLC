@@ -30,7 +30,7 @@ public abstract class MagicianGrenadePlaybackHitMixin extends ThrownItemEntity {
     }
 
     @Inject(method = "onCollision", at = @At("HEAD"))
-    private void sparkwitch$stopPlaybackInExplosion(HitResult hitResult, CallbackInfo ci) {
+    private void sparkdlc$stopPlaybackInExplosion(HitResult hitResult, CallbackInfo ci) {
         if (isRemoved() || !(getWorld() instanceof ServerWorld world)) return;
         MagicianPuppetHits.onBlast(
                 world,

@@ -1,11 +1,11 @@
 package dev.caecorthus.sparkdlc.trait.killer;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.sabotage.SabotageAccess;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
 import dev.caecorthus.sparkdlc.trait.effective.EffectiveTraitService;
-import dev.caecorthus.sparkdlc.trait.replay.SparkTraitsAchievementRecords;
+import dev.caecorthus.sparkdlc.trait.replay.TraitAchievementRecords;
 import dev.caecorthus.sparkdlc.trait.civilian.laststand.LastStandFinalMomentService;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
@@ -51,14 +51,14 @@ public final class KillerTraitService {
     public static final int PARANOID_EXTRA_TICKS = 20 * 20;
     public static final float OPPRESSIVE_DRAIN_MULTIPLIER = 1.2f;
     public static final double THRUST_EXTRA_KNOCKBACK = 0.25;
-    public static final Identifier THRUST_KNOCKBACK_MODIFIER_ID = SparkTraits.id("thrust_knockback");
-    public static final Identifier CHARISMA_SHOP_PHASE = SparkTraits.id("charisma_discount");
+    public static final Identifier THRUST_KNOCKBACK_MODIFIER_ID = SparkDLC.id("thrust_knockback");
+    public static final Identifier CHARISMA_SHOP_PHASE = SparkDLC.id("charisma_discount");
     public static final int MASTER_SABOTEUR_DURATION_PERCENT = 150;
     public static final int SEASONED_WINDUP_PERCENT = 80;
     // Attack cooldown is 20 / attack speed ticks, so a 20% shorter cooldown needs 1 / 0.8 - 1 extra speed.
     // 攻击冷却为 20 / 攻速 刻，冷却缩短 20% 需要额外 1 / 0.8 - 1 的攻速。
     public static final double MANIC_ATTACK_SPEED_BONUS = 0.25;
-    public static final Identifier MANIC_ATTACK_SPEED_MODIFIER_ID = SparkTraits.id("manic_attack_speed");
+    public static final Identifier MANIC_ATTACK_SPEED_MODIFIER_ID = SparkDLC.id("manic_attack_speed");
 
     private static final ThreadLocal<Deque<KillAttempt>> KILL_ATTEMPTS = ThreadLocal.withInitial(ArrayDeque::new);
     private static final ThreadLocal<Boolean> SECOND_STRIKE_REPLAYING = ThreadLocal.withInitial(() -> false);
@@ -401,7 +401,7 @@ public final class KillerTraitService {
                 int reward = showmanReward(witnesses);
                 if (reward > 0) {
                     PlayerShopComponent.KEY.get(killer).addToBalance(reward);
-                    SparkTraitsAchievementRecords.recordShowmanReward(killer, victim, witnesses, reward);
+                    TraitAchievementRecords.recordShowmanReward(killer, victim, witnesses, reward);
                 }
             }
             if (killerTraits.hasActiveTrait(KillerTraits.PLUNDERER)) {
@@ -410,7 +410,7 @@ public final class KillerTraitService {
                 if (stolen > 0) {
                     victimShop.setBalance(victimShop.getBalance() - stolen);
                     PlayerShopComponent.KEY.get(killer).addToBalance(stolen);
-                    SparkTraitsAchievementRecords.recordPlundererSteal(killer, victim, stolen);
+                    TraitAchievementRecords.recordPlundererSteal(killer, victim, stolen);
                 }
             }
         }

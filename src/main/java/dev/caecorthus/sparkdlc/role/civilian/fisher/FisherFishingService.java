@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.fisher;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.block_entity.BeveragePlateBlockEntity;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.record.GameRecordManager;
@@ -22,7 +22,7 @@ import net.minecraft.world.World;
 
 /** Server-authoritative fishing on a Wathe drink tray. / 服务端权威的饮料托盘钓鱼。 */
 public final class FisherFishingService {
-    private static final Identifier FISHING_PHASE = SparkWitch.id("fisher_fishing");
+    private static final Identifier FISHING_PHASE = SparkDLC.id("fisher_fishing");
     private static boolean registered;
 
     private FisherFishingService() {
@@ -41,7 +41,7 @@ public final class FisherFishingService {
     }
 
     private static ActionResult interact(PlayerEntity player, World world, Hand hand, BlockHitResult hit) {
-        if (hand != Hand.MAIN_HAND || !player.getMainHandStack().isOf(SparkWitchItems.fishingRod())
+        if (hand != Hand.MAIN_HAND || !player.getMainHandStack().isOf(SparkDlcItems.fishingRod())
                 || player.isSpectator()
                 || !(world.getBlockEntity(hit.getBlockPos()) instanceof BeveragePlateBlockEntity tray)
                 || !tray.isDrink()) {
@@ -62,7 +62,7 @@ public final class FisherFishingService {
     private static void fish(ServerPlayerEntity fisher, BlockHitResult hit) {
         GameWorldComponent game = GameWorldComponent.KEY.get(fisher.getWorld());
         if (!FisherParticipants.isLivingParticipant(fisher) || !FisherRules.isFisher(game.getRole(fisher))
-                || fisher.getItemCooldownManager().isCoolingDown(SparkWitchItems.fishingRod())) {
+                || fisher.getItemCooldownManager().isCoolingDown(SparkDlcItems.fishingRod())) {
             return;
         }
         ItemStack bait = FisherInventory.findBait(fisher.getInventory());
@@ -75,7 +75,7 @@ public final class FisherFishingService {
         // 容量不得依赖渔获种类，否则满快捷栏可以免费筛选随机结果。
         int slot = FisherInventory.catchSlot(fisher.getInventory().main, bait);
         if (slot < 0) {
-            fisher.getItemCooldownManager().set(SparkWitchItems.fishingRod(), FisherRules.ROD_COOLDOWN_TICKS);
+            fisher.getItemCooldownManager().set(SparkDlcItems.fishingRod(), FisherRules.ROD_COOLDOWN_TICKS);
             fisher.sendMessage(Text.translatable("message.sparkdlc.fisher.inventory_full"), true);
             return;
         }
@@ -86,7 +86,7 @@ public final class FisherFishingService {
         } else if (caught == FisherCatch.PUFFERFISH) {
             FisherPufferfishService.spawnAt(fisher.getServerWorld(), hit.getBlockPos(), fisher);
         }
-        fisher.getItemCooldownManager().set(SparkWitchItems.fishingRod(), FisherRules.ROD_COOLDOWN_TICKS);
+        fisher.getItemCooldownManager().set(SparkDlcItems.fishingRod(), FisherRules.ROD_COOLDOWN_TICKS);
         FisherInventory.sync(fisher);
         Text feedback = switch (caught) {
             case SKUNK -> Text.translatable("message.sparkdlc.fisher.skunk");
@@ -103,13 +103,13 @@ public final class FisherFishingService {
 
     static ItemStack catchStack(FisherCatch caught) {
         return switch (caught) {
-            case SALMON -> SparkWitchItems.salmon().getDefaultStack();
-            case COD -> SparkWitchItems.cod().getDefaultStack();
-            case CLOWNFISH -> SparkWitchItems.clownfish().getDefaultStack();
-            case GOLDFISH -> SparkWitchItems.goldfish().getDefaultStack();
-            case GLIMMERFISH -> SparkWitchItems.glimmerfish().getDefaultStack();
-            case KEY_FISH -> SparkWitchItems.keyFish().getDefaultStack();
-            case SWORDFISH -> SparkWitchItems.swordfish().getDefaultStack();
+            case SALMON -> SparkDlcItems.salmon().getDefaultStack();
+            case COD -> SparkDlcItems.cod().getDefaultStack();
+            case CLOWNFISH -> SparkDlcItems.clownfish().getDefaultStack();
+            case GOLDFISH -> SparkDlcItems.goldfish().getDefaultStack();
+            case GLIMMERFISH -> SparkDlcItems.glimmerfish().getDefaultStack();
+            case KEY_FISH -> SparkDlcItems.keyFish().getDefaultStack();
+            case SWORDFISH -> SparkDlcItems.swordfish().getDefaultStack();
             case PUFFERFISH, SKUNK -> ItemStack.EMPTY;
         };
     }

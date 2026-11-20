@@ -30,7 +30,7 @@ public abstract class GameFunctionsBlackRavenTimeBonusMixin {
             require = 1,
             allow = 1
     )
-    private static void sparkwitch$skipBlackRavenDeathTimeBonus(GameTimeComponent time, int amount,
+    private static void sparkdlc$skipBlackRavenDeathTimeBonus(GameTimeComponent time, int amount,
                                                                Operation<Void> original,
                                                                ServerPlayerEntity victim, boolean spawnBody,
                                                                @Nullable ServerPlayerEntity killer,

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.item.m1903a4;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
@@ -48,7 +48,7 @@ public final class M1903A4Cooldowns {
         if (player == null || ticks <= 0) {
             return false;
         }
-        Item rifle = SparkWitchItems.m1903a4();
+        Item rifle = SparkDlcItems.m1903a4();
         return write(remainingTicks(player), ticks,
                 merged -> SparkTraitsApi.setExactItemCooldownRemaining(player, rifle, merged),
                 merged -> player.getItemCooldownManager().set(rifle, merged));
@@ -75,10 +75,10 @@ public final class M1903A4Cooldowns {
         if (player == null || !(player.getItemCooldownManager() instanceof ItemCooldownManagerAccessor accessor)) {
             return 0;
         }
-        Object entry = accessor.sparkwitch$getEntries().get(SparkWitchItems.m1903a4());
+        Object entry = accessor.sparkdlc$getEntriesForRoles().get(SparkDlcItems.m1903a4());
         if (!(entry instanceof ItemCooldownEntryAccessor cooldown)) {
             return 0;
         }
-        return Math.max(0, cooldown.sparkwitch$getEndTick() - accessor.sparkwitch$getTick());
+        return Math.max(0, cooldown.sparkdlc$getEndTickForRoles() - accessor.sparkdlc$getTickForRoles());
     }
 }

@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(BipedEntityModel.class)
 public abstract class ChildishBipedEntityModelMixin {
     @ModifyReturnValue(method = "getHeadParts", at = @At("RETURN"))
-    private Iterable<ModelPart> sparktraits$drawHatWithBabyHead(Iterable<ModelPart> headParts) {
+    private Iterable<ModelPart> sparkdlc$drawHatWithBabyHead(Iterable<ModelPart> headParts) {
         BipedEntityModel<?> model = (BipedEntityModel<?>) (Object) this;
         return ChildishPlayerRendering.drawsHatWithBabyHead(model)
                 ? Iterables.concat(headParts, ImmutableList.of(model.hat))
@@ -24,7 +24,7 @@ public abstract class ChildishBipedEntityModelMixin {
     }
 
     @ModifyReturnValue(method = "getBodyParts", at = @At("RETURN"))
-    private Iterable<ModelPart> sparktraits$dropHatFromBabyBody(Iterable<ModelPart> bodyParts) {
+    private Iterable<ModelPart> sparkdlc$dropHatFromBabyBody(Iterable<ModelPart> bodyParts) {
         BipedEntityModel<?> model = (BipedEntityModel<?>) (Object) this;
         return ChildishPlayerRendering.drawsHatWithBabyHead(model)
                 ? Iterables.filter(bodyParts, part -> part != model.hat)

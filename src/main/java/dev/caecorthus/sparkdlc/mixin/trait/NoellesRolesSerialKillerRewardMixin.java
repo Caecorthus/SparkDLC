@@ -22,7 +22,7 @@ public abstract class NoellesRolesSerialKillerRewardMixin {
                     ordinal = 0
             )
     )
-    private static void sparktraits$skipConscienceProtectedTargetBonus(
+    private static void sparkdlc$skipConscienceProtectedTargetBonus(
             PlayerShopComponent shop,
             int amount,
             ServerPlayerEntity victim,

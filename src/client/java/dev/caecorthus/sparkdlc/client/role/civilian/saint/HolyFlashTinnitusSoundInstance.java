@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.saint;
 
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import net.minecraft.client.sound.AbstractSoundInstance;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.client.sound.TickableSoundInstance;
@@ -18,7 +18,7 @@ public final class HolyFlashTinnitusSoundInstance extends AbstractSoundInstance 
     private boolean done;
 
     HolyFlashTinnitusSoundInstance(float intensity) {
-        super(SparkWitchSounds.HOLY_FLASH_TINNITUS, SoundCategory.PLAYERS, Random.create());
+        super(SparkDlcSounds.HOLY_FLASH_TINNITUS, SoundCategory.PLAYERS, Random.create());
         this.repeat = true;
         this.repeatDelay = 0;
         this.relative = true;

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.sabotage;
 
-import dev.caecorthus.sparkdlc.SparkStrengthBlocks;
-import dev.caecorthus.sparkdlc.SparkStrengthSounds;
+import dev.caecorthus.sparkdlc.SparkDlcBlocks;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.block.CircuitBreakerBlock;
 import dev.caecorthus.sparkdlc.block.JunctionBoxBlock;
 import dev.caecorthus.sparkdlc.sabotage.SabotageWorldComponent;
@@ -166,11 +166,11 @@ public final class SabotageService {
         List<BlockPos> breakers = new ArrayList<>();
         List<BlockPos> engineUnits = new ArrayList<>();
         SabotageBlockScan.scan(world, MapVariablesWorldComponent.KEY.get(world).getPlayArea(), (pos, state) -> {
-            if (state.isOf(SparkStrengthBlocks.junctionBox())) {
+            if (state.isOf(SparkDlcBlocks.junctionBox())) {
                 boxes.add(pos);
-            } else if (state.isOf(SparkStrengthBlocks.circuitBreaker())) {
+            } else if (state.isOf(SparkDlcBlocks.circuitBreaker())) {
                 breakers.add(pos);
-            } else if (state.isOf(SparkStrengthBlocks.engineUnit())) {
+            } else if (state.isOf(SparkDlcBlocks.engineUnit())) {
                 engineUnits.add(pos);
             }
         });
@@ -196,14 +196,14 @@ public final class SabotageService {
                                      List<BlockPos> engineUnits) {
         for (BlockPos pos : boxes) {
             BlockState state = world.getBlockState(pos);
-            if (state.isOf(SparkStrengthBlocks.junctionBox())
+            if (state.isOf(SparkDlcBlocks.junctionBox())
                     && state.get(JunctionBoxBlock.STATE) != JunctionBoxState.CLOSED) {
                 world.setBlockState(pos, state.with(JunctionBoxBlock.STATE, JunctionBoxState.CLOSED), Block.NOTIFY_ALL);
             }
         }
         for (BlockPos pos : breakers) {
             BlockState state = world.getBlockState(pos);
-            if (state.isOf(SparkStrengthBlocks.circuitBreaker()) && state.get(CircuitBreakerBlock.TRIPPED)) {
+            if (state.isOf(SparkDlcBlocks.circuitBreaker()) && state.get(CircuitBreakerBlock.TRIPPED)) {
                 world.setBlockState(pos, state.with(CircuitBreakerBlock.TRIPPED, false), Block.NOTIFY_ALL);
             }
         }
@@ -256,7 +256,7 @@ public final class SabotageService {
             return;
         }
         boolean dropped = sabotage.pruneEngineUnits(pos -> !world.isChunkLoaded(pos)
-                || world.getBlockState(pos).isOf(SparkStrengthBlocks.engineUnit()));
+                || world.getBlockState(pos).isOf(SparkDlcBlocks.engineUnit()));
         if (dropped) {
             if (!sabotage.hasEngineUnits() && sabotage.isEngineOn()) {
                 EngineSabotageService.abort(world);
@@ -269,7 +269,7 @@ public final class SabotageService {
 
     /** Wathe's counter is positive while a copy is queued or retrying. / Wathe 的计数在复制排队或重试中为正数。 */
     private static boolean trainCopyPending(GameWorldComponent game) {
-        return ((GameWorldComponentResetAccessor) game).sparkstrength$getTicksUntilNextResetAttempt() > 0;
+        return ((GameWorldComponentResetAccessor) game).sparkdlc$getTicksUntilNextResetAttempt() > 0;
     }
 
     /** A partial scan of unloaded chunks would miss junction boxes. / 扫描未加载的区块会漏掉接线箱。 */
@@ -288,7 +288,7 @@ public final class SabotageService {
                         Text.translatable(type.translationKey())).formatted(Formatting.GOLD);
                 for (ServerPlayerEntity player : saboteurs(world)) {
                     player.sendMessage(message, false);
-                    player.playSoundToPlayer(SparkStrengthSounds.SABOTAGE_READY, SoundCategory.PLAYERS, 0.6F, 1.2F);
+                    player.playSoundToPlayer(SparkDlcSounds.SABOTAGE_READY, SoundCategory.PLAYERS, 0.6F, 1.2F);
                 }
                 TabletStateService.syncToTabletHolders(world);
             }

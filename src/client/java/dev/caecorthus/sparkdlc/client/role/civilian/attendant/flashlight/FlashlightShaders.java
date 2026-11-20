@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.attendant.flashlight;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.fabricmc.fabric.api.client.rendering.v1.CoreShaderRegistrationCallback;
 import net.minecraft.client.gl.ShaderProgram;
 import net.minecraft.client.render.VertexFormat;
@@ -36,9 +36,9 @@ public final class FlashlightShaders {
      */
     static void register() {
         CoreShaderRegistrationCallback.EVENT.register(context -> {
-            context.register(SparkStrength.id("flashlight_receiver"), RECEIVER_FORMAT,
+            context.register(SparkDLC.id("flashlight_receiver"), RECEIVER_FORMAT,
                     program -> receiver = withBeamRules(program));
-            context.register(SparkStrength.id("flashlight_beam"), BEAM_FORMAT,
+            context.register(SparkDLC.id("flashlight_beam"), BEAM_FORMAT,
                     program -> beam = withBeamRules(program));
         });
     }

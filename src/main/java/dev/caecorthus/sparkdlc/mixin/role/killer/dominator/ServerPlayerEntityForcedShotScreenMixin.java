@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ServerPlayerEntity.class)
 public abstract class ServerPlayerEntityForcedShotScreenMixin {
     @Inject(method = "openHandledScreen", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$refuseContainerDuringForcedShot(@Nullable NamedScreenHandlerFactory factory,
+    private void sparkdlc$refuseContainerDuringForcedShot(@Nullable NamedScreenHandlerFactory factory,
                                                            CallbackInfoReturnable<OptionalInt> cir) {
         if (factory != null && DominatorForcedShotComponent.isSequenceActive((ServerPlayerEntity) (Object) this)) {
             cir.setReturnValue(OptionalInt.empty());

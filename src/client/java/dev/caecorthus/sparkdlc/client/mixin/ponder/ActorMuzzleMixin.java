@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = MatrixParticleManager.class, remap = false)
 public interface ActorMuzzleMixin {
     @Inject(method = "setMuzzlePosForPlayer", at = @At("HEAD"), cancellable = true)
-    private static void sparkassist$skipActors(PlayerEntity player, Vec3d pos, CallbackInfo ci) {
+    private static void sparkdlc$skipActors(PlayerEntity player, Vec3d pos, CallbackInfo ci) {
         if (player instanceof ActorPlayer) {
             ci.cancel();
         }

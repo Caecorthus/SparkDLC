@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.vendetta;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.util.StaggeredSweep;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -60,7 +60,7 @@ public final class VendettaKnifeLoadoutService {
         boolean entitled = component.isActive()
                 && component.isKnifeAvailable()
                 && !player.isSpectator()
-                && game.isRole(player, SparkWitchRoles.vendetta());
+                && game.isRole(player, SparkDlcRoles.vendetta());
         if (!entitled && (!sweepStrays || !containsKnife(player))) {
             return;
         }

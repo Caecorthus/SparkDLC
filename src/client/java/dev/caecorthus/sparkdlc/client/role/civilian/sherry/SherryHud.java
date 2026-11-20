@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.sherry;
 
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityController;
 import dev.caecorthus.sparkdlc.client.hud.CachedHudText;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
@@ -62,7 +62,7 @@ public final class SherryHud {
                 component.getMightyWindowTicks(), component.getMightyCooldownTicks(),
                 WitchPlayerComponent.KEY.get(player).getMana());
         TextRenderer renderer = client.textRenderer;
-        DEDUCTION.update(deduction, SparkWitchClient.abilityKeyText(), renderer);
+        DEDUCTION.update(deduction, SparkDLCClient.abilityKeyText(), renderer);
         MIGHTY.update(mighty, SecondaryAbilityController.secondaryKeyText(), renderer);
         // Both rows rise together: measured with the wider row. / 两行一同抬升：按较宽的一行测量。
         int measured = Math.max(DEDUCTION.measuredWidth(), MIGHTY.measuredWidth());

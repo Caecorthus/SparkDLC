@@ -30,7 +30,7 @@ import java.util.UUID;
 @Mixin(KnifeItem.class)
 public abstract class KnightDuelKnifeRayTargetMixin {
     @Inject(method = "getKnifeTarget", at = @At("HEAD"), cancellable = true)
-    private static void sparkwitch$restrictDuelKnifeRay(PlayerEntity player, CallbackInfoReturnable<HitResult> cir) {
+    private static void sparkdlc$restrictDuelKnifeRay(PlayerEntity player, CallbackInfoReturnable<HitResult> cir) {
         if (player == null || !KnightDuelKnives.isDuelKnife(KnightDuelKnives.stabKnife(player))) {
             return;
         }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.ferryman;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.RegistryByteBuf;
@@ -21,7 +21,7 @@ import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
  */
 public final class FerrymanInstinctVeilComponent implements AutoSyncedComponent, ClientTickingComponent {
     public static final ComponentKey<FerrymanInstinctVeilComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("ferryman_feign_veil"),
+            SparkDLC.id("ferryman_feign_veil"),
             FerrymanInstinctVeilComponent.class
     );
 

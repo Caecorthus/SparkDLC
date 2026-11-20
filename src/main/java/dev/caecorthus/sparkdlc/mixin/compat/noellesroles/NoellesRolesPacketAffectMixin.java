@@ -43,7 +43,7 @@ public abstract class NoellesRolesPacketAffectMixin {
             require = 1,
             remap = false
     )
-    private static void sparkfactionapi$guardMorph(
+    private static void sparkdlc$guardMorph(
             @Coerce Object payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci
@@ -58,7 +58,7 @@ public abstract class NoellesRolesPacketAffectMixin {
             require = 1,
             remap = false
     )
-    private static void sparkfactionapi$guardSwapper(
+    private static void sparkdlc$guardSwapper(
             @Coerce Object payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci
@@ -76,7 +76,7 @@ public abstract class NoellesRolesPacketAffectMixin {
             require = 1,
             remap = false
     )
-    private static void sparkfactionapi$guardAssassin(
+    private static void sparkdlc$guardAssassin(
             @Coerce Object payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci
@@ -91,7 +91,7 @@ public abstract class NoellesRolesPacketAffectMixin {
             require = 1,
             remap = false
     )
-    private static void sparkfactionapi$guardReporter(
+    private static void sparkdlc$guardReporter(
             @Coerce Object payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci
@@ -106,7 +106,7 @@ public abstract class NoellesRolesPacketAffectMixin {
             require = 1,
             remap = false
     )
-    private static void sparkfactionapi$guardDetective(
+    private static void sparkdlc$guardDetective(
             @Coerce Object payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci
@@ -121,7 +121,7 @@ public abstract class NoellesRolesPacketAffectMixin {
             require = 1,
             remap = false
     )
-    private static void sparkfactionapi$guardTaotie(
+    private static void sparkdlc$guardTaotie(
             @Coerce Object payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci
@@ -136,7 +136,7 @@ public abstract class NoellesRolesPacketAffectMixin {
             require = 1,
             remap = false
     )
-    private static void sparkfactionapi$guardShadowAlly(
+    private static void sparkdlc$guardShadowAlly(
             @Coerce Object payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci
@@ -151,7 +151,7 @@ public abstract class NoellesRolesPacketAffectMixin {
             require = 1,
             remap = false
     )
-    private static void sparkfactionapi$guardSilencer(
+    private static void sparkdlc$guardSilencer(
             @Coerce Object payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci
@@ -166,7 +166,7 @@ public abstract class NoellesRolesPacketAffectMixin {
             require = 1,
             remap = false
     )
-    private static void sparkfactionapi$guardPartyAnimal(
+    private static void sparkdlc$guardPartyAnimal(
             @Coerce Object payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci

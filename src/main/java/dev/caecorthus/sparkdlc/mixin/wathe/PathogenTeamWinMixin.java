@@ -26,7 +26,7 @@ public abstract class PathogenTeamWinMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private static void sparkstrength$pathogensWinTogether(
+    private static void sparkdlc$pathogensWinTogether(
             ServerPlayerEntity winner,
             CallbackInfoReturnable<CheckWinCondition.WinResult> cir
     ) {

@@ -21,7 +21,7 @@ public abstract class GrenadeEntityMixin {
                     target = "Ldev/doctor4t/wathe/game/GameFunctions;killPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;ZLnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;)V"
             )
     )
-    private void sparktraits$killWithGrenadeWeaponHint(
+    private void sparkdlc$killWithGrenadeWeaponHint(
             ServerPlayerEntity target,
             boolean spawnBody,
             ServerPlayerEntity killer,

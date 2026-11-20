@@ -33,7 +33,7 @@ public abstract class PotionLauncherMacControlClickMixin {
     @ModifyExpressionValue(method = "onMouseButton",
             at = @At(value = "FIELD", target = "Lnet/minecraft/client/MinecraftClient;IS_SYSTEM_MAC:Z",
                     opcode = Opcodes.GETSTATIC))
-    private boolean sparkwitch$keepLauncherLeftPressOnMac(boolean systemMac,
+    private boolean sparkdlc$keepLauncherLeftPressOnMac(boolean systemMac,
                                                           @Local(argsOnly = true, ordinal = 0) int button,
                                                           @Local(argsOnly = true, ordinal = 1) int action) {
         return systemMac && !PotionFireInput.keepsMacLeftPress(MinecraftClient.getInstance(), button, action,

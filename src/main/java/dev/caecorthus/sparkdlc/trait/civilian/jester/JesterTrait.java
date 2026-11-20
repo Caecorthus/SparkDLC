@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.civilian.jester;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.Trait;
 import dev.caecorthus.sparkdlc.trait.api.TraitAudience;
 import dev.caecorthus.sparkdlc.trait.api.TraitSelectionContext;
@@ -18,7 +18,7 @@ import java.util.Set;
  * 并沿用背水一战的资格门槛与抽取权重。触发前保持原本的好人阵营。
  */
 public final class JesterTrait implements Trait {
-    public static final Identifier ID = SparkTraits.id("jester");
+    public static final Identifier ID = SparkDLC.id("jester");
     /** Same color as NoellesRoles' Jester role. / 与 NoellesRoles 小丑职业相同的颜色。 */
     private static final int COLOR = 0xF8C8DC;
 

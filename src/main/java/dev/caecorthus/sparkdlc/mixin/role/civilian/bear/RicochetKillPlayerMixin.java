@@ -30,7 +30,7 @@ public abstract class RicochetKillPlayerMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private static void sparkwitch$rysTRicochet(
+    private static void sparkdlc$rysTRicochet(
             ServerPlayerEntity victim,
             boolean spawnBody,
             @Nullable ServerPlayerEntity killer,

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.controlexpert;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
@@ -14,13 +14,13 @@ import java.util.function.BooleanSupplier;
  * 已批准的控场专家数值与两端通用的纯判定。
  */
 public final class ControlExpertRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("control_expert");
+    public static final Identifier ROLE_ID = SparkDLC.id("control_expert");
     public static final int COLOR = 0x4DD0E1;
     public static final Identifier VIGILANTE_ID = Identifier.of("wathe", "vigilante");
 
-    public static final Identifier DISRUPTOR_ID = SparkWitch.id("disruptor");
-    public static final Identifier TASER_ID = SparkWitch.id("taser");
-    public static final Identifier SHOCK_DEVICE_ID = SparkWitch.id("shock_device");
+    public static final Identifier DISRUPTOR_ID = SparkDLC.id("disruptor");
+    public static final Identifier TASER_ID = SparkDLC.id("taser");
+    public static final Identifier SHOCK_DEVICE_ID = SparkDLC.id("shock_device");
 
     public static final String DISRUPTOR_ENTRY_ID = "control_expert_disruptor";
     public static final String TASER_ENTRY_ID = "control_expert_taser";
@@ -61,9 +61,9 @@ public final class ControlExpertRules {
     public static final float SHOCK_THROW_DIVERGENCE = 1.0F;
 
     /** Action ids passed to SparkFactionApi.canAffectPlayer. / 传给 SparkFactionApi.canAffectPlayer 的动作 id。 */
-    public static final Identifier DISRUPTOR_ACTION = SparkWitch.id("control_expert_disruptor");
-    public static final Identifier TASER_ACTION = SparkWitch.id("control_expert_taser");
-    public static final Identifier SHOCK_ACTION = SparkWitch.id("control_expert_shock");
+    public static final Identifier DISRUPTOR_ACTION = SparkDLC.id("control_expert_disruptor");
+    public static final Identifier TASER_ACTION = SparkDLC.id("control_expert_taser");
+    public static final Identifier SHOCK_ACTION = SparkDLC.id("control_expert_shock");
 
     private ControlExpertRules() {
     }

@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(InGameHud.class)
 public abstract class RoleHudRenderTailMixin {
     @Inject(method = "render", at = @At("TAIL"))
-    private void sparkwitch$renderRoleHudTail(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+    private void sparkdlc$renderRoleHudTail(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         RoleHudDispatcher.renderTail((InGameHud) (Object) this, context);
     }
 }

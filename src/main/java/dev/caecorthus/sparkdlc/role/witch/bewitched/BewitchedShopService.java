@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.bewitched;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.api.event.CanSeeMoney;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -25,7 +25,7 @@ public final class BewitchedShopService {
      * mod load order) are cleared too.
      * 排在默认阶段之后，因此任何默认阶段监听器（职业或词条商店，无论模组加载顺序）追加的条目也会被清空。
      */
-    static final Identifier CLEAR_PHASE = SparkWitch.id("bewitched_shop_clear");
+    static final Identifier CLEAR_PHASE = SparkDLC.id("bewitched_shop_clear");
     private static boolean registered;
 
     private BewitchedShopService() {

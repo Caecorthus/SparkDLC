@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.tablet.net;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier;
  * 请求切换查看的平板频道；服务端校验成员资格、冷却与会议锁定。
  */
 public record SelectTabletChannelC2SPacket(int channelWire) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("select_tablet_channel");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("select_tablet_channel");
     public static final Id<SelectTabletChannelC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, SelectTabletChannelC2SPacket> CODEC =
             PacketCodec.of(SelectTabletChannelC2SPacket::write, SelectTabletChannelC2SPacket::read);

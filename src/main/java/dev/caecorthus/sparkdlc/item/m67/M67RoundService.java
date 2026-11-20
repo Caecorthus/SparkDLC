@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.item.m67;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.entity.M67GrenadeEntity;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.ResetPlayer;
@@ -181,7 +181,7 @@ public final class M67RoundService {
                 // 提前结束对局时清除开局锁定，避免继续阻止大厅使用；其他玩家的冷却保持不变。
                 for (ServerPlayerEntity player : world.getPlayers()) {
                     if (round.openingLocked.contains(player.getUuid())) {
-                        player.getItemCooldownManager().remove(SparkStrengthItems.m67());
+                        player.getItemCooldownManager().remove(SparkDlcItems.m67());
                     }
                 }
             }

@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.occlusion;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeClientState;
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeOcclusion;
 import org.lwjgl.opengl.GL11;
@@ -194,10 +194,10 @@ public final class SmokeHeatMask {
         } catch (RuntimeException exception) {
             if (hazePass) {
                 hazeBroken = true;
-                SparkWitch.LOGGER.error("Smoke heat haze failed; the thermal view shows no smoke haze", exception);
+                SparkDLC.LOGGER.error("Smoke heat haze failed; the thermal view shows no smoke haze", exception);
             } else {
                 maskBroken = true;
-                SparkWitch.LOGGER.error("Smoke heat mask failed; heat inside smoke is hidden instead", exception);
+                SparkDLC.LOGGER.error("Smoke heat mask failed; heat inside smoke is hidden instead", exception);
             }
         } finally {
             GlStateManager._blendFuncSeparate(blend[0], blend[1], blend[2], blend[3]);

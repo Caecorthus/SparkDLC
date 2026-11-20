@@ -30,7 +30,7 @@ public abstract class DroneDemonHunterShootMixin {
     @WrapOperation(method = "receive(Lorg/agmas/noellesroles/demonhunter/DemonHunterShootC2SPacket;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/server/world/ServerWorld;getEntityById(I)Lnet/minecraft/entity/Entity;"))
-    private @Nullable Entity sparkstrength$absorbShotAtDrone(ServerWorld world, int entityId,
+    private @Nullable Entity sparkdlc$absorbShotAtDrone(ServerWorld world, int entityId,
                                                              Operation<Entity> original,
                                                              DemonHunterShootC2SPacket payload,
                                                              ServerPlayNetworking.Context context) {

@@ -16,5 +16,5 @@ import java.util.UUID;
 @Mixin(value = HiddenBodiesWorldComponent.class, remap = false)
 public interface HiddenBodiesWorldComponentAccessor {
     @Accessor(value = "hiddenBodies", remap = false)
-    Set<UUID> sparkstrength$getHiddenBodies();
+    Set<UUID> sparkdlc$getHiddenBodies();
 }

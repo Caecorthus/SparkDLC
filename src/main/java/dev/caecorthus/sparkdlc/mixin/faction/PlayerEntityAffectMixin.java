@@ -22,7 +22,7 @@ public abstract class PlayerEntityAffectMixin {
     private static final Identifier USE_ENTITY = Identifier.of("minecraft", "use_entity");
 
     @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
-    private void sparkfactionapi$guardPlayerInteraction(
+    private void sparkdlc$guardPlayerInteraction(
             Entity entity,
             Hand hand,
             CallbackInfoReturnable<ActionResult> cir

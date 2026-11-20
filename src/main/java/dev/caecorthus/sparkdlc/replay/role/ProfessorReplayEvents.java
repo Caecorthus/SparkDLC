@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.replay.role;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.record.replay.ReplayGenerator;
 import dev.doctor4t.wathe.record.replay.ReplayRegistry;
 import net.minecraft.nbt.NbtCompound;
@@ -14,11 +14,11 @@ import java.util.UUID;
  * 教授试剂的回放文本。
  */
 public final class ProfessorReplayEvents {
-    public static final Identifier PROFESSOR_SERUM_FED = SparkStrength.id("professor_serum_fed");
-    public static final Identifier PROFESSOR_INVISIBILITY_ENDED = SparkStrength.id("professor_invisibility_ended");
-    public static final Identifier PROFESSOR_DOORPASSING_ENDED = SparkStrength.id("professor_doorpassing_ended");
-    public static final Identifier PROFESSOR_SEDATIVE_ENDED = SparkStrength.id("professor_sedative_ended");
-    public static final Identifier PROFESSOR_TRUTH_REVEALED = SparkStrength.id("professor_truth_revealed");
+    public static final Identifier PROFESSOR_SERUM_FED = SparkDLC.id("professor_serum_fed");
+    public static final Identifier PROFESSOR_INVISIBILITY_ENDED = SparkDLC.id("professor_invisibility_ended");
+    public static final Identifier PROFESSOR_DOORPASSING_ENDED = SparkDLC.id("professor_doorpassing_ended");
+    public static final Identifier PROFESSOR_SEDATIVE_ENDED = SparkDLC.id("professor_sedative_ended");
+    public static final Identifier PROFESSOR_TRUTH_REVEALED = SparkDLC.id("professor_truth_revealed");
 
     private ProfessorReplayEvents() {
     }

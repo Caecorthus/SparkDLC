@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.trait.killer.conscience;
 
 public interface ConsciencePoisonedPlate {
-    String sparktraits$getConsciencePoisoner();
+    String sparkdlc$getConsciencePoisoner();
 
-    void sparktraits$setConsciencePoisoner(String poisoner);
+    void sparkdlc$setConsciencePoisoner(String poisoner);
 }

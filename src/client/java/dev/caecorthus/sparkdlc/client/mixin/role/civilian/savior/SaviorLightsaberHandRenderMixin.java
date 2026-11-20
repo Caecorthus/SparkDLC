@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.mixin.role.civilian.savior;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.role.civilian.savior.SaviorHandRenderScope;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.ItemRenderer;
@@ -34,20 +34,20 @@ public abstract class SaviorLightsaberHandRenderMixin {
             + "Lnet/minecraft/world/World;III)V";
 
     @Inject(method = RENDER_ITEM, at = @At("HEAD"))
-    private void sparkwitch$enterLightsaberHandRender(LivingEntity entity, ItemStack stack,
+    private void sparkdlc$enterLightsaberHandRender(LivingEntity entity, ItemStack stack,
                                                       ModelTransformationMode mode, boolean leftHanded,
                                                       MatrixStack matrices, VertexConsumerProvider vertexConsumers,
                                                       World world, int light, int overlay, int seed, CallbackInfo ci,
                                                       @Share("saviorEntered") LocalBooleanRef entered,
                                                       @Share("saviorPrevious") LocalRef<ItemStack> previous) {
-        if (stack.isOf(SparkWitchItems.saviorLightsaber())) {
+        if (stack.isOf(SparkDlcItems.saviorLightsaber())) {
             previous.set(SaviorHandRenderScope.enter(stack));
             entered.set(true);
         }
     }
 
     @Inject(method = RENDER_ITEM, at = @At("RETURN"))
-    private void sparkwitch$exitLightsaberHandRender(LivingEntity entity, ItemStack stack,
+    private void sparkdlc$exitLightsaberHandRender(LivingEntity entity, ItemStack stack,
                                                      ModelTransformationMode mode, boolean leftHanded,
                                                      MatrixStack matrices, VertexConsumerProvider vertexConsumers,
                                                      World world, int light, int overlay, int seed, CallbackInfo ci,

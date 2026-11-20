@@ -33,9 +33,9 @@ public final class BlackRavenCrowHitRules {
     /** Wathe knife stab reach plus the latency tolerance of every client-trusted stab. / Wathe 刀刺距离加延迟容差。 */
     public static final double KNIFE_REACH = 3.5;
     /**
-     * Latency tolerance an add-on melee weapon's own reach gets on the crow ({@code SparkWitchApi.crowMeleeStandIn}),
+     * Latency tolerance an add-on melee weapon's own reach gets on the crow ({@code SparkRoleApi.crowMeleeStandIn}),
      * the allowance that turns Wathe's 3-block stab into {@link #KNIFE_REACH}.
-     * 附属模组近战武器自身距离在乌鸦上获得的延迟容差（{@code SparkWitchApi.crowMeleeStandIn}），即把 Wathe 3 格刺击变为
+     * 附属模组近战武器自身距离在乌鸦上获得的延迟容差（{@code SparkRoleApi.crowMeleeStandIn}），即把 Wathe 3 格刺击变为
      * {@link #KNIFE_REACH} 的余量。
      */
     public static final double ADDON_MELEE_TOLERANCE = 0.5;

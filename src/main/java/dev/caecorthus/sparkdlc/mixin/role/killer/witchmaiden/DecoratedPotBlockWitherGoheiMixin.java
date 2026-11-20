@@ -30,7 +30,7 @@ public abstract class DecoratedPotBlockWitherGoheiMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$keepWitherGoheiItemOutOfPot(ItemStack stack, BlockState state, World world, BlockPos pos,
+    private void sparkdlc$keepWitherGoheiItemOutOfPot(ItemStack stack, BlockState state, World world, BlockPos pos,
                                                          PlayerEntity player, Hand hand, BlockHitResult hit,
                                                          CallbackInfoReturnable<ItemActionResult> cir) {
         if (WitherGoheiInventoryRules.blocksBlockUse(stack, state)) {

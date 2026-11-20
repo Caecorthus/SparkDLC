@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.bomber;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -23,7 +23,7 @@ import java.util.List;
 public record TimedBombMarkersPayload(boolean reset, List<BlockPos> added, List<BlockPos> removed) implements CustomPayload {
     /** Upper bound of each position list in one packet; larger updates are split by {@link #split}. / 单个数据包中每个位置列表的上限。 */
     public static final int MAX_POSITIONS = 1024;
-    public static final Id<TimedBombMarkersPayload> ID = new Id<>(SparkStrength.id("timed_bomb_markers"));
+    public static final Id<TimedBombMarkersPayload> ID = new Id<>(SparkDLC.id("timed_bomb_markers"));
     public static final PacketCodec<RegistryByteBuf, TimedBombMarkersPayload> CODEC =
             PacketCodec.of(TimedBombMarkersPayload::write, TimedBombMarkersPayload::read);
 

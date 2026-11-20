@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 @Mixin(value = RevolverItem.class, remap = false)
 public abstract class NikoRevolverRecoilMixin {
     @ModifyConstant(method = "use", constant = @Constant(floatValue = 4.0f), remap = false)
-    private float sparktraits$reduceNikoRevolverBurstRecoil(float recoil, World world, PlayerEntity user, Hand hand) {
+    private float sparkdlc$reduceNikoRevolverBurstRecoil(float recoil, World world, PlayerEntity user, Hand hand) {
         if (!SparkDlcServerConnection.isConfirmedServer()) {
             return recoil;
         }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.sabotage;
 
-import dev.caecorthus.sparkdlc.SparkStrengthBlocks;
+import dev.caecorthus.sparkdlc.SparkDlcBlocks;
 import dev.caecorthus.sparkdlc.block.JunctionBoxBlock;
 import dev.caecorthus.sparkdlc.sabotage.SabotageWorldComponent;
 import dev.caecorthus.sparkdlc.tablet.net.TabletSnapshot;
@@ -60,7 +60,7 @@ public final class SabotageTabletSnapshots {
             int hacked = 0;
             for (BlockPos pos : sabotage.junctionBoxes()) {
                 BlockState box = world.getBlockState(pos);
-                if (!box.isOf(SparkStrengthBlocks.junctionBox()) || JunctionBoxBlock.typeOf(box) != type) {
+                if (!box.isOf(SparkDlcBlocks.junctionBox()) || JunctionBoxBlock.typeOf(box) != type) {
                     continue;
                 }
                 boxes++;

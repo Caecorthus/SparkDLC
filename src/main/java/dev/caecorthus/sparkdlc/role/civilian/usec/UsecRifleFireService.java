@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.usec;
 
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RangedSmokeCarve;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
@@ -204,7 +204,7 @@ public final class UsecRifleFireService {
      * 公开枪声：响亮枪声，或以消音器自身音量与音调播放的消音枪声。公开播放，附近所有玩家（包括盲人）都能感知（盲人距离系数按声音 id 区分）。
      */
     private static void playShot(ServerWorld world, ServerPlayerEntity player, boolean suppressed) {
-        SoundEvent sound = suppressed ? SparkWitchSounds.USEC_RIFLE_SHOOT_SUPPRESSED : SparkWitchSounds.USEC_RIFLE_SHOOT;
+        SoundEvent sound = suppressed ? SparkDlcSounds.USEC_RIFLE_SHOOT_SUPPRESSED : SparkDlcSounds.USEC_RIFLE_SHOOT;
         float volume = suppressed ? UsecRules.SUPPRESSED_SHOT_VOLUME : UsecRules.SHOT_VOLUME;
         float pitch = suppressed ? UsecRules.SUPPRESSED_PITCH
                 : 1.0F + (player.getRandom().nextFloat() * 2.0F - 1.0F) * UsecFireRules.SHOT_PITCH_SPREAD;
@@ -245,7 +245,7 @@ public final class UsecRifleFireService {
                     status, GameWorldComponent.KEY.get(world).getGameStatus())) {
                 return;
             }
-            world.playSound(null, player.getX(), player.getEyeY(), player.getZ(), SparkWitchSounds.USEC_RIFLE_BOLT,
+            world.playSound(null, player.getX(), player.getEyeY(), player.getZ(), SparkDlcSounds.USEC_RIFLE_BOLT,
                     SoundCategory.PLAYERS, 1.0F, 1.0F);
         }, UsecFireRules.BOLT_SOUND_DELAY_TICKS);
     }

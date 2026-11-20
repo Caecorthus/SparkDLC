@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.demonhunter;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.demonhunter.DemonHunterSniffRules;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -36,7 +36,7 @@ import java.util.UUID;
  */
 public final class DemonHunterSniffPlayerComponent implements AutoSyncedComponent, ServerTickingComponent {
     public static final ComponentKey<DemonHunterSniffPlayerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("demon_hunter_sniff"),
+            SparkDLC.id("demon_hunter_sniff"),
             DemonHunterSniffPlayerComponent.class
     );
 

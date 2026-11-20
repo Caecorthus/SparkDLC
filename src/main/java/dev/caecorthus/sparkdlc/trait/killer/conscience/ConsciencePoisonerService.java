@@ -177,8 +177,8 @@ public final class ConsciencePoisonerService {
             return;
         }
 
-        UUID poisoner = conscienceBed.sparktraits$getConscienceScorpionPoisoner();
-        conscienceBed.sparktraits$setConscienceScorpion(false, null);
+        UUID poisoner = conscienceBed.sparkdlc$getConscienceScorpionPoisoner();
+        conscienceBed.sparkdlc$setConscienceScorpion(false, null);
         triggerBlueTrap(player, poisoner);
     }
 
@@ -215,7 +215,7 @@ public final class ConsciencePoisonerService {
                     BlockPos pos = centerPos.add(dx, dy, dz);
                     TrimmedBedBlockEntity entity = resolveBedHead(world, pos);
                     if (entity instanceof ConscienceScorpionBed conscienceBed
-                            && conscienceBed.sparktraits$hasConscienceScorpion()
+                            && conscienceBed.sparkdlc$hasConscienceScorpion()
                             && isLineClear(world, centerPos, pos)) {
                         return entity;
                     }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither;
 
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
@@ -76,7 +76,7 @@ public final class CrimsonSkullFireService {
         player.getItemCooldownManager().set(gohei.getItem(), MiniWitherRules.CRIMSON_COOLDOWN_TICKS);
         ServerWorld world = player.getServerWorld();
         world.playSound(null, anchor.x, anchor.y, anchor.z,
-                SparkWitchSounds.miniWither(MiniWitherSoundSlot.CRIMSON_SHOOT), SoundCategory.PLAYERS, LAUNCH_VOLUME,
+                SparkDlcSounds.miniWither(MiniWitherSoundSlot.CRIMSON_SHOOT), SoundCategory.PLAYERS, LAUNCH_VOLUME,
                 LAUNCH_PITCH);
     }
 

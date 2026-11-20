@@ -41,7 +41,7 @@ public abstract class RiftSessionGameRendererMixin {
 
     @Inject(method = "render", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/gl/Framebuffer;beginWrite(Z)V"))
-    private void sparkwitch$renderRiftGrayscale(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
+    private void sparkdlc$renderRiftGrayscale(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
         if (!RiftSessionClient.isActive()) {
             RiftGrayscaleFilter.release();
             return;
@@ -50,7 +50,7 @@ public abstract class RiftSessionGameRendererMixin {
     }
 
     @Inject(method = "renderHand", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$hideHandInsideRift(CallbackInfo ci) {
+    private void sparkdlc$hideHandInsideRift(CallbackInfo ci) {
         if (!RiftSessionClient.isActive()) {
             return;
         }
@@ -58,7 +58,7 @@ public abstract class RiftSessionGameRendererMixin {
     }
 
     @Inject(method = "updateCrosshairTarget", at = @At("RETURN"))
-    private void sparkwitch$forceRiftMiss(float tickDelta, CallbackInfo ci) {
+    private void sparkdlc$forceRiftMiss(float tickDelta, CallbackInfo ci) {
         if (!RiftSessionClient.isActive()) {
             return;
         }

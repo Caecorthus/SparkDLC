@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.blind;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -13,11 +13,11 @@ import org.jetbrains.annotations.Nullable;
  * 唯一受影响的半径是盲人自己的脚步脉冲，佩戴 ComTac 时 ×3（D14）。其他声音半径与盲杖半径从不放大。
  */
 public final class BlindRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("blind");
+    public static final Identifier ROLE_ID = SparkDLC.id("blind");
     public static final int COLOR = 0xB8C7D9;
 
-    public static final Identifier WHITE_CANE_ID = SparkWitch.id("white_cane");
-    public static final Identifier COMTAC_ID = SparkWitch.id("comtac_viii");
+    public static final Identifier WHITE_CANE_ID = SparkDLC.id("white_cane");
+    public static final Identifier COMTAC_ID = SparkDLC.id("comtac_viii");
     /** Shop entry id; its name keys are {@code shop.sparkdlc.comtac_viii(.description)}. / 商店条目 id。 */
     public static final String COMTAC_SHOP_ENTRY_ID = "comtac_viii";
 

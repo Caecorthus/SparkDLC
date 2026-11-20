@@ -12,9 +12,9 @@ import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Time-Stamp price labels for the local Time Stealer's shop entries, called from {@code WitchShopClientTexts}. Returns
+ * Time-Stamp price labels for the local Time Stealer's shop entries, called from {@code ShopCurrencyTexts}. Returns
  * {@code null} for every other entry or viewer so existing labels are untouched. Presentation only.
- * 本地窃时者商店商品的时光邮票价格标签，由 {@code WitchShopClientTexts} 调用。其他商品或观察者一律返回 {@code null}，
+ * 本地窃时者商店商品的时光邮票价格标签，由 {@code ShopCurrencyTexts} 调用。其他商品或观察者一律返回 {@code null}，
  * 使既有标签保持不变。仅用于展示。
  *
  * <p>The role check is required because {@code psycho_mode} is shared with every other killer's coin entry. The

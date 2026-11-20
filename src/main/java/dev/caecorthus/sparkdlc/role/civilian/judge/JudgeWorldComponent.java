@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.judge;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.nbt.NbtCompound;
@@ -27,7 +27,7 @@ import java.util.UUID;
  * 完整回合账本仅存服务端，同步只包含公开判决状态。 */
 public final class JudgeWorldComponent implements AutoSyncedComponent, ServerTickingComponent {
     public static final ComponentKey<JudgeWorldComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("judge_round"), JudgeWorldComponent.class);
+            SparkDLC.id("judge_round"), JudgeWorldComponent.class);
     private static final int MAX_SAVED_PLAYERS = 16384;
     private final World world;
     private final JudgeRoundState state = new JudgeRoundState();

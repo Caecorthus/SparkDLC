@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.usec;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.role.civilian.blind.gate.BlindClientGates;
 import dev.caecorthus.sparkdlc.client.render.WraithClientState;
 import dev.caecorthus.sparkdlc.client.scope.ScopeClient;
@@ -54,7 +54,7 @@ import org.joml.Matrix4fStack;
  * （镜外可见），镜内渲染中放大，与全画面放大所见一样大。合成在镜内替换主画面，因此两者不会叠加。仅为表现。
  */
 public final class UsecScopeGlintRenderer {
-    public static final Identifier TEXTURE = SparkWitch.id("textures/entity/usec_scope_glint.png");
+    public static final Identifier TEXTURE = SparkDLC.id("textures/entity/usec_scope_glint.png");
 
     private UsecScopeGlintRenderer() {
     }

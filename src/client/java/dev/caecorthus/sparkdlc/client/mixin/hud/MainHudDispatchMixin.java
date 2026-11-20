@@ -37,7 +37,7 @@ public abstract class MainHudDispatchMixin {
     private MinecraftClient client;
 
     @Inject(method = "renderMainHud", at = @At("TAIL"))
-    private void sparkstrength$renderMainHudLines(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+    private void sparkdlc$renderMainHudLines(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         ClientPlayerEntity player = client.player;
         if (player != null) {
             BodyguardHud.render(client.textRenderer, player, context);

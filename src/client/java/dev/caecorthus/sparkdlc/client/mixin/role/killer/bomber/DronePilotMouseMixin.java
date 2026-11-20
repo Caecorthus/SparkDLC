@@ -28,7 +28,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class DronePilotMouseMixin {
     @WrapOperation(method = "updateMouse", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/network/ClientPlayerEntity;changeLookDirection(DD)V"))
-    private void sparkstrength$steerDrone(ClientPlayerEntity player, double cursorDeltaX, double cursorDeltaY,
+    private void sparkdlc$steerDrone(ClientPlayerEntity player, double cursorDeltaX, double cursorDeltaY,
                                          Operation<Void> original) {
         if (!DronePilotClient.steer(cursorDeltaX, cursorDeltaY)) {
             original.call(player, cursorDeltaX, cursorDeltaY);
@@ -37,7 +37,7 @@ public abstract class DronePilotMouseMixin {
 
     @WrapWithCondition(method = "onMouseScroll", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/entity/player/PlayerInventory;scrollInHotbar(D)V"))
-    private boolean sparkstrength$lockHotbarScroll(PlayerInventory inventory, double amount) {
+    private boolean sparkdlc$lockHotbarScroll(PlayerInventory inventory, double amount) {
         return !DronePilotClient.blocksBodyActions();
     }
 }

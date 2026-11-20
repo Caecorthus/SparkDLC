@@ -27,7 +27,7 @@ public abstract class ShadowJesterAllianceMixin {
             at = @At("TAIL"),
             remap = false
     )
-    private void sparkstrength$enhanceAlliance(
+    private void sparkdlc$enhanceAlliance(
             boolean allied,
             CallbackInfo ci
     ) {

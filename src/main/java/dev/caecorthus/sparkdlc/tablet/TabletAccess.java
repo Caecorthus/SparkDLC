@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.tablet;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -27,7 +27,7 @@ public final class TabletAccess {
         }
         for (int slot = TabletRules.HOTBAR_START_SLOT; slot <= TabletRules.HOTBAR_END_SLOT; slot++) {
             ItemStack stack = player.getInventory().getStack(slot);
-            if (stack.isOf(SparkStrengthItems.tablet())) {
+            if (stack.isOf(SparkDlcItems.tablet())) {
                 return true;
             }
         }

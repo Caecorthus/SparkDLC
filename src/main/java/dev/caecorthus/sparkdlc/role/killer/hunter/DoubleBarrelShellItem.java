@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.hunter;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.util.Identifier;
 
 /**
@@ -8,7 +8,7 @@ import net.minecraft.util.Identifier;
  * 霰弹：9 颗弹丸的散射（2026-10-29 由普通弹药更名，物品 id 不变）。
  */
 public final class DoubleBarrelShellItem extends DoubleBarrelAmmoItem {
-    public static final Identifier ID = SparkWitch.id("double_barrel_shell");
+    public static final Identifier ID = SparkDLC.id("double_barrel_shell");
 
     public DoubleBarrelShellItem(Settings settings) {
         super(settings);

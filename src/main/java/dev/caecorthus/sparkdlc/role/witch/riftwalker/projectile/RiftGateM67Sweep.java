@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.riftwalker.projectile;
 
-import dev.caecorthus.sparkdlc.SparkStrengthEntities;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.gate.RiftGateEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.projectile.ProjectileEntity;
@@ -107,7 +107,7 @@ final class RiftGateM67Sweep {
     private static EntityType<?> m67Type() {
         if (!resolved) {
             resolved = true;
-            m67Type = Registries.ENTITY_TYPE.getOrEmpty(SparkStrengthEntities.M67_ID).orElse(null);
+            m67Type = Registries.ENTITY_TYPE.getOrEmpty(SparkDlcEntities.M67_ID).orElse(null);
         }
         return m67Type;
     }

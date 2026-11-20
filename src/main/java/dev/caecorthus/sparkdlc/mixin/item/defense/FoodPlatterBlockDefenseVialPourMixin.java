@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.item.defense;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.item.defense.DefenseVialTrays;
 import dev.doctor4t.wathe.block.FoodPlatterBlock;
 import dev.doctor4t.wathe.block_entity.BeveragePlateBlockEntity;
@@ -28,7 +28,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(FoodPlatterBlock.class)
 public abstract class FoodPlatterBlockDefenseVialPourMixin {
     @Inject(method = "onUse", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$pourDefenseVial(
+    private void sparkdlc$pourDefenseVial(
             BlockState state,
             World world,
             BlockPos pos,
@@ -38,7 +38,7 @@ public abstract class FoodPlatterBlockDefenseVialPourMixin {
     ) {
         if (world.isClient()
                 || !(player instanceof ServerPlayerEntity pourer)
-                || !pourer.getMainHandStack().isOf(SparkWitchItems.defenseVial())
+                || !pourer.getMainHandStack().isOf(SparkDlcItems.defenseVial())
                 || !(world.getBlockEntity(pos) instanceof BeveragePlateBlockEntity)) {
             return;
         }

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.demonhunter;
 
 import dev.caecorthus.sparkdlc.role.civilian.demonhunter.DemonHunterSniffPlayerComponent;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -142,8 +142,8 @@ public final class DemonHunterSniffService {
         GameRecordManager.recordGlobalEvent(
                 world,
                 targetCount > 0
-                        ? SparkStrengthReplayFormatters.DEMON_HUNTER_SNIFF_FOUND
-                        : SparkStrengthReplayFormatters.DEMON_HUNTER_SNIFF_NONE,
+                        ? RoleKitReplayFormatters.DEMON_HUNTER_SNIFF_FOUND
+                        : RoleKitReplayFormatters.DEMON_HUNTER_SNIFF_NONE,
                 hunter,
                 extra
         );
@@ -154,7 +154,7 @@ public final class DemonHunterSniffService {
         extra.putUuid("target", target.getUuid());
         GameRecordManager.recordGlobalEvent(
                 world,
-                SparkStrengthReplayFormatters.DEMON_HUNTER_SNIFF_REVEALED,
+                RoleKitReplayFormatters.DEMON_HUNTER_SNIFF_REVEALED,
                 hunter,
                 extra
         );

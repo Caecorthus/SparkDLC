@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.item;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.SparkStrengthSounds;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.item.m67.M67SoundPayload;
 import dev.caecorthus.sparkdlc.item.m67.M67Rules;
@@ -82,7 +82,7 @@ public final class M67SoundClient {
                 || (action != M67SoundPayload.START_EQUIP && action != M67SoundPayload.START_PULL)
                 || (action == M67SoundPayload.START_EQUIP && !holdingM67())
                 || (action == M67SoundPayload.START_PULL && (!player.isUsingItem()
-                || !player.getActiveItem().isOf(SparkStrengthItems.m67())
+                || !player.getActiveItem().isOf(SparkDlcItems.m67())
                 || player.getStackInHand(player.getActiveHand()) != player.getActiveItem()))) {
             return;
         }
@@ -147,8 +147,8 @@ public final class M67SoundClient {
     }
 
     private static boolean holdingM67() {
-        return player.getStackInHand(Hand.MAIN_HAND).isOf(SparkStrengthItems.m67())
-                || player.getStackInHand(Hand.OFF_HAND).isOf(SparkStrengthItems.m67());
+        return player.getStackInHand(Hand.MAIN_HAND).isOf(SparkDlcItems.m67())
+                || player.getStackInHand(Hand.OFF_HAND).isOf(SparkDlcItems.m67());
     }
 
     private static int duration(byte action, PlayerEntity actor) {
@@ -160,7 +160,7 @@ public final class M67SoundClient {
 
     private static SoundInstance create(byte action, PlayerEntity actor) {
         return new EntityTrackingSoundInstance(action == M67SoundPayload.START_EQUIP
-                ? SparkStrengthSounds.M67_EQUIP : SparkStrengthSounds.M67_PULL,
+                ? SparkDlcSounds.M67_EQUIP : SparkDlcSounds.M67_PULL,
                 SoundCategory.PLAYERS, 1.0F, 1.0F, actor, actor.getRandom().nextLong());
     }
 

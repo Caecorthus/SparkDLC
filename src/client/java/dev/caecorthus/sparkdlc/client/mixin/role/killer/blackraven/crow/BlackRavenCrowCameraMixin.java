@@ -29,15 +29,15 @@ public abstract class BlackRavenCrowCameraMixin {
     @Shadow
     private float lastCameraY;
     @Unique
-    private boolean sparkwitch$crowFocus;
+    private boolean sparkdlc$crowFocus;
 
     @Inject(method = "update", at = @At("HEAD"))
-    private void sparkwitch$snapCrowEyeHeight(BlockView area, Entity focus, boolean thirdPerson, boolean inverseView,
+    private void sparkdlc$snapCrowEyeHeight(BlockView area, Entity focus, boolean thirdPerson, boolean inverseView,
                                              float tickDelta, CallbackInfo ci) {
-        if (!BlackRavenCrowPilotClient.isActive() && !this.sparkwitch$crowFocus) {
+        if (!BlackRavenCrowPilotClient.isActive() && !this.sparkdlc$crowFocus) {
             return;
         }
-        this.sparkwitch$crowFocus = BlackRavenCrowPilotClient.isActive();
+        this.sparkdlc$crowFocus = BlackRavenCrowPilotClient.isActive();
         if (focus != null && focus != this.focusedEntity) {
             float eyeHeight = focus.getStandingEyeHeight();
             this.cameraY = eyeHeight;

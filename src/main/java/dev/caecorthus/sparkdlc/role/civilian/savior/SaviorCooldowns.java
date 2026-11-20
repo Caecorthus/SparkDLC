@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.civilian.savior;
 import dev.caecorthus.sparkdlc.cooldown.api.CooldownKind;
 import dev.caecorthus.sparkdlc.cooldown.api.CooldownSlot;
 import dev.caecorthus.sparkdlc.cooldown.api.ForcedCooldowns;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
@@ -53,9 +53,9 @@ public final class SaviorCooldowns {
 
     /**
      * Raise-only write of the Savior's own cooldown, remembering its effective length. Every Savior weapon cooldown goes
-     * through this one writer; the post-use values are the SFA nominals in {@code SparkWitchItemCooldownNominals}.
+     * through this one writer; the post-use values are the SFA nominals in {@code RoleItemCooldownNominals}.
      * 只抬高地写入救世主自身冷却，并记住其实际时长。救世主武器冷却只经由此写入；使用后数值即
-     * {@code SparkWitchItemCooldownNominals} 中的 SFA 标准冷却。
+     * {@code RoleItemCooldownNominals} 中的 SFA 标准冷却。
      */
     public static void writeCooldown(ServerPlayerEntity player, Item item, int ticks) {
         if (player == null || item == null || ticks <= 0) {
@@ -108,8 +108,8 @@ public final class SaviorCooldowns {
         if (entries == null) {
             return;
         }
-        reduce(savior, SparkWitchItems.saviorPistol(), entries);
-        reduce(savior, SparkWitchItems.saviorLightsaber(), entries);
+        reduce(savior, SparkDlcItems.saviorPistol(), entries);
+        reduce(savior, SparkDlcItems.saviorLightsaber(), entries);
     }
 
     private static void reduce(ServerPlayerEntity savior, Item item, Map<Item, OwnCooldown> entries) {
@@ -177,7 +177,7 @@ public final class SaviorCooldowns {
     /** The player's own item-cooldown clock, or null when unreadable. / 玩家自身物品冷却时钟；无法读取时为 null。 */
     private static @Nullable Integer cooldownTick(ServerPlayerEntity player) {
         return player.getItemCooldownManager() instanceof ItemCooldownManagerAccessor accessor
-                ? accessor.sparkwitch$getTick()
+                ? accessor.sparkdlc$getTickForRoles()
                 : null;
     }
 
@@ -186,8 +186,8 @@ public final class SaviorCooldowns {
         if (!(player.getItemCooldownManager() instanceof ItemCooldownManagerAccessor accessor)) {
             return null;
         }
-        return accessor.sparkwitch$getEntries().get(item) instanceof ItemCooldownEntryAccessor entry
-                ? entry.sparkwitch$getEndTick()
+        return accessor.sparkdlc$getEntriesForRoles().get(item) instanceof ItemCooldownEntryAccessor entry
+                ? entry.sparkdlc$getEndTickForRoles()
                 : null;
     }
 

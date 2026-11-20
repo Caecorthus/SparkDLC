@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.saint;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.role.civilian.blind.BlindView;
 import dev.caecorthus.sparkdlc.client.role.civilian.saint.HolyFlashOverlayMath.Anchor;
 import dev.caecorthus.sparkdlc.client.role.civilian.saint.HolyFlashOverlayMath.Projection;
@@ -41,7 +41,7 @@ import org.joml.Vector3f;
  * 该部分由 {@code HolyFlashAudioClient} 依据同一份同步状态驱动。
  */
 public final class HolyFlashOverlayRenderer {
-    public static final Identifier GLOW_TEXTURE = SparkWitch.id("textures/gui/holy_flash_glow.png");
+    public static final Identifier GLOW_TEXTURE = SparkDLC.id("textures/gui/holy_flash_glow.png");
     private static final int GLOW_TEXTURE_SIZE = 128;
     private static final int WHITEOUT_RGB = 0xFFF8EC;
     private static final float[] AFTERIMAGE_RGB = {1.0F, 0.9F, 0.72F};

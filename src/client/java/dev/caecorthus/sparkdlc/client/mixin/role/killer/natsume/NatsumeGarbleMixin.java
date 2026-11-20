@@ -36,7 +36,7 @@ public abstract class NatsumeGarbleMixin {
             at = @At("HEAD"),
             argsOnly = true
     )
-    private Text sparkwitch$garbleHudText(Text text) {
+    private Text sparkdlc$garbleHudText(Text text) {
         return NatsumeHudGarble.garbleHud(text);
     }
 
@@ -45,12 +45,12 @@ public abstract class NatsumeGarbleMixin {
             at = @At("HEAD"),
             argsOnly = true
     )
-    private String sparkwitch$garbleHudString(String text) {
+    private String sparkdlc$garbleHudString(String text) {
         return NatsumeHudGarble.garbleHud(text);
     }
 
     @WrapMethod(method = "drawItemInSlot(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V")
-    private void sparkwitch$keepItemDecorations(TextRenderer textRenderer, ItemStack stack, int x, int y,
+    private void sparkdlc$keepItemDecorations(TextRenderer textRenderer, ItemStack stack, int x, int y,
                                                 String countOverride, Operation<Void> original) {
         NatsumeHudGarble.suspend();
         try {

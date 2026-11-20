@@ -14,9 +14,9 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class JudgeGrenadeAttributionMixin {
     @WrapOperation(method = "onCollision", at = @At(value = "INVOKE",
             target = "Ldev/doctor4t/wathe/game/GameFunctions;killPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;ZLnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;)V"))
-    private void sparkwitch$scopeGrenade(ServerPlayerEntity victim, boolean body, ServerPlayerEntity killer,
+    private void sparkdlc$scopeGrenade(ServerPlayerEntity victim, boolean body, ServerPlayerEntity killer,
                                         Identifier reason, Operation<Void> original) {
-        JudgeKillAttribution.runWith(victim.getServerWorld(), ((JudgeProjectileOwnerAccessor) this).sparkwitch$judgeOwnerUuid(),
+        JudgeKillAttribution.runWith(victim.getServerWorld(), ((JudgeProjectileOwnerAccessor) this).sparkdlc$judgeOwnerUuid(),
                 () -> original.call(victim, body, killer, reason));
     }
 }

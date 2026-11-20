@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(ArmorFeatureRenderer.class)
 public interface ArmorFeatureRendererInvoker {
     @Invoker("renderArmor")
-    void sparktraits$renderArmor(
+    void sparkdlc$renderArmor(
             MatrixStack matrices,
             VertexConsumerProvider vertexConsumers,
             LivingEntity entity,

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.settings.screen;
 
-import dev.caecorthus.sparkdlc.SparkAssist;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.guidebook.ui.ExpressPaint;
 import java.util.List;
 import net.minecraft.client.MinecraftClient;
@@ -18,7 +18,7 @@ import net.minecraft.util.Identifier;
  */
 public final class SettingsGearButton extends ButtonWidget {
     public static final int SIZE = ExpressPaint.ICON_BUTTON_SIZE;
-    private static final Identifier GEAR_ICON = SparkAssist.id("textures/gui/settings/gear.png");
+    private static final Identifier GEAR_ICON = SparkDLC.id("textures/gui/settings/gear.png");
 
     public SettingsGearButton(int x, int y, Screen parent) {
         super(x, y, SIZE, SIZE, Text.translatable("screen.sparkdlc.settings.title"),

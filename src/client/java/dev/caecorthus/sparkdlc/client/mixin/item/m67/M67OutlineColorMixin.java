@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Entity.class)
 public abstract class M67OutlineColorMixin {
     @Inject(method = "getTeamColorValue()I", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$m67OutlineColor(CallbackInfoReturnable<Integer> cir) {
+    private void sparkdlc$m67OutlineColor(CallbackInfoReturnable<Integer> cir) {
         if ((Object) this instanceof M67GrenadeEntity entity) {
             int color = M67Client.outlineColor(entity);
             if (color != -1) {

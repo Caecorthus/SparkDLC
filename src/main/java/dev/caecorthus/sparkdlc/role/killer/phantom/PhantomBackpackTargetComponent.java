@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.phantom;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.caecorthus.sparkdlc.role.killer.phantom.PhantomBackpackRules;
 import dev.doctor4t.wathe.game.GameFunctions;
 import dev.doctor4t.wathe.record.GameRecordManager;
@@ -27,7 +27,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
  */
 public class PhantomBackpackTargetComponent implements AutoSyncedComponent, ServerTickingComponent {
     public static final ComponentKey<PhantomBackpackTargetComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("phantom_backpack_target"),
+            SparkDLC.id("phantom_backpack_target"),
             PhantomBackpackTargetComponent.class
     );
 
@@ -100,7 +100,7 @@ public class PhantomBackpackTargetComponent implements AutoSyncedComponent, Serv
         if (target.getWorld() instanceof ServerWorld serverWorld) {
             GameRecordManager.recordGlobalEvent(
                     serverWorld,
-                    SparkStrengthReplayFormatters.PHANTOM_BACKPACK_INVISIBILITY_ENDED,
+                    RoleKitReplayFormatters.PHANTOM_BACKPACK_INVISIBILITY_ENDED,
                     target,
                     null
             );

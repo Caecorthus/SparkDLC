@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Entity.class)
 public abstract class EntityCollisionMixin {
     @Inject(method = "isCollidable", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$disableLastStandPendingCollidable(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$disableLastStandPendingCollidable(CallbackInfoReturnable<Boolean> cir) {
         Entity entity = (Entity) (Object) this;
         if (!SparkDlcServerConnection.isUnconfirmedClientEntity(entity)
                 && LastStandService.shouldDisablePendingCollision(entity)) {
@@ -24,7 +24,7 @@ public abstract class EntityCollisionMixin {
     }
 
     @Inject(method = "collidesWith", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$disableLastStandPendingCollision(Entity other, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$disableLastStandPendingCollision(Entity other, CallbackInfoReturnable<Boolean> cir) {
         Entity entity = (Entity) (Object) this;
         if (!SparkDlcServerConnection.isUnconfirmedClientEntity(entity)
                 && LastStandService.shouldDisablePendingCollision(entity, other)) {

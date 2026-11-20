@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.timestealer;
 
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponTarget;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
@@ -73,7 +73,7 @@ public final class TimeStealerClockService {
         if (shield != null
                 && ClockGeometry.aimEntrySquared(user, shield, TimeStealerRules.CLOCK_RANGE)
                 < ClockGeometry.aimEntrySquared(user, aimed, TimeStealerRules.CLOCK_RANGE)
-                && PartygoerWeaponTarget.killByWeapon(user, shield, SparkWitchDeathReasons.TIME_STOLEN)) {
+                && PartygoerWeaponTarget.killByWeapon(user, shield, SparkDlcDeathReasons.TIME_STOLEN)) {
             startCooldown(user, clock, state);
             return TypedActionResult.consume(stack);
         }
@@ -116,7 +116,7 @@ public final class TimeStealerClockService {
         Entity partygoer = ClockGeometry.findEntity(user, TimeStealerRules.CLOCK_RANGE,
                 PartygoerWeaponTarget::isKillable);
         if (partygoer == null
-                || !PartygoerWeaponTarget.killByWeapon(user, partygoer, SparkWitchDeathReasons.TIME_STOLEN)) {
+                || !PartygoerWeaponTarget.killByWeapon(user, partygoer, SparkDlcDeathReasons.TIME_STOLEN)) {
             return refuse(user, stack);
         }
         startCooldown(user, clock, state);
@@ -157,16 +157,16 @@ public final class TimeStealerClockService {
     /**
      * Holder's per-tick upkeep: the slot never shows less than {@code ClockReadyAt}, so it never looks ready while the
      * Clock is refused. A removed cooldown (SparkFactionAPI {@code clearCooldown}) has already released
-     * {@code ClockReadyAt} ({@code SparkWitchItemCooldownReleases}), so it stays cleared. Exact writes only: without
+     * {@code ClockReadyAt} ({@code RoleItemCooldownReleases}), so it stays cleared. Exact writes only: without
      * SparkTraits a vanilla {@code set} is shortened again (NoellesRoles Stimulation) and would be rewritten every tick,
      * so then only the refusal-time {@link #restoreDisplayedCooldown} repairs the display.
      * 持有者的每 tick 维护：栏位显示绝不少于 {@code ClockReadyAt}，因此时钟被拒绝时不会显示为就绪。被移除的冷却
-     * （SparkFactionAPI {@code clearCooldown}）已先释放 {@code ClockReadyAt}（{@code SparkWitchItemCooldownReleases}），
+     * （SparkFactionAPI {@code clearCooldown}）已先释放 {@code ClockReadyAt}（{@code RoleItemCooldownReleases}），
      * 因此保持清除。仅用精确写入：缺少 SparkTraits 时原版 {@code set} 会再次被缩短（NoellesRoles 兴奋剂）并每 tick 重写，
      * 此时只由拒绝时的 {@link #restoreDisplayedCooldown} 修复显示。
      */
     static void keepDisplayedCooldown(ServerPlayerEntity user) {
-        Item clock = SparkWitchItems.timeStealerClock();
+        Item clock = SparkDlcItems.timeStealerClock();
         long remaining = TimeStealerPlayerComponent.KEY.get(user).clockReadyAt() - user.getWorld().getTime();
         if (TimeStealerRules.clockDisplayLags(remaining, displayedTicks(user, clock))) {
             SparkTraitsApi.setExactItemCooldownRemaining(user, clock, (int) Math.min(Integer.MAX_VALUE, remaining));
@@ -175,8 +175,8 @@ public final class TimeStealerClockService {
 
     private static int displayedTicks(ServerPlayerEntity user, Item clock) {
         ItemCooldownManagerAccessor manager = (ItemCooldownManagerAccessor) user.getItemCooldownManager();
-        return manager.sparkwitch$getEntries().get(clock) instanceof ItemCooldownEntryAccessor entry
-                ? Math.max(0, entry.sparkwitch$getEndTick() - manager.sparkwitch$getTick()) : 0;
+        return manager.sparkdlc$getEntriesForRoles().get(clock) instanceof ItemCooldownEntryAccessor entry
+                ? Math.max(0, entry.sparkdlc$getEndTickForRoles() - manager.sparkdlc$getTickForRoles()) : 0;
     }
 
     /**

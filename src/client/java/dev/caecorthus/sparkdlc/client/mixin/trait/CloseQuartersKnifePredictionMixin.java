@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = KnifeItem.class, priority = 2000)
 public abstract class CloseQuartersKnifePredictionMixin {
     @Inject(method = "onStoppedUsing", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$discardBlockedRelease(ItemStack stack, World world, LivingEntity user,
+    private void sparkdlc$discardBlockedRelease(ItemStack stack, World world, LivingEntity user,
                                                   int remainingUseTicks, CallbackInfo ci) {
         if (world.isClient && user instanceof PlayerEntity player
                 && SparkDlcServerConnection.isConfirmedServer()

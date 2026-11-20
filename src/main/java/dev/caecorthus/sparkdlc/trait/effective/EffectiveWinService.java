@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.effective;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.round.settlement.SettlementExclusions;
 import dev.doctor4t.wathe.api.Role;
@@ -23,7 +23,7 @@ import java.util.List;
  *  NoellesRoles' Jester and Shadow Jester, and the self-realisation of Impostors left without real killer support.
  *  按有效阵营结算回合：队伍胜利监听、阻塞中立与 NoellesRoles 小丑/双影小丑的队伍胜利延后，以及失去真实杀手支持的内鬼自我觉悟。 */
 public final class EffectiveWinService {
-    public static final Identifier SELF_REALIZATION = SparkTraits.id("self_realization");
+    public static final Identifier SELF_REALIZATION = SparkDLC.id("self_realization");
     private static final Identifier SPARKWITCH_GRAND_WITCH_ID = Identifier.of("sparkdlc", "grand_witch");
     private static final Identifier SPARKWITCH_ACCOMPLICE_ID = Identifier.of("sparkdlc", "accomplice");
     // SparkWitch special accomplices block team wins exactly like the Accomplice.

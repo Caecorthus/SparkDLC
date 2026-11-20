@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.item.BoundItemRules;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -20,11 +20,11 @@ public final class BlackRavenInventoryRules {
     }
 
     public static boolean isLedger(ItemStack stack) {
-        return stack != null && !stack.isEmpty() && stack.isOf(SparkWitchItems.blackRavenLedger());
+        return stack != null && !stack.isEmpty() && stack.isOf(SparkDlcItems.blackRavenLedger());
     }
 
     public static boolean isMask(ItemStack stack) {
-        return stack != null && !stack.isEmpty() && stack.isOf(SparkWitchItems.blackRavenMask());
+        return stack != null && !stack.isEmpty() && stack.isOf(SparkDlcItems.blackRavenMask());
     }
 
     /** Ledger or Raven Mask. / 账本或鸦羽假面。 */

@@ -40,7 +40,7 @@ public abstract class MagicianPlaybackRoleNameMixin {
             ),
             index = 1
     )
-    private static Predicate<Entity> sparkwitch$nameTagStopsAtPuppets(
+    private static Predicate<Entity> sparkdlc$nameTagStopsAtPuppets(
             Entity viewer,
             Predicate<Entity> predicate,
             double range
@@ -56,7 +56,7 @@ public abstract class MagicianPlaybackRoleNameMixin {
                     ordinal = 0
             )
     )
-    private static HitResult sparkwitch$labelPuppetAsCopiedPlayer(
+    private static HitResult sparkdlc$labelPuppetAsCopiedPlayer(
             HitResult hit,
             @Share("puppetLabel") LocalBooleanRef puppetLabel
     ) {
@@ -78,7 +78,7 @@ public abstract class MagicianPlaybackRoleNameMixin {
             ),
             remap = false
     )
-    private static int sparkwitch$noPsychoScrambleOnPuppet(
+    private static int sparkdlc$noPsychoScrambleOnPuppet(
             int psychoTicks,
             @Share("puppetLabel") LocalBooleanRef puppetLabel
     ) {

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.accountant;
 
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.doctor4t.wathe.api.Role;
@@ -79,6 +79,6 @@ final class AccountantEconomyService {
         }
         return AccountantRules.canEarn(game.getGameStatus() == GameWorldComponent.GameStatus.ACTIVE,
                 GameFunctions.isPlayerPlayingAndAlive(player), role, player.isSpectator(),
-                player.isCreative(), SparkWitchApi.isWraithRestricted(player));
+                player.isCreative(), SparkRoleApi.isWraithRestricted(player));
     }
 }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.fiend;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.RegistryByteBuf;
@@ -32,7 +32,7 @@ import java.util.UUID;
  */
 public final class FiendMomentWorldComponent implements AutoSyncedComponent, ClientTickingComponent {
     public static final ComponentKey<FiendMomentWorldComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("fiend_moment"), FiendMomentWorldComponent.class);
+            SparkDLC.id("fiend_moment"), FiendMomentWorldComponent.class);
 
     private final World world;
     private final FiendMomentState state = new FiendMomentState();

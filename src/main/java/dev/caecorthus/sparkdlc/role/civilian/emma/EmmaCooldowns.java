@@ -19,17 +19,17 @@ public final class EmmaCooldowns {
     private EmmaCooldowns() { }
 
     public static int tick(ServerPlayerEntity player) {
-        return ((ItemCooldownManagerAccessor) player.getItemCooldownManager()).sparkwitch$getTick();
+        return ((ItemCooldownManagerAccessor) player.getItemCooldownManager()).sparkdlc$getTickForRoles();
     }
 
     public static int start(ServerPlayerEntity player, Item item) {
-        Object entry = ((ItemCooldownManagerAccessor) player.getItemCooldownManager()).sparkwitch$getEntries().get(item);
-        return entry instanceof ItemCooldownEntryAccessor value ? value.sparkwitch$getStartTick() : tick(player);
+        Object entry = ((ItemCooldownManagerAccessor) player.getItemCooldownManager()).sparkdlc$getEntriesForRoles().get(item);
+        return entry instanceof ItemCooldownEntryAccessor value ? value.sparkdlc$getStartTickForRoles() : tick(player);
     }
 
     public static int end(ServerPlayerEntity player, Item item) {
-        Object entry = ((ItemCooldownManagerAccessor) player.getItemCooldownManager()).sparkwitch$getEntries().get(item);
-        return entry instanceof ItemCooldownEntryAccessor value ? value.sparkwitch$getEndTick() : tick(player);
+        Object entry = ((ItemCooldownManagerAccessor) player.getItemCooldownManager()).sparkdlc$getEntriesForRoles().get(item);
+        return entry instanceof ItemCooldownEntryAccessor value ? value.sparkdlc$getEndTickForRoles() : tick(player);
     }
 
     public static void setExact(ServerPlayerEntity player, Item item, int ticks) {

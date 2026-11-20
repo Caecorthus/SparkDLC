@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ServerPlayerEntity.class)
 public abstract class WindSpiritKnockRecordMixin {
     @Inject(method = "onExplodedBy", at = @At("TAIL"))
-    private void sparkwitch$noteWindSpiritKnock(Entity entity, CallbackInfo ci) {
+    private void sparkdlc$noteWindSpiritKnock(Entity entity, CallbackInfo ci) {
         WindSpiritFallRecords.onExplodedBy((ServerPlayerEntity) (Object) this, entity);
     }
 }

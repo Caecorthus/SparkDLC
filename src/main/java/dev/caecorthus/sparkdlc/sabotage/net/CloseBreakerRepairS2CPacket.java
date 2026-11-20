@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.sabotage.net;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -21,7 +21,7 @@ public record CloseBreakerRepairS2CPacket(int sessionId, int reason) implements 
     public static final int REASON_OTHER = 2;
     /** A quick engine repair outlived the deadline: the engine is wrecked and needs the overhaul. / 抢修超过了截止时间：动力已损毁，需要大修。 */
     public static final int REASON_PHASE_CHANGED = 3;
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("close_breaker_repair");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("close_breaker_repair");
     public static final Id<CloseBreakerRepairS2CPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, CloseBreakerRepairS2CPacket> CODEC =
             PacketCodec.of(CloseBreakerRepairS2CPacket::write, CloseBreakerRepairS2CPacket::read);

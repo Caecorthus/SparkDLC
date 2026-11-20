@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
  * 通过反射访问，未安装 EMF 时不产生任何影响。
  */
 final class ActorModelCompat {
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkAssist/Ponder");
+    private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/Ponder");
     private static final String EMF_MOD_ID = "entity_model_features";
 
     private ActorModelCompat() {

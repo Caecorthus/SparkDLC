@@ -30,7 +30,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(GameFunctions.class)
 public abstract class GameFunctionsSaviorObservationMixin {
     @WrapMethod(method = "killPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;ZLnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;Z)V")
-    private static void sparkwitch$sampleSaviorObservers(ServerPlayerEntity victim, boolean spawnBody,
+    private static void sparkdlc$sampleSaviorObservers(ServerPlayerEntity victim, boolean spawnBody,
                                                         ServerPlayerEntity killer, Identifier reason, boolean force,
                                                         Operation<Void> original) {
         SaviorObservationService.beginKillAttempt(victim);

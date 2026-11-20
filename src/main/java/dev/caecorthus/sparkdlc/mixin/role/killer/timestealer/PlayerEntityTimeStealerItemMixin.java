@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityTimeStealerItemMixin {
     @Inject(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$keepTimeStealerItemBound(
+    private void sparkdlc$keepTimeStealerItemBound(
             ItemStack stack,
             boolean throwRandomly,
             boolean retainOwnership,

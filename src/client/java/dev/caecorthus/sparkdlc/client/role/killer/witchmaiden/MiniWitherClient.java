@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.killer.witchmaiden;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityController;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityHandler;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityRegistry;
@@ -147,8 +147,8 @@ public final class MiniWitherClient {
     /** The Gohei's own item cooldown, so any external change shows. / 御币自身的物品冷却，外部改动也会显示。 */
     private static int goheiCooldownTicks(ClientPlayerEntity player) {
         ItemCooldownManagerAccessor manager = (ItemCooldownManagerAccessor) player.getItemCooldownManager();
-        Object entry = manager.sparkwitch$getEntries().get(SparkWitchItems.witherGohei());
+        Object entry = manager.sparkdlc$getEntriesForRoles().get(SparkDlcItems.witherGohei());
         return entry instanceof ItemCooldownEntryAccessor cooldown
-                ? Math.max(0, cooldown.sparkwitch$getEndTick() - manager.sparkwitch$getTick()) : 0;
+                ? Math.max(0, cooldown.sparkdlc$getEndTickForRoles() - manager.sparkdlc$getTickForRoles()) : 0;
     }
 }

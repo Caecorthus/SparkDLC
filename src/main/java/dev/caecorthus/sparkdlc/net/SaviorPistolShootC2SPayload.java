@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
@@ -13,7 +13,7 @@ import net.minecraft.network.packet.CustomPayload;
  * 服务端重新校验手持手枪、冷却、距离与一切后果。
  */
 public record SaviorPistolShootC2SPayload(int targetEntityId) implements CustomPayload {
-    public static final Id<SaviorPistolShootC2SPayload> ID = new Id<>(SparkWitch.id("savior_pistol_shoot"));
+    public static final Id<SaviorPistolShootC2SPayload> ID = new Id<>(SparkDLC.id("savior_pistol_shoot"));
     public static final PacketCodec<RegistryByteBuf, SaviorPistolShootC2SPayload> CODEC = PacketCodec.tuple(
             PacketCodecs.INTEGER,
             SaviorPistolShootC2SPayload::targetEntityId,

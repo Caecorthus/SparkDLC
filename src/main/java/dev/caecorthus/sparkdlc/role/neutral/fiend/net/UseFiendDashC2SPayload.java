@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.fiend.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -15,7 +15,7 @@ import net.minecraft.util.Identifier;
  * 已作为职业技能归入控场专家眩晕、搜寻者会话、隙行者会话与大魔女恐惧的拦截名单。
  */
 public record UseFiendDashC2SPayload() implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("use_fiend_dash");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("use_fiend_dash");
     public static final Id<UseFiendDashC2SPayload> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, UseFiendDashC2SPayload> CODEC =
             PacketCodec.of(UseFiendDashC2SPayload::write, UseFiendDashC2SPayload::read);

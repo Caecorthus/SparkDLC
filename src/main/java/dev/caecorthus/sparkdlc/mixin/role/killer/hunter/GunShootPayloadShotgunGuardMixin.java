@@ -23,7 +23,7 @@ public abstract class GunShootPayloadShotgunGuardMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$dropForgedShotgunShot(
+    private void sparkdlc$dropForgedShotgunShot(
             GunShootPayload payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci

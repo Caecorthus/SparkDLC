@@ -26,7 +26,7 @@ public abstract class DepressionInGameHudMixin {
     private MinecraftClient client;
 
     @Inject(method = "renderMainHud", at = @At("TAIL"))
-    private void sparktraits$renderDepressionHud(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+    private void sparkdlc$renderDepressionHud(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         if (!SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }

@@ -30,7 +30,7 @@ public abstract class GameWorldComponentReplayMixin {
     private World world;
 
     @WrapMethod(method = "readFromNbt(Lnet/minecraft/nbt/NbtCompound;Lnet/minecraft/registry/RegistryWrapper$WrapperLookup;)V")
-    private void sparkfactionapi$restoreRolesWithoutRecording(
+    private void sparkdlc$restoreRolesWithoutRecording(
             NbtCompound tag,
             RegistryWrapper.WrapperLookup lookup,
             Operation<Void> original
@@ -44,22 +44,22 @@ public abstract class GameWorldComponentReplayMixin {
     }
 
     @WrapMethod(method = "addRole(Lnet/minecraft/entity/player/PlayerEntity;Ldev/doctor4t/wathe/api/Role;)V")
-    private void sparkfactionapi$recordPlayerRoleChange(PlayerEntity player, Role role, Operation<Void> original) {
+    private void sparkdlc$recordPlayerRoleChange(PlayerEntity player, Role role, Operation<Void> original) {
         UUID uuid = player == null ? null : player.getUuid();
-        Role before = sparkfactionapi$roleOf(uuid);
+        Role before = sparkdlc$roleOf(uuid);
         original.call(player, role);
         RoleChangeRecorder.afterRoleWrite(world, (GameWorldComponent) (Object) this, uuid, before);
     }
 
     @WrapMethod(method = "addRole(Ljava/util/UUID;Ldev/doctor4t/wathe/api/Role;)V")
-    private void sparkfactionapi$recordUuidRoleChange(UUID player, Role role, Operation<Void> original) {
-        Role before = sparkfactionapi$roleOf(player);
+    private void sparkdlc$recordUuidRoleChange(UUID player, Role role, Operation<Void> original) {
+        Role before = sparkdlc$roleOf(player);
         original.call(player, role);
         RoleChangeRecorder.afterRoleWrite(world, (GameWorldComponent) (Object) this, player, before);
     }
 
     @Unique
-    private Role sparkfactionapi$roleOf(UUID player) {
+    private Role sparkdlc$roleOf(UUID player) {
         return player == null ? null : ((GameWorldComponent) (Object) this).getRole(player);
     }
 }

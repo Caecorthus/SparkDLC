@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = ShopUtils.class, remap = false)
 public abstract class ShopUtilsBlackRavenDisguiseMixin {
     @WrapMethod(method = "getShopEntriesForPlayer")
-    private static List<ShopEntry> sparkwitch$applyDisguiseWhitelist(
+    private static List<ShopEntry> sparkdlc$applyDisguiseWhitelist(
             PlayerEntity player,
             Operation<List<ShopEntry>> original
     ) {

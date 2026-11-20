@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bear.launcher;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.role.witch.potiongunner.PotionShellModelPose;
 import dev.caecorthus.sparkdlc.client.render.entity.ProjectileModelPose;
 import dev.caecorthus.sparkdlc.client.render.entity.ProjectileModels;
@@ -28,7 +28,7 @@ import net.minecraft.util.math.Vec3d;
  * （{@link #hiddenAtLaunch}），避免闪过射手屏幕，其他人仍能看到它离开炮口。
  */
 public final class SmokeRoundEntityRenderer extends EntityRenderer<SmokeRoundEntity> {
-    public static final Identifier MODEL_ID = SparkWitch.id("item/projectile/smoke_round_40mm");
+    public static final Identifier MODEL_ID = SparkDLC.id("item/projectile/smoke_round_40mm");
     /** The art's suggested scale: about 0.15 blocks across. / 美术建议的缩放：直径约 0.15 格。 */
     static final float MODEL_SCALE = 0.6F;
     static final float SPIN_DEGREES_PER_TICK = 18.0F;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.jiahao.corruptcop;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.record.AchievementRecords;
 import dev.caecorthus.sparkdlc.role.jiahao.corruptcop.CorruptCopTaskGateRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -24,7 +24,7 @@ import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
  */
 public final class CorruptCopAbilityComponent implements AutoSyncedComponent {
     public static final ComponentKey<CorruptCopAbilityComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("corrupt_cop_ability"),
+            SparkDLC.id("corrupt_cop_ability"),
             CorruptCopAbilityComponent.class
     );
 

@@ -27,20 +27,20 @@ public abstract class WaxedSignRecolorMixin {
             method = "onUseWithItem",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/block/entity/SignBlockEntity;isWaxed()Z")
     )
-    private boolean sparkfactionapi$letCreativeRecolorWaxedSign(
+    private boolean sparkdlc$letCreativeRecolorWaxedSign(
             SignBlockEntity sign,
             Operation<Boolean> original,
             @Local(argsOnly = true) ItemStack stack,
             @Local(argsOnly = true) PlayerEntity player
     ) {
-        if (player.isCreative() && sparkfactionapi$isRecolorItem(stack.getItem())) {
+        if (player.isCreative() && sparkdlc$isRecolorItem(stack.getItem())) {
             return false;
         }
         return original.call(sign);
     }
 
     // Honeycomb is left out on purpose: waxing stays vanilla. / 刻意不含蜜脾：涂蜡行为保持原版。
-    private static boolean sparkfactionapi$isRecolorItem(Item item) {
+    private static boolean sparkdlc$isRecolorItem(Item item) {
         return item instanceof DyeItem || item instanceof GlowInkSacItem || item instanceof InkSacItem;
     }
 }

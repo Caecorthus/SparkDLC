@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.render.entity;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.entity.CaptureDeviceEntity;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerRules;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -60,7 +60,7 @@ public final class CaptureDeviceEntityRenderer extends EntityRenderer<CaptureDev
         matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(entity.isCeilingMounted() ? -90.0F : 90.0F));
         matrices.scale(0.4F, 0.4F, 0.4F);
         itemRenderer.renderItem(
-                SparkStrengthItems.captureDevice().getDefaultStack(),
+                SparkDlcItems.captureDevice().getDefaultStack(),
                 ModelTransformationMode.FIXED,
                 light,
                 OverlayTexture.DEFAULT_UV,

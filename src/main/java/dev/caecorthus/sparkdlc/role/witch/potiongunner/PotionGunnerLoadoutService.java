@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.potiongunner;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import dev.caecorthus.sparkdlc.role.witch.potiongunner.launcher.PotionLauncherLoad;
 import dev.caecorthus.sparkdlc.util.GiveCommandDropScope;
@@ -120,7 +120,7 @@ public final class PotionGunnerLoadoutService {
             }
         } else {
             int target = placementSlot(LimitedInventoryRows.isSecondRowShown(), slot -> inventory.getStack(slot).isEmpty());
-            kept = target == NO_SLOT ? null : new ItemStack(SparkWitchItems.potionLauncher());
+            kept = target == NO_SLOT ? null : new ItemStack(SparkDlcItems.potionLauncher());
             if (kept != null) {
                 inventory.setStack(target, kept);
                 keeper = target;
@@ -399,7 +399,7 @@ public final class PotionGunnerLoadoutService {
             PotionLauncherLoad.setLoaded(kept, shell);
             return true;
         }
-        ItemStack item = new ItemStack(SparkWitchItems.potionShell(shell));
+        ItemStack item = new ItemStack(SparkDlcItems.potionShell(shell));
         if (returnToInventory(inventory, item, false)) {
             return true;
         }

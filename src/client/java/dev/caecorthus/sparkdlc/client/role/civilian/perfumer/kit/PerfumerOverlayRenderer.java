@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.perfumer.kit;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerRules;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -21,8 +21,8 @@ import java.util.Map;
  * 紫色边缘光晕）。纯本地表现；当前资源包缺少的贴图直接跳过，不会画出缺失贴图的紫黑格。
  */
 public final class PerfumerOverlayRenderer {
-    private static final Identifier COOLING_OIL_TEXTURE = SparkStrength.id("textures/gui/perfumer/cooling_oil_overlay.png");
-    private static final Identifier AROMA_HAZE_TEXTURE = SparkStrength.id("textures/gui/perfumer/aroma_haze.png");
+    private static final Identifier COOLING_OIL_TEXTURE = SparkDLC.id("textures/gui/perfumer/cooling_oil_overlay.png");
+    private static final Identifier AROMA_HAZE_TEXTURE = SparkDLC.id("textures/gui/perfumer/aroma_haze.png");
     private static final Identifier VIGNETTE_TEXTURE = Identifier.ofVanilla("textures/misc/vignette.png");
     private static final int TEXTURE_SIZE = 256;
 

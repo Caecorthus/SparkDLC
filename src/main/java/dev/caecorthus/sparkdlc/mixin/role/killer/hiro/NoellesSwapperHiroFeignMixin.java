@@ -31,7 +31,7 @@ public abstract class NoellesSwapperHiroFeignMixin {
             cancellable = true,
             require = 1
     )
-    private static void sparkwitch$swapperSkipsFeignedVictim(
+    private static void sparkdlc$swapperSkipsFeignedVictim(
             SwapperC2SPacket payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci

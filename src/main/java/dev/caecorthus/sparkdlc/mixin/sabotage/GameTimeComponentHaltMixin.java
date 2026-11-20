@@ -24,7 +24,7 @@ public abstract class GameTimeComponentHaltMixin {
     public World world;
 
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$pauseWhileEngineWrecked(CallbackInfo ci) {
+    private void sparkdlc$pauseWhileEngineWrecked(CallbackInfo ci) {
         if (EngineHalt.freezesRoundTimer(world)) {
             ci.cancel();
         }

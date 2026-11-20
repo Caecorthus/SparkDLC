@@ -22,7 +22,7 @@ public abstract class PerfumerOverlayHudMixin {
             method = "render(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/render/RenderTickCounter;)V",
             at = @At("HEAD")
     )
-    private void sparkstrength$renderPerfumerOverlays(DrawContext context, RenderTickCounter tickCounter,
+    private void sparkdlc$renderPerfumerOverlays(DrawContext context, RenderTickCounter tickCounter,
                                                       CallbackInfo ci) {
         PerfumerOverlayRenderer.render(context, tickCounter.getTickDelta(true));
     }

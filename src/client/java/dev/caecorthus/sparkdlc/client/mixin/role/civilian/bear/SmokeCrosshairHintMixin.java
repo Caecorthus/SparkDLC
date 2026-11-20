@@ -36,7 +36,7 @@ public abstract class SmokeCrosshairHintMixin {
                     target = "Ldev/doctor4t/wathe/client/gui/CrosshairRenderer;getVisibleGunTarget(Lnet/minecraft/entity/player/PlayerEntity;D)Lnet/minecraft/util/hit/HitResult;"
             )
     )
-    private static HitResult sparkwitch$gunHintSkipsSmokeHiddenTarget(
+    private static HitResult sparkdlc$gunHintSkipsSmokeHiddenTarget(
             HitResult hit,
             MinecraftClient client,
             ClientPlayerEntity player,
@@ -53,7 +53,7 @@ public abstract class SmokeCrosshairHintMixin {
                     target = "Ldev/doctor4t/wathe/item/KnifeItem;getKnifeTarget(Lnet/minecraft/entity/player/PlayerEntity;)Lnet/minecraft/util/hit/HitResult;"
             )
     )
-    private static HitResult sparkwitch$knifeHintSkipsSmokeHiddenTarget(
+    private static HitResult sparkdlc$knifeHintSkipsSmokeHiddenTarget(
             HitResult hit,
             MinecraftClient client,
             ClientPlayerEntity player,
@@ -70,7 +70,7 @@ public abstract class SmokeCrosshairHintMixin {
                     target = "Lnet/minecraft/client/MinecraftClient;crosshairTarget:Lnet/minecraft/util/hit/HitResult;"
             )
     )
-    private static HitResult sparkwitch$batHintSkipsSmokeHiddenTarget(
+    private static HitResult sparkdlc$batHintSkipsSmokeHiddenTarget(
             HitResult hit,
             MinecraftClient client,
             ClientPlayerEntity player,

@@ -49,7 +49,7 @@ public abstract class AssassinGuessOutcomeMixin {
             require = 0,
             remap = false
     )
-    private static void sparkstrength$forgivenMissIsSilent(
+    private static void sparkdlc$forgivenMissIsSilent(
             World world,
             @Nullable PlayerEntity except,
             double x,
@@ -78,7 +78,7 @@ public abstract class AssassinGuessOutcomeMixin {
             require = 0,
             remap = false
     )
-    private static void sparkstrength$firstMissIsForgiven(
+    private static void sparkdlc$firstMissIsForgiven(
             ServerPlayerEntity assassin,
             boolean spawnBody,
             @Nullable ServerPlayerEntity killer,
@@ -101,7 +101,7 @@ public abstract class AssassinGuessOutcomeMixin {
             require = 0,
             remap = false
     )
-    private static void sparkstrength$correctGuessCoolsDownFast(
+    private static void sparkdlc$correctGuessCoolsDownFast(
             AssassinGuessRoleC2SPacket payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci,

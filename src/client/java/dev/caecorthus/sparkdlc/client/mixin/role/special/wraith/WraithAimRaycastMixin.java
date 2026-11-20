@@ -18,7 +18,7 @@ import java.util.function.Predicate;
 @Mixin(ProjectileUtil.class)
 public abstract class WraithAimRaycastMixin {
     @WrapMethod(method = "getCollision(Lnet/minecraft/entity/Entity;Ljava/util/function/Predicate;D)Lnet/minecraft/util/hit/HitResult;")
-    private static HitResult sparkwitch$filterScopedAim(
+    private static HitResult sparkdlc$filterScopedAim(
             Entity entity,
             Predicate<Entity> predicate,
             double range,

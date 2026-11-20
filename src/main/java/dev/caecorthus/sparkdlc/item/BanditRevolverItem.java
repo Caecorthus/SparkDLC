@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.item;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
-import dev.caecorthus.sparkdlc.SparkStrengthDataComponents;
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcDataComponents;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.role.killer.bandit.BanditAmmo;
 import dev.caecorthus.sparkdlc.role.killer.bandit.BanditAttachment;
 import dev.caecorthus.sparkdlc.role.killer.bandit.BanditAttachmentSlot;
@@ -56,7 +56,7 @@ import java.util.List;
  * 光标），拿着子弹右键则塞入一发，空手右键打开改装界面。</p>
  */
 public final class BanditRevolverItem extends RevolverItem {
-    public static final Identifier SPEED_MODIFIER_ID = SparkStrength.id("bandit_revolver_speed");
+    public static final Identifier SPEED_MODIFIER_ID = SparkDLC.id("bandit_revolver_speed");
 
     /**
      * Client half, installed by the client initializer; null on a dedicated server.
@@ -85,7 +85,7 @@ public final class BanditRevolverItem extends RevolverItem {
     }
 
     public static BanditRevolverState state(ItemStack stack) {
-        BanditRevolverState state = stack.get(SparkStrengthDataComponents.banditRevolver());
+        BanditRevolverState state = stack.get(SparkDlcDataComponents.banditRevolver());
         return state == null ? BanditRevolverState.EMPTY : state;
     }
 
@@ -94,7 +94,7 @@ public final class BanditRevolverItem extends RevolverItem {
      * 写入状态及其派生数据：所装配件提供的主手移速加成。
      */
     public static void write(ItemStack stack, BanditRevolverState state) {
-        stack.set(SparkStrengthDataComponents.banditRevolver(), state);
+        stack.set(SparkDlcDataComponents.banditRevolver(), state);
         double bonus = BanditRevolverRules.speedBonus(state.barrelPart(), state.gripPart());
         if (bonus > 0.0D) {
             stack.set(DataComponentTypes.ATTRIBUTE_MODIFIERS, AttributeModifiersComponent.builder()
@@ -149,7 +149,7 @@ public final class BanditRevolverItem extends RevolverItem {
             write(stack, state.withPart(part.slot(), part));
             cursorStackReference.set(previous == null
                     ? ItemStack.EMPTY
-                    : new ItemStack(SparkStrengthItems.banditAttachment(previous)));
+                    : new ItemStack(SparkDlcItems.banditAttachment(previous)));
             playClick(player, 1.3F);
             return true;
         }
@@ -194,7 +194,7 @@ public final class BanditRevolverItem extends RevolverItem {
             hit = BlockHitResult.createMissed(end, Direction.UP, BlockPos.ofFloored(end));
         }
         return PartygoerHitGeometry.preferNearer(user,
-                SparkWitchApi.preferNearerGunWorldTarget(user, hit, range), range);
+                SparkRoleApi.preferNearerGunWorldTarget(user, hit, range), range);
     }
 
     @Override

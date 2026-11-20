@@ -31,7 +31,7 @@ public abstract class GameFunctionsFiendImmunityMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private static void sparkwitch$protectDormantFiend(
+    private static void sparkdlc$protectDormantFiend(
             ServerPlayerEntity victim,
             boolean spawnBody,
             @Nullable ServerPlayerEntity killer,

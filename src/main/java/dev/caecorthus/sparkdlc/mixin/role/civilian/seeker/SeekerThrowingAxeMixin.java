@@ -52,7 +52,7 @@ public abstract class SeekerThrowingAxeMixin {
      * 本刻起点到吸收命中的设备的平方距离；没有时为无穷大。仅服务端、逐刻重置。
      */
     @Unique
-    private double sparkwitch$deviceCutSquared = Double.POSITIVE_INFINITY;
+    private double sparkdlc$deviceCutSquared = Double.POSITIVE_INFINITY;
 
     /**
      * Before the pierce loop: resolve and break a Seeker device on this tick's segment. The live devices around the
@@ -65,19 +65,19 @@ public abstract class SeekerThrowingAxeMixin {
      */
     @Inject(method = "tick", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/World;getOtherEntities(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Box;)Ljava/util/List;"))
-    private void sparkwitch$sweepSeekerDevices(CallbackInfo ci) {
+    private void sparkdlc$sweepSeekerDevices(CallbackInfo ci) {
         ThrowingAxeEntity axe = (ThrowingAxeEntity) (Object) this;
         Vec3d from = axe.getPos();
         Vec3d to = from.add(axe.getVelocity());
         List<SeekerDeviceEntity> nearby = axe.getWorld().getEntitiesByClass(SeekerDeviceEntity.class,
                 new Box(from, to).expand(SPARKWITCH$SEARCH_PADDING), device -> device.isAlive() && !device.isRemoved());
-        sparkwitch$deviceCutSquared = !nearby.isEmpty()
+        sparkdlc$deviceCutSquared = !nearby.isEmpty()
                 && SeekerDeviceHits.onThrowingAxeSweep(axe, axe.getOwner(), from, to)
-                ? sparkwitch$cutSquared(nearby, from, to)
+                ? sparkdlc$cutSquared(nearby, from, to)
                 : Double.POSITIVE_INFINITY;
         // Magician seam: puppets on this segment before the cut are pierced like players; the axe flies on.
         // 魔术师接缝：本刻线段上截断点之前的皮套与玩家一样被贯穿；飞斧继续飞行。
-        MagicianPuppetHits.onThrowingAxeSweep(axe, axe.getOwner(), from, to, sparkwitch$deviceCutSquared);
+        MagicianPuppetHits.onThrowingAxeSweep(axe, axe.getOwner(), from, to, sparkdlc$deviceCutSquared);
     }
 
     /**
@@ -86,10 +86,10 @@ public abstract class SeekerThrowingAxeMixin {
      */
     @WrapOperation(method = "tick", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/util/math/Box;raycast(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;)Ljava/util/Optional;"))
-    private Optional<Vec3d> sparkwitch$shieldPlayersBehindDevice(Box box, Vec3d from, Vec3d to,
+    private Optional<Vec3d> sparkdlc$shieldPlayersBehindDevice(Box box, Vec3d from, Vec3d to,
                                                                 Operation<Optional<Vec3d>> original) {
         Optional<Vec3d> hit = original.call(box, from, to);
-        double cut = sparkwitch$deviceCutSquared;
+        double cut = sparkdlc$deviceCutSquared;
         return hit.filter(point -> !SeekerDeviceRaycast.deviceWins(cut, from.squaredDistanceTo(point)));
     }
 
@@ -99,11 +99,11 @@ public abstract class SeekerThrowingAxeMixin {
      */
     @Inject(method = "tick", cancellable = true, at = @At(value = "INVOKE",
             target = "Lnet/minecraft/entity/projectile/PersistentProjectileEntity;tick()V"))
-    private void sparkwitch$stopAtSeekerDevice(CallbackInfo ci) {
-        if (sparkwitch$deviceCutSquared == Double.POSITIVE_INFINITY) {
+    private void sparkdlc$stopAtSeekerDevice(CallbackInfo ci) {
+        if (sparkdlc$deviceCutSquared == Double.POSITIVE_INFINITY) {
             return;
         }
-        sparkwitch$deviceCutSquared = Double.POSITIVE_INFINITY;
+        sparkdlc$deviceCutSquared = Double.POSITIVE_INFINITY;
         ((ThrowingAxeEntity) (Object) this).discard();
         ci.cancel();
     }
@@ -115,11 +115,11 @@ public abstract class SeekerThrowingAxeMixin {
      * （本刻一切都被设备挡下）。
      */
     @Unique
-    private static double sparkwitch$cutSquared(List<SeekerDeviceEntity> nearby, Vec3d from, Vec3d to) {
+    private static double sparkdlc$cutSquared(List<SeekerDeviceEntity> nearby, Vec3d from, Vec3d to) {
         double broken = Double.POSITIVE_INFINITY;
         double any = Double.POSITIVE_INFINITY;
         for (SeekerDeviceEntity device : nearby) {
-            double distance = sparkwitch$entrySquared(device, from, to);
+            double distance = sparkdlc$entrySquared(device, from, to);
             if (distance < 0.0) {
                 continue;
             }
@@ -136,7 +136,7 @@ public abstract class SeekerThrowingAxeMixin {
 
     /** Segment entry into the margin-grown device box; 0 inside it, -1 on a miss. / 线段进入设备扩展箱体的平方距离。 */
     @Unique
-    private static double sparkwitch$entrySquared(SeekerDeviceEntity device, Vec3d from, Vec3d to) {
+    private static double sparkdlc$entrySquared(SeekerDeviceEntity device, Vec3d from, Vec3d to) {
         Box box = device.getBoundingBox().expand(Math.max(0.0D, device.targetingMargin()));
         if (box.contains(from)) {
             return 0.0D;

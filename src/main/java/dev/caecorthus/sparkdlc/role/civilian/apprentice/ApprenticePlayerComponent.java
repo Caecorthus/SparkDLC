@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.apprentice;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -38,7 +38,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 public final class ApprenticePlayerComponent
         implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
     public static final ComponentKey<ApprenticePlayerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("apprentice_player"), ApprenticePlayerComponent.class);
+            SparkDLC.id("apprentice_player"), ApprenticePlayerComponent.class);
 
     private static final int SYNC_INTERVAL_TICKS = 20;
 
@@ -210,7 +210,7 @@ public final class ApprenticePlayerComponent
         boolean sync = false;
         boolean ownerOnly = false;
         if (hasApprenticeOnlyState()
-                && GameWorldComponent.KEY.get(player.getWorld()).getRole(player) != SparkWitchRoles.apprenticeWitch()) {
+                && GameWorldComponent.KEY.get(player.getWorld()).getRole(player) != SparkDlcRoles.apprenticeWitch()) {
             clearApprenticeOnlyState();
             ownerOnly = true;
         }

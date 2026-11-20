@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.bear.smoke.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.bear.smoke.SmokeHole;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
  * {@link #MAX_TUNNEL_LENGTH}，或正文截断、多余，都得到 null {@code hole}，接收端会忽略。
  */
 public record SmokeHoleS2CPayload(@Nullable SmokeHole hole) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("bear_smoke_hole");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("bear_smoke_hole");
     public static final Id<SmokeHoleS2CPayload> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, SmokeHoleS2CPayload> CODEC =
             PacketCodec.of(SmokeHoleS2CPayload::write, SmokeHoleS2CPayload::read);

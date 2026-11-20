@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.item;
 
-import dev.caecorthus.sparkdlc.SparkStrengthDataComponents;
-import dev.caecorthus.sparkdlc.SparkStrengthEntities;
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.SparkStrengthSounds;
+import dev.caecorthus.sparkdlc.SparkDlcDataComponents;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
 import dev.caecorthus.sparkdlc.entity.DroneEntity;
@@ -60,22 +60,22 @@ public class DroneItem extends Item implements AdventureUsable {
 
     /** Battery in basis points; a fresh stack is full. / 电量（万分比）；新物品为满电。 */
     public static int charge(ItemStack stack) {
-        return DroneRules.clampCharge(stack.getOrDefault(SparkStrengthDataComponents.droneCharge(), DroneRules.CHARGE_MAX));
+        return DroneRules.clampCharge(stack.getOrDefault(SparkDlcDataComponents.droneCharge(), DroneRules.CHARGE_MAX));
     }
 
     public static void setCharge(ItemStack stack, int charge) {
-        stack.set(SparkStrengthDataComponents.droneCharge(), DroneRules.clampCharge(charge));
+        stack.set(SparkDlcDataComponents.droneCharge(), DroneRules.clampCharge(charge));
     }
 
     public static boolean hasPayload(ItemStack stack) {
-        return stack.getOrDefault(SparkStrengthDataComponents.dronePayload(), false);
+        return stack.getOrDefault(SparkDlcDataComponents.dronePayload(), false);
     }
 
     public static void setPayload(ItemStack stack, boolean payload) {
         if (payload) {
-            stack.set(SparkStrengthDataComponents.dronePayload(), true);
+            stack.set(SparkDlcDataComponents.dronePayload(), true);
         } else {
-            stack.remove(SparkStrengthDataComponents.dronePayload());
+            stack.remove(SparkDlcDataComponents.dronePayload());
         }
     }
 
@@ -119,7 +119,7 @@ public class DroneItem extends Item implements AdventureUsable {
         UUID roundId = DroneService.currentRoundId(world);
         ItemStack stack = context.getStack();
         EntityType<DroneEntity> type = kind == DroneKind.BOMB
-                ? SparkStrengthEntities.bombDrone() : SparkStrengthEntities.grenadeDrone();
+                ? SparkDlcEntities.bombDrone() : SparkDlcEntities.grenadeDrone();
         DroneEntity drone = roundId == null ? null : type.create(world);
         if (drone == null) {
             return ActionResult.FAIL;
@@ -147,7 +147,7 @@ public class DroneItem extends Item implements AdventureUsable {
         if (drone.isRemoved()) {
             return ActionResult.FAIL;
         }
-        world.playSound(null, drone.getX(), drone.getY(), drone.getZ(), SparkStrengthSounds.DRONE_PLACE,
+        world.playSound(null, drone.getX(), drone.getY(), drone.getZ(), SparkDlcSounds.DRONE_PLACE,
                 SoundCategory.PLAYERS, 0.8F, 1.0F);
         DroneCombatService.recordPlaced(serverPlayer, drone);
         stack.decrement(1);
@@ -199,7 +199,7 @@ public class DroneItem extends Item implements AdventureUsable {
         if (kind != DroneKind.GRENADE || !slot.canTakePartial(player)) {
             return false;
         }
-        if (otherStack.isOf(SparkStrengthItems.m67()) && !hasPayload(stack)) {
+        if (otherStack.isOf(SparkDlcItems.m67()) && !hasPayload(stack)) {
             otherStack.decrement(1);
             setPayload(stack, true);
             playBindSound(player, 1.0F);
@@ -207,7 +207,7 @@ public class DroneItem extends Item implements AdventureUsable {
         }
         if (clickType == ClickType.RIGHT && otherStack.isEmpty() && hasPayload(stack)) {
             setPayload(stack, false);
-            cursorStackReference.set(new ItemStack(SparkStrengthItems.m67()));
+            cursorStackReference.set(new ItemStack(SparkDlcItems.m67()));
             playBindSound(player, 0.8F);
             return true;
         }
@@ -221,7 +221,7 @@ public class DroneItem extends Item implements AdventureUsable {
     @Override
     public boolean onStackClicked(ItemStack stack, Slot slot, ClickType clickType, PlayerEntity player) {
         if (kind != DroneKind.GRENADE || clickType != ClickType.RIGHT || hasPayload(stack)
-                || !slot.getStack().isOf(SparkStrengthItems.m67())) {
+                || !slot.getStack().isOf(SparkDlcItems.m67())) {
             return false;
         }
         if (!slot.takeStackRange(1, 1, player).isEmpty()) {
@@ -234,7 +234,7 @@ public class DroneItem extends Item implements AdventureUsable {
     private static void playBindSound(PlayerEntity player, float pitch) {
         // Private to the binder: only the server sends it, only to them. / 只有绑定者能听到：仅由服务器发给本人。
         if (player instanceof ServerPlayerEntity serverPlayer) {
-            serverPlayer.playSoundToPlayer(SparkStrengthSounds.DRONE_BIND, SoundCategory.PLAYERS, 0.8F, pitch);
+            serverPlayer.playSoundToPlayer(SparkDlcSounds.DRONE_BIND, SoundCategory.PLAYERS, 0.8F, pitch);
         }
     }
 

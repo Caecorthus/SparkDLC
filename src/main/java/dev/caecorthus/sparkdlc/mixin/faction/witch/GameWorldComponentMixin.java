@@ -28,7 +28,7 @@ public abstract class GameWorldComponentMixin {
                     target = "Ldev/doctor4t/wathe/game/GameFunctions;killPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;ZLnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;)V"
             )
     )
-    private static void sparkwitch$attributeFirePokerFallKill(
+    private static void sparkdlc$attributeFirePokerFallKill(
             ServerPlayerEntity victim,
             boolean spawnBody,
             ServerPlayerEntity killer,

@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.scope;
 
 import com.mojang.blaze3d.platform.GlDebugInfo;
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.mixin.faction.witch.PostEffectProcessorAccessor;
 import dev.doctor4t.wathe.compat.IrisHelper;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
@@ -45,12 +45,12 @@ import java.util.List;
  * 在此期间以及 Iris 报告光影包时，{@link #fallbackActive()} 让 HUD 改画半透明环。
  */
 public final class ScopeLensFilter {
-    public static final Identifier EFFECT = SparkWitch.id("shaders/post/scope_lens.json");
+    public static final Identifier EFFECT = SparkDLC.id("shaders/post/scope_lens.json");
     /** The composite program; its pass receives the per-frame uniforms. / 合成程序；其 pass 接收逐帧 uniform。 */
     public static final String LENS_PROGRAM = "sparkdlc_scope_lens";
     /** Blur targets kept at half the framebuffer size. / 保持为帧缓冲一半尺寸的模糊目标。 */
     public static final List<String> HALF_RESOLUTION_TARGETS = List.of("scope_blur_a", "scope_blur_b");
-    private static final Identifier RELOAD_LISTENER_ID = SparkWitch.id("scope_lens_filter");
+    private static final Identifier RELOAD_LISTENER_ID = SparkDLC.id("scope_lens_filter");
     private static boolean registered;
     @Nullable
     private static PostEffectProcessor processor;
@@ -138,7 +138,7 @@ public final class ScopeLensFilter {
             return IrisHelper.isIrisShaderPackInUse();
         } catch (LinkageError | RuntimeException exception) {
             irisCheckBroken = true;
-            SparkWitch.LOGGER.warn("Unable to query Iris; the scope uses its HUD fallback", exception);
+            SparkDLC.LOGGER.warn("Unable to query Iris; the scope uses its HUD fallback", exception);
             return true;
         }
     }
@@ -247,7 +247,7 @@ public final class ScopeLensFilter {
     }
 
     private static PostEffectPass findLensPass(PostEffectProcessor processor) {
-        for (PostEffectPass pass : ((PostEffectProcessorAccessor) processor).sparkwitch$getPasses()) {
+        for (PostEffectPass pass : ((PostEffectProcessorAccessor) processor).sparkdlc$getPasses()) {
             if (LENS_PROGRAM.equals(pass.getName())) {
                 return pass;
             }
@@ -259,11 +259,11 @@ public final class ScopeLensFilter {
         failures++;
         int retrySeconds = ScopeRules.retryDelaySeconds(failures);
         if (failures == 1) {
-            SparkWitch.LOGGER.warn("The scope lens filter failed on {} / {} / OpenGL {}; using the HUD fallback, "
+            SparkDLC.LOGGER.warn("The scope lens filter failed on {} / {} / OpenGL {}; using the HUD fallback, "
                             + "retrying in {} s", GlDebugInfo.getRenderer(), GlDebugInfo.getVendor(),
                     GlDebugInfo.getVersion(), retrySeconds, exception);
         } else {
-            SparkWitch.LOGGER.warn("The scope lens filter failed again (#{}): {}; retrying in {} s", failures,
+            SparkDLC.LOGGER.warn("The scope lens filter failed again (#{}): {}; retrying in {} s", failures,
                     exception.toString(), retrySeconds);
         }
         release();

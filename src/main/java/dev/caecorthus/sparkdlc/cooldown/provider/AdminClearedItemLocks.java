@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.cooldown.provider;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.cooldown.api.AdminCooldownClear;
 import dev.caecorthus.sparkdlc.item.DroneItem;
 import dev.caecorthus.sparkdlc.item.m67.M67RoundService;
@@ -51,13 +51,13 @@ public final class AdminClearedItemLocks {
         }
         if (item instanceof DroneItem) {
             DroneService.onAdminCooldownCleared(player, item);
-        } else if (item == SparkStrengthItems.m67()) {
+        } else if (item == SparkDlcItems.m67()) {
             M67RoundService.onAdminCooldownCleared(player);
-        } else if (item == SparkStrengthItems.skateboard()) {
+        } else if (item == SparkDlcItems.skateboard()) {
             VultureSkateboardService.onAdminCooldownCleared(player);
-        } else if (item == SparkStrengthItems.democracyShield()) {
+        } else if (item == SparkDlcItems.democracyShield()) {
             BodyguardShieldService.onAdminCooldownCleared(player);
-        } else if (item == SparkStrengthItems.tablet()) {
+        } else if (item == SparkDlcItems.tablet()) {
             // The killer team's sabotage cooldown and unlock wait. / 杀手阵营的破坏冷却与解锁等待。
             SabotageService.onAdminCooldownCleared(player);
         }

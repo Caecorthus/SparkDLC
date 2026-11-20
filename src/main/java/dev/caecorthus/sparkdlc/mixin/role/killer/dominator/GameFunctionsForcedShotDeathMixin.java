@@ -28,7 +28,7 @@ public abstract class GameFunctionsForcedShotDeathMixin {
                     target = "Ldev/doctor4t/wathe/cca/GameWorldComponent;markPlayerDead(Ljava/util/UUID;)V",
                     shift = At.Shift.AFTER)
     )
-    private static void sparkwitch$settleForcedShotBeforeDeathDrops(
+    private static void sparkdlc$settleForcedShotBeforeDeathDrops(
             ServerPlayerEntity victim,
             boolean spawnBody,
             @Nullable ServerPlayerEntity killer,

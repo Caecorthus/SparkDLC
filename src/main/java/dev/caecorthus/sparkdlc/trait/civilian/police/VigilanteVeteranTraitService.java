@@ -43,7 +43,7 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 import org.agmas.noellesroles.Noellesroles;
 import org.agmas.noellesroles.jester.JesterPlayerComponent;
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 
 /**
  * Shared rules for police-category gun traits and Veteran-only traits.

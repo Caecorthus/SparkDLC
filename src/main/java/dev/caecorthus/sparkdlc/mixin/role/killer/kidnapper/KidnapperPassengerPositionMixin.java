@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Entity.class)
 public abstract class KidnapperPassengerPositionMixin {
     @Inject(method = "getPassengerRidingPos", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$positionDraggedBody(
+    private void sparkdlc$positionDraggedBody(
             Entity passenger,
             CallbackInfoReturnable<Vec3d> cir
     ) {

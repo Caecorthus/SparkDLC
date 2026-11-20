@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.neutral.vulture;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.neutral.vulture.SkateboardRideComponent;
 import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownManagerAccessor;
@@ -36,7 +36,7 @@ public final class SkateboardCooldownClient {
 
     public static void apply(ClientPlayerEntity player) {
         SkateboardRideComponent ride = SkateboardRideComponent.KEY.get(player);
-        Item board = SparkStrengthItems.skateboard();
+        Item board = SparkDlcItems.skateboard();
         ItemCooldownManager manager = player.getItemCooldownManager();
         if (!ride.hasLock()) {
             if (wroteEntry) {
@@ -57,20 +57,20 @@ public final class SkateboardCooldownClient {
             return;
         }
         ItemCooldownManagerAccessor access = (ItemCooldownManagerAccessor) manager;
-        Object entry = access.sparkstrength$getEntries().get(board);
+        Object entry = access.sparkdlc$getEntriesForKits().get(board);
         if (entry == null) {
             // Lost or never received (a respawn makes a fresh manager); the client-side set sends nothing.
             // 条目丢失或从未收到（重生会换新的管理器）；客户端的 set 不发送任何数据。
             manager.set(board, remaining);
-            entry = access.sparkstrength$getEntries().get(board);
+            entry = access.sparkdlc$getEntriesForKits().get(board);
         }
         if (!(entry instanceof ItemCooldownEntryAccessor bounds)) {
             return;
         }
-        int tick = access.sparkstrength$getTick();
+        int tick = access.sparkdlc$getTickForKits();
         long elapsed = Math.max(0L, now - ride.lockStartTick());
-        bounds.sparkstrength$setStartTick((int) Math.max(Integer.MIN_VALUE, tick - elapsed));
-        bounds.sparkstrength$setEndTick(ItemCooldownSyncRules.endTick(tick, remaining));
+        bounds.sparkdlc$setStartTickForKits((int) Math.max(Integer.MIN_VALUE, tick - elapsed));
+        bounds.sparkdlc$setEndTickForKits(ItemCooldownSyncRules.endTick(tick, remaining));
         wroteEntry = true;
     }
 }

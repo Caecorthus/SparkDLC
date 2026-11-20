@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(TrainDoorBlock.class)
 public abstract class TrainDoorBlockMixin {
     @Inject(method = "onUse", at = @At("RETURN"))
-    private void sparktraits$nudgeChildishPlayerAfterTrainDoorUse(
+    private void sparkdlc$nudgeChildishPlayerAfterTrainDoorUse(
             BlockState state,
             World world,
             BlockPos pos,

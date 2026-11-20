@@ -13,14 +13,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Mouse.class)
 public abstract class M67MouseMixin {
     @Inject(method = "onMouseButton", at = @At("HEAD"))
-    private void sparkstrength$m67CancelIntent(long window, int button, int action,
+    private void sparkdlc$m67CancelIntent(long window, int button, int action,
                                               int modifiers, CallbackInfo ci) {
         M67Client.mouse(window, button, action);
     }
 
     @WrapOperation(method = "onMouseScroll", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/entity/player/PlayerInventory;scrollInHotbar(D)V"))
-    private void sparkstrength$m67CancelBeforeScroll(PlayerInventory inventory, double amount,
+    private void sparkdlc$m67CancelBeforeScroll(PlayerInventory inventory, double amount,
                                                      Operation<Void> original) {
         if (amount != 0.0) {
             M67Client.cancel();

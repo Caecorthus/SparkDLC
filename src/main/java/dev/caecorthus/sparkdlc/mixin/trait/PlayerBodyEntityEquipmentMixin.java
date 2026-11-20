@@ -16,7 +16,7 @@ import java.util.List;
 @Mixin(PlayerBodyEntity.class)
 public abstract class PlayerBodyEntityEquipmentMixin {
     @Inject(method = "getArmorItems", at = @At("RETURN"), cancellable = true)
-    private void sparktraits$emptyArmorItemsForBody(CallbackInfoReturnable<Iterable<ItemStack>> cir) {
+    private void sparkdlc$emptyArmorItemsForBodyForTraits(CallbackInfoReturnable<Iterable<ItemStack>> cir) {
         if (cir.getReturnValue() == null) {
             cir.setReturnValue(List.of());
         }

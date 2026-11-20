@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class SeekerBodyFreezeMixin {
     @Inject(method = "move(Lnet/minecraft/entity/MovementType;Lnet/minecraft/util/math/Vec3d;)V",
             at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$holdBodyOverMissingChunks(MovementType type, Vec3d movement, CallbackInfo ci) {
+    private void sparkdlc$holdBodyOverMissingChunks(MovementType type, Vec3d movement, CallbackInfo ci) {
         if (type != MovementType.SELF) {
             return;
         }

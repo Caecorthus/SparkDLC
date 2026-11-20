@@ -26,7 +26,7 @@ public abstract class BanditRevolverCrosshairMixin {
     @Unique private static final Identifier TARGET = Identifier.of("wathe", "hud/crosshair_target");
 
     @Inject(method = "renderCrosshair", at = @At("HEAD"), cancellable = true)
-    private static void sparkstrength$renderBanditRevolverCrosshair(MinecraftClient client, ClientPlayerEntity player,
+    private static void sparkdlc$renderBanditRevolverCrosshair(MinecraftClient client, ClientPlayerEntity player,
                                                                       DrawContext context, RenderTickCounter tickCounter,
                                                                       CallbackInfo ci) {
         ItemStack stack = player.getMainHandStack();

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.judge;
 
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.role.civilian.judge.JudgeRules;
 import dev.doctor4t.wathe.cca.PlayerShopComponent;
 import net.minecraft.client.MinecraftClient;
@@ -24,7 +24,7 @@ public final class JudgeHudRenderer {
     public static void render(DrawContext context, ClientPlayerEntity player) {
         int balance = PlayerShopComponent.KEY.get(player).getBalance();
         Text line = JudgeClientRules.canAffordJudgment(balance, JudgeRules.JUDGMENT_COST)
-                ? Text.translatable("hud.sparkdlc.judge.ready", SparkWitchClient.abilityKeyText(), JudgeRules.JUDGMENT_COST)
+                ? Text.translatable("hud.sparkdlc.judge.ready", SparkDLCClient.abilityKeyText(), JudgeRules.JUDGMENT_COST)
                 : Text.translatable("hud.sparkdlc.judge.not_enough_money", JudgeRules.JUDGMENT_COST);
         TextRenderer renderer = MinecraftClient.getInstance().textRenderer;
         context.drawTextWithShadow(

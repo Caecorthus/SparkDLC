@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class RemoteViewpointCameraPacketMixin {
     @Inject(method = "onSetCameraEntity", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/MinecraftClient;setCameraEntity(Lnet/minecraft/entity/Entity;)V"))
-    private void sparkstrength$yieldRemoteViewToServer(SetCameraEntityS2CPacket packet, CallbackInfo ci) {
+    private void sparkdlc$yieldRemoteViewToServer(SetCameraEntityS2CPacket packet, CallbackInfo ci) {
         RemoteViewpointClient.onServerCameraOverride(MinecraftClient.getInstance());
     }
 }

@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(value = PlayerPsychoComponent.class, remap = false)
 public abstract class MagicianPuppetPsychoMaskMixin {
     @ModifyReturnValue(method = "getPsychoTicks", at = @At("RETURN"))
-    private int sparkwitch$noPsychoOnPuppetLook(int psychoTicks) {
+    private int sparkdlc$noPsychoOnPuppetLook(int psychoTicks) {
         return psychoTicks > 0 && MagicianPuppetPsychoMask.masks(this) ? 0 : psychoTicks;
     }
 }

@@ -28,7 +28,7 @@ public abstract class LastEscapeHandledScreenMixin {
     @Shadow private ItemStack quickMovingStack;
 
     @Unique
-    private void sparktraits$discardDrag() {
+    private void sparkdlc$discardDrag() {
         cursorDragging = false;
         cursorDragSlots.clear();
         doubleClicking = false;
@@ -41,36 +41,36 @@ public abstract class LastEscapeHandledScreenMixin {
     }
 
     @Inject(method = "tick", at = @At("HEAD"))
-    private void sparktraits$cancelPendingDrag(CallbackInfo ci) {
+    private void sparkdlc$cancelPendingDrag(CallbackInfo ci) {
         if (LastEscapeInput.blocked()) {
-            sparktraits$discardDrag();
+            sparkdlc$discardDrag();
         }
     }
 
     @Inject(method = {"mouseClicked", "mouseReleased"}, at = @At("HEAD"), cancellable = true)
-    private void sparktraits$blockInventoryMouse(double x, double y, int button,
+    private void sparkdlc$blockInventoryMouse(double x, double y, int button,
                                                 CallbackInfoReturnable<Boolean> cir) {
         if (LastEscapeInput.blocked()) {
-            sparktraits$discardDrag();
+            sparkdlc$discardDrag();
             cir.setReturnValue(true);
         }
     }
 
     @Inject(method = "mouseDragged", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$blockInventoryDrag(double x, double y, int button, double dx, double dy,
+    private void sparkdlc$blockInventoryDrag(double x, double y, int button, double dx, double dy,
                                                CallbackInfoReturnable<Boolean> cir) {
         if (LastEscapeInput.blocked()) {
-            sparktraits$discardDrag();
+            sparkdlc$discardDrag();
             cir.setReturnValue(true);
         }
     }
 
     @Inject(method = "onMouseClick(Lnet/minecraft/screen/slot/Slot;IILnet/minecraft/screen/slot/SlotActionType;)V",
             at = @At("HEAD"), cancellable = true)
-    private void sparktraits$blockInventoryAction(Slot slot, int slotId, int button, SlotActionType action,
+    private void sparkdlc$blockInventoryAction(Slot slot, int slotId, int button, SlotActionType action,
                                                  CallbackInfo ci) {
         if (LastEscapeInput.blocked()) {
-            sparktraits$discardDrag();
+            sparkdlc$discardDrag();
             ci.cancel();
         }
     }

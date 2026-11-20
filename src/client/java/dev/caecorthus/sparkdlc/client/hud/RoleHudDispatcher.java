@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.hud;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.client.role.killer.blackraven.BlackRavenHudRenderer;
 import dev.caecorthus.sparkdlc.client.role.witch.curser.CurserHudRenderer;
 import dev.caecorthus.sparkdlc.client.role.witch.curser.CurserHudRules;
@@ -103,7 +103,7 @@ public final class RoleHudDispatcher {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
         if (player != null) {
             boolean exactCurserRole = GameWorldComponent.KEY.get(player.getWorld()).getRole(player)
-                    == SparkWitchRoles.curser();
+                    == SparkDlcRoles.curser();
             if (CurserHudRules.shouldRender(
                     SparkDlcServerConnection.isConfirmedServer(),
                     exactCurserRole,
@@ -127,7 +127,7 @@ public final class RoleHudDispatcher {
             return;
         }
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
-        if (player == null || !SparkWitchApi.isWraithActive(player)) {
+        if (player == null || !SparkRoleApi.isWraithActive(player)) {
             return;
         }
         Role role = GameWorldComponent.KEY.get(player.getWorld()).getRole(player);
@@ -149,7 +149,7 @@ public final class RoleHudDispatcher {
             return;
         }
         // Widened by the Black Raven acting overlay; getRole stays raw. / 黑羽鸦扮演覆盖层会放宽此判定；getRole 仍为真实身份。
-        if (GameWorldComponent.KEY.get(player.getWorld()).isRole(player, SparkWitchRoles.orthopedist())) {
+        if (GameWorldComponent.KEY.get(player.getWorld()).isRole(player, SparkDlcRoles.orthopedist())) {
             OrthopedistHudRenderer.render(context, player);
         }
     }

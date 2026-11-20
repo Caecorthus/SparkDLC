@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.role.killer.timestealer;
 
 import dev.caecorthus.sparkdlc.faction.api.FactionIds;
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -14,11 +14,11 @@ import org.jetbrains.annotations.Nullable;
  * 注册表，因此可以安全地在单元测试中加载。
  */
 public final class TimeStealerRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("time_stealer");
-    public static final Identifier CLOCK_ID = SparkWitch.id("time_stealer_pocket_watch");
-    public static final Identifier STAMP_ID = SparkWitch.id("time_stamp");
+    public static final Identifier ROLE_ID = SparkDLC.id("time_stealer");
+    public static final Identifier CLOCK_ID = SparkDLC.id("time_stealer_pocket_watch");
+    public static final Identifier STAMP_ID = SparkDLC.id("time_stamp");
     /** Item-use replay record id for a stamp purchase. / 邮票购买的物品使用回放记录 id。 */
-    public static final Identifier STAMP_PURCHASE_RECORD_ID = SparkWitch.id("time_stamp_purchase");
+    public static final Identifier STAMP_PURCHASE_RECORD_ID = SparkDLC.id("time_stamp_purchase");
     /**
      * Frozen payload of a {@link #STAMP_PURCHASE_RECORD_ID} item-use record (the stamp purchase writes it, the replay
      * formatter reads it): the Wathe {@code ShopEntry.id()} String under this key. The formatter maps it to a display
@@ -73,9 +73,9 @@ public final class TimeStealerRules {
      * 15/20/25/30 秒速度 I-IV，35 秒速度 V 持续 {@link #GIFT_FINAL_SPEED_TICKS} 并恢复全部理智。其 45 秒冷却（开局亦然）
      * 与时钟的冷却相互独立。
      */
-    public static final Identifier GIFT_WATCH_ID = SparkWitch.id("time_stealer_gift_watch");
+    public static final Identifier GIFT_WATCH_ID = SparkDLC.id("time_stealer_gift_watch");
     /** SparkFactionAPI action id the Gift Watch asks {@code canAffectPlayer} about. / 赠时怀表向 {@code canAffectPlayer} 询问的动作 id。 */
-    public static final Identifier GIFT_ACTION_ID = SparkWitch.id("time_gift");
+    public static final Identifier GIFT_ACTION_ID = SparkDLC.id("time_gift");
     public static final int GIFT_COOLDOWN_TICKS = 45 * 20;
     public static final int GIFT_INITIAL_COOLDOWN_TICKS = 45 * 20;
     /** Speed I-IV per stage; one second of overlap like the curse's Slowness. / 每阶速度 I-IV；与诅咒缓慢一样重叠一秒。 */
@@ -142,7 +142,7 @@ public final class TimeStealerRules {
      * 只有时钟诅咒死亡会跳过 Wathe 平民死亡时的 +30 秒时间奖励。
      */
     public static boolean suppressesCivilianKillTime(@Nullable Identifier deathReason) {
-        return SparkWitchDeathReasons.TIME_STOLEN.equals(deathReason);
+        return SparkDlcDeathReasons.TIME_STOLEN.equals(deathReason);
     }
 
     /**
@@ -152,7 +152,7 @@ public final class TimeStealerRules {
      * （如圣徒的 HEAD 拦截）；其他击杀的保护流程保持不变。
      */
     public static boolean piercesProtection(@Nullable Identifier deathReason, boolean force) {
-        return force && SparkWitchDeathReasons.TIME_STOLEN.equals(deathReason);
+        return force && SparkDlcDeathReasons.TIME_STOLEN.equals(deathReason);
     }
 
     /**

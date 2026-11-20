@@ -36,7 +36,7 @@ public abstract class DecoratedPotBlockTollBellMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$keepTollBellOutOfPot(ItemStack stack, BlockState state, World world, BlockPos pos,
+    private void sparkdlc$keepTollBellOutOfPot(ItemStack stack, BlockState state, World world, BlockPos pos,
                                                  PlayerEntity player, Hand hand, BlockHitResult hit,
                                                  CallbackInfoReturnable<ItemActionResult> cir) {
         if (BellRingerInventoryRules.blocksBlockUse(stack, state)) {

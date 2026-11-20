@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.jiahao.sphinxhao;
 
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityController;
 import dev.caecorthus.sparkdlc.client.hud.CachedHudText;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
@@ -83,7 +83,7 @@ final class SphinxHaoHud {
         WitchPlayerComponent witch = WitchPlayerComponent.KEY.get(player);
         boolean sharedLineOccupied = witch.getActiveSkillId() != null || witch.getSaintState().karmaCooldownTicks() > 0;
         TextRenderer renderer = client.textRenderer;
-        INFECT.update(infect, infect.keyHint() ? SparkWitchClient.abilityKeyText() : null, renderer);
+        INFECT.update(infect, infect.keyHint() ? SparkDLCClient.abilityKeyText() : null, renderer);
         ROAR.update(roar, roar.keyHint() ? SecondaryAbilityController.secondaryKeyText() : null, renderer);
         INFECTED.update(infected, null, renderer);
         HAO.update(hao, null, renderer);

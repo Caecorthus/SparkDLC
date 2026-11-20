@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.usec;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.event.ShouldPunishGunShooter;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -129,7 +129,7 @@ final class UsecFirePunishment {
      * Wathe“仍携带枪械”检查的步枪版本：背包、副手或光标（补上 Wathe 的光标缺口：放在光标上的步枪同样算携带）。
      */
     static boolean carriesRifle(ServerPlayerEntity shooter) {
-        Item rifle = SparkWitchItems.usecRifle();
+        Item rifle = SparkDlcItems.usecRifle();
         return shooter.getInventory().contains(stack -> stack.isOf(rifle))
                 || (shooter.currentScreenHandler != null && shooter.currentScreenHandler.getCursorStack().isOf(rifle));
     }
@@ -142,7 +142,7 @@ final class UsecFirePunishment {
      * 返回移除的步枪数量。
      */
     static int confiscate(ServerPlayerEntity shooter) {
-        Item rifle = SparkWitchItems.usecRifle();
+        Item rifle = SparkDlcItems.usecRifle();
         int removed = 0;
         PlayerInventory inventory = shooter.getInventory();
         for (int slot = 0; slot < inventory.size(); slot++) {

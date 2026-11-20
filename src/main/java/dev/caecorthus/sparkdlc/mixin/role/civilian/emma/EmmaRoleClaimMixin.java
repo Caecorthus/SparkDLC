@@ -25,27 +25,27 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = GameWorldComponent.class, remap = false)
 public abstract class EmmaRoleClaimMixin {
     @Shadow @Final private World world;
-    @Unique private boolean sparkwitch$restoringRoles;
+    @Unique private boolean sparkdlc$restoringRoles;
 
     @WrapMethod(method = "readFromNbt")
-    private void sparkwitch$restoreRoles(NbtCompound tag, RegistryWrapper.WrapperLookup lookup, Operation<Void> original) {
-        boolean previous = sparkwitch$restoringRoles;
-        sparkwitch$restoringRoles = true;
-        try { original.call(tag, lookup); } finally { sparkwitch$restoringRoles = previous; }
+    private void sparkdlc$restoreRoles(NbtCompound tag, RegistryWrapper.WrapperLookup lookup, Operation<Void> original) {
+        boolean previous = sparkdlc$restoringRoles;
+        sparkdlc$restoringRoles = true;
+        try { original.call(tag, lookup); } finally { sparkdlc$restoringRoles = previous; }
     }
 
     @Inject(method = "addRole(Lnet/minecraft/entity/player/PlayerEntity;Ldev/doctor4t/wathe/api/Role;)V", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$claimPlayer(PlayerEntity player, Role role, CallbackInfo ci) {
-        if (!sparkwitch$mayAssign(player.getUuid(), role)) ci.cancel();
+    private void sparkdlc$claimPlayer(PlayerEntity player, Role role, CallbackInfo ci) {
+        if (!sparkdlc$mayAssign(player.getUuid(), role)) ci.cancel();
     }
 
     @Inject(method = "addRole(Ljava/util/UUID;Ldev/doctor4t/wathe/api/Role;)V", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$claimUuid(UUID player, Role role, CallbackInfo ci) {
-        if (!sparkwitch$mayAssign(player, role)) ci.cancel();
+    private void sparkdlc$claimUuid(UUID player, Role role, CallbackInfo ci) {
+        if (!sparkdlc$mayAssign(player, role)) ci.cancel();
     }
 
-    @Unique private boolean sparkwitch$mayAssign(UUID player, Role role) {
-        if (sparkwitch$restoringRoles || !(world instanceof ServerWorld) || !EmmaRules.isEmma(role)) return true;
+    @Unique private boolean sparkdlc$mayAssign(UUID player, Role role) {
+        if (sparkdlc$restoringRoles || !(world instanceof ServerWorld) || !EmmaRules.isEmma(role)) return true;
         GameWorldComponent game = (GameWorldComponent) (Object) this;
         return EmmaRoundComponent.KEY.get(world).claim(player, EmmaRules.isEmma(game.getRole(player)));
     }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.medium;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -44,7 +44,7 @@ import java.util.UUID;
 public final class MediumPlayerComponent implements AutoSyncedComponent, ServerTickingComponent,
         ClientTickingComponent {
     public static final ComponentKey<MediumPlayerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("medium"),
+            SparkDLC.id("medium"),
             MediumPlayerComponent.class
     );
     private static final String SEANCE_COOLDOWN_TICKS = "SeanceCooldownTicks";

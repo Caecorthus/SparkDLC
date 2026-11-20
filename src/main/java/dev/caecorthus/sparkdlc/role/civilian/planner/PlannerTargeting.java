@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.planner;
 
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.player.PlayerEntity;
@@ -46,7 +46,7 @@ final class PlannerTargeting {
                 && GameFunctions.isPlayerPlayingAndAlive(target)
                 && !target.isSpectator()
                 && !NoellesTaotieSeekerBridge.isSwallowed(target)
-                && !SparkWitchApi.isWraithActive(target)
+                && !SparkRoleApi.isWraithActive(target)
                 && !isHiddenFrom(viewer, target);
     }
 

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.timestealer;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.util.StaggeredSweep;
@@ -266,7 +266,7 @@ public final class TimeStealerLoadoutService {
      * 留在显示中的第二行使其可见；完全没有空间时不移动也不销毁任何物品，由下一 tick 重试。
      */
     private static boolean placeClockInHotbar(PlayerInventory inventory, int vacated) {
-        Item clock = SparkWitchItems.timeStealerClock();
+        Item clock = SparkDlcItems.timeStealerClock();
         int target = hotbarTarget(inventory.selectedSlot, slot -> inventory.getStack(slot).isEmpty());
         if (target == NO_SLOT) {
             target = displacedHotbarSlot(inventory.selectedSlot);
@@ -297,7 +297,7 @@ public final class TimeStealerLoadoutService {
     private static void writeInitialCooldown(ServerPlayerEntity player, TimeStealerPlayerComponent state) {
         int ticks = TimeStealerRules.CLOCK_INITIAL_COOLDOWN_TICKS;
         state.setClockReadyAt(player.getServerWorld().getTime() + ticks);
-        Item clock = SparkWitchItems.timeStealerClock();
+        Item clock = SparkDlcItems.timeStealerClock();
         if (!SparkTraitsApi.setExactItemCooldownRemaining(player, clock, ticks)) {
             player.getItemCooldownManager().set(clock, ticks);
         }

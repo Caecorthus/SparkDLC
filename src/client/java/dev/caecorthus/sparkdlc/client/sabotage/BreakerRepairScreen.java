@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.sabotage;
 
-import dev.caecorthus.sparkdlc.SparkStrengthSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.client.tablet.screen.TabletCanvas;
 import dev.caecorthus.sparkdlc.client.tablet.screen.TabletTheme;
 import dev.caecorthus.sparkdlc.sabotage.net.CloseBreakerRepairS2CPacket;
@@ -101,7 +101,7 @@ final class BreakerRepairScreen extends AbstractRepairScreen {
         if (charged() && submitDue()) {
             holding = false;
             submit(Text.translatable("screen.sparkdlc.breaker.restoring"));
-            playClick(SparkStrengthSounds.CIRCUIT_BREAKER_SWITCH, 0.7F);
+            playClick(SparkDlcSounds.CIRCUIT_BREAKER_SWITCH, 0.7F);
         }
     }
 
@@ -119,7 +119,7 @@ final class BreakerRepairScreen extends AbstractRepairScreen {
             for (int i = 0; i < tripped.length; i++) {
                 if (tripped[i] && inside(mouseX, mouseY, switchX(i), switchY(i), SWITCH_W, SWITCH_H)) {
                     tripped[i] = false;
-                    playClick(SparkStrengthSounds.CIRCUIT_BREAKER_SWITCH, 1.0F + 0.1F * (i % 4));
+                    playClick(SparkDlcSounds.CIRCUIT_BREAKER_SWITCH, 1.0F + 0.1F * (i % 4));
                     return true;
                 }
             }

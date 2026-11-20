@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.replay.role;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.record.replay.ReplayGenerator;
 import dev.doctor4t.wathe.record.replay.ReplayRegistry;
 import net.minecraft.nbt.NbtCompound;
@@ -14,10 +14,10 @@ import java.util.UUID;
  * 炸弹客托盘与床铺炸弹的回放文本。
  */
 public final class TimedBombReplayEvents {
-    public static final Identifier TIMED_BOMB_TRAY_EMBEDDED = SparkStrength.id("timed_bomb_tray_embedded");
-    public static final Identifier TIMED_BOMB_BED_EMBEDDED = SparkStrength.id("timed_bomb_bed_embedded");
-    public static final Identifier TIMED_BOMB_TRAY_TRIGGERED = SparkStrength.id("timed_bomb_tray_triggered");
-    public static final Identifier TIMED_BOMB_BED_TRIGGERED = SparkStrength.id("timed_bomb_bed_triggered");
+    public static final Identifier TIMED_BOMB_TRAY_EMBEDDED = SparkDLC.id("timed_bomb_tray_embedded");
+    public static final Identifier TIMED_BOMB_BED_EMBEDDED = SparkDLC.id("timed_bomb_bed_embedded");
+    public static final Identifier TIMED_BOMB_TRAY_TRIGGERED = SparkDLC.id("timed_bomb_tray_triggered");
+    public static final Identifier TIMED_BOMB_BED_TRIGGERED = SparkDLC.id("timed_bomb_bed_triggered");
 
     private TimedBombReplayEvents() {
     }

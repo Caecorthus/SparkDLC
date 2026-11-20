@@ -28,7 +28,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class KnightPoliceGunMixin {
     @WrapOperation(method = "receive(Ldev/doctor4t/wathe/util/GunShootPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/cca/GameWorldComponent;isRole(Lnet/minecraft/entity/player/PlayerEntity;Ldev/doctor4t/wathe/api/Role;)Z"))
-    private boolean sparkwitch$knightPoliceExemptions(GameWorldComponent game, PlayerEntity player,
+    private boolean sparkdlc$knightPoliceExemptions(GameWorldComponent game, PlayerEntity player,
                                                       Role queriedRole, Operation<Boolean> original) {
         return original.call(game, player, queriedRole)
                 || (queriedRole == WatheRoles.VIGILANTE && KnightRules.isKnight(game.getRole(player)));
@@ -46,7 +46,7 @@ public abstract class KnightPoliceGunMixin {
     @WrapOperation(method = "receive(Ldev/doctor4t/wathe/util/GunShootPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             at = @At(value = "INVOKE", ordinal = 1,
                     target = "Ldev/doctor4t/wathe/game/GameFunctions;killPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;ZLnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;)V"))
-    private void sparkwitch$knightDerringerOutcome(ServerPlayerEntity victim, boolean spawnBody,
+    private void sparkdlc$knightDerringerOutcome(ServerPlayerEntity victim, boolean spawnBody,
                                                    ServerPlayerEntity shooter, Identifier reason,
                                                    Operation<Void> original, @Local ItemStack mainHandStack) {
         boolean wrongDerringerShot = KnightKillService.isWrongDerringerShot(shooter, victim, mainHandStack);

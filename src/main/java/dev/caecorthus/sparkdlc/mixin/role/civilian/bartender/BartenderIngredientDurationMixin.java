@@ -31,7 +31,7 @@ public abstract class BartenderIngredientDurationMixin {
                     @Constant(floatValue = 400.0F)
             }
     )
-    private float sparkstrength$retuneEffectTicks(float upstreamTicks) {
+    private float sparkdlc$retuneEffectTicks(float upstreamTicks) {
         return BartenderRules.effectTicks(((IngredientItem) (Object) this).getIngredientId(), upstreamTicks);
     }
 }

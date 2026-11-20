@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ServerWorld.class)
 public abstract class HerculeanStrengthSpawnMixin {
     @Inject(method = "spawnEntity", at = @At("HEAD"))
-    private void sparktraits$boostThrownProjectile(Entity entity, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$boostThrownProjectile(Entity entity, CallbackInfoReturnable<Boolean> cir) {
         HerculeanStrengthService.boostThrownProjectile(entity);
     }
 }

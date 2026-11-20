@@ -23,7 +23,7 @@ public abstract class ShadowJesterWinPriorityMixin {
             at = @At("HEAD"),
             remap = false
     )
-    private void sparkstrength$registerPriorityWinListener(
+    private void sparkdlc$registerPriorityWinListener(
             CallbackInfo ci
     ) {
         ShadowJesterShowdownService.registerWinPriorityListener();

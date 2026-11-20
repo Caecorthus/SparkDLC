@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.mixin.item.m1903a4;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.item.m1903a4.M1903A4FirstPersonRules;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.item.HeldItemRenderer;
@@ -43,11 +43,11 @@ public abstract class M1903A4ChargeWobbleMixin {
                     ordinal = 0
             )
     )
-    private void sparkwitch$holdFullChargeSteady(MatrixStack matrices, float x, float y, float z,
+    private void sparkdlc$holdFullChargeSteady(MatrixStack matrices, float x, float y, float z,
                                                  Operation<Void> original, AbstractClientPlayerEntity player,
                                                  float tickDelta, float pitch, Hand hand, float swingProgress,
                                                  ItemStack item) {
-        if (M1903A4FirstPersonRules.holdsSteady(item.isOf(SparkWitchItems.m1903a4()), player.isUsingItem(),
+        if (M1903A4FirstPersonRules.holdsSteady(item.isOf(SparkDlcItems.m1903a4()), player.isUsingItem(),
                 player.getActiveHand() == hand, player.getItemUseTime())) {
             return;
         }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.bear.launcher;
 
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.role.civilian.bear.BearItems;
 import dev.caecorthus.sparkdlc.role.civilian.bear.BearRules;
 import dev.caecorthus.sparkdlc.role.civilian.bear.smoke.SmokeCloudService;
@@ -309,7 +309,7 @@ public class SmokeRoundEntity extends ThrownItemEntity {
                         direction != null && direction.lengthSquared() > MOVING_SQUARED ? direction : null,
                         shooterUuid);
             }
-            world.playSound(null, point.x, point.y, point.z, SparkWitchSounds.BEAR_SMOKE_BURST, SoundCategory.PLAYERS,
+            world.playSound(null, point.x, point.y, point.z, SparkDlcSounds.BEAR_SMOKE_BURST, SoundCategory.PLAYERS,
                     2.0F, 0.95F + random.nextFloat() * 0.1F);
             world.spawnParticles(ParticleTypes.POOF, point.x, point.y, point.z, PUFF_PARTICLES, 0.2, 0.2, 0.2, 0.03);
         }

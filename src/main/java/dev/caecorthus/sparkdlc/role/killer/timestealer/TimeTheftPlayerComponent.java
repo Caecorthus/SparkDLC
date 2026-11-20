@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.timestealer;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import java.util.UUID;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -23,7 +23,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
  */
 public final class TimeTheftPlayerComponent implements ServerTickingComponent {
     public static final ComponentKey<TimeTheftPlayerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("time_theft"),
+            SparkDLC.id("time_theft"),
             TimeTheftPlayerComponent.class
     );
     private static final int MAX_STORED_STAGE = TimeStealerRules.LETHAL_STAGE - 1;

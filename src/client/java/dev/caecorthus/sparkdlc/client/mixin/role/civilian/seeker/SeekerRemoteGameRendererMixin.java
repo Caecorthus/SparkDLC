@@ -42,7 +42,7 @@ public abstract class SeekerRemoteGameRendererMixin {
     MinecraftClient client;
 
     @Inject(method = "updateCrosshairTarget", at = @At("RETURN"))
-    private void sparkwitch$forceRemoteMiss(float tickDelta, CallbackInfo ci) {
+    private void sparkdlc$forceRemoteMiss(float tickDelta, CallbackInfo ci) {
         if (!SeekerRemoteViewClient.isActive()) {
             return;
         }
@@ -54,7 +54,7 @@ public abstract class SeekerRemoteGameRendererMixin {
     }
 
     @Inject(method = "renderHand", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$hideRemoteHand(CallbackInfo ci) {
+    private void sparkdlc$hideRemoteHand(CallbackInfo ci) {
         if (!SeekerRemoteViewClient.isActive()) {
             return;
         }
@@ -63,7 +63,7 @@ public abstract class SeekerRemoteGameRendererMixin {
 
     @Inject(method = "render", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/gl/Framebuffer;beginWrite(Z)V"))
-    private void sparkwitch$renderSeekerViewFilter(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
+    private void sparkdlc$renderSeekerViewFilter(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
         if (!SeekerRemoteViewClient.isActive()) {
             SeekerViewFilter.release();
             return;

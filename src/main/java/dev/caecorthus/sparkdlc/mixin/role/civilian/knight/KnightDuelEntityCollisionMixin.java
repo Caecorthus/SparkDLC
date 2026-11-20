@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = Entity.class, priority = 1100)
 public abstract class KnightDuelEntityCollisionMixin {
     @WrapMethod(method = "collidesWith")
-    private boolean sparkwitch$passThroughDuelists(Entity other, Operation<Boolean> original) {
+    private boolean sparkdlc$passThroughDuelists(Entity other, Operation<Boolean> original) {
         if (KnightDuelBodyCollision.ignoresPlayerBody((Entity) (Object) this, other)) {
             return false;
         }

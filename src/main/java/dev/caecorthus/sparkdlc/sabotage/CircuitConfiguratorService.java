@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.sabotage;
 
-import dev.caecorthus.sparkdlc.SparkStrengthBlocks;
+import dev.caecorthus.sparkdlc.SparkDlcBlocks;
 import dev.caecorthus.sparkdlc.block.JunctionBoxBlock;
 import dev.caecorthus.sparkdlc.sabotage.net.SabotageStatusS2CPacket;
 import dev.doctor4t.wathe.cca.MapVariablesWorldComponent;
@@ -39,9 +39,9 @@ public final class CircuitConfiguratorService {
             return;
         }
         ServerWorld world = player.getServerWorld();
-        if (state.isOf(SparkStrengthBlocks.junctionBox())) {
+        if (state.isOf(SparkDlcBlocks.junctionBox())) {
             configureBox(player, world, pos, state, backwards);
-        } else if (state.isOf(SparkStrengthBlocks.circuitBreaker()) || state.isOf(SparkStrengthBlocks.engineUnit())) {
+        } else if (state.isOf(SparkDlcBlocks.circuitBreaker()) || state.isOf(SparkDlcBlocks.engineUnit())) {
             summarize(player, world, pos);
         }
     }
@@ -54,7 +54,7 @@ public final class CircuitConfiguratorService {
         boolean mirrored = false;
         if (twin != null) {
             BlockState twinState = world.getBlockState(twin);
-            if (twinState.isOf(SparkStrengthBlocks.junctionBox())) {
+            if (twinState.isOf(SparkDlcBlocks.junctionBox())) {
                 world.setBlockState(twin, twinState.with(JunctionBoxBlock.SABOTAGE, circuit), Block.NOTIFY_ALL);
                 mirrored = true;
             }
@@ -73,13 +73,13 @@ public final class CircuitConfiguratorService {
         AtomicInteger breakers = new AtomicInteger();
         AtomicInteger engineUnits = new AtomicInteger();
         SabotageBlockScan.scan(world, MapVariablesWorldComponent.KEY.get(world).getPlayArea(), (found, state) -> {
-            if (state.isOf(SparkStrengthBlocks.junctionBox())) {
+            if (state.isOf(SparkDlcBlocks.junctionBox())) {
                 SabotageType type = JunctionBoxBlock.typeOf(state);
                 (type == SabotageType.LIGHTS ? lightsBoxes : type == SabotageType.ENGINE ? engineBoxes : otherBoxes)
                         .incrementAndGet();
-            } else if (state.isOf(SparkStrengthBlocks.circuitBreaker())) {
+            } else if (state.isOf(SparkDlcBlocks.circuitBreaker())) {
                 breakers.incrementAndGet();
-            } else if (state.isOf(SparkStrengthBlocks.engineUnit())) {
+            } else if (state.isOf(SparkDlcBlocks.engineUnit())) {
                 engineUnits.incrementAndGet();
             }
         });

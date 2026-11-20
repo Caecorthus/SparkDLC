@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(MinecraftClient.class)
 public abstract class DominatorForcedShotInventoryMixin {
     @Inject(method = "setScreen", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$blockForcedShotInventory(Screen screen, CallbackInfo ci) {
+    private void sparkdlc$blockForcedShotInventory(Screen screen, CallbackInfo ci) {
         if (DominatorForcedShotClientState.blocks(screen)) {
             DominatorForcedShotClientState.refuse(screen);
             ci.cancel();

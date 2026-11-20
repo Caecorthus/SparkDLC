@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.trait.render;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.client.util.SkinTextures;
 import net.minecraft.util.Identifier;
 
@@ -9,8 +9,8 @@ import net.minecraft.util.Identifier;
  * 抑郁疯魔皮肤只构建一次：每帧绘制疯魔玩家或手臂时，皮肤钩子都会查询它们。
  */
 public final class DepressionPsychoTextures {
-    private static final Identifier WIDE = SparkTraits.id("textures/entity/depression_psycho.png");
-    private static final Identifier SLIM = SparkTraits.id("textures/entity/depression_psycho_thin.png");
+    private static final Identifier WIDE = SparkDLC.id("textures/entity/depression_psycho.png");
+    private static final Identifier SLIM = SparkDLC.id("textures/entity/depression_psycho_thin.png");
 
     private DepressionPsychoTextures() {
     }

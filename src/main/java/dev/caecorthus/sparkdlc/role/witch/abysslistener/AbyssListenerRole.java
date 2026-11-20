@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.witch.abysslistener;
 
 import dev.caecorthus.sparkdlc.faction.api.FactionRoleDefinition;
-import dev.caecorthus.sparkdlc.SparkWitchFactions;
+import dev.caecorthus.sparkdlc.SparkDlcFactions;
 import dev.doctor4t.wathe.api.Role;
 
 /**
@@ -13,7 +13,7 @@ import dev.doctor4t.wathe.api.Role;
  */
 public final class AbyssListenerRole {
     public static final FactionRoleDefinition DEFINITION =
-            FactionRoleDefinition.builder(AbyssListenerRules.ROLE_ID, SparkWitchFactions.WITCH)
+            FactionRoleDefinition.builder(AbyssListenerRules.ROLE_ID, SparkDlcFactions.WITCH)
                     .color(AbyssListenerRules.COLOR)
                     .moodType(Role.MoodType.FAKE)
                     .maxSprintTime(-1)

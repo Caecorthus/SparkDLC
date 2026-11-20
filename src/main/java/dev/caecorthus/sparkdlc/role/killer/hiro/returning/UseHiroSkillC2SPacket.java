@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.hiro.returning;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier;
  * 二阶堂希罗「死亡回归」（技能键 G）的空请求；全部校验在服务端（{@link HiroReturnService#use}）。
  */
 public record UseHiroSkillC2SPacket() implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("use_hiro_skill");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("use_hiro_skill");
     public static final Id<UseHiroSkillC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, UseHiroSkillC2SPacket> CODEC =
             PacketCodec.of(UseHiroSkillC2SPacket::write, UseHiroSkillC2SPacket::read);

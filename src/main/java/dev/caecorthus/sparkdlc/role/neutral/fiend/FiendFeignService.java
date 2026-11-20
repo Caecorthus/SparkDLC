@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.neutral.fiend;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
@@ -47,7 +47,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * pattern: it stays playing and alive in Wathe (never marked dead), so it keeps its dormant immunity, its role and
  * every win exclusion, and the vanilla spectator rule hides it from every other client. It cannot move, act, buy or
  * speak until it revives at its anchor and the corpse is discarded. If a Vulture eats that corpse during the feign
- * ({@link #onBodyDevoured}), the Fiend dies at once to {@link SparkWitchDeathReasons#FIEND_DEVOURED}. Feigning stops
+ * ({@link #onBodyDevoured}), the Fiend dies at once to {@link SparkDlcDeathReasons#FIEND_DEVOURED}. Feigning stops
  * for good once the Fiend Moment starts (the Fiend is no longer dormant). Every other player is untouched: each entry
  * returns at once unless the player is a dormant Fiend or already feigning.
  * 假死（所有者 2026-10-16 需求），仅服务端。休眠魔人在开局或上次复活后满 60 秒时假死 5 秒；被休眠免疫挡下的击杀
@@ -55,7 +55,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * 或被挡下击杀自身的死因），并进入旁观模式、视角锁定在该尸体上，沿用 SparkTraits 抑郁 / 小丑的做法：它在 Wathe 中仍在
  * 参与且存活（从不标记为死亡），因此保留休眠免疫、职业与所有胜负排除，原版旁观规则会让其他客户端都看不到它。它在原地
  * 复活、假尸体被移除之前无法移动、行动、购买或说话。若秃鹫在假死期间吃掉这具尸体（{@link #onBodyDevoured}），魔人立即以
- * {@link SparkWitchDeathReasons#FIEND_DEVOURED} 死亡。魔人时刻开始后不再假死（魔人不再休眠）。其他玩家不受影响：除休眠魔人
+ * {@link SparkDlcDeathReasons#FIEND_DEVOURED} 死亡。魔人时刻开始后不再假死（魔人不再休眠）。其他玩家不受影响：除休眠魔人
  * 或正在假死的玩家外，每个入口都会立即返回。
  */
 public final class FiendFeignService {
@@ -88,7 +88,7 @@ public final class FiendFeignService {
         // revive; registering at server start is early enough and idempotent.
         // SparkTraits 在击杀时读取终结原因，背水一战因此不会把被吞食的死亡变成复活；服务端启动时注册即足够早且幂等。
         ServerLifecycleEvents.SERVER_STARTING.register(server ->
-                SparkTraitsApi.registerTerminalDeathReason(SparkWitchDeathReasons.FIEND_DEVOURED));
+                SparkTraitsApi.registerTerminalDeathReason(SparkDlcDeathReasons.FIEND_DEVOURED));
     }
 
     /** Server truth for a feigning player. / 服务端判断玩家是否正在假死。 */
@@ -171,7 +171,7 @@ public final class FiendFeignService {
             return;
         }
         fiend.setCameraEntity(fiend);
-        GameFunctions.killPlayer(fiend, false, vulture, SparkWitchDeathReasons.FIEND_DEVOURED, true);
+        GameFunctions.killPlayer(fiend, false, vulture, SparkDlcDeathReasons.FIEND_DEVOURED, true);
         if (state.isFeigning()) {
             // Another guard refused the death (afterKill never ran): get up as from a normal feign.
             // 其他守卫拒绝了这次死亡（afterKill 未执行）：按普通假死结束那样起身。
@@ -199,7 +199,7 @@ public final class FiendFeignService {
                 try {
                     tickPlayer(player, active, match, now);
                 } catch (RuntimeException exception) {
-                    SparkWitch.LOGGER.error("Fiend feign tick failed for {}.", player.getUuid(), exception);
+                    SparkDLC.LOGGER.error("Fiend feign tick failed for {}.", player.getUuid(), exception);
                 }
             }
         }
@@ -340,7 +340,7 @@ public final class FiendFeignService {
         // on a weapon-reason corpse would tell every body-role reader (the NoellesRoles Coroner) who the living Fiend is.
         // 平民掩护身份（沿用魔术师诱饵）：真正的休眠魔人不会留下尸体，若武器死因的尸体显示实时的「魔人」身份，
         // 所有能读取尸体身份者（NoellesRoles 验尸官）都会得知活着的魔人是谁。
-        ((WraithBodyRoleAccess) body).sparkwitch$setDeathRole(WatheRoles.CIVILIAN.identifier());
+        ((WraithBodyRoleAccess) body).sparkdlc$setDeathRole(WatheRoles.CIVILIAN.identifier());
         body.setDeathReason(reason);
         body.setDeathGameTime(world.getTime());
         float yaw = fiend.getHeadYaw();

@@ -1,11 +1,11 @@
 package dev.caecorthus.sparkdlc.role.civilian.perfumer.kit;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerScentComponent;
 import dev.caecorthus.sparkdlc.entity.CoolingOilEntity;
 import dev.caecorthus.sparkdlc.item.grenade.GrenadeBlastService;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import dev.doctor4t.wathe.record.GameRecordManager;
@@ -45,7 +45,7 @@ public final class CoolingOilService {
             return false;
         }
         return PerfumerKitService.launch(player, stack, new CoolingOilEntity(player.getServerWorld(), player, roundId),
-                SparkStrengthItems.COOLING_OIL_ID);
+                SparkDlcItems.COOLING_OIL_ID);
     }
 
     /**
@@ -81,7 +81,7 @@ public final class CoolingOilService {
                     .styled(style -> style.withColor(HIT_COLOR)), true);
             NbtCompound extra = new NbtCompound();
             extra.putUuid("target", victim.getUuid());
-            GameRecordManager.recordGlobalEvent(world, SparkStrengthReplayFormatters.PERFUMER_COOLING_OIL_HIT, owner, extra);
+            GameRecordManager.recordGlobalEvent(world, RoleKitReplayFormatters.PERFUMER_COOLING_OIL_HIT, owner, extra);
         }
     }
 

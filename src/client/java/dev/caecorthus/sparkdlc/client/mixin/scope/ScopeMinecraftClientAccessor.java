@@ -20,5 +20,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface ScopeMinecraftClientAccessor {
     @Mutable
     @Accessor("framebuffer")
-    void sparkwitch$setScopeFramebuffer(Framebuffer framebuffer);
+    void sparkdlc$setScopeFramebuffer(Framebuffer framebuffer);
 }

@@ -40,17 +40,17 @@ import java.util.UUID;
 public abstract class PhantomBackpackInventoryScreenMixin extends LimitedHandledScreen<PlayerScreenHandler> {
     @Shadow @Final public ClientPlayerEntity player;
 
-    @Unique private final List<PhantomBackpackPlayerWidget> sparkstrength$phantomPlayerWidgets = new ArrayList<>();
-    @Unique private PlayerPageSwitchWidget sparkstrength$phantomPreviousPageWidget;
-    @Unique private PlayerPageSwitchWidget sparkstrength$phantomNextPageWidget;
-    @Unique private int sparkstrength$phantomCurrentPage;
+    @Unique private final List<PhantomBackpackPlayerWidget> sparkdlc$phantomPlayerWidgets = new ArrayList<>();
+    @Unique private PlayerPageSwitchWidget sparkdlc$phantomPreviousPageWidget;
+    @Unique private PlayerPageSwitchWidget sparkdlc$phantomNextPageWidget;
+    @Unique private int sparkdlc$phantomCurrentPage;
 
     public PhantomBackpackInventoryScreenMixin(PlayerScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
 
     @Inject(method = "init", at = @At("HEAD"))
-    private void sparkstrength$phantomAddInvisibilityButtons(CallbackInfo ci) {
+    private void sparkdlc$phantomAddInvisibilityButtons(CallbackInfo ci) {
         if (player == null || player.getWorld() == null) {
             return;
         }
@@ -60,20 +60,20 @@ public abstract class PhantomBackpackInventoryScreenMixin extends LimitedHandled
             return;
         }
 
-        sparkstrength$phantomAddPlayerSelectionUI();
+        sparkdlc$phantomAddPlayerSelectionUI();
     }
 
     @Unique
-    private void sparkstrength$phantomAddPlayerSelectionUI() {
+    private void sparkdlc$phantomAddPlayerSelectionUI() {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null || client.player.networkHandler == null) {
             return;
         }
 
-        List<UUID> targetUuids = sparkstrength$phantomCollectTargets(client.player);
+        List<UUID> targetUuids = sparkdlc$phantomCollectTargets(client.player);
         int y = PlayerPageLayout.getPlayerRowY(this.height);
-        sparkstrength$phantomPlayerWidgets.clear();
-        sparkstrength$phantomCurrentPage = PlayerSelectionPageState.getPhantomPage();
+        sparkdlc$phantomPlayerWidgets.clear();
+        sparkdlc$phantomCurrentPage = PlayerSelectionPageState.getPhantomPage();
 
         for (UUID targetUuid : targetUuids) {
             PlayerListEntry playerListEntry = client.player.networkHandler.getPlayerListEntry(targetUuid);
@@ -83,36 +83,36 @@ public abstract class PhantomBackpackInventoryScreenMixin extends LimitedHandled
                     targetUuid,
                     playerListEntry
             );
-            sparkstrength$phantomPlayerWidgets.add(child);
+            sparkdlc$phantomPlayerWidgets.add(child);
             addDrawableChild(child);
         }
 
-        sparkstrength$phantomPreviousPageWidget = addDrawableChild(new PlayerPageSwitchWidget(
+        sparkdlc$phantomPreviousPageWidget = addDrawableChild(new PlayerPageSwitchWidget(
                 0,
                 y,
                 Items.PURPLE_DYE.getDefaultStack(),
                 Text.translatable("ui.sparkdlc.pagination.previous"),
                 button -> {
-                    sparkstrength$phantomCurrentPage--;
-                    sparkstrength$phantomRefreshPage();
+                    sparkdlc$phantomCurrentPage--;
+                    sparkdlc$phantomRefreshPage();
                 }
         ));
-        sparkstrength$phantomNextPageWidget = addDrawableChild(new PlayerPageSwitchWidget(
+        sparkdlc$phantomNextPageWidget = addDrawableChild(new PlayerPageSwitchWidget(
                 0,
                 y,
                 Items.LIME_DYE.getDefaultStack(),
                 Text.translatable("ui.sparkdlc.pagination.next"),
                 button -> {
-                    sparkstrength$phantomCurrentPage++;
-                    sparkstrength$phantomRefreshPage();
+                    sparkdlc$phantomCurrentPage++;
+                    sparkdlc$phantomRefreshPage();
                 }
         ));
 
-        sparkstrength$phantomRefreshPage();
+        sparkdlc$phantomRefreshPage();
     }
 
     @Unique
-    private List<UUID> sparkstrength$phantomCollectTargets(ClientPlayerEntity localPlayer) {
+    private List<UUID> sparkdlc$phantomCollectTargets(ClientPlayerEntity localPlayer) {
         MinecraftClient client = MinecraftClient.getInstance();
         List<UUID> targetUuids = new ArrayList<>();
         for (UUID targetUuid : localPlayer.networkHandler.getPlayerUuids()) {
@@ -134,27 +134,27 @@ public abstract class PhantomBackpackInventoryScreenMixin extends LimitedHandled
     }
 
     @Unique
-    private void sparkstrength$phantomRefreshPage() {
-        int totalPages = PlayerPageLayout.getTotalPageCount(sparkstrength$phantomPlayerWidgets.size());
-        if (sparkstrength$phantomCurrentPage < 0) {
-            sparkstrength$phantomCurrentPage = 0;
+    private void sparkdlc$phantomRefreshPage() {
+        int totalPages = PlayerPageLayout.getTotalPageCount(sparkdlc$phantomPlayerWidgets.size());
+        if (sparkdlc$phantomCurrentPage < 0) {
+            sparkdlc$phantomCurrentPage = 0;
         }
-        if (sparkstrength$phantomCurrentPage >= totalPages) {
-            sparkstrength$phantomCurrentPage = totalPages - 1;
+        if (sparkdlc$phantomCurrentPage >= totalPages) {
+            sparkdlc$phantomCurrentPage = totalPages - 1;
         }
-        PlayerSelectionPageState.setPhantomPage(sparkstrength$phantomCurrentPage);
+        PlayerSelectionPageState.setPhantomPage(sparkdlc$phantomCurrentPage);
 
-        int startIndex = sparkstrength$phantomCurrentPage * PlayerPageLayout.PLAYERS_PER_PAGE;
-        int endIndex = Math.min(startIndex + PlayerPageLayout.PLAYERS_PER_PAGE, sparkstrength$phantomPlayerWidgets.size());
+        int startIndex = sparkdlc$phantomCurrentPage * PlayerPageLayout.PLAYERS_PER_PAGE;
+        int endIndex = Math.min(startIndex + PlayerPageLayout.PLAYERS_PER_PAGE, sparkdlc$phantomPlayerWidgets.size());
         int visibleCount = endIndex - startIndex;
         int y = PlayerPageLayout.getPlayerRowY(this.height);
-        boolean showPrevious = sparkstrength$phantomCurrentPage > 0;
-        boolean showNext = sparkstrength$phantomCurrentPage < totalPages - 1;
+        boolean showPrevious = sparkdlc$phantomCurrentPage > 0;
+        boolean showNext = sparkdlc$phantomCurrentPage < totalPages - 1;
         int groupStartX = PlayerPageLayout.getCenteredGroupStartX(this.width, visibleCount, showPrevious, showNext);
         int playerStartX = groupStartX + (showPrevious ? PlayerPageLayout.SLOT_APART : 0);
 
-        for (int i = 0; i < sparkstrength$phantomPlayerWidgets.size(); i++) {
-            PhantomBackpackPlayerWidget widget = sparkstrength$phantomPlayerWidgets.get(i);
+        for (int i = 0; i < sparkdlc$phantomPlayerWidgets.size(); i++) {
+            PhantomBackpackPlayerWidget widget = sparkdlc$phantomPlayerWidgets.get(i);
             boolean visible = i >= startIndex && i < endIndex;
             widget.visible = visible;
             widget.active = visible;
@@ -165,17 +165,17 @@ public abstract class PhantomBackpackInventoryScreenMixin extends LimitedHandled
             }
         }
 
-        if (sparkstrength$phantomPreviousPageWidget != null) {
-            sparkstrength$phantomPreviousPageWidget.visible = showPrevious;
-            sparkstrength$phantomPreviousPageWidget.active = showPrevious;
-            sparkstrength$phantomPreviousPageWidget.setX(groupStartX);
-            sparkstrength$phantomPreviousPageWidget.setY(y);
+        if (sparkdlc$phantomPreviousPageWidget != null) {
+            sparkdlc$phantomPreviousPageWidget.visible = showPrevious;
+            sparkdlc$phantomPreviousPageWidget.active = showPrevious;
+            sparkdlc$phantomPreviousPageWidget.setX(groupStartX);
+            sparkdlc$phantomPreviousPageWidget.setY(y);
         }
-        if (sparkstrength$phantomNextPageWidget != null) {
-            sparkstrength$phantomNextPageWidget.visible = showNext;
-            sparkstrength$phantomNextPageWidget.active = showNext;
-            sparkstrength$phantomNextPageWidget.setX(playerStartX + visibleCount * PlayerPageLayout.SLOT_APART);
-            sparkstrength$phantomNextPageWidget.setY(y);
+        if (sparkdlc$phantomNextPageWidget != null) {
+            sparkdlc$phantomNextPageWidget.visible = showNext;
+            sparkdlc$phantomNextPageWidget.active = showNext;
+            sparkdlc$phantomNextPageWidget.setX(playerStartX + visibleCount * PlayerPageLayout.SLOT_APART);
+            sparkdlc$phantomNextPageWidget.setY(y);
         }
     }
 }

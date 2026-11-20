@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.neutral.fiend;
 
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.client.text.HudFontOptions;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
@@ -78,7 +78,7 @@ public final class FiendDashHud {
         WitchPlayerComponent witch = WitchPlayerComponent.KEY.get(player);
         boolean sharedLineOccupied = witch.getActiveSkillId() != null || witch.getSaintState().karmaCooldownTicks() > 0;
         TextRenderer renderer = client.textRenderer;
-        Text keyText = line.keyHint() ? SparkWitchClient.abilityKeyText() : null;
+        Text keyText = line.keyHint() ? SparkDLCClient.abilityKeyText() : null;
         Language language = Language.getInstance();
         int fontOptions = HudFontOptions.current();
         if (!line.equals(cachedLine) || !Objects.equals(keyText, cachedKeyText) || language != cachedLanguage

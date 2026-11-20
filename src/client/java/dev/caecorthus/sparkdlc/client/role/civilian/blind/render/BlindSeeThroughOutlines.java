@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.blind.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.systems.VertexSorter;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.BufferRenderer;
 import net.minecraft.client.render.BuiltBuffer;
@@ -95,7 +95,7 @@ public final class BlindSeeThroughOutlines {
                 } catch (RuntimeException | LinkageError failure) {
                     SOURCES.remove(source);
                     out.subList(before, out.size()).clear();
-                    SparkWitch.LOGGER.warn("Dropping a Blind see-through outline source that threw", failure);
+                    SparkDLC.LOGGER.warn("Dropping a Blind see-through outline source that threw", failure);
                 }
             }
         } finally {
@@ -121,7 +121,7 @@ public final class BlindSeeThroughOutlines {
         } catch (RuntimeException exception) {
             if (!warned) {
                 warned = true;
-                SparkWitch.LOGGER.warn("Blind see-through outlines failed to draw; skipping them", exception);
+                SparkDLC.LOGGER.warn("Blind see-through outlines failed to draw; skipping them", exception);
             }
         } finally {
             FRAME.clear();

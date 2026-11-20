@@ -22,7 +22,7 @@ public abstract class SerialPistolSlotClickMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkstrength$keepSerialPistolInPlace(int slotIndex, int button, SlotActionType actionType,
+    private void sparkdlc$keepSerialPistolInPlace(int slotIndex, int button, SlotActionType actionType,
                                                        PlayerEntity player, CallbackInfo ci) {
         if (player instanceof ServerPlayerEntity
                 && SerialPistolInventoryRules.blocksSlotClick(player, slotIndex, button, actionType)) {

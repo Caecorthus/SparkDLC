@@ -1,12 +1,12 @@
 package dev.caecorthus.sparkdlc.role.civilian.judge;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 public final class JudgeRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("judge");
+    public static final Identifier ROLE_ID = SparkDLC.id("judge");
     public static final Identifier VIGILANTE_ID = Identifier.of("wathe", "vigilante");
     public static final int ROLE_COLOR = 0xDFA94F;
     public static final int OUTLINE_COLOR = 0xFF7043;

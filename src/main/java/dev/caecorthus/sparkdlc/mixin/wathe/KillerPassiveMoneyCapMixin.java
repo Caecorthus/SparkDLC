@@ -22,7 +22,7 @@ public abstract class KillerPassiveMoneyCapMixin {
             method = "tickServerGameLoop",
             constant = @Constant(intValue = 200)
     )
-    private static int sparkstrength$removeKillerPassiveMoneyCap(int originalCap) {
+    private static int sparkdlc$removeKillerPassiveMoneyCap(int originalCap) {
         // 原始 200 是编译期常量；替换为 int 可表示的最大值，取消实际游戏中的 200 金币限制。
         return Integer.MAX_VALUE;
     }

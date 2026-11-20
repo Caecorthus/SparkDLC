@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.knight;
 
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.CanSeeMoney;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -66,7 +66,7 @@ public final class KnightEconomyService {
         GameWorldComponent game = GameWorldComponent.KEY.get(player.getWorld());
         return canEarn(game.getGameStatus() == GameWorldComponent.GameStatus.ACTIVE,
                 GameFunctions.isPlayerPlayingAndAlive(player), game.getRole(player), player.isSpectator(),
-                player.isCreative(), SparkWitchApi.isWraithRestricted(player));
+                player.isCreative(), SparkRoleApi.isWraithRestricted(player));
     }
 
     /** Same eligibility as the Judge and the Control Expert. / 与法官、控场专家相同的资格判定。 */

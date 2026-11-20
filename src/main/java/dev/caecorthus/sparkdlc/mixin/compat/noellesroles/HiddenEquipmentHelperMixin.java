@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.mixin.compat.noellesroles;
 
 import dev.caecorthus.sparkdlc.item.BanditAmmoItem;
 import dev.caecorthus.sparkdlc.item.BanditAttachmentItem;
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveRules;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerCaptureReport;
@@ -35,12 +35,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = HiddenEquipmentHelper.class, remap = false)
 public abstract class HiddenEquipmentHelperMixin {
     @Inject(method = "shouldHideItem", at = @At("HEAD"), cancellable = true, remap = false)
-    private static void sparkstrength$hideRoleItems(
+    private static void sparkdlc$hideRoleItems(
             ItemStack stack,
             PlayerEntity holder,
             CallbackInfoReturnable<Boolean> cir
     ) {
-        if (stack.isOf(SparkStrengthItems.dyingWatch())) {
+        if (stack.isOf(SparkDlcItems.dyingWatch())) {
             // 濒毁怀表属于计时员私有能力道具，手持时对其他存活玩家隐藏。
             cir.setReturnValue(true);
             return;
@@ -52,7 +52,7 @@ public abstract class HiddenEquipmentHelperMixin {
             return;
         }
 
-        if (stack.isOf(SparkStrengthItems.captureDevice())
+        if (stack.isOf(SparkDlcItems.captureDevice())
                 && (EngineerRules.isEngineer(GameWorldComponent.KEY.get(holder.getWorld()).getRole(holder))
                 || CoronerService.hasEngineerDisguise(holder))) {
             // 捕捉装置手持时只对别人隐藏；放置后的实体可见性由实体渲染器按观察者身份判断。
@@ -60,10 +60,10 @@ public abstract class HiddenEquipmentHelperMixin {
             return;
         }
 
-        if ((stack.isOf(SparkStrengthItems.invisibilitySerum())
-                || stack.isOf(SparkStrengthItems.doorpassingPotion())
-                || stack.isOf(SparkStrengthItems.sedative())
-                || stack.isOf(SparkStrengthItems.truthSerum()))
+        if ((stack.isOf(SparkDlcItems.invisibilitySerum())
+                || stack.isOf(SparkDlcItems.doorpassingPotion())
+                || stack.isOf(SparkDlcItems.sedative())
+                || stack.isOf(SparkDlcItems.truthSerum()))
                 && (ProfessorSerumRules.isProfessor(GameWorldComponent.KEY.get(holder.getWorld()).getRole(holder))
                 || CoronerService.hasProfessorDisguise(holder))) {
             // 用户需求是“教授手持四种试剂时不可见”，所以这里额外校验持有者确实是教授。
@@ -71,13 +71,13 @@ public abstract class HiddenEquipmentHelperMixin {
             return;
         }
 
-        if (stack.isOf(SparkStrengthItems.morphReagent()) || stack.isOf(SparkStrengthItems.morphDevice())) {
+        if (stack.isOf(SparkDlcItems.morphReagent()) || stack.isOf(SparkDlcItems.morphDevice())) {
             // 变形试剂和遥控器是 Morphling 的核心情报道具；只要被装备隐藏系统扫描到就不展示给其他存活玩家。
             cir.setReturnValue(true);
             return;
         }
 
-        if ((stack.isOf(SparkStrengthItems.magnifier()) || stack.isOf(SparkStrengthItems.caseFolder()))
+        if ((stack.isOf(SparkDlcItems.magnifier()) || stack.isOf(SparkDlcItems.caseFolder()))
                 && DetectiveRules.isDetective(GameWorldComponent.KEY.get(holder.getWorld()).getRole(holder))) {
             // A held magnifier or case folder would expose the detective; hide it while the holder is a detective.
             // 手持放大镜或文件夹会暴露侦探身份；持有者为侦探时对其他玩家隐藏。
@@ -85,9 +85,9 @@ public abstract class HiddenEquipmentHelperMixin {
             return;
         }
 
-        if ((stack.isOf(SparkStrengthItems.coolingOil())
-                || stack.isOf(SparkStrengthItems.aromaOrb())
-                || stack.isOf(SparkStrengthItems.zephyrPerfume()))
+        if ((stack.isOf(SparkDlcItems.coolingOil())
+                || stack.isOf(SparkDlcItems.aromaOrb())
+                || stack.isOf(SparkDlcItems.zephyrPerfume()))
                 && PerfumerRules.isPerfumer(GameWorldComponent.KEY.get(holder.getWorld()).getRole(holder))) {
             // Only the Perfumer's shop sells these; hide them while the holder's real role is Perfumer.
             // 这些道具只由调香师商店出售；持有者真实身份为调香师时对其他玩家隐藏。
@@ -115,42 +115,42 @@ public abstract class HiddenEquipmentHelperMixin {
             return;
         }
 
-        if (stack.isOf(SparkStrengthItems.blueVitriol()) || stack.isOf(SparkStrengthItems.blueBelladonna())) {
+        if (stack.isOf(SparkDlcItems.blueVitriol()) || stack.isOf(SparkDlcItems.blueBelladonna())) {
             // Only the Toxicologist shop (and the Coroner's Toxicologist disguise shop) sells these, like the antidote.
             // 蓝矾/蓝颠茄仅由毒理学家商店（及验尸官毒理学家伪装商店）出售，与解毒剂一样手持会暴露身份。
             cir.setReturnValue(true);
             return;
         }
 
-        if (stack.isOf(SparkStrengthItems.grenadeDrone()) || stack.isOf(SparkStrengthItems.bombDrone())) {
+        if (stack.isOf(SparkDlcItems.grenadeDrone()) || stack.isOf(SparkDlcItems.bombDrone())) {
             // Only the real Bomber ever holds drones; a held drone would expose the role, like the timed bomb.
             // 只有真实炸弹客会持有无人机；手持无人机会像定时炸弹一样暴露身份。
             cir.setReturnValue(true);
             return;
         }
 
-        if (stack.isOf(SparkStrengthItems.impostorLockpick())) {
+        if (stack.isOf(SparkDlcItems.impostorLockpick())) {
             // Only an Impostor is ever given the pry tool; holding one would expose the trait.
             // 只有内鬼会获得撬锁工具；手持会暴露内鬼身份。
             cir.setReturnValue(true);
             return;
         }
 
-        if (stack.isOf(SparkStrengthItems.skateboard())) {
+        if (stack.isOf(SparkDlcItems.skateboard())) {
             // Only the real Vulture is ever given a skateboard; holding one would expose the role, like its master key.
             // 只有真实秃鹫会获得滑板；手持滑板会像它的万能钥匙一样暴露身份。
             cir.setReturnValue(true);
             return;
         }
 
-        if (stack.isOf(SparkStrengthItems.virus()) || stack.isOf(SparkStrengthItems.tVirus())) {
+        if (stack.isOf(SparkDlcItems.virus()) || stack.isOf(SparkDlcItems.tVirus())) {
             // Only the Pathogen shop sells these; a held Virus or T-Virus would expose the role.
             // 病毒与 T病毒只由病原体商店出售；手持会暴露身份。
             cir.setReturnValue(true);
             return;
         }
 
-        if (stack.isOf(SparkStrengthItems.partyBalloon())
+        if (stack.isOf(SparkDlcItems.partyBalloon())
                 && PartyAnimalRules.isPartyAnimal(GameWorldComponent.KEY.get(holder.getWorld()).getRole(holder))) {
             // Only the Party Animal's shop sells balloons; hide them while the holder's real role is Party Animal.
             // 派对气球只由派对狂商店出售；持有者真实身份为派对狂时对其他玩家隐藏。

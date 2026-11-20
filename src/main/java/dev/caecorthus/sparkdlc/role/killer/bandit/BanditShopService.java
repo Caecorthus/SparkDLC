@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.bandit;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -25,7 +25,7 @@ import org.agmas.noellesroles.Noellesroles;
  * 监听器跑完才能移除它。Wathe 在两端各自构建列表并按下标购买，这里只取决于已同步的身份。</p>
  */
 public final class BanditShopService {
-    private static final Identifier LATE_PHASE = SparkStrength.id("bandit_shop_late");
+    private static final Identifier LATE_PHASE = SparkDLC.id("bandit_shop_late");
     private static boolean registered;
 
     private BanditShopService() {
@@ -48,7 +48,7 @@ public final class BanditShopService {
         for (BanditAmmo ammo : BanditAmmo.values()) {
             context.addEntry(SparkTraitsApi.discountShopEntryForCharisma(player, new ShopEntry.Builder(
                     ammo.shopEntryId(),
-                    new ItemStack(SparkStrengthItems.banditAmmo(ammo)),
+                    new ItemStack(SparkDlcItems.banditAmmo(ammo)),
                     ammo.price(),
                     ShopEntry.Type.WEAPON
             ).onBuy(buyer -> BanditRevolverService.giveAmmo(buyer, ammo)).build()));
@@ -56,7 +56,7 @@ public final class BanditShopService {
         for (BanditAttachment part : BanditAttachment.values()) {
             context.addEntry(SparkTraitsApi.discountShopEntryForCharisma(player, new ShopEntry.Builder(
                     part.shopEntryId(),
-                    new ItemStack(SparkStrengthItems.banditAttachment(part)),
+                    new ItemStack(SparkDlcItems.banditAttachment(part)),
                     part.price(),
                     ShopEntry.Type.TOOL
             ).stock(1).build()));

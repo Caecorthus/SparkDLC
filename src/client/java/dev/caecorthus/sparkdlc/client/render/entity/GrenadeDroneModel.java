@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.render.entity;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.entity.DroneEntity;
 import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneState;
 import net.minecraft.client.model.ModelData;
@@ -28,8 +28,8 @@ import java.util.EnumSet;
  * 航行灯沿用航空惯例：右绿左红，空中时尾部白色双闪。
  */
 public final class GrenadeDroneModel extends DroneModel {
-    public static final EntityModelLayer LAYER = new EntityModelLayer(SparkStrength.id("grenade_drone"), "main");
-    public static final Identifier TEXTURE = SparkStrength.id("textures/entity/grenade_drone.png");
+    public static final EntityModelLayer LAYER = new EntityModelLayer(SparkDLC.id("grenade_drone"), "main");
+    public static final Identifier TEXTURE = SparkDLC.id("textures/entity/grenade_drone.png");
     private static final float CLAW_OPEN = 0.6F;
     private static final float TAIL_STROBE_PERIOD = 30.0F;
 

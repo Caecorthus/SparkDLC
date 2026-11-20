@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = InGameHud.class, priority = 900)
 public abstract class RicochetDazeHudMixin {
     @Inject(method = "render", at = @At("HEAD"))
-    private void sparkwitch$renderRysTDazeGhost(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+    private void sparkdlc$renderRysTDazeGhost(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         RysTDazeGhostRenderer.render(context, tickCounter);
     }
 }

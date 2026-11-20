@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(PlayerPoisonComponent.class)
 public abstract class CoronerPoisonComponentSyncMixin {
     @Inject(method = "shouldSyncWith", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$syncPoisonStateToCoronerPoisonDisguises(
+    private void sparkdlc$syncPoisonStateToCoronerPoisonDisguises(
             ServerPlayerEntity recipient,
             CallbackInfoReturnable<Boolean> cir
     ) {

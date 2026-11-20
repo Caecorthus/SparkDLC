@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ClientPlayerInteractionManager.class)
 public abstract class M67InteractionMixin {
     @Inject(method = "interactItem", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$m67WaitForRelease(PlayerEntity player, Hand hand,
+    private void sparkdlc$m67WaitForRelease(PlayerEntity player, Hand hand,
                                                 CallbackInfoReturnable<ActionResult> cir) {
         if (player == MinecraftClient.getInstance().player) {
             M67Client.refreshEquipment();
@@ -27,7 +27,7 @@ public abstract class M67InteractionMixin {
     }
 
     @Inject(method = "interactItem", at = @At("RETURN"))
-    private void sparkstrength$m67RememberCharge(PlayerEntity player, Hand hand,
+    private void sparkdlc$m67RememberCharge(PlayerEntity player, Hand hand,
                                                 CallbackInfoReturnable<ActionResult> cir) {
         if (player == MinecraftClient.getInstance().player && cir.getReturnValue().isAccepted()) {
             M67Client.observeUse();
@@ -37,7 +37,7 @@ public abstract class M67InteractionMixin {
     // Inventory actions terminate the current gesture before vanilla mutates or sends packets.
     // 物品栏操作在原版修改物品或发包之前结束本次使用，防止同类物品继承蓄力。
     @Inject(method = "clickSlot", at = @At("HEAD"))
-    private void sparkstrength$m67CancelBeforeInventory(int syncId, int slotId, int button,
+    private void sparkdlc$m67CancelBeforeInventory(int syncId, int slotId, int button,
                                                        SlotActionType actionType, PlayerEntity player,
                                                        CallbackInfo ci) {
         if (player == MinecraftClient.getInstance().player) {
@@ -46,7 +46,7 @@ public abstract class M67InteractionMixin {
     }
 
     @Inject(method = "clickSlot", at = @At("RETURN"))
-    private void sparkstrength$m67ObserveInventory(int syncId, int slotId, int button,
+    private void sparkdlc$m67ObserveInventory(int syncId, int slotId, int button,
                                                    SlotActionType actionType, PlayerEntity player,
                                                    CallbackInfo ci) {
         if (player == MinecraftClient.getInstance().player) {
@@ -55,7 +55,7 @@ public abstract class M67InteractionMixin {
     }
 
     @Inject(method = "stopUsingItem", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$m67ValidateBeforeRelease(PlayerEntity player, CallbackInfo ci) {
+    private void sparkdlc$m67ValidateBeforeRelease(PlayerEntity player, CallbackInfo ci) {
         if (player == MinecraftClient.getInstance().player) {
             boolean cancelled = M67Client.cancelChangedCharge();
             M67Client.refreshEquipment();

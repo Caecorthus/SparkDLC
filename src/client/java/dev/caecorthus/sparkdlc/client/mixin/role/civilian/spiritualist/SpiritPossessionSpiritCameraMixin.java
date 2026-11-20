@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = SpiritCameraHandler.class, remap = false)
 public abstract class SpiritPossessionSpiritCameraMixin {
     @Inject(method = "enable", at = @At("TAIL"))
-    private static void sparkstrength$keepPossessionCamera(CallbackInfo ci) {
+    private static void sparkdlc$keepPossessionCamera(CallbackInfo ci) {
         SpiritPossessionClient.onSpiritCameraEnabled(MinecraftClient.getInstance());
     }
 }

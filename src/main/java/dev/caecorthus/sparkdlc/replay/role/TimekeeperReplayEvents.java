@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.replay.role;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.record.replay.ReplayGenerator;
 import dev.doctor4t.wathe.record.replay.ReplayRegistry;
 import net.minecraft.nbt.NbtCompound;
@@ -14,7 +14,7 @@ import java.util.UUID;
  * 计时员濒毁怀表的回放文本。
  */
 public final class TimekeeperReplayEvents {
-    public static final Identifier TIMEKEEPER_WATCH_USED = SparkStrength.id("timekeeper_watch_used");
+    public static final Identifier TIMEKEEPER_WATCH_USED = SparkDLC.id("timekeeper_watch_used");
 
     private TimekeeperReplayEvents() {
     }

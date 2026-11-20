@@ -28,7 +28,7 @@ public abstract class NoellesRolesPoisonGasAffectMixin {
     private UUID ownerUuid;
 
     @ModifyReturnValue(method = "isInGas", at = @At("RETURN"), require = 0, remap = false)
-    private boolean sparkfactionapi$guardPoisonGas(boolean inGas, ServerPlayerEntity target) {
+    private boolean sparkdlc$guardPoisonGas(boolean inGas, ServerPlayerEntity target) {
         if (!inGas) {
             return false;
         }

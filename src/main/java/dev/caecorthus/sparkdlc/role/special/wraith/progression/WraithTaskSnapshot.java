@@ -38,7 +38,7 @@ public final class WraithTaskSnapshot {
         for (PlayerMoodComponent.TrainTask task : component.tasks.values()) {
             tasks.add(task.toNbt().copy());
         }
-        int timer = ((PlayerMoodComponentAccessor) component).sparkwitch$getNextTaskTimer();
+        int timer = ((PlayerMoodComponentAccessor) component).sparkdlc$getNextTaskTimer();
         return new WraithTaskSnapshot(tasks, component.timesGotten, timer);
     }
 
@@ -55,7 +55,7 @@ public final class WraithTaskSnapshot {
         }
         component.timesGotten.clear();
         component.timesGotten.putAll(timesGotten);
-        ((PlayerMoodComponentAccessor) component).sparkwitch$setNextTaskTimer(nextTaskTimer);
+        ((PlayerMoodComponentAccessor) component).sparkdlc$setNextTaskTimer(nextTaskTimer);
         component.sync();
     }
 }

@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LivingEntity.class)
 public abstract class KnightDuelLivingEntityCollisionMixin {
     @Inject(method = "pushAway(Lnet/minecraft/entity/Entity;)V", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$skipDuelistPush(Entity other, CallbackInfo ci) {
+    private void sparkdlc$skipDuelistPush(Entity other, CallbackInfo ci) {
         if (KnightDuelBodyCollision.ignoresPlayerBody((Entity) (Object) this, other)) {
             ci.cancel();
         }

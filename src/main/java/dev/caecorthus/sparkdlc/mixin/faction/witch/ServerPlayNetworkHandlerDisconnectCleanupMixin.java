@@ -25,7 +25,7 @@ public abstract class ServerPlayNetworkHandlerDisconnectCleanupMixin {
     public ServerPlayerEntity player;
 
     @Inject(method = "onDisconnected", at = @At("HEAD"))
-    private void sparkwitch$runPendingDisconnectCleanup(CallbackInfo ci) {
+    private void sparkdlc$runPendingDisconnectCleanup(CallbackInfo ci) {
         ServerDisconnectCleanup.runPending(player);
     }
 }

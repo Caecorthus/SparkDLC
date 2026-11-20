@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.timekeeper;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcDataComponents;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.civilian.timekeeper.TimekeeperWatchModeC2SPacket;
 import dev.caecorthus.sparkdlc.role.civilian.timekeeper.TimekeeperWatchMode;
 import dev.caecorthus.sparkdlc.role.civilian.timekeeper.TimekeeperConstants;
@@ -38,9 +39,9 @@ public final class TimekeeperWatchClientHooks {
 
         attackHeld = true;
         TimekeeperWatchMode next = TimekeeperWatchMode.fromOrdinal(
-                player.getMainHandStack().getOrDefault(SparkStrengthItems.TIMEKEEPER_WATCH_MODE, 0)
+                player.getMainHandStack().getOrDefault(SparkDlcDataComponents.TIMEKEEPER_WATCH_MODE, 0)
         ).next();
-        player.getMainHandStack().set(SparkStrengthItems.TIMEKEEPER_WATCH_MODE, next.ordinal());
+        player.getMainHandStack().set(SparkDlcDataComponents.TIMEKEEPER_WATCH_MODE, next.ordinal());
         player.sendMessage(
                 Text.translatable("message.sparkdlc.dying_watch.mode_changed", next.text())
                         .copy()
@@ -55,7 +56,7 @@ public final class TimekeeperWatchClientHooks {
 
     private static boolean isWatchModeSwitchAvailable(ClientPlayerEntity player) {
         GameWorldComponent game = GameWorldComponent.KEY.get(player.getWorld());
-        return player.getMainHandStack().isOf(SparkStrengthItems.dyingWatch())
+        return player.getMainHandStack().isOf(SparkDlcItems.dyingWatch())
                 && (game.isRole(player, Noellesroles.TIMEKEEPER)
                 || CoronerService.hasTimekeeperDisguise(player))
                 && GameFunctions.isPlayerPlayingAndAlive(player);

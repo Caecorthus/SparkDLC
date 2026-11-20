@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.tablet.net;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -8,7 +8,7 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 
 public record RequestTabletSnapshotC2SPacket() implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("request_tablet_snapshot");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("request_tablet_snapshot");
     public static final Id<RequestTabletSnapshotC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, RequestTabletSnapshotC2SPacket> CODEC =
             PacketCodec.of(RequestTabletSnapshotC2SPacket::write, RequestTabletSnapshotC2SPacket::read);

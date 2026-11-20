@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.undercover;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
@@ -42,7 +42,7 @@ public final class UndercoverShopService {
         if (!UndercoverRoles.isUndercover(GameWorldComponent.KEY.get(player.getWorld()).getRole(player))) {
             return;
         }
-        Item mask = SparkStrengthItems.cqcmMask();
+        Item mask = SparkDlcItems.cqcmMask();
         context.addEntry(SparkTraitsApi.discountShopEntryForCharisma(player, new ShopEntry.Builder(
                 MASK_ENTRY_ID,
                 displayStack(mask),
@@ -54,7 +54,7 @@ public final class UndercoverShopService {
     /** Server purchase handler: true charges the price, false charges nothing. / 服务端购买处理：true 扣费，false 不扣费。 */
     private static boolean buyMask(PlayerEntity buyer) {
         UndercoverPlayerComponent state = UndercoverPlayerComponent.KEY.get(buyer);
-        Item mask = SparkStrengthItems.cqcmMask();
+        Item mask = SparkDlcItems.cqcmMask();
         if (state.isMaskBought() || state.isStage2() || buyer.getInventory().contains(stack -> stack.isOf(mask))
                 || buyer.getEquippedStack(EquipmentSlot.HEAD).isOf(mask)) {
             return false;

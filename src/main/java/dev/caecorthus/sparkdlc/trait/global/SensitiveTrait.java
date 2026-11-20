@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.global;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.Trait;
 import dev.caecorthus.sparkdlc.trait.api.TraitAudience;
 import dev.caecorthus.sparkdlc.trait.api.TraitSelectionContext;
@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier;
  * 且不会出现在本来就能看到时间的身份上。击杀不再延长时间。
  */
 public final class SensitiveTrait implements Trait {
-    public static final Identifier ID = SparkTraits.id("sensitive");
+    public static final Identifier ID = SparkDLC.id("sensitive");
     public static final int COLOR = 0x7FD1E8;
 
     /** Weight of every ordinary trait; this trait rolls at a quarter of it. 普通词条的权重；本词条取其四分之一。 */

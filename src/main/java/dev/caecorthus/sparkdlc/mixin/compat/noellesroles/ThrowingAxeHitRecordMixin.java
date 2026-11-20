@@ -28,7 +28,7 @@ public abstract class ThrowingAxeHitRecordMixin {
             require = 1,
             allow = 1
     )
-    private void sparkstrength$recordAxeHit(ServerPlayerEntity victim, boolean spawnBody,
+    private void sparkdlc$recordAxeHit(ServerPlayerEntity victim, boolean spawnBody,
                                             @Nullable ServerPlayerEntity killer, Identifier deathReason,
                                             Operation<Void> original) {
         boolean deadBefore = AchievementRecords.isMarkedDead(victim);

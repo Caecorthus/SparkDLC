@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.controlexpert;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
@@ -23,7 +23,7 @@ import net.minecraft.util.TypedActionResult;
  * 未被眩晕的玩家始终得到 PASS，其他监听器之间的相对顺序保持不变。
  */
 public final class ControlExpertStunGuards {
-    public static final Identifier STUN_PHASE = SparkWitch.id("control_expert_stun");
+    public static final Identifier STUN_PHASE = SparkDLC.id("control_expert_stun");
     private static boolean registered;
 
     private ControlExpertStunGuards() {

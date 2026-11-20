@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.guidebook.ui.decor;
 
-import dev.caecorthus.sparkdlc.client.config.SparkAssistClientSettings;
-import dev.caecorthus.sparkdlc.config.SparkAssistConfig.GuidebookDecor;
+import dev.caecorthus.sparkdlc.client.config.SparkDlcClientSettings;
+import dev.caecorthus.sparkdlc.config.SparkDlcClientConfig.GuidebookDecor;
 
 /**
  * The decoration settings as the painters read them each frame, plus the developer overlay switch
@@ -16,15 +16,15 @@ public final class DecorSettings {
 
     /** -1 off, 0 light, 1 medium, 2 full. 关为 -1，轻 0，中 1，满 2。 */
     public static int density() {
-        return SparkAssistClientSettings.guidebookDecor().density();
+        return SparkDlcClientSettings.guidebookDecor().density();
     }
 
     public static boolean enabled() {
-        return SparkAssistClientSettings.guidebookDecor() != GuidebookDecor.OFF;
+        return SparkDlcClientSettings.guidebookDecor() != GuidebookDecor.OFF;
     }
 
     public static boolean foliage() {
-        return enabled() && SparkAssistClientSettings.guidebookFoliage();
+        return enabled() && SparkDlcClientSettings.guidebookFoliage();
     }
 
     public static boolean debugZones() {

@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = GameRoundEndComponent.class, remap = false)
 public abstract class GameRoundEndComponentMixin {
     @Inject(method = "readFromNbt", at = @At("TAIL"))
-    private void sparkassist$roundEndSynced(CallbackInfo ci) {
+    private void sparkdlc$roundEndSynced(CallbackInfo ci) {
         // The render thread is the client's sync; the integrated server loads its own copy on the server thread.
         // 渲染线程上的才是客户端同步；单人游戏的内置服务器在服务端线程读取它自己的副本。
         if (MinecraftClient.getInstance().isOnThread()) {

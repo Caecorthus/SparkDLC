@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.render;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.fabricmc.loader.api.FabricLoader;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
@@ -121,7 +121,7 @@ final class SmokeProgram {
      * 模组自带的着色器文件（jar，或开发环境的源集目录），任何资源包都无法覆盖。
      */
     private static String read(String name) throws IOException {
-        Path path = FabricLoader.getInstance().getModContainer(SparkWitch.MOD_ID)
+        Path path = FabricLoader.getInstance().getModContainer(SparkDLC.MOD_ID)
                 .flatMap(container -> container.findPath(SOURCE_ROOT + name))
                 .orElseThrow(() -> new IOException("missing BEAR smoke shader " + name));
         return Files.readString(path, StandardCharsets.UTF_8);

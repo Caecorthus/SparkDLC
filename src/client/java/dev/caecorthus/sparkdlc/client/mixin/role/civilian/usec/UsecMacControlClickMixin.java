@@ -37,7 +37,7 @@ public abstract class UsecMacControlClickMixin {
     @ModifyExpressionValue(method = "onMouseButton",
             at = @At(value = "FIELD", target = "Lnet/minecraft/client/MinecraftClient;IS_SYSTEM_MAC:Z",
                     opcode = Opcodes.GETSTATIC))
-    private boolean sparkwitch$keepUsecLeftPressOnMac(boolean systemMac,
+    private boolean sparkdlc$keepUsecLeftPressOnMac(boolean systemMac,
                                                       @Local(argsOnly = true, ordinal = 0) int button,
                                                       @Local(argsOnly = true, ordinal = 1) int action) {
         return systemMac && !UsecFireInput.keepsMacLeftPress(MinecraftClient.getInstance(), button, action,

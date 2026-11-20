@@ -33,7 +33,7 @@ public abstract class PartygoerPoisonGasMixin {
     private UUID ownerUuid;
 
     @Inject(method = "tick", at = @At("TAIL"))
-    private void sparkstrength$gasKillsPartygoers(CallbackInfo ci) {
+    private void sparkdlc$gasKillsPartygoers(CallbackInfo ci) {
         Entity cloud = (Entity) (Object) this;
         if (cloud.getWorld() instanceof ServerWorld world && !cloud.isRemoved()) {
             PartygoerWeaponHits.onPoisonGasTick(world, gasBlocks, ownerUuid);

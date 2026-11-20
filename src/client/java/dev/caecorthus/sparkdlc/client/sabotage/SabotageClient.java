@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.client.sabotage;
 
-import dev.caecorthus.sparkdlc.SparkStrengthBlocks;
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.SparkStrengthSounds;
+import dev.caecorthus.sparkdlc.SparkDlcBlocks;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.block.EngineUnitBlock;
 import dev.caecorthus.sparkdlc.block.JunctionBoxBlock;
 import dev.caecorthus.sparkdlc.client.role.civilian.blind.render.BlindSeeThroughOutlines;
@@ -63,7 +63,7 @@ public final class SabotageClient {
         // 客户端初始化在渲染线程上执行：只有这个线程跟随本地玩家的商店折扣。
         EngineEconomy.registerClientThread(Thread.currentThread());
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(),
-                SparkStrengthBlocks.junctionBox(), SparkStrengthBlocks.circuitBreaker(), SparkStrengthBlocks.engineUnit());
+                SparkDlcBlocks.junctionBox(), SparkDlcBlocks.circuitBreaker(), SparkDlcBlocks.engineUnit());
         ClientPlayNetworking.registerGlobalReceiver(SabotageStatusS2CPacket.ID, (payload, context) -> {
             SabotageClientState.setStatus(payload);
             EngineHalt.setClientPhase(EnginePhase.byWire(payload.enginePhaseWire()));
@@ -165,8 +165,8 @@ public final class SabotageClient {
     }
 
     static boolean holdsConfigurator(ClientPlayerEntity player) {
-        return player.getMainHandStack().isOf(SparkStrengthItems.circuitConfigurator())
-                || player.getOffHandStack().isOf(SparkStrengthItems.circuitConfigurator());
+        return player.getMainHandStack().isOf(SparkDlcItems.circuitConfigurator())
+                || player.getOffHandStack().isOf(SparkDlcItems.circuitConfigurator());
     }
 
     /**
@@ -210,7 +210,7 @@ public final class SabotageClient {
         Random random = world.random;
         for (SabotageClientState.Fixture fixture : SabotageClientState.fixtures()) {
             BlockState state = world.getBlockState(fixture.pos());
-            if (!state.isOf(SparkStrengthBlocks.engineUnit())
+            if (!state.isOf(SparkDlcBlocks.engineUnit())
                     || player.squaredDistanceTo(Vec3d.ofCenter(fixture.pos())) > SPARK_RANGE_SQ) {
                 continue;
             }
@@ -263,7 +263,7 @@ public final class SabotageClient {
         Random random = world.random;
         for (SabotageClientState.Fixture fixture : SabotageClientState.fixtures()) {
             BlockState state = world.getBlockState(fixture.pos());
-            if (!state.isOf(SparkStrengthBlocks.junctionBox())) {
+            if (!state.isOf(SparkDlcBlocks.junctionBox())) {
                 continue;
             }
             JunctionBoxState look = state.get(JunctionBoxBlock.STATE);
@@ -288,7 +288,7 @@ public final class SabotageClient {
                 world.addParticle(ParticleTypes.SMOKE, front.x, front.y + 0.1, front.z, 0.0, 0.02, 0.0);
             }
             if (random.nextFloat() < 0.012F) {
-                world.playSound(front.x, front.y, front.z, SparkStrengthSounds.JUNCTION_BOX_SPARK, SoundCategory.BLOCKS,
+                world.playSound(front.x, front.y, front.z, SparkDlcSounds.JUNCTION_BOX_SPARK, SoundCategory.BLOCKS,
                         0.35F, 0.9F + random.nextFloat() * 0.3F, false);
             }
             if (look == JunctionBoxState.HACKED && world.getTime() % 20 < 10 && random.nextFloat() < 0.5F) {

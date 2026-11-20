@@ -36,9 +36,9 @@ public final class BodyguardRules {
     /**
      * SparkWitch's USEC AXMC never pierces the shield; a blocked round costs by type (owner 2026-10-07): FMJ 10 points,
      * AP 25, so an AP block always breaks a base-bar shield. The ids are SparkWitch's frozen round ids
-     * ({@code SparkWitchApi.piercingShotAmmoId}).
+     * ({@code SparkRoleApi.piercingShotAmmoId}).
      * SparkWitch 的 USEC AXMC 从不击穿盾牌；被挡下的子弹按弹种消耗体力（所有者 2026-10-07）：FMJ 10 点，AP 25 点，因此 AP
-     * 格挡总会打破基础体力条的盾。id 为 SparkWitch 冻结的弹种 id（{@code SparkWitchApi.piercingShotAmmoId}）。
+     * 格挡总会打破基础体力条的盾。id 为 SparkWitch 冻结的弹种 id（{@code SparkRoleApi.piercingShotAmmoId}）。
      */
     public static final String AXMC_FMJ_ROUND_ID = "fmj";
     public static final String AXMC_AP_ROUND_ID = "ap";

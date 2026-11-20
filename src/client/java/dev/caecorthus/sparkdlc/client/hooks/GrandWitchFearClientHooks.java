@@ -61,7 +61,7 @@ public final class GrandWitchFearClientHooks {
         if (!SparkDlcServerConnection.isConfirmedServer()
                 || !originalPressed
                 || keyBinding == null
-                || !WitchAbilityKeyBridge.SHARED_ABILITY_TRANSLATION_KEY.equals(keyBinding.getTranslationKey())) {
+                || !AbilityKeyBridge.SHARED_ABILITY_TRANSLATION_KEY.equals(keyBinding.getTranslationKey())) {
             return false;
         }
         ClientPlayerEntity player = MinecraftClient.getInstance().player;

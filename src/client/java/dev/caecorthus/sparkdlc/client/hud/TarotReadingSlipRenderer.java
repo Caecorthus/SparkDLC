@@ -5,7 +5,7 @@ import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotDivinationC
 import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotLedgerPaint;
 import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotReadingLog;
 import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotReadingSlipLayout;
-import dev.caecorthus.sparkdlc.client.text.WitchRoleDisplayTexts;
+import dev.caecorthus.sparkdlc.client.text.RoleDisplayTexts;
 import dev.caecorthus.sparkdlc.net.OpenTarotDivinationSelectorS2CPacket;
 import dev.caecorthus.sparkdlc.util.RoleDisplayTextRules;
 import dev.doctor4t.wathe.api.Role;
@@ -109,7 +109,7 @@ public final class TarotReadingSlipRenderer {
             Role role = roleId == null ? null : WatheRoles.getRole(roleId);
             return role == null
                     ? Text.literal(reading.target())
-                    : WitchRoleDisplayTexts.roleName(RoleDisplayTextRules.roleTranslationKey(role));
+                    : RoleDisplayTexts.roleName(RoleDisplayTextRules.roleTranslationKey(role));
         }
         return Text.literal(reading.displayName().isEmpty() ? reading.target() : reading.displayName());
     }

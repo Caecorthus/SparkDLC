@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.faction.witch;
 
 import dev.caecorthus.sparkdlc.faction.api.ThirdFactionDrawContext;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.doctor4t.wathe.api.Role;
 
 import java.util.ArrayList;
@@ -10,11 +10,11 @@ import java.util.function.Predicate;
 
 /**
  * Thin SparkFactionAPI adapter for the witch faction's third-faction lineup (registered in
- * {@code SparkWitchRoleRegistry} as a method reference): reads the draw context and maps
+ * {@code SparkDlcRoleRegistry} as a method reference): reads the draw context and maps
  * {@link WitchThirdFactionLineupRules} seats to roles. Pure: it never writes a role, the RNG or any state; SparkFactionAPI
  * deals the returned roles. The Grand Witch's appearance condition is ignored on purpose (it is always false): the
  * draw's own player minimum governs.
- * 魔女阵营“第三阵营”阵容的 SparkFactionAPI 薄适配层（在 {@code SparkWitchRoleRegistry} 中以方法引用注册）：读取抽取上下文，
+ * 魔女阵营“第三阵营”阵容的 SparkFactionAPI 薄适配层（在 {@code SparkDlcRoleRegistry} 中以方法引用注册）：读取抽取上下文，
  * 把 {@link WitchThirdFactionLineupRules} 的席位映射为职业。纯函数：从不写入职业、随机数或任何状态；由 SparkFactionAPI
  * 发放返回的职业。刻意不读取大魔女的出现条件（恒为 false）：由抽取自身的最低人数决定。
  */
@@ -27,8 +27,8 @@ public final class WitchThirdFactionLineup {
                 context.presentMembers(),
                 context.remainingSlots(),
                 context.gameComponent()::isRoleEnabled,
-                SparkWitchRoles.grandWitch(),
-                SparkWitchRoles.bewitched()
+                SparkDlcRoles.grandWitch(),
+                SparkDlcRoles.bewitched()
         );
     }
 

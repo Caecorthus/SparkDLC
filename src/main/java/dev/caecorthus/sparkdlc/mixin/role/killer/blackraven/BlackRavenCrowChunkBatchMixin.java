@@ -25,7 +25,7 @@ public abstract class BlackRavenCrowChunkBatchMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/server/network/ServerPlayerEntity;getChunkPos()Lnet/minecraft/util/math/ChunkPos;")
     )
-    private ChunkPos sparkwitch$batchAroundCrow(ChunkPos original,
+    private ChunkPos sparkdlc$batchAroundCrow(ChunkPos original,
                                                 @Local(argsOnly = true) ServerPlayerEntity player) {
         BlackRavenCrowEntity crow = BlackRavenCrowStreaming.focusOf(player);
         return crow == null ? original : crow.getChunkPos();

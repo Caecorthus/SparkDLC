@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.detective;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCasePlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCaseWorldComponent;
@@ -55,7 +55,7 @@ public final class DetectiveCaseService {
     // PlayerBodyEntity.getPlayerUuid() returns this Wathe sentinel while the owner is unset.
     // Wathe 尸体未设置主人时 getPlayerUuid() 返回的占位 UUID。
     private static final UUID UNSET_BODY_OWNER = UUID.fromString("25adae11-cd98-48f4-990b-9fe1b2ee0886");
-    private static final Identifier MAGNIFIER_ACTION_ID = SparkStrength.id("detective_magnifier");
+    private static final Identifier MAGNIFIER_ACTION_ID = SparkDLC.id("detective_magnifier");
     private static final String MESSAGE_PREFIX = "message.sparkdlc.detective.";
     // Minimum gap between the defensive pre-open folder syncs of one player. 同一玩家打开前保险同步的最小间隔。
     private static final int OPEN_SYNC_MIN_INTERVAL_TICKS = 10;
@@ -294,7 +294,7 @@ public final class DetectiveCaseService {
     public static boolean isDetectiveKit(ItemStack stack) {
         return stack != null
                 && !stack.isEmpty()
-                && (stack.isOf(SparkStrengthItems.magnifier()) || stack.isOf(SparkStrengthItems.caseFolder()));
+                && (stack.isOf(SparkDlcItems.magnifier()) || stack.isOf(SparkDlcItems.caseFolder()));
     }
 
     /**
@@ -463,7 +463,7 @@ public final class DetectiveCaseService {
             answer(user, selected == null ? null : selected.getCaseId(), targetUuid, folderOutcome, 0);
             return;
         }
-        Item magnifier = SparkStrengthItems.magnifier();
+        Item magnifier = SparkDlcItems.magnifier();
         if (user.getItemCooldownManager().isCoolingDown(magnifier)) {
             // The roster greys out while cooling down; a request racing the cooldown is dropped.
             // 冷却期间名单不可点击；与冷却赛跑的请求直接丢弃。
@@ -566,7 +566,7 @@ public final class DetectiveCaseService {
 
     /** The roster is opened from the magnifier, so asking still needs it in hand. / 名单由放大镜打开，审问时仍须手持放大镜。 */
     private static boolean isHoldingMagnifier(ServerPlayerEntity player) {
-        Item magnifier = SparkStrengthItems.magnifier();
+        Item magnifier = SparkDlcItems.magnifier();
         return player.getMainHandStack().isOf(magnifier) || player.getOffHandStack().isOf(magnifier);
     }
 
@@ -587,8 +587,8 @@ public final class DetectiveCaseService {
     private static void grantKit(ServerPlayerEntity player) {
         // RoleAssigned can fire more than once per round; scan every slot so the kit never duplicates.
         // RoleAssigned 每局可能触发多次；扫描所有槽位，避免重复发放。
-        giveIfMissing(player, SparkStrengthItems.magnifier());
-        giveIfMissing(player, SparkStrengthItems.caseFolder());
+        giveIfMissing(player, SparkDlcItems.magnifier());
+        giveIfMissing(player, SparkDlcItems.caseFolder());
     }
 
     private static void giveIfMissing(ServerPlayerEntity player, Item item) {

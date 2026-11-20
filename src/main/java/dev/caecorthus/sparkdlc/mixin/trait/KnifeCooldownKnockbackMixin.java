@@ -27,7 +27,7 @@ public abstract class KnifeCooldownKnockbackMixin {
                     target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"
             )
     )
-    private boolean sparktraits$applyKnifeCooldownKnockback(Entity target, DamageSource source, float amount) {
+    private boolean sparkdlc$applyKnifeCooldownKnockback(Entity target, DamageSource source, float amount) {
         Vec3d previousVelocity = target.getVelocity();
         boolean damageSucceeded = target.damage(source, amount);
         PlayerEntity attacker = (PlayerEntity) (Object) this;
@@ -55,7 +55,7 @@ public abstract class KnifeCooldownKnockbackMixin {
                 target.isInvulnerableTo(source),
                 target.timeUntilRegen,
                 amount,
-                cooldown.sparktraits$getLastDamageTaken()
+                cooldown.sparkdlc$getLastDamageTaken()
         );
     }
 

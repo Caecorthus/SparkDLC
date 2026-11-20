@@ -42,7 +42,7 @@ public abstract class SeekerGunTargetMixin {
                             target = "Ldev/doctor4t/wathe/item/DerringerItem;getGunTarget(Lnet/minecraft/entity/player/PlayerEntity;)Lnet/minecraft/util/hit/HitResult;",
                             remap = false)
             })
-    private HitResult sparkwitch$preferNearerSeekerDevice(PlayerEntity user, Operation<HitResult> original) {
+    private HitResult sparkdlc$preferNearerSeekerDevice(PlayerEntity user, Operation<HitResult> original) {
         HitResult result = original.call(user);
         double range = (Object) this instanceof DerringerItem ? SPARKWITCH$DERRINGER_RANGE : SPARKWITCH$REVOLVER_RANGE;
         return SeekerDeviceRaycast.preferNearerDevice(user, result, range);

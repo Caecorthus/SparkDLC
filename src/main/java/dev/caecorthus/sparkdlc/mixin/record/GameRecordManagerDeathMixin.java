@@ -25,7 +25,7 @@ public abstract class GameRecordManagerDeathMixin {
             ),
             index = 4
     )
-    private static NbtCompound sparkfactionapi$addKillStartFields(
+    private static NbtCompound sparkdlc$addKillStartFields(
             ServerWorld world,
             String type,
             ServerPlayerEntity killer,

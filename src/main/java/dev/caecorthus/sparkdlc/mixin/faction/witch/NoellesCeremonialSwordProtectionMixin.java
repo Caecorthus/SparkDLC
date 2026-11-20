@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = Noellesroles.class, remap = false)
 public abstract class NoellesCeremonialSwordProtectionMixin {
     @Inject(method = "lambda$registerEvents$5", at = @At("HEAD"), cancellable = true, require = 1, allow = 1)
-    private static void sparkwitch$consumeWithoutBlocking(ServerPlayerEntity victim,
+    private static void sparkdlc$consumeWithoutBlocking(ServerPlayerEntity victim,
             @Nullable ServerPlayerEntity killer, Identifier deathReason,
             CallbackInfoReturnable<KillPlayer.KillResult> cir) {
         if (!CeremonialSwordProtectionPolicy.pierces(deathReason)

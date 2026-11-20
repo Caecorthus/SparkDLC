@@ -26,7 +26,7 @@ public abstract class FisherHeldItemFeatureRendererMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$hideGlimmeringHeldItems(
+    private void sparkdlc$hideGlimmeringHeldItems(
             MatrixStack matrices,
             VertexConsumerProvider vertexConsumers,
             int light,

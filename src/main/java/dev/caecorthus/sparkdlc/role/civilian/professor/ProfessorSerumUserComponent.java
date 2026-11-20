@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.professor;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.component.OwnerCooldownComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
@@ -14,7 +14,7 @@ import org.ladysnake.cca.api.v3.component.ComponentRegistry;
  */
 public class ProfessorSerumUserComponent extends OwnerCooldownComponent {
     public static final ComponentKey<ProfessorSerumUserComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("professor_serum_user"),
+            SparkDLC.id("professor_serum_user"),
             ProfessorSerumUserComponent.class
     );
 

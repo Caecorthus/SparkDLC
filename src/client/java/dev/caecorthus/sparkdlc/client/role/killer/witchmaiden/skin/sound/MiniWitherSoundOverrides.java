@@ -46,7 +46,7 @@ import java.util.concurrent.CompletableFuture;
  * 文件的槽位播放原版。
  */
 public final class MiniWitherSoundOverrides {
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkWitch/MiniWitherSoundOverrides");
+    private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/MiniWitherSoundOverrides");
     /** Vanilla's sounds.json defaults (volume, pitch, weight 1; 16-block attenuation). / 原版 sounds.json 默认值。 */
     private static final FloatSupplier UNIT = random -> 1.0F;
     private static final int ATTENUATION = 16;

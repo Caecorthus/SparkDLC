@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(targets = "org.agmas.noellesroles.util.HiddenEquipmentHelper", remap = false)
 public abstract class NoellesHiddenEquipmentHelperMixin {
     @Inject(method = "shouldHideItem", at = @At("RETURN"), cancellable = true, remap = false, require = 0)
-    private static void sparkfactionapi$includeRegisteredItems(
+    private static void sparkdlc$includeRegisteredItems(
             ItemStack stack,
             PlayerEntity holder,
             CallbackInfoReturnable<Boolean> cir

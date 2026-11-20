@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 
 /**
  * Publishes blackout-only Going Dark state through SparkTraits' synced player component.
@@ -24,17 +24,17 @@ public abstract class WorldBlackoutComponentMixin {
     // Every light's duration passes through here before it feeds both the light and the blackout timer.
     // 每盏灯的时长在写入灯具与关灯计时前都会经过这里。
     @ModifyVariable(method = "triggerBlackout", at = @At("STORE"), name = "duration")
-    private int sparktraits$extendMasterSaboteurBlackout(int duration) {
+    private int sparkdlc$extendMasterSaboteurBlackout(int duration) {
         return KillerTraitService.masterSaboteurBlackoutDuration(duration);
     }
 
     @Inject(method = "applyBlackoutEffects", at = @At("TAIL"))
-    private void sparktraits$syncGoingDarkDuringBlackout(ServerWorld serverWorld, CallbackInfo ci) {
+    private void sparkdlc$syncGoingDarkDuringBlackout(ServerWorld serverWorld, CallbackInfo ci) {
         GoingDarkSyncService.sync(serverWorld, isBlackoutActive());
     }
 
     @Inject(method = "removeBlackoutEffects", at = @At("TAIL"))
-    private void sparktraits$clearGoingDarkAfterBlackout(ServerWorld serverWorld, CallbackInfo ci) {
+    private void sparkdlc$clearGoingDarkAfterBlackout(ServerWorld serverWorld, CallbackInfo ci) {
         GoingDarkSyncService.sync(serverWorld, false);
     }
 }

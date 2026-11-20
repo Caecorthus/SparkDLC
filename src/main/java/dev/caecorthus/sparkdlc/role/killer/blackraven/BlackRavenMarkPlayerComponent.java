@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import java.util.UUID;
 import net.minecraft.entity.player.PlayerEntity;
@@ -30,7 +30,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
  */
 public final class BlackRavenMarkPlayerComponent implements AutoSyncedComponent, ServerTickingComponent {
     public static final ComponentKey<BlackRavenMarkPlayerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("black_raven_mark"),
+            SparkDLC.id("black_raven_mark"),
             BlackRavenMarkPlayerComponent.class
     );
 

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.civilian.depression;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.civilian.CivilianTraits;
 import dev.caecorthus.sparkdlc.trait.global.GlobalTraitService;
@@ -18,7 +18,7 @@ import net.minecraft.util.Identifier;
  * 抑郁在疯魔之外的常驻体力惩罚：最大冲刺时间 -20% 的修正与更慢的体力恢复。
  */
 public final class DepressionStaminaPenalty {
-    public static final Identifier DEPRESSION_STAMINA_MODIFIER_ID = SparkTraits.id("depression_stamina");
+    public static final Identifier DEPRESSION_STAMINA_MODIFIER_ID = SparkDLC.id("depression_stamina");
     public static final double DEPRESSION_STAMINA_MODIFIER_VALUE = -0.2;
     private static final EntityAttributeModifier DEPRESSION_STAMINA_MODIFIER = new EntityAttributeModifier(
             DEPRESSION_STAMINA_MODIFIER_ID,

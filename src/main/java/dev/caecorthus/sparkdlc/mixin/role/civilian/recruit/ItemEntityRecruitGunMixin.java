@@ -31,7 +31,7 @@ public abstract class ItemEntityRecruitGunMixin {
 
     @Inject(method = "onPlayerCollision(Lnet/minecraft/entity/player/PlayerEntity;)V", at = @At("HEAD"),
             cancellable = true)
-    private void sparkwitch$blockSecondRecruitGun(PlayerEntity player, CallbackInfo ci) {
+    private void sparkdlc$blockSecondRecruitGun(PlayerEntity player, CallbackInfo ci) {
         if (RecruitRules.blocksGunPickup(player, this.getStack())) {
             ci.cancel();
         }
@@ -40,7 +40,7 @@ public abstract class ItemEntityRecruitGunMixin {
     @Inject(method = "onPlayerCollision(Lnet/minecraft/entity/player/PlayerEntity;)V",
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/entity/player/PlayerEntity;sendPickup(Lnet/minecraft/entity/Entity;I)V"))
-    private void sparkwitch$recordRecruitGunPickup(PlayerEntity player, CallbackInfo ci, @Local Item item) {
+    private void sparkdlc$recordRecruitGunPickup(PlayerEntity player, CallbackInfo ci, @Local Item item) {
         RecruitRuntime.onGroundPickup(player, item);
     }
 }

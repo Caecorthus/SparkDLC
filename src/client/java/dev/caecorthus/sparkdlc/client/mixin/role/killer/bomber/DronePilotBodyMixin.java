@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class DronePilotBodyMixin {
     @Inject(method = "tickMovement", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/input/Input;tick(ZF)V", shift = At.Shift.AFTER))
-    private void sparkstrength$holdBodyStillWhilePiloting(CallbackInfo ci) {
+    private void sparkdlc$holdBodyStillWhilePiloting(CallbackInfo ci) {
         DronePilotClient.holdBodyStill((ClientPlayerEntity) (Object) this);
     }
 }

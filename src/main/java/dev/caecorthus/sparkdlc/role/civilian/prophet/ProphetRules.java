@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.prophet;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -10,8 +10,8 @@ import org.jetbrains.annotations.Nullable;
  * 先知身份、被动「死亡感知」计时与「预言」技能常量。
  */
 public final class ProphetRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("prophet");
-    public static final Identifier PROPHECY_ID = SparkWitch.id("prophecy");
+    public static final Identifier ROLE_ID = SparkDLC.id("prophet");
+    public static final Identifier PROPHECY_ID = SparkDLC.id("prophecy");
     public static final int ROLE_COLOR = 0xD4AF37;
     public static final int CORPSE_HIGHLIGHT_COLOR = 0xFF3030;
     public static final int CORPSE_HIGHLIGHT_PRIORITY = 90;

@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.recruit;
 
 import dev.caecorthus.sparkdlc.faction.api.FactionIds;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.index.tag.WatheItemTags;
@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
  * 获得 Wathe 的刀。
  */
 public final class RecruitRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("recruit");
+    public static final Identifier ROLE_ID = SparkDLC.id("recruit");
     /**
      * Slightly lighter than Wathe's Veteran ({@code 0x4A7023}) and darker than the Orthopedist ({@code 0x90B358}).
      * 比 Wathe 老兵（{@code 0x4A7023}）稍浅，比骨科大夫（{@code 0x90B358}）深。

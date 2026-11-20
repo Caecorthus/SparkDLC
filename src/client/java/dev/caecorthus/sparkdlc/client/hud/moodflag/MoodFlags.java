@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.hud.moodflag;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
@@ -75,13 +75,13 @@ public final class MoodFlags {
      * 职业 id 到其自有旗帜。NoellesRoles 的 id 为字面量（不引用其类），以随附的 jar 为准。
      */
     static final Map<Identifier, Identifier> ROLE_FLAGS = Map.ofEntries(
-            Map.entry(SparkWitchRoles.GRAND_WITCH_ID, GRAND_WITCH),
-            Map.entry(SparkWitchRoles.BEWITCHED_ID, BEWITCHED),
-            Map.entry(SparkWitchRoles.MURDEROUS_WITCH_ID, MURDEROUS_WITCH),
-            Map.entry(SparkWitchRoles.INSIDER_ID, INSIDER),
+            Map.entry(SparkDlcRoles.GRAND_WITCH_ID, GRAND_WITCH),
+            Map.entry(SparkDlcRoles.BEWITCHED_ID, BEWITCHED),
+            Map.entry(SparkDlcRoles.MURDEROUS_WITCH_ID, MURDEROUS_WITCH),
+            Map.entry(SparkDlcRoles.INSIDER_ID, INSIDER),
             Map.entry(InsiderRules.CORRUPT_COP_ID, CORRUPT_COP),
-            Map.entry(SparkWitchRoles.FIEND_ID, FIEND),
-            Map.entry(SparkWitchRoles.KOKO_ID, KOKO),
+            Map.entry(SparkDlcRoles.FIEND_ID, FIEND),
+            Map.entry(SparkDlcRoles.KOKO_ID, KOKO),
             Map.entry(Identifier.of("noellesroles", "jester"), JESTER),
             Map.entry(Identifier.of("noellesroles", "pathogen"), PATHOGEN),
             Map.entry(Identifier.of("noellesroles", "taotie"), TAOTIE),
@@ -220,6 +220,6 @@ public final class MoodFlags {
     }
 
     private static Identifier flag(String name) {
-        return SparkWitch.id("hud/mood_flag/" + name);
+        return SparkDLC.id("hud/mood_flag/" + name);
     }
 }

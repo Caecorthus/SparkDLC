@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven.crow.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -17,7 +17,7 @@ import net.minecraft.util.Identifier;
  */
 public record BlackRavenCrowCorrectionS2CPayload(int crowEntityId, double x, double y, double z, float yaw,
                                                  float pitch) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("black_raven_crow_correction");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("black_raven_crow_correction");
     public static final Id<BlackRavenCrowCorrectionS2CPayload> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, BlackRavenCrowCorrectionS2CPayload> CODEC =
             PacketCodec.of(BlackRavenCrowCorrectionS2CPayload::write, BlackRavenCrowCorrectionS2CPayload::read);

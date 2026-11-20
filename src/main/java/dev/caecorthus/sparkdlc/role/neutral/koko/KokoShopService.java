@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.koko;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.TraitShopEntries;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.api.event.CanSeeMoney;
@@ -19,13 +19,13 @@ import org.jetbrains.annotations.Nullable;
  * only knows coins, so this follows the Riftwalker Rift Gate pattern: a 0-coin entry whose {@code onBuy} charges the
  * traffic on the server, atomically with the hotbar insert, and a deny-only {@code ShopPurchase.BEFORE} that explains
  * a refusal and never allows, so later listeners still run. The list is built on both sides from the exact synced role
- * only (Wathe caches stock limits during STARTING). The client labels the price through {@code WitchShopClientTexts}.
+ * only (Wathe caches stock limits during STARTING). The client labels the price through {@code ShopCurrencyTexts}.
  * <p>She earns and holds no coins, so {@code CanSeeMoney} answers DENY for her: the coin counter stays hidden and her
  * traffic is drawn by her own HUD. SparkTraits entries that were added first are kept across the rebuild.
  * 可可的商店：只卖一根应援棒，以流量支付，每局限购一根（所有者 2026-11-13：不卖刀和撬锁器）。Wathe 的商店只认金币，因此沿用
  * 隙行者裂隙门的做法：0 金币条目，在服务端的 {@code onBuy} 中扣除流量，并与放入快捷栏原子执行；{@code ShopPurchase.BEFORE}
  * 只负责说明拒绝原因、从不返回允许，后续监听器仍会运行。列表在两端只按已同步的精确职业构建（Wathe 在 STARTING 阶段缓存库存
- * 上限）。客户端通过 {@code WitchShopClientTexts} 显示价格。
+ * 上限）。客户端通过 {@code ShopCurrencyTexts} 显示价格。
  * <p>她不赚也不持有金币，因此 {@code CanSeeMoney} 对她返回 DENY：金币计数保持隐藏，流量由她自己的 HUD 绘制。此前已加入的
  * SparkTraits 条目在重建时保留。
  */
@@ -59,7 +59,7 @@ public final class KokoShopService {
     static ShopEntry lightstickEntry() {
         return new ShopEntry.Builder(
                 KokoRules.LIGHTSTICK_SHOP_ENTRY_ID,
-                SparkWitchItems.kokoLightstick().getDefaultStack(),
+                SparkDlcItems.kokoLightstick().getDefaultStack(),
                 0,
                 ShopEntry.Type.TOOL
         ).stock(KokoRules.LIGHTSTICK_STOCK)
@@ -101,7 +101,7 @@ public final class KokoShopService {
         if (!state.spendTraffic(KokoRules.LIGHTSTICK_PRICE)) {
             return false;
         }
-        if (!ShopEntry.insertStackInFreeSlot(buyer, new ItemStack(SparkWitchItems.kokoLightstick()))) {
+        if (!ShopEntry.insertStackInFreeSlot(buyer, new ItemStack(SparkDlcItems.kokoLightstick()))) {
             state.addTraffic(KokoRules.LIGHTSTICK_PRICE);
             return false;
         }

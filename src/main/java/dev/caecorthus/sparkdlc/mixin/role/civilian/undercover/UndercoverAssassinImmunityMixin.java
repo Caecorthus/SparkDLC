@@ -34,7 +34,7 @@ public abstract class UndercoverAssassinImmunityMixin {
             require = 0,
             remap = false
     )
-    private static void sparkstrength$stage2UndercoverCannotBeAssassinated(
+    private static void sparkdlc$stage2UndercoverCannotBeAssassinated(
             AssassinGuessRoleC2SPacket payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci

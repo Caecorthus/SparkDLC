@@ -6,7 +6,7 @@ import dev.caecorthus.sparkdlc.command.admin.CooldownCommand;
 import dev.caecorthus.sparkdlc.command.admin.SanityCommand;
 import dev.caecorthus.sparkdlc.command.admin.TaskCommand;
 import dev.caecorthus.sparkdlc.command.replay.ReplayCommand;
-import dev.caecorthus.sparkdlc.command.trait.SparkTraitsCommands;
+import dev.caecorthus.sparkdlc.command.trait.TraitCommands;
 import dev.caecorthus.sparkdlc.legacy.LegacyCommandAliases;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.server.command.ServerCommandSource;
@@ -61,11 +61,11 @@ public final class SparkDlcCommands {
 
         // Tablet, detective and player-state commands (op level 2), with their three misspelt aliases.
         // 平板、侦探与玩家状态命令（2 级 OP），以及它们的三个拼写别名。
-        SparkStrengthCommands.register(dispatcher);
+        RoleKitCommands.register(dispatcher);
 
         // Trait commands (op level 2; listTraits and the traitSlotRollChance query are open).
         // 词条命令（2 级 OP；listTraits 与 traitSlotRollChance 的查询不设限制）。
-        SparkTraitsCommands.register(dispatcher);
+        TraitCommands.register(dispatcher);
 
         // Witch faction commands (one node each) and the ghost branch of /wathe:gameSettings.
         // 魔女阵营命令（各有一个节点）以及 /wathe:gameSettings 的 ghost 分支。

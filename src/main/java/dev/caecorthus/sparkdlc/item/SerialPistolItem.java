@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.item;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.net.SerialPistolShootC2SPayload;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerHitGeometry;
 import dev.caecorthus.sparkdlc.role.killer.serialkiller.SerialKillerConstants;
@@ -28,8 +28,8 @@ public final class SerialPistolItem extends RevolverItem {
     /** The main pistol fires only from the main hand, the left pistol only from the off hand. / 主手枪只在主手、左持枪只在副手开火。 */
     public static boolean isPistolForHand(ItemStack stack, Hand hand) {
         return hand == Hand.MAIN_HAND
-                ? stack.isOf(SparkStrengthItems.serialPistol())
-                : hand == Hand.OFF_HAND && stack.isOf(SparkStrengthItems.serialLeftPistol());
+                ? stack.isOf(SparkDlcItems.serialPistol())
+                : hand == Hand.OFF_HAND && stack.isOf(SparkDlcItems.serialLeftPistol());
     }
 
     /** Either serial pistol, regardless of slot. / 任一把连环手枪（不论所在槽位）。 */
@@ -51,7 +51,7 @@ public final class SerialPistolItem extends RevolverItem {
             // A Partygoer strictly nearer than that pick takes the shot (the server re-validates and kills it).
             // 严格比该选择更近的派对客改为中枪（服务端复核并将其击杀）。
             HitResult aim = PartygoerHitGeometry.preferNearer(user,
-                    SparkWitchApi.preferNearerGunWorldTarget(user, RevolverItem.getGunTarget(user),
+                    SparkRoleApi.preferNearerGunWorldTarget(user, RevolverItem.getGunTarget(user),
                             SerialKillerConstants.PISTOL_RANGE_BLOCKS),
                     SerialKillerConstants.PISTOL_RANGE_BLOCKS);
             int targetId = RevolverItem.resolveTargetFromHitResult(world, aim);

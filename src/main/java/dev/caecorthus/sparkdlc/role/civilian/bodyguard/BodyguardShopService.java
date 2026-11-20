@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.bodyguard;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.civilian.bodyguard.BodyguardGearComponent;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.util.ShopStacks;
@@ -35,7 +35,7 @@ public final class BodyguardShopService {
         if (!BodyguardRules.isBodyguard(GameWorldComponent.KEY.get(player.getWorld()).getRole(player))) {
             return;
         }
-        Item vest = SparkStrengthItems.bodyguardVest();
+        Item vest = SparkDlcItems.bodyguardVest();
         context.addEntry(SparkTraitsApi.discountShopEntryForCharisma(player, new ShopEntry.Builder(
                 BodyguardRules.VEST_ENTRY_ID,
                 ShopStacks.display(vest.getDefaultStack(), "shop.sparkdlc.bodyguard_vest"),
@@ -43,7 +43,7 @@ public final class BodyguardShopService {
                 ShopEntry.Type.TOOL
         ).actualStack(vest.getDefaultStack()).stock(BodyguardRules.ENTRY_STOCK)
                 .onBuy(BodyguardShopService::buyVest).build()));
-        Item shield = SparkStrengthItems.democracyShield();
+        Item shield = SparkDlcItems.democracyShield();
         context.addEntry(SparkTraitsApi.discountShopEntryForCharisma(player, new ShopEntry.Builder(
                 BodyguardRules.SHIELD_ENTRY_ID,
                 ShopStacks.display(shield.getDefaultStack(), "shop.sparkdlc.democracy_shield"),
@@ -63,7 +63,7 @@ public final class BodyguardShopService {
         // A real chest piece: it lands in the hotbar and only protects once right-clicked on (owner rule 2026-10-08).
         // 真正的胸甲：放进快捷栏，右键穿上后才生效（所有者规则 2026-10-08）。
         BodyguardGearComponent gear = BodyguardGearComponent.KEY.get(buyer);
-        Item vest = SparkStrengthItems.bodyguardVest();
+        Item vest = SparkDlcItems.bodyguardVest();
         if (gear.isVestBought() || buyer.getInventory().contains(stack -> stack.isOf(vest))) {
             return false;
         }
@@ -76,7 +76,7 @@ public final class BodyguardShopService {
 
     private static boolean buyShield(PlayerEntity buyer) {
         BodyguardGearComponent gear = BodyguardGearComponent.KEY.get(buyer);
-        Item shield = SparkStrengthItems.democracyShield();
+        Item shield = SparkDlcItems.democracyShield();
         if (gear.isShieldBought() || buyer.getInventory().contains(stack -> stack.isOf(shield))) {
             return false;
         }

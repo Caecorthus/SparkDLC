@@ -23,11 +23,11 @@ import java.util.UUID;
  * {@link BearRicochetRules#TUNNEL_RADIUS} capsule ({@code SmokeCloudService.carveTunnel}), every blast a hole
  * ({@code carveHole}). Purely visual (smoke never feeds a server rule) and cheap when no smoke exists: the smoke service
  * returns early. Server thread only; a client world or a degenerate segment is ignored. SparkStrength's M67 and drone
- * use the public {@code SparkWitchApi.carveSmoke} instead.
+ * use the public {@code SparkRoleApi.carveSmoke} instead.
  * 让远程攻击在 BEAR 烟雾中开洞的一行式调用点（S3 + 弹道通道）：每条命中扫描射线开出半径 {@link BearRicochetRules#TUNNEL_RADIUS}
  * 的胶囊（{@code SmokeCloudService.carveTunnel}），每次爆炸开一个洞（{@code carveHole}）。纯视觉（烟雾从不影响服务端规则），
  * 没有烟时开销极小：烟雾服务会提前返回。仅限服务端线程；客户端世界或退化线段会被忽略。SparkStrength 的 M67 与无人机改用公开的
- * {@code SparkWitchApi.carveSmoke}。
+ * {@code SparkRoleApi.carveSmoke}。
  */
 public final class RangedSmokeCarve {
     /**

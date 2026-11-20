@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(AbstractMinecartEntity.class)
 public abstract class LastEscapeMinecartPushMixin {
     @Inject(method = "pushAwayFrom(Lnet/minecraft/entity/Entity;)V", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$escapeMinecartPush(Entity other, CallbackInfo ci) {
+    private void sparkdlc$escapeMinecartPush(Entity other, CallbackInfo ci) {
         if (LastEscapeService.blocksEntityCollision((Entity) (Object) this, other)) ci.cancel();
     }
 }

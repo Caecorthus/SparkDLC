@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = WatheClient.class, remap = false, priority = 2000)
 public abstract class BlackRavenInstinctPriorityMixin {
     @Inject(method = "getInstinctHighlight", at = @At("HEAD"), cancellable = true)
-    private static void sparkwitch$prioritizeBlackRavenXray(
+    private static void sparkdlc$prioritizeBlackRavenXray(
             Entity target,
             CallbackInfoReturnable<Integer> cir
     ) {

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.savior;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.lambdaurora.lambdynlights.api.DynamicLightHandlers;
 import dev.lambdaurora.lambdynlights.api.DynamicLightsInitializer;
 import dev.lambdaurora.lambdynlights.api.item.ItemLightSourceManager;
@@ -51,6 +51,6 @@ public final class SaviorDynamicLightsInitializer implements DynamicLightsInitia
     }
 
     private static boolean isPistol(ItemStack stack) {
-        return stack.isOf(SparkWitchItems.saviorPistol());
+        return stack.isOf(SparkDlcItems.saviorPistol());
     }
 }

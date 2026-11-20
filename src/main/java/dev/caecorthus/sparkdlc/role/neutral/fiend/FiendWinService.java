@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.fiend;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.event.CheckWinCondition;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -29,7 +29,7 @@ import java.util.UUID;
  * 被吞噬的魔人绝不获胜，并被登记为已耗尽。魔人存活且时刻完成：魔人独自获胜。其余情况暂停所有其他胜利，包括 TIME（D2）。
  */
 public final class FiendWinService {
-    public static final Identifier PHASE = SparkWitch.id("fiend_moment_win");
+    public static final Identifier PHASE = SparkDLC.id("fiend_moment_win");
     private static boolean registered;
 
     private FiendWinService() {

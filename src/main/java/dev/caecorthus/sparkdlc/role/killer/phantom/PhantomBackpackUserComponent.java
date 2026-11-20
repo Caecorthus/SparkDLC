@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.phantom;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.component.OwnerCooldownComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
@@ -14,7 +14,7 @@ import org.ladysnake.cca.api.v3.component.ComponentRegistry;
  */
 public class PhantomBackpackUserComponent extends OwnerCooldownComponent {
     public static final ComponentKey<PhantomBackpackUserComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("phantom_backpack_user"),
+            SparkDLC.id("phantom_backpack_user"),
             PhantomBackpackUserComponent.class
     );
 

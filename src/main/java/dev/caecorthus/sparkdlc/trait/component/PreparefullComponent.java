@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.component;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.global.PreparefullTrait;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -18,7 +18,7 @@ import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
  */
 public class PreparefullComponent implements AutoSyncedComponent {
     public static final ComponentKey<PreparefullComponent> KEY =
-            ComponentRegistry.getOrCreate(SparkTraits.id("preparefull"), PreparefullComponent.class);
+            ComponentRegistry.getOrCreate(SparkDLC.id("preparefull"), PreparefullComponent.class);
 
     private final PlayerEntity player;
     /** Charge from 0.0 to 1.0; 1.0 means the next movement fires. 蓄力 0.0~1.0；1.0 表示下次移动即触发。 */

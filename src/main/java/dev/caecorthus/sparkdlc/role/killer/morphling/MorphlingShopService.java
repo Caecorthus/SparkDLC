@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.morphling;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -51,7 +51,7 @@ public final class MorphlingShopService {
                 reagentDisplayStack(),
                 MorphlingRules.MORPH_REAGENT_PRICE,
                 ShopEntry.Type.POISON
-        ).actualStack(new ItemStack(SparkStrengthItems.morphReagent())).build());
+        ).actualStack(new ItemStack(SparkDlcItems.morphReagent())).build());
     }
 
     private static int findEntryIndex(BuildShopEntries.ShopContext context, String id) {
@@ -64,7 +64,7 @@ public final class MorphlingShopService {
     }
 
     private static ItemStack reagentDisplayStack() {
-        ItemStack stack = new ItemStack(SparkStrengthItems.morphReagent());
+        ItemStack stack = new ItemStack(SparkDlcItems.morphReagent());
         stack.set(DataComponentTypes.ITEM_NAME, Text.translatable("shop.sparkdlc.morphling.morph_reagent"));
         stack.set(DataComponentTypes.LORE, new LoreComponent(List.of(
                 Text.translatable("shop.sparkdlc.morphling.morph_reagent.description")

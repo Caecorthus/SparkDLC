@@ -30,7 +30,7 @@ public abstract class GameRecordManagerDefenseVialTakeMixin {
             at = @At("TAIL"),
             remap = false
     )
-    private static void sparkwitch$shieldDefenseVialTaker(
+    private static void sparkdlc$shieldDefenseVialTaker(
             ServerPlayerEntity player,
             Identifier itemId,
             BlockPos platterPos,

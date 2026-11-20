@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.replay.role;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.record.replay.ReplayGenerator;
 import dev.doctor4t.wathe.record.replay.ReplayRegistry;
 import net.minecraft.nbt.NbtCompound;
@@ -14,10 +14,10 @@ import java.util.UUID;
  * 变形者变形试剂与标记的回放文本。
  */
 public final class MorphlingReplayEvents {
-    public static final Identifier MORPH_REAGENT_SAMPLED = SparkStrength.id("morph_reagent_sampled");
-    public static final Identifier MORPH_REAGENT_MARKED = SparkStrength.id("morph_reagent_marked");
-    public static final Identifier MORPH_MARK_TRIGGERED = SparkStrength.id("morph_mark_triggered");
-    public static final Identifier MORPH_MARK_ENDED = SparkStrength.id("morph_mark_ended");
+    public static final Identifier MORPH_REAGENT_SAMPLED = SparkDLC.id("morph_reagent_sampled");
+    public static final Identifier MORPH_REAGENT_MARKED = SparkDLC.id("morph_reagent_marked");
+    public static final Identifier MORPH_MARK_TRIGGERED = SparkDLC.id("morph_mark_triggered");
+    public static final Identifier MORPH_MARK_ENDED = SparkDLC.id("morph_mark_ended");
 
     private MorphlingReplayEvents() {
     }

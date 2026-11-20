@@ -20,7 +20,7 @@ public abstract class GameFunctionsPlayerAffectMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private static void sparkfactionapi$guardPlayerAttributedDeath(
+    private static void sparkdlc$guardPlayerAttributedDeath(
             ServerPlayerEntity victim,
             boolean spawnBody,
             ServerPlayerEntity killer,

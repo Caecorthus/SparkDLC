@@ -32,53 +32,53 @@ import java.util.UUID;
 @Mixin(BeveragePlateBlockEntity.class)
 public abstract class TimedBombTrayStateMixin extends BlockEntity implements TimedBombTrapHolder {
     @Unique
-    private UUID sparkstrength$timedBombTrapOwner;
+    private UUID sparkdlc$timedBombTrapOwner;
 
     private TimedBombTrayStateMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 
     @Override
-    public boolean sparkstrength$hasTimedBombTrap() {
-        return this.sparkstrength$timedBombTrapOwner != null;
+    public boolean sparkdlc$hasTimedBombTrap() {
+        return this.sparkdlc$timedBombTrapOwner != null;
     }
 
     @Override
-    public @Nullable UUID sparkstrength$getTimedBombTrapOwner() {
-        return this.sparkstrength$timedBombTrapOwner;
+    public @Nullable UUID sparkdlc$getTimedBombTrapOwner() {
+        return this.sparkdlc$timedBombTrapOwner;
     }
 
     @Override
-    public void sparkstrength$setTimedBombTrapOwner(@Nullable UUID owner) {
-        this.sparkstrength$timedBombTrapOwner = owner;
+    public void sparkdlc$setTimedBombTrapOwner(@Nullable UUID owner) {
+        this.sparkdlc$timedBombTrapOwner = owner;
         if (owner != null) {
             BomberTrapService.rememberTrap(this.world, this.pos);
         } else {
             BomberTrapService.forgetTrap(this.world, this.pos);
         }
-        this.sparkstrength$syncTimedBombTrap();
+        this.sparkdlc$syncTimedBombTrap();
     }
 
     @Inject(method = "writeNbt", at = @At("TAIL"))
-    private void sparkstrength$writeTimedBombTrap(
+    private void sparkdlc$writeTimedBombTrap(
             NbtCompound nbt,
             RegistryWrapper.WrapperLookup registryLookup,
             CallbackInfo ci
     ) {
-        if (this.sparkstrength$timedBombTrapOwner != null) {
-            nbt.putUuid(BomberTrapService.TRAP_OWNER_NBT_KEY, this.sparkstrength$timedBombTrapOwner);
+        if (this.sparkdlc$timedBombTrapOwner != null) {
+            nbt.putUuid(BomberTrapService.TRAP_OWNER_NBT_KEY, this.sparkdlc$timedBombTrapOwner);
         } else {
             nbt.remove(BomberTrapService.TRAP_OWNER_NBT_KEY);
         }
     }
 
     @Inject(method = "readNbt", at = @At("TAIL"))
-    private void sparkstrength$readTimedBombTrap(
+    private void sparkdlc$readTimedBombTrap(
             NbtCompound nbt,
             RegistryWrapper.WrapperLookup registryLookup,
             CallbackInfo ci
     ) {
-        this.sparkstrength$timedBombTrapOwner = nbt.containsUuid(BomberTrapService.TRAP_OWNER_NBT_KEY)
+        this.sparkdlc$timedBombTrapOwner = nbt.containsUuid(BomberTrapService.TRAP_OWNER_NBT_KEY)
                 ? nbt.getUuid(BomberTrapService.TRAP_OWNER_NBT_KEY)
                 : null;
         // NBT applied to a block entity already in a server world (a structure-placed train reset, /data) changes the
@@ -86,7 +86,7 @@ public abstract class TimedBombTrayStateMixin extends BlockEntity implements Tim
         // 写入已在服务端世界中的方块实体的 NBT（结构放置的列车重置、/data）会不经设置方法改变陷阱；区块加载期间世界仍为 null，
         // 由区块发送路径负责。
         if (this.world instanceof ServerWorld serverWorld) {
-            boolean present = this.sparkstrength$timedBombTrapOwner != null;
+            boolean present = this.sparkdlc$timedBombTrapOwner != null;
             if (present) {
                 BomberTrapService.rememberTrap(serverWorld, this.pos);
             } else {
@@ -104,7 +104,7 @@ public abstract class TimedBombTrayStateMixin extends BlockEntity implements Tim
      * 仍为服务端与存档保留它。createNbt 每次都返回新的复合标签，修改它不会影响持久化。
      */
     @Inject(method = "toInitialChunkDataNbt", at = @At("RETURN"))
-    private void sparkstrength$hideTimedBombTrapFromClients(
+    private void sparkdlc$hideTimedBombTrapFromClients(
             RegistryWrapper.WrapperLookup registryLookup,
             CallbackInfoReturnable<NbtCompound> cir
     ) {
@@ -122,10 +122,10 @@ public abstract class TimedBombTrayStateMixin extends BlockEntity implements Tim
      * 客户端得知刚有陷阱被埋设或触发。变化只会被保存（markDirty），并只通知陷阱观察者。
      */
     @Unique
-    private void sparkstrength$syncTimedBombTrap() {
+    private void sparkdlc$syncTimedBombTrap() {
         if (this.world instanceof ServerWorld serverWorld) {
             this.markDirty();
-            TimedBombMarkerSync.onMarkerChanged(serverWorld, this.pos, this.sparkstrength$timedBombTrapOwner != null);
+            TimedBombMarkerSync.onMarkerChanged(serverWorld, this.pos, this.sparkdlc$timedBombTrapOwner != null);
         }
     }
 }

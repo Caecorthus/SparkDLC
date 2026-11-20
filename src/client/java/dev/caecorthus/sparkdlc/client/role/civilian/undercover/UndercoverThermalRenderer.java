@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.undercover;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.render.ClientFrame;
 import dev.caecorthus.sparkdlc.client.render.ManagedPostEffect;
 import dev.caecorthus.sparkdlc.client.world.LoadedEntities;
@@ -65,7 +65,7 @@ import java.lang.reflect.Method;
  * 使用 Iris 光影包时私有目标不可信，热成像退回白色描边（UndercoverClient）。</p>
  */
 public final class UndercoverThermalRenderer {
-    private static final Identifier SHADER = SparkStrength.id("shaders/post/undercover_thermal.json");
+    private static final Identifier SHADER = SparkDLC.id("shaders/post/undercover_thermal.json");
     private static final String HEAT_TARGET = "heat";
     private static final int INITIAL_BUFFER_BYTES = 64 * 1024;
     private static final String IRIS_API = "net.irisshaders.iris.api.v0.IrisApi";
@@ -402,7 +402,7 @@ public final class UndercoverThermalRenderer {
     private static void warnOnce(String message, Throwable error) {
         if (!warned) {
             warned = true;
-            SparkStrength.LOGGER.warn(message, error);
+            SparkDLC.LOGGER.warn(message, error);
         }
     }
 

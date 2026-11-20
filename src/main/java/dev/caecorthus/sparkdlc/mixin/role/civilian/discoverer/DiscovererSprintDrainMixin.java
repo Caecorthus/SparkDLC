@@ -26,23 +26,23 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(PlayerEntity.class)
 public abstract class DiscovererSprintDrainMixin {
     @Unique
-    private float sparkwitch$discovererPreviousSprintingTicks = DiscovererRules.NOT_CAPTURED;
+    private float sparkdlc$discovererPreviousSprintingTicks = DiscovererRules.NOT_CAPTURED;
 
     @Unique
-    private int sparkwitch$discovererPreviousMaxSprintTime;
+    private int sparkdlc$discovererPreviousMaxSprintTime;
 
     @Inject(method = "tickMovement", at = @At("HEAD"), order = 0)
-    private void sparkwitch$captureDiscovererStamina(CallbackInfo ci) {
+    private void sparkdlc$captureDiscovererStamina(CallbackInfo ci) {
         PlayerEntity self = (PlayerEntity) (Object) this;
-        sparkwitch$discovererPreviousSprintingTicks = DiscovererStaminaService.captureSprintingTicks(self);
-        if (!Float.isNaN(sparkwitch$discovererPreviousSprintingTicks)) {
-            sparkwitch$discovererPreviousMaxSprintTime = DiscovererStaminaService.captureMaxSprintTime(self);
+        sparkdlc$discovererPreviousSprintingTicks = DiscovererStaminaService.captureSprintingTicks(self);
+        if (!Float.isNaN(sparkdlc$discovererPreviousSprintingTicks)) {
+            sparkdlc$discovererPreviousMaxSprintTime = DiscovererStaminaService.captureMaxSprintTime(self);
         }
     }
 
     @Inject(method = "tickMovement", at = @At("HEAD"), order = 1500)
-    private void sparkwitch$slowDiscovererSprintDrain(CallbackInfo ci) {
+    private void sparkdlc$slowDiscovererSprintDrain(CallbackInfo ci) {
         DiscovererStaminaService.slowSprintDrain((PlayerEntity) (Object) this,
-                sparkwitch$discovererPreviousSprintingTicks, sparkwitch$discovererPreviousMaxSprintTime);
+                sparkdlc$discovererPreviousSprintingTicks, sparkdlc$discovererPreviousMaxSprintTime);
     }
 }

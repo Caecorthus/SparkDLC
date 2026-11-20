@@ -35,7 +35,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = WatheClient.class, remap = false)
 public abstract class NatsumeInstinctGateMixin {
     @WrapMethod(method = "getInstinctHighlight")
-    private static int sparkwitch$vetoHypnotisedInstinct(Entity target, Operation<Integer> original) {
+    private static int sparkdlc$vetoHypnotisedInstinct(Entity target, Operation<Integer> original) {
         if (NatsumeClientState.bindsLocalPlayer()) {
             return -1;
         }
@@ -43,12 +43,12 @@ public abstract class NatsumeInstinctGateMixin {
     }
 
     @WrapMethod(method = "isInstinctEnabled()Z")
-    private static boolean sparkwitch$gateHypnotisedInstinct(Operation<Boolean> original) {
+    private static boolean sparkdlc$gateHypnotisedInstinct(Operation<Boolean> original) {
         return !NatsumeClientState.bindsLocalPlayer() && original.call();
     }
 
     @WrapMethod(method = "isInstinctEnabledAndIsKiller()Z")
-    private static boolean sparkwitch$gateHypnotisedKillerInstinct(Operation<Boolean> original) {
+    private static boolean sparkdlc$gateHypnotisedKillerInstinct(Operation<Boolean> original) {
         return !NatsumeClientState.bindsLocalPlayer() && original.call();
     }
 }

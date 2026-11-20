@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(GameRenderer.class)
 public abstract class ClientFrameClockMixin {
     @WrapMethod(method = "render")
-    private void sparktraits$bracketFrame(RenderTickCounter tickCounter, boolean tick, Operation<Void> original) {
+    private void sparkdlc$bracketFrame(RenderTickCounter tickCounter, boolean tick, Operation<Void> original) {
         ClientFrameClock.beginFrame();
         try {
             original.call(tickCounter, tick);

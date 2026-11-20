@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(GameRenderer.class)
 public abstract class M32SightFovMixin {
     @ModifyReturnValue(method = "getFov(Lnet/minecraft/client/render/Camera;FZ)D", at = @At("RETURN"))
-    private double sparkwitch$m32HandFov(double original, @Local(argsOnly = true) boolean changingFov) {
+    private double sparkdlc$m32HandFov(double original, @Local(argsOnly = true) boolean changingFov) {
         return changingFov ? original : M32SightState.handFov(original);
     }
 }

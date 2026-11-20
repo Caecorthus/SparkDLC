@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.hunter;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.witch.WitchFactionRules;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -39,8 +39,8 @@ public final class HunterRules {
 
     // Bundled shotgun audio (2026-10-29): the shot carries 16 blocks, the reload 8, by attenuation_distance in
     // sounds.json. / 猎枪自带音频（2026-10-29）：枪声 16 格、装填 8 格，由 sounds.json 的 attenuation_distance 决定。
-    public static final Identifier SHOT_SOUND_ID = SparkWitch.id("item.double_barrel.shot");
-    public static final Identifier LOAD_SOUND_ID = SparkWitch.id("item.double_barrel.load");
+    public static final Identifier SHOT_SOUND_ID = SparkDLC.id("item.double_barrel.shot");
+    public static final Identifier LOAD_SOUND_ID = SparkDLC.id("item.double_barrel.load");
     public static final int FOLLOW_UP_COOLDOWN_TICKS = 4;
     public static final int EMPTY_COOLDOWN_TICKS = 20 * 30;
     // Round-start shotgun lock: 40 s (owner decision 2026-10-07), shorter than Wathe's 60 s revolver lock.

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.blind.kit;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundEvent;
@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
  * 传播范围，因此与普通玩家声音一样公开（D6）。
  */
 public final class BlindSounds {
-    public static final Identifier CANE_TAP_ID = SparkWitch.id("blind.cane_tap");
+    public static final Identifier CANE_TAP_ID = SparkDLC.id("blind.cane_tap");
     private static SoundEvent caneTap;
 
     private BlindSounds() {

@@ -12,13 +12,13 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 
 /**
- * Server lifecycle of BEAR smoke, registered once from {@code SparkWitchEvents}. Smoke never outlives its Wathe round:
+ * Server lifecycle of BEAR smoke, registered once from {@code RoleEvents}. Smoke never outlives its Wathe round:
  * it is cleared when a round finishes initializing (so off-match test smoke never reaches a new round) and when it
  * finishes finalizing (the same edges the Deep Dark Zone uses). Spawning itself is not gated on the round, so dev
  * tools can burst smoke off-match. A joining player gets the world's live smoke; a player who changes world (portal,
  * teleport, Wathe map vote) or respawns into another world is cleared first and then gets the new world's smoke.
  * Unloaded worlds and stopped servers are only forgotten (their players are gone).
- * BEAR 烟雾的服务端生命周期，由 {@code SparkWitchEvents} 注册一次。烟雾绝不跨越 Wathe 回合：回合完成初始化时清除
+ * BEAR 烟雾的服务端生命周期，由 {@code RoleEvents} 注册一次。烟雾绝不跨越 Wathe 回合：回合完成初始化时清除
  * （局外测试的烟不会带入新一局），完成收尾时也清除（与深暗领域相同的节点）。生成本身不受回合限制，因此开发工具可以在局外
  * 放烟。进服的玩家会收到该世界的存活烟雾；换世界（传送门、传送、Wathe 地图投票）或重生到另一世界的玩家先被清除，再收到新世界
  * 的烟雾。卸载的世界与停止的服务端只需丢弃登记（其玩家已经离开）。

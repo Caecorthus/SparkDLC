@@ -66,8 +66,8 @@ public final class SeekerCameraCycler {
      */
     static void rebind(MinecraftClient client, @Nullable ClientPlayerEntity player) {
         if (client.options != null) {
-            ((SeekerRemoteKeyDrain) client.options.leftKey).sparkwitch$drainPresses();
-            ((SeekerRemoteKeyDrain) client.options.rightKey).sparkwitch$drainPresses();
+            ((SeekerRemoteKeyDrain) client.options.leftKey).sparkdlc$drainPresses();
+            ((SeekerRemoteKeyDrain) client.options.rightKey).sparkdlc$drainPresses();
         }
         leftWasDown = true;
         rightWasDown = true;
@@ -80,8 +80,8 @@ public final class SeekerCameraCycler {
         boolean leftQueued = left.wasPressed();
         boolean rightQueued = right.wasPressed();
         // One step per tick at most; never replay queued presses. / 每刻最多切换一步；绝不重放积压的按键。
-        ((SeekerRemoteKeyDrain) left).sparkwitch$drainPresses();
-        ((SeekerRemoteKeyDrain) right).sparkwitch$drainPresses();
+        ((SeekerRemoteKeyDrain) left).sparkdlc$drainPresses();
+        ((SeekerRemoteKeyDrain) right).sparkdlc$drainPresses();
         boolean leftDown = left.isPressed();
         boolean rightDown = right.isPressed();
         boolean previous = SeekerRemoteViewRules.freshPress(leftWasDown, leftDown, leftQueued);

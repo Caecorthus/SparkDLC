@@ -21,37 +21,37 @@ public abstract class BeveragePlateBlockEntityMixin implements ConsciencePoisone
     private static final String CONSCIENCE_POISONER_KEY = "sparktraitsConsciencePoisoner";
 
     @Unique
-    private String sparktraits$consciencePoisoner;
+    private String sparkdlc$consciencePoisoner;
 
     @Override
-    public String sparktraits$getConsciencePoisoner() {
-        return sparktraits$consciencePoisoner;
+    public String sparkdlc$getConsciencePoisoner() {
+        return sparkdlc$consciencePoisoner;
     }
 
     @Override
-    public void sparktraits$setConsciencePoisoner(String poisoner) {
-        sparktraits$consciencePoisoner = poisoner;
-        sparktraits$sync();
+    public void sparkdlc$setConsciencePoisoner(String poisoner) {
+        sparkdlc$consciencePoisoner = poisoner;
+        sparkdlc$sync();
     }
 
     @Inject(method = "writeNbt", at = @At("TAIL"))
-    private void sparktraits$writeConsciencePoisoner(
+    private void sparkdlc$writeConsciencePoisoner(
             NbtCompound nbt,
             RegistryWrapper.WrapperLookup registryLookup,
             CallbackInfo ci
     ) {
-        if (sparktraits$consciencePoisoner != null) {
-            nbt.putString(CONSCIENCE_POISONER_KEY, sparktraits$consciencePoisoner);
+        if (sparkdlc$consciencePoisoner != null) {
+            nbt.putString(CONSCIENCE_POISONER_KEY, sparkdlc$consciencePoisoner);
         }
     }
 
     @Inject(method = "readNbt", at = @At("TAIL"))
-    private void sparktraits$readConsciencePoisoner(
+    private void sparkdlc$readConsciencePoisoner(
             NbtCompound nbt,
             RegistryWrapper.WrapperLookup registryLookup,
             CallbackInfo ci
     ) {
-        sparktraits$consciencePoisoner = nbt.contains(CONSCIENCE_POISONER_KEY)
+        sparkdlc$consciencePoisoner = nbt.contains(CONSCIENCE_POISONER_KEY)
                 ? nbt.getString(CONSCIENCE_POISONER_KEY)
                 : null;
         // NBT applied to a live server block entity (train reset, /data) can change the blue layer without the
@@ -60,7 +60,7 @@ public abstract class BeveragePlateBlockEntityMixin implements ConsciencePoisone
         // 区块加载期间世界仍为 null，由区块发送路径负责。
         if (((BlockEntity) (Object) this).getWorld() instanceof ServerWorld serverWorld) {
             BluePoisonMarkerSync.onMarkerChanged(
-                    serverWorld, ((BlockEntity) (Object) this).getPos(), sparktraits$consciencePoisoner != null);
+                    serverWorld, ((BlockEntity) (Object) this).getPos(), sparkdlc$consciencePoisoner != null);
         }
     }
 
@@ -75,7 +75,7 @@ public abstract class BeveragePlateBlockEntityMixin implements ConsciencePoisone
      * 上面的 writeNbt 仍为服务端与存档保留 UUID。createNbt 每次都返回新的复合标签，修改它不会影响持久化。
      */
     @Inject(method = "toInitialChunkDataNbt", at = @At("RETURN"))
-    private void sparktraits$hideConsciencePoisonerFromClients(
+    private void sparkdlc$hideConsciencePoisonerFromClients(
             RegistryWrapper.WrapperLookup registryLookup,
             CallbackInfoReturnable<NbtCompound> cir
     ) {
@@ -93,12 +93,12 @@ public abstract class BeveragePlateBlockEntityMixin implements ConsciencePoisone
      * 会让所有追踪它的客户端得知刚有隐藏陷阱被布置或触发。变化只会被保存（markDirty），并只通知蓝毒观察者。
      */
     @Unique
-    private void sparktraits$sync() {
+    private void sparkdlc$sync() {
         BlockEntity self = (BlockEntity) (Object) this;
         World world = self.getWorld();
         if (world instanceof ServerWorld serverWorld) {
             self.markDirty();
-            BluePoisonMarkerSync.onMarkerChanged(serverWorld, self.getPos(), sparktraits$consciencePoisoner != null);
+            BluePoisonMarkerSync.onMarkerChanged(serverWorld, self.getPos(), sparkdlc$consciencePoisoner != null);
         }
     }
 }

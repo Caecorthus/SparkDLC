@@ -26,7 +26,7 @@ public abstract class PartygoerCarriedInteractionMixin {
     @Inject(method = "onPlayerInteractEntity", cancellable = true, at = @At(value = "INVOKE",
             target = "Lnet/minecraft/network/NetworkThreadUtils;forceMainThread(Lnet/minecraft/network/packet/Packet;Lnet/minecraft/network/listener/PacketListener;Lnet/minecraft/server/world/ServerWorld;)V",
             shift = At.Shift.AFTER))
-    private void sparkstrength$carriedNoEntity(PlayerInteractEntityC2SPacket packet, CallbackInfo ci) {
+    private void sparkdlc$carriedNoEntity(PlayerInteractEntityC2SPacket packet, CallbackInfo ci) {
         if (PartygoerCarry.isCarried(player)) {
             ci.cancel();
         }
@@ -35,7 +35,7 @@ public abstract class PartygoerCarriedInteractionMixin {
     @Inject(method = "onPlayerInteractItem", cancellable = true, at = @At(value = "INVOKE",
             target = "Lnet/minecraft/network/NetworkThreadUtils;forceMainThread(Lnet/minecraft/network/packet/Packet;Lnet/minecraft/network/listener/PacketListener;Lnet/minecraft/server/world/ServerWorld;)V",
             shift = At.Shift.AFTER))
-    private void sparkstrength$carriedNoItem(PlayerInteractItemC2SPacket packet, CallbackInfo ci) {
+    private void sparkdlc$carriedNoItem(PlayerInteractItemC2SPacket packet, CallbackInfo ci) {
         if (PartygoerCarry.isCarried(player)) {
             ci.cancel();
         }
@@ -44,7 +44,7 @@ public abstract class PartygoerCarriedInteractionMixin {
     @Inject(method = "onPlayerInteractBlock", cancellable = true, at = @At(value = "INVOKE",
             target = "Lnet/minecraft/network/NetworkThreadUtils;forceMainThread(Lnet/minecraft/network/packet/Packet;Lnet/minecraft/network/listener/PacketListener;Lnet/minecraft/server/world/ServerWorld;)V",
             shift = At.Shift.AFTER))
-    private void sparkstrength$carriedNoBlock(PlayerInteractBlockC2SPacket packet, CallbackInfo ci) {
+    private void sparkdlc$carriedNoBlock(PlayerInteractBlockC2SPacket packet, CallbackInfo ci) {
         if (PartygoerCarry.isCarried(player)) {
             ci.cancel();
         }
@@ -53,7 +53,7 @@ public abstract class PartygoerCarriedInteractionMixin {
     @Inject(method = "onPlayerAction", cancellable = true, at = @At(value = "INVOKE",
             target = "Lnet/minecraft/network/NetworkThreadUtils;forceMainThread(Lnet/minecraft/network/packet/Packet;Lnet/minecraft/network/listener/PacketListener;Lnet/minecraft/server/world/ServerWorld;)V",
             shift = At.Shift.AFTER))
-    private void sparkstrength$carriedNoDropOrSwap(PlayerActionC2SPacket packet, CallbackInfo ci) {
+    private void sparkdlc$carriedNoDropOrSwap(PlayerActionC2SPacket packet, CallbackInfo ci) {
         PlayerActionC2SPacket.Action action = packet.getAction();
         if (PartygoerCarry.isCarried(player) && (action == PlayerActionC2SPacket.Action.DROP_ITEM
                 || action == PlayerActionC2SPacket.Action.DROP_ALL_ITEMS

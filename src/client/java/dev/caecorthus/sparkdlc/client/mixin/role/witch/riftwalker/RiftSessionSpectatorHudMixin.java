@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(SpectatorHud.class)
 public abstract class RiftSessionSpectatorHudMixin {
     @Inject(method = "selectSlot", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noSpectatorSlotInsideRift(int slot, CallbackInfo ci) {
+    private void sparkdlc$noSpectatorSlotInsideRift(int slot, CallbackInfo ci) {
         if (!RiftSessionClient.isActive()) {
             return;
         }
@@ -27,7 +27,7 @@ public abstract class RiftSessionSpectatorHudMixin {
     }
 
     @Inject(method = "cycleSlot", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noSpectatorCycleInsideRift(int offset, CallbackInfo ci) {
+    private void sparkdlc$noSpectatorCycleInsideRift(int offset, CallbackInfo ci) {
         if (!RiftSessionClient.isActive()) {
             return;
         }
@@ -35,7 +35,7 @@ public abstract class RiftSessionSpectatorHudMixin {
     }
 
     @Inject(method = "useSelectedCommand", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noSpectatorCommandInsideRift(CallbackInfo ci) {
+    private void sparkdlc$noSpectatorCommandInsideRift(CallbackInfo ci) {
         if (!RiftSessionClient.isActive()) {
             return;
         }

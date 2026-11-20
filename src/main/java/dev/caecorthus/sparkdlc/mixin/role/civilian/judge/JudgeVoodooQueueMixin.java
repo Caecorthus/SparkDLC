@@ -15,9 +15,9 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class JudgeVoodooQueueMixin {
     @WrapOperation(method = "lambda$registerEvents$16", at = @At(value = "INVOKE",
             target = "Lorg/agmas/noellesroles/voodoo/VoodooPlayerComponent;startPendingDeath(I)V"))
-    private static void sparkwitch$bindVoodooCause(VoodooPlayerComponent pending, int ticks, Operation<Void> original,
+    private static void sparkdlc$bindVoodooCause(VoodooPlayerComponent pending, int ticks, Operation<Void> original,
                                                   ServerPlayerEntity deadVoodoo, ServerPlayerEntity killer, Identifier reason) {
         original.call(pending, ticks);
-        ((JudgeVoodooCause) pending).sparkwitch$setPendingVoodooActor(deadVoodoo.getUuid());
+        ((JudgeVoodooCause) pending).sparkdlc$setPendingVoodooActor(deadVoodoo.getUuid());
     }
 }

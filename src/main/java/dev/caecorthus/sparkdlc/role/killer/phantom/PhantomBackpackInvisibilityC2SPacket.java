@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.phantom;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
@@ -16,7 +16,7 @@ import java.util.UUID;
  */
 public record PhantomBackpackInvisibilityC2SPacket(UUID targetPlayer) implements CustomPayload {
     public static final CustomPayload.Id<PhantomBackpackInvisibilityC2SPacket> ID =
-            new CustomPayload.Id<>(SparkStrength.id("phantom_backpack_invisibility"));
+            new CustomPayload.Id<>(SparkDLC.id("phantom_backpack_invisibility"));
     public static final PacketCodec<RegistryByteBuf, PhantomBackpackInvisibilityC2SPacket> CODEC = PacketCodec.tuple(
             Uuids.PACKET_CODEC, PhantomBackpackInvisibilityC2SPacket::targetPlayer,
             PhantomBackpackInvisibilityC2SPacket::new

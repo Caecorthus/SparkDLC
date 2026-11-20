@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.timestealer;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -66,7 +66,7 @@ public final class TimeGiftRuntime {
         } catch (RuntimeException exception) {
             if (!warnedGive) {
                 warnedGive = true;
-                SparkWitch.LOGGER.warn("Time Stealer: refusing a time gift that failed to start", exception);
+                SparkDLC.LOGGER.warn("Time Stealer: refusing a time gift that failed to start", exception);
             }
             return false;
         }
@@ -108,7 +108,7 @@ public final class TimeGiftRuntime {
         }
         for (int stage = step.firstStage(); stage <= step.lastStage(); stage++) {
             applySpeed(target, TimeTheftSchedule.amplifier(stage), TimeStealerRules.GIFT_SPEED_DURATION_TICKS);
-            playPrivately(target, SparkWitchSounds.TIME_STEALER_CHIME, CHIME_VOLUME, chimePitch(stage));
+            playPrivately(target, SparkDlcSounds.TIME_STEALER_CHIME, CHIME_VOLUME, chimePitch(stage));
         }
         state.setStage(step.lastStage());
     }

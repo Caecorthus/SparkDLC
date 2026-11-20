@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.professor;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumType;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -17,7 +17,7 @@ import java.util.UUID;
  */
 public record ProfessorRemoteFeedC2SPacket(UUID targetPlayer, ProfessorSerumType serumType) implements CustomPayload {
     public static final CustomPayload.Id<ProfessorRemoteFeedC2SPacket> ID =
-            new CustomPayload.Id<>(SparkStrength.id("professor_remote_feed"));
+            new CustomPayload.Id<>(SparkDLC.id("professor_remote_feed"));
 
     public static final PacketCodec<RegistryByteBuf, ProfessorRemoteFeedC2SPacket> CODEC = new PacketCodec<>() {
         @Override

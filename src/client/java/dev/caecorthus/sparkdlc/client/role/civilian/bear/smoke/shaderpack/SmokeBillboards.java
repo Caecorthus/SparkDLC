@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.shaderpack;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeVolumes;
 import dev.caecorthus.sparkdlc.role.civilian.bear.smoke.SmokeCloudSnapshot;
 import it.unimi.dsi.fastutil.ints.IntArrays;
@@ -70,7 +70,7 @@ final class SmokeBillboards {
     private static final float VEIL_ALPHA_PER_DENSITY = 2.5F;
     private static final int GREY = 0xD2D2D2;
     private static final int TEXTURE_SIZE = 32;
-    private static final Identifier TEXTURE = SparkWitch.id("dynamic/bear_smoke_puff");
+    private static final Identifier TEXTURE = SparkDLC.id("dynamic/bear_smoke_puff");
 
     private static float[] puffs = new float[0];
     private static int[] lights = new int[0];

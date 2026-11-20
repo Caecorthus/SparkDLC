@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bodyguard;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.role.civilian.bodyguard.BodyguardRules;
@@ -36,7 +36,7 @@ public final class BodyguardHud {
             return;
         }
         List<Text> lines = new ArrayList<>();
-        Item shield = SparkStrengthItems.democracyShield();
+        Item shield = SparkDlcItems.democracyShield();
         if (player.isUsingItem() && player.getActiveItem().isOf(shield)) {
             int left = BodyguardRules.MAX_RAISE_TICKS - player.getItemUseTime();
             lines.add(Text.translatable("tip.sparkdlc.bodyguard.hud.shield_raised", Math.max(1, seconds(left))));
@@ -48,7 +48,7 @@ public final class BodyguardHud {
         }
         if (BodyguardVestService.isWorn(player)) {
             lines.add(Text.translatable("tip.sparkdlc.bodyguard.hud.vest"));
-        } else if (player.getInventory().contains(stack -> stack.isOf(SparkStrengthItems.bodyguardVest()))) {
+        } else if (player.getInventory().contains(stack -> stack.isOf(SparkDlcItems.bodyguardVest()))) {
             // Bought but not on: it only protects from the chest slot. / 已买未穿：只有穿在胸甲栏才生效。
             lines.add(Text.translatable("tip.sparkdlc.bodyguard.hud.vest_unworn"));
         }
@@ -62,9 +62,9 @@ public final class BodyguardHud {
     }
 
     private static int cooldownTicks(ItemCooldownManager manager, Item item) {
-        Object entry = ((ItemCooldownManagerAccessor) manager).sparkstrength$getEntries().get(item);
-        return entry == null ? 0 : ((ItemCooldownEntryAccessor) entry).sparkstrength$getEndTick()
-                - ((ItemCooldownManagerAccessor) manager).sparkstrength$getTick();
+        Object entry = ((ItemCooldownManagerAccessor) manager).sparkdlc$getEntriesForKits().get(item);
+        return entry == null ? 0 : ((ItemCooldownEntryAccessor) entry).sparkdlc$getEndTickForKits()
+                - ((ItemCooldownManagerAccessor) manager).sparkdlc$getTickForKits();
     }
 
     private static int seconds(int ticks) {

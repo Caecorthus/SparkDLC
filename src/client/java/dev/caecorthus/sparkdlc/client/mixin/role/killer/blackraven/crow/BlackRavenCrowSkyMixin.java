@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class BlackRavenCrowSkyMixin {
     @ModifyExpressionValue(method = "hasBlindnessOrDarkness", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/render/Camera;getFocusedEntity()Lnet/minecraft/entity/Entity;"))
-    private Entity sparkwitch$crowSkySubject(Entity focused) {
+    private Entity sparkdlc$crowSkySubject(Entity focused) {
         return BlackRavenCrowVision.fogSubject(focused);
     }
 }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.athlete;
 
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.client.hud.CachedHudText;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
@@ -65,7 +65,7 @@ public final class AthleteDashHud {
         WitchPlayerComponent witch = WitchPlayerComponent.KEY.get(player);
         boolean sharedLineOccupied = witch.getActiveSkillId() != null || witch.getSaintState().karmaCooldownTicks() > 0;
         TextRenderer renderer = client.textRenderer;
-        CACHE.update(line, line.keyHint() ? SparkWitchClient.abilityKeyText() : null, renderer);
+        CACHE.update(line, line.keyHint() ? SparkDLCClient.abilityKeyText() : null, renderer);
         Text text = CACHE.text();
         int measured = CACHE.measuredWidth();
         int width = context.getScaledWindowWidth();

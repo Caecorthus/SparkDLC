@@ -25,7 +25,7 @@ public abstract class BlindGateArmorFeatureRendererMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$blindSkipsOtherPlayerArmor(MatrixStack matrices, VertexConsumerProvider vertexConsumers,
+    private void sparkdlc$blindSkipsOtherPlayerArmor(MatrixStack matrices, VertexConsumerProvider vertexConsumers,
                                                        LivingEntity entity, EquipmentSlot slot, int light,
                                                        BipedEntityModel<?> model, CallbackInfo ci) {
         if (BlindClientGates.suppressesFeatures(entity)) {

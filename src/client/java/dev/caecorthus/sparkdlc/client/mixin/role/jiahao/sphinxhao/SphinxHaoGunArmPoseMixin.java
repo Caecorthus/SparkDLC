@@ -41,16 +41,16 @@ public abstract class SphinxHaoGunArmPoseMixin<T extends LivingEntity> {
     public ModelPart head;
 
     @Inject(method = "positionRightArm(Lnet/minecraft/entity/LivingEntity;)V", at = @At("TAIL"))
-    private void sparkwitch$holdSphinxHaoGunRight(T entity, CallbackInfo ci) {
-        if (sparkwitch$isHoldingSphinxHaoGun(entity) && entity.getMainArm() == Arm.RIGHT) {
-            sparkwitch$holdSphinxHaoGun(this.rightArm, this.head, true);
+    private void sparkdlc$holdSphinxHaoGunRight(T entity, CallbackInfo ci) {
+        if (sparkdlc$isHoldingSphinxHaoGun(entity) && entity.getMainArm() == Arm.RIGHT) {
+            sparkdlc$holdSphinxHaoGun(this.rightArm, this.head, true);
         }
     }
 
     @Inject(method = "positionLeftArm(Lnet/minecraft/entity/LivingEntity;)V", at = @At("TAIL"))
-    private void sparkwitch$holdSphinxHaoGunLeft(T entity, CallbackInfo ci) {
-        if (sparkwitch$isHoldingSphinxHaoGun(entity) && entity.getMainArm() != Arm.RIGHT) {
-            sparkwitch$holdSphinxHaoGun(this.leftArm, this.head, false);
+    private void sparkdlc$holdSphinxHaoGunLeft(T entity, CallbackInfo ci) {
+        if (sparkdlc$isHoldingSphinxHaoGun(entity) && entity.getMainArm() != Arm.RIGHT) {
+            sparkdlc$holdSphinxHaoGun(this.leftArm, this.head, false);
         }
     }
 
@@ -60,7 +60,7 @@ public abstract class SphinxHaoGunArmPoseMixin<T extends LivingEntity> {
      * 观察者的情绪组件。幻觉物品从不是这把枪，因此只会遮住它。
      */
     @Unique
-    private boolean sparkwitch$isHoldingSphinxHaoGun(T entity) {
+    private boolean sparkdlc$isHoldingSphinxHaoGun(T entity) {
         if (!SphinxHaoGunInventory.isGun(entity.getMainHandStack())) {
             return false;
         }
@@ -74,7 +74,7 @@ public abstract class SphinxHaoGunArmPoseMixin<T extends LivingEntity> {
 
     /** Wathe's straight-arm hold math, verbatim. / 与 Wathe 平举持枪完全相同的计算。 */
     @Unique
-    private static void sparkwitch$holdSphinxHaoGun(ModelPart arm, ModelPart head, boolean rightArmed) {
+    private static void sparkdlc$holdSphinxHaoGun(ModelPart arm, ModelPart head, boolean rightArmed) {
         arm.yaw = (rightArmed ? -0.3F : 0.3F) + head.yaw;
         arm.pitch = (-(float) Math.PI / 2F) + head.pitch + 0.1F;
     }

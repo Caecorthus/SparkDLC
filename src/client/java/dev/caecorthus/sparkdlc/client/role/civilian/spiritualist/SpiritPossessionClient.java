@@ -1,11 +1,11 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.spiritualist;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.render.WraithViewerGates;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityRegistry;
 import dev.caecorthus.sparkdlc.client.mixin.role.civilian.spiritualist.SpiritPossessionCameraAccessor;
 import dev.caecorthus.sparkdlc.client.viewpoint.BodySettleHold;
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.role.civilian.spiritualist.SpiritPossessionPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.spiritualist.SpiritPossessC2SPacket;
 import dev.caecorthus.sparkdlc.role.civilian.spiritualist.SpiritPossessExitC2SPacket;
@@ -99,7 +99,7 @@ public final class SpiritPossessionClient {
         keyAvailable = SecondaryAbilityRegistry.tryRegisterAction(SpiritPossessionRules.SPIRITUALIST_ID,
                 SpiritPossessionClient::onKeyPressed);
         if (!keyAvailable) {
-            SparkStrength.LOGGER.warn("Spiritualist possession has no key: the Role Skill 2 hook is unavailable or taken.");
+            SparkDLC.LOGGER.warn("Spiritualist possession has no key: the Role Skill 2 hook is unavailable or taken.");
         }
     }
 
@@ -142,7 +142,7 @@ public final class SpiritPossessionClient {
             return false;
         }
         for (PlayerEntity player : client.world.getPlayers()) {
-            if (player != client.player && !(player instanceof SpiritCamera) && SparkWitchApi.isWraithActive(player)) {
+            if (player != client.player && !(player instanceof SpiritCamera) && SparkRoleApi.isWraithActive(player)) {
                 return true;
             }
         }
@@ -404,7 +404,7 @@ public final class SpiritPossessionClient {
      */
     private static void swapCamera(MinecraftClient client, Entity camera) {
         if (SpiritCameraHandler.isActive()) {
-            ((SpiritPossessionCameraAccessor) client).sparkstrength$setCameraEntityField(camera);
+            ((SpiritPossessionCameraAccessor) client).sparkdlc$setCameraEntityField(camera);
         } else {
             client.setCameraEntity(camera);
         }
@@ -472,7 +472,7 @@ public final class SpiritPossessionClient {
                 entity -> entity instanceof PlayerEntity candidate
                         && candidate != player
                         && !(candidate instanceof SpiritCamera)
-                        && SparkWitchApi.isWraithActive(candidate),
+                        && SparkRoleApi.isWraithActive(candidate),
                 reachSquared);
         return hit != null && hit.getEntity() instanceof PlayerEntity wraith ? wraith : null;
     }

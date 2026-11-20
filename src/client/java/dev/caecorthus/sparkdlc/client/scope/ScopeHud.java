@@ -80,7 +80,7 @@ public final class ScopeHud {
         double fov = mode == ScopeMode.PICTURE_IN_PICTURE
                 ? ScopePictureInPicture.equivalentFovDegrees()
                 : ((ScopeGameRendererInvoker) client.gameRenderer)
-                        .sparkwitch$scopeFov(client.gameRenderer.getCamera(), tickDelta, true);
+                        .sparkdlc$scopeFov(client.gameRenderer.getCamera(), tickDelta, true);
         profile.drawReticle(context, new ScopeFrame(context.getScaledWindowWidth(), context.getScaledWindowHeight(),
                 centerX, centerY, radius, fov, tickDelta, ScopeRuntime.shadowX(), ScopeRuntime.shadowY(), mode));
     }
@@ -103,7 +103,7 @@ public final class ScopeHud {
         float radius = (float) (ScopeLensGeometry.lensRadius(framebufferWidth, framebufferHeight) / scale);
         float tickDelta = tickCounter.getTickDelta(true);
         double fov = ((ScopeGameRendererInvoker) client.gameRenderer)
-                .sparkwitch$scopeFov(client.gameRenderer.getCamera(), tickDelta, true);
+                .sparkdlc$scopeFov(client.gameRenderer.getCamera(), tickDelta, true);
         profile.drawReticle(context, new ScopeFrame(context.getScaledWindowWidth(), context.getScaledWindowHeight(),
                 centerX, centerY, radius, fov, tickDelta, 0.0F, 0.0F, ScopeMode.ZOOM_BLUR));
     }

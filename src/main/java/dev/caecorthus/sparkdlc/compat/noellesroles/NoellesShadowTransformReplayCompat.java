@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.compat.noellesroles;
 
-import dev.caecorthus.sparkdlc.SparkFactionApiMod;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.replay.RoleChangeRecordRules;
 import dev.doctor4t.wathe.record.GameRecordEvent;
 import dev.doctor4t.wathe.record.GameRecordManager;
@@ -66,7 +66,7 @@ public final class NoellesShadowTransformReplayCompat {
                         event.worldTick()
                 );
             } catch (RuntimeException e) {
-                SparkFactionApiMod.LOGGER.warn("Failed to dedupe NoellesRoles shadow_transform replay line", e);
+                SparkDLC.LOGGER.warn("Failed to dedupe NoellesRoles shadow_transform replay line", e);
                 return false;
             }
         }

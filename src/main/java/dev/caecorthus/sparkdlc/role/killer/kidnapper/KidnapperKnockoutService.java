@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.kidnapper;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
@@ -81,11 +81,11 @@ public final class KidnapperKnockoutService {
                 displayStack(),
                 KidnapperRules.KNOCKOUT_DRUG_PRICE,
                 ShopEntry.Type.POISON
-        ).actualStack(SparkWitchItems.knockoutDrug().getDefaultStack()).build();
+        ).actualStack(SparkDlcItems.knockoutDrug().getDefaultStack()).build();
     }
 
     public static ItemStack displayStack() {
-        ItemStack stack = SparkWitchItems.knockoutDrug().getDefaultStack();
+        ItemStack stack = SparkDlcItems.knockoutDrug().getDefaultStack();
         stack.set(DataComponentTypes.ITEM_NAME, Text.translatable("item.sparkdlc.knockout_drug"));
         stack.set(DataComponentTypes.LORE, new LoreComponent(List.of(
                 Text.translatable("shop.sparkdlc.knockout_drug.description")
@@ -109,9 +109,9 @@ public final class KidnapperKnockoutService {
          * 真实绑架者开局自带一瓶迷药，并立即进入 40 秒开局冷却。
          * 这只处理 SparkWitch 的真实绑架者；验尸官伪装的临时迷药由 SparkStrength 通过软兼容发放。
          */
-        serverPlayer.giveItemStack(SparkWitchItems.knockoutDrug().getDefaultStack());
+        serverPlayer.giveItemStack(SparkDlcItems.knockoutDrug().getDefaultStack());
         serverPlayer.getItemCooldownManager().set(
-                SparkWitchItems.knockoutDrug(),
+                SparkDlcItems.knockoutDrug(),
                 KidnapperRules.KNOCKOUT_DRUG_START_COOLDOWN_TICKS
         );
         component.startRoundCooldowns();

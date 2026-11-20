@@ -55,7 +55,7 @@ final class SmokeCloudLighting {
      */
     static void write(ClientWorld world, LightmapTextureManager lightmap, int cloudId, float[] out, int offset) {
         Probes probes = probesFor(cloudId);
-        NativeImage image = lightmap == null ? null : ((SmokeLightmapImageAccessor) lightmap).sparkwitch$smokeLightmapImage();
+        NativeImage image = lightmap == null ? null : ((SmokeLightmapImageAccessor) lightmap).sparkdlc$smokeLightmapImage();
         float r = 1.0F;
         float g = 1.0F;
         float b = 1.0F;

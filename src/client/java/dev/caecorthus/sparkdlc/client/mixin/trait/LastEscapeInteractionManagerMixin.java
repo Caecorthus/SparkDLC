@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = ClientPlayerInteractionManager.class, priority = 2000)
 public abstract class LastEscapeInteractionManagerMixin {
     @Inject(method = {"clickSlot", "attackEntity", "stopUsingItem"}, at = @At("HEAD"), cancellable = true)
-    private void sparktraits$rejectEscapeAction(CallbackInfo ci) {
+    private void sparkdlc$rejectEscapeAction(CallbackInfo ci) {
         if (LastEscapeInput.blocked()) {
             ci.cancel();
         }
@@ -21,14 +21,14 @@ public abstract class LastEscapeInteractionManagerMixin {
 
     @Inject(method = {"interactItem", "interactBlock", "interactEntity", "interactEntityAtLocation"},
             at = @At("HEAD"), cancellable = true)
-    private void sparktraits$rejectEscapeUse(CallbackInfoReturnable<ActionResult> cir) {
+    private void sparkdlc$rejectEscapeUse(CallbackInfoReturnable<ActionResult> cir) {
         if (LastEscapeInput.blocked()) {
             cir.setReturnValue(ActionResult.FAIL);
         }
     }
 
     @Inject(method = {"attackBlock", "updateBlockBreakingProgress"}, at = @At("HEAD"), cancellable = true)
-    private void sparktraits$rejectEscapeMining(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$rejectEscapeMining(CallbackInfoReturnable<Boolean> cir) {
         if (LastEscapeInput.blocked()) {
             cir.setReturnValue(false);
         }

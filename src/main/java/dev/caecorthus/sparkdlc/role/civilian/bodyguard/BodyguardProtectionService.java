@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.bodyguard;
 
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.doctor4t.wathe.api.event.ShouldPunishGunShooter;
 import dev.doctor4t.wathe.cca.PlayerStaminaComponent;
 import dev.doctor4t.wathe.game.GameConstants;
@@ -20,11 +20,11 @@ import org.jetbrains.annotations.Nullable;
  * Decides whether the Bodyguard's Democracy Shield or vest stops a kill. Runs at the head of GameFunctions.killPlayer,
  * so the shield and vest are spent before NoellesRoles' Iron Man / whiskey shield and Wathe's psycho armour
  * (owner order: shield, then vest, then everything else). Forced kills are never blocked or charged. SparkWitch's
- * AXMC (owner 2026-10-07, through {@link SparkWitchApi}, failing closed): the vest is one pierceable layer, while the
+ * AXMC (owner 2026-10-07, through {@link SparkRoleApi}, failing closed): the vest is one pierceable layer, while the
  * shield is never pierced and costs 10 points per FMJ round and 25 per AP round.
  * 判定保镖的民主盾牌或防弹衣能否挡下一次击杀。在 GameFunctions.killPlayer 开头执行，因此盾与防弹衣先于
  * NoellesRoles 的铁人药水/威士忌护盾与 Wathe 疯魔护甲结算（所有者顺序：盾 → 防弹衣 → 其他）。强制击杀从不阻挡、也不消耗。
- * SparkWitch 的 AXMC（所有者 2026-10-07，经 {@link SparkWitchApi}，失败时关闭）：防弹衣是一层可击穿的护盾，盾牌则从不被
+ * SparkWitch 的 AXMC（所有者 2026-10-07，经 {@link SparkRoleApi}，失败时关闭）：防弹衣是一层可击穿的护盾，盾牌则从不被
  * 击穿，每发 FMJ 消耗 10 点体力，每发 AP 消耗 25 点。
  */
 public final class BodyguardProtectionService {
@@ -91,7 +91,7 @@ public final class BodyguardProtectionService {
                 // The AXMC never pierces the shield; only the stamina it costs depends on the round (owner 2026-10-07).
                 // AXMC 从不击穿盾牌；只有体力消耗取决于弹种（所有者 2026-10-07）。
                 int points = BodyguardProtectionRules.shieldPoints(protection,
-                        SparkWitchApi.piercingShotAmmoId(victim, killer, deathReason));
+                        SparkRoleApi.piercingShotAmmoId(victim, killer, deathReason));
                 blockWithShield(victim, killer, points, deathReason.toString());
                 shieldBlocked = true;
             } else if (protection.vest() && BodyguardVestService.isWorn(victim)) {
@@ -101,7 +101,7 @@ public final class BodyguardProtectionService {
                 // 对 SparkWitch 的 AXMC 而言防弹衣是一层护盾（所有者 2026-10-07）：仍有穿透预算的子弹会像击穿一层威士忌
                 // 那样把它报废，同一次 killPlayer 带着少一次的穿透继续交给其余保护。报废的防弹衣不会再穿上，因此任何重试或
                 // 重放都不会再检查它。
-                boolean pierced = SparkWitchApi.tryPierceShieldLayer(victim, killer, deathReason);
+                boolean pierced = SparkRoleApi.tryPierceShieldLayer(victim, killer, deathReason);
                 breakVest(victim, killer, deathReason);
                 if (pierced) {
                     return false;

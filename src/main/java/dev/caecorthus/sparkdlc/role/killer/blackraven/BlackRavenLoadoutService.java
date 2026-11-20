@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.BlackRavenActingRole;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.BlackRavenDisguiseComponent;
 import dev.doctor4t.wathe.api.Role;
@@ -36,10 +36,10 @@ public final class BlackRavenLoadoutService {
         if (BlackRavenPoliceRules.grantsStartingRevolver(holdsRevolver(player))) {
             player.getInventory().insertStack(new ItemStack(WatheItems.REVOLVER));
         }
-        player.giveItemStack(new ItemStack(SparkWitchItems.featherBlade()));
-        player.getItemCooldownManager().set(SparkWitchItems.featherBlade(), BlackRavenRules.FEATHER_COOLDOWN_TICKS);
-        player.giveItemStack(new ItemStack(SparkWitchItems.blackRavenLedger()));
-        player.giveItemStack(new ItemStack(SparkWitchItems.blackRavenMask()));
+        player.giveItemStack(new ItemStack(SparkDlcItems.featherBlade()));
+        player.getItemCooldownManager().set(SparkDlcItems.featherBlade(), BlackRavenRules.FEATHER_COOLDOWN_TICKS);
+        player.giveItemStack(new ItemStack(SparkDlcItems.blackRavenLedger()));
+        player.giveItemStack(new ItemStack(SparkDlcItems.blackRavenMask()));
         player.currentScreenHandler.sendContentUpdates();
     }
 
@@ -59,9 +59,9 @@ public final class BlackRavenLoadoutService {
             return;
         }
 
-        boolean changed = keepExactlyOne(player, SparkWitchItems.blackRavenMask());
+        boolean changed = keepExactlyOne(player, SparkDlcItems.blackRavenMask());
         if (!isDisguised(player)) {
-            changed |= keepExactlyOne(player, SparkWitchItems.blackRavenLedger());
+            changed |= keepExactlyOne(player, SparkDlcItems.blackRavenLedger());
         }
         if (changed) {
             player.getInventory().markDirty();
@@ -73,7 +73,7 @@ public final class BlackRavenLoadoutService {
         boolean changed = false;
         for (int slot = 0; slot < player.getInventory().size(); slot++) {
             ItemStack stack = player.getInventory().getStack(slot);
-            if (stack.isOf(SparkWitchItems.featherBlade()) || BlackRavenInventoryRules.isBound(stack)) {
+            if (stack.isOf(SparkDlcItems.featherBlade()) || BlackRavenInventoryRules.isBound(stack)) {
                 player.getInventory().setStack(slot, ItemStack.EMPTY);
                 changed = true;
             }

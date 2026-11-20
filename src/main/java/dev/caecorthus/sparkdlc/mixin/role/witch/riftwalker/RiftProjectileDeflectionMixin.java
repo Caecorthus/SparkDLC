@@ -38,7 +38,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class RiftProjectileDeflectionMixin {
     @WrapOperation(method = "deflect", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/entity/projectile/ProjectileEntity;setOwner(Lnet/minecraft/entity/Entity;)V"))
-    private void sparkwitch$keepPickupThroughRiftGate(ProjectileEntity projectile, @Nullable Entity owner,
+    private void sparkdlc$keepPickupThroughRiftGate(ProjectileEntity projectile, @Nullable Entity owner,
                                                       Operation<Void> original,
                                                       @Local(argsOnly = true, ordinal = 0) @Nullable Entity deflector) {
         if (!(deflector instanceof RiftGateEntity) || !(projectile instanceof PersistentProjectileEntity persistent)) {
@@ -53,7 +53,7 @@ public abstract class RiftProjectileDeflectionMixin {
     @WrapOperation(method = "hitOrDeflect", at = @At(value = "FIELD",
             target = "Lnet/minecraft/entity/projectile/ProjectileEntity;lastDeflectedEntity:Lnet/minecraft/entity/Entity;",
             opcode = Opcodes.PUTFIELD))
-    private void sparkwitch$neverRememberRiftGate(ProjectileEntity projectile, @Nullable Entity deflector,
+    private void sparkdlc$neverRememberRiftGate(ProjectileEntity projectile, @Nullable Entity deflector,
                                                   Operation<Void> original) {
         if (!(deflector instanceof RiftGateEntity)) {
             original.call(projectile, deflector);

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.replay.role;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.record.replay.ReplayRegistry;
 import net.minecraft.util.Identifier;
 
@@ -9,9 +9,9 @@ import net.minecraft.util.Identifier;
  * 调香师风油精、香薰与晨风香水的回放文本。
  */
 public final class PerfumerReplayEvents {
-    public static final Identifier PERFUMER_COOLING_OIL_HIT = SparkStrength.id("perfumer_cooling_oil_hit");
-    public static final Identifier PERFUMER_AROMA_HIT = SparkStrength.id("perfumer_aroma_hit");
-    public static final Identifier PERFUMER_ZEPHYR_USED = SparkStrength.id("perfumer_zephyr_used");
+    public static final Identifier PERFUMER_COOLING_OIL_HIT = SparkDLC.id("perfumer_cooling_oil_hit");
+    public static final Identifier PERFUMER_AROMA_HIT = SparkDLC.id("perfumer_aroma_hit");
+    public static final Identifier PERFUMER_ZEPHYR_USED = SparkDLC.id("perfumer_zephyr_used");
 
     private PerfumerReplayEvents() {
     }

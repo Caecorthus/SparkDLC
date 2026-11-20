@@ -36,7 +36,7 @@ public abstract class MorphlingPlayerAppearanceMixin
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void sparkstrength$cacheMorphlingPlayerModels(
+    private void sparkdlc$cacheMorphlingPlayerModels(
             EntityRendererFactory.Context context,
             boolean slim,
             CallbackInfo ci
@@ -48,7 +48,7 @@ public abstract class MorphlingPlayerAppearanceMixin
             method = "render(Lnet/minecraft/client/network/AbstractClientPlayerEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V",
             at = @At("HEAD")
     )
-    private void sparkstrength$applyMorphlingPlayerModel(
+    private void sparkdlc$applyMorphlingPlayerModel(
             AbstractClientPlayerEntity player,
             float yaw,
             float tickDelta,
@@ -57,29 +57,29 @@ public abstract class MorphlingPlayerAppearanceMixin
             int light,
             CallbackInfo ci
     ) {
-        sparkstrength$applyResolvedModel(player);
+        sparkdlc$applyResolvedModel(player);
     }
 
     @Inject(method = "renderRightArm", at = @At("HEAD"))
-    private void sparkstrength$applyMorphlingRightArmModel(
+    private void sparkdlc$applyMorphlingRightArmModel(
             MatrixStack matrices,
             VertexConsumerProvider vertexConsumers,
             int light,
             AbstractClientPlayerEntity player,
             CallbackInfo ci
     ) {
-        sparkstrength$applyResolvedModel(player);
+        sparkdlc$applyResolvedModel(player);
     }
 
     @Inject(method = "renderLeftArm", at = @At("HEAD"))
-    private void sparkstrength$applyMorphlingLeftArmModel(
+    private void sparkdlc$applyMorphlingLeftArmModel(
             MatrixStack matrices,
             VertexConsumerProvider vertexConsumers,
             int light,
             AbstractClientPlayerEntity player,
             CallbackInfo ci
     ) {
-        sparkstrength$applyResolvedModel(player);
+        sparkdlc$applyResolvedModel(player);
     }
 
     @Inject(
@@ -87,7 +87,7 @@ public abstract class MorphlingPlayerAppearanceMixin
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkstrength$useMorphlingReagentTexture(
+    private void sparkdlc$useMorphlingReagentTexture(
             AbstractClientPlayerEntity player,
             CallbackInfoReturnable<Identifier> cir
     ) {
@@ -104,7 +104,7 @@ public abstract class MorphlingPlayerAppearanceMixin
                     target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;getSkinTextures()Lnet/minecraft/client/util/SkinTextures;"
             )
     )
-    private SkinTextures sparkstrength$useMorphlingReagentArmSkin(
+    private SkinTextures sparkdlc$useMorphlingReagentArmSkin(
             AbstractClientPlayerEntity player,
             Operation<SkinTextures> original
     ) {
@@ -112,7 +112,7 @@ public abstract class MorphlingPlayerAppearanceMixin
         return skinTextures != null ? skinTextures : original.call(player);
     }
 
-    private void sparkstrength$applyResolvedModel(AbstractClientPlayerEntity player) {
+    private void sparkdlc$applyResolvedModel(AbstractClientPlayerEntity player) {
         PlayerEntityModel<AbstractClientPlayerEntity> resolvedModel =
                 MorphlingAppearanceClientHelper.getPlayerModel(
                         MorphlingAppearanceClientHelper.resolveActivePlayerSkinTextures(player)

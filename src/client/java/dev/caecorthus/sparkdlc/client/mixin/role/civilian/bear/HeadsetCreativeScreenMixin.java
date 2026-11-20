@@ -42,7 +42,7 @@ public abstract class HeadsetCreativeScreenMixin
     @ModifyArgs(method = "setSelectedTab(Lnet/minecraft/item/ItemGroup;)V",
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/gui/screen/ingame/CreativeInventoryScreen$CreativeSlot;<init>(Lnet/minecraft/screen/slot/Slot;III)V"))
-    private void sparkwitch$placeHeadsetSlot(Args args) {
+    private void sparkdlc$placeHeadsetSlot(Args args) {
         if (args.get(0) instanceof HeadsetSlot) {
             args.set(2, HeadsetScreenFrames.CREATIVE_X);
             args.set(3, HeadsetScreenFrames.CREATIVE_Y);
@@ -50,7 +50,7 @@ public abstract class HeadsetCreativeScreenMixin
     }
 
     @Inject(method = "drawBackground(Lnet/minecraft/client/gui/DrawContext;FII)V", at = @At("TAIL"))
-    private void sparkwitch$drawHeadsetFrame(DrawContext context, float delta, int mouseX, int mouseY,
+    private void sparkdlc$drawHeadsetFrame(DrawContext context, float delta, int mouseX, int mouseY,
                                              CallbackInfo ci) {
         ClientPlayerEntity player = client == null ? null : client.player;
         if (player != null && isInventoryTabSelected() && HeadsetScreenFrames.shown(player.playerScreenHandler)) {

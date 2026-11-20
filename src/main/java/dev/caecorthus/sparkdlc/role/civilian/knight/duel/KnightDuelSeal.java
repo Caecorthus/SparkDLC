@@ -3,8 +3,8 @@ package dev.caecorthus.sparkdlc.role.civilian.knight.duel;
 import dev.caecorthus.sparkdlc.cooldown.api.CooldownKind;
 import dev.caecorthus.sparkdlc.cooldown.api.CooldownSlot;
 import dev.caecorthus.sparkdlc.cooldown.api.ForcedCooldowns;
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.block.FoodPlatterBlock;
 import dev.doctor4t.wathe.block.TrimmedBedBlock;
@@ -42,7 +42,7 @@ import java.util.Optional;
  *   <li>Restore: only the items the duel sealed, each set back exactly to its pre-duel remaining time minus the time
  *   the duel held it, unless a penalty raised during the duel still runs past the seal's own floor, which is kept
  *   ({@link KnightDuelRules#restoredRemainingTicks(long, long, int, int)}). Never through
- *   {@code ItemCooldownManager.remove}: its TAIL hook ({@code SparkWitchItemCooldownReleases}) would release a role
+ *   {@code ItemCooldownManager.remove}: its TAIL hook ({@code RoleItemCooldownReleases}) would release a role
  *   timer (Clock, Gift Watch, Ceremonial Sword, White Cane, fish) that was genuinely running before the duel. A zero
  *   result writes a zero-length entry that vanilla expiry drops on the next tick without calling {@code remove}.</li>
  *   <li>Guards: use paths that skip the vanilla cooldown check are refused while a non-whitelisted stack is in the
@@ -59,7 +59,7 @@ import java.util.Optional;
  *   因此决斗中捡到的物品也会被封印，被移除的条目也会重新封印。</li>
  *   <li>恢复：只处理决斗封印过的物品，各自精确写回“决斗前剩余时间 − 决斗占用时间”；若决斗期间他人施加的惩罚仍超出封印
  *   自身下限，则保留该惩罚（{@link KnightDuelRules#restoredRemainingTicks(long, long, int, int)}）。绝不经由
- *   {@code ItemCooldownManager.remove}：其 TAIL 钩子（{@code SparkWitchItemCooldownReleases}）会释放决斗前确实在运行的
+ *   {@code ItemCooldownManager.remove}：其 TAIL 钩子（{@code RoleItemCooldownReleases}）会释放决斗前确实在运行的
  *   职业计时（怀表、赠时怀表、仪礼剑、盲杖、鱼）。结果为 0 时写入零时长条目，原版到期逻辑会在下一刻移除它而不调用
  *   {@code remove}。</li>
  *   <li>拦截：手持非白名单物品时，拒绝绕过原版冷却检查的使用途径：物品使用（同时覆盖 SparkFactionAPI 豁免强制冷却的
@@ -75,7 +75,7 @@ public final class KnightDuelSeal {
      * 排在 {@link Event#DEFAULT_PHASE} 之前，使封印先于在回调内直接生效的监听器做出决定；非决斗者与白名单物品始终得到
      * PASS，其他监听器之间的相对顺序不变。
      */
-    public static final Identifier SEAL_PHASE = SparkWitch.id("knight_duel_seal");
+    public static final Identifier SEAL_PHASE = SparkDLC.id("knight_duel_seal");
     private static boolean registered;
 
     private KnightDuelSeal() {
@@ -160,7 +160,7 @@ public final class KnightDuelSeal {
     public static boolean whitelisted(Item item) {
         if (item == WatheItems.LETTER || item == WatheItems.KEY || item == WatheItems.LOCKPICK
                 || item == WatheItems.CROWBAR || item == WatheItems.KNIFE || item == WatheItems.DERRINGER
-                || item == SparkWitchItems.crossSword() || item instanceof CocktailItem) {
+                || item == SparkDlcItems.crossSword() || item instanceof CocktailItem) {
             return true;
         }
         Identifier id = Registries.ITEM.getId(item);

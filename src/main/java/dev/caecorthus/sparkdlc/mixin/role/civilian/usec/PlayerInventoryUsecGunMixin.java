@@ -26,14 +26,14 @@ public abstract class PlayerInventoryUsecGunMixin {
     public PlayerEntity player;
 
     @Inject(method = "insertStack(Lnet/minecraft/item/ItemStack;)Z", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$blockUsecGunInsert(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$blockUsecGunInsert(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         if (UsecGunRules.blocksGun(this.player, stack)) {
             cir.setReturnValue(false);
         }
     }
 
     @Inject(method = "insertStack(ILnet/minecraft/item/ItemStack;)Z", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$blockUsecGunInsertIntoSlot(int slot, ItemStack stack,
+    private void sparkdlc$blockUsecGunInsertIntoSlot(int slot, ItemStack stack,
                                                         CallbackInfoReturnable<Boolean> cir) {
         if (UsecGunRules.blocksGun(this.player, stack)) {
             cir.setReturnValue(false);

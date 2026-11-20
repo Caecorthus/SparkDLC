@@ -11,7 +11,7 @@ public final class WraithBodyRoleResolver {
     }
 
     public static @Nullable Role resolve(PlayerBodyEntity body, @Nullable Role fallback) {
-        var roleId = ((WraithBodyRoleAccess) body).sparkwitch$getDeathRole();
+        var roleId = ((WraithBodyRoleAccess) body).sparkdlc$getDeathRole();
         Role role = roleId == null ? null : WatheRoles.getRole(roleId);
         return role == null ? fallback : role;
     }

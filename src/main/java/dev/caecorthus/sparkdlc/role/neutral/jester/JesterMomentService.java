@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.neutral.jester;
 
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameConstants;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -87,7 +87,7 @@ public final class JesterMomentService {
         NbtCompound extra = new NbtCompound();
         extra.putString("death_reason", deathReason.toString());
         GameRecordManager.recordGlobalEvent(victim.getServerWorld(),
-                SparkStrengthReplayFormatters.JESTER_FAKE_DEATH_KILL_BLOCKED, victim, extra);
+                RoleKitReplayFormatters.JESTER_FAKE_DEATH_KILL_BLOCKED, victim, extra);
         return true;
     }
 
@@ -145,7 +145,7 @@ public final class JesterMomentService {
 
         NbtCompound extra = new NbtCompound();
         extra.putInt("players", players.size());
-        GameRecordManager.recordGlobalEvent(world, SparkStrengthReplayFormatters.JESTER_POSITIONS_SHUFFLED, jester, extra);
+        GameRecordManager.recordGlobalEvent(world, RoleKitReplayFormatters.JESTER_POSITIONS_SHUFFLED, jester, extra);
     }
 
     /**

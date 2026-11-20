@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.dominator;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponTarget;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
@@ -110,7 +110,7 @@ public final class DominatorReleaseGate {
         } catch (RuntimeException | LinkageError failure) {
             // A broken optional seam must never let a guarded player be forced to shoot. / 损坏的可选接缝绝不能让受保护的玩家被强制开枪。
             if (FAILURE_LOGGED.compareAndSet(false, true)) {
-                SparkWitch.LOGGER.warn("Dominator release check failed; refusing the forced shot", failure);
+                SparkDLC.LOGGER.warn("Dominator release check failed; refusing the forced shot", failure);
             }
             return true;
         }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.entity;
 
-import dev.caecorthus.sparkdlc.SparkStrengthEntities;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
 import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadRules;
 import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadService;
 import net.minecraft.component.DataComponentTypes;
@@ -70,7 +70,7 @@ public final class TaotieHeadEntity extends ThrownEntity {
      */
     public TaotieHeadEntity(ServerWorld world, ServerPlayerEntity shooter, ServerPlayerEntity skinOwner, UUID roundId,
                             UUID volleyId, Vec3d centre, Vec3d heading, Vec3d sweepStart) {
-        this(SparkStrengthEntities.taotieHead(), world);
+        this(SparkDlcEntities.taotieHead(), world);
         setOwner(shooter);
         this.shooterUuid = shooter.getUuid();
         this.roundId = roundId;

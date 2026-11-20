@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Keyboard.class)
 public abstract class M67KeyboardMixin {
     @Inject(method = "onKey", at = @At("HEAD"))
-    private void sparkstrength$m67CancelIntent(long window, int key, int scanCode, int action,
+    private void sparkdlc$m67CancelIntent(long window, int key, int scanCode, int action,
                                               int modifiers, CallbackInfo ci) {
         M67Client.keyboard(window, key, scanCode, action);
     }

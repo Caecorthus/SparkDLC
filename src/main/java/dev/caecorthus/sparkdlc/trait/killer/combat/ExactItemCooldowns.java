@@ -25,9 +25,9 @@ public final class ExactItemCooldowns {
 
     public static int remainingTicks(ItemCooldownManager manager, Item item) {
         ItemCooldownManagerAccessor access = (ItemCooldownManagerAccessor) manager;
-        Object entry = access.sparktraits$getEntries().get(item);
+        Object entry = access.sparkdlc$getEntriesForTraits().get(item);
         return entry instanceof ItemCooldownEntryAccessor end
-                ? Math.max(0, end.sparktraits$getEndTick() - access.sparktraits$getTick()) : 0;
+                ? Math.max(0, end.sparkdlc$getEndTickForTraits() - access.sparkdlc$getTickForTraits()) : 0;
     }
 
     public static void halveCarriedCooldowns(ServerPlayerEntity player) {

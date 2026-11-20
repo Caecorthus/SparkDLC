@@ -21,7 +21,7 @@ public abstract class CoronerPoisonNeedleItemMixin {
                     target = "Ldev/doctor4t/wathe/cca/GameWorldComponent;isRole(Lnet/minecraft/entity/player/PlayerEntity;Ldev/doctor4t/wathe/api/Role;)Z"
             )
     )
-    private boolean sparkstrength$coronerPoisonerDisguiseCanUseNeedle(
+    private boolean sparkdlc$coronerPoisonerDisguiseCanUseNeedle(
             GameWorldComponent gameWorld,
             PlayerEntity user,
             Role role

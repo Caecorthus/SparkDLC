@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(targets = "org.agmas.noellesroles.client.puppeteer.PuppeteerClient", remap = false)
 public abstract class NoellesPuppetNameTeamTagMixin {
     @ModifyReturnValue(method = "getName", at = @At("RETURN"), require = 0, remap = false)
-    private static Text sparkfactionapi$appendCaecorthusTeamTag(Text original) {
+    private static Text sparkdlc$appendCaecorthusTeamTag(Text original) {
         return CaecorthusTeamTag.withTagForShownName(original, ShownPlayerNames::uuidOf);
     }
 }

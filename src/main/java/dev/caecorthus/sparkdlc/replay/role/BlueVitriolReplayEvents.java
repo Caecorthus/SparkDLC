@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.replay.role;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.civilian.toxicologist.ToxicologistBlueVitriolService;
 import dev.doctor4t.wathe.record.replay.ReplayGenerator;
 import dev.doctor4t.wathe.record.replay.ReplayRegistry;
@@ -20,7 +20,7 @@ public final class BlueVitriolReplayEvents {
     static void register() {
         // Wathe drops ITEM_USE events whose item has no registered formatter; the action comes from the vitriol service.
         // Wathe 会忽略没有注册格式化器的物品使用事件；action 由蓝矾服务写入。
-        ReplayRegistry.registerItemUseFormatter(SparkStrengthItems.BLUE_VITRIOL_ID, (event, match, world) -> {
+        ReplayRegistry.registerItemUseFormatter(SparkDlcItems.BLUE_VITRIOL_ID, (event, match, world) -> {
             var playerInfoCache = ReplayGenerator.getPlayerInfoCache(match);
             NbtCompound data = event.data();
             UUID actorUuid = data.containsUuid("actor") ? data.getUuid("actor") : null;

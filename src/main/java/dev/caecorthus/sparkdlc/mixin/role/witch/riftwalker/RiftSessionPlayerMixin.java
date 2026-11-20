@@ -25,14 +25,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ServerPlayerEntity.class)
 public abstract class RiftSessionPlayerMixin {
     @Inject(method = "attack", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$blockRiftCameraPossession(Entity target, CallbackInfo ci) {
+    private void sparkdlc$blockRiftCameraPossession(Entity target, CallbackInfo ci) {
         if (RiftSessionService.isInside((ServerPlayerEntity) (Object) this)) {
             ci.cancel();
         }
     }
 
     @Inject(method = "setCameraEntity", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$vetoRiftPlayerCamera(Entity entity, CallbackInfo ci) {
+    private void sparkdlc$vetoRiftPlayerCamera(Entity entity, CallbackInfo ci) {
         ServerPlayerEntity self = (ServerPlayerEntity) (Object) this;
         if (entity instanceof PlayerEntity other && other != self && RiftSessionService.isInside(self)) {
             ci.cancel();

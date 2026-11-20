@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.neutral.jester;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.render.ManagedPostEffect;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
@@ -15,7 +15,7 @@ public final class JesterMomentClientHooks {
 
     public static void register() {
         ClientTickEvents.END_CLIENT_TICK.register(JesterMomentGrayscale::tick);
-        ManagedPostEffect.registerLifecycle(SparkStrength.id("jester_moment_grayscale"),
+        ManagedPostEffect.registerLifecycle(SparkDLC.id("jester_moment_grayscale"),
                 JesterMomentGrayscale::reset, JesterMomentGrayscale::reset, JesterMomentGrayscale::close);
     }
 }

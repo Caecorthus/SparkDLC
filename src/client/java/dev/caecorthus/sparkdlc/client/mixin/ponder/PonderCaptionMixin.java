@@ -50,28 +50,28 @@ public abstract class PonderCaptionMixin {
     // 每次资源重载都会换上新的 Language，因此字体变化同样会使缓存失效；强制使用 Unicode 字体与日文字形变体会原地切换
     // 字形，因此也计入键中。
     @Unique
-    private String sparkassist$wrappedText;
+    private String sparkdlc$wrappedText;
     @Unique
-    private TextRenderer sparkassist$wrappedFont;
+    private TextRenderer sparkdlc$wrappedFont;
     @Unique
-    private Language sparkassist$wrappedLanguage;
+    private Language sparkdlc$wrappedLanguage;
     @Unique
-    private int sparkassist$wrappedWidth;
+    private int sparkdlc$wrappedWidth;
     @Unique
-    private int sparkassist$wrappedScreenWidth;
+    private int sparkdlc$wrappedScreenWidth;
     @Unique
-    private int sparkassist$wrappedScreenHeight;
+    private int sparkdlc$wrappedScreenHeight;
     @Unique
-    private int sparkassist$wrappedGlyphs;
+    private int sparkdlc$wrappedGlyphs;
     @Unique
-    private List<StringVisitable> sparkassist$wrappedLines;
+    private List<StringVisitable> sparkdlc$wrappedLines;
     /** The wrapped lines reordered for drawing, rebuilt with them. 为绘制重排后的行，随换行结果一起重建。 */
     @Unique
-    private List<OrderedText> sparkassist$orderedLines;
+    private List<OrderedText> sparkdlc$orderedLines;
 
     @WrapOperation(method = "render", at = @At(value = "INVOKE", remap = true,
             target = "Lnet/minecraft/client/font/TextHandler;wrapLines(Ljava/lang/String;ILnet/minecraft/text/Style;)Ljava/util/List;"))
-    private List<StringVisitable> sparkassist$captionLines(TextHandler handler, String text, int width, Style style,
+    private List<StringVisitable> sparkdlc$captionLines(TextHandler handler, String text, int width, Style style,
             Operation<List<StringVisitable>> original, @Local(argsOnly = true) PonderScene scene,
             @Local(argsOnly = true) PonderUI screen, @Share("captionLines") LocalRef<List<StringVisitable>> lines) {
         if (!scene.getNamespace().equals("sparkdlc")) {
@@ -80,23 +80,23 @@ public abstract class PonderCaptionMixin {
         TextRenderer font = screen.getFontRenderer();
         Language language = Language.getInstance();
         int glyphs = glyphOptions();
-        if (sparkassist$wrappedLines == null || font != sparkassist$wrappedFont
-                || language != sparkassist$wrappedLanguage || glyphs != sparkassist$wrappedGlyphs
-                || width != sparkassist$wrappedWidth
-                || screen.width != sparkassist$wrappedScreenWidth || screen.height != sparkassist$wrappedScreenHeight
-                || (text != sparkassist$wrappedText && !text.equals(sparkassist$wrappedText))) {
-            sparkassist$wrappedLines = PonderCaptionText.wrap(font, text, screen.width, screen.height, width);
-            sparkassist$orderedLines = null;
-            sparkassist$wrappedText = text;
-            sparkassist$wrappedFont = font;
-            sparkassist$wrappedLanguage = language;
-            sparkassist$wrappedGlyphs = glyphs;
-            sparkassist$wrappedWidth = width;
-            sparkassist$wrappedScreenWidth = screen.width;
-            sparkassist$wrappedScreenHeight = screen.height;
+        if (sparkdlc$wrappedLines == null || font != sparkdlc$wrappedFont
+                || language != sparkdlc$wrappedLanguage || glyphs != sparkdlc$wrappedGlyphs
+                || width != sparkdlc$wrappedWidth
+                || screen.width != sparkdlc$wrappedScreenWidth || screen.height != sparkdlc$wrappedScreenHeight
+                || (text != sparkdlc$wrappedText && !text.equals(sparkdlc$wrappedText))) {
+            sparkdlc$wrappedLines = PonderCaptionText.wrap(font, text, screen.width, screen.height, width);
+            sparkdlc$orderedLines = null;
+            sparkdlc$wrappedText = text;
+            sparkdlc$wrappedFont = font;
+            sparkdlc$wrappedLanguage = language;
+            sparkdlc$wrappedGlyphs = glyphs;
+            sparkdlc$wrappedWidth = width;
+            sparkdlc$wrappedScreenWidth = screen.width;
+            sparkdlc$wrappedScreenHeight = screen.height;
         }
-        lines.set(sparkassist$wrappedLines);
-        return sparkassist$wrappedLines;
+        lines.set(sparkdlc$wrappedLines);
+        return sparkdlc$wrappedLines;
     }
 
     @Unique
@@ -108,7 +108,7 @@ public abstract class PonderCaptionMixin {
 
     @WrapOperation(method = "render", at = @At(value = "INVOKE", remap = true,
             target = "Lnet/minecraft/client/font/TextRenderer;getWrappedLinesHeight(Ljava/lang/String;I)I"))
-    private int sparkassist$captionHeight(TextRenderer font, String text, int width, Operation<Integer> original,
+    private int sparkdlc$captionHeight(TextRenderer font, String text, int width, Operation<Integer> original,
             @Share("captionLines") LocalRef<List<StringVisitable>> lines) {
         return lines.get() == null ? original.call(font, text, width)
                 : PonderCaptionBounds.textHeight(lines.get().size());
@@ -116,7 +116,7 @@ public abstract class PonderCaptionMixin {
 
     @WrapOperation(method = "render", at = @At(value = "INVOKE", ordinal = 0, remap = true,
             target = "Lnet/minecraft/client/util/math/MatrixStack;translate(FFF)V"))
-    private void sparkassist$fitCaption(MatrixStack matrices, float x, float y, float z, Operation<Void> original,
+    private void sparkdlc$fitCaption(MatrixStack matrices, float x, float y, float z, Operation<Void> original,
             @Local(argsOnly = true) PonderUI screen, @Local(name = "targetX") LocalFloatRef targetX,
             @Local(name = "boxWidth") int boxWidth, @Local(name = "boxHeight") int boxHeight,
             @Share("captionLines") LocalRef<List<StringVisitable>> lines,
@@ -136,14 +136,14 @@ public abstract class PonderCaptionMixin {
 
     @WrapOperation(method = "render", at = @At(value = "INVOKE", ordinal = 1, remap = true,
             target = "Lnet/minecraft/client/util/math/MatrixStack;translate(FFF)V"))
-    private void sparkassist$keepPointerAnchor(MatrixStack matrices, float x, float y, float z,
+    private void sparkdlc$keepPointerAnchor(MatrixStack matrices, float x, float y, float z,
             Operation<Void> original, @Share("captionShiftY") LocalFloatRef shiftY) {
         original.call(matrices, x, y - shiftY.get(), z);
     }
 
     @WrapOperation(method = "render", at = @At(value = "INVOKE", remap = true,
             target = "Lnet/minecraft/client/util/math/MatrixStack;scale(FFF)V"))
-    private void sparkassist$pointAtMovedCaption(MatrixStack matrices, float x, float y, float z,
+    private void sparkdlc$pointAtMovedCaption(MatrixStack matrices, float x, float y, float z,
             Operation<Void> original, @Local(argsOnly = true, ordinal = 1) float fade,
             @Local(name = "targetX") float targetX, @Local(name = "sceneToScreen") Vec2f anchor,
             @Local(name = "boxWidth") int boxWidth, @Local(name = "boxHeight") int boxHeight,
@@ -161,16 +161,16 @@ public abstract class PonderCaptionMixin {
 
     @WrapOperation(method = "render", at = @At(value = "INVOKE", remap = true,
             target = "Lnet/minecraft/client/gui/DrawContext;drawText(Lnet/minecraft/client/font/TextRenderer;Ljava/lang/String;IIIZ)I"))
-    private int sparkassist$drawCaptionLine(DrawContext graphics, TextRenderer font, String text, int x, int y,
+    private int sparkdlc$drawCaptionLine(DrawContext graphics, TextRenderer font, String text, int x, int y,
             int color, boolean shadow, Operation<Integer> original, @Local(name = "i") int lineIndex,
             @Share("captionLines") LocalRef<List<StringVisitable>> lines) {
         if (lines.get() == null) {
             return original.call(graphics, font, text, x, y, color, shadow);
         }
         // Rebuilt once after each wrap, under the Language it was keyed on. 每次换行后重建一次，所用 Language 与换行时一致。
-        if (sparkassist$orderedLines == null) {
-            sparkassist$orderedLines = Language.getInstance().reorder(lines.get());
+        if (sparkdlc$orderedLines == null) {
+            sparkdlc$orderedLines = Language.getInstance().reorder(lines.get());
         }
-        return graphics.drawText(font, sparkassist$orderedLines.get(lineIndex), x, y, color, shadow);
+        return graphics.drawText(font, sparkdlc$orderedLines.get(lineIndex), x, y, color, shadow);
     }
 }

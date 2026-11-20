@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.dominator;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
@@ -13,7 +13,7 @@ import net.minecraft.network.packet.CustomPayload;
  */
 public record DominatorForcedShotS2CPacket(int lockTicks) implements CustomPayload {
     public static final Id<DominatorForcedShotS2CPacket> ID =
-            new Id<>(SparkWitch.id("dominator_forced_shot_lock"));
+            new Id<>(SparkDLC.id("dominator_forced_shot_lock"));
     public static final PacketCodec<RegistryByteBuf, DominatorForcedShotS2CPacket> CODEC = PacketCodec.of(
             (value, buf) -> buf.writeVarInt(Math.max(0, value.lockTicks)),
             buf -> new DominatorForcedShotS2CPacket(Math.max(0, buf.readVarInt()))

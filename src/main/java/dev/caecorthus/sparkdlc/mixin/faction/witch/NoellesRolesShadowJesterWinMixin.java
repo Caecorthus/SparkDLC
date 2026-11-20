@@ -24,7 +24,7 @@ public abstract class NoellesRolesShadowJesterWinMixin {
             ),
             cancellable = true
     )
-    private static void sparkwitch$blockShadowJesterShowdownWin(
+    private static void sparkdlc$blockShadowJesterShowdownWin(
             ServerWorld world,
             GameWorldComponent gameComponent,
             GameFunctions.WinStatus currentStatus,

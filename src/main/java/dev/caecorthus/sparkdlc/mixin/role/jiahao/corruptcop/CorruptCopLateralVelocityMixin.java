@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Entity.class)
 public abstract class CorruptCopLateralVelocityMixin {
     @Inject(method = "updateVelocity", at = @At("TAIL"))
-    private void sparkstrength$addCorruptCopLateralVelocity(float speed, Vec3d movementInput, CallbackInfo ci) {
+    private void sparkdlc$addCorruptCopLateralVelocity(float speed, Vec3d movementInput, CallbackInfo ci) {
         Entity entity = (Entity) (Object) this;
         // Runs for every player's every move: the ability flag is the cheapest test and is off almost always.
         // 每个玩家每次移动都会执行：能力开关是最便宜的判断，且几乎总是关着。

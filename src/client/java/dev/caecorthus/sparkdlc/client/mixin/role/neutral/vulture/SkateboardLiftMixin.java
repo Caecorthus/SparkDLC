@@ -21,7 +21,7 @@ public abstract class SkateboardLiftMixin {
             method = "getPositionOffset(Lnet/minecraft/client/network/AbstractClientPlayerEntity;F)Lnet/minecraft/util/math/Vec3d;",
             at = @At("RETURN")
     )
-    private Vec3d sparkstrength$liftSkateboardRider(Vec3d offset, AbstractClientPlayerEntity player, float tickDelta) {
+    private Vec3d sparkdlc$liftSkateboardRider(Vec3d offset, AbstractClientPlayerEntity player, float tickDelta) {
         if (!SkateboardRenderer.standsOnBoard(player)) {
             return offset;
         }

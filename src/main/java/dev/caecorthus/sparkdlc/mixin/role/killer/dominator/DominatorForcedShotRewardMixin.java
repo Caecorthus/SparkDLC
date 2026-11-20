@@ -25,14 +25,14 @@ public abstract class DominatorForcedShotRewardMixin {
     private PlayerEntity player;
 
     @Inject(method = "addToBalance", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$freezeForcedShooterReward(int amount, CallbackInfo ci) {
+    private void sparkdlc$freezeForcedShooterReward(int amount, CallbackInfo ci) {
         if (DominatorForcedShotRewards.freezesBalanceOf(player)) {
             ci.cancel();
         }
     }
 
     @Inject(method = "setBalance", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$freezeForcedShooterBalance(int amount, CallbackInfo ci) {
+    private void sparkdlc$freezeForcedShooterBalance(int amount, CallbackInfo ci) {
         if (DominatorForcedShotRewards.freezesBalanceOf(player)) {
             ci.cancel();
         }

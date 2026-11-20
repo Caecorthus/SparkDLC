@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.role.killer.blackraven;
 import dev.caecorthus.sparkdlc.net.OpenBlackRavenDisguiseS2CPacket;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.minecraft.client.MinecraftClient;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -40,7 +40,7 @@ public final class BlackRavenClientModule {
                 new SimpleSynchronousResourceReloadListener() {
                     @Override
                     public Identifier getFabricId() {
-                        return SparkWitch.id("last_escape_compositor");
+                        return SparkDLC.id("last_escape_compositor");
                     }
 
                     @Override

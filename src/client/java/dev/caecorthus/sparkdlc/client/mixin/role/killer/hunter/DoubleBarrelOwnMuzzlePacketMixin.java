@@ -25,7 +25,7 @@ public abstract class DoubleBarrelOwnMuzzlePacketMixin {
                     + "Lnet/fabricmc/fabric/api/client/networking/v1/ClientPlayNetworking$Context;)V",
             at = @At("HEAD")
     )
-    private void sparkwitch$confirmDoubleBarrelFlash(ShootMuzzleS2CPayload payload,
+    private void sparkdlc$confirmDoubleBarrelFlash(ShootMuzzleS2CPayload payload,
                                                      ClientPlayNetworking.Context context, CallbackInfo ci) {
         String shooterId = payload.shooterId();
         MinecraftClient.getInstance().execute(() -> DoubleBarrelMuzzleClient.onMuzzlePacket(shooterId));

@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(MinecraftClient.class)
 public abstract class BlackRavenCrowMinecraftClientMixin {
     @Inject(method = "handleInputEvents", at = @At("HEAD"))
-    private void sparkwitch$captureCrowInput(CallbackInfo ci) {
+    private void sparkdlc$captureCrowInput(CallbackInfo ci) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             return;
         }
@@ -27,7 +27,7 @@ public abstract class BlackRavenCrowMinecraftClientMixin {
     }
 
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noAttackAsCrow(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$noAttackAsCrow(CallbackInfoReturnable<Boolean> cir) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             return;
         }
@@ -35,7 +35,7 @@ public abstract class BlackRavenCrowMinecraftClientMixin {
     }
 
     @Inject(method = "doItemUse", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noItemUseAsCrow(CallbackInfo ci) {
+    private void sparkdlc$noItemUseAsCrow(CallbackInfo ci) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             return;
         }
@@ -43,7 +43,7 @@ public abstract class BlackRavenCrowMinecraftClientMixin {
     }
 
     @Inject(method = "doItemPick", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noItemPickAsCrow(CallbackInfo ci) {
+    private void sparkdlc$noItemPickAsCrow(CallbackInfo ci) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             return;
         }
@@ -51,7 +51,7 @@ public abstract class BlackRavenCrowMinecraftClientMixin {
     }
 
     @Inject(method = "handleBlockBreaking", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noBlockBreakingAsCrow(boolean breaking, CallbackInfo ci) {
+    private void sparkdlc$noBlockBreakingAsCrow(boolean breaking, CallbackInfo ci) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             return;
         }

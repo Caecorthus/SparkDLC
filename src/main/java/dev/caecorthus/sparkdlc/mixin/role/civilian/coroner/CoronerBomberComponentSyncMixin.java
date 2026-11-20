@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(BomberPlayerComponent.class)
 public abstract class CoronerBomberComponentSyncMixin {
     @Inject(method = "shouldSyncWith", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$syncBombStateToCoronerBomber(
+    private void sparkdlc$syncBombStateToCoronerBomber(
             ServerPlayerEntity recipient,
             CallbackInfoReturnable<Boolean> cir
     ) {

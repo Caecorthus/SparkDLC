@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.cooldown.provider;
 
 import dev.caecorthus.sparkdlc.cooldown.api.RoleSkillCooldownStore;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.saint.SaintPlayerState;
 import dev.caecorthus.sparkdlc.role.civilian.saint.SaintRules;
@@ -17,7 +17,7 @@ import java.util.OptionalInt;
  * 圣徒业火冷却，存放在共享玩家组件内的 SaintPlayerState 中。业火燃烧期间不强制，因为燃烧结束会写入其后冷却。
  */
 final class SaintHellfireCooldownStore implements RoleSkillCooldownStore {
-    static final Identifier ID = SparkWitch.id("saint_hellfire");
+    static final Identifier ID = SparkDLC.id("saint_hellfire");
 
     @Override
     public Identifier id() {

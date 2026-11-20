@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class SeekerKnifeStabDeviceMixin {
     @Inject(method = "receive(Ldev/doctor4t/wathe/util/KnifeStabPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$stabSeekerDevice(KnifeStabPayload payload, ServerPlayNetworking.Context context,
+    private void sparkdlc$stabSeekerDevice(KnifeStabPayload payload, ServerPlayNetworking.Context context,
                                              CallbackInfo ci) {
         ServerPlayerEntity attacker = context.player();
         if (attacker.getServerWorld().getEntityById(payload.target()) instanceof SeekerDeviceEntity device) {

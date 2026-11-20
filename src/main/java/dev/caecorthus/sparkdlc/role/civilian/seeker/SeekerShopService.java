@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.trait.api.TraitShopEntries;
 import dev.doctor4t.wathe.api.Role;
@@ -53,7 +53,7 @@ public final class SeekerShopService {
     private static ShopEntry cameraEntry(SeekerShopRules.EntrySpec spec) {
         // No stock and no ownership limit: any number of cameras, only money limits it.
         // 不设库存也不限拥有数量：摄像头数量不限，只受金钱限制。
-        return new ShopEntry.Builder(spec.id(), SparkWitchItems.seekerCamera().getDefaultStack(), spec.price(),
+        return new ShopEntry.Builder(spec.id(), SparkDlcItems.seekerCamera().getDefaultStack(), spec.price(),
                 ShopEntry.Type.TOOL).build();
     }
 }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.emma;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import java.util.UUID;
@@ -17,7 +17,7 @@ import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
  * 艾玛的加速解锁仅同步本人，并绑定单个回合，包括重连后。 */
 public final class EmmaPlayerComponent implements AutoSyncedComponent {
     public static final ComponentKey<EmmaPlayerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("emma_player"), EmmaPlayerComponent.class);
+            SparkDLC.id("emma_player"), EmmaPlayerComponent.class);
     private final PlayerEntity player;
     private UUID roundId;
     private boolean speedUnlocked;

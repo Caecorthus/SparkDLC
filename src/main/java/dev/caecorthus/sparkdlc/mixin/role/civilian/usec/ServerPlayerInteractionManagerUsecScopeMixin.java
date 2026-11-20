@@ -32,7 +32,7 @@ public abstract class ServerPlayerInteractionManagerUsecScopeMixin {
                     target = "Lnet/minecraft/entity/player/ItemCooldownManager;isCoolingDown(Lnet/minecraft/item/Item;)Z"
             )
     )
-    private boolean sparkwitch$scopeUsecRifleWhileCooling(ItemCooldownManager manager, Item item,
+    private boolean sparkdlc$scopeUsecRifleWhileCooling(ItemCooldownManager manager, Item item,
                                                            Operation<Boolean> original) {
         return !(item instanceof UsecRifleItem || item instanceof M32A1Item) && original.call(manager, item);
     }

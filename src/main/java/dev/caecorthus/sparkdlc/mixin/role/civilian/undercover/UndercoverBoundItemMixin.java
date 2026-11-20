@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class UndercoverBoundItemMixin {
     @Inject(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;",
             at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$keepUndercoverGear(ItemStack stack, boolean throwRandomly, boolean retainOwnership,
+    private void sparkdlc$keepUndercoverGear(ItemStack stack, boolean throwRandomly, boolean retainOwnership,
                                                   CallbackInfoReturnable<ItemEntity> cir) {
         if (UndercoverService.isBound(stack)) {
             PlayerEntity self = (PlayerEntity) (Object) this;

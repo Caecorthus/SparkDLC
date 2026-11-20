@@ -51,7 +51,7 @@ final class TraitRecordRules {
                 && !escape.target().equals(self)
                 && context.kills().stream().anyMatch(kill -> escape.target().equals(kill.target())
                         && !timeline.isFakeDeath(kill) && !Rules.reason(kill, POISON)
-                        && StrengthRecordRules.comesAfter(timeline, kill, escape)));
+                        && RoleKitRecordRules.comesAfter(timeline, kill, escape)));
     }
 
     /**

@@ -15,7 +15,7 @@ public abstract class WraithCorpseSkinMixin {
             method = "getTexture(Ldev/doctor4t/wathe/entity/PlayerBodyEntity;)Lnet/minecraft/util/Identifier;",
             at = @At("RETURN")
     )
-    private Identifier sparkwitch$projectCorpseSteveTexture(Identifier original, PlayerBodyEntity body) {
+    private Identifier sparkdlc$projectCorpseSteveTexture(Identifier original, PlayerBodyEntity body) {
         return WraithSteveProjection.shouldAnonymizeCorpses()
                 ? WraithSteveProjection.steveTexture()
                 : original;

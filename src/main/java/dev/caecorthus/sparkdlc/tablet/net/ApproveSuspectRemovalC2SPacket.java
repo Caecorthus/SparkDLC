@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.tablet.net;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
 import java.util.UUID;
 
 public record ApproveSuspectRemovalC2SPacket(UUID suspectUuid, boolean approved) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("approve_suspect_removal");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("approve_suspect_removal");
     public static final Id<ApproveSuspectRemovalC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, ApproveSuspectRemovalC2SPacket> CODEC =
             PacketCodec.of(ApproveSuspectRemovalC2SPacket::write, ApproveSuspectRemovalC2SPacket::read);

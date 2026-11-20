@@ -10,8 +10,8 @@ import net.minecraft.item.ItemStack;
 import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaInteractionService;
 import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPuppetHits;
 
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.api.event.KillPlayer;
 import dev.doctor4t.wathe.game.GameFunctions;
 import dev.doctor4t.wathe.record.GameRecordManager;
@@ -39,7 +39,7 @@ public final class CeremonialSwordCombatService {
         AttackEntityCallback.EVENT.register((player, world, hand, entity, hitResult) ->
                 tryHandleAttack(player, world, hand, entity));
         KillPlayer.AFTER.register((victim, killer, reason) -> {
-            if (killer != null && SparkWitchDeathReasons.CEREMONIAL_BLADE.equals(reason)
+            if (killer != null && SparkDlcDeathReasons.CEREMONIAL_BLADE.equals(reason)
                     && GrandWitchRuntimeComponent.KEY.get(killer).isSwordStrikeInProgress()) {
                 completeSwordKill(killer, victim);
             }
@@ -53,7 +53,7 @@ public final class CeremonialSwordCombatService {
             return ActionResult.SUCCESS;
         }
         boolean holdingCeremonialSword = attacker instanceof PlayerEntity player
-                && player.getStackInHand(hand).isOf(SparkWitchItems.ceremonialSword());
+                && player.getStackInHand(hand).isOf(SparkDlcItems.ceremonialSword());
         if (!holdingCeremonialSword) {
             return ActionResult.PASS;
         }
@@ -140,7 +140,7 @@ public final class CeremonialSwordCombatService {
      * 左键与冲刺接触共用此门槛：最先以仪礼剑死因作为行为询问玩家影响守卫，因此被拒绝的击杀在查看剑自身的冷却与斩击状态之前结束。
      */
     public static void killWithCeremonialSword(ServerPlayerEntity attacker, ServerPlayerEntity target) {
-        if (!SparkFactionApi.allowsPlayerAction(attacker, target, SparkWitchDeathReasons.CEREMONIAL_BLADE)) {
+        if (!SparkFactionApi.allowsPlayerAction(attacker, target, SparkDlcDeathReasons.CEREMONIAL_BLADE)) {
             return;
         }
         GrandWitchRuntimeComponent runtime = GrandWitchRuntimeComponent.KEY.get(attacker);
@@ -150,7 +150,7 @@ public final class CeremonialSwordCombatService {
         }
         // Both direct strikes and delayed dash contacts are immediate melee, never the dash skill cooldown.
         // 左键与延迟冲刺接触都是即时近战，不能把冲刺技能冷却当成左键禁用。
-        ItemStack weapon = new ItemStack(SparkWitchItems.ceremonialSword());
+        ItemStack weapon = new ItemStack(SparkDlcItems.ceremonialSword());
         if (!canStrike(attacker, target)
                 || SparkTraitsApi.blocksWeaponAction(attacker, weapon)) {
             return;
@@ -162,14 +162,14 @@ public final class CeremonialSwordCombatService {
             }
             GameRecordManager.recordItemUse(
                     attacker,
-                    Registries.ITEM.getId(SparkWitchItems.ceremonialSword()),
+                    Registries.ITEM.getId(SparkDlcItems.ceremonialSword()),
                     target,
                     null
             );
             boolean boundVendetta = VendettaInteractionService.isActiveVendetta(target)
                     && VendettaInteractionService.isExactPair(attacker, target);
             boolean alreadyNonFinal = SparkTraitsApi.isNonFinalKillPending(target, attacker);
-            GameFunctions.killPlayer(target, true, attacker, SparkWitchDeathReasons.CEREMONIAL_BLADE);
+            GameFunctions.killPlayer(target, true, attacker, SparkDlcDeathReasons.CEREMONIAL_BLADE);
             // A non-final kill (e.g. a Depression fake death) never reaches AFTER, which would leave the sword
             // with no kill cooldown; it keeps Traits' reduced share of the kill cooldown instead.
             // 非最终击杀（如抑郁假死）不会派发 AFTER，否则仪礼剑不会进入击杀冷却；改为保留 Traits 规定的缩短冷却。

@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.guidebook.ui.decor;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import dev.caecorthus.sparkdlc.SparkAssist;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.guidebook.decor.PlateArt;
 import java.io.InputStream;
 import java.io.Reader;
@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
  * 每个条目只读一次。没有或损坏时退回阵营的程序化景。
  */
 public final class PlateArtLoader {
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkAssist/PlateArt");
+    private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/PlateArt");
     private static final String ROOT = "guidebook_plates/";
     private static final Map<String, Optional<PlateArt>> CACHE = new ConcurrentHashMap<>();
 
@@ -52,8 +52,8 @@ public final class PlateArtLoader {
         // Entry ids from resource packs are not checked to be valid identifiers; such a page has no plate rather
         // than throwing out of the render path.
         // 资源包里的条目 id 不保证是合法的标识符；这样的页面没有扉画，而不是在渲染路径里抛出异常。
-        Identifier imageId = Identifier.tryParse(SparkAssist.MOD_ID, base + ".png");
-        Identifier metaId = Identifier.tryParse(SparkAssist.MOD_ID, base + ".json");
+        Identifier imageId = Identifier.tryParse(SparkDLC.MOD_ID, base + ".png");
+        Identifier metaId = Identifier.tryParse(SparkDLC.MOD_ID, base + ".json");
         if (imageId == null || metaId == null) {
             return Optional.empty();
         }

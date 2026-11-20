@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.savior;
 
 import dev.caecorthus.sparkdlc.faction.api.FactionIds;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -24,13 +24,13 @@ import java.util.stream.IntStream;
  * 光剑复制 Wathe 球棒的属性。
  */
 public final class SaviorRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("savior");
+    public static final Identifier ROLE_ID = SparkDLC.id("savior");
     /** Wathe's native Vigilante, the role its gun receiver asks about. / Wathe 原生义警，其枪械接收器询问的职业。 */
     public static final Identifier VIGILANTE_ID = Identifier.of("wathe", "vigilante");
     /** Minecraft {@code §b} aqua, the role color requested by the owner. / 所有者指定的 {@code §b} 青色。 */
     public static final int ROLE_COLOR = 0x55FFFF;
-    public static final Identifier PISTOL_ID = SparkWitch.id("savior_pistol");
-    public static final Identifier LIGHTSABER_ID = SparkWitch.id("savior_lightsaber");
+    public static final Identifier PISTOL_ID = SparkDLC.id("savior_pistol");
+    public static final Identifier LIGHTSABER_ID = SparkDLC.id("savior_lightsaber");
 
     /** Round-start weapon cooldowns: pistol 60 s, lightsaber 45 s. / 开局武器冷却：手枪 60 秒、光剑 45 秒。 */
     public static final int PISTOL_START_COOLDOWN_TICKS = 60 * 20;
@@ -61,21 +61,21 @@ public final class SaviorRules {
     public static final double LIGHTSABER_MELEE_REACH = 4.0D;
 
     /** Must equal the {@code sounds.json} keys: dotted paths, not underscores. / 必须与 {@code sounds.json} 的键一致：点路径，不是下划线。 */
-    public static final Identifier PISTOL_SHOOT_SOUND_ID = SparkWitch.id("item.savior_pistol.shoot");
-    public static final Identifier PISTOL_CLICK_SOUND_ID = SparkWitch.id("item.savior_pistol.click");
-    public static final Identifier LIGHTSABER_HIT_SOUND_ID = SparkWitch.id("item.savior_lightsaber.hit");
+    public static final Identifier PISTOL_SHOOT_SOUND_ID = SparkDLC.id("item.savior_pistol.shoot");
+    public static final Identifier PISTOL_CLICK_SOUND_ID = SparkDLC.id("item.savior_pistol.click");
+    public static final Identifier LIGHTSABER_HIT_SOUND_ID = SparkDLC.id("item.savior_lightsaber.hit");
     /**
      * The weapons' own kill reasons. They are SparkWitch-terminal ({@link #isTerminalKill}) but never SparkTraits-terminal:
      * trait protections (Last Escape, Last Stand, Depression, Stands Firm) still apply to them.
      * 两把武器自己的击杀死因。它们在 SparkWitch 内部算终结（{@link #isTerminalKill}），但从不登记为 SparkTraits 终结死因：
      * 词条保护（绝处逢生、背水一战、抑郁、立场坚定）对其照常生效。
      */
-    public static final Identifier PISTOL_DEATH_REASON = SparkWitch.id("savior_pistol_kill");
-    public static final Identifier LIGHTSABER_DEATH_REASON = SparkWitch.id("lightsaber_kill");
-    public static final Identifier LIGHTSABER_IGNITE_SOUND_ID = SparkWitch.id("item.savior_lightsaber.ignite");
-    public static final Identifier LIGHTSABER_HUM_SOUND_ID = SparkWitch.id("item.savior_lightsaber.hum");
-    public static final Identifier LIGHTSABER_SWING_SOUND_ID = SparkWitch.id("item.savior_lightsaber.swing");
-    public static final Identifier GUNSHOT_PARTICLE_ID = SparkWitch.id("gunshot");
+    public static final Identifier PISTOL_DEATH_REASON = SparkDLC.id("savior_pistol_kill");
+    public static final Identifier LIGHTSABER_DEATH_REASON = SparkDLC.id("lightsaber_kill");
+    public static final Identifier LIGHTSABER_IGNITE_SOUND_ID = SparkDLC.id("item.savior_lightsaber.ignite");
+    public static final Identifier LIGHTSABER_HUM_SOUND_ID = SparkDLC.id("item.savior_lightsaber.hum");
+    public static final Identifier LIGHTSABER_SWING_SOUND_ID = SparkDLC.id("item.savior_lightsaber.swing");
+    public static final Identifier GUNSHOT_PARTICLE_ID = SparkDLC.id("gunshot");
 
     /** G-skill initial and per-use cooldown: 60 s (the owner's unspecified x, kept in one place). / G 技能开局与使用后冷却 60 秒。 */
     public static final int DOMAIN_INITIAL_COOLDOWN_TICKS = 60 * 20;

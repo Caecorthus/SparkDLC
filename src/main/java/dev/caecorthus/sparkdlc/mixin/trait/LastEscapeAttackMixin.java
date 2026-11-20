@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = PlayerEntity.class, priority = 2000)
 public abstract class LastEscapeAttackMixin {
     @WrapMethod(method = "attack")
-    private void sparktraits$blockAttack(Entity target, Operation<Void> original) {
+    private void sparkdlc$blockAttack(Entity target, Operation<Void> original) {
         if (!LastEscapeService.isActive((PlayerEntity) (Object) this)) original.call(target);
     }
 }

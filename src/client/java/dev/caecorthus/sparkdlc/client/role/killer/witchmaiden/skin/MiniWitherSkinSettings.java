@@ -6,7 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.scope.ScopeSettingsStore;
 import net.fabricmc.loader.api.FabricLoader;
 import org.jetbrains.annotations.Nullable;
@@ -77,7 +77,7 @@ final class MiniWitherSkinSettings {
             replaceAtomically(path, GSON.toJson(json));
             return true;
         } catch (IOException | RuntimeException exception) {
-            SparkWitch.LOGGER.warn("Unable to save the Mini Wither skin setting to {}", path, exception);
+            SparkDLC.LOGGER.warn("Unable to save the Mini Wither skin setting to {}", path, exception);
             return false;
         }
     }
@@ -113,7 +113,7 @@ final class MiniWitherSkinSettings {
             return;
         }
         unreadableWarned = true;
-        SparkWitch.LOGGER.warn("The SparkDLC client settings {} are unreadable or not a JSON object; the Mini Wither"
+        SparkDLC.LOGGER.warn("The SparkDLC client settings {} are unreadable or not a JSON object; the Mini Wither"
                 + " skin choice applies for this session only and is not saved until the file is fixed", path,
                 exception);
     }

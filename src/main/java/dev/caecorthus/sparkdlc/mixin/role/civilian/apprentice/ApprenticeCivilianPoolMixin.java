@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class ApprenticeCivilianPoolMixin {
     @WrapOperation(method = "assignCivilians", at = @At(value = "INVOKE",
             target = "Ldev/doctor4t/wathe/cca/GameWorldComponent;addRole(Lnet/minecraft/entity/player/PlayerEntity;Ldev/doctor4t/wathe/api/Role;)V"))
-    private void sparkwitch$shareFallbackSeatsWithApprentice(GameWorldComponent game, PlayerEntity player, Role role,
+    private void sparkdlc$shareFallbackSeatsWithApprentice(GameWorldComponent game, PlayerEntity player, Role role,
                                                             Operation<Void> original,
                                                             @Local(argsOnly = true) ServerWorld world) {
         original.call(game, player, ApprenticeCivilianPool.chooseSeatRole(game, role, world.getRandom()));

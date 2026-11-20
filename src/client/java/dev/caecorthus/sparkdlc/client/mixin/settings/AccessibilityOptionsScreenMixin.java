@@ -26,7 +26,7 @@ public abstract class AccessibilityOptionsScreenMixin extends GameOptionsScreen 
     }
 
     @Inject(method = "addOptions", at = @At("HEAD"))
-    private void sparkassist$prependSettingsButton(CallbackInfo ci) {
+    private void sparkdlc$prependSettingsButton(CallbackInfo ci) {
         if (this.body == null) {
             return;
         }

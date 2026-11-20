@@ -32,7 +32,7 @@ public abstract class ServerPlayNetworkHandlerHiroFeignMixin {
                     shift = At.Shift.AFTER),
             cancellable = true
     )
-    private void sparkwitch$blockFeignedVictimSpectatorTeleport(SpectatorTeleportC2SPacket packet, CallbackInfo ci) {
+    private void sparkdlc$blockFeignedVictimSpectatorTeleport(SpectatorTeleportC2SPacket packet, CallbackInfo ci) {
         if (HiroVictimFeignService.isFeigned(player)) {
             ci.cancel();
         }

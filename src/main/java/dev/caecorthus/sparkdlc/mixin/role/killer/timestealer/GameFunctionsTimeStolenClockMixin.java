@@ -28,7 +28,7 @@ public abstract class GameFunctionsTimeStolenClockMixin {
             require = 1,
             allow = 1
     )
-    private static void sparkwitch$skipClockKillTimeBonus(GameTimeComponent time, int amount,
+    private static void sparkdlc$skipClockKillTimeBonus(GameTimeComponent time, int amount,
                                                          Operation<Void> original,
                                                          ServerPlayerEntity victim, boolean spawnBody,
                                                          @Nullable ServerPlayerEntity killer, Identifier deathReason,

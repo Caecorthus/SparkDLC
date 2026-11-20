@@ -24,7 +24,7 @@ public abstract class BartenderStimulationCrashMixin {
                     remap = true
             )
     )
-    private static boolean sparkstrength$dropCrashSlowness(
+    private static boolean sparkdlc$dropCrashSlowness(
             ServerPlayerEntity player, StatusEffectInstance slowness, Operation<Boolean> original
     ) {
         return BartenderRules.VODKA_CRASH_SLOWNESS && original.call(player, slowness);

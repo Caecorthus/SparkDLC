@@ -47,7 +47,7 @@ public abstract class NoellesVultureDecoyBodyMixin {
             require = 1,
             allow = 1
     )
-    private static List<PlayerBodyEntity> sparkwitch$vultureSkipsMagicianDecoys(
+    private static List<PlayerBodyEntity> sparkdlc$vultureSkipsMagicianDecoys(
             World world,
             TypeFilter<Entity, PlayerBodyEntity> filter,
             Box box,

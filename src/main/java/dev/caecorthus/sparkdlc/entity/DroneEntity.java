@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.entity;
 
-import dev.caecorthus.sparkdlc.SparkStrengthEntities;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
 import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneCombatService;
 import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneFlight;
 import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneKind;
@@ -123,7 +123,7 @@ public class DroneEntity extends Entity {
     }
 
     public DroneKind kind() {
-        return getType() == SparkStrengthEntities.bombDrone() ? DroneKind.BOMB : DroneKind.GRENADE;
+        return getType() == SparkDlcEntities.bombDrone() ? DroneKind.BOMB : DroneKind.GRENADE;
     }
 
     @Override

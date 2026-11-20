@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
@@ -14,7 +14,7 @@ import net.minecraft.network.packet.CustomPayload;
  * {@code wathe:knifestab} 相同。服务端重新校验一切（{@code CrossSwordStabService}）。
  */
 public record CrossSwordStabC2SPayload(int targetEntityId) implements CustomPayload {
-    public static final Id<CrossSwordStabC2SPayload> ID = new Id<>(SparkWitch.id("cross_sword_stab"));
+    public static final Id<CrossSwordStabC2SPayload> ID = new Id<>(SparkDLC.id("cross_sword_stab"));
     public static final PacketCodec<RegistryByteBuf, CrossSwordStabC2SPayload> CODEC = PacketCodec.tuple(
             PacketCodecs.INTEGER,
             CrossSwordStabC2SPayload::targetEntityId,

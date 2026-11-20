@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.bellringer;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import java.util.Objects;
 import java.util.UUID;
@@ -31,7 +31,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 public final class BellEchoPlayerComponent
         implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
     public static final ComponentKey<BellEchoPlayerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("bell_echo"),
+            SparkDLC.id("bell_echo"),
             BellEchoPlayerComponent.class
     );
     private static final int NO_TASK = -1;

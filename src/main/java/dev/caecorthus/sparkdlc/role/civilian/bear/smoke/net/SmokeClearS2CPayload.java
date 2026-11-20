@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.bear.smoke.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier;
  * 以及切换维度或重生后重新同步之前）。多余字节会被跳过。
  */
 public record SmokeClearS2CPayload() implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("bear_smoke_clear");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("bear_smoke_clear");
     public static final Id<SmokeClearS2CPayload> ID = new Id<>(PAYLOAD_ID);
     public static final SmokeClearS2CPayload INSTANCE = new SmokeClearS2CPayload();
     public static final PacketCodec<RegistryByteBuf, SmokeClearS2CPayload> CODEC =

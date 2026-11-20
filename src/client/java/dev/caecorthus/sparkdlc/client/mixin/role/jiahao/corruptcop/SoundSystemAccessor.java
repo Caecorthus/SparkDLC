@@ -15,5 +15,5 @@ import java.util.Map;
 @Mixin(SoundSystem.class)
 public interface SoundSystemAccessor {
     @Accessor("sources")
-    Map<SoundInstance, Channel.SourceManager> sparkstrength$getSources();
+    Map<SoundInstance, Channel.SourceManager> sparkdlc$getSources();
 }

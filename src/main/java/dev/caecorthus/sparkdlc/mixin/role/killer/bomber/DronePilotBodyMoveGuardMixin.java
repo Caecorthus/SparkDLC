@@ -24,7 +24,7 @@ public abstract class DronePilotBodyMoveGuardMixin {
     public ServerPlayerEntity player;
 
     @Inject(method = "onPlayerMove", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$holdPilotBody(PlayerMoveC2SPacket packet, CallbackInfo ci) {
+    private void sparkdlc$holdPilotBody(PlayerMoveC2SPacket packet, CallbackInfo ci) {
         // HEAD also runs on the Netty thread before vanilla re-schedules the packet; sessions are read on the server
         // thread only. / HEAD 也会在原版重新调度之前于网络线程执行；会话只在服务端主线程读取。
         if (player.getServerWorld().getServer().isOnThread() && DronePilotService.holdsBody(player, packet)) {

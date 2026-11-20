@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.faction;
 
-import dev.caecorthus.sparkdlc.component.SparkFactionRoundEndComponent;
+import dev.caecorthus.sparkdlc.component.FactionRoundEndComponent;
 import dev.caecorthus.sparkdlc.round.end.FactionRoundEndRows;
 import dev.caecorthus.sparkdlc.round.end.FactionRoundEndStateRules;
 import dev.doctor4t.wathe.cca.GameRoundEndComponent;
@@ -46,12 +46,12 @@ public abstract class GameRoundEndComponentMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkfactionapi$setCustomFactionRoundEndData(
+    private void sparkdlc$setCustomFactionRoundEndData(
             ServerWorld serverWorld,
             GameFunctions.WinStatus winStatus,
             CallbackInfo ci
     ) {
-        SparkFactionRoundEndComponent customRoundEnd = SparkFactionRoundEndComponent.KEY.get(serverWorld.getScoreboard());
+        FactionRoundEndComponent customRoundEnd = FactionRoundEndComponent.KEY.get(serverWorld.getScoreboard());
         boolean hasCustomWin = customRoundEnd.hasCustomWin();
         boolean pendingCustomWinWrite = customRoundEnd.hasPendingCustomWinWrite();
         if (FactionRoundEndStateRules.shouldClearBeforeWatheStatusWrite(
@@ -81,20 +81,20 @@ public abstract class GameRoundEndComponentMixin {
             method = "setRoundEndData(Lnet/minecraft/server/world/ServerWorld;Ljava/util/Collection;)V",
             at = @At("HEAD")
     )
-    private void sparkfactionapi$clearCustomFactionRoundEndDataForExplicitWinners(
+    private void sparkdlc$clearCustomFactionRoundEndDataForExplicitWinners(
             ServerWorld serverWorld,
             Collection<UUID> winnerUuids,
             CallbackInfo ci
     ) {
-        SparkFactionRoundEndComponent customRoundEnd = SparkFactionRoundEndComponent.KEY.get(serverWorld.getScoreboard());
+        FactionRoundEndComponent customRoundEnd = FactionRoundEndComponent.KEY.get(serverWorld.getScoreboard());
         if (FactionRoundEndStateRules.shouldClearBeforeWatheExplicitWinnerWrite(customRoundEnd.hasCustomWin())) {
             customRoundEnd.clearCustomWin();
         }
     }
 
     @Inject(method = "didWin", at = @At("HEAD"), cancellable = true)
-    private void sparkfactionapi$didWinFromCustomRoundEnd(UUID uuid, CallbackInfoReturnable<Boolean> cir) {
-        SparkFactionRoundEndComponent customRoundEnd = SparkFactionRoundEndComponent.KEY.get(this.scoreboard);
+    private void sparkdlc$didWinFromCustomRoundEnd(UUID uuid, CallbackInfoReturnable<Boolean> cir) {
+        FactionRoundEndComponent customRoundEnd = FactionRoundEndComponent.KEY.get(this.scoreboard);
         if (customRoundEnd.hasCustomWin()) {
             cir.setReturnValue(customRoundEnd.didWin(uuid));
         }

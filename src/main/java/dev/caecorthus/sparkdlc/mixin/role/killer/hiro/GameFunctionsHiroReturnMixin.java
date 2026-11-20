@@ -61,7 +61,7 @@ public abstract class GameFunctionsHiroReturnMixin {
             allow = 1,
             order = 0
     )
-    private static void sparkwitch$feignedVictimIsUntouchable(
+    private static void sparkdlc$feignedVictimIsUntouchable(
             ServerPlayerEntity victim,
             boolean spawnBody,
             @Nullable ServerPlayerEntity killer,
@@ -82,7 +82,7 @@ public abstract class GameFunctionsHiroReturnMixin {
             allow = 1,
             order = 900
     )
-    private static void sparkwitch$returnOnAttack(
+    private static void sparkdlc$returnOnAttack(
             ServerPlayerEntity victim,
             boolean spawnBody,
             @Nullable ServerPlayerEntity killer,
@@ -106,7 +106,7 @@ public abstract class GameFunctionsHiroReturnMixin {
             allow = 1,
             order = 1200
     )
-    private static void sparkwitch$feignAtDeathCommit(
+    private static void sparkdlc$feignAtDeathCommit(
             ServerPlayerEntity victim,
             boolean spawnBody,
             @Nullable ServerPlayerEntity killer,

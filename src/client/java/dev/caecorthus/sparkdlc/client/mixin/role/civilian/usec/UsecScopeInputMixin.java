@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(MinecraftClient.class)
 public abstract class UsecScopeInputMixin {
     @Inject(method = "handleInputEvents", at = @At("RETURN"))
-    private void sparkwitch$jumpUsecZoomOnRaise(CallbackInfo ci) {
+    private void sparkdlc$jumpUsecZoomOnRaise(CallbackInfo ci) {
         UsecScopeInput.afterInputEvents((MinecraftClient) (Object) this);
     }
 }

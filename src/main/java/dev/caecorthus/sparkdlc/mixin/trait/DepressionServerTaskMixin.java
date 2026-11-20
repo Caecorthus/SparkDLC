@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(MinecraftServer.class)
 public abstract class DepressionServerTaskMixin {
     @WrapMethod(method = "executeTask(Lnet/minecraft/server/ServerTask;)V")
-    private void sparktraits$scopeFakeKillCooldownsToTask(ServerTask task, Operation<Void> original) {
+    private void sparkdlc$scopeFakeKillCooldownsToTask(ServerTask task, Operation<Void> original) {
         DepressionFakeKillCooldowns.beginServerTask();
         try {
             original.call(task);

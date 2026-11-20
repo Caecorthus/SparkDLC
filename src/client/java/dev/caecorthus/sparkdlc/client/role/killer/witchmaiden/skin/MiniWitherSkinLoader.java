@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.killer.witchmaiden.skin;
 
 import com.google.gson.JsonElement;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.render.bedrock.BedrockBounds;
 import dev.caecorthus.sparkdlc.client.render.bedrock.BedrockModelException;
 import dev.caecorthus.sparkdlc.client.render.bedrock.anim.BedrockAnimation;
@@ -111,7 +111,7 @@ final class MiniWitherSkinLoader {
 
     /** {@code sparkdlc:dynamic/mini_wither_skin/<id>/<generation>/<name>}. */
     static Identifier textureId(String skinId, int generation, String name) {
-        return SparkWitch.id("dynamic/mini_wither_skin/" + skinId + "/" + generation + "/" + name);
+        return SparkDLC.id("dynamic/mini_wither_skin/" + skinId + "/" + generation + "/" + name);
     }
 
     /** Frees textures this loader registered (render thread). / 释放本加载器注册的贴图（渲染线程）。 */
@@ -124,7 +124,7 @@ final class MiniWitherSkinLoader {
             try {
                 manager.destroyTexture(id);
             } catch (RuntimeException exception) {
-                SparkWitch.LOGGER.warn("Unable to free the Mini Wither skin texture {}", id, exception);
+                SparkDLC.LOGGER.warn("Unable to free the Mini Wither skin texture {}", id, exception);
             }
         }
     }

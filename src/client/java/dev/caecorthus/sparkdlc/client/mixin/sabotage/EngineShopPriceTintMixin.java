@@ -27,7 +27,7 @@ public abstract class EngineShopPriceTintMixin {
     @ModifyArg(method = "renderWidget", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/gui/DrawContext;drawTooltip(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;II)V",
             remap = true), index = 1, require = 1, allow = 1, remap = true)
-    private Text sparkstrength$greenDiscountedPrice(Text label) {
+    private Text sparkdlc$greenDiscountedPrice(Text label) {
         return EngineShopDisplay.tintPrice(entry, label);
     }
 }

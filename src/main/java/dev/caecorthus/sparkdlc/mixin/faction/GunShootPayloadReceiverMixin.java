@@ -26,7 +26,7 @@ public abstract class GunShootPayloadReceiverMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkfactionapi$guardGunShot(
+    private void sparkdlc$guardGunShot(
             GunShootPayload payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.hud;
 
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.client.role.killer.natsume.NatsumeClientState;
 import dev.caecorthus.sparkdlc.role.killer.natsume.NatsumeComponent;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -38,7 +38,7 @@ public final class NatsumeHudRenderer {
                 ? Text.translatable("message.sparkdlc.natsume.cooldown",
                         component.getCooldownSeconds()).formatted(Formatting.GRAY)
                 : Text.translatable("hud.sparkdlc.natsume.ready",
-                        SparkWitchClient.abilityKeyText()).formatted(Formatting.LIGHT_PURPLE);
+                        SparkDLCClient.abilityKeyText()).formatted(Formatting.LIGHT_PURPLE);
         // Same slot as the other skill readouts: centred, just above the action bar.
         // 与其它技能提示同位置：居中，动作栏正上方。
         context.drawCenteredTextWithShadow(client.textRenderer, line,

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.apprentice;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -27,7 +27,7 @@ public final class ApprenticeCivilianPool {
         if (wathePick != WatheRoles.CIVILIAN) {
             return wathePick;
         }
-        Role apprentice = SparkWitchRoles.apprenticeWitch();
+        Role apprentice = SparkDlcRoles.apprenticeWitch();
         if (apprentice == null || !game.isRoleEnabled(apprentice)) {
             // A disabled Apprentice draws nothing, so Wathe's random stream is unchanged. / 未启用时不消耗随机数。
             return wathePick;

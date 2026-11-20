@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.detective;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.gui.widget.PlayerNameResolver;
 import dev.caecorthus.sparkdlc.client.gui.widget.UiColors;
 import dev.caecorthus.sparkdlc.client.gui.widget.UiText;
@@ -348,14 +348,14 @@ public final class DetectiveInterrogationScreen extends Screen {
             context.drawText(textRenderer, clues, cluesX, lineOneY, DetectiveFolderPaint.INK_NAVY, false);
         }
 
-        int cooldownTicks = ItemCooldownSync.remainingTicks(player.getItemCooldownManager(), SparkStrengthItems.magnifier());
+        int cooldownTicks = ItemCooldownSync.remainingTicks(player.getItemCooldownManager(), SparkDlcItems.magnifier());
         String cooldown = cooldownTicks > 0
                 ? Text.translatable(KEY + "cooldown", Math.ceilDiv(cooldownTicks, 20)).getString()
                 : "";
         int cooldownX = rightX - textRenderer.getWidth(cooldown);
         if (!cooldown.isEmpty()) {
             context.drawText(textRenderer, cooldown, cooldownX, lineTwoY, DetectiveFolderPaint.INK_RED, false);
-            float progress = player.getItemCooldownManager().getCooldownProgress(SparkStrengthItems.magnifier(), delta);
+            float progress = player.getItemCooldownManager().getCooldownProgress(SparkDlcItems.magnifier(), delta);
             int barWidth = Math.round((header.width() - 2) * Math.max(0.0F, Math.min(1.0F, progress)));
             context.fill(header.x() + 1, header.bottom() - 2, header.x() + 1 + barWidth, header.bottom() - 1, COLOR_COOLDOWN_BAR);
         }
@@ -581,7 +581,7 @@ public final class DetectiveInterrogationScreen extends Screen {
         if (shown.getSuspects().size() >= DetectiveCaseRules.clampSuspectLimit(folder.getSyncedSuspectLimit())) {
             return Text.translatable("message.sparkdlc.detective.enough_clues");
         }
-        if (ItemCooldownSync.remainingTicks(player.getItemCooldownManager(), SparkStrengthItems.magnifier()) > 0) {
+        if (ItemCooldownSync.remainingTicks(player.getItemCooldownManager(), SparkDlcItems.magnifier()) > 0) {
             return Text.translatable(KEY + "cooling");
         }
         return Text.translatable(KEY + "hint");
@@ -628,7 +628,7 @@ public final class DetectiveInterrogationScreen extends Screen {
                 && pendingSelection == null
                 && pendingTarget == null
                 && shown.getSuspects().size() < DetectiveCaseRules.clampSuspectLimit(folder.getSyncedSuspectLimit())
-                && ItemCooldownSync.remainingTicks(player.getItemCooldownManager(), SparkStrengthItems.magnifier()) <= 0;
+                && ItemCooldownSync.remainingTicks(player.getItemCooldownManager(), SparkDlcItems.magnifier()) <= 0;
     }
 
     /**
@@ -737,7 +737,7 @@ public final class DetectiveInterrogationScreen extends Screen {
         if (!GameFunctions.isPlayerPlayingAndAlive(player) || player.isSpectator()) {
             return false;
         }
-        Item magnifier = SparkStrengthItems.magnifier();
+        Item magnifier = SparkDlcItems.magnifier();
         return DetectiveRules.isDetective(GameWorldComponent.KEY.get(player.getWorld()).getRole(player))
                 && (player.getMainHandStack().isOf(magnifier) || player.getOffHandStack().isOf(magnifier));
     }

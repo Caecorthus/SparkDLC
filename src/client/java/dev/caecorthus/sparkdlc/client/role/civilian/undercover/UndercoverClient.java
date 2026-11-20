@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.undercover;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.render.ManagedPostEffect;
 import dev.caecorthus.sparkdlc.client.role.jiahao.corruptcop.CorruptCopClientHooks;
 import dev.caecorthus.sparkdlc.client.role.civilian.perfumer.kit.PerfumerClientEffects;
@@ -12,7 +12,7 @@ import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverRules;
 import dev.doctor4t.wathe.api.event.ShouldShowCohort;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
@@ -77,7 +77,7 @@ public final class UndercoverClient {
         WorldRenderEvents.BEFORE_DEBUG_RENDER.register(UndercoverThermalRenderer::captureHeat);
         ShouldShowCohort.EVENT.register(UndercoverClient::cohort);
         HudRenderCallback.EVENT.register((context, tickCounter) -> renderHud(context));
-        ManagedPostEffect.registerLifecycle(SparkStrength.id("undercover_thermal"), () -> {
+        ManagedPostEffect.registerLifecycle(SparkDLC.id("undercover_thermal"), () -> {
             thermalOn = false;
             UndercoverThermalRenderer.close();
         }, UndercoverThermalRenderer::close, UndercoverThermalRenderer::close);
@@ -108,7 +108,7 @@ public final class UndercoverClient {
         boolean useDown = client.options.useKey.isPressed();
         if (useDown && !useKeyWasDown && client.currentScreen == null && player.isSneaking()
                 && player.getMainHandStack().isEmpty()
-                && player.getEquippedStack(EquipmentSlot.HEAD).isOf(SparkStrengthItems.cqcmMask())
+                && player.getEquippedStack(EquipmentSlot.HEAD).isOf(SparkDlcItems.cqcmMask())
                 // Any aim but a player: indoors a wall or ceiling is almost always within reach.
                 // 只要不是对着玩家都行：室内几乎总有墙或天花板在触及范围内。
                 && (client.crosshairTarget == null || client.crosshairTarget.getType() != HitResult.Type.ENTITY)) {

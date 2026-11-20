@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.headset;
 
 import com.mojang.datafixers.util.Pair;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -30,7 +30,7 @@ public final class HeadsetSlot extends Slot {
     public static final int X = 77;
     public static final int Y = 44;
     /** Block-atlas sprite of the empty slot (art package). / 空栏位的方块图集精灵（美术包）。 */
-    public static final Identifier EMPTY_SPRITE = SparkWitch.id("item/empty_slot_headset");
+    public static final Identifier EMPTY_SPRITE = SparkDLC.id("item/empty_slot_headset");
 
     private final PlayerEntity owner;
 

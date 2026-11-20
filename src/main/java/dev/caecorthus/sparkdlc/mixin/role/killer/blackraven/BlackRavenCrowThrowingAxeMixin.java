@@ -37,7 +37,7 @@ public abstract class BlackRavenCrowThrowingAxeMixin extends PersistentProjectil
     @Inject(method = "tick", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/World;getOtherEntities(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Box;)Ljava/util/List;"),
             require = 1)
-    private void sparkwitch$pierceCrows(CallbackInfo ci) {
+    private void sparkdlc$pierceCrows(CallbackInfo ci) {
         if (getWorld().isClient()) {
             return;
         }

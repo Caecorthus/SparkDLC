@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.bellringer;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.util.StaggeredSweep;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -30,7 +30,7 @@ public final class BellRingerLoadoutService {
         if (!BellRingerRules.isBellRinger(role)) {
             return;
         }
-        player.giveItemStack(new ItemStack(SparkWitchItems.tollBell()));
+        player.giveItemStack(new ItemStack(SparkDlcItems.tollBell()));
         player.getInventory().markDirty();
         player.currentScreenHandler.sendContentUpdates();
     }
@@ -109,7 +109,7 @@ public final class BellRingerLoadoutService {
             }
         }
         if (!found) {
-            ItemStack bell = new ItemStack(SparkWitchItems.tollBell());
+            ItemStack bell = new ItemStack(SparkDlcItems.tollBell());
             // Prefer the emptied selected slot so a blocked hotbar drop puts the bell back where it was.
             // 优先放回已空的当前选中栏位，使被拦截的快捷栏丢弃把钟放回原位。
             if (inventory.getStack(inventory.selectedSlot).isEmpty()) {

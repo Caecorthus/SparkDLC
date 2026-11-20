@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.item.m67;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.SparkStrengthSounds;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
 import dev.caecorthus.sparkdlc.entity.M67GrenadeEntity;
@@ -95,7 +95,7 @@ public final class M67UseService {
             return false;
         }
         if (roundId == null || !allowed(player) || player.isUsingItem()
-                || stack.isEmpty() || !stack.isOf(SparkStrengthItems.m67())
+                || stack.isEmpty() || !stack.isOf(SparkDlcItems.m67())
                 || player.getStackInHand(hand) != stack) {
             return false;
         }
@@ -162,10 +162,10 @@ public final class M67UseService {
         preserveCooldown(player, presentation ? M67Rules.THROW_COOLDOWN_TICKS : throwCooldownTicks(player));
         clearM67Use(player);
         if (!presentation) {
-            GameRecordManager.recordItemUse(player, SparkStrengthItems.M67_ID, null, null);
+            GameRecordManager.recordItemUse(player, SparkDlcItems.M67_ID, null, null);
         }
         // Broadcast only after a successful throw; canceled sessions stay silent. / 仅成功投掷后广播，取消会话不播放投掷声。
-        world.playSound(null, player.getX(), player.getY(), player.getZ(), SparkStrengthSounds.M67_THROW,
+        world.playSound(null, player.getX(), player.getY(), player.getZ(), SparkDlcSounds.M67_THROW,
                 SoundCategory.PLAYERS, 1.0F, 1.0F);
     }
 
@@ -257,7 +257,7 @@ public final class M67UseService {
 
     private static ItemStack equippedM67(ServerPlayerEntity player, Hand hand) {
         ItemStack stack = player.getStackInHand(hand);
-        return !stack.isEmpty() && stack.isOf(SparkStrengthItems.m67()) ? stack : null;
+        return !stack.isEmpty() && stack.isOf(SparkDlcItems.m67()) ? stack : null;
     }
 
     private static Set<ServerPlayerEntity> trackedPlayers() {
@@ -298,18 +298,18 @@ public final class M67UseService {
      * 见 {@link ItemCooldownSync}。
      */
     static void preserveOpening(ServerPlayerEntity player, int lockTicks) {
-        ItemCooldownSync.raiseExact(player, SparkStrengthItems.m67(), lockTicks);
+        ItemCooldownSync.raiseExact(player, SparkDlcItems.m67(), lockTicks);
     }
 
     /** Throw, cancel and equip cooldowns: the vanilla entry is the gate, so cooldown modifiers apply. / 投掷、取消与装备冷却：原版条目即判定，冷却倍率照常生效。 */
     static void preserveCooldown(ServerPlayerEntity player, int minimumTicks) {
         ItemCooldownManager manager = player.getItemCooldownManager();
-        Object entry = ((ItemCooldownManagerAccessor) manager).sparkstrength$getEntries().get(SparkStrengthItems.m67());
+        Object entry = ((ItemCooldownManagerAccessor) manager).sparkdlc$getEntriesForKits().get(SparkDlcItems.m67());
         int remaining = entry == null ? 0 : Math.max(0,
-                ((ItemCooldownEntryAccessor) entry).sparkstrength$getEndTick()
-                        - ((ItemCooldownManagerAccessor) manager).sparkstrength$getTick());
+                ((ItemCooldownEntryAccessor) entry).sparkdlc$getEndTickForKits()
+                        - ((ItemCooldownManagerAccessor) manager).sparkdlc$getTickForKits());
         if (remaining < minimumTicks) {
-            manager.set(SparkStrengthItems.m67(), minimumTicks);
+            manager.set(SparkDlcItems.m67(), minimumTicks);
         }
     }
 
@@ -318,7 +318,7 @@ public final class M67UseService {
             return false;
         }
         ItemStack held = player.getStackInHand(player.getActiveHand());
-        return held.isOf(SparkStrengthItems.m67()) && player.getActiveItem() == held
+        return held.isOf(SparkDlcItems.m67()) && player.getActiveItem() == held
                 && state.matches(M67RoundService.throwRoundId(player.getServerWorld()), held,
                 player.getActiveHand(), player.getInventory().selectedSlot, held.getCount());
     }
@@ -328,13 +328,13 @@ public final class M67UseService {
         return M67RoundService.throwRoundId(player.getServerWorld()) != null
                 && mode != ThrowMode.REFUSED
                 && (mode == ThrowMode.PRESENTATION || M67RoundService.openingRemaining(player) == 0)
-                && !player.getItemCooldownManager().isCoolingDown(SparkStrengthItems.m67())
+                && !player.getItemCooldownManager().isCoolingDown(SparkDlcItems.m67())
                 && !EngineerStunnedPlayerComponent.KEY.get(player).isStunned()
                 && !SparkTraitsApi.isKillerInteractionBlocked(player);
     }
 
     private static void clearM67Use(ServerPlayerEntity player) {
-        if (player.getActiveItem().isOf(SparkStrengthItems.m67())) {
+        if (player.getActiveItem().isOf(SparkDlcItems.m67())) {
             player.clearActiveItem();
         }
     }

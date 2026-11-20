@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.judge.JudgeRules;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -17,7 +17,7 @@ import net.minecraft.util.Identifier;
 public record OpenJudgeSelectionS2CPacket(UUID sessionId, List<UUID> playerUuids, List<String> playerNames)
         implements CustomPayload {
     public static final int MAX_PLAYER_NAME_LENGTH = 128;
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("open_judge_selection_s2c");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("open_judge_selection_s2c");
     public static final Id<OpenJudgeSelectionS2CPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, OpenJudgeSelectionS2CPacket> CODEC =
             PacketCodec.of(OpenJudgeSelectionS2CPacket::write, OpenJudgeSelectionS2CPacket::read);

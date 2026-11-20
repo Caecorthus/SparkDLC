@@ -25,7 +25,7 @@ public abstract class HeadsetInventoryScreenMixin extends AbstractInventoryScree
     }
 
     @Inject(method = "drawBackground(Lnet/minecraft/client/gui/DrawContext;FII)V", at = @At("TAIL"))
-    private void sparkwitch$drawHeadsetFrame(DrawContext context, float delta, int mouseX, int mouseY,
+    private void sparkdlc$drawHeadsetFrame(DrawContext context, float delta, int mouseX, int mouseY,
                                              CallbackInfo ci) {
         if (HeadsetScreenFrames.shown(handler)) {
             HeadsetScreenFrames.drawFrame(context, x + HeadsetSlot.X, y + HeadsetSlot.Y);

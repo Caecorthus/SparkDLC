@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.item.rope;
 
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,6 +35,6 @@ public final class RopeShieldPolicy {
     }
 
     public static boolean passesShields(@Nullable Identifier deathReason) {
-        return SparkWitchDeathReasons.STRANGLED.equals(deathReason);
+        return SparkDlcDeathReasons.STRANGLED.equals(deathReason);
     }
 }

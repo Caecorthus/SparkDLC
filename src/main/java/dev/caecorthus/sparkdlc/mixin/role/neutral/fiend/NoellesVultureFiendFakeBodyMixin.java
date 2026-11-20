@@ -42,7 +42,7 @@ public abstract class NoellesVultureFiendFakeBodyMixin {
             require = 1,
             allow = 1
     )
-    private static void sparkwitch$vultureDevoursFeigningFiend(
+    private static void sparkdlc$vultureDevoursFeigningFiend(
             VultureEatC2SPacket payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci,

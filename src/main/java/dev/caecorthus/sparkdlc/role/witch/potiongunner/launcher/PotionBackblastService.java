@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.witch.potiongunner.launcher;
 
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.BearRicochetRules;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RangedSmokeCarve;
 import dev.caecorthus.sparkdlc.role.civilian.judge.JudgeKillAttribution;
@@ -79,7 +79,7 @@ public final class PotionBackblastService {
         // the victim (a tie goes to the player); the puppet and device steps then compete with the crow's distance.
         // 化鸦接缝：按玩家规则量取的通道内乌鸦严格近于受害者时承受尾焰（距离相同时归玩家）；皮套与设备步骤随后与乌鸦的距离比较。
         PotionBackblastRules.Hit<BlackRavenCrowTargets.Target> crow = BlackRavenCrowHits.backblastLane(gunner, origin,
-                backwards, length, reach, SparkWitchDeathReasons.POTION_BACKBLAST);
+                backwards, length, reach, SparkDlcDeathReasons.POTION_BACKBLAST);
         if (crow != null) {
             reach = crow.distance();
         }
@@ -96,7 +96,7 @@ public final class PotionBackblastService {
                     crow.distance(), true));
         }
         victim.ifPresent(hit -> JudgeKillAttribution.runWith(world, gunner.getUuid(),
-                () -> GameFunctions.killPlayer(hit.target(), true, gunner, SparkWitchDeathReasons.POTION_BACKBLAST)));
+                () -> GameFunctions.killPlayer(hit.target(), true, gunner, SparkDlcDeathReasons.POTION_BACKBLAST)));
     }
 
     /** Distance to the first COLLIDER block (closed doors included) on the full lane, or -1. / 完整通道上第一个方块的距离，否则 -1。 */
@@ -122,7 +122,7 @@ public final class PotionBackblastService {
             Box box = target.getBoundingBox();
             double distance = PotionBackblastRules.hitDistance(origin, backwards, length, box);
             if (distance < 0.0
-                    || !SparkFactionApi.canAffectPlayer(gunner, target, SparkWitchDeathReasons.POTION_BACKBLAST, game)) {
+                    || !SparkFactionApi.canAffectPlayer(gunner, target, SparkDlcDeathReasons.POTION_BACKBLAST, game)) {
                 continue;
             }
             Vec3d sight = PotionBackblastRules.sightPoint(origin, backwards, distance, box);

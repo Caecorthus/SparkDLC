@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.riftwalker.swapper;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.RiftwalkerRules;
 import net.minecraft.util.Identifier;
 
@@ -14,7 +14,7 @@ import java.util.List;
  */
 public final class RiftSwapperCrushRules {
     /** Global replay event written before the kill (post-game only). / 处死前写入的全局回放事件（只在赛后显示）。 */
-    public static final Identifier REPLAY_EVENT_ID = SparkWitch.id("portal_crush");
+    public static final Identifier REPLAY_EVENT_ID = SparkDLC.id("portal_crush");
     public static final String REPLAY_KEY = "replay.global.sparkdlc.portal_crush";
     /** Actionbar for every target who is inside a gate. / 发给每个门内目标的动作栏提示。 */
     public static final String OCCUPANT_MESSAGE_KEY = "message.sparkdlc.riftwalker.swapper.crushed";

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartyAnimalRules;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -20,7 +20,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
  */
 public final class PartyAnimalSkillComponent implements AutoSyncedComponent, ServerTickingComponent {
     public static final ComponentKey<PartyAnimalSkillComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("party_animal_skill"),
+            SparkDLC.id("party_animal_skill"),
             PartyAnimalSkillComponent.class
     );
 

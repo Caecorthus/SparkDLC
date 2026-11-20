@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.blind.render;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindRules;
 import net.fabricmc.fabric.api.client.networking.v1.ClientLoginConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
@@ -36,7 +36,7 @@ public final class BlindRenderWiring {
     public static final String SHADER_PACK_HINT_KEY = "hud.sparkdlc.blind.view_unavailable";
     /** The pipeline failed or no depth was captured, with no shader pack. / 无光影包时管线失败或未捕获深度。 */
     public static final String RENDER_FAILED_HINT_KEY = "hud.sparkdlc.blind.view_failed";
-    private static final Identifier RELOAD_LISTENER_ID = SparkWitch.id("blind_echo_view");
+    private static final Identifier RELOAD_LISTENER_ID = SparkDLC.id("blind_echo_view");
     private static boolean registered;
 
     private BlindRenderWiring() {

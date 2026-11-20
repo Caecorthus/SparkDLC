@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.riftwalker.gate;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.RiftwalkerMatch;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.session.RiftSessionService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -207,12 +207,12 @@ public final class RiftGateRegistry {
         RiftGateEntity gate = matchId == null ? null
                 : create(world, record.number(), record.pos(), record.facing(), record.placer(), matchId);
         if (gate == null || !world.spawnEntity(gate)) {
-            SparkWitch.LOGGER.warn("Rift Gate #{} in {} was lost and could not be restored; closing it",
+            SparkDLC.LOGGER.warn("Rift Gate #{} in {} was lost and could not be restored; closing it",
                     record.number(), world.getRegistryKey().getValue());
             close(world, record.number(), RiftGateCloseReason.LOST);
             return;
         }
-        SparkWitch.LOGGER.warn("Rift Gate #{} in {} was lost; restored it from the registry",
+        SparkDLC.LOGGER.warn("Rift Gate #{} in {} was lost; restored it from the registry",
                 record.number(), world.getRegistryKey().getValue());
         registry.add(new RiftGateRecord(record.number(), gate.getUuid(), record.pos(), record.facing(),
                 record.placer(), record.createdTick()));

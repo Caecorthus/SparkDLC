@@ -17,7 +17,7 @@ public abstract class JudgeTrainFallLifecycleMixin {
     @Shadow @Final private World world;
 
     @Inject(method = "serverTick", at = @At("HEAD"))
-    private void sparkwitch$pruneJudgeFalls(CallbackInfo ci) {
+    private void sparkdlc$pruneJudgeFalls(CallbackInfo ci) {
         if (world instanceof ServerWorld serverWorld) JudgeTrainFallAttribution.prune(serverWorld);
     }
 }

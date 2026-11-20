@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.noa;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -16,13 +16,13 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class NoaRules {
 
-    public static final Identifier ROLE_ID = SparkWitch.id("noa");
+    public static final Identifier ROLE_ID = SparkDLC.id("noa");
 
     /** Identity colour 9CC8FC. / 身份色 9CC8FC。 */
     public static final int COLOR = 0x9CC8FC;
 
     /** Forced-cooldown store id for the painting. / 作画的强制冷却存储 id。 */
-    public static final Identifier PAINT_SKILL_ID = SparkWitch.id("noa_paint");
+    public static final Identifier PAINT_SKILL_ID = SparkDLC.id("noa_paint");
 
     /**
      * Stable item contract: the big dog portrait a high-sanity painting can produce. Carried by a living Noa (any
@@ -30,7 +30,7 @@ public final class NoaRules {
      * 稳定物品契约：高理智作画可能画出的大狗画像。存活的诺亚携带它（任意背包格或副手）时，在她 {@link #DOG_RADIUS}
      * 格内杀人的其他人会受到惩罚。
      */
-    public static final Identifier DOG_PORTRAIT_ITEM_ID = SparkWitch.id("big_dog_portrait");
+    public static final Identifier DOG_PORTRAIT_ITEM_ID = SparkDLC.id("big_dog_portrait");
 
     /** Painting: 50 s at round start, 60 s after each painting. / 作画：开局 50 秒，每次作画后 60 秒。 */
     public static final int INITIAL_COOLDOWN_TICKS = 50 * 20;

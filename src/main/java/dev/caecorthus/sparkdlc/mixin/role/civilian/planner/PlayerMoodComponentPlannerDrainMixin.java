@@ -60,7 +60,7 @@ public abstract class PlayerMoodComponentPlannerDrainMixin {
             require = 2,
             allow = 2
     )
-    private int sparkwitch$plannerRecommendationNeverDrains(int drainingTasks) {
+    private int sparkdlc$plannerRecommendationNeverDrains(int drainingTasks) {
         if (!PlannerComponent.KEY.get(player).holdsRecommendation(((PlayerMoodComponent) (Object) this).tasks)) {
             return drainingTasks;
         }

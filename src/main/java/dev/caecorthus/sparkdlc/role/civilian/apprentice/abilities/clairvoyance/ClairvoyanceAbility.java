@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.apprentice.abilities.clairvoyance;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseContext;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseResult;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
@@ -10,7 +10,7 @@ import dev.doctor4t.wathe.game.GameConstants;
 import net.minecraft.util.Identifier;
 
 public final class ClairvoyanceAbility {
-    public static final Identifier ID = SparkWitch.id("clairvoyance");
+    public static final Identifier ID = SparkDLC.id("clairvoyance");
     public static final int MANA_COST = 50;
     // The self outline is now a real cost: everyone sees it, for 10 s (owner D9). / 自身描边成为真正的代价：所有人可见，持续 10 秒（所有者 D9）。
     public static final int SELF_TICKS = GameConstants.getInTicks(0, 10);

@@ -35,7 +35,7 @@ public abstract class ControlExpertStunPayloadGuardMixin {
                     + "Lnet/minecraft/network/packet/CustomPayload;)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;execute(Ljava/lang/Runnable;)V")
     )
-    private void sparkwitch$dropStunnedPayload(
+    private void sparkdlc$dropControlExpertStunnedPayload(
             MinecraftServer server,
             Runnable handler,
             Operation<Void> original,

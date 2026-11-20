@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.faction.api;
 
-import dev.caecorthus.sparkdlc.component.SparkFactionThirdFactionComponent;
+import dev.caecorthus.sparkdlc.component.ThirdFactionComponent;
 import dev.caecorthus.sparkdlc.faction.collision.EntityCollisionExemptions;
 import dev.caecorthus.sparkdlc.faction.economy.FactionEconomyRules;
 import dev.caecorthus.sparkdlc.faction.gun.FactionGunPunishmentRules;
@@ -178,7 +178,7 @@ public final class SparkFactionApi {
      * @since 2.0.0
      */
     public static int thirdFactionMinPlayers(MinecraftServer server) {
-        return SparkFactionThirdFactionComponent.of(server).settings().minPlayers();
+        return ThirdFactionComponent.of(server).settings().minPlayers();
     }
 
     /**
@@ -189,7 +189,7 @@ public final class SparkFactionApi {
      * @since 2.0.0
      */
     public static void setThirdFactionMinPlayers(MinecraftServer server, int players) {
-        SparkFactionThirdFactionComponent.of(server).setMinPlayers(players);
+        ThirdFactionComponent.of(server).setMinPlayers(players);
     }
 
     /**
@@ -201,7 +201,7 @@ public final class SparkFactionApi {
      * @since 2.0.0
      */
     public static int thirdFactionDividend(MinecraftServer server) {
-        return SparkFactionThirdFactionComponent.of(server).settings().dividend();
+        return ThirdFactionComponent.of(server).settings().dividend();
     }
 
     /**
@@ -212,7 +212,7 @@ public final class SparkFactionApi {
      * @since 2.0.0
      */
     public static void setThirdFactionDividend(MinecraftServer server, int dividend) {
-        SparkFactionThirdFactionComponent.of(server).setDividend(dividend);
+        ThirdFactionComponent.of(server).setDividend(dividend);
     }
 
     public static Identifier resolveEffectiveFaction(PlayerEntity player, GameWorldComponent gameComponent) {

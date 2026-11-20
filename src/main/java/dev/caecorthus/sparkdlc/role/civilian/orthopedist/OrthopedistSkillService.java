@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.orthopedist;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.role.killer.hunter.HunterPlayerComponent;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
 import dev.doctor4t.wathe.api.Role;
@@ -58,7 +58,7 @@ public final class OrthopedistSkillService {
         OrthopedistPlayerComponent component = OrthopedistPlayerComponent.KEY.get(caster);
         if (!game.isRunning()
                 // Widened by the Black Raven acting overlay; getRole stays raw. / 黑羽鸦扮演覆盖层会放宽此判定；getRole 仍为真实身份。
-                || !game.isRole(caster, SparkWitchRoles.orthopedist())
+                || !game.isRole(caster, SparkDlcRoles.orthopedist())
                 || !GameFunctions.isPlayerPlayingAndAlive(caster)
                 || component.getCooldownTicks() > 0) {
             return;

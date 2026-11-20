@@ -3,8 +3,8 @@ package dev.caecorthus.sparkdlc;
 import dev.caecorthus.sparkdlc.command.SparkDlcCommands;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesCollisionCompatibility;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesHiddenEquipment;
-import dev.caecorthus.sparkdlc.event.SparkStrengthEvents;
-import dev.caecorthus.sparkdlc.event.SparkWitchEvents;
+import dev.caecorthus.sparkdlc.event.RoleKitEvents;
+import dev.caecorthus.sparkdlc.event.RoleEvents;
 import dev.caecorthus.sparkdlc.faction.FactionCompatibilityEvents;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.legacy.LegacyFiles;
@@ -14,7 +14,7 @@ import dev.caecorthus.sparkdlc.net.version.SparkDlcVersionHandshake;
 import dev.caecorthus.sparkdlc.record.MatchRecordBroadcaster;
 import dev.caecorthus.sparkdlc.record.PsychoRecorder;
 import dev.caecorthus.sparkdlc.replay.SparkReplayBootstrap;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertEntities;
 import dev.caecorthus.sparkdlc.role.civilian.guardianangel.GuardianAngelEffects;
 import dev.caecorthus.sparkdlc.role.civilian.guardianangel.GuardianAngelRules;
@@ -44,15 +44,15 @@ import dev.caecorthus.sparkdlc.role.witch.potiongunner.shell.PotionGunnerEntitie
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.gate.RiftGateEntities;
 import dev.caecorthus.sparkdlc.round.antifastround.AntiFastRoundBootstrap;
 import dev.caecorthus.sparkdlc.round.mapreset.LobbyMapResetBootstrap;
-import dev.caecorthus.sparkdlc.skill.SparkWitchBuiltInSkills;
+import dev.caecorthus.sparkdlc.skill.BuiltInWitchSkills;
 import dev.caecorthus.sparkdlc.team.CaecorthusTeamSync;
 import dev.caecorthus.sparkdlc.trait.civilian.jester.JesterTraitService;
 import dev.caecorthus.sparkdlc.trait.civilian.laststand.LastStandFinalMomentService;
 import dev.caecorthus.sparkdlc.trait.civilian.laststand.LastStandService;
 import dev.caecorthus.sparkdlc.trait.lifecycle.TraitGameHooks;
-import dev.caecorthus.sparkdlc.trait.registry.SparkTraitsBuiltInTraits;
-import dev.caecorthus.sparkdlc.trait.replay.SparkTraitsReplayEvents;
-import dev.caecorthus.sparkdlc.trait.replay.SparkTraitsReplayTooltips;
+import dev.caecorthus.sparkdlc.trait.registry.BuiltInTraits;
+import dev.caecorthus.sparkdlc.trait.replay.TraitReplayEvents;
+import dev.caecorthus.sparkdlc.trait.replay.TraitReplayTooltips;
 import dev.caecorthus.sparkdlc.util.hitscan.PlayerHitboxHistory;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.fabricmc.api.ModInitializer;
@@ -158,12 +158,12 @@ public final class SparkDLC implements ModInitializer {
      * Wathe 与 NoellesRoles 职业套件的声音、实体、数据组件、方块与物品。
      */
     private static void registerRoleKitContent() {
-        SparkStrengthSounds.initialize();
-        SparkStrengthEntities.register();
-        SparkStrengthDataComponents.register();
-        SparkStrengthBlocks.register();
-        SparkStrengthItems.register();
-        SparkStrengthItemGroups.register();
+        SparkDlcSounds.registerRoleKitSounds();
+        SparkDlcEntities.registerRoleKitEntities();
+        SparkDlcDataComponents.register();
+        SparkDlcBlocks.registerSabotageFixtures();
+        SparkDlcItems.registerRoleKitItems();
+        SparkDlcItemGroups.registerRoleKitSection();
     }
 
     /**
@@ -171,8 +171,8 @@ public final class SparkDLC implements ModInitializer {
      * 这些套件以及破坏、平板电脑与杀手团队经济的事件监听器和回放格式化器。
      */
     private static void registerRoleKitGameplay() {
-        SparkStrengthEvents.register();
-        SparkStrengthReplayFormatters.register();
+        RoleKitEvents.register();
+        RoleKitReplayFormatters.register();
     }
 
     /**
@@ -180,16 +180,15 @@ public final class SparkDLC implements ModInitializer {
      * texts. 词条系统的数据组件、粒子与声音，内置词条及其服务和回放文本。
      */
     private static void registerTraits() {
-        SparkTraitsDataComponentTypes.init();
-        SparkTraitsParticles.register();
-        SparkTraitsSounds.initialize();
-        SparkTraitsBuiltInTraits.register();
+        SparkDlcParticles.register();
+        SparkDlcSounds.registerTraitSounds();
+        BuiltInTraits.register();
         LastStandService.register();
         LastStandFinalMomentService.register();
         JesterTraitService.register();
         TraitGameHooks.register();
-        SparkTraitsReplayTooltips.register();
-        SparkTraitsReplayEvents.registerFormatters();
+        TraitReplayTooltips.register();
+        TraitReplayEvents.registerFormatters();
     }
 
     /**
@@ -200,7 +199,7 @@ public final class SparkDLC implements ModInitializer {
      * 物品位于其携带的数据组件之后、点名它们的隐藏装备注册之前。
      */
     private static void registerOwnRoleContent() {
-        SparkWitchSounds.register();
+        SparkDlcSounds.registerRoleSounds();
         SaviorParticles.register();
         SeekerSounds.register();
         HunterEffects.register();
@@ -221,45 +220,44 @@ public final class SparkDLC implements ModInitializer {
         BlackRavenFeatherRegistry.register();
         // BEAR smoke round entity type. / BEAR 烟雾榴弹实体类型。
         dev.caecorthus.sparkdlc.role.civilian.bear.launcher.BearEntities.register();
-        SparkWitchDataComponents.register();
-        SparkWitchItems.register();
+        SparkDlcItems.registerRoleItems();
         // BEAR items (launcher, smoke round, Rys-T, earplugs), after the data components they carry and before the tab.
         // BEAR 物品（发射器、烟雾榴弹、Rys-T、耳塞），位于其携带的数据组件之后、物品栏之前。
         dev.caecorthus.sparkdlc.role.civilian.bear.BearItems.register();
-        SparkWitchItemGroups.register();
-        SparkWitchEntities.register();
+        SparkDlcItemGroups.registerRoleSection();
+        SparkDlcEntities.registerRoleEntities();
         // NoellesRoles remains the packet-filter owner; FactionAPI only extends its hidden-item predicate.
         // NoellesRoles 仍负责装备包过滤，FactionAPI 这里只扩展其隐藏物品判定。
-        NoellesHiddenEquipment.register(SparkWitchItems.perfumeEssence());
-        NoellesHiddenEquipment.register(SparkWitchItems.cologne());
-        NoellesHiddenEquipment.register(SparkWitchItems.blackRavenLedger());
-        NoellesHiddenEquipment.register(SparkWitchItems.timeStealerClock());
-        NoellesHiddenEquipment.register(SparkWitchItems.timeStealerGiftWatch());
-        NoellesHiddenEquipment.register(SparkWitchItems.timeStamp());
-        NoellesHiddenEquipment.register(SparkWitchItems.blackRavenMask());
-        NoellesHiddenEquipment.register(SparkWitchItems.prophetNecrology());
-        NoellesHiddenEquipment.register(SparkWitchItems.tollBell());
-        NoellesHiddenEquipment.register(SparkWitchItems.seekerCar());
-        NoellesHiddenEquipment.register(SparkWitchItems.seekerCamera());
+        NoellesHiddenEquipment.register(SparkDlcItems.perfumeEssence());
+        NoellesHiddenEquipment.register(SparkDlcItems.cologne());
+        NoellesHiddenEquipment.register(SparkDlcItems.blackRavenLedger());
+        NoellesHiddenEquipment.register(SparkDlcItems.timeStealerClock());
+        NoellesHiddenEquipment.register(SparkDlcItems.timeStealerGiftWatch());
+        NoellesHiddenEquipment.register(SparkDlcItems.timeStamp());
+        NoellesHiddenEquipment.register(SparkDlcItems.blackRavenMask());
+        NoellesHiddenEquipment.register(SparkDlcItems.prophetNecrology());
+        NoellesHiddenEquipment.register(SparkDlcItems.tollBell());
+        NoellesHiddenEquipment.register(SparkDlcItems.seekerCar());
+        NoellesHiddenEquipment.register(SparkDlcItems.seekerCamera());
         // Angler: the rod, bait and every non-weapon fish; the Key Fish and Swordfish stay visible on purpose.
         // 钓鱼佬：鱼竿、鱼饵与所有非武器类的鱼；钥匙鱼与剑鱼刻意保持可见。
-        NoellesHiddenEquipment.register(SparkWitchItems.fishingRod());
-        NoellesHiddenEquipment.register(SparkWitchItems.fishBait());
-        NoellesHiddenEquipment.register(SparkWitchItems.salmon());
-        NoellesHiddenEquipment.register(SparkWitchItems.cod());
-        NoellesHiddenEquipment.register(SparkWitchItems.clownfish());
-        NoellesHiddenEquipment.register(SparkWitchItems.goldfish());
-        NoellesHiddenEquipment.register(SparkWitchItems.glimmerfish());
+        NoellesHiddenEquipment.register(SparkDlcItems.fishingRod());
+        NoellesHiddenEquipment.register(SparkDlcItems.fishBait());
+        NoellesHiddenEquipment.register(SparkDlcItems.salmon());
+        NoellesHiddenEquipment.register(SparkDlcItems.cod());
+        NoellesHiddenEquipment.register(SparkDlcItems.clownfish());
+        NoellesHiddenEquipment.register(SparkDlcItems.goldfish());
+        NoellesHiddenEquipment.register(SparkDlcItems.glimmerfish());
         // Blind: the cane is hidden in round (D9); a held ComTac would expose the role the same way.
         // 盲人：盲杖局内隐藏（D9）；手持的 ComTac 同样会暴露身份。
-        NoellesHiddenEquipment.register(SparkWitchItems.whiteCane());
-        NoellesHiddenEquipment.register(SparkWitchItems.comTac());
+        NoellesHiddenEquipment.register(SparkDlcItems.whiteCane());
+        NoellesHiddenEquipment.register(SparkDlcItems.comTac());
         // Abyss Listener: the bound Shriek Gun is hidden in hand (owner default N11); the flask stays visible.
         // 聆渊者：绑定的啸音铳手持时对他人隐藏（所有者默认 N11）；孢瓶保持可见。
-        NoellesHiddenEquipment.register(SparkWitchItems.shriekGun());
+        NoellesHiddenEquipment.register(SparkDlcItems.shriekGun());
         // Riftwalker: the Rift Gate stack is hidden in hand, like the Seeker devices.
         // 隙行者：裂隙门手持时对他人隐藏，与搜寻者设备相同。
-        NoellesHiddenEquipment.register(SparkWitchItems.riftGate());
+        NoellesHiddenEquipment.register(SparkDlcItems.riftGate());
     }
 
     /**
@@ -267,8 +265,8 @@ public final class SparkDLC implements ModInitializer {
      * 魔女、杀意魔女与嘉豪阵营及本模组的全部职业，然后是内置技能。
      */
     private static void registerOwnRolesAndSkills() {
-        SparkWitchRoles.register();
-        SparkWitchBuiltInSkills.register();
+        SparkDlcRoles.register();
+        BuiltInWitchSkills.register();
     }
 
     /**
@@ -289,8 +287,8 @@ public final class SparkDLC implements ModInitializer {
         HunterShotgunAimClaims.register();
         PlayerHitboxHistory.register();
         CurserFeatureService.register();
-        SparkWitchEvents.register();
-        dev.caecorthus.sparkdlc.cooldown.provider.SparkWitchForcedCooldowns.register();
+        RoleEvents.register();
+        dev.caecorthus.sparkdlc.cooldown.provider.RoleForcedCooldowns.register();
         ServerMessageEvents.ALLOW_CHAT_MESSAGE.register(
                 (message, sender, params) -> mayUseTextChat(sender)
         );
@@ -298,7 +296,7 @@ public final class SparkDLC implements ModInitializer {
             ServerPlayerEntity sender = source.getPlayer();
             return sender == null || mayUseTextChat(sender);
         });
-        ServerLifecycleEvents.SERVER_STARTED.register(server -> SparkWitchRoles.refreshAssassinGuessRoleOrder());
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> SparkDlcRoles.refreshAssassinGuessRoleOrder());
     }
 
     private static boolean mayUseTextChat(ServerPlayerEntity sender) {

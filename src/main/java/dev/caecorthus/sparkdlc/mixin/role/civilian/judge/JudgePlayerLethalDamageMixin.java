@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class JudgePlayerLethalDamageMixin {
     @WrapOperation(method = "applyDamage", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/entity/player/PlayerEntity;setHealth(F)V"))
-    private void sparkwitch$guardLethalHealth(PlayerEntity victim, float health, Operation<Void> original,
+    private void sparkdlc$guardLethalHealth(PlayerEntity victim, float health, Operation<Void> original,
                                              DamageSource source, float amount) {
         if (!JudgeVanillaDamage.blocksTransition(victim, health, source)) original.call(victim, health);
     }

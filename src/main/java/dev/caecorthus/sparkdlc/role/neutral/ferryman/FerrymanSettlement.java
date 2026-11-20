@@ -24,14 +24,14 @@ import org.jetbrains.annotations.Nullable;
  * the Taotie and {@link FerrymanMomentRules#outsidersAlive} through {@code FiendWinExclusion.countsAsAlive}. Counts
  * that SparkTraits and SparkStrength make on their own outside Wathe's win dispatch (Last Stand, the Final Moment,
  * the Shadow Jester showdown) reach it through SparkFactionAPI's {@code SettlementExclusions.isExcluded(game, uuid)},
- * where {@code SparkWitchRoleRegistry} registers {@link #isExcluded(PlayerEntity)} for the Charon's role id.
+ * where {@code SparkDlcRoleRegistry} registers {@link #isExcluded(PlayerEntity)} for the Charon's role id.
  * Server only: the moment component is never synced, so a client would read every Charon as excluded;
  * SparkFactionAPI asks the condition on server worlds only.
  * 接缝：所有 {@code CheckWinCondition} 监听器经由 {@code StowawayWinScope}
  * （{@code mixin/ferryman/GameFunctionsFerrymanSettlementMixin}），NoellesRoles 的时刻触发与人数计数、饕餮以及
  * {@link FerrymanMomentRules#outsidersAlive} 经由 {@code FiendWinExclusion.countsAsAlive}。SparkTraits 与 SparkStrength
  * 在 Wathe 胜负分发之外自行进行的计数（背水一战、终局时刻、双影谢幕）经由 SparkFactionAPI 的
- * {@code SettlementExclusions.isExcluded(game, uuid)} 读到这条规则：{@code SparkWitchRoleRegistry} 在那里为卡戎的职业 id
+ * {@code SettlementExclusions.isExcluded(game, uuid)} 读到这条规则：{@code SparkDlcRoleRegistry} 在那里为卡戎的职业 id
  * 注册了 {@link #isExcluded(PlayerEntity)}。仅服务端：时刻组件从不同步，客户端会把每个卡戎都读成被排除；SparkFactionAPI
  * 只在服务端世界询问该条件。</p>
  *

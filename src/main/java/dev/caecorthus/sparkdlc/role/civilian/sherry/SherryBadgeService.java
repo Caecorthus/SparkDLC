@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.sherry;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.event.KillPlayer;
@@ -70,7 +70,7 @@ public final class SherryBadgeService {
             return ActionResult.PASS;
         }
         ItemStack held = sherry.getStackInHand(hand);
-        if (!held.isOf(SparkWitchItems.sherryBadge()) || !SherryDeductionService.mayUse(sherry)) {
+        if (!held.isOf(SparkDlcItems.sherryBadge()) || !SherryDeductionService.mayUse(sherry)) {
             return ActionResult.PASS;
         }
         if (!GameFunctions.isPlayerPlayingAndAlive(target) || target.isSpectator()
@@ -135,7 +135,7 @@ public final class SherryBadgeService {
     /** The note carries the dead holder's name only; a full inventory drops it at her feet. */
     /** 纸条只写死去持有者的名字；物品栏已满时掉在她脚边。 */
     private static void giveNote(ServerPlayerEntity sherry, String victimName) {
-        ItemStack note = new ItemStack(SparkWitchItems.sherryNote());
+        ItemStack note = new ItemStack(SparkDlcItems.sherryNote());
         NbtCompound data = new NbtCompound();
         data.putString(SherryRules.NOTE_VICTIM_KEY, victimName);
         note.set(DataComponentTypes.CUSTOM_DATA, NbtComponent.of(data));

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.bear;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.bear.headset.CensEarplugsItem;
 import dev.caecorthus.sparkdlc.role.civilian.bear.helmet.RysTHelmetItem;
 import dev.caecorthus.sparkdlc.role.civilian.bear.launcher.M32A1Item;
@@ -26,16 +26,16 @@ import java.util.UUID;
  */
 public final class BearRules {
     // ---- Role ----
-    public static final Identifier ROLE_ID = SparkWitch.id("bear");
+    public static final Identifier ROLE_ID = SparkDLC.id("bear");
     /** Olive drab. / 橄榄绿。 */
     public static final int COLOR = 0x6E7F3F;
 
     // ---- Items and entity (literal ids; BearItems / BearEntities register them) ----
-    public static final Identifier M32A1_ITEM_ID = SparkWitch.id("m32a1");
-    public static final Identifier SMOKE_ROUND_ITEM_ID = SparkWitch.id("smoke_round_40mm");
-    public static final Identifier RYS_T_ITEM_ID = SparkWitch.id("rys_t");
-    public static final Identifier EARPLUGS_ITEM_ID = SparkWitch.id("cens_proflex_dx5");
-    public static final Identifier SMOKE_ROUND_ENTITY_ID = SparkWitch.id("smoke_round_40mm");
+    public static final Identifier M32A1_ITEM_ID = SparkDLC.id("m32a1");
+    public static final Identifier SMOKE_ROUND_ITEM_ID = SparkDLC.id("smoke_round_40mm");
+    public static final Identifier RYS_T_ITEM_ID = SparkDLC.id("rys_t");
+    public static final Identifier EARPLUGS_ITEM_ID = SparkDLC.id("cens_proflex_dx5");
+    public static final Identifier SMOKE_ROUND_ENTITY_ID = SparkDLC.id("smoke_round_40mm");
 
     // ---- Economy (owner: start at 0, +5 every 10 s with no cap, +50 per task; USEC model) ----
     public static final int INITIAL_MONEY = 0;

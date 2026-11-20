@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = CrosshairRenderer.class, remap = false)
 public abstract class BlackRavenCrowGunCrosshairMixin {
     @WrapMethod(method = "getVisibleGunTarget")
-    private static HitResult sparkwitch$preferNearerCrow(PlayerEntity player, double range,
+    private static HitResult sparkdlc$preferNearerCrow(PlayerEntity player, double range,
                                                          Operation<HitResult> original) {
         return BlackRavenCrowAim.preferNearerCrow(player, original.call(player, range), range);
     }

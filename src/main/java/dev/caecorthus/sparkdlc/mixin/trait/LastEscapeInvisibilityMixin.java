@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Entity.class)
 public abstract class LastEscapeInvisibilityMixin {
     @Inject(method = "isInvisible", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$ownedInvisibility(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$ownedInvisibility(CallbackInfoReturnable<Boolean> cir) {
         if ((Object) this instanceof PlayerEntity player && LastEscapeService.isActive(player)) cir.setReturnValue(true);
     }
 }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.savior;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.index.WatheItems;
 import dev.doctor4t.wathe.index.tag.WatheItemTags;
@@ -100,10 +100,10 @@ public final class SaviorGunPickupRules {
      */
     public static boolean isForeignGun(ItemStack stack) {
         return stack.isIn(WatheItemTags.GUNS)
-                || stack.isOf(SparkWitchItems.doubleBarrelShotgun())
-                || stack.isOf(SparkWitchItems.usecRifle())
-                || stack.isOf(SparkWitchItems.m1903a4())
-                || stack.isOf(SparkWitchItems.shriekGun());
+                || stack.isOf(SparkDlcItems.doubleBarrelShotgun())
+                || stack.isOf(SparkDlcItems.usecRifle())
+                || stack.isOf(SparkDlcItems.m1903a4())
+                || stack.isOf(SparkDlcItems.shriekGun());
     }
 
     static boolean holdsLockedRevolver(PlayerInventory inventory, int index) {

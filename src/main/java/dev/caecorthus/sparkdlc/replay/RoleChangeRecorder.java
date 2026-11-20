@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.replay;
 
-import dev.caecorthus.sparkdlc.SparkFactionApiMod;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.replay.api.SparkReplayApi;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -58,7 +58,7 @@ public final class RoleChangeRecorder {
         try {
             record(world, game, player, before);
         } catch (RuntimeException | LinkageError e) {
-            SparkFactionApiMod.LOGGER.warn("Failed to record replay role change for {}", player, e);
+            SparkDLC.LOGGER.warn("Failed to record replay role change for {}", player, e);
         }
     }
 

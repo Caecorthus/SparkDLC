@@ -20,14 +20,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ServerPlayerEntity.class)
 public abstract class ServerPlayerEntitySchrodingersCatMixin {
     @Inject(method = "attack", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$blockCatSpectrePossession(Entity target, CallbackInfo ci) {
+    private void sparkdlc$blockCatSpectrePossession(Entity target, CallbackInfo ci) {
         if (SchrodingersCatService.isSpectre((ServerPlayerEntity) (Object) this)) {
             ci.cancel();
         }
     }
 
     @Inject(method = "setCameraEntity", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$vetoCatSpectreCamera(Entity entity, CallbackInfo ci) {
+    private void sparkdlc$vetoCatSpectreCamera(Entity entity, CallbackInfo ci) {
         ServerPlayerEntity self = (ServerPlayerEntity) (Object) this;
         if (entity != null && entity != self && SchrodingersCatService.isSpectre(self)) {
             ci.cancel();

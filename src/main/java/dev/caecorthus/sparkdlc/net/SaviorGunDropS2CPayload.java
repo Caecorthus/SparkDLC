@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
@@ -12,7 +12,7 @@ import net.minecraft.network.packet.CustomPayload;
  * 与 Wathe 的 {@code gundrop} 数据包一致。
  */
 public record SaviorGunDropS2CPayload() implements CustomPayload {
-    public static final Id<SaviorGunDropS2CPayload> ID = new Id<>(SparkWitch.id("savior_gun_drop"));
+    public static final Id<SaviorGunDropS2CPayload> ID = new Id<>(SparkDLC.id("savior_gun_drop"));
     public static final PacketCodec<RegistryByteBuf, SaviorGunDropS2CPayload> CODEC =
             PacketCodec.unit(new SaviorGunDropS2CPayload());
 

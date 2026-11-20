@@ -21,13 +21,13 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class BlackRavenCrowFogMixin {
     @ModifyExpressionValue(method = "render", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/render/Camera;getFocusedEntity()Lnet/minecraft/entity/Entity;"))
-    private static Entity sparkwitch$crowFogColorSubject(Entity focused) {
+    private static Entity sparkdlc$crowFogColorSubject(Entity focused) {
         return BlackRavenCrowVision.fogSubject(focused);
     }
 
     @ModifyExpressionValue(method = "applyFog", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/render/Camera;getFocusedEntity()Lnet/minecraft/entity/Entity;"))
-    private static Entity sparkwitch$crowFogSubject(Entity focused) {
+    private static Entity sparkdlc$crowFogSubject(Entity focused) {
         return BlackRavenCrowVision.fogSubject(focused);
     }
 }

@@ -36,36 +36,36 @@ import java.util.Optional;
 public abstract class DroneThrowingAxeMixin {
     /** Squared distance from this tick's start to the broken drone; infinite when none. / 本刻起点到被击毁无人机的平方距离。 */
     @Unique
-    private double sparkstrength$droneCutSquared = Double.POSITIVE_INFINITY;
+    private double sparkdlc$droneCutSquared = Double.POSITIVE_INFINITY;
 
     @Inject(method = "tick", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/World;getOtherEntities(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Box;)Ljava/util/List;"))
-    private void sparkstrength$sweepDrones(CallbackInfo ci) {
+    private void sparkdlc$sweepDrones(CallbackInfo ci) {
         ThrowingAxeEntity axe = (ThrowingAxeEntity) (Object) this;
         Vec3d from = axe.getPos();
         DroneHitGeometry.DroneHit hit = DroneWeaponHits.onThrowingAxeSweep(axe, axe.getOwner(), from,
                 from.add(axe.getVelocity()));
-        sparkstrength$droneCutSquared = hit == null ? Double.POSITIVE_INFINITY : hit.distanceSquared();
+        sparkdlc$droneCutSquared = hit == null ? Double.POSITIVE_INFINITY : hit.distanceSquared();
         PartygoerWeaponHits.onThrowingAxeSweep(axe, axe.getOwner(), from, from.add(axe.getVelocity()),
-                sparkstrength$droneCutSquared);
+                sparkdlc$droneCutSquared);
     }
 
     @WrapOperation(method = "tick", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/util/math/Box;raycast(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;)Ljava/util/Optional;"))
-    private Optional<Vec3d> sparkstrength$shieldPlayersBehindDrone(Box box, Vec3d from, Vec3d to,
+    private Optional<Vec3d> sparkdlc$shieldPlayersBehindDrone(Box box, Vec3d from, Vec3d to,
                                                                    Operation<Optional<Vec3d>> original) {
         Optional<Vec3d> hit = original.call(box, from, to);
-        double cut = sparkstrength$droneCutSquared;
+        double cut = sparkdlc$droneCutSquared;
         return cut == Double.POSITIVE_INFINITY ? hit : hit.filter(point -> from.squaredDistanceTo(point) < cut);
     }
 
     @Inject(method = "tick", cancellable = true, at = @At(value = "INVOKE",
             target = "Lnet/minecraft/entity/projectile/PersistentProjectileEntity;tick()V"))
-    private void sparkstrength$stopAtDrone(CallbackInfo ci) {
-        if (sparkstrength$droneCutSquared == Double.POSITIVE_INFINITY) {
+    private void sparkdlc$stopAtDrone(CallbackInfo ci) {
+        if (sparkdlc$droneCutSquared == Double.POSITIVE_INFINITY) {
             return;
         }
-        sparkstrength$droneCutSquared = Double.POSITIVE_INFINITY;
+        sparkdlc$droneCutSquared = Double.POSITIVE_INFINITY;
         ((ThrowingAxeEntity) (Object) this).discard();
         ci.cancel();
     }

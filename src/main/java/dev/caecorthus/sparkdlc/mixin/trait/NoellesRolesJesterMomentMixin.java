@@ -25,7 +25,7 @@ public abstract class NoellesRolesJesterMomentMixin {
                     target = "Ldev/doctor4t/wathe/api/Role;isInnocent()Z"
             )
     )
-    private static boolean sparktraits$impostorDoesNotTriggerJesterMoment(
+    private static boolean sparkdlc$impostorDoesNotTriggerJesterMoment(
             Role killerRole,
             ServerPlayerEntity victim,
             ServerPlayerEntity killer,

@@ -34,7 +34,7 @@ public abstract class DecoratedPotBlockPeachwoodSwordMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$keepPeachwoodSwordOutOfPot(ItemStack stack, BlockState state, World world, BlockPos pos,
+    private void sparkdlc$keepPeachwoodSwordOutOfPot(ItemStack stack, BlockState state, World world, BlockPos pos,
                                                        PlayerEntity player, Hand hand, BlockHitResult hit,
                                                        CallbackInfoReturnable<ItemActionResult> cir) {
         if (SpecterPeachwoodService.blocksBlockUse(stack, state)) {

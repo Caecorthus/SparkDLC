@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.vulture;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.neutral.vulture.VultureSuperCurseRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.player.PlayerEntity;
@@ -34,7 +34,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
  */
 public final class VultureSuperCursePlayerComponent implements AutoSyncedComponent, ServerTickingComponent {
     public static final ComponentKey<VultureSuperCursePlayerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("vulture_super_curse"),
+            SparkDLC.id("vulture_super_curse"),
             VultureSuperCursePlayerComponent.class
     );
 

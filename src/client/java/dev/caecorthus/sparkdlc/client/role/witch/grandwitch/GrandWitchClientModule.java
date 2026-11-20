@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.witch.grandwitch;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.minecraft.text.Text;
 
@@ -18,7 +18,7 @@ public final class GrandWitchClientModule {
             return;
         }
         ItemTooltipCallback.EVENT.register((stack, context, type, lines) -> {
-            if (stack.isOf(SparkWitchItems.ceremonialSword())) {
+            if (stack.isOf(SparkDlcItems.ceremonialSword())) {
                 lines.add(Text.translatable("item.sparkdlc.ceremonial_sword.tooltip.unlock"));
                 lines.add(Text.translatable("item.sparkdlc.ceremonial_sword.tooltip.attack"));
                 lines.add(Text.translatable("item.sparkdlc.ceremonial_sword.tooltip.dash"));

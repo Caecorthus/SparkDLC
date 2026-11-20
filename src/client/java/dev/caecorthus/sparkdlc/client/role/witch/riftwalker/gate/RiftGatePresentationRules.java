@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.witch.riftwalker.gate;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.RiftwalkerRules;
 import net.minecraft.client.option.ParticlesMode;
 import net.minecraft.util.Identifier;
@@ -22,7 +22,7 @@ import org.joml.Vector3f;
  */
 public final class RiftGatePresentationRules {
     /** Placed model B, loaded through Fabric's ModelLoadingPlugin. / 放置模型 B，经 Fabric ModelLoadingPlugin 加载。 */
-    public static final Identifier PLACED_MODEL_ID = SparkWitch.id("item/rift_gate_placed");
+    public static final Identifier PLACED_MODEL_ID = SparkDLC.id("item/rift_gate_placed");
     /** Model B's ground plane in model units (the floor rune circle floats 0.25 above it). / 模型 B 的地面（模型单位）。 */
     public static final double MODEL_FLOOR_Y = -4.0;
     /**

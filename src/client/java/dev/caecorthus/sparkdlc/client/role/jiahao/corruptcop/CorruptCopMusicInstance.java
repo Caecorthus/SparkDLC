@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.jiahao.corruptcop;
 
-import dev.caecorthus.sparkdlc.SparkStrengthSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import net.minecraft.client.sound.AbstractSoundInstance;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.client.sound.TickableSoundInstance;
@@ -17,7 +17,7 @@ public final class CorruptCopMusicInstance extends AbstractSoundInstance impleme
     public CorruptCopMusicInstance() {
         // Match manual acceptance: /playsound sparkdlc:music.takediskrush ambient @s.
         // 对齐手动验收：/playsound sparkdlc:music.takediskrush ambient @s。
-        super(SparkStrengthSounds.MUSIC_TAKEDISKRUSH, SoundCategory.AMBIENT, Random.create());
+        super(SparkDlcSounds.MUSIC_TAKEDISKRUSH, SoundCategory.AMBIENT, Random.create());
         this.repeat = true;
         this.repeatDelay = 0;
         this.attenuationType = SoundInstance.AttenuationType.NONE;

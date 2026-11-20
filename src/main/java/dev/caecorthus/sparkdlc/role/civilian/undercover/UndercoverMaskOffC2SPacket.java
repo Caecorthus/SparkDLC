@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.undercover;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
  * 戴着 CQCM 面具时空手 Shift + 右键（不对着玩家）：摘下面具。原版空手对空使用不发包，所以需要这个包；服务端会重新检查一切。
  */
 public record UndercoverMaskOffC2SPacket() implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("undercover_mask_off");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("undercover_mask_off");
     public static final Id<UndercoverMaskOffC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, UndercoverMaskOffC2SPacket> CODEC =
             PacketCodec.of(UndercoverMaskOffC2SPacket::write, UndercoverMaskOffC2SPacket::read);

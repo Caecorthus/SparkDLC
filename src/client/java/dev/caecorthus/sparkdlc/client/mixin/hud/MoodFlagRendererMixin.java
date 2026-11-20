@@ -55,7 +55,7 @@ public abstract class MoodFlagRendererMixin {
             require = 1,
             allow = 1
     )
-    private static void sparkwitch$killerMoodFlag(
+    private static void sparkdlc$killerMoodFlag(
             DrawContext context,
             Identifier sprite,
             int x,
@@ -76,7 +76,7 @@ public abstract class MoodFlagRendererMixin {
             require = 1,
             allow = 1
     )
-    private static void sparkwitch$civilianMoodFlag(
+    private static void sparkdlc$civilianMoodFlag(
             DrawContext context,
             Identifier sprite,
             int x,
@@ -97,7 +97,7 @@ public abstract class MoodFlagRendererMixin {
             require = 1,
             allow = 1
     )
-    private static void sparkwitch$markKillerMoodDispatch(
+    private static void sparkdlc$markKillerMoodDispatch(
             PlayerEntity player,
             TextRenderer textRenderer,
             DrawContext context,
@@ -117,7 +117,7 @@ public abstract class MoodFlagRendererMixin {
             require = 1,
             allow = 1
     )
-    private static void sparkwitch$markCivilianMoodDispatch(
+    private static void sparkdlc$markCivilianMoodDispatch(
             PlayerEntity player,
             TextRenderer textRenderer,
             DrawContext context,
@@ -129,7 +129,7 @@ public abstract class MoodFlagRendererMixin {
     }
 
     @Inject(method = "renderHud", at = @At("TAIL"), require = 1, allow = 1)
-    private static void sparkwitch$noSanityMoodFlag(
+    private static void sparkdlc$noSanityMoodFlag(
             PlayerEntity player,
             TextRenderer textRenderer,
             DrawContext context,

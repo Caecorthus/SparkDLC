@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ChunkDataSender.class)
 public abstract class TimedBombChunkSendMixin {
     @Inject(method = "sendChunkData", at = @At("TAIL"))
-    private static void sparkstrength$sendTimedBombMarkers(
+    private static void sparkdlc$sendTimedBombMarkers(
             ServerPlayNetworkHandler handler,
             ServerWorld world,
             WorldChunk chunk,

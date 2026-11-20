@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.witchmaiden;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesToxicologistBridge;
 import dev.caecorthus.sparkdlc.record.witch.AchievementRecords;
 import dev.doctor4t.wathe.block_entity.BeveragePlateBlockEntity;
@@ -25,20 +25,20 @@ public final class PoisonApplePlateService {
     }
 
     public static void refreshMatch(PoisonApplePlateAccess plate) {
-        plate.sparkwitch$clearIfMatchChanged(activeMatchId());
+        plate.sparkdlc$clearIfMatchChanged(activeMatchId());
     }
 
     public static boolean isHoldingPoisonApple(PlayerEntity player) {
-        return player.getMainHandStack().isOf(SparkWitchItems.poisonApple());
+        return player.getMainHandStack().isOf(SparkDlcItems.poisonApple());
     }
 
     public static boolean tryArm(PlayerEntity player, PoisonApplePlateAccess plate) {
         ItemStack heldStack = player.getStackInHand(Hand.MAIN_HAND);
         UUID matchUuid = activeMatchId();
-        plate.sparkwitch$clearIfMatchChanged(matchUuid);
+        plate.sparkdlc$clearIfMatchChanged(matchUuid);
         if (matchUuid == null
                 || !isHoldingPoisonApple(player)
-                || !plate.sparkwitch$armPoisonApple(player.getUuid(), matchUuid)) {
+                || !plate.sparkdlc$armPoisonApple(player.getUuid(), matchUuid)) {
             return false;
         }
         heldStack.decrement(1);
@@ -48,14 +48,14 @@ public final class PoisonApplePlateService {
 
     public static void recordSuccessfulTake(PlayerEntity taker, ItemStack takenStack, PoisonApplePlateAccess plate) {
         UUID matchUuid = activeMatchId();
-        plate.sparkwitch$clearIfMatchChanged(matchUuid);
+        plate.sparkdlc$clearIfMatchChanged(matchUuid);
         if (matchUuid == null) {
             return;
         }
         // Read before the take: the poisoned (second) take clears the plate state.
         // 在拿取前读取：第二次（下毒）拿取会清空餐盘状态。
-        UUID placerUuid = plate.sparkwitch$poisonApplePlacer();
-        UUID poisonerUuid = plate.sparkwitch$recordSuccessfulTake(matchUuid);
+        UUID placerUuid = plate.sparkdlc$poisonApplePlacer();
+        UUID poisonerUuid = plate.sparkdlc$recordSuccessfulTake(matchUuid);
         if (poisonerUuid != null) {
             takenStack.set(WatheDataComponentTypes.POISONER, poisonerUuid.toString());
             PoisonAppleDrinkMarker.mark(takenStack);
@@ -94,14 +94,14 @@ public final class PoisonApplePlateService {
             boolean antidoteWasReady,
             boolean hadNativePoison
     ) {
-        if (!antidoteWasReady || !poisonApple.sparkwitch$isPoisonAppleArmed()) {
+        if (!antidoteWasReady || !poisonApple.sparkdlc$isPoisonAppleArmed()) {
             return false;
         }
         if (hadNativePoison && plate.getPoisoner() != null) {
             return false;
         }
 
-        poisonApple.sparkwitch$clearPoisonApple();
+        poisonApple.sparkdlc$clearPoisonApple();
         if (hadNativePoison) {
             // NoellesRoles already owns the shared sound, cooldown, and replay when it cured native poison.
             // 同时存在原生毒时，声音、冷却和回放仍只由 NoellesRoles 产生一次。

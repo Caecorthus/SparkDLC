@@ -22,7 +22,7 @@ public abstract class CommandManagerMapResetMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkfactionapi$refuseMapCommandsDuringReset(
+    private void sparkdlc$refuseMapCommandsDuringReset(
             ParseResults<ServerCommandSource> parseResults,
             String command,
             CallbackInfo ci

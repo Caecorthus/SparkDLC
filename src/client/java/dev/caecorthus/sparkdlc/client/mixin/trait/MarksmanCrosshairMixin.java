@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = CrosshairRenderer.class, remap = false)
 public abstract class MarksmanCrosshairMixin {
     @Inject(method = "getVisibleGunTarget", at = @At("HEAD"), cancellable = true)
-    private static void sparktraits$extendMarksmanCrosshairRange(
+    private static void sparkdlc$extendMarksmanCrosshairRange(
             PlayerEntity user,
             double range,
             CallbackInfoReturnable<HitResult> cir

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.ferryman;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.game.GameConstants;
 import net.minecraft.util.Identifier;
@@ -17,14 +17,14 @@ import java.util.random.RandomGenerator;
  * 被动、宽恕、摆渡与商店都只读取这些数值，不另行定义。
  */
 public final class FerrymanRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("charon");
+    public static final Identifier ROLE_ID = SparkDLC.id("charon");
     public static final int COLOR = 0x4C6B7A;
 
     /**
      * The Lost Souls' own role id and cyan, shared by the sight marks and the name-tag cohort label.
      * 迷失的灵魂自身的职业 id 与青色，供视野描边与名牌同伙标签共用。
      */
-    public static final Identifier LOST_SOUL_ID = SparkWitch.id("lost_soul");
+    public static final Identifier LOST_SOUL_ID = SparkDLC.id("lost_soul");
     public static final int SOUL_TEAM_COLOR = 0x39E6D0;
     public static final String LOST_SOUL_COHORT_KEY = "game.tip.sparkdlc.lost_soul_cohort";
 

@@ -33,7 +33,7 @@ public abstract class ProfessorSerumCrosshairMixin {
     @Unique private static final Identifier CROSSHAIR_TARGET = Identifier.of("wathe", "hud/crosshair_target");
 
     @Inject(method = "renderCrosshair", at = @At("HEAD"), cancellable = true)
-    private static void sparkstrength$renderProfessorSerumCrosshair(
+    private static void sparkdlc$renderProfessorSerumCrosshair(
             @NotNull MinecraftClient client,
             @NotNull ClientPlayerEntity player,
             @NotNull DrawContext context,

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.mixin.item.m1903a4;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.item.m1903a4.M1903A4FirstPersonRules;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -35,12 +35,12 @@ public abstract class M1903A4AimPoseMixin {
                     shift = At.Shift.BEFORE
             )
     )
-    private void sparkwitch$aimM1903a4(AbstractClientPlayerEntity player, float tickDelta, float pitch, Hand hand,
+    private void sparkdlc$aimM1903a4(AbstractClientPlayerEntity player, float tickDelta, float pitch, Hand hand,
                                        float swingProgress, ItemStack item, float equipProgress, MatrixStack matrices,
                                        VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
         // Keyed on the rendered hand and stack: only the main hand that is charging this rifle takes the pose.
         // 按正在渲染的手与物品判断：只有正在为这把步枪蓄力的主手才使用该姿势。
-        if (!M1903A4FirstPersonRules.aimPose(item.isOf(SparkWitchItems.m1903a4()), hand == Hand.MAIN_HAND,
+        if (!M1903A4FirstPersonRules.aimPose(item.isOf(SparkDlcItems.m1903a4()), hand == Hand.MAIN_HAND,
                 player.isUsingItem(), player.getActiveHand() == hand)) {
             return;
         }

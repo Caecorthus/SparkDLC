@@ -19,7 +19,7 @@ public abstract class SaviorGunPickupMixin {
 
     @Inject(method = "onPlayerCollision(Lnet/minecraft/entity/player/PlayerEntity;)V", at = @At("HEAD"),
             cancellable = true)
-    private void sparkwitch$blockSaviorGunPickup(PlayerEntity player, CallbackInfo ci) {
+    private void sparkdlc$blockSaviorGunPickup(PlayerEntity player, CallbackInfo ci) {
         if (player instanceof ServerPlayerEntity serverPlayer
                 && SaviorGunPickupRules.blocks(serverPlayer, this.getStack())) {
             ci.cancel();

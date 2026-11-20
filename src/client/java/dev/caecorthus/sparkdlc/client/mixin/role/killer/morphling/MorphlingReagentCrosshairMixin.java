@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.mixin.role.killer.morphling;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerCorpseComponent;
 import dev.caecorthus.sparkdlc.role.killer.morphling.MorphlingRules;
 import dev.caecorthus.sparkdlc.role.killer.morphling.MorphlingService;
@@ -41,7 +41,7 @@ public abstract class MorphlingReagentCrosshairMixin {
     @Unique private static final Identifier CROSSHAIR_TARGET = Identifier.of("wathe", "hud/crosshair_target");
 
     @Inject(method = "renderCrosshair", at = @At("HEAD"), cancellable = true)
-    private static void sparkstrength$renderMorphlingReagentCrosshair(
+    private static void sparkdlc$renderMorphlingReagentCrosshair(
             @NotNull MinecraftClient client,
             @NotNull ClientPlayerEntity player,
             @NotNull DrawContext context,
@@ -49,7 +49,7 @@ public abstract class MorphlingReagentCrosshairMixin {
             @NotNull CallbackInfo ci
     ) {
         ItemStack stack = player.getMainHandStack();
-        if (!client.options.getPerspective().isFirstPerson() || !stack.isOf(SparkStrengthItems.morphReagent())) {
+        if (!client.options.getPerspective().isFirstPerson() || !stack.isOf(SparkDlcItems.morphReagent())) {
             return;
         }
 

@@ -38,7 +38,7 @@ public abstract class GameFunctionsSpecterShieldMixin {
             require = 1,
             allow = 1
     )
-    private static void sparkwitch$absorbWithOtherworldShield(
+    private static void sparkdlc$absorbWithOtherworldShield(
             ServerPlayerEntity victim,
             boolean spawnBody,
             @Nullable ServerPlayerEntity killer,

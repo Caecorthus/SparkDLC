@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.fisher;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
 import dev.doctor4t.wathe.api.Role;
@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 
 /** Round-start rod and Angler cleanup; the spirit service owns Glimmerfish state. / 开局鱼竿与钓鱼佬清理；灵光状态归灵光服务。 */
 public final class FisherLifecycleService {
-    private static final Identifier FINISH_INITIALIZE_PHASE = SparkWitch.id("fisher_finish_initialize");
+    private static final Identifier FINISH_INITIALIZE_PHASE = SparkDLC.id("fisher_finish_initialize");
     private static boolean registered;
     private static @Nullable MinecraftServer server;
 
@@ -79,13 +79,13 @@ public final class FisherLifecycleService {
             var inventory = player.getInventory();
             boolean hasRod = false;
             for (int slot = 0; slot < inventory.size(); slot++) {
-                if (inventory.getStack(slot).isOf(SparkWitchItems.fishingRod())) {
+                if (inventory.getStack(slot).isOf(SparkDlcItems.fishingRod())) {
                     hasRod = true;
                     break;
                 }
             }
             if (!hasRod) {
-                inventory.insertStack(new ItemStack(SparkWitchItems.fishingRod()));
+                inventory.insertStack(new ItemStack(SparkDlcItems.fishingRod()));
             }
             FisherInventory.sync(player);
         }

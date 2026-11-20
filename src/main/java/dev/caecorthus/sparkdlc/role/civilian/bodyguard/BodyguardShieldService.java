@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.bodyguard;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.civilian.bodyguard.BodyguardGearComponent;
 import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownManagerAccessor;
@@ -35,8 +35,8 @@ import net.minecraft.util.Identifier;
 public final class BodyguardShieldService {
     /** Items that get the 2 s cooldown when switched to from the shield. / 从盾切换过去时获得 2 秒冷却的物品。 */
     public static final TagKey<Item> SWAP_COOLDOWN_ITEMS =
-            TagKey.of(RegistryKeys.ITEM, SparkStrength.id("shield_swap_cooldown"));
-    private static final Identifier RAISED_SPEED_ID = SparkStrength.id("democracy_shield_raised");
+            TagKey.of(RegistryKeys.ITEM, SparkDLC.id("shield_swap_cooldown"));
+    private static final Identifier RAISED_SPEED_ID = SparkDLC.id("democracy_shield_raised");
     private static final EntityAttributeModifier RAISED_SPEED = new EntityAttributeModifier(
             RAISED_SPEED_ID,
             BodyguardRules.RAISED_SPEED_MULTIPLIER - 1.0D,
@@ -70,7 +70,7 @@ public final class BodyguardShieldService {
             return false;
         }
         BodyguardGearComponent gear = BodyguardGearComponent.KEY.get(player);
-        Item shield = SparkStrengthItems.democracyShield();
+        Item shield = SparkDlcItems.democracyShield();
         if (gear.lastMainHandItem() != shield) {
             // Switched and right-clicked in the same tick, before the world tick saw the switch. / 同一 tick 内切换并右键，世界 tick 尚未看到切换。
             gear.setLastMainHandItem(shield);
@@ -115,14 +115,14 @@ public final class BodyguardShieldService {
     /** Whether the shield is up long enough to block. / 盾是否已举起足够久、可以格挡。 */
     public static boolean isRaisedForBlocking(PlayerEntity player) {
         return player.isUsingItem()
-                && player.getActiveItem().isOf(SparkStrengthItems.democracyShield())
+                && player.getActiveItem().isOf(SparkDlcItems.democracyShield())
                 && BodyguardRules.isBlockingRaise(player.getItemUseTime());
     }
 
     /** END_WORLD_TICK: raise upkeep, cooldown authority and switch detection. / 世界 tick 末：举盾维护、冷却权威与切换检测。 */
     public static void tick(ServerWorld world) {
         long now = world.getTime();
-        Item shield = SparkStrengthItems.democracyShield();
+        Item shield = SparkDlcItems.democracyShield();
         for (ServerPlayerEntity player : world.getPlayers()) {
             BodyguardGearComponent gear = BodyguardGearComponent.KEY.get(player);
             boolean raised = player.isUsingItem() && player.getActiveItem().isOf(shield);
@@ -168,8 +168,8 @@ public final class BodyguardShieldService {
         gear.endRaise();
         removeRaisedSpeed(player);
         if (removeGearItems) {
-            Item shield = SparkStrengthItems.democracyShield();
-            Item vest = SparkStrengthItems.bodyguardVest();
+            Item shield = SparkDlcItems.democracyShield();
+            Item vest = SparkDlcItems.bodyguardVest();
             if (player.getActiveItem().isOf(shield)) {
                 player.clearActiveItem();
             }
@@ -217,7 +217,7 @@ public final class BodyguardShieldService {
      * 设置盾的冷却并记录真实结束时间；快手词条可能已缩短原版冷却条目。
      */
     private static void applyCooldown(ServerPlayerEntity player, BodyguardGearComponent gear, int ticks) {
-        Item shield = SparkStrengthItems.democracyShield();
+        Item shield = SparkDlcItems.democracyShield();
         player.getItemCooldownManager().set(shield, ticks);
         int actual = remainingCooldown(player.getItemCooldownManager(), shield);
         gear.setShieldCooldownUntil(player.getServerWorld().getTime() + Math.max(0, actual));
@@ -225,7 +225,7 @@ public final class BodyguardShieldService {
 
     /** Puts back a shield cooldown that something cleared (Timekeeper refresh, rejoin). / 补回被清掉的盾冷却（计时员刷新、重新加入）。 */
     private static void reassertCooldown(ServerPlayerEntity player, BodyguardGearComponent gear, long now) {
-        Item shield = SparkStrengthItems.democracyShield();
+        Item shield = SparkDlcItems.democracyShield();
         ItemCooldownManager manager = player.getItemCooldownManager();
         if (remainingCooldown(manager, shield) > 0) {
             return;
@@ -247,9 +247,9 @@ public final class BodyguardShieldService {
     }
 
     private static int remainingCooldown(ItemCooldownManager manager, Item item) {
-        Object entry = ((ItemCooldownManagerAccessor) manager).sparkstrength$getEntries().get(item);
-        return entry == null ? 0 : Math.max(0, ((ItemCooldownEntryAccessor) entry).sparkstrength$getEndTick()
-                - ((ItemCooldownManagerAccessor) manager).sparkstrength$getTick());
+        Object entry = ((ItemCooldownManagerAccessor) manager).sparkdlc$getEntriesForKits().get(item);
+        return entry == null ? 0 : Math.max(0, ((ItemCooldownEntryAccessor) entry).sparkdlc$getEndTickForKits()
+                - ((ItemCooldownManagerAccessor) manager).sparkdlc$getTickForKits());
     }
 
     private static void applyRaisedSpeed(ServerPlayerEntity player) {

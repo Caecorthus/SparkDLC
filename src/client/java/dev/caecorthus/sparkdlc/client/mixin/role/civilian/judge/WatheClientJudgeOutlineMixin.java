@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(value = WatheClient.class, remap = false, priority = 200)
 public abstract class WatheClientJudgeOutlineMixin {
     @ModifyReturnValue(method = "getInstinctHighlight", at = @At("RETURN"))
-    private static int sparkwitch$judgeFallback(int originalColor, Entity target) {
+    private static int sparkdlc$judgeFallback(int originalColor, Entity target) {
         return JudgeClientHooks.resolveHighlight(originalColor, target);
     }
 }

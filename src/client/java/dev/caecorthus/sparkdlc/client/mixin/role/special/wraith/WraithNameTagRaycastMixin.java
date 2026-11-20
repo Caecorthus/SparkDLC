@@ -28,7 +28,7 @@ public abstract class WraithNameTagRaycastMixin {
             ),
             index = 1
     )
-    private static Predicate<Entity> sparkwitch$nameTagThroughHiddenWraiths(
+    private static Predicate<Entity> sparkdlc$nameTagThroughHiddenWraiths(
             Entity viewer,
             Predicate<Entity> predicate,
             double range

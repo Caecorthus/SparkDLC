@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ItemStack.class)
 public abstract class ItemStackPoisonAppleDrinkMixin {
     @Inject(method = "finishUsing", at = @At("HEAD"))
-    private void sparkwitch$applyMarkedCocktailPoison(
+    private void sparkdlc$applyMarkedCocktailPoison(
             World world,
             LivingEntity user,
             CallbackInfoReturnable<ItemStack> cir

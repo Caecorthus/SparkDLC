@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.professor;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumRules;
 import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumType;
@@ -30,7 +30,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
  */
 public class ProfessorSerumTargetComponent implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
     public static final ComponentKey<ProfessorSerumTargetComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("professor_serum_target"),
+            SparkDLC.id("professor_serum_target"),
             ProfessorSerumTargetComponent.class
     );
 
@@ -186,19 +186,19 @@ public class ProfessorSerumTargetComponent implements AutoSyncedComponent, Serve
         switch (type) {
             case INVISIBILITY -> GameRecordManager.recordGlobalEvent(
                     serverWorld,
-                    SparkStrengthReplayFormatters.PROFESSOR_INVISIBILITY_ENDED,
+                    RoleKitReplayFormatters.PROFESSOR_INVISIBILITY_ENDED,
                     target,
                     null
             );
             case DOORPASSING -> GameRecordManager.recordGlobalEvent(
                     serverWorld,
-                    SparkStrengthReplayFormatters.PROFESSOR_DOORPASSING_ENDED,
+                    RoleKitReplayFormatters.PROFESSOR_DOORPASSING_ENDED,
                     target,
                     null
             );
             case SEDATIVE -> GameRecordManager.recordGlobalEvent(
                     serverWorld,
-                    SparkStrengthReplayFormatters.PROFESSOR_SEDATIVE_ENDED,
+                    RoleKitReplayFormatters.PROFESSOR_SEDATIVE_ENDED,
                     target,
                     null
             );

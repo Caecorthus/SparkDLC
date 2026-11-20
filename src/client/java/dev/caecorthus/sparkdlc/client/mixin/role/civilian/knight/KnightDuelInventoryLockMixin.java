@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(MinecraftClient.class)
 public abstract class KnightDuelInventoryLockMixin {
     @Inject(method = "setScreen", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$blockDuelInventory(Screen screen, CallbackInfo ci) {
+    private void sparkdlc$blockDuelInventory(Screen screen, CallbackInfo ci) {
         if (KnightDuelUiLock.blocks(screen)) {
             ci.cancel();
         }

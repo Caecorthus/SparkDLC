@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.tarotreader;
 
 import dev.caecorthus.sparkdlc.client.gui.card.InventoryCardPaint;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.client.hud.TarotDivinationHudRenderer;
 import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotLedgerEntries;
 import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotLedgerEntries.Entry;
@@ -478,6 +478,6 @@ public final class TarotDivinationSelectorScreen extends Screen {
                 && !game.isPlayerDead(uuid)
                 && !GameFunctions.isPlayerSpectatingOrCreative(player)
                 && role != null
-                && SparkWitchRoles.TAROT_READER_ID.equals(role.identifier());
+                && SparkDlcRoles.TAROT_READER_ID.equals(role.identifier());
     }
 }

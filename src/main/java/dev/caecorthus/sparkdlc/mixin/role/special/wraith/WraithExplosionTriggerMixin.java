@@ -25,7 +25,7 @@ public abstract class WraithExplosionTriggerMixin {
     public abstract @Nullable LivingEntity getCausingEntity();
 
     @Inject(method = "canTriggerBlocks()Z", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$activeWraithTriggersNoBlocks(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$activeWraithTriggersNoBlocks(CallbackInfoReturnable<Boolean> cir) {
         if (!WraithParticipationRules.mayTriggerBlocks(
                 this.getCausingEntity() instanceof PlayerEntity player && WraithStateService.isActive(player))) {
             cir.setReturnValue(false);

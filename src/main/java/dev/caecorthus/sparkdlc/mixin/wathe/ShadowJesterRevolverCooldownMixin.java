@@ -25,7 +25,7 @@ public abstract class ShadowJesterRevolverCooldownMixin {
             index = 1,
             remap = false
     )
-    private int sparkstrength$shortenShowdownRevolverCooldown(
+    private int sparkdlc$shortenShowdownRevolverCooldown(
             int originalCooldown,
             @Local(ordinal = 0) ServerPlayerEntity player
     ) {

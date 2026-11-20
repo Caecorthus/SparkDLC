@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.trait.effective;
 
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.trait.effective.alignment.EffectiveAlignment;
 import dev.caecorthus.sparkdlc.mixin.trait.GameWorldComponentAccessor;
 import dev.doctor4t.wathe.api.Faction;
@@ -160,7 +160,7 @@ public final class EffectiveTraitService {
         }
 
         GameWorldComponentAccessor accessor = (GameWorldComponentAccessor) (Object) gameComponent;
-        if (accessor.sparktraits$getWorld() == null) {
+        if (accessor.sparkdlc$getWorldForTraits() == null) {
             return List.of();
         }
 
@@ -168,7 +168,7 @@ public final class EffectiveTraitService {
 
         // 先处理 Wathe 原本认定的杀手。善良杀手不能在双影谢幕中继续充当杀手对手。
         for (UUID uuid : gameComponent.getAllKillerTeamPlayers()) {
-            PlayerEntity player = accessor.sparktraits$getWorld().getPlayerByUuid(uuid);
+            PlayerEntity player = accessor.sparkdlc$getWorldForTraits().getPlayerByUuid(uuid);
             if (player == null || !hasConscience(player)) {
                 effectiveKillers.add(uuid);
             }
@@ -177,7 +177,7 @@ public final class EffectiveTraitService {
         // 再补入被 impostor 翻转为杀手阵营的原始好人。
         for (UUID uuid : gameComponent.getAllPlayers()) {
             Role role = gameComponent.getRole(uuid);
-            PlayerEntity player = accessor.sparktraits$getWorld().getPlayerByUuid(uuid);
+            PlayerEntity player = accessor.sparkdlc$getWorldForTraits().getPlayerByUuid(uuid);
             if (player != null
                     && isOriginalCivilian(role)
                     && hasImpostor(player)
@@ -224,7 +224,7 @@ public final class EffectiveTraitService {
 
     public static Role.MoodType effectiveMoodType(PlayerEntity player, Role role) {
         if (hasConscience(player)) {
-            return effectiveConscienceMoodType(SparkWitchApi.isWraithActive(player));
+            return effectiveConscienceMoodType(SparkRoleApi.isWraithActive(player));
         }
         if (hasImpostor(player)) {
             return Role.MoodType.FAKE;

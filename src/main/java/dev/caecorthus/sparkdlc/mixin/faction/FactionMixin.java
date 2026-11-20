@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Faction.class)
 public abstract class FactionMixin {
     @Inject(method = "fromRole", at = @At("HEAD"), cancellable = true)
-    private static void sparkfactionapi$overrideSparkFactionRole(
+    private static void sparkdlc$overrideSparkFactionRole(
             Role role,
             CallbackInfoReturnable<Faction> cir
     ) {

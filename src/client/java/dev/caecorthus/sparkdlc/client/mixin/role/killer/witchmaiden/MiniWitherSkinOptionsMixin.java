@@ -27,7 +27,7 @@ public abstract class MiniWitherSkinOptionsMixin extends GameOptionsScreen {
     }
 
     @Inject(method = "addOptions", at = @At("TAIL"))
-    private void sparkwitch$appendMiniWitherSkinButton(CallbackInfo ci) {
+    private void sparkdlc$appendMiniWitherSkinButton(CallbackInfo ci) {
         if (this.body != null) {
             MiniWitherSkinEntryButton.addTo(this.body, this);
         }

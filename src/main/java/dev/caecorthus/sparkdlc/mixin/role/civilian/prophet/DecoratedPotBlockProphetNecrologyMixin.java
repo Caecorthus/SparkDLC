@@ -36,7 +36,7 @@ public abstract class DecoratedPotBlockProphetNecrologyMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$keepProphetNecrologyOutOfPot(ItemStack stack, BlockState state, World world, BlockPos pos,
+    private void sparkdlc$keepProphetNecrologyOutOfPot(ItemStack stack, BlockState state, World world, BlockPos pos,
                                                          PlayerEntity player, Hand hand, BlockHitResult hit,
                                                          CallbackInfoReturnable<ItemActionResult> cir) {
         if (ProphetNecrologyRules.blocksBlockUse(stack, state)) {

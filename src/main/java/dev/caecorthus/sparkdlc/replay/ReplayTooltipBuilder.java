@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.replay;
 
-import dev.caecorthus.sparkdlc.SparkFactionApiMod;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.faction.api.FactionDefinition;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.replay.api.ReplayPlayerView;
@@ -147,7 +147,7 @@ final class ReplayTooltipBuilder {
                     }
                 });
             } catch (RuntimeException | LinkageError e) {
-                SparkFactionApiMod.LOGGER.error(
+                SparkDLC.LOGGER.error(
                         "Replay {} contributor {} failed for player {}; skipping it",
                         kind,
                         entry.getKey(),

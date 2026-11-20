@@ -12,5 +12,5 @@ import java.util.UUID;
 @Mixin(value = RoleHistoryComponent.class, remap = false)
 public interface RoleHistoryComponentAccessor {
     @Accessor("history")
-    Map<UUID, Deque<GameEntry>> sparktraits$getHistory();
+    Map<UUID, Deque<GameEntry>> sparkdlc$getHistory();
 }

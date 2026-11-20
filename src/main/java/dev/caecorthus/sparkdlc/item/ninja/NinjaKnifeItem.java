@@ -6,7 +6,7 @@
 package dev.caecorthus.sparkdlc.item.ninja;
 
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
 import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaInteractionService;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit.BlackRavenCrowHits;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -71,7 +71,7 @@ public final class NinjaKnifeItem extends Item {
         if (SparkTraitsApi.shouldCancelMeleeAttack(attacker, victim, stack)) {
             return TypedActionResult.fail(stack);
         }
-        GameFunctions.killPlayer(victim, true, attacker, SparkWitchDeathReasons.NINJA_KNIFE_KILL);
+        GameFunctions.killPlayer(victim, true, attacker, SparkDlcDeathReasons.NINJA_KNIFE_KILL);
         attacker.getItemCooldownManager().set(this, KNIFE_COOLDOWN_TICKS);
         return TypedActionResult.consume(stack);
     }

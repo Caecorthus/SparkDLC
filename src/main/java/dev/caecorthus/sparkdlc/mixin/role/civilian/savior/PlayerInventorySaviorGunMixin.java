@@ -27,7 +27,7 @@ public abstract class PlayerInventorySaviorGunMixin {
     public PlayerEntity player;
 
     @Inject(method = "insertStack(Lnet/minecraft/item/ItemStack;)Z", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$blockSaviorGunInsert(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$blockSaviorGunInsert(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         if (this.player instanceof net.minecraft.server.network.ServerPlayerEntity serverPlayer
                 && SaviorGunPickupRules.blocksInsert(serverPlayer, stack)) {
             cir.setReturnValue(false);
@@ -35,7 +35,7 @@ public abstract class PlayerInventorySaviorGunMixin {
     }
 
     @Inject(method = "insertStack(ILnet/minecraft/item/ItemStack;)Z", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$blockSaviorGunInsertIntoSlot(int slot, ItemStack stack,
+    private void sparkdlc$blockSaviorGunInsertIntoSlot(int slot, ItemStack stack,
                                                          CallbackInfoReturnable<Boolean> cir) {
         if (this.player instanceof net.minecraft.server.network.ServerPlayerEntity serverPlayer
                 && SaviorGunPickupRules.blocksInsert(serverPlayer, stack)) {
@@ -44,7 +44,7 @@ public abstract class PlayerInventorySaviorGunMixin {
     }
 
     @Inject(method = "offer(Lnet/minecraft/item/ItemStack;Z)V", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$dropOfferedSaviorGun(ItemStack stack, boolean notifiesClient, CallbackInfo ci) {
+    private void sparkdlc$dropOfferedSaviorGun(ItemStack stack, boolean notifiesClient, CallbackInfo ci) {
         if (!stack.isEmpty()
                 && this.player instanceof net.minecraft.server.network.ServerPlayerEntity serverPlayer
                 && SaviorGunPickupRules.blocksInsert(serverPlayer, stack)) {
@@ -54,7 +54,7 @@ public abstract class PlayerInventorySaviorGunMixin {
     }
 
     @Inject(method = "swapSlotWithHotbar(I)V", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$keepHiddenSaviorRevolver(int slot, CallbackInfo ci) {
+    private void sparkdlc$keepHiddenSaviorRevolver(int slot, CallbackInfo ci) {
         if (this.player instanceof net.minecraft.server.network.ServerPlayerEntity serverPlayer
                 && SaviorGunPickupRules.blocksHotbarSwap(serverPlayer, slot)) {
             ci.cancel();

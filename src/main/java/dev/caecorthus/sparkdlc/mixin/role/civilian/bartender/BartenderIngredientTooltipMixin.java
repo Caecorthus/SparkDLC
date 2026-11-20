@@ -16,7 +16,7 @@ public abstract class BartenderIngredientTooltipMixin {
             method = "appendTooltip",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/text/Text;translatable(Ljava/lang/String;)Lnet/minecraft/text/MutableText;")
     )
-    private String sparkstrength$retunedEffectText(String key) {
+    private String sparkdlc$retunedEffectText(String key) {
         return BartenderRules.effectTextKey(key);
     }
 }

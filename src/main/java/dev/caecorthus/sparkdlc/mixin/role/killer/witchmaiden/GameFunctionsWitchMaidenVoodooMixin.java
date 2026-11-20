@@ -26,7 +26,7 @@ public abstract class GameFunctionsWitchMaidenVoodooMixin {
             require = 1,
             allow = 1
     )
-    private static void sparkwitch$blockWitchMaidenVoodoo(
+    private static void sparkdlc$blockWitchMaidenVoodoo(
             ServerPlayerEntity victim,
             boolean spawnBody,
             @Nullable ServerPlayerEntity killer,

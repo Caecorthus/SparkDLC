@@ -6,7 +6,7 @@ import dev.caecorthus.sparkdlc.role.civilian.sherry.SherryRules;
 import dev.caecorthus.sparkdlc.role.killer.hiro.HiroRules;
 import dev.caecorthus.sparkdlc.role.killer.witchmaiden.WitchMaidenRules;
 import dev.caecorthus.sparkdlc.role.neutral.koko.KokoRules;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.role.witch.WitchFactionRules;
 import dev.caecorthus.sparkdlc.role.witch.abysslistener.AbyssListenerRules;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.RiftwalkerRules;
@@ -86,15 +86,15 @@ public final class WitchManaRules {
      */
     public static boolean usesGrandWitchManaEconomy(Role role) {
         return role != null
-                && (role == SparkWitchRoles.grandWitch() || AbyssListenerRules.isAbyssListener(role)
+                && (role == SparkDlcRoles.grandWitch() || AbyssListenerRules.isAbyssListener(role)
                 || RiftwalkerRules.isRiftwalker(role));
     }
 
     private static boolean isWitchManaRole(Role role) {
         return role != null
-                && (role == SparkWitchRoles.grandWitch()
-                || role == SparkWitchRoles.apprenticeWitch()
-                || role == SparkWitchRoles.murderousWitch());
+                && (role == SparkDlcRoles.grandWitch()
+                || role == SparkDlcRoles.apprenticeWitch()
+                || role == SparkDlcRoles.murderousWitch());
     }
 
     /**
@@ -113,7 +113,7 @@ public final class WitchManaRules {
         // 1 mana per 2 s below; nothing at the deal, no task reward, no kill reward.
         // 泽渡可可（所有者 2026-11-13）：自然恢复与杀意魔女相同，即此上限与下方默认的每 2 秒 1 点；开局为 0，没有任务奖励，
         // 也没有击杀奖励。
-        if (role == SparkWitchRoles.murderousWitch() || KokoRules.isKoko(role)) {
+        if (role == SparkDlcRoles.murderousWitch() || KokoRules.isKoko(role)) {
             return MURDEROUS_WITCH_NATURAL_CAP;
         }
         if (WitchMaidenRules.isWitchMaiden(role) || HiroRules.isHiro(role)) {
@@ -124,7 +124,7 @@ public final class WitchManaRules {
 
     /** {@link #naturalCap(Role)} with the Apprentice's graduation applied. / 计入预备魔女出师状态的自然上限。 */
     public static int naturalCap(Role role, boolean graduatedApprentice) {
-        if (graduatedApprentice && role == SparkWitchRoles.apprenticeWitch()) {
+        if (graduatedApprentice && role == SparkDlcRoles.apprenticeWitch()) {
             return GRADUATED_APPRENTICE_NATURAL_CAP;
         }
         return naturalCap(role);
@@ -132,7 +132,7 @@ public final class WitchManaRules {
 
     /** {@link #regenerationIntervalTicks(Role)} with the Apprentice's graduation applied. / 计入出师状态的恢复间隔。 */
     public static int regenerationIntervalTicks(Role role, boolean graduatedApprentice) {
-        if (graduatedApprentice && role == SparkWitchRoles.apprenticeWitch()) {
+        if (graduatedApprentice && role == SparkDlcRoles.apprenticeWitch()) {
             return GRADUATED_APPRENTICE_REGENERATION_INTERVAL_TICKS;
         }
         return regenerationIntervalTicks(role);
@@ -146,7 +146,7 @@ public final class WitchManaRules {
                 || HiroRules.isHiro(role)) {
             return GRAND_WITCH_REGENERATION_INTERVAL_TICKS;
         }
-        if (role == SparkWitchRoles.apprenticeWitch()) {
+        if (role == SparkDlcRoles.apprenticeWitch()) {
             return APPRENTICE_REGENERATION_INTERVAL_TICKS;
         }
         if (SherryRules.isSherry(role)) {
@@ -162,7 +162,7 @@ public final class WitchManaRules {
         if (SherryRules.isSherry(role)) {
             return SherryRules.TASK_MANA;
         }
-        return role == SparkWitchRoles.apprenticeWitch() || EmmaRules.isEmma(role) ? APPRENTICE_TASK_REWARD : 0;
+        return role == SparkDlcRoles.apprenticeWitch() || EmmaRules.isEmma(role) ? APPRENTICE_TASK_REWARD : 0;
     }
 
     public static int killReward(Role killerRole, Role victimRole) {
@@ -177,7 +177,7 @@ public final class WitchManaRules {
         if (isWitchManaRole(victimRole)) {
             return WITCH_KILL_REWARD;
         }
-        return killerRole == SparkWitchRoles.murderousWitch() ? GENERIC_KILL_REWARD : 0;
+        return killerRole == SparkDlcRoles.murderousWitch() ? GENERIC_KILL_REWARD : 0;
     }
 
     /**
@@ -190,7 +190,7 @@ public final class WitchManaRules {
         if (!WitchFactionRules.isAccompliceLike(killerRole)) {
             return 0;
         }
-        return killReward(SparkWitchRoles.grandWitch(), victimRole);
+        return killReward(SparkDlcRoles.grandWitch(), victimRole);
     }
 
     public static int applyNaturalRegeneration(int currentMana, Role role) {

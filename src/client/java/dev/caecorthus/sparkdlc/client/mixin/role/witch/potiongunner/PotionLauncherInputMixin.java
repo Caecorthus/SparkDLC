@@ -38,7 +38,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(MinecraftClient.class)
 public abstract class PotionLauncherInputMixin {
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$swallowLauncherAttack(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$swallowLauncherAttack(CallbackInfoReturnable<Boolean> cir) {
         if (PotionFireInput.onAttack((MinecraftClient) (Object) this)) {
             cir.setReturnValue(false);
         }
@@ -46,7 +46,7 @@ public abstract class PotionLauncherInputMixin {
 
     @WrapOperation(method = "handleInputEvents",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/KeyBinding;wasPressed()Z"))
-    private boolean sparkwitch$fireLauncherOnPressEdge(KeyBinding key, Operation<Boolean> original) {
+    private boolean sparkdlc$fireLauncherOnPressEdge(KeyBinding key, Operation<Boolean> original) {
         boolean pressed = original.call(key);
         MinecraftClient client = (MinecraftClient) (Object) this;
         if (pressed && key == client.options.attackKey) {
@@ -56,7 +56,7 @@ public abstract class PotionLauncherInputMixin {
     }
 
     @Inject(method = "handleBlockBreaking", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$cancelLauncherBlockBreaking(CallbackInfo ci) {
+    private void sparkdlc$cancelLauncherBlockBreaking(CallbackInfo ci) {
         if (PotionFireInput.onBlockBreaking((MinecraftClient) (Object) this)) {
             ci.cancel();
         }

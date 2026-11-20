@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.sherry.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
@@ -18,7 +18,7 @@ import java.util.UUID;
  */
 public record OpenSherryDeductionS2CPacket(List<UUID> targets, List<String> names, int price)
         implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("open_sherry_deduction");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("open_sherry_deduction");
     public static final Id<OpenSherryDeductionS2CPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, OpenSherryDeductionS2CPacket> CODEC =
             PacketCodec.tuple(

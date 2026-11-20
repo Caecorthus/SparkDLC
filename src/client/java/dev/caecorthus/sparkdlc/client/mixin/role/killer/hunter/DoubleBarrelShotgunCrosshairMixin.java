@@ -35,7 +35,7 @@ public abstract class DoubleBarrelShotgunCrosshairMixin {
                     target = "Ldev/doctor4t/wathe/client/gui/CrosshairRenderer;CROSSHAIR:Lnet/minecraft/util/Identifier;"
             )
     )
-    private static Identifier sparkwitch$showShotgunTargetCrosshair(
+    private static Identifier sparkdlc$showShotgunTargetCrosshair(
             Identifier original,
             MinecraftClient client,
             ClientPlayerEntity player,
@@ -70,7 +70,7 @@ public abstract class DoubleBarrelShotgunCrosshairMixin {
                     target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V"
             )
     )
-    private static void sparkwitch$drawBuckshotCrosshair(
+    private static void sparkdlc$drawBuckshotCrosshair(
             DrawContext context,
             Identifier texture,
             int x,

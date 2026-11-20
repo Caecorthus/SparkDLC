@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.kidnapper;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.game.GameFunctions;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import java.util.List;
@@ -72,7 +72,7 @@ public final class KnockoutDrugItem extends Item {
         if (player instanceof ServerPlayerEntity serverPlayer && targetPlayer instanceof ServerPlayerEntity serverTarget) {
             GameRecordManager.recordItemUse(
                     serverPlayer,
-                    Registries.ITEM.getId(SparkWitchItems.knockoutDrug()),
+                    Registries.ITEM.getId(SparkDlcItems.knockoutDrug()),
                     serverTarget,
                     null
             );

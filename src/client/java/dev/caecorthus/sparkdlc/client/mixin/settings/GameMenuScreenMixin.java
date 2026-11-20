@@ -24,7 +24,7 @@ public abstract class GameMenuScreenMixin extends Screen {
     }
 
     @Inject(method = "init", at = @At("TAIL"))
-    private void sparkassist$addSettingsGear(CallbackInfo ci) {
+    private void sparkdlc$addSettingsGear(CallbackInfo ci) {
         GameMenuScreen self = (GameMenuScreen) (Object) this;
         if (!self.shouldShowMenu()) {
             return;

@@ -13,5 +13,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(value = GameWorldComponent.class, remap = false)
 public interface GameWorldComponentResetAccessor {
     @Accessor(value = "ticksUntilNextResetAttempt", remap = false)
-    int sparkstrength$getTicksUntilNextResetAttempt();
+    int sparkdlc$getTicksUntilNextResetAttempt();
 }

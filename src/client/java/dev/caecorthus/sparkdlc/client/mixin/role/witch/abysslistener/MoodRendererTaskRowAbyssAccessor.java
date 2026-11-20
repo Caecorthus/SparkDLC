@@ -15,8 +15,8 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(targets = "dev.doctor4t.wathe.client.gui.MoodRenderer$TaskRenderer", remap = false)
 public interface MoodRendererTaskRowAbyssAccessor {
     @Accessor("offset")
-    float sparkwitch$getAbyssRowOffset();
+    float sparkdlc$getAbyssRowOffset();
 
     @Accessor("text")
-    Text sparkwitch$getAbyssRowText();
+    Text sparkdlc$getAbyssRowText();
 }

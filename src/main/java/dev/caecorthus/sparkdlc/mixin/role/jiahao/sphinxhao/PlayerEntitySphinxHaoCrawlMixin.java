@@ -45,7 +45,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntitySphinxHaoCrawlMixin {
     @Inject(method = "updatePose", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$forceSphinxHaoCrawl(CallbackInfo ci) {
+    private void sparkdlc$forceSphinxHaoCrawl(CallbackInfo ci) {
         PlayerEntity self = (PlayerEntity) (Object) this;
         if (SphinxHaoCrawlPose.forcesCrawl(self)) {
             self.setPose(EntityPose.SWIMMING);
@@ -54,7 +54,7 @@ public abstract class PlayerEntitySphinxHaoCrawlMixin {
     }
 
     @Inject(method = "tickMovement", at = @At("HEAD"))
-    private void sparkwitch$clearSphinxHaoCrawlSprint(CallbackInfo ci) {
+    private void sparkdlc$clearSphinxHaoCrawlSprint(CallbackInfo ci) {
         PlayerEntity self = (PlayerEntity) (Object) this;
         if (self.isSprinting() && SphinxHaoCrawlPose.forcesCrawl(self)) {
             self.setSprinting(false);
@@ -62,7 +62,7 @@ public abstract class PlayerEntitySphinxHaoCrawlMixin {
     }
 
     @Inject(method = "jump", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$blockSphinxHaoCrawlJump(CallbackInfo ci) {
+    private void sparkdlc$blockSphinxHaoCrawlJump(CallbackInfo ci) {
         if (SphinxHaoCrawlPose.forcesCrawl((PlayerEntity) (Object) this)) {
             ci.cancel();
         }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import java.util.Objects;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
@@ -26,7 +26,7 @@ public record TarotDivinationReadingS2CPacket(
     public static final int MAX_TARGET_LENGTH = 128;
     public static final int MAX_DISPLAY_NAME_LENGTH = 64;
 
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("tarot_divination_reading");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("tarot_divination_reading");
     public static final Id<TarotDivinationReadingS2CPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, TarotDivinationReadingS2CPacket> CODEC =
             PacketCodec.of(TarotDivinationReadingS2CPacket::write, TarotDivinationReadingS2CPacket::read);

@@ -31,7 +31,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class SeekerRemoteTerrainGridMixin {
     @ModifyExpressionValue(method = "setupTerrain", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/network/ClientPlayerEntity;getX()D"))
-    private double sparkwitch$seekerGridCenterX(double original) {
+    private double sparkdlc$seekerGridCenterX(double original) {
         if (!SeekerRemoteViewClient.isActive()) {
             return original;
         }
@@ -40,7 +40,7 @@ public abstract class SeekerRemoteTerrainGridMixin {
 
     @ModifyExpressionValue(method = "setupTerrain", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/network/ClientPlayerEntity;getY()D"))
-    private double sparkwitch$seekerGridCenterY(double original) {
+    private double sparkdlc$seekerGridCenterY(double original) {
         if (!SeekerRemoteViewClient.isActive()) {
             return original;
         }
@@ -49,7 +49,7 @@ public abstract class SeekerRemoteTerrainGridMixin {
 
     @ModifyExpressionValue(method = "setupTerrain", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/network/ClientPlayerEntity;getZ()D"))
-    private double sparkwitch$seekerGridCenterZ(double original) {
+    private double sparkdlc$seekerGridCenterZ(double original) {
         if (!SeekerRemoteViewClient.isActive()) {
             return original;
         }

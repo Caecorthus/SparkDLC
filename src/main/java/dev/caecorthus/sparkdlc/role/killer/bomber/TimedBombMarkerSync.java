@@ -65,7 +65,7 @@ public final class TimedBombMarkerSync {
 
     /** Whether the block entity holds a planted trap right now (server). / 该方块实体当前是否持有陷阱（服务端）。 */
     static boolean holdsTrap(BlockEntity blockEntity) {
-        return blockEntity instanceof TimedBombTrapHolder holder && holder.sparkstrength$hasTimedBombTrap();
+        return blockEntity instanceof TimedBombTrapHolder holder && holder.sparkdlc$hasTimedBombTrap();
     }
 
     /**

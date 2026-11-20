@@ -30,7 +30,7 @@ public abstract class RiftSwapperWidgetMixin {
                     target = "Lnet/minecraft/world/World;getPlayerByUuid(Ljava/util/UUID;)Lnet/minecraft/entity/player/PlayerEntity;"),
             require = 1
     )
-    private static PlayerEntity sparkwitch$allowListedAliveSpectator(World world, UUID clicked,
+    private static PlayerEntity sparkdlc$allowListedAliveSpectator(World world, UUID clicked,
                                                                      Operation<PlayerEntity> original) {
         PlayerEntity tracked = original.call(world, clicked);
         return tracked != null ? tracked : RiftSwapperClient.standInForUntrackedPick(clicked);

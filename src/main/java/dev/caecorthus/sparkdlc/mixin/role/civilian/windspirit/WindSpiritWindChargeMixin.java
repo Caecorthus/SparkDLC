@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(AbstractWindChargeEntity.class)
 public abstract class WindSpiritWindChargeMixin {
     @Inject(method = "canHit", at = @At("RETURN"), cancellable = true)
-    private void sparkwitch$resolvePlayerHit(
+    private void sparkdlc$resolvePlayerHit(
             Entity target,
             CallbackInfoReturnable<Boolean> cir
     ) {

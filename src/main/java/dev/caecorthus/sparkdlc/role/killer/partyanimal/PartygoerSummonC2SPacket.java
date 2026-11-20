@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
  * 派对狂确认了选房：在 spawnRoom 召唤派对客，终点为 destinationRoom。房间按名称发送；服务端重新查找并重新检查所有门槛。
  */
 public record PartygoerSummonC2SPacket(String spawnRoom, String destinationRoom) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("partygoer_summon");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("partygoer_summon");
     public static final Id<PartygoerSummonC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, PartygoerSummonC2SPacket> CODEC =
             PacketCodec.of(PartygoerSummonC2SPacket::write, PartygoerSummonC2SPacket::read);

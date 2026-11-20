@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.cooldown.provider;
 
 import dev.caecorthus.sparkdlc.cooldown.api.RoleSkillCooldownStore;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillDefinition;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillRegistry;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
@@ -22,7 +22,7 @@ import java.util.OptionalInt;
  * 窗口结束的延后冷却。抬高只抬高共享冷却（它在窗口期间照常递减）；延长同时增加该延后冷却，使额外时长不会在窗口结束时丢失。
  */
 final class WitchSkillCooldownStore implements RoleSkillCooldownStore {
-    static final Identifier ID = SparkWitch.id("witch_skill");
+    static final Identifier ID = SparkDLC.id("witch_skill");
 
     @Override
     public Identifier id() {

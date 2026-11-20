@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.seeker.remote;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerCarState;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerSessionMode;
@@ -16,9 +16,9 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class SeekerCctvRules {
     /** Post-effect chain for the car look (warm/green night vision). / 小车画面（暖绿夜视）的后处理链。 */
-    public static final Identifier CAR_POST_EFFECT = SparkWitch.id("shaders/post/seeker_car.json");
+    public static final Identifier CAR_POST_EFFECT = SparkDLC.id("shaders/post/seeker_car.json");
     /** Post-effect chain for the camera look (cold grey CCTV). / 摄像头画面（冷灰监控）的后处理链。 */
-    public static final Identifier CAMERA_POST_EFFECT = SparkWitch.id("shaders/post/seeker_camera.json");
+    public static final Identifier CAMERA_POST_EFFECT = SparkDLC.id("shaders/post/seeker_camera.json");
     /** The shared program under Minecraft's un-namespaced post-program lookup. / 原版后处理程序查找（无命名空间）下的共用程序。 */
     public static final String PROGRAM_NAME = "sparkdlc_seeker_cctv";
 

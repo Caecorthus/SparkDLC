@@ -29,7 +29,7 @@ public abstract class ScreenHandlerPsychoSecondRowMixin {
     public DefaultedList<Slot> slots;
 
     @Inject(method = "internalOnSlotClick", at = @At("HEAD"), cancellable = true)
-    private void sparkfactionapi$freezeSecondRowDuringPsycho(
+    private void sparkdlc$freezeSecondRowDuringPsycho(
             int slotIndex,
             int button,
             SlotActionType actionType,

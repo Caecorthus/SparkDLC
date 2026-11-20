@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.saint.flash;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.mixin.role.civilian.judge.JudgeProjectileOwnerAccessor;
 import dev.caecorthus.sparkdlc.record.witch.AchievementRecords;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.BearRicochetRules;
@@ -114,7 +114,7 @@ public final class HolyFlashEntity extends ThrownItemEntity {
         RangedSmokeCarve.blast(world, center, BearRicochetRules.HOLY_FLASH_HOLE_RADIUS); // BEAR: burst hole / 爆炸空洞
         ServerPlayerEntity owner = getOwner() instanceof ServerPlayerEntity player ? player : null;
         ServerPlayerEntity thrower = owner != null && ControlExpertTargeting.isParticipant(owner) ? owner : null;
-        UUID ownerUuid = ((JudgeProjectileOwnerAccessor) (Object) this).sparkwitch$judgeOwnerUuid();
+        UUID ownerUuid = ((JudgeProjectileOwnerAccessor) (Object) this).sparkdlc$judgeOwnerUuid();
         HolyFlashBurstTally tally = new HolyFlashBurstTally(ownerUuid);
         flashPlayers(world, thrower, center, tally);
         // Achievement record W7; the owner UUID stands in for a thrower who left mid-flight.
@@ -155,7 +155,7 @@ public final class HolyFlashEntity extends ThrownItemEntity {
 
     @Override
     protected Item getDefaultItem() {
-        return SparkWitchItems.holyFlash();
+        return SparkDlcItems.holyFlash();
     }
 
     @Override

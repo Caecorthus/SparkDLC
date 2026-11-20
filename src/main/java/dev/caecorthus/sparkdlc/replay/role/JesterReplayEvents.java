@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.replay.role;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.record.replay.ReplayRegistry;
 import net.minecraft.util.Identifier;
 
@@ -9,8 +9,8 @@ import net.minecraft.util.Identifier;
  * 小丑转变与假死的回放文本。
  */
 public final class JesterReplayEvents {
-    public static final Identifier JESTER_POSITIONS_SHUFFLED = SparkStrength.id("jester_positions_shuffled");
-    public static final Identifier JESTER_FAKE_DEATH_KILL_BLOCKED = SparkStrength.id("jester_fake_death_kill_blocked");
+    public static final Identifier JESTER_POSITIONS_SHUFFLED = SparkDLC.id("jester_positions_shuffled");
+    public static final Identifier JESTER_FAKE_DEATH_KILL_BLOCKED = SparkDLC.id("jester_fake_death_kill_blocked");
 
     private JesterReplayEvents() {
     }

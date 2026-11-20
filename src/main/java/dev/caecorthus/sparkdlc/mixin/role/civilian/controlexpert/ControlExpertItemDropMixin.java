@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ServerPlayerEntity.class)
 public abstract class ControlExpertItemDropMixin {
     @Inject(method = "dropSelectedItem(Z)Z", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$keepControlExpertItem(boolean entireStack, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$keepControlExpertItem(boolean entireStack, CallbackInfoReturnable<Boolean> cir) {
         ServerPlayerEntity player = (ServerPlayerEntity) (Object) this;
         if (ControlExpertInventoryRules.blocksDrop(player, player.getInventory().getMainHandStack())) {
             player.currentScreenHandler.syncState();

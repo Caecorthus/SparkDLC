@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.render.model;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 import net.minecraft.block.BlockState;
@@ -84,14 +84,14 @@ public final class InventoryIconSwapModel implements UnbakedModel {
             // 缺失模型的根模型就是它自己，因此这里同样能发现缺失的图标 JSON。
             if (!(baker.getOrLoadModel(iconId) instanceof JsonUnbakedModel icon)
                     || icon.getRootModel() != ModelLoader.GENERATION_MARKER) {
-                SparkWitch.LOGGER.warn("{} icon model {} is missing or not item/generated; showing the 3-D "
+                SparkDLC.LOGGER.warn("{} icon model {} is missing or not item/generated; showing the 3-D "
                         + "model everywhere", diagnosticName, iconId);
                 return heldModel;
             }
             BakedModel iconModel = baker.bake(iconId, settings);
             return iconModel == null ? heldModel : new Baked(heldModel, iconModel);
         } catch (RuntimeException exception) {
-            SparkWitch.LOGGER.warn("{} icon model {} failed to bake; showing the 3-D model everywhere",
+            SparkDLC.LOGGER.warn("{} icon model {} failed to bake; showing the 3-D model everywhere",
                     diagnosticName, iconId, exception);
             return heldModel;
         }

@@ -44,7 +44,7 @@ public abstract class LimitedHandledScreenSecondRowMixin extends Screen {
     protected abstract List<Text> getTooltipFromItem(ItemStack stack);
 
     @Inject(method = "isHotbarSlot", at = @At("HEAD"), cancellable = true)
-    private static void sparkfactionapi$acceptSecondRow(Slot slot, CallbackInfoReturnable<Boolean> cir) {
+    private static void sparkdlc$acceptSecondRow(Slot slot, CallbackInfoReturnable<Boolean> cir) {
         if (slot.inventory instanceof PlayerInventory && LimitedInventoryRows.isSecondRowIndex(slot.getIndex())) {
             cir.setReturnValue(true);
         }
@@ -55,7 +55,7 @@ public abstract class LimitedHandledScreenSecondRowMixin extends Screen {
     // 保持 Yarn：init 覆写 Screen.init，remapJar 会把选择器改写为 intermediary 名称。缩放时会在 clearChildren() 后重新
     // 执行 init，占位控件随条一起重建。
     @Inject(method = "init()V", at = @At("TAIL"))
-    private void sparkfactionapi$reserveSecondRow(CallbackInfo ci) {
+    private void sparkdlc$reserveSecondRow(CallbackInfo ci) {
         this.addDrawableChild(new LimitedInventorySecondRow.Bounds(this.x, this.y, this.backgroundWidth));
     }
 
@@ -64,7 +64,7 @@ public abstract class LimitedHandledScreenSecondRowMixin extends Screen {
      * 开启触屏选项时，Wathe 会在点到 176x32 条外时关闭界面；第二行属于界面内部。
      */
     @ModifyReturnValue(method = "isClickOutsideBounds", at = @At("RETURN"))
-    private boolean sparkfactionapi$secondRowIsInside(boolean outside, double mouseX, double mouseY, int left, int top,
+    private boolean sparkdlc$secondRowIsInside(boolean outside, double mouseX, double mouseY, int left, int top,
                                                      int button) {
         return outside && !LimitedInventorySecondRow.contains(mouseX, mouseY, left, top, this.backgroundWidth);
     }
@@ -76,7 +76,7 @@ public abstract class LimitedHandledScreenSecondRowMixin extends Screen {
      * 以免遮住第二行。
      */
     @Inject(method = "renderLimitedInventoryTooltip", at = @At("HEAD"), cancellable = true)
-    private void sparkfactionapi$drawTooltipBelowStrip(DrawContext context, ItemStack stack, CallbackInfo ci) {
+    private void sparkdlc$drawTooltipBelowStrip(DrawContext context, ItemStack stack, CallbackInfo ci) {
         ci.cancel();
         List<Text> lines = this.getTooltipFromItem(stack);
         if (lines.isEmpty()) {

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.koko.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
@@ -17,7 +17,7 @@ import net.minecraft.util.Identifier;
  * 大魔女恐惧、SparkStrength 饕餮眩晕与开局安全时间期间一律拦截。尸体直播没有数据包：它就是对尸体的一次原版右键。
  */
 public record UseKokoStreamC2SPayload() implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("use_koko_stream");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("use_koko_stream");
     public static final Id<UseKokoStreamC2SPayload> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, UseKokoStreamC2SPayload> CODEC =
             PacketCodec.unit(new UseKokoStreamC2SPayload());

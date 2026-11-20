@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LivingEntity.class)
 public abstract class M67LivingEntityMixin {
     @Inject(method = "clearActiveItem", at = @At("HEAD"))
-    private void sparkstrength$cancelM67OnClear(CallbackInfo ci) {
+    private void sparkdlc$cancelM67OnClear(CallbackInfo ci) {
         if ((Object) this instanceof ServerPlayerEntity player) {
             M67UseService.cancel(player);
         }
@@ -20,13 +20,13 @@ public abstract class M67LivingEntityMixin {
 
     // Validate before vanilla adopts a different same-item stack. / 在原版接受同物品的替换堆叠之前校验。
     @Inject(method = "tickActiveItemStack", at = @At("HEAD"))
-    private void sparkstrength$validateM67BeforeAdoption(CallbackInfo ci) {
+    private void sparkdlc$validateM67BeforeAdoption(CallbackInfo ci) {
         if ((Object) this instanceof ServerPlayerEntity player) {
             M67UseService.tick(player);
         }
     }
     @Inject(method = "onDeath", at = @At("HEAD"))
-    private void sparkstrength$forgetM67OnDeath(DamageSource source, CallbackInfo ci) {
+    private void sparkdlc$forgetM67OnDeath(DamageSource source, CallbackInfo ci) {
         if ((Object) this instanceof ServerPlayerEntity player) {
             M67UseService.forgetPlayer(player);
         }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.sabotage.net;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -48,7 +48,7 @@ public record SabotageStatusS2CPacket(boolean lightsOut, int outageId, int modeW
      * 远距离描边，所以线路配置器会对超过它的地图发出提醒。
      */
     public static final int MAX_ENGINE_UNITS = 256;
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("sabotage_status");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("sabotage_status");
     public static final Id<SabotageStatusS2CPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, SabotageStatusS2CPacket> CODEC =
             PacketCodec.of(SabotageStatusS2CPacket::write, SabotageStatusS2CPacket::read);

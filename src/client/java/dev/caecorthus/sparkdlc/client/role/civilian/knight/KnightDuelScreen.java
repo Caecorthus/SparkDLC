@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.knight;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.client.render.WraithClientState;
 import dev.caecorthus.sparkdlc.net.KnightDuelTargetC2SPayload;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -74,7 +74,7 @@ public final class KnightDuelScreen extends Screen {
      */
     private boolean isCandidate(GameWorldComponent game, UUID uuid, GameMode mode) {
         if (!game.isRunning() || !game.hasAnyRole(uuid) || game.isPlayerDead(uuid)
-                || mode == null || !mode.isSurvivalLike() || game.getRole(uuid) == SparkWitchRoles.wraith()) {
+                || mode == null || !mode.isSurvivalLike() || game.getRole(uuid) == SparkDlcRoles.wraith()) {
             return false;
         }
         PlayerEntity tracked = client.world.getPlayerByUuid(uuid);

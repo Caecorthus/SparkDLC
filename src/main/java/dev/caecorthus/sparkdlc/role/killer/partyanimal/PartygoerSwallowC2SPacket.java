@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
  * 饕餮在原版准星对着派对客时按下 NoellesRoles 技能键：吞下实体 entityId。只发送 id；服务端重新解析并重新检查所有门槛。
  */
 public record PartygoerSwallowC2SPacket(int entityId) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("partygoer_swallow");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("partygoer_swallow");
     public static final Id<PartygoerSwallowC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, PartygoerSwallowC2SPacket> CODEC =
             PacketCodec.of(PartygoerSwallowC2SPacket::write, PartygoerSwallowC2SPacket::read);

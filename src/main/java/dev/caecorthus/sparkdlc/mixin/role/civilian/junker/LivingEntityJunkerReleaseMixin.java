@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityJunkerReleaseMixin {
     @WrapMethod(method = "stopUsingItem")
-    private void sparkwitch$spendReleasedRagpickerLoot(Operation<Void> original) {
+    private void sparkdlc$spendReleasedRagpickerLoot(Operation<Void> original) {
         JunkerLootSpend.ReleaseProbe probe = (Object) this instanceof ServerPlayerEntity player
                 ? JunkerLootSpend.beforeRelease(player) : null;
         original.call();

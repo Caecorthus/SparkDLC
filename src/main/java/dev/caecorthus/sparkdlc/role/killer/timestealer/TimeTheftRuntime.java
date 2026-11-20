@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.timestealer;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import java.util.LinkedHashSet;
@@ -71,7 +71,7 @@ public final class TimeTheftRuntime {
         } catch (RuntimeException exception) {
             if (!warnedSteal) {
                 warnedSteal = true;
-                SparkWitch.LOGGER.warn("Time Stealer: refusing a theft that failed to start", exception);
+                SparkDLC.LOGGER.warn("Time Stealer: refusing a theft that failed to start", exception);
             }
             return false;
         }
@@ -112,7 +112,7 @@ public final class TimeTheftRuntime {
         TimeTheftSchedule.Step step = TimeTheftSchedule.step(state.stage(), elapsed(world, state));
         if (step.lethal()) {
             UUID stealerUuid = state.stealer();
-            playPrivately(victim, SparkWitchSounds.TIME_STEALER_FINAL, FINAL_VOLUME, TimeTheftSchedule.FINAL_PITCH);
+            playPrivately(victim, SparkDlcSounds.TIME_STEALER_FINAL, FINAL_VOLUME, TimeTheftSchedule.FINAL_PITCH);
             // Settle once: the curse is gone before the kill runs, so a veto, a Judge block, or a re-entrant tick can
             // never settle it again. / 只结算一次：击杀前诅咒已清除，否决、审判者拦截或重入 tick 都无法再次结算。
             clear(victim, state);
@@ -127,7 +127,7 @@ public final class TimeTheftRuntime {
         boolean owned = false;
         for (int stage = step.firstStage(); stage <= step.lastStage(); stage++) {
             owned = TimeTheftSlowness.apply(victim, stage);
-            playPrivately(victim, SparkWitchSounds.TIME_STEALER_CHIME, CHIME_VOLUME, TimeTheftSchedule.chimePitch(stage));
+            playPrivately(victim, SparkDlcSounds.TIME_STEALER_CHIME, CHIME_VOLUME, TimeTheftSchedule.chimePitch(stage));
         }
         // Only the last applied stage's node can still be ours. / 只有最近施加阶段的节点仍可能属于我们。
         state.setStage(step.lastStage());
@@ -265,7 +265,7 @@ public final class TimeTheftRuntime {
     private static void warnPurge(RuntimeException exception) {
         if (!warnedPurge) {
             warnedPurge = true;
-            SparkWitch.LOGGER.warn("Time Stealer: a curse purge step failed; continuing with the other players",
+            SparkDLC.LOGGER.warn("Time Stealer: a curse purge step failed; continuing with the other players",
                     exception);
         }
     }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.hiro.shop;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.item.rope.RopeRules;
 import dev.doctor4t.wathe.util.ShopEntry;
 import java.util.List;
@@ -17,7 +17,7 @@ public final class HiroShopRules {
     private static final Identifier KNIFE_ID = Identifier.of("wathe", "knife");
     private static final Identifier LOCKPICK_ID = Identifier.of("wathe", "lockpick");
     private static final Identifier CROWBAR_ID = Identifier.of("wathe", "crowbar");
-    private static final Identifier FIRE_POKER_ID = SparkWitch.id("fire_poker");
+    private static final Identifier FIRE_POKER_ID = SparkDLC.id("fire_poker");
 
     private HiroShopRules() {
     }

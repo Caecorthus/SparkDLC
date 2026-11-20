@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(targets = "net.minecraft.client.render.model.json.ModelElement$Deserializer")
 public abstract class ModelElementRotationAngleMixin {
     @WrapMethod(method = "deserializeRotationAngle")
-    private float sparkwitch$rescueBakeableAngle(JsonObject rotation, Operation<Float> original) {
+    private float sparkdlc$rescueBakeableAngle(JsonObject rotation, Operation<Float> original) {
         try {
             return original.call(rotation);
         } catch (JsonParseException rejected) {

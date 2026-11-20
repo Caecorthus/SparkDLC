@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
-import dev.caecorthus.sparkdlc.SparkStrengthSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
 import dev.caecorthus.sparkdlc.role.civilian.attendant.DoorLogService;
 import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneService;
@@ -410,7 +410,7 @@ public final class PartygoerBrain {
                 faceLadder(ladder);
             }
         }
-        PartygoerService.playClip(this, SparkStrengthSounds.PARTYGOER_GRAB);
+        PartygoerService.playClip(this, SparkDlcSounds.PARTYGOER_GRAB);
         PartygoerService.recordGrab(this, target);
         if (next == PartygoerState.CARRY) {
             enter(PartygoerState.CARRY);
@@ -429,7 +429,7 @@ public final class PartygoerBrain {
         rageTargetUuid = killer.getUuid();
         preyUuid = null;
         PartygoerService.releasePassenger(this);
-        PartygoerService.playClip(this, SparkStrengthSounds.PARTYGOER_RAGE);
+        PartygoerService.playClip(this, SparkDlcSounds.PARTYGOER_RAGE);
         world.spawnParticles(ParticleTypes.ANGRY_VILLAGER, body.getX(), body.getEyeY() + 0.4, body.getZ(),
                 6, 0.35, 0.2, 0.35, 0.0);
         PartygoerService.recordRage(this, killer);

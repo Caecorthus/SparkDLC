@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.timekeeper;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.timekeeper.TimekeeperConstants;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -19,7 +19,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
  */
 public final class TimekeeperWatchComponent implements AutoSyncedComponent, ServerTickingComponent {
     public static final ComponentKey<TimekeeperWatchComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("timekeeper_watch"),
+            SparkDLC.id("timekeeper_watch"),
             TimekeeperWatchComponent.class
     );
 

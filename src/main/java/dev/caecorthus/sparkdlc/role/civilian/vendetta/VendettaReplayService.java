@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.vendetta;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.record.GameRecordEvent;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import dev.doctor4t.wathe.record.replay.ReplayGenerator;
@@ -18,7 +18,7 @@ import java.util.UUID;
 
 /** Owns the dedicated terminal replay and suppression of caller-owned duplicate action records. */
 public final class VendettaReplayService {
-    public static final Identifier TERMINAL_REPLAY_EVENT = SparkWitch.id("vendetta_terminal");
+    public static final Identifier TERMINAL_REPLAY_EVENT = SparkDLC.id("vendetta_terminal");
 
     private static final Map<TerminalActionKey, Long> TERMINAL_ACTION_SUPPRESSION = new HashMap<>();
     private static boolean registered;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
@@ -21,8 +21,8 @@ import java.util.Set;
  * 后者又先于默认阶段。监听器先调用 {@link #ensureOrdered()}，再以对应阶段注册。
  */
 public final class SeekerCallbackPhases {
-    public static final Identifier SESSION_LOCK = SparkWitch.id("seeker_session_lock");
-    public static final Identifier DEVICE = SparkWitch.id("seeker_device");
+    public static final Identifier SESSION_LOCK = SparkDLC.id("seeker_session_lock");
+    public static final Identifier DEVICE = SparkDLC.id("seeker_device");
 
     private static final Set<Event<?>> ORDERED = Collections.newSetFromMap(new IdentityHashMap<>());
 

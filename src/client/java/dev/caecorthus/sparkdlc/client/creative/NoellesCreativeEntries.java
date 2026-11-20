@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.creative;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-import dev.caecorthus.sparkdlc.client.config.SparkAssistClientSettings;
+import dev.caecorthus.sparkdlc.client.config.SparkDlcClientSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.Item;
@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
  * 设置在每次构建标签页时读取，而 Minecraft 在进入世界时重建标签页，因此改动从下一次进入世界起生效，无需重启。</p>
  */
 public final class NoellesCreativeEntries {
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkAssist/Creative");
+    private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/Creative");
     private static final String MOD_ID = "noellesroles";
     private static final Set<String> TOOL_WORDS = Set.of("key", "lockpick", "tool", "crowbar");
     private static final Set<String> WEAPON_WORDS = Set.of("pistol", "knife", "axe", "bomb", "needle", "trap");
@@ -69,7 +69,7 @@ public final class NoellesCreativeEntries {
     /** Appends every mod item of {@code kind} to {@code group} whenever that tab is built. 每次构建该标签页时追加对应种类的物品。 */
     private static void file(RegistryKey<ItemGroup> group, Kind kind) {
         ItemGroupEvents.modifyEntriesEvent(group).register(entries -> {
-            if (!SparkAssistClientSettings.noellesCreativeEntries()) {
+            if (!SparkDlcClientSettings.noellesCreativeEntries()) {
                 return;
             }
             for (Item item : Registries.ITEM) {

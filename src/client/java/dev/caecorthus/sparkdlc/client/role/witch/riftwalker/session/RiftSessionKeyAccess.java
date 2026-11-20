@@ -11,11 +11,11 @@ package dev.caecorthus.sparkdlc.client.role.witch.riftwalker.session;
  */
 public interface RiftSessionKeyAccess {
     /** Zeroes the queued press count. / 清零积压的按下次数。 */
-    void sparkwitch$riftDrainPresses();
+    void sparkdlc$riftDrainPresses();
 
     /** Returns and zeroes the queued press count. / 返回并清零积压的按下次数。 */
-    int sparkwitch$riftTakePresses();
+    int sparkdlc$riftTakePresses();
 
     /** The raw held flag (toggle keys report their toggled state). / 原始按住标记（切换式按键为其切换状态）。 */
-    boolean sparkwitch$riftRawPressed();
+    boolean sparkdlc$riftRawPressed();
 }

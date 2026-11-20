@@ -170,7 +170,7 @@ public final class ForcedCooldownRegistry {
         ItemCooldownManager manager = player.getItemCooldownManager();
         ItemCooldownEntryAccessor before = ExactItemCooldownWriter.liveEntry(manager, item);
         int kept = before == null ? 0 : FORCED_ITEMS.keptTicks(
-                before, before.sparkfactionapi$getEndTick(), ExactItemCooldownWriter.tick(manager));
+                before, before.sparkdlc$getEndTick(), ExactItemCooldownWriter.tick(manager));
         manager.remove(item);
         if (kept <= 0) {
             return 0;

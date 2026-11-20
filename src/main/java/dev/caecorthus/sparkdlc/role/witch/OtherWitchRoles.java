@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.role.civilian.emma.EmmaRules;
 import dev.caecorthus.sparkdlc.role.civilian.hanna.HannaRules;
 import dev.caecorthus.sparkdlc.role.civilian.noa.NoaRules;
@@ -53,7 +53,7 @@ public final class OtherWitchRoles {
     );
 
     private static final Set<Identifier> IDS = Stream.concat(
-            Stream.of(SparkWitchRoles.APPRENTICE_WITCH_ID, SparkWitchRoles.MURDEROUS_WITCH_ID),
+            Stream.of(SparkDlcRoles.APPRENTICE_WITCH_ID, SparkDlcRoles.MURDEROUS_WITCH_ID),
             WITCH_TRIAL_GIRL_IDS.stream()
     ).collect(Collectors.toUnmodifiableSet());
 

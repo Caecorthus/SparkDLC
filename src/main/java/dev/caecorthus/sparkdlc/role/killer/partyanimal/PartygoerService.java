@@ -1,12 +1,12 @@
 package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
-import dev.caecorthus.sparkdlc.SparkStrengthEntities;
-import dev.caecorthus.sparkdlc.SparkStrengthSounds;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartyAnimalSkillComponent;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerOwnerComponent;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.nav.TrainNavGrid;
 import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverRoles;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -59,11 +59,11 @@ import java.util.UUID;
  */
 public final class PartygoerService {
     private static final List<Identifier> CLIP_IDS = List.of(
-            SparkStrengthSounds.PARTYGOER_SPAWN_ID,
-            SparkStrengthSounds.PARTYGOER_GRAB_ID,
-            SparkStrengthSounds.PARTYGOER_DEATH_ID,
-            SparkStrengthSounds.PARTYGOER_VANISH_ID,
-            SparkStrengthSounds.PARTYGOER_RAGE_ID
+            SparkDlcSounds.PARTYGOER_SPAWN_ID,
+            SparkDlcSounds.PARTYGOER_GRAB_ID,
+            SparkDlcSounds.PARTYGOER_DEATH_ID,
+            SparkDlcSounds.PARTYGOER_VANISH_ID,
+            SparkDlcSounds.PARTYGOER_RAGE_ID
     );
     /** Players this far from the Partygoer hear its clips anyway, plus the owner from anywhere. / 此范围内的玩家能听到其音频，召唤者在任何地方都能听到。 */
     private static final double HEARING_RANGE = 16.0 * PartyAnimalRules.SOUND_VOLUME;
@@ -212,7 +212,7 @@ public final class PartygoerService {
                                          PartyRoomIndex.PartyRoom spawnRoom, PartyRoomIndex.PartyRoom destination,
                                          ServerPlayerEntity prey) {
         ServerWorld world = owner.getServerWorld();
-        PartygoerEntity body = new PartygoerEntity(SparkStrengthEntities.partygoer(), world);
+        PartygoerEntity body = new PartygoerEntity(SparkDlcEntities.partygoer(), world);
         Vec3d at = spawnRoom.anchor();
         float yaw = (float) (Math.atan2(prey.getZ() - at.z, prey.getX() - at.x) * (180.0 / Math.PI)) - 90.0F;
         body.refreshPositionAndAngles(at.x, at.y, at.z, yaw, 0.0F);
@@ -224,11 +224,11 @@ public final class PartygoerService {
         LIVE.put(body, brain);
         world.spawnEntity(body);
         world.spawnParticles(ParticleTypes.POOF, at.x, at.y + 1.0, at.z, 20, 0.3, 0.6, 0.3, 0.02);
-        playClip(brain, SparkStrengthSounds.PARTYGOER_SPAWN);
+        playClip(brain, SparkDlcSounds.PARTYGOER_SPAWN);
         NbtCompound extra = new NbtCompound();
         extra.putString("from", spawnRoom.name());
         extra.putString("to", destination.name());
-        GameRecordManager.recordGlobalEvent(world, SparkStrengthReplayFormatters.PARTYGOER_SUMMONED, owner, extra);
+        GameRecordManager.recordGlobalEvent(world, RoleKitReplayFormatters.PARTYGOER_SUMMONED, owner, extra);
         publishStatus(brain);
         return body;
     }
@@ -249,8 +249,8 @@ public final class PartygoerService {
                     SoundCategory.HOSTILE, 1.2F, 0.8F);
             // The body is gone this tick: an entity-bound clip would stop at once, so these stay where it was.
             // 实体本刻即消失：绑定实体的音频会立刻停止，因此这两段留在原地播放。
-            case GAVE_UP -> playClip(brain, SparkStrengthSounds.PARTYGOER_VANISH, false);
-            case KILLED -> playClip(brain, SparkStrengthSounds.PARTYGOER_DEATH, false);
+            case GAVE_UP -> playClip(brain, SparkDlcSounds.PARTYGOER_VANISH, false);
+            case KILLED -> playClip(brain, SparkDlcSounds.PARTYGOER_DEATH, false);
             case QUIET -> {
             }
         }
@@ -355,7 +355,7 @@ public final class PartygoerService {
         }
         NbtCompound extra = new NbtCompound();
         extra.putUuid("target", brain.ownerUuid());
-        GameRecordManager.recordGlobalEvent(world, SparkStrengthReplayFormatters.PARTYGOER_KILLED, attacker, extra);
+        GameRecordManager.recordGlobalEvent(world, RoleKitReplayFormatters.PARTYGOER_KILLED, attacker, extra);
         return true;
     }
 
@@ -457,14 +457,14 @@ public final class PartygoerService {
         NbtCompound extra = new NbtCompound();
         extra.putUuid("target", target.getUuid());
         extra.putUuid("actor", brain.ownerUuid());
-        GameRecordManager.recordGlobalEvent(brain.world(), SparkStrengthReplayFormatters.PARTYGOER_GRABBED, null, extra);
+        GameRecordManager.recordGlobalEvent(brain.world(), RoleKitReplayFormatters.PARTYGOER_GRABBED, null, extra);
     }
 
     static void recordRage(PartygoerBrain brain, ServerPlayerEntity killer) {
         NbtCompound extra = new NbtCompound();
         extra.putUuid("target", killer.getUuid());
         extra.putUuid("actor", brain.ownerUuid());
-        GameRecordManager.recordGlobalEvent(brain.world(), SparkStrengthReplayFormatters.PARTYGOER_RAGED, null, extra);
+        GameRecordManager.recordGlobalEvent(brain.world(), RoleKitReplayFormatters.PARTYGOER_RAGED, null, extra);
     }
 
     private static @Nullable ServerPlayerEntity player(ServerWorld world, UUID uuid) {

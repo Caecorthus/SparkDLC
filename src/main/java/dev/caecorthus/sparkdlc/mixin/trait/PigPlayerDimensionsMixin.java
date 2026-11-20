@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(PlayerEntity.class)
 public abstract class PigPlayerDimensionsMixin {
     @Inject(method = "getBaseDimensions", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$pigDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> cir) {
+    private void sparkdlc$pigDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> cir) {
         PlayerEntity player = (PlayerEntity) (Object) this;
         if (!SparkDlcServerConnection.isUnconfirmedClientEntity(player)
                 && PigTraitService.shouldUsePigDimensions(player, pose)) {

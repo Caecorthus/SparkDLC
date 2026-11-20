@@ -24,7 +24,7 @@ public abstract class BlackRavenCrowKeyBindingMixin {
     private int timesPressed;
 
     @Inject(method = "isPressed", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$releaseLockedKeyAsCrow(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$releaseLockedKeyAsCrow(CallbackInfoReturnable<Boolean> cir) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             return;
         }
@@ -34,7 +34,7 @@ public abstract class BlackRavenCrowKeyBindingMixin {
     }
 
     @Inject(method = "wasPressed", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$swallowLockedPressAsCrow(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$swallowLockedPressAsCrow(CallbackInfoReturnable<Boolean> cir) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             return;
         }

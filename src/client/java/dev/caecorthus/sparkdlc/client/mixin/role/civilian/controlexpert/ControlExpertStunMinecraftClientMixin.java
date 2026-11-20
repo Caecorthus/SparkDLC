@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(MinecraftClient.class)
 public abstract class ControlExpertStunMinecraftClientMixin {
     @Inject(method = "handleInputEvents", at = @At("HEAD"))
-    private void sparkwitch$settleStunnedInput(CallbackInfo ci) {
+    private void sparkdlc$settleStunnedInput(CallbackInfo ci) {
         ControlExpertStunClient.settleInput((MinecraftClient) (Object) this);
     }
 }

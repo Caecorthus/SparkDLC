@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class SpiritPossessionMouseMixin {
     @WrapOperation(method = "updateMouse", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/network/ClientPlayerEntity;changeLookDirection(DD)V"))
-    private void sparkstrength$dropLookWhilePossessing(ClientPlayerEntity player, double cursorDeltaX,
+    private void sparkdlc$dropLookWhilePossessing(ClientPlayerEntity player, double cursorDeltaX,
                                                        double cursorDeltaY, Operation<Void> original) {
         if (!SpiritPossessionClient.blocksLook()) {
             original.call(player, cursorDeltaX, cursorDeltaY);

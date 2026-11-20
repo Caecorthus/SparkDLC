@@ -37,9 +37,9 @@ public abstract class ServerPlayNetworkHandlerHannaSoundScopeMixin {
     public ServerPlayerEntity player;
 
     @WrapMethod(method = "onPlayerInteractEntity")
-    private void sparkwitch$scopeHannaEntityInteractionSounds(PlayerInteractEntityC2SPacket packet,
+    private void sparkdlc$scopeHannaEntityInteractionSounds(PlayerInteractEntityC2SPacket packet,
                                                               Operation<Void> original) {
-        if (!sparkwitch$hannaOnServerThread()) {
+        if (!sparkdlc$hannaOnServerThread()) {
             original.call(packet);
             return;
         }
@@ -52,8 +52,8 @@ public abstract class ServerPlayNetworkHandlerHannaSoundScopeMixin {
     }
 
     @WrapMethod(method = "onPlayerAction")
-    private void sparkwitch$scopeHannaPlayerActionSounds(PlayerActionC2SPacket packet, Operation<Void> original) {
-        if (!sparkwitch$hannaOnServerThread()) {
+    private void sparkdlc$scopeHannaPlayerActionSounds(PlayerActionC2SPacket packet, Operation<Void> original) {
+        if (!sparkdlc$hannaOnServerThread()) {
             original.call(packet);
             return;
         }
@@ -66,7 +66,7 @@ public abstract class ServerPlayNetworkHandlerHannaSoundScopeMixin {
     }
 
     @Unique
-    private boolean sparkwitch$hannaOnServerThread() {
+    private boolean sparkdlc$hannaOnServerThread() {
         ServerPlayerEntity current = player;
         return current != null && current.server != null && current.server.isOnThread();
     }

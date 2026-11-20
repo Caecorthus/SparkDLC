@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
  * 在客户端跟踪 Wathe 对局，并把每局结果结算进本地成就存档。读取的都是已同步到本客户端的数据，从不向服务器发送任何内容。
  */
 public final class AchievementClientState {
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkAssist/Achievements");
+    private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/Achievements");
     // Owner-visible traits are polled once a second; they change rarely. 自身可见词条每秒轮询一次，变化很少。
     private static final int TRAIT_POLL_TICKS = 20;
 

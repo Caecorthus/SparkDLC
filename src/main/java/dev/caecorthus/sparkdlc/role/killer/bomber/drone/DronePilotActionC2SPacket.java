@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.bomber.drone;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
@@ -17,7 +17,7 @@ public record DronePilotActionC2SPacket(int entityId, byte action) implements Cu
     /** Left click: grenade drone drops its M67, bomb drone detonates. / 左键：投弹无人机投下 M67，炸弹无人机引爆。 */
     public static final byte FIRE = 0;
 
-    public static final Id<DronePilotActionC2SPacket> ID = new Id<>(SparkStrength.id("drone_pilot_action"));
+    public static final Id<DronePilotActionC2SPacket> ID = new Id<>(SparkDLC.id("drone_pilot_action"));
     public static final PacketCodec<RegistryByteBuf, DronePilotActionC2SPacket> CODEC = PacketCodec.tuple(
             PacketCodecs.VAR_INT, DronePilotActionC2SPacket::entityId,
             PacketCodecs.BYTE, DronePilotActionC2SPacket::action,

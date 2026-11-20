@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.apprentice.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier;
  * 已作为职业技能归入控场专家眩晕、搜寻者会话与隙行者会话的拦截名单。恐惧不拦截它（预备魔女豁免，所有者 D4）。
  */
 public record UseApprenticePurifyC2SPayload() implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("use_apprentice_purify");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("use_apprentice_purify");
     public static final Id<UseApprenticePurifyC2SPayload> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, UseApprenticePurifyC2SPayload> CODEC =
             PacketCodec.unit(new UseApprenticePurifyC2SPayload());

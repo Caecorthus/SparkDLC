@@ -31,7 +31,7 @@ public abstract class GameFunctionsMixin {
                     shift = At.Shift.BEFORE
             )
     )
-    private static void sparkstrength$coronerRecordBodySnapshot(
+    private static void sparkdlc$coronerRecordBodySnapshot(
             ServerPlayerEntity victim,
             boolean spawnBody,
             @Nullable ServerPlayerEntity killer,
@@ -46,7 +46,7 @@ public abstract class GameFunctionsMixin {
     }
 
     @Inject(method = "shouldDropOnDeath", at = @At("HEAD"), cancellable = true)
-    private static void sparkstrength$coronerTemporaryGrantsDoNotDrop(
+    private static void sparkdlc$coronerTemporaryGrantsDoNotDrop(
             ItemStack stack,
             PlayerEntity victim,
             CallbackInfoReturnable<Boolean> cir

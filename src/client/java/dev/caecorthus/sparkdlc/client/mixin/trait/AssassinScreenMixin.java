@@ -50,25 +50,25 @@ public abstract class AssassinScreenMixin extends Screen {
     private UUID selectedTarget;
 
     @Unique
-    private int sparktraits$rolePage;
+    private int sparkdlc$rolePage;
 
     protected AssassinScreenMixin(Text title) {
         super(title);
     }
 
     @Inject(method = "init", at = @At("TAIL"))
-    private void sparktraits$paginateRoleGuessPanel(CallbackInfo ci) {
+    private void sparkdlc$paginateRoleGuessPanel(CallbackInfo ci) {
         if (!SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }
         if (selectedTarget == null) {
-            sparktraits$rolePage = 0;
+            sparkdlc$rolePage = 0;
             return;
         }
 
         // Rebuild the role phase so killer roles can appear and long lists fit one page.
         // 重建猜身份阶段，让杀手身份可见，并把过长列表分页显示。
-        List<Role> roles = sparktraits$getGuessableRolesIncludingKillers();
+        List<Role> roles = sparkdlc$getGuessableRolesIncludingKillers();
         int centerX = this.width / 2;
         int startY = Math.max(40, this.height / 2 - SPARKTRAITS_ROLE_TOP_OFFSET);
         int controlY = this.height - SPARKTRAITS_CONTROL_BOTTOM_PADDING;
@@ -79,8 +79,8 @@ public abstract class AssassinScreenMixin extends Screen {
                 SPARKTRAITS_ROLE_BUTTON_HEIGHT,
                 SPARKTRAITS_ROLE_GAP_Y
         );
-        AssassinRolePage.Layout page = AssassinRolePage.layout(roles.size(), sparktraits$rolePage, pageSize);
-        sparktraits$rolePage = page.page();
+        AssassinRolePage.Layout page = AssassinRolePage.layout(roles.size(), sparkdlc$rolePage, pageSize);
+        sparkdlc$rolePage = page.page();
 
         this.clearChildren();
         int totalWidth = SPARKTRAITS_ROLE_COLUMNS * SPARKTRAITS_ROLE_BUTTON_WIDTH
@@ -110,7 +110,7 @@ public abstract class AssassinScreenMixin extends Screen {
         );
         this.addDrawableChild(ButtonWidget.builder(Text.translatable("screen.assassin.button.cancel"), (button) -> {
                     selectedTarget = null;
-                    sparktraits$rolePage = 0;
+                    sparkdlc$rolePage = 0;
                     this.clearAndInit();
                 })
                 .dimensions(centerX - 40, buttonY, 80, 20)
@@ -118,7 +118,7 @@ public abstract class AssassinScreenMixin extends Screen {
 
         if (page.pageCount() > 1) {
             ButtonWidget previousButton = ButtonWidget.builder(Text.literal("<"), (button) -> {
-                        sparktraits$rolePage--;
+                        sparkdlc$rolePage--;
                         this.clearAndInit();
                     })
                     .dimensions(centerX - 95, buttonY, SPARKTRAITS_NAV_BUTTON_WIDTH, 20)
@@ -127,7 +127,7 @@ public abstract class AssassinScreenMixin extends Screen {
             this.addDrawableChild(previousButton);
 
             ButtonWidget nextButton = ButtonWidget.builder(Text.literal(">"), (button) -> {
-                        sparktraits$rolePage++;
+                        sparkdlc$rolePage++;
                         this.clearAndInit();
                     })
                     .dimensions(centerX + 55, buttonY, SPARKTRAITS_NAV_BUTTON_WIDTH, 20)
@@ -138,7 +138,7 @@ public abstract class AssassinScreenMixin extends Screen {
     }
 
     @Unique
-    private List<Role> sparktraits$getGuessableRolesIncludingKillers() {
+    private List<Role> sparkdlc$getGuessableRolesIncludingKillers() {
         List<Role> roles = new ArrayList<>();
         GameWorldComponent gameWorldComponent = GameWorldComponent.KEY.get(player.getWorld());
         for (Role role : WatheRoles.ROLES) {

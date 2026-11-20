@@ -51,7 +51,7 @@ public abstract class SeekerRemoteWorldRendererMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/render/Camera;getFocusedEntity()Lnet/minecraft/entity/Entity;",
                     ordinal = 0))
-    private Entity sparkwitch$renderOwnBodyWhileViewing(Entity focused) {
+    private Entity sparkdlc$renderOwnBodyWhileViewing(Entity focused) {
         if (!SeekerRemoteViewClient.isActive()) {
             return focused;
         }

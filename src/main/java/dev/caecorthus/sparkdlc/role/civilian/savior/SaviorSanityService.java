@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.savior;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -33,7 +33,7 @@ public final class SaviorSanityService {
         for (ServerWorld world : server.getWorlds()) {
             GameWorldComponent game = GameWorldComponent.KEY.get(world);
             for (ServerPlayerEntity player : world.getPlayers()) {
-                if (game.getRole(player) == SparkWitchRoles.savior()
+                if (game.getRole(player) == SparkDlcRoles.savior()
                         && !game.isPlayerDead(player.getUuid())) {
                     PlayerMoodComponent.KEY.get(player).setMood(FULL_MOOD);
                 }

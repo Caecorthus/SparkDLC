@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.entity;
 
-import dev.caecorthus.sparkdlc.SparkStrengthEntities;
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.SparkStrengthSounds;
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.item.grenade.GrenadeBlastService;
 import dev.caecorthus.sparkdlc.item.m67.M67Physics;
 import dev.caecorthus.sparkdlc.item.m67.M67RoundService;
@@ -79,7 +79,7 @@ public final class M67GrenadeEntity extends ThrownItemEntity {
 
     private M67GrenadeEntity(ServerWorld world, ServerPlayerEntity owner, UUID roundId, boolean concealThrower,
                              boolean presentation) {
-        this(SparkStrengthEntities.m67(), world);
+        this(SparkDlcEntities.m67(), world);
         this.presentation = presentation;
         if (concealThrower) {
             concealedThrowerUuid = owner.getUuid();
@@ -112,7 +112,7 @@ public final class M67GrenadeEntity extends ThrownItemEntity {
 
     @Override
     protected Item getDefaultItem() {
-        return SparkStrengthItems.m67();
+        return SparkDlcItems.m67();
     }
 
     @Override
@@ -197,7 +197,7 @@ public final class M67GrenadeEntity extends ThrownItemEntity {
         // Spawned on release, so age counts server ticks since the throw. / 投出时生成，age 即投出后的服务端刻数。
         if (landSoundPending && age >= THROW_STRIKER_TICKS) {
             landSoundPending = false;
-            world.playSound(null, getX(), getY(), getZ(), SparkStrengthSounds.M67_LAND,
+            world.playSound(null, getX(), getY(), getZ(), SparkDlcSounds.M67_LAND,
                     SoundCategory.PLAYERS, 1.0F, 1.0F);
         }
     }
@@ -222,7 +222,7 @@ public final class M67GrenadeEntity extends ThrownItemEntity {
     }
 
     private void explode(ServerWorld world, ServerPlayerEntity owner) {
-        world.playSound(null, getBlockPos(), SparkStrengthSounds.M67_EXPLODE, SoundCategory.PLAYERS,
+        world.playSound(null, getBlockPos(), SparkDlcSounds.M67_EXPLODE, SoundCategory.PLAYERS,
                 5.0F, 1.0F);
         world.spawnParticles(WatheParticles.BIG_EXPLOSION, getX(), getY() + 0.1, getZ(), 1, 0, 0, 0, 0);
         world.spawnParticles(ParticleTypes.SMOKE, getX(), getY() + 0.1, getZ(), 100, 0, 0, 0, 0.2);
@@ -235,7 +235,7 @@ public final class M67GrenadeEntity extends ThrownItemEntity {
         }
         // Only a real blast clears SparkWitch BEAR smoke (visual only), matching SparkWitch's off-match rule.
         // 只有真实爆炸才会炸开 SparkWitch BEAR 烟雾（仅视觉），与 SparkWitch 自身的局外规则一致。
-        SparkWitchApi.carveSmoke(world, getPos(), M67Rules.BLAST_RADIUS);
+        SparkRoleApi.carveSmoke(world, getPos(), M67Rules.BLAST_RADIUS);
 
         List<ServerPlayerEntity> candidates = List.copyOf(world.getPlayers(GameFunctions::isPlayerAliveAndSurvival));
         for (ServerPlayerEntity victim : GrenadeBlastService.filterVictims(world, this, candidates, M67Rules.BLAST_RADIUS)) {

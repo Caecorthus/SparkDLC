@@ -29,7 +29,7 @@ public abstract class TaotiePlayerComponentFiendMixin {
             require = 1,
             allow = 1
     )
-    private boolean sparkwitch$swallowAllIgnoresDormantFiend(PlayerEntity player, Operation<Boolean> original) {
+    private boolean sparkdlc$swallowAllIgnoresDormantFiend(PlayerEntity player, Operation<Boolean> original) {
         return FiendWinExclusion.countsAsAlive(original.call(player), player);
     }
 }

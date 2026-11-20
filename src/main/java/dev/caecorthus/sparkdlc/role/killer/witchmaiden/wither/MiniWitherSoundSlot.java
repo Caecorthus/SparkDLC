@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,7 +33,7 @@ public enum MiniWitherSoundSlot {
 
     MiniWitherSoundSlot(String key) {
         this.key = key;
-        this.eventId = SparkWitch.id("mini_wither." + key);
+        this.eventId = SparkDLC.id("mini_wither." + key);
     }
 
     public String key() {

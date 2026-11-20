@@ -21,7 +21,7 @@ public abstract class PartygoerCarriedScrollMixin {
     public PlayerEntity player;
 
     @Inject(method = "scrollInHotbar", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$carriedNoScroll(double scrollAmount, CallbackInfo ci) {
+    private void sparkdlc$carriedNoScroll(double scrollAmount, CallbackInfo ci) {
         if (PartygoerCarry.isCarried(player)) {
             ci.cancel();
         }

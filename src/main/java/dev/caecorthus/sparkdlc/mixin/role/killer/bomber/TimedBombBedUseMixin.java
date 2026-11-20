@@ -42,7 +42,7 @@ import java.util.UUID;
 @Mixin(value = TrimmedBedBlock.class, priority = 1300)
 public abstract class TimedBombBedUseMixin {
     @Inject(method = "onUse", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$handleTimedBombBed(
+    private void sparkdlc$handleTimedBombBed(
             BlockState state,
             World world,
             BlockPos pos,
@@ -61,7 +61,7 @@ public abstract class TimedBombBedUseMixin {
             return;
         }
 
-        BedTrapTarget target = this.sparkstrength$resolveHeadBed(world, pos, state);
+        BedTrapTarget target = this.sparkdlc$resolveHeadBed(world, pos, state);
         if (target == null) {
             return;
         }
@@ -69,11 +69,11 @@ public abstract class TimedBombBedUseMixin {
         TimedBombTrapHolder targetTrap = (TimedBombTrapHolder) target.bed();
 
         if (handStack.isOf(ModItems.TIMED_BOMB)) {
-            this.sparkstrength$tryPlantBedBomb(target, targetTrap, handStack, player, cir);
+            this.sparkdlc$tryPlantBedBomb(target, targetTrap, handStack, player, cir);
             return;
         }
 
-        if (handStack.isOf(WatheItems.SCORPION) && targetTrap.sparkstrength$hasTimedBombTrap()) {
+        if (handStack.isOf(WatheItems.SCORPION) && targetTrap.sparkdlc$hasTimedBombTrap()) {
             cir.setReturnValue(ActionResult.PASS);
             return;
         }
@@ -83,7 +83,7 @@ public abstract class TimedBombBedUseMixin {
             return;
         }
 
-        BedTrapTarget bombedBed = this.sparkstrength$findConnectedTimedBombBed(world, target);
+        BedTrapTarget bombedBed = this.sparkdlc$findConnectedTimedBombBed(world, target);
         if (bombedBed == null) {
             return;
         }
@@ -97,13 +97,13 @@ public abstract class TimedBombBedUseMixin {
         }
 
         TimedBombTrapHolder bombedTrap = (TimedBombTrapHolder) bombedBed.bed();
-        UUID bomberUuid = bombedTrap.sparkstrength$getTimedBombTrapOwner();
+        UUID bomberUuid = bombedTrap.sparkdlc$getTimedBombTrapOwner();
         if (!BomberTrapService.tryAttachTimedBomb(serverPlayer, bomberUuid)) {
             return;
         }
 
         BomberTrapService.recordTrapTrigger(serverPlayer, BomberTrapService.TIMED_BOMB_BED_TRIGGERED, bomberUuid);
-        bombedTrap.sparkstrength$setTimedBombTrapOwner(null);
+        bombedTrap.sparkdlc$setTimedBombTrapOwner(null);
 
         player.trySleep(target.pos()).ifLeft(reason -> {
             if (reason.getMessage() != null) {
@@ -114,7 +114,7 @@ public abstract class TimedBombBedUseMixin {
     }
 
     @Unique
-    private void sparkstrength$tryPlantBedBomb(
+    private void sparkdlc$tryPlantBedBomb(
             BedTrapTarget target,
             TimedBombTrapHolder trap,
             ItemStack handStack,
@@ -128,12 +128,12 @@ public abstract class TimedBombBedUseMixin {
         if (!(player instanceof ServerPlayerEntity serverPlayer)
                 || !BomberTrapService.canPlantTimedBomb(player)
                 || target.bed().hasScorpion()
-                || trap.sparkstrength$hasTimedBombTrap()) {
+                || trap.sparkdlc$hasTimedBombTrap()) {
             cir.setReturnValue(ActionResult.PASS);
             return;
         }
 
-        trap.sparkstrength$setTimedBombTrapOwner(player.getUuid());
+        trap.sparkdlc$setTimedBombTrapOwner(player.getUuid());
         handStack.decrementUnlessCreative(1, player);
         player.playSoundToPlayer(SoundEvents.BLOCK_BREWING_STAND_BREW, SoundCategory.BLOCKS, 0.5F, 1.0F);
         BomberTrapService.recordTrapPlacement(serverPlayer, BomberTrapService.TIMED_BOMB_BED_EMBEDDED, target.pos());
@@ -141,7 +141,7 @@ public abstract class TimedBombBedUseMixin {
     }
 
     @Unique
-    private BedTrapTarget sparkstrength$resolveHeadBed(World world, BlockPos pos, BlockState state) {
+    private BedTrapTarget sparkdlc$resolveHeadBed(World world, BlockPos pos, BlockState state) {
         BlockPos headPos = pos;
         BlockState headState = state;
         if (state.get(BedBlock.PART) != BedPart.HEAD) {
@@ -159,7 +159,7 @@ public abstract class TimedBombBedUseMixin {
     }
 
     @Unique
-    private BedTrapTarget sparkstrength$findConnectedTimedBombBed(World world, BedTrapTarget start) {
+    private BedTrapTarget sparkdlc$findConnectedTimedBombBed(World world, BedTrapTarget start) {
         /*
          * 按床块的水平四邻接做连通搜索：床头、床脚和相邻床都会被纳入同一片床区；
          * 一旦中间出现非 TrimmedBedBlock，搜索就不会继续穿过去。
@@ -180,10 +180,10 @@ public abstract class TimedBombBedUseMixin {
                 continue;
             }
 
-            BedTrapTarget currentBed = this.sparkstrength$resolveHeadBed(world, currentPos, currentState);
+            BedTrapTarget currentBed = this.sparkdlc$resolveHeadBed(world, currentPos, currentState);
             if (currentBed != null && checkedHeads.add(currentBed.pos())) {
                 TimedBombTrapHolder trap = (TimedBombTrapHolder) currentBed.bed();
-                if (trap.sparkstrength$hasTimedBombTrap()) {
+                if (trap.sparkdlc$hasTimedBombTrap()) {
                     return currentBed;
                 }
             }

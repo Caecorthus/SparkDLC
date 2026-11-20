@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.killer.blackraven.crow;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowEntity;
 import net.minecraft.client.model.ModelData;
 import net.minecraft.client.model.ModelPart;
@@ -23,7 +23,7 @@ import net.minecraft.client.render.entity.model.SinglePartEntityModel;
  * 先把所有部件重置为默认（= 滑翔）再应用。使用剔除背面的 getEntityCutout 渲染，零厚度的翼尖与尾扇才会显示正确的一面。
  */
 public final class BlackRavenCrowModel extends SinglePartEntityModel<BlackRavenCrowEntity> {
-    public static final EntityModelLayer LAYER = new EntityModelLayer(SparkWitch.id("black_raven_crow"), "main");
+    public static final EntityModelLayer LAYER = new EntityModelLayer(SparkDLC.id("black_raven_crow"), "main");
 
     private final ModelPart modelRoot;
     private final ModelPart root;

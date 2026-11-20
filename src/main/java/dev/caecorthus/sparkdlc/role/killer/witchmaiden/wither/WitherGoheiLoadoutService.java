@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import dev.caecorthus.sparkdlc.role.killer.witchmaiden.WitchMaidenRules;
 import dev.caecorthus.sparkdlc.util.GiveCommandDropScope;
@@ -64,7 +64,7 @@ public final class WitherGoheiLoadoutService {
         } else if (keeper == NO_SLOT && !cursorKept) {
             int target = placementSlot(LimitedInventoryRows.isSecondRowShown(), slot -> inventory.getStack(slot).isEmpty());
             if (target != NO_SLOT) {
-                inventory.setStack(target, new ItemStack(SparkWitchItems.witherGohei()));
+                inventory.setStack(target, new ItemStack(SparkDlcItems.witherGohei()));
                 keeper = target;
                 changed = true;
             }

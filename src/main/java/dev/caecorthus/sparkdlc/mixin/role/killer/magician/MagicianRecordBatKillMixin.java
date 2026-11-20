@@ -24,7 +24,7 @@ public abstract class MagicianRecordBatKillMixin {
             method = "killPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;ZLnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;Z)V",
             at = @At("HEAD")
     )
-    private static void sparkwitch$recordMagicianBatKill(
+    private static void sparkdlc$recordMagicianBatKill(
             ServerPlayerEntity victim,
             boolean spawnBody,
             ServerPlayerEntity killer,

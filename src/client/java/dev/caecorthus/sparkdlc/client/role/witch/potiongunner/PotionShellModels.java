@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.witch.potiongunner;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.render.entity.ProjectileModels;
 import dev.caecorthus.sparkdlc.role.witch.potiongunner.PotionShellType;
 import net.minecraft.util.Identifier;
@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier;
  * 界面图标仍是平面的 {@code *_shell} 贴图。
  */
 public final class PotionShellModels {
-    public static final Identifier FLARE_MODEL_ID = SparkWitch.id("item/projectile/potion_shell_flare");
+    public static final Identifier FLARE_MODEL_ID = SparkDLC.id("item/projectile/potion_shell_flare");
     private static boolean registered;
 
     private PotionShellModels() {
@@ -36,6 +36,6 @@ public final class PotionShellModels {
     }
 
     public static Identifier bodyModelId(PotionShellType type) {
-        return SparkWitch.id("item/projectile/potion_shell_" + type.key());
+        return SparkDLC.id("item/projectile/potion_shell_" + type.key());
     }
 }

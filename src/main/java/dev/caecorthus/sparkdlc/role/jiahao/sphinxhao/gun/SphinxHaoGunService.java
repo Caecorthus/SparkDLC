@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.gun;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.entity.SphinxHaoFistEntity;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RangedSmokeCarve;
@@ -50,13 +50,13 @@ import java.util.List;
  * eye ray of {@link SphinxHaoRules#GUN_RANGE} cut at the first block, nearest eligible player against lag-compensated
  * volumes, then nearest wins against Raven Form crows, Magician puppets and the Seeker / SparkStrength seam
  * ({@link #resolve}). A hit (a crow's owner included) is ONE non-forced {@code killPlayer} with
- * {@link SparkWitchDeathReasons#SPHINX_HAO_FIST}, so every shield, veto and SparkTraits interception applies. The shooter
+ * {@link SparkDlcDeathReasons#SPHINX_HAO_FIST}, so every shield, veto and SparkTraits interception applies. The shooter
  * then gets the KILL or NO_KILL effects ({@link SphinxHaoGunRules#effects}); hao is paid only through
  * {@link SphinxHaoPlayerComponent#addHao}. No innocent-shot punishment, no mood cost (not a Wathe gun).
  * 「“手”枪」的服务端部分（所有者规格 2026-11-17）：装填、空响与拳头射击。射击是沿射手瞄准方向（原版已应用使用数据包的朝向）的
  * 服务端权威即时射线：与电击枪相同的眼睛射线，长 {@link SphinxHaoRules#GUN_RANGE}、在第一个方块处截断，对延迟补偿后的体积
  * 选取最近的合格玩家，然后与化鸦乌鸦、魔术师皮套及搜寻者 / SparkStrength 接缝比较最近者（{@link #resolve}）。命中（含乌鸦的主人）
- * 即一次以 {@link SparkWitchDeathReasons#SPHINX_HAO_FIST}
+ * 即一次以 {@link SparkDlcDeathReasons#SPHINX_HAO_FIST}
  * 进行的非强制 {@code killPlayer}，因此所有护盾、否决与 SparkTraits 拦截都生效。随后射手获得击杀或未击杀效果
  * （{@link SphinxHaoGunRules#effects}）；豪度值只经 {@link SphinxHaoPlayerComponent#addHao} 支付。没有误杀惩罚，也不扣理智
  * （不是 Wathe 枪械）。
@@ -246,7 +246,7 @@ public final class SphinxHaoGunService {
     private static SphinxHaoGunRules.Outcome strike(ServerPlayerEntity shooter, ServerPlayerEntity victim,
                                                     GameWorldComponent game) {
         boolean aliveBefore = GameFunctions.isPlayerPlayingAndAlive(victim);
-        GameFunctions.killPlayer(victim, true, shooter, SparkWitchDeathReasons.SPHINX_HAO_FIST);
+        GameFunctions.killPlayer(victim, true, shooter, SparkDlcDeathReasons.SPHINX_HAO_FIST);
         return SphinxHaoGunRules.outcome(true, aliveBefore, game.isPlayerDead(victim.getUuid()),
                 SparkTraitsApi.isLastStandDeathIntercepted(victim));
     }
@@ -288,7 +288,7 @@ public final class SphinxHaoGunService {
             return false;
         }
         return RoundParticipants.ROLE_HOLDER.test(candidate, game)
-                && SparkFactionApi.canAffectPlayer(shooter, candidate, SparkWitchDeathReasons.SPHINX_HAO_FIST, game)
+                && SparkFactionApi.canAffectPlayer(shooter, candidate, SparkDlcDeathReasons.SPHINX_HAO_FIST, game)
                 && !SparkTraitsApi.isLastEscapeActive(candidate)
                 && vendettaAllows(VendettaInteractionService.isActiveVendetta(shooter),
                 VendettaInteractionService.isActiveVendetta(candidate),

@@ -19,7 +19,7 @@ public abstract class JudgeBomberAttributionMixin {
 
     @WrapOperation(method = "explode", at = @At(value = "INVOKE",
             target = "Ldev/doctor4t/wathe/game/GameFunctions;killPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;ZLnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;)V"), require = 2)
-    private void sparkwitch$scopeBomb(ServerPlayerEntity victim, boolean body, ServerPlayerEntity killer,
+    private void sparkdlc$scopeBomb(ServerPlayerEntity victim, boolean body, ServerPlayerEntity killer,
                                      Identifier reason, Operation<Void> original) {
         JudgeKillAttribution.runWith(victim.getServerWorld(), getBomberUuid(),
                 () -> original.call(victim, body, killer, reason));

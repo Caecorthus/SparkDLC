@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.item.m1903a4;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.record.GameRecordEvent;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import dev.doctor4t.wathe.record.replay.ReplayGenerator;
@@ -33,7 +33,7 @@ public final class M1903A4Replay {
             return;
         }
         registered = true;
-        ReplayRegistry.registerItemUseFormatter(SparkWitchItems.M1903A4_ID, M1903A4Replay::format);
+        ReplayRegistry.registerItemUseFormatter(SparkDlcItems.M1903A4_ID, M1903A4Replay::format);
     }
 
     @Nullable

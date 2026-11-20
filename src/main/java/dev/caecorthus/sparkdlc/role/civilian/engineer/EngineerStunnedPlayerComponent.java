@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.engineer;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.doctor4t.wathe.game.GameFunctions;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import net.minecraft.entity.player.PlayerEntity;
@@ -31,7 +31,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
  */
 public final class EngineerStunnedPlayerComponent implements AutoSyncedComponent, ServerTickingComponent {
     public static final ComponentKey<EngineerStunnedPlayerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("engineer_stunned"),
+            SparkDLC.id("engineer_stunned"),
             EngineerStunnedPlayerComponent.class
     );
 
@@ -118,7 +118,7 @@ public final class EngineerStunnedPlayerComponent implements AutoSyncedComponent
             if (recordRelease && player instanceof ServerPlayerEntity serverPlayer) {
                 GameRecordManager.recordGlobalEvent(
                         serverPlayer.getServerWorld(),
-                        SparkStrengthReplayFormatters.CAPTURE_DEVICE_RELEASED,
+                        RoleKitReplayFormatters.CAPTURE_DEVICE_RELEASED,
                         serverPlayer,
                         null
                 );

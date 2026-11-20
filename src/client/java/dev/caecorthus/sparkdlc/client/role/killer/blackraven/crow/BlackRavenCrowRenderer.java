@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.killer.blackraven.crow;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowEntity;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowRules;
 import net.minecraft.client.render.OverlayTexture;
@@ -28,7 +28,7 @@ import java.util.WeakHashMap;
  * 乌鸦由服务端掌控。
  */
 public final class BlackRavenCrowRenderer extends EntityRenderer<BlackRavenCrowEntity> {
-    public static final Identifier TEXTURE = SparkWitch.id("textures/entity/black_raven_crow.png");
+    public static final Identifier TEXTURE = SparkDLC.id("textures/entity/black_raven_crow.png");
     /**
      * Model B is 0.75 block long with a 1.22-block glide span, larger than the 0.5-block hitbox; the art lead suggests
      * about 0.85x. Collision is unaffected. / 模型 B 长 0.75 格、滑翔翼展 1.22 格，大于 0.5 格命中箱；美术负责人建议约 0.85 倍。

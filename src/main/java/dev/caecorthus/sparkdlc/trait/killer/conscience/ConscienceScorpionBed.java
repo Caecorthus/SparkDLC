@@ -3,13 +3,13 @@ package dev.caecorthus.sparkdlc.trait.killer.conscience;
 import java.util.UUID;
 
 public interface ConscienceScorpionBed {
-    boolean sparktraits$hasConscienceScorpion();
+    boolean sparkdlc$hasConscienceScorpion();
 
-    UUID sparktraits$getConscienceScorpionPoisoner();
+    UUID sparkdlc$getConscienceScorpionPoisoner();
 
-    default UUID sparktraits$getConsciencePoisoner() {
-        return sparktraits$getConscienceScorpionPoisoner();
+    default UUID sparkdlc$getConsciencePoisoner() {
+        return sparkdlc$getConscienceScorpionPoisoner();
     }
 
-    void sparktraits$setConscienceScorpion(boolean hasScorpion, UUID poisoner);
+    void sparkdlc$setConscienceScorpion(boolean hasScorpion, UUID poisoner);
 }

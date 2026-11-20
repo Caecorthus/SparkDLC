@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.record;
 
-import dev.caecorthus.sparkdlc.SparkFactionApiMod;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -42,7 +42,7 @@ public final class DeathRecordEnricher {
             }
             return OPEN_KILLS.push(victim.getUuid(), capture(victim, killer));
         } catch (RuntimeException | LinkageError e) {
-            SparkFactionApiMod.LOGGER.warn("Failed to capture the kill-start record state of {}", victim.getUuid(), e);
+            SparkDLC.LOGGER.warn("Failed to capture the kill-start record state of {}", victim.getUuid(), e);
             return null;
         }
     }
@@ -70,7 +70,7 @@ public final class DeathRecordEnricher {
                 snapshot.writeTo(data, killer == null ? null : killer.getUuid());
             }
         } catch (RuntimeException | LinkageError e) {
-            SparkFactionApiMod.LOGGER.warn("Failed to add kill-start fields to the death record of {}", victim.getUuid(), e);
+            SparkDLC.LOGGER.warn("Failed to add kill-start fields to the death record of {}", victim.getUuid(), e);
         }
         return data;
     }

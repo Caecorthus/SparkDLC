@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven.disguise;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenRules;
 import dev.doctor4t.wathe.api.event.KillPlayer;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -31,7 +31,7 @@ import net.minecraft.util.Identifier;
  */
 public final class BlackRavenStashedDeathDrops {
     /** The early {@code KillPlayer.AFTER} phase. / {@code KillPlayer.AFTER} 的提前阶段。 */
-    static final Identifier PHASE = SparkWitch.id("black_raven_stashed_death_drops");
+    static final Identifier PHASE = SparkDLC.id("black_raven_stashed_death_drops");
     private static boolean registered;
 
     private BlackRavenStashedDeathDrops() {

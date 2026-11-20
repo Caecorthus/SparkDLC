@@ -49,7 +49,7 @@ public abstract class RiftGateCrosshairMixin implements RiftGateCrosshairAccess 
             ),
             index = 4
     )
-    private Predicate<Entity> sparkwitch$crosshairThroughRiftGates(
+    private Predicate<Entity> sparkdlc$crosshairThroughRiftGates(
             Entity camera,
             Vec3d start,
             Vec3d end,
@@ -62,7 +62,7 @@ public abstract class RiftGateCrosshairMixin implements RiftGateCrosshairAccess 
 
     @Override
     @Nullable
-    public HitResult sparkwitch$pickIgnoringGates() {
+    public HitResult sparkdlc$pickIgnoringGates() {
         Entity camera = client.getCameraEntity();
         ClientPlayerEntity player = client.player;
         if (camera == null || player == null || client.world == null) {

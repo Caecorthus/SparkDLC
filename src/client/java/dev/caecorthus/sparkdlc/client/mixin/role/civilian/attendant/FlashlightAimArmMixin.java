@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(BipedEntityModel.class)
 public abstract class FlashlightAimArmMixin {
     @Inject(method = "setAngles(Lnet/minecraft/entity/LivingEntity;FFFFF)V", at = @At("TAIL"))
-    private void sparkstrength$aimLitFlashlightArm(
+    private void sparkdlc$aimLitFlashlightArm(
             LivingEntity entity,
             float limbAngle,
             float limbDistance,

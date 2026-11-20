@@ -33,7 +33,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(DoorPartBlock.class)
 public abstract class ProfessorDoorPassingMixin {
     @Inject(method = "getCollisionShape", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$passThroughDoor(
+    private void sparkdlc$passThroughDoor(
             BlockState state,
             BlockView world,
             BlockPos pos,

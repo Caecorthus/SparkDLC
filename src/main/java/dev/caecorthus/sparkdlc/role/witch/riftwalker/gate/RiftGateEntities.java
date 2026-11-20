@@ -7,10 +7,10 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
 /**
- * Registers the Rift Gate entity type; must run before SparkWitchItems so item code can capture the type. Gates never
+ * Registers the Rift Gate entity type; must run before SparkDlcItems so item code can capture the type. Gates never
  * save to disk and cannot be summoned; the server registry is their source of truth and sweeps them at round edges.
  * The type box is the unrotated 1 × 2 default; the entity narrows it to {@link RiftwalkerRules#GATE_DEPTH} per facing.
- * 注册裂隙门实体类型；必须先于 SparkWitchItems 执行，以便物品代码获取该类型。门从不存盘、不可召唤；
+ * 注册裂隙门实体类型；必须先于 SparkDlcItems 执行，以便物品代码获取该类型。门从不存盘、不可召唤；
  * 服务端登记表是唯一真相，并在对局边界清扫。类型碰撞箱为未旋转的 1 × 2 默认值；实体按朝向收窄到 {@link RiftwalkerRules#GATE_DEPTH}。
  */
 public final class RiftGateEntities {

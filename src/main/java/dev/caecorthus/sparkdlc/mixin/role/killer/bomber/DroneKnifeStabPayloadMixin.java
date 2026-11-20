@@ -38,7 +38,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class DroneKnifeStabPayloadMixin {
     @Inject(method = "receive(Ldev/doctor4t/wathe/util/KnifeStabPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$stabDrone(KnifeStabPayload payload, ServerPlayNetworking.Context context,
+    private void sparkdlc$stabDrone(KnifeStabPayload payload, ServerPlayNetworking.Context context,
                                          CallbackInfo ci) {
         ServerPlayerEntity attacker = context.player();
         Entity target = attacker.getServerWorld().getEntityById(payload.target());

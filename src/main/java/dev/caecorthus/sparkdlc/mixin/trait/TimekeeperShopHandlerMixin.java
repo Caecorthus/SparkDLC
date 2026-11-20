@@ -15,7 +15,7 @@ public abstract class TimekeeperShopHandlerMixin {
             method = "onBuy",
             at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/cca/GameTimeComponent;addTime(I)V")
     )
-    private void sparktraits$impostorTimekeeperAddsTime(GameTimeComponent timeComponent, int originalDeltaTicks, PlayerEntity buyer) {
+    private void sparkdlc$impostorTimekeeperAddsTime(GameTimeComponent timeComponent, int originalDeltaTicks, PlayerEntity buyer) {
         timeComponent.addTime(ImpostorTimekeeperService.timekeeperPurchaseDelta(buyer, originalDeltaTicks));
     }
 }

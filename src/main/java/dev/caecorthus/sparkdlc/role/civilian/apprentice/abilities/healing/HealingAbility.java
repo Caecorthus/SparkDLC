@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.apprentice.abilities.healing;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseContext;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseResult;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
@@ -14,7 +14,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
 public final class HealingAbility {
-    public static final Identifier ID = SparkWitch.id("healing");
+    public static final Identifier ID = SparkDLC.id("healing");
     public static final int COLOR = 0x6DF2A2;
     public static final int MANA_COST = 30;
     public static final int DURATION_TICKS = GameConstants.getInTicks(0, 20);

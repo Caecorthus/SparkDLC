@@ -23,7 +23,7 @@ public abstract class ScreenHandlerProphetNecrologyMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$keepProphetNecrology(
+    private void sparkdlc$keepProphetNecrology(
             int slotIndex,
             int button,
             SlotActionType actionType,

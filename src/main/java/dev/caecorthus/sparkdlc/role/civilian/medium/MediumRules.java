@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.medium;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -24,7 +24,7 @@ import java.util.UUID;
  */
 public final class MediumRules {
     // ---- Role ----
-    public static final Identifier ROLE_ID = SparkWitch.id("medium");
+    public static final Identifier ROLE_ID = SparkDLC.id("medium");
     /** Ghost-fire teal. / 鬼火青绿。 */
     public static final int COLOR = 0x54E0B8;
 
@@ -34,14 +34,14 @@ public final class MediumRules {
 
     // ---- Skills (owner 2026-11-10) ----
     /** Replay skill ids. / 回放技能 id。 */
-    public static final Identifier SEANCE_SKILL_ID = SparkWitch.id("medium_seance_skill");
-    public static final Identifier HAUNT_SKILL_ID = SparkWitch.id("medium_haunt_skill");
+    public static final Identifier SEANCE_SKILL_ID = SparkDLC.id("medium_seance_skill");
+    public static final Identifier HAUNT_SKILL_ID = SparkDLC.id("medium_haunt_skill");
     /**
      * 幽灵的加护. One id, two replay entries: the paid cast (no extra data) and the grant ({@code blessing} index and
      * {@code random} flag).
      * 幽灵的加护。同一 id 两条回放记录：付费施放（无附加数据）与获得加护（{@code blessing} 序号与 {@code random} 标记）。
      */
-    public static final Identifier BLESSING_SKILL_ID = SparkWitch.id("medium_blessing_skill");
+    public static final Identifier BLESSING_SKILL_ID = SparkDLC.id("medium_blessing_skill");
     /** 通灵 base price; every tier −50, floor 0. / 通灵基础价格；每档 −50，下限 0。 */
     public static final int SEANCE_BASE_PRICE = 300;
     /** 招魂 is a flat price; the death tier only discounts 通灵. / 招魂固定价格；死亡档位只给通灵降价。 */
@@ -210,8 +210,8 @@ public final class MediumRules {
     public static boolean mayVote(@Nullable PlayerEntity player) {
         return player != null
                 && mayVote(GameWorldComponent.KEY.get(player.getWorld()), player.getUuid())
-                && !SparkWitchApi.isWraithActive(player)
-                && !SparkWitchApi.isWraithPromoted(player)
+                && !SparkRoleApi.isWraithActive(player)
+                && !SparkRoleApi.isWraithPromoted(player)
                 && !SparkTraitsApi.isLastStandPending(player);
     }
 

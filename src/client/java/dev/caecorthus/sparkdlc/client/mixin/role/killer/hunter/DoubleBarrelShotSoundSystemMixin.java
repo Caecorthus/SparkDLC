@@ -35,7 +35,7 @@ public abstract class DoubleBarrelShotSoundSystemMixin {
                     target = "Lnet/minecraft/client/sound/Channel$SourceManager;run(Ljava/util/function/Consumer;)V",
                     ordinal = 0)
     )
-    private void sparkwitch$spatializeDoubleBarrelShot(
+    private void sparkdlc$spatializeDoubleBarrelShot(
             Channel.SourceManager sourceManager,
             Consumer<Source> setup,
             Operation<Void> original,

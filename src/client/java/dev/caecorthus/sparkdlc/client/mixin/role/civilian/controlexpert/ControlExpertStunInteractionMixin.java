@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ClientPlayerInteractionManager.class)
 public abstract class ControlExpertStunInteractionMixin {
     @Inject(method = "stopUsingItem", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$clearInsteadOfRelease(PlayerEntity player, CallbackInfo ci) {
+    private void sparkdlc$clearInsteadOfRelease(PlayerEntity player, CallbackInfo ci) {
         if (ControlExpertStunClient.isLocalStunned()) {
             player.clearActiveItem();
             ci.cancel();

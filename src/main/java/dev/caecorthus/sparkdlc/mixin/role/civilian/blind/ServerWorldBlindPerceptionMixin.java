@@ -33,7 +33,7 @@ public abstract class ServerWorldBlindPerceptionMixin {
                     + "Lnet/minecraft/sound/SoundCategory;FFJ)V",
             at = @At("HEAD")
     )
-    private void sparkwitch$perceiveWorldSound(@Nullable PlayerEntity except, double x, double y, double z,
+    private void sparkdlc$perceiveWorldSound(@Nullable PlayerEntity except, double x, double y, double z,
                                                RegistryEntry<SoundEvent> sound, SoundCategory category, float volume,
                                                float pitch, long seed, CallbackInfo ci) {
         BlindSoundPerception.onWorldSound((ServerWorld) (Object) this, except, x, y, z, sound, category);
@@ -44,7 +44,7 @@ public abstract class ServerWorldBlindPerceptionMixin {
                     + "Lnet/minecraft/registry/entry/RegistryEntry;Lnet/minecraft/sound/SoundCategory;FFJ)V",
             at = @At("HEAD")
     )
-    private void sparkwitch$perceiveEntitySound(@Nullable PlayerEntity except, Entity entity,
+    private void sparkdlc$perceiveEntitySound(@Nullable PlayerEntity except, Entity entity,
                                                 RegistryEntry<SoundEvent> sound, SoundCategory category, float volume,
                                                 float pitch, long seed, CallbackInfo ci) {
         BlindSoundPerception.onEntitySound((ServerWorld) (Object) this, except, entity, sound, category);
@@ -57,7 +57,7 @@ public abstract class ServerWorldBlindPerceptionMixin {
                     + "Lnet/minecraft/registry/entry/RegistryEntry;)Lnet/minecraft/world/explosion/Explosion;",
             at = @At("HEAD")
     )
-    private void sparkwitch$perceiveExplosion(@Nullable Entity entity, @Nullable DamageSource damageSource,
+    private void sparkdlc$perceiveExplosion(@Nullable Entity entity, @Nullable DamageSource damageSource,
                                               @Nullable ExplosionBehavior behavior, double x, double y, double z,
                                               float power, boolean createFire,
                                               World.ExplosionSourceType explosionSourceType, ParticleEffect particle,

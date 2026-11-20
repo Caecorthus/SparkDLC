@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.savior;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
 import dev.doctor4t.wathe.api.Role;
@@ -62,7 +62,7 @@ public final class SaviorLoadoutService {
      * 救世主在 Wathe ON_FINISH_INITIALIZE 上使用的阶段，排在默认阶段之后（USEC/搜寻者模式）：身份已是最终身份，SparkStrength
      * 默认阶段的平板发放也已执行，因此平板可立即移动。对局仍处于 STARTING。
      */
-    static final Identifier FINISH_INITIALIZE_PHASE = SparkWitch.id("savior_finish_initialize");
+    static final Identifier FINISH_INITIALIZE_PHASE = SparkDLC.id("savior_finish_initialize");
     static final int KEY_SLOT = 0;
     static final int LETTER_SLOT = 1;
     static final int TABLET_SLOT = 2;
@@ -173,8 +173,8 @@ public final class SaviorLoadoutService {
         if (tablet != null && !moveExistingToHotbar(player, TABLET_SLOT, tablet)) {
             scheduleTabletMove(player, 0);
         }
-        putSlot(player, PISTOL_SLOT, new ItemStack(SparkWitchItems.saviorPistol()), false);
-        putSlot(player, LIGHTSABER_SLOT, new ItemStack(SparkWitchItems.saviorLightsaber()), false);
+        putSlot(player, PISTOL_SLOT, new ItemStack(SparkDlcItems.saviorPistol()), false);
+        putSlot(player, LIGHTSABER_SLOT, new ItemStack(SparkDlcItems.saviorLightsaber()), false);
         // A player who already carries a Wathe revolver (an admin turned a Vigilante into a Savior) keeps that one as
         // the death-drop revolver: a second plant would add a gun to the round.
         // 已携带 Wathe 左轮的玩家（管理员把义警改成救世主）沿用那一把作为死亡掉落左轮：再放一把会让本局多出一把枪。
@@ -184,8 +184,8 @@ public final class SaviorLoadoutService {
 
         // Creative players get the weapons without the round-start cooldowns. / 创造模式玩家拿到武器但不进入开局冷却。
         if (!player.isCreative()) {
-            SaviorCooldowns.writeCooldown(player, SparkWitchItems.saviorPistol(), SaviorRules.PISTOL_START_COOLDOWN_TICKS);
-            SaviorCooldowns.writeCooldown(player, SparkWitchItems.saviorLightsaber(), SaviorRules.LIGHTSABER_START_COOLDOWN_TICKS);
+            SaviorCooldowns.writeCooldown(player, SparkDlcItems.saviorPistol(), SaviorRules.PISTOL_START_COOLDOWN_TICKS);
+            SaviorCooldowns.writeCooldown(player, SparkDlcItems.saviorLightsaber(), SaviorRules.LIGHTSABER_START_COOLDOWN_TICKS);
         }
         // The Savior may not pick guns back up for the whole round (Wathe tag); our mixin covers SparkWitch guns.
         // 整局禁止救世主捡枪（Wathe 标签）；SparkWitch 自有枪械由 mixin 拦截。
@@ -376,6 +376,6 @@ public final class SaviorLoadoutService {
 
     private static boolean isSaviorWeapon(ItemStack stack) {
         return !stack.isEmpty()
-                && (stack.isOf(SparkWitchItems.saviorPistol()) || stack.isOf(SparkWitchItems.saviorLightsaber()));
+                && (stack.isOf(SparkDlcItems.saviorPistol()) || stack.isOf(SparkDlcItems.saviorLightsaber()));
     }
 }

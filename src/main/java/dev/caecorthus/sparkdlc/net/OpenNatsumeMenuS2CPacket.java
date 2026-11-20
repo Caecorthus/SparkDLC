@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
@@ -14,7 +14,7 @@ import java.util.UUID;
 
 /** Opens the hypnosis target menu. 打开催眠目标菜单。 */
 public record OpenNatsumeMenuS2CPacket(List<UUID> targets, List<String> names) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("open_natsume_menu");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("open_natsume_menu");
     public static final Id<OpenNatsumeMenuS2CPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, OpenNatsumeMenuS2CPacket> CODEC =
             PacketCodec.tuple(

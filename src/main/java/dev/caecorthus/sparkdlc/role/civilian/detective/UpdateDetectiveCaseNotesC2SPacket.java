@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.detective;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCaseRules;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
@@ -17,7 +17,7 @@ import java.util.UUID;
  * 写入端会先截断，正常客户端不会触发上限。
  */
 public record UpdateDetectiveCaseNotesC2SPacket(UUID caseId, String notes) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("update_detective_case_notes");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("update_detective_case_notes");
     public static final Id<UpdateDetectiveCaseNotesC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, UpdateDetectiveCaseNotesC2SPacket> CODEC =
             PacketCodec.of(UpdateDetectiveCaseNotesC2SPacket::write, UpdateDetectiveCaseNotesC2SPacket::read);

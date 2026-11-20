@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(MinecraftClient.class)
 public abstract class AssassinScreenSwapMixin {
     @ModifyVariable(method = "setScreen", at = @At("HEAD"), argsOnly = true)
-    private @Nullable Screen sparkstrength$openGroupedAssassinScreen(@Nullable Screen screen) {
+    private @Nullable Screen sparkdlc$openGroupedAssassinScreen(@Nullable Screen screen) {
         return AssassinGuessSources.replaceNativeScreen(screen);
     }
 }

@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MagicianKnifeStabPayloadReceiverMixin {
     @Inject(method = "receive(Ldev/doctor4t/wathe/util/KnifeStabPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$stabPuppet(KnifeStabPayload payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
+    private void sparkdlc$stabPuppet(KnifeStabPayload payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
         ServerPlayerEntity attacker = context.player();
         if (attacker.getServerWorld().getEntityById(payload.target()) instanceof MagicianPlaybackEntity puppet) {
             MagicianPuppetHits.onKnifeStabPayload(attacker, puppet);
@@ -38,7 +38,7 @@ public abstract class MagicianKnifeStabPayloadReceiverMixin {
     @Inject(method = "receive(Ldev/doctor4t/wathe/util/KnifeStabPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             at = @At(value = "INVOKE",
                     target = "Ldev/doctor4t/wathe/record/GameRecordManager;recordItemUse(Lnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;Lnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/nbt/NbtCompound;)V"))
-    private void sparkwitch$recordAcceptedStab(KnifeStabPayload payload, ServerPlayNetworking.Context context,
+    private void sparkdlc$recordAcceptedStab(KnifeStabPayload payload, ServerPlayNetworking.Context context,
                                                CallbackInfo ci) {
         MagicianServerHooks.record(context.player(), MagicianRecordedAction.Type.KNIFE_STAB);
     }

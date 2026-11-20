@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(value = ShopEntry.class, remap = false)
 public abstract class EngineShopPriceMixin {
     @ModifyReturnValue(method = "price()I", at = @At("RETURN"), require = 1, allow = 1)
-    private int sparkstrength$engineWreckDiscount(int price) {
+    private int sparkdlc$engineWreckDiscount(int price) {
         return EngineEconomy.price((ShopEntry) (Object) this, price);
     }
 }

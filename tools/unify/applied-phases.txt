@@ -3,3 +3,4 @@ mixins
 tooling
 ns-main
 ns-tooling
+names-main

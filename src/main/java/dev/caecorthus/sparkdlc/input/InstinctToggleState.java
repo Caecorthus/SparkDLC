@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.input;
 
-import dev.caecorthus.sparkdlc.config.SparkAssistConfig.InstinctKeyMode;
+import dev.caecorthus.sparkdlc.config.SparkDlcClientConfig.InstinctKeyMode;
 
 /**
  * Rising-edge toggle state for Wathe's hold-based instinct key.

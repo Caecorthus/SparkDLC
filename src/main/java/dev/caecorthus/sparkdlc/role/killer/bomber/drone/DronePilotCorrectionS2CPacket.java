@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.bomber.drone;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
@@ -10,7 +10,7 @@ import net.minecraft.network.packet.CustomPayload;
  * 服务器对接收者所驾驶无人机的位置纠正（其客户端忽略普通追踪位移）。
  */
 public record DronePilotCorrectionS2CPacket(int entityId, double x, double y, double z) implements CustomPayload {
-    public static final Id<DronePilotCorrectionS2CPacket> ID = new Id<>(SparkStrength.id("drone_pilot_correction"));
+    public static final Id<DronePilotCorrectionS2CPacket> ID = new Id<>(SparkDLC.id("drone_pilot_correction"));
     public static final PacketCodec<RegistryByteBuf, DronePilotCorrectionS2CPacket> CODEC =
             PacketCodec.of(DronePilotCorrectionS2CPacket::write, DronePilotCorrectionS2CPacket::read);
 

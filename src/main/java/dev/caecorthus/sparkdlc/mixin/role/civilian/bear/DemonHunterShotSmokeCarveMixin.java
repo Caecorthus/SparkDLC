@@ -21,7 +21,7 @@ public abstract class DemonHunterShotSmokeCarveMixin {
     @Inject(method = "receive(Lorg/agmas/noellesroles/demonhunter/DemonHunterShootC2SPacket;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             at = @At(value = "INVOKE",
                     target = "Ldev/doctor4t/wathe/record/GameRecordManager;recordItemUse(Lnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;Lnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/nbt/NbtCompound;)V"))
-    private void sparkwitch$carveBulletTunnel(DemonHunterShootC2SPacket payload, ServerPlayNetworking.Context context,
+    private void sparkdlc$carveBulletTunnel(DemonHunterShootC2SPacket payload, ServerPlayNetworking.Context context,
                                              CallbackInfo ci) {
         RangedSmokeCarve.gunShot(context.player(), payload.target(), BearRicochetRules.DEMON_HUNTER_RANGE);
     }

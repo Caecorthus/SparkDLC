@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.hud;
 
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillDefinition;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillRegistry;
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.client.role.civilian.apprentice.ApprenticeClientPresentation;
 import dev.caecorthus.sparkdlc.client.role.civilian.emma.EmmaClientModule;
 import dev.caecorthus.sparkdlc.client.gui.OwnerInventoryPresenter;
@@ -202,7 +202,7 @@ public final class WitchSkillHudRenderer {
         return Text.translatable(
                 "hud.sparkdlc.skill.ready",
                 WitchSkillClientTexts.name(skillId),
-                SparkWitchClient.abilityKeyText()
+                SparkDLCClient.abilityKeyText()
         );
     }
 }

@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ParticleManager.class)
 public abstract class SmokeFabulousDepthMixin {
     @Inject(method = "renderParticles", at = @At("HEAD"))
-    private void sparkwitch$captureSmokeDepth(LightmapTextureManager lightmapTextureManager, Camera camera,
+    private void sparkdlc$captureSmokeDepth(LightmapTextureManager lightmapTextureManager, Camera camera,
                                               float tickDelta, CallbackInfo ci) {
         SmokeRenderer.beforeParticles();
     }

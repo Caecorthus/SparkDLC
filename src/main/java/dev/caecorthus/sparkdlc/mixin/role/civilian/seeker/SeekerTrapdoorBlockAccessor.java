@@ -17,5 +17,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(TrapdoorBlock.class)
 public interface SeekerTrapdoorBlockAccessor {
     @Accessor("blockSetType")
-    BlockSetType sparkwitch$getBlockSetType();
+    BlockSetType sparkdlc$getBlockSetType();
 }

@@ -30,7 +30,7 @@ public abstract class PigPlayerRendererMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparktraits$renderPigPlayer(
+    private void sparkdlc$renderPigPlayer(
             AbstractClientPlayerEntity player,
             float yaw,
             float tickDelta,

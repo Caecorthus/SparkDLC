@@ -31,7 +31,7 @@ public abstract class ScoreboardRoleSelectorNeutralPoolMixin {
             require = 2,
             allow = 2
     )
-    private Faction sparkfactionapi$neutralPoolFaction(Role role, Operation<Faction> original) {
+    private Faction sparkdlc$neutralPoolFaction(Role role, Operation<Faction> original) {
         return NativeFactionRules.neutralPoolView(original.call(role));
     }
 }

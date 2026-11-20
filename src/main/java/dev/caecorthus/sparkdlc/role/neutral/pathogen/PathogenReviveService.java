@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.pathogen;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.killer.morphling.MorphBodyDisguiseWorldComponent;
 import dev.caecorthus.sparkdlc.role.neutral.pathogen.PathogenStrainComponent;
 import dev.caecorthus.sparkdlc.role.neutral.pathogen.VirusCarrierComponent;
@@ -46,7 +46,7 @@ import java.util.UUID;
  * 保持不变。
  */
 public final class PathogenReviveService {
-    public static final Identifier REVIVED_EVENT = SparkStrength.id("pathogen_revived");
+    public static final Identifier REVIVED_EVENT = SparkDLC.id("pathogen_revived");
 
     private PathogenReviveService() {
     }
@@ -97,7 +97,7 @@ public final class PathogenReviveService {
         float yaw = body.getYaw();
 
         // Alive again, exactly like Last Stand. / 与背水一战一样恢复存活。
-        ((GameWorldComponentDeadPlayersAccessor) game).sparkstrength$getDeadPlayers().remove(ownerId);
+        ((GameWorldComponentDeadPlayersAccessor) game).sparkdlc$getDeadPlayersForKits().remove(ownerId);
         game.sync();
         owner.setCameraEntity(owner);
         owner.changeGameMode(GameMode.ADVENTURE);
@@ -125,7 +125,7 @@ public final class PathogenReviveService {
             RoleAssigned.EVENT.invoker().assignRole(owner, pathogen);
         } catch (RuntimeException exception) {
             // The role is committed: log the listener failure, never undo. / 身份已提交：记录监听器故障，绝不撤销。
-            SparkStrength.LOGGER.error("T-Virus revive committed but a role-assignment listener failed for {}",
+            SparkDLC.LOGGER.error("T-Virus revive committed but a role-assignment listener failed for {}",
                     ownerId, exception);
         } finally {
             shop.setBalance(0);
@@ -175,7 +175,7 @@ public final class PathogenReviveService {
      */
     private static void forgetDeathTraces(ServerWorld world, UUID ownerId) {
         HiddenBodiesWorldComponent hidden = HiddenBodiesWorldComponent.KEY.get(world);
-        if (((HiddenBodiesWorldComponentAccessor) hidden).sparkstrength$getHiddenBodies().remove(ownerId)) {
+        if (((HiddenBodiesWorldComponentAccessor) hidden).sparkdlc$getHiddenBodies().remove(ownerId)) {
             HiddenBodiesWorldComponent.KEY.sync(world);
         }
         MorphBodyDisguiseWorldComponent.KEY.get(world).clearBodyDisguise(ownerId);
@@ -202,7 +202,7 @@ public final class PathogenReviveService {
             Method resetPlayer = plugin.getMethod("resetPlayer", UUID.class);
             resetPlayer.invoke(null, uuid);
         } catch (ReflectiveOperationException | LinkageError exception) {
-            SparkStrength.LOGGER.debug("Unable to reset the voice chat group after a T-Virus revive", exception);
+            SparkDLC.LOGGER.debug("Unable to reset the voice chat group after a T-Virus revive", exception);
         }
     }
 }

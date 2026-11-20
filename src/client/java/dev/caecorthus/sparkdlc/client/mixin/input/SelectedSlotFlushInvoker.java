@@ -23,5 +23,5 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(ClientPlayerInteractionManager.class)
 public interface SelectedSlotFlushInvoker {
     @Invoker("syncSelectedSlot")
-    void sparkwitch$flushSelectedSlot();
+    void sparkdlc$flushSelectedSlot();
 }

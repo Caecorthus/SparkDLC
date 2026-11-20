@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(value = Scheduler.class, remap = false)
 public abstract class SchedulerForcedShotConsequenceMixin {
     @ModifyVariable(method = "schedule", at = @At("HEAD"), argsOnly = true, ordinal = 0)
-    private static Runnable sparkwitch$bindForcedShotConsequence(Runnable action) {
+    private static Runnable sparkdlc$bindForcedShotConsequence(Runnable action) {
         return DominatorForcedShotScope.bindScheduled(action);
     }
 }

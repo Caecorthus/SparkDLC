@@ -47,7 +47,7 @@ public abstract class InsiderCohortRoleNameMixin {
     private static float nametagAlpha;
 
     @Inject(method = "renderHud", at = @At("TAIL"))
-    private static void sparkwitch$renderJiahaoCohort(
+    private static void sparkdlc$renderJiahaoCohort(
             TextRenderer renderer,
             ClientPlayerEntity player,
             DrawContext context,

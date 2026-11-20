@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.skill;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillDefinition;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillRegistry;
@@ -43,7 +43,7 @@ public final class WitchSkillUseService {
         ServerWorld world = player.getServerWorld();
         GameWorldComponent gameComponent = GameWorldComponent.KEY.get(world);
         Role role = gameComponent.getRole(player);
-        if (!SparkWitchRoles.isSparkWitchRole(role)) {
+        if (!SparkDlcRoles.isSparkWitchRole(role)) {
             send(player, "message.sparkdlc.skill.not_witch");
             return false;
         }

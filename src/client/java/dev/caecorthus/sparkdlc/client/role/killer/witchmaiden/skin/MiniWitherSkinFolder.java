@@ -6,7 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither.MiniWitherSoundSlot;
 import org.jetbrains.annotations.Nullable;
 
@@ -120,13 +120,13 @@ public final class MiniWitherSkinFolder {
             Files.createDirectories(root);
             ensureReadme(root);
         } catch (IOException | RuntimeException exception) {
-            SparkWitch.LOGGER.warn("Unable to create the Mini Wither skins folder {}", root, exception);
+            SparkDLC.LOGGER.warn("Unable to create the Mini Wither skins folder {}", root, exception);
         }
         List<Path> folders = new ArrayList<>();
         try (Stream<Path> children = Files.list(root)) {
             children.filter(Files::isDirectory).forEach(folders::add);
         } catch (IOException | RuntimeException exception) {
-            SparkWitch.LOGGER.warn("Unable to list the Mini Wither skins folder {}", root, exception);
+            SparkDLC.LOGGER.warn("Unable to list the Mini Wither skins folder {}", root, exception);
             return List.of();
         }
         folders.sort(Comparator.comparing(path -> path.getFileName().toString()));
@@ -138,9 +138,9 @@ public final class MiniWitherSkinFolder {
             }
             String id = idOf(name);
             if (id == null) {
-                SparkWitch.LOGGER.warn("Skipping the Mini Wither skin folder \"{}\": use only a-z, 0-9, _ . -", name);
+                SparkDLC.LOGGER.warn("Skipping the Mini Wither skin folder \"{}\": use only a-z, 0-9, _ . -", name);
             } else if (found.containsKey(id)) {
-                SparkWitch.LOGGER.warn("Skipping the Mini Wither skin folder \"{}\": id \"{}\" is taken", name, id);
+                SparkDLC.LOGGER.warn("Skipping the Mini Wither skin folder \"{}\": id \"{}\" is taken", name, id);
             } else {
                 found.put(id, new Found(id, displayName(folder, id), folder));
             }

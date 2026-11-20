@@ -13,5 +13,5 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(PlayerEntity.class)
 public abstract class MagicianRecordAttackMixin extends LivingEntity {
  protected MagicianRecordAttackMixin(EntityType<? extends LivingEntity> type, World world){super(type,world);}
- @Inject(method="attack",at=@At("HEAD")) private void sparkwitch$record(Entity target,CallbackInfo ci){if((Object)this instanceof ServerPlayerEntity player) MagicianServerHooks.recordAttack(player);}
+ @Inject(method="attack",at=@At("HEAD")) private void sparkdlc$record(Entity target,CallbackInfo ci){if((Object)this instanceof ServerPlayerEntity player) MagicianServerHooks.recordAttack(player);}
 }

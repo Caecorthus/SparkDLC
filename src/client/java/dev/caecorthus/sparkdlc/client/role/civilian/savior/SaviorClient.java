@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.savior;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerHitGeometry;
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.net.SaviorGunDropS2CPayload;
 import dev.caecorthus.sparkdlc.net.SaviorMuzzleS2CPayload;
 import dev.caecorthus.sparkdlc.net.SaviorPistolShootC2SPayload;
@@ -81,7 +81,7 @@ public final class SaviorClient {
      * The revolver's own pick, the add-on gun precedent (CONTEXT "Add-on gun world hits", SparkStrength's Serial Killer
      * pistols): {@code RevolverItem.getGunTarget} carries every client hook on the revolver ray (SparkTraits Marksman
      * range, SparkWitch's active-Wraith pass-through, the strictly nearer Magician puppet and Raven Form crow);
-     * {@code SparkWitchApi.preferNearerGunWorldTarget} adds the strictly nearer Seeker device that SparkWitch wraps
+     * {@code SparkRoleApi.preferNearerGunWorldTarget} adds the strictly nearer Seeker device that SparkWitch wraps
      * inside {@code RevolverItem#use}; {@code RevolverItem.resolveTargetFromHitResult} turns it into the id a revolver
      * sends (the entity hit, the sleeping player on an aimed bed with the Wraith bed miss, else -1). The id may name a
      * puppet, crow, device or Partygoer ({@code PartygoerHitGeometry.preferNearer}, the strictly nearer one,
@@ -89,14 +89,14 @@ public final class SaviorClient {
      * SparkStrength's drone pick, which only wraps the call inside {@code RevolverItem#use} and has no public seam.
      * 左轮自身的选靶，沿用附属枪械先例（CONTEXT「Add-on gun world hits」，SparkStrength 连环杀手手枪）：
      * {@code RevolverItem.getGunTarget} 带有左轮射线上的全部客户端钩子（SparkTraits 神射手射程、SparkWitch 激活冤魂穿透、
-     * 严格更近的魔术师皮套与化鸦乌鸦）；{@code SparkWitchApi.preferNearerGunWorldTarget} 补上 SparkWitch 包装在
+     * 严格更近的魔术师皮套与化鸦乌鸦）；{@code SparkRoleApi.preferNearerGunWorldTarget} 补上 SparkWitch 包装在
      * {@code RevolverItem#use} 内、严格更近的搜寻者设备；{@code RevolverItem.resolveTargetFromHitResult} 换算成左轮会发送的
      * id（命中的实体、所瞄床上的睡眠玩家并含冤魂床位未命中，否则 -1）。id 可能指向皮套、乌鸦、设备或派对客
      * （{@code PartygoerHitGeometry.preferNearer}，严格更近者，与 SparkStrength 连环杀手手枪相同），由服务端复核并
      * 解析。不覆盖：SparkStrength 无人机选靶，它只包装 {@code RevolverItem#use} 内的调用且没有公开接缝。
      */
     private static int pickTargetId(PlayerEntity player) {
-        HitResult aim = SparkWitchApi.preferNearerGunWorldTarget(player, RevolverItem.getGunTarget(player),
+        HitResult aim = SparkRoleApi.preferNearerGunWorldTarget(player, RevolverItem.getGunTarget(player),
                 SaviorRules.PISTOL_CLIENT_RANGE);
         aim = PartygoerHitGeometry.preferNearer(player, aim, SaviorRules.PISTOL_CLIENT_RANGE);
         return RevolverItem.resolveTargetFromHitResult(player.getWorld(), aim);
@@ -125,7 +125,7 @@ public final class SaviorClient {
         }
         PlayerInventory inventory = player.getInventory();
         for (int slot = 0; slot < inventory.size(); slot++) {
-            if (inventory.getStack(slot).isOf(SparkWitchItems.saviorPistol())) {
+            if (inventory.getStack(slot).isOf(SparkDlcItems.saviorPistol())) {
                 inventory.removeStack(slot, 1);
                 return;
             }

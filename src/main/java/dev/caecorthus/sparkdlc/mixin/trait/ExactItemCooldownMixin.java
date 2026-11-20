@@ -20,10 +20,10 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 public abstract class ExactItemCooldownMixin {
     @ModifyArgs(method = "set", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/entity/player/ItemCooldownManager$Entry;<init>(II)V"))
-    private void sparktraits$exactEntryDuration(Args args, Item item, int duration) {
+    private void sparkdlc$exactEntryDuration(Args args, Item item, int duration) {
         ItemCooldownManager manager = (ItemCooldownManager) (Object) this;
         ServerPlayerEntity owner = manager instanceof ServerItemCooldownManager
-                ? ((ServerItemCooldownManagerAccessor) manager).sparktraits$getPlayer() : null;
+                ? ((ServerItemCooldownManagerAccessor) manager).sparkdlc$getPlayerForTraits() : null;
         int start = args.get(0);
         int end = args.get(1);
         args.set(1, start + ExactItemCooldowns.durationForWrite(manager, item, end - start, owner));
@@ -31,24 +31,24 @@ public abstract class ExactItemCooldownMixin {
 
     @ModifyArg(method = "set", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/entity/player/ItemCooldownManager;onCooldownUpdate(Lnet/minecraft/item/Item;I)V"), index = 1)
-    private int sparktraits$syncExactDuration(Item item, int duration) {
+    private int sparkdlc$syncExactDuration(Item item, int duration) {
         return ExactItemCooldowns.remainingTicks((ItemCooldownManager) (Object) this, item);
     }
 
     /** Lets a pending Depression fake kill see which weapon cooldown the attack wrote afterwards.
      *  让待处理的抑郁假死得知攻击随后写入了哪件武器的冷却。 */
     @Inject(method = "set", at = @At("TAIL"))
-    private void sparktraits$recordFakeKillWeaponWrite(Item item, int duration, CallbackInfo ci) {
+    private void sparkdlc$recordFakeKillWeaponWrite(Item item, int duration, CallbackInfo ci) {
         if ((Object) this instanceof ServerItemCooldownManager manager
                 && !ExactItemCooldowns.isExactWrite(manager, item)) {
-            DepressionFakeKillCooldowns.recordWrite(((ServerItemCooldownManagerAccessor) manager).sparktraits$getPlayer(), item);
+            DepressionFakeKillCooldowns.recordWrite(((ServerItemCooldownManagerAccessor) manager).sparkdlc$getPlayerForTraits(), item);
         }
     }
 
     @Inject(method = "remove", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$preserveForcedFloor(Item item, CallbackInfo ci) {
+    private void sparkdlc$preserveForcedFloor(Item item, CallbackInfo ci) {
         if ((Object) this instanceof ServerItemCooldownManager manager) {
-            ServerPlayerEntity owner = ((ServerItemCooldownManagerAccessor) manager).sparktraits$getPlayer();
+            ServerPlayerEntity owner = ((ServerItemCooldownManagerAccessor) manager).sparkdlc$getPlayerForTraits();
             int floor = ForcedMeleeCooldownService.remainingTicks(owner, item);
             if (floor > 0) {
                 ExactItemCooldowns.setExact(owner, item,

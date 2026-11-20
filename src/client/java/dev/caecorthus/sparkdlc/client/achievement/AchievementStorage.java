@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.achievement;
 
-import dev.caecorthus.sparkdlc.SparkAssist;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.achievement.AchievementFiles;
 import dev.caecorthus.sparkdlc.achievement.AchievementLedger;
 import java.io.IOException;
@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
  * 这里的任何数据都不会发给服务器；离线与单人对局和在线对局共用同一个文件。
  */
 public final class AchievementStorage {
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkAssist/Achievements");
+    private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/Achievements");
     // How often a save file that could not be read is tried again. The page asks for the ledger every tick, so
     // this keeps a locked file from being read 20 times a second.
     // 读不出来的存档文件每隔多久重读一次。成就页每 tick 都会取存档，这样被锁住的文件不会每秒被读 20 次。
@@ -90,7 +90,7 @@ public final class AchievementStorage {
 
     private static Path file(String account) {
         return FabricLoader.getInstance().getConfigDir()
-                .resolve(SparkAssist.MOD_ID)
+                .resolve(SparkDLC.MOD_ID)
                 .resolve("achievements")
                 .resolve(account + ".json");
     }

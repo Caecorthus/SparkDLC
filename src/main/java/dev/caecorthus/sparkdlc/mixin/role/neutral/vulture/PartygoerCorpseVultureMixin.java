@@ -47,7 +47,7 @@ public abstract class PartygoerCorpseVultureMixin {
             require = 1,
             allow = 1
     )
-    private static List<PlayerBodyEntity> sparkstrength$vultureIsPoisonedByPartygoerCorpse(
+    private static List<PlayerBodyEntity> sparkdlc$vultureIsPoisonedByPartygoerCorpse(
             World world,
             TypeFilter<Entity, PlayerBodyEntity> filter,
             Box box,

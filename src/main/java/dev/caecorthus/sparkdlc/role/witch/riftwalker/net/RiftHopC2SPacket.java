@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.riftwalker.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -16,7 +16,7 @@ import net.minecraft.util.Identifier;
 public record RiftHopC2SPacket(int sessionId, byte direction) implements CustomPayload {
     public static final byte PREVIOUS = -1;
     public static final byte NEXT = 1;
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("rift_hop");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("rift_hop");
     public static final Id<RiftHopC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, RiftHopC2SPacket> CODEC =
             PacketCodec.of(RiftHopC2SPacket::write, RiftHopC2SPacket::read);

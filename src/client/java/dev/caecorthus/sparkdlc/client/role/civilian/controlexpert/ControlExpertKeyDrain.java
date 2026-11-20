@@ -7,5 +7,5 @@ package dev.caecorthus.sparkdlc.client.role.civilian.controlexpert;
  * 返回钩子，也不改动按住状态（切换潜行/疾跑与按住的键得以保留）。
  */
 public interface ControlExpertKeyDrain {
-    void sparkwitch$discardQueuedPresses();
+    void sparkdlc$discardQueuedPresses();
 }

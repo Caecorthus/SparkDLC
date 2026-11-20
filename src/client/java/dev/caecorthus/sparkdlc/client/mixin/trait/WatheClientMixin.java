@@ -40,7 +40,7 @@ import java.util.UUID;
 @Mixin(value = WatheClient.class, remap = false)
 public abstract class WatheClientMixin {
     @Inject(method = "isKiller", at = @At("HEAD"), cancellable = true)
-    private static void sparktraits$impostorCanUseInstinct(CallbackInfoReturnable<Boolean> cir) {
+    private static void sparkdlc$impostorCanUseInstinct(CallbackInfoReturnable<Boolean> cir) {
         if (!SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }
@@ -64,7 +64,7 @@ public abstract class WatheClientMixin {
                     target = "Ldev/doctor4t/wathe/api/event/GetInstinctHighlight;getHighlight(Lnet/minecraft/entity/Entity;)Ldev/doctor4t/wathe/api/event/GetInstinctHighlight$HighlightResult;"
             )
     )
-    private static GetInstinctHighlight.HighlightResult sparktraits$impostorAsksTheEventAsAKiller(
+    private static GetInstinctHighlight.HighlightResult sparkdlc$impostorAsksTheEventAsAKiller(
             GetInstinctHighlight event,
             Entity target,
             Operation<GetInstinctHighlight.HighlightResult> original
@@ -81,7 +81,7 @@ public abstract class WatheClientMixin {
     }
 
     @Inject(method = "getInstinctHighlight", at = @At("HEAD"), cancellable = true)
-    private static void sparktraits$effectiveInstinctHighlight(Entity target, CallbackInfoReturnable<Integer> cir) {
+    private static void sparkdlc$effectiveInstinctHighlight(Entity target, CallbackInfoReturnable<Integer> cir) {
         if (!SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }
@@ -93,7 +93,7 @@ public abstract class WatheClientMixin {
         // Wathe 每帧为每个可见实体询问两次，因此仅与观察者有关的事实取自每帧一份的上下文。
         InstinctViewerContext context = InstinctViewerContext.of(viewer);
         if (!(target instanceof PlayerEntity playerTarget)) {
-            sparktraits$nonPlayerInstinctHighlight(context, target, cir);
+            sparkdlc$nonPlayerInstinctHighlight(context, target, cir);
             return;
         }
 
@@ -265,14 +265,14 @@ public abstract class WatheClientMixin {
             return;
         }
         // Sight-gated hides such as the Survival Master's reach an Impostor through the event, which it now asks as a
-        // killer (sparktraits$impostorAsksTheEventAsAKiller), so they are no longer mirrored here.
-        // 生存大师等视线类隐藏现在经由事件作用于内鬼（内鬼以杀手身份询问事件，见 sparktraits$impostorAsksTheEventAsAKiller），
+        // killer (sparkdlc$impostorAsksTheEventAsAKiller), so they are no longer mirrored here.
+        // 生存大师等视线类隐藏现在经由事件作用于内鬼（内鬼以杀手身份询问事件，见 sparkdlc$impostorAsksTheEventAsAKiller），
         // 因此这里不再逐个同步。
         if (EffectiveInstinctService.isHiddenFromKillerInstinct(playerTarget)) {
             cir.setReturnValue(-1);
             return;
         }
-        Integer morphlingColor = sparktraits$conscienceMorphlingDisguiseColor(playerTarget, game, morphling);
+        Integer morphlingColor = sparkdlc$conscienceMorphlingDisguiseColor(playerTarget, game, morphling);
         if (morphlingColor != null) {
             cir.setReturnValue(morphlingColor);
             return;
@@ -305,7 +305,7 @@ public abstract class WatheClientMixin {
      * 物品、纸条、尸体等非玩家实体：上方所有仅针对玩家的分支都会跳过，旁观背水一战放行也从不为非玩家着色，
      * 因此只剩黑羽鸦的结果与善良的隐藏。
      */
-    private static void sparktraits$nonPlayerInstinctHighlight(
+    private static void sparkdlc$nonPlayerInstinctHighlight(
             InstinctViewerContext context,
             Entity target,
             CallbackInfoReturnable<Integer> cir
@@ -323,7 +323,7 @@ public abstract class WatheClientMixin {
         }
     }
 
-    private static Integer sparktraits$conscienceMorphlingDisguiseColor(
+    private static Integer sparkdlc$conscienceMorphlingDisguiseColor(
             PlayerEntity target,
             GameWorldComponent game,
             MorphlingPlayerComponent morphling

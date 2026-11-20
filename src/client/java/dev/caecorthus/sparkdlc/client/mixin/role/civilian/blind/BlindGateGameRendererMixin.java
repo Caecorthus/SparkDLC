@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = GameRenderer.class, priority = 2000)
 public abstract class BlindGateGameRendererMixin {
     @WrapMethod(method = "renderHand")
-    private void sparkwitch$blindHidesHand(Camera camera, float tickDelta, Matrix4f matrix, Operation<Void> original) {
+    private void sparkdlc$blindHidesHand(Camera camera, float tickDelta, Matrix4f matrix, Operation<Void> original) {
         if (BlindClientGates.viewActive()) {
             return;
         }
@@ -28,7 +28,7 @@ public abstract class BlindGateGameRendererMixin {
     }
 
     @WrapMethod(method = "shouldRenderBlockOutline")
-    private boolean sparkwitch$blindHidesBlockOutline(Operation<Boolean> original) {
+    private boolean sparkdlc$blindHidesBlockOutline(Operation<Boolean> original) {
         if (BlindClientGates.viewActive()) {
             return false;
         }

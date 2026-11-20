@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven;
 
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.BlackRavenActingRole;
@@ -63,7 +63,7 @@ public final class BlackRavenEconomyService {
         GameWorldComponent game = GameWorldComponent.KEY.get(player.getWorld());
         return BlackRavenPoliceRules.earnsTaskMoney(game.getGameStatus() == GameWorldComponent.GameStatus.ACTIVE,
                 GameFunctions.isPlayerPlayingAndAlive(player), game.getRole(player), player.isSpectator(),
-                player.isCreative(), SparkWitchApi.isWraithRestricted(player));
+                player.isCreative(), SparkRoleApi.isWraithRestricted(player));
     }
 
     /**

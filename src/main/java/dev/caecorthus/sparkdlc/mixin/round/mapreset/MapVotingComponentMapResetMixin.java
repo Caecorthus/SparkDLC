@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = MapVotingComponent.class, remap = false)
 public abstract class MapVotingComponentMapResetMixin {
     @Inject(method = "startVoting()V", at = @At("HEAD"), cancellable = true)
-    private void sparkfactionapi$refuseVoteDuringMapReset(CallbackInfo ci) {
+    private void sparkdlc$refuseVoteDuringMapReset(CallbackInfo ci) {
         if (LobbyMapReset.refuseVote()) {
             ci.cancel();
         }

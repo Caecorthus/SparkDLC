@@ -26,7 +26,7 @@ public abstract class SeekerRemoteKeyBindingMixin implements SeekerRemoteKeyDrai
     private int timesPressed;
 
     @Inject(method = "isPressed", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$releaseWhileViewing(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$releaseWhileViewing(CallbackInfoReturnable<Boolean> cir) {
         if (!SeekerRemoteViewClient.isActive()) {
             return;
         }
@@ -36,7 +36,7 @@ public abstract class SeekerRemoteKeyBindingMixin implements SeekerRemoteKeyDrai
     }
 
     @Inject(method = "wasPressed", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$discardPressWhileViewing(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$discardPressWhileViewing(CallbackInfoReturnable<Boolean> cir) {
         if (!SeekerRemoteViewClient.isActive()) {
             return;
         }
@@ -47,12 +47,12 @@ public abstract class SeekerRemoteKeyBindingMixin implements SeekerRemoteKeyDrai
     }
 
     @Override
-    public void sparkwitch$drainPresses() {
+    public void sparkdlc$drainPresses() {
         timesPressed = 0;
     }
 
     @Override
-    public int sparkwitch$takePresses() {
+    public int sparkdlc$takePresses() {
         int presses = timesPressed;
         timesPressed = 0;
         return presses;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.usec;
 
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecAttachmentRules.Gate;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecAttachmentRules.Magazine;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecAttachmentRules.Outcome;
@@ -197,10 +197,10 @@ public final class UsecAttachmentCursorLoading {
             UsecAttachmentService.finish(server, cue, bolted);
             return;
         }
-        playLocal(player, cue == Cue.MAGAZINE ? SparkWitchSounds.USEC_RIFLE_MAGAZINE
-                : SparkWitchSounds.USEC_RIFLE_LOAD_ROUND);
+        playLocal(player, cue == Cue.MAGAZINE ? SparkDlcSounds.USEC_RIFLE_MAGAZINE
+                : SparkDlcSounds.USEC_RIFLE_LOAD_ROUND);
         if (bolted) {
-            playLocal(player, SparkWitchSounds.USEC_RIFLE_BOLT);
+            playLocal(player, SparkDlcSounds.USEC_RIFLE_BOLT);
         }
     }
 

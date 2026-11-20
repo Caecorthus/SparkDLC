@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(EntityRenderDispatcher.class)
 public abstract class MorphlingCorpseStandInMixin {
     @WrapMethod(method = "render(Lnet/minecraft/entity/Entity;DDDFFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V")
-    private void sparkstrength$drawCorpseMorphlingAsCorpse(Entity entity, double x, double y, double z, float yaw,
+    private void sparkdlc$drawCorpseMorphlingAsCorpse(Entity entity, double x, double y, double z, float yaw,
                                                            float tickDelta, MatrixStack matrices,
                                                            VertexConsumerProvider vertexConsumers, int light,
                                                            Operation<Void> original) {

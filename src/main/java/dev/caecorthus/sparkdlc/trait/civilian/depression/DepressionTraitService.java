@@ -48,7 +48,7 @@ import java.util.UUID;
 import dev.caecorthus.sparkdlc.trait.effective.EffectiveTraitService;
 import dev.caecorthus.sparkdlc.trait.effective.EffectiveConsequenceService;
 import dev.caecorthus.sparkdlc.trait.killer.KillerTraitService;
-import dev.caecorthus.sparkdlc.SparkTraitsSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.trait.civilian.CivilianTraits;
 
 /**
@@ -212,8 +212,8 @@ public final class DepressionTraitService {
      * 每次假死只按同一击杀正常收益的一半发一次钱；只在 AFTER 中发放的额外奖励仍只属于真实击杀。
      */
     private static void rewardFakeDeathKill(ServerPlayerEntity victim, ServerPlayerEntity killer, GameWorldComponent game) {
-        // Mirrors GameFunctionsMixin.sparktraits$rewardOnlyRealKillers for Wathe's own killer reward.
-        // 与 GameFunctionsMixin.sparktraits$rewardOnlyRealKillers 对 Wathe 杀手奖励的判定保持一致。
+        // Mirrors GameFunctionsMixin.sparkdlc$rewardOnlyRealKillers for Wathe's own killer reward.
+        // 与 GameFunctionsMixin.sparkdlc$rewardOnlyRealKillers 对 Wathe 杀手奖励的判定保持一致。
         boolean originalKiller = EffectiveEconomyRules.shouldReceiveOriginalKillerReward(
                 game.canUseKillerFeatures(killer),
                 EffectiveTraitService.hasConscience(killer)
@@ -273,7 +273,7 @@ public final class DepressionTraitService {
         endActivePsychosTargeting(victim);
         ActiveState victimState = activePlayers.get(victim.getUuid());
         if (victimState != null) {
-            DepressionAudio.playRangeSound(victim, SparkTraitsSounds.DEPRESSION_SHYGUY_KILLED);
+            DepressionAudio.playRangeSound(victim, SparkDlcSounds.DEPRESSION_SHYGUY_KILLED);
             // Wathe's death drop has just walked the live inventory, which startPsycho emptied into the stash; the
             // stash is discarded below, so its drop-on-death items (the round's revolver) are dropped here instead.
             // Wathe 的死亡掉落刚遍历过实时背包，而背包已在 startPsycho 时清空并存入暂存；暂存即将在下方丢弃，
@@ -511,9 +511,9 @@ public final class DepressionTraitService {
         TraitPlayerComponent.KEY.get(player).setTemporaryFakeDeathPending(true);
         TraitPlayerComponent.KEY.get(attacker).setDepressionCounterTarget(uuid);
         attacker.networkHandler.sendPacket(new net.minecraft.network.packet.s2c.play.TitleS2CPacket(ATTACKER_TITLE));
-        DepressionAudio.playRangeSound(player, SparkTraitsSounds.DEPRESSION_DOCILE_TO_RAGE);
-        DepressionAudio.playPairMusicSound(player, attacker, SparkTraitsSounds.DEPRESSION_BLIND_RAGE_ENRAGE);
-        DepressionAudio.playDirectSound(attacker, SparkTraitsSounds.DEPRESSION_PLAYER_WAS_SEEN);
+        DepressionAudio.playRangeSound(player, SparkDlcSounds.DEPRESSION_DOCILE_TO_RAGE);
+        DepressionAudio.playPairMusicSound(player, attacker, SparkDlcSounds.DEPRESSION_BLIND_RAGE_ENRAGE);
+        DepressionAudio.playDirectSound(attacker, SparkDlcSounds.DEPRESSION_PLAYER_WAS_SEEN);
         holdPending(player, state);
     }
 
@@ -581,7 +581,7 @@ public final class DepressionTraitService {
         activePlayers.put(player.getUuid(), activeState);
         TraitPlayerComponent.KEY.get(player).setDepressionPsychoState(true, state.attackerUuid());
         ServerPlayerEntity attacker = player.getServer().getPlayerManager().getPlayer(state.attackerUuid());
-        DepressionAudio.playPairMusicSound(player, attacker, SparkTraitsSounds.DEPRESSION_BLIND_RAGE_CHASE);
+        DepressionAudio.playPairMusicSound(player, attacker, SparkDlcSounds.DEPRESSION_BLIND_RAGE_CHASE);
         activePlayers.put(player.getUuid(), maintainPsycho(
                 player,
                 attacker,
@@ -654,9 +654,9 @@ public final class DepressionTraitService {
         ServerPlayerEntity attacker = player.getServer().getPlayerManager().getPlayer(state.attackerUuid());
         clearActivePsychoState(player, state);
         try {
-            DepressionAudio.stopPairMusicSound(player, attacker, SparkTraitsSounds.DEPRESSION_BLIND_RAGE_CHASE_ID);
+            DepressionAudio.stopPairMusicSound(player, attacker, SparkDlcSounds.DEPRESSION_BLIND_RAGE_CHASE_ID);
             if (!afterWatheReset) {
-                DepressionAudio.playRangeSound(player, SparkTraitsSounds.DEPRESSION_RAGE_TO_DOCILE);
+                DepressionAudio.playRangeSound(player, SparkDlcSounds.DEPRESSION_RAGE_TO_DOCILE);
             }
             PlayerPsychoComponent psycho = PlayerPsychoComponent.KEY.get(player);
             // Wathe's killPlayer (death, or a terminal attempt Last Escape saved) may have stopped psycho already,
@@ -775,7 +775,7 @@ public final class DepressionTraitService {
 
     private static ActiveState tickChaseAudio(ServerPlayerEntity player, @Nullable ServerPlayerEntity attacker, ActiveState state) {
         if (DepressionAudio.shouldPlayChaseLoop(state.chaseLoopTicks())) {
-            DepressionAudio.playPairMusicSound(player, attacker, SparkTraitsSounds.DEPRESSION_BLIND_RAGE_CHASE);
+            DepressionAudio.playPairMusicSound(player, attacker, SparkDlcSounds.DEPRESSION_BLIND_RAGE_CHASE);
         }
         return state.withChaseLoopTicks(DepressionAudio.nextChaseLoopTicks(state.chaseLoopTicks()));
     }

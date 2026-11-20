@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.render.entity;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.entity.NinjaGrapplingHookEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Frustum;
@@ -40,7 +40,7 @@ public final class NinjaGrapplingHookEntityRenderer extends EntityRenderer<Ninja
      * {@code textures/item/projectile/}, so it is stitched into the block atlas.
      * 独立 JSON 模型（没有物品引用它）；枢轴在钩冠尖端，爪尖朝北。贴图位于 {@code textures/item/projectile/}，会拼入方块图集。
      */
-    private static final Identifier HEAD_MODEL_ID = SparkWitch.id("item/projectile/ninja_grappling_hook");
+    private static final Identifier HEAD_MODEL_ID = SparkDLC.id("item/projectile/ninja_grappling_hook");
     private static final RenderLayer HEAD_LAYER = RenderLayer.getEntityCutout(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE);
     /** A 0.02 wide chain, thinner than the vanilla leash's 0.025. / 链宽 0.02，比原版拴绳的 0.025 更细。 */
     private static final float CHAIN_HALF_WIDTH = 0.01F;
@@ -176,7 +176,7 @@ public final class NinjaGrapplingHookEntityRenderer extends EntityRenderer<Ninja
     private Vec3d handPos(PlayerEntity owner, float tickDelta) {
         float swing = MathHelper.sin(MathHelper.sqrt(owner.getHandSwingProgress(tickDelta)) * (float) Math.PI);
         int side = owner.getMainArm() == Arm.RIGHT ? 1 : -1;
-        if (!owner.getMainHandStack().isOf(SparkWitchItems.ninjaGrapplingHook())) {
+        if (!owner.getMainHandStack().isOf(SparkDlcItems.ninjaGrapplingHook())) {
             side = -side;
         }
         if (this.dispatcher.gameOptions.getPerspective().isFirstPerson()

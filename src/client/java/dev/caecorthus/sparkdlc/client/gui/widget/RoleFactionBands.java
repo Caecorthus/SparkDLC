@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.gui.widget;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitchFactions;
+import dev.caecorthus.sparkdlc.SparkDlcFactions;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCaseRules;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCaseRules.RolePickerBand;
 import dev.doctor4t.wathe.api.Role;
@@ -37,8 +37,8 @@ public final class RoleFactionBands {
         Identifier faction = SparkFactionApi.resolveBaseFaction(role);
         return DetectiveCaseRules.rolePickerBand(
                 role.canUseKiller(),
-                SparkWitchFactions.WITCH.equals(faction),
-                SparkWitchFactions.JIAHAO.equals(faction),
+                SparkDlcFactions.WITCH.equals(faction),
+                SparkDlcFactions.JIAHAO.equals(faction),
                 SparkFactionApi.isNeutralAligned(role));
     }
 

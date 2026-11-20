@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.sabotage;
 
 import dev.caecorthus.sparkdlc.faction.witch.WitchFactionRoles;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerOwnerComponent;
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
 import dev.caecorthus.sparkdlc.sabotage.net.SyncBlackoutSightS2CPacket;
@@ -143,7 +143,7 @@ public final class BlackoutSightClient {
         cachedViewer = viewer.getUuid();
         cachedExempt = !GameFunctions.isPlayerPlayingAndAlive(viewer)
                 || GameFunctions.isPlayerSpectatingOrCreative(viewer)
-                || SparkWitchApi.isWraithActive(viewer);
+                || SparkRoleApi.isWraithActive(viewer);
         Role role = game.getRole(viewer);
         cachedTeam = BlackoutSightRules.team(
                 SparkTraitsApi.isEffectiveKiller(role, viewer),

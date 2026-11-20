@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.pathogen;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.neutral.pathogen.PathogenStrainComponent;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.KillPlayer;
@@ -20,10 +20,10 @@ import net.minecraft.util.Identifier;
 import java.util.UUID;
 
 /**
- * Pathogen buff registration, called once from {@code SparkStrengthEvents}: economy, shop, the carrier tick, per-round
+ * Pathogen buff registration, called once from {@code RoleKitEvents}: economy, shop, the carrier tick, per-round
  * cleanup, the converted Pathogens' text mute and the replay lines. The items, the antidote extension, the team win and the outlines are wired statically
  * (item classes, mixins, {@code PathogenClientHooks}).
- * 病原体增强注册，由 {@code SparkStrengthEvents} 调用一次：经济、商店、带毒者刻处理、单局清理、转化病原体的文字禁言与回放文本。道具、解毒剂扩展、
+ * 病原体增强注册，由 {@code RoleKitEvents} 调用一次：经济、商店、带毒者刻处理、单局清理、转化病原体的文字禁言与回放文本。道具、解毒剂扩展、
  * 共同胜利与描边为静态接入（道具类、mixin、{@code PathogenClientHooks}）。
  */
 public final class PathogenFeatureService {
@@ -33,7 +33,7 @@ public final class PathogenFeatureService {
      * 先于所有默认阶段的聊天监听器执行，使被禁言病原体的消息在 NoellesRoles 饕餮胃内 / 大嗓门转发（以及 SparkStrength
      * 记者频道）转发之前就被丢弃。
      */
-    static final Identifier MUTE_PHASE = SparkStrength.id("pathogen_mute");
+    static final Identifier MUTE_PHASE = SparkDLC.id("pathogen_mute");
     private static boolean registered;
 
     private PathogenFeatureService() {

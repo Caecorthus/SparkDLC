@@ -1,12 +1,12 @@
 package dev.caecorthus.sparkdlc.trait.component;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.Trait;
 import dev.caecorthus.sparkdlc.trait.api.TraitAssignmentReason;
 import dev.caecorthus.sparkdlc.trait.api.TraitRegistry;
 import dev.caecorthus.sparkdlc.trait.api.TraitRemovalReason;
 import dev.caecorthus.sparkdlc.trait.api.event.TraitEvents;
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.trait.global.CautiousTrait;
 import dev.caecorthus.sparkdlc.trait.killer.conscience.BluePoisonInteropService;
 import dev.caecorthus.sparkdlc.trait.killer.conscience.BluePoisonMarkerSync;
@@ -57,7 +57,7 @@ import static dev.caecorthus.sparkdlc.trait.component.TraitIdCodec.writeIdentifi
  * 保存玩家的天赋状态：当前局生效、下局锁定、以及未来可扩展的揭示状态。
  */
 public class TraitPlayerComponent implements AutoSyncedComponent, ServerTickingComponent {
-    public static final ComponentKey<TraitPlayerComponent> KEY = ComponentRegistry.getOrCreate(SparkTraits.id("traits"), TraitPlayerComponent.class);
+    public static final ComponentKey<TraitPlayerComponent> KEY = ComponentRegistry.getOrCreate(SparkDLC.id("traits"), TraitPlayerComponent.class);
     public static final int MAX_TRAITS = 3;
 
     private final PlayerEntity player;
@@ -618,7 +618,7 @@ public class TraitPlayerComponent implements AutoSyncedComponent, ServerTickingC
                 ? serverPoisoner : null;
         // Keep the recorded UUID even if the poisoner is offline or in another world.
         // 即使投毒者离线或已前往其他世界，也保留原始责任人 UUID。
-        SparkWitchApi.runWithKillAttribution(serverPlayer.getServerWorld(), poisoner,
+        SparkRoleApi.runWithKillAttribution(serverPlayer.getServerWorld(), poisoner,
                 () -> GameFunctions.killPlayer(serverPlayer, true, killer, GameConstants.DeathReasons.POISON));
     }
 
@@ -698,7 +698,7 @@ public class TraitPlayerComponent implements AutoSyncedComponent, ServerTickingC
                         spectatingOrCreative,
                         GameFunctions.isPlayerPlayingAndAlive(recipient),
                         gameComponent.isPlayerDead(recipient.getUuid()),
-                        SparkWitchApi.isWraithActive(recipient),
+                        SparkRoleApi.isWraithActive(recipient),
                         // Approved-or-pending also covers syncs sent inside killPlayer before the pending state exists.
                         // “已批准或待决”同时覆盖 killPlayer 内、待决状态建立之前发出的同步。
                         LastStandService.isDeathIntercepted(recipient)

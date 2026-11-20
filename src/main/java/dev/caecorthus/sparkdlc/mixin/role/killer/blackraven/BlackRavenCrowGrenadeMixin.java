@@ -41,7 +41,7 @@ public abstract class BlackRavenCrowGrenadeMixin extends ThrownItemEntity {
     }
 
     @WrapMethod(method = "onCollision")
-    private void sparkwitch$crowPassAfterBlast(HitResult hitResult, Operation<Void> original) {
+    private void sparkdlc$crowPassAfterBlast(HitResult hitResult, Operation<Void> original) {
         if (isRemoved() || !(getWorld() instanceof ServerWorld world)) {
             original.call(hitResult);
             return;
@@ -50,7 +50,7 @@ public abstract class BlackRavenCrowGrenadeMixin extends ThrownItemEntity {
         if (isRemoved()) {
             BlackRavenCrowHits.onGrenadeBlast(world, getBoundingBox().getCenter(),
                     getOwner() instanceof ServerPlayerEntity thrower ? thrower : null,
-                    ((JudgeProjectileOwnerAccessor) this).sparkwitch$judgeOwnerUuid(), attempted);
+                    ((JudgeProjectileOwnerAccessor) this).sparkdlc$judgeOwnerUuid(), attempted);
         }
     }
 }

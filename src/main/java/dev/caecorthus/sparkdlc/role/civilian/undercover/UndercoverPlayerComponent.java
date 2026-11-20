@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.undercover;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -25,7 +25,7 @@ import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
  */
 public final class UndercoverPlayerComponent implements AutoSyncedComponent {
     public static final ComponentKey<UndercoverPlayerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("undercover_player"), UndercoverPlayerComponent.class
+            SparkDLC.id("undercover_player"), UndercoverPlayerComponent.class
     );
 
     private final PlayerEntity player;

@@ -33,7 +33,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = WatheClient.class, remap = false, priority = 500)
 public abstract class WatheClientFiendHighlightMixin {
     @Inject(method = "getInstinctHighlight", at = @At("HEAD"), cancellable = true)
-    private static void sparkwitch$fiendMomentHighlight(Entity target, CallbackInfoReturnable<Integer> cir) {
+    private static void sparkdlc$fiendMomentHighlight(Entity target, CallbackInfoReturnable<Integer> cir) {
         Integer color = FiendMomentHighlightClient.highlight(target);
         if (color != null) {
             cir.setReturnValue(color);

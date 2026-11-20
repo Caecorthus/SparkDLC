@@ -34,7 +34,7 @@ public abstract class WatheClientFearInstinctMixin {
      * {@code original.call()} 内作答。吞噬否决没有豁免，因此也优先于最终时刻。
      */
     @WrapMethod(method = "getInstinctHighlight")
-    private static int sparkwitch$suppressInstinctHighlightDuringAreaSpell(
+    private static int sparkdlc$suppressInstinctHighlightDuringAreaSpell(
             Entity target,
             Operation<Integer> original
     ) {
@@ -49,14 +49,14 @@ public abstract class WatheClientFearInstinctMixin {
     }
 
     @Inject(method = "isInstinctEnabled", at = @At("HEAD"), cancellable = true)
-    private static void sparkwitch$disableInstinctWhenFeared(CallbackInfoReturnable<Boolean> cir) {
+    private static void sparkdlc$disableInstinctWhenFeared(CallbackInfoReturnable<Boolean> cir) {
         if (GrandWitchFearClientHooks.shouldBlockInstinct()) {
             cir.setReturnValue(false);
         }
     }
 
     @Inject(method = "isInstinctEnabledAndIsKiller()Z", at = @At("HEAD"), cancellable = true)
-    private static void sparkwitch$disableKillerInstinctWhenFeared(CallbackInfoReturnable<Boolean> cir) {
+    private static void sparkdlc$disableKillerInstinctWhenFeared(CallbackInfoReturnable<Boolean> cir) {
         if (GrandWitchFearClientHooks.shouldBlockInstinct()) {
             cir.setReturnValue(false);
         }

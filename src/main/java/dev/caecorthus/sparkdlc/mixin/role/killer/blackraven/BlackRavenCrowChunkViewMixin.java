@@ -31,7 +31,7 @@ public abstract class BlackRavenCrowChunkViewMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/server/network/ServerPlayerEntity;getChunkPos()Lnet/minecraft/util/math/ChunkPos;")
     )
-    private ChunkPos sparkwitch$centreViewOnCrow(ChunkPos original,
+    private ChunkPos sparkdlc$centreViewOnCrow(ChunkPos original,
                                                  @Local(argsOnly = true) ServerPlayerEntity player) {
         BlackRavenCrowEntity crow = BlackRavenCrowStreaming.focusOf(player);
         return crow == null ? original : crow.getChunkPos();

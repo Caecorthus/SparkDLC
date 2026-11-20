@@ -27,12 +27,12 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = WatheClient.class, remap = false)
 public abstract class ControlExpertInstinctGateMixin {
     @WrapMethod(method = "isInstinctEnabled()Z")
-    private static boolean sparkwitch$gateControlExpertInstinct(Operation<Boolean> original) {
+    private static boolean sparkdlc$gateControlExpertInstinct(Operation<Boolean> original) {
         return !ControlExpertStatusClient.blocksLocalInstinct() && original.call();
     }
 
     @WrapMethod(method = "isInstinctEnabledAndIsKiller()Z")
-    private static boolean sparkwitch$gateControlExpertKillerInstinct(Operation<Boolean> original) {
+    private static boolean sparkdlc$gateControlExpertKillerInstinct(Operation<Boolean> original) {
         return !ControlExpertStatusClient.blocksLocalInstinct() && original.call();
     }
 }

@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.knight;
 
 import dev.caecorthus.sparkdlc.faction.api.FactionIds;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 /** Knight rules: a civilian police variant with the Judge's task economy. / 骑士规则：使用法官任务经济的平民警察变体。 */
 public final class KnightRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("knight");
+    public static final Identifier ROLE_ID = SparkDLC.id("knight");
     /** Very light warm yellow (owner, 2026-10-30). / 很浅的暖黄色（所有者，2026-10-30）。 */
     public static final int ROLE_COLOR = 0xFFE9B0;
     public static final int INITIAL_MONEY = 0;

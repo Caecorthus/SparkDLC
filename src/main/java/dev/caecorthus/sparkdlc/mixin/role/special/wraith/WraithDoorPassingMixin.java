@@ -41,7 +41,7 @@ public abstract class WraithDoorPassingMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$wraithPassesDoorFamilyBlocks(
+    private void sparkdlc$wraithPassesDoorFamilyBlocks(
             BlockView world,
             BlockPos pos,
             ShapeContext context,

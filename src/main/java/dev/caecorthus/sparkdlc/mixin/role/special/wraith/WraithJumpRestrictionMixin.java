@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.role.special.wraith;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithParticipationRules;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.doctor4t.wathe.Wathe;
@@ -24,7 +24,7 @@ import net.minecraft.util.math.Vec3d;
 public abstract class WraithJumpRestrictionMixin {
     @Unique
     private static final EntityAttributeModifier WRAITH_JUMP_REENABLE_MODIFIER = new EntityAttributeModifier(
-            SparkWitch.id("wraith_jump_reenable_modifier"),
+            SparkDLC.id("wraith_jump_reenable_modifier"),
             1.0,
             EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
     );
@@ -40,7 +40,7 @@ public abstract class WraithJumpRestrictionMixin {
     protected abstract float getJumpBoostVelocityModifier();
 
     @Inject(method = "jump", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$applyWraithJumpRestriction(CallbackInfo ci) {
+    private void sparkdlc$applyWraithJumpRestriction(CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
         if (!(entity instanceof PlayerEntity player) || !WraithStateService.isActive(player)) {
             return;
@@ -49,12 +49,12 @@ public abstract class WraithJumpRestrictionMixin {
             ci.cancel();
             return;
         }
-        sparkwitch$jumpAsWraith(player);
+        sparkdlc$jumpAsWraith(player);
         ci.cancel();
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
-    private void sparkwitch$restoreWraithJumpStrength(CallbackInfo ci) {
+    private void sparkdlc$restoreWraithJumpStrength(CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
         if (!(entity instanceof PlayerEntity player)) {
             return;
@@ -76,7 +76,7 @@ public abstract class WraithJumpRestrictionMixin {
     }
 
     @Unique
-    private void sparkwitch$jumpAsWraith(PlayerEntity player) {
+    private void sparkdlc$jumpAsWraith(PlayerEntity player) {
         Vec3d velocity = player.getVelocity();
         player.setVelocity(velocity.x, this.getJumpVelocity() + this.getJumpBoostVelocityModifier(), velocity.z);
         if (player.isSprinting()) {

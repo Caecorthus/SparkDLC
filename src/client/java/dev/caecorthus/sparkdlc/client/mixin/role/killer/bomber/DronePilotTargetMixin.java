@@ -24,7 +24,7 @@ public abstract class DronePilotTargetMixin {
     MinecraftClient client;
 
     @Inject(method = "updateCrosshairTarget", at = @At("TAIL"))
-    private void sparkstrength$noDroneCrosshairTarget(float tickDelta, CallbackInfo ci) {
+    private void sparkdlc$noDroneCrosshairTarget(float tickDelta, CallbackInfo ci) {
         DronePilotClient.clearCrosshairTarget(this.client);
     }
 }

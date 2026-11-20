@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(SmallDoorBlock.class)
 public abstract class SmallDoorBlockDoorLogMixin {
     @WrapMethod(method = "onUse", require = 1, allow = 1)
-    private ActionResult sparkstrength$logRoomDoorUse(BlockState state, World world, BlockPos pos, PlayerEntity player,
+    private ActionResult sparkdlc$logRoomDoorUse(BlockState state, World world, BlockPos pos, PlayerEntity player,
                                                       BlockHitResult hit, Operation<ActionResult> original) {
         if (world.isClient()) {
             return original.call(state, world, pos, player, hit);

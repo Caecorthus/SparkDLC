@@ -21,7 +21,7 @@ public abstract class NoellesAssassinVendettaTargetMixin {
             ),
             require = 1
     )
-    private static boolean sparkwitch$allowBoundVendettaTarget(
+    private static boolean sparkdlc$allowBoundVendettaTarget(
             PlayerEntity target,
             AssassinGuessRoleC2SPacket packet,
             ServerPlayNetworking.Context context

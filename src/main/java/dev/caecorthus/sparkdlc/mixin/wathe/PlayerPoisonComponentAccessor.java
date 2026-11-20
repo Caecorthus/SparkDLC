@@ -14,5 +14,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(value = PlayerPoisonComponent.class, remap = false)
 public interface PlayerPoisonComponentAccessor {
     @Accessor(value = "player", remap = false)
-    PlayerEntity sparkstrength$getPlayer();
+    PlayerEntity sparkdlc$getPlayerForKits();
 }

@@ -22,7 +22,7 @@ public abstract class NoellesRolesJesterLoadoutMixin {
     private PlayerEntity player;
 
     @Inject(method = "startJesterPsychoMode", at = @At("RETURN"))
-    private void sparktraits$applyMomentLoadout(CallbackInfo ci) {
+    private void sparkdlc$applyMomentLoadout(CallbackInfo ci) {
         JesterPlayerComponent jester = (JesterPlayerComponent) (Object) this;
         if (jester.inPsychoMode && this.player instanceof ServerPlayerEntity serverPlayer) {
             JesterMomentLoadoutService.onPsychoStarted(serverPlayer);

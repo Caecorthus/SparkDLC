@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.tablet.net;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
  * 聊天发送请求。expectedChannelWire 为客户端当时查看的频道；若与服务端权威选择不一致则拒绝，避免过期界面发错网络。
  */
 public record SendTabletChatC2SPacket(int expectedChannelWire, String message) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("send_tablet_chat_v2");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("send_tablet_chat_v2");
     public static final Id<SendTabletChatC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, SendTabletChatC2SPacket> CODEC =
             PacketCodec.of(SendTabletChatC2SPacket::write, SendTabletChatC2SPacket::read);

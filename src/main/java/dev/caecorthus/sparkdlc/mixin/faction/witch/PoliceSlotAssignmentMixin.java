@@ -22,14 +22,14 @@ import java.util.List;
 public abstract class PoliceSlotAssignmentMixin {
     @WrapOperation(method = "assignVigilantes", at = @At(value = "INVOKE",
             target = "Ldev/doctor4t/wathe/cca/GameWorldComponent;getRole(Lnet/minecraft/entity/player/PlayerEntity;)Ldev/doctor4t/wathe/api/Role;"))
-    private Role sparkwitch$countForcedPoliceVariants(GameWorldComponent game, PlayerEntity player, Operation<Role> original) {
+    private Role sparkdlc$countForcedPoliceVariants(GameWorldComponent game, PlayerEntity player, Operation<Role> original) {
         Role role = original.call(game, player);
         return PoliceSlotAssignmentService.isVariant(role) ? WatheRoles.VIGILANTE : role;
     }
 
     @WrapOperation(method = "assignVigilantes", at = @At(value = "INVOKE",
             target = "Ldev/doctor4t/wathe/cca/GameWorldComponent;addRole(Lnet/minecraft/entity/player/PlayerEntity;Ldev/doctor4t/wathe/api/Role;)V"))
-    private void sparkwitch$choosePoliceVariant(GameWorldComponent game, PlayerEntity player, Role role,
+    private void sparkdlc$choosePoliceVariant(GameWorldComponent game, PlayerEntity player, Role role,
                                                Operation<Void> original,
                                                @Local(argsOnly = true) ServerWorld world,
                                                @Local(argsOnly = true) List<ServerPlayerEntity> players) {
@@ -43,7 +43,7 @@ public abstract class PoliceSlotAssignmentMixin {
 
     @WrapOperation(method = "assignCivilians", at = @At(value = "INVOKE",
             target = "Ldev/doctor4t/wathe/cca/GameWorldComponent;isRoleEnabled(Ldev/doctor4t/wathe/api/Role;)Z"))
-    private boolean sparkwitch$excludePoliceVariantsFromCivilianPool(GameWorldComponent game, Role role,
+    private boolean sparkdlc$excludePoliceVariantsFromCivilianPool(GameWorldComponent game, Role role,
                                                                     Operation<Boolean> original) {
         return !PoliceSlotAssignmentService.isVariant(role) && original.call(game, role);
     }

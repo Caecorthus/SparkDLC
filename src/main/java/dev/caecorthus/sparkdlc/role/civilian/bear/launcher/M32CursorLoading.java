@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.bear.launcher;
 
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
-import dev.caecorthus.sparkdlc.SparkWitchDataComponents;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
+import dev.caecorthus.sparkdlc.SparkDlcDataComponents;
 import dev.caecorthus.sparkdlc.role.civilian.bear.BearItems;
 import dev.caecorthus.sparkdlc.role.civilian.bear.BearRules;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
@@ -171,15 +171,15 @@ public final class M32CursorLoading {
                               PlayerEntity player, StackReference cursorReference) {
         switch (action) {
             case LOAD -> {
-                launcher.set(SparkWitchDataComponents.M32_CYLINDER, cylinder.load());
+                launcher.set(SparkDlcDataComponents.M32_CYLINDER, cylinder.load());
                 cursor.decrement(1);
                 cursorReference.set(cursor.isEmpty() ? ItemStack.EMPTY : cursor);
-                cue(player, SparkWitchSounds.BEAR_M32_LOAD);
+                cue(player, SparkDlcSounds.BEAR_M32_LOAD);
             }
             case UNLOAD -> {
-                launcher.set(SparkWitchDataComponents.M32_CYLINDER, cylinder.unload());
+                launcher.set(SparkDlcDataComponents.M32_CYLINDER, cylinder.unload());
                 cursorReference.set(new ItemStack(BearItems.SMOKE_ROUND));
-                cue(player, SparkWitchSounds.BEAR_M32_UNLOAD);
+                cue(player, SparkDlcSounds.BEAR_M32_UNLOAD);
             }
             case FULL -> {
                 if (player instanceof ServerPlayerEntity server) {

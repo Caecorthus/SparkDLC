@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityBlackRavenLedgerMixin {
     @Inject(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$keepBlackRavenLedgerBound(
+    private void sparkdlc$keepBlackRavenLedgerBound(
             ItemStack stack,
             boolean throwRandomly,
             boolean retainOwnership,

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.emma;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseContext;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseResult;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
@@ -47,8 +47,8 @@ public final class EmmaSkillService {
         Role role = context.gameComponent().getRole(target);
         // Every accomplice, special ones included, backlashes fatally like the plain Accomplice.
         // 所有共犯（含特殊共犯）都与普通共犯一样触发致命反噬。
-        boolean fatal = role == SparkWitchRoles.grandWitch() || WitchFactionRules.isAccompliceLike(role)
-                || role == SparkWitchRoles.witchMaiden();
+        boolean fatal = role == SparkDlcRoles.grandWitch() || WitchFactionRules.isAccompliceLike(role)
+                || role == SparkDlcRoles.witchMaiden();
         boolean voodoo = role != null && WitchFactorService.VOODOO_ROLE_ID.equals(role.identifier());
         if (fatal || voodoo) {
             // Hidden-role outcomes have identical immediate cost/cooldown; never preflight them in the HUD.

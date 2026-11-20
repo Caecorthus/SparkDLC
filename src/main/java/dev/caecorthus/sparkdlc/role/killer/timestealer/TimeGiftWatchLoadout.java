@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.timestealer;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import java.util.function.IntPredicate;
@@ -41,7 +41,7 @@ final class TimeGiftWatchLoadout {
             // 本局首次发放（回合重置会将其归零）：与时钟相同的开局冷却。
             int ticks = TimeStealerRules.GIFT_INITIAL_COOLDOWN_TICKS;
             state.setGiftReadyAt(player.getServerWorld().getTime() + ticks);
-            TimeGiftWatchService.showCooldown(player, SparkWitchItems.timeStealerGiftWatch(), ticks);
+            TimeGiftWatchService.showCooldown(player, SparkDlcItems.timeStealerGiftWatch(), ticks);
             return;
         }
         TimeGiftWatchService.keepDisplayedCooldown(player);
@@ -95,7 +95,7 @@ final class TimeGiftWatchLoadout {
             }
             inventory.setStack(destination, inventory.getStack(target));
         }
-        inventory.setStack(target, new ItemStack(SparkWitchItems.timeStealerGiftWatch()));
+        inventory.setStack(target, new ItemStack(SparkDlcItems.timeStealerGiftWatch()));
         return true;
     }
 

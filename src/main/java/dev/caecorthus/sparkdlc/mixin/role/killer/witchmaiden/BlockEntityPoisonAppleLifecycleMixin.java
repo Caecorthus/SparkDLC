@@ -17,26 +17,26 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(BlockEntity.class)
 public abstract class BlockEntityPoisonAppleLifecycleMixin {
     @Inject(method = "setWorld", at = @At("TAIL"))
-    private void sparkwitch$validateLoadedPoisonApple(World world, CallbackInfo ci) {
+    private void sparkdlc$validateLoadedPoisonApple(World world, CallbackInfo ci) {
         if (!world.isClient && (Object) this instanceof PoisonApplePlateAccess poisonApple) {
             PoisonApplePlateService.refreshMatch(poisonApple);
         }
     }
 
     @Inject(method = "markRemoved", at = @At("TAIL"))
-    private void sparkwitch$untrackUnloadedPoisonApple(CallbackInfo ci) {
+    private void sparkdlc$untrackUnloadedPoisonApple(CallbackInfo ci) {
         if ((Object) this instanceof PoisonApplePlateAccess poisonApple) {
             PoisonApplePlateTracker.untrack(poisonApple);
         }
     }
 
     @Inject(method = "cancelRemoval", at = @At("TAIL"))
-    private void sparkwitch$restoreReloadedPoisonAppleTracking(CallbackInfo ci) {
+    private void sparkdlc$restoreReloadedPoisonAppleTracking(CallbackInfo ci) {
         BlockEntity blockEntity = (BlockEntity) (Object) this;
         if (blockEntity.getWorld() != null
                 && !blockEntity.getWorld().isClient
                 && (Object) this instanceof PoisonApplePlateAccess poisonApple
-                && poisonApple.sparkwitch$isPoisonAppleArmed()) {
+                && poisonApple.sparkdlc$isPoisonAppleArmed()) {
             PoisonApplePlateTracker.track(poisonApple);
             PoisonApplePlateService.refreshMatch(poisonApple);
         }

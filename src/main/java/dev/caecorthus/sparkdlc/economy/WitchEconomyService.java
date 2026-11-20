@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.economy;
 
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.role.witch.WitchFactionRules;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -41,7 +41,7 @@ public final class WitchEconomyService {
         GameWorldComponent game = GameWorldComponent.KEY.get(player.getServerWorld());
         if (WitchFactionRules.earnsTaskMoney(game.getGameStatus() == GameWorldComponent.GameStatus.ACTIVE,
                 GameFunctions.isPlayerPlayingAndAlive(player), game.getRole(player), player.isSpectator(),
-                player.isCreative(), SparkWitchApi.isWraithRestricted(player))) {
+                player.isCreative(), SparkRoleApi.isWraithRestricted(player))) {
             PlayerShopComponent.KEY.get(player).addToBalance(WitchFactionRules.WITCH_TASK_MONEY_REWARD);
         }
     }

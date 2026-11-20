@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Entity.class)
 public abstract class WraithGroundParticleMixin {
     @Inject(method = "shouldSpawnSprintingParticles", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$hideWraithSprintingParticles(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$hideWraithSprintingParticles(CallbackInfoReturnable<Boolean> cir) {
         Entity entity = (Entity) (Object) this;
         if (entity instanceof PlayerEntity player
                 && !WraithParticipationRules.mayGenerateGroundParticles(WraithStateService.isActive(player))) {
@@ -23,7 +23,7 @@ public abstract class WraithGroundParticleMixin {
     }
 
     @Inject(method = "spawnSprintingParticles", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$hideWraithWalkingParticles(CallbackInfo ci) {
+    private void sparkdlc$hideWraithWalkingParticles(CallbackInfo ci) {
         Entity entity = (Entity) (Object) this;
         if (entity instanceof PlayerEntity player
                 && !WraithParticipationRules.mayGenerateGroundParticles(WraithStateService.isActive(player))) {

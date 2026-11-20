@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven.crow.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -18,7 +18,7 @@ import net.minecraft.util.hit.BlockHitResult;
  * 拉拉杆、活板门或栅栏门（crow-world）。
  */
 public record BlackRavenCrowUseC2SPayload(int crowEntityId, BlockHitResult hit) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("black_raven_crow_use");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("black_raven_crow_use");
     public static final Id<BlackRavenCrowUseC2SPayload> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, BlackRavenCrowUseC2SPayload> CODEC =
             PacketCodec.of(BlackRavenCrowUseC2SPayload::write, BlackRavenCrowUseC2SPayload::read);

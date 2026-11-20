@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.saint;
 
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.component.WitchWorldComponent;
 import dev.caecorthus.sparkdlc.util.TickTime;
@@ -90,7 +90,7 @@ public final class SaintKarmaService {
 
     private static void sendBell(ServerPlayerEntity player, float pitch) {
         player.networkHandler.sendPacket(new PlaySoundS2CPacket(
-                RegistryEntry.of(SparkWitchSounds.SAINT_BELL),
+                RegistryEntry.of(SparkDlcSounds.SAINT_BELL),
                 SoundCategory.PLAYERS,
                 player.getX(),
                 player.getY(),

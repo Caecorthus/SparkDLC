@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.tablet.net;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 
 public record CastTabletVoteC2SPacket(@Nullable UUID targetUuid) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("cast_tablet_vote");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("cast_tablet_vote");
     public static final Id<CastTabletVoteC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, CastTabletVoteC2SPacket> CODEC =
             PacketCodec.of(CastTabletVoteC2SPacket::write, CastTabletVoteC2SPacket::read);

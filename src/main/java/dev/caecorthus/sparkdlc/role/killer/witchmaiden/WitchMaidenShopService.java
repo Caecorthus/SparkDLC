@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.witchmaiden;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -66,13 +66,13 @@ public final class WitchMaidenShopService {
         ).build());
         context.addEntry(new ShopEntry.Builder(
                 "poison_apple",
-                SparkWitchItems.poisonApple().getDefaultStack(),
+                SparkDlcItems.poisonApple().getDefaultStack(),
                 WitchMaidenRules.POISON_PRICE,
                 ShopEntry.Type.POISON
         ).build());
         context.addEntry(new ShopEntry.Builder(
                 "tofana_elixir",
-                SparkWitchItems.tofanaElixir().getDefaultStack(),
+                SparkDlcItems.tofanaElixir().getDefaultStack(),
                 WitchMaidenRules.TOFANA_PRICE,
                 ShopEntry.Type.POISON
         ).stock(1).build());

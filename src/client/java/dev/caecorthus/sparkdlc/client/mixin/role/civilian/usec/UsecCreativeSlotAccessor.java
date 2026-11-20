@@ -18,5 +18,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(targets = "net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen$CreativeSlot")
 public interface UsecCreativeSlotAccessor {
     @Accessor("slot")
-    Slot sparkwitch$getWrappedSlot();
+    Slot sparkdlc$getWrappedSlot();
 }

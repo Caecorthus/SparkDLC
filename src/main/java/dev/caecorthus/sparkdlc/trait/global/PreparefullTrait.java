@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.global;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.Trait;
 import dev.caecorthus.sparkdlc.trait.api.TraitAudience;
 import net.minecraft.util.Identifier;
@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
  * 养精蓄锐：静止 10 秒完成蓄力；下次移动时获得 3 秒速度 III。左下角显示蓄力百分比。通用词条。
  */
 public final class PreparefullTrait implements Trait {
-    public static final Identifier ID = SparkTraits.id("preparefull");
+    public static final Identifier ID = SparkDLC.id("preparefull");
     public static final int COLOR = 0xE0C060;
 
     /** Ticks of standing still needed to fill the charge. 蓄满所需静止 tick 数（10 秒）。 */

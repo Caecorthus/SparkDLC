@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.headset;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -29,7 +29,7 @@ import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
  * （创造模式界面、WP4 栏位预测）会被下次同步覆盖。调用方一律经由 {@link HeadsetSlots}，不直接使用本类。
  */
 public final class HeadsetComponent implements AutoSyncedComponent {
-    public static final Identifier ID = SparkWitch.id("headset");
+    public static final Identifier ID = SparkDLC.id("headset");
     public static final ComponentKey<HeadsetComponent> KEY = ComponentRegistry.getOrCreate(ID, HeadsetComponent.class);
     private static final String STACK_KEY = "stack";
 

@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ServerPlayerEntity.class)
 public abstract class ServerPlayerEntityPotionGunnerDropMixin {
     @Inject(method = "dropSelectedItem(Z)Z", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$keepPotionGunnerItemSelected(boolean entireStack, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$keepPotionGunnerItemSelected(boolean entireStack, CallbackInfoReturnable<Boolean> cir) {
         ServerPlayerEntity player = (ServerPlayerEntity) (Object) this;
         if (PotionGunnerInventoryRules.blocksSelectedDrop(player)) {
             player.currentScreenHandler.syncState();

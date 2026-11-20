@@ -27,7 +27,7 @@ public abstract class NoellesRolesDemonHunterAffectMixin {
             require = 0,
             remap = false
     )
-    private void sparkfactionapi$guardDemonHunterShot(
+    private void sparkdlc$guardDemonHunterShot(
             @Coerce Object payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci

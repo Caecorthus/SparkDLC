@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.sabotage.net;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -22,7 +22,7 @@ import net.minecraft.util.math.BlockPos;
  */
 public record OpenEngineRepairS2CPacket(int sessionId, BlockPos pos, int modeWire, long seed, int gauges, int fuses,
                                         int holdTicks, int minTicks) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("open_engine_repair");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("open_engine_repair");
     public static final Id<OpenEngineRepairS2CPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, OpenEngineRepairS2CPacket> CODEC =
             PacketCodec.of(OpenEngineRepairS2CPacket::write, OpenEngineRepairS2CPacket::read);

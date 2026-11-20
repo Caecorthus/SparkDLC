@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.hud;
 
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorRules;
 import dev.caecorthus.sparkdlc.util.TickTime;
@@ -40,6 +40,6 @@ public final class SaviorHudRenderer {
                     TickTime.ceilSecondsAtLeastOne(component.getCooldownTicks())
             );
         }
-        return Text.translatable("hud.sparkdlc.savior.ready", SparkWitchClient.abilityKeyText());
+        return Text.translatable("hud.sparkdlc.savior.ready", SparkDLCClient.abilityKeyText());
     }
 }

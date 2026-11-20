@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.achievement;
 
-import dev.caecorthus.sparkdlc.SparkAssist;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.achievement.Achievement;
 import dev.caecorthus.sparkdlc.achievement.AchievementCatalog;
 import dev.caecorthus.sparkdlc.achievement.AchievementLedger;
@@ -34,16 +34,16 @@ import net.minecraft.util.Identifier;
  * 选中它不会告知服务器，第一个成就达成之前它不存在。选中它会打开全屏绘制成就页的 {@link AchievementGalaxyScreen}。
  */
 public final class AchievementAdvancements {
-    public static final Identifier ROOT_ID = SparkAssist.id("achievements/root");
+    public static final Identifier ROOT_ID = SparkDLC.id("achievements/root");
     // Shown by vanilla only if the galaxy screen fails to open. 仅在银河界面没能打开时由原版显示。
-    private static final Identifier BACKGROUND = SparkAssist.id("textures/gui/achievements/background.png");
+    private static final Identifier BACKGROUND = SparkDLC.id("textures/gui/achievements/background.png");
     private static final String CRITERION = "earned";
 
     private AchievementAdvancements() {
     }
 
     public static boolean isOurs(Identifier id) {
-        return id != null && SparkAssist.MOD_ID.equals(id.getNamespace()) && id.getPath().startsWith("achievements/");
+        return id != null && SparkDLC.MOD_ID.equals(id.getNamespace()) && id.getPath().startsWith("achievements/");
     }
 
     /**

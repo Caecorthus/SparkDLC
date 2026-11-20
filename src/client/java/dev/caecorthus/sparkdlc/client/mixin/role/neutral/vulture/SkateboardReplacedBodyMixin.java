@@ -36,10 +36,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class SkateboardReplacedBodyMixin {
     /** Render thread only; saved and restored around each call. / 仅渲染线程；每次调用前后保存并恢复。 */
     @Unique
-    private static boolean sparkstrength$vanillaBodyRendered;
+    private static boolean sparkdlc$vanillaBodyRendered;
 
     @WrapMethod(method = "render(Lnet/minecraft/client/network/AbstractClientPlayerEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V")
-    private void sparkstrength$boardUnderReplacedBody(
+    private void sparkdlc$boardUnderReplacedBody(
             AbstractClientPlayerEntity player,
             float yaw,
             float tickDelta,
@@ -48,16 +48,16 @@ public abstract class SkateboardReplacedBodyMixin {
             int light,
             Operation<Void> original
     ) {
-        boolean outer = sparkstrength$vanillaBodyRendered;
-        sparkstrength$vanillaBodyRendered = false;
+        boolean outer = sparkdlc$vanillaBodyRendered;
+        sparkdlc$vanillaBodyRendered = false;
         try {
             original.call(player, yaw, tickDelta, matrices, vertexConsumers, light);
-            if (!sparkstrength$vanillaBodyRendered) {
+            if (!sparkdlc$vanillaBodyRendered) {
                 SkateboardRenderer.renderUnderReplacedBody((PlayerEntityRenderer) (Object) this, player, tickDelta,
                         matrices, vertexConsumers, light);
             }
         } finally {
-            sparkstrength$vanillaBodyRendered = outer;
+            sparkdlc$vanillaBodyRendered = outer;
         }
     }
 
@@ -68,7 +68,7 @@ public abstract class SkateboardReplacedBodyMixin {
                     target = "Lnet/minecraft/client/render/entity/LivingEntityRenderer;render(Lnet/minecraft/entity/LivingEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V"
             )
     )
-    private void sparkstrength$markVanillaBody(
+    private void sparkdlc$markVanillaBody(
             AbstractClientPlayerEntity player,
             float yaw,
             float tickDelta,
@@ -77,6 +77,6 @@ public abstract class SkateboardReplacedBodyMixin {
             int light,
             CallbackInfo ci
     ) {
-        sparkstrength$vanillaBodyRendered = true;
+        sparkdlc$vanillaBodyRendered = true;
     }
 }

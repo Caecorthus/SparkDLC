@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.round.settlement.SettlementExclusions;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.neutral.shadowjester.ShadowJesterShowdownWorldComponent;
 import dev.caecorthus.sparkdlc.role.neutral.shadowjester.SyncShadowJesterShowdownMusicS2CPacket;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.CheckWinCondition;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -340,7 +340,7 @@ public final class ShadowJesterShowdownService {
 
         dev.doctor4t.wathe.record.GameRecordManager.recordGlobalEvent(
                 world,
-                SparkStrengthReplayFormatters.SHADOW_JESTER_SHOWDOWN_STARTED,
+                RoleKitReplayFormatters.SHADOW_JESTER_SHOWDOWN_STARTED,
                 null,
                 null
         );

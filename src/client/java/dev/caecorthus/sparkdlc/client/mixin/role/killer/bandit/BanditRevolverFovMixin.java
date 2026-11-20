@@ -25,7 +25,7 @@ public abstract class BanditRevolverFovMixin {
                     target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;getAttributeValue(Lnet/minecraft/registry/entry/RegistryEntry;)D"
             )
     )
-    private double sparkstrength$ignoreBanditRevolverSpeed(double speed) {
+    private double sparkdlc$ignoreBanditRevolverSpeed(double speed) {
         EntityAttributeInstance attribute = ((AbstractClientPlayerEntity) (Object) this)
                 .getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED);
         EntityAttributeModifier modifier = attribute == null

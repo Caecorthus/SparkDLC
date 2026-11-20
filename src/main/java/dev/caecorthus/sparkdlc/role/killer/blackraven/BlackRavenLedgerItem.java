@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.net.OpenBlackRavenLedgerS2CPacket;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -26,7 +26,7 @@ public final class BlackRavenLedgerItem extends Item {
             return TypedActionResult.success(stack);
         }
         if (!(user instanceof ServerPlayerEntity serverUser)
-                || !stack.isOf(SparkWitchItems.blackRavenLedger())
+                || !stack.isOf(SparkDlcItems.blackRavenLedger())
                 || !GameFunctions.isPlayerPlayingAndAlive(serverUser)
                 || !BlackRavenRules.isBlackRaven(GameWorldComponent.KEY.get(world).getRole(serverUser))
                 || !ServerPlayNetworking.canSend(serverUser, OpenBlackRavenLedgerS2CPacket.ID)) {

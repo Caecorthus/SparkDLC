@@ -16,8 +16,8 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(InGameHud.class)
 public interface StowawayInGameHudOverlayAccessor {
     @Accessor("overlayMessage")
-    @Nullable Text sparkwitch$getOverlayMessage();
+    @Nullable Text sparkdlc$getOverlayMessage();
 
     @Accessor("overlayRemaining")
-    int sparkwitch$getOverlayRemaining();
+    int sparkdlc$getOverlayRemaining();
 }

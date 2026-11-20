@@ -63,7 +63,7 @@ public abstract class PlayerMoodComponentNoaMoodLockMixin {
             require = 2,
             allow = 2
     )
-    private int sparkwitch$noaTasksNeverDrain(int drainingTasks) {
+    private int sparkdlc$noaTasksNeverDrain(int drainingTasks) {
         return NoaMoodLock.drainingTaskCount(
                 drainingTasks,
                 ((PlayerMoodComponent) (Object) this).tasks.size(),
@@ -81,7 +81,7 @@ public abstract class PlayerMoodComponentNoaMoodLockMixin {
             require = 1,
             allow = 1
     )
-    private float sparkwitch$noaTasksNeverRestore(float gain) {
+    private float sparkdlc$noaTasksNeverRestore(float gain) {
         return NoaMoodLock.taskCompletionGain(gain, NoaMoodLock.locks(player));
     }
 }

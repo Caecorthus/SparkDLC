@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.neutral.koko;
 
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.client.hud.CachedHudText;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
@@ -73,7 +73,7 @@ public final class KokoStreamHud {
         // 圣徒的人都可能带有）。
         boolean sharedLineOccupied = witch.getActiveSkillId() != null || witch.getSaintState().karmaCooldownTicks() > 0;
         TextRenderer renderer = client.textRenderer;
-        STREAM.update(stream, stream.keyHint() ? SparkWitchClient.abilityKeyText() : null, renderer);
+        STREAM.update(stream, stream.keyHint() ? SparkDLCClient.abilityKeyText() : null, renderer);
         TRAFFIC.update(traffic, null, renderer);
         int width = context.getScaledWindowWidth();
         int streamY = KokoStreamHudRules.streamRowY(width, context.getScaledWindowHeight(),

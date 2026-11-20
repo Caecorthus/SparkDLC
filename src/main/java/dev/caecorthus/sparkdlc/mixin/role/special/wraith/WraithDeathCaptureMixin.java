@@ -21,7 +21,7 @@ public abstract class WraithDeathCaptureMixin {
             method = "killPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;ZLnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;Z)V",
             at = @At("HEAD")
     )
-    private static void sparkwitch$captureWraithDeathBeforeListeners(
+    private static void sparkdlc$captureWraithDeathBeforeListeners(
             ServerPlayerEntity victim,
             boolean spawnBody,
             ServerPlayerEntity killer,

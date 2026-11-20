@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
  * 派对狂按下“职业技能 2”：向服务端请求选房界面。故意不带字段；所有门槛都在服务端检查，服务端回以 PartygoerMenuS2CPacket 或动作栏拒绝提示。
  */
 public record PartygoerMenuC2SPacket() implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("partygoer_menu");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("partygoer_menu");
     public static final Id<PartygoerMenuC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, PartygoerMenuC2SPacket> CODEC =
             PacketCodec.of(PartygoerMenuC2SPacket::write, PartygoerMenuC2SPacket::read);

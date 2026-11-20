@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.tablet;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.tablet.TabletWorldComponent;
 import dev.caecorthus.sparkdlc.role.civilian.attendant.AttendantRules;
 import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneService;
@@ -110,7 +110,7 @@ public final class TabletShopService {
             return;
         }
         if (!hasTabletAnywhere(player)) {
-            if (!player.giveItemStack(new ItemStack(SparkStrengthItems.tablet()))) {
+            if (!player.giveItemStack(new ItemStack(SparkDlcItems.tablet()))) {
                 // Full inventory: stay unsettled so the next reconciliation pass retries.
                 // 物品栏已满：保持未结算，由下一轮对账重试。
                 return;
@@ -138,11 +138,11 @@ public final class TabletShopService {
         // Every slot plus the cursor stack (the inventory screen may be open), so a grant never duplicates a tablet.
         // 扫描所有槽位以及鼠标上的物品（物品栏界面可能打开），保证发放绝不重复。
         for (int slot = 0; slot < player.getInventory().size(); slot++) {
-            if (player.getInventory().getStack(slot).isOf(SparkStrengthItems.tablet())) {
+            if (player.getInventory().getStack(slot).isOf(SparkDlcItems.tablet())) {
                 return true;
             }
         }
         return player.currentScreenHandler != null
-                && player.currentScreenHandler.getCursorStack().isOf(SparkStrengthItems.tablet());
+                && player.currentScreenHandler.getCursorStack().isOf(SparkDlcItems.tablet());
     }
 }

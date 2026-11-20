@@ -30,7 +30,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ProjectileEntity.class)
 public abstract class DroneProjectileMixin {
     @Inject(method = "canHit(Lnet/minecraft/entity/Entity;)Z", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$onlyWeaponsHitDrones(Entity entity, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$onlyWeaponsHitDrones(Entity entity, CallbackInfoReturnable<Boolean> cir) {
         if (entity instanceof DroneEntity
                 && !DroneWeaponHits.projectileMayHitDrone((ProjectileEntity) (Object) this)) {
             cir.setReturnValue(false);
@@ -39,7 +39,7 @@ public abstract class DroneProjectileMixin {
 
     @Inject(method = "hitOrDeflect(Lnet/minecraft/util/hit/HitResult;)Lnet/minecraft/entity/ProjectileDeflection;",
             at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$taggedProjectileBreaksDrone(HitResult hitResult,
+    private void sparkdlc$taggedProjectileBreaksDrone(HitResult hitResult,
                                                            CallbackInfoReturnable<ProjectileDeflection> cir) {
         if (hitResult instanceof EntityHitResult entityHit && entityHit.getEntity() instanceof DroneEntity drone
                 && DroneWeaponHits.onTaggedProjectileHit((ProjectileEntity) (Object) this, drone)) {

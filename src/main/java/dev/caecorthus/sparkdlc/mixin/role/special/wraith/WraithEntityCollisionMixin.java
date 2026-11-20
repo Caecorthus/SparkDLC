@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = Entity.class, priority = 1100)
 public abstract class WraithEntityCollisionMixin {
     @WrapMethod(method = "collidesWith")
-    private boolean sparkwitch$ignoreWraithPlayerBodyCollision(Entity other, Operation<Boolean> original) {
+    private boolean sparkdlc$ignoreWraithPlayerBodyCollision(Entity other, Operation<Boolean> original) {
         if (WraithCollisionRules.shouldIgnorePlayerBodyCollision((Entity) (Object) this, other)) {
             // 这里用最终否决，避免普通玩家客户端把站立冤魂当成实体墙。
             return false;

@@ -33,7 +33,7 @@ public abstract class SeekerDemonHunterTargetMixin {
 
     @WrapOperation(method = "handleClientShoot", at = @At(value = "INVOKE",
             target = "Lorg/agmas/noellesroles/demonhunter/DemonHunterPistolItem;getGunTarget(Lnet/minecraft/entity/player/PlayerEntity;)Lnet/minecraft/util/hit/HitResult;"))
-    private static HitResult sparkwitch$preferNearerSeekerDevice(PlayerEntity user, Operation<HitResult> original) {
+    private static HitResult sparkdlc$preferNearerSeekerDevice(PlayerEntity user, Operation<HitResult> original) {
         return SeekerDeviceRaycast.preferNearerDevice(user, original.call(user), SPARKWITCH$PISTOL_RANGE);
     }
 }

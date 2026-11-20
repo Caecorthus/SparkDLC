@@ -33,7 +33,7 @@ public abstract class GameFunctionsFerrymanPardonMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private static void sparkwitch$holdCharonKill(
+    private static void sparkdlc$holdCharonKill(
             ServerPlayerEntity victim,
             boolean spawnBody,
             @Nullable ServerPlayerEntity killer,

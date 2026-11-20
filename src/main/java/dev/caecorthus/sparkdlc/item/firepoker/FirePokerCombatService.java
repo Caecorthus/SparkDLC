@@ -5,7 +5,7 @@ import dev.caecorthus.sparkdlc.item.CustomMeleeAffect;
 import dev.caecorthus.sparkdlc.item.rope.RopeStrangleService;
 import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaInteractionService;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import dev.doctor4t.wathe.record.GameRecordManager;
@@ -45,7 +45,7 @@ public final class FirePokerCombatService {
         }
         if (world.isClient
                 || !(attacker instanceof ServerPlayerEntity serverAttacker)
-                || !serverAttacker.getStackInHand(hand).isOf(SparkWitchItems.firePoker())
+                || !serverAttacker.getStackInHand(hand).isOf(SparkDlcItems.firePoker())
                 || !(target instanceof ServerPlayerEntity serverTarget)) {
             return ActionResult.PASS;
         }
@@ -55,7 +55,7 @@ public final class FirePokerCombatService {
         if (SparkTraitsApi.blocksWeaponAction(serverAttacker, serverAttacker.getStackInHand(hand))) {
             return ActionResult.FAIL;
         }
-        if (serverAttacker.getItemCooldownManager().isCoolingDown(SparkWitchItems.firePoker())
+        if (serverAttacker.getItemCooldownManager().isCoolingDown(SparkDlcItems.firePoker())
                 || !canStrike(serverAttacker, serverTarget)) {
             return ActionResult.SUCCESS;
         }
@@ -83,12 +83,12 @@ public final class FirePokerCombatService {
         if (RopeStrangleService.isStrangling(target)) {
             RopeStrangleService.interruptUser(target);
         }
-        FirePokerFallAttributionService.recordPush(attacker, target, SparkWitchItems.firePoker());
+        FirePokerFallAttributionService.recordPush(attacker, target, SparkDlcItems.firePoker());
         applyMagicEffects(attacker, target);
-        attacker.getItemCooldownManager().set(SparkWitchItems.firePoker(), FirePokerRules.COOLDOWN_TICKS);
+        attacker.getItemCooldownManager().set(SparkDlcItems.firePoker(), FirePokerRules.COOLDOWN_TICKS);
         GameRecordManager.recordItemUse(
                 attacker,
-                Registries.ITEM.getId(SparkWitchItems.firePoker()),
+                Registries.ITEM.getId(SparkDlcItems.firePoker()),
                 target,
                 null
         );

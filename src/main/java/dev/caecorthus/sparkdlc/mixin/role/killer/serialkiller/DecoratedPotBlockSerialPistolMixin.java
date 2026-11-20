@@ -32,7 +32,7 @@ public abstract class DecoratedPotBlockSerialPistolMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkstrength$keepSerialPistolOutOfPot(ItemStack stack, BlockState state, World world, BlockPos pos,
+    private void sparkdlc$keepSerialPistolOutOfPot(ItemStack stack, BlockState state, World world, BlockPos pos,
                                                        PlayerEntity player, Hand hand, BlockHitResult hit,
                                                        CallbackInfoReturnable<ItemActionResult> cir) {
         if (SerialPistolInventoryRules.blocksBlockUse(stack, state)) {

@@ -25,7 +25,7 @@ public abstract class WraithDeadParticipationMixin {
             ),
             require = 1
     )
-    private boolean sparkwitch$keepActiveWraithGameMode(
+    private boolean sparkdlc$keepActiveWraithGameMode(
             ServerPlayerEntity player,
             GameMode gameMode
     ) {
@@ -40,7 +40,7 @@ public abstract class WraithDeadParticipationMixin {
             ),
             require = 1
     )
-    private void sparkwitch$keepActiveWraithVoice(java.util.UUID playerUuid) {
+    private void sparkdlc$keepActiveWraithVoice(java.util.UUID playerUuid) {
         ServerPlayerEntity player = world.getServer().getPlayerManager().getPlayer(playerUuid);
         if (player == null || !WraithStateService.isActive(player)) {
             TrainVoicePlugin.addPlayer(playerUuid);

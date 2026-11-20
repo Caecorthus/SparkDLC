@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.mixin.role.civilian.savior;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.role.civilian.savior.SaviorLightsaberAnimation;
 import dev.caecorthus.sparkdlc.net.SaviorLightsaberSwingC2SPayload;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -30,8 +30,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(MinecraftClient.class)
 public abstract class SaviorLightsaberSwingMixin {
     @Inject(method = "doAttack()Z", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$blockCoolingLightsaber(CallbackInfoReturnable<Boolean> cir) {
-        ItemStack stack = sparkwitch$litLightsaber((MinecraftClient) (Object) this);
+    private void sparkdlc$blockCoolingLightsaber(CallbackInfoReturnable<Boolean> cir) {
+        ItemStack stack = sparkdlc$litLightsaber((MinecraftClient) (Object) this);
         ClientPlayerEntity player = ((MinecraftClient) (Object) this).player;
         if (stack != null && player != null && !player.isCreative()
                 && player.getItemCooldownManager().isCoolingDown(stack.getItem())) {
@@ -46,8 +46,8 @@ public abstract class SaviorLightsaberSwingMixin {
                     target = "Lnet/minecraft/client/network/ClientPlayerEntity;swingHand(Lnet/minecraft/util/Hand;)V"
             )
     )
-    private void sparkwitch$sendLightsaberSwing(CallbackInfoReturnable<Boolean> cir) {
-        if (sparkwitch$litLightsaber((MinecraftClient) (Object) this) != null
+    private void sparkdlc$sendLightsaberSwing(CallbackInfoReturnable<Boolean> cir) {
+        if (sparkdlc$litLightsaber((MinecraftClient) (Object) this) != null
                 && ClientPlayNetworking.canSend(SaviorLightsaberSwingC2SPayload.ID)) {
             ClientPlayNetworking.send(new SaviorLightsaberSwingC2SPayload());
         }
@@ -55,13 +55,13 @@ public abstract class SaviorLightsaberSwingMixin {
 
     /** The lit lightsaber in a non-spectator local player's main hand, or null. / 非旁观本地玩家主手中已点亮的光剑，否则为 null。 */
     @Unique
-    private static ItemStack sparkwitch$litLightsaber(MinecraftClient client) {
+    private static ItemStack sparkdlc$litLightsaber(MinecraftClient client) {
         ClientPlayerEntity player = client.player;
         if (player == null || player.isSpectator()) {
             return null;
         }
         ItemStack stack = player.getMainHandStack();
-        return stack.isOf(SparkWitchItems.saviorLightsaber()) && SaviorLightsaberAnimation.isBladeExtended(stack)
+        return stack.isOf(SparkDlcItems.saviorLightsaber()) && SaviorLightsaberAnimation.isBladeExtended(stack)
                 ? stack
                 : null;
     }

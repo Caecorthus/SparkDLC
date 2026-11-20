@@ -70,10 +70,10 @@ final class GadgetRules {
 
     /**
      * 真相只有一个！: as the Professor, feed the truth serum to another player who is a 非好人 then (by
-     * {@link StrengthRecordRules#factionAround}, which catches an Impostor or Conscience flip from a later death
+     * {@link RoleKitRecordRules#factionAround}, which catches an Impostor or Conscience flip from a later death
      * record), and their real role is announced to everyone ({@code sparkdlc:professor_truth_revealed} for them in
      * the same tick).
-     * 以教授身份让另一名当时是非好人的玩家（按 {@link StrengthRecordRules#factionAround} 判断，能从之后的死亡记录识别内鬼、
+     * 以教授身份让另一名当时是非好人的玩家（按 {@link RoleKitRecordRules#factionAround} 判断，能从之后的死亡记录识别内鬼、
      * 良知造成的阵营翻转）喝下吐真试剂，并向所有人公布其真实身份（同一 tick 内有其
      * {@code sparkdlc:professor_truth_revealed}）。
      */
@@ -85,7 +85,7 @@ final class GadgetRules {
                 && !fed.target().equals(context.self())
                 && TRUTH_SERUM.equals(fed.value("item"))
                 && Rules.iWas(context, fed, PROFESSOR)
-                && Factions.isNonCivilian(StrengthRecordRules.factionAround(context.timeline(), fed.target(), fed))
+                && Factions.isNonCivilian(RoleKitRecordRules.factionAround(context.timeline(), fed.target(), fed))
                 && reveals.stream().anyMatch(reveal -> reveal.tick() == fed.tick()
                         && fed.target().equals(reveal.actor())));
     }

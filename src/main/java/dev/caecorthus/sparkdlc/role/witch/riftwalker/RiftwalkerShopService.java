@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.riftwalker;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.role.witch.accomplice.shop.AccompliceShopRules;
 import dev.doctor4t.wathe.api.Role;
@@ -34,8 +34,8 @@ import java.util.function.IntPredicate;
  * 魔女阵营（包括魔化使），并在局中对账补发。
  *
  * <p>Authority: only the server charges mana, atomically with the hotbar insert (refunded when the insert fails).
- * The client merely labels the price through {@code WitchShopClientTexts}.
- * 权威：只有服务端扣除魔力，并与放入快捷栏原子执行（放入失败则退还）。客户端仅通过 {@code WitchShopClientTexts} 显示价格。
+ * The client merely labels the price through {@code ShopCurrencyTexts}.
+ * 权威：只有服务端扣除魔力，并与放入快捷栏原子执行（放入失败则退还）。客户端仅通过 {@code ShopCurrencyTexts} 显示价格。
  */
 public final class RiftwalkerShopService {
     static final String NOT_ENOUGH_MANA_DENY_KEY = "shop.error.sparkdlc.not_enough_mana";
@@ -70,7 +70,7 @@ public final class RiftwalkerShopService {
     static ShopEntry gateEntry() {
         return new ShopEntry.Builder(
                 RiftwalkerRules.GATE_SHOP_ENTRY_ID,
-                SparkWitchItems.riftGate().getDefaultStack(),
+                SparkDlcItems.riftGate().getDefaultStack(),
                 0,
                 ShopEntry.Type.TOOL
         ).onBuy(buyer -> buyer instanceof ServerPlayerEntity serverBuyer && buyGate(serverBuyer)).build();
@@ -181,7 +181,7 @@ public final class RiftwalkerShopService {
     @Nullable
     private static GateSlot gateSlot(PlayerEntity player) {
         PlayerInventory inventory = player.getInventory();
-        ItemStack gate = SparkWitchItems.riftGate().getDefaultStack();
+        ItemStack gate = SparkDlcItems.riftGate().getDefaultStack();
         return chooseGateSlot(HOTBAR_SLOTS,
                 slot -> isMergeableGate(inventory.getStack(slot), gate),
                 slot -> inventory.getStack(slot).isEmpty());
@@ -201,7 +201,7 @@ public final class RiftwalkerShopService {
             buyer.getInventory().getStack(slot.index()).increment(1);
             return true;
         }
-        ItemStack gate = SparkWitchItems.riftGate().getDefaultStack();
+        ItemStack gate = SparkDlcItems.riftGate().getDefaultStack();
         return ShopEntry.insertStackInFreeSlot(buyer, gate);
     }
 }

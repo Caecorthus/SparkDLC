@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither;
 
 import dev.caecorthus.sparkdlc.faction.api.FactionIds;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.game.GameConstants;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
@@ -19,9 +19,9 @@ import java.util.Optional;
  * 召唤或收回，每 5 秒自动射出凋灵之首，手持凋灵御币左键花费 75 魔力射出致命的赤色凋灵之首。
  */
 public final class MiniWitherRules {
-    public static final Identifier SKILL_ID = SparkWitch.id("mini_wither");
-    public static final Identifier SKULL_ENTITY_ID = SparkWitch.id("mini_wither_skull");
-    public static final Identifier GOHEI_ID = SparkWitch.id("wither_gohei");
+    public static final Identifier SKILL_ID = SparkDLC.id("mini_wither");
+    public static final Identifier SKULL_ENTITY_ID = SparkDLC.id("mini_wither_skull");
+    public static final Identifier GOHEI_ID = SparkDLC.id("wither_gohei");
     /** SparkFactionAPI action asked before a skull or burst touches a player. / 头颅或爆炸触及玩家前询问的 SFA 行为 id。 */
     public static final Identifier AFFECT_ACTION = SKILL_ID;
 

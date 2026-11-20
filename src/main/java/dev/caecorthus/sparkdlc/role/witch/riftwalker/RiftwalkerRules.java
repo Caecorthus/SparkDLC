@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.riftwalker;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 
@@ -12,15 +12,15 @@ import net.minecraft.util.Identifier;
  * {@code briefs/G0-contracts.md}），各工作包不得重复定义。服务端权威；客户端只镜像收到的值。
  */
 public final class RiftwalkerRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("riftwalker");
+    public static final Identifier ROLE_ID = SparkDLC.id("riftwalker");
     /** Role theme color (indigo, D1); distinct from every other accomplice color. / 职业主题色（靛蓝，D1）。 */
     public static final int COLOR = 0x5B6CFF;
 
     // --- Rift Gate item, entity and shop entry / 裂隙门物品、实体与商店条目 ---
-    public static final Identifier GATE_ITEM_ID = SparkWitch.id("rift_gate");
-    public static final Identifier GATE_ENTITY_ID = SparkWitch.id("rift_gate");
+    public static final Identifier GATE_ITEM_ID = SparkDLC.id("rift_gate");
+    public static final Identifier GATE_ENTITY_ID = SparkDLC.id("rift_gate");
     /** Operator-only Rift Gate Remover (传送门清除工具, owner 2026-10-05). / 管理员专用的传送门清除工具。 */
-    public static final Identifier GATE_REMOVER_ITEM_ID = SparkWitch.id("rift_gate_remover");
+    public static final Identifier GATE_REMOVER_ITEM_ID = SparkDLC.id("rift_gate_remover");
     /**
      * Wathe {@code ShopEntry.id()} of the gate entry; prefixed so it never collides with a Grand Witch spell id.
      * 裂隙门商品的 Wathe {@code ShopEntry.id()}；带前缀，避免与大魔女法术 id 冲突。
@@ -31,9 +31,9 @@ public final class RiftwalkerRules {
     public static final int GATE_MAX_STACK = 16;
 
     // --- Witches' Sabbath (role skill, shared skill key) / 魔女集会（职业技能，共享技能键） ---
-    public static final Identifier SABBATH_SKILL_ID = SparkWitch.id("witches_sabbath");
+    public static final Identifier SABBATH_SKILL_ID = SparkDLC.id("witches_sabbath");
     /** SparkFactionAPI action id checked per pulled teammate. / 每名被召集队友校验的 SparkFactionAPI 行为 id。 */
-    public static final Identifier SABBATH_ACTION_ID = SparkWitch.id("riftwalker_sabbath");
+    public static final Identifier SABBATH_ACTION_ID = SparkDLC.id("riftwalker_sabbath");
     /** The definition only displays it; the use handler spends it. / 技能定义只用于显示，由使用处理器实际扣除。 */
     public static final int SABBATH_MANA_COST = 150;
     /**
@@ -73,7 +73,7 @@ public final class RiftwalkerRules {
     public static final int GATE_TRACKING_INTERVAL = 20;
 
     // --- Swapper crush (D13, C4) / 交换者夹死（D13、C4） ---
-    public static final Identifier PORTAL_CRUSHED_DEATH_REASON = SparkWitch.id("portal_crushed");
+    public static final Identifier PORTAL_CRUSHED_DEATH_REASON = SparkDLC.id("portal_crushed");
 
     private RiftwalkerRules() {
     }

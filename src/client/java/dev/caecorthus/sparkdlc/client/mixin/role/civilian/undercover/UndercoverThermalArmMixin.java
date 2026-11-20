@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(PlayerEntityRenderer.class)
 public abstract class UndercoverThermalArmMixin {
     @Inject(method = "renderArm", at = @At("TAIL"))
-    private void sparkstrength$warmArm(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light,
+    private void sparkdlc$warmArm(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light,
                                        AbstractClientPlayerEntity player, ModelPart arm, ModelPart sleeve,
                                        CallbackInfo ci) {
         UndercoverThermalRenderer.renderArmHeat(matrices, arm, sleeve);

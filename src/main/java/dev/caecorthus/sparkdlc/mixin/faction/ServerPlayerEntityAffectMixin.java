@@ -25,7 +25,7 @@ public abstract class ServerPlayerEntityAffectMixin {
     private static final Identifier PLAYER_DAMAGE = Identifier.of("minecraft", "damage");
 
     @Inject(method = "attack", at = @At("HEAD"), cancellable = true)
-    private void sparkfactionapi$guardPlayerAttack(Entity entity, CallbackInfo ci) {
+    private void sparkdlc$guardPlayerAttack(Entity entity, CallbackInfo ci) {
         ServerPlayerEntity actor = (ServerPlayerEntity) (Object) this;
         if (actor.isSpectator() || !(entity instanceof PlayerEntity target)) {
             return;
@@ -41,7 +41,7 @@ public abstract class ServerPlayerEntityAffectMixin {
     }
 
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
-    private void sparkfactionapi$guardPlayerDamage(
+    private void sparkdlc$guardPlayerDamage(
             DamageSource source,
             float amount,
             CallbackInfoReturnable<Boolean> cir

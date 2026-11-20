@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ServerPlayerEntity.class)
 public abstract class UndercoverSelectedDropMixin {
     @Inject(method = "dropSelectedItem(Z)Z", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$keepSelectedUndercoverGear(boolean entireStack, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$keepSelectedUndercoverGear(boolean entireStack, CallbackInfoReturnable<Boolean> cir) {
         ServerPlayerEntity player = (ServerPlayerEntity) (Object) this;
         if (UndercoverService.isBound(player.getInventory().getMainHandStack())) {
             player.currentScreenHandler.syncState();

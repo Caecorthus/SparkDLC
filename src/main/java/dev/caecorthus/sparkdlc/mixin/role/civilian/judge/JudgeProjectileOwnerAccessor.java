@@ -9,5 +9,5 @@ import java.util.UUID;
 /** Vanilla persists owner UUID even if getOwner cannot resolve an entity. / 原版 owner UUID 在离线实体无法解析时仍存在。 */
 @Mixin(ProjectileEntity.class)
 public interface JudgeProjectileOwnerAccessor {
-    @Accessor("ownerUuid") UUID sparkwitch$judgeOwnerUuid();
+    @Accessor("ownerUuid") UUID sparkdlc$judgeOwnerUuid();
 }

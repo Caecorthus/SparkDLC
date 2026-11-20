@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = PlayerShopComponent.class, remap = false)
 public abstract class BlackoutPurchaseRecordMixin {
     @Inject(method = "useBlackout", at = @At("RETURN"), require = 1, allow = 1)
-    private static void sparkstrength$recordBlackoutStart(PlayerEntity player, CallbackInfoReturnable<Boolean> cir) {
+    private static void sparkdlc$recordBlackoutStart(PlayerEntity player, CallbackInfoReturnable<Boolean> cir) {
         if (cir.getReturnValueZ() && player instanceof ServerPlayerEntity buyer) {
             BlackoutRecorder.purchased(buyer);
         }

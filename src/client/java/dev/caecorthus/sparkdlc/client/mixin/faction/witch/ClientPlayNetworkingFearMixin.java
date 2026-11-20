@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = ClientPlayNetworking.class, remap = false)
 public abstract class ClientPlayNetworkingFearMixin {
     @Inject(method = "send", at = @At("HEAD"), cancellable = true)
-    private static void sparkwitch$cancelFearedRoleSkill(CustomPayload payload, CallbackInfo ci) {
+    private static void sparkdlc$cancelFearedRoleSkill(CustomPayload payload, CallbackInfo ci) {
         if (GrandWitchFearClientHooks.shouldBlockRoleSkillPayload(payload)) {
             ci.cancel();
         }

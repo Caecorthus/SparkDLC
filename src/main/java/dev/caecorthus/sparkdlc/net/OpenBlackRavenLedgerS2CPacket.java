@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -9,7 +9,7 @@ import net.minecraft.util.Identifier;
 
 /** Empty server authorization to open the owner-private Perception ledger. */
 public record OpenBlackRavenLedgerS2CPacket() implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("open_black_raven_ledger");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("open_black_raven_ledger");
     public static final Id<OpenBlackRavenLedgerS2CPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, OpenBlackRavenLedgerS2CPacket> CODEC =
             PacketCodec.of(OpenBlackRavenLedgerS2CPacket::write, OpenBlackRavenLedgerS2CPacket::read);

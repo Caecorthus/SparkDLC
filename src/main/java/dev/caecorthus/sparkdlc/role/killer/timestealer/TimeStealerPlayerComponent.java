@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.timestealer;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import java.util.Objects;
 import java.util.UUID;
 import net.minecraft.entity.player.PlayerEntity;
@@ -26,7 +26,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
  */
 public final class TimeStealerPlayerComponent implements ServerTickingComponent {
     public static final ComponentKey<TimeStealerPlayerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("time_stealer"),
+            SparkDLC.id("time_stealer"),
             TimeStealerPlayerComponent.class
     );
 

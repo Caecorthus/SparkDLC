@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(BartenderPlayerComponent.class)
 public abstract class CoronerBartenderComponentSyncMixin {
     @Inject(method = "shouldSyncWith", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$syncDrinkGlowToCoronerBartender(
+    private void sparkdlc$syncDrinkGlowToCoronerBartender(
             ServerPlayerEntity recipient,
             CallbackInfoReturnable<Boolean> cir
     ) {

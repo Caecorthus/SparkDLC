@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(BaseSpiritItem.class)
 public abstract class CoronerBaseSpiritItemMixin {
     @Inject(method = "onClicked", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$coronerOnlyMixesWhileBartender(
+    private void sparkdlc$coronerOnlyMixesWhileBartender(
             ItemStack stack,
             ItemStack otherStack,
             Slot slot,
@@ -37,7 +37,7 @@ public abstract class CoronerBaseSpiritItemMixin {
     }
 
     @Inject(method = "finishUsing", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$coronerOnlyDrinksBaseSpiritWhileBartender(
+    private void sparkdlc$coronerOnlyDrinksBaseSpiritWhileBartender(
             ItemStack stack,
             World world,
             LivingEntity user,

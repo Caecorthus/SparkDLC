@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.viewpoint;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
@@ -70,7 +70,7 @@ public final class RemoteViewSessions<S extends RemoteViewSessions.Session> {
 
     /** {@code ticketName}: the chunk ticket's path under the mod id. / ticketName：区块票据在模组 id 下的路径。 */
     public RemoteViewSessions(String ticketName) {
-        this.ticket = ChunkTicketType.create(SparkStrength.MOD_ID + ":" + ticketName, Integer::compare, 40);
+        this.ticket = ChunkTicketType.create(SparkDLC.MOD_ID + ":" + ticketName, Integer::compare, 40);
     }
 
     /**

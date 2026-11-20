@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.serialkiller;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import net.minecraft.entity.player.PlayerInventory;
 
 /**
@@ -16,7 +16,7 @@ public final class SerialPistolHotbar {
 
     public static int findSerialPistolSlot(PlayerInventory inventory) {
         for (int slot = 0; slot < 9; slot++) {
-            if (inventory.getStack(slot).isOf(SparkStrengthItems.serialPistol())) return slot;
+            if (inventory.getStack(slot).isOf(SparkDlcItems.serialPistol())) return slot;
         }
         return -1;
     }

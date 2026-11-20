@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven.crow;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -37,7 +37,7 @@ import java.util.UUID;
 public final class BlackRavenCrowStreaming {
     /** Around the flown crow; argument: the crow entity id. / 位于被操控乌鸦周围；参数为乌鸦实体 id。 */
     private static final ChunkTicketType<Integer> CROW_TICKET = ChunkTicketType.create(
-            SparkWitch.MOD_ID + ":black_raven_crow", Integer::compare, BlackRavenCrowRules.TICKET_EXPIRY_TICKS);
+            SparkDLC.MOD_ID + ":black_raven_crow", Integer::compare, BlackRavenCrowRules.TICKET_EXPIRY_TICKS);
 
     /** Owners whose view was centred on a crow at the last refresh. / 上次刷新时视野以乌鸦为中心的主人。 */
     private static final Set<UUID> STREAMING = new HashSet<>();

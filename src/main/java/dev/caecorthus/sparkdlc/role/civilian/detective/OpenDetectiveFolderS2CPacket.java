@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.detective;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier;
  * 通知客户端打开文件夹；文件夹内容由先行发送的案件组件同步提供。
  */
 public record OpenDetectiveFolderS2CPacket() implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("open_detective_folder");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("open_detective_folder");
     public static final Id<OpenDetectiveFolderS2CPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, OpenDetectiveFolderS2CPacket> CODEC =
             PacketCodec.of(OpenDetectiveFolderS2CPacket::write, OpenDetectiveFolderS2CPacket::read);

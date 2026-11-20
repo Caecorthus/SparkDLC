@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.attendant;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.tablet.TabletWorldComponent;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveIdentityResolver;
 import dev.doctor4t.wathe.api.event.DoorStateChanged;
@@ -73,7 +73,7 @@ public final class DoorLogService {
         try {
             return trackUse(state, world, pos, player);
         } catch (RuntimeException exception) {
-            SparkStrength.LOGGER.warn("Door monitor skipped a room-door interaction at {}.", pos, exception);
+            SparkDLC.LOGGER.warn("Door monitor skipped a room-door interaction at {}.", pos, exception);
             return null;
         }
     }
@@ -129,7 +129,7 @@ public final class DoorLogService {
         try {
             logUse(interaction);
         } catch (RuntimeException exception) {
-            SparkStrength.LOGGER.warn("Door monitor failed to log a room-door interaction at {}.",
+            SparkDLC.LOGGER.warn("Door monitor failed to log a room-door interaction at {}.",
                     interaction.lowerPos, exception);
         }
     }
@@ -215,7 +215,7 @@ public final class DoorLogService {
         try {
             TabletWorldComponent.KEY.get(world).doorLog().record(kind, doorName, actor, world.getTime());
         } catch (RuntimeException exception) {
-            SparkStrength.LOGGER.warn("Door monitor failed to record {} for {}.", kind.id(), doorName, exception);
+            SparkDLC.LOGGER.warn("Door monitor failed to record {} for {}.", kind.id(), doorName, exception);
         }
     }
 

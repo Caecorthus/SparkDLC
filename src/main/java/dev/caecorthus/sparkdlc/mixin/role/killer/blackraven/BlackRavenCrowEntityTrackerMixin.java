@@ -53,7 +53,7 @@ public abstract class BlackRavenCrowEntityTrackerMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$alwaysTrackOwnCrow(ServerPlayerEntity player, CallbackInfo ci) {
+    private void sparkdlc$alwaysTrackOwnCrow(ServerPlayerEntity player, CallbackInfo ci) {
         if (!(entity instanceof BlackRavenCrowEntity) || BlackRavenCrowStreaming.focusOf(player) != entity) {
             return;
         }
@@ -68,7 +68,7 @@ public abstract class BlackRavenCrowEntityTrackerMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/server/network/ServerPlayerEntity;getPos()Lnet/minecraft/util/math/Vec3d;")
     )
-    private Vec3d sparkwitch$measureFromCrow(Vec3d original, @Local(argsOnly = true) ServerPlayerEntity player) {
+    private Vec3d sparkdlc$measureFromCrow(Vec3d original, @Local(argsOnly = true) ServerPlayerEntity player) {
         BlackRavenCrowEntity crow = BlackRavenCrowStreaming.focusOf(player);
         return crow == null ? original : crow.getPos();
     }

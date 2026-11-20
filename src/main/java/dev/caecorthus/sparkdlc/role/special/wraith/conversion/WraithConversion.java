@@ -217,7 +217,7 @@ public final class WraithConversion {
                 body -> isDeathBody(body, player.getUuid(), deathGameTime)
         ).stream().findFirst().orElse(null);
         if (existingBody != null) {
-            ((WraithBodyRoleAccess) existingBody).sparkwitch$setDeathRole(originalRoleId);
+            ((WraithBodyRoleAccess) existingBody).sparkdlc$setDeathRole(originalRoleId);
             return;
         }
 
@@ -228,7 +228,7 @@ public final class WraithConversion {
         body.setPlayerUuid(player.getUuid());
         // setPlayerUuid snapshots the live role, which may have changed during deferred listeners.
         // setPlayerUuid 会快照当前身份，但延迟监听期间该身份可能已经改变。
-        ((WraithBodyRoleAccess) body).sparkwitch$setDeathRole(originalRoleId);
+        ((WraithBodyRoleAccess) body).sparkdlc$setDeathRole(originalRoleId);
         body.setDeathReason(deathReason);
         body.setDeathGameTime(deathGameTime);
         Vec3d spawnPos = player.getPos().add(player.getRotationVector().normalize());

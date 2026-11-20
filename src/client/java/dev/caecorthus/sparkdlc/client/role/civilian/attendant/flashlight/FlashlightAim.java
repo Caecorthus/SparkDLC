@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.attendant.flashlight;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.item.FlashlightItem;
 import dev.caecorthus.sparkdlc.role.civilian.attendant.FlashlightHeldPose;
 import net.minecraft.client.MinecraftClient;
@@ -110,7 +110,7 @@ public final class FlashlightAim {
      */
     static FlashlightHeldPose.Display display(boolean rightArm) {
         BakedModel model = MinecraftClient.getInstance().getItemRenderer().getModels()
-                .getModel(SparkStrengthItems.flashlight());
+                .getModel(SparkDlcItems.flashlight());
         if (model != cachedModel) {
             cachedModel = model;
             ModelTransformation transformation = litModel(model).getTransformation();
@@ -121,7 +121,7 @@ public final class FlashlightAim {
     }
 
     private static BakedModel litModel(BakedModel model) {
-        ItemStack lit = new ItemStack(SparkStrengthItems.flashlight());
+        ItemStack lit = new ItemStack(SparkDlcItems.flashlight());
         FlashlightItem.setOn(lit, true);
         BakedModel resolved = model.getOverrides().apply(model, lit, null, null, 0);
         return resolved != null ? resolved : model;

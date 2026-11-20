@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.coroner;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
@@ -16,7 +16,7 @@ import java.util.UUID;
  */
 public record CoronerMorphC2SPacket(UUID targetPlayer) implements CustomPayload {
     public static final CustomPayload.Id<CoronerMorphC2SPacket> ID =
-            new CustomPayload.Id<>(SparkStrength.id("coroner_morph"));
+            new CustomPayload.Id<>(SparkDLC.id("coroner_morph"));
     public static final PacketCodec<RegistryByteBuf, CoronerMorphC2SPacket> CODEC = PacketCodec.tuple(
             Uuids.PACKET_CODEC, CoronerMorphC2SPacket::targetPlayer,
             CoronerMorphC2SPacket::new

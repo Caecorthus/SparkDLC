@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.remote.SeekerRemoteSessionService;
@@ -36,7 +36,7 @@ public final class MiniWitherRuntime {
         }
         Vec3d anchor = MiniWitherAnchor.position(player);
         if (component.tickAmbient()) {
-            world.playSound(null, anchor.x, anchor.y, anchor.z, SparkWitchSounds.miniWither(MiniWitherSoundSlot.IDLE),
+            world.playSound(null, anchor.x, anchor.y, anchor.z, SparkDlcSounds.miniWither(MiniWitherSoundSlot.IDLE),
                     SoundCategory.PLAYERS, MiniWitherRules.AMBIENT_VOLUME, jitter(player, MiniWitherRules.AMBIENT_PITCH));
         }
         if (isSilenced(player) || component.tickAutoFire() > 0) {
@@ -53,7 +53,7 @@ public final class MiniWitherRuntime {
             component.restartAutoFire();
             Vec3d shot = target.aimPoint().subtract(anchor);
             component.setAim(MiniWitherRules.yawOf(shot), MiniWitherRules.pitchOf(shot));
-            world.playSound(null, anchor.x, anchor.y, anchor.z, SparkWitchSounds.miniWither(MiniWitherSoundSlot.SHOOT),
+            world.playSound(null, anchor.x, anchor.y, anchor.z, SparkDlcSounds.miniWither(MiniWitherSoundSlot.SHOOT),
                     SoundCategory.PLAYERS, SHOOT_VOLUME, jitter(player, SHOOT_PITCH));
         }
     }

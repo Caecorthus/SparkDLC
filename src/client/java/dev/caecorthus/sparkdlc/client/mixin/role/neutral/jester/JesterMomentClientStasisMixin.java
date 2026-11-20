@@ -30,7 +30,7 @@ public abstract class JesterMomentClientStasisMixin {
     private static volatile UUID activeJesterUuid;
 
     @Inject(method = "clientTick", at = @At("RETURN"))
-    private static void sparkstrength$activateDuringStasis(MinecraftClient client, CallbackInfo ci) {
+    private static void sparkdlc$activateDuringStasis(MinecraftClient client, CallbackInfo ci) {
         if (activeJesterUuid != null || client.world == null) {
             return;
         }

@@ -16,9 +16,9 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(value = ItemCooldownManager.class, priority = 925)
 public abstract class FastReloadCooldownMixin {
     @ModifyVariable(method = "set", at = @At("HEAD"), argsOnly = true, ordinal = 0)
-    private int sparktraits$reduceFastReloadRevolverCooldown(int duration, Item item) {
+    private int sparkdlc$reduceFastReloadRevolverCooldown(int duration, Item item) {
         if ((Object) this instanceof ServerItemCooldownManager serverCooldownManager) {
-            ServerPlayerEntity player = ((ServerItemCooldownManagerAccessor) (Object) serverCooldownManager).sparktraits$getPlayer();
+            ServerPlayerEntity player = ((ServerItemCooldownManagerAccessor) (Object) serverCooldownManager).sparkdlc$getPlayerForTraits();
             return VigilanteVeteranTraitService.fastReloadCooldown(item, duration, player);
         }
         return duration;

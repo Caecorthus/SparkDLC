@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven.crow;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStunRules;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.net.BlackRavenCrowNetworking;
 import net.fabricmc.fabric.api.event.Event;
@@ -30,12 +30,12 @@ import org.jetbrains.annotations.Nullable;
  * {@code BlackRavenCrowBodyPayloadGuardMixin} 按 {@link #blocksPayloadInCrowForm} 拒绝。
  */
 public final class BlackRavenCrowBodyGuards {
-    public static final Identifier BODY_PHASE = SparkWitch.id("black_raven_crow_body");
+    public static final Identifier BODY_PHASE = SparkDLC.id("black_raven_crow_body");
     /**
      * Perception (the Raven's primary skill, dispatched through {@code sparkdlc:use_skill}) stays usable in crow form
      * (plan §2.10). / 感知（黑羽鸦主技能，经 {@code sparkdlc:use_skill} 分发）在化鸦期间仍可使用（计划 §2.10）。
      */
-    public static final Identifier PERCEPTION_PAYLOAD_ID = SparkWitch.id("use_skill");
+    public static final Identifier PERCEPTION_PAYLOAD_ID = SparkDLC.id("use_skill");
 
     private static boolean registered;
 

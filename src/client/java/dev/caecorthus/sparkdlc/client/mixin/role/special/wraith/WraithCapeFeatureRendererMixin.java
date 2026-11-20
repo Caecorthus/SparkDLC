@@ -20,7 +20,7 @@ public abstract class WraithCapeFeatureRendererMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$hideProjectedCape(
+    private void sparkdlc$hideProjectedCape(
             MatrixStack matrices,
             VertexConsumerProvider vertexConsumers,
             int light,

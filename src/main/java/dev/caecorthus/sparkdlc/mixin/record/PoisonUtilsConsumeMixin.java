@@ -21,7 +21,7 @@ public abstract class PoisonUtilsConsumeMixin {
             method = "applyFoodPoison(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/item/ItemStack;)V",
             at = @At("HEAD")
     )
-    private static void sparkfactionapi$recordFedConsumption(PlayerEntity target, ItemStack stack, CallbackInfo ci) {
+    private static void sparkdlc$recordFedConsumption(PlayerEntity target, ItemStack stack, CallbackInfo ci) {
         ConsumeRecorder.onFoodConsumed(target, stack);
     }
 }

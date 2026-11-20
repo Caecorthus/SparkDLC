@@ -29,7 +29,7 @@ public abstract class HolyFlashSoundSystemMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/sound/SoundSystem;getAdjustedVolume(FLnet/minecraft/sound/SoundCategory;)F")
     )
-    private float sparkwitch$muffleHolyFlashOnPlay(float volume, @Local(argsOnly = true) SoundInstance sound) {
+    private float sparkdlc$muffleHolyFlashOnPlay(float volume, @Local(argsOnly = true) SoundInstance sound) {
         return volume * HolyFlashAudioClient.muffleFactor(sound);
     }
 
@@ -38,7 +38,7 @@ public abstract class HolyFlashSoundSystemMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/sound/SoundSystem;getAdjustedVolume(FLnet/minecraft/sound/SoundCategory;)F")
     )
-    private float sparkwitch$muffleHolyFlashOnUpdate(float volume, @Local(argsOnly = true) SoundInstance sound) {
+    private float sparkdlc$muffleHolyFlashOnUpdate(float volume, @Local(argsOnly = true) SoundInstance sound) {
         return volume * HolyFlashAudioClient.muffleFactor(sound);
     }
 }

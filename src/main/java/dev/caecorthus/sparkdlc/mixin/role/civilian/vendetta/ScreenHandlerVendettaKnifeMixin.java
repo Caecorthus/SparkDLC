@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ScreenHandler.class)
 public abstract class ScreenHandlerVendettaKnifeMixin {
     @Inject(method = "internalOnSlotClick", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$blockVendettaKnifeTransfer(
+    private void sparkdlc$blockVendettaKnifeTransfer(
             int slotIndex,
             int button,
             SlotActionType actionType,

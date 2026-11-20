@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.witch;
 
 import dev.caecorthus.sparkdlc.faction.api.FactionInstinctPolicy;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.component.WitchWorldComponent;
 import dev.caecorthus.sparkdlc.component.WraithPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.ApprenticeInstinctRules;
@@ -43,7 +43,7 @@ public final class WitchInstinctPolicy {
         }
         boolean viewerAlive = GameFunctions.isPlayerPlayingAndAlive(viewer);
         boolean viewerSpectatingOrCreative = GameFunctions.isPlayerSpectatingOrCreative(viewer);
-        boolean curserViewer = viewerRole == SparkWitchRoles.curser();
+        boolean curserViewer = viewerRole == SparkDlcRoles.curser();
         boolean curserOutlineEligible = CurserRules.canParticipateInPlayerOutlines(
                 confirmedServer,
                 gameComponent.isRunning(),

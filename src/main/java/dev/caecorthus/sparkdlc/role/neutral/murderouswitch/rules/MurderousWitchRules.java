@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.neutral.murderouswitch.rules;
 
 import dev.caecorthus.sparkdlc.faction.api.FactionEconomyPolicy;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesRoleIds;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -21,7 +21,7 @@ public final class MurderousWitchRules {
     }
 
     public static boolean isMurderousWitch(Role role) {
-        return role != null && role == SparkWitchRoles.murderousWitch();
+        return role != null && role == SparkDlcRoles.murderousWitch();
     }
 
     public static boolean usesKillerStyleInstinctLight(Role role) {

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.blind;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.headset.HeadsetSlots;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerPsychoComponent;
@@ -51,7 +51,7 @@ public final class BlindParticipants {
      * 两端通用：耳机槽中是 ComTac VIII（E1，2026-11-05 从头部槽移出；经此读取的效果不变）。客户端只同步本地玩家自己的耳机槽。
      */
     public static boolean wearsComTac(@Nullable PlayerEntity player) {
-        return player != null && HeadsetSlots.wears(player, SparkWitchItems.comTac());
+        return player != null && HeadsetSlots.wears(player, SparkDlcItems.comTac());
     }
 
     /**

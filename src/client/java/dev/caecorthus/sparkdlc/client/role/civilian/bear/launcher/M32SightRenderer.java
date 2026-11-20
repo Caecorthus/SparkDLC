@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bear.launcher;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.mixin.scope.ScopeGameRendererInvoker;
 import dev.caecorthus.sparkdlc.role.civilian.bear.launcher.M32Ballistics;
 import net.fabricmc.fabric.api.client.model.loading.v1.FabricBakedModelManager;
@@ -78,15 +78,15 @@ import org.joml.Matrix4f;
  * （{@link #captureHipAnchor}：原版即将绘制的腰射姿态），使 {@link M32Hud} 能跟随枪身；放弃的瞄准绘制不捕获任何内容，HUD 回退。
  */
 public final class M32SightRenderer {
-    public static final Identifier BODY_MODEL_ID = SparkWitch.id("item/m32a1_body");
-    public static final Identifier SIGHT_MODEL_ID = SparkWitch.id("item/m32a1_sight");
+    public static final Identifier BODY_MODEL_ID = SparkDLC.id("item/m32a1_body");
+    public static final Identifier SIGHT_MODEL_ID = SparkDLC.id("item/m32a1_sight");
     /**
      * The reticle atlas (128 x 128, colour baked, linear filtering): one solid red patch for every bar and the eight
      * range labels, laid out as {@link M32SightPose}'s {@code ATLAS_*} constants say.
      * 分划图集（128 x 128，颜色已烘焙，线性过滤）：供所有线条使用的一块纯红色块与八个射程数字，布局见
      * {@link M32SightPose} 的 {@code ATLAS_*} 常量。
      */
-    public static final Identifier RETICLE_TEXTURE = SparkWitch.id("textures/entity/bear/m2a1_reticle.png");
+    public static final Identifier RETICLE_TEXTURE = SparkDLC.id("textures/entity/bear/m2a1_reticle.png");
     @Nullable
     private static MatrixStack passStack;
     private static final Matrix4f PASS_BASE = new Matrix4f();
@@ -227,7 +227,7 @@ public final class M32SightRenderer {
     /** The live world projection FOV (options x zoom, death, submersion, other mods). / 实时世界投影视场角。 */
     private static double worldFov(MinecraftClient client, float tickDelta) {
         return ((ScopeGameRendererInvoker) client.gameRenderer)
-                .sparkwitch$scopeFov(client.gameRenderer.getCamera(), tickDelta, true);
+                .sparkdlc$scopeFov(client.gameRenderer.getCamera(), tickDelta, true);
     }
 
     private static void drawModel(ItemRenderer renderer, ItemStack stack, ModelTransformationMode mode,

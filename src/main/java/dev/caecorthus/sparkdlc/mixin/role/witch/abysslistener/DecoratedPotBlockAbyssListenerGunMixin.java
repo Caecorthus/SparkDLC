@@ -36,7 +36,7 @@ public abstract class DecoratedPotBlockAbyssListenerGunMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$keepShriekGunOutOfPot(ItemStack stack, BlockState state, World world, BlockPos pos,
+    private void sparkdlc$keepShriekGunOutOfPot(ItemStack stack, BlockState state, World world, BlockPos pos,
                                                   PlayerEntity player, Hand hand, BlockHitResult hit,
                                                   CallbackInfoReturnable<ItemActionResult> cir) {
         if (AbyssListenerInventoryRules.blocksBlockUse(stack, state)) {

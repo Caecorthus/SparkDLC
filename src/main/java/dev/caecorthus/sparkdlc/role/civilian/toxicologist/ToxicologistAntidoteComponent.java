@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.toxicologist;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -20,7 +20,7 @@ import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
  */
 public final class ToxicologistAntidoteComponent implements AutoSyncedComponent {
     public static final ComponentKey<ToxicologistAntidoteComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("toxicologist_antidote"),
+            SparkDLC.id("toxicologist_antidote"),
             ToxicologistAntidoteComponent.class
     );
 

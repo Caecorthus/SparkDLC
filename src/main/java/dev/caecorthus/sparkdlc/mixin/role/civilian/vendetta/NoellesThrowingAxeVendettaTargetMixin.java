@@ -20,7 +20,7 @@ public abstract class NoellesThrowingAxeVendettaTargetMixin {
             ),
             require = 1
     )
-    private boolean sparkwitch$allowBoundVendettaTarget(PlayerEntity target) {
+    private boolean sparkdlc$allowBoundVendettaTarget(PlayerEntity target) {
         Entity owner = ((ThrowingAxeEntity) (Object) this).getOwner();
         return GameFunctions.isPlayerAliveAndSurvival(target)
                 || owner instanceof PlayerEntity player

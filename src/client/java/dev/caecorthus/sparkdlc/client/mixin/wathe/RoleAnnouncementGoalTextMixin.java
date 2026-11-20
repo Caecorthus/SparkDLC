@@ -31,7 +31,7 @@ public abstract class RoleAnnouncementGoalTextMixin {
     public Function<Integer, Text> goalText;
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void sparkstrength$retunedGoalText(Identifier identifier, int colour, CallbackInfo ci) {
+    private void sparkdlc$retunedGoalText(Identifier identifier, int colour, CallbackInfo ci) {
         if (UpstreamTextKeys.retunesGoal(identifier.getNamespace(), identifier.getPath())) {
             this.goalText = UpstreamTextKeys.goalText(identifier.getPath(), colour);
         }

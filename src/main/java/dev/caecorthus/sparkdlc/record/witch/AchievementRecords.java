@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.record.witch;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.record.GameRecordManager;
@@ -321,7 +321,7 @@ public final class AchievementRecords {
         try {
             write.run();
         } catch (RuntimeException exception) {
-            SparkWitch.LOGGER.warn("Failed to write a SparkDLC achievement record", exception);
+            SparkDLC.LOGGER.warn("Failed to write a SparkDLC achievement record", exception);
         }
     }
 }

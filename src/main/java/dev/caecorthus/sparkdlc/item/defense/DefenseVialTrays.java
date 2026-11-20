@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.item.defense;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.block_entity.BeveragePlateBlockEntity;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,7 +51,7 @@ public final class DefenseVialTrays {
         if (match == null || !DefenseVialService.inActiveRound(player)) {
             return false;
         }
-        if (player.getItemCooldownManager().isCoolingDown(SparkWitchItems.defenseVial())) {
+        if (player.getItemCooldownManager().isCoolingDown(SparkDlcItems.defenseVial())) {
             // Same as any vanilla item on cooldown: nothing happens; the hotbar shows the cooldown.
             // 与原版冷却中的物品一样：什么都不发生；快捷栏会显示冷却。
             return true;
@@ -63,7 +63,7 @@ public final class DefenseVialTrays {
             return true;
         }
         POURED.put(tray, new Pour(player.getUuid(), match));
-        player.getItemCooldownManager().set(SparkWitchItems.defenseVial(), DefenseVialRules.COOLDOWN_TICKS);
+        player.getItemCooldownManager().set(SparkDlcItems.defenseVial(), DefenseVialRules.COOLDOWN_TICKS);
         player.getMainHandStack().decrementUnlessCreative(1, player);
         player.getInventory().markDirty();
         // Wathe's own poison-pour sound, private like Wathe's. / 沿用 Wathe 下毒的音效，与 Wathe 一样只给本人。

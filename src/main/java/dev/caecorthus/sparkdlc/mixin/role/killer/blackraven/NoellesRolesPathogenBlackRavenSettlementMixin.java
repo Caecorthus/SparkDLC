@@ -35,7 +35,7 @@ public abstract class NoellesRolesPathogenBlackRavenSettlementMixin {
             require = 1,
             allow = 1
     )
-    private static boolean sparkwitch$pathogenWinIgnoresBlackRaven(PlayerEntity player, Operation<Boolean> original) {
+    private static boolean sparkdlc$pathogenWinIgnoresBlackRaven(PlayerEntity player, Operation<Boolean> original) {
         return BlackRavenSettlement.countsAsAlive(original.call(player), player);
     }
 }

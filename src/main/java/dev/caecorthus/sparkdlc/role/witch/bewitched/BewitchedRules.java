@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.bewitched;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.witch.WitchFactionRules;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.CanSeeMoney;
@@ -16,13 +16,13 @@ import org.jetbrains.annotations.Nullable;
  * {@link #PROMOTION_TASKS} 个任务后晋升为从特殊共犯池抽取的共犯身份（D3）。服务端权威；客户端只镜像同步给本人的任务数。
  */
 public final class BewitchedRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("bewitched");
+    public static final Identifier ROLE_ID = SparkDLC.id("bewitched");
     /** Role theme color (dusky violet, C1). / 职业主题色（暗紫，C1）。 */
     public static final int COLOR = 0x8A6E99;
     /** Completed tasks that unlock the promotion (owner request). / 解锁晋升所需完成的任务数（所有者要求）。 */
     public static final int PROMOTION_TASKS = 2;
     /** Replay cause of the promotion role change. / 晋升身份变更的回放原因。 */
-    public static final Identifier PROMOTION_CAUSE = SparkWitch.id("bewitched_promotion");
+    public static final Identifier PROMOTION_CAUSE = SparkDLC.id("bewitched_promotion");
 
     private BewitchedRules() {
     }

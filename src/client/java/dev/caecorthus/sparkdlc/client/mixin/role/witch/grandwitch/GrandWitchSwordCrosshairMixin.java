@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.mixin.role.witch.grandwitch;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.role.witch.grandwitch.GrandWitchClientPresentation;
 import dev.caecorthus.sparkdlc.client.role.witch.grandwitch.GrandWitchSwordHud;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
@@ -23,14 +23,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(CrosshairRenderer.class)
 public abstract class GrandWitchSwordCrosshairMixin {
     @Inject(method = "renderCrosshair", at = @At("TAIL"))
-    private static void sparkwitch$renderSwordCooldowns(MinecraftClient client, ClientPlayerEntity player,
+    private static void sparkdlc$renderSwordCooldowns(MinecraftClient client, ClientPlayerEntity player,
                                                        DrawContext context, RenderTickCounter tickCounter,
                                                        CallbackInfo ci) {
         if (!SparkDlcServerConnection.isConfirmedServer()
                 || client.options.hudHidden
                 || !GameFunctions.isPlayerPlayingAndAlive(player)
                 || !client.options.getPerspective().isFirstPerson()
-                || !player.getMainHandStack().isOf(SparkWitchItems.ceremonialSword())
+                || !player.getMainHandStack().isOf(SparkDlcItems.ceremonialSword())
                 || !GrandWitchClientPresentation.isGrandWitch(player)) {
             return;
         }

@@ -9,5 +9,5 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(PlayerManager.class)
 public interface LastEscapePlayerManagerAccessor {
     @Invoker("savePlayerData")
-    void sparktraits$saveLastEscapePlayerData(ServerPlayerEntity player);
+    void sparkdlc$saveLastEscapePlayerData(ServerPlayerEntity player);
 }

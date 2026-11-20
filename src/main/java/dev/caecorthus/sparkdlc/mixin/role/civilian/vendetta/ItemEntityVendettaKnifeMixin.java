@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ItemEntity.class)
 public abstract class ItemEntityVendettaKnifeMixin {
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$discardVendettaKnifeDrop(CallbackInfo ci) {
+    private void sparkdlc$discardVendettaKnifeDrop(CallbackInfo ci) {
         ItemEntity self = (ItemEntity) (Object) this;
         if (VendettaKnifeInventoryRules.isKnife(self.getStack())) {
             self.discard();

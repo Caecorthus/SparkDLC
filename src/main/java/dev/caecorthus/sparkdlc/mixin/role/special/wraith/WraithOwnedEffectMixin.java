@@ -21,7 +21,7 @@ import java.util.List;
 @Mixin(LivingEntity.class)
 public abstract class WraithOwnedEffectMixin {
     @Inject(method = "removeStatusEffectInternal", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$preserveOwnedEffect(
+    private void sparkdlc$preserveOwnedEffect(
             RegistryEntry<StatusEffect> effect,
             CallbackInfoReturnable<StatusEffectInstance> cir
     ) {
@@ -32,7 +32,7 @@ public abstract class WraithOwnedEffectMixin {
     }
 
     @Inject(method = "clearStatusEffects", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$clearUnownedEffects(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$clearUnownedEffects(CallbackInfoReturnable<Boolean> cir) {
         LivingEntity target = (LivingEntity) (Object) this;
         if (!(target instanceof PlayerEntity player) || !WraithStateService.isActive(player)) {
             return;

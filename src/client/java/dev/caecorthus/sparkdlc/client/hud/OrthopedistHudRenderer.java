@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.hud;
 
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.role.civilian.orthopedist.OrthopedistPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.orthopedist.OrthopedistRules;
 import dev.caecorthus.sparkdlc.util.TickTime;
@@ -50,7 +50,7 @@ public final class OrthopedistHudRenderer {
         }
         return Text.translatable(
                 "hud.sparkdlc.orthopedist.ready",
-                SparkWitchClient.abilityKeyText(),
+                SparkDLCClient.abilityKeyText(),
                 target.getDisplayName()
         );
     }

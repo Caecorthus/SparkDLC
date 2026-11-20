@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.civilian.guardianangel;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.item.ceremonialsword.CeremonialSwordProtectionPolicy;
 import dev.caecorthus.sparkdlc.item.rope.RopeShieldPolicy;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.component.WraithPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecShieldPierce;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
@@ -37,7 +37,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 守护天使晋升、瞄准、护盾、保护与回放的服务端权威入口。
  */
 public final class GuardianAngelFeatureService {
-    public static final Identifier SHIELD_ACTIVATED_EVENT = SparkWitch.id("guardian_shield_activated");
+    public static final Identifier SHIELD_ACTIVATED_EVENT = SparkDLC.id("guardian_shield_activated");
 
     private static final Map<UUID, UUID> SHIELD_OWNERS_BY_TARGET = new ConcurrentHashMap<>();
     private static boolean registered;

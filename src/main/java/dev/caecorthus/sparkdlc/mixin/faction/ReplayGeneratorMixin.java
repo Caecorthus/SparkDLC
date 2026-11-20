@@ -37,7 +37,7 @@ public abstract class ReplayGeneratorMixin {
     @WrapMethod(
             method = "generateAndSend(Lnet/minecraft/server/world/ServerWorld;Ldev/doctor4t/wathe/record/GameRecordManager$MatchRecord;)V"
     )
-    private static void sparkfactionapi$presentReplay(
+    private static void sparkdlc$presentReplay(
             ServerWorld world,
             GameRecordManager.MatchRecord match,
             Operation<Void> original
@@ -52,7 +52,7 @@ public abstract class ReplayGeneratorMixin {
                     target = "Ldev/doctor4t/wathe/record/replay/ReplayEventFormatter;format(Ldev/doctor4t/wathe/record/GameRecordEvent;Ldev/doctor4t/wathe/record/GameRecordManager$MatchRecord;Lnet/minecraft/server/world/ServerWorld;)Lnet/minecraft/text/Text;"
             )
     )
-    private static Text sparkfactionapi$trackFormattedEvent(
+    private static Text sparkdlc$trackFormattedEvent(
             ReplayEventFormatter formatter,
             GameRecordEvent event,
             GameRecordManager.MatchRecord match,
@@ -79,7 +79,7 @@ public abstract class ReplayGeneratorMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private static void sparkfactionapi$renderSessionName(
+    private static void sparkdlc$renderSessionName(
             UUID uuid,
             Map<UUID, ReplayGenerator.PlayerInfo> playerInfoCache,
             CallbackInfoReturnable<Text> cir
@@ -95,7 +95,7 @@ public abstract class ReplayGeneratorMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private static void sparkfactionapi$reuseSessionPlayerInfo(
+    private static void sparkdlc$reuseSessionPlayerInfo(
             GameRecordManager.MatchRecord match,
             CallbackInfoReturnable<Map<UUID, ReplayGenerator.PlayerInfo>> cir
     ) {
@@ -112,7 +112,7 @@ public abstract class ReplayGeneratorMixin {
             method = "generateReplayLines(Ldev/doctor4t/wathe/record/GameRecordManager$MatchRecord;Lnet/minecraft/server/world/ServerWorld;Ljava/util/Map;)Ljava/util/List;",
             at = @At("RETURN")
     )
-    private static List<Text> sparkfactionapi$prependRoster(
+    private static List<Text> sparkdlc$prependRoster(
             List<Text> lines,
             @Local(argsOnly = true) GameRecordManager.MatchRecord match
     ) {
@@ -130,7 +130,7 @@ public abstract class ReplayGeneratorMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private static void sparkfactionapi$sendSummaryInstead(
+    private static void sparkdlc$sendSummaryInstead(
             ServerPlayerEntity player,
             List<Text> replayLines,
             CallbackInfo ci
@@ -144,7 +144,7 @@ public abstract class ReplayGeneratorMixin {
             method = "sendReplayToPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;Ljava/util/List;)V",
             at = @At("TAIL")
     )
-    private static void sparkfactionapi$appendReopenHint(
+    private static void sparkdlc$appendReopenHint(
             ServerPlayerEntity player,
             List<Text> replayLines,
             CallbackInfo ci

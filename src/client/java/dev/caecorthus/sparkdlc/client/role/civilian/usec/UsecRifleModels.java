@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.usec;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.render.model.InventoryIconSwapModel;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecRules;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
@@ -29,11 +29,11 @@ import java.util.Map;
 public final class UsecRifleModels {
     public static final ModelIdentifier RIFLE_INVENTORY_MODEL_ID =
             ModelIdentifier.ofInventoryVariant(UsecRules.RIFLE_ITEM_ID);
-    public static final Identifier ICON_MODEL_ID = SparkWitch.id("item/usec_rifle_icon");
-    public static final Identifier SUPPRESSED_ICON_MODEL_ID = SparkWitch.id("item/usec_rifle_suppressed_icon");
-    public static final Identifier NO_MAGAZINE_MODEL_ID = SparkWitch.id("item/usec_rifle_no_mag");
-    public static final Identifier SUPPRESSED_MODEL_ID = SparkWitch.id("item/usec_rifle_suppressed");
-    public static final Identifier SUPPRESSED_NO_MAGAZINE_MODEL_ID = SparkWitch.id("item/usec_rifle_suppressed_no_mag");
+    public static final Identifier ICON_MODEL_ID = SparkDLC.id("item/usec_rifle_icon");
+    public static final Identifier SUPPRESSED_ICON_MODEL_ID = SparkDLC.id("item/usec_rifle_suppressed_icon");
+    public static final Identifier NO_MAGAZINE_MODEL_ID = SparkDLC.id("item/usec_rifle_no_mag");
+    public static final Identifier SUPPRESSED_MODEL_ID = SparkDLC.id("item/usec_rifle_suppressed");
+    public static final Identifier SUPPRESSED_NO_MAGAZINE_MODEL_ID = SparkDLC.id("item/usec_rifle_suppressed_no_mag");
 
     /**
      * Override targets of {@code models/item/usec_rifle.json} and the icon each shows outside the hand.

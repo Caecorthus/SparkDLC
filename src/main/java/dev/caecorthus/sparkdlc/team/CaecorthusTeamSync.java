@@ -5,7 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
-import dev.caecorthus.sparkdlc.SparkFactionApiMod;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.fabricmc.loader.api.FabricLoader;
 
 import java.io.IOException;
@@ -51,7 +51,7 @@ public final class CaecorthusTeamSync {
         }
         started = true;
         Path cache = FabricLoader.getInstance().getConfigDir()
-                .resolve(SparkFactionApiMod.MOD_ID)
+                .resolve(SparkDLC.MOD_ID)
                 .resolve("caecorthus_team.json");
         HttpClient client = HttpClient.newBuilder()
                 .connectTimeout(TIMEOUT)
@@ -104,7 +104,7 @@ public final class CaecorthusTeamSync {
                 });
             }
         } catch (IOException | RuntimeException e) {
-            SparkFactionApiMod.LOGGER.debug("Could not read the cached Caecorthus team list", e);
+            SparkDLC.LOGGER.debug("Could not read the cached Caecorthus team list", e);
         }
     }
 
@@ -135,7 +135,7 @@ public final class CaecorthusTeamSync {
                 lastBody = body;
             }
             if (failing) {
-                SparkFactionApiMod.LOGGER.info("Caecorthus team list is reachable again ({} members)", members.get().size());
+                SparkDLC.LOGGER.info("Caecorthus team list is reachable again ({} members)", members.get().size());
                 failing = false;
             }
         } catch (InterruptedException e) {
@@ -152,20 +152,20 @@ public final class CaecorthusTeamSync {
             Files.writeString(temp, body, StandardCharsets.UTF_8);
             Files.move(temp, cache, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            SparkFactionApiMod.LOGGER.debug("Could not cache the Caecorthus team list", e);
+            SparkDLC.LOGGER.debug("Could not cache the Caecorthus team list", e);
         }
     }
 
     // Warn once per outage, so an offline client doesn't log every 30 minutes. / 每次断线只警告一次。
     private static void fail(String reason) {
         if (!failing) {
-            SparkFactionApiMod.LOGGER.warn("Could not refresh the Caecorthus team list from {}: {}", ENDPOINT, reason);
+            SparkDLC.LOGGER.warn("Could not refresh the Caecorthus team list from {}: {}", ENDPOINT, reason);
             failing = true;
         }
     }
 
     private static String modVersion() {
-        return FabricLoader.getInstance().getModContainer(SparkFactionApiMod.MOD_ID)
+        return FabricLoader.getInstance().getModContainer(SparkDLC.MOD_ID)
                 .map(mod -> mod.getMetadata().getVersion().getFriendlyString())
                 .orElse("unknown");
     }

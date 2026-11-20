@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.item;
 
-import dev.caecorthus.sparkdlc.SparkStrengthBlocks;
+import dev.caecorthus.sparkdlc.SparkDlcBlocks;
 import dev.caecorthus.sparkdlc.sabotage.CircuitConfiguratorService;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -26,7 +26,7 @@ public final class CircuitConfiguratorItem extends Item {
     public ActionResult useOnBlock(ItemUsageContext context) {
         World world = context.getWorld();
         BlockState state = world.getBlockState(context.getBlockPos());
-        if (!SparkStrengthBlocks.isSabotageFixture(state)) {
+        if (!SparkDlcBlocks.isSabotageFixture(state)) {
             return ActionResult.PASS;
         }
         if (world.isClient()) {

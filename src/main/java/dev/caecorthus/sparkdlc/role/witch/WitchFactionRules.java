@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.witch;
 
 import dev.caecorthus.sparkdlc.faction.api.FactionEconomyPolicy;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesRoleIds;
 import dev.caecorthus.sparkdlc.role.witch.accomplice.variant.AccompliceVariants;
 import dev.doctor4t.wathe.api.Role;
@@ -31,11 +31,11 @@ public final class WitchFactionRules {
     }
 
     public static boolean isGrandWitch(Role role) {
-        return role != null && role == SparkWitchRoles.grandWitch();
+        return role != null && role == SparkDlcRoles.grandWitch();
     }
 
     public static boolean isAccomplice(Role role) {
-        return role != null && role == SparkWitchRoles.accomplice();
+        return role != null && role == SparkDlcRoles.accomplice();
     }
 
     /**
@@ -44,7 +44,7 @@ public final class WitchFactionRules {
      * 恰为魔化使，即开局发放、尚未晋升的共犯。它属于共犯类（C2），但从不是 {@link AccompliceVariants} 条目，因此永远不会被抽到。
      */
     public static boolean isBewitched(Role role) {
-        return role != null && role == SparkWitchRoles.bewitched();
+        return role != null && role == SparkDlcRoles.bewitched();
     }
 
     /**
@@ -82,9 +82,9 @@ public final class WitchFactionRules {
      * 大魔女、任一共犯（普通、特殊或魔化使）与晋升的诅咒者。胜利计数、停电、恐惧/遮蔽免疫、同伙标签和诅咒者可见性都读取它。
      */
     public static boolean isWitchFactionMember(Role role) {
-        return role != null && (role == SparkWitchRoles.grandWitch()
+        return role != null && (role == SparkDlcRoles.grandWitch()
                 || isAccompliceLike(role)
-                || role == SparkWitchRoles.curser());
+                || role == SparkDlcRoles.curser());
     }
 
     /**
@@ -212,8 +212,8 @@ public final class WitchFactionRules {
      */
     public static OptionalInt instinctColor(Role viewerRole, Role targetRole) {
         if (isGrandWitch(viewerRole)) {
-            if (targetRole == SparkWitchRoles.grandWitch()) {
-                return OptionalInt.of(SparkWitchRoles.grandWitch().color());
+            if (targetRole == SparkDlcRoles.grandWitch()) {
+                return OptionalInt.of(SparkDlcRoles.grandWitch().color());
             }
             if (isAccompliceLike(targetRole)) {
                 return OptionalInt.of(targetRole.color());
@@ -223,9 +223,9 @@ public final class WitchFactionRules {
             }
             return OptionalInt.of(NON_WITCH_INSTINCT_COLOR);
         }
-        if (isAccompliceLike(viewerRole) || viewerRole == SparkWitchRoles.curser()) {
-            if (targetRole == SparkWitchRoles.grandWitch()) {
-                return OptionalInt.of(SparkWitchRoles.grandWitch().color());
+        if (isAccompliceLike(viewerRole) || viewerRole == SparkDlcRoles.curser()) {
+            if (targetRole == SparkDlcRoles.grandWitch()) {
+                return OptionalInt.of(SparkDlcRoles.grandWitch().color());
             }
             if (isAccompliceLike(targetRole)) {
                 return OptionalInt.of(targetRole.color());
@@ -236,7 +236,7 @@ public final class WitchFactionRules {
     }
 
     public static Boolean economyDecision(Role role, FactionEconomyPolicy.RewardKind rewardKind) {
-        if (role == SparkWitchRoles.curser()) {
+        if (role == SparkDlcRoles.curser()) {
             if (rewardKind == FactionEconomyPolicy.RewardKind.DIRECT_KILL
                     || rewardKind == FactionEconomyPolicy.RewardKind.PASSIVE) {
                 return false;

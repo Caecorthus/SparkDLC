@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.hooks;
 
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.component.WitchWorldComponent;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.ApprenticeFearExemption;
@@ -54,7 +54,7 @@ public final class WitchInstinctSuppressionClientHooks {
         // outlines then answer before Obscure inside WitchInstinctPolicy.
         // 预备魔女不受法术影响，疗愈庇护解除恐惧（所有者 2026-10-06 D4/D8）；她自己的技能描边随后在 WitchInstinctPolicy
         // 中先于障眼作答。
-        boolean apprentice = viewerRole == SparkWitchRoles.apprenticeWitch();
+        boolean apprentice = viewerRole == SparkDlcRoles.apprenticeWitch();
         // An active Final Moment only ever lifts a suppression (the rule returns false first), so it is passed as
         // false and the SparkTraits read runs only when Fear or Obscure would suppress: same answer.
         // 激活的最终时刻只会解除压制（规则会先返回 false），因此此处传入 false，仅当恐惧或障眼会生效时才读取

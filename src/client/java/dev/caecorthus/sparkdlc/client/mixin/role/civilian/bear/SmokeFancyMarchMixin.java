@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(WorldRenderer.class)
 public abstract class SmokeFancyMarchMixin {
     @Inject(method = "render", at = @At(value = "CONSTANT", args = "stringValue=translucent"))
-    private void sparkwitch$marchSmokeBeforeTranslucent(CallbackInfo ci) {
+    private void sparkdlc$marchSmokeBeforeTranslucent(CallbackInfo ci) {
         SmokeRenderer.beforeTranslucentTerrain();
     }
 }

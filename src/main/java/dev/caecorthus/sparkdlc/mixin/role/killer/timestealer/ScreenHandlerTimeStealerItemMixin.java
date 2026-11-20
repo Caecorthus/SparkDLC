@@ -23,7 +23,7 @@ public abstract class ScreenHandlerTimeStealerItemMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$keepTimeStealerItem(
+    private void sparkdlc$keepTimeStealerItem(
             int slotIndex,
             int button,
             SlotActionType actionType,

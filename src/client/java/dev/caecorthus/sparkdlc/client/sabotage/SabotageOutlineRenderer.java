@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.sabotage;
 
-import dev.caecorthus.sparkdlc.SparkStrengthBlocks;
+import dev.caecorthus.sparkdlc.SparkDlcBlocks;
 import dev.caecorthus.sparkdlc.block.CircuitBreakerBlock;
 import dev.caecorthus.sparkdlc.block.EngineUnitBlock;
 import dev.caecorthus.sparkdlc.block.JunctionBoxBlock;
@@ -116,7 +116,7 @@ final class SabotageOutlineRenderer {
             BlockState state = world.getBlockState(fixture.pos());
             int color;
             float alpha;
-            if (state.isOf(SparkStrengthBlocks.circuitBreaker())) {
+            if (state.isOf(SparkDlcBlocks.circuitBreaker())) {
                 if (admin) {
                     color = ADMIN_BREAKER;
                     alpha = 0.9F;
@@ -126,7 +126,7 @@ final class SabotageOutlineRenderer {
                 } else {
                     continue;
                 }
-            } else if (state.isOf(SparkStrengthBlocks.junctionBox())) {
+            } else if (state.isOf(SparkDlcBlocks.junctionBox())) {
                 JunctionBoxState look = state.get(JunctionBoxBlock.STATE);
                 SabotageType type = JunctionBoxBlock.typeOf(state);
                 if (admin) {
@@ -141,7 +141,7 @@ final class SabotageOutlineRenderer {
                 } else {
                     continue;
                 }
-            } else if (state.isOf(SparkStrengthBlocks.engineUnit())) {
+            } else if (state.isOf(SparkDlcBlocks.engineUnit())) {
                 if (admin) {
                     color = ADMIN_BREAKER;
                     alpha = 0.9F;
@@ -154,7 +154,7 @@ final class SabotageOutlineRenderer {
             } else {
                 continue;
             }
-            if (state.isOf(SparkStrengthBlocks.engineUnit())) {
+            if (state.isOf(SparkDlcBlocks.engineUnit())) {
                 outlinedUnits.add(fixture.pos());
             }
             outline(buffer, matrices, world, fixture.pos(), state, camera, color, alpha);
@@ -216,7 +216,7 @@ final class SabotageOutlineRenderer {
             int rgb;
             if (breakers && isTrippedBreaker(state)) {
                 rgb = BREAKER_RED;
-            } else if (engine && state.isOf(SparkStrengthBlocks.engineUnit())) {
+            } else if (engine && state.isOf(SparkDlcBlocks.engineUnit())) {
                 rgb = ENGINE_UNIT;
                 outlinedUnits.add(pos);
             } else {
@@ -250,7 +250,7 @@ final class SabotageOutlineRenderer {
     }
 
     private static boolean isTrippedBreaker(BlockState state) {
-        return state.isOf(SparkStrengthBlocks.circuitBreaker()) && state.get(CircuitBreakerBlock.TRIPPED);
+        return state.isOf(SparkDlcBlocks.circuitBreaker()) && state.get(CircuitBreakerBlock.TRIPPED);
     }
 
     /** The shared breathing alpha, 0.5-1. / 共用的呼吸透明度，0.5-1。 */
@@ -297,7 +297,7 @@ final class SabotageOutlineRenderer {
         VertexConsumerProvider.Immediate consumers = client.getBufferBuilders().getEntityVertexConsumers();
         for (SabotageClientState.Fixture fixture : SabotageClientState.fixtures()) {
             BlockState state = world.getBlockState(fixture.pos());
-            if (!state.isOf(SparkStrengthBlocks.junctionBox())
+            if (!state.isOf(SparkDlcBlocks.junctionBox())
                     || player.squaredDistanceTo(Vec3d.ofCenter(fixture.pos())) > LABEL_RANGE_SQ) {
                 continue;
             }

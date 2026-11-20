@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.apprentice;
 
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityController;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.ApprenticePlayerComponent;
@@ -62,7 +62,7 @@ public final class ApprenticeClientPresentation {
             return null;
         }
         return Text.translatable("hud.sparkdlc.skill.swift_step.ready",
-                SparkWitchClient.abilityKeyText(),
+                SparkDLCClient.abilityKeyText(),
                 ApprenticePlayerComponent.KEY.get(player).getSwiftStepCharges(),
                 ApprenticeRules.SWIFT_STEP_MAX_CHARGES);
     }

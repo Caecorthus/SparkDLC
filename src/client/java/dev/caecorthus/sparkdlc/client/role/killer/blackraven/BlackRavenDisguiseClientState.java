@@ -1,11 +1,11 @@
 package dev.caecorthus.sparkdlc.client.role.killer.blackraven;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotDivinationSelectorScreen;
 import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotDivinationClientState;
-import dev.caecorthus.sparkdlc.client.text.WitchRoleDisplayTexts;
+import dev.caecorthus.sparkdlc.client.text.RoleDisplayTexts;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.orthopedist.OrthopedistPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenRules;
@@ -48,7 +48,7 @@ public final class BlackRavenDisguiseClientState {
      * default phase where the disguise role's native listeners (and the raw-role fallback) live.
      * CanSeeMoney 按阶段顺序执行且首个非 null 结果生效，因此该阶段排在伪装职业原生监听器（及真实职业回退）所在的默认阶段之前。
      */
-    public static final Identifier DISGUISE_MONEY_PHASE = SparkWitch.id("black_raven_disguise_money");
+    public static final Identifier DISGUISE_MONEY_PHASE = SparkDLC.id("black_raven_disguise_money");
 
     private static boolean registered;
 
@@ -64,7 +64,7 @@ public final class BlackRavenDisguiseClientState {
         CanSeeMoney.EVENT.addPhaseOrdering(DISGUISE_MONEY_PHASE, Event.DEFAULT_PHASE);
         CanSeeMoney.EVENT.register(DISGUISE_MONEY_PHASE, BlackRavenDisguiseClientState::canSeeMoney);
         ItemTooltipCallback.EVENT.register((stack, context, type, lines) -> {
-            if (stack.isOf(SparkWitchItems.blackRavenMask())) {
+            if (stack.isOf(SparkDlcItems.blackRavenMask())) {
                 lines.addAll(maskTooltip(MinecraftClient.getInstance().player));
             }
         });
@@ -104,7 +104,7 @@ public final class BlackRavenDisguiseClientState {
             client.setScreen(null);
         }
         TarotDivinationClientState.clear();
-        if (previous != null && previous == SparkWitchRoles.orthopedist()) {
+        if (previous != null && previous == SparkDlcRoles.orthopedist()) {
             clearOrthopedistObserverViews(client.world, client.player);
         }
     }
@@ -164,7 +164,7 @@ public final class BlackRavenDisguiseClientState {
         if (roleId == null) {
             return Text.empty();
         }
-        return WitchRoleDisplayTexts.roleName(RoleDisplayTextRules.roleTranslationKey(roleId.getPath()))
+        return RoleDisplayTexts.roleName(RoleDisplayTextRules.roleTranslationKey(roleId.getPath()))
                 .styled(style -> style.withColor(roleColor(roleId)));
     }
 

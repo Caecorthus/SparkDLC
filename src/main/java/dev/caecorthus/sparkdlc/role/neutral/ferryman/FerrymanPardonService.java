@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.neutral.ferryman;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorRules;
@@ -135,7 +135,7 @@ public final class FerrymanPardonService {
         try {
             return FerrymanFeignService.start(killer);
         } catch (RuntimeException exception) {
-            SparkWitch.LOGGER.error("Ferryman gaze feign failed for {}; falling back to the pardon.",
+            SparkDLC.LOGGER.error("Ferryman gaze feign failed for {}; falling back to the pardon.",
                     killer.getUuid(), exception);
             return false;
         }
@@ -183,7 +183,7 @@ public final class FerrymanPardonService {
             // The original kill was never forced (forced kills are not held), so neither is its replay.
             // 原击杀从不是强制的（强制击杀不会被扣住），重放因此也不强制。
             GameFunctions.killPlayer(victim, spawnBody, killer,
-                    reason == null ? SparkWitchDeathReasons.PARDON_EXPIRED : reason, false);
+                    reason == null ? SparkDlcDeathReasons.PARDON_EXPIRED : reason, false);
         } finally {
             replayingDeath = false;
         }

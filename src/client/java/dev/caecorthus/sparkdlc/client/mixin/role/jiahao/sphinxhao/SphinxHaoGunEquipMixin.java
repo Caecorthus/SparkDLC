@@ -27,7 +27,7 @@ public abstract class SphinxHaoGunEquipMixin {
                             + "resetEquipProgress(Lnet/minecraft/util/Hand;)V"
             )
     )
-    private boolean sparkwitch$keepSphinxHaoGunEquipProgress(HeldItemRenderer renderer, Hand hand) {
+    private boolean sparkdlc$keepSphinxHaoGunEquipProgress(HeldItemRenderer renderer, Hand hand) {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
         return player == null || !SphinxHaoGunInventory.isGun(player.getStackInHand(hand));
     }

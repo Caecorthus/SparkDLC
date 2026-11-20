@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.waiter;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.waiter.WaiterTaskRevealService;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.player.PlayerEntity;
@@ -30,7 +30,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
  */
 public final class WaiterTaskRevealComponent implements AutoSyncedComponent, ServerTickingComponent {
     public static final ComponentKey<WaiterTaskRevealComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("waiter_task_reveal"), WaiterTaskRevealComponent.class
+            SparkDLC.id("waiter_task_reveal"), WaiterTaskRevealComponent.class
     );
 
     /** 任务完成后可被服务员透视的持续时间：30 秒。 */

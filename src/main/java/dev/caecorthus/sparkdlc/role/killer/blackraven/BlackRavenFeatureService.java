@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.BlackRavenDisguiseBootstrap;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.BlackRavenDisguiseService;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
@@ -25,7 +25,7 @@ public final class BlackRavenFeatureService {
      * 黑羽鸦在 Wathe ON_FINISH_INITIALIZE 上使用的阶段，排在默认阶段之后：无论模组初始化顺序如何，此时 Wathe
      * 已开始回放对局（绑定 id），所有默认监听器（如 SparkTraits 补偿）也已确定最终身份。
      */
-    static final Identifier FINISH_INITIALIZE_PHASE = SparkWitch.id("black_raven_finish_initialize");
+    static final Identifier FINISH_INITIALIZE_PHASE = SparkDLC.id("black_raven_finish_initialize");
 
     private static boolean registered;
 

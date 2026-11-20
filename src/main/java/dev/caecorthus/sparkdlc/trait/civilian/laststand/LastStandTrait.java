@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.civilian.laststand;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.Trait;
 import dev.caecorthus.sparkdlc.trait.api.TraitAssignmentReason;
 import dev.caecorthus.sparkdlc.trait.api.TraitAudience;
@@ -24,7 +24,7 @@ import java.util.UUID;
  * 隐藏平民阵营天赋：在满足条件的一次死亡后，延迟触发一次背水一战。
  */
 public final class LastStandTrait implements Trait {
-    public static final Identifier ID = SparkTraits.id("last_stand");
+    public static final Identifier ID = SparkDLC.id("last_stand");
     private static final Set<Identifier> ADDITIONAL_THREAT_ROLE_IDS = Set.of(
             Identifier.of("sparkdlc", "grand_witch"),
             Identifier.of("sparkdlc", "accomplice"),

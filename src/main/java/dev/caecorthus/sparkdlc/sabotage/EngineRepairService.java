@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.sabotage;
 
-import dev.caecorthus.sparkdlc.SparkStrengthBlocks;
+import dev.caecorthus.sparkdlc.SparkDlcBlocks;
 import dev.caecorthus.sparkdlc.sabotage.SabotageWorldComponent;
 import dev.caecorthus.sparkdlc.sabotage.net.CloseBreakerRepairS2CPacket;
 import dev.caecorthus.sparkdlc.sabotage.net.OpenEngineRepairS2CPacket;
@@ -120,7 +120,7 @@ public final class EngineRepairService {
             return;
         }
         if (!SabotageAccess.canRepairBreaker(player) || !sabotage.engineUnits().contains(session.pos())
-                || !world.getBlockState(session.pos()).isOf(SparkStrengthBlocks.engineUnit())
+                || !world.getBlockState(session.pos()).isOf(SparkDlcBlocks.engineUnit())
                 || !withinRange(player, session.pos())) {
             close(player, session, CloseBreakerRepairS2CPacket.REASON_OTHER);
             return;

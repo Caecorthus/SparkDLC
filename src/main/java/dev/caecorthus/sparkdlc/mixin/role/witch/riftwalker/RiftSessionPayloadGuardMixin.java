@@ -41,7 +41,7 @@ public abstract class RiftSessionPayloadGuardMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;execute(Ljava/lang/Runnable;)V",
                     remap = true)
     )
-    private void sparkwitch$dropPayloadInsideRiftGate(
+    private void sparkdlc$dropPayloadInsideRiftGate(
             MinecraftServer server,
             Runnable handler,
             Operation<Void> original,

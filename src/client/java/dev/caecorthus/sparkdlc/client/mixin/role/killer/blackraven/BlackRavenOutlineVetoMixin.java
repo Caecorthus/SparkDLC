@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = MinecraftClient.class, priority = 1900)
 public abstract class BlackRavenOutlineVetoMixin {
     @WrapMethod(method = "hasOutline")
-    private boolean sparkwitch$vetoBlackRavenOutline(Entity entity, Operation<Boolean> original) {
+    private boolean sparkdlc$vetoBlackRavenOutline(Entity entity, Operation<Boolean> original) {
         if (BlackRavenInstinctVeto.hides(MinecraftClient.getInstance().player, entity)) {
             return false;
         }

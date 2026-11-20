@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ClientWorld.class)
 public abstract class FlashlightReceiverInvalidationMixin {
     @Inject(method = "updateListeners", at = @At("HEAD"))
-    private void sparkstrength$invalidateFlashlightReceivers(BlockPos pos, BlockState oldState, BlockState newState,
+    private void sparkdlc$invalidateFlashlightReceivers(BlockPos pos, BlockState oldState, BlockState newState,
                                                               int flags, CallbackInfo ci) {
         if (oldState != newState) {
             FlashlightRenderer.onBlockChanged(pos);

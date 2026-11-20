@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.mixin.role.witch.grandwitch;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.role.witch.grandwitch.GrandWitchClientPresentation;
 import dev.caecorthus.sparkdlc.client.role.witch.grandwitch.GrandWitchSwordHud;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(CooldownRenderer.class)
 public abstract class GrandWitchSwordCooldownMixin {
     @Inject(method = "renderHud", at = @At("HEAD"), cancellable = true)
-    private static void sparkwitch$drawSwordSlotBadge(TextRenderer renderer, ClientPlayerEntity player,
+    private static void sparkdlc$drawSwordSlotBadge(TextRenderer renderer, ClientPlayerEntity player,
                                                      DrawContext context, RenderTickCounter tickCounter,
                                                      CallbackInfo ci) {
         if (!SparkDlcServerConnection.isConfirmedServer() || !GrandWitchClientPresentation.isGrandWitch(player)) {
@@ -34,7 +34,7 @@ public abstract class GrandWitchSwordCooldownMixin {
         if (GameFunctions.isPlayerPlayingAndAlive(player)) {
             GrandWitchSwordHud.renderSlotBadge(context, renderer, player, tickCounter.getTickDelta(true));
         }
-        if (player.getMainHandStack().isOf(SparkWitchItems.ceremonialSword())) {
+        if (player.getMainHandStack().isOf(SparkDlcItems.ceremonialSword())) {
             ci.cancel();
         }
     }

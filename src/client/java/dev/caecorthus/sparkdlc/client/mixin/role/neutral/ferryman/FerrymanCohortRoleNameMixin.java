@@ -43,7 +43,7 @@ public abstract class FerrymanCohortRoleNameMixin {
     private static float nametagAlpha;
 
     @Inject(method = "renderHud", at = @At("TAIL"))
-    private static void sparkwitch$renderLostSoulCohort(
+    private static void sparkdlc$renderLostSoulCohort(
             TextRenderer renderer,
             ClientPlayerEntity player,
             DrawContext context,

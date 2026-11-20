@@ -33,7 +33,7 @@ public abstract class WindSpiritInstinctMixin {
                     target = "Ldev/doctor4t/wathe/client/WatheClient;isKiller()Z"
             )
     )
-    private static boolean sparkwitch$windSpiritUsesNativeKillerHighlight(
+    private static boolean sparkdlc$windSpiritUsesNativeKillerHighlight(
             Operation<Boolean> original
     ) {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
@@ -47,7 +47,7 @@ public abstract class WindSpiritInstinctMixin {
     }
 
     @Inject(method = "isInstinctEnabledAndIsKiller", at = @At("HEAD"), cancellable = true)
-    private static void sparkwitch$windSpiritCanUseInstinct(
+    private static void sparkdlc$windSpiritCanUseInstinct(
             CallbackInfoReturnable<Boolean> cir
     ) {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
@@ -78,7 +78,7 @@ public abstract class WindSpiritInstinctMixin {
                     target = "Lnet/minecraft/util/math/MathHelper;hsvToRgb(FFF)I"
             )
     )
-    private static int sparkwitch$useWindSpiritColorForNativeKillerTarget(int originalColor) {
+    private static int sparkdlc$useWindSpiritColorForNativeKillerTarget(int originalColor) {
         return resolveNativePlayerColor(originalColor);
     }
 
@@ -86,7 +86,7 @@ public abstract class WindSpiritInstinctMixin {
             method = "getInstinctHighlight",
             constant = @Constant(intValue = 5168437)
     )
-    private static int sparkwitch$useWindSpiritColorForNativeCivilianTarget(int originalColor) {
+    private static int sparkdlc$useWindSpiritColorForNativeCivilianTarget(int originalColor) {
         return resolveNativePlayerColor(originalColor);
     }
 

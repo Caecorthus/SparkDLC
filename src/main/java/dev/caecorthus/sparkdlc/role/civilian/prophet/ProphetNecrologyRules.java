@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.prophet;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.item.BoundItemRules;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -22,7 +22,7 @@ import net.minecraft.util.Identifier;
  * 按物品类识别，因此不依赖注册表获取。
  */
 public final class ProphetNecrologyRules {
-    public static final Identifier ITEM_ID = SparkWitch.id("prophet_necrology");
+    public static final Identifier ITEM_ID = SparkDLC.id("prophet_necrology");
 
     private ProphetNecrologyRules() {
     }

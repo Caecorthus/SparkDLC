@@ -28,7 +28,7 @@ public abstract class PerfumerAromaMouseMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/network/ClientPlayerEntity;changeLookDirection(DD)V")
     )
-    private void sparkstrength$disruptAromaAim(ClientPlayerEntity player, double cursorDeltaX, double cursorDeltaY,
+    private void sparkdlc$disruptAromaAim(ClientPlayerEntity player, double cursorDeltaX, double cursorDeltaY,
                                                Operation<Void> original,
                                                @Local(argsOnly = true) double timeDelta) {
         PerfumerClientEffects.AromaLook look = PerfumerClientEffects.aromaLook(cursorDeltaX, cursorDeltaY, timeDelta);

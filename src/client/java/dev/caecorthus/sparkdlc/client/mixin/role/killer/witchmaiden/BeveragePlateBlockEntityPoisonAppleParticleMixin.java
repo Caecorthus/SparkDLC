@@ -27,7 +27,7 @@ public abstract class BeveragePlateBlockEntityPoisonAppleParticleMixin {
     private static final DustParticleEffect PARTICLE = new DustParticleEffect(new Vector3f(1.0f, 0.0f, 0.0f), 1.0f);
 
     @Inject(method = "clientTick", at = @At("TAIL"))
-    private static void sparkwitch$spawnPoisonAppleDust(
+    private static void sparkdlc$spawnPoisonAppleDust(
             World world,
             BlockPos pos,
             BlockState state,
@@ -35,7 +35,7 @@ public abstract class BeveragePlateBlockEntityPoisonAppleParticleMixin {
             CallbackInfo ci
     ) {
         if (!(blockEntity instanceof PoisonApplePlateAccess poisonApple)
-                || !poisonApple.sparkwitch$isPoisonAppleArmed()
+                || !poisonApple.sparkdlc$isPoisonAppleArmed()
                 || !PoisonAppleParticleClientHooks.canSee(MinecraftClient.getInstance().player)
                 || world.getRandom().nextBetween(0, 20) < 17) {
             return;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.render;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.List;
@@ -52,7 +52,7 @@ public final class WraithViewerGates {
                 }
             } catch (RuntimeException | LinkageError failure) {
                 GATES.remove(gate);
-                SparkWitch.LOGGER.warn("Dropping a Wraith viewer gate that threw", failure);
+                SparkDLC.LOGGER.warn("Dropping a Wraith viewer gate that threw", failure);
             }
         }
         return false;

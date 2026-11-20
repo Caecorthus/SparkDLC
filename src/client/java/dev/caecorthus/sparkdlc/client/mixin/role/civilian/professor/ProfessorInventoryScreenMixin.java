@@ -39,21 +39,21 @@ import java.util.UUID;
 public abstract class ProfessorInventoryScreenMixin extends LimitedHandledScreen<PlayerScreenHandler> {
     @Shadow @Final public ClientPlayerEntity player;
 
-    @Unique private final List<ProfessorRemoteFeedPlayerWidget> sparkstrength$professorPlayerWidgets = new ArrayList<>();
-    @Unique private final List<ProfessorSerumButtonWidget> sparkstrength$professorSerumWidgets = new ArrayList<>();
-    @Unique private PlayerPageSwitchWidget sparkstrength$professorPreviousPageWidget;
-    @Unique private PlayerPageSwitchWidget sparkstrength$professorNextPageWidget;
-    @Unique private PlayerPageSwitchWidget sparkstrength$professorBackWidget;
-    @Unique private int sparkstrength$professorCurrentPage;
-    @Unique private UUID sparkstrength$professorSelectedTarget;
-    @Unique private boolean sparkstrength$professorSelectingSerum;
+    @Unique private final List<ProfessorRemoteFeedPlayerWidget> sparkdlc$professorPlayerWidgets = new ArrayList<>();
+    @Unique private final List<ProfessorSerumButtonWidget> sparkdlc$professorSerumWidgets = new ArrayList<>();
+    @Unique private PlayerPageSwitchWidget sparkdlc$professorPreviousPageWidget;
+    @Unique private PlayerPageSwitchWidget sparkdlc$professorNextPageWidget;
+    @Unique private PlayerPageSwitchWidget sparkdlc$professorBackWidget;
+    @Unique private int sparkdlc$professorCurrentPage;
+    @Unique private UUID sparkdlc$professorSelectedTarget;
+    @Unique private boolean sparkdlc$professorSelectingSerum;
 
     public ProfessorInventoryScreenMixin(PlayerScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
 
     @Inject(method = "init", at = @At("HEAD"))
-    private void sparkstrength$professorAddRemoteFeedButtons(CallbackInfo ci) {
+    private void sparkdlc$professorAddRemoteFeedButtons(CallbackInfo ci) {
         if (player == null || player.getWorld() == null) {
             return;
         }
@@ -63,11 +63,11 @@ public abstract class ProfessorInventoryScreenMixin extends LimitedHandledScreen
             return;
         }
 
-        sparkstrength$professorAddPlayerSelectionUI();
+        sparkdlc$professorAddPlayerSelectionUI();
     }
 
     @Unique
-    private void sparkstrength$professorAddPlayerSelectionUI() {
+    private void sparkdlc$professorAddPlayerSelectionUI() {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null || client.player.networkHandler == null) {
             return;
@@ -75,11 +75,11 @@ public abstract class ProfessorInventoryScreenMixin extends LimitedHandledScreen
 
         List<UUID> playerUuids = new ArrayList<>(client.player.networkHandler.getPlayerUuids());
         int y = PlayerPageLayout.getPlayerRowY(this.height);
-        sparkstrength$professorPlayerWidgets.clear();
-        sparkstrength$professorSerumWidgets.clear();
-        sparkstrength$professorCurrentPage = PlayerSelectionPageState.getProfessorPage();
-        sparkstrength$professorSelectingSerum = false;
-        sparkstrength$professorSelectedTarget = null;
+        sparkdlc$professorPlayerWidgets.clear();
+        sparkdlc$professorSerumWidgets.clear();
+        sparkdlc$professorCurrentPage = PlayerSelectionPageState.getProfessorPage();
+        sparkdlc$professorSelectingSerum = false;
+        sparkdlc$professorSelectedTarget = null;
 
         for (UUID targetUuid : playerUuids) {
             PlayerListEntry playerListEntry = client.player.networkHandler.getPlayerListEntry(targetUuid);
@@ -88,38 +88,38 @@ public abstract class ProfessorInventoryScreenMixin extends LimitedHandledScreen
                     y,
                     targetUuid,
                     playerListEntry,
-                    button -> sparkstrength$professorOpenSerumSelection(targetUuid)
+                    button -> sparkdlc$professorOpenSerumSelection(targetUuid)
             );
-            sparkstrength$professorPlayerWidgets.add(child);
+            sparkdlc$professorPlayerWidgets.add(child);
             addDrawableChild(child);
         }
 
-        sparkstrength$professorPreviousPageWidget = addDrawableChild(new PlayerPageSwitchWidget(
+        sparkdlc$professorPreviousPageWidget = addDrawableChild(new PlayerPageSwitchWidget(
                 0,
                 y,
                 Items.PURPLE_DYE.getDefaultStack(),
                 Text.translatable("ui.sparkdlc.pagination.previous"),
                 button -> {
-                    sparkstrength$professorCurrentPage--;
-                    sparkstrength$professorRefreshPage();
+                    sparkdlc$professorCurrentPage--;
+                    sparkdlc$professorRefreshPage();
                 }
         ));
-        sparkstrength$professorNextPageWidget = addDrawableChild(new PlayerPageSwitchWidget(
+        sparkdlc$professorNextPageWidget = addDrawableChild(new PlayerPageSwitchWidget(
                 0,
                 y,
                 Items.LIME_DYE.getDefaultStack(),
                 Text.translatable("ui.sparkdlc.pagination.next"),
                 button -> {
-                    sparkstrength$professorCurrentPage++;
-                    sparkstrength$professorRefreshPage();
+                    sparkdlc$professorCurrentPage++;
+                    sparkdlc$professorRefreshPage();
                 }
         ));
-        sparkstrength$professorBackWidget = addDrawableChild(new PlayerPageSwitchWidget(
+        sparkdlc$professorBackWidget = addDrawableChild(new PlayerPageSwitchWidget(
                 0,
                 y,
                 Items.ARROW.getDefaultStack(),
                 Text.translatable("ui.sparkdlc.professor.back_to_players"),
-                button -> sparkstrength$professorOpenPlayerSelection()
+                button -> sparkdlc$professorOpenPlayerSelection()
         ));
 
         int serumStartX = this.width / 2 - (ProfessorSerumType.BACKPACK_ORDER.size() * PlayerPageLayout.SLOT_APART) / 2
@@ -131,54 +131,54 @@ public abstract class ProfessorInventoryScreenMixin extends LimitedHandledScreen
                     player.getUuid(),
                     ProfessorSerumType.BACKPACK_ORDER.get(i)
             );
-            sparkstrength$professorSerumWidgets.add(widget);
+            sparkdlc$professorSerumWidgets.add(widget);
             addDrawableChild(widget);
         }
 
-        sparkstrength$professorRefreshPage();
+        sparkdlc$professorRefreshPage();
     }
 
     @Unique
-    private void sparkstrength$professorOpenSerumSelection(UUID targetUuid) {
-        sparkstrength$professorSelectedTarget = targetUuid;
-        sparkstrength$professorSelectingSerum = true;
-        sparkstrength$professorRefreshPage();
+    private void sparkdlc$professorOpenSerumSelection(UUID targetUuid) {
+        sparkdlc$professorSelectedTarget = targetUuid;
+        sparkdlc$professorSelectingSerum = true;
+        sparkdlc$professorRefreshPage();
     }
 
     @Unique
-    private void sparkstrength$professorOpenPlayerSelection() {
-        sparkstrength$professorSelectedTarget = null;
-        sparkstrength$professorSelectingSerum = false;
-        sparkstrength$professorRefreshPage();
+    private void sparkdlc$professorOpenPlayerSelection() {
+        sparkdlc$professorSelectedTarget = null;
+        sparkdlc$professorSelectingSerum = false;
+        sparkdlc$professorRefreshPage();
     }
 
     @Unique
-    private void sparkstrength$professorRefreshPage() {
-        if (sparkstrength$professorSelectingSerum) {
-            sparkstrength$professorRefreshSerumSelection();
+    private void sparkdlc$professorRefreshPage() {
+        if (sparkdlc$professorSelectingSerum) {
+            sparkdlc$professorRefreshSerumSelection();
             return;
         }
 
-        int totalPages = PlayerPageLayout.getTotalPageCount(sparkstrength$professorPlayerWidgets.size());
-        if (sparkstrength$professorCurrentPage < 0) {
-            sparkstrength$professorCurrentPage = 0;
+        int totalPages = PlayerPageLayout.getTotalPageCount(sparkdlc$professorPlayerWidgets.size());
+        if (sparkdlc$professorCurrentPage < 0) {
+            sparkdlc$professorCurrentPage = 0;
         }
-        if (sparkstrength$professorCurrentPage >= totalPages) {
-            sparkstrength$professorCurrentPage = totalPages - 1;
+        if (sparkdlc$professorCurrentPage >= totalPages) {
+            sparkdlc$professorCurrentPage = totalPages - 1;
         }
-        PlayerSelectionPageState.setProfessorPage(sparkstrength$professorCurrentPage);
+        PlayerSelectionPageState.setProfessorPage(sparkdlc$professorCurrentPage);
 
-        int startIndex = sparkstrength$professorCurrentPage * PlayerPageLayout.PLAYERS_PER_PAGE;
-        int endIndex = Math.min(startIndex + PlayerPageLayout.PLAYERS_PER_PAGE, sparkstrength$professorPlayerWidgets.size());
+        int startIndex = sparkdlc$professorCurrentPage * PlayerPageLayout.PLAYERS_PER_PAGE;
+        int endIndex = Math.min(startIndex + PlayerPageLayout.PLAYERS_PER_PAGE, sparkdlc$professorPlayerWidgets.size());
         int visibleCount = endIndex - startIndex;
         int y = PlayerPageLayout.getPlayerRowY(this.height);
-        boolean showPrevious = sparkstrength$professorCurrentPage > 0;
-        boolean showNext = sparkstrength$professorCurrentPage < totalPages - 1;
+        boolean showPrevious = sparkdlc$professorCurrentPage > 0;
+        boolean showNext = sparkdlc$professorCurrentPage < totalPages - 1;
         int groupStartX = PlayerPageLayout.getCenteredGroupStartX(this.width, visibleCount, showPrevious, showNext);
         int playerStartX = groupStartX + (showPrevious ? PlayerPageLayout.SLOT_APART : 0);
 
-        for (int i = 0; i < sparkstrength$professorPlayerWidgets.size(); i++) {
-            ProfessorRemoteFeedPlayerWidget widget = sparkstrength$professorPlayerWidgets.get(i);
+        for (int i = 0; i < sparkdlc$professorPlayerWidgets.size(); i++) {
+            ProfessorRemoteFeedPlayerWidget widget = sparkdlc$professorPlayerWidgets.get(i);
             boolean visible = i >= startIndex && i < endIndex;
             widget.visible = visible;
             widget.active = visible;
@@ -189,57 +189,57 @@ public abstract class ProfessorInventoryScreenMixin extends LimitedHandledScreen
             }
         }
 
-        for (ProfessorSerumButtonWidget widget : sparkstrength$professorSerumWidgets) {
+        for (ProfessorSerumButtonWidget widget : sparkdlc$professorSerumWidgets) {
             widget.visible = false;
             widget.active = false;
         }
-        if (sparkstrength$professorBackWidget != null) {
-            sparkstrength$professorBackWidget.visible = false;
-            sparkstrength$professorBackWidget.active = false;
+        if (sparkdlc$professorBackWidget != null) {
+            sparkdlc$professorBackWidget.visible = false;
+            sparkdlc$professorBackWidget.active = false;
         }
-        if (sparkstrength$professorPreviousPageWidget != null) {
-            sparkstrength$professorPreviousPageWidget.visible = showPrevious;
-            sparkstrength$professorPreviousPageWidget.active = showPrevious;
-            sparkstrength$professorPreviousPageWidget.setX(groupStartX);
-            sparkstrength$professorPreviousPageWidget.setY(y);
+        if (sparkdlc$professorPreviousPageWidget != null) {
+            sparkdlc$professorPreviousPageWidget.visible = showPrevious;
+            sparkdlc$professorPreviousPageWidget.active = showPrevious;
+            sparkdlc$professorPreviousPageWidget.setX(groupStartX);
+            sparkdlc$professorPreviousPageWidget.setY(y);
         }
-        if (sparkstrength$professorNextPageWidget != null) {
-            sparkstrength$professorNextPageWidget.visible = showNext;
-            sparkstrength$professorNextPageWidget.active = showNext;
-            sparkstrength$professorNextPageWidget.setX(playerStartX + visibleCount * PlayerPageLayout.SLOT_APART);
-            sparkstrength$professorNextPageWidget.setY(y);
+        if (sparkdlc$professorNextPageWidget != null) {
+            sparkdlc$professorNextPageWidget.visible = showNext;
+            sparkdlc$professorNextPageWidget.active = showNext;
+            sparkdlc$professorNextPageWidget.setX(playerStartX + visibleCount * PlayerPageLayout.SLOT_APART);
+            sparkdlc$professorNextPageWidget.setY(y);
         }
     }
 
     @Unique
-    private void sparkstrength$professorRefreshSerumSelection() {
+    private void sparkdlc$professorRefreshSerumSelection() {
         int y = PlayerPageLayout.getPlayerRowY(this.height);
         int totalSlots = ProfessorSerumType.BACKPACK_ORDER.size() + 1;
         int groupStartX = this.width / 2 - totalSlots * PlayerPageLayout.SLOT_APART / 2
                 + PlayerPageLayout.SLOT_X_OFFSET;
-        UUID targetUuid = sparkstrength$professorSelectedTarget;
+        UUID targetUuid = sparkdlc$professorSelectedTarget;
 
-        for (ProfessorRemoteFeedPlayerWidget widget : sparkstrength$professorPlayerWidgets) {
+        for (ProfessorRemoteFeedPlayerWidget widget : sparkdlc$professorPlayerWidgets) {
             widget.visible = false;
             widget.active = false;
         }
-        if (sparkstrength$professorPreviousPageWidget != null) {
-            sparkstrength$professorPreviousPageWidget.visible = false;
-            sparkstrength$professorPreviousPageWidget.active = false;
+        if (sparkdlc$professorPreviousPageWidget != null) {
+            sparkdlc$professorPreviousPageWidget.visible = false;
+            sparkdlc$professorPreviousPageWidget.active = false;
         }
-        if (sparkstrength$professorNextPageWidget != null) {
-            sparkstrength$professorNextPageWidget.visible = false;
-            sparkstrength$professorNextPageWidget.active = false;
+        if (sparkdlc$professorNextPageWidget != null) {
+            sparkdlc$professorNextPageWidget.visible = false;
+            sparkdlc$professorNextPageWidget.active = false;
         }
-        if (sparkstrength$professorBackWidget != null) {
-            sparkstrength$professorBackWidget.visible = true;
-            sparkstrength$professorBackWidget.active = true;
-            sparkstrength$professorBackWidget.setX(groupStartX);
-            sparkstrength$professorBackWidget.setY(y);
+        if (sparkdlc$professorBackWidget != null) {
+            sparkdlc$professorBackWidget.visible = true;
+            sparkdlc$professorBackWidget.active = true;
+            sparkdlc$professorBackWidget.setX(groupStartX);
+            sparkdlc$professorBackWidget.setY(y);
         }
 
-        for (int i = 0; i < sparkstrength$professorSerumWidgets.size(); i++) {
-            ProfessorSerumButtonWidget widget = sparkstrength$professorSerumWidgets.get(i);
+        for (int i = 0; i < sparkdlc$professorSerumWidgets.size(); i++) {
+            ProfessorSerumButtonWidget widget = sparkdlc$professorSerumWidgets.get(i);
             if (targetUuid == null) {
                 widget.visible = false;
                 widget.active = false;

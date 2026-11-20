@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.usec;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.game.GameConstants;
 import net.minecraft.util.Identifier;
@@ -17,31 +17,31 @@ import java.util.List;
  */
 public final class UsecRules {
     // ---- Role ----
-    public static final Identifier ROLE_ID = SparkWitch.id("usec");
+    public static final Identifier ROLE_ID = SparkDLC.id("usec");
     public static final int COLOR = 0xC8A96A;
 
     // ---- Items ----
-    public static final Identifier RIFLE_ITEM_ID = SparkWitch.id("usec_rifle");
-    public static final Identifier MAGAZINE_ITEM_ID = SparkWitch.id("usec_magazine");
-    public static final Identifier FMJ_ITEM_ID = SparkWitch.id("usec_338_fmj");
-    public static final Identifier AP_ITEM_ID = SparkWitch.id("usec_338_ap");
-    public static final Identifier SUPPRESSOR_ITEM_ID = SparkWitch.id("usec_suppressor");
+    public static final Identifier RIFLE_ITEM_ID = SparkDLC.id("usec_rifle");
+    public static final Identifier MAGAZINE_ITEM_ID = SparkDLC.id("usec_magazine");
+    public static final Identifier FMJ_ITEM_ID = SparkDLC.id("usec_338_fmj");
+    public static final Identifier AP_ITEM_ID = SparkDLC.id("usec_338_ap");
+    public static final Identifier SUPPRESSOR_ITEM_ID = SparkDLC.id("usec_suppressor");
 
     // ---- Payload and component ids (literal; the payload records alias these) ----
-    public static final Identifier FIRE_PAYLOAD_ID = SparkWitch.id("fire_usec_rifle");
-    public static final Identifier ATTACHMENT_PAYLOAD_ID = SparkWitch.id("usec_attachment");
-    public static final Identifier SCOPE_PAYLOAD_ID = SparkWitch.id("usec_scope");
-    public static final Identifier IMPACTS_PAYLOAD_ID = SparkWitch.id("usec_bullet_impacts");
-    public static final Identifier PLAYER_COMPONENT_ID = SparkWitch.id("usec_player");
+    public static final Identifier FIRE_PAYLOAD_ID = SparkDLC.id("fire_usec_rifle");
+    public static final Identifier ATTACHMENT_PAYLOAD_ID = SparkDLC.id("usec_attachment");
+    public static final Identifier SCOPE_PAYLOAD_ID = SparkDLC.id("usec_scope");
+    public static final Identifier IMPACTS_PAYLOAD_ID = SparkDLC.id("usec_bullet_impacts");
+    public static final Identifier PLAYER_COMPONENT_ID = SparkDLC.id("usec_player");
 
     // ---- Sound ids (sounds.json keys are the paths) ----
-    public static final Identifier SHOOT_SOUND_ID = SparkWitch.id("item.usec_rifle.shoot");
-    public static final Identifier SHOOT_SUPPRESSED_SOUND_ID = SparkWitch.id("item.usec_rifle.shoot_suppressed");
-    public static final Identifier BOLT_SOUND_ID = SparkWitch.id("item.usec_rifle.bolt");
-    public static final Identifier MAGAZINE_SOUND_ID = SparkWitch.id("item.usec_rifle.magazine");
-    public static final Identifier LOAD_ROUND_SOUND_ID = SparkWitch.id("item.usec_rifle.load_round");
+    public static final Identifier SHOOT_SOUND_ID = SparkDLC.id("item.usec_rifle.shoot");
+    public static final Identifier SHOOT_SUPPRESSED_SOUND_ID = SparkDLC.id("item.usec_rifle.shoot_suppressed");
+    public static final Identifier BOLT_SOUND_ID = SparkDLC.id("item.usec_rifle.bolt");
+    public static final Identifier MAGAZINE_SOUND_ID = SparkDLC.id("item.usec_rifle.magazine");
+    public static final Identifier LOAD_ROUND_SOUND_ID = SparkDLC.id("item.usec_rifle.load_round");
     /** Subtle scope-in sound (owner, 2026-10-07): heard by the shooter and nearby players. / 细微的开镜声（所有者 2026-10-07）：自己与附近玩家可闻。 */
-    public static final Identifier SCOPE_SOUND_ID = SparkWitch.id("item.usec_rifle.scope");
+    public static final Identifier SCOPE_SOUND_ID = SparkDLC.id("item.usec_rifle.scope");
 
     // ---- Shop (D11; rounds are sold one at a time) ----
     public static final String MAGAZINE_ENTRY_ID = "usec_magazine";

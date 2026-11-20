@@ -53,7 +53,7 @@ public abstract class SeekerRemoteEntityTrackerMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$alwaysTrackFocus(ServerPlayerEntity player, CallbackInfo ci) {
+    private void sparkdlc$alwaysTrackFocus(ServerPlayerEntity player, CallbackInfo ci) {
         if (!(entity instanceof SeekerDeviceEntity) || SeekerRemoteStreaming.focusOf(player) != entity) {
             return;
         }
@@ -68,7 +68,7 @@ public abstract class SeekerRemoteEntityTrackerMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/server/network/ServerPlayerEntity;getPos()Lnet/minecraft/util/math/Vec3d;")
     )
-    private Vec3d sparkwitch$measureFromFocus(Vec3d original, @Local(argsOnly = true) ServerPlayerEntity player) {
+    private Vec3d sparkdlc$measureFromFocus(Vec3d original, @Local(argsOnly = true) ServerPlayerEntity player) {
         SeekerDeviceEntity focus = SeekerRemoteStreaming.focusOf(player);
         return focus == null ? original : focus.getPos();
     }

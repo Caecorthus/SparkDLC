@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.item;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcDataComponents;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.civilian.timekeeper.TimekeeperWatchMode;
 import dev.caecorthus.sparkdlc.role.civilian.timekeeper.TimekeeperWatchService;
 import net.minecraft.entity.LivingEntity;
@@ -23,12 +24,12 @@ public final class TimekeeperWatchItem extends Item {
 
     public static TimekeeperWatchMode getMode(ItemStack stack) {
         return TimekeeperWatchMode.fromOrdinal(
-                stack.getOrDefault(SparkStrengthItems.TIMEKEEPER_WATCH_MODE, 0)
+                stack.getOrDefault(SparkDlcDataComponents.TIMEKEEPER_WATCH_MODE, 0)
         );
     }
 
     public static void setMode(ItemStack stack, TimekeeperWatchMode mode) {
-        stack.set(SparkStrengthItems.TIMEKEEPER_WATCH_MODE, mode.ordinal());
+        stack.set(SparkDlcDataComponents.TIMEKEEPER_WATCH_MODE, mode.ordinal());
     }
 
     @Override

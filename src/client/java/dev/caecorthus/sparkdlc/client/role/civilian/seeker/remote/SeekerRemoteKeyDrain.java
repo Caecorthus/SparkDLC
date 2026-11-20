@@ -8,7 +8,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.seeker.remote;
  * 从不循环调用 {@code wasPressed()}（会触发其他模组的返回钩子），也从不强制松开按键（会丢失按住状态）。
  */
 public interface SeekerRemoteKeyDrain {
-    void sparkwitch$drainPresses();
+    void sparkdlc$drainPresses();
 
     /**
      * Reads and zeroes the real queued press count, bypassing the possession lock's {@code wasPressed} hook. Used only
@@ -17,5 +17,5 @@ public interface SeekerRemoteKeyDrain {
      * 读取并清零真实的积压按键次数，绕过附身锁的 {@code wasPressed} 钩子。仅由 {@code SeekerCarUseClient}
      * 在驾驶时用于使用键，使右键成为小车的交互，永远不会到达原版 {@code doItemUse}。
      */
-    int sparkwitch$takePresses();
+    int sparkdlc$takePresses();
 }

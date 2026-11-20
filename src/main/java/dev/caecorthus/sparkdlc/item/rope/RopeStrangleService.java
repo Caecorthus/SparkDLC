@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.item.rope;
 
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.killer.hiro.returning.HiroReturnService;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
@@ -188,7 +188,7 @@ public final class RopeStrangleService {
         ItemStack rope = user.getStackInHand(hand);
         // SparkTraits' new-action gate (Last Escape, a Close Quarters lock on this item): silent, like every weapon.
         // SparkTraits 的新动作门槛（脱险、近身格挡对该物品的锁定）：与其他武器一样静默拒绝。
-        if (!rope.isOf(SparkWitchItems.rope()) || SparkTraitsApi.blocksWeaponAction(user, rope)) {
+        if (!rope.isOf(SparkDlcItems.rope()) || SparkTraitsApi.blocksWeaponAction(user, rope)) {
             return false;
         }
         boolean mayAct = RopeTargeting.mayAct(user);
@@ -331,7 +331,7 @@ public final class RopeStrangleService {
         release(victim);
         ItemStack rope = heldRope(user);
         // Normal, non-forced kill: BEFORE listeners, traits and role immunities all run. / 普通的非强制击杀：BEFORE 监听、词条与职业免疫全部照常执行。
-        GameFunctions.killPlayer(victim, true, user, SparkWitchDeathReasons.STRANGLED);
+        GameFunctions.killPlayer(victim, true, user, SparkDlcDeathReasons.STRANGLED);
         RopeRules.Outcome outcome = RopeRules.outcome(
                 GameWorldComponent.KEY.get(session.world).isPlayerDead(session.victim),
                 SparkTraitsApi.isLastStandPending(victim),
@@ -433,14 +433,14 @@ public final class RopeStrangleService {
 
     // Plain vanilla cooldown so SparkTraits Fast Hands may shorten it (Taser precedent). / 使用普通原版冷却，SparkTraits 快手可缩短（电击枪先例）。
     private static void coolDown(ServerPlayerEntity user) {
-        user.getItemCooldownManager().set(SparkWitchItems.rope(), RopeRules.INTERRUPT_COOLDOWN_TICKS);
+        user.getItemCooldownManager().set(SparkDlcItems.rope(), RopeRules.INTERRUPT_COOLDOWN_TICKS);
     }
 
     private static ItemStack heldRope(ServerPlayerEntity user) {
-        if (user.getMainHandStack().isOf(SparkWitchItems.rope())) {
+        if (user.getMainHandStack().isOf(SparkDlcItems.rope())) {
             return user.getMainHandStack();
         }
-        return user.getOffHandStack().isOf(SparkWitchItems.rope()) ? user.getOffHandStack() : ItemStack.EMPTY;
+        return user.getOffHandStack().isOf(SparkDlcItems.rope()) ? user.getOffHandStack() : ItemStack.EMPTY;
     }
 
     /**
@@ -450,19 +450,19 @@ public final class RopeStrangleService {
     private static void removeRopes(ServerPlayerEntity player) {
         boolean changed = false;
         for (int slot = 0; slot < player.getInventory().size(); slot++) {
-            if (player.getInventory().getStack(slot).isOf(SparkWitchItems.rope())) {
+            if (player.getInventory().getStack(slot).isOf(SparkDlcItems.rope())) {
                 player.getInventory().setStack(slot, ItemStack.EMPTY);
                 changed = true;
             }
         }
         var personalCraftingInput = player.playerScreenHandler.getCraftingInput();
         for (int slot = 0; slot < personalCraftingInput.size(); slot++) {
-            if (personalCraftingInput.getStack(slot).isOf(SparkWitchItems.rope())) {
+            if (personalCraftingInput.getStack(slot).isOf(SparkDlcItems.rope())) {
                 personalCraftingInput.setStack(slot, ItemStack.EMPTY);
                 changed = true;
             }
         }
-        if (player.currentScreenHandler.getCursorStack().isOf(SparkWitchItems.rope())) {
+        if (player.currentScreenHandler.getCursorStack().isOf(SparkDlcItems.rope())) {
             player.currentScreenHandler.setCursorStack(ItemStack.EMPTY);
             changed = true;
         }

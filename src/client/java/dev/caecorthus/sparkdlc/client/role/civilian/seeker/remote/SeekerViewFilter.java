@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.seeker.remote;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.role.civilian.seeker.SeekerClientState;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerSessionMode;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
@@ -33,7 +33,7 @@ import java.util.Set;
  * （例如 Iris 光影包）退化为无滤镜（HUD 叠加层照常工作）。
  */
 public final class SeekerViewFilter {
-    private static final Identifier RELOAD_LISTENER_ID = SparkWitch.id("seeker_view_filter");
+    private static final Identifier RELOAD_LISTENER_ID = SparkDLC.id("seeker_view_filter");
     private static final Set<SeekerSessionMode> FAILED = EnumSet.noneOf(SeekerSessionMode.class);
     private static boolean registered;
     @Nullable
@@ -174,7 +174,7 @@ public final class SeekerViewFilter {
             // Includes JsonSyntaxException and GL compile errors from shader packs or broken resource packs: keep the
             // view usable without the filter until reset.
             // 包括 JsonSyntaxException 以及光影包或损坏资源包导致的编译错误：在重置前保持无滤镜的可用画面。
-            SparkWitch.LOGGER.warn("Unable to load the Seeker {} view filter {}", mode, effect, exception);
+            SparkDLC.LOGGER.warn("Unable to load the Seeker {} view filter {}", mode, effect, exception);
             release();
             FAILED.add(mode);
             return null;

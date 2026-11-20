@@ -2,10 +2,10 @@ package dev.caecorthus.sparkdlc;
 
 import dev.caecorthus.sparkdlc.collision.PlayerCollisionGraceWorldComponent;
 import dev.caecorthus.sparkdlc.component.PerfumerPlayerComponent;
-import dev.caecorthus.sparkdlc.component.SparkFactionAntiFastRoundComponent;
-import dev.caecorthus.sparkdlc.component.SparkFactionMapResetComponent;
-import dev.caecorthus.sparkdlc.component.SparkFactionRoundEndComponent;
-import dev.caecorthus.sparkdlc.component.SparkFactionThirdFactionComponent;
+import dev.caecorthus.sparkdlc.component.AntiFastRoundComponent;
+import dev.caecorthus.sparkdlc.component.LobbyMapResetComponent;
+import dev.caecorthus.sparkdlc.component.FactionRoundEndComponent;
+import dev.caecorthus.sparkdlc.component.ThirdFactionComponent;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.component.WitchWorldComponent;
 import dev.caecorthus.sparkdlc.component.WraithPlayerComponent;
@@ -561,15 +561,15 @@ public final class SparkDlcComponents
     public void registerScoreboardComponentFactories(@NotNull ScoreboardComponentFactoryRegistry registry) {
         // Round services: round end, anti-fast-round, lobby map reset, third-faction draw.
         // 对局服务：回合结束、防速通、大厅地图重置、第三阵营抽取。
-        registry.registerScoreboardComponent(SparkFactionRoundEndComponent.KEY, SparkFactionRoundEndComponent::new);
+        registry.registerScoreboardComponent(FactionRoundEndComponent.KEY, FactionRoundEndComponent::new);
         registry.registerScoreboardComponent(
-                SparkFactionAntiFastRoundComponent.KEY,
-                SparkFactionAntiFastRoundComponent::new
+                AntiFastRoundComponent.KEY,
+                AntiFastRoundComponent::new
         );
-        registry.registerScoreboardComponent(SparkFactionMapResetComponent.KEY, SparkFactionMapResetComponent::new);
+        registry.registerScoreboardComponent(LobbyMapResetComponent.KEY, LobbyMapResetComponent::new);
         registry.registerScoreboardComponent(
-                SparkFactionThirdFactionComponent.KEY,
-                SparkFactionThirdFactionComponent::new
+                ThirdFactionComponent.KEY,
+                ThirdFactionComponent::new
         );
     }
 }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.abysslistener;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 
@@ -11,13 +11,13 @@ import net.minecraft.util.Identifier;
  * 聆渊者（魔女阵营特殊共犯，监守者/幽匿主题）的常量与纯判定。所有数值集中于此，便于调参。服务端权威；客户端只镜像收到的值。
  */
 public final class AbyssListenerRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("abyss_listener");
+    public static final Identifier ROLE_ID = SparkDLC.id("abyss_listener");
     /** Role theme color (dark sculk teal). / 职业主题色（幽匿暗青）。 */
     public static final int COLOR = 0x0B5E78;
 
     // --- Warden's Shriek (role skill, shared skill key) / 监守之啸（职业技能，共享技能键） ---
-    public static final Identifier SHRIEK_SKILL_ID = SparkWitch.id("wardens_shriek");
-    public static final Identifier SHRIEK_ACTION_ID = SparkWitch.id("abyss_listener_shriek");
+    public static final Identifier SHRIEK_SKILL_ID = SparkDLC.id("wardens_shriek");
+    public static final Identifier SHRIEK_ACTION_ID = SparkDLC.id("abyss_listener_shriek");
     public static final int SHRIEK_INITIAL_COOLDOWN_TICKS = 90 * 20;
     public static final int SHRIEK_COOLDOWN_TICKS = 60 * 20;
     /**
@@ -34,8 +34,8 @@ public final class AbyssListenerRules {
     public static final int SHRIEK_FORCED_COOLDOWN_TICKS = 5 * 20;
 
     // --- Shriek Gun / 啸音铳 ---
-    public static final Identifier GUN_ITEM_ID = SparkWitch.id("shriek_gun");
-    public static final Identifier GUN_ACTION_ID = SparkWitch.id("abyss_listener_gun");
+    public static final Identifier GUN_ITEM_ID = SparkDLC.id("shriek_gun");
+    public static final Identifier GUN_ACTION_ID = SparkDLC.id("abyss_listener_gun");
     /** Written with vanilla ItemCooldownManager.set, so SparkTraits Fast Hands applies (owner spec). / 原版写入，吃快手。 */
     public static final int GUN_INITIAL_COOLDOWN_TICKS = 60 * 20;
     public static final int GUN_COOLDOWN_TICKS = 30 * 20;
@@ -56,9 +56,9 @@ public final class AbyssListenerRules {
     public static final int GUN_ALLY_SPEED_AMPLIFIER = 2;
 
     // --- Deep Dark Spore Flask and Deep Dark Zone / 深暗孢瓶与深暗领域 ---
-    public static final Identifier FLASK_ITEM_ID = SparkWitch.id("deep_dark_spore_flask");
-    public static final Identifier FLASK_ENTITY_ID = SparkWitch.id("deep_dark_spore_flask");
-    public static final Identifier ZONE_ACTION_ID = SparkWitch.id("abyss_listener_zone");
+    public static final Identifier FLASK_ITEM_ID = SparkDLC.id("deep_dark_spore_flask");
+    public static final Identifier FLASK_ENTITY_ID = SparkDLC.id("deep_dark_spore_flask");
+    public static final Identifier ZONE_ACTION_ID = SparkDLC.id("abyss_listener_zone");
     public static final String FLASK_SHOP_ENTRY_ID = "deep_dark_spore_flask";
     public static final int FLASK_PRICE = 75;
     /**

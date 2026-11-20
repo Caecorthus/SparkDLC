@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.command.replay;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import dev.caecorthus.sparkdlc.SparkFactionApiMod;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.replay.ReplayArchive;
 import dev.caecorthus.sparkdlc.replay.net.ReplaySnapshot;
 import dev.caecorthus.sparkdlc.replay.net.ReplaySnapshotPayload;
@@ -67,7 +67,7 @@ public final class ReplayCommand {
         if (snapshot != null && ServerPlayNetworking.canSend(player, ReplaySnapshotPayload.ID)) {
             int endedSecondsAgo = latest.endedSecondsAgo(System.currentTimeMillis());
             ServerPlayNetworking.send(player, new ReplaySnapshotPayload(snapshot.withEndedSecondsAgo(endedSecondsAgo)));
-            SparkFactionApiMod.LOGGER.info(
+            SparkDLC.LOGGER.info(
                     "Replay request from {}: mode=screen, {} players, {} lines, ~{} bytes, ended {}s ago",
                     player.getGameProfile().getName(),
                     snapshot.players().size(),
@@ -102,7 +102,7 @@ public final class ReplayCommand {
         for (Text line : latest.chat()) {
             player.sendMessage(line, false);
         }
-        SparkFactionApiMod.LOGGER.info(
+        SparkDLC.LOGGER.info(
                 "Replay request from {}: mode={}, {} chat lines",
                 player.getGameProfile().getName(),
                 mode,
@@ -138,7 +138,7 @@ public final class ReplayCommand {
 
     private static int none(ServerCommandSource source, ServerPlayerEntity player, String mode) {
         source.sendError(Text.translatable("commands.sparkdlc.replay.none"));
-        SparkFactionApiMod.LOGGER.info("Replay request from {}: mode={}, no replay stored", player.getGameProfile().getName(), mode);
+        SparkDLC.LOGGER.info("Replay request from {}: mode={}, no replay stored", player.getGameProfile().getName(), mode);
         return 0;
     }
 }

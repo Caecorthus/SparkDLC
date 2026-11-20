@@ -39,7 +39,7 @@ public abstract class GameFunctionsSchrodingersCatMixin {
             cancellable = true,
             order = 0
     )
-    private static void sparkwitch$spectreIsUntouchable(
+    private static void sparkdlc$spectreIsUntouchable(
             ServerPlayerEntity victim,
             boolean spawnBody,
             @Nullable ServerPlayerEntity killer,
@@ -63,7 +63,7 @@ public abstract class GameFunctionsSchrodingersCatMixin {
             allow = 1,
             order = 1100
     )
-    private static void sparkwitch$transformAtDeathCommit(
+    private static void sparkdlc$transformAtDeathCommit(
             ServerPlayerEntity victim,
             boolean spawnBody,
             @Nullable ServerPlayerEntity killer,

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.timestealer;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -186,7 +186,7 @@ final class TimeTheftSlowness {
     private static void warnOnce(RuntimeException exception) {
         if (!warned) {
             warned = true;
-            SparkWitch.LOGGER.warn("Time Stealer: could not read or remove the curse's own Slowness; leaving it to expire",
+            SparkDLC.LOGGER.warn("Time Stealer: could not read or remove the curse's own Slowness; leaving it to expire",
                     exception);
         }
     }

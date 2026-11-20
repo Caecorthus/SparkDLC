@@ -32,7 +32,7 @@ public abstract class MagicianDemonHunterTargetMixin {
     private static final double SPARKWITCH$PISTOL_RANGE = 5.0D;
 
     @Inject(method = "getGunTarget", at = @At("RETURN"), cancellable = true)
-    private static void sparkwitch$preferNearerPuppet(PlayerEntity user, CallbackInfoReturnable<HitResult> cir) {
+    private static void sparkdlc$preferNearerPuppet(PlayerEntity user, CallbackInfoReturnable<HitResult> cir) {
         HitResult original = cir.getReturnValue();
         // Invisible puppets count, as NoellesRoles' pick counts invisible players. / 隐身皮套同样计入，与 NoellesRoles 计入隐身玩家一致。
         HitResult preferred = MagicianPuppetAim.preferNearerPuppet(user, original, SPARKWITCH$PISTOL_RANGE, false);

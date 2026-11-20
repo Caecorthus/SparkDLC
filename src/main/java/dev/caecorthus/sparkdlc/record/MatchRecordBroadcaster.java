@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.record;
 
-import dev.caecorthus.sparkdlc.SparkFactionApiMod;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.record.net.MatchRecordNetworking;
 import dev.caecorthus.sparkdlc.record.net.MatchRecordPayload;
 import dev.caecorthus.sparkdlc.record.net.MatchRecordSnapshot;
@@ -49,7 +49,7 @@ public final class MatchRecordBroadcaster {
         try {
             broadcast(world.getServer(), match);
         } catch (RuntimeException | LinkageError e) {
-            SparkFactionApiMod.LOGGER.error("Failed to send the match record for match {}", match.getMatchId(), e);
+            SparkDLC.LOGGER.error("Failed to send the match record for match {}", match.getMatchId(), e);
         }
     }
 
@@ -82,7 +82,7 @@ public final class MatchRecordBroadcaster {
                 MAX_ENCODED_BYTES - HEADER_BYTES
         );
         if (selection.cut() > 0 || fitting < events.size()) {
-            SparkFactionApiMod.LOGGER.warn(
+            SparkDLC.LOGGER.warn(
                     "Match record {} truncated to its earliest {} events ({} over the {}-event cap, {} over the {}-byte budget)",
                     match.getMatchId(), fitting, selection.cut(), MatchRecordSnapshot.MAX_EVENTS,
                     events.size() - fitting, MAX_ENCODED_BYTES

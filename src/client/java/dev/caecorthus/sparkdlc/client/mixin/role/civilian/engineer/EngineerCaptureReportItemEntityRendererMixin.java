@@ -25,7 +25,7 @@ import java.util.UUID;
 @Mixin(ItemEntityRenderer.class)
 public abstract class EngineerCaptureReportItemEntityRendererMixin {
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$hideCaptureReportItemEntity(
+    private void sparkdlc$hideCaptureReportItemEntity(
             ItemEntity entity,
             float yaw,
             float tickDelta,

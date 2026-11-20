@@ -97,8 +97,8 @@ public final class AssassinGuessSources {
         probe.width = width;
         probe.height = height;
         ScreenInitInvoker probeInit = (ScreenInitInvoker) probe;
-        probeInit.sparkstrength$setClient(client);
-        probeInit.sparkstrength$init();
+        probeInit.sparkdlc$setClient(client);
+        probeInit.sparkdlc$init();
         for (Element child : probe.children()) {
             if (child instanceof AssassinTargetWidget widget && !targets.contains(widget.targetUuid)) {
                 targets.add(widget.targetUuid);
@@ -115,7 +115,7 @@ public final class AssassinGuessSources {
      * SparkTraits 始终存在）。不含刺客本身：服务端会忽略对其他刺客的任何猜测。
      */
     public static List<Role> roles(ClientPlayerEntity player) {
-        List<Role> offered = ((AssassinScreenInvoker) new AssassinScreen(player)).sparkstrength$guessableRoles();
+        List<Role> offered = ((AssassinScreenInvoker) new AssassinScreen(player)).sparkdlc$guessableRoles();
         Set<Identifier> offeredIds = new HashSet<>();
         for (Role role : offered) {
             offeredIds.add(role.identifier());

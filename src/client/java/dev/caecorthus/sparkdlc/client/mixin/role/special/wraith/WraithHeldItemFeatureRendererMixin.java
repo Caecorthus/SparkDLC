@@ -21,7 +21,7 @@ public abstract class WraithHeldItemFeatureRendererMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$hideWraithHeldItems(
+    private void sparkdlc$hideWraithHeldItems(
             MatrixStack matrices,
             VertexConsumerProvider vertexConsumers,
             int light,

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.mixin.role.civilian.savior;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.role.civilian.savior.SaviorHandFlash;
 import dev.caecorthus.sparkdlc.client.role.civilian.savior.SaviorMuzzleTracker;
 import net.minecraft.client.MinecraftClient;
@@ -43,7 +43,7 @@ public abstract class SaviorMuzzleTrackerMixin {
                     shift = At.Shift.AFTER
             )
     )
-    private void sparkwitch$recordSaviorMuzzle(LivingEntity entity, ItemStack stack, ModelTransformationMode mode,
+    private void sparkdlc$recordSaviorMuzzle(LivingEntity entity, ItemStack stack, ModelTransformationMode mode,
                                                boolean leftHanded, MatrixStack matrices,
                                                VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
         // Render the hand-space flash before matrixToVec mutates the matrix (Wathe's order).
@@ -53,7 +53,7 @@ public abstract class SaviorMuzzleTrackerMixin {
         }
         // Wathe only records a world muzzle position for the local player outside first person.
         // 与 Wathe 相同：本地玩家只在非第一人称时记录世界枪口位置。
-        if (stack.isOf(SparkWitchItems.saviorPistol()) && entity instanceof PlayerEntity player
+        if (stack.isOf(SparkDlcItems.saviorPistol()) && entity instanceof PlayerEntity player
                 && (player != MinecraftClient.getInstance().player || !mode.isFirstPerson())) {
             SaviorMuzzleTracker.set(player, SaviorMuzzleTracker.matrixToVec(matrices));
         }

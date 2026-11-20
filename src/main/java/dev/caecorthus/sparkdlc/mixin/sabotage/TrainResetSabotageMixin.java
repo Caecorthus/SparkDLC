@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = GameFunctions.class, remap = false)
 public abstract class TrainResetSabotageMixin {
     @Inject(method = "tryResetTrain", at = @At("RETURN"))
-    private static void sparkstrength$afterTrainReset(ServerWorld world, CallbackInfoReturnable<Boolean> cir) {
+    private static void sparkdlc$afterTrainReset(ServerWorld world, CallbackInfoReturnable<Boolean> cir) {
         if (!cir.getReturnValueZ()) {
             SabotageService.onTrainReset(world);
         }

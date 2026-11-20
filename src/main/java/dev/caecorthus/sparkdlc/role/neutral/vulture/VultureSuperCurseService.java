@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.vulture;
 
-import dev.caecorthus.sparkdlc.SparkStrengthSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.neutral.vulture.VultureSuperCursePlayerComponent;
 import dev.caecorthus.sparkdlc.role.AbilityLocks;
@@ -34,8 +34,8 @@ import java.util.UUID;
 public final class VultureSuperCurseService {
     /** Curse sounds a death or round end must cut off. / 死亡或回合结束时需要切断的超级骂音效。 */
     private static final List<Identifier> CURSE_SOUND_IDS = List.of(
-            SparkStrengthSounds.VULTURE_SUPER_CURSE_ID,
-            SparkStrengthSounds.VULTURE_SUPER_CURSE_HELIUM_ID
+            SparkDlcSounds.VULTURE_SUPER_CURSE_ID,
+            SparkDlcSounds.VULTURE_SUPER_CURSE_HELIUM_ID
     );
     /**
      * Per world: Vulture uuid -> world time their last curse is certainly over. Lets death and round end send stop
@@ -104,8 +104,8 @@ public final class VultureSuperCurseService {
         // 实时词条判定；为 false 时播放普通版本。
         boolean childish = SparkTraitsApi.hasActiveTrait(player, VultureSuperCurseRules.CHILDISH_TRAIT_ID);
         SoundEvent curse = childish
-                ? SparkStrengthSounds.VULTURE_SUPER_CURSE_HELIUM
-                : SparkStrengthSounds.VULTURE_SUPER_CURSE;
+                ? SparkDlcSounds.VULTURE_SUPER_CURSE_HELIUM
+                : SparkDlcSounds.VULTURE_SUPER_CURSE;
         // Entity-bound so the curse follows the Vulture; heard by everyone in range, the Vulture included.
         // 绑定实体，使超级骂跟随秃鹫移动；范围内所有人（包括秃鹫本人）都能听到。
         world.playSoundFromEntity(null, player, Registries.SOUND_EVENT.getEntry(curse), SoundCategory.PLAYERS,
@@ -131,8 +131,8 @@ public final class VultureSuperCurseService {
         boolean childish = VultureSuperCurseRules.isChildish(
                 SparkTraitsApi.getRoundEndTraitIds(world, victim.getUuid()));
         SoundEvent scream = childish
-                ? SparkStrengthSounds.VULTURE_DEATH_SCREAM_HELIUM
-                : SparkStrengthSounds.VULTURE_DEATH_SCREAM;
+                ? SparkDlcSounds.VULTURE_DEATH_SCREAM_HELIUM
+                : SparkDlcSounds.VULTURE_DEATH_SCREAM;
         // One seed in the packet: every client picks the same helium clip. / 数据包只带一个种子：所有客户端选中同一段氦气惨叫。
         world.playSound(null, victim.getX(), victim.getY(), victim.getZ(), Registries.SOUND_EVENT.getEntry(scream),
                 SoundCategory.PLAYERS, VultureSuperCurseRules.SOUND_VOLUME, 1.0F, world.getRandom().nextLong());

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.trait.audio;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.Entity;
 import net.minecraft.registry.Registries;
 import net.minecraft.sound.SoundCategory;
@@ -34,7 +34,7 @@ public final class CautiousSoundDebug {
             return;
         }
 
-        SparkTraits.LOGGER.info(
+        SparkDLC.LOGGER.info(
                 "Cautious sound adapter={} sourceUuid={} sourceType={} confirmedServer={} cautiousRule={} decision={} soundId={} category={} volume={}",
                 adapterPath,
                 source == null ? "unavailable" : source.getUuid(),

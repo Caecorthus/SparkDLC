@@ -60,7 +60,7 @@ public final class RiftGateCrosshairClient {
         boolean aimedAtGate = target instanceof RiftGateEntity;
         Entity behind = null;
         if (aimedAtGate && client.gameRenderer instanceof RiftGateCrosshairAccess access) {
-            HitResult repick = access.sparkwitch$pickIgnoringGates();
+            HitResult repick = access.sparkdlc$pickIgnoringGates();
             behind = repick instanceof EntityHitResult hit ? hit.getEntity() : null;
         }
         return switch (RiftGateCrosshairRules.attackOutcome(aimedAtGate, behind != null,

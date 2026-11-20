@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = InGameHud.class, priority = 900)
 public abstract class ForcedMeleeInGameHudMixin {
     @Inject(method = "renderCrosshair", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$lockedFallback(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+    private void sparkdlc$lockedFallback(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         if (ForcedMeleeHud.renderLockedCrosshair(context)) {
             ci.cancel();
         }
@@ -27,7 +27,7 @@ public abstract class ForcedMeleeInGameHudMixin {
             slice = @Slice(
                     from = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/GameOptions;getAttackIndicator()Lnet/minecraft/client/option/SimpleOption;"),
                     to = @At(value = "FIELD", target = "Lnet/minecraft/client/option/AttackIndicator;HOTBAR:Lnet/minecraft/client/option/AttackIndicator;")))
-    private Object sparktraits$hideContradictoryHotbarIndicator(Object original) {
+    private Object sparkdlc$hideContradictoryHotbarIndicator(Object original) {
         return ForcedMeleeHud.remainingTicks() > 0 ? AttackIndicator.OFF : original;
     }
 }

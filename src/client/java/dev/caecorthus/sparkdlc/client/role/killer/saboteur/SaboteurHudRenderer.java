@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.killer.saboteur;
 
-import dev.caecorthus.sparkdlc.client.hooks.WitchAbilityKeyBridge;
+import dev.caecorthus.sparkdlc.client.hooks.AbilityKeyBridge;
 import dev.caecorthus.sparkdlc.role.killer.saboteur.SaboteurPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.saboteur.SaboteurRole;
 import net.minecraft.client.MinecraftClient;
@@ -39,7 +39,7 @@ public final class SaboteurHudRenderer {
         }
         return Text.translatable(
                 "hud.sparkdlc.skill.sabotage.ready",
-                WitchAbilityKeyBridge.keyText()
+                AbilityKeyBridge.keyText()
         );
     }
 }

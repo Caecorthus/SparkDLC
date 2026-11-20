@@ -33,25 +33,25 @@ public abstract class BomberPlayerComponentFiendLedgerMixin {
 
     @Inject(method = "transferBomb(Lnet/minecraft/entity/player/PlayerEntity;)V", at = @At(value = "INVOKE",
             target = "Ldev/doctor4t/wathe/record/GameRecordManager;recordItemUse(Lnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;Lnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/nbt/NbtCompound;)V"))
-    private void sparkwitch$recordFiendPass(PlayerEntity target, CallbackInfo ci) {
+    private void sparkdlc$recordFiendPass(PlayerEntity target, CallbackInfo ci) {
         FiendBombLedger.onTransfer(player, target);
     }
 
     @Inject(method = "placeBomb(Lnet/minecraft/entity/player/PlayerEntity;)V", at = @At("HEAD"))
-    private void sparkwitch$forgetFiendPassOnNewBomb(PlayerEntity bomber, CallbackInfo ci) {
+    private void sparkdlc$forgetFiendPassOnNewBomb(PlayerEntity bomber, CallbackInfo ci) {
         FiendBombLedger.onPlaced(player);
     }
 
     @WrapOperation(method = "explode()V", at = @At(value = "INVOKE",
             target = "Ldev/doctor4t/wathe/game/GameFunctions;killPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;ZLnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;)V"),
             require = 2)
-    private void sparkwitch$creditFiendPass(ServerPlayerEntity victim, boolean spawnBody, ServerPlayerEntity killer,
+    private void sparkdlc$creditFiendPass(ServerPlayerEntity victim, boolean spawnBody, ServerPlayerEntity killer,
                                            Identifier reason, Operation<Void> original) {
         FiendBombLedger.onExplosionKill(player, victim, () -> original.call(victim, spawnBody, killer, reason));
     }
 
     @Inject(method = "explode()V", at = @At("TAIL"))
-    private void sparkwitch$closeFiendPass(CallbackInfo ci) {
+    private void sparkdlc$closeFiendPass(CallbackInfo ci) {
         FiendBombLedger.onExplosionEnd(player);
     }
 }

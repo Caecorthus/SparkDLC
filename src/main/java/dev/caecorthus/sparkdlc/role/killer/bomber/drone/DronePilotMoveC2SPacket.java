@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.bomber.drone;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
@@ -14,7 +14,7 @@ import net.minecraft.network.packet.CustomPayload;
  */
 public record DronePilotMoveC2SPacket(int entityId, double x, double y, double z, float yaw, float pitch, boolean moving)
         implements CustomPayload {
-    public static final Id<DronePilotMoveC2SPacket> ID = new Id<>(SparkStrength.id("drone_pilot_move"));
+    public static final Id<DronePilotMoveC2SPacket> ID = new Id<>(SparkDLC.id("drone_pilot_move"));
     public static final PacketCodec<RegistryByteBuf, DronePilotMoveC2SPacket> CODEC =
             PacketCodec.of(DronePilotMoveC2SPacket::write, DronePilotMoveC2SPacket::read);
 

@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = GameFunctions.class, remap = false)
 public abstract class GameFunctionsSchrodingersCatSettlementMixin {
     @Inject(method = "isPlayerPlayingAndAlive", at = @At("HEAD"), cancellable = true)
-    private static void sparkwitch$catCountsAsDeadDuringWinCheck(
+    private static void sparkdlc$catCountsAsDeadDuringWinCheck(
             PlayerEntity player,
             CallbackInfoReturnable<Boolean> cir
     ) {

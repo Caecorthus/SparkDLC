@@ -26,7 +26,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class SerialKillerClientSlotWriteMixin {
     @WrapOperation(method = "handleInputEvents", at = @At(value = "FIELD",
             target = "Lnet/minecraft/entity/player/PlayerInventory;selectedSlot:I", opcode = Opcodes.PUTFIELD))
-    private void sparkstrength$lockSlot(PlayerInventory inventory, int value, Operation<Void> original) {
+    private void sparkdlc$lockSlot(PlayerInventory inventory, int value, Operation<Void> original) {
         if (inventory.player != null
                 && PlayerPsychoComponent.KEY.get(inventory.player).getPsychoTicks() > 0) {
             int pistolSlot = SerialPistolHotbar.findSerialPistolSlot(inventory);

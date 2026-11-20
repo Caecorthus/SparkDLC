@@ -29,7 +29,7 @@ import java.util.function.Consumer;
  * 钳制在 1，即原版行为。
  */
 public final class BearHearingAudio {
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkWitch/BearHearingAudio");
+    private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/BearHearingAudio");
     private static volatile boolean unavailable;
 
     private BearHearingAudio() {
@@ -68,7 +68,7 @@ public final class BearHearingAudio {
             return;
         }
         try {
-            applyMaxGain(((HearingSourceAccessor) source).sparkwitch$getHearingSourcePointer());
+            applyMaxGain(((HearingSourceAccessor) source).sparkdlc$getHearingSourcePointer());
         } catch (RuntimeException | LinkageError error) {
             unavailable = true;
             LOGGER.warn("Could not raise the OpenAL max gain; BEAR earplugs stay capped at normal volume", error);

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerVisibilityRules;
@@ -41,7 +41,7 @@ import java.util.WeakHashMap;
  */
 public final class PartygoerOwnerComponent implements AutoSyncedComponent, ServerTickingComponent {
     public static final ComponentKey<PartygoerOwnerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("partygoer_owner"),
+            SparkDLC.id("partygoer_owner"),
             PartygoerOwnerComponent.class
     );
     /** Re-send cadence (1 s). / 重发间隔（1 秒）。 */

@@ -32,7 +32,7 @@ public abstract class UsecInventoryScreenRifleClickMixin {
                     target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;onMouseClick(Lnet/minecraft/screen/slot/Slot;IILnet/minecraft/screen/slot/SlotActionType;)V"
             )
     )
-    private void sparkwitch$openUsecAttachments(HandledScreen<?> screen, Slot slot, int slotId, int button,
+    private void sparkdlc$openUsecAttachments(HandledScreen<?> screen, Slot slot, int slotId, int button,
                                                 SlotActionType action, Operation<Void> original) {
         if (UsecAttachmentClient.tryOpen(screen, screen.getScreenHandler(), slot, button, action)) {
             return;

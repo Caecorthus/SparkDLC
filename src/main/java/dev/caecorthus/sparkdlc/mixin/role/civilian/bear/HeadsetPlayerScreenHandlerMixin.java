@@ -36,7 +36,7 @@ public abstract class HeadsetPlayerScreenHandlerMixin extends AbstractRecipeScre
 
     @Inject(method = "<init>(Lnet/minecraft/entity/player/PlayerInventory;ZLnet/minecraft/entity/player/PlayerEntity;)V",
             at = @At("TAIL"))
-    private void sparkwitch$appendHeadsetSlot(PlayerInventory inventory, boolean onServer, PlayerEntity owner,
+    private void sparkdlc$appendHeadsetSlot(PlayerInventory inventory, boolean onServer, PlayerEntity owner,
                                               CallbackInfo ci) {
         addSlot(new HeadsetSlot(owner));
     }
@@ -48,7 +48,7 @@ public abstract class HeadsetPlayerScreenHandlerMixin extends AbstractRecipeScre
      */
     @Inject(method = "quickMove(Lnet/minecraft/entity/player/PlayerEntity;I)Lnet/minecraft/item/ItemStack;",
             at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$quickMoveIntoHeadset(PlayerEntity player, int slotIndex,
+    private void sparkdlc$quickMoveIntoHeadset(PlayerEntity player, int slotIndex,
                                                  CallbackInfoReturnable<ItemStack> cir) {
         int headsetIndex = HeadsetSlots.HANDLER_SLOT_ID;
         if (slotIndex < 0 || slotIndex >= slots.size() || headsetIndex >= slots.size()

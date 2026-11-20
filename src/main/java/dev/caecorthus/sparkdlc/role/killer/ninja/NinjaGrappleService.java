@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.ninja;
 
-import dev.caecorthus.sparkdlc.SparkWitchEntities;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.entity.NinjaGrapplingHookEntity;
@@ -74,7 +74,7 @@ public final class NinjaGrappleService {
             }
             return true;
         }
-        if (player.getItemCooldownManager().isCoolingDown(SparkWitchItems.ninjaGrapplingHook())
+        if (player.getItemCooldownManager().isCoolingDown(SparkDlcItems.ninjaGrapplingHook())
                 || !mayGrapple(player)
                 || isHeld(player)) {
             return false;
@@ -139,8 +139,8 @@ public final class NinjaGrappleService {
     }
 
     public static boolean holdsHook(PlayerEntity player) {
-        return player.getMainHandStack().isOf(SparkWitchItems.ninjaGrapplingHook())
-                || player.getOffHandStack().isOf(SparkWitchItems.ninjaGrapplingHook());
+        return player.getMainHandStack().isOf(SparkDlcItems.ninjaGrapplingHook())
+                || player.getOffHandStack().isOf(SparkDlcItems.ninjaGrapplingHook());
     }
 
     /** Silent cleanup (death, reset, role change): no sound, no cooldown. / 静默清理（死亡、重置、职业变更）：无音效、无冷却。 */
@@ -165,7 +165,7 @@ public final class NinjaGrappleService {
      */
     private static void discardAll(ServerWorld world) {
         for (NinjaGrapplingHookEntity hook : world.getEntitiesByType(
-                SparkWitchEntities.ninjaGrapplingHook(), EntityPredicates.VALID_ENTITY)) {
+                SparkDlcEntities.ninjaGrapplingHook(), EntityPredicates.VALID_ENTITY)) {
             hook.discardSilently();
         }
         ACTIVE_HOOKS.values().removeIf(NinjaGrapplingHookEntity::isRemoved);

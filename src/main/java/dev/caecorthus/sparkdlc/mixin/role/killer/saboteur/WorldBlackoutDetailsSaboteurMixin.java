@@ -26,41 +26,41 @@ public abstract class WorldBlackoutDetailsSaboteurMixin {
     private boolean original;
 
     @Unique
-    private boolean sparkwitch$initialized;
+    private boolean sparkdlc$initialized;
 
     @Unique
-    private boolean sparkwitch$coordinatedEnd;
+    private boolean sparkdlc$coordinatedEnd;
 
     @Unique
-    private SaboteurLightOutageService.WatheEndAction sparkwitch$endAction =
+    private SaboteurLightOutageService.WatheEndAction sparkdlc$endAction =
             SaboteurLightOutageService.WatheEndAction.NATIVE;
 
     @Inject(method = "init", at = @At("HEAD"))
-    private void sparkwitch$beginWatheLampSource(World world, CallbackInfo ci) {
-        if (!sparkwitch$initialized) {
-            sparkwitch$initialized = true;
+    private void sparkdlc$beginWatheLampSource(World world, CallbackInfo ci) {
+        if (!sparkdlc$initialized) {
+            sparkdlc$initialized = true;
             SaboteurLightOutageService.onWatheInit(world, pos, this, original);
         }
     }
 
     @Inject(method = "end", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$coordinateWatheLampEnd(World world, CallbackInfo ci) {
+    private void sparkdlc$coordinateWatheLampEnd(World world, CallbackInfo ci) {
         // Wathe calls end() twice; suppress only a coordinated second write, never Wathe-only behavior.
         // Wathe 会调用两次 end()；仅拦截已协调的第二次写入，不改变纯 Wathe 行为。
-        if (sparkwitch$coordinatedEnd) {
+        if (sparkdlc$coordinatedEnd) {
             ci.cancel();
             return;
         }
-        sparkwitch$endAction = SaboteurLightOutageService.onWatheEnd(world, pos, this);
-        sparkwitch$coordinatedEnd = sparkwitch$endAction.coordinatesLampRestoration();
-        if (sparkwitch$endAction == SaboteurLightOutageService.WatheEndAction.KEEP_DARK) {
+        sparkdlc$endAction = SaboteurLightOutageService.onWatheEnd(world, pos, this);
+        sparkdlc$coordinatedEnd = sparkdlc$endAction.coordinatesLampRestoration();
+        if (sparkdlc$endAction == SaboteurLightOutageService.WatheEndAction.KEEP_DARK) {
             ci.cancel();
         }
     }
 
     @Inject(method = "end", at = @At("RETURN"))
-    private void sparkwitch$restorePreSabotageLampState(World world, CallbackInfo ci) {
-        if (sparkwitch$endAction == SaboteurLightOutageService.WatheEndAction.RESTORE_AFTER_NATIVE) {
+    private void sparkdlc$restorePreSabotageLampState(World world, CallbackInfo ci) {
+        if (sparkdlc$endAction == SaboteurLightOutageService.WatheEndAction.RESTORE_AFTER_NATIVE) {
             SaboteurLightOutageService.afterWatheEnd(world, pos);
         }
     }
@@ -72,7 +72,7 @@ public abstract class WorldBlackoutDetailsSaboteurMixin {
                     target = "Lnet/minecraft/world/World;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;)Z"
             )
     )
-    private boolean sparkwitch$protectLocalOutageDuringWatheFlicker(
+    private boolean sparkdlc$protectLocalOutageDuringWatheFlicker(
             World world,
             BlockPos pos,
             BlockState proposedState

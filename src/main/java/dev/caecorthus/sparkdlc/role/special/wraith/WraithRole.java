@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.special.wraith;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 
 /**
@@ -10,7 +10,7 @@ import dev.doctor4t.wathe.api.Role;
 public final class WraithRole {
     private static final int COLOR = 0x79C7D4;
     public static final Role ROLE = new Role(
-            SparkWitch.id("wraith"),
+            SparkDLC.id("wraith"),
             COLOR,
             false,
             false,

@@ -4,7 +4,7 @@ import com.google.gson.JsonSyntaxException;
 import com.mojang.blaze3d.platform.GlConst;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.role.killer.blackraven.BlackRavenPerceptionScreenEffects;
 import dev.caecorthus.sparkdlc.client.role.civilian.blind.BlindView;
 import dev.caecorthus.sparkdlc.client.role.civilian.blind.render.BlindShaderPackCheck;
@@ -57,7 +57,7 @@ import org.jetbrains.annotations.Nullable;
  * 滤镜撤下时释放，断线、登录、客户端关闭与资源重载时也会释放（资源重载同时清除加载失败标记）。
  */
 public final class SpecterOtherworldScreenEffects {
-    private static final Identifier SHADER = SparkWitch.id("shaders/post/otherworld.json");
+    private static final Identifier SHADER = SparkDLC.id("shaders/post/otherworld.json");
     private static final String DEPTH_TARGET = "otherworld_depth";
     /** Window-end fade back to normal: five seconds. / 窗口结束后的渐隐恢复：5 秒。 */
     private static final float FADE_TICKS = 100.0F;
@@ -109,7 +109,7 @@ public final class SpecterOtherworldScreenEffects {
                 new SimpleSynchronousResourceReloadListener() {
                     @Override
                     public Identifier getFabricId() {
-                        return SparkWitch.id("specter_otherworld_filter");
+                        return SparkDLC.id("specter_otherworld_filter");
                     }
 
                     @Override
@@ -337,7 +337,7 @@ public final class SpecterOtherworldScreenEffects {
             processorTarget = framebuffer;
             return processor;
         } catch (IOException | JsonSyntaxException exception) {
-            SparkWitch.LOGGER.warn("Unable to load Specter Otherworld shader", exception);
+            SparkDLC.LOGGER.warn("Unable to load Specter Otherworld shader", exception);
             closeProcessor();
             loadFailed = true;
             return null;

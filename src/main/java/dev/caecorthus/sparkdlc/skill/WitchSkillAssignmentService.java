@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.skill;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillDefinition;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillRegistry;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillSelectionContext;
@@ -25,7 +25,7 @@ public final class WitchSkillAssignmentService {
     public static void assignForRole(ServerPlayerEntity player, Role role) {
         WitchPlayerComponent component = WitchPlayerComponent.KEY.get(player);
         Identifier forcedSkillId = component.getForcedSkillId();
-        if (!SparkWitchRoles.isSparkWitchRole(role)) {
+        if (!SparkDlcRoles.isSparkWitchRole(role)) {
             if (forcedSkillId != null) {
                 component.clearForcedSkill();
             }
@@ -74,7 +74,7 @@ public final class WitchSkillAssignmentService {
             WitchSkillSelectionContext context,
             RandomGenerator random
     ) {
-        if (!SparkWitchRoles.isSparkWitchRole(role)) {
+        if (!SparkDlcRoles.isSparkWitchRole(role)) {
             return new SkillAssignmentPlan(Optional.empty(), forcedSkillId != null);
         }
         if (forcedSkillId != null) {

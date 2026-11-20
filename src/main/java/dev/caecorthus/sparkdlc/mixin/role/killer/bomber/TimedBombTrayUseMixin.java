@@ -45,7 +45,7 @@ import java.util.UUID;
 @Mixin(value = FoodPlatterBlock.class, priority = 1300)
 public abstract class TimedBombTrayUseMixin {
     @Inject(method = "onUse", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$handleTimedBombTray(
+    private void sparkdlc$handleTimedBombTray(
             BlockState state,
             World world,
             BlockPos pos,
@@ -61,11 +61,11 @@ public abstract class TimedBombTrayUseMixin {
         ItemStack handStack = player.getStackInHand(Hand.MAIN_HAND);
 
         if (handStack.isOf(ModItems.TIMED_BOMB)) {
-            this.sparkstrength$tryPlantTrayBomb(plate, trap, handStack, player, pos, cir);
+            this.sparkdlc$tryPlantTrayBomb(plate, trap, handStack, player, pos, cir);
             return;
         }
 
-        if (!handStack.isEmpty() || !trap.sparkstrength$hasTimedBombTrap()) {
+        if (!handStack.isEmpty() || !trap.sparkdlc$hasTimedBombTrap()) {
             return;
         }
 
@@ -82,7 +82,7 @@ public abstract class TimedBombTrayUseMixin {
             return;
         }
 
-        if (!this.sparkstrength$canTakeFromBombedTray(player, platter)) {
+        if (!this.sparkdlc$canTakeFromBombedTray(player, platter)) {
             cir.setReturnValue(ActionResult.PASS);
             return;
         }
@@ -91,7 +91,7 @@ public abstract class TimedBombTrayUseMixin {
             return;
         }
 
-        UUID bomberUuid = trap.sparkstrength$getTimedBombTrapOwner();
+        UUID bomberUuid = trap.sparkdlc$getTimedBombTrapOwner();
         if (!BomberTrapService.tryAttachTimedBomb(serverPlayer, bomberUuid)) {
             return;
         }
@@ -108,7 +108,7 @@ public abstract class TimedBombTrayUseMixin {
          * 陷阱只有在成功把炸弹挂到有效目标身上后才清除。
          * 这对应“目标已有炸弹时不消耗、不清除”的规则。
          */
-        trap.sparkstrength$setTimedBombTrapOwner(null);
+        trap.sparkdlc$setTimedBombTrapOwner(null);
 
         if (poisoner != null) {
             takenStack.set(WatheDataComponentTypes.POISONER, poisoner);
@@ -121,7 +121,7 @@ public abstract class TimedBombTrayUseMixin {
     }
 
     @Unique
-    private void sparkstrength$tryPlantTrayBomb(
+    private void sparkdlc$tryPlantTrayBomb(
             BeveragePlateBlockEntity plate,
             TimedBombTrapHolder trap,
             ItemStack handStack,
@@ -137,12 +137,12 @@ public abstract class TimedBombTrayUseMixin {
                 || !BomberTrapService.canPlantTimedBomb(player)
                 || plate.getStoredItems().isEmpty()
                 || plate.getPoisoner() != null
-                || trap.sparkstrength$hasTimedBombTrap()) {
+                || trap.sparkdlc$hasTimedBombTrap()) {
             cir.setReturnValue(ActionResult.PASS);
             return;
         }
 
-        trap.sparkstrength$setTimedBombTrapOwner(player.getUuid());
+        trap.sparkdlc$setTimedBombTrapOwner(player.getUuid());
         handStack.decrementUnlessCreative(1, player);
         player.playSoundToPlayer(SoundEvents.BLOCK_BREWING_STAND_BREW, SoundCategory.BLOCKS, 0.5F, 1.0F);
         BomberTrapService.recordTrapPlacement(serverPlayer, BomberTrapService.TIMED_BOMB_TRAY_EMBEDDED, pos);
@@ -150,22 +150,22 @@ public abstract class TimedBombTrayUseMixin {
     }
 
     @Unique
-    private boolean sparkstrength$canTakeFromBombedTray(PlayerEntity player, List<ItemStack> platter) {
-        int matchingStacks = this.sparkstrength$countMatchingInventoryStacks(player, platter);
+    private boolean sparkdlc$canTakeFromBombedTray(PlayerEntity player, List<ItemStack> platter) {
+        int matchingStacks = this.sparkdlc$countMatchingInventoryStacks(player, platter);
         if (matchingStacks == 0) {
             return true;
         }
-        return this.sparkstrength$isWaiterLike(player) && matchingStacks < 2;
+        return this.sparkdlc$isWaiterLike(player) && matchingStacks < 2;
     }
 
     @Unique
-    private boolean sparkstrength$isWaiterLike(PlayerEntity player) {
+    private boolean sparkdlc$isWaiterLike(PlayerEntity player) {
         GameWorldComponent gameWorld = GameWorldComponent.KEY.get(player.getWorld());
         return gameWorld.isRole(player, Noellesroles.WAITER) || CoronerService.hasWaiterDisguise(player);
     }
 
     @Unique
-    private int sparkstrength$countMatchingInventoryStacks(PlayerEntity player, List<ItemStack> platter) {
+    private int sparkdlc$countMatchingInventoryStacks(PlayerEntity player, List<ItemStack> platter) {
         Set<Item> platterItemTypes = new HashSet<>();
         for (ItemStack platterItem : platter) {
             platterItemTypes.add(platterItem.getItem());

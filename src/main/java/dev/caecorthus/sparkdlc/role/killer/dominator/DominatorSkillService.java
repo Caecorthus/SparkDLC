@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.dominator;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesSilenceBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.killer.ninja.NinjaGrappleService;
@@ -53,7 +53,7 @@ public final class DominatorSkillService {
             return;
         }
         GameWorldComponent game = GameWorldComponent.KEY.get(killer.getWorld());
-        if (!game.isRunning() || !game.isRole(killer, SparkWitchRoles.dominator())) {
+        if (!game.isRunning() || !game.isRole(killer, SparkDlcRoles.dominator())) {
             return;
         }
         DominatorPlayerComponent.KEY.get(killer).addUse();
@@ -123,7 +123,7 @@ public final class DominatorSkillService {
     static boolean mayCast(ServerPlayerEntity caster) {
         GameWorldComponent game = GameWorldComponent.KEY.get(caster.getWorld());
         return game.getGameStatus() == GameWorldComponent.GameStatus.ACTIVE
-                && game.isRole(caster, SparkWitchRoles.dominator())
+                && game.isRole(caster, SparkDlcRoles.dominator())
                 && DominatorRules.isActiveCaster(caster)
                 && !NinjaGrappleService.isHeld(caster)
                 && !NoellesSilenceBridge.isSilenced(caster)

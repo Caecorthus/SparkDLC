@@ -1,10 +1,10 @@
 package dev.caecorthus.sparkdlc.role.neutral.vulture;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.neutral.vulture.SkateboardRideComponent;
 import dev.caecorthus.sparkdlc.record.AchievementRecords;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.caecorthus.sparkdlc.role.AbilityLocks;
 import dev.caecorthus.sparkdlc.util.ItemCooldownSync;
 import dev.caecorthus.sparkdlc.util.SparkPlayers;
@@ -50,7 +50,7 @@ public final class VultureSkateboardService {
      * Stable modifier id; it is temporary (never saved), so only this service ever adds or removes it.
      * 稳定的修饰符 ID；它是临时修饰符（不会存档），只由本服务添加和移除。
      */
-    public static final Identifier SPEED_MODIFIER_ID = SparkStrength.id("skateboard_speed");
+    public static final Identifier SPEED_MODIFIER_ID = SparkDLC.id("skateboard_speed");
     private static final Map<ServerWorld, Round> ROUNDS = new IdentityHashMap<>();
     private static boolean registered;
 
@@ -108,7 +108,7 @@ public final class VultureSkateboardService {
      */
     public static boolean tryStartRide(ServerPlayerEntity player) {
         ServerWorld world = player.getServerWorld();
-        Item skateboard = SparkStrengthItems.skateboard();
+        Item skateboard = SparkDlcItems.skateboard();
         if (!isActive(world) || !isActiveVulture(player)
                 || player.getItemCooldownManager().isCoolingDown(skateboard)
                 || SkateboardRideComponent.KEY.get(player).hasRide()
@@ -152,7 +152,7 @@ public final class VultureSkateboardService {
                 SoundCategory.PLAYERS, 0.7F, 1.3F);
         // has_speed / speed_amplifier (vanilla Speed at ride start) are read by SparkAssist's achievements.
         // has_speed / speed_amplifier（上板时的原版速度效果）供 SparkAssist 成就读取。
-        GameRecordManager.recordGlobalEvent(world, SparkStrengthReplayFormatters.SKATEBOARD_RIDE_STARTED, player,
+        GameRecordManager.recordGlobalEvent(world, RoleKitReplayFormatters.SKATEBOARD_RIDE_STARTED, player,
                 AchievementRecords.skateboardRideExtra(player));
         return true;
     }
@@ -204,7 +204,7 @@ public final class VultureSkateboardService {
         for (ServerPlayerEntity player : world.getPlayers()) {
             if (game.hasAnyRole(player) && !player.isSpectator() && isRealVulture(player)) {
                 settleStarter(round, player);
-                preserveCooldown(player, SparkStrengthItems.skateboard(), VultureSkateboardRules.OPENING_TICKS);
+                preserveCooldown(player, SparkDlcItems.skateboard(), VultureSkateboardRules.OPENING_TICKS);
             }
         }
     }
@@ -215,7 +215,7 @@ public final class VultureSkateboardService {
         // 滑行与开局锁不能带入大厅或下一局。
         for (ServerPlayerEntity player : world.getPlayers()) {
             endRide(player, false);
-            player.getItemCooldownManager().remove(SparkStrengthItems.skateboard());
+            player.getItemCooldownManager().remove(SparkDlcItems.skateboard());
         }
     }
 
@@ -251,7 +251,7 @@ public final class VultureSkateboardService {
                 int cooldown = round.cooldownRemaining(player.getUuid(), now);
                 int lock = Math.max(opening, cooldown);
                 if (lock > 0) {
-                    preserveCooldown(player, SparkStrengthItems.skateboard(), lock);
+                    preserveCooldown(player, SparkDlcItems.skateboard(), lock);
                 }
                 // The owner's HUD and slot sweep read this window, not the vanilla entry: see SkateboardRideComponent.
                 // 本人的 HUD 与栏位冷却条读取该区间，而非原版条目：见 SkateboardRideComponent。
@@ -292,13 +292,13 @@ public final class VultureSkateboardService {
                 // Hotbar full: stay unsettled so the next pass retries. / 快捷栏已满：保持未结算，下一轮重试。
                 return;
             }
-            player.getInventory().setStack(slot, new ItemStack(SparkStrengthItems.skateboard()));
+            player.getInventory().setStack(slot, new ItemStack(SparkDlcItems.skateboard()));
         }
         round.settled.add(uuid);
     }
 
     private static boolean hasSkateboard(ServerPlayerEntity player) {
-        Item item = SparkStrengthItems.skateboard();
+        Item item = SparkDlcItems.skateboard();
         PlayerInventory inventory = player.getInventory();
         for (int slot = 0; slot < inventory.size(); slot++) {
             if (inventory.getStack(slot).isOf(item)) {

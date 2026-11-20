@@ -4,7 +4,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import com.google.gson.JsonSyntaxException;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.caecorthus.sparkdlc.client.trait.render.DepressionScreenEffects;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.render.WraithClientState;
 import dev.caecorthus.sparkdlc.client.render.WraithVisionRules;
 import dev.caecorthus.sparkdlc.client.role.civilian.vendetta.VendettaClientPresentation;
@@ -23,7 +23,7 @@ import java.io.IOException;
  * 统一管理 SparkWitch 去饱和处理器；脱险时取最大灰阶，平时保留冤魂优先于感知的原规则。
  */
 public final class BlackRavenPerceptionScreenEffects {
-    private static final Identifier SHADER = SparkWitch.id("shaders/post/perception.json");
+    private static final Identifier SHADER = SparkDLC.id("shaders/post/perception.json");
     private static final float PERCEPTION_DESATURATION = 1.0f;
     private static final float PERCEPTION_LUMINANCE = 0.85f;
     private static final float LEGACY_LUMA_RED = 0.299f;
@@ -220,7 +220,7 @@ public final class BlackRavenPerceptionScreenEffects {
             processorTarget = framebuffer;
             return processor;
         } catch (IOException | JsonSyntaxException exception) {
-            SparkWitch.LOGGER.warn("Unable to load Black Raven Perception shader", exception);
+            SparkDLC.LOGGER.warn("Unable to load Black Raven Perception shader", exception);
             closeProcessor();
             loadFailed = true;
             return null;

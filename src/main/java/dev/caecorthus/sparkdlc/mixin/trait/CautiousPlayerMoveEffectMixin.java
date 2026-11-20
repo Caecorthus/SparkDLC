@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(PlayerEntity.class)
 public abstract class CautiousPlayerMoveEffectMixin {
     @Inject(method = "playStepSound", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$skipCautiousPlayerStepSound(BlockPos pos, BlockState state, CallbackInfo ci) {
+    private void sparkdlc$skipCautiousPlayerStepSound(BlockPos pos, BlockState state, CallbackInfo ci) {
         PlayerEntity player = (PlayerEntity) (Object) this;
         if (!SparkDlcServerConnection.isUnconfirmedClientEntity(player)
                 && GlobalTraitService.shouldSuppressCautiousStepSounds(player)) {
@@ -28,7 +28,7 @@ public abstract class CautiousPlayerMoveEffectMixin {
     }
 
     @Inject(method = "getMoveEffect", at = @At("RETURN"), cancellable = true)
-    private void sparktraits$skipCautiousMovementSounds(CallbackInfoReturnable<Entity.MoveEffect> cir) {
+    private void sparkdlc$skipCautiousMovementSounds(CallbackInfoReturnable<Entity.MoveEffect> cir) {
         PlayerEntity player = (PlayerEntity) (Object) this;
         if (SparkDlcServerConnection.isUnconfirmedClientEntity(player)) {
             return;

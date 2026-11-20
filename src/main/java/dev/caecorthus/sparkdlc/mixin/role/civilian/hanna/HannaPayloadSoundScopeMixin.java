@@ -39,7 +39,7 @@ public abstract class HannaPayloadSoundScopeMixin {
                     + "Lnet/minecraft/network/packet/CustomPayload;)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;execute(Ljava/lang/Runnable;)V")
     )
-    private void sparkwitch$scopeHannaPayloadSounds(MinecraftServer server, Runnable handler,
+    private void sparkdlc$scopeHannaPayloadSounds(MinecraftServer server, Runnable handler,
                                                     Operation<Void> original) {
         original.call(server, (Runnable) () -> HannaSoundScope.run(context.player(), handler));
     }

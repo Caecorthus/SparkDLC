@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.blind.kit;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindParticipants;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
@@ -36,7 +36,7 @@ import org.jetbrains.annotations.Nullable;
  * 在局的精确盲人的玩家错峰清理。
  */
 public final class BlindKitWiring {
-    static final Identifier FINISH_INITIALIZE_PHASE = SparkWitch.id("blind_finish_initialize");
+    static final Identifier FINISH_INITIALIZE_PHASE = SparkDLC.id("blind_finish_initialize");
     private static boolean registered;
 
     private BlindKitWiring() {

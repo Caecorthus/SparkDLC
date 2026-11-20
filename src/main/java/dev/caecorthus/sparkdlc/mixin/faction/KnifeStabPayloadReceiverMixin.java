@@ -22,7 +22,7 @@ public abstract class KnifeStabPayloadReceiverMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkfactionapi$guardKnifeStab(
+    private void sparkdlc$guardKnifeStab(
             KnifeStabPayload payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci

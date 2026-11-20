@@ -203,14 +203,14 @@ public final class BlackRavenCrowHits {
     }
 
     /**
-     * Add-on melee weapons with their own player path, through {@code SparkWitchApi.crowMeleeStandIn} (today
+     * Add-on melee weapons with their own player path, through {@code SparkRoleApi.crowMeleeStandIn} (today
      * SparkStrength's Veteran, Coroner-disguise and Silencer knives and the Undercover tomahawk, whose handlers take
      * over before Wathe's receivers): a crow the attacker may hit within its {@code reach} plus
      * {@link BlackRavenCrowHitRules#ADDON_MELEE_TOLERANCE} (lag-compensated) with a clear line becomes its substituted
      * owner; null for anything else, so nothing is armed. The frozen signature carries no action, so the SparkFactionAPI
      * check uses the stab's {@code wathe:knife} (four of the five callers; each caller still checks its own action on the
      * returned owner, as SparkStrength's tomahawk does with {@code sparkdlc:tomahawk}).
-     * 自带玩家路径的附属模组近战武器，经 {@code SparkWitchApi.crowMeleeStandIn} 调用（目前为 SparkStrength 老兵、验尸官伪装与
+     * 自带玩家路径的附属模组近战武器，经 {@code SparkRoleApi.crowMeleeStandIn} 调用（目前为 SparkStrength 老兵、验尸官伪装与
      * 沉默者的刀以及卧底战术斧，其处理器在 Wathe 接收器之前接管）：攻击者可命中、在其 {@code reach} 加
      * {@link BlackRavenCrowHitRules#ADDON_MELEE_TOLERANCE}（延迟补偿）内且视线畅通的乌鸦变为其被替身的主人；其余情况为 null，
      * 不装入任何替身。冻结签名不带行为 id，因此 SparkFactionAPI 判定使用刺击的 {@code wathe:knife}（五个调用方中的四个；各调用方
@@ -648,12 +648,12 @@ public final class BlackRavenCrowHits {
 
     /**
      * Sphere blast whose weapon kills the players in it on its own (the SparkStrength M67, and through
-     * {@code SparkWitchApi.killCrowsInBlast} add-on blasts such as SparkStrength's bomb drone): every crow whose box
+     * {@code SparkRoleApi.killCrowsInBlast} add-on blasts such as SparkStrength's bomb drone): every crow whose box
      * centre lies in the closed {@code radius} sphere with a clear line from {@code center} (the Magician puppet's
      * measure) kills its owner ({@code killOwnerVia}, {@code killer} credited, {@code deathReason} passed through as the
      * same instance). Never the killer's own crow, nor one whose owner SparkFactionAPI shields from {@code killer} for
      * {@code deathReason} (left alone, not counted); only while a Wathe round runs. Returns how many crows were hit.
-     * 武器自行击杀范围内玩家的球形爆炸（SparkStrength M67，以及经 {@code SparkWitchApi.killCrowsInBlast} 转入的附属模组爆炸，
+     * 武器自行击杀范围内玩家的球形爆炸（SparkStrength M67，以及经 {@code SparkRoleApi.killCrowsInBlast} 转入的附属模组爆炸，
      * 如 SparkStrength 炸弹无人机）：箱体中心位于闭球 {@code radius} 内且与 {@code center} 视线畅通（魔术师皮套的量法）的每只乌鸦
      * 处死其主人（{@code killOwnerVia}，记在 {@code killer} 名下，{@code deathReason} 按同一实例原样传递）。从不包括击杀者自己的
      * 乌鸦，也不包括 SparkFactionAPI 以 {@code deathReason} 禁止 {@code killer} 影响其主人的乌鸦（保持不动、不计数）；仅在 Wathe
@@ -693,12 +693,12 @@ public final class BlackRavenCrowHits {
     // ---- Add-on guns / 附属枪械 ----
 
     /**
-     * Add-on gun shot through {@code SparkWitchApi.hitGunWorldTarget} (today SparkStrength's Serial Killer pistols),
+     * Add-on gun shot through {@code SparkRoleApi.hitGunWorldTarget} (today SparkStrength's Serial Killer pistols),
      * after the facade's gun checks: a crow the shooter may hit within {@code maxDistance} (capped at Wathe's 65) on the
      * shooter's look ray (lag-compensated) kills its owner as that gun kills a player: the SparkFactionAPI gun veto, the
      * {@code ShouldPunishGunShooter} custom punishment (scheduled like the caller's), then {@code killOwnerVia} with
      * {@code wathe:gun}. The caller still finishes the shot as a recorded miss. True when the crow was hit.
-     * 经 {@code SparkWitchApi.hitGunWorldTarget} 转入的附属模组枪械射击（目前为 SparkStrength 连环杀手手枪），在门面的枪械检查
+     * 经 {@code SparkRoleApi.hitGunWorldTarget} 转入的附属模组枪械射击（目前为 SparkStrength 连环杀手手枪），在门面的枪械检查
      * 之后：射手可命中、位于 {@code maxDistance}（上限为 Wathe 的 65）内且在射手视线上（延迟补偿）的乌鸦，按该枪击杀玩家的方式
      * 处死其主人：SparkFactionAPI 枪械否决、{@code ShouldPunishGunShooter} 自定义惩罚（与调用方一样延迟执行），然后以
      * {@code wathe:gun} 调用 {@code killOwnerVia}。调用方仍按未命中记录收尾。命中乌鸦时返回 true。

@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(targets = "net.irisshaders.iris.pipeline.IrisRenderingPipeline", remap = false)
 public abstract class SmokeIrisFinalPassMixin {
     @Inject(method = "finalizeLevelRendering()V", at = @At("RETURN"), require = 0, remap = false)
-    private void sparkwitch$drawSmokeAfterFinalPass(CallbackInfo ci) {
+    private void sparkdlc$drawSmokeAfterFinalPass(CallbackInfo ci) {
         SmokeShaderPackBridge.afterFinalPass(this);
     }
 }

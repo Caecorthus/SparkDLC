@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.killer.witchmaiden.skin;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.render.bedrock.geo.BedrockGeometryParser;
 import dev.caecorthus.sparkdlc.client.role.killer.witchmaiden.skin.MiniWitherSkinFolder.InvalidSkinException;
 import dev.caecorthus.sparkdlc.client.role.killer.witchmaiden.skin.sound.MiniWitherSoundOverrides;
@@ -65,13 +65,13 @@ public final class MiniWitherSkinManager {
         try {
             readSetting();
         } catch (RuntimeException exception) {
-            SparkWitch.LOGGER.warn("Unable to read the Mini Wither skin setting", exception);
+            SparkDLC.LOGGER.warn("Unable to read the Mini Wither skin setting", exception);
         }
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> active());
     }
 
     public static Path skinsDirectory() {
-        return FabricLoader.getInstance().getConfigDir().resolve(SparkWitch.MOD_ID).resolve("mini_wither");
+        return FabricLoader.getInstance().getConfigDir().resolve(SparkDLC.MOD_ID).resolve("mini_wither");
     }
 
     /** Skin folders found by the last scan, sorted by id; never includes the default. / 上次扫描找到的皮肤文件夹。 */
@@ -84,7 +84,7 @@ public final class MiniWitherSkinManager {
         try {
             readSetting();
         } catch (RuntimeException exception) {
-            SparkWitch.LOGGER.warn("Unable to read the Mini Wither skin setting", exception);
+            SparkDLC.LOGGER.warn("Unable to read the Mini Wither skin setting", exception);
         }
         return selected;
     }
@@ -162,7 +162,7 @@ public final class MiniWitherSkinManager {
         }
         active = null;
         status = new Status(Status.Kind.BROKEN, "");
-        SparkWitch.LOGGER.error("The Mini Wither skin \"{}\" failed to draw; using the vanilla look until it is"
+        SparkDLC.LOGGER.error("The Mini Wither skin \"{}\" failed to draw; using the vanilla look until it is"
                 + " reloaded", skin.id(), failure);
         clearSounds();
     }
@@ -210,7 +210,7 @@ public final class MiniWitherSkinManager {
         Path folder = folders.get(selected);
         if (folder == null) {
             status = new Status(Status.Kind.MISSING, "");
-            SparkWitch.LOGGER.info("The Mini Wither skin \"{}\" is not in {}; using the vanilla look", selected,
+            SparkDLC.LOGGER.info("The Mini Wither skin \"{}\" is not in {}; using the vanilla look", selected,
                     skinsDirectory());
             clearSounds();
             return;
@@ -229,7 +229,7 @@ public final class MiniWitherSkinManager {
             active = loaded.skin();
             status = new Status(Status.Kind.LOADED, "");
             for (String warning : warnings) {
-                SparkWitch.LOGGER.warn("Mini Wither skin \"{}\": {}", spec.id(), warning);
+                SparkDLC.LOGGER.warn("Mini Wither skin \"{}\": {}", spec.id(), warning);
             }
         } catch (InvalidSkinException failure) {
             fail(failure.getMessage(), failure);
@@ -254,7 +254,7 @@ public final class MiniWitherSkinManager {
             failure.addSuppressed(exception);
         }
         status = new Status(Status.Kind.ERROR, detail);
-        SparkWitch.LOGGER.warn("Unable to load the Mini Wither skin \"{}\": {}", selected, detail, failure);
+        SparkDLC.LOGGER.warn("Unable to load the Mini Wither skin \"{}\": {}", selected, detail, failure);
         clearSounds();
     }
 
@@ -262,7 +262,7 @@ public final class MiniWitherSkinManager {
         try {
             MiniWitherSoundOverrides.clear();
         } catch (Exception | LinkageError exception) {
-            SparkWitch.LOGGER.warn("Unable to clear the Mini Wither skin sounds", exception);
+            SparkDLC.LOGGER.warn("Unable to clear the Mini Wither skin sounds", exception);
         }
     }
 

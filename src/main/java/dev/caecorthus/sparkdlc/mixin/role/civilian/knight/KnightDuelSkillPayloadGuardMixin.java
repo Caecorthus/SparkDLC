@@ -42,7 +42,7 @@ public abstract class KnightDuelSkillPayloadGuardMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;execute(Ljava/lang/Runnable;)V",
                     remap = true)
     )
-    private void sparkwitch$dropDuelistSkillPayload(
+    private void sparkdlc$dropDuelistSkillPayload(
             MinecraftServer server,
             Runnable handler,
             Operation<Void> original,

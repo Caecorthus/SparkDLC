@@ -1,10 +1,10 @@
 package dev.caecorthus.sparkdlc.role.civilian.knight.duel;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.net.KnightDuelStopSoundS2CPayload;
 import dev.caecorthus.sparkdlc.net.KnightDuelUiLockS2CPayload;
@@ -72,9 +72,9 @@ public final class KnightDuelService {
         // 所有者批准的强制击杀（2026-10-30）：SparkTraits 在击杀时实时读取终结原因集合，服务端启动时注册即足够早且幂等；
         // 缺失或旧版 SparkTraits 不注册任何内容。
         ServerLifecycleEvents.SERVER_STARTING.register(server -> {
-            SparkTraitsApi.registerTerminalDeathReason(SparkWitchDeathReasons.DUEL_SUICIDE);
-            SparkTraitsApi.registerTerminalDeathReason(SparkWitchDeathReasons.DUEL_FAILED);
-            SparkTraitsApi.registerTerminalDeathReason(SparkWitchDeathReasons.DUEL_INTERFERENCE);
+            SparkTraitsApi.registerTerminalDeathReason(SparkDlcDeathReasons.DUEL_SUICIDE);
+            SparkTraitsApi.registerTerminalDeathReason(SparkDlcDeathReasons.DUEL_FAILED);
+            SparkTraitsApi.registerTerminalDeathReason(SparkDlcDeathReasons.DUEL_INTERFERENCE);
         });
         ServerLifecycleEvents.SERVER_STARTED.register(KnightDuelService::resetDuelTeams);
         KillPlayer.AFTER.register(KnightDuelService::afterKill);
@@ -162,18 +162,18 @@ public final class KnightDuelService {
     /** Playing, alive, not a spectator or creative, and not an active Wraith. / 在局存活、非旁观或创造、且非活跃冤魂。 */
     private static boolean canDuel(ServerPlayerEntity player) {
         return GameFunctions.isPlayerPlayingAndAlive(player) && GameFunctions.isPlayerAliveAndSurvival(player)
-                && !SparkWitchApi.isWraithRestricted(player);
+                && !SparkRoleApi.isWraithRestricted(player);
     }
 
     /** The Knight challenged a good player: he dies at once, uncharged. / 骑士挑战了好人：当场死亡，不扣费。 */
     private static void selfExecute(ServerWorld world, GameWorldComponent game,
                                     ServerPlayerEntity knight, ServerPlayerEntity target) {
-        GameFunctions.killPlayer(knight, true, null, SparkWitchDeathReasons.DUEL_SUICIDE, true);
+        GameFunctions.killPlayer(knight, true, null, SparkDlcDeathReasons.DUEL_SUICIDE, true);
         if (GameFunctions.isPlayerPlayingAndAlive(knight)) {
             // Should not happen (forced + SparkTraits-terminal): no sting without a death. / 不应发生：未死亡则不播放。
             return;
         }
-        playSoundToAll(world.getServer(), SparkWitchSounds.DUEL_MANBA);
+        playSoundToAll(world.getServer(), SparkDlcSounds.DUEL_MANBA);
         if (isSurvivalMaster(game, target)) {
             showTitleToAll(world.getServer(),
                     Text.translatable("title.sparkdlc.duel.survival").formatted(Formatting.WHITE));
@@ -189,7 +189,7 @@ public final class KnightDuelService {
         // 关闭已打开的物品栏/技能面板；begin() 的状态同步已锁住 E，直到决斗结束。
         ServerPlayNetworking.send(knight, new KnightDuelUiLockS2CPayload());
         ServerPlayNetworking.send(target, new KnightDuelUiLockS2CPayload());
-        KnightDuelKnives.moveIntoReach(knight, SparkWitchItems.crossSword());
+        KnightDuelKnives.moveIntoReach(knight, SparkDlcItems.crossSword());
         applyTeamsAndEffects(world, duel, knight, target);
         // Wathe cooldowns are per item, so the issued knife shares the target's knife cooldown: clear it so the issued
         // or own knife can be raised at once (owner bug report). The knife is whitelisted, so the seal never touches it.
@@ -201,7 +201,7 @@ public final class KnightDuelService {
         // No stop before the play: endDuel already stopped the last track, and a stop sent in the same tick as the
         // play can reach the client after it and cut the new track.
         // 播放前不再发送停止：endDuel 已停止上一首；与播放同一刻发出的停止可能晚于播放到达客户端并掐断新曲。
-        playSoundToAll(world.getServer(), SparkWitchSounds.DUEL_SF);
+        playSoundToAll(world.getServer(), SparkDlcSounds.DUEL_SF);
         showTitleToAll(world.getServer(), Text.translatable("title.sparkdlc.duel.start", target.getNameForScoreboard())
                 .formatted(Formatting.WHITE));
     }
@@ -244,7 +244,7 @@ public final class KnightDuelService {
         for (UUID id : duelists) {
             ServerPlayerEntity player = player(world.getServer(), id);
             if (player != null && GameFunctions.isPlayerPlayingAndAlive(player)) {
-                GameFunctions.killPlayer(player, true, null, SparkWitchDeathReasons.DUEL_FAILED, true);
+                GameFunctions.killPlayer(player, true, null, SparkDlcDeathReasons.DUEL_FAILED, true);
             }
         }
     }

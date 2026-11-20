@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.civilian;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.Trait;
 import dev.caecorthus.sparkdlc.trait.api.TraitAudience;
 import dev.caecorthus.sparkdlc.trait.api.TraitSelectionContext;
@@ -18,13 +18,13 @@ import java.util.Set;
  * 两者都随本局已完成任务数提升：任务越少，数值越低。每局最多一人，与极简主义、焦虑症冲突。
  */
 public final class DopamineTrait implements Trait {
-    public static final Identifier ID = SparkTraits.id("dopamine");
+    public static final Identifier ID = SparkDLC.id("dopamine");
     public static final int COLOR = 0xFF7ABF;
     /**
      * 极简主义 ships in its own PR, so the conflict is declared by id rather than through its class.
      * 极简主义在另一个 PR 里，这里按 id 声明冲突，避免依赖它的类。
      */
-    public static final Identifier MINIMALISM_ID = SparkTraits.id("minimalism");
+    public static final Identifier MINIMALISM_ID = SparkDLC.id("minimalism");
 
     /** Duration of the post-task window. 完成后效果持续时间。 */
     public static final int WINDOW_TICKS = 200;

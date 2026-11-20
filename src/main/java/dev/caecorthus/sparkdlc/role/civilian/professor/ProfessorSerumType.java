@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.professor;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -41,10 +41,10 @@ public enum ProfessorSerumType {
 
     public Item item() {
         return switch (this) {
-            case SEDATIVE -> SparkStrengthItems.sedative();
-            case DOORPASSING -> SparkStrengthItems.doorpassingPotion();
-            case INVISIBILITY -> SparkStrengthItems.invisibilitySerum();
-            case TRUTH -> SparkStrengthItems.truthSerum();
+            case SEDATIVE -> SparkDlcItems.sedative();
+            case DOORPASSING -> SparkDlcItems.doorpassingPotion();
+            case INVISIBILITY -> SparkDlcItems.invisibilitySerum();
+            case TRUTH -> SparkDlcItems.truthSerum();
         };
     }
 

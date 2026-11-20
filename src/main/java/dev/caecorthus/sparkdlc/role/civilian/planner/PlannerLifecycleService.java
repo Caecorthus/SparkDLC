@@ -69,7 +69,7 @@ final class PlannerLifecycleService {
      */
     private static void publishNextTask(ServerPlayerEntity player, PlannerComponent state) {
         PlayerMoodComponent mood = PlayerMoodComponent.KEY.get(player);
-        int timer = ((PlayerMoodComponentAccessor) mood).sparkwitch$getNextTaskTimer();
+        int timer = ((PlayerMoodComponentAccessor) mood).sparkdlc$getNextTaskTimer();
         float rate = state.observeNextTaskTimer(timer);
         state.setNextTaskSeconds(PlannerRules.nextTaskSeconds(timer, rate,
                 PlannerRules.canDealNextTask(mood.tasks.size(), PlannerTasks.isLocked(player))));

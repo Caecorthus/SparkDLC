@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.apprentice;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.player.PlayerEntity;
 
@@ -20,7 +20,7 @@ public final class ApprenticeFearExemption {
         if (player == null) {
             return false;
         }
-        return GameWorldComponent.KEY.get(player.getWorld()).getRole(player) == SparkWitchRoles.apprenticeWitch()
+        return GameWorldComponent.KEY.get(player.getWorld()).getRole(player) == SparkDlcRoles.apprenticeWitch()
                 || ApprenticePlayerComponent.KEY.get(player).hasFearWard();
     }
 }

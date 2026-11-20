@@ -41,19 +41,19 @@ import java.util.UUID;
 public abstract class ReporterInventoryScreenMixin extends LimitedHandledScreen<PlayerScreenHandler> {
     @Shadow @Final public ClientPlayerEntity player;
 
-    @Unique private final List<ReporterCommunicationPlayerWidget> sparkstrength$reporterPlayerWidgets = new ArrayList<>();
-    @Unique private PlayerPageSwitchWidget sparkstrength$reporterPreviousPageWidget;
-    @Unique private PlayerPageSwitchWidget sparkstrength$reporterNextPageWidget;
-    @Unique private int sparkstrength$reporterCurrentPage;
-    @Unique private boolean sparkstrength$reporterUiActive;
+    @Unique private final List<ReporterCommunicationPlayerWidget> sparkdlc$reporterPlayerWidgets = new ArrayList<>();
+    @Unique private PlayerPageSwitchWidget sparkdlc$reporterPreviousPageWidget;
+    @Unique private PlayerPageSwitchWidget sparkdlc$reporterNextPageWidget;
+    @Unique private int sparkdlc$reporterCurrentPage;
+    @Unique private boolean sparkdlc$reporterUiActive;
 
     public ReporterInventoryScreenMixin(PlayerScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
 
     @Inject(method = "init", at = @At("HEAD"))
-    private void sparkstrength$reporterAddCommunicationButtons(CallbackInfo ci) {
-        sparkstrength$reporterUiActive = false;
+    private void sparkdlc$reporterAddCommunicationButtons(CallbackInfo ci) {
+        sparkdlc$reporterUiActive = false;
         ReporterCommunicationPlayerWidget.firstChoice = null;
         if (player == null || player.getWorld() == null) {
             return;
@@ -64,12 +64,12 @@ public abstract class ReporterInventoryScreenMixin extends LimitedHandledScreen<
             return;
         }
 
-        sparkstrength$reporterAddPlayerSelectionUI();
+        sparkdlc$reporterAddPlayerSelectionUI();
     }
 
     @Inject(method = "render", at = @At("TAIL"))
-    private void sparkstrength$reporterRenderSelectionHint(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        if (!sparkstrength$reporterUiActive) {
+    private void sparkdlc$reporterRenderSelectionHint(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+        if (!sparkdlc$reporterUiActive) {
             return;
         }
 
@@ -83,7 +83,7 @@ public abstract class ReporterInventoryScreenMixin extends LimitedHandledScreen<
     }
 
     @Unique
-    private void sparkstrength$reporterAddPlayerSelectionUI() {
+    private void sparkdlc$reporterAddPlayerSelectionUI() {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null || client.player.networkHandler == null) {
             return;
@@ -98,9 +98,9 @@ public abstract class ReporterInventoryScreenMixin extends LimitedHandledScreen<
         targetUuids.add(client.player.getUuid());
 
         int y = PlayerPageLayout.getPlayerRowY(this.height);
-        sparkstrength$reporterPlayerWidgets.clear();
-        sparkstrength$reporterCurrentPage = PlayerSelectionPageState.getReporterPage();
-        sparkstrength$reporterUiActive = true;
+        sparkdlc$reporterPlayerWidgets.clear();
+        sparkdlc$reporterCurrentPage = PlayerSelectionPageState.getReporterPage();
+        sparkdlc$reporterUiActive = true;
 
         for (UUID targetUuid : targetUuids) {
             PlayerListEntry playerListEntry = client.player.networkHandler.getPlayerListEntry(targetUuid);
@@ -110,56 +110,56 @@ public abstract class ReporterInventoryScreenMixin extends LimitedHandledScreen<
                     targetUuid,
                     playerListEntry
             );
-            sparkstrength$reporterPlayerWidgets.add(child);
+            sparkdlc$reporterPlayerWidgets.add(child);
             addDrawableChild(child);
         }
 
-        sparkstrength$reporterPreviousPageWidget = addDrawableChild(new PlayerPageSwitchWidget(
+        sparkdlc$reporterPreviousPageWidget = addDrawableChild(new PlayerPageSwitchWidget(
                 0,
                 y,
                 Items.PURPLE_DYE.getDefaultStack(),
                 Text.translatable("ui.sparkdlc.pagination.previous"),
                 button -> {
-                    sparkstrength$reporterCurrentPage--;
-                    sparkstrength$reporterRefreshPage();
+                    sparkdlc$reporterCurrentPage--;
+                    sparkdlc$reporterRefreshPage();
                 }
         ));
-        sparkstrength$reporterNextPageWidget = addDrawableChild(new PlayerPageSwitchWidget(
+        sparkdlc$reporterNextPageWidget = addDrawableChild(new PlayerPageSwitchWidget(
                 0,
                 y,
                 Items.LIME_DYE.getDefaultStack(),
                 Text.translatable("ui.sparkdlc.pagination.next"),
                 button -> {
-                    sparkstrength$reporterCurrentPage++;
-                    sparkstrength$reporterRefreshPage();
+                    sparkdlc$reporterCurrentPage++;
+                    sparkdlc$reporterRefreshPage();
                 }
         ));
 
-        sparkstrength$reporterRefreshPage();
+        sparkdlc$reporterRefreshPage();
     }
 
     @Unique
-    private void sparkstrength$reporterRefreshPage() {
-        int totalPages = PlayerPageLayout.getTotalPageCount(sparkstrength$reporterPlayerWidgets.size());
-        if (sparkstrength$reporterCurrentPage < 0) {
-            sparkstrength$reporterCurrentPage = 0;
+    private void sparkdlc$reporterRefreshPage() {
+        int totalPages = PlayerPageLayout.getTotalPageCount(sparkdlc$reporterPlayerWidgets.size());
+        if (sparkdlc$reporterCurrentPage < 0) {
+            sparkdlc$reporterCurrentPage = 0;
         }
-        if (sparkstrength$reporterCurrentPage >= totalPages) {
-            sparkstrength$reporterCurrentPage = totalPages - 1;
+        if (sparkdlc$reporterCurrentPage >= totalPages) {
+            sparkdlc$reporterCurrentPage = totalPages - 1;
         }
-        PlayerSelectionPageState.setReporterPage(sparkstrength$reporterCurrentPage);
+        PlayerSelectionPageState.setReporterPage(sparkdlc$reporterCurrentPage);
 
-        int startIndex = sparkstrength$reporterCurrentPage * PlayerPageLayout.PLAYERS_PER_PAGE;
-        int endIndex = Math.min(startIndex + PlayerPageLayout.PLAYERS_PER_PAGE, sparkstrength$reporterPlayerWidgets.size());
+        int startIndex = sparkdlc$reporterCurrentPage * PlayerPageLayout.PLAYERS_PER_PAGE;
+        int endIndex = Math.min(startIndex + PlayerPageLayout.PLAYERS_PER_PAGE, sparkdlc$reporterPlayerWidgets.size());
         int visibleCount = endIndex - startIndex;
         int y = PlayerPageLayout.getPlayerRowY(this.height);
-        boolean showPrevious = sparkstrength$reporterCurrentPage > 0;
-        boolean showNext = sparkstrength$reporterCurrentPage < totalPages - 1;
+        boolean showPrevious = sparkdlc$reporterCurrentPage > 0;
+        boolean showNext = sparkdlc$reporterCurrentPage < totalPages - 1;
         int groupStartX = PlayerPageLayout.getCenteredGroupStartX(this.width, visibleCount, showPrevious, showNext);
         int playerStartX = groupStartX + (showPrevious ? PlayerPageLayout.SLOT_APART : 0);
 
-        for (int i = 0; i < sparkstrength$reporterPlayerWidgets.size(); i++) {
-            ReporterCommunicationPlayerWidget widget = sparkstrength$reporterPlayerWidgets.get(i);
+        for (int i = 0; i < sparkdlc$reporterPlayerWidgets.size(); i++) {
+            ReporterCommunicationPlayerWidget widget = sparkdlc$reporterPlayerWidgets.get(i);
             boolean visible = i >= startIndex && i < endIndex;
             widget.visible = visible;
             widget.active = visible;
@@ -170,17 +170,17 @@ public abstract class ReporterInventoryScreenMixin extends LimitedHandledScreen<
             }
         }
 
-        if (sparkstrength$reporterPreviousPageWidget != null) {
-            sparkstrength$reporterPreviousPageWidget.visible = showPrevious;
-            sparkstrength$reporterPreviousPageWidget.active = showPrevious;
-            sparkstrength$reporterPreviousPageWidget.setX(groupStartX);
-            sparkstrength$reporterPreviousPageWidget.setY(y);
+        if (sparkdlc$reporterPreviousPageWidget != null) {
+            sparkdlc$reporterPreviousPageWidget.visible = showPrevious;
+            sparkdlc$reporterPreviousPageWidget.active = showPrevious;
+            sparkdlc$reporterPreviousPageWidget.setX(groupStartX);
+            sparkdlc$reporterPreviousPageWidget.setY(y);
         }
-        if (sparkstrength$reporterNextPageWidget != null) {
-            sparkstrength$reporterNextPageWidget.visible = showNext;
-            sparkstrength$reporterNextPageWidget.active = showNext;
-            sparkstrength$reporterNextPageWidget.setX(playerStartX + visibleCount * PlayerPageLayout.SLOT_APART);
-            sparkstrength$reporterNextPageWidget.setY(y);
+        if (sparkdlc$reporterNextPageWidget != null) {
+            sparkdlc$reporterNextPageWidget.visible = showNext;
+            sparkdlc$reporterNextPageWidget.active = showNext;
+            sparkdlc$reporterNextPageWidget.setX(playerStartX + visibleCount * PlayerPageLayout.SLOT_APART);
+            sparkdlc$reporterNextPageWidget.setY(y);
         }
     }
 }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.pathogen;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.neutral.pathogen.PathogenStrainComponent;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.util.ShopStacks;
@@ -47,7 +47,7 @@ public final class PathogenShopService {
 
     private static ShopEntry entry(String entryId) {
         if (PathogenRules.T_VIRUS_ENTRY_ID.equals(entryId)) {
-            Item tVirus = SparkStrengthItems.tVirus();
+            Item tVirus = SparkDlcItems.tVirus();
             return new ShopEntry.Builder(
                     PathogenRules.T_VIRUS_ENTRY_ID,
                     ShopStacks.display(tVirus.getDefaultStack(), "shop.sparkdlc.t_virus"),
@@ -58,7 +58,7 @@ public final class PathogenShopService {
                     .onBuy(PathogenShopService::buyTVirus)
                     .build();
         }
-        Item virus = SparkStrengthItems.virus();
+        Item virus = SparkDlcItems.virus();
         return new ShopEntry.Builder(
                 PathogenRules.VIRUS_ENTRY_ID,
                 ShopStacks.display(virus.getDefaultStack(), "shop.sparkdlc.virus"),
@@ -75,7 +75,7 @@ public final class PathogenShopService {
         if (!PathogenRules.canBuyTVirus(strain.isConverted(), strain.getTVirusPurchases())) {
             return false;
         }
-        if (!ShopEntry.insertStackInFreeSlot(player, SparkStrengthItems.tVirus().getDefaultStack())) {
+        if (!ShopEntry.insertStackInFreeSlot(player, SparkDlcItems.tVirus().getDefaultStack())) {
             return false;
         }
         strain.recordTVirusPurchase();

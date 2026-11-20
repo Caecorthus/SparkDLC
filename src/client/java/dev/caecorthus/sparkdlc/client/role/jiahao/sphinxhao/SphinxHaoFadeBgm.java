@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.jiahao.sphinxhao;
 
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.SphinxHaoWorldComponent;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -48,7 +48,7 @@ public final class SphinxHaoFadeBgm {
         long active = activeWindow(client.world);
         SphinxHaoFadeBgmRules.Step step = SphinxHaoFadeBgmRules.step(active, playedWindow);
         playedWindow = step.playedWindow();
-        if (step.start() && SparkWitchSounds.SPHINX_HAO_FADE != null) {
+        if (step.start() && SparkDlcSounds.SPHINX_HAO_FADE != null) {
             client.getSoundManager().play(new Clip(active));
         }
     }
@@ -73,7 +73,7 @@ public final class SphinxHaoFadeBgm {
         private int fade = SphinxHaoFadeBgmRules.nextFade(true, 0);
 
         private Clip(long window) {
-            super(SparkWitchSounds.SPHINX_HAO_FADE, SoundCategory.AMBIENT, SoundInstance.createRandom());
+            super(SparkDlcSounds.SPHINX_HAO_FADE, SoundCategory.AMBIENT, SoundInstance.createRandom());
             this.window = window;
             this.repeat = false;
             this.repeatDelay = 0;

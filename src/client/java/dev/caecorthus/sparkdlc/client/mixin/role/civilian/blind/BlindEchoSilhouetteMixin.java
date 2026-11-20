@@ -29,7 +29,7 @@ public abstract class BlindEchoSilhouetteMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/feature/FeatureRenderer;"
                     + "render(Lnet/minecraft/client/util/math/MatrixStack;"
                     + "Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/entity/Entity;FFFFFF)V"))
-    private void sparkwitch$skipFeaturesInBlindSilhouette(
+    private void sparkdlc$skipFeaturesInBlindSilhouette(
             FeatureRenderer<?, ?> feature,
             MatrixStack matrices,
             VertexConsumerProvider vertexConsumers,
@@ -51,7 +51,7 @@ public abstract class BlindEchoSilhouetteMixin {
     }
 
     @Inject(method = "hasLabel(Lnet/minecraft/entity/LivingEntity;)Z", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$hideLabelInBlindSilhouette(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$hideLabelInBlindSilhouette(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
         if (BlindSilhouettePass.isRendering()) {
             cir.setReturnValue(false);
         }

@@ -31,7 +31,7 @@ public abstract class M32CooldownNumberMixin {
                     target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Ljava/lang/String;III)I"
             )
     )
-    private static int sparkwitch$yieldToM32Badge(
+    private static int sparkdlc$yieldToM32Badge(
             DrawContext context,
             TextRenderer renderer,
             String text,

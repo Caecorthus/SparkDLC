@@ -40,7 +40,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = InGameHud.class, priority = 1100)
 public abstract class RiftSessionInGameHudMixin {
     @Inject(method = "render", at = @At("HEAD"))
-    private void sparkwitch$renderRiftFallback(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+    private void sparkdlc$renderRiftFallback(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         if (!RiftSessionClient.isActive()) {
             return;
         }
@@ -50,7 +50,7 @@ public abstract class RiftSessionInGameHudMixin {
     }
 
     @WrapMethod(method = "renderHotbar")
-    private void sparkwitch$riftArrowsInsteadOfHotbar(DrawContext context, RenderTickCounter tickCounter,
+    private void sparkdlc$riftArrowsInsteadOfHotbar(DrawContext context, RenderTickCounter tickCounter,
                                                       Operation<Void> original) {
         if (!RiftSessionClient.isActive()) {
             original.call(context, tickCounter);
@@ -61,7 +61,7 @@ public abstract class RiftSessionInGameHudMixin {
 
     @WrapOperation(method = "renderMainHud", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/gui/hud/SpectatorHud;renderSpectatorMenu(Lnet/minecraft/client/gui/DrawContext;)V"))
-    private void sparkwitch$riftArrowsInsteadOfSpectatorMenu(SpectatorHud spectatorHud, DrawContext context,
+    private void sparkdlc$riftArrowsInsteadOfSpectatorMenu(SpectatorHud spectatorHud, DrawContext context,
                                                              Operation<Void> original) {
         if (!RiftSessionClient.isActive()) {
             original.call(spectatorHud, context);
@@ -72,7 +72,7 @@ public abstract class RiftSessionInGameHudMixin {
 
     @WrapOperation(method = "renderMainHud", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/gui/hud/SpectatorHud;render(Lnet/minecraft/client/gui/DrawContext;)V"))
-    private void sparkwitch$hideSpectatorHintInsideRift(SpectatorHud spectatorHud, DrawContext context,
+    private void sparkdlc$hideSpectatorHintInsideRift(SpectatorHud spectatorHud, DrawContext context,
                                                        Operation<Void> original) {
         if (!RiftSessionClient.isActive()) {
             original.call(spectatorHud, context);

@@ -62,14 +62,14 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(value = PlayerEntityRenderer.class, priority = 1600)
 public abstract class PotionLauncherArmPoseMixin {
     @ModifyVariable(method = "getArmPose", at = @At("STORE"))
-    private static ItemStack sparkwitch$noteShownLauncher(ItemStack shown,
+    private static ItemStack sparkdlc$noteShownLauncher(ItemStack shown,
                                                          @Share("launcherShown") LocalBooleanRef launcherShown) {
         launcherShown.set(PotionScopeClient.isLauncher(shown));
         return shown;
     }
 
     @WrapMethod(method = "getArmPose(Lnet/minecraft/client/network/AbstractClientPlayerEntity;Lnet/minecraft/util/Hand;)Lnet/minecraft/client/render/entity/model/BipedEntityModel$ArmPose;")
-    private static BipedEntityModel.ArmPose sparkwitch$holdLauncherWithBothHands(
+    private static BipedEntityModel.ArmPose sparkdlc$holdLauncherWithBothHands(
             AbstractClientPlayerEntity player, Hand hand, Operation<BipedEntityModel.ArmPose> original,
             @Share("launcherShown") LocalBooleanRef launcherShown) {
         BipedEntityModel.ArmPose pose = original.call(player, hand);

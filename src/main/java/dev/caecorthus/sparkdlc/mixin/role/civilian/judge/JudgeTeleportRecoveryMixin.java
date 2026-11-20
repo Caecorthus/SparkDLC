@@ -14,17 +14,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ServerPlayerEntity.class)
 public abstract class JudgeTeleportRecoveryMixin {
     @Inject(method = "teleport(Lnet/minecraft/server/world/ServerWorld;DDDLjava/util/Set;FF)Z", at = @At("RETURN"))
-    private void sparkwitch$clearSuccessfulTeleport(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$clearSuccessfulTeleport(CallbackInfoReturnable<Boolean> cir) {
         if (cir.getReturnValueZ()) JudgeTrainFallAttribution.superseded((ServerPlayerEntity) (Object) this);
     }
 
     @Inject(method = "teleportTo(Lnet/minecraft/world/TeleportTarget;)Lnet/minecraft/entity/Entity;", at = @At("RETURN"))
-    private void sparkwitch$clearSuccessfulWorldTeleport(CallbackInfoReturnable<Entity> cir) {
+    private void sparkdlc$clearSuccessfulWorldTeleport(CallbackInfoReturnable<Entity> cir) {
         if (cir.getReturnValue() != null) JudgeTrainFallAttribution.superseded((ServerPlayerEntity) (Object) this);
     }
 
     @Inject(method = {"requestTeleport(DDD)V", "teleport(Lnet/minecraft/server/world/ServerWorld;DDDFF)V"}, at = @At("TAIL"))
-    private void sparkwitch$clearCompletedTeleport(CallbackInfo ci) {
+    private void sparkdlc$clearCompletedTeleport(CallbackInfo ci) {
         JudgeTrainFallAttribution.superseded((ServerPlayerEntity) (Object) this);
     }
 }

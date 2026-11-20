@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role;
 
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
 import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadDaze;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -52,7 +52,7 @@ public final class AbilityLocks {
         /** Engineer capture stun. / 工程师定身。 */
         ENGINEER_STUN(player -> EngineerStunnedPlayerComponent.KEY.get(player).isStunned()),
         /** SparkWitch Control Expert stun. / SparkWitch 控场专家眩晕。 */
-        CONTROL_EXPERT_STUN(SparkWitchApi::isControlExpertStunned),
+        CONTROL_EXPERT_STUN(SparkRoleApi::isControlExpertStunned),
         /** Taotie head daze. / 饕餮眩晕。 */
         TAOTIE_DAZE(TaotieHeadDaze::isDazed),
         /** Swallowed by the NoellesRoles Taotie. / 被 NoellesRoles 饕餮吞下。 */

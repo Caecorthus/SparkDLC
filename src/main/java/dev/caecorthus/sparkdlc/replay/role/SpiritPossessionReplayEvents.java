@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.replay.role;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.record.replay.ReplayGenerator;
 import dev.doctor4t.wathe.record.replay.ReplayRegistry;
 import net.minecraft.nbt.NbtCompound;
@@ -15,7 +15,7 @@ import java.util.UUID;
  */
 public final class SpiritPossessionReplayEvents {
     /** Spiritualist Wraith possession: actor = the Spiritualist, target = the Wraith. / 灵界行者附身冤魂：actor 为灵界行者，target 为冤魂。 */
-    public static final Identifier SPIRIT_POSSESSION_STARTED = SparkStrength.id("spirit_possession_started");
+    public static final Identifier SPIRIT_POSSESSION_STARTED = SparkDLC.id("spirit_possession_started");
 
     private SpiritPossessionReplayEvents() {
     }

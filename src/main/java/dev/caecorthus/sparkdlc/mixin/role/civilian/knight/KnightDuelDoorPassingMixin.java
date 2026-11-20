@@ -34,7 +34,7 @@ public abstract class KnightDuelDoorPassingMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$duelistsPassDoors(BlockView world, BlockPos pos, ShapeContext context,
+    private void sparkdlc$duelistsPassDoors(BlockView world, BlockPos pos, ShapeContext context,
                                               CallbackInfoReturnable<VoxelShape> cir) {
         // Hot path (every collision-shape query on both sides): cheapest side-effect-free tests first.
         // 热路径（双端每次碰撞形状查询）：无副作用的判断按开销从低到高排列。

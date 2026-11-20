@@ -42,17 +42,19 @@ python3 tools/unify/move_packages.py apply --phase tests    # local-only src/tes
 
 Each phase is deterministic and idempotent, and an applied phase is recorded and skipped on the next run
 (`--force` overrides). The record matters after the move: `file-moves.tsv` is now the only place that says which
-legacy module a file came from, and the verify scripts (`gradle/verify/legacy-modules.gradle`),
-`tools/payload_policy.py` and some local tests look files up there by their LEGACY module and package names. Those
-names are deliberate and must not be rewritten again. Files are moved with a plain rename (git records it as a rename
+legacy module a file came from. It is history, read by the scripts of this directory only: no verify task and no test
+takes its subject from it any more (see "Verify without former modules" below), because it is a snapshot and a file
+added after the move is in no legacy module. Its LEGACY module and package names are deliberate and must not be
+rewritten again. Files are moved with a plain rename (git records it as a rename
 because only `package`, `import` and fully-qualified names change), so `git log --follow` keeps working.
 `plan` fails on a class-name collision, on a mixin outside the two merged config packages (or an ordinary class
 inside one), on a client class outside `client.*`, and when a legacy client mixin plugin names a mixin that its
 former config did not list.
 
 每个阶段都是确定且幂等的；已执行的阶段会被记录，再次运行时跳过（`--force` 可强制执行）。搬迁之后这份记录很重要：
-`file-moves.tsv` 是唯一还记录“文件来自哪个旧模块”的地方，校验脚本（`gradle/verify/legacy-modules.gradle`）、
-`tools/payload_policy.py` 和部分本地测试会按旧模块名、旧包名在其中查找文件。这些旧名字是有意保留的，不能再次改写。
+`file-moves.tsv` 是唯一还记录“文件来自哪个旧模块”的地方。它是历史记录，只供本目录的脚本读取：任何校验任务与测试都不再从中
+取得检查对象（见下文“校验不再按旧模块划分”），因为它只是一份快照，搬迁之后新增的文件不属于任何旧模块。其中的旧模块名、
+旧包名是有意保留的，不能再次改写。
 文件用普通重命名移动（只改 `package`、`import` 和全限定名，git 会识别为重命名），
 `git log --follow` 仍然可用。出现类名冲突、mixin 落在两个合并配置包之外（或普通类落在其中）、客户端类落在 `client.*`
 之外，或旧客户端 mixin 插件点名了不属于其原配置的 mixin 时，`plan` 会失败。
@@ -320,9 +322,9 @@ the new ones, in the sequence the fused entrypoints used to call them.
   around ours from run to run. For this change the server dump before and after differs only in the host class of
   the three listeners the common initializer registers itself (`SparkWitch` became `SparkDLC`).
 - **`file-moves.tsv` keeps the rows of the classes that were merged away** (it is the record of which former module
-  a file came from). A consumer takes only the rows whose file still exists, as `legacyModules.sources` in
-  `gradle/verify/legacy-modules.gradle` does. The merged classes belong to no former module and are not listed, so a
-  per-module rule no longer scans the start-up code; a rule that must keep covering it names the merged class.
+  a file came from). A consumer takes only the rows whose file still exists. The merged classes belong to no former
+  module and are not listed, which is one reason the per-module rules that were built on the manifest were later
+  restated over the current layout or retired ("Verify without former modules" below).
 - **Transitional holders.** `SparkFactionApiMod`, `SparkStrength`, `SparkTraits`, `SparkWitch`, `SparkAssist` keep
   `MOD_ID`, `LOGGER` and `id(...)`, and `client.SparkAssistClient`, `client.SparkTraitsClient`,
   `client.SparkWitchClient` forward `configManager()`, `runSessionCleanup(...)` / `shouldRunSessionCleanup(...)` and
@@ -339,9 +341,8 @@ the new ones, in the sequence the fused entrypoints used to call them.
   （gametest 类 `StartupOrderDump`，只用反射，因此同一个文件可在任意版本上运行）。导出时会关闭 Fabric Loader 仅在开发环境启用的
   模组顺序打乱，否则其他模组的监听器每次运行都会出现在我们监听器的不同位置。本次改动前后的服务端导出只有一处差异：
   通用初始化器自己注册的三个监听器所在的类（`SparkWitch` 变为 `SparkDLC`）。
-- **`file-moves.tsv` 保留被合并掉的类所在的行**（它记录的是文件来自哪个旧模块）。使用方只取文件仍然存在的行，与
-  `gradle/verify/legacy-modules.gradle` 中 `legacyModules.sources` 的做法一致。合并后的类不属于任何旧模块，也不在清单中，
-  因此按模块的规则不再扫描启动代码；需要继续覆盖它的规则要直接点名合并后的类。
+- **`file-moves.tsv` 保留被合并掉的类所在的行**（它记录的是文件来自哪个旧模块）。使用方只取文件仍然存在的行。合并后的类不属于任何旧模块，也不在清单中，
+  这也是建立在清单之上的按模块规则后来按当前布局重新表述或退役的原因之一（见下文“校验不再按旧模块划分”）。
 - **过渡期的持有类。**`SparkFactionApiMod`、`SparkStrength`、`SparkTraits`、`SparkWitch`、`SparkAssist` 保留 `MOD_ID`、
   `LOGGER` 与 `id(...)`；`client.SparkAssistClient`、`client.SparkTraitsClient`、`client.SparkWitchClient` 把
   `configManager()`、`runSessionCleanup(...)` / `shouldRunSessionCleanup(...)` 与 `abilityKeyText()` 转发给
@@ -600,11 +601,12 @@ Rules that came out of it / 由此形成的规则:
   每个目标类只有一个访问器接口，成员取并集；成员按读取的内容命名，绝不按旧 mod 命名。
 - **A merged helper belongs to no former module.** `file-moves.tsv` is not given a row for it (the rows of the copies
   it replaced stay as history and point at files that no longer exist); a plain rename still updates `new_path` and
-  `new_fqcn` of its row. Where a merged class kept the path of one copy (`mixin.cooldown.ItemCooldown*Accessor`), the
-  local boundary tests list it in `sibling_stubs.SHARED_HELPERS`, and a test proves two or more former modules use it.
+  `new_fqcn` of its row. (A merged class that kept the path of one copy, `mixin.cooldown.ItemCooldown*Accessor`, used
+  to need a `SHARED_HELPERS` exemption in the local boundary tests; those tests were retired with the former-module
+  boundaries, see "Verify without former modules" below.)
   合并后的辅助类不属于任何旧模块：`file-moves.tsv` 不为它新增行（被它取代的副本的行作为历史保留，指向已不存在的文件）；单纯的
-  改名仍更新对应行的 `new_path` 与 `new_fqcn`。合并类沿用了某一份副本路径时，本地边界测试把它列入
-  `sibling_stubs.SHARED_HELPERS`，并有测试证明至少两个旧模块在使用它。
+  改名仍更新对应行的 `new_path` 与 `new_fqcn`。（沿用了某一份副本路径的合并类 `mixin.cooldown.ItemCooldown*Accessor`
+  曾需要在本地边界测试中列入 `SHARED_HELPERS` 豁免；这些测试已随旧模块边界一并退役，见下文“校验不再按旧模块划分”。）
 - **Merging mixins keeps their order.** Several wrappers on one call become one handler that applies the same steps in
   the order the wrappers nested (first applied = innermost, see `.git/unify-notes/stage1/RULE.md`); injectors that
   differ in `require` or in what they decide stay separate.
@@ -615,3 +617,58 @@ Rules that came out of it / 由此形成的规则:
   `ControlExpertStunGuards`, `EngineerStunGuards` and `TaotieHeadDazeGuards`, at the same positions.
   证明：前后两次启动导出只有 15 行不同：五个交互事件各有三个监听器由原先的三个守卫类改列为
   `event.InteractionLockGuards (lambda)`，位置不变。
+
+## Verify without former modules / 校验不再按旧模块划分
+
+Not scripted. The production code was one mod, but everything that checked it was still five: one verify script per
+former mod, tasks named `verify<Module>…`, boundary rules whose subject was "the files `file-moves.tsv` lists under
+module X", a test harness and docs directories named after former mods. All of it is organised by what is checked now.
+没有脚本。生产代码已是一个模组，但检查它的一切仍是五份：每个旧 mod 一份校验脚本、名为 `verify<Module>…` 的任务、以
+“`file-moves.tsv` 归在模块 X 下的文件”为对象的边界规则，以及按旧 mod 命名的测试工具目录与文档目录。现在全部按“检查什么”组织。
+
+| Script (`gradle/verify/`) | Tasks | Was / 原先 |
+| --- | --- | --- |
+| `support.gradle` | (shared closures, `verifySupport`) | `readClassNode`, `annotationValue`, `sha256`, … copied into four or five scripts; `legacy-modules.gradle` |
+| `jar.gradle` | `verifyModMetadata`, `verifyJarContents`, `verifyMixinConfigs`, `verifyNotices` | `verifyFactionApiModJar`, `verifyTraitsModJar`, `verifyWitchModJar`, `verifyAssistModJar`, `verifyStrengthCompatibilityArtifact`, `verifyAssistDistributionMetadata`, the metadata halves of `verify{Strength,Traits,Assist}Architecture` |
+| `upstream.gradle` | `verifyUpstreamJars` | `verifyWitchCompatibilityBaselines`, `verifyAssistWatheDependency`, the jar halves of `verify{Strength,Traits}Architecture` |
+| `upstream-selectors.gradle` | `verifyUpstreamMixinSelectors`, `verifyNoellesRolesLambdaSelectors` | `verifyWitchClientMixinSelectors`, `verifyTraitsAssassinScreenSelector`, `verifyTraitsInventoryScreenSelector`, the selector half of `verifyStrengthCompatibilityArtifact` |
+| `layering.gradle` | `verifyLayering`, `verifyNoLookupByName` | `verifyStrengthSiblingSeams`, the "no SparkTraits internals" scans of `verify{Strength,Witch}Architecture`, the client-only rules of `verifyAssist{ModJar,Architecture}` |
+| `contracts.gradle` | `verifyContractFiles`, `verifySourceContracts` | the file lists of the five `verify<Module>Architecture` tasks, the text pins of `verifyStrengthArchitecture` |
+| `payload-policy.gradle` | `verifyPayloadPolicy` | `verifyFactionApiPayloadPolicy` |
+| `black-raven.gradle` | `verifyBlackRavenSeams` | `verifyWitchBlackRavenActingRoleSeams` |
+| `entity-render.gradle` | `verifyEntityRenderProtocol` | the protocol scan of `verifyWitchArchitecture` |
+| `assets.gradle` | `verifySoundAssets` | `verifyWitchSoundAssets` |
+
+Rules that came out of it / 由此形成的规则:
+- **A check takes its subject from the current layout** (packages, the two source sets, the two mixin configs, the one
+  jar), never from the move manifest, so a file added tomorrow is covered. Every scan fails loudly on an empty subject
+  set, and every exception list fails on an entry nobody uses any more.
+  检查对象取自当前布局（包、两个源码集、两份 mixin 配置、唯一的 jar），绝不取自搬迁清单，因此以后新增的文件也在范围内。
+  每个扫描在对象集合为空时明确失败，每个例外列表在出现无人使用的条目时失败。
+- **`./gradlew verifyAll` is the entry point.** `build.gradle` lists every script and task; a guard fails the build when a
+  `verify*` task exists that `verifyAll` does not reach. There are no aliases for the old task names.
+  `./gradlew verifyAll` 是唯一入口。`build.gradle` 列出每个脚本与任务；存在 `verifyAll` 到达不了的 `verify*` 任务时守卫会让构建
+  失败。旧任务名没有别名。
+- **One home per layering rule: `gradle/verify/layering.gradle`**, on the classes of the jar. `core-closed` (the shared
+  core names only itself and listed support, no role feature), `core-contract` (a role feature reaches the core through
+  `faction.api`, `cooldown.api`, `SettlementExclusions`), `trait-api` (traits are reached through `trait.api`),
+  `client-helpers` (the helpers' common-side logic is named by client code only). Rules whose only content was "former
+  module X may name only these types of former module Y" are retired (`src/test/RETIRED-legacy-boundaries.md`, local).
+  每条分层规则只有一个归属：`gradle/verify/layering.gradle`，针对 jar 中的类。`core-closed`（共享核心只引用自身与列出的支撑类，
+  不引用任何职业功能）、`core-contract`（职业功能经 `faction.api`、`cooldown.api`、`SettlementExclusions` 访问核心）、
+  `trait-api`（词条经 `trait.api` 访问）、`client-helpers`（辅助功能位于公共端的逻辑只被客户端代码引用）。内容仅为
+  “旧模块 X 只能引用旧模块 Y 的这些类型”的规则已退役（本地文件 `src/test/RETIRED-legacy-boundaries.md`）。
+- **Scripts that name ASM types repeat one buildscript block** and call `verifySupport.requireSharedAsm`: Gradle shares
+  a class loader only between scripts with the same buildscript classpath.
+  点名 ASM 类型的脚本都重复同一段 buildscript 并调用 `verifySupport.requireSharedAsm`：只有 buildscript 类路径相同的脚本，
+  Gradle 才会让它们共用类加载器。
+- **Docs and the local harness are named for what they hold**: `docs/core`, `docs/roles`, `docs/client-helpers`
+  (were `docs/factionapi`, `docs/witch`, `docs/assist`); `src/test/harness/{python,java}` (was `src/test/strength`), the
+  plain-Java fixture harness driven by Python, outside the Gradle test source set. The path constants in the three
+  scripts of this directory (`TOOLING_TREES`, `TEST_ROOTS`, …) still name the trees as they were when each phase was
+  applied; the phases are applied and are not run again.
+  文档与本地测试工具按内容命名：`docs/core`、`docs/roles`、`docs/client-helpers`（原 `docs/factionapi`、`docs/witch`、
+  `docs/assist`）；`src/test/harness/{python,java}`（原 `src/test/strength`）是由 Python 驱动的纯 Java 夹具工具，不属于
+  Gradle 测试源码集。本目录三个脚本中的路径常量（`TOOLING_TREES`、`TEST_ROOTS` 等）仍是各阶段执行时的目录名；这些阶段
+  已经执行，不会再运行。
+

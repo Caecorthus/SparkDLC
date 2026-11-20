@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.undercover;
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.render.ManagedPostEffect;
 import dev.caecorthus.sparkdlc.client.role.jiahao.corruptcop.CorruptCopClientHooks;
-import dev.caecorthus.sparkdlc.client.role.civilian.perfumer.kit.PerfumerClientEffects;
+import dev.caecorthus.sparkdlc.client.role.civilian.perfumer.PerfumerClientEffects;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverMaskOffC2SPacket;

@@ -2,8 +2,6 @@ package dev.caecorthus.sparkdlc.role.civilian.perfumer;
 
 import dev.caecorthus.sparkdlc.component.PerfumerPlayerComponent;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesHiddenBodiesBridge;
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerKitRules;
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerScentComponent;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerCorpseComponent;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.KillPlayer;

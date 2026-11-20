@@ -1,7 +1,7 @@
-package dev.caecorthus.sparkdlc.client.role.civilian.perfumer.kit;
+package dev.caecorthus.sparkdlc.client.role.civilian.perfumer;
 
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerScentComponent;
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerKitRules;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.PerfumerScentComponent;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.PerfumerKitRules;
 import dev.doctor4t.wathe.client.WatheClient;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.client.MinecraftClient;

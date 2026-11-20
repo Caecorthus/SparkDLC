@@ -1,8 +1,7 @@
-package dev.caecorthus.sparkdlc.role.civilian.perfumer.kit;
+package dev.caecorthus.sparkdlc.role.civilian.perfumer;
 
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerScentComponent;
 import dev.caecorthus.sparkdlc.entity.AromaOrbEntity;
 import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.doctor4t.wathe.game.GameFunctions;

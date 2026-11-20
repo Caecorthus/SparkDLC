@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.mixin.wathe;
 import dev.caecorthus.sparkdlc.item.m67.M67ShopService;
 import dev.caecorthus.sparkdlc.role.civilian.bartender.BartenderShopService;
 import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneShopService;
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerShopService;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.PerfumerShopService;
 import dev.caecorthus.sparkdlc.sabotage.SabotageShopFilter;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;

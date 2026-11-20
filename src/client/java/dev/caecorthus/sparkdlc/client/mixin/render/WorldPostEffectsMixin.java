@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.mixin.render;
 
 import dev.caecorthus.sparkdlc.client.role.neutral.jester.JesterMomentGrayscale;
-import dev.caecorthus.sparkdlc.client.role.civilian.perfumer.kit.PerfumerBlurRenderer;
+import dev.caecorthus.sparkdlc.client.role.civilian.perfumer.PerfumerBlurRenderer;
 import dev.caecorthus.sparkdlc.client.role.civilian.undercover.UndercoverThermalRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;

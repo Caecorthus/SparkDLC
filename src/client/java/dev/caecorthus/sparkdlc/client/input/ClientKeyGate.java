@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.input;
 import dev.caecorthus.sparkdlc.client.role.killer.bomber.DronePilotClient;
 import dev.caecorthus.sparkdlc.client.role.civilian.engineer.EngineerStunClient;
 import dev.caecorthus.sparkdlc.client.role.killer.partyanimal.PartygoerTaotieClient;
-import dev.caecorthus.sparkdlc.client.role.civilian.perfumer.kit.PerfumerClientEffects;
+import dev.caecorthus.sparkdlc.client.role.civilian.perfumer.PerfumerClientEffects;
 import dev.caecorthus.sparkdlc.client.sabotage.BlackoutSightClient;
 import dev.caecorthus.sparkdlc.client.tablet.screen.TabletScreen;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerTaotieRules;

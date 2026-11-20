@@ -72,7 +72,7 @@ import dev.caecorthus.sparkdlc.role.civilian.knight.CrossSwordItem;
 import dev.caecorthus.sparkdlc.role.civilian.noa.NoaRules;
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.CologneItem;
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.PerfumeEssenceItem;
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerKitRules;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.PerfumerKitRules;
 import dev.caecorthus.sparkdlc.role.civilian.planner.PlannerRules;
 import dev.caecorthus.sparkdlc.role.civilian.planner.PlannerTaskSlipItem;
 import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumType;

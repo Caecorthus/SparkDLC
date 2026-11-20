@@ -1,4 +1,4 @@
-package dev.caecorthus.sparkdlc.client.role.civilian.perfumer.kit;
+package dev.caecorthus.sparkdlc.client.role.civilian.perfumer;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.render.ManagedPostEffect;

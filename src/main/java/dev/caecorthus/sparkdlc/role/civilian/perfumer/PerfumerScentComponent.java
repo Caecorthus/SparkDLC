@@ -1,8 +1,6 @@
-package dev.caecorthus.sparkdlc.role.civilian.perfumer.kit;
+package dev.caecorthus.sparkdlc.role.civilian.perfumer;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.AromaService;
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerKitRules;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;

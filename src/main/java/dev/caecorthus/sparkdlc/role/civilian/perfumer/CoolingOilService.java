@@ -1,8 +1,7 @@
-package dev.caecorthus.sparkdlc.role.civilian.perfumer.kit;
+package dev.caecorthus.sparkdlc.role.civilian.perfumer;
 
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerScentComponent;
 import dev.caecorthus.sparkdlc.entity.CoolingOilEntity;
 import dev.caecorthus.sparkdlc.item.grenade.GrenadeBlastService;
 import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;

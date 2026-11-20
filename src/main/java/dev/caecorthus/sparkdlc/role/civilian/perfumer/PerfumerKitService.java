@@ -1,4 +1,4 @@
-package dev.caecorthus.sparkdlc.role.civilian.perfumer.kit;
+package dev.caecorthus.sparkdlc.role.civilian.perfumer;
 
 import dev.caecorthus.sparkdlc.item.m67.M67RoundService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;

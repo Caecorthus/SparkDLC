@@ -38,7 +38,7 @@ import dev.caecorthus.sparkdlc.role.civilian.noa.NoaComponent;
 import dev.caecorthus.sparkdlc.role.civilian.noisemaker.NoisemakerGlowTargetComponent;
 import dev.caecorthus.sparkdlc.role.civilian.noisemaker.NoisemakerGlowUserComponent;
 import dev.caecorthus.sparkdlc.role.civilian.orthopedist.OrthopedistPlayerComponent;
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerScentComponent;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.PerfumerScentComponent;
 import dev.caecorthus.sparkdlc.role.civilian.planner.PlannerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumTargetComponent;
 import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumUserComponent;

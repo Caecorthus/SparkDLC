@@ -1,7 +1,7 @@
-package dev.caecorthus.sparkdlc.client.role.civilian.perfumer.kit;
+package dev.caecorthus.sparkdlc.client.role.civilian.perfumer;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerKitRules;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.PerfumerKitRules;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;

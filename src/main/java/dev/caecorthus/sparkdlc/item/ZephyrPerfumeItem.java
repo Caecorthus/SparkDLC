@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.item;
 
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerScentComponent;
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerKitService;
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.ZephyrService;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.PerfumerScentComponent;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.PerfumerKitService;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.ZephyrService;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

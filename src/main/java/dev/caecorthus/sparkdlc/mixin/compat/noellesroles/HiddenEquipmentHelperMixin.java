@@ -8,7 +8,7 @@ import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveRules;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerCaptureReport;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerRules;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartyAnimalRules;
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerKitRules;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.PerfumerKitRules;
 import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.player.PlayerEntity;

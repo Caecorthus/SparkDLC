@@ -1,4 +1,4 @@
-package dev.caecorthus.sparkdlc.role.civilian.perfumer.kit;
+package dev.caecorthus.sparkdlc.role.civilian.perfumer;
 
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;

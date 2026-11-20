@@ -67,7 +67,7 @@ import dev.caecorthus.sparkdlc.client.role.civilian.medium.MediumClientModule;
 import dev.caecorthus.sparkdlc.client.role.civilian.medium.MediumVoteClient;
 import dev.caecorthus.sparkdlc.client.role.civilian.noa.NoaClient;
 import dev.caecorthus.sparkdlc.client.role.civilian.noa.NoaPaintClient;
-import dev.caecorthus.sparkdlc.client.role.civilian.perfumer.kit.PerfumerClientHooks;
+import dev.caecorthus.sparkdlc.client.role.civilian.perfumer.PerfumerClientHooks;
 import dev.caecorthus.sparkdlc.client.role.civilian.planner.PlannerClient;
 import dev.caecorthus.sparkdlc.client.role.civilian.professor.ProfessorSerumClientHooks;
 import dev.caecorthus.sparkdlc.client.role.civilian.prophet.ProphetClientModule;

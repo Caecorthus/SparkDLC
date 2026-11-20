@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.hooks;
 
 import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.net.ThrowKidnapperBodyC2SPacket;
 import dev.caecorthus.sparkdlc.role.killer.kidnapper.KidnapperCarryState;
 import dev.caecorthus.sparkdlc.role.killer.kidnapper.KidnapperRules;
@@ -30,7 +30,7 @@ public final class KidnapperThrowClientHooks {
     }
 
     public static boolean tryThrow(MinecraftClient client) {
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             useHeld = false;
             return false;
         }

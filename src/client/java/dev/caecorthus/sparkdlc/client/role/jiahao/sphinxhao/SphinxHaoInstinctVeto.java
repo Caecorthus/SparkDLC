@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.jiahao.sphinxhao;
 
 import dev.caecorthus.sparkdlc.client.render.LocalViewerSnapshot;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.SphinxHaoRules;
 import dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.SphinxHaoWorldComponent;
 import net.minecraft.entity.Entity;
@@ -52,7 +52,7 @@ public final class SphinxHaoInstinctVeto {
         }
         boolean viewerAlive = LocalViewerSnapshot.playingAndAlive(viewer);
         return vetoes(
-                SparkWitchServerConnection.isConfirmedServer(),
+                SparkDlcServerConnection.isConfirmedServer(),
                 false,
                 seesSpectatorInformation(LocalViewerSnapshot.spectatingOrCreative(viewer), viewerAlive),
                 viewerAlive && SphinxHaoRules.isSphinxHao(LocalViewerSnapshot.role(viewer)),

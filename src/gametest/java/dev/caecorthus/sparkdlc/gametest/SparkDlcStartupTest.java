@@ -58,21 +58,20 @@ public final class SparkDlcStartupTest implements FabricGameTest {
     }
 
     /**
-     * Two places where the order of the start-up steps reaches the player, pinned so that a reordered step fails here
-     * and not in somebody's round. The three version checks answer a login in registration order, so the first one
-     * that fails decides which message the player is kicked with. A chat message is offered to the Pathogen's and the
-     * Reporter's gates before the Wraith gate, which the start-up registers itself after every role hub.
-     * 启动步骤的顺序会影响到玩家的两处，在此固定，使被调换的步骤在这里失败，而不是在某局游戏中。三个版本检查按注册顺序应答登录，
-     * 因此第一个失败的检查决定玩家被踢出时看到的消息。聊天消息先交给病原体与记者的限制，再交给冤魂的限制；后者由启动流程自身在
-     * 所有职业注册中心之后注册。
+     * Two places where the start-up reaches the player, pinned so that a change fails here and not in somebody's
+     * round. A login is asked exactly one version question by the mod: a second listener would mean a second query
+     * and a second kick message again, as while the mod still carried the three handshakes of its former parts. A
+     * chat message is offered to the Pathogen's and the Reporter's gates before the Wraith gate, which the start-up
+     * registers itself after every role hub.
+     * 启动流程会影响到玩家的两处，在此固定，使改动在这里失败，而不是在某局游戏中。本模组对一次登录只提出一个版本询问：
+     * 出现第二个监听器就意味着又有了第二个查询和第二条踢出提示，如同本模组仍带着原先三个部分各自的握手时那样。
+     * 聊天消息先交给病原体与记者的限制，再交给冤魂的限制；后者由启动流程自身在所有职业注册中心之后注册。
      */
     @GameTest(templateName = EMPTY_STRUCTURE)
     public void orderSensitiveListenersKeepTheirOrder(TestContext context) throws ReflectiveOperationException {
         Map<String, List<List<String>>> events = StartupOrderDump.eventHandlerHosts();
         requireOwnHosts(events, "net.fabricmc.fabric.api.networking.v1.ServerLoginConnectionEvents$QueryStart", List.of(
-                "dev.caecorthus.sparkdlc.net.version.ServerVersionHandshake",
-                "dev.caecorthus.sparkdlc.net.version.SparkTraitsVersionHandshake",
-                "dev.caecorthus.sparkdlc.net.version.SparkWitchVersionHandshake"));
+                "dev.caecorthus.sparkdlc.net.version.SparkDlcVersionHandshake"));
         requireOwnHosts(events, "net.fabricmc.fabric.api.message.v1.ServerMessageEvents$AllowChatMessage", List.of(
                 "dev.caecorthus.sparkdlc.role.neutral.pathogen.PathogenFeatureService",
                 "dev.caecorthus.sparkdlc.role.civilian.reporter.ReporterCommunicationManager",

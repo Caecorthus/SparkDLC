@@ -2,13 +2,26 @@ package dev.caecorthus.sparkdlc.net.version;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
-import dev.caecorthus.sparkdlc.SparkTraits;
 
 /**
- * Tracks whether the current client connection was confirmed by a SparkTraits login or play query.
- * 记录当前客户端连接是否已经通过 SparkTraits 登录阶段或 play 阶段确认。
+ * The one answer to "does the server of the current connection run SparkDLC in this version": true once the login
+ * query or the play confirmation of the handshake confirmed it. Client features that predict or draw what only a
+ * SparkDLC server provides ask this before they act, so that the mod stays dark on any other server.
+ *
+ * <p>Until stage 3 the former SparkTraits and SparkWitch handshakes each kept such a flag. This class keeps the
+ * lifecycle of the SparkTraits one, which is the stricter of the two: besides every connection edge it also drops a
+ * confirmation at a JOIN that this connection's own login did not earn (a proxy backend switch), whereas the
+ * SparkWitch flag survived every JOIN. The edges are driven from the session listeners of
+ * {@code client.SparkDLCClient}.</p>
+ *
+ * “当前连接的服务端是否运行着同版本的 SparkDLC”的唯一答案：握手的登录查询或 play 确认通过后为 true。预测或绘制只有 SparkDLC
+ * 服务端才提供的内容的客户端功能，在动作前都先询问它，使本模组在其他服务端上保持静默。
+ *
+ * <p>第三阶段之前，原 SparkTraits 与 SparkWitch 握手各自维护一个这样的标记。本类沿用 SparkTraits 标记的生命周期，它是两者中更严格的：
+ * 除了每个连接节点之外，它还会在 JOIN 时丢弃并非由本连接自己的登录取得的确认（代理切换后端），而 SparkWitch 标记会保留到每次 JOIN
+ * 之后。各节点由 {@code client.SparkDLCClient} 的会话监听器驱动。</p>
  */
-public final class SparkTraitsServerConnection {
+public final class SparkDlcServerConnection {
     private static volatile boolean confirmedServer;
     /*
      * True from a login-phase confirmation until that connection's play session starts. A login query always precedes
@@ -18,9 +31,10 @@ public final class SparkTraitsServerConnection {
      */
     private static volatile boolean loginConfirmationAwaitingJoin;
 
-    private SparkTraitsServerConnection() {
+    private SparkDlcServerConnection() {
     }
 
+    /** Play-phase confirmation of the running session. / 当前会话在 play 阶段的确认。 */
     public static void confirmServer() {
         confirmedServer = true;
     }

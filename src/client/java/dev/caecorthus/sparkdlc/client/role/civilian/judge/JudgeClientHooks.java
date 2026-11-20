@@ -5,7 +5,7 @@ import dev.caecorthus.sparkdlc.client.role.killer.blackraven.SparkTraitsInstinct
 import dev.caecorthus.sparkdlc.client.hooks.WitchInstinctSuppressionClientHooks;
 import dev.caecorthus.sparkdlc.client.render.WraithClientState;
 import dev.caecorthus.sparkdlc.client.render.WraithViewerRules;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.judge.JudgeRules;
 import dev.caecorthus.sparkdlc.role.civilian.judge.JudgeWorldComponent;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
@@ -23,7 +23,7 @@ public final class JudgeClientHooks {
 
     public static int resolveHighlight(int originalColor, Entity entity) {
         PlayerEntity viewer = MinecraftClient.getInstance().player;
-        if (originalColor != -1 || !SparkWitchServerConnection.isConfirmedServer()
+        if (originalColor != -1 || !SparkDlcServerConnection.isConfirmedServer()
                 || viewer == null || !(entity instanceof PlayerEntity target) || viewer == target
                 || !GameFunctions.isPlayerPlayingAndAlive(viewer)
                 || !GameFunctions.isPlayerPlayingAndAlive(target)

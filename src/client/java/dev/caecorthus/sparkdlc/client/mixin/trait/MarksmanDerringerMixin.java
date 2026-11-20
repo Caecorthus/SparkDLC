@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.mixin.trait;
 
 import dev.caecorthus.sparkdlc.trait.civilian.police.VigilanteVeteranTraitService;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.game.GameFunctions;
 import dev.doctor4t.wathe.item.DerringerItem;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,7 +23,7 @@ public abstract class MarksmanDerringerMixin {
             PlayerEntity user,
             CallbackInfoReturnable<HitResult> cir
     ) {
-        if (!SparkTraitsServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }
         double range = VigilanteVeteranTraitService.gunRange(user, VigilanteVeteranTraitService.DERRINGER_RANGE);

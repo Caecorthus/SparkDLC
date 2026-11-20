@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.mixin.trait;
 
 import dev.caecorthus.sparkdlc.client.trait.render.DepressionPsychoTextures;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.cca.PlayerPsychoComponent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -23,7 +23,7 @@ public abstract class DepressionPsychoArmSkinMixin {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
         // Same rule as the body skin: Depression grey also needs Wathe psycho (getter, not field).
         // 与身体皮肤同一规则：抑郁灰度同样要求 Wathe 疯魔（读取方法而非字段）。
-        if (!SparkTraitsServerConnection.isConfirmedServer()
+        if (!SparkDlcServerConnection.isConfirmedServer()
                 || player == null
                 || !TraitPlayerComponent.KEY.get(player).isDepressionPsychoActive()
                 || PlayerPsychoComponent.KEY.get(player).getPsychoTicks() <= 0) {

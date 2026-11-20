@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.taotie;
 
-import dev.caecorthus.sparkdlc.net.policy.strength.GeneratedPayloadPolicy;
+import dev.caecorthus.sparkdlc.net.policy.GeneratedPayloadPolicy;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -107,15 +107,15 @@ public final class TaotieHeadRules {
      * 均已在表中，无需补充。
      * 新增技能包必须作为规范表中完整的一行有意识地归类（见下）。
      */
-    // Generated DAZE column of SparkFactionAPI config/payload-policy/actions.tsv: edit that table and
+    // Generated DAZE column of config/payload-policy/actions.tsv: edit that table and
     // rerun tools/payload_policy.py, never list ids here; per-id reasons are in its note column.
-    // The same table gives PartygoerCarry.EXTRA_BLOCKED_PAYLOADS (CARRY_EXTRA). From a SparkFactionAPI checkout:
-    //   python3 <SparkFactionAPI>/tools/payload_policy.py generate --repo <SparkStrength> --mod strength
-    //   python3 <SparkFactionAPI>/tools/payload_policy.py check --repo <SparkStrength> --mod strength
+    // The same table gives PartygoerCarry.EXTRA_BLOCKED_PAYLOADS (CARRY_EXTRA). From the repository root:
+    //   python3 tools/payload_policy.py generate --repo .
+    //   python3 tools/payload_policy.py check --repo .
     // check fails on a stale generated file or on a registered C2S payload without a table row.
-    // 生成的 DAZE 列（SparkFactionAPI config/payload-policy/actions.tsv）：请修改该表并重新运行
+    // 生成的 DAZE 列（config/payload-policy/actions.tsv）：请修改该表并重新运行
     // tools/payload_policy.py，不要在此列出 id；各 id 的理由见其 note 列。PartygoerCarry.EXTRA_BLOCKED_PAYLOADS
-    // （CARRY_EXTRA 列）来自同一张表。在 SparkFactionAPI 检出中用上面两条命令重新生成（generate）与校验（check）；
+    // （CARRY_EXTRA 列）来自同一张表。在仓库根目录用上面两条命令重新生成（generate）与校验（check）；
     // 生成文件过期或已注册的 C2S 数据包在表中没有对应行时，check 会失败。
     public static final Set<Identifier> DAZE_BLOCKED_PAYLOADS = GeneratedPayloadPolicy.DAZE;
 

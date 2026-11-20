@@ -9,7 +9,7 @@ import dev.caecorthus.sparkdlc.client.role.killer.witchmaiden.skin.MiniWitherSki
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.killer.witchmaiden.WitchMaidenRules;
 import dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither.MiniWitherEntities;
 import dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither.MiniWitherPlayerComponent;
@@ -75,7 +75,7 @@ public final class MiniWitherClient {
             }
         });
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (!SparkWitchServerConnection.isConfirmedServer()) {
+            if (!SparkDlcServerConnection.isConfirmedServer()) {
                 WitherGoheiFireInput.reset();
                 MiniWitherFollow.clear();
                 MiniWitherSkinAnimator.clear();

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.prophet;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.prophet.ProphetDeathCauseGroup;
 import dev.caecorthus.sparkdlc.role.civilian.prophet.ProphetPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.prophet.ProphetPlayerComponent.NecrologyEntry;
@@ -90,7 +90,7 @@ public final class ProphetNecrologyBookScreen extends Screen {
 
     /** Living, playing, non-spectating Prophet in an active round on a confirmed server. / 已确认服务器上、进行中的对局里存活且非旁观的先知。 */
     public static boolean isEligible(@Nullable PlayerEntity player) {
-        if (!SparkWitchServerConnection.isConfirmedServer() || player == null) {
+        if (!SparkDlcServerConnection.isConfirmedServer() || player == null) {
             return false;
         }
         GameWorldComponent game = GameWorldComponent.KEY.get(player.getWorld());

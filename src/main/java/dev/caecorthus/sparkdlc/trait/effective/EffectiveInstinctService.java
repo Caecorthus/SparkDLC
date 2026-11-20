@@ -6,7 +6,7 @@ import dev.caecorthus.sparkdlc.bridge.traits.SparkStrengthCoronerBridge;
 import dev.caecorthus.sparkdlc.bridge.traits.SparkWitchWraithBridge;
 import dev.caecorthus.sparkdlc.trait.killer.conscience.ConscienceTrait;
 import dev.caecorthus.sparkdlc.trait.civilian.impostor.ImpostorTrait;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.ShouldShowCohort;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -33,7 +33,7 @@ public final class EffectiveInstinctService {
 
     static void register() {
         ShouldShowCohort.EVENT.register((viewer, target) -> {
-            if (SparkTraitsServerConnection.isUnconfirmedClientEntity(viewer)) {
+            if (SparkDlcServerConnection.isUnconfirmedClientEntity(viewer)) {
                 return null;
             }
             GameWorldComponent game = GameWorldComponent.KEY.get(viewer.getWorld());

@@ -1862,7 +1862,7 @@ Current build baseline:
     under the stable key `UsecRifle`; a list under `Magazine` (even an empty one) means a magazine is inserted.
     `UsecBallistics` is the pure energy and drop model shared by the server tracer and the client reticle. The five
     items are the rifle, the magazine, the FMJ and AP rounds and the suppressor. Payload types register only in
-    `net/UsecNetworking` (from `SparkWitchPackets`): C2S `sparkdlc:fire_usec_rifle`, `sparkdlc:usec_attachment` and
+    `net/UsecNetworking` (from `SparkDlcPackets`): C2S `sparkdlc:fire_usec_rifle`, `sparkdlc:usec_attachment` and
     `sparkdlc:usec_scope`, S2C `sparkdlc:usec_bullet_impacts`; each owning service registers its own receiver.
     `UsecPlayerComponent` (`sparkdlc:usec_player`, `NEVER_COPY`, appended last in the CCA list, never saved) holds
     only the `scoped` flag, synced to everyone for the scope glint. `UsecFeatureService` (the single line appended last
@@ -2538,7 +2538,7 @@ Current build baseline:
   - Hubs (all registered before USEC, which stays last; only the Medium's hubs, PR #209, sit between them and USEC
     in `SparkWitchEvents` and `SparkDLCClient`): `BearFeatureService` in `SparkWitchEvents`
     (`BearLifecycleService`, `BearEconomyService`, `BearShopService`, in that order), `bear.net.BearNetworking` in
-    `SparkWitchPackets` (payload types), `client/role/civilian/bear/BearClientModule` in `SparkDLCClient` (plus
+    `SparkDlcPackets` (payload types), `client/role/civilian/bear/BearClientModule` in `SparkDLCClient` (plus
     `registerEntityRenderers()`); `headset.HeadsetLifecycle` sits before the BEAR hub in `SparkWitchEvents`. Only
     `bear.*` mixins follow the Accountant's common mixin and the mood-flag client mixin (WP4's headset mixins are
     `bear.Headset*`).
@@ -3244,7 +3244,7 @@ Current build baseline:
   - Hubs: `MediumFeatureService` in `SparkWitchEvents` (economy, 通灵, 幽灵的加护, 招魂, in that order:
     `MediumEconomyService`, `MediumSkillService`, `MediumBlessingService`, `MediumSecondSkillService`) and
     `client/role/civilian/medium/MediumClientModule` in `SparkDLCClient`, both after the BEAR hub and before USEC, which stays last.
-    Payload types and server receivers are in `SparkWitchPackets`: C2S `use_medium_skill`, `use_medium_blessing`,
+    Payload types and server receivers are in `role/civilian/medium/MediumPackets` (called from `net/SparkDlcPackets`): C2S `use_medium_skill`, `use_medium_blessing`,
     `submit_medium_seance`, `submit_medium_haunt_target` and `submit_medium_vote`; S2C `open_medium_seance_input` and
     `medium_seance_result`. There is no 招魂 key or menu payload. `submit_medium_vote` carries a choice index and
     `medium_seance_result` and both component sync packets carry the blessing fields, so client and server jars must
@@ -3472,7 +3472,7 @@ Current build baseline:
     `SparkWitchRoles` exposes `SHERRY_ID` and `sherry()`. Companion: SparkTraits blocks her from the Impostor trait.
   - Hubs: `SherryFeatureService` in `SparkWitchEvents` (economy, 推演, 巨力魔法, badge, in that order), after the
     Medium hub and before USEC, which stays last; `client/role/civilian/sherry/SherryClient` in `SparkDLCClient`. Payload types
-    and server receivers are in `SparkWitchPackets`.
+    and server receivers are in `role/civilian/sherry/net/SherryPackets` (called from `net/SparkDlcPackets`).
   - State: `SherryComponent` (`sparkdlc:sherry`, owner-synced only, `NEVER_COPY`, appended in the CCA player
     list and `fabric.mod.json` after Hanna's, before 二阶堂希罗's two): 推演 cooldown, her Mighty Force window, cooldown and forfeit flag, the badge holders,
     and the reveal trackers (target, interval, ticks to the next window, ticks left of the current one). The server
@@ -4297,13 +4297,13 @@ applied first, so it sits innermost and judges Vendetta (silent) and then Fear b
 Those id sets (stun `ControlExpertStunRules.BLOCKED_PAYLOADS`, Seeker `SeekerRemoteRules.BLOCKED_WHILE_VIEWING`, Rift
 `RiftSessionRules.BLOCKED_WHILE_INSIDE`, Fear's role-skill and silent sets in `GrandWitchFearService`, the Knight's two
 lists in `KnightDuelSkillLock`, hypnosis extra and silent sets in `NatsumeHypnosisGuards`) are aliases of
-`net/policy/witch/GeneratedPayloadPolicy`, generated from SparkFactionAPI's `config/payload-policy/actions.tsv`: one row per
+`net/policy/GeneratedPayloadPolicy` (the one generated class of the mod), generated from `config/payload-policy/actions.tsv`: one row per
 C2S payload id, an explicit allow/deny per lock, reasons in its note column (2026-11-13). Never list ids by hand: edit
-that table and run `python3 tools/payload_policy.py generate --repo . --mod witch`;
+that table and run `python3 tools/payload_policy.py generate --repo .`;
 `check` with the same arguments fails on a stale generated file or on a registered C2S payload without a row.
 `VendettaTargetingPacketGuard` keeps its typed target check; the table's VENDETTA_TARGET column records its five ids.
 这些 id 集合（眩晕、搜寻者、裂隙、恐惧的技能与静默集合、骑士的两份名单、催眠的额外与静默集合）都是
-`net/policy/witch/GeneratedPayloadPolicy` 的别名，由 SparkFactionAPI 的 `config/payload-policy/actions.tsv` 生成：每个 C2S
+`net/policy/GeneratedPayloadPolicy`（本模组唯一的生成类）的别名，由 `config/payload-policy/actions.tsv` 生成：每个 C2S
 数据包 id 一行，每种锁一格显式的 allow/deny，理由写在 note 列。不要手写 id：修改该表后运行上面的 `generate` 命令；
 同样参数的 `check` 会在生成文件过期或已注册的 C2S 数据包缺少表行时失败。`VendettaTargetingPacketGuard` 保留自己的
 类型化目标判定，表中 VENDETTA_TARGET 列记录它判定的五个 id。

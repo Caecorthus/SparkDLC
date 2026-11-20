@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.jiahao.sphinxhao;
 
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.SphinxHaoRules;
 import dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.SphinxHaoWorldComponent;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
@@ -62,7 +62,7 @@ public final class SphinxHaoInstinctHooks {
             return null;
         }
         boolean answers = SphinxHaoInstinctRules.viewerAnswers(
-                SparkWitchServerConnection.isConfirmedServer(),
+                SparkDlcServerConnection.isConfirmedServer(),
                 WatheClient.isInstinctEnabled(),
                 SphinxHaoRules.isSphinxHao(GameWorldComponent.KEY.get(viewer.getWorld()).getRole(viewer)),
                 GameFunctions.isPlayerPlayingAndAlive(viewer),

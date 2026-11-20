@@ -6,7 +6,7 @@ import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.client.role.civilian.blind.gate.BlindClientGates;
 import dev.caecorthus.sparkdlc.client.render.WraithClientState;
 import dev.caecorthus.sparkdlc.client.scope.ScopeClient;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecPlayerComponent;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.block.ShapeContext;
@@ -60,7 +60,7 @@ public final class UsecScopeGlintRenderer {
     }
 
     static void render(WorldRenderContext context) {
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }
         MinecraftClient client = MinecraftClient.getInstance();

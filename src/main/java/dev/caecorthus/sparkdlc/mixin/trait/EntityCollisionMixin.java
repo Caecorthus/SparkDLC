@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.mixin.trait;
 
 import dev.caecorthus.sparkdlc.trait.civilian.laststand.LastStandService;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,7 +17,7 @@ public abstract class EntityCollisionMixin {
     @Inject(method = "isCollidable", at = @At("HEAD"), cancellable = true)
     private void sparktraits$disableLastStandPendingCollidable(CallbackInfoReturnable<Boolean> cir) {
         Entity entity = (Entity) (Object) this;
-        if (!SparkTraitsServerConnection.isUnconfirmedClientEntity(entity)
+        if (!SparkDlcServerConnection.isUnconfirmedClientEntity(entity)
                 && LastStandService.shouldDisablePendingCollision(entity)) {
             cir.setReturnValue(false);
         }
@@ -26,7 +26,7 @@ public abstract class EntityCollisionMixin {
     @Inject(method = "collidesWith", at = @At("HEAD"), cancellable = true)
     private void sparktraits$disableLastStandPendingCollision(Entity other, CallbackInfoReturnable<Boolean> cir) {
         Entity entity = (Entity) (Object) this;
-        if (!SparkTraitsServerConnection.isUnconfirmedClientEntity(entity)
+        if (!SparkDlcServerConnection.isUnconfirmedClientEntity(entity)
                 && LastStandService.shouldDisablePendingCollision(entity, other)) {
             cir.setReturnValue(false);
         }

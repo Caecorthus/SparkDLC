@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.role.killer.dominator;
 import dev.caecorthus.sparkdlc.client.role.civilian.emma.EmmaVisibleName;
 import dev.caecorthus.sparkdlc.client.hud.DominatorHudRenderer;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.killer.dominator.DominatorForcedShotS2CPacket;
 import dev.caecorthus.sparkdlc.role.killer.dominator.DominatorPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.dominator.DominatorRules;
@@ -72,7 +72,7 @@ public final class DominatorClientModule {
     public static boolean isActiveDominator(@Nullable ClientPlayerEntity player) {
         return player != null
                 && DominatorRules.isDominator(GameWorldComponent.KEY.get(player.getWorld()).getRole(player))
-                && SparkWitchServerConnection.isConfirmedServer()
+                && SparkDlcServerConnection.isConfirmedServer()
                 && DominatorRules.isActiveCaster(player);
     }
 

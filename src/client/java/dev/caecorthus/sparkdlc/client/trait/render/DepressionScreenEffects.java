@@ -6,7 +6,7 @@ import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.civilian.depression.DepressionRules;
 import dev.caecorthus.sparkdlc.trait.civilian.CivilianTraits;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import net.minecraft.client.MinecraftClient;
@@ -47,7 +47,7 @@ public final class DepressionScreenEffects {
     }
 
     public static void render(ClientPlayerEntity player, float delta) {
-        if (!SparkTraitsServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             closeProcessor();
             return;
         }
@@ -122,7 +122,7 @@ public final class DepressionScreenEffects {
      * 也不执行渲染。
      */
     public static float[] getLastEscapeComposition(PlayerEntity player) {
-        if (player == null || !SparkTraitsServerConnection.isConfirmedServer()
+        if (player == null || !SparkDlcServerConnection.isConfirmedServer()
                 || !SparkTraitsApi.hasLastEscapeGrayscale(player)) {
             return NO_ESCAPE_COMPOSITION;
         }

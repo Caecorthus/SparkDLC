@@ -9,12 +9,8 @@ import dev.caecorthus.sparkdlc.faction.FactionCompatibilityEvents;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.legacy.LegacyFiles;
 import dev.caecorthus.sparkdlc.legacy.LegacyRegistryAliases;
-import dev.caecorthus.sparkdlc.net.SparkStrengthPackets;
-import dev.caecorthus.sparkdlc.net.SparkTraitsPackets;
-import dev.caecorthus.sparkdlc.net.SparkWitchPackets;
-import dev.caecorthus.sparkdlc.net.version.ServerVersionHandshake;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsVersionHandshake;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchVersionHandshake;
+import dev.caecorthus.sparkdlc.net.SparkDlcPackets;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcVersionHandshake;
 import dev.caecorthus.sparkdlc.record.MatchRecordBroadcaster;
 import dev.caecorthus.sparkdlc.record.PsychoRecorder;
 import dev.caecorthus.sparkdlc.replay.SparkReplayBootstrap;
@@ -23,14 +19,19 @@ import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertEntities
 import dev.caecorthus.sparkdlc.role.civilian.guardianangel.GuardianAngelEffects;
 import dev.caecorthus.sparkdlc.role.civilian.guardianangel.GuardianAngelRules;
 import dev.caecorthus.sparkdlc.role.civilian.orthopedist.OrthopedistEffects;
+import dev.caecorthus.sparkdlc.role.civilian.knight.CrossSwordStabService;
 import dev.caecorthus.sparkdlc.role.civilian.saint.flash.HolyFlashEntities;
+import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorDomainService;
+import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorLightsaberCombatService;
 import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorParticles;
+import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorPistolService;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerSounds;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerEntities;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowEntities;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenFeatherRegistry;
 import dev.caecorthus.sparkdlc.role.killer.hunter.HunterEffects;
 import dev.caecorthus.sparkdlc.role.killer.hunter.HunterEntities;
+import dev.caecorthus.sparkdlc.role.killer.hunter.HunterShotgunAimClaims;
 import dev.caecorthus.sparkdlc.role.killer.specter.SpecterEntities;
 import dev.caecorthus.sparkdlc.role.killer.specter.SpecterParticles;
 import dev.caecorthus.sparkdlc.role.killer.witchmaiden.FocusedFootstepsEffects;
@@ -104,7 +105,21 @@ public final class SparkDLC implements ModInitializer {
         LegacyFiles.carryOverCommon(FabricLoader.getInstance().getConfigDir());
         startFactionAndRoundServices();
         registerRoleKitContent();
+        // Payload types and server receivers of the whole mod. They are kept per payload id, so this line has no
+        // order to keep; it stands where the first of the three former hubs was called, before any listener that
+        // could send or receive one. / 全模组的数据包类型与服务端接收器。它们按数据包 id 保存，因此这一行没有需要保持的顺序；
+        // 它位于原先三个注册中心中最先被调用的那个的位置，早于任何可能收发这些数据包的监听器。
+        SparkDlcPackets.register();
         registerRoleKitGameplay();
+        // The one version handshake. Its login query has no order to keep, but its play confirmation is sent from a
+        // player-join listener: the role kits registered theirs before it and the traits and the mod's own roles
+        // register theirs after it, as it was while the trait system sent the first of two confirmations. A client
+        // behind a proxy is confirmed by that packet alone, so what a join listener sends reaches it before or after
+        // the confirmation according to this place.
+        // 唯一的版本握手。登录查询没有需要保持的顺序，但 play 确认由玩家加入监听器发送：职业套件的加入监听器在它之前注册，
+        // 词条与本模组自有职业的在它之后注册，与原先由词条系统发送两个确认中的第一个时相同。代理之后的客户端只靠这个数据包确认，
+        // 因此加入监听器发送的内容先于还是晚于确认到达客户端，取决于这个位置。
+        SparkDlcVersionHandshake.registerServer();
         registerTraits();
         registerOwnRoleContent();
         registerOwnRolesAndSkills();
@@ -121,13 +136,12 @@ public final class SparkDLC implements ModInitializer {
     }
 
     /**
-     * Version handshake, the faction registry with the native factions and the faction win service, NoellesRoles
-     * collision glue, compatibility events, replay, match record, anti-fast-round, lobby map reset and team sync.
-     * 版本握手、阵营注册表（含原生阵营与阵营胜利服务）、NoellesRoles 碰撞兼容、兼容事件、回放、对局记录、防速通、
+     * The faction registry with the native factions and the faction win service, NoellesRoles collision glue,
+     * compatibility events, replay, match record, anti-fast-round, lobby map reset and team sync.
+     * 阵营注册表（含原生阵营与阵营胜利服务）、NoellesRoles 碰撞兼容、兼容事件、回放、对局记录、防速通、
      * 大厅地图重置与团队名单同步。
      */
     private static void startFactionAndRoundServices() {
-        ServerVersionHandshake.registerServer();
         SparkFactionApi.bootstrap();
         NoellesCollisionCompatibility.register();
         FactionCompatibilityEvents.register();
@@ -153,22 +167,19 @@ public final class SparkDLC implements ModInitializer {
     }
 
     /**
-     * Packets, event listeners and replay formatters of those kits, of sabotage, the tablet and the killer team
-     * economy. 这些套件以及破坏、平板电脑与杀手团队经济的数据包、事件监听器和回放格式化器。
+     * Event listeners and replay formatters of those kits, of sabotage, the tablet and the killer team economy.
+     * 这些套件以及破坏、平板电脑与杀手团队经济的事件监听器和回放格式化器。
      */
     private static void registerRoleKitGameplay() {
-        SparkStrengthPackets.registerServer();
         SparkStrengthEvents.register();
         SparkStrengthReplayFormatters.register();
     }
 
     /**
-     * Version handshake, packets, data component, particles and sounds of the trait system, the built-in traits and
-     * their services and replay texts. 词条系统的版本握手、数据包、数据组件、粒子与声音，内置词条及其服务和回放文本。
+     * Data component, particles and sounds of the trait system, the built-in traits and their services and replay
+     * texts. 词条系统的数据组件、粒子与声音，内置词条及其服务和回放文本。
      */
     private static void registerTraits() {
-        SparkTraitsVersionHandshake.registerServer();
-        SparkTraitsPackets.register();
         SparkTraitsDataComponentTypes.init();
         SparkTraitsParticles.register();
         SparkTraitsSounds.initialize();
@@ -261,15 +272,23 @@ public final class SparkDLC implements ModInitializer {
     }
 
     /**
-     * Packets, hitbox history, the version handshake, the event listeners of the mod's own roles, forced cooldowns,
-     * the Wraith text-chat gates and the Assassin guess order refreshed once the server has started.
-     * 本模组自有职业的数据包、碰撞箱历史、版本握手、事件监听器、强制冷却、冤魂文字聊天限制，以及服务器启动后刷新的刺客猜测顺序。
+     * The services that register listeners together with their payloads, hitbox history, the event listeners of the
+     * mod's own roles, forced cooldowns, the Wraith text-chat gates and the Assassin guess order refreshed once the
+     * server has started. 连同数据包一起注册监听器的服务、碰撞箱历史、本模组自有职业的事件监听器、强制冷却、冤魂文字聊天限制，
+     * 以及服务器启动后刷新的刺客猜测顺序。
      */
     private static void registerOwnRoleGameplay() {
-        SparkWitchPackets.register();
+        // These five register event listeners (kill, death, attack, tick, disconnect and server-stop cleanup) next to
+        // their own payloads, so they keep the place and the order they had inside the former packet hub of the
+        // mod's own roles: first in this step. / 这五个服务在注册自身数据包的同时注册事件监听器（击杀、死亡、攻击、tick、
+        // 断线与停服清理），因此保持它们在原自有职业数据包注册中心内的位置与顺序：位于本步骤最前。
+        CrossSwordStabService.register();
+        SaviorPistolService.register();
+        SaviorLightsaberCombatService.register();
+        SaviorDomainService.register();
+        HunterShotgunAimClaims.register();
         PlayerHitboxHistory.register();
         CurserFeatureService.register();
-        SparkWitchVersionHandshake.registerServer();
         SparkWitchEvents.register();
         dev.caecorthus.sparkdlc.cooldown.provider.SparkWitchForcedCooldowns.register();
         ServerMessageEvents.ALLOW_CHAT_MESSAGE.register(

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.killer.blackraven;
 
 import dev.caecorthus.sparkdlc.net.OpenBlackRavenDisguiseS2CPacket;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.minecraft.client.MinecraftClient;
 import dev.caecorthus.sparkdlc.SparkWitch;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
@@ -55,7 +55,7 @@ public final class BlackRavenClientModule {
         // 注册该接收器同时让服务端对面具的 canSend 检查得以通过。
         ClientPlayNetworking.registerGlobalReceiver(OpenBlackRavenDisguiseS2CPacket.ID, (payload, context) ->
                 context.client().execute(() -> {
-                    if (SparkWitchServerConnection.isConfirmedServer()) {
+                    if (SparkDlcServerConnection.isConfirmedServer()) {
                         BlackRavenLedgerBookScreen.open(
                                 context.client(), BlackRavenLedgerBookScreen.Tab.ABSENT, payload.session());
                     }

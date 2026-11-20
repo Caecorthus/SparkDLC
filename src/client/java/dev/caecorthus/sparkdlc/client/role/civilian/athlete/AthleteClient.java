@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.athlete;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 
 /**
@@ -22,7 +22,7 @@ public final class AthleteClient {
         }
         initialized = true;
         HudRenderCallback.EVENT.register((context, tickCounter) -> {
-            if (SparkWitchServerConnection.isConfirmedServer()) {
+            if (SparkDlcServerConnection.isConfirmedServer()) {
                 AthleteDashHud.render(context);
             }
         });

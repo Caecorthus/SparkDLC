@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.usec;
 
 import dev.caecorthus.sparkdlc.client.mixin.role.civilian.usec.UsecCreativeSlotAccessor;
 import dev.caecorthus.sparkdlc.client.role.civilian.usec.UsecAttachmentModel.SlotRef;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecAttachmentCursorLoading;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecRifleItem;
 import dev.caecorthus.sparkdlc.role.civilian.usec.net.UsecAttachmentC2SPacket;
@@ -71,7 +71,7 @@ public final class UsecAttachmentClient {
         int index = UsecAttachmentModel.ownInventoryIndex(handler instanceof PlayerScreenHandler,
                 new SlotRef(slot.inventory == player.getInventory(), slot.getIndex()),
                 wrapped == null ? null : new SlotRef(wrapped.inventory == player.getInventory(), wrapped.getIndex()));
-        boolean serverReady = SparkWitchServerConnection.isConfirmedServer()
+        boolean serverReady = SparkDlcServerConnection.isConfirmedServer()
                 && ClientPlayNetworking.canSend(UsecAttachmentC2SPacket.ID);
         if (!UsecAttachmentModel.opensOnClick(button, action == SlotActionType.PICKUP,
                 handler.getCursorStack().isEmpty(), index != UsecAttachmentModel.NO_SLOT, index,

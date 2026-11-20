@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.trait.audio;
 
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.SoundManager;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,7 +27,7 @@ public final class DepressionRageLoopController {
 
     public static void tick(MinecraftClient client) {
         SoundManager soundManager = client.getSoundManager();
-        if (!SparkTraitsServerConnection.isConfirmedServer()
+        if (!SparkDlcServerConnection.isConfirmedServer()
                 || client.world == null
                 || !canHearRageLoop(client)) {
             stopAll(soundManager);

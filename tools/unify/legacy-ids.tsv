@@ -546,9 +546,9 @@ legacy_role_alias	sparktraits:saboteur	sparkdlc:saboteur	older id of the role (S
 legacy_role_alias	sparktraits:vendetta	sparkdlc:vendetta	older id of the role (SparkTraits hosted the Wraith family): read after the role row
 legacy_role_alias	sparktraits:wind_spirit	sparkdlc:wind_spirit	older id of the role (SparkTraits hosted the Wraith family): read after the role row
 legacy_role_alias	sparktraits:wraith	sparkdlc:wraith	older id of the role (SparkTraits hosted the Wraith family): read after the role row; in a trait list the same string is a retired trait (retired_trait row)
-login_channel	sparkfactionapi:version_check	sparkdlc:faction_version_check	VERSION_CHECK_ID
-login_channel	sparktraits:version_check	sparkdlc:trait_version_check	VERSION_CHECK_ID
-login_channel	sparkwitch:version_check	sparkdlc:witch_version_check	VERSION_CHECK_ID
+login_channel	sparkfactionapi:version_check	sparkdlc:version_check	merged: one login query sparkdlc:version_check since stage 3; this channel and its stage-2 name are retired, nothing listens on them
+login_channel	sparktraits:version_check	sparkdlc:version_check	merged: one login query sparkdlc:version_check since stage 3; this channel and its stage-2 name are retired, nothing listens on them
+login_channel	sparkwitch:version_check	sparkdlc:version_check	merged: one login query sparkdlc:version_check since stage 3; this channel and its stage-2 name are retired, nothing listens on them
 mob_effect	sparkwitch:bone_setting	sparkdlc:bone_setting	
 mob_effect	sparkwitch:focused_footsteps	sparkdlc:focused_footsteps	
 mob_effect	sparkwitch:fracture	sparkdlc:fracture	
@@ -699,7 +699,7 @@ payload_s2c	sparkstrength:tablet_chat_notify	sparkdlc:tablet_chat_notify
 payload_s2c	sparkstrength:timed_bomb_markers	sparkdlc:timed_bomb_markers	
 payload_s2c	sparktraits:blue_poison_markers	sparkdlc:blue_poison_markers	
 payload_s2c	sparktraits:forced_melee_cooldowns	sparkdlc:forced_melee_cooldowns	
-payload_s2c	sparktraits:server_confirm	sparkdlc:trait_server_confirm	
+payload_s2c	sparktraits:server_confirm	sparkdlc:server_confirm	merged: one play confirmation sparkdlc:server_confirm since stage 3; this payload and its stage-2 name are retired
 payload_s2c	sparkwitch:bear_rys_t_ricochet	sparkdlc:bear_rys_t_ricochet	
 payload_s2c	sparkwitch:bear_smoke_clear	sparkdlc:bear_smoke_clear	
 payload_s2c	sparkwitch:bear_smoke_cloud	sparkdlc:bear_smoke_cloud	
@@ -727,7 +727,7 @@ payload_s2c	sparkwitch:savior_domain	sparkdlc:savior_domain
 payload_s2c	sparkwitch:savior_gun_drop	sparkdlc:savior_gun_drop	
 payload_s2c	sparkwitch:savior_muzzle	sparkdlc:savior_muzzle	
 payload_s2c	sparkwitch:seeker_car_correct	sparkdlc:seeker_car_correct	
-payload_s2c	sparkwitch:server_confirm	sparkdlc:witch_server_confirm	
+payload_s2c	sparkwitch:server_confirm	sparkdlc:server_confirm	merged: one play confirmation sparkdlc:server_confirm since stage 3; this payload and its stage-2 name are retired
 payload_s2c	sparkwitch:tarot_divination_reading	sparkdlc:tarot_divination_reading	
 payload_s2c	sparkwitch:tarot_divination_snapshot	sparkdlc:tarot_divination_snapshot	
 payload_s2c	sparkwitch:usec_bullet_impacts	sparkdlc:usec_bullet_impacts	

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.mixin.trait;
 
 import dev.caecorthus.sparkdlc.trait.killer.KillerTraitService;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,7 +19,7 @@ public abstract class KillerTraitLivingEntityMixin {
     @Inject(method = "tick", at = @At("HEAD"))
     private void sparktraits$updateHeldWeaponModifiers(CallbackInfo ci) {
         if ((Object) this instanceof PlayerEntity player
-                && !SparkTraitsServerConnection.isUnconfirmedClientEntity(player)) {
+                && !SparkDlcServerConnection.isUnconfirmedClientEntity(player)) {
             KillerTraitService.updateThrustKnockback(player);
             KillerTraitService.updateManicAttackSpeed(player);
         }

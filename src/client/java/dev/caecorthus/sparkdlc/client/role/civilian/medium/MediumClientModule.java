@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.medium;
 
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityHandler;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityRegistry;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.medium.MediumRules;
 import dev.caecorthus.sparkdlc.role.civilian.medium.MediumSeanceResultS2CPacket;
 import dev.caecorthus.sparkdlc.role.civilian.medium.OpenMediumSeanceInputS2CPacket;
@@ -76,7 +76,7 @@ public final class MediumClientModule {
      * （聊天、投票界面、正在输入的提问）。
      */
     private static boolean mayOpenMenu(MinecraftClient client) {
-        return SparkWitchServerConnection.isConfirmedServer()
+        return SparkDlcServerConnection.isConfirmedServer()
                 && client.player != null
                 && client.currentScreen == null
                 && MediumRules.isMedium(client.player);

@@ -6,7 +6,7 @@ import dev.caecorthus.sparkdlc.client.role.civilian.blind.BlindView;
 import dev.caecorthus.sparkdlc.client.role.civilian.saint.HolyFlashOverlayMath.Anchor;
 import dev.caecorthus.sparkdlc.client.role.civilian.saint.HolyFlashOverlayMath.Projection;
 import dev.caecorthus.sparkdlc.client.role.civilian.seeker.remote.SeekerRemoteViewClient;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.saint.flash.HolyFlashComponent;
 import dev.caecorthus.sparkdlc.role.civilian.saint.flash.HolyFlashRules;
 import dev.caecorthus.sparkdlc.role.killer.kidnapper.KidnapperControlComponent;
@@ -58,7 +58,7 @@ public final class HolyFlashOverlayRenderer {
     }
 
     public static void render(DrawContext context, RenderTickCounter tickCounter) {
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }
         MinecraftClient client = MinecraftClient.getInstance();

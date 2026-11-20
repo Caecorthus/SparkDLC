@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.blind;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -27,7 +27,7 @@ public final class BlindComTacHeadVisibility {
 
     /** True when the head feature must skip {@code wearer}'s head item. / 头部特征层需要跳过该实体头部物品时为真。 */
     public static boolean hidesHeadItem(@Nullable LivingEntity wearer) {
-        if (wearer == null || !SparkWitchServerConnection.isConfirmedServer()) {
+        if (wearer == null || !SparkDlcServerConnection.isConfirmedServer()) {
             return false;
         }
         return hides(GameWorldComponent.KEY.get(wearer.getWorld()).isRunning(),

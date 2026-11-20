@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.client.trait.render.ClientFrameClock;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.effective.EffectiveTraitService;
 import dev.caecorthus.sparkdlc.trait.global.GlobalTraitService;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.gui.MoodRenderer;
@@ -35,7 +35,7 @@ public abstract class MoodRendererMixin {
             at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/api/Role;getMoodType()Ldev/doctor4t/wathe/api/Role$MoodType;")
     )
     private static Role.MoodType sparktraits$effectiveMoodType(Role role) {
-        if (!SparkTraitsServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return role == null ? Role.MoodType.NONE : role.getMoodType();
         }
         PlayerEntity player = MinecraftClient.getInstance().player;
@@ -52,7 +52,7 @@ public abstract class MoodRendererMixin {
             index = 0
     )
     private static float sparktraits$steadyMoodBarWidth(float xScale) {
-        if (!SparkTraitsServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return xScale;
         }
         float mood = MoodRenderer.moodRender;
@@ -73,7 +73,7 @@ public abstract class MoodRendererMixin {
             index = 0
     )
     private static float sparktraits$steadyMoodBarHue(float hue) {
-        if (!SparkTraitsServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return hue;
         }
         float mood = MoodRenderer.moodRender;

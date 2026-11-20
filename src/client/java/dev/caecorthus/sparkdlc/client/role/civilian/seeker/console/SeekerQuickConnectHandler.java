@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityHandler;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityRegistry;
 import dev.caecorthus.sparkdlc.client.role.civilian.seeker.SeekerClientState;
 import dev.caecorthus.sparkdlc.client.role.civilian.seeker.remote.SeekerRemoteViewClient;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerSessionMode;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.net.SeekerRemoteOpenC2SPacket;
@@ -55,7 +55,7 @@ public final class SeekerQuickConnectHandler {
     }
 
     private static void onPressed(MinecraftClient client) {
-        if (!SparkWitchServerConnection.isConfirmedServer() || client.currentScreen != null
+        if (!SparkDlcServerConnection.isConfirmedServer() || client.currentScreen != null
                 || !SeekerConsoleOpener.isLiveSeeker(client.player)
                 || !SeekerConsoleRules.throttleElapsed(ticks, lastSendTick,
                 SeekerConsoleRules.QUICK_CONNECT_THROTTLE_TICKS)

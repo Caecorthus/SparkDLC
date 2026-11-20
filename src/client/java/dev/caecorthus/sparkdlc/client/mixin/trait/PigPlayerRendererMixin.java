@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.mixin.trait;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.client.trait.render.PigPlayerRenderer;
 import dev.caecorthus.sparkdlc.trait.global.pig.PigTraitService;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -41,7 +41,7 @@ public abstract class PigPlayerRendererMixin {
     ) {
         // The cheap gates run first: the Wraith queries below are reflective and every player renders each frame.
         // 先执行廉价判定：下方冤魂查询依赖反射，而每名玩家每帧都会渲染。
-        if (!SparkTraitsServerConnection.isConfirmedServer() || !PigTraitService.isPig(player)) {
+        if (!SparkDlcServerConnection.isConfirmedServer() || !PigTraitService.isPig(player)) {
             return;
         }
         AbstractClientPlayerEntity viewer = MinecraftClient.getInstance().player;

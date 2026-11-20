@@ -5,7 +5,7 @@ import dev.caecorthus.sparkdlc.client.role.killer.blackraven.SparkTraitsInstinct
 import dev.caecorthus.sparkdlc.client.hooks.WitchInstinctSuppressionClientHooks;
 import dev.caecorthus.sparkdlc.client.render.WraithClientState;
 import dev.caecorthus.sparkdlc.client.render.WraithViewerRules;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorService;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorWorldComponent;
 import dev.doctor4t.wathe.api.Role;
@@ -27,7 +27,7 @@ public final class WitchFactorClientHooks {
 
     public static int resolveHighlight(int originalColor, Entity entity) {
         PlayerEntity viewer = MinecraftClient.getInstance().player;
-        if (originalColor != -1 || !SparkWitchServerConnection.isConfirmedServer()
+        if (originalColor != -1 || !SparkDlcServerConnection.isConfirmedServer()
                 || viewer == null || !(entity instanceof PlayerEntity target)
                 || target == viewer || !GameFunctions.isPlayerPlayingAndAlive(viewer)
                 || !GameFunctions.isPlayerPlayingAndAlive(target)

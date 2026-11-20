@@ -27,13 +27,14 @@ def factionApiLocalDocs = "docs/local/factionapi"
 
 def remappedModJar = tasks.named("remapJar")
 // Legacy mod ids the factionapi module relies on at runtime; the fused mod answers them through `provides`.
-// `sparkfactionapi` was this module's own mod id: VersionProtocol#localVersion and CaecorthusTeamSync read its mod
-// container. `sparkassist` owns the GuidebookDecorApi that GuideDecorBridge reaches by name; the bridge no longer
-// gates on isModLoaded("sparkassist") (the modules are fused and assist is always present), but the id must stay
-// provided and must never come back as a dependency on this mod itself, so the check below still covers it.
+// `sparkfactionapi` was this module's own mod id: CaecorthusTeamSync reads its mod container (the version handshake
+// reads `sparkdlc` since the three handshakes became one). `sparkassist` owns the GuidebookDecorApi that
+// GuideDecorBridge reaches by name; the bridge no longer gates on isModLoaded("sparkassist") (the modules are fused
+// and assist is always present), but the id must stay provided and must never come back as a dependency on this mod
+// itself, so the check below still covers it.
 // factionapi 模块运行时依赖的旧 mod id；融合后的 mod 通过 `provides` 满足这些查找。`sparkfactionapi` 原是本模块自己的
-// mod id：VersionProtocol#localVersion 与 CaecorthusTeamSync 读取它的 mod 容器。`sparkassist` 拥有 GuideDecorBridge 按名称
-// 访问的 GuidebookDecorApi；该桥不再以 isModLoaded("sparkassist") 为前提（各模块已融合，assist 始终存在），但这个 id 仍须由
+// mod id：CaecorthusTeamSync 读取它的 mod 容器（三个握手合并为一个之后，版本握手读取的是 `sparkdlc`）。
+// `sparkassist` 拥有 GuideDecorBridge 按名称访问的 GuidebookDecorApi；该桥不再以 isModLoaded("sparkassist") 为前提（各模块已融合，assist 始终存在），但这个 id 仍须由
 // `provides` 提供，且不得再作为针对本 mod 自身的依赖出现，因此下方的检查继续覆盖它。
 def factionApiProvidedModIds = ["sparkfactionapi", "sparkassist"]
 
@@ -164,9 +165,12 @@ def verifyFactionApiModJar = tasks.register("verifyFactionApiModJar") {
 
             [
                     "dev/caecorthus/sparkdlc/client/SparkDLCClient.class",
-                    "dev/caecorthus/sparkdlc/client/net/version/ClientVersionHandshake.class",
-                    "dev/caecorthus/sparkdlc/net/version/ServerVersionHandshake.class",
-                    "dev/caecorthus/sparkdlc/net/version/VersionProtocol.class",
+                    "dev/caecorthus/sparkdlc/client/net/version/SparkDlcClientVersionHandshake.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkDlcVersionHandshake.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkDlcVersionCheck.class",
+                    "dev/caecorthus/sparkdlc/net/SparkDlcPackets.class",
+                    "dev/caecorthus/sparkdlc/client/net/SparkDlcClientPackets.class",
+                    "dev/caecorthus/sparkdlc/net/policy/GeneratedPayloadPolicy.class",
                     "dev/caecorthus/sparkdlc/faction/api/PlayerAffectPolicy.class",
                     "dev/caecorthus/sparkdlc/faction/api/PoliceRoles.class",
                     "dev/caecorthus/sparkdlc/round/settlement/SettlementExclusions.class",
@@ -312,6 +316,30 @@ def verifyFactionApiModJar = tasks.register("verifyFactionApiModJar") {
                     "dev/caecorthus/sparkdlc/factionapi/mixin/ServerEntityHandlerCollisionMixin.class",
                     "dev/caecorthus/sparkdlc/factionapi/mixin/compat/PlayerAffectMixinGuard.class",
                     "dev/caecorthus/sparkdlc/factionapi/mixin/compat/sparkstrength/CriminologistAffectMixin.class",
+                    // The three handshakes of the former modules, merged into net.version.SparkDlcVersionHandshake
+                    // (stage 3, "one wire"). / 原三个模块各自的握手，已并入 net.version.SparkDlcVersionHandshake（第三阶段“一条线”）。
+                    "dev/caecorthus/sparkdlc/client/net/version/ClientVersionHandshake.class",
+                    "dev/caecorthus/sparkdlc/client/net/version/SparkTraitsClientVersionHandshake.class",
+                    "dev/caecorthus/sparkdlc/client/net/version/SparkWitchClientVersionHandshake.class",
+                    "dev/caecorthus/sparkdlc/net/version/ServerVersionHandshake.class",
+                    "dev/caecorthus/sparkdlc/net/version/VersionProtocol.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkTraitsVersionHandshake.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkTraitsVersionCheck.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkTraitsServerConfirmS2CPacket.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkTraitsServerConnection.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkWitchVersionHandshake.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkWitchVersionCheck.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkWitchServerConfirmS2CPacket.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkWitchServerConnection.class",
+                    // The three packet hubs (now net.SparkDlcPackets) and the three generated payload policy classes
+                    // (now net.policy.GeneratedPayloadPolicy). / 三个数据包注册中心（现为 net.SparkDlcPackets）与三个生成的
+                    // 数据包策略类（现为 net.policy.GeneratedPayloadPolicy）。
+                    "dev/caecorthus/sparkdlc/net/SparkStrengthPackets.class",
+                    "dev/caecorthus/sparkdlc/net/SparkTraitsPackets.class",
+                    "dev/caecorthus/sparkdlc/net/SparkWitchPackets.class",
+                    "dev/caecorthus/sparkdlc/net/policy/strength/GeneratedPayloadPolicy.class",
+                    "dev/caecorthus/sparkdlc/net/policy/witch/GeneratedPayloadPolicy.class",
+                    "dev/caecorthus/sparkdlc/round/antifastround/GeneratedPayloadPolicy.class",
                     "dev/caecorthus/sparkdlc/factionapi/client/net/SparkFactionClientVersionHandshake.class",
                     "dev/caecorthus/sparkdlc/factionapi/net/SparkFactionVersionHandshake.class",
                     "dev/caecorthus/sparkdlc/factionapi/net/SparkFactionVersionCheck.class",
@@ -504,7 +532,8 @@ def architectureContractFiles = [
         "src/test/java/dev/caecorthus/sparkdlc/faction/collision/EntityCollisionMixinContractTest.java",
         "src/test/java/dev/caecorthus/sparkdlc/faction/collision/LivingEntityCollisionMixinContractTest.java",
         "src/test/java/dev/caecorthus/sparkdlc/compat/noellesroles/NoellesCollisionCompatibilityContractTest.java",
-        "src/test/java/dev/caecorthus/sparkdlc/net/version/VersionProtocolTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/net/version/SparkDlcVersionCheckTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/net/version/SparkDlcVersionHandshakeTest.java",
         "src/test/java/dev/caecorthus/sparkdlc/replay/ReplayRoleTimelineTest.java",
         "src/test/java/dev/caecorthus/sparkdlc/replay/RoleChangeRecordRulesTest.java",
         "src/test/java/dev/caecorthus/sparkdlc/inventory/LimitedInventoryRowsTest.java",
@@ -573,22 +602,20 @@ def verifyFactionApiArchitecture = tasks.register("verifyFactionApiArchitecture"
 
 // Aggregate for the factionapi module; the root build's verifyAll depends on it.
 // factionapi 模块的汇总任务；根构建的 verifyAll 依赖它。
-// The locked-player payload policy: every C2S payload any module registers has a row in
-// config/payload-policy/actions.tsv, owned by the registering module, and each GeneratedPayloadPolicy.java is
-// byte-identical to what the table generates. One run covers all modules now that they share the tree.
-// 锁定玩家数据包策略：任何模块注册的每个 C2S 数据包在 config/payload-policy/actions.tsv 中都有一行、归属于注册它的
-// 模块，且每个 GeneratedPayloadPolicy.java 与规范表生成结果逐字节一致。模块共用一棵源码树后，一次运行即可覆盖全部模块。
+// The locked-player payload policy: every C2S payload the mod registers has a row in
+// config/payload-policy/actions.tsv, every row owned by the mod is registered, and the one generated class
+// (net.policy.GeneratedPayloadPolicy) is byte-identical to what the table generates.
+// 锁定玩家数据包策略：本模组注册的每个 C2S 数据包在 config/payload-policy/actions.tsv 中都有一行，归属本模组的每一行都确有注册，
+// 且唯一的生成类（net.policy.GeneratedPayloadPolicy）与规范表生成结果逐字节一致。
 def verifyFactionApiPayloadPolicy = tasks.register("verifyFactionApiPayloadPolicy", Exec) {
     group = "verification"
-    description = "Checks every module against the canonical payload policy table."
+    description = "Checks the mod against the canonical payload policy table."
     inputs.file("tools/payload_policy.py")
-    // The tool reads the owning module of a registering file from the move manifest. / 工具从搬迁清单读取注册文件所属的模块。
-    inputs.files("tools/unify/file-moves.tsv")
     inputs.dir("config/payload-policy")
     inputs.files(fileTree("src/main/java") { include "**/*.java" }, fileTree("src/client/java") { include "**/*.java" })
     outputs.upToDateWhen { true }
     workingDir = rootDir
-    commandLine "python3", "tools/payload_policy.py", "check-all", "--repo", "."
+    commandLine "python3", "tools/payload_policy.py", "check", "--repo", "."
 }
 
 tasks.register("verifyFactionApi") {

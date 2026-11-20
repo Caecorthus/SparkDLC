@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.usec;
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.client.text.HudFontOptions;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecCooldowns;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecMagazineItem;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecRifleState;
@@ -76,7 +76,7 @@ public final class UsecAmmoHud {
         // HudRenderCallback still fires under F1, unlike Wathe's own HUD layer; follow both.
         // HudRenderCallback 在 F1 下仍会触发，与 Wathe 自身 HUD 层不同；两者都要遵循。
         boolean watheHud = WatheClient.trainComponent != null && WatheClient.trainComponent.hasHud();
-        if (!UsecAmmoHudRules.visible(SparkWitchServerConnection.isConfirmedServer(), client.options.hudHidden,
+        if (!UsecAmmoHudRules.visible(SparkDlcServerConnection.isConfirmedServer(), client.options.hudHidden,
                 watheHud, OffMatchUse.mode(player), player.isSpectator(), true)) {
             return;
         }

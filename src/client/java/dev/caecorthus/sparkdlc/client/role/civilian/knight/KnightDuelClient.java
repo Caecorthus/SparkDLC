@@ -6,7 +6,7 @@ import dev.caecorthus.sparkdlc.client.render.WraithClientState;
 import dev.caecorthus.sparkdlc.net.KnightDuelStopSoundS2CPayload;
 import dev.caecorthus.sparkdlc.net.KnightDuelTargetC2SPayload;
 import dev.caecorthus.sparkdlc.net.KnightDuelUiLockS2CPayload;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.knight.KnightRules;
 import dev.caecorthus.sparkdlc.role.civilian.knight.duel.KnightDuelRules;
 import dev.caecorthus.sparkdlc.role.civilian.knight.duel.KnightDuelWorldComponent;
@@ -123,7 +123,7 @@ public final class KnightDuelClient {
         // HudRenderCallback still fires under F1, unlike Wathe's own HUD layer; follow Wathe's train HUD.
         // HudRenderCallback 在 F1 下仍会触发，与 Wathe 自身 HUD 层不同；跟随 Wathe 列车 HUD 的显示状态。
         if (player == null || client.world == null || client.options.hudHidden
-                || !SparkWitchServerConnection.isConfirmedServer()
+                || !SparkDlcServerConnection.isConfirmedServer()
                 || WatheClient.trainComponent == null || !WatheClient.trainComponent.hasHud()) {
             return;
         }

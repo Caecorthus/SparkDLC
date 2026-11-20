@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.jiahao.sphinxhao;
 
 import dev.caecorthus.sparkdlc.SparkWitchSounds;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.SphinxHaoWorldComponent;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -62,7 +62,7 @@ public final class SphinxHaoFadeBgm {
         if (window == null) {
             return SphinxHaoFadeBgmRules.NO_WINDOW;
         }
-        return SphinxHaoFadeBgmRules.activeWindow(SparkWitchServerConnection.isConfirmedServer(),
+        return SphinxHaoFadeBgmRules.activeWindow(SparkDlcServerConnection.isConfirmedServer(),
                 GameWorldComponent.KEY.get(world).isRunning(), window.isRoarActive(world.getTime()),
                 window.roarEndTick());
     }

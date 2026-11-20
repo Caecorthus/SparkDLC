@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.bear.launcher;
 import dev.caecorthus.sparkdlc.client.input.MacControlClickRules;
 import dev.caecorthus.sparkdlc.client.mixin.input.SelectedSlotFlushInvoker;
 import dev.caecorthus.sparkdlc.client.role.witch.potiongunner.PotionFireLatch;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.bear.net.FireM32A1C2SPayload;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -102,7 +102,7 @@ public final class M32FireInput {
     }
 
     private static void requestFire(MinecraftClient client, ClientPlayerEntity player) {
-        boolean canSend = SparkWitchServerConnection.isConfirmedServer()
+        boolean canSend = SparkDlcServerConnection.isConfirmedServer()
                 && client.getNetworkHandler() != null
                 && ClientPlayNetworking.canSend(FireM32A1C2SPayload.ID);
         if (!sendsFire(client.currentScreen != null, player.isSpectator(), client.getCameraEntity() == player,

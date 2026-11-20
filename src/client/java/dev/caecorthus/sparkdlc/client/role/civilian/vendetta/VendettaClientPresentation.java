@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.vendetta;
 
 import dev.caecorthus.sparkdlc.client.render.WraithClientState;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaPresentationRules;
 import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaRole;
@@ -19,7 +19,7 @@ public final class VendettaClientPresentation {
     }
 
     public static boolean isActiveVendetta(@Nullable PlayerEntity player) {
-        if (!SparkWitchServerConnection.isConfirmedServer()
+        if (!SparkDlcServerConnection.isConfirmedServer()
                 || player == null
                 || !WraithClientState.isActive(player)) {
             return false;

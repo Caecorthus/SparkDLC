@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.mixin.role.neutral.ferryman;
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeTargetOcclusion;
 import dev.caecorthus.sparkdlc.client.role.killer.magician.MagicianPuppetNameTags;
 import dev.caecorthus.sparkdlc.client.render.WraithNameTagPassThrough;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.neutral.ferryman.FerrymanRules;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -50,7 +50,7 @@ public abstract class FerrymanCohortRoleNameMixin {
             RenderTickCounter tickCounter,
             CallbackInfo ci
     ) {
-        if (!SparkWitchServerConnection.isConfirmedServer()
+        if (!SparkDlcServerConnection.isConfirmedServer()
                 || nametagAlpha <= 0.05f
                 || !GameWorldComponent.KEY.get(player.getWorld()).isRunning()
                 // Only the Charon and the Lost Souls read this label; every other role skips the per-frame raycast.

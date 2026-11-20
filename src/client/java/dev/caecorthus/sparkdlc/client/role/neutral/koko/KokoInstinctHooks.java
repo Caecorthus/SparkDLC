@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.neutral.koko;
 
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.neutral.koko.KokoComponent;
 import dev.caecorthus.sparkdlc.role.neutral.koko.KokoRules;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
@@ -56,7 +56,7 @@ public final class KokoInstinctHooks {
         if (viewer == null || targetPlayer == viewer || !KokoComponent.KEY.get(viewer).isLive()) {
             return null;
         }
-        if (!SparkWitchServerConnection.isConfirmedServer() || !isLivingKoko(viewer)
+        if (!SparkDlcServerConnection.isConfirmedServer() || !isLivingKoko(viewer)
                 || !isShownTo(viewer, targetPlayer)) {
             return null;
         }

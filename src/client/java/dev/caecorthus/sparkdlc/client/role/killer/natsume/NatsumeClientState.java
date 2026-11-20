@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.killer.natsume;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.killer.natsume.NatsumeComponent;
 import dev.caecorthus.sparkdlc.role.killer.natsume.NatsumeRules;
 import dev.doctor4t.wathe.api.Role;
@@ -43,7 +43,7 @@ public final class NatsumeClientState {
      * 文字绘制都会调用，因此先做 O(1) 判断，只有被催眠时才查询参与状态。死亡或旁观的观察者永不受约束。
      */
     public static boolean bindsLocalPlayer() {
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return false;
         }
         ClientPlayerEntity player = MinecraftClient.getInstance().player;

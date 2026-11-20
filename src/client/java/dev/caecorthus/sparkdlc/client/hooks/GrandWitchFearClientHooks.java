@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.hooks;
 
 import dev.caecorthus.sparkdlc.client.render.LocalViewerSnapshot;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.client.WatheClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -39,7 +39,7 @@ public final class GrandWitchFearClientHooks {
      * 因为本能键可能只对某个目标视为松开（SparkStrength 熄灯、USEC 隐蔽）。
      */
     public static boolean shouldBlockInstinct() {
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return false;
         }
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
@@ -58,7 +58,7 @@ public final class GrandWitchFearClientHooks {
     }
 
     public static boolean shouldBlockRoleAbilityKey(KeyBinding keyBinding, boolean originalPressed) {
-        if (!SparkWitchServerConnection.isConfirmedServer()
+        if (!SparkDlcServerConnection.isConfirmedServer()
                 || !originalPressed
                 || keyBinding == null
                 || !WitchAbilityKeyBridge.SHARED_ABILITY_TRANSLATION_KEY.equals(keyBinding.getTranslationKey())) {
@@ -73,7 +73,7 @@ public final class GrandWitchFearClientHooks {
     }
 
     public static boolean shouldBlockRoleSkillPayload(CustomPayload payload) {
-        if (!SparkWitchServerConnection.isConfirmedServer() || payload == null || payload.getId() == null) {
+        if (!SparkDlcServerConnection.isConfirmedServer() || payload == null || payload.getId() == null) {
             return false;
         }
         Identifier payloadId = payload.getId().id();

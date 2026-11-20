@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.witch.potiongunner;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.witch.potiongunner.PotionShellType;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.WatheClient;
@@ -26,7 +26,7 @@ public final class PotionGunnerHud {
     }
 
     static void render(DrawContext context, RenderTickCounter tickCounter) {
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }
         MinecraftClient client = MinecraftClient.getInstance();

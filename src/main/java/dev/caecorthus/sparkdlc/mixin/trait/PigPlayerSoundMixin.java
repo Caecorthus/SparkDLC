@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.mixin.trait;
 
 import dev.caecorthus.sparkdlc.trait.global.pig.PigTraitService;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -28,7 +28,7 @@ public abstract class PigPlayerSoundMixin {
     @Inject(method = "getHurtSound", at = @At("HEAD"), cancellable = true)
     private void sparktraits$usePigHurtSound(DamageSource source, CallbackInfoReturnable<SoundEvent> cir) {
         PlayerEntity player = (PlayerEntity) (Object) this;
-        if (!SparkTraitsServerConnection.isUnconfirmedClientEntity(player) && PigTraitService.isPig(player)) {
+        if (!SparkDlcServerConnection.isUnconfirmedClientEntity(player) && PigTraitService.isPig(player)) {
             cir.setReturnValue(PigTraitService.hurtSound());
         }
     }

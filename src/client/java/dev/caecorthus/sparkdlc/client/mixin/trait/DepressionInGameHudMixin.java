@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.mixin.trait;
 
 import dev.caecorthus.sparkdlc.client.trait.hud.DepressionHud;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -27,7 +27,7 @@ public abstract class DepressionInGameHudMixin {
 
     @Inject(method = "renderMainHud", at = @At("TAIL"))
     private void sparktraits$renderDepressionHud(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
-        if (!SparkTraitsServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }
         ClientPlayerEntity player = this.client.player;

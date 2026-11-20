@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.witch.grandwitch;
 
 import dev.caecorthus.sparkdlc.component.WitchWorldComponent;
-import dev.caecorthus.sparkdlc.net.policy.witch.GeneratedPayloadPolicy;
+import dev.caecorthus.sparkdlc.net.policy.GeneratedPayloadPolicy;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.ApprenticeFearExemption;
 import dev.caecorthus.sparkdlc.role.witch.WitchFactionRules;
 import dev.doctor4t.wathe.api.Role;

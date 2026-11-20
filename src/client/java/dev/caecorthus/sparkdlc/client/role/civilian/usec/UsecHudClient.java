@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.usec;
 
 import dev.caecorthus.sparkdlc.client.scope.ScopeClient;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
@@ -38,7 +38,7 @@ public final class UsecHudClient {
         WorldRenderEvents.AFTER_TRANSLUCENT.register(UsecScopeGlintRenderer::render);
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             UsecRecoil.tick();
-            if (!SparkWitchServerConnection.isConfirmedServer()) {
+            if (!SparkDlcServerConnection.isConfirmedServer()) {
                 resetInput();
                 return;
             }

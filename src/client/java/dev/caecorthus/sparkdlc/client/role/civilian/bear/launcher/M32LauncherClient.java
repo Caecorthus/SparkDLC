@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.bear.launcher;
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.client.render.model.InventoryIconSwapModel;
 import dev.caecorthus.sparkdlc.client.scope.ScopeClient;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.bear.BearRules;
 import dev.caecorthus.sparkdlc.role.civilian.bear.launcher.M32CursorLoading;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -49,7 +49,7 @@ public final class M32LauncherClient {
         // 标记锚点的帧号：所有世界渲染都在手部渲染之前，HUD 在其之后（M32BadgeAnchor）。
         WorldRenderEvents.START.register(context -> M32BadgeAnchor.beginFrame());
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (!SparkWitchServerConnection.isConfirmedServer()) {
+            if (!SparkDlcServerConnection.isConfirmedServer()) {
                 M32FireInput.reset();
                 return;
             }

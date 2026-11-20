@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.killer.timestealer;
 
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.killer.timestealer.TimeStampInventory;
 import dev.caecorthus.sparkdlc.role.killer.timestealer.TimeStealerRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -32,7 +32,7 @@ public final class TimeStealerClient {
         }
         initialized = true;
         HudRenderCallback.EVENT.register((context, tickCounter) -> {
-            if (SparkWitchServerConnection.isConfirmedServer()) {
+            if (SparkDlcServerConnection.isConfirmedServer()) {
                 renderHud(context, tickCounter);
             }
         });

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.mixin.trait;
 
 import dev.caecorthus.sparkdlc.client.trait.hud.PreparefullHud;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -26,7 +26,7 @@ public abstract class PreparefullInGameHudMixin {
 
     @Inject(method = "renderMainHud", at = @At("TAIL"))
     private void sparktraits$renderPreparefullHud(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
-        if (!SparkTraitsServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }
         ClientPlayerEntity player = this.client.player;

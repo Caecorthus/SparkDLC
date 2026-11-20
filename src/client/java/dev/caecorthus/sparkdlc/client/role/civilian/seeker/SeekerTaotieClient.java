@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.seeker;
 import dev.caecorthus.sparkdlc.client.hooks.WitchAbilityKeyBridge;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.compat.noellesroles.SeekerControlExpertBridge;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerCarEntity;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.net.SeekerCarSwallowC2SPacket;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.taotie.SeekerTaotieRules;
@@ -60,7 +60,7 @@ public final class SeekerTaotieClient {
         registered = true;
         ClientTickEvents.END_CLIENT_TICK.register(SeekerTaotieClient::flush);
         HudRenderCallback.EVENT.register((context, tickCounter) -> {
-            if (SparkWitchServerConnection.isConfirmedServer()) {
+            if (SparkDlcServerConnection.isConfirmedServer()) {
                 render(context);
             }
         });
@@ -100,7 +100,7 @@ public final class SeekerTaotieClient {
         }
         SeekerCarEntity[] shielding = new SeekerCarEntity[1];
         boolean claimed = SeekerTaotieRules.claimsPress(true, true,
-                SparkWitchServerConnection.isConfirmedServer() && ClientPlayNetworking.canSend(SeekerCarSwallowC2SPacket.ID),
+                SparkDlcServerConnection.isConfirmedServer() && ClientPlayNetworking.canSend(SeekerCarSwallowC2SPacket.ID),
                 () -> isTaotieReady(player),
                 () -> (shielding[0] = shieldingCar(client, player)) != null);
         if (!claimed) {
@@ -118,7 +118,7 @@ public final class SeekerTaotieClient {
         }
         int carId = queuedCarId;
         queuedCarId = NO_CAR;
-        if (!SparkWitchServerConnection.isConfirmedServer()
+        if (!SparkDlcServerConnection.isConfirmedServer()
                 || client.player == null
                 || client.getNetworkHandler() == null
                 || !ClientPlayNetworking.canSend(SeekerCarSwallowC2SPacket.ID)) {

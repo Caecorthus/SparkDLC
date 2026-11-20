@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.witch.riftwalker.gate;
 
 import dev.caecorthus.sparkdlc.client.hooks.WitchInstinctSuppressionClientHooks;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.witch.WitchFactionRules;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.gate.RiftGateEntity;
 import dev.doctor4t.wathe.api.Role;
@@ -50,7 +50,7 @@ public final class RiftGateInstinctHooks {
             return null;
         }
         Role role = GameWorldComponent.KEY.get(viewer.getWorld()).getRole(viewer);
-        boolean outlines = RiftGatePresentationRules.outlinesGate(SparkWitchServerConnection.isConfirmedServer(),
+        boolean outlines = RiftGatePresentationRules.outlinesGate(SparkDlcServerConnection.isConfirmedServer(),
                 GameFunctions.isPlayerPlayingAndAlive(viewer), WitchFactionRules.isGrandWitch(role),
                 WitchFactionRules.isAccompliceLike(role));
         return outlines

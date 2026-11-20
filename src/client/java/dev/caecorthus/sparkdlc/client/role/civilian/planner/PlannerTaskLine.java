@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.planner;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.planner.PlannerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.planner.PlannerRules;
 import dev.caecorthus.sparkdlc.role.killer.bellringer.BellEchoPlayerComponent;
@@ -29,7 +29,7 @@ public final class PlannerTaskLine {
      * {@code present} 的替换行；返回 {@code null} 表示保留 Wathe 原文本（淡出中的行 {@code present} 为 null，保留其最后的文本）。
      */
     public static @Nullable Text resolve(@Nullable PlayerMoodComponent.TrainTask present) {
-        if (present == null || !SparkWitchServerConnection.isConfirmedServer()) {
+        if (present == null || !SparkDlcServerConnection.isConfirmedServer()) {
             return null;
         }
         ClientPlayerEntity player = MinecraftClient.getInstance().player;

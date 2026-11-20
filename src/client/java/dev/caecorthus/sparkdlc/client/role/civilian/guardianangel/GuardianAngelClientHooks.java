@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.guardianangel;
 
 import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.guardianangel.GuardianAngelPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.guardianangel.GuardianAngelRules;
 import dev.doctor4t.wathe.api.Role;
@@ -27,7 +27,7 @@ public final class GuardianAngelClientHooks {
     }
 
     private static boolean isActiveGuardianAngel(PlayerEntity player) {
-        if (!SparkWitchServerConnection.isConfirmedServer()
+        if (!SparkDlcServerConnection.isConfirmedServer()
                 || player == null
                 || !SparkWitchApi.isWraithActive(player)) {
             return false;

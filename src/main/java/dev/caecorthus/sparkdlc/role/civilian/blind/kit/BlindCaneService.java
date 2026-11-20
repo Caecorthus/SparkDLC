@@ -114,18 +114,14 @@ public final class BlindCaneService {
 
     /**
      * Hotbar cooldown of the cane: raise-only (a forced cooldown such as the Fiend aura is never shortened), written
-     * exactly through {@code SparkTraitsApi.setExactItemCooldownRemaining} so Fast Hands does not shorten it; the
-     * vanilla fallback for its false answer is unreachable since the fusion (false only for a null player or item);
-     * never both.
+     * exactly through {@code SparkTraitsApi.setExactItemCooldownRemaining} so Fast Hands does not shorten it.
      * 盲杖的快捷栏冷却：只增不减（魔人光环等强制冷却永不被缩短），经 {@code SparkTraitsApi.setExactItemCooldownRemaining}
-     * 精确写入使“快手”无法缩短；其返回 false 时的原版回退融合后不可达（只在玩家或物品为 null 时返回 false）；
-     * 二者不会同时执行。
+     * 精确写入使“快手”无法缩短。
      */
     static void writeItemCooldown(ServerPlayerEntity player, int ticks) {
         Item cane = SparkDlcItems.whiteCane();
         BlindKitRules.writeRaisedCooldown(remainingItemCooldown(player, cane), ticks,
-                merged -> SparkTraitsApi.setExactItemCooldownRemaining(player, cane, merged),
-                merged -> player.getItemCooldownManager().set(cane, merged));
+                merged -> SparkTraitsApi.setExactItemCooldownRemaining(player, cane, merged));
     }
 
     /**

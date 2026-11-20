@@ -287,18 +287,16 @@ public final class TimeStealerLoadoutService {
 
     /**
      * Round-start cooldown: the authoritative {@code ClockReadyAt} plus the matching display cooldown, written exactly
-     * through the trait API (past the trait cooldown modifiers); the vanilla fallback for a refused exact write is
-     * unreachable since the fusion; never both, so only one cooldown packet is sent.
+     * through the trait API (past the trait cooldown modifiers), which performs the vanilla set itself, so only one
+     * cooldown packet is sent.
      * 开局冷却：写入权威的 {@code ClockReadyAt} 及对应的显示冷却；显示冷却经词条 API 精确写入（越过词条冷却倍率），
-     * 精确写入被拒时回退到原版写入的分支融合后不可达；二者不会同时执行，因此只发送一次冷却数据包。
+     * 由它自行完成原版写入，因此只发送一次冷却数据包。
      */
     private static void writeInitialCooldown(ServerPlayerEntity player, TimeStealerPlayerComponent state) {
         int ticks = TimeStealerRules.CLOCK_INITIAL_COOLDOWN_TICKS;
         state.setClockReadyAt(player.getServerWorld().getTime() + ticks);
         Item clock = SparkDlcItems.timeStealerClock();
-        if (!SparkTraitsApi.setExactItemCooldownRemaining(player, clock, ticks)) {
-            player.getItemCooldownManager().set(clock, ticks);
-        }
+        SparkTraitsApi.setExactItemCooldownRemaining(player, clock, ticks);
     }
 
     /** Removes every Clock from inventory 0..40, the cursor and open handler slots. / 从背包 0..40、光标与已打开界面栏位移除所有时钟。 */

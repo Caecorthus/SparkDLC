@@ -117,15 +117,10 @@ public final class ControlExpertFeatureService {
     }
 
     /**
-     * Exact anti-abuse floor: the trait feature's exact write performs the vanilla set itself after Fast Hands. The
-     * plain vanilla write is the fallback for a refused exact write (never both, which would send two packets); the
-     * exact write now refuses only a null player or item, so the fallback is unreachable since the fusion.
-     * 精确的防滥用冷却下限：词条功能的精确写入会在“快手”之后自行完成原版写入。原版写入是精确写入被拒绝时的回退
-     * （二者不会同时执行，以免发送两次数据包）；精确写入如今只拒绝为空的玩家或物品，因此该回退在融合后不可达。
+     * Exact anti-abuse floor: the trait feature's exact write performs the vanilla set itself after Fast Hands.
+     * 精确的防滥用冷却下限：词条功能的精确写入会在“快手”之后自行完成原版写入。
      */
     static void applyExactCooldown(ServerPlayerEntity player, Item item, int ticks) {
-        if (!SparkTraitsApi.setExactItemCooldownRemaining(player, item, ticks)) {
-            player.getItemCooldownManager().set(item, ticks);
-        }
+        SparkTraitsApi.setExactItemCooldownRemaining(player, item, ticks);
     }
 }

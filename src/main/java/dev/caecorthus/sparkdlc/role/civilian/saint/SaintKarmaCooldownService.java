@@ -55,7 +55,7 @@ public final class SaintKarmaCooldownService {
                 int existingTicks = remainingTicks(entries.get(item), currentTick);
                 int mergedTicks = SaintRules.mergeCooldownTicks(existingTicks, requestedTicks);
                 if (mergedTicks > existingTicks) {
-                    write(player, manager, item, mergedTicks);
+                    write(player, item, mergedTicks);
                 }
             }
         } finally {
@@ -78,16 +78,16 @@ public final class SaintKarmaCooldownService {
     }
 
     /**
-     * Exact through {@code SparkTraitsApi#setExactItemCooldownRemaining}; the vanilla write is only the fallback for
-     * when that wrote nothing (never both), unreachable since the fusion. A shortened write (Fast Hands, NoellesRoles
-     * Stimulation) would stay below the Karma and be rewritten every tick, restarting the slot's cooldown bar.
-     * 经 {@code SparkTraitsApi#setExactItemCooldownRemaining} 精确写入；原版写入只是其未写入时的回退（二者不会同时执行），
-     * 融合后不可达。被缩短的写入（快手、NoellesRoles 兴奋剂）会一直低于业障并每 tick 重写，使栏位冷却条不断从头开始。
+     * Exact through {@code SparkTraitsApi#setExactItemCooldownRemaining}, which performs the vanilla set itself (it
+     * declines only a null player or item, and {@link #apply} passes a carried stack's item for a player it already
+     * read). A shortened write (Fast Hands, NoellesRoles Stimulation) would stay below the Karma and be rewritten
+     * every tick, restarting the slot's cooldown bar.
+     * 经 {@code SparkTraitsApi#setExactItemCooldownRemaining} 精确写入，它会自行完成原版写入（仅在玩家或物品为空时拒绝，
+     * 而 {@link #apply} 传入的是已读取过的玩家与携带物品堆的物品）。被缩短的写入（快手、NoellesRoles 兴奋剂）会一直低于
+     * 业障并每 tick 重写，使栏位冷却条不断从头开始。
      */
-    private static void write(ServerPlayerEntity player, ItemCooldownManager manager, Item item, int mergedTicks) {
-        if (!SparkTraitsApi.setExactItemCooldownRemaining(player, item, mergedTicks)) {
-            manager.set(item, mergedTicks);
-        }
+    private static void write(ServerPlayerEntity player, Item item, int mergedTicks) {
+        SparkTraitsApi.setExactItemCooldownRemaining(player, item, mergedTicks);
     }
 
     private static void collectItems(Iterable<ItemStack> stacks, Set<Item> items) {

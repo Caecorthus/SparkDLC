@@ -109,13 +109,11 @@ public final class M32FireService {
     }
 
     /**
-     * Server only, the M32A1's single cooldown writer: {@code max(existing, ticks)} written once, the exact write
-     * ({@code SparkTraitsApi.setExactItemCooldownRemaining}) first (it bypasses Fast Hands), the vanilla set only when
-     * that answers false, which since the fusion happens only for a null player or item, so it is unreachable here; the
-     * USEC writer rule. Returns true when a new value was written.
-     * 仅服务端，M32A1 唯一的冷却写入方：写入一次 {@code max(既有, ticks)}，优先使用精确写入
-     * （{@code SparkTraitsApi.setExactItemCooldownRemaining}，绕过快手），仅当其返回 false 时才执行原版写入；融合后只有玩家
-     * 或物品为 null 时才返回 false，因此此处不可达；即 USEC 的写入规则。写入了新值时返回 true。
+     * Server only, the M32A1's single cooldown writer: {@code max(existing, ticks)} written once through the exact write
+     * ({@code SparkTraitsApi.setExactItemCooldownRemaining}, it bypasses Fast Hands and performs the vanilla set
+     * itself); the USEC writer rule. Returns true when a new value was written.
+     * 仅服务端，M32A1 唯一的冷却写入方：经精确写入（{@code SparkTraitsApi.setExactItemCooldownRemaining}，绕过快手并自行
+     * 完成原版写入）写入一次 {@code max(既有, ticks)}；即 USEC 的写入规则。写入了新值时返回 true。
      */
     static boolean writeFloorExact(ServerPlayerEntity player, int ticks) {
         Item item = BearItems.M32A1;
@@ -123,9 +121,7 @@ public final class M32FireService {
         if (merged <= 0) {
             return false;
         }
-        if (!SparkTraitsApi.setExactItemCooldownRemaining(player, item, merged)) {
-            player.getItemCooldownManager().set(item, merged);
-        }
+        SparkTraitsApi.setExactItemCooldownRemaining(player, item, merged);
         return true;
     }
 

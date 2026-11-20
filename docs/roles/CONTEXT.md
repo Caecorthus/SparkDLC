@@ -1869,7 +1869,7 @@ Current build baseline:
     only the `scoped` flag, synced to everyone for the scope glint. `UsecFeatureService` (the single line appended last
     in `RoleEvents`) and `client/role/civilian/usec/UsecClientModule` (the single line appended last in `SparkDLCClient`) fix
     the registration order, which is the listener order within each event. `UsecCooldowns` is the single max + exact
-    writer of the rifle cooldown (the 60 s lock and the bolt): SparkTraits' exact write with a vanilla fallback, never
+    writer of the rifle cooldown (the 60 s lock and the bolt): SparkTraits' exact write, never
     shortening a longer running cooldown (Saint Karma, the Fiend aura). It is also the one shared classifier
     (`UsecCooldowns.read` / `classify`): remaining and total ticks from the vanilla entry's start and end ticks; an entry
     is a bolt only with the caller's evidence and a total of at most 40 ticks (Fast Reload's 28 included), anything else
@@ -4904,8 +4904,8 @@ keeps exactly one cane in a living Blind's hotbar, except in Wathe psycho mode (
 Depression psycho keeps the inventory bat-only), where the cane waits until psycho mode ends.
 The cane window lasts 5 s and Attune's 10 s;
 their 10 s and 45 s cooldowns count from the end of the window (C2). The cane's hotbar cooldown is
-raise-only and written through SparkTraits' exact facade (Fast Hands never shortens it) with a
-vanilla fallback. The cane tap is public (`world.playSound` with the Blind as `except`, plus a
+raise-only and written through SparkTraits' exact facade (Fast Hands never shortens it).
+The cane tap is public (`world.playSound` with the Blind as `except`, plus a
 private copy for the Blind), and the CANE pulse (15-block environment radius) lists every other
 playing, alive, non-spectator, non-Wraith, unswallowed player within 5 blocks, invisible ones
 included; every 10 ticks inside the window, late entrants are sent as a zero-radius CANE pulse
@@ -5349,7 +5349,7 @@ exemption is transient and never saved. Role mechanics that remove a cooldown (N
 do not come through the command, so Karma still re-covers those items. SparkTraits lifts its own forced melee floor
 for the same command, as an `AdminCooldownClear` listener that runs before the `remove`. Not released: the Black Raven disguise switch, since
 the mask never carries an item cooldown.
-Saint Karma writes are exact (SparkTraits facade, vanilla fallback), so Fast Hands or Stimulation no longer leave a
+Saint Karma writes are exact (SparkTraits facade), so Fast Hands or Stimulation no longer leave a
 write below the Karma that restarts the slot's bar every tick. The Time Stealer holder's tick rewrites the Clock's
 display, exactly through SparkTraits only, whenever it shows more than one tick less than `ClockReadyAt` (for example
 after Last Escape halving), so the slot never shows ready while the Clock is refused.

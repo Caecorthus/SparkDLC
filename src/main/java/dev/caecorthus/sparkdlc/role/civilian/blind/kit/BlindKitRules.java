@@ -251,22 +251,17 @@ public final class BlindKitRules {
 
     /**
      * Raise-only cooldown write: nothing unless {@code requested} is longer than what already runs (a forced cooldown,
-     * e.g. the Fiend aura, is never shortened); then exactly one writer runs, the exact write or, only when it reports
-     * false, the vanilla set. The real exact writer ({@code SparkTraitsApi.setExactItemCooldownRemaining}) reports
-     * false only for a null player or item, so the vanilla branch is unreachable since the fusion.
-     * 只增不减的冷却写入：仅当 requested 长于当前剩余时才写入（强制冷却如魔人光环永不被缩短）；随后恰好执行一个写入方：
-     * 精确写入，或仅当其返回 false 时的原版写入。实际的精确写入方（{@code SparkTraitsApi.setExactItemCooldownRemaining}）
-     * 只在玩家或物品为 null 时返回 false，因此原版分支融合后不可达。
+     * e.g. the Fiend aura, is never shortened); then the exact writer runs once. The real exact writer
+     * ({@code SparkTraitsApi.setExactItemCooldownRemaining}) performs the vanilla set itself.
+     * 只增不减的冷却写入：仅当 requested 长于当前剩余时才写入（强制冷却如魔人光环永不被缩短）；随后精确写入执行一次。
+     * 实际的精确写入方（{@code SparkTraitsApi.setExactItemCooldownRemaining}）会自行完成原版写入。
      */
-    public static boolean writeRaisedCooldown(int existingTicks, int requestedTicks, IntPredicate exactWriter,
-                                              IntConsumer vanillaWriter) {
+    public static boolean writeRaisedCooldown(int existingTicks, int requestedTicks, IntConsumer exactWriter) {
         int existing = Math.max(0, existingTicks);
         if (requestedTicks <= existing) {
             return false;
         }
-        if (!exactWriter.test(requestedTicks)) {
-            vanillaWriter.accept(requestedTicks);
-        }
+        exactWriter.accept(requestedTicks);
         return true;
     }
 

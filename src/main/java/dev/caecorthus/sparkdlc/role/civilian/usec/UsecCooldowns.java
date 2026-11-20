@@ -12,18 +12,16 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.IntConsumer;
-import java.util.function.IntPredicate;
 
 /**
  * Frozen contract: the single "max + exact" writer of the {@code usec_rifle} item cooldown (round-start lock and bolt
  * cycle). A longer running cooldown (round start, Saint Karma, Fiend aura) is never shortened; the exact write
- * ({@code SparkTraitsApi.setExactItemCooldownRemaining}) bypasses Fast Hands and the vanilla set runs only when it
- * returns false, which it does only for a null player or item (unreachable here since the fusion). No other USEC code
- * writes the rifle cooldown; locks from outside USEC ({@code ForcedCooldowns} forced locks such as the Shriek Gun and
+ * ({@code SparkTraitsApi.setExactItemCooldownRemaining}) bypasses Fast Hands and performs the vanilla set itself.
+ * No other USEC code writes the rifle cooldown; locks from outside USEC ({@code ForcedCooldowns} forced locks such as the Shriek Gun and
  * the AC shell, Saint Karma, the Fiend aura) still can, which is why {@link Status} needs evidence for a bolt.
  * 冻结契约：{@code usec_rifle} 物品冷却（开局锁定与拉栓）“取大 + 精确”的唯一写入方。绝不缩短正在运行的更长冷却
- * （开局、圣徒业报、魔人光环）；精确写入（{@code SparkTraitsApi.setExactItemCooldownRemaining}）可绕过快手，仅当其返回
- * false 时才执行原版写入，而它只在玩家或物品为空时返回 false（融合后此处不可达）。USEC 的其他代码不写狙击枪冷却；
+ * （开局、圣徒业报、魔人光环）；精确写入（{@code SparkTraitsApi.setExactItemCooldownRemaining}）可绕过快手并自行完成
+ * 原版写入。USEC 的其他代码不写狙击枪冷却；
  * USEC 之外的锁定（{@code ForcedCooldowns} 强制锁定如尖啸枪与 AC 炮弹、圣徒业报、魔人光环）仍可能写入，因此
  * {@link Status} 需要证据才能判定拉栓。
  */
@@ -62,20 +60,17 @@ public final class UsecCooldowns {
         }
         Item rifle = SparkDlcItems.usecRifle();
         return write(remainingTicks(player), ticks,
-                merged -> SparkTraitsApi.setExactItemCooldownRemaining(player, rifle, merged),
-                merged -> player.getItemCooldownManager().set(rifle, merged));
+                merged -> SparkTraitsApi.setExactItemCooldownRemaining(player, rifle, merged));
     }
 
     /** Pure write rule (unit-testable). / 纯写入规则（可单测）。 */
-    static boolean write(int existingTicks, int requestedTicks, IntPredicate exactWriter, IntConsumer vanillaWriter) {
+    static boolean write(int existingTicks, int requestedTicks, IntConsumer exactWriter) {
         int existing = Math.max(0, existingTicks);
         int merged = Math.max(existing, Math.max(0, requestedTicks));
         if (merged <= existing) {
             return false;
         }
-        if (!exactWriter.test(merged)) {
-            vanillaWriter.accept(merged);
-        }
+        exactWriter.accept(merged);
         return true;
     }
 

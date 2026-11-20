@@ -7,6 +7,7 @@ import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RangedSmokeCarve;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertTaserTargeting;
+import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerDeviceEntity;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceHits;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.remote.SeekerRemoteSessionService;
@@ -16,6 +17,7 @@ import dev.caecorthus.sparkdlc.role.killer.dominator.DominatorForcedShotGuns;
 import dev.caecorthus.sparkdlc.role.killer.kidnapper.KidnapperControlComponent;
 import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPlaybackEntity;
 import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPuppetHits;
+import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadDaze;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.caecorthus.sparkdlc.util.OffMatchUse;
 import dev.caecorthus.sparkdlc.util.RoundParticipants;
@@ -90,13 +92,18 @@ public final class M1903A4Combat {
 
     /**
      * The Savior pistol's refusal set minus the trait gate (asked separately): Control Expert stun, Seeker remote
-     * view, Kidnapper control, an active Wraith, a running Dominator forced-shot sequence. The Engineer stun and the
-     * Taotie daze had no query this class could reach when it was written and are not seen here.
+     * view, Kidnapper control, an active Wraith, a running Dominator forced-shot sequence; since owner 2026-11-20
+     * ("检查一下吧") also the Engineer capture stun (with the Jester Moment freeze, which shares its component) and the
+     * Taotie head daze, which had no query this class could reach while they lived in another jar. Both states already
+     * clear a running charge when they start; asking them here makes the gate refuse on its own as well.
      * 救世主手枪的拒绝集合（词条门槛另行询问）：控场专家眩晕、搜寻者远程视角、绑匪操控、激活的冤魂、进行中的支配者强制
-     * 开枪序列。工程师眩晕与饕餮眩晕在编写本类时没有可用的查询，这里看不到。
+     * 开枪序列；自所有者 2026-11-20（「检查一下吧」）起还包括工程师捕捉定身（连同共用其组件的小丑时刻定身）与饕餮头颅眩晕，
+     * 它们曾在另一个 jar 中，本类够不到其查询。两种状态开始时本就会清除进行中的蓄力；在此询问使门槛自身也会拒绝。
      */
     private static boolean isHeld(ServerPlayerEntity shooter) {
         return ControlExpertStun.isStunned(shooter)
+                || EngineerStunnedPlayerComponent.KEY.get(shooter).isStunned()
+                || TaotieHeadDaze.isDazed(shooter)
                 || SeekerRemoteSessionService.isLocked(shooter)
                 || KidnapperControlComponent.KEY.get(shooter).isControlled()
                 || WraithStateService.isActive(shooter)

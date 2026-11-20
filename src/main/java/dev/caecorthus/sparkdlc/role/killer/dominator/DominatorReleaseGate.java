@@ -6,6 +6,7 @@ import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponTarget;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStunRules;
+import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.knight.KnightDuelSkillLock;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.remote.SeekerRemoteRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.remote.SeekerRemoteSessionService;
@@ -13,6 +14,8 @@ import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaTargetingPacketGua
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowBodyGuards;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowForm;
 import dev.caecorthus.sparkdlc.role.killer.kidnapper.KidnapperControlComponent;
+import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadDaze;
+import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadRules;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.session.RiftSessionRules;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.session.RiftSessionService;
 import dev.doctor4t.wathe.util.GunShootPayload;
@@ -31,11 +34,14 @@ import net.minecraft.util.Identifier;
  * 调用 Wathe 的枪械接收器，因此绕过了 {@code wathe:gunshoot} 上所有数据包层面的拦截；这里改为就被标记者向同样的规则询问，
  * 每项拦截都复用其自身的数据包名单与状态谓词，名单变化会自动带到这里。仅服务端。失败即关闭：抛出异常的检查视为拦截。
  *
- * <p>Not asked yet (out of reach while this role lived in another jar; still open follow-ups): the Taotie head
- * daze ({@code TaotieHeadRules.DAZE_BLOCKED_PAYLOADS}) and the
- * anti-fast-round safe time ({@code AntiFastRoundRules.BLOCKED_PAYLOADS}). Fear never blocks {@code wathe:gunshoot}.
- * 尚未询问（本职业曾在另一个 jar 中而无法触及；仍是待办后续事项）：饕餮头颅眩晕与
- * 开局安全时间。恐惧从不拦截 {@code wathe:gunshoot}。</p>
+ * <p>The Taotie head daze and the Engineer capture stun (with the Jester Moment freeze, which shares its component)
+ * are asked since owner 2026-11-20 ("检查一下吧"); both drop the daze list
+ * ({@code TaotieHeadRules.DAZE_BLOCKED_PAYLOADS}), which holds {@code wathe:gunshoot}, and were out of reach while
+ * this role lived in another jar. Not asked yet (still an open follow-up): the anti-fast-round safe time
+ * ({@code AntiFastRoundRules.BLOCKED_PAYLOADS}). Fear never blocks {@code wathe:gunshoot}.
+ * 自所有者 2026-11-20（「检查一下吧」）起询问饕餮头颅眩晕与工程师捕捉定身（连同共用其组件的小丑时刻定身）：两者都丢弃包含
+ * {@code wathe:gunshoot} 的眩晕名单，本职业曾在另一个 jar 中而无法触及它们。尚未询问（仍是待办后续事项）：开局安全时间。
+ * 恐惧从不拦截 {@code wathe:gunshoot}。</p>
  */
 public final class DominatorReleaseGate {
     /** The payload every guard below is asked about. / 下列每项拦截被询问的数据包。 */
@@ -61,6 +67,13 @@ public final class DominatorReleaseGate {
                 // Control Expert stun (ControlExpertStunPayloadGuardMixin). / 控场专家眩晕。
                 || blocked(() -> ControlExpertStunRules.isBlockedPayload(GUNSHOOT_ID)
                         && ControlExpertStun.isStunned(marked))
+                // Taotie head daze (TaotieHeadDazePayloadGuardMixin). / 饕餮头颅眩晕。
+                || blocked(() -> TaotieHeadRules.isDazeBlockedPayload(GUNSHOOT_ID)
+                        && TaotieHeadDaze.isDazed(marked))
+                // Engineer capture stun and Jester Moment freeze (EngineerStunPayloadGuardMixin, the daze list).
+                // 工程师捕捉定身与小丑时刻定身（其拦截使用眩晕名单）。
+                || blocked(() -> TaotieHeadRules.isDazeBlockedPayload(GUNSHOOT_ID)
+                        && EngineerStunnedPlayerComponent.KEY.get(marked).isStunned())
                 // Seeker remote view (SeekerSessionPayloadGuardMixin). / 搜寻者遥控视角。
                 || blocked(() -> SeekerRemoteRules.isBlockedWhileViewing(GUNSHOOT_ID)
                         && SeekerRemoteSessionService.isLocked(marked))

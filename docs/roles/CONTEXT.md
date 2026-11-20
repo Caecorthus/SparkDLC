@@ -701,7 +701,10 @@ Current build baseline:
     dies, leaves, changes world or spectates. The payload is classified on the Fear, Control Expert stun, Seeker
     session, Rift occupant and Knight duel deny lists. Replays: `sparkdlc:dominator_mark` / `dominator_release`.
   - Release: G during the mark. If the marked player could not fire on their own right now
-    (`DominatorReleaseGate`), the press is refused with `message.sparkdlc.dominator.target_unforceable` and the
+    (`DominatorReleaseGate`: spectator, swallowed, Rift occupant, Control Expert stun, Taotie head daze and Engineer
+    capture stun / Jester Moment freeze (both since owner 2026-11-20, on the daze list), Seeker remote view, Raven
+    Form, Last Escape, Knight duel, Kidnapper control, Partygoer carry, a foreign camera, Vendetta isolation; not yet
+    the opening safe time), the press is refused with `message.sparkdlc.dominator.target_unforceable` and the
     mark, use and cooldown stay. Otherwise one use is spent and `DominatorForcedShotService` runs the forced shot:
     the marked player's selected hotbar stack is stashed, a revolver tagged with the `sparkdlc:forced_shot_gun` data
     component (`SparkDlcDataComponents.FORCED_SHOT_GUN`) fires once along the marked player's own aim, then only
@@ -1064,8 +1067,8 @@ Current build baseline:
     - `RopeTargeting` (server): the user gate (ACTIVE round, `RoundParticipants.ROLE_HOLDER`, in no strangle, not
       controlled: Taser stun, Raven landing hold, Grand Witch Fear, hypnosis, Kidnapper, forced shot, SparkStrength's
       `engineer_stunned` lock (capture device and Jester Moment freeze, through
-      `RiftwalkerStatusProbes.isCaptureStunned`; SparkStrength's Taotie head daze has no seam here and is not
-      covered), swallowed, Last Stand/Escape, Seeker session, foreign camera, any feign, Cat spectre, Rift, Raven Form,
+      `RiftwalkerStatusProbes.isCaptureStunned`), the Taotie head daze (`TaotieHeadDaze.isDazed`; owner 2026-11-20, a
+      dazed strangler lets go), swallowed, Last Stand/Escape, Seeker session, foreign camera, any feign, Cat spectre, Rift, Raven Form,
       active Vendetta, Knight duelist), the target gate (another `ROLE_HOLDER` in the same world, `SparkFactionApi.canAffectPlayer` with the
       action id `sparkdlc:strangled`, not Last Escape/Stand, swallowed, carried, feigned incl.
       `HiroReturnService.isFeignedVictim`, spectre, Rift, Raven Form, and in no strangle) and the pick:
@@ -1448,7 +1451,9 @@ Current build baseline:
   - Reasoning (shared ability key, `request_criminal_reasoner` → S2C `open_criminal_reasoner_s2c` roster →
     `confirm_criminal_reasoner`): the roster lists only recorded, unsolved dead victims and every other round player
     as a suspect (≤ 64 each), bound to a 30 s server session. Right: +1 solved victim, +1 invisibility charge, 5 s
-    cooldown, and 5 s later everyone but him reads the anonymous "有人看穿了列车上的命案" notice. Wrong: 60 s cooldown.
+    cooldown, and 5 s later every living police role (`PoliceRoles`, `CriminalReasonerRules.receivesNotice`; owner
+    2026-11-20, before that everyone but him) reads the anonymous "有人看穿了列车上的命案" notice; with no living police
+    nobody does. Wrong: 60 s cooldown.
     The opening cooldown is 45 s. All three timers read one clock, `MinecraftServer#getTicks()`; the cooldown is a
     static per-player deadline mirrored to the owner's component in whole seconds, cleared at round start and on
     Wathe's `ResetPlayer`.
@@ -1687,10 +1692,11 @@ Current build baseline:
     rounds in the inventory, or use rounds in the main hand with the rifle in the off hand; each load records an
     item_use (`action=reload`). Only the main hand charges (an off-hand rifle passes, so a failed load never falls
     through into a shot). `M1903A4Combat.decide` is asked at charge start AND at release; a refused release spends
-    nothing: not a MATCH (`OffMatchUse`), not main hand, spectator, held (Control Expert stun, Seeker remote lock,
-    Kidnapper control, active Wraith, Dominator forced-shot sequence), SparkTraits `blocksWeaponAction`, cooling down
-    (covers the Knight seal and every forced cooldown), or empty. SparkStrength's Engineer stun and Taotie daze clear
-    the active item when they start (SparkStrength companion), so their forced key release cannot fire it.
+    nothing: not a MATCH (`OffMatchUse`), not main hand, spectator, held (Control Expert stun, Engineer capture stun
+    with the Jester Moment freeze, Taotie head daze (those two since owner 2026-11-20), Seeker remote lock, Kidnapper
+    control, active Wraith, Dominator forced-shot sequence), SparkTraits `blocksWeaponAction`, cooling down (covers the
+    Knight seal and every forced cooldown), or empty. The Engineer stun and the Taotie daze also clear the active item
+    when they start, so their forced key release cannot fire it.
   - Shot (`M1903A4Combat.fire`, the 狮身豪 fist structure): spend the round, write the 10 s cooldown, then one eye ray of
     50 blocks cut at the first collider block, the nearest eligible player (`RoundParticipants.ROLE_HOLDER`, SFA
     `canAffectPlayer(…, wathe:gun_shot)`, not Last Escape, Vendetta isolation) on lag-compensated volumes
@@ -2616,7 +2622,7 @@ Current build baseline:
   - Smoke (`bear/smoke/`, `client/role/civilian/bear/smoke/`): the finished volumetric smoke spike; `SmokeCloudService`
     (`spawn`, `carveHole`, `carveTunnel`, `clearAll`) is the only server entry and smoke never feeds a server rule.
   - Ricochet (WP3, `bear/ricochet/`, `client/role/civilian/bear/ricochet/`): `mixin/role/civilian/bear/RicochetKillPlayerMixin` (HEAD of Wathe's
-    5-arg `killPlayer`, priority 1050: after every default-1000 immunity guard, before the Fiend / SparkStrength vest
+    5-arg `killPlayer`, priority 1050: after every default-1000 immunity guard, before the Fiend at 1090 and the SparkStrength vest
     at 1100, the Charon's pardon guard at 1200, every `KillPlayer.BEFORE` listener, psycho armour, Tofana and the Cat)
     calls
     `BearRicochetService.interceptKill`: a non-forced kill of a living participant WEARING the Rys-T in the head slot
@@ -4547,7 +4553,8 @@ server-only, never-synced spent ledger bound to the match id. A dormant Fiend (F
 the moment Fiend, not spent) dies only to `wathe:fell_out_of_train`, `wathe:escaped`, `wathe:vanilla_death` and the
 feign-death `sparkdlc:fiend_devoured` (below):
 `mixin/role/neutral/fiend/GameFunctionsFiendImmunityMixin` is a cancellable HEAD guard on Wathe's 5-arg `killPlayer`
-(priority 1100, so SparkFactionAPI's affect veto runs first and the Charon's pardon guard at 1200 runs after it) that
+(priority 1090, so SparkFactionAPI's affect veto runs first, and the Bodyguard gear guard (Democracy Shield, vest) at 1100
+and the Charon's pardon guard at 1200 run after it: owner 2026-11-20, a hit the immunity ignores spends no gear) that
 ignores `force`, so the owner-approved piercing
 kills (bell toll, time curse, portal crush) do not reach it either. Only a kill that guard cancelled pays a hit reaction, once
 per attack: `wathe:gun_shot` (every gun; `FiendRules.classify` also counts the Demon Hunter and Savior pistols and,

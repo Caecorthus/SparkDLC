@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit;
 
+import dev.caecorthus.sparkdlc.item.m67.M67Rules;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -57,10 +58,12 @@ public final class BlackRavenCrowHitRules {
     /** Vanilla projectile entity margin ({@code ProjectileUtil.getEntityCollision}, 0.3F). / 原版投射物实体余量。 */
     public static final double PROJECTILE_MARGIN = 0.3;
     /**
-     * M67 kill radius ({@code M67Rules.BLAST_RADIUS}), the sphere the Magician puppet blast uses too.
-     * M67 击杀半径，与魔术师皮套爆炸使用的球体相同。
+     * M67 kill radius, the M67's own {@link M67Rules#BLAST_RADIUS}, the sphere the Magician puppet blast uses too
+     * (referenced rather than copied since owner 2026-11-20, "M67 是 5 格").
+     * M67 击杀半径，即 M67 自身的 {@link M67Rules#BLAST_RADIUS}，与魔术师皮套爆炸使用的球体相同（所有者 2026-11-20
+     * 「M67 是 5 格」后改为引用而非复制）。
      */
-    public static final double M67_RADIUS = 5.0;
+    public static final double M67_RADIUS = M67Rules.BLAST_RADIUS;
 
     private BlackRavenCrowHitRules() {
     }

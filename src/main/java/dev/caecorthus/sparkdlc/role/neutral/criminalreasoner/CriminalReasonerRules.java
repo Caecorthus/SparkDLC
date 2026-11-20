@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.role.neutral.criminalreasoner;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.faction.api.PoliceRoles;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -39,7 +40,7 @@ public final class CriminalReasonerRules {
     /** How long one invisibility charge lasts, in ticks (20 s). 一次隐身持续的时长（20 秒）。 */
     public static final int INVISIBILITY_TICKS = 20 * 20;
 
-    /** Delay before the success notice reaches the other factions, in ticks (5 s). 成功通知发给他方阵营的延迟（5 秒）。 */
+    /** Delay before the success notice reaches the police, in ticks (5 s). 成功通知发给警察的延迟（5 秒）。 */
     public static final int NOTICE_DELAY_TICKS = 5 * 20;
 
     /** One charge is granted per new solved victim. 每解出一名新死者给一次充能。 */
@@ -62,6 +63,19 @@ public final class CriminalReasonerRules {
     /** Victims to solve for the win: floor(players / 3), at least 1. 获胜需解出的死者数：⌊人数 / 3⌋，至少 1。 */
     public static int requiredSolves(int roundPlayers) {
         return Math.max(1, roundPlayers / WIN_THRESHOLD_DIVISOR);
+    }
+
+    /**
+     * Who reads the anonymous success notice: a living player (playing, alive, not spectating) whose assigned role is a
+     * police role ({@link PoliceRoles}, so the police-classified Jiahao and Black Raven roles too), never the reasoner.
+     * Owner 2026-11-20, "这个改一下": it went to every player while no shared police list was reachable; with no living
+     * police nobody reads it.
+     * 谁会收到匿名成功公告：存活（参与对局、存活、非旁观）且所分配职业属于警察职业（{@link PoliceRoles}，因此也包括被归为警察的
+     * 嘉豪阵营职业与黑羽鸦）的玩家，推理学家本人除外。所有者 2026-11-20「这个改一下」：此前拿不到共用警察名单时发给所有玩家；
+     * 没有存活的警察时无人收到。
+     */
+    public static boolean receivesNotice(boolean isTheReasoner, boolean livingPlayer, @Nullable Role role) {
+        return !isTheReasoner && livingPlayer && PoliceRoles.contains(role);
     }
 
     /** A threshold of 0 means "not set up this round" and never wins. 阈值为 0 表示本局未初始化，永不获胜。 */

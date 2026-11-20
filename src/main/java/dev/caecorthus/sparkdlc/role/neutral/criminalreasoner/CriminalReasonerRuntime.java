@@ -471,12 +471,13 @@ public final class CriminalReasonerRuntime {
     }
 
     /**
-     * Announces that a murder was seen through.
-     * <p>The source build spoke to the police, neutrals, killers and spectators only; this was written with no shared
-     * police list in reach, so the notice goes to everyone but the reasoner — it names nobody and reveals nothing.
-     * 公告“有人看穿了列车上的命案”。
-     * <p>原实现只通知警类、中立、杀手与旁观者；编写时拿不到共用的“警类”名单，因此除推理学家本人外全部通知——
-     * 这条公告不点名、也不泄露信息。
+     * Announces that a murder was seen through, to the living police only ({@link CriminalReasonerRules#receivesNotice}).
+     * <p>The source build spoke to the police, neutrals, killers and spectators; the first port, written with no shared
+     * police list in reach, told everyone but the reasoner. Owner 2026-11-20, "这个改一下": the police roles now. It
+     * names nobody and reveals nothing; a round with no living police hears nothing.
+     * 向存活的警察公告“有人看穿了列车上的命案”（{@link CriminalReasonerRules#receivesNotice}）。
+     * <p>原实现通知警类、中立、杀手与旁观者；首次移植时拿不到共用的“警类”名单，因此除推理学家本人外全部通知。所有者 2026-11-20
+     * 「这个改一下」：如今只发给警察职业。公告不点名、也不泄露信息；没有存活警察的对局里无人收到。
      */
     private static void broadcastNotice(MinecraftServer server, UUID reasonerId) {
         Text notice = Text.translatable("tip.sparkdlc.criminal_reasoner.notice_broadcast");
@@ -486,7 +487,9 @@ public final class CriminalReasonerRuntime {
                 continue;
             }
             for (ServerPlayerEntity target : world.getPlayers()) {
-                if (!target.getUuid().equals(reasonerId)) {
+                if (CriminalReasonerRules.receivesNotice(target.getUuid().equals(reasonerId),
+                        GameFunctions.isPlayerPlayingAndAlive(target) && !target.isSpectator(),
+                        game.getRole(target))) {
                     target.sendMessage(notice, true);
                 }
             }

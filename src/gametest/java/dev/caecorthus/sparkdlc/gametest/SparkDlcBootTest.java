@@ -13,6 +13,7 @@ import dev.doctor4t.wathe.api.WatheRoles;
 import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
+import net.fabricmc.loader.impl.launch.FabricLauncherBase;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.test.GameTest;
@@ -20,7 +21,13 @@ import net.minecraft.test.GameTestException;
 import net.minecraft.test.TestContext;
 import net.minecraft.util.Identifier;
 import org.ladysnake.cca.api.v3.component.ComponentRegistry;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.tree.AbstractInsnNode;
+import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.MethodInsnNode;
+import org.objectweb.asm.tree.MethodNode;
 import org.spongepowered.asm.mixin.MixinEnvironment;
+import org.spongepowered.asm.mixin.transformer.IMixinTransformer;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -28,6 +35,7 @@ import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,6 +75,69 @@ public final class SparkDlcBootTest implements FabricGameTest {
     @GameTest(templateName = EMPTY_STRUCTURE)
     public void everyCommonMixinApplies(TestContext context) {
         MixinEnvironment.getCurrentEnvironment().audit();
+        context.complete();
+    }
+
+    /**
+     * Owner 2026-11-20, "这个排一下序吧": the dormant Fiend's kill immunity runs before the Bodyguard gear (Democracy
+     * Shield, vest) at the HEAD of Wathe's 5-argument {@code killPlayer}, because gear is only spent on a kill that no
+     * immunity stops (owner 2026-10-22). Read from the class Mixin really produces: the pre-mixin bytes of
+     * {@code GameFunctions} go through the running Mixin transformer again, and the handler calls in {@code killPlayer}
+     * must come in the order of their priorities (Rope 1030, Otherworld 1040, ricochet 1050, Fiend 1090, gear 1100,
+     * pardon 1200). Fails if the Fiend and the gear swap back.
+     * 所有者 2026-11-20「这个排一下序吧」：在 Wathe 五参 {@code killPlayer} 的 HEAD，休眠魔人的免死先于保镖装备（民主盾牌、防弹衣）执行，
+     * 因为只有没有任何免死挡下的击杀才消耗装备（所有者 2026-10-22）。读取的是 Mixin 实际生成的类：把 {@code GameFunctions}
+     * 的 mixin 前字节再交给运行中的 Mixin 转换器一次，{@code killPlayer} 中各处理器的调用顺序必须与其优先级一致
+     * （绳索 1030、里世界 1040、跳弹 1050、魔人 1090、装备 1100、宽恕 1200）。魔人与装备若换回原顺序即失败。
+     */
+    @GameTest(templateName = EMPTY_STRUCTURE)
+    public void dormantFiendImmunityRunsBeforeTheBodyguardGear(TestContext context) throws IOException {
+        String name = "dev.doctor4t.wathe.game.GameFunctions";
+        byte[] preMixin = FabricLauncherBase.getLauncher().getClassByteArray(name, true);
+        byte[] applied = ((IMixinTransformer) MixinEnvironment.getCurrentEnvironment().getActiveTransformer())
+                .transformClassBytes(name, name, preMixin);
+        ClassNode node = new ClassNode();
+        new ClassReader(applied).accept(node, 0);
+        // The @WrapMethod wrappers move the original body, HEAD callbacks included, into a synthetic method, so the
+        // callbacks are looked up in the one method of the class that calls the Fiend handler.
+        // @WrapMethod 包装会把原方法体（含 HEAD 回调）移入一个合成方法，因此在类中唯一调用魔人处理器的方法里查找各回调。
+        List<List<String>> callers = new ArrayList<>();
+        for (MethodNode method : node.methods) {
+            List<String> calls = new ArrayList<>();
+            for (AbstractInsnNode insn : method.instructions) {
+                if (insn instanceof MethodInsnNode call && call.owner.equals(node.name)
+                        && call.name.contains("$sparkdlc$")) {
+                    calls.add(call.name.substring(call.name.indexOf("$sparkdlc$") + 1));
+                }
+            }
+            if (calls.contains("sparkdlc$protectDormantFiend")) {
+                callers.add(calls);
+            }
+        }
+        if (callers.size() != 1) {
+            throw new GameTestException("expected one killPlayer body calling the Fiend handler, found " + callers);
+        }
+        List<String> handlers = callers.getFirst();
+        List<String> expected = List.of("sparkdlc$interruptRopeStrangle", "sparkdlc$blockOtherworldKillOnInvalidTarget",
+                "sparkdlc$rysTRicochet", "sparkdlc$protectDormantFiend", "sparkdlc$bodyguardGearBlocksKill",
+                "sparkdlc$holdCharonKill");
+        List<Integer> positions = new ArrayList<>();
+        for (String handler : expected) {
+            int first = handlers.indexOf(handler);
+            if (first < 0 || first != handlers.lastIndexOf(handler)) {
+                throw new GameTestException(handler + " is not called exactly once in the killPlayer body: "
+                        + handlers);
+            }
+            positions.add(first);
+        }
+        SparkDLC.LOGGER.info("killPlayer handler order: {}", handlers);
+        List<String> tracked = handlers.stream().filter(expected::contains).toList();
+        for (int i = 1; i < positions.size(); i++) {
+            if (positions.get(i - 1) > positions.get(i)) {
+                throw new GameTestException(expected.get(i - 1) + " must run before " + expected.get(i)
+                        + " at the HEAD of killPlayer; found " + tracked);
+            }
+        }
         context.complete();
     }
 

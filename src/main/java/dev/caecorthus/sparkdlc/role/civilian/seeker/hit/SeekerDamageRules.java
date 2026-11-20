@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker.hit;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
+import dev.caecorthus.sparkdlc.item.m67.M67Rules;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStunCounter;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
@@ -67,8 +68,13 @@ public final class SeekerDamageRules {
     public static final double KNIFE_REACH_TOLERANCE = 0.5;
     /** Wathe grenade blast (sphere; Wathe's own cube is not reused). / Wathe 手雷爆炸半径（球形，不沿用 Wathe 的立方体）。 */
     public static final double GRENADE_RADIUS = 3.0;
-    /** M67 grenade blast radius ({@code M67Rules.BLAST_RADIUS}). / M67 手雷爆炸半径。 */
-    public static final double M67_RADIUS = 3.5;
+    /**
+     * M67 grenade blast radius against a device: the M67's own kill radius {@link M67Rules#BLAST_RADIUS} (5 blocks).
+     * Owner 2026-11-20, "M67 是 5 格": the earlier copy said 3.5 and disagreed with the M67 itself.
+     * M67 手雷对设备的爆炸半径：即 M67 自身的击杀半径 {@link M67Rules#BLAST_RADIUS}（5 格）。所有者 2026-11-20：
+     * 「M67 是 5 格」；此前的副本写的是 3.5，与 M67 本身不一致。
+     */
+    public static final double M67_RADIUS = M67Rules.BLAST_RADIUS;
     /** Sample points sit this far inside the device box so they never touch a block face. / 采样点内缩量，避免贴合方块表面。 */
     static final double SAMPLE_INSET = 0.01;
     private static final double LOS_EPSILON = 1.0E-4;

@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  *     the feign service's own replay of the real death passes.</li>
  *     <li>HEAD, {@code order = 900}: a kill attempt on Hiro. It runs before every default-order HEAD guard whatever
  *     its mixin priority (the faction core's affect veto, Saint, Knight duel, Voodoo, Ceremonial Sword at 1000,
- *     Specter 1040, BEAR ricochet 1050, Fiend and the Bodyguard vest 1100, Charon 1200), every BEFORE listener, psycho
+ *     Specter 1040, BEAR ricochet 1050, Fiend 1090, the Bodyguard vest 1100, Charon 1200), every BEFORE listener, psycho
  *     armour and Tofana, so a cancelled attack consumes none of her shields (owner rule 6). It only observes unless
  *     the Return fires. The Rope's non-cancelling strangle-interrupt observer (default order, priority 1030) runs
  *     after it, and not at all when the Return cancels the kill: {@code HiroReturnService} then interrupts her
@@ -40,7 +40,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * （{@code order = 0}）：假死的受害者无法被触及，在其他 HEAD 钩子为其消耗任何东西之前就拒绝第二次击杀（强制击杀同样拒绝，
  * 它们无视 {@code KillPlayer.BEFORE} 的取消）；只有假死服务自身对真正死亡的重放放行。HEAD（{@code order = 900}）：针对希罗
  * 的击杀尝试，先于所有默认 order 的 HEAD 守卫（不论其 mixin 优先级：默认 1000 的阵营核心影响否决、圣徒、骑士决斗、
- * 巫毒、仪礼剑，幽魂 1040，BEAR 跳弹 1050，魔人与保镖防弹衣 1100，卡戎 1200）、所有 BEFORE 监听器、疯魔护甲与
+ * 巫毒、仪礼剑，幽魂 1040，BEAR 跳弹 1050，魔人 1090，保镖防弹衣 1100，卡戎 1200）、所有 BEFORE 监听器、疯魔护甲与
  * 托法娜，因此被取消的攻击不会消耗她的任何护盾（所有者规则 6）；除非触发回归，否则只做观察。绳索不取消击杀的勒杀打断观察器
  * （默认 order、优先级 1030）排在它之后，回归取消击杀时则完全不会执行：此时由 {@code HiroReturnService} 自行打断她的勒杀。
  * 天赋与法官的

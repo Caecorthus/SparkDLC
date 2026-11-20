@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.role.killer.magician;
 
 import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
 import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.item.m67.M67Rules;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.fisher.FisherRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDamageRules;
@@ -97,10 +98,12 @@ public final class MagicianPuppetHits {
      */
     static final double M1903A4_BOX_EXPANSION = 0.1;
     /**
-     * M67 kill radius ({@code M67Rules.BLAST_RADIUS}: 5.0 since legacy SparkStrength commit 3fa84e9, 2026-10-03).
-     * M67 击杀半径（自旧 SparkStrength 仓库提交 3fa84e9 起为 5.0）。
+     * M67 kill radius, the M67's own {@link M67Rules#BLAST_RADIUS} (5.0 since legacy SparkStrength commit 3fa84e9,
+     * 2026-10-03; referenced rather than copied since owner 2026-11-20, "M67 是 5 格").
+     * M67 击杀半径，即 M67 自身的 {@link M67Rules#BLAST_RADIUS}（自旧 SparkStrength 仓库提交 3fa84e9 起为 5.0；
+     * 所有者 2026-11-20「M67 是 5 格」后改为引用而非复制）。
      */
-    public static final double M67_RADIUS = 5.0;
+    public static final double M67_RADIUS = M67Rules.BLAST_RADIUS;
     /** M67 item name for the replay. / 回放用的 M67 物品名。 */
     static final String M67_ITEM_KEY = "item.sparkdlc.m67";
     /** Replay name of the Murderous Witch Death Ray (a skill, no item). / 杀意魔女死光的回放名（技能，无物品）。 */

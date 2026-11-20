@@ -942,10 +942,10 @@ def watheCommonMixinContracts = [
         ],
         [
                 // Rope interrupt observer: HEAD 1030, after the default-1000 structural guards and before every
-                // shield or immunity (1040 Otherworld void, 1050 ricochet, 1100 Fiend/vest, 1200 pardon), so a
+                // shield or immunity (1040 Otherworld void, 1050 ricochet, 1090 Fiend, 1100 vest, 1200 pardon), so a
                 // blocked attack on a strangling player still breaks the strangle.
                 // 绳索打断观察者：HEAD 1030，位于默认 1000 的结构性守卫之后、所有护盾与免疫（1040 里世界作废、1050 跳弹、
-                // 1100 魔人/防弹衣、1200 宽恕）之前，因此被挡下的攻击同样会打断勒杀。
+                // 1090 魔人、1100 防弹衣、1200 宽恕）之前，因此被挡下的攻击同样会打断勒杀。
                 configName: "item.rope.GameFunctionsRopeStrangleInterruptMixin",
                 mixinEntry: "dev/caecorthus/sparkdlc/mixin/item/rope/GameFunctionsRopeStrangleInterruptMixin.class",
                 handler: "sparkdlc\$interruptRopeStrangle",
@@ -987,8 +987,8 @@ def watheCommonMixinContracts = [
         ],
         [
                 // Specter Otherworld targeting rule: HEAD 1040, after the default-1000 immunity guards and before the
-                // 1050 ricochet and the 1100 Fiend/vest, so a kill it voids (any weapon) spends no protection.
-                // 幽魂里世界索敌规则：HEAD 1040，位于默认 1000 的免疫守卫之后，并先于 1050 跳弹与 1100 魔人/防弹衣，被作废的击杀（任何武器）不消耗任何保护。
+                // 1050 ricochet, the 1090 Fiend and the 1100 vest, so a kill it voids (any weapon) spends no protection.
+                // 幽魂里世界索敌规则：HEAD 1040，位于默认 1000 的免疫守卫之后，并先于 1050 跳弹、1090 魔人与 1100 防弹衣，被作废的击杀（任何武器）不消耗任何保护。
                 configName: "role.killer.specter.GameFunctionsSpecterOtherworldTargetMixin",
                 mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/killer/specter/GameFunctionsSpecterOtherworldTargetMixin.class",
                 handler: "sparkdlc\$blockOtherworldKillOnInvalidTarget",
@@ -1122,9 +1122,9 @@ def watheCommonMixinContracts = [
         ],
         [
                 // Charon pardon window / gaze feign: HEAD 1200, after every other HEAD guard (default 1000, Specter
-                // 1040, ricochet 1050, Fiend/vest 1100) and before every KillPlayer.BEFORE listener; sees force.
+                // 1040, ricochet 1050, Fiend 1090, vest 1100) and before every KillPlayer.BEFORE listener; sees force.
                 // 卡戎宽恕窗口 /「瞥视」假死：HEAD 1200，位于其他所有 HEAD 守卫（默认 1000、幽魂 1040、跳弹 1050、
-                // 魔人/防弹衣 1100）之后，并先于所有 KillPlayer.BEFORE 监听器；可见 force。
+                // 魔人 1090、防弹衣 1100）之后，并先于所有 KillPlayer.BEFORE 监听器；可见 force。
                 configName: "role.neutral.ferryman.GameFunctionsFerrymanPardonMixin",
                 mixinEntry: "dev/caecorthus/sparkdlc/mixin/role/neutral/ferryman/GameFunctionsFerrymanPardonMixin.class",
                 handler: "sparkdlc\$holdCharonKill",

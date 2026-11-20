@@ -76,12 +76,12 @@ import static dev.caecorthus.sparkdlc.cooldown.provider.SimpleRoleSkillCooldownS
 /**
  * Registers SparkWitch's and NoellesRoles' cooldown counters with the SparkFactionAPI forced-cooldown contract
  * ({@code api.cooldown}), so features that force cooldowns on other players (penalties, auras) write them through
- * one monotonic API instead of each counter. Called once from {@code SparkWitch.onInitialize}. The store order is
+ * one monotonic API instead of each counter. Called once from {@code SparkDLC#registerOwnRoleGameplay}. The store order is
  * observable (it is the {@code ForcedCooldowns.slots} order) and must stay stable. NoellesRoles is a hard dependency.
  * Stores that override a {@code RoleSkillCooldownStore} default keep their own class; the others are built here from
  * {@link SimpleRoleSkillCooldownStore}, each with its own round gate and write kind.
  * 将 SparkWitch 与 NoellesRoles 的冷却计数注册到 SparkFactionAPI 强制冷却契约（api.cooldown），使对他人强制冷却的功能
- * （惩罚、光环）经由统一的单调 API 写入，而不是逐个写各计数。由 SparkWitch.onInitialize 调用一次。存储顺序可观察
+ * （惩罚、光环）经由统一的单调 API 写入，而不是逐个写各计数。由 SparkDLC#registerOwnRoleGameplay 调用一次。存储顺序可观察
  * （即 ForcedCooldowns.slots 的顺序），必须保持稳定。NoellesRoles 是硬依赖。覆盖了 RoleSkillCooldownStore 默认方法的存储
  * 保留各自的类；其余存储在此由 SimpleRoleSkillCooldownStore 构建，各自声明回合门控与写入方式。
  */

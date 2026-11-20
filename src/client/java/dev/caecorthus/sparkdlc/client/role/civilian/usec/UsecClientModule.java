@@ -3,9 +3,9 @@ package dev.caecorthus.sparkdlc.client.role.civilian.usec;
 import dev.caecorthus.sparkdlc.client.scope.ScopeClient;
 
 /**
- * Client only. USEC client registration hub: the single line in SparkWitchClient (appended last). Each work package
+ * Client only. USEC client registration hub: the single line in SparkDLCClient (appended last). Each work package
  * owns its own {@code register()}; this fixed order is part of the contract.
- * 仅客户端。USEC 客户端注册中心：SparkWitchClient 中唯一的一行（追加在末尾）。各工作包拥有自己的 {@code register()}；
+ * 仅客户端。USEC 客户端注册中心：SparkDLCClient 中唯一的一行（追加在末尾）。各工作包拥有自己的 {@code register()}；
  * 这一固定顺序属于契约。
  */
 public final class UsecClientModule {

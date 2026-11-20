@@ -1,43 +1,24 @@
 package dev.caecorthus.sparkdlc;
 
-import dev.caecorthus.sparkdlc.SparkTraitsDataComponentTypes;
-import dev.caecorthus.sparkdlc.trait.civilian.jester.JesterTraitService;
-import dev.caecorthus.sparkdlc.trait.civilian.laststand.LastStandFinalMomentService;
-import dev.caecorthus.sparkdlc.trait.civilian.laststand.LastStandService;
-import dev.caecorthus.sparkdlc.trait.registry.SparkTraitsBuiltInTraits;
-import dev.caecorthus.sparkdlc.trait.replay.SparkTraitsReplayEvents;
-import dev.caecorthus.sparkdlc.trait.replay.SparkTraitsReplayTooltips;
-import dev.caecorthus.sparkdlc.SparkTraitsParticles;
-import dev.caecorthus.sparkdlc.SparkTraitsSounds;
-import dev.caecorthus.sparkdlc.trait.lifecycle.TraitGameHooks;
-import dev.caecorthus.sparkdlc.net.SparkTraitsPackets;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsVersionHandshake;
-import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SparkTraits implements ModInitializer {
+/**
+ * Transitional holder: {@code MOD_ID}, {@code LOGGER} and {@code id(...)} for the code that still names this class.
+ * It starts nothing; the start-up of the mod is {@link SparkDLC}. A later scripted pass points the call sites at
+ * {@link SparkDLC} and removes this class.
+ * 过渡期的持有类：为仍然引用本类的代码保留 {@code MOD_ID}、{@code LOGGER} 与 {@code id(...)}。它不启动任何东西；
+ * 本模组的启动流程在 {@link SparkDLC}。之后的脚本化改名会把调用点指向 {@link SparkDLC} 并删除本类。
+ */
+public final class SparkTraits {
     public static final String MOD_ID = "sparkdlc";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-    public static Identifier id(String path) {
-        return Identifier.of(MOD_ID, path);
+    private SparkTraits() {
     }
 
-    @Override
-    public void onInitialize() {
-        SparkTraitsVersionHandshake.registerServer();
-        SparkTraitsPackets.register();
-        SparkTraitsDataComponentTypes.init();
-        SparkTraitsParticles.register();
-        SparkTraitsSounds.initialize();
-        SparkTraitsBuiltInTraits.register();
-        LastStandService.register();
-        LastStandFinalMomentService.register();
-        JesterTraitService.register();
-        TraitGameHooks.register();
-        SparkTraitsReplayTooltips.register();
-        SparkTraitsReplayEvents.registerFormatters();
+    public static Identifier id(String path) {
+        return Identifier.of(MOD_ID, path);
     }
 }

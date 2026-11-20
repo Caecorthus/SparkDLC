@@ -18,11 +18,11 @@ import org.joml.Vector4f;
  * Wathe's {@code MatrixUtils.matrixToVec}; the position map mirrors {@code WatheClient.particleMap} but only holds the
  * Savior pistol. Each position carries the world tick it was rendered on and is used only while fresh, so a shooter
  * who stopped being rendered (culled, out of range) gets the eye fallback instead of a stale barrel; the map is
- * cleared on connection edges by {@code SparkWitchClient.releaseClosedWorldPlayers}.
+ * cleared on connection edges by {@code SparkDLCClient.releaseClosedWorldPlayers}.
  * 记录每个被渲染玩家的手枪枪口位置并生成火焰。矩阵换算复制自 Wathe 的 {@code MatrixUtils.matrixToVec}；位置表对应
  * {@code WatheClient.particleMap}，但只记录救世主手枪。每个位置带有其渲染时的世界刻，只在仍新鲜时使用，因此已不再被渲染
  * （被剔除、超出范围）的射手改用眼部回退位置而不是过期的枪管位置；连接边界时由
- * {@code SparkWitchClient.releaseClosedWorldPlayers} 清空该表。
+ * {@code SparkDLCClient.releaseClosedWorldPlayers} 清空该表。
  */
 public final class SaviorMuzzleTracker {
     /** Rendered every frame while visible; a few ticks absorbs low frame rates. / 可见时每帧都会渲染；几刻的余量可容纳低帧率。 */

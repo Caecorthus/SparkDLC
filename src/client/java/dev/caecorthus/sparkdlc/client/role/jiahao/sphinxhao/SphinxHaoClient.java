@@ -62,9 +62,9 @@ public final class SphinxHaoClient {
     }
 
     /**
-     * Called by the shared ability-key dispatcher in {@code SparkWitchClient} when the local player's real role is the
+     * Called by the shared ability-key dispatcher in {@code SparkDLCClient} when the local player's real role is the
      * Sphinx Hao: 嘉豪病毒.
-     * 当本地玩家的真实职业为狮身豪时，由 {@code SparkWitchClient} 的共享技能键分发调用：嘉豪病毒。
+     * 当本地玩家的真实职业为狮身豪时，由 {@code SparkDLCClient} 的共享技能键分发调用：嘉豪病毒。
      */
     public static void onAbilityKey(MinecraftClient client) {
         ClientPlayerEntity player = client == null ? null : client.player;

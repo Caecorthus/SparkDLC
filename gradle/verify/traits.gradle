@@ -239,30 +239,37 @@ def verifyTraitsModJar = tasks.register("verifyTraitsModJar") {
             // SparkTraits initializer is started the same way by the fused main entrypoint.
             // 融合后的客户端入口取代了原先列出的 SparkTraitsClient，且必须仍然启动它；通用端的 SparkTraits 初始化同样由
             // 融合后的 main 入口启动。
+            // Stage 3 ("one entry"): the per-module initializer classes are gone; SparkDLC / SparkDLCClient are the
+            // whole start-up, split into private steps. "The fused entrypoint still starts this module" therefore
+            // reads: some method of the entrypoint class still makes the module's characteristic start-up call.
+            // 第三阶段（“单一入口”）：各模块的初始化类已不存在；SparkDLC / SparkDLCClient 就是完整的启动流程，拆成若干私有步骤。
+            // 因此“融合后的入口仍然启动本模块”即：入口类的某个方法仍然发出本模块特有的启动调用。
             [
-                    [key: "main", entrypoint: "dev.caecorthus.sparkdlc.SparkDLC", method: "onInitialize",
-                     moduleOwner: "dev/caecorthus/sparkdlc/SparkTraits"],
+                    [key: "main", entrypoint: "dev.caecorthus.sparkdlc.SparkDLC",
+                     startOwner: "dev/caecorthus/sparkdlc/trait/registry/SparkTraitsBuiltInTraits", startCall: "register"],
                     [key: "client", entrypoint: "dev.caecorthus.sparkdlc.client.SparkDLCClient",
-                     method: "onInitializeClient",
-                     moduleOwner: "dev/caecorthus/sparkdlc/client/SparkTraitsClient"]
+                     startOwner: "dev/caecorthus/sparkdlc/client/trait/killer/NewKillerTraitsClient", startCall: "initialize"]
             ].each { fused ->
                 if (!(metadata.entrypoints?.get(fused.key) ?: []).contains(fused.entrypoint)) {
                     throw new GradleException("Missing ${fused.key} entrypoint ${fused.entrypoint} in ${jarFile.name}")
                 }
                 def entrypointNode = readClassNode(zipFile, fused.entrypoint.replace('.', '/') + ".class")
-                def entrypointMethod = entrypointNode.methods.find { it.name == fused.method && it.desc == "()V" }
-                def startsModule = entrypointMethod != null && entrypointMethod.instructions.toArray().any {
-                    it instanceof org.objectweb.asm.tree.MethodInsnNode && it.owner == fused.moduleOwner
-                            && it.name == fused.method && it.desc == "()V"
+                def startsModule = entrypointNode.methods.any { method ->
+                    method.instructions.toArray().any {
+                        it instanceof org.objectweb.asm.tree.MethodInsnNode && it.owner == fused.startOwner
+                                && it.name == fused.startCall
+                    }
                 }
                 if (!startsModule) {
                     throw new GradleException(
-                            "${fused.entrypoint}#${fused.method} no longer starts ${fused.moduleOwner} in ${jarFile.name}"
+                            "${fused.entrypoint} no longer calls ${fused.startOwner}#${fused.startCall} in ${jarFile.name}"
                     )
                 }
             }
 
-            def voicechatEntrypoint = "dev.caecorthus.sparkdlc.voice.SparkTraitsVoiceChatPlugin"
+            // Stage 3: one voice chat plugin for the whole mod; it carries the Depression mute.
+            // 第三阶段：全模组只有一个语音插件，抑郁静音由它承载。
+            def voicechatEntrypoint = "dev.caecorthus.sparkdlc.voice.SparkDlcVoiceChatPlugin"
             def voicechatEntrypoints = metadata.entrypoints?.voicechat ?: []
             if (!voicechatEntrypoints.contains(voicechatEntrypoint)) {
                 throw new GradleException("Missing voicechat entrypoint ${voicechatEntrypoint} in ${jarFile.name}")
@@ -304,7 +311,7 @@ def verifyTraitsModJar = tasks.register("verifyTraitsModJar") {
             [
                     "dev/caecorthus/sparkdlc/trait/api/SparkTraitsApi.class",
                     "dev/caecorthus/sparkdlc/bridge/traits/SparkWitchKillAttributionBridge.class",
-                    "dev/caecorthus/sparkdlc/client/SparkTraitsClient.class",
+                    "dev/caecorthus/sparkdlc/client/SparkDLCClient.class",
                     "dev/caecorthus/sparkdlc/client/trait/audio/CautiousSoundDebug.class",
                     "dev/caecorthus/sparkdlc/client/trait/audio/DepressionRageLoopController.class",
                     "dev/caecorthus/sparkdlc/client/trait/audio/DepressionRageLoopSoundInstance.class",
@@ -315,7 +322,7 @@ def verifyTraitsModJar = tasks.register("verifyTraitsModJar") {
                     "dev/caecorthus/sparkdlc/net/SparkTraitsPackets.class",
                     "dev/caecorthus/sparkdlc/net/version/SparkTraitsServerConfirmS2CPacket.class",
                     "dev/caecorthus/sparkdlc/client/net/version/SparkTraitsClientVersionHandshake.class",
-                    "dev/caecorthus/sparkdlc/voice/SparkTraitsVoiceChatPlugin.class"
+                    "dev/caecorthus/sparkdlc/voice/SparkDlcVoiceChatPlugin.class"
             ].each { requiredEntry ->
                 // Runtime compatibility depends on these packaged confirmation and optional voice bridge classes.
                 // 运行时兼容依赖这些随 jar 发布的确认类和可选语音桥类。

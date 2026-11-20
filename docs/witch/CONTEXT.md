@@ -163,7 +163,7 @@ Current build baseline:
   in the 2.0.0 jar rebuilt on 2026-11-16; re-pinned 2026-11-18 in `build.gradle` `compatibilityBaselines`, sha256
   `6eac3fc345a7…`, built from SparkFactionAPI `633126a`: the 狮身豪 payload-policy rows plus Fabric Loader 0.17.2,
   so its `fabric.mod.json` asks for `fabricloader >=0.17.2`). Every `0.1.5.13`+ feature (two-row limited inventory,
-  `bridge/witch/SparkFactionSecondRowCompat`, settlement exclusions) is therefore present, so SparkWitch no longer detects the
+  `inventory/LimitedInventoryRows`, settlement exclusions) is therefore present, so SparkWitch no longer detects the
   inventory version and registers settlement exclusions directly.
 
 ## Read Order
@@ -1894,7 +1894,7 @@ Current build baseline:
   - Shop (`UsecShopService`, `UsecShopRules`): rebuilt on both sides for the exact role (a role-only gate, because Wathe
     caches stock limits while STARTING), keeping `sparkdlc:*` entries and applying the Charisma discount. A bought
     round (`UsecShopPurchase`) first tops up a shown same-item stack with room for the whole purchase (hotbar 0-8, then
-    27-35 only when `SparkFactionSecondRowCompat.isShown()`, never hidden storage); otherwise it runs a handler-less
+    27-35 only when `LimitedInventoryRows.isSecondRowShown()`, never hidden storage); otherwise it runs a handler-less
     twin entry's default `onBuy`, so SparkFactionAPI's second-row fallback applies and a full inventory fails uncharged.
     The magazine (sold empty) and the suppressor keep the default `onBuy`. Bought rounds are never auto-loaded, and the
     tablet is never sold.
@@ -2048,7 +2048,7 @@ Current build baseline:
     stun, Seeker session; Fear never blocks and the role is never read); and inventory room. It writes in place with
     `UsecRifleState.write` / `UsecMagazineItem.setContents`, releases items only to shown slots
     (`UsecAttachmentRules.releaseSlot`, `UsecShopPurchase`'s order: a shown same-item stack that takes it whole, hotbar
-    0-8 then 27-35 only while `SparkFactionSecondRowCompat.isShown()`, else the first empty shown slot, else the empty
+    0-8 then 27-35 only while `LimitedInventoryRows.isSecondRowShown()`, else the first empty shown slot, else the empty
     offhand; otherwise "no room", never hidden 9-26; the screen predicts room with the same rule), plays public
     `ServerWorld#playSound` cues, and calls `UsecCooldowns.bolt` on a bolt. Chambering a round stays allowed while the
     bolt cycles, so the screen never locks 上膛 for it.
@@ -3773,8 +3773,8 @@ Current build baseline:
 - `component/`: CCA ids, stored fields, sync/NBT codecs, and narrow state
   operations used by the owning runtime Modules.
 - `compat/`: optional or version-sensitive cross-mod Adapters.
-- `bridge/witch/SparkFactionSecondRowCompat`: the two-row limited inventory gate. Every admitted
-  SparkFactionAPI (floor 2.0.0; the row first shipped in 0.1.5.13) shows it, so `isShown()` is always
+- `inventory/LimitedInventoryRows` (was `bridge/witch/SparkFactionSecondRowCompat`): the two-row limited inventory gate. Every admitted
+  SparkFactionAPI (floor 2.0.0; the row first shipped in 0.1.5.13) shows it, so `isSecondRowShown()` is always
   true and the old one-row version detection is gone: Wathe's in-round inventory also shows main slots
   27-35 directly above the hotbar, and `getEmptySlot` fills 0-8, 27-35, then 9-26. Callers: bound-item displacement (Blind cane, Time Stealer Clock and Gift Watch, Abyss Listener
   gun: a full-hotbar re-grant moves the displaced item into the slot a removed stray vacated, but

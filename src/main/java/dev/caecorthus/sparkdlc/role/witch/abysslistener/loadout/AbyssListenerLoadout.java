@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.witch.abysslistener.loadout;
 
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkFactionSecondRowCompat;
+import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import dev.caecorthus.sparkdlc.role.witch.abysslistener.AbyssListenerRules;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.util.OffMatchUse;
@@ -276,7 +276,7 @@ public final class AbyssListenerLoadout {
             return true;
         }
         PlayerInventory inventory = player.getInventory();
-        int destination = AbyssListenerGunSweep.displacementSlot(SparkFactionSecondRowCompat.isShown(), vacated,
+        int destination = AbyssListenerGunSweep.displacementSlot(LimitedInventoryRows.isSecondRowShown(), vacated,
                 slot -> inventory.getStack(slot).isEmpty());
         if (destination == AbyssListenerGunSweep.NO_SLOT) {
             return false;

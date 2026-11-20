@@ -11,12 +11,27 @@ import java.util.function.IntPredicate;
  */
 public final class LimitedInventoryRows {
     public static final int ROW_SIZE = 9;
+    /** First main slot of the second row (vanilla's bottom main row). / 第二行的第一个主背包栏位（原版主背包最下一行）。 */
     public static final int SECOND_ROW_START = 27;
+    /** Exclusive end of the second row. / 第二行的结束下标（不含）。 */
+    public static final int SECOND_ROW_END = SECOND_ROW_START + ROW_SIZE;
     public static final int MAIN_SIZE = 36;
 
     private static final int[] EMPTY_SLOT_ORDER = emptySlotOrder();
 
     private LimitedInventoryRows() {
+    }
+
+    /**
+     * Whether Wathe's limited inventory shows the second row: always (the one-row versions and their detection are
+     * gone). Kept as the single wiring point that the placement rules of the role features and their pure rules
+     * share, so none of them writes a fixed value. Hotbar-only rules for bound items are unchanged: 27-35 stays
+     * outside the hotbar.
+     * Wathe 受限物品栏是否显示第二行：恒为是（单行版本及其检测已移除）。保留为各职业功能的放置规则及其纯规则共用的唯一
+     * 接线点，使它们都不写死取值。绑定物品的“仅快捷栏”规则不变：27-35 仍不属于快捷栏。
+     */
+    public static boolean isSecondRowShown() {
+        return true;
     }
 
     public static boolean isSecondRowIndex(int index) {

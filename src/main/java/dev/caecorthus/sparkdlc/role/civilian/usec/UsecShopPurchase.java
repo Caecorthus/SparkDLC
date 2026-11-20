@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.usec;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkFactionSecondRowCompat;
+import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import dev.doctor4t.wathe.util.ShopEntry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -13,12 +13,12 @@ import java.util.function.IntPredicate;
 /**
  * Buy handler for the loose .338 rounds only (magazines and the suppressor keep Wathe's default {@code onBuy}). A bought
  * round first tops up a same-item stack with room in a shown slot: the hotbar 0-8, then SparkFactionAPI's second row
- * 27-35 when {@link SparkFactionSecondRowCompat#isShown()}. Hidden storage is never topped up, because the default path
+ * 27-35 when {@link LimitedInventoryRows#isSecondRowShown()}. Hidden storage is never topped up, because the default path
  * never places a purchase there and the player could not reach it. Otherwise it delegates to {@code fallback}, a
  * handler-less entry whose default {@code onBuy} carries SparkFactionAPI's second-row wrapper, so "nothing fits"
  * still returns false and Wathe charges nothing. Server only (Wathe's {@code tryBuy}).
  * 仅用于散装 .338 子弹的购买处理（弹匣与消音器保留 Wathe 默认 {@code onBuy}）。买到的子弹先补进显示栏位中有空余的同种物品堆：
- * 快捷栏 0-8，然后在 {@link SparkFactionSecondRowCompat#isShown()} 时为 SparkFactionAPI 第二行 27-35。从不补进隐藏栏位，
+ * 快捷栏 0-8，然后在 {@link LimitedInventoryRows#isSecondRowShown()} 时为 SparkFactionAPI 第二行 27-35。从不补进隐藏栏位，
  * 因为默认路径从不把购买物放在那里，玩家也拿不到。否则交给 {@code fallback}：一个不带处理器的条目，其默认 {@code onBuy}
  * 带有 SparkFactionAPI 的第二行包装，因此“放不下”仍返回 false，Wathe 不扣钱。仅服务端（Wathe 的 {@code tryBuy}）。
  */
@@ -35,7 +35,7 @@ public final class UsecShopPurchase {
         ItemStack bought = fallback.getActualStack();
         PlayerInventory inventory = player.getInventory();
         int slot = firstShownStackWithRoom(index -> fitsWhole(inventory, inventory.getStack(index), bought),
-                SparkFactionSecondRowCompat.isShown());
+                LimitedInventoryRows.isSecondRowShown());
         if (slot < 0) {
             return fallback.onBuy(player);
         }
@@ -55,8 +55,8 @@ public final class UsecShopPurchase {
             slots.add(slot);
         }
         if (secondRowShown) {
-            for (int slot = SparkFactionSecondRowCompat.SECOND_ROW_START;
-                 slot < SparkFactionSecondRowCompat.SECOND_ROW_END; slot++) {
+            for (int slot = LimitedInventoryRows.SECOND_ROW_START;
+                 slot < LimitedInventoryRows.SECOND_ROW_END; slot++) {
                 slots.add(slot);
             }
         }

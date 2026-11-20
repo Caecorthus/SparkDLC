@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.timestealer;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkFactionSecondRowCompat;
+import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.util.StaggeredSweep;
 import dev.doctor4t.wathe.api.Role;
@@ -143,11 +143,11 @@ public final class TimeStealerLoadoutService {
      */
     static int displacementSlot(boolean secondRowShown, int vacated, IntPredicate emptySlot) {
         if (secondRowShown) {
-            if (SparkFactionSecondRowCompat.isSecondRowSlot(vacated)) {
+            if (LimitedInventoryRows.isSecondRowIndex(vacated)) {
                 return vacated;
             }
-            for (int slot = SparkFactionSecondRowCompat.SECOND_ROW_START;
-                 slot < SparkFactionSecondRowCompat.SECOND_ROW_END; slot++) {
+            for (int slot = LimitedInventoryRows.SECOND_ROW_START;
+                 slot < LimitedInventoryRows.SECOND_ROW_END; slot++) {
                 if (emptySlot.test(slot)) {
                     return slot;
                 }
@@ -270,7 +270,7 @@ public final class TimeStealerLoadoutService {
         int target = hotbarTarget(inventory.selectedSlot, slot -> inventory.getStack(slot).isEmpty());
         if (target == NO_SLOT) {
             target = displacedHotbarSlot(inventory.selectedSlot);
-            int destination = displacementSlot(SparkFactionSecondRowCompat.isShown(), vacated,
+            int destination = displacementSlot(LimitedInventoryRows.isSecondRowShown(), vacated,
                     slot -> inventory.getStack(slot).isEmpty());
             if (destination == NO_SLOT) {
                 return false;

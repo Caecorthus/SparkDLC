@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.witch.potiongunner;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkFactionSecondRowCompat;
+import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import dev.caecorthus.sparkdlc.role.witch.potiongunner.launcher.PotionLauncherLoad;
 import dev.caecorthus.sparkdlc.util.GiveCommandDropScope;
 import dev.caecorthus.sparkdlc.util.OffMatchUse;
@@ -110,7 +110,7 @@ public final class PotionGunnerLoadoutService {
                 kept.setCount(1);
                 changed = true;
             }
-            int moved = keeperMoveSlot(keeper, SparkFactionSecondRowCompat.isShown(),
+            int moved = keeperMoveSlot(keeper, LimitedInventoryRows.isSecondRowShown(),
                     slot -> inventory.getStack(slot).isEmpty());
             if (moved != NO_SLOT) {
                 inventory.setStack(keeper, ItemStack.EMPTY);
@@ -119,7 +119,7 @@ public final class PotionGunnerLoadoutService {
                 changed = true;
             }
         } else {
-            int target = placementSlot(SparkFactionSecondRowCompat.isShown(), slot -> inventory.getStack(slot).isEmpty());
+            int target = placementSlot(LimitedInventoryRows.isSecondRowShown(), slot -> inventory.getStack(slot).isEmpty());
             kept = target == NO_SLOT ? null : new ItemStack(SparkWitchItems.potionLauncher());
             if (kept != null) {
                 inventory.setStack(target, kept);
@@ -284,9 +284,9 @@ public final class PotionGunnerLoadoutService {
                 return slot;
             }
         }
-        if (secondRowShown && !SparkFactionSecondRowCompat.isSecondRowSlot(keeper)) {
-            for (int slot = SparkFactionSecondRowCompat.SECOND_ROW_START;
-                 slot < SparkFactionSecondRowCompat.SECOND_ROW_END; slot++) {
+        if (secondRowShown && !LimitedInventoryRows.isSecondRowIndex(keeper)) {
+            for (int slot = LimitedInventoryRows.SECOND_ROW_START;
+                 slot < LimitedInventoryRows.SECOND_ROW_END; slot++) {
                 if (emptySlot.test(slot)) {
                     return slot;
                 }
@@ -308,8 +308,8 @@ public final class PotionGunnerLoadoutService {
             }
         }
         if (secondRowShown) {
-            for (int slot = SparkFactionSecondRowCompat.SECOND_ROW_START;
-                 slot < SparkFactionSecondRowCompat.SECOND_ROW_END; slot++) {
+            for (int slot = LimitedInventoryRows.SECOND_ROW_START;
+                 slot < LimitedInventoryRows.SECOND_ROW_END; slot++) {
                 if (emptySlot.test(slot)) {
                     return slot;
                 }
@@ -338,7 +338,7 @@ public final class PotionGunnerLoadoutService {
     static List<Integer> returnSlots(IntPredicate sameTypeWithRoom, IntPredicate empty, boolean shownOnly,
                                      boolean secondRowShown) {
         int hotbar = PlayerInventory.getHotbarSize();
-        int hiddenEnd = secondRowShown ? SparkFactionSecondRowCompat.SECOND_ROW_START : PlayerInventory.MAIN_SIZE;
+        int hiddenEnd = secondRowShown ? LimitedInventoryRows.SECOND_ROW_START : PlayerInventory.MAIN_SIZE;
         List<Integer> slots = new ArrayList<>();
         if (shownOnly && secondRowShown) {
             collect(slots, 0, hotbar, sameTypeWithRoom);
@@ -366,7 +366,7 @@ public final class PotionGunnerLoadoutService {
      */
     static boolean returnToInventory(PlayerInventory inventory, ItemStack stack, boolean shownOnly) {
         for (int slot : returnSlots(index -> canMerge(inventory, inventory.getStack(index), stack),
-                index -> inventory.getStack(index).isEmpty(), shownOnly, SparkFactionSecondRowCompat.isShown())) {
+                index -> inventory.getStack(index).isEmpty(), shownOnly, LimitedInventoryRows.isSecondRowShown())) {
             if (stack.isEmpty()) {
                 break;
             }
@@ -421,8 +421,8 @@ public final class PotionGunnerLoadoutService {
      */
     private static boolean surfaceHiddenShells(PlayerInventory inventory) {
         boolean changed = false;
-        int hiddenEnd = SparkFactionSecondRowCompat.isShown()
-                ? SparkFactionSecondRowCompat.SECOND_ROW_START : PlayerInventory.MAIN_SIZE;
+        int hiddenEnd = LimitedInventoryRows.isSecondRowShown()
+                ? LimitedInventoryRows.SECOND_ROW_START : PlayerInventory.MAIN_SIZE;
         for (int slot = PlayerInventory.getHotbarSize(); slot < hiddenEnd; slot++) {
             ItemStack stack = inventory.getStack(slot);
             if (!PotionGunnerInventoryRules.isShell(stack)) {

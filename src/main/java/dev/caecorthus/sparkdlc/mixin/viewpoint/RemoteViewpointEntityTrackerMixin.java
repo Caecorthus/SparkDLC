@@ -33,6 +33,14 @@ import java.util.Set;
  * <p>{@code require = 0} on both injectors: if a chunk-system mod reshapes {@code updateTrackedStatus} they are
  * skipped instead of failing at startup, and tracking stays vanilla (entities within range of the body only).
  * 两个注入都为 {@code require = 0}：区块系统模组改写 updateTrackedStatus 时跳过而不是启动崩溃，追踪保持原版（只追踪身体范围内的实体）。</p>
+ *
+ * <p>Deliberately not merged with the Seeker's and the Raven's tracker mixins on the same method, although the three
+ * do the same job for three anchors: theirs are required injectors (a reshaped method fails at start-up), these are
+ * optional, and one merged injector could carry only one of the two policies. Their handlers stay independent: each
+ * HEAD inject cancels only for its own anchor, and the measuring points chain (the last applied wins).
+ * 有意不与同一方法上搜寻者、化鸦的追踪 mixin 合并，尽管三者为三种锚点做同一件事：它们的注入是必需的（方法被改写时启动即
+ * 失败），这里的是可选的，合并后的单个注入只能采用其中一种策略。三者的处理器互不干扰：各 HEAD 注入只对自己的锚点取消，
+ * 测距点修改链式叠加（最后应用的生效）。</p>
  */
 @Mixin(targets = "net.minecraft.server.world.ServerChunkLoadingManager$EntityTracker")
 public abstract class RemoteViewpointEntityTrackerMixin {

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.killer.partyanimal;
 
 import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.jiahao.corruptcop.CorruptCopAbilityComponent;
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
 import dev.caecorthus.sparkdlc.role.jiahao.corruptcop.CorruptCopRules;
@@ -76,7 +76,7 @@ public final class PartygoerInstinctClientHooks {
         Role role = game.getRole(viewer);
         PartygoerVisibilityRules.Viewer kind = PartygoerVisibilityRules.viewer(
                 GameFunctions.isPlayerSpectatingOrCreative(viewer),
-                SparkTraitsCompat.isEffectiveKiller(role, viewer),
+                SparkTraitsApi.isEffectiveKiller(role, viewer),
                 GameFunctions.isPlayerPlayingAndAlive(viewer),
                 WatheClient.isInstinctEnabledAndIsKiller(),
                 SparkFactionCompat.canUseInstinct(viewer, game),
@@ -120,7 +120,7 @@ public final class PartygoerInstinctClientHooks {
             return null;
         }
         ClientPlayerEntity viewer = MinecraftClient.getInstance().player;
-        if (viewer == null || !SparkTraitsCompat.hasConscience(viewer)) {
+        if (viewer == null || !SparkTraitsApi.hasConscience(viewer)) {
             return null;
         }
         Integer blackRaven = blackRavenSensedHighlight(target);

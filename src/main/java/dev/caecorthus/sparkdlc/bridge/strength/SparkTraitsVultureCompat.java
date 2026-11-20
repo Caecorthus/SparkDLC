@@ -12,10 +12,6 @@ import java.util.UUID;
  * calls {@link SparkTraitsApi#getRoundEndTraitIds} directly.
  * 秃鹫死亡惨叫使用的 SparkTraits 公开门面桥接。各模块已融合进 SparkDLC，因此这里直接调用
  * {@link SparkTraitsApi#getRoundEndTraitIds}。
- *
- * <p>Kept apart from {@link SparkTraitsCompat} so that class's compile surface (several local fixture tests compile it
- * against narrow stubs without {@code ServerWorld}) stays unchanged.
- * 与 {@link SparkTraitsCompat} 分开，避免改变其编译面（多个本地夹具测试用不含 {@code ServerWorld} 的窄桩编译它）。</p>
  */
 public final class SparkTraitsVultureCompat {
     private SparkTraitsVultureCompat() {

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.bomber.drone;
 
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.util.ShopEntry;
@@ -56,13 +56,13 @@ public final class DroneShopService {
         ShopEntry entry = new ShopEntry.Builder(
                 DroneRules.BOMB_DRONE_SHOP_ENTRY_ID,
                 display,
-                DroneRules.bombDronePrice(SparkTraitsCompat.hasConscience(player)),
+                DroneRules.bombDronePrice(SparkTraitsApi.hasConscience(player)),
                 ShopEntry.Type.WEAPON
         ).actualStack(bombDrone.getDefaultStack()).build();
         List<ShopEntry> result = new ArrayList<>(entries);
         // Charisma and Conscience are both killer traits and never held together, so the discounts never stack.
         // 魅力与善良都是杀手天赋，不会同时持有，因此两种折扣不会叠加。
-        result.add(SparkTraitsCompat.discountShopEntryForCharisma(player, entry));
+        result.add(SparkTraitsApi.discountShopEntryForCharisma(player, entry));
         return result;
     }
 }

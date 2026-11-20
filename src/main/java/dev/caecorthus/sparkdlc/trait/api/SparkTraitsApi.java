@@ -9,14 +9,18 @@ import dev.caecorthus.sparkdlc.trait.presentation.OwnerInventoryPresentation;
 import dev.caecorthus.sparkdlc.trait.effective.EffectiveInstinctService;
 import dev.caecorthus.sparkdlc.trait.lifecycle.RoundEndTraitResolver;
 import dev.caecorthus.sparkdlc.trait.civilian.depression.DepressionTraitService;
+import dev.caecorthus.sparkdlc.trait.civilian.impostor.ImpostorTrait;
 import dev.caecorthus.sparkdlc.trait.civilian.laststand.LastStandService;
 import dev.caecorthus.sparkdlc.trait.civilian.police.GoingDarkRules;
 import dev.caecorthus.sparkdlc.trait.global.CautiousTrait;
 import dev.caecorthus.sparkdlc.trait.killer.KillerTraitService;
+import dev.caecorthus.sparkdlc.trait.killer.KillerTraits;
 import dev.caecorthus.sparkdlc.trait.killer.combat.CloseQuartersService;
 import dev.caecorthus.sparkdlc.trait.killer.combat.ForcedMeleeCooldownService;
 import dev.caecorthus.sparkdlc.trait.killer.conscience.BluePoisonInteropService;
+import dev.caecorthus.sparkdlc.trait.killer.conscience.ConscienceTrait;
 import dev.caecorthus.sparkdlc.trait.killer.escape.LastEscapeService;
+import dev.doctor4t.wathe.api.Role;
 import net.minecraft.item.ItemStack;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
@@ -206,6 +210,65 @@ public final class SparkTraitsApi {
                         .orElse(false);
     }
 
+    /** Whether the player holds an active Impostor. Owner-synced, so it also answers for the local player on a client.
+     *  玩家是否持有生效的内鬼。该词条同步给本人，因此客户端也能回答本地玩家。 */
+    public static boolean hasImpostor(PlayerEntity player) {
+        return hasActiveTrait(player, ImpostorTrait.ID);
+    }
+
+    /** Owner-synced like Impostor, so client shop listings and server validation agree.
+     *  与内鬼一样同步给本人，保证客户端商店列表与服务端校验一致。 */
+    public static boolean hasConscience(PlayerEntity player) {
+        return hasActiveTrait(player, ConscienceTrait.ID);
+    }
+
+    /** Whether the player holds an active Team First (the killer team purse asks on every income).
+     *  玩家是否持有生效的团队至上（杀手团队钱包每次入账时查询）。 */
+    public static boolean hasTeamFirst(PlayerEntity player) {
+        return hasActiveTrait(player, KillerTraits.TEAM_FIRST);
+    }
+
+    /**
+     * Killer-team membership after the alignment flips, for a caller that already holds the player's role: Impostor
+     * turns an original civilian into a killer, Conscience turns an original killer into a civilian, and with both
+     * traits Impostor decides (killer). A null role is on neither side; a null player counts as holding neither trait.
+     * 判断玩家是否属于阵营翻转后的有效杀手阵营（供已持有玩家身份的调用方使用）：内鬼词条会把原始好人翻为杀手；
+     * 善良词条会把原始杀手翻为好人。若两个词条同时存在，则由内鬼词条负责判定为杀手。身份为空时不属于任何一方；
+     * 玩家为空时视为两个词条都没有。
+     */
+    public static boolean isEffectiveKiller(Role role, PlayerEntity player) {
+        if (role == null) {
+            return false;
+        }
+        if (hasImpostor(player)) {
+            return true;
+        }
+        if (hasConscience(player)) {
+            return false;
+        }
+        return role.canUseKiller();
+    }
+
+    /**
+     * Civilian-team membership after the alignment flips, the counterpart of {@link #isEffectiveKiller(Role,
+     * PlayerEntity)}: Conscience is asked first (civilian), then Impostor (not a civilian); without either trait the
+     * role's original Wathe side decides. A null role is on neither side.
+     * 判断玩家是否属于“有效好人阵营”，与 {@link #isEffectiveKiller(Role, PlayerEntity)} 对应：善良词条优先视作好人；
+     * 内鬼词条优先视作杀手；没有相关词条时回退到 Wathe 原始角色阵营。身份为空时不属于任何一方。
+     */
+    public static boolean isEffectiveCivilian(Role role, PlayerEntity player) {
+        if (role == null) {
+            return false;
+        }
+        if (hasConscience(player)) {
+            return true;
+        }
+        if (hasImpostor(player)) {
+            return false;
+        }
+        return role.isInnocent();
+    }
+
     /**
      * Active escape is a timed state, not a query for ownership of the hidden trait.
      * 脱险是已触发的限时状态，不暴露隐藏词条的持有情况。
@@ -254,6 +317,24 @@ public final class SparkTraitsApi {
     ) {
         return attacker != null && victim != null && weapon != null
                 && CloseQuartersService.shouldCancelMeleeAttack(attacker, victim, weapon);
+    }
+
+    /**
+     * The whole trait gate of a melee weapon that settles its own hit: the attack is refused while the attacker's
+     * weapon action is blocked ({@link #blocksWeaponAction}, asked first so that a blocked attacker never spends the
+     * victim's counter), otherwise when {@link #shouldCancelMeleeAttack} cancels it. Call only after normal role,
+     * range, target permission and charge checks, before any costs. False when an argument is null.
+     * 自行结算命中的近战武器所需的完整词条判定：攻击者的武器动作被禁用时拒绝（{@link #blocksWeaponAction}，先行检查，
+     * 因此被禁用的攻击者不会消耗受害者的反制），否则在 {@link #shouldCancelMeleeAttack} 取消时拒绝。
+     * 仅在职业、距离、目标权限及次数校验后、消耗前调用；反制由服务端词条功能结算。任一参数为空时返回 false。
+     */
+    public static boolean blocksOrCancelsMeleeAttack(
+            ServerPlayerEntity attacker,
+            ServerPlayerEntity victim,
+            ItemStack weapon
+    ) {
+        return attacker != null && victim != null && weapon != null
+                && (blocksWeaponAction(attacker, weapon) || shouldCancelMeleeAttack(attacker, victim, weapon));
     }
 
     /**
@@ -511,8 +592,9 @@ public final class SparkTraitsApi {
     }
 
     /**
-     * Returns whether the world is currently in Last Stand's final moment.
-     * 返回当前世界是否处于背水一战的终局时刻。
+     * Returns whether the world is currently in Last Stand's final moment. The flag is synced with the world, so
+     * clients can ask too.
+     * 返回当前世界是否处于背水一战的终局时刻。该标记随世界同步，客户端同样可用。
      */
     public static boolean isFinalMomentActive(World world) {
         return world != null

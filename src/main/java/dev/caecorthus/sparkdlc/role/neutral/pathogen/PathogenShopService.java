@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.neutral.pathogen;
 
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
 import dev.caecorthus.sparkdlc.role.neutral.pathogen.PathogenStrainComponent;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.util.ShopStacks;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -41,7 +41,7 @@ public final class PathogenShopService {
         }
         boolean converted = PathogenStrainComponent.KEY.get(player).isConverted();
         for (String entryId : PathogenRules.shopEntryIds(converted)) {
-            context.addEntry(SparkTraitsCompat.discountShopEntryForCharisma(player, entry(entryId)));
+            context.addEntry(SparkTraitsApi.discountShopEntryForCharisma(player, entry(entryId)));
         }
     }
 

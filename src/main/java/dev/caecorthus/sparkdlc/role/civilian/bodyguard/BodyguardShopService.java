@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.bodyguard;
 
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
 import dev.caecorthus.sparkdlc.role.civilian.bodyguard.BodyguardGearComponent;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.util.ShopStacks;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -36,7 +36,7 @@ public final class BodyguardShopService {
             return;
         }
         Item vest = SparkStrengthItems.bodyguardVest();
-        context.addEntry(SparkTraitsCompat.discountShopEntryForCharisma(player, new ShopEntry.Builder(
+        context.addEntry(SparkTraitsApi.discountShopEntryForCharisma(player, new ShopEntry.Builder(
                 BodyguardRules.VEST_ENTRY_ID,
                 ShopStacks.display(vest.getDefaultStack(), "shop.sparkdlc.bodyguard_vest"),
                 BodyguardRules.VEST_PRICE,
@@ -44,7 +44,7 @@ public final class BodyguardShopService {
         ).actualStack(vest.getDefaultStack()).stock(BodyguardRules.ENTRY_STOCK)
                 .onBuy(BodyguardShopService::buyVest).build()));
         Item shield = SparkStrengthItems.democracyShield();
-        context.addEntry(SparkTraitsCompat.discountShopEntryForCharisma(player, new ShopEntry.Builder(
+        context.addEntry(SparkTraitsApi.discountShopEntryForCharisma(player, new ShopEntry.Builder(
                 BodyguardRules.SHIELD_ENTRY_ID,
                 ShopStacks.display(shield.getDefaultStack(), "shop.sparkdlc.democracy_shield"),
                 BodyguardRules.SHIELD_PRICE,

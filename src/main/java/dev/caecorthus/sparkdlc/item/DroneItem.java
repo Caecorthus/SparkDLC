@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.SparkStrengthDataComponents;
 import dev.caecorthus.sparkdlc.SparkStrengthEntities;
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
 import dev.caecorthus.sparkdlc.SparkStrengthSounds;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsDroneCompat;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
 import dev.caecorthus.sparkdlc.entity.DroneEntity;
@@ -102,7 +102,7 @@ public class DroneItem extends Item implements AdventureUsable {
         }
         if (!DroneService.isActiveBomber(serverPlayer) || serverPlayer.getItemCooldownManager().isCoolingDown(this)
                 || EngineerStunnedPlayerComponent.KEY.get(serverPlayer).isStunned()
-                || SparkTraitsCompat.isKillerInteractionBlocked(serverPlayer)
+                || SparkTraitsApi.isKillerInteractionBlocked(serverPlayer)
                 // Deploying is a role skill, gated like piloting. / 部署属于职业技能，与驾驶同样受限。
                 || SparkTraitsDroneCompat.isRoleSkillBlocked(serverPlayer)
                 || DronePilotService.isPiloting(serverPlayer)) {

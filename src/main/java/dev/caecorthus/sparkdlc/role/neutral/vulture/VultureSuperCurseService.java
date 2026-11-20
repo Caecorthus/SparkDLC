@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.neutral.vulture;
 
 import dev.caecorthus.sparkdlc.SparkStrengthSounds;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsVultureCompat;
 import dev.caecorthus.sparkdlc.role.neutral.vulture.VultureSuperCursePlayerComponent;
 import dev.caecorthus.sparkdlc.role.AbilityLocks;
@@ -101,9 +101,9 @@ public final class VultureSuperCurseService {
             return;
         }
 
-        // Live trait check (a direct SparkTraits facade call since the SparkDLC fusion); false plays the normal clip.
-        // 实时词条判定（融合进 SparkDLC 后为对 SparkTraits 门面的直接调用）；为 false 时播放普通版本。
-        boolean childish = SparkTraitsCompat.hasTrait(player, VultureSuperCurseRules.CHILDISH_TRAIT_ID);
+        // Live trait check; false plays the normal clip.
+        // 实时词条判定；为 false 时播放普通版本。
+        boolean childish = SparkTraitsApi.hasActiveTrait(player, VultureSuperCurseRules.CHILDISH_TRAIT_ID);
         SoundEvent curse = childish
                 ? SparkStrengthSounds.VULTURE_SUPER_CURSE_HELIUM
                 : SparkStrengthSounds.VULTURE_SUPER_CURSE;

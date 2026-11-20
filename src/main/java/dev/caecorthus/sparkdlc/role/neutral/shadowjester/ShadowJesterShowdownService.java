@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.neutral.shadowjester;
 
 import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsVultureCompat;
 import dev.caecorthus.sparkdlc.role.neutral.shadowjester.ShadowJesterShowdownWorldComponent;
 import dev.caecorthus.sparkdlc.role.neutral.shadowjester.SyncShadowJesterShowdownMusicS2CPacket;
@@ -147,26 +147,26 @@ public final class ShadowJesterShowdownService {
      * 判断一名玩家是否属于 SparkTraits 计算后的有效杀手阵营。
      *
      * <p>善良词条会把原始杀手排除；内鬼词条会把原始好人翻为杀手。
-     * 没有相关词条时，兼容层回退到 Wathe 原始角色阵营（融合进 SparkDLC 后兼容层直接调用 SparkTraits）。
-     * Without either trait the bridge falls back to the raw Wathe role (it calls SparkTraits directly since the fusion).</p>
+     * 没有相关词条时回退到 Wathe 原始角色阵营。
+     * Without either trait the raw Wathe role decides.</p>
      */
     public static boolean isEffectiveKiller(GameWorldComponent game, PlayerEntity player) {
         if (game == null || player == null) {
             return false;
         }
-        return SparkTraitsCompat.isEffectiveKiller(game.getRole(player), player);
+        return SparkTraitsApi.isEffectiveKiller(game.getRole(player), player);
     }
 
     /**
      * Cross-mod ordering: the victim's effective faction at its death, whichever side of SparkTraits' own
      * {@code KillPlayer.AFTER} listener this runs on. That listener snapshots and then clears the victim's traits, so the
      * live traits may already be gone here; SparkTraits' public round-end view (live traits, else that death snapshot)
-     * fills them in. Same precedence as {@link SparkTraitsCompat#isEffectiveKiller}: Impostor makes a killer, then
+     * fills them in. Same precedence as {@link SparkTraitsApi#isEffectiveKiller(Role, PlayerEntity)}: Impostor makes a killer, then
      * Conscience a non-killer, else the raw role. Without SparkTraits both reads are empty and the raw role decides, as
      * before. Living players keep using {@link #isEffectiveKiller}.
      * 跨模组顺序：受害者死亡时的有效阵营，无论本调用在 SparkTraits 自己的 KillPlayer.AFTER 监听器之前还是之后执行。该监听器会先
      * 快照、再清空受害者的词条，因此此处的在线词条可能已不存在；由 SparkTraits 公开的本局结束视图（在线词条，否则该次死亡快照）
-     * 补上。优先级与 SparkTraitsCompat#isEffectiveKiller 相同：内鬼判为杀手，其次善良判为非杀手，否则看原始职业。未安装
+     * 补上。优先级与 SparkTraitsApi#isEffectiveKiller 相同：内鬼判为杀手，其次善良判为非杀手，否则看原始职业。未安装
      * SparkTraits 时两处读取都为空，仍由原始职业决定。存活玩家继续使用 isEffectiveKiller。
      */
     private static boolean diedAsEffectiveKiller(ServerWorld world, GameWorldComponent game, ServerPlayerEntity victim) {
@@ -175,10 +175,10 @@ public final class ShadowJesterShowdownService {
             return false;
         }
         List<Identifier> atDeath = SparkTraitsVultureCompat.getRoundEndTraitIds(world, victim.getUuid());
-        if (SparkTraitsCompat.hasImpostor(victim) || atDeath.contains(IMPOSTOR_TRAIT_ID)) {
+        if (SparkTraitsApi.hasImpostor(victim) || atDeath.contains(IMPOSTOR_TRAIT_ID)) {
             return true;
         }
-        if (SparkTraitsCompat.hasConscience(victim) || atDeath.contains(CONSCIENCE_TRAIT_ID)) {
+        if (SparkTraitsApi.hasConscience(victim) || atDeath.contains(CONSCIENCE_TRAIT_ID)) {
             return false;
         }
         return role.canUseKiller();

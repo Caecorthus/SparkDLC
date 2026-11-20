@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.killer.bandit;
 
 import dev.caecorthus.sparkdlc.SparkStrength;
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.util.ShopEntry;
@@ -46,7 +46,7 @@ public final class BanditShopService {
         }
         context.getEntries().removeIf(entry -> BanditRevolverRules.REMOVED_SHOP_ENTRY_ID.equals(entry.id()));
         for (BanditAmmo ammo : BanditAmmo.values()) {
-            context.addEntry(SparkTraitsCompat.discountShopEntryForCharisma(player, new ShopEntry.Builder(
+            context.addEntry(SparkTraitsApi.discountShopEntryForCharisma(player, new ShopEntry.Builder(
                     ammo.shopEntryId(),
                     new ItemStack(SparkStrengthItems.banditAmmo(ammo)),
                     ammo.price(),
@@ -54,7 +54,7 @@ public final class BanditShopService {
             ).onBuy(buyer -> BanditRevolverService.giveAmmo(buyer, ammo)).build()));
         }
         for (BanditAttachment part : BanditAttachment.values()) {
-            context.addEntry(SparkTraitsCompat.discountShopEntryForCharisma(player, new ShopEntry.Builder(
+            context.addEntry(SparkTraitsApi.discountShopEntryForCharisma(player, new ShopEntry.Builder(
                     part.shopEntryId(),
                     new ItemStack(SparkStrengthItems.banditAttachment(part)),
                     part.price(),

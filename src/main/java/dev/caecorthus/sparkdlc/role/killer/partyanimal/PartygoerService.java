@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.SparkStrengthEntities;
 import dev.caecorthus.sparkdlc.SparkStrengthSounds;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartyAnimalSkillComponent;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerOwnerComponent;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsDeathReasonCompat;
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
 import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
@@ -388,7 +388,7 @@ public final class PartygoerService {
             return null;
         }
         GameWorldComponent game = GameWorldComponent.KEY.get(victim.getWorld());
-        return SparkTraitsCompat.isEffectiveKiller(game.getRole(victim), victim) ? null : owner;
+        return SparkTraitsApi.isEffectiveKiller(game.getRole(victim), victim) ? null : owner;
     }
 
     /** Drops whoever it carries onto the nearest standable spot. / 把手中的人放到最近的可站立位置。 */

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.coroner;
 
 import dev.caecorthus.sparkdlc.client.instinct.InstinctViewer;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerRules;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.doctor4t.wathe.api.Role;
@@ -64,9 +64,7 @@ public final class CoronerClientHooks {
         }
 
         /*
-         * 使用 SparkTraits 的公开软兼容门面判断观察者是否属于有效杀手阵营。
-         * 没有 SparkTraits 时，该门面会自动回退到 Wathe 原生 canUseKiller 结果，
-         * 因此原版 SparkStrength + Wathe 的行为不会改变。
+         * 通过词条功能判断观察者是否属于有效杀手阵营；观察者没有相关词条时结果就是 Wathe 原生的 canUseKiller。
          *
          * 使用有效阵营而不是 game.canUseKillerFeatures(viewer)，才能让“原始好人
          * + 内鬼词条”的观察者也获得验尸官杀手伪装的红色本能和同伙提示。
@@ -111,7 +109,7 @@ public final class CoronerClientHooks {
          * 同伙提示必须与本能颜色使用同一套“有效杀手”判定，否则内鬼观察者
          * 虽然能按键透视，却仍然无法看到变形验尸官下方的 Killer's Cohort。
          */
-        if (!SparkTraitsCompat.isEffectiveKiller(game.getRole(viewer), viewer)
+        if (!SparkTraitsApi.isEffectiveKiller(game.getRole(viewer), viewer)
                 || !GameFunctions.isPlayerPlayingAndAlive(viewer)
                 || !GameFunctions.isPlayerPlayingAndAlive(target)
                 || !hasKillerCohortDisguise(target)) {

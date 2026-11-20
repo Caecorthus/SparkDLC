@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.tablet;
 
 import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.tablet.TabletWorldComponent;
 import dev.caecorthus.sparkdlc.role.civilian.attendant.AttendantRules;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerRules;
@@ -45,8 +45,8 @@ public final class TabletChannelResolver {
                 hasRole,
                 hasRole && TabletShopRules.isPoliceNetworkRole(role),
                 hasRole && role.canUseKiller(),
-                hasRole && SparkTraitsCompat.hasImpostor(player),
-                hasRole && SparkTraitsCompat.hasConscience(player),
+                hasRole && SparkTraitsApi.hasImpostor(player),
+                hasRole && SparkTraitsApi.hasConscience(player),
                 hasRole && SparkFactionCompat.isWitchFactionRole(role),
                 // Real round role only: a disguise (e.g. a Coroner shown as Undercover) never joins the network.
                 // 仅看真实局内身份：伪装（如显示为卧底的验尸官）不会加入该网络。

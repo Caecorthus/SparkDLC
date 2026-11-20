@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.bomber.drone;
 
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsDroneCompat;
 import dev.caecorthus.sparkdlc.entity.DroneEntity;
 import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DronePilotActionC2SPacket;
@@ -300,7 +300,7 @@ public final class DronePilotService {
         if (AbilityLocks.isLocked(player, STUN_LOCKS)) {
             return DronePilotEndReason.STUNNED;
         }
-        if (SparkTraitsCompat.isKillerInteractionBlocked(player)) {
+        if (SparkTraitsApi.isKillerInteractionBlocked(player)) {
             return DronePilotEndReason.UNAVAILABLE;
         }
         if (SparkTraitsDroneCompat.isRoleSkillBlocked(player)) {
@@ -357,7 +357,7 @@ public final class DronePilotService {
         if (AbilityLocks.isLocked(pilot, STUN_LOCKS)) {
             return DronePilotEndReason.STUNNED;
         }
-        if (SparkTraitsCompat.isKillerInteractionBlocked(pilot)) {
+        if (SparkTraitsApi.isKillerInteractionBlocked(pilot)) {
             return DronePilotEndReason.UNAVAILABLE;
         }
         // SparkTraits role-skill block (also covers NoellesRoles' silenced killer). / SparkTraits 职业技能封锁（也涵盖 NoellesRoles 被沉默的杀手）。

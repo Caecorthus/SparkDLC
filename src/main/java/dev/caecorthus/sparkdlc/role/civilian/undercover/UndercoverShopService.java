@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.undercover;
 
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
 import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverPlayerComponent;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.util.ShopEntry;
@@ -43,7 +43,7 @@ public final class UndercoverShopService {
             return;
         }
         Item mask = SparkStrengthItems.cqcmMask();
-        context.addEntry(SparkTraitsCompat.discountShopEntryForCharisma(player, new ShopEntry.Builder(
+        context.addEntry(SparkTraitsApi.discountShopEntryForCharisma(player, new ShopEntry.Builder(
                 MASK_ENTRY_ID,
                 displayStack(mask),
                 UndercoverRules.MASK_PRICE,

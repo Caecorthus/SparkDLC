@@ -17,7 +17,7 @@ import java.util.UUID;
  * 记者通讯加强的文字聊天桥接。
  *
  * <p>这里不取消原聊天，只在接线/广播生效期间，把发送者的聊天额外复制到目标玩家的 actionbar。
- * 语音转发在 {@code SparkStrengthVoiceChatPlugin} 内处理。</p>
+ * 语音转发在 {@code SparkDlcVoiceChatPlugin} 内处理。</p>
  */
 public final class ReporterCommunicationManager {
     private ReporterCommunicationManager() {

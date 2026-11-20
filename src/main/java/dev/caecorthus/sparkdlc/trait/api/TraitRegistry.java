@@ -21,7 +21,7 @@ public final class TraitRegistry {
     public static Trait register(Trait trait) {
         Identifier id = trait.id();
         if (TRAITS.containsKey(id)) {
-            throw new IllegalArgumentException("Duplicate SparkTraits trait id: " + id);
+            throw new IllegalArgumentException("Duplicate trait id: " + id);
         }
         TRAITS.put(id, trait);
         return trait;

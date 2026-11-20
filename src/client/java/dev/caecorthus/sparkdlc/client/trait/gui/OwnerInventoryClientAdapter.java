@@ -7,7 +7,7 @@ import dev.caecorthus.sparkdlc.client.economy.KillerTeamEconomyClientHooks;
 import dev.caecorthus.sparkdlc.client.trait.text.TraitClientTexts;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.presentation.OwnerInventoryPresentation;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
@@ -57,7 +57,7 @@ public final class OwnerInventoryClientAdapter implements OwnerInventoryPresenta
     private static List<InventoryInfoCard.Entry> entries(PlayerEntity player) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (player == null || player != client.player || client.world == null || player.getWorld() != client.world
-                || !player.getWorld().isClient || !SparkTraitsServerConnection.isConfirmedServer()) return List.of();
+                || !player.getWorld().isClient || !SparkDlcServerConnection.isConfirmedServer()) return List.of();
         var component = TraitPlayerComponent.KEY.get(player);
         List<Identifier> visible = new ArrayList<>();
         for (var id : component.getActiveTraitIds()) {

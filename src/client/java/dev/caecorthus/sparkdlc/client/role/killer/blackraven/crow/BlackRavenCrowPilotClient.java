@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.killer.blackraven.crow;
 
 import dev.caecorthus.sparkdlc.client.role.civilian.seeker.remote.SeekerRemoteKeyDrain;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowEntity;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowUseRules;
@@ -416,7 +416,7 @@ public final class BlackRavenCrowPilotClient {
     private static void startTick(MinecraftClient client) {
         settle(client);
         ClientPlayerEntity player = client.player;
-        if (!SparkWitchServerConnection.isConfirmedServer() || player == null || client.world == null) {
+        if (!SparkDlcServerConnection.isConfirmedServer() || player == null || client.world == null) {
             if (active) {
                 end(client, true);
             }

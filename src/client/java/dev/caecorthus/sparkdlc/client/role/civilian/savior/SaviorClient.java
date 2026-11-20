@@ -52,10 +52,10 @@ public final class SaviorClient {
     }
 
     /**
-     * Connection edges ({@code SparkWitchClient.releaseClosedWorldPlayers}, already on the client thread): drops every
+     * Connection edges ({@code SparkDLCClient.releaseClosedWorldPlayers}, already on the client thread): drops every
      * Savior client cache keyed by player or held stack (hums, ignition and draw state, muzzle positions, the hand-render
      * mark), so none of them keeps a closed ClientWorld alive or leaks into the next world.
-     * 连接边界（{@code SparkWitchClient.releaseClosedWorldPlayers}，已在客户端线程）：丢弃所有按玩家或手持物品堆记录的救世主
+     * 连接边界（{@code SparkDLCClient.releaseClosedWorldPlayers}，已在客户端线程）：丢弃所有按玩家或手持物品堆记录的救世主
      * 客户端缓存（嗡鸣、点火与拔出状态、枪口位置、手部渲染标记），使它们都不会让已关闭的 ClientWorld 继续存活或带入下一个世界。
      */
     public static void releaseClosedWorld() {

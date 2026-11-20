@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.hooks;
 
 import dev.caecorthus.sparkdlc.role.witch.WitchFactionRules;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,7 +17,7 @@ public final class WitchCohortClientHooks {
     }
 
     public static boolean isGrandWitchCohortPair(PlayerEntity viewer, PlayerEntity target) {
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return false;
         }
         GameWorldComponent gameComponent = GameWorldComponent.KEY.get(viewer.getWorld());

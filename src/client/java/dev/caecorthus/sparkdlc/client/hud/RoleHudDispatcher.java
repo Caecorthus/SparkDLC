@@ -15,7 +15,7 @@ import dev.caecorthus.sparkdlc.client.role.killer.saboteur.SaboteurHudRules;
 import dev.caecorthus.sparkdlc.client.role.civilian.vendetta.VendettaClientPresentation;
 import dev.caecorthus.sparkdlc.client.role.civilian.vendetta.VendettaHudRenderer;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.guardianangel.GuardianAngelRules;
 import dev.caecorthus.sparkdlc.role.civilian.saint.SaintHudLayoutRules;
 import dev.caecorthus.sparkdlc.role.civilian.saint.SaintRules;
@@ -105,7 +105,7 @@ public final class RoleHudDispatcher {
             boolean exactCurserRole = GameWorldComponent.KEY.get(player.getWorld()).getRole(player)
                     == SparkWitchRoles.curser();
             if (CurserHudRules.shouldRender(
-                    SparkWitchServerConnection.isConfirmedServer(),
+                    SparkDlcServerConnection.isConfirmedServer(),
                     exactCurserRole,
                     WraithClientState.isActive(player),
                     WraithClientState.isPromoted(player)
@@ -123,7 +123,7 @@ public final class RoleHudDispatcher {
         if (hiddenByF1()) {
             return;
         }
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
@@ -141,7 +141,7 @@ public final class RoleHudDispatcher {
         if (hiddenByF1()) {
             return;
         }
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
@@ -162,7 +162,7 @@ public final class RoleHudDispatcher {
      * 该层与支配者、拾荒者角落行一致：F1 或 Wathe 列车 HUD 隐藏时都不绘制。
      */
     private static void renderSavior(DrawContext context) {
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }
         MinecraftClient client = MinecraftClient.getInstance();
@@ -189,7 +189,7 @@ public final class RoleHudDispatcher {
         if (hiddenByF1()) {
             return;
         }
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
@@ -208,7 +208,7 @@ public final class RoleHudDispatcher {
         if (hiddenByF1()) {
             return;
         }
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
@@ -279,7 +279,7 @@ public final class RoleHudDispatcher {
      * 职业由渲染器判断。
      */
     private static void renderNatsume(DrawContext context) {
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
@@ -300,7 +300,7 @@ public final class RoleHudDispatcher {
         Role role = GameWorldComponent.KEY.get(player.getWorld()).getRole(player);
         boolean exactSaboteurRole = role != null && SaboteurRole.ID.equals(role.identifier());
         if (SaboteurHudRules.shouldRender(
-                SparkWitchServerConnection.isConfirmedServer(),
+                SparkDlcServerConnection.isConfirmedServer(),
                 exactSaboteurRole,
                 WraithClientState.isPromoted(player)
         )) {
@@ -314,7 +314,7 @@ public final class RoleHudDispatcher {
      * 原 WitchManaHudMixin：追加 SparkWitch 魔力值且不改动 wathe 的金币渲染器，随后在同一流程绘制持久占卜快照与结果条。
      */
     private static void renderWitchMana(DrawContext context) {
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
@@ -327,7 +327,7 @@ public final class RoleHudDispatcher {
 
     /** Was WitchSkillHudMixin: the SparkWitch active skill line. / 原 WitchSkillHudMixin：SparkWitch 主动技能提示。 */
     private static void renderWitchSkill(DrawContext context) {
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
@@ -349,7 +349,7 @@ public final class RoleHudDispatcher {
 
     /** Was BlackRavenHudMixin: Black Raven's role-owned mode row. / 原 BlackRavenHudMixin：黑羽鸦角色自有模式行。 */
     private static void renderBlackRaven(DrawContext context) {
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }
         ClientPlayerEntity player = MinecraftClient.getInstance().player;

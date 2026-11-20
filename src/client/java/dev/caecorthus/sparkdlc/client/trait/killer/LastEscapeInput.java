@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.trait.killer;
 
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 
@@ -12,7 +12,7 @@ public final class LastEscapeInput {
 
     public static boolean blocked() {
         MinecraftClient client = MinecraftClient.getInstance();
-        return SparkTraitsServerConnection.isConfirmedServer()
+        return SparkDlcServerConnection.isConfirmedServer()
                 && client.player != null
                 && SparkTraitsApi.isKillerInteractionBlocked(client.player);
     }

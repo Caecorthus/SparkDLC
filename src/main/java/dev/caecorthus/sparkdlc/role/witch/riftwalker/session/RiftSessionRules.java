@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.riftwalker.session;
 
-import dev.caecorthus.sparkdlc.net.policy.witch.GeneratedPayloadPolicy;
+import dev.caecorthus.sparkdlc.net.policy.GeneratedPayloadPolicy;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.RiftGateUser;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.gate.RiftGateCloseReason;
 import dev.caecorthus.sparkdlc.util.TickTime;

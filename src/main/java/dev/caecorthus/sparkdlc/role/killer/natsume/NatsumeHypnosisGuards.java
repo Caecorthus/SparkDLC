@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.natsume;
 
 import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.net.policy.witch.GeneratedPayloadPolicy;
+import dev.caecorthus.sparkdlc.net.policy.GeneratedPayloadPolicy;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStunRules;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;

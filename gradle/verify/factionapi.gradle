@@ -27,13 +27,15 @@ def factionApiLocalDocs = "docs/local/factionapi"
 
 def remappedModJar = tasks.named("remapJar")
 // Legacy mod ids the factionapi module relies on at runtime; the fused mod answers them through `provides`.
-// `sparkfactionapi` was this module's own mod id: VersionProtocol#localVersion and CaecorthusTeamSync read its mod
-// container. `sparkassist` owned the GuidebookDecorApi the info card used to reach by name; that is a compiled call
-// now (GuidebookCardDecor), with no isModLoaded("sparkassist") gate and no lookup, but the id must stay
-// provided and must never come back as a dependency on this mod itself, so the check below still covers it.
+// `sparkfactionapi` was this module's own mod id: CaecorthusTeamSync reads its mod container (the version handshake
+// reads `sparkdlc` since the three handshakes became one). `sparkassist` owned the GuidebookDecorApi the info card
+// used to reach by name; that is a compiled call now (GuidebookCardDecor), with no isModLoaded("sparkassist") gate
+// and no lookup, but the id must stay provided and must never come back as a dependency on this mod itself, so the
+// check below still covers it.
 // factionapi 模块运行时依赖的旧 mod id；融合后的 mod 通过 `provides` 满足这些查找。`sparkfactionapi` 原是本模块自己的
-// mod id：VersionProtocol#localVersion 与 CaecorthusTeamSync 读取它的 mod 容器。`sparkassist` 原先拥有信息卡按名称访问的
-// GuidebookDecorApi；如今是编译期调用（GuidebookCardDecor），既不以 isModLoaded("sparkassist") 为前提也不再查找，但这个 id 仍须由
+// mod id：CaecorthusTeamSync 读取它的 mod 容器（三个握手合并为一个之后，版本握手读取的是 `sparkdlc`）。
+// `sparkassist` 原先拥有信息卡按名称访问的 GuidebookDecorApi；如今是编译期调用（GuidebookCardDecor），既不以
+// isModLoaded("sparkassist") 为前提也不再查找，但这个 id 仍须由
 // `provides` 提供，且不得再作为针对本 mod 自身的依赖出现，因此下方的检查继续覆盖它。
 def factionApiProvidedModIds = ["sparkfactionapi", "sparkassist"]
 
@@ -53,12 +55,12 @@ def readClassNode = { java.util.zip.ZipFile archive, String entryName ->
 }
 
 // ADAPT: SparkFactionAPI is no longer its own jar. The fused jar is checked for what the factionapi module still needs
-// from it: the jar/metadata version, the fused entrypoints starting SparkFactionApiMod / SparkFactionApiClient, the
+// from it: the jar/metadata version, the fused entrypoints running the module's start-up calls, the
 // provided legacy mod ids, the two merged mixin configs (which carry the factionapi mixins since the stage-1 package
 // move) with the module's required mixins and its client plugin behind the composite one, and the required / retired
 // runtime classes.
 // 调整：SparkFactionAPI 不再是独立 jar。此处校验融合 jar 中 factionapi 模块仍然依赖的内容：jar 与元数据版本、融合后的入口
-// 会启动 SparkFactionApiMod / SparkFactionApiClient、由 provides 提供的旧 mod id、两份合并后的 mixin 配置（第一阶段包搬迁
+// 仍然发出本模块的启动调用、由 provides 提供的旧 mod id、两份合并后的 mixin 配置（第一阶段包搬迁
 // 之后由它们承载 factionapi 的 mixin）及本模块必需的 mixin、位于组合插件之后的客户端插件，以及必需 / 已退役的运行时类。
 def verifyFactionApiModJar = tasks.register("verifyFactionApiModJar") {
     group = "verification"
@@ -98,25 +100,30 @@ def verifyFactionApiModJar = tasks.register("verifyFactionApiModJar") {
             // entrypoints replace them in fabric.mod.json and must still start them.
             // SparkFactionApiMod / SparkFactionApiClient 原先直接列为 main / client 入口。融合后的入口在
             // fabric.mod.json 中取代了它们，且必须仍然启动它们。
+            // Stage 3 ("one entry"): the per-module initializer classes are gone; SparkDLC / SparkDLCClient are the
+            // whole start-up, split into private steps. "The fused entrypoint still starts this module" therefore
+            // reads: some method of the entrypoint class still makes the module's characteristic start-up call.
+            // 第三阶段（“单一入口”）：各模块的初始化类已不存在；SparkDLC / SparkDLCClient 就是完整的启动流程，拆成若干私有步骤。
+            // 因此“融合后的入口仍然启动本模块”即：入口类的某个方法仍然发出本模块特有的启动调用。
             [
-                    [key: "main", entrypoint: "dev.caecorthus.sparkdlc.SparkDLC", method: "onInitialize",
-                     moduleOwner: "dev/caecorthus/sparkdlc/SparkFactionApiMod"],
+                    [key: "main", entrypoint: "dev.caecorthus.sparkdlc.SparkDLC",
+                     startOwner: "dev/caecorthus/sparkdlc/faction/api/SparkFactionApi", startCall: "bootstrap"],
                     [key: "client", entrypoint: "dev.caecorthus.sparkdlc.client.SparkDLCClient",
-                     method: "onInitializeClient",
-                     moduleOwner: "dev/caecorthus/sparkdlc/client/SparkFactionApiClient"]
+                     startOwner: "dev/caecorthus/sparkdlc/client/replay/ReplayClient", startCall: "register"]
             ].each { fused ->
                 if (!(metadata.entrypoints?.get(fused.key) ?: []).contains(fused.entrypoint)) {
                     throw new GradleException("Missing ${fused.key} entrypoint ${fused.entrypoint} in ${jarFile.name}")
                 }
                 def entrypointNode = readClassNode(zipFile, fused.entrypoint.replace('.', '/') + ".class")
-                def entrypointMethod = entrypointNode.methods.find { it.name == fused.method && it.desc == "()V" }
-                def startsModule = entrypointMethod != null && entrypointMethod.instructions.toArray().any {
-                    it instanceof org.objectweb.asm.tree.MethodInsnNode && it.owner == fused.moduleOwner
-                            && it.name == fused.method && it.desc == "()V"
+                def startsModule = entrypointNode.methods.any { method ->
+                    method.instructions.toArray().any {
+                        it instanceof org.objectweb.asm.tree.MethodInsnNode && it.owner == fused.startOwner
+                                && it.name == fused.startCall
+                    }
                 }
                 if (!startsModule) {
                     throw new GradleException(
-                            "${fused.entrypoint}#${fused.method} no longer starts ${fused.moduleOwner} in ${jarFile.name}"
+                            "${fused.entrypoint} no longer calls ${fused.startOwner}#${fused.startCall} in ${jarFile.name}"
                     )
                 }
             }
@@ -158,10 +165,13 @@ def verifyFactionApiModJar = tasks.register("verifyFactionApiModJar") {
             }
 
             [
-                    "dev/caecorthus/sparkdlc/client/SparkFactionApiClient.class",
-                    "dev/caecorthus/sparkdlc/client/net/version/ClientVersionHandshake.class",
-                    "dev/caecorthus/sparkdlc/net/version/ServerVersionHandshake.class",
-                    "dev/caecorthus/sparkdlc/net/version/VersionProtocol.class",
+                    "dev/caecorthus/sparkdlc/client/SparkDLCClient.class",
+                    "dev/caecorthus/sparkdlc/client/net/version/SparkDlcClientVersionHandshake.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkDlcVersionHandshake.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkDlcVersionCheck.class",
+                    "dev/caecorthus/sparkdlc/net/SparkDlcPackets.class",
+                    "dev/caecorthus/sparkdlc/client/net/SparkDlcClientPackets.class",
+                    "dev/caecorthus/sparkdlc/net/policy/GeneratedPayloadPolicy.class",
                     "dev/caecorthus/sparkdlc/faction/api/PlayerAffectPolicy.class",
                     "dev/caecorthus/sparkdlc/faction/api/PoliceRoles.class",
                     "dev/caecorthus/sparkdlc/round/settlement/SettlementExclusions.class",
@@ -180,7 +190,7 @@ def verifyFactionApiModJar = tasks.register("verifyFactionApiModJar") {
                     "dev/caecorthus/sparkdlc/compat/noellesroles/NoellesHiddenEquipmentRegistry.class",
                     "dev/caecorthus/sparkdlc/compat/noellesroles/NoellesNeutralPerkRules.class",
                     "dev/caecorthus/sparkdlc/compat/noellesroles/NoellesScavengerBodyHideRewrite.class",
-                    "dev/caecorthus/sparkdlc/client/SparkFactionClientMixinPlugin.class",
+                    "dev/caecorthus/sparkdlc/client/SparkDlcClientMixinPlugin.class",
                     "dev/caecorthus/sparkdlc/client/mixin/compat/noellesroles/NoellesScavengerBodyHideNeutralPerkMixin.class",
                     "dev/caecorthus/sparkdlc/client/mixin/compat/noellesroles/NoellesScavengerBodyTargetNeutralPerkMixin.class",
                     "dev/caecorthus/sparkdlc/mixin/compat/noellesroles/NoellesHiddenEquipmentHelperMixin.class",
@@ -302,6 +312,30 @@ def verifyFactionApiModJar = tasks.register("verifyFactionApiModJar") {
                     "dev/caecorthus/sparkdlc/factionapi/mixin/ServerEntityHandlerCollisionMixin.class",
                     "dev/caecorthus/sparkdlc/factionapi/mixin/compat/PlayerAffectMixinGuard.class",
                     "dev/caecorthus/sparkdlc/factionapi/mixin/compat/sparkstrength/CriminologistAffectMixin.class",
+                    // The three handshakes of the former modules, merged into net.version.SparkDlcVersionHandshake
+                    // (stage 3, "one wire"). / 原三个模块各自的握手，已并入 net.version.SparkDlcVersionHandshake（第三阶段“一条线”）。
+                    "dev/caecorthus/sparkdlc/client/net/version/ClientVersionHandshake.class",
+                    "dev/caecorthus/sparkdlc/client/net/version/SparkTraitsClientVersionHandshake.class",
+                    "dev/caecorthus/sparkdlc/client/net/version/SparkWitchClientVersionHandshake.class",
+                    "dev/caecorthus/sparkdlc/net/version/ServerVersionHandshake.class",
+                    "dev/caecorthus/sparkdlc/net/version/VersionProtocol.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkTraitsVersionHandshake.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkTraitsVersionCheck.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkTraitsServerConfirmS2CPacket.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkTraitsServerConnection.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkWitchVersionHandshake.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkWitchVersionCheck.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkWitchServerConfirmS2CPacket.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkWitchServerConnection.class",
+                    // The three packet hubs (now net.SparkDlcPackets) and the three generated payload policy classes
+                    // (now net.policy.GeneratedPayloadPolicy). / 三个数据包注册中心（现为 net.SparkDlcPackets）与三个生成的
+                    // 数据包策略类（现为 net.policy.GeneratedPayloadPolicy）。
+                    "dev/caecorthus/sparkdlc/net/SparkStrengthPackets.class",
+                    "dev/caecorthus/sparkdlc/net/SparkTraitsPackets.class",
+                    "dev/caecorthus/sparkdlc/net/SparkWitchPackets.class",
+                    "dev/caecorthus/sparkdlc/net/policy/strength/GeneratedPayloadPolicy.class",
+                    "dev/caecorthus/sparkdlc/net/policy/witch/GeneratedPayloadPolicy.class",
+                    "dev/caecorthus/sparkdlc/round/antifastround/GeneratedPayloadPolicy.class",
                     "dev/caecorthus/sparkdlc/factionapi/client/net/SparkFactionClientVersionHandshake.class",
                     "dev/caecorthus/sparkdlc/factionapi/net/SparkFactionVersionHandshake.class",
                     "dev/caecorthus/sparkdlc/factionapi/net/SparkFactionVersionCheck.class",
@@ -410,13 +444,11 @@ def verifyFactionApiModJar = tasks.register("verifyFactionApiModJar") {
                 }
                 // The client plugin rewrites NoellesRoles' merged Scavenger handler; without it D3 silently breaks.
                 // 客户端插件改写 NoellesRoles 合并的清道夫处理器；缺少它 D3 会静默失效。
-                // A mixin config names one plugin, so the merged client config names the composite plugin, which
-                // forwards every callback to the legacy plugins. The requirement is therefore: the merged config names
-                // the composite, and the composite still constructs SparkFactionClientMixinPlugin (bytecode; that
-                // class is among the required runtime classes above).
-                // 一个 mixin 配置只能指定一个插件，因此合并后的客户端配置指定的是组合插件，由它把每个回调转发给各旧插件。
-                // 于是要求变为：合并配置指定组合插件，且组合插件仍然构造 SparkFactionClientMixinPlugin（字节码校验；
-                // 该类已列在上方必需的运行时类中）。
+                // Stage 3 ("one entry") folded the three legacy plugins into the one plugin of the merged client
+                // config. The requirement is therefore: the merged config names that plugin, and its postApply still
+                // runs the Scavenger rewrite (bytecode; the plugin is among the required runtime classes above).
+                // 第三阶段（“单一入口”）把三个旧插件并入合并后客户端配置唯一的插件。于是要求变为：合并配置指定该插件，
+                // 且它的 postApply 仍然执行清道夫改写（字节码校验；该插件已列在上方必需的运行时类中）。
                 def requiredPlugin = [
                         "sparkdlc.client.mixins.json": "dev.caecorthus.sparkdlc.client.SparkDlcClientMixinPlugin"
                 ][mixinConfigEntry]
@@ -424,17 +456,17 @@ def verifyFactionApiModJar = tasks.register("verifyFactionApiModJar") {
                     throw new GradleException("Missing mixin plugin ${requiredPlugin} in ${mixinConfigEntry} inside ${jarFile.name}")
                 }
                 if (requiredPlugin != null) {
-                    def forwardedPlugin = "dev/caecorthus/sparkdlc/client/SparkFactionClientMixinPlugin"
-                    def compositeNode = readClassNode(zipFile, requiredPlugin.replace('.', '/') + ".class")
-                    def constructsForwardedPlugin = compositeNode.methods.any { method ->
-                        method.name == "<init>" && method.instructions.toArray().any {
-                            it instanceof org.objectweb.asm.tree.MethodInsnNode && it.owner == forwardedPlugin
-                                    && it.name == "<init>" && it.desc == "()V"
+                    def scavengerRewrite = "dev/caecorthus/sparkdlc/compat/noellesroles/NoellesScavengerBodyHideRewrite"
+                    def pluginNode = readClassNode(zipFile, requiredPlugin.replace('.', '/') + ".class")
+                    def runsScavengerRewrite = pluginNode.methods.any { method ->
+                        method.name == "postApply" && method.instructions.toArray().any {
+                            it instanceof org.objectweb.asm.tree.MethodInsnNode && it.owner == scavengerRewrite
+                                    && it.name == "rewrite"
                         }
                     }
-                    if (!constructsForwardedPlugin) {
+                    if (!runsScavengerRewrite) {
                         throw new GradleException(
-                                "${requiredPlugin} no longer forwards to ${forwardedPlugin} in ${jarFile.name}"
+                                "${requiredPlugin}#postApply no longer runs ${scavengerRewrite} in ${jarFile.name}"
                         )
                     }
                 }
@@ -496,7 +528,8 @@ def architectureContractFiles = [
         "src/test/java/dev/caecorthus/sparkdlc/faction/collision/EntityCollisionMixinContractTest.java",
         "src/test/java/dev/caecorthus/sparkdlc/faction/collision/LivingEntityCollisionMixinContractTest.java",
         "src/test/java/dev/caecorthus/sparkdlc/compat/noellesroles/NoellesCollisionCompatibilityContractTest.java",
-        "src/test/java/dev/caecorthus/sparkdlc/net/version/VersionProtocolTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/net/version/SparkDlcVersionCheckTest.java",
+        "src/test/java/dev/caecorthus/sparkdlc/net/version/SparkDlcVersionHandshakeTest.java",
         "src/test/java/dev/caecorthus/sparkdlc/replay/ReplayRoleTimelineTest.java",
         "src/test/java/dev/caecorthus/sparkdlc/replay/RoleChangeRecordRulesTest.java",
         "src/test/java/dev/caecorthus/sparkdlc/inventory/LimitedInventoryRowsTest.java",
@@ -565,22 +598,20 @@ def verifyFactionApiArchitecture = tasks.register("verifyFactionApiArchitecture"
 
 // Aggregate for the factionapi module; the root build's verifyAll depends on it.
 // factionapi 模块的汇总任务；根构建的 verifyAll 依赖它。
-// The locked-player payload policy: every C2S payload any module registers has a row in
-// config/payload-policy/actions.tsv, owned by the registering module, and each GeneratedPayloadPolicy.java is
-// byte-identical to what the table generates. One run covers all modules now that they share the tree.
-// 锁定玩家数据包策略：任何模块注册的每个 C2S 数据包在 config/payload-policy/actions.tsv 中都有一行、归属于注册它的
-// 模块，且每个 GeneratedPayloadPolicy.java 与规范表生成结果逐字节一致。模块共用一棵源码树后，一次运行即可覆盖全部模块。
+// The locked-player payload policy: every C2S payload the mod registers has a row in
+// config/payload-policy/actions.tsv, every row owned by the mod is registered, and the one generated class
+// (net.policy.GeneratedPayloadPolicy) is byte-identical to what the table generates.
+// 锁定玩家数据包策略：本模组注册的每个 C2S 数据包在 config/payload-policy/actions.tsv 中都有一行，归属本模组的每一行都确有注册，
+// 且唯一的生成类（net.policy.GeneratedPayloadPolicy）与规范表生成结果逐字节一致。
 def verifyFactionApiPayloadPolicy = tasks.register("verifyFactionApiPayloadPolicy", Exec) {
     group = "verification"
-    description = "Checks every module against the canonical payload policy table."
+    description = "Checks the mod against the canonical payload policy table."
     inputs.file("tools/payload_policy.py")
-    // The tool reads the owning module of a registering file from the move manifest. / 工具从搬迁清单读取注册文件所属的模块。
-    inputs.files("tools/unify/file-moves.tsv")
     inputs.dir("config/payload-policy")
     inputs.files(fileTree("src/main/java") { include "**/*.java" }, fileTree("src/client/java") { include "**/*.java" })
     outputs.upToDateWhen { true }
     workingDir = rootDir
-    commandLine "python3", "tools/payload_policy.py", "check-all", "--repo", "."
+    commandLine "python3", "tools/payload_policy.py", "check", "--repo", "."
 }
 
 tasks.register("verifyFactionApi") {

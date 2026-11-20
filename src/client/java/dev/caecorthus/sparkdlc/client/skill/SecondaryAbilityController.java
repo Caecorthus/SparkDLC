@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.skill;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -87,7 +87,7 @@ public final class SecondaryAbilityController {
     }
 
     private static @Nullable Identifier currentRoleId(MinecraftClient client) {
-        if (!SparkWitchServerConnection.isConfirmedServer() || client.player == null || client.world == null) {
+        if (!SparkDlcServerConnection.isConfirmedServer() || client.player == null || client.world == null) {
             return null;
         }
         Role role = GameWorldComponent.KEY.get(client.world).getRole(client.player);

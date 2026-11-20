@@ -55,10 +55,10 @@ public final class SparkTraitsSounds {
                 FINAL_MOMENT_MUSIC_ID
         }) {
             if (!Registries.SOUND_EVENT.containsId(id)) {
-                SparkTraits.LOGGER.warn("SparkTraits sound event {} was not registered.", id);
+                SparkTraits.LOGGER.warn("SparkDLC sound event {} was not registered.", id);
                 return;
             }
         }
-        SparkTraits.LOGGER.info("Registered SparkTraits sound events for /playsound.");
+        SparkTraits.LOGGER.info("Registered SparkDLC trait sound events for /playsound.");
     }
 }

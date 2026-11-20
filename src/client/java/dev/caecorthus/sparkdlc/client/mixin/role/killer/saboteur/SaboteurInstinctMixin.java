@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.mixin.role.killer.saboteur;
 import dev.caecorthus.sparkdlc.client.render.LocalViewerSnapshot;
 import dev.caecorthus.sparkdlc.client.render.WraithClientState;
 import dev.caecorthus.sparkdlc.client.role.killer.saboteur.SaboteurInstinctClientRules;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.client.WatheClient;
 import net.minecraft.client.MinecraftClient;
@@ -33,7 +33,7 @@ public abstract class SaboteurInstinctMixin {
         if (SaboteurInstinctClientRules.shouldEnableNativeInstinct(
                 false,
                 roleId,
-                SparkWitchServerConnection.isConfirmedServer(),
+                SparkDlcServerConnection.isConfirmedServer(),
                 WraithClientState.isActive(player),
                 WraithClientState.isPromoted(player),
                 WatheClient.instinctKeybind.isPressed()

@@ -15,7 +15,7 @@ import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotLedgerLayou
 import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotLedgerPaint;
 import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotReadingLog;
 import dev.caecorthus.sparkdlc.net.OpenTarotDivinationSelectorS2CPacket;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.net.SubmitTarotDivinationSelectionC2SPacket;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -467,7 +467,7 @@ public final class TarotDivinationSelectorScreen extends Screen {
      */
     private static boolean isLiveTarotReader(MinecraftClient client) {
         ClientPlayerEntity player = client.player;
-        if (player == null || client.world == null || !SparkWitchServerConnection.isConfirmedServer()) {
+        if (player == null || client.world == null || !SparkDlcServerConnection.isConfirmedServer()) {
             return false;
         }
         GameWorldComponent game = GameWorldComponent.KEY.get(client.world);

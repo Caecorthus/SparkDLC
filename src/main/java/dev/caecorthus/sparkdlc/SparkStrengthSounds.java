@@ -81,10 +81,10 @@ public final class SparkStrengthSounds {
     public static void initialize() {
         REGISTRAR.registerEntries();
         if (!Registries.SOUND_EVENT.containsId(MUSIC_TAKEDISKRUSH_ID)) {
-            SparkStrength.LOGGER.warn("SparkStrength sound event {} was not registered.", MUSIC_TAKEDISKRUSH_ID);
+            SparkStrength.LOGGER.warn("SparkDLC sound event {} was not registered.", MUSIC_TAKEDISKRUSH_ID);
         }
         if (!Registries.SOUND_EVENT.containsId(SHADOW_JESTER_ID)) {
-            SparkStrength.LOGGER.warn("SparkStrength sound event {} was not registered.", SHADOW_JESTER_ID);
+            SparkStrength.LOGGER.warn("SparkDLC sound event {} was not registered.", SHADOW_JESTER_ID);
         }
     }
 }

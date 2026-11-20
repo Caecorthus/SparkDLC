@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.controlexpert;
 
 import dev.caecorthus.sparkdlc.client.hooks.WitchAbilityKeyBridge;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStunRules;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -42,7 +42,7 @@ public final class ControlExpertStunClient {
     public static boolean isLocalStunned() {
         MinecraftClient client = MinecraftClient.getInstance();
         return client != null
-                && SparkWitchServerConnection.isConfirmedServer()
+                && SparkDlcServerConnection.isConfirmedServer()
                 && client.player != null
                 && ControlExpertStun.isStunned(client.player);
     }

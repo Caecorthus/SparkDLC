@@ -282,9 +282,9 @@ public final class SaviorLightsaberAnimation {
     }
 
     /**
-     * Connection edges ({@code SparkWitchClient.releaseClosedWorldPlayers}, client thread): stops every hum, whose
+     * Connection edges ({@code SparkDLCClient.releaseClosedWorldPlayers}, client thread): stops every hum, whose
      * instances hold their player, and drops every stack-keyed state, so nothing keeps a closed world alive.
-     * 连接边界（{@code SparkWitchClient.releaseClosedWorldPlayers}，客户端线程）：停止所有嗡鸣（其实例持有玩家），并丢弃
+     * 连接边界（{@code SparkDLCClient.releaseClosedWorldPlayers}，客户端线程）：停止所有嗡鸣（其实例持有玩家），并丢弃
      * 所有按物品堆记录的状态，确保不会让已关闭的世界继续存活。
      */
     public static void reset() {

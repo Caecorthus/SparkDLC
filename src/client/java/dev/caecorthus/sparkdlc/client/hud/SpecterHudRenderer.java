@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityController;
 import dev.caecorthus.sparkdlc.client.SparkWitchClient;
 import dev.caecorthus.sparkdlc.client.role.civilian.emma.EmmaVisibleName;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.killer.specter.SpecterPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.specter.SpecterRules;
 import dev.caecorthus.sparkdlc.role.killer.specter.SpecterSecondSkillComponent;
@@ -67,7 +67,7 @@ public final class SpecterHudRenderer {
     static boolean isActiveSpecter(@Nullable ClientPlayerEntity player) {
         return player != null
                 && SpecterRules.isSpecter(GameWorldComponent.KEY.get(player.getWorld()).getRole(player))
-                && SparkWitchServerConnection.isConfirmedServer()
+                && SparkDlcServerConnection.isConfirmedServer()
                 && GameFunctions.isPlayerPlayingAndAlive(player)
                 && !GameFunctions.isPlayerSpectatingOrCreative(player)
                 && !NoellesTaotieSeekerBridge.isSwallowed(player);

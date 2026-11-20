@@ -293,7 +293,7 @@ public final class SparkWitchRoleRegistry {
         try {
             SettlementExclusions.registerConditionalRole(FERRYMAN_ID, FerrymanSettlement::isExcluded);
         } catch (LinkageError olderSparkFactionApi) {
-            SparkWitch.LOGGER.warn("SparkFactionAPI has no conditional settlement exclusions; "
+            SparkWitch.LOGGER.warn("SparkDLC has no conditional settlement exclusions; "
                     + "other mods' counts will still see a Charon without souls.", olderSparkFactionApi);
         }
     }
@@ -711,7 +711,7 @@ public final class SparkWitchRoleRegistry {
             SparkFactionApi.registerThirdFactionLineup(SparkWitchFactions.WITCH, WitchThirdFactionLineup::rolesToDeal);
             SparkFactionApi.registerThirdFactionLineup(SparkWitchFactions.JIAHAO, JiahaoThirdFactionLineup::rolesToDeal);
         } catch (LinkageError olderSparkFactionApi) {
-            SparkWitch.LOGGER.warn("SparkFactionAPI has no third-faction draw; "
+            SparkWitch.LOGGER.warn("SparkDLC has no third-faction draw; "
                     + "no witch or Team Jiahao members will be dealt at round start.", olderSparkFactionApi);
         }
     }

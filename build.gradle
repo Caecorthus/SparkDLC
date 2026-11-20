@@ -44,11 +44,26 @@ sourceSets.gametest {
     runtimeClasspath += sourceSets.client.runtimeClasspath + sourceSets.client.output
 }
 
+// `-PstartupOrderDump=<directory>` makes runGameTest / runClientAudit write what the start-up registered, in order
+// (gametest StartupOrderDump); two builds are then compared with a plain diff. In a development run Fabric Loader
+// shuffles the mods on purpose, which moves other mods' listeners around ours from run to run; the shuffle is
+// switched off for a dump run so that two dumps differ only where the code does.
+// `-PstartupOrderDump=<目录>` 让 runGameTest / runClientAudit 按顺序写出启动时注册的内容（gametest 的 StartupOrderDump），
+// 两个构建的结果可直接 diff。开发环境下 Fabric Loader 会故意打乱模组顺序，使其他模组的监听器每次运行都出现在我们监听器的
+// 不同位置；导出时关闭打乱，这样两份导出只在代码不同之处有差异。
+def startupOrderDump = { run ->
+    if (project.hasProperty("startupOrderDump")) {
+        run.vmArg "-Dsparkdlc.startupOrderDump=${file(project.property("startupOrderDump")).absolutePath}"
+        run.vmArg "-Dfabric.debug.disableModShuffle=true"
+    }
+}
+
 loom {
     runs {
         // Same DEBUG_INJECTORS reason as clientAudit below. / 与下方 clientAudit 相同的 DEBUG_INJECTORS 原因。
         gameTest {
             vmArg "-Dmixin.debug=false"
+            startupOrderDump(it)
         }
         clientAudit {
             client()
@@ -60,6 +75,7 @@ loom {
             // Mixin 仅开发环境启用的 DEBUG_INJECTORS 会把每个 `require = 0` 的未命中变成崩溃；有几个注入器本来就
             // 设计为在两个 NoellesRoles 构建之一上未命中。正式环境不会执行这项检查。
             vmArg "-Dmixin.debug=false"
+            startupOrderDump(it)
             runDir "build/run/clientAudit"
         }
     }

@@ -10,7 +10,9 @@
       "dev.caecorthus.sparkdlc.gametest.SparkDlcBootTest",
       "dev.caecorthus.sparkdlc.gametest.LegacyRegistryAliasesGameTest",
       "dev.caecorthus.sparkdlc.gametest.LegacySavedDataGameTest",
-      "dev.caecorthus.sparkdlc.gametest.SparkDlcCommandTest"
+      "dev.caecorthus.sparkdlc.gametest.SparkDlcCommandTest",
+      "dev.caecorthus.sparkdlc.gametest.SparkDlcStartupTest",
+      "dev.caecorthus.sparkdlc.gametest.SparkDlcHandshakeGameTest"
     ],
     "client": [
       "dev.caecorthus.sparkdlc.gametest.SparkDlcClientAudit"

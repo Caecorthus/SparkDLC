@@ -141,8 +141,8 @@ public final class SaviorLightsaberDrawAnimation {
     }
 
     /**
-     * Connection edges ({@code SparkWitchClient.releaseClosedWorldPlayers}, client thread): drops every per-player
-     * animation state. / 连接边界（{@code SparkWitchClient.releaseClosedWorldPlayers}，客户端线程）：丢弃所有按玩家记录的
+     * Connection edges ({@code SparkDLCClient.releaseClosedWorldPlayers}, client thread): drops every per-player
+     * animation state. / 连接边界（{@code SparkDLCClient.releaseClosedWorldPlayers}，客户端线程）：丢弃所有按玩家记录的
      * 动画状态。
      */
     public static void reset() {

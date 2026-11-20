@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.seeker.console;
 
 import dev.caecorthus.sparkdlc.client.role.civilian.seeker.SeekerClientState;
 import dev.caecorthus.sparkdlc.client.role.civilian.seeker.remote.SeekerRemoteViewClient;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.console.SeekerConsoleDevices;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -82,7 +82,7 @@ public final class SeekerConsoleOpener {
         boolean bypassMatches = consumeBypass(hand);
         long now = clientTicks;
         SeekerConsoleRules.InterceptAction action = SeekerConsoleRules.interceptAction(
-                SparkWitchServerConnection.isConfirmedServer(),
+                SparkDlcServerConnection.isConfirmedServer(),
                 isLiveSeeker(player),
                 isInSession(),
                 client.currentScreen != null,

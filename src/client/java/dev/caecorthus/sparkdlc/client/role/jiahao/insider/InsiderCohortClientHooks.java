@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.jiahao.insider;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.player.PlayerEntity;
 
@@ -16,7 +16,7 @@ public final class InsiderCohortClientHooks {
 
     /** "嘉豪同伙" pair for the name-tag label (C9). / 名牌标签的“嘉豪同伙”配对（C9）。 */
     public static boolean isJiahaoCohortPair(PlayerEntity viewer, PlayerEntity target) {
-        if (!SparkWitchServerConnection.isConfirmedServer() || viewer.getUuid().equals(target.getUuid())) {
+        if (!SparkDlcServerConnection.isConfirmedServer() || viewer.getUuid().equals(target.getUuid())) {
             return false;
         }
         GameWorldComponent game = GameWorldComponent.KEY.get(viewer.getWorld());

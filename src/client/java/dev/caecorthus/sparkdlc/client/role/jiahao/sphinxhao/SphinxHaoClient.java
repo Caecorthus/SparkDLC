@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.role.jiahao.sphinxhao;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityHandler;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityRegistry;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.SphinxHaoPlayerComponent;
 import dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.SphinxHaoRules;
 import dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.SphinxHaoWorldComponent;
@@ -47,7 +47,7 @@ public final class SphinxHaoClient {
         SphinxHaoInstinctHooks.register();
         SphinxHaoFadeBgm.register();
         HudRenderCallback.EVENT.register((context, tickCounter) -> {
-            if (SparkWitchServerConnection.isConfirmedServer()) {
+            if (SparkDlcServerConnection.isConfirmedServer()) {
                 SphinxHaoHud.render(context);
             }
         });
@@ -62,9 +62,9 @@ public final class SphinxHaoClient {
     }
 
     /**
-     * Called by the shared ability-key dispatcher in {@code SparkWitchClient} when the local player's real role is the
+     * Called by the shared ability-key dispatcher in {@code SparkDLCClient} when the local player's real role is the
      * Sphinx Hao: 嘉豪病毒.
-     * 当本地玩家的真实职业为狮身豪时，由 {@code SparkWitchClient} 的共享技能键分发调用：嘉豪病毒。
+     * 当本地玩家的真实职业为狮身豪时，由 {@code SparkDLCClient} 的共享技能键分发调用：嘉豪病毒。
      */
     public static void onAbilityKey(MinecraftClient client) {
         ClientPlayerEntity player = client == null ? null : client.player;

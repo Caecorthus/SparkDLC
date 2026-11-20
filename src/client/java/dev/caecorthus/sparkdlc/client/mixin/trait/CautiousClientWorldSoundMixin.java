@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.mixin.trait;
 
 import dev.caecorthus.sparkdlc.client.trait.audio.CautiousSoundDebug;
 import dev.caecorthus.sparkdlc.trait.global.CautiousSoundRules;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -33,7 +33,7 @@ public abstract class CautiousClientWorldSoundMixin {
             float pitch,
             CallbackInfo ci
     ) {
-        boolean confirmedServer = SparkTraitsServerConnection.isConfirmedServer();
+        boolean confirmedServer = SparkDlcServerConnection.isConfirmedServer();
         if (!confirmedServer && !CautiousSoundDebug.isEnabled()) {
             return;
         }
@@ -70,7 +70,7 @@ public abstract class CautiousClientWorldSoundMixin {
             CallbackInfo ci
     ) {
         SoundEvent soundEvent = sound.value();
-        boolean confirmedServer = SparkTraitsServerConnection.isConfirmedServer();
+        boolean confirmedServer = SparkDlcServerConnection.isConfirmedServer();
         if (!confirmedServer && !CautiousSoundDebug.isEnabled()) {
             return;
         }

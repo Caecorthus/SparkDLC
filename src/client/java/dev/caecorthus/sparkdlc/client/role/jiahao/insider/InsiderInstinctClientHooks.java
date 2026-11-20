@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.jiahao.insider;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
@@ -34,7 +34,7 @@ public final class InsiderInstinctClientHooks {
 
     /** Wathe listener; {@code null} means "no opinion". / Wathe 监听器；{@code null} 表示不作答。 */
     public static @Nullable GetInstinctHighlight.HighlightResult highlight(Entity target) {
-        if (!(target instanceof PlayerEntity playerTarget) || !SparkWitchServerConnection.isConfirmedServer()) {
+        if (!(target instanceof PlayerEntity playerTarget) || !SparkDlcServerConnection.isConfirmedServer()) {
             return null;
         }
         PlayerEntity viewer = MinecraftClient.getInstance().player;

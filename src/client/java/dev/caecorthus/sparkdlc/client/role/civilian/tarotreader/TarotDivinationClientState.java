@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.tarotreader;
 
 import dev.caecorthus.sparkdlc.SparkWitchRoles;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.client.MinecraftClient;
 
@@ -21,7 +21,7 @@ public final class TarotDivinationClientState {
     }
 
     public static void tick(MinecraftClient client) {
-        if (client.player == null || !SparkWitchServerConnection.isConfirmedServer()) {
+        if (client.player == null || !SparkDlcServerConnection.isConfirmedServer()) {
             clear();
             return;
         }

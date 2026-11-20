@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.killer.bellringer;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.killer.bellringer.BellEchoPlayerComponent;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import net.minecraft.client.MinecraftClient;
@@ -25,7 +25,7 @@ public final class BellEchoTaskLine {
      * 返回回响任务的替换文本；返回 {@code null} 表示保留 Wathe 原文本。
      */
     public static @Nullable Text resolve(@Nullable PlayerMoodComponent.TrainTask task) {
-        if (task == null || !SparkWitchServerConnection.isConfirmedServer()) {
+        if (task == null || !SparkDlcServerConnection.isConfirmedServer()) {
             return null;
         }
         ClientPlayerEntity player = MinecraftClient.getInstance().player;

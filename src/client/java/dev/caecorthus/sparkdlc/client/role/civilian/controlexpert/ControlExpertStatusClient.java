@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.controlexpert;
 
 import dev.caecorthus.sparkdlc.client.render.LocalViewerSnapshot;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStatusComponent;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertTargeting;
 import net.minecraft.client.MinecraftClient;
@@ -37,7 +37,7 @@ public final class ControlExpertStatusClient {
      * 因此先做 O(1) 的计时判断，再查询参与者状态。
      */
     static @Nullable ControlExpertStatusComponent localActiveStatus() {
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return null;
         }
         MinecraftClient client = MinecraftClient.getInstance();

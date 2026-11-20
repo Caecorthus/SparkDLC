@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.mixin.role.special.wraith;
 
 import dev.caecorthus.sparkdlc.client.render.WraithClientState;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.guardianangel.GuardianAngelRules;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithParticipationRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -21,7 +21,7 @@ public final class WraithChatHudMixin {
     private static void sparkwitch$enforceWraithChatPolicy(CallbackInfoReturnable<Boolean> cir) {
         MinecraftClient client = MinecraftClient.getInstance();
         var player = client.player;
-        if (!SparkWitchServerConnection.isConfirmedServer()
+        if (!SparkDlcServerConnection.isConfirmedServer()
                 || player == null
                 || !WraithClientState.isActive(player)) {
             return;

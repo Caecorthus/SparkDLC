@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.SparkTraits;
 import dev.caecorthus.sparkdlc.trait.api.TraitRemovalReason;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.replay.SparkTraitsReplayEvents;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
 import dev.caecorthus.sparkdlc.mixin.trait.GameWorldComponentAccessor;
 import dev.caecorthus.sparkdlc.round.settlement.SettlementExclusions;
@@ -107,7 +107,7 @@ public final class LastStandService {
                         ? CheckWinCondition.WinResult.block()
                         : null);
         GetInstinctHighlight.EVENT.register(target -> {
-            if (SparkTraitsServerConnection.isUnconfirmedClientEntity(target)) {
+            if (SparkDlcServerConnection.isUnconfirmedClientEntity(target)) {
                 return null;
             }
             if (target instanceof PlayerEntity player) {

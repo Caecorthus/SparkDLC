@@ -250,7 +250,7 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   `ScavengerBodyHideMixin.hideScavengerBodies` is merged into Wathe's
   `PlayerBodyEntityRenderer` under a per-session unique name that no selector or
   injection point can reach, so the client config's
-  `SparkFactionClientMixinPlugin` rewrites its two `getFaction()` calls to
+  `SparkDlcClientMixinPlugin` rewrites its two `getFaction()` calls to
   `NoellesNeutralPerkRules.neutralPerkFactionOf(Role)` in `postApply` of the
   empty anchor `NoellesScavengerBodyHideNeutralPerkMixin` (skipped without
   NoellesRoles), after every mixin has been applied. The handler is found by
@@ -407,10 +407,10 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   1-600). The safe-time window is runtime-only: synced to clients so they can
   predict the lock, never saved. A new skill payload is blocked only once it is
   classified as a row of `config/payload-policy/actions.tsv`, the one table of
-  locked-player payload decisions for SparkFactionAPI, SparkWitch and
-  SparkStrength; `tools/payload_policy.py generate` turns its SAFE_TIME column
-  into `GeneratedPayloadPolicy`, which `AntiFastRoundRules.BLOCKED_PAYLOADS`
-  aliases, and `check` fails on a stale generated file or an unlisted C2S id.
+  locked-player payload decisions of the whole mod;
+  `tools/payload_policy.py generate` turns its columns into the one
+  `net.policy.GeneratedPayloadPolicy`, whose SAFE_TIME set
+  `AntiFastRoundRules.BLOCKED_PAYLOADS` aliases, and `check` fails on a stale generated file or an unlisted C2S id.
 - Lobby map reset component id: `sparkdlc:map_reset` (scoreboard,
   optional on clients, runtime-only: nothing is saved). Its synced progress is
   `-1` (nothing to show), `0`-`99` (a reset runs; capped at 99 until the copy

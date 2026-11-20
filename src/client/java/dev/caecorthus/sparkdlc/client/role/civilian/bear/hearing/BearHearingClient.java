@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bear.hearing;
 
 import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.bear.hearing.BearHearingRules;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
@@ -70,7 +70,7 @@ public final class BearHearingClient {
     /** Current volume multiplier for the local player (1 when unaffected). / 本地玩家当前的音量倍数（不受影响时为 1）。 */
     public static float factor() {
         MinecraftClient client = MinecraftClient.getInstance();
-        float gear = client != null && SparkWitchServerConnection.isConfirmedServer()
+        float gear = client != null && SparkDlcServerConnection.isConfirmedServer()
                 ? BearHearingRules.factorFor(client.player) : 1.0F;
         return gear * MUFFLE.factorAt(clientTicks);
     }

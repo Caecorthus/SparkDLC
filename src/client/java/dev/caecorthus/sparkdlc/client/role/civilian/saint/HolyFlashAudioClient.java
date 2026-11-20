@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.saint;
 
 import dev.caecorthus.sparkdlc.SparkWitchSounds;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.saint.flash.HolyFlashComponent;
 import dev.caecorthus.sparkdlc.role.civilian.saint.flash.HolyFlashRules;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -100,7 +100,7 @@ public final class HolyFlashAudioClient {
     @Nullable
     private static HolyFlashComponent activeFlash(MinecraftClient client) {
         ClientPlayerEntity player = client.player;
-        if (!SparkWitchServerConnection.isConfirmedServer() || player == null || client.world == null
+        if (!SparkDlcServerConnection.isConfirmedServer() || player == null || client.world == null
                 || !HolyFlashRules.isActivePhase(client.world)) {
             return null;
         }

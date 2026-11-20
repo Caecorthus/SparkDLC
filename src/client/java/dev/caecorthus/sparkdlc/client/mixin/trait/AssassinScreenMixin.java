@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.mixin.trait;
 
 import dev.caecorthus.sparkdlc.trait.compat.noellesroles.AssassinRolePage;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -58,7 +58,7 @@ public abstract class AssassinScreenMixin extends Screen {
 
     @Inject(method = "init", at = @At("TAIL"))
     private void sparktraits$paginateRoleGuessPanel(CallbackInfo ci) {
-        if (!SparkTraitsServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }
         if (selectedTarget == null) {

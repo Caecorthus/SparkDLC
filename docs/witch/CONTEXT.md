@@ -635,7 +635,7 @@ Current build baseline:
     that is never spawned), so each viewer's existing rules apply unchanged (`MagicianPuppetAppearance`,
     `MagicianPuppetNameTags`, `client/mixin/role/killer/magician/MagicianPlaybackRoleNameMixin`, `MagicianPlaybackInstinctMixin`). The
     stand-in copy cache is dropped on every connection edge (login INIT/DISCONNECT, play DISCONNECT, JOIN) by
-    `SparkWitchClient.releaseClosedWorldPlayers`, which also clears Wathe's never-cleared `WatheClient.particleMap` on
+    `SparkDLCClient.releaseClosedWorldPlayers`, which also clears Wathe's never-cleared `WatheClient.particleMap` on
     the client thread (2026-10-22). The Blind never sees puppets. Client aim (`MagicianPuppetAim`) wraps Wathe's revolver, derringer, knife and crosshair
     target methods and returns a puppet only when it is strictly nearer than the original result.
   - Psycho is not mirrored (forum T-0016, 2026-10-25): a puppet never shows the copied player's live Wathe psycho
@@ -746,7 +746,7 @@ Current build baseline:
     `DominatorHudRenderer` (`HudRenderCallback`, hidden with F1 and Wathe's train HUD) draws one always-on green
     bottom-right line in the shared corner slot: no uses, cooldown, release hint, no target or mark hint, each with
     the remaining uses. `SaintHudLayoutRules.ownsCornerSkillLine` reserves that slot so the Karma line stacks above
-    it. The G branch of `SparkWitchClient` sends nothing without a use, on cooldown or outside `isActiveCaster`.
+    it. The G branch of `SparkDLCClient` sends nothing without a use, on cooldown or outside `isActiveCaster`.
   - Letter: Wathe's killer letter with Dominator `tooltip3` / `tooltip4`, recoloured by
     `mixin/role/killer/dominator/GameFunctionsDominatorLetterMixin` from the `.a`-`.e` segments, which concatenate to the plain
     lines. Lang: `hud.sparkdlc.dominator.*`, `tip.letter.dominator.*`, one-sentence `announcement.goal(s)`.
@@ -813,7 +813,7 @@ Current build baseline:
   - Replay (`NatsumeReplay`): one `skill_use` under her role id, `action` `hypnosis` with `target`, rendered as
     `replay.skill.sparkdlc.natsume.effect`.
   - Client (presentation only; the server decides every cast, lock and timer):
-    - Picker: the raw-role branch of `SparkWitchClient`'s ability-key dispatch (right before Noa's) calls
+    - Picker: the raw-role branch of `SparkDLCClient`'s ability-key dispatch (right before Noa's) calls
       `NatsumeClientModule.onAbilityKey`, which sends the empty request unless she is hypnotised. The S2C menu opens
       `NatsumeTargetScreen`, a 6-column grid of `NatsumeTargetButton` tiles (shop TOOL frame, player-list head and
       hat, name as tooltip only (owner 2026-11-03), `C5B4FF` selection border) with Back and Confirm.
@@ -1115,7 +1115,7 @@ Current build baseline:
     `isWindowActive`, `windowRemainingTicks`, `isOnCooldown`, `getCooldownTicks`) and 魔女化 above (`kills/required`
     or `已魔女化`). Lang `hud.sparkdlc.nikaido_hiro.hud.return.*` and `hud.sparkdlc.nikaido_hiro.witchification.*`.
     Her role colour in the witch-factor network view is drawn by the shared `client/role/witch/grandwitch/factor` fallback. The ability-key
-    branch in `SparkWitchClient` follows the Specter's. Lang seeds: `hud.sparkdlc.nikaido_hiro.return.ready`,
+    branch in `SparkDLCClient` follows the Specter's. Lang seeds: `hud.sparkdlc.nikaido_hiro.return.ready`,
     `message.sparkdlc.nikaido_hiro.return.recorded`, `message.sparkdlc.nikaido_hiro.witchified`,
     `message.sparkdlc.rope.no_target`.
 - `client/render/bedrock/` (2026-11-02): a role-neutral Bedrock model runtime for player-supplied files, first used by the
@@ -1601,7 +1601,7 @@ Current build baseline:
     back 5 (linear); the server plays the hit thump (attack knockback + strong) on the first tick when a player, crow
     or puppet was struck,
     the piston-contract (1.6) at `RETRACT_AGE`, and discards it at `END_AGE` or when the shooter is gone. Client
-    `client/role/jiahao/sphinxhao/SphinxHaoGunClient` (from `SparkWitchClient#registerEntityRenderers`): the model predicate
+    `client/role/jiahao/sphinxhao/SphinxHaoGunClient` (from `SparkDLCClient#registerEntityRenderers`): the model predicate
     `sparkdlc:sphinx_hao_loaded` (0 → `sphinx_hao_hand_gun_empty`, so a fired gun shows no second fist), the
     standalone `models/item/projectile/sphinx_hao_fist.json`, and `client/render/entity/SphinxHaoFistEntityRenderer` (the
     fist via `ProjectileModels` at the held scale 0.5; a scissor lattice of textured boxes from the gun atlas swatches,
@@ -1637,7 +1637,7 @@ Current build baseline:
   - HUD and keys (`client/role/jiahao/sphinxhao/`): `SphinxHaoHud` + pure `SphinxHaoHudRules`, one confirmed-server
     `HudRenderCallback`: four bottom-right rows, bottom to top 嘉豪病毒, 豪气冲天 (陆泳中 / cooldown / ready), the
     infected count (gold) and 豪度值 (coral), in the Koko/Fiend corner layout; not in `SaintHudLayoutRules` (Koko
-    precedent). G is a branch right after the Athlete's in `SparkWitchClient`'s ability chain
+    precedent). G is a branch right after the Athlete's in `SparkDLCClient`'s ability chain
     (`SphinxHaoClient.onAbilityKey`); N is `SecondaryAbilityRegistry.register` in `SphinxHaoClient.init()` (right after
     `KokoClient.init()`). `SphinxHaoKeyRules` trims presses (not a living, unswallowed raw-role 狮身豪: nothing;
     cooling, crawling, or G during a running 豪气冲天 window (the server refuses infecting then; the HUD row reads
@@ -1812,7 +1812,7 @@ Current build baseline:
   (`BewitchedFeatureService`). Its round-start dealing is the witch third-faction lineup
   (`faction/witch/WitchThirdFactionLineup`, pure `faction/witch/WitchThirdFactionLineupRules`); the forced lock lives in `WitchWorldComponent` (`component/ForcedAccompliceRoleLocks`)
   and `command/ForceAccompliceRoleCommand`. Client presentation (the `n/2` HUD line) lives in
-  `client/role/witch/bewitched/BewitchedClientPresentation`, registered once from `SparkWitchClient`.
+  `client/role/witch/bewitched/BewitchedClientPresentation`, registered once from `SparkDLCClient`.
 - `role/civilian/emma/`: unique cop claim, role-owned mana skill, delayed backlash,
   speed latch, and one reward per gun cycle.
 - `role/civilian/controlexpert/`: Control Expert round-start loadout, task-money economy,
@@ -1862,11 +1862,11 @@ Current build baseline:
     under the stable key `UsecRifle`; a list under `Magazine` (even an empty one) means a magazine is inserted.
     `UsecBallistics` is the pure energy and drop model shared by the server tracer and the client reticle. The five
     items are the rifle, the magazine, the FMJ and AP rounds and the suppressor. Payload types register only in
-    `net/UsecNetworking` (from `SparkWitchPackets`): C2S `sparkdlc:fire_usec_rifle`, `sparkdlc:usec_attachment` and
+    `net/UsecNetworking` (from `SparkDlcPackets`): C2S `sparkdlc:fire_usec_rifle`, `sparkdlc:usec_attachment` and
     `sparkdlc:usec_scope`, S2C `sparkdlc:usec_bullet_impacts`; each owning service registers its own receiver.
     `UsecPlayerComponent` (`sparkdlc:usec_player`, `NEVER_COPY`, appended last in the CCA list, never saved) holds
     only the `scoped` flag, synced to everyone for the scope glint. `UsecFeatureService` (the single line appended last
-    in `SparkWitchEvents`) and `client/role/civilian/usec/UsecClientModule` (the single line appended last in `SparkWitchClient`) fix
+    in `SparkWitchEvents`) and `client/role/civilian/usec/UsecClientModule` (the single line appended last in `SparkDLCClient`) fix
     the registration order, which is the listener order within each event. `UsecCooldowns` is the single max + exact
     writer of the rifle cooldown (the 60 s lock and the bolt): SparkTraits' exact write with a vanilla fallback, never
     shortening a longer running cooldown (Saint Karma, the Fiend aura). It is also the one shared classifier
@@ -2157,7 +2157,7 @@ Current build baseline:
     `KnightDuelSkillLock` with `mixin/role/civilian/knight/KnightDuelSkillPayloadGuardMixin` drops the shared-ability-key (G) skill
     payloads of both duelists on the server; key-N skills and weapons stay allowed.
   - Client (`client/role/civilian/knight/`): no own key binding; the Knight branch of the shared ability dispatch in
-    `SparkWitchClient` opens `KnightDuelScreen`, and `KnightDuelClient` draws the HUD and stops the duel track on
+    `SparkDLCClient` opens `KnightDuelScreen`, and `KnightDuelClient` draws the HUD and stops the duel track on
     `sparkdlc:knight_duel_stop_sound`. The server sends `sparkdlc:knight_duel_ui_lock` to both duelists at duel
     start; `KnightDuelUiLock` closes an open `InventoryScreen`/Wathe `LimitedInventoryScreen` (the latter carries the
     shop and the `gui.sparkdlc.skills` panel) through `closeHandledScreen`, so the server returns a cursor stack to the
@@ -2319,7 +2319,7 @@ Current build baseline:
     Seeker session, Riftwalker session and Grand Witch Fear lists. SparkStrength's Taotie daze list
     (`feat/athlete-dash-daze`) and SparkFactionAPI's opening safe-time list (`feat/athlete-dash-safe-time`) add it on
     their own branches; until those merge, a dazed Athlete can still dash.
-  - Client (`client/role/civilian/athlete/`): `SparkWitchClient`'s G-key dispatch sends the request through `AthleteDashClient`
+  - Client (`client/role/civilian/athlete/`): `SparkDLCClient`'s G-key dispatch sends the request through `AthleteDashClient`
     (no N-key handler, no client cooldown); `AthleteDashHud` (from `AthleteClient`'s confirmed-server HUD callback)
     draws the owner-only bottom-right ready/cooldown line from the synced component, with the Fiend Dash line's gates
     and layout. SparkAssist has no guidebook page yet.
@@ -2460,7 +2460,7 @@ Current build baseline:
     session, Riftwalker session and Grand Witch Fear lists, and in SparkStrength's Taotie daze list.
   - Client (`client/role/civilian/noa/`): `NoaClient` registers one confirmed-server `HudRenderCallback` drawing `NoaPaintHud`
     (bottom-right ready/cooldown line with the Fiend Dash gates and layout, from the owner-only ready tick vs the
-    client world clock); `SparkWitchClient`'s G-key dispatch hands the real Noa's press to `NoaPaintClient` (no
+    client world clock); `SparkDLCClient`'s G-key dispatch hands the real Noa's press to `NoaPaintClient` (no
     prediction). `client/mixin/role/civilian/noa/NoaMoodRendererMixin` (pinned `@WrapOperation` on `renderCivilian`'s only icon
     draw, in `watheClientMixinContracts`) swaps Wathe's mood icon for `sparkdlc:hud/noa_mood_*` while the displayed
     sanity is >= 0.
@@ -2536,9 +2536,9 @@ Current build baseline:
     not in `isRegisteredSparkWitchRole`, never in the `gui.sparkdlc.skills` panel; in the Black Raven DENYLIST (never
     claimable, like USEC). `SparkWitchRoles` exposes `BEAR_ID` and `bear()`.
   - Hubs (all registered before USEC, which stays last; only the Medium's hubs, PR #209, sit between them and USEC
-    in `SparkWitchEvents` and `SparkWitchClient`): `BearFeatureService` in `SparkWitchEvents`
+    in `SparkWitchEvents` and `SparkDLCClient`): `BearFeatureService` in `SparkWitchEvents`
     (`BearLifecycleService`, `BearEconomyService`, `BearShopService`, in that order), `bear.net.BearNetworking` in
-    `SparkWitchPackets` (payload types), `client/role/civilian/bear/BearClientModule` in `SparkWitchClient` (plus
+    `SparkDlcPackets` (payload types), `client/role/civilian/bear/BearClientModule` in `SparkDLCClient` (plus
     `registerEntityRenderers()`); `headset.HeadsetLifecycle` sits before the BEAR hub in `SparkWitchEvents`. Only
     `bear.*` mixins follow the Accountant's common mixin and the mood-flag client mixin (WP4's headset mixins are
     `bear.Headset*`).
@@ -3111,7 +3111,7 @@ Current build baseline:
   2026-10-08). Presentation only; nothing here syncs.
   - Registration: `ScopeClient.register()` loads the settings and wires the lens resets. It is idempotent and every
     consumer calls it right before registering its provider (`PotionGunnerClient.init()`, then
-    `UsecClientModule.register()` in `SparkWitchClient` order), so the module registers exactly once whichever weapon
+    `UsecClientModule.register()` in `SparkDLCClient` order), so the module registers exactly once whichever weapon
     initialises first. A weapon calls `ScopeClient.registerProvider(Supplier<@Nullable ScopeProfile>)` once at client
     init; the first non-null profile wins. The two providers answer for different active items (the launcher via
     `PotionScopeClient.isUsingLauncher`, the rifle via `UsecRifleClient.isUsingRifleInMainHand`), so at most one is
@@ -3243,8 +3243,8 @@ Current build baseline:
     `MEDIUM_ID` and `medium()`. The letter and title text still fall back to the Wathe civilian wording.
   - Hubs: `MediumFeatureService` in `SparkWitchEvents` (economy, 通灵, 幽灵的加护, 招魂, in that order:
     `MediumEconomyService`, `MediumSkillService`, `MediumBlessingService`, `MediumSecondSkillService`) and
-    `client/role/civilian/medium/MediumClientModule` in `SparkWitchClient`, both after the BEAR hub and before USEC, which stays last.
-    Payload types and server receivers are in `SparkWitchPackets`: C2S `use_medium_skill`, `use_medium_blessing`,
+    `client/role/civilian/medium/MediumClientModule` in `SparkDLCClient`, both after the BEAR hub and before USEC, which stays last.
+    Payload types and server receivers are in `role/civilian/medium/MediumPackets` (called from `net/SparkDlcPackets`): C2S `use_medium_skill`, `use_medium_blessing`,
     `submit_medium_seance`, `submit_medium_haunt_target` and `submit_medium_vote`; S2C `open_medium_seance_input` and
     `medium_seance_result`. There is no 招魂 key or menu payload. `submit_medium_vote` carries a choice index and
     `medium_seance_result` and both component sync packets carry the blessing fields, so client and server jars must
@@ -3373,7 +3373,7 @@ Current build baseline:
       `screen.sparkdlc.medium.blessing.locked.impostor`, which names the Impostor trait). In both, Esc closes without
       voting and every other key is swallowed; a screen closes itself when its window ends or is replaced or the player
       may no longer vote. While a voter has no screen open, the shared ability key re-opens it
-      (`MediumVoteClient.ownsAbilityKey`, the first branch of the ability-key chain in `SparkWitchClient`) and
+      (`MediumVoteClient.ownsAbilityKey`, the first branch of the ability-key chain in `SparkDLCClient`) and
       `MediumSeanceHudRenderer` shows the question or the blessing request, the prompt or the remembered choice, and the
       countdown.
     - Result (owner 2026-11-10: a HUD card, never a vanilla title, so an admin `/title` cannot collide with it):
@@ -3471,8 +3471,8 @@ Current build baseline:
     rule: being a mana role and owning a Mighty Force grants no panel access); in neither Black Raven disguise list.
     `SparkWitchRoles` exposes `SHERRY_ID` and `sherry()`. Companion: SparkTraits blocks her from the Impostor trait.
   - Hubs: `SherryFeatureService` in `SparkWitchEvents` (economy, 推演, 巨力魔法, badge, in that order), after the
-    Medium hub and before USEC, which stays last; `client/role/civilian/sherry/SherryClient` in `SparkWitchClient`. Payload types
-    and server receivers are in `SparkWitchPackets`.
+    Medium hub and before USEC, which stays last; `client/role/civilian/sherry/SherryClient` in `SparkDLCClient`. Payload types
+    and server receivers are in `role/civilian/sherry/net/SherryPackets` (called from `net/SparkDlcPackets`).
   - State: `SherryComponent` (`sparkdlc:sherry`, owner-synced only, `NEVER_COPY`, appended in the CCA player
     list and `fabric.mod.json` after Hanna's, before 二阶堂希罗's two): 推演 cooldown, her Mighty Force window, cooldown and forfeit flag, the badge holders,
     and the reveal trackers (target, interval, ticks to the next window, ticks left of the current one). The server
@@ -3525,7 +3525,7 @@ Current build baseline:
   - Forced cooldowns: stores 26 `sparkdlc:sherry_deduction` and 27 `sparkdlc:sherry_mighty_force`.
   - Client (presentation only, `client/role/civilian/sherry/`): `SherryClient` is the hub (candidate packet receiver that never
     replaces an open screen, Role Skill 2 handler, hooks, HUD) and owns `isActiveSherry`; the shared ability key
-    branch in `SparkWitchClient` sits right after the Medium's. `SherryDeductionScreen` is a hand-drawn panel in the
+    branch in `SparkDLCClient` sits right after the Medium's. `SherryDeductionScreen` is a hand-drawn panel in the
     Harpy Express house grammar (owner redesign 2026-11-11, replacing the avatar-tile grid): title band with the
     price chip, a rule line, candidates as ruled rows (16 px face + name; two columns, three when the roster is
     long, paged), a select band, a status pill and house buttons. Pick a row, then Confirm, Enter or a second click
@@ -3624,7 +3624,7 @@ Current build baseline:
     `replay.sparkdlc.planner_task_slip[.self]`.
   - Deny lists: `use_planner_recommend` has its row in SparkFactionAPI's payload policy table with Tono Hanna's and
     泽渡可可's cells.
-  - Client (`client/role/civilian/planner/`, presentation only): the shared ability key (G) branch in `SparkWitchClient` calls
+  - Client (`client/role/civilian/planner/`, presentation only): the shared ability key (G) branch in `SparkDLCClient` calls
     `PlannerClient.onAbilityKey` for the raw planner role and sends the payload with no prediction;
     `client/role/civilian/planner/PlannerTargeting` is the block-clipped 32-block pick shared by the key and the HUD (skips the
     viewer, spectators, the dead or non-participants, the invisible and Morphling corpses; BEAR smoke changes only the
@@ -3669,7 +3669,7 @@ Current build baseline:
   and `BlindItemDrops` (bound items), and `BlindSounds`). Its server mixins live in `mixin/role/civilian/blind/`
   (`ServerWorldBlindPerceptionMixin` and the bound-item `BlindKitDeathDropMixin`,
   `BlindKitDecoratedPotMixin`, `BlindKitPlayerDropMixin` and `BlindKitScreenHandlerMixin`); the
-  optional Simple Voice Chat listener is `voice/BlindVoicePerceptionListener`, registered by `voice/SparkWitchVoiceChatPlugin`.
+  optional Simple Voice Chat listener is `voice/BlindVoicePerceptionListener`, registered by `voice/SparkDlcVoiceChatPlugin`.
   Client presentation lives in `client/role/civilian/blind/`: `BlindClient` (module and pulse receiver),
   `BlindView` (the one activity predicate), `BlindPerceptionClientState` (pure pulse and
   perceived-player memory), `BlindClientStatus` (HUD remaining-tick view),
@@ -3786,7 +3786,7 @@ Current build baseline:
 - `cooldown/provider/`: SparkWitch's registrations with the SparkFactionAPI forced-cooldown contract
   (`cooldown.api.ForcedCooldowns`): role-skill stores for SparkWitch and NoellesRoles counters, the SparkWitch item
   nominal-cooldown provider, and the Seeker car item exemption. `SparkWitchForcedCooldowns.register()` runs once from
-  `SparkWitch.onInitialize`, right after `SparkWitchEvents.register()`. `SparkWitchItemCooldownReleases` releases the
+  `SparkDLC#registerOwnRoleGameplay`, right after `SparkWitchEvents.register()`. `SparkWitchItemCooldownReleases` releases the
   SparkWitch timers behind an item whose vanilla cooldown is removed (`mixin/faction/witch/ItemCooldownRemovalMixin`). For the
   admin clear alone (its `afterAdminRemove`, an `AdminCooldownClear` listener registered by `SparkWitchForcedCooldowns`), it also exempts the item from Saint Karma.
 - `event/SparkWitchEvents`: watch-only registration/lifecycle aggregator.
@@ -4297,13 +4297,13 @@ applied first, so it sits innermost and judges Vendetta (silent) and then Fear b
 Those id sets (stun `ControlExpertStunRules.BLOCKED_PAYLOADS`, Seeker `SeekerRemoteRules.BLOCKED_WHILE_VIEWING`, Rift
 `RiftSessionRules.BLOCKED_WHILE_INSIDE`, Fear's role-skill and silent sets in `GrandWitchFearService`, the Knight's two
 lists in `KnightDuelSkillLock`, hypnosis extra and silent sets in `NatsumeHypnosisGuards`) are aliases of
-`net/policy/witch/GeneratedPayloadPolicy`, generated from SparkFactionAPI's `config/payload-policy/actions.tsv`: one row per
+`net/policy/GeneratedPayloadPolicy` (the one generated class of the mod), generated from `config/payload-policy/actions.tsv`: one row per
 C2S payload id, an explicit allow/deny per lock, reasons in its note column (2026-11-13). Never list ids by hand: edit
-that table and run `python3 tools/payload_policy.py generate --repo . --mod witch`;
+that table and run `python3 tools/payload_policy.py generate --repo .`;
 `check` with the same arguments fails on a stale generated file or on a registered C2S payload without a row.
 `VendettaTargetingPacketGuard` keeps its typed target check; the table's VENDETTA_TARGET column records its five ids.
 这些 id 集合（眩晕、搜寻者、裂隙、恐惧的技能与静默集合、骑士的两份名单、催眠的额外与静默集合）都是
-`net/policy/witch/GeneratedPayloadPolicy` 的别名，由 SparkFactionAPI 的 `config/payload-policy/actions.tsv` 生成：每个 C2S
+`net/policy/GeneratedPayloadPolicy`（本模组唯一的生成类）的别名，由 `config/payload-policy/actions.tsv` 生成：每个 C2S
 数据包 id 一行，每种锁一格显式的 allow/deny，理由写在 note 列。不要手写 id：修改该表后运行上面的 `generate` 命令；
 同样参数的 `check` 会在生成文件过期或已注册的 C2S 数据包缺少表行时失败。`VendettaTargetingPacketGuard` 保留自己的
 类型化目标判定，表中 VENDETTA_TARGET 列记录它判定的五个 id。
@@ -4494,7 +4494,7 @@ server's chunk view on the device, so the body's own chunks unload on the client
 `ClientChunkManager` (`ClientWorld#isChunkLoaded` is always true in 1.21.1), during the session and
 after it (capped at `SeekerRemoteViewRules.BODY_SETTLE_MAX_TICKS`, behind a RETURNING panel), so its
 movement packets never report a fall. `client/mixin/role/civilian/seeker/SeekerRemoteTerrainGridMixin` centres the
-vanilla terrain render grid on the viewed device; `client/SparkWitchClientMixinPlugin` skips it
+vanilla terrain render grid on the viewed device; `client/SparkDlcClientMixinPlugin` skips it
 when Sodium is loaded, because Sodium overwrites `WorldRenderer#setupTerrain` (an injection into an
 overwritten method crashes even with `require = 0`) and already centres on the camera.
 
@@ -4598,7 +4598,7 @@ Obscure/Fear `@WrapMethod` veto (`WatheClientFearInstinctMixin`) exempts those m
 (owner decision, 2026-09-30); its swallow veto still applies. The countdown HUD is a
 `HudRenderCallback` line for every player, never the action bar. The Dash HUD is a role-owned bottom-right line
 shown only to the moment Fiend (`client/role/neutral/fiend/FiendDashHud`, drawn from `FiendClient`'s HUD callback), and
-`SparkWitchClient`'s ability-key dispatch sends the request through `client/role/neutral/fiend/FiendDashClient`.
+`SparkDLCClient`'s ability-key dispatch sends the request through `client/role/neutral/fiend/FiendDashClient`.
 The Fiend is absent from `isRegisteredSparkWitchRole` and `WitchSkillRegistry` and never renders in the
 `gui.sparkdlc.skills` panel.
 Feign death (owner request 2026-10-16): a dormant Fiend fakes death for 5 s (`FiendRules.FEIGN_TICKS`) once 60 s
@@ -4626,7 +4626,7 @@ corpse (on itself, pinned to the anchor every tick, once the corpse is gone or m
 dead in Wathe (no invulnerable flag: a spectator already is) (a `wathe:fell_out_of_train` kill is blocked too while it
 feigns, `FiendFeignRules.shieldsWhileFeigning`), so it stays dormant, immune and outside every last-one-standing count
 while vanilla hides it from every living client. It cannot act, buy (`FiendMomentService.tryStart` refuses it), speak
-(`SparkWitchVoiceChatPlugin` cancels its microphone and it never joins the dead players' group), spectator-teleport
+(`SparkDlcVoiceChatPlugin` cancels its microphone and it never joins the dead players' group), spectator-teleport
 (`mixin/role/neutral/fiend/ServerPlayNetworkHandlerFiendFeignMixin` drops the request after `forceMainThread`, like the Rift Gate
 guard) or possess another entity's camera (`mixin/role/neutral/fiend/ServerPlayerEntityFiendFeignMixin` cancels `attack` and
 refuses every camera but its corpse and itself), and a NoellesRoles Swapper request naming it is dropped at HEAD
@@ -5800,7 +5800,7 @@ client renders and sends requests. Its `gui.sparkdlc.skills` panel shows only `s
   feet ≥ `playArea.minY` (`RiftExitSafety.insideBounds`, matching the placement rule above). Hops wrap (`RiftHopRing`, 10-tick throttle, D11).
 - **Session guards.** `mixin/role/witch/riftwalker/RiftSessionPayloadGuardMixin` drops `RiftSessionRules.BLOCKED_WHILE_INSIDE`;
   `RiftSessionGuards` fails use/attack callbacks and the shop; `RiftSessionNetworkHandlerMixin` and
-  `RiftSessionPlayerMixin` close spectator teleport and possession; `voice/SparkWitchVoiceChatPlugin` mutes occupants.
+  `RiftSessionPlayerMixin` close spectator teleport and possession; `voice/SparkDlcVoiceChatPlugin` mutes occupants.
   `session/RiftSessionAffectPolicy` (SFA `PlayerAffectPolicy`, fails closed) denies every action on an occupant except
   `RiftSessionRules.AFFECT_ALLOWED_ON_OCCUPANT`: `noellesroles:swapper` (the crush below), `wathe:poison` (D3), and the
   piercing terminal kills `sparkdlc:bell_toll` and `sparkdlc:time_stolen` (C13). `BellTollService.isTarget` admits
@@ -6412,7 +6412,7 @@ Seeker car.
     blindness never shows through the crow; during Perception `BlackRavenCrowFogMixin` / `BlackRavenCrowSkyMixin` read
     the body instead, so Perception looks as on foot (desaturation and Steve skins already key on the local player).
     `BlackRavenCrowTerrainGridMixin` centres vanilla's render grid on the crow (skipped under Sodium by
-    `SparkWitchClientMixinPlugin`, like the Seeker's).
+    `SparkDlcClientMixinPlugin`, like the Seeker's).
   - *Hiding.* `BlackRavenInstinctVeto` vetoes `BlackRavenCrowForm.isBodyOrCrow` targets for every viewer without
     spectator information (`BlackRavenInstinctVeto.seesSpectatorInformation`: only dead spectators and admins are
     exempt, never a living participant in spectator mode). `BlackRavenCrowBodyRenderMixin`
@@ -6703,7 +6703,7 @@ Network:
   `onDisconnected`, which leads to `PlayerManager.remove`). Each task runs once. `PlayerHitboxHistory`, Junker, the
   Hunter aim claims and the Magician keep their own default-phase `server.execute` (after the kill); the Dominator
   and the Cat keep their own early phases. One seam for all of them stays an owner decision.
-- Client connection edges: `SparkWitchClient.resetConnectionState()` (login INIT, login DISCONNECT, play DISCONNECT;
+- Client connection edges: `SparkDLCClient.resetConnectionState()` (login INIT, login DISCONNECT, play DISCONNECT;
   all off the client thread) clears the volatile confirmed flag at once and hands the rest to the client thread.
   Every module that resets per-session state on play DISCONNECT also resets it on JOIN, because a proxy backend
   switch re-joins without DISCONNECT or login INIT; play-phase state only arrives after JOIN, so nothing of the new

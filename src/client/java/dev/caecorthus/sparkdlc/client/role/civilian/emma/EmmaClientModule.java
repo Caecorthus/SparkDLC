@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.emma;
 import dev.caecorthus.sparkdlc.client.role.witch.grandwitch.factor.WitchFactorOutlineRules;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.net.EmmaFactorC2SPacket;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.emma.EmmaRules;
 import dev.caecorthus.sparkdlc.util.TickTime;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -27,7 +27,7 @@ public final class EmmaClientModule {
 
     /** Called only by the existing shared-key bridge, never a second wasPressed consumer. / 只由已有共用技能键桥调用，不另读按键队列。 */
     public static void use(ClientPlayerEntity player) {
-        if (!SparkWitchServerConnection.isConfirmedServer() || !isEmma(player)
+        if (!SparkDlcServerConnection.isConfirmedServer() || !isEmma(player)
                 || !GameFunctions.isPlayerPlayingAndAlive(player)
                 || !ClientPlayNetworking.canSend(EmmaFactorC2SPacket.ID)) {
             return;

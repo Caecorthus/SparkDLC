@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.hooks;
 
 import dev.caecorthus.sparkdlc.compat.noellesroles.WitchPoisonVisionRules;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,7 +15,7 @@ public final class WitchPoisonVisionClientHooks {
     }
 
     public static boolean canSeeHiddenPoison(PlayerEntity viewer) {
-        if (!SparkWitchServerConnection.isConfirmedServer() || viewer == null) {
+        if (!SparkDlcServerConnection.isConfirmedServer() || viewer == null) {
             return false;
         }
         Role role = GameWorldComponent.KEY.get(viewer.getWorld()).getRole(viewer);

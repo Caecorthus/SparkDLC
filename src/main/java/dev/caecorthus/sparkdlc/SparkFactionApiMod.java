@@ -1,39 +1,24 @@
 package dev.caecorthus.sparkdlc;
 
-import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.faction.FactionCompatibilityEvents;
-import dev.caecorthus.sparkdlc.round.antifastround.AntiFastRoundBootstrap;
-import dev.caecorthus.sparkdlc.round.mapreset.LobbyMapResetBootstrap;
-import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesCollisionCompatibility;
-import dev.caecorthus.sparkdlc.record.MatchRecordBroadcaster;
-import dev.caecorthus.sparkdlc.record.PsychoRecorder;
-import dev.caecorthus.sparkdlc.replay.SparkReplayBootstrap;
-import dev.caecorthus.sparkdlc.team.CaecorthusTeamSync;
-import dev.caecorthus.sparkdlc.net.version.ServerVersionHandshake;
-import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class SparkFactionApiMod implements ModInitializer {
+/**
+ * Transitional holder: {@code MOD_ID}, {@code LOGGER} and {@code id(...)} for the code that still names this class.
+ * It starts nothing; the start-up of the mod is {@link SparkDLC}. A later scripted pass points the call sites at
+ * {@link SparkDLC} and removes this class.
+ * 过渡期的持有类：为仍然引用本类的代码保留 {@code MOD_ID}、{@code LOGGER} 与 {@code id(...)}。它不启动任何东西；
+ * 本模组的启动流程在 {@link SparkDLC}。之后的脚本化改名会把调用点指向 {@link SparkDLC} 并删除本类。
+ */
+public final class SparkFactionApiMod {
     public static final String MOD_ID = "sparkdlc";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-    public static Identifier id(String path) {
-        return Identifier.of(MOD_ID, path);
+    private SparkFactionApiMod() {
     }
 
-    @Override
-    public void onInitialize() {
-        ServerVersionHandshake.registerServer();
-        SparkFactionApi.bootstrap();
-        NoellesCollisionCompatibility.register();
-        FactionCompatibilityEvents.register();
-        SparkReplayBootstrap.register();
-        MatchRecordBroadcaster.register();
-        PsychoRecorder.register();
-        AntiFastRoundBootstrap.register();
-        LobbyMapResetBootstrap.register();
-        CaecorthusTeamSync.start();
+    public static Identifier id(String path) {
+        return Identifier.of(MOD_ID, path);
     }
 }

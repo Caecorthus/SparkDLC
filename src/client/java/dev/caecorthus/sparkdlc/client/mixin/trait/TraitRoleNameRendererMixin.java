@@ -7,7 +7,7 @@ import dev.caecorthus.sparkdlc.client.trait.hud.TraitNameplateTags;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
 import dev.caecorthus.sparkdlc.trait.TraitDisplayService;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.CanSeeBodyRole;
 import dev.doctor4t.wathe.api.event.CanTargetBody;
@@ -96,7 +96,7 @@ public abstract class TraitRoleNameRendererMixin {
             sparktraits$lastPlayerTraits = List.of();
             sparktraits$lastBodyTraits = List.of();
         }
-        if (!SparkTraitsServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }
         ConscienceSerialKillerHud.render(renderer, player, context);

@@ -16,7 +16,7 @@ import dev.caecorthus.sparkdlc.trait.effective.EffectiveTraitService;
 import dev.caecorthus.sparkdlc.trait.effective.EffectiveInstinctService;
 import dev.caecorthus.sparkdlc.trait.civilian.laststand.LastStandFinalMomentService;
 import dev.caecorthus.sparkdlc.trait.civilian.laststand.LastStandService;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -41,7 +41,7 @@ import java.util.UUID;
 public abstract class WatheClientMixin {
     @Inject(method = "isKiller", at = @At("HEAD"), cancellable = true)
     private static void sparktraits$impostorCanUseInstinct(CallbackInfoReturnable<Boolean> cir) {
-        if (!SparkTraitsServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }
         PlayerEntity player = MinecraftClient.getInstance().player;
@@ -71,7 +71,7 @@ public abstract class WatheClientMixin {
     ) {
         PlayerEntity viewer = MinecraftClient.getInstance().player;
         if (viewer == null
-                || !SparkTraitsServerConnection.isConfirmedServer()
+                || !SparkDlcServerConnection.isConfirmedServer()
                 || !WatheClient.isInstinctEnabled()
                 || !WatheClient.isPlayerPlayingAndAlive()
                 || !InstinctViewerContext.viewerHasImpostor(viewer)) {
@@ -82,7 +82,7 @@ public abstract class WatheClientMixin {
 
     @Inject(method = "getInstinctHighlight", at = @At("HEAD"), cancellable = true)
     private static void sparktraits$effectiveInstinctHighlight(Entity target, CallbackInfoReturnable<Integer> cir) {
-        if (!SparkTraitsServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }
         PlayerEntity viewer = MinecraftClient.getInstance().player;

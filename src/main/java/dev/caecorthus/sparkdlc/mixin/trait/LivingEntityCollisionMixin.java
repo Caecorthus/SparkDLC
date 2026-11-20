@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.mixin.trait;
 
 import dev.caecorthus.sparkdlc.trait.civilian.laststand.LastStandService;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,7 +19,7 @@ public abstract class LivingEntityCollisionMixin {
     @Inject(method = "isPushable", at = @At("HEAD"), cancellable = true)
     private void sparktraits$disableLastStandPendingPushable(CallbackInfoReturnable<Boolean> cir) {
         Entity entity = (Entity) (Object) this;
-        if (!SparkTraitsServerConnection.isUnconfirmedClientEntity(entity)
+        if (!SparkDlcServerConnection.isUnconfirmedClientEntity(entity)
                 && LastStandService.shouldDisablePendingCollision(entity)) {
             cir.setReturnValue(false);
         }
@@ -28,7 +28,7 @@ public abstract class LivingEntityCollisionMixin {
     @Inject(method = "pushAway", at = @At("HEAD"), cancellable = true)
     private void sparktraits$disableLastStandPendingPushAway(Entity entity, CallbackInfo ci) {
         Entity self = (Entity) (Object) this;
-        if (!SparkTraitsServerConnection.isUnconfirmedClientEntity(self)
+        if (!SparkDlcServerConnection.isUnconfirmedClientEntity(self)
                 && LastStandService.shouldDisablePendingCollision(self, entity)) {
             ci.cancel();
         }

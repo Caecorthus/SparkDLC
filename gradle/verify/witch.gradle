@@ -1477,32 +1477,37 @@ def verifyWitchModJar = tasks.register("verifyWitchModJar") {
             // SparkWitch initializer is started the same way by the fused main entrypoint.
             // 融合后的客户端入口取代了原先列出的 SparkWitchClient，且必须仍然启动它；通用端的 SparkWitch 初始化同样由
             // 融合后的 main 入口启动。
+            // Stage 3 ("one entry"): the per-module initializer classes are gone; SparkDLC / SparkDLCClient are the
+            // whole start-up, split into private steps. "The fused entrypoint still starts this module" therefore
+            // reads: some method of the entrypoint class still makes the module's characteristic start-up call.
+            // 第三阶段（“单一入口”）：各模块的初始化类已不存在；SparkDLC / SparkDLCClient 就是完整的启动流程，拆成若干私有步骤。
+            // 因此“融合后的入口仍然启动本模块”即：入口类的某个方法仍然发出本模块特有的启动调用。
             [
-                    [key: "main", entrypoint: "dev.caecorthus.sparkdlc.SparkDLC", method: "onInitialize",
-                     moduleOwner: "dev/caecorthus/sparkdlc/SparkWitch"],
+                    [key: "main", entrypoint: "dev.caecorthus.sparkdlc.SparkDLC",
+                     startOwner: "dev/caecorthus/sparkdlc/event/SparkWitchEvents", startCall: "register"],
                     [key: "client", entrypoint: "dev.caecorthus.sparkdlc.client.SparkDLCClient",
-                     method: "onInitializeClient",
-                     moduleOwner: "dev/caecorthus/sparkdlc/client/SparkWitchClient"]
+                     startOwner: "dev/caecorthus/sparkdlc/client/role/civilian/usec/UsecClientModule", startCall: "register"]
             ].each { fused ->
                 if (!(metadata.entrypoints?.get(fused.key) ?: []).contains(fused.entrypoint)) {
                     throw new GradleException("Missing ${fused.key} entrypoint ${fused.entrypoint} in ${jarFile.name}")
                 }
                 def entrypointNode = readClassNode(zipFile, fused.entrypoint.replace('.', '/') + ".class")
-                def entrypointMethod = entrypointNode.methods.find { it.name == fused.method && it.desc == "()V" }
-                def startsModule = entrypointMethod != null && entrypointMethod.instructions.toArray().any {
-                    it instanceof org.objectweb.asm.tree.MethodInsnNode && it.owner == fused.moduleOwner
-                            && it.name == fused.method && it.desc == "()V"
+                def startsModule = entrypointNode.methods.any { method ->
+                    method.instructions.toArray().any {
+                        it instanceof org.objectweb.asm.tree.MethodInsnNode && it.owner == fused.startOwner
+                                && it.name == fused.startCall
+                    }
                 }
                 if (!startsModule) {
                     throw new GradleException(
-                            "${fused.entrypoint}#${fused.method} no longer starts ${fused.moduleOwner} in ${jarFile.name}"
+                            "${fused.entrypoint} no longer calls ${fused.startOwner}#${fused.startCall} in ${jarFile.name}"
                     )
                 }
             }
 
             [
-                    "cardinal-components"      : "dev.caecorthus.sparkdlc.SparkWitchComponents",
-                    "voicechat"                : "dev.caecorthus.sparkdlc.voice.SparkWitchVoiceChatPlugin",
+                    "cardinal-components"      : "dev.caecorthus.sparkdlc.SparkDlcComponents",
+                    "voicechat"                : "dev.caecorthus.sparkdlc.voice.SparkDlcVoiceChatPlugin",
                     "lambdynlights:initializer": "dev.caecorthus.sparkdlc.client.role.civilian.savior.SaviorDynamicLightsInitializer",
                     "dynamiclights"            : "dev.caecorthus.sparkdlc.client.role.civilian.savior.SaviorDynamicLightsInitializer"
             ].each { key, entrypoint ->
@@ -1567,11 +1572,11 @@ def verifyWitchModJar = tasks.register("verifyWitchModJar") {
             }
 
             [
-                    "dev/caecorthus/sparkdlc/client/SparkWitchClient.class",
-                    "dev/caecorthus/sparkdlc/net/version/SparkWitchServerConnection.class",
-                    "dev/caecorthus/sparkdlc/net/SparkWitchPackets.class",
-                    "dev/caecorthus/sparkdlc/net/version/SparkWitchServerConfirmS2CPacket.class",
-                    "dev/caecorthus/sparkdlc/client/net/version/SparkWitchClientVersionHandshake.class"
+                    "dev/caecorthus/sparkdlc/client/SparkDLCClient.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkDlcServerConnection.class",
+                    "dev/caecorthus/sparkdlc/net/SparkDlcPackets.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkDlcServerConfirmS2CPacket.class",
+                    "dev/caecorthus/sparkdlc/client/net/version/SparkDlcClientVersionHandshake.class"
             ].each { requiredEntry ->
                 // Client display gates need both login and play-stage Spark server confirmation.
                 // 客户端显示开关需要登录阶段和 play 阶段的 Spark 服务端确认。

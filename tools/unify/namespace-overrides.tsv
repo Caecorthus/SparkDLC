@@ -7,11 +7,11 @@
 form	old	new	note
 id	sparktraits:world	sparkdlc:trait_world	component key: collides with sparkwitch:world (two different component classes)
 id	sparkwitch:world	sparkdlc:witch_world	component key: collides with sparktraits:world
-id	sparktraits:server_confirm	sparkdlc:trait_server_confirm	S2C payload: collides with sparkwitch:server_confirm (handshakes are merged in a later stage)
-id	sparkwitch:server_confirm	sparkdlc:witch_server_confirm	S2C payload: collides with sparktraits:server_confirm
-id	sparkfactionapi:version_check	sparkdlc:faction_version_check	login query channel: three handshakes
-id	sparktraits:version_check	sparkdlc:trait_version_check	login query channel: three handshakes
-id	sparkwitch:version_check	sparkdlc:witch_version_check	login query channel: three handshakes
+id	sparktraits:server_confirm	sparkdlc:server_confirm	S2C payload: merged with sparkwitch:server_confirm into the play confirmation of the one handshake (stage 3; sparkdlc:trait_server_confirm in between)
+id	sparkwitch:server_confirm	sparkdlc:server_confirm	S2C payload: merged with sparktraits:server_confirm into the play confirmation of the one handshake (stage 3; sparkdlc:witch_server_confirm in between)
+id	sparkfactionapi:version_check	sparkdlc:version_check	login query channel: merged, the three handshakes are one since stage 3 (sparkdlc:faction_version_check in between); the old channel is retired, nothing listens on it
+id	sparktraits:version_check	sparkdlc:version_check	login query channel: merged, the three handshakes are one since stage 3 (sparkdlc:trait_version_check in between); the old channel is retired, nothing listens on it
+id	sparkwitch:version_check	sparkdlc:version_check	login query channel: merged, the three handshakes are one since stage 3 (sparkdlc:witch_version_check in between); the old channel is retired, nothing listens on it
 id	sparktraits:wraith_player	sparktraits:wraith_player	KEEP: older saved key of sparkdlc:wraith_player (component_fallback row of legacy-ids.tsv, tests of LegacySavedData)
 id	sparktraits:wraith_round	sparktraits:wraith_round	KEEP: older saved key of sparkdlc:wraith_round (component_fallback row of legacy-ids.tsv, tests of LegacySavedData)
 id	sparktraits:wraith	sparktraits:wraith	KEEP: retired trait id and legacy role alias (RetiredTraitIds, legacy_role_alias rows of legacy-ids.tsv, RoundRules)

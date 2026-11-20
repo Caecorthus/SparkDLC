@@ -20,12 +20,12 @@ import org.spongepowered.asm.mixin.injection.At;
  *
  * <p>Sodium split: Sodium {@code @Overwrite}s {@code setupTerrain}, and Mixin refuses to inject into an overwritten
  * method at apply time even with {@code require = 0} (client crash on launch). This class therefore holds only the
- * {@code setupTerrain} injectors, and {@code SparkStrengthClientMixinPlugin} skips it when Sodium is loaded. Sodium's
+ * {@code setupTerrain} injectors, and {@code SparkDlcClientMixinPlugin} skips it when Sodium is loaded. Sodium's
  * own renderer already builds and culls sections around the camera, which is what these injectors emulate.
  * {@code require = 0} only covers a mod that reshapes the method without overwriting it (far terrain is lost, no
  * crash).
  * Sodium 拆分：Sodium 以 @Overwrite 替换 setupTerrain，Mixin 在应用阶段拒绝注入被覆盖的方法，require = 0 也无效（客户端启动即崩溃）。
- * 因此本类只包含 setupTerrain 的注入，Sodium 存在时由 SparkStrengthClientMixinPlugin 跳过。Sodium 自身的渲染器本就以镜头为中心构建
+ * 因此本类只包含 setupTerrain 的注入，Sodium 存在时由 SparkDlcClientMixinPlugin 跳过。Sodium 自身的渲染器本就以镜头为中心构建
  * 和剔除区块段，正是这些注入所模拟的行为。require = 0 只应对改写但未覆盖该方法的模组（失去远处地形，不会崩溃）。</p>
  */
 @Mixin(WorldRenderer.class)

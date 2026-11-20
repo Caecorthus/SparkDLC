@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.SparkWitchRoles;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.trait.api.TraitIds;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.noa.NoaRules;
 import dev.caecorthus.sparkdlc.role.killer.natsume.NatsumeRules;
 import dev.caecorthus.sparkdlc.role.jiahao.insider.InsiderRules;
@@ -202,7 +202,7 @@ public final class MoodFlags {
      * 客户端：{@code renderHud} 未进入任何图标路径时要绘制的旗帜，否则为 {@code null}（无职业，或未确认 SparkWitch 服务器）。
      */
     public static @Nullable Identifier noMoodSprite(@Nullable PlayerEntity player) {
-        if (player == null || !SparkWitchServerConnection.isConfirmedServer()) {
+        if (player == null || !SparkDlcServerConnection.isConfirmedServer()) {
             return null;
         }
         Role role = GameWorldComponent.KEY.get(player.getWorld()).getRole(player);
@@ -210,7 +210,7 @@ public final class MoodFlags {
     }
 
     private static @Nullable PlayerEntity localPlayer() {
-        return SparkWitchServerConnection.isConfirmedServer() ? MinecraftClient.getInstance().player : null;
+        return SparkDlcServerConnection.isConfirmedServer() ? MinecraftClient.getInstance().player : null;
     }
 
     /** The same role Wathe's {@code renderHud} dispatched on. / 与 Wathe {@code renderHud} 分派时相同的职业。 */

@@ -5,6 +5,7 @@ import java.util.function.IntConsumer;
 import java.util.function.IntFunction;
 import java.util.function.IntSupplier;
 import net.minecraft.text.Text;
+import org.jetbrains.annotations.Nullable;
 
 /** An integer row on a slider, snapped to {@code step} between {@code min} and {@code max}. 按步长取整的整数滑块行。 */
 public final class SliderOption extends SettingsOption {
@@ -16,8 +17,9 @@ public final class SliderOption extends SettingsOption {
     private final int defaultValue;
     private final IntFunction<Text> format;
 
-    public SliderOption(String id, Text label, Text description, Text source, SettingsStore store, int min, int max,
-                        int step, IntSupplier getter, IntConsumer setter, int defaultValue, IntFunction<Text> format) {
+    public SliderOption(String id, Text label, Text description, @Nullable Text source, SettingsStore store, int min,
+                        int max, int step, IntSupplier getter, IntConsumer setter, int defaultValue,
+                        IntFunction<Text> format) {
         super(id, label, description, source, store);
         if (min >= max || step <= 0) {
             throw new IllegalArgumentException("Bad slider range / 滑块范围无效");

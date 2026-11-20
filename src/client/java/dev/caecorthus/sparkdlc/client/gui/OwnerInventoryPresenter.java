@@ -16,7 +16,7 @@ import dev.caecorthus.sparkdlc.client.text.WitchSkillClientTexts;
 import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.skill.mana.WitchManaRules;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.ApprenticePlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.ApprenticeRules;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.abilities.mightyforce.MightyForceAbility;
@@ -302,7 +302,7 @@ public final class OwnerInventoryPresenter {
 
     private static InventoryInfoCard.Section skillSection(PlayerEntity player) {
         MinecraftClient client = MinecraftClient.getInstance();
-        if (!SparkWitchServerConnection.isConfirmedServer() || player == null || player != client.player
+        if (!SparkDlcServerConnection.isConfirmedServer() || player == null || player != client.player
                 || client.world == null || player.getWorld() != client.world) return null;
         WitchPlayerComponent component = WitchPlayerComponent.KEY.get(player);
         var skillId = component.getActiveSkillId();

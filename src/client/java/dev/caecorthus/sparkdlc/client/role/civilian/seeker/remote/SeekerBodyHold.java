@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.seeker.remote;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -143,7 +143,7 @@ public final class SeekerBodyHold {
         }
         MinecraftClient client = MinecraftClient.getInstance();
         ClientPlayerEntity player = client.player;
-        if (player == null || client.world == null || !SparkWitchServerConnection.isConfirmedServer()
+        if (player == null || client.world == null || !SparkDlcServerConnection.isConfirmedServer()
                 || !freezes(player)) {
             return;
         }

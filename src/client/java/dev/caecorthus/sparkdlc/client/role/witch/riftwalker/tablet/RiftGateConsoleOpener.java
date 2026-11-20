@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.witch.riftwalker.tablet;
 
 import dev.caecorthus.sparkdlc.tablet.TabletItemLookup;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.RiftwalkerRules;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.net.RiftGateConsoleRequestC2SPacket;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.session.RiftSessionService;
@@ -126,7 +126,7 @@ public final class RiftGateConsoleOpener {
      * 已确认的 SparkWitch 服务器，且注册了控制台请求数据包。
      */
     static boolean isServerReady() {
-        return SparkWitchServerConnection.isConfirmedServer()
+        return SparkDlcServerConnection.isConfirmedServer()
                 && ClientPlayNetworking.canSend(RiftGateConsoleRequestC2SPacket.ID);
     }
 

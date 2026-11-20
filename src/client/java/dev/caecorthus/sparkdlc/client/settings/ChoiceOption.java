@@ -17,8 +17,9 @@ public final class ChoiceOption<T> extends SettingsOption {
     private final Function<T, Text> names;
     private Function<T, Text> valueDescriptions = value -> null;
 
-    public ChoiceOption(String id, Text label, Text description, Text source, SettingsStore store, List<T> values,
-                        Supplier<T> getter, Consumer<T> setter, T defaultValue, Function<T, Text> names) {
+    public ChoiceOption(String id, Text label, Text description, @Nullable Text source, SettingsStore store,
+                        List<T> values, Supplier<T> getter, Consumer<T> setter, T defaultValue,
+                        Function<T, Text> names) {
         super(id, label, description, source, store);
         if (values.isEmpty() || !values.contains(defaultValue)) {
             throw new IllegalArgumentException("The default must be one of the values / 默认值必须在取值列表中");

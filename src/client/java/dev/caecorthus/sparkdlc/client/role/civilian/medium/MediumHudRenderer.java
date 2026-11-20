@@ -5,7 +5,7 @@ import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityController;
 import dev.caecorthus.sparkdlc.client.SparkWitchClient;
 import dev.caecorthus.sparkdlc.client.role.neutral.fiend.FiendDashHudRules;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.medium.MediumBlessing;
 import dev.caecorthus.sparkdlc.role.civilian.medium.MediumPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.medium.MediumRules;
@@ -114,7 +114,7 @@ public final class MediumHudRenderer {
     static boolean isActiveMedium(@Nullable ClientPlayerEntity player) {
         return player != null
                 && MediumRules.isMedium(GameWorldComponent.KEY.get(player.getWorld()).getRole(player))
-                && SparkWitchServerConnection.isConfirmedServer()
+                && SparkDlcServerConnection.isConfirmedServer()
                 && GameFunctions.isPlayerPlayingAndAlive(player)
                 && !GameFunctions.isPlayerSpectatingOrCreative(player)
                 && !NoellesTaotieSeekerBridge.isSwallowed(player);

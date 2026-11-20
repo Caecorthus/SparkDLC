@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.headset;
 
 import com.mojang.datafixers.util.Pair;
 import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.PlayerScreenHandler;
@@ -73,6 +73,6 @@ public final class HeadsetSlot extends Slot {
 
     @Override
     public boolean isEnabled() {
-        return !owner.getWorld().isClient() || SparkWitchServerConnection.isConfirmedServer();
+        return !owner.getWorld().isClient() || SparkDlcServerConnection.isConfirmedServer();
     }
 }

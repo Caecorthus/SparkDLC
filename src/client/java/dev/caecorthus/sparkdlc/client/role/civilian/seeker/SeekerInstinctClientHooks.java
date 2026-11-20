@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.seeker;
 
 import dev.caecorthus.sparkdlc.client.hooks.WitchInstinctSuppressionClientHooks;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerDeviceEntity;
 import dev.doctor4t.wathe.api.Role;
@@ -42,7 +42,7 @@ public final class SeekerInstinctClientHooks {
 
     @Nullable
     private static GetInstinctHighlight.HighlightResult sparkwitch$deviceHighlight(Entity target) {
-        if (!(target instanceof SeekerDeviceEntity device) || !SparkWitchServerConnection.isConfirmedServer()) {
+        if (!(target instanceof SeekerDeviceEntity device) || !SparkDlcServerConnection.isConfirmedServer()) {
             return null;
         }
         ClientPlayerEntity viewer = MinecraftClient.getInstance().player;

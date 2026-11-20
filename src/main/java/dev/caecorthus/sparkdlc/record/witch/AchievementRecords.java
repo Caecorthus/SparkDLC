@@ -321,7 +321,7 @@ public final class AchievementRecords {
         try {
             write.run();
         } catch (RuntimeException exception) {
-            SparkWitch.LOGGER.warn("Failed to write a SparkWitch achievement record", exception);
+            SparkWitch.LOGGER.warn("Failed to write a SparkDLC achievement record", exception);
         }
     }
 }

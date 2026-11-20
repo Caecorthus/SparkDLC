@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.SparkWitchRoles;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityHandler;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityRegistry;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.neutral.ferryman.FerrymanRules;
 import dev.caecorthus.sparkdlc.role.neutral.ferryman.net.FerrymanFerryC2SPayload;
 import dev.caecorthus.sparkdlc.role.neutral.ferryman.net.FerrymanPardonC2SPayload;
@@ -51,7 +51,7 @@ public final class FerrymanClient {
         });
     }
 
-    /** Shared ability key press, dispatched by {@code SparkWitchClient} for the exact role only. / 共享技能键按下，由主入口按精确职业分发。 */
+    /** Shared ability key press, dispatched by {@code SparkDLCClient} for the exact role only. / 共享技能键按下，由主入口按精确职业分发。 */
     public static void onAbilityKey(MinecraftClient client) {
         if (client.player == null || !ClientPlayNetworking.canSend(FerrymanPardonC2SPayload.ID)) {
             return;
@@ -80,7 +80,7 @@ public final class FerrymanClient {
      */
     public static boolean isActiveLocalCharon(@Nullable ClientPlayerEntity player) {
         return isLocalCharonRole(player)
-                && SparkWitchServerConnection.isConfirmedServer()
+                && SparkDlcServerConnection.isConfirmedServer()
                 && GameWorldComponent.KEY.get(player.getWorld()).getGameStatus() == GameWorldComponent.GameStatus.ACTIVE
                 && GameFunctions.isPlayerPlayingAndAlive(player)
                 && !GameFunctions.isPlayerSpectatingOrCreative(player)
@@ -103,7 +103,7 @@ public final class FerrymanClient {
         GameWorldComponent game = GameWorldComponent.KEY.get(player.getWorld());
         Role role = game.getRole(player);
         return role != null && FerrymanRules.LOST_SOUL_ID.equals(role.identifier())
-                && SparkWitchServerConnection.isConfirmedServer()
+                && SparkDlcServerConnection.isConfirmedServer()
                 && game.getGameStatus() == GameWorldComponent.GameStatus.ACTIVE
                 && GameFunctions.isPlayerPlayingAndAlive(player)
                 && !GameFunctions.isPlayerSpectatingOrCreative(player)

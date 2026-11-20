@@ -153,7 +153,7 @@ python3 tools/unify/rename_namespace.py plan                  # checks + legacy-
 python3 tools/unify/rename_namespace.py apply --phase main     # resources, production and gametest sources
 python3 tools/unify/rename_namespace.py apply --phase tooling  # gradle/verify, config, tools/payload_policy.py, docs
 python3 tools/unify/rename_namespace.py apply --phase tests    # local-only src/test (JUnit, Strength Java and Python)
-python3 tools/payload_policy.py generate --repo . --mod <factionapi|witch|strength>   # after the tooling phase
+python3 tools/payload_policy.py generate --repo .              # after the tooling phase (one class since stage 3)
 ```
 
 A phase is deterministic, and an applied phase is recorded and skipped on the next run (`--force` overrides; on a
@@ -214,8 +214,8 @@ Collisions (`namespace-overrides.tsv`) / 冲突：
 | Old | New | Why |
 | --- | --- | --- |
 | item groups `sparkstrength:items`, `sparkwitch:items` | one tab `sparkdlc:items`, title `itemGroup.sparkdlc.items` = "SparkDLC" | merged by hand before the rename (`SparkDlcItemGroups`): SparkStrength's entries, then SparkWitch's / 改名前手工合并 |
-| payloads `sparktraits:server_confirm`, `sparkwitch:server_confirm` | `sparkdlc:trait_server_confirm`, `sparkdlc:witch_server_confirm` | two handshakes until they are merged / 握手合并之前仍是两个 |
-| login channels `*:version_check` | `sparkdlc:faction_version_check`, `trait_version_check`, `witch_version_check` | three handshakes / 三个握手 |
+| payloads `sparktraits:server_confirm`, `sparkwitch:server_confirm` | one `sparkdlc:server_confirm` | one handshake since stage 3 ("one wire"); `sparkdlc:trait_server_confirm` and `sparkdlc:witch_server_confirm` in between / 第三阶段起只有一个握手 |
+| login channels `*:version_check` | one `sparkdlc:version_check` | one handshake since stage 3; `sparkdlc:faction_version_check`, `trait_version_check`, `witch_version_check` in between; the old channels are retired, nothing listens on them / 旧频道已退役，不再监听 |
 | component keys `sparktraits:world`, `sparkwitch:world` | `sparkdlc:trait_world`, `sparkdlc:witch_world` | two component classes / 两个组件类 |
 | `key.sparkwitch.secondary_skill` | `key.sparkdlc.role_skill_2` | `key.sparkstrength.secondary_skill` takes `key.sparkdlc.secondary_skill`; texts unchanged / 文本不变 |
 | `guidebook.sparkassist.source_name.{sparkwitch,sparktraits,sparkassist}` | one `guidebook.sparkdlc.source_name.sparkdlc` | the assist text ("Spark DLC") stays / 保留 assist 的文本 |
@@ -225,8 +225,10 @@ Collisions (`namespace-overrides.tsv`) / 冲突：
 Legacy names kept on purpose / 有意保留的旧名字：
 
 - `fabric.mod.json` `provides` and `SparkDlcModule`: the five legacy mod ids. `isModLoaded("sparkwitch")` still
-  answers; the event volume rows of the settings screen (`EventVolumeRows`) keep them as module labels.
-  `provides` 与 `SparkDlcModule`：五个旧 mod id；设置界面的事件音量行继续用它们标注模块。
+  answers; the event volume rows of the settings screen (`EventVolumeRows`) keep them as the mod a row belongs to.
+  They are not shown: a row that resolves to the SparkDLC container has no "From ..." line (stage 3, "one name").
+  `provides` 与 `SparkDlcModule`：五个旧 mod id；设置界面的事件音量行继续用它们记录该行所属的模组，但不再显示：
+  解析到 SparkDLC 容器的行没有「来自……」一行（第三阶段“一个名字”）。
 - The legacy filters that predate the rename: `RetiredTraitIds`, `RoundRules.LEGACY_WRAITH`. The former
   `WraithLegacyRoleIds` and `LegacyWraithPlayerComponent` / `LegacyWraithRoundComponent` (the migration of the
   Wraith data saved under `sparktraits:`) were folded into the stage-2b saved-data migration
@@ -298,3 +300,117 @@ mapped through this table (16,229 rows, no difference).
 同一组件更早的第二个旧名字（冤魂系的 `sparktraits:` id 与组件键），读取时排在对应的 `role` / `component` 行之后。资源路径和仅替换命名空间段的约 4100 个语言键
 不逐条列出；文件见 `resource-moves.tsv`。注册表、标签、数据包、组件、职业、阵营、天赋、技能、回放格式化器和命令的行来自改名前
 无界面服务器的运行时导出；改名后的同一导出与经本表映射的旧导出完全一致（16,229 行，无差异）。
+
+# Stage 3: one mod inside / 第三阶段：内部也是一个模组
+
+## One entry / 单一入口
+
+The five initializers, four Cardinal Components entrypoints, three voice chat plugins and three client mixin plugins
+became one class each: `SparkDLC`, `client.SparkDLCClient`, `SparkDlcComponents`, `voice.SparkDlcVoiceChatPlugin`,
+`client.SparkDlcClientMixinPlugin`. Nothing was reordered: the bodies of the former classes are the named steps of
+the new ones, in the sequence the fused entrypoints used to call them.
+
+- **Proof of order.** `./gradlew runGameTest -PstartupOrderDump=<dir>` (and `runClientAudit` with the same property)
+  writes `startup-order-<side>.txt`: the mod's entries of every vanilla registry in raw-id order, the handlers of
+  every Fabric event that has one of ours in dispatch order (other mods' handlers included, each named by its host
+  class), the component factories in registration order, the payload ids and global receivers, and on a client the
+  modded key bindings (gametest class `StartupOrderDump`, reflection only, so the same file runs on any revision).
+  A dump run switches off Fabric Loader's development-only mod shuffle, which otherwise moves other mods' listeners
+  around ours from run to run. For this change the server dump before and after differs only in the host class of
+  the three listeners the common initializer registers itself (`SparkWitch` became `SparkDLC`).
+- **`file-moves.tsv` keeps the rows of the classes that were merged away** (it is the record of which former module
+  a file came from). A consumer takes only the rows whose file still exists, as `legacyModules.sources` in
+  `gradle/verify/legacy-modules.gradle` does. The merged classes belong to no former module and are not listed, so a
+  per-module rule no longer scans the start-up code; a rule that must keep covering it names the merged class.
+- **Transitional holders.** `SparkFactionApiMod`, `SparkStrength`, `SparkTraits`, `SparkWitch`, `SparkAssist` keep
+  `MOD_ID`, `LOGGER` and `id(...)`, and `client.SparkAssistClient`, `client.SparkTraitsClient`,
+  `client.SparkWitchClient` forward `configManager()`, `runSessionCleanup(...)` / `shouldRunSessionCleanup(...)` and
+  `abilityKeyText()` to `SparkDLCClient`, for the roughly one thousand call sites that still name them. A scripted
+  pass points those at `SparkDLC` / `SparkDLCClient` and deletes the holders.
+
+五个初始化器、四个 Cardinal Components 入口、三个语音插件和三个客户端 mixin 插件各自合并为一个类：`SparkDLC`、
+`client.SparkDLCClient`、`SparkDlcComponents`、`voice.SparkDlcVoiceChatPlugin`、`client.SparkDlcClientMixinPlugin`。
+没有调整任何顺序：原有各类的方法体成为新类中具名的步骤，顺序与融合入口原先调用它们的顺序一致。
+
+- **顺序的证明。**`./gradlew runGameTest -PstartupOrderDump=<目录>`（`runClientAudit` 同样支持该属性）会写出
+  `startup-order-<side>.txt`：每个原版注册表中本模组条目的 raw id 顺序、每个含有本模组处理器的 Fabric 事件的处理器分发顺序
+  （包含其他模组的处理器，以所在类命名）、组件工厂的注册顺序、数据包 id 与全局接收器，以及客户端上的模组按键绑定
+  （gametest 类 `StartupOrderDump`，只用反射，因此同一个文件可在任意版本上运行）。导出时会关闭 Fabric Loader 仅在开发环境启用的
+  模组顺序打乱，否则其他模组的监听器每次运行都会出现在我们监听器的不同位置。本次改动前后的服务端导出只有一处差异：
+  通用初始化器自己注册的三个监听器所在的类（`SparkWitch` 变为 `SparkDLC`）。
+- **`file-moves.tsv` 保留被合并掉的类所在的行**（它记录的是文件来自哪个旧模块）。使用方只取文件仍然存在的行，与
+  `gradle/verify/legacy-modules.gradle` 中 `legacyModules.sources` 的做法一致。合并后的类不属于任何旧模块，也不在清单中，
+  因此按模块的规则不再扫描启动代码；需要继续覆盖它的规则要直接点名合并后的类。
+- **过渡期的持有类。**`SparkFactionApiMod`、`SparkStrength`、`SparkTraits`、`SparkWitch`、`SparkAssist` 保留 `MOD_ID`、
+  `LOGGER` 与 `id(...)`；`client.SparkAssistClient`、`client.SparkTraitsClient`、`client.SparkWitchClient` 把
+  `configManager()`、`runSessionCleanup(...)` / `shouldRunSessionCleanup(...)` 与 `abilityKeyText()` 转发给
+  `SparkDLCClient`，供仍然引用它们的约一千处调用使用。之后的脚本化改名会把这些调用点指向 `SparkDLC` / `SparkDLCClient`
+  并删除这些持有类。
+
+## One wire / 一条线
+
+The mod spoke to its own client as three mods: three version handshakes, three generated payload-policy classes,
+three packet hubs. Each is one now.
+
+- **Handshake.** `net.version.SparkDlcVersionHandshake` asks one login query (`sparkdlc:version_check`) and sends one
+  play confirmation (`SparkDlcServerConfirmS2CPacket`, `sparkdlc:server_confirm`); `SparkDlcVersionCheck` is the
+  decision as pure logic with the one pair of kick messages, which name SparkDLC; `SparkDlcServerConnection` is the one
+  "the server runs SparkDLC and is confirmed" flag; `client.net.version.SparkDlcClientVersionHandshake` answers. The
+  three old login channels and the two old confirmation payloads are retired, nothing listens on them (notes of the
+  `login_channel` and `server_confirm` rows of `legacy-ids.tsv`, set in `id-inventory.tsv` and
+  `namespace-overrides.tsv`). The flag keeps the lifecycle of the former SparkTraits flag, the stricter one: a JOIN
+  keeps only a confirmation that this connection's own login earned, so after a proxy backend switch the readers of the
+  former SparkWitch flag are unconfirmed until the new backend's confirmation arrives (that flag used to survive every
+  JOIN). The confirmation is sent from a player-join listener and stands where the first of the two former ones stood:
+  after the join listeners of the role kits, before those of the traits and the mod's own roles
+  (`SparkDlcVersionHandshake.registerServer()` in `SparkDLC#onInitialize`). Game test `SparkDlcHandshakeGameTest` logs
+  three scripted clients in over a loopback socket: same version, other version, no answer.
+- **Payload policy.** One generated class, `net.policy.GeneratedPayloadPolicy`, with every emitted profile.
+  `tools/payload_policy.py` has no per-module target (`generate --repo .`, `check --repo .`) and no longer reads
+  `file-moves.tsv`. In `config/payload-policy/actions.tsv` the `owner` column is the registering mod again and equals
+  the namespace of the id (`sparkdlc`, `wathe`, `noellesroles`); what the former labels `sparkstrength` / `sparkwitch`
+  still carried for a rule is the new `group` column: `role_kit` (kits of the Wathe and NoellesRoles roles, sabotage,
+  tablet, killer team economy) or `own_role`. `check` also fails on a `sparkdlc` row that no source registers. The
+  `tools/payload_policy.py` row of `namespace-keep.tsv` no longer matches anything.
+- **Packets.** `net.SparkDlcPackets.register()` is the one call for payload types and server receivers, a list of
+  features by role category. A feature with several payloads has a registrar in its own package (`*Packets`,
+  `*Networking`; fourteen were split out of the former hubs), a feature with one or two is registered in the hub under
+  its name. Payload types and global receivers are kept per payload id, so nothing in the hub depends on order; what
+  does is an event listener, and the hub registers none: the services that register listeners together with their
+  payloads (`CrossSwordStabService`, the Savior's three services, `HunterShotgunAimClaims`) are called from
+  `registerOwnRoleGameplay`, in the place and order they had inside the former hub. On the client the fifteen
+  receivers that the start-up wrote out itself are `client.net.SparkDlcClientPackets.register()`; client feature
+  modules keep their own receivers.
+- **Proof.** The server start-up dump before and after differs only in what the handshake merge changes on purpose:
+  one `QueryStart` listener instead of three, one join listener of `SparkDlcVersionHandshake` in the place of the
+  one of `SparkTraitsPackets` and none in the place of the one of `SparkWitchPackets`, and `sparkdlc:server_confirm`
+  instead of the two old payload ids. The packet hub merge changes nothing in the dump. The 12 profile sets of the
+  one policy class equal the sets of the three classes that carried them (109 payload ids x 12 profiles).
+
+本模组原先以三个模组的身份与自己的客户端通信：三个版本握手、三个生成的数据包策略类、三个数据包注册中心。现在各只有一个。
+
+- **握手。**`net.version.SparkDlcVersionHandshake` 只提出一个登录查询（`sparkdlc:version_check`），只发送一个 play 确认
+  （`SparkDlcServerConfirmS2CPacket`，`sparkdlc:server_confirm`）；`SparkDlcVersionCheck` 以纯逻辑给出判定及唯一一对踢出提示
+  （提示中的名字是 SparkDLC）；`SparkDlcServerConnection` 是唯一的“服务端运行 SparkDLC 且已确认”标记；
+  `client.net.version.SparkDlcClientVersionHandshake` 负责应答。三个旧登录频道与两个旧确认数据包已退役，不再有任何监听
+  （见 `legacy-ids.tsv` 中 `login_channel` 与 `server_confirm` 行的备注，在 `id-inventory.tsv` 与 `namespace-overrides.tsv` 中设置）。
+  该标记沿用原 SparkTraits 标记的生命周期（两者中更严格的一个）：JOIN 只保留由本连接自己的登录取得的确认，因此代理切换后端之后，
+  原 SparkWitch 标记的读取方在新后端的确认到达之前处于未确认状态（该标记原先会保留到每次 JOIN 之后）。确认由玩家加入监听器发送，
+  位置与原先两个确认中的第一个相同：晚于职业套件的加入监听器，早于词条与本模组自有职业的加入监听器
+  （`SparkDLC#onInitialize` 中的 `SparkDlcVersionHandshake.registerServer()`）。game test `SparkDlcHandshakeGameTest` 通过回环 socket
+  让三个脚本客户端登录：版本相同、版本不同、不应答。
+- **数据包策略。**只有一个生成类 `net.policy.GeneratedPayloadPolicy`，包含全部生成的配置。`tools/payload_policy.py` 不再有按模块的
+  目标（`generate --repo .`、`check --repo .`），也不再读取 `file-moves.tsv`。`config/payload-policy/actions.tsv` 的 `owner` 列重新表示
+  注册数据包的模组，并与 id 的命名空间相同（`sparkdlc`、`wathe`、`noellesroles`）；旧标签 `sparkstrength` / `sparkwitch` 仍为某条规则
+  携带的信息成为新的 `group` 列：`role_kit`（Wathe 与 NoellesRoles 职业的套件、破坏、平板电脑、杀手团队经济）或 `own_role`。
+  `check` 还会在某个 `sparkdlc` 行没有任何源码注册时失败。`namespace-keep.tsv` 中 `tools/payload_policy.py` 那一行已不再匹配任何内容。
+- **数据包。**`net.SparkDlcPackets.register()` 是注册数据包类型与服务端接收器的唯一调用，按职业类别列出各功能。数据包较多的功能在
+  自己的包里有注册类（`*Packets`、`*Networking`；其中十四个从原注册中心拆出），只有一两个数据包的功能在注册中心内按功能名注册。
+  数据包类型与全局接收器按数据包 id 保存，因此注册中心内没有任何内容依赖顺序；依赖顺序的是事件监听器，而注册中心不注册监听器：
+  连同数据包一起注册监听器的服务（`CrossSwordStabService`、救世主的三个服务、`HunterShotgunAimClaims`）由 `registerOwnRoleGameplay`
+  调用，位置与顺序同它们在原注册中心内时一致。客户端方面，启动流程原先自己写出的十五个接收器现在是
+  `client.net.SparkDlcClientPackets.register()`；各客户端功能模块仍保留自己的接收器。
+- **证明。**改动前后的服务端启动导出只有握手合并有意造成的差异：`QueryStart` 监听器由三个变为一个；`SparkDlcVersionHandshake` 的
+  一个加入监听器取代了 `SparkTraitsPackets` 的那个，`SparkWitchPackets` 的那个不再存在；两个旧数据包 id 变为
+  `sparkdlc:server_confirm`。数据包注册中心的合并在导出中没有任何变化。合并后的策略类的 12 个配置集合与原先三个类中的对应集合
+  完全相同（109 个数据包 id × 12 个配置）。

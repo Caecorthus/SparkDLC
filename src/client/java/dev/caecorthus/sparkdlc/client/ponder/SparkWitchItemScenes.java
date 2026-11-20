@@ -263,7 +263,7 @@ final class SparkWitchItemScenes {
                 SCREEN_RIGHT, Direction.DOWN);
         Actors.hold(scene, stealer, watch);
         scene.idle(20);
-        SceneCaptions.keyframeCaption(scene, 90, "只有带【善良】词条（SparkTraits）的窃时者，才会在时间怀表之外多一块赠时怀表");
+        SceneCaptions.keyframeCaption(scene, 90, "只有带【善良】词条的窃时者，才会在时间怀表之外多一块赠时怀表");
         scene.idle(100);
         scene.overlay().showControls(feet.add(0, 2.6, 0), Pointing.DOWN, 30).rightClick().withItem(watch);
         SceneCaptions.keyframeCaption(scene, 90, "其他活人看不见它；对准 7 格内看得见的人右键，把时间送给他，没有挥手动作");

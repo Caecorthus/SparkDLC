@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.noa;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.noa.NoaRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.gui.MoodRenderer;
@@ -63,7 +63,7 @@ public final class NoaMoodIcon {
     }
 
     private static boolean isLocalNoa() {
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return false;
         }
         ClientPlayerEntity player = MinecraftClient.getInstance().player;

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.mixin.trait;
 
 import dev.caecorthus.sparkdlc.trait.global.GlobalTraitService;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -37,7 +37,7 @@ public abstract class CautiousPlayerConsumptionSoundMixin {
     ) {
         PlayerEntity player = (PlayerEntity) (Object) this;
         if (sound == SoundEvents.ENTITY_PLAYER_BURP
-                && !SparkTraitsServerConnection.isUnconfirmedClientEntity(player)
+                && !SparkDlcServerConnection.isUnconfirmedClientEntity(player)
                 && GlobalTraitService.shouldSuppressCautiousSounds(player)) {
             return;
         }

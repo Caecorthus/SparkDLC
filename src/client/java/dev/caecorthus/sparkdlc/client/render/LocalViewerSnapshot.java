@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.render;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -105,7 +105,7 @@ public final class LocalViewerSnapshot {
     /** Render thread, world pass start: forget everything and start memoizing. / 渲染线程，世界 pass 开始：清空并开始缓存。 */
     public static void beginWorldPass() {
         MinecraftClient client = MinecraftClient.getInstance();
-        PASS.begin(client.player, client.world, SparkWitchServerConnection.isConfirmedServer(), Thread.currentThread());
+        PASS.begin(client.player, client.world, SparkDlcServerConnection.isConfirmedServer(), Thread.currentThread());
     }
 
     /** Ends memoization until the next world pass starts. / 结束缓存，直到下一次世界 pass 开始。 */
@@ -119,7 +119,7 @@ public final class LocalViewerSnapshot {
      */
     public static boolean localFact(Fact fact, BooleanSupplier rule) {
         MinecraftClient client = MinecraftClient.getInstance();
-        if (client == null || !PASS.usable(client.player, client.world, SparkWitchServerConnection.isConfirmedServer(),
+        if (client == null || !PASS.usable(client.player, client.world, SparkDlcServerConnection.isConfirmedServer(),
                 Thread.currentThread())) {
             return rule.getAsBoolean();
         }
@@ -145,7 +145,7 @@ public final class LocalViewerSnapshot {
         MinecraftClient client = MinecraftClient.getInstance();
         return client != null
                 && viewer == client.player
-                && PASS.usable(client.player, client.world, SparkWitchServerConnection.isConfirmedServer(),
+                && PASS.usable(client.player, client.world, SparkDlcServerConnection.isConfirmedServer(),
                 Thread.currentThread());
     }
 

@@ -39,6 +39,17 @@ Code is organised by function, not by legacy module: roles live in `role.<catego
 `client.*`, every mixin in `mixin.*` / `client.mixin.*` (two mixin configs). Namespaces are unchanged; the move
 script and the package map are in [`tools/unify/README.md`](tools/unify/README.md).
 
+启动只有一个入口：通用端 `SparkDLC`、客户端 `client.SparkDLCClient`，各自的入口方法就是按顺序排列的启动步骤清单；另有唯一的
+Cardinal Components 入口 `SparkDlcComponents`、唯一的语音插件 `voice.SparkDlcVoiceChatPlugin` 和唯一的客户端 mixin 插件。
+步骤顺序属于行为（同一事件的监听器按注册顺序执行），不要随意调整；`./gradlew runGameTest -PstartupOrderDump=<目录>`
+会按顺序写出启动时注册的内容，便于比较两个构建。
+
+The mod starts through one entry: `SparkDLC` on both sides and `client.SparkDLCClient` on the client, whose entry
+methods are the ordered list of start-up steps, plus one Cardinal Components entrypoint (`SparkDlcComponents`), one
+voice chat plugin (`voice.SparkDlcVoiceChatPlugin`) and one client mixin plugin. The order of the steps is behaviour
+(listeners on one event run in registration order), so do not reorder them casually; `./gradlew runGameTest
+-PstartupOrderDump=<dir>` writes what the start-up registered, in order, so that two builds can be compared.
+
 更完整的说明见 [`CONTEXT.md`](CONTEXT.md)，各模块的细节在 `docs/<module>/CONTEXT.md`。
 
 ## 构建与验证 / Build and verify

@@ -15,10 +15,10 @@ import java.util.Set;
  * Client copy of the planted timed-bomb trap positions this trap viewer was sent ({@link TimedBombMarkersPayload}). The
  * warning-smoke mixins read it instead of the block entity, whose client NBT no longer carries the owner. It belongs to
  * one client world: a marker never matches in another world, and the first update for a new world starts from empty.
- * Client thread only; cleared on JOIN and DISCONNECT ({@code SparkStrengthClient#resetSessionState}).
+ * Client thread only; cleared on JOIN and DISCONNECT ({@code SparkDLCClient#resetRoleKitSessionState}).
  * 本陷阱观察者收到的已埋设定时炸弹陷阱位置的客户端副本（TimedBombMarkersPayload）。警示烟雾 mixin 读取它，而不再读取方块实体
  * （其客户端 NBT 已不携带埋设者）。它只属于一个客户端世界：标记不会在其他世界命中，新世界的第一次更新从空开始。
- * 仅在客户端线程使用；JOIN 与 DISCONNECT 时清空（SparkStrengthClient#resetSessionState）。
+ * 仅在客户端线程使用；JOIN 与 DISCONNECT 时清空（SparkDLCClient#resetRoleKitSessionState）。
  */
 public final class TimedBombMarkerClientStore {
     /** Hard cap so a server cannot grow the store without bound. / 硬上限，防止服务端无限撑大存储。 */

@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeTargetOcclus
 import dev.caecorthus.sparkdlc.client.hooks.WitchCohortClientHooks;
 import dev.caecorthus.sparkdlc.client.role.killer.magician.MagicianPuppetNameTags;
 import dev.caecorthus.sparkdlc.client.render.WraithNameTagPassThrough;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.witch.WitchFactionRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.WatheClient;
@@ -39,7 +39,7 @@ public abstract class WitchCohortRoleNameMixin {
             RenderTickCounter tickCounter,
             CallbackInfo ci
     ) {
-        if (!SparkWitchServerConnection.isConfirmedServer()
+        if (!SparkDlcServerConnection.isConfirmedServer()
                 || nametagAlpha <= 0.05f
                 || !GameWorldComponent.KEY.get(player.getWorld()).isRunning()
                 // isGrandWitchCohortPair needs a witch-faction viewer (raw role), so others skip the per-frame raycast.

@@ -113,7 +113,7 @@ final class MiniWitherSkinSettings {
             return;
         }
         unreadableWarned = true;
-        SparkWitch.LOGGER.warn("The SparkWitch client settings {} are unreadable or not a JSON object; the Mini Wither"
+        SparkWitch.LOGGER.warn("The SparkDLC client settings {} are unreadable or not a JSON object; the Mini Wither"
                 + " skin choice applies for this session only and is not saved until the file is fixed", path,
                 exception);
     }

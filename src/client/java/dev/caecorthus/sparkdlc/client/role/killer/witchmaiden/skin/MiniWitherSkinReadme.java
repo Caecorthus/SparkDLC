@@ -8,8 +8,8 @@ package dev.caecorthus.sparkdlc.client.role.killer.witchmaiden.skin;
  */
 final class MiniWitherSkinReadme {
     static final String TEXT = """
-            SparkWitch - Mini Wither skins
-            ==============================
+            SparkDLC - Mini Wither skins
+            ============================
 
             Put each skin in its own folder here. The folder name is the skin id: use only a-z, 0-9, _ . -
             Pick a skin in Options > Skin Customization > Mini Wither Appearance, and press Reload there after you
@@ -74,8 +74,8 @@ final class MiniWitherSkinReadme {
             press Reload in the Mini Wither Appearance screen and choose "cirno".
 
 
-            SparkWitch - 小凋灵皮肤
-            =======================
+            SparkDLC - 小凋灵皮肤
+            =====================
 
             每个皮肤放在这里的一个单独文件夹中。文件夹名就是皮肤 id：只能使用 a-z、0-9、_ . -
             在 选项 > 皮肤自定义 > 小凋灵外观 中选择皮肤；修改任何文件后，请在那里点击“重新加载”。皮肤只改变你自己游戏中

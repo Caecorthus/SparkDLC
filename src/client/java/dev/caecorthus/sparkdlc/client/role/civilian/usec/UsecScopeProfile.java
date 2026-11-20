@@ -5,7 +5,7 @@ import dev.caecorthus.sparkdlc.client.scope.ScopeFrame;
 import dev.caecorthus.sparkdlc.client.scope.ScopeProfile;
 import dev.caecorthus.sparkdlc.client.scope.ScopeRules;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -31,7 +31,7 @@ public final class UsecScopeProfile implements ScopeProfile {
 
     /** {@code ScopeClient} provider: this profile while the rifle is raised, else null. / 举枪时返回本配置，否则为 null。 */
     public static @Nullable ScopeProfile provide() {
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return null;
         }
         ClientPlayerEntity player = MinecraftClient.getInstance().player;

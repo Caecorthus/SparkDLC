@@ -8,7 +8,7 @@ import dev.caecorthus.sparkdlc.net.ConfirmCriminalReasonerC2SPacket;
 import dev.caecorthus.sparkdlc.net.CriminalReasonerInvisibilityC2SPacket;
 import dev.caecorthus.sparkdlc.net.OpenCriminalReasonerS2CPacket;
 import dev.caecorthus.sparkdlc.net.RequestCriminalReasonerC2SPacket;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.neutral.criminalreasoner.CriminalReasonerComponent;
 import dev.caecorthus.sparkdlc.role.neutral.criminalreasoner.CriminalReasonerRules;
 import dev.caecorthus.sparkdlc.role.neutral.criminalreasoner.CriminalReasonerRuntime;
@@ -101,7 +101,7 @@ public final class CriminalReasonerClientModule {
      * 其他隐身玩家保持各自规则给出的描边。不在已确认的 SparkWitch 服务器上时不隐藏任何人。
      */
     private static GetInstinctHighlight.@Nullable HighlightResult hideInvisibleReasoner(@Nullable Entity target) {
-        if (!SparkWitchServerConnection.isConfirmedServer() || !(target instanceof PlayerEntity player)
+        if (!SparkDlcServerConnection.isConfirmedServer() || !(target instanceof PlayerEntity player)
                 || !player.isInvisible() || !CriminalReasonerRuntime.isReasoner(player)) {
             return null;
         }
@@ -145,7 +145,7 @@ public final class CriminalReasonerClientModule {
     public static boolean isActiveReasoner(MinecraftClient client) {
         ClientPlayerEntity player = client.player;
         return player != null
-                && SparkWitchServerConnection.isConfirmedServer()
+                && SparkDlcServerConnection.isConfirmedServer()
                 && GameWorldComponent.KEY.get(player.getWorld()).getGameStatus() == GameWorldComponent.GameStatus.ACTIVE
                 && CriminalReasonerRuntime.isReasoner(player)
                 && GameFunctions.isPlayerPlayingAndAlive(player)

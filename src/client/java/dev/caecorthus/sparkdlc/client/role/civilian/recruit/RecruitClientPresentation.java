@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.recruit;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.recruit.RecruitPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.recruit.RecruitRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -35,7 +35,7 @@ public final class RecruitClientPresentation {
         }
         registered = true;
         HudRenderCallback.EVENT.register((context, tickCounter) -> {
-            if (SparkWitchServerConnection.isConfirmedServer()) {
+            if (SparkDlcServerConnection.isConfirmedServer()) {
                 render(context);
             }
         });

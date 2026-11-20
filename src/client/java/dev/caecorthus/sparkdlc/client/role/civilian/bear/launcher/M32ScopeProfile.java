@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.bear.launcher;
 import dev.caecorthus.sparkdlc.client.scope.ScopeClient;
 import dev.caecorthus.sparkdlc.client.scope.ScopeFrame;
 import dev.caecorthus.sparkdlc.client.scope.ScopeProfile;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -41,7 +41,7 @@ public final class M32ScopeProfile implements ScopeProfile {
 
     /** {@code ScopeClient} provider: this profile while aiming, else null. / 瞄准时返回本配置，否则为 null。 */
     public static @Nullable ScopeProfile provide() {
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return null;
         }
         ClientPlayerEntity player = MinecraftClient.getInstance().player;

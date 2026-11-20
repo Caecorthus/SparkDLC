@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.medium;
 
 import dev.caecorthus.sparkdlc.client.gui.card.InventoryCardPaint;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.medium.MediumBlessing;
 import dev.caecorthus.sparkdlc.role.civilian.medium.MediumRules;
 import dev.caecorthus.sparkdlc.role.civilian.medium.MediumSeanceResultS2CPacket;
@@ -71,7 +71,7 @@ public final class MediumResultCard {
      */
     static void receive(MinecraftClient client, MediumSeanceResultS2CPacket packet) {
         if (packet == null || client.world == null || client.player == null
-                || !SparkWitchServerConnection.isConfirmedServer()) {
+                || !SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }
         result = packet;
@@ -88,7 +88,7 @@ public final class MediumResultCard {
             return;
         }
         if (client.world == null || client.world != receivedWorld
-                || !SparkWitchServerConnection.isConfirmedServer()
+                || !SparkDlcServerConnection.isConfirmedServer()
                 || Util.getMeasuringTimeMs() - receivedAtMs >= TOTAL_MS) {
             clear();
         }

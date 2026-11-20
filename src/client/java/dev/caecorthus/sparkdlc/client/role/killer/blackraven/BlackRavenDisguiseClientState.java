@@ -6,7 +6,7 @@ import dev.caecorthus.sparkdlc.SparkWitchRoles;
 import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotDivinationSelectorScreen;
 import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotDivinationClientState;
 import dev.caecorthus.sparkdlc.client.text.WitchRoleDisplayTexts;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.orthopedist.OrthopedistPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenRules;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.BlackRavenActingRole;
@@ -73,7 +73,7 @@ public final class BlackRavenDisguiseClientState {
     /** Owner's last synced view; EMPTY for anyone but the local player. / 拥有者最近的同步视图；非本地玩家为 EMPTY。 */
     public static BlackRavenDisguiseSyncCodec.View view(@Nullable PlayerEntity player) {
         MinecraftClient client = MinecraftClient.getInstance();
-        if (player == null || player != client.player || !SparkWitchServerConnection.isConfirmedServer()) {
+        if (player == null || player != client.player || !SparkDlcServerConnection.isConfirmedServer()) {
             return BlackRavenDisguiseSyncCodec.View.EMPTY;
         }
         return BlackRavenDisguiseComponent.KEY.get(player).clientView();
@@ -120,7 +120,7 @@ public final class BlackRavenDisguiseClientState {
         // 该事件是全局的，集成服务端线程绝不能读到这个客户端结果。
         if (player == null
                 || !player.getWorld().isClient
-                || !SparkWitchServerConnection.isConfirmedServer()
+                || !SparkDlcServerConnection.isConfirmedServer()
                 || !isDisguised(player)) {
             return null;
         }

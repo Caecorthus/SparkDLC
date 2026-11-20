@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.killer.witchmaiden;
 
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.net.FocusedFootstepsUseResultS2CPacket;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.killer.witchmaiden.FocusedFootstepsRules;
 import dev.caecorthus.sparkdlc.role.killer.witchmaiden.WitchMaidenRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -90,7 +90,7 @@ public final class WitchMaidenClientModule {
 
     private static void tick(MinecraftClient client) {
         ClientPlayerEntity player = client.player;
-        if (player == null || player.networkHandler == null || !SparkWitchServerConnection.isConfirmedServer()) {
+        if (player == null || player.networkHandler == null || !SparkDlcServerConnection.isConfirmedServer()) {
             STATE.clearConnection();
             return;
         }
@@ -109,7 +109,7 @@ public final class WitchMaidenClientModule {
             GameWorldComponent game,
             WitchPlayerComponent component
     ) {
-        return SparkWitchServerConnection.isConfirmedServer()
+        return SparkDlcServerConnection.isConfirmedServer()
                 && game.isRunning()
                 && WitchMaidenRules.isWitchMaiden(game.getRole(player))
                 && GameFunctions.isPlayerPlayingAndAlive(player)

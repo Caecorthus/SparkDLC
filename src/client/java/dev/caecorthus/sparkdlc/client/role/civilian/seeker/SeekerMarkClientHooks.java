@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.seeker;
 
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
@@ -41,7 +41,7 @@ public final class SeekerMarkClientHooks {
 
     @Nullable
     private static GetInstinctHighlight.HighlightResult sparkwitch$markHighlight(Entity target) {
-        if (!(target instanceof PlayerEntity targetPlayer) || !SparkWitchServerConnection.isConfirmedServer()) {
+        if (!(target instanceof PlayerEntity targetPlayer) || !SparkDlcServerConnection.isConfirmedServer()) {
             return null;
         }
         UUID markTarget = SeekerClientState.markTarget();

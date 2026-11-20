@@ -34,7 +34,7 @@ public final class VultureSuperCurseClientHooks {
                 VultureSuperCurseClientHooks::requestSuperCurse
         );
         if (!keyAvailable) {
-            SparkStrength.LOGGER.warn("Vulture Super Curse has no key: SparkWitch Role Skill 2 hook unavailable or taken.");
+            SparkStrength.LOGGER.warn("Vulture Super Curse has no key: the Role Skill 2 hook is unavailable or taken.");
         }
     }
 

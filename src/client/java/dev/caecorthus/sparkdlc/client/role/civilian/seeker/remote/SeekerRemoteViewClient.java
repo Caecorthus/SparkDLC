@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.seeker.remote;
 
 import dev.caecorthus.sparkdlc.client.hooks.WitchAbilityKeyBridge;
 import dev.caecorthus.sparkdlc.client.role.civilian.seeker.SeekerClientState;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerExitReason;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerSessionMode;
@@ -254,7 +254,7 @@ public final class SeekerRemoteViewClient {
     private static void tick(MinecraftClient client) {
         SeekerBodyHold.tick(client);
         ClientPlayerEntity player = client.player;
-        if (!SparkWitchServerConnection.isConfirmedServer() || player == null || client.world == null) {
+        if (!SparkDlcServerConnection.isConfirmedServer() || player == null || client.world == null) {
             if (active) {
                 end(client, true);
             }

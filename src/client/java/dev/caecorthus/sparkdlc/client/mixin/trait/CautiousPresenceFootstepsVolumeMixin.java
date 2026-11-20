@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.mixin.trait;
 
 import dev.caecorthus.sparkdlc.client.trait.audio.CautiousSoundDebug;
 import dev.caecorthus.sparkdlc.trait.global.CautiousSoundRules;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,7 +29,7 @@ public abstract class CautiousPresenceFootstepsVolumeMixin {
             LivingEntity source,
             CallbackInfoReturnable<Float> cir
     ) {
-        boolean confirmedServer = SparkTraitsServerConnection.isConfirmedServer();
+        boolean confirmedServer = SparkDlcServerConnection.isConfirmedServer();
         if (!confirmedServer && !CautiousSoundDebug.isEnabled()) {
             return;
         }

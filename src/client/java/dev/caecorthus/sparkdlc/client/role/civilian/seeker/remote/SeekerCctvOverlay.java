@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.seeker.remote;
 import dev.caecorthus.sparkdlc.client.gui.card.InventoryCardPaint;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityController;
 import dev.caecorthus.sparkdlc.client.role.civilian.seeker.SeekerClientState;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerCameraRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerSessionMode;
@@ -83,7 +83,7 @@ public final class SeekerCctvOverlay {
         MinecraftClient client = MinecraftClient.getInstance();
         ClientPlayerEntity player = client.player;
         SeekerSessionMode mode = SeekerRemoteViewClient.mode();
-        if (!SparkWitchServerConnection.isConfirmedServer() || player == null || client.world == null
+        if (!SparkDlcServerConnection.isConfirmedServer() || player == null || client.world == null
                 || mode == SeekerSessionMode.NONE) {
             return;
         }

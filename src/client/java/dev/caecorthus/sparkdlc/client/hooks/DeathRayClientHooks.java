@@ -5,7 +5,7 @@ import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.role.neutral.murderouswitch.deathray.MurderousWitchDeathRayRules;
 import dev.caecorthus.sparkdlc.net.FireDeathRayC2SPacket;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -81,7 +81,7 @@ public final class DeathRayClientHooks {
      * 死亡射线窗口。
      */
     private static boolean ownsAttack(MinecraftClient client, @Nullable ClientPlayerEntity player) {
-        return SparkWitchServerConnection.isConfirmedServer()
+        return SparkDlcServerConnection.isConfirmedServer()
                 && player != null
                 && client.getNetworkHandler() != null
                 && hasActiveDeathRay(player);

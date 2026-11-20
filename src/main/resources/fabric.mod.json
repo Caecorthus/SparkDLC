@@ -27,15 +27,10 @@
       "dev.caecorthus.sparkdlc.client.SparkDLCClient"
     ],
     "cardinal-components": [
-      "dev.caecorthus.sparkdlc.SparkFactionComponents",
-      "dev.caecorthus.sparkdlc.SparkStrengthComponents",
-      "dev.caecorthus.sparkdlc.SparkTraitsComponents",
-      "dev.caecorthus.sparkdlc.SparkWitchComponents"
+      "dev.caecorthus.sparkdlc.SparkDlcComponents"
     ],
     "voicechat": [
-      "dev.caecorthus.sparkdlc.voice.SparkStrengthVoiceChatPlugin",
-      "dev.caecorthus.sparkdlc.voice.SparkTraitsVoiceChatPlugin",
-      "dev.caecorthus.sparkdlc.voice.SparkWitchVoiceChatPlugin"
+      "dev.caecorthus.sparkdlc.voice.SparkDlcVoiceChatPlugin"
     ],
     "sparkdlc_client_voice": [
       "dev.caecorthus.sparkdlc.client.voice.IncomingVoiceEffects"

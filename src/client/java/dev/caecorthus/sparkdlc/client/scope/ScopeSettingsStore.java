@@ -127,7 +127,7 @@ public final class ScopeSettingsStore {
             Files.writeString(path, GSON.toJson(json), StandardCharsets.UTF_8);
             unsaved = false;
         } catch (IOException exception) {
-            SparkWitch.LOGGER.warn("Unable to save the SparkWitch client settings to {}", path, exception);
+            SparkWitch.LOGGER.warn("Unable to save the SparkDLC client settings to {}", path, exception);
         }
     }
 
@@ -140,7 +140,7 @@ public final class ScopeSettingsStore {
             JsonElement element = JsonParser.parseString(Files.readString(path, StandardCharsets.UTF_8));
             return element.isJsonObject() ? element.getAsJsonObject() : null;
         } catch (IOException | RuntimeException exception) {
-            SparkWitch.LOGGER.warn("Unable to read the SparkWitch client settings {}; using defaults", path, exception);
+            SparkWitch.LOGGER.warn("Unable to read the SparkDLC client settings {}; using defaults", path, exception);
             return null;
         }
     }

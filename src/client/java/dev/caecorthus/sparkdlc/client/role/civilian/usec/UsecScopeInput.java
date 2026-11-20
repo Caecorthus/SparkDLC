@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.usec;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.usec.net.UsecScopeC2SPacket;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -34,7 +34,7 @@ public final class UsecScopeInput {
      * {@code UsecScopeInputMixin}，紧接在原版 {@code handleInputEvents} 之后：Shift + 右键跳转倍率。
      */
     public static void afterInputEvents(MinecraftClient client) {
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }
         ClientPlayerEntity player = client.player;

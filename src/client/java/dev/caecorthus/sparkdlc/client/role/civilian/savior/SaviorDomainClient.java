@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.savior;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.net.SaviorDomainS2CPayload;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorRules;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
@@ -55,7 +55,7 @@ public final class SaviorDomainClient {
         ClientPlayNetworking.registerGlobalReceiver(SaviorDomainS2CPayload.ID, (payload, context) ->
                 context.client().execute(() -> {
                     MinecraftClient client = context.client();
-                    if (client.world == null || !SparkWitchServerConnection.isConfirmedServer()) {
+                    if (client.world == null || !SparkDlcServerConnection.isConfirmedServer()) {
                         return;
                     }
                     saviorEntityId = payload.saviorEntityId();
@@ -82,7 +82,7 @@ public final class SaviorDomainClient {
      * 暴露普通观察者看不到的成员（{@link #isShownTo}）。
      */
     private static @Nullable GetInstinctHighlight.HighlightResult domainHighlight(Entity target) {
-        if (!SparkWitchServerConnection.isConfirmedServer()
+        if (!SparkDlcServerConnection.isConfirmedServer()
                 || !(target instanceof PlayerEntity targetPlayer)) {
             return null;
         }
@@ -108,7 +108,7 @@ public final class SaviorDomainClient {
 
     /** A psycho killer holding instinct sees the Savior in the Savior's role color instead of the default target color. / 疯魔杀手本能下的救世主改显职业色。 */
     private static @Nullable GetInstinctHighlight.HighlightResult psychoInstinctHighlight(Entity target) {
-        if (!SparkWitchServerConnection.isConfirmedServer()
+        if (!SparkDlcServerConnection.isConfirmedServer()
                 || !(target instanceof PlayerEntity targetPlayer)) {
             return null;
         }

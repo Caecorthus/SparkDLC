@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.medium;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.medium.MediumRules;
 import dev.caecorthus.sparkdlc.role.civilian.medium.MediumSeanceComponent;
 import dev.caecorthus.sparkdlc.role.civilian.medium.MediumWindowKind;
@@ -40,7 +40,7 @@ public final class MediumVoteClient {
      * 此时由 HUD 提示与技能键兜底。
      */
     static void tick(MinecraftClient client) {
-        if (client.world == null || client.player == null || !SparkWitchServerConnection.isConfirmedServer()) {
+        if (client.world == null || client.player == null || !SparkDlcServerConnection.isConfirmedServer()) {
             reset();
             return;
         }
@@ -68,7 +68,7 @@ public final class MediumVoteClient {
      * （自己的窗口），但不满足投票门槛。
      */
     static boolean canVote(MinecraftClient client) {
-        if (client.world == null || client.player == null || !SparkWitchServerConnection.isConfirmedServer()) {
+        if (client.world == null || client.player == null || !SparkDlcServerConnection.isConfirmedServer()) {
             return false;
         }
         return MediumSeanceComponent.KEY.get(client.world).isRevealed() && MediumRules.mayVote(client.player);

@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.seeker;
 
 import dev.caecorthus.sparkdlc.client.role.civilian.seeker.remote.SeekerRemoteViewClient;
 import dev.caecorthus.sparkdlc.client.text.HudFontOptions;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerCooldowns;
 import dev.doctor4t.wathe.client.WatheClient;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -66,7 +66,7 @@ public final class SeekerStatusHud {
         // HudRenderCallback 在 F1 下仍会触发，与 Wathe 自身 HUD 层不同；两者都要遵循。
         boolean watheHud = WatheClient.trainComponent != null && WatheClient.trainComponent.hasHud();
         boolean remoteOverlay = SeekerRemoteViewClient.isActive() || SeekerClientState.isInSession();
-        if (!SeekerHudRules.visible(SparkWitchServerConnection.isConfirmedServer(), client.options.hudHidden,
+        if (!SeekerHudRules.visible(SparkDlcServerConnection.isConfirmedServer(), client.options.hudHidden,
                 watheHud, SeekerClientState.isSeeker(), GameFunctions.isPlayerPlayingAndAlive(player),
                 remoteOverlay)) {
             return;

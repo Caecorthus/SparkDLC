@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.fisher;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -35,7 +35,7 @@ public final class FisherGlimmerInstinctHooks {
 
     @Nullable
     private static GetInstinctHighlight.HighlightResult highlight(Entity target) {
-        if (!(target instanceof PlayerEntity targetPlayer) || !SparkWitchServerConnection.isConfirmedServer()) {
+        if (!(target instanceof PlayerEntity targetPlayer) || !SparkDlcServerConnection.isConfirmedServer()) {
             return null;
         }
         ClientPlayerEntity viewer = MinecraftClient.getInstance().player;

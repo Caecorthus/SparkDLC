@@ -6,7 +6,7 @@ import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.component.WitchWorldComponent;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.ApprenticeFearExemption;
 import dev.caecorthus.sparkdlc.role.witch.WitchFactionRules;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -38,7 +38,7 @@ public final class WitchInstinctSuppressionClientHooks {
     }
 
     public static boolean shouldSuppressInstinctHighlight() {
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return false;
         }
         PlayerEntity viewer = MinecraftClient.getInstance().player;
@@ -69,7 +69,7 @@ public final class WitchInstinctSuppressionClientHooks {
     }
 
     public static boolean shouldSuppressSwallowedInstinctHighlight(Entity target) {
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return false;
         }
         PlayerEntity viewer = MinecraftClient.getInstance().player;

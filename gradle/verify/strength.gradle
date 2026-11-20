@@ -349,9 +349,12 @@ tasks.register("verifyStrengthCompatibilityArtifact") {
 
             // The standalone fabric.mod.json listed SparkStrength and SparkStrengthClient as entrypoints. The fused
             // one lists a single pair, which must start this module; the voice chat plugin and the component
-            // initializer are still listed by name.
+            // initializer are listed by name. Since stage 3 ("one entry") those are the one plugin and the one
+            // component entrypoint of the whole mod, and "starts this module" reads: some method of the entrypoint
+            // class still makes the module's characteristic start-up call.
             // 独立的 fabric.mod.json 把 SparkStrength 与 SparkStrengthClient 列为入口。融合后只列出一对入口，它们必须
-            // 启动本模块；语音插件和组件初始化器仍按名称列出。
+            // 启动本模块；语音插件和组件初始化器按名称列出。第三阶段（“单一入口”）之后，它们是全模组唯一的语音插件与唯一的
+            // 组件入口，“启动本模块”即：入口类的某个方法仍然发出本模块特有的启动调用。
             def requireEntrypoint = { String key, String className ->
                 def listed = (metadata.entrypoints?.get(key) ?: []).collect { it.toString() }
                 if (!listed.contains(className)) {
@@ -361,29 +364,25 @@ tasks.register("verifyStrengthCompatibilityArtifact") {
                     throw new GradleException("Entrypoint class ${className} is missing from ${jarFile.name}")
                 }
             }
-            requireEntrypoint("voicechat", "dev.caecorthus.sparkdlc.voice.SparkStrengthVoiceChatPlugin")
-            requireEntrypoint("cardinal-components", "dev.caecorthus.sparkdlc.SparkStrengthComponents")
+            requireEntrypoint("voicechat", "dev.caecorthus.sparkdlc.voice.SparkDlcVoiceChatPlugin")
+            requireEntrypoint("cardinal-components", "dev.caecorthus.sparkdlc.SparkDlcComponents")
             [
-                    main  : ["dev.caecorthus.sparkdlc.SparkDLC", "onInitialize",
-                             "dev/caecorthus/sparkdlc/SparkStrength"],
-                    client: ["dev.caecorthus.sparkdlc.client.SparkDLCClient", "onInitializeClient",
-                             "dev/caecorthus/sparkdlc/client/SparkStrengthClient"]
+                    main  : ["dev.caecorthus.sparkdlc.SparkDLC",
+                             "dev/caecorthus/sparkdlc/event/SparkStrengthEvents", "register"],
+                    client: ["dev.caecorthus.sparkdlc.client.SparkDLCClient",
+                             "dev/caecorthus/sparkdlc/client/sabotage/SabotageClient", "register"]
             ].each { key, expectation ->
-                def (String entrypointClass, String initializerMethod, String moduleInitializer) = expectation
+                def (String entrypointClass, String startOwner, String startCall) = expectation
                 requireEntrypoint(key, entrypointClass)
                 def entrypointNode = readClassNode(zipFile, entrypointClass.replace('.', '/') + ".class")
                 def startsModule = entrypointNode.methods.any { method ->
-                    method.name == initializerMethod && method.desc == "()V" &&
-                            method.instructions.toArray().any { instruction ->
-                                instruction instanceof org.objectweb.asm.tree.MethodInsnNode &&
-                                        instruction.owner == moduleInitializer &&
-                                        instruction.name == initializerMethod && instruction.desc == "()V"
-                            }
+                    method.instructions.toArray().any { instruction ->
+                        instruction instanceof org.objectweb.asm.tree.MethodInsnNode &&
+                                instruction.owner == startOwner && instruction.name == startCall
+                    }
                 }
                 if (!startsModule) {
-                    throw new GradleException(
-                            "${entrypointClass}#${initializerMethod} must call ${moduleInitializer}#${initializerMethod}"
-                    )
+                    throw new GradleException("${entrypointClass} must call ${startOwner}#${startCall}")
                 }
             }
             def declaredComponents = (metadata.custom?.get("cardinal-components") ?: []).collect { it.toString() }

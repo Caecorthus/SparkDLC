@@ -5,7 +5,7 @@ import dev.caecorthus.sparkdlc.client.role.jiahao.insider.InsiderCohortClientHoo
 import dev.caecorthus.sparkdlc.client.role.jiahao.insider.InsiderCohortRules;
 import dev.caecorthus.sparkdlc.client.role.killer.magician.MagicianPuppetNameTags;
 import dev.caecorthus.sparkdlc.client.render.WraithNameTagPassThrough;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.jiahao.insider.InsiderParticipation;
 import dev.caecorthus.sparkdlc.role.jiahao.insider.InsiderRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -54,7 +54,7 @@ public abstract class InsiderCohortRoleNameMixin {
             RenderTickCounter tickCounter,
             CallbackInfo ci
     ) {
-        if (!SparkWitchServerConnection.isConfirmedServer()
+        if (!SparkDlcServerConnection.isConfirmedServer()
                 || nametagAlpha <= 0.05f
                 || !GameWorldComponent.KEY.get(player.getWorld()).isRunning()
                 // isJiahaoCohortPair needs a Team Jiahao viewer (raw role), so others skip the per-frame raycast.

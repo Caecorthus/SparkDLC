@@ -39,6 +39,14 @@ public final class PartygoerHitGeometry {
      * Alive, visible and not inside a Taotie (the swallowed state is synced, and it is invisible then); the server also
      * asks its brain ({@link PartygoerService#isKillable}). Works on both sides.
      * 存活、可见且不在饕餮肚里（吞下状态会同步，且此时隐身）；服务端还会询问其大脑。两端可用。
+     *
+     * <p>Not the same rule as {@link PartygoerWeaponTarget#isKillable}, and deliberately not merged with it: that one
+     * is server-only (it always asks the brain, so it is false for every Partygoer on a client) and reads neither
+     * {@code isAlive()} nor the synced {@code partyState()}. This one must answer on a client too (the drone
+     * crosshair hint), so there the synced entity state decides alone.
+     * 与 {@link PartygoerWeaponTarget#isKillable} 不是同一条规则，刻意不合并：后者仅用于服务端（始终询问大脑，因此在客户端对
+     * 任何派对客都为 false），且不读取 {@code isAlive()} 与同步的 {@code partyState()}。本规则在客户端也必须能回答
+     * （无人机准星提示），此时仅由同步的实体状态决定。</p>
      */
     public static boolean isTargetable(@Nullable Entity entity) {
         if (!(entity instanceof PartygoerEntity partygoer) || !partygoer.isAlive() || partygoer.isRemoved()

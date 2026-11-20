@@ -18,10 +18,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  */
 @Mixin(value = KeyBinding.class, priority = 5000)
 public abstract class PartygoerCarriedKeyMixin {
+    // The one second-skill binding (SecondaryAbilityController). The former fallback binding
+    // key.sparkdlc.secondary_skill is never registered in the fused mod, so no key can carry that id.
+    // 唯一的第二技能按键（SecondaryAbilityController）。原先的回退按键 key.sparkdlc.secondary_skill 在融合后的模组中从不注册，
+    // 因此不会有按键带有该 id。
     @Unique
     private static final String SECONDARY_SKILL_SHARED = "key.sparkdlc.role_skill_2";
-    @Unique
-    private static final String SECONDARY_SKILL_FALLBACK = "key.sparkdlc.secondary_skill";
 
     @Inject(method = "wasPressed", at = @At("RETURN"), cancellable = true)
     private void sparkdlc$lockCarriedWasPressed(CallbackInfoReturnable<Boolean> cir) {
@@ -59,7 +61,6 @@ public abstract class PartygoerCarriedKeyMixin {
                 return true;
             }
         }
-        String id = key.getTranslationKey();
-        return SECONDARY_SKILL_SHARED.equals(id) || SECONDARY_SKILL_FALLBACK.equals(id);
+        return SECONDARY_SKILL_SHARED.equals(key.getTranslationKey());
     }
 }

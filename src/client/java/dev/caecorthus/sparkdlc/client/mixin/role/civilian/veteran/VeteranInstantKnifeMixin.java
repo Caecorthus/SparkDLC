@@ -34,7 +34,7 @@ import java.util.Optional;
 @Mixin(KnifeItem.class)
 public abstract class VeteranInstantKnifeMixin {
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$veteranInstantKnifeUse(
+    private void sparkdlc$veteranInstantKnifeUse(
             World world,
             PlayerEntity user,
             Hand hand,

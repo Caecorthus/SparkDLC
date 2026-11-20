@@ -27,7 +27,7 @@ public abstract class CoronerTimeRendererMixin {
                     target = "Ldev/doctor4t/wathe/api/Role;canSeeTime()Z"
             )
     )
-    private static boolean sparkstrength$allowCoronerTimekeeperDisguise(
+    private static boolean sparkdlc$allowCoronerTimekeeperDisguise(
             Role role,
             Operation<Boolean> original
     ) {

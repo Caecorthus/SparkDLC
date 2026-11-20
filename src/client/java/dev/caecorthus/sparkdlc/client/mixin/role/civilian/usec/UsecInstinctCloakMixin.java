@@ -37,7 +37,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = WatheClient.class, remap = false)
 public abstract class UsecInstinctCloakMixin {
     @WrapMethod(method = "getInstinctHighlight")
-    private static int sparkwitch$cloakScopedUsec(Entity target, Operation<Integer> original) {
+    private static int sparkdlc$cloakScopedUsec(Entity target, Operation<Integer> original) {
         if (!UsecInstinctCloak.cloaks(target)) {
             return original.call(target);
         }
@@ -45,12 +45,12 @@ public abstract class UsecInstinctCloakMixin {
     }
 
     @WrapMethod(method = "isInstinctEnabled()Z")
-    private static boolean sparkwitch$closeInstinctForCloakedUsec(Operation<Boolean> original) {
+    private static boolean sparkdlc$closeInstinctForCloakedUsec(Operation<Boolean> original) {
         return !UsecInstinctCloak.inCloakedEvaluation() && original.call();
     }
 
     @WrapMethod(method = "isInstinctEnabledAndIsKiller()Z")
-    private static boolean sparkwitch$closeKillerInstinctForCloakedUsec(Operation<Boolean> original) {
+    private static boolean sparkdlc$closeKillerInstinctForCloakedUsec(Operation<Boolean> original) {
         return !UsecInstinctCloak.inCloakedEvaluation() && original.call();
     }
 }

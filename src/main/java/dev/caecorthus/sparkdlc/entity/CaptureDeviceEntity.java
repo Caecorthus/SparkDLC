@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.entity;
 
-import dev.caecorthus.sparkdlc.SparkStrengthEntities;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
 import dev.caecorthus.sparkdlc.record.AchievementRecords;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerCaptureReport;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -191,7 +191,7 @@ public final class CaptureDeviceEntity extends Entity {
             // Achievement record (S10): the device owner rides along as an extra uuid. / 成就记录（S10）：附带装置主人 UUID。
             GameRecordManager.recordGlobalEvent(
                     player.getServerWorld(),
-                    SparkStrengthReplayFormatters.CAPTURE_DEVICE_TRIGGERED,
+                    RoleKitReplayFormatters.CAPTURE_DEVICE_TRIGGERED,
                     player,
                     AchievementRecords.captureDeviceTriggeredExtra(ownerUuid)
             );
@@ -255,7 +255,7 @@ public final class CaptureDeviceEntity extends Entity {
         }
         GameRecordManager.recordGlobalEvent(
                 serverWorld,
-                SparkStrengthReplayFormatters.CAPTURE_DEVICE_EXPIRED,
+                RoleKitReplayFormatters.CAPTURE_DEVICE_EXPIRED,
                 owner,
                 extra
         );

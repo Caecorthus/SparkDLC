@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.bomber;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.mixin.role.killer.bomber.BomberPlayerComponentAccessor;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -37,10 +37,10 @@ import java.util.UUID;
 public final class BomberTrapService {
     public static final String TRAP_OWNER_NBT_KEY = "SparkStrengthTimedBombOwner";
 
-    public static final Identifier TIMED_BOMB_TRAY_EMBEDDED = SparkStrength.id("timed_bomb_tray_embedded");
-    public static final Identifier TIMED_BOMB_BED_EMBEDDED = SparkStrength.id("timed_bomb_bed_embedded");
-    public static final Identifier TIMED_BOMB_TRAY_TRIGGERED = SparkStrength.id("timed_bomb_tray_triggered");
-    public static final Identifier TIMED_BOMB_BED_TRIGGERED = SparkStrength.id("timed_bomb_bed_triggered");
+    public static final Identifier TIMED_BOMB_TRAY_EMBEDDED = SparkDLC.id("timed_bomb_tray_embedded");
+    public static final Identifier TIMED_BOMB_BED_EMBEDDED = SparkDLC.id("timed_bomb_bed_embedded");
+    public static final Identifier TIMED_BOMB_TRAY_TRIGGERED = SparkDLC.id("timed_bomb_tray_triggered");
+    public static final Identifier TIMED_BOMB_BED_TRIGGERED = SparkDLC.id("timed_bomb_bed_triggered");
 
     private static final Map<net.minecraft.registry.RegistryKey<World>, Set<BlockPos>> TRACKED_TRAPS = new HashMap<>();
     private static boolean registered;
@@ -63,7 +63,7 @@ public final class BomberTrapService {
         }
         registered = true;
         ServerBlockEntityEvents.BLOCK_ENTITY_LOAD.register((blockEntity, world) -> {
-            if (blockEntity instanceof TimedBombTrapHolder holder && holder.sparkstrength$hasTimedBombTrap()) {
+            if (blockEntity instanceof TimedBombTrapHolder holder && holder.sparkdlc$hasTimedBombTrap()) {
                 rememberTrap(world, blockEntity.getPos());
             }
         });
@@ -126,12 +126,12 @@ public final class BomberTrapService {
          * placeBomb 会写入“直接安置炸弹”的 NoellesRoles 回放，而托盘/床触发需要显示 Strength 的专属文案。
          */
         BomberPlayerComponentAccessor accessor = (BomberPlayerComponentAccessor) component;
-        accessor.sparkstrength$setHasBomb(true);
-        accessor.sparkstrength$setBombTimer(BomberPlayerComponent.BOMB_DELAY_TICKS);
-        accessor.sparkstrength$setBeepTimer(0);
-        accessor.sparkstrength$setBeeping(false);
-        accessor.sparkstrength$setBomberUuid(bomberUuid);
-        accessor.sparkstrength$setLastDisplayedSeconds(-1);
+        accessor.sparkdlc$setHasBomb(true);
+        accessor.sparkdlc$setBombTimer(BomberPlayerComponent.BOMB_DELAY_TICKS);
+        accessor.sparkdlc$setBeepTimer(0);
+        accessor.sparkdlc$setBeeping(false);
+        accessor.sparkdlc$setBomberUuid(bomberUuid);
+        accessor.sparkdlc$setLastDisplayedSeconds(-1);
         component.sync();
         return true;
     }
@@ -183,8 +183,8 @@ public final class BomberTrapService {
          */
         for (BlockPos pos : positions) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof TimedBombTrapHolder holder && holder.sparkstrength$hasTimedBombTrap()) {
-                holder.sparkstrength$setTimedBombTrapOwner(null);
+            if (blockEntity instanceof TimedBombTrapHolder holder && holder.sparkdlc$hasTimedBombTrap()) {
+                holder.sparkdlc$setTimedBombTrapOwner(null);
             }
         }
     }

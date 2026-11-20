@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.kidnapper;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.util.TickTime;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -41,7 +41,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 public final class KidnapperControlComponent
         implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
     public static final ComponentKey<KidnapperControlComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("kidnapper_control"),
+            SparkDLC.id("kidnapper_control"),
             KidnapperControlComponent.class
     );
 
@@ -139,7 +139,7 @@ public final class KidnapperControlComponent
     public void resetAll() {
         resetControlState();
         knockoutDrugStartCooldownTicks = 0;
-        player.getItemCooldownManager().remove(SparkWitchItems.knockoutDrug());
+        player.getItemCooldownManager().remove(SparkDlcItems.knockoutDrug());
         sync();
     }
 

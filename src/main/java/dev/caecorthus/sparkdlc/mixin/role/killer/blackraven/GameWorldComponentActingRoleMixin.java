@@ -31,7 +31,7 @@ public abstract class GameWorldComponentActingRoleMixin {
     @Shadow @Final private HashSet<UUID> deadPlayers;
 
     @WrapMethod(method = "isRole(Ljava/util/UUID;Ldev/doctor4t/wathe/api/Role;)Z")
-    private boolean sparkwitch$actingRole(UUID uuid, Role role, Operation<Boolean> original) {
+    private boolean sparkdlc$actingRole(UUID uuid, Role role, Operation<Boolean> original) {
         if (original.call(uuid, role)) {
             return true;
         }

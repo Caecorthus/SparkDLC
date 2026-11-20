@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = KillerShopBuilder.class, remap = false)
 public abstract class KillerShopBuilderBlackRavenDisguiseMixin {
     @WrapMethod(method = "buildShop")
-    private static void sparkwitch$skipKillerShopWhileDisguised(
+    private static void sparkdlc$skipKillerShopWhileDisguised(
             PlayerEntity player,
             BuildShopEntries.ShopContext context,
             Operation<Void> original

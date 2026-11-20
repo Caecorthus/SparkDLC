@@ -26,13 +26,13 @@ import java.util.List;
 @Mixin(value = Faction.class, remap = false)
 public abstract class FactionEnumExtensionMixin {
     @Inject(method = "<clinit>", at = @At("TAIL"))
-    private static void sparkfactionapi$appendNativeFactions(CallbackInfo ci) {
+    private static void sparkdlc$appendNativeFactions(CallbackInfo ci) {
         Faction[] original = Faction.values();
         List<NativeWatheFactionDeclarations.Declaration> plan = NativeWatheFactions.planFromFabricMetadata(original);
         Faction[] created = new Faction[plan.size()];
         for (int i = 0; i < created.length; i++) {
-            created[i] = FactionEnumAccessor.sparkfactionapi$newConstant(plan.get(i).constantName(), original.length + i);
+            created[i] = FactionEnumAccessor.sparkdlc$newConstant(plan.get(i).constantName(), original.length + i);
         }
-        FactionEnumAccessor.sparkfactionapi$setValues(NativeWatheFactions.install(original, plan, created));
+        FactionEnumAccessor.sparkdlc$setValues(NativeWatheFactions.install(original, plan, created));
     }
 }

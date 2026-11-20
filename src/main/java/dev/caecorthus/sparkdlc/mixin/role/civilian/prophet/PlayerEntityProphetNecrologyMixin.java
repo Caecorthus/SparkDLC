@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityProphetNecrologyMixin {
     @Inject(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$keepProphetNecrologyBound(
+    private void sparkdlc$keepProphetNecrologyBound(
             ItemStack stack,
             boolean throwRandomly,
             boolean retainOwnership,

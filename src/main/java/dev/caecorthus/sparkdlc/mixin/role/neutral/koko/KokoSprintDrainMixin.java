@@ -26,23 +26,23 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(PlayerEntity.class)
 public abstract class KokoSprintDrainMixin {
     @Unique
-    private float sparkwitch$kokoPreviousSprintingTicks = KokoRules.NOT_CAPTURED;
+    private float sparkdlc$kokoPreviousSprintingTicks = KokoRules.NOT_CAPTURED;
 
     @Unique
-    private int sparkwitch$kokoPreviousMaxSprintTime;
+    private int sparkdlc$kokoPreviousMaxSprintTime;
 
     @Inject(method = "tickMovement", at = @At("HEAD"), order = 0)
-    private void sparkwitch$captureKokoStamina(CallbackInfo ci) {
+    private void sparkdlc$captureKokoStamina(CallbackInfo ci) {
         PlayerEntity self = (PlayerEntity) (Object) this;
-        sparkwitch$kokoPreviousSprintingTicks = KokoStaminaService.captureSprintingTicks(self);
-        if (!Float.isNaN(sparkwitch$kokoPreviousSprintingTicks)) {
-            sparkwitch$kokoPreviousMaxSprintTime = KokoStaminaService.captureMaxSprintTime(self);
+        sparkdlc$kokoPreviousSprintingTicks = KokoStaminaService.captureSprintingTicks(self);
+        if (!Float.isNaN(sparkdlc$kokoPreviousSprintingTicks)) {
+            sparkdlc$kokoPreviousMaxSprintTime = KokoStaminaService.captureMaxSprintTime(self);
         }
     }
 
     @Inject(method = "tickMovement", at = @At("HEAD"), order = 1500)
-    private void sparkwitch$halveKokoSprintDrain(CallbackInfo ci) {
+    private void sparkdlc$halveKokoSprintDrain(CallbackInfo ci) {
         KokoStaminaService.halveSprintDrain((PlayerEntity) (Object) this,
-                sparkwitch$kokoPreviousSprintingTicks, sparkwitch$kokoPreviousMaxSprintTime);
+                sparkdlc$kokoPreviousSprintingTicks, sparkdlc$kokoPreviousMaxSprintTime);
     }
 }

@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class EngineHaltTimerMixin {
     @Inject(method = "renderHud", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/util/math/MatrixStack;pop()V", remap = true), require = 1, allow = 1)
-    private static void sparkstrength$haltedBesideTimer(TextRenderer renderer, ClientPlayerEntity player,
+    private static void sparkdlc$haltedBesideTimer(TextRenderer renderer, ClientPlayerEntity player,
                                                          DrawContext context, float delta, CallbackInfo ci) {
         EngineHaltHud.renderBesideTimer(renderer, player, context);
     }

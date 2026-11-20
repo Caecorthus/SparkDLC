@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = DerringerItem.class, remap = false)
 public abstract class MarksmanDerringerMixin {
     @Inject(method = "getGunTarget", at = @At("HEAD"), cancellable = true)
-    private static void sparktraits$extendMarksmanDerringerRange(
+    private static void sparkdlc$extendMarksmanDerringerRange(
             PlayerEntity user,
             CallbackInfoReturnable<HitResult> cir
     ) {

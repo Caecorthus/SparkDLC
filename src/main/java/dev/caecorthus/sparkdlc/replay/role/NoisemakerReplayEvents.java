@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.replay.role;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.record.replay.ReplayGenerator;
 import dev.doctor4t.wathe.record.replay.ReplayRegistry;
 import net.minecraft.nbt.NbtCompound;
@@ -14,8 +14,8 @@ import java.util.UUID;
  * 大嗓门点亮的回放文本。
  */
 public final class NoisemakerReplayEvents {
-    public static final Identifier NOISEMAKER_GLOW_STARTED = SparkStrength.id("noisemaker_glow_started");
-    public static final Identifier NOISEMAKER_GLOW_ENDED = SparkStrength.id("noisemaker_glow_ended");
+    public static final Identifier NOISEMAKER_GLOW_STARTED = SparkDLC.id("noisemaker_glow_started");
+    public static final Identifier NOISEMAKER_GLOW_ENDED = SparkDLC.id("noisemaker_glow_ended");
 
     private NoisemakerReplayEvents() {
     }

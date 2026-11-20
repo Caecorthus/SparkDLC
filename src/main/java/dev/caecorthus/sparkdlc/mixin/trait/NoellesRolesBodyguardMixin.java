@@ -20,7 +20,7 @@ public abstract class NoellesRolesBodyguardMixin {
                     ordinal = 0
             )
     )
-    private static boolean sparktraits$impostorBodyguardDoesNotSacrifice(PlayerEntity bodyguard) {
+    private static boolean sparkdlc$impostorBodyguardDoesNotSacrifice(PlayerEntity bodyguard) {
         return GameFunctions.isPlayerPlayingAndAlive(bodyguard) && ImpostorBodyguardService.shouldProtectTarget(bodyguard);
     }
 }

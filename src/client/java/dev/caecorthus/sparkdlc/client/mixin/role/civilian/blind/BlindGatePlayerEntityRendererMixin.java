@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = PlayerEntityRenderer.class, priority = 2000)
 public abstract class BlindGatePlayerEntityRendererMixin {
     @WrapMethod(method = "getArmPose(Lnet/minecraft/client/network/AbstractClientPlayerEntity;Lnet/minecraft/util/Hand;)Lnet/minecraft/client/render/entity/model/BipedEntityModel$ArmPose;")
-    private static BipedEntityModel.ArmPose sparkwitch$blindEmptyArmPose(AbstractClientPlayerEntity player, Hand hand,
+    private static BipedEntityModel.ArmPose sparkdlc$blindEmptyArmPose(AbstractClientPlayerEntity player, Hand hand,
                                                                        Operation<BipedEntityModel.ArmPose> original) {
         if (BlindClientGates.suppressesFeatures(player)) {
             return BipedEntityModel.ArmPose.EMPTY;

@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(ItemStack.class)
 public abstract class ItemStackConsumeMixin {
     @WrapMethod(method = "finishUsing(Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;)Lnet/minecraft/item/ItemStack;")
-    private ItemStack sparkfactionapi$recordConsume(World world, LivingEntity user, Operation<ItemStack> original) {
+    private ItemStack sparkdlc$recordConsume(World world, LivingEntity user, Operation<ItemStack> original) {
         ItemStack self = (ItemStack) (Object) this;
         PlayerScopeStack.Frame<ConsumeRecorder.Use> frame = ConsumeRecorder.beginUse(self, world, user);
         ItemStack result = null;

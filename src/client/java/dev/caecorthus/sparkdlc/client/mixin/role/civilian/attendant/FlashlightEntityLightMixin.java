@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(EntityRenderer.class)
 public abstract class FlashlightEntityLightMixin {
     @ModifyReturnValue(method = "getLight", at = @At("RETURN"))
-    private int sparkstrength$applyFlashlightBlockLight(
+    private int sparkdlc$applyFlashlightBlockLight(
             int packedLight, @Local(argsOnly = true) Entity entity, @Local(argsOnly = true) float tickDelta
     ) {
         int blockLight = LightmapTextureManager.getBlockLightCoordinates(packedLight);

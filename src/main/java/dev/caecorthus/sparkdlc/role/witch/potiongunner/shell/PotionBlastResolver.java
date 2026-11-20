@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.witch.potiongunner.shell;
 
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitchFactions;
+import dev.caecorthus.sparkdlc.SparkDlcFactions;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDamageRules;
 import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaInteractionService;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit.BlackRavenCrowTargets;
@@ -127,7 +127,7 @@ public final class PotionBlastResolver {
 
     /** Witch faction, or unknown (fail closed). / 魔女阵营或阵营未知（失败关闭）。 */
     static boolean isAlly(@Nullable Identifier effectiveFaction) {
-        return effectiveFaction == null || SparkWitchFactions.WITCH.equals(effectiveFaction);
+        return effectiveFaction == null || SparkDlcFactions.WITCH.equals(effectiveFaction);
     }
 
     static boolean isSelf(@Nullable UUID gunnerUuid, UUID target) {

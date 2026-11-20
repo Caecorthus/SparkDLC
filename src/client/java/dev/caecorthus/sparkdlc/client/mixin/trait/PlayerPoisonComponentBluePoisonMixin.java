@@ -31,23 +31,23 @@ public abstract class PlayerPoisonComponentBluePoisonMixin {
     public float pulseProgress;
 
     @Unique
-    private int sparktraits$bluePulseCooldown;
+    private int sparkdlc$bluePulseCooldown;
 
     @Unique
-    private boolean sparktraits$presentingBluePoison;
+    private boolean sparkdlc$presentingBluePoison;
 
     @Inject(method = "clientTick", at = @At("HEAD"))
-    private void sparktraits$releaseBluePulseBeforeNativeTick(CallbackInfo ci) {
-        if (sparktraits$presentingBluePoison && poisonTicks > 0) {
+    private void sparkdlc$releaseBluePulseBeforeNativeTick(CallbackInfo ci) {
+        if (sparkdlc$presentingBluePoison && poisonTicks > 0) {
             pulsing = false;
             pulseProgress = 0.0F;
-            sparktraits$presentingBluePoison = false;
-            sparktraits$bluePulseCooldown = 0;
+            sparkdlc$presentingBluePoison = false;
+            sparkdlc$bluePulseCooldown = 0;
         }
     }
 
     @Inject(method = "clientTick", at = @At("TAIL"))
-    private void sparktraits$bluePoisonHeartbeat(CallbackInfo ci) {
+    private void sparkdlc$bluePoisonHeartbeat(CallbackInfo ci) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player != player) {
             return;
@@ -58,28 +58,28 @@ public abstract class PlayerPoisonComponentBluePoisonMixin {
         int nativePoisonTicks = poisonTicks;
         boolean bluePoisoned = traits.hasConsciencePoison();
         if (!SparkDlcServerConnection.isConfirmedServer() || !player.isAlive() || player.isSpectator()) {
-            sparktraits$clearBluePulse(nativePoisonTicks);
+            sparkdlc$clearBluePulse(nativePoisonTicks);
             return;
         }
         if (BluePoisonPresentationRules.owner(nativePoisonTicks > 0, bluePoisoned)
                 != BluePoisonPresentationRules.Owner.BLUE_POISON) {
-            sparktraits$clearBluePulse(nativePoisonTicks);
+            sparkdlc$clearBluePulse(nativePoisonTicks);
             return;
         }
 
-        sparktraits$presentingBluePoison = true;
+        sparkdlc$presentingBluePoison = true;
         int remainingTicks = traits.getConsciencePoisonTicks();
         int initialTicks = traits.getConsciencePoisonInitialTicks();
         if (!BluePoisonPresentationRules.canPulse(initialTicks, remainingTicks)) {
             return;
         }
-        if (sparktraits$bluePulseCooldown > 0) {
-            sparktraits$bluePulseCooldown--;
+        if (sparkdlc$bluePulseCooldown > 0) {
+            sparkdlc$bluePulseCooldown--;
             return;
         }
 
         int maximumPoisonTicks = PlayerPoisonComponent.clampTime.getRight();
-        sparktraits$bluePulseCooldown = BluePoisonPresentationRules.cooldownAfterPulse(remainingTicks, maximumPoisonTicks);
+        sparkdlc$bluePulseCooldown = BluePoisonPresentationRules.cooldownAfterPulse(remainingTicks, maximumPoisonTicks);
         pulsing = true;
         player.playSound(
                 SoundEvents.ENTITY_WARDEN_HEARTBEAT,
@@ -89,12 +89,12 @@ public abstract class PlayerPoisonComponentBluePoisonMixin {
     }
 
     @Unique
-    private void sparktraits$clearBluePulse(int nativePoisonTicks) {
-        sparktraits$bluePulseCooldown = 0;
-        if (sparktraits$presentingBluePoison && nativePoisonTicks <= 0) {
+    private void sparkdlc$clearBluePulse(int nativePoisonTicks) {
+        sparkdlc$bluePulseCooldown = 0;
+        if (sparkdlc$presentingBluePoison && nativePoisonTicks <= 0) {
             pulsing = false;
             pulseProgress = 0.0F;
         }
-        sparktraits$presentingBluePoison = false;
+        sparkdlc$presentingBluePoison = false;
     }
 }

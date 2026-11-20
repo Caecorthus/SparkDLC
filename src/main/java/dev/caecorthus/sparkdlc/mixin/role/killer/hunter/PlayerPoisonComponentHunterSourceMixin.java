@@ -32,7 +32,7 @@ public abstract class PlayerPoisonComponentHunterSourceMixin {
                     shift = At.Shift.AFTER
             )
     )
-    private void sparkwitch$captureAcceptedPoisonSource(
+    private void sparkdlc$captureAcceptedPoisonSource(
             int ticks,
             UUID poisonerUuid,
             Identifier source,

@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(CocktailItem.class)
 public abstract class BartenderCocktailUseTimeMixin {
     @ModifyReturnValue(method = "getMaxUseTime", at = @At("RETURN"))
-    private int sparkstrength$instantWithEmberSugar(int useTicks, @Local(argsOnly = true) ItemStack stack) {
+    private int sparkdlc$instantWithEmberSugar(int useTicks, @Local(argsOnly = true) ItemStack stack) {
         if (stack.getItem() instanceof BaseSpiritItem
                 && BartenderRules.drinksInstantly(BaseSpiritItem.getIngredients(stack))) {
             return BartenderRules.INSTANT_DRINK_USE_TICKS;

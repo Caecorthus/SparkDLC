@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.magician;
 
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.fisher.FisherRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDamageRules;
@@ -145,14 +145,14 @@ public final class MagicianPuppetHits {
     }
 
     /**
-     * Add-on gun shot routed through {@code SparkWitchApi.hitGunWorldTarget} (today SparkStrength's Serial Killer
+     * Add-on gun shot routed through {@code SparkRoleApi.hitGunWorldTarget} (today SparkStrength's Serial Killer
      * pistols, lethal guns under D5 that fire through their own payload). The facade has already checked the gun (a
      * {@code wathe:guns} stack in hand, not cooling down); this is the revolver entry with the caller's
      * {@code maxDistance} (capped at Wathe's 65): a live foreign puppet, aim and line of sight. The puppet ends
      * ({@code GUN}, the gun's own name in the replay) and pays the Magician (D4); the caller then finishes the shot as
      * a miss, so the hit costs what a real shot costs and never the innocent-shot punishment or mood loss (D3).
      * True = ended.
-     * 经 {@code SparkWitchApi.hitGunWorldTarget} 转入的附属模组枪械射击（目前为 SparkStrength 连环杀手手枪：D5 下的致命枪械，
+     * 经 {@code SparkRoleApi.hitGunWorldTarget} 转入的附属模组枪械射击（目前为 SparkStrength 连环杀手手枪：D5 下的致命枪械，
      * 经自有数据包开火）。门面已校验枪械（手中的 {@code wathe:guns} 物品且未冷却）；这里按左轮入口处理，距离取调用方的
      * {@code maxDistance}（上限为 Wathe 的 65）：他人的活皮套、瞄准与视线。皮套被结束（{@code GUN}，回放显示该枪自己的名称）
      * 并向魔术师付款（D4）；调用方随后按未命中收尾，因此命中付出真实射击的代价，绝不触发误杀惩罚或理智损失（D3）。
@@ -315,7 +315,7 @@ public final class MagicianPuppetHits {
      */
     public static boolean endSphinxHaoFistPuppet(ServerPlayerEntity shooter, @Nullable ItemStack gun,
                                                  MagicianPlaybackEntity puppet) {
-        return MagicianPlaybackManager.endPuppet(puppet, shooter, SparkWitchDeathReasons.SPHINX_HAO_FIST,
+        return MagicianPlaybackManager.endPuppet(puppet, shooter, SparkDlcDeathReasons.SPHINX_HAO_FIST,
                 gun == null ? null : gun.getTranslationKey());
     }
 
@@ -458,7 +458,7 @@ public final class MagicianPuppetHits {
             }
         }
         for (MagicianPlaybackEntity puppet : hit) {
-            MagicianPlaybackManager.endPuppet(puppet, caster, SparkWitchDeathReasons.PIERCED_BY_RAY,
+            MagicianPlaybackManager.endPuppet(puppet, caster, SparkDlcDeathReasons.PIERCED_BY_RAY,
                     DEATH_RAY_WEAPON_KEY);
         }
     }
@@ -552,7 +552,7 @@ public final class MagicianPuppetHits {
             return false;
         }
         Vec3d at = hit.getPos();
-        if (!MagicianPlaybackManager.endPuppet(puppet, attacker, SparkWitchDeathReasons.NINJA_SHURIKEN_KILL,
+        if (!MagicianPlaybackManager.endPuppet(puppet, attacker, SparkDlcDeathReasons.NINJA_SHURIKEN_KILL,
                 weapon == null ? null : weapon.getTranslationKey())) {
             return false;
         }
@@ -582,8 +582,8 @@ public final class MagicianPuppetHits {
                 || !(owner instanceof ServerPlayerEntity attacker) || !hittableBy(attacker, puppet)) {
             return false;
         }
-        return MagicianPlaybackManager.endPuppet(puppet, attacker, SparkWitchDeathReasons.CRIMSON_WITHER_SKULL,
-                SparkWitchItems.witherGohei().getTranslationKey());
+        return MagicianPlaybackManager.endPuppet(puppet, attacker, SparkDlcDeathReasons.CRIMSON_WITHER_SKULL,
+                SparkDlcItems.witherGohei().getTranslationKey());
     }
 
     /**
@@ -682,7 +682,7 @@ public final class MagicianPuppetHits {
             }
         }
         for (MagicianPlaybackEntity puppet : hit) {
-            MagicianPlaybackManager.endPuppet(puppet, gunner, SparkWitchDeathReasons.POTION_SHELL,
+            MagicianPlaybackManager.endPuppet(puppet, gunner, SparkDlcDeathReasons.POTION_SHELL,
                     shell == null ? null : shell.getTranslationKey());
         }
     }
@@ -727,8 +727,8 @@ public final class MagicianPuppetHits {
                 MagicianPuppetRaycast.breakableDeviceSquared(gunner, origin, end))) {
             return false;
         }
-        return MagicianPlaybackManager.endPuppet(nearest, gunner, SparkWitchDeathReasons.POTION_BACKBLAST,
-                SparkWitchItems.potionLauncher().getTranslationKey());
+        return MagicianPlaybackManager.endPuppet(nearest, gunner, SparkDlcDeathReasons.POTION_BACKBLAST,
+                SparkDlcItems.potionLauncher().getTranslationKey());
     }
 
     /**
@@ -758,7 +758,7 @@ public final class MagicianPuppetHits {
             return false;
         }
         ItemStack swordfish = attacker.getMainHandStack();
-        if (!swordfish.isOf(SparkWitchItems.swordfish())
+        if (!swordfish.isOf(SparkDlcItems.swordfish())
                 || attacker.getItemCooldownManager().isCoolingDown(swordfish.getItem())
                 || SparkTraitsApi.blocksWeaponAction(attacker, swordfish)) {
             return false;
@@ -769,7 +769,7 @@ public final class MagicianPuppetHits {
                 || !SeekerDamageRules.hasLineOfSight(attacker.getWorld(), eye, puppet.getBoundingBox(), attacker)) {
             return false;
         }
-        return MagicianPlaybackManager.endPuppet(puppet, attacker, SparkWitchDeathReasons.SWORDFISH_STAB,
+        return MagicianPlaybackManager.endPuppet(puppet, attacker, SparkDlcDeathReasons.SWORDFISH_STAB,
                 swordfish.getTranslationKey());
     }
 
@@ -822,7 +822,7 @@ public final class MagicianPuppetHits {
         }
         if (attacker == null || attacker.getWorld().isClient() || attacker.isSpectator()
                 || !(target instanceof MagicianPlaybackEntity puppet)
-                || !attacker.getMainHandStack().isOf(SparkWitchItems.ceremonialSword())
+                || !attacker.getMainHandStack().isOf(SparkDlcItems.ceremonialSword())
                 || !hittableBy(attacker, puppet) || !inMeleeReach(attacker, puppet)) {
             return false;
         }
@@ -910,14 +910,14 @@ public final class MagicianPuppetHits {
      */
     private static boolean ceremonialSwordKill(ServerPlayerEntity attacker, MagicianPlaybackEntity puppet) {
         GrandWitchRuntimeComponent runtime = GrandWitchRuntimeComponent.KEY.get(attacker);
-        ItemStack sword = new ItemStack(SparkWitchItems.ceremonialSword());
+        ItemStack sword = new ItemStack(SparkDlcItems.ceremonialSword());
         if (!GrandWitchRules.canAttemptCeremonialSwordKill(runtime.getSwordKillCooldownTicks(),
                 runtime.isSwordStrikeInProgress())
                 || SparkTraitsApi.blocksWeaponAction(attacker, sword)) {
             return false;
         }
         Vec3d at = puppet.getPos();
-        if (!MagicianPlaybackManager.endPuppet(puppet, attacker, SparkWitchDeathReasons.CEREMONIAL_BLADE,
+        if (!MagicianPlaybackManager.endPuppet(puppet, attacker, SparkDlcDeathReasons.CEREMONIAL_BLADE,
                 sword.getTranslationKey())) {
             return false;
         }

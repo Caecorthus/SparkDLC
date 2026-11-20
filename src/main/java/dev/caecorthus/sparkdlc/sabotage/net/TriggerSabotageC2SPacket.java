@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.sabotage.net;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier;
  * 平板破坏页：触发一个已解锁的破坏。服务端会重新校验一切。
  */
 public record TriggerSabotageC2SPacket(int typeWire) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("trigger_sabotage");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("trigger_sabotage");
     public static final Id<TriggerSabotageC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, TriggerSabotageC2SPacket> CODEC =
             PacketCodec.of(TriggerSabotageC2SPacket::write, TriggerSabotageC2SPacket::read);

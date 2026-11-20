@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.killer;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.util.ShopEntry;
 import dev.doctor4t.wathe.util.ShopUtils;
 import net.minecraft.entity.Entity;
@@ -22,7 +22,7 @@ public final class HerculeanStrengthService {
     public static final int THROW_CHARGE_PERCENT = 70;
     // Additive gate: downstream mods contribute their own throwables to this tag.
     // 可扩展门槛：下游模组向该标签追加各自的投掷物。
-    private static final TagKey<Item> THROWABLES = TagKey.of(RegistryKeys.ITEM, SparkTraits.id("throwables"));
+    private static final TagKey<Item> THROWABLES = TagKey.of(RegistryKeys.ITEM, SparkDLC.id("throwables"));
 
     private HerculeanStrengthService() {
     }

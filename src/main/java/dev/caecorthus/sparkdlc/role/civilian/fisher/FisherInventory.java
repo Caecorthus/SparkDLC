@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.fisher;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -17,17 +17,17 @@ final class FisherInventory {
         int hotbarEnd = Math.min(PlayerInventory.getHotbarSize(), inventory.main.size());
         for (int slot = 0; slot < hotbarEnd; slot++) {
             ItemStack stack = inventory.main.get(slot);
-            if (stack.isOf(SparkWitchItems.fishBait()) && stack.getCount() == 1) {
+            if (stack.isOf(SparkDlcItems.fishBait()) && stack.getCount() == 1) {
                 return stack;
             }
         }
         for (ItemStack stack : inventory.main) {
-            if (stack.isOf(SparkWitchItems.fishBait()) && !stack.isEmpty()) {
+            if (stack.isOf(SparkDlcItems.fishBait()) && !stack.isEmpty()) {
                 return stack;
             }
         }
         for (ItemStack stack : inventory.offHand) {
-            if (stack.isOf(SparkWitchItems.fishBait()) && !stack.isEmpty()) {
+            if (stack.isOf(SparkDlcItems.fishBait()) && !stack.isEmpty()) {
                 return stack;
             }
         }

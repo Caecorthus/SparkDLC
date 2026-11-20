@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.savior;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponTarget;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.net.SaviorGunDropS2CPayload;
@@ -79,7 +79,7 @@ public final class SaviorPistolService {
         ItemStack pistol = shooter.getMainHandStack();
         // Creative mode may fire even if an old cooldown is still ticking. / 创造模式即使旧冷却仍在也能开枪。
         boolean creative = shooter.isCreative();
-        if (!pistol.isOf(SparkWitchItems.saviorPistol())
+        if (!pistol.isOf(SparkDlcItems.saviorPistol())
                 || (!creative && shooter.getItemCooldownManager().isCoolingDown(pistol.getItem()))
                 || !SaviorRules.mayUseWeapons(shooter)
                 || refusesShooter(shooter, pistol)) {
@@ -118,7 +118,7 @@ public final class SaviorPistolService {
 
         // Wathe's click plays before the shot, even when nothing is hit. / Wathe 的点击声先于枪声，未命中也播放。
         world.playSound(null, shooter.getX(), shooter.getY(), shooter.getZ(),
-                SparkWitchSounds.SAVIOR_PISTOL_CLICK, SoundCategory.PLAYERS, 0.5F, pitchVariation(shooter));
+                SparkDlcSounds.SAVIOR_PISTOL_CLICK, SoundCategory.PLAYERS, 0.5F, pitchVariation(shooter));
         if (target == null) {
             // Revolver parity for non-player ids: a puppet, a Seeker device or a Partygoer takes the hit, and the shot
             // still finishes as a recorded miss (sounds, muzzle, cooldown; no punishment, no mood).
@@ -162,7 +162,7 @@ public final class SaviorPistolService {
 
         // Copied volume 5.0: the revolver shot carries far. / 复制自左轮的 5.0 音量：枪声传得很远。
         world.playSound(null, shooter.getX(), shooter.getY(), shooter.getZ(),
-                SparkWitchSounds.SAVIOR_PISTOL_SHOOT, SoundCategory.PLAYERS, 5.0F, pitchVariation(shooter));
+                SparkDlcSounds.SAVIOR_PISTOL_SHOOT, SoundCategory.PLAYERS, 5.0F, pitchVariation(shooter));
         SaviorMuzzleS2CPayload muzzle = new SaviorMuzzleS2CPayload(shooter.getUuidAsString());
         for (ServerPlayerEntity viewer : PlayerLookup.tracking(shooter)) {
             ServerPlayNetworking.send(viewer, muzzle);
@@ -198,11 +198,11 @@ public final class SaviorPistolService {
 
     /**
      * Non-player target, after the click and before the record, through the add-on gun entries
-     * ({@code SparkWitchApi.hitGunWorldTarget} refuses items outside {@code wathe:guns}, so they are called directly):
+     * ({@code SparkRoleApi.hitGunWorldTarget} refuses items outside {@code wathe:guns}, so they are called directly):
      * a Magician puppet ends (decoy, the Magician is paid), a Seeker device breaks, and a SparkStrength Partygoer dies
      * (owner rule 2026-10-21). Each re-checks aim and line of sight within the revolver's 65-block cap. A Bomber drone
      * has no SparkWitch seam and stays a miss.
-     * 非玩家目标，在点击声之后、记录之前，经附属枪械入口处理（{@code SparkWitchApi.hitGunWorldTarget} 拒绝
+     * 非玩家目标，在点击声之后、记录之前，经附属枪械入口处理（{@code SparkRoleApi.hitGunWorldTarget} 拒绝
      * {@code wathe:guns} 以外的物品，因此直接调用）：魔术师皮套被结束（诱饵，魔术师获得报酬），搜寻者设备被打坏，
      * SparkStrength 派对客死亡（所有者规则 2026-10-21）。每项都在左轮 65 格上限内复查瞄准与视线。轰炸者无人机没有
      * SparkWitch 接缝，仍为未命中。
@@ -241,13 +241,13 @@ public final class SaviorPistolService {
      */
     private static void punish(ServerPlayerEntity shooter, GameWorldComponent game, ShootInnocentPunishment policy) {
         if (!SaviorRules.isPunishable(shooter)
-                || !SaviorRules.takeOne(shooter.getInventory(), SparkWitchItems.saviorPistol())) {
+                || !SaviorRules.takeOne(shooter.getInventory(), SparkDlcItems.saviorPistol())) {
             return;
         }
         if (game.canUseKillerFeatures(shooter)) {
             return;
         }
-        SaviorRules.swapInRevolver(shooter, SparkWitchItems.saviorPistol());
+        SaviorRules.swapInRevolver(shooter, SparkDlcItems.saviorPistol());
         ServerPlayNetworking.send(shooter, new SaviorGunDropS2CPayload());
         PlayerMoodComponent.KEY.get(shooter).setMood(0.0F);
         game.addToPreventGunPickup(shooter);

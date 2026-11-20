@@ -10,8 +10,8 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(targets = "net.minecraft.entity.player.ItemCooldownManager$Entry")
 public interface ItemCooldownEntryAccessor {
     @Accessor("endTick")
-    int sparkwitch$getEndTick();
+    int sparkdlc$getEndTickForRoles();
 
     @Accessor("startTick")
-    int sparkwitch$getStartTick();
+    int sparkdlc$getStartTickForRoles();
 }

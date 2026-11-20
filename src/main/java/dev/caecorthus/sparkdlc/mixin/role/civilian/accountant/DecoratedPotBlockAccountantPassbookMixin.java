@@ -35,7 +35,7 @@ public abstract class DecoratedPotBlockAccountantPassbookMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$keepPassbookOutOfPot(ItemStack stack, BlockState state, World world, BlockPos pos,
+    private void sparkdlc$keepPassbookOutOfPot(ItemStack stack, BlockState state, World world, BlockPos pos,
                                                  PlayerEntity player, Hand hand, BlockHitResult hit,
                                                  CallbackInfoReturnable<ItemActionResult> cir) {
         if (AccountantPassbookService.blocksBlockUse(stack, state)) {

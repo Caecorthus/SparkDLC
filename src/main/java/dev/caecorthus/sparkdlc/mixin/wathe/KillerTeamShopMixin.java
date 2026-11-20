@@ -29,7 +29,7 @@ public abstract class KillerTeamShopMixin {
     public int balance;
 
     @WrapMethod(method = "addToBalance", require = 1, allow = 1)
-    private void sparkstrength$recordActualIncome(int amount, Operation<Void> original) {
+    private void sparkdlc$recordActualIncome(int amount, Operation<Void> original) {
         int before = balance;
         original.call(amount);
         long actualDelta = (long) balance - before;
@@ -45,7 +45,7 @@ public abstract class KillerTeamShopMixin {
             require = 1,
             allow = 1
     )
-    private int sparkstrength$includeTeamPurchaseFunds(PlayerShopComponent shop, Operation<Integer> original) {
+    private int sparkdlc$includeTeamPurchaseFunds(PlayerShopComponent shop, Operation<Integer> original) {
         return KillerTeamEconomyService.availableForPurchase(player, original.call(shop));
     }
 
@@ -56,7 +56,7 @@ public abstract class KillerTeamShopMixin {
             require = 1,
             allow = 1
     )
-    private void sparkstrength$payPersonalBeforeTeam(PlayerShopComponent shop, int deductedBalance,
+    private void sparkdlc$payPersonalBeforeTeam(PlayerShopComponent shop, int deductedBalance,
                                                    Operation<Void> original, ServerPlayerEntity buyer,
                                                    ShopEntry entry, int index, int pricePaid) {
         // Keep the full final price for onBuy/AFTER; only split the committed debit here.

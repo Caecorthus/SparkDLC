@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -15,7 +15,7 @@ import java.util.List;
  * 用本局的房间名（按显示顺序）打开派对客选房界面。
  */
 public record PartygoerMenuS2CPacket(List<String> rooms) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("partygoer_menu_open");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("partygoer_menu_open");
     public static final Id<PartygoerMenuS2CPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, PartygoerMenuS2CPacket> CODEC =
             PacketCodec.of(PartygoerMenuS2CPacket::write, PartygoerMenuS2CPacket::read);

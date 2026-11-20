@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.witch.riftwalker.session;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -40,7 +40,7 @@ final class RiftSessionAffectPolicy {
                         isSelf(actor, target), actionId);
             } catch (RuntimeException | LinkageError error) {
                 if (ERROR_LOGGED.compareAndSet(false, true)) {
-                    SparkWitch.LOGGER.error("Rift Gate occupant affect policy failed; denying", error);
+                    SparkDLC.LOGGER.error("Rift Gate occupant affect policy failed; denying", error);
                 }
                 return false;
             }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.fiend;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
@@ -12,8 +12,8 @@ import java.util.UUID;
  */
 public final class FiendMomentRules {
     /** Replay global events, each with a registered formatter. / 回放全局事件，均注册了专属格式化器。 */
-    public static final Identifier START_EVENT_ID = SparkWitch.id("fiend_moment_start");
-    public static final Identifier END_EVENT_ID = SparkWitch.id("fiend_moment_end");
+    public static final Identifier START_EVENT_ID = SparkDLC.id("fiend_moment_start");
+    public static final Identifier END_EVENT_ID = SparkDLC.id("fiend_moment_end");
 
     /**
      * What the early-phase win listener returns while it runs before every other listener (D2).

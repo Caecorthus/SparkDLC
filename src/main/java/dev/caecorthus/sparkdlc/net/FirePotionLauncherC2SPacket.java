@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -15,7 +15,7 @@ import net.minecraft.util.Identifier;
  * 其余全部复核。解码是宽容的：不带朝向的载荷解码为 NaN，服务端回退到自身朝向。
  */
 public record FirePotionLauncherC2SPacket(float yaw, float pitch) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("fire_potion_launcher");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("fire_potion_launcher");
     public static final Id<FirePotionLauncherC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, FirePotionLauncherC2SPacket> CODEC =
             PacketCodec.of(FirePotionLauncherC2SPacket::write, FirePotionLauncherC2SPacket::read);

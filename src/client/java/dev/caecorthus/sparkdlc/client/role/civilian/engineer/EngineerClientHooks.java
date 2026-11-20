@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.engineer;
 
-import dev.caecorthus.sparkdlc.SparkStrengthEntities;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
 import dev.caecorthus.sparkdlc.client.render.entity.CaptureDeviceEntityRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 
@@ -12,6 +12,6 @@ public final class EngineerClientHooks {
     }
 
     public static void register() {
-        EntityRendererRegistry.register(SparkStrengthEntities.captureDevice(), CaptureDeviceEntityRenderer::new);
+        EntityRendererRegistry.register(SparkDlcEntities.captureDevice(), CaptureDeviceEntityRenderer::new);
     }
 }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.tablet.net;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -15,7 +15,7 @@ import net.minecraft.util.Identifier;
  * 只发给该接收者：未读标记与未读材质都只在本地，附近的人不会知道这名玩家收到了消息。
  */
 public record TabletChatNotifyS2CPacket(int channelWire) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("tablet_chat_notify");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("tablet_chat_notify");
     public static final Id<TabletChatNotifyS2CPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, TabletChatNotifyS2CPacket> CODEC =
             PacketCodec.of(TabletChatNotifyS2CPacket::write, TabletChatNotifyS2CPacket::read);

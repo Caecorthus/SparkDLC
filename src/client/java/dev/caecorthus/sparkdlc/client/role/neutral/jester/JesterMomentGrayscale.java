@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.neutral.jester;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.render.ManagedPostEffect;
 import dev.caecorthus.sparkdlc.role.neutral.jester.JesterMomentRules;
 import net.minecraft.client.MinecraftClient;
@@ -21,7 +21,7 @@ import org.agmas.noellesroles.jester.JesterPlayerComponent;
  * 的共享槽位以及其他灰阶/模糊处理器；各处理器依次读写主帧缓冲，因此可以叠加。
  */
 public final class JesterMomentGrayscale {
-    private static final Identifier SHADER = SparkStrength.id("shaders/post/jester_grayscale.json");
+    private static final Identifier SHADER = SparkDLC.id("shaders/post/jester_grayscale.json");
     private static final float MIN_VISIBLE_GRAYSCALE = 0.005F;
     private static final ManagedPostEffect EFFECT =
             new ManagedPostEffect(SHADER, "Unable to load Jester Moment grayscale shader");

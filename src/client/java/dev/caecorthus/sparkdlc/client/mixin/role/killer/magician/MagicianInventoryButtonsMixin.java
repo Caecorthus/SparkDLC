@@ -5,7 +5,7 @@ import dev.caecorthus.sparkdlc.client.role.killer.magician.MagicianTargetSelecti
 import dev.caecorthus.sparkdlc.client.role.killer.magician.MagicianPageSwitchWidget;
 import dev.caecorthus.sparkdlc.client.role.killer.magician.MagicianActionWidget;
 import dev.caecorthus.sparkdlc.role.killer.magician.UseMagicianAbilityC2SPacket;
-import dev.caecorthus.sparkdlc.client.inventory.SparkWitchInventoryButtonLayout;
+import dev.caecorthus.sparkdlc.client.inventory.InventoryButtonLayout;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedHandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedInventoryScreen;
@@ -30,15 +30,15 @@ import java.util.List;
 @Mixin(LimitedInventoryScreen.class)
 public abstract class MagicianInventoryButtonsMixin extends LimitedHandledScreen<PlayerScreenHandler> {
     @Unique
-    private final List<MagicianTargetWidget> sparkwitch$magicianTargets = new ArrayList<>();
+    private final List<MagicianTargetWidget> sparkdlc$magicianTargets = new ArrayList<>();
     @Unique
-    private MagicianPageSwitchWidget sparkwitch$magicianPrevious;
+    private MagicianPageSwitchWidget sparkdlc$magicianPrevious;
     @Unique
-    private MagicianPageSwitchWidget sparkwitch$magicianNext;
+    private MagicianPageSwitchWidget sparkdlc$magicianNext;
     @Unique
-    private final List<MagicianActionWidget> sparkwitch$magicianActions = new ArrayList<>();
+    private final List<MagicianActionWidget> sparkdlc$magicianActions = new ArrayList<>();
     @Unique
-    private int sparkwitch$magicianPage;
+    private int sparkdlc$magicianPage;
 
     protected MagicianInventoryButtonsMixin(PlayerScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -47,45 +47,45 @@ public abstract class MagicianInventoryButtonsMixin extends LimitedHandledScreen
 
     // Named selector (remapped at build time): the intermediary name crashed the dev client. / 使用具名选择器（构建时重映射）：中间名会让开发客户端崩溃。
     @Inject(method = "init()V", at = @At("TAIL"))
-    private void sparkwitch$addMagicianTargets(CallbackInfo ci) {
+    private void sparkdlc$addMagicianTargets(CallbackInfo ci) {
         if (player == null || player.networkHandler == null) return;
         var role = dev.doctor4t.wathe.cca.GameWorldComponent.KEY.get(player.getWorld()).getRole(player);
-        if (role == null || !dev.caecorthus.sparkdlc.SparkWitchRoles.MAGICIAN_ID.equals(role.identifier())) return;
-        sparkwitch$magicianTargets.clear();
-        sparkwitch$magicianPage = 0;
-        int y = SparkWitchInventoryButtonLayout.getPlayerRowY(this.height);
+        if (role == null || !dev.caecorthus.sparkdlc.SparkDlcRoles.MAGICIAN_ID.equals(role.identifier())) return;
+        sparkdlc$magicianTargets.clear();
+        sparkdlc$magicianPage = 0;
+        int y = InventoryButtonLayout.getPlayerRowY(this.height);
         // The fixed round roster (owner decision 2026-10-07 D7), not the live online list. / 本局固定名单（所有者 2026-10-07 决定 D7），而非实时在线列表。
         for (MagicianPlayerComponent.RosterEntry entry : MagicianTargetSelectionApi.roster(player)) {
-            sparkwitch$magicianTargets.add(this.addDrawableChild(new MagicianTargetWidget(0, y, entry)));
+            sparkdlc$magicianTargets.add(this.addDrawableChild(new MagicianTargetWidget(0, y, entry)));
         }
 
-        sparkwitch$magicianPrevious = this.addDrawableChild(new MagicianPageSwitchWidget(
+        sparkdlc$magicianPrevious = this.addDrawableChild(new MagicianPageSwitchWidget(
                 0,
                 y,
                 Items.PURPLE_DYE.getDefaultStack(),
                 Text.translatable("ui.sparkdlc.magician.pagination.previous"),
                 button -> {
-                    sparkwitch$magicianPage--;
-                    sparkwitch$refreshMagicianPage();
+                    sparkdlc$magicianPage--;
+                    sparkdlc$refreshMagicianPage();
                 }
         ));
-        sparkwitch$magicianNext = this.addDrawableChild(new MagicianPageSwitchWidget(
+        sparkdlc$magicianNext = this.addDrawableChild(new MagicianPageSwitchWidget(
                 0,
                 y,
                 Items.LIME_DYE.getDefaultStack(),
                 Text.translatable("ui.sparkdlc.magician.pagination.next"),
                 button -> {
-                    sparkwitch$magicianPage++;
-                    sparkwitch$refreshMagicianPage();
+                    sparkdlc$magicianPage++;
+                    sparkdlc$refreshMagicianPage();
                 }
         ));
-        sparkwitch$refreshMagicianPage();
-        sparkwitch$addMagicianActions();
+        sparkdlc$refreshMagicianPage();
+        sparkdlc$addMagicianActions();
     }
 
     @Unique
-    private void sparkwitch$addMagicianActions() {
-        int y = SparkWitchInventoryButtonLayout.getPlayerRowY(this.height) + SparkWitchInventoryButtonLayout.SLOT_APART;
+    private void sparkdlc$addMagicianActions() {
+        int y = InventoryButtonLayout.getPlayerRowY(this.height) + InventoryButtonLayout.SLOT_APART;
         ItemStack[] icons = {
                 Items.GREEN_DYE.getDefaultStack(),
                 Items.RED_DYE.getDefaultStack(),
@@ -104,11 +104,11 @@ public abstract class MagicianInventoryButtonsMixin extends LimitedHandledScreen
                 "ui.sparkdlc.magician.action.start_playback",
                 "ui.sparkdlc.magician.action.stop_playback"
         };
-        int startX = this.width / 2 - (icons.length * SparkWitchInventoryButtonLayout.SLOT_APART) / 2
-                + SparkWitchInventoryButtonLayout.SLOT_X_OFFSET;
+        int startX = this.width / 2 - (icons.length * InventoryButtonLayout.SLOT_APART) / 2
+                + InventoryButtonLayout.SLOT_X_OFFSET;
         for (int i = 0; i < icons.length; i++) {
-            sparkwitch$magicianActions.add(this.addDrawableChild(new MagicianActionWidget(
-                    startX + i * SparkWitchInventoryButtonLayout.SLOT_APART,
+            sparkdlc$magicianActions.add(this.addDrawableChild(new MagicianActionWidget(
+                    startX + i * InventoryButtonLayout.SLOT_APART,
                     y,
                     icons[i],
                     Text.translatable(labels[i]),
@@ -118,49 +118,49 @@ public abstract class MagicianInventoryButtonsMixin extends LimitedHandledScreen
     }
 
     @Unique
-    private void sparkwitch$refreshMagicianPage() {
-        int totalPages = SparkWitchInventoryButtonLayout.getTotalPageCount(sparkwitch$magicianTargets.size());
-        sparkwitch$magicianPage = Math.max(0, Math.min(sparkwitch$magicianPage, totalPages - 1));
+    private void sparkdlc$refreshMagicianPage() {
+        int totalPages = InventoryButtonLayout.getTotalPageCount(sparkdlc$magicianTargets.size());
+        sparkdlc$magicianPage = Math.max(0, Math.min(sparkdlc$magicianPage, totalPages - 1));
 
-        int startIndex = sparkwitch$magicianPage * SparkWitchInventoryButtonLayout.PLAYERS_PER_PAGE;
+        int startIndex = sparkdlc$magicianPage * InventoryButtonLayout.PLAYERS_PER_PAGE;
         int endIndex = Math.min(
-                startIndex + SparkWitchInventoryButtonLayout.PLAYERS_PER_PAGE,
-                sparkwitch$magicianTargets.size()
+                startIndex + InventoryButtonLayout.PLAYERS_PER_PAGE,
+                sparkdlc$magicianTargets.size()
         );
         int visibleCount = Math.max(0, endIndex - startIndex);
-        boolean showPrevious = sparkwitch$magicianPage > 0;
-        boolean showNext = sparkwitch$magicianPage < totalPages - 1;
-        int groupStartX = SparkWitchInventoryButtonLayout.getCenteredGroupStartX(
+        boolean showPrevious = sparkdlc$magicianPage > 0;
+        boolean showNext = sparkdlc$magicianPage < totalPages - 1;
+        int groupStartX = InventoryButtonLayout.getCenteredGroupStartX(
                 this.width,
                 visibleCount,
                 showPrevious,
                 showNext
         );
-        int playerStartX = groupStartX + (showPrevious ? SparkWitchInventoryButtonLayout.SLOT_APART : 0);
-        int y = SparkWitchInventoryButtonLayout.getPlayerRowY(this.height);
+        int playerStartX = groupStartX + (showPrevious ? InventoryButtonLayout.SLOT_APART : 0);
+        int y = InventoryButtonLayout.getPlayerRowY(this.height);
 
-        for (int index = 0; index < sparkwitch$magicianTargets.size(); index++) {
-            MagicianTargetWidget widget = sparkwitch$magicianTargets.get(index);
+        for (int index = 0; index < sparkdlc$magicianTargets.size(); index++) {
+            MagicianTargetWidget widget = sparkdlc$magicianTargets.get(index);
             boolean visible = index >= startIndex && index < endIndex;
             widget.visible = visible;
             widget.active = visible;
             if (visible) {
-                widget.setX(playerStartX + (index - startIndex) * SparkWitchInventoryButtonLayout.SLOT_APART);
+                widget.setX(playerStartX + (index - startIndex) * InventoryButtonLayout.SLOT_APART);
                 widget.setY(y);
             }
         }
 
-        if (sparkwitch$magicianPrevious != null) {
-            sparkwitch$magicianPrevious.visible = showPrevious;
-            sparkwitch$magicianPrevious.active = showPrevious;
-            sparkwitch$magicianPrevious.setX(groupStartX);
-            sparkwitch$magicianPrevious.setY(y);
+        if (sparkdlc$magicianPrevious != null) {
+            sparkdlc$magicianPrevious.visible = showPrevious;
+            sparkdlc$magicianPrevious.active = showPrevious;
+            sparkdlc$magicianPrevious.setX(groupStartX);
+            sparkdlc$magicianPrevious.setY(y);
         }
-        if (sparkwitch$magicianNext != null) {
-            sparkwitch$magicianNext.visible = showNext;
-            sparkwitch$magicianNext.active = showNext;
-            sparkwitch$magicianNext.setX(playerStartX + visibleCount * SparkWitchInventoryButtonLayout.SLOT_APART);
-            sparkwitch$magicianNext.setY(y);
+        if (sparkdlc$magicianNext != null) {
+            sparkdlc$magicianNext.visible = showNext;
+            sparkdlc$magicianNext.active = showNext;
+            sparkdlc$magicianNext.setX(playerStartX + visibleCount * InventoryButtonLayout.SLOT_APART);
+            sparkdlc$magicianNext.setY(y);
         }
     }
 }

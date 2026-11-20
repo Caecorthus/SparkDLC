@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.assignment;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.Trait;
 import dev.caecorthus.sparkdlc.trait.api.TraitAssignmentReason;
 import dev.caecorthus.sparkdlc.trait.api.TraitRegistry;
@@ -224,7 +224,7 @@ public final class TraitAssignmentService {
             Random random
     ) {
         if (!traitWorld.isTraitEnabled(ConscienceTrait.ID)) {
-            SparkTraits.LOGGER.warn("Skipping forced Conscience because sparkdlc:conscience is disabled.");
+            SparkDLC.LOGGER.warn("Skipping forced Conscience because sparkdlc:conscience is disabled.");
             return;
         }
 
@@ -244,7 +244,7 @@ public final class TraitAssignmentService {
             return;
         }
 
-        SparkTraits.LOGGER.warn("Skipping forced Conscience because every eligible killer has locked trait slots.");
+        SparkDLC.LOGGER.warn("Skipping forced Conscience because every eligible killer has locked trait slots.");
     }
 
     static int pickForcedConscienceCandidateIndex(int eligibleCount, Random random) {
@@ -272,12 +272,12 @@ public final class TraitAssignmentService {
         for (int i = 0; i < extraKillers; i++) {
             PlayerPlan extraKiller = chooseExtraKiller(gameComponent, roleHistory, plans, lockedRolePlayers, random);
             if (extraKiller == null) {
-                SparkTraits.LOGGER.warn("Could not add an extra killer for Conscience compensation.");
+                SparkDLC.LOGGER.warn("Could not add an extra killer for Conscience compensation.");
                 return;
             }
             Role compensationRole = chooseConscienceCompensationKillerRole(gameComponent, selectionContext, random);
             if (compensationRole == null) {
-                SparkTraits.LOGGER.warn("Could not add an extra killer for Conscience compensation because no enabled killer role is available.");
+                SparkDLC.LOGGER.warn("Could not add an extra killer for Conscience compensation because no enabled killer role is available.");
                 return;
             }
             replaceRandomTraitsForConscienceCompensation(
@@ -504,7 +504,7 @@ public final class TraitAssignmentService {
             List<PlayerPlan> plans
     ) {
         if (!traitWorld.isTraitEnabled(PigTrait.ID)) {
-            SparkTraits.LOGGER.warn("Skipping forced Pig because sparkdlc:pig is disabled.");
+            SparkDLC.LOGGER.warn("Skipping forced Pig because sparkdlc:pig is disabled.");
             return;
         }
         for (PlayerPlan plan : plans) {

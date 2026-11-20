@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class JudgeAssassinOutcomeMixin {
     @WrapOperation(method = "lambda$registerPackets$6", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/server/network/ServerPlayerEntity;sendMessage(Lnet/minecraft/text/Text;Z)V", ordinal = 0))
-    private static void sparkwitch$noFalseAssassinationSuccess(ServerPlayerEntity assassin, Text message, boolean overlay,
+    private static void sparkdlc$noFalseAssassinationSuccess(ServerPlayerEntity assassin, Text message, boolean overlay,
                                                               Operation<Void> original, AssassinGuessRoleC2SPacket packet,
                                                               ServerPlayNetworking.Context context) {
         if (!JudgeRuntime.blocksKill(assassin.getServerWorld(), assassin.getUuid(), packet.targetPlayer())) {

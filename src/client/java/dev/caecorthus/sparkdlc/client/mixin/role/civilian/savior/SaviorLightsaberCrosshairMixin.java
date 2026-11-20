@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.mixin.role.civilian.savior;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.client.gui.CrosshairRenderer;
 import dev.doctor4t.wathe.index.WatheItems;
 import net.minecraft.item.Item;
@@ -30,14 +30,14 @@ public abstract class SaviorLightsaberCrosshairMixin {
             method = "renderCrosshair",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;isOf(Lnet/minecraft/item/Item;)Z")
     )
-    private static boolean sparkwitch$lightsaberUsesBatCrosshair(ItemStack stack, Item item,
+    private static boolean sparkdlc$lightsaberUsesBatCrosshair(ItemStack stack, Item item,
                                                                  Operation<Boolean> original) {
         if (original.call(stack, item)) {
             return true;
         }
         // The saber uses the bat crosshair; the pistol uses the revolver target crosshair, so aiming at a player
         // changes the pip exactly like Wathe's revolver. / 光剑用球棒准星；手枪用左轮的目标准星，瞄人时准星会变化。
-        return (item == WatheItems.BAT && stack.isOf(SparkWitchItems.saviorLightsaber()))
-                || (item == WatheItems.REVOLVER && stack.isOf(SparkWitchItems.saviorPistol()));
+        return (item == WatheItems.BAT && stack.isOf(SparkDlcItems.saviorLightsaber()))
+                || (item == WatheItems.REVOLVER && stack.isOf(SparkDlcItems.saviorPistol()));
     }
 }

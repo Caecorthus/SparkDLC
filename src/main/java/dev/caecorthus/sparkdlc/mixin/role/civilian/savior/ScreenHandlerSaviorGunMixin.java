@@ -23,7 +23,7 @@ public abstract class ScreenHandlerSaviorGunMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$blockSaviorGunSlotClick(int slotIndex, int button, SlotActionType actionType,
+    private void sparkdlc$blockSaviorGunSlotClick(int slotIndex, int button, SlotActionType actionType,
                                                     PlayerEntity player, CallbackInfo ci) {
         ScreenHandler handler = (ScreenHandler) (Object) this;
         if (SaviorGunPickupRules.blocksSlotClick(handler, player, slotIndex, button, actionType)) {

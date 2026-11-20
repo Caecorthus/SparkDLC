@@ -42,7 +42,7 @@ final class NoellesTaotieSwallowCooldownStore implements RoleSkillCooldownStore 
     @Override
     public OptionalInt nominalTicks(ServerPlayerEntity player) {
         int calculated = ((NoellesTaotieForcedCooldownAccessor) (Object) TaotiePlayerComponent.KEY.get(player))
-                .sparkwitch$getForcedCooldownSwallowNominal();
+                .sparkdlc$getForcedCooldownSwallowNominal();
         return calculated > 0 ? OptionalInt.of(calculated) : OptionalInt.empty();
     }
 

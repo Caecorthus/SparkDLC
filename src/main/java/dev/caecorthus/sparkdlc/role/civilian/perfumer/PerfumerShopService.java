@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.perfumer;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.TraitShopEntries;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
@@ -40,13 +40,13 @@ public final class PerfumerShopService {
         context.clearEntries();
         context.addEntry(new ShopEntry.Builder(
                 "perfume_essence",
-                SparkWitchItems.perfumeEssence().getDefaultStack(),
+                SparkDlcItems.perfumeEssence().getDefaultStack(),
                 PerfumerRules.PERFUME_ESSENCE_PRICE,
                 ShopEntry.Type.TOOL
         ).build());
         context.addEntry(new ShopEntry.Builder(
                 "cologne",
-                SparkWitchItems.cologne().getDefaultStack(),
+                SparkDlcItems.cologne().getDefaultStack(),
                 PerfumerRules.COLOGNE_PRICE,
                 ShopEntry.Type.TOOL
         ).build());

@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(GameFunctions.class)
 public abstract class GameFunctionsSphinxHaoGunDropMixin {
     @Inject(method = "shouldDropOnDeath", at = @At("HEAD"), cancellable = true)
-    private static void sparkwitch$excludeSphinxHaoKit(
+    private static void sparkdlc$excludeSphinxHaoKit(
             ItemStack stack,
             PlayerEntity victim,
             CallbackInfoReturnable<Boolean> cir

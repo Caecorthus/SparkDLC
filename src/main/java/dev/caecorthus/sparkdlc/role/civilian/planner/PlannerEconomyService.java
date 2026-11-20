@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.planner;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.doctor4t.wathe.api.Role;
@@ -103,7 +103,7 @@ final class PlannerEconomyService {
                 && GameFunctions.isPlayerPlayingAndAlive(player)
                 && PlannerRules.isPlanner(game.getRole(player))
                 && !player.isSpectator() && !player.isCreative()
-                && !SparkWitchApi.isWraithRestricted(player);
+                && !SparkRoleApi.isWraithRestricted(player);
     }
 
     /**
@@ -138,7 +138,7 @@ final class PlannerEconomyService {
             return;
         }
         ShopEntry slip = new ShopEntry.Builder(PlannerRules.TASK_SLIP_ENTRY,
-                new ItemStack(SparkWitchItems.plannerTaskSlip()), PlannerRules.SLIP_PRICE, ShopEntry.Type.TOOL).build();
+                new ItemStack(SparkDlcItems.plannerTaskSlip()), PlannerRules.SLIP_PRICE, ShopEntry.Type.TOOL).build();
         context.addEntry(SparkTraitsApi.discountShopEntryForCharisma(player, slip));
     }
 }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.civilian;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.TraitAudience;
 import dev.caecorthus.sparkdlc.trait.api.TraitDefinition;
 import dev.caecorthus.sparkdlc.trait.api.TraitRegistry;
@@ -14,11 +14,11 @@ import dev.caecorthus.sparkdlc.trait.civilian.impostor.ImpostorTrait;
  * 注册仅限原始平民阵营使用的天赋；运行时仍会排除内鬼天赋。
  */
 public final class CivilianTraits {
-    public static final Identifier EXTROVERTED = SparkTraits.id("extroverted");
-    public static final Identifier INTROVERTED = SparkTraits.id("introverted");
-    public static final Identifier MONEY_TREE = SparkTraits.id("money_tree");
-    public static final Identifier FOCUS = SparkTraits.id("focus");
-    public static final Identifier DEPRESSION = SparkTraits.id("depression");
+    public static final Identifier EXTROVERTED = SparkDLC.id("extroverted");
+    public static final Identifier INTROVERTED = SparkDLC.id("introverted");
+    public static final Identifier MONEY_TREE = SparkDLC.id("money_tree");
+    public static final Identifier FOCUS = SparkDLC.id("focus");
+    public static final Identifier DEPRESSION = SparkDLC.id("depression");
 
     private CivilianTraits() {
     }

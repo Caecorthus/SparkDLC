@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.bodyguard;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -17,7 +17,7 @@ public final class BodyguardVestService {
     }
 
     public static boolean isWorn(PlayerEntity player) {
-        return player.getEquippedStack(EquipmentSlot.CHEST).isOf(SparkStrengthItems.bodyguardVest());
+        return player.getEquippedStack(EquipmentSlot.CHEST).isOf(SparkDlcItems.bodyguardVest());
     }
 
     /**
@@ -26,7 +26,7 @@ public final class BodyguardVestService {
      */
     public static void breakWorn(ServerPlayerEntity player) {
         ItemStack worn = player.getEquippedStack(EquipmentSlot.CHEST);
-        if (!worn.isOf(SparkStrengthItems.bodyguardVest())) {
+        if (!worn.isOf(SparkDlcItems.bodyguardVest())) {
             return;
         }
         player.sendEquipmentBreakStatus(worn.getItem(), EquipmentSlot.CHEST);

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.discoverer;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class DiscovererRules {
 
-    public static final Identifier ROLE_ID = SparkWitch.id("discoverer");
+    public static final Identifier ROLE_ID = SparkDLC.id("discoverer");
 
     /** Owner-specified identity colour. / 所有者指定的身份色。 */
     public static final int COLOR = 0xAF9042;

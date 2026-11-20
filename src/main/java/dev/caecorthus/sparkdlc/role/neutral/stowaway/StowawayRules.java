@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.stowaway;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
  * 偷渡客契约：稳定的职业数值与纯职业判断。
  */
 public final class StowawayRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("stowaway");
+    public static final Identifier ROLE_ID = SparkDLC.id("stowaway");
     /** Gray-green role color. / 灰绿色职业颜色。 */
     public static final int COLOR = 0x6E8B6E;
 

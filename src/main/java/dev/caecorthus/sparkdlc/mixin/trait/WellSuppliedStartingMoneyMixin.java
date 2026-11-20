@@ -21,7 +21,7 @@ public abstract class WellSuppliedStartingMoneyMixin {
                     target = "Ldev/doctor4t/wathe/cca/GameWorldComponent;setGameStatus(Ldev/doctor4t/wathe/cca/GameWorldComponent$GameStatus;)V"
             )
     )
-    private static void sparktraits$boostWellSuppliedStartingMoney(ServerWorld serverWorld, CallbackInfo ci) {
+    private static void sparkdlc$boostWellSuppliedStartingMoney(ServerWorld serverWorld, CallbackInfo ci) {
         GlobalTraitService.applyWellSuppliedStartingMoney(serverWorld);
     }
 }

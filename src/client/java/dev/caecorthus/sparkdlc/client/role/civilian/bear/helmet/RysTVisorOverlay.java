@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bear.helmet;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.role.civilian.blind.BlindView;
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.helmet.RysTVisorOverlayLayout.Window;
 import dev.caecorthus.sparkdlc.client.role.civilian.seeker.remote.SeekerRemoteViewClient;
@@ -30,8 +30,8 @@ import net.minecraft.util.math.RotationAxis;
  * 路径保持稳定。仅为展示：面罩与裂纹来自服务端同步的头部物品。
  */
 public final class RysTVisorOverlay {
-    public static final Identifier OVERLAY_TEXTURE = SparkWitch.id("textures/gui/bear/visor_overlay.png");
-    public static final Identifier CRACKS_TEXTURE = SparkWitch.id("textures/gui/bear/visor_cracks.png");
+    public static final Identifier OVERLAY_TEXTURE = SparkDLC.id("textures/gui/bear/visor_overlay.png");
+    public static final Identifier CRACKS_TEXTURE = SparkDLC.id("textures/gui/bear/visor_cracks.png");
     /** Vanilla's misc-overlay depth (pumpkin blur). / 原版杂项遮罩深度（南瓜模糊）。 */
     private static final int OVERLAY_Z = -90;
 

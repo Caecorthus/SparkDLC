@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Mouse.class)
 public abstract class ControlExpertStunMouseMixin {
     @Inject(method = "onMouseScroll", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$blockStunnedHotbarScroll(long window, double horizontal, double vertical, CallbackInfo ci) {
+    private void sparkdlc$blockStunnedHotbarScroll(long window, double horizontal, double vertical, CallbackInfo ci) {
         if (MinecraftClient.getInstance().currentScreen == null && ControlExpertStunClient.isLocalStunned()) {
             ci.cancel();
         }
@@ -32,7 +32,7 @@ public abstract class ControlExpertStunMouseMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/network/ClientPlayerEntity;changeLookDirection(DD)V")
     )
-    private boolean sparkwitch$lockStunnedCamera(ClientPlayerEntity player, double cursorDeltaX, double cursorDeltaY) {
+    private boolean sparkdlc$lockStunnedCamera(ClientPlayerEntity player, double cursorDeltaX, double cursorDeltaY) {
         return !(ControlExpertStunRules.LOCK_CAMERA && ControlExpertStunClient.isLocalStunned());
     }
 }

@@ -26,7 +26,7 @@ public abstract class BlackRavenCrowMouseMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/network/ClientPlayerEntity;changeLookDirection(DD)V")
     )
-    private void sparkwitch$lookThroughCrow(ClientPlayerEntity player, double cursorDeltaX, double cursorDeltaY,
+    private void sparkdlc$lookThroughCrow(ClientPlayerEntity player, double cursorDeltaX, double cursorDeltaY,
                                            Operation<Void> original) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             original.call(player, cursorDeltaX, cursorDeltaY);
@@ -38,7 +38,7 @@ public abstract class BlackRavenCrowMouseMixin {
     }
 
     @Inject(method = "onMouseScroll", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noHotbarScrollAsCrow(long window, double horizontal, double vertical, CallbackInfo ci) {
+    private void sparkdlc$noHotbarScrollAsCrow(long window, double horizontal, double vertical, CallbackInfo ci) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             return;
         }

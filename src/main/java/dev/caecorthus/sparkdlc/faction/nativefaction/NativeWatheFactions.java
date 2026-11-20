@@ -29,7 +29,7 @@ import java.util.Optional;
  * Wathe {@code Faction} 类存在。
  */
 public final class NativeWatheFactions {
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkFactionAPI/NativeWatheFactions");
+    private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/NativeWatheFactions");
     // Null until install; an empty table means "no native faction declared". 安装前为 null；空表表示没有声明原生阵营。
     private static volatile @Nullable Table table;
 

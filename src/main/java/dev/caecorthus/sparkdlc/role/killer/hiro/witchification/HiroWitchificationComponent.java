@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.hiro.witchification;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -27,7 +27,7 @@ import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
  */
 public final class HiroWitchificationComponent implements AutoSyncedComponent {
     public static final ComponentKey<HiroWitchificationComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("nikaido_hiro_witchification"),
+            SparkDLC.id("nikaido_hiro_witchification"),
             HiroWitchificationComponent.class
     );
     private static final String KILLS = "Kills";

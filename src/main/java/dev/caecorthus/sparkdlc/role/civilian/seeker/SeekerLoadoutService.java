@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerCarItem;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -49,7 +49,7 @@ public final class SeekerLoadoutService {
         // 左轮沿用 Wathe 按物品写入的开局冷却。SparkTraits 此时会拒绝向内鬼发放免费枪械；刻意不绕过该词条规则。
         inventory.insertStack(new ItemStack(WatheItems.REVOLVER));
         if (needsCarItem(holdsCarItem(inventory))) {
-            inventory.insertStack(new ItemStack(SparkWitchItems.seekerCar()));
+            inventory.insertStack(new ItemStack(SparkDlcItems.seekerCar()));
         }
         // READY + INITIAL: apply() is the only writer of the car cooldown (exact + max, 60 s).
         // READY + INITIAL：apply() 是小车冷却的唯一写入方（精确 + 取大，60 秒）。

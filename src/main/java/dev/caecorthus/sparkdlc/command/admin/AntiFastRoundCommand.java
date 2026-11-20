@@ -4,7 +4,7 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
-import dev.caecorthus.sparkdlc.component.SparkFactionAntiFastRoundComponent;
+import dev.caecorthus.sparkdlc.component.AntiFastRoundComponent;
 import dev.caecorthus.sparkdlc.round.antifastround.AntiFastRound;
 import dev.caecorthus.sparkdlc.round.antifastround.AntiFastRoundRules;
 import net.minecraft.server.MinecraftServer;
@@ -28,7 +28,7 @@ public final class AntiFastRoundCommand {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(CommandManager.literal("sparkdlc:antifastround")
-                .requires(SparkFactionPermissions.admin())
+                .requires(AdminToolPermissions.admin())
                 .executes(context -> showStatus(context.getSource()))
                 .then(CommandManager.argument("enabled", BoolArgumentType.bool())
                         .executes(context -> {
@@ -52,7 +52,7 @@ public final class AntiFastRoundCommand {
 
     private static int showStatus(ServerCommandSource source) {
         MinecraftServer server = source.getServer();
-        SparkFactionAntiFastRoundComponent settings = AntiFastRound.settings(server);
+        AntiFastRoundComponent settings = AntiFastRound.settings(server);
         int seconds = settings.getSeconds();
         if (settings.isEnabled()) {
             source.sendFeedback(() -> Text.translatableWithFallback(
@@ -80,7 +80,7 @@ public final class AntiFastRoundCommand {
 
     private static int update(ServerCommandSource source, boolean enabled, int seconds) {
         MinecraftServer server = source.getServer();
-        SparkFactionAntiFastRoundComponent settings = AntiFastRound.settings(server);
+        AntiFastRoundComponent settings = AntiFastRound.settings(server);
         boolean windowWasOpen = settings.hasOpenWindow();
         AntiFastRound.applySettings(server, enabled, seconds);
         // Read back the stored (clamped) value instead of echoing the argument.
@@ -108,7 +108,7 @@ public final class AntiFastRoundCommand {
         return Command.SINGLE_SUCCESS;
     }
 
-    private static int remainingWindowSeconds(MinecraftServer server, SparkFactionAntiFastRoundComponent settings) {
+    private static int remainingWindowSeconds(MinecraftServer server, AntiFastRoundComponent settings) {
         ServerWorld world = settings.getWindowWorld() == null ? null : server.getWorld(settings.getWindowWorld());
         if (world == null) {
             world = server.getOverworld();

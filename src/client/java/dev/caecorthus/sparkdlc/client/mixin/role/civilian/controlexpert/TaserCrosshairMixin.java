@@ -27,7 +27,7 @@ public abstract class TaserCrosshairMixin {
                     target = "Ldev/doctor4t/wathe/client/gui/CrosshairRenderer;CROSSHAIR:Lnet/minecraft/util/Identifier;"
             )
     )
-    private static Identifier sparkwitch$showTaserTargetCrosshair(
+    private static Identifier sparkdlc$showTaserTargetCrosshair(
             Identifier original,
             MinecraftClient client,
             ClientPlayerEntity player,

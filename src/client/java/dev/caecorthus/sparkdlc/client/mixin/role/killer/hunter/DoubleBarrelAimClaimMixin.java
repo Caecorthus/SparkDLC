@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ClientPlayerInteractionManager.class)
 public abstract class DoubleBarrelAimClaimMixin {
     @Inject(method = "interactItem", at = @At("HEAD"))
-    private void sparkwitch$claimShotgunAim(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+    private void sparkdlc$claimShotgunAim(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         HunterShotgunAimClient.beforeUsePacket(player, hand);
     }
 }

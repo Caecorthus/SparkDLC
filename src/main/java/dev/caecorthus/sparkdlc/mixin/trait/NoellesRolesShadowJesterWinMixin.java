@@ -28,7 +28,7 @@ public abstract class NoellesRolesShadowJesterWinMixin {
                     target = "Ldev/doctor4t/wathe/cca/GameWorldComponent;getAllKillerTeamPlayers()Ljava/util/List;"
             )
     )
-    private static List<UUID> sparktraits$getEffectiveKillerTeamPlayers(
+    private static List<UUID> sparkdlc$getEffectiveKillerTeamPlayers(
             GameWorldComponent gameWorldComponent
     ) {
         return EffectiveTraitService.getEffectiveKillerTeamPlayers(gameWorldComponent);

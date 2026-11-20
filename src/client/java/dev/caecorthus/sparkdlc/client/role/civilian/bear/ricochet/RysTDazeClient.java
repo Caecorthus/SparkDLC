@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bear.ricochet;
 
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.hearing.BearHearingClient;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.BearRicochetRules;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RysTRicochetS2CPayload;
@@ -82,7 +82,7 @@ public final class RysTDazeClient {
         // Listener-relative at the origin with no attenuation: only this client plays it. Its id is in
         // BearHearingClient.EXEMPT_SOUND_IDS, so the muffle below never dims it.
         // 相对听者、位于原点且无衰减：只有本客户端播放。其 id 在 BearHearingClient.EXEMPT_SOUND_IDS 中，下面的发闷不会压低它。
-        tinnitus = new PositionedSoundInstance(SparkWitchSounds.BEAR_RYS_T_TINNITUS_ID, SoundCategory.PLAYERS,
+        tinnitus = new PositionedSoundInstance(SparkDlcSounds.BEAR_RYS_T_TINNITUS_ID, SoundCategory.PLAYERS,
                 BearRicochetRules.TINNITUS_VOLUME, 1.0F, SoundInstance.createRandom(), false, 0,
                 SoundInstance.AttenuationType.NONE, 0.0, 0.0, 0.0, true);
         client.getSoundManager().play(tinnitus);

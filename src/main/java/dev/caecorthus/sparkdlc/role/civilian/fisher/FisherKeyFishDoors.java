@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.fisher;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.api.event.DoorInteraction;
 import dev.doctor4t.wathe.block.SmallDoorBlock;
 import dev.doctor4t.wathe.block_entity.SmallDoorBlockEntity;
@@ -29,7 +29,7 @@ public final class FisherKeyFishDoors {
     private static DoorInteraction.DoorInteractionResult interact(DoorInteraction.DoorInteractionContext context) {
         var player = context.getPlayer();
         ItemStack held = player.getMainHandStack();
-        if (!held.isOf(SparkWitchItems.keyFish()) || player.isSpectator() || player.isCreative()
+        if (!held.isOf(SparkDlcItems.keyFish()) || player.isSpectator() || player.isCreative()
                 || !(context.getEntity() instanceof SmallDoorBlockEntity door)) {
             return PASS;
         }

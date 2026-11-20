@@ -15,14 +15,14 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 public abstract class EmmaExactCooldownMixin {
     @ModifyArgs(method = "set", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/entity/player/ItemCooldownManager$Entry;<init>(II)V"))
-    private void sparkwitch$emmaExactEntry(Args args, Item item, int duration) {
+    private void sparkdlc$emmaExactEntry(Args args, Item item, int duration) {
         Integer exact = EmmaCooldowns.exactDuration((ItemCooldownManager) (Object) this, item);
         if (exact != null) args.set(1, (int) args.get(0) + exact);
     }
 
     @ModifyArg(method = "set", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/entity/player/ItemCooldownManager;onCooldownUpdate(Lnet/minecraft/item/Item;I)V"), index = 1)
-    private int sparkwitch$emmaExactPacket(Item item, int duration) {
+    private int sparkdlc$emmaExactPacket(Item item, int duration) {
         Integer exact = EmmaCooldowns.exactDuration((ItemCooldownManager) (Object) this, item);
         return exact == null ? duration : exact;
     }

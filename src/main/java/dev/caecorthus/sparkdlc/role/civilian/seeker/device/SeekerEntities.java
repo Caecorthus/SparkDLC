@@ -7,9 +7,9 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
 /**
- * Registers the Seeker device entity types; must run before SparkWitchItems. Devices never save to disk and cannot be
+ * Registers the Seeker device entity types; must run before SparkDlcItems. Devices never save to disk and cannot be
  * summoned; every one is swept at round end.
- * 注册搜寻者设备实体类型；必须先于 SparkWitchItems 执行。设备从不存盘、不可召唤，并在回合结束时全部清扫。
+ * 注册搜寻者设备实体类型；必须先于 SparkDlcItems 执行。设备从不存盘、不可召唤，并在回合结束时全部清扫。
  */
 public final class SeekerEntities {
     private static EntityType<SeekerCarEntity> car;

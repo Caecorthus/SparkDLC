@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.replay.role;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.record.replay.ReplayRegistry;
 import net.minecraft.util.Identifier;
 
@@ -10,17 +10,17 @@ import net.minecraft.util.Identifier;
  */
 public final class PartyAnimalReplayEvents {
     /** Party Balloon given: actor = the Party Animal, target = the recipient. / 塞出派对气球：actor 为派对狂，target 为接收者。 */
-    public static final Identifier PARTY_BALLOON_GIVEN = SparkStrength.id("party_balloon_given");
+    public static final Identifier PARTY_BALLOON_GIVEN = SparkDLC.id("party_balloon_given");
     /** Partygoer summoned: actor = the Party Animal. / 召唤派对客：actor 为派对狂。 */
-    public static final Identifier PARTYGOER_SUMMONED = SparkStrength.id("partygoer_summoned");
+    public static final Identifier PARTYGOER_SUMMONED = SparkDLC.id("partygoer_summoned");
     /** Partygoer grabbed someone: actor = its Party Animal, target = the prey. / 派对客抓住了人：actor 为其派对狂，target 为猎物。 */
-    public static final Identifier PARTYGOER_GRABBED = SparkStrength.id("partygoer_grabbed");
+    public static final Identifier PARTYGOER_GRABBED = SparkDLC.id("partygoer_grabbed");
     /** Partygoer raged: actor = its Party Animal, target = the prey's killer. / 派对客狂怒：actor 为其派对狂，target 为猎物的击杀者。 */
-    public static final Identifier PARTYGOER_RAGED = SparkStrength.id("partygoer_raged");
+    public static final Identifier PARTYGOER_RAGED = SparkDLC.id("partygoer_raged");
     /** Partygoer killed: actor = the attacker (absent when offline), target = its Party Animal. / 派对客被打死：actor 为攻击者（离线时缺省），target 为其派对狂。 */
-    public static final Identifier PARTYGOER_KILLED = SparkStrength.id("partygoer_killed");
+    public static final Identifier PARTYGOER_KILLED = SparkDLC.id("partygoer_killed");
     /** Partygoer swallowed: actor = the Taotie, target = its Party Animal. / 派对客被吞：actor 为饕餮，target 为其派对狂。 */
-    public static final Identifier PARTYGOER_SWALLOWED = SparkStrength.id("partygoer_swallowed");
+    public static final Identifier PARTYGOER_SWALLOWED = SparkDLC.id("partygoer_swallowed");
 
     private PartyAnimalReplayEvents() {
     }

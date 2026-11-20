@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.usec;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.trait.api.TraitShopEntries;
 import dev.doctor4t.wathe.api.Role;
@@ -81,10 +81,10 @@ public final class UsecShopService {
 
     private static Item item(UsecShopRules.EntryKind kind) {
         return switch (kind) {
-            case MAGAZINE -> SparkWitchItems.usecMagazine();
-            case FMJ_ROUND -> SparkWitchItems.usecFmjRound();
-            case AP_ROUND -> SparkWitchItems.usecApRound();
-            case SUPPRESSOR -> SparkWitchItems.usecSuppressor();
+            case MAGAZINE -> SparkDlcItems.usecMagazine();
+            case FMJ_ROUND -> SparkDlcItems.usecFmjRound();
+            case AP_ROUND -> SparkDlcItems.usecApRound();
+            case SUPPRESSOR -> SparkDlcItems.usecSuppressor();
         };
     }
 }

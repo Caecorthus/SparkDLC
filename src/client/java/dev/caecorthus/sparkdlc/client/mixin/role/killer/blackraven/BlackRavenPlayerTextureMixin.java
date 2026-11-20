@@ -20,7 +20,7 @@ public abstract class BlackRavenPlayerTextureMixin {
             method = "getTexture(Lnet/minecraft/client/network/AbstractClientPlayerEntity;)Lnet/minecraft/util/Identifier;",
             at = @At("RETURN")
     )
-    private Identifier sparkwitch$useFinalSteveTexture(
+    private Identifier sparkdlc$useFinalSteveTexture(
             Identifier originalTexture,
             AbstractClientPlayerEntity player
     ) {

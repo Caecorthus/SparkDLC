@@ -38,7 +38,7 @@ public abstract class NoellesRolesFiendAliveCountMixin {
             require = 1,
             allow = 1
     )
-    private static boolean sparkwitch$jesterMomentIgnoresDormantFiend(PlayerEntity player, Operation<Boolean> original) {
+    private static boolean sparkdlc$jesterMomentIgnoresDormantFiend(PlayerEntity player, Operation<Boolean> original) {
         return FiendWinExclusion.countsAsAlive(original.call(player), player);
     }
 
@@ -52,7 +52,7 @@ public abstract class NoellesRolesFiendAliveCountMixin {
             require = 1,
             allow = 1
     )
-    private static boolean sparkwitch$corruptCopCountIgnoresDormantFiend(PlayerEntity player, Operation<Boolean> original) {
+    private static boolean sparkdlc$corruptCopCountIgnoresDormantFiend(PlayerEntity player, Operation<Boolean> original) {
         return FiendWinExclusion.countsAsAlive(original.call(player), player);
     }
 
@@ -65,7 +65,7 @@ public abstract class NoellesRolesFiendAliveCountMixin {
             require = 1,
             allow = 1
     )
-    private static boolean sparkwitch$momentTriggerCountIgnoresDormantFiend(PlayerEntity player, Operation<Boolean> original) {
+    private static boolean sparkdlc$momentTriggerCountIgnoresDormantFiend(PlayerEntity player, Operation<Boolean> original) {
         return FiendWinExclusion.countsAsAlive(original.call(player), player);
     }
 }

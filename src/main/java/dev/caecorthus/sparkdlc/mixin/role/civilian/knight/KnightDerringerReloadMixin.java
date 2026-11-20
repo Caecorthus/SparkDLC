@@ -29,7 +29,7 @@ public abstract class KnightDerringerReloadMixin {
             require = 1,
             allow = 1
     )
-    private static boolean sparkwitch$knightGoodKillKeepsDerringersSpent(boolean derringer, ServerPlayerEntity victim,
+    private static boolean sparkdlc$knightGoodKillKeepsDerringersSpent(boolean derringer, ServerPlayerEntity victim,
                                                                          boolean spawnBody,
                                                                          @Nullable ServerPlayerEntity killer,
                                                                          Identifier deathReason, boolean force) {

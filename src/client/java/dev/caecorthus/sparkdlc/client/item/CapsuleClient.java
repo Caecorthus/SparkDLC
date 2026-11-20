@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.item;
 
-import dev.caecorthus.sparkdlc.SparkStrengthEntities;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 
@@ -13,6 +13,6 @@ public final class CapsuleClient {
     }
 
     public static void register() {
-        EntityRendererRegistry.register(SparkStrengthEntities.capsule(), FlyingItemEntityRenderer::new);
+        EntityRendererRegistry.register(SparkDlcEntities.capsule(), FlyingItemEntityRenderer::new);
     }
 }

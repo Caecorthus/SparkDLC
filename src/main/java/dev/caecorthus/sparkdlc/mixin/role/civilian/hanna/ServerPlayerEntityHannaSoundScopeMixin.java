@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(ServerPlayerEntity.class)
 public abstract class ServerPlayerEntityHannaSoundScopeMixin {
     @WrapMethod(method = "playerTick")
-    private void sparkwitch$scopeHannaOwnTickSounds(Operation<Void> original) {
+    private void sparkdlc$scopeHannaOwnTickSounds(Operation<Void> original) {
         ServerPlayerEntity previous = HannaSoundScope.enter((ServerPlayerEntity) (Object) this);
         try {
             original.call();

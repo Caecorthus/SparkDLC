@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.neutral.shadowjester;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
-import dev.caecorthus.sparkdlc.SparkStrengthSounds;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.role.neutral.shadowjester.ShadowJesterShowdownWorldComponent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -79,15 +79,15 @@ public final class ShadowJesterShowdownMusicController {
     }
 
     private static boolean hasMusicResource(SoundManager soundManager) {
-        if (soundManager.get(SparkStrengthSounds.SHADOW_JESTER_ID) != null) {
+        if (soundManager.get(SparkDlcSounds.SHADOW_JESTER_ID) != null) {
             missingSoundResourceWarned = false;
             return true;
         }
 
         if (!missingSoundResourceWarned) {
-            SparkStrength.LOGGER.warn(
+            SparkDLC.LOGGER.warn(
                     "Missing client sound resource {}. Check assets/sparkdlc/sounds.json and the installed client jar.",
-                    SparkStrengthSounds.SHADOW_JESTER_ID
+                    SparkDlcSounds.SHADOW_JESTER_ID
             );
             missingSoundResourceWarned = true;
         }

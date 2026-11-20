@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.witch.riftwalker.session;
 
-import dev.caecorthus.sparkdlc.client.hooks.WitchAbilityKeyBridge;
+import dev.caecorthus.sparkdlc.client.hooks.AbilityKeyBridge;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.net.RiftExitC2SPacket;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.net.RiftHopC2SPacket;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.session.RiftSessionComponent;
@@ -217,7 +217,7 @@ public final class RiftSessionClient {
         drainQueuedPresses(client);
         // Toggle sneak/sprint would otherwise stay "held" through the session. / 否则切换式潜行/疾跑会在整个会话中保持「按住」。
         KeyBinding.untoggleStickyKeys();
-        WitchAbilityKeyBridge.reset();
+        AbilityKeyBridge.reset();
         player.input = new RiftFrozenInput();
         player.forwardSpeed = 0.0F;
         player.sidewaysSpeed = 0.0F;
@@ -364,7 +364,7 @@ public final class RiftSessionClient {
         }
         for (KeyBinding key : client.options.allKeys) {
             if (!RiftSessionInputRules.VOICE_CHAT_CATEGORY.equals(key.getCategory())) {
-                ((RiftSessionKeyAccess) key).sparkwitch$riftDrainPresses();
+                ((RiftSessionKeyAccess) key).sparkdlc$riftDrainPresses();
             }
         }
     }
@@ -381,11 +381,11 @@ public final class RiftSessionClient {
         }
 
         int take() {
-            return key.sparkwitch$riftTakePresses();
+            return key.sparkdlc$riftTakePresses();
         }
 
         boolean down() {
-            return key.sparkwitch$riftRawPressed();
+            return key.sparkdlc$riftRawPressed();
         }
     }
 }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.usec;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
@@ -58,7 +58,7 @@ public final class UsecCooldowns {
         if (player == null || ticks <= 0) {
             return false;
         }
-        Item rifle = SparkWitchItems.usecRifle();
+        Item rifle = SparkDlcItems.usecRifle();
         return write(remainingTicks(player), ticks,
                 merged -> SparkTraitsApi.setExactItemCooldownRemaining(player, rifle, merged),
                 merged -> player.getItemCooldownManager().set(rifle, merged));
@@ -103,12 +103,12 @@ public final class UsecCooldowns {
         if (!(manager instanceof ItemCooldownManagerAccessor accessor)) {
             return null;
         }
-        Object entry = accessor.sparkwitch$getEntries().get(SparkWitchItems.usecRifle());
+        Object entry = accessor.sparkdlc$getEntriesForRoles().get(SparkDlcItems.usecRifle());
         if (!(entry instanceof ItemCooldownEntryAccessor cooldown)) {
-            return new Reading(accessor.sparkwitch$getTick(), Reading.NO_ENTRY, Reading.NO_ENTRY);
+            return new Reading(accessor.sparkdlc$getTickForRoles(), Reading.NO_ENTRY, Reading.NO_ENTRY);
         }
-        return new Reading(accessor.sparkwitch$getTick(), cooldown.sparkwitch$getStartTick(),
-                cooldown.sparkwitch$getEndTick());
+        return new Reading(accessor.sparkdlc$getTickForRoles(), cooldown.sparkdlc$getStartTickForRoles(),
+                cooldown.sparkdlc$getEndTickForRoles());
     }
 
     /**

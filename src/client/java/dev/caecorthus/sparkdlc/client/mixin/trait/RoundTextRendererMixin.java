@@ -27,7 +27,7 @@ public abstract class RoundTextRendererMixin {
             method = "renderHud",
             at = @At(value = "INVOKE", target = "Ljava/util/function/Function;apply(Ljava/lang/Object;)Ljava/lang/Object;", ordinal = 1)
     )
-    private static Object sparktraits$effectiveAlignmentGoalText(Function<Integer, Text> goalText, Object targets) {
+    private static Object sparkdlc$effectiveAlignmentGoalText(Function<Integer, Text> goalText, Object targets) {
         if (!SparkDlcServerConnection.isConfirmedServer()) {
             return goalText.apply((Integer) targets);
         }

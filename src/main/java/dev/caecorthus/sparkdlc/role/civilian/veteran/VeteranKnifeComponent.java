@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.veteran;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.veteran.VeteranRules;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -24,7 +24,7 @@ import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
  */
 public final class VeteranKnifeComponent implements AutoSyncedComponent {
     public static final ComponentKey<VeteranKnifeComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("veteran_knife"),
+            SparkDLC.id("veteran_knife"),
             VeteranKnifeComponent.class
     );
 

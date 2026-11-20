@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.usec;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.record.GameRecordEvent;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import dev.doctor4t.wathe.record.replay.ReplayGenerator;
@@ -27,7 +27,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class UsecReplay {
     /** Synthetic item-use record id. / 合成物品使用记录 id。 */
-    public static final Identifier RECORD_ID = SparkWitch.id("usec_rifle_fire");
+    public static final Identifier RECORD_ID = SparkDLC.id("usec_rifle_fire");
     static final String KIND_KEY = "kind";
     static final String KIND_FIRE = "fire";
     static final String KIND_PUNISH = "punish";

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.killer.specter;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import java.util.List;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.minecraft.item.ItemStack;
@@ -26,9 +26,9 @@ final class SpecterItemTooltips {
 
     private static void append(ItemStack stack, List<Text> lines) {
         String prefix;
-        if (stack.isOf(SparkWitchItems.ghostTrigger())) {
+        if (stack.isOf(SparkDlcItems.ghostTrigger())) {
             prefix = "item.sparkdlc.ghost_trigger.tooltip.line";
-        } else if (stack.isOf(SparkWitchItems.peachwoodSword())) {
+        } else if (stack.isOf(SparkDlcItems.peachwoodSword())) {
             prefix = "item.sparkdlc.peachwood_sword.tooltip.line";
         } else {
             return;

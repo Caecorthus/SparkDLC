@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.bellringer;
 
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseContext;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseResult;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
@@ -82,10 +82,10 @@ public final class BellRingerEchoService {
      * 仿照圣人业力钟声，向 {@code world} 内每名玩家在其自身位置发送钟声。
      */
     static void broadcastToll(ServerWorld world) {
-        if (SparkWitchSounds.BELL_RINGER_TOLL == null) {
+        if (SparkDlcSounds.BELL_RINGER_TOLL == null) {
             return;
         }
-        RegistryEntry<SoundEvent> sound = RegistryEntry.of(SparkWitchSounds.BELL_RINGER_TOLL);
+        RegistryEntry<SoundEvent> sound = RegistryEntry.of(SparkDlcSounds.BELL_RINGER_TOLL);
         for (ServerPlayerEntity player : world.getPlayers()) {
             player.networkHandler.sendPacket(new PlaySoundS2CPacket(
                     sound,

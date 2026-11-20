@@ -21,7 +21,7 @@ public abstract class EngineCameraShakeMixin {
     private World world;
 
     @ModifyReturnValue(method = "getCameraShakeConfig", at = @At("RETURN"))
-    private MapEnhancementsConfiguration.CameraShakeConfig sparkstrength$followEngineMotion(
+    private MapEnhancementsConfiguration.CameraShakeConfig sparkdlc$followEngineMotion(
             MapEnhancementsConfiguration.CameraShakeConfig config) {
         return world != null && world.isClient() ? EngineTrainMotion.shake(config) : config;
     }

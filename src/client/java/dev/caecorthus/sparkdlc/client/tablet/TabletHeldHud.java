@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.tablet;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.role.killer.bomber.DronePilotClient;
 import dev.caecorthus.sparkdlc.client.tablet.screen.TabletCanvas;
 import dev.caecorthus.sparkdlc.client.tablet.screen.TabletClientState;
@@ -72,7 +72,7 @@ public final class TabletHeldHud {
                 || player.isSpectator() || DronePilotClient.isViewingDrone()) {
             return false;
         }
-        if (!player.getMainHandStack().isOf(SparkStrengthItems.tablet())) {
+        if (!player.getMainHandStack().isOf(SparkDlcItems.tablet())) {
             return false;
         }
         TabletSnapshot snapshot = TabletClientState.snapshot();

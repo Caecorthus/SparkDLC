@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.sound;
 
-import dev.caecorthus.sparkdlc.client.SparkAssistClient;
-import dev.caecorthus.sparkdlc.config.SparkAssistConfig;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
+import dev.caecorthus.sparkdlc.config.SparkDlcClientConfig;
 import dev.caecorthus.sparkdlc.sound.EventSoundGroup;
 import dev.caecorthus.sparkdlc.sound.EventSoundRefreshCategories;
 import dev.caecorthus.sparkdlc.sound.EventSoundVolumeRules;
@@ -21,7 +21,7 @@ public final class EventSoundVolumeController {
     }
 
     public static float adjustedVolume(SoundInstance soundInstance, Sound selectedSound, float originalVolume) {
-        if (SparkAssistClient.configManager() == null || soundInstance == null) {
+        if (SparkDLCClient.configManager() == null || soundInstance == null) {
             return originalVolume;
         }
         Identifier eventId = soundInstance.getId();
@@ -30,7 +30,7 @@ public final class EventSoundVolumeController {
         if (group == null) {
             return originalVolume;
         }
-        SparkAssistConfig config = SparkAssistClient.configManager().config();
+        SparkDlcClientConfig config = SparkDLCClient.configManager().config();
         return EventSoundVolumeRules.scaledVolume(
                 eventId,
                 selectedSoundId,

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.koko;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.role.neutral.ferryman.FerrymanWinService;
 import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendWinService;
@@ -26,7 +26,7 @@ import org.jetbrains.annotations.Nullable;
  * 其余情况返回 {@code null}：她不阻止任何人，杀手与乘客照常围绕她结算，与其他存活的中立职业一样；若对局先结束，她就输了。
  */
 public final class KokoWinService {
-    public static final Identifier PHASE = SparkWitch.id("koko_stream_win");
+    public static final Identifier PHASE = SparkDLC.id("koko_stream_win");
     private static boolean registered;
 
     private KokoWinService() {

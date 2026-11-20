@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = WatheClient.class, remap = false, priority = 700)
 public abstract class PartygoerConscienceInstinctMixin {
     @Inject(method = "getInstinctHighlight", at = @At("HEAD"), cancellable = true)
-    private static void sparkstrength$partygoerBeforeConscience(Entity target, CallbackInfoReturnable<Integer> cir) {
+    private static void sparkdlc$partygoerBeforeConscience(Entity target, CallbackInfoReturnable<Integer> cir) {
         Integer color = PartygoerInstinctClientHooks.beforeConscience(target);
         if (color != null) {
             cir.setReturnValue(color);

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.killer.bandit;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.item.BanditAmmoItem;
 import dev.caecorthus.sparkdlc.item.BanditAttachmentItem;
 import dev.caecorthus.sparkdlc.item.BanditRevolverItem;
@@ -143,7 +143,7 @@ public final class BanditWorkbenchScreen extends Screen {
                     part != null && zone.contains(mouseX, mouseY) ? CELL_HOVER : CELL);
             context.fill(x + 3, rowY + 3, x + 21, rowY + 21, 0xFF16181C);
             if (part != null) {
-                context.drawItem(new ItemStack(SparkStrengthItems.banditAttachment(part)), x + 4, rowY + 4);
+                context.drawItem(new ItemStack(SparkDlcItems.banditAttachment(part)), x + 4, rowY + 4);
             }
             context.drawText(textRenderer, Text.translatable("item.sparkdlc.bandit_part.slot." + slot.key()),
                     x + 26, rowY + 3, MUTED, false);

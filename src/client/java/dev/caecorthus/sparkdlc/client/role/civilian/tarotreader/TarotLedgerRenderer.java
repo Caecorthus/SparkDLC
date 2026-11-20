@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.tarotreader;
 
 import dev.caecorthus.sparkdlc.faction.api.FactionIds;
 import dev.caecorthus.sparkdlc.client.gui.card.InventoryCardPaint;
-import dev.caecorthus.sparkdlc.SparkWitchFactions;
+import dev.caecorthus.sparkdlc.SparkDlcFactions;
 import dev.caecorthus.sparkdlc.client.hud.TarotDivinationHudRenderer;
 import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotDivinationClientState;
 import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotLedgerEntries.Entry;
@@ -75,8 +75,8 @@ final class TarotLedgerRenderer {
         sectionColors.put(Section.CIVILIAN, TarotDivinationHudRenderer.factionColor(FactionIds.CIVILIAN));
         sectionColors.put(Section.KILLER, TarotDivinationHudRenderer.factionColor(FactionIds.KILLER));
         sectionColors.put(Section.NEUTRAL, TarotDivinationHudRenderer.factionColor(FactionIds.NEUTRAL));
-        sectionColors.put(Section.WITCH, TarotDivinationHudRenderer.factionColor(SparkWitchFactions.WITCH));
-        sectionColors.put(Section.JIAHAO, TarotDivinationHudRenderer.factionColor(SparkWitchFactions.JIAHAO));
+        sectionColors.put(Section.WITCH, TarotDivinationHudRenderer.factionColor(SparkDlcFactions.WITCH));
+        sectionColors.put(Section.JIAHAO, TarotDivinationHudRenderer.factionColor(SparkDlcFactions.JIAHAO));
         sectionColors.put(Section.SPECIAL, TarotLedgerPaint.SPECIAL & 0xFFFFFF);
 
         // No amount after "Paid": the price actually paid is not sent to the client (see TarotLedgerLayout.titleBar).

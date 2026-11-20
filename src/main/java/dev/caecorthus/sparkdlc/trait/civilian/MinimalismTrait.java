@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.civilian;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.Trait;
 import dev.caecorthus.sparkdlc.trait.api.TraitAudience;
 import dev.caecorthus.sparkdlc.trait.api.TraitSelectionContext;
@@ -16,7 +16,7 @@ import java.util.Set;
  * 极简主义：同时持有的任务上限降为 2 个。乘客阵营专属，且只有能从任务获得金币的身份才能拥有。
  */
 public final class MinimalismTrait implements Trait {
-    public static final Identifier ID = SparkTraits.id("minimalism");
+    public static final Identifier ID = SparkDLC.id("minimalism");
     public static final int COLOR = 0xC8C8C8;
 
     /** Maximum simultaneous tasks while this trait is held. 持有期间的同时任务上限。 */

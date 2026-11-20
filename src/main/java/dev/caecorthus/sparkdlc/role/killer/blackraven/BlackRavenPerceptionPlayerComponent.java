@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -30,7 +30,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 public final class BlackRavenPerceptionPlayerComponent
         implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
     public static final ComponentKey<BlackRavenPerceptionPlayerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("black_raven_perception"),
+            SparkDLC.id("black_raven_perception"),
             BlackRavenPerceptionPlayerComponent.class
     );
     private static final int MAX_TARGETS = 256;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.magician;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.record.GameRecordEvent;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import dev.doctor4t.wathe.record.replay.ReplayGenerator;
@@ -21,7 +21,7 @@ public final class MagicianReplayEvents {
     public static final Identifier PLAYBACK_STOPPED_EARLY = id("playback_stopped_early");
     public static final Identifier PLAYBACK_FORCED_END = id("playback_forced_end");
     private MagicianReplayEvents() {}
-    private static Identifier id(String path) { return SparkWitch.id("magician_" + path); }
+    private static Identifier id(String path) { return SparkDLC.id("magician_" + path); }
     public static void register() {
         ReplayRegistry.registerGlobalEventFormatter(RECORDING_STARTED, MagicianReplayEvents::formatRecordingStarted);
         ReplayRegistry.registerGlobalEventFormatter(RECORDING_FINISHED, MagicianReplayEvents::formatRecordingFinished);

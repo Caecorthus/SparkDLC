@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.usec;
 
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.role.civilian.usec.net.UsecScopeC2SPacket;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.caecorthus.sparkdlc.util.OffMatchUse;
@@ -83,7 +83,7 @@ public final class UsecScopeService {
         if (shouldPlayScopeSound(wasScoped, nowScoped, last == null ? Long.MIN_VALUE : last, now)) {
             LAST_SCOPE_SOUND.put(player.getUuid(), now);
             player.getWorld().playSound(null, player.getX(), player.getEyeY(), player.getZ(),
-                    SparkWitchSounds.USEC_RIFLE_SCOPE, SoundCategory.PLAYERS, UsecRules.SCOPE_SOUND_VOLUME,
+                    SparkDlcSounds.USEC_RIFLE_SCOPE, SoundCategory.PLAYERS, UsecRules.SCOPE_SOUND_VOLUME,
                     0.95F + player.getRandom().nextFloat() * 0.1F);
         }
     }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.sabotage.net;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier;
  * 维修面板未完成就关闭了。任何时候都放行；包丢了也只是留下一个会超时的会话。
  */
 public record CancelBreakerRepairC2SPacket(int sessionId) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("cancel_breaker_repair");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("cancel_breaker_repair");
     public static final Id<CancelBreakerRepairC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, CancelBreakerRepairC2SPacket> CODEC =
             PacketCodec.of(CancelBreakerRepairC2SPacket::write, CancelBreakerRepairC2SPacket::read);

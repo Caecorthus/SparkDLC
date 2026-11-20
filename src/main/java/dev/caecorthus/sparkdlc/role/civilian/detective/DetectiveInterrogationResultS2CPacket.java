@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.detective;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCaseRules.InvestigationOutcome;
 import io.netty.handler.codec.DecoderException;
 import net.minecraft.network.PacketByteBuf;
@@ -21,7 +21,7 @@ import java.util.UUID;
  */
 public record DetectiveInterrogationResultS2CPacket(@Nullable UUID caseId, UUID playerUuid, InvestigationOutcome outcome,
                                                     int distanceBlocks) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("detective_interrogation_result");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("detective_interrogation_result");
     public static final Id<DetectiveInterrogationResultS2CPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, DetectiveInterrogationResultS2CPacket> CODEC =
             PacketCodec.of(DetectiveInterrogationResultS2CPacket::write, DetectiveInterrogationResultS2CPacket::read);

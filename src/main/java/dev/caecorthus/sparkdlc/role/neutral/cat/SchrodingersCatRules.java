@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.role.neutral.cat;
 
 import dev.caecorthus.sparkdlc.faction.api.FactionIds;
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchFactions;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcFactions;
 import dev.doctor4t.wathe.game.GameConstants;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -19,7 +19,7 @@ import java.util.Set;
  * 未转化的猫永不获胜、也不阻挡任何胜利；转化后的猫只是持有新身份。
  */
 public final class SchrodingersCatRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("schrodingers_cat");
+    public static final Identifier ROLE_ID = SparkDLC.id("schrodingers_cat");
     public static final int COLOR = 0xB07CD8;
 
     /** Coins for each finished task. / 每完成一个任务获得的金币。 */
@@ -29,7 +29,7 @@ public final class SchrodingersCatRules {
     public static final int SPECTRE_TICKS = GameConstants.getInTicks(0, 3);
 
     /** SparkFactionAPI replay cause of the role change. / 身份变更在 SparkFactionAPI 回放中的原因。 */
-    public static final Identifier TRANSFORM_CAUSE = SparkWitch.id("schrodingers_cat_transform");
+    public static final Identifier TRANSFORM_CAUSE = SparkDLC.id("schrodingers_cat_transform");
 
     /**
      * Deaths that kill the cat outright even with a killer: falling off the train (shoved or not) and the NoellesRoles
@@ -72,7 +72,7 @@ public final class SchrodingersCatRules {
         if (teamJiahao) {
             return Side.TEAM_JIAHAO;
         }
-        if (witchMember || SparkWitchFactions.WITCH.equals(effectiveFaction)) {
+        if (witchMember || SparkDlcFactions.WITCH.equals(effectiveFaction)) {
             return Side.WITCH;
         }
         if (FactionIds.KILLER.equals(effectiveFaction)) {

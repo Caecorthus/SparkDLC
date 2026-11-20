@@ -21,17 +21,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(PlayerEntity.class)
 public abstract class ExcellentPhysiqueStaminaMixin {
     @Unique
-    private float sparktraits$previousSprintingTicks;
+    private float sparkdlc$previousSprintingTicks;
 
     @Inject(method = "tickMovement", at = @At("HEAD"), order = 0)
-    private void sparktraits$capturePreviousStamina(CallbackInfo ci) {
+    private void sparkdlc$capturePreviousStamina(CallbackInfo ci) {
         if ((Object) this instanceof ServerPlayerEntity player) {
-            sparktraits$previousSprintingTicks = PlayerStaminaComponent.KEY.get(player).getSprintingTicks();
+            sparkdlc$previousSprintingTicks = PlayerStaminaComponent.KEY.get(player).getSprintingTicks();
         }
     }
 
     @Inject(method = "tickMovement", at = @At("TAIL"))
-    private void sparktraits$recoverExcellentPhysiqueStamina(CallbackInfo ci) {
+    private void sparkdlc$recoverExcellentPhysiqueStamina(CallbackInfo ci) {
         if (!((Object) this instanceof ServerPlayerEntity player)) {
             return;
         }
@@ -40,6 +40,6 @@ public abstract class ExcellentPhysiqueStaminaMixin {
             return;
         }
         GlobalTraitService.recoverExcellentPhysiqueStamina(player, ((Entity) player).isSprinting());
-        DepressionStaminaPenalty.applyFiniteStaminaPenalty(player, sparktraits$previousSprintingTicks);
+        DepressionStaminaPenalty.applyFiniteStaminaPenalty(player, sparkdlc$previousSprintingTicks);
     }
 }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import java.util.Objects;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
@@ -15,7 +15,7 @@ import net.minecraft.util.Identifier;
 public record SubmitTarotDivinationSelectionC2SPacket(int mode, String target) implements CustomPayload {
     private static final int MAX_TARGET_LENGTH = 128;
 
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("submit_tarot_divination_selection");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("submit_tarot_divination_selection");
     public static final Id<SubmitTarotDivinationSelectionC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, SubmitTarotDivinationSelectionC2SPacket> CODEC =
             PacketCodec.of(SubmitTarotDivinationSelectionC2SPacket::write, SubmitTarotDivinationSelectionC2SPacket::read);

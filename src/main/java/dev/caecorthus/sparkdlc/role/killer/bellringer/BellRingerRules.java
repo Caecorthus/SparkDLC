@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.role.killer.bellringer;
 
 import dev.caecorthus.sparkdlc.faction.api.FactionIds;
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -12,8 +12,8 @@ import org.jetbrains.annotations.Nullable;
  * 敲钟人拥有的稳定玩法数值与纯规则判断。
  */
 public final class BellRingerRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("bell_ringer");
-    public static final Identifier ECHO_SKILL_ID = SparkWitch.id("bell_echo");
+    public static final Identifier ROLE_ID = SparkDLC.id("bell_ringer");
+    public static final Identifier ECHO_SKILL_ID = SparkDLC.id("bell_echo");
     public static final int COLOR = 0x8C6D3F;
 
     public static final int ECHO_INITIAL_COOLDOWN_TICKS = 120 * 20;
@@ -53,7 +53,7 @@ public final class BellRingerRules {
      * 其他击杀的保护流程保持不变。
      */
     public static boolean piercesProtection(@Nullable Identifier deathReason, boolean force) {
-        return force && SparkWitchDeathReasons.BELL_TOLL.equals(deathReason);
+        return force && SparkDlcDeathReasons.BELL_TOLL.equals(deathReason);
     }
 
     /**

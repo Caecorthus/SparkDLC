@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
@@ -32,7 +32,7 @@ import java.util.UUID;
  */
 public final class PartygoerCorpseComponent implements AutoSyncedComponent {
     public static final ComponentKey<PartygoerCorpseComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("partygoer_corpse"),
+            SparkDLC.id("partygoer_corpse"),
             PartygoerCorpseComponent.class
     );
 

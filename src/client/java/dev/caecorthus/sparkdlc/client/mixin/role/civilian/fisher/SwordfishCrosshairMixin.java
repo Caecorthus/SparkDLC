@@ -29,19 +29,19 @@ public abstract class SwordfishCrosshairMixin {
     // 每次 renderCrosshair 只调用一次 showsTarget()：HEAD 清除，CROSSHAIR 读取处保存，TAIL 的图标复用（两者之间主手与
     // 刀目标都不会变化）。Wathe 自身目标分支跳过 CROSSHAIR 读取时，TAIL 仍与以前一样自行判断。
     @Unique
-    private static boolean sparkwitch$targetKnown;
+    private static boolean sparkdlc$targetKnown;
     @Unique
-    private static boolean sparkwitch$showsTarget;
+    private static boolean sparkdlc$showsTarget;
 
     @Inject(method = "renderCrosshair", at = @At("HEAD"))
-    private static void sparkwitch$forgetSwordfishTarget(
+    private static void sparkdlc$forgetSwordfishTarget(
             MinecraftClient client,
             ClientPlayerEntity player,
             DrawContext context,
             RenderTickCounter tickCounter,
             CallbackInfo ci
     ) {
-        sparkwitch$targetKnown = false;
+        sparkdlc$targetKnown = false;
     }
 
     @ModifyExpressionValue(
@@ -51,7 +51,7 @@ public abstract class SwordfishCrosshairMixin {
                     target = "Ldev/doctor4t/wathe/client/gui/CrosshairRenderer;CROSSHAIR:Lnet/minecraft/util/Identifier;"
             )
     )
-    private static Identifier sparkwitch$showSwordfishTargetCrosshair(
+    private static Identifier sparkdlc$showSwordfishTargetCrosshair(
             Identifier original,
             MinecraftClient client,
             ClientPlayerEntity player,
@@ -59,22 +59,22 @@ public abstract class SwordfishCrosshairMixin {
             RenderTickCounter tickCounter
     ) {
         boolean shows = SwordfishClientTargeting.showsTarget(player);
-        sparkwitch$showsTarget = shows;
-        sparkwitch$targetKnown = true;
+        sparkdlc$showsTarget = shows;
+        sparkdlc$targetKnown = true;
         return shows ? SwordfishClientTargeting.TARGET_CROSSHAIR : original;
     }
 
     /** Same place and size as Wathe's knife glyph (centre + (-5, 5), 10x7). / 位置与尺寸同 Wathe 刀图标。 */
     @Inject(method = "renderCrosshair", at = @At("TAIL"))
-    private static void sparkwitch$drawSwordfishGlyph(
+    private static void sparkdlc$drawSwordfishGlyph(
             MinecraftClient client,
             ClientPlayerEntity player,
             DrawContext context,
             RenderTickCounter tickCounter,
             CallbackInfo ci
     ) {
-        if (client.options.getPerspective().isFirstPerson() && (sparkwitch$targetKnown
-                ? sparkwitch$showsTarget : SwordfishClientTargeting.showsTarget(player))) {
+        if (client.options.getPerspective().isFirstPerson() && (sparkdlc$targetKnown
+                ? sparkdlc$showsTarget : SwordfishClientTargeting.showsTarget(player))) {
             context.drawGuiTexture(SwordfishClientTargeting.ATTACK_GLYPH,
                     context.getScaledWindowWidth() / 2 - 5, context.getScaledWindowHeight() / 2 + 5, 10, 7);
         }

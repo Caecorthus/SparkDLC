@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.role.killer.serialkiller;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.killer.serialkiller.SerialPistolGuardService;
 import dev.caecorthus.sparkdlc.role.killer.serialkiller.SerialPistolHotbar;
 import dev.doctor4t.wathe.api.event.PsychoModeEvents;
@@ -40,7 +40,7 @@ public abstract class SerialKillerPsychoMixin {
      * 预测切槽，下一帧也会恢复；服务端也会持续纠正任何绕过普通选槽包的修改。
      */
     @Inject(method = "clientTick", at = @At("HEAD"))
-    private void sparkstrength$forceSerialPistolClientSlot(CallbackInfo ci) {
+    private void sparkdlc$forceSerialPistolClientSlot(CallbackInfo ci) {
         if (!isSerialKiller(player) || this.psychoTicks <= 0) return;
         int pistolSlot = SerialPistolHotbar.findSerialPistolSlot(player.getInventory());
         if (pistolSlot >= 0 && player.getInventory().selectedSlot != pistolSlot) {
@@ -49,7 +49,7 @@ public abstract class SerialKillerPsychoMixin {
     }
 
     @Inject(method = "serverTick", at = @At("HEAD"))
-    private void sparkstrength$forceSerialPistolServerSlot(CallbackInfo ci) {
+    private void sparkdlc$forceSerialPistolServerSlot(CallbackInfo ci) {
         if (!isSerialKiller(player) || this.psychoTicks <= 0) return;
         if (!(player instanceof net.minecraft.server.network.ServerPlayerEntity serverPlayer)) return;
         int pistolSlot = SerialPistolHotbar.findSerialPistolSlot(player.getInventory());
@@ -60,7 +60,7 @@ public abstract class SerialKillerPsychoMixin {
     }
 
     @Inject(method = "startPsycho(Ldev/doctor4t/wathe/api/event/PsychoType;)Z", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$startSerialKiller(PsychoType type, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$startSerialKiller(PsychoType type, CallbackInfoReturnable<Boolean> cir) {
         if (player.getWorld().isClient || !isSerialKiller(player)) return;
 
         // 真实副手必须为空；主手枪必须能放入一个快捷栏空槽，否则不启动疯魔。
@@ -74,8 +74,8 @@ public abstract class SerialKillerPsychoMixin {
             return;
         }
 
-        player.getInventory().setStack(hotbarSlot, SparkStrengthItems.serialPistol().getDefaultStack());
-        player.getInventory().setStack(40, SparkStrengthItems.serialLeftPistol().getDefaultStack());
+        player.getInventory().setStack(hotbarSlot, SparkDlcItems.serialPistol().getDefaultStack());
+        player.getInventory().setStack(40, SparkDlcItems.serialLeftPistol().getDefaultStack());
         player.getInventory().selectedSlot = hotbarSlot;
         // Record the type exactly like Wathe's startPsycho, so a VISIBLE_QUIET / SILENT stop does not
         // decrement a counter it never raised and ON_PSYCHO_END reports the real type.
@@ -106,7 +106,7 @@ public abstract class SerialKillerPsychoMixin {
      * 客户端副本随服务端同步移除。
      */
     @Inject(method = "stopPsycho", at = @At("HEAD"))
-    private void sparkstrength$removeSerialKillerWeapons(CallbackInfo ci) {
+    private void sparkdlc$removeSerialKillerWeapons(CallbackInfo ci) {
         if (player.getWorld().isClient) return;
         SerialPistolGuardService.removeAll(player);
     }

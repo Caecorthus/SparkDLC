@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.junker;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class JunkerRules {
 
-    public static final Identifier ROLE_ID = SparkWitch.id("ragpicker");
+    public static final Identifier ROLE_ID = SparkDLC.id("ragpicker");
 
     /** Identity colour from the source build: (145, 135, 110). 沿用原实现的身份色 (145, 135, 110)。 */
     public static final int COLOR = 0x91876E;

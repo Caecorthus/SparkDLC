@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.bear.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -23,7 +23,7 @@ import net.minecraft.util.Identifier;
  * 跨仓库则在 SparkStrength {@code TaotieHeadRules} 与 SparkFactionAPI {@code AntiFastRoundRules} 中。
  */
 public record FireM32A1C2SPayload(float yaw, float pitch) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("fire_m32a1");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("fire_m32a1");
     public static final Id<FireM32A1C2SPayload> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, FireM32A1C2SPayload> CODEC =
             PacketCodec.of(FireM32A1C2SPayload::write, FireM32A1C2SPayload::read);

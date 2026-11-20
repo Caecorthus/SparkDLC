@@ -24,13 +24,13 @@ import java.util.function.Predicate;
 import java.util.function.ToDoubleFunction;
 
 /**
- * Warden's Shriek (监守之啸) use handler on the shared Witch-skill path (registered in SparkWitchBuiltInSkills with an
+ * Warden's Shriek (监守之啸) use handler on the shared Witch-skill path (registered in BuiltInWitchSkills with an
  * exact-role selector). Server-authoritative: the shared path already checked the SparkWitch role, life, Fear and the
  * shared cooldown, but it neither spends {@code manaCost} nor asks SparkTraits, so this handler re-checks the exact
  * role, the running game and {@code isRoleSkillBlocked}, then spends {@link AbyssListenerRules#SHRIEK_MANA_COST}
  * itself (insufficient mana refuses at no cost, like the Death Ray). A paid cast always returns success so the shared
  * cooldown starts even when nobody is in range (no free probing), and never tells the caster how many were hit.
- * 共享魔女技能路径上的监守之啸处理器（在 SparkWitchBuiltInSkills 中以精确职业选择器注册）。由服务端权威决定：共享路径已检查
+ * 共享魔女技能路径上的监守之啸处理器（在 BuiltInWitchSkills 中以精确职业选择器注册）。由服务端权威决定：共享路径已检查
  * SparkWitch 职业、存活、恐惧与共享冷却，但既不扣除 {@code manaCost}，也不询问 SparkTraits；因此本处理器重新检查精确职业、
  * 对局进行中与 {@code isRoleSkillBlocked}，再自行扣除 {@link AbyssListenerRules#SHRIEK_MANA_COST}（魔力不足时不扣费直接拒绝，
  * 与死亡射线一致）。付费施放一律返回成功，即使范围内无人也进入共享冷却（防止免费探测），且从不告知施放者命中人数。

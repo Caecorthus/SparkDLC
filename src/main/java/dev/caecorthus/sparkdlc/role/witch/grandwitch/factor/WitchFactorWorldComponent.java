@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.witch.grandwitch.factor;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,7 +27,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
  * 完整账本只留在服务端；数据包仅携带获准的成熟关系。 */
 public final class WitchFactorWorldComponent implements AutoSyncedComponent, ServerTickingComponent {
     public static final ComponentKey<WitchFactorWorldComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("witch_factor_world"), WitchFactorWorldComponent.class);
+            SparkDLC.id("witch_factor_world"), WitchFactorWorldComponent.class);
     private final World world;
     private final WitchFactorState state = new WitchFactorState();
     private WitchFactorSettings settings = WitchFactorSettings.DEFAULT;
@@ -153,7 +153,7 @@ public final class WitchFactorWorldComponent implements AutoSyncedComponent, Ser
 
     private View view(ServerPlayerEntity recipient, Set<UUID> mature, Set<UUID> roleColored) {
         boolean authorized = recipient.getWorld() == world && WitchFactorService.isNetworkViewer(recipient);
-        boolean pink = authorized && (GameWorldComponent.KEY.get(world).getRole(recipient) == SparkWitchRoles.grandWitch()
+        boolean pink = authorized && (GameWorldComponent.KEY.get(world).getRole(recipient) == SparkDlcRoles.grandWitch()
                 || state.mature(recipient.getUuid()));
         return View.sanitized(authorized, pink, mature, authorized ? roleColored : Set.of());
     }

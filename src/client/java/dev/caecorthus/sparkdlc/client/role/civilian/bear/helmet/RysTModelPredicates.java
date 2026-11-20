@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bear.helmet;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.bear.BearItems;
 import dev.caecorthus.sparkdlc.role.civilian.bear.helmet.RysTHelmetItem;
 import dev.caecorthus.sparkdlc.role.civilian.bear.helmet.RysTVisor;
@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
  * {@link RysTVisor}，因此穿戴模型（原版 {@code HeadFeatureRenderer}）、GUI 图标与手持物品对所有观察者都跟随服务端的面罩状态。
  */
 public final class RysTModelPredicates {
-    public static final Identifier VISOR_UP_PREDICATE_ID = SparkWitch.id("visor_up");
+    public static final Identifier VISOR_UP_PREDICATE_ID = SparkDLC.id("visor_up");
 
     private RysTModelPredicates() {
     }

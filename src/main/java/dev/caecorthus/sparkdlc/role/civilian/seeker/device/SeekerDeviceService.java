@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker.device;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import dev.caecorthus.sparkdlc.tablet.TabletItemLookup;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerBreakSource;
@@ -428,7 +428,7 @@ public final class SeekerDeviceService {
                 }
                 return false;
             }
-            inventory.setStack(slot, new ItemStack(SparkWitchItems.seekerCar()));
+            inventory.setStack(slot, new ItemStack(SparkDlcItems.seekerCar()));
             inventory.markDirty();
         }
         SWALLOWED_SLOTS.remove(owner.getUuid());

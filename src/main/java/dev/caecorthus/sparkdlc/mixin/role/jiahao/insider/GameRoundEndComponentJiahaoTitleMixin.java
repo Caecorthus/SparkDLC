@@ -41,7 +41,7 @@ public abstract class GameRoundEndComponentJiahaoTitleMixin {
             require = 1,
             allow = 1
     )
-    private void sparkwitch$creditTeamJiahao(ServerWorld world, Collection<UUID> winnerUuids, CallbackInfo ci) {
+    private void sparkdlc$creditTeamJiahao(ServerWorld world, Collection<UUID> winnerUuids, CallbackInfo ci) {
         JiahaoTeamWinSeam.creditTeamJiahaoRows(world, ((GameRoundEndComponent) (Object) this).getPlayers());
     }
 }

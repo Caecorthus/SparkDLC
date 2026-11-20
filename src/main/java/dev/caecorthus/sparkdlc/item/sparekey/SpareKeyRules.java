@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.item.sparekey;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesRoleIds;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.game.GameConstants;
@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
  * 共 7 点：关着的列车门消耗 3 点，关着的上锁小门消耗 1 点；点数不够则拒绝开门；点数归零钥匙消失；每次开门后冷却 5 秒。
  */
 public final class SpareKeyRules {
-    public static final Identifier ITEM_ID = SparkWitch.id("spare_key");
+    public static final Identifier ITEM_ID = SparkDLC.id("spare_key");
     public static final int DURABILITY = 7;
     /** Wathe {@code DoorType.TRAIN_DOOR}. / Wathe 列车门。 */
     public static final int TRAIN_DOOR_COST = 3;

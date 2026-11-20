@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.role.special.wraith.runtime;
 
 import dev.caecorthus.sparkdlc.replay.api.SparkReplayApi;
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.component.WraithPlayerComponent;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithCommunicationPolicy;
@@ -48,8 +48,8 @@ public final class WraithLifecycle {
     private static final double CROUCH_RELEASE_UPWARD_VELOCITY = 0.08D;
     // SparkFactionAPI replay causes for the shared transitionRole addRole; neither has a source player.
     // 共用 transitionRole 中 addRole 的 SparkFactionAPI 回放原因；两者都没有来源玩家。
-    private static final Identifier CONVERSION_REPLAY_CAUSE = SparkWitch.id("wraith_conversion");
-    private static final Identifier PROMOTION_REPLAY_CAUSE = SparkWitch.id("wraith_promotion");
+    private static final Identifier CONVERSION_REPLAY_CAUSE = SparkDLC.id("wraith_conversion");
+    private static final Identifier PROMOTION_REPLAY_CAUSE = SparkDLC.id("wraith_promotion");
     private static boolean registered;
 
     private WraithLifecycle() {
@@ -74,7 +74,7 @@ public final class WraithLifecycle {
     public static void activateConvertedPlayer(ServerPlayerEntity player, WraithTaskSnapshot taskSnapshot) {
         wakeIfSleeping(player);
         SparkReplayApi.withRoleChangeCause(CONVERSION_REPLAY_CAUSE, (UUID) null,
-                () -> transitionRole(player, SparkWitchRoles.wraith()));
+                () -> transitionRole(player, SparkDlcRoles.wraith()));
         if (player.isSpectator()) {
             player.changeGameMode(GameMode.ADVENTURE);
         }
@@ -95,7 +95,7 @@ public final class WraithLifecycle {
                 () -> transitionRole(player, role));
         WraithStaminaService.ensureInfiniteStamina(player);
         SaboteurFeatureService.initializePromotion(player);
-        if (role == SparkWitchRoles.curser()) {
+        if (role == SparkDlcRoles.curser()) {
             CurserFeatureService.initializeForPromotion(player);
         } else {
             CurserPlayerComponent.KEY.get(player).clear();

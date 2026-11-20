@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.item;
 
-import dev.caecorthus.sparkdlc.SparkStrengthEntities;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
 import dev.caecorthus.sparkdlc.entity.CaptureDeviceEntity;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -58,7 +58,7 @@ public final class CaptureDeviceItem extends Item implements AdventureUsable {
 
         World world = player.getWorld();
         if (!world.isClient()) {
-            CaptureDeviceEntity entity = SparkStrengthEntities.captureDevice().create(world);
+            CaptureDeviceEntity entity = SparkDlcEntities.captureDevice().create(world);
             if (entity == null) {
                 return ActionResult.FAIL;
             }
@@ -79,7 +79,7 @@ public final class CaptureDeviceItem extends Item implements AdventureUsable {
             if (player instanceof ServerPlayerEntity serverPlayer) {
                 GameRecordManager.recordGlobalEvent(
                         serverPlayer.getServerWorld(),
-                        SparkStrengthReplayFormatters.CAPTURE_DEVICE_PLACED,
+                        RoleKitReplayFormatters.CAPTURE_DEVICE_PLACED,
                         serverPlayer,
                         null
                 );

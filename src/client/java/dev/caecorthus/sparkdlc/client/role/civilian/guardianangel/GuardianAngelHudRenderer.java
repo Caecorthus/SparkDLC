@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.guardianangel;
 
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.role.civilian.guardianangel.GuardianAngelHudRules;
 import dev.caecorthus.sparkdlc.role.civilian.guardianangel.GuardianAngelPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.guardianangel.GuardianAngelRules;
@@ -38,7 +38,7 @@ public final class GuardianAngelHudRenderer {
             case AIM_AT_PLAYER -> Text.translatable("hud.sparkdlc.guardian_angel.no_target");
             case READY -> Text.translatable(
                     "hud.sparkdlc.guardian_angel.ready",
-                    SparkWitchClient.abilityKeyText()
+                    SparkDLCClient.abilityKeyText()
             );
         };
     }

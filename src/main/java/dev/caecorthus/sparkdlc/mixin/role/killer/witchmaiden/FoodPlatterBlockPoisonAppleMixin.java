@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = FoodPlatterBlock.class, priority = 1_000)
 public abstract class FoodPlatterBlockPoisonAppleMixin {
     @WrapMethod(method = "onUse")
-    private ActionResult sparkwitch$handlePoisonApple(
+    private ActionResult sparkdlc$handlePoisonApple(
             BlockState state,
             World world,
             BlockPos pos,
@@ -54,8 +54,8 @@ public abstract class FoodPlatterBlockPoisonAppleMixin {
 
         boolean antidoteWasReady = PoisonApplePlateService.isReadyAntidote(player);
         boolean hadNativePoison = plate.getPoisoner() != null;
-        boolean hadPoisonApple = poisonApple.sparkwitch$isPoisonAppleArmed();
-        PlatterCall call = sparkwitch$callPlatter(
+        boolean hadPoisonApple = poisonApple.sparkdlc$isPoisonAppleArmed();
+        PlatterCall call = sparkdlc$callPlatter(
                 state,
                 world,
                 pos,
@@ -83,7 +83,7 @@ public abstract class FoodPlatterBlockPoisonAppleMixin {
         return call.result();
     }
 
-    private PlatterCall sparkwitch$callPlatter(
+    private PlatterCall sparkdlc$callPlatter(
             BlockState state,
             World world,
             BlockPos pos,
@@ -94,7 +94,7 @@ public abstract class FoodPlatterBlockPoisonAppleMixin {
             Operation<ActionResult> original
     ) {
         ItemStack heldStack = player.getMainHandStack();
-        if (!sparkwitch$mayRelocateHeldConsumable(player, plate, heldStack, antidoteWasReady)) {
+        if (!sparkdlc$mayRelocateHeldConsumable(player, plate, heldStack, antidoteWasReady)) {
             boolean handWasEmpty = heldStack.isEmpty();
             ActionResult result = original.call(state, world, pos, player, hit);
             ItemStack acquired = handWasEmpty ? player.getMainHandStack() : ItemStack.EMPTY;
@@ -113,15 +113,15 @@ public abstract class FoodPlatterBlockPoisonAppleMixin {
         try {
             ActionResult result = original.call(state, world, pos, player, hit);
             ItemStack acquired = inventory.getStack(selectedSlot);
-            sparkwitch$finishRelocation(inventory, selectedSlot, temporarySlot, heldStack, acquired);
+            sparkdlc$finishRelocation(inventory, selectedSlot, temporarySlot, heldStack, acquired);
             return new PlatterCall(result, acquired);
         } catch (RuntimeException | Error failure) {
-            sparkwitch$rollbackRelocation(inventory, selectedSlot, temporarySlot, heldStack, failure);
+            sparkdlc$rollbackRelocation(inventory, selectedSlot, temporarySlot, heldStack, failure);
             throw failure;
         }
     }
 
-    private boolean sparkwitch$mayRelocateHeldConsumable(
+    private boolean sparkdlc$mayRelocateHeldConsumable(
             PlayerEntity player,
             BeveragePlateBlockEntity plate,
             ItemStack heldStack,
@@ -136,7 +136,7 @@ public abstract class FoodPlatterBlockPoisonAppleMixin {
                 && plate.getStoredItems().stream().allMatch(WraithConsumableInventoryRules::isConsumable);
     }
 
-    private void sparkwitch$finishRelocation(
+    private void sparkdlc$finishRelocation(
             PlayerInventory inventory,
             int selectedSlot,
             int temporarySlot,
@@ -151,7 +151,7 @@ public abstract class FoodPlatterBlockPoisonAppleMixin {
         inventory.markDirty();
     }
 
-    private void sparkwitch$rollbackRelocation(
+    private void sparkdlc$rollbackRelocation(
             PlayerInventory inventory,
             int selectedSlot,
             int temporarySlot,

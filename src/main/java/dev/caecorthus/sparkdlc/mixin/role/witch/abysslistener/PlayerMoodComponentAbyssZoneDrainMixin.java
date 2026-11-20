@@ -58,7 +58,7 @@ public abstract class PlayerMoodComponentAbyssZoneDrainMixin {
             require = 2,
             allow = 2
     )
-    private boolean sparkwitch$abyssZoneKeepsDraining(boolean tasksEmpty) {
+    private boolean sparkdlc$abyssZoneKeepsDraining(boolean tasksEmpty) {
         return DeepDarkZoneStandingDrain.noDrainingTasks(tasksEmpty, DeepDarkZoneStandingDrain.isExposed(player));
     }
 
@@ -69,7 +69,7 @@ public abstract class PlayerMoodComponentAbyssZoneDrainMixin {
             require = 2,
             allow = 2
     )
-    private int sparkwitch$abyssZonePseudoTask(int realTasks) {
+    private int sparkdlc$abyssZonePseudoTask(int realTasks) {
         return DeepDarkZoneStandingDrain.drainingTaskCount(realTasks, DeepDarkZoneStandingDrain.isExposed(player));
     }
 
@@ -84,7 +84,7 @@ public abstract class PlayerMoodComponentAbyssZoneDrainMixin {
             require = 2,
             allow = 2
     )
-    private float sparkwitch$abyssZoneDrainRate(float drain) {
+    private float sparkdlc$abyssZoneDrainRate(float drain) {
         return DeepDarkZoneStandingDrain.drainPerTask(drain, DeepDarkZoneStandingDrain.isExposed(player));
     }
 }

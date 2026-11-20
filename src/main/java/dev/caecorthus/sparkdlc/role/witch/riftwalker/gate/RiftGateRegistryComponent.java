@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.riftwalker.gate;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
@@ -18,7 +18,7 @@ import org.ladysnake.cca.api.v3.component.ComponentRegistry;
  */
 public final class RiftGateRegistryComponent extends RiftGateRegistryState implements Component {
     public static final ComponentKey<RiftGateRegistryComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("rift_gates"), RiftGateRegistryComponent.class);
+            SparkDLC.id("rift_gates"), RiftGateRegistryComponent.class);
 
     public RiftGateRegistryComponent(World world) {
     }

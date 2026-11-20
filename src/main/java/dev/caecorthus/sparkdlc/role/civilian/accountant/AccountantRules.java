@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.accountant;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -24,8 +24,8 @@ import org.jetbrains.annotations.Nullable;
  * 携带者死亡时掉落。
  */
 public final class AccountantRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("accountant");
-    public static final Identifier PASSBOOK_ID = SparkWitch.id("accountant_passbook");
+    public static final Identifier ROLE_ID = SparkDLC.id("accountant");
+    public static final Identifier PASSBOOK_ID = SparkDLC.id("accountant_passbook");
 
     /** Identity colour FFFFC5. / 身份色 FFFFC5。 */
     public static final int COLOR = 0xFFFFC5;
@@ -55,8 +55,8 @@ public final class AccountantRules {
 
     // ---- Replay / 回放 ----
 
-    public static final Identifier DEPOSIT_SKILL_ID = SparkWitch.id("accountant_deposit");
-    public static final Identifier WITHDRAW_SKILL_ID = SparkWitch.id("accountant_withdraw");
+    public static final Identifier DEPOSIT_SKILL_ID = SparkDLC.id("accountant_deposit");
+    public static final Identifier WITHDRAW_SKILL_ID = SparkDLC.id("accountant_withdraw");
     public static final String REPLAY_AMOUNT_KEY = "amount";
 
     private AccountantRules() {

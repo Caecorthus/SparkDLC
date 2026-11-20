@@ -1,12 +1,12 @@
 package dev.caecorthus.sparkdlc.trait.civilian.laststand;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.TraitAssignmentReason;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
 import dev.caecorthus.sparkdlc.trait.effective.EffectiveFactionFlip;
-import dev.caecorthus.sparkdlc.trait.replay.SparkTraitsReplayEvents;
-import dev.caecorthus.sparkdlc.SparkTraitsSounds;
+import dev.caecorthus.sparkdlc.trait.replay.TraitReplayEvents;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.trait.civilian.impostor.ImpostorTrait;
 import dev.caecorthus.sparkdlc.trait.killer.conscience.ConscienceTrait;
 import dev.caecorthus.sparkdlc.mixin.trait.RoleHistoryComponentAccessor;
@@ -69,7 +69,7 @@ public final class LastStandFinalMomentService {
     private static final int TITLE_FADE_OUT_TICKS = 10;
     private static final int UNKNOWN_FACTION_COLOR = 0xFFFFFF;
     private static final Identifier SPARKWITCH_FIEND_ID = Identifier.of("sparkdlc", "fiend");
-    static final Identifier FINAL_MOMENT_TIMEOUT = SparkTraits.id("final_moment_timeout");
+    static final Identifier FINAL_MOMENT_TIMEOUT = SparkDLC.id("final_moment_timeout");
 
     private LastStandFinalMomentService() {
     }
@@ -550,7 +550,7 @@ public final class LastStandFinalMomentService {
             List<UUID> finalPlayerUuids
     ) {
         traitWorld.setFinalMomentActive(true);
-        SparkTraitsReplayEvents.recordFinalMomentStarted(world, () -> LastStandOpponents.countAlive(world));
+        TraitReplayEvents.recordFinalMomentStarted(world, () -> LastStandOpponents.countAlive(world));
 
         for (UUID uuid : finalPlayerUuids) {
             if (world.getPlayerByUuid(uuid) instanceof ServerPlayerEntity player
@@ -574,7 +574,7 @@ public final class LastStandFinalMomentService {
         for (ServerPlayerEntity player : world.getPlayers()) {
             // Played once for everyone; the client controller stops it when the moment or round ends.
             // 对全场只播放一次；终局时刻或回合结束时由客户端控制器停止。
-            player.playSoundToPlayer(SparkTraitsSounds.FINAL_MOMENT_MUSIC, SoundCategory.MASTER, 1.0F, 1.0F);
+            player.playSoundToPlayer(SparkDlcSounds.FINAL_MOMENT_MUSIC, SoundCategory.MASTER, 1.0F, 1.0F);
         }
     }
 
@@ -586,13 +586,13 @@ public final class LastStandFinalMomentService {
         // Tag the role change so SparkFactionAPI's replay line carries the Final Moment cause.
         // 为身份变化打上原因标记，使 SparkFactionAPI 的回放行附带“终局时刻”原因。
         SparkReplayApi.withRoleChangeCause(
-                SparkTraits.id("loose_end_conversion"),
+                SparkDLC.id("loose_end_conversion"),
                 (UUID) null,
                 () -> gameComponent.addRole(player, WatheRoles.LOOSE_END)
         );
         replaceLatestRoleHistoryEntry(world, player.getUuid(), WatheRoles.LOOSE_END);
         RoleAssigned.EVENT.invoker().assignRole(player, WatheRoles.LOOSE_END);
-        SparkTraitsReplayEvents.recordLooseEndConversion(player);
+        TraitReplayEvents.recordLooseEndConversion(player);
 
         TraitPlayerComponent playerTraits = TraitPlayerComponent.KEY.get(player);
         playerTraits.replaceActiveTraitsForRuntime(
@@ -647,7 +647,7 @@ public final class LastStandFinalMomentService {
 
     private static void replaceLatestRoleHistoryEntry(ServerWorld world, UUID playerUuid, Role role) {
         RoleHistoryComponent roleHistory = RoleHistoryComponent.KEY.get(world.getScoreboard());
-        Deque<GameEntry> playerHistory = ((RoleHistoryComponentAccessor) roleHistory).sparktraits$getHistory().get(playerUuid);
+        Deque<GameEntry> playerHistory = ((RoleHistoryComponentAccessor) roleHistory).sparkdlc$getHistory().get(playerUuid);
         if (playerHistory == null || playerHistory.isEmpty()) {
             return;
         }

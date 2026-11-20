@@ -25,7 +25,7 @@ public abstract class GameWorldComponentBlackRavenDeathIndexMixin {
     @Shadow @Final private World world;
 
     @Inject(method = "markPlayerDead(Ljava/util/UUID;)V", at = @At("HEAD"))
-    private void sparkwitch$dropActingIndexOnDeath(UUID uuid, CallbackInfo ci) {
+    private void sparkdlc$dropActingIndexOnDeath(UUID uuid, CallbackInfo ci) {
         if (!world.isClient) {
             BlackRavenActingRole.removeServer(uuid);
         }

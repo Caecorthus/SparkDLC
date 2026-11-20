@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.gametest;
 
-import dev.caecorthus.sparkdlc.component.SparkFactionAntiFastRoundComponent;
-import dev.caecorthus.sparkdlc.component.SparkFactionRoundEndComponent;
-import dev.caecorthus.sparkdlc.component.SparkFactionThirdFactionComponent;
+import dev.caecorthus.sparkdlc.component.AntiFastRoundComponent;
+import dev.caecorthus.sparkdlc.component.FactionRoundEndComponent;
+import dev.caecorthus.sparkdlc.component.ThirdFactionComponent;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.component.WitchWorldComponent;
 import dev.caecorthus.sparkdlc.component.WraithPlayerComponent;
@@ -220,13 +220,13 @@ public final class LegacySavedDataGameTest implements FabricGameTest {
         try {
             container.fromTag(root(old), registries);
 
-            SparkFactionAntiFastRoundComponent anti = SparkFactionAntiFastRoundComponent.KEY.get(scoreboard);
+            AntiFastRoundComponent anti = AntiFastRoundComponent.KEY.get(scoreboard);
             check(anti.isEnabled() && anti.getSeconds() == 77,
                     "anti fast round: " + anti.isEnabled() + " " + anti.getSeconds());
-            ThirdFactionDrawSettings third = SparkFactionThirdFactionComponent.KEY.get(scoreboard).settings();
+            ThirdFactionDrawSettings third = ThirdFactionComponent.KEY.get(scoreboard).settings();
             check(third.dividend() == 9 && third.minPlayers() == 11, "third faction settings: " + third);
-            check(id("murderous_witch").equals(SparkFactionRoundEndComponent.KEY.get(scoreboard).getWinningFaction()),
-                    "winning faction: " + SparkFactionRoundEndComponent.KEY.get(scoreboard).getWinningFaction());
+            check(id("murderous_witch").equals(FactionRoundEndComponent.KEY.get(scoreboard).getWinningFaction()),
+                    "winning faction: " + FactionRoundEndComponent.KEY.get(scoreboard).getWinningFaction());
             check(Set.of("sparkdlc:prophet", "sparkdlc:vendetta", "noellesroles:bartender")
                             .equals(RoleHistoryComponent.KEY.get(scoreboard).recentRoleIds(player)),
                     "role history: " + RoleHistoryComponent.KEY.get(scoreboard).recentRoleIds(player));

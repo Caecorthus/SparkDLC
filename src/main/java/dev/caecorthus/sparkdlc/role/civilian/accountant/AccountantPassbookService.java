@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.accountant;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.item.BoundItemRules;
 import dev.doctor4t.wathe.api.event.ShouldDropOnDeath;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -81,7 +81,7 @@ public final class AccountantPassbookService {
     }
 
     public static boolean isPassbook(@Nullable ItemStack stack) {
-        return stack != null && !stack.isEmpty() && stack.isOf(SparkWitchItems.accountantPassbook());
+        return stack != null && !stack.isEmpty() && stack.isOf(SparkDlcItems.accountantPassbook());
     }
 
     static boolean blocksEntityUse(@Nullable ItemStack held, @Nullable Entity target) {
@@ -193,6 +193,6 @@ public final class AccountantPassbookService {
         GameWorldComponent game = GameWorldComponent.KEY.get(player.getWorld());
         return AccountantRules.canAct(game.getGameStatus() == GameWorldComponent.GameStatus.ACTIVE,
                 GameFunctions.isPlayerPlayingAndAlive(player), player.isSpectator(), player.isCreative(),
-                SparkWitchApi.isWraithRestricted(player));
+                SparkRoleApi.isWraithRestricted(player));
     }
 }

@@ -41,31 +41,31 @@ public abstract class RiftThrowingAxeMixin {
     /** Gate the axe meets this tick; server-only, cleared every tick. / 飞斧本刻遇到的门；仅服务端，逐刻清空。 */
     @Unique
     @Nullable
-    private RiftGateEntity sparkwitch$riftGate;
+    private RiftGateEntity sparkdlc$riftGate;
 
     /** Squared distance from this tick's start to that gate; infinite when none. / 本刻起点到该门的平方距离；没有时为无穷大。 */
     @Unique
-    private double sparkwitch$riftGateCutSquared = Double.POSITIVE_INFINITY;
+    private double sparkdlc$riftGateCutSquared = Double.POSITIVE_INFINITY;
 
     /** Before the pierce loop: find the nearest gate on this tick's segment. / 贯穿循环之前：查找本刻线段上最近的门。 */
     @Inject(method = "tick", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/World;getOtherEntities(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Box;)Ljava/util/List;"))
-    private void sparkwitch$findRiftGate(CallbackInfo ci) {
+    private void sparkdlc$findRiftGate(CallbackInfo ci) {
         ThrowingAxeEntity axe = (ThrowingAxeEntity) (Object) this;
         Vec3d from = axe.getPos();
         RiftGateProjectileService.ThrowingAxeGateHit hit =
                 RiftGateProjectileService.findThrowingAxeGate(axe, from, from.add(axe.getVelocity()));
-        sparkwitch$riftGate = hit == null ? null : hit.gate();
-        sparkwitch$riftGateCutSquared = hit == null ? Double.POSITIVE_INFINITY : hit.entrySquared();
+        sparkdlc$riftGate = hit == null ? null : hit.gate();
+        sparkdlc$riftGateCutSquared = hit == null ? Double.POSITIVE_INFINITY : hit.entrySquared();
     }
 
     /** Inside the pierce loop: players not nearer than the gate are shielded by it. / 贯穿循环内：不比门更近的玩家被门挡住。 */
     @WrapOperation(method = "tick", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/util/math/Box;raycast(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;)Ljava/util/Optional;"))
-    private Optional<Vec3d> sparkwitch$shieldPlayersBehindRiftGate(Box box, Vec3d from, Vec3d to,
+    private Optional<Vec3d> sparkdlc$shieldPlayersBehindRiftGate(Box box, Vec3d from, Vec3d to,
                                                                   Operation<Optional<Vec3d>> original) {
         Optional<Vec3d> hit = original.call(box, from, to);
-        double cut = sparkwitch$riftGateCutSquared;
+        double cut = sparkdlc$riftGateCutSquared;
         if (cut == Double.POSITIVE_INFINITY) {
             return hit;
         }
@@ -75,13 +75,13 @@ public abstract class RiftThrowingAxeMixin {
     /** After the pierce loop, before vanilla movement: pass the gate and end the tick there. / 贯穿循环之后、原版移动之前：穿门并就此结束本刻。 */
     @Inject(method = "tick", cancellable = true, at = @At(value = "INVOKE",
             target = "Lnet/minecraft/entity/projectile/PersistentProjectileEntity;tick()V"))
-    private void sparkwitch$passRiftGate(CallbackInfo ci) {
-        RiftGateEntity gate = sparkwitch$riftGate;
+    private void sparkdlc$passRiftGate(CallbackInfo ci) {
+        RiftGateEntity gate = sparkdlc$riftGate;
         if (gate == null) {
             return;
         }
-        sparkwitch$riftGate = null;
-        sparkwitch$riftGateCutSquared = Double.POSITIVE_INFINITY;
+        sparkdlc$riftGate = null;
+        sparkdlc$riftGateCutSquared = Double.POSITIVE_INFINITY;
         if (RiftGateProjectileService.passThrowingAxe((ThrowingAxeEntity) (Object) this, gate)) {
             ci.cancel();
         }

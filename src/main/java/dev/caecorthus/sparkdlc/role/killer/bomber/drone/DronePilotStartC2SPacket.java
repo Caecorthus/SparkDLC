@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.bomber.drone;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
@@ -11,7 +11,7 @@ import net.minecraft.network.packet.CustomPayload;
  * 平板“连接”按钮：请求驾驶发送者自己的某架无人机。服务器重新校验全部条件。
  */
 public record DronePilotStartC2SPacket(int entityId) implements CustomPayload {
-    public static final Id<DronePilotStartC2SPacket> ID = new Id<>(SparkStrength.id("drone_pilot_start"));
+    public static final Id<DronePilotStartC2SPacket> ID = new Id<>(SparkDLC.id("drone_pilot_start"));
     public static final PacketCodec<RegistryByteBuf, DronePilotStartC2SPacket> CODEC = PacketCodec.tuple(
             PacketCodecs.VAR_INT, DronePilotStartC2SPacket::entityId,
             DronePilotStartC2SPacket::new

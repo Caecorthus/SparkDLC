@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.replay.role;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.record.replay.ReplayRegistry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -18,7 +18,7 @@ public final class ShadowJesterReplayEvents {
      * 两种不同的谢幕机制。</p>
      */
     public static final Identifier SHADOW_JESTER_SHOWDOWN_STARTED =
-            SparkStrength.id("shadow_jester_showdown_started");
+            SparkDLC.id("shadow_jester_showdown_started");
 
     private ShadowJesterReplayEvents() {
     }

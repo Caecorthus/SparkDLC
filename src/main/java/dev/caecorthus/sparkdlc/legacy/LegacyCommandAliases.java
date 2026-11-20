@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
  * pointer, so a node may sit under two parents (vanilla does the same through redirects).</p>
  *
  * <p>Call {@link #register(CommandDispatcher)} after the current commands are registered. The three misspelt
- * SparkStrength aliases are older than the rename, are registered by {@code SparkStrengthCommands} and are not
+ * SparkStrength aliases are older than the rename, are registered by {@code RoleKitCommands} and are not
  * touched here.</p>
  *
  * 让五个旧模组的命令名继续可用（{@code /sparkwitch:setMana} 等同于 {@code /sparkdlc:setMana} 等）：对照表中每一行
@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
  * Brigadier 节点没有父指针，同一节点可以挂在两个父节点下（原版的 redirect 也是如此）。</p>
  *
  * <p>在当前命令注册完之后调用 {@link #register(CommandDispatcher)}。SparkStrength 的三个拼写别名早于改名，由
- * {@code SparkStrengthCommands} 注册，这里不处理。</p>
+ * {@code RoleKitCommands} 注册，这里不处理。</p>
  */
 public final class LegacyCommandAliases {
     private static final Logger LOGGER = LoggerFactory.getLogger("sparkdlc");

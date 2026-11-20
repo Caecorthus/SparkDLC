@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -27,7 +27,7 @@ public record OpenCriminalReasonerS2CPacket(
 ) implements CustomPayload {
     public static final int MAX_ENTRIES = 64;
     public static final int MAX_PLAYER_NAME_LENGTH = 128;
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("open_criminal_reasoner_s2c");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("open_criminal_reasoner_s2c");
     public static final Id<OpenCriminalReasonerS2CPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, OpenCriminalReasonerS2CPacket> CODEC =
             PacketCodec.of(OpenCriminalReasonerS2CPacket::write, OpenCriminalReasonerS2CPacket::read);

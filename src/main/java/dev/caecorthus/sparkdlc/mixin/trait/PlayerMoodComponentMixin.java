@@ -59,7 +59,7 @@ public abstract class PlayerMoodComponentMixin {
             method = {"serverTick", "getMood", "setMood"},
             at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/api/Role;getMoodType()Ldev/doctor4t/wathe/api/Role$MoodType;")
     )
-    private Role.MoodType sparktraits$effectiveMoodType(Role role) {
+    private Role.MoodType sparkdlc$effectiveMoodType(Role role) {
         if (SparkDlcServerConnection.isUnconfirmedClientEntity(this.player)) {
             return role == null ? Role.MoodType.NONE : role.getMoodType();
         }
@@ -70,7 +70,7 @@ public abstract class PlayerMoodComponentMixin {
             method = "setMood",
             at = @At(value = "INVOKE", target = "Ljava/lang/Math;clamp(FFF)F")
     )
-    private float sparktraits$clampMoodWithSteady(float mood, float min, float max) {
+    private float sparkdlc$clampMoodWithSteady(float mood, float min, float max) {
         if (SparkDlcServerConnection.isUnconfirmedClientEntity(this.player)) {
             return Math.clamp(mood, min, max);
         }
@@ -88,7 +88,7 @@ public abstract class PlayerMoodComponentMixin {
             at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/cca/PlayerMoodComponent;setMood(F)V"),
             index = 0
     )
-    private float sparktraits$applyMoodDrainTraits(float proposedMood) {
+    private float sparkdlc$applyMoodDrainTraits(float proposedMood) {
         if (SparkDlcServerConnection.isUnconfirmedClientEntity(this.player)) {
             return proposedMood;
         }
@@ -118,14 +118,14 @@ public abstract class PlayerMoodComponentMixin {
                     ordinal = 0
             )
     )
-    private int sparktraits$speedUpTaskCountdown(int nextTaskTimer) {
+    private int sparkdlc$speedUpTaskCountdown(int nextTaskTimer) {
         return nextTaskTimer - TaskPacing.extraTimerTicks(this.player);
     }
 
     // Wathe already treats a null task as "nothing to hand out" and simply rolls the next interval.
     // Wathe 本来就把 null 任务当作“这次不发任务”，随后照常抽取下一次间隔。
     @Inject(method = "generateTask", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$capMinimalismTasks(CallbackInfoReturnable<PlayerMoodComponent.TrainTask> cir) {
+    private void sparkdlc$capMinimalismTasks(CallbackInfoReturnable<PlayerMoodComponent.TrainTask> cir) {
         if (TaskPacing.atTaskCap(this.player, this.tasks.size())) {
             cir.setReturnValue(null);
         }
@@ -135,7 +135,7 @@ public abstract class PlayerMoodComponentMixin {
             method = "serverTick",
             at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/game/GameFunctions;killPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;ZLnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;Z)V")
     )
-    private void sparktraits$suppressMentalBreakdown(
+    private void sparkdlc$suppressMentalBreakdown(
             ServerPlayerEntity player,
             boolean spawnBody,
             ServerPlayerEntity killer,
@@ -158,7 +158,7 @@ public abstract class PlayerMoodComponentMixin {
     }
 
     @Inject(method = "serverTick", at = @At("TAIL"))
-    private void sparktraits$holdSelfEsteemMood(CallbackInfo ci) {
+    private void sparkdlc$holdSelfEsteemMood(CallbackInfo ci) {
         // The drain runs before the kill check every tick, so without this the mood would re-cross -1 at once and
         // retry the breakdown each tick. 每 tick 先扣理智再判崩溃；没有这段，理智会立刻再次越过 -1，每 tick 重试崩溃。
         if (this.player instanceof ServerPlayerEntity serverPlayer
@@ -169,7 +169,7 @@ public abstract class PlayerMoodComponentMixin {
     }
 
     @Inject(method = "serverTick", at = @At("TAIL"))
-    private void sparktraits$holdDepressionPsychoMood(CallbackInfo ci) {
+    private void sparkdlc$holdDepressionPsychoMood(CallbackInfo ci) {
         if (DepressionTraitService.shouldSuppressMentalBreakdown(
                 this.player,
                 dev.doctor4t.wathe.game.GameConstants.DeathReasons.MENTAL_BREAKDOWN
@@ -179,7 +179,7 @@ public abstract class PlayerMoodComponentMixin {
     }
 
     @Inject(method = {"isLowerThanMid", "isLowerThanDepressed"}, at = @At("HEAD"), cancellable = true)
-    private void sparktraits$wellTrainedIgnoresLowMood(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$wellTrainedIgnoresLowMood(CallbackInfoReturnable<Boolean> cir) {
         if (SparkDlcServerConnection.isUnconfirmedClientEntity(this.player)) {
             return;
         }
@@ -189,7 +189,7 @@ public abstract class PlayerMoodComponentMixin {
     }
 
     @Inject(method = "isLowerThanDepressed", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$depressionPsychoIgnoresSprintBlock(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$depressionPsychoIgnoresSprintBlock(CallbackInfoReturnable<Boolean> cir) {
         if (SparkDlcServerConnection.isUnconfirmedClientEntity(this.player)) {
             return;
         }
@@ -204,7 +204,7 @@ public abstract class PlayerMoodComponentMixin {
      * 极简主义：连续 90 秒没有完成任务时补刷 1 个任务。放在 TAIL，原版 tick 已执行完毕；上限仍由 {@link TaskPacing} 把关。
      */
     @Inject(method = "serverTick", at = @At("TAIL"))
-    private void sparktraits$refreshMinimalismTask(CallbackInfo ci) {
+    private void sparkdlc$refreshMinimalismTask(CallbackInfo ci) {
         if (!(this.player instanceof ServerPlayerEntity serverPlayer)) {
             return;
         }
@@ -217,7 +217,7 @@ public abstract class PlayerMoodComponentMixin {
         }
         if (!TaskPacing.atTaskCap(serverPlayer, this.tasks.size())) {
             PlayerMoodComponent.TrainTask generated =
-                    ((PlayerMoodComponentInvoker) (Object) this).sparktraits$generateTask();
+                    ((PlayerMoodComponentInvoker) (Object) this).sparkdlc$generateTaskForTraits();
             if (generated != null) {
                 // Same bookkeeping as Wathe's own countdown hand-out (seed 1, then +1), since generateTask weighs tasks
                 // by timesGotten. 与 Wathe 自身倒计时发放任务时的记账一致（先置 1 再加 1）：generateTask 按 timesGotten 降低重复任务的权重。

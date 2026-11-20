@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.bear.helmet;
 
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
-import dev.caecorthus.sparkdlc.SparkWitchDataComponents;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
+import dev.caecorthus.sparkdlc.SparkDlcDataComponents;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
@@ -117,7 +117,7 @@ public final class RysTVisorToggle {
         }
         if (helmet.getCount() == 1 && writes(player)) {
             RysTVisor next = RysTHelmetItem.visor(helmet).toggle();
-            helmet.set(SparkWitchDataComponents.RYS_T_VISOR, next);
+            helmet.set(SparkDlcDataComponents.RYS_T_VISOR, next);
             playVisorSound(player, next.down());
         }
         return true;
@@ -136,7 +136,7 @@ public final class RysTVisorToggle {
      * 客户端：只在本地播放，因为服务端看不到这次点击。
      */
     private static void playVisorSound(PlayerEntity player, boolean down) {
-        SoundEvent sound = down ? SparkWitchSounds.BEAR_RYS_T_VISOR_DOWN : SparkWitchSounds.BEAR_RYS_T_VISOR_UP;
+        SoundEvent sound = down ? SparkDlcSounds.BEAR_RYS_T_VISOR_DOWN : SparkDlcSounds.BEAR_RYS_T_VISOR_UP;
         if (sound == null) {
             return;
         }

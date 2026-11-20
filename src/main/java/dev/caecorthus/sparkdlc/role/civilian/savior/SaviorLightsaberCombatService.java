@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.savior;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponTarget;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.net.SaviorLightsaberIgniteC2SPayload;
@@ -140,7 +140,7 @@ public final class SaviorLightsaberCombatService {
         LAST_IGNITE_TICK.put(player.getUuid(), now);
         ServerWorld world = player.getServerWorld();
         world.playSound(null, player.getX(), player.getY(), player.getZ(),
-                SparkWitchSounds.SAVIOR_LIGHTSABER_IGNITE, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                SparkDlcSounds.SAVIOR_LIGHTSABER_IGNITE, SoundCategory.PLAYERS, 1.0F, 1.0F);
     }
 
     /**
@@ -164,7 +164,7 @@ public final class SaviorLightsaberCombatService {
             return ActionResult.PASS;
         }
         ItemStack stack = attacker.getStackInHand(hand);
-        if (!stack.isOf(SparkWitchItems.saviorLightsaber())) {
+        if (!stack.isOf(SparkDlcItems.saviorLightsaber())) {
             return ActionResult.PASS;
         }
         // Raven Form seam: a crow in reach stands in for its owner, so the strike and its misfire rule hit the Raven. A
@@ -295,7 +295,7 @@ public final class SaviorLightsaberCombatService {
             SaviorCooldowns.writeCooldown(attacker, stack.getItem(), SaviorRules.LIGHTSABER_KILL_COOLDOWN_TICKS);
         }
         ServerWorld world = attacker.getServerWorld();
-        world.playSound(null, at.x, at.y, at.z, SparkWitchSounds.SAVIOR_LIGHTSABER_HIT, SoundCategory.PLAYERS, 0.9F,
+        world.playSound(null, at.x, at.y, at.z, SparkDlcSounds.SAVIOR_LIGHTSABER_HIT, SoundCategory.PLAYERS, 0.9F,
                 0.9F + world.random.nextFloat() * 0.2F);
     }
 
@@ -331,13 +331,13 @@ public final class SaviorLightsaberCombatService {
     private static void punishSword(ServerPlayerEntity shooter, GameWorldComponent game,
                                     ShootInnocentPunishment policy) {
         if (!SaviorRules.isPunishable(shooter)
-                || !SaviorRules.takeOne(shooter.getInventory(), SparkWitchItems.saviorLightsaber())) {
+                || !SaviorRules.takeOne(shooter.getInventory(), SparkDlcItems.saviorLightsaber())) {
             return;
         }
         if (game.canUseKillerFeatures(shooter)) {
             return;
         }
-        SaviorRules.swapInRevolver(shooter, SparkWitchItems.saviorLightsaber());
+        SaviorRules.swapInRevolver(shooter, SparkDlcItems.saviorLightsaber());
         PlayerMoodComponent.KEY.get(shooter).setMood(0.0F);
         game.addToPreventGunPickup(shooter);
         if (SaviorRules.isGoodPlayer(shooter, game) && policy == ShootInnocentPunishment.KILL_SHOOTER) {
@@ -355,7 +355,7 @@ public final class SaviorLightsaberCombatService {
             return;
         }
         ItemStack stack = player.getMainHandStack();
-        if (!stack.isOf(SparkWitchItems.saviorLightsaber())
+        if (!stack.isOf(SparkDlcItems.saviorLightsaber())
                 || SparkTraitsApi.blocksWeaponAction(player, stack)) {
             return;
         }
@@ -367,13 +367,13 @@ public final class SaviorLightsaberCombatService {
         LAST_SWING_TICK.put(player.getUuid(), now);
         ServerWorld world = player.getServerWorld();
         world.playSound(null, player.getX(), player.getY(), player.getZ(),
-                SparkWitchSounds.SAVIOR_LIGHTSABER_SWING, SoundCategory.PLAYERS, 1.0F,
+                SparkDlcSounds.SAVIOR_LIGHTSABER_SWING, SoundCategory.PLAYERS, 1.0F,
                 0.95F + world.random.nextFloat() * 0.1F);
     }
 
     private static boolean holdsLightsaber(PlayerEntity player) {
-        return player.getMainHandStack().isOf(SparkWitchItems.saviorLightsaber())
-                || player.getOffHandStack().isOf(SparkWitchItems.saviorLightsaber());
+        return player.getMainHandStack().isOf(SparkDlcItems.saviorLightsaber())
+                || player.getOffHandStack().isOf(SparkDlcItems.saviorLightsaber());
     }
 
     /**
@@ -382,7 +382,7 @@ public final class SaviorLightsaberCombatService {
      */
     private static void playKillSound(ServerPlayerEntity killer, ServerPlayerEntity victim) {
         if (killer == null || victim == null || killer == victim
-                || !killer.getMainHandStack().isOf(SparkWitchItems.saviorLightsaber())) {
+                || !killer.getMainHandStack().isOf(SparkDlcItems.saviorLightsaber())) {
             return;
         }
         long now = victim.getWorld().getTime();
@@ -393,7 +393,7 @@ public final class SaviorLightsaberCombatService {
         LAST_KILL_SOUND_TICK.put(victim.getUuid(), now);
         ServerWorld world = victim.getServerWorld();
         world.playSound(null, victim.getX(), victim.getY(), victim.getZ(),
-                SparkWitchSounds.SAVIOR_LIGHTSABER_HIT, SoundCategory.PLAYERS, 0.9F,
+                SparkDlcSounds.SAVIOR_LIGHTSABER_HIT, SoundCategory.PLAYERS, 0.9F,
                 0.9F + world.random.nextFloat() * 0.2F);
     }
 }

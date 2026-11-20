@@ -32,19 +32,19 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class RemoteViewpointTerrainGridMixin {
     @ModifyExpressionValue(method = "setupTerrain", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/network/ClientPlayerEntity;getX()D"), require = 0)
-    private double sparkstrength$remoteGridCenterX(double original, @Local(argsOnly = true) Camera camera) {
+    private double sparkdlc$remoteGridCenterX(double original, @Local(argsOnly = true) Camera camera) {
         return RemoteViewpointClient.renderGridCenter(original, camera, 0);
     }
 
     @ModifyExpressionValue(method = "setupTerrain", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/network/ClientPlayerEntity;getY()D"), require = 0)
-    private double sparkstrength$remoteGridCenterY(double original, @Local(argsOnly = true) Camera camera) {
+    private double sparkdlc$remoteGridCenterY(double original, @Local(argsOnly = true) Camera camera) {
         return RemoteViewpointClient.renderGridCenter(original, camera, 1);
     }
 
     @ModifyExpressionValue(method = "setupTerrain", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/network/ClientPlayerEntity;getZ()D"), require = 0)
-    private double sparkstrength$remoteGridCenterZ(double original, @Local(argsOnly = true) Camera camera) {
+    private double sparkdlc$remoteGridCenterZ(double original, @Local(argsOnly = true) Camera camera) {
         return RemoteViewpointClient.renderGridCenter(original, camera, 2);
     }
 }

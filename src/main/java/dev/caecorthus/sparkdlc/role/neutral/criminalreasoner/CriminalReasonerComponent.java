@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.criminalreasoner;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -30,7 +30,7 @@ import java.util.UUID;
  */
 public final class CriminalReasonerComponent implements AutoSyncedComponent {
     public static final ComponentKey<CriminalReasonerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("criminal_reasoner_player"),
+            SparkDLC.id("criminal_reasoner_player"),
             CriminalReasonerComponent.class
     );
 

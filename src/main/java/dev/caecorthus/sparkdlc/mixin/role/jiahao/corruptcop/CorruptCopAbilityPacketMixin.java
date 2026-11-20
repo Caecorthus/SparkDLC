@@ -21,7 +21,7 @@ public abstract class CorruptCopAbilityPacketMixin {
     // while the runtime baseline that libs/, SparkTraits and SparkWitch share uses $5 for the same packet handler.
     // The group requires exactly one binary-specific seam to resolve at runtime.
     // 两个已授权的 NoellesRoles 1.7.6 构建分别在 $36 与 $5 处理同一个技能包；运行时必须且只能命中一个。
-    @Group(name = "sparkstrength$corruptCopAbility", min = 1, max = 1)
+    @Group(name = "sparkdlc$corruptCopAbility", min = 1, max = 1)
     @Inject(
             method = "lambda$registerPackets$36(Lorg/agmas/noellesroles/packet/AbilityC2SPacket;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             at = @At("HEAD"),
@@ -29,15 +29,15 @@ public abstract class CorruptCopAbilityPacketMixin {
             require = 0,
             remap = false
     )
-    private static void sparkstrength$toggleCorruptCopAbilityHistorical(
+    private static void sparkdlc$toggleCorruptCopAbilityHistorical(
             AbilityC2SPacket payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci
     ) {
-        sparkstrength$toggleCorruptCopAbility(context, ci);
+        sparkdlc$toggleCorruptCopAbility(context, ci);
     }
 
-    @Group(name = "sparkstrength$corruptCopAbility", min = 1, max = 1)
+    @Group(name = "sparkdlc$corruptCopAbility", min = 1, max = 1)
     @Inject(
             method = "lambda$registerPackets$5(Lorg/agmas/noellesroles/packet/AbilityC2SPacket;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             at = @At("HEAD"),
@@ -45,16 +45,16 @@ public abstract class CorruptCopAbilityPacketMixin {
             require = 0,
             remap = false
     )
-    private static void sparkstrength$toggleCorruptCopAbilityShared(
+    private static void sparkdlc$toggleCorruptCopAbilityShared(
             AbilityC2SPacket payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci
     ) {
-        sparkstrength$toggleCorruptCopAbility(context, ci);
+        sparkdlc$toggleCorruptCopAbility(context, ci);
     }
 
     @Unique
-    private static void sparkstrength$toggleCorruptCopAbility(
+    private static void sparkdlc$toggleCorruptCopAbility(
             ServerPlayNetworking.Context context,
             CallbackInfo ci
     ) {

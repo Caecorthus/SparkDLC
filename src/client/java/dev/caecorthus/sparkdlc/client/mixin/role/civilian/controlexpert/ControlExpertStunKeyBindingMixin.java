@@ -24,14 +24,14 @@ public abstract class ControlExpertStunKeyBindingMixin implements ControlExpertK
     private int timesPressed;
 
     @Inject(method = "isPressed", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$releaseWhileStunned(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$releaseWhileStunned(CallbackInfoReturnable<Boolean> cir) {
         if (ControlExpertStunClient.blocksKey(((KeyBinding) (Object) this).getCategory())) {
             cir.setReturnValue(false);
         }
     }
 
     @Inject(method = "wasPressed", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$discardPressWhileStunned(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$discardPressWhileStunned(CallbackInfoReturnable<Boolean> cir) {
         if (ControlExpertStunClient.blocksKey(((KeyBinding) (Object) this).getCategory())) {
             timesPressed = 0;
             cir.setReturnValue(false);
@@ -39,7 +39,7 @@ public abstract class ControlExpertStunKeyBindingMixin implements ControlExpertK
     }
 
     @Override
-    public void sparkwitch$discardQueuedPresses() {
+    public void sparkdlc$discardQueuedPresses() {
         timesPressed = 0;
     }
 }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.mixin.wathe;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.gui.shop.ShopPageSwitchWidget;
 import dev.caecorthus.sparkdlc.client.gui.shop.ShopPages;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedHandledScreen;
@@ -40,7 +40,7 @@ public abstract class ShopPageMixin extends LimitedHandledScreen<PlayerScreenHan
     }
 
     @Inject(method = "init", at = @At("TAIL"))
-    private void sparkstrength$splitShopPages(CallbackInfo ci) {
+    private void sparkdlc$splitShopPages(CallbackInfo ci) {
         List<LimitedInventoryScreen.StoreItemWidget> entries = new ArrayList<>();
         boolean secondPage = false;
         for (Element child : children()) {
@@ -72,7 +72,7 @@ public abstract class ShopPageMixin extends LimitedHandledScreen<PlayerScreenHan
         // The button shows where it leads: the revolver for the workbench page, the knife for the regular shop.
         // 按钮图标表示去向：左轮代表改装页，刀代表常规商店。
         addDrawableChild(new ShopPageSwitchWidget(firstX + shown.size() * SLOT_PITCH, rowY,
-                page == 0 ? new ItemStack(SparkStrengthItems.banditRevolver()) : new ItemStack(WatheItems.KNIFE),
+                page == 0 ? new ItemStack(SparkDlcItems.banditRevolver()) : new ItemStack(WatheItems.KNIFE),
                 Text.translatable(page == 0 ? "shop.sparkdlc.page.workbench" : "shop.sparkdlc.page.regular"),
                 button -> {
                     ShopPages.toggle();

@@ -37,16 +37,16 @@ public abstract class AdvancementsScreenMixin extends Screen {
     private AdvancementTab selectedTab;
 
     @Unique
-    private boolean sparkassist$switchQueued;
+    private boolean sparkdlc$switchQueued;
 
     protected AdvancementsScreenMixin(Text title) {
         super(title);
     }
 
     @Inject(method = "selectTab", at = @At("TAIL"))
-    private void sparkassist$openAchievementPage(AdvancementEntry advancement, CallbackInfo ci) {
-        if (sparkassist$onAchievementTab()) {
-            sparkassist$queueSwitch();
+    private void sparkdlc$openAchievementPage(AdvancementEntry advancement, CallbackInfo ci) {
+        if (sparkdlc$onAchievementTab()) {
+            sparkdlc$queueSwitch();
         }
     }
 
@@ -54,10 +54,10 @@ public abstract class AdvancementsScreenMixin extends Screen {
     // this screen is shown again without init() (e.g. returning from another mod's child screen).
     // 切换之前显示成就页的空星空，而不是原版窗口。这里也会安排切换，以防这个界面未经 init() 再次显示（例如从其他模组的子界面返回）。
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
-    private void sparkassist$hideAchievementTab(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        if (sparkassist$onAchievementTab()) {
+    private void sparkdlc$hideAchievementTab(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+        if (sparkdlc$onAchievementTab()) {
             context.fill(0, 0, width, height, AchievementGalaxyScreen.SPACE);
-            sparkassist$queueSwitch();
+            sparkdlc$queueSwitch();
             ci.cancel();
         }
     }
@@ -65,23 +65,23 @@ public abstract class AdvancementsScreenMixin extends Screen {
     // selectTab also runs from init(), so switch screens on the next task rather than in the middle of opening this
     // one. selectTab 在 init() 中也会调用，因此在下一个任务里切换界面，而不是在打开这个界面的过程中切换。
     @Unique
-    private void sparkassist$queueSwitch() {
-        if (sparkassist$switchQueued) {
+    private void sparkdlc$queueSwitch() {
+        if (sparkdlc$switchQueued) {
             return;
         }
-        sparkassist$switchQueued = true;
+        sparkdlc$switchQueued = true;
         Screen self = this;
         MinecraftClient client = MinecraftClient.getInstance();
         client.send(() -> {
-            sparkassist$switchQueued = false;
-            if (client.currentScreen == self && sparkassist$onAchievementTab()) {
+            sparkdlc$switchQueued = false;
+            if (client.currentScreen == self && sparkdlc$onAchievementTab()) {
                 client.setScreen(new AchievementGalaxyScreen(advancementHandler, parent));
             }
         });
     }
 
     @Unique
-    private boolean sparkassist$onAchievementTab() {
+    private boolean sparkdlc$onAchievementTab() {
         return selectedTab != null && AchievementAdvancements.isOurs(selectedTab.getRoot().getAdvancementEntry().id());
     }
 }

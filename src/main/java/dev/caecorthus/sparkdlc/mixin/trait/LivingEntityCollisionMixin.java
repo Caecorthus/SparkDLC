@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityCollisionMixin {
     @Inject(method = "isPushable", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$disableLastStandPendingPushable(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$disableLastStandPendingPushable(CallbackInfoReturnable<Boolean> cir) {
         Entity entity = (Entity) (Object) this;
         if (!SparkDlcServerConnection.isUnconfirmedClientEntity(entity)
                 && LastStandService.shouldDisablePendingCollision(entity)) {
@@ -26,7 +26,7 @@ public abstract class LivingEntityCollisionMixin {
     }
 
     @Inject(method = "pushAway", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$disableLastStandPendingPushAway(Entity entity, CallbackInfo ci) {
+    private void sparkdlc$disableLastStandPendingPushAway(Entity entity, CallbackInfo ci) {
         Entity self = (Entity) (Object) this;
         if (!SparkDlcServerConnection.isUnconfirmedClientEntity(self)
                 && LastStandService.shouldDisablePendingCollision(self, entity)) {

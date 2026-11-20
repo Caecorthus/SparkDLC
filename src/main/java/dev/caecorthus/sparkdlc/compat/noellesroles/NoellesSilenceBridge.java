@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.compat.noellesroles;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import java.util.concurrent.atomic.AtomicBoolean;
 import net.minecraft.entity.player.PlayerEntity;
 import org.agmas.noellesroles.silencer.SilencedPlayerComponent;
@@ -29,7 +29,7 @@ public final class NoellesSilenceBridge {
             // A missing component or a changed NoellesRoles build must not break Clock use; fail open for silence only.
             // 组件缺失或 NoellesRoles 版本变化不得破坏时钟使用；仅沉默判定失败开放。
             if (FAILURE_LOGGED.compareAndSet(false, true)) {
-                SparkWitch.LOGGER.warn("Cannot read the NoellesRoles silence state; treating players as not silenced",
+                SparkDLC.LOGGER.warn("Cannot read the NoellesRoles silence state; treating players as not silenced",
                         error);
             }
             return false;

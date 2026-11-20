@@ -15,11 +15,11 @@ import net.minecraft.server.world.ServerWorld;
 import java.util.OptionalInt;
 
 /**
- * Taotie head registration, called once from {@code SparkStrengthEvents} (main initializer, so the daze guards also run
+ * Taotie head registration, called once from {@code RoleKitEvents} (main initializer, so the daze guards also run
  * on the client): the daze interaction lock, the SparkFactionAPI forced-cooldown store (registered directly since the
  * SparkDLC fusion) and the per-round cleanup. The packet, entity, components, payload guard and replay line are wired
  * in their own registries.
- * 饕餮头颅注册入口，由 {@code SparkStrengthEvents} 调用一次（主初始化器，因此眩晕守卫在客户端也会运行）：眩晕交互锁、
+ * 饕餮头颅注册入口，由 {@code RoleKitEvents} 调用一次（主初始化器，因此眩晕守卫在客户端也会运行）：眩晕交互锁、
  * SparkFactionAPI 强制冷却存储（融合进 SparkDLC 后直接注册）与单局清理。数据包、实体、组件、数据包拦截与回放文本在各自的注册处接入。
  */
 public final class TaotieHeadFeatureService {

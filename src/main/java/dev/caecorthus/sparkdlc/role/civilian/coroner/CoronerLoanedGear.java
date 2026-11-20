@@ -1,7 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.coroner;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.timekeeper.TimekeeperWatchComponent;
 import com.mojang.authlib.GameProfile;
@@ -166,7 +165,7 @@ final class CoronerLoanedGear {
              * 保证 removeTemporaryItems 绝不会收走验尸官自己的平板。
              */
             if (!hasTabletAnywhere(player)) {
-                giveTemporaryItem(player, SparkStrengthItems.tablet(), disguiseUuid, snapshot.roleId(), "tablet");
+                giveTemporaryItem(player, SparkDlcItems.tablet(), disguiseUuid, snapshot.roleId(), "tablet");
             }
         }
         if (CoronerRules.isUndercover(role)) {
@@ -177,7 +176,7 @@ final class CoronerLoanedGear {
         }
         if (CoronerRules.isTimekeeper(role)) {
             // 计时员伪装获得完整的 SparkStrength 濒毁怀表；临时标记会随伪装结束自动回收。
-            giveTemporaryItem(player, SparkStrengthItems.dyingWatch(), disguiseUuid, snapshot.roleId(), "dying_watch");
+            giveTemporaryItem(player, SparkDlcItems.dyingWatch(), disguiseUuid, snapshot.roleId(), "dying_watch");
         }
         if (CoronerRules.grantsTimedBomb(role)) {
             giveTemporaryItem(player, ModItems.TIMED_BOMB, disguiseUuid, snapshot.roleId(), "timed_bomb");
@@ -187,7 +186,7 @@ final class CoronerLoanedGear {
              * 验尸官伪装绑架者时拿 1 个临时迷药。
              * A Coroner disguised as the Kidnapper is loaned one temporary knockout drug.
              */
-            giveTemporaryStack(player, SparkWitchItems.knockoutDrug().getDefaultStack(), disguiseUuid,
+            giveTemporaryStack(player, SparkDlcItems.knockoutDrug().getDefaultStack(), disguiseUuid,
                     snapshot.roleId(), "sparkdlc_knockout_drug");
         }
         if (CoronerRules.isDemonHunter(role)) {
@@ -263,11 +262,11 @@ final class CoronerLoanedGear {
     }
 
     private static boolean hasTabletAnywhere(ServerPlayerEntity player) {
-        if (player.getInventory().contains(stack -> stack.isOf(SparkStrengthItems.tablet()))) {
+        if (player.getInventory().contains(stack -> stack.isOf(SparkDlcItems.tablet()))) {
             return true;
         }
         return player.currentScreenHandler != null
-                && player.currentScreenHandler.getCursorStack().isOf(SparkStrengthItems.tablet());
+                && player.currentScreenHandler.getCursorStack().isOf(SparkDlcItems.tablet());
     }
 
     static void removeTemporaryItems(ServerPlayerEntity player) {

@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(GrenadeEntity.class)
 public abstract class GrenadeEntityOriginSmokeCarveMixin {
     @WrapMethod(method = "onCollision")
-    private void sparkwitch$scopeGrenadeBlast(HitResult hitResult, Operation<Void> original) {
+    private void sparkdlc$scopeGrenadeBlast(HitResult hitResult, Operation<Void> original) {
         Entity grenade = (Entity) (Object) this;
         Vec3d centre = grenade.getPos();
         RangedOriginScope.run(centre, grenade.getUuid(), () -> original.call(hitResult));

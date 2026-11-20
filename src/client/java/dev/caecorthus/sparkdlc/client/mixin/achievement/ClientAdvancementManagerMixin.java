@@ -21,7 +21,7 @@ public abstract class ClientAdvancementManagerMixin {
     // Each server update may clear the whole tree (join, /reload); put the page back afterwards.
     // 服务器每次更新都可能清空整棵树（加入、/reload）；更新后把成就页补回去。
     @Inject(method = "onAdvancements", at = @At("TAIL"))
-    private void sparkassist$restoreAchievements(AdvancementUpdateS2CPacket packet, CallbackInfo ci) {
+    private void sparkdlc$restoreAchievements(AdvancementUpdateS2CPacket packet, CallbackInfo ci) {
         AchievementAdvancements.restore((ClientAdvancementManager) (Object) this);
     }
 
@@ -34,7 +34,7 @@ public abstract class ClientAdvancementManagerMixin {
                     target = "Lnet/minecraft/client/network/ClientPlayNetworkHandler;sendPacket(Lnet/minecraft/network/packet/Packet;)V"
             )
     )
-    private boolean sparkassist$keepAchievementTabLocal(ClientPlayNetworkHandler handler, Packet<?> packet,
+    private boolean sparkdlc$keepAchievementTabLocal(ClientPlayNetworkHandler handler, Packet<?> packet,
                                                         AdvancementEntry tab, boolean local) {
         return tab == null || !AchievementAdvancements.isOurs(tab.id());
     }

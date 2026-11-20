@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.medium;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
@@ -20,7 +20,7 @@ import net.minecraft.util.Identifier;
  * 的选项被丢弃）；同一玩家后投的票覆盖先前的票。取代原先聊天栏发送「1」/「2」的投票方式（所有者 2026-11-10：用界面而非聊天）。
  */
 public record SubmitMediumVoteC2SPacket(int windowId, int choice) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("submit_medium_vote");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("submit_medium_vote");
     public static final Id<SubmitMediumVoteC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, SubmitMediumVoteC2SPacket> CODEC = PacketCodec.tuple(
             PacketCodecs.VAR_INT,

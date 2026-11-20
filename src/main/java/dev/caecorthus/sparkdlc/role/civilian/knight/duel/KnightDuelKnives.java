@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.knight.duel;
 
-import dev.caecorthus.sparkdlc.SparkWitchDataComponents;
+import dev.caecorthus.sparkdlc.SparkDlcDataComponents;
 import dev.doctor4t.wathe.index.WatheItems;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
@@ -30,7 +30,7 @@ public final class KnightDuelKnives {
     }
 
     public static boolean isDuelKnife(@Nullable ItemStack stack) {
-        return stack != null && !stack.isEmpty() && Boolean.TRUE.equals(stack.get(SparkWitchDataComponents.DUEL_KNIFE));
+        return stack != null && !stack.isEmpty() && Boolean.TRUE.equals(stack.get(SparkDlcDataComponents.DUEL_KNIFE));
     }
 
     /**
@@ -98,7 +98,7 @@ public final class KnightDuelKnives {
             return;
         }
         ItemStack knife = new ItemStack(WatheItems.KNIFE);
-        knife.set(SparkWitchDataComponents.DUEL_KNIFE, true);
+        knife.set(SparkDlcDataComponents.DUEL_KNIFE, true);
         PlayerInventory inventory = target.getInventory();
         int empty = inventory.getEmptySlot();
         if (PlayerInventory.isValidHotbarIndex(empty)) {

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.component;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -20,7 +20,7 @@ import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
  */
 public final class WraithPlayerComponent implements AutoSyncedComponent {
     public static final ComponentKey<WraithPlayerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("wraith_player"),
+            SparkDLC.id("wraith_player"),
             WraithPlayerComponent.class
     );
 

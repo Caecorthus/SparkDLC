@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.civilian.impostor;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.Trait;
 import dev.caecorthus.sparkdlc.trait.api.TraitAudience;
 import dev.caecorthus.sparkdlc.trait.api.TraitSelectionContext;
@@ -14,7 +14,7 @@ import dev.caecorthus.sparkdlc.trait.civilian.laststand.LastStandTrait;
 /** Civilian trait that flips the player's effective alignment to killers.
  *  平民阵营天赋：将玩家的有效阵营翻转为杀手阵营。 */
 public final class ImpostorTrait implements Trait {
-    public static final Identifier ID = SparkTraits.id("impostor");
+    public static final Identifier ID = SparkDLC.id("impostor");
 
     @Override
     public Identifier id() {

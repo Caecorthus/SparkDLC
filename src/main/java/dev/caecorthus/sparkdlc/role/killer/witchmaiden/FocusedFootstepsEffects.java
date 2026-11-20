@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.witchmaiden;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -20,7 +20,7 @@ public final class FocusedFootstepsEffects {
         }
         focusedFootsteps = Registry.registerReference(
                 Registries.STATUS_EFFECT,
-                SparkWitch.id("focused_footsteps"),
+                SparkDLC.id("focused_footsteps"),
                 new FocusedFootstepsEffect()
         );
         registered = true;

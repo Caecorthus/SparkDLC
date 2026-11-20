@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.jiahao.sniper;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
  * 同伴席位（{@code JiahaoThirdFactionLineup}）。
  */
 public final class SniperRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("sniper");
+    public static final Identifier ROLE_ID = SparkDLC.id("sniper");
 
     /** Pale US Army olive drab, picked to sit apart from the Corrupt Cop's navy and the Insider's mint.
      *  偏淡的二战美军橄榄绿，与黑警的深蓝、内应的薄荷青区分开。 */

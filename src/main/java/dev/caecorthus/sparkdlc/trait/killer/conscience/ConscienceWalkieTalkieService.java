@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.killer.conscience;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.effective.EffectiveTraitService;
 import dev.doctor4t.wathe.api.event.RoleAssigned;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier;
  * 不让善良杀手持有杀手队伍的对讲机，避免其继续旁听杀手队伍。
  */
 public final class ConscienceWalkieTalkieService {
-    public static final Identifier STRIP_PHASE = SparkTraits.id("conscience_walkie_talkie");
+    public static final Identifier STRIP_PHASE = SparkDLC.id("conscience_walkie_talkie");
 
     private ConscienceWalkieTalkieService() {
     }

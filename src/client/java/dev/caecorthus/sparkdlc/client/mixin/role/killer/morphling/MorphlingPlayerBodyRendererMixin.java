@@ -34,7 +34,7 @@ public abstract class MorphlingPlayerBodyRendererMixin
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void sparkstrength$cacheMorphlingBodyModels(
+    private void sparkdlc$cacheMorphlingBodyModels(
             EntityRendererFactory.Context context,
             boolean slim,
             CallbackInfo ci
@@ -46,7 +46,7 @@ public abstract class MorphlingPlayerBodyRendererMixin
             method = "render(Ldev/doctor4t/wathe/entity/PlayerBodyEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V",
             at = @At("HEAD")
     )
-    private void sparkstrength$applyMorphlingBodyModel(
+    private void sparkdlc$applyMorphlingBodyModel(
             PlayerBodyEntity body,
             float yaw,
             float tickDelta,
@@ -63,7 +63,7 @@ public abstract class MorphlingPlayerBodyRendererMixin
     }
 
     @Inject(method = "getTexture", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$useMorphlingBodyTexture(
+    private void sparkdlc$useMorphlingBodyTexture(
             PlayerBodyEntity body,
             CallbackInfoReturnable<Identifier> cir
     ) {

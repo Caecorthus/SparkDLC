@@ -22,7 +22,7 @@ public abstract class WraithMoodRendererMixin {
                     target = "Ldev/doctor4t/wathe/client/WatheClient;isPlayerPlayingAndAlive()Z"
             )
     )
-    private static boolean sparkwitch$renderTasksForActiveWraith() {
+    private static boolean sparkdlc$renderTasksForActiveWraith() {
         PlayerEntity player = MinecraftClient.getInstance().player;
         return WatheClient.isPlayerPlayingAndAlive() || WraithClientState.isActive(player);
     }

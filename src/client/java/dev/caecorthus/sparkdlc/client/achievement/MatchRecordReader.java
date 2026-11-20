@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  * 提供记录，需要记录的成就在那一局里无法达成。
  */
 final class MatchRecordReader {
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkAssist/Achievements");
+    private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/Achievements");
     // Set once a record could not be read; the record is ignored for the rest of the session.
     // 一旦某份记录读取失败即置位；本次会话余下时间里不再理会记录。
     private static boolean disabled;

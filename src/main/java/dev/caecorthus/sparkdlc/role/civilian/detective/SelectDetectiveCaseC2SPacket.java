@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.detective;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
 import java.util.UUID;
 
 public record SelectDetectiveCaseC2SPacket(UUID caseId) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("select_detective_case");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("select_detective_case");
     public static final Id<SelectDetectiveCaseC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, SelectDetectiveCaseC2SPacket> CODEC =
             PacketCodec.of(SelectDetectiveCaseC2SPacket::write, SelectDetectiveCaseC2SPacket::read);

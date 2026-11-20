@@ -30,7 +30,7 @@ public abstract class BlindGateInGameHudMixin {
     private MinecraftClient client;
 
     @WrapMethod(method = "renderCrosshair")
-    private void sparkwitch$blindPlainVanillaCrosshair(DrawContext context, RenderTickCounter tickCounter,
+    private void sparkdlc$blindPlainVanillaCrosshair(DrawContext context, RenderTickCounter tickCounter,
                                                        Operation<Void> original) {
         if (BlindClientGates.viewActive()) {
             BlindCrosshair.render(client, context);

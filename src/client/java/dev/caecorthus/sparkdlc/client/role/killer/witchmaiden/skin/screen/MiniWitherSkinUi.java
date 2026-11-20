@@ -23,7 +23,7 @@ import java.util.List;
  * 文件夹。纯客户端表现：这里的任何内容都不会同步或发送到服务器。仅限客户端线程。
  */
 public final class MiniWitherSkinUi {
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkWitch/MiniWitherSkin");
+    private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/MiniWitherSkin");
 
     private MiniWitherSkinUi() {
     }

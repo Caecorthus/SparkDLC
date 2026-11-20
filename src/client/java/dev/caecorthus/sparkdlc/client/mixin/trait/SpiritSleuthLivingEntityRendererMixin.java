@@ -25,7 +25,7 @@ public abstract class SpiritSleuthLivingEntityRendererMixin {
                     target = "Lnet/minecraft/entity/LivingEntity;isInvisibleTo(Lnet/minecraft/entity/player/PlayerEntity;)Z"
             )
     )
-    private boolean sparktraits$revealSpectatorHead(
+    private boolean sparkdlc$revealSpectatorHead(
             boolean originallyInvisible,
             @Local(argsOnly = true) LivingEntity target
     ) {

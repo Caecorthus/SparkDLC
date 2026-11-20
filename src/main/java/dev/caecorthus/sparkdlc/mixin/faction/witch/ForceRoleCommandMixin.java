@@ -21,7 +21,7 @@ import java.util.List;
 @Mixin(value = ForceRoleCommand.class, priority = 1500, remap = false)
 public abstract class ForceRoleCommandMixin {
     @ModifyVariable(method = "execute", at = @At("HEAD"), argsOnly = true, index = 1, remap = false)
-    private static Collection<ServerPlayerEntity> sparkwitch$filterForceRoleTargets(
+    private static Collection<ServerPlayerEntity> sparkdlc$filterForceRoleTargets(
             Collection<ServerPlayerEntity> targetPlayers,
             ServerCommandSource source,
             Collection<ServerPlayerEntity> originalTargetPlayers,

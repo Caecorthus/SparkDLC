@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.riftwalker.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import io.netty.handler.codec.DecoderException;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
@@ -30,7 +30,7 @@ public record RiftGateConsoleS2CPacket(int consoleSessionId, List<Entry> entries
     public static final int MAX_ENTRIES = 256;
     public static final int MAX_OCCUPANTS = 64;
     public static final int MAX_NAME_LENGTH = 16;
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("rift_gate_console");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("rift_gate_console");
     public static final Id<RiftGateConsoleS2CPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, RiftGateConsoleS2CPacket> CODEC =
             PacketCodec.of(RiftGateConsoleS2CPacket::write, RiftGateConsoleS2CPacket::read);

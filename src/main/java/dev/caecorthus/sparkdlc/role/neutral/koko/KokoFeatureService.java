@@ -16,7 +16,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
  * the 60 s opening cooldown for a drawn Koko; Wathe's {@code ResetPlayer} (every round end) clears it.
  * <p>Mana is not granted here. She joins the shared mana system through {@code WitchManaRules} on the Murderous
  * Witch's regeneration (owner 2026-11-13), which {@code WitchManaService.assignForRole} applies in
- * {@code SparkWitchEvents}' shared {@code RoleAssigned} listener. She never gets a witch skill, so the witch skill
+ * {@code RoleEvents}' shared {@code RoleAssigned} listener. She never gets a witch skill, so the witch skill
  * panel stays empty for her.
  * 在魔女技能分发路径之外注册泽渡可可：{@code sparkdlc:use_koko_stream} 数据包（在通用初始化器中注册，两端都知道该类型；
  * 只有服务端接收器会执行——Fabric 已在服务端线程上运行它）、回放格式化器、商店（{@link KokoShopService}）、万能钥匙及其可开
@@ -24,7 +24,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
  * {@link KokoComponent} 中的每局状态：身份分配时清空并为抽到的可可开始 60 秒开局冷却；Wathe 的 {@code ResetPlayer}（每局
  * 结束）会清空它。
  * <p>魔力不在此处发放。她通过 {@code WitchManaRules} 加入共享魔力系统，恢复方式与杀意魔女相同（所有者 2026-11-13），由
- * {@code SparkWitchEvents} 的共享 {@code RoleAssigned} 监听器中的 {@code WitchManaService.assignForRole} 执行。她从不获得
+ * {@code RoleEvents} 的共享 {@code RoleAssigned} 监听器中的 {@code WitchManaService.assignForRole} 执行。她从不获得
  * 魔女技能，因此魔女技能面板对她始终为空。
  */
 public final class KokoFeatureService {

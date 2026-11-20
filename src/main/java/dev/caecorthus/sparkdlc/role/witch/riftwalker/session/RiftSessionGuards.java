@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.riftwalker.session;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.event.ShopPurchase;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
@@ -32,7 +32,7 @@ import net.minecraft.util.TypedActionResult;
  * 永远无法让门内玩家购物；而数据包拦截本就会先丢弃 {@code wathe:storebuy}。
  */
 final class RiftSessionGuards {
-    static final Identifier LOCK_PHASE = SparkWitch.id("rift_session_lock");
+    static final Identifier LOCK_PHASE = SparkDLC.id("rift_session_lock");
     private static boolean registered;
 
     private RiftSessionGuards() {

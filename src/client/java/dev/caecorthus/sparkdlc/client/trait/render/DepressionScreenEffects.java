@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.trait.render;
 
 import com.google.gson.JsonSyntaxException;
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.civilian.depression.DepressionRules;
@@ -28,7 +28,7 @@ import java.io.IOException;
  * 抑郁天赋的 StarRailExpress 风格客户端灰阶后处理；理智越低，视角越灰白。
  */
 public final class DepressionScreenEffects {
-    private static final Identifier GRAYSCALE_SHADER = SparkTraits.id("shaders/post/depression_insanity.json");
+    private static final Identifier GRAYSCALE_SHADER = SparkDLC.id("shaders/post/depression_insanity.json");
     private static final float DESATURATE_FACTOR = 0.69f;
     private static final float SPREAD_FACTOR = 1.43f;
     private static final ScreenEffect NO_EFFECT = new ScreenEffect(0.0f, 0.0f, 1.0f);
@@ -220,7 +220,7 @@ public final class DepressionScreenEffects {
             processorTarget = framebuffer;
             return processor;
         } catch (IOException | JsonSyntaxException exception) {
-            SparkTraits.LOGGER.warn("Unable to load Depression/Last Escape grayscale shader", exception);
+            SparkDLC.LOGGER.warn("Unable to load Depression/Last Escape grayscale shader", exception);
             closeProcessor();
             loadFailed = true;
             return null;

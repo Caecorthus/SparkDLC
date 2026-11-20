@@ -44,7 +44,7 @@ public abstract class SeekerRemoteInGameHudMixin {
     private MinecraftClient client;
 
     @WrapMethod(method = "renderCrosshair")
-    private void sparkwitch$renderCctvCrosshair(DrawContext context, RenderTickCounter tickCounter,
+    private void sparkdlc$renderCctvCrosshair(DrawContext context, RenderTickCounter tickCounter,
                                                 Operation<Void> original) {
         if (!SeekerRemoteViewClient.isActive()) {
             original.call(context, tickCounter);
@@ -54,7 +54,7 @@ public abstract class SeekerRemoteInGameHudMixin {
     }
 
     @Inject(method = "getCameraPlayer", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$keepBodyHotbar(CallbackInfoReturnable<PlayerEntity> cir) {
+    private void sparkdlc$keepBodyHotbar(CallbackInfoReturnable<PlayerEntity> cir) {
         if (!SeekerRemoteViewClient.isActive()) {
             return;
         }

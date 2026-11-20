@@ -15,7 +15,7 @@ public abstract class WraithPlayerSkinMixin {
             method = "getTexture(Lnet/minecraft/client/network/AbstractClientPlayerEntity;)Lnet/minecraft/util/Identifier;",
             at = @At("RETURN")
     )
-    private Identifier sparkwitch$projectSteveTexture(
+    private Identifier sparkdlc$projectSteveTexture(
             Identifier original,
             AbstractClientPlayerEntity player
     ) {

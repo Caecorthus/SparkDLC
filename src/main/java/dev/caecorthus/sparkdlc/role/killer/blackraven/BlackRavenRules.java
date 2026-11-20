@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import java.util.UUID;
 import net.minecraft.util.Identifier;
@@ -10,8 +10,8 @@ import net.minecraft.util.Identifier;
  * 黑羽鸦拥有的稳定玩法数值与纯规则判断。
  */
 public final class BlackRavenRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("black_raven");
-    public static final Identifier PERCEPTION_SKILL_ID = SparkWitch.id("perception");
+    public static final Identifier ROLE_ID = SparkDLC.id("black_raven");
+    public static final Identifier PERCEPTION_SKILL_ID = SparkDLC.id("perception");
     public static final int COLOR = 0x51445F;
     public static final double FEATHER_REACH = 3.0D;
     public static final int MARK_DURATION_TICKS = 20 * 20;

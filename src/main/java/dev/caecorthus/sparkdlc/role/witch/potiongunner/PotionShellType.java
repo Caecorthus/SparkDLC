@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.potiongunner;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.util.Identifier;
 
 import java.util.Optional;
@@ -41,7 +41,7 @@ public enum PotionShellType {
     }
 
     public Identifier itemId() {
-        return SparkWitch.id(path);
+        return SparkDLC.id(path);
     }
 
     public String shopEntryId() {

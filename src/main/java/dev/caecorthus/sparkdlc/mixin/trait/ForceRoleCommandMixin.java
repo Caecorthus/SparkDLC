@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Collection;
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 
 /**
  * Blocks forced roles that would conflict with already locked SparkTraits traits.
@@ -24,13 +24,13 @@ import dev.caecorthus.sparkdlc.SparkTraits;
 @Mixin(value = ForceRoleCommand.class, remap = false)
 public abstract class ForceRoleCommandMixin {
     @Inject(method = "execute", at = @At("HEAD"), cancellable = true, remap = false)
-    private static void sparktraits$validatePendingTraitLocks(
+    private static void sparkdlc$validatePendingTraitLocks(
             ServerCommandSource source,
             Collection<ServerPlayerEntity> targetPlayers,
             String roleName,
             CallbackInfoReturnable<Integer> cir
     ) {
-        Role role = sparktraits$findForceableRole(roleName);
+        Role role = sparkdlc$findForceableRole(roleName);
         if (role == null) {
             return;
         }
@@ -55,7 +55,7 @@ public abstract class ForceRoleCommandMixin {
         }));
     }
 
-    private static Role sparktraits$findForceableRole(String roleName) {
+    private static Role sparkdlc$findForceableRole(String roleName) {
         for (Role role : WatheRoles.ROLES) {
             if (!WatheRoles.SPECIAL_ROLES.contains(role) && role.identifier().getPath().equals(roleName)) {
                 return role;

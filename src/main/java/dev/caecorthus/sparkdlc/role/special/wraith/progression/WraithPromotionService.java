@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.special.wraith.progression;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.component.WraithPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaLifecycleService;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithState;
@@ -74,7 +74,7 @@ public final class WraithPromotionService {
         if (failure != null) {
             return Result.failed(failure);
         }
-        if (SparkWitchRoles.VENDETTA_ID.equals(role.identifier())
+        if (SparkDlcRoles.VENDETTA_ID.equals(role.identifier())
                 && !VendettaLifecycleService.canPromote(player)) {
             return Result.failed(Failure.VENDETTA_INELIGIBLE);
         }
@@ -140,7 +140,7 @@ public final class WraithPromotionService {
             return Failure.MISSING_ALIGNMENT;
         }
         if (!allowedRoleIds.contains(roleId)) {
-            if (SparkWitchRoles.VENDETTA_ID.equals(roleId)
+            if (SparkDlcRoles.VENDETTA_ID.equals(roleId)
                     && alignment == WraithState.Alignment.GOOD
                     && !vendettaEligible) {
                 return Failure.VENDETTA_INELIGIBLE;

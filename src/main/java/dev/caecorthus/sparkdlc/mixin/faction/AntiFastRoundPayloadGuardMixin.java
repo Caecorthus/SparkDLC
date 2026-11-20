@@ -38,7 +38,7 @@ public abstract class AntiFastRoundPayloadGuardMixin {
                     + "Lnet/minecraft/network/packet/CustomPayload;)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;execute(Ljava/lang/Runnable;)V")
     )
-    private void sparkfactionapi$dropSafeTimePayload(
+    private void sparkdlc$dropSafeTimePayload(
             MinecraftServer server,
             Runnable handler,
             Operation<Void> original,

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.accomplice.variant;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.doctor4t.wathe.api.Role;
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public final class AccompliceVariants {
     public static synchronized void register(Role role, AccompliceVariantHooks hooks) {
         Objects.requireNonNull(role, "role");
         Objects.requireNonNull(hooks, "hooks");
-        if (role == SparkWitchRoles.accomplice()) {
+        if (role == SparkDlcRoles.accomplice()) {
             throw new IllegalArgumentException("The plain Accomplice is not a variant");
         }
         if (snapshot.members().contains(role)) {

@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class BlackRavenCrowLightmapMixin {
     @WrapOperation(method = "update", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/network/ClientPlayerEntity;hasStatusEffect(Lnet/minecraft/registry/entry/RegistryEntry;)Z"))
-    private boolean sparkwitch$crowNightVision(ClientPlayerEntity player, RegistryEntry<StatusEffect> effect,
+    private boolean sparkdlc$crowNightVision(ClientPlayerEntity player, RegistryEntry<StatusEffect> effect,
                                               Operation<Boolean> original) {
         if (effect == StatusEffects.NIGHT_VISION && BlackRavenCrowVision.grantsNightVision()) {
             return true;
@@ -34,7 +34,7 @@ public abstract class BlackRavenCrowLightmapMixin {
 
     @WrapOperation(method = "update", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/render/GameRenderer;getNightVisionStrength(Lnet/minecraft/entity/LivingEntity;F)F"))
-    private float sparkwitch$crowNightVisionStrength(LivingEntity entity, float tickDelta, Operation<Float> original) {
+    private float sparkdlc$crowNightVisionStrength(LivingEntity entity, float tickDelta, Operation<Float> original) {
         if (BlackRavenCrowVision.grantsNightVision()) {
             return 1.0F;
         }
@@ -43,7 +43,7 @@ public abstract class BlackRavenCrowLightmapMixin {
 
     @WrapOperation(method = "update", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/render/LightmapTextureManager;getDarknessFactor(F)F"))
-    private float sparkwitch$crowNoDarknessFactor(LightmapTextureManager manager, float tickDelta,
+    private float sparkdlc$crowNoDarknessFactor(LightmapTextureManager manager, float tickDelta,
                                                  Operation<Float> original) {
         if (BlackRavenCrowVision.grantsNightVision()) {
             return 0.0F;
@@ -53,7 +53,7 @@ public abstract class BlackRavenCrowLightmapMixin {
 
     @WrapOperation(method = "update", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/render/LightmapTextureManager;getDarkness(Lnet/minecraft/entity/LivingEntity;FF)F"))
-    private float sparkwitch$crowNoDarkness(LightmapTextureManager manager, LivingEntity entity, float factor,
+    private float sparkdlc$crowNoDarkness(LightmapTextureManager manager, LivingEntity entity, float factor,
                                            float tickDelta, Operation<Float> original) {
         if (BlackRavenCrowVision.grantsNightVision()) {
             return 0.0F;

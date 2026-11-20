@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.tablet.TabletItemLookup;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
@@ -14,52 +14,52 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class SeekerRules {
     // ---- Role ----
-    public static final Identifier ROLE_ID = SparkWitch.id("seeker");
+    public static final Identifier ROLE_ID = SparkDLC.id("seeker");
     public static final int COLOR = 0x5C9EFF;
     public static final Identifier VIGILANTE_ID = Identifier.of("wathe", "vigilante");
 
     // ---- Items and entities (item and entity-type ids share a path in different registries) ----
-    public static final Identifier CAR_ITEM_ID = SparkWitch.id("seeker_car");
-    public static final Identifier CAMERA_ITEM_ID = SparkWitch.id("seeker_camera");
-    public static final Identifier CAR_ENTITY_ID = SparkWitch.id("seeker_car");
-    public static final Identifier CAMERA_ENTITY_ID = SparkWitch.id("seeker_camera");
+    public static final Identifier CAR_ITEM_ID = SparkDLC.id("seeker_car");
+    public static final Identifier CAMERA_ITEM_ID = SparkDLC.id("seeker_camera");
+    public static final Identifier CAR_ENTITY_ID = SparkDLC.id("seeker_car");
+    public static final Identifier CAMERA_ENTITY_ID = SparkDLC.id("seeker_camera");
     /** Placed-model ids loaded through ModelLoadingPlugin. / 通过 ModelLoadingPlugin 加载的放置模型 id。 */
-    public static final Identifier CAR_PLACED_MODEL_ID = SparkWitch.id("item/seeker_car_placed");
-    public static final Identifier CAMERA_PLACED_MODEL_ID = SparkWitch.id("item/seeker_camera_placed");
+    public static final Identifier CAR_PLACED_MODEL_ID = SparkDLC.id("item/seeker_car_placed");
+    public static final Identifier CAMERA_PLACED_MODEL_ID = SparkDLC.id("item/seeker_camera_placed");
     /**
      * The placed camera is drawn in three parts: the static mount above, a head that turns with the synced look, and
      * an LED that glows only while the owner views that camera.
      * 放置的摄像头分三部分绘制：上面的静态底座、随同步视角转动的机头，以及仅在拥有者观看该摄像头时发光的指示灯。
      */
-    public static final Identifier CAMERA_HEAD_MODEL_ID = SparkWitch.id("item/seeker_camera_placed_head");
-    public static final Identifier CAMERA_LED_MODEL_ID = SparkWitch.id("item/seeker_camera_placed_led");
+    public static final Identifier CAMERA_HEAD_MODEL_ID = SparkDLC.id("item/seeker_camera_placed_head");
+    public static final Identifier CAMERA_LED_MODEL_ID = SparkDLC.id("item/seeker_camera_placed_led");
 
     // ---- Payload ids (literal; the payload records alias these) ----
-    public static final Identifier REMOTE_OPEN_PAYLOAD_ID = SparkWitch.id("seeker_remote_open");
-    public static final Identifier REMOTE_CLOSE_PAYLOAD_ID = SparkWitch.id("seeker_remote_close");
-    public static final Identifier CAR_MOVE_PAYLOAD_ID = SparkWitch.id("seeker_car_move");
-    public static final Identifier CAR_CORRECT_PAYLOAD_ID = SparkWitch.id("seeker_car_correct");
-    public static final Identifier CAR_SWALLOW_PAYLOAD_ID = SparkWitch.id("seeker_car_swallow");
-    public static final Identifier CAR_RECALL_PAYLOAD_ID = SparkWitch.id("seeker_car_recall");
-    public static final Identifier CAMERA_LOOK_PAYLOAD_ID = SparkWitch.id("seeker_camera_look");
+    public static final Identifier REMOTE_OPEN_PAYLOAD_ID = SparkDLC.id("seeker_remote_open");
+    public static final Identifier REMOTE_CLOSE_PAYLOAD_ID = SparkDLC.id("seeker_remote_close");
+    public static final Identifier CAR_MOVE_PAYLOAD_ID = SparkDLC.id("seeker_car_move");
+    public static final Identifier CAR_CORRECT_PAYLOAD_ID = SparkDLC.id("seeker_car_correct");
+    public static final Identifier CAR_SWALLOW_PAYLOAD_ID = SparkDLC.id("seeker_car_swallow");
+    public static final Identifier CAR_RECALL_PAYLOAD_ID = SparkDLC.id("seeker_car_recall");
+    public static final Identifier CAMERA_LOOK_PAYLOAD_ID = SparkDLC.id("seeker_camera_look");
 
     // ---- Sound ids (sounds.json keys are the paths) ----
-    public static final Identifier CAR_MOTOR_SOUND_ID = SparkWitch.id("seeker_car_motor");
-    public static final Identifier CAR_BREAK_SOUND_ID = SparkWitch.id("seeker_car_break");
-    public static final Identifier CAMERA_BREAK_SOUND_ID = SparkWitch.id("seeker_camera_break");
-    public static final Identifier CAR_SWALLOW_SOUND_ID = SparkWitch.id("seeker_car_swallow");
-    public static final Identifier BATTERY_LOW_SOUND_ID = SparkWitch.id("seeker_battery_low");
-    public static final Identifier BATTERY_DEAD_SOUND_ID = SparkWitch.id("seeker_battery_dead");
+    public static final Identifier CAR_MOTOR_SOUND_ID = SparkDLC.id("seeker_car_motor");
+    public static final Identifier CAR_BREAK_SOUND_ID = SparkDLC.id("seeker_car_break");
+    public static final Identifier CAMERA_BREAK_SOUND_ID = SparkDLC.id("seeker_camera_break");
+    public static final Identifier CAR_SWALLOW_SOUND_ID = SparkDLC.id("seeker_car_swallow");
+    public static final Identifier BATTERY_LOW_SOUND_ID = SparkDLC.id("seeker_battery_low");
+    public static final Identifier BATTERY_DEAD_SOUND_ID = SparkDLC.id("seeker_battery_dead");
 
     // ---- Replay ids ----
     public static final String REPLAY_DEPLOY_ACTION = "deploy";
     public static final String REPLAY_RECALL_ACTION = "recall";
     public static final String REPLAY_REMOTE_RECALL_ACTION = "remote_recall";
     public static final String REPLAY_PLACE_ACTION = "place";
-    public static final Identifier REPLAY_DEVICE_BROKEN_EVENT = SparkWitch.id("seeker_device_broken");
-    public static final Identifier REPLAY_CAR_SWALLOWED_EVENT = SparkWitch.id("seeker_car_swallowed");
-    public static final Identifier REPLAY_CAR_RETURNED_EVENT = SparkWitch.id("seeker_car_returned");
-    public static final Identifier REPLAY_CAR_DEPLETED_EVENT = SparkWitch.id("seeker_car_depleted");
+    public static final Identifier REPLAY_DEVICE_BROKEN_EVENT = SparkDLC.id("seeker_device_broken");
+    public static final Identifier REPLAY_CAR_SWALLOWED_EVENT = SparkDLC.id("seeker_car_swallowed");
+    public static final Identifier REPLAY_CAR_RETURNED_EVENT = SparkDLC.id("seeker_car_returned");
+    public static final Identifier REPLAY_CAR_DEPLETED_EVENT = SparkDLC.id("seeker_car_depleted");
     /**
      * Replay NBT keys shared by the writer ({@code SeekerDeviceService}, WP-03) and the reader
      * ({@code SeekerReplayFormatters}, WP-08). Item uses: {@code recordItemUse(owner, CAR_ITEM_ID|CAMERA_ITEM_ID, null,
@@ -178,7 +178,7 @@ public final class SeekerRules {
      * Stable C2S payload id sent while driving; it is the in-session action, so the session guard never blocks it.
      * 驾驶期间发送的稳定 C2S 数据包 id；它是会话内的行为，因此会话拦截从不阻止它。
      */
-    public static final Identifier CAR_USE_PAYLOAD_ID = SparkWitch.id("seeker_car_use");
+    public static final Identifier CAR_USE_PAYLOAD_ID = SparkDLC.id("seeker_car_use");
     /** Eye-to-hit reach of the car's use ray in blocks. / 小车交互射线从眼到命中点的距离（格）。 */
     public static final double CAR_USE_REACH = 2.5;
     /** Minimum ticks between two car uses (vanilla's item-use delay). / 两次小车交互的最小间隔（原版物品使用间隔）。 */
@@ -209,9 +209,9 @@ public final class SeekerRules {
     public static final float MOTOR_SOUND_RANGE = 6.0F;
 
     // ---- SparkFactionAPI action ids (canAffectPlayer proxies, owner as the proxy target) ----
-    public static final Identifier BREAK_ACTION_ID = SparkWitch.id("seeker_break_device");
-    public static final Identifier MARK_ACTION_ID = SparkWitch.id("seeker_mark");
-    public static final Identifier SWALLOW_ACTION_ID = SparkWitch.id("seeker_swallow_car");
+    public static final Identifier BREAK_ACTION_ID = SparkDLC.id("seeker_break_device");
+    public static final Identifier MARK_ACTION_ID = SparkDLC.id("seeker_mark");
+    public static final Identifier SWALLOW_ACTION_ID = SparkDLC.id("seeker_swallow_car");
 
     /** Lock scope switch (Q2). / 锁定范围开关（Q2）。 */
     public enum LockScope {

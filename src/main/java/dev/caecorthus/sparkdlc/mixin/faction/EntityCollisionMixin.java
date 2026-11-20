@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = Entity.class, priority = 1100)
 public abstract class EntityCollisionMixin {
     @WrapMethod(method = "collidesWith(Lnet/minecraft/entity/Entity;)Z")
-    private boolean sparkfactionapi$cancelExemptCollision(Entity other, Operation<Boolean> original) {
+    private boolean sparkdlc$cancelExemptCollision(Entity other, Operation<Boolean> original) {
         // Wraps Wathe's priority-1000 player wall. The inner chain is side-effect free and false for almost every
         // pair, so it runs first and the exemption predicates only veto pairs that would collide.
         // 以高于 Wathe 默认 1000 的优先级包裹 collidesWith（含玩家硬碰撞）。内层链无副作用且对绝大多数实体对返回 false，

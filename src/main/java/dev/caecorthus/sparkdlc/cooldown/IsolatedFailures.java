@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 防止每 tick 调用的光环刷屏。
  */
 final class IsolatedFailures {
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkFactionAPI/ForcedCooldowns");
+    private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/ForcedCooldowns");
 
     private final Set<String> warnedSources = ConcurrentHashMap.newKeySet();
 

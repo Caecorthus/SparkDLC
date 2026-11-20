@@ -27,7 +27,7 @@ public abstract class FisherDoorPassingMixin {
     @Inject(method = "getCollisionShape(Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;"
             + "Lnet/minecraft/block/ShapeContext;)Lnet/minecraft/util/shape/VoxelShape;",
             at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$fisherPassesDoors(BlockView world, BlockPos pos, ShapeContext context,
+    private void sparkdlc$fisherPassesDoors(BlockView world, BlockPos pos, ShapeContext context,
                                              CallbackInfoReturnable<VoxelShape> cir) {
         // Cheapest side-effect-free test first (hot on both sides); the ray scope is read last, so the result is
         // unchanged. FisherSpiritComponent is attached to every player, so its lookup never throws.

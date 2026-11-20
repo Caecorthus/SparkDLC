@@ -32,14 +32,14 @@ public abstract class WraithWatheHighlightMixin {
                     target = "Ldev/doctor4t/wathe/cca/GameWorldComponent;getRole(Ljava/util/UUID;)Ldev/doctor4t/wathe/api/Role;"
             )
     )
-    private static Role sparkwitch$useCapturedBodyRole(Role currentRole, Entity target) {
+    private static Role sparkdlc$useCapturedBodyRole(Role currentRole, Entity target) {
         return target instanceof PlayerBodyEntity body
                 ? WraithBodyRoleResolver.resolve(body, currentRole)
                 : currentRole;
     }
 
     @Inject(method = "getInstinctHighlight", at = @At("HEAD"), cancellable = true)
-    private static void sparkwitch$resolveWraithHighlight(
+    private static void sparkdlc$resolveWraithHighlight(
             Entity target,
             CallbackInfoReturnable<Integer> cir
     ) {

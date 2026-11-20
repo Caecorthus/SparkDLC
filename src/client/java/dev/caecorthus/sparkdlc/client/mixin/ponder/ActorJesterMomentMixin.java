@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(targets = "org.agmas.noellesroles.client.jester.JesterMomentClient", remap = false)
 public abstract class ActorJesterMomentMixin {
     @ModifyReturnValue(method = "isActiveForLocalViewer", at = @At("RETURN"), require = 0)
-    private static boolean sparkassist$notForActors(boolean active) {
+    private static boolean sparkdlc$notForActors(boolean active) {
         return active && !ActorPlayer.isDrawing();
     }
 }

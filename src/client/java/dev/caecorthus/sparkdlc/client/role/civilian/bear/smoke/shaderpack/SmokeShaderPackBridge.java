@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.shaderpack;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.render.SmokeRenderer;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
@@ -122,7 +122,7 @@ public final class SmokeShaderPackBridge {
         }
         if (drawn && !activeLogged) {
             activeLogged = true;
-            SparkWitch.LOGGER.info("BEAR smoke: drawing after the Iris shader pack's final pass");
+            SparkDLC.LOGGER.info("BEAR smoke: drawing after the Iris shader pack's final pass");
         }
         return drawn;
     }
@@ -186,9 +186,9 @@ public final class SmokeShaderPackBridge {
         }
         warned = true;
         if (throwable == null) {
-            SparkWitch.LOGGER.warn(message);
+            SparkDLC.LOGGER.warn(message);
         } else {
-            SparkWitch.LOGGER.warn(message, throwable);
+            SparkDLC.LOGGER.warn(message, throwable);
         }
     }
 }

@@ -27,7 +27,7 @@ import java.util.List;
 @Mixin(GameFunctions.class)
 public abstract class LetterLoreTextKeyMixin {
     @Inject(method = "applyLetterLore", at = @At("TAIL"))
-    private static void sparkstrength$retunedLetterLines(
+    private static void sparkdlc$retunedLetterLines(
             ItemStack letter,
             ServerPlayerEntity player,
             Role role,

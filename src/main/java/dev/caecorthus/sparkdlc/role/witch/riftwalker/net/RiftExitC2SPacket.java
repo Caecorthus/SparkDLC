@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.riftwalker.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier;
  * 服务端对当前会话总是接受。
  */
 public record RiftExitC2SPacket(int sessionId) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("rift_exit");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("rift_exit");
     public static final Id<RiftExitC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, RiftExitC2SPacket> CODEC =
             PacketCodec.of(RiftExitC2SPacket::write, RiftExitC2SPacket::read);

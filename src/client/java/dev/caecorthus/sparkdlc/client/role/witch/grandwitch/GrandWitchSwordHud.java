@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.witch.grandwitch;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.item.ceremonialsword.CeremonialSwordItem;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchRules;
 import net.minecraft.client.font.TextRenderer;
@@ -56,11 +56,11 @@ public final class GrandWitchSwordHud {
                                        float tickDelta) {
         PlayerInventory inventory = player.getInventory();
         int slot = swordHotbarSlot(inventory.selectedSlot,
-                i -> inventory.getStack(i).isOf(SparkWitchItems.ceremonialSword()));
+                i -> inventory.getStack(i).isOf(SparkDlcItems.ceremonialSword()));
         int centre;
         if (slot >= 0) {
             centre = slotCentreX(context.getScaledWindowWidth(), slot);
-        } else if (player.getOffHandStack().isOf(SparkWitchItems.ceremonialSword())) {
+        } else if (player.getOffHandStack().isOf(SparkDlcItems.ceremonialSword())) {
             // Vanilla draws the off-hand slot on the side opposite the main arm. / 原版副手格位于主手的另一侧。
             centre = offhandCentreX(context.getScaledWindowWidth(), player.getMainArm().getOpposite() == Arm.LEFT);
         } else {

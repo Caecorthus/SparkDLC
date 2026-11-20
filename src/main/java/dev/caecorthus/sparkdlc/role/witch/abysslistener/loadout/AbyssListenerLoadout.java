@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.witch.abysslistener.loadout;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import dev.caecorthus.sparkdlc.role.witch.abysslistener.AbyssListenerRules;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
@@ -48,7 +48,7 @@ public final class AbyssListenerLoadout {
      * 排在默认阶段之后的 ON_FINISH_INITIALIZE 阶段，确保 SparkTraits 默认阶段的词条分配与良知补偿已确定最终身份与词条
      * （「快手」随后会缩短首次冷却）。
      */
-    static final Identifier FINISH_INITIALIZE_PHASE = SparkWitch.id("abyss_listener_finish_initialize");
+    static final Identifier FINISH_INITIALIZE_PHASE = SparkDLC.id("abyss_listener_finish_initialize");
 
     private static boolean registered;
 
@@ -145,7 +145,7 @@ public final class AbyssListenerLoadout {
      */
     private static void grantWithInitialCooldown(ServerPlayerEntity player) {
         reconcile(player, true);
-        player.getItemCooldownManager().set(SparkWitchItems.shriekGun(), AbyssListenerRules.GUN_INITIAL_COOLDOWN_TICKS);
+        player.getItemCooldownManager().set(SparkDlcItems.shriekGun(), AbyssListenerRules.GUN_INITIAL_COOLDOWN_TICKS);
     }
 
     /** Terminal death, ResetPlayer and round finalize. / 终结死亡、重置玩家与局末。 */
@@ -210,7 +210,7 @@ public final class AbyssListenerLoadout {
             changed = true;
         }
         if (decision.grant()) {
-            changed |= placeGun(player, new ItemStack(SparkWitchItems.shriekGun()), vacated);
+            changed |= placeGun(player, new ItemStack(SparkDlcItems.shriekGun()), vacated);
         }
         if (changed) {
             inventory.markDirty();

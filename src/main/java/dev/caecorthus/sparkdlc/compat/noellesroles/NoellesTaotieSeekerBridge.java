@@ -81,7 +81,7 @@ public final class NoellesTaotieSeekerBridge {
         if (component == null) {
             return;
         }
-        int calculated = ((SeekerTaotieCooldownAccessor) (Object) component).sparkwitch$getCalculatedSwallowCooldown();
+        int calculated = ((SeekerTaotieCooldownAccessor) (Object) component).sparkdlc$getCalculatedSwallowCooldownForSeeker();
         component.setSwallowCooldown(SeekerTaotieRules.swallowCostTicks(calculated,
                 TaotiePlayerComponent.SWALLOW_COOLDOWN));
     }

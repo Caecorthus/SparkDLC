@@ -25,7 +25,7 @@ public abstract class ScreenHandlerMixin {
     public abstract void setCursorStack(ItemStack stack);
 
     @Inject(method = "onClosed", at = @At("HEAD"))
-    private void sparktraits$dropImpostorCursorGun(PlayerEntity player, CallbackInfo ci) {
+    private void sparkdlc$dropImpostorCursorGun(PlayerEntity player, CallbackInfo ci) {
         if (player.isCreative() || player.getWorld().isClient) {
             return;
         }

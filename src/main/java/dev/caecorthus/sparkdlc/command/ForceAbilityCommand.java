@@ -6,14 +6,14 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.legacy.LegacyCommandIds;
 import dev.caecorthus.sparkdlc.legacy.LegacyPermissions;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillDefinition;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillRegistry;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.skill.WitchSkillLockValidationService;
-import dev.caecorthus.sparkdlc.util.SparkWitchPermissions;
+import dev.caecorthus.sparkdlc.util.RoleCommandPermissions;
 import dev.doctor4t.wathe.Wathe;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.argument.EntityArgumentType;
@@ -43,8 +43,8 @@ public final class ForceAbilityCommand {
         dispatcher.register(
                 CommandManager.literal("sparkdlc:forceAbility")
                         .requires(LegacyPermissions.require(
-                                SparkWitchPermissions.COMMAND_FORCE_ABILITY,
-                                SparkWitchPermissions.DEFAULT_COMMAND_LEVEL
+                                RoleCommandPermissions.COMMAND_FORCE_ABILITY,
+                                RoleCommandPermissions.DEFAULT_COMMAND_LEVEL
                         ))
                         .then(CommandManager.argument("ability", IdentifierArgumentType.identifier())
                                 .suggests(ForceAbilityCommand::suggestSkills)
@@ -101,7 +101,7 @@ public final class ForceAbilityCommand {
 
     static Identifier normalizeSkillId(Identifier parsed) {
         if (parsed.getNamespace().equals(Identifier.DEFAULT_NAMESPACE)) {
-            return SparkWitch.id(parsed.getPath());
+            return SparkDLC.id(parsed.getPath());
         }
         // An id typed in the former namespace (sparkwitch:x) means today's skill. / 以旧命名空间输入的 id（sparkwitch:x）指现在的技能。
         return LegacyCommandIds.skill(parsed);
@@ -129,7 +129,7 @@ public final class ForceAbilityCommand {
     }
 
     public static String formatSkillIdForCommand(Identifier skillId) {
-        if (skillId.getNamespace().equals(SparkWitch.MOD_ID)) {
+        if (skillId.getNamespace().equals(SparkDLC.MOD_ID)) {
             return skillId.getPath();
         }
         return skillId.toString();

@@ -24,17 +24,17 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = WatheClient.class, remap = false)
 public abstract class MorphlingCorpseInstinctMixin {
     @WrapMethod(method = "getInstinctHighlight")
-    private static int sparkstrength$cloakCorpseMorphling(Entity target, Operation<Integer> original) {
+    private static int sparkdlc$cloakCorpseMorphling(Entity target, Operation<Integer> original) {
         return MorphlingCorpseInstinctClient.highlight(target, () -> original.call(target));
     }
 
     @WrapMethod(method = "isInstinctEnabled()Z")
-    private static boolean sparkstrength$corpseMorphlingInstinctGate(Operation<Boolean> original) {
+    private static boolean sparkdlc$corpseMorphlingInstinctGate(Operation<Boolean> original) {
         return !MorphlingCorpseInstinctClient.releasesKey() && original.call();
     }
 
     @WrapMethod(method = "isInstinctEnabledAndIsKiller()Z")
-    private static boolean sparkstrength$corpseMorphlingKillerInstinctGate(Operation<Boolean> original) {
+    private static boolean sparkdlc$corpseMorphlingKillerInstinctGate(Operation<Boolean> original) {
         return !MorphlingCorpseInstinctClient.releasesKey() && original.call();
     }
 }

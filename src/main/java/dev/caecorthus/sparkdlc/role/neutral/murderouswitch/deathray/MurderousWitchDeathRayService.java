@@ -9,7 +9,7 @@ import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit.BlackRavenCrowHit
 import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPuppetHits;
 import dev.caecorthus.sparkdlc.util.hitscan.PlayerHitboxHistory;
 
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseContext;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseResult;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
@@ -133,7 +133,7 @@ public final class MurderousWitchDeathRayService {
                 MurderousWitchDeathRayRules.TARGET_BOX_EXPANSION, findTargets(caster, start, direction, visibleDistance),
                 MurderousWitchDeathRayRules::intersectsRay)) {
             if (VendettaInteractionService.isOrdinaryAliveOrBoundKillerTarget(caster, target)) {
-                GameFunctions.killPlayer(target, true, caster, SparkWitchDeathReasons.PIERCED_BY_RAY);
+                GameFunctions.killPlayer(target, true, caster, SparkDlcDeathReasons.PIERCED_BY_RAY);
             }
         }
         consumeCharge(component);

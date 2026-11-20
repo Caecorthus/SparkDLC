@@ -27,7 +27,7 @@ public abstract class WitherGoheiMacControlClickMixin {
     @ModifyExpressionValue(method = "onMouseButton",
             at = @At(value = "FIELD", target = "Lnet/minecraft/client/MinecraftClient;IS_SYSTEM_MAC:Z",
                     opcode = Opcodes.GETSTATIC))
-    private boolean sparkwitch$keepGoheiLeftPressOnMac(boolean systemMac,
+    private boolean sparkdlc$keepGoheiLeftPressOnMac(boolean systemMac,
                                                           @Local(argsOnly = true, ordinal = 0) int button,
                                                           @Local(argsOnly = true, ordinal = 1) int action) {
         return systemMac && !WitherGoheiFireInput.keepsMacLeftPress(MinecraftClient.getInstance(), button, action,

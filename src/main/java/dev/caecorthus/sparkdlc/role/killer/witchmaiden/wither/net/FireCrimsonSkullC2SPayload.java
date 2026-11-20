@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -15,7 +15,7 @@ import net.minecraft.util.Identifier;
  * 小凋灵、冷却与魔力。属于致命射击：凡拦截其他武器开火数据包处均拦截。
  */
 public record FireCrimsonSkullC2SPayload(float yaw, float pitch) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("fire_crimson_skull");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("fire_crimson_skull");
     public static final Id<FireCrimsonSkullC2SPayload> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, FireCrimsonSkullC2SPayload> CODEC =
             PacketCodec.of(FireCrimsonSkullC2SPayload::write, FireCrimsonSkullC2SPayload::read);

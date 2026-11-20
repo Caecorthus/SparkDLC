@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.special.wraith.runtime;
 import dev.caecorthus.sparkdlc.faction.api.FactionGunPunishmentPolicy;
 import dev.caecorthus.sparkdlc.faction.api.FactionIds;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitchFactions;
+import dev.caecorthus.sparkdlc.SparkDlcFactions;
 import dev.caecorthus.sparkdlc.component.WraithPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaInteractionService;
 import dev.caecorthus.sparkdlc.role.civilian.windspirit.WindSpiritRules;
@@ -64,7 +64,7 @@ final class WraithParticipation {
         return switch (alignment) {
             case GOOD -> FactionIds.CIVILIAN;
             case KILLER -> FactionIds.KILLER;
-            case WITCH -> SparkWitchFactions.WITCH;
+            case WITCH -> SparkDlcFactions.WITCH;
         };
     }
 

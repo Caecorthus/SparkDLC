@@ -36,7 +36,7 @@ public abstract class TaotieHeadDazePayloadGuardMixin {
                     + "Lnet/minecraft/network/packet/CustomPayload;)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;execute(Ljava/lang/Runnable;)V")
     )
-    private void sparkstrength$dropDazedPayload(
+    private void sparkdlc$dropDazedPayload(
             MinecraftServer server,
             Runnable handler,
             Operation<Void> original,

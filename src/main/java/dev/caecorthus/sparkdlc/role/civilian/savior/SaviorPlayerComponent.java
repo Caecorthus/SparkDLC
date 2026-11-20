@@ -61,7 +61,7 @@ public final class SaviorPlayerComponent
 
     /**
      * Server only: exact G cooldown write for the SparkFactionAPI role-skill store {@code sparkdlc:savior_domain}
-     * ({@code SparkWitchForcedCooldowns#saviorDomain}), floored at 0; syncs the owner when the value changes.
+     * ({@code RoleForcedCooldowns#saviorDomain}), floored at 0; syncs the owner when the value changes.
      * 仅服务端：供 SparkFactionAPI 职业技能存储 {@code sparkdlc:savior_domain} 精确写入 G 冷却，下限为 0；值变化时同步给本人。
      */
     public void setCooldownTicks(int ticks) {

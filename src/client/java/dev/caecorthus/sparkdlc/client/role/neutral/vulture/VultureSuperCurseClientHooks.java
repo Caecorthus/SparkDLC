@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.neutral.vulture;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityRegistry;
 import dev.caecorthus.sparkdlc.role.neutral.vulture.VultureSuperCurseC2SPacket;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -34,7 +34,7 @@ public final class VultureSuperCurseClientHooks {
                 VultureSuperCurseClientHooks::requestSuperCurse
         );
         if (!keyAvailable) {
-            SparkStrength.LOGGER.warn("Vulture Super Curse has no key: the Role Skill 2 hook is unavailable or taken.");
+            SparkDLC.LOGGER.warn("Vulture Super Curse has no key: the Role Skill 2 hook is unavailable or taken.");
         }
     }
 

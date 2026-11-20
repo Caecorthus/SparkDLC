@@ -26,7 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class KnightDuelKnifeTargetMixin {
     @Inject(method = "receive(Ldev/doctor4t/wathe/util/KnifeStabPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$limitDuelKnifeStab(KnifeStabPayload payload, ServerPlayNetworking.Context context,
+    private void sparkdlc$limitDuelKnifeStab(KnifeStabPayload payload, ServerPlayNetworking.Context context,
                                                CallbackInfo ci) {
         ServerPlayerEntity player = context.player();
         if (!(player.getWorld() instanceof ServerWorld world)

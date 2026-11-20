@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.mixin.faction.witch;
 
 import dev.caecorthus.sparkdlc.client.hooks.GrandWitchFearClientHooks;
-import dev.caecorthus.sparkdlc.client.hooks.WitchAbilityKeyBridge;
+import dev.caecorthus.sparkdlc.client.hooks.AbilityKeyBridge;
 import net.minecraft.client.option.KeyBinding;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,18 +15,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(KeyBinding.class)
 public abstract class KeyBindingFearSkillMixin {
     @Inject(method = "wasPressed", at = @At("RETURN"), cancellable = true)
-    private void sparkwitch$blockFearedRoleAbilityPress(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$blockFearedRoleAbilityPress(CallbackInfoReturnable<Boolean> cir) {
         KeyBinding keyBinding = (KeyBinding) (Object) this;
         boolean pressed = cir.getReturnValue();
         if (GrandWitchFearClientHooks.shouldBlockRoleAbilityKey(keyBinding, pressed)) {
             cir.setReturnValue(false);
             return;
         }
-        WitchAbilityKeyBridge.captureSharedAbilityPress(keyBinding, pressed);
+        AbilityKeyBridge.captureSharedAbilityPress(keyBinding, pressed);
     }
 
     @Inject(method = "isPressed", at = @At("RETURN"), cancellable = true)
-    private void sparkwitch$blockFearedRoleAbilityHold(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$blockFearedRoleAbilityHold(CallbackInfoReturnable<Boolean> cir) {
         if (GrandWitchFearClientHooks.shouldBlockRoleAbilityKey((KeyBinding) (Object) this, cir.getReturnValue())) {
             cir.setReturnValue(false);
         }

@@ -40,7 +40,7 @@ public abstract class HannaProjectileHitMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/entity/projectile/ProjectileEntity;onCollision(Lnet/minecraft/util/hit/HitResult;)V")
     )
-    private void sparkwitch$touchFloatingHannaOnProjectileHit(HitResult hitResult,
+    private void sparkdlc$touchFloatingHannaOnProjectileHit(HitResult hitResult,
                                                               CallbackInfoReturnable<ProjectileDeflection> cir) {
         if (hitResult instanceof EntityHitResult entityHit
                 && entityHit.getEntity() instanceof ServerPlayerEntity target) {

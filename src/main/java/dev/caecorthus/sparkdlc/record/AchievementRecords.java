@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.record;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.record.GameRecordEvent;
@@ -279,7 +279,7 @@ public final class AchievementRecords {
         try {
             return GameWorldComponent.KEY.get(player.getWorld()).isPlayerDead(player.getUuid());
         } catch (RuntimeException error) {
-            SparkStrength.LOGGER.warn("Could not read the dead state for {}", THROWING_AXE_HIT, error);
+            SparkDLC.LOGGER.warn("Could not read the dead state for {}", THROWING_AXE_HIT, error);
             return false;
         }
     }
@@ -312,7 +312,7 @@ public final class AchievementRecords {
                     AchievementRecordRules.speedAmplifier(speed != null, speed == null ? 0 : speed.getAmplifier()));
             return extra;
         } catch (RuntimeException error) {
-            SparkStrength.LOGGER.warn("Could not build skateboard ride record data", error);
+            SparkDLC.LOGGER.warn("Could not build skateboard ride record data", error);
             return null;
         }
     }
@@ -326,7 +326,7 @@ public final class AchievementRecords {
         try {
             writer.run();
         } catch (RuntimeException error) {
-            SparkStrength.LOGGER.warn("Could not record {}", type, error);
+            SparkDLC.LOGGER.warn("Could not record {}", type, error);
         }
     }
 }

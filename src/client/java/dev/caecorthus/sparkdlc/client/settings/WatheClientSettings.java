@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  * 刻意不包含 {@code disableScreenShake}：该版本中没有任何代码读取它。
  */
 public final class WatheClientSettings {
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkAssist/Settings");
+    private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/Settings");
     private static final String WATHE_CONFIG_ID = "wathe";
     private static boolean saveFailureLogged;
 

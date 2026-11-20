@@ -8,5 +8,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(KeyBinding.class)
 public interface M67KeyBindingAccessor {
     @Accessor("boundKey")
-    InputUtil.Key sparkstrength$m67BoundKey();
+    InputUtil.Key sparkdlc$m67BoundKey();
 }

@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = GameRecordManager.class, remap = false)
 public abstract class GameRecordManagerIncomeMixin {
     @Inject(method = "endMatch(Lnet/minecraft/server/world/ServerWorld;)V", at = @At("HEAD"))
-    private static void sparkfactionapi$recordIncomeTotals(ServerWorld world, CallbackInfo ci) {
+    private static void sparkdlc$recordIncomeTotals(ServerWorld world, CallbackInfo ci) {
         IncomeRecorder.onMatchEnd(world);
     }
 
@@ -28,7 +28,7 @@ public abstract class GameRecordManagerIncomeMixin {
             method = "startMatch(Lnet/minecraft/server/world/ServerWorld;Ldev/doctor4t/wathe/cca/GameWorldComponent;)V",
             at = @At("RETURN")
     )
-    private static void sparkfactionapi$forgetOlderIncome(ServerWorld world, GameWorldComponent game, CallbackInfo ci) {
+    private static void sparkdlc$forgetOlderIncome(ServerWorld world, GameWorldComponent game, CallbackInfo ci) {
         IncomeRecorder.onMatchStart();
     }
 }

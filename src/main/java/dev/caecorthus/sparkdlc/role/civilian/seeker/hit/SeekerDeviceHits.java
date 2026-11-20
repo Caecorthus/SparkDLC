@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker.hit;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.fisher.FisherRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerBreakSource;
@@ -143,13 +143,13 @@ public final class SeekerDeviceHits {
     }
 
     /**
-     * Add-on gun shot routed through {@code SparkWitchApi.hitGunWorldTarget} (today SparkStrength's Serial Killer
+     * Add-on gun shot routed through {@code SparkRoleApi.hitGunWorldTarget} (today SparkStrength's Serial Killer
      * pistols, Wathe {@code RevolverItem} subclasses that fire through their own payload). The facade has already
      * checked the gun (a {@code wathe:guns} stack in hand, not cooling down); this is the revolver entry's break with
      * the caller's {@code maxDistance} (capped at Wathe's 65): live foreign device, aim and line of sight,
      * {@link SeekerDamageRules#mayBreak}. Recorded as {@link SeekerBreakSource#REVOLVER}, so the break, its replay id
      * and the owner's mark are exactly a revolver hit's. The caller finishes the shot as a miss. True = broken.
-     * 经 {@code SparkWitchApi.hitGunWorldTarget} 转入的附属模组枪械射击（目前为 SparkStrength 连环杀手手枪：Wathe
+     * 经 {@code SparkRoleApi.hitGunWorldTarget} 转入的附属模组枪械射击（目前为 SparkStrength 连环杀手手枪：Wathe
      * {@code RevolverItem} 子类，经自有数据包开火）。门面已校验枪械（手中的 {@code wathe:guns} 物品且未冷却）；这里按左轮入口
      * 打坏设备，距离取调用方的 {@code maxDistance}（上限为 Wathe 的 65）：存活的他人设备、瞄准与视线、
      * {@link SeekerDamageRules#mayBreak}。记录为 {@link SeekerBreakSource#REVOLVER}，因此损坏、回放 id 与对拥有者的标记都与左轮
@@ -281,7 +281,7 @@ public final class SeekerDeviceHits {
             return false;
         }
         ItemStack swordfish = attacker.getMainHandStack();
-        if (swordfish.isEmpty() || !swordfish.isOf(SparkWitchItems.swordfish())
+        if (swordfish.isEmpty() || !swordfish.isOf(SparkDlcItems.swordfish())
                 || attacker.getItemCooldownManager().isCoolingDown(swordfish.getItem())
                 || SparkTraitsApi.blocksWeaponAction(attacker, swordfish)) {
             return false;

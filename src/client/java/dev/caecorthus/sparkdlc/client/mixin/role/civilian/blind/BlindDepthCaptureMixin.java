@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ParticleManager.class)
 public abstract class BlindDepthCaptureMixin {
     @Inject(method = "renderParticles", at = @At("HEAD"))
-    private void sparkwitch$captureBlindDepth(LightmapTextureManager lightmapTextureManager, Camera camera,
+    private void sparkdlc$captureBlindDepth(LightmapTextureManager lightmapTextureManager, Camera camera,
                                               float tickDelta, CallbackInfo ci) {
         BlindEchoView.captureDepth();
     }

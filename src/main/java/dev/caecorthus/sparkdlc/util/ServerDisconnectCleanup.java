@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.util;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -53,7 +53,7 @@ import net.minecraft.util.Identifier;
  */
 public final class ServerDisconnectCleanup {
     /** Ordered before {@link Event#DEFAULT_PHASE}, where Wathe queues its ESCAPED kill. / 排在 Wathe 排队 ESCAPED 击杀所在的默认阶段之前。 */
-    public static final Identifier PHASE = SparkWitch.id("disconnect_cleanup");
+    public static final Identifier PHASE = SparkDLC.id("disconnect_cleanup");
 
     /**
      * Tasks queued from a Netty thread, per leaving player, until {@code onDisconnected} drains them. Written from Netty
@@ -116,7 +116,7 @@ public final class ServerDisconnectCleanup {
             try {
                 pending.run();
             } catch (RuntimeException failure) {
-                SparkWitch.LOGGER.error("SparkDLC disconnect cleanup failed", failure);
+                SparkDLC.LOGGER.error("SparkDLC disconnect cleanup failed", failure);
             }
         }
     }

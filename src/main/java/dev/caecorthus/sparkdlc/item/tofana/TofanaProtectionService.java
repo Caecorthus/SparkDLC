@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.item.tofana;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -92,7 +92,7 @@ public final class TofanaProtectionService {
     }
 
     private static boolean consume(ItemStack stack, ServerPlayerEntity holder) {
-        if (stack.isEmpty() || !stack.isOf(SparkWitchItems.tofanaElixir())) {
+        if (stack.isEmpty() || !stack.isOf(SparkDlcItems.tofanaElixir())) {
             return false;
         }
         stack.decrement(1);

@@ -9,7 +9,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
 
 /**
- * Registration hub of the 「“手”枪」 (GUN work package), called once from {@code SparkWitchEvents}: the world-target
+ * Registration hub of the 「“手”枪」 (GUN work package), called once from {@code RoleEvents}: the world-target
  * veto, the death cleanup and the replay line. The guard mixins in {@code mixin/sphinxhao/} need no registration.
  * <ul>
  *   <li>{@code UseEntityCallback} on both sides: item frames, armor stands and allays refuse the kit (FAIL), so the
@@ -19,7 +19,7 @@ import net.minecraft.util.ActionResult;
  *   ({@code GameFunctionsSphinxHaoGunDropMixin}).</li>
  *   <li>A disconnect from a live round strips before the save, since Wathe's ESCAPED kill only runs afterwards.</li>
  * </ul>
- * 「“手”枪」的注册中心（GUN 工作包），由 {@code SparkWitchEvents} 调用一次：世界目标否决、死亡清理与回放文本。
+ * 「“手”枪」的注册中心（GUN 工作包），由 {@code RoleEvents} 调用一次：世界目标否决、死亡清理与回放文本。
  * {@code mixin/sphinxhao/} 中的防护 mixin 无需注册。
  * 双端 {@code UseEntityCallback}：物品展示框、盔甲架与悦灵拒收装备（FAIL），客户端在发包前拦截，服务端拒绝伪造的数据包。
  * 对每名受害者执行 {@code KillPlayer.AFTER}：被 SparkTraits 拦截的死亡（背水一战）保留一切；否则删除受害者身上所有装备副本

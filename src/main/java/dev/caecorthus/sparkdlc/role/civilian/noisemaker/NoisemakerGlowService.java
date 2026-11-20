@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.civilian.noisemaker;
 import dev.caecorthus.sparkdlc.role.civilian.noisemaker.NoisemakerGlowTargetComponent;
 import dev.caecorthus.sparkdlc.role.civilian.noisemaker.NoisemakerGlowUserComponent;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -90,7 +90,7 @@ public final class NoisemakerGlowService {
             extra.putUuid("target", target.getUuid());
             GameRecordManager.recordGlobalEvent(
                     serverWorld,
-                    SparkStrengthReplayFormatters.NOISEMAKER_GLOW_STARTED,
+                    RoleKitReplayFormatters.NOISEMAKER_GLOW_STARTED,
                     user,
                     extra
             );

@@ -30,19 +30,19 @@ public abstract class WraithRendererDispatchMixin {
     private Map<SkinTextures.Model, EntityRenderer<? extends PlayerEntity>> modelRenderers;
 
     @Unique
-    private EntityRenderer<? extends PlayerBodyEntity> sparkwitch$wraithBodyRenderer;
+    private EntityRenderer<? extends PlayerBodyEntity> sparkdlc$wraithBodyRenderer;
 
     @Inject(method = "reload", at = @At("TAIL"))
-    private void sparkwitch$reloadWraithBodyRenderer(
+    private void sparkdlc$reloadWraithBodyRenderer(
             ResourceManager manager,
             CallbackInfo ci,
             @Local EntityRendererFactory.Context context
     ) {
-        this.sparkwitch$wraithBodyRenderer = new PlayerBodyEntityRenderer<>(context, false);
+        this.sparkdlc$wraithBodyRenderer = new PlayerBodyEntityRenderer<>(context, false);
     }
 
     @Inject(method = "getRenderer", at = @At("HEAD"), cancellable = true)
-    private <T extends Entity> void sparkwitch$useWideWraithProjection(
+    private <T extends Entity> void sparkdlc$useWideWraithProjection(
             T entity,
             CallbackInfoReturnable<EntityRenderer<? super T>> cir
     ) {
@@ -57,8 +57,8 @@ public abstract class WraithRendererDispatchMixin {
 
         if (entity instanceof PlayerBodyEntity
                 && WraithSteveProjection.shouldAnonymizeCorpses()
-                && this.sparkwitch$wraithBodyRenderer != null) {
-            cir.setReturnValue((EntityRenderer<? super T>) this.sparkwitch$wraithBodyRenderer);
+                && this.sparkdlc$wraithBodyRenderer != null) {
+            cir.setReturnValue((EntityRenderer<? super T>) this.sparkdlc$wraithBodyRenderer);
         }
     }
 }

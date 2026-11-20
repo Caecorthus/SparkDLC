@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.toxicologist;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.item.CapsuleItem;
 import dev.doctor4t.wathe.block.FoodPlatterBlock;
@@ -62,7 +62,7 @@ public final class ToxicologistBlueVitriolService {
      */
     private static ActionResult onUseBlock(PlayerEntity player, World world, Hand hand, BlockHitResult hitResult) {
         ItemStack vitriol = player.getStackInHand(hand);
-        if (!vitriol.isOf(SparkStrengthItems.blueVitriol())) {
+        if (!vitriol.isOf(SparkDlcItems.blueVitriol())) {
             return ActionResult.PASS;
         }
         BlockPos pos = hitResult.getBlockPos();
@@ -187,6 +187,6 @@ public final class ToxicologistBlueVitriolService {
         player.playSoundToPlayer(SoundEvents.BLOCK_BREWING_STAND_BREW, SoundCategory.PLAYERS, 0.5F, 1.4F);
         player.sendMessage(Text.translatable(CONVERTED_KEY), true);
         extra.putString("action", action);
-        GameRecordManager.recordItemUse(player, SparkStrengthItems.BLUE_VITRIOL_ID, null, extra);
+        GameRecordManager.recordItemUse(player, SparkDlcItems.BLUE_VITRIOL_ID, null, extra);
     }
 }

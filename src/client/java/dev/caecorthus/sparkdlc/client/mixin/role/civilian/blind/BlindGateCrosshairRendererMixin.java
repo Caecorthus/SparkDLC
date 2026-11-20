@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = CrosshairRenderer.class, priority = 2100)
 public abstract class BlindGateCrosshairRendererMixin {
     @WrapMethod(method = "renderCrosshair")
-    private static void sparkwitch$blindPlainCrosshair(MinecraftClient client, ClientPlayerEntity player,
+    private static void sparkdlc$blindPlainCrosshair(MinecraftClient client, ClientPlayerEntity player,
                                                        DrawContext context, RenderTickCounter tickCounter,
                                                        Operation<Void> original) {
         if (BlindClientGates.viewActive()) {

@@ -92,7 +92,7 @@ public final class SeekerCarUseClient {
             ticksSinceUse++;
         }
         // Presses beyond the throttle are dropped, never replayed. / 超出节流的按键直接丢弃，绝不重放。
-        int presses = ((SeekerRemoteKeyDrain) client.options.useKey).sparkwitch$takePresses();
+        int presses = ((SeekerRemoteKeyDrain) client.options.useKey).sparkdlc$takePresses();
         ClientPlayerEntity player = client.player;
         if (presses <= 0 || ticksSinceUse < SeekerRules.CAR_USE_INTERVAL_TICKS || player == null
                 || SeekerCctvOverlay.isSignalLost(player)) {

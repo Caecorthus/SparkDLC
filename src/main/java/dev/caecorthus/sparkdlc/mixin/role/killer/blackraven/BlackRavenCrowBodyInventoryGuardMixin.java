@@ -34,7 +34,7 @@ public abstract class BlackRavenCrowBodyInventoryGuardMixin {
             ),
             cancellable = true
     )
-    private void sparkwitch$ignoreCrowBodyClicks(ClickSlotC2SPacket packet, CallbackInfo ci) {
+    private void sparkdlc$ignoreCrowBodyClicks(ClickSlotC2SPacket packet, CallbackInfo ci) {
         if (BlackRavenCrowForm.isInCrowForm(player)) {
             player.currentScreenHandler.syncState();
             ci.cancel();
@@ -50,7 +50,7 @@ public abstract class BlackRavenCrowBodyInventoryGuardMixin {
             ),
             cancellable = true
     )
-    private void sparkwitch$ignoreCrowBodyDropsAndSwaps(PlayerActionC2SPacket packet, CallbackInfo ci) {
+    private void sparkdlc$ignoreCrowBodyDropsAndSwaps(PlayerActionC2SPacket packet, CallbackInfo ci) {
         PlayerActionC2SPacket.Action action = packet.getAction();
         if ((action == PlayerActionC2SPacket.Action.DROP_ITEM
                 || action == PlayerActionC2SPacket.Action.DROP_ALL_ITEMS

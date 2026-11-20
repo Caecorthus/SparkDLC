@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Entity.class)
 public abstract class SkateboardStepSoundMixin {
     @Inject(method = "playStepSounds", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$skipSkateboardStepSounds(BlockPos pos, BlockState state, CallbackInfo ci) {
+    private void sparkdlc$skipSkateboardStepSounds(BlockPos pos, BlockState state, CallbackInfo ci) {
         if ((Object) this instanceof PlayerEntity player && SkateboardRideComponent.KEY.get(player).isRiding()) {
             ci.cancel();
         }

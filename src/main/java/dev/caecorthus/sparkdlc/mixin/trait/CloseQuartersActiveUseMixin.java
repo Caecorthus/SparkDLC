@@ -14,17 +14,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LivingEntity.class)
 public abstract class CloseQuartersActiveUseMixin {
     @Inject(method = "setCurrentHand", at = @At("RETURN"))
-    private void sparktraits$beginRaisedStance(Hand hand, CallbackInfo ci) {
+    private void sparkdlc$beginRaisedStance(Hand hand, CallbackInfo ci) {
         if ((Object) this instanceof ServerPlayerEntity player) CloseQuartersService.beginRaise(player);
     }
 
     @Inject(method = "clearActiveItem", at = @At("HEAD"))
-    private void sparktraits$endRaisedStance(CallbackInfo ci) {
+    private void sparkdlc$endRaisedStance(CallbackInfo ci) {
         if ((Object) this instanceof ServerPlayerEntity player) CloseQuartersService.endRaise(player);
     }
 
     @Inject(method = "tickActiveItemStack", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$cancelExpiredRaise(CallbackInfo ci) {
+    private void sparkdlc$cancelExpiredRaise(CallbackInfo ci) {
         if ((Object) this instanceof PlayerEntity player && player.isUsingItem()
                 && CloseQuartersService.isRaisedKnife(player.getActiveItem())
                 && CloseQuartersService.hasRaisedKnifeTrait(player)

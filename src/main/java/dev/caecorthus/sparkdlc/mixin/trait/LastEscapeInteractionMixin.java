@@ -22,7 +22,7 @@ public abstract class LastEscapeInteractionMixin {
     @Shadow public ServerPlayerEntity player;
 
     @Unique
-    private boolean sparktraits$blocked(Packet<ServerPlayPacketListener> packet) {
+    private boolean sparkdlc$blocked(Packet<ServerPlayPacketListener> packet) {
         NetworkThreadUtils.forceMainThread(packet, (ServerPlayNetworkHandler) (Object) this, player.getServerWorld());
         if (!LastEscapeService.isActive(player)) return false;
         player.clearActiveItem();
@@ -31,39 +31,39 @@ public abstract class LastEscapeInteractionMixin {
     }
 
     @Unique
-    private void sparktraits$correctBlock(BlockPos pos, int sequence) {
+    private void sparkdlc$correctBlock(BlockPos pos, int sequence) {
         player.networkHandler.sendPacket(new BlockUpdateS2CPacket(player.getWorld(), pos));
         player.networkHandler.sendPacket(new PlayerActionResponseS2CPacket(sequence));
     }
 
     @WrapMethod(method = "onPlayerInteractItem")
-    private void sparktraits$useItem(PlayerInteractItemC2SPacket packet, Operation<Void> original) {
-        if (sparktraits$blocked(packet)) player.networkHandler.sendPacket(new PlayerActionResponseS2CPacket(packet.getSequence()));
+    private void sparkdlc$useItem(PlayerInteractItemC2SPacket packet, Operation<Void> original) {
+        if (sparkdlc$blocked(packet)) player.networkHandler.sendPacket(new PlayerActionResponseS2CPacket(packet.getSequence()));
         else original.call(packet);
     }
 
     @WrapMethod(method = "onPlayerInteractBlock")
-    private void sparktraits$useBlock(PlayerInteractBlockC2SPacket packet, Operation<Void> original) {
-        if (sparktraits$blocked(packet)) {
+    private void sparkdlc$useBlock(PlayerInteractBlockC2SPacket packet, Operation<Void> original) {
+        if (sparkdlc$blocked(packet)) {
             var hit = packet.getBlockHitResult();
             player.networkHandler.sendPacket(new BlockUpdateS2CPacket(player.getWorld(), hit.getBlockPos().offset(hit.getSide())));
-            sparktraits$correctBlock(hit.getBlockPos(), packet.getSequence());
+            sparkdlc$correctBlock(hit.getBlockPos(), packet.getSequence());
         } else original.call(packet);
     }
 
     @WrapMethod(method = "onPlayerInteractEntity")
-    private void sparktraits$useEntity(PlayerInteractEntityC2SPacket packet, Operation<Void> original) {
-        if (!sparktraits$blocked(packet)) original.call(packet);
+    private void sparkdlc$useEntity(PlayerInteractEntityC2SPacket packet, Operation<Void> original) {
+        if (!sparkdlc$blocked(packet)) original.call(packet);
     }
 
     @WrapMethod(method = "onPlayerAction")
-    private void sparktraits$action(PlayerActionC2SPacket packet, Operation<Void> original) {
+    private void sparkdlc$action(PlayerActionC2SPacket packet, Operation<Void> original) {
         NetworkThreadUtils.forceMainThread(packet, (ServerPlayNetworkHandler) (Object) this, player.getServerWorld());
         boolean lockedAction = switch (packet.getAction()) {
             case START_DESTROY_BLOCK, ABORT_DESTROY_BLOCK, STOP_DESTROY_BLOCK, RELEASE_USE_ITEM -> true;
             default -> false; // Drop and hand-swap are deliberately not part of the click lock.
         };
-        if (lockedAction && sparktraits$blocked(packet)) sparktraits$correctBlock(packet.getPos(), packet.getSequence());
+        if (lockedAction && sparkdlc$blocked(packet)) sparkdlc$correctBlock(packet.getPos(), packet.getSequence());
         else original.call(packet);
     }
 
@@ -72,22 +72,22 @@ public abstract class LastEscapeInteractionMixin {
     // 背包锁只覆盖原版的槽位点击、按钮点击与合成请求包。脱险期间的商店购买（Wathe 的 StoreBuyPayload）按负责人决定
     // （2026-11）保持允许：不要在这里补 ShopPurchase 拦截。
     @WrapMethod(method = "onClickSlot")
-    private void sparktraits$inventory(ClickSlotC2SPacket packet, Operation<Void> original) {
-        if (!sparktraits$blocked(packet)) original.call(packet);
+    private void sparkdlc$inventory(ClickSlotC2SPacket packet, Operation<Void> original) {
+        if (!sparkdlc$blocked(packet)) original.call(packet);
     }
 
     @WrapMethod(method = "onCreativeInventoryAction")
-    private void sparktraits$creativeInventory(CreativeInventoryActionC2SPacket packet, Operation<Void> original) {
-        if (!sparktraits$blocked(packet)) original.call(packet);
+    private void sparkdlc$creativeInventory(CreativeInventoryActionC2SPacket packet, Operation<Void> original) {
+        if (!sparkdlc$blocked(packet)) original.call(packet);
     }
 
     @WrapMethod(method = "onButtonClick")
-    private void sparktraits$button(ButtonClickC2SPacket packet, Operation<Void> original) {
-        if (!sparktraits$blocked(packet)) original.call(packet);
+    private void sparkdlc$button(ButtonClickC2SPacket packet, Operation<Void> original) {
+        if (!sparkdlc$blocked(packet)) original.call(packet);
     }
 
     @WrapMethod(method = "onCraftRequest")
-    private void sparktraits$craft(CraftRequestC2SPacket packet, Operation<Void> original) {
-        if (!sparktraits$blocked(packet)) original.call(packet);
+    private void sparkdlc$craft(CraftRequestC2SPacket packet, Operation<Void> original) {
+        if (!sparkdlc$blocked(packet)) original.call(packet);
     }
 }

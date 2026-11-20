@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.item;
 
-import dev.caecorthus.sparkdlc.SparkStrengthEntities;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 
@@ -13,7 +13,7 @@ public final class PerfumerItemsClient {
     }
 
     public static void register() {
-        EntityRendererRegistry.register(SparkStrengthEntities.coolingOil(), FlyingItemEntityRenderer::new);
-        EntityRendererRegistry.register(SparkStrengthEntities.aromaOrb(), FlyingItemEntityRenderer::new);
+        EntityRendererRegistry.register(SparkDlcEntities.coolingOil(), FlyingItemEntityRenderer::new);
+        EntityRendererRegistry.register(SparkDlcEntities.aromaOrb(), FlyingItemEntityRenderer::new);
     }
 }

@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.killer.phantom;
 
 import dev.caecorthus.sparkdlc.role.killer.phantom.PhantomBackpackTargetComponent;
 import dev.caecorthus.sparkdlc.role.killer.phantom.PhantomBackpackUserComponent;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -99,7 +99,7 @@ public final class PhantomBackpackService {
         extra.putUuid("target", target.getUuid());
         GameRecordManager.recordGlobalEvent(
                 serverWorld,
-                SparkStrengthReplayFormatters.PHANTOM_BACKPACK_INVISIBILITY_STARTED,
+                RoleKitReplayFormatters.PHANTOM_BACKPACK_INVISIBILITY_STARTED,
                 phantom,
                 extra
         );

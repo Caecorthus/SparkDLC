@@ -16,5 +16,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(Source.class)
 public interface DoubleBarrelSourceAccessor {
     @Accessor("pointer")
-    int sparkwitch$getDoubleBarrelSourcePointer();
+    int sparkdlc$getDoubleBarrelSourcePointer();
 }

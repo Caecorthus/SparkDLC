@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.sabotage;
 
-import dev.caecorthus.sparkdlc.SparkStrengthBlocks;
+import dev.caecorthus.sparkdlc.SparkDlcBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -89,14 +89,14 @@ public final class SabotageBlockScan {
 
     private static void scanSection(ChunkSection section, BlockPos.Mutable cursor, int x0, int x1, int y0, int y1,
                                     int z0, int z1, BiConsumer<BlockPos, BlockState> visitor) {
-        if (section == null || section.isEmpty() || !section.hasAny(SparkStrengthBlocks::isSabotageFixture)) {
+        if (section == null || section.isEmpty() || !section.hasAny(SparkDlcBlocks::isSabotageFixture)) {
             return;
         }
         for (int y = y0; y <= y1; y++) {
             for (int z = z0; z <= z1; z++) {
                 for (int x = x0; x <= x1; x++) {
                     BlockState state = section.getBlockState(x & 15, y & 15, z & 15);
-                    if (SparkStrengthBlocks.isSabotageFixture(state)) {
+                    if (SparkDlcBlocks.isSabotageFixture(state)) {
                         visitor.accept(cursor.set(x, y, z).toImmutable(), state);
                     }
                 }

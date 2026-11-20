@@ -21,26 +21,26 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(MinecraftClient.class)
 public abstract class DronePilotInputMixin {
     @Inject(method = "handleInputEvents", at = @At("HEAD"))
-    private void sparkstrength$captureDroneClicks(CallbackInfo ci) {
+    private void sparkdlc$captureDroneClicks(CallbackInfo ci) {
         DronePilotClient.captureInput((MinecraftClient) (Object) this);
     }
 
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$noBodyAttackWhilePiloting(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$noBodyAttackWhilePiloting(CallbackInfoReturnable<Boolean> cir) {
         if (DronePilotClient.blocksBodyActions()) {
             cir.setReturnValue(false);
         }
     }
 
     @Inject(method = "doItemUse", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$noBodyUseWhilePiloting(CallbackInfo ci) {
+    private void sparkdlc$noBodyUseWhilePiloting(CallbackInfo ci) {
         if (DronePilotClient.blocksBodyActions()) {
             ci.cancel();
         }
     }
 
     @Inject(method = "doItemPick", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$noBodyPickWhilePiloting(CallbackInfo ci) {
+    private void sparkdlc$noBodyPickWhilePiloting(CallbackInfo ci) {
         if (DronePilotClient.blocksBodyActions()) {
             ci.cancel();
         }
@@ -49,7 +49,7 @@ public abstract class DronePilotInputMixin {
     // false lets vanilla cancel any in-progress block breaking cleanly. / 传 false 让原版正常取消进行中的方块破坏。
     @ModifyArg(method = "handleInputEvents", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/MinecraftClient;handleBlockBreaking(Z)V"))
-    private boolean sparkstrength$noBlockBreakingWhilePiloting(boolean breaking) {
+    private boolean sparkdlc$noBlockBreakingWhilePiloting(boolean breaking) {
         return breaking && !DronePilotClient.blocksBodyActions();
     }
 }

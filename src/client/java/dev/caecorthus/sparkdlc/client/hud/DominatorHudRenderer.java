@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.hud;
 
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.client.role.killer.dominator.DominatorClientModule;
 import dev.caecorthus.sparkdlc.role.killer.dominator.DominatorPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.dominator.DominatorRules;
@@ -74,7 +74,7 @@ public final class DominatorHudRenderer {
         if (component.hasActiveMark()) {
             return Text.translatable(
                     "hud.sparkdlc.dominator.force_shoot",
-                    SparkWitchClient.abilityKeyText(),
+                    SparkDLCClient.abilityKeyText(),
                     remainingUses
             );
         }
@@ -84,7 +84,7 @@ public final class DominatorHudRenderer {
         }
         return Text.translatable(
                 "hud.sparkdlc.dominator.mark",
-                SparkWitchClient.abilityKeyText(),
+                SparkDLCClient.abilityKeyText(),
                 DominatorClientModule.visibleName(target),
                 remainingUses
         );

@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.mixin.role.witch.grandwitch;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeTargetOcclusion;
 import dev.caecorthus.sparkdlc.client.role.civilian.knight.CrossSwordClientStab;
 import dev.doctor4t.wathe.client.gui.CrosshairRenderer;
@@ -33,9 +33,9 @@ public abstract class CrossSwordWatheCrosshairMixin {
      */
     @WrapOperation(method = "renderCrosshair", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/item/ItemStack;isOf(Lnet/minecraft/item/Item;)Z", ordinal = 2))
-    private static boolean sparkwitch$crossSwordKnifeCrosshair(ItemStack stack, Item item,
+    private static boolean sparkdlc$crossSwordKnifeCrosshair(ItemStack stack, Item item,
                                                                 Operation<Boolean> original) {
-        if (item == WatheItems.KNIFE && stack.isOf(SparkWitchItems.crossSword())) {
+        if (item == WatheItems.KNIFE && stack.isOf(SparkDlcItems.crossSword())) {
             ClientPlayerEntity player = MinecraftClient.getInstance().player;
             // Hint only: a duel target hidden by BEAR smoke keeps the plain crosshair; the release still sends the
             // stab from the unfiltered aimedDuelTarget. / 仅提示：被 BEAR 烟雾挡住的决斗目标保持普通准星；松手仍按未过滤
@@ -54,11 +54,11 @@ public abstract class CrossSwordWatheCrosshairMixin {
      */
     @WrapOperation(method = "renderCrosshair", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/entity/player/ItemCooldownManager;isCoolingDown(Lnet/minecraft/item/Item;)Z"))
-    private static boolean sparkwitch$crossSwordIgnoresKnifeCooldown(ItemCooldownManager manager, Item item,
+    private static boolean sparkdlc$crossSwordIgnoresKnifeCooldown(ItemCooldownManager manager, Item item,
                                                                      Operation<Boolean> original) {
         if (item == WatheItems.KNIFE) {
             ClientPlayerEntity player = MinecraftClient.getInstance().player;
-            if (player != null && player.getMainHandStack().isOf(SparkWitchItems.crossSword())) {
+            if (player != null && player.getMainHandStack().isOf(SparkDlcItems.crossSword())) {
                 return false;
             }
         }

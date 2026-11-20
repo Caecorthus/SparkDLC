@@ -33,14 +33,14 @@ public abstract class KeyBindingGateMixin {
     private int timesPressed;
 
     @Inject(method = "onKeyPressed", at = @At("HEAD"), cancellable = true)
-    private static void sparkstrength$dropPressWhenStunned(InputUtil.Key key, CallbackInfo ci) {
+    private static void sparkdlc$dropPressWhenStunned(InputUtil.Key key, CallbackInfo ci) {
         if (ClientKeyGate.dropsPress()) {
             ci.cancel();
         }
     }
 
     @Inject(method = "wasPressed", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$blockWasPressedWhenStunned(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$blockWasPressedWhenStunned(CallbackInfoReturnable<Boolean> cir) {
         if (ClientKeyGate.releasesEveryKey()) {
             this.timesPressed = 0;
             cir.setReturnValue(false);
@@ -48,31 +48,31 @@ public abstract class KeyBindingGateMixin {
     }
 
     @Inject(method = "isPressed", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$blockIsPressedWhenStunned(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$blockIsPressedWhenStunned(CallbackInfoReturnable<Boolean> cir) {
         if (ClientKeyGate.releasesEveryKey()) {
             cir.setReturnValue(false);
         }
     }
 
     @ModifyReturnValue(method = "isPressed", at = @At("RETURN"))
-    private boolean sparkstrength$gateHeld(boolean original) {
+    private boolean sparkdlc$gateHeld(boolean original) {
         return ClientKeyGate.held((KeyBinding) (Object) this, original);
     }
 
     @ModifyReturnValue(method = "wasPressed", at = @At("RETURN"))
-    private boolean sparkstrength$clickPastDrone(boolean original) {
+    private boolean sparkdlc$clickPastDrone(boolean original) {
         return ClientKeyGate.clickedPastDrone((KeyBinding) (Object) this, original);
     }
 
     @Inject(method = "wasPressed", at = @At("RETURN"), cancellable = true)
-    private void sparkstrength$claimClick(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$claimClick(CallbackInfoReturnable<Boolean> cir) {
         if (ClientKeyGate.claimsClick((KeyBinding) (Object) this, cir.getReturnValueZ())) {
             cir.setReturnValue(false);
         }
     }
 
     @ModifyReturnValue(method = "wasPressed", at = @At("RETURN"))
-    private boolean sparkstrength$clickPastCoolingOil(boolean original) {
+    private boolean sparkdlc$clickPastCoolingOil(boolean original) {
         return ClientKeyGate.clickedPastCoolingOil((KeyBinding) (Object) this, original);
     }
 }

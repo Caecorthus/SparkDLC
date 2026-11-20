@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.savior;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.net.SaviorLightsaberIgniteC2SPayload;
 import java.util.Collections;
 import java.util.IdentityHashMap;
@@ -36,13 +36,13 @@ import net.minecraft.util.Identifier;
  */
 public final class SaviorLightsaberAnimation {
     /** Stable client model predicate id read by the lightsaber model overrides. / 光剑模型覆盖读取的稳定客户端谓词 id。 */
-    public static final Identifier HELD_FRAME_ID = SparkWitch.id("held_frame");
+    public static final Identifier HELD_FRAME_ID = SparkDLC.id("held_frame");
     /**
      * Selects the unlit hilt model for the held pre-ignition window. Non-held/GUI renders never match it, so they fall
      * back to the base model, which is the lit texture.
      * 为手持预热窗口选择未点亮的剑柄模型。非手持/GUI 渲染不会命中，因此回落到基础上点亮贴图。
      */
-    public static final Identifier PREIGNITION_ID = SparkWitch.id("preignition");
+    public static final Identifier PREIGNITION_ID = SparkDLC.id("preignition");
     /** Continuous hold required before ignition: 0.95 s = 19 ticks. / 点火前的连续手持时间：0.95 秒 = 19 刻。 */
     public static final double IGNITION_DELAY_TICKS = 19.0D;
     /**
@@ -83,7 +83,7 @@ public final class SaviorLightsaberAnimation {
     public static void register() {
         FabricModelPredicateProviderRegistry.register(HELD_FRAME_ID, (stack, world, entity, seed) -> {
             if (world == null || !(entity instanceof PlayerEntity player)
-                    || !stack.isOf(SparkWitchItems.saviorLightsaber())) {
+                    || !stack.isOf(SparkDlcItems.saviorLightsaber())) {
                 return 1.0F;
             }
             // A stack outside both hands (inventory slots, the lowering hand) never starts a hold from render code:
@@ -96,7 +96,7 @@ public final class SaviorLightsaberAnimation {
         // 手持预热（含动画第 0 帧）使用剑柄模型；其他情况（包括物品栏 GUI）回落到点亮的 base 模型。不依赖 GUI 传 null 实体。
         FabricModelPredicateProviderRegistry.register(PREIGNITION_ID, (stack, world, entity, seed) -> {
             if (world == null || !(entity instanceof PlayerEntity player)
-                    || !stack.isOf(SparkWitchItems.saviorLightsaber())) {
+                    || !stack.isOf(SparkDlcItems.saviorLightsaber())) {
                 return 0.0F;
             }
             if (!isHeldBy(player, stack)) {
@@ -157,7 +157,7 @@ public final class SaviorLightsaberAnimation {
      * 每 {@value #HUM_RETRY_TICKS} 刻最多一次，避免每帧询问失败的引擎；静音的持有者保留一个静音嗡鸣。
      */
     private static void trackHum(PlayerEntity holder, ItemStack stack, Set<ItemStack> active, MinecraftClient client) {
-        if (!stack.isOf(SparkWitchItems.saviorLightsaber()) || !isBladeExtended(stack)) {
+        if (!stack.isOf(SparkDlcItems.saviorLightsaber()) || !isBladeExtended(stack)) {
             return;
         }
         active.add(stack);
@@ -269,7 +269,7 @@ public final class SaviorLightsaberAnimation {
      * （包括渲染这把光剑的其他客户端）都能听到。
      */
     private static void sendIgnitionOnce(ItemStack stack, double now) {
-        if (!stack.isOf(SparkWitchItems.saviorLightsaber())) {
+        if (!stack.isOf(SparkDlcItems.saviorLightsaber())) {
             return;
         }
         Double start = HELD_START.get(stack);
@@ -295,7 +295,7 @@ public final class SaviorLightsaberAnimation {
     }
 
     private static void track(ItemStack stack, Set<ItemStack> stillHeld, double now) {
-        if (!stack.isOf(SparkWitchItems.saviorLightsaber())) {
+        if (!stack.isOf(SparkDlcItems.saviorLightsaber())) {
             return;
         }
         stillHeld.add(stack);

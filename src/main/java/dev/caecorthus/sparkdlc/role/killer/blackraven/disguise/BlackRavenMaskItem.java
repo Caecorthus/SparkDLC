@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven.disguise;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.net.OpenBlackRavenDisguiseS2CPacket;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenRules;
@@ -37,7 +37,7 @@ public final class BlackRavenMaskItem extends Item {
             return TypedActionResult.success(stack);
         }
         if (!(user instanceof ServerPlayerEntity player)
-                || !stack.isOf(SparkWitchItems.blackRavenMask())
+                || !stack.isOf(SparkDlcItems.blackRavenMask())
                 || !GameWorldComponent.KEY.get(world).isRunning()
                 || !GameFunctions.isPlayerPlayingAndAlive(player)
                 || !BlackRavenRules.isBlackRaven(GameWorldComponent.KEY.get(world).getRole(player))

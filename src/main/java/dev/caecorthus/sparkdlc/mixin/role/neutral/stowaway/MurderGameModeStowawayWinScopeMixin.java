@@ -32,7 +32,7 @@ public abstract class MurderGameModeStowawayWinScopeMixin {
             require = 1,
             allow = 1
     )
-    private static CheckWinCondition.WinResult sparkwitch$stowawayCountsAsDeadForWin(
+    private static CheckWinCondition.WinResult sparkdlc$stowawayCountsAsDeadForWin(
             CheckWinCondition event,
             ServerWorld world,
             GameWorldComponent game,

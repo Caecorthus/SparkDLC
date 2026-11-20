@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.perfumer.kit;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerScentComponent;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.util.ShopStacks;
@@ -34,7 +34,7 @@ public final class PerfumerShopService {
         }
 
         List<ShopEntry> result = null;
-        Item coolingOil = SparkStrengthItems.coolingOil();
+        Item coolingOil = SparkDlcItems.coolingOil();
         if (!contains(entries, PerfumerRules.COOLING_OIL_ENTRY_ID, coolingOil)) {
             result = add(result, entries, player, new ShopEntry.Builder(
                     PerfumerRules.COOLING_OIL_ENTRY_ID,
@@ -47,7 +47,7 @@ public final class PerfumerShopService {
                     .onBuy(buyer -> ShopStacks.giveStackable(buyer, coolingOil, PerfumerRules.THROWABLE_MAX_STACK))
                     .build());
         }
-        Item aromaOrb = SparkStrengthItems.aromaOrb();
+        Item aromaOrb = SparkDlcItems.aromaOrb();
         if (!contains(entries, PerfumerRules.AROMA_ORB_ENTRY_ID, aromaOrb)) {
             result = add(result, entries, player, new ShopEntry.Builder(
                     PerfumerRules.AROMA_ORB_ENTRY_ID,
@@ -58,7 +58,7 @@ public final class PerfumerShopService {
                     .onBuy(buyer -> ShopStacks.giveStackable(buyer, aromaOrb, PerfumerRules.THROWABLE_MAX_STACK))
                     .build());
         }
-        Item zephyrPerfume = SparkStrengthItems.zephyrPerfume();
+        Item zephyrPerfume = SparkDlcItems.zephyrPerfume();
         if (!contains(entries, PerfumerRules.ZEPHYR_PERFUME_ENTRY_ID, zephyrPerfume)) {
             result = add(result, entries, player, new ShopEntry.Builder(
                     PerfumerRules.ZEPHYR_PERFUME_ENTRY_ID,

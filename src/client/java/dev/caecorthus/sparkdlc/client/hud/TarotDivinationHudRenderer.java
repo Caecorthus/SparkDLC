@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.faction.api.FactionDefinition;
 import dev.caecorthus.sparkdlc.faction.api.FactionIds;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.client.gui.card.InventoryCardPaint;
-import dev.caecorthus.sparkdlc.SparkWitchFactions;
+import dev.caecorthus.sparkdlc.SparkDlcFactions;
 import dev.caecorthus.sparkdlc.client.economy.KillerTeamEconomyClientHooks;
 import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotDivinationClientState;
 import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotDivinationHudLayout;
@@ -265,8 +265,8 @@ public final class TarotDivinationHudRenderer {
             case CIVILIAN -> FactionIds.CIVILIAN;
             case KILLER -> FactionIds.KILLER;
             case NEUTRAL -> FactionIds.NEUTRAL;
-            case WITCH -> SparkWitchFactions.WITCH;
-            case JIAHAO -> SparkWitchFactions.JIAHAO;
+            case WITCH -> SparkDlcFactions.WITCH;
+            case JIAHAO -> SparkDlcFactions.JIAHAO;
         };
     }
 
@@ -278,7 +278,7 @@ public final class TarotDivinationHudRenderer {
      * （{@link InsiderRules#TEAM_JIAHAO_COLOR}）。HUD 圆点与选择界面分区标记共用，同一阵营处处同色。
      */
     public static int factionColor(Identifier factionId) {
-        int fallback = SparkWitchFactions.JIAHAO.equals(factionId) ? InsiderRules.TEAM_JIAHAO_COLOR : WHITE;
+        int fallback = SparkDlcFactions.JIAHAO.equals(factionId) ? InsiderRules.TEAM_JIAHAO_COLOR : WHITE;
         return SparkFactionApi.getFaction(factionId)
                 .map(FactionDefinition::color)
                 .orElse(fallback) & 0xFFFFFF;

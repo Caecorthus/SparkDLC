@@ -30,7 +30,7 @@ public abstract class SpecterOtherworldGunMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$dropRejectedOtherworldShot(
+    private void sparkdlc$dropRejectedOtherworldShot(
             GunShootPayload payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci

@@ -24,7 +24,7 @@ public abstract class WraithMinecraftClientMixin {
      * END 被跳过，pass 也不会跨越本帧。
      */
     @Inject(method = "render", at = @At("HEAD"))
-    private void sparkwitch$closeViewerSnapshotAtFrameStart(boolean tick, CallbackInfo ci) {
+    private void sparkdlc$closeViewerSnapshotAtFrameStart(boolean tick, CallbackInfo ci) {
         LocalViewerSnapshot.close();
     }
 
@@ -35,7 +35,7 @@ public abstract class WraithMinecraftClientMixin {
      * 它不是只看返回值的过滤器。
      */
     @Inject(method = "hasOutline", at = @At("RETURN"), cancellable = true)
-    private void sparkwitch$vetoWraithOutline(Entity entity, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$vetoWraithOutline(Entity entity, CallbackInfoReturnable<Boolean> cir) {
         PlayerEntity viewer = MinecraftClient.getInstance().player;
         if (entity instanceof PlayerEntity target
                 && WraithViewerRules.shouldHideFromOrdinaryViewer(viewer, target)) {

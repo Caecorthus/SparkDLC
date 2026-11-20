@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.timestealer;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.killer.timestealer.TimeStampLedger.Holdings;
 import dev.caecorthus.sparkdlc.role.killer.timestealer.TimeStampLedger.Kind;
 import dev.caecorthus.sparkdlc.role.killer.timestealer.TimeStampLedger.Move;
@@ -83,7 +83,7 @@ public final class TimeStampInventory {
                 continue;
             }
             int next = (stamps ? current.getCount() : 0) + move.delta();
-            ItemStack replacement = next > 0 ? new ItemStack(SparkWitchItems.timeStamp(), next) : ItemStack.EMPTY;
+            ItemStack replacement = next > 0 ? new ItemStack(SparkDlcItems.timeStamp(), next) : ItemStack.EMPTY;
             if (move.index() == TimeStampLedger.CURSOR) {
                 handler.setCursorStack(replacement);
             } else {

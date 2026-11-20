@@ -265,7 +265,7 @@ def verifyFactionApiModJar = tasks.register("verifyFactionApiModJar") {
                     "dev/caecorthus/sparkdlc/round/antifastround/AntiFastRoundRules.class",
                     "dev/caecorthus/sparkdlc/round/antifastround/AntiFastRoundGuards.class",
                     "dev/caecorthus/sparkdlc/round/antifastround/AntiFastRoundBootstrap.class",
-                    "dev/caecorthus/sparkdlc/component/SparkFactionAntiFastRoundComponent.class",
+                    "dev/caecorthus/sparkdlc/component/AntiFastRoundComponent.class",
                     "dev/caecorthus/sparkdlc/command/admin/AntiFastRoundCommand.class",
                     "dev/caecorthus/sparkdlc/mixin/faction/AntiFastRoundPayloadGuardMixin.class",
                     "dev/caecorthus/sparkdlc/round/mapreset/LobbyMapReset.class",
@@ -273,7 +273,7 @@ def verifyFactionApiModJar = tasks.register("verifyFactionApiModJar") {
                     "dev/caecorthus/sparkdlc/round/mapreset/LobbyMapResetRules.class",
                     "dev/caecorthus/sparkdlc/round/mapreset/LobbyMapResetState.class",
                     "dev/caecorthus/sparkdlc/round/mapreset/MapResetJob.class",
-                    "dev/caecorthus/sparkdlc/component/SparkFactionMapResetComponent.class",
+                    "dev/caecorthus/sparkdlc/component/LobbyMapResetComponent.class",
                     "dev/caecorthus/sparkdlc/mixin/round/mapreset/AutoStartComponentMapResetMixin.class",
                     "dev/caecorthus/sparkdlc/mixin/round/mapreset/CommandManagerMapResetMixin.class",
                     "dev/caecorthus/sparkdlc/mixin/round/mapreset/GameFunctionsMapResetMixin.class",
@@ -291,7 +291,7 @@ def verifyFactionApiModJar = tasks.register("verifyFactionApiModJar") {
                     "dev/caecorthus/sparkdlc/faction/thirdfaction/ThirdFactionDrawRules.class",
                     "dev/caecorthus/sparkdlc/faction/thirdfaction/ThirdFactionDrawSettings.class",
                     "dev/caecorthus/sparkdlc/faction/thirdfaction/ThirdFactionLineups.class",
-                    "dev/caecorthus/sparkdlc/component/SparkFactionThirdFactionComponent.class",
+                    "dev/caecorthus/sparkdlc/component/ThirdFactionComponent.class",
                     "dev/caecorthus/sparkdlc/command/settings/ThirdFactionDividendCommand.class",
                     "dev/caecorthus/sparkdlc/mixin/faction/thirdfaction/GameSettingsCommandThirdFactionMixin.class"
             ].each { requiredEntry ->

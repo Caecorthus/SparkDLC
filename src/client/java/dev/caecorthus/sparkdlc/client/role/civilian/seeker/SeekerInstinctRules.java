@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.seeker;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerDeviceKind;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerSessionMode;
 import dev.caecorthus.sparkdlc.role.witch.WitchFactionRules;
@@ -22,11 +22,11 @@ import java.util.UUID;
  * 自己的本体描边。钩子只传入事实，这里不接触客户端。
  */
 public final class SeekerInstinctRules {
-    public static final Identifier GRAND_WITCH_ID = SparkWitch.id("grand_witch");
-    public static final Identifier ACCOMPLICE_ID = SparkWitch.id("accomplice");
+    public static final Identifier GRAND_WITCH_ID = SparkDLC.id("grand_witch");
+    public static final Identifier ACCOMPLICE_ID = SparkDLC.id("accomplice");
     /** The Bewitched is accomplice-like (C2). / 魔化使属于共犯类（C2）。 */
-    public static final Identifier BEWITCHED_ID = SparkWitch.id("bewitched");
-    public static final Identifier MURDEROUS_WITCH_ID = SparkWitch.id("murderous_witch");
+    public static final Identifier BEWITCHED_ID = SparkDLC.id("bewitched");
+    public static final Identifier MURDEROUS_WITCH_ID = SparkDLC.id("murderous_witch");
     private static final Set<Identifier> WITCH_INSTINCT_ROLES =
             Set.of(GRAND_WITCH_ID, ACCOMPLICE_ID, BEWITCHED_ID, MURDEROUS_WITCH_ID);
 

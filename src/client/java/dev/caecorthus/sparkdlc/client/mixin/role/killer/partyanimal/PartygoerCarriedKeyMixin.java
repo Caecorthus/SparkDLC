@@ -24,17 +24,17 @@ public abstract class PartygoerCarriedKeyMixin {
     private static final String SECONDARY_SKILL_FALLBACK = "key.sparkdlc.secondary_skill";
 
     @Inject(method = "wasPressed", at = @At("RETURN"), cancellable = true)
-    private void sparkstrength$lockCarriedWasPressed(CallbackInfoReturnable<Boolean> cir) {
-        sparkstrength$lockCarried(cir);
+    private void sparkdlc$lockCarriedWasPressed(CallbackInfoReturnable<Boolean> cir) {
+        sparkdlc$lockCarried(cir);
     }
 
     @Inject(method = "isPressed", at = @At("RETURN"), cancellable = true)
-    private void sparkstrength$lockCarriedIsPressed(CallbackInfoReturnable<Boolean> cir) {
-        sparkstrength$lockCarried(cir);
+    private void sparkdlc$lockCarriedIsPressed(CallbackInfoReturnable<Boolean> cir) {
+        sparkdlc$lockCarried(cir);
     }
 
     @Unique
-    private void sparkstrength$lockCarried(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$lockCarried(CallbackInfoReturnable<Boolean> cir) {
         if (!cir.getReturnValueZ()) {
             return;
         }
@@ -43,13 +43,13 @@ public abstract class PartygoerCarriedKeyMixin {
             return;
         }
         KeyBinding key = (KeyBinding) (Object) this;
-        if (sparkstrength$isLocked(client.options, key)) {
+        if (sparkdlc$isLocked(client.options, key)) {
             cir.setReturnValue(false);
         }
     }
 
     @Unique
-    private static boolean sparkstrength$isLocked(GameOptions options, KeyBinding key) {
+    private static boolean sparkdlc$isLocked(GameOptions options, KeyBinding key) {
         if (key == options.attackKey || key == options.useKey || key == options.pickItemKey
                 || key == options.dropKey || key == options.swapHandsKey || key == NoellesrolesClient.abilityBind) {
             return true;

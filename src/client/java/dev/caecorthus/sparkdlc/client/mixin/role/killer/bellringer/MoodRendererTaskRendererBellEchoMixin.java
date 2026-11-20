@@ -31,7 +31,7 @@ public abstract class MoodRendererTaskRendererBellEchoMixin {
             require = 1,
             allow = 1
     )
-    private void sparkwitch$restyleBellEchoTask(
+    private void sparkdlc$restyleBellEchoTask(
             PlayerMoodComponent.TrainTask task,
             float delta,
             boolean fakeMood,

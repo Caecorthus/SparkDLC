@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven.crow;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.util.TickTime;
 import dev.doctor4t.wathe.game.GameConstants;
 import net.minecraft.util.Identifier;
@@ -17,18 +17,18 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class BlackRavenCrowRules {
     /** Skill id (replay, HUD, forced-cooldown store). / 技能 id（回放、HUD、强制冷却存储）。 */
-    public static final Identifier SKILL_ID = SparkWitch.id("black_raven_crow");
+    public static final Identifier SKILL_ID = SparkDLC.id("black_raven_crow");
     /** Stable entity id of the flown crow. / 被操控乌鸦的稳定实体 id。 */
-    public static final Identifier ENTITY_ID = SparkWitch.id("black_raven_crow");
+    public static final Identifier ENTITY_ID = SparkDLC.id("black_raven_crow");
     /** Stable component id {@code sparkdlc:black_raven_crow}. / 稳定组件 id。 */
-    public static final Identifier COMPONENT_ID = SparkWitch.id("black_raven_crow");
+    public static final Identifier COMPONENT_ID = SparkDLC.id("black_raven_crow");
     /**
      * Reserved for crow-world: the one-use Homing Feather (归羽) item and its marker. Not registered here.
      * 为 crow-world 预留：一次性的归羽物品及其标记。此处不注册。
      */
-    public static final Identifier HOMING_FEATHER_ID = SparkWitch.id("homing_feather");
+    public static final Identifier HOMING_FEATHER_ID = SparkDLC.id("homing_feather");
     /** Reserved for crow-world: the black feather particle type. / 为 crow-world 预留：黑色羽毛粒子类型。 */
-    public static final Identifier BLACK_FEATHER_PARTICLE_ID = SparkWitch.id("black_feather");
+    public static final Identifier BLACK_FEATHER_PARTICLE_ID = SparkDLC.id("black_feather");
 
     public static final int UNLOCK_TASKS = 2;
     public static final int SESSION_MAX_TICKS = GameConstants.getInTicks(0, 30);

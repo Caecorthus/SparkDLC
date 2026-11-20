@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.recruit;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.record.GameRecordEvent;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import dev.doctor4t.wathe.record.replay.ReplayGenerator;
@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
  */
 final class RecruitReplay {
     /** {@code sparkdlc:recruit_knife_granted}. / 新兵拿到刀的事件 id。 */
-    static final Identifier KNIFE_GRANTED = SparkWitch.id("recruit_knife_granted");
+    static final Identifier KNIFE_GRANTED = SparkDLC.id("recruit_knife_granted");
 
     private static boolean registered;
 

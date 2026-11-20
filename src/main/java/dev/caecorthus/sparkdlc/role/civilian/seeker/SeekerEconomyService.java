@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker;
 
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.doctor4t.wathe.api.Role;
@@ -59,7 +59,7 @@ public final class SeekerEconomyService {
         GameWorldComponent game = GameWorldComponent.KEY.get(player.getWorld());
         return canEarn(game.getGameStatus() == GameWorldComponent.GameStatus.ACTIVE,
                 GameFunctions.isPlayerPlayingAndAlive(player), game.getRole(player), player.isSpectator(),
-                player.isCreative(), SparkWitchApi.isWraithRestricted(player));
+                player.isCreative(), SparkRoleApi.isWraithRestricted(player));
     }
 
     /** Same eligibility as the Judge and the Control Expert. / 与法官、控场专家相同的资格判定。 */

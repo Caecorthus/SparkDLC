@@ -37,10 +37,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class BlackRavenCrowBodyMixin {
     /** Re-entry guard of the vertical-only fall step below. / 下方仅竖直下落一步的重入保护。 */
     @Unique
-    private static boolean sparkwitch$crowBodyFallStep;
+    private static boolean sparkdlc$crowBodyFallStep;
 
     @Inject(method = "isCamera", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$crowBodyStaysCamera(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$crowBodyStaysCamera(CallbackInfoReturnable<Boolean> cir) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             return;
         }
@@ -51,8 +51,8 @@ public abstract class BlackRavenCrowBodyMixin {
 
     @Inject(method = "move(Lnet/minecraft/entity/MovementType;Lnet/minecraft/util/math/Vec3d;)V",
             at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$holdCrowBody(MovementType type, Vec3d movement, CallbackInfo ci) {
-        if (type != MovementType.SELF || sparkwitch$crowBodyFallStep) {
+    private void sparkdlc$holdCrowBody(MovementType type, Vec3d movement, CallbackInfo ci) {
+        if (type != MovementType.SELF || sparkdlc$crowBodyFallStep) {
             return;
         }
         ClientPlayerEntity body = (ClientPlayerEntity) (Object) this;
@@ -65,11 +65,11 @@ public abstract class BlackRavenCrowBodyMixin {
             // Fall straight down: the inner move collides and lands as vanilla; travel() then adds gravity.
             // 竖直下落：内层移动照原版计算碰撞与落地；随后 travel() 叠加重力。
             body.setVelocity(0.0, body.getVelocity().y, 0.0);
-            sparkwitch$crowBodyFallStep = true;
+            sparkdlc$crowBodyFallStep = true;
             try {
                 body.move(MovementType.SELF, new Vec3d(0.0, movement.y, 0.0));
             } finally {
-                sparkwitch$crowBodyFallStep = false;
+                sparkdlc$crowBodyFallStep = false;
             }
             return;
         }

@@ -21,17 +21,17 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = WatheClient.class, remap = false)
 public abstract class BlackoutInstinctSightMixin {
     @WrapMethod(method = "getInstinctHighlight")
-    private static int sparkstrength$blackoutSight(Entity target, Operation<Integer> original) {
+    private static int sparkdlc$blackoutSight(Entity target, Operation<Integer> original) {
         return BlackoutSightClient.highlight(target, () -> original.call(target));
     }
 
     @WrapMethod(method = "isInstinctEnabled()Z")
-    private static boolean sparkstrength$blackoutInstinctGate(Operation<Boolean> original) {
+    private static boolean sparkdlc$blackoutInstinctGate(Operation<Boolean> original) {
         return !BlackoutSightClient.releasesKey() && original.call();
     }
 
     @WrapMethod(method = "isInstinctEnabledAndIsKiller()Z")
-    private static boolean sparkstrength$blackoutKillerInstinctGate(Operation<Boolean> original) {
+    private static boolean sparkdlc$blackoutKillerInstinctGate(Operation<Boolean> original) {
         return !BlackoutSightClient.releasesKey() && original.call();
     }
 }

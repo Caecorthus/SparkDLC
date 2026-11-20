@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.bomber.drone;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
@@ -14,7 +14,7 @@ import net.minecraft.network.packet.CustomPayload;
  * （SparkWitch 恐惧）可以拦截开火，但退出必须始终能送达。
  */
 public record DronePilotExitC2SPacket(int entityId) implements CustomPayload {
-    public static final Id<DronePilotExitC2SPacket> ID = new Id<>(SparkStrength.id("drone_pilot_exit"));
+    public static final Id<DronePilotExitC2SPacket> ID = new Id<>(SparkDLC.id("drone_pilot_exit"));
     public static final PacketCodec<RegistryByteBuf, DronePilotExitC2SPacket> CODEC = PacketCodec.tuple(
             PacketCodecs.VAR_INT, DronePilotExitC2SPacket::entityId,
             DronePilotExitC2SPacket::new

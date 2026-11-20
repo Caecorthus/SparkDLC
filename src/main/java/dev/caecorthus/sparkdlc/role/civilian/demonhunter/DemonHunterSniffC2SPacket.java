@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.demonhunter;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
  * <p>包里没有字段，因为嗅探范围、目标列表和冷却都必须由服务端根据当前世界状态计算。</p>
  */
 public record DemonHunterSniffC2SPacket() implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("demon_hunter_sniff");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("demon_hunter_sniff");
     public static final Id<DemonHunterSniffC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, DemonHunterSniffC2SPacket> CODEC =
             PacketCodec.of(DemonHunterSniffC2SPacket::write, DemonHunterSniffC2SPacket::read);

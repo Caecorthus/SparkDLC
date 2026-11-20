@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ParticleManager.class)
 public abstract class ScopeParticleManagerMixin {
     @Inject(method = "renderParticles", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$skipLensParticles(CallbackInfo ci) {
+    private void sparkdlc$skipLensParticles(CallbackInfo ci) {
         if (ScopePictureInPicture.isRenderingLens()) {
             ci.cancel();
         }

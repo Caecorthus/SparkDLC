@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.jiahao.sniper;
 
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.CanSeeMoney;
 import dev.doctor4t.wathe.api.event.RoleAssigned;
@@ -50,7 +50,7 @@ public final class SniperEconomyService {
                 && SniperRules.isSniperRole(role)
                 && !player.isSpectator()
                 && !player.isCreative()
-                && !SparkWitchApi.isWraithRestricted(player)) {
+                && !SparkRoleApi.isWraithRestricted(player)) {
             PlayerShopComponent.KEY.get(player).addToBalance(SniperRules.TASK_MONEY_REWARD);
         }
     }

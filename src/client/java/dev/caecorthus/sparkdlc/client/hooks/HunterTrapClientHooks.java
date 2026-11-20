@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.hooks;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.role.killer.hunter.HunterTrapDismantleHud;
 import dev.caecorthus.sparkdlc.client.role.killer.hunter.HunterTrapVisibilityHelper;
 import dev.caecorthus.sparkdlc.role.killer.hunter.HunterRules;
@@ -22,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
  * 注册猎人捕兽夹模型加载与 Wathe 本能描边桥接。
  */
 public final class HunterTrapClientHooks {
-    public static final Identifier HUNTER_TRAP_PLACED_MODEL_ID = SparkWitch.id("item/hunter_trap_placed");
+    public static final Identifier HUNTER_TRAP_PLACED_MODEL_ID = SparkDLC.id("item/hunter_trap_placed");
     public static final int HIGHLIGHT_PRIORITY =
             WitchInstinctSuppressionClientHooks.SUPPRESSION_PRIORITY - 1;
     // Class-1 dismantlers outrank every other outline while the channel runs (owner 2026-11-11).

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.killer.specter;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.killer.specter.GhostVisageEntity;
 import java.util.UUID;
 import net.minecraft.client.MinecraftClient;
@@ -27,7 +27,7 @@ import net.minecraft.util.math.RotationAxis;
  * 生命周期内降到 0。使用全亮度，保证黑暗房间里也看得见。
  */
 public final class GhostVisageEntityRenderer extends EntityRenderer<GhostVisageEntity> {
-    private static final Identifier TEXTURE = SparkWitch.id("textures/entity/ghost_visage.png");
+    private static final Identifier TEXTURE = SparkDLC.id("textures/entity/ghost_visage.png");
     private static final float START_ALPHA = 0.30F;
     private final PlayerEntityModel<GhostVisageEntity> model;
 

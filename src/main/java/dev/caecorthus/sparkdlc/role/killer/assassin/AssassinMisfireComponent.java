@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.assassin;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.killer.assassin.AssassinGuessRules;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -21,7 +21,7 @@ import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
  */
 public final class AssassinMisfireComponent implements AutoSyncedComponent {
     public static final ComponentKey<AssassinMisfireComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("assassin_misfire"),
+            SparkDLC.id("assassin_misfire"),
             AssassinMisfireComponent.class
     );
 

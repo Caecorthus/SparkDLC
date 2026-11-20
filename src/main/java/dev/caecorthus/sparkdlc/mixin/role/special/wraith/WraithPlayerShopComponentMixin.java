@@ -28,7 +28,7 @@ public abstract class WraithPlayerShopComponentMixin {
                     target = "Ldev/doctor4t/wathe/game/GameFunctions;isPlayerPlayingAndAlive(Lnet/minecraft/entity/player/PlayerEntity;)Z"
             )
     )
-    private boolean sparkwitch$allowPromotedWraithPurchase(PlayerEntity checkedPlayer) {
+    private boolean sparkdlc$allowPromotedWraithPurchase(PlayerEntity checkedPlayer) {
         boolean windSpiritAllowed = WindSpiritRules.canPassShopAliveGate(
                 GameFunctions.isPlayerPlayingAndAlive(checkedPlayer),
                 WindSpiritRules.isWindSpirit(player),

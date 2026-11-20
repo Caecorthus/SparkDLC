@@ -35,7 +35,7 @@ public abstract class SeekerKnifeTargetMixin {
             method = "getKnifeTarget(Lnet/minecraft/entity/player/PlayerEntity;)Lnet/minecraft/util/hit/HitResult;",
             at = @At("RETURN"),
             remap = false)
-    private static HitResult sparkwitch$preferNearerSeekerDevice(HitResult original, PlayerEntity user) {
+    private static HitResult sparkdlc$preferNearerSeekerDevice(HitResult original, PlayerEntity user) {
         if (user == null || !user.getWorld().isClient()) {
             return original;
         }

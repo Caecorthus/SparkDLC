@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.round.mapreset;
 
-import dev.caecorthus.sparkdlc.component.SparkFactionMapResetComponent;
+import dev.caecorthus.sparkdlc.component.LobbyMapResetComponent;
 import dev.doctor4t.wathe.api.GameMode;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.MapVotingComponent;
@@ -18,7 +18,7 @@ public final class LobbyMapResetState {
     }
 
     public static boolean isResetting(World world) {
-        SparkFactionMapResetComponent progress = SparkFactionMapResetComponent.KEY.getNullable(world.getScoreboard());
+        LobbyMapResetComponent progress = LobbyMapResetComponent.KEY.getNullable(world.getScoreboard());
         return progress != null && progress.isResetting();
     }
 

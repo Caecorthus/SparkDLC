@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.hiro.witchification;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import java.util.function.IntPredicate;
 import net.minecraft.entity.player.PlayerInventory;
@@ -16,7 +16,7 @@ public final class HiroWitchificationRules {
     /** Speed II. / 速度 II。 */
     public static final int SPEED_AMPLIFIER = 1;
     /** Wathe replay global event recorded once when she witchifies. / 魔女化时记录一次的 Wathe 回放全局事件。 */
-    public static final Identifier REPLAY_EVENT_ID = SparkWitch.id("nikaido_hiro_witchified");
+    public static final Identifier REPLAY_EVENT_ID = SparkDLC.id("nikaido_hiro_witchified");
 
     private HiroWitchificationRules() {
     }

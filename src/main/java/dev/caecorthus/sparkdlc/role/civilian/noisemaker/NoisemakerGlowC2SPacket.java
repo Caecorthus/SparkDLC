@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.noisemaker;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
@@ -16,7 +16,7 @@ import java.util.UUID;
  */
 public record NoisemakerGlowC2SPacket(UUID targetPlayer) implements CustomPayload {
     public static final CustomPayload.Id<NoisemakerGlowC2SPacket> ID =
-            new CustomPayload.Id<>(SparkStrength.id("noisemaker_glow"));
+            new CustomPayload.Id<>(SparkDLC.id("noisemaker_glow"));
     public static final PacketCodec<RegistryByteBuf, NoisemakerGlowC2SPacket> CODEC = PacketCodec.tuple(
             Uuids.PACKET_CODEC, NoisemakerGlowC2SPacket::targetPlayer,
             NoisemakerGlowC2SPacket::new

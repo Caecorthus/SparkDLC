@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.util.ShopStacks;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
@@ -41,7 +41,7 @@ public final class PartyBalloonShopService {
         for (int i = 0; i < context.size(); i++) {
             ids.add(context.getEntry(i).id());
         }
-        Item balloon = SparkStrengthItems.partyBalloon();
+        Item balloon = SparkDlcItems.partyBalloon();
         context.addEntry(PartyBalloonRules.shopInsertIndex(ids),
                 SparkTraitsApi.discountShopEntryForCharisma(player, new ShopEntry.Builder(
                         PartyBalloonRules.ENTRY_ID,

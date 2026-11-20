@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.timestealer;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
@@ -81,7 +81,7 @@ public final class TimeGiftWatchService {
      * 持有者每 tick 维护，与时钟相同：栏位显示绝不少于 {@code GiftReadyAt}，仅用精确写入。
      */
     static void keepDisplayedCooldown(ServerPlayerEntity user) {
-        Item watch = SparkWitchItems.timeStealerGiftWatch();
+        Item watch = SparkDlcItems.timeStealerGiftWatch();
         long remaining = TimeStealerPlayerComponent.KEY.get(user).giftReadyAt() - user.getWorld().getTime();
         if (TimeStealerRules.clockDisplayLags(remaining, displayedTicks(user, watch))) {
             SparkTraitsApi.setExactItemCooldownRemaining(user, watch, (int) Math.min(Integer.MAX_VALUE, remaining));
@@ -97,7 +97,7 @@ public final class TimeGiftWatchService {
 
     private static int displayedTicks(ServerPlayerEntity user, Item watch) {
         ItemCooldownManagerAccessor manager = (ItemCooldownManagerAccessor) user.getItemCooldownManager();
-        return manager.sparkwitch$getEntries().get(watch) instanceof ItemCooldownEntryAccessor entry
-                ? Math.max(0, entry.sparkwitch$getEndTick() - manager.sparkwitch$getTick()) : 0;
+        return manager.sparkdlc$getEntriesForRoles().get(watch) instanceof ItemCooldownEntryAccessor entry
+                ? Math.max(0, entry.sparkdlc$getEndTickForRoles() - manager.sparkdlc$getTickForRoles()) : 0;
     }
 }

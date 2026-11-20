@@ -35,7 +35,7 @@ public abstract class ServerWorldExplosionSmokeCarveMixin {
                     + "Lnet/minecraft/registry/entry/RegistryEntry;)Lnet/minecraft/world/explosion/Explosion;",
             at = @At("HEAD")
     )
-    private void sparkwitch$carveExplosion(@Nullable Entity entity, @Nullable DamageSource damageSource,
+    private void sparkdlc$carveExplosion(@Nullable Entity entity, @Nullable DamageSource damageSource,
                                           @Nullable ExplosionBehavior behavior, double x, double y, double z,
                                           float power, boolean createFire,
                                           World.ExplosionSourceType explosionSourceType, ParticleEffect particle,

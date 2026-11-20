@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.piggod;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.DoorInteraction;
 import dev.doctor4t.wathe.game.GameConstants;
@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
  * 皮革噶的的纯数值与判断规则集中在这里，避免影响其他职业。
  */
 public final class PigGodRules {
-    public static final Identifier PIG_CHASE_ID = SparkWitch.id("pig_chase");
+    public static final Identifier PIG_CHASE_ID = SparkDLC.id("pig_chase");
     public static final int COLOR = 0xF2A4FC;
     public static final int COIN_COST = 150;
     public static final int COOLDOWN_TICKS = GameConstants.getInTicks(1, 0);
@@ -34,7 +34,7 @@ public final class PigGodRules {
     }
 
     public static boolean isPigGod(Role role) {
-        return role == dev.caecorthus.sparkdlc.SparkWitchRoles.pigGod();
+        return role == dev.caecorthus.sparkdlc.SparkDlcRoles.pigGod();
     }
 
     public static boolean shouldHighlight(

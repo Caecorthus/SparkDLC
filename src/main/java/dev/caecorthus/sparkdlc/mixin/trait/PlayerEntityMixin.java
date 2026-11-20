@@ -21,10 +21,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin {
     @Unique
-    private Scheduler.ScheduledTask sparktraits$consciencePoisonSleepTask;
+    private Scheduler.ScheduledTask sparkdlc$consciencePoisonSleepTask;
 
     @Inject(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$blockLastStandPendingDrops(ItemStack stack, boolean throwRandomly, boolean retainOwnership, CallbackInfoReturnable<ItemEntity> cir) {
+    private void sparkdlc$blockLastStandPendingDrops(ItemStack stack, boolean throwRandomly, boolean retainOwnership, CallbackInfoReturnable<ItemEntity> cir) {
         if ((Object) this instanceof ServerPlayerEntity player
                 && (LastStandService.isPending(player) || DepressionTraitService.shouldBlockDrops(player))) {
             cir.setReturnValue(null);
@@ -32,26 +32,26 @@ public abstract class PlayerEntityMixin {
     }
 
     @Inject(method = "wakeUp(ZZ)V", at = @At("HEAD"))
-    private void sparktraits$cancelConsciencePoisonSleep(boolean skipSleepTimer, boolean updateSleepingPlayers, CallbackInfo ci) {
-        if (sparktraits$consciencePoisonSleepTask != null) {
-            sparktraits$consciencePoisonSleepTask.cancel();
-            sparktraits$consciencePoisonSleepTask = null;
+    private void sparkdlc$cancelConsciencePoisonSleep(boolean skipSleepTimer, boolean updateSleepingPlayers, CallbackInfo ci) {
+        if (sparkdlc$consciencePoisonSleepTask != null) {
+            sparkdlc$consciencePoisonSleepTask.cancel();
+            sparkdlc$consciencePoisonSleepTask = null;
         }
     }
 
     @Inject(method = "trySleep", at = @At("TAIL"))
-    private void sparktraits$scheduleConsciencePoisonSleep(
+    private void sparkdlc$scheduleConsciencePoisonSleep(
             BlockPos pos,
             CallbackInfoReturnable<Either<PlayerEntity.SleepFailureReason, Unit>> cir
     ) {
         PlayerEntity self = (PlayerEntity) (Object) this;
         if (cir.getReturnValue().right().isPresent() && self instanceof ServerPlayerEntity serverPlayer) {
-            if (sparktraits$consciencePoisonSleepTask != null) {
-                sparktraits$consciencePoisonSleepTask.cancel();
+            if (sparkdlc$consciencePoisonSleepTask != null) {
+                sparkdlc$consciencePoisonSleepTask.cancel();
             }
             // Blue scorpion sleep checks run beside Wathe's normal scorpion check so both layers can trigger.
             // 蓝蝎子的睡眠检测与 Wathe 普通蝎子并行，因此红蓝两层都能触发。
-            sparktraits$consciencePoisonSleepTask = Scheduler.schedule(
+            sparkdlc$consciencePoisonSleepTask = Scheduler.schedule(
                     () -> {
                         if (serverPlayer.isSleeping()) {
                             ConsciencePoisonerService.bedPoison(serverPlayer);

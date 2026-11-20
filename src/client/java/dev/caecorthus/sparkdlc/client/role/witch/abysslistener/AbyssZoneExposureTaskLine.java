@@ -100,11 +100,11 @@ public final class AbyssZoneExposureTaskLine {
         Text lastText = null;
         for (Object row : watheRows) {
             MoodRendererTaskRowAbyssAccessor access = (MoodRendererTaskRowAbyssAccessor) row;
-            float offset = access.sparkwitch$getAbyssRowOffset();
+            float offset = access.sparkdlc$getAbyssRowOffset();
             if (!hasWatheRow || offset > maxOffset) {
                 hasWatheRow = true;
                 maxOffset = offset;
-                lastText = access.sparkwitch$getAbyssRowText();
+                lastText = access.sparkdlc$getAbyssRowText();
             }
         }
         Text line = Text.translatable(TRANSLATION_KEY);

@@ -22,12 +22,12 @@ public abstract class PlayerPoisonComponentMixin implements PlayerPoisonComponen
     private PlayerEntity player;
 
     @Override
-    public PlayerEntity sparktraits$getPlayer() {
+    public PlayerEntity sparkdlc$getPlayerForTraits() {
         return player;
     }
 
     @Inject(method = "setPoisonTicks(ILjava/util/UUID;Lnet/minecraft/util/Identifier;Lnet/minecraft/nbt/NbtCompound;)V", at = @At("TAIL"))
-    private void sparktraits$rememberPoisonSource(int ticks, UUID poisoner, Identifier source, NbtCompound recordExtra, CallbackInfo ci) {
+    private void sparkdlc$rememberPoisonSource(int ticks, UUID poisoner, Identifier source, NbtCompound recordExtra, CallbackInfo ci) {
         EffectiveConsequenceService.rememberPoisonSource(player, source);
     }
 }

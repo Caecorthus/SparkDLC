@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.killer.specter;
 import dev.caecorthus.sparkdlc.faction.api.FactionIds;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesSilenceBridge;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.trait.api.TraitIds;
@@ -26,7 +26,7 @@ import org.jetbrains.annotations.Nullable;
  * 幽魂的数值、职业判定、共用的施放者门槛，以及两端通用的标记目标过滤。
  */
 public final class SpecterRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("specter");
+    public static final Identifier ROLE_ID = SparkDLC.id("specter");
     // Dried blood: dark red with reduced saturation. / 干涸血迹：低饱和暗红。
     public static final int COLOR = 0x6B2F2F;
     // Owner-provided outline colours: 25.png is #485FAD, 50.png is #05AC99.
@@ -58,14 +58,14 @@ public final class SpecterRules {
      * 回放技能 id，同时也是标记（手动或经鬼魂触发器）与尖啸的 SparkFactionAPI {@code canAffectPlayer} 行为 id，
      * 使冤魂、仇杀客、裂隙门内与骑士决斗策略可以作答。
      */
-    public static final Identifier MARK_SKILL_ID = SparkWitch.id("specter_mark");
-    public static final Identifier SHRIEK_SKILL_ID = SparkWitch.id("specter_shriek");
+    public static final Identifier MARK_SKILL_ID = SparkDLC.id("specter_mark");
+    public static final Identifier SHRIEK_SKILL_ID = SparkDLC.id("specter_shriek");
     /**
      * SparkFactionAPI {@code canAffectPlayer} action id for the fear levels a shriek spreads around the marked player.
      * 尖啸向被标记者周围施加恐惧层数时使用的 SparkFactionAPI {@code canAffectPlayer} 行为 id。
      */
-    public static final Identifier FEAR_ACTION_ID = SparkWitch.id("specter_fear");
-    public static final Identifier OTHERWORLD_SKILL_ID = SparkWitch.id("specter_otherworld_skill");
+    public static final Identifier FEAR_ACTION_ID = SparkDLC.id("specter_fear");
+    public static final Identifier OTHERWORLD_SKILL_ID = SparkDLC.id("specter_otherworld_skill");
     // Fear: up to 3 levels; level 1/2 drain every 10 s, level 3 every 5 s; one level decays every 60 s; sanity floor 5.
     // 恐惧：最多 3 层；1/2 层每 10 秒扣 san，3 层每 5 秒；每 60 秒掉 1 层；理智最低扣到 5。
     public static final int FEAR_MAX_LEVEL = 3;
@@ -82,7 +82,7 @@ public final class SpecterRules {
     public static final int SECOND_SKILL_COOLDOWN_TICKS = 120 * 20;
     // Speed II equivalent as a movement-speed attribute modifier (+40%), removed when the window ends.
     // 速度 II 用移速属性修饰符实现（+40%），窗口结束时移除。
-    public static final Identifier SECOND_SKILL_SPEED_MODIFIER_ID = SparkWitch.id("specter_otherworld_speed");
+    public static final Identifier SECOND_SKILL_SPEED_MODIFIER_ID = SparkDLC.id("specter_otherworld_speed");
     public static final double SECOND_SKILL_SPEED_BONUS = 0.40D;
     // Opening shields: 3 layers per alive real-mood player below 25 sanity. Shields clear with the window.
     // 开启护盾：每个存活的真实理智低于 25 的玩家提供 3 层，窗口结束时清空。

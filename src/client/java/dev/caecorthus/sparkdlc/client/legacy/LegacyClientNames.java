@@ -27,9 +27,9 @@ public final class LegacyClientNames {
     }
 
     /**
-     * Call first in the client entrypoint: the first reader of these files ({@code SparkAssistConfigManager}) is the
+     * Call first in the client entrypoint: the first reader of these files ({@code SparkDlcConfigManager}) is the
      * next statement, and vanilla reads {@code options.txt} right after the entrypoints return.
-     * 须在客户端入口最开头调用：这些文件的第一个读取方（{@code SparkAssistConfigManager}）就是下一条语句，而原版在各入口返回后
+     * 须在客户端入口最开头调用：这些文件的第一个读取方（{@code SparkDlcConfigManager}）就是下一条语句，而原版在各入口返回后
      * 立即读取 {@code options.txt}。
      */
     public static void carryOver() {

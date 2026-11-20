@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.bomber.drone;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -39,7 +39,7 @@ public final class DroneShopService {
                 || !CoronerRules.isBomber(GameWorldComponent.KEY.get(player.getWorld()).getRole(player))) {
             return entries;
         }
-        Item bombDrone = SparkStrengthItems.bombDrone();
+        Item bombDrone = SparkDlcItems.bombDrone();
         for (ShopEntry entry : entries) {
             if (DroneRules.BOMB_DRONE_SHOP_ENTRY_ID.equals(entry.id()) || entry.stack().isOf(bombDrone)) {
                 return entries;

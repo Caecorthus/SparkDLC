@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.medium;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
  * 通灵师在提问框里的回车提交。服务端在扣费前重新复核所有门槛；空文本或超长文本在此丢弃。
  */
 public record SubmitMediumSeanceC2SPacket(String question) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("submit_medium_seance");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("submit_medium_seance");
     public static final Id<SubmitMediumSeanceC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, SubmitMediumSeanceC2SPacket> CODEC = PacketCodec.tuple(
             PacketCodecs.string(MediumRules.QUESTION_MAX_CHARS * 4),

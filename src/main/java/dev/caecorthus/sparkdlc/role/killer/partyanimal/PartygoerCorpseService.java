@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerCorpseComponent;
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
 import dev.doctor4t.wathe.cca.PlayerPoisonComponent;
@@ -25,7 +25,7 @@ import java.util.UUID;
  */
 public final class PartygoerCorpseService {
     /** Wathe poison source; replay key {@code replay.poisoned.sparkdlc.partygoer_corpse[.by]}. / Wathe 中毒来源。 */
-    public static final Identifier POISON_SOURCE = SparkStrength.id("partygoer_corpse");
+    public static final Identifier POISON_SOURCE = SparkDLC.id("partygoer_corpse");
 
     private PartygoerCorpseService() {
     }

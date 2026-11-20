@@ -25,20 +25,20 @@ public abstract class PlayerInventoryMixin {
     public PlayerEntity player;
 
     @Inject(method = "insertStack(Lnet/minecraft/item/ItemStack;)Z", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$blockImpostorGunInsert(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
-        if (sparktraits$shouldBlockNonShopGunAcquisition(stack)) {
+    private void sparkdlc$blockImpostorGunInsert(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+        if (sparkdlc$shouldBlockNonShopGunAcquisition(stack)) {
             cir.setReturnValue(false);
         }
     }
 
     @Inject(method = "insertStack(ILnet/minecraft/item/ItemStack;)Z", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$blockImpostorGunInsertIntoSlot(int slot, ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
-        if (sparktraits$shouldBlockNonShopGunAcquisition(stack)) {
+    private void sparkdlc$blockImpostorGunInsertIntoSlot(int slot, ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+        if (sparkdlc$shouldBlockNonShopGunAcquisition(stack)) {
             cir.setReturnValue(false);
         }
     }
 
-    private boolean sparktraits$shouldBlockNonShopGunAcquisition(ItemStack stack) {
+    private boolean sparkdlc$shouldBlockNonShopGunAcquisition(ItemStack stack) {
         if (player == null || player.isCreative() || player.getWorld().isClient) {
             return false;
         }

@@ -21,14 +21,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ServerPlayerEntity.class)
 public abstract class ServerPlayerEntityFiendFeignMixin {
     @Inject(method = "attack", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$blockFeigningFiendPossession(Entity target, CallbackInfo ci) {
+    private void sparkdlc$blockFeigningFiendPossession(Entity target, CallbackInfo ci) {
         if (FiendFeignService.isFeigning((ServerPlayerEntity) (Object) this)) {
             ci.cancel();
         }
     }
 
     @Inject(method = "setCameraEntity", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$vetoFeigningFiendCamera(Entity entity, CallbackInfo ci) {
+    private void sparkdlc$vetoFeigningFiendCamera(Entity entity, CallbackInfo ci) {
         if (FiendFeignService.vetoesCamera((ServerPlayerEntity) (Object) this, entity)) {
             ci.cancel();
         }

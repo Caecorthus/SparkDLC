@@ -64,15 +64,15 @@ public final class ChargeItems {
     /** How long {@code player} has to hold this weapon, traits included. {@code player} 需要按住这件武器多久，已计入词条。 */
     public static Window window(Kind kind, PlayerEntity player, ItemStack stack) {
         return switch (kind) {
-            case KNIFE -> Window.of(SparkTraitsCharge.knifeWindup(player, stack, KNIFE_WINDUP_TICKS));
+            case KNIFE -> Window.of(TraitCharge.knifeWindup(player, stack, KNIFE_WINDUP_TICKS));
             case VENDETTA_KNIFE -> Window.of(VENDETTA_KNIFE_TICKS);
             case SWORDFISH -> Window.of(SWORDFISH_TICKS);
             case CROSS_SWORD -> Window.of(CROSS_SWORD_TICKS);
-            case SHURIKEN -> Window.of(serverTimed(SparkTraitsCharge.throwCharge(player, SHURIKEN_TICKS)));
-            case M67 -> Window.of(serverTimed(SparkTraitsCharge.throwCharge(player, M67_TICKS)));
+            case SHURIKEN -> Window.of(serverTimed(TraitCharge.throwCharge(player, SHURIKEN_TICKS)));
+            case M67 -> Window.of(serverTimed(TraitCharge.throwCharge(player, M67_TICKS)));
             case THROWING_AXE -> new Window(
-                    serverTimed(SparkTraitsCharge.throwCharge(player, AXE_MIN_TICKS)),
-                    serverTimed(SparkTraitsCharge.throwCharge(player, AXE_FULL_TICKS)));
+                    serverTimed(TraitCharge.throwCharge(player, AXE_MIN_TICKS)),
+                    serverTimed(TraitCharge.throwCharge(player, AXE_FULL_TICKS)));
         };
     }
 

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import java.util.Objects;
 import java.util.UUID;
 import net.minecraft.network.PacketByteBuf;
@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
 /** 一次推理尝试：死者 + 怀疑的凶手，用 {@code sessionId} 绑定到服务端下发的名单。 */
 public record ConfirmCriminalReasonerC2SPacket(UUID sessionId, UUID victimId, UUID suspectId)
         implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("confirm_criminal_reasoner");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("confirm_criminal_reasoner");
     public static final Id<ConfirmCriminalReasonerC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, ConfirmCriminalReasonerC2SPacket> CODEC =
             PacketCodec.of(ConfirmCriminalReasonerC2SPacket::write, ConfirmCriminalReasonerC2SPacket::read);

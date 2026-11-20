@@ -9,5 +9,5 @@ import java.util.UUID;
 @Mixin(value = SerialKillerPlayerComponent.class, remap = false)
 public interface SerialKillerPlayerComponentAccessor {
     @Accessor("currentTarget")
-    void sparktraits$setCurrentTarget(UUID currentTarget);
+    void sparkdlc$setCurrentTarget(UUID currentTarget);
 }

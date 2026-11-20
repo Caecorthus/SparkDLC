@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.detective;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCaseRules;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -35,7 +35,7 @@ import java.util.UUID;
  */
 public final class DetectiveCaseWorldComponent implements AutoSyncedComponent {
     public static final ComponentKey<DetectiveCaseWorldComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("detective_case_world"),
+            SparkDLC.id("detective_case_world"),
             DetectiveCaseWorldComponent.class
     );
 

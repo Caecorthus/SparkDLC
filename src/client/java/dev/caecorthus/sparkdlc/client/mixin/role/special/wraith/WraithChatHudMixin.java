@@ -18,7 +18,7 @@ public final class WraithChatHudMixin {
     }
 
     @Inject(method = "shouldDisableChat()Z", at = @At("HEAD"), cancellable = true, require = 1)
-    private static void sparkwitch$enforceWraithChatPolicy(CallbackInfoReturnable<Boolean> cir) {
+    private static void sparkdlc$enforceWraithChatPolicy(CallbackInfoReturnable<Boolean> cir) {
         MinecraftClient client = MinecraftClient.getInstance();
         var player = client.player;
         if (!SparkDlcServerConnection.isConfirmedServer()

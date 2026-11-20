@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.guardianangel;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -20,7 +20,7 @@ public final class GuardianAngelEffects {
         }
         guardianShield = Registry.registerReference(
                 Registries.STATUS_EFFECT,
-                SparkWitch.id("guardian_shield"),
+                SparkDLC.id("guardian_shield"),
                 new GuardianShieldEffect()
         );
         registered = true;

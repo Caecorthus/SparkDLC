@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.trait;
 
-import dev.caecorthus.sparkdlc.SparkTraitsDataComponentTypes;
+import dev.caecorthus.sparkdlc.SparkDlcDataComponents;
 import dev.caecorthus.sparkdlc.trait.killer.conscience.ConsciencePoisonedPlate;
 import dev.caecorthus.sparkdlc.trait.killer.conscience.ConsciencePoisonerService;
 import dev.doctor4t.wathe.block.FoodPlatterBlock;
@@ -35,7 +35,7 @@ import java.util.List;
 @Mixin(FoodPlatterBlock.class)
 public abstract class FoodPlatterBlockMixin {
     @Inject(method = "onUse", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$handleConsciencePoison(
+    private void sparkdlc$handleConsciencePoison(
             BlockState state,
             World world,
             BlockPos pos,
@@ -53,10 +53,10 @@ public abstract class FoodPlatterBlockMixin {
         GameWorldComponent gameComponent = GameWorldComponent.KEY.get(world);
         boolean consciencePoisoner = ConsciencePoisonerService.isConsciencePoisoner(player, gameComponent);
         if (heldStack.isOf(WatheItems.POISON_VIAL) && consciencePoisoner && !blockEntity.getStoredItems().isEmpty()) {
-            if (consciencePlate.sparktraits$getConsciencePoisoner() == null) {
+            if (consciencePlate.sparkdlc$getConsciencePoisoner() == null) {
                 // Conscience poison stays separate so normal poison can coexist on the same platter.
                 // 善良蓝毒单独保存，因此同一个餐盘仍可同时存在普通毒。
-                consciencePlate.sparktraits$setConsciencePoisoner(player.getUuidAsString());
+                consciencePlate.sparkdlc$setConsciencePoisoner(player.getUuidAsString());
                 heldStack.decrement(1);
                 player.playSoundToPlayer(SoundEvents.BLOCK_BREWING_STAND_BREW, SoundCategory.BLOCKS, 0.5f, 1f);
                 if (player instanceof ServerPlayerEntity serverPlayer) {
@@ -69,7 +69,7 @@ public abstract class FoodPlatterBlockMixin {
             return;
         }
 
-        if (!heldStack.isEmpty() || consciencePlate.sparktraits$getConsciencePoisoner() == null) {
+        if (!heldStack.isEmpty() || consciencePlate.sparkdlc$getConsciencePoisoner() == null) {
             return;
         }
 
@@ -82,7 +82,7 @@ public abstract class FoodPlatterBlockMixin {
         randomItem.setCount(1);
         randomItem.set(DataComponentTypes.MAX_STACK_SIZE, 1);
         String normalPoisoner = blockEntity.getPoisoner();
-        String consciencePoisonerUuid = consciencePlate.sparktraits$getConsciencePoisoner();
+        String consciencePoisonerUuid = consciencePlate.sparkdlc$getConsciencePoisoner();
         if (player instanceof ServerPlayerEntity serverPlayer) {
             GameRecordManager.recordPlatterTake(serverPlayer, Registries.ITEM.getId(randomItem.getItem()), pos, normalPoisoner);
         }
@@ -90,8 +90,8 @@ public abstract class FoodPlatterBlockMixin {
             randomItem.set(WatheDataComponentTypes.POISONER, normalPoisoner);
             blockEntity.setPoisoner(null);
         }
-        randomItem.set(SparkTraitsDataComponentTypes.CONSCIENCE_POISONER, consciencePoisonerUuid);
-        consciencePlate.sparktraits$setConsciencePoisoner(null);
+        randomItem.set(SparkDlcDataComponents.CONSCIENCE_POISONER, consciencePoisonerUuid);
+        consciencePlate.sparkdlc$setConsciencePoisoner(null);
         player.playSoundToPlayer(SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 1f, 1f);
         player.setStackInHand(Hand.MAIN_HAND, randomItem);
         cir.setReturnValue(ActionResult.PASS);

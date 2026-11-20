@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class LastEscapeGunReceiverMixin {
     @Inject(method = "receive(Ldev/doctor4t/wathe/util/GunShootPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             at = @At("HEAD"), cancellable = true, remap = false)
-    private void sparktraits$blockPhaseShot(GunShootPayload payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
+    private void sparkdlc$blockPhaseShot(GunShootPayload payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
         if (LastEscapeService.isActive(context.player())) ci.cancel();
     }
 }

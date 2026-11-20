@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.orthopedist;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -20,7 +20,7 @@ public final class OrthopedistEffects {
         }
         boneSetting = Registry.registerReference(
                 Registries.STATUS_EFFECT,
-                SparkWitch.id("bone_setting"),
+                SparkDLC.id("bone_setting"),
                 new BoneSettingEffect()
         );
         registered = true;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.abysslistener.zone;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.gate.RiftGateEntity;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.projectile.RiftGateProjectileService;
@@ -117,7 +117,7 @@ public final class DeepDarkSporeFlaskEntity extends ThrownItemEntity {
 
     @Override
     protected Item getDefaultItem() {
-        return SparkWitchItems.deepDarkSporeFlask();
+        return SparkDlcItems.deepDarkSporeFlask();
     }
 
     @Override

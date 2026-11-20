@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(value = PlayerEntityRenderer.class, priority = 500)
 public abstract class DepressionPsychoArmSkinMixin {
     @ModifyVariable(method = "renderArm", at = @At("STORE"), ordinal = 0)
-    private Identifier sparktraits$depressionPsychoArmTextureAfterWathe(Identifier skinTexture) {
+    private Identifier sparkdlc$depressionPsychoArmTextureAfterWathe(Identifier skinTexture) {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
         // Same rule as the body skin: Depression grey also needs Wathe psycho (getter, not field).
         // 与身体皮肤同一规则：抑郁灰度同样要求 Wathe 疯魔（读取方法而非字段）。

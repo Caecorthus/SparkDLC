@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 @Mixin(value = VodkaItem.class, remap = false)
 public abstract class BartenderVodkaMixin {
     @ModifyConstant(method = "reduceAllCooldowns", constant = @Constant(floatValue = 0.8F))
-    private static float sparkstrength$deeperInstantCut(float upstreamFactor) {
+    private static float sparkdlc$deeperInstantCut(float upstreamFactor) {
         return BartenderRules.vodkaInstantCutFactor();
     }
 }

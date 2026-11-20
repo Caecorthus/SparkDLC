@@ -25,25 +25,25 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 public abstract class KnightDerringerCooldownMixin {
     @ModifyArgs(method = "set", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/entity/player/ItemCooldownManager$Entry;<init>(II)V"))
-    private void sparkwitch$knightDerringerEntry(Args args, Item item, int duration) {
-        if (sparkwitch$forcesKnightDerringer(item, duration)) {
+    private void sparkdlc$knightDerringerEntry(Args args, Item item, int duration) {
+        if (sparkdlc$forcesKnightDerringer(item, duration)) {
             args.set(1, (int) args.get(0) + KnightRules.DERRINGER_COOLDOWN_TICKS);
         }
     }
 
     @ModifyArg(method = "set", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/entity/player/ItemCooldownManager;onCooldownUpdate(Lnet/minecraft/item/Item;I)V"), index = 1)
-    private int sparkwitch$knightDerringerPacket(Item item, int duration) {
-        return sparkwitch$forcesKnightDerringer(item, duration)
+    private int sparkdlc$knightDerringerPacket(Item item, int duration) {
+        return sparkdlc$forcesKnightDerringer(item, duration)
                 ? KnightRules.DERRINGER_COOLDOWN_TICKS : duration;
     }
 
-    private boolean sparkwitch$forcesKnightDerringer(Item item, int duration) {
+    private boolean sparkdlc$forcesKnightDerringer(Item item, int duration) {
         if (duration <= 0 || item != WatheItems.DERRINGER
                 || !((Object) this instanceof ServerItemCooldownManager manager)) {
             return false;
         }
-        ServerPlayerEntity player = ((ServerItemCooldownManagerAccessor) manager).sparkwitch$getPlayer();
+        ServerPlayerEntity player = ((ServerItemCooldownManagerAccessor) manager).sparkdlc$getPlayerForRoles();
         return player != null && KnightRules.isKnight(
                 GameWorldComponent.KEY.get(player.getWorld()).getRole(player));
     }

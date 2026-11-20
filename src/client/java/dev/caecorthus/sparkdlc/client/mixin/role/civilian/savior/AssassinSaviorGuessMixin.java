@@ -25,7 +25,7 @@ public abstract class AssassinSaviorGuessMixin {
     // Keep Yarn: intermediary selectors crash runClient; remapJar emits the intermediary form verifyClientMixinSelectors checks.
     // 保持 Yarn：intermediary 选择器会使 runClient 崩溃；remapJar 生成的 intermediary 形式由 verifyClientMixinSelectors 校验。
     @Inject(method = "getAllGuessableRoles", at = @At("RETURN"), cancellable = true, require = 1)
-    private void sparkwitch$hideSaviorFromAssassinGuess(CallbackInfoReturnable<List<Role>> cir) {
+    private void sparkdlc$hideSaviorFromAssassinGuess(CallbackInfoReturnable<List<Role>> cir) {
         List<Role> roles = cir.getReturnValue();
         if (roles == null || roles.isEmpty()) {
             return;

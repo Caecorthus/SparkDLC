@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.command.trait;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.Trait;
 import dev.caecorthus.sparkdlc.trait.api.TraitRegistry;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
@@ -134,7 +134,7 @@ public final class TraitLockValidationService {
      *  namespace, foreign ids stay fully qualified.
      *  锁定提示、命令反馈与补全共用的命令侧天赋 id：SparkTraits 的 id 省略命名空间，外部 id 保留完整形式。 */
     static String formatTraitId(Identifier traitId) {
-        if (traitId.getNamespace().equals(SparkTraits.MOD_ID)) {
+        if (traitId.getNamespace().equals(SparkDLC.MOD_ID)) {
             return traitId.getPath();
         }
         return traitId.toString();

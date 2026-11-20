@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(HiddenEquipmentHelper.class)
 public abstract class NoellesHiddenEquipmentBlackRavenLedgerMixin {
     @Inject(method = "filterPacket", at = @At("RETURN"), cancellable = true)
-    private static void sparkwitch$hideLedgerFromEveryObserver(
+    private static void sparkdlc$hideLedgerFromEveryObserver(
             EntityEquipmentUpdateS2CPacket original,
             PlayerEntity owner,
             ServerPlayerEntity observer,

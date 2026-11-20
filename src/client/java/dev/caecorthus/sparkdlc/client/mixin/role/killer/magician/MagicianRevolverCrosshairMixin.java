@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = CrosshairRenderer.class, remap = false)
 public abstract class MagicianRevolverCrosshairMixin {
     @WrapMethod(method = "getVisibleGunTarget")
-    private static HitResult sparkwitch$preferNearerVisiblePuppet(PlayerEntity player, double range,
+    private static HitResult sparkdlc$preferNearerVisiblePuppet(PlayerEntity player, double range,
                                                                   Operation<HitResult> original) {
         return MagicianPuppetAim.preferNearerPuppet(player, original.call(player, range), range, true);
     }

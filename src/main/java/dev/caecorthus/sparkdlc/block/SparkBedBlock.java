@@ -14,14 +14,14 @@ import net.minecraft.world.World;
 
 /**
  * A Wathe trimmed bed with a behaviour attached. Both beds ARE {@link TrimmedBedBlock}s backed by Wathe's own
- * {@code wathe:trimmed_bed} block entity (see {@code SparkWitchBlocks}), so every Wathe and add-on seam that keys off
+ * {@code wathe:trimmed_bed} block entity (see {@code SparkDlcBlocks}), so every Wathe and add-on seam that keys off
  * trimmed beds (sleep task, scorpion poison and its particles, bed traps) treats them as ordinary trimmed beds.
  * The grey stained bed refuses every use except Wathe's knife and guns (kept on PASS like Wathe's own beds), so it
  * can never be slept in or trapped; the green strange bed behaves exactly like Wathe's bed and bills the sleeper
  * afterwards in {@code SparkBedService}.
  * <p>
  * 带行为的 Wathe 裁剪床。两张床都是 {@link TrimmedBedBlock}，并由 Wathe 自己的 {@code wathe:trimmed_bed} 方块实体
- * 承载（见 {@code SparkWitchBlocks}），因此 Wathe 与各附属模组所有以裁剪床为准的接缝（睡觉任务、蝎子毒及其粒子、
+ * 承载（见 {@code SparkDlcBlocks}），因此 Wathe 与各附属模组所有以裁剪床为准的接缝（睡觉任务、蝎子毒及其粒子、
  * 床陷阱）都把它们当作普通裁剪床。灰色污渍床拒绝除 Wathe 匕首和枪械之外的一切使用（与 Wathe 原床一样返回 PASS），
  * 因此永远无法入睡或被布置陷阱；绿色奇怪床的行为与 Wathe 原床完全一致，睡完后由 {@code SparkBedService} 结算。
  */

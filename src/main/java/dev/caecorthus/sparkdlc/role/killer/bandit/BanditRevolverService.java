@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.bandit;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.item.BanditAmmoItem;
 import dev.caecorthus.sparkdlc.item.BanditAttachmentItem;
 import dev.caecorthus.sparkdlc.item.BanditRevolverItem;
@@ -81,7 +81,7 @@ public final class BanditRevolverService {
         for (ServerPlayerEntity player : world.getPlayers()) {
             if (game.isRole(player, Noellesroles.BANDIT) && SETTLED.add(player.getUuid())) {
                 grant(player);
-                player.getItemCooldownManager().set(SparkStrengthItems.banditRevolver(),
+                player.getItemCooldownManager().set(SparkDlcItems.banditRevolver(),
                         BanditRevolverRules.OPENING_COOLDOWN_TICKS);
             }
         }
@@ -119,7 +119,7 @@ public final class BanditRevolverService {
     }
 
     private static void grant(ServerPlayerEntity player) {
-        ItemStack revolver = new ItemStack(SparkStrengthItems.banditRevolver());
+        ItemStack revolver = new ItemStack(SparkDlcItems.banditRevolver());
         if (ShopEntry.insertStackInFreeSlot(player, revolver) || player.giveItemStack(revolver)) {
             player.sendMessage(Text.translatable("message.sparkdlc.bandit.revolver_granted"), false);
         }
@@ -183,7 +183,7 @@ public final class BanditRevolverService {
             return;
         }
         PlayerInventory inventory = player.getInventory();
-        int partSlot = findItemSlot(inventory, SparkStrengthItems.banditAttachment(part));
+        int partSlot = findItemSlot(inventory, SparkDlcItems.banditAttachment(part));
         if (partSlot < 0) {
             return;
         }
@@ -192,7 +192,7 @@ public final class BanditRevolverService {
         // 换下来的配件放回新配件原来的格子，因此替换永远不需要空位。
         inventory.setStack(partSlot, previous == null
                 ? ItemStack.EMPTY
-                : new ItemStack(SparkStrengthItems.banditAttachment(previous)));
+                : new ItemStack(SparkDlcItems.banditAttachment(previous)));
         BanditRevolverItem.write(gun, state.withPart(part.slot(), part));
     }
 
@@ -209,7 +209,7 @@ public final class BanditRevolverService {
             tip(player, "cylinder_too_full");
             return;
         }
-        if (!ShopEntry.insertStackInFreeSlot(player, new ItemStack(SparkStrengthItems.banditAttachment(part)))) {
+        if (!ShopEntry.insertStackInFreeSlot(player, new ItemStack(SparkDlcItems.banditAttachment(part)))) {
             tip(player, "hotbar_full");
             return;
         }
@@ -220,7 +220,7 @@ public final class BanditRevolverService {
         if (!state.hasRoom()) {
             return false;
         }
-        int ammoSlot = findItemSlot(player.getInventory(), SparkStrengthItems.banditAmmo(ammo));
+        int ammoSlot = findItemSlot(player.getInventory(), SparkDlcItems.banditAmmo(ammo));
         if (ammoSlot < 0) {
             return false;
         }
@@ -273,7 +273,7 @@ public final class BanditRevolverService {
      * 向快捷栏放入一发子弹：先叠到未满的同类堆上，否则放入空位。同时也是商店的购买处理。
      */
     public static boolean giveAmmo(PlayerEntity player, BanditAmmo ammo) {
-        Item item = SparkStrengthItems.banditAmmo(ammo);
+        Item item = SparkDlcItems.banditAmmo(ammo);
         PlayerInventory inventory = player.getInventory();
         for (int slot = 0; slot < inventory.size(); slot++) {
             ItemStack stack = inventory.getStack(slot);
@@ -353,6 +353,6 @@ public final class BanditRevolverService {
 
     /** Replay/record id of the gun. / 回放记录中的枪械 id。 */
     public static Identifier itemId() {
-        return SparkStrengthItems.BANDIT_REVOLVER_ID;
+        return SparkDlcItems.BANDIT_REVOLVER_ID;
     }
 }

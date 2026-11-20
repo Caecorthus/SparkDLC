@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.specter;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
@@ -42,7 +42,7 @@ import net.minecraft.world.World;
  * 放置：命中点下方 2 格内判定框为空的支撑面，且该方块上不能已有鬼魂触发器（不可叠放）；客户端用相同的几何判定决定是否挥手。
  */
 public final class GhostTriggerItem extends Item {
-    public static final Identifier ID = SparkWitch.id("ghost_trigger");
+    public static final Identifier ID = SparkDLC.id("ghost_trigger");
     private static final double MAX_SURFACE_SEARCH_DEPTH = 2.0D;
 
     public GhostTriggerItem(Settings settings) {

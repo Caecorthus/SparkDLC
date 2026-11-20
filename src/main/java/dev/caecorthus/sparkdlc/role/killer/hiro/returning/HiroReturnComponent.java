@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.hiro.returning;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.killer.hiro.HiroRules;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.entity.player.PlayerEntity;
@@ -45,7 +45,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 public final class HiroReturnComponent
         implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
     public static final ComponentKey<HiroReturnComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("nikaido_hiro_return"),
+            SparkDLC.id("nikaido_hiro_return"),
             HiroReturnComponent.class
     );
     private static final String COOLDOWN_TICKS = "CooldownTicks";

@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(value = Entity.class, priority = 100)
 public abstract class WraithEntityInvisibilityMixin {
     @ModifyReturnValue(method = "isInvisibleTo", at = @At("RETURN"))
-    private boolean sparkwitch$revealWraithToSpectator(boolean original, PlayerEntity viewer) {
+    private boolean sparkdlc$revealWraithToSpectator(boolean original, PlayerEntity viewer) {
         // Reveal-only (true -> false): an already visible entity stays visible, so skip the rules for it. A
         // @ModifyReturnValue cannot cancel, so later modifiers see the same value either way.
         // 只会显形（true -> false）：本就可见的实体保持可见，因此跳过规则。@ModifyReturnValue 无法取消，

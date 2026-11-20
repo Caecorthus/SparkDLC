@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.hud.charge;
 
 import dev.caecorthus.sparkdlc.client.hud.charge.ChargeItems.Kind;
-import dev.caecorthus.sparkdlc.client.config.SparkAssistClientSettings;
+import dev.caecorthus.sparkdlc.client.config.SparkDlcClientSettings;
 import dev.caecorthus.sparkdlc.config.ChargeIndicatorStyle;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -38,7 +38,7 @@ public final class ChargeIndicatorHud {
     }
 
     private static void render(DrawContext context, RenderTickCounter tickCounter) {
-        ChargeIndicatorStyle style = SparkAssistClientSettings.chargeIndicatorStyle();
+        ChargeIndicatorStyle style = SparkDlcClientSettings.chargeIndicatorStyle();
         if (style == ChargeIndicatorStyle.OFF) {
             return;
         }
@@ -67,7 +67,7 @@ public final class ChargeIndicatorHud {
         }
         // A forced-melee lock throws the release away, and SparkTraits already puts its own mark under the crosshair.
         // 强制近战锁定会作废这次松手，而 SparkTraits 已经在准星下画了自己的标记。
-        if (SparkTraitsCharge.meleeLocked(player, stack)) {
+        if (TraitCharge.meleeLocked(player, stack)) {
             return;
         }
         ChargeIndicatorRenderer.draw(context, style, ChargeMeter.read(player.getItemUseTime(),

@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ScreenHandler.class)
 public abstract class ScreenHandlerTollBellMixin {
     @Inject(method = "internalOnSlotClick", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$blockTollBellTransfer(
+    private void sparkdlc$blockTollBellTransfer(
             int slotIndex,
             int button,
             SlotActionType actionType,

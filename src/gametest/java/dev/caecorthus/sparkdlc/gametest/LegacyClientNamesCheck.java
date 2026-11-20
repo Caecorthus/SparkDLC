@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.gametest;
 
-import dev.caecorthus.sparkdlc.client.SparkAssistClient;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.client.scope.ScopeSettingsStore;
-import dev.caecorthus.sparkdlc.config.SparkAssistConfig;
+import dev.caecorthus.sparkdlc.config.SparkDlcClientConfig;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ final class LegacyClientNamesCheck {
         }
         List<String> missing = new ArrayList<>();
         try {
-            if (SparkAssistClient.configManager().config().instinctKeyMode() != SparkAssistConfig.InstinctKeyMode.TOGGLE) {
+            if (SparkDLCClient.configManager().config().instinctKeyMode() != SparkDlcClientConfig.InstinctKeyMode.TOGGLE) {
                 missing.add("config/sparkassist.json (instinctKeyMode)");
             }
             if (ScopeSettingsStore.current().sensitivityPercent() != LegacyClientNamesFixture.SCOPE_SENSITIVITY) {

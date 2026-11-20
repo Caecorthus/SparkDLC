@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.collision;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.collision.PlayerCollisionGraceRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.nbt.NbtCompound;
@@ -22,7 +22,7 @@ import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
  */
 public final class PlayerCollisionGraceWorldComponent implements AutoSyncedComponent {
     public static final ComponentKey<PlayerCollisionGraceWorldComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("player_collision_grace"),
+            SparkDLC.id("player_collision_grace"),
             PlayerCollisionGraceWorldComponent.class
     );
 

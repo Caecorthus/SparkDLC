@@ -26,7 +26,7 @@ public abstract class ThrowingAxeThrowRecordMixin {
             require = 1,
             allow = 1
     )
-    private boolean sparkstrength$recordAxeThrow(World world, Entity entity, Operation<Boolean> original) {
+    private boolean sparkdlc$recordAxeThrow(World world, Entity entity, Operation<Boolean> original) {
         boolean spawned = original.call(world, entity);
         if (spawned && entity instanceof ThrowingAxeEntity axe && axe.getOwner() instanceof ServerPlayerEntity thrower) {
             AchievementRecords.throwingAxeThrow(thrower, axe.getUuid());

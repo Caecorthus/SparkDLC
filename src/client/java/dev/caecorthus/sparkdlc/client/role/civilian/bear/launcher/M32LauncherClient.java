@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bear.launcher;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.render.model.InventoryIconSwapModel;
 import dev.caecorthus.sparkdlc.client.scope.ScopeClient;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
@@ -31,7 +31,7 @@ import net.minecraft.util.Identifier;
  */
 public final class M32LauncherClient {
     public static final ModelIdentifier INVENTORY_MODEL_ID = ModelIdentifier.ofInventoryVariant(BearRules.M32A1_ITEM_ID);
-    public static final Identifier ICON_MODEL_ID = SparkWitch.id("item/m32a1_icon");
+    public static final Identifier ICON_MODEL_ID = SparkDLC.id("item/m32a1_icon");
     private static boolean initialized;
 
     private M32LauncherClient() {

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.global;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.Trait;
 import dev.caecorthus.sparkdlc.trait.api.TraitRemovalReason;
 import dev.caecorthus.sparkdlc.trait.api.TraitSelectionContext;
@@ -15,7 +15,7 @@ import dev.caecorthus.sparkdlc.trait.civilian.impostor.ImpostorTrait;
  * 全局天赋：提高拥有者真理智系统的理智上限。
  */
 public final class SteadyTrait implements Trait {
-    public static final Identifier ID = SparkTraits.id("steady");
+    public static final Identifier ID = SparkDLC.id("steady");
 
     @Override
     public Identifier id() {

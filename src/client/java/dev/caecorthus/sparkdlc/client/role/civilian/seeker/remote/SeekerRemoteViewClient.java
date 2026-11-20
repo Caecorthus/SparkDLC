@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.seeker.remote;
 
-import dev.caecorthus.sparkdlc.client.hooks.WitchAbilityKeyBridge;
+import dev.caecorthus.sparkdlc.client.hooks.AbilityKeyBridge;
 import dev.caecorthus.sparkdlc.client.role.civilian.seeker.SeekerClientState;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerExitReason;
@@ -344,7 +344,7 @@ public final class SeekerRemoteViewClient {
         settleInput(client);
         closeGameplayScreen(client);
         drainQueuedPresses(client);
-        WitchAbilityKeyBridge.reset();
+        AbilityKeyBridge.reset();
         player.input = new SeekerFrozenInput();
         player.forwardSpeed = 0.0F;
         player.sidewaysSpeed = 0.0F;
@@ -599,7 +599,7 @@ public final class SeekerRemoteViewClient {
         }
         for (KeyBinding key : client.options.allKeys) {
             if (!SeekerRemoteViewRules.VOICE_CHAT_CATEGORY.equals(key.getCategory())) {
-                ((SeekerRemoteKeyDrain) key).sparkwitch$drainPresses();
+                ((SeekerRemoteKeyDrain) key).sparkdlc$drainPresses();
             }
         }
     }

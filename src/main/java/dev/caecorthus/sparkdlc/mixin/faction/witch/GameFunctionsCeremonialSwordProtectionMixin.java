@@ -25,7 +25,7 @@ public abstract class GameFunctionsCeremonialSwordProtectionMixin {
             at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/api/event/ShouldPiercePsychoArmour;pierces(Lnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;)Z"),
             require = 1, allow = 1
     )
-    private static boolean sparkwitch$consumePsychoThenPierce(boolean original, ServerPlayerEntity victim,
+    private static boolean sparkdlc$consumePsychoThenPierce(boolean original, ServerPlayerEntity victim,
             boolean spawnBody, @Nullable ServerPlayerEntity killer, Identifier deathReason, boolean force) {
         if (!CeremonialSwordProtectionPolicy.pierces(deathReason)) {
             return original;
@@ -55,7 +55,7 @@ public abstract class GameFunctionsCeremonialSwordProtectionMixin {
             method = "killPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;ZLnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;Z)V",
             at = @At("HEAD"), argsOnly = true, ordinal = 0, require = 1, allow = 1
     )
-    private static boolean sparkwitch$preserveSwallowedBodyRule(boolean original, ServerPlayerEntity victim,
+    private static boolean sparkdlc$preserveSwallowedBodyRule(boolean original, ServerPlayerEntity victim,
             boolean spawnBody, @Nullable ServerPlayerEntity killer, Identifier deathReason, boolean force) {
         return original && !((CeremonialSwordProtectionPolicy.pierces(deathReason)
                 || SaviorRules.isTerminalKill(deathReason))

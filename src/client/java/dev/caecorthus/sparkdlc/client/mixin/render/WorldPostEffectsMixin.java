@@ -34,7 +34,7 @@ public abstract class WorldPostEffectsMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gl/Framebuffer;beginWrite(Z)V"),
             require = 0
     )
-    private void sparkstrength$renderWorldPostEffects(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
+    private void sparkdlc$renderWorldPostEffects(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
         MinecraftClient client = MinecraftClient.getInstance();
         float tickDelta = tickCounter.getTickDelta(true);
         JesterMomentGrayscale.render(client, tickDelta);

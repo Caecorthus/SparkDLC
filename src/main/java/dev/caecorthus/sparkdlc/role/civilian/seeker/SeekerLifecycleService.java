@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerDeviceService;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.remote.SeekerRemoteSessionService;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
@@ -42,7 +42,7 @@ public final class SeekerLifecycleService {
      * 搜寻者在 Wathe ON_FINISH_INITIALIZE 上使用的阶段，排在默认阶段之后：此时 Wathe 已开始回放对局（绑定 id），
      * 所有默认监听器（如 SparkTraits 补偿）也已确定最终身份。
      */
-    static final Identifier FINISH_INITIALIZE_PHASE = SparkWitch.id("seeker_finish_initialize");
+    static final Identifier FINISH_INITIALIZE_PHASE = SparkDLC.id("seeker_finish_initialize");
 
     private static boolean registered;
     private static volatile @Nullable MinecraftServer server;
@@ -128,7 +128,7 @@ public final class SeekerLifecycleService {
     static void onFinishInitialize(ServerWorld world, GameWorldComponent game) {
         String matchId = SeekerTargeting.currentMatchId(world);
         if (matchId == null) {
-            SparkWitch.LOGGER.warn("Seeker could not bind the round: Wathe reported no active match");
+            SparkDLC.LOGGER.warn("Seeker could not bind the round: Wathe reported no active match");
         }
         for (ServerPlayerEntity player : List.copyOf(world.getServer().getPlayerManager().getPlayerList())) {
             SeekerStatusComponent component = SeekerStatusComponent.KEY.get(player);

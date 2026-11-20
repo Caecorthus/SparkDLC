@@ -37,11 +37,11 @@ final class PlanningRoundView {
             return query.get();
         }
         GameWorldComponentAccessor accessor = (GameWorldComponentAccessor) game;
-        accessor.sparktraits$setGameStatusField(GameWorldComponent.GameStatus.ACTIVE);
+        accessor.sparkdlc$setGameStatusField(GameWorldComponent.GameStatus.ACTIVE);
         try {
             return query.get();
         } finally {
-            accessor.sparktraits$setGameStatusField(status);
+            accessor.sparkdlc$setGameStatusField(status);
         }
     }
 

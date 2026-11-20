@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.trait.killer.conscience;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
-import dev.caecorthus.sparkdlc.SparkTraitsDataComponentTypes;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcDataComponents;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.doctor4t.wathe.block_entity.BeveragePlateBlockEntity;
 import dev.doctor4t.wathe.block_entity.TrimmedBedBlockEntity;
@@ -26,7 +26,7 @@ import java.util.function.Predicate;
  */
 public final class BluePoisonInteropService {
     private static final BluePoisonInteropRules.DrainExemptions<ServerPlayerEntity> DRAIN_EXEMPTIONS =
-            new BluePoisonInteropRules.DrainExemptions<>(failure -> SparkTraits.LOGGER.warn(
+            new BluePoisonInteropRules.DrainExemptions<>(failure -> SparkDLC.LOGGER.warn(
                     "A blue sanity drain exemption threw; treating it as not exempt (further failures are not logged)",
                     failure
             ));
@@ -42,7 +42,7 @@ public final class BluePoisonInteropService {
         }
         BluePoisonInteropRules.Conversion conversion = BluePoisonInteropRules.conversion(
                 plate.getPoisoner() != null,
-                bluePlate.sparktraits$getConsciencePoisoner() != null
+                bluePlate.sparkdlc$getConsciencePoisoner() != null
         );
         if (conversion == BluePoisonInteropRules.Conversion.NONE) {
             return false;
@@ -51,7 +51,7 @@ public final class BluePoisonInteropService {
         // 两个 setter 都会标记餐盘为脏并向客户端推送方块实体更新。
         plate.setPoisoner(null);
         if (conversion == BluePoisonInteropRules.Conversion.REPLACE_NATIVE_WITH_BLUE) {
-            bluePlate.sparktraits$setConsciencePoisoner(poisoner.toString());
+            bluePlate.sparkdlc$setConsciencePoisoner(poisoner.toString());
         }
         return true;
     }
@@ -68,14 +68,14 @@ public final class BluePoisonInteropService {
         }
         BluePoisonInteropRules.Conversion conversion = BluePoisonInteropRules.conversion(
                 head.hasScorpion(),
-                blueBed.sparktraits$hasConscienceScorpion()
+                blueBed.sparkdlc$hasConscienceScorpion()
         );
         if (conversion == BluePoisonInteropRules.Conversion.NONE) {
             return false;
         }
         head.setHasScorpion(false, null);
         if (conversion == BluePoisonInteropRules.Conversion.REPLACE_NATIVE_WITH_BLUE) {
-            blueBed.sparktraits$setConscienceScorpion(true, poisoner);
+            blueBed.sparkdlc$setConscienceScorpion(true, poisoner);
         }
         return true;
     }
@@ -86,21 +86,21 @@ public final class BluePoisonInteropService {
         }
         BluePoisonInteropRules.Conversion conversion = BluePoisonInteropRules.conversion(
                 stack.contains(WatheDataComponentTypes.POISONER),
-                stack.contains(SparkTraitsDataComponentTypes.CONSCIENCE_POISONER)
+                stack.contains(SparkDlcDataComponents.CONSCIENCE_POISONER)
         );
         if (conversion == BluePoisonInteropRules.Conversion.NONE) {
             return false;
         }
         stack.remove(WatheDataComponentTypes.POISONER);
         if (conversion == BluePoisonInteropRules.Conversion.REPLACE_NATIVE_WITH_BLUE) {
-            stack.set(SparkTraitsDataComponentTypes.CONSCIENCE_POISONER, poisoner.toString());
+            stack.set(SparkDlcDataComponents.CONSCIENCE_POISONER, poisoner.toString());
         }
         return true;
     }
 
     public static void markStackBluePoison(@Nullable ItemStack stack, @Nullable UUID poisoner) {
         if (stack != null && !stack.isEmpty() && poisoner != null) {
-            stack.set(SparkTraitsDataComponentTypes.CONSCIENCE_POISONER, poisoner.toString());
+            stack.set(SparkDlcDataComponents.CONSCIENCE_POISONER, poisoner.toString());
         }
     }
 
@@ -108,7 +108,7 @@ public final class BluePoisonInteropService {
         if (stack == null || stack.isEmpty()) {
             return null;
         }
-        return BluePoisonInteropRules.parsePoisoner(stack.get(SparkTraitsDataComponentTypes.CONSCIENCE_POISONER));
+        return BluePoisonInteropRules.parsePoisoner(stack.get(SparkDlcDataComponents.CONSCIENCE_POISONER));
     }
 
     public static void applyBlueTrap(@Nullable ServerPlayerEntity target, @Nullable UUID poisoner) {

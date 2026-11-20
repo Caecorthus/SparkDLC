@@ -36,7 +36,7 @@ public abstract class DecoratedPotBlockTimeStealerItemMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$keepTimeStealerItemOutOfPot(ItemStack stack, BlockState state, World world, BlockPos pos,
+    private void sparkdlc$keepTimeStealerItemOutOfPot(ItemStack stack, BlockState state, World world, BlockPos pos,
                                                         PlayerEntity player, Hand hand, BlockHitResult hit,
                                                         CallbackInfoReturnable<ItemActionResult> cir) {
         if (TimeStealerInventoryRules.blocksBlockUse(stack, state)) {

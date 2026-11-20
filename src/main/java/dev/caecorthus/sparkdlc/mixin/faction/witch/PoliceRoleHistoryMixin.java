@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(RoleHistoryComponent.class)
 public abstract class PoliceRoleHistoryMixin {
     @Inject(method = "categoryOf", at = @At("HEAD"), cancellable = true)
-    private static void sparkwitch$classifyPoliceVariant(Role role, CallbackInfoReturnable<RoleCategory> cir) {
+    private static void sparkdlc$classifyPoliceVariant(Role role, CallbackInfoReturnable<RoleCategory> cir) {
         if (PoliceSlotAssignmentService.isVariant(role)) {
             cir.setReturnValue(RoleCategory.VIGILANTE);
         }

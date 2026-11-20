@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.occlusion;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeClientState;
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeOcclusion;
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeVolumes;
@@ -190,7 +190,7 @@ public final class SmokeOcclusionMarch {
         } catch (RuntimeException exception) {
             broken = true;
             failedRect = coverage.pixelRect();
-            SparkWitch.LOGGER.error("Smoke outline occlusion failed; outlines inside smoke are hidden instead",
+            SparkDLC.LOGGER.error("Smoke outline occlusion failed; outlines inside smoke are hidden instead",
                     exception);
             return false;
         }

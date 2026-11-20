@@ -28,7 +28,7 @@ public abstract class BodyguardSacrificeMixin {
     private PlayerEntity player;
 
     @Inject(method = "isCurrentTarget", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$noSacrifice(UUID playerUuid, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$noSacrifice(UUID playerUuid, CallbackInfoReturnable<Boolean> cir) {
         if (SacrificeSuppressionScope.isSuppressed() && !player.getWorld().isClient()) {
             cir.setReturnValue(false);
         }

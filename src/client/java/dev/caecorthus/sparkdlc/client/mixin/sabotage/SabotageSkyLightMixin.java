@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ChunkLightProvider.class)
 public abstract class SabotageSkyLightMixin {
     @Inject(method = "getLightLevel(Lnet/minecraft/util/math/BlockPos;)I", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$sabotageSkyLight(BlockPos pos, CallbackInfoReturnable<Integer> cir) {
+    private void sparkdlc$sabotageSkyLight(BlockPos pos, CallbackInfoReturnable<Integer> cir) {
         if (SabotageSkyLight.isDark(this, pos)) {
             cir.setReturnValue(0);
         }
@@ -29,7 +29,7 @@ public abstract class SabotageSkyLightMixin {
     // At RETURN: a boundary section keeps its real light outside the train, so the original array is needed.
     // 在 RETURN 处理：边界区段在车厢外保留真实光照，因此需要原始数组。
     @Inject(method = "getLightSection", at = @At("RETURN"), cancellable = true)
-    private void sparkstrength$sabotageSkySection(ChunkSectionPos pos, CallbackInfoReturnable<ChunkNibbleArray> cir) {
+    private void sparkdlc$sabotageSkySection(ChunkSectionPos pos, CallbackInfoReturnable<ChunkNibbleArray> cir) {
         ChunkNibbleArray dark = SabotageSkyLight.darkSection(this, pos, cir.getReturnValue());
         if (dark != null) {
             cir.setReturnValue(dark);

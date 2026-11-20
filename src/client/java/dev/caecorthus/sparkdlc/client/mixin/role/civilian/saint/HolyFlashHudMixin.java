@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = InGameHud.class, priority = 1100)
 public abstract class HolyFlashHudMixin {
     @Inject(method = "render", at = @At("TAIL"))
-    private void sparkwitch$renderHolyFlash(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+    private void sparkdlc$renderHolyFlash(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         HolyFlashOverlayRenderer.render(context, tickCounter);
     }
 }

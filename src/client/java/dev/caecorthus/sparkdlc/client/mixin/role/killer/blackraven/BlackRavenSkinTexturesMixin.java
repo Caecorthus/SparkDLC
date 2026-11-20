@@ -24,7 +24,7 @@ public abstract class BlackRavenSkinTexturesMixin {
     );
 
     @Inject(method = "getSkinTextures", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$useSteveDuringPerception(CallbackInfoReturnable<SkinTextures> cir) {
+    private void sparkdlc$useSteveDuringPerception(CallbackInfoReturnable<SkinTextures> cir) {
         AbstractClientPlayerEntity player = (AbstractClientPlayerEntity) (Object) this;
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null || player == client.player

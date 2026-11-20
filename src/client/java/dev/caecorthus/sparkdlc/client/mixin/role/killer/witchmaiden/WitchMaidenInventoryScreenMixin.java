@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LimitedInventoryScreen.class)
 public abstract class WitchMaidenInventoryScreenMixin extends LimitedHandledScreen<PlayerScreenHandler> {
     @Unique
-    private WitchMaidenInventoryUi sparkwitch$witchMaidenUi;
+    private WitchMaidenInventoryUi sparkdlc$witchMaidenUi;
 
     protected WitchMaidenInventoryScreenMixin(
             PlayerScreenHandler handler,
@@ -30,8 +30,8 @@ public abstract class WitchMaidenInventoryScreenMixin extends LimitedHandledScre
     // Keep Yarn: intermediary selectors crash runClient; remapJar emits the intermediary form verifyClientMixinSelectors checks.
     // 保持 Yarn：intermediary 选择器会使 runClient 崩溃；remapJar 生成的 intermediary 形式由 verifyClientMixinSelectors 校验。
     @Inject(method = "init()V", at = @At("TAIL"))
-    private void sparkwitch$attachWitchMaidenUi(CallbackInfo ci) {
-        sparkwitch$witchMaidenUi = WitchMaidenInventoryUi.attach(
+    private void sparkdlc$attachWitchMaidenUi(CallbackInfo ci) {
+        sparkdlc$witchMaidenUi = WitchMaidenInventoryUi.attach(
                 (LimitedInventoryScreen) (Object) this,
                 this::addDrawableChild
         );
@@ -41,15 +41,15 @@ public abstract class WitchMaidenInventoryScreenMixin extends LimitedHandledScre
             method = "render(Lnet/minecraft/client/gui/DrawContext;IIF)V",
             at = @At("TAIL")
     )
-    private void sparkwitch$renderWitchMaidenEmptyState(
+    private void sparkdlc$renderWitchMaidenEmptyState(
             DrawContext context,
             int mouseX,
             int mouseY,
             float delta,
             CallbackInfo ci
     ) {
-        if (sparkwitch$witchMaidenUi != null) {
-            sparkwitch$witchMaidenUi.renderEmptyState(context);
+        if (sparkdlc$witchMaidenUi != null) {
+            sparkdlc$witchMaidenUi.renderEmptyState(context);
         }
     }
 }

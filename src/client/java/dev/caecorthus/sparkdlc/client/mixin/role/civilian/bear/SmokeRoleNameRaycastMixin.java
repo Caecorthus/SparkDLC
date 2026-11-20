@@ -34,7 +34,7 @@ public abstract class SmokeRoleNameRaycastMixin {
             ),
             index = 1
     )
-    private static Predicate<Entity> sparkwitch$skipSmokeHiddenLabelTargets(
+    private static Predicate<Entity> sparkdlc$skipSmokeHiddenLabelTargets(
             Entity viewer,
             Predicate<Entity> predicate,
             double range

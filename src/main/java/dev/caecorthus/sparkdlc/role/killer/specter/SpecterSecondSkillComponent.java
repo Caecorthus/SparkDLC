@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.specter;
 
 import dev.caecorthus.sparkdlc.cooldown.api.ForcedCooldowns;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -44,7 +44,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 public final class SpecterSecondSkillComponent
         implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
     public static final ComponentKey<SpecterSecondSkillComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("specter_second_skill"),
+            SparkDLC.id("specter_second_skill"),
             SpecterSecondSkillComponent.class
     );
     private static final String UNLOCK_TICKS = "SecondSkillUnlockTicks";
@@ -155,10 +155,10 @@ public final class SpecterSecondSkillComponent
     }
 
     /**
-     * Forced-cooldown read ({@code SparkWitchForcedCooldowns#specterOtherworld}): ticks until the skill is ready.
+     * Forced-cooldown read ({@code RoleForcedCooldowns#specterOtherworld}): ticks until the skill is ready.
      * Outside the window this includes the unlock countdown; inside it, the rest of the window plus the cooldown that
      * will start when it ends (the larger of the nominal 120 s and any pending forced floor).
-     * 强制冷却读取（{@code SparkWitchForcedCooldowns#specterOtherworld}）：距技能就绪的刻数。窗口外包含解锁倒计时；窗口内为
+     * 强制冷却读取（{@code RoleForcedCooldowns#specterOtherworld}）：距技能就绪的刻数。窗口外包含解锁倒计时；窗口内为
      * 剩余窗口时长加上窗口结束时将开始的冷却（标准 120 秒与已挂起的强制下限中的较大者）。
      */
     public int forcedCooldownRemainingTicks() {

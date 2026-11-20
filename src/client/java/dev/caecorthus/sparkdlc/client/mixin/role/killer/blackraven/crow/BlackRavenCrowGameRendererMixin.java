@@ -26,7 +26,7 @@ public abstract class BlackRavenCrowGameRendererMixin {
     MinecraftClient client;
 
     @Inject(method = "updateCrosshairTarget", at = @At("RETURN"))
-    private void sparkwitch$crowCrosshairTarget(float tickDelta, CallbackInfo ci) {
+    private void sparkdlc$crowCrosshairTarget(float tickDelta, CallbackInfo ci) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             return;
         }
@@ -34,7 +34,7 @@ public abstract class BlackRavenCrowGameRendererMixin {
     }
 
     @Inject(method = "renderHand", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$hideBodyHandAsCrow(CallbackInfo ci) {
+    private void sparkdlc$hideBodyHandAsCrow(CallbackInfo ci) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             return;
         }

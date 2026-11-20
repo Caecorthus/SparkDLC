@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.vendetta;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.component.WraithPlayerComponent;
 import dev.caecorthus.sparkdlc.role.special.wraith.runtime.WraithLifecycle;
 import dev.doctor4t.wathe.api.Role;
@@ -129,6 +129,6 @@ public final class VendettaLifecycleService {
     }
 
     private static boolean isVendettaRole(@Nullable Role role) {
-        return role != null && SparkWitchRoles.VENDETTA_ID.equals(role.identifier());
+        return role != null && SparkDlcRoles.VENDETTA_ID.equals(role.identifier());
     }
 }

@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartyBalloonMarkComponent;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.caecorthus.sparkdlc.util.SparkPlayers;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.record.GameRecordManager;
@@ -24,7 +24,7 @@ import org.agmas.noellesroles.taotie.SwallowedPlayerComponent;
  */
 public final class PartyBalloonService {
     /** SparkFactionAPI action id for giving a balloon. / 塞气球在 SparkFactionAPI 中的行为 id。 */
-    public static final Identifier BALLOON_ACTION_ID = SparkStrength.id("party_balloon");
+    public static final Identifier BALLOON_ACTION_ID = SparkDLC.id("party_balloon");
 
     private static final float SQUEAK_VOLUME = 0.35F;
     private static final float SQUEAK_PITCH = 1.6F;
@@ -74,7 +74,7 @@ public final class PartyBalloonService {
         user.sendMessage(Text.translatable("message.sparkdlc.party_balloon.given", target.getDisplayName()), true);
         NbtCompound extra = new NbtCompound();
         extra.putUuid("target", target.getUuid());
-        GameRecordManager.recordGlobalEvent(user.getServerWorld(), SparkStrengthReplayFormatters.PARTY_BALLOON_GIVEN,
+        GameRecordManager.recordGlobalEvent(user.getServerWorld(), RoleKitReplayFormatters.PARTY_BALLOON_GIVEN,
                 user, extra);
         return true;
     }

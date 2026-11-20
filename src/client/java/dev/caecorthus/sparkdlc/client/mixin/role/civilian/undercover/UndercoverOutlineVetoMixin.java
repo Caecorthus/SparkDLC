@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = MinecraftClient.class, priority = 2500)
 public abstract class UndercoverOutlineVetoMixin {
     @WrapMethod(method = "hasOutline")
-    private boolean sparkstrength$noOutlineThroughWalls(Entity entity, Operation<Boolean> original) {
+    private boolean sparkdlc$noOutlineThroughWalls(Entity entity, Operation<Boolean> original) {
         return !UndercoverClient.hidesOutline(entity) && original.call(entity);
     }
 }

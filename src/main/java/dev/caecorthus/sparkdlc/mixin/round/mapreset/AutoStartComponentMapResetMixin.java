@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = AutoStartComponent.class, remap = false)
 public abstract class AutoStartComponentMapResetMixin {
     @Inject(method = "tick()V", at = @At("HEAD"), cancellable = true)
-    private void sparkfactionapi$waitForMapReset(CallbackInfo ci) {
+    private void sparkdlc$waitForMapReset(CallbackInfo ci) {
         AutoStartComponent autoStart = (AutoStartComponent) (Object) this;
         if (LobbyMapResetState.holdsAutoStart(autoStart.world, autoStart.startTime, autoStart.time)) {
             ci.cancel();

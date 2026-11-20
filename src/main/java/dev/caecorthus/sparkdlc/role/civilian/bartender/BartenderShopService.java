@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.bartender;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.util.ShopEntry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -43,9 +43,9 @@ public final class BartenderShopService {
         for (int i = 0; i < entries.size(); i++) {
             result.add(repriced(entries.get(i)));
             if (i == spiceIndex) {
-                addSpice(result, entries, SparkStrengthItems.ghostflameBitters(), BartenderRules.GHOSTFLAME_BITTERS_ENTRY_ID,
+                addSpice(result, entries, SparkDlcItems.ghostflameBitters(), BartenderRules.GHOSTFLAME_BITTERS_ENTRY_ID,
                         BartenderRules.GHOSTFLAME_BITTERS_PRICE);
-                addSpice(result, entries, SparkStrengthItems.emberSugar(), BartenderRules.EMBER_SUGAR_ENTRY_ID,
+                addSpice(result, entries, SparkDlcItems.emberSugar(), BartenderRules.EMBER_SUGAR_ENTRY_ID,
                         BartenderRules.EMBER_SUGAR_PRICE);
             }
         }

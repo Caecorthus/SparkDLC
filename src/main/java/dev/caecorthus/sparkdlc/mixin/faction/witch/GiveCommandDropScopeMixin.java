@@ -35,7 +35,7 @@ public abstract class GiveCommandDropScopeMixin {
                     ordinal = 1
             )
     )
-    private static ItemEntity sparkwitch$markCosmeticGiveDrop(ServerPlayerEntity player, ItemStack stack,
+    private static ItemEntity sparkdlc$markCosmeticGiveDrop(ServerPlayerEntity player, ItemStack stack,
                                                               boolean retainOwnership,
                                                               Operation<ItemEntity> original) {
         return GiveCommandDropScope.cosmeticDrop(stack, () -> original.call(player, stack, retainOwnership));

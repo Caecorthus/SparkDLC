@@ -28,7 +28,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(targets = "eu.ha3.presencefootsteps.sound.SoundEngine", remap = false)
 public abstract class HannaPresenceFootstepsVolumeMixin {
     @Inject(method = "getVolumeForSource", at = @At("HEAD"), cancellable = true, require = 0, remap = false)
-    private void sparkwitch$silenceFloatingHannaFootsteps(LivingEntity source, CallbackInfoReturnable<Float> cir) {
+    private void sparkdlc$silenceFloatingHannaFootsteps(LivingEntity source, CallbackInfoReturnable<Float> cir) {
         if (HannaFootstepSilence.mutes(MinecraftClient.getInstance().player, source)) {
             cir.setReturnValue(0.0F);
         }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.bodyguard;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NbtCompound;
@@ -24,7 +24,7 @@ import java.util.UUID;
  */
 public final class BodyguardGearComponent implements Component {
     public static final ComponentKey<BodyguardGearComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("bodyguard_gear"),
+            SparkDLC.id("bodyguard_gear"),
             BodyguardGearComponent.class
     );
 

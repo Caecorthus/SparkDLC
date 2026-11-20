@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.controlexpert;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.RegistryByteBuf;
@@ -24,7 +24,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 public final class ControlExpertStatusComponent
         implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
     public static final ComponentKey<ControlExpertStatusComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("control_expert_status"), ControlExpertStatusComponent.class);
+            SparkDLC.id("control_expert_status"), ControlExpertStatusComponent.class);
 
     private final PlayerEntity player;
     private final ControlExpertStatusState state = new ControlExpertStatusState();

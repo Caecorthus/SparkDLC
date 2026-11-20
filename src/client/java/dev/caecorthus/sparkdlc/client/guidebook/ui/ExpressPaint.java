@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.guidebook.ui;
 
 import static dev.caecorthus.sparkdlc.client.guidebook.ui.ExpressPalette.*;
 
-import dev.caecorthus.sparkdlc.SparkAssist;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.guidebook.decor.DecorPalette;
 import java.util.List;
 import net.minecraft.client.font.TextRenderer;
@@ -22,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class ExpressPaint {
     /** Wathe-derived 16x16 book icon (see THIRD_PARTY_NOTICES.md). 源自 Wathe 的 16x16 书本图标。 */
-    public static final Identifier BOOK_ICON = SparkAssist.id("textures/gui/guidebook/open_button.png");
+    public static final Identifier BOOK_ICON = SparkDLC.id("textures/gui/guidebook/open_button.png");
     public static final int ICON_BUTTON_SIZE = 22;
     public static final int ICON_BOX = 14;
     public static final String ELLIPSIS = "…";

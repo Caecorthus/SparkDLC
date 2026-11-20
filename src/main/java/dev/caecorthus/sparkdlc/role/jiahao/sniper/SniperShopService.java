@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.jiahao.sniper;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.TraitShopEntries;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecShopPurchase;
 import dev.doctor4t.wathe.api.Role;
@@ -69,7 +69,7 @@ public final class SniperShopService {
     private static ShopEntry.Builder ammoBuilder() {
         return new ShopEntry.Builder(
                 SniperRules.AMMO_ENTRY_ID,
-                new ItemStack(SparkWitchItems.ammo3006()),
+                new ItemStack(SparkDlcItems.ammo3006()),
                 SniperRules.AMMO_PRICE,
                 ShopEntry.Type.WEAPON
         );

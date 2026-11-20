@@ -31,7 +31,7 @@ public abstract class ProfessorSedativeMoodMixin {
             ),
             index = 0
     )
-    private float sparkstrength$stopServerMoodDrain(float moodAfterDrain) {
+    private float sparkdlc$stopServerMoodDrain(float moodAfterDrain) {
         return ProfessorSerumTargetComponent.KEY.get(player).hasSedative() ? getMood() : moodAfterDrain;
     }
 
@@ -43,7 +43,7 @@ public abstract class ProfessorSedativeMoodMixin {
             ),
             index = 0
     )
-    private float sparkstrength$stopClientMoodDrain(float moodAfterDrain) {
+    private float sparkdlc$stopClientMoodDrain(float moodAfterDrain) {
         return ProfessorSerumTargetComponent.KEY.get(player).hasSedative() ? getMood() : moodAfterDrain;
     }
 }

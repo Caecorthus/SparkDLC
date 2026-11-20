@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.economy;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.economy.KillerTeamEconomyRules;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -16,7 +16,7 @@ import org.ladysnake.cca.api.v3.component.ComponentRegistry;
  */
 public final class KillerTeamEconomyWorldComponent implements Component {
     public static final ComponentKey<KillerTeamEconomyWorldComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("killer_team_economy"), KillerTeamEconomyWorldComponent.class
+            SparkDLC.id("killer_team_economy"), KillerTeamEconomyWorldComponent.class
     );
 
     private boolean initialized;

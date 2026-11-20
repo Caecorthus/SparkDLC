@@ -35,7 +35,7 @@ import java.util.UUID;
 @Mixin(value = MurderGameMode.class, remap = false)
 public abstract class MurderGameModeMixin {
     @Inject(method = "assignRolesAndGetKillerCount", at = @At("HEAD"))
-    private static void sparktraits$snapshotLockedRolePlayers(
+    private static void sparkdlc$snapshotLockedRolePlayers(
             ServerWorld world,
             List<ServerPlayerEntity> players,
             GameWorldComponent gameComponent,
@@ -60,7 +60,7 @@ public abstract class MurderGameModeMixin {
                     shift = At.Shift.AFTER
             )
     )
-    private static void sparktraits$planTraitsBeforeRoleAssigned(
+    private static void sparkdlc$planTraitsBeforeRoleAssigned(
             ServerWorld world,
             List<ServerPlayerEntity> players,
             GameWorldComponent gameComponent,
@@ -83,7 +83,7 @@ public abstract class MurderGameModeMixin {
     }
 
     @Inject(method = "assignRolesAndGetKillerCount", at = @At("RETURN"), cancellable = true)
-    private static void sparktraits$applyTraitsBeforeWelcome(
+    private static void sparkdlc$applyTraitsBeforeWelcome(
             ServerWorld world,
             List<ServerPlayerEntity> players,
             GameWorldComponent gameComponent,
@@ -94,7 +94,7 @@ public abstract class MurderGameModeMixin {
     }
 
     @Inject(method = "tickServerGameLoop", at = @At("RETURN"))
-    private void sparktraits$selfRealizeUnsupportedImpostors(
+    private void sparkdlc$selfRealizeUnsupportedImpostors(
             ServerWorld serverWorld,
             GameWorldComponent gameWorldComponent,
             CallbackInfo ci
@@ -113,7 +113,7 @@ public abstract class MurderGameModeMixin {
             ),
             ordinal = 0
     )
-    private GameFunctions.WinStatus sparktraits$resolveFinalMomentTimeout(
+    private GameFunctions.WinStatus sparkdlc$resolveFinalMomentTimeout(
             GameFunctions.WinStatus winStatus,
             ServerWorld serverWorld,
             GameWorldComponent gameWorldComponent
@@ -130,7 +130,7 @@ public abstract class MurderGameModeMixin {
                     target = "Ldev/doctor4t/wathe/cca/GameWorldComponent;isInnocent(Lnet/minecraft/entity/player/PlayerEntity;)Z"
             )
     )
-    private boolean sparktraits$useEffectiveCivilianForKillerWin(
+    private boolean sparkdlc$useEffectiveCivilianForKillerWin(
             GameWorldComponent gameWorldComponent,
             PlayerEntity player
     ) {
@@ -157,7 +157,7 @@ public abstract class MurderGameModeMixin {
             cancellable = true,
             locals = LocalCapture.CAPTURE_FAILHARD
     )
-    private void sparktraits$startFinalMomentBeforeWinConditionHooks(
+    private void sparkdlc$startFinalMomentBeforeWinConditionHooks(
             ServerWorld serverWorld,
             GameWorldComponent gameWorldComponent,
             CallbackInfo ci,
@@ -181,7 +181,7 @@ public abstract class MurderGameModeMixin {
             cancellable = true,
             locals = LocalCapture.CAPTURE_FAILHARD
     )
-    private void sparktraits$cancelPendingLastStandRoundEnd(
+    private void sparkdlc$cancelPendingLastStandRoundEnd(
             ServerWorld serverWorld,
             GameWorldComponent gameWorldComponent,
             CallbackInfo ci,

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.morphling;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.caecorthus.sparkdlc.role.killer.morphling.MorphlingRules;
 import dev.doctor4t.wathe.game.GameFunctions;
 import dev.doctor4t.wathe.record.GameRecordManager;
@@ -33,7 +33,7 @@ import java.util.UUID;
  */
 public class MorphMarkPlayerComponent implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
     public static final ComponentKey<MorphMarkPlayerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("morph_mark_player"),
+            SparkDLC.id("morph_mark_player"),
             MorphMarkPlayerComponent.class
     );
 
@@ -160,7 +160,7 @@ public class MorphMarkPlayerComponent implements AutoSyncedComponent, ServerTick
         if (target.getWorld() instanceof ServerWorld serverWorld) {
             GameRecordManager.recordGlobalEvent(
                     serverWorld,
-                    SparkStrengthReplayFormatters.MORPH_MARK_ENDED,
+                    RoleKitReplayFormatters.MORPH_MARK_ENDED,
                     target,
                     null
             );

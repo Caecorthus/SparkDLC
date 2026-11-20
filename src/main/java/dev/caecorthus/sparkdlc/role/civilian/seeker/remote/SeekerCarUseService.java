@@ -209,7 +209,7 @@ public final class SeekerCarUseService {
         if (!(state.getBlock() instanceof SeekerTrapdoorBlockAccessor trapdoor)) {
             return;
         }
-        BlockSetType type = trapdoor.sparkwitch$getBlockSetType();
+        BlockSetType type = trapdoor.sparkdlc$getBlockSetType();
         if (!type.canOpenByHand()) {
             return;
         }
@@ -239,7 +239,7 @@ public final class SeekerCarUseService {
             next = next.with(FenceGateBlock.OPEN, true);
         }
         world.setBlockState(pos, next, Block.NOTIFY_LISTENERS | Block.REDRAW_ON_MAIN_THREAD);
-        WoodType wood = gate.sparkwitch$getWoodType();
+        WoodType wood = gate.sparkdlc$getWoodType();
         toggled(world, car, pos, next.get(FenceGateBlock.OPEN), wood.fenceGateOpen(), wood.fenceGateClose());
     }
 

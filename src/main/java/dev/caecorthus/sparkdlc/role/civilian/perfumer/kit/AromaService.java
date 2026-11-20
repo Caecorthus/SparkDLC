@@ -1,10 +1,10 @@
 package dev.caecorthus.sparkdlc.role.civilian.perfumer.kit;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerScentComponent;
 import dev.caecorthus.sparkdlc.entity.AromaOrbEntity;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.doctor4t.wathe.game.GameFunctions;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import net.minecraft.item.ItemStack;
@@ -41,7 +41,7 @@ public final class AromaService {
             return false;
         }
         return PerfumerKitService.launch(player, stack, new AromaOrbEntity(player.getServerWorld(), player, roundId),
-                SparkStrengthItems.AROMA_ORB_ID);
+                SparkDlcItems.AROMA_ORB_ID);
     }
 
     /**
@@ -70,7 +70,7 @@ public final class AromaService {
         }
         NbtCompound extra = new NbtCompound();
         extra.putUuid("target", target.getUuid());
-        GameRecordManager.recordGlobalEvent(world, SparkStrengthReplayFormatters.PERFUMER_AROMA_HIT, owner, extra);
+        GameRecordManager.recordGlobalEvent(world, RoleKitReplayFormatters.PERFUMER_AROMA_HIT, owner, extra);
     }
 
     /** Server: cosmetic shatter for any collision, hit or miss. / 服务端：任何碰撞（命中或落空）的碎裂表现。 */

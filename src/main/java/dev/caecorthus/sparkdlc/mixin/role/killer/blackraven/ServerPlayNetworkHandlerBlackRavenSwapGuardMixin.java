@@ -31,7 +31,7 @@ public abstract class ServerPlayNetworkHandlerBlackRavenSwapGuardMixin {
             ),
             cancellable = true
     )
-    private void sparkwitch$ignoreClicksAfterDisguiseSwap(ClickSlotC2SPacket packet, CallbackInfo ci) {
+    private void sparkdlc$ignoreClicksAfterDisguiseSwap(ClickSlotC2SPacket packet, CallbackInfo ci) {
         if (BlackRavenDisguiseService.isWithinPostSwitchGuard(player)) {
             player.currentScreenHandler.syncState();
             ci.cancel();

@@ -25,7 +25,7 @@ public abstract class ItemEntityMixin {
     public abstract ItemStack getStack();
 
     @Inject(method = "onPlayerCollision", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$blockImpostorGroundGunPickup(PlayerEntity player, CallbackInfo ci) {
+    private void sparkdlc$blockImpostorGroundGunPickup(PlayerEntity player, CallbackInfo ci) {
         if (player.isCreative() || player.getWorld().isClient) {
             return;
         }
@@ -47,7 +47,7 @@ public abstract class ItemEntityMixin {
             method = "onPlayerCollision",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerInventory;insertStack(Lnet/minecraft/item/ItemStack;)Z")
     )
-    private boolean sparktraits$blockImpostorGroundGunInsert(PlayerInventory inventory, ItemStack stack, PlayerEntity player) {
+    private boolean sparkdlc$blockImpostorGroundGunInsert(PlayerInventory inventory, ItemStack stack, PlayerEntity player) {
         // Guard the exact vanilla ground-pickup insert call even if another mixin reaches it.
         // 即使其他 mixin 进入原版地面拾取入包调用，也在这个精确调用点拦住内鬼拿枪。
         if (DepressionTraitService.isPsychoActive(player)) {

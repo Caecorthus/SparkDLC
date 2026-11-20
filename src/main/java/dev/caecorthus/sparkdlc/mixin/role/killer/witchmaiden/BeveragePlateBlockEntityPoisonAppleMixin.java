@@ -27,78 +27,78 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(BeveragePlateBlockEntity.class)
 public abstract class BeveragePlateBlockEntityPoisonAppleMixin implements PoisonApplePlateAccess {
     @Unique
-    private @Nullable PoisonApplePlateState sparkwitch$poisonAppleState;
+    private @Nullable PoisonApplePlateState sparkdlc$poisonAppleState;
     @Unique
-    private boolean sparkwitch$clientPoisonAppleArmed;
+    private boolean sparkdlc$clientPoisonAppleArmed;
 
     @Override
-    public boolean sparkwitch$isPoisonAppleArmed() {
-        return sparkwitch$poisonAppleState != null || sparkwitch$clientPoisonAppleArmed;
+    public boolean sparkdlc$isPoisonAppleArmed() {
+        return sparkdlc$poisonAppleState != null || sparkdlc$clientPoisonAppleArmed;
     }
 
     @Override
-    public boolean sparkwitch$armPoisonApple(UUID placerUuid, UUID matchUuid) {
-        if (sparkwitch$isPoisonAppleArmed()) {
+    public boolean sparkdlc$armPoisonApple(UUID placerUuid, UUID matchUuid) {
+        if (sparkdlc$isPoisonAppleArmed()) {
             return false;
         }
-        sparkwitch$poisonAppleState = PoisonApplePlateState.armed(placerUuid, matchUuid);
-        sparkwitch$clientPoisonAppleArmed = true;
+        sparkdlc$poisonAppleState = PoisonApplePlateState.armed(placerUuid, matchUuid);
+        sparkdlc$clientPoisonAppleArmed = true;
         PoisonApplePlateTracker.track(this);
-        sparkwitch$syncVisibleState();
+        sparkdlc$syncVisibleState();
         return true;
     }
 
     @Override
-    public @Nullable UUID sparkwitch$recordSuccessfulTake(UUID matchUuid) {
-        if (sparkwitch$poisonAppleState == null) {
+    public @Nullable UUID sparkdlc$recordSuccessfulTake(UUID matchUuid) {
+        if (sparkdlc$poisonAppleState == null) {
             return null;
         }
-        PoisonApplePlateState.TakeResult result = sparkwitch$poisonAppleState.onSuccessfulTake(matchUuid);
-        sparkwitch$poisonAppleState = result.nextState();
-        sparkwitch$clientPoisonAppleArmed = sparkwitch$poisonAppleState != null;
-        if (sparkwitch$poisonAppleState == null) {
+        PoisonApplePlateState.TakeResult result = sparkdlc$poisonAppleState.onSuccessfulTake(matchUuid);
+        sparkdlc$poisonAppleState = result.nextState();
+        sparkdlc$clientPoisonAppleArmed = sparkdlc$poisonAppleState != null;
+        if (sparkdlc$poisonAppleState == null) {
             PoisonApplePlateTracker.untrack(this);
         }
-        sparkwitch$syncVisibleState();
+        sparkdlc$syncVisibleState();
         return result.poisonerUuid();
     }
 
     @Override
-    public @Nullable UUID sparkwitch$poisonApplePlacer() {
-        return sparkwitch$poisonAppleState == null ? null : sparkwitch$poisonAppleState.placerUuid();
+    public @Nullable UUID sparkdlc$poisonApplePlacer() {
+        return sparkdlc$poisonAppleState == null ? null : sparkdlc$poisonAppleState.placerUuid();
     }
 
     @Override
-    public void sparkwitch$clearPoisonApple() {
-        if (!sparkwitch$isPoisonAppleArmed()) {
+    public void sparkdlc$clearPoisonApple() {
+        if (!sparkdlc$isPoisonAppleArmed()) {
             PoisonApplePlateTracker.untrack(this);
             return;
         }
-        sparkwitch$poisonAppleState = null;
-        sparkwitch$clientPoisonAppleArmed = false;
+        sparkdlc$poisonAppleState = null;
+        sparkdlc$clientPoisonAppleArmed = false;
         PoisonApplePlateTracker.untrack(this);
-        sparkwitch$syncVisibleState();
+        sparkdlc$syncVisibleState();
     }
 
     @Override
-    public void sparkwitch$clearIfMatchChanged(@Nullable UUID matchUuid) {
-        if (sparkwitch$poisonAppleState != null
-                && !Objects.equals(sparkwitch$poisonAppleState.matchUuid(), matchUuid)) {
-            sparkwitch$clearPoisonApple();
+    public void sparkdlc$clearIfMatchChanged(@Nullable UUID matchUuid) {
+        if (sparkdlc$poisonAppleState != null
+                && !Objects.equals(sparkdlc$poisonAppleState.matchUuid(), matchUuid)) {
+            sparkdlc$clearPoisonApple();
         }
     }
 
     @Inject(method = "writeNbt", at = @At("TAIL"))
-    private void sparkwitch$writePoisonApple(
+    private void sparkdlc$writePoisonApple(
             NbtCompound nbt,
             RegistryWrapper.WrapperLookup registryLookup,
             CallbackInfo ci
     ) {
-        PoisonApplePlateNbt.writePersistent(nbt, sparkwitch$poisonAppleState);
+        PoisonApplePlateNbt.writePersistent(nbt, sparkdlc$poisonAppleState);
     }
 
     @Inject(method = "readNbt", at = @At("TAIL"))
-    private void sparkwitch$readPoisonApple(
+    private void sparkdlc$readPoisonApple(
             NbtCompound nbt,
             RegistryWrapper.WrapperLookup registryLookup,
             CallbackInfo ci
@@ -106,13 +106,13 @@ public abstract class BeveragePlateBlockEntityPoisonAppleMixin implements Poison
         PoisonApplePlateState decodedState = PoisonApplePlateNbt.readPersistent(nbt);
         boolean rejectedStaleState = decodedState != null
                 && !decodedState.belongsTo(PoisonApplePlateService.activeMatchId());
-        sparkwitch$poisonAppleState = rejectedStaleState ? null : decodedState;
-        sparkwitch$clientPoisonAppleArmed = sparkwitch$poisonAppleState != null
+        sparkdlc$poisonAppleState = rejectedStaleState ? null : decodedState;
+        sparkdlc$clientPoisonAppleArmed = sparkdlc$poisonAppleState != null
                 || nbt.getBoolean(PoisonApplePlateNbt.ARMED_KEY);
         if (rejectedStaleState) {
             ((BlockEntity) (Object) this).markDirty();
         }
-        if (sparkwitch$poisonAppleState != null) {
+        if (sparkdlc$poisonAppleState != null) {
             PoisonApplePlateTracker.track(this);
         } else {
             PoisonApplePlateTracker.untrack(this);
@@ -120,15 +120,15 @@ public abstract class BeveragePlateBlockEntityPoisonAppleMixin implements Poison
     }
 
     @Inject(method = "toInitialChunkDataNbt", at = @At("RETURN"))
-    private void sparkwitch$stripSensitivePoisonAppleData(
+    private void sparkdlc$stripSensitivePoisonAppleData(
             RegistryWrapper.WrapperLookup registryLookup,
             CallbackInfoReturnable<NbtCompound> cir
     ) {
-        PoisonApplePlateNbt.stripForClient(cir.getReturnValue(), sparkwitch$isPoisonAppleArmed());
+        PoisonApplePlateNbt.stripForClient(cir.getReturnValue(), sparkdlc$isPoisonAppleArmed());
     }
 
     @Unique
-    private void sparkwitch$syncVisibleState() {
+    private void sparkdlc$syncVisibleState() {
         BlockEntity plate = (BlockEntity) (Object) this;
         plate.markDirty();
         World world = plate.getWorld();

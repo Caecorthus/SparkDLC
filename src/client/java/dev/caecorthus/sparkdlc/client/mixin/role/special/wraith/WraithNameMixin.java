@@ -25,7 +25,7 @@ public abstract class WraithNameMixin {
                     target = "Lnet/minecraft/entity/player/PlayerEntity;getDisplayName()Lnet/minecraft/text/Text;"
             )
     )
-    private static Text sparkwitch$hideProjectedPlayerName(
+    private static Text sparkdlc$hideProjectedPlayerName(
             PlayerEntity instance,
             Operation<Text> original
     ) {
@@ -46,7 +46,7 @@ public abstract class WraithNameMixin {
                     target = "Ldev/doctor4t/wathe/api/event/ShouldShowCohort;getCohortResult(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/entity/player/PlayerEntity;)Ldev/doctor4t/wathe/api/event/ShouldShowCohort$CohortResult;"
             )
     )
-    private static ShouldShowCohort.CohortResult sparkwitch$hideProjectedCohort(
+    private static ShouldShowCohort.CohortResult sparkdlc$hideProjectedCohort(
             ShouldShowCohort event,
             PlayerEntity viewer,
             PlayerEntity target,
@@ -65,7 +65,7 @@ public abstract class WraithNameMixin {
                     target = "Ldev/doctor4t/wathe/api/event/CanSeeBodyRole;canSee(Lnet/minecraft/entity/Entity;)Z"
             )
     )
-    private static boolean sparkwitch$hideProjectedBodyIdentity(
+    private static boolean sparkdlc$hideProjectedBodyIdentity(
             CanSeeBodyRole event,
             Entity viewer,
             Operation<Boolean> original

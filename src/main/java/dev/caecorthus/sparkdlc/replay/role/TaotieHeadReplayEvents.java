@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.replay.role;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.record.replay.ReplayGenerator;
 import dev.doctor4t.wathe.record.replay.ReplayRegistry;
 import net.minecraft.nbt.NbtCompound;
@@ -15,7 +15,7 @@ import java.util.UUID;
  */
 public final class TaotieHeadReplayEvents {
     /** Taotie head hit: actor = the shooter (recorded even when offline), target = the victim. / 饕餮头颅命中：actor 为发射者（离线也记录），target 为受害者。 */
-    public static final Identifier TAOTIE_HEAD_HIT = SparkStrength.id("taotie_head_hit");
+    public static final Identifier TAOTIE_HEAD_HIT = SparkDLC.id("taotie_head_hit");
 
     private TaotieHeadReplayEvents() {
     }

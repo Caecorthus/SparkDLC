@@ -141,14 +141,14 @@ public final class DominatorForcedShotService {
             } else {
                 entries.put(item, entry);
                 remaining = Math.max(0, ((ItemCooldownEntryAccessor) entry)
-                        .sparkwitch$getEndTick() - ((ItemCooldownManagerAccessor) manager).sparkwitch$getTick());
+                        .sparkdlc$getEndTickForRoles() - ((ItemCooldownManagerAccessor) manager).sparkdlc$getTickForRoles());
             }
             player.networkHandler.sendPacket(new CooldownUpdateS2CPacket(item, remaining));
         }
 
         @SuppressWarnings("unchecked")
         private static Map<Item, Object> entries(ItemCooldownManager manager) {
-            return (Map<Item, Object>) ((ItemCooldownManagerAccessor) manager).sparkwitch$getEntries();
+            return (Map<Item, Object>) ((ItemCooldownManagerAccessor) manager).sparkdlc$getEntriesForRoles();
         }
     }
 

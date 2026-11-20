@@ -24,12 +24,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class DronePilotHudMixin {
     @Inject(method = "render(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/render/RenderTickCounter;)V",
             at = @At("HEAD"))
-    private void sparkstrength$renderDroneLens(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+    private void sparkdlc$renderDroneLens(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         DronePilotHud.renderLens(context, tickCounter);
     }
 
     @Inject(method = "renderCrosshair", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$hideVanillaCrosshairWhilePiloting(DrawContext context, RenderTickCounter tickCounter,
+    private void sparkdlc$hideVanillaCrosshairWhilePiloting(DrawContext context, RenderTickCounter tickCounter,
                                                                  CallbackInfo ci) {
         if (DronePilotClient.isViewingDrone()) {
             ci.cancel();

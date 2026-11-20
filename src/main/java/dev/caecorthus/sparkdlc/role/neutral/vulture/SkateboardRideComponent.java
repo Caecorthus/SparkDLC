@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.vulture;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.RegistryByteBuf;
@@ -27,7 +27,7 @@ import org.ladysnake.cca.api.v3.component.sync.PlayerSyncPredicate;
  */
 public final class SkateboardRideComponent implements AutoSyncedComponent {
     public static final ComponentKey<SkateboardRideComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("skateboard_ride"),
+            SparkDLC.id("skateboard_ride"),
             SkateboardRideComponent.class
     );
 

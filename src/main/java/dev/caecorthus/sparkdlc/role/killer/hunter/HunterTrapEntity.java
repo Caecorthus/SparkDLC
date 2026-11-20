@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.hunter;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponTarget;
 import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaInteractionService;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
@@ -35,8 +35,8 @@ import org.jetbrains.annotations.Nullable;
 
 /** SparkWitch-owned placed Hunter trap. Trigger authority and poison attribution stay server-side. */
 public final class HunterTrapEntity extends Entity {
-    public static final Identifier EVENT_TRIGGERED = SparkWitch.id("hunter_trap_triggered");
-    public static final Identifier POISON_SOURCE = SparkWitch.id("trap");
+    public static final Identifier EVENT_TRIGGERED = SparkDLC.id("hunter_trap_triggered");
+    public static final Identifier POISON_SOURCE = SparkDLC.id("trap");
     public static final String POISON_PLACER_NBT_KEY = "SparkWitchTrapPlacer";
     /**
      * Achievement record contract W16 (2026-10-14), read by SparkAssist: on {@link #EVENT_TRIGGERED}, true when an

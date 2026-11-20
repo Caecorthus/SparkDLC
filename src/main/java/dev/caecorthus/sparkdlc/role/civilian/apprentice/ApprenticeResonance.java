@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.apprentice;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.role.neutral.murderouswitch.rules.MurderousWitchRules;
 import dev.caecorthus.sparkdlc.role.witch.WitchFactionRules;
 import dev.doctor4t.wathe.api.Role;
@@ -55,7 +55,7 @@ public final class ApprenticeResonance {
             // A Rift Gate occupant is an alive spectator and stays deaf to resonance.
             // 裂隙门内的玩家是存活旁观者，听不到共鸣。
             if (listener == caster || listener.isSpectator() || !GameFunctions.isPlayerPlayingAndAlive(listener)
-                    || game.getRole(listener) != SparkWitchRoles.apprenticeWitch()
+                    || game.getRole(listener) != SparkDlcRoles.apprenticeWitch()
                     || listener.squaredDistanceTo(position) > rangeSquared) {
                 continue;
             }

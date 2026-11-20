@@ -66,7 +66,7 @@ public final class UsecAttachmentClient {
         if (player == null || slot == null) {
             return false;
         }
-        Slot wrapped = slot instanceof UsecCreativeSlotAccessor creative ? creative.sparkwitch$getWrappedSlot() : null;
+        Slot wrapped = slot instanceof UsecCreativeSlotAccessor creative ? creative.sparkdlc$getWrappedSlot() : null;
         Slot own = wrapped != null ? wrapped : slot;
         int index = UsecAttachmentModel.ownInventoryIndex(handler instanceof PlayerScreenHandler,
                 new SlotRef(slot.inventory == player.getInventory(), slot.getIndex()),

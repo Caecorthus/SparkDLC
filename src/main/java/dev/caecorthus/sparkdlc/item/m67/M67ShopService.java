@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.item.m67;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerRules;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
@@ -27,7 +27,7 @@ public final class M67ShopService {
     public static List<ShopEntry> appendToFinalEntries(PlayerEntity player, List<ShopEntry> entries) {
         boolean hasGrenade = false;
         for (ShopEntry entry : entries) {
-            if (ENTRY_ID.equals(entry.id()) || entry.stack().isOf(SparkStrengthItems.m67())) {
+            if (ENTRY_ID.equals(entry.id()) || entry.stack().isOf(SparkDlcItems.m67())) {
                 return entries;
             }
             hasGrenade |= entry.stack().isOf(WatheItems.GRENADE);
@@ -38,7 +38,7 @@ public final class M67ShopService {
 
         // Builder has no name/description API; display components must not enter the purchased stack.
         // Builder 无名称/描述接口；展示组件不应进入实际购买的物品堆。
-        ItemStack display = SparkStrengthItems.m67().getDefaultStack();
+        ItemStack display = SparkDlcItems.m67().getDefaultStack();
         display.set(DataComponentTypes.ITEM_NAME, Text.translatable("shop.sparkdlc.m67"));
         display.set(DataComponentTypes.LORE, new LoreComponent(List.of(
                 Text.translatable("shop.sparkdlc.m67.description")
@@ -49,7 +49,7 @@ public final class M67ShopService {
                 || (CoronerService.isActualCoroner(player) && CoronerService.hasBomberDisguise(player))
                 ? 10 : 25;
         ShopEntry m67 = new ShopEntry.Builder(ENTRY_ID, display, price, ShopEntry.Type.WEAPON)
-                .actualStack(SparkStrengthItems.m67().getDefaultStack())
+                .actualStack(SparkDlcItems.m67().getDefaultStack())
                 .build();
         List<ShopEntry> result = new ArrayList<>(entries);
         result.add(SparkTraitsApi.discountShopEntryForCharisma(player, m67));

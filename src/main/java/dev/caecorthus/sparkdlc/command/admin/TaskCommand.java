@@ -47,7 +47,7 @@ public final class TaskCommand {
             TaskAction action
     ) {
         dispatcher.register(CommandManager.literal(literal)
-                .requires(SparkFactionPermissions.admin())
+                .requires(AdminToolPermissions.admin())
                 .then(CommandManager.argument("task", StringArgumentType.word())
                         .suggests(TaskCommand::suggestTasks)
                         .executes(context -> updateTasks(

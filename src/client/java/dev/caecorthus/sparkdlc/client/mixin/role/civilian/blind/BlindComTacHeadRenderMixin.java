@@ -24,7 +24,7 @@ public abstract class BlindComTacHeadRenderMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$hideWornComTac(
+    private void sparkdlc$hideWornComTac(
             MatrixStack matrices,
             VertexConsumerProvider vertexConsumers,
             int light,

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.neutral.ferryman;
 
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityController;
 import dev.caecorthus.sparkdlc.client.text.HudFontOptions;
 import dev.caecorthus.sparkdlc.role.neutral.ferryman.FerrymanPlayerComponent;
@@ -71,7 +71,7 @@ public final class FerrymanHud {
         FerrymanHudRules.Line pardon = FerrymanHudRules.pardonLine(component.cooldownTicks());
         FerrymanHudRules.Line ferry = FerrymanHudRules.ferryLine(component.ferryCooldownTicks());
         TextRenderer renderer = client.textRenderer;
-        Text abilityKey = SparkWitchClient.abilityKeyText();
+        Text abilityKey = SparkDLCClient.abilityKeyText();
         Text secondaryKey = SecondaryAbilityController.secondaryKeyText();
         Language language = Language.getInstance();
         int fontOptions = HudFontOptions.current();

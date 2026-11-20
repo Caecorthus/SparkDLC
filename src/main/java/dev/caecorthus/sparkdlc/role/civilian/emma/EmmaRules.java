@@ -1,12 +1,12 @@
 package dev.caecorthus.sparkdlc.role.civilian.emma;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 
 public final class EmmaRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("emma");
-    public static final Identifier SKILL_ID = SparkWitch.id("emma_factor");
+    public static final Identifier ROLE_ID = SparkDLC.id("emma");
+    public static final Identifier SKILL_ID = SparkDLC.id("emma_factor");
     public static final int COLOR = 0xF29BC3;
     public static final int MANA_COST = 100;
     public static final int COOLDOWN_TICKS = 400;

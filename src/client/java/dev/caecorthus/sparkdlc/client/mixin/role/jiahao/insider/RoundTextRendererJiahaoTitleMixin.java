@@ -34,7 +34,7 @@ public abstract class RoundTextRendererJiahaoTitleMixin {
             require = 1,
             allow = 1
     )
-    private static RoleAnnouncementTexts.RoleAnnouncementText sparkwitch$teamJiahaoWinTitle(
+    private static RoleAnnouncementTexts.RoleAnnouncementText sparkdlc$teamJiahaoWinTitle(
             RoleAnnouncementTexts.RoleAnnouncementText winnerText
     ) {
         return JiahaoWinTitleClient.winnerText(winnerText);

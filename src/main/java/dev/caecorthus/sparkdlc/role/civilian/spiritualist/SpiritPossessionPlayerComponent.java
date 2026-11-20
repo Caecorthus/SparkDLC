@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.spiritualist;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.spiritualist.SpiritPossessionRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.player.PlayerEntity;
@@ -24,7 +24,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
  */
 public final class SpiritPossessionPlayerComponent implements AutoSyncedComponent, ServerTickingComponent {
     public static final ComponentKey<SpiritPossessionPlayerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("spirit_possession"),
+            SparkDLC.id("spirit_possession"),
             SpiritPossessionPlayerComponent.class
     );
 

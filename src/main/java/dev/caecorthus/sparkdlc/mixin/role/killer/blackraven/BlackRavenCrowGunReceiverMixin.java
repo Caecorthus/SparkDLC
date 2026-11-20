@@ -36,7 +36,7 @@ public abstract class BlackRavenCrowGunReceiverMixin {
                     target = "Lnet/minecraft/server/world/ServerWorld;getEntityById(I)Lnet/minecraft/entity/Entity;",
                     remap = true),
             require = 1, allow = 1)
-    private @Nullable Entity sparkwitch$crowResolvesToOwner(ServerWorld world, int entityId,
+    private @Nullable Entity sparkdlc$crowResolvesToOwner(ServerWorld world, int entityId,
                                                            Operation<Entity> original, GunShootPayload payload,
                                                            ServerPlayNetworking.Context context) {
         return BlackRavenCrowHits.onGunTargetLookup(context.player(), original.call(world, entityId));
@@ -47,7 +47,7 @@ public abstract class BlackRavenCrowGunReceiverMixin {
                     target = "Lnet/minecraft/server/network/ServerPlayerEntity;distanceTo(Lnet/minecraft/entity/Entity;)F",
                     remap = true),
             require = 1, allow = 1)
-    private float sparkwitch$substitutedOwnerPassesCap(ServerPlayerEntity candidate, Entity shooter,
+    private float sparkdlc$substitutedOwnerPassesCap(ServerPlayerEntity candidate, Entity shooter,
                                                       Operation<Float> original) {
         return BlackRavenCrowHits.receiverDistance(candidate, original.call(candidate, shooter));
     }

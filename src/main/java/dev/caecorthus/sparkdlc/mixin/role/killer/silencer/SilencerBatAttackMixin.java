@@ -27,7 +27,7 @@ public abstract class SilencerBatAttackMixin {
     @Shadow public abstract void resetLastAttackedTicks();
 
     @WrapMethod(method = "attack")
-    private void sparkstrength$silencerQuietBatHit(Entity target, Operation<Void> original) {
+    private void sparkdlc$silencerQuietBatHit(Entity target, Operation<Void> original) {
         PlayerEntity self = (PlayerEntity) (Object) this;
         if (SilencerQuietService.shouldSilenceWatheBat(self)
                 && SparkTraitsApi.blocksWeaponAction(self, self.getMainHandStack())) {

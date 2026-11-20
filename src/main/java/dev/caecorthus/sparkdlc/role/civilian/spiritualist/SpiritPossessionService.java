@@ -2,11 +2,11 @@ package dev.caecorthus.sparkdlc.role.civilian.spiritualist;
 
 import dev.caecorthus.sparkdlc.cooldown.api.ForcedCooldowns;
 import dev.caecorthus.sparkdlc.cooldown.api.FunctionRoleSkillCooldownStore;
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.role.civilian.spiritualist.SpiritPossessionPlayerComponent;
 import dev.caecorthus.sparkdlc.item.m67.M67RoundService;
 import dev.caecorthus.sparkdlc.role.civilian.spiritualist.SpiritPossessionStateS2CPacket;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.caecorthus.sparkdlc.role.AbilityLocks;
 import dev.caecorthus.sparkdlc.role.AbilityLocks.Lock;
 import dev.caecorthus.sparkdlc.viewpoint.RemoteViewSessions;
@@ -170,7 +170,7 @@ public final class SpiritPossessionService {
 
         NbtCompound extra = new NbtCompound();
         extra.putUuid("target", target.getUuid());
-        GameRecordManager.recordGlobalEvent(world, SparkStrengthReplayFormatters.SPIRIT_POSSESSION_STARTED, player, extra);
+        GameRecordManager.recordGlobalEvent(world, RoleKitReplayFormatters.SPIRIT_POSSESSION_STARTED, player, extra);
     }
 
     public static void exit(ServerPlayerEntity player) {
@@ -302,7 +302,7 @@ public final class SpiritPossessionService {
                 && !target.isRemoved()
                 && !target.isSpectator()
                 && target.getServerWorld() == world
-                && SparkWitchApi.isWraithActive(target);
+                && SparkRoleApi.isWraithActive(target);
     }
 
     private static void sendState(ServerPlayerEntity player, SpiritPossessionStateS2CPacket packet) {

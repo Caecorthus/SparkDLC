@@ -39,7 +39,7 @@ public abstract class GameFunctionsDominatorLetterMixin {
     private static final String LINE_4_KEY = "tip.letter.dominator.tooltip4";
 
     @Inject(method = "applyLetterLore", at = @At("TAIL"))
-    private static void sparkwitch$recolorDominatorPostscript(
+    private static void sparkdlc$recolorDominatorPostscript(
             ItemStack stack,
             ServerPlayerEntity player,
             Role role,

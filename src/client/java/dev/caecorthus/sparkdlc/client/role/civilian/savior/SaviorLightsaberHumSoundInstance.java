@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.savior;
 
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import net.minecraft.client.sound.MovingSoundInstance;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,7 +27,7 @@ public final class SaviorLightsaberHumSoundInstance extends MovingSoundInstance 
     private final long startedAt;
 
     public SaviorLightsaberHumSoundInstance(PlayerEntity holder, ItemStack stack, long startedAt) {
-        super(SparkWitchSounds.SAVIOR_LIGHTSABER_HUM, SoundCategory.PLAYERS, SoundInstance.createRandom());
+        super(SparkDlcSounds.SAVIOR_LIGHTSABER_HUM, SoundCategory.PLAYERS, SoundInstance.createRandom());
         this.holder = holder;
         this.stack = stack;
         this.startedAt = startedAt;

@@ -345,10 +345,10 @@ final class NoellesCivilianRules {
 
     /**
      * 引狼入室: after a death of mine as the Conductor ({@code victim_role}), another player on the killer faction at the
-     * pickup (by {@link StrengthRecordRules#factionAround}, which catches an Impostor or Conscience flip from a later
+     * pickup (by {@link RoleKitRecordRules#factionAround}, which catches an Impostor or Conscience flip from a later
      * death record) picks up a master key. The pickup record has no owner, so the key is assumed to be the one I
      * dropped (a second master key in one round is very rare).
-     * 我以列车长身份死亡（{@code victim_role}）后，另一名拾取时属于杀手阵营的玩家（按 {@link StrengthRecordRules#factionAround}
+     * 我以列车长身份死亡（{@code victim_role}）后，另一名拾取时属于杀手阵营的玩家（按 {@link RoleKitRecordRules#factionAround}
      * 判断，能从之后的死亡记录识别内鬼、良知造成的阵营翻转）捡起了一把万能钥匙。拾取记录不带物主，因此默认那就是我掉落的钥匙
      * （一局里出现第二把万能钥匙非常少见）。
      */
@@ -365,7 +365,7 @@ final class NoellesCivilianRules {
                 dropped |= CONDUCTOR.equals(timeline.victimRole(event));
             } else if (dropped && event.is(MatchEvent.ITEM_PICKUP) && MASTER_KEY.equals(event.value("item"))
                     && event.actor() != null && !self.equals(event.actor())
-                    && Factions.KILLER.equals(StrengthRecordRules.factionAround(timeline, event.actor(), event))) {
+                    && Factions.KILLER.equals(RoleKitRecordRules.factionAround(timeline, event.actor(), event))) {
                 return true;
             }
         }

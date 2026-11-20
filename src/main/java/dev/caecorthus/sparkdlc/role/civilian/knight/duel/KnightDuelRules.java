@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.knight.duel;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
@@ -38,13 +38,13 @@ public final class KnightDuelRules {
      * optional. / SparkStrength 平板：规格中骑士的开局物品，不是武器；以纯 id 保存，SparkStrength 仍为可选。
      */
     public static final Identifier TABLET_ID = Identifier.of("sparkdlc", "tablet");
-    public static final Identifier MANBA_SOUND_ID = SparkWitch.id("duel.manba");
-    public static final Identifier SF_SOUND_ID = SparkWitch.id("duel.sf");
+    public static final Identifier MANBA_SOUND_ID = SparkDLC.id("duel.manba");
+    public static final Identifier SF_SOUND_ID = SparkDLC.id("duel.sf");
     /**
      * SparkFactionAPI player-affect action asked before a challenge (the duel seals the target's items).
      * 发起挑战前询问 SparkFactionAPI 玩家影响策略所用的行为 id（决斗会封印对手的物品）。
      */
-    public static final Identifier DUEL_ACTION_ID = SparkWitch.id("knight_duel");
+    public static final Identifier DUEL_ACTION_ID = SparkDLC.id("knight_duel");
 
     private KnightDuelRules() {
     }

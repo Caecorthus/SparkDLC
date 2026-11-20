@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.jiahao.sphinxhao;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
@@ -40,25 +40,25 @@ import org.jetbrains.annotations.Nullable;
  * 不是魔女技能职业：它的任何内容都不会出现在 {@code gui.sparkdlc.skills} 面板中。
  */
 public final class SphinxHaoRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("sphinx_hao");
+    public static final Identifier ROLE_ID = SparkDLC.id("sphinx_hao");
     public static final int COLOR = 0xFF7F50;
 
-    public static final Identifier HAND_GUN_ID = SparkWitch.id("sphinx_hao_hand_gun");
-    public static final Identifier FIST_AMMO_ID = SparkWitch.id("sphinx_hao_fist_ammo");
+    public static final Identifier HAND_GUN_ID = SparkDLC.id("sphinx_hao_hand_gun");
+    public static final Identifier FIST_AMMO_ID = SparkDLC.id("sphinx_hao_fist_ammo");
     /** Visual-only spring-fist entity. / 仅用于表现的弹簧拳头实体。 */
-    public static final Identifier FIST_ENTITY_ID = SparkWitch.id("sphinx_hao_fist");
+    public static final Identifier FIST_ENTITY_ID = SparkDLC.id("sphinx_hao_fist");
     /** Death reason of a fist kill. / 拳头击杀的死亡原因。 */
-    public static final Identifier DEATH_REASON = SparkWitch.id("sphinx_hao_fist");
+    public static final Identifier DEATH_REASON = SparkDLC.id("sphinx_hao_fist");
     /** Global music of 豪气冲天. / 豪气冲天的全场音乐。 */
-    public static final Identifier FADE_SOUND_ID = SparkWitch.id("music.sphinx_hao_fade");
+    public static final Identifier FADE_SOUND_ID = SparkDLC.id("music.sphinx_hao_fade");
 
     /** C2S of skill 1 (ability key G, empty payload). / 技能一的 C2S（G 键，空载荷）。 */
-    public static final Identifier INFECT_PAYLOAD_ID = SparkWitch.id("use_sphinx_hao_infect");
+    public static final Identifier INFECT_PAYLOAD_ID = SparkDLC.id("use_sphinx_hao_infect");
     /** C2S of skill 2 (secondary key N, empty payload). / 技能二的 C2S（N 键，空载荷）。 */
-    public static final Identifier ROAR_PAYLOAD_ID = SparkWitch.id("use_sphinx_hao_roar");
+    public static final Identifier ROAR_PAYLOAD_ID = SparkDLC.id("use_sphinx_hao_roar");
     /** Forced-cooldown store ids (stores 33 and 34). / 强制冷却存储 id（第 33 与 34 号）。 */
-    public static final Identifier INFECT_SKILL_ID = SparkWitch.id("sphinx_hao_infect");
-    public static final Identifier ROAR_SKILL_ID = SparkWitch.id("sphinx_hao_roar");
+    public static final Identifier INFECT_SKILL_ID = SparkDLC.id("sphinx_hao_infect");
+    public static final Identifier ROAR_SKILL_ID = SparkDLC.id("sphinx_hao_roar");
     /** Shop entry id of the fist ammo; unique to its shop. / 拳头子弹的商店条目 id，只出现在它的商店。 */
     public static final String FIST_AMMO_SHOP_ENTRY_ID = "sparkdlc:sphinx_hao_fist_ammo";
 

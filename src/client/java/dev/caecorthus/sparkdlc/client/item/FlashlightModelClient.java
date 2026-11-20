@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.item;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import java.util.function.Supplier;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
@@ -30,7 +30,7 @@ public final class FlashlightModelClient {
      * flashlight.json 中 custom_model_data = 1 的覆盖模型；它作为依赖被烘焙，
      * 因此按资源 id（而非顶层模型 id）进入烘焙后钩子。
      */
-    static final Identifier ON_MODEL = SparkStrength.id("item/flashlight_on");
+    static final Identifier ON_MODEL = SparkDLC.id("item/flashlight_on");
 
     /**
      * Marker shared with flashlight.json: lens + reflector faces carry {@code "tintindex": 7}.

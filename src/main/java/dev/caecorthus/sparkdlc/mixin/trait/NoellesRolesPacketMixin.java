@@ -36,29 +36,29 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = Noellesroles.class, remap = false)
 public abstract class NoellesRolesPacketMixin {
     @Inject(method = "lambda$registerPackets$0", at = @At("HEAD"), cancellable = true, remap = false)
-    private static void sparktraits$blockSilencedMorph(MorphC2SPacket payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
-        sparktraits$blockSilencedKillerAbility(context.player(), ci);
+    private static void sparkdlc$blockSilencedMorph(MorphC2SPacket payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
+        sparkdlc$blockSilencedKillerAbility(context.player(), ci);
     }
 
     @Inject(method = "lambda$registerPackets$1", at = @At("HEAD"), cancellable = true, remap = false)
-    private static void sparktraits$blockSilencedMorphCorpseToggle(MorphCorpseToggleC2SPacket payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
-        sparktraits$blockSilencedKillerAbility(context.player(), ci);
+    private static void sparkdlc$blockSilencedMorphCorpseToggle(MorphCorpseToggleC2SPacket payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
+        sparkdlc$blockSilencedKillerAbility(context.player(), ci);
     }
 
     @Inject(method = "lambda$registerPackets$2", at = @At("HEAD"), cancellable = true, remap = false)
-    private static void sparktraits$blockSilencedVultureEat(VultureEatC2SPacket payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
-        sparktraits$blockSilencedKillerAbility(context.player(), ci);
+    private static void sparkdlc$blockSilencedVultureEat(VultureEatC2SPacket payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
+        sparkdlc$blockSilencedKillerAbility(context.player(), ci);
     }
 
     @Inject(method = "lambda$registerPackets$5", at = @At("HEAD"), cancellable = true, remap = false)
-    private static void sparktraits$blockSilencedSharedAbility(AbilityC2SPacket payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
-        sparktraits$blockSilencedKillerAbility(context.player(), ci);
+    private static void sparkdlc$blockSilencedSharedAbility(AbilityC2SPacket payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
+        sparkdlc$blockSilencedKillerAbility(context.player(), ci);
     }
 
     @Inject(method = "lambda$registerPackets$6", at = @At("HEAD"), cancellable = true, remap = false)
-    private static void sparktraits$blockLastStandAssassination(AssassinGuessRoleC2SPacket payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
+    private static void sparkdlc$blockLastStandAssassination(AssassinGuessRoleC2SPacket payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
         ServerPlayerEntity assassin = context.player();
-        if (sparktraits$blockSilencedKillerAbility(assassin, ci)) {
+        if (sparkdlc$blockSilencedKillerAbility(assassin, ci)) {
             return;
         }
         ServerWorld world = assassin.getServerWorld();
@@ -89,9 +89,9 @@ public abstract class NoellesRolesPacketMixin {
     }
 
     @Inject(method = "lambda$registerPackets$4", at = @At("HEAD"), cancellable = true, remap = false)
-    private static void sparktraits$blockLastStandSwap(SwapperC2SPacket payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
+    private static void sparkdlc$blockLastStandSwap(SwapperC2SPacket payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
         ServerPlayerEntity swapper = context.player();
-        if (sparktraits$blockSilencedKillerAbility(swapper, ci)) {
+        if (sparkdlc$blockSilencedKillerAbility(swapper, ci)) {
             return;
         }
         ServerWorld world = swapper.getServerWorld();
@@ -123,28 +123,28 @@ public abstract class NoellesRolesPacketMixin {
     }
 
     @Inject(method = "lambda$registerPackets$7", at = @At("HEAD"), cancellable = true, remap = false)
-    private static void sparktraits$blockSilencedReporterMark(ReporterMarkC2SPacket payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
-        sparktraits$blockSilencedKillerAbility(context.player(), ci);
+    private static void sparkdlc$blockSilencedReporterMark(ReporterMarkC2SPacket payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
+        sparkdlc$blockSilencedKillerAbility(context.player(), ci);
     }
 
     @Inject(method = "lambda$registerPackets$8", at = @At("HEAD"), cancellable = true, remap = false)
-    private static void sparktraits$blockSilencedDetectiveInvestigate(DetectiveInvestigateC2SPacket payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
-        sparktraits$blockSilencedKillerAbility(context.player(), ci);
+    private static void sparkdlc$blockSilencedDetectiveInvestigate(DetectiveInvestigateC2SPacket payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
+        sparkdlc$blockSilencedKillerAbility(context.player(), ci);
     }
 
     @Inject(method = "lambda$registerPackets$9", at = @At("HEAD"), cancellable = true, remap = false)
-    private static void sparktraits$blockSilencedTaotieSwallow(TaotieSwallowC2SPacket payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
-        sparktraits$blockSilencedKillerAbility(context.player(), ci);
+    private static void sparkdlc$blockSilencedTaotieSwallow(TaotieSwallowC2SPacket payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
+        sparkdlc$blockSilencedKillerAbility(context.player(), ci);
     }
 
     @Inject(method = "lambda$registerPackets$12", at = @At("HEAD"), cancellable = true, remap = false)
-    private static void sparktraits$blockSilencedSilencerSilence(SilencerSilenceC2SPacket payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
-        sparktraits$blockSilencedKillerAbility(context.player(), ci);
+    private static void sparkdlc$blockSilencedSilencerSilence(SilencerSilenceC2SPacket payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
+        sparkdlc$blockSilencedKillerAbility(context.player(), ci);
     }
 
     @Inject(method = "lambda$registerPackets$13", at = @At("HEAD"), cancellable = true, remap = false)
-    private static void sparktraits$blockSilencedPartyAnimalBuzz(PartyAnimalBuzzC2SPacket payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
-        sparktraits$blockSilencedKillerAbility(context.player(), ci);
+    private static void sparkdlc$blockSilencedPartyAnimalBuzz(PartyAnimalBuzzC2SPacket payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
+        sparkdlc$blockSilencedKillerAbility(context.player(), ci);
     }
 
     @Redirect(
@@ -155,7 +155,7 @@ public abstract class NoellesRolesPacketMixin {
             ),
             remap = false
     )
-    private static boolean sparktraits$partyAnimalRewardIgnoresRawKillerTarget(GameWorldComponent gameComponent, PlayerEntity target) {
+    private static boolean sparkdlc$partyAnimalRewardIgnoresRawKillerTarget(GameWorldComponent gameComponent, PlayerEntity target) {
         return EffectiveConsequenceService.shouldBlockPartyAnimalTargetReward(
                 gameComponent.getRole(target),
                 TraitPlayerComponent.KEY.get(target).getActiveTraitIds()
@@ -171,7 +171,7 @@ public abstract class NoellesRolesPacketMixin {
             ),
             remap = false
     )
-    private static boolean sparktraits$partyAnimalRewardIgnoresUndercoverTarget(
+    private static boolean sparkdlc$partyAnimalRewardIgnoresUndercoverTarget(
             GameWorldComponent gameComponent,
             PlayerEntity target,
             Role role
@@ -183,11 +183,11 @@ public abstract class NoellesRolesPacketMixin {
     }
 
     @Inject(method = "lambda$registerPackets$14", at = @At("HEAD"), cancellable = true, remap = false)
-    private static void sparktraits$blockSilencedSpiritProject(SpiritProjectC2SPacket payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
-        sparktraits$blockSilencedKillerAbility(context.player(), ci);
+    private static void sparkdlc$blockSilencedSpiritProject(SpiritProjectC2SPacket payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
+        sparkdlc$blockSilencedKillerAbility(context.player(), ci);
     }
 
-    private static boolean sparktraits$blockSilencedKillerAbility(ServerPlayerEntity player, CallbackInfo ci) {
+    private static boolean sparkdlc$blockSilencedKillerAbility(ServerPlayerEntity player, CallbackInfo ci) {
         // Last Escape locks role skills (SparkTraitsApi.isRoleSkillBlocked); the client only drains attack/use, so
         // the ability packet still arrives. Rejected first and silently, like DemonHunterShootPacketMixin.
         // 绝处逢生会锁定职业技能（SparkTraitsApi.isRoleSkillBlocked）；客户端只屏蔽攻击/使用键，技能包仍会发出。

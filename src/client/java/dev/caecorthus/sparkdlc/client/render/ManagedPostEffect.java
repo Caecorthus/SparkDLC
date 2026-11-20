@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.render;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
@@ -56,7 +56,7 @@ public final class ManagedPostEffect {
                 processor = new PostEffectProcessor(
                         client.getTextureManager(), client.getResourceManager(), framebuffer, shader);
             } catch (IOException | RuntimeException exception) {
-                SparkStrength.LOGGER.warn(loadFailureMessage, exception);
+                SparkDLC.LOGGER.warn(loadFailureMessage, exception);
                 release();
                 loadFailed = true;
                 return null;

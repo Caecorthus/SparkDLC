@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.sherry;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -41,7 +41,7 @@ import java.util.UUID;
  */
 public final class SherryComponent implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
     public static final ComponentKey<SherryComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("sherry"),
+            SparkDLC.id("sherry"),
             SherryComponent.class
     );
     private static final String DEDUCTION_COOLDOWN_TICKS = "DeductionCooldownTicks";

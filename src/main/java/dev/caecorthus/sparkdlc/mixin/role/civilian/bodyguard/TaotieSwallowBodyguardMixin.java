@@ -43,7 +43,7 @@ public abstract class TaotieSwallowBodyguardMixin {
     public abstract void sync();
 
     @WrapMethod(method = "swallowPlayer")
-    private boolean sparkstrength$swallowWithoutBodyguardSacrifice(ServerPlayerEntity target, Operation<Boolean> original) {
+    private boolean sparkdlc$swallowWithoutBodyguardSacrifice(ServerPlayerEntity target, Operation<Boolean> original) {
         return SacrificeSuppressionScope.call(true, () -> original.call(target));
     }
 
@@ -52,7 +52,7 @@ public abstract class TaotieSwallowBodyguardMixin {
             at = @At(value = "INVOKE", target = "Lorg/agmas/noellesroles/professor/IronManPlayerComponent;hasBuff()Z", ordinal = 0),
             cancellable = true
     )
-    private void sparkstrength$democracyShieldStopsSwallow(ServerPlayerEntity target, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$democracyShieldStopsSwallow(ServerPlayerEntity target, CallbackInfoReturnable<Boolean> cir) {
         if (player instanceof ServerPlayerEntity taotie && BodyguardProtectionService.tryBlockSwallow(target, taotie)) {
             swallowCooldown = calculatedSwallowCooldown;
             sync();
@@ -61,7 +61,7 @@ public abstract class TaotieSwallowBodyguardMixin {
     }
 
     @Inject(method = "notifySerialKillersTargetSwallowed", at = @At("HEAD"))
-    private void sparkstrength$bodyguardTargetSwallowed(ServerPlayerEntity target, ServerWorld world, CallbackInfo ci) {
+    private void sparkdlc$bodyguardTargetSwallowed(ServerPlayerEntity target, ServerWorld world, CallbackInfo ci) {
         BodyguardEconomyService.onTargetGone(target);
     }
 }

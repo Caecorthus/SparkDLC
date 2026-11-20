@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = GameFunctions.class, remap = false)
 public abstract class GameFunctionsStowawaySettlementMixin {
     @Inject(method = "isPlayerPlayingAndAlive", at = @At("HEAD"), cancellable = true)
-    private static void sparkwitch$stowawayCountsAsDeadDuringWinCheck(
+    private static void sparkdlc$stowawayCountsAsDeadDuringWinCheck(
             PlayerEntity player,
             CallbackInfoReturnable<Boolean> cir
     ) {

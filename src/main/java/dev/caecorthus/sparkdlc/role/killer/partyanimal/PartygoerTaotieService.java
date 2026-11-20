@@ -1,11 +1,11 @@
 package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
 import dev.caecorthus.sparkdlc.mixin.role.killer.partyanimal.PartygoerTaotieCooldownAccessor;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerSwallowC2SPacket;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadDaze;
 import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadRules;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -114,7 +114,7 @@ public final class PartygoerTaotieService {
                 true);
         NbtCompound extra = new NbtCompound();
         extra.putUuid("target", brain.ownerUuid());
-        GameRecordManager.recordGlobalEvent(world, SparkStrengthReplayFormatters.PARTYGOER_SWALLOWED, taotie, extra);
+        GameRecordManager.recordGlobalEvent(world, RoleKitReplayFormatters.PARTYGOER_SWALLOWED, taotie, extra);
     }
 
     /**
@@ -123,7 +123,7 @@ public final class PartygoerTaotieService {
      */
     private static void consumeSwallowCooldown(ServerPlayerEntity taotie) {
         TaotiePlayerComponent component = TaotiePlayerComponent.KEY.get(taotie);
-        int calculated = ((PartygoerTaotieCooldownAccessor) (Object) component).sparkstrength$getCalculatedSwallowCooldown();
+        int calculated = ((PartygoerTaotieCooldownAccessor) (Object) component).sparkdlc$getCalculatedSwallowCooldownForPartygoer();
         component.setSwallowCooldown(PartygoerTaotieRules.swallowCostTicks(calculated,
                 TaotiePlayerComponent.SWALLOW_COOLDOWN));
     }
@@ -249,7 +249,7 @@ public final class PartygoerTaotieService {
         public boolean aliveParticipant() {
             return GameFunctions.isPlayerPlayingAndAlive(taotie)
                     && GameFunctions.isPlayerAliveAndSurvival(taotie)
-                    && !SparkWitchApi.isWraithActive(taotie);
+                    && !SparkRoleApi.isWraithActive(taotie);
         }
 
         @Override
@@ -270,7 +270,7 @@ public final class PartygoerTaotieService {
         @Override
         public boolean stunned() {
             return EngineerStunnedPlayerComponent.KEY.get(taotie).isStunned()
-                    || SparkWitchApi.isControlExpertStunned(taotie);
+                    || SparkRoleApi.isControlExpertStunned(taotie);
         }
 
         @Override

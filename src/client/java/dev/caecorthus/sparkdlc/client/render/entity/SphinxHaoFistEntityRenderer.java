@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.render.entity;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.mixin.scope.ScopeGameRendererInvoker;
 import dev.caecorthus.sparkdlc.entity.SphinxHaoFistEntity;
 import dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.SphinxHaoRules;
@@ -46,7 +46,7 @@ public final class SphinxHaoFistEntityRenderer extends EntityRenderer<SphinxHaoF
      * Standalone JSON model (no item points at it): pivot (8, 8, 8), knuckles north; its texture is stitched into the
      * block atlas. / 独立 JSON 模型（没有物品引用）：枢轴 (8, 8, 8)，指节朝北；贴图拼在方块图集中。
      */
-    static final Identifier FIST_MODEL_ID = SparkWitch.id("item/projectile/sphinx_hao_fist");
+    static final Identifier FIST_MODEL_ID = SparkDLC.id("item/projectile/sphinx_hao_fist");
     /**
      * Fist size relative to the model: the held gun shows the same 6x6x5 fist at display scale 0.5 (both views), so
      * the flying fist matches it. Also scales the 3/16 knuckle and wrist offsets. Tune freely.
@@ -55,7 +55,7 @@ public final class SphinxHaoFistEntityRenderer extends EntityRenderer<SphinxHaoF
      */
     static final float FIST_SCALE = 0.5F;
     /** Slats and rivets reuse swatches of the gun texture (64x64). / 剪刀片与铆钉复用手枪贴图（64x64）上的色块。 */
-    private static final Identifier GUN_TEXTURE_ID = SparkWitch.id("item/sphinx_hao_hand_gun");
+    private static final Identifier GUN_TEXTURE_ID = SparkDLC.id("item/sphinx_hao_hand_gun");
     private static final RenderLayer LAYER = RenderLayer.getEntityCutout(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE);
     private static final float TEXTURE_SIZE = 64.0F;
     /**
@@ -208,7 +208,7 @@ public final class SphinxHaoFistEntityRenderer extends EntityRenderer<SphinxHaoF
             // Read-only invoker of GameRenderer#getFov: the world projection's FOV this frame (options x speed/zoom).
             // GameRenderer#getFov 的只读调用器：本帧世界投影的视场角（选项 x 速度/缩放）。
             double worldFov = ((ScopeGameRendererInvoker) client.gameRenderer)
-                    .sparkwitch$scopeFov(camera, tickDelta, true);
+                    .sparkdlc$scopeFov(camera, tickDelta, true);
             offset = SphinxHaoLatticeGeometry.firstPersonMuzzleOffset(camera.getHorizontalPlane(),
                     camera.getVerticalPlane(), camera.getDiagonalPlane(), worldFov, side);
         } else {

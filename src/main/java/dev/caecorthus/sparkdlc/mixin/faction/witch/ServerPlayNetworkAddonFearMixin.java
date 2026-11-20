@@ -50,7 +50,7 @@ public abstract class ServerPlayNetworkAddonFearMixin {
                     + "Lnet/minecraft/network/packet/CustomPayload;)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;execute(Ljava/lang/Runnable;)V")
     )
-    private void sparkwitch$guardTargetAndFearedPayloads(
+    private void sparkdlc$guardTargetAndFearedPayloads(
             MinecraftServer server,
             Runnable handler,
             Operation<Void> original,

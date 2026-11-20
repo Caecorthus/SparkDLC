@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class EngineWheelTimeMixin {
     @WrapOperation(method = "render", at = @At(value = "INVOKE",
             target = "Ldev/doctor4t/wathe/cca/TrainWorldComponent;getTime()F"))
-    private float sparkstrength$sameTickDelta(TrainWorldComponent train, Operation<Float> original,
+    private float sparkdlc$sameTickDelta(TrainWorldComponent train, Operation<Float> original,
                                               @Local(argsOnly = true) float tickDelta) {
         float time = original.call(train);
         return EngineTrainMotion.engaged() ? EngineTrainMotion.renderTime(time, tickDelta) : time;

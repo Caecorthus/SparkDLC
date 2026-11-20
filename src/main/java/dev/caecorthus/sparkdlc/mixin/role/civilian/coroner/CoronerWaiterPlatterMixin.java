@@ -34,7 +34,7 @@ import java.util.Set;
 @Mixin(FoodPlatterBlock.class)
 public abstract class CoronerWaiterPlatterMixin {
     @Inject(method = "onUse", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$coronerWaiterDoublePickup(
+    private void sparkdlc$coronerWaiterDoublePickup(
             BlockState state,
             World world,
             BlockPos pos,

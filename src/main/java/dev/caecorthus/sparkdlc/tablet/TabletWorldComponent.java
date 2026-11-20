@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.tablet;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.attendant.DoorLog;
 import dev.caecorthus.sparkdlc.tablet.TabletChannel;
 import dev.caecorthus.sparkdlc.tablet.TabletChannelRules;
@@ -47,7 +47,7 @@ import java.util.UUID;
  */
 public final class TabletWorldComponent implements AutoSyncedComponent {
     public static final ComponentKey<TabletWorldComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("tablet_world"),
+            SparkDLC.id("tablet_world"),
             TabletWorldComponent.class
     );
 

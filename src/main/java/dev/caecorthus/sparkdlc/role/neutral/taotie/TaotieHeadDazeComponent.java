@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.taotie;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -23,7 +23,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
  */
 public final class TaotieHeadDazeComponent implements AutoSyncedComponent, ServerTickingComponent {
     public static final ComponentKey<TaotieHeadDazeComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("taotie_head_daze"),
+            SparkDLC.id("taotie_head_daze"),
             TaotieHeadDazeComponent.class
     );
 

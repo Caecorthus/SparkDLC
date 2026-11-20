@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.mixin.role.civilian.savior;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.ModelPart;
@@ -49,16 +49,16 @@ public abstract class SaviorPistolArmPoseMixin<T extends LivingEntity> {
     public ModelPart head;
 
     @Inject(method = "positionRightArm(Lnet/minecraft/entity/LivingEntity;)V", at = @At("TAIL"))
-    private void sparkwitch$holdSaviorPistolRight(T entity, CallbackInfo ci) {
-        if (sparkwitch$isHoldingSaviorPistol(entity) && entity.getMainArm() == Arm.RIGHT) {
-            sparkwitch$holdGun(this.rightArm, this.head, true);
+    private void sparkdlc$holdSaviorPistolRight(T entity, CallbackInfo ci) {
+        if (sparkdlc$isHoldingSaviorPistol(entity) && entity.getMainArm() == Arm.RIGHT) {
+            sparkdlc$holdGun(this.rightArm, this.head, true);
         }
     }
 
     @Inject(method = "positionLeftArm(Lnet/minecraft/entity/LivingEntity;)V", at = @At("TAIL"))
-    private void sparkwitch$holdSaviorPistolLeft(T entity, CallbackInfo ci) {
-        if (sparkwitch$isHoldingSaviorPistol(entity) && entity.getMainArm() != Arm.RIGHT) {
-            sparkwitch$holdGun(this.leftArm, this.head, false);
+    private void sparkdlc$holdSaviorPistolLeft(T entity, CallbackInfo ci) {
+        if (sparkdlc$isHoldingSaviorPistol(entity) && entity.getMainArm() != Arm.RIGHT) {
+            sparkdlc$holdGun(this.leftArm, this.head, false);
         }
     }
 
@@ -73,8 +73,8 @@ public abstract class SaviorPistolArmPoseMixin<T extends LivingEntity> {
      * 不会凭空显示手枪；且只有玩家带幻觉（按玩家 UUID 记录）。只有真正手持手枪的玩家才读取观察者的情绪组件。
      */
     @Unique
-    private boolean sparkwitch$isHoldingSaviorPistol(T entity) {
-        if (!entity.getMainHandStack().isOf(SparkWitchItems.saviorPistol())) {
+    private boolean sparkdlc$isHoldingSaviorPistol(T entity) {
+        if (!entity.getMainHandStack().isOf(SparkDlcItems.saviorPistol())) {
             return false;
         }
         MinecraftClient client = MinecraftClient.getInstance();
@@ -82,12 +82,12 @@ public abstract class SaviorPistolArmPoseMixin<T extends LivingEntity> {
             return true;
         }
         ItemStack psychosis = PlayerMoodComponent.KEY.get(client.player).getPsychosisItems().get(entity.getUuid());
-        return psychosis == null || psychosis.isOf(SparkWitchItems.saviorPistol());
+        return psychosis == null || psychosis.isOf(SparkDlcItems.saviorPistol());
     }
 
     /** Wathe's straight-arm hold math, verbatim. / 与 Wathe 平举持枪完全相同的计算。 */
     @Unique
-    private static void sparkwitch$holdGun(ModelPart arm, ModelPart head, boolean rightArmed) {
+    private static void sparkdlc$holdGun(ModelPart arm, ModelPart head, boolean rightArmed) {
         arm.yaw = (rightArmed ? -0.3F : 0.3F) + head.yaw;
         arm.pitch = (-(float) Math.PI / 2F) + head.pitch + 0.1F;
     }

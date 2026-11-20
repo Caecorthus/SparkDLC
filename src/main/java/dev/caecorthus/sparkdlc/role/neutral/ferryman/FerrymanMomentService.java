@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.role.neutral.ferryman;
 
 import dev.caecorthus.sparkdlc.replay.api.SparkReplayApi;
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -61,7 +61,7 @@ public final class FerrymanMomentService {
      * SparkFactionAPI replay cause for the Lost Soul role write; the Charon is its source player.
      * Lost Soul 职业写入时使用的 SparkFactionAPI 回放原因；来源玩家为摆渡人。
      */
-    public static final Identifier REVIVE_REPLAY_CAUSE = SparkWitch.id("ferryman_moment_revive");
+    public static final Identifier REVIVE_REPLAY_CAUSE = SparkDLC.id("ferryman_moment_revive");
 
     private static boolean registered;
 
@@ -112,7 +112,7 @@ public final class FerrymanMomentService {
         // SparkTraits 在击杀时读取终结原因，背水一战因此不会把“随之而去”变成复活；服务端启动时注册即足够早且幂等
         // （与魔人被吞食、钟声的做法相同）。
         ServerLifecycleEvents.SERVER_STARTING.register(server ->
-                SparkTraitsApi.registerTerminalDeathReason(SparkWitchDeathReasons.FERRYMAN_MOMENT_LOST));
+                SparkTraitsApi.registerTerminalDeathReason(SparkDlcDeathReasons.FERRYMAN_MOMENT_LOST));
     }
 
     /** Shop predicate: true means the purchase went through. / 商店谓词：返回 true 表示购买完成。 */
@@ -144,7 +144,7 @@ public final class FerrymanMomentService {
             // Nothing came back (Wathe's dead set unreachable): refuse the purchase so nothing is charged, and never
             // start a moment that would kill the Charon for a revival failure.
             // 没有任何灵魂复活（Wathe 死者集合不可达）：拒绝购买、不扣费，也绝不开启一个会因复活失败而处死摆渡人的时刻。
-            SparkWitch.LOGGER.warn("Charon moment: no Lost Soul came back; the purchase is refused");
+            SparkDLC.LOGGER.warn("Charon moment: no Lost Soul came back; the purchase is refused");
             ferryman.sendMessage(Text.translatable(DENIED_KEY), true);
             return false;
         }
@@ -201,7 +201,7 @@ public final class FerrymanMomentService {
             return false;
         }
         SparkReplayApi.withRoleChangeCause(REVIVE_REPLAY_CAUSE, ferryman,
-                () -> game.addRole(soul, SparkWitchRoles.lostSoul()));
+                () -> game.addRole(soul, SparkDlcRoles.lostSoul()));
         game.sync();
         if (!GameFunctions.isPlayerPlayingAndAlive(soul)) {
             // Defensive: the round left its running state under us. Put the death back and report the failure.
@@ -244,7 +244,7 @@ public final class FerrymanMomentService {
         try {
             voiceGroupReset.accept(soul);
         } catch (RuntimeException exception) {
-            SparkWitch.LOGGER.warn("Charon moment: could not drop {} from its voice group",
+            SparkDLC.LOGGER.warn("Charon moment: could not drop {} from its voice group",
                     soul.getGameProfile().getName(), exception);
         }
         soul.sendMessage(Text.translatable(SOUL_KEY), false);
@@ -289,7 +289,7 @@ public final class FerrymanMomentService {
                 dead.remove(soul.getUuid());
             }
         } catch (ReflectiveOperationException | RuntimeException exception) {
-            SparkWitch.LOGGER.warn("Charon moment: could not clear Wathe's dead flag for {}",
+            SparkDLC.LOGGER.warn("Charon moment: could not clear Wathe's dead flag for {}",
                     soul.getGameProfile().getName(), exception);
             return false;
         }
@@ -302,7 +302,7 @@ public final class FerrymanMomentService {
             field.setAccessible(true);
             return field;
         } catch (ReflectiveOperationException | RuntimeException exception) {
-            SparkWitch.LOGGER.warn("Charon moment: Wathe's dead-player set is not reachable; revivals will fail",
+            SparkDLC.LOGGER.warn("Charon moment: Wathe's dead-player set is not reachable; revivals will fail",
                     exception);
             return null;
         }
@@ -349,7 +349,7 @@ public final class FerrymanMomentService {
                 case END_WITHOUT_DEATH -> {
                     // No soul was ever verified alive: a revival failure, not a loss, so the Charon is not killed.
                     // 没有任何灵魂被确认复活：这是复活失败而不是战败，因此不处死摆渡人。
-                    SparkWitch.LOGGER.warn("Charon moment: no Lost Soul came back; ending the moment without a death");
+                    SparkDLC.LOGGER.warn("Charon moment: no Lost Soul came back; ending the moment without a death");
                     end(world);
                 }
                 case CHARON_FOLLOWS -> {
@@ -357,7 +357,7 @@ public final class FerrymanMomentService {
                     // 迷失的灵魂全部倒下：摆渡人随之而去，强制执行，任何保护都无法否决。
                     broadcast(world, Text.translatable(LOST_KEY));
                     moment.clear();
-                    GameFunctions.killPlayer(owner, false, null, SparkWitchDeathReasons.FERRYMAN_MOMENT_LOST, true);
+                    GameFunctions.killPlayer(owner, false, null, SparkDlcDeathReasons.FERRYMAN_MOMENT_LOST, true);
                 }
                 case CONTINUE ->
                         // The win itself is decided by FerrymanWinService on the win-condition phase.
@@ -430,7 +430,7 @@ public final class FerrymanMomentService {
         for (UUID soulId : souls) {
             ServerPlayerEntity soul = player(server, soulId);
             if (FerrymanMomentRules.isSoulAlive(soul)) {
-                GameFunctions.killPlayer(soul, false, null, SparkWitchDeathReasons.FERRYMAN_MOMENT_LOST, true);
+                GameFunctions.killPlayer(soul, false, null, SparkDlcDeathReasons.FERRYMAN_MOMENT_LOST, true);
             }
         }
     }

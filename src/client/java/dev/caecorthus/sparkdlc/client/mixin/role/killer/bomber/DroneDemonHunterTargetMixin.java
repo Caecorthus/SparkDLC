@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(DemonHunterPistolItem.class)
 public abstract class DroneDemonHunterTargetMixin {
     @ModifyReturnValue(method = "getGunTarget", at = @At("RETURN"), remap = false)
-    private static HitResult sparkstrength$preferNearerDrone(HitResult original, PlayerEntity user) {
+    private static HitResult sparkdlc$preferNearerDrone(HitResult original, PlayerEntity user) {
         if (user == null || !user.getWorld().isClient()) {
             return original;
         }

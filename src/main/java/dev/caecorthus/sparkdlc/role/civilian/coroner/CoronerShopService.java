@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.coroner;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.killer.kidnapper.KidnapperKnockoutService;
 import dev.caecorthus.sparkdlc.role.civilian.bartender.BartenderRules;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerRules;
@@ -59,7 +59,7 @@ public final class CoronerShopService {
                 bodyBagDisplayStack(),
                 CoronerRules.BODY_BAG_PRICE,
                 ShopEntry.Type.TOOL
-        ).actualStack(SparkStrengthItems.coronerBodyBag().getDefaultStack()).build());
+        ).actualStack(SparkDlcItems.coronerBodyBag().getDefaultStack()).build());
 
         Role disguiseRole = CoronerService.activeDisguiseRoleForRules(player);
         if (disguiseRole == null) {
@@ -92,7 +92,7 @@ public final class CoronerShopService {
     }
 
     private static ItemStack bodyBagDisplayStack() {
-        return ShopStacks.display(SparkStrengthItems.coronerBodyBag().getDefaultStack(),
+        return ShopStacks.display(SparkDlcItems.coronerBodyBag().getDefaultStack(),
                 "shop.sparkdlc.coroner_body_bag");
     }
 
@@ -103,7 +103,7 @@ public final class CoronerShopService {
                 capsuleDisplayStack(),
                 ToxicologistCapsuleRules.CAPSULE_PRICE,
                 ShopEntry.Type.TOOL
-        ).actualStack(SparkStrengthItems.capsule().getDefaultStack()).build());
+        ).actualStack(SparkDlcItems.capsule().getDefaultStack()).build());
         offset = insertAfterBodyBag(context, offset, new ShopEntry.Builder(
                 ToxicologistCapsuleRules.REFRESH_ANTIDOTE_COOLDOWN_ENTRY_ID,
                 refreshAntidoteCooldownDisplayStack(),
@@ -173,7 +173,7 @@ public final class CoronerShopService {
                 bodyBagDisplayStack(),
                 CoronerRules.BODY_BAG_PRICE,
                 ShopEntry.Type.TOOL
-        ).actualStack(SparkStrengthItems.coronerBodyBag().getDefaultStack()).build());
+        ).actualStack(SparkDlcItems.coronerBodyBag().getDefaultStack()).build());
         // Ingredient prices and spices A/B come from BartenderShopService, which rewrites every final Bartender list.
         // 调剂价格与调料 A/B 由 BartenderShopService 统一改写最终酒保列表时提供。
         context.addEntry(new ShopEntry(
@@ -195,13 +195,13 @@ public final class CoronerShopService {
                 bodyBagDisplayStack(),
                 CoronerRules.BODY_BAG_PRICE,
                 ShopEntry.Type.TOOL
-        ).actualStack(SparkStrengthItems.coronerBodyBag().getDefaultStack()).build());
+        ).actualStack(SparkDlcItems.coronerBodyBag().getDefaultStack()).build());
         context.addEntry(new ShopEntry.Builder(
                 EngineerRules.CAPTURE_DEVICE_ENTRY_ID,
                 captureDeviceDisplayStack(),
                 EngineerRules.CAPTURE_DEVICE_PRICE,
                 ShopEntry.Type.TOOL
-        ).actualStack(SparkStrengthItems.captureDevice().getDefaultStack()).build());
+        ).actualStack(SparkDlcItems.captureDevice().getDefaultStack()).build());
         context.addEntry(new ShopEntry.Builder(
                 EngineerRules.SABOTAGE_REPAIR_ENTRY_ID,
                 sabotageRepairDisplayStack(),
@@ -255,7 +255,7 @@ public final class CoronerShopService {
     }
 
     private static ItemStack capsuleDisplayStack() {
-        return ShopStacks.display(SparkStrengthItems.capsule().getDefaultStack(), "shop.sparkdlc.capsule");
+        return ShopStacks.display(SparkDlcItems.capsule().getDefaultStack(), "shop.sparkdlc.capsule");
     }
 
     private static ItemStack refreshAntidoteCooldownDisplayStack() {
@@ -272,12 +272,12 @@ public final class CoronerShopService {
     }
 
     private static ItemStack captureDeviceDisplayStack() {
-        return ShopStacks.display(SparkStrengthItems.captureDevice().getDefaultStack(),
+        return ShopStacks.display(SparkDlcItems.captureDevice().getDefaultStack(),
                 "shop.sparkdlc.engineer.capture_device");
     }
 
     private static ItemStack sabotageRepairDisplayStack() {
-        return ShopStacks.display(SparkStrengthItems.powerRestoration().getDefaultStack(),
+        return ShopStacks.display(SparkDlcItems.powerRestoration().getDefaultStack(),
                 "shop.sparkdlc.engineer.power_restoration");
     }
 }

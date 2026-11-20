@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.sabotage;
 
-import dev.caecorthus.sparkdlc.SparkStrengthBlocks;
-import dev.caecorthus.sparkdlc.SparkStrengthSounds;
+import dev.caecorthus.sparkdlc.SparkDlcBlocks;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.sabotage.SabotageWorldComponent;
 import dev.caecorthus.sparkdlc.sabotage.net.CloseBreakerRepairS2CPacket;
 import dev.caecorthus.sparkdlc.sabotage.net.OpenBreakerRepairS2CPacket;
@@ -63,7 +63,7 @@ public final class BreakerRepairService {
         if (previous != null) {
             close(player, previous, CloseBreakerRepairS2CPacket.REASON_OTHER);
         }
-        world.playSound(null, pos, SparkStrengthSounds.CIRCUIT_BREAKER_SWITCH, SoundCategory.BLOCKS, 0.8F, 0.8F);
+        world.playSound(null, pos, SparkDlcSounds.CIRCUIT_BREAKER_SWITCH, SoundCategory.BLOCKS, 0.8F, 0.8F);
         if (ServerPlayNetworking.canSend(player, OpenBreakerRepairS2CPacket.ID)) {
             ServerPlayNetworking.send(player, new OpenBreakerRepairS2CPacket(session.id(), session.pos(),
                     world.random.nextLong(), switches, hold));
@@ -95,7 +95,7 @@ public final class BreakerRepairService {
             return;
         }
         if (!SabotageAccess.canRepairBreaker(player)
-                || !world.getBlockState(session.pos()).isOf(SparkStrengthBlocks.circuitBreaker())
+                || !world.getBlockState(session.pos()).isOf(SparkDlcBlocks.circuitBreaker())
                 || !withinRange(player, session.pos())) {
             close(player, session, CloseBreakerRepairS2CPacket.REASON_OTHER);
             return;

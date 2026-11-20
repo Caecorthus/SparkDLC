@@ -158,7 +158,7 @@ public final class VendettaDisconnectService {
     /** Persists mutations made after the live connection entity has gone away. / 持久化离线实体上的结算变更。 */
     private static void persistDisconnectedPlayer(ServerPlayerEntity player) {
         ((PlayerManagerVendettaAccessor) player.getServer().getPlayerManager())
-                .sparkwitch$savePlayerData(player);
+                .sparkdlc$savePlayerData(player);
     }
 
     private record PendingBoundKillerEscape(ServerPlayerEntity player, long disconnectedAtTick) {

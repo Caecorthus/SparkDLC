@@ -25,7 +25,7 @@ public abstract class PreparefullInGameHudMixin {
     private MinecraftClient client;
 
     @Inject(method = "renderMainHud", at = @At("TAIL"))
-    private void sparktraits$renderPreparefullHud(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+    private void sparkdlc$renderPreparefullHud(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         if (!SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }

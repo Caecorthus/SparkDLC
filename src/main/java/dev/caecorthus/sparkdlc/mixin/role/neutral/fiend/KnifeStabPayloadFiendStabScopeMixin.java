@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = KnifeStabPayload.Receiver.class, remap = false)
 public abstract class KnifeStabPayloadFiendStabScopeMixin {
     @WrapMethod(method = "receive(Ldev/doctor4t/wathe/util/KnifeStabPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V")
-    private void sparkwitch$scopeFiendStab(KnifeStabPayload payload, ServerPlayNetworking.Context context,
+    private void sparkdlc$scopeFiendStab(KnifeStabPayload payload, ServerPlayNetworking.Context context,
                                           Operation<Void> original) {
         FiendStabScope.runStab(context.player(), payload.target(), () -> original.call(payload, context));
     }

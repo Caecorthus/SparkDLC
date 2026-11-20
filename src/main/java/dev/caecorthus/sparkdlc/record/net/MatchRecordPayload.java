@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.record.net;
 
-import dev.caecorthus.sparkdlc.SparkFactionApiMod;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
@@ -11,7 +11,7 @@ import net.minecraft.network.packet.CustomPayload;
  * S2C：已结束对局的记录。Wathe 结束对局记录时、在局末公告之前，发送一次给所有注册了它的客户端。客户端只保存它，不会打开任何界面。
  */
 public record MatchRecordPayload(MatchRecordSnapshot snapshot) implements CustomPayload {
-    public static final Id<MatchRecordPayload> ID = new Id<>(SparkFactionApiMod.id("match_record"));
+    public static final Id<MatchRecordPayload> ID = new Id<>(SparkDLC.id("match_record"));
     public static final PacketCodec<ByteBuf, MatchRecordPayload> CODEC =
             MatchRecordSnapshot.CODEC.xmap(MatchRecordPayload::new, MatchRecordPayload::snapshot);
 

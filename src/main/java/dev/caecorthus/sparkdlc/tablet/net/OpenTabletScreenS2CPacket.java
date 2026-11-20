@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.tablet.net;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -8,7 +8,7 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 
 public record OpenTabletScreenS2CPacket() implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("open_tablet_screen");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("open_tablet_screen");
     public static final Id<OpenTabletScreenS2CPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, OpenTabletScreenS2CPacket> CODEC =
             PacketCodec.of(OpenTabletScreenS2CPacket::write, OpenTabletScreenS2CPacket::read);

@@ -37,7 +37,7 @@ public abstract class NatsumeHypnosisPayloadGuardMixin {
                     + "Lnet/minecraft/network/packet/CustomPayload;)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;execute(Ljava/lang/Runnable;)V")
     )
-    private void sparkwitch$dropHypnotisedPayload(
+    private void sparkdlc$dropHypnotisedPayload(
             MinecraftServer server,
             Runnable handler,
             Operation<Void> original,

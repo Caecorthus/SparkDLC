@@ -30,7 +30,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = WatheClient.class, remap = false, priority = 3000)
 public abstract class BlackRavenInstinctVetoMixin {
     @WrapMethod(method = "getInstinctHighlight")
-    private static int sparkwitch$vetoBlackRavenInstinct(Entity target, Operation<Integer> original) {
+    private static int sparkdlc$vetoBlackRavenInstinct(Entity target, Operation<Integer> original) {
         if (BlackRavenInstinctVeto.hides(MinecraftClient.getInstance().player, target)) {
             return -1;
         }

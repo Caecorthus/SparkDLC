@@ -24,7 +24,7 @@ public abstract class SoundSystemMixin {
                     target = "Lnet/minecraft/client/sound/SoundSystem;getAdjustedVolume(FLnet/minecraft/sound/SoundCategory;)F"
             )
     )
-    private float sparkassist$scaleInitialEventSoundVolume(
+    private float sparkdlc$scaleInitialEventSoundVolume(
             float originalVolume,
             @Local(argsOnly = true) SoundInstance soundInstance,
             @Local(ordinal = 0) Sound selectedSound
@@ -41,7 +41,7 @@ public abstract class SoundSystemMixin {
             at = @At("RETURN"),
             cancellable = true
     )
-    private void sparkassist$scaleEventSoundVolume(
+    private void sparkdlc$scaleEventSoundVolume(
             SoundInstance soundInstance,
             CallbackInfoReturnable<Float> cir
     ) {

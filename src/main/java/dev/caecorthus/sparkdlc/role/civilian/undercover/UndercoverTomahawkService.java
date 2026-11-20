@@ -1,10 +1,10 @@
 package dev.caecorthus.sparkdlc.role.civilian.undercover;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverPlayerComponent;
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponHits;
@@ -59,7 +59,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class UndercoverTomahawkService {
     /** Pass this constant to killPlayer; other code compares death reasons by reference. / 传给 killPlayer 的常量；其他代码按引用比较死因。 */
-    public static final Identifier DEATH_REASON = SparkStrength.id("tomahawk");
+    public static final Identifier DEATH_REASON = SparkDLC.id("tomahawk");
     private static final float FULL_CHARGE_BASE = 0.5F;
     /** Lag allowance on top of the 3-block reach. / 3 格射程之外的延迟容差。 */
     private static final double REACH_TOLERANCE = 0.5;
@@ -78,7 +78,7 @@ public final class UndercoverTomahawkService {
 
     private static ActionResult onAttack(PlayerEntity player, World world, Hand hand, Entity entity,
                                          @Nullable EntityHitResult hitResult) {
-        Item tomahawk = SparkStrengthItems.tacticalTomahawk();
+        Item tomahawk = SparkDlcItems.tacticalTomahawk();
         ItemStack held = player.getStackInHand(hand);
         if (!held.isOf(tomahawk)) {
             return ActionResult.PASS;
@@ -100,7 +100,7 @@ public final class UndercoverTomahawkService {
         // A SparkWitch Raven Form crow is a target too (owner 2026-10-21): the client sends the swing, the server
         // resolves it to the Black Raven. / SparkWitch 化鸦乌鸦同样是目标（所有者 2026-10-21）：客户端发送挥砍，服务端将其
         // 解析为黑羽鸦。
-        boolean crow = !(entity instanceof PlayerEntity) && SparkWitchApi.isBlackRavenCrow(entity);
+        boolean crow = !(entity instanceof PlayerEntity) && SparkRoleApi.isBlackRavenCrow(entity);
         if (!(entity instanceof PlayerEntity) && !crow || !UndercoverRoles.isLivingStage2(player) || !charged
                 || player.getItemCooldownManager().isCoolingDown(tomahawk)) {
             return ActionResult.FAIL;
@@ -115,7 +115,7 @@ public final class UndercoverTomahawkService {
                 // SparkWitch measured the reach and line on the crow and armed its owner substitution, so the strike
                 // below (gates, kill, cooldown, 小脑) runs on the Black Raven exactly as on a direct hit.
                 // SparkWitch 已在乌鸦上量取距离与视线并装好主人替身，因此下方的劈砍（门槛、击杀、冷却、小脑）与直接命中黑羽鸦完全一致。
-                ServerPlayerEntity owner = SparkWitchApi.crowMeleeStandIn(attacker, entity,
+                ServerPlayerEntity owner = SparkRoleApi.crowMeleeStandIn(attacker, entity,
                         UndercoverRules.TOMAHAWK_RANGE);
                 if (owner != null) {
                     strike(attacker, owner, held, tomahawk, entity.getPos());
@@ -147,7 +147,7 @@ public final class UndercoverTomahawkService {
                 SparkTraitsApi.hasImpostor(victim),
                 SparkTraitsApi.hasConscience(victim),
                 SparkTraitsApi.hasImpostor(attacker));
-        GameRecordManager.recordItemUse(attacker, SparkStrengthItems.TACTICAL_TOMAHAWK_ID, victim, null);
+        GameRecordManager.recordItemUse(attacker, SparkDlcItems.TACTICAL_TOMAHAWK_ID, victim, null);
         Vec3d hitAt = crowPos != null ? crowPos : victim.getPos();
         attacker.getWorld().playSound(null, hitAt.x, hitAt.y, hitAt.z,
                 SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, SoundCategory.PLAYERS, 1.0F, 0.8F);

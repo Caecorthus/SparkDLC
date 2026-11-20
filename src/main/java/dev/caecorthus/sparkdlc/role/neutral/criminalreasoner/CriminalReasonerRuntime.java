@@ -1,10 +1,10 @@
 package dev.caecorthus.sparkdlc.role.neutral.criminalreasoner;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.net.OpenCriminalReasonerS2CPacket;
-import dev.caecorthus.sparkdlc.role.SparkWitchRoleRegistry;
+import dev.caecorthus.sparkdlc.role.SparkDlcRoleRegistry;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.neutral.ferryman.FerrymanWinService;
 import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendWinService;
@@ -71,7 +71,7 @@ public final class CriminalReasonerRuntime {
      * 稳定契约：胜负监听器在 Wathe「首个非 null 生效」的 {@code CheckWinCondition} 上的阶段，排在魔人时刻、卡戎亡魂时刻与
      * 可可之后、默认阶段之前，因此默认阶段的 {@code block()}（杀意魔女、魔女阵营）无法盖住推理学家的胜利。
      */
-    public static final Identifier WIN_PHASE = SparkWitch.id("criminal_reasoner_win");
+    public static final Identifier WIN_PHASE = SparkDLC.id("criminal_reasoner_win");
 
     private static final Map<UUID, Session> SESSIONS = new HashMap<>();
     private static final Map<UUID, Long> COOLDOWN_UNTIL = new HashMap<>();
@@ -144,7 +144,7 @@ public final class CriminalReasonerRuntime {
         clearRoundState();
         MinecraftServer server = serverWorld.getServer();
         int required = CriminalReasonerRules.requiredSolves(game.getAllPlayers().size());
-        for (UUID uuid : game.getAllWithRole(SparkWitchRoleRegistry.criminalReasoner())) {
+        for (UUID uuid : game.getAllWithRole(SparkDlcRoleRegistry.criminalReasoner())) {
             ServerPlayerEntity player = server.getPlayerManager().getPlayer(uuid);
             if (player == null) {
                 continue;
@@ -207,7 +207,7 @@ public final class CriminalReasonerRuntime {
             return;
         }
         GameWorldComponent game = GameWorldComponent.KEY.get(world);
-        for (UUID uuid : game.getAllWithRole(SparkWitchRoleRegistry.criminalReasoner())) {
+        for (UUID uuid : game.getAllWithRole(SparkDlcRoleRegistry.criminalReasoner())) {
             ServerPlayerEntity reasoner = world.getServer().getPlayerManager().getPlayer(uuid);
             if (reasoner != null) {
                 CriminalReasonerComponent.KEY.get(reasoner)
@@ -223,7 +223,7 @@ public final class CriminalReasonerRuntime {
      */
     private static CheckWinCondition.@Nullable WinResult checkWin(ServerWorld world, GameWorldComponent game,
                                                                  GameFunctions.WinStatus status) {
-        for (UUID uuid : game.getAllWithRole(SparkWitchRoleRegistry.criminalReasoner())) {
+        for (UUID uuid : game.getAllWithRole(SparkDlcRoleRegistry.criminalReasoner())) {
             ServerPlayerEntity reasoner = world.getServer().getPlayerManager().getPlayer(uuid);
             if (reasoner == null || !GameFunctions.isPlayerPlayingAndAlive(reasoner) || reasoner.isSpectator()
                     || NoellesTaotieSeekerBridge.isSwallowed(reasoner)) {
@@ -415,8 +415,8 @@ public final class CriminalReasonerRuntime {
     }
 
     /**
-     * Forced-cooldown store (SparkWitchForcedCooldowns store 31): ticks left on the reasoning cooldown, 0 when ready.
-     * 强制冷却存储（SparkWitchForcedCooldowns 第 31 个存储）：推理冷却剩余刻数，就绪时为 0。
+     * Forced-cooldown store (RoleForcedCooldowns store 31): ticks left on the reasoning cooldown, 0 when ready.
+     * 强制冷却存储（RoleForcedCooldowns 第 31 个存储）：推理冷却剩余刻数，就绪时为 0。
      */
     public static int reasoningCooldownTicks(ServerPlayerEntity player) {
         long until = COOLDOWN_UNTIL.getOrDefault(player.getUuid(), 0L);

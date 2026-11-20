@@ -124,7 +124,7 @@ public final class PigPlayerRenderer {
             VertexConsumerProvider vertexConsumers,
             int light
     ) {
-        ((ArmorFeatureRendererInvoker) armorRenderer).sparktraits$renderArmor(
+        ((ArmorFeatureRendererInvoker) armorRenderer).sparkdlc$renderArmor(
                 matrices,
                 vertexConsumers,
                 player,

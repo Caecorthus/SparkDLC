@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.medium;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -46,7 +46,7 @@ import java.util.UUID;
 public final class MediumSeanceComponent implements AutoSyncedComponent, ServerTickingComponent,
         ClientTickingComponent {
     public static final ComponentKey<MediumSeanceComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("medium_seance"),
+            SparkDLC.id("medium_seance"),
             MediumSeanceComponent.class
     );
     private static final String TICKS_LEFT = "TicksLeft";

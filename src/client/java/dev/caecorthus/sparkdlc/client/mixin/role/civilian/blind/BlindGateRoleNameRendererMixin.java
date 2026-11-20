@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = RoleNameRenderer.class, priority = 2100)
 public abstract class BlindGateRoleNameRendererMixin {
     @WrapMethod(method = "renderHud")
-    private static void sparkwitch$blindHidesRoleNames(TextRenderer renderer, ClientPlayerEntity player,
+    private static void sparkdlc$blindHidesRoleNames(TextRenderer renderer, ClientPlayerEntity player,
                                                        DrawContext context, RenderTickCounter tickCounter,
                                                        Operation<Void> original) {
         if (BlindClientGates.viewActive()) {

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.blind.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
  * 已作为职业技能归入控场专家眩晕、搜寻者会话与大魔女恐惧的拦截名单。
  */
 public record UseBlindAttuneC2SPayload() implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("use_blind_attune");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("use_blind_attune");
     public static final Id<UseBlindAttuneC2SPayload> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, UseBlindAttuneC2SPayload> CODEC =
             PacketCodec.unit(new UseBlindAttuneC2SPayload());

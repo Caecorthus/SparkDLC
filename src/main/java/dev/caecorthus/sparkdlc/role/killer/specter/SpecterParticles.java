@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.specter;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.registry.Registries;
@@ -16,7 +16,7 @@ import net.minecraft.util.Identifier;
  * 初始化阶段由 {@code SparkWitch} 注册，使两端的粒子注册表一致。贴图由 {@code assets/sparkdlc/particles/joss_paper.json} 声明。
  */
 public final class SpecterParticles {
-    public static final Identifier JOSS_PAPER_ID = SparkWitch.id("joss_paper");
+    public static final Identifier JOSS_PAPER_ID = SparkDLC.id("joss_paper");
     private static SimpleParticleType jossPaper;
     private static boolean registered;
 

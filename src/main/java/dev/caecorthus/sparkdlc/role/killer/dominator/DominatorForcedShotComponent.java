@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.dominator;
 
-import dev.caecorthus.sparkdlc.SparkWitchDataComponents;
+import dev.caecorthus.sparkdlc.SparkDlcDataComponents;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -91,7 +91,7 @@ public final class DominatorForcedShotComponent implements ServerTickingComponen
         slot = selected;
         originalStack = inventory.getStack(selected).copy();
         ItemStack gun = new ItemStack(WatheItems.REVOLVER);
-        gun.set(SparkWitchDataComponents.FORCED_SHOT_GUN, true);
+        gun.set(SparkDlcDataComponents.FORCED_SHOT_GUN, true);
         inventory.setStack(selected, gun);
         inventory.markDirty();
         owner.currentScreenHandler.syncState();

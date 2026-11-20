@@ -33,9 +33,9 @@ public final class ItemCooldownSync {
     /** Remaining ticks of the vanilla entry, 0 when none. / 原版条目的剩余刻数，无条目时为 0。 */
     public static int remainingTicks(ItemCooldownManager manager, Item item) {
         ItemCooldownManagerAccessor access = (ItemCooldownManagerAccessor) manager;
-        Object entry = access.sparkstrength$getEntries().get(item);
+        Object entry = access.sparkdlc$getEntriesForKits().get(item);
         return entry instanceof ItemCooldownEntryAccessor bounds
-                ? Math.max(0, bounds.sparkstrength$getEndTick() - access.sparkstrength$getTick())
+                ? Math.max(0, bounds.sparkdlc$getEndTickForKits() - access.sparkdlc$getTickForKits())
                 : 0;
     }
 
@@ -62,25 +62,25 @@ public final class ItemCooldownSync {
         }
         ItemCooldownManager manager = player.getItemCooldownManager();
         ItemCooldownManagerAccessor access = (ItemCooldownManagerAccessor) manager;
-        Object entry = access.sparkstrength$getEntries().get(item);
+        Object entry = access.sparkdlc$getEntriesForKits().get(item);
         if (entry == null) {
             // Vanilla path only creates the entry (and runs set hooks); a modified length is corrected below.
             // 仅借原版路径创建条目（并触发 set 钩子）；被倍率修改的时长在下方校正。
             manager.set(item, ticks);
-            entry = access.sparkstrength$getEntries().get(item);
+            entry = access.sparkdlc$getEntriesForKits().get(item);
         }
         if (!(entry instanceof ItemCooldownEntryAccessor bounds)) {
             return false;
         }
-        int tick = access.sparkstrength$getTick();
+        int tick = access.sparkdlc$getTickForKits();
         int end = ItemCooldownSyncRules.endTick(tick, ticks);
-        if (bounds.sparkstrength$getEndTick() >= end) {
+        if (bounds.sparkdlc$getEndTickForKits() >= end) {
             // Already long enough: set wrote it unmodified (and sent it), or a hook lengthened it.
             // 已足够长：set 以原值写入（并已发送），或被钩子延长。
             return true;
         }
-        bounds.sparkstrength$setStartTick(tick);
-        bounds.sparkstrength$setEndTick(end);
+        bounds.sparkdlc$setStartTickForKits(tick);
+        bounds.sparkdlc$setEndTickForKits(end);
         if (player.networkHandler != null) {
             player.networkHandler.sendPacket(new CooldownUpdateS2CPacket(item, end - tick));
         }

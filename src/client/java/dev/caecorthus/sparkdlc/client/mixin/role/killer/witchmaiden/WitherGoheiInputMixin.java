@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(MinecraftClient.class)
 public abstract class WitherGoheiInputMixin {
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$swallowGoheiAttack(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$swallowGoheiAttack(CallbackInfoReturnable<Boolean> cir) {
         if (WitherGoheiFireInput.onAttack((MinecraftClient) (Object) this)) {
             cir.setReturnValue(false);
         }
@@ -27,7 +27,7 @@ public abstract class WitherGoheiInputMixin {
 
     @WrapOperation(method = "handleInputEvents",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/KeyBinding;wasPressed()Z"))
-    private boolean sparkwitch$fireGoheiOnPressEdge(KeyBinding key, Operation<Boolean> original) {
+    private boolean sparkdlc$fireGoheiOnPressEdge(KeyBinding key, Operation<Boolean> original) {
         boolean pressed = original.call(key);
         MinecraftClient client = (MinecraftClient) (Object) this;
         if (pressed && key == client.options.attackKey) {
@@ -37,7 +37,7 @@ public abstract class WitherGoheiInputMixin {
     }
 
     @Inject(method = "handleBlockBreaking", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$cancelGoheiBlockBreaking(CallbackInfo ci) {
+    private void sparkdlc$cancelGoheiBlockBreaking(CallbackInfo ci) {
         if (WitherGoheiFireInput.onBlockBreaking((MinecraftClient) (Object) this)) {
             ci.cancel();
         }

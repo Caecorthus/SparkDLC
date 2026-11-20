@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.killer.natsume;
 import dev.caecorthus.sparkdlc.faction.api.FactionIds;
 import dev.caecorthus.sparkdlc.faction.api.PoliceRoles;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.util.TickTime;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -27,7 +27,7 @@ import java.util.function.BooleanSupplier;
  */
 public final class NatsumeRules {
 
-    public static final Identifier ROLE_ID = SparkWitch.id("natsume_anan");
+    public static final Identifier ROLE_ID = SparkDLC.id("natsume_anan");
 
     /**
      * Stable id of the hypnosis skill: the SparkFactionAPI role-skill cooldown store and the
@@ -35,7 +35,7 @@ public final class NatsumeRules {
      * 催眠技能的稳定 id：SparkFactionAPI 职业技能冷却存储的 id，同时也是 {@code canAffectPlayer} 的行为 id
      * （冤魂、复仇者与裂隙门内玩家策略据此作答）。
      */
-    public static final Identifier HYPNOSIS_SKILL_ID = SparkWitch.id("natsume_hypnosis");
+    public static final Identifier HYPNOSIS_SKILL_ID = SparkDLC.id("natsume_hypnosis");
 
     /** Wathe's 亡命徒 (Loose End); always the short hypnosis. / Wathe 的亡命徒；始终为短催眠。 */
     static final Identifier LOOSE_END_ROLE_ID = Identifier.of("wathe", "loose_end");

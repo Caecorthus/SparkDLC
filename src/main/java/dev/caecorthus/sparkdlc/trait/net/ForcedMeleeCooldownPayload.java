@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.net;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -13,7 +13,7 @@ import java.util.UUID;
 
 /** A complete private snapshot, not a broadcast of player traits or enemy penalties. */
 public record ForcedMeleeCooldownPayload(UUID owner, Map<Identifier, Integer> remaining) implements CustomPayload {
-    public static final Id<ForcedMeleeCooldownPayload> ID = new Id<>(SparkTraits.id("forced_melee_cooldowns"));
+    public static final Id<ForcedMeleeCooldownPayload> ID = new Id<>(SparkDLC.id("forced_melee_cooldowns"));
     public static final PacketCodec<RegistryByteBuf, ForcedMeleeCooldownPayload> CODEC =
             PacketCodec.of(ForcedMeleeCooldownPayload::write, ForcedMeleeCooldownPayload::read);
 

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.savior;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.doctor4t.wathe.api.event.BlackoutEffect;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -26,7 +26,7 @@ public final class SaviorBlackoutService {
         BlackoutEffect.BEFORE.register((player, duration) -> {
             if (!(player instanceof ServerPlayerEntity serverPlayer)
                     || GameWorldComponent.KEY.get(serverPlayer.getWorld()).getRole(serverPlayer)
-                    != SparkWitchRoles.savior()) {
+                    != SparkDlcRoles.savior()) {
                 return null;
             }
             serverPlayer.addStatusEffect(new StatusEffectInstance(

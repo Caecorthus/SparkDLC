@@ -45,7 +45,7 @@ public abstract class DroneGunTargetMixin {
                     @At(value = "INVOKE",
                             target = "Ldev/doctor4t/wathe/item/DerringerItem;getGunTarget(Lnet/minecraft/entity/player/PlayerEntity;)Lnet/minecraft/util/hit/HitResult;")
             })
-    private HitResult sparkstrength$preferNearerDrone(PlayerEntity user, Operation<HitResult> original) {
+    private HitResult sparkdlc$preferNearerDrone(PlayerEntity user, Operation<HitResult> original) {
         HitResult result = original.call(user);
         double range = (Object) this instanceof DerringerItem
                 ? DroneWeaponRules.DERRINGER_RANGE : DroneWeaponRules.REVOLVER_RANGE;

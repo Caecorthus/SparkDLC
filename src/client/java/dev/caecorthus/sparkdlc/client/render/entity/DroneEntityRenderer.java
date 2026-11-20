@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.render.entity;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.entity.DroneEntity;
 import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneKind;
 import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneRules;
@@ -114,7 +114,7 @@ public final class DroneEntityRenderer extends EntityRenderer<DroneEntity> {
     private void renderPayload(DroneEntity drone, float bodyYaw, Motion motion, MatrixStack matrices,
                                VertexConsumerProvider vertexConsumers, int light) {
         if (payloadStack == null) {
-            payloadStack = new ItemStack(SparkStrengthItems.m67());
+            payloadStack = new ItemStack(SparkDlcItems.m67());
         }
         matrices.push();
         matrices.translate(0.0F, PAYLOAD_HEIGHT, 0.0F);

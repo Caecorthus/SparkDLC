@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = GameFunctions.class, remap = false)
 public abstract class GameFunctionsKillSnapshotMixin {
     @WrapMethod(method = "killPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;ZLnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;Z)V")
-    private static void sparkfactionapi$snapshotKillStart(
+    private static void sparkdlc$snapshotKillStart(
             ServerPlayerEntity victim,
             boolean spawnBody,
             ServerPlayerEntity killer,

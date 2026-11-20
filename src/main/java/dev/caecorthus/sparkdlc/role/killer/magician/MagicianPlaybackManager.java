@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.magician;
 
 import com.mojang.authlib.GameProfile;
-import dev.caecorthus.sparkdlc.SparkWitchEntities;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.role.special.wraith.conversion.WraithBodyRoleAccess;
 import dev.doctor4t.wathe.api.WatheRoles;
@@ -73,7 +73,7 @@ public final class MagicianPlaybackManager {
         if (recording == null || c.cooldownTicks() > 0) return;
         Active old=ACTIVE.remove(owner.getUuid()); if (old != null) old.entity.discard();
         MagicianReplayFrame first=recording.frames().getFirst();
-        MagicianPlaybackEntity entity=new MagicianPlaybackEntity(SparkWitchEntities.magicianPlayback(), owner.getServerWorld());
+        MagicianPlaybackEntity entity=new MagicianPlaybackEntity(SparkDlcEntities.magicianPlayback(), owner.getServerWorld());
         entity.setIdentity(owner.getUuid(), c.selectedTarget(), c.selectedName());
         MagicianPuppetBodySize.copyOnto(entity, owner.getServerWorld(), c.selectedTarget()); first.applyTo(entity);
         MagicianPlaybackFakePlayer proxy=new MagicianPlaybackFakePlayer(owner.getServerWorld(), new GameProfile(owner.getUuid(), "[MagicianReplay]"), owner.getUuid(), c.selectedTarget(), c.selectedName()); first.applyToProxy(proxy);
@@ -229,7 +229,7 @@ public final class MagicianPlaybackManager {
         // the copied player's live role, and the server-only registry lets Prophet/Vulture/Kidnapper skip it.
         // 诱饵（所有者 2026-10-07 决定 D1/D2）：所有尸体身份显示读取平民掩护身份而非被复制玩家的实时身份；
         // 仅服务端的登记表让先知、秃鹫与绑匪跳过它。
-        ((WraithBodyRoleAccess) body).sparkwitch$setDeathRole(WatheRoles.CIVILIAN.identifier());
+        ((WraithBodyRoleAccess) body).sparkdlc$setDeathRole(WatheRoles.CIVILIAN.identifier());
         body.setDeathReason(deathReason);
         body.setDeathGameTime(owner.getWorld().getTime());
         float corpseYaw = entity.getHeadYaw();

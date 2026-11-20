@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.blind.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import io.netty.handler.codec.DecoderException;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
@@ -20,7 +20,7 @@ import net.minecraft.util.Identifier;
  */
 public record BlindPulseS2CPayload(float x, float y, float z, float radius, short durationTicks, byte kind,
                                    int emitterEntityId, int[] playerEntityIds) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("blind_pulse");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("blind_pulse");
     public static final Id<BlindPulseS2CPayload> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, BlindPulseS2CPayload> CODEC =
             PacketCodec.of(BlindPulseS2CPayload::write, BlindPulseS2CPayload::read);

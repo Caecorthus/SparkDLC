@@ -1,14 +1,14 @@
 package dev.caecorthus.sparkdlc.role.killer.bomber.drone;
 
-import dev.caecorthus.sparkdlc.SparkStrengthEntities;
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.SparkStrengthSounds;
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.entity.DroneEntity;
 import dev.caecorthus.sparkdlc.entity.M67GrenadeEntity;
 import dev.caecorthus.sparkdlc.item.grenade.GrenadeBlastService;
 import dev.caecorthus.sparkdlc.item.m67.M67RoundService;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.caecorthus.sparkdlc.role.civilian.bodyguard.AttackOriginScope;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponHits;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -63,9 +63,9 @@ import java.util.UUID;
  *   投弹无人机掉落可拾取的 M67（不会爆炸）并以 45 秒冷却返还主人；炸弹无人机立即引爆。</li>
  *   <li>{@link #detonate}: bomb drone blast, radius {@link DroneRules#BOMB_BLAST_RADIUS}, M67 path judgement, kills
  *   credited to the owner with the NoellesRoles bomb death reason; then kills the Black Raven behind every SparkWitch
- *   Raven Form crow in the radius ({@code SparkWitchApi.killCrowsInBlast}); chains into other drones in the blast.
+ *   Raven Form crow in the radius ({@code SparkRoleApi.killCrowsInBlast}); chains into other drones in the blast.
  *   炸弹无人机爆炸，沿用 M67 路径判定，击杀归属主人并使用 NoellesRoles 炸弹死因；随后处死半径内每只 SparkWitch 化鸦乌鸦
- *   背后的黑羽鸦（SparkWitchApi.killCrowsInBlast）；会连锁击毁范围内的其他无人机。</li>
+ *   背后的黑羽鸦（SparkRoleApi.killCrowsInBlast）；会连锁击毁范围内的其他无人机。</li>
  * </ul>
  *
  * <p>Re-entrancy: a drone being removed is held in {@link #BUSY}; every entry point ignores it, so a blast that breaks
@@ -128,7 +128,7 @@ public final class DroneCombatService {
         }
         Vec3d velocity = inherited.add(0.0, -DROP_NUDGE, 0.0);
         Box hull = drone.getBoundingBox();
-        Vec3d underHull = new Vec3d(drone.getX(), hull.minY - SparkStrengthEntities.m67().getHeight() - DROP_CLEARANCE,
+        Vec3d underHull = new Vec3d(drone.getX(), hull.minY - SparkDlcEntities.m67().getHeight() - DROP_CLEARANCE,
                 drone.getZ());
         M67GrenadeEntity grenade = armedM67(world, pilot, roundId, drone, underHull, velocity);
         if (!world.isSpaceEmpty(grenade)) {
@@ -144,9 +144,9 @@ public final class DroneCombatService {
             return;
         }
         drone.setPayload(false);
-        world.playSound(null, drone.getX(), drone.getY(), drone.getZ(), SparkStrengthSounds.DRONE_RELEASE,
+        world.playSound(null, drone.getX(), drone.getY(), drone.getZ(), SparkDlcSounds.DRONE_RELEASE,
                 SoundCategory.PLAYERS, 1.0F, 1.0F);
-        GameRecordManager.recordGlobalEvent(world, SparkStrengthReplayFormatters.DRONE_GRENADE_DROPPED, pilot, null);
+        GameRecordManager.recordGlobalEvent(world, RoleKitReplayFormatters.DRONE_GRENADE_DROPPED, pilot, null);
     }
 
     /**
@@ -163,7 +163,7 @@ public final class DroneCombatService {
                 drone.getPitch());
         grenade.setVelocity(velocity);
         // Armed (spoon released) model, like a thrown M67. / 与手投一样使用已拉环（释放握片）的模型。
-        ItemStack stack = new ItemStack(SparkStrengthItems.m67());
+        ItemStack stack = new ItemStack(SparkDlcItems.m67());
         stack.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(1));
         grenade.setItem(stack);
         return grenade;
@@ -183,12 +183,12 @@ public final class DroneCombatService {
         try {
             DronePilotService.endFor(drone, DronePilotEndReason.DESTROYED);
             dropPayload(world, drone);
-            world.playSound(null, drone.getX(), drone.getY(), drone.getZ(), SparkStrengthSounds.DRONE_BREAK,
+            world.playSound(null, drone.getX(), drone.getY(), drone.getZ(), SparkDlcSounds.DRONE_BREAK,
                     SoundCategory.PLAYERS, 1.0F, 1.0F);
             Vec3d center = drone.getBoundingBox().getCenter();
             world.spawnParticles(ParticleTypes.SMOKE, center.x, center.y, center.z, 12, 0.2, 0.1, 0.2, 0.02);
             world.spawnParticles(new ItemStackParticleEffect(ParticleTypes.ITEM,
-                            new ItemStack(SparkStrengthItems.grenadeDrone())),
+                            new ItemStack(SparkDlcItems.grenadeDrone())),
                     center.x, center.y, center.z, 16, 0.15, 0.1, 0.15, 0.12);
             UUID ownerUuid = drone.ownerUuid();
             int charge = drone.charge();
@@ -220,15 +220,15 @@ public final class DroneCombatService {
                 return;
             }
             Vec3d center = drone.getBoundingBox().getCenter();
-            world.playSound(null, drone.getBlockPos(), SparkStrengthSounds.M67_EXPLODE, SoundCategory.PLAYERS,
+            world.playSound(null, drone.getBlockPos(), SparkDlcSounds.M67_EXPLODE, SoundCategory.PLAYERS,
                     5.0F, 1.0F);
             world.spawnParticles(WatheParticles.BIG_EXPLOSION, center.x, center.y, center.z, 1, 0, 0, 0, 0);
             world.spawnParticles(ParticleTypes.SMOKE, center.x, center.y, center.z, 100, 0, 0, 0, 0.2);
             world.spawnParticles(new ItemStackParticleEffect(ParticleTypes.ITEM,
-                            new ItemStack(SparkStrengthItems.bombDrone())),
+                            new ItemStack(SparkDlcItems.bombDrone())),
                     center.x, center.y, center.z, 100, 0, 0, 0, 1.0);
             // The blast clears SparkWitch BEAR smoke around it (visual only). / 爆炸炸开周围的 SparkWitch BEAR 烟雾（仅视觉）。
-            SparkWitchApi.carveSmoke(world, center, DroneRules.BOMB_BLAST_RADIUS);
+            SparkRoleApi.carveSmoke(world, center, DroneRules.BOMB_BLAST_RADIUS);
 
             UUID ownerUuid = drone.ownerUuid();
             // Connected owners keep credit even when dead (like M67). / 在线主人即使已死亡也保留击杀归属（同 M67）。
@@ -259,7 +259,7 @@ public final class DroneCombatService {
                 // same radius, the pilot credited, NoellesRoles' bomb reason instance, inside this blast's scope.
                 // 爆炸范围内的 SparkWitch 化鸦乌鸦与此处的玩家一样处死其黑羽鸦（所有者 2026-10-21）：同一半径、记在驾驶者
                 // 名下、NoellesRoles 炸弹死因实例，并处于本次爆炸作用域内。
-                AttackOriginScope.runBlast(center, () -> SparkWitchApi.killCrowsInBlast(world, center,
+                AttackOriginScope.runBlast(center, () -> SparkRoleApi.killCrowsInBlast(world, center,
                         DroneRules.BOMB_BLAST_RADIUS, owner, Noellesroles.DEATH_REASON_BOMB));
             }
             if (roundId.equals(DroneService.currentRoundId(world))) {
@@ -412,7 +412,7 @@ public final class DroneCombatService {
         }
         NbtCompound extra = new NbtCompound();
         extra.putString("kind", drone.kind().id());
-        GameRecordManager.recordGlobalEvent(world, SparkStrengthReplayFormatters.DRONE_PLACED, owner, extra);
+        GameRecordManager.recordGlobalEvent(world, RoleKitReplayFormatters.DRONE_PLACED, owner, extra);
     }
 
     /** Live, server-tracked and not already being removed. / 存活且未处于移除流程中。 */
@@ -427,7 +427,7 @@ public final class DroneCombatService {
         if (ownerUuid != null) {
             extra.putUuid("target", ownerUuid);
         }
-        GameRecordManager.recordGlobalEvent(world, SparkStrengthReplayFormatters.DRONE_DESTROYED, attacker, extra);
+        GameRecordManager.recordGlobalEvent(world, RoleKitReplayFormatters.DRONE_DESTROYED, attacker, extra);
     }
 
     private static void recordDetonated(ServerWorld world, @Nullable UUID ownerUuid) {
@@ -436,7 +436,7 @@ public final class DroneCombatService {
             // Stored directly so an offline owner is still named. / 直接写入，主人离线时仍可显示名字。
             extra.putUuid("actor", ownerUuid);
         }
-        GameRecordManager.recordGlobalEvent(world, SparkStrengthReplayFormatters.BOMB_DRONE_DETONATED, null, extra);
+        GameRecordManager.recordGlobalEvent(world, RoleKitReplayFormatters.BOMB_DRONE_DETONATED, null, extra);
     }
 
     /** The bound M67 falls out as a pickable item and never explodes. / 挂载的 M67 以可拾取物品掉出，绝不爆炸。 */
@@ -446,7 +446,7 @@ public final class DroneCombatService {
         }
         drone.setPayload(false);
         ItemEntity item = new ItemEntity(world, drone.getX(), drone.getBoundingBox().minY, drone.getZ(),
-                new ItemStack(SparkStrengthItems.m67()));
+                new ItemStack(SparkDlcItems.m67()));
         item.setToDefaultPickupDelay();
         world.spawnEntity(item);
     }

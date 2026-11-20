@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
 import dev.caecorthus.sparkdlc.role.NonPlayerTargetWeapons;
@@ -9,7 +9,7 @@ import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneWeaponHits;
 import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneWeaponRules;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.role.killer.silencer.SilencerQuietService;
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchRuntimeComponent;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -79,7 +79,7 @@ public final class PartygoerWeaponHits {
      * 不致命的东西不得加入。
      */
     public static final TagKey<EntityType<?>> PARTYGOER_KILLING_PROJECTILES =
-            TagKey.of(RegistryKeys.ENTITY_TYPE, SparkStrength.id("partygoer_killing_projectiles"));
+            TagKey.of(RegistryKeys.ENTITY_TYPE, SparkDLC.id("partygoer_killing_projectiles"));
     private static boolean registered;
 
     private PartygoerWeaponHits() {
@@ -266,7 +266,7 @@ public final class PartygoerWeaponHits {
         HitResult aimed = ProjectileUtil.getCollision(user, entity -> entity instanceof ServerPlayerEntity victim
                 && victim != user && GameFunctions.isPlayerAliveAndSurvival(victim), range);
         if (!killNearestOnLook(user, range, aimed instanceof EntityHitResult hit ? hit.getEntity() : null,
-                SparkWitchDeathReasons.NINJA_KNIFE_KILL, true)) {
+                SparkDlcDeathReasons.NINJA_KNIFE_KILL, true)) {
             return false;
         }
         user.swingHand(hand, true);
@@ -289,7 +289,7 @@ public final class PartygoerWeaponHits {
         }
         String type = Registries.ENTITY_TYPE.getId(projectile.getType()).toString();
         Identifier reason = PartygoerWeaponRules.SHURIKEN_ENTITY_ID.equals(type)
-                ? SparkWitchDeathReasons.NINJA_SHURIKEN_KILL
+                ? SparkDlcDeathReasons.NINJA_SHURIKEN_KILL
                 : GameConstants.DeathReasons.GENERIC;
         if (!PartygoerService.killByWeapon(owner instanceof ServerPlayerEntity player ? player : null, partygoer,
                 reason)) {
@@ -495,7 +495,7 @@ public final class PartygoerWeaponHits {
     public static boolean onSparkWitchSphinxHaoFist(@Nullable ServerPlayerEntity shooter, @Nullable PlayerEntity target,
                                                     double range) {
         return shooter != null && mayKill(shooter) && killNearestOnLook(shooter, range, target,
-                SparkWitchDeathReasons.SPHINX_HAO_FIST, true);
+                SparkDlcDeathReasons.SPHINX_HAO_FIST, true);
     }
 
     /**
@@ -522,7 +522,7 @@ public final class PartygoerWeaponHits {
     public static boolean onSparkWitchClock(@Nullable ServerPlayerEntity user, @Nullable PlayerEntity target,
                                             double range) {
         return user != null && !PartygoerCarry.isCarried(user)
-                && killNearestOnLook(user, range, target, SparkWitchDeathReasons.TIME_STOLEN, false);
+                && killNearestOnLook(user, range, target, SparkDlcDeathReasons.TIME_STOLEN, false);
     }
 
     /**
@@ -538,7 +538,7 @@ public final class PartygoerWeaponHits {
             return;
         }
         Vec3d end = start.add(direction.normalize().multiply(cutDistance));
-        Identifier reason = SparkWitchDeathReasons.PIERCED_BY_RAY;
+        Identifier reason = SparkDlcDeathReasons.PIERCED_BY_RAY;
         for (PartygoerHitGeometry.PartygoerHit hit : PartygoerHitGeometry.allBefore(user.getWorld(), start, end,
                 Double.POSITIVE_INFINITY, user)) {
             PartygoerService.killByWeapon(user, hit.partygoer(), reason);
@@ -559,7 +559,7 @@ public final class PartygoerWeaponHits {
         Vec3d end = DroneHitGeometry.clipToBlocks(gunner.getWorld(), start,
                 start.add(direction.normalize().multiply(reach)), gunner);
         return killNearestOnSegment(gunner, start, end, reach * reach,
-                SparkWitchDeathReasons.POTION_BACKBLAST, true);
+                SparkDlcDeathReasons.POTION_BACKBLAST, true);
     }
 
     /**
@@ -617,7 +617,7 @@ public final class PartygoerWeaponHits {
             return false;
         }
         return PartygoerService.killByWeapon(owner instanceof ServerPlayerEntity player ? player : null, partygoer,
-                SparkWitchDeathReasons.CRIMSON_WITHER_SKULL);
+                SparkDlcDeathReasons.CRIMSON_WITHER_SKULL);
     }
 
     /**
@@ -684,7 +684,7 @@ public final class PartygoerWeaponHits {
         }
         Vec3d at = partygoer.getPos();
         if (!PartygoerService.killByWeapon(attacker, partygoer,
-                SparkWitchDeathReasons.CEREMONIAL_BLADE)) {
+                SparkDlcDeathReasons.CEREMONIAL_BLADE)) {
             return false;
         }
         GrandWitchSword.startKillCooldown(attacker);
@@ -710,7 +710,7 @@ public final class PartygoerWeaponHits {
                 || !GameWorldComponent.KEY.get(world).isRunning()) {
             return;
         }
-        Identifier reason = SparkWitchDeathReasons.POTION_SHELL;
+        Identifier reason = SparkDlcDeathReasons.POTION_SHELL;
         for (PartygoerEntity partygoer : PartygoerService.live(world)) {
             Box box = partygoer.getBoundingBox();
             if (!PartygoerHitGeometry.isTargetable(partygoer)

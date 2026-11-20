@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.render.entity;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.entity.DroneEntity;
 import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneRules;
 import net.minecraft.client.model.Dilation;
@@ -26,8 +26,8 @@ import java.util.EnumSet;
  * 起爆器红灯闪烁，电量低于 20% 时快闪。
  */
 public final class BombDroneModel extends DroneModel {
-    public static final EntityModelLayer LAYER = new EntityModelLayer(SparkStrength.id("bomb_drone"), "main");
-    public static final Identifier TEXTURE = SparkStrength.id("textures/entity/bomb_drone.png");
+    public static final EntityModelLayer LAYER = new EntityModelLayer(SparkDLC.id("bomb_drone"), "main");
+    public static final Identifier TEXTURE = SparkDLC.id("textures/entity/bomb_drone.png");
     private static final int LOW_BATTERY_CHARGE = DroneRules.CHARGE_MAX / 5;
     private static final float BLINK_PERIOD = 20.0F;
     private static final float FAST_BLINK_PERIOD = 6.0F;

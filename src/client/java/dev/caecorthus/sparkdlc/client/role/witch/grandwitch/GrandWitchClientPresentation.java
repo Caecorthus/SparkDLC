@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.client.role.witch.grandwitch;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
@@ -23,7 +23,7 @@ import java.util.List;
 
 /** Reads independent server kill/factor timers and the existing item dash timer. / 分别读取服务端击杀、因子计时和现有物品冲刺计时。 */
 public final class GrandWitchClientPresentation {
-    public static final Identifier FACTOR_ID = SparkWitch.id("witch_factor");
+    public static final Identifier FACTOR_ID = SparkDLC.id("witch_factor");
     public static final int COLOR = 0xF2DFF7;
 
     private GrandWitchClientPresentation() {
@@ -31,7 +31,7 @@ public final class GrandWitchClientPresentation {
 
     public static boolean isGrandWitch(ClientPlayerEntity player) {
         Role role = GameWorldComponent.KEY.get(player.getWorld()).getRole(player);
-        return role != null && SparkWitchRoles.GRAND_WITCH_ID.equals(role.identifier());
+        return role != null && SparkDlcRoles.GRAND_WITCH_ID.equals(role.identifier());
     }
 
     public static Text factorState(ClientPlayerEntity player) {
@@ -43,7 +43,7 @@ public final class GrandWitchClientPresentation {
         }
         return ticks > 0
                 ? Text.translatable("hud.sparkdlc.grand_witch.factor.cooldown", TickTime.ceilSecondsUnclamped(ticks))
-                : Text.translatable("hud.sparkdlc.grand_witch.factor.ready", SparkWitchClient.abilityKeyText());
+                : Text.translatable("hud.sparkdlc.grand_witch.factor.ready", SparkDLCClient.abilityKeyText());
     }
 
     /** Remaining sword kill cooldown in ticks (server timer, ticked locally between syncs). 仪礼剑剩余击杀冷却刻数。 */
@@ -56,17 +56,17 @@ public final class GrandWitchClientPresentation {
         // Read the actual item timer, including any external extension; never infer it from kill cooldown.
         // 读取实际物品计时（包括外部延长），绝不从击杀冷却推算冲刺冷却。
         ItemCooldownManagerAccessor manager = (ItemCooldownManagerAccessor) player.getItemCooldownManager();
-        Object entry = manager.sparkwitch$getEntries().get(SparkWitchItems.ceremonialSword());
+        Object entry = manager.sparkdlc$getEntriesForRoles().get(SparkDlcItems.ceremonialSword());
         return entry instanceof ItemCooldownEntryAccessor cooldown
-                ? Math.max(0, cooldown.sparkwitch$getEndTick() - manager.sparkwitch$getTick()) : 0;
+                ? Math.max(0, cooldown.sparkdlc$getEndTickForRoles() - manager.sparkdlc$getTickForRoles()) : 0;
     }
 
     /** Full length of the running dash cooldown, 0 when none: the gauge's scale. 当前冲刺冷却的总时长，无冷却时为 0。 */
     public static int swordDashTotalTicks(ClientPlayerEntity player) {
         ItemCooldownManagerAccessor manager = (ItemCooldownManagerAccessor) player.getItemCooldownManager();
-        Object entry = manager.sparkwitch$getEntries().get(SparkWitchItems.ceremonialSword());
+        Object entry = manager.sparkdlc$getEntriesForRoles().get(SparkDlcItems.ceremonialSword());
         return entry instanceof ItemCooldownEntryAccessor cooldown
-                ? Math.max(0, cooldown.sparkwitch$getEndTick() - cooldown.sparkwitch$getStartTick()) : 0;
+                ? Math.max(0, cooldown.sparkdlc$getEndTickForRoles() - cooldown.sparkdlc$getStartTickForRoles()) : 0;
     }
 
     public static List<Text> swordStates(ClientPlayerEntity player) {

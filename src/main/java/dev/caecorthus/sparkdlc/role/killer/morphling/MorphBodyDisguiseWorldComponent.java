@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.morphling;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
@@ -28,7 +28,7 @@ import java.util.UUID;
  */
 public final class MorphBodyDisguiseWorldComponent implements AutoSyncedComponent {
     public static final ComponentKey<MorphBodyDisguiseWorldComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("morph_body_disguise_world"),
+            SparkDLC.id("morph_body_disguise_world"),
             MorphBodyDisguiseWorldComponent.class
     );
 

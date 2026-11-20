@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(DoorPartBlock.class)
 public abstract class LastEscapeDoorMixin {
     @Inject(method = "getCollisionShape", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$passDoor(BlockState state, BlockView world, BlockPos pos, ShapeContext context,
+    private void sparkdlc$passDoor(BlockState state, BlockView world, BlockPos pos, ShapeContext context,
                                      CallbackInfoReturnable<VoxelShape> cir) {
         if (context instanceof EntityShapeContext shape && shape.getEntity() instanceof PlayerEntity player
                 && LastEscapeService.isActive(player)

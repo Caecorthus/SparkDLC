@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(RaycastContext.class)
 public abstract class RaycastShapeScopeMixin {
     @WrapMethod(method = "getBlockShape")
-    private VoxelShape sparkstrength$scopeRayBlockShape(BlockState state, BlockView world, BlockPos pos,
+    private VoxelShape sparkdlc$scopeRayBlockShapeForKits(BlockState state, BlockView world, BlockPos pos,
                                                         Operation<VoxelShape> original) {
         // Runs at every block step of every ray: the scope is entered without a lambda and left in finally.
         // 每条射线的每个方块步进都会执行：作用域不经 lambda 进入，并在 finally 中退出。

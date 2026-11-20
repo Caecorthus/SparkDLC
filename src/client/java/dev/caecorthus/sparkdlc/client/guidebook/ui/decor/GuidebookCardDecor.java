@@ -21,8 +21,8 @@ public final class GuidebookCardDecor implements InventoryInfoCard.Decor {
     private boolean disabled;
 
     /**
-     * @param loggerName the owning card's logger name for the warning below, e.g. {@code "SparkTraits/GuideDecor"}.
-     *                   所属卡片用于下面这条警告的日志名，例如 {@code "SparkTraits/GuideDecor"}。
+     * @param loggerName the owning card's logger name for the warning below, e.g. {@code "SparkDLC/GuideDecor"}.
+     *                   所属卡片用于下面这条警告的日志名，例如 {@code "SparkDLC/GuideDecor"}。
      */
     public GuidebookCardDecor(String loggerName) {
         this.logger = LoggerFactory.getLogger(loggerName);

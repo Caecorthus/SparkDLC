@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(GameRecordManager.class)
 public abstract class GameRecordManagerItemUseMixin {
     @Inject(method = "recordItemUse", at = @At("HEAD"), cancellable = true)
-    private static void sparkwitch$triggerSaintKarma(
+    private static void sparkdlc$triggerSaintKarma(
             ServerPlayerEntity actor,
             Identifier itemId,
             ServerPlayerEntity target,
@@ -38,7 +38,7 @@ public abstract class GameRecordManagerItemUseMixin {
     }
 
     @Inject(method = "recordSkillUse", at = @At("HEAD"), cancellable = true)
-    private static void sparkwitch$hideVendettaTerminalSkillRecord(
+    private static void sparkdlc$hideVendettaTerminalSkillRecord(
             ServerPlayerEntity actor,
             Identifier skillId,
             ServerPlayerEntity target,
@@ -52,7 +52,7 @@ public abstract class GameRecordManagerItemUseMixin {
 
     /** Observes only NoellesRoles' already-confirmed successful Swapper replay. */
     @Inject(method = "recordSkillUse", at = @At("TAIL"))
-    private static void sparkwitch$captureSuccessfulSwapper(
+    private static void sparkdlc$captureSuccessfulSwapper(
             ServerPlayerEntity actor,
             Identifier skillId,
             ServerPlayerEntity target,

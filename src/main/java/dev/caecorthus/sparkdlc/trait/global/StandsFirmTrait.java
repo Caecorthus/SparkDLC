@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.global;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.Trait;
 import dev.caecorthus.sparkdlc.trait.api.TraitAudience;
 import net.minecraft.util.Identifier;
@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
  * 立场坚定：免疫同阵营造成的伤害。坠落列车与巫毒魔法不是玩家直接伤害，因此仍然生效。
  */
 public final class StandsFirmTrait implements Trait {
-    public static final Identifier ID = SparkTraits.id("stands_firm");
+    public static final Identifier ID = SparkDLC.id("stands_firm");
     public static final int COLOR = 0xE0D8B0;
 
     @Override

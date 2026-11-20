@@ -28,7 +28,7 @@ public abstract class BlindAttuneSoundSystemMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/sound/SoundSystem;getAdjustedVolume(FLnet/minecraft/sound/SoundCategory;)F")
     )
-    private float sparkwitch$duckAmbientOnPlay(float volume, @Local(argsOnly = true) SoundInstance sound) {
+    private float sparkdlc$duckAmbientOnPlay(float volume, @Local(argsOnly = true) SoundInstance sound) {
         return volume * BlindAttuneDucking.factor(sound);
     }
 
@@ -37,7 +37,7 @@ public abstract class BlindAttuneSoundSystemMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/sound/SoundSystem;getAdjustedVolume(FLnet/minecraft/sound/SoundCategory;)F")
     )
-    private float sparkwitch$duckAmbientOnUpdate(float volume, @Local(argsOnly = true) SoundInstance sound) {
+    private float sparkdlc$duckAmbientOnUpdate(float volume, @Local(argsOnly = true) SoundInstance sound) {
         return volume * BlindAttuneDucking.factor(sound);
     }
 }

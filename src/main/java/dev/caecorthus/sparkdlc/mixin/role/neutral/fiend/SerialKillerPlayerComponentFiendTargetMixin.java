@@ -31,7 +31,7 @@ public abstract class SerialKillerPlayerComponentFiendTargetMixin {
             method = "isTargetValid(Ljava/util/UUID;Ldev/doctor4t/wathe/cca/GameWorldComponent;Lnet/minecraft/server/world/ServerWorld;)Z",
             at = @At("RETURN")
     )
-    private boolean sparkwitch$dormantFiendIsNeverAValidTarget(boolean valid, UUID target, GameWorldComponent game,
+    private boolean sparkdlc$dormantFiendIsNeverAValidTarget(boolean valid, UUID target, GameWorldComponent game,
                                                                ServerWorld world) {
         return FiendTargetExclusion.isValidTarget(valid, world, target);
     }
@@ -40,7 +40,7 @@ public abstract class SerialKillerPlayerComponentFiendTargetMixin {
             method = "getEligibleTargets(Ldev/doctor4t/wathe/cca/GameWorldComponent;Lnet/minecraft/server/world/ServerWorld;)Ljava/util/List;",
             at = @At("RETURN")
     )
-    private List<UUID> sparkwitch$dormantFiendIsNeverACandidate(List<UUID> candidates, GameWorldComponent game,
+    private List<UUID> sparkdlc$dormantFiendIsNeverACandidate(List<UUID> candidates, GameWorldComponent game,
                                                                 ServerWorld world) {
         return FiendTargetExclusion.eligibleTargets(candidates, world);
     }

@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class BlindTerrainFogMixin {
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WorldRenderer;"
             + "setupTerrain(Lnet/minecraft/client/render/Camera;Lnet/minecraft/client/render/Frustum;ZZ)V"))
-    private void sparkwitch$liftBlindTerrainFog(RenderTickCounter tickCounter, boolean renderBlockOutline,
+    private void sparkdlc$liftBlindTerrainFog(RenderTickCounter tickCounter, boolean renderBlockOutline,
                                                Camera camera, GameRenderer gameRenderer,
                                                LightmapTextureManager lightmapTextureManager, Matrix4f positionMatrix,
                                                Matrix4f projectionMatrix, CallbackInfo ci) {

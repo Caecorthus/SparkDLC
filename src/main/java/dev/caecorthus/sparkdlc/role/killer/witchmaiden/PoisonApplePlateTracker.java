@@ -28,6 +28,6 @@ public final class PoisonApplePlateTracker {
             snapshot = new ArrayList<>(ARMED_PLATES);
             ARMED_PLATES.clear();
         }
-        snapshot.forEach(PoisonApplePlateAccess::sparkwitch$clearPoisonApple);
+        snapshot.forEach(PoisonApplePlateAccess::sparkdlc$clearPoisonApple);
     }
 }

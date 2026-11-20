@@ -32,7 +32,7 @@ public abstract class ServerPlayNetworkHandlerFerrymanFeignMixin {
                     shift = At.Shift.AFTER),
             cancellable = true
     )
-    private void sparkwitch$blockFerrymanFeignSpectatorTeleport(SpectatorTeleportC2SPacket packet, CallbackInfo ci) {
+    private void sparkdlc$blockFerrymanFeignSpectatorTeleport(SpectatorTeleportC2SPacket packet, CallbackInfo ci) {
         if (FerrymanFeignService.isFeigning(player)) {
             ci.cancel();
         }

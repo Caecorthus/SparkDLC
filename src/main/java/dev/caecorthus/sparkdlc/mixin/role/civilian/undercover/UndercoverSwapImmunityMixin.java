@@ -32,7 +32,7 @@ public abstract class UndercoverSwapImmunityMixin {
             require = 0,
             remap = false
     )
-    private static void sparkstrength$stage2UndercoverCannotBeSwapped(
+    private static void sparkdlc$stage2UndercoverCannotBeSwapped(
             SwapperC2SPacket payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci

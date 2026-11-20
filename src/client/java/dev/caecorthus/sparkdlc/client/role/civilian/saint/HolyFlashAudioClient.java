@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.saint;
 
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.saint.flash.HolyFlashComponent;
 import dev.caecorthus.sparkdlc.role.civilian.saint.flash.HolyFlashRules;
@@ -148,7 +148,7 @@ public final class HolyFlashAudioClient {
     }
 
     private static boolean isTinnitus(SoundInstance sound) {
-        return sound == ring || SparkWitchSounds.HOLY_FLASH_TINNITUS_ID.equals(sound.getId());
+        return sound == ring || SparkDlcSounds.HOLY_FLASH_TINNITUS_ID.equals(sound.getId());
     }
 
     static void reset(MinecraftClient client) {

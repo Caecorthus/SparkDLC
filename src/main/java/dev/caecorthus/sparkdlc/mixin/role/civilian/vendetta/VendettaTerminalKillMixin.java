@@ -19,7 +19,7 @@ public abstract class VendettaTerminalKillMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private static void sparkwitch$resolveVendettaTerminalDeath(
+    private static void sparkdlc$resolveVendettaTerminalDeath(
             ServerPlayerEntity victim,
             boolean spawnBody,
             ServerPlayerEntity killer,

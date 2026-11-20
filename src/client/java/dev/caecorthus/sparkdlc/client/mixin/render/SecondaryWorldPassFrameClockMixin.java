@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(RenderTickCounter.Dynamic.class)
 public abstract class SecondaryWorldPassFrameClockMixin {
     @ModifyReturnValue(method = "getLastFrameDuration()F", at = @At("RETURN"))
-    private float sparkwitch$freezeFrameClockInSecondaryPass(float ticks) {
+    private float sparkdlc$freezeFrameClockInSecondaryPass(float ticks) {
         return SecondaryWorldPass.frameDuration(ticks);
     }
 }

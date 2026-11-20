@@ -30,7 +30,7 @@ public abstract class StickyKeyBindingGateMixin {
     private BooleanSupplier toggleGetter;
 
     @Inject(method = "setPressed", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$keepToggleWhileStunned(boolean pressed, CallbackInfo ci) {
+    private void sparkdlc$keepToggleWhileStunned(boolean pressed, CallbackInfo ci) {
         if (ClientKeyGate.ignoresStickyPress(pressed, this.toggleGetter)) {
             ci.cancel();
         }

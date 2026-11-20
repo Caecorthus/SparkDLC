@@ -11,5 +11,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(LivingEntity.class)
 public interface LivingEntityDamageCooldownAccessor {
     @Accessor("lastDamageTaken")
-    float sparktraits$getLastDamageTaken();
+    float sparkdlc$getLastDamageTaken();
 }

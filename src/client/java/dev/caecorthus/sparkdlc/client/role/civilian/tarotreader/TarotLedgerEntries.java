@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.tarotreader;
 
-import dev.caecorthus.sparkdlc.client.text.WitchRoleDisplayTexts;
+import dev.caecorthus.sparkdlc.client.text.RoleDisplayTexts;
 import dev.caecorthus.sparkdlc.role.civilian.tarotreader.TarotReaderRules;
 import dev.caecorthus.sparkdlc.util.RoleDisplayTextRules;
 import dev.doctor4t.wathe.api.Role;
@@ -60,7 +60,7 @@ public final class TarotLedgerEntries {
                     : section(TarotReaderRules.staticBucket(role));
             result.add(new Entry(
                     target,
-                    WitchRoleDisplayTexts.roleName(RoleDisplayTextRules.roleTranslationKey(role)).getString(),
+                    RoleDisplayTexts.roleName(RoleDisplayTextRules.roleTranslationKey(role)).getString(),
                     target,
                     role.color() & 0xFFFFFF,
                     section,

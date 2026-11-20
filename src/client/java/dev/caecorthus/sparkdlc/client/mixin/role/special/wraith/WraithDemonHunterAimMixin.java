@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = DemonHunterPistolItem.class, remap = false)
 public abstract class WraithDemonHunterAimMixin {
     @WrapMethod(method = "getGunTarget")
-    private static HitResult sparkwitch$aimThroughWraiths(PlayerEntity user, Operation<HitResult> original) {
+    private static HitResult sparkdlc$aimThroughWraiths(PlayerEntity user, Operation<HitResult> original) {
         return WraithAimPassThrough.selectAs(user, () -> original.call(user));
     }
 }

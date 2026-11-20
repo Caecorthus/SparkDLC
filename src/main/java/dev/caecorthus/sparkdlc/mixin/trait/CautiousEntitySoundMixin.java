@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Entity.class)
 public abstract class CautiousEntitySoundMixin {
     @Inject(method = "playStepSounds", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$skipCautiousStepSounds(BlockPos pos, BlockState state, CallbackInfo ci) {
+    private void sparkdlc$skipCautiousStepSounds(BlockPos pos, BlockState state, CallbackInfo ci) {
         Entity entity = (Entity) (Object) this;
         if (!SparkDlcServerConnection.isUnconfirmedClientEntity(entity)
                 && GlobalTraitService.shouldSuppressCautiousStepSounds(entity)) {
@@ -26,7 +26,7 @@ public abstract class CautiousEntitySoundMixin {
     }
 
     @Inject(method = "playStepSound", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$skipCautiousDirectStepSound(BlockPos pos, BlockState state, CallbackInfo ci) {
+    private void sparkdlc$skipCautiousDirectStepSound(BlockPos pos, BlockState state, CallbackInfo ci) {
         Entity entity = (Entity) (Object) this;
         if (!SparkDlcServerConnection.isUnconfirmedClientEntity(entity)
                 && GlobalTraitService.shouldSuppressCautiousStepSounds(entity)) {
@@ -35,7 +35,7 @@ public abstract class CautiousEntitySoundMixin {
     }
 
     @Inject(method = "playCombinationStepSounds", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$skipCautiousCombinationStepSounds(BlockState primaryState, BlockState secondaryState, CallbackInfo ci) {
+    private void sparkdlc$skipCautiousCombinationStepSounds(BlockState primaryState, BlockState secondaryState, CallbackInfo ci) {
         Entity entity = (Entity) (Object) this;
         if (!SparkDlcServerConnection.isUnconfirmedClientEntity(entity)
                 && GlobalTraitService.shouldSuppressCautiousStepSounds(entity)) {
@@ -44,7 +44,7 @@ public abstract class CautiousEntitySoundMixin {
     }
 
     @Inject(method = "playSecondaryStepSound", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$skipCautiousSecondaryStepSound(BlockState state, CallbackInfo ci) {
+    private void sparkdlc$skipCautiousSecondaryStepSound(BlockState state, CallbackInfo ci) {
         Entity entity = (Entity) (Object) this;
         if (!SparkDlcServerConnection.isUnconfirmedClientEntity(entity)
                 && GlobalTraitService.shouldSuppressCautiousStepSounds(entity)) {

@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.blind.render;
 import com.mojang.blaze3d.platform.GlConst;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.systems.VertexSorter;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.render.entity.EntityModelCapture;
 import dev.caecorthus.sparkdlc.client.render.entity.EntityRedraw;
 import net.minecraft.client.MinecraftClient;
@@ -187,7 +187,7 @@ public final class BlindSilhouettePass {
             // 第三方渲染钩子在此出错时不能让整帧崩溃；该身体只是没有轮廓。
             if (!warned) {
                 warned = true;
-                SparkWitch.LOGGER.warn("Blind silhouette render failed for {}", body.getName().getString(),
+                SparkDLC.LOGGER.warn("Blind silhouette render failed for {}", body.getName().getString(),
                         exception);
             }
         }

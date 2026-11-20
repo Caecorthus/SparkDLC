@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = AbstractClientPlayerEntity.class, priority = 2000)
 public abstract class WraithPlayerSkinTexturesMixin {
     @Inject(method = "getSkinTextures", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$projectSteveSkinTextures(CallbackInfoReturnable<SkinTextures> cir) {
+    private void sparkdlc$projectSteveSkinTextures(CallbackInfoReturnable<SkinTextures> cir) {
         AbstractClientPlayerEntity player = (AbstractClientPlayerEntity) (Object) this;
         if (WraithSteveProjection.shouldAnonymizePlayer(player)) {
             cir.setReturnValue(WraithSteveProjection.steveSkinTextures());

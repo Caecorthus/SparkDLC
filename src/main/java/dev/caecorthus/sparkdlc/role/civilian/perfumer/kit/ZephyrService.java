@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.role.civilian.perfumer.kit;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerScentComponent;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.DustParticleEffect;
@@ -43,8 +43,8 @@ public final class ZephyrService {
         ServerWorld world = player.getServerWorld();
         world.spawnParticles(player, ZEPHYR_MIST, false, player.getX(), player.getY() + 1.1D, player.getZ(),
                 10, 0.35D, 0.45D, 0.35D, 0.0D);
-        GameRecordManager.recordItemUse(player, SparkStrengthItems.ZEPHYR_PERFUME_ID, null, null);
-        GameRecordManager.recordGlobalEvent(world, SparkStrengthReplayFormatters.PERFUMER_ZEPHYR_USED, player, null);
+        GameRecordManager.recordItemUse(player, SparkDlcItems.ZEPHYR_PERFUME_ID, null, null);
+        GameRecordManager.recordGlobalEvent(world, RoleKitReplayFormatters.PERFUMER_ZEPHYR_USED, player, null);
         return true;
     }
 }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.neutral.shadowjester;
 
-import dev.caecorthus.sparkdlc.SparkStrengthSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import net.minecraft.client.sound.AbstractSoundInstance;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.client.sound.TickableSoundInstance;
@@ -23,7 +23,7 @@ public final class ShadowJesterShowdownMusicInstance
     private boolean done;
 
     public ShadowJesterShowdownMusicInstance() {
-        super(SparkStrengthSounds.SHADOW_JESTER, SoundCategory.AMBIENT, Random.create());
+        super(SparkDlcSounds.SHADOW_JESTER, SoundCategory.AMBIENT, Random.create());
         this.repeat = true;
         this.repeatDelay = 0;
         this.attenuationType = SoundInstance.AttenuationType.NONE;

@@ -17,7 +17,7 @@ public abstract class MagicianRecordSelectedSlotMixin {
     @Shadow @Final public ServerPlayerEntity player;
 
     @Inject(method = "onUpdateSelectedSlot", at = @At("RETURN"))
-    private void sparkwitch$recordSelectedSlot(UpdateSelectedSlotC2SPacket packet, CallbackInfo ci) {
+    private void sparkdlc$recordSelectedSlot(UpdateSelectedSlotC2SPacket packet, CallbackInfo ci) {
         MagicianServerHooks.recordSlot(player, packet.getSelectedSlot());
     }
 }

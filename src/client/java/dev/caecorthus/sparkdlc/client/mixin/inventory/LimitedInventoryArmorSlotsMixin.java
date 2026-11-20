@@ -66,10 +66,10 @@ public abstract class LimitedInventoryArmorSlotsMixin extends Screen {
     protected boolean cursorDragging;
     @Unique
     @Nullable
-    private LimitedInventoryArmorPanel sparkwitch$armorPanel;
+    private LimitedInventoryArmorPanel sparkdlc$armorPanel;
     @Unique
     @Nullable
-    private LimitedInventoryHeadsetCell sparkwitch$headsetCell;
+    private LimitedInventoryHeadsetCell sparkdlc$headsetCell;
 
     protected LimitedInventoryArmorSlotsMixin(Text title) {
         super(title);
@@ -84,22 +84,22 @@ public abstract class LimitedInventoryArmorSlotsMixin extends Screen {
     // Keep Yarn: intermediary selectors crash runClient; remapJar emits the intermediary form verifyClientMixinSelectors checks.
     // 保持 Yarn：intermediary 选择器会使 runClient 崩溃；remapJar 生成的 intermediary 形式由 verifyClientMixinSelectors 校验。
     @Inject(method = "init()V", at = @At("TAIL"))
-    private void sparkwitch$addArmorPanel(CallbackInfo ci) {
+    private void sparkdlc$addArmorPanel(CallbackInfo ci) {
         // init re-runs on every resize after clearChildren(), so the panel and its gate are rebuilt together. Every
         // armor geometry call takes the layout anchor, which centres the block on SparkFactionAPI's two-row inventory
         // when that is shown. / 每次缩放都会在 clearChildren() 后重新 init，面板与其开关一起重建。所有护甲几何调用都
         // 使用布局锚点；显示 SparkFactionAPI 两行物品栏时，护甲块以两行物品栏为中心。
-        sparkwitch$armorPanel = LimitedInventoryArmorSlots.applies(this, handler)
+        sparkdlc$armorPanel = LimitedInventoryArmorSlots.applies(this, handler)
                 ? addDrawableChild(new LimitedInventoryArmorPanel(x, LimitedInventoryArmorSlots.anchorY(y),
-                        this::sparkwitch$paintArmorSlots))
+                        this::sparkdlc$paintArmorSlots))
                 : null;
         // BEAR WP4: the headset cell shares the armor panel's gate; its visibility follows headsetShown per frame.
         // BEAR WP4：耳机格与护甲面板共用开关；其可见性每帧跟随 headsetShown。
-        sparkwitch$headsetCell = sparkwitch$armorPanel != null
+        sparkdlc$headsetCell = sparkdlc$armorPanel != null
                 ? addDrawableChild(new LimitedInventoryHeadsetCell(x, LimitedInventoryArmorSlots.anchorY(y),
-                        this::sparkwitch$paintHeadsetCell))
+                        this::sparkdlc$paintHeadsetCell))
                 : null;
-        sparkwitch$updateHeadsetCell();
+        sparkdlc$updateHeadsetCell();
     }
 
     /**
@@ -108,13 +108,13 @@ public abstract class LimitedInventoryArmorSlotsMixin extends Screen {
      * Wathe 每帧重置 {@code focusedSlot}，且只为快捷栏槽设置；悬停的护甲槽在此接管，早于物品提示与数字键交换读取。
      */
     @Inject(method = "render(Lnet/minecraft/client/gui/DrawContext;IIF)V", at = @At("TAIL"))
-    private void sparkwitch$focusArmorSlot(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        if (focusedSlot == null && sparkwitch$armorPanel != null) {
+    private void sparkdlc$focusArmorSlot(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+        if (focusedSlot == null && sparkdlc$armorPanel != null) {
             focusedSlot = LimitedInventoryArmorSlots.slotAt(handler, x, LimitedInventoryArmorSlots.anchorY(y),
                     mouseX, mouseY);
         }
-        sparkwitch$updateHeadsetCell();
-        if (focusedSlot == null && sparkwitch$overShownHeadset(mouseX, mouseY)) {
+        sparkdlc$updateHeadsetCell();
+        if (focusedSlot == null && sparkdlc$overShownHeadset(mouseX, mouseY)) {
             focusedSlot = LimitedInventoryArmorSlots.headsetSlot(handler);
         }
     }
@@ -125,12 +125,12 @@ public abstract class LimitedInventoryArmorSlotsMixin extends Screen {
      * Wathe 的点击、拖动、松开与双击都在此解析槽位；只有没有快捷栏槽命中时才返回护甲槽。
      */
     @ModifyReturnValue(method = "getSlotAt(DD)Lnet/minecraft/screen/slot/Slot;", at = @At("RETURN"))
-    private @Nullable Slot sparkwitch$armorSlotAt(@Nullable Slot original, double mouseX, double mouseY) {
-        if (original != null || sparkwitch$armorPanel == null) {
+    private @Nullable Slot sparkdlc$armorSlotAt(@Nullable Slot original, double mouseX, double mouseY) {
+        if (original != null || sparkdlc$armorPanel == null) {
             return original;
         }
         Slot armor = LimitedInventoryArmorSlots.slotAt(handler, x, LimitedInventoryArmorSlots.anchorY(y), mouseX, mouseY);
-        return armor != null || !sparkwitch$overShownHeadset(mouseX, mouseY) ? armor
+        return armor != null || !sparkdlc$overShownHeadset(mouseX, mouseY) ? armor
                 : LimitedInventoryArmorSlots.headsetSlot(handler);
     }
 
@@ -140,11 +140,11 @@ public abstract class LimitedInventoryArmorSlotsMixin extends Screen {
      * 开启触屏选项时，Wathe 会在点到 176x32 热栏外时关闭界面；点到护甲块应视为界面内部。
      */
     @ModifyReturnValue(method = "isClickOutsideBounds(DDIII)Z", at = @At("RETURN"))
-    private boolean sparkwitch$armorBlockIsInside(boolean outside, double mouseX, double mouseY, int left, int top,
+    private boolean sparkdlc$armorBlockIsInside(boolean outside, double mouseX, double mouseY, int left, int top,
                                                  int button) {
-        return outside && (sparkwitch$armorPanel == null
+        return outside && (sparkdlc$armorPanel == null
                 || (LimitedInventoryArmorLayout.armorIndexAt(x, LimitedInventoryArmorSlots.anchorY(y), mouseX, mouseY)
-                < 0 && !sparkwitch$overShownHeadset(mouseX, mouseY)));
+                < 0 && !sparkdlc$overShownHeadset(mouseX, mouseY)));
     }
 
     /**
@@ -164,13 +164,13 @@ public abstract class LimitedInventoryArmorSlotsMixin extends Screen {
                     target = "Ldev/doctor4t/wathe/client/gui/screen/ingame/LimitedHandledScreen;onMouseClick(Lnet/minecraft/screen/slot/Slot;IILnet/minecraft/screen/slot/SlotActionType;)V"
             )
     )
-    private void sparkwitch$shiftClickArmor(LimitedHandledScreen<?> screen, Slot slot, int slotId, int button,
+    private void sparkdlc$shiftClickArmor(LimitedHandledScreen<?> screen, Slot slot, int slotId, int button,
                                             SlotActionType action, Operation<Void> original) {
-        if (action == SlotActionType.PICKUP && slot != null && sparkwitch$armorPanel != null
+        if (action == SlotActionType.PICKUP && slot != null && sparkdlc$armorPanel != null
                 && client != null && client.player != null) {
             if (button == 0 && hasShiftDown()) {
                 LimitedInventoryArmorLayout.Swap swap = LimitedInventoryArmorSlots.planShiftClick(client.player, handler, slot);
-                if (swap == null && sparkwitch$headsetShown()) {
+                if (swap == null && sparkdlc$headsetShown()) {
                     swap = LimitedInventoryArmorSlots.planHeadsetShiftClick(handler, slot);
                 }
                 if (swap != null) {
@@ -206,26 +206,26 @@ public abstract class LimitedInventoryArmorSlotsMixin extends Screen {
      * 数据包发出前先把光标上的护甲点回其自身的空护甲槽。
      */
     @Inject(method = "close()V", at = @At("HEAD"))
-    private void sparkwitch$returnCursorArmorOnClose(CallbackInfo ci) {
-        sparkwitch$returnCursorArmor();
+    private void sparkdlc$returnCursorArmorOnClose(CallbackInfo ci) {
+        sparkdlc$returnCursorArmor();
     }
 
     /**
      * Wathe's {@code tick} also closes the screen during a fade or once the player is dead; same return as
-     * {@link #sparkwitch$returnCursorArmorOnClose} (the server refuses the click from a dead spectator).
+     * {@link #sparkdlc$returnCursorArmorOnClose} (the server refuses the click from a dead spectator).
      * Wathe 的 {@code tick} 在淡入淡出期间或玩家死亡后也会关闭界面；处理同上（服务器会拒绝已死亡旁观者的点击）。
      */
     @Inject(
             method = "tick()V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;closeHandledScreen()V")
     )
-    private void sparkwitch$returnCursorArmorOnForcedClose(CallbackInfo ci) {
-        sparkwitch$returnCursorArmor();
+    private void sparkdlc$returnCursorArmorOnForcedClose(CallbackInfo ci) {
+        sparkdlc$returnCursorArmor();
     }
 
     @Unique
-    private void sparkwitch$returnCursorArmor() {
-        if (sparkwitch$armorPanel == null || client == null || client.player == null) {
+    private void sparkdlc$returnCursorArmor() {
+        if (sparkdlc$armorPanel == null || client == null || client.player == null) {
             return;
         }
         int slotId = LimitedInventoryArmorSlots.cursorReturnSlotId(client.player, handler);
@@ -237,7 +237,7 @@ public abstract class LimitedInventoryArmorSlotsMixin extends Screen {
     }
 
     @Unique
-    private void sparkwitch$paintArmorSlots(DrawContext context, int mouseX, int mouseY) {
+    private void sparkdlc$paintArmorSlots(DrawContext context, int mouseX, int mouseY) {
         int armorY = LimitedInventoryArmorSlots.anchorY(y);
         LimitedInventoryArmorSlots.drawFrame(context, LimitedInventoryArmorLayout.panelX(x), LimitedInventoryArmorLayout.panelY(armorY));
         ItemStack cursor = handler.getCursorStack();
@@ -264,25 +264,25 @@ public abstract class LimitedInventoryArmorSlotsMixin extends Screen {
     }
 
     @Unique
-    private boolean sparkwitch$headsetShown() {
-        return sparkwitch$headsetCell != null && sparkwitch$headsetCell.visible;
+    private boolean sparkdlc$headsetShown() {
+        return sparkdlc$headsetCell != null && sparkdlc$headsetCell.visible;
     }
 
     @Unique
-    private boolean sparkwitch$overShownHeadset(double mouseX, double mouseY) {
-        return sparkwitch$headsetShown() && LimitedInventoryArmorLayout.isOverHeadset(x,
+    private boolean sparkdlc$overShownHeadset(double mouseX, double mouseY) {
+        return sparkdlc$headsetShown() && LimitedInventoryArmorLayout.isOverHeadset(x,
                 LimitedInventoryArmorSlots.anchorY(y), mouseX, mouseY);
     }
 
     @Unique
-    private void sparkwitch$updateHeadsetCell() {
-        if (sparkwitch$headsetCell != null && client != null && client.player != null) {
-            sparkwitch$headsetCell.visible = LimitedInventoryArmorSlots.headsetShown(this, handler, client.player);
+    private void sparkdlc$updateHeadsetCell() {
+        if (sparkdlc$headsetCell != null && client != null && client.player != null) {
+            sparkdlc$headsetCell.visible = LimitedInventoryArmorSlots.headsetShown(this, handler, client.player);
         }
     }
 
     @Unique
-    private void sparkwitch$paintHeadsetCell(DrawContext context, int mouseX, int mouseY) {
+    private void sparkdlc$paintHeadsetCell(DrawContext context, int mouseX, int mouseY) {
         Slot slot = LimitedInventoryArmorSlots.headsetSlot(handler);
         if (slot == null) {
             return;

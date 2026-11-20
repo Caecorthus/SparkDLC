@@ -7,8 +7,8 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
 /**
- * Registers Abyss Listener gameplay entities; must run before SparkWitchItems so item code can capture the type.
- * 注册聆渊者的玩法实体；必须先于 SparkWitchItems 执行，以便物品代码可以获取该实体类型。
+ * Registers Abyss Listener gameplay entities; must run before SparkDlcItems so item code can capture the type.
+ * 注册聆渊者的玩法实体；必须先于 SparkDlcItems 执行，以便物品代码可以获取该实体类型。
  */
 public final class AbyssListenerEntities {
     private static EntityType<DeepDarkSporeFlaskEntity> deepDarkSporeFlask;

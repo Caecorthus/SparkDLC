@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.civilian.police;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.TraitAudience;
 import dev.caecorthus.sparkdlc.trait.api.TraitDefinition;
 import dev.caecorthus.sparkdlc.trait.api.TraitRegistry;
@@ -12,12 +12,12 @@ import net.minecraft.util.Identifier;
  * 注册警类天赋：枪械天赋归警职类别身份（见 {@link PoliceRoleCategory}），老兵天赋仅限 Wathe 老兵。
  */
 public final class PoliceTraits {
-    public static final Identifier MARKSMAN = SparkTraits.id("marksman");
-    public static final Identifier FAST_RELOAD = SparkTraits.id("fast_reload");
-    public static final Identifier HEAVY_ARTILLERY = SparkTraits.id("heavy_artillery");
-    public static final Identifier NIKO = SparkTraits.id("niko");
-    public static final Identifier WELL_TRAINED = SparkTraits.id("well_trained");
-    public static final Identifier GOING_DARK = SparkTraits.id("going_dark");
+    public static final Identifier MARKSMAN = SparkDLC.id("marksman");
+    public static final Identifier FAST_RELOAD = SparkDLC.id("fast_reload");
+    public static final Identifier HEAVY_ARTILLERY = SparkDLC.id("heavy_artillery");
+    public static final Identifier NIKO = SparkDLC.id("niko");
+    public static final Identifier WELL_TRAINED = SparkDLC.id("well_trained");
+    public static final Identifier GOING_DARK = SparkDLC.id("going_dark");
 
     private PoliceTraits() {
     }

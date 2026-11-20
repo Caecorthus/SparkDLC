@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.vendetta;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -25,7 +25,7 @@ import java.util.UUID;
 public final class VendettaPlayerComponent
         implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
     public static final ComponentKey<VendettaPlayerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("vendetta"),
+            SparkDLC.id("vendetta"),
             VendettaPlayerComponent.class
     );
 

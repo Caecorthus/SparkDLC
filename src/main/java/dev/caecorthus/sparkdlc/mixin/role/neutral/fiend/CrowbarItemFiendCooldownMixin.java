@@ -30,7 +30,7 @@ public abstract class CrowbarItemFiendCooldownMixin {
                     target = "Ldev/doctor4t/wathe/block_entity/DoorBlockEntity;blast()V",
                     shift = At.Shift.AFTER,
                     remap = false))
-    private void sparkwitch$fiendMomentCrowbarCooldown(ItemUsageContext context,
+    private void sparkdlc$fiendMomentCrowbarCooldown(ItemUsageContext context,
                                                        CallbackInfoReturnable<ActionResult> cir) {
         if (!(context.getPlayer() instanceof ServerPlayerEntity player)) {
             return;

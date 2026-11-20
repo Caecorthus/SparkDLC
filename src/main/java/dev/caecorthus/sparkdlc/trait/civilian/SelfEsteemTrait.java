@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.civilian;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.Trait;
 import dev.caecorthus.sparkdlc.trait.api.TraitAudience;
 import dev.caecorthus.sparkdlc.trait.api.TraitSelectionContext;
@@ -20,7 +20,7 @@ import java.util.Set;
  * 每局最多一人，需要真理智。乘客阵营专属。
  */
 public final class SelfEsteemTrait implements Trait {
-    public static final Identifier ID = SparkTraits.id("self_esteem");
+    public static final Identifier ID = SparkDLC.id("self_esteem");
     public static final int COLOR = 0xD9B3FF;
 
     /** Weight of every ordinary trait; this trait rolls at an eighth of it. 普通词条的权重；本词条取其八分之一。 */

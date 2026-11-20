@@ -42,11 +42,11 @@ import java.util.UUID;
 
 @Mixin(RoleNameRenderer.class)
 public abstract class TraitRoleNameRendererMixin {
-    private static float sparktraits$playerTraitAlpha;
-    private static float sparktraits$bodyTraitAlpha;
-    private static boolean sparktraits$playerCohortLine;
-    private static List<Identifier> sparktraits$lastPlayerTraits = List.of();
-    private static List<Identifier> sparktraits$lastBodyTraits = List.of();
+    private static float sparkdlc$playerTraitAlpha;
+    private static float sparkdlc$bodyTraitAlpha;
+    private static boolean sparkdlc$playerCohortLine;
+    private static List<Identifier> sparkdlc$lastPlayerTraits = List.of();
+    private static List<Identifier> sparkdlc$lastBodyTraits = List.of();
     /*
      * The client world the fading tag contents above were captured in. A disconnect, proxy backend switch or
      * dimension change replaces the world; the contents must not fade out over the next one. Weak, so the title
@@ -54,7 +54,7 @@ public abstract class TraitRoleNameRendererMixin {
      * 上述渐隐标签内容所属的客户端世界。断线、代理切换后端或切换维度都会替换世界；这些内容不能在下一个世界里继续渐隐。
      * 使用弱引用，避免在标题界面保留旧世界。
      */
-    private static WeakReference<World> sparktraits$tagWorld = new WeakReference<>(null);
+    private static WeakReference<World> sparkdlc$tagWorld = new WeakReference<>(null);
 
     /*
      * Wathe's own body raycast (its second getCollision) with Wathe's range, captured for this renderHud call. Its
@@ -63,8 +63,8 @@ public abstract class TraitRoleNameRendererMixin {
      * 本次 renderHud 中 Wathe 自身的尸体射线（第二个 getCollision）及其距离。其判定与 updateBodyTraitLine 相同，因此两者距离
      * 一致时标签直接复用命中结果，不再重复投射。玩家射线（第一个）不复用：SparkWitch 会收窄并改写它（冤魂、魔术师皮套）。
      */
-    private static HitResult sparktraits$watheBodyHit;
-    private static boolean sparktraits$watheBodyHitCaptured;
+    private static HitResult sparkdlc$watheBodyHit;
+    private static boolean sparkdlc$watheBodyHitCaptured;
 
     @ModifyExpressionValue(
             method = "renderHud",
@@ -74,27 +74,27 @@ public abstract class TraitRoleNameRendererMixin {
                     ordinal = 1
             )
     )
-    private static HitResult sparktraits$captureWatheBodyHit(HitResult hit) {
-        sparktraits$watheBodyHit = hit;
-        sparktraits$watheBodyHitCaptured = true;
+    private static HitResult sparkdlc$captureWatheBodyHit(HitResult hit) {
+        sparkdlc$watheBodyHit = hit;
+        sparkdlc$watheBodyHitCaptured = true;
         return hit;
     }
 
     @Inject(method = "renderHud", at = @At("TAIL"))
-    private static void sparktraits$renderTraitTags(TextRenderer renderer, ClientPlayerEntity player, DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
-        HitResult watheBodyHit = sparktraits$watheBodyHitCaptured ? sparktraits$watheBodyHit : null;
-        sparktraits$watheBodyHit = null;
-        sparktraits$watheBodyHitCaptured = false;
+    private static void sparkdlc$renderTraitTags(TextRenderer renderer, ClientPlayerEntity player, DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+        HitResult watheBodyHit = sparkdlc$watheBodyHitCaptured ? sparkdlc$watheBodyHit : null;
+        sparkdlc$watheBodyHit = null;
+        sparkdlc$watheBodyHitCaptured = false;
         // Checked before every early return (unconfirmed server, darkness), which would otherwise skip the decay.
         // 必须在所有提前返回（未确认服务端、黑暗）之前检查，否则这些返回会跳过衰减。
         World world = player.getWorld();
-        if (sparktraits$tagWorld.get() != world) {
-            sparktraits$tagWorld = new WeakReference<>(world);
-            sparktraits$playerTraitAlpha = 0.0f;
-            sparktraits$bodyTraitAlpha = 0.0f;
-            sparktraits$playerCohortLine = false;
-            sparktraits$lastPlayerTraits = List.of();
-            sparktraits$lastBodyTraits = List.of();
+        if (sparkdlc$tagWorld.get() != world) {
+            sparkdlc$tagWorld = new WeakReference<>(world);
+            sparkdlc$playerTraitAlpha = 0.0f;
+            sparkdlc$bodyTraitAlpha = 0.0f;
+            sparkdlc$playerCohortLine = false;
+            sparkdlc$lastPlayerTraits = List.of();
+            sparkdlc$lastBodyTraits = List.of();
         }
         if (!SparkDlcServerConnection.isConfirmedServer()) {
             return;
@@ -109,7 +109,7 @@ public abstract class TraitRoleNameRendererMixin {
         float delta = tickCounter.getTickDelta(true) / 4.0f;
         // Read once per frame: it costs a reflective state query and a component lookup.
         // 每帧只读取一次：它需要一次反射状态查询与一次组件查找。
-        boolean canSeeTraitInformation = sparktraits$canSeeTraitInformation(player);
+        boolean canSeeTraitInformation = sparkdlc$canSeeTraitInformation(player);
         float range = canSeeTraitInformation ? 8.0f : 2.0f;
         // Wathe casts its body ray with the spectator-information range; reuse it only when that is our range too.
         // Wathe 以旁观信息距离投射尸体射线；仅当该距离与本处相同时复用。
@@ -118,11 +118,11 @@ public abstract class TraitRoleNameRendererMixin {
         updateBodyTraitLine(player, canSeeTraitInformation, range, delta,
                 watheBodyHit != null && watheBodyRangeMatches ? watheBodyHit : null);
 
-        if (sparktraits$playerTraitAlpha > 0.05f && !sparktraits$lastPlayerTraits.isEmpty()) {
-            TraitNameplateTags.renderUnderPlayer(context, renderer, sparktraits$lastPlayerTraits, sparktraits$playerCohortLine, sparktraits$playerTraitAlpha);
+        if (sparkdlc$playerTraitAlpha > 0.05f && !sparkdlc$lastPlayerTraits.isEmpty()) {
+            TraitNameplateTags.renderUnderPlayer(context, renderer, sparkdlc$lastPlayerTraits, sparkdlc$playerCohortLine, sparkdlc$playerTraitAlpha);
         }
-        if (sparktraits$bodyTraitAlpha > 0.05f && !sparktraits$lastBodyTraits.isEmpty()) {
-            TraitNameplateTags.renderUnderBody(context, renderer, sparktraits$lastBodyTraits, sparktraits$bodyTraitAlpha);
+        if (sparkdlc$bodyTraitAlpha > 0.05f && !sparkdlc$lastBodyTraits.isEmpty()) {
+            TraitNameplateTags.renderUnderBody(context, renderer, sparkdlc$lastBodyTraits, sparkdlc$bodyTraitAlpha);
         }
     }
 
@@ -131,9 +131,9 @@ public abstract class TraitRoleNameRendererMixin {
             // Permission revoked (round reset, or a spectator becoming an active Wraith): drop the retained tags
             // at once instead of fading out content this viewer may no longer see.
             // 权限被撤销（回合重置，或旁观者成为激活的冤魂）：立即丢弃保留的标签，而不是让已无权查看的内容继续渐隐。
-            sparktraits$playerTraitAlpha = 0.0f;
-            sparktraits$playerCohortLine = false;
-            sparktraits$lastPlayerTraits = List.of();
+            sparkdlc$playerTraitAlpha = 0.0f;
+            sparkdlc$playerCohortLine = false;
+            sparkdlc$lastPlayerTraits = List.of();
             return;
         }
 
@@ -149,14 +149,14 @@ public abstract class TraitRoleNameRendererMixin {
                     traitWorld.getDeathTraitSnapshot(target.getUuid())
             );
             if (role != null && !traits.isEmpty()) {
-                sparktraits$lastPlayerTraits = traits;
-                sparktraits$playerCohortLine = game.isRunning() && showsCohort(game, player, target);
-                sparktraits$playerTraitAlpha = MathHelper.lerp(delta, sparktraits$playerTraitAlpha, 1.0f);
+                sparkdlc$lastPlayerTraits = traits;
+                sparkdlc$playerCohortLine = game.isRunning() && showsCohort(game, player, target);
+                sparkdlc$playerTraitAlpha = MathHelper.lerp(delta, sparkdlc$playerTraitAlpha, 1.0f);
                 return;
             }
         }
 
-        sparktraits$playerTraitAlpha = MathHelper.lerp(delta, sparktraits$playerTraitAlpha, 0.0f);
+        sparkdlc$playerTraitAlpha = MathHelper.lerp(delta, sparkdlc$playerTraitAlpha, 0.0f);
     }
 
     private static void updateBodyTraitLine(
@@ -176,14 +176,14 @@ public abstract class TraitRoleNameRendererMixin {
                 Role role = GameWorldComponent.KEY.get(player.getWorld()).getRole(deadPlayerUuid);
                 List<Identifier> traits = TraitWorldComponent.KEY.get(player.getWorld()).getDeathTraitSnapshot(deadPlayerUuid);
                 if (role != null && !traits.isEmpty()) {
-                    sparktraits$lastBodyTraits = traits;
-                    sparktraits$bodyTraitAlpha = MathHelper.lerp(delta, sparktraits$bodyTraitAlpha, 1.0f);
+                    sparkdlc$lastBodyTraits = traits;
+                    sparkdlc$bodyTraitAlpha = MathHelper.lerp(delta, sparkdlc$bodyTraitAlpha, 1.0f);
                     return;
                 }
             }
         }
 
-        sparktraits$bodyTraitAlpha = MathHelper.lerp(delta, sparktraits$bodyTraitAlpha, 0.0f);
+        sparkdlc$bodyTraitAlpha = MathHelper.lerp(delta, sparkdlc$bodyTraitAlpha, 0.0f);
     }
 
     /**
@@ -205,7 +205,7 @@ public abstract class TraitRoleNameRendererMixin {
      * <p>激活中的 SparkWitch 冤魂仍带着 Wathe 的死亡标记，但已重新参与对局，与服务端同步一致，
      * 不获得旁观词条权限。</p>
      */
-    private static boolean sparktraits$canSeeTraitInformation(ClientPlayerEntity player) {
+    private static boolean sparkdlc$canSeeTraitInformation(ClientPlayerEntity player) {
         if (SparkTraitsApi.isWraithActive(player)) {
             return false;
         }

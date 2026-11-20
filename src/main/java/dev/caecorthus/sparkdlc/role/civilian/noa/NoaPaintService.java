@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.noa;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
@@ -79,7 +79,7 @@ public final class NoaPaintService {
                 SoundCategory.PLAYERS, 1.0F, 1.0F);
         switch (outcome) {
             case DOG -> giveItem(player, outcome, Registries.ITEM.get(NoaRules.DOG_PORTRAIT_ITEM_ID));
-            case KEY -> giveItem(player, outcome, SparkWitchItems.spareKey());
+            case KEY -> giveItem(player, outcome, SparkDlcItems.spareKey());
             case SPYGLASS -> giveItem(player, outcome, Items.SPYGLASS);
             case FIRECRACKER -> giveItem(player, outcome, WatheItems.FIRECRACKER);
             case NOTE -> giveItem(player, outcome, WatheItems.NOTE);

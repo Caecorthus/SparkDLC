@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.bomber.drone;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.entity.DroneEntity;
 import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DronePilotActionC2SPacket;
@@ -377,7 +377,7 @@ public final class DronePilotService {
 
     /** The main-hand stack is the selected hotbar slot. / 主手物品即当前选中的快捷栏槽位。 */
     private static boolean holdsTablet(ServerPlayerEntity player) {
-        return player.getMainHandStack().isOf(SparkStrengthItems.tablet());
+        return player.getMainHandStack().isOf(SparkDlcItems.tablet());
     }
 
     private static @Nullable Session sessionOf(DroneEntity drone) {

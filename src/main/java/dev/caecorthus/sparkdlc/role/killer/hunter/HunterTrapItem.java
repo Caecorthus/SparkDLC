@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.hunter;
 
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import java.util.List;
 import java.util.UUID;
@@ -35,7 +35,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public final class HunterTrapItem extends Item {
-    public static final Identifier ID = SparkWitch.id("hunter_trap");
+    public static final Identifier ID = SparkDLC.id("hunter_trap");
     private static final String POISONED_KEY = "Poisoned";
     private static final String POISONER_KEY = "Poisoner";
     private static final double MAX_SURFACE_SEARCH_DEPTH = 2.0D;

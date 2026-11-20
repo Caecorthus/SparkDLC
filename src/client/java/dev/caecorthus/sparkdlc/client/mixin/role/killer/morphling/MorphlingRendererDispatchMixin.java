@@ -22,7 +22,7 @@ public abstract class MorphlingRendererDispatchMixin {
     private Map<SkinTextures.Model, EntityRenderer<? extends PlayerEntity>> modelRenderers;
 
     @Inject(method = "getRenderer", at = @At("HEAD"), cancellable = true)
-    private <T extends Entity> void sparkstrength$selectMorphlingReagentRenderer(
+    private <T extends Entity> void sparkdlc$selectMorphlingReagentRenderer(
             T entity,
             CallbackInfoReturnable<EntityRenderer<? super T>> cir
     ) {

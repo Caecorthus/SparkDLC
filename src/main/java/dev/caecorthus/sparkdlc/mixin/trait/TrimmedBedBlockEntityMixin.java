@@ -25,47 +25,47 @@ public abstract class TrimmedBedBlockEntityMixin implements ConscienceScorpionBe
     private static final String CONSCIENCE_SCORPION_POISONER_KEY = "sparktraitsConscienceScorpionPoisoner";
 
     @Unique
-    private boolean sparktraits$conscienceScorpion;
+    private boolean sparkdlc$conscienceScorpion;
     @Unique
-    private UUID sparktraits$conscienceScorpionPoisoner;
+    private UUID sparkdlc$conscienceScorpionPoisoner;
 
     @Override
-    public boolean sparktraits$hasConscienceScorpion() {
-        return sparktraits$conscienceScorpion;
+    public boolean sparkdlc$hasConscienceScorpion() {
+        return sparkdlc$conscienceScorpion;
     }
 
     @Override
-    public void sparktraits$setConscienceScorpion(boolean hasScorpion, UUID poisoner) {
-        sparktraits$conscienceScorpion = hasScorpion;
-        sparktraits$conscienceScorpionPoisoner = hasScorpion ? poisoner : null;
-        sparktraits$sync();
+    public void sparkdlc$setConscienceScorpion(boolean hasScorpion, UUID poisoner) {
+        sparkdlc$conscienceScorpion = hasScorpion;
+        sparkdlc$conscienceScorpionPoisoner = hasScorpion ? poisoner : null;
+        sparkdlc$sync();
     }
 
     @Override
-    public UUID sparktraits$getConscienceScorpionPoisoner() {
-        return sparktraits$conscienceScorpionPoisoner;
+    public UUID sparkdlc$getConscienceScorpionPoisoner() {
+        return sparkdlc$conscienceScorpionPoisoner;
     }
 
     @Inject(method = "writeNbt", at = @At("TAIL"))
-    private void sparktraits$writeConscienceScorpion(
+    private void sparkdlc$writeConscienceScorpion(
             NbtCompound nbt,
             RegistryWrapper.WrapperLookup registryLookup,
             CallbackInfo ci
     ) {
-        nbt.putBoolean(CONSCIENCE_SCORPION_KEY, sparktraits$conscienceScorpion);
-        if (sparktraits$conscienceScorpionPoisoner != null) {
-            nbt.putUuid(CONSCIENCE_SCORPION_POISONER_KEY, sparktraits$conscienceScorpionPoisoner);
+        nbt.putBoolean(CONSCIENCE_SCORPION_KEY, sparkdlc$conscienceScorpion);
+        if (sparkdlc$conscienceScorpionPoisoner != null) {
+            nbt.putUuid(CONSCIENCE_SCORPION_POISONER_KEY, sparkdlc$conscienceScorpionPoisoner);
         }
     }
 
     @Inject(method = "readNbt", at = @At("TAIL"))
-    private void sparktraits$readConscienceScorpion(
+    private void sparkdlc$readConscienceScorpion(
             NbtCompound nbt,
             RegistryWrapper.WrapperLookup registryLookup,
             CallbackInfo ci
     ) {
-        sparktraits$conscienceScorpion = nbt.getBoolean(CONSCIENCE_SCORPION_KEY);
-        sparktraits$conscienceScorpionPoisoner = nbt.containsUuid(CONSCIENCE_SCORPION_POISONER_KEY)
+        sparkdlc$conscienceScorpion = nbt.getBoolean(CONSCIENCE_SCORPION_KEY);
+        sparkdlc$conscienceScorpionPoisoner = nbt.containsUuid(CONSCIENCE_SCORPION_POISONER_KEY)
                 ? nbt.getUuid(CONSCIENCE_SCORPION_POISONER_KEY)
                 : null;
         // NBT applied to a live server block entity (train reset, /data) can change the blue layer without the
@@ -74,7 +74,7 @@ public abstract class TrimmedBedBlockEntityMixin implements ConscienceScorpionBe
         // 区块加载期间世界仍为 null，由区块发送路径负责。
         if (((BlockEntity) (Object) this).getWorld() instanceof ServerWorld serverWorld) {
             BluePoisonMarkerSync.onMarkerChanged(
-                    serverWorld, ((BlockEntity) (Object) this).getPos(), sparktraits$conscienceScorpion);
+                    serverWorld, ((BlockEntity) (Object) this).getPos(), sparkdlc$conscienceScorpion);
         }
     }
 
@@ -89,7 +89,7 @@ public abstract class TrimmedBedBlockEntityMixin implements ConscienceScorpionBe
      * 上面的 writeNbt 仍为服务端与存档保留这两个值。createNbt 每次都返回新的复合标签，修改它不会影响持久化。
      */
     @Inject(method = "toInitialChunkDataNbt", at = @At("RETURN"))
-    private void sparktraits$hideConscienceScorpionFromClients(
+    private void sparkdlc$hideConscienceScorpionFromClients(
             RegistryWrapper.WrapperLookup registryLookup,
             CallbackInfoReturnable<NbtCompound> cir
     ) {
@@ -108,12 +108,12 @@ public abstract class TrimmedBedBlockEntityMixin implements ConscienceScorpionBe
      * 会让所有追踪它的客户端得知刚有隐藏陷阱被布置或触发。变化只会被保存（markDirty），并只通知蓝毒观察者。
      */
     @Unique
-    private void sparktraits$sync() {
+    private void sparkdlc$sync() {
         BlockEntity self = (BlockEntity) (Object) this;
         World world = self.getWorld();
         if (world instanceof ServerWorld serverWorld) {
             self.markDirty();
-            BluePoisonMarkerSync.onMarkerChanged(serverWorld, self.getPos(), sparktraits$conscienceScorpion);
+            BluePoisonMarkerSync.onMarkerChanged(serverWorld, self.getPos(), sparkdlc$conscienceScorpion);
         }
     }
 }

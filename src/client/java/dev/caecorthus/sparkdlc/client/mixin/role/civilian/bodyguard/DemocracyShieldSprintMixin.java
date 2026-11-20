@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.mixin.role.civilian.bodyguard;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import net.minecraft.client.network.ClientPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,10 +17,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ClientPlayerEntity.class)
 public abstract class DemocracyShieldSprintMixin {
     @Inject(method = "tickMovement()V", at = @At("HEAD"))
-    private void sparkstrength$stopSprintBehindShield(CallbackInfo ci) {
+    private void sparkdlc$stopSprintBehindShield(CallbackInfo ci) {
         ClientPlayerEntity player = (ClientPlayerEntity) (Object) this;
         if (player.isSprinting() && player.isUsingItem()
-                && player.getActiveItem().isOf(SparkStrengthItems.democracyShield())) {
+                && player.getActiveItem().isOf(SparkDlcItems.democracyShield())) {
             player.setSprinting(false);
         }
     }

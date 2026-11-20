@@ -44,7 +44,7 @@ public abstract class HiroFeignPayloadGuardMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;execute(Ljava/lang/Runnable;)V",
                     remap = true)
     )
-    private void sparkwitch$dropFeignedVictimPayload(
+    private void sparkdlc$dropFeignedVictimPayload(
             MinecraftServer server,
             Runnable handler,
             Operation<Void> original,

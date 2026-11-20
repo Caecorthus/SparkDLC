@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.sabotage;
 
-import dev.caecorthus.sparkdlc.SparkStrengthBlocks;
+import dev.caecorthus.sparkdlc.SparkDlcBlocks;
 import dev.caecorthus.sparkdlc.sabotage.SabotageBlockScan;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
@@ -58,8 +58,8 @@ public final class SabotageFixtureIndex {
 
     /** {@code World#onBlockChanged} on the client, render thread. / 客户端的 World#onBlockChanged，渲染线程。 */
     public static void onBlockChanged(ClientWorld changedIn, BlockPos pos, BlockState oldState, BlockState newState) {
-        boolean was = SparkStrengthBlocks.isSabotageFixture(oldState);
-        boolean is = SparkStrengthBlocks.isSabotageFixture(newState);
+        boolean was = SparkDlcBlocks.isSabotageFixture(oldState);
+        boolean is = SparkDlcBlocks.isSabotageFixture(newState);
         if (was == is) {
             return;
         }
@@ -99,7 +99,7 @@ public final class SabotageFixtureIndex {
         List<SabotageClientState.Fixture> fixtures = new ArrayList<>(found.size());
         for (BlockPos pos : found) {
             BlockState state = in.getBlockState(pos);
-            if (SparkStrengthBlocks.isSabotageFixture(state)) {
+            if (SparkDlcBlocks.isSabotageFixture(state)) {
                 fixtures.add(new SabotageClientState.Fixture(pos, state));
             }
         }

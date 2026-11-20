@@ -17,5 +17,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(LightmapTextureManager.class)
 public interface SmokeLightmapImageAccessor {
     @Accessor("image")
-    NativeImage sparkwitch$smokeLightmapImage();
+    NativeImage sparkdlc$smokeLightmapImage();
 }

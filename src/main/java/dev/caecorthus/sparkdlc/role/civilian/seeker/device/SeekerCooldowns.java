@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker.device;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
@@ -37,7 +37,7 @@ public final class SeekerCooldowns {
         if (player == null || ticks <= 0) {
             return false;
         }
-        Item car = SparkWitchItems.seekerCar();
+        Item car = SparkDlcItems.seekerCar();
         // SparkTraits bypasses Fast Hands itself and performs the vanilla write; only on false do we write vanilla.
         // SparkTraits 自行绕过快手并完成原版写入；仅当其返回 false 时才由我们写入原版冷却。
         return write(remainingTicks(player), ticks,
@@ -76,11 +76,11 @@ public final class SeekerCooldowns {
         if (!(manager instanceof ItemCooldownManagerAccessor accessor)) {
             return 0;
         }
-        Object entry = accessor.sparkwitch$getEntries().get(SparkWitchItems.seekerCar());
+        Object entry = accessor.sparkdlc$getEntriesForRoles().get(SparkDlcItems.seekerCar());
         if (!(entry instanceof ItemCooldownEntryAccessor cooldown)) {
             return 0;
         }
-        return remaining(cooldown.sparkwitch$getEndTick(), accessor.sparkwitch$getTick());
+        return remaining(cooldown.sparkdlc$getEndTickForRoles(), accessor.sparkdlc$getTickForRoles());
     }
 
     static int remaining(int endTick, int currentTick) {

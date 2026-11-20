@@ -19,7 +19,7 @@ public abstract class JudgeKillCompletionMixin {
     // MixinExtras 0.5 appends wrappers around the previous stage: lower priority is offered later/outer.
     // 0.5 版包装器包住前一层；较低优先级后应用，位于 Traits 2000 与 HEAD 1000 的外侧。
     @WrapMethod(method = "killPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;ZLnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;Z)V")
-    private static void sparkwitch$judgeGuard(ServerPlayerEntity victim, boolean spawnBody,
+    private static void sparkdlc$judgeGuard(ServerPlayerEntity victim, boolean spawnBody,
                                             ServerPlayerEntity killer, Identifier reason, boolean force,
                                             Operation<Void> original) {
         JudgeKillAttribution.attempt(victim, killer,
@@ -28,7 +28,7 @@ public abstract class JudgeKillCompletionMixin {
 
     @WrapOperation(method = "killPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;ZLnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;Z)V",
             at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/cca/GameWorldComponent;markPlayerDead(Ljava/util/UUID;)V"))
-    private static void sparkwitch$judgeRecordCommit(GameWorldComponent game, UUID victimId,
+    private static void sparkdlc$judgeRecordCommit(GameWorldComponent game, UUID victimId,
                                                      Operation<Void> original,
                                                      ServerPlayerEntity victim, boolean spawnBody,
                                                      ServerPlayerEntity killer, Identifier reason, boolean force) {

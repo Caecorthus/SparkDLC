@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(PlayerEntity.class)
 public abstract class SeekerSprintLockMixin {
     @Inject(method = "tickMovement", at = @At("HEAD"))
-    private void sparkwitch$clearSprintWhileLocked(CallbackInfo ci) {
+    private void sparkdlc$clearSprintWhileLocked(CallbackInfo ci) {
         PlayerEntity self = (PlayerEntity) (Object) this;
         if (self.isSprinting() && SeekerRemoteSessionService.isLocked(self)) {
             self.setSprinting(false);

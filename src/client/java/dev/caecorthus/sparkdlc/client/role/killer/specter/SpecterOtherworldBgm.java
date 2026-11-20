@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.killer.specter;
 
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.role.killer.specter.SpecterOtherworldComponent;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -52,11 +52,11 @@ public final class SpecterOtherworldBgm {
             playedThisWindow = false;
             return;
         }
-        if (playedThisWindow || variant >= SparkWitchSounds.SPECTER_OTHERWORLD_BGM.length) {
+        if (playedThisWindow || variant >= SparkDlcSounds.SPECTER_OTHERWORLD_BGM.length) {
             return;
         }
         playedThisWindow = true;
-        client.getSoundManager().play(new Track(SparkWitchSounds.SPECTER_OTHERWORLD_BGM[variant], variant));
+        client.getSoundManager().play(new Track(SparkDlcSounds.SPECTER_OTHERWORLD_BGM[variant], variant));
     }
 
     /** The synced track for a running round's open window, or -1. / 进行中回合开启窗口的同步曲目，否则为 -1。 */

@@ -31,7 +31,7 @@ public abstract class ClientWorldOtherworldSkyMixin {
     private static final float RAMP_TICKS = 30.0F;
 
     @Inject(method = "getSkyColor", at = @At("RETURN"), cancellable = true)
-    private void sparkwitch$ghostOtherworldSky(
+    private void sparkdlc$ghostOtherworldSky(
             Vec3d cameraPos,
             float tickDelta,
             CallbackInfoReturnable<Vec3d> cir

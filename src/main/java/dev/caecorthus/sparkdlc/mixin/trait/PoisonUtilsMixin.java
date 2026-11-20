@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.trait;
 
-import dev.caecorthus.sparkdlc.SparkTraitsDataComponentTypes;
+import dev.caecorthus.sparkdlc.SparkDlcDataComponents;
 import dev.caecorthus.sparkdlc.trait.killer.conscience.ConsciencePoisonerService;
 import dev.doctor4t.wathe.util.PoisonUtils;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,17 +18,17 @@ import java.util.UUID;
 @Mixin(value = PoisonUtils.class, remap = false)
 public abstract class PoisonUtilsMixin {
     @Inject(method = "applyFoodPoison", at = @At("HEAD"))
-    private static void sparktraits$applyConscienceFoodPoison(PlayerEntity target, ItemStack stack, CallbackInfo ci) {
+    private static void sparkdlc$applyConscienceFoodPoison(PlayerEntity target, ItemStack stack, CallbackInfo ci) {
         if (target.getWorld().isClient()) {
             return;
         }
-        String poisoner = stack.getOrDefault(SparkTraitsDataComponentTypes.CONSCIENCE_POISONER, null);
+        String poisoner = stack.getOrDefault(SparkDlcDataComponents.CONSCIENCE_POISONER, null);
         if (poisoner == null) {
             return;
         }
         // A blue food trap is single-use; effective civilians only lose sanity instead of being poisoned.
         // 蓝毒食物是一次性陷阱；命中有效好人时只扣理智，不会中毒。
-        stack.remove(SparkTraitsDataComponentTypes.CONSCIENCE_POISONER);
+        stack.remove(SparkDlcDataComponents.CONSCIENCE_POISONER);
         if (target instanceof ServerPlayerEntity serverTarget) {
             ConsciencePoisonerService.triggerBlueTrap(serverTarget, UUID.fromString(poisoner));
         }

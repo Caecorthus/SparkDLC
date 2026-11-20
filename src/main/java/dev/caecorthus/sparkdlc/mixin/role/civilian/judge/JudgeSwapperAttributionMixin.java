@@ -21,7 +21,7 @@ import java.util.Set;
 public abstract class JudgeSwapperAttributionMixin {
     @WrapOperation(method = "lambda$registerPackets$4", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/entity/player/PlayerEntity;teleport(Lnet/minecraft/server/world/ServerWorld;DDDLjava/util/Set;FF)Z"), require = 2)
-    private static boolean sparkwitch$attributeSwap(PlayerEntity target, ServerWorld destination,
+    private static boolean sparkdlc$attributeSwap(PlayerEntity target, ServerWorld destination,
                                                     double x, double y, double z, Set<PositionFlag> flags,
                                                     float yaw, float pitch, Operation<Boolean> original,
                                                     SwapperC2SPacket payload, ServerPlayNetworking.Context context) {

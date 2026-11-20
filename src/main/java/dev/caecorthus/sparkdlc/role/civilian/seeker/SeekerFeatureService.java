@@ -9,9 +9,9 @@ import dev.caecorthus.sparkdlc.role.civilian.seeker.remote.SeekerRemoteStreaming
 import dev.caecorthus.sparkdlc.role.civilian.seeker.taotie.SeekerTaotieService;
 
 /**
- * Seeker registration hub: the single line in SparkWitchEvents. Each work package owns its own {@code register()};
+ * Seeker registration hub: the single line in RoleEvents. Each work package owns its own {@code register()};
  * the callback phase ordering is installed before any of them registers a listener.
- * 搜寻者注册中心：SparkWitchEvents 中唯一的一行。各工作包拥有自己的 {@code register()}；
+ * 搜寻者注册中心：RoleEvents 中唯一的一行。各工作包拥有自己的 {@code register()}；
  * 在任何监听器注册之前先安装回调阶段顺序。
  */
 public final class SeekerFeatureService {

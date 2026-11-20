@@ -27,7 +27,7 @@ import java.util.List;
 @Mixin(GameFunctions.class)
 public abstract class GameFunctionsLetterRoleNameMixin {
     @Inject(method = "applyLetterLore", at = @At("TAIL"))
-    private static void sparkfactionapi$translatableLetterRoleName(
+    private static void sparkdlc$translatableLetterRoleName(
             ItemStack letter,
             ServerPlayerEntity player,
             Role role,

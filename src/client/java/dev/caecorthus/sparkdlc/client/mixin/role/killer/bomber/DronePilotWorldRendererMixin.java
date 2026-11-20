@@ -31,7 +31,7 @@ public abstract class DronePilotWorldRendererMixin {
     @ModifyExpressionValue(method = "render", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/render/Camera;getFocusedEntity()Lnet/minecraft/entity/Entity;", ordinal = 3),
             require = 0)
-    private Entity sparkstrength$showBodyWhilePiloting(Entity focused) {
+    private Entity sparkdlc$showBodyWhilePiloting(Entity focused) {
         return DronePilotClient.isViewingDrone() ? MinecraftClient.getInstance().player : focused;
     }
 }

@@ -13,13 +13,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(PlayerEntity.class)
 public abstract class CloseQuartersPlayerDamageMixin {
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$parryKnifeDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$parryKnifeDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if (!((Object) this instanceof ServerPlayerEntity victim)
                 || !(source.getAttacker() instanceof ServerPlayerEntity attacker)
                 || source.getSource() != attacker || amount <= 0 || victim.isInvulnerableTo(source)
                 || !victim.isAlive()) return;
         LivingEntityDamageCooldownAccessor cooldown = (LivingEntityDamageCooldownAccessor) victim;
-        if (victim.timeUntilRegen > 10 && amount <= cooldown.sparktraits$getLastDamageTaken()) return;
+        if (victim.timeUntilRegen > 10 && amount <= cooldown.sparkdlc$getLastDamageTaken()) return;
         if (CloseQuartersService.parryScopedKnifeDamage(victim, attacker)) cir.setReturnValue(false);
     }
 }

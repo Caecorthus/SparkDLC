@@ -26,7 +26,7 @@ public abstract class SerialKillerPlayerComponentMixin {
     private PlayerEntity player;
 
     @Inject(method = "initializeTarget", at = @At("TAIL"))
-    private void sparktraits$normalizeConscienceProtectedTarget(GameWorldComponent gameWorldComponent, CallbackInfo ci) {
+    private void sparkdlc$normalizeConscienceProtectedTarget(GameWorldComponent gameWorldComponent, CallbackInfo ci) {
         if (player instanceof ServerPlayerEntity serverPlayer && player.getWorld() instanceof ServerWorld serverWorld
                 && ConscienceSerialKillerService.isConscienceSerialKiller(player, gameWorldComponent)) {
             ConscienceSerialKillerService.normalizeTarget(serverWorld, gameWorldComponent, serverPlayer);
@@ -34,7 +34,7 @@ public abstract class SerialKillerPlayerComponentMixin {
     }
 
     @Inject(method = "getEligibleTargets", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$effectiveSerialKillerTargets(
+    private void sparkdlc$effectiveSerialKillerTargets(
             GameWorldComponent gameWorldComponent,
             ServerWorld serverWorld,
             CallbackInfoReturnable<List<UUID>> cir
@@ -43,7 +43,7 @@ public abstract class SerialKillerPlayerComponentMixin {
     }
 
     @Inject(method = "isTargetValid", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$effectiveSerialKillerTargetStillValid(
+    private void sparkdlc$effectiveSerialKillerTargetStillValid(
             UUID targetUuid,
             GameWorldComponent gameWorldComponent,
             ServerWorld serverWorld,
@@ -58,14 +58,14 @@ public abstract class SerialKillerPlayerComponentMixin {
     }
 
     @Inject(method = "onTargetDeath", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$blockConscienceTargetDeathReassign(GameWorldComponent gameWorldComponent, CallbackInfo ci) {
+    private void sparkdlc$blockConscienceTargetDeathReassign(GameWorldComponent gameWorldComponent, CallbackInfo ci) {
         if (ConscienceSerialKillerService.shouldBlockSerialKillerRetarget(player)) {
             ci.cancel();
         }
     }
 
     @Inject(method = "reassignTarget", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$blockConscienceReassign(GameWorldComponent gameWorldComponent, ServerWorld serverWorld, CallbackInfo ci) {
+    private void sparkdlc$blockConscienceReassign(GameWorldComponent gameWorldComponent, ServerWorld serverWorld, CallbackInfo ci) {
         if (ConscienceSerialKillerService.shouldBlockSerialKillerRetarget(player)) {
             ci.cancel();
         }

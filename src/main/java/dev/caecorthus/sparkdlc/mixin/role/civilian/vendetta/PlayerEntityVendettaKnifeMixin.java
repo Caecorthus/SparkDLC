@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityVendettaKnifeMixin {
     @Inject(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$keepVendettaKnifeBound(
+    private void sparkdlc$keepVendettaKnifeBound(
             ItemStack stack,
             boolean throwRandomly,
             boolean retainOwnership,

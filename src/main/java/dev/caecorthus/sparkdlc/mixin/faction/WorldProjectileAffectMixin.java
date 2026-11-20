@@ -29,7 +29,7 @@ public abstract class WorldProjectileAffectMixin {
             Identifier.of("sparkdlc", "projectile");
 
     @ModifyReturnValue(method = "getOtherEntities", at = @At("RETURN"))
-    private List<Entity> sparkfactionapi$filterDeniedProjectileTargets(
+    private List<Entity> sparkdlc$filterDeniedProjectileTargets(
             List<Entity> original,
             Entity except,
             Box box,

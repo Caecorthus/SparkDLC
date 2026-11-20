@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.seeker.render;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.role.civilian.seeker.SeekerClientState;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerSessionMode;
@@ -31,7 +31,7 @@ public class SeekerCarEntityRenderer extends EntityRenderer<SeekerCarEntity> {
     public SeekerCarEntityRenderer(EntityRendererFactory.Context context) {
         super(context);
         itemRenderer = context.getItemRenderer();
-        stack = new ItemStack(SparkWitchItems.seekerCar());
+        stack = new ItemStack(SparkDlcItems.seekerCar());
         shadowRadius = 0.2F;
         shadowOpacity = 0.6F;
     }

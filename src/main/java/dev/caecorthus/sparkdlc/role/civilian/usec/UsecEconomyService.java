@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.usec;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.CanSeeMoney;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -46,7 +46,7 @@ public final class UsecEconomyService {
      * USEC's own ON_FINISH_INITIALIZE phase, ordered after the default phase.
      * USEC 自有的 ON_FINISH_INITIALIZE 阶段，排在默认阶段之后。
      */
-    static final Identifier FINISH_INITIALIZE_PHASE = SparkWitch.id("usec_economy_finish_initialize");
+    static final Identifier FINISH_INITIALIZE_PHASE = SparkDLC.id("usec_economy_finish_initialize");
 
     private static boolean registered;
 
@@ -155,7 +155,7 @@ public final class UsecEconomyService {
         GameWorldComponent game = GameWorldComponent.KEY.get(player.getWorld());
         return canEarn(game.getGameStatus() == GameWorldComponent.GameStatus.ACTIVE,
                 GameFunctions.isPlayerPlayingAndAlive(player), game.getRole(player), player.isSpectator(),
-                player.isCreative(), SparkWitchApi.isWraithRestricted(player));
+                player.isCreative(), SparkRoleApi.isWraithRestricted(player));
     }
 
     /**

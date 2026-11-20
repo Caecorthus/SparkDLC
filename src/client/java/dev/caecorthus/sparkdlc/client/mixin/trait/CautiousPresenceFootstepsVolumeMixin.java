@@ -25,7 +25,7 @@ public abstract class CautiousPresenceFootstepsVolumeMixin {
             require = 0,
             remap = false
     )
-    private void sparktraits$suppressCautiousPresenceFootstepsVolume(
+    private void sparkdlc$suppressCautiousPresenceFootstepsVolume(
             LivingEntity source,
             CallbackInfoReturnable<Float> cir
     ) {

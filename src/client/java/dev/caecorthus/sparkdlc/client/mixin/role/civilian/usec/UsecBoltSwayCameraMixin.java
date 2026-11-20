@@ -28,7 +28,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(GameRenderer.class)
 public abstract class UsecBoltSwayCameraMixin {
     @Inject(method = "tiltViewWhenHurt", at = @At("RETURN"))
-    private void sparkwitch$applyUsecBoltSway(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
+    private void sparkdlc$applyUsecBoltSway(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null || client.getCameraEntity() != client.player) {
             return;

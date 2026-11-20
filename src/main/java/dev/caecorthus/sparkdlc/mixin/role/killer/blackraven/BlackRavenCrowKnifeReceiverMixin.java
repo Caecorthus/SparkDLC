@@ -21,13 +21,13 @@ import org.spongepowered.asm.mixin.injection.At;
  * hidden body, so a substituted owner passes it; the stab sound plays where the crow was hit. The HEAD hooks
  * (SparkTraits 2200, Magician/Seeker 2300) see the crow id and leave it alone. SparkStrength's Veteran, Coroner and
  * Silencer HEAD handlers take their stabs over before this lookup and resolve a crow id themselves through
- * {@code SparkWitchApi.crowMeleeStandIn} (same reach and substitution), keeping their own knife rules.
+ * {@code SparkRoleApi.crowMeleeStandIn} (same reach and substitution), keeping their own knife rules.
  * Class-level {@code remap = false}; the vanilla targets say {@code remap = true}.
  * 化鸦乌鸦上的 Wathe 刀刺接收器（计划 v2 §2.5），与枪械接收器成对：攻击者有效刺中的乌鸦 id（可命中的乌鸦、3 + 0.5 的延迟补偿距离、
  * 视线畅通）解析为其主人（{@link BlackRavenCrowHits#onKnifeTargetLookup}），因此 Wathe 的刺击路径（记录、击杀、刀冷却）以及
  * 各模组的刺击钩子（魔人刺击作用域、NoellesRoles 保镖）都作用于黑羽鸦。Wathe 的 3 格上限量的是隐藏的本体，被替身的主人直接通过；
  * 刺击声在乌鸦被命中处播放。HEAD 钩子（SparkTraits 2200、魔术师/搜寻者 2300）看到的是乌鸦 id，不做处理。SparkStrength 的老兵、
- * 验尸官与沉默者 HEAD 处理器在本查找之前接管刺击，并自行经 {@code SparkWitchApi.crowMeleeStandIn} 解析乌鸦 id（相同距离与替身），
+ * 验尸官与沉默者 HEAD 处理器在本查找之前接管刺击，并自行经 {@code SparkRoleApi.crowMeleeStandIn} 解析乌鸦 id（相同距离与替身），
  * 保留各自的刀规则。类级 {@code remap = false}；原版目标显式声明 {@code remap = true}。
  */
 @Mixin(value = KnifeStabPayload.Receiver.class, remap = false)
@@ -37,7 +37,7 @@ public abstract class BlackRavenCrowKnifeReceiverMixin {
                     target = "Lnet/minecraft/server/world/ServerWorld;getEntityById(I)Lnet/minecraft/entity/Entity;",
                     remap = true),
             require = 1, allow = 1)
-    private @Nullable Entity sparkwitch$crowResolvesToOwner(ServerWorld world, int entityId,
+    private @Nullable Entity sparkdlc$crowResolvesToOwner(ServerWorld world, int entityId,
                                                            Operation<Entity> original, KnifeStabPayload payload,
                                                            ServerPlayNetworking.Context context) {
         return BlackRavenCrowHits.onKnifeTargetLookup(context.player(), original.call(world, entityId));
@@ -48,7 +48,7 @@ public abstract class BlackRavenCrowKnifeReceiverMixin {
                     target = "Lnet/minecraft/server/network/ServerPlayerEntity;distanceTo(Lnet/minecraft/entity/Entity;)F",
                     remap = true),
             require = 1, allow = 1)
-    private float sparkwitch$substitutedOwnerPassesReach(ServerPlayerEntity target, Entity attacker,
+    private float sparkdlc$substitutedOwnerPassesReach(ServerPlayerEntity target, Entity attacker,
                                                         Operation<Float> original) {
         return BlackRavenCrowHits.receiverDistance(target, original.call(target, attacker));
     }
@@ -58,7 +58,7 @@ public abstract class BlackRavenCrowKnifeReceiverMixin {
                     target = "Lnet/minecraft/server/network/ServerPlayerEntity;playSound(Lnet/minecraft/sound/SoundEvent;FF)V",
                     remap = true),
             require = 1, allow = 1)
-    private void sparkwitch$stabSoundAtCrow(ServerPlayerEntity target, SoundEvent sound, float volume, float pitch,
+    private void sparkdlc$stabSoundAtCrow(ServerPlayerEntity target, SoundEvent sound, float volume, float pitch,
                                             Operation<Void> original) {
         if (!BlackRavenCrowHits.playAtSubstitutedCrow(target, sound, volume, pitch)) {
             original.call(target, sound, volume, pitch);

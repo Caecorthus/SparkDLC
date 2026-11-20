@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.skill;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.abilities.ApprenticeAbilityCatalog;
 import dev.caecorthus.sparkdlc.role.neutral.murderouswitch.deathray.MurderousWitchDeathRayRules;
 import dev.caecorthus.sparkdlc.role.witch.WitchFactionRules;
@@ -30,13 +30,13 @@ public final class WitchSkillPresentationRules {
         if (role == null || skillId == null) {
             return false;
         }
-        if (role == SparkWitchRoles.grandWitch()) {
+        if (role == SparkDlcRoles.grandWitch()) {
             return WitchFactorService.SKILL_ID.equals(skillId);
         }
-        if (role == SparkWitchRoles.apprenticeWitch()) {
+        if (role == SparkDlcRoles.apprenticeWitch()) {
             return ApprenticeAbilityCatalog.ABILITY_IDS.contains(skillId);
         }
-        if (role == SparkWitchRoles.murderousWitch()) {
+        if (role == SparkDlcRoles.murderousWitch()) {
             return MurderousWitchDeathRayRules.isDeathRaySkill(skillId);
         }
         // D13: an accomplice shows only the skill ids its variant hooks own (plain Accomplice: NONE, so never).

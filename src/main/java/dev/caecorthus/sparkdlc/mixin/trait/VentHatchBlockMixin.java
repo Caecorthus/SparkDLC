@@ -28,7 +28,7 @@ public abstract class VentHatchBlockMixin {
                     ordinal = 1
             )
     )
-    private void sparktraits$setConscienceCrowbarVentCooldown(
+    private void sparkdlc$setConscienceCrowbarVentCooldown(
             ItemCooldownManager cooldownManager,
             Item item,
             int cooldownTicks,

@@ -34,7 +34,7 @@ public abstract class ServerWorldHannaSilenceMixin {
             method = "playSound(Lnet/minecraft/entity/player/PlayerEntity;DDDLnet/minecraft/registry/entry/RegistryEntry;"
                     + "Lnet/minecraft/sound/SoundCategory;FFJ)V"
     )
-    private void sparkwitch$muteFloatingHannaWorldSound(@Nullable PlayerEntity except, double x, double y, double z,
+    private void sparkdlc$muteFloatingHannaWorldSound(@Nullable PlayerEntity except, double x, double y, double z,
                                                         RegistryEntry<SoundEvent> sound, SoundCategory category,
                                                         float volume, float pitch, long seed,
                                                         Operation<Void> original) {
@@ -48,7 +48,7 @@ public abstract class ServerWorldHannaSilenceMixin {
             method = "playSoundFromEntity(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/entity/Entity;"
                     + "Lnet/minecraft/registry/entry/RegistryEntry;Lnet/minecraft/sound/SoundCategory;FFJ)V"
     )
-    private void sparkwitch$muteFloatingHannaEntitySound(@Nullable PlayerEntity except, Entity entity,
+    private void sparkdlc$muteFloatingHannaEntitySound(@Nullable PlayerEntity except, Entity entity,
                                                          RegistryEntry<SoundEvent> sound, SoundCategory category,
                                                          float volume, float pitch, long seed,
                                                          Operation<Void> original) {

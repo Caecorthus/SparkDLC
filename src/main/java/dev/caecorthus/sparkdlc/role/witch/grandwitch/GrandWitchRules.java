@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.grandwitch;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesRoleIds;
 import dev.caecorthus.sparkdlc.role.witch.WitchFactionRules;
 import dev.doctor4t.wathe.api.Role;
@@ -88,7 +88,7 @@ public final class GrandWitchRules {
         }
 
         public Identifier id() {
-            return SparkWitch.id(path());
+            return SparkDLC.id(path());
         }
 
         public String path() {

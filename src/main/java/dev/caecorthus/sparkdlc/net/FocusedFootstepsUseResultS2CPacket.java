@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -9,7 +9,7 @@ import net.minecraft.network.packet.CustomPayload;
 /** Owner-only Focused Footsteps cast acknowledgement. / 仅发送给巫女本人的聚焦步伐施放确认。 */
 public record FocusedFootstepsUseResultS2CPacket(boolean accepted, int cooldownTicks) implements CustomPayload {
     public static final Id<FocusedFootstepsUseResultS2CPacket> ID =
-            new Id<>(SparkWitch.id("focused_footsteps_use_result"));
+            new Id<>(SparkDLC.id("focused_footsteps_use_result"));
     public static final PacketCodec<RegistryByteBuf, FocusedFootstepsUseResultS2CPacket> CODEC =
             PacketCodec.of(FocusedFootstepsUseResultS2CPacket::write, FocusedFootstepsUseResultS2CPacket::read);
 

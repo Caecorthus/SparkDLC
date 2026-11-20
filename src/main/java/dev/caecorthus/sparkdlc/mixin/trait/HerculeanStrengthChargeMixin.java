@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(ItemStack.class)
 public abstract class HerculeanStrengthChargeMixin {
     @ModifyVariable(method = "onStoppedUsing", at = @At("HEAD"), argsOnly = true)
-    private int sparktraits$shortenThrowCharge(int remainingUseTicks, World world, LivingEntity user) {
+    private int sparkdlc$shortenThrowCharge(int remainingUseTicks, World world, LivingEntity user) {
         return HerculeanStrengthService.remainingUseTicksAtRelease((ItemStack) (Object) this, user, remainingUseTicks);
     }
 }

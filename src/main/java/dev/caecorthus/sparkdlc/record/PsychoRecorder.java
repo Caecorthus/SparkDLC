@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.record;
 
-import dev.caecorthus.sparkdlc.SparkFactionApiMod;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.event.PsychoModeEvents;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -44,7 +44,7 @@ public final class PsychoRecorder {
                 GameRecordManager.event(EVENT_TYPE).actor(player).putBool(KEY_ACTIVE, active).record();
             }
         } catch (RuntimeException | LinkageError e) {
-            SparkFactionApiMod.LOGGER.warn("Failed to record psycho {} for {}", active ? "start" : "end",
+            SparkDLC.LOGGER.warn("Failed to record psycho {} for {}", active ? "start" : "end",
                     player == null ? "<null>" : player.getUuid(), e);
         }
     }

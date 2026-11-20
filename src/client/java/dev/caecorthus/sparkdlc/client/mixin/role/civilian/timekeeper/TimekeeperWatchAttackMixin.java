@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(MinecraftClient.class)
 public abstract class TimekeeperWatchAttackMixin {
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$toggleWatchMode(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$toggleWatchMode(CallbackInfoReturnable<Boolean> cir) {
         if (TimekeeperWatchClientHooks.handleAttack(MinecraftClient.getInstance())) {
             cir.setReturnValue(false);
         }

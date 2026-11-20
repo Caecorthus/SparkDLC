@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.koko;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -36,10 +36,10 @@ import org.jetbrains.annotations.Nullable;
  * 她是魔力职业，但从来不是魔女技能职业：她的任何内容都不会出现在 {@code gui.sparkdlc.skills} 面板里。
  */
 public final class KokoRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("koko");
-    public static final Identifier LIGHTSTICK_ID = SparkWitch.id("koko_lightstick");
+    public static final Identifier ROLE_ID = SparkDLC.id("koko");
+    public static final Identifier LIGHTSTICK_ID = SparkDLC.id("koko_lightstick");
     /** Forced-cooldown store id for the shared stream cooldown. / 直播共用冷却的强制冷却存储 id。 */
-    public static final Identifier STREAM_SKILL_ID = SparkWitch.id("koko_stream");
+    public static final Identifier STREAM_SKILL_ID = SparkDLC.id("koko_stream");
     /** Shop entry id of the lightstick; unique to her shop. / 应援棒的商店条目 id，只出现在她的商店。 */
     public static final String LIGHTSTICK_SHOP_ENTRY_ID = "sparkdlc:koko_lightstick";
 

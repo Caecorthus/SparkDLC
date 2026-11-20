@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.detective;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCaseRules;
 import io.netty.handler.codec.DecoderException;
 import net.minecraft.entity.player.PlayerEntity;
@@ -42,7 +42,7 @@ import java.util.UUID;
  */
 public final class DetectiveCasePlayerComponent implements AutoSyncedComponent {
     public static final ComponentKey<DetectiveCasePlayerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("detective_case_player"),
+            SparkDLC.id("detective_case_player"),
             DetectiveCasePlayerComponent.class
     );
 

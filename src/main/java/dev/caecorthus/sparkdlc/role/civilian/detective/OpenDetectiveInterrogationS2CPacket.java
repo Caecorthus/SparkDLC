@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.detective;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
  * 通知客户端打开放大镜的远程审问名单；与文件夹相同，命案数据由先行发送的案件组件同步提供。
  */
 public record OpenDetectiveInterrogationS2CPacket() implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("open_detective_interrogation");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("open_detective_interrogation");
     public static final Id<OpenDetectiveInterrogationS2CPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, OpenDetectiveInterrogationS2CPacket> CODEC =
             PacketCodec.of(OpenDetectiveInterrogationS2CPacket::write, OpenDetectiveInterrogationS2CPacket::read);

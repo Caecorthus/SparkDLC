@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.jiahao.sniper;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.item.m1903a4.M1903A4Cooldowns;
 import dev.caecorthus.sparkdlc.item.m1903a4.M1903A4Gunplay;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -43,8 +43,8 @@ public final class SniperLoadoutService {
                 continue;
             }
             PlayerInventory inventory = player.getInventory();
-            if (!inventory.contains(stack -> stack.isOf(SparkWitchItems.m1903a4()))) {
-                inventory.offerOrDrop(new ItemStack(SparkWitchItems.m1903a4()));
+            if (!inventory.contains(stack -> stack.isOf(SparkDlcItems.m1903a4()))) {
+                inventory.offerOrDrop(new ItemStack(SparkDlcItems.m1903a4()));
             }
             M1903A4Gunplay.reset(player);
             M1903A4Cooldowns.roundStart(player);

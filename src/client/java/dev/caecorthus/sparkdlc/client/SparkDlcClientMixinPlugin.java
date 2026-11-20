@@ -65,7 +65,7 @@ public final class SparkDlcClientMixinPlugin implements IMixinConfigPlugin {
             REMOTE_VIEWPOINT_TERRAIN_GRID_MIXIN, TERRAIN_GRID_MIXIN, CROW_TERRAIN_GRID_MIXIN);
     private static final String NOELLES_ROLES = "noellesroles";
     /** Logger name kept from before the fusion so existing log filters still match. / 保留融合前的日志名，已有的日志过滤规则仍然有效。 */
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkFactionAPI/ClientMixinPlugin");
+    private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/ClientMixinPlugin");
 
     private boolean sodiumLoaded;
 

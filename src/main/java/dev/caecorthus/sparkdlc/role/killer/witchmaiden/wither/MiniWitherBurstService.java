@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither;
 
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.BearRicochetRules;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RangedSmokeCarve;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDamageRules;
@@ -36,7 +36,7 @@ public final class MiniWitherBurstService {
             return;
         }
         boolean blessed = skull.mode() == MiniWitherRules.Mode.CONSCIENCE;
-        world.playSound(null, center.x, center.y, center.z, SparkWitchSounds.miniWither(MiniWitherSoundSlot.BURST),
+        world.playSound(null, center.x, center.y, center.z, SparkDlcSounds.miniWither(MiniWitherSoundSlot.BURST),
                 SoundCategory.PLAYERS, EXPLODE_VOLUME, EXPLODE_PITCH);
         world.spawnParticles(ParticleTypes.EXPLOSION, center.x, center.y, center.z, 1, 0.0, 0.0, 0.0, 0.0);
         world.spawnParticles(blessed ? ParticleTypes.HAPPY_VILLAGER : ParticleTypes.SOUL, center.x, center.y, center.z,

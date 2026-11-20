@@ -16,12 +16,12 @@ public abstract class JudgeNetworkTeleportRecoveryMixin {
     @Shadow public ServerPlayerEntity player;
 
     @Inject(method = "requestTeleport(DDDFFLjava/util/Set;)V", at = @At("TAIL"))
-    private void sparkwitch$clearNetworkTeleport(CallbackInfo ci) {
+    private void sparkdlc$clearNetworkTeleport(CallbackInfo ci) {
         JudgeTrainFallAttribution.superseded(player);
     }
 
     @Inject(method = "onDisconnected", at = @At("HEAD"))
-    private void sparkwitch$clearDisconnectedVictim(CallbackInfo ci) {
+    private void sparkdlc$clearDisconnectedVictim(CallbackInfo ci) {
         JudgeTrainFallAttribution.superseded(player);
     }
 }

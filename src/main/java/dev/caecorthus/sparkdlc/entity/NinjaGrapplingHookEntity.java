@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.entity;
 
-import dev.caecorthus.sparkdlc.SparkWitchEntities;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.killer.ninja.NinjaGrappleService;
 import dev.caecorthus.sparkdlc.role.killer.ninja.NinjaRules;
 import dev.caecorthus.sparkdlc.cooldown.api.ForcedCooldowns;
@@ -92,7 +92,7 @@ public final class NinjaGrapplingHookEntity extends Entity {
 
     /** Server throw: starts at the owner's eyes and flies along their look. / 服务端投掷：从持有者眼睛出发，沿视线飞行。 */
     public NinjaGrapplingHookEntity(World world, PlayerEntity owner) {
-        this(SparkWitchEntities.ninjaGrapplingHook(), world);
+        this(SparkDlcEntities.ninjaGrapplingHook(), world);
         ownerUuid = owner.getUuid();
         ownerEntityId = owner.getId();
         Vec3d eye = owner.getEyePos();
@@ -323,10 +323,10 @@ public final class NinjaGrapplingHookEntity extends Entity {
         playSoundHere(broken ? SoundEvents.BLOCK_CHAIN_BREAK : SoundEvents.BLOCK_CHAIN_FALL, 1.0F);
         // Never shorten a longer cooldown another feature forced while the hook was out (Fiend aura, Karma, AC shell).
         // 绝不缩短钩爪在外期间其他机制强加的更长冷却（魔人光环、业报、AC 弹）。
-        if (ForcedCooldowns.itemRemainingTicks(owner, SparkWitchItems.ninjaGrapplingHook())
+        if (ForcedCooldowns.itemRemainingTicks(owner, SparkDlcItems.ninjaGrapplingHook())
                 < NinjaRules.GRAPPLING_HOOK_COOLDOWN_TICKS) {
             owner.getItemCooldownManager().set(
-                    SparkWitchItems.ninjaGrapplingHook(),
+                    SparkDlcItems.ninjaGrapplingHook(),
                     NinjaRules.GRAPPLING_HOOK_COOLDOWN_TICKS
             );
         }

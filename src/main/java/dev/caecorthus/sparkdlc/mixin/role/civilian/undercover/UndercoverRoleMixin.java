@@ -16,12 +16,12 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(value = Role.class, remap = false)
 public abstract class UndercoverRoleMixin {
     @ModifyReturnValue(method = "getMoodType", at = @At("RETURN"))
-    private Role.MoodType sparkstrength$undercoverFakeTasks(Role.MoodType original) {
+    private Role.MoodType sparkdlc$undercoverFakeTasks(Role.MoodType original) {
         return UndercoverRoleRules.isUndercover((Role) (Object) this) ? Role.MoodType.FAKE : original;
     }
 
     @ModifyReturnValue(method = "getMaxSprintTime", at = @At("RETURN"))
-    private int sparkstrength$undercoverInfiniteSprint(int original) {
+    private int sparkdlc$undercoverInfiniteSprint(int original) {
         return UndercoverRoleRules.isUndercover((Role) (Object) this) ? -1 : original;
     }
 }

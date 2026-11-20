@@ -41,7 +41,7 @@ public abstract class NoellesScavengerBodyTargetNeutralPerkMixin {
             allow = 1,
             remap = false
     )
-    private static Faction sparkfactionapi$readNeutralAlignedAsNeutral(Role role, Operation<Faction> original) {
+    private static Faction sparkdlc$readNeutralAlignedAsNeutral(Role role, Operation<Faction> original) {
         return NoellesNeutralPerkRules.neutralPerkFaction(original.call(role));
     }
 }

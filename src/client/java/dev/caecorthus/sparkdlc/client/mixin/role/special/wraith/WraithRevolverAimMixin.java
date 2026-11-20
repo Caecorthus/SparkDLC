@@ -27,12 +27,12 @@ import java.util.Optional;
 @Mixin(value = RevolverItem.class, remap = false)
 public abstract class WraithRevolverAimMixin {
     @WrapMethod(method = "getGunTarget")
-    private static HitResult sparkwitch$aimThroughWraiths(PlayerEntity user, Operation<HitResult> original) {
+    private static HitResult sparkdlc$aimThroughWraiths(PlayerEntity user, Operation<HitResult> original) {
         return WraithAimPassThrough.selectAs(user, () -> original.call(user));
     }
 
     @ModifyReturnValue(method = "findSleepingPlayerOnBed", at = @At("RETURN"))
-    private static Optional<PlayerEntity> sparkwitch$skipSleepingWraith(
+    private static Optional<PlayerEntity> sparkdlc$skipSleepingWraith(
             Optional<PlayerEntity> sleeper,
             World world,
             BlockHitResult blockHitResult

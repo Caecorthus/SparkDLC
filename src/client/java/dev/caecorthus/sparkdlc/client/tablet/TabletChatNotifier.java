@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.tablet;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.tablet.screen.TabletClientState;
 import dev.caecorthus.sparkdlc.client.tablet.screen.TabletScreen;
 import dev.caecorthus.sparkdlc.tablet.net.TabletChatNotifyS2CPacket;
@@ -25,7 +25,7 @@ import net.minecraft.util.Identifier;
  * 若该频道的聊天已显示在屏幕上则不标记（消息直接显示）。</p>
  */
 public final class TabletChatNotifier {
-    public static final Identifier UNREAD_PREDICATE = SparkStrength.id("unread");
+    public static final Identifier UNREAD_PREDICATE = SparkDLC.id("unread");
 
     private TabletChatNotifier() {
     }
@@ -33,7 +33,7 @@ public final class TabletChatNotifier {
     public static void register() {
         ClientPlayNetworking.registerGlobalReceiver(TabletChatNotifyS2CPacket.ID,
                 (payload, context) -> context.client().execute(() -> onMessage(context.client(), payload.channelWire())));
-        ModelPredicateProviderRegistry.register(SparkStrengthItems.tablet(), UNREAD_PREDICATE,
+        ModelPredicateProviderRegistry.register(SparkDlcItems.tablet(), UNREAD_PREDICATE,
                 (stack, world, entity, seed) -> {
                     MinecraftClient client = MinecraftClient.getInstance();
                     return entity != null && entity == client.player && TabletClientState.hasAnyUnreadChannel()

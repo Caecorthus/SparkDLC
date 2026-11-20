@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.neutral.fiend;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
 import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorRules;
 import dev.doctor4t.wathe.game.GameConstants;
 import net.minecraft.util.Identifier;
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
  * 冻结的魔人契约：稳定玩法数值与纯规则判断（输入标识符、输出数值，不访问世界）。各工作包只读取、不重新定义这些数值。
  */
 public final class FiendRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("fiend");
+    public static final Identifier ROLE_ID = SparkDLC.id("fiend");
     public static final int COLOR = 0x8E1B3A;
     public static final int MIN_PLAYERS = 18;
 
@@ -87,7 +87,7 @@ public final class FiendRules {
         return GameConstants.DeathReasons.FELL_OUT_OF_TRAIN.equals(deathReason)
                 || GameConstants.DeathReasons.ESCAPED.equals(deathReason)
                 || GameConstants.DeathReasons.VANILLA_DEATH.equals(deathReason)
-                || SparkWitchDeathReasons.FIEND_DEVOURED.equals(deathReason);
+                || SparkDlcDeathReasons.FIEND_DEVOURED.equals(deathReason);
     }
 
     /**
@@ -107,7 +107,7 @@ public final class FiendRules {
         }
         if (GameConstants.DeathReasons.GUN.equals(deathReason) || DEMON_HUNTER_SHOT_ID.equals(deathReason)
                 || SaviorRules.PISTOL_DEATH_REASON.equals(deathReason)
-                || SparkWitchDeathReasons.SPHINX_HAO_FIST.equals(deathReason)) {
+                || SparkDlcDeathReasons.SPHINX_HAO_FIST.equals(deathReason)) {
             return Hit.GUN;
         }
         if (GameConstants.DeathReasons.KNIFE.equals(deathReason)) {
@@ -117,7 +117,7 @@ public final class FiendRules {
                 || SaviorRules.LIGHTSABER_DEATH_REASON.equals(deathReason)) {
             return Hit.BAT;
         }
-        if (SparkWitchDeathReasons.CEREMONIAL_BLADE.equals(deathReason)) {
+        if (SparkDlcDeathReasons.CEREMONIAL_BLADE.equals(deathReason)) {
             return Hit.SWORD;
         }
         return Hit.NONE;

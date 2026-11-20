@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(GameFunctions.class)
 public abstract class GameFunctionsBearItemDropMixin {
     @Inject(method = "shouldDropOnDeath", at = @At("HEAD"), cancellable = true)
-    private static void sparkwitch$excludeBearItems(
+    private static void sparkdlc$excludeBearItems(
             ItemStack stack,
             PlayerEntity victim,
             CallbackInfoReturnable<Boolean> cir

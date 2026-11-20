@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.undercover;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.SparkStrengthSounds;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.sabotage.SabotageWorldComponent;
 import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverPlayerComponent;
 import dev.caecorthus.sparkdlc.sabotage.SabotageRules;
@@ -76,7 +76,7 @@ public final class UndercoverService {
             }
             boolean livingUndercover = undercover && GameFunctions.isPlayerPlayingAndAlive(player);
             if (livingUndercover && !state.isStage2() && player.getEquippedStack(EquipmentSlot.HEAD)
-                    .isOf(SparkStrengthItems.cqcmMask())) {
+                    .isOf(SparkDlcItems.cqcmMask())) {
                 enterStage2(world, player, state);
             }
             boolean stage2 = livingUndercover && state.isStage2();
@@ -85,7 +85,7 @@ public final class UndercoverService {
                     // Its own track just armed: say so to it alone. / 自己的轨道刚刚就绪：只告诉它自己。
                     player.sendMessage(Text.translatable("message.sparkdlc.undercover.sabotage_ready")
                             .formatted(Formatting.GOLD), false);
-                    player.playSoundToPlayer(SparkStrengthSounds.SABOTAGE_READY, SoundCategory.PLAYERS, 0.6F, 1.2F);
+                    player.playSoundToPlayer(SparkDlcSounds.SABOTAGE_READY, SoundCategory.PLAYERS, 0.6F, 1.2F);
                 }
                 // Every tick: a gun swapped in through a slot never stays long enough to fire.
                 // 每 tick 检查：通过槽位换进来的枪留不到能开火的时候。
@@ -93,7 +93,7 @@ public final class UndercoverService {
             }
             maintainBlackoutLook(player, state, stage2 && blackout);
             maintainBlackoutSpeed(player, state, UndercoverRules.blackoutSpeed(stage2, blackout,
-                    player.getEquippedStack(EquipmentSlot.HEAD).isOf(SparkStrengthItems.cqcmMask())));
+                    player.getEquippedStack(EquipmentSlot.HEAD).isOf(SparkDlcItems.cqcmMask())));
             trackKillCooldown(player, state, stage2 && blackout, now);
             if (!outfitSwept && !state.isOutfitOn()) {
                 stripStrayOutfit(player);
@@ -117,7 +117,7 @@ public final class UndercoverService {
     }
 
     private static void grantTomahawk(ServerPlayerEntity player) {
-        Item tomahawk = SparkStrengthItems.tacticalTomahawk();
+        Item tomahawk = SparkDlcItems.tacticalTomahawk();
         if (player.getInventory().contains(stack -> stack.isOf(tomahawk))) {
             return;
         }
@@ -170,7 +170,7 @@ public final class UndercoverService {
     /** Empty hand, Shift + right-click: the mask goes back into the hotbar; stage 2 stays. / 空手 Shift + 右键：面具回到快捷栏；第二阶段不变。 */
     public static void takeMaskOff(ServerPlayerEntity player) {
         ItemStack worn = player.getEquippedStack(EquipmentSlot.HEAD);
-        if (!worn.isOf(SparkStrengthItems.cqcmMask()) || !GameFunctions.isPlayerPlayingAndAlive(player)) {
+        if (!worn.isOf(SparkDlcItems.cqcmMask()) || !GameFunctions.isPlayerPlayingAndAlive(player)) {
             return;
         }
         if (!ShopEntry.insertStackInFreeSlot(player, worn.copy())) {
@@ -186,7 +186,7 @@ public final class UndercoverService {
         if (stack.isEmpty()) {
             return false;
         }
-        if (stack.isOf(SparkStrengthItems.cqcmMask()) || stack.isOf(SparkStrengthItems.tacticalTomahawk())) {
+        if (stack.isOf(SparkDlcItems.cqcmMask()) || stack.isOf(SparkDlcItems.tacticalTomahawk())) {
             return true;
         }
         NbtComponent data = stack.get(DataComponentTypes.CUSTOM_DATA);
@@ -296,7 +296,7 @@ public final class UndercoverService {
         if (state.killCooldownEndTick() == 0L) {
             return;
         }
-        Item tomahawk = SparkStrengthItems.tacticalTomahawk();
+        Item tomahawk = SparkDlcItems.tacticalTomahawk();
         ItemCooldownManager cooldowns = player.getItemCooldownManager();
         if (!cooldowns.isCoolingDown(tomahawk)) {
             state.setKillCooldownEndTick(0L);
@@ -319,13 +319,13 @@ public final class UndercoverService {
         PlayerInventory inventory = player.getInventory();
         for (int slot = 0; slot < inventory.size(); slot++) {
             ItemStack stack = inventory.getStack(slot);
-            if (stack.isOf(SparkStrengthItems.cqcmMask()) || stack.isOf(SparkStrengthItems.tacticalTomahawk())
+            if (stack.isOf(SparkDlcItems.cqcmMask()) || stack.isOf(SparkDlcItems.tacticalTomahawk())
                     || strayOutfit && isOutfit(stack)) {
                 inventory.setStack(slot, ItemStack.EMPTY);
             }
         }
         ItemStack cursor = player.currentScreenHandler.getCursorStack();
-        if (cursor.isOf(SparkStrengthItems.cqcmMask()) || cursor.isOf(SparkStrengthItems.tacticalTomahawk())) {
+        if (cursor.isOf(SparkDlcItems.cqcmMask()) || cursor.isOf(SparkDlcItems.tacticalTomahawk())) {
             player.currentScreenHandler.setCursorStack(ItemStack.EMPTY);
         }
     }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.fisher;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.civilian.fisher.item.FisherFishItem;
 import dev.caecorthus.sparkdlc.role.civilian.fisher.item.FisherFishKind;
 import dev.caecorthus.sparkdlc.role.civilian.fisher.spirit.FisherSpiritService;
@@ -77,7 +77,7 @@ public final class FisherFishUse {
     }
 
     private static List<Item> fishItems() {
-        return List.of(SparkWitchItems.salmon(), SparkWitchItems.cod(), SparkWitchItems.clownfish(),
-                SparkWitchItems.goldfish(), SparkWitchItems.glimmerfish());
+        return List.of(SparkDlcItems.salmon(), SparkDlcItems.cod(), SparkDlcItems.clownfish(),
+                SparkDlcItems.goldfish(), SparkDlcItems.glimmerfish());
     }
 }

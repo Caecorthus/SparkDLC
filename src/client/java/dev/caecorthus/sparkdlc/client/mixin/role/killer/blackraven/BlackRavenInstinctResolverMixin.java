@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(value = WatheClient.class, remap = false, priority = 400)
 public abstract class BlackRavenInstinctResolverMixin {
     @ModifyReturnValue(method = "getInstinctHighlight", at = @At("RETURN"))
-    private static int sparkwitch$resolveBlackRavenInstinct(int originalColor, Entity target) {
+    private static int sparkdlc$resolveBlackRavenInstinct(int originalColor, Entity target) {
         return BlackRavenInstinctClientHooks.resolveHighlight(originalColor, target);
     }
 }

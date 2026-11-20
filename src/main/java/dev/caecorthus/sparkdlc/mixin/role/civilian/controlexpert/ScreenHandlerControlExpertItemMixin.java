@@ -23,7 +23,7 @@ public abstract class ScreenHandlerControlExpertItemMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$keepControlExpertItem(
+    private void sparkdlc$keepControlExpertItem(
             int slotIndex,
             int button,
             SlotActionType actionType,

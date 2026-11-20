@@ -25,7 +25,7 @@ public abstract class MurderGameModeBlackRavenWalletMixin {
             require = 1,
             allow = 1
     )
-    private int sparkwitch$capAgainstRavenWallet(PlayerShopComponent shop, Operation<Integer> original) {
+    private int sparkdlc$capAgainstRavenWallet(PlayerShopComponent shop, Operation<Integer> original) {
         PlayerEntity owner = BlackRavenDisguiseEconomy.killerIncomeOwner(shop);
         return owner != null ? BlackRavenDisguiseService.ravenWalletBalance(owner) : original.call(shop);
     }
@@ -36,7 +36,7 @@ public abstract class MurderGameModeBlackRavenWalletMixin {
             require = 1,
             allow = 1
     )
-    private void sparkwitch$creditRavenWallet(PlayerShopComponent shop, int amount, Operation<Void> original) {
+    private void sparkdlc$creditRavenWallet(PlayerShopComponent shop, int amount, Operation<Void> original) {
         // Timed receipt: never a SparkStrength purse contribution. / 定时收入：不计入 SparkStrength 团队资金。
         if (!BlackRavenDisguiseEconomy.creditKillerIncome(shop, amount, false)) {
             original.call(shop, amount);

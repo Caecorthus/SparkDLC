@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.render.entity;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
 
@@ -80,7 +80,7 @@ public final class EmfVanillaModel {
             Function<Object, Boolean> condition = EmfVanillaModel::forcesVanilla;
             register.invoke(null, condition);
         } catch (ReflectiveOperationException | LinkageError | RuntimeException exception) {
-            SparkWitch.LOGGER.warn("Entity Model Features is loaded but its vanilla-model API is unavailable ({}); "
+            SparkDLC.LOGGER.warn("Entity Model Features is loaded but its vanilla-model API is unavailable ({}); "
                     + "animation packs keep posing entities that SparkDLC draws with vanilla poses", exception.toString());
         }
     }

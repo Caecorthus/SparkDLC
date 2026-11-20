@@ -22,7 +22,7 @@ public abstract class FineDrinkItemMixin {
                     target = "Lnet/minecraft/entity/player/PlayerEntity;playSound(Lnet/minecraft/sound/SoundEvent;)V"
             )
     )
-    private void sparktraits$skipCautiousFineDrinkSound(PlayerEntity player, SoundEvent sound) {
+    private void sparkdlc$skipCautiousFineDrinkSound(PlayerEntity player, SoundEvent sound) {
         if (SparkDlcServerConnection.isUnconfirmedClientEntity(player)
                 || !GlobalTraitService.shouldSuppressCautiousSounds(player)) {
             player.playSound(sound);

@@ -53,10 +53,10 @@ public final class SeekerStatusHud {
             return;
         }
         registered = true;
-        HudRenderCallback.EVENT.register(SeekerStatusHud::sparkwitch$render);
+        HudRenderCallback.EVENT.register(SeekerStatusHud::sparkdlc$render);
     }
 
-    private static void sparkwitch$render(DrawContext context, RenderTickCounter tickCounter) {
+    private static void sparkdlc$render(DrawContext context, RenderTickCounter tickCounter) {
         MinecraftClient client = MinecraftClient.getInstance();
         ClientPlayerEntity player = client.player;
         if (player == null || client.world == null) {

@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = WorldRenderer.class, priority = 2000)
 public abstract class BlindGateWorldRendererMixin {
     @WrapMethod(method = "renderEntity(Lnet/minecraft/entity/Entity;DDDFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;)V")
-    private void sparkwitch$blindHidesUnperceivedPlayers(Entity entity, double cameraX, double cameraY, double cameraZ,
+    private void sparkdlc$blindHidesUnperceivedPlayers(Entity entity, double cameraX, double cameraY, double cameraZ,
                                                          float tickDelta, MatrixStack matrices,
                                                          VertexConsumerProvider vertexConsumers,
                                                          Operation<Void> original) {

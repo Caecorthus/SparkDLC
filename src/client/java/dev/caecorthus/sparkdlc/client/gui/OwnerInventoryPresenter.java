@@ -4,10 +4,10 @@ import dev.caecorthus.sparkdlc.client.guidebook.ui.decor.GuidebookCardDecor;
 import dev.caecorthus.sparkdlc.client.gui.card.InventoryCardPaint;
 import dev.caecorthus.sparkdlc.client.gui.card.InventoryInfoCard;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillDefinition;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillRegistry;
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityController;
 import dev.caecorthus.sparkdlc.client.role.civilian.apprentice.ApprenticeClientPresentation;
 import dev.caecorthus.sparkdlc.client.economy.KillerTeamEconomyClientHooks;
@@ -66,7 +66,7 @@ public final class OwnerInventoryPresenter {
     private static final class Card {
         private static final InventoryInfoCard INSTANCE = new InventoryInfoCard("gui.sparkdlc.inventory.more",
                 () -> LimitedInventoryRows.isSecondRowShown() ? 22 : 0,
-                KillerTeamEconomyClientHooks::topRightHudBottom, new GuidebookCardDecor("SparkWitch/GuideDecor"));
+                KillerTeamEconomyClientHooks::topRightHudBottom, new GuidebookCardDecor("SparkDLC/GuideDecor"));
     }
     private static final InventoryRenderScope<Frame> CALLS = new InventoryRenderScope<>();
     // The V1 handshake calls the trait contract directly through these two method references.
@@ -124,7 +124,7 @@ public final class OwnerInventoryPresenter {
             // connection; the fallback retries every frame. 每个连接只警告一次，回退路径每帧重试。
             if (!prepareWarned) {
                 prepareWarned = true;
-                SparkWitch.LOGGER.warn("Could not prepare owner inventory card; retaining native presentation", failure);
+                SparkDLC.LOGGER.warn("Could not prepare owner inventory card; retaining native presentation", failure);
             }
         }
         return scope::close;
@@ -180,7 +180,7 @@ public final class OwnerInventoryPresenter {
             // 当前帧的承诺无法撤回；此后直到连接重置都不再绘制或接管天赋，并只记录一次错误。
             cardFailed = true;
             TRAITS.disable();
-            SparkWitch.LOGGER.error("Owner inventory card draw failed; disabling the card for this connection", failure);
+            SparkDLC.LOGGER.error("Owner inventory card draw failed; disabling the card for this connection", failure);
         }
     }
 
@@ -316,7 +316,7 @@ public final class OwnerInventoryPresenter {
         SkillKey key = new SkillKey(Language.getInstance(), role, skillId,
                 component.hasManaSystem() && WitchManaRules.isManaRole(role), component.getMana(),
                 secs(component.getActiveSkillWindowTicks()), secs(component.getCooldownTicks()),
-                component.getGrandWitchCeremonialSwordTasks(), component.getDeathRayCharges(), SparkWitchClient.abilityKeyText(), grandWitch,
+                component.getGrandWitchCeremonialSwordTasks(), component.getDeathRayCharges(), SparkDLCClient.abilityKeyText(), grandWitch,
                 apprentice);
         InventoryInfoCard.Section cached = skillCache;
         if (cached != null && key.equals(skillKey)) return cached;

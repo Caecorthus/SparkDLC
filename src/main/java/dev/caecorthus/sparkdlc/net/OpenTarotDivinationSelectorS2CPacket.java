@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import java.util.List;
 import java.util.UUID;
 import net.minecraft.network.PacketByteBuf;
@@ -23,7 +23,7 @@ public record OpenTarotDivinationSelectorS2CPacket(
     private static final int MAX_TARGETS = 256;
     private static final int MAX_PLAYER_NAME_LENGTH = 64;
 
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("open_tarot_divination_selector");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("open_tarot_divination_selector");
     public static final Id<OpenTarotDivinationSelectorS2CPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, OpenTarotDivinationSelectorS2CPacket> CODEC =
             PacketCodec.of(OpenTarotDivinationSelectorS2CPacket::write, OpenTarotDivinationSelectorS2CPacket::read);

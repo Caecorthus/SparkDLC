@@ -18,7 +18,7 @@ public abstract class VendettaPlayerLabelMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$hideVendettaLabel(
+    private void sparkdlc$hideVendettaLabel(
             LivingEntity entity,
             CallbackInfoReturnable<Boolean> cir
     ) {

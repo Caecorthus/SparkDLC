@@ -46,7 +46,7 @@ public abstract class GameRoundEndComponentStowawayWinnerMixin {
     private MinecraftServer server;
 
     @Inject(method = "sync", at = @At("HEAD"), require = 1, allow = 1)
-    private void sparkwitch$livingStowawaysJoinTheWin(CallbackInfo ci) {
+    private void sparkdlc$livingStowawaysJoinTheWin(CallbackInfo ci) {
         if (server != null) {
             StowawaySettlement.completeRoundEndRows(players, winStatus);
         }
@@ -58,7 +58,7 @@ public abstract class GameRoundEndComponentStowawayWinnerMixin {
      * 优先级 500 先于 SparkFactionAPI 与 SparkTraits 在 {@code didWin} 上的 HEAD；其他所有行原样交给它们。
      */
     @Inject(method = "didWin", at = @At("HEAD"), cancellable = true, require = 1, allow = 1)
-    private void sparkwitch$stowawayRowDecidesItsOwnWin(UUID uuid, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$stowawayRowDecidesItsOwnWin(UUID uuid, CallbackInfoReturnable<Boolean> cir) {
         if (winStatus == GameFunctions.WinStatus.NONE) {
             return;
         }

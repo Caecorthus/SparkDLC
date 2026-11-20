@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.noisemaker;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.RegistryByteBuf;
@@ -21,7 +21,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
  */
 public class NoisemakerGlowUserComponent implements AutoSyncedComponent, ServerTickingComponent {
     public static final ComponentKey<NoisemakerGlowUserComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("noisemaker_glow_user"),
+            SparkDLC.id("noisemaker_glow_user"),
             NoisemakerGlowUserComponent.class
     );
 

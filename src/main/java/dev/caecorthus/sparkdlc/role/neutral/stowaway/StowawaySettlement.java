@@ -50,10 +50,10 @@ public final class StowawaySettlement {
     /**
      * Custom faction wins (Witch, Murderous Witch and every other registered faction): a Stowaway that is still alive
      * at that moment is added to the collected winners, so it is synced as a co-winner and both the settlement row and
-     * {@code SparkFactionRoundEndComponent.didWin} treat it as part of the winning faction. A dead Stowaway is never
+     * {@code FactionRoundEndComponent.didWin} treat it as part of the winning faction. A dead Stowaway is never
      * added.
      * 自定义阵营胜利（魔女、杀意魔女以及其他已注册阵营）：此刻仍活着的偷渡客会被加入已收集的赢家，因此会作为共同赢家同步，
-     * 结算行与 {@code SparkFactionRoundEndComponent.didWin} 都会把它视作获胜阵营的一员；死亡的偷渡客永远不会加入。
+     * 结算行与 {@code FactionRoundEndComponent.didWin} 都会把它视作获胜阵营的一员；死亡的偷渡客永远不会加入。
      */
     static void addLivingStowaways(ServerWorld world, GameWorldComponent game, Set<UUID> winners) {
         for (ServerPlayerEntity player : world.getPlayers()) {

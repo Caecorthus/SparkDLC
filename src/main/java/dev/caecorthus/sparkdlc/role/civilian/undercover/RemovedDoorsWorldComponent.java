@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.undercover;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -28,7 +28,7 @@ import java.util.List;
  */
 public final class RemovedDoorsWorldComponent implements Component {
     public static final ComponentKey<RemovedDoorsWorldComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("removed_doors"), RemovedDoorsWorldComponent.class
+            SparkDLC.id("removed_doors"), RemovedDoorsWorldComponent.class
     );
 
     public record RemovedBlock(BlockPos pos, BlockState state, @Nullable NbtCompound blockEntity) {

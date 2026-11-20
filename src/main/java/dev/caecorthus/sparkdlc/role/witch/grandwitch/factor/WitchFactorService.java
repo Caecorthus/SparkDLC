@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.witch.grandwitch.factor;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseContext;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseResult;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
@@ -25,8 +25,8 @@ import org.jetbrains.annotations.Nullable;
 /** Shared factor authority, invoked before role-clearing death callbacks.
  * 共通因子的服务端权威；死亡结算早于身份清理。 */
 public final class WitchFactorService {
-    public static final Identifier SKILL_ID = SparkWitch.id("witch_factor");
-    public static final Identifier EMMA_ROLE_ID = SparkWitch.id("emma");
+    public static final Identifier SKILL_ID = SparkDLC.id("witch_factor");
+    public static final Identifier EMMA_ROLE_ID = SparkDLC.id("emma");
     public static final Identifier VOODOO_ROLE_ID = Identifier.of("noellesroles", "voodoo");
     public static final int COOLDOWN_TICKS = 400;
     public static final int MANA_COST = 50;
@@ -52,8 +52,8 @@ public final class WitchFactorService {
     /** Every accomplice (plain or special) is never a carrier. / 任一共犯（普通或特殊）都不能携带因子。 */
     public static boolean isEligibleCarrier(PlayerEntity player) {
         Role role = GameWorldComponent.KEY.get(player.getWorld()).getRole(player);
-        return role != null && role != SparkWitchRoles.grandWitch() && !WitchFactionRules.isAccompliceLike(role)
-                && role != SparkWitchRoles.witchMaiden() && !isEmma(role)
+        return role != null && role != SparkDlcRoles.grandWitch() && !WitchFactionRules.isAccompliceLike(role)
+                && role != SparkDlcRoles.witchMaiden() && !isEmma(role)
                 && !VOODOO_ROLE_ID.equals(role.identifier());
     }
 
@@ -89,7 +89,7 @@ public final class WitchFactorService {
 
     public static WitchSkillUseResult use(WitchSkillUseContext context) {
         ServerPlayerEntity source = context.player();
-        if (context.role() != SparkWitchRoles.grandWitch()
+        if (context.role() != SparkDlcRoles.grandWitch()
                 || WitchPlayerComponent.KEY.get(source).getMana() < MANA_COST) {
             return WitchSkillUseResult.fail(null);
         }
@@ -149,7 +149,7 @@ public final class WitchFactorService {
         ServerWorld world = source.getServerWorld();
         GameWorldComponent game = GameWorldComponent.KEY.get(world);
         Role role = game.getRole(source);
-        boolean castPossible = game.isRunning() && (role == SparkWitchRoles.grandWitch() || isEmma(role))
+        boolean castPossible = game.isRunning() && (role == SparkDlcRoles.grandWitch() || isEmma(role))
                 && target != source && target.getServerWorld() == world && alive(source) && alive(target);
         WitchFactorWorldComponent component = WitchFactorWorldComponent.KEY.get(world);
         WitchFactorState state = component.state();
@@ -251,7 +251,7 @@ public final class WitchFactorService {
         WitchFactorWorldComponent component = WitchFactorWorldComponent.KEY.get(viewer.getWorld());
         if (viewer.getWorld().isClient) return component.hasNetworkView();
         Role role = GameWorldComponent.KEY.get(viewer.getWorld()).getRole(viewer);
-        return component.state().active() && (role == SparkWitchRoles.grandWitch()
+        return component.state().active() && (role == SparkDlcRoles.grandWitch()
                 || WitchFactionRules.isAccompliceLike(role) || isEmma(role) || component.state().mature(viewer.getUuid()));
     }
 
@@ -296,11 +296,11 @@ public final class WitchFactorService {
             // 艾玛速度的门槛只统计传播所得的因子；下面的魔力、情绪与视图对所有因子一视同仁。
             if (factor.countsTowardSpeed()) matureCount++;
             Role role = game.getRole(holder);
-            boolean apprentice = role == SparkWitchRoles.apprenticeWitch();
+            boolean apprentice = role == SparkDlcRoles.apprenticeWitch();
             if (factor.manaTicks() == 0) {
-                int reward = WitchFactorState.manaReward(apprentice, role == SparkWitchRoles.murderousWitch());
+                int reward = WitchFactorState.manaReward(apprentice, role == SparkDlcRoles.murderousWitch());
                 for (ServerPlayerEntity recipient : world.getPlayers()) {
-                    if (alive(recipient) && game.getRole(recipient) == SparkWitchRoles.grandWitch()) {
+                    if (alive(recipient) && game.getRole(recipient) == SparkDlcRoles.grandWitch()) {
                         WitchPlayerComponent.KEY.get(recipient).addMana(reward);
                     }
                 }

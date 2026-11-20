@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = RevolverItem.class, remap = false)
 public abstract class BlackRavenCrowRevolverAimMixin {
     @WrapMethod(method = "getGunTarget")
-    private static HitResult sparkwitch$preferNearerCrow(PlayerEntity user, Operation<HitResult> original) {
+    private static HitResult sparkdlc$preferNearerCrow(PlayerEntity user, Operation<HitResult> original) {
         return BlackRavenCrowAim.preferNearerCrow(user, original.call(user), BlackRavenCrowAim.REVOLVER_RANGE);
     }
 }

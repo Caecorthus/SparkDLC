@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.mixin.role.civilian.savior;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.item.HeldItemRenderer;
@@ -27,8 +27,8 @@ public abstract class SaviorPistolEquipMixin {
                             + "resetEquipProgress(Lnet/minecraft/util/Hand;)V"
             )
     )
-    private boolean sparkwitch$keepSaviorPistolEquipProgress(HeldItemRenderer renderer, Hand hand) {
+    private boolean sparkdlc$keepSaviorPistolEquipProgress(HeldItemRenderer renderer, Hand hand) {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
-        return player == null || !player.getStackInHand(hand).isOf(SparkWitchItems.saviorPistol());
+        return player == null || !player.getStackInHand(hand).isOf(SparkDlcItems.saviorPistol());
     }
 }

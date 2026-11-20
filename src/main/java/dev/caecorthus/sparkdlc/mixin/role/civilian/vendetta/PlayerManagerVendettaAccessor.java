@@ -12,5 +12,5 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(PlayerManager.class)
 public interface PlayerManagerVendettaAccessor {
     @Invoker("savePlayerData")
-    void sparkwitch$savePlayerData(ServerPlayerEntity player);
+    void sparkdlc$savePlayerData(ServerPlayerEntity player);
 }

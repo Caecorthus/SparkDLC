@@ -19,7 +19,7 @@ public abstract class ChildishPlayerEntityRendererMixin {
             method = "scale(Lnet/minecraft/client/network/AbstractClientPlayerEntity;Lnet/minecraft/client/util/math/MatrixStack;F)V",
             at = @At("TAIL")
     )
-    private void sparktraits$fillHitboxWithBabyModel(
+    private void sparkdlc$fillHitboxWithBabyModel(
             AbstractClientPlayerEntity player,
             MatrixStack matrices,
             float tickDelta,

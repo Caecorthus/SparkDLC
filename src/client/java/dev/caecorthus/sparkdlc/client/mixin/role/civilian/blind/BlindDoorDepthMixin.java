@@ -30,7 +30,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class BlindDoorDepthMixin {
     @Inject(method = "render(Ldev/doctor4t/wathe/block_entity/SmallDoorBlockEntity;FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;II)V",
             at = @At("TAIL"))
-    private void sparkwitch$blindDoorDepth(SmallDoorBlockEntity entity, float tickDelta, MatrixStack matrices,
+    private void sparkdlc$blindDoorDepth(SmallDoorBlockEntity entity, float tickDelta, MatrixStack matrices,
                                           VertexConsumerProvider vertexConsumers, int light, int overlay,
                                           CallbackInfo ci) {
         if (BlindClientGates.viewActive()) {

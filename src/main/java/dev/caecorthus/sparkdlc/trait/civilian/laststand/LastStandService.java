@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.trait.civilian.laststand;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.TraitRemovalReason;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
-import dev.caecorthus.sparkdlc.trait.replay.SparkTraitsReplayEvents;
+import dev.caecorthus.sparkdlc.trait.replay.TraitReplayEvents;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
 import dev.caecorthus.sparkdlc.mixin.trait.GameWorldComponentAccessor;
@@ -244,7 +244,7 @@ public final class LastStandService {
 
         markTriggeredThisRound(world, uuid);
         startPending(world, victim, deathReason);
-        SparkTraitsReplayEvents.recordLastStandTriggered(victim, () -> LastStandOpponents.countAlive(world));
+        TraitReplayEvents.recordLastStandTriggered(victim, () -> LastStandOpponents.countAlive(world));
         return true;
     }
 
@@ -383,7 +383,7 @@ public final class LastStandService {
         double chance = calculateTriggerChance(averageMood, victimRole.getMoodType());
         double roll = victim.getRandom().nextDouble() * 100.0;
         boolean success = roll < chance;
-        SparkTraits.LOGGER.debug(
+        SparkDLC.LOGGER.debug(
                 "Last Stand roll for {}: averageMood={}, chance={}, roll={}, success={}",
                 victim.getGameProfile().getName(),
                 averageMood,
@@ -652,7 +652,7 @@ public final class LastStandService {
                 targetPitch = returnPoint.pitch();
             }
         }
-        SparkTraits.LOGGER.info(
+        SparkDLC.LOGGER.info(
                 "Last Stand revive for {}: destination={}, returnPointCheck={}, pos={}",
                 player.getGameProfile().getName(),
                 returnPointCheck == ReturnPointCheck.ACCEPTED ? "returnPoint" : "deathPos",
@@ -661,7 +661,7 @@ public final class LastStandService {
         );
 
         GameWorldComponent game = GameWorldComponent.KEY.get(targetWorld);
-        ((GameWorldComponentAccessor) game).sparktraits$getDeadPlayers().remove(player.getUuid());
+        ((GameWorldComponentAccessor) game).sparkdlc$getDeadPlayersForTraits().remove(player.getUuid());
         game.sync();
 
         restorePendingControl(player);
@@ -907,7 +907,7 @@ public final class LastStandService {
             Method resetPlayer = plugin.getMethod("resetPlayer", UUID.class);
             resetPlayer.invoke(null, uuid);
         } catch (ReflectiveOperationException exception) {
-            SparkTraits.LOGGER.debug("Unable to reset voice chat group for Last Stand revive", exception);
+            SparkDLC.LOGGER.debug("Unable to reset voice chat group for Last Stand revive", exception);
         }
     }
 

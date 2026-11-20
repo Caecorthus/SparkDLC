@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.hanna;
 
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.client.hud.CachedHudText;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
@@ -71,7 +71,7 @@ public final class HannaFloatHud {
         // 期间击杀圣徒的人都可能带有，紧贴角落绘制）。
         boolean sharedLineOccupied = witch.getActiveSkillId() != null || witch.getSaintState().karmaCooldownTicks() > 0;
         TextRenderer renderer = client.textRenderer;
-        CACHE.update(line, line.keyHint() ? SparkWitchClient.abilityKeyText() : null, renderer);
+        CACHE.update(line, line.keyHint() ? SparkDLCClient.abilityKeyText() : null, renderer);
         int width = context.getScaledWindowWidth();
         int x = HannaFloatHudRules.rowX(width, CACHE.width());
         int y = HannaFloatHudRules.rowY(width, context.getScaledWindowHeight(), CACHE.measuredWidth(),

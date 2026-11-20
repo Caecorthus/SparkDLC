@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.trait;
 
-import dev.caecorthus.sparkdlc.trait.replay.SparkTraitsAchievementRecords;
+import dev.caecorthus.sparkdlc.trait.replay.TraitAchievementRecords;
 import dev.caecorthus.sparkdlc.trait.killer.escape.LastEscapeService;
 import dev.doctor4t.wathe.game.GameConstants;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -17,7 +17,7 @@ public abstract class LastEscapeTerminalMixin {
     @com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation(
             method = "killPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;ZLnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;Z)V",
             at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/cca/PlayerPsychoComponent;stopPsycho()V"))
-    private static void sparktraits$snapshotBeforePsychoCleanup(
+    private static void sparkdlc$snapshotBeforePsychoCleanup(
             dev.doctor4t.wathe.cca.PlayerPsychoComponent psycho,
             com.llamalad7.mixinextras.injector.wrapoperation.Operation<Void> original,
             ServerPlayerEntity victim, boolean spawnBody, ServerPlayerEntity killer, Identifier reason, boolean force) {
@@ -28,13 +28,13 @@ public abstract class LastEscapeTerminalMixin {
     @Inject(method = "killPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;ZLnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;Z)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;changeGameMode(Lnet/minecraft/world/GameMode;)Z", remap = true),
             cancellable = true, require = 1, allow = 1)
-    private static void sparktraits$lastSave(ServerPlayerEntity victim, boolean spawnBody,
+    private static void sparkdlc$lastSave(ServerPlayerEntity victim, boolean spawnBody,
             ServerPlayerEntity killer, Identifier reason, boolean force, CallbackInfo ci) {
         if (!dev.caecorthus.sparkdlc.trait.lifecycle.TerminalDeathRules.contains(reason)
                 && !LastEscapeService.isTrainDeath(reason) && !GameConstants.DeathReasons.ESCAPED.equals(reason)
                 && LastEscapeService.tryActivate(victim)) {
             ci.cancel();
-            SparkTraitsAchievementRecords.recordLastEscapeTriggered(victim, killer, reason);
+            TraitAchievementRecords.recordLastEscapeTriggered(victim, killer, reason);
         }
     }
 }

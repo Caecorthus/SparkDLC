@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.net.version;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConfirmS2CPacket;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcVersionCheck;
@@ -100,7 +100,7 @@ public final class SparkDlcClientVersionHandshake {
         }
         // The Assassin's guess list is ordered once the server is known to carry the mod's roles.
         // 确知服务端带有本模组的职业后，排定刺客的猜测列表顺序。
-        SparkWitchRoles.refreshAssassinGuessRoleOrder();
+        SparkDlcRoles.refreshAssassinGuessRoleOrder();
         SparkDLC.LOGGER.info(
                 "Confirmed SparkDLC server through {} channel: server={}, client={}.",
                 stage,

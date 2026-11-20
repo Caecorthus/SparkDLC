@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.killer;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKeys;
@@ -13,7 +13,7 @@ import net.minecraft.registry.tag.TagKey;
 public final class KillerWeaponTags {
     private static final TagKey<Item> THRUST_WEAPONS = TagKey.of(
             RegistryKeys.ITEM,
-            SparkTraits.id("thrust_weapons")
+            SparkDLC.id("thrust_weapons")
     );
 
     private KillerWeaponTags() {

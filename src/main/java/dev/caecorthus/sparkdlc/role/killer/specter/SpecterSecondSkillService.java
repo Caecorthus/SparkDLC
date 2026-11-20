@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.specter;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
 import dev.doctor4t.wathe.game.GameFunctions;
 import dev.doctor4t.wathe.index.WatheSounds;
@@ -29,7 +29,7 @@ public final class SpecterSecondSkillService {
      * {@code replay.shield_blocked.sparkdlc.specter_otherworld[.by]}.
      * 稳定的 {@code shield_blocked} 记录来源；回放键为 {@code replay.shield_blocked.sparkdlc.specter_otherworld[.by]}。
      */
-    public static final Identifier SHIELD_SOURCE_ID = SparkWitch.id("specter_otherworld");
+    public static final Identifier SHIELD_SOURCE_ID = SparkDLC.id("specter_otherworld");
 
     private SpecterSecondSkillService() {
     }

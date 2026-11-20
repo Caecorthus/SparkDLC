@@ -37,7 +37,7 @@ public abstract class DecoratedPotBlockBlackRavenItemMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$keepBlackRavenItemOutOfPot(ItemStack stack, BlockState state, World world, BlockPos pos,
+    private void sparkdlc$keepBlackRavenItemOutOfPot(ItemStack stack, BlockState state, World world, BlockPos pos,
                                                        PlayerEntity player, Hand hand, BlockHitResult hit,
                                                        CallbackInfoReturnable<ItemActionResult> cir) {
         if (BlackRavenInventoryRules.blocksBlockUse(stack, state)) {

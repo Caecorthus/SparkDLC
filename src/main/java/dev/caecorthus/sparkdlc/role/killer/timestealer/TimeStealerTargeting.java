@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.timestealer;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesSilenceBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaInteractionService;
@@ -58,7 +58,7 @@ public final class TimeStealerTargeting {
                 () -> isParticipant(target, game),
                 () -> SparkTraitsApi.isLastEscapeActive(target),
                 () -> vendettaAllows(user, target),
-                () -> SparkFactionApi.canAffectPlayer(user, target, SparkWitchDeathReasons.TIME_STOLEN, game),
+                () -> SparkFactionApi.canAffectPlayer(user, target, SparkDlcDeathReasons.TIME_STOLEN, game),
                 () -> TimeTheftPlayerComponent.KEY.get(target).isStolen());
     }
 

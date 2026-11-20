@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.settings.screen;
 
-import dev.caecorthus.sparkdlc.client.config.SparkAssistClientSettings;
+import dev.caecorthus.sparkdlc.client.config.SparkDlcClientSettings;
 import dev.caecorthus.sparkdlc.client.settings.SettingsOption;
 import dev.caecorthus.sparkdlc.client.settings.SettingsPage;
 import dev.caecorthus.sparkdlc.client.settings.SettingsSession;
@@ -140,7 +140,7 @@ public final class SparkDlcSettingsScreen extends GameOptionsScreen implements S
                     offset += GROUP_GAP;
                 }
                 String key = page.groupKey(group);
-                boolean collapsed = SparkAssistClientSettings.settingsGroupCollapsed(key);
+                boolean collapsed = SparkDlcClientSettings.settingsGroupCollapsed(key);
                 SettingsGroupHeaderWidget header = new SettingsGroupHeaderWidget(layout.listX(), layout.listWidth(),
                         group.title(), key, collapsed, group.options().size(), () -> toggleGroup(key), this);
                 addListItem(header, offset);
@@ -171,8 +171,8 @@ public final class SparkDlcSettingsScreen extends GameOptionsScreen implements S
 
     /** Folds or unfolds a section; remembered in sparkdlc.json, not part of Undo. 折叠或展开分节；记入配置，不受撤销影响。 */
     private void toggleGroup(String key) {
-        SparkAssistClientSettings.setSettingsGroupCollapsed(key, !SparkAssistClientSettings.settingsGroupCollapsed(key));
-        SparkAssistClientSettings.save();
+        SparkDlcClientSettings.setSettingsGroupCollapsed(key, !SparkDlcClientSettings.settingsGroupCollapsed(key));
+        SparkDlcClientSettings.save();
         refocusGroup = key;
         this.clearAndInit();
     }

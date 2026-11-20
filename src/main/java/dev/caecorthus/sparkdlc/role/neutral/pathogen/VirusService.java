@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.pathogen;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.neutral.pathogen.VirusCarrierComponent;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.util.SparkPlayers;
@@ -36,10 +36,10 @@ import java.util.UUID;
  */
 public final class VirusService {
     /** SparkFactionAPI action id for the Virus. / 病毒在 SparkFactionAPI 中的行为 id。 */
-    public static final Identifier VIRUS_ACTION_ID = SparkStrength.id("pathogen_virus");
-    public static final Identifier VIRUS_USED_EVENT = SparkStrength.id("pathogen_virus_used");
-    public static final Identifier VIRUS_SPREAD_EVENT = SparkStrength.id("pathogen_virus_spread");
-    public static final Identifier VIRUS_CURED_EVENT = SparkStrength.id("pathogen_virus_cured");
+    public static final Identifier VIRUS_ACTION_ID = SparkDLC.id("pathogen_virus");
+    public static final Identifier VIRUS_USED_EVENT = SparkDLC.id("pathogen_virus_used");
+    public static final Identifier VIRUS_SPREAD_EVENT = SparkDLC.id("pathogen_virus_spread");
+    public static final Identifier VIRUS_CURED_EVENT = SparkDLC.id("pathogen_virus_cured");
 
     private VirusService() {
     }

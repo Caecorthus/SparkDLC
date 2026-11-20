@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.magician;
 
 import com.mojang.authlib.GameProfile;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -29,7 +29,7 @@ public final class MagicianRoster {
         GameWorldComponent game = GameWorldComponent.KEY.get(world);
         for (ServerPlayerEntity player : world.getPlayers()) {
             var role = game.getRole(player);
-            if (role != null && SparkWitchRoles.MAGICIAN_ID.equals(role.identifier())) {
+            if (role != null && SparkDlcRoles.MAGICIAN_ID.equals(role.identifier())) {
                 capture(player);
             }
         }

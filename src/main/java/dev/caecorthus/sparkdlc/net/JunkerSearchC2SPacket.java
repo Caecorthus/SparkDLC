@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import java.util.Objects;
 import java.util.UUID;
 import net.minecraft.network.PacketByteBuf;
@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 
 /** Starts (or retries) the five-second corpse search on one body entity. / 对某具尸体发起（或重试）五秒搜刮。 */
 public record JunkerSearchC2SPacket(UUID bodyUuid) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("ragpicker_search");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("ragpicker_search");
     public static final Id<JunkerSearchC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, JunkerSearchC2SPacket> CODEC =
             PacketCodec.of(JunkerSearchC2SPacket::write, JunkerSearchC2SPacket::read);

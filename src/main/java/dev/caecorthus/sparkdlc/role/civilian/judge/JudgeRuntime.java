@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.judge;
 
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.net.OpenJudgeSelectionS2CPacket;
 import dev.caecorthus.sparkdlc.record.witch.AchievementRecords;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
@@ -140,7 +140,7 @@ public final class JudgeRuntime {
             return false;
         }
         return JudgeRules.isJudge(GameWorldComponent.KEY.get(player.getWorld()).getRole(player))
-                && activeParticipant(player) && !SparkWitchApi.isWraithRestricted(player);
+                && activeParticipant(player) && !SparkRoleApi.isWraithRestricted(player);
     }
 
     // Playing, survival or adventure; no Wraith or role gate here (canJudge checks the role and Wraith restriction).

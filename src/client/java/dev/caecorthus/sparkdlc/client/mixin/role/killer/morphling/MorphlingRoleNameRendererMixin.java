@@ -18,7 +18,7 @@ public abstract class MorphlingRoleNameRendererMixin {
                     target = "Lnet/minecraft/entity/player/PlayerEntity;getDisplayName()Lnet/minecraft/text/Text;"
             )
     )
-    private static Text sparkstrength$useMorphlingReagentDisplayName(
+    private static Text sparkdlc$useMorphlingReagentDisplayName(
             PlayerEntity player,
             Operation<Text> original
     ) {

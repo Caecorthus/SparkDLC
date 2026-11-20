@@ -27,7 +27,7 @@ public abstract class ScreenHandlerUsecItemMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$refuseForeignGunForUsec(
+    private void sparkdlc$refuseForeignGunForUsec(
             int slotIndex,
             int button,
             SlotActionType actionType,

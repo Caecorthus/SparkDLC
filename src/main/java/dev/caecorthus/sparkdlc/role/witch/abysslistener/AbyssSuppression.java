@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.witch.abysslistener;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.cooldown.api.ForcedCooldowns;
-import dev.caecorthus.sparkdlc.SparkWitchFactions;
+import dev.caecorthus.sparkdlc.SparkDlcFactions;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
@@ -149,7 +149,7 @@ public final class AbyssSuppression {
 
     /** Unknown factions are not allies. / 未知阵营不是队友。 */
     static boolean isWitchFaction(@Nullable Identifier effectiveFaction) {
-        return SparkWitchFactions.WITCH.equals(effectiveFaction);
+        return SparkDlcFactions.WITCH.equals(effectiveFaction);
     }
 
     /**

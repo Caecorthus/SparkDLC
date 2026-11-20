@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.perfumer.kit;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.render.ManagedPostEffect;
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerRules;
 import net.minecraft.client.MinecraftClient;
@@ -18,7 +18,7 @@ import net.minecraft.util.Identifier;
  * 效果结束即关闭；加载失败只记录一次日志，受害者仅保留 HUD 覆盖层。
  */
 public final class PerfumerBlurRenderer {
-    private static final Identifier SHADER = SparkStrength.id("shaders/post/perfumer_blur.json");
+    private static final Identifier SHADER = SparkDLC.id("shaders/post/perfumer_blur.json");
     private static final float MIN_VISIBLE_RADIUS = 0.5F;
     private static final ManagedPostEffect EFFECT =
             new ManagedPostEffect(SHADER, "Unable to load Perfumer Cooling Oil blur shader; using overlay only");

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.riftwalker.session;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.RiftGateUser;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.gate.RiftGateCloseReason;
 import net.minecraft.entity.player.PlayerEntity;
@@ -34,7 +34,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
  */
 public final class RiftSessionComponent implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
     public static final ComponentKey<RiftSessionComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("rift_session"), RiftSessionComponent.class);
+            SparkDLC.id("rift_session"), RiftSessionComponent.class);
 
     private final PlayerEntity player;
 

@@ -31,7 +31,7 @@ public abstract class GameFunctionsMixin {
                     target = "Ldev/doctor4t/wathe/game/GameFunctions;applyLetterLore(Lnet/minecraft/item/ItemStack;Lnet/minecraft/server/network/ServerPlayerEntity;Ldev/doctor4t/wathe/api/Role;Ljava/lang/String;Ljava/lang/String;II)V"
             )
     )
-    private static void sparkfactionapi$applyCustomFactionLetterLore(
+    private static void sparkdlc$applyCustomFactionLetterLore(
             ItemStack letter,
             ServerPlayerEntity player,
             Role role,
@@ -59,7 +59,7 @@ public abstract class GameFunctionsMixin {
                     target = "Ldev/doctor4t/wathe/cca/PlayerMoodComponent;reset()V"
             )
     )
-    private static void sparkfactionapi$applyCustomKillReward(
+    private static void sparkdlc$applyCustomKillReward(
             ServerPlayerEntity victim,
             boolean spawnBody,
             ServerPlayerEntity killer,

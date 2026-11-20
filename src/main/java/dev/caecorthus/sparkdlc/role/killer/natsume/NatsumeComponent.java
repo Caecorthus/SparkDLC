@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.natsume;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.RegistryByteBuf;
@@ -32,7 +32,7 @@ import java.util.UUID;
  */
 public final class NatsumeComponent implements AutoSyncedComponent {
     public static final ComponentKey<NatsumeComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("natsume_anan_player"),
+            SparkDLC.id("natsume_anan_player"),
             NatsumeComponent.class
     );
     static final String COOLDOWN_READY_TICK = "CooldownReadyTick";

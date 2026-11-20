@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.reporter;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
@@ -15,7 +15,7 @@ import java.util.UUID;
  */
 public record ReporterCommunicationC2SPacket(UUID firstPlayer, UUID secondPlayer) implements CustomPayload {
     public static final CustomPayload.Id<ReporterCommunicationC2SPacket> ID =
-            new CustomPayload.Id<>(SparkStrength.id("reporter_communication"));
+            new CustomPayload.Id<>(SparkDLC.id("reporter_communication"));
     public static final PacketCodec<RegistryByteBuf, ReporterCommunicationC2SPacket> CODEC = PacketCodec.tuple(
             Uuids.PACKET_CODEC, ReporterCommunicationC2SPacket::firstPlayer,
             Uuids.PACKET_CODEC, ReporterCommunicationC2SPacket::secondPlayer,

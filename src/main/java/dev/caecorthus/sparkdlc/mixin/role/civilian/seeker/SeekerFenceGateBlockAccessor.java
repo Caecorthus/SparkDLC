@@ -17,5 +17,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(FenceGateBlock.class)
 public interface SeekerFenceGateBlockAccessor {
     @Accessor("type")
-    WoodType sparkwitch$getWoodType();
+    WoodType sparkdlc$getWoodType();
 }

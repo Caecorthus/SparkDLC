@@ -25,7 +25,7 @@ public abstract class CautiousClientWorldSoundMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparktraits$skipCautiousClientEntityStepSound(
+    private void sparkdlc$skipCautiousClientEntityStepSound(
             Entity source,
             SoundEvent sound,
             SoundCategory category,
@@ -59,7 +59,7 @@ public abstract class CautiousClientWorldSoundMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparktraits$skipCautiousClientEntityMovementSound(
+    private void sparkdlc$skipCautiousClientEntityMovementSound(
             PlayerEntity player,
             Entity source,
             RegistryEntry<SoundEvent> sound,

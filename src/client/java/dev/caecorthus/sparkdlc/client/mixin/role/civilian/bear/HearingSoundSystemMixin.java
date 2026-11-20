@@ -22,12 +22,12 @@ import java.util.function.Consumer;
  * range from the raw volume, so range never changes. The first {@code Channel$SourceManager#run} in {@code play} (the
  * vanilla source setup, which the double-barrel spatializer also wraps) additionally raises {@code AL_MAX_GAIN} for
  * scaled sounds so a factor above 1 is audible. BEAR's own re-volume push only sets gains and never stops a source
- * (see {@code sparkwitch$bearHearingGainOnlyPush}). Render thread; the wrapped consumer runs on the sound executor.
+ * (see {@code sparkdlc$bearHearingGainOnlyPush}). Render thread; the wrapped consumer runs on the sound executor.
  * BEAR 听力（H7、E2）：本地玩家的装备倍数乘以跳弹发闷，在圣光弹与盲人凝神所用的同两处接缝（{@code play} 内与逐声音重算内的
  * 类别音量结果）缩放每个受影响声音的增益，与它们相乘组合。只改增益：原版已用原始音量算出衰减范围，因此范围不变。{@code play}
  * 中第一次 {@code Channel$SourceManager#run}（原版声源设置，双管猎枪空间化也包装它）额外为受缩放声音提高
  * {@code AL_MAX_GAIN}，使大于 1 的倍数可被听到。BEAR 自己的重设音量推送只设增益、从不停止声源（见
- * {@code sparkwitch$bearHearingGainOnlyPush}）。渲染线程；包装后的回调在声音执行线程运行。
+ * {@code sparkdlc$bearHearingGainOnlyPush}）。渲染线程；包装后的回调在声音执行线程运行。
  */
 @Mixin(SoundSystem.class)
 public abstract class HearingSoundSystemMixin {
@@ -36,7 +36,7 @@ public abstract class HearingSoundSystemMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/sound/SoundSystem;getAdjustedVolume(FLnet/minecraft/sound/SoundCategory;)F")
     )
-    private float sparkwitch$bearHearingOnPlay(float volume, @Local(argsOnly = true) SoundInstance sound) {
+    private float sparkdlc$bearHearingOnPlay(float volume, @Local(argsOnly = true) SoundInstance sound) {
         return volume * BearHearingClient.volumeFactor(sound);
     }
 
@@ -45,7 +45,7 @@ public abstract class HearingSoundSystemMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/sound/SoundSystem;getAdjustedVolume(FLnet/minecraft/sound/SoundCategory;)F")
     )
-    private float sparkwitch$bearHearingOnUpdate(float volume, @Local(argsOnly = true) SoundInstance sound) {
+    private float sparkdlc$bearHearingOnUpdate(float volume, @Local(argsOnly = true) SoundInstance sound) {
         return volume * BearHearingClient.volumeFactor(sound);
     }
 
@@ -55,7 +55,7 @@ public abstract class HearingSoundSystemMixin {
                     target = "Lnet/minecraft/client/sound/Channel$SourceManager;run(Ljava/util/function/Consumer;)V",
                     ordinal = 0)
     )
-    private void sparkwitch$bearHearingMaxGain(
+    private void sparkdlc$bearHearingMaxGain(
             Channel.SourceManager sourceManager,
             Consumer<Source> setup,
             Operation<Void> original,
@@ -79,7 +79,7 @@ public abstract class HearingSoundSystemMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/sound/Channel$SourceManager;run(Ljava/util/function/Consumer;)V")
     )
-    private void sparkwitch$bearHearingGainOnlyPush(
+    private void sparkdlc$bearHearingGainOnlyPush(
             Channel.SourceManager sourceManager,
             Consumer<Source> action,
             Operation<Void> original,

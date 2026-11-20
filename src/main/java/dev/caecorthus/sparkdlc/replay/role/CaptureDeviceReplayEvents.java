@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.replay.role;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.record.replay.ReplayRegistry;
 import net.minecraft.util.Identifier;
 
@@ -9,10 +9,10 @@ import net.minecraft.util.Identifier;
  * 工程师捕捉装置的回放文本。
  */
 public final class CaptureDeviceReplayEvents {
-    public static final Identifier CAPTURE_DEVICE_PLACED = SparkStrength.id("capture_device_placed");
-    public static final Identifier CAPTURE_DEVICE_TRIGGERED = SparkStrength.id("capture_device_triggered");
-    public static final Identifier CAPTURE_DEVICE_RELEASED = SparkStrength.id("capture_device_released");
-    public static final Identifier CAPTURE_DEVICE_EXPIRED = SparkStrength.id("capture_device_expired");
+    public static final Identifier CAPTURE_DEVICE_PLACED = SparkDLC.id("capture_device_placed");
+    public static final Identifier CAPTURE_DEVICE_TRIGGERED = SparkDLC.id("capture_device_triggered");
+    public static final Identifier CAPTURE_DEVICE_RELEASED = SparkDLC.id("capture_device_released");
+    public static final Identifier CAPTURE_DEVICE_EXPIRED = SparkDLC.id("capture_device_expired");
 
     private CaptureDeviceReplayEvents() {
     }

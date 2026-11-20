@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.sabotage.net;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier;
  * 任何时候都放行，眩晕时也一样。
  */
 public record CancelChannelC2SPacket(int channelId) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("cancel_sabotage_channel");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("cancel_sabotage_channel");
     public static final Id<CancelChannelC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, CancelChannelC2SPacket> CODEC =
             PacketCodec.of(CancelChannelC2SPacket::write, CancelChannelC2SPacket::read);

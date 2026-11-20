@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.noa;
 
 import dev.caecorthus.sparkdlc.faction.api.FactionIds;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -42,7 +42,7 @@ import org.jetbrains.annotations.Nullable;
  */
 final class NoaKillWatch {
     /** SparkFactionAPI skill id for the dog's punishment. / 大狗惩罚的 SparkFactionAPI 技能 id。 */
-    static final Identifier DOG_SKILL_ID = SparkWitch.id("noa_dog");
+    static final Identifier DOG_SKILL_ID = SparkDLC.id("noa_dog");
 
     private NoaKillWatch() {
     }

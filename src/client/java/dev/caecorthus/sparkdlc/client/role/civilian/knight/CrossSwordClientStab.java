@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.knight;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.net.CrossSwordStabC2SPayload;
 import dev.caecorthus.sparkdlc.role.civilian.knight.CrossSwordItem;
 import dev.caecorthus.sparkdlc.role.civilian.knight.duel.KnightDuelWorldComponent;

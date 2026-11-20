@@ -46,7 +46,7 @@ public abstract class JesterMomentTransitionMixin {
      * 否则组件只会同步给小丑本人，他们的视角会一直停留。
      */
     @Unique
-    private boolean sparkstrength$othersSawMoment;
+    private boolean sparkdlc$othersSawMoment;
 
     /**
      * A Jester shot while seated would have its death spot (where its body lies and where it revives) recorded at
@@ -54,14 +54,14 @@ public abstract class JesterMomentTransitionMixin {
      * 坐着被击中的小丑，死亡处（尸体所在、复活所在）会按坐姿高度记录在地板里。先让它起身，随后切换旁观模式本来也会让它离座。
      */
     @Inject(method = "beginFakeDeath", at = @At("HEAD"))
-    private void sparkstrength$standUpBeforeDeathSpot(CallbackInfo ci) {
+    private void sparkdlc$standUpBeforeDeathSpot(CallbackInfo ci) {
         if (this.player instanceof ServerPlayerEntity serverJester && serverJester.hasVehicle()) {
             serverJester.stopRiding();
         }
     }
 
     @Inject(method = "beginFakeDeath", at = @At("RETURN"))
-    private void sparkstrength$freezeEveryone(CallbackInfo ci) {
+    private void sparkdlc$freezeEveryone(CallbackInfo ci) {
         JesterPlayerComponent jester = (JesterPlayerComponent) (Object) this;
         if (jester.spectatorTicks > 0 && this.player instanceof ServerPlayerEntity serverJester) {
             JesterMomentService.onFakeDeathStarted(serverJester, jester.spectatorTicks);
@@ -69,19 +69,19 @@ public abstract class JesterMomentTransitionMixin {
     }
 
     @Inject(method = "enterStasis", at = @At("HEAD"))
-    private void sparkstrength$shuffleEveryone(int ticks, CallbackInfo ci) {
+    private void sparkdlc$shuffleEveryone(int ticks, CallbackInfo ci) {
         if (this.player instanceof ServerPlayerEntity serverJester) {
             JesterMomentService.onTransformationStarted(serverJester);
         }
     }
 
     @Inject(method = "shouldSyncWith", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$syncStasisToEveryone(ServerPlayerEntity recipient, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$syncStasisToEveryone(ServerPlayerEntity recipient, CallbackInfoReturnable<Boolean> cir) {
         JesterPlayerComponent jester = (JesterPlayerComponent) (Object) this;
         if (jester.inStasis || jester.inPsychoMode) {
-            this.sparkstrength$othersSawMoment = true;
+            this.sparkdlc$othersSawMoment = true;
             cir.setReturnValue(true);
-        } else if (this.sparkstrength$othersSawMoment) {
+        } else if (this.sparkdlc$othersSawMoment) {
             cir.setReturnValue(true);
         }
     }
@@ -92,10 +92,10 @@ public abstract class JesterMomentTransitionMixin {
      * 结束同步已发出（在本 tick 内或更早的击杀回调中），停止向所有人同步。覆盖 serverTick 每个返回点。
      */
     @Inject(method = "serverTick", at = @At("RETURN"))
-    private void sparkstrength$momentSyncDone(CallbackInfo ci) {
+    private void sparkdlc$momentSyncDone(CallbackInfo ci) {
         JesterPlayerComponent jester = (JesterPlayerComponent) (Object) this;
         if (!jester.inStasis && !jester.inPsychoMode) {
-            this.sparkstrength$othersSawMoment = false;
+            this.sparkdlc$othersSawMoment = false;
         }
     }
 }

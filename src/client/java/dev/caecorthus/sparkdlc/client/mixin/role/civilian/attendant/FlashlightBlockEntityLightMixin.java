@@ -30,7 +30,7 @@ public abstract class FlashlightBlockEntityLightMixin {
             ),
             index = 4
     )
-    private static int sparkstrength$applyFlashlightBlockLight(
+    private static int sparkdlc$applyFlashlightBlockLight(
             BlockEntity blockEntity,
             float tickDelta,
             MatrixStack matrices,

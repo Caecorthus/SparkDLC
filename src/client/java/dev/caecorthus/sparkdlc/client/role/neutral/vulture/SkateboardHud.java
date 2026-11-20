@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.neutral.vulture;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.neutral.vulture.SkateboardRideComponent;
 import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownManagerAccessor;
@@ -33,7 +33,7 @@ public final class SkateboardHud {
                 || !VultureSkateboardRules.isVulture(GameWorldComponent.KEY.get(player.getWorld()).getRole(player))) {
             return;
         }
-        Item board = SparkStrengthItems.skateboard();
+        Item board = SparkDlcItems.skateboard();
         if (!player.getInventory().contains(stack -> stack.isOf(board))) {
             return;
         }
@@ -60,9 +60,9 @@ public final class SkateboardHud {
     }
 
     private static int cooldownTicks(ItemCooldownManager manager, Item item) {
-        Object entry = ((ItemCooldownManagerAccessor) manager).sparkstrength$getEntries().get(item);
-        return entry == null ? 0 : ((ItemCooldownEntryAccessor) entry).sparkstrength$getEndTick()
-                - ((ItemCooldownManagerAccessor) manager).sparkstrength$getTick();
+        Object entry = ((ItemCooldownManagerAccessor) manager).sparkdlc$getEntriesForKits().get(item);
+        return entry == null ? 0 : ((ItemCooldownEntryAccessor) entry).sparkdlc$getEndTickForKits()
+                - ((ItemCooldownManagerAccessor) manager).sparkdlc$getTickForKits();
     }
 
     private static int seconds(int ticks) {

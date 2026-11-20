@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.replay;
 
-import dev.caecorthus.sparkdlc.SparkFactionApiMod;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.replay.api.ReplayBadge;
 import dev.caecorthus.sparkdlc.replay.api.ReplayBadgeContributor;
 import dev.caecorthus.sparkdlc.replay.api.ReplayPlayerView;
@@ -59,7 +59,7 @@ final class ReplaySnapshotBuilder {
             raw.release();
         }
         if (fit == null) {
-            SparkFactionApiMod.LOGGER.warn(
+            SparkDLC.LOGGER.warn(
                     "Replay snapshot for match {} exceeds {} bytes even without OTHER/ITEM lines ({} players, {} lines); "
                             + "players will get the chat replay instead",
                     header.matchId(), MAX_ENCODED_BYTES, players.size(), lines.size()
@@ -67,13 +67,13 @@ final class ReplaySnapshotBuilder {
             return null;
         }
         if (!fit.dropped().isEmpty()) {
-            SparkFactionApiMod.LOGGER.warn(
+            SparkDLC.LOGGER.warn(
                     "Replay snapshot for match {} trimmed to fit {} bytes: dropped {} ({} -> {} lines, {} bytes)",
                     header.matchId(), MAX_ENCODED_BYTES, droppedCounts(lines, fit.dropped()),
                     lines.size(), fit.lines().size(), fit.encodedSize()
             );
         }
-        SparkFactionApiMod.LOGGER.info(
+        SparkDLC.LOGGER.info(
                 "Replay snapshot for match {} built: {} players, {} lines, {} bytes",
                 header.matchId(), players.size(), fit.lines().size(), fit.encodedSize()
         );
@@ -117,7 +117,7 @@ final class ReplaySnapshotBuilder {
         List<ReplaySnapshot.Player> players = new ArrayList<>();
         for (UUID uuid : session.participants()) {
             if (players.size() >= ReplaySnapshot.MAX_PLAYERS) {
-                SparkFactionApiMod.LOGGER.warn("Replay snapshot keeps only the first {} players",
+                SparkDLC.LOGGER.warn("Replay snapshot keeps only the first {} players",
                         ReplaySnapshot.MAX_PLAYERS);
                 break;
             }

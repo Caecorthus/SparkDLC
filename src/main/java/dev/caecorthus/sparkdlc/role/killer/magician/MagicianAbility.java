@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.magician;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesSilenceBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
@@ -31,7 +31,7 @@ public final class MagicianAbility {
         // STOPPING fade, when no new recording or playback may start.
         // 必须恰为 ACTIVE（所有者 2026-11），与较新的职业一致：Wathe 的 isRunning() 在胜负已定后的 STOPPING 淡出期间仍为真，
         // 而此时不得开始新的录制或播放。
-        if (role == null || !SparkWitchRoles.MAGICIAN_ID.equals(role.identifier())
+        if (role == null || !SparkDlcRoles.MAGICIAN_ID.equals(role.identifier())
                 || game.getGameStatus() != GameWorldComponent.GameStatus.ACTIVE
                 || !GameFunctions.isPlayerPlayingAndAlive(player)) {
             return;

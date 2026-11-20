@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.knight.duel;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NbtCompound;
@@ -28,7 +28,7 @@ import java.util.UUID;
  */
 public final class KnightDuelWorldComponent implements AutoSyncedComponent, ServerTickingComponent {
     public static final ComponentKey<KnightDuelWorldComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("knight_duel"), KnightDuelWorldComponent.class);
+            SparkDLC.id("knight_duel"), KnightDuelWorldComponent.class);
     private final World world;
     private boolean active;
     private UUID knight;

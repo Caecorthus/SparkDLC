@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.role.witch.riftwalker.gate;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.legacy.LegacyPermissions;
-import dev.caecorthus.sparkdlc.util.SparkWitchPermissions;
+import dev.caecorthus.sparkdlc.util.RoleCommandPermissions;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.particle.ParticleTypes;
@@ -22,12 +22,12 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Server side of the {@link RiftGateRemoverItem}: an operator (permission node
- * {@link SparkWitchPermissions#ITEM_RIFT_GATE_REMOVER}, op level 2 without a permissions mod) deletes the Rift Gate
+ * {@link RoleCommandPermissions#ITEM_RIFT_GATE_REMOVER}, op level 2 without a permissions mod) deletes the Rift Gate
  * under the crosshair. The server re-picks the target by its own ray (blocks in the way stop it), so the client's
  * crosshair is never trusted. A listed gate closes through {@link RiftGateRegistry#close} with
  * {@link RiftGateCloseReason#ADMIN}, which force-exits its occupants like any other close; a stray unlisted entity is
  * just discarded. Works in any game state and for any role. Server thread only.
- * {@link RiftGateRemoverItem} 的服务端：管理员（权限节点 {@link SparkWitchPermissions#ITEM_RIFT_GATE_REMOVER}，未装权限模组时
+ * {@link RiftGateRemoverItem} 的服务端：管理员（权限节点 {@link RoleCommandPermissions#ITEM_RIFT_GATE_REMOVER}，未装权限模组时
  * 为 op 2 级）删除准星所指的裂隙门。服务端用自己的射线重新选取目标（中间有方块则挡住），从不信任客户端准星。已登记的门经
  * {@link RiftGateRegistry#close} 以 {@link RiftGateCloseReason#ADMIN} 关闭，门内的人与其他关闭方式一样被强制出门；未登记的
  * 残留实体直接移除。任何对局状态、任何职业都可使用。仅服务端线程。
@@ -49,8 +49,8 @@ public final class RiftGateRemoverService {
 
     /** Returns SUCCESS (the server swings the hand) only when a gate was removed. / 只有删除了门才返回 SUCCESS（服务端挥手）。 */
     public static ActionResult tryRemove(ServerPlayerEntity player) {
-        if (!LegacyPermissions.check(player, SparkWitchPermissions.ITEM_RIFT_GATE_REMOVER,
-                SparkWitchPermissions.DEFAULT_COMMAND_LEVEL)) {
+        if (!LegacyPermissions.check(player, RoleCommandPermissions.ITEM_RIFT_GATE_REMOVER,
+                RoleCommandPermissions.DEFAULT_COMMAND_LEVEL)) {
             player.sendMessage(Text.translatable(NO_PERMISSION_KEY), true);
             return ActionResult.FAIL;
         }
@@ -66,7 +66,7 @@ public final class RiftGateRemoverService {
             gate.discard();
         }
         playCue(world, pos);
-        SparkWitch.LOGGER.info("{} removed Rift Gate #{} at {} with the Rift Gate Remover",
+        SparkDLC.LOGGER.info("{} removed Rift Gate #{} at {} with the Rift Gate Remover",
                 player.getName().getString(), number, pos);
         player.sendMessage(Text.translatable(REMOVED_KEY, number), true);
         return ActionResult.SUCCESS;

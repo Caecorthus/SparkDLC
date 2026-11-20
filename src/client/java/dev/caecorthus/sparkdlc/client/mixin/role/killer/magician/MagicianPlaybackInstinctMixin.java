@@ -31,7 +31,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = WatheClient.class, remap = false, priority = 600)
 public abstract class MagicianPlaybackInstinctMixin {
     @Inject(method = "getInstinctHighlight", at = @At("HEAD"), cancellable = true)
-    private static void sparkwitch$highlightPuppetAsCopiedPlayer(Entity target, CallbackInfoReturnable<Integer> cir) {
+    private static void sparkdlc$highlightPuppetAsCopiedPlayer(Entity target, CallbackInfoReturnable<Integer> cir) {
         if (target instanceof MagicianPlaybackEntity puppet) {
             PlayerEntity standIn = MagicianPuppetStandIn.of(puppet);
             cir.setReturnValue(standIn == null ? -1 : WatheClient.getInstinctHighlight(standIn));

@@ -27,7 +27,7 @@ public abstract class SeekerRemoteMouseMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/network/ClientPlayerEntity;changeLookDirection(DD)V")
     )
-    private void sparkwitch$lookThroughFocus(ClientPlayerEntity player, double cursorDeltaX, double cursorDeltaY,
+    private void sparkdlc$lookThroughFocus(ClientPlayerEntity player, double cursorDeltaX, double cursorDeltaY,
                                             Operation<Void> original) {
         if (!SeekerRemoteViewClient.isActive()) {
             original.call(player, cursorDeltaX, cursorDeltaY);
@@ -39,7 +39,7 @@ public abstract class SeekerRemoteMouseMixin {
     }
 
     @Inject(method = "onMouseScroll", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$blockScrollWhileViewing(long window, double horizontal, double vertical, CallbackInfo ci) {
+    private void sparkdlc$blockScrollWhileViewing(long window, double horizontal, double vertical, CallbackInfo ci) {
         if (!SeekerRemoteViewClient.isActive()) {
             return;
         }

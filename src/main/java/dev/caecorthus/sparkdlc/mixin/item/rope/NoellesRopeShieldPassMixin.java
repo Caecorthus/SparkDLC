@@ -34,7 +34,7 @@ public abstract class NoellesRopeShieldPassMixin {
             require = 1,
             allow = 1
     )
-    private static boolean sparkwitch$ropePassesIronMan(boolean hasBuff, ServerPlayerEntity victim,
+    private static boolean sparkdlc$ropePassesIronMan(boolean hasBuff, ServerPlayerEntity victim,
             @Nullable ServerPlayerEntity killer, Identifier deathReason) {
         return hasBuff && !RopeShieldPolicy.passesShields(deathReason);
     }
@@ -47,7 +47,7 @@ public abstract class NoellesRopeShieldPassMixin {
             require = 1,
             allow = 1
     )
-    private static boolean sparkwitch$ropePassesWhiskey(boolean hasShield, ServerPlayerEntity victim,
+    private static boolean sparkdlc$ropePassesWhiskey(boolean hasShield, ServerPlayerEntity victim,
             @Nullable ServerPlayerEntity killer, Identifier deathReason) {
         return hasShield && !RopeShieldPolicy.passesShields(deathReason);
     }

@@ -28,7 +28,7 @@ public abstract class EntityModelCaptureMixin<T extends LivingEntity, M extends 
                     + "Lnet/minecraft/client/render/VertexConsumerProvider;I)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/model/EntityModel;render("
                     + "Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;III)V"))
-    private void sparkwitch$recordBodyModel(EntityModel<T> model, MatrixStack matrices, VertexConsumer vertices,
+    private void sparkdlc$recordBodyModel(EntityModel<T> model, MatrixStack matrices, VertexConsumer vertices,
                                             int light, int overlay, int color, Operation<Void> original) {
         original.call(model, matrices, EntityModelCapture.tee(vertices), light, overlay, color);
     }

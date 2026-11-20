@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.apprentice.abilities.purify;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
@@ -38,7 +38,7 @@ import org.jetbrains.annotations.Nullable;
  * 因子时为她自己）失去魔女因子，她获得 30 魔力。目标没有因子时仍消耗魔力与冷却：“未感知到因子”本身就是情报。
  */
 public final class PurifyAbility {
-    public static final Identifier ID = SparkWitch.id("purify");
+    public static final Identifier ID = SparkDLC.id("purify");
     public static final int COLOR = 0xD9C2FF;
     public static final int MANA_COST = 30;
     public static final int COOLDOWN_TICKS = GameConstants.getInTicks(0, 20);
@@ -57,7 +57,7 @@ public final class PurifyAbility {
     public static void use(ServerPlayerEntity player) {
         GameWorldComponent game = GameWorldComponent.KEY.get(player.getServerWorld());
         if (!game.isRunning() || !GameFunctions.isPlayerPlayingAndAlive(player) || player.isSpectator()
-                || game.getRole(player) != SparkWitchRoles.apprenticeWitch()) {
+                || game.getRole(player) != SparkDlcRoles.apprenticeWitch()) {
             return;
         }
         // Same silent refusals as the other dedicated role skills (Blind Attune, Warden's Shriek).

@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class WraithCorpseModelMixin
         extends LivingEntityRenderer<PlayerBodyEntity, PlayerEntityModel<PlayerBodyEntity>> {
     @Unique
-    private PlayerEntityModel<PlayerBodyEntity> sparkwitch$baseBodyModel;
+    private PlayerEntityModel<PlayerBodyEntity> sparkdlc$baseBodyModel;
 
     protected WraithCorpseModelMixin(
             EntityRendererFactory.Context context,
@@ -30,19 +30,19 @@ public abstract class WraithCorpseModelMixin
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void sparkwitch$rememberBaseBodyModel(
+    private void sparkdlc$rememberBaseBodyModel(
             EntityRendererFactory.Context context,
             boolean slim,
             CallbackInfo ci
     ) {
-        this.sparkwitch$baseBodyModel = this.model;
+        this.sparkdlc$baseBodyModel = this.model;
     }
 
     @Inject(
             method = "render(Ldev/doctor4t/wathe/entity/PlayerBodyEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V",
             at = @At("HEAD")
     )
-    private void sparkwitch$restoreWideBodyModel(
+    private void sparkdlc$restoreWideBodyModel(
             PlayerBodyEntity body,
             float yaw,
             float tickDelta,
@@ -52,8 +52,8 @@ public abstract class WraithCorpseModelMixin
             CallbackInfo ci
     ) {
         if (WraithSteveProjection.shouldAnonymizeCorpses()
-                && this.sparkwitch$baseBodyModel != null) {
-            this.model = this.sparkwitch$baseBodyModel;
+                && this.sparkdlc$baseBodyModel != null) {
+            this.model = this.sparkdlc$baseBodyModel;
         }
     }
 }

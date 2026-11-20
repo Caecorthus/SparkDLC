@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.coroner;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerRules;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -21,7 +21,7 @@ import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
  */
 public final class CoronerBodySnapshotComponent implements AutoSyncedComponent {
     public static final ComponentKey<CoronerBodySnapshotComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("coroner_body_snapshot"),
+            SparkDLC.id("coroner_body_snapshot"),
             CoronerBodySnapshotComponent.class
     );
 

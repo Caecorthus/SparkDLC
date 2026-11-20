@@ -20,7 +20,7 @@ public abstract class WraithGroundPickupMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$preventActiveWraithPickup(PlayerEntity player, CallbackInfo ci) {
+    private void sparkdlc$preventActiveWraithPickup(PlayerEntity player, CallbackInfo ci) {
         if (!player.getWorld().isClient
                 && !WraithParticipationRules.mayPickUpGroundItems(WraithStateService.isActive(player))) {
             ci.cancel();

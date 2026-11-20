@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.render;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.fabricmc.fabric.api.client.networking.v1.ClientLoginConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
@@ -20,7 +20,7 @@ import net.minecraft.util.Identifier;
  * 重载时的 {@link SmokeRenderer#reset()}。Fabulous! 深度拷贝由 {@code SmokeFabulousDepthMixin} 执行。
  */
 public final class SmokeRenderWiring {
-    private static final Identifier RELOAD_LISTENER_ID = SparkWitch.id("bear_smoke_renderer");
+    private static final Identifier RELOAD_LISTENER_ID = SparkDLC.id("bear_smoke_renderer");
     private static boolean registered;
 
     private SmokeRenderWiring() {

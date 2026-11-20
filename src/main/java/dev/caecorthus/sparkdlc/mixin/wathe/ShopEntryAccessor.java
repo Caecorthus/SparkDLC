@@ -13,5 +13,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(value = ShopEntry.class, remap = false)
 public interface ShopEntryAccessor {
     @Accessor(value = "price", remap = false)
-    int sparkstrength$listedPrice();
+    int sparkdlc$listedPrice();
 }

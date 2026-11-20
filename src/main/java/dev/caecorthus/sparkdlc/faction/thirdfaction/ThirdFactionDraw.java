@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.faction.thirdfaction;
 import dev.caecorthus.sparkdlc.faction.api.FactionCategory;
 import dev.caecorthus.sparkdlc.faction.api.ThirdFactionDrawContext;
 import dev.caecorthus.sparkdlc.faction.api.ThirdFactionLineup;
-import dev.caecorthus.sparkdlc.component.SparkFactionThirdFactionComponent;
+import dev.caecorthus.sparkdlc.component.ThirdFactionComponent;
 import dev.caecorthus.sparkdlc.faction.nativefaction.NativeWatheFactions;
 import dev.doctor4t.wathe.api.Faction;
 import dev.doctor4t.wathe.api.Role;
@@ -34,7 +34,7 @@ import java.util.Set;
  * 之前；此时 Wathe 的强制角色与杀手/义警分配已完成，这些角色计为在场。
  */
 public final class ThirdFactionDraw {
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkFactionAPI/ThirdFactionDraw");
+    private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/ThirdFactionDraw");
 
     // Third factions present once the draw is done, read by Wathe's neutral pass of the same assignment; null outside
     // it. Server thread only. 抽取完成后在场的第三方阵营，供同一次分配中的 Wathe 中立分配读取；其它时刻为 null。仅服务端线程。
@@ -54,7 +54,7 @@ public final class ThirdFactionDraw {
     }
 
     public static ThirdFactionDrawSettings settings(ServerWorld world) {
-        return SparkFactionThirdFactionComponent.of(world.getServer()).settings();
+        return ThirdFactionComponent.of(world.getServer()).settings();
     }
 
     /**

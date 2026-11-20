@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(FirecrackerEntity.class)
 public abstract class FirecrackerSmokeCarveMixin {
     @Inject(method = "tick", at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/entity/FirecrackerEntity;discard()V"))
-    private void sparkwitch$carveFirecrackerBang(CallbackInfo ci) {
+    private void sparkdlc$carveFirecrackerBang(CallbackInfo ci) {
         Entity firecracker = (Entity) (Object) this;
         RangedSmokeCarve.blast(firecracker.getWorld(), firecracker.getPos(), BearRicochetRules.FIRECRACKER_HOLE_RADIUS);
     }

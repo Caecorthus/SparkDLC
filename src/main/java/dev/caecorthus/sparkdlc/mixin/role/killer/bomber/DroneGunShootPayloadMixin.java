@@ -30,7 +30,7 @@ public abstract class DroneGunShootPayloadMixin {
     @Inject(method = "receive(Ldev/doctor4t/wathe/util/GunShootPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             at = @At(value = "INVOKE",
                     target = "Ldev/doctor4t/wathe/record/GameRecordManager;recordItemUse(Lnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;Lnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/nbt/NbtCompound;)V"))
-    private void sparkstrength$shootDrone(GunShootPayload payload, ServerPlayNetworking.Context context,
+    private void sparkdlc$shootDrone(GunShootPayload payload, ServerPlayNetworking.Context context,
                                           CallbackInfo ci) {
         ServerPlayerEntity shooter = context.player();
         Entity target = shooter.getServerWorld().getEntityById(payload.target());

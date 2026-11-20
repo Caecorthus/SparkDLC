@@ -15,7 +15,7 @@ public abstract class M67HotbarMixin {
     // 在原版同步同类物品切槽并随后松手之前取消，避免意外投掷。
     @WrapOperation(method = "handleInputEvents", at = @At(value = "FIELD",
             target = "Lnet/minecraft/entity/player/PlayerInventory;selectedSlot:I", opcode = Opcodes.PUTFIELD))
-    private void sparkstrength$m67CancelBeforeSlot(PlayerInventory inventory, int slot,
+    private void sparkdlc$m67CancelBeforeSlot(PlayerInventory inventory, int slot,
                                                    Operation<Void> original) {
         if (inventory.selectedSlot != slot) {
             M67Client.cancel();

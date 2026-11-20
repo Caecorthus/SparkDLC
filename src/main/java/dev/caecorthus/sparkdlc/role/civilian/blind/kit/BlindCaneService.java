@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.blind.kit;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
@@ -119,7 +119,7 @@ public final class BlindCaneService {
      * 并在其缺失时回退原版写入；二者不会同时执行。
      */
     static void writeItemCooldown(ServerPlayerEntity player, int ticks) {
-        Item cane = SparkWitchItems.whiteCane();
+        Item cane = SparkDlcItems.whiteCane();
         BlindKitRules.writeRaisedCooldown(remainingItemCooldown(player, cane), ticks,
                 merged -> SparkTraitsApi.setExactItemCooldownRemaining(player, cane, merged),
                 merged -> player.getItemCooldownManager().set(cane, merged));
@@ -166,9 +166,9 @@ public final class BlindCaneService {
     private static int remainingItemCooldown(ServerPlayerEntity player, Item item) {
         ItemCooldownManager manager = player.getItemCooldownManager();
         if (!(manager instanceof ItemCooldownManagerAccessor accessor)
-                || !(accessor.sparkwitch$getEntries().get(item) instanceof ItemCooldownEntryAccessor entry)) {
+                || !(accessor.sparkdlc$getEntriesForRoles().get(item) instanceof ItemCooldownEntryAccessor entry)) {
             return 0;
         }
-        return Math.max(0, entry.sparkwitch$getEndTick() - accessor.sparkwitch$getTick());
+        return Math.max(0, entry.sparkdlc$getEndTickForRoles() - accessor.sparkdlc$getTickForRoles());
     }
 }

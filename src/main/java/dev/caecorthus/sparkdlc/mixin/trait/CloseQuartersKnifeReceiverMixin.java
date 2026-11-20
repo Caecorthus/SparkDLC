@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class CloseQuartersKnifeReceiverMixin {
     @Inject(method = "receive(Ldev/doctor4t/wathe/util/KnifeStabPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             at = @At("HEAD"), cancellable = true, remap = false)
-    private void sparktraits$guardKnifePacket(KnifeStabPayload payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
+    private void sparkdlc$guardKnifePacket(KnifeStabPayload payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
         ServerPlayerEntity attacker = context.player();
         Entity target = attacker.getServerWorld().getEntityById(payload.target());
         if (LastEscapeService.isActive(attacker)
@@ -34,7 +34,7 @@ public abstract class CloseQuartersKnifeReceiverMixin {
     @Inject(method = "receive(Ldev/doctor4t/wathe/util/KnifeStabPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             at = @At(value = "FIELD", target = "Ldev/doctor4t/wathe/cca/GameWorldComponent;KEY:Lorg/ladysnake/cca/api/v3/component/ComponentKey;"),
             cancellable = true, remap = false)
-    private void sparktraits$parryAcceptedKnife(KnifeStabPayload payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
+    private void sparkdlc$parryAcceptedKnife(KnifeStabPayload payload, ServerPlayNetworking.Context context, CallbackInfo ci) {
         ServerPlayerEntity attacker = context.player();
         Entity target = attacker.getServerWorld().getEntityById(payload.target());
         ItemStack weapon = attacker.getMainHandStack().isOf(WatheItems.KNIFE)

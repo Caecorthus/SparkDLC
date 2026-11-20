@@ -19,14 +19,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(PlayerEntity.class)
 public abstract class PigPlayerSoundMixin {
     @Inject(method = "tick", at = @At("TAIL"))
-    private void sparktraits$tickPigAmbientSound(CallbackInfo ci) {
+    private void sparkdlc$tickPigAmbientSound(CallbackInfo ci) {
         if ((Object) this instanceof ServerPlayerEntity player) {
             PigTraitService.tickAmbientSound(player);
         }
     }
 
     @Inject(method = "getHurtSound", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$usePigHurtSound(DamageSource source, CallbackInfoReturnable<SoundEvent> cir) {
+    private void sparkdlc$usePigHurtSound(DamageSource source, CallbackInfoReturnable<SoundEvent> cir) {
         PlayerEntity player = (PlayerEntity) (Object) this;
         if (!SparkDlcServerConnection.isUnconfirmedClientEntity(player) && PigTraitService.isPig(player)) {
             cir.setReturnValue(PigTraitService.hurtSound());

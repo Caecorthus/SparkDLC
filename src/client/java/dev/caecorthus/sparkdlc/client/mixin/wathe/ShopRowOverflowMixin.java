@@ -53,7 +53,7 @@ public abstract class ShopRowOverflowMixin extends LimitedHandledScreen<PlayerSc
     }
 
     @Inject(method = "init", at = @At("TAIL"))
-    private void sparkstrength$keepShopEntriesOnScreen(CallbackInfo ci) {
+    private void sparkdlc$keepShopEntriesOnScreen(CallbackInfo ci) {
         List<ClickableWidget> entries = new ArrayList<>();
         for (Element child : children()) {
             if (child instanceof LimitedInventoryScreen.StoreItemWidget entry ? entry.visible

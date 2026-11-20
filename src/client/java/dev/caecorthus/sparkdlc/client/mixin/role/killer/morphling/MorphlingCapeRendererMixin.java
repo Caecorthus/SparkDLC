@@ -18,7 +18,7 @@ public abstract class MorphlingCapeRendererMixin {
                     target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;getSkinTextures()Lnet/minecraft/client/util/SkinTextures;"
             )
     )
-    private SkinTextures sparkstrength$useMorphlingReagentCapeSkin(
+    private SkinTextures sparkdlc$useMorphlingReagentCapeSkin(
             AbstractClientPlayerEntity player,
             Operation<SkinTextures> original
     ) {

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.hunter;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.registry.Registries;
@@ -20,7 +20,7 @@ public final class HunterEntities {
         }
         hunterTrap = Registry.register(
                 Registries.ENTITY_TYPE,
-                SparkWitch.id("hunter_trap"),
+                SparkDLC.id("hunter_trap"),
                 EntityType.Builder.<HunterTrapEntity>create(HunterTrapEntity::new, SpawnGroup.MISC)
                         // 捕兽夹模型的实际范围约为 0.5 格宽、0.125 格高；
                         // 包围盒略微留出高度余量，避免模型超出实体包围盒后被视锥裁剪。

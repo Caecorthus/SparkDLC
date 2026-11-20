@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.item.m1903a4;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RangedSmokeCarve;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
@@ -128,12 +128,12 @@ public final class M1903A4Combat {
         spawnSmoke(world, start, hit.stop());
         NbtCompound extra = new NbtCompound();
         extra.putBoolean(M1903A4Rules.RECORD_HIT, victim != null);
-        GameRecordManager.recordItemUse(shooter, SparkWitchItems.M1903A4_ID, victim, extra);
+        GameRecordManager.recordItemUse(shooter, SparkDlcItems.M1903A4_ID, victim, extra);
 
         if (victim != null && strike(shooter, victim, game)) {
             // Shooter only: bystanders must not learn the outcome, nor hear a Fiend / Charon feign fail.
             // 只给射手：旁观者不得得知结果，也不得听出魔人 / 卡戎假死。
-            shooter.playSoundToPlayer(SparkWitchSounds.M1903A4_KILL, SoundCategory.PLAYERS, 1.0F, 1.0F);
+            shooter.playSoundToPlayer(SparkDlcSounds.M1903A4_KILL, SoundCategory.PLAYERS, 1.0F, 1.0F);
         }
     }
 

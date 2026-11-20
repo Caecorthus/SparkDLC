@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.knight;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.knight.CrossSwordItem;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.minecraft.item.ItemStack;
@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier;
  * 生效；松手钩子安装客户端刺击发送器（{@link CrossSwordClientStab}）。
  */
 public final class KnightSwordClient {
-    public static final Identifier USING_ITEM = SparkWitch.id("using_item");
+    public static final Identifier USING_ITEM = SparkDLC.id("using_item");
 
     private KnightSwordClient() {
     }

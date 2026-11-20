@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.global;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.Trait;
 import dev.caecorthus.sparkdlc.trait.api.TraitAudience;
 import dev.caecorthus.sparkdlc.trait.api.TraitSelectionContext;
@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
  * 经济：单笔消费超过 100 金币时返还实付金额的 10%。通用词条。
  */
 public final class EconomyTrait implements Trait {
-    public static final Identifier ID = SparkTraits.id("economy");
+    public static final Identifier ID = SparkDLC.id("economy");
     public static final int COLOR = 0xD4AF37;
     /** Only purchases strictly above this threshold qualify. 仅超过该金额的消费才返还。 */
     public static final int THRESHOLD = 100;

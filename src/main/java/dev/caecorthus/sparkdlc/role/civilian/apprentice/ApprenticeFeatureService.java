@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.apprentice;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.abilities.purify.PurifyAbility;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.net.UseApprenticePurifyC2SPayload;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -51,7 +51,7 @@ public final class ApprenticeFeatureService {
     }
 
     static void onTaskComplete(ServerPlayerEntity player) {
-        if (GameWorldComponent.KEY.get(player.getServerWorld()).getRole(player) != SparkWitchRoles.apprenticeWitch()) {
+        if (GameWorldComponent.KEY.get(player.getServerWorld()).getRole(player) != SparkDlcRoles.apprenticeWitch()) {
             return;
         }
         if (ApprenticePlayerComponent.KEY.get(player).recordCompletedTask()) {

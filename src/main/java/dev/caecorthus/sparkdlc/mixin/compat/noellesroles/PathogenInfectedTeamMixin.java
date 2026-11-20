@@ -27,7 +27,7 @@ public abstract class PathogenInfectedTeamMixin {
     private PlayerEntity player;
 
     @Inject(method = "isInfected", at = @At("HEAD"), cancellable = true, remap = false)
-    private void sparkstrength$pathogensCountAsInfected(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$pathogensCountAsInfected(CallbackInfoReturnable<Boolean> cir) {
         if (PathogenVisibility.isPathogen(player)) {
             cir.setReturnValue(true);
         }

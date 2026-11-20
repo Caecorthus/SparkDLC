@@ -74,11 +74,11 @@ public abstract class PoisonGasCloudEntityMixin extends Entity {
     private int age;
 
     @Unique
-    private boolean sparktraits$conscienceGas;
+    private boolean sparkdlc$conscienceGas;
     // Particle sampling list; the blue cloud only grows, so it is rebuilt only after a spread added blocks.
     // 粒子采样列表；蓝色毒气只会扩散增长，因此只在扩散新增方块后才重建。
     @Unique
-    private List<BlockPos> sparktraits$particleBlocks = List.of();
+    private List<BlockPos> sparkdlc$particleBlocks = List.of();
 
     protected PoisonGasCloudEntityMixin(EntityType<?> type, World world) {
         super(type, world);
@@ -104,38 +104,38 @@ public abstract class PoisonGasCloudEntityMixin extends Entity {
     }
 
     @Inject(method = "setOwnerUuid", at = @At("TAIL"), remap = false)
-    private void sparktraits$markConscienceGas(UUID uuid, CallbackInfo ci) {
+    private void sparkdlc$markConscienceGas(UUID uuid, CallbackInfo ci) {
         if (uuid == null || !(this.getWorld() instanceof ServerWorld serverWorld)) {
             return;
         }
         ServerPlayerEntity owner = serverWorld.getServer().getPlayerManager().getPlayer(uuid);
-        sparktraits$conscienceGas = ConsciencePoisonerService.isConsciencePoisoner(
+        sparkdlc$conscienceGas = ConsciencePoisonerService.isConsciencePoisoner(
                 owner,
                 GameWorldComponent.KEY.get(serverWorld)
         );
     }
 
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$tickConscienceGas(CallbackInfo ci) {
-        if (!sparktraits$conscienceGas) {
+    private void sparkdlc$tickConscienceGas(CallbackInfo ci) {
+        if (!sparkdlc$conscienceGas) {
             return;
         }
-        sparktraits$tickBlueGas();
+        sparkdlc$tickBlueGas();
         ci.cancel();
     }
 
     @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
-    private void sparktraits$writeConscienceGas(NbtCompound nbt, CallbackInfo ci) {
-        nbt.putBoolean(CONSCIENCE_GAS_KEY, sparktraits$conscienceGas);
+    private void sparkdlc$writeConscienceGas(NbtCompound nbt, CallbackInfo ci) {
+        nbt.putBoolean(CONSCIENCE_GAS_KEY, sparkdlc$conscienceGas);
     }
 
     @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
-    private void sparktraits$readConscienceGas(NbtCompound nbt, CallbackInfo ci) {
-        sparktraits$conscienceGas = nbt.getBoolean(CONSCIENCE_GAS_KEY);
+    private void sparkdlc$readConscienceGas(NbtCompound nbt, CallbackInfo ci) {
+        sparkdlc$conscienceGas = nbt.getBoolean(CONSCIENCE_GAS_KEY);
     }
 
     @Unique
-    private void sparktraits$tickBlueGas() {
+    private void sparkdlc$tickBlueGas() {
         super.tick();
         age++;
         if (age > MAX_LIFETIME) {
@@ -146,13 +146,13 @@ public abstract class PoisonGasCloudEntityMixin extends Entity {
         if (!(this.getWorld() instanceof ServerWorld serverWorld)) {
             return;
         }
-        sparktraits$spreadGas(serverWorld);
-        sparktraits$applyBlueGas(serverWorld);
-        sparktraits$spawnBlueGasParticles(serverWorld);
+        sparkdlc$spreadGas(serverWorld);
+        sparkdlc$applyBlueGas(serverWorld);
+        sparkdlc$spawnBlueGasParticles(serverWorld);
     }
 
     @Unique
-    private void sparktraits$spreadGas(ServerWorld serverWorld) {
+    private void sparkdlc$spreadGas(ServerWorld serverWorld) {
         if (age == 1) {
             BlockPos startPos = this.getBlockPos();
             gasBlocks.add(startPos);
@@ -195,7 +195,7 @@ public abstract class PoisonGasCloudEntityMixin extends Entity {
     }
 
     @Unique
-    private void sparktraits$applyBlueGas(ServerWorld serverWorld) {
+    private void sparkdlc$applyBlueGas(ServerWorld serverWorld) {
         GameWorldComponent gameWorld = GameWorldComponent.KEY.get(serverWorld);
         for (ServerPlayerEntity player : serverWorld.getPlayers()) {
             if (!GameFunctions.isPlayerAliveAndSurvival(player)) {
@@ -205,10 +205,10 @@ public abstract class PoisonGasCloudEntityMixin extends Entity {
                     gameWorld.getRole(player),
                     TraitPlayerComponent.KEY.get(player).getActiveTraitIds()
             );
-            boolean inGas = sparktraits$isPlayerInGas(player);
+            boolean inGas = sparkdlc$isPlayerInGas(player);
             if (effectiveCivilian) {
                 exposureTicks.put(player.getUuid(), 0);
-                sparktraits$clearGasExhaustion(player);
+                sparkdlc$clearGasExhaustion(player);
                 // Effective civilians lose sanity only while standing in the gas; Poisoners are exempt as in NoellesRoles gas.
                 // 有效好人只在待在毒气里时扣理智；与 NoellesRoles 原版毒气一致，毒师本人豁免。
                 if (inGas && !gameWorld.isRole(player, Noellesroles.POISONER)) {
@@ -219,7 +219,7 @@ public abstract class PoisonGasCloudEntityMixin extends Entity {
             if (inGas) {
                 int ticks = exposureTicks.getOrDefault(player.getUuid(), 0) + 1;
                 exposureTicks.put(player.getUuid(), ticks);
-                sparktraits$applyGasExhaustion(player);
+                sparkdlc$applyGasExhaustion(player);
                 if (ticks >= EXPOSURE_THRESHOLD) {
                     ConsciencePoisonerService.applyBluePoison(
                             player,
@@ -230,13 +230,13 @@ public abstract class PoisonGasCloudEntityMixin extends Entity {
                 }
             } else {
                 exposureTicks.put(player.getUuid(), 0);
-                sparktraits$clearGasExhaustion(player);
+                sparkdlc$clearGasExhaustion(player);
             }
         }
     }
 
     @Unique
-    private boolean sparktraits$isPlayerInGas(ServerPlayerEntity player) {
+    private boolean sparkdlc$isPlayerInGas(ServerPlayerEntity player) {
         Box box = player.getBoundingBox();
         BlockPos.Mutable cell = new BlockPos.Mutable();
         for (int x = MathHelper.floor(box.minX); x <= MathHelper.floor(box.maxX); x++) {
@@ -267,7 +267,7 @@ public abstract class PoisonGasCloudEntityMixin extends Entity {
     }
 
     @Unique
-    private void sparktraits$applyGasExhaustion(ServerPlayerEntity player) {
+    private void sparkdlc$applyGasExhaustion(ServerPlayerEntity player) {
         PlayerStaminaComponent stamina = PlayerStaminaComponent.KEY.get(player);
         if (!stamina.isInfiniteStamina()) {
             stamina.setSprintingTicks(0);
@@ -277,7 +277,7 @@ public abstract class PoisonGasCloudEntityMixin extends Entity {
     }
 
     @Unique
-    private void sparktraits$clearGasExhaustion(ServerPlayerEntity player) {
+    private void sparkdlc$clearGasExhaustion(ServerPlayerEntity player) {
         if (!playersInGas.remove(player.getUuid())) {
             return;
         }
@@ -289,14 +289,14 @@ public abstract class PoisonGasCloudEntityMixin extends Entity {
     }
 
     @Unique
-    private void sparktraits$spawnBlueGasParticles(ServerWorld serverWorld) {
+    private void sparkdlc$spawnBlueGasParticles(ServerWorld serverWorld) {
         if (gasBlocks.isEmpty()) {
             return;
         }
-        if (sparktraits$particleBlocks.size() != gasBlocks.size()) {
-            sparktraits$particleBlocks = new ArrayList<>(gasBlocks);
+        if (sparkdlc$particleBlocks.size() != gasBlocks.size()) {
+            sparkdlc$particleBlocks = new ArrayList<>(gasBlocks);
         }
-        List<BlockPos> blockList = sparktraits$particleBlocks;
+        List<BlockPos> blockList = sparkdlc$particleBlocks;
         int particleCount = 4 + serverWorld.random.nextInt(3);
         for (int i = 0; i < particleCount && !blockList.isEmpty(); i++) {
             BlockPos pos = blockList.get(serverWorld.random.nextInt(blockList.size()));

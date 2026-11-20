@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import java.util.Objects;
 import java.util.UUID;
 import net.minecraft.network.PacketByteBuf;
@@ -16,7 +16,7 @@ import net.minecraft.util.Identifier;
  */
 public record ConfirmProphecyC2SPacket(UUID sessionId, UUID victim, String groupId) implements CustomPayload {
     public static final int MAX_GROUP_ID_LENGTH = 32;
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("confirm_prophecy");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("confirm_prophecy");
     public static final Id<ConfirmProphecyC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, ConfirmProphecyC2SPacket> CODEC =
             PacketCodec.of(ConfirmProphecyC2SPacket::write, ConfirmProphecyC2SPacket::read);

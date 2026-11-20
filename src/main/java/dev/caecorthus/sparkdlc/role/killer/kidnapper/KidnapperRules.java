@@ -1,17 +1,17 @@
 package dev.caecorthus.sparkdlc.role.killer.kidnapper;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 /** Pure identity and tuning for Kidnapper. / 绑架者的纯身份与数值规则。 */
 public final class KidnapperRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("kidnapper");
-    public static final Identifier DRAG_BODY_SKILL_ID = SparkWitch.id("kidnapper_drag_body");
-    public static final Identifier KNOCKOUT_DRUG_ID = SparkWitch.id("knockout_drug");
-    public static final Identifier RELEASE_EVENT_ID = SparkWitch.id("kidnapper_release");
-    public static final Identifier SPEED_MODIFIER_ID = SparkWitch.id("kidnapper_drag_speed");
+    public static final Identifier ROLE_ID = SparkDLC.id("kidnapper");
+    public static final Identifier DRAG_BODY_SKILL_ID = SparkDLC.id("kidnapper_drag_body");
+    public static final Identifier KNOCKOUT_DRUG_ID = SparkDLC.id("knockout_drug");
+    public static final Identifier RELEASE_EVENT_ID = SparkDLC.id("kidnapper_release");
+    public static final Identifier SPEED_MODIFIER_ID = SparkDLC.id("kidnapper_drag_speed");
     public static final String KNOCKOUT_DRUG_ENTRY_ID = "sparkdlc_knockout_drug";
     public static final int COLOR = 0x9B59B6;
     public static final double TARGET_RANGE = 2.0D;

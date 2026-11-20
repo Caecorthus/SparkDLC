@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.occlusion;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeClientState;
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeOcclusion;
 import net.minecraft.client.MinecraftClient;
@@ -510,6 +510,6 @@ public final class SmokeOutlineMask {
     private static void fail(RuntimeException exception) {
         broken = true;
         masking = false;
-        SparkWitch.LOGGER.error("Smoke outline mask failed; outlines inside smoke are hidden instead", exception);
+        SparkDLC.LOGGER.error("Smoke outline mask failed; outlines inside smoke are hidden instead", exception);
     }
 }

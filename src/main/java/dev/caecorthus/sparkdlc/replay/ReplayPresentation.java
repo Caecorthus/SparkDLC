@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.replay;
 
-import dev.caecorthus.sparkdlc.SparkFactionApiMod;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.replay.net.ReplaySnapshotPayload;
 import dev.doctor4t.wathe.record.GameRecordEvent;
 import dev.doctor4t.wathe.record.GameRecordManager;
@@ -45,7 +45,7 @@ public final class ReplayPresentation {
         try {
             session = ReplaySession.build(world, match);
         } catch (RuntimeException | LinkageError e) {
-            SparkFactionApiMod.LOGGER.error("Failed to prepare replay presentation; sending the plain Wathe replay", e);
+            SparkDLC.LOGGER.error("Failed to prepare replay presentation; sending the plain Wathe replay", e);
             ReplayArchive.clear();
             original.run();
             return;
@@ -75,7 +75,7 @@ public final class ReplayPresentation {
         try {
             built = ReplaySnapshotBuilder.build(session, world.getServer().getRegistryManager());
         } catch (RuntimeException | LinkageError e) {
-            SparkFactionApiMod.LOGGER.error("Failed to build the replay screen snapshot; /replay will resend chat", e);
+            SparkDLC.LOGGER.error("Failed to build the replay screen snapshot; /replay will resend chat", e);
         }
         ReplayArchive.store(
                 ReplayArchive.frame(body),
@@ -98,7 +98,7 @@ public final class ReplayPresentation {
             session.recordFormattedLine(event, text);
         } catch (RuntimeException e) {
             if (session.markRenderFailureLogged()) {
-                SparkFactionApiMod.LOGGER.error("Failed to capture a replay line for the screen snapshot", e);
+                SparkDLC.LOGGER.error("Failed to capture a replay line for the screen snapshot", e);
             }
         }
     }
@@ -120,7 +120,7 @@ public final class ReplayPresentation {
             }
             summary = session.summaryLines();
         } catch (RuntimeException | LinkageError e) {
-            SparkFactionApiMod.LOGGER.error("Failed to build the replay summary; sending the full chat replay", e);
+            SparkDLC.LOGGER.error("Failed to build the replay summary; sending the full chat replay", e);
             return false;
         }
         for (Text line : summary) {
@@ -139,7 +139,7 @@ public final class ReplayPresentation {
             return ReplayNameRenderer.nameWithRole(uuid);
         } catch (RuntimeException e) {
             if (session.markRenderFailureLogged()) {
-                SparkFactionApiMod.LOGGER.error("Replay name rendering failed; falling back to Wathe names", e);
+                SparkDLC.LOGGER.error("Replay name rendering failed; falling back to Wathe names", e);
             }
             return null;
         }
@@ -164,7 +164,7 @@ public final class ReplayPresentation {
             body.addAll(roster);
             body.addAll(lines);
         } catch (RuntimeException e) {
-            SparkFactionApiMod.LOGGER.error("Failed to build the replay roster; sending events only", e);
+            SparkDLC.LOGGER.error("Failed to build the replay roster; sending events only", e);
             body = new ArrayList<>(lines);
         }
         session.recordGeneratedLines(body);

@@ -33,7 +33,7 @@ public abstract class SeekerRemoteChunkViewMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/server/network/ServerPlayerEntity;getChunkPos()Lnet/minecraft/util/math/ChunkPos;")
     )
-    private ChunkPos sparkwitch$centreViewOnFocus(ChunkPos original,
+    private ChunkPos sparkdlc$centreViewOnFocus(ChunkPos original,
                                                   @Local(argsOnly = true) ServerPlayerEntity player) {
         SeekerDeviceEntity focus = SeekerRemoteStreaming.focusOf(player);
         return focus == null ? original : focus.getChunkPos();

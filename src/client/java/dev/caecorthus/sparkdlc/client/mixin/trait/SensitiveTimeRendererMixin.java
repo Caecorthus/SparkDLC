@@ -20,7 +20,7 @@ public abstract class SensitiveTimeRendererMixin {
             method = "renderHud",
             at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/api/Role;canSeeTime()Z")
     )
-    private static boolean sparktraits$sensitiveSeesRoundTimer(boolean roleCanSeeTime) {
+    private static boolean sparkdlc$sensitiveSeesRoundTimer(boolean roleCanSeeTime) {
         if (roleCanSeeTime || !SparkDlcServerConnection.isConfirmedServer()) {
             return roleCanSeeTime;
         }

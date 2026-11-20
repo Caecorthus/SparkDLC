@@ -16,20 +16,20 @@ import java.util.UUID;
 @Mixin(value = BomberPlayerComponent.class, remap = false)
 public interface BomberPlayerComponentAccessor {
     @Accessor(value = "hasBomb", remap = false)
-    void sparkstrength$setHasBomb(boolean hasBomb);
+    void sparkdlc$setHasBomb(boolean hasBomb);
 
     @Accessor(value = "bombTimer", remap = false)
-    void sparkstrength$setBombTimer(int bombTimer);
+    void sparkdlc$setBombTimer(int bombTimer);
 
     @Accessor(value = "beepTimer", remap = false)
-    void sparkstrength$setBeepTimer(int beepTimer);
+    void sparkdlc$setBeepTimer(int beepTimer);
 
     @Accessor(value = "isBeeping", remap = false)
-    void sparkstrength$setBeeping(boolean beeping);
+    void sparkdlc$setBeeping(boolean beeping);
 
     @Accessor(value = "bomberUuid", remap = false)
-    void sparkstrength$setBomberUuid(UUID bomberUuid);
+    void sparkdlc$setBomberUuid(UUID bomberUuid);
 
     @Accessor(value = "lastDisplayedSeconds", remap = false)
-    void sparkstrength$setLastDisplayedSeconds(int lastDisplayedSeconds);
+    void sparkdlc$setLastDisplayedSeconds(int lastDisplayedSeconds);
 }

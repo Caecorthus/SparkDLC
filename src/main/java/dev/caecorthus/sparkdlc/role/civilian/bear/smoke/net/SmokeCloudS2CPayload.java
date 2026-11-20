@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.bear.smoke.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.bear.smoke.SmokeCloudSnapshot;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
  * {@code cloud} 为 null，接收端会忽略它。
  */
 public record SmokeCloudS2CPayload(@Nullable SmokeCloudSnapshot cloud) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("bear_smoke_cloud");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("bear_smoke_cloud");
     public static final Id<SmokeCloudS2CPayload> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, SmokeCloudS2CPayload> CODEC =
             PacketCodec.of(SmokeCloudS2CPayload::write, SmokeCloudS2CPayload::read);

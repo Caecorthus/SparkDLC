@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bear.launcher;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.bear.launcher.M32Cylinder;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -48,7 +48,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class M32HudRules {
     /** The one texture id of the sprite sheet (64 x 32). / 精灵图的唯一贴图 id（64 x 32）。 */
-    public static final Identifier TEXTURE = SparkWitch.id("textures/gui/bear/m32_chambers.png");
+    public static final Identifier TEXTURE = SparkDLC.id("textures/gui/bear/m32_chambers.png");
     public static final int TEXTURE_WIDTH = 64;
     public static final int TEXTURE_HEIGHT = 32;
     public static final Sprite CYLINDER = new Sprite(0, 0, 25, 25);

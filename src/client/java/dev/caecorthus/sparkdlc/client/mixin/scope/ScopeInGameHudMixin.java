@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(value = InGameHud.class, priority = 1100)
 public abstract class ScopeInGameHudMixin {
     @WrapMethod(method = "renderCrosshair")
-    private void sparkwitch$renderScopeCrosshair(DrawContext context, RenderTickCounter tickCounter,
+    private void sparkdlc$renderScopeCrosshair(DrawContext context, RenderTickCounter tickCounter,
                                                  Operation<Void> original) {
         ScopeProfile profile = ScopeClient.activeProfile();
         if (profile == null) {

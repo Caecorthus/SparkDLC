@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.shadowjester;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.registry.RegistryWrapper;
@@ -24,7 +24,7 @@ import java.util.UUID;
 public final class ShadowJesterShowdownWorldComponent implements AutoSyncedComponent {
     public static final ComponentKey<ShadowJesterShowdownWorldComponent> KEY =
             ComponentRegistry.getOrCreate(
-                    SparkStrength.id("shadow_jester_showdown"),
+                    SparkDLC.id("shadow_jester_showdown"),
                     ShadowJesterShowdownWorldComponent.class
             );
 

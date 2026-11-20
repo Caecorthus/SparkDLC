@@ -131,8 +131,8 @@ public final class StowawaySensesClient {
      */
     private static void showUneaseLine(MinecraftClient client) {
         StowawayInGameHudOverlayAccessor overlay = (StowawayInGameHudOverlayAccessor) client.inGameHud;
-        Text current = overlay.sparkwitch$getOverlayMessage();
-        if (current != null && overlay.sparkwitch$getOverlayRemaining() > 0 && current != shownLine) {
+        Text current = overlay.sparkdlc$getOverlayMessage();
+        if (current != null && overlay.sparkdlc$getOverlayRemaining() > 0 && current != shownLine) {
             return;
         }
         shownLine = Text.translatable("hud.sparkdlc.stowaway.unease").formatted(Formatting.GRAY);
@@ -155,7 +155,7 @@ public final class StowawaySensesClient {
 
     private static void reset(MinecraftClient client) {
         if (shownLine != null && client.inGameHud != null
-                && ((StowawayInGameHudOverlayAccessor) client.inGameHud).sparkwitch$getOverlayMessage() == shownLine) {
+                && ((StowawayInGameHudOverlayAccessor) client.inGameHud).sparkdlc$getOverlayMessage() == shownLine) {
             client.inGameHud.setOverlayMessage(Text.empty(), false);
         }
         shownLine = null;

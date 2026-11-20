@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.hud;
 
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityController;
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.client.role.civilian.emma.EmmaVisibleName;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
@@ -83,7 +83,7 @@ public final class SpecterHudRenderer {
         if (component.hasActiveMark()) {
             return Text.translatable(
                     "hud.sparkdlc.specter.shriek",
-                    SparkWitchClient.abilityKeyText(),
+                    SparkDLCClient.abilityKeyText(),
                     markedName(player, component.getMarkedTarget()),
                     TickTime.ceilSeconds(component.getMarkRemainingTicks())
             );
@@ -94,7 +94,7 @@ public final class SpecterHudRenderer {
         }
         return Text.translatable(
                 "hud.sparkdlc.specter.mark",
-                SparkWitchClient.abilityKeyText(),
+                SparkDLCClient.abilityKeyText(),
                 visibleName(target)
         );
     }

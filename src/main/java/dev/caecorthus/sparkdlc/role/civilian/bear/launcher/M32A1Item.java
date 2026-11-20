@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.bear.launcher;
 
-import dev.caecorthus.sparkdlc.SparkWitchDataComponents;
+import dev.caecorthus.sparkdlc.SparkDlcDataComponents;
 import dev.caecorthus.sparkdlc.role.civilian.bear.BearRules;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
@@ -24,13 +24,13 @@ import java.util.List;
 /**
  * The Milkor M32A1 six-shot 40 mm launcher ({@code sparkdlc:m32a1}). Anyone holding it may use it (owner
  * 2026-11-05, {@code OffMatchUse}); never a Wathe gun, so Wathe gun punishment, gun pickup and gun packets never apply.
- * Every stack carries {@link SparkWitchDataComponents#M32_CYLINDER}, empty by default, so a fresh stack is the empty
+ * Every stack carries {@link SparkDlcDataComponents#M32_CYLINDER}, empty by default, so a fresh stack is the empty
  * launcher BEAR starts with. Holding use aims down the M2A1 sight (client presentation only; the server's
  * {@code isUsingItem} merely matches the client); loading happens in the inventory ({@link M32CursorLoading}); firing is
  * the separate {@code sparkdlc:fire_m32a1} intent handled by {@link M32FireService}.
  * Milkor M32A1 六发 40 mm 榴弹发射器（{@code sparkdlc:m32a1}）。任何持有者都能使用（所有者 2026-11-05，{@code OffMatchUse}）；
  * 从不是 Wathe 枪械，因此 Wathe 的误杀惩罚、拾枪与开枪数据包都不适用。每个物品堆都带有
- * {@link SparkWitchDataComponents#M32_CYLINDER}，默认为空，因此新物品堆就是 BEAR 开局持有的空发射器。按住使用键通过 M2A1 瞄具
+ * {@link SparkDlcDataComponents#M32_CYLINDER}，默认为空，因此新物品堆就是 BEAR 开局持有的空发射器。按住使用键通过 M2A1 瞄具
  * 瞄准（仅客户端表现；服务端的 {@code isUsingItem} 只是与客户端一致）；装填在背包中完成（{@link M32CursorLoading}）；开火是独立的
  * {@code sparkdlc:fire_m32a1} 意图，由 {@link M32FireService} 处理。
  */
@@ -45,12 +45,12 @@ public class M32A1Item extends Item {
     }
 
     public static Settings createSettings() {
-        return new Settings().maxCount(1).component(SparkWitchDataComponents.M32_CYLINDER, M32Cylinder.EMPTY);
+        return new Settings().maxCount(1).component(SparkDlcDataComponents.M32_CYLINDER, M32Cylinder.EMPTY);
     }
 
     /** The stack's cylinder, {@link M32Cylinder#EMPTY} when absent. / 物品堆的转轮；缺失时为 {@link M32Cylinder#EMPTY}。 */
     public static M32Cylinder cylinder(ItemStack stack) {
-        return stack.getOrDefault(SparkWitchDataComponents.M32_CYLINDER, M32Cylinder.EMPTY);
+        return stack.getOrDefault(SparkDlcDataComponents.M32_CYLINDER, M32Cylinder.EMPTY);
     }
 
     /**

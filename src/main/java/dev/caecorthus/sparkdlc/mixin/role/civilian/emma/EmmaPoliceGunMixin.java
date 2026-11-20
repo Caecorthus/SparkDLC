@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class EmmaPoliceGunMixin {
     @WrapOperation(method = "receive(Ldev/doctor4t/wathe/util/GunShootPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/cca/GameWorldComponent;isRole(Lnet/minecraft/entity/player/PlayerEntity;Ldev/doctor4t/wathe/api/Role;)Z"))
-    private boolean sparkwitch$emmaPoliceExemptions(GameWorldComponent game, PlayerEntity player,
+    private boolean sparkdlc$emmaPoliceExemptions(GameWorldComponent game, PlayerEntity player,
                                                     Role queriedRole, Operation<Boolean> original) {
         Role actual = game.getRole(player);
         return original.call(game, player, queriedRole) || (queriedRole == WatheRoles.VIGILANTE

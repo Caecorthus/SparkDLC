@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.ferryman;
 
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
@@ -80,7 +80,7 @@ public final class FerrymanFeignService {
         // SparkTraits 在击杀时读取终结原因，背水一战因此不会把被吞食的死亡变成复活；服务端启动时注册即足够早且幂等
         // （沿用魔人 FIEND_DEVOURED 的做法）。
         ServerLifecycleEvents.SERVER_STARTING.register(server ->
-                SparkTraitsApi.registerTerminalDeathReason(SparkWitchDeathReasons.FERRYMAN_FEIGN));
+                SparkTraitsApi.registerTerminalDeathReason(SparkDlcDeathReasons.FERRYMAN_FEIGN));
     }
 
     public static boolean isFeigning(@Nullable ServerPlayerEntity player) {
@@ -134,7 +134,7 @@ public final class FerrymanFeignService {
         }
         FerrymanFeignComponent component = FerrymanFeignComponent.KEY.get(owner);
         owner.setCameraEntity(owner);
-        GameFunctions.killPlayer(owner, false, vulture, SparkWitchDeathReasons.FERRYMAN_FEIGN, true);
+        GameFunctions.killPlayer(owner, false, vulture, SparkDlcDeathReasons.FERRYMAN_FEIGN, true);
         if (component.isFeigning()) {
             revive(owner, component);
         }
@@ -340,7 +340,7 @@ public final class FerrymanFeignService {
         body.setPlayerUuid(player.getUuid());
         // Civilian cover: a body that reads the live role would tell a role reader who the marked player is.
         // 平民掩护：若尸体读出实时职业，读取死者身份的人就能认出被标记者。
-        ((WraithBodyRoleAccess) body).sparkwitch$setDeathRole(WatheRoles.CIVILIAN.identifier());
+        ((WraithBodyRoleAccess) body).sparkdlc$setDeathRole(WatheRoles.CIVILIAN.identifier());
         // A common murder reason: a Charon-specific one would tell every body reader the corpse is a feign.
         // 常见谋杀死因：摆渡人专属的死因会让所有能读取尸体的人看出这是假死。
         body.setDeathReason(FerrymanRules.feignCorpseReason(ThreadLocalRandom.current()));

@@ -168,16 +168,16 @@ public final class RoundStatsRecorder {
 
     /**
      * Kills whose victim was a 非好人 at death ({@link Rules#victimNonCivilian}), by death reason, flagged when made
-     * during a blackout ({@link StrengthRecordRules#inBlackout}). A Last Stand false death is not a kill.
-     * 死者死亡时为非好人（{@link Rules#victimNonCivilian}）的击杀，按死因计，停电期间（{@link StrengthRecordRules#inBlackout}）的另作标记。
+     * during a blackout ({@link RoleKitRecordRules#inBlackout}). A Last Stand false death is not a kill.
+     * 死者死亡时为非好人（{@link Rules#victimNonCivilian}）的击杀，按死因计，停电期间（{@link RoleKitRecordRules#inBlackout}）的另作标记。
      * 背水一战的假死不算击杀。
      */
     private static void recordNonCivilianKills(LifetimeStats stats, UUID self, MatchTimeline timeline) {
-        List<StrengthRecordRules.Blackout> blackouts = StrengthRecordRules.blackouts(timeline);
+        List<RoleKitRecordRules.Blackout> blackouts = RoleKitRecordRules.blackouts(timeline);
         for (MatchEvent kill : timeline.killsBy(self)) {
             if (!timeline.isFakeDeath(kill) && Factions.isNonCivilian(timeline.victimFaction(kill))) {
                 stats.recordNonCivilianKill(kill.value(Rules.DEATH_REASON, null),
-                        StrengthRecordRules.inBlackout(blackouts, kill));
+                        RoleKitRecordRules.inBlackout(blackouts, kill));
             }
         }
     }

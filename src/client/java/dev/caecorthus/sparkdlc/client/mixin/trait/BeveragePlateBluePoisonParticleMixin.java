@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.mixin.trait;
 
 import dev.caecorthus.sparkdlc.client.trait.killer.BluePoisonMarkerClientStore;
 import dev.caecorthus.sparkdlc.trait.killer.conscience.ConsciencePoisonerService;
-import dev.caecorthus.sparkdlc.SparkTraitsParticles;
+import dev.caecorthus.sparkdlc.SparkDlcParticles;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.block_entity.BeveragePlateBlockEntity;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(BeveragePlateBlockEntity.class)
 public abstract class BeveragePlateBluePoisonParticleMixin {
     @Inject(method = "clientTick", at = @At("HEAD"), remap = false)
-    private static void sparktraits$showBluePoisonParticle(
+    private static void sparkdlc$showBluePoisonParticle(
             World world,
             BlockPos pos,
             BlockState state,
@@ -34,7 +34,7 @@ public abstract class BeveragePlateBluePoisonParticleMixin {
         // 蓝毒层已不在餐盘的客户端 NBT 中：只有被服务端发送过该标记的观察者才持有它。
         if (!SparkDlcServerConnection.isConfirmedServer()
                 || !BluePoisonMarkerClientStore.contains(world, pos)
-                || !sparktraits$canSeeBluePoison(world)) {
+                || !sparkdlc$canSeeBluePoison(world)) {
             return;
         }
         if (world.getRandom().nextBetween(0, 20) < 17) {
@@ -43,7 +43,7 @@ public abstract class BeveragePlateBluePoisonParticleMixin {
         // When normal poison also exists, Wathe's own red skull still renders beside this blue skull.
         // 如果普通毒也存在，Wathe 原本的红骷髅会和这里的蓝骷髅并存。
         world.addParticle(
-                SparkTraitsParticles.BLUE_POISON,
+                SparkDlcParticles.BLUE_POISON,
                 pos.getX() + 0.5f,
                 pos.getY(),
                 pos.getZ() + 0.5f,
@@ -54,7 +54,7 @@ public abstract class BeveragePlateBluePoisonParticleMixin {
     }
 
     @Unique
-    private static boolean sparktraits$canSeeBluePoison(World world) {
+    private static boolean sparkdlc$canSeeBluePoison(World world) {
         PlayerEntity viewer = MinecraftClient.getInstance().player;
         if (viewer == null) {
             return false;

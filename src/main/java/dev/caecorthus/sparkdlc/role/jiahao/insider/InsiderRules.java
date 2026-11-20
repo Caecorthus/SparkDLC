@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.jiahao.insider;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.util.Identifier;
 
 /**
@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
  * 抽取与黑警一起发放（所有者 2026-11-16；旧的至少 4 名杀手规则已取消），并与黑警共同获胜。
  */
 public final class InsiderRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("insider");
+    public static final Identifier ROLE_ID = SparkDLC.id("insider");
     /** Mint, chosen to contrast with the Corrupt Cop's navy (D8). / 薄荷青，与黑警的深蓝形成反差（D8）。 */
     public static final int COLOR = 0x00FFD0;
 

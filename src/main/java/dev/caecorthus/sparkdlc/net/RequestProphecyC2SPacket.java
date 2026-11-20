@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
  * 请求服务端开启一次预言会话。打开免费，资格完全由服务端判定。
  */
 public record RequestProphecyC2SPacket() implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("request_prophecy");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("request_prophecy");
     public static final Id<RequestProphecyC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, RequestProphecyC2SPacket> CODEC =
             PacketCodec.unit(new RequestProphecyC2SPacket());

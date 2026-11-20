@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(MinecraftClient.class)
 public abstract class DeathRayAttackMixin {
     @Inject(method = "doAttack()Z", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$fireDeathRay(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$fireDeathRay(CallbackInfoReturnable<Boolean> cir) {
         if (DeathRayClientHooks.tryFire((MinecraftClient) (Object) this)) {
             cir.setReturnValue(false);
         }

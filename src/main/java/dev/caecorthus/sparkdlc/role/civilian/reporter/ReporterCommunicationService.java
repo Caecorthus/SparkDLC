@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.reporter;
 
 import dev.caecorthus.sparkdlc.role.civilian.reporter.ReporterCommunicationComponent;
 import dev.caecorthus.sparkdlc.role.civilian.reporter.ReporterCommunicationC2SPacket;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import com.mojang.authlib.GameProfile;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -85,7 +85,7 @@ public final class ReporterCommunicationService {
             writeConnectionExtra(extra, firstUuid, secondUuid, firstName, secondName);
             GameRecordManager.recordGlobalEvent(
                     reporter.getServerWorld(),
-                    SparkStrengthReplayFormatters.REPORTER_CONNECTION_STARTED,
+                    RoleKitReplayFormatters.REPORTER_CONNECTION_STARTED,
                     reporter,
                     extra
             );
@@ -107,7 +107,7 @@ public final class ReporterCommunicationService {
             if (recordable) {
                 GameRecordManager.recordGlobalEvent(
                         reporter.getServerWorld(),
-                        SparkStrengthReplayFormatters.REPORTER_CONNECTION_FAILED_BOTH_DEAD,
+                        RoleKitReplayFormatters.REPORTER_CONNECTION_FAILED_BOTH_DEAD,
                         reporter,
                         extra
                 );
@@ -127,7 +127,7 @@ public final class ReporterCommunicationService {
         if (recordable) {
             GameRecordManager.recordGlobalEvent(
                     reporter.getServerWorld(),
-                    SparkStrengthReplayFormatters.REPORTER_CONNECTION_FAILED_ONE_DEAD,
+                    RoleKitReplayFormatters.REPORTER_CONNECTION_FAILED_ONE_DEAD,
                     reporter,
                     extra
             );
@@ -156,7 +156,7 @@ public final class ReporterCommunicationService {
             writeBroadcastExtra(extra, targetUuid, targetName);
             GameRecordManager.recordGlobalEvent(
                     reporter.getServerWorld(),
-                    SparkStrengthReplayFormatters.REPORTER_BROADCAST_STARTED,
+                    RoleKitReplayFormatters.REPORTER_BROADCAST_STARTED,
                     reporter,
                     extra
             );
@@ -180,7 +180,7 @@ public final class ReporterCommunicationService {
         extra.putString("dead_player_name", targetName);
         GameRecordManager.recordGlobalEvent(
                 reporter.getServerWorld(),
-                SparkStrengthReplayFormatters.REPORTER_BROADCAST_FAILED,
+                RoleKitReplayFormatters.REPORTER_BROADCAST_FAILED,
                 reporter,
                 extra
         );

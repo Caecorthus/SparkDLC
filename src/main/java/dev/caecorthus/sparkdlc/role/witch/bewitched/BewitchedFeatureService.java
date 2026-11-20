@@ -8,11 +8,11 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 
 /**
- * Bewitched (魔化使) server registration, called once from SparkWitchEvents (the task listener itself sits next to the
+ * Bewitched (魔化使) server registration, called once from RoleEvents (the task listener itself sits next to the
  * Grand Witch's there). It is not an accomplice variant and owns no skill, so it never joins the special-accomplice
  * pool or the witch skill panel. Round start, round end and {@code ResetPlayer} clear the task counter and the queue;
  * round start also arms next-round accomplice-role locks, and round end drops the current round's.
- * 魔化使服务端注册，由 SparkWitchEvents 调用一次（任务监听器本身与大魔女的并列注册在那里）。它不是特殊共犯，也没有技能，
+ * 魔化使服务端注册，由 RoleEvents 调用一次（任务监听器本身与大魔女的并列注册在那里）。它不是特殊共犯，也没有技能，
  * 因此从不加入特殊共犯池或魔女技能面板。开局、局末与 {@code ResetPlayer} 时清空任务计数与队列；开局时还会启用下一局共犯
  * 身份锁定，局末移除本局锁定。
  */

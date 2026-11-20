@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.controlexpert;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.TraitShopEntries;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
@@ -41,13 +41,13 @@ public final class ControlExpertShopService {
         context.clearEntries();
         context.addEntry(new ShopEntry.Builder(
                 ControlExpertRules.DISRUPTOR_ENTRY_ID,
-                SparkWitchItems.disruptor().getDefaultStack(),
+                SparkDlcItems.disruptor().getDefaultStack(),
                 ControlExpertRules.DISRUPTOR_PRICE,
                 ShopEntry.Type.TOOL
         ).stock(1).build());
         context.addEntry(new ShopEntry.Builder(
                 ControlExpertRules.TASER_ENTRY_ID,
-                SparkWitchItems.taser().getDefaultStack(),
+                SparkDlcItems.taser().getDefaultStack(),
                 ControlExpertRules.TASER_PRICE,
                 ShopEntry.Type.WEAPON
         ).stock(1).build());
@@ -55,7 +55,7 @@ public final class ControlExpertShopService {
         // gates every copy. / 与 Wathe 手雷一样的可重复购买消耗品：无库存、无购买冷却，按物品计算的使用冷却约束每一件。
         context.addEntry(new ShopEntry.Builder(
                 ControlExpertRules.SHOCK_DEVICE_ENTRY_ID,
-                SparkWitchItems.shockDevice().getDefaultStack(),
+                SparkDlcItems.shockDevice().getDefaultStack(),
                 ControlExpertRules.SHOCK_DEVICE_PRICE,
                 ShopEntry.Type.WEAPON
         ).build());

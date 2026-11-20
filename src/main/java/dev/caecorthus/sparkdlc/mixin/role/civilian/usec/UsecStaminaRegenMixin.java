@@ -23,15 +23,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = PlayerEntity.class, priority = 1500)
 public abstract class UsecStaminaRegenMixin {
     @Unique
-    private float sparkwitch$usecPreviousSprintingTicks;
+    private float sparkdlc$usecPreviousSprintingTicks;
 
     @Inject(method = "tickMovement", at = @At("HEAD"), order = 0)
-    private void sparkwitch$captureUsecStamina(CallbackInfo ci) {
-        sparkwitch$usecPreviousSprintingTicks = UsecStaminaService.capture((PlayerEntity) (Object) this);
+    private void sparkdlc$captureUsecStamina(CallbackInfo ci) {
+        sparkdlc$usecPreviousSprintingTicks = UsecStaminaService.capture((PlayerEntity) (Object) this);
     }
 
     @Inject(method = "tickMovement", at = @At("TAIL"))
-    private void sparkwitch$doubleUsecStaminaRegen(CallbackInfo ci) {
-        UsecStaminaService.boostRegen((PlayerEntity) (Object) this, sparkwitch$usecPreviousSprintingTicks);
+    private void sparkdlc$doubleUsecStaminaRegen(CallbackInfo ci) {
+        UsecStaminaService.boostRegen((PlayerEntity) (Object) this, sparkdlc$usecPreviousSprintingTicks);
     }
 }

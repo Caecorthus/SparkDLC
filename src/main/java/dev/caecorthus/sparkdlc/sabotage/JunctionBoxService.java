@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.sabotage;
 
-import dev.caecorthus.sparkdlc.SparkStrengthBlocks;
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.SparkStrengthSounds;
+import dev.caecorthus.sparkdlc.SparkDlcBlocks;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.block.JunctionBoxBlock;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.sabotage.SabotageWorldComponent;
@@ -57,7 +57,7 @@ public final class JunctionBoxService {
 
     /** Wathe's lockpick, or the Impostor's pry tool, which pries boxes the same way. / Wathe 开锁器，或撬箱效果相同的内鬼撬锁工具。 */
     public static boolean isPryTool(ItemStack stack) {
-        return stack.isOf(WatheItems.LOCKPICK) || stack.isOf(SparkStrengthItems.impostorLockpick());
+        return stack.isOf(WatheItems.LOCKPICK) || stack.isOf(SparkDlcItems.impostorLockpick());
     }
 
     private static final class Channel {
@@ -135,7 +135,7 @@ public final class JunctionBoxService {
                 SabotageRules.DURABILITY_MAX, rate, now);
         channel.progress = SabotageRules.DURABILITY_MAX - sabotage.box(pos).durability;
         CHANNELS.put(player.getUuid(), channel);
-        world.playSound(null, pos, SparkStrengthSounds.JUNCTION_BOX_PRY, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        world.playSound(null, pos, SparkDlcSounds.JUNCTION_BOX_PRY, SoundCategory.BLOCKS, 1.0F, 1.0F);
         send(player, channel, ChannelProgressS2CPacket.STATE_RUNNING);
     }
 
@@ -203,7 +203,7 @@ public final class JunctionBoxService {
         world.setBlockBreakingInfo(crackId(pos), pos, -1);
         sabotage.forgetBox(pos);
         player.getItemCooldownManager().set(ModItems.REPAIR_TOOL, RepairToolItem.COOLDOWN_TICKS);
-        world.playSound(null, pos, SparkStrengthSounds.JUNCTION_BOX_REPAIR, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        world.playSound(null, pos, SparkDlcSounds.JUNCTION_BOX_REPAIR, SoundCategory.BLOCKS, 1.0F, 1.0F);
         player.sendMessage(Text.translatable("message.sparkdlc.sabotage.box_repaired"), true);
         SabotageType repairedType = JunctionBoxBlock.typeOf(state);
         if (repairedType != null) {
@@ -241,7 +241,7 @@ public final class JunctionBoxService {
         }
         BlockPos at = pos.toImmutable();
         BlockState state = world.getBlockState(at);
-        if (!state.isOf(SparkStrengthBlocks.junctionBox())
+        if (!state.isOf(SparkDlcBlocks.junctionBox())
                 || state.get(JunctionBoxBlock.STATE) != JunctionBoxState.CLOSED) {
             return false;
         }
@@ -325,7 +325,7 @@ public final class JunctionBoxService {
                 channel.progress = SabotageRules.DURABILITY_MAX - box.durability;
                 long elapsed = now - channel.startTick;
                 if (elapsed > 0 && elapsed % SabotageRules.PRY_SOUND_INTERVAL_TICKS == 0) {
-                    world.playSound(null, channel.pos, SparkStrengthSounds.JUNCTION_BOX_PRY, SoundCategory.BLOCKS,
+                    world.playSound(null, channel.pos, SparkDlcSounds.JUNCTION_BOX_PRY, SoundCategory.BLOCKS,
                             1.0F, 0.9F + world.random.nextFloat() * 0.2F);
                 }
                 if (elapsed % SabotageRules.SWING_INTERVAL_TICKS == 0) {
@@ -341,7 +341,7 @@ public final class JunctionBoxService {
                 channel.progress++;
                 long elapsed = now - channel.startTick;
                 if (elapsed > 0 && elapsed % SabotageRules.HACK_SOUND_INTERVAL_TICKS == 0) {
-                    world.playSound(null, channel.pos, SparkStrengthSounds.JUNCTION_BOX_HACK, SoundCategory.BLOCKS,
+                    world.playSound(null, channel.pos, SparkDlcSounds.JUNCTION_BOX_HACK, SoundCategory.BLOCKS,
                             0.5F, 1.2F + world.random.nextFloat() * 0.6F);
                 }
                 if (channel.progress >= channel.total) {
@@ -365,7 +365,7 @@ public final class JunctionBoxService {
                 || now - channel.lastHeartbeatTick > SabotageRules.HEARTBEAT_TIMEOUT_TICKS) {
             return false;
         }
-        if (!state.isOf(SparkStrengthBlocks.junctionBox()) || JunctionBoxBlock.typeOf(state) != channel.type
+        if (!state.isOf(SparkDlcBlocks.junctionBox()) || JunctionBoxBlock.typeOf(state) != channel.type
                 || sabotage.isUnlocked(channel.type) || !channel.type.availableOn(sabotage.hasEngineUnits())) {
             // Rewired by the configurator mid-channel, or the map lost its last engine unit. / 读条途中被配置器改线，或地图失去了最后一台动力装置。
             return false;
@@ -377,7 +377,7 @@ public final class JunctionBoxService {
         }
         ItemStack held = player.getMainHandStack();
         boolean rightItem = channel.kind == ChannelProgressS2CPacket.KIND_PRY
-                ? isPryTool(held) : held.isOf(SparkStrengthItems.tablet());
+                ? isPryTool(held) : held.isOf(SparkDlcItems.tablet());
         if (!rightItem) {
             return false;
         }
@@ -407,7 +407,7 @@ public final class JunctionBoxService {
                 open = box.seenOpen;
             } else {
                 BlockState state = world.getBlockState(pos);
-                if (!state.isOf(SparkStrengthBlocks.junctionBox())) {
+                if (!state.isOf(SparkDlcBlocks.junctionBox())) {
                     world.setBlockBreakingInfo(crackId(pos), pos, -1);
                     iterator.remove();
                     continue;
@@ -438,7 +438,7 @@ public final class JunctionBoxService {
         Vec3d front = frontOf(pos, state.get(JunctionBoxBlock.FACING));
         world.spawnParticles(ParticleTypes.ELECTRIC_SPARK, front.x, front.y, front.z, 40, 0.2, 0.2, 0.2, 0.6);
         world.spawnParticles(ParticleTypes.LARGE_SMOKE, front.x, front.y, front.z, 6, 0.15, 0.15, 0.15, 0.01);
-        world.playSound(null, pos, SparkStrengthSounds.JUNCTION_BOX_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        world.playSound(null, pos, SparkDlcSounds.JUNCTION_BOX_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
         player.sendMessage(Text.translatable("message.sparkdlc.sabotage.box_pried"), true);
         SabotageType type = JunctionBoxBlock.typeOf(state);
         if (type != null) {
@@ -452,7 +452,7 @@ public final class JunctionBoxService {
         world.setBlockState(pos, state.with(JunctionBoxBlock.STATE, JunctionBoxState.HACKED), Block.NOTIFY_ALL);
         Vec3d front = frontOf(pos, state.get(JunctionBoxBlock.FACING));
         world.spawnParticles(ParticleTypes.ELECTRIC_SPARK, front.x, front.y, front.z, 16, 0.15, 0.15, 0.15, 0.3);
-        world.playSound(null, pos, SparkStrengthSounds.JUNCTION_BOX_HACKED, SoundCategory.BLOCKS, 0.7F, 1.0F);
+        world.playSound(null, pos, SparkDlcSounds.JUNCTION_BOX_HACKED, SoundCategory.BLOCKS, 0.7F, 1.0F);
         SabotageType type = JunctionBoxBlock.typeOf(state);
         if (type != null) {
             SabotageService.unlock(world, sabotage, type, player);

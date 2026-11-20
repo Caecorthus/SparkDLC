@@ -30,7 +30,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(MinecraftClient.class)
 public abstract class M32InputMixin {
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$swallowM32Attack(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$swallowM32Attack(CallbackInfoReturnable<Boolean> cir) {
         if (M32FireInput.onAttack((MinecraftClient) (Object) this)) {
             cir.setReturnValue(false);
         }
@@ -38,7 +38,7 @@ public abstract class M32InputMixin {
 
     @WrapOperation(method = "handleInputEvents",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/KeyBinding;wasPressed()Z"))
-    private boolean sparkwitch$fireM32OnPressEdge(KeyBinding key, Operation<Boolean> original) {
+    private boolean sparkdlc$fireM32OnPressEdge(KeyBinding key, Operation<Boolean> original) {
         boolean pressed = original.call(key);
         MinecraftClient client = (MinecraftClient) (Object) this;
         if (pressed && key == client.options.attackKey) {
@@ -48,7 +48,7 @@ public abstract class M32InputMixin {
     }
 
     @Inject(method = "handleBlockBreaking", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$cancelM32BlockBreaking(CallbackInfo ci) {
+    private void sparkdlc$cancelM32BlockBreaking(CallbackInfo ci) {
         if (M32FireInput.onBlockBreaking((MinecraftClient) (Object) this)) {
             ci.cancel();
         }

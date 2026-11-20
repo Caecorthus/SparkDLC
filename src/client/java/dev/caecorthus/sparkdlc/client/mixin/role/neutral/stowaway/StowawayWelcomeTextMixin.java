@@ -33,7 +33,7 @@ public abstract class StowawayWelcomeTextMixin {
     public Text welcomeText;
 
     @Inject(method = "<init>(Lnet/minecraft/util/Identifier;I)V", at = @At("RETURN"))
-    private void sparkwitch$stowawayIsNotWelcome(Identifier identifier, int color, CallbackInfo ci) {
+    private void sparkdlc$stowawayIsNotWelcome(Identifier identifier, int color, CallbackInfo ci) {
         if (StowawayRules.ROLE_ID.equals(this.identifier)) {
             this.welcomeText = Text.translatable("announcement.stowaway.welcome", this.roleText)
                     .withColor(15790320);

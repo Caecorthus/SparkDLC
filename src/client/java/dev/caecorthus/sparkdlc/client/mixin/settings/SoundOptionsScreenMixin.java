@@ -25,7 +25,7 @@ public abstract class SoundOptionsScreenMixin extends GameOptionsScreen {
     }
 
     @Inject(method = "addOptions", at = @At("RETURN"))
-    private void sparkassist$appendSettingsShortcut(CallbackInfo ci) {
+    private void sparkdlc$appendSettingsShortcut(CallbackInfo ci) {
         this.body.addWidgetEntry(ButtonWidget.builder(
                         Text.translatable("button.sparkdlc.event_sound_options"),
                         button -> this.client.setScreen(new SparkDlcSettingsScreen(this, SparkDlcSettingsPages.AUDIO))

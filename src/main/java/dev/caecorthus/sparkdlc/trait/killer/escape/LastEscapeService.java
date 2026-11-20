@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.killer.escape;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
 import dev.caecorthus.sparkdlc.trait.killer.KillerTraitService;
@@ -31,7 +31,7 @@ import java.util.UUID;
 
 /** Owns the finite escape phase separately from the round's consumed/visual memory. */
 public final class LastEscapeService {
-    private static final Identifier SPEED = SparkTraits.id("last_escape_speed");
+    private static final Identifier SPEED = SparkDLC.id("last_escape_speed");
     private static final Map<UUID, ServerPlayerEntity> offline = new HashMap<>();
     private static boolean registered;
     private static net.minecraft.server.MinecraftServer runningServer;
@@ -166,7 +166,7 @@ public final class LastEscapeService {
             // and traits. Never overwrite a replacement entity's data after death callbacks.
             // 断线存档早于本次死亡/重置，仍含旧物品与词条；死亡回调后不可覆盖重连实体。
             if (manager.getPlayer(player.getUuid()) == null) {
-                ((LastEscapePlayerManagerAccessor) manager).sparktraits$saveLastEscapePlayerData(player);
+                ((LastEscapePlayerManagerAccessor) manager).sparkdlc$saveLastEscapePlayerData(player);
             }
         }
     }

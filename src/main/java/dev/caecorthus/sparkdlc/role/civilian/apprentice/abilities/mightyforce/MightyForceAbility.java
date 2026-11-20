@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.apprentice.abilities.mightyforce;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseContext;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseResult;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
@@ -11,7 +11,7 @@ import dev.doctor4t.wathe.game.GameConstants;
 import net.minecraft.util.Identifier;
 
 public final class MightyForceAbility {
-    public static final Identifier ID = SparkWitch.id("mighty_force");
+    public static final Identifier ID = SparkDLC.id("mighty_force");
     public static final int COLOR = 0x75EDFA;
     public static final int MANA_COST = 60;
     public static final int WINDOW_TICKS = GameConstants.getInTicks(0, 10);

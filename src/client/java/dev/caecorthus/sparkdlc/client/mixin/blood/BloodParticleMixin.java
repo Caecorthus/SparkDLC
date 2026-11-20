@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.mixin.blood;
 
-import dev.caecorthus.sparkdlc.client.config.SparkAssistClientSettings;
+import dev.caecorthus.sparkdlc.client.config.SparkDlcClientSettings;
 import dev.caecorthus.sparkdlc.config.BloodAppearance;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.VertexConsumer;
@@ -29,17 +29,17 @@ public abstract class BloodParticleMixin {
     // 目标是模组类，其覆写方法保留着编译时父类的中介名：Particle#buildGeometry 在这里就是 method_3074。用 Yarn 名在运行时
     // 永远匹配不上。
     @Unique
-    private boolean sparkassist$tinted;
+    private boolean sparkdlc$tinted;
     @Unique
-    private float sparkassist$red;
+    private float sparkdlc$red;
     @Unique
-    private float sparkassist$green;
+    private float sparkdlc$green;
     @Unique
-    private float sparkassist$blue;
+    private float sparkdlc$blue;
 
     @Inject(method = "method_3074", at = @At("HEAD"), cancellable = true, require = 0)
-    private void sparkassist$tintBlood(VertexConsumer buffer, Camera camera, float tickDelta, CallbackInfo ci) {
-        BloodAppearance appearance = SparkAssistClientSettings.bloodAppearance();
+    private void sparkdlc$tintBlood(VertexConsumer buffer, Camera camera, float tickDelta, CallbackInfo ci) {
+        BloodAppearance appearance = SparkDlcClientSettings.bloodAppearance();
         // Hidden draws nothing at all. Writing alpha 0 into the particle instead would outlive the setting: a stain
         // spawned while hidden would stay invisible after the player picked a colour again.
         // 「隐藏」直接什么都不画。如果改为把 alpha 0 写进粒子，这个值会比设置活得更久：隐藏期间生成的血迹在玩家重新选了颜色
@@ -56,24 +56,24 @@ public abstract class BloodParticleMixin {
         // the mod does to it as the stain ages — is still there when the player goes back to the original.
         // 着色只借给这一次绘制，画完即还，因此粒子自身的颜色——以及模组随血迹老化对它做的处理——在玩家换回原色时仍然都在。
         ParticleAccessorMixin accessor = (ParticleAccessorMixin) (Object) this;
-        this.sparkassist$red = accessor.sparkassist$getRed();
-        this.sparkassist$green = accessor.sparkassist$getGreen();
-        this.sparkassist$blue = accessor.sparkassist$getBlue();
-        this.sparkassist$tinted = true;
-        accessor.sparkassist$setRed(tint[0]);
-        accessor.sparkassist$setGreen(tint[1]);
-        accessor.sparkassist$setBlue(tint[2]);
+        this.sparkdlc$red = accessor.sparkdlc$getRed();
+        this.sparkdlc$green = accessor.sparkdlc$getGreen();
+        this.sparkdlc$blue = accessor.sparkdlc$getBlue();
+        this.sparkdlc$tinted = true;
+        accessor.sparkdlc$setRed(tint[0]);
+        accessor.sparkdlc$setGreen(tint[1]);
+        accessor.sparkdlc$setBlue(tint[2]);
     }
 
     @Inject(method = "method_3074", at = @At("RETURN"), require = 0)
-    private void sparkassist$restoreBlood(VertexConsumer buffer, Camera camera, float tickDelta, CallbackInfo ci) {
-        if (!this.sparkassist$tinted) {
+    private void sparkdlc$restoreBlood(VertexConsumer buffer, Camera camera, float tickDelta, CallbackInfo ci) {
+        if (!this.sparkdlc$tinted) {
             return;
         }
-        this.sparkassist$tinted = false;
+        this.sparkdlc$tinted = false;
         ParticleAccessorMixin accessor = (ParticleAccessorMixin) (Object) this;
-        accessor.sparkassist$setRed(this.sparkassist$red);
-        accessor.sparkassist$setGreen(this.sparkassist$green);
-        accessor.sparkassist$setBlue(this.sparkassist$blue);
+        accessor.sparkdlc$setRed(this.sparkdlc$red);
+        accessor.sparkdlc$setGreen(this.sparkdlc$green);
+        accessor.sparkdlc$setBlue(this.sparkdlc$blue);
     }
 }

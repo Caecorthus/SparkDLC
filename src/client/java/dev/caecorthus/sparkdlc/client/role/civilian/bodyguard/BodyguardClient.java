@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bodyguard;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.util.Identifier;
 
@@ -15,7 +15,7 @@ public final class BodyguardClient {
 
     public static void register() {
         ModelPredicateProviderRegistry.register(
-                SparkStrengthItems.democracyShield(),
+                SparkDlcItems.democracyShield(),
                 Identifier.ofVanilla("blocking"),
                 (stack, world, entity, seed) ->
                         entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F

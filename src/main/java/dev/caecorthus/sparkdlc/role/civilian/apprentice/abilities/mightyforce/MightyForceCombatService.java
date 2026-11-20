@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.role.civilian.apprentice.abilities.mightyforce;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.item.CustomMeleeAffect;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponTarget;
@@ -103,7 +103,7 @@ public final class MightyForceCombatService {
     private static boolean hasLiveMightyForce(ServerPlayerEntity attacker) {
         WitchPlayerComponent component = WitchPlayerComponent.KEY.get(attacker);
         GameWorldComponent gameComponent = GameWorldComponent.KEY.get(attacker.getWorld());
-        boolean apprenticeWindow = gameComponent.getRole(attacker) == SparkWitchRoles.apprenticeWitch()
+        boolean apprenticeWindow = gameComponent.getRole(attacker) == SparkDlcRoles.apprenticeWitch()
                 && MightyForceAbility.ID.equals(component.getActiveSkillId())
                 && component.hasActiveMightyForce();
         return (apprenticeWindow || SherryMightyForceService.hasLiveWindow(attacker))
@@ -173,7 +173,7 @@ public final class MightyForceCombatService {
         Identifier attackerFaction = SparkFactionApi.resolveEffectiveFaction(attacker, game);
         Identifier victimFaction = SparkFactionApi.resolveEffectiveFaction(target, game);
         boolean deadBefore = game.isPlayerDead(target.getUuid());
-        GameFunctions.killPlayer(target, true, attacker, SparkWitchDeathReasons.MIGHTY_FORCE);
+        GameFunctions.killPlayer(target, true, attacker, SparkDlcDeathReasons.MIGHTY_FORCE);
         punishMisfire(attacker, target, game, attackerFaction, victimFaction, deadBefore, sherryStrike);
         if (terminalVendetta) {
             // The terminal handler installs suppression before this caller-owned record is attempted.
@@ -185,7 +185,7 @@ public final class MightyForceCombatService {
                 WatheEntities.PLAYER_BODY,
                 body -> body.getPlayerUuid().equals(target.getUuid())
                         && body.getDeathGameTime() == (int) world.getTime()
-                        && SparkWitchDeathReasons.MIGHTY_FORCE.equals(body.getDeathReason())
+                        && SparkDlcDeathReasons.MIGHTY_FORCE.equals(body.getDeathReason())
                         && !existingBodyUuids.contains(body.getUuid())
         ).stream().findFirst().orElse(null);
         if (!GameFunctions.isPlayerPlayingAndAlive(target) && impactRecipient != null) {
@@ -220,14 +220,14 @@ public final class MightyForceCombatService {
         double x = partygoer.getX();
         double y = partygoer.getEyeY();
         double z = partygoer.getZ();
-        if (!PartygoerWeaponTarget.killByWeapon(attacker, partygoer, SparkWitchDeathReasons.MIGHTY_FORCE)) {
+        if (!PartygoerWeaponTarget.killByWeapon(attacker, partygoer, SparkDlcDeathReasons.MIGHTY_FORCE)) {
             return;
         }
         world.getEntitiesByType(
                 WatheEntities.PLAYER_BODY,
                 body -> body.getPlayerUuid().equals(partygoerUuid)
                         && body.getDeathGameTime() == (int) world.getTime()
-                        && SparkWitchDeathReasons.MIGHTY_FORCE.equals(body.getDeathReason())
+                        && SparkDlcDeathReasons.MIGHTY_FORCE.equals(body.getDeathReason())
         ).stream().findFirst().ifPresent(corpse -> applyKnockback(corpse, impulse));
         world.playSound(null, x, y, z, SoundEvents.ENTITY_PLAYER_ATTACK_KNOCKBACK, SoundCategory.PLAYERS,
                 1.0f, 0.8f);

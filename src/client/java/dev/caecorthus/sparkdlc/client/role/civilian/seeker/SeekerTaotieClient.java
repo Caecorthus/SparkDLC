@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.seeker;
 
-import dev.caecorthus.sparkdlc.client.hooks.WitchAbilityKeyBridge;
+import dev.caecorthus.sparkdlc.client.hooks.AbilityKeyBridge;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.compat.noellesroles.SeekerControlExpertBridge;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
@@ -142,7 +142,7 @@ public final class SeekerTaotieClient {
             return;
         }
         TextRenderer renderer = client.textRenderer;
-        Text hint = Text.translatable("hud.sparkdlc.seeker.taotie_hint", WitchAbilityKeyBridge.keyText());
+        Text hint = Text.translatable("hud.sparkdlc.seeker.taotie_hint", AbilityKeyBridge.keyText());
         int x = (context.getScaledWindowWidth() - renderer.getWidth(hint)) / 2;
         int y = context.getScaledWindowHeight() / 2 + HINT_OFFSET_Y;
         context.drawTextWithShadow(renderer, hint, x, y, taotieColor());

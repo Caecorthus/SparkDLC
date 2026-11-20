@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(value = MinecraftClient.class, priority = 900)
 public abstract class M67OutlineMixin {
     @ModifyReturnValue(method = "hasOutline(Lnet/minecraft/entity/Entity;)Z", at = @At("RETURN"))
-    private boolean sparkstrength$m67Outline(boolean original, @Local(argsOnly = true) Entity entity) {
+    private boolean sparkdlc$m67Outline(boolean original, @Local(argsOnly = true) Entity entity) {
         return entity instanceof M67GrenadeEntity ? M67Client.outlineColor(entity) != -1 : original;
     }
 }

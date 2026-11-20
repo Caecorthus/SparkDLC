@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.specter;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaInteractionService;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -44,7 +44,7 @@ import java.util.UUID;
  * 才会触发（仇杀客隔离）。
  */
 public final class GhostTriggerEntity extends Entity {
-    public static final Identifier EVENT_TRIGGERED = SparkWitch.id("ghost_trigger_triggered");
+    public static final Identifier EVENT_TRIGGERED = SparkDLC.id("ghost_trigger_triggered");
     /** Same arm delay as the Hunter trap: 0.5 s. / 与猎人夹子相同的 0.5 秒布防延迟。 */
     private static final int ARM_TICKS = 10;
     private static final double TRIGGER_EXPAND_XZ = 0.35D;

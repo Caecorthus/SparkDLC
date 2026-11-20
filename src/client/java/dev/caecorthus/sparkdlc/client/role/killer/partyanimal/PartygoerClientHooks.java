@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.killer.partyanimal;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
-import dev.caecorthus.sparkdlc.SparkStrengthEntities;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityRegistry;
 import dev.caecorthus.sparkdlc.client.render.entity.PartygoerEntityRenderer;
 import dev.caecorthus.sparkdlc.client.render.entity.PartygoerModel;
@@ -36,14 +36,14 @@ public final class PartygoerClientHooks {
         }
         registered = true;
         EntityModelLayerRegistry.registerModelLayer(PartygoerModel.LAYER, PartygoerModel::getTexturedModelData);
-        EntityRendererRegistry.register(SparkStrengthEntities.partygoer(), PartygoerEntityRenderer::new);
+        EntityRendererRegistry.register(SparkDlcEntities.partygoer(), PartygoerEntityRenderer::new);
         ClientPlayNetworking.registerGlobalReceiver(PartygoerMenuS2CPacket.ID,
                 (payload, context) -> context.client().setScreen(new PartygoerRoomScreen(payload.rooms())));
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> client.execute(PartygoerCorpseClient::reset));
         keyAvailable = SecondaryAbilityRegistry.tryRegisterAction(Noellesroles.PARTY_ANIMAL.identifier(),
                 PartygoerClientHooks::requestMenu);
         if (!keyAvailable) {
-            SparkStrength.LOGGER.warn("Partygoer has no key: the Role Skill 2 hook is unavailable or taken.");
+            SparkDLC.LOGGER.warn("Partygoer has no key: the Role Skill 2 hook is unavailable or taken.");
         }
     }
 

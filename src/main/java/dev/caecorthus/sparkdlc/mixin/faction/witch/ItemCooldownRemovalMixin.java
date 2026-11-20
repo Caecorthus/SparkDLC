@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.faction.witch;
 
-import dev.caecorthus.sparkdlc.cooldown.provider.SparkWitchItemCooldownReleases;
+import dev.caecorthus.sparkdlc.cooldown.provider.RoleItemCooldownReleases;
 import dev.caecorthus.sparkdlc.mixin.accessor.ServerItemCooldownManagerAccessor;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.item.Item;
@@ -21,9 +21,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ItemCooldownManager.class)
 public abstract class ItemCooldownRemovalMixin {
     @Inject(method = "remove", at = @At("TAIL"))
-    private void sparkwitch$releaseOwnTimers(Item item, CallbackInfo ci) {
+    private void sparkdlc$releaseOwnTimers(Item item, CallbackInfo ci) {
         if ((Object) this instanceof ServerItemCooldownManager manager) {
-            SparkWitchItemCooldownReleases.onRemoved(((ServerItemCooldownManagerAccessor) manager).sparkwitch$getPlayer(), item);
+            RoleItemCooldownReleases.onRemoved(((ServerItemCooldownManagerAccessor) manager).sparkdlc$getPlayerForRoles(), item);
         }
     }
 }

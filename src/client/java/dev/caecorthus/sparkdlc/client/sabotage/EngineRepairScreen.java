@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.sabotage;
 
-import dev.caecorthus.sparkdlc.SparkStrengthBlocks;
+import dev.caecorthus.sparkdlc.SparkDlcBlocks;
 import dev.caecorthus.sparkdlc.block.EngineUnitBlock;
 import dev.caecorthus.sparkdlc.client.tablet.screen.TabletCanvas;
 import dev.caecorthus.sparkdlc.client.tablet.screen.TabletTheme;
@@ -102,7 +102,7 @@ final class EngineRepairScreen extends AbstractRepairScreen {
             return null;
         }
         BlockState state = client.world.getBlockState(pos);
-        return state.isOf(SparkStrengthBlocks.engineUnit()) ? state.get(EngineUnitBlock.CONDITION) : null;
+        return state.isOf(SparkDlcBlocks.engineUnit()) ? state.get(EngineUnitBlock.CONDITION) : null;
     }
 
     // ------------------------------------------------------------------------------------------------ tick

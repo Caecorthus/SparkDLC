@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class JudgeGunOutcomeMixin {
     @WrapOperation(method = "receive(Ldev/doctor4t/wathe/util/GunShootPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/api/event/ShouldPunishGunShooter;shouldPunish(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/entity/player/PlayerEntity;)Ldev/doctor4t/wathe/api/event/ShouldPunishGunShooter$PunishResult;"))
-    private ShouldPunishGunShooter.PunishResult sparkwitch$skipFalsePunishment(
+    private ShouldPunishGunShooter.PunishResult sparkdlc$skipFalsePunishment(
             ShouldPunishGunShooter event, PlayerEntity shooter, PlayerEntity victim,
             Operation<ShouldPunishGunShooter.PunishResult> original,
             @Share("judgeBlockedShot") LocalBooleanRef blocked) {
@@ -30,7 +30,7 @@ public abstract class JudgeGunOutcomeMixin {
 
     @WrapOperation(method = "receive(Ldev/doctor4t/wathe/util/GunShootPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/cca/PlayerMoodComponent;setMood(F)V"))
-    private void sparkwitch$skipFalseKillMoodPenalty(PlayerMoodComponent mood, float amount, Operation<Void> original,
+    private void sparkdlc$skipFalseKillMoodPenalty(PlayerMoodComponent mood, float amount, Operation<Void> original,
                                                      @Share("judgeBlockedShot") LocalBooleanRef blocked) {
         if (!blocked.get()) original.call(mood, amount);
     }

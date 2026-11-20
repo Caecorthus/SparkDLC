@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.usec;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import net.minecraft.item.Item;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -55,7 +55,7 @@ public enum UsecAmmoType {
 
     /** Registry id of this round's item ({@code sparkdlc:usec_338_<id>}). / 本弹种物品的注册 id。 */
     public Identifier itemId() {
-        return SparkWitch.id("usec_338_" + id);
+        return SparkDLC.id("usec_338_" + id);
     }
 
     /** Short label lang key ("FMJ" / "AP"). / 短标签的语言键（"FMJ" / "AP"）。 */
@@ -70,7 +70,7 @@ public enum UsecAmmoType {
 
     /** The registered round item; throws before item registration. / 已注册的子弹物品；物品注册前调用会抛出异常。 */
     public Item item() {
-        return SparkWitchItems.usecAmmo(this);
+        return SparkDlcItems.usecAmmo(this);
     }
 
     /** Tolerant lookup: null and unknown ids return null. / 宽容查找：null 与未知 id 返回 null。 */

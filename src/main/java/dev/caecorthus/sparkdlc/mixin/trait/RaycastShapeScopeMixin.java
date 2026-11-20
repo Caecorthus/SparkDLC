@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(RaycastContext.class)
 public abstract class RaycastShapeScopeMixin {
     @WrapMethod(method = "getBlockShape")
-    private VoxelShape sparktraits$scopeRayBlockShape(BlockState state, BlockView world, BlockPos pos,
+    private VoxelShape sparkdlc$scopeRayBlockShapeForTraits(BlockState state, BlockView world, BlockPos pos,
                                                       Operation<VoxelShape> original) {
         return RaycastShapeScope.query(() -> original.call(state, world, pos));
     }

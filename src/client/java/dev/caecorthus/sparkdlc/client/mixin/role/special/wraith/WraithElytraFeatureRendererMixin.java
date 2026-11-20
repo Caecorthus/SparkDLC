@@ -19,7 +19,7 @@ public abstract class WraithElytraFeatureRendererMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$hideProjectedElytra(
+    private void sparkdlc$hideProjectedElytra(
             MatrixStack matrices,
             VertexConsumerProvider vertexConsumers,
             int light,

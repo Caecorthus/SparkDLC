@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.neutral.pathogen;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.neutral.pathogen.PathogenRules;
 import dev.caecorthus.sparkdlc.role.neutral.pathogen.PathogenVisibility;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -29,7 +29,7 @@ import java.util.UUID;
  * 皮肤的 {@code MorphlingAppearanceClientHelper}，使它们保持一致。名字与描边不受影响。
  */
 public final class PathogenGrayCrowdClient {
-    private static final Identifier GRAY_STEVE_TEXTURE = SparkStrength.id("dynamic/pathogen_gray_steve");
+    private static final Identifier GRAY_STEVE_TEXTURE = SparkDLC.id("dynamic/pathogen_gray_steve");
     private static final int FALLBACK_GRAY = 0xFF808080;
     private static @Nullable SkinTextures graySteve;
 
@@ -85,7 +85,7 @@ public final class PathogenGrayCrowdClient {
             return image;
         } catch (IOException | RuntimeException exception) {
             // A resource pack without Steve: a plain gray figure still reads as "someone". / 资源包缺少史蒂夫时退回纯灰人形。
-            SparkStrength.LOGGER.warn("Pathogen gray crowd: could not read the default Steve skin", exception);
+            SparkDLC.LOGGER.warn("Pathogen gray crowd: could not read the default Steve skin", exception);
             NativeImage image = new NativeImage(64, 64, true);
             image.fillRect(0, 0, 64, 64, FALLBACK_GRAY);
             return image;

@@ -1,11 +1,11 @@
 package dev.caecorthus.sparkdlc.replay;
 
 import com.mojang.authlib.GameProfile;
-import dev.caecorthus.sparkdlc.SparkFactionApiMod;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.faction.api.FactionIds;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.replay.api.ReplayBadge;
-import dev.caecorthus.sparkdlc.component.SparkFactionRoundEndComponent;
+import dev.caecorthus.sparkdlc.component.FactionRoundEndComponent;
 import dev.caecorthus.sparkdlc.faction.text.FactionRoundEndTextRules;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheGameModes;
@@ -393,14 +393,14 @@ public final class ReplaySession {
                     looseEndWinner == null ? "" : nameSources.resolve(looseEndWinner, true)
             );
         } catch (RuntimeException | LinkageError e) {
-            SparkFactionApiMod.LOGGER.warn("Failed to resolve the replay result title; the screen shows none", e);
+            SparkDLC.LOGGER.warn("Failed to resolve the replay result title; the screen shows none", e);
             return Optional.empty();
         }
     }
 
     /** Same source as FactionAPI's RoundTextRendererMixin. 与 FactionAPI 的 RoundTextRendererMixin 取值一致。 */
     private static @Nullable Text customWinTitle(ServerWorld world) {
-        SparkFactionRoundEndComponent customRoundEnd = SparkFactionRoundEndComponent.KEY.get(world.getScoreboard());
+        FactionRoundEndComponent customRoundEnd = FactionRoundEndComponent.KEY.get(world.getScoreboard());
         Identifier winningFaction = customRoundEnd.getWinningFaction();
         if (winningFaction == null) {
             return null;
@@ -429,7 +429,7 @@ public final class ReplaySession {
             try {
                 return SparkFactionApi.resolveEffectiveFaction(online, game);
             } catch (RuntimeException e) {
-                SparkFactionApiMod.LOGGER.warn(
+                SparkDLC.LOGGER.warn(
                         "Effective faction lookup failed for replay player {}; using the base faction",
                         online.getUuid(),
                         e

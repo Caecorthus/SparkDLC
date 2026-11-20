@@ -4,10 +4,10 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 
 /**
- * Server-wide third-faction draw settings, persisted by {@code SparkFactionThirdFactionComponent} under the NBT keys
+ * Server-wide third-faction draw settings, persisted by {@code ThirdFactionComponent} under the NBT keys
  * {@code Dividend} (default 10, at least 3) and {@code MinPlayers} (default 18, at least 0 = no minimum). A missing
  * key reads as its default; a stored value below the floor is raised to the floor.
- * 全服第三方阵营抽取设置，由 {@code SparkFactionThirdFactionComponent} 以 NBT 键 {@code Dividend}（默认 10，至少 3）与
+ * 全服第三方阵营抽取设置，由 {@code ThirdFactionComponent} 以 NBT 键 {@code Dividend}（默认 10，至少 3）与
  * {@code MinPlayers}（默认 18，至少 0 = 无最低人数）持久化。缺少的键读作默认值；低于下限的存储值提升到下限。
  */
 public record ThirdFactionDrawSettings(int dividend, int minPlayers) {

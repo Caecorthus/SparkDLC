@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.killer.ninja;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.item.ceremonialsword.CeremonialSwordProtectionPolicy;
 import dev.caecorthus.sparkdlc.item.rope.RopeShieldPolicy;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.record.witch.AchievementRecords;
 import dev.doctor4t.wathe.api.Role;
@@ -52,12 +52,12 @@ public final class NinjaFeatureService {
         }
         // 忍者开局先锁住苦无 60 秒，直接按物品类型设置即可覆盖不同的发放顺序。
         player.getItemCooldownManager().set(
-                SparkWitchItems.ninjaKnife(),
+                SparkDlcItems.ninjaKnife(),
                 NinjaRules.NINJA_KNIFE_INITIAL_COOLDOWN_TICKS
         );
         // 忍者开局同样锁住钩爪 90 秒（所有者 2026-10-07）。/ The Grappling Hook is locked for 90 s at round start too.
         player.getItemCooldownManager().set(
-                SparkWitchItems.ninjaGrapplingHook(),
+                SparkDlcItems.ninjaGrapplingHook(),
                 NinjaRules.GRAPPLING_HOOK_INITIAL_COOLDOWN_TICKS
         );
     }
@@ -134,8 +134,8 @@ public final class NinjaFeatureService {
         boolean changed = false;
         for (int slot = 0; slot < player.getInventory().size(); slot++) {
             ItemStack stack = player.getInventory().getStack(slot);
-            if (stack.isOf(SparkWitchItems.ninjaKnife()) || stack.isOf(SparkWitchItems.ninjaShuriken())
-                    || stack.isOf(SparkWitchItems.ninjaGrapplingHook())) {
+            if (stack.isOf(SparkDlcItems.ninjaKnife()) || stack.isOf(SparkDlcItems.ninjaShuriken())
+                    || stack.isOf(SparkDlcItems.ninjaGrapplingHook())) {
                 player.getInventory().setStack(slot, ItemStack.EMPTY);
                 changed = true;
             }
@@ -145,16 +145,16 @@ public final class NinjaFeatureService {
         var personalCraftingInput = player.playerScreenHandler.getCraftingInput();
         for (int slot = 0; slot < personalCraftingInput.size(); slot++) {
             ItemStack stack = personalCraftingInput.getStack(slot);
-            if (stack.isOf(SparkWitchItems.ninjaKnife()) || stack.isOf(SparkWitchItems.ninjaShuriken())
-                    || stack.isOf(SparkWitchItems.ninjaGrapplingHook())) {
+            if (stack.isOf(SparkDlcItems.ninjaKnife()) || stack.isOf(SparkDlcItems.ninjaShuriken())
+                    || stack.isOf(SparkDlcItems.ninjaGrapplingHook())) {
                 personalCraftingInput.setStack(slot, ItemStack.EMPTY);
                 changed = true;
             }
         }
         ItemStack cursorStack = player.currentScreenHandler.getCursorStack();
-        if (cursorStack.isOf(SparkWitchItems.ninjaKnife())
-                || cursorStack.isOf(SparkWitchItems.ninjaShuriken())
-                || cursorStack.isOf(SparkWitchItems.ninjaGrapplingHook())) {
+        if (cursorStack.isOf(SparkDlcItems.ninjaKnife())
+                || cursorStack.isOf(SparkDlcItems.ninjaShuriken())
+                || cursorStack.isOf(SparkDlcItems.ninjaGrapplingHook())) {
             player.currentScreenHandler.setCursorStack(ItemStack.EMPTY);
             changed = true;
         }

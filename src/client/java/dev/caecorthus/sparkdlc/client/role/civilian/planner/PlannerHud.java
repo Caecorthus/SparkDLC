@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.planner;
 
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeTargetOcclusion;
 import dev.caecorthus.sparkdlc.client.role.killer.dominator.DominatorClientModule;
 import dev.caecorthus.sparkdlc.client.hud.CachedHudText;
@@ -96,7 +96,7 @@ public final class PlannerHud {
         TextRenderer renderer = client.textRenderer;
         NEXT_TASK.update(new Row(nextLine, null), null, renderer);
         SKILL.update(new Row(skillLine, target == null ? null : DominatorClientModule.visibleName(target)),
-                skillLine.keyHint() ? SparkWitchClient.abilityKeyText() : null, renderer);
+                skillLine.keyHint() ? SparkDLCClient.abilityKeyText() : null, renderer);
 
         // The corner row is taken by the shared witch skill line (defensive: the planner has no witch skill id) or by
         // the Saint's Karma line, drawn flush in the corner for her; both rows then move up one row (Hanna rule).

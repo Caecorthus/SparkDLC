@@ -1,10 +1,10 @@
 package dev.caecorthus.sparkdlc.role.civilian.bear.launcher;
 
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
-import dev.caecorthus.sparkdlc.SparkWitchDataComponents;
+import dev.caecorthus.sparkdlc.SparkDlcDataComponents;
 import dev.caecorthus.sparkdlc.role.civilian.bear.BearItems;
 import dev.caecorthus.sparkdlc.role.civilian.bear.BearRules;
 import dev.caecorthus.sparkdlc.role.civilian.bear.net.FireM32A1C2SPayload;
@@ -95,16 +95,16 @@ public final class M32FireService {
         if (!SmokeRoundEntity.launch(player, direction, presentation)) {
             return;
         }
-        launcher.set(SparkWitchDataComponents.M32_CYLINDER, fired.after());
+        launcher.set(SparkDlcDataComponents.M32_CYLINDER, fired.after());
         writeFloorExact(player, BearRules.M32_COOLDOWN_TICKS);
         player.getServerWorld().playSound(null, player.getX(), player.getEyeY(), player.getZ(),
-                SparkWitchSounds.BEAR_M32_FIRE, SoundCategory.PLAYERS, FIRE_VOLUME,
+                SparkDlcSounds.BEAR_M32_FIRE, SoundCategory.PLAYERS, FIRE_VOLUME,
                 0.97F + player.getRandom().nextFloat() * 0.06F);
     }
 
     /** Empty cylinder: a dry click only the shooter hears, plus an action-bar hint. / 空转轮：仅射手可闻的空响与动作栏提示。 */
     private static void dryClick(ServerPlayerEntity player) {
-        player.playSoundToPlayer(SparkWitchSounds.BEAR_M32_EMPTY, SoundCategory.PLAYERS, DRY_CLICK_VOLUME, 1.0F);
+        player.playSoundToPlayer(SparkDlcSounds.BEAR_M32_EMPTY, SoundCategory.PLAYERS, DRY_CLICK_VOLUME, 1.0F);
         player.sendMessage(Text.translatable(EMPTY_KEY).withColor(BearRules.COLOR), true);
     }
 
@@ -131,11 +131,11 @@ public final class M32FireService {
         if (!(player.getItemCooldownManager() instanceof ItemCooldownManagerAccessor accessor)) {
             return 0;
         }
-        Object entry = accessor.sparkwitch$getEntries().get(item);
+        Object entry = accessor.sparkdlc$getEntriesForRoles().get(item);
         if (!(entry instanceof ItemCooldownEntryAccessor cooldown)) {
             return 0;
         }
-        return Math.max(0, cooldown.sparkwitch$getEndTick() - accessor.sparkwitch$getTick());
+        return Math.max(0, cooldown.sparkdlc$getEndTickForRoles() - accessor.sparkdlc$getTickForRoles());
     }
 
     private static boolean isKidnapped(ServerPlayerEntity player) {

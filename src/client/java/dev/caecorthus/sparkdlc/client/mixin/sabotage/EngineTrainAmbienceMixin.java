@@ -25,7 +25,7 @@ public abstract class EngineTrainAmbienceMixin extends MovingSoundInstance {
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
-    private void sparkstrength$followEngineMotion(CallbackInfo ci) {
+    private void sparkdlc$followEngineMotion(CallbackInfo ci) {
         if (EngineTrainMotion.isTrainAmbience(getId())) {
             volume *= EngineTrainMotion.ambienceGain();
             pitch = EngineTrainMotion.ambiencePitch();

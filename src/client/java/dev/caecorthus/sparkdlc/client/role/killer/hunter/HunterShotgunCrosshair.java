@@ -85,8 +85,8 @@ public final class HunterShotgunCrosshair {
             return true;
         }
         ItemCooldownManagerAccessor manager = (ItemCooldownManagerAccessor) player.getItemCooldownManager();
-        return manager.sparkwitch$getEntries().get(shotgun) instanceof ItemCooldownEntryAccessor cooldown
-                && cooldown.sparkwitch$getEndTick() - cooldown.sparkwitch$getStartTick()
+        return manager.sparkdlc$getEntriesForRoles().get(shotgun) instanceof ItemCooldownEntryAccessor cooldown
+                && cooldown.sparkdlc$getEndTickForRoles() - cooldown.sparkdlc$getStartTickForRoles()
                 <= HunterRules.FOLLOW_UP_COOLDOWN_TICKS;
     }
 

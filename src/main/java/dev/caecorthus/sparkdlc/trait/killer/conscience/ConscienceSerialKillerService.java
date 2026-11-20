@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.effective.EffectiveTraitService;
 
 /** Handles Serial Killer target rules and Conscience Serial Killer's protected-target rules.
@@ -284,7 +284,7 @@ public final class ConscienceSerialKillerService {
     }
 
     private static void setProtectedTarget(SerialKillerPlayerComponent component, UUID targetUuid) {
-        ((SerialKillerPlayerComponentAccessor) component).sparktraits$setCurrentTarget(targetUuid);
+        ((SerialKillerPlayerComponentAccessor) component).sparkdlc$setCurrentTarget(targetUuid);
         component.sync();
     }
 

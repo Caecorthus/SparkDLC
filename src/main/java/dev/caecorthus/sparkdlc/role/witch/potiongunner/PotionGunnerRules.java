@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.potiongunner;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
  * 药炮手常量与两端安全的判定。所有可调玩法数值集中于此，物品、实体、效果、客户端瞄准镜与测试共用同一来源。
  */
 public final class PotionGunnerRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("potion_gunner");
+    public static final Identifier ROLE_ID = SparkDLC.id("potion_gunner");
     /** Potion violet, kept apart from the Accomplice's 0x6B338A. / 药水紫，与共犯的 0x6B338A 区分。 */
     public static final int COLOR = 0xB45CFF;
 
@@ -21,15 +21,15 @@ public final class PotionGunnerRules {
      * 反坦克炮筒物品 id，由 {@code potion_launcher} 改名且未注册别名：旧存档中的物品在加载时丢弃，由装备巡检重新发放。
      * 发射数据包与回放 id 保留旧名。
      */
-    public static final Identifier LAUNCHER_ID = SparkWitch.id("anti_tank_launcher");
-    public static final Identifier SHELL_ENTITY_ID = SparkWitch.id("potion_shell");
+    public static final Identifier LAUNCHER_ID = SparkDLC.id("anti_tank_launcher");
+    public static final Identifier SHELL_ENTITY_ID = SparkDLC.id("potion_shell");
     /** Ordinary, non-forced TR shell kill. / 普通、非强制的 TR 炮弹击杀。 */
-    public static final Identifier DEATH_REASON_ID = SparkWitch.id("potion_shell");
+    public static final Identifier DEATH_REASON_ID = SparkDLC.id("potion_shell");
     /** Item-use replay record for one launcher shot. / 一次炮筒发射的物品使用回放记录。 */
-    public static final Identifier FIRE_REPLAY_ID = SparkWitch.id("potion_launcher_fire");
+    public static final Identifier FIRE_REPLAY_ID = SparkDLC.id("potion_launcher_fire");
 
     /** SparkFactionAPI affect action ids. / SparkFactionAPI 影响行为 id。 */
-    public static final Identifier BLAST_ACTION = SparkWitch.id("potion_shell_blast");
+    public static final Identifier BLAST_ACTION = SparkDLC.id("potion_shell_blast");
 
     public static final int SHELL_MAX_STACK = 8;
     /** Minimum gap between two shots, against double clicks. / 两次发射的最小间隔，防止连点。 */

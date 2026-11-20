@@ -106,7 +106,7 @@ final class NoellesKillerScenes {
         // SparkStrength 新增第二种用法（把炸弹藏进托盘或床做陷阱）。各模块已融合进 SparkDLC，因此始终追加该场景
         // （原先仅在加载 SparkStrength 时追加）。
         item("noellesroles:timed_bomb", NOELLES, scene("wathe/aisle", NoellesKillerScenes::timedBomb),
-                scene("wathe/bar", SparkStrengthKillerItemScenes::timedBombTrap));
+                scene("wathe/bar", RoleKitKillerItemScenes::timedBombTrap));
         item("sparkdlc:grenade_drone", NOELLES_STRENGTH,
                 scene("noellesroles/wide_aisle", NoellesKillerScenes::grenadeDrone));
         role("sparkdlc:roles/noellesroles/jester", NOELLES_STRENGTH,

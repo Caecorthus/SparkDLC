@@ -22,24 +22,24 @@ import java.util.UUID;
 /** The existing pending countdown owns the saved UUID and reset/NBT lifecycle. / 保存责任 UUID 随现有倒计时重置与持久化。 */
 @Mixin(VoodooPlayerComponent.class)
 public abstract class JudgeVoodooPendingMixin implements JudgeVoodooCause, AutoSyncedComponent {
-    @Unique private UUID sparkwitch$pendingVoodooActor;
+    @Unique private UUID sparkdlc$pendingVoodooActor;
 
     @Override
-    public void sparkwitch$setPendingVoodooActor(UUID actor) {
-        sparkwitch$pendingVoodooActor = actor;
+    public void sparkdlc$setPendingVoodooActor(UUID actor) {
+        sparkdlc$pendingVoodooActor = actor;
     }
 
     @Inject(method = {"reset", "startPendingDeath"}, at = @At("HEAD"))
-    private void sparkwitch$clearVoodooCause(CallbackInfo ci) {
-        sparkwitch$pendingVoodooActor = null;
+    private void sparkdlc$clearVoodooCause(CallbackInfo ci) {
+        sparkdlc$pendingVoodooActor = null;
     }
 
     @WrapOperation(method = "serverTick", at = @At(value = "INVOKE",
             target = "Ldev/doctor4t/wathe/game/GameFunctions;killPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;ZLnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;)V"))
-    private void sparkwitch$scopeVoodoo(ServerPlayerEntity victim, boolean body, ServerPlayerEntity killer,
+    private void sparkdlc$scopeVoodoo(ServerPlayerEntity victim, boolean body, ServerPlayerEntity killer,
                                        Identifier reason, Operation<Void> original) {
-        UUID actor = sparkwitch$pendingVoodooActor;
-        sparkwitch$pendingVoodooActor = null;
+        UUID actor = sparkdlc$pendingVoodooActor;
+        sparkdlc$pendingVoodooActor = null;
         JudgeKillAttribution.runWith(victim.getServerWorld(), actor,
                 () -> original.call(victim, body, killer, reason));
     }
@@ -55,14 +55,14 @@ public abstract class JudgeVoodooPendingMixin implements JudgeVoodooCause, AutoS
     }
 
     @Inject(method = "writeToNbt", at = @At("TAIL"))
-    private void sparkwitch$writeVoodooCause(NbtCompound tag, RegistryWrapper.WrapperLookup registries, CallbackInfo ci) {
-        if (sparkwitch$pendingVoodooActor != null) tag.putUuid("sparkwitch:judge_voodoo_actor", sparkwitch$pendingVoodooActor);
+    private void sparkdlc$writeVoodooCause(NbtCompound tag, RegistryWrapper.WrapperLookup registries, CallbackInfo ci) {
+        if (sparkdlc$pendingVoodooActor != null) tag.putUuid("sparkwitch:judge_voodoo_actor", sparkdlc$pendingVoodooActor);
         else tag.remove("sparkwitch:judge_voodoo_actor");
     }
 
     @Inject(method = "readFromNbt", at = @At("TAIL"))
-    private void sparkwitch$readVoodooCause(NbtCompound tag, RegistryWrapper.WrapperLookup registries, CallbackInfo ci) {
-        sparkwitch$pendingVoodooActor = tag.containsUuid("sparkwitch:judge_voodoo_actor")
+    private void sparkdlc$readVoodooCause(NbtCompound tag, RegistryWrapper.WrapperLookup registries, CallbackInfo ci) {
+        sparkdlc$pendingVoodooActor = tag.containsUuid("sparkwitch:judge_voodoo_actor")
                 ? tag.getUuid("sparkwitch:judge_voodoo_actor") : null;
     }
 }

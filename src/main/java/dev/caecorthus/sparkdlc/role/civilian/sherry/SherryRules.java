@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.sherry;
 
 import dev.caecorthus.sparkdlc.faction.api.FactionIds;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.game.GameConstants;
 import net.minecraft.util.Identifier;
@@ -19,17 +19,17 @@ import org.jetbrains.annotations.Nullable;
  * （其余一律失败）；不与其他职业互相透视；徽章持有者死亡后周期性高亮凶手，而不是告知其名字与职业。
  */
 public final class SherryRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("sherry");
+    public static final Identifier ROLE_ID = SparkDLC.id("sherry");
     /** Identity colour, also the colour of her reveals. / 身份色，也是揭示高亮的颜色。 */
     public static final int COLOR = 0x65D0EE;
 
     /** Replay and forced-cooldown ids. / 回放与强制冷却使用的 ID。 */
-    public static final Identifier DEDUCTION_SKILL_ID = SparkWitch.id("sherry_deduction");
-    public static final Identifier MIGHTY_FORCE_SKILL_ID = SparkWitch.id("sherry_mighty_force");
-    public static final Identifier BADGE_SKILL_ID = SparkWitch.id("sherry_badge");
+    public static final Identifier DEDUCTION_SKILL_ID = SparkDLC.id("sherry_deduction");
+    public static final Identifier MIGHTY_FORCE_SKILL_ID = SparkDLC.id("sherry_mighty_force");
+    public static final Identifier BADGE_SKILL_ID = SparkDLC.id("sherry_badge");
 
-    public static final Identifier BADGE_ITEM_ID = SparkWitch.id("sherry_badge");
-    public static final Identifier NOTE_ITEM_ID = SparkWitch.id("sherry_note");
+    public static final Identifier BADGE_ITEM_ID = SparkDLC.id("sherry_badge");
+    public static final Identifier NOTE_ITEM_ID = SparkDLC.id("sherry_note");
     public static final String BADGE_ENTRY_ID = "sparkdlc:sherry_badge";
     /** Custom-data key of the note: the dead badge holder's name. / 纸条自定义数据键：死去的徽章持有者名字。 */
     public static final String NOTE_VICTIM_KEY = "victim_name";

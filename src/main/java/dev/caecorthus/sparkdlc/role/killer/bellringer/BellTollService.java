@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.bellringer;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.session.RiftSessionService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -18,11 +18,11 @@ import net.minecraft.util.TypedActionResult;
 
 /**
  * Server-authoritative bell toll: forced, terminal kills of every valid target whose sanity is below 0.
- * Owner-approved exception: the kill uses {@code force = true} with {@link SparkWitchDeathReasons#BELL_TOLL}
+ * Owner-approved exception: the kill uses {@code force = true} with {@link SparkDlcDeathReasons#BELL_TOLL}
  * (registered SparkTraits-terminal), so no shield or revive stops it; only SparkFactionAPI's structural
  * {@code canAffectPlayer} policy is honoured, both here and inside Wathe's kill path.
  * 服务端权威的敲钟结算：对所有理智低于 0 的有效目标执行强制且终结的击杀。
- * 所有者批准的例外：以 {@code force = true} 与 {@link SparkWitchDeathReasons#BELL_TOLL}（已注册为 SparkTraits 终结原因）击杀，
+ * 所有者批准的例外：以 {@code force = true} 与 {@link SparkDlcDeathReasons#BELL_TOLL}（已注册为 SparkTraits 终结原因）击杀，
  * 任何护盾或复活都无法阻止；仅遵循 SparkFactionAPI 的结构性 {@code canAffectPlayer} 策略（此处与 Wathe 击杀流程中均会检查）。
  */
 public final class BellTollService {
@@ -60,7 +60,7 @@ public final class BellTollService {
             if (!GameFunctions.isPlayerPlayingAndAlive(target)) {
                 continue;
             }
-            GameFunctions.killPlayer(target, true, ringer, SparkWitchDeathReasons.BELL_TOLL, true);
+            GameFunctions.killPlayer(target, true, ringer, SparkDlcDeathReasons.BELL_TOLL, true);
             if (game.isPlayerDead(target.getUuid())) {
                 claimed++;
             }
@@ -115,7 +115,7 @@ public final class BellTollService {
         return !candidate.getUuid().equals(ringer.getUuid())
                 && PlayerMoodComponent.KEY.get(candidate).getMood() < 0.0F
                 && (BellRingerEchoTargeting.isParticipant(candidate) || RiftSessionService.isInside(candidate))
-                && SparkFactionApi.canAffectPlayer(ringer, candidate, SparkWitchDeathReasons.BELL_TOLL, game);
+                && SparkFactionApi.canAffectPlayer(ringer, candidate, SparkDlcDeathReasons.BELL_TOLL, game);
     }
 
     /**

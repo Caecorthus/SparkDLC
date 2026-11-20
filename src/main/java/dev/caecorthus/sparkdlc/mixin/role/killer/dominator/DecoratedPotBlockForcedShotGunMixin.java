@@ -34,7 +34,7 @@ public abstract class DecoratedPotBlockForcedShotGunMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$keepForcedShotGunOutOfPot(ItemStack stack, BlockState state, World world, BlockPos pos,
+    private void sparkdlc$keepForcedShotGunOutOfPot(ItemStack stack, BlockState state, World world, BlockPos pos,
                                                       PlayerEntity player, Hand hand, BlockHitResult hit,
                                                       CallbackInfoReturnable<ItemActionResult> cir) {
         if (DominatorForcedShotGuns.blocksBlockUse(stack, state)) {

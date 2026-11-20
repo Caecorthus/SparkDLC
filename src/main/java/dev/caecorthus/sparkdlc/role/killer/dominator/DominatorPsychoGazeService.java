@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.dominator;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerPsychoComponent;
@@ -64,7 +64,7 @@ public final class DominatorPsychoGazeService {
                 continue;
             }
             for (ServerPlayerEntity dominator : world.getPlayers()) {
-                if (!game.isRole(dominator, SparkWitchRoles.dominator())
+                if (!game.isRole(dominator, SparkDlcRoles.dominator())
                         || !GameFunctions.isPlayerPlayingAndAlive(dominator)
                         || PlayerPsychoComponent.KEY.get(dominator).getPsychoTicks() <= 0) {
                     continue;

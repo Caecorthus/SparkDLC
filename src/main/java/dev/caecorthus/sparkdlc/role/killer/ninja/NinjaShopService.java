@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.ninja;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -43,19 +43,19 @@ public final class NinjaShopService {
         context.clearEntries();
         context.addEntry(new ShopEntry.Builder(
                 "ninja_knife",
-                new ItemStack(SparkWitchItems.ninjaKnife()),
+                new ItemStack(SparkDlcItems.ninjaKnife()),
                 NinjaRules.NINJA_KNIFE_PRICE,
                 ShopEntry.Type.WEAPON
         ).stock(1).build());
         context.addEntry(new ShopEntry.Builder(
                 "ninja_shuriken",
-                new ItemStack(SparkWitchItems.ninjaShuriken()),
+                new ItemStack(SparkDlcItems.ninjaShuriken()),
                 NinjaRules.NINJA_SHURIKEN_PRICE,
                 ShopEntry.Type.WEAPON
         ).build());
         context.addEntry(new ShopEntry.Builder(
                 "ninja_grappling_hook",
-                new ItemStack(SparkWitchItems.ninjaGrapplingHook()),
+                new ItemStack(SparkDlcItems.ninjaGrapplingHook()),
                 NinjaRules.GRAPPLING_HOOK_PRICE,
                 ShopEntry.Type.TOOL
         ).stock(1).build());

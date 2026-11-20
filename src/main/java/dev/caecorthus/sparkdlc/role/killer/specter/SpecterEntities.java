@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.specter;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -10,8 +10,8 @@ import net.minecraft.util.Identifier;
 
 /** Specter-owned gameplay entities: the placed ghost trigger and the short-lived visage hallucination. / 幽魂实体：鬼魂触发器与短命幻影。 */
 public final class SpecterEntities {
-    public static final Identifier GHOST_TRIGGER_ID = SparkWitch.id("ghost_trigger");
-    public static final Identifier GHOST_VISAGE_ID = SparkWitch.id("ghost_visage");
+    public static final Identifier GHOST_TRIGGER_ID = SparkDLC.id("ghost_trigger");
+    public static final Identifier GHOST_VISAGE_ID = SparkDLC.id("ghost_visage");
     private static EntityType<GhostTriggerEntity> ghostTrigger;
     private static EntityType<GhostVisageEntity> ghostVisage;
     private static boolean registered;

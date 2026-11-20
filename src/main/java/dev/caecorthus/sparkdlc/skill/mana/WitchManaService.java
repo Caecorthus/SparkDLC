@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.skill.mana;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.ApprenticePlayerComponent;
 import dev.doctor4t.wathe.api.Role;
@@ -65,7 +65,7 @@ public final class WitchManaService {
             if (!GameFunctions.isPlayerPlayingAndAlive(player)) {
                 continue;
             }
-            if (gameComponent.getRole(player) == SparkWitchRoles.grandWitch()) {
+            if (gameComponent.getRole(player) == SparkDlcRoles.grandWitch()) {
                 awardMana(player, grandWitchReward);
             }
         }

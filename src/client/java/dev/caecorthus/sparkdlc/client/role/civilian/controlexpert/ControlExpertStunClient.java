@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.controlexpert;
 
-import dev.caecorthus.sparkdlc.client.hooks.WitchAbilityKeyBridge;
+import dev.caecorthus.sparkdlc.client.hooks.AbilityKeyBridge;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStunRules;
@@ -107,7 +107,7 @@ public final class ControlExpertStunClient {
             client.interactionManager.cancelBlockBreaking();
         }
         closeGameplayScreen(client);
-        WitchAbilityKeyBridge.reset();
+        AbilityKeyBridge.reset();
         drainQueuedPresses(client);
     }
 
@@ -137,7 +137,7 @@ public final class ControlExpertStunClient {
         }
         for (KeyBinding key : client.options.allKeys) {
             if (!ControlExpertStunRules.isExemptKeyCategory(key.getCategory())) {
-                ((ControlExpertKeyDrain) key).sparkwitch$discardQueuedPresses();
+                ((ControlExpertKeyDrain) key).sparkdlc$discardQueuedPresses();
             }
         }
     }

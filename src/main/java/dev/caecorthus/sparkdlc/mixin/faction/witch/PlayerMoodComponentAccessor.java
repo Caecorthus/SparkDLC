@@ -14,11 +14,11 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(value = PlayerMoodComponent.class, remap = false)
 public interface PlayerMoodComponentAccessor {
     @Accessor("nextTaskTimer")
-    int sparkwitch$getNextTaskTimer();
+    int sparkdlc$getNextTaskTimer();
 
     @Accessor("nextTaskTimer")
-    void sparkwitch$setNextTaskTimer(int ticks);
+    void sparkdlc$setNextTaskTimer(int ticks);
 
     @Invoker("generateTask")
-    PlayerMoodComponent.TrainTask sparkwitch$generateTask();
+    PlayerMoodComponent.TrainTask sparkdlc$generateTaskForRoles();
 }

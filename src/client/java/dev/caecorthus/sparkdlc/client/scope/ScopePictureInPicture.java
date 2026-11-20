@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.scope;
 import com.mojang.blaze3d.platform.GlDebugInfo;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.systems.VertexSorter;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.mixin.faction.witch.PostEffectProcessorAccessor;
 import dev.caecorthus.sparkdlc.client.mixin.scope.ScopeGameRendererInvoker;
 import dev.caecorthus.sparkdlc.client.mixin.scope.ScopeMinecraftClientAccessor;
@@ -83,7 +83,7 @@ import java.io.IOException;
  * 永远不会进入本类（{@link ScopeRules#effectiveMode}）。仅渲染线程；仅用于展示。
  */
 public final class ScopePictureInPicture {
-    public static final Identifier EFFECT = SparkWitch.id("shaders/post/scope_pip.json");
+    public static final Identifier EFFECT = SparkDLC.id("shaders/post/scope_pip.json");
     /** The composite program; its pass receives the per-frame uniforms. / 合成程序；其 pass 接收逐帧 uniform。 */
     public static final String LENS_PROGRAM = "sparkdlc_scope_pip";
     /**
@@ -95,7 +95,7 @@ public final class ScopePictureInPicture {
     /** Vanilla's near plane and first-person hand FOV. / 原版近平面与第一人称手部视场角。 */
     private static final float NEAR_PLANE = 0.05F;
     private static final float OVERLAY_FOV_DEGREES = 70.0F;
-    private static final Identifier RELOAD_LISTENER_ID = SparkWitch.id("scope_picture_in_picture");
+    private static final Identifier RELOAD_LISTENER_ID = SparkDLC.id("scope_picture_in_picture");
     private static final Matrix4f MAIN_PROJECTION = new Matrix4f();
     private static final Matrix4f LENS_PROJECTION = new Matrix4f();
     private static boolean registered;
@@ -289,7 +289,7 @@ public final class ScopePictureInPicture {
         Camera camera = gameRenderer.getCamera();
         double radius = ScopeLensGeometry.lensRadius(main.textureWidth, main.textureHeight);
         double mainFov = ((ScopeGameRendererInvoker) gameRenderer)
-                .sparkwitch$scopeFov(camera, tickCounter.getTickDelta(true), true);
+                .sparkdlc$scopeFov(camera, tickCounter.getTickDelta(true), true);
         Matrix4f lensProjection = new Matrix4f()
                 .scaling(ScopeRules.lensClipScale(mainFov, zoom, main.textureWidth, radius),
                         ScopeRules.lensClipScale(mainFov, zoom, main.textureHeight, radius), 1.0F)
@@ -338,7 +338,7 @@ public final class ScopePictureInPicture {
         modelView.pushMatrix();
         modelView.identity();
         RenderSystem.applyModelViewMatrix();
-        framebufferField.sparkwitch$setScopeFramebuffer(lens);
+        framebufferField.sparkdlc$setScopeFramebuffer(lens);
         LENS_PROJECTION.set(lensProjection);
         renderingLens = true;
         try {
@@ -364,7 +364,7 @@ public final class ScopePictureInPicture {
             InGameOverlayRenderer.renderOverlays(client, new MatrixStack());
         } finally {
             renderingLens = false;
-            framebufferField.sparkwitch$setScopeFramebuffer(main);
+            framebufferField.sparkdlc$setScopeFramebuffer(main);
             modelView.popMatrix();
             RenderSystem.applyModelViewMatrix();
             RenderSystem.restoreProjectionMatrix();
@@ -427,7 +427,7 @@ public final class ScopePictureInPicture {
     }
 
     private static PostEffectPass findLensPass(PostEffectProcessor processor) {
-        for (PostEffectPass pass : ((PostEffectProcessorAccessor) processor).sparkwitch$getPasses()) {
+        for (PostEffectPass pass : ((PostEffectProcessorAccessor) processor).sparkdlc$getPasses()) {
             if (LENS_PROGRAM.equals(pass.getName())) {
                 return pass;
             }
@@ -439,11 +439,11 @@ public final class ScopePictureInPicture {
         failures++;
         int retrySeconds = ScopeRules.retryDelaySeconds(failures);
         if (failures == 1) {
-            SparkWitch.LOGGER.warn("The picture-in-picture scope failed on {} / {} / OpenGL {}; using Full-Screen "
+            SparkDLC.LOGGER.warn("The picture-in-picture scope failed on {} / {} / OpenGL {}; using Full-Screen "
                             + "Zoom, retrying in {} s", GlDebugInfo.getRenderer(), GlDebugInfo.getVendor(),
                     GlDebugInfo.getVersion(), retrySeconds, exception);
         } else {
-            SparkWitch.LOGGER.warn("The picture-in-picture scope failed again (#{}): {}; retrying in {} s", failures,
+            SparkDLC.LOGGER.warn("The picture-in-picture scope failed again (#{}): {}; retrying in {} s", failures,
                     exception.toString(), retrySeconds);
         }
         release();

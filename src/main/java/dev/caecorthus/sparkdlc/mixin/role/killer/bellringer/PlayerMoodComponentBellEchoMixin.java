@@ -48,7 +48,7 @@ public abstract class PlayerMoodComponentBellEchoMixin {
             require = 1,
             allow = 1
     )
-    private PlayerMoodComponent.TrainTask sparkwitch$holdTasksDuringBellEcho(
+    private PlayerMoodComponent.TrainTask sparkdlc$holdTasksDuringBellEcho(
             PlayerMoodComponent instance,
             Operation<PlayerMoodComponent.TrainTask> original
     ) {
@@ -70,7 +70,7 @@ public abstract class PlayerMoodComponentBellEchoMixin {
             require = 1,
             allow = 1
     )
-    private Object sparkwitch$suppressBellEchoTaskComplete(
+    private Object sparkdlc$suppressBellEchoTaskComplete(
             Object invoker,
             @Local PlayerMoodComponent.TrainTask task
     ) {
@@ -96,7 +96,7 @@ public abstract class PlayerMoodComponentBellEchoMixin {
             require = 2,
             allow = 2
     )
-    private float sparkwitch$scaleBellEchoDrain(float drain) {
+    private float sparkdlc$scaleBellEchoDrain(float drain) {
         return BellRingerEchoRuntime.scaleDrain(player, drain);
     }
 }

@@ -39,7 +39,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class DominatorForcedShotGunMixin {
     @Inject(method = "receive(Ldev/doctor4t/wathe/util/GunShootPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$refuseHandShotWithForcedGun(GunShootPayload payload, ServerPlayNetworking.Context context,
+    private void sparkdlc$refuseHandShotWithForcedGun(GunShootPayload payload, ServerPlayNetworking.Context context,
                                                         CallbackInfo ci) {
         if (DominatorForcedShotGuns.refusesHandShot(context.player())) {
             ci.cancel();
@@ -48,7 +48,7 @@ public abstract class DominatorForcedShotGunMixin {
 
     @WrapOperation(method = "receive(Ldev/doctor4t/wathe/util/GunShootPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/ItemCooldownManager;isCoolingDown(Lnet/minecraft/item/Item;)Z"))
-    private boolean sparkwitch$forcedShotIgnoresCooldown(ItemCooldownManager manager, Item item,
+    private boolean sparkdlc$forcedShotIgnoresCooldown(ItemCooldownManager manager, Item item,
                                                          Operation<Boolean> original,
                                                          GunShootPayload payload, ServerPlayNetworking.Context context) {
         return !DominatorForcedShotScope.isFiring(context.player()) && original.call(manager, item);
@@ -56,7 +56,7 @@ public abstract class DominatorForcedShotGunMixin {
 
     @WrapOperation(method = "receive(Ldev/doctor4t/wathe/util/GunShootPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/ItemCooldownManager;set(Lnet/minecraft/item/Item;I)V"))
-    private void sparkwitch$forcedShotWritesNoCooldown(ItemCooldownManager manager, Item item, int duration,
+    private void sparkdlc$forcedShotWritesNoCooldown(ItemCooldownManager manager, Item item, int duration,
                                                       Operation<Void> original,
                                                       GunShootPayload payload, ServerPlayNetworking.Context context) {
         if (!DominatorForcedShotScope.isFiring(context.player())) {
@@ -66,7 +66,7 @@ public abstract class DominatorForcedShotGunMixin {
 
     @WrapOperation(method = "receive(Ldev/doctor4t/wathe/util/GunShootPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/api/event/ShouldPunishGunShooter;shouldPunish(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/entity/player/PlayerEntity;)Ldev/doctor4t/wathe/api/event/ShouldPunishGunShooter$PunishResult;"))
-    private ShouldPunishGunShooter.PunishResult sparkwitch$protectForcedShot(
+    private ShouldPunishGunShooter.PunishResult sparkdlc$protectForcedShot(
             ShouldPunishGunShooter event, PlayerEntity shooter, PlayerEntity victim,
             Operation<ShouldPunishGunShooter.PunishResult> original) {
         return DominatorForcedShotScope.isFiring(shooter)
@@ -76,7 +76,7 @@ public abstract class DominatorForcedShotGunMixin {
 
     @WrapOperation(method = "receive(Ldev/doctor4t/wathe/util/GunShootPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/cca/PlayerMoodComponent;setMood(F)V"))
-    private void sparkwitch$skipForcedShotMood(PlayerMoodComponent mood, float amount, Operation<Void> original,
+    private void sparkdlc$skipForcedShotMood(PlayerMoodComponent mood, float amount, Operation<Void> original,
                                                GunShootPayload payload, ServerPlayNetworking.Context context) {
         if (!DominatorForcedShotScope.isFiring(context.player())) {
             original.call(mood, amount);

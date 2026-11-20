@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.usec;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -39,7 +39,7 @@ public final class UsecLifecycleService {
      * USEC 在 Wathe ON_FINISH_INITIALIZE 上使用的阶段，排在默认阶段之后（与搜寻者、盲人相同），因此所有默认阶段监听器都已
      * 执行。此时身份已是最终身份：SparkTraits 良心补偿在分配职业期间（公布身份之前）就已改写身份。对局仍处于 STARTING。
      */
-    static final Identifier FINISH_INITIALIZE_PHASE = SparkWitch.id("usec_finish_initialize");
+    static final Identifier FINISH_INITIALIZE_PHASE = SparkDLC.id("usec_finish_initialize");
 
     private static boolean registered;
 

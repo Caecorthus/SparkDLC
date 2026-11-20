@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.emma;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -9,7 +9,7 @@ import net.minecraft.util.Identifier;
 /** Backlash is a terminal penalty, not an attack credited to the forbidden target.
  * 因子反噬是终结惩罚，不是归属于禁止目标的一次攻击。 */
 public final class EmmaTerminalService {
-    public static final Identifier DEATH_REASON = SparkWitch.id("factor_backlash");
+    public static final Identifier DEATH_REASON = SparkDLC.id("factor_backlash");
 
     private EmmaTerminalService() { }
 

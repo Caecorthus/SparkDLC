@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.engineer;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
@@ -30,7 +30,7 @@ import net.minecraft.util.TypedActionResult;
  * 被眩晕者仍能走动和开门，被定身者却按不了任何键。
  */
 public final class EngineerStunGuards {
-    public static final Identifier STUN_PHASE = SparkStrength.id("engineer_stun");
+    public static final Identifier STUN_PHASE = SparkDLC.id("engineer_stun");
     private static boolean registered;
 
     private EngineerStunGuards() {

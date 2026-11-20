@@ -38,7 +38,7 @@ public abstract class PerfumerZephyrMoodDrainMixin {
             require = 2,
             allow = 2
     )
-    private float sparkstrength$halveDrainWithZephyr(float drain) {
+    private float sparkdlc$halveDrainWithZephyr(float drain) {
         return PerfumerRules.zephyrMoodDrain(drain, PerfumerScentComponent.KEY.get(player).isZephyrActive());
     }
 }

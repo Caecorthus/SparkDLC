@@ -12,5 +12,5 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public interface PlayerMoodComponentInvoker {
 
     @Invoker("generateTask")
-    PlayerMoodComponent.TrainTask sparktraits$generateTask();
+    PlayerMoodComponent.TrainTask sparkdlc$generateTaskForTraits();
 }

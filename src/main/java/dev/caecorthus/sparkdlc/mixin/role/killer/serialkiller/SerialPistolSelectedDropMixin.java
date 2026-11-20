@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ServerPlayerEntity.class)
 public abstract class SerialPistolSelectedDropMixin {
     @Inject(method = "dropSelectedItem(Z)Z", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$keepSelectedSerialPistol(boolean entireStack, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$keepSelectedSerialPistol(boolean entireStack, CallbackInfoReturnable<Boolean> cir) {
         ServerPlayerEntity player = (ServerPlayerEntity) (Object) this;
         if (SerialPistolInventoryRules.blocksDrop(player.getInventory().getMainHandStack())) {
             player.currentScreenHandler.syncState();

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.witch.curser;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.client.render.LocalViewerSnapshot;
 import dev.caecorthus.sparkdlc.client.render.WraithClientState;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
@@ -28,7 +28,7 @@ public final class CurserClientHooks {
                 game.isRunning(),
                 WraithClientState.isActive(player),
                 WraithClientState.isPromoted(player),
-                role != null && SparkWitchRoles.CURSER_ID.equals(role.identifier()),
+                role != null && SparkDlcRoles.CURSER_ID.equals(role.identifier()),
                 CurserPlayerComponent.KEY.get(player).getCooldownTicks(),
                 ClientPlayNetworking.canSend(UseCurserAbilityC2SPacket.ID)
         );
@@ -61,7 +61,7 @@ public final class CurserClientHooks {
                 game.isRunning(),
                 WraithClientState.isActive(player),
                 WraithClientState.isPromoted(player),
-                role != null && SparkWitchRoles.CURSER_ID.equals(role.identifier()),
+                role != null && SparkDlcRoles.CURSER_ID.equals(role.identifier()),
                 curser.isConfused()
         );
     }

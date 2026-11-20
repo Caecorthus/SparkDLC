@@ -37,7 +37,7 @@ public abstract class BlackRavenCrowBodyPayloadGuardMixin {
                     + "Lnet/minecraft/network/packet/CustomPayload;)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;execute(Ljava/lang/Runnable;)V")
     )
-    private void sparkwitch$dropCrowBodyPayload(
+    private void sparkdlc$dropCrowBodyPayload(
             MinecraftServer server,
             Runnable handler,
             Operation<Void> original,

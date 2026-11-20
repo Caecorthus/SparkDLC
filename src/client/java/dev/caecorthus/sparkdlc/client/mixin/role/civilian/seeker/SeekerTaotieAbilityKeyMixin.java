@@ -26,7 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(KeyBinding.class)
 public abstract class SeekerTaotieAbilityKeyMixin {
     @Inject(method = "wasPressed", at = @At("RETURN"), cancellable = true)
-    private void sparkwitch$claimSearchCarSwallow(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$claimSearchCarSwallow(CallbackInfoReturnable<Boolean> cir) {
         int claim = SeekerTaotieClient.claimPress((KeyBinding) (Object) this, cir.getReturnValueZ());
         if (claim != SeekerTaotieClient.NO_CLAIM) {
             cir.setReturnValue(false);

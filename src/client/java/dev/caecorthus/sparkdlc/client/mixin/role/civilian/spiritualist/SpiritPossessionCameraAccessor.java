@@ -15,5 +15,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(MinecraftClient.class)
 public interface SpiritPossessionCameraAccessor {
     @Accessor("cameraEntity")
-    void sparkstrength$setCameraEntityField(Entity entity);
+    void sparkdlc$setCameraEntityField(Entity entity);
 }

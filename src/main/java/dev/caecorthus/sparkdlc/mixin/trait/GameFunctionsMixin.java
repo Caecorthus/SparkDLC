@@ -29,7 +29,7 @@ import java.util.UUID;
 @Mixin(value = GameFunctions.class, priority = 2000, remap = false)
 public abstract class GameFunctionsMixin {
     @WrapMethod(method = "killPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;ZLnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;Z)V")
-    private static void sparktraits$guardAndScopeKillAttempt(
+    private static void sparkdlc$guardAndScopeKillAttempt(
             ServerPlayerEntity victim, boolean spawnBody, ServerPlayerEntity killer,
             Identifier deathReason, boolean force, Operation<Void> original
     ) {
@@ -56,7 +56,7 @@ public abstract class GameFunctionsMixin {
     }
 
     @Inject(method = "shouldDropOnDeath", at = @At("HEAD"), cancellable = true, remap = false)
-    private static void sparktraits$keepLastStandRevolver(ItemStack stack, PlayerEntity victim, CallbackInfoReturnable<Boolean> cir) {
+    private static void sparkdlc$keepLastStandRevolver(ItemStack stack, PlayerEntity victim, CallbackInfoReturnable<Boolean> cir) {
         if (LastStandService.shouldPreventDeathDrop(victim, stack)) {
             cir.setReturnValue(false);
         }
@@ -66,7 +66,7 @@ public abstract class GameFunctionsMixin {
             method = "killPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;ZLnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;Z)V",
             at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/cca/GameWorldComponent;canUseKillerFeatures(Lnet/minecraft/entity/player/PlayerEntity;)Z")
     )
-    private static boolean sparktraits$rewardOnlyRealKillers(GameWorldComponent gameComponent, PlayerEntity player) {
+    private static boolean sparkdlc$rewardOnlyRealKillers(GameWorldComponent gameComponent, PlayerEntity player) {
         return gameComponent.canUseKillerFeatures(player) && !EffectiveTraitService.hasConscience(player);
     }
 
@@ -74,8 +74,8 @@ public abstract class GameFunctionsMixin {
             method = "killPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;ZLnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;Z)V",
             at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/cca/GameWorldComponent;getAllKillerTeamPlayers()Ljava/util/List;")
     )
-    private static List<UUID> sparktraits$rewardPoolOnlyRealKillers(GameWorldComponent gameComponent) {
-        if (!(((GameWorldComponentAccessor) gameComponent).sparktraits$getWorld() instanceof ServerWorld world)) {
+    private static List<UUID> sparkdlc$rewardPoolOnlyRealKillers(GameWorldComponent gameComponent) {
+        if (!(((GameWorldComponentAccessor) gameComponent).sparkdlc$getWorldForTraits() instanceof ServerWorld world)) {
             return gameComponent.getAllKillerTeamPlayers();
         }
         return gameComponent.getAllKillerTeamPlayers().stream()

@@ -28,7 +28,7 @@ public abstract class ShriekGunCrosshairMixin {
                     target = "Ldev/doctor4t/wathe/client/gui/CrosshairRenderer;CROSSHAIR:Lnet/minecraft/util/Identifier;"
             )
     )
-    private static Identifier sparkwitch$showShriekGunTargetCrosshair(
+    private static Identifier sparkdlc$showShriekGunTargetCrosshair(
             Identifier original,
             MinecraftClient client,
             ClientPlayerEntity player,

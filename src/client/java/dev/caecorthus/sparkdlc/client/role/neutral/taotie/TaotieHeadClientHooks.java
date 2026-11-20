@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.neutral.taotie;
 
-import dev.caecorthus.sparkdlc.SparkStrengthEntities;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
 import dev.caecorthus.sparkdlc.client.render.entity.TaotieHeadEntityRenderer;
 import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadPlayerComponent;
 import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadFireC2SPacket;
@@ -48,7 +48,7 @@ public final class TaotieHeadClientHooks {
         }
         registered = true;
         ClientTickEvents.END_CLIENT_TICK.register(TaotieHeadClientHooks::tick);
-        EntityRendererRegistry.register(SparkStrengthEntities.taotieHead(), TaotieHeadEntityRenderer::new);
+        EntityRendererRegistry.register(SparkDlcEntities.taotieHead(), TaotieHeadEntityRenderer::new);
     }
 
     /** Localized name of the bound second skill key for HUD text. / HUD 文本使用的第二技能键本地化名称。 */

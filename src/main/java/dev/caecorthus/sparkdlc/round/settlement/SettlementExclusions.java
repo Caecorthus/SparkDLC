@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.round.settlement;
 
-import dev.caecorthus.sparkdlc.SparkFactionApiMod;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.mixin.round.settlement.GameWorldComponentWorldAccessor;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -133,7 +133,7 @@ public final class SettlementExclusions {
             return condition.test(subject);
         } catch (RuntimeException | LinkageError failure) {
             if (REPORTED_CONDITION_FAILURES.add(roleId)) {
-                SparkFactionApiMod.LOGGER.error(
+                SparkDLC.LOGGER.error(
                         "Settlement exclusion condition for {} failed; its holders are not excluded.", roleId, failure);
             }
             return false;
@@ -143,7 +143,7 @@ public final class SettlementExclusions {
     /** The online player on a server world, else null. / 服务端世界中的在线玩家，否则为 null。 */
     @Nullable
     private static PlayerEntity serverPlayer(GameWorldComponent game, UUID player) {
-        World world = ((GameWorldComponentWorldAccessor) game).sparkfactionapi$getWorld();
+        World world = ((GameWorldComponentWorldAccessor) game).sparkdlc$getWorld();
         return world instanceof ServerWorld ? world.getPlayerByUuid(player) : null;
     }
 }

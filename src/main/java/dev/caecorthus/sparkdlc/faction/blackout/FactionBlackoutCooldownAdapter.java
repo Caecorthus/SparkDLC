@@ -36,7 +36,7 @@ public final class FactionBlackoutCooldownAdapter {
 
     private static void setBlackoutCooldown(ServerPlayerEntity player, int cooldownTicks) {
         PlayerShopComponent shop = PlayerShopComponent.KEY.get(player);
-        ((PlayerShopComponentMixin) (Object) shop).sparkfactionapi$getCooldowns()
+        ((PlayerShopComponentMixin) (Object) shop).sparkdlc$getCooldowns()
                 .put(BLACKOUT_COOLDOWN_ID, cooldownTicks);
         shop.sync();
     }

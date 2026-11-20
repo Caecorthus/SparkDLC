@@ -92,7 +92,7 @@ public final class SeekerCarUseRules {
         }
         if (block instanceof TrapdoorBlock) {
             return block instanceof SeekerTrapdoorBlockAccessor trapdoor
-                    && trapdoor.sparkwitch$getBlockSetType().canOpenByHand() ? Target.TRAPDOOR : null;
+                    && trapdoor.sparkdlc$getBlockSetType().canOpenByHand() ? Target.TRAPDOOR : null;
         }
         if (block instanceof FenceGateBlock) {
             return Target.FENCE_GATE;

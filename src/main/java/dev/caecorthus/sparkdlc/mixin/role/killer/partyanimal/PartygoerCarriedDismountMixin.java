@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(PlayerEntity.class)
 public abstract class PartygoerCarriedDismountMixin {
     @ModifyReturnValue(method = "shouldDismount", at = @At("RETURN"))
-    private boolean sparkstrength$heldTight(boolean original) {
+    private boolean sparkdlc$heldTight(boolean original) {
         return original && !PartygoerCarry.isCarried((PlayerEntity) (Object) this);
     }
 }

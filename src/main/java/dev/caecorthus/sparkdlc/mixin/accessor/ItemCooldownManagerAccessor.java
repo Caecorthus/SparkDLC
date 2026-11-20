@@ -13,8 +13,8 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(ItemCooldownManager.class)
 public interface ItemCooldownManagerAccessor {
     @Accessor("entries")
-    Map<Item, ?> sparkwitch$getEntries();
+    Map<Item, ?> sparkdlc$getEntriesForRoles();
 
     @Accessor("tick")
-    int sparkwitch$getTick();
+    int sparkdlc$getTickForRoles();
 }

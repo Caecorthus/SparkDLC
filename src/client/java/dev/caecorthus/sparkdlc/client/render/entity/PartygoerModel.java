@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.render.entity;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerState;
 import net.minecraft.client.model.Dilation;
@@ -24,7 +24,7 @@ public final class PartygoerModel extends PlayerEntityModel<PartygoerEntity> {
      * 宽手臂玩家模型层的独立副本。Entity Model Features 按模型层名挑模型，用 minecraft:player 时资源包的 player.jem
      * （Fresh Animations 的玩家扩展等）也会套到它身上，把部分肢体藏掉。
      */
-    public static final EntityModelLayer LAYER = new EntityModelLayer(SparkStrength.id("partygoer"), "main");
+    public static final EntityModelLayer LAYER = new EntityModelLayer(SparkDLC.id("partygoer"), "main");
     /** Arm pitch while holding a player: hands at their chest. / 抱人时的手臂俯仰：两手在被抱者胸口高度。 */
     private static final float HOLD_PITCH = -1.15F;
     /**

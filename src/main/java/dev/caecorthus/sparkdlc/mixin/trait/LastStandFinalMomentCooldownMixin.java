@@ -16,9 +16,9 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(value = ItemCooldownManager.class, priority = 1000)
 public abstract class LastStandFinalMomentCooldownMixin {
     @ModifyVariable(method = "set", at = @At("HEAD"), argsOnly = true, ordinal = 0)
-    private int sparktraits$clearLastStandFinalMomentKnifeCooldown(int duration, Item item) {
+    private int sparkdlc$clearLastStandFinalMomentKnifeCooldown(int duration, Item item) {
         if ((Object) this instanceof ServerItemCooldownManager serverCooldownManager) {
-            ServerPlayerEntity player = ((ServerItemCooldownManagerAccessor) (Object) serverCooldownManager).sparktraits$getPlayer();
+            ServerPlayerEntity player = ((ServerItemCooldownManagerAccessor) (Object) serverCooldownManager).sparkdlc$getPlayerForTraits();
             return LastStandFinalMomentService.finalMomentKnifeCooldown(player, item, duration);
         }
         return duration;

@@ -22,7 +22,7 @@ public abstract class PartygoerGrabbedMessageMixin {
                     target = "Lnet/minecraft/client/gui/hud/InGameHud;setOverlayMessage(Lnet/minecraft/text/Text;Z)V"),
             index = 0
     )
-    private Text sparkstrength$grabbedMessage(Text original) {
+    private Text sparkdlc$grabbedMessage(Text original) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player != null && PartygoerCarry.isCarried(client.player)) {
             return Text.translatable("tip.sparkdlc.partygoer.grabbed").formatted(Formatting.LIGHT_PURPLE);

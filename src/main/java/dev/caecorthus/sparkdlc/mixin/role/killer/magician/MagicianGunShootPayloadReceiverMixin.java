@@ -29,7 +29,7 @@ public abstract class MagicianGunShootPayloadReceiverMixin {
     @Inject(method = "receive(Ldev/doctor4t/wathe/util/GunShootPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             at = @At(value = "INVOKE",
                     target = "Ldev/doctor4t/wathe/record/GameRecordManager;recordItemUse(Lnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;Lnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/nbt/NbtCompound;)V"))
-    private void sparkwitch$recordShotAndHitPuppet(GunShootPayload payload, ServerPlayNetworking.Context context,
+    private void sparkdlc$recordShotAndHitPuppet(GunShootPayload payload, ServerPlayNetworking.Context context,
                                                     CallbackInfo ci) {
         ServerPlayerEntity shooter = context.player();
         MagicianServerHooks.record(shooter, MagicianRecordedAction.Type.GUN_SHOOT);

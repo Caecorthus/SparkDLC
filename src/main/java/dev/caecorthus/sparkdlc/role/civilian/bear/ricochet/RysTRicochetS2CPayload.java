@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.bear.ricochet;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -21,7 +21,7 @@ import net.minecraft.util.math.Vec3d;
  * 击杀。解码从不抛出：非有限或过长的方向视为零，正文截断或多余时得到默认值。
  */
 public record RysTRicochetS2CPayload(float dx, float dy, float dz, boolean glass) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("bear_rys_t_ricochet");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("bear_rys_t_ricochet");
     public static final Id<RysTRicochetS2CPayload> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, RysTRicochetS2CPayload> CODEC =
             PacketCodec.of(RysTRicochetS2CPayload::write, RysTRicochetS2CPayload::read);

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.mixin.item.m67;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.network.ClientPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,8 +12,8 @@ public abstract class M67SprintMixin {
     // Wathe 已禁用使用减速；这里只豁免 M67 的开始疾跑检查。
     @ModifyExpressionValue(method = "canStartSprinting()Z", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/network/ClientPlayerEntity;isUsingItem()Z"))
-    private boolean sparkstrength$m67AllowsSprintStart(boolean original) {
+    private boolean sparkdlc$m67AllowsSprintStart(boolean original) {
         ClientPlayerEntity player = (ClientPlayerEntity) (Object) this;
-        return original && !player.getActiveItem().isOf(SparkStrengthItems.m67());
+        return original && !player.getActiveItem().isOf(SparkDlcItems.m67());
     }
 }

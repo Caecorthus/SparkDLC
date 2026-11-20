@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.role.neutral.cat;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.replay.api.SparkReplayApi;
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.emma.EmmaRoundComponent;
@@ -85,7 +85,7 @@ public final class SchrodingersCatService {
      * 先于 Wathe 默认阶段的断线监听器执行（后者当场以 {@code escaped} 杀死离开的参与者）：必须先解除幽魂，否则 HEAD 否决会拒绝
      * 这次击杀。
      */
-    private static final Identifier DISCONNECT_PHASE = SparkWitch.id("schrodingers_cat_release");
+    private static final Identifier DISCONNECT_PHASE = SparkDLC.id("schrodingers_cat_release");
     /**
      * Cats in their spectre window, by player. Written on the server thread only; concurrent so the voice plugin's
      * microphone thread may read it. / 处于幽魂阶段的猫，按玩家索引。只在服务端线程写入；使用并发表，使语音插件的麦克风
@@ -377,8 +377,8 @@ public final class SchrodingersCatService {
      */
     private static Role roleFor(SchrodingersCatRules.Side side, ServerWorld world, GameWorldComponent game) {
         return switch (side) {
-            case TEAM_JIAHAO -> SparkWitchRoles.insider();
-            case WITCH -> SparkWitchRoles.bewitched();
+            case TEAM_JIAHAO -> SparkDlcRoles.insider();
+            case WITCH -> SparkDlcRoles.bewitched();
             case KILLER -> WatheRoles.KILLER;
             // NONE never gets here: transforms() refuses it. / NONE 不会到达此处：transforms() 已拒绝。
             case CIVILIAN, NONE -> PoliceSlotAssignmentService.choose(ScoreboardRoleSelectorComponent.KEY

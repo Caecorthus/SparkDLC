@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.fisher;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -10,18 +10,18 @@ import org.jetbrains.annotations.Nullable;
  * 所有者批准的钓鱼佬 id 与数值（见 decisions 文件）。纯常量。
  */
 public final class FisherRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("fisher");
+    public static final Identifier ROLE_ID = SparkDLC.id("fisher");
     public static final int COLOR = 0x2A9D8F;
 
-    public static final Identifier FISHING_ROD_ID = SparkWitch.id("fishing_rod");
-    public static final Identifier BAIT_ID = SparkWitch.id("fish_bait");
-    public static final Identifier SALMON_ID = SparkWitch.id("salmon");
-    public static final Identifier COD_ID = SparkWitch.id("cod");
-    public static final Identifier CLOWNFISH_ID = SparkWitch.id("clownfish");
-    public static final Identifier GOLDFISH_ID = SparkWitch.id("goldfish");
-    public static final Identifier KEY_FISH_ID = SparkWitch.id("key_fish");
-    public static final Identifier SWORDFISH_ID = SparkWitch.id("swordfish");
-    public static final Identifier GLIMMERFISH_ID = SparkWitch.id("glimmerfish");
+    public static final Identifier FISHING_ROD_ID = SparkDLC.id("fishing_rod");
+    public static final Identifier BAIT_ID = SparkDLC.id("fish_bait");
+    public static final Identifier SALMON_ID = SparkDLC.id("salmon");
+    public static final Identifier COD_ID = SparkDLC.id("cod");
+    public static final Identifier CLOWNFISH_ID = SparkDLC.id("clownfish");
+    public static final Identifier GOLDFISH_ID = SparkDLC.id("goldfish");
+    public static final Identifier KEY_FISH_ID = SparkDLC.id("key_fish");
+    public static final Identifier SWORDFISH_ID = SparkDLC.id("swordfish");
+    public static final Identifier GLIMMERFISH_ID = SparkDLC.id("glimmerfish");
 
     public static final int INITIAL_MONEY = 0;
     public static final int TASK_MONEY_REWARD = 50;

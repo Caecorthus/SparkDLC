@@ -44,7 +44,7 @@ public abstract class MoodRendererAbyssZoneExposureMixin {
             require = 1,
             allow = 1
     )
-    private static boolean sparkwitch$abyssLineKeepsMoodBar(boolean noTaskRows) {
+    private static boolean sparkdlc$abyssLineKeepsMoodBar(boolean noTaskRows) {
         return noTaskRows && !AbyssZoneExposureTaskLine.occupiesRow(MinecraftClient.getInstance().player);
     }
 
@@ -60,7 +60,7 @@ public abstract class MoodRendererAbyssZoneExposureMixin {
             require = 2,
             allow = 2
     )
-    private static void sparkwitch$renderAbyssZoneExposureLine(
+    private static void sparkdlc$renderAbyssZoneExposureLine(
             PlayerEntity player,
             TextRenderer textRenderer,
             DrawContext context,

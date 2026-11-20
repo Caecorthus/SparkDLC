@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.abysslistener;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.role.witch.abysslistener.loadout.AbyssListenerLoadout;
 import dev.caecorthus.sparkdlc.role.witch.abysslistener.zone.DeepDarkZoneService;
 import dev.caecorthus.sparkdlc.role.witch.abysslistener.zone.DeepDarkZoneStandingService;
@@ -12,10 +12,10 @@ import net.minecraft.util.Identifier;
 import java.util.Set;
 
 /**
- * Abyss Listener server registration, called once from SparkWitchEvents. It enters the role into the shared
+ * Abyss Listener server registration, called once from RoleEvents. It enters the role into the shared
  * special-accomplice pool (so a Bewitched promotion may roll it and every "basic accomplice" rule applies), then
  * wires the role-owned shop, bound loadout and Deep Dark Zone runtime.
- * 聆渊者服务端注册，由 SparkWitchEvents 调用一次。先把本职业登记进共享的特殊共犯池（魔化使晋升可抽到它，
+ * 聆渊者服务端注册，由 RoleEvents 调用一次。先把本职业登记进共享的特殊共犯池（魔化使晋升可抽到它，
  * 所有"共犯基础功能"规则随之生效），再接入本职业自有的商店、绑定装备与深暗领域运行时。
  */
 public final class AbyssListenerFeatureService {
@@ -46,7 +46,7 @@ public final class AbyssListenerFeatureService {
             return;
         }
         registered = true;
-        AccompliceVariants.register(SparkWitchRoles.abyssListener(), HOOKS);
+        AccompliceVariants.register(SparkDlcRoles.abyssListener(), HOOKS);
         AbyssListenerShopService.register();
         AbyssListenerReplayFormatters.register();
         AbyssListenerLoadout.register();

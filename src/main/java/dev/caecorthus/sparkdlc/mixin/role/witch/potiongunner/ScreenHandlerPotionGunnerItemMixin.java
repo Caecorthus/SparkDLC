@@ -24,7 +24,7 @@ public abstract class ScreenHandlerPotionGunnerItemMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$keepPotionGunnerItem(
+    private void sparkdlc$keepPotionGunnerItem(
             int slotIndex,
             int button,
             SlotActionType actionType,

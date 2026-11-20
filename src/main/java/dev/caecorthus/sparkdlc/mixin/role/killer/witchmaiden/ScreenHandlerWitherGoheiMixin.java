@@ -22,7 +22,7 @@ public abstract class ScreenHandlerWitherGoheiMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$keepWitherGoheiItem(
+    private void sparkdlc$keepWitherGoheiItem(
             int slotIndex,
             int button,
             SlotActionType actionType,

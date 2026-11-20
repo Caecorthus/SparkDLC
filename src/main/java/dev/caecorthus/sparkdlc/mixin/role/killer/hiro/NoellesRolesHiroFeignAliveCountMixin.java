@@ -36,7 +36,7 @@ public abstract class NoellesRolesHiroFeignAliveCountMixin {
             require = 1,
             allow = 1
     )
-    private static boolean sparkwitch$feignedVictimCountsAsAlive(ServerPlayerEntity player, Operation<Boolean> original) {
+    private static boolean sparkdlc$feignedVictimCountsAsAlive(ServerPlayerEntity player, Operation<Boolean> original) {
         return original.call(player) && !HiroVictimFeignService.isFeigned(player);
     }
 }

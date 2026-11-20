@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.hunter;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -18,7 +18,7 @@ public final class HunterEffects {
         if (registered) {
             return;
         }
-        fracture = Registry.registerReference(Registries.STATUS_EFFECT, SparkWitch.id("fracture"), new FractureEffect());
+        fracture = Registry.registerReference(Registries.STATUS_EFFECT, SparkDLC.id("fracture"), new FractureEffect());
         registered = true;
     }
 

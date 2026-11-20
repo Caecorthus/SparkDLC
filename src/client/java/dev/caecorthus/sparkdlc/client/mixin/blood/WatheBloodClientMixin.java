@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.mixin.blood;
 
 import dev.caecorthus.sparkdlc.client.blood.ScavengerBlood;
-import dev.caecorthus.sparkdlc.client.config.SparkAssistClientSettings;
+import dev.caecorthus.sparkdlc.client.config.SparkDlcClientSettings;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
@@ -31,9 +31,9 @@ public abstract class WatheBloodClientMixin {
     // static handler is accepted on both kinds of target.
     // 刻意写成静态：目标是静态方法时 Mixin 会直接拒绝实例回调，与 require 无关；而静态回调对两种目标都合法。
     @Inject(method = "howDoISpawnBlood", at = @At("HEAD"), cancellable = true, require = 0)
-    private static void sparkassist$skipHiddenBodyBlood(ClientWorld world, PlayerBodyEntity body, PlayerEntity killer,
+    private static void sparkdlc$skipHiddenBodyBlood(ClientWorld world, PlayerBodyEntity body, PlayerEntity killer,
                                                  Item weapon, CallbackInfo ci) {
-        if (!SparkAssistClientSettings.suppressScavengerBlood() || body == null) {
+        if (!SparkDlcClientSettings.suppressScavengerBlood() || body == null) {
             return;
         }
         if (ScavengerBlood.isBodyHidden(world, body.getPlayerUuid())) {

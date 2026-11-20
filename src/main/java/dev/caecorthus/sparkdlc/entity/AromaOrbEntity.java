@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.entity;
 
-import dev.caecorthus.sparkdlc.SparkStrengthEntities;
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.AromaService;
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerKitService;
 import net.minecraft.entity.Entity;
@@ -32,13 +32,13 @@ public final class AromaOrbEntity extends ThrownItemEntity {
     }
 
     public AromaOrbEntity(World world, LivingEntity owner, UUID roundId) {
-        super(SparkStrengthEntities.aromaOrb(), owner, world);
+        super(SparkDlcEntities.aromaOrb(), owner, world);
         this.roundId = roundId;
     }
 
     @Override
     protected Item getDefaultItem() {
-        return SparkStrengthItems.aromaOrb();
+        return SparkDlcItems.aromaOrb();
     }
 
     public @Nullable UUID roundId() {

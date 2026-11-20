@@ -1,0 +1,6 @@
+# One-line edits made BEFORE the rename, written in the old vocabulary: old_line must match exactly one line of the file (leading and
+# trailing blanks ignored); an empty new_line deletes the line. A line that is no longer there is skipped with a note.
+# 改名之前按旧词汇进行的单行修改：old_line 必须恰好匹配文件中的一行（忽略首尾空白）；new_line 为空表示删除该行。已不存在的行会被跳过并给出说明。
+path	old_line	new_line	reason
+src/main/java/dev/caecorthus/sparkdlc/SparkDLC.java	SparkTraitsDataComponentTypes.init();		one data component registry: SparkDlcDataComponents.register() in registerRoleKitContent already forces its static initialiser
+src/main/java/dev/caecorthus/sparkdlc/SparkDLC.java	SparkWitchDataComponents.register();		one data component registry: SparkDlcDataComponents.register() in registerRoleKitContent already forces its static initialiser

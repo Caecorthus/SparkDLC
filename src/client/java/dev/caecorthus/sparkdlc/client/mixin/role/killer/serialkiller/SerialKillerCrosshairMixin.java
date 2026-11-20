@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.mixin.role.killer.serialkiller;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.world.LoadedEntities;
 import dev.caecorthus.sparkdlc.item.SerialPistolItem;
 import dev.doctor4t.wathe.client.gui.CrosshairRenderer;
@@ -23,12 +23,12 @@ public abstract class SerialKillerCrosshairMixin {
     @Unique private static final Identifier TARGET = Identifier.of("wathe", "hud/crosshair_target");
 
     @Inject(method = "renderCrosshair", at = @At("HEAD"), cancellable = true)
-    private static void sparkstrength$renderSerialPistolCrosshair(MinecraftClient client, ClientPlayerEntity player,
+    private static void sparkdlc$renderSerialPistolCrosshair(MinecraftClient client, ClientPlayerEntity player,
                                                                     DrawContext context, RenderTickCounter tickCounter,
                                                                     CallbackInfo ci) {
         ItemStack stack = player.getMainHandStack();
         if (!client.options.getPerspective().isFirstPerson()
-                || (!stack.isOf(SparkStrengthItems.serialPistol()) && !stack.isOf(SparkStrengthItems.serialLeftPistol()))) return;
+                || (!stack.isOf(SparkDlcItems.serialPistol()) && !stack.isOf(SparkDlcItems.serialLeftPistol()))) return;
         ci.cancel();
         boolean hit = !player.getItemCooldownManager().isCoolingDown(stack.getItem())
                 && SerialPistolItem.findTarget(player, LoadedEntities.anyPartygoer(player.getWorld())) != null;

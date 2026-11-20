@@ -53,7 +53,7 @@ public abstract class NoellesRolesJiahaoTeamWinMixin {
             require = 1,
             allow = 1
     )
-    private static List<UUID> sparkwitch$lookUpTeamJiahao(
+    private static List<UUID> sparkdlc$lookUpTeamJiahao(
             GameWorldComponent game,
             Role role,
             Operation<List<UUID>> original,
@@ -75,7 +75,7 @@ public abstract class NoellesRolesJiahaoTeamWinMixin {
             require = 1,
             allow = 1
     )
-    private static boolean sparkwitch$countTeamJiahaoOnce(PlayerEntity player, Operation<Boolean> original) {
+    private static boolean sparkdlc$countTeamJiahaoOnce(PlayerEntity player, Operation<Boolean> original) {
         return JiahaoTeamWinSeam.countsTowardAliveCount(original.call(player), player);
     }
 
@@ -89,7 +89,7 @@ public abstract class NoellesRolesJiahaoTeamWinMixin {
             require = 1,
             allow = 1
     )
-    private static CheckWinCondition.WinResult sparkwitch$teamJiahaoWinsTogether(
+    private static CheckWinCondition.WinResult sparkdlc$teamJiahaoWinsTogether(
             ServerPlayerEntity livingMember,
             Operation<CheckWinCondition.WinResult> original
     ) {

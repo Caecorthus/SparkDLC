@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(KeyBinding.class)
 public abstract class KeyBindingMixin {
     @Inject(method = "isPressed", at = @At("RETURN"), cancellable = true)
-    private void sparkassist$toggleWatheInstinctKey(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$toggleWatheInstinctKey(CallbackInfoReturnable<Boolean> cir) {
         KeyBinding keyBinding = (KeyBinding) (Object) this;
         if (!InstinctKeyController.shouldHandle(keyBinding.getTranslationKey())) {
             return;

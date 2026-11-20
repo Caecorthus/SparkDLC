@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Mouse.class)
 public abstract class KidnapperControlledMouseMixin {
     @Inject(method = "onMouseScroll", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$blockControlledScroll(
+    private void sparkdlc$blockControlledScroll(
             long window,
             double horizontal,
             double vertical,

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.mixin.role.civilian.savior;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.role.civilian.savior.SaviorLightsaberDrawAnimation;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
@@ -39,26 +39,26 @@ public abstract class SaviorLightsaberBipedPoseMixin<T extends LivingEntity> {
     public ModelPart head;
 
     @Inject(method = "positionRightArm(Lnet/minecraft/entity/LivingEntity;)V", at = @At("TAIL"))
-    private void sparkwitch$poseRightArm(T entity, CallbackInfo ci) {
-        if (!(entity instanceof PlayerEntity player) || !sparkwitch$isPosed(player)) {
+    private void sparkdlc$poseRightArm(T entity, CallbackInfo ci) {
+        if (!(entity instanceof PlayerEntity player) || !sparkdlc$isPosed(player)) {
             return;
         }
         if (player.getMainArm() == Arm.RIGHT) {
-            sparkwitch$poseSaberArm(this.rightArm, player, false);
+            sparkdlc$poseSaberArm(this.rightArm, player, false);
         } else {
-            sparkwitch$poseSupportArm(this.rightArm, player, true);
+            sparkdlc$poseSupportArm(this.rightArm, player, true);
         }
     }
 
     @Inject(method = "positionLeftArm(Lnet/minecraft/entity/LivingEntity;)V", at = @At("TAIL"))
-    private void sparkwitch$poseLeftArm(T entity, CallbackInfo ci) {
-        if (!(entity instanceof PlayerEntity player) || !sparkwitch$isPosed(player)) {
+    private void sparkdlc$poseLeftArm(T entity, CallbackInfo ci) {
+        if (!(entity instanceof PlayerEntity player) || !sparkdlc$isPosed(player)) {
             return;
         }
         if (player.getMainArm() == Arm.LEFT) {
-            sparkwitch$poseSaberArm(this.leftArm, player, true);
+            sparkdlc$poseSaberArm(this.leftArm, player, true);
         } else {
-            sparkwitch$poseSupportArm(this.leftArm, player, false);
+            sparkdlc$poseSupportArm(this.leftArm, player, false);
         }
     }
 
@@ -67,14 +67,14 @@ public abstract class SaviorLightsaberBipedPoseMixin<T extends LivingEntity> {
      * 每帧对每个双足模型执行两次：先判断手持物品，再查动画状态表。
      */
     @Unique
-    private static boolean sparkwitch$isPosed(PlayerEntity player) {
-        return player.getMainHandStack().isOf(SparkWitchItems.saviorLightsaber())
+    private static boolean sparkdlc$isPosed(PlayerEntity player) {
+        return player.getMainHandStack().isOf(SparkDlcItems.saviorLightsaber())
                 && SaviorLightsaberDrawAnimation.isHolding(player);
     }
 
     /** Saber arm: the whole arm is replaced by the draw animation's current angles. / 持剑手：整条手臂替换为拔出动画当前的角度。 */
     @Unique
-    private void sparkwitch$poseSaberArm(ModelPart arm, PlayerEntity player, boolean mirrored) {
+    private void sparkdlc$poseSaberArm(ModelPart arm, PlayerEntity player, boolean mirrored) {
         SaviorLightsaberDrawAnimation.ArmAngles angles =
                 SaviorLightsaberDrawAnimation.armAngles(player, this.head.pitch);
         arm.pitch = angles.pitch();
@@ -87,7 +87,7 @@ public abstract class SaviorLightsaberBipedPoseMixin<T extends LivingEntity> {
      * 先按状态算支撑手，再用攻击覆盖：挥砍时从后 25° 转到前 20°，保持阶段停在前 20°。
      */
     @Unique
-    private void sparkwitch$poseSupportArm(ModelPart arm, PlayerEntity player, boolean mirrored) {
+    private void sparkdlc$poseSupportArm(ModelPart arm, PlayerEntity player, boolean mirrored) {
         float pitch = arm.pitch;
         float yaw = arm.yaw;
         float roll = arm.roll;

@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
  * 依据 {@code PlayerBodyEntity} 的出现来喷血的，它会给一具不可见的尸体旁边照喷不误。</p>
  */
 public final class ScavengerBlood {
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkAssist/Blood");
+    private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/Blood");
     private static final String MOD_ID = "noellesroles";
     private static final String COMPONENT = "org.agmas.noellesroles.scavenger.HiddenBodiesWorldComponent";
 

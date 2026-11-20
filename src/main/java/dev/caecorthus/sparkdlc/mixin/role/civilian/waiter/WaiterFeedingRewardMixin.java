@@ -28,7 +28,7 @@ import java.util.UUID;
 @Mixin(value = Item.class, priority = 1100)
 public abstract class WaiterFeedingRewardMixin {
     @WrapMethod(method = "useOnEntity")
-    private net.minecraft.util.ActionResult sparkstrength$rewardAfterSuccessfulFeeding(
+    private net.minecraft.util.ActionResult sparkdlc$rewardAfterSuccessfulFeeding(
             ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand,
             Operation<net.minecraft.util.ActionResult> original
     ) {

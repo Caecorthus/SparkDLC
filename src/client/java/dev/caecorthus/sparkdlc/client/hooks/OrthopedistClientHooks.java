@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.hooks;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.orthopedist.OrthopedistPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.orthopedist.OrthopedistRules;
@@ -48,6 +48,6 @@ public final class OrthopedistClientHooks {
 
     private static boolean isOrthopedist(PlayerEntity player) {
         // Widened by the Black Raven acting overlay; getRole stays raw. / 黑羽鸦扮演覆盖层会放宽此判定；getRole 仍为真实身份。
-        return GameWorldComponent.KEY.get(player.getWorld()).isRole(player, SparkWitchRoles.orthopedist());
+        return GameWorldComponent.KEY.get(player.getWorld()).isRole(player, SparkDlcRoles.orthopedist());
     }
 }

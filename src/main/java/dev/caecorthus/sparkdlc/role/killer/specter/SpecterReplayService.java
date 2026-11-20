@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.specter;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.record.GameRecordEvent;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import dev.doctor4t.wathe.record.replay.ReplayGenerator;
@@ -26,9 +26,9 @@ public final class SpecterReplayService {
             return;
         }
         registered = true;
-        ReplayRegistry.registerItemUseFormatter(SparkWitchItems.GHOST_TRIGGER_ID, SpecterReplayService::formatTriggerPlace);
+        ReplayRegistry.registerItemUseFormatter(SparkDlcItems.GHOST_TRIGGER_ID, SpecterReplayService::formatTriggerPlace);
         ReplayRegistry.registerGlobalEventFormatter(GhostTriggerEntity.EVENT_TRIGGERED, SpecterReplayService::formatTriggered);
-        ReplayRegistry.registerItemUseFormatter(SparkWitchItems.PEACHWOOD_SWORD_ID, SpecterReplayService::formatPeachwoodHit);
+        ReplayRegistry.registerItemUseFormatter(SparkDlcItems.PEACHWOOD_SWORD_ID, SpecterReplayService::formatPeachwoodHit);
     }
 
     private static @Nullable Text formatTriggerPlace(

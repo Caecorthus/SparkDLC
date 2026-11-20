@@ -15,5 +15,5 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(GameRenderer.class)
 public interface ScopeGameRendererInvoker {
     @Invoker("getFov")
-    double sparkwitch$scopeFov(Camera camera, float tickDelta, boolean changingFov);
+    double sparkdlc$scopeFov(Camera camera, float tickDelta, boolean changingFov);
 }

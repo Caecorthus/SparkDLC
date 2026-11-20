@@ -37,7 +37,7 @@ public abstract class KidnapperBodyPoseMixin {
                     target = "Ldev/doctor4t/wathe/client/render/entity/PlayerBodyEntityRenderer;setupTransforms(Ldev/doctor4t/wathe/entity/PlayerBodyEntity;Lnet/minecraft/client/util/math/MatrixStack;FFFF)V"
             )
     )
-    private void sparkwitch$alignKidnappedBodyYaw(Args args) {
+    private void sparkdlc$alignKidnappedBodyYaw(Args args) {
         PlayerBodyEntity body = args.get(0);
         KidnapperBodyPose pose = poseFor(body, args.get(4));
         if (pose != null) {
@@ -52,7 +52,7 @@ public abstract class KidnapperBodyPoseMixin {
                     target = "Lnet/minecraft/client/render/entity/model/BipedEntityModel;setAngles(Lnet/minecraft/entity/LivingEntity;FFFFF)V"
             )
     )
-    private void sparkwitch$alignKidnappedBodyHead(
+    private void sparkdlc$alignKidnappedBodyHead(
             Args args,
             PlayerBodyEntity body,
             float bodyYaw,
@@ -85,7 +85,7 @@ public abstract class KidnapperBodyPoseMixin {
                     opcode = Opcodes.PUTFIELD
             )
     )
-    private void sparkwitch$keepKidnappedSkinFlat(
+    private void sparkdlc$keepKidnappedSkinFlat(
             PlayerEntityModel<PlayerBodyEntity> model,
             boolean riding,
             Operation<Void> original,

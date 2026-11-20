@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.saint;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.TraitShopEntries;
 import dev.caecorthus.sparkdlc.role.civilian.saint.flash.HolyFlashInventoryRules;
 import dev.caecorthus.sparkdlc.role.civilian.saint.flash.HolyFlashRules;
@@ -55,7 +55,7 @@ public final class SaintShopService {
         // gates every copy. / 与 Wathe 手雷一样的可重复购买消耗品：无库存、无购买冷却，按物品计算的使用冷却约束每一件。
         context.addEntry(new ShopEntry.Builder(
                 HolyFlashRules.SHOP_ENTRY_ID,
-                new ItemStack(SparkWitchItems.holyFlash()),
+                new ItemStack(SparkDlcItems.holyFlash()),
                 HolyFlashRules.PRICE,
                 ShopEntry.Type.WEAPON
         ).build());

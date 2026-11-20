@@ -127,13 +127,13 @@ public final class ToxicologistAntidoteService {
     }
 
     private static int remainingCooldownTicks(ItemCooldownManager cooldownManager, Item item) {
-        Object entry = ((ItemCooldownManagerAccessor) cooldownManager).sparkstrength$getEntries().get(item);
+        Object entry = ((ItemCooldownManagerAccessor) cooldownManager).sparkdlc$getEntriesForKits().get(item);
         if (entry == null) {
             return 0;
         }
 
-        int endTick = ((ItemCooldownEntryAccessor) entry).sparkstrength$getEndTick();
-        int currentTick = ((ItemCooldownManagerAccessor) cooldownManager).sparkstrength$getTick();
+        int endTick = ((ItemCooldownEntryAccessor) entry).sparkdlc$getEndTickForKits();
+        int currentTick = ((ItemCooldownManagerAccessor) cooldownManager).sparkdlc$getTickForKits();
         return Math.max(0, endTick - currentTick);
     }
 }

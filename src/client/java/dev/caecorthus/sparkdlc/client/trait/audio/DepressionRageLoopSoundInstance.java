@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.trait.audio;
 
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
-import dev.caecorthus.sparkdlc.SparkTraitsSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.trait.civilian.depression.DepressionAudio;
 import net.minecraft.client.sound.AbstractSoundInstance;
 import net.minecraft.client.sound.SoundInstance;
@@ -19,7 +19,7 @@ public final class DepressionRageLoopSoundInstance extends AbstractSoundInstance
     private boolean done;
 
     public DepressionRageLoopSoundInstance(PlayerEntity player) {
-        super(SparkTraitsSounds.DEPRESSION_RAGE_LOOP, SoundCategory.AMBIENT, Random.create());
+        super(SparkDlcSounds.DEPRESSION_RAGE_LOOP, SoundCategory.AMBIENT, Random.create());
         this.player = player;
         this.repeat = true;
         this.repeatDelay = 0;

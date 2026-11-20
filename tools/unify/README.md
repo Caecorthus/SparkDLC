@@ -1,10 +1,11 @@
 # tools/unify — the unification scripts / 统一化脚本
 
-Two stages are scripted here: the stage-1 package move (`move_packages.py`, first part of this file) and the stage-2a
-namespace rename (`rename_namespace.py`, second part). Statements of the first part describe the tree as stage 1 left
+Three passes are scripted here: the stage-1 package move (`move_packages.py`, first part of this file), the stage-2a
+namespace rename (`rename_namespace.py`, second part) and the stage-3 class and mixin member rename
+(`rename_classes.py`, "One vocabulary" in the third part). Statements of the first part describe the tree as stage 1 left
 it: "no id or namespace changed" was true until stage 2a.
-这里有两个阶段的脚本：第一阶段的包搬迁（`move_packages.py`，本文件前半部分）与第二阶段 a 的命名空间改名
-（`rename_namespace.py`，后半部分）。前半部分描述的是第一阶段结束时的代码树：“id 与命名空间没有变化”在第二阶段 a 之前成立。
+这里有三次脚本化改造：第一阶段的包搬迁（`move_packages.py`，本文件第一部分）、第二阶段 a 的命名空间改名
+（`rename_namespace.py`，第二部分）以及第三阶段的类与 mixin 成员改名（`rename_classes.py`，第三部分的“统一词汇”）。前半部分描述的是第一阶段结束时的代码树：“id 与命名空间没有变化”在第二阶段 a 之前成立。
 
 # Stage 1 — the package move / 第一阶段：包搬迁
 
@@ -326,7 +327,7 @@ the new ones, in the sequence the fused entrypoints used to call them.
   `MOD_ID`, `LOGGER` and `id(...)`, and `client.SparkAssistClient`, `client.SparkTraitsClient`,
   `client.SparkWitchClient` forward `configManager()`, `runSessionCleanup(...)` / `shouldRunSessionCleanup(...)` and
   `abilityKeyText()` to `SparkDLCClient`, for the roughly one thousand call sites that still name them. A scripted
-  pass points those at `SparkDLC` / `SparkDLCClient` and deletes the holders.
+  pass points those at `SparkDLC` / `SparkDLCClient` and deletes the holders (done: "One vocabulary" below).
 
 五个初始化器、四个 Cardinal Components 入口、三个语音插件和三个客户端 mixin 插件各自合并为一个类：`SparkDLC`、
 `client.SparkDLCClient`、`SparkDlcComponents`、`voice.SparkDlcVoiceChatPlugin`、`client.SparkDlcClientMixinPlugin`。
@@ -345,7 +346,7 @@ the new ones, in the sequence the fused entrypoints used to call them.
   `LOGGER` 与 `id(...)`；`client.SparkAssistClient`、`client.SparkTraitsClient`、`client.SparkWitchClient` 把
   `configManager()`、`runSessionCleanup(...)` / `shouldRunSessionCleanup(...)` 与 `abilityKeyText()` 转发给
   `SparkDLCClient`，供仍然引用它们的约一千处调用使用。之后的脚本化改名会把这些调用点指向 `SparkDLC` / `SparkDLCClient`
-  并删除这些持有类。
+  并删除这些持有类（已完成，见下文“统一词汇”）。
 
 ## One wire / 一条线
 
@@ -414,3 +415,160 @@ three packet hubs. Each is one now.
   一个加入监听器取代了 `SparkTraitsPackets` 的那个，`SparkWitchPackets` 的那个不再存在；两个旧数据包 id 变为
   `sparkdlc:server_confirm`。数据包注册中心的合并在导出中没有任何变化。合并后的策略类的 12 个配置集合与原先三个类中的对应集合
   完全相同（109 个数据包 id × 12 个配置）。
+
+## One vocabulary / 统一词汇 (`rename_classes.py`)
+
+The third scripted pass. After the move and the namespace rename the code still named the five former mods in three
+places: 153 class names (`SparkWitchItems`, `SparkStrengthEvents`, `SparkTraitsReplayEvents`, ...), 1744 mixin member
+names with a former prefix (`sparkwitch$`, `sparkstrength$`, `sparktraits$`, `sparkfactionapi$`, `sparkassist$`) and
+the registries of the root package, which were split by former mod. This pass renames the classes, gives every mixin
+member the prefix `sparkdlc$`, merges the registries into one class per kind and deletes the transitional holder
+classes of the "one entry" slice (130 classes renamed, 15 registry classes merged into 6, 8 holders deleted). No id,
+key, packet, saved-data name, lang key or asset changes; the registration
+order does not change either (see "Proof of order" below).
+
+第三次脚本化改造。包搬迁与命名空间改名之后，代码中仍有三处以五个旧模组命名：153 个类名、1744 个带旧前缀的 mixin 成员名，
+以及根包中按旧模组拆分的注册类。其中 130 个类改名，15 个注册类合并为 6 个，8 个持有类被删除。本次改造为这些类改名，把所有 mixin 成员的前缀统一为 `sparkdlc$`，把注册类合并为每种一个，
+并删除“单一入口”阶段留下的过渡持有类。id、键、数据包、存档数据名、语言键与资源均不变，注册顺序也不变（见下文“顺序的证明”）。
+
+### Files / 文件
+
+| File | Content |
+| --- | --- |
+| `rename_classes.py` | the script / 脚本 |
+| `class-renames.tsv` | hand-written: old class, new class, kind, section title (merges), reason / 手写：旧类、新类、种类、部分标题、理由 |
+| `class-keeps.tsv` | hand-written: classes that match a former-mod name pattern and keep their name, with the reason / 手写：有意保留名字的类及理由 |
+| `member-renames.tsv` | hand-written: members of the merged classes that are renamed, dropped or moved / 手写：合并类中被改名、去掉或搬走的成员 |
+| `mixin-member-renames.tsv` | hand-written: the mixin members that would clash under one prefix, with their new names / 手写：统一前缀后会冲突的 mixin 成员及其新名字 |
+| `source-edits.tsv` | hand-written: one-line edits made before the rename (two start-up calls that the merged data component registry makes redundant) / 手写：改名前的单行修改 |
+| `merged/<Class>.header.txt` | hand-written class comment of a merged class / 合并类的类注释 |
+| `merged/SparkDlcDataComponents.java`, `merged/sources.tsv` | the one merged class written by hand, and the hashes of the classes it was made from / 唯一手写的合并类及其来源类的哈希 |
+| `applied-phases.txt` | also records `names-main`, `names-tooling` (`names-tests` in `src/test/.unify-applied-phases.txt`) / 同时记录本脚本已执行的阶段 |
+
+Base commit of the rename: `e2ba3ce16` (main repository).
+改名的基准提交：主仓库 `e2ba3ce16`。
+
+### Running it / 运行
+
+```bash
+python3 tools/unify/rename_classes.py plan                   # checks, changes nothing
+python3 tools/unify/rename_classes.py apply --phase main     # production and gametest sources, mixin configs, fabric.mod.json
+python3 tools/unify/rename_classes.py apply --phase tooling  # gradle/verify, tools/payload_policy.py, config, docs, file-moves.tsv
+python3 tools/unify/rename_classes.py apply --phase tests    # local-only src/test (JUnit, Strength Java and Python)
+python3 tools/unify/rename_classes.py translate OLD.txt --out NEW.txt   # a text of before, in the names of after
+```
+
+Every phase is deterministic; an applied phase is recorded and skipped on the next run (`--force` runs it again, and
+on a renamed tree finds nothing to rewrite). `--report FILE` lists what a phase left alone on purpose. The script is
+written to be run again on a tree that has changed since the tables were written:
+
+- a row whose class no longer exists is skipped with a note (`skipped ... the class no longer exists`); a merge whose
+  parts are partly gone merges the rest;
+- `plan` (and every `apply`, which runs the same checks first) **fails** on
+  - a class whose name matches a former-mod pattern (`Spark(Witch|Strength|Traits|Faction|Assist)` anywhere, a
+    leading `Witch`, `Witches`, `Strength`, `Traits` or `Assist`, or one of those words before `Bridge` / `Compat`)
+    and that has neither a row in `class-renames.tsv` nor a keep row: `unlisted class named after a former mod: <name>`;
+  - two classes that would have one name in one package, a new name that a local test class already has, and one old
+    simple name that belongs to several classes with different new names;
+  - a file that would import two classes with one simple name;
+  - two parts of a merged class that declare one member name (`member collision in <class>`), and a holder class
+    with a member its absorbing class lacks;
+  - a changed source of the hand-merged class (`changed since the class was merged by hand`, with the new hash);
+  - **a mixin member collision**: two member names that are different today and would become one name
+    (`mixin member collision on the same target: sparkdlc$x would be declared 2 times`, followed by the mixins that
+    declare them and their targets). The answer is a row in `mixin-member-renames.tsv` with an explicit new name.
+
+每个阶段都是确定的；已执行的阶段会被记录并在下次运行时跳过（`--force` 可强制再次执行，在已改名的代码树上不会再改写任何内容）。
+`--report FILE` 列出该阶段有意未改写的内容。脚本可以在表格写成之后发生了变化的代码树上重新运行：类已不存在的行会被跳过并给出
+说明；部分来源已不存在的合并会合并其余部分。出现以下情况时 `plan`（以及先执行同样检查的每次 `apply`）会**失败**：名字符合旧模组模式
+而两张表中都没有的类；同一个包内的重名、与本地测试类重名、同一个旧简单名对应多个新名字；同一文件会导入两个同名类；合并类的两个部分
+声明了同名成员、或持有类的成员在吸收它的类中不存在；手写合并类的来源发生了变化；**mixin 成员冲突**（今天不同的两个成员名会变成
+同一个名字），解决办法是在 `mixin-member-renames.tsv` 中加一行并给出明确的新名字。
+
+### What it rewrites / 改写的内容
+
+- **Class names** (`kind` = `rename`). The file is renamed in place (a plain rename, through `git mv` for a tracked
+  file, so the history follows; the package never changes, moving is `move_packages.py`'s job) and every whole-word
+  occurrence of the old simple name becomes the new one: declarations, imports, fully-qualified names, comments and
+  Javadoc, strings (the source-text tests), the two mixin configs, `fabric.mod.json`, access wideners, verify
+  scripts, `tools/payload_policy.py`, docs. A name behind a package or directory path that is not the class's own
+  package is left alone when it names a file or a whole name of the past
+  (`dev/caecorthus/sparkdlc/factionapi/util/SparkFactionPermissions.class` in a "stale class must not be in the jar"
+  check). `file-moves.tsv` keeps saying where a file came from: its `new_path` / `new_fqcn` columns follow a plain
+  rename.
+- **Merged registries** (`kind` = `merge`). The class bodies are concatenated in row order, one titled section per
+  former class; the former class comment becomes the comment of its section; the imports are united; members named
+  in `member-renames.tsv` are renamed (also where the part uses them without a qualifier), dropped or moved. Every
+  part keeps its own registration method and `SparkDLC` calls it where it called the old class, so nothing registers
+  earlier or later than before. `SparkDlcDataComponents` is `kind` = `stored`: two of its three parts registered in
+  their static initialiser and one in `register()`, which a concatenation cannot keep in order, so the class was
+  written by hand (everything in the static initialiser, in the raw-id order of before; `TIMEKEEPER_WATCH_MODE`
+  moved in from the item registry, where its place in that order depended on class loading).
+- **Holder classes** (`kind` = `absorb`). `SparkFactionApiMod`, `SparkStrength`, `SparkTraits`, `SparkWitch`,
+  `SparkAssist` are deleted and their uses become `SparkDLC`; `client.SparkAssistClient`, `client.SparkTraitsClient`,
+  `client.SparkWitchClient` become `client.SparkDLCClient`. These names are also words of prose ("SparkWitch adds two
+  beds"), so they are rewritten only where they are code: in Java code, in front of a member of the absorbing class
+  (`SparkWitch.id(` in a comment or a test string), in a fully-qualified name, an import or a `{@link}`.
+- **Mixin member prefixes.** `sparkwitch$x`, `sparkstrength$x`, `sparktraits$x`, `sparkfactionapi$x`, `sparkassist$x`
+  become `sparkdlc$x` everywhere (also in strings such as `@Group(name = ...)` and in regex-escaped form). The 30
+  names of `mixin-member-renames.tsv` get an explicit new name instead: without it, 14 names would be declared two
+  to four times on one target class (three duplicated cooldown accessors, the duplicated ray-shape and corpse
+  equipment handlers, two stun guards).
+- **Sub-logger names.** `"SparkAssist/Config"`, `"SparkWitch/MiniWitherSkin"`, `"SparkFactionAPI/ForcedCooldowns"`
+  and the like become `"SparkDLC/<Name>"` (the string-literal form only). The main logger was `sparkdlc` already.
+
+类名（`rename`）：文件原地改名（普通重命名，已跟踪文件走 `git mv`；包不变），旧简单名的每个整词出现都改为新名字，包括声明、import、
+全限定名、注释、字符串、两个 mixin 配置、`fabric.mod.json`、access widener、校验脚本、`tools/payload_policy.py` 与文档；带有并非
+该类所在包的路径、且指向文件或过去的全名时保持不变。`file-moves.tsv` 的 `new_path` / `new_fqcn` 两列随改名更新。合并的注册类
+（`merge`）：类体按行序拼接，每个旧类一个带标题的部分，旧的类注释成为该部分的注释，import 合并，`member-renames.tsv` 中的成员被改名、
+去掉或搬走；每个部分保留自己的注册方法，`SparkDLC` 在原来调用旧类的位置调用它，因此注册时机不变。`SparkDlcDataComponents` 是手写的
+（`stored`）：三个部分中有两个在静态初始化器中注册、一个在 `register()` 中注册，拼接无法保持顺序，因此全部改为在静态初始化器中按原有
+raw id 顺序注册，`TIMEKEEPER_WATCH_MODE` 也从物品注册类搬入。持有类（`absorb`）：删除并把使用处改为 `SparkDLC` /
+`SparkDLCClient`；这些名字同时是普通词语，因此只在确实是代码的位置改写。mixin 成员前缀统一为 `sparkdlc$`，
+`mixin-member-renames.tsv` 中的 30 个名字改为明确的新名字。子日志器名字 `"SparkAssist/…"`、`"SparkWitch/…"`、
+`"SparkFactionAPI/…"` 改为 `"SparkDLC/…"`，主日志器本来就是 `sparkdlc`。
+
+### Naming decisions / 命名决定
+
+The words of the former mods are replaced by what the thing is in one mod / 旧模组的名字换成它在一个模组里的含义：
+
+| Former mod word | Now | Why |
+| --- | --- | --- |
+| `SparkStrength…` | `RoleKit…` | the kits (items, entities, rules) of the Wathe and NoellesRoles roles, as `SparkDLC#registerRoleKitContent` names them / Wathe 与 NoellesRoles 职业的套件 |
+| `SparkWitch…`, and `Witch…` where it meant the mod | `Role…`, or `Spark…` next to a `Noelles…` / `Wathe…` sibling, or no prefix | the mod's own roles; `Witch` stays where it is the Witch faction, a witch skill, mana, the witch factor, the Witch Maiden or the Witches' Sabbath / 本模组自有职业；`Witch` 指魔女阵营、魔女技能等游戏概念时保留 |
+| `SparkTraits…` | `Trait…` | the trait mechanic / 词条机制 |
+| `SparkFaction…`, `SparkFactionApi…` | `Faction…`, or what the class holds | the faction concept; `SparkFactionApi` itself stays / 阵营概念；`SparkFactionApi` 本身保留 |
+| `SparkAssist…` | `SparkDlc…` (config and settings of the whole mod) | they are the client config of the mod / 它们就是本模组的客户端配置 |
+| root registries | `SparkDlcItems`, `SparkDlcBlocks`, `SparkDlcEntities`, `SparkDlcSounds`, `SparkDlcDataComponents`, `SparkDlcItemGroups`, `SparkDlcParticles`, `SparkDlcRoles`, `SparkDlcFactions`, `SparkDlcDeathReasons` | one class per kind / 每种一个类 |
+
+- **The registries stay in the root package.** After the merge the root package is the two entry classes'
+  neighbours and nothing else: `SparkDLC`, `SparkDlcComponents`, `SparkDlcModule` and one registry per kind, the
+  index of what the mod adds (Wathe keeps its own in `index`). The kind packages are no better home: `item`, `block`,
+  `entity` and `sound` hold the role kits' implementation classes only, while the own roles' items and entities live
+  in their role packages, and `component` is the Cardinal Components package, where a data component registry would
+  be misread. Staying also keeps this pass a pure rename (no import changes), which the two parallel slices merge
+  with more easily. 注册类留在根包：合并后根包只剩入口类及每种一个的注册类，相当于本模组新增内容的索引；`item`、`block`、
+  `entity`、`sound` 等包只放职业套件的实现类，自有职业的物品与实体在各自的职业包中，而 `component` 是 Cardinal Components 的包。
+- **Kept on purpose** (`class-keeps.tsv`): `faction.api.SparkFactionApi` and `trait.api.SparkTraitsApi` (public
+  facades whose names read "Spark faction API" and "Spark traits API"; with `SparkReplayApi` and the renamed
+  `SparkRoleApi` they are the family of public APIs), and every `Witch…` class that is about the Witch faction or
+  the witch skill system. 有意保留：两个公开门面，以及所有确实与魔女阵营或魔女技能系统相关的 `Witch…` 类。
+- **Local tests.** `apply --phase tests` rewrites the names inside the local tests. Tests that pinned a shape this
+  pass changed (a merged registry, a deleted holder, a list sorted by file name) were restated by hand; the edits are
+  kept next to the tests as `src/test/.unify-names-hand-edits.py` (local-only, like the tests), to be run once after
+  the tests phase. 本地测试：`apply --phase tests` 改写本地测试中的名字；固定了本次改造所改变的形状的测试经手工重述，
+  这些修改以 `src/test/.unify-names-hand-edits.py` 的形式与测试放在一起（同样只在本地），在 tests 阶段之后运行一次。
+- **Test classes keep their names** (42 local test classes are still called `SparkWitch…Test` and the like): they
+  are local-only, several pairs would collide after a merge, and their subject is rewritten inside them.
+  测试类保留原名：它们只在本地存在，合并后会有成对重名，其内部引用的被测类已随之改写。
+- **Prose is not rewritten.** Comments, exception messages and log messages that say "SparkWitch" or "SparkStrength"
+  as the name of a former mod stay (`--report` lists them); so do the legacy mod ids, `SparkDlcModule` and everything
+  in the `legacy` packages. 普通文字不改写：把旧模组名当作名字来叙述的注释、异常信息与日志信息保持不变。
+
+### Proof of order / 顺序的证明
+
+`runGameTest -PstartupOrderDump=<dir>` before and after: the registry part of the dump (the mod's entries of every
+vanilla registry in raw-id order, 295 lines) is byte-identical, and the whole dump of before, run through
+`rename_classes.py translate`, equals the dump of after (2056 lines: listener order of every event, component
+factories, payload ids and receivers). 改名前后各导出一次：注册表部分（各原版注册表中本模组条目的 raw id 顺序，295 行）逐字节相同；
+改名前的完整导出经 `translate` 转换后与改名后的导出完全一致（2056 行）。

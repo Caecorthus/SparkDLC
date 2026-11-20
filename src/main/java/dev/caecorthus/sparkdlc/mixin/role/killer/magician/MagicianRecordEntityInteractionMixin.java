@@ -18,7 +18,7 @@ public abstract class MagicianRecordEntityInteractionMixin {
     @Shadow @Final public ServerPlayerEntity player;
 
     @Inject(method = "onPlayerInteractEntity", at = @At("RETURN"))
-    private void sparkwitch$recordEntityUse(PlayerInteractEntityC2SPacket packet, CallbackInfo ci) {
+    private void sparkdlc$recordEntityUse(PlayerInteractEntityC2SPacket packet, CallbackInfo ci) {
         packet.handle(new PlayerInteractEntityC2SPacket.Handler() {
             @Override public void interact(Hand hand) { MagicianServerHooks.recordUse(player, hand); }
             @Override public void interactAt(Hand hand, net.minecraft.util.math.Vec3d pos) { MagicianServerHooks.recordUse(player, hand); }

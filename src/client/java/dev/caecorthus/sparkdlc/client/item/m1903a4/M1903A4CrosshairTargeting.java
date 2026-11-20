@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.item.m1903a4;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeTargetOcclusion;
 import dev.caecorthus.sparkdlc.client.render.WraithClientState;
 import dev.caecorthus.sparkdlc.item.m1903a4.M1903A4Combat;
@@ -44,7 +44,7 @@ public final class M1903A4CrosshairTargeting {
         ItemStack stack = player.getMainHandStack();
         // Only the rifle answers; any other held item leaves the chained crosshair value untouched.
         // 只处理步枪；手持其他物品时不改动串联的准星值。
-        if (!M1903A4CrosshairRules.charging(stack.isOf(SparkWitchItems.m1903a4()),
+        if (!M1903A4CrosshairRules.charging(stack.isOf(SparkDlcItems.m1903a4()),
                 player.isUsingItem() && player.getActiveHand() == Hand.MAIN_HAND,
                 player.getItemCooldownManager().isCoolingDown(stack.getItem()))) {
             return false;

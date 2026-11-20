@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
  * （{@code AccountantPassbookService.handleWithdrawRequest}）。
  */
 public record AccountantWithdrawC2SPacket() implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("accountant_withdraw");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("accountant_withdraw");
     public static final Id<AccountantWithdrawC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final AccountantWithdrawC2SPacket INSTANCE = new AccountantWithdrawC2SPacket();
     public static final PacketCodec<RegistryByteBuf, AccountantWithdrawC2SPacket> CODEC = PacketCodec.unit(INSTANCE);

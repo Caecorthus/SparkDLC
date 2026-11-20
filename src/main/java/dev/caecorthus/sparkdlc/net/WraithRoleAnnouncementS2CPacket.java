@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
@@ -13,7 +13,7 @@ public record WraithRoleAnnouncementS2CPacket(
         int targets
 ) implements CustomPayload {
     public static final Id<WraithRoleAnnouncementS2CPacket> ID =
-            new Id<>(SparkWitch.id("wraith_role_announcement"));
+            new Id<>(SparkDLC.id("wraith_role_announcement"));
     public static final PacketCodec<PacketByteBuf, WraithRoleAnnouncementS2CPacket> CODEC = PacketCodec.tuple(
             PacketCodecs.STRING,
             WraithRoleAnnouncementS2CPacket::roleId,

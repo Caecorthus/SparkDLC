@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(PlayerListHud.class)
 public abstract class PlayerListHudTeamTagMixin {
     @ModifyReturnValue(method = "applyGameModeFormatting", at = @At("RETURN"))
-    private Text sparkfactionapi$appendCaecorthusTeamTag(Text original, PlayerListEntry entry, MutableText name) {
+    private Text sparkdlc$appendCaecorthusTeamTag(Text original, PlayerListEntry entry, MutableText name) {
         return CaecorthusTeamTag.withTag(entry.getProfile().getId(), original);
     }
 }

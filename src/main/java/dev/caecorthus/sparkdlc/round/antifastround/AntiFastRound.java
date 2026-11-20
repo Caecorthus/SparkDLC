@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.round.antifastround;
 
-import dev.caecorthus.sparkdlc.component.SparkFactionAntiFastRoundComponent;
+import dev.caecorthus.sparkdlc.component.AntiFastRoundComponent;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.player.PlayerEntity;
@@ -37,7 +37,7 @@ public final class AntiFastRound {
         if (player == null) {
             return false;
         }
-        SparkFactionAntiFastRoundComponent state = state(player.getWorld());
+        AntiFastRoundComponent state = state(player.getWorld());
         return state != null
                 && isOpen(player.getWorld(), state)
                 && GameFunctions.isPlayerAliveAndSurvival(player)
@@ -48,7 +48,7 @@ public final class AntiFastRound {
         if (player == null) {
             return 0;
         }
-        SparkFactionAntiFastRoundComponent state = state(player.getWorld());
+        AntiFastRoundComponent state = state(player.getWorld());
         if (state == null || !isOpen(player.getWorld(), state)) {
             return 0;
         }
@@ -75,7 +75,7 @@ public final class AntiFastRound {
         if (!(world instanceof ServerWorld serverWorld)) {
             return;
         }
-        SparkFactionAntiFastRoundComponent state = state(serverWorld);
+        AntiFastRoundComponent state = state(serverWorld);
         if (state == null) {
             return;
         }
@@ -90,7 +90,7 @@ public final class AntiFastRound {
     /** Server only: Wathe {@code GameEvents.ON_FINISH_FINALIZE}. / 仅服务端：Wathe 对局收尾完成事件。 */
     static void onRoundFinalized(World world, GameWorldComponent gameComponent) {
         if (world instanceof ServerWorld serverWorld) {
-            SparkFactionAntiFastRoundComponent state = state(serverWorld);
+            AntiFastRoundComponent state = state(serverWorld);
             if (state != null) {
                 state.closeWindow();
             }
@@ -99,7 +99,7 @@ public final class AntiFastRound {
 
     /** Server only: sends the delayed start notice and closes the window on time. / 仅服务端：延迟发送开局提示并按时关闭窗口。 */
     static void tick(MinecraftServer server) {
-        SparkFactionAntiFastRoundComponent state = SparkFactionAntiFastRoundComponent.KEY.getNullable(server.getScoreboard());
+        AntiFastRoundComponent state = AntiFastRoundComponent.KEY.getNullable(server.getScoreboard());
         if (state == null || !state.hasOpenWindow()) {
             return;
         }
@@ -133,15 +133,15 @@ public final class AntiFastRound {
      * 仅服务端：保存设置；关闭功能时同时立即（静默）结束正在进行的窗口。
      */
     public static void applySettings(MinecraftServer server, boolean enabled, int seconds) {
-        SparkFactionAntiFastRoundComponent state = SparkFactionAntiFastRoundComponent.KEY.get(server.getScoreboard());
+        AntiFastRoundComponent state = AntiFastRoundComponent.KEY.get(server.getScoreboard());
         state.setSettings(enabled, seconds);
         if (!enabled) {
             state.closeWindow();
         }
     }
 
-    public static SparkFactionAntiFastRoundComponent settings(MinecraftServer server) {
-        return SparkFactionAntiFastRoundComponent.KEY.get(server.getScoreboard());
+    public static AntiFastRoundComponent settings(MinecraftServer server) {
+        return AntiFastRoundComponent.KEY.get(server.getScoreboard());
     }
 
     private static void broadcast(ServerWorld world, Text message) {
@@ -150,13 +150,13 @@ public final class AntiFastRound {
         }
     }
 
-    private static boolean isOpen(World world, SparkFactionAntiFastRoundComponent state) {
+    private static boolean isOpen(World world, AntiFastRoundComponent state) {
         return world.isClient()
                 ? state.hasOpenWindow()
                 : AntiFastRoundRules.isWithinWindow(world.getTime(), state.getWindowEnd());
     }
 
-    private static @Nullable SparkFactionAntiFastRoundComponent state(World world) {
-        return SparkFactionAntiFastRoundComponent.KEY.getNullable(world.getScoreboard());
+    private static @Nullable AntiFastRoundComponent state(World world) {
+        return AntiFastRoundComponent.KEY.getNullable(world.getScoreboard());
     }
 }

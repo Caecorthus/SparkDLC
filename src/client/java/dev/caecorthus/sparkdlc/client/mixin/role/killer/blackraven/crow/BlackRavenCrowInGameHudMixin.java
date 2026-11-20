@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = InGameHud.class, priority = 1100)
 public abstract class BlackRavenCrowInGameHudMixin {
     @Inject(method = "renderHotbar", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$renderCrowHotbar(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+    private void sparkdlc$renderCrowHotbar(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             return;
         }
@@ -34,7 +34,7 @@ public abstract class BlackRavenCrowInGameHudMixin {
     }
 
     @WrapMethod(method = "renderCrosshair")
-    private void sparkwitch$renderCrowCrosshair(DrawContext context, RenderTickCounter tickCounter,
+    private void sparkdlc$renderCrowCrosshair(DrawContext context, RenderTickCounter tickCounter,
                                                Operation<Void> original) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             original.call(context, tickCounter);

@@ -32,7 +32,7 @@ public abstract class BlindKitDecoratedPotMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$keepBlindKitOutOfPot(ItemStack stack, BlockState state, World world, BlockPos pos,
+    private void sparkdlc$keepBlindKitOutOfPot(ItemStack stack, BlockState state, World world, BlockPos pos,
                                                  PlayerEntity player, Hand hand, BlockHitResult hit,
                                                  CallbackInfoReturnable<ItemActionResult> cir) {
         if (BlindInventoryRules.isBound(stack)) {

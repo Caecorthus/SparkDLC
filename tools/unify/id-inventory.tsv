@@ -326,7 +326,7 @@ event_phase	sparkwitch:usec_finish_initialize	FINISH_INITIALIZE_PHASE
 faction	sparkwitch:jiahao		
 faction	sparkwitch:murderous_witch		
 faction	sparkwitch:witch		
-file	config/sparkassist.json	client settings (SparkAssistConfigManager)	
+file	config/sparkassist.json	client settings (SparkDlcConfigManager)	
 file	config/sparkassist/achievements/<account uuid>.json	client achievement save (AchievementStorage); holds role, faction, item, trait and death-reason ids	
 file	config/sparkfactionapi/caecorthus_team.json	downloaded cache, both sides (CaecorthusTeamSync)	
 file	config/sparkwitch-client.json	client scope settings and miniWitherSkin (ScopeSettingsStore)	
@@ -340,23 +340,23 @@ identifier	sparkfactionapi:psycho	in MatchEvent.java
 identifier	sparkstrength:bandit_barrel	in BanditRevolverClient.java	
 identifier	sparkstrength:bandit_cylinder	in BanditRevolverClient.java	
 identifier	sparkstrength:bandit_grip	in BanditRevolverClient.java	
-identifier	sparkstrength:blackout_state	in StrengthRecordRules.java	
+identifier	sparkstrength:blackout_state	in RoleKitRecordRules.java	
 identifier	sparkstrength:coroner_disguise	in RoleSkillRules.java	
 identifier	sparkstrength:corrupt_cop_show_off	in KillRules.java	
 identifier	sparkstrength:detective_interrogate	in RoleSkillRules.java	
 identifier	sparkstrength:dynamic/pathogen_gray_steve	GRAY_STEVE_TEXTURE	
 identifier	sparkstrength:engine_sabotage	in AchievementRecords.java	
 identifier	sparkstrength:flashlight_beam	context.register	
-identifier	sparkstrength:flashlight_blackout	in StrengthRecordRules.java	
+identifier	sparkstrength:flashlight_blackout	in RoleKitRecordRules.java	
 identifier	sparkstrength:flashlight_receiver	context.register	
 identifier	sparkstrength:jester_moment_grayscale	in JesterMomentClientHooks.java	
 identifier	sparkstrength:perfumer_screen_effects	in PerfumerClientHooks.java	
-identifier	sparkstrength:tablet_meeting	in StrengthRecordRules.java	
-identifier	sparkstrength:tablet_suspect	in StrengthRecordRules.java	
+identifier	sparkstrength:tablet_meeting	in RoleKitRecordRules.java	
+identifier	sparkstrength:tablet_suspect	in RoleKitRecordRules.java	
 identifier	sparkstrength:taotie_volley	in RoleSkillRules.java	
 identifier	sparkstrength:team_contribution	in RoleSkillRules.java	
-identifier	sparkstrength:throwing_axe_hit	in StrengthRecordRules.java	
-identifier	sparkstrength:throwing_axe_throw	in StrengthRecordRules.java	
+identifier	sparkstrength:throwing_axe_hit	in RoleKitRecordRules.java	
+identifier	sparkstrength:throwing_axe_throw	in RoleKitRecordRules.java	
 identifier	sparkstrength:toxicologist_blue	in RoleSkillRules.java	
 identifier	sparkstrength:undercover_thermal	in UndercoverClient.java	
 identifier	sparkstrength:unread	in TabletChatNotifier.java	
@@ -378,15 +378,15 @@ identifier	sparkwitch:fiend_dash	FIEND_DASH_ID
 identifier	sparkwitch:healing	ID	
 identifier	sparkwitch:held_frame	HELD_FRAME_ID	
 identifier	sparkwitch:holy_flash_burst	in RoleSkillRules.java	
-identifier	sparkwitch:judge_verdict	in WitchRecordRules.java	
+identifier	sparkwitch:judge_verdict	in SparkRoleRecordRules.java	
 identifier	sparkwitch:last_escape_compositor		
-identifier	sparkwitch:magician_puppet_kill	in WitchRecordRules.java	
+identifier	sparkwitch:magician_puppet_kill	in SparkRoleRecordRules.java	
 identifier	sparkwitch:murder_sense	ID	
-identifier	sparkwitch:perfume_mark	in WitchRecordRules.java	
-identifier	sparkwitch:poison_apple_take	in WitchRecordRules.java	
+identifier	sparkwitch:perfume_mark	in SparkRoleRecordRules.java	
+identifier	sparkwitch:poison_apple_take	in SparkRoleRecordRules.java	
 identifier	sparkwitch:preignition	PREIGNITION_ID	
 identifier	sparkwitch:saint_hellfire	ID	
-identifier	sparkwitch:saint_karma	in WitchRecordRules.java	
+identifier	sparkwitch:saint_karma	in SparkRoleRecordRules.java	
 identifier	sparkwitch:specter_otherworld_filter		
 identifier	sparkwitch:sphinx_hao_fired	in SphinxHaoGunClient.java	
 identifier	sparkwitch:swift_step	ID	
@@ -743,21 +743,21 @@ permission	sparkwitch.command.thirdfactionminrequirement
 permission	sparkwitch.command.witch_factor		
 permission	sparkwitch.item.riftgateremover		
 ponder_namespace	sparkassist	Ponder plugin id and scene namespace; lang keys sparkassist.ponder.*	
-ponder_scene	sparkstrength_circuit_breaker	in SparkStrengthKillerItemScenes.java	
+ponder_scene	sparkstrength_circuit_breaker	in RoleKitKillerItemScenes.java	
 ponder_scene	sparkstrength_grenade_drone	in NoellesKillerScenes.java	
-ponder_scene	sparkstrength_serial_pistol	in SparkStrengthKillerItemScenes.java	
-ponder_scene	sparkstrength_skateboard	in SparkStrengthKillerItemScenes.java	
-ponder_scene	sparkstrength_timed_bomb_trap	in SparkStrengthKillerItemScenes.java	
-ponder_scene	sparkwitch_cologne	in SparkWitchItemScenes.java	
-ponder_scene	sparkwitch_disruptor	in SparkWitchItemScenes.java	
-ponder_scene	sparkwitch_edible_fish	in SparkWitchItemScenes.java	
-ponder_scene	sparkwitch_fire_poker	in SparkWitchItemScenes.java	
-ponder_scene	sparkwitch_glimmerfish	in SparkWitchItemScenes.java	
-ponder_scene	sparkwitch_potion_shells	in SparkWitchItemScenes.java	
-ponder_scene	sparkwitch_swordfish	in SparkWitchItemScenes.java	
-ponder_scene	sparkwitch_time_stealer_gift_watch	in SparkWitchItemScenes.java	
-ponder_scene	sparkwitch_tofana_elixir	in SparkWitchItemScenes.java	
-ponder_scene	sparkwitch_usec_suppressor	in SparkWitchItemScenes.java	
+ponder_scene	sparkstrength_serial_pistol	in RoleKitKillerItemScenes.java	
+ponder_scene	sparkstrength_skateboard	in RoleKitKillerItemScenes.java	
+ponder_scene	sparkstrength_timed_bomb_trap	in RoleKitKillerItemScenes.java	
+ponder_scene	sparkwitch_cologne	in SparkRoleItemScenes.java	
+ponder_scene	sparkwitch_disruptor	in SparkRoleItemScenes.java	
+ponder_scene	sparkwitch_edible_fish	in SparkRoleItemScenes.java	
+ponder_scene	sparkwitch_fire_poker	in SparkRoleItemScenes.java	
+ponder_scene	sparkwitch_glimmerfish	in SparkRoleItemScenes.java	
+ponder_scene	sparkwitch_potion_shells	in SparkRoleItemScenes.java	
+ponder_scene	sparkwitch_swordfish	in SparkRoleItemScenes.java	
+ponder_scene	sparkwitch_time_stealer_gift_watch	in SparkRoleItemScenes.java	
+ponder_scene	sparkwitch_tofana_elixir	in SparkRoleItemScenes.java	
+ponder_scene	sparkwitch_usec_suppressor	in SparkRoleItemScenes.java	
 private_data_name	sparkstrength_undercover_outfit	item custom-data marker: NOT renamed	sparkstrength_undercover_outfit
 private_data_name	sparktraitsConscienceGas	block-entity / entity NBT key: NOT renamed	sparktraitsConscienceGas
 private_data_name	sparktraitsConsciencePoisoner	block-entity / entity NBT key: NOT renamed	sparktraitsConsciencePoisoner

@@ -27,7 +27,7 @@ public abstract class BodyguardKillGuardMixin {
             at = @At(value = "INVOKE",
                     target = "Ldev/doctor4t/wathe/api/event/KillPlayer$Before;beforeKillPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;)Ldev/doctor4t/wathe/api/event/KillPlayer$KillResult;")
     )
-    private static KillPlayer.KillResult sparkstrength$suppressBodyguardSacrifice(
+    private static KillPlayer.KillResult sparkdlc$suppressBodyguardSacrifice(
             KillPlayer.Before listeners,
             ServerPlayerEntity victim,
             @Nullable ServerPlayerEntity killer,
@@ -42,7 +42,7 @@ public abstract class BodyguardKillGuardMixin {
             at = @At(value = "INVOKE",
                     target = "Ldev/doctor4t/wathe/api/event/KillPlayer$After;afterKillPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;)V")
     )
-    private static void sparkstrength$afterKillUnsuppressed(
+    private static void sparkdlc$afterKillUnsuppressed(
             KillPlayer.After listeners,
             ServerPlayerEntity victim,
             @Nullable ServerPlayerEntity killer,

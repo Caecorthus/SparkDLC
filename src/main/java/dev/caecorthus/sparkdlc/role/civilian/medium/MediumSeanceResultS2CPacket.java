@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.medium;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
@@ -43,7 +43,7 @@ public record MediumSeanceResultS2CPacket(MediumWindowKind kind, String question
     /** Cap for the bound-answer list on the wire (a round never has this many players). / 线上绑定答案列表的上限。 */
     public static final int MAX_BOUND_ANSWERS = 64;
 
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("medium_seance_result");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("medium_seance_result");
     public static final Id<MediumSeanceResultS2CPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, MediumSeanceResultS2CPacket> CODEC = PacketCodec.tuple(
             MediumWindowKind.PACKET_CODEC, MediumSeanceResultS2CPacket::kind,

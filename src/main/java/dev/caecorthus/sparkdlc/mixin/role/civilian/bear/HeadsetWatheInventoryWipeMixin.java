@@ -35,7 +35,7 @@ public abstract class HeadsetWatheInventoryWipeMixin {
             require = 1,
             allow = 1
     )
-    private static void sparkwitch$clearHeadsetWithInventory(ServerPlayerEntity player, MinecraftServer server,
+    private static void sparkdlc$clearHeadsetWithInventory(ServerPlayerEntity player, MinecraftServer server,
                                                              CallbackInfo ci) {
         HeadsetLifecycle.onWatheInventoryWipe(player);
     }

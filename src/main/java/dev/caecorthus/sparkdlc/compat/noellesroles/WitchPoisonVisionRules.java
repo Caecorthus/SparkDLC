@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.compat.noellesroles;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.role.witch.WitchFactionRules;
 import dev.doctor4t.wathe.api.Role;
 
@@ -14,9 +14,9 @@ public final class WitchPoisonVisionRules {
 
     public static boolean canSeeHiddenPoison(Role role) {
         return role != null
-                && (role == SparkWitchRoles.murderousWitch()
+                && (role == SparkDlcRoles.murderousWitch()
                 || WitchFactionRules.isAccompliceLike(role)
-                || role == SparkWitchRoles.grandWitch()
-                || role == SparkWitchRoles.guardianAngel());
+                || role == SparkDlcRoles.grandWitch()
+                || role == SparkDlcRoles.guardianAngel());
     }
 }

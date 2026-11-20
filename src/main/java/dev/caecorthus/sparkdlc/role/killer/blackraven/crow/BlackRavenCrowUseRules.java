@@ -90,7 +90,7 @@ public final class BlackRavenCrowUseRules {
             // Read-only reuse of the Seeker's vanilla-field accessor (no behaviour of the target changes).
             // 只读复用搜寻者的原版字段访问器（不改变目标的任何行为）。
             return block instanceof SeekerTrapdoorBlockAccessor trapdoor
-                    && trapdoor.sparkwitch$getBlockSetType().canOpenByHand() ? Target.TRAPDOOR : null;
+                    && trapdoor.sparkdlc$getBlockSetType().canOpenByHand() ? Target.TRAPDOOR : null;
         }
         if (block instanceof FenceGateBlock) {
             return Target.FENCE_GATE;

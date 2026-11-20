@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.guardianangel;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -24,7 +24,7 @@ import java.util.UUID;
 public final class GuardianAngelPlayerComponent
         implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
     public static final ComponentKey<GuardianAngelPlayerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("guardian_angel"),
+            SparkDLC.id("guardian_angel"),
             GuardianAngelPlayerComponent.class
     );
 

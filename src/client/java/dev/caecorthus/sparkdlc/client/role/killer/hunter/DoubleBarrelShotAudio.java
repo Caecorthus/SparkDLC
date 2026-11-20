@@ -27,7 +27,7 @@ import java.util.function.Consumer;
 public final class DoubleBarrelShotAudio {
     /** OpenAL Soft extension that lets a multi-channel source be spatialized. / 允许多声道声源参与空间化的 OpenAL Soft 扩展。 */
     static final String EXTENSION = "AL_SOFT_source_spatialize";
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkWitch/DoubleBarrelShotAudio");
+    private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/DoubleBarrelShotAudio");
     private static final int UNKNOWN = 0;
     private static final int AVAILABLE = 1;
     private static final int UNAVAILABLE = 2;
@@ -84,7 +84,7 @@ public final class DoubleBarrelShotAudio {
                     return;
                 }
             }
-            int pointer = ((DoubleBarrelSourceAccessor) source).sparkwitch$getDoubleBarrelSourcePointer();
+            int pointer = ((DoubleBarrelSourceAccessor) source).sparkdlc$getDoubleBarrelSourcePointer();
             AL10.alSourcei(pointer, SOFTSourceSpatialize.AL_SOURCE_SPATIALIZE_SOFT, AL10.AL_TRUE);
         } catch (RuntimeException | LinkageError error) {
             extensionState = UNAVAILABLE;

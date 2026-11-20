@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.sherry.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
@@ -15,7 +15,7 @@ import java.util.UUID;
  * 推演的确认选择。服务端重新校验（门槛、尸体、冷却、金币、射程内的存活目标）后才扣费；被选玩家不会收到任何提示。
  */
 public record ConfirmSherryDeductionC2SPacket(UUID target) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("confirm_sherry_deduction");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("confirm_sherry_deduction");
     public static final Id<ConfirmSherryDeductionC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, ConfirmSherryDeductionC2SPacket> CODEC = PacketCodec.tuple(
             Uuids.PACKET_CODEC,

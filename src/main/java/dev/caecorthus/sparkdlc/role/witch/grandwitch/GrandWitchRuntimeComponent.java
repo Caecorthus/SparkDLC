@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.grandwitch;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.RegistryByteBuf;
@@ -20,7 +20,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 public final class GrandWitchRuntimeComponent
         implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
     public static final ComponentKey<GrandWitchRuntimeComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("grand_witch_runtime"), GrandWitchRuntimeComponent.class);
+            SparkDLC.id("grand_witch_runtime"), GrandWitchRuntimeComponent.class);
 
     private final PlayerEntity player;
     private int swordKillCooldownTicks;

@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class WraithPlayerModelMixin
         extends LivingEntityRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> {
     @Unique
-    private PlayerEntityModel<AbstractClientPlayerEntity> sparkwitch$basePlayerModel;
+    private PlayerEntityModel<AbstractClientPlayerEntity> sparkdlc$basePlayerModel;
 
     protected WraithPlayerModelMixin(
             EntityRendererFactory.Context context,
@@ -30,19 +30,19 @@ public abstract class WraithPlayerModelMixin
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void sparkwitch$rememberBasePlayerModel(
+    private void sparkdlc$rememberBasePlayerModel(
             EntityRendererFactory.Context context,
             boolean slim,
             CallbackInfo ci
     ) {
-        this.sparkwitch$basePlayerModel = this.model;
+        this.sparkdlc$basePlayerModel = this.model;
     }
 
     @Inject(
             method = "render(Lnet/minecraft/client/network/AbstractClientPlayerEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V",
             at = @At("HEAD")
     )
-    private void sparkwitch$restoreWidePlayerModel(
+    private void sparkdlc$restoreWidePlayerModel(
             AbstractClientPlayerEntity player,
             float yaw,
             float tickDelta,
@@ -52,8 +52,8 @@ public abstract class WraithPlayerModelMixin
             CallbackInfo ci
     ) {
         if (WraithSteveProjection.shouldAnonymizePlayer(player)
-                && this.sparkwitch$basePlayerModel != null) {
-            this.model = this.sparkwitch$basePlayerModel;
+                && this.sparkdlc$basePlayerModel != null) {
+            this.model = this.sparkdlc$basePlayerModel;
         }
     }
 }

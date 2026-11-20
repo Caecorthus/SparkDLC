@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(value = MapEnhancementsConfiguration.JumpConfig.class, remap = false)
 public abstract class JumpStaminaCostMixin {
     @ModifyReturnValue(method = "staminaCost", at = @At("RETURN"))
-    private float sparkstrength$jumpCostsNoStamina(float mapCost) {
+    private float sparkdlc$jumpCostsNoStamina(float mapCost) {
         return 0.0F;
     }
 }

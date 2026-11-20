@@ -32,7 +32,7 @@ public abstract class UsecLimitedInventoryRifleClickMixin {
                     target = "Ldev/doctor4t/wathe/client/gui/screen/ingame/LimitedHandledScreen;onMouseClick(Lnet/minecraft/screen/slot/Slot;IILnet/minecraft/screen/slot/SlotActionType;)V"
             )
     )
-    private void sparkwitch$openUsecAttachments(LimitedHandledScreen<?> screen, Slot slot, int slotId, int button,
+    private void sparkdlc$openUsecAttachments(LimitedHandledScreen<?> screen, Slot slot, int slotId, int button,
                                                 SlotActionType action, Operation<Void> original) {
         if (UsecAttachmentClient.tryOpen(screen, screen.getScreenHandler(), slot, button, action)) {
             return;

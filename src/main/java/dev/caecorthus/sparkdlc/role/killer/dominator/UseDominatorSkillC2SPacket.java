@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.dominator;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier;
  * 骑士决斗拦截名单中按职业技能归类。
  */
 public record UseDominatorSkillC2SPacket() implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("use_dominator_skill");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("use_dominator_skill");
     public static final Id<UseDominatorSkillC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, UseDominatorSkillC2SPacket> CODEC =
             PacketCodec.of(UseDominatorSkillC2SPacket::write, UseDominatorSkillC2SPacket::read);

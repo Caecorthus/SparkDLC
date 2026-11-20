@@ -29,7 +29,7 @@ public abstract class EngineKillerIncomeMixin {
             require = 1,
             allow = 1
     )
-    private Object sparkstrength$tripleKillerIncomeWhileEngineBroken(Object income,
+    private Object sparkdlc$tripleKillerIncomeWhileEngineBroken(Object income,
                                                                      @Local(argsOnly = true) ServerWorld world,
                                                                      @Local(index = 7) ServerPlayerEntity player) {
         return EngineEconomy.passiveIncome(income, world, player);

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.killer.witchmaiden.WitchMaidenRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.player.PlayerEntity;
@@ -28,7 +28,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 public final class MiniWitherPlayerComponent
         implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
     public static final ComponentKey<MiniWitherPlayerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("mini_wither"), MiniWitherPlayerComponent.class);
+            SparkDLC.id("mini_wither"), MiniWitherPlayerComponent.class);
 
     private static final int SYNC_INTERVAL_TICKS = 20;
 

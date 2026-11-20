@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(LivingEntity.class)
 public abstract class SkateboardLimbsMixin {
     @ModifyVariable(method = "updateLimbs(F)V", at = @At("HEAD"), argsOnly = true)
-    private float sparkstrength$standStillOnSkateboard(float posDelta) {
+    private float sparkdlc$standStillOnSkateboard(float posDelta) {
         if ((Object) this instanceof PlayerEntity player && player.getWorld().isClient()
                 && SkateboardClient.isRiding(player)) {
             return 0.0F;

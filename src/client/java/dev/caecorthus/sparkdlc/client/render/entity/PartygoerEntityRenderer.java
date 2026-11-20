@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.render.entity;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
  * 用主人提供的皮肤渲染派对客（2026-10-21，红色笑脸的黄色人形）。
  */
 public final class PartygoerEntityRenderer extends MobEntityRenderer<PartygoerEntity, PartygoerModel> {
-    public static final Identifier TEXTURE = SparkStrength.id("textures/entity/partygoer.png");
+    public static final Identifier TEXTURE = SparkDLC.id("textures/entity/partygoer.png");
 
     public PartygoerEntityRenderer(EntityRendererFactory.Context context) {
         super(context, new PartygoerModel(context.getPart(PartygoerModel.LAYER)), 0.5F);

@@ -27,7 +27,7 @@ public abstract class SerialPistolGunShootGuardMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkstrength$dropForgedSerialPistolShot(
+    private void sparkdlc$dropForgedSerialPistolShot(
             GunShootPayload payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci

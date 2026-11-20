@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.hanna;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
@@ -59,7 +59,7 @@ public final class HannaFloatService {
      * 排在 {@code KillPlayer.BEFORE} 默认阶段之前：Wathe 的调用器在第一个非 null 结果处停止，默认阶段的观察者会漏掉被更早的
      * 监听器取消的击杀尝试（护盾、格挡）。本监听器始终返回 null，因此其后的一切都不变。
      */
-    static final Identifier OBSERVE_PHASE = SparkWitch.id("hanna_float_observe");
+    static final Identifier OBSERVE_PHASE = SparkDLC.id("hanna_float_observe");
 
     private HannaFloatService() {
     }

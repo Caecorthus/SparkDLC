@@ -35,7 +35,7 @@ public abstract class GameFunctionsRopeStrangleInterruptMixin {
             require = 1,
             allow = 1
     )
-    private static void sparkwitch$interruptRopeStrangle(
+    private static void sparkdlc$interruptRopeStrangle(
             ServerPlayerEntity victim,
             boolean spawnBody,
             @Nullable ServerPlayerEntity killer,

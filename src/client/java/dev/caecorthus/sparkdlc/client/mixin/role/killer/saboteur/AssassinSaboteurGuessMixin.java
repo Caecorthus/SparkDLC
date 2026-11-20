@@ -17,7 +17,7 @@ public abstract class AssassinSaboteurGuessMixin {
             method = "getAllGuessableRoles",
             at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/api/Role;canUseKiller()Z")
     )
-    private boolean sparkwitch$preserveSaboteurGuess(Role role) {
+    private boolean sparkdlc$preserveSaboteurGuess(Role role) {
         return WraithProgression.shouldExcludeFromAssassinGuess(role);
     }
 }

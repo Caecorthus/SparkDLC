@@ -14,7 +14,7 @@ public abstract class GunDropPayloadMixin {
             method = "receive(Ldev/doctor4t/wathe/util/GunDropPayload;Lnet/fabricmc/fabric/api/client/networking/v1/ClientPlayNetworking$Context;)V",
             at = @At("HEAD")
     )
-    private void sparkassist$gunDrop(CallbackInfo ci) {
+    private void sparkdlc$gunDrop(CallbackInfo ci) {
         AchievementClientState.onGunDrop();
     }
 }

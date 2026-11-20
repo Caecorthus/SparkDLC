@@ -27,7 +27,7 @@ public abstract class PlayerShopComponentBlackRavenDisguiseMixin implements Blac
     }
 
     @WrapMethod(method = "tryBuy(I)V")
-    private void sparkwitch$rejectRightAfterIdentityChange(int index, Operation<Void> original) {
+    private void sparkdlc$rejectRightAfterIdentityChange(int index, Operation<Void> original) {
         if (BlackRavenDisguiseService.isWithinPostSwitchGuard(player)) {
             sendPurchaseError(BlackRavenDisguiseRules.messageKey("shop_changed"));
             return;
@@ -36,7 +36,7 @@ public abstract class PlayerShopComponentBlackRavenDisguiseMixin implements Blac
     }
 
     @Override
-    public PlayerEntity sparkwitch$blackRavenShopOwner() {
+    public PlayerEntity sparkdlc$blackRavenShopOwner() {
         return player;
     }
 }

@@ -28,7 +28,7 @@ final class CurserShopService {
         PlayerShopComponent shop = PlayerShopComponent.KEY.get(player);
         // Do not call initializeShop(): promotion must not reset Wathe-owned state.
         // 不调用 initializeShop()：晋升不能重置 Wathe 自有状态。
-        ((SaboteurShopStockAccess) shop).sparkwitch$initializePromotionLockpickStock();
+        ((SaboteurShopStockAccess) shop).sparkdlc$initializePromotionLockpickStock();
         shop.sync();
     }
 

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.item.m67;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
@@ -14,7 +14,7 @@ public record M67SoundPayload(UUID actorUuid, long playbackToken, byte action, H
     public static final byte START_EQUIP = 0;
     public static final byte START_PULL = 1;
     public static final byte STOP = 2;
-    public static final Id<M67SoundPayload> ID = new Id<>(SparkStrength.id("m67_sound"));
+    public static final Id<M67SoundPayload> ID = new Id<>(SparkDLC.id("m67_sound"));
     public static final PacketCodec<RegistryByteBuf, M67SoundPayload> CODEC = new PacketCodec<>() {
         @Override
         public M67SoundPayload decode(RegistryByteBuf buf) {

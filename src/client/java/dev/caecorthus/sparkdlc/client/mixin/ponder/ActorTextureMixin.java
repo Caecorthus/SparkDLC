@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(PlayerEntityRenderer.class)
 public abstract class ActorTextureMixin {
     @WrapMethod(method = "getTexture(Lnet/minecraft/client/network/AbstractClientPlayerEntity;)Lnet/minecraft/util/Identifier;")
-    private Identifier sparkassist$actorSkin(AbstractClientPlayerEntity player, Operation<Identifier> original) {
+    private Identifier sparkdlc$actorSkin(AbstractClientPlayerEntity player, Operation<Identifier> original) {
         if (!(player instanceof ActorPlayer actor)) {
             return original.call(player);
         }

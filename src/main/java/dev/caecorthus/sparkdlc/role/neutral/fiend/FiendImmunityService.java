@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.fiend;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -36,12 +36,12 @@ public final class FiendImmunityService {
         try {
             FiendFeignService.onBlockedKill(victim, deathReason);
         } catch (RuntimeException exception) {
-            SparkWitch.LOGGER.error("Fiend feign death failed; the kill stays cancelled.", exception);
+            SparkDLC.LOGGER.error("Fiend feign death failed; the kill stays cancelled.", exception);
         }
         try {
             FiendReactionService.onBlockedHit(victim, killer, deathReason);
         } catch (RuntimeException exception) {
-            SparkWitch.LOGGER.error("Fiend hit reaction failed; the kill stays cancelled.", exception);
+            SparkDLC.LOGGER.error("Fiend hit reaction failed; the kill stays cancelled.", exception);
         }
         return true;
     }

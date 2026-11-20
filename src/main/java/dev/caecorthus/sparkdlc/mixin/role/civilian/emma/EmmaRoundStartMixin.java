@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = MurderGameMode.class, remap = false)
 public abstract class EmmaRoundStartMixin {
     @Inject(method = "assignRolesAndGetKillerCount", at = @At("HEAD"))
-    private static void sparkwitch$beginEmmaRound(ServerWorld world, List<ServerPlayerEntity> players,
+    private static void sparkdlc$beginEmmaRound(ServerWorld world, List<ServerPlayerEntity> players,
                                                  GameWorldComponent game, CallbackInfoReturnable<Integer> cir) {
         EmmaLifecycle.beginRound(world);
     }

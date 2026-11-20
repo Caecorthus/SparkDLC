@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.replay.role;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.record.replay.ReplayGenerator;
 import dev.doctor4t.wathe.record.replay.ReplayRegistry;
 import net.minecraft.nbt.NbtCompound;
@@ -14,15 +14,15 @@ import java.util.UUID;
  * 记者接线与广播的回放文本。
  */
 public final class ReporterReplayEvents {
-    public static final Identifier REPORTER_CONNECTION_STARTED = SparkStrength.id("reporter_connection_started");
-    public static final Identifier REPORTER_CONNECTION_FAILED_ONE_DEAD = SparkStrength.id("reporter_connection_failed_one_dead");
-    public static final Identifier REPORTER_CONNECTION_FAILED_BOTH_DEAD = SparkStrength.id("reporter_connection_failed_both_dead");
-    public static final Identifier REPORTER_BROADCAST_STARTED = SparkStrength.id("reporter_broadcast_started");
-    public static final Identifier REPORTER_BROADCAST_FAILED = SparkStrength.id("reporter_broadcast_failed");
-    public static final Identifier REPORTER_CONNECTION_ENDED = SparkStrength.id("reporter_connection_ended");
-    public static final Identifier REPORTER_BROADCAST_ENDED = SparkStrength.id("reporter_broadcast_ended");
-    public static final Identifier REPORTER_CONNECTION_INTERRUPTED = SparkStrength.id("reporter_connection_interrupted");
-    public static final Identifier REPORTER_BROADCAST_INTERRUPTED = SparkStrength.id("reporter_broadcast_interrupted");
+    public static final Identifier REPORTER_CONNECTION_STARTED = SparkDLC.id("reporter_connection_started");
+    public static final Identifier REPORTER_CONNECTION_FAILED_ONE_DEAD = SparkDLC.id("reporter_connection_failed_one_dead");
+    public static final Identifier REPORTER_CONNECTION_FAILED_BOTH_DEAD = SparkDLC.id("reporter_connection_failed_both_dead");
+    public static final Identifier REPORTER_BROADCAST_STARTED = SparkDLC.id("reporter_broadcast_started");
+    public static final Identifier REPORTER_BROADCAST_FAILED = SparkDLC.id("reporter_broadcast_failed");
+    public static final Identifier REPORTER_CONNECTION_ENDED = SparkDLC.id("reporter_connection_ended");
+    public static final Identifier REPORTER_BROADCAST_ENDED = SparkDLC.id("reporter_broadcast_ended");
+    public static final Identifier REPORTER_CONNECTION_INTERRUPTED = SparkDLC.id("reporter_connection_interrupted");
+    public static final Identifier REPORTER_BROADCAST_INTERRUPTED = SparkDLC.id("reporter_broadcast_interrupted");
 
     private ReporterReplayEvents() {
     }

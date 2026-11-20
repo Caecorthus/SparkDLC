@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.coroner;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerRules;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.player.PlayerEntity;
@@ -32,7 +32,7 @@ import java.util.UUID;
  */
 public final class CoronerPlayerComponent implements AutoSyncedComponent {
     public static final ComponentKey<CoronerPlayerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("coroner_player"),
+            SparkDLC.id("coroner_player"),
             CoronerPlayerComponent.class
     );
 

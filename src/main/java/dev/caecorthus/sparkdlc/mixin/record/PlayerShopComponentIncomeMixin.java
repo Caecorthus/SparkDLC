@@ -29,7 +29,7 @@ public abstract class PlayerShopComponentIncomeMixin {
     public int balance;
 
     @WrapMethod(method = "addToBalance(I)V")
-    private void sparkfactionapi$countIncome(int amount, Operation<Void> original) {
+    private void sparkdlc$countIncome(int amount, Operation<Void> original) {
         PlayerScopeStack.Frame<Integer> frame = IncomeRecorder.beginCredit(player, balance);
         try {
             original.call(amount);

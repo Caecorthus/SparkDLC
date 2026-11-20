@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.medium;
 
 import dev.caecorthus.sparkdlc.client.gui.card.InventoryCardPaint;
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotLedgerLayout;
 import dev.caecorthus.sparkdlc.client.role.civilian.tarotreader.TarotLedgerPaint;
 import dev.caecorthus.sparkdlc.role.civilian.medium.MediumSeanceComponent;
@@ -229,7 +229,7 @@ public final class MediumVoteScreen extends Screen {
             currentX = right - this.textRenderer.getWidth(current);
             context.drawText(this.textRenderer, current, currentX, textY, InventoryCardPaint.TEXT, true);
         }
-        Text later = Text.translatable("screen.sparkdlc.medium.vote.later", SparkWitchClient.abilityKeyText());
+        Text later = Text.translatable("screen.sparkdlc.medium.vote.later", SparkDLCClient.abilityKeyText());
         int laterX = keycapX + keycapWidth + HINT_GAP;
         if (laterX + this.textRenderer.getWidth(later) + HINT_GAP <= currentX) {
             context.drawText(this.textRenderer, later, laterX, textY, InventoryCardPaint.MUTED, true);

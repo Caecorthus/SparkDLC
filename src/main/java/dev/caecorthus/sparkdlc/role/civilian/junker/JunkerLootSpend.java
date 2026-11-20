@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.junker;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.event.DoorInteraction;
 import dev.doctor4t.wathe.block_entity.DoorBlockEntity;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -63,9 +63,9 @@ import java.util.function.ToIntFunction;
  */
 public final class JunkerLootSpend {
     /** Door observer: runs before NoellesRoles can end the chain with ALLOW. / 门观察者：在 NoellesRoles 以 ALLOW 结束链前执行。 */
-    private static final Identifier DOOR_OBSERVE_PHASE = SparkWitch.id("ragpicker_loot_door_observe");
+    private static final Identifier DOOR_OBSERVE_PHASE = SparkDLC.id("ragpicker_loot_door_observe");
     /** Attack observer: only reached when no listener refused the attack. / 攻击观察者：只有没有监听器拒绝攻击时才会执行。 */
-    private static final Identifier ATTACK_EFFECTIVE_PHASE = SparkWitch.id("ragpicker_loot_attack_effective");
+    private static final Identifier ATTACK_EFFECTIVE_PHASE = SparkDLC.id("ragpicker_loot_attack_effective");
     private static final Identifier MASTER_KEY_ID = Identifier.of("noellesroles", "master_key");
     private static final Set<String> NON_USE_ACTIONS = Set.of(
             "edit", "reload", "pickup", "dismantle", "poison", "recall", "remote_recall", "transfer");

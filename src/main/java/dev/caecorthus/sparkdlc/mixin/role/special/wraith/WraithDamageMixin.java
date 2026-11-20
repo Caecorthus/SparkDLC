@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ServerPlayerEntity.class)
 public abstract class WraithDamageMixin {
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$blockWraithDamage(
+    private void sparkdlc$blockWraithDamage(
             DamageSource source,
             float amount,
             CallbackInfoReturnable<Boolean> cir

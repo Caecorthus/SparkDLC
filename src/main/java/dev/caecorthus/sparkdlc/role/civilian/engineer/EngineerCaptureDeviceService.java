@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.engineer;
 
-import dev.caecorthus.sparkdlc.SparkStrengthEntities;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
 import dev.caecorthus.sparkdlc.entity.CaptureDeviceEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -20,7 +20,7 @@ public final class EngineerCaptureDeviceService {
 
     public static void clearRoundState(ServerWorld world) {
         for (CaptureDeviceEntity entity : world.getEntitiesByType(
-                SparkStrengthEntities.captureDevice(),
+                SparkDlcEntities.captureDevice(),
                 captureDevice -> true
         )) {
             entity.discard();

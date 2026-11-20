@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.mixin.role.civilian.accountant;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.mixin.input.SelectedSlotFlushInvoker;
 import dev.caecorthus.sparkdlc.net.AccountantWithdrawC2SPacket;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -34,10 +34,10 @@ public abstract class AccountantAirSwingMixin {
     public ClientPlayerInteractionManager interactionManager;
 
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$withdrawFromPassbook(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$withdrawFromPassbook(CallbackInfoReturnable<Boolean> cir) {
         ClientPlayerEntity self = this.player;
         if (self == null || self.isSpectator()
-                || !self.getMainHandStack().isOf(SparkWitchItems.accountantPassbook())) {
+                || !self.getMainHandStack().isOf(SparkDlcItems.accountantPassbook())) {
             return;
         }
         if (ClientPlayNetworking.canSend(AccountantWithdrawC2SPacket.ID)) {
@@ -46,7 +46,7 @@ public abstract class AccountantAirSwingMixin {
             // 服务端读取其主手栏位，但本刻早先处理的快捷栏按键只改变了客户端栏位；像炮筒与 USEC 开火一样先同步
             // （栏位未变时不发送任何内容）。
             if (this.interactionManager != null) {
-                ((SelectedSlotFlushInvoker) this.interactionManager).sparkwitch$flushSelectedSlot();
+                ((SelectedSlotFlushInvoker) this.interactionManager).sparkdlc$flushSelectedSlot();
             }
             ClientPlayNetworking.send(AccountantWithdrawC2SPacket.INSTANCE);
         }

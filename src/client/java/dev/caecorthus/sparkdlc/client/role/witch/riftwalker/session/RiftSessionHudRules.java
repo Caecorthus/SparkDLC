@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.witch.riftwalker.session;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.util.TickTime;
 import net.minecraft.util.Identifier;
 
@@ -13,12 +13,12 @@ import net.minecraft.util.Identifier;
  */
 public final class RiftSessionHudRules {
     /** Plain textures (not gui sprites), drawn with {@code DrawContext#drawTexture}. / 普通贴图（不是 GUI 精灵）。 */
-    public static final Identifier ARROW_LEFT = SparkWitch.id("textures/gui/riftwalker/rift_arrow_left.png");
-    public static final Identifier ARROW_RIGHT = SparkWitch.id("textures/gui/riftwalker/rift_arrow_right.png");
+    public static final Identifier ARROW_LEFT = SparkDLC.id("textures/gui/riftwalker/rift_arrow_left.png");
+    public static final Identifier ARROW_RIGHT = SparkDLC.id("textures/gui/riftwalker/rift_arrow_right.png");
     public static final Identifier ARROW_LEFT_DISABLED =
-            SparkWitch.id("textures/gui/riftwalker/rift_arrow_left_disabled.png");
+            SparkDLC.id("textures/gui/riftwalker/rift_arrow_left_disabled.png");
     public static final Identifier ARROW_RIGHT_DISABLED =
-            SparkWitch.id("textures/gui/riftwalker/rift_arrow_right_disabled.png");
+            SparkDLC.id("textures/gui/riftwalker/rift_arrow_right_disabled.png");
     /** Wathe's hotbar sprites (182×22 and 24×23), so the bar matches the in-match hotbar. / Wathe 的快捷栏精灵。 */
     public static final Identifier HOTBAR_SPRITE = Identifier.of("wathe", "hud/hotbar");
     public static final Identifier HOTBAR_SELECTION_SPRITE = Identifier.of("wathe", "hud/hotbar_selection");

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.component;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.saint.SaintKarmaRuntime;
 import dev.caecorthus.sparkdlc.role.civilian.saint.SaintKarmaState;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithSettings;
@@ -36,7 +36,7 @@ import java.util.function.Predicate;
  */
 public final class WitchWorldComponent implements AutoSyncedComponent, ServerTickingComponent {
     public static final ComponentKey<WitchWorldComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("witch_world"),
+            SparkDLC.id("witch_world"),
             WitchWorldComponent.class
     );
 

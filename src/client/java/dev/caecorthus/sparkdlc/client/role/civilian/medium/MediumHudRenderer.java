@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.medium;
 
 import dev.caecorthus.sparkdlc.client.gui.card.InventoryCardPaint;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityController;
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.client.role.neutral.fiend.FiendDashHudRules;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
@@ -88,7 +88,7 @@ public final class MediumHudRenderer {
         int chipStrip = MediumHudRules.chipStripWidth(labelWidths);
         int chipReserve = chips.isEmpty() ? 0 : chipStrip + MediumHudRules.CHIPS_TO_TEXT;
 
-        Text seanceKey = SparkWitchClient.abilityKeyText();
+        Text seanceKey = SparkDLCClient.abilityKeyText();
         Text blessingKey = SecondaryAbilityController.secondaryKeyText();
         Text upperText = text(upper, false, seanceKey);
         Text lowerText = text(lower, false, blessingKey);

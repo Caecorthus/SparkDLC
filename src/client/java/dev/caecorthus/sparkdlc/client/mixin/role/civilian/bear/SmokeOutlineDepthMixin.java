@@ -29,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class SmokeOutlineDepthMixin {
     @WrapOperation(method = "draw", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/render/BufferRenderer;drawWithGlobalProgram(Lnet/minecraft/client/render/BuiltBuffer;)V"))
-    private void sparkwitch$keepSilhouetteDepth(BuiltBuffer buffer, Operation<Void> original) {
+    private void sparkdlc$keepSilhouetteDepth(BuiltBuffer buffer, Operation<Void> original) {
         if (SmokeOutlineMask.capturingSilhouetteDepth() && ((RenderLayer) (Object) this).isOutline()) {
             SmokeOutlineMask.noteOutlineDraw(buffer);
             SmokeOutlineMask.drawWithSilhouetteDepth(() -> original.call(buffer));

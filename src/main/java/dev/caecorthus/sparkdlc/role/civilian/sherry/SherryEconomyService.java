@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.sherry;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.doctor4t.wathe.api.Role;
@@ -71,7 +71,7 @@ final class SherryEconomyService {
         }
         return SherryRules.canEarn(game.getGameStatus() == GameWorldComponent.GameStatus.ACTIVE,
                 GameFunctions.isPlayerPlayingAndAlive(player), role, player.isSpectator(), player.isCreative(),
-                SparkWitchApi.isWraithRestricted(player));
+                SparkRoleApi.isWraithRestricted(player));
     }
 
     private static @Nullable CanSeeMoney.Result canSeeMoney(PlayerEntity player) {
@@ -94,7 +94,7 @@ final class SherryEconomyService {
             return;
         }
         ShopEntry badge = new ShopEntry.Builder(SherryRules.BADGE_ENTRY_ID,
-                new ItemStack(SparkWitchItems.sherryBadge()), SherryRules.BADGE_PRICE, ShopEntry.Type.TOOL)
+                new ItemStack(SparkDlcItems.sherryBadge()), SherryRules.BADGE_PRICE, ShopEntry.Type.TOOL)
                 .stock(SherryRules.BADGE_STOCK)
                 .build();
         context.addEntry(SparkTraitsApi.discountShopEntryForCharisma(player, badge));

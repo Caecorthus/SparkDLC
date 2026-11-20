@@ -49,9 +49,9 @@ final class WatheShopScenes {
         item("wathe:body_bag", scene("wathe/aisle", WatheShopScenes::bodyBag));
         // No wathe:blackout demo: SparkStrength took the blackout out of every shop (SabotageShopFilter) and moved the
         // lights to the killers' tablet; that sabotage is the sparkdlc:circuit_breaker demo
-        // (SparkStrengthKillerItemScenes::circuitBreaker).
+        // (RoleKitKillerItemScenes::circuitBreaker).
         // 没有 wathe:blackout 的演示：SparkStrength 已把停电器从所有商店下架（SabotageShopFilter），关灯改由杀手的平板发动；
-        // 灯光破坏见 sparkdlc:circuit_breaker 演示（SparkStrengthKillerItemScenes::circuitBreaker）。
+        // 灯光破坏见 sparkdlc:circuit_breaker 演示（RoleKitKillerItemScenes::circuitBreaker）。
         // With SparkStrength a NoellesRoles Serial Killer's psycho mode hands out twin pistols instead of the bat.
         // SparkStrength is fused into SparkDLC and always present, so that scene is appended whenever NoellesRoles
         // is loaded (it used to need both mods); without NoellesRoles the bat demo stays alone.
@@ -59,7 +59,7 @@ final class WatheShopScenes {
         // 始终存在，因此只要加载了 NoellesRoles 就追加该场景（原先需要两个模组都加载）；没有 NoellesRoles 时仍只有球棒演示。
         if (FabricLoader.getInstance().isModLoaded("noellesroles")) {
             item("wathe:psycho_mode", scene("wathe/aisle", WatheShopScenes::psychoMode),
-                    scene("wathe/aisle", SparkStrengthKillerItemScenes::serialPistols));
+                    scene("wathe/aisle", RoleKitKillerItemScenes::serialPistols));
         } else {
             item("wathe:psycho_mode", scene("wathe/aisle", WatheShopScenes::psychoMode));
         }
@@ -404,12 +404,12 @@ final class WatheShopScenes {
      * psycho skin and garbled name everyone can see; a public psycho plays music for the whole train (the Silencer's
      * is silent). A fully charged left-click kills; by default one shield absorbs the first ordinary lethal hit (only
      * the psycho hears it). The shop entry cools down 5 min from the purchase. Not every psycho gets the bat: with
-     * SparkStrength a NoellesRoles Serial Killer gets twin pistols instead (SparkStrengthKillerItemScenes::serialPistols,
+     * SparkStrength a NoellesRoles Serial Killer gets twin pistols instead (RoleKitKillerItemScenes::serialPistols,
      * appended to this demo), hence the hedged caption.
      * 疯魔模式：在商店购买，默认持续 30 秒，球棒锁在手上，所有人都能看到疯魔皮肤和乱码名字；公开的疯魔会让全车响起
      * 音乐（静语者的没有）。蓄满力的左键一击必杀；默认 1 层护盾挡下第一次普通致命攻击（只有疯魔自己听得到）。
      * 商店购买后冷却 5 分钟。并非所有疯魔都拿球棒：装了 SparkStrength 时，NoellesRoles 连环杀手改拿两把手枪（见
-     * SparkStrengthKillerItemScenes::serialPistols，已追加到本演示），所以字幕留有余地。
+     * RoleKitKillerItemScenes::serialPistols，已追加到本演示），所以字幕留有余地。
      */
     private static void psychoMode(SceneBuilder scene, SceneBuildingUtil util) {
         scene.title("wathe_psycho_mode", "疯魔模式：30 秒的球棒狂徒");

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -21,7 +21,7 @@ public record TarotDivinationSnapshotS2CPacket(
         int witchCount,
         int jiahaoCount
 ) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("tarot_divination_snapshot");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("tarot_divination_snapshot");
     public static final Id<TarotDivinationSnapshotS2CPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, TarotDivinationSnapshotS2CPacket> CODEC =
             PacketCodec.of(TarotDivinationSnapshotS2CPacket::write, TarotDivinationSnapshotS2CPacket::read);

@@ -31,7 +31,7 @@ public abstract class EngineSnowflakeMixin extends SpriteBillboardParticle {
     }
 
     @Inject(method = "<init>", at = @At("RETURN"))
-    private void sparkstrength$followEngineMotion(ClientWorld world, double x, double y, double z, double velocityX,
+    private void sparkdlc$followEngineMotion(ClientWorld world, double x, double y, double z, double velocityX,
                                                   double velocityY, double velocityZ, SpriteProvider spriteProvider,
                                                   CallbackInfo ci) {
         double f = EngineTrainMotion.factor();

@@ -31,7 +31,7 @@ public abstract class ServerPlayNetworkHandlerFiendFeignMixin {
                     shift = At.Shift.AFTER),
             cancellable = true
     )
-    private void sparkwitch$blockFeigningFiendSpectatorTeleport(SpectatorTeleportC2SPacket packet, CallbackInfo ci) {
+    private void sparkdlc$blockFeigningFiendSpectatorTeleport(SpectatorTeleportC2SPacket packet, CallbackInfo ci) {
         if (FiendFeignService.isFeigning(player)) {
             ci.cancel();
         }

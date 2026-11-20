@@ -23,7 +23,7 @@ public abstract class EngineTrainTimeMixin {
     private World world;
 
     @ModifyReturnValue(method = "getTime", at = @At("RETURN"))
-    private float sparkstrength$followEngineMotion(float time) {
+    private float sparkdlc$followEngineMotion(float time) {
         return world != null && world.isClient() ? EngineTrainMotion.renderTime(time) : time;
     }
 }

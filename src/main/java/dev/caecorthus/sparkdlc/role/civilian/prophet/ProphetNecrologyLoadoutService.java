@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.prophet;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.KillPlayer;
@@ -37,7 +37,7 @@ public final class ProphetNecrologyLoadoutService {
      * 排在默认阶段之后的 ON_FINISH_INITIALIZE 阶段：无论模组初始化顺序如何，检查装备前所有默认监听器都已确定最终身份，
      * Wathe 也已开始对局记录。
      */
-    static final Identifier FINISH_INITIALIZE_PHASE = SparkWitch.id("prophet_necrology_finish_initialize");
+    static final Identifier FINISH_INITIALIZE_PHASE = SparkDLC.id("prophet_necrology_finish_initialize");
 
     private static boolean registered;
 
@@ -93,7 +93,7 @@ public final class ProphetNecrologyLoadoutService {
     public static void assignForRole(ServerPlayerEntity player, @Nullable Role role) {
         removeNecrology(player);
         if (ProphetRules.isProphet(role)) {
-            player.giveItemStack(new ItemStack(SparkWitchItems.prophetNecrology()));
+            player.giveItemStack(new ItemStack(SparkDlcItems.prophetNecrology()));
             player.currentScreenHandler.sendContentUpdates();
         }
     }
@@ -188,7 +188,7 @@ public final class ProphetNecrologyLoadoutService {
             }
         }
         if (!found) {
-            player.giveItemStack(new ItemStack(SparkWitchItems.prophetNecrology()));
+            player.giveItemStack(new ItemStack(SparkDlcItems.prophetNecrology()));
             changed = true;
         }
         return changed;

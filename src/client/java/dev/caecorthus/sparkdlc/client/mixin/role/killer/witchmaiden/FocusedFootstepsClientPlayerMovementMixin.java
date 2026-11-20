@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ClientPlayerEntity.class)
 public abstract class FocusedFootstepsClientPlayerMovementMixin {
     @Inject(method = "tickNewAi", at = @At("TAIL"))
-    private void sparkwitch$applyFocusedFootstepsConsumedMovement(CallbackInfo ci) {
+    private void sparkdlc$applyFocusedFootstepsConsumedMovement(CallbackInfo ci) {
         ClientPlayerEntity player = (ClientPlayerEntity) (Object) this;
         // Vanilla has copied Input into these travel fields; this is the final planar movement boundary.
         // 原版已将 Input 复制到移动字段；这里是平面移动的最终消费边界。
@@ -27,7 +27,7 @@ public abstract class FocusedFootstepsClientPlayerMovementMixin {
                     shift = At.Shift.AFTER
             )
     )
-    private void sparkwitch$applyFocusedFootstepsPlanarInput(CallbackInfo ci) {
+    private void sparkdlc$applyFocusedFootstepsPlanarInput(CallbackInfo ci) {
         ClientPlayerEntity player = (ClientPlayerEntity) (Object) this;
         // Reinforce after raw input refresh; tickNewAi later enforces the consumed movement fields.
         // 在原始输入刷新后再次覆盖；tickNewAi 随后会强制最终消费的移动字段。
@@ -42,7 +42,7 @@ public abstract class FocusedFootstepsClientPlayerMovementMixin {
                     shift = At.Shift.BEFORE
             )
     )
-    private void sparkwitch$applyFocusedFootstepsSprintPhase(CallbackInfo ci) {
+    private void sparkdlc$applyFocusedFootstepsSprintPhase(CallbackInfo ci) {
         ClientPlayerEntity player = (ClientPlayerEntity) (Object) this;
         // Vanilla may rewrite movement after Input.tick, so restore planar input at its final consumer boundary.
         // 原版可能在 Input.tick 后改写移动值，因此在最终消费边界重新应用平面输入。

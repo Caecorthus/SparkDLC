@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.mixin.role.killer.serialkiller;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.cca.PlayerPsychoComponent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -29,11 +29,11 @@ public abstract class SerialKillerClientUseMixin {
             ),
             cancellable = true
     )
-    private void sparkstrength$useOffhandAfterNormalInteraction(CallbackInfo ci) {
+    private void sparkdlc$useOffhandAfterNormalInteraction(CallbackInfo ci) {
         if (player == null || PlayerPsychoComponent.KEY.get(player).getPsychoTicks() <= 0) return;
         ItemStack main = player.getMainHandStack();
         ItemStack off = player.getOffHandStack();
-        if (!main.isOf(SparkStrengthItems.serialPistol()) || !off.isOf(SparkStrengthItems.serialLeftPistol())) return;
+        if (!main.isOf(SparkDlcItems.serialPistol()) || !off.isOf(SparkDlcItems.serialLeftPistol())) return;
         if (!player.getItemCooldownManager().isCoolingDown(main.getItem())) return;
         // 能走到 interactItem 说明实体/方块交互没有接受；此时才把同一次右键交给副手枪。
         MinecraftClient client = (MinecraftClient) (Object) this;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.dominator;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
@@ -10,8 +10,8 @@ import net.minecraft.util.Identifier;
 
 /**
  * Forced-shot listeners that are not mixins. Server and both-sides callbacks only; registered once from
- * {@code SparkWitchEvents}.
- * 非 mixin 的强制开枪监听器。仅服务端与双端回调；由 {@code SparkWitchEvents} 注册一次。
+ * {@code RoleEvents}.
+ * 非 mixin 的强制开枪监听器。仅服务端与双端回调；由 {@code RoleEvents} 注册一次。
  */
 public final class DominatorForcedShotLifecycle {
     /**
@@ -20,7 +20,7 @@ public final class DominatorForcedShotLifecycle {
      * precedent). / 先于 Wathe 默认阶段的断线监听器执行（后者以 {@code escaped} 杀死离开的参与者并掉落其左轮）：在此之前
      * 标记左轮必须已收走、原物品必须已放回其槽位（薛定谔之猫先例）。
      */
-    private static final Identifier DISCONNECT_PHASE = SparkWitch.id("dominator_forced_shot_release");
+    private static final Identifier DISCONNECT_PHASE = SparkDLC.id("dominator_forced_shot_release");
     private static boolean registered;
 
     private DominatorForcedShotLifecycle() {

@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class BlackRavenCrowTerrainGridMixin {
     @ModifyExpressionValue(method = "setupTerrain", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/network/ClientPlayerEntity;getX()D"))
-    private double sparkwitch$crowGridCenterX(double original) {
+    private double sparkdlc$crowGridCenterX(double original) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             return original;
         }
@@ -30,7 +30,7 @@ public abstract class BlackRavenCrowTerrainGridMixin {
 
     @ModifyExpressionValue(method = "setupTerrain", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/network/ClientPlayerEntity;getY()D"))
-    private double sparkwitch$crowGridCenterY(double original) {
+    private double sparkdlc$crowGridCenterY(double original) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             return original;
         }
@@ -39,7 +39,7 @@ public abstract class BlackRavenCrowTerrainGridMixin {
 
     @ModifyExpressionValue(method = "setupTerrain", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/network/ClientPlayerEntity;getZ()D"))
-    private double sparkwitch$crowGridCenterZ(double original) {
+    private double sparkdlc$crowGridCenterZ(double original) {
         if (!BlackRavenCrowPilotClient.isActive()) {
             return original;
         }

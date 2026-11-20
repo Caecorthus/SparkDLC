@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.hanna;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -30,20 +30,20 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class HannaRules {
 
-    public static final Identifier ROLE_ID = SparkWitch.id("hanna");
+    public static final Identifier ROLE_ID = SparkDLC.id("hanna");
 
     /** Identity colour FFAF9F. / 身份色 FFAF9F。 */
     public static final int COLOR = 0xFFAF9F;
 
     /** Stable item contracts. / 稳定物品契约。 */
-    public static final Identifier UMBRELLA_ID = SparkWitch.id("hanna_umbrella");
-    public static final Identifier HANDKERCHIEF_ID = SparkWitch.id("hanna_handkerchief");
+    public static final Identifier UMBRELLA_ID = SparkDLC.id("hanna_umbrella");
+    public static final Identifier HANDKERCHIEF_ID = SparkDLC.id("hanna_handkerchief");
 
     /** Forced-cooldown store id for the float. / 浮游的强制冷却存储 id。 */
-    public static final Identifier FLOAT_SKILL_ID = SparkWitch.id("hanna_float");
+    public static final Identifier FLOAT_SKILL_ID = SparkDLC.id("hanna_float");
 
     /** Transient movement-speed modifier worn during the float. / 浮游期间的临时移动速度修饰符。 */
-    public static final Identifier FLOAT_SPEED_MODIFIER_ID = SparkWitch.id("hanna_float_speed");
+    public static final Identifier FLOAT_SPEED_MODIFIER_ID = SparkDLC.id("hanna_float_speed");
     /** Speed II: +20% per level, multiplied on the total. / 速度 II：每级 +20%，乘在总值上。 */
     public static final double FLOAT_SPEED_BONUS = 0.4D;
 

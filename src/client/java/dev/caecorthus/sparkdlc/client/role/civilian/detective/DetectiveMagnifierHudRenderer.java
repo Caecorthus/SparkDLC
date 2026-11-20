@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.detective;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCasePlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveRules;
 import dev.doctor4t.wathe.api.Role;
@@ -73,7 +73,7 @@ public final class DetectiveMagnifierHudRenderer {
     }
 
     private static boolean isHoldingMagnifier(ClientPlayerEntity player) {
-        Item magnifier = SparkStrengthItems.magnifier();
+        Item magnifier = SparkDlcItems.magnifier();
         return player.getMainHandStack().isOf(magnifier) || player.getOffHandStack().isOf(magnifier);
     }
 

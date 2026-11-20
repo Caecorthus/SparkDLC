@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
@@ -12,7 +12,7 @@ import net.minecraft.network.packet.CustomPayload;
  * 拒绝重新打开，因此决斗结束时无需发送。
  */
 public record KnightDuelUiLockS2CPayload() implements CustomPayload {
-    public static final Id<KnightDuelUiLockS2CPayload> ID = new Id<>(SparkWitch.id("knight_duel_ui_lock"));
+    public static final Id<KnightDuelUiLockS2CPayload> ID = new Id<>(SparkDLC.id("knight_duel_ui_lock"));
     public static final PacketCodec<RegistryByteBuf, KnightDuelUiLockS2CPayload> CODEC =
             PacketCodec.unit(new KnightDuelUiLockS2CPayload());
 

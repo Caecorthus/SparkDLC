@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.specter;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.RegistryByteBuf;
@@ -25,7 +25,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 public final class SpecterOtherworldComponent implements AutoSyncedComponent, ServerTickingComponent,
         ClientTickingComponent {
     public static final ComponentKey<SpecterOtherworldComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("specter_otherworld"),
+            SparkDLC.id("specter_otherworld"),
             SpecterOtherworldComponent.class
     );
     private static final String ACTIVE_TICKS = "ActiveTicks";

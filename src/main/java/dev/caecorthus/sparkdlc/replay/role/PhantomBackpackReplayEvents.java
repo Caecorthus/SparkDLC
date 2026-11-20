@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.replay.role;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.record.replay.ReplayGenerator;
 import dev.doctor4t.wathe.record.replay.ReplayRegistry;
 import net.minecraft.nbt.NbtCompound;
@@ -14,8 +14,8 @@ import java.util.UUID;
  * 幽灵背包隐身的回放文本。
  */
 public final class PhantomBackpackReplayEvents {
-    public static final Identifier PHANTOM_BACKPACK_INVISIBILITY_STARTED = SparkStrength.id("phantom_backpack_invisibility_started");
-    public static final Identifier PHANTOM_BACKPACK_INVISIBILITY_ENDED = SparkStrength.id("phantom_backpack_invisibility_ended");
+    public static final Identifier PHANTOM_BACKPACK_INVISIBILITY_STARTED = SparkDLC.id("phantom_backpack_invisibility_started");
+    public static final Identifier PHANTOM_BACKPACK_INVISIBILITY_ENDED = SparkDLC.id("phantom_backpack_invisibility_ended");
 
     private PhantomBackpackReplayEvents() {
     }

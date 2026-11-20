@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.bear;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.bear.launcher.SmokeRoundEntity;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
@@ -38,7 +38,7 @@ import java.util.List;
  */
 final class BearLifecycleService {
     /** BEAR's ON_FINISH_INITIALIZE phase, after the default one (roles are final). / BEAR 的 ON_FINISH_INITIALIZE 阶段。 */
-    static final Identifier FINISH_INITIALIZE_PHASE = SparkWitch.id("bear_finish_initialize");
+    static final Identifier FINISH_INITIALIZE_PHASE = SparkDLC.id("bear_finish_initialize");
 
     private static boolean registered;
 

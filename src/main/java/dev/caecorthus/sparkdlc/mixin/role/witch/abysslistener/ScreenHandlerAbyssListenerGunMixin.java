@@ -23,7 +23,7 @@ public abstract class ScreenHandlerAbyssListenerGunMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$keepShriekGun(
+    private void sparkdlc$keepShriekGun(
             int slotIndex,
             int button,
             SlotActionType actionType,

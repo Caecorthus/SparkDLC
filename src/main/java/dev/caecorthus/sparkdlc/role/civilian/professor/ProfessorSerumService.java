@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.civilian.professor;
 import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumTargetComponent;
 import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumUserComponent;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -250,7 +250,7 @@ public final class ProfessorSerumService {
         if (target.getWorld() instanceof ServerWorld serverWorld) {
             GameRecordManager.recordGlobalEvent(
                     serverWorld,
-                    SparkStrengthReplayFormatters.PROFESSOR_TRUTH_REVEALED,
+                    RoleKitReplayFormatters.PROFESSOR_TRUTH_REVEALED,
                     target,
                     null
             );
@@ -269,7 +269,7 @@ public final class ProfessorSerumService {
         extra.putString("item_name", Text.Serialization.toJsonString(stack.getName(), professor.getRegistryManager()));
         GameRecordManager.recordGlobalEvent(
                 serverWorld,
-                SparkStrengthReplayFormatters.PROFESSOR_SERUM_FED,
+                RoleKitReplayFormatters.PROFESSOR_SERUM_FED,
                 professor,
                 extra
         );

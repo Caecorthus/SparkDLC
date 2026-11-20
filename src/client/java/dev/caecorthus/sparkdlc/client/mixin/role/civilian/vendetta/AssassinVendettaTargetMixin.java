@@ -26,7 +26,7 @@ public abstract class AssassinVendettaTargetMixin {
             ),
             require = 1
     )
-    private List<UUID> sparkwitch$appendBoundVendetta(GameWorldComponent game) {
+    private List<UUID> sparkdlc$appendBoundVendetta(GameWorldComponent game) {
         List<UUID> targets = new ArrayList<>(game.getAllAlivePlayers());
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.world == null) {

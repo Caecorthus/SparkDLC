@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bear.hearing;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.bear.hearing.BearHearingRules;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -38,9 +38,9 @@ import java.util.Set;
 public final class BearHearingClient {
     /** Sound event ids the factor never scales. / 不受倍数影响的声音事件 id。 */
     public static final Set<Identifier> EXEMPT_SOUND_IDS = Set.of(
-            SparkWitch.id("bear.rys_t.ricochet"),
-            SparkWitch.id("bear.rys_t.visor_hit"),
-            SparkWitch.id("bear.rys_t.tinnitus"));
+            SparkDLC.id("bear.rys_t.ricochet"),
+            SparkDLC.id("bear.rys_t.visor_hit"),
+            SparkDLC.id("bear.rys_t.tinnitus"));
 
     private static final BearMuffleEnvelope MUFFLE = new BearMuffleEnvelope();
     private static volatile float voiceFactor = 1.0F;

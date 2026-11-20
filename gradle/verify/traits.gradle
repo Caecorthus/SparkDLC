@@ -111,7 +111,7 @@ def verifyTraitsAssassinScreenSelector = tasks.register("verifyTraitsAssassinScr
                     modZip,
                     "dev/caecorthus/sparkdlc/client/mixin/trait/AssassinScreenMixin.class"
             )
-            def handler = mixinNode.methods.find { it.name == "sparktraits\$paginateRoleGuessPanel" }
+            def handler = mixinNode.methods.find { it.name == "sparkdlc\$paginateRoleGuessPanel" }
             if (handler == null) {
                 throw new GradleException("Missing AssassinScreenMixin pagination handler")
             }
@@ -169,7 +169,7 @@ def verifyTraitsInventoryScreenSelector = tasks.register("verifyTraitsInventoryS
                 throw new GradleException("Owner inventory mixin must remain required and configured")
             }
             def node = readClassNode(modZip, "dev/caecorthus/sparkdlc/client/mixin/trait/TraitInventoryScreenMixin.class")
-            def handler = node.methods.find { it.name == 'sparktraits$renderOwnerTraits' }
+            def handler = node.methods.find { it.name == 'sparkdlc$renderOwnerTraits' }
             def annotations = (handler?.visibleAnnotations ?: []) + (handler?.invisibleAnnotations ?: [])
             def injection = annotations.find { it.desc == "Lorg/spongepowered/asm/mixin/injection/Inject;" }
             if (annotationValue(injection, "method") != ["method_25394(Lnet/minecraft/class_332;IIF)V"] ||
@@ -246,7 +246,7 @@ def verifyTraitsModJar = tasks.register("verifyTraitsModJar") {
             // 因此“融合后的入口仍然启动本模块”即：入口类的某个方法仍然发出本模块特有的启动调用。
             [
                     [key: "main", entrypoint: "dev.caecorthus.sparkdlc.SparkDLC",
-                     startOwner: "dev/caecorthus/sparkdlc/trait/registry/SparkTraitsBuiltInTraits", startCall: "register"],
+                     startOwner: "dev/caecorthus/sparkdlc/trait/registry/BuiltInTraits", startCall: "register"],
                     [key: "client", entrypoint: "dev.caecorthus.sparkdlc.client.SparkDLCClient",
                      startOwner: "dev/caecorthus/sparkdlc/client/trait/killer/NewKillerTraitsClient", startCall: "initialize"]
             ].each { fused ->

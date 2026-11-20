@@ -31,7 +31,7 @@ public abstract class ChildishLivingEntityRendererMixin {
                     ordinal = 0
             )
     )
-    private boolean sparktraits$drawChildishPlayerAsBaby(boolean baby, @Local(argsOnly = true) LivingEntity entity) {
+    private boolean sparkdlc$drawChildishPlayerAsBaby(boolean baby, @Local(argsOnly = true) LivingEntity entity) {
         return baby || ChildishPlayerRendering.rendersAsBaby(entity, ((LivingEntityRenderer<?, ?>) (Object) this).getModel());
     }
 
@@ -50,7 +50,7 @@ public abstract class ChildishLivingEntityRendererMixin {
                     shift = At.Shift.AFTER
             )
     )
-    private void sparktraits$fillNonPlayerBabyModel(
+    private void sparkdlc$fillNonPlayerBabyModel(
             CallbackInfo ci,
             @Local(argsOnly = true) LivingEntity entity,
             @Local(argsOnly = true) MatrixStack matrices
@@ -76,7 +76,7 @@ public abstract class ChildishLivingEntityRendererMixin {
                     target = "Lnet/minecraft/client/render/entity/feature/FeatureRenderer;render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/entity/Entity;FFFFFF)V"
             )
     )
-    private void sparktraits$pushBabyBodyForCape(
+    private void sparkdlc$pushBabyBodyForCape(
             CallbackInfo ci,
             @Local(argsOnly = true) MatrixStack matrices,
             @Local FeatureRenderer<?, ?> feature,
@@ -98,7 +98,7 @@ public abstract class ChildishLivingEntityRendererMixin {
                     shift = At.Shift.AFTER
             )
     )
-    private void sparktraits$popBabyBodyForCape(
+    private void sparkdlc$popBabyBodyForCape(
             CallbackInfo ci,
             @Local(argsOnly = true) MatrixStack matrices,
             @Share("babyCapePushed") LocalBooleanRef pushed

@@ -24,7 +24,7 @@ public abstract class ScreenHandlerSeekerItemMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$keepSeekerItem(
+    private void sparkdlc$keepSeekerItem(
             int slotIndex,
             int button,
             SlotActionType actionType,

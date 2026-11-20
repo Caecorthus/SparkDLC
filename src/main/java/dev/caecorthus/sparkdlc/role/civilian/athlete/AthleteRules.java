@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.athlete;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -12,11 +12,11 @@ import org.jetbrains.annotations.Nullable;
  * 黑羽鸦永远不能伪装成运动员（DENYLIST）。
  */
 public final class AthleteRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("athlete");
+    public static final Identifier ROLE_ID = SparkDLC.id("athlete");
     public static final int COLOR = 0x6FD08C;
 
     /** Replay skill id and forced-cooldown store id of the dash. / 冲刺的回放技能 id 与强制冷却存储 id。 */
-    public static final Identifier DASH_SKILL_ID = SparkWitch.id("athlete_dash");
+    public static final Identifier DASH_SKILL_ID = SparkDLC.id("athlete_dash");
     /** Farthest dash, in blocks. / 冲刺最远距离（格）。 */
     public static final double DASH_DISTANCE = 5.0D;
     /** A dash shorter than this is refused and costs nothing. / 短于此距离的冲刺被拒绝，不消耗冷却。 */

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.savior;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -27,7 +27,7 @@ public final class SaviorLightsaberDrawAnimation {
      * 伸手期间选择隐形模型的模型谓词：只针对正在拔剑玩家自己的主手物品堆、且由手部绘制时（{@link SaviorHandRenderScope}），
      * 绝不作用于同样传入本地玩家的 GUI 图标。
      */
-    public static final Identifier DRAW_HIDDEN_ID = SparkWitch.id("draw_hidden");
+    public static final Identifier DRAW_HIDDEN_ID = SparkDLC.id("draw_hidden");
     /** Reach to the waist: 0.2 s = 4 ticks. / 伸向腰部：0.2 秒 = 4 刻。 */
     public static final int REACH_TICKS = 4;
     /** Settle to the resting pose: 0.3 s = 6 ticks. / 落到持握姿势：0.3 秒 = 6 刻。 */
@@ -99,7 +99,7 @@ public final class SaviorLightsaberDrawAnimation {
     public static void register() {
         FabricModelPredicateProviderRegistry.register(DRAW_HIDDEN_ID, (stack, world, entity, seed) -> {
             if (world == null || !(entity instanceof PlayerEntity player)
-                    || !stack.isOf(SparkWitchItems.saviorLightsaber())
+                    || !stack.isOf(SparkDlcItems.saviorLightsaber())
                     || player.getMainHandStack() != stack
                     || !SaviorHandRenderScope.isRendering(stack)) {
                 return 0.0F;
@@ -117,7 +117,7 @@ public final class SaviorLightsaberDrawAnimation {
         Set<UUID> holding = new HashSet<>();
         long now = client.world.getTime();
         for (PlayerEntity player : client.world.getPlayers()) {
-            if (player.getMainHandStack().isOf(SparkWitchItems.saviorLightsaber())) {
+            if (player.getMainHandStack().isOf(SparkDlcItems.saviorLightsaber())) {
                 UUID id = player.getUuid();
                 holding.add(id);
                 START_TICKS.putIfAbsent(id, now);

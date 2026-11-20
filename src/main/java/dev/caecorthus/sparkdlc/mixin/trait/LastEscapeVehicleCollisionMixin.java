@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class LastEscapeVehicleCollisionMixin {
     @Inject(method = "canCollide(Lnet/minecraft/entity/Entity;Lnet/minecraft/entity/Entity;)Z",
             at = @At("HEAD"), cancellable = true)
-    private static void sparktraits$escapeVehicleCollision(Entity first, Entity second,
+    private static void sparkdlc$escapeVehicleCollision(Entity first, Entity second,
                                                            CallbackInfoReturnable<Boolean> cir) {
         if (LastEscapeService.blocksEntityCollision(first, second)) cir.setReturnValue(false);
     }

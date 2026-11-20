@@ -13,5 +13,5 @@ import org.jetbrains.annotations.Nullable;
 public interface RiftGateCrosshairAccess {
     /** The crosshair pick without gates, or null without a camera, player or world. / 不含门的准星选取。 */
     @Nullable
-    HitResult sparkwitch$pickIgnoringGates();
+    HitResult sparkdlc$pickIgnoringGates();
 }

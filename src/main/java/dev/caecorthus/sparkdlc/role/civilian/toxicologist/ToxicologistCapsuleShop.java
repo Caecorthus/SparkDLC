@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.toxicologist;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -42,7 +42,7 @@ public final class ToxicologistCapsuleShop {
                 capsuleDisplayStack(),
                 ToxicologistCapsuleRules.CAPSULE_PRICE,
                 ShopEntry.Type.TOOL
-        ).actualStack(SparkStrengthItems.capsule().getDefaultStack()).build());
+        ).actualStack(SparkDlcItems.capsule().getDefaultStack()).build());
         context.addEntry(new ShopEntry.Builder(
                 ToxicologistCapsuleRules.REFRESH_ANTIDOTE_COOLDOWN_ENTRY_ID,
                 refreshAntidoteCooldownDisplayStack(),
@@ -57,7 +57,7 @@ public final class ToxicologistCapsuleShop {
     }
 
     private static ItemStack capsuleDisplayStack() {
-        ItemStack stack = SparkStrengthItems.capsule().getDefaultStack();
+        ItemStack stack = SparkDlcItems.capsule().getDefaultStack();
         stack.set(DataComponentTypes.ITEM_NAME, Text.translatable("shop.sparkdlc.capsule"));
         stack.set(DataComponentTypes.LORE, new LoreComponent(List.of(
                 Text.translatable("shop.sparkdlc.capsule.description")

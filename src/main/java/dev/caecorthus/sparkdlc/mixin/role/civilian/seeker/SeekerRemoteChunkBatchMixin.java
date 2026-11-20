@@ -28,7 +28,7 @@ public abstract class SeekerRemoteChunkBatchMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/server/network/ServerPlayerEntity;getChunkPos()Lnet/minecraft/util/math/ChunkPos;")
     )
-    private ChunkPos sparkwitch$batchAroundFocus(ChunkPos original,
+    private ChunkPos sparkdlc$batchAroundFocus(ChunkPos original,
                                                  @Local(argsOnly = true) ServerPlayerEntity player) {
         SeekerDeviceEntity focus = SeekerRemoteStreaming.focusOf(player);
         return focus == null ? original : focus.getChunkPos();

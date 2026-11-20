@@ -50,7 +50,7 @@ public abstract class ScopeWorldRendererMixin {
             + "Lnet/minecraft/client/render/Camera;Lnet/minecraft/client/render/Frustum;ZZ)V";
 
     @Inject(method = "render", at = @At("HEAD"))
-    private void sparkwitch$captureScopeProjection(RenderTickCounter tickCounter, boolean renderBlockOutline,
+    private void sparkdlc$captureScopeProjection(RenderTickCounter tickCounter, boolean renderBlockOutline,
                                                    Camera camera, GameRenderer gameRenderer,
                                                    LightmapTextureManager lightmapTextureManager,
                                                    Matrix4f positionMatrix, Matrix4f projectionMatrix,
@@ -59,30 +59,30 @@ public abstract class ScopeWorldRendererMixin {
     }
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = TERRAIN_SETUP))
-    private void sparkwitch$lensTerrainSetupStart(CallbackInfo ci) {
+    private void sparkdlc$lensTerrainSetupStart(CallbackInfo ci) {
         ScopePictureInPicture.beforeTerrainSetup();
     }
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = TERRAIN_SETUP, shift = At.Shift.AFTER))
-    private void sparkwitch$lensTerrainSetupEnd(CallbackInfo ci) {
+    private void sparkdlc$lensTerrainSetupEnd(CallbackInfo ci) {
         ScopePictureInPicture.afterTerrainSetup();
     }
 
     @Inject(method = "render", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/gl/Framebuffer;beginWrite(Z)V", shift = At.Shift.AFTER))
-    private void sparkwitch$keepLensViewport(CallbackInfo ci) {
+    private void sparkdlc$keepLensViewport(CallbackInfo ci) {
         ScopePictureInPicture.restoreLensViewport();
     }
 
     @Inject(method = "renderClouds", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$skipLensClouds(CallbackInfo ci) {
+    private void sparkdlc$skipLensClouds(CallbackInfo ci) {
         if (ScopePictureInPicture.isRenderingLens()) {
             ci.cancel();
         }
     }
 
     @Inject(method = "renderWeather", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$skipLensWeather(CallbackInfo ci) {
+    private void sparkdlc$skipLensWeather(CallbackInfo ci) {
         if (ScopePictureInPicture.isRenderingLens()) {
             ci.cancel();
         }

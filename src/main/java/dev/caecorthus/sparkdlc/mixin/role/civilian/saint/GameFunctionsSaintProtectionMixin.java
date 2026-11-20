@@ -26,7 +26,7 @@ public abstract class GameFunctionsSaintProtectionMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private static void sparkwitch$protectSaint(
+    private static void sparkdlc$protectSaint(
             ServerPlayerEntity victim,
             boolean spawnBody,
             @Nullable ServerPlayerEntity killer,

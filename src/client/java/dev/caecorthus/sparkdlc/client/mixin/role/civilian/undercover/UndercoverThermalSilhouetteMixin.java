@@ -16,14 +16,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntityRenderer.class)
 public abstract class UndercoverThermalSilhouetteMixin {
     @Inject(method = "hasLabel(Lnet/minecraft/entity/LivingEntity;)Z", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$noLabelInHeatPass(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$noLabelInHeatPass(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
         if (UndercoverThermalRenderer.isRenderingHeat()) {
             cir.setReturnValue(false);
         }
     }
 
     @Inject(method = "isVisible", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$invisibleBodiesStillHot(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$invisibleBodiesStillHot(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
         if (UndercoverThermalRenderer.isRenderingHeat()) {
             cir.setReturnValue(true);
         }

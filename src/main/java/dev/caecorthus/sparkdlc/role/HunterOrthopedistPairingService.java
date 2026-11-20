@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -24,8 +24,8 @@ public final class HunterOrthopedistPairingService {
             GameWorldComponent gameComponent,
             List<ServerPlayerEntity> players
     ) {
-        Role hunter = SparkWitchRoles.hunter();
-        Role orthopedist = SparkWitchRoles.orthopedist();
+        Role hunter = SparkDlcRoles.hunter();
+        Role orthopedist = SparkDlcRoles.orthopedist();
         int hunterCount = countRole(gameComponent, players, hunter);
         int orthopedistCount = countRole(gameComponent, players, orthopedist);
 
@@ -57,7 +57,7 @@ public final class HunterOrthopedistPairingService {
                         gameComponent.addRole(player, WatheRoles.KILLER);
                     }
                 }
-                SparkWitch.LOGGER.warn("Hunter assignment fell back to Killer because no Orthopedist slot was available");
+                SparkDLC.LOGGER.warn("Hunter assignment fell back to Killer because no Orthopedist slot was available");
             }
         }
     }

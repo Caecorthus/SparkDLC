@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.killer.conscience;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.Trait;
 import dev.caecorthus.sparkdlc.trait.api.TraitAssignmentReason;
 import dev.caecorthus.sparkdlc.trait.api.TraitAudience;
@@ -13,7 +13,7 @@ import dev.caecorthus.sparkdlc.trait.effective.EffectiveTraitEligibility;
 /** Killer trait that flips the player's effective alignment to passengers.
  *  杀手天赋：将玩家的有效阵营翻转为乘客阵营。 */
 public final class ConscienceTrait implements Trait {
-    public static final Identifier ID = SparkTraits.id("conscience");
+    public static final Identifier ID = SparkDLC.id("conscience");
 
     @Override
     public Identifier id() {

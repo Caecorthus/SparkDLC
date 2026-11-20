@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.global;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.Trait;
 import dev.caecorthus.sparkdlc.trait.api.TraitSelectionContext;
 import net.minecraft.util.Identifier;
@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
  * 全局天赋：当玩家拥有可见奖励系统时，为任务完成追加少量收益。
  */
 public final class TaskMasterTrait implements Trait {
-    public static final Identifier ID = SparkTraits.id("task_master");
+    public static final Identifier ID = SparkDLC.id("task_master");
 
     @Override
     public Identifier id() {

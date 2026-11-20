@@ -54,7 +54,7 @@ public abstract class RemoteViewpointEntityTrackerMixin {
             cancellable = true,
             require = 0
     )
-    private void sparkstrength$alwaysTrackRemoteViewpoint(ServerPlayerEntity player, CallbackInfo ci) {
+    private void sparkdlc$alwaysTrackRemoteViewpoint(ServerPlayerEntity player, CallbackInfo ci) {
         if (!RemoteViewpoint.isAnchor(player, entity)) {
             return;
         }
@@ -70,7 +70,7 @@ public abstract class RemoteViewpointEntityTrackerMixin {
                     target = "Lnet/minecraft/server/network/ServerPlayerEntity;getPos()Lnet/minecraft/util/math/Vec3d;"),
             require = 0
     )
-    private Vec3d sparkstrength$measureFromRemoteViewpoint(
+    private Vec3d sparkdlc$measureFromRemoteViewpoint(
             Vec3d original, @Local(argsOnly = true) ServerPlayerEntity player
     ) {
         Entity anchor = RemoteViewpoint.anchorOf(player);

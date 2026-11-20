@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.magician;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.item.ItemStack;
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 /** 给 Wathe mixin 和后续扩展职业复用的录制公开入口。 */
 public final class MagicianServerHooks {
     private MagicianServerHooks() {}
-    public static @Nullable MagicianPlayerComponent recording(@Nullable ServerPlayerEntity p) { if(p==null)return null; var game=GameWorldComponent.KEY.get(p.getWorld()); var role=game.getRole(p); if(role==null||!SparkWitchRoles.MAGICIAN_ID.equals(role.identifier())||!game.isRunning()||!GameFunctions.isPlayerAliveAndSurvival(p))return null; var c=MagicianPlayerComponent.KEY.get(p); return c.stage()==MagicianStage.RECORDING?c:null; }
+    public static @Nullable MagicianPlayerComponent recording(@Nullable ServerPlayerEntity p) { if(p==null)return null; var game=GameWorldComponent.KEY.get(p.getWorld()); var role=game.getRole(p); if(role==null||!SparkDlcRoles.MAGICIAN_ID.equals(role.identifier())||!game.isRunning()||!GameFunctions.isPlayerAliveAndSurvival(p))return null; var c=MagicianPlayerComponent.KEY.get(p); return c.stage()==MagicianStage.RECORDING?c:null; }
     public static void recordAttack(@Nullable ServerPlayerEntity p){ if(recording(p)!=null)recording(p).record(MagicianRecordedAction.Type.ATTACK); }
     public static void record(@Nullable ServerPlayerEntity p, MagicianRecordedAction.Type type){ if(recording(p)!=null)recording(p).record(type); }
     public static void recordUse(@Nullable ServerPlayerEntity p, Hand h){ if(recording(p)!=null)recording(p).recordUse(h); }

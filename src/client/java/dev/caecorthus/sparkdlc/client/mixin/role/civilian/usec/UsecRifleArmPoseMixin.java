@@ -63,14 +63,14 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(value = PlayerEntityRenderer.class, priority = 1600)
 public abstract class UsecRifleArmPoseMixin {
     @ModifyVariable(method = "getArmPose", at = @At("STORE"))
-    private static ItemStack sparkwitch$noteShownUsecRifle(ItemStack shown,
+    private static ItemStack sparkdlc$noteShownUsecRifle(ItemStack shown,
                                                           @Share("usecShownRifle") LocalBooleanRef shownRifle) {
         shownRifle.set(UsecRifleClient.isRifle(shown));
         return shown;
     }
 
     @WrapMethod(method = "getArmPose(Lnet/minecraft/client/network/AbstractClientPlayerEntity;Lnet/minecraft/util/Hand;)Lnet/minecraft/client/render/entity/model/BipedEntityModel$ArmPose;")
-    private static BipedEntityModel.ArmPose sparkwitch$holdUsecRifleWithBothHands(
+    private static BipedEntityModel.ArmPose sparkdlc$holdUsecRifleWithBothHands(
             AbstractClientPlayerEntity player, Hand hand, Operation<BipedEntityModel.ArmPose> original,
             @Share("usecShownRifle") LocalBooleanRef shownRifle) {
         BipedEntityModel.ArmPose pose = original.call(player, hand);

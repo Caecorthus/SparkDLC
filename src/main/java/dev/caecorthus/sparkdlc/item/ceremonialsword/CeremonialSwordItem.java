@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.item.ceremonialsword;
 
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchRules;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
@@ -21,9 +21,9 @@ public class CeremonialSwordItem extends Item {
     public static final int DASH_COOLDOWN_TICKS = 100;
     public static final int ATTACK_DAMAGE = 16;
     private static final net.minecraft.util.Identifier MOVEMENT_SPEED_MODIFIER_ID =
-            SparkWitch.id("ceremonial_sword_movement_speed");
+            SparkDLC.id("ceremonial_sword_movement_speed");
     private static final net.minecraft.util.Identifier ATTACK_RANGE_MODIFIER_ID =
-            SparkWitch.id("ceremonial_sword_attack_range");
+            SparkDLC.id("ceremonial_sword_attack_range");
     // Player-facing vanilla damage = player base damage + material damage + item bonus.
     // 玩家看到/实际原版伤害 = 玩家基础伤害 + 材料伤害 + 物品 bonus。
     public static final int ATTACK_DAMAGE_BONUS_VALUE = (int) (ATTACK_DAMAGE

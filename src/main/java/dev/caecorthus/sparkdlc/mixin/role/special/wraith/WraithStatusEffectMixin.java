@@ -23,7 +23,7 @@ public abstract class WraithStatusEffectMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$blockPlayerEffectOnWraith(
+    private void sparkdlc$blockPlayerEffectOnWraith(
             StatusEffectInstance effect,
             Entity source,
             CallbackInfoReturnable<Boolean> cir

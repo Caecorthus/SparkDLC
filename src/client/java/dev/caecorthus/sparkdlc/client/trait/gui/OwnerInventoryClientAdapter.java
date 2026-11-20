@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.trait.gui;
 
 import dev.caecorthus.sparkdlc.client.guidebook.ui.decor.GuidebookCardDecor;
 import dev.caecorthus.sparkdlc.client.gui.card.InventoryInfoCard;
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.economy.KillerTeamEconomyClientHooks;
 import dev.caecorthus.sparkdlc.client.trait.text.TraitClientTexts;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
@@ -30,7 +30,7 @@ public final class OwnerInventoryClientAdapter implements OwnerInventoryPresenta
      */
     private static final class Card {
         private static final InventoryInfoCard INSTANCE = new InventoryInfoCard("gui.sparkdlc.inventory.more", () -> 0,
-                KillerTeamEconomyClientHooks::topRightHudBottom, new GuidebookCardDecor("SparkTraits/GuideDecor"));
+                KillerTeamEconomyClientHooks::topRightHudBottom, new GuidebookCardDecor("SparkDLC/GuideDecor"));
     }
     private static boolean nativeCardFailed;
     // Last visible trait ids and their detached entries (render thread). 上次的可见天赋 id 与其独立条目（渲染线程）。
@@ -100,7 +100,7 @@ public final class OwnerInventoryClientAdapter implements OwnerInventoryPresenta
     public static void disableNativeCard(Throwable failure) {
         if (nativeCardFailed) return;
         nativeCardFailed = true;
-        SparkTraits.LOGGER.error("Owner inventory traits card failed; disabling it for this connection", failure);
+        SparkDLC.LOGGER.error("Owner inventory traits card failed; disabling it for this connection", failure);
     }
 
     /** Disconnect: re-enables the native card and drops the cached entries and card layout. 断开连接时重置并清空缓存。 */

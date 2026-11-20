@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class SerialPistolDropGuardMixin {
     @Inject(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;",
             at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$keepSerialPistolBound(ItemStack stack, boolean throwRandomly, boolean retainOwnership,
+    private void sparkdlc$keepSerialPistolBound(ItemStack stack, boolean throwRandomly, boolean retainOwnership,
                                                      CallbackInfoReturnable<ItemEntity> cir) {
         if (SerialPistolInventoryRules.blocksDrop(stack)) {
             cir.setReturnValue(null);

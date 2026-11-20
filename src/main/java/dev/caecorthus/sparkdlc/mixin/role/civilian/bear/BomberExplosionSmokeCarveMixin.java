@@ -29,7 +29,7 @@ public abstract class BomberExplosionSmokeCarveMixin {
     private PlayerEntity player;
 
     @Inject(method = "explode", at = @At("HEAD"))
-    private void sparkwitch$carveBombBlast(CallbackInfo ci) {
+    private void sparkdlc$carveBombBlast(CallbackInfo ci) {
         RangedSmokeCarve.blast(player.getWorld(), player.getPos().add(0.0, BearRicochetRules.BOMB_CENTRE_LIFT, 0.0),
                 BearRicochetRules.BOMB_HOLE_RADIUS);
     }

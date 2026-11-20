@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.component;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.PerfumerRuntime;
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.PerfumerState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,7 +27,7 @@ import java.util.UUID;
  */
 public final class PerfumerPlayerComponent implements AutoSyncedComponent, ServerTickingComponent {
     public static final ComponentKey<PerfumerPlayerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("perfumer_player"),
+            SparkDLC.id("perfumer_player"),
             PerfumerPlayerComponent.class
     );
 

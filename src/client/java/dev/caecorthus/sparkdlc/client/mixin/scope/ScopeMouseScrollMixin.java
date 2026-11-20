@@ -34,7 +34,7 @@ public abstract class ScopeMouseScrollMixin {
                     opcode = Opcodes.GETFIELD, ordinal = 0),
             cancellable = true
     )
-    private void sparkwitch$scopeWheelZoom(long window, double horizontal, double vertical, CallbackInfo ci) {
+    private void sparkdlc$scopeWheelZoom(long window, double horizontal, double vertical, CallbackInfo ci) {
         MinecraftClient client = MinecraftClient.getInstance();
         double notches = ScopeRules.wheelNotches(vertical, client.options.getDiscreteMouseScroll().getValue(),
                 client.options.getMouseWheelSensitivity().getValue());

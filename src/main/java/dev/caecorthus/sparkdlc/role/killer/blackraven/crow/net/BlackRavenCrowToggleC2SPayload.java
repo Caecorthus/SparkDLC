@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven.crow.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -16,7 +16,7 @@ import net.minecraft.util.Identifier;
  * 会话中总是结束会话。全部校验在服务端完成。已作为职业技能归入控场专家眩晕、搜寻者会话、隙行者会话与恐惧拦截名单。
  */
 public record BlackRavenCrowToggleC2SPayload() implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("black_raven_crow_toggle");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("black_raven_crow_toggle");
     public static final Id<BlackRavenCrowToggleC2SPayload> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, BlackRavenCrowToggleC2SPayload> CODEC =
             PacketCodec.of(BlackRavenCrowToggleC2SPayload::write, BlackRavenCrowToggleC2SPayload::read);

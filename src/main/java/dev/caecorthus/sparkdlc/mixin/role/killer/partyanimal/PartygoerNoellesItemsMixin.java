@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin({TimedBombItem.class, PoisonNeedleItem.class})
 public abstract class PartygoerNoellesItemsMixin {
     @Inject(method = "useOnEntity", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$killPartygoer(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand,
+    private void sparkdlc$killPartygoer(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand,
                                              CallbackInfoReturnable<ActionResult> cir) {
         if (!(entity instanceof PartygoerEntity partygoer) || user == null) {
             return;

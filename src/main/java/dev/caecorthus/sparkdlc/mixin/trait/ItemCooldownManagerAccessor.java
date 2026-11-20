@@ -10,8 +10,8 @@ import java.util.Map;
 @Mixin(ItemCooldownManager.class)
 public interface ItemCooldownManagerAccessor {
     @Accessor("entries")
-    Map<Item, Object> sparktraits$getEntries();
+    Map<Item, Object> sparkdlc$getEntriesForTraits();
 
     @Accessor("tick")
-    int sparktraits$getTick();
+    int sparkdlc$getTickForTraits();
 }

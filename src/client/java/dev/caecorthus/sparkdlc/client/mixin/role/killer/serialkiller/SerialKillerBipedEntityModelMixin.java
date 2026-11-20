@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.mixin.role.killer.serialkiller;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.LivingEntity;
@@ -28,7 +28,7 @@ public abstract class SerialKillerBipedEntityModelMixin<T extends LivingEntity> 
     @Shadow @Final public ModelPart head;
 
     @Inject(method = "positionLeftArm", at = @At("TAIL"))
-    private void sparkstrength$holdSerialOffhandLeftArm(T entity, CallbackInfo ci) {
+    private void sparkdlc$holdSerialOffhandLeftArm(T entity, CallbackInfo ci) {
         // MainArm.RIGHT 时，OFF_HAND 对应左臂。
         if (entity.getMainArm() == Arm.RIGHT && isHoldingSerialOffhand(entity)) {
             holdGun(leftArm, head, false);
@@ -36,7 +36,7 @@ public abstract class SerialKillerBipedEntityModelMixin<T extends LivingEntity> 
     }
 
     @Inject(method = "positionRightArm", at = @At("TAIL"))
-    private void sparkstrength$holdSerialOffhandRightArm(T entity, CallbackInfo ci) {
+    private void sparkdlc$holdSerialOffhandRightArm(T entity, CallbackInfo ci) {
         // MainArm.LEFT 时，OFF_HAND 对应右臂。
         if (entity.getMainArm() != Arm.RIGHT && isHoldingSerialOffhand(entity)) {
             holdGun(rightArm, head, true);
@@ -46,7 +46,7 @@ public abstract class SerialKillerBipedEntityModelMixin<T extends LivingEntity> 
     @Unique
     private static boolean isHoldingSerialOffhand(LivingEntity entity) {
         ItemStack offhand = entity.getOffHandStack();
-        return offhand.isOf(SparkStrengthItems.serialLeftPistol());
+        return offhand.isOf(SparkDlcItems.serialLeftPistol());
     }
 
     @Unique

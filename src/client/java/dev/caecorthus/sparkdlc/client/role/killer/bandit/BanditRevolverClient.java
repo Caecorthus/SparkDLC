@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.killer.bandit;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.role.killer.bandit.BanditWorkbenchScreen;
 import dev.caecorthus.sparkdlc.item.BanditRevolverItem;
 import dev.caecorthus.sparkdlc.role.killer.bandit.BanditRevolverActionC2SPayload;
@@ -80,20 +80,20 @@ public final class BanditRevolverClient {
         HudRenderCallback.EVENT.register(BanditRevolverClient::renderHud);
         // Thresholds used by models/item/bandit_revolver.json: 0 = stock, 0.5 / 1 = the two parts of the slot.
         // models/item/bandit_revolver.json 使用的阈值：0 为原装，0.5 / 1 为该部位的两种配件。
-        ModelPredicateProviderRegistry.register(SparkStrengthItems.banditRevolver(),
-                SparkStrength.id("bandit_barrel"), (stack, world, entity, seed) -> switch (state(stack).barrelPart()) {
+        ModelPredicateProviderRegistry.register(SparkDlcItems.banditRevolver(),
+                SparkDLC.id("bandit_barrel"), (stack, world, entity, seed) -> switch (state(stack).barrelPart()) {
                     case LONG_BARREL -> 0.5F;
                     case SHORT_BARREL -> 1.0F;
                     case null, default -> 0.0F;
                 });
-        ModelPredicateProviderRegistry.register(SparkStrengthItems.banditRevolver(),
-                SparkStrength.id("bandit_grip"), (stack, world, entity, seed) -> switch (state(stack).gripPart()) {
+        ModelPredicateProviderRegistry.register(SparkDlcItems.banditRevolver(),
+                SparkDLC.id("bandit_grip"), (stack, world, entity, seed) -> switch (state(stack).gripPart()) {
                     case SPEED_GRIP -> 0.5F;
                     case RELOAD_GRIP -> 1.0F;
                     case null, default -> 0.0F;
                 });
-        ModelPredicateProviderRegistry.register(SparkStrengthItems.banditRevolver(),
-                SparkStrength.id("bandit_cylinder"), (stack, world, entity, seed) ->
+        ModelPredicateProviderRegistry.register(SparkDlcItems.banditRevolver(),
+                SparkDLC.id("bandit_cylinder"), (stack, world, entity, seed) ->
                         state(stack).cylinderPart() == BanditAttachment.EXPANDED_CYLINDER ? 1.0F : 0.0F);
     }
 

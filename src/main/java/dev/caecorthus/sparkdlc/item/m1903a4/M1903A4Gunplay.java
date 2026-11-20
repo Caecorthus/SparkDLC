@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.item.m1903a4;
 
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
 import dev.doctor4t.wathe.api.event.KillPlayer;
 import dev.doctor4t.wathe.api.event.ResetPlayer;
@@ -84,7 +84,7 @@ public final class M1903A4Gunplay {
             // Reloading started before the post-shot bolt: that bolt belongs to a bolt that is being opened now.
             // 在开火后的拉栓之前开始装填：那次拉栓已经随开栓作废。
             state.shotBoltDue = -1L;
-            play(player, SparkWitchSounds.M1903A4_OPENBOLT, 0.8F);
+            play(player, SparkDlcSounds.M1903A4_OPENBOLT, 0.8F);
         }
         state.reloadDeadline = now + RELOAD_WINDOW_TICKS;
         state.loadSoundsDue.add(now + LOAD_SOUND_DELAY_TICKS);
@@ -93,7 +93,7 @@ public final class M1903A4Gunplay {
     /** A round left the barrel: shot now, bolt in one second, reload window dropped. / 开火：枪声，1 秒后拉栓，结束装填窗口。 */
     public static void onFired(ServerPlayerEntity player) {
         State state = state(player);
-        play(player, SparkWitchSounds.M1903A4_SHOOT, 1.0F);
+        play(player, SparkDlcSounds.M1903A4_SHOOT, 1.0F);
         state.reloading = false;
         state.reloadDeadline = 0L;
         state.shotBoltDue = now(player) + BOLT_AFTER_SHOT_TICKS;
@@ -113,17 +113,17 @@ public final class M1903A4Gunplay {
             long now = now(player);
             if (state.reloading && now >= state.reloadDeadline) {
                 state.reloading = false;
-                play(player, SparkWitchSounds.M1903A4_BOLT_1, 0.8F);
+                play(player, SparkDlcSounds.M1903A4_BOLT_1, 0.8F);
             }
             if (state.shotBoltDue >= 0L && now >= state.shotBoltDue) {
                 state.shotBoltDue = -1L;
-                play(player, SparkWitchSounds.M1903A4_BOLT, 0.8F);
+                play(player, SparkDlcSounds.M1903A4_BOLT, 0.8F);
             }
             state.loadSoundsDue.removeIf(due -> {
                 if (now < due) {
                     return false;
                 }
-                play(player, SparkWitchSounds.M1903A4_LOAD, 0.8F);
+                play(player, SparkDlcSounds.M1903A4_LOAD, 0.8F);
                 return true;
             });
             if (state.idle()) {

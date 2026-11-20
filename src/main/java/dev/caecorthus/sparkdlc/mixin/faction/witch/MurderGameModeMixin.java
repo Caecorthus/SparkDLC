@@ -22,7 +22,7 @@ public abstract class MurderGameModeMixin {
                     target = "Ldev/doctor4t/wathe/cca/ScoreboardRoleSelectorComponent;assignCivilians(Lnet/minecraft/server/world/ServerWorld;Ldev/doctor4t/wathe/cca/GameWorldComponent;Ljava/util/List;)I"
             )
     )
-    private static void sparkwitch$pairHunterOrthopedistBeforeCivilians(
+    private static void sparkdlc$pairHunterOrthopedistBeforeCivilians(
             @NotNull ServerWorld world,
             @NotNull List<ServerPlayerEntity> players,
             GameWorldComponent gameComponent,
@@ -30,8 +30,8 @@ public abstract class MurderGameModeMixin {
     ) {
         HunterOrthopedistPairingService.ensurePairBeforeCivilians(world, gameComponent, players);
         // Witch and Team Jiahao members are no longer dealt here: SparkFactionAPI's third-faction draw deals them before
-        // Wathe's neutral pass from SparkWitch's lineups (owner 2026-11-16, see SparkWitchRoleRegistry).
+        // Wathe's neutral pass from SparkWitch's lineups (owner 2026-11-16, see SparkDlcRoleRegistry).
         // 魔女与嘉豪阵营成员不再在此发放：由 SparkFactionAPI 第三方阵营抽取在 Wathe 中立分配之前按 SparkWitch 阵容发放
-        //（所有者 2026-11-16，见 SparkWitchRoleRegistry）。
+        //（所有者 2026-11-16，见 SparkDlcRoleRegistry）。
     }
 }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.abysslistener.zone;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.RegistryByteBuf;
@@ -25,7 +25,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 public final class AbyssZoneExposureComponent
         implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
     public static final ComponentKey<AbyssZoneExposureComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("abyss_zone_exposure"), AbyssZoneExposureComponent.class);
+            SparkDLC.id("abyss_zone_exposure"), AbyssZoneExposureComponent.class);
 
     private final PlayerEntity player;
     private final AbyssZoneExposureState state = new AbyssZoneExposureState();

@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ServerPlayerEntity.class)
 public abstract class ServerPlayerEntityWitherGoheiDropMixin {
     @Inject(method = "dropSelectedItem(Z)Z", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$keepWitherGoheiItemSelected(boolean entireStack, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$keepWitherGoheiItemSelected(boolean entireStack, CallbackInfoReturnable<Boolean> cir) {
         ServerPlayerEntity player = (ServerPlayerEntity) (Object) this;
         if (WitherGoheiInventoryRules.blocksSelectedDrop(player)) {
             player.currentScreenHandler.syncState();

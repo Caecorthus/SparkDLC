@@ -40,7 +40,7 @@ public abstract class SeekerSessionPayloadGuardMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;execute(Ljava/lang/Runnable;)V",
                     remap = true)
     )
-    private void sparkwitch$dropPayloadWhileViewing(
+    private void sparkdlc$dropPayloadWhileViewing(
             MinecraftServer server,
             Runnable handler,
             Operation<Void> original,

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.item.rope;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.util.Identifier;
 
 /**
@@ -19,7 +19,7 @@ import net.minecraft.util.Identifier;
  * 脱身（始终被送回锚点）。只有击杀成功才消耗绳索。本类不读取任何 Minecraft 状态，因此每条规则都可单元测试。
  */
 public final class RopeRules {
-    public static final Identifier ITEM_ID = SparkWitch.id("rope");
+    public static final Identifier ITEM_ID = SparkDLC.id("rope");
     public static final double RANGE = 2.0D;
     // Half-width of the arc behind the target, measured from straight behind. / 目标身后弧的半角，从正后方算起。
     public static final double BACK_HALF_ARC_DEGREES = 60.0D;

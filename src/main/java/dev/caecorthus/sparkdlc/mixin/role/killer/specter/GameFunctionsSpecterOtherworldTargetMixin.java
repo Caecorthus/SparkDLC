@@ -38,7 +38,7 @@ public abstract class GameFunctionsSpecterOtherworldTargetMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private static void sparkwitch$blockOtherworldKillOnInvalidTarget(
+    private static void sparkdlc$blockOtherworldKillOnInvalidTarget(
             ServerPlayerEntity victim,
             boolean spawnBody,
             @Nullable ServerPlayerEntity killer,

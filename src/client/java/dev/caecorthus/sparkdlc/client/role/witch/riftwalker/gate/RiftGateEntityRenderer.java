@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.witch.riftwalker.gate;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.role.witch.riftwalker.session.RiftSessionClient;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.gate.RiftGateEntity;
 import net.minecraft.client.render.Camera;
@@ -39,7 +39,7 @@ public final class RiftGateEntityRenderer extends EntityRenderer<RiftGateEntity>
     public RiftGateEntityRenderer(EntityRendererFactory.Context context) {
         super(context);
         itemRenderer = context.getItemRenderer();
-        stack = new ItemStack(SparkWitchItems.riftGate());
+        stack = new ItemStack(SparkDlcItems.riftGate());
     }
 
     @Override

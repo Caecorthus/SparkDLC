@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = Entity.class, priority = 1200)
 public abstract class PlayerCollisionGraceMixin {
     @WrapMethod(method = "collidesWith(Lnet/minecraft/entity/Entity;)Z")
-    private boolean sparkstrength$disableWathePlayerWallDuringOpeningGrace(
+    private boolean sparkdlc$disableWathePlayerWallDuringOpeningGrace(
             Entity other,
             Operation<Boolean> original
     ) {

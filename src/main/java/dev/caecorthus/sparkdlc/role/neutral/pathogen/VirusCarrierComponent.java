@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.pathogen;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.neutral.pathogen.PathogenRules;
 import dev.caecorthus.sparkdlc.role.neutral.pathogen.PathogenVisibility;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,7 +27,7 @@ import java.util.UUID;
  */
 public final class VirusCarrierComponent implements AutoSyncedComponent {
     public static final ComponentKey<VirusCarrierComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("virus_carrier"),
+            SparkDLC.id("virus_carrier"),
             VirusCarrierComponent.class
     );
 

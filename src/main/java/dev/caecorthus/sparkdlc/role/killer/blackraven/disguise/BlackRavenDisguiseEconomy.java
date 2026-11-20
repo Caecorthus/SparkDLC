@@ -40,7 +40,7 @@ public final class BlackRavenDisguiseEconomy {
      * 无需捕获局部变量即可判断 Wathe 调用入账的是谁的余额。
      */
     public interface ShopOwnerAccess {
-        @Nullable PlayerEntity sparkwitch$blackRavenShopOwner();
+        @Nullable PlayerEntity sparkdlc$blackRavenShopOwner();
     }
 
     /**
@@ -178,7 +178,7 @@ public final class BlackRavenDisguiseEconomy {
     }
 
     private static @Nullable PlayerEntity shopOwner(@Nullable PlayerShopComponent shop) {
-        return (Object) shop instanceof ShopOwnerAccess access ? access.sparkwitch$blackRavenShopOwner() : null;
+        return (Object) shop instanceof ShopOwnerAccess access ? access.sparkdlc$blackRavenShopOwner() : null;
     }
 
     /**

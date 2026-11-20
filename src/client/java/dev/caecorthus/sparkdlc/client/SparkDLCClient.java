@@ -1,14 +1,14 @@
 package dev.caecorthus.sparkdlc.client;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.SparkTraitsParticles;
-import dev.caecorthus.sparkdlc.SparkWitchEntities;
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.SparkDlcParticles;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.achievement.AchievementGalaxy;
 import dev.caecorthus.sparkdlc.client.achievement.AchievementAdvancements;
 import dev.caecorthus.sparkdlc.client.achievement.AchievementClientState;
-import dev.caecorthus.sparkdlc.client.config.SparkAssistConfigManager;
+import dev.caecorthus.sparkdlc.client.config.SparkDlcConfigManager;
 import dev.caecorthus.sparkdlc.client.creative.NoellesCreativeEntries;
 import dev.caecorthus.sparkdlc.client.economy.KillerTeamEconomyClientHooks;
 import dev.caecorthus.sparkdlc.client.economy.RoleEconomyClientHooks;
@@ -21,7 +21,7 @@ import dev.caecorthus.sparkdlc.client.hooks.HunterTrapClientHooks;
 import dev.caecorthus.sparkdlc.client.hooks.KidnapperThrowClientHooks;
 import dev.caecorthus.sparkdlc.client.hooks.OrthopedistClientHooks;
 import dev.caecorthus.sparkdlc.client.hooks.ProphetCorpseHighlightClientHooks;
-import dev.caecorthus.sparkdlc.client.hooks.WitchAbilityKeyBridge;
+import dev.caecorthus.sparkdlc.client.hooks.AbilityKeyBridge;
 import dev.caecorthus.sparkdlc.client.hooks.WitchCohortClientHooks;
 import dev.caecorthus.sparkdlc.client.hooks.WitchInstinctSuppressionClientHooks;
 import dev.caecorthus.sparkdlc.client.hooks.WitchPoisonVisionClientHooks;
@@ -250,9 +250,9 @@ import org.slf4j.LoggerFactory;
  */
 public final class SparkDLCClient implements ClientModInitializer {
     /** Logger name kept from before the fusion so existing log filters still match. / 保留融合前的日志名，已有的日志过滤规则仍然有效。 */
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkAssist/Achievements");
+    private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/Achievements");
 
-    private static SparkAssistConfigManager configManager;
+    private static SparkDlcConfigManager configManager;
     /** The world Wathe's muzzle map was last cleared for. 上次为之清空 Wathe 枪口表的世界。 */
     private static ClientWorld muzzleWorld;
 
@@ -285,7 +285,7 @@ public final class SparkDLCClient implements ClientModInitializer {
      * 设置文件、成就银河排布、Ponder、蓄力 HUD、指南、创造模式条目，以及它们的 tick 与会话监听器。设置最先加载：之后的每个步骤都可能读取它。
      */
     private static void startSettingsGuidebookAndAchievements() {
-        configManager = SparkAssistConfigManager.load();
+        configManager = SparkDlcConfigManager.load();
         // Lay the achievement galaxy out now, off the render thread. 现在就在渲染线程之外排布成就银河。
         Thread galaxy = new Thread(SparkDLCClient::layOutGalaxy, "SparkDLC galaxy layout");
         galaxy.setDaemon(true);
@@ -442,7 +442,7 @@ public final class SparkDLCClient implements ClientModInitializer {
         // 刺客：冷却期间按技能键也能打开刺杀名单（NoellesRoles 只在可猜测时打开）。
         ClientTickEvents.END_CLIENT_TICK.register(AssassinGuessSources::tickAbilityKey);
         ItemTooltipCallback.EVENT.register((stack, context, type, lines) -> {
-            if (!stack.isOf(SparkStrengthItems.dyingWatch())) {
+            if (!stack.isOf(SparkDlcItems.dyingWatch())) {
                 return;
             }
 
@@ -483,7 +483,7 @@ public final class SparkDLCClient implements ClientModInitializer {
     private static void registerTraitClient() {
         dev.caecorthus.sparkdlc.client.trait.gui.OwnerInventoryClientAdapter.install();
         NewKillerTraitsClient.initialize();
-        ParticleFactoryRegistry.getInstance().register(SparkTraitsParticles.BLUE_POISON, PoisonParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(SparkDlcParticles.BLUE_POISON, PoisonParticle.Factory::new);
         // A new connection starts unconfirmed, even if the previous one never reached its play session.
         // 新连接从未确认状态开始，即使上一个连接没有进入 play 会话。
         ClientLoginConnectionEvents.INIT.register((handler, client) -> SparkDlcServerConnection.reset());
@@ -678,7 +678,7 @@ public final class SparkDLCClient implements ClientModInitializer {
             ProphetClientModule.tick(client);
             SecondaryAbilityController.tick(client);
             if (!SparkDlcServerConnection.isConfirmedServer()) {
-                WitchAbilityKeyBridge.reset();
+                AbilityKeyBridge.reset();
                 DeathRayClientHooks.reset();
                 KidnapperThrowClientHooks.reset();
                 return;
@@ -687,10 +687,10 @@ public final class SparkDLCClient implements ClientModInitializer {
             GrandWitchFearClientHooks.tick();
             DeathRayClientHooks.tick(client);
             dev.caecorthus.sparkdlc.client.gui.OwnerInventoryPresenter.tick(client);
-            MagicianKeyRepeatGuard.observe(WitchAbilityKeyBridge.isHeld());
+            MagicianKeyRepeatGuard.observe(AbilityKeyBridge.isHeld());
             if (client.player != null
                     && client.getNetworkHandler() != null
-                    && WitchAbilityKeyBridge.wasPressed()) {
+                    && AbilityKeyBridge.wasPressed()) {
                 var role = GameWorldComponent.KEY.get(client.player.getWorld()).getRole(client.player);
                 boolean exactSaboteurRole = role != null
                         && SaboteurRole.ID.equals(role.identifier());
@@ -707,7 +707,7 @@ public final class SparkDLCClient implements ClientModInitializer {
                     // 最先判定：任一决斗者的按下无效（任何职业，所有者 2026-10-30；服务端也会丢弃其 G 键技能包），
                     // 骑士的按下打开决斗目标面板。
                     KnightDuelClient.onAbilityKey(client);
-                } else if (role != null && role.identifier().equals(dev.caecorthus.sparkdlc.SparkWitchRoles.MAGICIAN_ID)) {
+                } else if (role != null && role.identifier().equals(dev.caecorthus.sparkdlc.SparkDlcRoles.MAGICIAN_ID)) {
                     // Real role only; the server re-checks the role and every skill lock before advancing the stage.
                     // Key-repeat presses while the key stays held are dropped (one stage step per physical press).
                     // 仅限真实职业；服务端会再次检查职业与所有技能锁后才推进阶段。按住不放时的重复按下被丢弃（每次物理按键只推进一步）。
@@ -768,14 +768,14 @@ public final class SparkDLCClient implements ClientModInitializer {
                             && ClientPlayNetworking.canSend(UseHiroSkillC2SPacket.ID)) {
                         ClientPlayNetworking.send(new UseHiroSkillC2SPacket());
                     }
-                } else if (role != null && role.identifier().equals(dev.caecorthus.sparkdlc.SparkWitchRoles.CURSER_ID)) {
+                } else if (role != null && role.identifier().equals(dev.caecorthus.sparkdlc.SparkDlcRoles.CURSER_ID)) {
                     if (CurserClientHooks.canUse(client.player)) {
                         CurserClientHooks.use();
                     }
                 } else if (GuardianAngelRules.isGuardianAngel(role)) {
                     ClientPlayNetworking.send(new UseGuardianAngelSkillC2SPacket());
                 } else if (GameWorldComponent.KEY.get(client.player.getWorld())
-                        .isRole(client.player, dev.caecorthus.sparkdlc.SparkWitchRoles.orthopedist())) {
+                        .isRole(client.player, dev.caecorthus.sparkdlc.SparkDlcRoles.orthopedist())) {
                     // Widened by the Black Raven acting overlay; getRole stays raw. / 黑羽鸦扮演覆盖层会放宽此判定；getRole 仍为真实身份。
                     ClientPlayNetworking.send(new UseOrthopedistSkillC2SPacket());
                 } else if (SaviorRules.isSavior(role)) {
@@ -886,12 +886,12 @@ public final class SparkDLCClient implements ClientModInitializer {
     }
 
     /** The settings of the mod, loaded in the first start-up step. / 本模组的设置，在启动的第一个步骤中加载。 */
-    public static SparkAssistConfigManager configManager() {
+    public static SparkDlcConfigManager configManager() {
         return configManager;
     }
 
     public static Text abilityKeyText() {
-        return WitchAbilityKeyBridge.keyText();
+        return AbilityKeyBridge.keyText();
     }
 
     private static void layOutGalaxy() {
@@ -1026,13 +1026,13 @@ public final class SparkDLCClient implements ClientModInitializer {
         // The projectile renders its synced shuriken item stack, never the upstream generic knife texture.
         // 投射物始终渲染同步的手里剑物品模型，不复用上游通用飞刀贴图。
         EntityRendererRegistry.register(
-                SparkWitchEntities.ninjaShuriken(),
+                SparkDlcEntities.ninjaShuriken(),
                 context -> new FlyingItemEntityRenderer<>(context, 1.0F, true)
         );
         // The grappling hook draws its 3D head model and the chain to the owner's hand.
         // 钩爪绘制 3D 钩头模型与连到主人手上的锁链。
         NinjaGrapplingHookEntityRenderer.registerHeadModel();
-        EntityRendererRegistry.register(SparkWitchEntities.ninjaGrapplingHook(), NinjaGrapplingHookEntityRenderer::new);
+        EntityRendererRegistry.register(SparkDlcEntities.ninjaGrapplingHook(), NinjaGrapplingHookEntityRenderer::new);
         EntityRendererRegistry.register(HunterEntities.hunterTrap(), HunterTrapEntityRenderer::new);
         // The thrown Shock Device renders its synced item stack like vanilla thrown items.
         // 投出的电击装置与原版投掷物一样渲染其同步的物品。
@@ -1044,7 +1044,7 @@ public final class SparkDLCClient implements ClientModInitializer {
         SeekerClientModule.registerEntityRenderers();
         // BEAR smoke round (WP0 stub renderer). / BEAR 烟雾榴弹（WP0 桩渲染器）。
         dev.caecorthus.sparkdlc.client.role.civilian.bear.BearClientModule.registerEntityRenderers();
-        EntityRendererRegistry.register(SparkWitchEntities.magicianPlayback(), MagicianPlaybackEntityRenderer::new);
+        EntityRendererRegistry.register(SparkDlcEntities.magicianPlayback(), MagicianPlaybackEntityRenderer::new);
         // Raven Form world content: Homing Feather marker and black feather particle. / 化鸦世界内容：归羽标记与黑羽粒子。
         BlackRavenCrowWorldClient.register();
         // 狮身豪's "手"枪: loaded-model predicate, fist model and the spring-fist renderer (lattice + fist).
@@ -1054,7 +1054,7 @@ public final class SparkDLCClient implements ClientModInitializer {
 
     private static void registerGrandWitchCeremonialSwordBgm() {
         AmbienceUtil.registerBackgroundAmbience(new BackgroundAmbience(
-                SparkWitchSounds.GRAND_WITCH_CEREMONIAL_SWORD_BGM,
+                SparkDlcSounds.GRAND_WITCH_CEREMONIAL_SWORD_BGM,
                 player -> SparkDlcServerConnection.isConfirmedServer()
                         && WitchWorldComponent.KEY.get(player.getWorld()).hasGrandWitchCeremonialSwordBgm(),
                 20
@@ -1088,7 +1088,7 @@ public final class SparkDLCClient implements ClientModInitializer {
     /** Client thread: per-session state of the shared modules; never the confirmed flag. / 客户端线程：共享模块的逐会话状态；绝不包含已确认标记。 */
     private static void resetOwnRoleSessionState() {
         dev.caecorthus.sparkdlc.client.gui.OwnerInventoryPresenter.reset();
-        WitchAbilityKeyBridge.reset();
+        AbilityKeyBridge.reset();
         SecondaryAbilityController.reset();
         KidnapperThrowClientHooks.reset();
         DoubleBarrelMuzzleClient.reset();

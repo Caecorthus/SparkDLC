@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.fiend;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.RegistryByteBuf;
@@ -25,7 +25,7 @@ import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
  */
 public final class FiendFeignComponent implements AutoSyncedComponent, ClientTickingComponent {
     public static final ComponentKey<FiendFeignComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("fiend_feign"), FiendFeignComponent.class);
+            SparkDLC.id("fiend_feign"), FiendFeignComponent.class);
 
     private final PlayerEntity player;
     /** Server only. / 仅服务端。 */

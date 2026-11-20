@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.controlexpert;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceHits;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.Entity;
@@ -147,7 +147,7 @@ public final class ShockDeviceEntity extends ThrownItemEntity {
 
     @Override
     protected Item getDefaultItem() {
-        return SparkWitchItems.shockDevice();
+        return SparkDlcItems.shockDevice();
     }
 
     @Override

@@ -28,7 +28,7 @@ public abstract class KillerTeamMoneyHudMixin {
                     target = "Ldev/doctor4t/wathe/client/gui/StoreRenderer$MoneyNumberRenderer;render"
             )
     )
-    private static void sparkstrength$clipPersonalMoneyAboveTeamRow(
+    private static void sparkdlc$clipPersonalMoneyAboveTeamRow(
             StoreRenderer.MoneyNumberRenderer view,
             TextRenderer renderer,
             DrawContext context,
@@ -44,7 +44,7 @@ public abstract class KillerTeamMoneyHudMixin {
     }
 
     @Inject(method = "renderHud", at = @At("TAIL"))
-    private static void sparkstrength$renderKillerTeamMoney(
+    private static void sparkdlc$renderKillerTeamMoney(
             TextRenderer renderer,
             ClientPlayerEntity player,
             DrawContext context,

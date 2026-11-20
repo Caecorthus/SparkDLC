@@ -30,7 +30,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class BlackRavenCrowKillLinkMixin {
     @Inject(method = "killPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;ZLnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;Z)V",
             at = @At("HEAD"), require = 1)
-    private static void sparkwitch$endSubstitutedCrowSession(ServerPlayerEntity victim, boolean spawnBody,
+    private static void sparkdlc$endSubstitutedCrowSession(ServerPlayerEntity victim, boolean spawnBody,
                                                              @Nullable ServerPlayerEntity killer, Identifier deathReason,
                                                              boolean force, CallbackInfo ci) {
         BlackRavenCrowTargets.beforeKillPlayer(victim, killer, deathReason);

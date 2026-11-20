@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.role.civilian.accountant;
 
 /**
- * The Accountant's single server entry point, called once from {@code SparkWitchEvents}; idempotent.
- * 会计唯一的服务端入口，由 {@code SparkWitchEvents} 调用一次；可重复调用。
+ * The Accountant's single server entry point, called once from {@code RoleEvents}; idempotent.
+ * 会计唯一的服务端入口，由 {@code RoleEvents} 调用一次；可重复调用。
  */
 public final class AccountantFeatureService {
     private static boolean registered;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
@@ -14,7 +14,7 @@ import net.minecraft.network.packet.CustomPayload;
  */
 public record SaviorLightsaberSwingC2SPayload() implements CustomPayload {
     public static final Id<SaviorLightsaberSwingC2SPayload> ID =
-            new Id<>(SparkWitch.id("savior_lightsaber_swing"));
+            new Id<>(SparkDLC.id("savior_lightsaber_swing"));
     public static final PacketCodec<RegistryByteBuf, SaviorLightsaberSwingC2SPayload> CODEC =
             PacketCodec.unit(new SaviorLightsaberSwingC2SPayload());
 

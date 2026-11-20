@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.killer.bomber;
 
-import dev.caecorthus.sparkdlc.SparkStrengthSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.entity.DroneEntity;
 import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneKind;
 import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneRules;
@@ -109,8 +109,8 @@ public final class DroneSoundClient {
         private final float basePitch;
 
         private DroneLoopSound(DroneEntity drone) {
-            super(drone.kind() == DroneKind.BOMB ? SparkStrengthSounds.BOMB_DRONE_LOOP
-                    : SparkStrengthSounds.GRENADE_DRONE_LOOP, SoundCategory.PLAYERS, SoundInstance.createRandom());
+            super(drone.kind() == DroneKind.BOMB ? SparkDlcSounds.BOMB_DRONE_LOOP
+                    : SparkDlcSounds.GRENADE_DRONE_LOOP, SoundCategory.PLAYERS, SoundInstance.createRandom());
             this.drone = drone;
             this.baseVolume = drone.kind() == DroneKind.BOMB ? 0.9F : 0.75F;
             // Small per-drone detune so two drones never phase into one tone. / 每架略微失谐，两架无人机不会合成单一音调。

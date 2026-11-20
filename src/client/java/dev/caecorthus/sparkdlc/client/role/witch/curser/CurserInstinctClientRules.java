@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.witch.curser;
 
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,7 +18,7 @@ public final class CurserInstinctClientRules {
             boolean instinctEnabled
     ) {
         return confirmedServer
-                && SparkWitchRoles.CURSER_ID.equals(roleId)
+                && SparkDlcRoles.CURSER_ID.equals(roleId)
                 && activeWraith
                 && promotedWraith
                 && !viewerSpectatingOrCreative

@@ -23,7 +23,7 @@ public abstract class JesterFakeDeathImmunityMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private static void sparkstrength$jesterFakeDeathImmunity(
+    private static void sparkdlc$jesterFakeDeathImmunity(
             ServerPlayerEntity victim,
             boolean spawnBody,
             @Nullable ServerPlayerEntity killer,

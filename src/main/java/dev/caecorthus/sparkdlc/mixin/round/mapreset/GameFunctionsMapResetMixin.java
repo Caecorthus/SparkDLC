@@ -27,7 +27,7 @@ public abstract class GameFunctionsMapResetMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private static void sparkfactionapi$resetMapBeforeStart(
+    private static void sparkdlc$resetMapBeforeStart(
             ServerWorld world,
             GameMode gameMode,
             MapEffect mapEffect,
@@ -48,7 +48,7 @@ public abstract class GameFunctionsMapResetMixin {
                     target = "Ldev/doctor4t/wathe/cca/MapVariablesWorldComponent;getResetTemplateArea()Lnet/minecraft/util/math/Box;"
             )
     )
-    private static Box sparkfactionapi$narrowPreparedCopy(
+    private static Box sparkdlc$narrowPreparedCopy(
             MapVariablesWorldComponent areas,
             Operation<Box> original,
             @Local(argsOnly = true) ServerWorld world
@@ -59,7 +59,7 @@ public abstract class GameFunctionsMapResetMixin {
     }
 
     @Inject(method = "tryResetTrain(Lnet/minecraft/server/world/ServerWorld;)Z", at = @At("RETURN"))
-    private static void sparkfactionapi$consumePreparedCopy(ServerWorld world, CallbackInfoReturnable<Boolean> cir) {
+    private static void sparkdlc$consumePreparedCopy(ServerWorld world, CallbackInfoReturnable<Boolean> cir) {
         LobbyMapReset.onWatheCopyFinished(world, cir.getReturnValueZ());
     }
 }

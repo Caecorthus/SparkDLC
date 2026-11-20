@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.role.civilian.tarotreader;
 
 import dev.caecorthus.sparkdlc.faction.api.FactionIds;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitchFactions;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcFactions;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.doctor4t.wathe.api.Faction;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
@@ -21,7 +21,7 @@ public final class TarotReaderRules {
     }
 
     public static boolean isTarotReader(@Nullable Role role) {
-        return role == SparkWitchRoles.tarotReader();
+        return role == SparkDlcRoles.tarotReader();
     }
 
     /**
@@ -49,10 +49,10 @@ public final class TarotReaderRules {
         if (effectiveFaction == null || FactionIds.NONE.equals(effectiveFaction)) {
             return null;
         }
-        if (SparkWitchFactions.WITCH.equals(effectiveFaction)) {
+        if (SparkDlcFactions.WITCH.equals(effectiveFaction)) {
             return FactionBucket.WITCH;
         }
-        if (SparkWitchFactions.JIAHAO.equals(effectiveFaction)) {
+        if (SparkDlcFactions.JIAHAO.equals(effectiveFaction)) {
             return FactionBucket.JIAHAO;
         }
         if (FactionIds.CIVILIAN.equals(effectiveFaction)) {

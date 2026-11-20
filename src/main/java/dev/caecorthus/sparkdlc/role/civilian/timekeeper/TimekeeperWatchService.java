@@ -1,7 +1,8 @@
 package dev.caecorthus.sparkdlc.role.civilian.timekeeper;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.SparkDlcDataComponents;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.caecorthus.sparkdlc.cooldown.api.ForcedCooldowns;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.demonhunter.DemonHunterSniffPlayerComponent;
@@ -65,7 +66,7 @@ public final class TimekeeperWatchService {
         }
 
         ItemStack stack = player.getMainHandStack();
-        if (!stack.isOf(SparkStrengthItems.dyingWatch())) {
+        if (!stack.isOf(SparkDlcItems.dyingWatch())) {
             return;
         }
 
@@ -77,7 +78,7 @@ public final class TimekeeperWatchService {
     public static boolean tryUse(net.minecraft.entity.player.PlayerEntity user, ItemStack stack, TimekeeperWatchMode mode) {
         if (!(user instanceof ServerPlayerEntity player)
                 || !isUsableTimekeeper(player)
-                || !stack.isOf(SparkStrengthItems.dyingWatch())) {
+                || !stack.isOf(SparkDlcItems.dyingWatch())) {
             return false;
         }
 
@@ -127,7 +128,7 @@ public final class TimekeeperWatchService {
             extra.putString("mode", itemRefresh ? "item_refresh" : "ability_refresh");
             GameRecordManager.recordGlobalEvent(
                     serverWorld,
-                    SparkStrengthReplayFormatters.TIMEKEEPER_WATCH_USED,
+                    RoleKitReplayFormatters.TIMEKEEPER_WATCH_USED,
                     player,
                     extra
             );
@@ -145,7 +146,7 @@ public final class TimekeeperWatchService {
     }
 
     private static void setMode(ItemStack stack, TimekeeperWatchMode mode) {
-        stack.set(SparkStrengthItems.TIMEKEEPER_WATCH_MODE, mode.ordinal());
+        stack.set(SparkDlcDataComponents.TIMEKEEPER_WATCH_MODE, mode.ordinal());
     }
 
     /**
@@ -196,7 +197,7 @@ public final class TimekeeperWatchService {
     private static void clearItemCooldowns(ServerPlayerEntity player) {
         ItemCooldownManager cooldownManager = player.getItemCooldownManager();
         List<Item> coolingItems = new ArrayList<>(
-                ((ItemCooldownManagerAccessor) (Object) cooldownManager).sparkstrength$getEntries().keySet()
+                ((ItemCooldownManagerAccessor) (Object) cooldownManager).sparkdlc$getEntriesForKits().keySet()
         );
         for (Item item : coolingItems) {
             // Serves the user and every target. Natural cooldowns (including owner timers released by remove hooks)

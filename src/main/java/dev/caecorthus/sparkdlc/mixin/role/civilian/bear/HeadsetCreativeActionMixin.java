@@ -30,7 +30,7 @@ public abstract class HeadsetCreativeActionMixin {
 
     @Inject(method = "onCreativeInventoryAction(Lnet/minecraft/network/packet/c2s/play/CreativeInventoryActionC2SPacket;)V",
             at = @At("TAIL"))
-    private void sparkwitch$creativeHeadsetSlot(CreativeInventoryActionC2SPacket packet, CallbackInfo ci) {
+    private void sparkdlc$creativeHeadsetSlot(CreativeInventoryActionC2SPacket packet, CallbackInfo ci) {
         if (packet.slot() != HeadsetSlots.HANDLER_SLOT_ID || !player.interactionManager.isCreative()
                 || player.playerScreenHandler.slots.size() <= HeadsetSlots.HANDLER_SLOT_ID) {
             return;

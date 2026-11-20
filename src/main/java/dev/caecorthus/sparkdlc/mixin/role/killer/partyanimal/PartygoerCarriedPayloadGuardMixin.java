@@ -33,7 +33,7 @@ public abstract class PartygoerCarriedPayloadGuardMixin {
                     + "Lnet/minecraft/network/packet/CustomPayload;)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;execute(Ljava/lang/Runnable;)V")
     )
-    private void sparkstrength$dropCarriedPayload(
+    private void sparkdlc$dropCarriedPayload(
             MinecraftServer server,
             Runnable handler,
             Operation<Void> original,

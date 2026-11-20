@@ -20,7 +20,7 @@ public abstract class WatheClientInstinctLightMixin {
                     target = "Ldev/doctor4t/wathe/client/WatheClient;isInstinctEnabledAndIsKiller()Z"
             )
     )
-    private static boolean sparkstrength$allowCorruptCopInstinctLight(Operation<Boolean> original) {
+    private static boolean sparkdlc$allowCorruptCopInstinctLight(Operation<Boolean> original) {
         boolean originalResult = original.call();
         return originalResult || CorruptCopClientHooks.usesKillerStyleInstinctLight();
     }

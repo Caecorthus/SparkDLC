@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.mixin.role.civilian.savior;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.role.civilian.savior.SaviorLightsaberDrawAnimation;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.ItemRenderer;
@@ -44,13 +44,13 @@ public class SaviorLightsaberRunningItemMixin {
             method = "renderItem(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformationMode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/world/World;III)V",
             at = @At("HEAD")
     )
-    private void sparkwitch$tiltRunningSaber(LivingEntity entity, ItemStack stack, ModelTransformationMode mode,
+    private void sparkdlc$tiltRunningSaber(LivingEntity entity, ItemStack stack, ModelTransformationMode mode,
                                              boolean leftHand, MatrixStack matrices,
                                              VertexConsumerProvider vertexConsumers, World world,
                                              int light, int overlay, int seed, CallbackInfo ci) {
         if ((mode != ModelTransformationMode.THIRD_PERSON_RIGHT_HAND
                 && mode != ModelTransformationMode.THIRD_PERSON_LEFT_HAND)
-                || !stack.isOf(SparkWitchItems.saviorLightsaber())
+                || !stack.isOf(SparkDlcItems.saviorLightsaber())
                 || !(entity instanceof PlayerEntity player)) {
             return;
         }

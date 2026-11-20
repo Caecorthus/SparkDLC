@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.potiongunner;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.witch.accomplice.shop.AccompliceShopRules;
 import dev.doctor4t.wathe.util.ShopEntry;
 import net.minecraft.entity.player.PlayerEntity;
@@ -29,7 +29,7 @@ public final class PotionGunnerShopRules {
         for (PotionShellType type : PotionShellType.values()) {
             entries.add(new ShopEntry.Builder(
                     type.shopEntryId(),
-                    new ItemStack(SparkWitchItems.potionShell(type)),
+                    new ItemStack(SparkDlcItems.potionShell(type)),
                     type.price(),
                     ShopEntry.Type.WEAPON
             ).onBuy(player -> giveShell(player, type)).build());
@@ -49,14 +49,14 @@ public final class PotionGunnerShopRules {
         int hotbar = PlayerInventory.getHotbarSize();
         for (int slot = 0; slot < hotbar; slot++) {
             ItemStack stack = inventory.getStack(slot);
-            if (stack.isOf(SparkWitchItems.potionShell(type)) && stack.getCount() < stack.getMaxCount()) {
+            if (stack.isOf(SparkDlcItems.potionShell(type)) && stack.getCount() < stack.getMaxCount()) {
                 stack.increment(1);
                 return true;
             }
         }
         for (int slot = 0; slot < hotbar; slot++) {
             if (inventory.getStack(slot).isEmpty()) {
-                inventory.setStack(slot, new ItemStack(SparkWitchItems.potionShell(type)));
+                inventory.setStack(slot, new ItemStack(SparkDlcItems.potionShell(type)));
                 return true;
             }
         }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.sabotage;
 
-import dev.caecorthus.sparkdlc.SparkStrengthBlocks;
+import dev.caecorthus.sparkdlc.SparkDlcBlocks;
 import dev.caecorthus.sparkdlc.block.EngineUnitBlock;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.sabotage.SabotageWorldComponent;
@@ -369,7 +369,7 @@ public final class EngineSabotageService {
      */
     private static Vec3d panelPoint(ServerWorld world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
-        Direction facing = state.isOf(SparkStrengthBlocks.engineUnit()) ? state.get(EngineUnitBlock.FACING)
+        Direction facing = state.isOf(SparkDlcBlocks.engineUnit()) ? state.get(EngineUnitBlock.FACING)
                 : Direction.NORTH;
         return new Vec3d(pos.getX() + 0.5 + facing.getOffsetX() * 0.55, pos.getY() + 0.5,
                 pos.getZ() + 0.5 + facing.getOffsetZ() * 0.55);
@@ -431,7 +431,7 @@ public final class EngineSabotageService {
                 continue;
             }
             BlockState state = world.getBlockState(pos);
-            if (state.isOf(SparkStrengthBlocks.engineUnit()) && state.get(EngineUnitBlock.CONDITION) != condition) {
+            if (state.isOf(SparkDlcBlocks.engineUnit()) && state.get(EngineUnitBlock.CONDITION) != condition) {
                 world.setBlockState(pos, state.with(EngineUnitBlock.CONDITION, condition),
                         Block.NOTIFY_LISTENERS | Block.FORCE_STATE);
             }
@@ -463,7 +463,7 @@ public final class EngineSabotageService {
         }
         // Vanilla already checked the reach, so the chunk is loaded. / 原版已检查过触及距离，区块必定已加载。
         BlockPos pos = hit.getBlockPos();
-        if (!world.getBlockState(pos).isOf(SparkStrengthBlocks.engineUnit())) {
+        if (!world.getBlockState(pos).isOf(SparkDlcBlocks.engineUnit())) {
             return ActionResult.PASS;
         }
         EngineRepairService.openStatus(serverPlayer, pos.toImmutable());

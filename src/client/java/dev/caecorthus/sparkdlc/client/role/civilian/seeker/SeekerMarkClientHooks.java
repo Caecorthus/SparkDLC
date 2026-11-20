@@ -36,11 +36,11 @@ public final class SeekerMarkClientHooks {
             return;
         }
         registered = true;
-        GetInstinctHighlight.EVENT.register(SeekerMarkClientHooks::sparkwitch$markHighlight);
+        GetInstinctHighlight.EVENT.register(SeekerMarkClientHooks::sparkdlc$markHighlight);
     }
 
     @Nullable
-    private static GetInstinctHighlight.HighlightResult sparkwitch$markHighlight(Entity target) {
+    private static GetInstinctHighlight.HighlightResult sparkdlc$markHighlight(Entity target) {
         if (!(target instanceof PlayerEntity targetPlayer) || !SparkDlcServerConnection.isConfirmedServer()) {
             return null;
         }

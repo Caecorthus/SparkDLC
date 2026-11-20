@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerCooldowns;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerDeviceService;
@@ -36,7 +36,7 @@ import java.util.UUID;
 public final class SeekerStatusComponent
         implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
     public static final ComponentKey<SeekerStatusComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("seeker_status"), SeekerStatusComponent.class);
+            SparkDLC.id("seeker_status"), SeekerStatusComponent.class);
     static final String BATTERY_LOW_MESSAGE_KEY = "message.sparkdlc.seeker.car.battery_low";
     /** Taotie return poll / retry period and device-existence check period. / 饕餮归还轮询与设备存在性检查周期。 */
     static final int SLOW_POLL_TICKS = 20;
@@ -297,7 +297,7 @@ public final class SeekerStatusComponent
     private boolean checkDevicesExist(ServerPlayerEntity owner) {
         boolean dirty = false;
         if (state.carState() == SeekerCarState.DEPLOYED && SeekerDeviceService.findCar(owner) == null) {
-            SparkWitch.LOGGER.warn("Seeker car of {} vanished while deployed; applying the recall cooldown",
+            SparkDLC.LOGGER.warn("Seeker car of {} vanished while deployed; applying the recall cooldown",
                     owner.getGameProfile().getName());
             if (state.sessionMode() == SeekerSessionMode.CAR) {
                 SeekerRemoteSessionService.end(owner, SeekerExitReason.FOCUS_LOST);

@@ -26,7 +26,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = Noellesroles.class, remap = false)
 public abstract class NoellesUsecShieldPierceMixin {
     @WrapMethod(method = "lambda$registerEvents$5")
-    private static @Nullable KillPlayer.KillResult sparkwitch$pierceUsecShieldLayers(ServerPlayerEntity victim,
+    private static @Nullable KillPlayer.KillResult sparkdlc$pierceUsecShieldLayers(ServerPlayerEntity victim,
             @Nullable ServerPlayerEntity killer, Identifier deathReason,
             Operation<KillPlayer.KillResult> original) {
         if (!UsecShieldPierce.isScoped(victim, killer, deathReason)) {

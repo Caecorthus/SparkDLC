@@ -22,7 +22,7 @@ public abstract class ScopeMouseMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/network/ClientPlayerEntity;changeLookDirection(DD)V")
     )
-    private void sparkwitch$scaleScopeLook(ClientPlayerEntity player, double cursorDeltaX, double cursorDeltaY,
+    private void sparkdlc$scaleScopeLook(ClientPlayerEntity player, double cursorDeltaX, double cursorDeltaY,
                                            Operation<Void> original) {
         double scale = ScopeRuntime.lookScale();
         original.call(player, cursorDeltaX * scale, cursorDeltaY * scale);

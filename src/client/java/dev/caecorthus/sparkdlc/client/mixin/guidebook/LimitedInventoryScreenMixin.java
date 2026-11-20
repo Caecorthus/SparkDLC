@@ -24,25 +24,25 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LimitedInventoryScreen.class)
 public abstract class LimitedInventoryScreenMixin extends LimitedHandledScreen<PlayerScreenHandler> {
     @Unique
-    private GuidebookScreen sparkassist$guide;
+    private GuidebookScreen sparkdlc$guide;
     @Unique
-    private GuidebookInputState sparkassist$guideInput;
+    private GuidebookInputState sparkdlc$guideInput;
 
     protected LimitedInventoryScreenMixin(PlayerScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
 
     @Inject(method = "init", at = @At("RETURN"))
-    private void sparkassist$addGuidebook(CallbackInfo ci) {
+    private void sparkdlc$addGuidebook(CallbackInfo ci) {
         LimitedInventoryScreen screen = (LimitedInventoryScreen) (Object) this;
-        if (sparkassist$guide == null) {
-            sparkassist$guide = GuidebookScreen.embedded(screen);
+        if (sparkdlc$guide == null) {
+            sparkdlc$guide = GuidebookScreen.embedded(screen);
         }
-        sparkassist$guide.init(this.client, this.width, this.height);
+        sparkdlc$guide.init(this.client, this.width, this.height);
         // Resize reinitializes this screen while a guide-owned press may still be held.
         // 窗口缩放会重新初始化同一界面，保留尚未释放的指南输入。
-        if (sparkassist$guideInput == null) {
-            sparkassist$guideInput = new GuidebookInputState();
+        if (sparkdlc$guideInput == null) {
+            sparkdlc$guideInput = new GuidebookInputState();
         }
 
         ScreenEvents.afterRender(screen).register((current, context, mouseX, mouseY, delta) -> {
@@ -50,37 +50,37 @@ public abstract class LimitedInventoryScreenMixin extends LimitedHandledScreen<P
             // Persistent navigation stays below shop tooltips (z 400); the modal layer sits above them at 500, so
             // price-tag glyphs (z 400.03) no longer bleed through the scrim.
             // 常驻目录位于商品说明（z 400）下方；模态层位于其上方的 500，价签文字（z 400.03）不再透出遮罩。
-            context.getMatrices().translate(0, 0, sparkassist$guide.isModal() ? 500 : 100);
-            sparkassist$guide.render(context, mouseX, mouseY, delta);
+            context.getMatrices().translate(0, 0, sparkdlc$guide.isModal() ? 500 : 100);
+            sparkdlc$guide.render(context, mouseX, mouseY, delta);
             context.getMatrices().pop();
         });
-        ScreenEvents.remove(screen).register(current -> sparkassist$guide.removed());
+        ScreenEvents.remove(screen).register(current -> sparkdlc$guide.removed());
         ScreenMouseEvents.allowMouseClick(screen).register((current, x, y, button) -> {
-            boolean captured = sparkassist$guideInput.pressMouse(button, sparkassist$guide.capturesMouse(x, y));
-            sparkassist$guide.mouseClicked(x, y, button);
+            boolean captured = sparkdlc$guideInput.pressMouse(button, sparkdlc$guide.capturesMouse(x, y));
+            sparkdlc$guide.mouseClicked(x, y, button);
             return !captured;
         });
         ScreenMouseEvents.allowMouseRelease(screen).register((current, x, y, button) -> {
-            boolean captured = sparkassist$guideInput.releaseMouse(button, sparkassist$guide.isModal());
+            boolean captured = sparkdlc$guideInput.releaseMouse(button, sparkdlc$guide.isModal());
             if (captured) {
-                sparkassist$guide.mouseReleased(x, y, button);
+                sparkdlc$guide.mouseReleased(x, y, button);
             }
             return !captured;
         });
         ScreenMouseEvents.allowMouseScroll(screen).register((current, x, y, horizontal, vertical) -> {
-            boolean captured = sparkassist$guide.capturesMouse(x, y);
+            boolean captured = sparkdlc$guide.capturesMouse(x, y);
             if (captured) {
-                sparkassist$guide.mouseScrolled(x, y, horizontal, vertical);
+                sparkdlc$guide.mouseScrolled(x, y, horizontal, vertical);
             }
             return !captured;
         });
         ScreenKeyboardEvents.allowKeyPress(screen).register((current, key, scanCode, modifiers) -> {
-            boolean captured = sparkassist$guide.capturesKeyboard();
-            boolean handled = sparkassist$guide.keyPressed(key, scanCode, modifiers);
-            return !sparkassist$guideInput.pressKey(key, captured || handled);
+            boolean captured = sparkdlc$guide.capturesKeyboard();
+            boolean handled = sparkdlc$guide.keyPressed(key, scanCode, modifiers);
+            return !sparkdlc$guideInput.pressKey(key, captured || handled);
         });
         ScreenKeyboardEvents.allowKeyRelease(screen).register((current, key, scanCode, modifiers) ->
-                !sparkassist$guideInput.releaseKey(key, sparkassist$guide.capturesKeyboard()));
+                !sparkdlc$guideInput.releaseKey(key, sparkdlc$guide.capturesKeyboard()));
     }
 
     // The modal guide owns the pointer: the inventory, Wathe's shop/item tooltips and the SparkWitch/SparkTraits
@@ -89,21 +89,21 @@ public abstract class LimitedInventoryScreenMixin extends LimitedHandledScreen<P
     // 模态指南独占指针：遮罩下的背包、Wathe 商店与物品提示以及 SparkWitch/SparkTraits 信息卡都不应响应悬停。使用
     // -100000 而非 -1，因为商店控件可能位于负横坐标（427 像素宽时约为 -10）。指南本身仍通过 afterRender 获得真实坐标。
     @ModifyVariable(method = "render", at = @At("HEAD"), argsOnly = true, ordinal = 0)
-    private int sparkassist$hideMouseX(int mouseX) {
-        return sparkassist$guide != null && sparkassist$guide.isModal() ? -100000 : mouseX;
+    private int sparkdlc$hideMouseX(int mouseX) {
+        return sparkdlc$guide != null && sparkdlc$guide.isModal() ? -100000 : mouseX;
     }
 
     @ModifyVariable(method = "render", at = @At("HEAD"), argsOnly = true, ordinal = 1)
-    private int sparkassist$hideMouseY(int mouseY) {
-        return sparkassist$guide != null && sparkassist$guide.isModal() ? -100000 : mouseY;
+    private int sparkdlc$hideMouseY(int mouseY) {
+        return sparkdlc$guide != null && sparkdlc$guide.isModal() ? -100000 : mouseY;
     }
 
     // Fabric has no per-screen drag/character events in this Minecraft version.
     // 当前版本的 Fabric 没有界面级拖动和字符事件，因此仅补充这两个入口。
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-        if (sparkassist$guide != null && sparkassist$guideInput.dragMouse(button, sparkassist$guide.isModal())) {
-            sparkassist$guide.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+        if (sparkdlc$guide != null && sparkdlc$guideInput.dragMouse(button, sparkdlc$guide.isModal())) {
+            sparkdlc$guide.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
             return true;
         }
         return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
@@ -111,8 +111,8 @@ public abstract class LimitedInventoryScreenMixin extends LimitedHandledScreen<P
 
     @Override
     public boolean charTyped(char chr, int modifiers) {
-        if (sparkassist$guide != null && sparkassist$guide.capturesKeyboard()) {
-            sparkassist$guide.charTyped(chr, modifiers);
+        if (sparkdlc$guide != null && sparkdlc$guide.capturesKeyboard()) {
+            sparkdlc$guide.charTyped(chr, modifiers);
             return true;
         }
         return super.charTyped(chr, modifiers);

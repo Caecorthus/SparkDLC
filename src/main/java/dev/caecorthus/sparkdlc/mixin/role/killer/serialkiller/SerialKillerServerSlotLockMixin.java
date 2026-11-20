@@ -21,7 +21,7 @@ public abstract class SerialKillerServerSlotLockMixin {
     @Shadow @Final public net.minecraft.server.network.ServerPlayerEntity player;
 
     @Inject(method = "onUpdateSelectedSlot", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$lockSerialKillerSlot(UpdateSelectedSlotC2SPacket packet, CallbackInfo ci) {
+    private void sparkdlc$lockSerialKillerSlot(UpdateSelectedSlotC2SPacket packet, CallbackInfo ci) {
         // HEAD 会先在网络线程跑一次（原版随后才把包转交主线程）；只在主线程那一次读写背包。
         // 若在网络线程取消，包就不会再转交主线程。
         if (!player.getServerWorld().getServer().isOnThread()) return;

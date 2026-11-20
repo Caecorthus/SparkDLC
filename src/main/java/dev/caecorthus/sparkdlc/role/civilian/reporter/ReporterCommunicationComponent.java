@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.reporter;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.caecorthus.sparkdlc.role.civilian.reporter.ReporterCommunicationConstants;
 import dev.caecorthus.sparkdlc.role.civilian.reporter.ReporterCommunicationService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -32,7 +32,7 @@ import java.util.UUID;
  */
 public class ReporterCommunicationComponent implements AutoSyncedComponent, ServerTickingComponent {
     public static final ComponentKey<ReporterCommunicationComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("reporter_communication"),
+            SparkDLC.id("reporter_communication"),
             ReporterCommunicationComponent.class
     );
 
@@ -246,8 +246,8 @@ public class ReporterCommunicationComponent implements AutoSyncedComponent, Serv
         GameRecordManager.recordGlobalEvent(
                 reporter.getServerWorld(),
                 interrupted
-                        ? SparkStrengthReplayFormatters.REPORTER_CONNECTION_INTERRUPTED
-                        : SparkStrengthReplayFormatters.REPORTER_CONNECTION_ENDED,
+                        ? RoleKitReplayFormatters.REPORTER_CONNECTION_INTERRUPTED
+                        : RoleKitReplayFormatters.REPORTER_CONNECTION_ENDED,
                 reporter,
                 extra
         );
@@ -272,8 +272,8 @@ public class ReporterCommunicationComponent implements AutoSyncedComponent, Serv
         GameRecordManager.recordGlobalEvent(
                 reporter.getServerWorld(),
                 interrupted
-                        ? SparkStrengthReplayFormatters.REPORTER_BROADCAST_INTERRUPTED
-                        : SparkStrengthReplayFormatters.REPORTER_BROADCAST_ENDED,
+                        ? RoleKitReplayFormatters.REPORTER_BROADCAST_INTERRUPTED
+                        : RoleKitReplayFormatters.REPORTER_BROADCAST_ENDED,
                 reporter,
                 extra
         );

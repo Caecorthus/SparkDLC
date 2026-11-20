@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.hud;
 
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.client.role.civilian.controlexpert.ControlExpertStatusHudRules;
 import dev.caecorthus.sparkdlc.client.role.civilian.junker.JunkerClientModule;
 import dev.caecorthus.sparkdlc.client.role.civilian.junker.JunkerHudRules;
@@ -63,7 +63,7 @@ public final class JunkerHudRenderer {
 
     private static Text cornerText(JunkerHudRules.Line line, int seconds) {
         MutableText text = line.keyHint()
-                ? Text.translatable(line.key(), SparkWitchClient.abilityKeyText())
+                ? Text.translatable(line.key(), SparkDLCClient.abilityKeyText())
                 : Text.translatable(line.key(), seconds);
         return text.formatted(Formatting.GRAY);
     }

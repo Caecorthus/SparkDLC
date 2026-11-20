@@ -34,7 +34,7 @@ public abstract class RemoteViewpointChunkLoadingManagerMixin {
                     target = "Lnet/minecraft/server/network/ServerPlayerEntity;getChunkPos()Lnet/minecraft/util/math/ChunkPos;"),
             require = 0
     )
-    private ChunkPos sparkstrength$centreViewOnRemoteViewpoint(
+    private ChunkPos sparkdlc$centreViewOnRemoteViewpoint(
             ChunkPos original, @Local(argsOnly = true) ServerPlayerEntity player
     ) {
         Entity anchor = RemoteViewpoint.anchorOf(player);

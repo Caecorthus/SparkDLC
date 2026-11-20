@@ -14,11 +14,11 @@ import java.util.List;
 @Mixin(value = WorldBlackoutComponent.class, remap = false)
 public interface WorldBlackoutComponentAccessor {
     @Accessor(value = "blackouts", remap = false)
-    List<WorldBlackoutComponent.BlackoutDetails> sparkstrength$getBlackouts();
+    List<WorldBlackoutComponent.BlackoutDetails> sparkdlc$getBlackouts();
 
     @Accessor(value = "ticks", remap = false)
-    int sparkstrength$getTicks();
+    int sparkdlc$getTicks();
 
     @Accessor(value = "ticks", remap = false)
-    void sparkstrength$setTicks(int ticks);
+    void sparkdlc$setTicks(int ticks);
 }

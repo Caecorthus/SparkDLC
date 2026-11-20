@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.trait.audio;
 
 import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
-import dev.caecorthus.sparkdlc.SparkTraitsSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
@@ -64,7 +64,7 @@ public final class FinalMomentMusicController {
     }
 
     public static void stop(MinecraftClient client) {
-        client.getSoundManager().stopSounds(SparkTraitsSounds.FINAL_MOMENT_MUSIC_ID, SoundCategory.MASTER);
+        client.getSoundManager().stopSounds(SparkDlcSounds.FINAL_MOMENT_MUSIC_ID, SoundCategory.MASTER);
     }
 
     /** Disconnect/world unload path: stop and forget the previous flag. / 断线或世界卸载：停止并清除上一状态。 */

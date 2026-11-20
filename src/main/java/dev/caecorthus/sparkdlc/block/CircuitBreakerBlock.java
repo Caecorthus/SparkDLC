@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.block;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.sabotage.BreakerRepairService;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.Block;
@@ -74,7 +74,7 @@ public final class CircuitBreakerBlock extends HorizontalFacingBlock {
     @Override
     protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos,
                                             PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (stack.isOf(SparkStrengthItems.circuitConfigurator())) {
+        if (stack.isOf(SparkDlcItems.circuitConfigurator())) {
             return ItemActionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
         }
         return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;

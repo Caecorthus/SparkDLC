@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.civilian;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.Trait;
 import dev.caecorthus.sparkdlc.trait.api.TraitAudience;
 import dev.caecorthus.sparkdlc.trait.api.TraitSelectionContext;
@@ -16,7 +16,7 @@ import java.util.Set;
  * 焦虑症：任务刷新频率提升 80%，每完成一个任务恢复 25% 理智。乘客阵营专属，与多巴胺冲突（两者都改任务节奏）。
  */
 public final class AnxietyTrait implements Trait {
-    public static final Identifier ID = SparkTraits.id("anxiety");
+    public static final Identifier ID = SparkDLC.id("anxiety");
     public static final int COLOR = 0xB07BE8;
     /** The next-task countdown runs this many times faster (+80% frequency). 下一个任务倒计时的加速倍率（频率提升 80%）。 */
     public static final float REFRESH_MULTIPLIER = 1.8F;

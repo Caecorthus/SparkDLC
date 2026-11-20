@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.hiro;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
  * 在 {@code mana/WitchManaRules} 中接入；魔力只用于死亡回归。她不是魔女技能职业，也绝不出现在 {@code gui.sparkdlc.skills} 面板中。
  */
 public final class HiroRules {
-    public static final Identifier ROLE_ID = SparkWitch.id("nikaido_hiro");
+    public static final Identifier ROLE_ID = SparkDLC.id("nikaido_hiro");
     // Placeholder crimson until the owner picks the final colour. / 占位用绯红色，待所有者确定最终颜色。
     public static final int COLOR = 0xC8324B;
 
@@ -30,7 +30,7 @@ public final class HiroRules {
      * replay skill line and {@code canAffectPlayer} action.
      * 死亡回归的稳定 id：SparkFactionAPI 职业技能冷却存储的 id；功能实现的回放技能条目与 {@code canAffectPlayer} 行为也应使用它。
      */
-    public static final Identifier RETURN_SKILL_ID = SparkWitch.id("nikaido_hiro_return");
+    public static final Identifier RETURN_SKILL_ID = SparkDLC.id("nikaido_hiro_return");
 
     // 死亡回归 (owner 2026-11-11): 15 s window; victims killed inside it feign death for 15 s each.
     // 死亡回归（所有者 2026-11-11）：窗口 15 秒；窗口内被她击杀者各假死 15 秒。

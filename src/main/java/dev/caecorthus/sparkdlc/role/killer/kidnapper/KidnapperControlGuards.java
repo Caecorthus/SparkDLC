@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.kidnapper;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
@@ -42,7 +42,7 @@ import org.jetbrains.annotations.Nullable;
  * 有意不覆盖（所有者 2026-11）：快捷栏选择，它仍只是客户端锁。
  */
 public final class KidnapperControlGuards {
-    public static final Identifier CONTROL_PHASE = SparkWitch.id("kidnapper_control");
+    public static final Identifier CONTROL_PHASE = SparkDLC.id("kidnapper_control");
     private static boolean registered;
 
     private KidnapperControlGuards() {

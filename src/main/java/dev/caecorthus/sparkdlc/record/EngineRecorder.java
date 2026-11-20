@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.record;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.sabotage.SabotageWorldComponent;
 import dev.caecorthus.sparkdlc.sabotage.EnginePhase;
 import dev.caecorthus.sparkdlc.sabotage.EngineSabotageService;
@@ -30,7 +30,7 @@ public final class EngineRecorder {
         try {
             record(world, AchievementRecords.ENGINE_STATE_TRIGGERED, initiator, EnginePhase.CRITICAL);
         } catch (RuntimeException error) {
-            SparkStrength.LOGGER.warn("Could not record the engine sabotage trigger", error);
+            SparkDLC.LOGGER.warn("Could not record the engine sabotage trigger", error);
         }
     }
 
@@ -50,7 +50,7 @@ public final class EngineRecorder {
                 record(world, state, null, phase);
             }
         } catch (RuntimeException error) {
-            SparkStrength.LOGGER.warn("Could not record the engine sabotage phase {}", phase, error);
+            SparkDLC.LOGGER.warn("Could not record the engine sabotage phase {}", phase, error);
         }
     }
 
@@ -70,7 +70,7 @@ public final class EngineRecorder {
             record(world, state, reason == EngineSabotageService.EndReason.ABORTED ? null : repairer,
                     SabotageWorldComponent.KEY.get(world).enginePhase(world.getTime()));
         } catch (RuntimeException error) {
-            SparkStrength.LOGGER.warn("Could not record the engine sabotage end", error);
+            SparkDLC.LOGGER.warn("Could not record the engine sabotage end", error);
         }
     }
 

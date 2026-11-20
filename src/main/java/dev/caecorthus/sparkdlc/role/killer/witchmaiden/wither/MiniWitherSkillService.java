@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither;
 
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.killer.witchmaiden.WitchMaidenRules;
@@ -81,11 +81,11 @@ public final class MiniWitherSkillService {
         Vec3d at = MiniWitherAnchor.position(player);
         if (summon) {
             world.spawnParticles(ParticleTypes.SOUL, at.x, at.y, at.z, 12, 0.25, 0.3, 0.25, 0.02);
-            world.playSound(null, at.x, at.y, at.z, SparkWitchSounds.miniWither(MiniWitherSoundSlot.SUMMON),
+            world.playSound(null, at.x, at.y, at.z, SparkDlcSounds.miniWither(MiniWitherSoundSlot.SUMMON),
                     SoundCategory.PLAYERS, 0.3F, 1.8F);
         } else {
             world.spawnParticles(ParticleTypes.LARGE_SMOKE, at.x, at.y, at.z, 8, 0.2, 0.25, 0.2, 0.01);
-            world.playSound(null, at.x, at.y, at.z, SparkWitchSounds.miniWither(MiniWitherSoundSlot.DISMISS),
+            world.playSound(null, at.x, at.y, at.z, SparkDlcSounds.miniWither(MiniWitherSoundSlot.DISMISS),
                     SoundCategory.PLAYERS, 0.2F, 2.0F);
         }
     }

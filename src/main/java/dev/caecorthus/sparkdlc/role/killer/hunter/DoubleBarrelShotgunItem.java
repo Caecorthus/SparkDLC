@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.hunter;
 
-import dev.caecorthus.sparkdlc.SparkStrengthBlocks;
+import dev.caecorthus.sparkdlc.SparkDlcBlocks;
 import dev.caecorthus.sparkdlc.sabotage.JunctionBoxService;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RangedSmokeCarve;
@@ -11,8 +11,8 @@ import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPlaybackEntity;
 import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPuppetHits;
 import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaInteractionService;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.util.hitscan.HitscanLagRules;
 import dev.caecorthus.sparkdlc.util.hitscan.PlayerHitboxHistory;
 import dev.doctor4t.wathe.game.GameConstants;
@@ -62,7 +62,7 @@ import org.jetbrains.annotations.Nullable;
 
 /** Hunter's two-shot weapon. Reload mutations share one server-authoritative path. */
 public final class DoubleBarrelShotgunItem extends Item {
-    public static final Identifier ID = SparkWitch.id("double_barrel_shotgun");
+    public static final Identifier ID = SparkDLC.id("double_barrel_shotgun");
     private static final String SHELL_STACK_KEY = "ShellStack";
     private static final String LOADED_SHELLS_KEY = "LoadedShells";
     private static final String RELOAD_WINDOW_UNTIL_KEY = "ReloadWindowUntil";
@@ -142,7 +142,7 @@ public final class DoubleBarrelShotgunItem extends Item {
                 user.getX(),
                 user.getEyeY(),
                 user.getZ(),
-                SparkWitchSounds.DOUBLE_BARREL_SHOT,
+                SparkDlcSounds.DOUBLE_BARREL_SHOT,
                 SoundCategory.PLAYERS,
                 1.0F,
                 1.0F
@@ -357,7 +357,7 @@ public final class DoubleBarrelShotgunItem extends Item {
         player.getWorld().playSound(
                 null,
                 player.getBlockPos(),
-                SparkWitchSounds.DOUBLE_BARREL_LOAD,
+                SparkDlcSounds.DOUBLE_BARREL_LOAD,
                 SoundCategory.PLAYERS,
                 0.6F,
                 1.0F
@@ -610,7 +610,7 @@ public final class DoubleBarrelShotgunItem extends Item {
     private static void hitJunctionBox(ServerPlayerEntity shooter, double range) {
         if (wallHit(shooter, shooter.getRotationVec(1.0F), range) instanceof BlockHitResult wall
                 && wall.getType() == HitResult.Type.BLOCK
-                && SparkStrengthBlocks.JUNCTION_BOX_ID.equals(
+                && SparkDlcBlocks.JUNCTION_BOX_ID.equals(
                         Registries.BLOCK.getId(shooter.getWorld().getBlockState(wall.getBlockPos()).getBlock()))) {
             JunctionBoxService.damageByWeapon(shooter, wall.getBlockPos(), HunterRules.SHOTGUN_JUNCTION_BOX_DAMAGE);
         }

@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(GameFunctions.class)
 public abstract class GameFunctionsLetterNameMixin {
     @ModifyReturnValue(method = "getPlayerDisplayName", at = @At("RETURN"))
-    private static String sparkfactionapi$stripNameBadges(String original) {
+    private static String sparkdlc$stripNameBadges(String original) {
         return CaecorthusTeamTag.stripGlyphs(original);
     }
 }

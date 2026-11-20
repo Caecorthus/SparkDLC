@@ -11,11 +11,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class M67ServerPlayerMixin {
     // Programmatic drops bypass the packet handler. / 服务端主动丢弃不会经过数据包处理器。
     @Inject(method = "dropSelectedItem", at = @At("HEAD"))
-    private void sparkstrength$cancelM67OnDrop(boolean entireStack, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$cancelM67OnDrop(boolean entireStack, CallbackInfoReturnable<Boolean> cir) {
         M67UseService.cancel((ServerPlayerEntity) (Object) this);
     }
     @Inject(method = "dropSelectedItem", at = @At("RETURN"))
-    private void sparkstrength$refreshM67AfterDrop(boolean entireStack, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$refreshM67AfterDrop(boolean entireStack, CallbackInfoReturnable<Boolean> cir) {
         M67UseService.tick((ServerPlayerEntity) (Object) this);
     }
 }

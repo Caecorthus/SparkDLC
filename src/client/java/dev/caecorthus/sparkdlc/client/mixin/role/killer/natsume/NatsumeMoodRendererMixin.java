@@ -35,7 +35,7 @@ public abstract class NatsumeMoodRendererMixin {
             require = 1,
             allow = 1
     )
-    private static void sparkwitch$natsumeSketchMoodIcon(
+    private static void sparkdlc$natsumeSketchMoodIcon(
             DrawContext context,
             Identifier sprite,
             int x,

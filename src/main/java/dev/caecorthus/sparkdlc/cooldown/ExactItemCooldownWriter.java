@@ -25,9 +25,9 @@ final class ExactItemCooldownWriter {
 
     static int remainingTicks(ItemCooldownManager manager, Item item) {
         ItemCooldownManagerAccessor access = (ItemCooldownManagerAccessor) manager;
-        Object entry = access.sparkfactionapi$getEntries().get(item);
+        Object entry = access.sparkdlc$getEntries().get(item);
         return entry instanceof ItemCooldownEntryAccessor bounds
-                ? ForcedCooldownRules.remaining(bounds.sparkfactionapi$getEndTick(), access.sparkfactionapi$getTick())
+                ? ForcedCooldownRules.remaining(bounds.sparkdlc$getEndTick(), access.sparkdlc$getTick())
                 : 0;
     }
 
@@ -37,13 +37,13 @@ final class ExactItemCooldownWriter {
      * 物品当前的原版条目，无则为 {@code null}。每次 {@code set} 与 {@code remove} 都会换成新对象；ForcedItemLedger 以其为键。
      */
     static ItemCooldownEntryAccessor liveEntry(ItemCooldownManager manager, Item item) {
-        Object entry = ((ItemCooldownManagerAccessor) manager).sparkfactionapi$getEntries().get(item);
+        Object entry = ((ItemCooldownManagerAccessor) manager).sparkdlc$getEntries().get(item);
         return entry instanceof ItemCooldownEntryAccessor bounds ? bounds : null;
     }
 
     /** The manager's own tick counter (the time base of its entries). / 冷却管理器自身的刻计数（其条目的时间基准）。 */
     static int tick(ItemCooldownManager manager) {
-        return ((ItemCooldownManagerAccessor) manager).sparkfactionapi$getTick();
+        return ((ItemCooldownManagerAccessor) manager).sparkdlc$getTick();
     }
 
     /**
@@ -54,20 +54,20 @@ final class ExactItemCooldownWriter {
     static boolean writeExact(ServerPlayerEntity player, Item item, int ticks) {
         ItemCooldownManager manager = player.getItemCooldownManager();
         ItemCooldownManagerAccessor access = (ItemCooldownManagerAccessor) manager;
-        Object entry = access.sparkfactionapi$getEntries().get(item);
+        Object entry = access.sparkdlc$getEntries().get(item);
         if (entry == null) {
             // Vanilla path only to create the entry (and fire set hooks); its possibly modified length is fixed below.
             // 仅借原版路径创建条目（并触发 set 钩子）；其可能被倍率修改的时长在下方校正。
             manager.set(item, ticks);
-            entry = access.sparkfactionapi$getEntries().get(item);
+            entry = access.sparkdlc$getEntries().get(item);
         }
         if (!(entry instanceof ItemCooldownEntryAccessor bounds)) {
             return false;
         }
-        int tick = access.sparkfactionapi$getTick();
+        int tick = access.sparkdlc$getTick();
         int endTick = ForcedCooldownRules.saturatingAdd(tick, ticks);
-        bounds.sparkfactionapi$setStartTick(tick);
-        bounds.sparkfactionapi$setEndTick(endTick);
+        bounds.sparkdlc$setStartTick(tick);
+        bounds.sparkdlc$setEndTick(endTick);
         if (player.networkHandler != null) {
             player.networkHandler.sendPacket(new CooldownUpdateS2CPacket(item, ForcedCooldownRules.remaining(endTick, tick)));
         }

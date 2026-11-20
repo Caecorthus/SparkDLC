@@ -34,7 +34,7 @@ public abstract class VentHatchBlockFiendCooldownMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/util/ActionResult;success(Z)Lnet/minecraft/util/ActionResult;",
                     ordinal = 0))
-    private void sparkwitch$fiendMomentVentCrowbarCooldown(BlockState state, World world, BlockPos pos,
+    private void sparkdlc$fiendMomentVentCrowbarCooldown(BlockState state, World world, BlockPos pos,
                                                            PlayerEntity player, BlockHitResult hit,
                                                            CallbackInfoReturnable<ActionResult> cir) {
         if (!(player instanceof ServerPlayerEntity serverPlayer)) {

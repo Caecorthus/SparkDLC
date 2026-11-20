@@ -225,10 +225,10 @@ public final class BlackRavenCrowPilotClient {
         }
         settleInput(client);
         GameOptions options = client.options;
-        if (((SeekerRemoteKeyDrain) options.dropKey).sparkwitch$takePresses() > 0) {
+        if (((SeekerRemoteKeyDrain) options.dropKey).sparkdlc$takePresses() > 0) {
             dropQueued = true;
         }
-        if (((SeekerRemoteKeyDrain) options.useKey).sparkwitch$takePresses() > 0) {
+        if (((SeekerRemoteKeyDrain) options.useKey).sparkdlc$takePresses() > 0) {
             useQueued = true;
         }
         drainLockedKeys(client);
@@ -713,7 +713,7 @@ public final class BlackRavenCrowPilotClient {
         }
         for (KeyBinding key : client.options.allKeys) {
             if (BlackRavenCrowClientRules.isLockedKey(key.getTranslationKey())) {
-                ((SeekerRemoteKeyDrain) key).sparkwitch$drainPresses();
+                ((SeekerRemoteKeyDrain) key).sparkdlc$drainPresses();
             }
         }
     }

@@ -12,13 +12,13 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Frozen contract (WP0): registers and exposes the four BEAR items. They are registered when this class initialises,
- * which {@link #register()} forces during mod init right after {@code SparkWitchItems} (the data components are
- * registered before both), like {@code SparkWitchDataComponents}. Code that may run before mod init or in unit tests
+ * which {@link #register()} forces during mod init right after {@code SparkDlcItems} (the data components are
+ * registered before both), like {@code SparkDlcDataComponents}. Code that may run before mod init or in unit tests
  * uses {@link BearRules} ids and {@link BearRules#isBearItemType} instead of touching these fields. "BEAR item" means
  * bound to its holder's life only (owner 2026-11-05, the AXMC #199 rule): any holder may carry and use it, it moves
  * under Wathe's own item rules, and it is deleted (never dropped) when its holder dies.
  * 冻结契约（WP0）：注册并公开四种 BEAR 物品。物品在本类初始化时注册，{@link #register()} 在模组初始化期间紧随
- * {@code SparkWitchItems} 强制触发（数据组件在两者之前注册），做法与 {@code SparkWitchDataComponents} 相同。可能早于模组初始化
+ * {@code SparkDlcItems} 强制触发（数据组件在两者之前注册），做法与 {@code SparkDlcDataComponents} 相同。可能早于模组初始化
  * 运行的代码或单元测试改用 {@link BearRules} 中的 id 与 {@link BearRules#isBearItemType}，不访问这些字段。“BEAR 物品”只表示与
  * 持有者的生命绑定（所有者 2026-11-05，沿用 AXMC #199 规则）：任何持有者都能携带和使用，按 Wathe 自身物品规则移动，持有者
  * 死亡时被删除（绝不掉落）。

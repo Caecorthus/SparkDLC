@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.role.witch.riftwalker;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitchFactions;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDlcFactions;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.player.PlayerEntity;
@@ -34,8 +34,8 @@ public final class RiftGateUsers {
         return RiftGateUser.classify(
                 RiftwalkerRules.isRiftwalker(role),
                 isWitchFaction(player, game),
-                role == SparkWitchRoles.murderousWitch(),
-                role == SparkWitchRoles.apprenticeWitch());
+                role == SparkDlcRoles.murderousWitch(),
+                role == SparkDlcRoles.apprenticeWitch());
     }
 
     /**
@@ -49,6 +49,6 @@ public final class RiftGateUsers {
 
     private static boolean isWitchFaction(PlayerEntity player, GameWorldComponent game) {
         Identifier faction = SparkFactionApi.resolveEffectiveFaction(player, game);
-        return SparkWitchFactions.WITCH.equals(faction);
+        return SparkDlcFactions.WITCH.equals(faction);
     }
 }

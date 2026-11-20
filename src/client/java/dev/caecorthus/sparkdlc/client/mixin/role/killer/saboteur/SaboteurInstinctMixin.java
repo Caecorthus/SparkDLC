@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = WatheClient.class, remap = false, priority = 1000)
 public abstract class SaboteurInstinctMixin {
     @Inject(method = "isInstinctEnabledAndIsKiller()Z", at = @At("HEAD"), cancellable = true)
-    private static void sparkwitch$enablePromotedSaboteurInstinct(CallbackInfoReturnable<Boolean> cir) {
+    private static void sparkdlc$enablePromotedSaboteurInstinct(CallbackInfoReturnable<Boolean> cir) {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
         if (player == null) {
             return;

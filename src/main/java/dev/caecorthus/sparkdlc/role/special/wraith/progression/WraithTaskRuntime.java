@@ -56,13 +56,13 @@ final class WraithTaskRuntime {
             return;
         }
         PlayerMoodComponentAccessor accessor = (PlayerMoodComponentAccessor) component;
-        int nextTaskTimer = accessor.sparkwitch$getNextTaskTimer() - 1;
+        int nextTaskTimer = accessor.sparkdlc$getNextTaskTimer() - 1;
         boolean changed = false;
         if (nextTaskTimer <= 0) {
             changed = addGeneratedTask(component, accessor);
             nextTaskTimer = nextTaskDelay(player, component.tasks.size());
         }
-        accessor.sparkwitch$setNextTaskTimer(nextTaskTimer);
+        accessor.sparkdlc$setNextTaskTimer(nextTaskTimer);
 
         ArrayList<PlayerMoodComponent.Task> removals = new ArrayList<>();
         for (PlayerMoodComponent.TrainTask task : component.tasks.values()) {
@@ -97,7 +97,7 @@ final class WraithTaskRuntime {
     }
 
     private static boolean addGeneratedTask(PlayerMoodComponent component, PlayerMoodComponentAccessor accessor) {
-        PlayerMoodComponent.TrainTask task = accessor.sparkwitch$generateTask();
+        PlayerMoodComponent.TrainTask task = accessor.sparkdlc$generateTaskForRoles();
         if (task == null) {
             return false;
         }

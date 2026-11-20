@@ -12,5 +12,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(value = TaotiePlayerComponent.class, remap = false)
 public interface PartygoerTaotieCooldownAccessor {
     @Accessor(value = "calculatedSwallowCooldown", remap = false)
-    int sparkstrength$getCalculatedSwallowCooldown();
+    int sparkdlc$getCalculatedSwallowCooldownForPartygoer();
 }

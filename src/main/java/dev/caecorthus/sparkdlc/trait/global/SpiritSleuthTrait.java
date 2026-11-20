@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.global;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.Trait;
 import net.minecraft.util.Identifier;
 
@@ -9,7 +9,7 @@ import net.minecraft.util.Identifier;
  * 全局天赋：让拥有者看见处于旁观模式的玩家。
  */
 public final class SpiritSleuthTrait implements Trait {
-    public static final Identifier ID = SparkTraits.id("spirit_sleuth");
+    public static final Identifier ID = SparkDLC.id("spirit_sleuth");
 
     @Override
     public Identifier id() {

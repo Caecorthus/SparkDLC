@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.replay.role;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.record.replay.ReplayRegistry;
 import net.minecraft.util.Identifier;
 
@@ -9,7 +9,7 @@ import net.minecraft.util.Identifier;
  * 秃鹫滑板的回放文本。
  */
 public final class SkateboardReplayEvents {
-    public static final Identifier SKATEBOARD_RIDE_STARTED = SparkStrength.id("skateboard_ride_started");
+    public static final Identifier SKATEBOARD_RIDE_STARTED = SparkDLC.id("skateboard_ride_started");
 
     private SkateboardReplayEvents() {
     }

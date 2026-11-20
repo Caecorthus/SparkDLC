@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(MinecraftClient.class)
 public abstract class DeathRayBlockBreakingMixin {
     @Inject(method = "handleBlockBreaking(Z)V", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$fireDeathRayFromHeldAttack(boolean breaking, CallbackInfo ci) {
+    private void sparkdlc$fireDeathRayFromHeldAttack(boolean breaking, CallbackInfo ci) {
         if (breaking && DeathRayClientHooks.tryFire((MinecraftClient) (Object) this)) {
             ci.cancel();
         }

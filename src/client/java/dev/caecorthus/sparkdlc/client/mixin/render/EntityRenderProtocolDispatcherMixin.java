@@ -30,7 +30,7 @@ public abstract class EntityRenderProtocolDispatcherMixin {
             + "MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V";
 
     @WrapMethod(method = RENDER)
-    private void sparkwitch$trackDispatchedEntity(Entity entity, double x, double y, double z, float yaw,
+    private void sparkdlc$trackDispatchedEntity(Entity entity, double x, double y, double z, float yaw,
                                                   float tickDelta, MatrixStack matrices,
                                                   VertexConsumerProvider vertexConsumers, int light,
                                                   Operation<Void> original) {
@@ -46,7 +46,7 @@ public abstract class EntityRenderProtocolDispatcherMixin {
             target = "Lnet/minecraft/client/render/entity/EntityRenderDispatcher;renderFire("
                     + "Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;"
                     + "Lnet/minecraft/entity/Entity;Lorg/joml/Quaternionf;)V"))
-    private void sparkwitch$noFireInRedraw(EntityRenderDispatcher dispatcher, MatrixStack matrices,
+    private void sparkdlc$noFireInRedraw(EntityRenderDispatcher dispatcher, MatrixStack matrices,
                                           VertexConsumerProvider vertexConsumers, Entity entity,
                                           Quaternionf rotation, Operation<Void> original) {
         if (EntityRedraw.isActive()) {
@@ -59,7 +59,7 @@ public abstract class EntityRenderProtocolDispatcherMixin {
             target = "Lnet/minecraft/client/render/entity/EntityRenderDispatcher;renderShadow("
                     + "Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;"
                     + "Lnet/minecraft/entity/Entity;FFLnet/minecraft/world/WorldView;F)V"))
-    private void sparkwitch$noShadowInRedraw(MatrixStack matrices, VertexConsumerProvider vertexConsumers,
+    private void sparkdlc$noShadowInRedraw(MatrixStack matrices, VertexConsumerProvider vertexConsumers,
                                             Entity entity, float opacity, float tickDelta, WorldView world,
                                             float radius, Operation<Void> original) {
         if (EntityRedraw.isActive()) {
@@ -70,7 +70,7 @@ public abstract class EntityRenderProtocolDispatcherMixin {
 
     @ModifyExpressionValue(method = RENDER, at = @At(value = "FIELD",
             target = "Lnet/minecraft/client/render/entity/EntityRenderDispatcher;renderHitboxes:Z"))
-    private boolean sparkwitch$noHitboxInRedraw(boolean renderHitboxes) {
+    private boolean sparkdlc$noHitboxInRedraw(boolean renderHitboxes) {
         return renderHitboxes && !EntityRedraw.isActive();
     }
 }

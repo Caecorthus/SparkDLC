@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.ferryman.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier;
  * 遗体、死亡时间、距离与职业。
  */
 public record FerrymanFerryC2SPayload(int bodyEntityId) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("ferryman_ferry");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("ferryman_ferry");
     public static final Id<FerrymanFerryC2SPayload> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, FerrymanFerryC2SPayload> CODEC =
             PacketCodec.of(FerrymanFerryC2SPayload::write, FerrymanFerryC2SPayload::read);

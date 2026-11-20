@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.engineer;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -45,7 +45,7 @@ public final class EngineerShopService {
                 captureDeviceDisplayStack(),
                 EngineerRules.CAPTURE_DEVICE_PRICE,
                 ShopEntry.Type.TOOL
-        ).actualStack(SparkStrengthItems.captureDevice().getDefaultStack()).build());
+        ).actualStack(SparkDlcItems.captureDevice().getDefaultStack()).build());
         context.addEntry(new ShopEntry.Builder(
                 EngineerRules.SABOTAGE_REPAIR_ENTRY_ID,
                 sabotageRepairDisplayStack(),
@@ -55,7 +55,7 @@ public final class EngineerShopService {
     }
 
     private static ItemStack captureDeviceDisplayStack() {
-        ItemStack stack = SparkStrengthItems.captureDevice().getDefaultStack();
+        ItemStack stack = SparkDlcItems.captureDevice().getDefaultStack();
         stack.set(DataComponentTypes.ITEM_NAME, Text.translatable("shop.sparkdlc.engineer.capture_device"));
         stack.set(DataComponentTypes.LORE, new LoreComponent(List.of(
                 Text.translatable("shop.sparkdlc.engineer.capture_device.description")
@@ -65,7 +65,7 @@ public final class EngineerShopService {
     }
 
     private static ItemStack sabotageRepairDisplayStack() {
-        ItemStack stack = SparkStrengthItems.powerRestoration().getDefaultStack();
+        ItemStack stack = SparkDlcItems.powerRestoration().getDefaultStack();
         stack.set(DataComponentTypes.ITEM_NAME, Text.translatable("shop.sparkdlc.engineer.power_restoration"));
         stack.set(DataComponentTypes.LORE, new LoreComponent(List.of(
                 Text.translatable("shop.sparkdlc.engineer.power_restoration.description")

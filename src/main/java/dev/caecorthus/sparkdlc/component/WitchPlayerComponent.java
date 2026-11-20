@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.component;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillRegistry;
 import dev.caecorthus.sparkdlc.skill.mana.WitchManaRules;
 import dev.caecorthus.sparkdlc.skill.mana.WitchManaService;
@@ -32,7 +32,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
  */
 public final class WitchPlayerComponent implements AutoSyncedComponent, ServerTickingComponent {
     public static final ComponentKey<WitchPlayerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("player"),
+            SparkDLC.id("player"),
             WitchPlayerComponent.class
     );
 

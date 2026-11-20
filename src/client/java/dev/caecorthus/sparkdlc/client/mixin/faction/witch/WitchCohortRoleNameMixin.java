@@ -32,7 +32,7 @@ public abstract class WitchCohortRoleNameMixin {
     private static float nametagAlpha;
 
     @Inject(method = "renderHud", at = @At("TAIL"))
-    private static void sparkwitch$renderWitchCohort(
+    private static void sparkdlc$renderWitchCohort(
             TextRenderer renderer,
             ClientPlayerEntity player,
             DrawContext context,

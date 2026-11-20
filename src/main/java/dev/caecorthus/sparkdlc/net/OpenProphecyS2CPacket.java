@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -22,7 +22,7 @@ import net.minecraft.util.Identifier;
 public record OpenProphecyS2CPacket(UUID sessionId, List<Candidate> candidates) implements CustomPayload {
     public static final int MAX_CANDIDATES = 256;
     public static final int MAX_NAME_LENGTH = 64;
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("open_prophecy");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("open_prophecy");
     public static final Id<OpenProphecyS2CPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, OpenProphecyS2CPacket> CODEC =
             PacketCodec.of(OpenProphecyS2CPacket::write, OpenProphecyS2CPacket::read);

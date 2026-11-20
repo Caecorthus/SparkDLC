@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.gun;
 
-import dev.caecorthus.sparkdlc.SparkWitchDataComponents;
+import dev.caecorthus.sparkdlc.SparkDlcDataComponents;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -19,12 +19,12 @@ import java.util.Objects;
 
 /**
  * 「“手”枪」 ({@code sparkdlc:sphinx_hao_hand_gun}), the Sphinx Hao's spring-fist toy pistol. It holds one fist
- * ({@link SparkWitchDataComponents#SPHINX_HAO_LOADED}). Use is vanilla's use-item packet, like the Taser, so there is no
+ * ({@link SparkDlcDataComponents#SPHINX_HAO_LOADED}). Use is vanilla's use-item packet, like the Taser, so there is no
  * C2S payload of its own: empty with a fist in the inventory loads it, empty without one dry-clicks, loaded fires
  * ({@link SphinxHaoGunService}). Only a living Sphinx Hao can use it; anyone else's use does nothing. It is deliberately
  * outside {@code wathe:guns}: no Wathe gun packet, innocent-shot punishment, gun pickup or gun drop applies.
  * 「“手”枪」（{@code sparkdlc:sphinx_hao_hand_gun}），狮身豪的弹簧拳头玩具手枪，可装一发拳头
- * （{@link SparkWitchDataComponents#SPHINX_HAO_LOADED}）。使用走原版使用物品数据包（与电击枪相同），因此没有自有 C2S 载荷：
+ * （{@link SparkDlcDataComponents#SPHINX_HAO_LOADED}）。使用走原版使用物品数据包（与电击枪相同），因此没有自有 C2S 载荷：
  * 空膛且背包有拳头时装填、空膛无拳头时空响、已装填时发射（{@link SphinxHaoGunService}）。只有存活的狮身豪能使用；其他人使用
  * 无任何效果。刻意不加入 {@code wathe:guns}：Wathe 的开枪数据包、误杀惩罚、拾枪与掉枪规则都不适用。
  */
@@ -63,15 +63,15 @@ public final class SphinxHaoHandGunItem extends Item {
 
     /** Both sides: whether this gun holds a fist. / 双端：这把枪是否装有拳头。 */
     public static boolean isLoaded(@Nullable ItemStack stack) {
-        return stack != null && Boolean.TRUE.equals(stack.get(SparkWitchDataComponents.SPHINX_HAO_LOADED));
+        return stack != null && Boolean.TRUE.equals(stack.get(SparkDlcDataComponents.SPHINX_HAO_LOADED));
     }
 
     /** Server only: an empty gun carries no component at all. / 仅服务端：空膛的枪不带该组件。 */
     static void setLoaded(ItemStack stack, boolean loaded) {
         if (loaded) {
-            stack.set(SparkWitchDataComponents.SPHINX_HAO_LOADED, Boolean.TRUE);
+            stack.set(SparkDlcDataComponents.SPHINX_HAO_LOADED, Boolean.TRUE);
         } else {
-            stack.remove(SparkWitchDataComponents.SPHINX_HAO_LOADED);
+            stack.remove(SparkDlcDataComponents.SPHINX_HAO_LOADED);
         }
     }
 

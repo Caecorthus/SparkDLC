@@ -38,7 +38,7 @@ public abstract class PlayerShopComponentMixin {
             method = "addToBalance",
             at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/cca/PlayerShopComponent;setBalance(I)V")
     )
-    private int sparktraits$paySnowballMilestones(int newBalance) {
+    private int sparkdlc$paySnowballMilestones(int newBalance) {
         return GlobalTraitService.snowballBalance(this.player, this.balance, newBalance);
     }
 
@@ -46,7 +46,7 @@ public abstract class PlayerShopComponentMixin {
             method = "useBlackout",
             at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/cca/WorldBlackoutComponent;triggerBlackout()Z")
     )
-    private static boolean sparktraits$scopeBlackoutToBuyer(
+    private static boolean sparkdlc$scopeBlackoutToBuyer(
             WorldBlackoutComponent blackout,
             Operation<Boolean> original,
             PlayerEntity buyer
@@ -58,7 +58,7 @@ public abstract class PlayerShopComponentMixin {
             method = "tryBuy",
             at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/util/ShopEntry;price()I")
     )
-    private int sparktraits$applyCharismaPurchasePrice(ShopEntry entry) {
+    private int sparkdlc$applyCharismaPurchasePrice(ShopEntry entry) {
         return KillerTraitService.effectiveCharismaPurchasePrice(this.player, entry);
     }
 
@@ -66,7 +66,7 @@ public abstract class PlayerShopComponentMixin {
             method = "applyBlackoutCooldownToAllKillers",
             at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/cca/GameWorldComponent;canUseKillerFeatures(Lnet/minecraft/entity/player/PlayerEntity;)Z")
     )
-    private static boolean sparktraits$shareBlackoutCooldownWithMatchingGroup(
+    private static boolean sparkdlc$shareBlackoutCooldownWithMatchingGroup(
             GameWorldComponent gameComponent,
             PlayerEntity cooldownTarget,
             ServerPlayerEntity purchaser

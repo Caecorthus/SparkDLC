@@ -49,7 +49,7 @@ public abstract class NoellesVultureHiroFakeBodyMixin {
             require = 1,
             allow = 1
     )
-    private static List<PlayerBodyEntity> sparkwitch$vultureSkipsHiroFakeBodies(
+    private static List<PlayerBodyEntity> sparkdlc$vultureSkipsHiroFakeBodies(
             World world,
             TypeFilter<Entity, PlayerBodyEntity> filter,
             Box box,

@@ -31,7 +31,7 @@ public abstract class SeekerRemoteNetworkHandlerMixin {
             + "Lnet/minecraft/util/thread/ThreadExecutor;)V";
 
     @Inject(method = "onSetCameraEntity", at = @At(value = "INVOKE", target = FORCE_MAIN_THREAD, shift = At.Shift.AFTER))
-    private void sparkwitch$yieldToServerCamera(SetCameraEntityS2CPacket packet, CallbackInfo ci) {
+    private void sparkdlc$yieldToServerCamera(SetCameraEntityS2CPacket packet, CallbackInfo ci) {
         if (!SeekerRemoteViewClient.isActive()) {
             return;
         }
@@ -41,7 +41,7 @@ public abstract class SeekerRemoteNetworkHandlerMixin {
     }
 
     @Inject(method = "onPlayerRespawn", at = @At(value = "INVOKE", target = FORCE_MAIN_THREAD, shift = At.Shift.AFTER))
-    private void sparkwitch$resetOnRespawn(PlayerRespawnS2CPacket packet, CallbackInfo ci) {
+    private void sparkdlc$resetOnRespawn(PlayerRespawnS2CPacket packet, CallbackInfo ci) {
         if (!SeekerRemoteViewClient.isActive()) {
             return;
         }
@@ -49,7 +49,7 @@ public abstract class SeekerRemoteNetworkHandlerMixin {
     }
 
     @Inject(method = "onGameJoin", at = @At(value = "INVOKE", target = FORCE_MAIN_THREAD, shift = At.Shift.AFTER))
-    private void sparkwitch$resetOnJoin(GameJoinS2CPacket packet, CallbackInfo ci) {
+    private void sparkdlc$resetOnJoin(GameJoinS2CPacket packet, CallbackInfo ci) {
         if (!SeekerRemoteViewClient.isActive()) {
             return;
         }

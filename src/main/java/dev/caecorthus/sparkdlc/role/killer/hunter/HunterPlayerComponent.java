@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.hunter;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.orthopedist.OrthopedistEffects;
 import dev.doctor4t.wathe.cca.PlayerPoisonComponent;
 import dev.doctor4t.wathe.cca.PlayerStaminaComponent;
@@ -33,10 +33,10 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
  */
 public final class HunterPlayerComponent implements AutoSyncedComponent, ServerTickingComponent {
     public static final ComponentKey<HunterPlayerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("hunter"),
+            SparkDLC.id("hunter"),
             HunterPlayerComponent.class
     );
-    private static final Identifier FRACTURE_SPEED_MODIFIER_ID = SparkWitch.id("fracture_speed");
+    private static final Identifier FRACTURE_SPEED_MODIFIER_ID = SparkDLC.id("fracture_speed");
 
     private final PlayerEntity player;
     private final HunterInjuryState injury = new HunterInjuryState();

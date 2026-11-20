@@ -36,7 +36,7 @@ public abstract class EngineerStunPayloadGuardMixin {
                     + "Lnet/minecraft/network/packet/CustomPayload;)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;execute(Ljava/lang/Runnable;)V")
     )
-    private void sparkstrength$dropStunnedPayload(
+    private void sparkdlc$dropEngineerStunnedPayload(
             MinecraftServer server,
             Runnable handler,
             Operation<Void> original,

@@ -7,13 +7,13 @@ import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.legacy.LegacyCommandIds;
 import dev.caecorthus.sparkdlc.legacy.LegacyPermissions;
 import dev.caecorthus.sparkdlc.component.WitchWorldComponent;
 import dev.caecorthus.sparkdlc.util.RoleDisplayTextRules;
-import dev.caecorthus.sparkdlc.util.SparkWitchPermissions;
+import dev.caecorthus.sparkdlc.util.RoleCommandPermissions;
 import dev.doctor4t.wathe.Wathe;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -40,11 +40,11 @@ public final class ForcePromotionCommand {
             Text.translatable("command.sparkdlc.force_promotion.round_running")
     );
     private static final List<PromotionRole> PROMOTION_ROLES = List.of(
-            new PromotionRole(SparkWitchRoles.WIND_SPIRIT_ID, SparkWitchRoles::windSpirit),
-            new PromotionRole(SparkWitchRoles.GUARDIAN_ANGEL_ID, SparkWitchRoles::guardianAngel),
-            new PromotionRole(SparkWitchRoles.VENDETTA_ID, SparkWitchRoles::vendetta),
-            new PromotionRole(SparkWitchRoles.SABOTEUR_ID, SparkWitchRoles::saboteur),
-            new PromotionRole(SparkWitchRoles.CURSER_ID, SparkWitchRoles::curser)
+            new PromotionRole(SparkDlcRoles.WIND_SPIRIT_ID, SparkDlcRoles::windSpirit),
+            new PromotionRole(SparkDlcRoles.GUARDIAN_ANGEL_ID, SparkDlcRoles::guardianAngel),
+            new PromotionRole(SparkDlcRoles.VENDETTA_ID, SparkDlcRoles::vendetta),
+            new PromotionRole(SparkDlcRoles.SABOTEUR_ID, SparkDlcRoles::saboteur),
+            new PromotionRole(SparkDlcRoles.CURSER_ID, SparkDlcRoles::curser)
     );
 
     private ForcePromotionCommand() {
@@ -53,8 +53,8 @@ public final class ForcePromotionCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(CommandManager.literal("sparkdlc:forcePromotion")
                 .requires(LegacyPermissions.require(
-                        SparkWitchPermissions.COMMAND_FORCE_PROMOTION,
-                        SparkWitchPermissions.DEFAULT_COMMAND_LEVEL
+                        RoleCommandPermissions.COMMAND_FORCE_PROMOTION,
+                        RoleCommandPermissions.DEFAULT_COMMAND_LEVEL
                 ))
                 .then(CommandManager.argument("promotionRole", IdentifierArgumentType.identifier())
                         .suggests(ForcePromotionCommand::suggestPromotionRoles)
@@ -96,7 +96,7 @@ public final class ForcePromotionCommand {
     static Identifier normalizeRoleId(Identifier parsed) {
         // An id typed in the former namespace (sparkwitch:x) means today's role. / 以旧命名空间输入的 id（sparkwitch:x）指现在的职业。
         return parsed.getNamespace().equals(Identifier.DEFAULT_NAMESPACE)
-                ? SparkWitch.id(parsed.getPath())
+                ? SparkDLC.id(parsed.getPath())
                 : LegacyCommandIds.role(parsed);
     }
 

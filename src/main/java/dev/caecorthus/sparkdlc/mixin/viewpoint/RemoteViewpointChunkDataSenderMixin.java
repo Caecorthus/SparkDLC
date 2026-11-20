@@ -28,7 +28,7 @@ public abstract class RemoteViewpointChunkDataSenderMixin {
                     target = "Lnet/minecraft/server/network/ServerPlayerEntity;getChunkPos()Lnet/minecraft/util/math/ChunkPos;"),
             require = 0
     )
-    private ChunkPos sparkstrength$batchAroundRemoteViewpoint(
+    private ChunkPos sparkdlc$batchAroundRemoteViewpoint(
             ChunkPos original, @Local(argsOnly = true) ServerPlayerEntity player
     ) {
         Entity anchor = RemoteViewpoint.anchorOf(player);

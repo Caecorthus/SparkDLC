@@ -29,7 +29,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = PlayerEntity.class, priority = 1500)
 public abstract class CloseQuartersPlayerAttackMixin {
     @WrapMethod(method = "attack")
-    private void sparktraits$guardMelee(Entity target, Operation<Void> original) {
+    private void sparkdlc$guardMelee(Entity target, Operation<Void> original) {
         if (!((Object) this instanceof ServerPlayerEntity attacker)) {
             original.call(target);
             return;

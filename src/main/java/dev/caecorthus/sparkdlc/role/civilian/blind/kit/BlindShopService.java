@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.blind.kit;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.TraitShopEntries;
 import dev.caecorthus.sparkdlc.headset.HeadsetSlots;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindComponent;
@@ -70,7 +70,7 @@ public final class BlindShopService {
 
     /** Fiend shop precedent: a plain item name and one grey, non-italic lore line. / 沿用魔人商店：普通名称与一行灰色非斜体说明。 */
     private static ItemStack displayStack() {
-        ItemStack display = SparkWitchItems.comTac().getDefaultStack();
+        ItemStack display = SparkDlcItems.comTac().getDefaultStack();
         display.set(DataComponentTypes.ITEM_NAME, Text.translatable(NAME_KEY));
         display.set(DataComponentTypes.LORE, new LoreComponent(List.of(Text.translatable(DESCRIPTION_KEY)
                 .styled(style -> style.withItalic(false).withColor(DESCRIPTION_COLOR)))));
@@ -107,9 +107,9 @@ public final class BlindShopService {
             return false;
         }
         if (slot == BlindKitRules.HEADSET_SLOT) {
-            HeadsetSlots.set(buyer, new ItemStack(SparkWitchItems.comTac()));
+            HeadsetSlots.set(buyer, new ItemStack(SparkDlcItems.comTac()));
         } else {
-            inventory.setStack(slot, new ItemStack(SparkWitchItems.comTac()));
+            inventory.setStack(slot, new ItemStack(SparkDlcItems.comTac()));
         }
         BlindComponent.KEY.get(buyer).markComTacBought(BlindParticipants.currentMatchId());
         inventory.markDirty();

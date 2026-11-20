@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.blind.kit;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.headset.HeadsetSlots;
@@ -269,7 +269,7 @@ public final class BlindLoadoutService {
             }
             inventory.setStack(destination, inventory.getStack(target));
         }
-        inventory.setStack(target, new ItemStack(SparkWitchItems.whiteCane()));
+        inventory.setStack(target, new ItemStack(SparkDlcItems.whiteCane()));
         return true;
     }
 

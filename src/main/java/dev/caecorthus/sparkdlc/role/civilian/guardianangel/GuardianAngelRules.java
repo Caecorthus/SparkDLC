@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.guardianangel;
 
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameConstants;
@@ -95,8 +95,8 @@ public final class GuardianAngelRules {
                 && !GameConstants.DeathReasons.FELL_OUT_OF_TRAIN.equals(deathReason)
                 && !ASSASSINATED.equals(deathReason)
                 && !VOODOO.equals(deathReason)
-                && !SparkWitchDeathReasons.DUEL_SUICIDE.equals(deathReason)
-                && !SparkWitchDeathReasons.DUEL_FAILED.equals(deathReason)
-                && !SparkWitchDeathReasons.DUEL_INTERFERENCE.equals(deathReason);
+                && !SparkDlcDeathReasons.DUEL_SUICIDE.equals(deathReason)
+                && !SparkDlcDeathReasons.DUEL_FAILED.equals(deathReason)
+                && !SparkDlcDeathReasons.DUEL_INTERFERENCE.equals(deathReason);
     }
 }

@@ -29,7 +29,7 @@ public abstract class M1903A4CrosshairMixin {
                     target = "Ldev/doctor4t/wathe/client/gui/CrosshairRenderer;CROSSHAIR:Lnet/minecraft/util/Identifier;"
             )
     )
-    private static Identifier sparkwitch$showM1903a4TargetCrosshair(
+    private static Identifier sparkdlc$showM1903a4TargetCrosshair(
             Identifier original,
             MinecraftClient client,
             ClientPlayerEntity player,

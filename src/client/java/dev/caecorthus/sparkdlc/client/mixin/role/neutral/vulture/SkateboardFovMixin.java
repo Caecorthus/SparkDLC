@@ -25,7 +25,7 @@ public abstract class SkateboardFovMixin {
                     target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;getAttributeValue(Lnet/minecraft/registry/entry/RegistryEntry;)D"
             )
     )
-    private double sparkstrength$ignoreSkateboardSpeed(double speed) {
+    private double sparkdlc$ignoreSkateboardSpeed(double speed) {
         EntityAttributeInstance attribute = ((AbstractClientPlayerEntity) (Object) this)
                 .getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED);
         if (attribute != null && attribute.hasModifier(VultureSkateboardService.SPEED_MODIFIER_ID)) {

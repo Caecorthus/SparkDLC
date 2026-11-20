@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.pathogen;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -21,7 +21,7 @@ import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
  */
 public final class PathogenStrainComponent implements AutoSyncedComponent {
     public static final ComponentKey<PathogenStrainComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("pathogen_strain"),
+            SparkDLC.id("pathogen_strain"),
             PathogenStrainComponent.class
     );
 

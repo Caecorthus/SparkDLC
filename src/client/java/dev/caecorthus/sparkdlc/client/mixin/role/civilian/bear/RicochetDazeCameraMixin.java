@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(GameRenderer.class)
 public abstract class RicochetDazeCameraMixin {
     @Inject(method = "tiltViewWhenHurt", at = @At("RETURN"))
-    private void sparkwitch$applyRysTDaze(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
+    private void sparkdlc$applyRysTDaze(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
         if (!RysTDazeClient.active()) {
             return;
         }

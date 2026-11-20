@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.render;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.util.Util;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.opengl.GL11;
@@ -55,7 +55,7 @@ final class SmokeNoiseTexture {
             data = pending.join();
         } catch (RuntimeException exception) {
             broken = true;
-            SparkWitch.LOGGER.error("BEAR smoke noise generation failed; smoke renders without erosion", exception);
+            SparkDLC.LOGGER.error("BEAR smoke noise generation failed; smoke renders without erosion", exception);
             return 0;
         }
         upload(data);

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.civilian.depression;
 
-import dev.caecorthus.sparkdlc.SparkTraitsSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import net.minecraft.network.packet.s2c.play.StopSoundS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
@@ -36,7 +36,7 @@ public final class DepressionAudio {
     }
 
     public static SoundEvent meleeKillSound(boolean secondVariant) {
-        return secondVariant ? SparkTraitsSounds.DEPRESSION_MELEE_KILL_2 : SparkTraitsSounds.DEPRESSION_MELEE_KILL_1;
+        return secondVariant ? SparkDlcSounds.DEPRESSION_MELEE_KILL_2 : SparkDlcSounds.DEPRESSION_MELEE_KILL_1;
     }
 
     static void playRangeSound(ServerPlayerEntity source, SoundEvent sound) {

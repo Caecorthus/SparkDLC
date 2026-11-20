@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 public abstract class EngineChimneySmokeMixin {
     @ModifyArg(method = "tick", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/util/math/MathHelper;clamp(DDD)D", remap = true), index = 2, remap = true)
-    private double sparkstrength$followEngineMotion(double max) {
+    private double sparkdlc$followEngineMotion(double max) {
         return max * EngineTrainMotion.factor();
     }
 }

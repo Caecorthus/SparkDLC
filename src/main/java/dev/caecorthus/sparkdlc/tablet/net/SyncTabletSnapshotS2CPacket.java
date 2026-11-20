@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.tablet.net;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -23,7 +23,7 @@ import net.minecraft.util.Identifier;
  * 旧客户端不会注册此 id，服务端先检查 canSend，避免未知字节导致断线。
  */
 public record SyncTabletSnapshotS2CPacket(TabletSnapshot snapshot) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkStrength.id("sync_tablet_snapshot_v11");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("sync_tablet_snapshot_v11");
     public static final Id<SyncTabletSnapshotS2CPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, SyncTabletSnapshotS2CPacket> CODEC =
             PacketCodec.of(SyncTabletSnapshotS2CPacket::write, SyncTabletSnapshotS2CPacket::read);

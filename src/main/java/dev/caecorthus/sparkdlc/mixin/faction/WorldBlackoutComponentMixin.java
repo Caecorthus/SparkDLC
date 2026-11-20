@@ -27,7 +27,7 @@ public abstract class WorldBlackoutComponentMixin {
                     target = "Ldev/doctor4t/wathe/cca/GameWorldComponent;canUseKillerFeatures(Lnet/minecraft/entity/player/PlayerEntity;)Z"
             )
     )
-    private boolean sparkfactionapi$useBlackoutImmunityCapability(
+    private boolean sparkdlc$useBlackoutImmunityCapability(
             GameWorldComponent gameComponent,
             PlayerEntity player,
             Operation<Boolean> original

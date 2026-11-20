@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.shaderpack;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeClientState;
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeVolumes;
 import dev.caecorthus.sparkdlc.client.role.civilian.blind.render.BlindShaderPackCheck;
@@ -35,7 +35,7 @@ import net.minecraft.util.Identifier;
  * {@code SmokeVolumes}。
  */
 public final class SmokeShaderPackWiring {
-    private static final Identifier RELOAD_LISTENER_ID = SparkWitch.id("bear_smoke_shader_pack");
+    private static final Identifier RELOAD_LISTENER_ID = SparkDLC.id("bear_smoke_shader_pack");
     private static boolean registered;
     private static boolean shaderPack;
 

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.vendetta;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.SlotActionType;
@@ -11,7 +11,7 @@ public final class VendettaKnifeInventoryRules {
     }
 
     public static boolean isKnife(ItemStack stack) {
-        return stack != null && !stack.isEmpty() && stack.isOf(SparkWitchItems.vendettaKnife());
+        return stack != null && !stack.isEmpty() && stack.isOf(SparkDlcItems.vendettaKnife());
     }
 
     public static boolean blocksDrop(ItemStack stack) {

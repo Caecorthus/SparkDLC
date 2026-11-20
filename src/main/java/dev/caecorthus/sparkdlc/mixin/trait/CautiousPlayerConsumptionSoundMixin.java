@@ -24,7 +24,7 @@ public abstract class CautiousPlayerConsumptionSoundMixin {
                     target = "Lnet/minecraft/world/World;playSound(Lnet/minecraft/entity/player/PlayerEntity;DDDLnet/minecraft/sound/SoundEvent;Lnet/minecraft/sound/SoundCategory;FF)V"
             )
     )
-    private void sparktraits$skipCautiousBurpSound(
+    private void sparkdlc$skipCautiousBurpSound(
             World world,
             PlayerEntity except,
             double x,

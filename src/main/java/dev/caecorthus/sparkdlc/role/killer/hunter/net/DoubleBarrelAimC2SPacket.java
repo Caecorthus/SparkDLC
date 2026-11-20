@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.hunter.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.killer.hunter.HunterShotgunAim;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
@@ -28,7 +28,7 @@ import java.util.List;
  * 不会断开连接。
  */
 public record DoubleBarrelAimC2SPacket(List<List<Integer>> rays) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("double_barrel_aim");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("double_barrel_aim");
     public static final Id<DoubleBarrelAimC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, DoubleBarrelAimC2SPacket> CODEC =
             PacketCodec.of(DoubleBarrelAimC2SPacket::write, DoubleBarrelAimC2SPacket::read);

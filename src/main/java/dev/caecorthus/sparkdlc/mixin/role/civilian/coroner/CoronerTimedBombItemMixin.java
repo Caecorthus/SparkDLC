@@ -21,7 +21,7 @@ public abstract class CoronerTimedBombItemMixin {
                     target = "Ldev/doctor4t/wathe/cca/GameWorldComponent;isRole(Lnet/minecraft/entity/player/PlayerEntity;Ldev/doctor4t/wathe/api/Role;)Z"
             )
     )
-    private boolean sparkstrength$coronerBomberDisguiseCanPlaceBomb(
+    private boolean sparkdlc$coronerBomberDisguiseCanPlaceBomb(
             GameWorldComponent gameWorld,
             PlayerEntity user,
             Role role

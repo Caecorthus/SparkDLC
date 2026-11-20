@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.block;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.sabotage.JunctionBoxCircuit;
 import dev.caecorthus.sparkdlc.sabotage.JunctionBoxService;
 import dev.caecorthus.sparkdlc.sabotage.JunctionBoxState;
@@ -95,7 +95,7 @@ public final class JunctionBoxBlock extends HorizontalFacingBlock {
         if (hand != Hand.MAIN_HAND) {
             return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
-        if (stack.isOf(SparkStrengthItems.circuitConfigurator())) {
+        if (stack.isOf(SparkDlcItems.circuitConfigurator())) {
             // Straight to the configurator's useOnBlock. / 直接交给配置器的 useOnBlock。
             return ItemActionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
         }
@@ -126,7 +126,7 @@ public final class JunctionBoxBlock extends HorizontalFacingBlock {
         if (stack.isOf(ModItems.REPAIR_TOOL)) {
             return Interaction.REPAIR;
         }
-        if (stack.isOf(SparkStrengthItems.tablet())
+        if (stack.isOf(SparkDlcItems.tablet())
                 && state.get(STATE) == JunctionBoxState.BROKEN
                 && SabotageAccess.hasSabotageIdentity(player)) {
             return Interaction.HACK;

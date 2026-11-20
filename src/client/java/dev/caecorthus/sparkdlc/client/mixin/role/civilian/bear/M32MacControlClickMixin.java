@@ -30,7 +30,7 @@ public abstract class M32MacControlClickMixin {
     @ModifyExpressionValue(method = "onMouseButton",
             at = @At(value = "FIELD", target = "Lnet/minecraft/client/MinecraftClient;IS_SYSTEM_MAC:Z",
                     opcode = Opcodes.GETSTATIC))
-    private boolean sparkwitch$keepM32LeftPressOnMac(boolean systemMac,
+    private boolean sparkdlc$keepM32LeftPressOnMac(boolean systemMac,
                                                      @Local(argsOnly = true, ordinal = 0) int button,
                                                      @Local(argsOnly = true, ordinal = 1) int action) {
         return systemMac && !M32FireInput.keepsMacLeftPress(MinecraftClient.getInstance(), button, action,

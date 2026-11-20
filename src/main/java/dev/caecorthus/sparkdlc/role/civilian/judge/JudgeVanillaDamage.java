@@ -17,7 +17,7 @@ public final class JudgeVanillaDamage {
     public static UUID actor(DamageSource source) {
         if (source.getAttacker() instanceof PlayerEntity player) return player.getUuid();
         if (source.getSource() instanceof ProjectileEntity projectile) {
-            return ((JudgeProjectileOwnerAccessor) projectile).sparkwitch$judgeOwnerUuid();
+            return ((JudgeProjectileOwnerAccessor) projectile).sparkdlc$judgeOwnerUuid();
         }
         return null;
     }

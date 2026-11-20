@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 
 /** Hooks SparkTraits gun behavior into Wathe's gun packet handler.
  *  将 SparkTraits 的枪械行为接入 Wathe 枪械发包处理。 */
@@ -28,7 +28,7 @@ import dev.caecorthus.sparkdlc.SparkTraits;
 public abstract class GunShootPayloadMixin {
     @com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod(
             method = "receive(Ldev/doctor4t/wathe/util/GunShootPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V")
-    private void sparktraits$gunCycleScope(GunShootPayload payload, ServerPlayNetworking.Context context,
+    private void sparkdlc$gunCycleScope(GunShootPayload payload, ServerPlayNetworking.Context context,
             com.llamalad7.mixinextras.injector.wrapoperation.Operation<Void> original) {
         var previous = dev.caecorthus.sparkdlc.trait.civilian.police.GunShotCycles.current();
         dev.caecorthus.sparkdlc.trait.civilian.police.GunShotCycles.setCurrent(null);
@@ -51,7 +51,7 @@ public abstract class GunShootPayloadMixin {
             method = "receive(Ldev/doctor4t/wathe/util/GunShootPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/record/GameRecordManager;recordItemUse(Lnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;Lnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/nbt/NbtCompound;)V")
     )
-    private void sparktraits$scheduleNikoRevolverBurst(GunShootPayload payload,
+    private void sparkdlc$scheduleNikoRevolverBurst(GunShootPayload payload,
             ServerPlayNetworking.Context context, CallbackInfo ci) {
         dev.caecorthus.sparkdlc.trait.civilian.police.GunShotCycles.begin(
                 context.player(), context.player().getMainHandStack().getItem());
@@ -64,7 +64,7 @@ public abstract class GunShootPayloadMixin {
             method = "receive(Ldev/doctor4t/wathe/util/GunShootPayload;Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking$Context;)V",
             constant = @Constant(doubleValue = 65.0, ordinal = 0)
     )
-    private double sparktraits$extendNikoServerGunRange(
+    private double sparkdlc$extendNikoServerGunRange(
             double range,
             GunShootPayload payload,
             ServerPlayNetworking.Context context
@@ -85,7 +85,7 @@ public abstract class GunShootPayloadMixin {
                     ordinal = 0
             )
     )
-    private boolean sparktraits$treatEffectiveCivilianGunVictimAsInnocent(GameWorldComponent game, PlayerEntity victim) {
+    private boolean sparkdlc$treatEffectiveCivilianGunVictimAsInnocent(GameWorldComponent game, PlayerEntity victim) {
         return EffectiveConsequenceService.shouldTreatGunVictimAsInnocent(
                 game.getRole(victim),
                 TraitPlayerComponent.KEY.get(victim).getActiveTraitIds()
@@ -100,7 +100,7 @@ public abstract class GunShootPayloadMixin {
                     ordinal = 1
             )
     )
-    private void sparktraits$applyHeavyArtilleryGunDamage(
+    private void sparkdlc$applyHeavyArtilleryGunDamage(
             ServerPlayerEntity victim,
             boolean spawnBody,
             ServerPlayerEntity shooter,
@@ -120,7 +120,7 @@ public abstract class GunShootPayloadMixin {
                     ordinal = 0
             )
     )
-    private void sparktraits$focusPreventsOrdinaryGunMoodPenalty(
+    private void sparkdlc$focusPreventsOrdinaryGunMoodPenalty(
             PlayerMoodComponent moodComponent,
             float proposedMood,
             GunShootPayload payload,

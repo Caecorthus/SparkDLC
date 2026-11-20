@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.item.defense;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import java.util.UUID;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class DefenseVialRules {
     /** Registry id; stable, other mods may key on it. / 注册 ID；保持稳定，其他模组可按其引用。 */
-    public static final Identifier ITEM_ID = SparkWitch.id("defense_vial");
+    public static final Identifier ITEM_ID = SparkDLC.id("defense_vial");
     /** Hold time of a drink: 2.5 s, also the item's max use time. / 饮用所需按住时间：2.5 秒，也是物品最大使用时长。 */
     public static final int DRINK_TICKS = 50;
     /** Item cooldown after a finished drink: 30 s. / 喝完之后的物品冷却：30 秒。 */

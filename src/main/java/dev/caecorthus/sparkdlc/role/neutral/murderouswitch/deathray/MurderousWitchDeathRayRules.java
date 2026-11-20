@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.neutral.murderouswitch.deathray;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcRoles;
 import dev.caecorthus.sparkdlc.util.hitscan.HitscanLagRules;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.game.GameConstants;
@@ -17,7 +17,7 @@ import java.util.List;
  * 杀意魔女“死亡射线”的纯常量与几何判断，方便测试且不扩大到其他职业。
  */
 public final class MurderousWitchDeathRayRules {
-    public static final Identifier DEATH_RAY_ID = SparkWitch.id("death_ray");
+    public static final Identifier DEATH_RAY_ID = SparkDLC.id("death_ray");
     public static final int COLOR = 0xC13838;
     public static final int MANA_COST = 100;
     public static final int WINDOW_TICKS = GameConstants.getInTicks(0, 10);
@@ -34,7 +34,7 @@ public final class MurderousWitchDeathRayRules {
     }
 
     public static boolean canSelect(Role role) {
-        return role == SparkWitchRoles.murderousWitch();
+        return role == SparkDlcRoles.murderousWitch();
     }
 
     public static boolean isDeathRaySkill(Identifier skillId) {

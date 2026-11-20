@@ -19,19 +19,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(KnifeItem.class)
 public abstract class CloseQuartersKnifeItemMixin {
     @Inject(method = "getMaxUseTime", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$longerRaise(ItemStack stack, LivingEntity user, CallbackInfoReturnable<Integer> cir) {
+    private void sparkdlc$longerRaise(ItemStack stack, LivingEntity user, CallbackInfoReturnable<Integer> cir) {
         if (user instanceof PlayerEntity player && CloseQuartersService.isRaisedKnife(stack)
                 && CloseQuartersService.hasRaisedKnifeTrait(player)) cir.setReturnValue(CombatTimingRules.MAX_RAISE_TICKS);
     }
 
     @ModifyConstant(method = "onStoppedUsing", constant = @Constant(intValue = 10))
-    private int sparktraits$shorterWindup(int original, ItemStack stack, World world, LivingEntity user, int remaining) {
+    private int sparkdlc$shorterWindup(int original, ItemStack stack, World world, LivingEntity user, int remaining) {
         if (!(user instanceof PlayerEntity player)) return original;
         return CloseQuartersService.knifeReleaseThreshold(player, stack, original);
     }
 
     @Inject(method = "onStoppedUsing", at = @At("HEAD"), cancellable = true)
-    private void sparktraits$captureRelease(ItemStack stack, World world, LivingEntity user, int remaining, CallbackInfo ci) {
+    private void sparkdlc$captureRelease(ItemStack stack, World world, LivingEntity user, int remaining, CallbackInfo ci) {
         if (!(user instanceof PlayerEntity player) || !CloseQuartersService.isRaisedKnife(stack)
                 || !CloseQuartersService.hasRaisedKnifeTrait(player)) return;
         if (remaining <= 0) {

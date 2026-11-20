@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.ponder;
 
-import dev.caecorthus.sparkdlc.SparkAssist;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -35,12 +35,12 @@ final class SparkPonderDemos {
         NoellesCivilianScenes.register();
         NoellesKillerScenes.register();
         PartyAnimalScenes.register();
-        SparkWitchCivilianScenes.register();
-        SparkWitchKillerScenes.register();
-        SparkWitchWraithScenes.register();
-        SparkStrengthCivilianItemScenes.register();
-        SparkStrengthKillerItemScenes.register();
-        SparkWitchItemScenes.register();
+        SparkCivilianScenes.register();
+        SparkKillerScenes.register();
+        WraithScenes.register();
+        RoleKitCivilianItemScenes.register();
+        RoleKitKillerItemScenes.register();
+        SparkRoleItemScenes.register();
     }
 
     private SparkPonderDemos() {
@@ -86,7 +86,7 @@ final class SparkPonderDemos {
         Demo demo = DEMOS.get(id);
         List<StoryBoardEntry> entries = new ArrayList<>(demo.scenes().size());
         for (Scene scene : demo.scenes()) {
-            entries.add(new PonderStoryBoardEntry(scene.board(), SparkAssist.MOD_ID, scene.stage(), demo.icon()));
+            entries.add(new PonderStoryBoardEntry(scene.board(), SparkDLC.MOD_ID, scene.stage(), demo.icon()));
         }
         List<PonderScene> compiled = PonderIndex.getSceneAccess().compile(entries);
         if (!compiled.isEmpty()) {

@@ -30,7 +30,7 @@ public abstract class RysTHeadFeatureMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$hideRysTOnUnseenWearer(MatrixStack matrices, VertexConsumerProvider vertexConsumers,
+    private void sparkdlc$hideRysTOnUnseenWearer(MatrixStack matrices, VertexConsumerProvider vertexConsumers,
                                                    int light, LivingEntity entity, float limbAngle,
                                                    float limbDistance, float tickDelta, float animationProgress,
                                                    float headYaw, float headPitch, CallbackInfo ci) {
@@ -47,7 +47,7 @@ public abstract class RysTHeadFeatureMixin {
                     shift = At.Shift.AFTER
             )
     )
-    private void sparkwitch$drawRysTWornCracks(MatrixStack matrices, VertexConsumerProvider vertexConsumers,
+    private void sparkdlc$drawRysTWornCracks(MatrixStack matrices, VertexConsumerProvider vertexConsumers,
                                                int light, LivingEntity entity, float limbAngle, float limbDistance,
                                                float tickDelta, float animationProgress, float headYaw,
                                                float headPitch, CallbackInfo ci) {

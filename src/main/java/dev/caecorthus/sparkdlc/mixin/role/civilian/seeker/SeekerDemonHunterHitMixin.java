@@ -38,7 +38,7 @@ public abstract class SeekerDemonHunterHitMixin {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/server/world/ServerWorld;getEntityById(I)Lnet/minecraft/entity/Entity;",
                     remap = true))
-    private @Nullable Entity sparkwitch$absorbShotAtSeekerDevice(ServerWorld world, int entityId,
+    private @Nullable Entity sparkdlc$absorbShotAtSeekerDevice(ServerWorld world, int entityId,
                                                                Operation<Entity> original,
                                                                DemonHunterShootC2SPacket payload,
                                                                ServerPlayNetworking.Context context) {

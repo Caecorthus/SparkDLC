@@ -609,7 +609,7 @@ public final class DronePilotClient {
      * 按键绑定的物理按下状态，绕过 isPressed() 返回值过滤（Wathe 在对局中屏蔽跳跃键，而它是无人机的“上升”）。
      */
     static boolean rawDown(MinecraftClient client, KeyBinding binding) {
-        InputUtil.Key key = ((M67KeyBindingAccessor) binding).sparkstrength$m67BoundKey();
+        InputUtil.Key key = ((M67KeyBindingAccessor) binding).sparkdlc$m67BoundKey();
         long handle = client.getWindow().getHandle();
         return switch (key.getCategory()) {
             case KEYSYM -> key.getCode() != InputUtil.UNKNOWN_KEY.getCode() && InputUtil.isKeyPressed(handle, key.getCode());

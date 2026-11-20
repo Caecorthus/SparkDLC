@@ -30,7 +30,7 @@ public abstract class GameFunctionsForcedShotProtectionMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private static void sparkwitch$blockForcedShotInnocentDeath(
+    private static void sparkdlc$blockForcedShotInnocentDeath(
             ServerPlayerEntity victim,
             boolean spawnBody,
             @Nullable ServerPlayerEntity killer,

@@ -137,7 +137,7 @@ public final class UsecFireInput {
         // 服务端仅在其主手持步枪时开火，但本刻早先处理的快捷栏按键只改变了客户端栏位（原版在下一刻才发送）。像
         // interactItem 一样先同步，服务端便会先读到栏位再处理开火。栏位未变时不发送任何内容。
         if (client.interactionManager != null) {
-            ((SelectedSlotFlushInvoker) client.interactionManager).sparkwitch$flushSelectedSlot();
+            ((SelectedSlotFlushInvoker) client.interactionManager).sparkdlc$flushSelectedSlot();
         }
         // Rotation at press time: the attack key is handled before this tick's rotation packet (Death Ray precedent).
         // 按下瞬间的朝向：攻击键先于本刻的朝向数据包处理（参照死亡射线）。

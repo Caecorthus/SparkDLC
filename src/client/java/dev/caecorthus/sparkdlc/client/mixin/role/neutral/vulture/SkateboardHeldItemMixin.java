@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.mixin.role.neutral.vulture;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.role.neutral.vulture.SkateboardRenderer;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(HeldItemRenderer.class)
 public abstract class SkateboardHeldItemMixin {
     @Inject(method = "renderFirstPersonItem", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$hideRiddenSkateboard(
+    private void sparkdlc$hideRiddenSkateboard(
             AbstractClientPlayerEntity player,
             float tickDelta,
             float pitch,
@@ -34,7 +34,7 @@ public abstract class SkateboardHeldItemMixin {
             int light,
             CallbackInfo ci
     ) {
-        if (item.isOf(SparkStrengthItems.skateboard()) && SkateboardRenderer.standsOnBoard(player)) {
+        if (item.isOf(SparkDlcItems.skateboard()) && SkateboardRenderer.standsOnBoard(player)) {
             ci.cancel();
         }
     }

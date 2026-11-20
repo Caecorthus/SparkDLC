@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(VendettaKnifeItem.class)
 public abstract class VendettaKnifeItemMixin {
     @Inject(method = "onStoppedUsing", at = @At("TAIL"))
-    private void sparkwitch$submitVendettaKnifeTarget(
+    private void sparkdlc$submitVendettaKnifeTarget(
             ItemStack stack,
             World world,
             LivingEntity user,

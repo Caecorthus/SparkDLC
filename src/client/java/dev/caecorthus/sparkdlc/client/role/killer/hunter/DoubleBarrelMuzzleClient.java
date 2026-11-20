@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.killer.hunter;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.killer.hunter.DoubleBarrelShotgunItem;
 import dev.doctor4t.wathe.index.tag.WatheItemTags;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -68,8 +68,8 @@ public final class DoubleBarrelMuzzleClient {
             return;
         }
         ItemStack mainHand = player.getMainHandStack();
-        boolean shotgunShot = mainHand.isOf(SparkWitchItems.doubleBarrelShotgun())
-                || (player.getOffHandStack().isOf(SparkWitchItems.doubleBarrelShotgun())
+        boolean shotgunShot = mainHand.isOf(SparkDlcItems.doubleBarrelShotgun())
+                || (player.getOffHandStack().isOf(SparkDlcItems.doubleBarrelShotgun())
                 && !mainHand.isIn(WatheItemTags.GUNS));
         if (!shotgunShot) {
             return;

@@ -21,7 +21,7 @@ import java.util.Optional;
  * 持有阵营定义与能力查询。
  */
 public final class FactionCatalog {
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkFactionAPI/FactionCatalog");
+    private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/FactionCatalog");
     private static final Map<Identifier, FactionDefinition> FACTIONS = new LinkedHashMap<>();
     // FactionCapabilities is an immutable record (Set.copyOf tags), so one shared fallback is safe.
     // FactionCapabilities 是不可变 record（标签经 Set.copyOf），因此可以共享同一个缺省实例。

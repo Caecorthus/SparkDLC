@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = WatheClient.class, remap = false)
 public abstract class WatheClientInstinctConcealMixin {
     @WrapMethod(method = "getInstinctHighlight")
-    private static int sparkstrength$concealNearCorruptCop(Entity target, Operation<Integer> original) {
+    private static int sparkdlc$concealNearCorruptCop(Entity target, Operation<Integer> original) {
         if (CorruptCopClientHooks.shouldConcealInstinct(target)) {
             return -1;
         }

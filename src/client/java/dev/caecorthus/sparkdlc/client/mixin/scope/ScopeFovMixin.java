@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class ScopeFovMixin {
     @ModifyExpressionValue(method = "updateFovMultiplier", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;getFovMultiplier()F"))
-    private float sparkwitch$scopeZoom(float original) {
+    private float sparkdlc$scopeZoom(float original) {
         return ScopeRuntime.fovMultiplier(original);
     }
 }

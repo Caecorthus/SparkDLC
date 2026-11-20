@@ -24,7 +24,7 @@ public abstract class UndercoverGunInventoryMixin {
     public PlayerEntity player;
 
     @Inject(method = "insertStack(ILnet/minecraft/item/ItemStack;)Z", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$stage2RefusesGuns(int slot, ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$stage2RefusesGuns(int slot, ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         if (player instanceof ServerPlayerEntity serverPlayer && UndercoverService.refusesStack(serverPlayer, stack)) {
             cir.setReturnValue(false);
         }

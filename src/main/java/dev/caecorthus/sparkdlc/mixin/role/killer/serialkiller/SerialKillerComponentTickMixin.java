@@ -17,7 +17,7 @@ public abstract class SerialKillerComponentTickMixin {
 
     // RETURN 会覆盖 serverTick 内部的提前 return，确保延迟刀 CD 写入后仍能清理。
     @Inject(method = "serverTick", at = @At("RETURN"), remap = false)
-    private void sparkstrength$clearCooldownAfterNoellesTick(CallbackInfo ci) {
+    private void sparkdlc$clearCooldownAfterNoellesTick(CallbackInfo ci) {
         SerialKillerCooldownService.applyComponentTickReset(player);
     }
 }

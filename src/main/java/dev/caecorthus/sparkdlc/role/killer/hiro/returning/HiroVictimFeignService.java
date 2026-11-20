@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.hiro.returning;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.role.civilian.judge.JudgeKillAttribution;
@@ -205,7 +205,7 @@ public final class HiroVictimFeignService {
         } catch (RuntimeException exception) {
             // A failing feign never cancels the kill silently: the death commits for real.
             // 假死出错绝不会静默取消击杀：这次死亡照常真正提交。
-            SparkWitch.LOGGER.error("Hiro victim feign failed for {}; the death commits.", victim.getUuid(), exception);
+            SparkDLC.LOGGER.error("Hiro victim feign failed for {}; the death commits.", victim.getUuid(), exception);
             return false;
         }
     }
@@ -333,7 +333,7 @@ public final class HiroVictimFeignService {
             try {
                 tickFeign(server, feign);
             } catch (RuntimeException exception) {
-                SparkWitch.LOGGER.error("Hiro victim feign tick failed for {}.", feign.victim(), exception);
+                SparkDLC.LOGGER.error("Hiro victim feign tick failed for {}.", feign.victim(), exception);
             }
         }
     }

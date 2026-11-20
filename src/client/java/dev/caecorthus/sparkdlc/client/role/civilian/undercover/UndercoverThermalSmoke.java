@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.undercover;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeClientState;
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.occlusion.SmokeHeatMask;
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.occlusion.SmokeHeatMath;
@@ -144,6 +144,6 @@ public final class UndercoverThermalSmoke {
             return;
         }
         logged = true;
-        SparkStrength.LOGGER.warn(message, error);
+        SparkDLC.LOGGER.warn(message, error);
     }
 }

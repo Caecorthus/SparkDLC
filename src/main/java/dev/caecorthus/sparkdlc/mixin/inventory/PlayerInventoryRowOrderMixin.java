@@ -31,7 +31,7 @@ public abstract class PlayerInventoryRowOrderMixin {
     public DefaultedList<ItemStack> main;
 
     @Inject(method = "getEmptySlot", at = @At("HEAD"), cancellable = true)
-    private void sparkfactionapi$preferVisibleSecondRow(CallbackInfoReturnable<Integer> cir) {
+    private void sparkdlc$preferVisibleSecondRow(CallbackInfoReturnable<Integer> cir) {
         if (LimitedInventoryScope.appliesTo(this.player)) {
             cir.setReturnValue(LimitedInventoryRows.firstEmptySlot(this.main.size(), index -> this.main.get(index).isEmpty()));
         }

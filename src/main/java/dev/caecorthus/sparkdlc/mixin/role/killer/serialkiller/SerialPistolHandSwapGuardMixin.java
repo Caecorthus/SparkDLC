@@ -20,7 +20,7 @@ public abstract class SerialPistolHandSwapGuardMixin {
     @Shadow public ServerPlayerEntity player;
 
     @Inject(method = "onPlayerAction", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$keepSerialPistolHands(PlayerActionC2SPacket packet, CallbackInfo ci) {
+    private void sparkdlc$keepSerialPistolHands(PlayerActionC2SPacket packet, CallbackInfo ci) {
         // HEAD also runs on the Netty thread before vanilla reschedules; decide only on the main-thread pass.
         // HEAD 也会在原版转交主线程前于网络线程执行；只在主线程那一次判定，网络线程取消会让包永远不再处理。
         if (!player.getServerWorld().getServer().isOnThread()) {

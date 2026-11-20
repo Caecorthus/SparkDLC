@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ChunkDataSender.class)
 public abstract class BluePoisonChunkSendMixin {
     @Inject(method = "sendChunkData", at = @At("TAIL"))
-    private static void sparktraits$sendBluePoisonMarkers(
+    private static void sparkdlc$sendBluePoisonMarkers(
             ServerPlayNetworkHandler handler,
             ServerWorld world,
             WorldChunk chunk,

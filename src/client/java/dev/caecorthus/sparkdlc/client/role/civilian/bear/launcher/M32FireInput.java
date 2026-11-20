@@ -113,7 +113,7 @@ public final class M32FireInput {
         // client's slot, so flush it first (it sends nothing when unchanged). / 服务端仅在主手持 M32A1 时发射；本刻早先处理
         // 的快捷栏按键只改变了客户端栏位，因此先同步（未变时不发送）。
         if (client.interactionManager != null) {
-            ((SelectedSlotFlushInvoker) client.interactionManager).sparkwitch$flushSelectedSlot();
+            ((SelectedSlotFlushInvoker) client.interactionManager).sparkdlc$flushSelectedSlot();
         }
         // Rotation at press time: the attack key is handled before this tick's rotation packet. The round always
         // leaves along the look, aimed or from the hip (owner 2026-11-11: no range dial; the M2A1's fixed scale is

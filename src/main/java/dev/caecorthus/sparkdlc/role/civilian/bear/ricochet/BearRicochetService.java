@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.bear.ricochet;
 
-import dev.caecorthus.sparkdlc.SparkWitchSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.role.civilian.bear.helmet.RysTHelmetItem;
 import dev.caecorthus.sparkdlc.role.civilian.bear.helmet.RysTVisor;
 import dev.caecorthus.sparkdlc.role.neutral.ferryman.FerrymanPardonService;
@@ -70,7 +70,7 @@ public final class BearRicochetService {
         if (helmet.isEmpty()) {
             return false;
         }
-        Vec3d blast = SparkStrengthBlastOrigin.current();
+        Vec3d blast = RoleKitBlastOrigin.current();
         Vec3d origin = BearRicochetRules.resolveOrigin(deathReason, RangedOriginScope.isOpen(),
                 RangedOriginScope.current(), () -> blast,
                 killer == null ? null : killer.getEyePos());
@@ -96,7 +96,7 @@ public final class BearRicochetService {
         if (helmet.isEmpty()) {
             return false;
         }
-        return settle(victim, helmet, killer, shell, SparkStrengthBlastOrigin.current(), origin);
+        return settle(victim, helmet, killer, shell, RoleKitBlastOrigin.current(), origin);
     }
 
     /**
@@ -162,7 +162,7 @@ public final class BearRicochetService {
                 : eye.add(0.0, 0.15, 0.0);
         float pitch = 0.95F + wearer.getRandom().nextFloat() * 0.1F;
         world.playSound(null, impact.x, impact.y, impact.z,
-                glass ? SparkWitchSounds.BEAR_RYS_T_VISOR_HIT : SparkWitchSounds.BEAR_RYS_T_RICOCHET,
+                glass ? SparkDlcSounds.BEAR_RYS_T_VISOR_HIT : SparkDlcSounds.BEAR_RYS_T_RICOCHET,
                 SoundCategory.PLAYERS, BearRicochetRules.PUBLIC_SOUND_VOLUME, pitch);
         // Sparks for every onlooker, never inside the wearer's own camera (D5: no flash; the daze is theirs).
         // 火花给所有旁观者，从不出现在佩戴者自己的镜头里（D5：没有闪光；佩戴者看到的是眩晕）。

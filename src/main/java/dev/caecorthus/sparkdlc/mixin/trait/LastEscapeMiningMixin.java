@@ -21,7 +21,7 @@ public abstract class LastEscapeMiningMixin {
     @Shadow private BlockPos failedMiningPos;
 
     @WrapMethod(method = "update")
-    private void sparktraits$cancelHeldMining(Operation<Void> original) {
+    private void sparkdlc$cancelHeldMining(Operation<Void> original) {
         if (LastEscapeService.isActive(player)) {
             if (mining) world.setBlockBreakingInfo(player.getId(), miningPos, -1);
             if (failedToMine) world.setBlockBreakingInfo(player.getId(), failedMiningPos, -1);
@@ -32,7 +32,7 @@ public abstract class LastEscapeMiningMixin {
     }
 
     @WrapMethod(method = "interactItem")
-    private net.minecraft.util.ActionResult sparktraits$blockItemUse(ServerPlayerEntity actor,
+    private net.minecraft.util.ActionResult sparkdlc$blockItemUse(ServerPlayerEntity actor,
             net.minecraft.world.World targetWorld, net.minecraft.item.ItemStack stack,
             net.minecraft.util.Hand hand, Operation<net.minecraft.util.ActionResult> original) {
         return LastEscapeService.isActive(actor) ? net.minecraft.util.ActionResult.FAIL
@@ -40,7 +40,7 @@ public abstract class LastEscapeMiningMixin {
     }
 
     @WrapMethod(method = "interactBlock")
-    private net.minecraft.util.ActionResult sparktraits$blockBlockUse(ServerPlayerEntity actor,
+    private net.minecraft.util.ActionResult sparkdlc$blockBlockUse(ServerPlayerEntity actor,
             net.minecraft.world.World targetWorld, net.minecraft.item.ItemStack stack,
             net.minecraft.util.Hand hand, net.minecraft.util.hit.BlockHitResult hit,
             Operation<net.minecraft.util.ActionResult> original) {
@@ -49,7 +49,7 @@ public abstract class LastEscapeMiningMixin {
     }
 
     @WrapMethod(method = "tryBreakBlock")
-    private boolean sparktraits$blockBreak(BlockPos pos, Operation<Boolean> original) {
+    private boolean sparkdlc$blockBreak(BlockPos pos, Operation<Boolean> original) {
         return !LastEscapeService.isActive(player) && original.call(pos);
     }
 }

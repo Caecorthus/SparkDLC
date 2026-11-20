@@ -30,7 +30,7 @@ public abstract class RiftGateAttackMixin {
                     target = "Lnet/minecraft/client/network/ClientPlayerInteractionManager;attackEntity(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/entity/Entity;)V"
             )
     )
-    private void sparkwitch$attackThroughRiftGate(ClientPlayerInteractionManager manager, PlayerEntity player,
+    private void sparkdlc$attackThroughRiftGate(ClientPlayerInteractionManager manager, PlayerEntity player,
                                                   Entity target, Operation<Void> original) {
         Entity resolved = RiftGateCrosshairClient.attackTarget((MinecraftClient) (Object) this, target);
         if (resolved != null) {

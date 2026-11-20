@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.item.sparekey;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.remote.SeekerRemoteSessionService;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowSessions;
 import dev.doctor4t.wathe.api.event.DoorInteraction;
@@ -57,7 +57,7 @@ public final class SpareKeyDoors {
         Hand hand = keyHand(context, player);
         // While cooling down the key does nothing: Wathe handles the click as if no key were held.
         // 冷却期间钥匙不起作用：Wathe 按未持钥匙处理这次点击。
-        if (hand == null || player.getItemCooldownManager().isCoolingDown(SparkWitchItems.spareKey())) {
+        if (hand == null || player.getItemCooldownManager().isCoolingDown(SparkDlcItems.spareKey())) {
             return PASS;
         }
         var world = context.getWorld();
@@ -98,7 +98,7 @@ public final class SpareKeyDoors {
             // Zero points remove the key instead of leaving a broken one. / 点数归零直接移除，不留损坏的钥匙。
             player.setStackInHand(hand, ItemStack.EMPTY);
         }
-        player.getItemCooldownManager().set(SparkWitchItems.spareKey(), SpareKeyRules.COOLDOWN_TICKS);
+        player.getItemCooldownManager().set(SparkDlcItems.spareKey(), SpareKeyRules.COOLDOWN_TICKS);
         if (player instanceof ServerPlayerEntity serverPlayer) {
             serverPlayer.getInventory().markDirty();
             serverPlayer.currentScreenHandler.sendContentUpdates();
@@ -125,13 +125,13 @@ public final class SpareKeyDoors {
         ItemStack eventHand = context.getHandItem();
         ItemStack mainHand = player.getMainHandStack();
         boolean mayUseOffHand = eventHand.isEmpty() && mainHand.isEmpty()
-                && player.getOffHandStack().isOf(SparkWitchItems.spareKey());
+                && player.getOffHandStack().isOf(SparkDlcItems.spareKey());
         SpareKeyRules.KeyHand hand = SpareKeyRules.keyHand(
-                eventHand.isOf(SparkWitchItems.spareKey()),
-                mainHand.isOf(SparkWitchItems.spareKey()),
+                eventHand.isOf(SparkDlcItems.spareKey()),
+                mainHand.isOf(SparkDlcItems.spareKey()),
                 eventHand.isEmpty(),
                 mainHand.isEmpty(),
-                player.getOffHandStack().isOf(SparkWitchItems.spareKey()),
+                player.getOffHandStack().isOf(SparkDlcItems.spareKey()),
                 // Only evaluated for an off-hand candidate. / 仅在副手候选时才判定。
                 mayUseOffHand && (SeekerRemoteSessionService.isLocked(player)
                         || BlackRavenCrowSessions.isActive(player)),

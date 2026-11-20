@@ -24,7 +24,7 @@ public abstract class ItemEntityUsecGunMixin {
 
     @Inject(method = "onPlayerCollision(Lnet/minecraft/entity/player/PlayerEntity;)V", at = @At("HEAD"),
             cancellable = true)
-    private void sparkwitch$blockUsecGunPickup(PlayerEntity player, CallbackInfo ci) {
+    private void sparkdlc$blockUsecGunPickup(PlayerEntity player, CallbackInfo ci) {
         if (UsecGunRules.blocksGun(player, this.getStack())) {
             ci.cancel();
         }

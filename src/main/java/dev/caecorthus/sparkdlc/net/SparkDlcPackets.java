@@ -239,8 +239,8 @@ public final class SparkDlcPackets {
         // BEAR 数据包类型（各工作包在其中追加），位于 USEC 之前，USEC 保持最后。
         BearNetworking.register();
         // USEC payload types register in their own role-owned class, like the Seeker; the owning services register the
-        // receivers from SparkWitchEvents, which runs after this. / USEC 数据包类型与搜寻者一样在自有类中注册；
-        // 接收器由各自的服务在之后运行的 SparkWitchEvents 中注册。
+        // receivers from RoleEvents, which runs after this. / USEC 数据包类型与搜寻者一样在自有类中注册；
+        // 接收器由各自的服务在之后运行的 RoleEvents 中注册。
         UsecNetworking.register();
     }
 

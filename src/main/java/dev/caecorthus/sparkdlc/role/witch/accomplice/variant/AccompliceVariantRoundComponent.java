@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.accomplice.variant;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.world.World;
 import org.ladysnake.cca.api.v3.component.Component;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
@@ -15,7 +15,7 @@ import org.ladysnake.cca.api.v3.component.ComponentRegistry;
  */
 public final class AccompliceVariantRoundComponent extends AccompliceVariantRoundState implements Component {
     public static final ComponentKey<AccompliceVariantRoundComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("accomplice_variant_round"), AccompliceVariantRoundComponent.class);
+            SparkDLC.id("accomplice_variant_round"), AccompliceVariantRoundComponent.class);
 
     public AccompliceVariantRoundComponent(World world) {
     }

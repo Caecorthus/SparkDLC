@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker.remote;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerCarState;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerDeviceKind;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerState;
@@ -63,10 +63,10 @@ public final class SeekerRemoteStreaming {
      * 位于会话焦点周围；参数为焦点实体 id。与 SparkStrength 的无人机票据互不相同。
      */
     private static final ChunkTicketType<Integer> FOCUS_TICKET = ChunkTicketType.create(
-            SparkWitch.MOD_ID + ":seeker_remote", Integer::compare, SeekerRemoteStreamingRules.TICKET_EXPIRY_TICKS);
+            SparkDLC.MOD_ID + ":seeker_remote", Integer::compare, SeekerRemoteStreamingRules.TICKET_EXPIRY_TICKS);
     /** Idle keep-alive on each live device; argument: the device entity id. / 每台存活设备的空闲保活；参数为设备实体 id。 */
     private static final ChunkTicketType<Integer> DEVICE_TICKET = ChunkTicketType.create(
-            SparkWitch.MOD_ID + ":seeker_device", Integer::compare, SeekerRemoteStreamingRules.TICKET_EXPIRY_TICKS);
+            SparkDLC.MOD_ID + ":seeker_device", Integer::compare, SeekerRemoteStreamingRules.TICKET_EXPIRY_TICKS);
 
     /** Owners whose view was centred on a focus at the last refresh. / 上次刷新时视野以焦点为中心的拥有者。 */
     private static final Set<UUID> STREAMING = new HashSet<>();

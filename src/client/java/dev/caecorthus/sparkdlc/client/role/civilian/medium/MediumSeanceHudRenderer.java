@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.medium;
 
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.role.civilian.medium.MediumBlessing;
 import dev.caecorthus.sparkdlc.role.civilian.medium.MediumSeanceComponent;
 import dev.caecorthus.sparkdlc.role.civilian.medium.MediumWindowKind;
@@ -70,14 +70,14 @@ public final class MediumSeanceHudRenderer {
     private static Text answerHint(int windowId) {
         Boolean answer = MediumVoteClient.answer(windowId);
         if (answer == null) {
-            return Text.translatable("hud.sparkdlc.medium.vote.prompt", SparkWitchClient.abilityKeyText());
+            return Text.translatable("hud.sparkdlc.medium.vote.prompt", SparkDLCClient.abilityKeyText());
         }
         return Text.translatable(
                 "hud.sparkdlc.medium.vote.voted",
                 Text.translatable(answer
                         ? "screen.sparkdlc.medium.vote.yes"
                         : "screen.sparkdlc.medium.vote.no"),
-                SparkWitchClient.abilityKeyText()
+                SparkDLCClient.abilityKeyText()
         );
     }
 
@@ -86,9 +86,9 @@ public final class MediumSeanceHudRenderer {
         Integer choice = MediumVoteClient.choice(windowId);
         MediumBlessing picked = choice == null ? null : MediumBlessing.byIndex(choice);
         if (picked == null) {
-            return Text.translatable("hud.sparkdlc.medium.blessing.prompt", SparkWitchClient.abilityKeyText());
+            return Text.translatable("hud.sparkdlc.medium.blessing.prompt", SparkDLCClient.abilityKeyText());
         }
         return Text.translatable("hud.sparkdlc.medium.blessing.voted",
-                Text.translatable(MediumBlessingVoteScreen.nameKey(picked)), SparkWitchClient.abilityKeyText());
+                Text.translatable(MediumBlessingVoteScreen.nameKey(picked)), SparkDLCClient.abilityKeyText());
     }
 }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.seeker.render;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.role.civilian.seeker.SeekerClientState;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerSessionMode;
@@ -59,7 +59,7 @@ public class SeekerCameraEntityRenderer extends EntityRenderer<SeekerCameraEntit
     public SeekerCameraEntityRenderer(EntityRendererFactory.Context context) {
         super(context);
         itemRenderer = context.getItemRenderer();
-        stack = new ItemStack(SparkWitchItems.seekerCamera());
+        stack = new ItemStack(SparkDlcItems.seekerCamera());
     }
 
     @Override

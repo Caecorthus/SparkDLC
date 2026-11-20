@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(MinecraftClient.class)
 public abstract class SeekerRemoteMinecraftClientMixin {
     @Inject(method = "handleInputEvents", at = @At("HEAD"))
-    private void sparkwitch$settleWhileViewing(CallbackInfo ci) {
+    private void sparkdlc$settleWhileViewing(CallbackInfo ci) {
         if (!SeekerRemoteViewClient.isActive()) {
             return;
         }
@@ -28,7 +28,7 @@ public abstract class SeekerRemoteMinecraftClientMixin {
     }
 
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noAttackWhileViewing(CallbackInfoReturnable<Boolean> cir) {
+    private void sparkdlc$noAttackWhileViewing(CallbackInfoReturnable<Boolean> cir) {
         if (!SeekerRemoteViewClient.isActive()) {
             return;
         }
@@ -36,7 +36,7 @@ public abstract class SeekerRemoteMinecraftClientMixin {
     }
 
     @Inject(method = "doItemUse", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noItemUseWhileViewing(CallbackInfo ci) {
+    private void sparkdlc$noItemUseWhileViewing(CallbackInfo ci) {
         if (!SeekerRemoteViewClient.isActive()) {
             return;
         }
@@ -44,7 +44,7 @@ public abstract class SeekerRemoteMinecraftClientMixin {
     }
 
     @Inject(method = "doItemPick", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noItemPickWhileViewing(CallbackInfo ci) {
+    private void sparkdlc$noItemPickWhileViewing(CallbackInfo ci) {
         if (!SeekerRemoteViewClient.isActive()) {
             return;
         }
@@ -52,7 +52,7 @@ public abstract class SeekerRemoteMinecraftClientMixin {
     }
 
     @Inject(method = "handleBlockBreaking", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$noBlockBreakingWhileViewing(boolean breaking, CallbackInfo ci) {
+    private void sparkdlc$noBlockBreakingWhileViewing(boolean breaking, CallbackInfo ci) {
         if (!SeekerRemoteViewClient.isActive()) {
             return;
         }

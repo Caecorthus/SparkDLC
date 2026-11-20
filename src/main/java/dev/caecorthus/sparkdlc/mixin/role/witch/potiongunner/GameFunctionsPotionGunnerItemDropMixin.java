@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(GameFunctions.class)
 public abstract class GameFunctionsPotionGunnerItemDropMixin {
     @Inject(method = "shouldDropOnDeath", at = @At("HEAD"), cancellable = true)
-    private static void sparkwitch$excludePotionGunnerItems(
+    private static void sparkdlc$excludePotionGunnerItems(
             ItemStack stack,
             PlayerEntity victim,
             CallbackInfoReturnable<Boolean> cir

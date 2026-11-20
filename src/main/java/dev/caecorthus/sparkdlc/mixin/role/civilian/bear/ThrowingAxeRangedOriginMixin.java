@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class ThrowingAxeRangedOriginMixin {
     @WrapOperation(method = "onEntityHit", at = @At(value = "INVOKE",
             target = "Ldev/doctor4t/wathe/game/GameFunctions;killPlayer(Lnet/minecraft/server/network/ServerPlayerEntity;ZLnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/util/Identifier;)V"))
-    private void sparkwitch$scopeAxeOrigin(ServerPlayerEntity victim, boolean body, ServerPlayerEntity killer,
+    private void sparkdlc$scopeAxeOrigin(ServerPlayerEntity victim, boolean body, ServerPlayerEntity killer,
                                           Identifier reason, Operation<Void> original) {
         Entity axe = (Entity) (Object) this;
         RangedOriginScope.run(axe.getPos().subtract(axe.getVelocity()), axe.getUuid(),

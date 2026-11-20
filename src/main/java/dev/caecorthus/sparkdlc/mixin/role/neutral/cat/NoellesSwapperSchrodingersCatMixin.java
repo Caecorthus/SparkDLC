@@ -29,7 +29,7 @@ public abstract class NoellesSwapperSchrodingersCatMixin {
             cancellable = true,
             require = 1
     )
-    private static void sparkwitch$swapperSkipsCatSpectre(
+    private static void sparkdlc$swapperSkipsCatSpectre(
             SwapperC2SPacket payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci

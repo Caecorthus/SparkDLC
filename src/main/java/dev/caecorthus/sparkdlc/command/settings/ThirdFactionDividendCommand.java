@@ -5,7 +5,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.tree.CommandNode;
 import com.mojang.brigadier.tree.LiteralCommandNode;
-import dev.caecorthus.sparkdlc.component.SparkFactionThirdFactionComponent;
+import dev.caecorthus.sparkdlc.component.ThirdFactionComponent;
 import dev.caecorthus.sparkdlc.faction.thirdfaction.ThirdFactionDrawRules;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
  * {@code wathe:gameSettings} 上 Wathe 权限要求的保护；参数下限 3 与 Wathe 的义警/中立选项一致。
  */
 public final class ThirdFactionDividendCommand {
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkFactionAPI/ThirdFactionDividendCommand");
+    private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/ThirdFactionDividendCommand");
     public static final String ROOT = "wathe:gameSettings";
     public static final String SET = "set";
     public static final String ROLE_DIVIDEND = "roleDividend";
@@ -66,7 +66,7 @@ public final class ThirdFactionDividendCommand {
     }
 
     private static int setDividend(ServerCommandSource source, int dividend) {
-        SparkFactionThirdFactionComponent settings = SparkFactionThirdFactionComponent.of(source.getServer());
+        ThirdFactionComponent settings = ThirdFactionComponent.of(source.getServer());
         settings.setDividend(dividend);
         int stored = settings.settings().dividend();
         source.sendFeedback(() -> Text.translatableWithFallback(

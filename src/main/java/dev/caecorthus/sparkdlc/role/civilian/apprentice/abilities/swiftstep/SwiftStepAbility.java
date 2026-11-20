@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.apprentice.abilities.swiftstep;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseContext;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseResult;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
@@ -12,7 +12,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.Identifier;
 
 public final class SwiftStepAbility {
-    public static final Identifier ID = SparkWitch.id("swift_step");
+    public static final Identifier ID = SparkDLC.id("swift_step");
     public static final int COLOR = 0x9CF26F;
     // Two charges, 20 mana each; every spent charge recharges on its own 20 s timer (owner D6).
     // 两层充能，每层 20 魔力；每层消耗后各自独立计时 20 秒恢复（所有者 D6）。

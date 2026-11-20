@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.item.m1903a4;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.index.WatheParticles;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import net.minecraft.component.DataComponentTypes;
@@ -143,7 +143,7 @@ public class M1903A4Item extends BowItem {
 
     /** Loads one round; the single path shared by the ammunition item and the inventory click. / 装一发，弹药使用与背包点击共用。 */
     public static boolean tryReload(PlayerEntity player, ItemStack rifle, ItemStack ammo) {
-        if (!(rifle.getItem() instanceof M1903A4Item) || !ammo.isOf(SparkWitchItems.ammo3006())) {
+        if (!(rifle.getItem() instanceof M1903A4Item) || !ammo.isOf(SparkDlcItems.ammo3006())) {
             return false;
         }
         if (getLoadedRounds(rifle) >= MAX_ROUNDS) {
@@ -162,7 +162,7 @@ public class M1903A4Item extends BowItem {
             NbtCompound extra = new NbtCompound();
             extra.putString(M1903A4Rules.RECORD_ACTION, M1903A4Rules.ACTION_RELOAD);
             extra.putInt(M1903A4Rules.RECORD_LOADED_ROUNDS, getLoadedRounds(rifle));
-            GameRecordManager.recordItemUse(serverPlayer, SparkWitchItems.M1903A4_ID, null, extra);
+            GameRecordManager.recordItemUse(serverPlayer, SparkDlcItems.M1903A4_ID, null, extra);
         }
         player.currentScreenHandler.sendContentUpdates();
         return true;
@@ -197,7 +197,7 @@ public class M1903A4Item extends BowItem {
         // 每个弹位一行，栈顶在前（下一发），空位显示为空。
         for (int slot = 0; slot < MAX_ROUNDS; slot++) {
             tooltip.add(slot < loaded
-                    ? Text.translatable(SparkWitchItems.ammo3006().getTranslationKey()).formatted(Formatting.GRAY)
+                    ? Text.translatable(SparkDlcItems.ammo3006().getTranslationKey()).formatted(Formatting.GRAY)
                     : Text.translatable("item.sparkdlc.m1903a4.tooltip.empty").formatted(Formatting.GRAY));
         }
         super.appendTooltip(stack, context, tooltip, type);

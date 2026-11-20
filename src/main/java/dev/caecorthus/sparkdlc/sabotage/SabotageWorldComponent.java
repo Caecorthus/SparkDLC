@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.sabotage;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.sabotage.EnginePhase;
 import dev.caecorthus.sparkdlc.sabotage.EngineRules;
 import dev.caecorthus.sparkdlc.sabotage.OutageMode;
@@ -33,7 +33,7 @@ import java.util.UUID;
  */
 public final class SabotageWorldComponent implements Component {
     public static final ComponentKey<SabotageWorldComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkStrength.id("sabotage_world"), SabotageWorldComponent.class
+            SparkDLC.id("sabotage_world"), SabotageWorldComponent.class
     );
 
     /**

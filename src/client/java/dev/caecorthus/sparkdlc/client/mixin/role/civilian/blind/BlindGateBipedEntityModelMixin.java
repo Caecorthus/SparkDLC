@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = BipedEntityModel.class, priority = 2000)
 public abstract class BlindGateBipedEntityModelMixin {
     @WrapMethod(method = "positionRightArm(Lnet/minecraft/entity/LivingEntity;)V")
-    private void sparkwitch$blindEmptyRightArm(LivingEntity entity, Operation<Void> original) {
+    private void sparkdlc$blindEmptyRightArm(LivingEntity entity, Operation<Void> original) {
         if (BlindClientGates.suppressesFeatures(entity)) {
             ((BipedEntityModel<?>) (Object) this).rightArm.yaw = 0.0F;
             return;
@@ -30,7 +30,7 @@ public abstract class BlindGateBipedEntityModelMixin {
     }
 
     @WrapMethod(method = "positionLeftArm(Lnet/minecraft/entity/LivingEntity;)V")
-    private void sparkwitch$blindEmptyLeftArm(LivingEntity entity, Operation<Void> original) {
+    private void sparkdlc$blindEmptyLeftArm(LivingEntity entity, Operation<Void> original) {
         if (BlindClientGates.suppressesFeatures(entity)) {
             ((BipedEntityModel<?>) (Object) this).leftArm.yaw = 0.0F;
             return;

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.record;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.doctor4t.wathe.cca.WorldBlackoutComponent;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -44,7 +44,7 @@ public final class BlackoutRecorder {
                     ? AchievementRecords.BLACKOUT_CAUSE_PURCHASE
                     : AchievementRecords.BLACKOUT_CAUSE_EXPIRED);
         } catch (RuntimeException error) {
-            SparkStrength.LOGGER.warn("Could not record the blackout purchase", error);
+            SparkDLC.LOGGER.warn("Could not record the blackout purchase", error);
         }
     }
 
@@ -57,7 +57,7 @@ public final class BlackoutRecorder {
                     ? AchievementRecords.BLACKOUT_CAUSE_SABOTAGE
                     : AchievementRecords.BLACKOUT_CAUSE_EXPIRED);
         } catch (RuntimeException error) {
-            SparkStrength.LOGGER.warn("Could not record the lights sabotage", error);
+            SparkDLC.LOGGER.warn("Could not record the lights sabotage", error);
         }
     }
 
@@ -73,7 +73,7 @@ public final class BlackoutRecorder {
                     ? AchievementRecords.BLACKOUT_CAUSE_UNKNOWN
                     : AchievementRecords.BLACKOUT_CAUSE_BREAKER_REPAIR);
         } catch (RuntimeException error) {
-            SparkStrength.LOGGER.warn("Could not record the breaker repair", error);
+            SparkDLC.LOGGER.warn("Could not record the breaker repair", error);
         }
     }
 
@@ -86,7 +86,7 @@ public final class BlackoutRecorder {
                     ? AchievementRecords.BLACKOUT_CAUSE_UNKNOWN
                     : AchievementRecords.BLACKOUT_CAUSE_POWER_RESTORATION);
         } catch (RuntimeException error) {
-            SparkStrength.LOGGER.warn("Could not record the Sabotage Repair", error);
+            SparkDLC.LOGGER.warn("Could not record the Sabotage Repair", error);
         }
     }
 
@@ -103,7 +103,7 @@ public final class BlackoutRecorder {
                 AchievementRecords.flashlightBlackout(holder, remainingTicks);
             }
         } catch (RuntimeException error) {
-            SparkStrength.LOGGER.warn("Could not record the flashlight blackout", error);
+            SparkDLC.LOGGER.warn("Could not record the flashlight blackout", error);
         }
     }
 

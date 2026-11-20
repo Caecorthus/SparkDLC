@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.blind;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.EquipmentSlot;
@@ -31,7 +31,7 @@ public final class BlindComTacHeadVisibility {
             return false;
         }
         return hides(GameWorldComponent.KEY.get(wearer.getWorld()).isRunning(),
-                wearer.getEquippedStack(EquipmentSlot.HEAD).isOf(SparkWitchItems.comTac()));
+                wearer.getEquippedStack(EquipmentSlot.HEAD).isOf(SparkDlcItems.comTac()));
     }
 
     /** Pure rule behind {@link #hidesHeadItem}. / {@link #hidesHeadItem} 背后的纯规则。 */

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.civilian.depression;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.effective.death.EffectiveDeathConsequenceRules;
 import dev.caecorthus.sparkdlc.trait.killer.combat.ExactItemCooldowns;
 import dev.caecorthus.sparkdlc.mixin.trait.ItemCooldownEntryAccessor;
@@ -35,7 +35,7 @@ import java.util.UUID;
  */
 public final class DepressionFakeKillCooldowns {
     public static final int COOLDOWN_PERCENT = 20;
-    private static final Identifier FLUSH_PHASE = SparkTraits.id("depression_fake_kill_cooldowns");
+    private static final Identifier FLUSH_PHASE = SparkDLC.id("depression_fake_kill_cooldowns");
     /**
      * Weapons whose cooldown started before a tick-time kill (thrown, marked, pushed or injected earlier), by death reason.
      * Wathe grenades, Niko repeat shots and SparkWitch fire-poker falls name their weapon through {@link #withWeaponHint};
@@ -177,9 +177,9 @@ public final class DepressionFakeKillCooldowns {
      */
     public static void recordWrite(ServerPlayerEntity owner, Item item) {
         ItemCooldownManagerAccessor manager = (ItemCooldownManagerAccessor) owner.getItemCooldownManager();
-        if (manager.sparktraits$getEntries().get(item) instanceof ItemCooldownEntryAccessor cooldown) {
-            int start = cooldown.sparktraits$getStartTick();
-            int end = cooldown.sparktraits$getEndTick();
+        if (manager.sparkdlc$getEntriesForTraits().get(item) instanceof ItemCooldownEntryAccessor cooldown) {
+            int start = cooldown.sparkdlc$getStartTickForTraits();
+            int end = cooldown.sparkdlc$getEndTickForTraits();
             Map<Item, OriginalCooldown> originals = originalCooldowns.computeIfAbsent(owner.getUuid(), uuid -> new HashMap<>());
             OriginalCooldown previous = originals.get(item);
             // A write that only shortens the running cooldown (e.g. NoellesRoles vodka) keeps its original length.
@@ -270,7 +270,7 @@ public final class DepressionFakeKillCooldowns {
         try {
             apply(attacker, fakeKills);
         } catch (RuntimeException | LinkageError exception) {
-            SparkTraits.LOGGER.warn("Failed to shorten Depression fake-kill weapon cooldowns", exception);
+            SparkDLC.LOGGER.warn("Failed to shorten Depression fake-kill weapon cooldowns", exception);
         }
     }
 
@@ -284,13 +284,13 @@ public final class DepressionFakeKillCooldowns {
         Registries.ITEM.getOrEmpty(CEREMONIAL_SWORD).ifPresent(killTicks::remove);
         ItemCooldownManagerAccessor manager = (ItemCooldownManagerAccessor) attacker.getItemCooldownManager();
         Map<Item, OriginalCooldown> originals = originalCooldowns.getOrDefault(attacker.getUuid(), Map.of());
-        int now = manager.sparktraits$getTick();
+        int now = manager.sparkdlc$getTickForTraits();
         for (Map.Entry<Item, Integer> weapon : killTicks.entrySet()) {
-            if (!(manager.sparktraits$getEntries().get(weapon.getKey()) instanceof ItemCooldownEntryAccessor cooldown)) {
+            if (!(manager.sparkdlc$getEntriesForTraits().get(weapon.getKey()) instanceof ItemCooldownEntryAccessor cooldown)) {
                 continue;
             }
-            int startTick = cooldown.sparktraits$getStartTick();
-            int endTick = cooldown.sparktraits$getEndTick();
+            int startTick = cooldown.sparkdlc$getStartTickForTraits();
+            int endTick = cooldown.sparkdlc$getEndTickForTraits();
             OriginalCooldown original = originals.get(weapon.getKey());
             int originalTicks = original == null
                     ? endTick - startTick
@@ -326,7 +326,7 @@ public final class DepressionFakeKillCooldowns {
     }
 
     private static int managerTick(ServerPlayerEntity player) {
-        return ((ItemCooldownManagerAccessor) player.getItemCooldownManager()).sparktraits$getTick();
+        return ((ItemCooldownManagerAccessor) player.getItemCooldownManager()).sparkdlc$getTickForTraits();
     }
 
     /** One attacker's fake deaths within a single phase. 同一攻击者在同一阶段内造成的假死。 */

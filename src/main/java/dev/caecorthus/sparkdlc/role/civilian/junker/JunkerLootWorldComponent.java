@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.junker;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.component.WraithRoundComponent;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -50,7 +50,7 @@ import java.util.UUID;
  */
 public final class JunkerLootWorldComponent implements Component {
     public static final ComponentKey<JunkerLootWorldComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("ragpicker_loot"),
+            SparkDLC.id("ragpicker_loot"),
             JunkerLootWorldComponent.class
     );
 

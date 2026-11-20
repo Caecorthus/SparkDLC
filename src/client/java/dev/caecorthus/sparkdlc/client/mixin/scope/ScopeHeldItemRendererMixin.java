@@ -31,7 +31,7 @@ public abstract class ScopeHeldItemRendererMixin {
             + "Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;"
             + "Lnet/minecraft/client/network/ClientPlayerEntity;I)V",
             at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$hideScopedHands(float tickDelta, MatrixStack matrices,
+    private void sparkdlc$hideScopedHands(float tickDelta, MatrixStack matrices,
                                             VertexConsumerProvider.Immediate vertexConsumers,
                                             ClientPlayerEntity player, int light, CallbackInfo ci) {
         if (ScopeRuntime.hidesHand()) {

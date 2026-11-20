@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.potiongunner.launcher;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.remote.SeekerRemoteSessionService;
 import dev.caecorthus.sparkdlc.role.witch.potiongunner.PotionGunnerLoadoutService;
@@ -147,7 +147,7 @@ public class PotionLauncherItem extends Item {
                 // 光标语义（D9）：炮弹落在空光标上，界面打开时玩家总能触及。关闭界面时原版优先把光标物品放回快捷栏；
                 // 仍落入隐藏栏位的炮弹由生命周期清扫移回快捷栏（PotionGunnerLoadoutService）。
                 PotionLauncherLoad.setLoaded(launcher, null);
-                cursorStackReference.set(new ItemStack(SparkWitchItems.potionShell(loaded)));
+                cursorStackReference.set(new ItemStack(SparkDlcItems.potionShell(loaded)));
                 player.playSoundToPlayer(SoundEvents.ITEM_CROSSBOW_LOADING_START.value(), SoundCategory.PLAYERS,
                         0.8F, 1.2F);
             }
@@ -163,7 +163,7 @@ public class PotionLauncherItem extends Item {
         Optional<PotionShellType> loaded = PotionLauncherLoad.loaded(stack);
         tooltip.add(loaded
                 .map(shell -> Text.translatable(LOADED_TOOLTIP_KEY,
-                        SparkWitchItems.potionShell(shell).getName().copy().withColor(shell.color())))
+                        SparkDlcItems.potionShell(shell).getName().copy().withColor(shell.color())))
                 .orElseGet(() -> Text.translatable(EMPTY_TOOLTIP_KEY))
                 .formatted(Formatting.GRAY));
         for (int line = 1; line <= TOOLTIP_LINES; line++) {

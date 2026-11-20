@@ -24,7 +24,7 @@ public abstract class MurderGameModeMixin {
                     target = "Ldev/doctor4t/wathe/cca/ScoreboardRoleSelectorComponent;assignKillers(Lnet/minecraft/server/world/ServerWorld;Ldev/doctor4t/wathe/cca/GameWorldComponent;Ljava/util/List;I)I"
             )
     )
-    private static void sparkfactionapi$assignAfterForcedRoles(
+    private static void sparkdlc$assignAfterForcedRoles(
             ServerWorld world,
             List<ServerPlayerEntity> players,
             GameWorldComponent gameComponent,
@@ -40,7 +40,7 @@ public abstract class MurderGameModeMixin {
                     target = "Ldev/doctor4t/wathe/cca/ScoreboardRoleSelectorComponent;assignVigilantes(Lnet/minecraft/server/world/ServerWorld;Ldev/doctor4t/wathe/cca/GameWorldComponent;Ljava/util/List;I)V"
             )
     )
-    private static void sparkfactionapi$assignAfterKillers(
+    private static void sparkdlc$assignAfterKillers(
             ServerWorld world,
             List<ServerPlayerEntity> players,
             GameWorldComponent gameComponent,
@@ -56,7 +56,7 @@ public abstract class MurderGameModeMixin {
                     target = "Ldev/doctor4t/wathe/cca/ScoreboardRoleSelectorComponent;assignNeutrals(Lnet/minecraft/server/world/ServerWorld;Ldev/doctor4t/wathe/cca/GameWorldComponent;Ljava/util/List;I)I"
             )
     )
-    private static void sparkfactionapi$assignAfterVigilantes(
+    private static void sparkdlc$assignAfterVigilantes(
             ServerWorld world,
             List<ServerPlayerEntity> players,
             GameWorldComponent gameComponent,
@@ -75,7 +75,7 @@ public abstract class MurderGameModeMixin {
                     target = "Ldev/doctor4t/wathe/cca/ScoreboardRoleSelectorComponent;assignCivilians(Lnet/minecraft/server/world/ServerWorld;Ldev/doctor4t/wathe/cca/GameWorldComponent;Ljava/util/List;)I"
             )
     )
-    private static void sparkfactionapi$assignBeforeCivilians(
+    private static void sparkdlc$assignBeforeCivilians(
             ServerWorld world,
             List<ServerPlayerEntity> players,
             GameWorldComponent gameComponent,

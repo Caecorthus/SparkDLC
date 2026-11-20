@@ -17,7 +17,7 @@ public abstract class WatheClientInstinctLightMixin {
             method = "lambda$onInitializeClient$15",
             at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/client/WatheClient;isInstinctEnabledAndIsKiller()Z")
     )
-    private static boolean sparkwitch$allowWitchInstinctLight(Operation<Boolean> original) {
+    private static boolean sparkdlc$allowWitchInstinctLight(Operation<Boolean> original) {
         // Preserve the wrapped chain so other mods can extend the same Wathe light gate.
         // 保留包装调用链，让其他模组也能扩展同一个 Wathe 亮度入口。
         boolean originalAllowed = original.call();

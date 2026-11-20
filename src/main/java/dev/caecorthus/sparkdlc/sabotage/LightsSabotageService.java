@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.sabotage;
 
-import dev.caecorthus.sparkdlc.SparkStrengthBlocks;
-import dev.caecorthus.sparkdlc.SparkStrengthSounds;
+import dev.caecorthus.sparkdlc.SparkDlcBlocks;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.block.CircuitBreakerBlock;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.sabotage.SabotageWorldComponent;
@@ -81,10 +81,10 @@ public final class LightsSabotageService {
         }
         if (mode == OutageMode.REPAIR) {
             WorldBlackoutComponentAccessor accessor = (WorldBlackoutComponentAccessor) blackout;
-            for (WorldBlackoutComponent.BlackoutDetails detail : accessor.sparkstrength$getBlackouts()) {
-                ((BlackoutDetailsAccessor) detail).sparkstrength$setTime(SabotageRules.OUTAGE_CAP_TICKS);
+            for (WorldBlackoutComponent.BlackoutDetails detail : accessor.sparkdlc$getBlackouts()) {
+                ((BlackoutDetailsAccessor) detail).sparkdlc$setTime(SabotageRules.OUTAGE_CAP_TICKS);
             }
-            accessor.sparkstrength$setTicks(SabotageRules.OUTAGE_CAP_TICKS);
+            accessor.sparkdlc$setTicks(SabotageRules.OUTAGE_CAP_TICKS);
             setBreakersTripped(world, sabotage, true);
         }
         BlackoutRecorder.sabotaged(initiator);
@@ -100,22 +100,22 @@ public final class LightsSabotageService {
         }
         WorldBlackoutComponent blackout = WorldBlackoutComponent.KEY.get(world);
         WorldBlackoutComponentAccessor accessor = (WorldBlackoutComponentAccessor) blackout;
-        List<WorldBlackoutComponent.BlackoutDetails> details = accessor.sparkstrength$getBlackouts();
+        List<WorldBlackoutComponent.BlackoutDetails> details = accessor.sparkdlc$getBlackouts();
         Vec3d origin = Vec3d.ofCenter(breakerPos);
         double farthest = 0.0;
         for (WorldBlackoutComponent.BlackoutDetails detail : details) {
             farthest = Math.max(farthest, Math.sqrt(
-                    ((BlackoutDetailsAccessor) detail).sparkstrength$getPos().getSquaredDistance(origin)));
+                    ((BlackoutDetailsAccessor) detail).sparkdlc$getPos().getSquaredDistance(origin)));
         }
         for (WorldBlackoutComponent.BlackoutDetails detail : details) {
             BlackoutDetailsAccessor lamp = (BlackoutDetailsAccessor) detail;
-            double distance = Math.sqrt(lamp.sparkstrength$getPos().getSquaredDistance(origin));
-            lamp.sparkstrength$setTime(SabotageRules.restoreDelay(distance, farthest));
+            double distance = Math.sqrt(lamp.sparkdlc$getPos().getSquaredDistance(origin));
+            lamp.sparkdlc$setTime(SabotageRules.restoreDelay(distance, farthest));
         }
         // Zero with the "was active" flag still set: Wathe's next tick ends Night Vision / Blindness at once.
         // 清零但保留「曾经激活」标记：Wathe 下一 tick 立即结束夜视与失明。
-        accessor.sparkstrength$setTicks(0);
-        world.playSound(null, breakerPos, SparkStrengthSounds.CIRCUIT_BREAKER_RESTORE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        accessor.sparkdlc$setTicks(0);
+        world.playSound(null, breakerPos, SparkDlcSounds.CIRCUIT_BREAKER_RESTORE, SoundCategory.BLOCKS, 1.0F, 1.0F);
         finish(world, sabotage, EndReason.REPAIRED, repairer);
         return true;
     }
@@ -187,12 +187,12 @@ public final class LightsSabotageService {
     private static void setBreakersTripped(ServerWorld world, SabotageWorldComponent sabotage, boolean tripped) {
         for (BlockPos pos : sabotage.breakers()) {
             BlockState state = world.getBlockState(pos);
-            if (!state.isOf(SparkStrengthBlocks.circuitBreaker()) || state.get(CircuitBreakerBlock.TRIPPED) == tripped) {
+            if (!state.isOf(SparkDlcBlocks.circuitBreaker()) || state.get(CircuitBreakerBlock.TRIPPED) == tripped) {
                 continue;
             }
             world.setBlockState(pos, state.with(CircuitBreakerBlock.TRIPPED, tripped), Block.NOTIFY_ALL);
             if (tripped) {
-                world.playSound(null, pos, SparkStrengthSounds.CIRCUIT_BREAKER_TRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                world.playSound(null, pos, SparkDlcSounds.CIRCUIT_BREAKER_TRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
         }
     }

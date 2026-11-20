@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.specter;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.item.BoundItemRules;
@@ -180,7 +180,7 @@ public final class SpecterPeachwoodService {
         if (target == NO_SLOT) {
             return changed;
         }
-        inventory.setStack(target, new ItemStack(SparkWitchItems.peachwoodSword()));
+        inventory.setStack(target, new ItemStack(SparkDlcItems.peachwoodSword()));
         return true;
     }
 
@@ -288,7 +288,7 @@ public final class SpecterPeachwoodService {
                 || SparkTraitsApi.shouldCancelMeleeAttack(attacker, victim, stack)) {
             return ActionResult.FAIL;
         }
-        GameRecordManager.recordItemUse(attacker, SparkWitchItems.PEACHWOOD_SWORD_ID, victim, null);
+        GameRecordManager.recordItemUse(attacker, SparkDlcItems.PEACHWOOD_SWORD_ID, victim, null);
         for (int stab = 0; stab < STABS_PER_HIT && GameFunctions.isPlayerPlayingAndAlive(victim); stab++) {
             GameFunctions.killPlayer(victim, true, attacker, GameConstants.DeathReasons.KNIFE);
         }

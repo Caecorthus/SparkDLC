@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.mixin.role.killer.hunter;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.role.killer.hunter.DoubleBarrelMuzzleFlash;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.HeldItemRenderer;
@@ -43,13 +43,13 @@ public abstract class DoubleBarrelHandFlashMixin {
                     shift = At.Shift.AFTER
             )
     )
-    private void sparkwitch$drawDoubleBarrelHandFlash(LivingEntity entity, ItemStack stack,
+    private void sparkdlc$drawDoubleBarrelHandFlash(LivingEntity entity, ItemStack stack,
                                                       ModelTransformationMode mode, boolean leftHanded,
                                                       MatrixStack matrices, VertexConsumerProvider vertexConsumers,
                                                       int light, CallbackInfo ci) {
         // First-person modes only ever render the local player's own hands.
         // 第一人称模式只会渲染本地玩家自己的手。
-        if (mode.isFirstPerson() && stack.isOf(SparkWitchItems.doubleBarrelShotgun())) {
+        if (mode.isFirstPerson() && stack.isOf(SparkDlcItems.doubleBarrelShotgun())) {
             DoubleBarrelMuzzleFlash.render(matrices, vertexConsumers, leftHanded);
         }
     }

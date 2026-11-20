@@ -14,7 +14,7 @@ public abstract class TaskCompletePayloadMixin {
             method = "receive(Ldev/doctor4t/wathe/util/TaskCompletePayload;Lnet/fabricmc/fabric/api/client/networking/v1/ClientPlayNetworking$Context;)V",
             at = @At("HEAD")
     )
-    private void sparkassist$taskComplete(CallbackInfo ci) {
+    private void sparkdlc$taskComplete(CallbackInfo ci) {
         AchievementClientState.onTaskComplete();
     }
 }

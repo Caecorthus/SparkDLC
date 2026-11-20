@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(Entity.class)
 public abstract class EntityForcedShotSneakMixin {
     @ModifyReturnValue(method = "isSneaking", at = @At("RETURN"))
-    private boolean sparkwitch$forcedShotIsNotCrouched(boolean sneaking) {
+    private boolean sparkdlc$forcedShotIsNotCrouched(boolean sneaking) {
         return sneaking && !DominatorForcedShotScope.isFiring((Entity) (Object) this);
     }
 }

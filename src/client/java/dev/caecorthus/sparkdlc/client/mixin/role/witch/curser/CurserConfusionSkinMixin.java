@@ -31,7 +31,7 @@ public abstract class CurserConfusionSkinMixin {
     );
 
     @Inject(method = "getSkinTextures", at = @At("HEAD"), cancellable = true)
-    private void sparkwitch$projectConfusedPsychoSkin(CallbackInfoReturnable<SkinTextures> cir) {
+    private void sparkdlc$projectConfusedPsychoSkin(CallbackInfoReturnable<SkinTextures> cir) {
         AbstractClientPlayerEntity target = (AbstractClientPlayerEntity) (Object) this;
         if (!CurserClientHooks.isLocallyConfused()
                 || target == MinecraftClient.getInstance().player) {

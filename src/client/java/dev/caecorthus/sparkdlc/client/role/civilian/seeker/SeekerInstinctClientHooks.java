@@ -37,11 +37,11 @@ public final class SeekerInstinctClientHooks {
             return;
         }
         registered = true;
-        GetInstinctHighlight.EVENT.register(SeekerInstinctClientHooks::sparkwitch$deviceHighlight);
+        GetInstinctHighlight.EVENT.register(SeekerInstinctClientHooks::sparkdlc$deviceHighlight);
     }
 
     @Nullable
-    private static GetInstinctHighlight.HighlightResult sparkwitch$deviceHighlight(Entity target) {
+    private static GetInstinctHighlight.HighlightResult sparkdlc$deviceHighlight(Entity target) {
         if (!(target instanceof SeekerDeviceEntity device) || !SparkDlcServerConnection.isConfirmedServer()) {
             return null;
         }

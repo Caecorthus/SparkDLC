@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven.crow;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.net.BlackRavenCrowDropFeatherC2SPayload;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
@@ -34,7 +34,7 @@ import java.util.UUID;
 public final class BlackRavenCrowFeatherService {
     /** Around a dropped feather; argument: the marker entity id. / 位于已丢出的归羽周围；参数为标记实体 id。 */
     private static final ChunkTicketType<Integer> FEATHER_TICKET = ChunkTicketType.create(
-            SparkWitch.MOD_ID + ":homing_feather", Integer::compare, BlackRavenCrowFeatherRules.TICKET_EXPIRY_TICKS);
+            SparkDLC.MOD_ID + ":homing_feather", Integer::compare, BlackRavenCrowFeatherRules.TICKET_EXPIRY_TICKS);
 
     private BlackRavenCrowFeatherService() {
     }

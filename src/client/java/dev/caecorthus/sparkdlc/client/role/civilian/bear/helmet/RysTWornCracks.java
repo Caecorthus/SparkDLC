@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bear.helmet;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.bear.helmet.RysTHelmetItem;
 import dev.caecorthus.sparkdlc.role.civilian.bear.helmet.RysTVisor;
 import dev.caecorthus.sparkdlc.role.civilian.bear.helmet.RysTVisorGeometry;
@@ -36,7 +36,7 @@ import net.minecraft.util.math.RotationAxis;
  * 贴花在模型上不旋转：旋转后的 2.5 单位正方形会超出 3 单位高的玻璃窗（HUD 上会旋转）。仅为展示。
  */
 public final class RysTWornCracks {
-    public static final Identifier TEXTURE = SparkWitch.id("textures/entity/bear/visor_cracks_small.png");
+    public static final Identifier TEXTURE = SparkDLC.id("textures/entity/bear/visor_cracks_small.png");
     /** Decal edge in model units (fits the 3-unit-tall window). / 贴花边长（模型单位，可放入 3 单位高的玻璃窗）。 */
     public static final float DECAL_UNITS = 2.5F;
     /** Lift off the glass face, in model units. / 离开玻璃面的距离（模型单位）。 */

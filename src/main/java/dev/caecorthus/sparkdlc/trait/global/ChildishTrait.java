@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.global;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.api.Trait;
 import dev.caecorthus.sparkdlc.trait.api.TraitAssignmentReason;
 import dev.caecorthus.sparkdlc.trait.api.TraitRemovalReason;
@@ -16,7 +16,7 @@ import dev.caecorthus.sparkdlc.trait.global.pig.PigTraitService;
  * 全局天赋：将玩家整体体型缩小到百分之七十五，客户端按头大身子小绘制。
  */
 public final class ChildishTrait implements Trait {
-    public static final Identifier ID = SparkTraits.id("childish");
+    public static final Identifier ID = SparkDLC.id("childish");
 
     @Override
     public Identifier id() {

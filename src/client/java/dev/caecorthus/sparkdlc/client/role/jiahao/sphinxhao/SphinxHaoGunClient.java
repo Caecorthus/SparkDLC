@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.client.role.jiahao.sphinxhao;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.SparkWitchEntities;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.render.entity.SphinxHaoFistEntityRenderer;
 import dev.caecorthus.sparkdlc.entity.SphinxHaoFistEntity;
 import dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.gun.SphinxHaoFistMotion;
@@ -33,7 +33,7 @@ public final class SphinxHaoGunClient {
      * 稳定客户端契约：手枪装有拳头时为 1，否则为 0；{@code models/item/sphinx_hao_hand_gun.json} 在 0 时显示
      * {@code sphinx_hao_hand_gun_empty}。
      */
-    public static final Identifier LOADED_PREDICATE_ID = SparkWitch.id("sphinx_hao_loaded");
+    public static final Identifier LOADED_PREDICATE_ID = SparkDLC.id("sphinx_hao_loaded");
     /**
      * Stable client contract: 1 while the holder's spring fist is out (or the local shot is pending), else 0; the last
      * override shows the body-only {@code sphinx_hao_hand_gun_fired}, so no second fist or folded lattice is drawn on
@@ -41,7 +41,7 @@ public final class SphinxHaoGunClient {
      * 稳定客户端契约：持有者的弹簧拳头伸出期间（或本地射击待定期间）为 1，否则为 0；最后一条覆盖显示只有枪身的
      * {@code sphinx_hao_hand_gun_fired}，因此飞出的拳头在外时，射手与旁观者都不会在枪上再看到第二个拳头或折叠的剪刀架。
      */
-    public static final Identifier FIRED_PREDICATE_ID = SparkWitch.id("sphinx_hao_fired");
+    public static final Identifier FIRED_PREDICATE_ID = SparkDLC.id("sphinx_hao_fired");
     /** A live fist sits at its shooter's eyes at fire time; this covers a Speed III sprint. / 覆盖速度 III 冲刺的搜索半径。 */
     private static final double FIST_SEARCH_RADIUS = 8.0D;
     /**
@@ -60,13 +60,13 @@ public final class SphinxHaoGunClient {
             return;
         }
         registered = true;
-        ModelPredicateProviderRegistry.register(SparkWitchItems.sphinxHaoHandGun(), LOADED_PREDICATE_ID,
+        ModelPredicateProviderRegistry.register(SparkDlcItems.sphinxHaoHandGun(), LOADED_PREDICATE_ID,
                 (stack, world, entity, seed) -> loadedValue(stack));
-        ModelPredicateProviderRegistry.register(SparkWitchItems.sphinxHaoHandGun(), FIRED_PREDICATE_ID,
+        ModelPredicateProviderRegistry.register(SparkDlcItems.sphinxHaoHandGun(), FIRED_PREDICATE_ID,
                 (stack, world, entity, seed) -> firedValue(stack, entity));
         SphinxHaoHandGunItem.installClientFire(SphinxHaoGunClient::markFirePending);
         SphinxHaoFistEntityRenderer.registerFistModel();
-        EntityRendererRegistry.register(SparkWitchEntities.sphinxHaoFist(), SphinxHaoFistEntityRenderer::new);
+        EntityRendererRegistry.register(SparkDlcEntities.sphinxHaoFist(), SphinxHaoFistEntityRenderer::new);
     }
 
     public static float loadedValue(ItemStack stack) {

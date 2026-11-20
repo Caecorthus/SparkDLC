@@ -32,7 +32,7 @@ public abstract class ServerPlayerInteractionManagerHannaSoundScopeMixin {
                     + "Lnet/minecraft/item/ItemStack;Lnet/minecraft/util/Hand;Lnet/minecraft/util/hit/BlockHitResult;)"
                     + "Lnet/minecraft/util/ActionResult;"
     )
-    private ActionResult sparkwitch$scopeHannaBlockUseSounds(ServerPlayerEntity player, World world, ItemStack stack,
+    private ActionResult sparkdlc$scopeHannaBlockUseSounds(ServerPlayerEntity player, World world, ItemStack stack,
                                                              Hand hand, BlockHitResult hitResult,
                                                              Operation<ActionResult> original) {
         ServerPlayerEntity previous = HannaSoundScope.enter(player);
@@ -47,7 +47,7 @@ public abstract class ServerPlayerInteractionManagerHannaSoundScopeMixin {
             method = "interactItem(Lnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/world/World;"
                     + "Lnet/minecraft/item/ItemStack;Lnet/minecraft/util/Hand;)Lnet/minecraft/util/ActionResult;"
     )
-    private ActionResult sparkwitch$scopeHannaItemUseSounds(ServerPlayerEntity player, World world, ItemStack stack,
+    private ActionResult sparkdlc$scopeHannaItemUseSounds(ServerPlayerEntity player, World world, ItemStack stack,
                                                             Hand hand, Operation<ActionResult> original) {
         ServerPlayerEntity previous = HannaSoundScope.enter(player);
         try {

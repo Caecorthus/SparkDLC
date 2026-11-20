@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.attendant.flashlight;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientChunkEvents;
@@ -277,7 +277,7 @@ public final class FlashlightRenderer {
                     irisApi = api.getMethod("getInstance").invoke(null);
                     irisShaderPackInUse = api.getMethod("isShaderPackInUse");
                 } catch (ReflectiveOperationException | LinkageError exception) {
-                    SparkStrength.LOGGER.warn("Iris is loaded but its API is unavailable; flashlight stays on",
+                    SparkDLC.LOGGER.warn("Iris is loaded but its API is unavailable; flashlight stays on",
                             exception);
                 }
             }

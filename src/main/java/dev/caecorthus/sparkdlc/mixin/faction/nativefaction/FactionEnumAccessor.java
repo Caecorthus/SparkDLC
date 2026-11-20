@@ -18,12 +18,12 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public interface FactionEnumAccessor {
     @Accessor("$VALUES")
     @Mutable
-    static void sparkfactionapi$setValues(Faction[] values) {
+    static void sparkdlc$setValues(Faction[] values) {
         throw new AssertionError("mixin accessor");
     }
 
     @Invoker("<init>")
-    static Faction sparkfactionapi$newConstant(String name, int ordinal) {
+    static Faction sparkdlc$newConstant(String name, int ordinal) {
         throw new AssertionError("mixin invoker");
     }
 }

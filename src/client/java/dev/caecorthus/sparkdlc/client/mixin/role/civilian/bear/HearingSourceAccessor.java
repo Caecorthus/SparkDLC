@@ -14,5 +14,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(Source.class)
 public interface HearingSourceAccessor {
     @Accessor("pointer")
-    int sparkwitch$getHearingSourcePointer();
+    int sparkdlc$getHearingSourcePointer();
 }

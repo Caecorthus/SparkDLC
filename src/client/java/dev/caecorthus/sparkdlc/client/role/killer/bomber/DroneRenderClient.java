@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.killer.bomber;
 
-import dev.caecorthus.sparkdlc.SparkStrengthEntities;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
 import dev.caecorthus.sparkdlc.client.render.entity.BombDroneModel;
 import dev.caecorthus.sparkdlc.client.render.entity.DroneEntityRenderer;
 import dev.caecorthus.sparkdlc.client.render.entity.GrenadeDroneModel;
@@ -15,7 +15,7 @@ public final class DroneRenderClient {
     public static void register() {
         EntityModelLayerRegistry.registerModelLayer(GrenadeDroneModel.LAYER, GrenadeDroneModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(BombDroneModel.LAYER, BombDroneModel::getTexturedModelData);
-        EntityRendererRegistry.register(SparkStrengthEntities.grenadeDrone(), DroneEntityRenderer::grenade);
-        EntityRendererRegistry.register(SparkStrengthEntities.bombDrone(), DroneEntityRenderer::bomb);
+        EntityRendererRegistry.register(SparkDlcEntities.grenadeDrone(), DroneEntityRenderer::grenade);
+        EntityRendererRegistry.register(SparkDlcEntities.bombDrone(), DroneEntityRenderer::bomb);
     }
 }

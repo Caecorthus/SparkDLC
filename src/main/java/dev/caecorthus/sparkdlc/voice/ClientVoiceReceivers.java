@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.voice;
 
 import de.maxhenkel.voicechat.api.events.EventRegistration;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 
@@ -52,7 +52,7 @@ public interface ClientVoiceReceivers {
         try {
             FabricLoader.getInstance().getEntrypoints(ENTRYPOINT, ClientVoiceReceivers.class).forEach(register);
         } catch (RuntimeException | LinkageError exception) {
-            SparkWitch.LOGGER.warn(effect + " unavailable; voice stays at normal volume.", exception);
+            SparkDLC.LOGGER.warn(effect + " unavailable; voice stays at normal volume.", exception);
         }
     }
 }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.sabotage;
 
-import dev.caecorthus.sparkdlc.SparkStrengthSounds;
+import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.client.tablet.screen.TabletTheme;
 import dev.caecorthus.sparkdlc.sabotage.net.OpenEngineRepairS2CPacket;
 import dev.caecorthus.sparkdlc.sabotage.EngineCondition;
@@ -347,7 +347,7 @@ final class EngineRepairGame {
                 if (fuseCharge[s] >= EngineRules.FUSE_HOLD_TICKS) {
                     burnt[s] = false;
                     fuseFlash[s] = 1.0F;
-                    screen.playSound(SparkStrengthSounds.CIRCUIT_BREAKER_SWITCH, 1.1F + 0.08F * fusesReplaced(), 0.6F);
+                    screen.playSound(SparkDlcSounds.CIRCUIT_BREAKER_SWITCH, 1.1F + 0.08F * fusesReplaced(), 0.6F);
                     if (fusesDone()) {
                         fuseHold = false;
                         // Power is back on the gauges: their needles now swing to their readings.

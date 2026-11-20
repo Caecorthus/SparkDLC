@@ -36,7 +36,7 @@ public abstract class DroneCrosshairHintMixin {
             at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/client/gui/CrosshairRenderer;getVisibleGunTarget"),
             require = 0
     )
-    private static HitResult sparkstrength$hintDroneForGuns(
+    private static HitResult sparkdlc$hintDroneForGuns(
             PlayerEntity user, double range, Operation<HitResult> original
     ) {
         // Every frame while a gun is held: each step is a block clip plus an entity query, and finds nothing while no
@@ -57,7 +57,7 @@ public abstract class DroneCrosshairHintMixin {
             constant = @Constant(classValue = PlayerEntity.class),
             require = 0
     )
-    private static boolean sparkstrength$hintDroneForBat(Object target, Operation<Boolean> original) {
+    private static boolean sparkdlc$hintDroneForBat(Object target, Operation<Boolean> original) {
         return original.call(target) || target instanceof DroneEntity drone && DroneHitGeometry.isLive(drone)
                 || target instanceof PartygoerEntity partygoer && PartygoerHitGeometry.isTargetable(partygoer);
     }

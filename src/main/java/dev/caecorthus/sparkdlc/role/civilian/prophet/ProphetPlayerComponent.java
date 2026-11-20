@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.prophet;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
@@ -33,7 +33,7 @@ import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 public final class ProphetPlayerComponent
         implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
     public static final ComponentKey<ProphetPlayerComponent> KEY = ComponentRegistry.getOrCreate(
-            SparkWitch.id("prophet_player"),
+            SparkDLC.id("prophet_player"),
             ProphetPlayerComponent.class
     );
 

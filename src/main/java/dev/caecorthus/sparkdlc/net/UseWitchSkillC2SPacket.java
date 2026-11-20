@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.net;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public record UseWitchSkillC2SPacket(Optional<UUID> targetUuid) implements CustomPayload {
-    public static final Identifier PAYLOAD_ID = SparkWitch.id("use_skill");
+    public static final Identifier PAYLOAD_ID = SparkDLC.id("use_skill");
     public static final Id<UseWitchSkillC2SPacket> ID = new Id<>(PAYLOAD_ID);
     public static final PacketCodec<RegistryByteBuf, UseWitchSkillC2SPacket> CODEC =
             PacketCodec.of(UseWitchSkillC2SPacket::write, UseWitchSkillC2SPacket::read);

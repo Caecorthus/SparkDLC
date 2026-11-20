@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.hud;
 
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
@@ -68,7 +68,7 @@ public final class HiroHudRenderer {
             case NO_MANA -> Text.translatable("hud.sparkdlc.nikaido_hiro.hud.return.no_mana",
                     mana, HiroRules.RETURN_MANA_COST);
             case READY -> Text.translatable("hud.sparkdlc.nikaido_hiro.return.ready",
-                    SparkWitchClient.abilityKeyText());
+                    SparkDLCClient.abilityKeyText());
         };
     }
 

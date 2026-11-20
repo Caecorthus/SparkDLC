@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.undercover;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.civilian.undercover.RemovedDoorsWorldComponent;
 import dev.caecorthus.sparkdlc.sabotage.net.ChannelProgressS2CPacket;
 import dev.caecorthus.sparkdlc.role.civilian.attendant.DoorLogService;
@@ -125,7 +125,7 @@ public final class DoorBreachService {
 
     /** Both sides: HANDLED keeps Wathe's door logic out and lets the held button resend every 4 ticks. / 双端：HANDLED 让 Wathe 门逻辑不执行，按住时每 4 tick 重发。 */
     private static DoorInteraction.DoorInteractionResult onDoorInteraction(DoorInteraction.DoorInteractionContext context) {
-        if (!context.getHandItem().isOf(SparkStrengthItems.tacticalTomahawk())
+        if (!context.getHandItem().isOf(SparkDlcItems.tacticalTomahawk())
                 || !UndercoverRoles.isLivingStage2(context.getPlayer())) {
             return DoorInteraction.DoorInteractionResult.PASS;
         }
@@ -160,7 +160,7 @@ public final class DoorBreachService {
         if (SabotageActionLocks.isLocked(player)) {
             return;
         }
-        if (player.getItemCooldownManager().isCoolingDown(SparkStrengthItems.tacticalTomahawk())) {
+        if (player.getItemCooldownManager().isCoolingDown(SparkDlcItems.tacticalTomahawk())) {
             player.sendMessage(Text.translatable("message.sparkdlc.undercover.tomahawk_cooling"), true);
             return;
         }
@@ -224,7 +224,7 @@ public final class DoorBreachService {
                 iterator.remove();
                 send(player, channel, ChannelProgressS2CPacket.STATE_FINISHED);
                 removeDoor(world, channel.lowerPos, channel.kind, player);
-                player.getItemCooldownManager().set(SparkStrengthItems.tacticalTomahawk(),
+                player.getItemCooldownManager().set(SparkDlcItems.tacticalTomahawk(),
                         channel.kind.cooldownTicks());
                 continue;
             }
@@ -237,8 +237,8 @@ public final class DoorBreachService {
 
     private static boolean isStillValid(ServerWorld world, ServerPlayerEntity player, Channel channel, long now) {
         if (!UndercoverRoles.isLivingStage2(player) || player.isSneaking() || SabotageActionLocks.isLocked(player)
-                || !player.getMainHandStack().isOf(SparkStrengthItems.tacticalTomahawk())
-                || player.getItemCooldownManager().isCoolingDown(SparkStrengthItems.tacticalTomahawk())
+                || !player.getMainHandStack().isOf(SparkDlcItems.tacticalTomahawk())
+                || player.getItemCooldownManager().isCoolingDown(SparkDlcItems.tacticalTomahawk())
                 || now - channel.lastHeartbeatTick > HEARTBEAT_TIMEOUT_TICKS) {
             return false;
         }
@@ -301,7 +301,7 @@ public final class DoorBreachService {
         player.swingHand(Hand.MAIN_HAND, true);
         NbtCompound extra = new NbtCompound();
         GameRecordManager.putBlockPos(extra, "pos", lowerPos);
-        GameRecordManager.recordItemUse(player, SparkStrengthItems.TACTICAL_TOMAHAWK_ID, null, extra);
+        GameRecordManager.recordItemUse(player, SparkDlcItems.TACTICAL_TOMAHAWK_ID, null, extra);
     }
 
     /**

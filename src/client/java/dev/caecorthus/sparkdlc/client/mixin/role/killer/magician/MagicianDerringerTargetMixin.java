@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = DerringerItem.class, remap = false)
 public abstract class MagicianDerringerTargetMixin {
     @WrapMethod(method = "getGunTarget")
-    private static HitResult sparkwitch$preferNearerPuppet(PlayerEntity user, Operation<HitResult> original) {
+    private static HitResult sparkdlc$preferNearerPuppet(PlayerEntity user, Operation<HitResult> original) {
         return MagicianPuppetAim.preferNearerPuppet(user, original.call(user), MagicianPuppetAim.DERRINGER_RANGE,
                 false);
     }

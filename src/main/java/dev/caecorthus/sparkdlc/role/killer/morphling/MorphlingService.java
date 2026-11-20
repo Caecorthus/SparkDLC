@@ -1,10 +1,10 @@
 package dev.caecorthus.sparkdlc.role.killer.morphling;
 
-import dev.caecorthus.sparkdlc.SparkStrengthItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.killer.morphling.MorphBodyDisguiseWorldComponent;
 import dev.caecorthus.sparkdlc.role.killer.morphling.MorphMarkPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerCorpseComponent;
-import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
+import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import com.mojang.authlib.GameProfile;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.ShouldPunishGunShooter;
@@ -67,7 +67,7 @@ public final class MorphlingService {
         if (!MorphlingRules.isMorphling(role) || hasMorphDevice(player)) {
             return;
         }
-        player.giveItemStack(new ItemStack(SparkStrengthItems.morphDevice()));
+        player.giveItemStack(new ItemStack(SparkDlcItems.morphDevice()));
     }
 
     public static void reset(ServerPlayerEntity player) {
@@ -225,7 +225,7 @@ public final class MorphlingService {
 
     private static boolean hasMorphDevice(ServerPlayerEntity player) {
         for (int slot = 0; slot < player.getInventory().size(); slot++) {
-            if (player.getInventory().getStack(slot).isOf(SparkStrengthItems.morphDevice())) {
+            if (player.getInventory().getStack(slot).isOf(SparkDlcItems.morphDevice())) {
                 return true;
             }
         }
@@ -412,7 +412,7 @@ public final class MorphlingService {
         extra.putString("sample_name", sample.name());
         GameRecordManager.recordGlobalEvent(
                 serverWorld,
-                SparkStrengthReplayFormatters.MORPH_REAGENT_SAMPLED,
+                RoleKitReplayFormatters.MORPH_REAGENT_SAMPLED,
                 morphling,
                 extra
         );
@@ -428,7 +428,7 @@ public final class MorphlingService {
         extra.putUuid("target", target.getUuid());
         GameRecordManager.recordGlobalEvent(
                 serverWorld,
-                SparkStrengthReplayFormatters.MORPH_REAGENT_MARKED,
+                RoleKitReplayFormatters.MORPH_REAGENT_MARKED,
                 morphling,
                 extra
         );
@@ -443,7 +443,7 @@ public final class MorphlingService {
         extra.putString("sample_name", component.sampleName());
         GameRecordManager.recordGlobalEvent(
                 serverWorld,
-                SparkStrengthReplayFormatters.MORPH_MARK_TRIGGERED,
+                RoleKitReplayFormatters.MORPH_MARK_TRIGGERED,
                 target,
                 extra
         );

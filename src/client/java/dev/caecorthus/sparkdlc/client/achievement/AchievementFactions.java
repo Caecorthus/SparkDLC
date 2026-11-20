@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.achievement;
 
 import dev.caecorthus.sparkdlc.achievement.Factions;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.component.SparkFactionRoundEndComponent;
+import dev.caecorthus.sparkdlc.component.FactionRoundEndComponent;
 import dev.doctor4t.wathe.api.Faction;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
@@ -56,7 +56,7 @@ final class AchievementFactions {
      * SparkFactionAPI 记录的上一局自定义获胜阵营；普通 Wathe 胜利时为 null。
      */
     static String customWinningFaction(Scoreboard scoreboard) {
-        SparkFactionRoundEndComponent component = SparkFactionRoundEndComponent.KEY.getNullable(scoreboard);
+        FactionRoundEndComponent component = FactionRoundEndComponent.KEY.getNullable(scoreboard);
         return component == null ? null : idOrNull(component.getWinningFaction());
     }
 

@@ -24,7 +24,7 @@ public abstract class BlindKitScreenHandlerMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$keepBlindKit(
+    private void sparkdlc$keepBlindKit(
             int slotIndex,
             int button,
             SlotActionType actionType,

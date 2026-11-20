@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.witch.potiongunner.shell;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDamageRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceHits;
@@ -122,7 +122,7 @@ public class PotionShellEntity extends ThrownItemEntity {
         // ThrownEntity 的拥有者构造器把炮弹放在眼部下方 0.1 处，与 Wathe 手雷一致。
         PotionShellEntity shell = new PotionShellEntity(world, gunner);
         shell.presentation = presentation;
-        shell.setItem(new ItemStack(SparkWitchItems.potionShell(type)));
+        shell.setItem(new ItemStack(SparkDlcItems.potionShell(type)));
         shell.setLaunchOrigin(shell.getPos());
         // Exact ballistics for the scope ticks: no divergence and, unlike setVelocity(Entity, …), no inherited
         // shooter motion. / 为瞄准镜刻度保证精确弹道：无散布，且不像 setVelocity(Entity, …) 那样继承射手的运动。
@@ -513,7 +513,7 @@ public class PotionShellEntity extends ThrownItemEntity {
 
     @Override
     protected Item getDefaultItem() {
-        return SparkWitchItems.potionShell(PotionShellType.TR);
+        return SparkDlcItems.potionShell(PotionShellType.TR);
     }
 
     @Override

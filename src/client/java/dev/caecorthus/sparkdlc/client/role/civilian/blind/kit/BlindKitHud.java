@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.blind.kit;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.client.SparkWitchClient;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.client.SparkDLCClient;
 import dev.caecorthus.sparkdlc.client.role.civilian.blind.BlindClientStatus;
 import dev.caecorthus.sparkdlc.client.role.civilian.blind.BlindView;
 import dev.caecorthus.sparkdlc.client.text.HudFontOptions;
@@ -122,7 +122,7 @@ final class BlindKitHud {
         for (int index = 0; index < lines.size(); index++) {
             BlindKitHudRules.Line line = lines.get(index);
             if (line.keyHint() && keyText == null) {
-                keyText = SparkWitchClient.abilityKeyText();
+                keyText = SparkDLCClient.abilityKeyText();
             }
             Text key = line.keyHint() ? keyText : null;
             BuiltLine cached = cachedLines[index];
@@ -170,11 +170,11 @@ final class BlindKitHud {
     private static int caneItemCooldown(ClientPlayerEntity player) {
         ItemCooldownManager manager = player.getItemCooldownManager();
         if (!(manager instanceof ItemCooldownManagerAccessor accessor)
-                || !(accessor.sparkwitch$getEntries().get(SparkWitchItems.whiteCane())
+                || !(accessor.sparkdlc$getEntriesForRoles().get(SparkDlcItems.whiteCane())
                         instanceof ItemCooldownEntryAccessor entry)) {
             return 0;
         }
-        return Math.max(0, entry.sparkwitch$getEndTick() - accessor.sparkwitch$getTick());
+        return Math.max(0, entry.sparkdlc$getEndTickForRoles() - accessor.sparkdlc$getTickForRoles());
     }
 
     /** One built line: its Text, drawn width and lift-measuring width. / 一行构建结果：文本、绘制宽度与抬升测量宽度。 */

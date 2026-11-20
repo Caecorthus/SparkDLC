@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.usec;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -51,7 +51,7 @@ public final class UsecLoadoutService {
         GRANTED.add(player.getUuid());
         PlayerInventory inventory = player.getInventory();
         if (needsRifle(holdsRifle(player))) {
-            inventory.insertStack(new ItemStack(SparkWitchItems.usecRifle()));
+            inventory.insertStack(new ItemStack(SparkDlcItems.usecRifle()));
         }
         UsecCooldowns.roundStart(player);
         inventory.markDirty();

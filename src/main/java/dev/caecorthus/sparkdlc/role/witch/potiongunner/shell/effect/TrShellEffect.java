@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.potiongunner.shell.effect;
 
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.BearRicochetService;
 import dev.caecorthus.sparkdlc.role.witch.potiongunner.PotionGunnerRules;
 import dev.caecorthus.sparkdlc.role.witch.potiongunner.shell.PotionBlastContext;
@@ -40,14 +40,14 @@ public final class TrShellEffect {
             }
             ServerPlayerEntity killer = TrShellEffectRules.killer(gunner, PotionShellTargets.isSelf(context, hit));
             RangedOriginScope.run(context.center(), shell, () -> { // BEAR: blast-centre origin / 爆心来源
-                GameFunctions.killPlayer(target, true, killer, SparkWitchDeathReasons.POTION_SHELL);
+                GameFunctions.killPlayer(target, true, killer, SparkDlcDeathReasons.POTION_SHELL);
             });
             // BEAR (owner Q3, superseded 2026-11-13: one source, one roll): a worn Rys-T deflects the fallback only with
             // this shell's one roll; everyone else always gets it.
             // BEAR（所有者 Q3，2026-11-13 被取代：一个来源只掷一次骰）：佩戴的 Rys-T 只凭这发炮弹唯一的一次掷骰弹开后备效果；
             // 其他人照常获得。
             if (TrShellEffectRules.needsFallback(livingBefore, PotionShellTargets.isLiving(target))
-                    && !BearRicochetService.deflectsAfterEffect(target, killer, SparkWitchDeathReasons.POTION_SHELL,
+                    && !BearRicochetService.deflectsAfterEffect(target, killer, SparkDlcDeathReasons.POTION_SHELL,
                     context.center(), shell)) {
                 PotionShellDebuff.apply(target, PotionGunnerRules.TR_FALLBACK_TICKS, killer);
                 PotionShellBurn.ignite(target, PotionGunnerRules.TR_FALLBACK_TICKS);

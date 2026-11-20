@@ -29,7 +29,7 @@ public abstract class NoellesSwapperFiendFeignMixin {
             cancellable = true,
             require = 1
     )
-    private static void sparkwitch$swapperSkipsFeigningFiend(
+    private static void sparkdlc$swapperSkipsFeigningFiend(
             SwapperC2SPacket payload,
             ServerPlayNetworking.Context context,
             CallbackInfo ci

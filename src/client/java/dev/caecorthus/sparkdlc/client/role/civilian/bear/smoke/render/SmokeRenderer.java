@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeClientState;
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeVolumes;
 import dev.caecorthus.sparkdlc.client.role.civilian.blind.render.BlindShaderPackCheck;
@@ -650,7 +650,7 @@ public final class SmokeRenderer {
 
     private static void fail(Exception exception) {
         if (!failed) {
-            SparkWitch.LOGGER.error("BEAR smoke rendering failed; retrying in {} s",
+            SparkDLC.LOGGER.error("BEAR smoke rendering failed; retrying in {} s",
                     RETRY_NANOS / 1_000_000_000L, exception);
         }
         // Called with the GL state saved; the caller restores it after the objects are gone.

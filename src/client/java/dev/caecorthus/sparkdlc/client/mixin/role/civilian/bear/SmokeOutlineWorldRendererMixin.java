@@ -47,7 +47,7 @@ public abstract class SmokeOutlineWorldRendererMixin {
     public abstract Framebuffer getEntityOutlinesFramebuffer();
 
     @Inject(method = "render", at = @At("HEAD"))
-    private void sparkwitch$beginSmokeOutlinePass(RenderTickCounter tickCounter, boolean renderBlockOutline,
+    private void sparkdlc$beginSmokeOutlinePass(RenderTickCounter tickCounter, boolean renderBlockOutline,
                                                   Camera camera, GameRenderer gameRenderer,
                                                   LightmapTextureManager lightmapTextureManager,
                                                   Matrix4f positionMatrix, Matrix4f projectionMatrix,
@@ -56,18 +56,18 @@ public abstract class SmokeOutlineWorldRendererMixin {
     }
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = POST_EFFECT_RENDER, ordinal = 0))
-    private void sparkwitch$beforeOutlinePost(CallbackInfo ci) {
+    private void sparkdlc$beforeOutlinePost(CallbackInfo ci) {
         SmokeOutlineMask.beforeOutlinePost(getEntityOutlinesFramebuffer());
     }
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = POST_EFFECT_RENDER, ordinal = 0,
             shift = At.Shift.AFTER))
-    private void sparkwitch$afterOutlinePost(CallbackInfo ci) {
+    private void sparkdlc$afterOutlinePost(CallbackInfo ci) {
         SmokeOutlineMask.afterOutlinePost(getEntityOutlinesFramebuffer());
     }
 
     @Inject(method = "render", at = @At("RETURN"))
-    private void sparkwitch$endSmokeOutlinePass(CallbackInfo ci) {
+    private void sparkdlc$endSmokeOutlinePass(CallbackInfo ci) {
         SmokeOutlineMask.endPass();
     }
 }

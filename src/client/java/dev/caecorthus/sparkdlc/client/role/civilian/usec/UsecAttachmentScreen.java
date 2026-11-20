@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.usec;
 
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.client.role.civilian.usec.UsecAttachmentLayout.Column;
 import dev.caecorthus.sparkdlc.client.role.civilian.usec.UsecAttachmentLayout.Hit;
 import dev.caecorthus.sparkdlc.client.role.civilian.usec.UsecAttachmentLayout.Rect;
@@ -512,7 +512,7 @@ public final class UsecAttachmentScreen extends Screen {
                     yield ItemStack.EMPTY;
                 }
                 if (magazineIcon == null) {
-                    magazineIcon = new ItemStack(SparkWitchItems.usecMagazine());
+                    magazineIcon = new ItemStack(SparkDlcItems.usecMagazine());
                 }
                 if (!UsecMagazineItem.contents(magazineIcon).equals(rifle.magazine())) {
                     UsecMagazineItem.setContents(magazineIcon, rifle.magazine());
@@ -524,7 +524,7 @@ public final class UsecAttachmentScreen extends Screen {
                     yield ItemStack.EMPTY;
                 }
                 if (suppressorIcon == null) {
-                    suppressorIcon = new ItemStack(SparkWitchItems.usecSuppressor());
+                    suppressorIcon = new ItemStack(SparkDlcItems.usecSuppressor());
                 }
                 yield suppressorIcon;
             }

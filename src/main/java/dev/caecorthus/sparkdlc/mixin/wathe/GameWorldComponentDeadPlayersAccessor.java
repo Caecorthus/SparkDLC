@@ -19,5 +19,5 @@ import java.util.UUID;
 @Mixin(value = GameWorldComponent.class, remap = false)
 public interface GameWorldComponentDeadPlayersAccessor {
     @Accessor(value = "deadPlayers", remap = false)
-    HashSet<UUID> sparkstrength$getDeadPlayers();
+    HashSet<UUID> sparkdlc$getDeadPlayersForKits();
 }

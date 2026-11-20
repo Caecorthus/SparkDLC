@@ -35,7 +35,7 @@ public abstract class ScreenHandlerWraithConsumableDropMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$blockRestrictedWraithConsumableDrop(
+    private void sparkdlc$blockRestrictedWraithConsumableDrop(
             int slotIndex,
             int button,
             SlotActionType actionType,

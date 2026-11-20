@@ -54,7 +54,7 @@ public abstract class ToxicologistAntidoteItemMixin {
             new ThreadLocal<>();
 
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$coronerOnlyUsesAntidoteWhileToxicologist(
+    private void sparkdlc$coronerOnlyUsesAntidoteWhileToxicologist(
             World world,
             net.minecraft.entity.player.PlayerEntity user,
             Hand hand,
@@ -66,7 +66,7 @@ public abstract class ToxicologistAntidoteItemMixin {
     }
 
     @Inject(method = "useOnEntity", at = @At("HEAD"), cancellable = true)
-    private void sparkstrength$coronerOnlyUsesAntidoteOnEntityWhileToxicologist(
+    private void sparkdlc$coronerOnlyUsesAntidoteOnEntityWhileToxicologist(
             ItemStack stack,
             net.minecraft.entity.player.PlayerEntity user,
             LivingEntity entity,
@@ -79,7 +79,7 @@ public abstract class ToxicologistAntidoteItemMixin {
     }
 
     @Inject(method = "finishUsing", at = @At("HEAD"))
-    private void sparkstrength$capturePoisonedTargetBeforeCure(
+    private void sparkdlc$capturePoisonedTargetBeforeCure(
             ItemStack stack,
             World world,
             LivingEntity user,
@@ -91,7 +91,7 @@ public abstract class ToxicologistAntidoteItemMixin {
             return;
         }
 
-        UUID targetUuid = sparkstrength$getTargetUuid(stack);
+        UUID targetUuid = sparkdlc$getTargetUuid(stack);
         if (targetUuid == null || !(world.getPlayerByUuid(targetUuid) instanceof ServerPlayerEntity target)) {
             return;
         }
@@ -106,7 +106,7 @@ public abstract class ToxicologistAntidoteItemMixin {
     }
 
     @Inject(method = "finishUsing", at = @At("RETURN"))
-    private void sparkstrength$rewardToxicologistAfterCure(
+    private void sparkdlc$rewardToxicologistAfterCure(
             ItemStack stack,
             World world,
             LivingEntity user,
@@ -153,12 +153,12 @@ public abstract class ToxicologistAntidoteItemMixin {
             require = 4,
             allow = 4
     )
-    private int sparkstrength$virusCarrierIsTreatable(PlayerPoisonComponent component, Operation<Integer> original) {
+    private int sparkdlc$virusCarrierIsTreatable(PlayerPoisonComponent component, Operation<Integer> original) {
         int poisonTicks = original.call(component);
         if (poisonTicks > 0) {
             return poisonTicks;
         }
-        PlayerEntity owner = ((PlayerPoisonComponentAccessor) component).sparkstrength$getPlayer();
+        PlayerEntity owner = ((PlayerPoisonComponentAccessor) component).sparkdlc$getPlayerForKits();
         return VirusCarrierComponent.isCarrier(owner) ? 1 : poisonTicks;
     }
 
@@ -173,20 +173,20 @@ public abstract class ToxicologistAntidoteItemMixin {
             require = 1,
             allow = 1
     )
-    private void sparkstrength$cureVirusWithPoison(
+    private void sparkdlc$cureVirusWithPoison(
             PlayerPoisonComponent component,
             Operation<Void> original,
             @Local(argsOnly = true) LivingEntity user
     ) {
         original.call(component);
-        PlayerEntity target = ((PlayerPoisonComponentAccessor) component).sparkstrength$getPlayer();
+        PlayerEntity target = ((PlayerPoisonComponentAccessor) component).sparkdlc$getPlayerForKits();
         if (target != null && !target.getWorld().isClient()) {
             VirusService.cureCarrier(user instanceof PlayerEntity curer ? curer : null, target);
         }
     }
 
     @Unique
-    private static UUID sparkstrength$getTargetUuid(ItemStack stack) {
+    private static UUID sparkdlc$getTargetUuid(ItemStack stack) {
         NbtComponent customData = stack.get(DataComponentTypes.CUSTOM_DATA);
         if (customData == null) {
             return null;

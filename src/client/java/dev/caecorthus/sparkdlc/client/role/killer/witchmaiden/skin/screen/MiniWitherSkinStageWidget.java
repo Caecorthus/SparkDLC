@@ -25,7 +25,7 @@ import java.util.List;
  * （见 {@link MiniWitherPreviewSpin}）。
  */
 final class MiniWitherSkinStageWidget extends ClickableWidget {
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkWitch/MiniWitherSkin");
+    private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/MiniWitherSkin");
 
     private final MiniWitherPreviewSpin spin;
     private boolean failureLogged;

@@ -24,7 +24,7 @@ public abstract class ScreenHandlerSphinxHaoGunMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void sparkwitch$keepSphinxHaoKit(
+    private void sparkdlc$keepSphinxHaoKit(
             int slotIndex,
             int button,
             SlotActionType actionType,

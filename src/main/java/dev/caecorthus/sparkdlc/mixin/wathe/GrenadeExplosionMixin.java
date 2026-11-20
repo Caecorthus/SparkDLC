@@ -30,7 +30,7 @@ public abstract class GrenadeExplosionMixin {
             require = 1,
             allow = 1
     )
-    private List<ServerPlayerEntity> sparkstrength$filterBlastTargets(List<ServerPlayerEntity> original) {
+    private List<ServerPlayerEntity> sparkdlc$filterBlastTargets(List<ServerPlayerEntity> original) {
         GrenadeEntity grenade = (GrenadeEntity) (Object) this;
         return GrenadeBlastService.filterVictims((ServerWorld) grenade.getWorld(), grenade, original,
                 GrenadeBlastRules.WATHE_BLAST_RADIUS);
@@ -41,7 +41,7 @@ public abstract class GrenadeExplosionMixin {
     // 仅服务端：整个碰撞流程（含所有模组的注入）作为我们的自有爆炸执行，使 SparkWitch 在 HEAD 调用的 SeekerDeviceHits.onBlast
     // 不会在 Wathe 击杀之前击毁无人机；改由下方 TAIL 钩子在之后处理。
     @WrapMethod(method = "onCollision(Lnet/minecraft/util/hit/HitResult;)V")
-    private void sparkstrength$guardOwnBlast(HitResult hitResult, Operation<Void> original) {
+    private void sparkdlc$guardOwnBlast(HitResult hitResult, Operation<Void> original) {
         GrenadeEntity grenade = (GrenadeEntity) (Object) this;
         if (grenade.getWorld() instanceof ServerWorld) {
             // The blast scope lets a Bodyguard's shield face the blast itself. / 爆炸作用域让保镖的盾按爆炸点判定方向。
@@ -58,7 +58,7 @@ public abstract class GrenadeExplosionMixin {
     // Partygoers in the blast die too (wathe:grenade); a grenade that hits one explodes on it.
     // 爆炸范围内的派对客同样死亡（wathe:grenade）；直接命中派对客的手雷就地爆炸。
     @Inject(method = "onCollision(Lnet/minecraft/util/hit/HitResult;)V", at = @At("TAIL"))
-    private void sparkstrength$breakDronesInBlast(HitResult hitResult, CallbackInfo ci) {
+    private void sparkdlc$breakDronesInBlast(HitResult hitResult, CallbackInfo ci) {
         GrenadeEntity grenade = (GrenadeEntity) (Object) this;
         if (grenade.getWorld() instanceof ServerWorld world) {
             ServerPlayerEntity thrower = grenade.getOwner() instanceof ServerPlayerEntity player ? player : null;

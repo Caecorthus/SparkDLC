@@ -30,7 +30,7 @@ public abstract class NoellesAssassinSaviorGuessMixin {
             cancellable = true,
             require = 1
     )
-    private static void sparkwitch$ignoreSaviorGuess(
+    private static void sparkdlc$ignoreSaviorGuess(
             AssassinGuessRoleC2SPacket packet,
             ServerPlayNetworking.Context context,
             CallbackInfo ci

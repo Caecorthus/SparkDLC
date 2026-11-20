@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.dominator;
 
 import dev.caecorthus.sparkdlc.item.BoundItemRules;
-import dev.caecorthus.sparkdlc.SparkWitchDataComponents;
+import dev.caecorthus.sparkdlc.SparkDlcDataComponents;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -30,7 +30,7 @@ public final class DominatorForcedShotGuns {
     public static boolean isForcedShotGun(@Nullable ItemStack stack) {
         return stack != null
                 && !stack.isEmpty()
-                && Boolean.TRUE.equals(stack.get(SparkWitchDataComponents.FORCED_SHOT_GUN));
+                && Boolean.TRUE.equals(stack.get(SparkDlcDataComponents.FORCED_SHOT_GUN));
     }
 
     /**

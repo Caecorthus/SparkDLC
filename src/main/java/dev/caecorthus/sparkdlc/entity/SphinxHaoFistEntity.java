@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.entity;
 
-import dev.caecorthus.sparkdlc.SparkWitchEntities;
+import dev.caecorthus.sparkdlc.SparkDlcEntities;
 import dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.gun.SphinxHaoFistMotion;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -66,7 +66,7 @@ public final class SphinxHaoFistEntity extends Entity {
      * 服务端：从 {@code owner} 眼睛到 {@code end} 的拳头。{@code hitPlayer} 只决定击打音效。
      */
     public SphinxHaoFistEntity(World world, PlayerEntity owner, Vec3d end, boolean hitPlayer) {
-        this(SparkWitchEntities.sphinxHaoFist(), world);
+        this(SparkDlcEntities.sphinxHaoFist(), world);
         ownerUuid = owner.getUuid();
         ownerEntityId = owner.getId();
         this.hitPlayer = hitPlayer;

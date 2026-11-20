@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.civilian.impostor;
 
-import dev.caecorthus.sparkdlc.SparkTraits;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
@@ -18,7 +18,7 @@ import dev.caecorthus.sparkdlc.trait.effective.EffectiveTraitService;
  * 为内鬼添加付费购买左轮的路径，但不恢复地面拾取权限。
  */
 public final class ImpostorRevolverService {
-    public static final Identifier REVOLVER_SHOP_ID = SparkTraits.id("impostor_revolver");
+    public static final Identifier REVOLVER_SHOP_ID = SparkDLC.id("impostor_revolver");
     public static final int REVOLVER_PRICE = 150;
 
     private ImpostorRevolverService() {

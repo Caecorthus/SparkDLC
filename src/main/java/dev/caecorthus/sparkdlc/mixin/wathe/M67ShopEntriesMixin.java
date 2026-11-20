@@ -28,7 +28,7 @@ public abstract class M67ShopEntriesMixin {
     // 购买按下标解析，因此每一步在客户端与服务端必须结果一致。
     // 开局库存初始化同样经过此处。平板已不再出售（由 TabletShopService 发放），因此不会出现在这里。
     @ModifyReturnValue(method = "getShopEntriesForPlayer", at = @At("RETURN"))
-    private static List<ShopEntry> sparkstrength$appendM67(
+    private static List<ShopEntry> sparkdlc$appendM67(
             List<ShopEntry> original, @Local(argsOnly = true) PlayerEntity player
     ) {
         // The blackout entry goes first: lights sabotage now lives in the tablet. / 先移除停电条目：灯光破坏已移到平板。

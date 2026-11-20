@@ -31,24 +31,24 @@ import java.util.UUID;
  * 给 Wathe 的受限背包界面追加大嗓门“点亮玩家”头像栏。
  *
  * <p>这里不修改 NoellesRolesspark 本体，而是在 SparkStrength 里单独混入
- * {@link LimitedInventoryScreen}。所有字段和方法都使用 {@code sparkstrength$noisemaker}
+ * {@link LimitedInventoryScreen}。所有字段和方法都使用 {@code sparkdlc$noisemaker}
  * 前缀，避免和其它扩展 mod 也混同一个背包界面时发生名字碰撞。</p>
  */
 @Mixin(LimitedInventoryScreen.class)
 public abstract class NoisemakerInventoryScreenMixin extends LimitedHandledScreen<PlayerScreenHandler> {
     @Shadow @Final public ClientPlayerEntity player;
 
-    @Unique private final List<NoisemakerGlowPlayerWidget> sparkstrength$noisemakerPlayerWidgets = new ArrayList<>();
-    @Unique private PlayerPageSwitchWidget sparkstrength$noisemakerPreviousPageWidget;
-    @Unique private PlayerPageSwitchWidget sparkstrength$noisemakerNextPageWidget;
-    @Unique private int sparkstrength$noisemakerCurrentPage;
+    @Unique private final List<NoisemakerGlowPlayerWidget> sparkdlc$noisemakerPlayerWidgets = new ArrayList<>();
+    @Unique private PlayerPageSwitchWidget sparkdlc$noisemakerPreviousPageWidget;
+    @Unique private PlayerPageSwitchWidget sparkdlc$noisemakerNextPageWidget;
+    @Unique private int sparkdlc$noisemakerCurrentPage;
 
     public NoisemakerInventoryScreenMixin(PlayerScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
 
     @Inject(method = "init", at = @At("HEAD"))
-    private void sparkstrength$noisemakerAddGlowButtons(CallbackInfo ci) {
+    private void sparkdlc$noisemakerAddGlowButtons(CallbackInfo ci) {
         if (player == null || player.getWorld() == null) {
             return;
         }
@@ -58,11 +58,11 @@ public abstract class NoisemakerInventoryScreenMixin extends LimitedHandledScree
             return;
         }
 
-        sparkstrength$noisemakerAddPlayerSelectionUI();
+        sparkdlc$noisemakerAddPlayerSelectionUI();
     }
 
     @Unique
-    private void sparkstrength$noisemakerAddPlayerSelectionUI() {
+    private void sparkdlc$noisemakerAddPlayerSelectionUI() {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null || client.player.networkHandler == null) {
             return;
@@ -72,8 +72,8 @@ public abstract class NoisemakerInventoryScreenMixin extends LimitedHandledScree
         // 这样玩家死亡变旁观后头像仍然存在，点击死亡玩家也会被服务端扣冷却。
         List<UUID> playerUuids = new ArrayList<>(client.player.networkHandler.getPlayerUuids());
         int y = PlayerPageLayout.getPlayerRowY(this.height);
-        sparkstrength$noisemakerPlayerWidgets.clear();
-        sparkstrength$noisemakerCurrentPage = PlayerSelectionPageState.getNoisemakerPage();
+        sparkdlc$noisemakerPlayerWidgets.clear();
+        sparkdlc$noisemakerCurrentPage = PlayerSelectionPageState.getNoisemakerPage();
 
         for (UUID targetUuid : playerUuids) {
             PlayerListEntry playerListEntry = client.player.networkHandler.getPlayerListEntry(targetUuid);
@@ -83,56 +83,56 @@ public abstract class NoisemakerInventoryScreenMixin extends LimitedHandledScree
                     targetUuid,
                     playerListEntry
             );
-            sparkstrength$noisemakerPlayerWidgets.add(child);
+            sparkdlc$noisemakerPlayerWidgets.add(child);
             addDrawableChild(child);
         }
 
-        sparkstrength$noisemakerPreviousPageWidget = addDrawableChild(new PlayerPageSwitchWidget(
+        sparkdlc$noisemakerPreviousPageWidget = addDrawableChild(new PlayerPageSwitchWidget(
                 0,
                 y,
                 Items.PURPLE_DYE.getDefaultStack(),
                 Text.translatable("ui.sparkdlc.pagination.previous"),
                 button -> {
-                    sparkstrength$noisemakerCurrentPage--;
-                    sparkstrength$noisemakerRefreshPage();
+                    sparkdlc$noisemakerCurrentPage--;
+                    sparkdlc$noisemakerRefreshPage();
                 }
         ));
-        sparkstrength$noisemakerNextPageWidget = addDrawableChild(new PlayerPageSwitchWidget(
+        sparkdlc$noisemakerNextPageWidget = addDrawableChild(new PlayerPageSwitchWidget(
                 0,
                 y,
                 Items.LIME_DYE.getDefaultStack(),
                 Text.translatable("ui.sparkdlc.pagination.next"),
                 button -> {
-                    sparkstrength$noisemakerCurrentPage++;
-                    sparkstrength$noisemakerRefreshPage();
+                    sparkdlc$noisemakerCurrentPage++;
+                    sparkdlc$noisemakerRefreshPage();
                 }
         ));
 
-        sparkstrength$noisemakerRefreshPage();
+        sparkdlc$noisemakerRefreshPage();
     }
 
     @Unique
-    private void sparkstrength$noisemakerRefreshPage() {
-        int totalPages = PlayerPageLayout.getTotalPageCount(sparkstrength$noisemakerPlayerWidgets.size());
-        if (sparkstrength$noisemakerCurrentPage < 0) {
-            sparkstrength$noisemakerCurrentPage = 0;
+    private void sparkdlc$noisemakerRefreshPage() {
+        int totalPages = PlayerPageLayout.getTotalPageCount(sparkdlc$noisemakerPlayerWidgets.size());
+        if (sparkdlc$noisemakerCurrentPage < 0) {
+            sparkdlc$noisemakerCurrentPage = 0;
         }
-        if (sparkstrength$noisemakerCurrentPage >= totalPages) {
-            sparkstrength$noisemakerCurrentPage = totalPages - 1;
+        if (sparkdlc$noisemakerCurrentPage >= totalPages) {
+            sparkdlc$noisemakerCurrentPage = totalPages - 1;
         }
-        PlayerSelectionPageState.setNoisemakerPage(sparkstrength$noisemakerCurrentPage);
+        PlayerSelectionPageState.setNoisemakerPage(sparkdlc$noisemakerCurrentPage);
 
-        int startIndex = sparkstrength$noisemakerCurrentPage * PlayerPageLayout.PLAYERS_PER_PAGE;
-        int endIndex = Math.min(startIndex + PlayerPageLayout.PLAYERS_PER_PAGE, sparkstrength$noisemakerPlayerWidgets.size());
+        int startIndex = sparkdlc$noisemakerCurrentPage * PlayerPageLayout.PLAYERS_PER_PAGE;
+        int endIndex = Math.min(startIndex + PlayerPageLayout.PLAYERS_PER_PAGE, sparkdlc$noisemakerPlayerWidgets.size());
         int visibleCount = endIndex - startIndex;
         int y = PlayerPageLayout.getPlayerRowY(this.height);
-        boolean showPrevious = sparkstrength$noisemakerCurrentPage > 0;
-        boolean showNext = sparkstrength$noisemakerCurrentPage < totalPages - 1;
+        boolean showPrevious = sparkdlc$noisemakerCurrentPage > 0;
+        boolean showNext = sparkdlc$noisemakerCurrentPage < totalPages - 1;
         int groupStartX = PlayerPageLayout.getCenteredGroupStartX(this.width, visibleCount, showPrevious, showNext);
         int playerStartX = groupStartX + (showPrevious ? PlayerPageLayout.SLOT_APART : 0);
 
-        for (int i = 0; i < sparkstrength$noisemakerPlayerWidgets.size(); i++) {
-            NoisemakerGlowPlayerWidget widget = sparkstrength$noisemakerPlayerWidgets.get(i);
+        for (int i = 0; i < sparkdlc$noisemakerPlayerWidgets.size(); i++) {
+            NoisemakerGlowPlayerWidget widget = sparkdlc$noisemakerPlayerWidgets.get(i);
             boolean visible = i >= startIndex && i < endIndex;
             widget.visible = visible;
             widget.active = visible;
@@ -143,17 +143,17 @@ public abstract class NoisemakerInventoryScreenMixin extends LimitedHandledScree
             }
         }
 
-        if (sparkstrength$noisemakerPreviousPageWidget != null) {
-            sparkstrength$noisemakerPreviousPageWidget.visible = showPrevious;
-            sparkstrength$noisemakerPreviousPageWidget.active = showPrevious;
-            sparkstrength$noisemakerPreviousPageWidget.setX(groupStartX);
-            sparkstrength$noisemakerPreviousPageWidget.setY(y);
+        if (sparkdlc$noisemakerPreviousPageWidget != null) {
+            sparkdlc$noisemakerPreviousPageWidget.visible = showPrevious;
+            sparkdlc$noisemakerPreviousPageWidget.active = showPrevious;
+            sparkdlc$noisemakerPreviousPageWidget.setX(groupStartX);
+            sparkdlc$noisemakerPreviousPageWidget.setY(y);
         }
-        if (sparkstrength$noisemakerNextPageWidget != null) {
-            sparkstrength$noisemakerNextPageWidget.visible = showNext;
-            sparkstrength$noisemakerNextPageWidget.active = showNext;
-            sparkstrength$noisemakerNextPageWidget.setX(playerStartX + visibleCount * PlayerPageLayout.SLOT_APART);
-            sparkstrength$noisemakerNextPageWidget.setY(y);
+        if (sparkdlc$noisemakerNextPageWidget != null) {
+            sparkdlc$noisemakerNextPageWidget.visible = showNext;
+            sparkdlc$noisemakerNextPageWidget.active = showNext;
+            sparkdlc$noisemakerNextPageWidget.setX(playerStartX + visibleCount * PlayerPageLayout.SLOT_APART);
+            sparkdlc$noisemakerNextPageWidget.setY(y);
         }
     }
 }

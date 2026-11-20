@@ -35,7 +35,7 @@ public abstract class MurderGameModeBlackRavenSettlementMixin {
             require = 1,
             allow = 1
     )
-    private boolean sparkwitch$killerWinIgnoresBlackRaven(PlayerEntity player, Operation<Boolean> original) {
+    private boolean sparkdlc$killerWinIgnoresBlackRaven(PlayerEntity player, Operation<Boolean> original) {
         return BlackRavenSettlement.countsAsAlive(original.call(player), player);
     }
 }

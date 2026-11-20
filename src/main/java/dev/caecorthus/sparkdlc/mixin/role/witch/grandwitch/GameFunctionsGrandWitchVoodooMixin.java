@@ -32,7 +32,7 @@ public abstract class GameFunctionsGrandWitchVoodooMixin {
             require = 1,
             allow = 1
     )
-    private static void sparkwitch$blockGrandWitchVoodoo(
+    private static void sparkdlc$blockGrandWitchVoodoo(
             ServerPlayerEntity victim,
             boolean spawnBody,
             @Nullable ServerPlayerEntity killer,

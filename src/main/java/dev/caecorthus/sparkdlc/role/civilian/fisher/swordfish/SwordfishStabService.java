@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.role.civilian.fisher.swordfish;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
-import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
+import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponTarget;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
@@ -129,7 +129,7 @@ public final class SwordfishStabService {
         // SparkStrength 派对客接缝（所有者规则 2026-10-21）：被接纳的刺击打死它，随后与刺中玩家一样消耗剑鱼并播放刺击；
         // 永不触发小脑（派对客永远不是好人）。
         if (PartygoerWeaponTarget.isPartygoer(entity)) {
-            if (PartygoerWeaponTarget.killByWeapon(attacker, entity, SparkWitchDeathReasons.SWORDFISH_STAB)) {
+            if (PartygoerWeaponTarget.killByWeapon(attacker, entity, SparkDlcDeathReasons.SWORDFISH_STAB)) {
                 consume(attacker, stack);
                 playStab(attacker, entity);
             }
@@ -139,7 +139,7 @@ public final class SwordfishStabService {
             return;
         }
         GameWorldComponent game = GameWorldComponent.KEY.get(attacker.getWorld());
-        if (!SparkFactionApi.canAffectPlayer(attacker, target, SparkWitchDeathReasons.SWORDFISH_STAB, game)
+        if (!SparkFactionApi.canAffectPlayer(attacker, target, SparkDlcDeathReasons.SWORDFISH_STAB, game)
                 || SparkTraitsApi.isLastEscapeActive(target)) {
             return;
         }
@@ -156,7 +156,7 @@ public final class SwordfishStabService {
         if (parried) {
             return;
         }
-        GameFunctions.killPlayer(target, true, attacker, SparkWitchDeathReasons.SWORDFISH_STAB);
+        GameFunctions.killPlayer(target, true, attacker, SparkDlcDeathReasons.SWORDFISH_STAB);
         if (SwordfishRules.shouldPunish(attackerFaction, victimFaction, deadBefore,
                 game.isPlayerDead(target.getUuid()), SparkTraitsApi.isLastStandDeathIntercepted(target),
                 SparkTraitsApi.isNonFinalKillPending(target, attacker))
@@ -170,7 +170,7 @@ public final class SwordfishStabService {
         // A transferable weapon, not a role skill: silence/fear do not block ordinary knife use either.
         // 可转交的武器而非职业技能：沉默/恐惧同样不封锁普通刀的使用。
         return isParticipant(player) && stack != null && !stack.isEmpty()
-                && stack == player.getMainHandStack() && stack.isOf(SparkWitchItems.swordfish())
+                && stack == player.getMainHandStack() && stack.isOf(SparkDlcItems.swordfish())
                 && !player.getItemCooldownManager().isCoolingDown(stack.getItem())
                 && !ControlExpertStun.isStunned(player)
                 && !SeekerRemoteSessionService.isLocked(player)

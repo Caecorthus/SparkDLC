@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.ferryman;
 
-import dev.caecorthus.sparkdlc.SparkWitch;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendWinService;
 import dev.doctor4t.wathe.api.event.CheckWinCondition;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -27,7 +27,7 @@ import java.util.UUID;
  * 摆渡人与灵魂只是不获胜。拥有者死亡或失去职业则在此结束时刻，恢复常规结算。
  */
 public final class FerrymanWinService {
-    public static final Identifier PHASE = SparkWitch.id("ferryman_moment_win");
+    public static final Identifier PHASE = SparkDLC.id("ferryman_moment_win");
     private static boolean registered;
 
     private FerrymanWinService() {

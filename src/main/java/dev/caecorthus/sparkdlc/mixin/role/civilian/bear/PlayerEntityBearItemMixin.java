@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class PlayerEntityBearItemMixin {
     @Inject(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", at = @At("HEAD"),
             cancellable = true)
-    private void sparkwitch$vanishBearItemOnDeath(
+    private void sparkdlc$vanishBearItemOnDeath(
             ItemStack stack,
             boolean throwRandomly,
             boolean retainOwnership,

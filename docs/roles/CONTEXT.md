@@ -175,7 +175,7 @@ Current build baseline:
 ## Current Ownership
 
 - `api/`: the only public downstream SparkWitch Interface.
-  - The former `client/api/SecondarySkillKeyApi` facade (2026-10-07; dissolved in stage 3, its callers use `client/skill/SecondaryAbilityRegistry.tryRegisterAction` and `SecondaryAbilityController.secondaryKeyText`) was the cross-mod seam onto Role Skill 2
+  - The former `client/api/SecondarySkillKeyApi` facade (2026-10-07; dissolved in stage 3, its callers register a lambda handler through `client/skill/SecondaryAbilityRegistry.register` and use `SecondaryAbilityController.secondaryKeyText`) was the cross-mod seam onto Role Skill 2
     (key N): `static boolean register(Identifier roleId, Runnable onPressed)` (false, no throw, when the role already
     has a handler; null arguments throw NPE) and `static Text boundKeyText()`. It adapts the Runnable into
     `client/skill/SecondaryAbilityRegistry.tryRegister`, so a press fires on the client thread only while the local
@@ -1129,8 +1129,8 @@ Current build baseline:
   compiled, allocation-free Molang subset (unknown names read 0, evaluation never throws). `BedrockPose` carries a
   frame's extra rotation/position/scale per bone; `BedrockBounds` is a render-frame box.
 - `client/skill/`: generic configurable skill-key-2 registration and role-id
-  dispatch only; concrete roles own their handlers. `register` throws on a duplicate role; `tryRegister` (used only
-  by `SecondaryAbilityRegistry.tryRegisterAction`) returns false and keeps the first handler.
+  dispatch only; concrete roles own their handlers. `register` throws on a duplicate role; `tryRegister` (its non-throwing form) returns false
+  and keeps the first handler.
 - `client/input/` (2026-10-09): neutral pure client input rules only, no state and no Minecraft types.
   `MacControlClickRules.keepsLeftPress` is vanilla's macOS Ctrl-click remap rule (a left press with Ctrl becomes a
   counted right press; sprint is Left Ctrl), shared by all three left-click weapons: the AXMC
@@ -1298,9 +1298,7 @@ Current build baseline:
     `onWinDetermined` (he no longer keeps a sole surviving Loose End's win from being finalized). SparkTraits'
     other readers are no-ops for a neutral (Last Stand's civilian population gate, the killer-win `isInnocent`
     redirect, the Impostor cleanup, role-level Last Stand eligibility), and SparkStrength's only reader, the Shadow
-    Jester showdown `livingOthers` count, is a `CheckWinCondition` listener that the win scope already covered. The
-    registration fails closed (`LinkageError` caught and logged) against a SparkFactionAPI 2.0.0 jar built before
-    conditional roles existed. All
+    Jester showdown `livingOthers` count, is a `CheckWinCondition` listener that the win scope already covered. All
     souls dead kills the Charon and the Charon gone
     kills every soul, both forced with `sparkdlc:ferryman_moment_lost` (SparkTraits-terminal); round boundaries and a
     server stop end the moment silently.
@@ -3958,8 +3956,7 @@ pass it draws at most one of them per round, 50/50 between the drawable ones, on
 (`thirdFactionDividend`, default 10), and deals the roles a SparkWitch lineup returns; forced members of that faction are
 always kept, passed in as `presentMembers`, and count toward the cap (`remainingSlots()` = cap minus present).
 `SparkDlcRoleRegistry.registerThirdFactionLineups` (after factions, the Corrupt Cop binding and all roles) registers two
-pure lineups by method reference and fails closed on an older SparkFactionAPI jar (`LinkageError`: warning, no third
-faction dealt):
+pure lineups by method reference:
 - Witch (`faction/witch/WitchThirdFactionLineup`, rules in `WitchThirdFactionLineupRules`): without a Grand Witch present,
   one Grand Witch (empty, so undrawable, when she is disabled) then Bewitched on every remaining slot while the
   Bewitched is enabled; with a forced Grand Witch, Bewitched only. Her appearance condition is always false and is not
@@ -5862,8 +5859,8 @@ client renders and sends requests. Its `gui.sparkdlc.skills` panel shows only `s
   (`sparkdlc:riftwalker_sabbath`). Control-Expert-stunned, Hunter-rooted and SparkStrength capture-stunned teammates
   are pulled and stay held at the landing spot (D19, superseding C10's Sabbath half and M-2): the stun and the root
   anchor no position, and `RiftwalkerStatusProbes.relockCaptureStun` calls SparkStrength's `stun(1)` (keeps the
-  remaining ticks, re-locks at the current position) right after the teleport. A captured teammate whose lock cannot
-  move (`isCaptureStunPinned`) is skipped. A pulled Grand Witch's ceremonial-sword dash is cancelled. No target or no
+  remaining ticks, re-locks at the current position) right after the teleport, so no captured teammate is ever
+  skipped. A pulled Grand Witch's ceremonial-sword dash is cancelled. No target or no
   space costs nothing, the mana is refunded when nobody moved, and a caster in a doorway gets its own refusal (N-5).
 - **Presentation** (`client/role/witch/riftwalker/gate/`). `RiftGateEntityRenderer` draws model B (`RiftGateModels`) full-bright
   for everyone, skipping the gate around an occupant's camera; `RiftGateClientEffects` adds sparse particles;
@@ -5967,9 +5964,9 @@ and `PartygoerHitGeometry` are asked directly), `RoleKitBlastOrigin` (`AttackOri
 `client/mixin/scope/ScopeAccessibilityOptionsMixin` (`SparkDlcSettingsApi.hostsScopeSettings`, asked without the former `SparkDlcSettingsBridge`). The registry-id-only seams
 (`tablet/TabletItemLookup`, `RiftGateM67Sweep`; the disguise flashlight now comes from `AttendantFlashlightService`) keep their id lookups
 and only lost the mod gate. Where the role sections below and above describe an absent, older or failing SparkStrength
-or SparkAssist (fail closed, "disabled for the session", a logged warning, `isCaptureStunPinned` skipping a teammate),
-that branch can no longer occur: a sibling failure propagates instead of turning into a default, and
-`RiftwalkerStatusProbes.isCaptureStunPinned` is the constant false. `compat/OptionalStaticMethod` is deleted (the
+or SparkAssist (fail closed, "disabled for the session", a logged warning),
+that branch can no longer occur: a sibling failure propagates instead of turning into a default.
+`compat/OptionalStaticMethod` is deleted (the
 junction-box bridge was its last user). Which packages may name which is checked by `verifyLayering`, and that nothing
 of the mod is looked up by name by `verifyNoLookupByName` (`gradle/verify/layering.gradle`); the local test
 `LookupHelperRemovalSourceTest` keeps the helper deleted; no string-named target is left (the purse seam is a

@@ -701,7 +701,10 @@ Current build baseline:
     dies, leaves, changes world or spectates. The payload is classified on the Fear, Control Expert stun, Seeker
     session, Rift occupant and Knight duel deny lists. Replays: `sparkdlc:dominator_mark` / `dominator_release`.
   - Release: G during the mark. If the marked player could not fire on their own right now
-    (`DominatorReleaseGate`), the press is refused with `message.sparkdlc.dominator.target_unforceable` and the
+    (`DominatorReleaseGate`: spectator, swallowed, Rift occupant, Control Expert stun, Taotie head daze and Engineer
+    capture stun / Jester Moment freeze (both since owner 2026-11-20, on the daze list), Seeker remote view, Raven
+    Form, Last Escape, Knight duel, Kidnapper control, Partygoer carry, a foreign camera, Vendetta isolation; not yet
+    the opening safe time), the press is refused with `message.sparkdlc.dominator.target_unforceable` and the
     mark, use and cooldown stay. Otherwise one use is spent and `DominatorForcedShotService` runs the forced shot:
     the marked player's selected hotbar stack is stashed, a revolver tagged with the `sparkdlc:forced_shot_gun` data
     component (`SparkDlcDataComponents.FORCED_SHOT_GUN`) fires once along the marked player's own aim, then only
@@ -1064,8 +1067,8 @@ Current build baseline:
     - `RopeTargeting` (server): the user gate (ACTIVE round, `RoundParticipants.ROLE_HOLDER`, in no strangle, not
       controlled: Taser stun, Raven landing hold, Grand Witch Fear, hypnosis, Kidnapper, forced shot, SparkStrength's
       `engineer_stunned` lock (capture device and Jester Moment freeze, through
-      `RiftwalkerStatusProbes.isCaptureStunned`; SparkStrength's Taotie head daze has no seam here and is not
-      covered), swallowed, Last Stand/Escape, Seeker session, foreign camera, any feign, Cat spectre, Rift, Raven Form,
+      `RiftwalkerStatusProbes.isCaptureStunned`), the Taotie head daze (`TaotieHeadDaze.isDazed`; owner 2026-11-20, a
+      dazed strangler lets go), swallowed, Last Stand/Escape, Seeker session, foreign camera, any feign, Cat spectre, Rift, Raven Form,
       active Vendetta, Knight duelist), the target gate (another `ROLE_HOLDER` in the same world, `SparkFactionApi.canAffectPlayer` with the
       action id `sparkdlc:strangled`, not Last Escape/Stand, swallowed, carried, feigned incl.
       `HiroReturnService.isFeignedVictim`, spectre, Rift, Raven Form, and in no strangle) and the pick:
@@ -1687,10 +1690,11 @@ Current build baseline:
     rounds in the inventory, or use rounds in the main hand with the rifle in the off hand; each load records an
     item_use (`action=reload`). Only the main hand charges (an off-hand rifle passes, so a failed load never falls
     through into a shot). `M1903A4Combat.decide` is asked at charge start AND at release; a refused release spends
-    nothing: not a MATCH (`OffMatchUse`), not main hand, spectator, held (Control Expert stun, Seeker remote lock,
-    Kidnapper control, active Wraith, Dominator forced-shot sequence), SparkTraits `blocksWeaponAction`, cooling down
-    (covers the Knight seal and every forced cooldown), or empty. SparkStrength's Engineer stun and Taotie daze clear
-    the active item when they start (SparkStrength companion), so their forced key release cannot fire it.
+    nothing: not a MATCH (`OffMatchUse`), not main hand, spectator, held (Control Expert stun, Engineer capture stun
+    with the Jester Moment freeze, Taotie head daze (those two since owner 2026-11-20), Seeker remote lock, Kidnapper
+    control, active Wraith, Dominator forced-shot sequence), SparkTraits `blocksWeaponAction`, cooling down (covers the
+    Knight seal and every forced cooldown), or empty. The Engineer stun and the Taotie daze also clear the active item
+    when they start, so their forced key release cannot fire it.
   - Shot (`M1903A4Combat.fire`, the 狮身豪 fist structure): spend the round, write the 10 s cooldown, then one eye ray of
     50 blocks cut at the first collider block, the nearest eligible player (`RoundParticipants.ROLE_HOLDER`, SFA
     `canAffectPlayer(…, wathe:gun_shot)`, not Last Escape, Vendetta isolation) on lag-compensated volumes

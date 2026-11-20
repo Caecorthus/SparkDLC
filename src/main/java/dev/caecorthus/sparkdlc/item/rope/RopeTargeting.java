@@ -20,6 +20,7 @@ import dev.caecorthus.sparkdlc.role.killer.natsume.NatsumeHypnosisGuards;
 import dev.caecorthus.sparkdlc.role.neutral.cat.SchrodingersCatService;
 import dev.caecorthus.sparkdlc.role.neutral.ferryman.FerrymanFeignService;
 import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendFeignService;
+import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadDaze;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.RiftwalkerStatusProbes;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.session.RiftSessionService;
@@ -68,12 +69,14 @@ final class RopeTargeting {
      * It reads the Taser stun and the Raven landing hold directly rather than {@code ControlExpertStun.isStunned},
      * which also answers true for the Rope's own hold. The {@code sparkdlc:engineer_stunned} lock
      * (the Engineer's capture device and the Jester Moment's freeze share that component) is read through the existing
-     * probe {@code RiftwalkerStatusProbes.isCaptureStunned}; the Taotie head daze had no seam the Rope could reach
-     * when this was written and is not covered.
+     * probe {@code RiftwalkerStatusProbes.isCaptureStunned}. The Taotie head daze ({@link TaotieHeadDaze#isDazed}) is
+     * asked too since owner 2026-11-20 ("检查一下吧"): it had no seam the Rope could reach while the two lived in
+     * different jars, so a strangler hit by a Taotie head now lets go like a Taser-stunned one.
      * 是否有勒杀之外的机制持有、隐藏或控制着 {@code user}；开始时检查一次，勒杀进行中的每一刻再次检查，即「被眩晕 / 恐惧 / 催眠 / 控制」
      * 的打断条件。这里直接读取电击眩晕与黑羽鸦落地定身，而不读 {@code ControlExpertStun.isStunned}，后者对绳索自身的定身同样返回
      * true。{@code sparkdlc:engineer_stunned} 锁定（工程师捕捉装置与小丑时刻的全员定身共用该组件）通过已有的
-     * 探针 {@code RiftwalkerStatusProbes.isCaptureStunned} 读取；饕餮头颅眩晕在编写本类时没有绳索可用的接缝，未覆盖。
+     * 探针 {@code RiftwalkerStatusProbes.isCaptureStunned} 读取。自所有者 2026-11-20（「检查一下吧」）起也询问饕餮头颅眩晕
+     * （{@link TaotieHeadDaze#isDazed}）：两者分属不同 jar 时绳索够不到它的接缝；如今被饕餮头颅击中的勒杀者会像被电击眩晕一样松手。
      */
     static boolean isControlled(ServerPlayerEntity user) {
         ControlExpertStatusComponent stun = ControlExpertStatusComponent.KEY.get(user);
@@ -85,6 +88,7 @@ final class RopeTargeting {
                 || kidnap.isControlled()
                 || DominatorForcedShotComponent.isSequenceActive(user)
                 || RiftwalkerStatusProbes.isCaptureStunned(user)
+                || TaotieHeadDaze.isDazed(user)
                 || NoellesTaotieSeekerBridge.isSwallowed(user)
                 || SparkTraitsApi.isLastStandPending(user)
                 || SparkTraitsApi.isLastEscapeActive(user)

@@ -37,6 +37,9 @@
       "dev.caecorthus.sparkdlc.voice.SparkTraitsVoiceChatPlugin",
       "dev.caecorthus.sparkdlc.voice.SparkWitchVoiceChatPlugin"
     ],
+    "sparkdlc_client_voice": [
+      "dev.caecorthus.sparkdlc.client.voice.IncomingVoiceEffects"
+    ],
     "lambdynlights:initializer": [
       "dev.caecorthus.sparkdlc.client.role.civilian.savior.SaviorDynamicLightsInitializer"
     ],

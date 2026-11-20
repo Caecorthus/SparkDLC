@@ -32,8 +32,8 @@ import net.minecraft.server.network.ServerPlayerEntity;
 /**
  * Simple Voice Chat bridge for Wraith lifecycle voice rules, plus the Blind's lowest-priority voice perception.
  * Simple Voice Chat 桥接：负责冤魂生命周期各阶段的语音规则，并以最低优先级提供盲人的语音感知。
- * On the physical client it also wires the Holy Flash incoming-voice muffle via {@link HolyFlashVoiceClientBridge}.
- * 在物理客户端上还会通过 {@link HolyFlashVoiceClientBridge} 接入圣光弹的传入语音压低。
+ * On the physical client it also wires the Holy Flash incoming-voice muffle via {@link ClientVoiceReceivers}.
+ * 在物理客户端上还会通过 {@link ClientVoiceReceivers} 接入圣光弹的传入语音压低。
  */
 public final class SparkWitchVoiceChatPlugin implements VoicechatPlugin {
     /** Server API, kept so gameplay code can drop a revived player out of its group. / 服务端 API，供玩法代码把复活的玩家移出语音分组。 */
@@ -93,10 +93,10 @@ public final class SparkWitchVoiceChatPlugin implements VoicechatPlugin {
         );
         // Physical client only: Holy Flash muffles incoming voice; a no-op on dedicated servers.
         // 仅物理客户端：圣光弹压低传入语音；专用服务器上不做任何事。
-        HolyFlashVoiceClientBridge.register(registration);
+        ClientVoiceReceivers.registerHolyFlashOnClient(registration);
         // Physical client only, after Holy Flash so both compose: BEAR hearing scales incoming voice (H7).
         // 仅物理客户端，排在圣光弹之后以便二者相乘：BEAR 听力缩放传入语音（H7）。
-        BearHearingVoiceClientBridge.register(registration);
+        ClientVoiceReceivers.registerBearHearingOnClient(registration);
         VoicechatPlugin.super.registerEvents(registration);
     }
 

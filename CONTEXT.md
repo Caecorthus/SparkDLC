@@ -17,8 +17,8 @@ Wathe and NoellesRoles. It was created on 2026-11-19 by fusing five mods; their 
 Since the stage-1 unification move the code is organised by function, not by legacy module: a role's items,
 components, payloads and services live in `role.<category>.<role>` (categories `civilian`, `killer`, `neutral`,
 `jiahao`, `witch`, `special`), shared systems in packages such as `trait`, `faction`, `round`, `cooldown`, `skill`,
-`item`, `net`, and every mixin under `mixin.*` / `client.mixin.*`. The legacy initializers, registries and
-facades still exist as classes (root package, `bridge.*`); `tools/unify/README.md` describes the move, and
+`item`, `net`, and every mixin under `mixin.*` / `client.mixin.*`. The legacy initializers and registries
+still exist as classes (root package); the `*Bridge` / `*Compat` facades between the former modules are gone; `tools/unify/README.md` describes the move, and
 `tools/unify/file-moves.tsv` lists where every file came from.
 
 Common code is in `src/main/java`, client code in `src/client/java` (every client class sits under the
@@ -45,10 +45,11 @@ only reached from client code.
   `assets/minecraft/font/default.json`, `data/sparkdlc/tags/item/{bloodthirsty_weapons,throwables,thrust_weapons}.json`
   and `data/wathe/tags/item/guns.json`. A module adds its entries to the shared file.
 - **Module calls are direct.** The modules were separate jars that reached each other through reflection behind
-  `isModLoaded` gates. Since the fusion they call each other with compiled calls (the `*Bridge` / `*Compat`
-  classes are thin facades over them), a failure inside the called module propagates instead of being turned
-  into a default, and there is no absent-module fallback. `AGENTS.md` (Cross-Module Check) lists the few seams
-  that are still resolved by name.
+  `isModLoaded` gates. Since the fusion they call each other with compiled calls, directly or through a
+  feature's contract package (`faction.api`, `trait.api`, `skill.api`, `cooldown.api`, `replay.api`); a failure
+  inside the called feature propagates instead of being turned into a default, and there is no absent-module
+  fallback. No mixin targets another feature's class: hooks into the shared core are registered listeners
+  (`AGENTS.md`, Cross-Module Check).
 - **Dependencies.** Wathe and NoellesRoles jars are in `libs/`, pinned by sha256 in `gradle.properties`.
 
 ## Verification entry points

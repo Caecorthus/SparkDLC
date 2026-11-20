@@ -2825,7 +2825,7 @@ Current build baseline:
     (owner Q1 "可以", proven by `BearHearingOpenAlTest` on OpenAL Soft 1.23.1), failing closed to a clamp at 1. The
     re-volume push is gain-only: while `BearHearingClient.isGainOnlyPush()` the mixin replaces vanilla's stop-at-0
     source action in `SoundSystem.method_19754`, so silent always-play loops are never stopped. Voice:
-    `BearHearingVoiceReceiver`, reached through `voice/BearHearingVoiceClientBridge` after Holy Flash, scales incoming
+    `BearHearingVoiceReceiver`, reached through `voice/ClientVoiceReceivers` after Holy Flash, scales incoming
     Simple Voice Chat audio from a volatile per-tick snapshot, with a soft limiter above 1.
     Invisible barriers block smoke by their collision like any block (`WorldSmokeBlockView.BARRIERS_PASS_SMOKE`
     false, owner Q5 "挡").
@@ -4362,7 +4362,7 @@ Client side lives in `client/role/civilian/saint/`: `HolyFlashOverlayRenderer` (
 black held to 60% and eased out — above every HUD overlay, including the Seeker remote view;
 `HolyFlashAudioClient` plays the `sparkdlc:skill.holy_flash_tinnitus` loop and drives
 `client/mixin/role/civilian/saint/HolyFlashSoundSystemMixin`, which multiplies every other sound by a factor floored
-at 0.1 (composes with SparkAssist); `voice/HolyFlashVoiceClientBridge` loads `HolyFlashVoiceReceiver`
+at 0.1 (composes with SparkAssist); `voice/ClientVoiceReceivers` reaches `HolyFlashVoiceReceiver`
 on the physical client only to scale incoming Simple Voice Chat PCM by the same factor.
 The Blind takes only the audio side (owner decision Q12): the server flashes a Blind like any other
 participant (same radius, sight, facing and duration rules, no role check), and the mask alone is skipped
@@ -5971,8 +5971,8 @@ that branch can no longer occur: a sibling failure propagates instead of turning
 `RiftwalkerStatusProbes.isCaptureStunPinned` is the constant false. `compat/OptionalStaticMethod` is deleted (the
 junction-box bridge was its last user). The exact sibling types each witch source may name are pinned by the local test
 `WitchSparkStrengthDirectCallBoundaryTest`; no string-named target is left (the purse seam is a
-`KillerTeamEconomyService.WalletRule` the disguise registers). Still reflective by necessity: `voice/BearHearingVoiceClientBridge` and
-`voice/HolyFlashVoiceClientBridge` (common code reaching SparkWitch's own client classes) and the real optional mods
+`KillerTeamEconomyService.WalletRule` the disguise registers). The client voice receivers are a loader-resolved entrypoint (`voice/ClientVoiceReceivers`, `sparkdlc_client_voice`).
+Still reflective by necessity: the real optional mods
 (Iris through `SmokeShaderPackBridge` / `BlindShaderPackCheck`, EMF through `EmfVanillaModel`).
 
 SparkTraits is optional and fail-closed. Reflection may target only

@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.veteran;
 
 import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
+import dev.caecorthus.sparkdlc.faction.target.PlayerAffectMixinGuard;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.veteran.VeteranKnifeComponent;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
@@ -49,7 +50,19 @@ public final class VeteranKnifeService {
      * @return true 表示本次 payload 已由老兵逻辑处理，原 Wathe 刀人逻辑必须取消。
      */
     public static boolean handleKnifeStab(KnifeStabPayload payload, ServerPlayNetworking.Context context) {
+        // Guards the knife before a stab charge is consumed, and before the role is even looked at: a stab at a player
+        // the player-affect policies protect is reported as handled for every sender (Veteran or not), so Wathe's own
+        // knife logic is cancelled too. The target here is the player behind the payload's raw entity id; the reach,
+        // spectator and crow rules below do not apply to this first check.
+        // 在消耗刺击次数之前、甚至在查看身份之前拦截刀刺：刺向受玩家影响策略保护的玩家时，无论发包者是否为老兵都按“已处理”
+        // 返回，因此 Wathe 自身的刀逻辑也被取消。此处的目标是数据包原始实体 id 对应的玩家；下方的距离、旁观与乌鸦规则不作用于
+        // 这第一道检查。
         ServerPlayerEntity player = context.player();
+        ServerPlayerEntity guardedTarget = PlayerAffectMixinGuard.entityTarget(player, payload.target());
+        if (guardedTarget != null
+                && !PlayerAffectMixinGuard.allows(player, guardedTarget, GameConstants.DeathReasons.KNIFE)) {
+            return true;
+        }
         GameWorldComponent game = GameWorldComponent.KEY.get(player.getWorld());
         Role role = game.getRole(player);
         if (!VeteranRules.isVeteran(role) && CoronerService.hasInstantSilentKnifeDisguise(player)) {

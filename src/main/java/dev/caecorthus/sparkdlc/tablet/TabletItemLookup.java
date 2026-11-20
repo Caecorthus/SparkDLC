@@ -1,4 +1,4 @@
-package dev.caecorthus.sparkdlc.bridge.witch;
+package dev.caecorthus.sparkdlc.tablet;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -11,21 +11,24 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 
 /**
- * Cross-module seam: SparkWitch touches the SparkStrength tablet by registry id only (SparkStrength always ships in
- * the same jar since the SparkDLC fusion, so there is no mod-presence gate). No SparkStrength class is
- * imported, loaded or reflected here; a missing item simply means "no tablet". SparkWitch never sells or grants
- * the tablet: SparkStrength issues it free at round start (and to players who become eligible mid-round).
- * 跨模块接缝：SparkWitch 只通过注册 id 接触 SparkStrength 平板（融合进 SparkDLC 后 SparkStrength 始终随同一个 jar 发布，
- * 因此不再检查模组是否加载）。此处不导入、不加载、不反射任何 SparkStrength 类；物品缺失即视为“没有平板”。
- * SparkWitch 从不出售或发放平板：SparkStrength 在开局（以及对局中途获得资格时）免费发放。
+ * The tablet item ({@code sparkdlc:tablet}) as the features that use it as a console see it (the Seeker console, the
+ * Rift Gate console): whether it exists, whether a stack is one, and whether a player carries one anywhere. It is
+ * looked up lazily by registry id, so asking never loads the item registry class and an item that is not registered
+ * (yet) simply means "no tablet"; the Seeker's car-as-console fallback and its draw condition hang on that answer.
+ * Those features never sell or grant the tablet: it is issued free at round start (and to players who become eligible
+ * mid-round). Possession for the tablet's own channels is the hotbar-only rule in {@link TabletAccess}.
+ * 把平板物品（{@code sparkdlc:tablet}）当作控制台使用的功能（搜寻者控制台、裂隙门控制台）所看到的平板：它是否存在、某个物品堆
+ * 是否是平板、玩家是否在任意位置携带平板。平板按注册 id 惰性查找，因此查询不会加载物品注册类，物品（尚）未注册即视为
+ * “没有平板”；搜寻者“小车充当控制台”的兜底与其抽取条件都取决于这一回答。这些功能从不出售或发放平板：平板在开局
+ * （以及对局中途获得资格时）免费发放。平板自身频道的持有判定是 {@link TabletAccess} 中的仅快捷栏规则。
  */
-public final class SparkStrengthTabletCompat {
+public final class TabletItemLookup {
     public static final String MOD_ID = "sparkdlc";
     public static final Identifier TABLET_ID = Identifier.of(MOD_ID, "tablet");
 
     private static volatile Item cachedTablet;
 
-    private SparkStrengthTabletCompat() {
+    private TabletItemLookup() {
     }
 
     /**
@@ -51,9 +54,10 @@ public final class SparkStrengthTabletCompat {
     }
 
     /**
-     * The spec's "current inventory": main inventory, hotbar, offhand and the cursor stack. Deliberately not
-     * SparkStrength's hotbar-only access rule.
-     * 规格中的“当前背包”：主背包、快捷栏、副手与光标上的物品。刻意不采用 SparkStrength 的仅快捷栏规则。
+     * The spec's "current inventory": main inventory, hotbar, offhand and the cursor stack. Deliberately not the
+     * tablet's own hotbar-only access rule ({@link TabletAccess#hasTabletInHotbar}).
+     * 规格中的“当前背包”：主背包、快捷栏、副手与光标上的物品。刻意不采用平板自身的仅快捷栏规则
+     * （{@link TabletAccess#hasTabletInHotbar}）。
      */
     public static boolean hasTabletAnywhere(@Nullable PlayerEntity player) {
         if (player == null) {

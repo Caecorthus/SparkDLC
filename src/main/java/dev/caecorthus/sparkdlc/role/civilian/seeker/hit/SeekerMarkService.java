@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker.hit;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthTabletCompat;
+import dev.caecorthus.sparkdlc.tablet.TabletItemLookup;
 import dev.caecorthus.sparkdlc.record.witch.AchievementRecords;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerDeviceKind;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
@@ -48,7 +48,7 @@ public final class SeekerMarkService {
                 breaker != null && SeekerDamageRules.isSamePlayer(owner, breaker),
                 () -> SeekerTargeting.isOwnerOfRecord(owner),
                 () -> GameFunctions.isPlayerPlayingAndAlive(owner),
-                () -> SparkStrengthTabletCompat.hasTabletAnywhere(owner),
+                () -> TabletItemLookup.hasTabletAnywhere(owner),
                 () -> SparkFactionApi.canAffectPlayer(owner, breaker, SeekerRules.MARK_ACTION_ID, game));
         if (!marks) {
             return;

@@ -1830,7 +1830,7 @@ Current build baseline:
   and `client/mixin/role/civilian/seeker/`; client presentation (console screen, remote view and car driver,
   device renderers) in `client/role/civilian/seeker/`. Cross-mod seams go through `SparkTraitsApi` (asked directly),
   `compat/noellesroles/SeekerControlExpertBridge`, `compat/noellesroles/NoellesTaotieSeekerBridge`,
-  `bridge/witch/SparkStrengthTabletCompat`, and `bridge/witch/SparkStrengthM67Compat`.
+  `tablet/TabletItemLookup`, and `bridge/witch/SparkStrengthM67Compat`.
 - `role/civilian/usec/`: USEC (`sparkdlc:usec`), the fifth police variant. Its only weapon is the AXMC bolt-action
   sniper rifle (`sparkdlc:usec_rifle`; the owner named it AXMC on 2026-10-07, while ids, classes and the role name
   stay "USEC"). Qn/Dn/Sn are the owner decisions in `docs/plans/2026-10-07-usec.md` (all answered).

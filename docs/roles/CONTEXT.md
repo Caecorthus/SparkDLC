@@ -402,7 +402,7 @@ Current build baseline:
   `BlackRavenShopService` is gone; the disguise shop seams M2-M4 stay).
   - Task pay (owner, 2026-10-25): `BlackRavenEconomyService` pays +50 (`BlackRavenPoliceRules.TASK_MONEY_REWARD`) per
     completed task, the Judge/Seeker/Control Expert amount, to an ACTIVE, playing, alive, survival raw Raven that is not
-    a restricted Wraith and not a SparkTraits Impostor (an unknown answer pays nothing), disguised or not. It lands in
+    a restricted Wraith and not a SparkTraits Impostor, disguised or not. It lands in
     the Raven's own wallet (see "Per-identity inventories and wallets") and its `CanSeeMoney` listener shows the
     balance while undisguised. The coins have nothing to buy yet.
   - Police rules are in `BlackRavenPoliceRules`: gun parity, the starting revolver, and Feather Blade friendly
@@ -1887,7 +1887,7 @@ Current build baseline:
     trait.
   - Economy (`UsecEconomyService`): its own `ON_FINISH_INITIALIZE` phase `sparkdlc:usec_economy_finish_initialize`
     (after the default phase) sets each living final USEC's balance to 0; the loadout never writes the balance. Each
-    task pays +50, never to a SparkTraits Impostor or on an unknown answer (`UsecEconomyTraitsProbe`, facade only).
+    task pays +50, never to a SparkTraits Impostor (`SparkTraitsApi.hasActiveTrait`, facade only).
     Wathe's passive-money ticks (`getTime() % 200 == 0`, `END_WORLD_TICK`) pay +5 with no cap to an ACTIVE, playing,
     alive, survival, exact USEC that is not a restricted Wraith. `CanSeeMoney` allows a living USEC and answers DENY
     for a dead one (Insider model, 2026-11-10; no answer while STARTING, so Wathe's role-only shop fallback no longer
@@ -3270,7 +3270,7 @@ Current build baseline:
     new entries only at the end).
   - Coins (`MediumEconomyService`, the USEC/Accountant task-pay model): balance overwritten with 0 for every living
     final Medium in its own `ON_FINISH_INITIALIZE` phase after the default one, +50 per completed task through
-    `addToBalance` (never for a SparkTraits Impostor or an unknown answer, `SparkTraitsApi`), no passive
+    `addToBalance` (never for a SparkTraits Impostor, `SparkTraitsApi`), no passive
     income; `CanSeeMoney` ALLOW for a living Medium.
   - Death tier: `tier = floor(deaths / max(1, roster / 6))` over Wathe's roster and dead set, read live. Prices are
     always read live: 通灵 300 − 50 per tier (floor 0), 加护 通灵's live price + 100 (`blessingPrice`, so never under
@@ -6090,7 +6090,7 @@ block (as `SparkTraitsApi` defines), traits unknown (which `hasRealSanity` never
 intercepted death (the `KillPlayer.AFTER` removal is skipped, and the 20-tick sweep strips the dead holder).
 USEC may query only `getMarksmanRangeMultiplier` (FMJ range and AP flight cost on the server, the reticle's AP holds
 on the client, clamped to 1.0-1.3) and `hasActiveTrait` (Fast Reload, the 1.4 s bolt) through
-`SparkTraitsApi`, `hasActiveTrait` (Impostor, task money) through its own `UsecEconomyTraitsProbe`,
+`SparkTraitsApi`, `hasActiveTrait` (Impostor, task money) through `SparkTraitsApi`,
 `discountShopEntryForCharisma` through `SparkTraitsApi`, and `isLastStandDeathIntercepted` directly on
 `SparkTraitsApi`, beyond the existing `SparkTraitsApi` seams (`blocksWeaponAction` with its
 `isKillerInteractionBlocked` and `getForcedMeleeCooldownTicks` reads, `isLastEscapeActive`, `isNonFinalKillPending`,

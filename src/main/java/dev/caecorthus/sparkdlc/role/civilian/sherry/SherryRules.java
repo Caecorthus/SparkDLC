@@ -131,15 +131,13 @@ public final class SherryRules {
     }
 
     /**
-     * Coins are never paid to a holder of the Impostor trait (Medium/Accountant precedent). An unknown (null) answer is
-     * refused too, but is unreachable since the fusion: {@code SparkTraitsApi.hasActiveTrait} always answers.
+     * Coins are never paid to a holder of the Impostor trait (Medium/Accountant precedent).
      */
     /**
-     * 内鬼词条持有者不发任务金币（通灵师/会计先例）。无法判定（null）时同样不发，但融合后不可达：
-     * {@code SparkTraitsApi.hasActiveTrait} 总会给出答案。
+     * 内鬼词条持有者不发任务金币（通灵师/会计先例）。
      */
-    public static boolean receivesTaskMoney(@Nullable Boolean impostor) {
-        return Boolean.FALSE.equals(impostor);
+    public static boolean receivesTaskMoney(boolean impostor) {
+        return !impostor;
     }
 
     /**

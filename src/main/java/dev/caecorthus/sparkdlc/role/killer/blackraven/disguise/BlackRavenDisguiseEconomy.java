@@ -86,25 +86,16 @@ public final class BlackRavenDisguiseEconomy {
      * Task money the disguise earns on top of what other listeners already pay the raw Black Raven.
      * The trait feature pays +50 to a Conscience/Impostor holder whose raw role has no native task money, and
      * black_raven has none, so the NoellesRoles and {@code RoleEconomyService} mirrors skip it to avoid double pay.
-     * An unknown trait answer (null, unreachable since the fusion) pays nothing for those two policies.
      * 伪装在其他监听器已向真实黑羽鸦支付之外可获得的任务金钱。词条功能会向真实职业无原生任务金钱的
      * 良知/内鬼持有者支付 +50，而 black_raven 没有原生任务金钱，因此诺艾尔与 {@code RoleEconomyService} 镜像跳过以免重复。
-     * 词条结果未知（null，融合后不可达）时这两种策略不发放。
      */
-    static int taskRewardAmount(
-            @Nullable DisguiseTaskReward policy,
-            @Nullable Boolean conscience,
-            @Nullable Boolean impostor,
-            boolean sparkStrengthLoaded
-    ) {
+    static int taskRewardAmount(@Nullable DisguiseTaskReward policy, boolean conscience, boolean impostor) {
         if (policy == null) {
             return 0;
         }
-        boolean traitsPayNothing = Boolean.FALSE.equals(conscience) && Boolean.FALSE.equals(impostor);
+        boolean traitsPayNothing = !conscience && !impostor;
         return switch (policy) {
-            case NOELLES_NATIVE -> traitsPayNothing ? BlackRavenDisguiseRules.TASK_REWARD : 0;
-            case SPARKSTRENGTH_GOOD_ROLE -> sparkStrengthLoaded && traitsPayNothing
-                    ? BlackRavenDisguiseRules.TASK_REWARD : 0;
+            case NOELLES_NATIVE, SPARKSTRENGTH_GOOD_ROLE -> traitsPayNothing ? BlackRavenDisguiseRules.TASK_REWARD : 0;
             case SPARKWITCH -> BlackRavenDisguiseRules.TASK_REWARD;
             case NONE -> 0;
         };
@@ -165,11 +156,9 @@ public final class BlackRavenDisguiseEconomy {
             case NOELLES_NATIVE, SPARKSTRENGTH_GOOD_ROLE -> taskRewardAmount(
                     policy,
                     SparkTraitsApi.hasActiveTrait(player, TraitIds.CONSCIENCE),
-                    SparkTraitsApi.hasActiveTrait(player, TraitIds.IMPOSTOR),
-                    // RoleEconomyService always runs: constant true. / RoleEconomyService 始终运行：恒为 true。
-                    true
+                    SparkTraitsApi.hasActiveTrait(player, TraitIds.IMPOSTOR)
             );
-            case SPARKWITCH, NONE -> taskRewardAmount(policy, Boolean.FALSE, Boolean.FALSE, false);
+            case SPARKWITCH, NONE -> taskRewardAmount(policy, false, false);
         };
         if (amount > 0) {
             // Live wallet = the disguise identity's own wallet (amendment W). / 当前钱包即伪装身份自己的钱包。

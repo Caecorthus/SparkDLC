@@ -291,7 +291,7 @@ def verifyAssistModJar = tasks.register("verifyAssistModJar") {
             // SparkAssistClient 不再是初始化器；客户端启动流程就是拆成若干私有步骤的 SparkDLCClient 本身，
             // 因此“启动它”即：入口类的某个方法仍然加载设置文件，这是 assist 客户端原先做的第一件事。
             def fusedClientEntrypoint = "dev.caecorthus.sparkdlc.client.SparkDLCClient"
-            def assistClientInitializer = "dev/caecorthus/sparkdlc/client/config/SparkAssistConfigManager"
+            def assistClientInitializer = "dev/caecorthus/sparkdlc/client/config/SparkDlcConfigManager"
             if (!(metadata.entrypoints?.client ?: []).contains(fusedClientEntrypoint)) {
                 throw new GradleException("Missing client entrypoint ${fusedClientEntrypoint} in ${jarFile.name}")
             }

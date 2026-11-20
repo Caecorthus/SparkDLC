@@ -523,6 +523,6 @@ This glossary describes the runtime contract vocabulary used by code and tests.
   `clearItemKeepingForced`) only by reflection and falls back when it is
   missing. SparkAssist reads the match record through
   `client.record.SparkMatchRecordClient` and the faction ids through
-  `faction.api.SparkFactionApi` and `SparkFactionRoundEndComponent` by direct calls
+  `faction.api.SparkFactionApi` and `FactionRoundEndComponent` by direct calls
   since the fusion (the achievement record events and `death` fields are
   still read by name).

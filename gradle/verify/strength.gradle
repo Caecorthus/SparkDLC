@@ -107,8 +107,8 @@ tasks.register("verifyStrengthArchitecture") {
             "gradle.properties",
             "src/main/resources/fabric.mod.json",
             "src/main/java/dev/caecorthus/sparkdlc/role/neutral/vulture/VultureSuperCurseService.java",
-            "src/main/java/dev/caecorthus/sparkdlc/SparkStrengthItems.java",
-            "src/main/java/dev/caecorthus/sparkdlc/SparkStrengthEntities.java",
+            "src/main/java/dev/caecorthus/sparkdlc/SparkDlcItems.java",
+            "src/main/java/dev/caecorthus/sparkdlc/SparkDlcEntities.java",
             "src/main/java/dev/caecorthus/sparkdlc/replay/role/CaptureDeviceReplayEvents.java"
     )
     inputs.files(fileTree("libs") { include "*.jar" })
@@ -179,9 +179,9 @@ tasks.register("verifyStrengthArchitecture") {
                 "${forbiddenSparkTraitsClasses.size()} SparkTraits internal classes")
 
         requireText("src/main/resources/fabric.mod.json", "sparkdlc:engineer_stunned")
-        requireText("src/main/java/dev/caecorthus/sparkdlc/SparkStrengthItems.java", "SparkStrength.id(\"capture_device\")")
-        requireText("src/main/java/dev/caecorthus/sparkdlc/SparkStrengthItems.java", "SparkStrength.id(\"power_restoration\")")
-        requireText("src/main/java/dev/caecorthus/sparkdlc/SparkStrengthEntities.java", "SparkStrength.id(\"capture_device\")")
+        requireText("src/main/java/dev/caecorthus/sparkdlc/SparkDlcItems.java", "SparkDLC.id(\"capture_device\")")
+        requireText("src/main/java/dev/caecorthus/sparkdlc/SparkDlcItems.java", "SparkDLC.id(\"power_restoration\")")
+        requireText("src/main/java/dev/caecorthus/sparkdlc/SparkDlcEntities.java", "SparkDLC.id(\"capture_device\")")
         [
                 "capture_device_placed",
                 "capture_device_triggered",
@@ -190,7 +190,7 @@ tasks.register("verifyStrengthArchitecture") {
         ].each { replayId ->
             requireText(
                     "src/main/java/dev/caecorthus/sparkdlc/replay/role/CaptureDeviceReplayEvents.java",
-                    "SparkStrength.id(\"${replayId}\")"
+                    "SparkDLC.id(\"${replayId}\")"
             )
         }
 
@@ -368,7 +368,7 @@ tasks.register("verifyStrengthCompatibilityArtifact") {
             requireEntrypoint("cardinal-components", "dev.caecorthus.sparkdlc.SparkDlcComponents")
             [
                     main  : ["dev.caecorthus.sparkdlc.SparkDLC",
-                             "dev/caecorthus/sparkdlc/event/SparkStrengthEvents", "register"],
+                             "dev/caecorthus/sparkdlc/event/RoleKitEvents", "register"],
                     client: ["dev.caecorthus.sparkdlc.client.SparkDLCClient",
                              "dev/caecorthus/sparkdlc/client/sabotage/SabotageClient", "register"]
             ].each { key, expectation ->
@@ -436,8 +436,8 @@ tasks.register("verifyStrengthCompatibilityArtifact") {
             def packetDescriptor = "(Lorg/agmas/noellesroles/packet/AbilityC2SPacket;" +
                     "Lnet/fabricmc/fabric/api/networking/v1/ServerPlayNetworking\$Context;)V"
             def binarySelectors = [
-                    "sparkstrength\$toggleCorruptCopAbilityHistorical" : "lambda\$registerPackets\$36${packetDescriptor}",
-                    "sparkstrength\$toggleCorruptCopAbilityShared"     : "lambda\$registerPackets\$5${packetDescriptor}"
+                    "sparkdlc\$toggleCorruptCopAbilityHistorical" : "lambda\$registerPackets\$36${packetDescriptor}",
+                    "sparkdlc\$toggleCorruptCopAbilityShared"     : "lambda\$registerPackets\$5${packetDescriptor}"
             ]
             binarySelectors.each { handlerName, expectedSelector ->
                 def handler = corruptCopMixin.methods.find { it.name == handlerName }
@@ -468,7 +468,7 @@ tasks.register("verifyStrengthCompatibilityArtifact") {
                 if (annotationValue(injection, "require")?.toString() != "0") {
                     throw new GradleException("Binary-specific CorruptCop injection must use require=0 within its group")
                 }
-                if (annotationValue(group, "name")?.toString() != "sparkstrength\$corruptCopAbility" ||
+                if (annotationValue(group, "name")?.toString() != "sparkdlc\$corruptCopAbility" ||
                         annotationValue(group, "min")?.toString() != "1" ||
                         annotationValue(group, "max")?.toString() != "1") {
                     throw new GradleException(
@@ -538,10 +538,10 @@ tasks.register("verifyStrengthCompatibilityArtifact") {
                 }
             }
             verifyUndercoverImmunity("Assassin", "UndercoverAssassinImmunityMixin",
-                    "sparkstrength\$stage2UndercoverCannotBeAssassinated",
+                    "sparkdlc\$stage2UndercoverCannotBeAssassinated",
                     providerBaselines.noellesroles.assassinHandler, "AssassinGuessRoleC2SPacket")
             verifyUndercoverImmunity("Swapper", "UndercoverSwapImmunityMixin",
-                    "sparkstrength\$stage2UndercoverCannotBeSwapped",
+                    "sparkdlc\$stage2UndercoverCannotBeSwapped",
                     providerBaselines.noellesroles.swapperHandler, "SwapperC2SPacket")
 
             // The Assassin buff (silent, forgiven first miss; 3 s cooldown after a correct guess) binds the same guess
@@ -555,11 +555,11 @@ tasks.register("verifyStrengthCompatibilityArtifact") {
             def assassinGuessMixin = readClassNode(
                     zipFile, "dev/caecorthus/sparkdlc/mixin/compat/noellesroles/AssassinGuessOutcomeMixin.class")
             [
-                    "sparkstrength\$forgivenMissIsSilent"      :
+                    "sparkdlc\$forgivenMissIsSilent"      :
                             "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
-                    "sparkstrength\$firstMissIsForgiven"        :
+                    "sparkdlc\$firstMissIsForgiven"        :
                             "Lcom/llamalad7/mixinextras/injector/wrapoperation/WrapOperation;",
-                    "sparkstrength\$correctGuessCoolsDownFast" : "Lorg/spongepowered/asm/mixin/injection/Inject;"
+                    "sparkdlc\$correctGuessCoolsDownFast" : "Lorg/spongepowered/asm/mixin/injection/Inject;"
             ].each { handlerMethod, annotationDesc ->
                 def handlerNode = assassinGuessMixin.methods.find { it.name == handlerMethod }
                 if (handlerNode == null) {

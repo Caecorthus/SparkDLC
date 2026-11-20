@@ -614,7 +614,7 @@ class Repo:
                 if kind != "payload":
                     raise unresolved(".id() on something that is not a CustomPayload.Id")
                 return "id", value
-            # A repo helper such as SparkWitch.id(String): return Identifier.of(CONST, path). / 仓库自带的 id 辅助方法。
+            # A repo helper such as SparkDLC.id(String): return Identifier.of(CONST, path). / 仓库自带的 id 辅助方法。
             owner = context
             if receiver:
                 owner, consumed = self.resolve_type(receiver, source, context)

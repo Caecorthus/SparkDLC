@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.junker;
 import dev.caecorthus.sparkdlc.client.hud.JunkerHudRenderer;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.net.JunkerSearchC2SPacket;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.junker.JunkerRules;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -53,7 +53,7 @@ public final class JunkerClientModule {
         }
         GameWorldComponent game = GameWorldComponent.KEY.get(player.getWorld());
         return JunkerRules.isRagpicker(game.getRole(player))
-                && SparkWitchServerConnection.isConfirmedServer()
+                && SparkDlcServerConnection.isConfirmedServer()
                 && game.getGameStatus() == GameWorldComponent.GameStatus.ACTIVE
                 && GameFunctions.isPlayerPlayingAndAlive(player)
                 && !player.isSpectator()

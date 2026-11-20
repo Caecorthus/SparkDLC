@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.client.render.WraithClientState;
 import dev.caecorthus.sparkdlc.net.ConfirmJudgeSelectionC2SPacket;
 import dev.caecorthus.sparkdlc.net.OpenJudgeSelectionC2SPacket;
 import dev.caecorthus.sparkdlc.net.OpenJudgeSelectionS2CPacket;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.judge.JudgeRules;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -40,7 +40,7 @@ public final class JudgeClientModule {
 
     public static void requestSelection(MinecraftClient client) {
         if (client.currentScreen == null && JudgeClientRules.maySend(
-                SparkWitchServerConnection.isConfirmedServer(),
+                SparkDlcServerConnection.isConfirmedServer(),
                 ClientPlayNetworking.canSend(OpenJudgeSelectionC2SPacket.ID)
                         && ClientPlayNetworking.canSend(ConfirmJudgeSelectionC2SPacket.ID),
                 isActiveJudge(client)) && SELECTION.beginRequest()) {
@@ -86,7 +86,7 @@ public final class JudgeClientModule {
 
     private static boolean canConfirm(MinecraftClient client) {
         return client.getNetworkHandler() != null && JudgeClientRules.maySend(
-                SparkWitchServerConnection.isConfirmedServer(),
+                SparkDlcServerConnection.isConfirmedServer(),
                 ClientPlayNetworking.canSend(ConfirmJudgeSelectionC2SPacket.ID), isActiveJudge(client));
     }
 

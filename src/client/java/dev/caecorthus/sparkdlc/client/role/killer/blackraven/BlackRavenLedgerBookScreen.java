@@ -15,7 +15,7 @@ import dev.caecorthus.sparkdlc.client.role.killer.blackraven.BlackRavenLedgerLay
 import dev.caecorthus.sparkdlc.client.role.killer.blackraven.BlackRavenLedgerLayout.TitleBar;
 import dev.caecorthus.sparkdlc.client.role.killer.blackraven.BlackRavenLedgerPaint.PillKind;
 import dev.caecorthus.sparkdlc.net.SelectBlackRavenDisguiseC2SPacket;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenIdentitySnapshot;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.BlackRavenDisguiseRules;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.BlackRavenDisguiseSyncCodec;
@@ -100,7 +100,7 @@ public final class BlackRavenLedgerBookScreen extends Screen {
     /** session > 0 makes Tab B rows clickable; 0 means read-only. / session > 0 时 Tab B 可点击；0 为只读。 */
     public static void open(MinecraftClient client, Tab tab, int session) {
         if (client.player == null
-                || !SparkWitchServerConnection.isConfirmedServer()
+                || !SparkDlcServerConnection.isConfirmedServer()
                 || !BlackRavenClientState.isEligible(client.player)) {
             return;
         }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.hanna;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.hanna.HannaComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -29,7 +29,7 @@ public final class HannaFootstepSilence {
             return false;
         }
         HannaComponent state = HannaComponent.KEY.getNullable(sourcePlayer);
-        return mutes(SparkWitchServerConnection.isConfirmedServer(), false, state != null && state.isFloating());
+        return mutes(SparkDlcServerConnection.isConfirmedServer(), false, state != null && state.isFloating());
     }
 
     /** Pure decision. / 纯判定。 */

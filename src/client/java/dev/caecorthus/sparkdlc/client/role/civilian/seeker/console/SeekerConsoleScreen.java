@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.seeker.console;
 
 import dev.caecorthus.sparkdlc.client.role.civilian.seeker.SeekerClientState;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthTabletCompat;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerCarState;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerSessionMode;
@@ -168,7 +168,7 @@ public class SeekerConsoleScreen extends Screen {
             return;
         }
         ClientPlayerEntity player = client.player;
-        boolean live = SparkWitchServerConnection.isConfirmedServer() && SeekerConsoleOpener.isLiveSeeker(player);
+        boolean live = SparkDlcServerConnection.isConfirmedServer() && SeekerConsoleOpener.isLiveSeeker(player);
         if (SeekerConsoleRules.shouldAutoClose(live, SeekerConsoleDevices.hasConsoleDevice(player),
                 SeekerConsoleOpener.isInSession())) {
             close();

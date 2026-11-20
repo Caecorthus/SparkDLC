@@ -4,7 +4,7 @@ import com.mojang.datafixers.util.Pair;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkFactionSecondRowCompat;
 import dev.caecorthus.sparkdlc.headset.HeadsetSlot;
 import dev.caecorthus.sparkdlc.headset.HeadsetSlots;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedInventoryScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -56,7 +56,7 @@ public final class LimitedInventoryArmorSlots {
     public static boolean applies(Screen screen, @Nullable ScreenHandler handler) {
         return screen instanceof LimitedInventoryScreen
                 && handler instanceof PlayerScreenHandler
-                && SparkWitchServerConnection.isConfirmedServer();
+                && SparkDlcServerConnection.isConfirmedServer();
     }
 
     /** The handler slot shown at armor index {@code index} (0 = head .. 3 = feet). / 护甲序号对应的槽位。 */

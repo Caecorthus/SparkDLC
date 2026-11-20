@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.hanna;
 
 import dev.caecorthus.sparkdlc.client.render.LocalViewerSnapshot;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.hanna.HannaComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -47,7 +47,7 @@ public final class HannaInstinctVeto {
             return false;
         }
         return vetoes(
-                SparkWitchServerConnection.isConfirmedServer(),
+                SparkDlcServerConnection.isConfirmedServer(),
                 false,
                 seesSpectatorInformation(LocalViewerSnapshot.spectatingOrCreative(viewer),
                         LocalViewerSnapshot.playingAndAlive(viewer)),

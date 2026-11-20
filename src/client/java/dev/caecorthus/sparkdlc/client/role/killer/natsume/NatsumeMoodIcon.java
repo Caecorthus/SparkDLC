@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.killer.natsume;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.gui.MoodRenderer;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -61,7 +61,7 @@ public final class NatsumeMoodIcon {
     }
 
     private static boolean isLocalNatsume() {
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return false;
         }
         ClientPlayerEntity player = MinecraftClient.getInstance().player;

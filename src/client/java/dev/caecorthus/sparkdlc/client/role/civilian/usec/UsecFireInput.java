@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.usec;
 
 import dev.caecorthus.sparkdlc.client.input.MacControlClickRules;
 import dev.caecorthus.sparkdlc.client.mixin.input.SelectedSlotFlushInvoker;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecRifleState;
 import dev.caecorthus.sparkdlc.role.civilian.usec.net.FireUsecRifleC2SPacket;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -120,7 +120,7 @@ public final class UsecFireInput {
 
     private static void requestFire(MinecraftClient client, ClientPlayerEntity player) {
         ItemStack rifle = player.getMainHandStack();
-        boolean canSend = SparkWitchServerConnection.isConfirmedServer()
+        boolean canSend = SparkDlcServerConnection.isConfirmedServer()
                 && client.getNetworkHandler() != null
                 && ClientPlayNetworking.canSend(FireUsecRifleC2SPacket.ID);
         if (!UsecInputRules.sendsFire(

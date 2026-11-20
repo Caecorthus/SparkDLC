@@ -8,7 +8,7 @@ import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.client.render.WraithClientState;
 import dev.caecorthus.sparkdlc.client.render.WraithVisionRules;
 import dev.caecorthus.sparkdlc.client.role.civilian.vendetta.VendettaClientPresentation;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gl.PostEffectProcessor;
@@ -47,7 +47,7 @@ public final class BlackRavenPerceptionScreenEffects {
         // left open by a Last Escape pass still takes the full path, which closes it once the escape ends.
         // 未确认 SparkWitch 服务端时，复仇者、冤魂与感知状态都不可能生效（各门禁都先检查确认状态），因此没有已打开的处理器时
         // 下面两个分支都不会产生任何效果，直接跳过。脱险后处理遗留的处理器仍走完整流程，脱险结束后由其关闭。
-        if (processor == null && !SparkWitchServerConnection.isConfirmedServer()) {
+        if (processor == null && !SparkDlcServerConnection.isConfirmedServer()) {
             return;
         }
         // Traits renders the combined pass by calling renderLastEscape directly (the modules are fused in SparkDLC).
@@ -168,7 +168,7 @@ public final class BlackRavenPerceptionScreenEffects {
         if (DepressionScreenEffects.getLastEscapeComposition(player)[0] >= 0.5f) {
             return true;
         }
-        if (processor == null && !SparkWitchServerConnection.isConfirmedServer()) {
+        if (processor == null && !SparkDlcServerConnection.isConfirmedServer()) {
             return false;
         }
         return !loadFailed && resolveVision(player, null) != null;

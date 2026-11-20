@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.controlexpert;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStatusComponent;
 import dev.doctor4t.wathe.client.WatheClient;
 import java.util.List;
@@ -38,7 +38,7 @@ public final class ControlExpertStatusHud {
         }
         registered = true;
         HudRenderCallback.EVENT.register((context, tickCounter) -> {
-            if (SparkWitchServerConnection.isConfirmedServer()) {
+            if (SparkDlcServerConnection.isConfirmedServer()) {
                 render(context, tickCounter);
             }
         });

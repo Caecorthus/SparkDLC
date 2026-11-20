@@ -5,7 +5,7 @@ import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.net.ConfirmProphecyC2SPacket;
 import dev.caecorthus.sparkdlc.net.OpenProphecyS2CPacket;
 import dev.caecorthus.sparkdlc.net.RequestProphecyC2SPacket;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.prophet.ProphetDeathCauseGroup;
 import dev.caecorthus.sparkdlc.role.civilian.prophet.ProphetProphecySessions;
 import dev.caecorthus.sparkdlc.role.civilian.prophet.ProphetRules;
@@ -70,7 +70,7 @@ public final class ProphetClientModule {
     /** Fear is not pre-checked here, so the server answers a Feared press with its usual message. / 此处不预检恐惧，受恐惧时由服务端回复常规提示。 */
     public static void requestProphecy(MinecraftClient client) {
         if (client.currentScreen == null && ProphetProphecyClientRules.maySend(
-                SparkWitchServerConnection.isConfirmedServer(),
+                SparkDlcServerConnection.isConfirmedServer(),
                 ClientPlayNetworking.canSend(RequestProphecyC2SPacket.ID)
                         && ClientPlayNetworking.canSend(ConfirmProphecyC2SPacket.ID),
                 isLiveProphet(client)) && SELECTION.beginRequest()) {
@@ -120,7 +120,7 @@ public final class ProphetClientModule {
 
     static boolean canConfirm(MinecraftClient client) {
         return client.getNetworkHandler() != null && ProphetProphecyClientRules.maySend(
-                SparkWitchServerConnection.isConfirmedServer(),
+                SparkDlcServerConnection.isConfirmedServer(),
                 ClientPlayNetworking.canSend(ConfirmProphecyC2SPacket.ID),
                 isLiveProphet(client) && !GrandWitchFearService.isPlayerFeared(client.player));
     }

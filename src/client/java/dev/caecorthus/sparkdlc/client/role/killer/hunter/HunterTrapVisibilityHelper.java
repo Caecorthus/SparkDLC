@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.killer.hunter;
 
 import dev.caecorthus.sparkdlc.client.hooks.WitchInstinctSuppressionClientHooks;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsMoodFlagBridge;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.killer.hunter.HunterRules;
 import dev.caecorthus.sparkdlc.role.killer.hunter.HunterTrapEntity;
 import dev.caecorthus.sparkdlc.faction.api.PoliceRoles;
@@ -38,7 +38,7 @@ public final class HunterTrapVisibilityHelper {
     }
 
     private static HunterRules.TrapVisibility visibilityFor(PlayerEntity viewer, BooleanSupplier hasLineOfSight) {
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return HunterRules.TrapVisibility.HIDDEN;
         }
 

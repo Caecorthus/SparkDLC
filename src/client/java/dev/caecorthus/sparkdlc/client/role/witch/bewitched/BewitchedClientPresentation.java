@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.witch.bewitched;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.witch.bewitched.BewitchedPlayerComponent;
 import dev.caecorthus.sparkdlc.role.witch.bewitched.BewitchedRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -37,7 +37,7 @@ public final class BewitchedClientPresentation {
         }
         registered = true;
         HudRenderCallback.EVENT.register((context, tickCounter) -> {
-            if (SparkWitchServerConnection.isConfirmedServer()) {
+            if (SparkDlcServerConnection.isConfirmedServer()) {
                 render(context);
             }
         });

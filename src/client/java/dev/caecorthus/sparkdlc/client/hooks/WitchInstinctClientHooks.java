@@ -5,7 +5,7 @@ import dev.caecorthus.sparkdlc.client.role.jiahao.insider.InsiderHighlightRules;
 import dev.caecorthus.sparkdlc.client.render.WraithClientState;
 import dev.caecorthus.sparkdlc.role.witch.WitchFactionRules;
 import dev.caecorthus.sparkdlc.role.neutral.murderouswitch.rules.MurderousWitchRules;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.WatheClient;
@@ -23,7 +23,7 @@ public final class WitchInstinctClientHooks {
     }
 
     public static boolean usesKillerStyleInstinctLight() {
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return false;
         }
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
@@ -35,7 +35,7 @@ public final class WitchInstinctClientHooks {
         Role role = GameWorldComponent.KEY.get(player.getWorld()).getRole(player);
         if (CurserInstinctClientRules.shouldUseWitchInstinctLight(
                 role == null ? null : role.identifier(),
-                SparkWitchServerConnection.isConfirmedServer(),
+                SparkDlcServerConnection.isConfirmedServer(),
                 WraithClientState.isActive(player),
                 WraithClientState.isPromoted(player),
                 GameFunctions.isPlayerSpectatingOrCreative(player),

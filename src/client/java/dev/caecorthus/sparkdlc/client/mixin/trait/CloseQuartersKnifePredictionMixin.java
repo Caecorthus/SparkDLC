@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.mixin.trait;
 
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.client.trait.killer.LastEscapeInput;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.item.KnifeItem;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -24,7 +24,7 @@ public abstract class CloseQuartersKnifePredictionMixin {
     private void sparktraits$discardBlockedRelease(ItemStack stack, World world, LivingEntity user,
                                                   int remainingUseTicks, CallbackInfo ci) {
         if (world.isClient && user instanceof PlayerEntity player
-                && SparkTraitsServerConnection.isConfirmedServer()
+                && SparkDlcServerConnection.isConfirmedServer()
                 && (LastEscapeInput.blocked()
                     || SparkTraitsApi.getForcedMeleeCooldownTicks(player, stack) > 0)) {
             ci.cancel();

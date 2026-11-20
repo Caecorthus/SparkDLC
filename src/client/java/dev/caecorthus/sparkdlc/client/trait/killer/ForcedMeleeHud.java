@@ -4,7 +4,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.client.trait.render.ClientFrameClock;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.client.MinecraftClient;
@@ -38,7 +38,7 @@ public final class ForcedMeleeHud {
 
     private static int computeRemainingTicks() {
         MinecraftClient client = MinecraftClient.getInstance();
-        if (!SparkTraitsServerConnection.isConfirmedServer() || client.player == null || client.world == null
+        if (!SparkDlcServerConnection.isConfirmedServer() || client.player == null || client.world == null
                 || !GameWorldComponent.KEY.get(client.world).isRunning()
                 || !GameFunctions.isPlayerPlayingAndAlive(client.player)) {
             return 0;

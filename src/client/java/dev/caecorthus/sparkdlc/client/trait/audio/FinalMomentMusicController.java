@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.trait.audio;
 
 import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
 import dev.caecorthus.sparkdlc.SparkTraitsSounds;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -27,7 +27,7 @@ public final class FinalMomentMusicController {
 
     public static void tick(MinecraftClient client) {
         boolean active = false;
-        if (client.world != null && SparkTraitsServerConnection.isConfirmedServer()) {
+        if (client.world != null && SparkDlcServerConnection.isConfirmedServer()) {
             TraitWorldComponent traitWorld = TraitWorldComponent.KEY.maybeGet(client.world).orElse(null);
             GameWorldComponent game = GameWorldComponent.KEY.maybeGet(client.world).orElse(null);
             active = traitWorld != null

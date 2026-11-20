@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.hanna;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.hanna.net.UseHannaFloatC2SPayload;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
@@ -32,7 +32,7 @@ public final class HannaClient {
         }
         initialized = true;
         HudRenderCallback.EVENT.register((context, tickCounter) -> {
-            if (SparkWitchServerConnection.isConfirmedServer()) {
+            if (SparkDlcServerConnection.isConfirmedServer()) {
                 HannaFloatHud.render(context);
             }
         });

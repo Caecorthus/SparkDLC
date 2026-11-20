@@ -214,8 +214,8 @@ Collisions (`namespace-overrides.tsv`) / 冲突：
 | Old | New | Why |
 | --- | --- | --- |
 | item groups `sparkstrength:items`, `sparkwitch:items` | one tab `sparkdlc:items`, title `itemGroup.sparkdlc.items` = "SparkDLC" | merged by hand before the rename (`SparkDlcItemGroups`): SparkStrength's entries, then SparkWitch's / 改名前手工合并 |
-| payloads `sparktraits:server_confirm`, `sparkwitch:server_confirm` | `sparkdlc:trait_server_confirm`, `sparkdlc:witch_server_confirm` | two handshakes until they are merged / 握手合并之前仍是两个 |
-| login channels `*:version_check` | `sparkdlc:faction_version_check`, `trait_version_check`, `witch_version_check` | three handshakes / 三个握手 |
+| payloads `sparktraits:server_confirm`, `sparkwitch:server_confirm` | one `sparkdlc:server_confirm` | one handshake since stage 3 ("one wire"); `sparkdlc:trait_server_confirm` and `sparkdlc:witch_server_confirm` in between / 第三阶段起只有一个握手 |
+| login channels `*:version_check` | one `sparkdlc:version_check` | one handshake since stage 3; `sparkdlc:faction_version_check`, `trait_version_check`, `witch_version_check` in between; the old channels are retired, nothing listens on them / 旧频道已退役，不再监听 |
 | component keys `sparktraits:world`, `sparkwitch:world` | `sparkdlc:trait_world`, `sparkdlc:witch_world` | two component classes / 两个组件类 |
 | `key.sparkwitch.secondary_skill` | `key.sparkdlc.role_skill_2` | `key.sparkstrength.secondary_skill` takes `key.sparkdlc.secondary_skill`; texts unchanged / 文本不变 |
 | `guidebook.sparkassist.source_name.{sparkwitch,sparktraits,sparkassist}` | one `guidebook.sparkdlc.source_name.sparkdlc` | the assist text ("Spark DLC") stays / 保留 assist 的文本 |

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.medium;
 
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesHiddenBodiesBridge;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.medium.MediumPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.medium.MediumRules;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
@@ -40,7 +40,7 @@ public final class MediumCorpseSightHighlights {
 
     @Nullable
     private static GetInstinctHighlight.HighlightResult highlight(Entity target) {
-        if (!SparkWitchServerConnection.isConfirmedServer() || !(target instanceof PlayerBodyEntity body)) {
+        if (!SparkDlcServerConnection.isConfirmedServer() || !(target instanceof PlayerBodyEntity body)) {
             return null;
         }
         ClientPlayerEntity viewer = MinecraftClient.getInstance().player;

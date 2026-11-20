@@ -1573,10 +1573,10 @@ def verifyWitchModJar = tasks.register("verifyWitchModJar") {
 
             [
                     "dev/caecorthus/sparkdlc/client/SparkDLCClient.class",
-                    "dev/caecorthus/sparkdlc/net/version/SparkWitchServerConnection.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkDlcServerConnection.class",
                     "dev/caecorthus/sparkdlc/net/SparkWitchPackets.class",
-                    "dev/caecorthus/sparkdlc/net/version/SparkWitchServerConfirmS2CPacket.class",
-                    "dev/caecorthus/sparkdlc/client/net/version/SparkWitchClientVersionHandshake.class"
+                    "dev/caecorthus/sparkdlc/net/version/SparkDlcServerConfirmS2CPacket.class",
+                    "dev/caecorthus/sparkdlc/client/net/version/SparkDlcClientVersionHandshake.class"
             ].each { requiredEntry ->
                 // Client display gates need both login and play-stage Spark server confirmation.
                 // 客户端显示开关需要登录阶段和 play 阶段的 Spark 服务端确认。

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.noa;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 
 /**
@@ -24,7 +24,7 @@ public final class NoaClient {
         }
         initialized = true;
         HudRenderCallback.EVENT.register((context, tickCounter) -> {
-            if (SparkWitchServerConnection.isConfirmedServer()) {
+            if (SparkDlcServerConnection.isConfirmedServer()) {
                 NoaPaintHud.render(context);
             }
         });

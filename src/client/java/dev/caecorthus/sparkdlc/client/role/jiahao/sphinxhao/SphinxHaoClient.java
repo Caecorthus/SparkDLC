@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.role.jiahao.sphinxhao;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityHandler;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityRegistry;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.SphinxHaoPlayerComponent;
 import dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.SphinxHaoRules;
 import dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.SphinxHaoWorldComponent;
@@ -47,7 +47,7 @@ public final class SphinxHaoClient {
         SphinxHaoInstinctHooks.register();
         SphinxHaoFadeBgm.register();
         HudRenderCallback.EVENT.register((context, tickCounter) -> {
-            if (SparkWitchServerConnection.isConfirmedServer()) {
+            if (SparkDlcServerConnection.isConfirmedServer()) {
                 SphinxHaoHud.render(context);
             }
         });

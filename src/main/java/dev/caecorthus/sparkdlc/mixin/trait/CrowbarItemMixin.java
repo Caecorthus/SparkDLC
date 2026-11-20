@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.mixin.trait;
 
 import dev.caecorthus.sparkdlc.trait.killer.conscience.ConscienceCrowbarService;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.item.CrowbarItem;
 import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.item.Item;
@@ -30,7 +30,7 @@ public abstract class CrowbarItemMixin {
             int cooldownTicks,
             ItemUsageContext context
     ) {
-        int effectiveCooldownTicks = SparkTraitsServerConnection.isUnconfirmedClientEntity(context.getPlayer())
+        int effectiveCooldownTicks = SparkDlcServerConnection.isUnconfirmedClientEntity(context.getPlayer())
                 ? cooldownTicks
                 : ConscienceCrowbarService.crowbarCooldownTicks(context.getPlayer(), cooldownTicks);
         cooldownManager.set(item, effectiveCooldownTicks);

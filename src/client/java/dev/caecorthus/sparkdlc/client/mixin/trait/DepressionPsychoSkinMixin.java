@@ -5,7 +5,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.caecorthus.sparkdlc.client.trait.render.DepressionPsychoTextures;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.cca.PlayerPsychoComponent;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
@@ -64,7 +64,7 @@ public abstract class DepressionPsychoSkinMixin {
      * Wathe 疯魔，真实玩家不受影响；而把该玩家的 Wathe 疯魔读作关闭的外观查询（SparkWitch 魔术师皮套替身）也不会得到灰度皮肤。
      */
     private static Identifier depressionPsychoTexture(AbstractClientPlayerEntity player) {
-        if (!SparkTraitsServerConnection.isConfirmedServer()
+        if (!SparkDlcServerConnection.isConfirmedServer()
                 || !TraitPlayerComponent.KEY.get(player).isDepressionPsychoActive()
                 || PlayerPsychoComponent.KEY.get(player).getPsychoTicks() <= 0) {
             return null;

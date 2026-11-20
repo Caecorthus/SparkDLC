@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.mixin.trait;
 
 import dev.caecorthus.sparkdlc.trait.civilian.police.VigilanteVeteranTraitService;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.item.RevolverItem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;
@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 public abstract class NikoRevolverRecoilMixin {
     @ModifyConstant(method = "use", constant = @Constant(floatValue = 4.0f), remap = false)
     private float sparktraits$reduceNikoRevolverBurstRecoil(float recoil, World world, PlayerEntity user, Hand hand) {
-        if (!SparkTraitsServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return recoil;
         }
         return VigilanteVeteranTraitService.adjustedNikoRevolverRecoil(recoil, user);

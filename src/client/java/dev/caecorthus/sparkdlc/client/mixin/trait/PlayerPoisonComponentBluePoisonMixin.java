@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.mixin.trait;
 
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.killer.conscience.BluePoisonPresentationRules;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.cca.PlayerPoisonComponent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
@@ -57,7 +57,7 @@ public abstract class PlayerPoisonComponentBluePoisonMixin {
         traits.tickConsciencePoisonClient();
         int nativePoisonTicks = poisonTicks;
         boolean bluePoisoned = traits.hasConsciencePoison();
-        if (!SparkTraitsServerConnection.isConfirmedServer() || !player.isAlive() || player.isSpectator()) {
+        if (!SparkDlcServerConnection.isConfirmedServer() || !player.isAlive() || player.isSpectator()) {
             sparktraits$clearBluePulse(nativePoisonTicks);
             return;
         }

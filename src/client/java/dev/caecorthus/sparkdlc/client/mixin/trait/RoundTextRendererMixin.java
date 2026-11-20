@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.mixin.trait;
 
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.trait.effective.EffectiveTraitService;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.gui.RoundTextRenderer;
 import net.minecraft.client.MinecraftClient;
@@ -28,7 +28,7 @@ public abstract class RoundTextRendererMixin {
             at = @At(value = "INVOKE", target = "Ljava/util/function/Function;apply(Ljava/lang/Object;)Ljava/lang/Object;", ordinal = 1)
     )
     private static Object sparktraits$effectiveAlignmentGoalText(Function<Integer, Text> goalText, Object targets) {
-        if (!SparkTraitsServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return goalText.apply((Integer) targets);
         }
         ClientPlayerEntity player = MinecraftClient.getInstance().player;

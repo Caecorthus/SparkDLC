@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.usec;
 
 import dev.caecorthus.sparkdlc.client.render.WraithClientState;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecRules;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.session.RiftSessionService;
@@ -93,7 +93,7 @@ public final class UsecInstinctCloak {
                 RiftSessionService.isInside(viewer)
         );
         return UsecInstinctCloakRules.cloaks(
-                SparkWitchServerConnection.isConfirmedServer(),
+                SparkDlcServerConnection.isConfirmedServer(),
                 exemptViewer,
                 viewer == player || viewer.getUuid().equals(player.getUuid()),
                 true,

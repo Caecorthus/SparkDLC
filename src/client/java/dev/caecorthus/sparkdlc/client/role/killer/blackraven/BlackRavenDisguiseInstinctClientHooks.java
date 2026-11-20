@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.killer.blackraven;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.WatheClient;
@@ -49,7 +49,7 @@ public final class BlackRavenDisguiseInstinctClientHooks {
     }
 
     static @Nullable GetInstinctHighlight.HighlightResult killerTeammateHighlight(Entity target) {
-        if (!SparkWitchServerConnection.isConfirmedServer() || !(target instanceof PlayerEntity targetPlayer)) {
+        if (!SparkDlcServerConnection.isConfirmedServer() || !(target instanceof PlayerEntity targetPlayer)) {
             return null;
         }
         ClientPlayerEntity viewer = MinecraftClient.getInstance().player;

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.killer.blackraven;
 
 import dev.caecorthus.sparkdlc.client.render.LocalViewerSnapshot;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenRules;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowForm;
 import dev.doctor4t.wathe.api.Role;
@@ -35,7 +35,7 @@ public final class BlackRavenInstinctVeto {
 
     /** Whether {@code viewer} must not see any instinct highlight or outline on {@code target}. / 观察者是否不得看到目标的任何本能高亮或描边。 */
     public static boolean hides(@Nullable PlayerEntity viewer, @Nullable Entity target) {
-        if (viewer == null || !SparkWitchServerConnection.isConfirmedServer()) {
+        if (viewer == null || !SparkDlcServerConnection.isConfirmedServer()) {
             return false;
         }
         // Raven Form (plan §3.2, §2.5): neither the left-behind body nor the crow is ever outlined, for every viewer

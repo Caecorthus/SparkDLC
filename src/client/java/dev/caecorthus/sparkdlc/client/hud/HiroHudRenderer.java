@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.hud;
 import dev.caecorthus.sparkdlc.client.SparkWitchClient;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.killer.hiro.HiroRules;
 import dev.caecorthus.sparkdlc.role.killer.hiro.returning.HiroReturnComponent;
 import dev.caecorthus.sparkdlc.role.killer.hiro.witchification.HiroWitchificationComponent;
@@ -90,7 +90,7 @@ public final class HiroHudRenderer {
      */
     static boolean isActiveHiro(@Nullable ClientPlayerEntity player) {
         return player != null
-                && SparkWitchServerConnection.isConfirmedServer()
+                && SparkDlcServerConnection.isConfirmedServer()
                 && HiroRules.isLivingHiro(player)
                 && !NoellesTaotieSeekerBridge.isSwallowed(player);
     }

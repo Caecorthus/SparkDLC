@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.sherry;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityHandler;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityRegistry;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.sherry.SherryRules;
 import dev.caecorthus.sparkdlc.role.civilian.sherry.net.OpenSherryDeductionS2CPacket;
 import dev.caecorthus.sparkdlc.role.civilian.sherry.net.RequestSherryDeductionC2SPacket;
@@ -86,7 +86,7 @@ public final class SherryClient {
         }
         GameWorldComponent game = GameWorldComponent.KEY.get(player.getWorld());
         return SherryRules.isSherry(game.getRole(player))
-                && SparkWitchServerConnection.isConfirmedServer()
+                && SparkDlcServerConnection.isConfirmedServer()
                 && game.getGameStatus() == GameWorldComponent.GameStatus.ACTIVE
                 && GameFunctions.isPlayerPlayingAndAlive(player)
                 && !GameFunctions.isPlayerSpectatingOrCreative(player)

@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.blind;
 
 import dev.caecorthus.sparkdlc.client.render.LocalViewerSnapshot;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -49,7 +49,7 @@ public final class BlindView {
     private static boolean evaluate(@Nullable MinecraftClient client) {
         // Gates call this hundreds of times per frame: bail out on the cheapest facts first.
         // 闸门每帧调用数百次：先用开销最小的条件提前返回。
-        if (client == null || !SparkWitchServerConnection.isConfirmedServer()) {
+        if (client == null || !SparkDlcServerConnection.isConfirmedServer()) {
             return false;
         }
         ClientPlayerEntity player = client.player;

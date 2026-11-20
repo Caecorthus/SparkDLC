@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.killer.witchmaiden;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.witchmaiden.FocusedFootstepsRules;
 import dev.caecorthus.sparkdlc.role.killer.witchmaiden.WitchMaidenRules;
@@ -179,7 +179,7 @@ public final class WitchMaidenInventoryUi {
         }
         GameWorldComponent game = GameWorldComponent.KEY.get(player.getWorld());
         return FocusedFootstepsInventoryRules.ownerEligible(
-                SparkWitchServerConnection.isConfirmedServer(),
+                SparkDlcServerConnection.isConfirmedServer(),
                 game.isRunning(),
                 WitchMaidenRules.isWitchMaiden(game.getRole(player)),
                 GameFunctions.isPlayerPlayingAndAlive(player),

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.witch.abysslistener;
 
 import dev.caecorthus.sparkdlc.client.mixin.role.witch.abysslistener.MoodRendererTaskRowAbyssAccessor;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.witch.abysslistener.zone.DeepDarkZoneStandingDrain;
 import dev.doctor4t.wathe.client.gui.MoodRenderer;
 import java.util.Collection;
@@ -40,7 +40,7 @@ public final class AbyssZoneExposureTaskLine {
     /** Synced exposure of the local player on a confirmed SparkWitch server. / 已确认 SparkWitch 服务端上本地玩家的暴露。 */
     public static boolean isVisible(@Nullable PlayerEntity player) {
         return player != null
-                && SparkWitchServerConnection.isConfirmedServer()
+                && SparkDlcServerConnection.isConfirmedServer()
                 && DeepDarkZoneStandingDrain.isExposed(player);
     }
 

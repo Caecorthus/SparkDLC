@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.seeker;
 
 import dev.caecorthus.sparkdlc.client.role.civilian.seeker.remote.SeekerRemoteViewClient;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
 import net.minecraft.client.MinecraftClient;
@@ -50,7 +50,7 @@ public final class SeekerBodyClientHooks {
     @Nullable
     private static GetInstinctHighlight.HighlightResult sparkwitch$ownBodyHighlight(Entity target) {
         ClientPlayerEntity viewer = MinecraftClient.getInstance().player;
-        if (viewer == null || !SparkWitchServerConnection.isConfirmedServer()) {
+        if (viewer == null || !SparkDlcServerConnection.isConfirmedServer()) {
             return null;
         }
         return SeekerInstinctRules.outlinesOwnBody(SeekerRemoteViewClient.mode(), target == viewer,

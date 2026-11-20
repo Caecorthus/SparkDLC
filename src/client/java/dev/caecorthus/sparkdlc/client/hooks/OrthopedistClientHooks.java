@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.hooks;
 
 import dev.caecorthus.sparkdlc.SparkWitchRoles;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.orthopedist.OrthopedistPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.orthopedist.OrthopedistRules;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
@@ -28,7 +28,7 @@ public final class OrthopedistClientHooks {
     }
 
     private static GetInstinctHighlight.HighlightResult getBoneSettingHighlight(Entity entity) {
-        if (!SparkWitchServerConnection.isConfirmedServer()
+        if (!SparkDlcServerConnection.isConfirmedServer()
                 || !(entity instanceof PlayerEntity target)) {
             return null;
         }

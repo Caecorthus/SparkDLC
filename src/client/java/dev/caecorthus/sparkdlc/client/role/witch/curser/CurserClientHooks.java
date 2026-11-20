@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.role.witch.curser;
 import dev.caecorthus.sparkdlc.SparkWitchRoles;
 import dev.caecorthus.sparkdlc.client.render.LocalViewerSnapshot;
 import dev.caecorthus.sparkdlc.client.render.WraithClientState;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.witch.curser.CurserPlayerComponent;
 import dev.caecorthus.sparkdlc.role.witch.curser.CurserRules;
 import dev.caecorthus.sparkdlc.role.witch.curser.UseCurserAbilityC2SPacket;
@@ -24,7 +24,7 @@ public final class CurserClientHooks {
         GameWorldComponent game = GameWorldComponent.KEY.get(player.getWorld());
         var role = game.getRole(player);
         return CurserRules.canSend(
-                SparkWitchServerConnection.isConfirmedServer(),
+                SparkDlcServerConnection.isConfirmedServer(),
                 game.isRunning(),
                 WraithClientState.isActive(player),
                 WraithClientState.isPromoted(player),
@@ -51,7 +51,7 @@ public final class CurserClientHooks {
 
     private static boolean evaluateCanUseInstinct() {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
-        if (!SparkWitchServerConnection.isConfirmedServer() || player == null) {
+        if (!SparkDlcServerConnection.isConfirmedServer() || player == null) {
             return false;
         }
         CurserPlayerComponent curser = CurserPlayerComponent.KEY.get(player);
@@ -74,7 +74,7 @@ public final class CurserClientHooks {
 
     private static boolean evaluateLocallyConfused() {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
-        return SparkWitchServerConnection.isConfirmedServer()
+        return SparkDlcServerConnection.isConfirmedServer()
                 && player != null
                 && CurserPlayerComponent.KEY.get(player).isConfused();
     }

@@ -34,9 +34,7 @@ import dev.caecorthus.sparkdlc.client.item.FlashlightModelClient;
 import dev.caecorthus.sparkdlc.client.item.M67Client;
 import dev.caecorthus.sparkdlc.client.item.PerfumerItemsClient;
 import dev.caecorthus.sparkdlc.client.legacy.LegacyClientNames;
-import dev.caecorthus.sparkdlc.client.net.version.ClientVersionHandshake;
-import dev.caecorthus.sparkdlc.client.net.version.SparkTraitsClientVersionHandshake;
-import dev.caecorthus.sparkdlc.client.net.version.SparkWitchClientVersionHandshake;
+import dev.caecorthus.sparkdlc.client.net.version.SparkDlcClientVersionHandshake;
 import dev.caecorthus.sparkdlc.client.ponder.PonderSupport;
 import dev.caecorthus.sparkdlc.client.record.MatchRecordClient;
 import dev.caecorthus.sparkdlc.client.render.ClientFrame;
@@ -167,8 +165,7 @@ import dev.caecorthus.sparkdlc.net.TarotDivinationReadingS2CPacket;
 import dev.caecorthus.sparkdlc.net.TarotDivinationSnapshotS2CPacket;
 import dev.caecorthus.sparkdlc.net.UseWitchSkillC2SPacket;
 import dev.caecorthus.sparkdlc.net.WraithRoleAnnouncementS2CPacket;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsServerConnection;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.athlete.AthleteRules;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindRules;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertEntities;
@@ -345,12 +342,17 @@ public final class SparkDLCClient implements ClientModInitializer {
     }
 
     /**
-     * Version handshake, replay screen, match record, map-reset HUD, and the faction instinct highlight and cohort
-     * listeners. 版本握手、回放界面、对局记录、地图重置 HUD，以及阵营本能高亮与同伙监听器。
+     * The version handshake of the whole mod, replay screen, match record, map-reset HUD, and the faction instinct
+     * highlight and cohort listeners. 全模组的版本握手、回放界面、对局记录、地图重置 HUD，以及阵营本能高亮与同伙监听器。
      */
     private static void startFactionAndReplayClient() {
         SparkDLC.LOGGER.info("Initializing SparkFactionAPI client hooks.");
-        ClientVersionHandshake.registerClient();
+        // The one version handshake: the login-query answer and the play confirmation receiver. Receivers are kept
+        // per channel, so their place in the start-up is free; the session edges that drop the confirmation stay in
+        // the trait and own-role session listeners below, where the two former flags had them.
+        // 唯一的版本握手：登录查询的应答与 play 确认接收器。接收器按频道保存，因此它在启动流程中的位置没有约束；
+        // 丢弃确认的会话节点仍留在下方词条与自有职业的会话监听器中，即原先两个标记各自所在的位置。
+        SparkDlcClientVersionHandshake.registerClient();
         // Replay screen: snapshot receiver, keybind, and the map-voting button. 回放界面：快照接收、按键与投票界面按钮。
         ReplayClient.register();
         // Match record: store-only receiver behind SparkMatchRecordClient. 对局记录：仅保存，经 SparkMatchRecordClient 读取。
@@ -529,14 +531,12 @@ public final class SparkDLCClient implements ClientModInitializer {
     }
 
     /**
-     * Owner-inventory adapter, version handshake, killer-trait client, blue-poison particles and markers, session
-     * resets, the Final Moment highlight and the trait tick. 所有者背包适配器、版本握手、杀手词条客户端、蓝毒粒子与标记、
-     * 会话重置、终局时刻高亮与词条 tick。
+     * Owner-inventory adapter, killer-trait client, blue-poison particles and markers, session resets (with the
+     * confirmed-server flag's login and JOIN edges), the Final Moment highlight and the trait tick.
+     * 所有者背包适配器、杀手词条客户端、蓝毒粒子与标记、会话重置（含已确认服务端标记的登录与 JOIN 节点）、终局时刻高亮与词条 tick。
      */
     private static void registerTraitClient() {
         dev.caecorthus.sparkdlc.client.trait.gui.OwnerInventoryClientAdapter.install();
-        SparkTraitsServerConnection.reset();
-        SparkTraitsClientVersionHandshake.registerClient();
         NewKillerTraitsClient.initialize();
         ParticleFactoryRegistry.getInstance().register(SparkTraitsParticles.BLUE_POISON, PoisonParticle.Factory::new);
         // Private blue-poison markers: the server sends this only to viewers that may see blue poison. Play payload
@@ -546,7 +546,7 @@ public final class SparkDLCClient implements ClientModInitializer {
                 (payload, context) -> BluePoisonMarkerClientStore.accept(context.client().world, payload));
         // A new connection starts unconfirmed, even if the previous one never reached its play session.
         // 新连接从未确认状态开始，即使上一个连接没有进入 play 会话。
-        ClientLoginConnectionEvents.INIT.register((handler, client) -> SparkTraitsServerConnection.reset());
+        ClientLoginConnectionEvents.INIT.register((handler, client) -> SparkDlcServerConnection.reset());
         /*
          * JOIN also starts a play session after a proxy backend switch, which fires no DISCONNECT: session-scoped
          * state must not survive it. JOIN runs on the client thread. The forced-melee cooldown snapshot is cleared by
@@ -557,14 +557,14 @@ public final class SparkDLCClient implements ClientModInitializer {
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
             BluePoisonMarkerClientStore.clear();
             FinalMomentMusicController.reset(client);
-            SparkTraitsServerConnection.beginPlaySession();
+            SparkDlcServerConnection.beginPlaySession();
             dev.caecorthus.sparkdlc.client.trait.gui.OwnerInventoryClientAdapter.resetNativeCard();
             InstinctViewerContext.clear();
         });
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
             // The volatile flag is safe to drop from the network thread; features gated on it go dark at once.
             // volatile 标记可以在网络线程上直接清除；依赖它的功能随即停用。
-            SparkTraitsServerConnection.reset();
+            SparkDlcServerConnection.reset();
             runSessionCleanup(client, handler, () -> {
                 BluePoisonMarkerClientStore.clear();
                 FinalMomentMusicController.reset(client);
@@ -577,20 +577,18 @@ public final class SparkDLCClient implements ClientModInitializer {
             DepressionRageLoopController.tick(client);
             FinalMomentMusicController.tick(client);
             dev.caecorthus.sparkdlc.client.trait.jester.JesterMomentClientHooks.tick(client);
-            if (SparkTraitsServerConnection.isConfirmedServer()) {
+            if (SparkDlcServerConnection.isConfirmedServer()) {
                 DepressionHud.tick();
             }
         });
     }
 
     /**
-     * Client hubs of the mod's own roles: the Role Skill 2 key binding, the version handshake, entity renderers,
-     * screen receivers and the role-owned HUD rows. 本模组自有职业的客户端注册中心：“职业技能 2”按键绑定、版本握手、
-     * 实体渲染器、界面接收器与各职业自有的 HUD 行。
+     * Client hubs of the mod's own roles: the Role Skill 2 key binding, entity renderers, screen receivers and the
+     * role-owned HUD rows. 本模组自有职业的客户端注册中心：“职业技能 2”按键绑定、实体渲染器、界面接收器与各职业自有的 HUD 行。
      */
     private static void registerOwnRoleClient() {
         SparkDLC.LOGGER.info("Initializing SparkWitch client hooks.");
-        SparkWitchServerConnection.reset();
         // Per-world-pass memo of local-viewer facts read by the instinct, outline and Blind hooks.
         // 本能、描边与盲人钩子读取的本地观察者事实，按世界渲染 pass 缓存。
         LocalViewerSnapshot.register();
@@ -609,7 +607,6 @@ public final class SparkDLCClient implements ClientModInitializer {
         FerrymanClient.register();
         VendettaKnifeModelLoadingPlugin.register();
         SecondaryAbilityController.reset();
-        SparkWitchClientVersionHandshake.registerClient();
         registerEntityRenderers();
         registerTarotDivinationNetworking();
         registerBlackRavenNetworking();
@@ -674,7 +671,7 @@ public final class SparkDLCClient implements ClientModInitializer {
     /** What an active Wraith may type and whether it may jump. / 活跃冤魂能否打字、能否跳跃。 */
     private static void registerWraithChatAndJumpRules() {
         AllowPlayerChat.EVENT.register(player -> {
-            if (!SparkWitchServerConnection.isConfirmedServer()) {
+            if (!SparkDlcServerConnection.isConfirmedServer()) {
                 return false;
             }
             var role = GameWorldComponent.KEY.get(player.getWorld()).getRole(player);
@@ -686,7 +683,7 @@ public final class SparkDLCClient implements ClientModInitializer {
         });
         ShouldAllowSuppressedKey.EVENT.register(keyBinding -> {
             MinecraftClient client = MinecraftClient.getInstance();
-            if (!SparkWitchServerConnection.isConfirmedServer()
+            if (!SparkDlcServerConnection.isConfirmedServer()
                     || client.player == null
                     || keyBinding != client.options.jumpKey) {
                 return false;
@@ -708,9 +705,12 @@ public final class SparkDLCClient implements ClientModInitializer {
         // fire, only another JOIN, so the previous backend's session state is dropped here too. Play-phase state of the
         // new session only arrives after JOIN, so nothing of it can be wiped. The confirmed-server flag is NOT reset
         // here: on a direct connection it was set by this same connection's login query and must survive its own JOIN.
+        // Its JOIN edge is SparkDlcServerConnection.beginPlaySession() in the trait session listener above, which keeps
+        // exactly that confirmation and drops one left by a previous backend.
         // 代理切换后端时，同一连接经历 play -> configuration -> play：既不触发 DISCONNECT 也不触发登录 INIT，只会再次 JOIN，
         // 因此在这里同样丢弃上一个后端的会话状态。新会话的 play 阶段状态只会在 JOIN 之后到达，所以不会被误清。已确认服务端
-        // 标记不在此重置：直连时它由同一连接的登录查询设置，必须在自己的 JOIN 之后保留。
+        // 标记不在此重置：直连时它由同一连接的登录查询设置，必须在自己的 JOIN 之后保留。它的 JOIN 节点是上方词条会话监听器中的
+        // SparkDlcServerConnection.beginPlaySession()：恰好保留这种确认，并丢弃上一个后端留下的确认。
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> resetOwnRoleSessionState());
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> releaseClosedWorldPlayers());
     }
@@ -741,7 +741,7 @@ public final class SparkDLCClient implements ClientModInitializer {
             JudgeClientModule.tick(client);
             ProphetClientModule.tick(client);
             SecondaryAbilityController.tick(client);
-            if (!SparkWitchServerConnection.isConfirmedServer()) {
+            if (!SparkDlcServerConnection.isConfirmedServer()) {
                 WitchAbilityKeyBridge.reset();
                 DeathRayClientHooks.reset();
                 KidnapperThrowClientHooks.reset();
@@ -921,7 +921,7 @@ public final class SparkDLCClient implements ClientModInitializer {
     /** Grand Witch cohort hiding and hidden-poison vision. / 大魔女同伙隐藏与隐藏毒药可见性。 */
     private static void registerWitchCohortAndPoisonVision() {
         ShouldShowCohort.EVENT.register((viewer, target) -> {
-            if (!SparkWitchServerConnection.isConfirmedServer()) {
+            if (!SparkDlcServerConnection.isConfirmedServer()) {
                 return null;
             }
             if (WitchCohortClientHooks.isGrandWitchCohortPair(viewer, target)) {
@@ -1055,7 +1055,7 @@ public final class SparkDLCClient implements ClientModInitializer {
 
     private static void registerFinalMomentHighlight() {
         GetInstinctHighlight.EVENT.register(target -> {
-            if (!SparkTraitsServerConnection.isConfirmedServer()) {
+            if (!SparkDlcServerConnection.isConfirmedServer()) {
                 return null;
             }
             PlayerEntity viewer = MinecraftClient.getInstance().player;
@@ -1131,7 +1131,7 @@ public final class SparkDLCClient implements ClientModInitializer {
     private static void registerGrandWitchCeremonialSwordBgm() {
         AmbienceUtil.registerBackgroundAmbience(new BackgroundAmbience(
                 SparkWitchSounds.GRAND_WITCH_CEREMONIAL_SWORD_BGM,
-                player -> SparkWitchServerConnection.isConfirmedServer()
+                player -> SparkDlcServerConnection.isConfirmedServer()
                         && WitchWorldComponent.KEY.get(player.getWorld()).hasGrandWitchCeremonialSwordBgm(),
                 20
         ));
@@ -1140,7 +1140,7 @@ public final class SparkDLCClient implements ClientModInitializer {
     private static void registerTarotDivinationNetworking() {
         ClientPlayNetworking.registerGlobalReceiver(TarotDivinationSnapshotS2CPacket.ID, (payload, context) ->
                 context.client().execute(() -> {
-                    if (!SparkWitchServerConnection.isConfirmedServer()) {
+                    if (!SparkDlcServerConnection.isConfirmedServer()) {
                         return;
                     }
                     TarotDivinationClientState.snapshotState().overwrite(
@@ -1153,7 +1153,7 @@ public final class SparkDLCClient implements ClientModInitializer {
                 }));
         ClientPlayNetworking.registerGlobalReceiver(OpenTarotDivinationSelectorS2CPacket.ID, (payload, context) ->
                 context.client().execute(() -> {
-                    if (!SparkWitchServerConnection.isConfirmedServer()) {
+                    if (!SparkDlcServerConnection.isConfirmedServer()) {
                         return;
                     }
                     context.client().setScreen(new TarotDivinationSelectorScreen(
@@ -1166,7 +1166,7 @@ public final class SparkDLCClient implements ClientModInitializer {
         // 仅购买者可见的结果；保存下来，供结果条与选择界面的印记重复展示服务端已给出的结论。
         ClientPlayNetworking.registerGlobalReceiver(TarotDivinationReadingS2CPacket.ID, (payload, context) ->
                 context.client().execute(() -> {
-                    if (!SparkWitchServerConnection.isConfirmedServer()) {
+                    if (!SparkDlcServerConnection.isConfirmedServer()) {
                         return;
                     }
                     TarotDivinationClientState.readingLog().record(new TarotReadingLog.Reading(
@@ -1182,7 +1182,7 @@ public final class SparkDLCClient implements ClientModInitializer {
     private static void registerBlackRavenNetworking() {
         ClientPlayNetworking.registerGlobalReceiver(OpenBlackRavenLedgerS2CPacket.ID, (payload, context) ->
                 context.client().execute(() -> {
-                    if (SparkWitchServerConnection.isConfirmedServer()) {
+                    if (SparkDlcServerConnection.isConfirmedServer()) {
                         BlackRavenLedgerScreen.open(context.client());
                     }
                 }));
@@ -1195,7 +1195,7 @@ public final class SparkDLCClient implements ClientModInitializer {
     private static void registerProphetNecrologyNetworking() {
         ClientPlayNetworking.registerGlobalReceiver(OpenProphetNecrologyS2CPacket.ID, (payload, context) ->
                 context.client().execute(() -> {
-                    if (SparkWitchServerConnection.isConfirmedServer()) {
+                    if (SparkDlcServerConnection.isConfirmedServer()) {
                         ProphetNecrologyBookScreen.open(context.client());
                     }
                 }));
@@ -1211,7 +1211,7 @@ public final class SparkDLCClient implements ClientModInitializer {
      * 光标），因此交给客户端线程执行。任务按顺序执行，所以重置仍先于新会话的任何 play 数据包。
      */
     private static void resetConnectionState() {
-        SparkWitchServerConnection.reset();
+        SparkDlcServerConnection.reset();
         MinecraftClient client = MinecraftClient.getInstance();
         if (!client.isOnThread()) {
             client.execute(SparkDLCClient::resetClientThreadState);

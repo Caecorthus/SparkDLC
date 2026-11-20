@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.usec;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecRifleState;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
@@ -65,7 +65,7 @@ public final class UsecBoltSwayClient {
 
     private static void tick(MinecraftClient client) {
         ClientPlayerEntity player = client.player;
-        boolean interrupted = !SparkWitchServerConnection.isConfirmedServer() || player == null || !player.isAlive()
+        boolean interrupted = !SparkDlcServerConnection.isConfirmedServer() || player == null || !player.isAlive()
                 || player.isSpectator() || client.currentScreen != null
                 || !UsecRifleClient.holdsRifleInMainHand(player);
         TRACKER.tick(!interrupted && UsecScopeProfile.isActive(), interrupted, UsecBoltWatchClient.status(player));

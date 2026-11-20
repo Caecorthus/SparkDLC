@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.mixin.role.witch.grandwitch;
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.client.role.witch.grandwitch.GrandWitchClientPresentation;
 import dev.caecorthus.sparkdlc.client.role.witch.grandwitch.GrandWitchSwordHud;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.client.gui.CrosshairRenderer;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.client.MinecraftClient;
@@ -26,7 +26,7 @@ public abstract class GrandWitchSwordCrosshairMixin {
     private static void sparkwitch$renderSwordCooldowns(MinecraftClient client, ClientPlayerEntity player,
                                                        DrawContext context, RenderTickCounter tickCounter,
                                                        CallbackInfo ci) {
-        if (!SparkWitchServerConnection.isConfirmedServer()
+        if (!SparkDlcServerConnection.isConfirmedServer()
                 || client.options.hudHidden
                 || !GameFunctions.isPlayerPlayingAndAlive(player)
                 || !client.options.getPerspective().isFirstPerson()

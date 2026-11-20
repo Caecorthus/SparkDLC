@@ -6,9 +6,7 @@ import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.SparkDlcModule;
 import dev.caecorthus.sparkdlc.faction.registry.FactionCatalog;
 import dev.caecorthus.sparkdlc.legacy.LegacyCommandAliases;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsVersionHandshake;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchVersionHandshake;
-import dev.caecorthus.sparkdlc.net.version.VersionProtocol;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcVersionHandshake;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillRegistry;
 import dev.caecorthus.sparkdlc.trait.api.TraitRegistry;
 import dev.doctor4t.wathe.api.WatheRoles;
@@ -131,10 +129,7 @@ public final class SparkDlcBootTest implements FabricGameTest {
                 see.accept("payload", (Identifier) id);
             }
         }
-        for (Identifier channel : List.of(VersionProtocol.VERSION_CHECK_ID,
-                SparkTraitsVersionHandshake.VERSION_CHECK_ID, SparkWitchVersionHandshake.VERSION_CHECK_ID)) {
-            see.accept("login channel", channel);
-        }
+        see.accept("login channel", SparkDlcVersionHandshake.VERSION_CHECK_ID);
         ComponentRegistry.stream().forEach(key -> see.accept("component", key.getId()));
         WatheRoles.ROLES.forEach(role -> see.accept("role", role.identifier()));
         FactionCatalog.getCustomFactions().forEach(faction -> see.accept("faction", faction.id()));
@@ -171,8 +166,8 @@ public final class SparkDlcBootTest implements FabricGameTest {
                 throw new GameTestException("the scan saw no sparkdlc id of kind '" + kind + "': " + own);
             }
         }
-        if (own.get("login channel") != 3) {
-            throw new GameTestException("the three version-check login channels must be three different sparkdlc ids");
+        if (own.get("login channel") != 1) {
+            throw new GameTestException("the mod asks one version question at login, on one sparkdlc channel");
         }
         context.complete();
     }

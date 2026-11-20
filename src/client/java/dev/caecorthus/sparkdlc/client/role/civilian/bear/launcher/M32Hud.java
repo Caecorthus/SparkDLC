@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.bear.launcher;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.caecorthus.sparkdlc.client.gui.card.InventoryCardPaint;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.bear.launcher.M32Cylinder;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerStaminaComponent;
@@ -76,7 +76,7 @@ public final class M32Hud {
         // HudRenderCallback still fires under F1, unlike Wathe's own HUD layer; follow Wathe's train HUD too.
         // HudRenderCallback 在 F1 下仍会触发，与 Wathe 自身 HUD 层不同；同时跟随 Wathe 列车 HUD 的显示状态。
         GameWorldComponent.GameStatus status = GameWorldComponent.KEY.get(client.world).getGameStatus();
-        return M32HudRules.showsHud(client.options.hudHidden, SparkWitchServerConnection.isConfirmedServer(), true,
+        return M32HudRules.showsHud(client.options.hudHidden, SparkDlcServerConnection.isConfirmedServer(), true,
                 status == GameWorldComponent.GameStatus.INACTIVE, trainHudActive(),
                 status == GameWorldComponent.GameStatus.ACTIVE, GameFunctions.isPlayerPlayingAndAlive(player));
     }

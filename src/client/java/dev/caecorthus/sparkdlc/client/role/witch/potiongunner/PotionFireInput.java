@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.client.role.witch.potiongunner;
 import dev.caecorthus.sparkdlc.client.input.MacControlClickRules;
 import dev.caecorthus.sparkdlc.client.mixin.input.SelectedSlotFlushInvoker;
 import dev.caecorthus.sparkdlc.net.FirePotionLauncherC2SPacket;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
@@ -123,7 +123,7 @@ public final class PotionFireInput {
     }
 
     private static void requestFire(MinecraftClient client, ClientPlayerEntity player) {
-        boolean canSend = SparkWitchServerConnection.isConfirmedServer()
+        boolean canSend = SparkDlcServerConnection.isConfirmedServer()
                 && client.getNetworkHandler() != null
                 && ClientPlayNetworking.canSend(FirePotionLauncherC2SPacket.ID);
         if (!PotionScopeRules.sendsFire(

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.killer.blackraven.crow;
 
 import dev.caecorthus.sparkdlc.client.role.killer.blackraven.BlackRavenInstinctVeto;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowForm;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
@@ -30,7 +30,7 @@ public final class BlackRavenCrowBodyVisibility {
 
     /** {@code BlackRavenCrowBodyRenderMixin}: skip rendering this entity for the local viewer. / 对本地观察者跳过渲染该实体。 */
     public static boolean hidesFromLocalViewer(@Nullable Entity entity) {
-        if (!(entity instanceof PlayerEntity) || !SparkWitchServerConnection.isConfirmedServer()) {
+        if (!(entity instanceof PlayerEntity) || !SparkDlcServerConnection.isConfirmedServer()) {
             return false;
         }
         return hidesBody(MinecraftClient.getInstance().player, entity);
@@ -47,7 +47,7 @@ public final class BlackRavenCrowBodyVisibility {
      * viewer flying the crow labels nobody. / 名牌射线收窄：被隐藏的本体从不是标签目标，操控乌鸦的观察者不给任何人显示名牌。
      */
     public static boolean nameTagPassesThrough(@Nullable PlayerEntity viewer, @Nullable Entity candidate) {
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return false;
         }
         if (viewer != null && BlackRavenCrowForm.isInCrowForm(viewer)) {

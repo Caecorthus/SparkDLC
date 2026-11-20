@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.neutral.fiend;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendMomentWorldComponent;
 import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendParticipation;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -24,7 +24,7 @@ public final class FiendMomentHighlightClient {
     }
 
     public static @Nullable Integer highlight(Entity target) {
-        if (!SparkWitchServerConnection.isConfirmedServer() || !(target instanceof PlayerEntity playerTarget)) {
+        if (!SparkDlcServerConnection.isConfirmedServer() || !(target instanceof PlayerEntity playerTarget)) {
             return null;
         }
         ClientPlayerEntity viewer = MinecraftClient.getInstance().player;

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.hooks;
 
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesHiddenBodiesBridge;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.prophet.ProphetPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.prophet.ProphetRules;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
@@ -34,7 +34,7 @@ public final class ProphetCorpseHighlightClientHooks {
 
     @Nullable
     private static GetInstinctHighlight.HighlightResult highlightBody(Entity target) {
-        if (!SparkWitchServerConnection.isConfirmedServer()
+        if (!SparkDlcServerConnection.isConfirmedServer()
                 || !(target instanceof PlayerBodyEntity body)) {
             return null;
         }

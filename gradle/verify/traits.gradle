@@ -318,10 +318,10 @@ def verifyTraitsModJar = tasks.register("verifyTraitsModJar") {
                     "dev/caecorthus/sparkdlc/client/mixin/trait/CautiousClientWorldSoundMixin.class",
                     "dev/caecorthus/sparkdlc/client/mixin/trait/CautiousPresenceFootstepsVolumeMixin.class",
                     "dev/caecorthus/sparkdlc/trait/global/CautiousSoundRules.class",
-                    "dev/caecorthus/sparkdlc/net/version/SparkTraitsServerConnection.class",
-                    "dev/caecorthus/sparkdlc/net/SparkTraitsPackets.class",
-                    "dev/caecorthus/sparkdlc/net/version/SparkTraitsServerConfirmS2CPacket.class",
-                    "dev/caecorthus/sparkdlc/client/net/version/SparkTraitsClientVersionHandshake.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkDlcServerConnection.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkDlcVersionHandshake.class",
+                    "dev/caecorthus/sparkdlc/net/version/SparkDlcServerConfirmS2CPacket.class",
+                    "dev/caecorthus/sparkdlc/client/net/version/SparkDlcClientVersionHandshake.class",
                     "dev/caecorthus/sparkdlc/voice/SparkDlcVoiceChatPlugin.class"
             ].each { requiredEntry ->
                 // Runtime compatibility depends on these packaged confirmation and optional voice bridge classes.

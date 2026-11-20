@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.neutral.koko;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.neutral.koko.net.UseKokoStreamC2SPayload;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
@@ -34,7 +34,7 @@ public final class KokoClient {
         initialized = true;
         KokoInstinctHooks.register();
         HudRenderCallback.EVENT.register((context, tickCounter) -> {
-            if (SparkWitchServerConnection.isConfirmedServer()) {
+            if (SparkDlcServerConnection.isConfirmedServer()) {
                 KokoStreamHud.render(context);
             }
         });

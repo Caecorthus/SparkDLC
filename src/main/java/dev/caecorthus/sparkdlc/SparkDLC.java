@@ -10,11 +10,8 @@ import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.legacy.LegacyFiles;
 import dev.caecorthus.sparkdlc.legacy.LegacyRegistryAliases;
 import dev.caecorthus.sparkdlc.net.SparkStrengthPackets;
-import dev.caecorthus.sparkdlc.net.SparkTraitsPackets;
 import dev.caecorthus.sparkdlc.net.SparkWitchPackets;
-import dev.caecorthus.sparkdlc.net.version.ServerVersionHandshake;
-import dev.caecorthus.sparkdlc.net.version.SparkTraitsVersionHandshake;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchVersionHandshake;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcVersionHandshake;
 import dev.caecorthus.sparkdlc.record.MatchRecordBroadcaster;
 import dev.caecorthus.sparkdlc.record.PsychoRecorder;
 import dev.caecorthus.sparkdlc.replay.SparkReplayBootstrap;
@@ -105,6 +102,15 @@ public final class SparkDLC implements ModInitializer {
         startFactionAndRoundServices();
         registerRoleKitContent();
         registerRoleKitGameplay();
+        // The one version handshake. Its login query has no order to keep, but its play confirmation is sent from a
+        // player-join listener: the role kits registered theirs before it and the traits and the mod's own roles
+        // register theirs after it, as it was while the trait system sent the first of two confirmations. A client
+        // behind a proxy is confirmed by that packet alone, so what a join listener sends reaches it before or after
+        // the confirmation according to this place.
+        // 唯一的版本握手。登录查询没有需要保持的顺序，但 play 确认由玩家加入监听器发送：职业套件的加入监听器在它之前注册，
+        // 词条与本模组自有职业的在它之后注册，与原先由词条系统发送两个确认中的第一个时相同。代理之后的客户端只靠这个数据包确认，
+        // 因此加入监听器发送的内容先于还是晚于确认到达客户端，取决于这个位置。
+        SparkDlcVersionHandshake.registerServer();
         registerTraits();
         registerOwnRoleContent();
         registerOwnRolesAndSkills();
@@ -121,13 +127,12 @@ public final class SparkDLC implements ModInitializer {
     }
 
     /**
-     * Version handshake, the faction registry with the native factions and the faction win service, NoellesRoles
-     * collision glue, compatibility events, replay, match record, anti-fast-round, lobby map reset and team sync.
-     * 版本握手、阵营注册表（含原生阵营与阵营胜利服务）、NoellesRoles 碰撞兼容、兼容事件、回放、对局记录、防速通、
+     * The faction registry with the native factions and the faction win service, NoellesRoles collision glue,
+     * compatibility events, replay, match record, anti-fast-round, lobby map reset and team sync.
+     * 阵营注册表（含原生阵营与阵营胜利服务）、NoellesRoles 碰撞兼容、兼容事件、回放、对局记录、防速通、
      * 大厅地图重置与团队名单同步。
      */
     private static void startFactionAndRoundServices() {
-        ServerVersionHandshake.registerServer();
         SparkFactionApi.bootstrap();
         NoellesCollisionCompatibility.register();
         FactionCompatibilityEvents.register();
@@ -163,12 +168,10 @@ public final class SparkDLC implements ModInitializer {
     }
 
     /**
-     * Version handshake, packets, data component, particles and sounds of the trait system, the built-in traits and
-     * their services and replay texts. 词条系统的版本握手、数据包、数据组件、粒子与声音，内置词条及其服务和回放文本。
+     * Data component, particles and sounds of the trait system, the built-in traits and their services and replay
+     * texts. 词条系统的数据组件、粒子与声音，内置词条及其服务和回放文本。
      */
     private static void registerTraits() {
-        SparkTraitsVersionHandshake.registerServer();
-        SparkTraitsPackets.register();
         SparkTraitsDataComponentTypes.init();
         SparkTraitsParticles.register();
         SparkTraitsSounds.initialize();
@@ -261,15 +264,14 @@ public final class SparkDLC implements ModInitializer {
     }
 
     /**
-     * Packets, hitbox history, the version handshake, the event listeners of the mod's own roles, forced cooldowns,
-     * the Wraith text-chat gates and the Assassin guess order refreshed once the server has started.
-     * 本模组自有职业的数据包、碰撞箱历史、版本握手、事件监听器、强制冷却、冤魂文字聊天限制，以及服务器启动后刷新的刺客猜测顺序。
+     * Packets, hitbox history, the event listeners of the mod's own roles, forced cooldowns, the Wraith text-chat
+     * gates and the Assassin guess order refreshed once the server has started.
+     * 本模组自有职业的数据包、碰撞箱历史、事件监听器、强制冷却、冤魂文字聊天限制，以及服务器启动后刷新的刺客猜测顺序。
      */
     private static void registerOwnRoleGameplay() {
         SparkWitchPackets.register();
         PlayerHitboxHistory.register();
         CurserFeatureService.register();
-        SparkWitchVersionHandshake.registerServer();
         SparkWitchEvents.register();
         dev.caecorthus.sparkdlc.cooldown.provider.SparkWitchForcedCooldowns.register();
         ServerMessageEvents.ALLOW_CHAT_MESSAGE.register(

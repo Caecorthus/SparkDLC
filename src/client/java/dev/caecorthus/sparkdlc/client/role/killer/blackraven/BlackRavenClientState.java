@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.killer.blackraven;
 
 import dev.caecorthus.sparkdlc.client.render.LocalViewerSnapshot;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenPerceptionPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -36,7 +36,7 @@ public final class BlackRavenClientState {
     }
 
     private static boolean evaluateEligible(@Nullable PlayerEntity player) {
-        if (!SparkWitchServerConnection.isConfirmedServer() || player == null) {
+        if (!SparkDlcServerConnection.isConfirmedServer() || player == null) {
             return false;
         }
         GameWorldComponent gameComponent = GameWorldComponent.KEY.get(player.getWorld());

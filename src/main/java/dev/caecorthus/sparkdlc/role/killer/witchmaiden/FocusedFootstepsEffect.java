@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.witchmaiden;
 
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConfirmS2CPacket;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConfirmS2CPacket;
 import dev.caecorthus.sparkdlc.role.killer.hunter.HunterPlayerComponent;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import dev.doctor4t.wathe.cca.PlayerStaminaComponent;
@@ -60,7 +60,7 @@ public final class FocusedFootstepsEffect extends StatusEffect {
         boolean running = next == FocusedFootstepsRules.Phase.RUNNING || stamina.isInfiniteStamina();
         player.setSprinting(FocusedFootstepsMovementRules.shouldSprint(running, rooted, pigGodFrozen));
         if (FocusedFootstepsMovementRules.shouldUseServerFallback(
-                ServerPlayNetworking.canSend(player, SparkWitchServerConfirmS2CPacket.ID),
+                ServerPlayNetworking.canSend(player, SparkDlcServerConfirmS2CPacket.ID),
                 rooted,
                 pigGodFrozen
         )) {

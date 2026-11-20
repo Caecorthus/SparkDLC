@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.killer.bellringer;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.killer.bellringer.BellEchoPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.bellringer.TollBellGlint;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
@@ -26,14 +26,14 @@ public final class BellRingerClient {
         // Reads only the local owner's synced flag; other viewers never receive it. / 只读取本地拥有者的同步标记，其他观察者永远收不到。
         TollBellGlint.install(BellRingerClient::isLocalTollReady);
         HudRenderCallback.EVENT.register((context, tickCounter) -> {
-            if (SparkWitchServerConnection.isConfirmedServer()) {
+            if (SparkDlcServerConnection.isConfirmedServer()) {
                 BellEchoHintHud.render(context, tickCounter);
             }
         });
     }
 
     private static boolean isLocalTollReady() {
-        if (!SparkWitchServerConnection.isConfirmedServer()) {
+        if (!SparkDlcServerConnection.isConfirmedServer()) {
             return false;
         }
         MinecraftClient client = MinecraftClient.getInstance();

@@ -5,7 +5,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.caecorthus.sparkdlc.client.render.LocalViewerSnapshot;
 import dev.caecorthus.sparkdlc.client.role.civilian.windspirit.WindSpiritInstinctClientRules;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.client.WatheClient;
 import net.minecraft.client.MinecraftClient;
@@ -40,7 +40,7 @@ public abstract class WindSpiritInstinctMixin {
         return WindSpiritInstinctClientRules.shouldUseNativeKillerHighlight(
                 original.call(),
                 roleId(player),
-                SparkWitchServerConnection.isConfirmedServer(),
+                SparkDlcServerConnection.isConfirmedServer(),
                 LocalViewerSnapshot.playingAndAlive(player),
                 LocalViewerSnapshot.wraithPromoted(player)
         );
@@ -62,7 +62,7 @@ public abstract class WindSpiritInstinctMixin {
         }
         if (WindSpiritInstinctClientRules.shouldEnableNativeInstinct(
                 roleId,
-                SparkWitchServerConnection.isConfirmedServer(),
+                SparkDlcServerConnection.isConfirmedServer(),
                 LocalViewerSnapshot.playingAndAlive(player),
                 LocalViewerSnapshot.wraithPromoted(player),
                 WatheClient.instinctKeybind.isPressed()
@@ -95,7 +95,7 @@ public abstract class WindSpiritInstinctMixin {
         return WindSpiritInstinctClientRules.resolveNativePlayerHighlightColor(
                 originalColor,
                 roleId(player),
-                SparkWitchServerConnection.isConfirmedServer(),
+                SparkDlcServerConnection.isConfirmedServer(),
                 LocalViewerSnapshot.playingAndAlive(player),
                 LocalViewerSnapshot.wraithPromoted(player)
         );

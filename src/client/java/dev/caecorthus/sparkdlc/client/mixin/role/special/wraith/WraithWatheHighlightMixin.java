@@ -5,7 +5,7 @@ import dev.caecorthus.sparkdlc.client.role.civilian.guardianangel.GuardianAngelC
 import dev.caecorthus.sparkdlc.client.render.WraithViewerRules;
 import dev.caecorthus.sparkdlc.client.role.civilian.vendetta.VendettaClientPresentation;
 import dev.caecorthus.sparkdlc.role.killer.saboteur.SaboteurRules;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.special.wraith.conversion.WraithBodyRoleResolver;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
@@ -43,7 +43,7 @@ public abstract class WraithWatheHighlightMixin {
             Entity target,
             CallbackInfoReturnable<Integer> cir
     ) {
-        if (!SparkWitchServerConnection.isConfirmedServer()
+        if (!SparkDlcServerConnection.isConfirmedServer()
                 || !(target instanceof PlayerEntity playerTarget)) {
             return;
         }

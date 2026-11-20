@@ -8,7 +8,6 @@ import dev.caecorthus.sparkdlc.role.witch.potiongunner.launcher.PotionLauncherFi
 import dev.caecorthus.sparkdlc.role.civilian.fisher.swordfish.SwordfishStabC2SPayload;
 import dev.caecorthus.sparkdlc.role.civilian.fisher.swordfish.SwordfishStabService;
 import dev.caecorthus.sparkdlc.role.civilian.emma.EmmaSkillService;
-import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.role.civilian.judge.JudgeRuntime;
 import dev.caecorthus.sparkdlc.role.civilian.junker.JunkerService;
 import dev.caecorthus.sparkdlc.role.civilian.prophet.ProphetProphecyService;
@@ -60,11 +59,7 @@ import dev.caecorthus.sparkdlc.role.killer.magician.SelectMagicianTargetC2SPacke
 import dev.caecorthus.sparkdlc.role.killer.magician.MagicianAbility;
 import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPlayerComponent;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.server.network.ServerPlayerEntity;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConfirmS2CPacket;
-import dev.caecorthus.sparkdlc.net.version.SparkWitchVersionHandshake;
 
 public final class SparkWitchPackets {
     private static boolean registered;
@@ -216,10 +211,6 @@ public final class SparkWitchPackets {
         PayloadTypeRegistry.playS2C().register(
                 OpenSherryDeductionS2CPacket.ID,
                 OpenSherryDeductionS2CPacket.CODEC
-        );
-        PayloadTypeRegistry.playS2C().register(
-                SparkWitchServerConfirmS2CPacket.ID,
-                SparkWitchServerConfirmS2CPacket.CODEC
         );
         PayloadTypeRegistry.playS2C().register(
                 DominatorForcedShotS2CPacket.ID,
@@ -375,21 +366,6 @@ public final class SparkWitchPackets {
         ServerPlayNetworking.registerGlobalReceiver(UseSherryMightyForceC2SPacket.ID,
                 (payload, context) -> context.server().execute(() ->
                         SherryMightyForceService.use(context.player())));
-        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
-            ServerPlayerEntity player = handler.getPlayer();
-            if (!ServerPlayNetworking.canSend(player, SparkWitchServerConfirmS2CPacket.ID)) {
-                SparkWitch.LOGGER.warn(
-                        "SparkWitch play confirmation channel {} is not available for {}.",
-                        SparkWitchServerConfirmS2CPacket.PAYLOAD_ID,
-                        player.getGameProfile().getName()
-                );
-                return;
-            }
-
-            // Reconfirm the SparkWitch server after play starts, because proxies can drop login queries.
-            // 进入 play 阶段后再次确认 SparkWitch 服务端，因为代理可能吞掉登录查询。
-            sender.sendPacket(new SparkWitchServerConfirmS2CPacket(SparkWitchVersionHandshake.localVersion()));
-        });
         // BEAR smoke S2C payload types, role-owned like USEC; the receivers are client-side.
         // BEAR 烟雾 S2C 数据包类型，与 USEC 一样在自有类中注册；接收器在客户端。
         dev.caecorthus.sparkdlc.role.civilian.bear.smoke.net.SmokeNetworking.register();

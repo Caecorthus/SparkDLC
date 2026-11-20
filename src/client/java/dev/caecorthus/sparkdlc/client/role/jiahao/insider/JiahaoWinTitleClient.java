@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.jiahao.insider;
 
-import dev.caecorthus.sparkdlc.net.version.SparkWitchServerConnection;
+import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.jiahao.insider.InsiderRules;
 import dev.caecorthus.sparkdlc.role.jiahao.insider.JiahaoTeamWinRules;
 import dev.doctor4t.wathe.client.gui.RoleAnnouncementTexts;
@@ -26,7 +26,7 @@ public final class JiahaoWinTitleClient {
     }
 
     public static RoleAnnouncementTexts.RoleAnnouncementText winnerText(RoleAnnouncementTexts.RoleAnnouncementText text) {
-        return SparkWitchServerConnection.isConfirmedServer() && isTeamJiahaoTitle(text.identifier)
+        return SparkDlcServerConnection.isConfirmedServer() && isTeamJiahaoTitle(text.identifier)
                 ? TeamText.VALUE
                 : text;
     }

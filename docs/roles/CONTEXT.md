@@ -2516,7 +2516,7 @@ Current build baseline:
     `ShouldDropOnDeath`) and `AccountantReplay` (skill replays `sparkdlc:accountant_deposit` / `accountant_withdraw`).
   - Passbook (`sparkdlc:accountant_passbook`, 存折, `AccountantPassbookItem`, registered last in `SparkDlcItems`
     with `maxCount(1)`, since a stack would share one stored value): the coins live in the stack's
-    `minecraft:custom_data` under `sparkwitch:stored_coins`, so they travel with the item. Owner rules: only the
+    `minecraft:custom_data` under `sparkdlc:stored_coins`, so they travel with the item. Owner rules: only the
     Accountant may deposit (right-click stores the whole balance); anyone holding it may withdraw everything with a
     left-click (the passbook is used up); sneak + right-click drops it; whoever carries it drops it on death.
     Deposits and withdrawals are transfers through `setBalance`, so SparkStrength's killer team purse (owner: the
@@ -4577,7 +4577,7 @@ Jester-moment and Corrupt Cop loops (`lambda$registerEvents$14` alive-check ordi
 `countAliveAndNotSwallowed` and Taotie `hasSwallowedEveryone` reach `FiendWinExclusion` through additive
 `@WrapOperation`s pinned to b58fa5f. The Fiend Moment is a 200-gold, stock-1 shop entry whose all-or-nothing
 `onBuy` starts it (crowbar and Speed II for 2400 ticks, no shield; owner tuning 2026-10-04); the crowbar carries the
-`sparkwitch:fiend_moment_crowbar` custom-data marker and every marked stack is taken back when the moment ends
+`sparkdlc:fiend_moment_crowbar` custom-data marker and every marked stack is taken back when the moment ends
 without a win, and a disconnect (`wathe:escaped`) ends it as "ended", not "slain". `FiendWinService` runs in
 phase `sparkdlc:fiend_moment_win`, ordered before `Event.DEFAULT_PHASE` on `CheckWinCondition`: no moment →
 abstain; the moment Fiend offline, dead, swallowed, re-roled or the match changed → end the moment (a swallow

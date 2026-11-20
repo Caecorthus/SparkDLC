@@ -51,7 +51,12 @@ import java.util.function.Predicate;
  * 从背包（含光标与合成格）和地面一并收回。恶魔猎人伪装只在有人疯魔期间借出手枪。
  */
 final class CoronerLoanedGear {
-    private static final String TEMP_ITEM_ROOT_KEY = "SparkStrengthCoronerTemporaryGrant";
+    /**
+     * Renamed from its former-mod name on 2026-11-20 (owner: "就数据可以改"); a stack saved with the old name is
+     * renamed on load (legacy.LegacyDataNames).
+     * 2026-11-20 起不再使用旧模组名（所有者：“就数据可以改”）；以旧名字保存的物品堆在载入时改名（legacy.LegacyDataNames）。
+     */
+    private static final String TEMP_ITEM_ROOT_KEY = "SparkDlcCoronerTemporaryGrant";
     private static final String TEMP_OWNER_KEY = "Owner";
     private static final String TEMP_DISGUISE_KEY = "Disguise";
     private static final String TEMP_ROLE_ID_KEY = "RoleId";

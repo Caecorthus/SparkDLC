@@ -4,6 +4,7 @@ import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.SparkDlcSounds;
+import dev.caecorthus.sparkdlc.legacy.LegacyDataNames;
 import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.net.KnightDuelStopSoundS2CPayload;
@@ -487,12 +488,14 @@ public final class KnightDuelService {
     }
 
     /**
-     * Drops memberships a crash or an older build left in the saved scoreboard and keeps the rule at NEVER.
-     * 清除崩溃或旧版本残留在存档计分板中的成员，并保持碰撞规则为 NEVER。
+     * Drops memberships a crash or an older build left in the saved scoreboard and keeps the rule at NEVER. The teams
+     * under their names before 2026-11-20 are removed outright: nothing joins them any more.
+     * 清除崩溃或旧版本残留在存档计分板中的成员，并保持碰撞规则为 NEVER。2026-11-20 之前名字下的队伍直接移除：不会再有人加入。
      */
     private static void resetDuelTeams(MinecraftServer server) {
         for (ServerWorld world : server.getWorlds()) {
             Scoreboard scoreboard = world.getScoreboard();
+            LegacyDataNames.removeOldTeams(scoreboard, KnightDuelRules.KNIGHT_TEAM, KnightDuelRules.TARGET_TEAM);
             for (String name : List.of(KnightDuelRules.KNIGHT_TEAM, KnightDuelRules.TARGET_TEAM)) {
                 Team team = scoreboard.getTeam(name);
                 if (team == null) {

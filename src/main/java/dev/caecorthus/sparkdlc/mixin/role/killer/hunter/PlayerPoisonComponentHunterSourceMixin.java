@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.role.killer.hunter;
 
+import dev.caecorthus.sparkdlc.legacy.LegacyDataNames;
 import dev.caecorthus.sparkdlc.role.killer.hunter.HunterPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.hunter.HunterTrapEntity;
 import dev.doctor4t.wathe.cca.PlayerPoisonComponent;
@@ -42,9 +43,9 @@ public abstract class PlayerPoisonComponentHunterSourceMixin {
         HunterPlayerComponent component = HunterPlayerComponent.KEY.get(player);
         component.onAcceptedPoisonApplication(source);
         if (HunterTrapEntity.POISON_SOURCE.equals(source)) {
-            UUID placerUuid = extra != null && extra.containsUuid(HunterTrapEntity.POISON_PLACER_NBT_KEY)
-                    ? extra.getUuid(HunterTrapEntity.POISON_PLACER_NBT_KEY)
-                    : null;
+            String placerKey = extra == null ? null
+                    : LegacyDataNames.keyIn(extra, HunterTrapEntity.POISON_PLACER_NBT_KEY);
+            UUID placerUuid = placerKey != null && extra.containsUuid(placerKey) ? extra.getUuid(placerKey) : null;
             component.setTrapPoisonAttribution(
                     placerUuid,
                     poisonerUuid,

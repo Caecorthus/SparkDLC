@@ -50,8 +50,11 @@ public final class AccountantRules {
      * (drop, pickup, death drop). The item is registered with {@code maxCount(1)}: a stack would share one value.
      * 存入的金币保存在物品的 {@code minecraft:custom_data} 的这个键下，随物品一起移动（丢出、拾取、死亡掉落）。物品以
      * {@code maxCount(1)} 注册：一叠物品会共享同一个数值。
+     * <p>Renamed from its former-mod name on 2026-11-20 (owner: "就数据可以改"); a stack saved with the old name is
+     * renamed on load (legacy.LegacyDataNames).
+     * 2026-11-20 起不再使用旧模组名（所有者：“就数据可以改”）；以旧名字保存的物品堆在载入时改名（legacy.LegacyDataNames）。</p>
      */
-    public static final String STORED_COINS_KEY = "sparkwitch:stored_coins";
+    public static final String STORED_COINS_KEY = "sparkdlc:stored_coins";
 
     // ---- Replay / 回放 ----
 

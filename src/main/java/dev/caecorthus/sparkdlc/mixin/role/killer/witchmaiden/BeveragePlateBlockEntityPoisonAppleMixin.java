@@ -108,7 +108,7 @@ public abstract class BeveragePlateBlockEntityPoisonAppleMixin implements Poison
                 && !decodedState.belongsTo(PoisonApplePlateService.activeMatchId());
         sparkdlc$poisonAppleState = rejectedStaleState ? null : decodedState;
         sparkdlc$clientPoisonAppleArmed = sparkdlc$poisonAppleState != null
-                || nbt.getBoolean(PoisonApplePlateNbt.ARMED_KEY);
+                || PoisonApplePlateNbt.readArmed(nbt);
         if (rejectedStaleState) {
             ((BlockEntity) (Object) this).markDirty();
         }

@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.trait;
 
+import dev.caecorthus.sparkdlc.legacy.LegacyDataNames;
 import dev.caecorthus.sparkdlc.trait.killer.conscience.BluePoisonMarkerSync;
 import dev.caecorthus.sparkdlc.trait.killer.conscience.ConsciencePoisonedPlate;
 import dev.doctor4t.wathe.block_entity.BeveragePlateBlockEntity;
@@ -17,8 +18,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BeveragePlateBlockEntity.class)
 public abstract class BeveragePlateBlockEntityMixin implements ConsciencePoisonedPlate {
+    /**
+     * Renamed from its former-mod name on 2026-11-20 (owner: "就数据可以改"); data saved under the old name is still
+     * read (current name first) and written back under this one (legacy.LegacyDataNames).
+     * 2026-11-20 起不再使用旧模组名（所有者：“就数据可以改”）；旧名字下保存的数据仍可读取（先读当前名字），并以本名字写回
+     * （legacy.LegacyDataNames）。
+     */
     @Unique
-    private static final String CONSCIENCE_POISONER_KEY = "sparktraitsConsciencePoisoner";
+    private static final String CONSCIENCE_POISONER_KEY = "sparkdlcConsciencePoisoner";
 
     @Unique
     private String sparkdlc$consciencePoisoner;
@@ -51,8 +58,9 @@ public abstract class BeveragePlateBlockEntityMixin implements ConsciencePoisone
             RegistryWrapper.WrapperLookup registryLookup,
             CallbackInfo ci
     ) {
-        sparkdlc$consciencePoisoner = nbt.contains(CONSCIENCE_POISONER_KEY)
-                ? nbt.getString(CONSCIENCE_POISONER_KEY)
+        String poisonerKey = LegacyDataNames.keyIn(nbt, CONSCIENCE_POISONER_KEY);
+        sparkdlc$consciencePoisoner = nbt.contains(poisonerKey)
+                ? nbt.getString(poisonerKey)
                 : null;
         // NBT applied to a live server block entity (train reset, /data) can change the blue layer without the
         // setter; during chunk loading the world is still null and the chunk-send path covers it.

@@ -196,7 +196,7 @@ Left alone / 不改写:
 | package or class path | `dev.caecorthus.sparkwitch.x`, `annina.sparkstrength`, `…/mixin/compat/sparkstrength/X.class` | pre-fusion and legacy packages are history / 融合前与旧包是历史 |
 | legacy mixin config name | `sparkassist.mixins.json` | the nine names are checked as "gone" / 用于检查九个旧配置已不存在 |
 | package fragment, system property | `sparktraits.impl`, `-Dsparkassist.decorDebug`, `sparktraits.debugCautiousSound` | not ids; developer switches keep their names / 不是 id；开发开关保留原名 |
-| CamelCase data key | `sparktraitsConscienceGas` | private NBT field name / 私有 NBT 字段名 |
+| CamelCase data key | `sparktraitsConscienceGas` | private NBT field name; renamed by hand on 2026-11-20 ("One name", saved-data names) / 私有 NBT 字段名；2026-11-20 手工改名 |
 | prose | "the sparkwitch module", `` `sparkwitch` `` in backticks | a sentence about a legacy mod stays readable / 关于旧模组的句子保持可读 |
 
 Resources: `assets/<ns>/**` and `data/<ns>/**` move to `sparkdlc` in the same source set (`git mv`); the namespace
@@ -241,7 +241,8 @@ Legacy names kept on purpose / 有意保留的旧名字：
   `legacy-ids.tsv`. 改名之前就有的旧数据过滤；原先的冤魂旧数据迁移已并入第二阶段 b 的存档迁移，成为对照表中的
   `legacy_role_alias` 与 `component_fallback` 行。
 - Private data field names (`private_data_name` rows of `legacy-ids.tsv`): NBT and item custom-data keys, a command
-  tag, two scoreboard team names. Renaming one would need its own migration. 私有数据字段名。
+  tag, two scoreboard team names. Renaming one needed its own migration; they were renamed on 2026-11-20 with one
+  (stage 3, "One name", saved-data names). 私有数据字段名；需要单独的迁移，已于 2026-11-20 连同迁移一起改名。
 - The three misspelt command aliases of SparkStrength (`sparkstength:voteTime`, `sparkStrength:detectiveCaseLimit`,
   `sparkStrength:tabletChatInterval`). SparkStrength 的三个拼写别名命令。
 - `tools/fusion/**`, `package-map.tsv`, `file-moves.tsv`, `move_packages.py`, `docs/*/DOWNSTREAM_MIGRATION_NOTES.md`,
@@ -291,8 +292,9 @@ the vanilla registry (`item`, `block`, `entity_type`, `sound_event`, `data_compo
 file whose keys are folded into another one, see "One name" below), `system_property` (`-D` developer switches),
 `mod_metadata_key`, `attribute_modifier`, `event_phase`, `action_id`, `role_change_cause`, `reload_listener`,
 `identifier` (other id constants), `lang_key` (only the keys that do not follow the plain rule), `command_alias` (the
-three misspelt roots of the role-kit commands, aliases of their current root since stage 3), and the rows whose name
-did NOT change: `private_data_name`, `retired_trait`. `legacy_role_alias` rows are the six older
+three misspelt roots of the role-kit commands, aliases of their current root since stage 3), `private_data_name`
+(NBT keys, item custom-data keys, a record field, an entity tag and scoreboard teams; renamed on 2026-11-20, see
+"One name"), and the rows whose name did NOT change: `retired_trait`. `legacy_role_alias` rows are the six older
 `sparktraits:<role>` ids of the Wraith family with the role's new id, and `component_fallback` rows are the two older
 `sparktraits:` keys of the Wraith components: both are a SECOND old name of something that also has a `role` /
 `component` row, and are read only after that row (`legacy.LegacySavedData`). Asset paths and the 4,100 lang keys that
@@ -303,7 +305,8 @@ dump of a running headless server taken before the rename; the same dump taken a
 mapped through this table (16,229 rows, no difference).
 
 改名前存在的每个 id 一行：`kind`、`old_id`、`new_id`、`note`。注册表种类以原版注册表命名，标签为 `tag/<注册表>`。名字没有变化的行
-（`private_data_name`、`retired_trait`）也在表中；`command_alias` 是职业套件命令的三个拼写别名（自第三阶段起为当前根节点的别名），
+（`retired_trait`）也在表中；`private_data_name` 是私有数据名（NBT 键、物品自定义数据键、记录字段、实体标签与计分板队伍，
+2026-11-20 改名，见“统一名字”）；`command_alias` 是职业套件命令的三个拼写别名（自第三阶段起为当前根节点的别名），
 `file_fold` 是键被并入另一个文件的文件，`system_property` 是 `-D` 开发开关。`legacy_role_alias` 与 `component_fallback` 行是同一职业、
 同一组件更早的第二个旧名字（冤魂系的 `sparktraits:` id 与组件键），读取时排在对应的 `role` / `component` 行之后。资源路径和仅替换命名空间段的约 4100 个语言键
 不逐条列出；文件见 `resource-moves.tsv`。注册表、标签、数据包、组件、职业、阵营、天赋、技能、回放格式化器和命令的行来自改名前
@@ -743,6 +746,7 @@ Partly scripted. What a player, an admin or a reader still saw of five mods. The
 | log lines "SparkWitch BEAR smoke ...", "the SparkFactionAPI match record", "SparkAssist guide decoration"; `toString` "SparkStrengthRoleSkillCooldownStore[...]", "SparkStrength deny ...", "SparkWitchEmmaGunListener" | the same lines without the former mod; `FunctionRoleSkillCooldownStore[...]`, `DenyActionPolicy[...]`, `EmmaGunListener` |
 | 18 item model `credit` strings and two shader headers naming a former mod as the current owner | the provenance in the past tense ("first made for SparkWitch"); licence lines unchanged |
 | 75 identifiers (`isSparkWitchRole`, `onSparkWitch*`, `SPARKWITCH_*_ID`, `SPARKWITCH$*`, `SPARKTRAITS_*`, `SparkWitchManaCompatibility`, ...) | what they mean (`isSkillRole`, `onRay`, `FIEND_ID`, `sparkdlc$PISTOL_RANGE`, `WitchMana`, ...): see the table |
+| 22 saved-data names carrying a former mod (`sparkwitch:stored_coins`, `SparkStrengthCapsule`, `sparktraitsConscienceGas`, `SparkWitchTrapPlacer`, `sparkwitch_duel_knight`, `sparkwitch_fisher_pufferfish`, ...) | `sparkdlc:…`, `SparkDlc…`, `sparkdlc…`, `sparkdlc_…` like their neighbours; the old names are the `private_data_name` rows, read through `legacy.LegacyDataNames` (2026-11-20, see "Saved-data names") |
 
 ### The settings fold / 设置并入
 
@@ -772,6 +776,38 @@ replaces did). It runs in `LegacyClientNames.carryOverFiles`, after `LegacyFiles
 `"carriedOverFrom"` 标记，带标记的目标不再被并入。旧文件绝不修改或删除。不是 JSON 对象的旧文件不带任何内容、记入日志并视为已并入；
 无法读取的旧文件或目标、损坏的目标保持不动，下次启动再试。
 
+### Saved-data names / 存档数据名
+
+Owner decision 2026-11-20: "就数据可以改" (the saved-data names may change). Every name the mod stores inside a world,
+a player, a stack, a block entity, an entity, a scoreboard or a match record that still carried a former mod's name
+is now a `sparkdlc` name; the 22 `private_data_name` rows of `legacy-ids.tsv` hold old name, new name and where it
+lives. Feature code names only the new name; the old one is reached only through `legacy.LegacyDataNames`, which
+reads the rows backwards. Read both (the new name first, then the old), write only the new.
+所有者决定（2026-11-20）：“就数据可以改”。本模组存放在世界、玩家、物品堆、方块实体、实体、计分板或对局记录里、仍带旧模组名的
+每个名字都改为 `sparkdlc` 名字；`legacy-ids.tsv` 的 22 行 `private_data_name` 记录旧名字、新名字和存放位置。功能代码只写新名字；
+旧名字只能经由反向读取这些行的 `legacy.LegacyDataNames` 访问。两个都读（先新后旧），只写新的。
+
+| Where / 位置 | Names (old → new) | How old data is still read, and cleaned up / 旧数据如何读取与清理 |
+| --- | --- | --- |
+| item `minecraft:custom_data` (top-level key) | `sparkwitch:stored_coins`, `sparkwitch:ragpicker_loot`, `sparkwitch:fiend_moment_crowbar`, `sparkwitch:poison_apple_drink` → `sparkdlc:…`; `sparkstrength_undercover_outfit` → `sparkdlc_undercover_outfit`; `SparkStrength{Capsule,EngineerCaptureReport,MorphReagent,CoronerTemporaryGrant}` → `SparkDlc…` | `mixin.legacy.NbtComponentLegacyDataNamesMixin`: every `NbtComponent` (save and network codecs, `of`, `apply`) renames old top-level keys on a copy (`LegacyDataNames.withCurrentKeys`; the new key wins), so the readers stay as they were and the stack carries the new name from its first load |
+| block entity NBT (Wathe platter, tray, bed) | `sparktraitsConscience{Poisoner,Scorpion,ScorpionPoisoner}` → `sparkdlcConscience…`; `sparkwitch:poison_apple`, `sparkwitch:poison_apple_armed` → `sparkdlc:…`; `SparkStrengthTimedBombOwner` → `SparkDlcTimedBombOwner` | the reader takes `LegacyDataNames.keyIn` (new key, else old key); `writeNbt` builds a fresh compound, so the next save has only the new key |
+| entity NBT | `SparkWitchDeathRole` → `SparkDlcDeathRole` (Wathe body), `sparktraitsConscienceGas` → `sparkdlcConscienceGas` (NoellesRoles gas cloud) | the same |
+| NBT inside the NoellesRoles voodoo component | `sparkwitch:judge_voodoo_actor` → `sparkdlc:judge_voodoo_actor` | the same; the sync packet still strips it |
+| poison extra NBT and `player_poisoned` record (one round, in memory) | `SparkWitchTrapPlacer` → `SparkDlcTrapPlacer` | the Hunter mixin and the achievement rule (`SparkKillerRules.trapPlacer`) read the new field, else the old |
+| scoreboard team (saved in `scoreboard.dat`) | `sparkwitch_duel_knight`, `sparkwitch_duel_target` → `sparkdlc_duel_…` | the duel team reset (server start, round start) also removes both old teams with their members (`LegacyDataNames.removeOldTeams`) |
+| entity command tag | `sparkwitch_fisher_pufferfish` → `sparkdlc_fisher_pufferfish` | `LegacyDataNames.containsEither`: a fish with either tag is discarded when it loads untracked and by the round and shutdown sweeps, as before |
+
+Client and server are always the same build (the handshake enforces it), so the two synced names (the platter's
+armed bit, the voodoo component) need no old name on the wire; the client reads them through the same readers.
+Proof: `legacy.LegacyDataNamesTest` (local: the rows, the read order, the copy, no old literal outside `legacy`) and
+the game test `LegacyDataNamesGameTest` (every row through the save codec, the packet codec and `NbtComponent.of`;
+the item readers on old stacks; a platter and a bed, a body, a gas cloud and the voodoo component read from old NBT
+and saved again; the real duel team reset and the real Fisher sweep on leftovers of an older world).
+The `KEEP` rows of these names in `namespace-overrides.tsv` and `namespace-keep.tsv` are inputs of the applied stage-2a
+phase and stay as its record.
+客户端与服务端总是同一版本（握手保证），因此两个同步的名字（餐盘的已布置标记、巫毒组件）在线上不需要旧名字。证明：本地单元测试
+`legacy.LegacyDataNamesTest` 与游戏测试 `LegacyDataNamesGameTest`。
+
 ### Rules / 规则
 
 - **An identifier is named for what it means**, never for the former mod that declared it; a mixin's static field
@@ -787,18 +823,11 @@ replaces did). It runs in `LegacyClientNames.carryOverFiles`, after `LegacyFiles
 
 - the public facades `faction.api.SparkFactionApi` and `trait.api.SparkTraitsApi`; `SparkDlcModule` (the `provides`
   catalogue) and everything in the `legacy` packages;
-- saved-data and wire names that carry an old name: NBT keys and item `CUSTOM_DATA` markers (`sparkwitch:stored_coins`,
-  `sparkwitch:poison_apple*`, `SparkStrengthCapsule`, `SparkStrengthEngineerCaptureReport`, `SparkStrengthMorphReagent`,
-  `sparktraitsConscience*`, `SparkWitchTrapPlacer`, `sparkstrength_undercover_outfit`,
-  `SparkStrengthCoronerTemporaryGrant`, `sparkwitch:ragpicker_loot`, `sparkwitch:fiend_moment_crowbar`,
-  `sparkwitch:poison_apple_drink`, `SparkWitchDeathRole`, `sparkwitch:judge_voodoo_actor`,
-  `SparkStrengthTimedBombOwner`), the entity tag `sparkwitch_fisher_pufferfish`, the scoreboard teams
-  `sparkwitch_duel_*`: they need read-both migration (owner decision);
 - the HTTP `User-Agent` `SparkFactionAPI/<version>` of `team.CaecorthusTeamSync` (external service, owner decision);
 - issue and PR references ("SparkWitch #195", "SparkStrength #135"), the licence notices and model provenance;
 - local test class names that name a former mod (only callers were renamed).
-- 公共门面 `SparkFactionApi` 与 `SparkTraitsApi`、`SparkDlcModule` 与 `legacy` 包中的一切；带旧名字的存档与网络名字（需要双读迁移，
-  由所有者决定）；`CaecorthusTeamSync` 的 HTTP `User-Agent`（外部服务，由所有者决定）；issue 与 PR 引用、许可声明与模型来源；
+- 公共门面 `SparkFactionApi` 与 `SparkTraitsApi`、`SparkDlcModule` 与 `legacy` 包中的一切；`CaecorthusTeamSync` 的 HTTP
+  `User-Agent`（外部服务，由所有者决定）；（带旧名字的存档数据名已于 2026-11-20 改名，见上文“存档数据名”）；issue 与 PR 引用、许可声明与模型来源；
   以旧模组命名的本地测试类名（只改了调用方）。
 
 `rename_identifiers.py plan` checks the table against the tree before `apply`; after the apply it reports every row

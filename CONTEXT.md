@@ -38,9 +38,10 @@ tests and the start-up / client audits in `src/gametest`. Packages under `dev.ca
   files, achievement statistics, key bindings, debug system properties, and the client settings, which now live in
   one file `config/sparkdlc.json` (older files are carried over once and kept as backups). Each old name is a row of
   `tools/unify/legacy-ids.tsv`. Resource packs and data packs written for the old namespaces are not translated.
-  Names that still carry an old mod name on purpose (some NBT keys and item markers inside saved worlds, scoreboard
-  team names, the HTTP `User-Agent` of the team sync, the public classes `SparkFactionApi` and `SparkTraitsApi`)
-  are listed in `tools/unify/README.md`.
+  The private names inside saved worlds (NBT keys, item custom-data markers, scoreboard teams, an entity tag) are
+  `sparkdlc` names since 2026-11-20; their old names are read through `legacy.LegacyDataNames`. Names that still
+  carry an old mod name on purpose (the HTTP `User-Agent` of the team sync, the public classes `SparkFactionApi` and
+  `SparkTraitsApi`) are listed in `tools/unify/README.md`.
 - **One entry, and its order is behaviour.** `SparkDLC#onInitialize` and `SparkDLCClient#onInitializeClient` are the
   whole start-up, written as an ordered list of named steps. Common side: faction and round services, role-kit
   content, the packet hub, role-kit gameplay, the version handshake, traits, the mod's own role content, roles and

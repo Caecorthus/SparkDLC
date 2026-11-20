@@ -39,7 +39,12 @@ import java.util.UUID;
  * 可投掷胶囊，内部保存一个食物或饮品并在命中玩家时强制食用。
  */
 public final class CapsuleItem extends Item {
-    private static final String ROOT_KEY = "SparkStrengthCapsule";
+    /**
+     * Renamed from its former-mod name on 2026-11-20 (owner: "就数据可以改"); a stack saved with the old name is
+     * renamed on load (legacy.LegacyDataNames).
+     * 2026-11-20 起不再使用旧模组名（所有者：“就数据可以改”）；以旧名字保存的物品堆在载入时改名（legacy.LegacyDataNames）。
+     */
+    private static final String ROOT_KEY = "SparkDlcCapsule";
     private static final String CONTAINED_ITEM_KEY = "ContainedItem";
     private static final String CONTAINED_NAME_KEY = "ContainedName";
     private static final String NORMAL_POISON_KEY = "NormalPoison";

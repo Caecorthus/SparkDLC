@@ -50,8 +50,13 @@ import net.minecraft.util.Identifier;
  * 熄灯时戴面具的速度 I，以及灯灭时缩短击杀冷却。仅限服务端线程。
  */
 public final class UndercoverService {
-    /** Marks the blackout outfit so only our own pieces are ever taken back. / 标记熄灯黑衣，只收回我们自己发的。 */
-    public static final String OUTFIT_MARKER = "sparkstrength_undercover_outfit";
+    /**
+     * Marks the blackout outfit so only our own pieces are ever taken back. Renamed from its former-mod name on
+     * 2026-11-20 (owner: "就数据可以改"); a stack saved with the old name is renamed on load (legacy.LegacyDataNames).
+     * 标记熄灯黑衣，只收回我们自己发的。2026-11-20 起不再使用旧模组名（所有者：“就数据可以改”）；以旧名字保存的物品堆在
+     * 载入时改名（legacy.LegacyDataNames）。
+     */
+    public static final String OUTFIT_MARKER = "sparkdlc_undercover_outfit";
     public static final int OUTFIT_COLOR = 0x1B1B1F;
     /** The Bell Ringer's echo skill id, vetoed on the Undercover. / 敲钟人回响的技能 id，对卧底否决。 */
     public static final Identifier BELL_ECHO_ACTION = Identifier.of("sparkdlc", "bell_echo");

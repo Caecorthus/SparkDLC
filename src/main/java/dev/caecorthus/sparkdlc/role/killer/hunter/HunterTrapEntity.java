@@ -37,7 +37,14 @@ import org.jetbrains.annotations.Nullable;
 public final class HunterTrapEntity extends Entity {
     public static final Identifier EVENT_TRIGGERED = SparkDLC.id("hunter_trap_triggered");
     public static final Identifier POISON_SOURCE = SparkDLC.id("trap");
-    public static final String POISON_PLACER_NBT_KEY = "SparkWitchTrapPlacer";
+    /**
+     * The trap owner in the poison extra NBT, and so in Wathe's {@code player_poisoned} record the achievement rules
+     * read. Renamed from its former-mod name on 2026-11-20 (owner: "就数据可以改"); neither is saved, and the readers
+     * still accept the old field (legacy.LegacyDataNames).
+     * 中毒附加 NBT 中的捕兽夹放置者，也因此出现在成就规则读取的 Wathe {@code player_poisoned} 记录中。2026-11-20 起不再使用
+     * 旧模组名（所有者：“就数据可以改”）；两者都不保存，读取方仍接受旧字段（legacy.LegacyDataNames）。
+     */
+    public static final String POISON_PLACER_NBT_KEY = "SparkDlcTrapPlacer";
     /**
      * Achievement record contract W16 (2026-10-14), read by the achievement rules: on {@link #EVENT_TRIGGERED}, true
      * when an active Bone Setting absorbed this trap's fracture. Every earlier field keeps its name and meaning.

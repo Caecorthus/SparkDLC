@@ -46,7 +46,12 @@ import java.util.UUID;
  * 这样所有职业校验和“只奖励一份”的边界条件集中维护，避免后续改某个入口时漏掉另一条入口。</p>
  */
 public final class MorphlingService {
-    private static final String ROOT_KEY = "SparkStrengthMorphReagent";
+    /**
+     * Renamed from its former-mod name on 2026-11-20 (owner: "就数据可以改"); a stack saved with the old name is
+     * renamed on load (legacy.LegacyDataNames).
+     * 2026-11-20 起不再使用旧模组名（所有者：“就数据可以改”）；以旧名字保存的物品堆在载入时改名（legacy.LegacyDataNames）。
+     */
+    private static final String ROOT_KEY = "SparkDlcMorphReagent";
     private static final String SAMPLE_UUID_KEY = "SampleUuid";
     private static final String SAMPLE_NAME_KEY = "SampleName";
     private static final Set<UUID> WAITING_FOR_REAGENT_RELEASE = new HashSet<>();

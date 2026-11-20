@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.achievement;
 
 import dev.caecorthus.sparkdlc.achievement.MatchTimeline.TickWindow;
+import dev.caecorthus.sparkdlc.legacy.LegacyDataNames;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -31,8 +32,11 @@ final class SparkKillerRules {
     static final String GUN_SHOT = "wathe:gun_shot";
     static final String HUNTER_TRAP_TRIGGERED = "sparkdlc:hunter_trap_triggered";
     static final String TRAP_POISON = "sparkdlc:trap";
-    /** The trap owner on a trap poisoning ({@code HunterTrapEntity.POISON_PLACER_NBT_KEY}). 捕兽夹中毒记录上的放置者。 */
-    static final String TRAP_PLACER = "SparkWitchTrapPlacer";
+    /**
+     * The trap owner on a trap poisoning ({@code HunterTrapEntity.POISON_PLACER_NBT_KEY}); its old field is still read
+     * ({@link #trapPlacer}). 捕兽夹中毒记录上的放置者；旧字段仍可读取。
+     */
+    static final String TRAP_PLACER = "SparkDlcTrapPlacer";
     static final String KNOCKOUT_DRUG = "sparkdlc:knockout_drug";
     static final String KIDNAPPER_RELEASE = "sparkdlc:kidnapper_release";
     static final String PLAYBACK_STARTED = "sparkdlc:magician_playback_started";
@@ -84,10 +88,10 @@ final class SparkKillerRules {
 
     /**
      * 联合狩猎: as the Hunter, a poison death whose latest poisoning was my trap ({@code source}
-     * {@code sparkdlc:trap}, {@code SparkWitchTrapPlacer} me) poisoned by someone else ({@code poisoner_uuid}; only
+     * {@code sparkdlc:trap}, {@code SparkDlcTrapPlacer} me) poisoned by someone else ({@code poisoner_uuid}; only
      * killer-faction roles can poison a trap). The kill is credited to the poisoner, not to me.
      * 以猎人身份，一起毒死，死者最近一次中毒来自我的捕兽夹（{@code source} 为 {@code sparkdlc:trap}，
-     * {@code SparkWitchTrapPlacer} 是我），而毒是别人淬的（{@code poisoner_uuid}；只有杀手阵营身份能给捕兽夹淬毒）。
+     * {@code SparkDlcTrapPlacer} 是我），而毒是别人淬的（{@code poisoner_uuid}；只有杀手阵营身份能给捕兽夹淬毒）。
      * 击杀记在淬毒者名下，不记在我名下。
      */
     static boolean teammatePoisonedTrap(AchievementContext context) {
@@ -103,12 +107,25 @@ final class SparkKillerRules {
                 MatchEvent poisoning = latestPoisoning.get(event.target());
                 UUID poisoner = poisoning == null ? null : poisoning.uuid("poisoner_uuid");
                 if (poisoning != null && TRAP_POISON.equals(poisoning.value("source"))
-                        && self.equals(poisoning.uuid(TRAP_PLACER)) && poisoner != null && !poisoner.equals(self)) {
+                        && self.equals(trapPlacer(poisoning)) && poisoner != null && !poisoner.equals(self)) {
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    /**
+     * The trap owner of a trap poisoning: the current field first, then the field's old name (2026-11-20, owner:
+     * "就数据可以改").
+     * 捕兽夹中毒的放置者：先读当前字段，再读该字段的旧名字（2026-11-20，所有者：“就数据可以改”）。
+     */
+    static UUID trapPlacer(MatchEvent poisoning) {
+        if (poisoning.has(TRAP_PLACER)) {
+            return poisoning.uuid(TRAP_PLACER);
+        }
+        String old = LegacyDataNames.oldName(TRAP_PLACER);
+        return old == null ? null : poisoning.uuid(old);
     }
 
     // ---- Kidnapper 绑架者 ----

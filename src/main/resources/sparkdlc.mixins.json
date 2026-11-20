@@ -331,6 +331,7 @@
     "role.civilian.vendetta.VendettaTerminalKillMixin",
     "legacy.AttributeContainerLegacyModifierIdsMixin",
     "legacy.ComponentContainerLegacyDataMixin",
+    "legacy.NbtComponentLegacyDataNamesMixin",
     "role.special.wraith.WraithGroundPickupMixin",
     "role.special.wraith.WraithGroundParticleMixin",
     "role.special.wraith.WraithJumpRestrictionMixin",

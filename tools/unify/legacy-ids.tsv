@@ -759,21 +759,28 @@ ponder_scene	sparkwitch_swordfish	sparkdlc_swordfish	in SparkRoleItemScenes.java
 ponder_scene	sparkwitch_time_stealer_gift_watch	sparkdlc_time_stealer_gift_watch	in SparkRoleItemScenes.java
 ponder_scene	sparkwitch_tofana_elixir	sparkdlc_tofana_elixir	in SparkRoleItemScenes.java
 ponder_scene	sparkwitch_usec_suppressor	sparkdlc_usec_suppressor	in SparkRoleItemScenes.java
-private_data_name	sparkstrength_undercover_outfit	sparkstrength_undercover_outfit	item custom-data marker: NOT renamed
-private_data_name	sparktraitsConscienceGas	sparktraitsConscienceGas	block-entity / entity NBT key: NOT renamed
-private_data_name	sparktraitsConsciencePoisoner	sparktraitsConsciencePoisoner	block-entity / entity NBT key: NOT renamed
-private_data_name	sparktraitsConscienceScorpion	sparktraitsConscienceScorpion	block-entity / entity NBT key: NOT renamed
-private_data_name	sparktraitsConscienceScorpionPoisoner	sparktraitsConscienceScorpionPoisoner	block-entity / entity NBT key: NOT renamed
-private_data_name	sparkwitch:fiend_moment_crowbar	sparkwitch:fiend_moment_crowbar	item custom-data key: NOT renamed
-private_data_name	sparkwitch:judge_voodoo_actor	sparkwitch:judge_voodoo_actor	NBT key inside the NoellesRoles voodoo component: NOT renamed
-private_data_name	sparkwitch:poison_apple	sparkwitch:poison_apple	block-entity NBT key PoisonApplePlateNbt.STATE_KEY (the ITEM sparkwitch:poison_apple is renamed): NOT renamed
-private_data_name	sparkwitch:poison_apple_armed	sparkwitch:poison_apple_armed	block-entity sync NBT key: NOT renamed
-private_data_name	sparkwitch:poison_apple_drink	sparkwitch:poison_apple_drink	item custom-data key: NOT renamed
-private_data_name	sparkwitch:ragpicker_loot	sparkwitch:ragpicker_loot	item custom-data marker JunkerLoot.MARKER (the COMPONENT key sparkwitch:ragpicker_loot is renamed): NOT renamed
-private_data_name	sparkwitch:stored_coins	sparkwitch:stored_coins	item custom-data key (Accountant passbook): NOT renamed
-private_data_name	sparkwitch_duel_knight	sparkwitch_duel_knight	scoreboard team name: NOT renamed
-private_data_name	sparkwitch_duel_target	sparkwitch_duel_target	scoreboard team name: NOT renamed
-private_data_name	sparkwitch_fisher_pufferfish	sparkwitch_fisher_pufferfish	entity command tag: NOT renamed
+private_data_name	SparkStrengthCapsule	SparkDlcCapsule	item custom-data compound of the Capsule (CapsuleItem.ROOT_KEY); renamed when the stack's custom data is built (mixin.legacy.NbtComponentLegacyDataNamesMixin); owner decision 2026-11-20
+private_data_name	SparkStrengthCoronerTemporaryGrant	SparkDlcCoronerTemporaryGrant	item custom-data compound of the Coroner's loaned gear (CoronerLoanedGear); renamed when the stack's custom data is built; owner decision 2026-11-20
+private_data_name	SparkStrengthEngineerCaptureReport	SparkDlcEngineerCaptureReport	item custom-data compound of the Engineer capture report (EngineerCaptureReport); renamed when the stack's custom data is built; owner decision 2026-11-20
+private_data_name	SparkStrengthMorphReagent	SparkDlcMorphReagent	item custom-data compound of the Morphling reagent sample (MorphlingService); renamed when the stack's custom data is built; owner decision 2026-11-20
+private_data_name	SparkStrengthTimedBombOwner	SparkDlcTimedBombOwner	block-entity NBT key of a planted timed bomb on a Wathe tray or bed (BomberTrapService.TRAP_OWNER_NBT_KEY); old key read when the current one is absent; owner decision 2026-11-20
+private_data_name	SparkWitchDeathRole	SparkDlcDeathRole	entity NBT key of the original role on a Wathe body (PlayerBodyEntityWraithRoleMixin); old key read when the current one is absent; owner decision 2026-11-20
+private_data_name	SparkWitchTrapPlacer	SparkDlcTrapPlacer	field of the poison extra NBT and of the player_poisoned match record of a Hunter trap (HunterTrapEntity.POISON_PLACER_NBT_KEY, achievement SparkKillerRules); in memory for one round, old field read when the current one is absent; owner decision 2026-11-20
+private_data_name	sparkstrength_undercover_outfit	sparkdlc_undercover_outfit	item custom-data marker of the Undercover outfit (UndercoverService.OUTFIT_MARKER); renamed when the stack's custom data is built; owner decision 2026-11-20
+private_data_name	sparktraitsConscienceGas	sparkdlcConscienceGas	entity NBT key of a Conscience Poisoner gas cloud (PoisonGasCloudEntityMixin); old key read when the current one is absent; owner decision 2026-11-20
+private_data_name	sparktraitsConsciencePoisoner	sparkdlcConsciencePoisoner	block-entity NBT key of a blue-poisoned Wathe platter (mixin.trait.BeveragePlateBlockEntityMixin); old key read when the current one is absent; owner decision 2026-11-20
+private_data_name	sparktraitsConscienceScorpion	sparkdlcConscienceScorpion	block-entity NBT key of a blue scorpion in a Wathe bed (TrimmedBedBlockEntityMixin); old key read when the current one is absent; owner decision 2026-11-20
+private_data_name	sparktraitsConscienceScorpionPoisoner	sparkdlcConscienceScorpionPoisoner	block-entity NBT key of the placer of a blue scorpion (TrimmedBedBlockEntityMixin); old key read when the current one is absent; owner decision 2026-11-20
+private_data_name	sparkwitch:fiend_moment_crowbar	sparkdlc:fiend_moment_crowbar	item custom-data marker of the Fiend Moment crowbar (FiendMomentCrowbar.MARKER_KEY); renamed when the stack's custom data is built; owner decision 2026-11-20
+private_data_name	sparkwitch:judge_voodoo_actor	sparkdlc:judge_voodoo_actor	NBT key inside the NoellesRoles voodoo component (JudgeVoodooPendingMixin); old key read when the current one is absent; owner decision 2026-11-20
+private_data_name	sparkwitch:poison_apple	sparkdlc:poison_apple	block-entity NBT key PoisonApplePlateNbt.STATE_KEY of a Wathe platter (the ITEM sparkdlc:poison_apple has its own item row); old key read when the current one is absent; owner decision 2026-11-20
+private_data_name	sparkwitch:poison_apple_armed	sparkdlc:poison_apple_armed	block-entity client-sync NBT key PoisonApplePlateNbt.ARMED_KEY; old key read when the current one is absent; owner decision 2026-11-20
+private_data_name	sparkwitch:poison_apple_drink	sparkdlc:poison_apple_drink	item custom-data marker of a Poison Apple drink (PoisonAppleDrinkMarker); renamed when the stack's custom data is built; owner decision 2026-11-20
+private_data_name	sparkwitch:ragpicker_loot	sparkdlc:ragpicker_loot	item custom-data marker JunkerLoot.MARKER (the COMPONENT sparkdlc:ragpicker_loot has its own component row); renamed when the stack's custom data is built; owner decision 2026-11-20
+private_data_name	sparkwitch:stored_coins	sparkdlc:stored_coins	item custom-data key of the Accountant passbook (AccountantRules.STORED_COINS_KEY); renamed when the stack's custom data is built; owner decision 2026-11-20
+private_data_name	sparkwitch_duel_knight	sparkdlc_duel_knight	scoreboard team of the Knight's duel (KnightDuelRules.KNIGHT_TEAM, saved in scoreboard.dat); the old team is removed whenever the duel teams are reset (server start, round start); owner decision 2026-11-20
+private_data_name	sparkwitch_duel_target	sparkdlc_duel_target	scoreboard team of the duel target (KnightDuelRules.TARGET_TEAM, saved in scoreboard.dat); the old team is removed whenever the duel teams are reset (server start, round start); owner decision 2026-11-20
+private_data_name	sparkwitch_fisher_pufferfish	sparkdlc_fisher_pufferfish	entity command tag of the Fisher's tray pufferfish (FisherPufferfishService.TAG); old tag still recognised, so the load-time orphan check and the round sweeps discard such fish as before; owner decision 2026-11-20
 reload_listener	sparkwitch:bear_smoke_renderer	sparkdlc:bear_smoke_renderer	RELOAD_LISTENER_ID
 reload_listener	sparkwitch:bear_smoke_shader_pack	sparkdlc:bear_smoke_shader_pack	RELOAD_LISTENER_ID
 reload_listener	sparkwitch:blind_echo_view	sparkdlc:blind_echo_view	RELOAD_LISTENER_ID

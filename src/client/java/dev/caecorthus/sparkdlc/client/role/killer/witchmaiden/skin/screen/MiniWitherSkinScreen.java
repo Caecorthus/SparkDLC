@@ -22,13 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Options → Skin Customization → Mini Wither Appearance (also opened by SparkAssist through
- * {@code api.client.MiniWitherSkinSettingsApi#createScreen}). Owner pick 2026-11-02: mockup A "暗夜面板", drawn with
+ * Options → Skin Customization → Mini Wither Appearance. Owner pick 2026-11-02: mockup A "暗夜面板", drawn with
  * this package's own flat widgets over the vanilla translucent background. Choosing a skin applies and saves at once;
  * the status pill, the stage and the sound buttons follow the manager live. The sound buttons play the slot's own event
  * at the listener, so they go through the skin's sound override exactly like the game. Local only: nothing here
  * reaches the server.
- * 「选项 → 皮肤自定义 → 小凋灵外观」（SparkAssist 也可通过 {@code api.client.MiniWitherSkinSettingsApi#createScreen} 打开）。
+ * 「选项 → 皮肤自定义 → 小凋灵外观」。
  * 所有者 2026-11-02 选定方案 A「暗夜面板」，在原版半透明背景上用本包自绘的扁平控件绘制。选择皮肤即立即应用并保存；状态胶囊、
  * 舞台与试听按钮都实时跟随管理器。试听按钮在听者处播放该槽位自己的声音事件，因此与游戏中一样经过皮肤的声音替换。仅本地生效：
  * 这里的任何内容都不会发送到服务器。

@@ -3,13 +3,18 @@ package dev.caecorthus.sparkdlc.legacy;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.tree.CommandNode;
 import com.mojang.brigadier.tree.LiteralCommandNode;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * Keeps the command names of the five former mods working ({@code /sparkwitch:setMana} for
- * {@code /sparkdlc:setMana}, ...): every row of kind {@code command} in the legacy table gets an alias root.
+ * {@code /sparkdlc:setMana}, ...): every row of kind {@code command} in the legacy table gets an alias root, and so
+ * does every row of kind {@code command_alias}, the three misspelt roots SparkStrength always registered beside its
+ * commands ({@code /sparkstength:voteTime}, {@code /sparkStrength:detectiveCaseLimit},
+ * {@code /sparkStrength:tabletChatInterval}).
  *
  * <p>An alias is a literal of its own that carries the current root's executor and requirement and shares the
  * current root's child nodes (the very same node objects). It is neither a Brigadier {@code redirect} nor a second
@@ -25,12 +30,12 @@ import org.slf4j.LoggerFactory;
  * argument-level requirements, same suggestion providers, one node set to maintain. Brigadier nodes hold no parent
  * pointer, so a node may sit under two parents (vanilla does the same through redirects).</p>
  *
- * <p>Call {@link #register(CommandDispatcher)} after the current commands are registered. The three misspelt
- * SparkStrength aliases are older than the rename, are registered by {@code RoleKitCommands} and are not
- * touched here.</p>
+ * <p>Call {@link #register(CommandDispatcher)} after the current commands are registered. Being aliases, the old
+ * names are hidden from tab completion on the client ({@code LegacyCommandSuggestions}) but keep running.</p>
  *
  * 让五个旧模组的命令名继续可用（{@code /sparkwitch:setMana} 等同于 {@code /sparkdlc:setMana} 等）：对照表中每一行
- * {@code command} 都会得到一个别名根节点。
+ * {@code command} 都会得到一个别名根节点；{@code command_alias} 行也是如此，即 SparkStrength 一直在其命令旁注册的三个拼写别名
+ * （{@code /sparkstength:voteTime}、{@code /sparkStrength:detectiveCaseLimit}、{@code /sparkStrength:tabletChatInterval}）。
  *
  * <p>别名是一个独立的字面量节点，带有当前根节点的执行器与权限要求，并与当前根节点共用子节点（同一批节点对象）。它既不是
  * Brigadier 的 {@code redirect}，也不是第二份命令树：</p>
@@ -42,23 +47,38 @@ import org.slf4j.LoggerFactory;
  * <p>共用子节点后，新旧名字在结构上就是同一条命令：同样的执行器、同样的参数级权限要求、同样的补全来源，只需维护一份节点。
  * Brigadier 节点没有父指针，同一节点可以挂在两个父节点下（原版的 redirect 也是如此）。</p>
  *
- * <p>在当前命令注册完之后调用 {@link #register(CommandDispatcher)}。SparkStrength 的三个拼写别名早于改名，由
- * {@code RoleKitCommands} 注册，这里不处理。</p>
+ * <p>在当前命令注册完之后调用 {@link #register(CommandDispatcher)}。作为别名，旧名字在客户端的 Tab 补全中被隐藏
+ * （{@code LegacyCommandSuggestions}），但仍可执行。</p>
  */
 public final class LegacyCommandAliases {
     private static final Logger LOGGER = LoggerFactory.getLogger("sparkdlc");
     private static final String KIND = "command";
+    /** The misspelt roots of the role-kit commands. / 职业套件命令的拼写别名。 */
+    private static final String MISSPELT_KIND = "command_alias";
+    private static final Map<String, String> NAMES = names(LegacyIds.renamed(KIND), LegacyIds.renamed(MISSPELT_KIND));
 
     private LegacyCommandAliases() {
     }
 
     /**
-     * Old root literal to current root literal, in table order. Command roots look like ids but are not
-     * {@code Identifier}s (they are camel case).
-     * 旧根字面量到当前根字面量的映射，保持表内顺序。命令根节点看起来像 id，但不是 {@code Identifier}（带驼峰大写）。
+     * Old root literal to current root literal: the {@code command} rows, then the {@code command_alias} rows, each
+     * in table order. Command roots look like ids but are not {@code Identifier}s (they are camel case). One current
+     * root may have two old names ({@code sparkstrength:voteTime} and {@code sparkstength:voteTime}).
+     * 旧根字面量到当前根字面量的映射：先是 {@code command} 行，再是 {@code command_alias} 行，各自保持表内顺序。命令根节点看起来
+     * 像 id，但不是 {@code Identifier}（带驼峰大写）。一个当前根节点可以有两个旧名字。
      */
     public static Map<String, String> names() {
-        return LegacyIds.renamed(KIND);
+        return NAMES;
+    }
+
+    static Map<String, String> names(Map<String, String> renamed, Map<String, String> misspelt) {
+        Map<String, String> names = new LinkedHashMap<>(renamed);
+        misspelt.forEach((old, current) -> {
+            if (names.putIfAbsent(old, current) != null) {
+                throw new IllegalStateException("legacy-ids.tsv: the command root " + old + " is listed twice");
+            }
+        });
+        return Collections.unmodifiableMap(names);
     }
 
     /**

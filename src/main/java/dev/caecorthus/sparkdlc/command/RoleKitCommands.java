@@ -47,15 +47,10 @@ public final class RoleKitCommands {
                                 context.getSource(),
                                 IntegerArgumentType.getInteger(context, "num")
                         ))));
-        // Keep the requested misspelled command as an alias beside the canonical name.
-        // 保留需求中写出的拼写作为别名，同时提供正确拼写。
+        // The misspelt older roots of these three are aliases of the legacy layer (LegacyCommandAliases).
+        // 这三条命令较早的拼写别名由兼容层作为别名提供（LegacyCommandAliases）。
         registerVoteTimeCommand(dispatcher, "sparkdlc:voteTime");
-        registerVoteTimeCommand(dispatcher, "sparkstength:voteTime");
-        // Brigadier literals are case-sensitive, so the camel-case namespace is registered as a separate alias.
-        // Brigadier 字面量区分大小写，因此驼峰写法的命名空间需单独注册为别名。
         registerDetectiveCaseLimitCommand(dispatcher, "sparkdlc:detectiveCaseLimit");
-        registerDetectiveCaseLimitCommand(dispatcher, "sparkStrength:detectiveCaseLimit");
-        registerTabletChatIntervalCommand(dispatcher, "sparkStrength:tabletChatInterval");
         registerTabletChatIntervalCommand(dispatcher, "sparkdlc:tabletChatInterval");
 
         registerPlayerStateCommand(dispatcher, "sparkdlc:setPlayerAlive", true);

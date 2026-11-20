@@ -12,6 +12,7 @@ import dev.caecorthus.sparkdlc.legacy.LegacyCommandIds;
 import dev.caecorthus.sparkdlc.legacy.LegacyIds;
 import dev.caecorthus.sparkdlc.legacy.LegacyPermissions;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillRegistry;
+import dev.caecorthus.sparkdlc.tablet.TabletWorldComponent;
 import dev.caecorthus.sparkdlc.trait.api.TraitRegistry;
 import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
 import io.netty.buffer.Unpooled;
@@ -57,10 +58,10 @@ import java.util.function.IntPredicate;
 public final class SparkDlcCommandTest implements FabricGameTest {
     /**
      * Every executable path of the mod's own roots, in registration order (the order the five mods registered in
-     * before the fusion): 44 current paths, {@code /replay}, and the three misspelt aliases the role-kit commands
-     * always had.
-     * 本模组自有根节点的全部可执行路径，按注册顺序排列（即融合前五个模组的注册顺序）：44 条当前路径、{@code /replay}，以及
-     * 职业套件命令一直保留的三个拼写别名。
+     * before the fusion): 44 current paths and {@code /replay}. The misspelt roots the role-kit commands always had
+     * are old names of the legacy layer since stage 3 ({@link #OLD_NAMES}).
+     * 本模组自有根节点的全部可执行路径，按注册顺序排列（即融合前五个模组的注册顺序）：44 条当前路径与 {@code /replay}。
+     * 职业套件命令一直保留的拼写别名自第三阶段起是兼容层的旧名字（{@link #OLD_NAMES}）。
      */
     private static final List<String> CURRENT_COMMANDS = List.of(
             "replay",
@@ -80,13 +81,8 @@ public final class SparkDlcCommandTest implements FabricGameTest {
             "sparkdlc:antifastround <enabled> <seconds>",
             "sparkdlc:emergencyMeetingChances <num>",
             "sparkdlc:voteTime <sec>",
-            "sparkstength:voteTime <sec>",
             "sparkdlc:detectiveCaseLimit",
             "sparkdlc:detectiveCaseLimit <num>",
-            "sparkStrength:detectiveCaseLimit",
-            "sparkStrength:detectiveCaseLimit <num>",
-            "sparkStrength:tabletChatInterval",
-            "sparkStrength:tabletChatInterval <sec>",
             "sparkdlc:tabletChatInterval",
             "sparkdlc:tabletChatInterval <sec>",
             "sparkdlc:setPlayerAlive <player>",
@@ -121,10 +117,11 @@ public final class SparkDlcCommandTest implements FabricGameTest {
             "wathe:gameSettings set roleDividend ghost <dividend>");
 
     /**
-     * Old command name to current name: the 28 roots of the five former mods, in the order the aliases are added.
-     * Must equal the {@code command} rows of {@code tools/unify/legacy-ids.tsv}.
-     * 旧命令名到当前命令名：五个旧模组的 28 个根节点，按别名添加顺序排列。必须与 {@code tools/unify/legacy-ids.tsv} 的
-     * {@code command} 行一致。
+     * Old command name to current name, in the order the aliases are added: the 28 roots of the five former mods
+     * (the {@code command} rows of {@code tools/unify/legacy-ids.tsv}), then the three misspelt roots the role-kit
+     * commands always had (the {@code command_alias} rows). A current root can have two old names.
+     * 旧命令名到当前命令名，按别名添加顺序排列：五个旧模组的 28 个根节点（{@code tools/unify/legacy-ids.tsv} 的
+     * {@code command} 行），然后是职业套件命令一直保留的三个拼写别名（{@code command_alias} 行）。一个当前根节点可以有两个旧名字。
      */
     private static final Map<String, String> OLD_NAMES = oldNames(
             "sparkfactionapi:addTask", "sparkfactionapi:antifastround", "sparkfactionapi:clearCooldown",
@@ -137,7 +134,8 @@ public final class SparkDlcCommandTest implements FabricGameTest {
             "sparktraits:traitSlotRollChance",
             "sparkwitch:forceAbility", "sparkwitch:forceAccompliceRole", "sparkwitch:forcePromotion",
             "sparkwitch:ghostChance", "sparkwitch:ghostMinRequirement", "sparkwitch:setMana",
-            "sparkwitch:thirdFactionMinRequirement", "sparkwitch:witchFactor");
+            "sparkwitch:thirdFactionMinRequirement", "sparkwitch:witchFactor",
+            "sparkStrength:detectiveCaseLimit", "sparkStrength:tabletChatInterval", "sparkstength:voteTime");
 
     /**
      * One input per shape of every current {@code sparkdlc:} command, parsed under both names. Selectors only have
@@ -191,9 +189,8 @@ public final class SparkDlcCommandTest implements FabricGameTest {
     private static final String ITEM_NODE = "sparkdlc.item.riftgateremover";
     /** Commands that never had a permission node: only the op level decides. / 从来没有权限节点的命令：只由 OP 等级决定。 */
     private static final List<String> COMMANDS_WITHOUT_A_NODE = List.of(
-            "sparkdlc:emergencyMeetingChances", "sparkdlc:voteTime", "sparkstength:voteTime",
-            "sparkdlc:detectiveCaseLimit", "sparkStrength:detectiveCaseLimit", "sparkdlc:tabletChatInterval",
-            "sparkStrength:tabletChatInterval", "sparkdlc:setPlayerAlive", "sparkdlc:setPlayerDead",
+            "sparkdlc:emergencyMeetingChances", "sparkdlc:voteTime", "sparkdlc:detectiveCaseLimit",
+            "sparkdlc:tabletChatInterval", "sparkdlc:setPlayerAlive", "sparkdlc:setPlayerDead",
             "sparkdlc:enableTrait", "sparkdlc:disableTrait", "sparkdlc:addTrait", "sparkdlc:removeTrait",
             "sparkdlc:clearTraits", "sparkdlc:listPlayerTraits");
 
@@ -265,7 +262,7 @@ public final class SparkDlcCommandTest implements FabricGameTest {
         MinecraftServer server = context.getWorld().getServer();
         CommandDispatcher<ServerCommandSource> dispatcher = server.getCommandManager().getDispatcher();
         ServerCommandSource source = server.getCommandSource();
-        Map<String, String> oldNameOf = new LinkedHashMap<>();
+        Map<String, List<String>> oldNamesOf = oldNamesOf();
         for (Map.Entry<String, String> name : LegacyCommandAliases.names().entrySet()) {
             CommandNode<ServerCommandSource> current = dispatcher.getRoot().getChild(name.getValue());
             CommandNode<ServerCommandSource> old = dispatcher.getRoot().getChild(name.getKey());
@@ -277,27 +274,28 @@ public final class SparkDlcCommandTest implements FabricGameTest {
                     || !sameNodes(List.copyOf(old.getChildren()), List.copyOf(current.getChildren()))) {
                 throw new GameTestException(name.getKey() + " is not the same command as " + name.getValue());
             }
-            oldNameOf.put(name.getValue(), name.getKey());
         }
         Set<String> sampled = new TreeSet<>();
         for (String input : SAMPLE_INPUTS) {
             String currentRoot = rootOf(input);
-            String oldRoot = oldNameOf.get(currentRoot);
-            if (oldRoot == null) {
+            List<String> oldRoots = oldNamesOf.get(currentRoot);
+            if (oldRoots == null) {
                 throw new GameTestException("sample of a command without an old name: " + input);
             }
             sampled.add(currentRoot);
             ParseResults<ServerCommandSource> current = parseFully(dispatcher, input, source);
-            ParseResults<ServerCommandSource> old =
-                    parseFully(dispatcher, oldRoot + input.substring(currentRoot.length()), source);
             List<CommandNode<ServerCommandSource>> currentNodes = nodes(current);
-            List<CommandNode<ServerCommandSource>> oldNodes = nodes(old);
-            if (old.getContext().getCommand() != current.getContext().getCommand()
-                    || !sameNodes(oldNodes.subList(1, oldNodes.size()), currentNodes.subList(1, currentNodes.size()))) {
-                throw new GameTestException("'" + input + "' does not parse to the same command under " + oldRoot);
+            for (String oldRoot : oldRoots) {
+                ParseResults<ServerCommandSource> old =
+                        parseFully(dispatcher, oldRoot + input.substring(currentRoot.length()), source);
+                List<CommandNode<ServerCommandSource>> oldNodes = nodes(old);
+                if (old.getContext().getCommand() != current.getContext().getCommand() || !sameNodes(
+                        oldNodes.subList(1, oldNodes.size()), currentNodes.subList(1, currentNodes.size()))) {
+                    throw new GameTestException("'" + input + "' does not parse to the same command under " + oldRoot);
+                }
             }
         }
-        if (!sampled.equals(new TreeSet<>(oldNameOf.keySet()))) {
+        if (!sampled.equals(new TreeSet<>(oldNamesOf.keySet()))) {
             throw new GameTestException("every renamed command needs a sample input; sampled " + sampled);
         }
         context.complete();
@@ -342,11 +340,12 @@ public final class SparkDlcCommandTest implements FabricGameTest {
                         + name.getValue());
             }
         }
+        Map<String, List<String>> oldNamesOf = oldNamesOf();
         for (String input : SAMPLE_INPUTS) {
             String currentRoot = rootOf(input);
-            String oldRoot = LegacyCommandAliases.names().entrySet().stream()
-                    .filter(name -> name.getValue().equals(currentRoot)).findFirst().orElseThrow().getKey();
-            for (String typed : List.of(input, oldRoot + input.substring(currentRoot.length()))) {
+            List<String> typedInputs = new ArrayList<>(List.of(input));
+            oldNamesOf.get(currentRoot).forEach(oldRoot -> typedInputs.add(oldRoot + input.substring(currentRoot.length())));
+            for (String typed : typedInputs) {
                 ParseResults<CommandSource> parse = client.parse(typed, source);
                 if (parse.getReader().canRead() || !parse.getExceptions().isEmpty()
                         || parse.getContext().getCommand() == null) {
@@ -369,11 +368,32 @@ public final class SparkDlcCommandTest implements FabricGameTest {
         ServerWorld world = context.getWorld();
         TraitWorldComponent traits = TraitWorldComponent.KEY.get(world);
         float chanceBefore = traits.getTraitSlotRollChance();
+        // The tablet commands set every world; each world gets its own values back. / 平板命令会设置所有世界；各世界恢复各自的值。
+        Map<ServerWorld, int[]> tabletBefore = new HashMap<>();
+        for (ServerWorld each : world.getServer().getWorlds()) {
+            TabletWorldComponent tablet = TabletWorldComponent.KEY.get(each);
+            tabletBefore.put(each, new int[]{tablet.chatIntervalTicks(), tablet.meetingDurationTicks()});
+        }
+        int voteSecondsBefore = Math.max(1, TabletWorldComponent.KEY.get(world).meetingDurationTicks() / 20);
         try {
             expectSameSingleAnswer(world, "sparkdlc:antifastround", "sparkfactionapi:antifastround");
             expectSameSingleAnswer(world, "sparkdlc:traitSlotRollChance", "sparktraits:traitSlotRollChance");
             expectSameSingleAnswer(world, "sparkdlc:detectiveCaseLimit", "sparkstrength:detectiveCaseLimit");
             expectSameSingleAnswer(world, "sparkdlc:witchFactor", "sparkwitch:witchFactor");
+            // The misspelt roots of the role-kit commands, moved into the legacy layer in stage 3: same answer, and a
+            // change made under the misspelt name is what the current name reads back.
+            // 第三阶段移入兼容层的职业套件命令拼写别名：应答相同，用拼写别名做出的修改能被当前名字读回。
+            expectSameSingleAnswer(world, "sparkdlc:detectiveCaseLimit", "sparkStrength:detectiveCaseLimit");
+            expectSameSingleAnswer(world, "sparkdlc:tabletChatInterval", "sparkStrength:tabletChatInterval");
+            expectSameSingleAnswer(world, "sparkdlc:voteTime " + voteSecondsBefore,
+                    "sparkstength:voteTime " + voteSecondsBefore);
+            List<String> interval = run(world, "sparkStrength:tabletChatInterval 2.5");
+            List<String> intervalBack = run(world, "sparkdlc:tabletChatInterval");
+            if (interval.size() != 1 || !interval.getFirst().contains("2.5") || intervalBack.size() != 1
+                    || !intervalBack.getFirst().contains("2.5")) {
+                throw new GameTestException("sparkStrength:tabletChatInterval 2.5 answered " + interval
+                        + ", then sparkdlc:tabletChatInterval answered " + intervalBack);
+            }
 
             List<String> set = run(world, "sparktraits:traitSlotRollChance 37");
             List<String> readBack = run(world, "sparkdlc:traitSlotRollChance");
@@ -385,6 +405,10 @@ public final class SparkDlcCommandTest implements FabricGameTest {
             expectSameSingleAnswer(world, "sparkdlc:traitSlotRollChance 12", "sparktraits:traitSlotRollChance 12");
         } finally {
             traits.setTraitSlotRollChance(chanceBefore);
+            tabletBefore.forEach((each, values) -> {
+                TabletWorldComponent.KEY.get(each).setChatIntervalTicks(values[0]);
+                TabletWorldComponent.KEY.get(each).setMeetingDurationTicks(values[1]);
+            });
         }
         context.complete();
     }
@@ -507,8 +531,7 @@ public final class SparkDlcCommandTest implements FabricGameTest {
         ServerWorld world = context.getWorld();
         CommandDispatcher<ServerCommandSource> dispatcher = world.getServer().getCommandManager().getDispatcher();
         registerProvider();
-        Map<String, String> oldNameOf = new HashMap<>();
-        LegacyCommandAliases.names().forEach((old, current) -> oldNameOf.put(current, old));
+        Map<String, List<String>> oldNamesOf = oldNamesOf();
         Set<String> renamedNodes = new TreeSet<>(LegacyIds.renamed("permission").values());
         Set<String> pinnedNodes = new TreeSet<>(NODE_COMMANDS.keySet());
         pinnedNodes.add(ITEM_NODE);
@@ -525,7 +548,9 @@ public final class SparkDlcCommandTest implements FabricGameTest {
                 List<Check> checks = new ArrayList<>();
                 checks.add(new Check(node, level -> LegacyPermissions.check(probe(world, level), node, 2)));
                 for (String command : NODE_COMMANDS.getOrDefault(node, List.of())) {
-                    for (String name : List.of(command, oldNameOf.get(command))) {
+                    List<String> names = new ArrayList<>(List.of(command));
+                    names.addAll(oldNamesOf.getOrDefault(command, List.of()));
+                    for (String name : names) {
                         CommandNode<ServerCommandSource> root = dispatcher.getRoot().getChild(name);
                         checks.add(new Check(name, level -> root.canUse(probe(world, level))));
                     }
@@ -546,8 +571,9 @@ public final class SparkDlcCommandTest implements FabricGameTest {
                 }
             }
             for (String command : COMMANDS_WITHOUT_A_NODE) {
-                String oldName = oldNameOf.get(command);
-                for (String name : oldName == null ? List.of(command) : List.of(command, oldName)) {
+                List<String> names = new ArrayList<>(List.of(command));
+                names.addAll(oldNamesOf.getOrDefault(command, List.of()));
+                for (String name : names) {
                     CommandNode<ServerCommandSource> root = dispatcher.getRoot().getChild(name);
                     Check check = new Check(name, level -> root.canUse(probe(world, level)));
                     providerDefault = TriState.TRUE;
@@ -693,6 +719,14 @@ public final class SparkDlcCommandTest implements FabricGameTest {
     private static String rootOf(String command) {
         int space = command.indexOf(' ');
         return space < 0 ? command : command.substring(0, space);
+    }
+
+    /** Current root to its old names, in alias order. / 当前根节点到它的旧名字，按别名顺序。 */
+    private static Map<String, List<String>> oldNamesOf() {
+        Map<String, List<String>> oldNamesOf = new LinkedHashMap<>();
+        LegacyCommandAliases.names().forEach((old, current) ->
+                oldNamesOf.computeIfAbsent(current, root -> new ArrayList<>()).add(old));
+        return oldNamesOf;
     }
 
     private static Map<String, String> oldNames(String... oldNames) {

@@ -82,9 +82,9 @@ command	sparkwitch:ghostMinRequirement	sparkdlc:ghostMinRequirement
 command	sparkwitch:setMana	sparkdlc:setMana	
 command	sparkwitch:thirdFactionMinRequirement	sparkdlc:thirdFactionMinRequirement	
 command	sparkwitch:witchFactor	sparkdlc:witchFactor	
-command_alias	sparkStrength:detectiveCaseLimit	sparkStrength:detectiveCaseLimit	existing misspelt alias of the sparkdlc:detectiveCaseLimit command: literal unchanged
-command_alias	sparkStrength:tabletChatInterval	sparkStrength:tabletChatInterval	existing misspelt alias of the sparkdlc:tabletChatInterval command: literal unchanged
-command_alias	sparkstength:voteTime	sparkstength:voteTime	existing misspelt alias of the sparkdlc:voteTime command: literal unchanged
+command_alias	sparkStrength:detectiveCaseLimit	sparkdlc:detectiveCaseLimit	misspelt root SparkStrength always registered beside its command; an alias of the legacy layer since stage 3 (LegacyCommandAliases), hidden from suggestions
+command_alias	sparkStrength:tabletChatInterval	sparkdlc:tabletChatInterval	misspelt root SparkStrength always registered beside its command; an alias of the legacy layer since stage 3 (LegacyCommandAliases), hidden from suggestions
+command_alias	sparkstength:voteTime	sparkdlc:voteTime	misspelt root SparkStrength always registered beside its command; an alias of the legacy layer since stage 3 (LegacyCommandAliases), hidden from suggestions
 component	sparkfactionapi:anti_fast_round	sparkdlc:anti_fast_round	
 component	sparkfactionapi:map_reset	sparkdlc:map_reset	
 component	sparkfactionapi:round_end	sparkdlc:round_end	

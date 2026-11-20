@@ -135,13 +135,12 @@ public final class SparkDlcBootTest implements FabricGameTest {
         FactionCatalog.getCustomFactions().forEach(faction -> see.accept("faction", faction.id()));
         TraitRegistry.values().forEach(trait -> see.accept("trait", trait.id()));
         WitchSkillRegistry.values().forEach(skill -> see.accept("skill", skill.id()));
-        // Command roots are `namespace:camelCaseName`, which is not a valid Identifier. The three misspelt aliases
-        // the role-kit commands always had (`sparkstength:voteTime`, `sparkStrength:detectiveCaseLimit`,
-        // `sparkStrength:tabletChatInterval`) are no legacy namespace and stay as they are. The old command names
-        // of the legacy table are in a legacy namespace on purpose: they are the aliases the compatibility layer
-        // adds (SparkDlcCommandTest pins them); any other root in a legacy namespace is a leftover.
-        // 命令根节点形如 `namespace:camelCaseName`，不是合法的 Identifier。职业套件命令一直保留的三个拼写别名不属于旧命名空间，保持原样。
-        // 对照表中的旧命令名有意位于旧命名空间：它们是兼容层添加的别名（由 SparkDlcCommandTest 固定）；旧命名空间里的其他根节点才是遗漏。
+        // Command roots are `namespace:camelCaseName`, which is not a valid Identifier. The old command names of the
+        // legacy table (with the three misspelt roots the role-kit commands always had) are there on purpose: they
+        // are the aliases the compatibility layer adds (SparkDlcCommandTest pins them); any other root in a legacy
+        // namespace is a leftover.
+        // 命令根节点形如 `namespace:camelCaseName`，不是合法的 Identifier。对照表中的旧命令名（包括职业套件命令一直保留的三个
+        // 拼写别名）有意存在：它们是兼容层添加的别名（由 SparkDlcCommandTest 固定）；旧命名空间里的其他根节点才是遗漏。
         Set<String> commandAliases = LegacyCommandAliases.names().keySet();
         context.getWorld().getServer().getCommandManager().getDispatcher().getRoot().getChildren().forEach(node -> {
             int colon = node.getName().indexOf(':');

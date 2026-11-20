@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.professor;
 
 import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumTargetComponent;
 import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumUserComponent;
+import dev.caecorthus.sparkdlc.faction.target.PlayerAffectMixinGuard;
 import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -20,6 +21,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.entity.projectile.ProjectileUtil;
@@ -36,10 +38,26 @@ import java.util.UUID;
  * 这样“只有存活教授能用”“目标必须存活”“回放事件怎么写”等规则只维护一份。</p>
  */
 public final class ProfessorSerumService {
+    /**
+     * Player-affect action id of a serum feed. Every feed entry asks the guard with it first, so local and remote
+     * feeds at a protected target end before serum inventory is consumed.
+     * 喂药的玩家影响行为 id。每个喂药入口都先以它询问守卫，因此对受保护目标的近程与远程喂药都在消耗血清物品之前结束。
+     */
+    private static final Identifier SERUM_ACTION = Identifier.of("sparkdlc", "professor_serum");
+
     private ProfessorSerumService() {
     }
 
     public static boolean useHeldSerum(ServerPlayerEntity professor, ItemStack stack, ProfessorSerumType type) {
+        // Asked for the player the feed would reach: the authoritative local-target resolver below, else the Professor.
+        // 针对这次喂药会到达的玩家询问：下方权威的近程目标解析结果，否则为教授本人。
+        ServerPlayerEntity guardedTarget = findLookedAtTarget(professor);
+        if (guardedTarget == null) {
+            guardedTarget = professor;
+        }
+        if (!PlayerAffectMixinGuard.allows(professor, guardedTarget, SERUM_ACTION)) {
+            return false;
+        }
         if (!canUseSerum(professor)) {
             return false;
         }
@@ -62,6 +80,9 @@ public final class ProfessorSerumService {
             ItemStack stack,
             ProfessorSerumType type
     ) {
+        if (!PlayerAffectMixinGuard.allows(professor, target, SERUM_ACTION)) {
+            return false;
+        }
         if (!canUseSerum(professor) || !isValidFeedTarget(target)) {
             return false;
         }
@@ -82,6 +103,12 @@ public final class ProfessorSerumService {
     }
 
     public static void tryRemoteFeed(ServerPlayerEntity professor, UUID targetUuid, ProfessorSerumType type) {
+        // Before the cooldown check and the failure cooldown: a protected online target costs nothing.
+        // 在冷却检查与失败冷却之前：受保护的在线目标不产生任何代价。
+        ServerPlayerEntity guardedTarget = PlayerAffectMixinGuard.onlineTarget(professor, targetUuid);
+        if (guardedTarget != null && !PlayerAffectMixinGuard.allows(professor, guardedTarget, SERUM_ACTION)) {
+            return;
+        }
         if (targetUuid == null || type == null) {
             return;
         }

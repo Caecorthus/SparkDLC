@@ -12,19 +12,16 @@ import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.Identifier;
 
 /**
- * Reads factions from SparkFactionAPI's public API, so witch and other custom factions are named correctly. The
- * modules are fused in SparkDLC, so these are direct calls (they used to be reflective and fell back per call when
- * SparkFactionAPI was absent or a call failed). When the API has no faction for a player or role, falls back to
- * Wathe's own faction of the role, named by {@link Factions#fromWatheName} ({@code wathe:civilian}, and
- * {@code sparkdlc:witch} / {@code sparkdlc:jiahao} for the native custom constants SparkFactionAPI appends to
- * Wathe's enum).
- * 通过 SparkFactionAPI 的公开 API 读取阵营，使魔女等自定义阵营得到正确的 id。各模块已融合进 SparkDLC，因此这里是直接调用
- * （原先是反射调用，SparkFactionAPI 不在或单次调用失败时按次回退）。API 对某个玩家或身份没有阵营时，回退到 Wathe 给该身份的
- * 阵营，由 {@link Factions#fromWatheName} 命名（{@code wathe:civilian} 等；SparkFactionAPI 追加到 Wathe 枚举的原生自定义
- * 常量为 {@code sparkdlc:witch} / {@code sparkdlc:jiahao}）。
+ * The faction ids achievements are counted under, read from the faction contract so witch and other custom factions
+ * are named correctly. When the contract has no faction for a player or role, falls back to Wathe's own faction of
+ * the role, named by {@link Factions#fromWatheName} ({@code wathe:civilian}, and {@code sparkdlc:witch} /
+ * {@code sparkdlc:jiahao} for the native custom constants appended to Wathe's enum).
+ * 成就统计所用的阵营 id，取自阵营契约，使魔女等自定义阵营得到正确的 id。契约对某个玩家或身份没有阵营时，回退到 Wathe 给该
+ * 身份的阵营，由 {@link Factions#fromWatheName} 命名（{@code wathe:civilian} 等；追加到 Wathe 枚举的原生自定义常量为
+ * {@code sparkdlc:witch} / {@code sparkdlc:jiahao}）。
  */
-final class SparkFactionAchievementBridge {
-    private SparkFactionAchievementBridge() {
+final class AchievementFactions {
+    private AchievementFactions() {
     }
 
     /** The player's current faction id, or null without a role. 玩家当前的阵营 id，没有角色时为 null。 */

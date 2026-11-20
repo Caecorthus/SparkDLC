@@ -76,7 +76,7 @@ public final class AchievementClientState {
         }
         if (!TRACKER.active()) {
             TRACKER.start(player.getUuid());
-            recordAtStart = MatchRecordBridge.latest();
+            recordAtStart = MatchRecordReader.latest();
             traits = Set.of();
             traitPollCountdown = 0;
         }
@@ -105,7 +105,7 @@ public final class AchievementClientState {
                 worldTime,
                 status == GameWorldComponent.GameStatus.STOPPING,
                 role == null ? null : role.identifier().toString(),
-                SparkFactionAchievementBridge.faction(player, game, role),
+                AchievementFactions.faction(player, game, role),
                 dead,
                 game.getAllAlivePlayers().size(),
                 game.getAllPlayers().size(),
@@ -200,7 +200,7 @@ public final class AchievementClientState {
             // Wathe 的结算里没有我们（例如分配角色后才加入）：这不是我们的对局。
             return;
         }
-        MatchTimeline timeline = MatchTimeline.of(outcome.events(), SparkFactionAchievementBridge::baseFaction);
+        MatchTimeline timeline = MatchTimeline.of(outcome.events(), AchievementFactions::baseFaction);
         AchievementLedger ledger = AchievementStorage.ledger(client);
         AchievementLedger.Place place = place(client);
         try {
@@ -251,13 +251,13 @@ public final class AchievementClientState {
         boolean won = winStatus == GameFunctions.WinStatus.LOOSE_END
                 ? self.equals(game.getLooseEndWinner())
                 : roundEnd.didWin(self);
-        String customFaction = SparkFactionAchievementBridge.customWinningFaction(scoreboard);
-        Object record = MatchRecordBridge.latest();
+        String customFaction = AchievementFactions.customWinningFaction(scoreboard);
+        Object record = MatchRecordReader.latest();
         return new RoundOutcome(
                 winStatus.name(),
                 won,
                 customFaction != null ? customFaction : RoundOutcome.defaultWinningFaction(winStatus.name()),
                 participants,
-                record != recordAtStart ? MatchRecordBridge.events(record) : List.of());
+                record != recordAtStart ? MatchRecordReader.events(record) : List.of());
     }
 }

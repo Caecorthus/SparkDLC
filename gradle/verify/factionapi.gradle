@@ -28,12 +28,12 @@ def factionApiLocalDocs = "docs/local/factionapi"
 def remappedModJar = tasks.named("remapJar")
 // Legacy mod ids the factionapi module relies on at runtime; the fused mod answers them through `provides`.
 // `sparkfactionapi` was this module's own mod id: VersionProtocol#localVersion and CaecorthusTeamSync read its mod
-// container. `sparkassist` owns the GuidebookDecorApi that GuideDecorBridge reaches by name; the bridge no longer
-// gates on isModLoaded("sparkassist") (the modules are fused and assist is always present), but the id must stay
+// container. `sparkassist` owned the GuidebookDecorApi the info card used to reach by name; that is a compiled call
+// now (GuidebookCardDecor), with no isModLoaded("sparkassist") gate and no lookup, but the id must stay
 // provided and must never come back as a dependency on this mod itself, so the check below still covers it.
 // factionapi 模块运行时依赖的旧 mod id；融合后的 mod 通过 `provides` 满足这些查找。`sparkfactionapi` 原是本模块自己的
-// mod id：VersionProtocol#localVersion 与 CaecorthusTeamSync 读取它的 mod 容器。`sparkassist` 拥有 GuideDecorBridge 按名称
-// 访问的 GuidebookDecorApi；该桥不再以 isModLoaded("sparkassist") 为前提（各模块已融合，assist 始终存在），但这个 id 仍须由
+// mod id：VersionProtocol#localVersion 与 CaecorthusTeamSync 读取它的 mod 容器。`sparkassist` 原先拥有信息卡按名称访问的
+// GuidebookDecorApi；如今是编译期调用（GuidebookCardDecor），既不以 isModLoaded("sparkassist") 为前提也不再查找，但这个 id 仍须由
 // `provides` 提供，且不得再作为针对本 mod 自身的依赖出现，因此下方的检查继续覆盖它。
 def factionApiProvidedModIds = ["sparkfactionapi", "sparkassist"]
 
@@ -278,7 +278,7 @@ def verifyFactionApiModJar = tasks.register("verifyFactionApiModJar") {
                     "dev/caecorthus/sparkdlc/client/gui/card/InventoryCardPaint.class",
                     "dev/caecorthus/sparkdlc/client/gui/card/InventoryInfoCard.class",
                     "dev/caecorthus/sparkdlc/client/gui/card/InventoryInfoCard\$Decor.class",
-                    "dev/caecorthus/sparkdlc/client/gui/card/GuideDecorBridge.class",
+                    "dev/caecorthus/sparkdlc/client/guidebook/ui/decor/GuidebookCardDecor.class",
                     "dev/caecorthus/sparkdlc/faction/api/FactionCategory.class",
                     "dev/caecorthus/sparkdlc/faction/api/ThirdFactionLineup.class",
                     "dev/caecorthus/sparkdlc/faction/api/ThirdFactionDrawContext.class",
@@ -471,7 +471,7 @@ def architectureContractFiles = [
         "src/client/java/dev/caecorthus/sparkdlc/client/gui/card/InventoryCardLayout.java",
         "src/client/java/dev/caecorthus/sparkdlc/client/gui/card/InventoryCardPaint.java",
         "src/client/java/dev/caecorthus/sparkdlc/client/gui/card/InventoryInfoCard.java",
-        "src/client/java/dev/caecorthus/sparkdlc/client/gui/card/GuideDecorBridge.java",
+        "src/client/java/dev/caecorthus/sparkdlc/client/guidebook/ui/decor/GuidebookCardDecor.java",
         "src/test/java/dev/caecorthus/sparkdlc/client/gui/card/InventoryCardLayoutTest.java",
         "src/test/java/dev/caecorthus/sparkdlc/client/gui/card/InventoryCardFallbackTest.java",
         "src/test/java/dev/caecorthus/sparkdlc/client/gui/card/InventoryCardMetricsTest.java",

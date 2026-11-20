@@ -112,9 +112,9 @@ A value fixed when a round starts that picks this round's decoration variants (s
 is kept after the round ends so the lobby and title screen show the last round's look.
 _Avoid_: world seed, random
 
-**Card decoration bridge**:
-SparkWitch's and SparkTraits' reflective call into SparkAssist's public `GuidebookDecorApi` at two points of
-their card draw; a no-op without SparkAssist.
+**Card decoration**:
+The role card's and the trait card's call into the guidebook's `GuidebookDecorApi` (each through its own
+`GuidebookCardDecor`) at two points of their card draw; a failure disables that card's decoration for the session.
 _Avoid_: dependency, mixin
 
 **Hidden achievement**:

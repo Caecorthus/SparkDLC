@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.gui;
 
-import dev.caecorthus.sparkdlc.client.gui.card.GuideDecorBridge;
+import dev.caecorthus.sparkdlc.client.guidebook.ui.decor.GuidebookCardDecor;
 import dev.caecorthus.sparkdlc.client.gui.card.InventoryCardPaint;
 import dev.caecorthus.sparkdlc.client.gui.card.InventoryInfoCard;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
@@ -66,7 +66,7 @@ public final class OwnerInventoryPresenter {
     private static final class Card {
         private static final InventoryInfoCard INSTANCE = new InventoryInfoCard("gui.sparkdlc.inventory.more",
                 () -> LimitedInventoryRows.isSecondRowShown() ? 22 : 0,
-                KillerTeamEconomyClientHooks::topRightHudBottom, new GuideDecorBridge("SparkWitch/GuideDecor"));
+                KillerTeamEconomyClientHooks::topRightHudBottom, new GuidebookCardDecor("SparkWitch/GuideDecor"));
     }
     private static final InventoryRenderScope<Frame> CALLS = new InventoryRenderScope<>();
     // The V1 handshake calls the trait contract directly through these two method references.

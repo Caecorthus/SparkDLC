@@ -64,10 +64,12 @@ import java.util.UUID;
  * <p>Entry points (callers): Wathe bat (left-click callback, {@link DroneWeaponHits#PHASE}), Wathe revolver/derringer,
  * knife stab, NoellesRoles Demon Hunter pistol and throwing axe, SparkWitch shuriken (the drone mixins), Wathe grenade /
  * M67 / bomb drone blasts, Serial Killer pistols, Undercover tomahawk, SparkWitch kunai ({@code DroneWeaponHits}),
- * NoellesRoles timed bomb, poison needle and poison gas, SparkWitch seams (own mixins).
+ * NoellesRoles timed bomb, poison needle and poison gas (own mixins), SparkWitch seams (called by
+ * {@code SeekerDeviceHits} and {@code MagicianPuppetHits} at the head of their entries).
  * 入口（调用方）：Wathe 球棒（左键回调，PHASE 阶段）、Wathe 左轮/德林加、刀刺、NoellesRoles 猎魔枪与飞斧、SparkWitch 手里剑
  * （无人机 mixin）、Wathe 手雷 / M67 / 炸弹无人机爆炸、连环杀手手枪、卧底战术斧、SparkWitch 苦无（DroneWeaponHits）、
- * NoellesRoles 定时炸弹、毒针与毒气、SparkWitch 接缝（各自的 mixin）。</p>
+ * NoellesRoles 定时炸弹、毒针与毒气（各自的 mixin）、SparkWitch 接缝（由 {@code SeekerDeviceHits} 与
+ * {@code MagicianPuppetHits} 在其入口开头调用）。</p>
  */
 public final class PartygoerWeaponHits {
     /**
@@ -448,7 +450,7 @@ public final class PartygoerWeaponHits {
         return false;
     }
 
-    // ---- SparkWitch seams (via @Pseudo mixins) / SparkWitch 接缝（经 @Pseudo mixin） ----
+    // ---- SparkWitch seams (called by its hit hubs) / SparkWitch 接缝（由其命中枢纽调用） ----
 
     /**
      * Hunter shotgun ({@code SeekerDeviceHits.onShotgunFired}): a Partygoer strictly nearer than the target and any drone

@@ -7,7 +7,7 @@ import dev.caecorthus.sparkdlc.role.civilian.usec.UsecFeatureService;
 import dev.caecorthus.sparkdlc.role.witch.potiongunner.PotionGunnerFeatureService;
 import dev.caecorthus.sparkdlc.role.civilian.emma.EmmaGunService;
 import dev.caecorthus.sparkdlc.role.civilian.emma.EmmaLifecycle;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsWraithBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.component.PerfumerPlayerComponent;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.component.WitchWorldComponent;
@@ -409,7 +409,7 @@ public final class SparkWitchEvents {
                 if (WraithStateService.isActive(serverPlayer)) {
                     // SparkTraits observes active Wraith state while dispatching terminal trait removals.
                     // SparkTraits 分发终局天赋移除事件时必须仍能观察到激活的冤魂状态。
-                    SparkTraitsWraithBridge.clear(serverPlayer, true);
+                    SparkTraitsApi.clearWraithTraits(serverPlayer, true);
                 }
                 WraithLifecycle.clearPlayer(serverPlayer);
             }

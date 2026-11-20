@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.special.wraith.conversion;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsWraithBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.component.WitchWorldComponent;
 import dev.caecorthus.sparkdlc.component.WraithPlayerComponent;
 import dev.caecorthus.sparkdlc.component.WraithRoundComponent;
@@ -87,9 +87,9 @@ public final class WraithConversion {
                 role.identifier(),
                 role.getFaction(),
                 WraithProgression.capture(victim),
-                SparkTraitsWraithBridge.capture(victim),
+                SparkTraitsApi.captureWraithTraitSnapshot(victim),
                 alignment,
-                SparkTraitsWraithBridge.hasLastStandTriggered(victim.getServerWorld(), uuid),
+                SparkTraitsApi.hasLastStandTriggeredThisRound(victim.getServerWorld(), uuid),
                 creditedKillerUuid,
                 (int) victim.getServerWorld().getTime()
         ));
@@ -148,7 +148,10 @@ public final class WraithConversion {
             Identifier deathReason,
             WraithDeathSnapshot snapshot
     ) {
-        if (SparkTraitsWraithBridge.didLastStandTriggerSince(victim, snapshot.lastStandTriggeredBefore())) {
+        // A Last Stand that fired after the death was captured owns this death: no conversion.
+        // 在死亡被捕获之后才触发的背水一战接管了这次死亡：不进行转化。
+        if (WraithRules.didLastStandTrigger(snapshot.lastStandTriggeredBefore(),
+                SparkTraitsApi.hasLastStandTriggeredThisRound(victim.getServerWorld(), victim.getUuid()))) {
             return false;
         }
         WraithPlayerComponent wraith = WraithPlayerComponent.KEY.get(victim);
@@ -178,7 +181,7 @@ public final class WraithConversion {
             // Wathe 不为坠车留尸体，因此房间转化也绝不生成尸体。
             ensureDeathBody(victim, deathReason, snapshot.deathGameTime(), snapshot.originalRoleId());
         }
-        SparkTraitsWraithBridge.restore(victim, snapshot.traitSnapshot());
+        SparkTraitsApi.restoreWraithTraitSnapshot(victim, snapshot.traitSnapshot());
         VendettaLifecycleService.captureCreditedKiller(victim, snapshot.creditedKillerUuid());
         wraith.activate(snapshot.alignment());
         WraithLifecycle.activateConvertedPlayer(victim, snapshot.taskSnapshot());

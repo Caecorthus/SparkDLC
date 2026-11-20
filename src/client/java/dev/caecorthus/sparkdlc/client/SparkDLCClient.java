@@ -114,7 +114,7 @@ import dev.caecorthus.sparkdlc.client.role.killer.witchmaiden.WitchMaidenClientM
 import dev.caecorthus.sparkdlc.client.role.neutral.criminalreasoner.CriminalReasonerClientModule;
 import dev.caecorthus.sparkdlc.client.role.neutral.ferryman.FerrymanClient;
 import dev.caecorthus.sparkdlc.client.role.neutral.fiend.FiendDashClient;
-import dev.caecorthus.sparkdlc.client.role.neutral.jester.JesterMomentClientHooks;
+import dev.caecorthus.sparkdlc.client.role.neutral.jester.JesterMomentGrayscaleLifecycle;
 import dev.caecorthus.sparkdlc.client.role.neutral.koko.KokoClient;
 import dev.caecorthus.sparkdlc.client.role.neutral.pathogen.PathogenClientHooks;
 import dev.caecorthus.sparkdlc.client.role.neutral.shadowjester.ShadowJesterShowdownMusicController;
@@ -404,7 +404,7 @@ public final class SparkDLCClient implements ClientModInitializer {
         EngineerClientHooks.register();
         FlashlightLights.register();
         FlashlightRenderer.register();
-        JesterMomentClientHooks.register();
+        JesterMomentGrayscaleLifecycle.register();
         MorphlingClientHooks.register();
         PartyBalloonClientHooks.register();
         PathogenClientHooks.register();
@@ -518,7 +518,7 @@ public final class SparkDLCClient implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             DepressionRageLoopController.tick(client);
             FinalMomentMusicController.tick(client);
-            dev.caecorthus.sparkdlc.client.trait.jester.JesterMomentClientHooks.tick(client);
+            dev.caecorthus.sparkdlc.client.trait.jester.JesterMomentInventoryLock.tick(client);
             if (SparkDlcServerConnection.isConfirmedServer()) {
                 DepressionHud.tick();
             }

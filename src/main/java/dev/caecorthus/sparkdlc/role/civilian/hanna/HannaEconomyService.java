@@ -2,7 +2,6 @@ package dev.caecorthus.sparkdlc.role.civilian.hanna;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsCharismaBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.doctor4t.wathe.api.Role;
@@ -134,6 +133,6 @@ final class HannaEconomyService {
 
     private static ShopEntry row(PlayerEntity player, String id, Item item, int price) {
         ShopEntry entry = new ShopEntry.Builder(id, new ItemStack(item), price, ShopEntry.Type.TOOL).build();
-        return SparkTraitsCharismaBridge.discountShopEntry(player, entry);
+        return SparkTraitsApi.discountShopEntryForCharisma(player, entry);
     }
 }

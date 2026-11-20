@@ -2,7 +2,6 @@ package dev.caecorthus.sparkdlc.role.civilian.planner;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsCharismaBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.doctor4t.wathe.api.Role;
@@ -140,6 +139,6 @@ final class PlannerEconomyService {
         }
         ShopEntry slip = new ShopEntry.Builder(PlannerRules.TASK_SLIP_ENTRY,
                 new ItemStack(SparkWitchItems.plannerTaskSlip()), PlannerRules.SLIP_PRICE, ShopEntry.Type.TOOL).build();
-        context.addEntry(SparkTraitsCharismaBridge.discountShopEntry(player, slip));
+        context.addEntry(SparkTraitsApi.discountShopEntryForCharisma(player, slip));
     }
 }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.ferryman;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsBodyDragBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.killer.magician.MagicianDecoyBodies;
 import dev.caecorthus.sparkdlc.role.killer.hiro.returning.HiroFakeBodies;
 import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendFakeBodies;
@@ -146,6 +146,6 @@ public final class FerrymanFerryService {
                 // The fake corpse of a 二阶堂希罗 victim (2026-11-11). / 二阶堂希罗受害者的假尸体（2026-11-11）。
                 || HiroFakeBodies.isFake(body)
                 || MagicianDecoyBodies.isDecoy(body)
-                || !SparkTraitsBodyDragBridge.canDragBody(body);
+                || SparkTraitsApi.isFakeDeathBody(body);
     }
 }

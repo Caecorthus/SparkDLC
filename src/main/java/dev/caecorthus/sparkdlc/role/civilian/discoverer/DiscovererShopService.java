@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.discoverer;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsCharismaBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.util.ShopEntry;
@@ -37,6 +37,6 @@ public final class DiscovererShopService {
                 DiscovererRules.SPYGLASS_PRICE, ShopEntry.Type.TOOL)
                 .stock(DiscovererRules.SPYGLASS_STOCK)
                 .build();
-        context.addEntry(SparkTraitsCharismaBridge.discountShopEntry(player, spyglass));
+        context.addEntry(SparkTraitsApi.discountShopEntryForCharisma(player, spyglass));
     }
 }

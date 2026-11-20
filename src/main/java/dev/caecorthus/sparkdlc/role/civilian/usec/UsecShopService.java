@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.usec;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsCharismaBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.trait.api.TraitShopEntries;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
@@ -48,7 +48,7 @@ public final class UsecShopService {
         context.clearEntries();
         for (UsecShopRules.EntrySpec spec : UsecShopRules.entries()) {
             ShopEntry entry = entry(spec);
-            context.addEntry(SparkTraitsCharismaBridge.discountShopEntry(player, entry));
+            context.addEntry(SparkTraitsApi.discountShopEntryForCharisma(player, entry));
         }
         TraitShopEntries.restore(context, preservedTraitEntries);
     }

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.bear;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsCharismaBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.trait.api.TraitShopEntries;
 import dev.caecorthus.sparkdlc.headset.HeadsetSlots;
 import dev.caecorthus.sparkdlc.role.civilian.bear.headset.CensEarplugsItem;
@@ -60,7 +60,7 @@ final class BearShopService {
         List<ShopEntry> preservedTraitEntries = TraitShopEntries.capture(context);
         context.clearEntries();
         for (BearShopRules.EntrySpec spec : BearShopRules.entries()) {
-            context.addEntry(SparkTraitsCharismaBridge.discountShopEntry(player, entry(spec)));
+            context.addEntry(SparkTraitsApi.discountShopEntryForCharisma(player, entry(spec)));
         }
         TraitShopEntries.restore(context, preservedTraitEntries);
     }

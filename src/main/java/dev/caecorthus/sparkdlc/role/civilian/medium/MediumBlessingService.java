@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.medium;
 
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesHiddenBodiesBridge;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthPartygoerCompat;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsBodyDragBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.killer.hiro.returning.HiroFakeBodies;
 import dev.caecorthus.sparkdlc.role.killer.magician.MagicianDecoyBodies;
 import dev.caecorthus.sparkdlc.role.neutral.ferryman.FerrymanFeignService;
@@ -217,7 +217,7 @@ public final class MediumBlessingService {
                         && body.getPlayerUuid() != null
                         && game.isPlayerDead(body.getPlayerUuid())
                         && !NoellesHiddenBodiesBridge.isHidden(world, body.getPlayerUuid())
-                        && !SparkTraitsBodyDragBridge.isConfirmedFakeDeathBody(body)
+                        && !SparkTraitsApi.isFakeDeathBody(body)
                         && !FiendFakeBodies.isFake(body)
                         && !HiroFakeBodies.isFake(body)
                         && !FerrymanFeignService.isFakeBody(body)

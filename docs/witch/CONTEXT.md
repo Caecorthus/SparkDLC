@@ -298,7 +298,7 @@ Current build baseline:
     set only when no charge is left. Clairvoyance (D9) exposes her to every living viewer for 10 s.
 - `role/civilian/piggod/`: Pig God chase, psycho, sound, economy, and rules.
 - `role/civilian/prophet/`: passive Death Sense (world-wide corpse pulse every 60 s; skips Scavenger-hidden bodies and,
-  per owner decision, SparkTraits Depression fake-death bodies via `bridge/witch/SparkTraitsBodyDragBridge` and Magician
+  per owner decision, SparkTraits Depression fake-death bodies via `SparkTraitsApi.isFakeDeathBody` and Magician
   decoys via `MagicianDecoyBodies`; a pulse that skipped a decoy says so on its action-bar line, 2026-10-07 D8), the
   owner-only `sparkdlc:prophet_player` component (permanent highlight set, necrology,
   Prophecy records), the Prophecy skill registration, and economy. The client outline
@@ -1358,8 +1358,8 @@ Current build baseline:
   Master instinct rule, the round-start "不欢迎登车" line) lives in `client/role/neutral/stowaway/` and `client/mixin/role/neutral/stowaway/`.
 - `role/neutral/cat/`: Schrödinger's Cat (`sparkdlc:schrodingers_cat`) rules (`SchrodingersCatRules`: the killer's
   side and the transform gate), the spectre and transformation (`SchrodingersCatService`) and the settlement exclusion
-  (`SchrodingersCatSettlement`). Its mixins live in `mixin/role/neutral/cat/`; the optional trait swap goes through
-  `bridge/witch/SparkTraitsSchrodingersCatBridge`. No client code.
+  (`SchrodingersCatSettlement`). Its mixins live in `mixin/role/neutral/cat/`; the trait swap asks
+  `SparkTraitsApi.replaceTraitsIneligibleForCurrentRole` directly. No client code.
 - `role/neutral/koko/`: 泽渡可可 Sawatari Koko (`sparkdlc:koko`, color `0xB5AFE2`), contributed in PR #223 and
   rebuilt in review on the Hanna model (owner spec and decisions 2026-11-13); every number lives in `KokoRules`.
   - Registration: a SparkFactionAPI neutral (Wathe-native NEUTRAL, FAKE mood so she has fake tasks, 10 s
@@ -2192,8 +2192,8 @@ Current build baseline:
     Seeker devices through their `onAddonGunShot`, Partygoers through `SparkStrengthPartygoerCompat`. SparkTraits
     Niko covers the pistol like the revolver, without the burst (owner 2026-11-09): a sneaking Niko holder of another
     police role picks at 300 blocks on the client (`RevolverItem.getGunTarget`), so the player-target tolerance comes
-    from `bridge/witch/SparkTraitsSaviorBridge.pistolServerRange` (`SparkTraitsApi.getServerGunTargetRange`, widen-only,
-    capped at 300, base 65 on any failure), and SparkTraits pins that shot's cooldown to 60 s through the vanilla
+    from `SparkTraitsApi.getServerGunTargetRange` (widen-only: the base 65, or 300 for a sneaking Niko holder),
+    and SparkTraits pins that shot's cooldown to 60 s through the vanilla
     write. Crows, puppets, devices and Partygoers keep the 65-block cap. The Savior role itself never has Niko.
     The lightsaber
     kills from an `AttackEntityCallback` on a full charge (bat attributes), behind SparkTraits `blocksWeaponAction` /
@@ -2345,7 +2345,7 @@ Current build baseline:
     Impostor (`SparkTraitsApi`: SparkTraits absent → pay, confirmed non-Impostor → pay, unknown →
     no pay), because SparkTraits pays an Impostor's task income itself.
   - Shop (`DiscovererShopService`, both sides via `BuildShopEntries`): only the vanilla spyglass (`discoverer_spyglass`,
-    150, stock 1), priced through `SparkTraitsCharismaBridge`. The PR's conductor key is no longer sold here; it became
+    150, stock 1), priced through `SparkTraitsApi.discountShopEntryForCharisma`. The PR's conductor key is no longer sold here; it became
     the Attendant's Spare Key below.
   - Open: no SparkAssist guidebook page and no Black Raven disguise entry yet.
 - `block/` + `SparkWitchBlocks` (PR #239, reworked in review): the two map-maker beds, the only SparkWitch
@@ -2505,7 +2505,7 @@ Current build baseline:
     `AccountantFeatureService` (the single idempotent server entry, registered from `SparkWitchEvents` after the
     Discoverer), `AccountantEconomyService` (+50 per `TaskComplete`, never for a SparkTraits Impostor, and +5 every
     10 s, both through `addToBalance` and only while `canEarn` holds), `AccountantShopService` (one passbook entry:
-    75 coins, unlimited stock, 30 s between purchases, Charisma discount through `SparkTraitsCharismaBridge`),
+    75 coins, unlimited stock, 30 s between purchases, Charisma discount through `SparkTraitsApi.discountShopEntryForCharisma`),
     `AccountantPassbookService` (deposit, withdraw, sneak drop, and the death drop through Wathe's
     `ShouldDropOnDeath`) and `AccountantReplay` (skill replays `sparkdlc:accountant_deposit` / `accountant_withdraw`).
   - Passbook (`sparkdlc:accountant_passbook`, 存折, `AccountantPassbookItem`, registered last in `SparkWitchItems`
@@ -3435,7 +3435,7 @@ Current build baseline:
   - Coins and shop (`HannaEconomyService`, gated to a living Hanna in an ACTIVE round, survival, not a restricted
     Wraith): +50 per task for a confirmed non-Impostor (`SparkTraitsApi`), +15 every 30 s of world
     time, `CanSeeMoney` ALLOW while alive and DENY otherwise, and two `TOOL` rows (parasol 150, handkerchief 100) that
-    hand over the real items and pass through `SparkTraitsCharismaBridge`.
+    hand over the real items and pass through `SparkTraitsApi.discountShopEntryForCharisma`.
   - Items (owner: any holder can use them; uses are vanilla durability, `maxCount(1)`, nothing in custom data, no
     death drop): `HannaUmbrellaItem` (`sparkdlc:hanna_umbrella`, 25 durability) keeps Slow Falling II on while held
     in either hand by a living non-spectator (a 2 s effect refreshed in its last second), spends 1 durability per
@@ -6037,7 +6037,7 @@ owned effects are removed at reset, finalize, or disconnect.
 The Seeker may query only `isLastStandPending` and `hasActiveTrait` (Impostor) through
 `SparkTraitsApi`, `isInstinctHidden` through its own client
 `SeekerInstinctVisibilityBridge`, `discountShopEntryForCharisma` through
-`SparkTraitsCharismaBridge`, and `isLastStandDeathIntercepted` through the existing
+`SparkTraitsApi`, and `isLastStandDeathIntercepted` through the existing
 `WitchFactorTraitsBridge`, beyond the existing `SparkTraitsApi` seams
 (`isRoleSkillBlocked`, `blocksWeaponAction` with its `getForcedMeleeCooldownTicks` read,
 `isKillerInteractionBlocked`, `setExactItemCooldownRemaining`). An absent SparkTraits means not
@@ -6093,7 +6093,7 @@ intercepted death (the `KillPlayer.AFTER` removal is skipped, and the 20-tick sw
 USEC may query only `getMarksmanRangeMultiplier` (FMJ range and AP flight cost on the server, the reticle's AP holds
 on the client, clamped to 1.0-1.3) and `hasActiveTrait` (Fast Reload, the 1.4 s bolt) through
 `SparkTraitsApi`, `hasActiveTrait` (Impostor, task money) through its own `UsecEconomyTraitsProbe`,
-`discountShopEntryForCharisma` through `SparkTraitsCharismaBridge`, and `isLastStandDeathIntercepted` through the
+`discountShopEntryForCharisma` through `SparkTraitsApi`, and `isLastStandDeathIntercepted` through the
 existing `WitchFactorTraitsBridge`, beyond the existing `SparkTraitsApi` seams (`blocksWeaponAction` with its
 `isKillerInteractionBlocked` and `getForcedMeleeCooldownTicks` reads, `isLastEscapeActive`, `isNonFinalKillPending`,
 `setExactItemCooldownRemaining`) and `TraitShopEntries.capture` / `restore`. An absent SparkTraits means a 1.0 multiplier, a
@@ -6103,7 +6103,7 @@ write, and cleanup on every death. A present build whose facade lacks or fails a
 intercepted death: the `KillPlayer.AFTER` cleanup and revolver drop are skipped (reset and finalize still strip the
 kit), and an innocent shot goes unpunished.
 The Savior pistol may query only `getServerGunTargetRange` (the server's player-target distance for this shooter and
-gun; a sneaking Niko holder gets 300 blocks) through `bridge/witch/SparkTraitsSaviorBridge`, beyond the existing
+gun; a sneaking Niko holder gets 300 blocks) through `SparkTraitsApi`, beyond the existing
 `SparkTraitsApi.blocksWeaponAction`; Niko's 60 s cooldown, Fast Reload and Fast Hands reach the pistol
 through the vanilla cooldown write, with no SparkWitch call. An absent, older (before SparkTraits PR #76) or failing
 SparkTraits means the 65-block tolerance; the answer is widen-only and capped at 300 blocks.

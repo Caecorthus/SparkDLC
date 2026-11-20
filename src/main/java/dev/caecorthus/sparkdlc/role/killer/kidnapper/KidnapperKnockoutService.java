@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.kidnapper;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsCharismaBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthCoronerCompat;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
 import dev.doctor4t.wathe.api.Role;
@@ -72,7 +72,7 @@ public final class KidnapperKnockoutService {
          * 这里把条目交给 SparkTraits 的公共折扣 API 处理。
          * 这样当绑架者自己拥有【魅力】时，商店里显示的价格和最终购买价都会一致地打折。
          */
-        return SparkTraitsCharismaBridge.discountShopEntry(player, entry);
+        return SparkTraitsApi.discountShopEntryForCharisma(player, entry);
     }
 
     private static ShopEntry buildBaseShopEntry() {

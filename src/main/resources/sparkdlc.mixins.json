@@ -119,7 +119,6 @@
     "compat.noellesroles.ThrowingAxeThrowRecordMixin",
     "compat.noellesroles.ToxicologistAntidoteItemMixin",
     "role.civilian.perfumer.PerfumerZephyrMoodDrainMixin",
-    "role.civilian.perfumer.SparkWitchPerfumerCorpseDrainMixin",
     "role.civilian.professor.ProfessorDoorPassingMixin",
     "role.civilian.professor.ProfessorSedativeMoodMixin",
     "role.killer.silencer.SilencerBatAttackMixin",

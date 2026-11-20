@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.perfumer;
 
 import dev.caecorthus.sparkdlc.component.PerfumerPlayerComponent;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesHiddenBodiesBridge;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerScentComponent;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerCorpseComponent;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.KillPlayer;
@@ -54,7 +55,13 @@ public final class PerfumerRuntime {
         if (mood.tasks.isEmpty() || !hasNearbyVisibleCorpse(player)) {
             return;
         }
-        float baselineDrain = mood.tasks.size() * GameConstants.MOOD_DRAIN;
+        // Zephyr Perfume also halves this extra corpse-proximity drain: the per-task drain read here is scaled the way
+        // Wathe's own read is (kit.PerfumerRules, the Perfumer kit's rules, not this package's PerfumerRules).
+        // 晨风香水同样将这份靠近尸体的额外理智下降减半：此处读取的每任务下降量按 Wathe 自身读取的方式缩放（kit.PerfumerRules，
+        // 即调香师套件的规则，而非本包的 PerfumerRules）。
+        float baselineDrain = mood.tasks.size()
+                * dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerRules.zephyrMoodDrain(
+                        GameConstants.MOOD_DRAIN, PerfumerScentComponent.KEY.get(player).isZephyrActive());
         float extraDrain = PerfumerRules.extraCorpseMoodDrain(baselineDrain, 1);
         mood.setMood(mood.getMood() - extraDrain);
     }

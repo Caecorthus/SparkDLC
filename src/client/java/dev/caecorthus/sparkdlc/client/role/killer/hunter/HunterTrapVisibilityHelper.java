@@ -13,7 +13,6 @@ import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.WatheClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.function.BooleanSupplier;
 
@@ -65,7 +64,7 @@ public final class HunterTrapVisibilityHelper {
         boolean policeViewer = !killerFaction
                 && !HunterRules.isInstinctTrapViewer(roleId)
                 && (HunterRules.isTrapKiller(roleId, false)
-                || HunterRules.isTrapPolice(roleId, isRegisteredPolice(role))
+                || HunterRules.isTrapPolice(roleId, PoliceRoles.contains(role))
                 || SparkTraitsApi.hasActiveTrait(viewer, TraitIds.IMPOSTOR));
         // The instinct key stays eager: its Fear gate may post the "instinct blocked" action-bar line, so it keeps its
         // old call count. The pure Obscure/Fear check and the raycast run only when the rule reads them.
@@ -80,17 +79,6 @@ public final class HunterTrapVisibilityHelper {
                 hasLineOfSight,
                 () -> instinctKey && !WitchInstinctSuppressionClientHooks.shouldSuppressInstinctHighlight()
         );
-    }
-
-    private static boolean isRegisteredPolice(@Nullable Role role) {
-        if (role == null) {
-            return false;
-        }
-        try {
-            return PoliceRoles.contains(role);
-        } catch (RuntimeException | LinkageError ignored) {
-            return false;
-        }
     }
 
     public static boolean usesAlwaysOnOutline(PlayerEntity viewer) {

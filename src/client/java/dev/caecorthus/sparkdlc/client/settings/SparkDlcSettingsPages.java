@@ -18,8 +18,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Builds the pages of the SparkDLC settings screen from the settings the mod's features, Wathe and NoellesRoles
@@ -32,7 +30,6 @@ public final class SparkDlcSettingsPages {
     public static final String SCOPE = "scope";
     public static final String DISPLAY = "display";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/Settings");
     /**
      * The source of a row that is SparkDLC's own setting: none, so the description panel shows no "From ..." line.
      * Only a row whose value or sounds belong to another mod (Wathe, NoellesRoles) names that mod.
@@ -53,13 +50,7 @@ public final class SparkDlcSettingsPages {
         List<SettingsPage> pages = new ArrayList<>();
         pages.add(general());
         pages.add(audio());
-        try {
-            pages.add(scope());
-        } catch (IllegalArgumentException exception) {
-            // The scope settings answered with values their own defaults are not among; leave the page out.
-            // 开镜设置返回的取值不包含其默认值时，不显示此页。
-            LOGGER.warn("SparkDLC scope settings are inconsistent; hiding the scope page", exception);
-        }
+        pages.add(scope());
         pages.add(display());
         return pages.stream().filter(page -> !page.isEmpty()).toList();
     }

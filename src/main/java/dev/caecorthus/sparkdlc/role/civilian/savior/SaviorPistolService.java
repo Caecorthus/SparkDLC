@@ -1,5 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.savior;
 
+import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadDaze;
+import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponTarget;
@@ -188,6 +190,12 @@ public final class SaviorPistolService {
     private static boolean refusesShooter(ServerPlayerEntity shooter, ItemStack pistol) {
         return SparkTraitsApi.blocksWeaponAction(shooter, pistol)
                 || ControlExpertStun.isStunned(shooter)
+                // Owner 2026-11-20 ("都行", after "检查一下吧"): the Engineer capture stun (with the Jester Moment freeze,
+                // which shares its component) and the Taotie head daze refuse the shot like the Control Expert stun.
+                // 所有者 2026-11-20（「检查一下吧」之后的「都行」）：工程师捕捉定身（连同共用其组件的小丑时刻定身）与饕餮头颅
+                // 眩晕与控场专家眩晕一样拒绝开枪。
+                || EngineerStunnedPlayerComponent.KEY.get(shooter).isStunned()
+                || TaotieHeadDaze.isDazed(shooter)
                 || SeekerRemoteSessionService.isLocked(shooter)
                 || isKidnapped(shooter)
                 || WraithStateService.isActive(shooter)

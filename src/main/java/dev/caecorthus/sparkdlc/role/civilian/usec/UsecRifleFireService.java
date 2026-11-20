@@ -1,5 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.usec;
 
+import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadDaze;
+import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
 import dev.caecorthus.sparkdlc.SparkDlcSounds;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RangedSmokeCarve;
@@ -80,7 +82,13 @@ public final class UsecRifleFireService {
                 mode,
                 holding,
                 player.isSpectator(),
-                ControlExpertStun.isStunned(player),
+                // Owner 2026-11-20 ("都行", after "检查一下吧"): the Engineer capture stun (with the Jester Moment freeze, which
+                // shares its component) and the Taotie head daze hold the shooter like the Control Expert stun.
+                // 所有者 2026-11-20（「检查一下吧」之后的「都行」）：工程师捕捉定身（连同共用其组件的小丑时刻定身）与饕餮头颅眩晕
+                // 与控场专家眩晕一样让射手无法开火。
+                ControlExpertStun.isStunned(player)
+                        || EngineerStunnedPlayerComponent.KEY.get(player).isStunned()
+                        || TaotieHeadDaze.isDazed(player),
                 SeekerRemoteSessionService.isLocked(player),
                 isKidnapped(player),
                 WraithStateService.isActive(player),

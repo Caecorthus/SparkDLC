@@ -148,6 +148,45 @@ public final class SparkDlcBootTest implements FabricGameTest {
      * 其他模组、资源包以及我们自己的少数数据行仍会使用五个旧 mod id（{@code isModLoaded("sparkwitch")} 之类）；唯一的
      * {@code sparkdlc} 容器必须通过 {@code provides} 应答每一个。
      */
+    /**
+     * The Criminal Reasoner's notice goes to real police only (owner 2026-11-20, "内鬼不算警察吧"): the police list
+     * also holds the three Team Jiahao roles that are there only for the police tablet, and the faction core must
+     * place exactly those on Team Jiahao, while the good-side police (Vigilante, Veteran, Judge, Black Raven, ...)
+     * stay off it.
+     * 罪犯推理学家的通知只发给真正的警察（所有者 2026-11-20「内鬼不算警察吧」）：警察名单里还有三个只为领警用平板而在其中的
+     * 嘉豪阵营职业，阵营核心必须恰好把这三个归入嘉豪阵营，而好人一方的警察（义警、老兵、法官、黑羽鸦等）不在其中。
+     */
+    @GameTest(templateName = EMPTY_STRUCTURE)
+    public void realPoliceForTheReasonerNoticeAreThePoliceListWithoutTeamJiahao(TestContext context) {
+        List<Identifier> jiahao = new ArrayList<>();
+        List<Identifier> realPolice = new ArrayList<>();
+        for (dev.doctor4t.wathe.api.Role role : WatheRoles.ROLES) {
+            if (!dev.caecorthus.sparkdlc.faction.api.PoliceRoles.contains(role)) {
+                continue;
+            }
+            boolean teamJiahao = dev.caecorthus.sparkdlc.SparkDlcFactions.JIAHAO.equals(
+                    dev.caecorthus.sparkdlc.faction.api.SparkFactionApi.resolveBaseFaction(role));
+            (teamJiahao ? jiahao : realPolice).add(role.identifier());
+            if (dev.caecorthus.sparkdlc.role.neutral.criminalreasoner.CriminalReasonerRules
+                    .receivesNotice(false, true, role, teamJiahao) == teamJiahao) {
+                throw new GameTestException("the notice rule disagrees with Team Jiahao for " + role.identifier());
+            }
+        }
+        java.util.Set<Identifier> expectedJiahao = java.util.Set.of(Identifier.of("noellesroles", "corrupt_cop"),
+                SparkDLC.id("insider"), SparkDLC.id("sniper"));
+        if (!java.util.Set.copyOf(jiahao).equals(expectedJiahao)) {
+            throw new GameTestException("police-listed Team Jiahao roles: expected " + expectedJiahao + ", found "
+                    + jiahao);
+        }
+        for (Identifier police : List.of(Identifier.of("wathe", "vigilante"), Identifier.of("wathe", "veteran"),
+                SparkDLC.id("judge"), SparkDLC.id("black_raven"))) {
+            if (!realPolice.contains(police)) {
+                throw new GameTestException(police + " must be real police; real police found: " + realPolice);
+            }
+        }
+        context.complete();
+    }
+
     @GameTest(templateName = EMPTY_STRUCTURE)
     public void legacyModIdsResolveToSparkDlc(TestContext context) {
         FabricLoader loader = FabricLoader.getInstance();

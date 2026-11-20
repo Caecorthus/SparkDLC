@@ -67,15 +67,18 @@ public final class CriminalReasonerRules {
 
     /**
      * Who reads the anonymous success notice: a living player (playing, alive, not spectating) whose assigned role is a
-     * police role ({@link PoliceRoles}, so the police-classified Jiahao and Black Raven roles too), never the reasoner.
-     * Owner 2026-11-20, "这个改一下": it went to every player while no shared police list was reachable; with no living
-     * police nobody reads it.
-     * 谁会收到匿名成功公告：存活（参与对局、存活、非旁观）且所分配职业属于警察职业（{@link PoliceRoles}，因此也包括被归为警察的
-     * 嘉豪阵营职业与黑羽鸦）的玩家，推理学家本人除外。所有者 2026-11-20「这个改一下」：此前拿不到共用警察名单时发给所有玩家；
-     * 没有存活的警察时无人收到。
+     * real police role, never the reasoner. A real police role is in {@link PoliceRoles} and is not on Team Jiahao:
+     * the Corrupt Cop, the Insider and the Sniper are in that list only to get the police tablet, so they do not read
+     * it (the Black Raven, a good-side police role, does). Owner 2026-11-20, "这个改一下" and "内鬼不算警察吧": it went
+     * to every player while no shared police list was reachable; with no living real police nobody reads it.
+     * 谁会收到匿名成功公告：存活（参与对局、存活、非旁观）且所分配职业为真正警察的玩家，推理学家本人除外。真正的警察指属于
+     * {@link PoliceRoles} 且不属于嘉豪阵营的职业：黑警、内应与狙击手只为领到警用平板才在该名单中，因此收不到（好人阵营的警察职业
+     * 黑羽鸦可以收到）。所有者 2026-11-20「这个改一下」「内鬼不算警察吧」：此前拿不到共用警察名单时发给所有玩家；没有存活的真正
+     * 警察时无人收到。
      */
-    public static boolean receivesNotice(boolean isTheReasoner, boolean livingPlayer, @Nullable Role role) {
-        return !isTheReasoner && livingPlayer && PoliceRoles.contains(role);
+    public static boolean receivesNotice(boolean isTheReasoner, boolean livingPlayer, @Nullable Role role,
+                                         boolean teamJiahao) {
+        return !isTheReasoner && livingPlayer && !teamJiahao && PoliceRoles.contains(role);
     }
 
     /** A threshold of 0 means "not set up this round" and never wins. 阈值为 0 表示本局未初始化，永不获胜。 */

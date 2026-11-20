@@ -1,6 +1,8 @@
 package dev.caecorthus.sparkdlc.role.neutral.criminalreasoner;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
+import dev.caecorthus.sparkdlc.SparkDlcFactions;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.net.OpenCriminalReasonerS2CPacket;
@@ -12,6 +14,7 @@ import dev.caecorthus.sparkdlc.role.jiahao.insider.InsiderDoorRules;
 import dev.caecorthus.sparkdlc.role.jiahao.insider.InsiderRules;
 import dev.caecorthus.sparkdlc.role.neutral.koko.KokoWinService;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
+import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.CheckWinCondition;
 import dev.doctor4t.wathe.api.event.DoorInteraction;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -471,7 +474,7 @@ public final class CriminalReasonerRuntime {
     }
 
     /**
-     * Announces that a murder was seen through, to the living police only ({@link CriminalReasonerRules#receivesNotice}).
+     * Announces that a murder was seen through, to the living real police only ({@link CriminalReasonerRules#receivesNotice}).
      * <p>The source build spoke to the police, neutrals, killers and spectators; the first port, written with no shared
      * police list in reach, told everyone but the reasoner. Owner 2026-11-20, "这个改一下": the police roles now. It
      * names nobody and reveals nothing; a round with no living police hears nothing.
@@ -487,9 +490,10 @@ public final class CriminalReasonerRuntime {
                 continue;
             }
             for (ServerPlayerEntity target : world.getPlayers()) {
+                Role role = game.getRole(target);
                 if (CriminalReasonerRules.receivesNotice(target.getUuid().equals(reasonerId),
-                        GameFunctions.isPlayerPlayingAndAlive(target) && !target.isSpectator(),
-                        game.getRole(target))) {
+                        GameFunctions.isPlayerPlayingAndAlive(target) && !target.isSpectator(), role,
+                        role != null && SparkDlcFactions.JIAHAO.equals(SparkFactionApi.resolveBaseFaction(role)))) {
                     target.sendMessage(notice, true);
                 }
             }

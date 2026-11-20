@@ -1,78 +1,82 @@
 # SparkDLC context map
 
-SparkDLC is one Fabric mod for Minecraft 1.21.1 (mod id and only namespace `sparkdlc`, version shared by all modules) built on Spark-era
-Wathe and NoellesRoles. It was created on 2026-11-19 by fusing five mods; their histories are merged in, so
-`git log --follow` and `git blame` reach back into each legacy repository.
+SparkDLC is one Fabric mod for Minecraft 1.21.1 (mod id and only namespace `sparkdlc`) built on Spark-era Wathe and
+NoellesRoles. It was created on 2026-11-19 by fusing five add-ons (SparkFactionAPI, SparkStrength, SparkTraits,
+SparkWitch, SparkAssist) and then unified into one mod inside; their histories are merged in, so `git log --follow`
+and `git blame` reach back into each legacy repository. `tools/unify/README.md` records every step of the
+unification and the scripts that did it.
 
-## Modules
+## Where things are
 
-| Legacy module | Main packages now (under `dev.caecorthus.sparkdlc`) | Legacy mod id (a `provides` alias, no longer a namespace) | What it owns | Module notes |
-| --- | --- | --- | --- | --- |
-| factionapi | `faction`, `round`, `cooldown`, `replay`, `record`, `team`, `net.version` | `sparkfactionapi` | Faction registration, native Wathe factions, round end and win services, payload policy, replay, anti-fast-round, lobby map reset, version handshake | `docs/core/CONTEXT.md` |
-| strength | `role.<category>.<role>`, `item`, `entity`, `sabotage`, `tablet`, `economy`, `viewpoint` | `sparkstrength` | Buffs and reworks for Wathe/NoellesRoles roles, items (M67, tablet, drones...), sabotage, Partygoer | — |
-| traits | `trait` | `sparktraits` | Passive trait mechanics and their planning, sync and client presentation | — |
-| witch | `role.<category>.<role>`, `skill`, `faction.witch`, `item`, `net` | `sparkwitch` | Witch and Jiahao factions, their roles, the active skill framework, most new roles and items | `docs/roles/CONTEXT.md` |
-| assist | `guidebook`, `achievement`, `ponder`, `config`, `sound`, `client.settings` | `sparkassist` | Client-side helpers: guidebook, achievements, unified settings screen, Ponder scenes, HUD aids | `docs/client-helpers/CONTEXT.md` |
+Common code is in `src/main/java`, client code in `src/client/java` (every client class sits under `client`), game
+tests and the start-up / client audits in `src/gametest`. Packages under `dev.caecorthus.sparkdlc`:
 
-Since the stage-1 unification move the code is organised by function, not by legacy module: a role's items,
-components, payloads and services live in `role.<category>.<role>` (categories `civilian`, `killer`, `neutral`,
-`jiahao`, `witch`, `special`), shared systems in packages such as `trait`, `faction`, `round`, `cooldown`, `skill`,
-`item`, `net`, and every mixin under `mixin.*` / `client.mixin.*`. The legacy registries still exist as classes
-(root package); the `*Bridge` / `*Compat` facades between the former modules are gone; the five former initializer
-classes (`SparkFactionApiMod`, `SparkStrength`, `SparkTraits`, `SparkWitch`, `SparkAssist` and three client
-counterparts) start nothing any more and only hold `MOD_ID`, `LOGGER`, `id(...)` and a few forwarders until a
-scripted pass renames their call sites.
-`tools/unify/README.md` describes the move, and `tools/unify/file-moves.tsv` lists where every file came from.
+| Area | Packages | Notes |
+| --- | --- | --- |
+| Start-up and registries | root package: `SparkDLC`, `SparkDlcItems`, `SparkDlcBlocks`, `SparkDlcEntities`, `SparkDlcSounds`, `SparkDlcDataComponents`, `SparkDlcParticles`, `SparkDlcRoles`, `SparkDlcFactions`, `SparkDlcDeathReasons`, `SparkDlcItemGroups`, `SparkDlcComponents`; `client.SparkDLCClient` | One class per entrypoint kind, one registry class per kind. |
+| Shared core | `faction` (except `faction.witch`), `round`, `cooldown` (except `cooldown.provider`), `command.admin`, with `mixin.faction`, `mixin.round`, `mixin.cooldown`, `client.round`, `client.mixin.faction` | Factions and native Wathe factions, round end and win rules, settlement, anti-fast-round, lobby map reset, cooldown services. Contract: `faction.api`, `cooldown.api`, `round.settlement.SettlementExclusions`, `round.end.RoundEndRows`. Notes: `docs/core/CONTEXT.md`. |
+| Roles | `role.<category>.<role>` (categories `civilian`, `killer`, `neutral`, `jiahao`, `witch`, `special`), `faction.witch`, `skill` (contract `skill.api`), `cooldown.provider`, `item`, `entity`, `block`, `sabotage`, `tablet`, `headset`, `economy`, `viewpoint`, and their `client.*` / `mixin.*` halves | Every role, new or reworked from Wathe / NoellesRoles, with its items, components, payloads, services and client presentation; the active skill framework; sabotage; the tablet. Notes: `docs/roles/CONTEXT.md`. |
+| Traits | `trait` (contract `trait.api`), `client.trait`, `mixin.trait`, `client.mixin.trait` | Passive traits: planning, assignment, sync, effects, presentation. |
+| Client helpers | `guidebook`, `achievement`, `record`, `ponder`, `config`, `input`, `sound`, `client.settings`, `client.guidebook`, `client.achievement`, `client.ponder` | Guidebook, achievements and match records, the one settings screen (`config/sparkdlc.json`), Ponder scenes, event sound volumes. Their common-side classes are pure data and rules, reached from client code only. Notes: `docs/client-helpers/CONTEXT.md`. |
+| Replay | `replay` (contract `replay.api`) | Round replay and its formatters. |
+| Networking | `net` (`SparkDlcPackets` + feature registrars), `net.version` (handshake), `net.policy` (`GeneratedPayloadPolicy`), `client.net` | One packet hub, one version handshake; the payload policy is generated from `config/payload-policy/actions.tsv` by `tools/payload_policy.py`. |
+| Commands | `command` (`SparkDlcCommands`, `SparkDlcPermissions`) | Every command is registered from `SparkDlcCommands`. |
+| Glue to other mods | `compat.noellesroles`, `client.compat.iris`, `mixin.wathe`, `mixin.minecraft`, `mixin.compat`, `voice` | Real compatibility code toward Wathe, NoellesRoles and optional mods. |
+| Old names | `legacy`, `client.legacy`, `mixin.legacy`, `client.mixin.legacy`; `tools/unify/legacy-ids.tsv` | The only place that knows the names of the five former mods (see below). |
 
-Common code is in `src/main/java`, client code in `src/client/java` (every client class sits under the
-`client` package). `assist` is client-only in behaviour: its common-side classes are pure data and rules and are
-only reached from client code.
+## Contracts of the one mod
 
-## Stable contracts of the fusion
-
-- **One namespace, `sparkdlc`.** Since the stage-2a rename (`tools/unify/README.md`) every registry id, packet id,
-  component key, role / faction / trait / skill id, shop-entry id, command, permission node, lang key, asset and
-  data path and config file name of the mod is under `sparkdlc`; the lang files and `sounds.json` are single merged
-  files under `assets/sparkdlc` in `src/main/resources`. `tools/unify/legacy-ids.tsv` lists every renamed id with its
-  kind (old id, new id). The five legacy mod ids are no namespaces any more. They stay in `fabric.mod.json` under
-  `provides`, so `FabricLoader#isModLoaded("sparkwitch")` and `#getModContainer("sparkwitch")` still resolve to the
-  SparkDLC container, and `SparkDlcModule` lists them (ids only: no text shown to a player names a former mod). What deliberately keeps a legacy
-  name: the retired-trait filter (`RetiredTraitIds`), private NBT / custom-data field names, `sparkdlc$`-style mixin member prefixes and Java class names
-  (`tools/unify/namespace-keep.tsv`, `namespace-overrides.tsv`). Reading worlds, configs and packs that still use
-  the old names is the job of the compatibility layer (stage 2b), not of the code that owns an id.
-- **One entry, and its order is behaviour.** The mod has one class per entrypoint kind: `SparkDLC` (common),
-  `client.SparkDLCClient` (client), `SparkDlcComponents` (Cardinal Components; the ids are declared once under
-  `custom.cardinal-components` in `fabric.mod.json`), `voice.SparkDlcVoiceChatPlugin` (Simple Voice Chat) and
-  `client.SparkDlcClientMixinPlugin` (the plugin of the client mixin config). `SparkDLC#onInitialize` and
-  `SparkDLCClient#onInitializeClient` are the whole start-up, written as an ordered list of named steps. The
-  sequence is the one the five separate mods had in Fabric's alphabetical mod-id order: common side faction and
-  round services, kits of the Wathe / NoellesRoles roles, traits, the mod's own roles, then commands, the creative
-  tab and the legacy registry aliases; client side settings, guidebook and achievements first, then the same four.
-  It must not be reordered casually: listeners on one event run in registration order and many are first-wins,
-  the faction policy lists are evaluated in registration order, the Role Skill 2 key keeps the first handler per
-  role, and voice chat handlers of equal priority run in registration order. `./gradlew runGameTest
-  -PstartupOrderDump=<dir>` (and `runClientAudit` likewise) writes what the start-up registered, in order, so that
-  two builds can be diffed; the game test `SparkDlcStartupTest` pins the component ids and two listener orders.
-  The two mixin configs (`sparkdlc.mixins.json`, `sparkdlc.client.mixins.json`) list the mixins of the former
-  nine configs in the same module order on each side; the common config is listed first.
-- **Shared resource files.** Five files that several mods used to ship are single merged files now:
-  `assets/minecraft/font/default.json`, `data/sparkdlc/tags/item/{bloodthirsty_weapons,throwables,thrust_weapons}.json`
-  and `data/wathe/tags/item/guns.json`. A module adds its entries to the shared file.
-- **Module calls are direct.** The modules were separate jars that reached each other through reflection behind
-  `isModLoaded` gates. Since the fusion they call each other with compiled calls, directly or through a
-  feature's contract package (`faction.api`, `trait.api`, `skill.api`, `cooldown.api`, `replay.api`); a failure
-  inside the called feature propagates instead of being turned into a default, and there is no absent-module
-  fallback. No mixin targets another feature's class: hooks into the shared core are registered listeners
-  (`AGENTS.md`, Cross-Module Check).
-- **Dependencies.** Wathe and NoellesRoles jars are in `libs/`, pinned by sha256 in `gradle.properties`.
+- **One namespace, `sparkdlc`.** Every registry id, packet id, component key, role / faction / trait / skill id,
+  shop-entry id, command, permission node, lang key, asset and data path and config file name of the mod is under
+  `sparkdlc`. The lang files and `sounds.json` are single files under `assets/sparkdlc`. The five former mod ids are
+  no namespaces; they stay in `fabric.mod.json` under `provides` (listed in `SparkDlcModule`), so a third-party mod
+  asking `isModLoaded("sparkwitch")` still finds SparkDLC. No text shown to a player names a former mod.
+- **Old names keep working, in one place.** The compatibility layer maps every name the five mods published to its
+  `sparkdlc` name: registry ids (items, blocks, entities, sounds, effects, data components; also through
+  `RegistryKey` look-ups), saved component data and private data names, Wathe role lists, attribute modifier ids,
+  commands, typed ids and permission nodes (old command roots still run but are hidden from Tab completion), config
+  files, achievement statistics, key bindings, debug system properties, and the client settings, which now live in
+  one file `config/sparkdlc.json` (older files are carried over once and kept as backups). Each old name is a row of
+  `tools/unify/legacy-ids.tsv`. Resource packs and data packs written for the old namespaces are not translated.
+  Names that still carry an old mod name on purpose (some NBT keys and item markers inside saved worlds, scoreboard
+  team names, the HTTP `User-Agent` of the team sync, the public classes `SparkFactionApi` and `SparkTraitsApi`)
+  are listed in `tools/unify/README.md`.
+- **One entry, and its order is behaviour.** `SparkDLC#onInitialize` and `SparkDLCClient#onInitializeClient` are the
+  whole start-up, written as an ordered list of named steps. Common side: faction and round services, role-kit
+  content, the packet hub, role-kit gameplay, the version handshake, traits, the mod's own role content, roles and
+  skills and their gameplay, commands, the creative tab, the registry aliases for old ids. Client side: carry-over
+  of old client names, settings / guidebook / achievements, the faction and replay client, packets, then role kits,
+  traits and the mod's own roles in the same order as on the common side. This is the order the five mods used to
+  load in, and it must not be reordered casually: listeners on one event run in registration order and many are
+  first-wins, the faction policy lists are evaluated in registration order, the Role Skill 2 key keeps the first
+  handler per role, and voice chat handlers of equal priority run in registration order. `runGameTest
+  -PstartupOrderDump=<dir>` (and `runClientAudit` likewise) writes what the start-up registered, in order, so two
+  builds can be diffed; the game test `SparkDlcStartupTest` pins the component ids and listener orders.
+- **Mixin order is behaviour.** The two configs (`sparkdlc.mixins.json`, `sparkdlc.client.mixins.json`) still list
+  their entries in the order the former nine configs had; at equal priority that order is the application order
+  (for `@WrapOperation` / `@WrapMethod` the first applied is innermost). Renaming or moving a mixin keeps its entry
+  where it is; merging two mixins needs a proof that nothing between their former positions observes the change
+  (`tools/unify/README.md`, "One of each" and "No twins").
+- **Code calls code, and nothing inside is optional.** Features call each other with compiled calls, directly or
+  through a contract package (`faction.api`, `trait.api`, `skill.api`, `cooldown.api`, `replay.api`); there is no
+  fallback for a part of the mod being absent. The shared core names no role feature; roles hook it through its
+  listener and rule lists. `gradle/verify/layering.gradle` enforces this (`AGENTS.md`, Cross-feature check).
+- **Shared resource files.** `assets/minecraft/font/default.json`,
+  `data/sparkdlc/tags/item/{bloodthirsty_weapons,throwables,thrust_weapons}.json` and
+  `data/wathe/tags/item/guns.json` are single files that several features add entries to.
+- **Dependencies.** Wathe and NoellesRoles jars are in `libs/`, pinned by sha256 in `gradle.properties` and checked
+  by `verifyUpstreamJars`.
 
 ## Verification entry points
 
-See `AGENTS.md` (Verification). Module-specific verification notes stay in the module `CONTEXT.md` files; where they
-name legacy task names or a legacy `build.gradle`, the check is now one of the tasks of `gradle/verify/*.gradle`, named
-for what it checks (`verifyUpstreamMixinSelectors`, `verifyBlackRavenSeams`, ...); `./gradlew verifyAll` runs them all.
+See `AGENTS.md` (Verification). The checks are tasks of `gradle/verify/*.gradle`, one script per kind of check and
+each task named for what it checks (`verifyMixinConfigs`, `verifyUpstreamMixinSelectors`, `verifyLayering`,
+`verifyBlackRavenSeams`, …); `./gradlew verifyAll` runs them all. Notes in the area `CONTEXT.md` files that name a
+check refer to these tasks.
 
 ## Bringing in new legacy commits
 
-Until every contributor works here, the legacy repositories may still receive commits. `tools/fusion/README.md`
-explains how to rewrite and merge them (the rewrite is deterministic, so it is an ordinary `git merge`).
+Should a legacy repository still receive commits, `tools/fusion/README.md` explains how to rewrite and merge them
+(the history rewrite is deterministic, so it is an ordinary `git merge`). Code from before the unification also has
+to be translated to the current layout and names: `tools/unify/` holds the tables (`file-moves.tsv`,
+`legacy-ids.tsv`, the rename tables) and `rename_classes.py translate`.

@@ -10,7 +10,6 @@
     "compat.noellesroles.NoellesRolesDemonHunterAffectMixin",
     "compat.noellesroles.NoellesRolesPacketAffectMixin",
     "compat.noellesroles.NoellesRolesPoisonGasAffectMixin",
-    "faction.affect.NoisemakerAffectMixin",
     "faction.affect.ProfessorSerumAffectMixin",
     "faction.affect.VeteranKnifeAffectMixin",
     "faction.affect.SparkWitchCombatAffectMixin",

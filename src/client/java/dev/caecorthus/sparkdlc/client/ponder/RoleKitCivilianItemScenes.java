@@ -677,7 +677,7 @@ final class RoleKitCivilianItemScenes {
     }
 
     /**
-     * Aroma Orb (SparkStrength AromaOrbItem, AromaOrbEntity, AromaService, PerfumerKitService, PerfumerRules,
+     * Aroma Orb (SparkStrength AromaOrbItem, AromaOrbEntity, AromaService, PerfumerKitService, PerfumerKitRules,
      * PerfumerScentComponent; client PerfumerAromaMouseMixin): 75 coins in the Perfumer's shop, hidden in a Perfumer's
      * hand, usable only by a living Perfumer. A right-click throws it fast and flat at 1.5 blocks a tick (a swing, no
      * cooldown, one used per throw); it never hits its thrower and spares no faction. It shatters on whatever it hits.
@@ -1264,7 +1264,7 @@ final class RoleKitCivilianItemScenes {
 
     /**
      * Aroma's wandering aim around {@code yaw}: a smooth sway within its drift limits, fading in over 3 ticks and out
-     * over the last 10 (PerfumerRules.AROMA_FADE_IN_TICKS / AROMA_FADE_OUT_TICKS).
+     * over the last 10 (PerfumerKitRules.AROMA_FADE_IN_TICKS / AROMA_FADE_OUT_TICKS).
      * 香薰造成的准心绕 yaw 漂移：在漂移上限内平滑摆动，前 3 tick 渐入、最后 10 tick 渐出。
      */
     private static final class Wander extends TickingInstruction {

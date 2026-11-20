@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.economy;
 
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.CanSeeMoney;
 import dev.doctor4t.wathe.api.event.TaskComplete;
@@ -49,7 +50,7 @@ public final class RoleEconomyService {
 
     public static boolean isMoneyVisible(PlayerEntity player) {
         Role role = GameWorldComponent.KEY.get(player.getWorld()).getRole(player);
-        return RoleEconomyRules.isGoodMoneyRole(role) || SparkTraitsApi.hasImpostor(player);
+        return RoleEconomyRules.isGoodMoneyRole(role) || SparkTraitsApi.hasActiveTrait(player, TraitIds.IMPOSTOR);
     }
 
     static @Nullable CanSeeMoney.Result moneyVisibilityResult(@Nullable Role role) {

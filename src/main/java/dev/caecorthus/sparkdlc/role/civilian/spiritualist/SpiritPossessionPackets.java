@@ -12,7 +12,7 @@ public final class SpiritPossessionPackets {
     private SpiritPossessionPackets() {
     }
 
-    public static void initialize() {
+    public static void register() {
         PayloadTypeRegistry.playC2S().register(SpiritPossessC2SPacket.ID, SpiritPossessC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(SpiritPossessExitC2SPacket.ID, SpiritPossessExitC2SPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(SpiritPossessionStateS2CPacket.ID, SpiritPossessionStateS2CPacket.CODEC);

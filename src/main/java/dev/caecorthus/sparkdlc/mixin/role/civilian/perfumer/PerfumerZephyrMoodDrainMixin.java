@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.mixin.role.civilian.perfumer;
 
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerScentComponent;
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerRules;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerKitRules;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import net.minecraft.entity.player.PlayerEntity;
@@ -39,6 +39,6 @@ public abstract class PerfumerZephyrMoodDrainMixin {
             allow = 2
     )
     private float sparkdlc$halveDrainWithZephyr(float drain) {
-        return PerfumerRules.zephyrMoodDrain(drain, PerfumerScentComponent.KEY.get(player).isZephyrActive());
+        return PerfumerKitRules.zephyrMoodDrain(drain, PerfumerScentComponent.KEY.get(player).isZephyrActive());
     }
 }

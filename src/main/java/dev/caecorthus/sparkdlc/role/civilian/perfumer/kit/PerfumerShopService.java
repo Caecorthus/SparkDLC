@@ -29,44 +29,44 @@ public final class PerfumerShopService {
      */
     public static List<ShopEntry> appendToFinalEntries(PlayerEntity player, List<ShopEntry> entries) {
         if (player == null
-                || !PerfumerRules.isPerfumer(GameWorldComponent.KEY.get(player.getWorld()).getRole(player))) {
+                || !PerfumerKitRules.isPerfumer(GameWorldComponent.KEY.get(player.getWorld()).getRole(player))) {
             return entries;
         }
 
         List<ShopEntry> result = null;
         Item coolingOil = SparkDlcItems.coolingOil();
-        if (!contains(entries, PerfumerRules.COOLING_OIL_ENTRY_ID, coolingOil)) {
+        if (!contains(entries, PerfumerKitRules.COOLING_OIL_ENTRY_ID, coolingOil)) {
             result = add(result, entries, player, new ShopEntry.Builder(
-                    PerfumerRules.COOLING_OIL_ENTRY_ID,
+                    PerfumerKitRules.COOLING_OIL_ENTRY_ID,
                     ShopStacks.display(coolingOil.getDefaultStack(), "shop.sparkdlc.cooling_oil"),
-                    PerfumerRules.COOLING_OIL_PRICE,
+                    PerfumerKitRules.COOLING_OIL_PRICE,
                     ShopEntry.Type.TOOL
             ).actualStack(coolingOil.getDefaultStack())
                     // Purchase handler (PlayerShopComponent.tryBuy), capped at the throwable stack size.
                     // 购买处理（PlayerShopComponent.tryBuy），堆叠上限为投掷物堆叠数。
-                    .onBuy(buyer -> ShopStacks.giveStackable(buyer, coolingOil, PerfumerRules.THROWABLE_MAX_STACK))
+                    .onBuy(buyer -> ShopStacks.giveStackable(buyer, coolingOil, PerfumerKitRules.THROWABLE_MAX_STACK))
                     .build());
         }
         Item aromaOrb = SparkDlcItems.aromaOrb();
-        if (!contains(entries, PerfumerRules.AROMA_ORB_ENTRY_ID, aromaOrb)) {
+        if (!contains(entries, PerfumerKitRules.AROMA_ORB_ENTRY_ID, aromaOrb)) {
             result = add(result, entries, player, new ShopEntry.Builder(
-                    PerfumerRules.AROMA_ORB_ENTRY_ID,
+                    PerfumerKitRules.AROMA_ORB_ENTRY_ID,
                     ShopStacks.display(aromaOrb.getDefaultStack(), "shop.sparkdlc.aroma_orb"),
-                    PerfumerRules.AROMA_ORB_PRICE,
+                    PerfumerKitRules.AROMA_ORB_PRICE,
                     ShopEntry.Type.TOOL
             ).actualStack(aromaOrb.getDefaultStack())
-                    .onBuy(buyer -> ShopStacks.giveStackable(buyer, aromaOrb, PerfumerRules.THROWABLE_MAX_STACK))
+                    .onBuy(buyer -> ShopStacks.giveStackable(buyer, aromaOrb, PerfumerKitRules.THROWABLE_MAX_STACK))
                     .build());
         }
         Item zephyrPerfume = SparkDlcItems.zephyrPerfume();
-        if (!contains(entries, PerfumerRules.ZEPHYR_PERFUME_ENTRY_ID, zephyrPerfume)) {
+        if (!contains(entries, PerfumerKitRules.ZEPHYR_PERFUME_ENTRY_ID, zephyrPerfume)) {
             result = add(result, entries, player, new ShopEntry.Builder(
-                    PerfumerRules.ZEPHYR_PERFUME_ENTRY_ID,
+                    PerfumerKitRules.ZEPHYR_PERFUME_ENTRY_ID,
                     ShopStacks.display(zephyrPerfume.getDefaultStack(), "shop.sparkdlc.zephyr_perfume"),
-                    PerfumerRules.ZEPHYR_PERFUME_PRICE,
+                    PerfumerKitRules.ZEPHYR_PERFUME_PRICE,
                     ShopEntry.Type.TOOL
             ).actualStack(zephyrPerfume.getDefaultStack())
-                    .stock(PerfumerRules.ZEPHYR_PERFUME_STOCK)
+                    .stock(PerfumerKitRules.ZEPHYR_PERFUME_STOCK)
                     .onBuy(buyer -> buyZephyr(buyer, zephyrPerfume))
                     .build());
         }

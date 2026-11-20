@@ -56,7 +56,7 @@ public final class AromaService {
             return;
         }
         ServerPlayerEntity owner = orb.getOwner() instanceof ServerPlayerEntity player ? player : null;
-        if (owner != null && !SparkFactionApi.canAffectPlayer(owner, target, PerfumerRules.AROMA_ACTION_ID)) {
+        if (owner != null && !SparkFactionApi.canAffectPlayer(owner, target, PerfumerKitRules.AROMA_ACTION_ID)) {
             return;
         }
         PerfumerScentComponent.KEY.get(target).applyAroma(world.getRandom().nextLong());

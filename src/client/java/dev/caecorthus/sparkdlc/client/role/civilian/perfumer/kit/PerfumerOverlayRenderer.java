@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.perfumer.kit;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerRules;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerKitRules;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
@@ -88,7 +88,7 @@ public final class PerfumerOverlayRenderer {
                     0.0F, 0.0F, TEXTURE_SIZE, TEXTURE_SIZE, TEXTURE_SIZE, TEXTURE_SIZE);
             context.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         }
-        renderEyelids(context, width, height, alpha, PerfumerRules.coolingOilEyelidCoverage(elapsedTicks));
+        renderEyelids(context, width, height, alpha, PerfumerKitRules.coolingOilEyelidCoverage(elapsedTicks));
     }
 
     /**

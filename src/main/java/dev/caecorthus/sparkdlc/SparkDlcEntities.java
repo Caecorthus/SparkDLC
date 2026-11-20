@@ -171,63 +171,63 @@ public final class SparkDlcEntities {
 
     public static EntityType<M67GrenadeEntity> m67() {
         if (m67 == null) {
-            throw new IllegalStateException("SparkStrength entities are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit entities are not registered yet");
         }
         return m67;
     }
 
     public static EntityType<CapsuleEntity> capsule() {
         if (capsule == null) {
-            throw new IllegalStateException("SparkStrength entities are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit entities are not registered yet");
         }
         return capsule;
     }
 
     public static EntityType<CaptureDeviceEntity> captureDevice() {
         if (captureDevice == null) {
-            throw new IllegalStateException("SparkStrength entities are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit entities are not registered yet");
         }
         return captureDevice;
     }
 
     public static EntityType<CoolingOilEntity> coolingOil() {
         if (coolingOil == null) {
-            throw new IllegalStateException("SparkStrength entities are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit entities are not registered yet");
         }
         return coolingOil;
     }
 
     public static EntityType<AromaOrbEntity> aromaOrb() {
         if (aromaOrb == null) {
-            throw new IllegalStateException("SparkStrength entities are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit entities are not registered yet");
         }
         return aromaOrb;
     }
 
     public static EntityType<DroneEntity> grenadeDrone() {
         if (grenadeDrone == null) {
-            throw new IllegalStateException("SparkStrength entities are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit entities are not registered yet");
         }
         return grenadeDrone;
     }
 
     public static EntityType<DroneEntity> bombDrone() {
         if (bombDrone == null) {
-            throw new IllegalStateException("SparkStrength entities are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit entities are not registered yet");
         }
         return bombDrone;
     }
 
     public static EntityType<TaotieHeadEntity> taotieHead() {
         if (taotieHead == null) {
-            throw new IllegalStateException("SparkStrength entities are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit entities are not registered yet");
         }
         return taotieHead;
     }
 
     public static EntityType<PartygoerEntity> partygoer() {
         if (partygoer == null) {
-            throw new IllegalStateException("SparkStrength entities are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit entities are not registered yet");
         }
         return partygoer;
     }
@@ -321,26 +321,26 @@ public final class SparkDlcEntities {
 
     public static EntityType<NinjaShurikenEntity> ninjaShuriken() {
         if (ninjaShuriken == null) {
-            throw new IllegalStateException("SparkWitch entities are not registered yet");
+            throw new IllegalStateException("SparkDLC role entities are not registered yet");
         }
         return ninjaShuriken;
     }
 
     public static EntityType<MagicianPlaybackEntity> magicianPlayback() {
-        if (magicianPlayback == null) throw new IllegalStateException("SparkWitch entities are not registered yet");
+        if (magicianPlayback == null) throw new IllegalStateException("SparkDLC role entities are not registered yet");
         return magicianPlayback;
     }
 
     public static EntityType<NinjaGrapplingHookEntity> ninjaGrapplingHook() {
         if (ninjaGrapplingHook == null) {
-            throw new IllegalStateException("SparkWitch entities are not registered yet");
+            throw new IllegalStateException("SparkDLC role entities are not registered yet");
         }
         return ninjaGrapplingHook;
     }
 
     public static EntityType<SphinxHaoFistEntity> sphinxHaoFist() {
         if (sphinxHaoFist == null) {
-            throw new IllegalStateException("SparkWitch entities are not registered yet");
+            throw new IllegalStateException("SparkDLC role entities are not registered yet");
         }
         return sphinxHaoFist;
     }

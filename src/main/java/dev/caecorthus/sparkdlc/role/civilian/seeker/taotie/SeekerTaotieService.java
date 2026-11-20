@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.seeker.taotie;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.compat.noellesroles.SeekerControlExpertBridge;
+import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStunCounter;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerCarState;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
@@ -175,7 +175,7 @@ public final class SeekerTaotieService {
 
         @Override
         public boolean stunned() {
-            return SeekerControlExpertBridge.isStunned(taotie);
+            return ControlExpertStunCounter.isCounting(taotie);
         }
 
         @Override

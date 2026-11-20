@@ -5,6 +5,7 @@ import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.replay.role.RoleKitReplayFormatters;
 import dev.caecorthus.sparkdlc.cooldown.api.ForcedCooldowns;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.caecorthus.sparkdlc.role.civilian.demonhunter.DemonHunterSniffPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartyAnimalSkillComponent;
 import dev.caecorthus.sparkdlc.role.neutral.vulture.VultureSuperCursePlayerComponent;
@@ -154,7 +155,7 @@ public final class TimekeeperWatchService {
      */
     private static List<ServerPlayerEntity> findTargets(ServerPlayerEntity timekeeper) {
         GameWorldComponent game = GameWorldComponent.KEY.get(timekeeper.getServerWorld());
-        boolean reverse = SparkTraitsApi.hasImpostor(timekeeper);
+        boolean reverse = SparkTraitsApi.hasActiveTrait(timekeeper, TraitIds.IMPOSTOR);
         List<ServerPlayerEntity> targets = new ArrayList<>();
 
         for (ServerPlayerEntity target : timekeeper.getServerWorld().getPlayers()) {
@@ -183,15 +184,15 @@ public final class TimekeeperWatchService {
      * 该规则独立于通用“有效阵营”判断，避免改动其它职业已经依赖的优先级。
      */
     private static boolean isNormalTarget(Role role, ServerPlayerEntity target) {
-        return !SparkTraitsApi.hasImpostor(target)
-                && (role.isInnocent() || SparkTraitsApi.hasConscience(target));
+        return !SparkTraitsApi.hasActiveTrait(target, TraitIds.IMPOSTOR)
+                && (role.isInnocent() || SparkTraitsApi.hasActiveTrait(target, TraitIds.CONSCIENCE));
     }
 
     /** Reversed targets of a Timekeeper who holds Impostor: killers without Conscience and the other Impostor civilians.
      *  计时员拥有 impostor 时的反转目标：非善良杀手和其它内鬼好人。 */
     private static boolean isReverseTarget(Role role, ServerPlayerEntity target) {
-        return !SparkTraitsApi.hasConscience(target)
-                && (role.canUseKiller() || SparkTraitsApi.hasImpostor(target));
+        return !SparkTraitsApi.hasActiveTrait(target, TraitIds.CONSCIENCE)
+                && (role.canUseKiller() || SparkTraitsApi.hasActiveTrait(target, TraitIds.IMPOSTOR));
     }
 
     private static void clearItemCooldowns(ServerPlayerEntity player) {

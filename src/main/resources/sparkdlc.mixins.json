@@ -294,7 +294,6 @@
     "role.civilian.emma.EmmaRoundStartMixin",
     "role.civilian.emma.EmmaPoliceGunMixin",
     "role.killer.blackraven.BlackRavenPoliceGunMixin",
-    "role.civilian.emma.EmmaExactCooldownMixin",
     "faction.witch.ItemCooldownRemovalMixin",
     "faction.witch.ForceRoleCommandMixin",
     "role.killer.blackraven.GameFunctionsBlackRavenDropMixin",

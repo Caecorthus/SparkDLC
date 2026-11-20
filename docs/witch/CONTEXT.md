@@ -147,8 +147,9 @@ SparkStrength and SparkAssist do not own SparkWitch gameplay.
 Round-start subtitles are one short sentence per role (owner, 2026-10-25): Wathe shows `announcement.goal.<role>`
 with one killer and `announcement.goals.<role>` with more, so both keys carry the same line; rules, costs and
 cooldowns go in letters, skill descriptions and the SparkAssist guidebook (`roles/RoleGoalSubtitleTest` caps them).
-Seeker availability requires the SparkStrength tablet item (`sparkdlc:tablet`), resolved by
-registry id only; SparkStrength owns no Seeker gameplay. SparkWitch never sells or grants the tablet: SparkStrength
+The Seeker's console is the tablet (`sparkdlc:tablet`), matched by registry id only. The tablet is registered by
+this mod itself, so the former "Seeker availability requires the tablet item" draw condition and the car-as-console
+fallback are gone (they were constant in one mod); SparkStrength owns no Seeker gameplay. SparkWitch never sells or grants the tablet: SparkStrength
 issues it free at round start to every tablet-eligible player (SparkWitch's `PoliceRoles` members and the witch
 faction included) and, through a mid-round reconciliation pass, to players who become eligible later.
 
@@ -1829,7 +1830,7 @@ Current build baseline:
   service), and `taotie/` (NoellesRoles Taotie swallow seam). Its mixins live in `mixin/role/civilian/seeker/`
   and `client/mixin/role/civilian/seeker/`; client presentation (console screen, remote view and car driver,
   device renderers) in `client/role/civilian/seeker/`. Cross-mod seams go through `SparkTraitsApi` (asked directly),
-  `compat/noellesroles/SeekerControlExpertBridge`, `compat/noellesroles/NoellesTaotieSeekerBridge`,
+  `role/civilian/controlexpert/ControlExpertStunCounter`, `compat/noellesroles/NoellesTaotieSeekerBridge`,
   `tablet/TabletItemLookup`, and `item/m67/M67MatchBlastHits`.
 - `role/civilian/usec/`: USEC (`sparkdlc:usec`), the fifth police variant. Its only weapon is the AXMC bolt-action
   sniper rifle (`sparkdlc:usec_rifle`; the owner named it AXMC on 2026-10-07, while ids, classes and the role name
@@ -6444,7 +6445,7 @@ Seeker car.
     substitution that never reaches `killPlayer` (a backfire, a refused target) expires at the end of the tick, and a
     receiver that resolves a real player id drops a pending one (`forget`). Weapons without a reusable player path
     (the bat, sphere blasts, add-on guns) call `killOwnerVia` directly.
-  - **SparkFactionAPI veto** (`BlackRavenCrowTargets.mayAffect`, as `PlayerAffectMixinGuard`: a non-player attacker,
+  - **SparkFactionAPI veto** (`BlackRavenCrowTargets.mayAffect`, as `PlayerAffectGuard`: a non-player attacker,
     the owner itself or a null action pass): SparkFactionAPI's own guards resolve only player ids, and its
     `killPlayer` HEAD veto cancels a refused kill only after a session end, so a refused crow hit must leave the crow
     and its session alone. The kill link and `killOwnerVia` end nothing when the killer is refused for the death

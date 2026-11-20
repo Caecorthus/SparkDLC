@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 import dev.caecorthus.sparkdlc.client.config.SparkDlcClientSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemGroup;
@@ -52,9 +51,6 @@ public final class NoellesCreativeEntries {
     }
 
     public static void register() {
-        if (!FabricLoader.getInstance().isModLoaded(MOD_ID)) {
-            return;
-        }
         file(ItemGroups.TOOLS, Kind.TOOL);
         file(ItemGroups.COMBAT, Kind.WEAPON);
         file(ItemGroups.INGREDIENTS, Kind.OTHER);

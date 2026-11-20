@@ -8,7 +8,7 @@ public final class M67Packets {
     private M67Packets() {
     }
 
-    public static void initialize() {
+    public static void register() {
         PayloadTypeRegistry.playS2C().register(M67SoundPayload.ID, M67SoundPayload.CODEC);
         PayloadTypeRegistry.playC2S().register(M67CancelPayload.ID, M67CancelPayload.CODEC);
         // Fabric dispatches on the server thread; only the authenticated sender can cancel.

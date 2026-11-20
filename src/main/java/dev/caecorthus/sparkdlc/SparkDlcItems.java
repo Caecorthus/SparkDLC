@@ -72,7 +72,7 @@ import dev.caecorthus.sparkdlc.role.civilian.knight.CrossSwordItem;
 import dev.caecorthus.sparkdlc.role.civilian.noa.NoaRules;
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.CologneItem;
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.PerfumeEssenceItem;
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerRules;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerKitRules;
 import dev.caecorthus.sparkdlc.role.civilian.planner.PlannerRules;
 import dev.caecorthus.sparkdlc.role.civilian.planner.PlannerTaskSlipItem;
 import dev.caecorthus.sparkdlc.role.civilian.professor.ProfessorSerumType;
@@ -342,12 +342,12 @@ public final class SparkDlcItems {
         coolingOil = Registry.register(
                 Registries.ITEM,
                 COOLING_OIL_ID,
-                new CoolingOilItem(new Item.Settings().maxCount(PerfumerRules.THROWABLE_MAX_STACK))
+                new CoolingOilItem(new Item.Settings().maxCount(PerfumerKitRules.THROWABLE_MAX_STACK))
         );
         aromaOrb = Registry.register(
                 Registries.ITEM,
                 AROMA_ORB_ID,
-                new AromaOrbItem(new Item.Settings().maxCount(PerfumerRules.THROWABLE_MAX_STACK))
+                new AromaOrbItem(new Item.Settings().maxCount(PerfumerKitRules.THROWABLE_MAX_STACK))
         );
         zephyrPerfume = Registry.register(
                 Registries.ITEM,
@@ -502,196 +502,196 @@ public final class SparkDlcItems {
 
     public static Item m67() {
         if (m67 == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return m67;
     }
 
     public static Item capsule() {
         if (capsule == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return capsule;
     }
 
     public static Item flashlight() {
         if (flashlight == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return flashlight;
     }
 
     public static Item tablet() {
         if (tablet == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return tablet;
     }
 
     public static Item invisibilitySerum() {
         if (invisibilitySerum == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return invisibilitySerum;
     }
 
     public static Item doorpassingPotion() {
         if (doorpassingPotion == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return doorpassingPotion;
     }
 
     public static Item sedative() {
         if (sedative == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return sedative;
     }
 
     public static Item truthSerum() {
         if (truthSerum == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return truthSerum;
     }
 
     public static Item captureDevice() {
         if (captureDevice == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return captureDevice;
     }
 
     public static Item powerRestoration() {
         if (powerRestoration == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return powerRestoration;
     }
 
     public static Item circuitConfigurator() {
         if (circuitConfigurator == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return circuitConfigurator;
     }
 
     public static Item morphReagent() {
         if (morphReagent == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return morphReagent;
     }
 
     public static Item morphDevice() {
         if (morphDevice == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return morphDevice;
     }
 
     public static Item coronerBodyBag() {
         if (coronerBodyBag == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return coronerBodyBag;
     }
 
     public static Item magnifier() {
         if (magnifier == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return magnifier;
     }
 
     public static Item caseFolder() {
         if (caseFolder == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return caseFolder;
     }
 
     public static Item coolingOil() {
         if (coolingOil == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return coolingOil;
     }
 
     public static Item aromaOrb() {
         if (aromaOrb == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return aromaOrb;
     }
 
     public static Item zephyrPerfume() {
         if (zephyrPerfume == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return zephyrPerfume;
     }
 
     public static Item blueVitriol() {
         if (blueVitriol == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return blueVitriol;
     }
 
     public static Item blueBelladonna() {
         if (blueBelladonna == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return blueBelladonna;
     }
 
     public static Item grenadeDrone() {
         if (grenadeDrone == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return grenadeDrone;
     }
 
     public static Item bombDrone() {
         if (bombDrone == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return bombDrone;
     }
 
     public static Item democracyShield() {
         if (democracyShield == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return democracyShield;
     }
 
     public static Item cqcmMask() {
         if (cqcmMask == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return cqcmMask;
     }
 
     public static Item tacticalTomahawk() {
         if (tacticalTomahawk == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return tacticalTomahawk;
     }
 
     public static Item partyBalloon() {
         if (partyBalloon == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return partyBalloon;
     }
 
     public static Item banditRevolver() {
         if (banditRevolver == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return banditRevolver;
     }
@@ -699,7 +699,7 @@ public final class SparkDlcItems {
     public static Item banditAttachment(BanditAttachment attachment) {
         Item item = BANDIT_ATTACHMENTS.get(attachment);
         if (item == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return item;
     }
@@ -707,42 +707,42 @@ public final class SparkDlcItems {
     public static Item banditAmmo(BanditAmmo ammo) {
         Item item = BANDIT_AMMO.get(ammo);
         if (item == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return item;
     }
 
     public static Item impostorLockpick() {
         if (impostorLockpick == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return impostorLockpick;
     }
 
     public static Item bodyguardVest() {
         if (bodyguardVest == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return bodyguardVest;
     }
 
     public static Item skateboard() {
         if (skateboard == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return skateboard;
     }
 
     public static Item ghostflameBitters() {
         if (ghostflameBitters == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return ghostflameBitters;
     }
 
     public static Item emberSugar() {
         if (emberSugar == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return emberSugar;
     }
@@ -764,32 +764,32 @@ public final class SparkDlcItems {
 
     public static Item virus() {
         if (virus == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return virus;
     }
 
     public static Item tVirus() {
         if (tVirus == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return tVirus;
     }
 
     public static Item dyingWatch() {
         if (dyingWatch == null) {
-            throw new IllegalStateException("SparkStrength items are not registered yet");
+            throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         }
         return dyingWatch;
     }
 
     public static Item serialPistol() {
-        if (serialPistol == null) throw new IllegalStateException("SparkStrength items are not registered yet");
+        if (serialPistol == null) throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         return serialPistol;
     }
 
     public static Item serialLeftPistol() {
-        if (serialLeftPistol == null) throw new IllegalStateException("SparkStrength items are not registered yet");
+        if (serialLeftPistol == null) throw new IllegalStateException("SparkDLC role kit items are not registered yet");
         return serialLeftPistol;
     }
 
@@ -1394,287 +1394,287 @@ public final class SparkDlcItems {
 
     public static Item ceremonialSword() {
         if (ceremonialSword == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return ceremonialSword;
     }
 
     public static Item crossSword() {
         if (crossSword == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return crossSword;
     }
 
     public static Item peachwoodSword() {
         if (peachwoodSword == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return peachwoodSword;
     }
 
     public static Item ghostTrigger() {
         if (ghostTrigger == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return ghostTrigger;
     }
 
     public static Item saviorPistol() {
         if (saviorPistol == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return saviorPistol;
     }
 
     public static Item saviorLightsaber() {
         if (saviorLightsaber == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return saviorLightsaber;
     }
 
     public static Item rope() {
         if (rope == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return rope;
     }
 
     public static Item sphinxHaoHandGun() {
         if (sphinxHaoHandGun == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return sphinxHaoHandGun;
     }
 
     public static Item sphinxHaoFistAmmo() {
         if (sphinxHaoFistAmmo == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return sphinxHaoFistAmmo;
     }
 
     public static Item kokoLightstick() {
         if (kokoLightstick == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return kokoLightstick;
     }
 
     public static Item defenseVial() {
         if (defenseVial == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return defenseVial;
     }
 
     public static Item plannerTaskSlip() {
         if (plannerTaskSlip == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return plannerTaskSlip;
     }
 
     public static Item firePoker() {
         if (firePoker == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return firePoker;
     }
 
     public static Item perfumeEssence() {
         if (perfumeEssence == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return perfumeEssence;
     }
 
     public static Item cologne() {
         if (cologne == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return cologne;
     }
 
     public static Item tarotCard() {
         if (tarotCard == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return tarotCard;
     }
 
     public static Item ninjaKnife() {
         if (ninjaKnife == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return ninjaKnife;
     }
 
     public static Item vendettaKnife() {
         if (vendettaKnife == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return vendettaKnife;
     }
 
     public static Item ninjaShuriken() {
         if (ninjaShuriken == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return ninjaShuriken;
     }
 
     public static Item ninjaGrapplingHook() {
         if (ninjaGrapplingHook == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return ninjaGrapplingHook;
     }
 
     public static Item featherBlade() {
         if (featherBlade == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return featherBlade;
     }
 
     public static Item blackRavenLedger() {
         if (blackRavenLedger == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return blackRavenLedger;
     }
 
     public static Item blackRavenMask() {
         if (blackRavenMask == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return blackRavenMask;
     }
 
     public static Item prophetNecrology() {
         if (prophetNecrology == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return prophetNecrology;
     }
 
     public static Item hunterTrap() {
         if (hunterTrap == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return hunterTrap;
     }
 
     public static Item doubleBarrelShotgun() {
         if (doubleBarrelShotgun == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return doubleBarrelShotgun;
     }
 
     public static Item doubleBarrelShell() {
         if (doubleBarrelShell == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return doubleBarrelShell;
     }
 
     public static Item doubleBarrelSlug() {
         if (doubleBarrelSlug == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return doubleBarrelSlug;
     }
 
     public static Item poisonApple() {
         if (poisonApple == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return poisonApple;
     }
 
     public static Item tofanaElixir() {
         if (tofanaElixir == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return tofanaElixir;
     }
 
     public static Item tollBell() {
         if (tollBell == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return tollBell;
     }
 
     public static Item timeStealerClock() {
         if (timeStealerClock == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return timeStealerClock;
     }
 
     public static Item timeStealerGiftWatch() {
         if (timeStealerGiftWatch == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return timeStealerGiftWatch;
     }
 
     public static Item timeStamp() {
         if (timeStamp == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return timeStamp;
     }
 
     public static Item knockoutDrug() {
         if (knockoutDrug == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return knockoutDrug;
     }
 
     public static Item disruptor() {
         if (disruptor == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return disruptor;
     }
 
     public static Item taser() {
         if (taser == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return taser;
     }
 
     public static Item shockDevice() {
         if (shockDevice == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return shockDevice;
     }
 
     public static Item holyFlash() {
         if (holyFlash == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return holyFlash;
     }
 
     public static Item seekerCar() {
         if (seekerCar == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return seekerCar;
     }
 
     public static Item seekerCamera() {
         if (seekerCamera == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return seekerCamera;
     }
@@ -1707,133 +1707,133 @@ public final class SparkDlcItems {
 
     public static Item fishingRod() {
         if (fishingRod == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return fishingRod;
     }
 
     public static Item fishBait() {
         if (fishBait == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return fishBait;
     }
 
     public static Item salmon() {
         if (salmon == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return salmon;
     }
 
     public static Item cod() {
         if (cod == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return cod;
     }
 
     public static Item clownfish() {
         if (clownfish == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return clownfish;
     }
 
     public static Item goldfish() {
         if (goldfish == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return goldfish;
     }
 
     public static Item keyFish() {
         if (keyFish == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return keyFish;
     }
 
     public static Item spareKey() {
         if (spareKey == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return spareKey;
     }
 
     public static Item swordfish() {
         if (swordfish == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return swordfish;
     }
 
     public static Item glimmerfish() {
         if (glimmerfish == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return glimmerfish;
     }
 
     public static Item whiteCane() {
         if (whiteCane == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return whiteCane;
     }
 
     public static Item comTac() {
         if (comTac == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return comTac;
     }
 
     public static Item shriekGun() {
         if (shriekGun == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return shriekGun;
     }
 
     public static Item deepDarkSporeFlask() {
         if (deepDarkSporeFlask == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return deepDarkSporeFlask;
     }
 
     public static Item potionLauncher() {
         if (potionLauncher == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return potionLauncher;
     }
 
     public static Item gwDkShell() {
         if (gwDkShell == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return gwDkShell;
     }
 
     public static Item gwAcShell() {
         if (gwAcShell == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return gwAcShell;
     }
 
     public static Item gwMrShell() {
         if (gwMrShell == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return gwMrShell;
     }
 
     public static Item trShell() {
         if (trShell == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return trShell;
     }
@@ -1849,42 +1849,42 @@ public final class SparkDlcItems {
 
     public static Item riftGate() {
         if (riftGate == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return riftGate;
     }
 
     public static Item riftGateRemover() {
         if (riftGateRemover == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return riftGateRemover;
     }
 
     public static Item usecRifle() {
         if (usecRifle == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return usecRifle;
     }
 
     public static Item usecMagazine() {
         if (usecMagazine == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return usecMagazine;
     }
 
     public static Item usecFmjRound() {
         if (usecFmjRound == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return usecFmjRound;
     }
 
     public static Item usecApRound() {
         if (usecApRound == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return usecApRound;
     }
@@ -1898,70 +1898,70 @@ public final class SparkDlcItems {
 
     public static Item usecSuppressor() {
         if (usecSuppressor == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return usecSuppressor;
     }
 
     public static Item witherGohei() {
         if (witherGohei == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return witherGohei;
     }
 
     public static Item bigDogPortrait() {
         if (bigDogPortrait == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return bigDogPortrait;
     }
 
     public static Item accountantPassbook() {
         if (accountantPassbook == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return accountantPassbook;
     }
 
     public static Item hannaUmbrella() {
         if (hannaUmbrella == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return hannaUmbrella;
     }
 
     public static Item hannaHandkerchief() {
         if (hannaHandkerchief == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return hannaHandkerchief;
     }
 
     public static Item sherryBadge() {
         if (sherryBadge == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return sherryBadge;
     }
 
     public static Item sherryNote() {
         if (sherryNote == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return sherryNote;
     }
 
     public static Item m1903a4() {
         if (m1903a4 == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return m1903a4;
     }
 
     public static Item ammo3006() {
         if (ammo3006 == null) {
-            throw new IllegalStateException("SparkWitch items are not registered yet");
+            throw new IllegalStateException("SparkDLC role items are not registered yet");
         }
         return ammo3006;
     }

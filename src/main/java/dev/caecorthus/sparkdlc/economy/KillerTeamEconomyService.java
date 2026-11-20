@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.economy;
 
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.caecorthus.sparkdlc.economy.KillerTeamEconomyWorldComponent;
 import dev.caecorthus.sparkdlc.economy.SyncKillerTeamEconomyS2CPacket;
 import dev.caecorthus.sparkdlc.record.AchievementRecords;
@@ -149,7 +150,7 @@ public final class KillerTeamEconomyService {
         ServerWorld world = serverPlayer.getServerWorld();
         KillerTeamEconomyWorldComponent purse = KillerTeamEconomyWorldComponent.KEY.get(world);
         int purseBefore = purse.getBalance();
-        if (purse.recordIncome(actualIncome, SparkTraitsApi.hasTeamFirst(serverPlayer))) {
+        if (purse.recordIncome(actualIncome, SparkTraitsApi.hasActiveTrait(serverPlayer, TraitIds.TEAM_FIRST))) {
             syncWorld(world);
             // Achievement record S7 for SparkAssist: this killer's income raised the purse (amount = after - before).
             // 成就记录 S7（供 SparkAssist）：该杀手的收入使团队钱包增加（amount = 入账后 - 入账前）。
@@ -201,7 +202,8 @@ public final class KillerTeamEconomyService {
 
     private static boolean isGenuineMember(ServerPlayerEntity player, GameWorldComponent game) {
         return KillerTeamEconomyRules.isGenuineKiller(hasKillerRole(player, game),
-                SparkTraitsApi.hasImpostor(player), SparkTraitsApi.hasConscience(player));
+                SparkTraitsApi.hasActiveTrait(player, TraitIds.IMPOSTOR),
+                SparkTraitsApi.hasActiveTrait(player, TraitIds.CONSCIENCE));
     }
 
     private static boolean hasKillerRole(ServerPlayerEntity player, GameWorldComponent game) {

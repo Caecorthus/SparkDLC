@@ -6,7 +6,6 @@ import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.WatheClient;
 import java.lang.reflect.Method;
 import java.util.UUID;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.world.World;
@@ -26,7 +25,6 @@ import org.slf4j.LoggerFactory;
  */
 public final class ScavengerBlood {
     private static final Logger LOGGER = LoggerFactory.getLogger("SparkDLC/Blood");
-    private static final String MOD_ID = "noellesroles";
     private static final String COMPONENT = "org.agmas.noellesroles.scavenger.HiddenBodiesWorldComponent";
 
     private static boolean resolved;
@@ -74,11 +72,6 @@ public final class ScavengerBlood {
             return componentKey != null;
         }
         resolved = true;
-        // Absence is the normal case for a pack without NoellesRoles, not something to warn about.
-        // 没装 NoellesRoles 的整合包里缺席是常态，不值得警告。
-        if (!FabricLoader.getInstance().isModLoaded(MOD_ID)) {
-            return false;
-        }
         try {
             Class<?> cls = Class.forName(COMPONENT);
             // ComponentKey's lookups take Object, so the key is used through its type rather than a reflective

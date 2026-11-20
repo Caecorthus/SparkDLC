@@ -10,7 +10,7 @@ import dev.caecorthus.sparkdlc.faction.registry.EffectiveFactionResolvers;
 import dev.caecorthus.sparkdlc.faction.registry.FactionCatalog;
 import dev.caecorthus.sparkdlc.faction.registry.FactionRegistryBootstrap;
 import dev.caecorthus.sparkdlc.faction.registry.FactionRoleCatalog;
-import dev.caecorthus.sparkdlc.faction.target.PlayerAffectMixinGuard;
+import dev.caecorthus.sparkdlc.faction.target.PlayerAffectGuard;
 import dev.caecorthus.sparkdlc.faction.target.PlayerAffectRules;
 import dev.caecorthus.sparkdlc.faction.thirdfaction.ThirdFactionDraw;
 import dev.caecorthus.sparkdlc.faction.thirdfaction.ThirdFactionDrawRules;
@@ -281,7 +281,7 @@ public final class SparkFactionApi {
             @Nullable PlayerEntity target,
             Identifier actionId
     ) {
-        return PlayerAffectMixinGuard.allows(actor, target, actionId);
+        return PlayerAffectGuard.allows(actor, target, actionId);
     }
 
     /**
@@ -293,7 +293,7 @@ public final class SparkFactionApi {
      * @param exemption non-null exemption predicate
      */
     public static void registerPlayerAffectExemption(PlayerAffectExemption exemption) {
-        PlayerAffectMixinGuard.registerExemption(exemption);
+        PlayerAffectGuard.registerExemption(exemption);
     }
 
     /**

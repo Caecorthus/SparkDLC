@@ -127,7 +127,7 @@ public final class SparkDlcPackets {
 
     /** Items and systems that belong to no single role. / 不属于任何单个职业的物品与系统。 */
     private static void registerItemsAndSystems() {
-        M67Packets.initialize();
+        M67Packets.register();
         TabletPackets.register();
         SabotagePackets.register();
         // Killer team economy: the shared balance, sent to the players who may see it. / 杀手团队经济：共享余额，只发给可见的玩家。
@@ -143,7 +143,7 @@ public final class SparkDlcPackets {
         ProphetPackets.register();
         SeekerNetworking.register();
         SherryPackets.register();
-        SpiritPossessionPackets.initialize();
+        SpiritPossessionPackets.register();
         TarotDivinationPackets.register();
         // Noisemaker. / 大嗓门。
         PayloadTypeRegistry.playC2S().register(NoisemakerGlowC2SPacket.ID, NoisemakerGlowC2SPacket.CODEC);
@@ -247,7 +247,7 @@ public final class SparkDlcPackets {
     /** Killer roles. / 杀手职业。 */
     private static void registerKillerRoles() {
         BlackRavenPackets.register();
-        DronePackets.initialize();
+        DronePackets.register();
         // Hunter shotgun aim claim, also role-owned. / 猎人猎枪瞄准声明，同样在自有类中注册。
         HunterNetworking.register();
         MagicianPackets.register();

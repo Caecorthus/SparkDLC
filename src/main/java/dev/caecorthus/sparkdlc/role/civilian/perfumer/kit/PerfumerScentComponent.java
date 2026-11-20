@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.perfumer.kit;
 
 import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.AromaService;
-import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerRules;
+import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerKitRules;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -51,13 +51,13 @@ public final class PerfumerScentComponent implements AutoSyncedComponent, Server
 
     /** Server: start or refresh the Cooling Oil debuff (refresh, never stack). / 服务端：开始或刷新风油精效果（只刷新不叠加）。 */
     public void applyCoolingOil() {
-        coolingOilTicks = PerfumerRules.COOLING_OIL_DURATION_TICKS;
+        coolingOilTicks = PerfumerKitRules.COOLING_OIL_DURATION_TICKS;
         sync();
     }
 
     /** Server: start or refresh the Aroma debuff with a fresh aim-curve seed. / 服务端：开始或刷新香薰效果并更换准心曲线种子。 */
     public void applyAroma(long seed) {
-        aromaTicks = PerfumerRules.AROMA_DURATION_TICKS;
+        aromaTicks = PerfumerKitRules.AROMA_DURATION_TICKS;
         aromaSeed = seed;
         sync();
     }
@@ -167,7 +167,7 @@ public final class PerfumerScentComponent implements AutoSyncedComponent, Server
                 AromaService.spawnHeadParticles((ServerPlayerEntity) player);
             }
         }
-        if (zephyr && ++zephyrRefreshTicks >= PerfumerRules.ZEPHYR_REFRESH_INTERVAL_TICKS) {
+        if (zephyr && ++zephyrRefreshTicks >= PerfumerKitRules.ZEPHYR_REFRESH_INTERVAL_TICKS) {
             zephyrRefreshTicks = 0;
             ensureZephyrSpeed();
         }
@@ -191,11 +191,11 @@ public final class PerfumerScentComponent implements AutoSyncedComponent, Server
 
     private void ensureZephyrSpeed() {
         StatusEffectInstance current = player.getStatusEffect(StatusEffects.SPEED);
-        if (current != null && current.getAmplifier() >= PerfumerRules.ZEPHYR_SPEED_AMPLIFIER
+        if (current != null && current.getAmplifier() >= PerfumerKitRules.ZEPHYR_SPEED_AMPLIFIER
                 && current.isInfinite()) {
             return;
         }
-        if (current != null && current.getAmplifier() > PerfumerRules.ZEPHYR_SPEED_AMPLIFIER) {
+        if (current != null && current.getAmplifier() > PerfumerKitRules.ZEPHYR_SPEED_AMPLIFIER) {
             // Never override a stronger Speed. If Zephyr was applied first, vanilla keeps it hidden underneath;
             // otherwise the next refresh after the stronger one expires re-adds it.
             // 不覆盖更强的速度。若晨风先生效，原版会把它藏在下面；否则等更强的结束后，下一次检查会补回。
@@ -206,7 +206,7 @@ public final class PerfumerScentComponent implements AutoSyncedComponent, Server
         player.addStatusEffect(new StatusEffectInstance(
                 StatusEffects.SPEED,
                 StatusEffectInstance.INFINITE,
-                PerfumerRules.ZEPHYR_SPEED_AMPLIFIER,
+                PerfumerKitRules.ZEPHYR_SPEED_AMPLIFIER,
                 false,
                 false,
                 true
@@ -216,7 +216,7 @@ public final class PerfumerScentComponent implements AutoSyncedComponent, Server
     private void removeZephyrSpeed() {
         StatusEffectInstance current = player.getStatusEffect(StatusEffects.SPEED);
         if (current != null && current.isInfinite()
-                && current.getAmplifier() == PerfumerRules.ZEPHYR_SPEED_AMPLIFIER) {
+                && current.getAmplifier() == PerfumerKitRules.ZEPHYR_SPEED_AMPLIFIER) {
             player.removeStatusEffect(StatusEffects.SPEED);
         }
     }

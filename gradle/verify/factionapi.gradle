@@ -180,7 +180,7 @@ def verifyFactionApiModJar = tasks.register("verifyFactionApiModJar") {
                     "dev/caecorthus/sparkdlc/faction/gun/FactionGunPunishmentAdapter.class",
                     "dev/caecorthus/sparkdlc/faction/economy/FactionPassiveMoneyAdapter.class",
                     "dev/caecorthus/sparkdlc/faction/target/PlayerAffectRules.class",
-                    "dev/caecorthus/sparkdlc/faction/target/PlayerAffectMixinGuard.class",
+                    "dev/caecorthus/sparkdlc/faction/target/PlayerAffectGuard.class",
                     "dev/caecorthus/sparkdlc/compat/noellesroles/NoellesHiddenEquipment.class",
                     "dev/caecorthus/sparkdlc/cooldown/api/ForcedCooldowns.class",
                     "dev/caecorthus/sparkdlc/cooldown/ForcedCooldownRegistry.class",

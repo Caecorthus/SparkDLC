@@ -156,13 +156,13 @@ public final class BlackRavenCrowTargets {
 
     /**
      * External seam (SparkFactionAPI, deny wins): whether {@code attacker} may affect the crow's {@code owner} with
-     * {@code action}, exactly as SparkFactionAPI judges a hit on the owner's body ({@code PlayerAffectMixinGuard}: no
+     * {@code action}, exactly as SparkFactionAPI judges a hit on the owner's body ({@code PlayerAffectGuard}: no
      * player attacker, the owner itself or a null action always pass). SparkFactionAPI's own guards resolve only player
      * ids (Wathe's gun/knife receivers, projectile collisions, the {@code killPlayer} HEAD veto that would cancel the
      * kill after our session end), so every entry where a crow hit becomes an owner hit asks this first, and a refused
      * hit leaves the crow and its session alone.
      * 外部接缝（SparkFactionAPI，拒绝优先）：{@code attacker} 能否以 {@code action} 影响乌鸦的主人 {@code owner}，判定与
-     * SparkFactionAPI 对命中本体的判定完全一致（{@code PlayerAffectMixinGuard}：非玩家攻击者、主人本人或 null 行为一律放行）。
+     * SparkFactionAPI 对命中本体的判定完全一致（{@code PlayerAffectGuard}：非玩家攻击者、主人本人或 null 行为一律放行）。
      * SparkFactionAPI 自身的守卫只解析玩家 id（Wathe 枪/刀接收器、投射物碰撞，以及会在会话已结束后才取消击杀的
      * {@code killPlayer} HEAD 否决），因此每个把乌鸦命中变为主人命中的入口都先询问此处，被拒的命中不触碰乌鸦及其会话。
      */

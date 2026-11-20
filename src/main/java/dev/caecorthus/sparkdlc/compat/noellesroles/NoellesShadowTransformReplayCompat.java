@@ -7,7 +7,6 @@ import dev.doctor4t.wathe.record.GameRecordManager;
 import dev.doctor4t.wathe.record.replay.ReplayEventFormatter;
 import dev.doctor4t.wathe.record.replay.ReplayRegistry;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
@@ -21,7 +20,6 @@ import org.jetbrains.annotations.Nullable;
  * {@code role_changed} 时，同一玩家同一刻的 Noelles 行被抑制。因 Noelles 在自身初始化时注册格式化器，故在服务器启动时包裹。
  */
 public final class NoellesShadowTransformReplayCompat {
-    private static final String MOD_ID = "noellesroles";
     private static final String SHADOW_TRANSFORM_EVENT_TYPE = "shadow_transform";
     // Wathe's GameRecordManager#addEvent stores the actor UUID under this key.
     // Wathe 的 GameRecordManager#addEvent 以此键存储 actor UUID。
@@ -32,7 +30,7 @@ public final class NoellesShadowTransformReplayCompat {
     }
 
     public static synchronized void register() {
-        if (registered || !FabricLoader.getInstance().isModLoaded(MOD_ID)) {
+        if (registered) {
             return;
         }
         registered = true;

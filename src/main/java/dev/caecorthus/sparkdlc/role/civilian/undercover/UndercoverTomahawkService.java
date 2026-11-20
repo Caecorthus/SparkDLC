@@ -4,6 +4,7 @@ import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverPlayerComponent;
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
@@ -144,9 +145,9 @@ public final class UndercoverTomahawkService {
         // 必须在 killPlayer 之前读取：SparkTraits 会在 KillPlayer.AFTER 中清空死者天赋。
         InnocentKnifeKillRules.PreKill preKill = InnocentKnifeKillRules.beforeKill(
                 game.isInnocent(victim),
-                SparkTraitsApi.hasImpostor(victim),
-                SparkTraitsApi.hasConscience(victim),
-                SparkTraitsApi.hasImpostor(attacker));
+                SparkTraitsApi.hasActiveTrait(victim, TraitIds.IMPOSTOR),
+                SparkTraitsApi.hasActiveTrait(victim, TraitIds.CONSCIENCE),
+                SparkTraitsApi.hasActiveTrait(attacker, TraitIds.IMPOSTOR));
         GameRecordManager.recordItemUse(attacker, SparkDlcItems.TACTICAL_TOMAHAWK_ID, victim, null);
         Vec3d hitAt = crowPos != null ? crowPos : victim.getPos();
         attacker.getWorld().playSound(null, hitAt.x, hitAt.y, hitAt.z,

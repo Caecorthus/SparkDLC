@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.compat.noellesroles;
 
-import dev.caecorthus.sparkdlc.faction.target.PlayerAffectMixinGuard;
+import dev.caecorthus.sparkdlc.faction.target.PlayerAffectGuard;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
@@ -182,11 +182,11 @@ public abstract class NoellesRolesPacketAffectMixin {
             CallbackInfo ci
     ) {
         ServerPlayerEntity actor = context.player();
-        ServerPlayerEntity target = PlayerAffectMixinGuard.onlineTarget(
+        ServerPlayerEntity target = PlayerAffectGuard.onlineTarget(
                 actor,
-                PlayerAffectMixinGuard.uuidAccessor(payload, accessor)
+                PlayerAffectGuard.uuidAccessor(payload, accessor)
         );
-        if (target != null && !PlayerAffectMixinGuard.allows(actor, target, actionId)) {
+        if (target != null && !PlayerAffectGuard.allows(actor, target, actionId)) {
             ci.cancel();
         }
     }

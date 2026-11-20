@@ -59,7 +59,7 @@ public final class CoolingOilService {
             return;
         }
         Vec3d center = PerfumerKitService.impactPoint(oil, hit);
-        Vec3d origin = PerfumerKitService.settleToFloor(world, oil, center, PerfumerRules.COOLING_OIL_MAX_SETTLE_DROP);
+        Vec3d origin = PerfumerKitService.settleToFloor(world, oil, center, PerfumerKitRules.COOLING_OIL_MAX_SETTLE_DROP);
         PerfumerKitService.centerOn(oil, origin);
         playBurst(world, oil, center, origin);
 
@@ -70,10 +70,10 @@ public final class CoolingOilService {
         List<ServerPlayerEntity> candidates = world.getPlayers(player -> GameFunctions.isPlayerPlayingAndAlive(player)
                 && GameFunctions.isPlayerAliveAndSurvival(player)
                 && !oil.isThrower(player)
-                && !PerfumerRules.isPerfumer(game.getRole(player)));
+                && !PerfumerKitRules.isPerfumer(game.getRole(player)));
         for (ServerPlayerEntity victim : GrenadeBlastService.filterVictims(world, oil, candidates,
-                PerfumerRules.COOLING_OIL_RADIUS)) {
-            if (owner != null && !SparkFactionApi.canAffectPlayer(owner, victim, PerfumerRules.COOLING_OIL_ACTION_ID)) {
+                PerfumerKitRules.COOLING_OIL_RADIUS)) {
+            if (owner != null && !SparkFactionApi.canAffectPlayer(owner, victim, PerfumerKitRules.COOLING_OIL_ACTION_ID)) {
                 continue;
             }
             PerfumerScentComponent.KEY.get(victim).applyCoolingOil();

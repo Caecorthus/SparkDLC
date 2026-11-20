@@ -2,7 +2,6 @@ package dev.caecorthus.sparkdlc.role.civilian.seeker.device;
 
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
-import dev.caecorthus.sparkdlc.tablet.TabletItemLookup;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerBreakSource;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerCarState;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerDeviceKind;
@@ -142,16 +141,14 @@ public final class SeekerDeviceService {
     }
 
     /**
-     * DEPLOYED car item use on the server. With SparkStrength the owner is pointed at the tablet; without it the
-     * client-side console opener (WP-11) handles the car item as the console, so the server only refuses.
-     * 服务端处理 DEPLOYED 时的小车物品使用。装有 SparkStrength 时提示改用平板；未装时由客户端控制台打开器（WP-11）
-     * 把小车物品当作控制台处理，因此服务端只拒绝。
+     * DEPLOYED car item use on the server: the owner is pointed at the tablet and the use is refused. (The hint used
+     * to depend on the tablet item existing; this mod registers the tablet itself, so it always did.)
+     * 服务端处理 DEPLOYED 时的小车物品使用：提示改用平板并拒绝本次使用。（该提示原先取决于平板物品是否存在；如今平板由本模组
+     * 自己注册，因此恒成立。）
      */
     public static TypedActionResult<ItemStack> useDeployedCarItem(ServerPlayerEntity owner, Hand hand) {
         ItemStack stack = owner.getStackInHand(hand);
-        if (TabletItemLookup.isAvailable()) {
-            actionBar(owner, CAR_USE_TABLET);
-        }
+        actionBar(owner, CAR_USE_TABLET);
         return TypedActionResult.fail(stack);
     }
 

@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.knight;
 
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.caecorthus.sparkdlc.skill.api.SparkRoleApi;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.CanSeeMoney;
@@ -12,7 +13,6 @@ import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -20,7 +20,6 @@ import org.jetbrains.annotations.Nullable;
  * 骑士沿用法官的任务经济：开局 0 金币，每完成一个任务 +50，金钱始终可见。
  */
 public final class KnightEconomyService {
-    private static final Identifier IMPOSTOR = Identifier.of("sparkdlc", "impostor");
     private static boolean registered;
 
     private KnightEconomyService() {
@@ -54,7 +53,7 @@ public final class KnightEconomyService {
         // Pays only a non-Impostor (SparkTraits pays that trait's task income itself). SparkTraits is fused into
         // SparkDLC, so the facade call is direct.
         // 仅向非内鬼发放（内鬼词条的任务收入由 SparkTraits 自行支付）。SparkTraits 已融合进 SparkDLC，门面为直接调用。
-        if (canEarn(player) && !SparkTraitsApi.hasActiveTrait(player, IMPOSTOR)) {
+        if (canEarn(player) && !SparkTraitsApi.hasActiveTrait(player, TraitIds.IMPOSTOR)) {
             PlayerShopComponent.KEY.get(player).addToBalance(KnightRules.TASK_MONEY_REWARD);
         }
     }

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker;
 
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.compat.noellesroles.SeekerControlExpertBridge;
+import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStunCounter;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.caecorthus.sparkdlc.role.killer.kidnapper.KidnapperControlComponent;
@@ -129,7 +129,7 @@ public final class SeekerTargeting {
                 () -> isActiveParticipant(player),
                 () -> GrandWitchFearService.isPlayerFeared(player),
                 () -> SparkTraitsApi.isRoleSkillBlocked(player),
-                () -> SeekerControlExpertBridge.isStunned(player),
+                () -> ControlExpertStunCounter.isCounting(player),
                 () -> isKidnapped(player),
                 () -> SeekerRules.devicesDenied(SparkTraitsApi.hasActiveTrait(player, TraitIds.IMPOSTOR)));
     }

@@ -35,6 +35,19 @@ public final class PartygoerWeaponTarget {
     /**
      * Server: a Partygoer a weapon may hit right now (visible, not inside a Taotie, not already dead).
      * 服务端：此刻可被武器命中的派对客（可见、不在饕餮肚里、尚未死亡）。
+     *
+     * <p>Not the same rule as {@link PartygoerHitGeometry#isTargetable}, and deliberately not merged with it. This one
+     * always asks the server brain ({@link PartygoerService#isKillable}), so on a client, where no brain exists, it
+     * answers false for every Partygoer; {@code isTargetable} answers there from the synced entity state instead (it
+     * feeds client aim hints). {@code isTargetable} also reads the entity itself ({@code isAlive()}, the synced
+     * {@code partyState()}), which this one leaves to the brain. On the server the two agree for every state the
+     * Partygoer can reach (it takes no damage, and the brain writes the synced state), which is why other features'
+     * weapons may ask either door.
+     * 与 {@link PartygoerHitGeometry#isTargetable} 不是同一条规则，刻意不合并。本规则始终询问服务端大脑
+     * （{@link PartygoerService#isKillable}），因此在没有大脑的客户端对任何派对客都回答 false；{@code isTargetable} 在客户端
+     * 改由同步的实体状态回答（供客户端瞄准提示使用）。{@code isTargetable} 还会读取实体自身（{@code isAlive()}、同步的
+     * {@code partyState()}），本规则把这些交给大脑判断。在服务端，对派对客能达到的每种状态二者结论一致（它不受伤害，
+     * 同步状态也由大脑写入），所以其他功能的武器询问任一入口皆可。</p>
      */
     public static boolean isKillable(@Nullable Entity entity) {
         if (!isPartygoer(entity) || entity.isRemoved() || entity.isInvisible()) {

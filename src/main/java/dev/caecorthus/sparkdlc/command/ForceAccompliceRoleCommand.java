@@ -15,7 +15,6 @@ import dev.caecorthus.sparkdlc.role.witch.accomplice.variant.AccompliceVariants;
 import dev.caecorthus.sparkdlc.role.witch.bewitched.BewitchedPromotionRules;
 import dev.caecorthus.sparkdlc.role.witch.bewitched.BewitchedPromotionService;
 import dev.caecorthus.sparkdlc.util.RoleDisplayTextRules;
-import dev.caecorthus.sparkdlc.util.RoleCommandPermissions;
 import dev.doctor4t.wathe.Wathe;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -68,8 +67,8 @@ public final class ForceAccompliceRoleCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(CommandManager.literal("sparkdlc:forceAccompliceRole")
                 .requires(LegacyPermissions.require(
-                        RoleCommandPermissions.COMMAND_FORCE_ACCOMPLICE_ROLE,
-                        RoleCommandPermissions.DEFAULT_COMMAND_LEVEL
+                        SparkDlcPermissions.COMMAND_FORCE_ACCOMPLICE_ROLE,
+                        SparkDlcPermissions.DEFAULT_COMMAND_LEVEL
                 ))
                 .then(CommandManager.argument("role", IdentifierArgumentType.identifier())
                         .suggests(ForceAccompliceRoleCommand::suggestRoles)

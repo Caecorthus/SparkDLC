@@ -5874,7 +5874,7 @@ client renders and sends requests. Its `gui.sparkdlc.skills` panel shows only `s
   (D16), and closes through `RiftGateRegistry.close(CONSOLE)` after two clicks (`RiftGateCloseConfirm`); no close-all.
 - **Rift Gate Remover** (`sparkdlc:rift_gate_remover`, 传送门清除工具, owner 2026-10-05). An operator tool listed only
   in vanilla's Operator Utilities tab (`SparkDlcItemGroups.operatorOnlyItems`, kept out of the SparkWitch tab).
-  `gate/RiftGateRemoverService` checks `RoleCommandPermissions.ITEM_RIFT_GATE_REMOVER` (op level 2 by default), picks
+  `gate/RiftGateRemoverService` checks `SparkDlcPermissions.ITEM_RIFT_GATE_REMOVER` (op level 2 by default), picks
   the gate on the look ray within 24 blocks (stopped by block outlines), and closes it through
   `RiftGateRegistry.close(ADMIN)`: occupants are released at the gate with no re-entry cooldown, also when a blocked
   first release is retried by the tick (`RiftSessionComponent.pendingCloseReason`, server-only). Works in any round

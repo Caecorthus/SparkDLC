@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.veteran;
 
 import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.veteran.VeteranKnifeComponent;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.doctor4t.wathe.api.Role;
@@ -60,7 +60,7 @@ public final class VeteranKnifeService {
         }
 
         // 只要是老兵的刀包，就不再放回原逻辑；无效目标直接整刀无效，避免原版播放声音/设置 CD。
-        if (SparkTraitsCompat.isKillerInteractionBlocked(player) || player.isSpectator()) {
+        if (SparkTraitsApi.isKillerInteractionBlocked(player) || player.isSpectator()) {
             return true;
         }
         // A SparkWitch Raven Form crow id resolves to its owner (KnifeStabTargets); the Veteran rules below apply to it.
@@ -82,7 +82,7 @@ public final class VeteranKnifeService {
 
         Hand usedHand = heldKnifeHand(player);
         if (!SparkFactionCompat.canAffectPlayer(player, target, GameConstants.DeathReasons.KNIFE)
-                || SparkTraitsCompat.shouldCancelMeleeAttack(player, target, player.getStackInHand(usedHand))) {
+                || SparkTraitsApi.blocksOrCancelsMeleeAttack(player, target, player.getStackInHand(usedHand))) {
             return true;
         }
         knife.useStab();
@@ -109,7 +109,7 @@ public final class VeteranKnifeService {
     }
 
     private static boolean handleCoronerInstantSilentKnifeDisguise(KnifeStabPayload payload, ServerPlayerEntity player) {
-        if (SparkTraitsCompat.isKillerInteractionBlocked(player) || player.isSpectator()) {
+        if (SparkTraitsApi.isKillerInteractionBlocked(player) || player.isSpectator()) {
             return true;
         }
         ServerPlayerEntity target = KnifeStabTargets.resolve(player, payload.target());
@@ -129,7 +129,7 @@ public final class VeteranKnifeService {
          */
         Hand usedHand = heldKnifeHand(player);
         if (!SparkFactionCompat.canAffectPlayer(player, target, GameConstants.DeathReasons.KNIFE)
-                || SparkTraitsCompat.shouldCancelMeleeAttack(player, target, player.getStackInHand(usedHand))) {
+                || SparkTraitsApi.blocksOrCancelsMeleeAttack(player, target, player.getStackInHand(usedHand))) {
             return true;
         }
         GameRecordManager.recordItemUse(
@@ -159,9 +159,9 @@ public final class VeteranKnifeService {
         // 必须在 killPlayer 之前读取：SparkTraits 会在 KillPlayer.AFTER 监听中清空死者的生效天赋。
         return InnocentKnifeKillRules.beforeKill(
                 game.isInnocent(target),
-                SparkTraitsCompat.hasImpostor(target),
-                SparkTraitsCompat.hasConscience(target),
-                SparkTraitsCompat.hasImpostor(attacker)
+                SparkTraitsApi.hasImpostor(target),
+                SparkTraitsApi.hasConscience(target),
+                SparkTraitsApi.hasImpostor(attacker)
         );
     }
 

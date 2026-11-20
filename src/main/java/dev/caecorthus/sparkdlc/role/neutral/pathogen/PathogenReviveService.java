@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.SparkStrength;
 import dev.caecorthus.sparkdlc.role.killer.morphling.MorphBodyDisguiseWorldComponent;
 import dev.caecorthus.sparkdlc.role.neutral.pathogen.PathogenStrainComponent;
 import dev.caecorthus.sparkdlc.role.neutral.pathogen.VirusCarrierComponent;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsReviveCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.mixin.compat.noellesroles.HiddenBodiesWorldComponentAccessor;
 import dev.caecorthus.sparkdlc.mixin.wathe.GameWorldComponentDeadPlayersAccessor;
 import dev.caecorthus.sparkdlc.util.SparkPlayers;
@@ -72,9 +72,9 @@ public final class PathogenReviveService {
                 owner != null && owner.isSpectator(),
                 user.getUuid().equals(ownerId),
                 ownerId != null && isNewestBody(world, body, ownerId),
-                SparkTraitsReviveCompat.isFakeDeathBody(body),
+                SparkTraitsApi.isFakeDeathBody(body),
                 ownerId != null && HiddenBodiesWorldComponent.KEY.get(world).isHidden(ownerId),
-                owner != null && SparkTraitsReviveCompat.isLastStandDeathIntercepted(owner)
+                owner != null && SparkTraitsApi.isLastStandDeathIntercepted(owner)
         );
         if (verdict == PathogenRules.ReviveVerdict.UNAVAILABLE) {
             user.sendMessage(Text.translatable("message.sparkdlc.pathogen.revive_unavailable"), true);

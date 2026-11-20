@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.bandit;
 
 import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.bridge.strength.SparkWitchCompat;
 import dev.caecorthus.sparkdlc.item.BanditRevolverItem;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponHits;
@@ -55,7 +55,7 @@ public final class BanditRevolverShotService {
             server.execute(() -> handle(shooter, targetId));
             return;
         }
-        if (SparkTraitsCompat.isKillerInteractionBlocked(shooter)) {
+        if (SparkTraitsApi.isKillerInteractionBlocked(shooter)) {
             return;
         }
         ItemStack gun = authorizedRevolver(shooter);

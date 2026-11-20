@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.veteran;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
@@ -33,7 +33,7 @@ public final class VeteranRules {
     }
 
     public static boolean isEffectiveCivilian(@Nullable Role role, @Nullable PlayerEntity player) {
-        return SparkTraitsCompat.isEffectiveCivilian(role, player);
+        return SparkTraitsApi.isEffectiveCivilian(role, player);
     }
 
     public static boolean shouldRemoveKnifeAfterUse(int remainingUses) {

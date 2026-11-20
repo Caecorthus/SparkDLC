@@ -1,7 +1,6 @@
 package dev.caecorthus.sparkdlc.role;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsDroneCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.bridge.strength.SparkWitchCompat;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
 import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadDaze;
@@ -59,11 +58,11 @@ public final class AbilityLocks {
         /** Swallowed by the NoellesRoles Taotie. / 被 NoellesRoles 饕餮吞下。 */
         SWALLOWED(SwallowedPlayerComponent::isPlayerSwallowed),
         /** SparkTraits role-skill block (Last Escape, silenced killer ...). / SparkTraits 职业技能封锁（脱险、被沉默的杀手等）。 */
-        ROLE_SKILL_BLOCK(SparkTraitsDroneCompat::isRoleSkillBlocked),
+        ROLE_SKILL_BLOCK(SparkTraitsApi::isRoleSkillBlocked),
         /** SparkTraits killer-interaction block. / SparkTraits 杀手交互封锁。 */
-        KILLER_INTERACTION_BLOCK(SparkTraitsCompat::isKillerInteractionBlocked),
+        KILLER_INTERACTION_BLOCK(SparkTraitsApi::isKillerInteractionBlocked),
         /** A pending SparkTraits Last Stand. / 待决的 SparkTraits 背水一战。 */
-        LAST_STAND_PENDING(SparkTraitsDroneCompat::isLastStandPending);
+        LAST_STAND_PENDING(SparkTraitsApi::isLastStandPending);
 
         private final Predicate<ServerPlayerEntity> holds;
 

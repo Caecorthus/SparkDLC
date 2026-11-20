@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.perfumer.kit;
 
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerScentComponent;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.util.ShopStacks;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.util.ShopEntry;
@@ -104,7 +104,7 @@ public final class PerfumerShopService {
             List<ShopEntry> result, List<ShopEntry> entries, PlayerEntity player, ShopEntry entry
     ) {
         List<ShopEntry> target = result == null ? new ArrayList<>(entries) : result;
-        target.add(SparkTraitsCompat.discountShopEntryForCharisma(player, entry));
+        target.add(SparkTraitsApi.discountShopEntryForCharisma(player, entry));
         return target;
     }
 }

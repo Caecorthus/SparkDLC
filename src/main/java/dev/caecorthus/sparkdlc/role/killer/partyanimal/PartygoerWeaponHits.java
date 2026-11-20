@@ -1,8 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
 import dev.caecorthus.sparkdlc.SparkStrength;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsDroneCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
 import dev.caecorthus.sparkdlc.role.NonPlayerTargetWeapons;
 import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneHitGeometry;
@@ -125,7 +124,7 @@ public final class PartygoerWeaponHits {
 
     private static boolean onBat(ServerPlayerEntity attacker, PartygoerEntity partygoer, ItemStack bat) {
         if (!mayKill(attacker) || partygoer.getWorld() != attacker.getWorld()
-                || SparkTraitsCompat.isMeleeActionBlocked(attacker, bat)
+                || SparkTraitsApi.blocksWeaponAction(attacker, bat)
                 || !PartygoerWeaponRules.fullyCharged(attacker.getAttackCooldownProgress(0.5F))
                 // Vanilla checks reach only; re-check it and line of sight. / 原版只查距离，补查距离与视线。
                 || !PartygoerHitGeometry.inMeleeReach(attacker, partygoer, PartygoerWeaponRules.MELEE_REACH)) {
@@ -157,7 +156,7 @@ public final class PartygoerWeaponHits {
                                      Identifier deathReason) {
         return mayKill(attacker) && partygoer.getWorld() == attacker.getWorld()
                 && PartygoerHitGeometry.isTargetable(partygoer)
-                && !SparkTraitsCompat.isMeleeActionBlocked(attacker, tomahawk)
+                && !SparkTraitsApi.blocksWeaponAction(attacker, tomahawk)
                 && PartygoerHitGeometry.inMeleeReach(attacker, partygoer, PartygoerWeaponRules.TOMAHAWK_REACH)
                 && PartygoerService.killByWeapon(attacker, partygoer, deathReason);
     }
@@ -183,7 +182,7 @@ public final class PartygoerWeaponHits {
         }
         ItemStack knife = attacker.getStackInHand(hand);
         if (attacker.getItemCooldownManager().isCoolingDown(knife.getItem())
-                || SparkTraitsCompat.isMeleeActionBlocked(attacker, knife)
+                || SparkTraitsApi.blocksWeaponAction(attacker, knife)
                 || !PartygoerHitGeometry.inMeleeReach(attacker, partygoer,
                 PartygoerWeaponRules.KNIFE_RANGE + PartygoerWeaponRules.KNIFE_REACH_TOLERANCE)) {
             return;
@@ -258,7 +257,7 @@ public final class PartygoerWeaponHits {
      */
     public static boolean onKunai(ServerPlayerEntity user, Hand hand, ItemStack kunai) {
         if (!mayKill(user) || user.getItemCooldownManager().isCoolingDown(kunai.getItem())
-                || SparkTraitsCompat.isMeleeActionBlocked(user, kunai)) {
+                || SparkTraitsApi.blocksWeaponAction(user, kunai)) {
             return false;
         }
         double range = PartygoerWeaponRules.NINJA_KNIFE_RANGE;
@@ -678,7 +677,7 @@ public final class PartygoerWeaponHits {
     private static boolean ceremonialSwordKill(ServerPlayerEntity attacker, PartygoerEntity partygoer) {
         Item sword = heldItem(attacker, PartygoerWeaponRules.CEREMONIAL_SWORD_ID);
         if (!GrandWitchSword.mayStrike(attacker)
-                || sword != null && SparkTraitsCompat.isMeleeActionBlocked(attacker, new ItemStack(sword))) {
+                || sword != null && SparkTraitsApi.blocksWeaponAction(attacker, new ItemStack(sword))) {
             return false;
         }
         Vec3d at = partygoer.getPos();
@@ -739,8 +738,8 @@ public final class PartygoerWeaponHits {
         return player != null && !player.isRemoved() && player.isAlive()
                 && GameFunctions.isPlayerAliveAndSurvival(player)
                 && GameFunctions.isPlayerPlayingAndAlive(player)
-                && !SparkTraitsCompat.isKillerInteractionBlocked(player)
-                && !SparkTraitsDroneCompat.isLastStandPending(player)
+                && !SparkTraitsApi.isKillerInteractionBlocked(player)
+                && !SparkTraitsApi.isLastStandPending(player)
                 && !PartygoerCarry.isCarried(player);
     }
 

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.bodyguard;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.bridge.strength.SparkWitchCompat;
 import dev.doctor4t.wathe.api.event.ShouldPunishGunShooter;
 import dev.doctor4t.wathe.cca.PlayerStaminaComponent;
@@ -84,7 +84,7 @@ public final class BodyguardProtectionService {
         // SparkTraits 二次打击会让被护盾挡下的攻击再结算一次，但它的快照不认识这套装备，所以在这里模拟：共两次结算，
         // 每次先由仍举着的盾挡，否则由防弹衣挡，都挡不住时击杀继续交给其余保护。
         int settlements = killer != null && killer != victim
-                && SparkTraitsCompat.hasTrait(killer, BodyguardRules.SECOND_STRIKE_TRAIT_ID) ? 2 : 1;
+                && SparkTraitsApi.hasActiveTrait(killer, BodyguardRules.SECOND_STRIKE_TRAIT_ID) ? 2 : 1;
         boolean shieldBlocked = false;
         for (; settlements > 0; settlements--) {
             if (shieldApplies && BodyguardShieldService.isRaisedForBlocking(victim)) {

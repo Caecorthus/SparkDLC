@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.sabotage;
 
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -25,7 +25,7 @@ public final class ImpostorLockpickService {
      */
     public static void grantStarterLockpicks(ServerWorld world, GameWorldComponent game) {
         for (ServerPlayerEntity player : world.getPlayers()) {
-            if (game.hasAnyRole(player) && SparkTraitsCompat.hasImpostor(player)
+            if (game.hasAnyRole(player) && SparkTraitsApi.hasImpostor(player)
                     && SabotageAccess.hasSabotageIdentity(player) && !hasLockpick(player)
                     && player.giveItemStack(new ItemStack(SparkStrengthItems.impostorLockpick()))) {
                 player.sendMessage(Text.translatable("message.sparkdlc.sabotage.impostor_lockpick_granted"), false);

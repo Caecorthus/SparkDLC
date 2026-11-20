@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartyBalloonMarkComponent;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.nav.TrainNavGrid;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.nav.TrainPathfinder;
@@ -34,7 +34,7 @@ public final class PartygoerTargeting {
                 GameFunctions.isPlayerPlayingAndAlive(player) && GameFunctions.isPlayerAliveAndSurvival(player),
                 SwallowedPlayerComponent.isPlayerSwallowed(player),
                 player.getUuid().equals(summoner),
-                SparkTraitsCompat.isEffectiveKiller(game.getRole(player), player),
+                SparkTraitsApi.isEffectiveKiller(game.getRole(player), player),
                 UndercoverRoles.isUndercover(player),
                 UndercoverRoles.isStage2(player),
                 HeliumBuzzPlayerComponent.KEY.get(player).isActive(),
@@ -64,8 +64,8 @@ public final class PartygoerTargeting {
 
     private static PartyAnimalRules.Side side(GameWorldComponent game, ServerPlayerEntity player) {
         Role role = game.getRole(player);
-        return PartyAnimalRules.side(SparkTraitsCompat.isEffectiveKiller(role, player),
-                SparkTraitsCompat.isEffectiveCivilian(role, player),
+        return PartyAnimalRules.side(SparkTraitsApi.isEffectiveKiller(role, player),
+                SparkTraitsApi.isEffectiveCivilian(role, player),
                 UndercoverRoles.isUndercover(player), UndercoverRoles.isStage2(player));
     }
 

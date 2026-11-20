@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.item;
 
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
 import dev.caecorthus.sparkdlc.SparkStrengthSounds;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.item.m67.M67SoundPayload;
 import dev.caecorthus.sparkdlc.item.m67.M67Rules;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
@@ -155,7 +155,7 @@ public final class M67SoundClient {
         // Traits sync to their owner only: other actors keep the base window until the server's STOP.
         // 天赋仅同步给本人：其他玩家沿用基础时长，由服务端 STOP 提前结束。
         return action == M67SoundPayload.START_EQUIP ? M67Rules.EQUIP_COOLDOWN_TICKS
-                : SparkTraitsCompat.getThrowChargeTicks(actor, M67Rules.CHARGE_TICKS);
+                : SparkTraitsApi.getThrowChargeTicks(actor, M67Rules.CHARGE_TICKS);
     }
 
     private static SoundInstance create(byte action, PlayerEntity actor) {

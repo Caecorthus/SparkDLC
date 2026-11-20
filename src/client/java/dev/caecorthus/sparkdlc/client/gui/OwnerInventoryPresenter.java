@@ -69,9 +69,9 @@ public final class OwnerInventoryPresenter {
                 SparkStrengthHudBridge::topRightHudBottom, new GuideDecorBridge("SparkWitch/GuideDecor"));
     }
     private static final InventoryRenderScope<Frame> CALLS = new InventoryRenderScope<>();
-    // SparkTraits is fused into SparkDLC: the bridge calls its public facade directly through these method references.
-    // SparkTraits 已融合进 SparkDLC：桥接通过这些方法引用直接调用其公共门面。
-    private static final TraitsInventoryBridge<PlayerEntity, Text> TRAITS = new TraitsInventoryBridge<>(
+    // The V1 handshake calls the trait contract directly through these two method references.
+    // V1 握手通过这两个方法引用直接调用词条契约。
+    private static final OwnerInventoryTraitsHandshake<PlayerEntity, Text> TRAITS = new OwnerInventoryTraitsHandshake<>(
             SparkTraitsApi::registerExternalInventoryPresenterV1, SparkTraitsApi::visitOwnerInventoryTraits,
             OwnerInventoryPresenter::ownsTraits);
     private static final SkillProgressTracker PROGRESS = new SkillProgressTracker();

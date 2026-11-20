@@ -4,6 +4,7 @@ import dev.caecorthus.sparkdlc.client.role.civilian.vendetta.VendettaClientPrese
 import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenMarkPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenPerceptionPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenRules;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
 import dev.doctor4t.wathe.client.WatheClient;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -118,7 +119,7 @@ public final class BlackRavenInstinctClientHooks {
                 && GameFunctions.isPlayerPlayingAndAlive(target)
                 && !GameFunctions.isPlayerSpectatingOrCreative(target)
                 && !target.isInvisibleTo(viewer)
-                && !SparkTraitsInstinctVisibilityBridge.isHidden(viewer, target);
+                && !SparkTraitsApi.isInstinctHidden(viewer, target);
     }
 
     private static @Nullable GetInstinctHighlight.HighlightResult featherHighlight(Entity target) {

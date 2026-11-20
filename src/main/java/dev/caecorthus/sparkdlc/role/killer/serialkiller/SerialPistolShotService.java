@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.serialkiller;
 
 import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.bridge.strength.SparkWitchCompat;
 import dev.caecorthus.sparkdlc.item.SerialPistolItem;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponHits;
@@ -74,7 +74,7 @@ public final class SerialPistolShotService {
         }
         // SparkTraits Last Escape: the revolver's receiver is cancelled at HEAD, before any side effect.
         // SparkTraits 脱险：左轮接收器在 HEAD 即被取消，先于任何副作用。
-        if (SparkTraitsCompat.isKillerInteractionBlocked(shooter)) {
+        if (SparkTraitsApi.isKillerInteractionBlocked(shooter)) {
             return;
         }
         ItemStack stack = authorizedPistol(shooter, hand);

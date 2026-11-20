@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.economy;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.economy.KillerTeamEconomyWorldComponent;
 import dev.caecorthus.sparkdlc.economy.SyncKillerTeamEconomyS2CPacket;
 import dev.caecorthus.sparkdlc.record.AchievementRecords;
@@ -80,7 +80,7 @@ public final class KillerTeamEconomyService {
         }
         // A lone killer with only an Impostor stays uninitialized; N still counts every genuine member.
         // 仅 1 名真杀手加内鬼时钱包保持未初始化；开启后 N 仍按全部真实成员计数。
-        if (SparkTraitsCompat.isTeamEconomyAvailable() && KillerTeamEconomyRules.formsTeam(openingKillers)) {
+        if (KillerTeamEconomyRules.formsTeam(openingKillers)) {
             purse.initializeRound(openingMembers);
         }
         syncWorld(world);
@@ -99,7 +99,7 @@ public final class KillerTeamEconomyService {
         ServerWorld world = serverPlayer.getServerWorld();
         KillerTeamEconomyWorldComponent purse = KillerTeamEconomyWorldComponent.KEY.get(world);
         int purseBefore = purse.getBalance();
-        if (purse.recordIncome(actualIncome, SparkTraitsCompat.hasTeamFirst(serverPlayer))) {
+        if (purse.recordIncome(actualIncome, SparkTraitsApi.hasTeamFirst(serverPlayer))) {
             syncWorld(world);
             // Achievement record S7 for SparkAssist: this killer's income raised the purse (amount = after - before).
             // 成就记录 S7（供 SparkAssist）：该杀手的收入使团队钱包增加（amount = 入账后 - 入账前）。
@@ -144,7 +144,8 @@ public final class KillerTeamEconomyService {
     }
 
     private static boolean isGenuineMember(ServerPlayerEntity player, GameWorldComponent game) {
-        return SparkTraitsCompat.isGenuineKillerTeamMember(player, hasKillerRole(player, game));
+        return KillerTeamEconomyRules.isGenuineKiller(hasKillerRole(player, game),
+                SparkTraitsApi.hasImpostor(player), SparkTraitsApi.hasConscience(player));
     }
 
     private static boolean hasKillerRole(ServerPlayerEntity player, GameWorldComponent game) {

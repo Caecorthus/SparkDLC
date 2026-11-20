@@ -600,7 +600,7 @@ final class SparkStrengthCivilianItemScenes {
 
     /**
      * Dying Watch (SparkStrength TimekeeperWatchItem, TimekeeperWatchService, TimekeeperConstants,
-     * TimekeeperWatchClientHooks, TimekeeperWatchAttackMixin, SparkTraitsCompat; NoellesRoles IronManVialItem): the
+     * TimekeeperWatchClientHooks, TimekeeperWatchAttackMixin, SparkTraitsApi; NoellesRoles IronManVialItem): the
      * Timekeeper's starting watch, hidden in hand; only a living Timekeeper (or a Coroner disguised as one) can use it.
      * A left-click switches the mode without attacking. A right-click (a swing) in item mode spends 100 coins and
      * clears the item cooldowns of the Timekeeper and of every other living innocent (Conscience killers included,

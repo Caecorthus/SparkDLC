@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.item.m67;
 
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
 import dev.caecorthus.sparkdlc.SparkStrengthSounds;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerStunnedPlayerComponent;
 import dev.caecorthus.sparkdlc.entity.M67GrenadeEntity;
 import dev.caecorthus.sparkdlc.mixin.minecraft.ItemCooldownEntryAccessor;
@@ -208,7 +208,7 @@ public final class M67UseService {
     /** Resolved on the server from the player's traits; a packet never supplies it.
      *  由服务端按玩家天赋解析，数据包不能指定。 */
     static int chargeTicks(ServerPlayerEntity player) {
-        return SparkTraitsCompat.getThrowChargeTicks(player, M67Rules.CHARGE_TICKS);
+        return SparkTraitsApi.getThrowChargeTicks(player, M67Rules.CHARGE_TICKS);
     }
 
     public static int throwCooldownTicks(ServerPlayerEntity player) {
@@ -330,7 +330,7 @@ public final class M67UseService {
                 && (mode == ThrowMode.PRESENTATION || M67RoundService.openingRemaining(player) == 0)
                 && !player.getItemCooldownManager().isCoolingDown(SparkStrengthItems.m67())
                 && !EngineerStunnedPlayerComponent.KEY.get(player).isStunned()
-                && !SparkTraitsCompat.isKillerInteractionBlocked(player);
+                && !SparkTraitsApi.isKillerInteractionBlocked(player);
     }
 
     private static void clearM67Use(ServerPlayerEntity player) {

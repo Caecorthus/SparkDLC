@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.command;
 
 import dev.caecorthus.sparkdlc.mixin.wathe.GameWorldComponentDeadPlayersAccessor;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.tablet.TabletWorldComponent;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCaseRules;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCaseService;
@@ -252,13 +252,13 @@ public final class SparkStrengthCommands {
         }
 
         if (!alive) {
-            // SparkTraits 的准心词条显示使用死亡快照；该桥接（融合进 SparkDLC 后为直接调用）只记录词条，不触发真实死亡流程。
+            // SparkTraits 的准心词条显示使用死亡快照；该调用只记录词条，不触发真实死亡流程。
             // 即使目标已经是非存活状态，重复执行命令也会补写快照，方便修复旧状态或重新同步。
-            SparkTraitsCompat.snapshotDeathTraitsForDebug(target);
+            SparkTraitsApi.snapshotDeathTraitsForDebug(target);
         }
 
-        // 通知 SparkTraits 重新同步词条可见性（融合进 SparkDLC 后为直接调用）。
-        SparkTraitsCompat.syncTraitVisibility(target);
+        // 通知词条功能重新同步词条可见性。
+        SparkTraitsApi.syncTraitVisibility(target);
 
         if (!game.isRunning()) {
             source.sendFeedback(

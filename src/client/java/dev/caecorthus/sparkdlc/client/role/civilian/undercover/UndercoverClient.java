@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.SparkStrengthItems;
 import dev.caecorthus.sparkdlc.client.render.ManagedPostEffect;
 import dev.caecorthus.sparkdlc.client.role.jiahao.corruptcop.CorruptCopClientHooks;
 import dev.caecorthus.sparkdlc.client.role.civilian.perfumer.kit.PerfumerClientEffects;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverMaskOffC2SPacket;
 import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverRoles;
@@ -196,7 +196,7 @@ public final class UndercoverClient {
     }
 
     private static boolean isLivingKiller(PlayerEntity viewer) {
-        return GameFunctions.isPlayerPlayingAndAlive(viewer) && SparkTraitsCompat.isEffectiveKiller(
+        return GameFunctions.isPlayerPlayingAndAlive(viewer) && SparkTraitsApi.isEffectiveKiller(
                 GameWorldComponent.KEY.get(viewer.getWorld()).getRole(viewer), viewer);
     }
 

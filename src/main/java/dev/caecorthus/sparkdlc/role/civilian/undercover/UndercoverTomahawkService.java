@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.civilian.undercover;
 import dev.caecorthus.sparkdlc.SparkStrength;
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
 import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.bridge.strength.SparkWitchCompat;
 import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverPlayerComponent;
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
@@ -134,9 +134,9 @@ public final class UndercoverTomahawkService {
                                @Nullable Vec3d crowPos) {
         if (!GameFunctions.isPlayerPlayingAndAlive(victim) || crowPos == null && !inReach(attacker, victim)
                 || SabotageActionLocks.isLocked(attacker)
-                || SparkTraitsCompat.isMeleeActionBlocked(attacker, held)
+                || SparkTraitsApi.blocksWeaponAction(attacker, held)
                 || !SparkFactionCompat.canAffectPlayer(attacker, victim, DEATH_REASON)
-                || SparkTraitsCompat.shouldCancelMeleeAttack(attacker, victim, held)) {
+                || SparkTraitsApi.blocksOrCancelsMeleeAttack(attacker, victim, held)) {
             return;
         }
         GameWorldComponent game = GameWorldComponent.KEY.get(attacker.getServerWorld());
@@ -144,9 +144,9 @@ public final class UndercoverTomahawkService {
         // 必须在 killPlayer 之前读取：SparkTraits 会在 KillPlayer.AFTER 中清空死者天赋。
         InnocentKnifeKillRules.PreKill preKill = InnocentKnifeKillRules.beforeKill(
                 game.isInnocent(victim),
-                SparkTraitsCompat.hasImpostor(victim),
-                SparkTraitsCompat.hasConscience(victim),
-                SparkTraitsCompat.hasImpostor(attacker));
+                SparkTraitsApi.hasImpostor(victim),
+                SparkTraitsApi.hasConscience(victim),
+                SparkTraitsApi.hasImpostor(attacker));
         GameRecordManager.recordItemUse(attacker, SparkStrengthItems.TACTICAL_TOMAHAWK_ID, victim, null);
         Vec3d hitAt = crowPos != null ? crowPos : victim.getPos();
         attacker.getWorld().playSound(null, hitAt.x, hitAt.y, hitAt.z,

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.jiahao.corruptcop;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.jiahao.corruptcop.CorruptCopAbilityComponent;
 import dev.caecorthus.sparkdlc.role.jiahao.corruptcop.CorruptCopConcealmentRules;
 import dev.caecorthus.sparkdlc.role.jiahao.corruptcop.CorruptCopRules;
@@ -65,7 +65,7 @@ public final class CorruptCopClientHooks {
         }
 
         return CorruptCopConcealmentRules.shouldConceal(
-                SparkTraitsCompat.isFinalMomentActive(viewer.getWorld()),
+                SparkTraitsApi.isFinalMomentActive(viewer.getWorld()),
                 GameFunctions.isPlayerPlayingAndAlive(viewer),
                 GameFunctions.isPlayerSpectatingOrCreative(viewer),
                 viewer.getUuid().equals(targetPlayer.getUuid()),

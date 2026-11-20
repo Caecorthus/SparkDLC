@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.toxicologist;
 
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsBluePoisonCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.item.CapsuleItem;
 import dev.doctor4t.wathe.block.FoodPlatterBlock;
 import dev.doctor4t.wathe.block.TrimmedBedBlock;
@@ -41,7 +41,6 @@ public final class ToxicologistBlueVitriolService {
     public static final String ACTION_CAPSULE = "capsule";
     public static final String CONVERTED_KEY = "message.sparkdlc.blue_vitriol.converted";
     public static final String NOTHING_KEY = "message.sparkdlc.blue_vitriol.nothing";
-    public static final String UNAVAILABLE_KEY = "message.sparkdlc.blue_poison.unavailable";
     private static boolean registered;
 
     private ToxicologistBlueVitriolService() {
@@ -93,15 +92,11 @@ public final class ToxicologistBlueVitriolService {
         if (world.isClient() || !(player instanceof ServerPlayerEntity serverPlayer)) {
             return ActionResult.SUCCESS;
         }
-        if (!SparkTraitsBluePoisonCompat.isBluePoisonApiAvailable()) {
-            serverPlayer.sendMessage(Text.translatable(UNAVAILABLE_KEY), true);
-            return ActionResult.FAIL;
-        }
 
         UUID poisoner = serverPlayer.getUuid();
         boolean converted = target == ToxicologistBlueItemRules.BlockTarget.PLATE
-                ? SparkTraitsBluePoisonCompat.convertPlatePoisonToBlue(world, pos, poisoner)
-                : SparkTraitsBluePoisonCompat.convertBedPoisonToBlue(world, pos, poisoner);
+                ? SparkTraitsApi.convertPlatePoisonToBlue(world, pos, poisoner)
+                : SparkTraitsApi.convertBedPoisonToBlue(world, pos, poisoner);
         if (!converted) {
             serverPlayer.sendMessage(Text.translatable(NOTHING_KEY), true);
             return ActionResult.SUCCESS;
@@ -145,10 +140,6 @@ public final class ToxicologistBlueVitriolService {
             ItemStack target,
             ToxicologistBlueItemRules.StackTarget kind
     ) {
-        if (!SparkTraitsBluePoisonCompat.isBluePoisonApiAvailable()) {
-            player.sendMessage(Text.translatable(UNAVAILABLE_KEY), true);
-            return;
-        }
         UUID poisoner = player.getUuid();
         NbtCompound extra = new NbtCompound();
         boolean converted;
@@ -156,7 +147,7 @@ public final class ToxicologistBlueVitriolService {
             // Wathe's replay item formatter prefers a serialized item_name over the recorded item id (the vitriol).
             // Wathe 回放的物品名格式化优先使用序列化的 item_name，而不是记录的物品 ID（即蓝矾本身）。
             extra.putString("item_name", Text.Serialization.toJsonString(target.getName(), player.getRegistryManager()));
-            converted = SparkTraitsBluePoisonCompat.convertStackPoisonToBlue(target, poisoner);
+            converted = SparkTraitsApi.convertStackPoisonToBlue(target, poisoner);
         } else {
             converted = CapsuleItem.convertContentsPoisonToBlue(target, poisoner, player.getRegistryManager());
         }

@@ -30,7 +30,6 @@ public final class ToxicologistCapsuleShop {
         }
         registered = true;
         BuildShopEntries.EVENT.register(ToxicologistCapsuleShop::buildShopEntries);
-        ToxicologistBlueShop.register();
     }
 
     private static void buildShopEntries(PlayerEntity player, BuildShopEntries.ShopContext context) {

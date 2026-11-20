@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.bodyguard;
 
 import dev.caecorthus.sparkdlc.role.civilian.bodyguard.BodyguardGearComponent;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.event.KillPlayer;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerShopComponent;
@@ -51,7 +51,7 @@ public final class BodyguardEconomyService {
             if (!BodyguardRules.shouldPenalize(
                     GameFunctions.isPlayerPlayingAndAlive(bodyguard),
                     SwallowedPlayerComponent.isPlayerSwallowed(bodyguard),
-                    SparkTraitsCompat.hasImpostor(bodyguard),
+                    SparkTraitsApi.hasImpostor(bodyguard),
                     target,
                     gear.wasPenalized(victimId))) {
                 continue;

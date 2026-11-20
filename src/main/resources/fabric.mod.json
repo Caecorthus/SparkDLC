@@ -3,7 +3,7 @@
   "id": "sparkdlc",
   "version": "${version}",
   "name": "SparkDLC",
-  "description": "Spark Wathe DLC: the faction API, role buffs, traits, witch-faction roles and client assist tools in one mod. DLC textures made by Claude, GPT-Image & I_siya.",
+  "description": "Spark Wathe DLC: new roles and factions, reworked roles, traits, items and sabotage for Wathe, with an in-game guidebook, achievements and settings. DLC textures made by Claude, GPT-Image & I_siya.",
   "authors": [
     "Caecorthus"
   ],

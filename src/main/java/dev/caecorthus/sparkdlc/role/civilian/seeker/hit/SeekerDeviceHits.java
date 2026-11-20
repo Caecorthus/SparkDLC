@@ -434,9 +434,20 @@ public final class SeekerDeviceHits {
      * 返回 {@code null}：调用方不窃取任何人，但照常开始时钟冷却（如同电击枪被吸收时照样进入冷却）。电击枪与黑鸦羽刃未命中时
      * 仍会打坏射程内最近的设备，时钟则不同：目标为 {@code null} 时不打坏任何设备，因为时钟未命中是免费的，
      * 绝不能变成免费的拆设备手段。损坏来源记录为 {@code CLOCK}。
+     *
+     * <p>The curse kills, so a Partygoer strictly nearer than the aimed player takes it first and dies at once
+     * ({@code sparkdlc:time_stolen}); the {@code null} returned then makes the caller start the clock cooldown and steal
+     * nothing. The caller only reaches this entry when a player was aimed, so a clock fired at a Partygoer with nobody
+     * behind it is out of reach from here.
+     * 诅咒会致死，因此严格比被瞄准玩家更近的派对客先承受诅咒并立即死亡（{@code sparkdlc:time_stolen}）；随后返回的
+     * {@code null} 让调用方开始时钟冷却且不窃取任何人。调用方只在瞄准到玩家时才进入本入口，因此身后没有玩家时对派对客使用时钟
+     * 无法从这里处理。</p>
      */
     @Nullable
     public static <T extends PlayerEntity> T onClockFired(ServerPlayerEntity user, @Nullable T target, double range) {
+        if (PartygoerWeaponHits.onSparkWitchClock(user, target, range)) {
+            return null;
+        }
         if (user == null || target == null || user.getWorld().isClient()) {
             return target;
         }

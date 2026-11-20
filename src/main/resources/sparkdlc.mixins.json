@@ -136,7 +136,6 @@
     "role.killer.partyanimal.PartygoerTaotieCooldownAccessor",
     "role.killer.partyanimal.PartygoerNoellesItemsMixin",
     "role.killer.partyanimal.PartygoerPoisonGasMixin",
-    "role.killer.partyanimal.PartygoerSeekerHitsMixin",
     "role.civilian.veteran.VeteranKnifeStabPayloadMixin",
     "role.civilian.veteran.VeteranServerKnifeUseMixin",
     "role.neutral.vulture.SkateboardStepSoundMixin",

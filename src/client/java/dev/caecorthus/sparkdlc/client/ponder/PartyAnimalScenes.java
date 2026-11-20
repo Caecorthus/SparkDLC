@@ -15,7 +15,6 @@ import dev.caecorthus.sparkdlc.SparkDlcEntities;
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerState;
 import dev.caecorthus.sparkdlc.ponder.ActorMovement;
-import java.util.List;
 import java.util.function.Consumer;
 import net.createmod.catnip.math.Pointing;
 import net.createmod.ponder.api.PonderPalette;
@@ -60,7 +59,6 @@ import org.jetbrains.annotations.Nullable;
  * 大脑只在服务端运行，所以场景按它会规划的路线移动它。它追人和带人走比演示快好几倍，字幕会注明演示放慢了。
  */
 final class PartyAnimalScenes {
-    private static final List<String> NOELLES_STRENGTH = List.of("noellesroles", "sparkdlc");
     private static final Random RANDOM = Random.create();
     private static final int PARTY_ANIMAL = RoleColors.of("noellesroles:party_animal", 0xFF5AC8);
     /** PartyBalloonRules.HIGHLIGHT_COLOR, also the room picker's destination accent. 气球描边色，也是选房界面的终点色。 */
@@ -79,11 +77,9 @@ final class PartyAnimalScenes {
     static void register() {
         // The Partygoer is summoned with the Role Skill 2 key (PartygoerClientHooks), so its scene is always added.
         // 派对客用“职业技能 2”键召唤（PartygoerClientHooks），因此始终追加它的场景。
-        role("sparkdlc:roles/noellesroles/party_animal", NOELLES_STRENGTH,
-                scene("noellesroles/party_cabins", PartyAnimalScenes::balloon),
+        role("sparkdlc:roles/noellesroles/party_animal", scene("noellesroles/party_cabins", PartyAnimalScenes::balloon),
                 scene("noellesroles/party_cabins", PartyAnimalScenes::partygoer));
-        item("sparkdlc:party_balloon", NOELLES_STRENGTH,
-                scene("noellesroles/party_cabins", PartyAnimalScenes::balloon));
+        item("sparkdlc:party_balloon", scene("noellesroles/party_cabins", PartyAnimalScenes::balloon));
     }
 
     /**

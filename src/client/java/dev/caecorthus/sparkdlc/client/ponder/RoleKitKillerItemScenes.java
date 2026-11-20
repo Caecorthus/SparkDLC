@@ -46,7 +46,6 @@ import net.minecraft.util.math.Vec3d;
  * 效果（标记、带毒者轮廓、陷阱冒烟）由这里用脚本补上，并在字幕里说明谁能看到；游戏里耗时更长的过程做了缩短，字幕会注明。
  */
 final class RoleKitKillerItemScenes {
-    private static final List<String> NOELLES_STRENGTH = List.of("noellesroles", "sparkdlc");
     /** PathogenRules.CARRIER_COLOR_FOR_PATHOGEN: a carrier as the Pathogen sees it. 病原体眼中带毒者的颜色。 */
     private static final int CARRIER_DARK_GREEN = 0x1E8C1E;
     /** PathogenRules.TEAMMATE_COLOR: a fellow Pathogen, through walls. 病原体同伴（隔墙可见）的颜色。 */
@@ -75,28 +74,18 @@ final class RoleKitKillerItemScenes {
     }
 
     static void register() {
-        item("sparkdlc:morph_reagent", NOELLES_STRENGTH,
-                scene("wathe/aisle", RoleKitKillerItemScenes::morphReagent));
-        item("sparkdlc:morph_device", NOELLES_STRENGTH,
-                scene("wathe/aisle", RoleKitKillerItemScenes::morphReagent));
-        item("sparkdlc:m67", NOELLES_STRENGTH,
-                scene("noellesroles/wide_aisle", RoleKitKillerItemScenes::m67));
-        item("sparkdlc:bomb_drone", NOELLES_STRENGTH,
-                scene("noellesroles/wide_aisle", RoleKitKillerItemScenes::bombDrone));
-        item("sparkdlc:skateboard", NOELLES_STRENGTH,
-                scene("noellesroles/wide_aisle", RoleKitKillerItemScenes::skateboard));
-        item("sparkdlc:virus", NOELLES_STRENGTH,
-                scene("wathe/aisle", RoleKitKillerItemScenes::virus));
-        item("sparkdlc:t_virus", NOELLES_STRENGTH,
-                scene("wathe/aisle", RoleKitKillerItemScenes::tVirus));
-        item("sparkdlc:serial_pistol", NOELLES_STRENGTH,
-                scene("wathe/aisle", RoleKitKillerItemScenes::serialPistols));
-        item("sparkdlc:serial_left_pistol", NOELLES_STRENGTH,
-                scene("wathe/aisle", RoleKitKillerItemScenes::serialPistols));
+        item("sparkdlc:morph_reagent", scene("wathe/aisle", RoleKitKillerItemScenes::morphReagent));
+        item("sparkdlc:morph_device", scene("wathe/aisle", RoleKitKillerItemScenes::morphReagent));
+        item("sparkdlc:m67", scene("noellesroles/wide_aisle", RoleKitKillerItemScenes::m67));
+        item("sparkdlc:bomb_drone", scene("noellesroles/wide_aisle", RoleKitKillerItemScenes::bombDrone));
+        item("sparkdlc:skateboard", scene("noellesroles/wide_aisle", RoleKitKillerItemScenes::skateboard));
+        item("sparkdlc:virus", scene("wathe/aisle", RoleKitKillerItemScenes::virus));
+        item("sparkdlc:t_virus", scene("wathe/aisle", RoleKitKillerItemScenes::tVirus));
+        item("sparkdlc:serial_pistol", scene("wathe/aisle", RoleKitKillerItemScenes::serialPistols));
+        item("sparkdlc:serial_left_pistol", scene("wathe/aisle", RoleKitKillerItemScenes::serialPistols));
         // The lights sabotage is triggered from the tablet, so its demo hangs on the breaker everyone repairs.
         // 灯光破坏从平板发动，所以演示挂在大家都要去修的电闸上。
-        item("sparkdlc:circuit_breaker", NOELLES_STRENGTH,
-                scene("wathe/lit_carriage", RoleKitKillerItemScenes::circuitBreaker));
+        item("sparkdlc:circuit_breaker", scene("wathe/lit_carriage", RoleKitKillerItemScenes::circuitBreaker));
         // timedBombTrap and serialPistols also join the noellesroles:timed_bomb and wathe:psycho_mode demos
         // (NoellesKillerScenes / WatheShopScenes.register). 两者也分别加入定时炸弹与疯魔模式的演示。
     }

@@ -159,61 +159,42 @@ final class SparkKillerScenes {
     }
 
     static void register() {
-        role("sparkdlc:roles/sparkdlc/murderous_witch", List.of("sparkdlc"),
-                scene("sparkdlc/ray_wall", SparkKillerScenes::murderousWitch));
-        role("sparkdlc:roles/sparkdlc/saboteur", List.of("sparkdlc"),
-                scene("wathe/lit_carriage", SparkKillerScenes::saboteur));
-        role("sparkdlc:roles/sparkdlc/time_stealer", List.of("sparkdlc"),
-                scene("wathe/aisle", SparkKillerScenes::timeStealer));
-        role("sparkdlc:roles/sparkdlc/witch_maiden", List.of("sparkdlc"),
-                scene("sparkdlc/food_platter", SparkKillerScenes::witchMaiden));
-        role("sparkdlc:roles/sparkdlc/ninja", List.of("sparkdlc"),
-                scene("sparkdlc/cargo_ledge", SparkKillerScenes::ninja));
-        role("sparkdlc:roles/sparkdlc/hunter", List.of("sparkdlc"),
-                scene("wathe/aisle", SparkKillerScenes::hunter));
-        role("sparkdlc:roles/sparkdlc/kidnapper", List.of("sparkdlc"),
-                scene("wathe/aisle", SparkKillerScenes::kidnapper));
-        role("sparkdlc:roles/sparkdlc/grand_witch", List.of("sparkdlc"),
-                scene("wathe/aisle", SparkKillerScenes::grandWitch));
-        role("sparkdlc:roles/sparkdlc/potion_gunner", List.of("sparkdlc"),
-                scene("wathe/aisle", SparkKillerScenes::potionGunner));
-        role("sparkdlc:roles/sparkdlc/abyss_listener", List.of("sparkdlc"),
-                scene("sparkdlc/spore_cabin", SparkKillerScenes::abyssListener));
-        role("sparkdlc:roles/sparkdlc/riftwalker", List.of("sparkdlc"),
-                scene("wathe/aisle", SparkKillerScenes::riftwalker));
-        role("sparkdlc:roles/sparkdlc/magician", List.of("sparkdlc"),
-                scene("wathe/aisle", SparkKillerScenes::magician));
-        role("sparkdlc:roles/sparkdlc/bell_ringer", List.of("sparkdlc"),
-                scene("sparkdlc/ray_wall", SparkKillerScenes::bellRinger));
-        role("sparkdlc:roles/sparkdlc/curser", List.of("sparkdlc"),
-                scene("wathe/aisle", SparkKillerScenes::curser));
+        role("sparkdlc:roles/sparkdlc/murderous_witch", scene("sparkdlc/ray_wall", SparkKillerScenes::murderousWitch));
+        role("sparkdlc:roles/sparkdlc/saboteur", scene("wathe/lit_carriage", SparkKillerScenes::saboteur));
+        role("sparkdlc:roles/sparkdlc/time_stealer", scene("wathe/aisle", SparkKillerScenes::timeStealer));
+        role("sparkdlc:roles/sparkdlc/witch_maiden", scene("sparkdlc/food_platter", SparkKillerScenes::witchMaiden));
+        role("sparkdlc:roles/sparkdlc/ninja", scene("sparkdlc/cargo_ledge", SparkKillerScenes::ninja));
+        role("sparkdlc:roles/sparkdlc/hunter", scene("wathe/aisle", SparkKillerScenes::hunter));
+        role("sparkdlc:roles/sparkdlc/kidnapper", scene("wathe/aisle", SparkKillerScenes::kidnapper));
+        role("sparkdlc:roles/sparkdlc/grand_witch", scene("wathe/aisle", SparkKillerScenes::grandWitch));
+        role("sparkdlc:roles/sparkdlc/potion_gunner", scene("wathe/aisle", SparkKillerScenes::potionGunner));
+        role("sparkdlc:roles/sparkdlc/abyss_listener", scene("sparkdlc/spore_cabin", SparkKillerScenes::abyssListener));
+        role("sparkdlc:roles/sparkdlc/riftwalker", scene("wathe/aisle", SparkKillerScenes::riftwalker));
+        role("sparkdlc:roles/sparkdlc/magician", scene("wathe/aisle", SparkKillerScenes::magician));
+        role("sparkdlc:roles/sparkdlc/bell_ringer", scene("sparkdlc/ray_wall", SparkKillerScenes::bellRinger));
+        role("sparkdlc:roles/sparkdlc/curser", scene("wathe/aisle", SparkKillerScenes::curser));
 
         // Items whose use a demo above already shows; holding W over the item plays that demo.
         // 上面的演示已经演示过用法的物品；在物品上按住 W 即可播放对应演示。
-        item("sparkdlc:time_stealer_pocket_watch", List.of("sparkdlc"),
-                scene("wathe/aisle", SparkKillerScenes::timeStealer));
-        item("sparkdlc:poison_apple", List.of("sparkdlc"),
-                scene("sparkdlc/food_platter", SparkKillerScenes::witchMaiden));
+        item("sparkdlc:time_stealer_pocket_watch", scene("wathe/aisle", SparkKillerScenes::timeStealer));
+        item("sparkdlc:poison_apple", scene("sparkdlc/food_platter", SparkKillerScenes::witchMaiden));
         for (String id : List.of("sparkdlc:ninja_knife", "sparkdlc:ninja_shuriken",
                 "sparkdlc:ninja_grappling_hook")) {
-            item(id, List.of("sparkdlc"), scene("sparkdlc/cargo_ledge", SparkKillerScenes::ninja));
+            item(id, scene("sparkdlc/cargo_ledge", SparkKillerScenes::ninja));
         }
         for (String id : List.of("sparkdlc:hunter_trap", "sparkdlc:double_barrel_shotgun")) {
-            item(id, List.of("sparkdlc"), scene("wathe/aisle", SparkKillerScenes::hunter));
+            item(id, scene("wathe/aisle", SparkKillerScenes::hunter));
         }
-        item("sparkdlc:knockout_drug", List.of("sparkdlc"),
-                scene("wathe/aisle", SparkKillerScenes::kidnapper));
-        item("sparkdlc:ceremonial_sword", List.of("sparkdlc"),
-                scene("wathe/aisle", SparkKillerScenes::grandWitch));
+        item("sparkdlc:knockout_drug", scene("wathe/aisle", SparkKillerScenes::kidnapper));
+        item("sparkdlc:ceremonial_sword", scene("wathe/aisle", SparkKillerScenes::grandWitch));
         for (String id : List.of("sparkdlc:anti_tank_launcher", "sparkdlc:tr_shell")) {
-            item(id, List.of("sparkdlc"), scene("wathe/aisle", SparkKillerScenes::potionGunner));
+            item(id, scene("wathe/aisle", SparkKillerScenes::potionGunner));
         }
         for (String id : List.of("sparkdlc:shriek_gun", "sparkdlc:deep_dark_spore_flask")) {
-            item(id, List.of("sparkdlc"), scene("sparkdlc/spore_cabin", SparkKillerScenes::abyssListener));
+            item(id, scene("sparkdlc/spore_cabin", SparkKillerScenes::abyssListener));
         }
-        item("sparkdlc:rift_gate", List.of("sparkdlc"), scene("wathe/aisle", SparkKillerScenes::riftwalker));
-        item("sparkdlc:toll_bell", List.of("sparkdlc"),
-                scene("sparkdlc/ray_wall", SparkKillerScenes::bellRinger));
+        item("sparkdlc:rift_gate", scene("wathe/aisle", SparkKillerScenes::riftwalker));
+        item("sparkdlc:toll_bell", scene("sparkdlc/ray_wall", SparkKillerScenes::bellRinger));
     }
 
     /**

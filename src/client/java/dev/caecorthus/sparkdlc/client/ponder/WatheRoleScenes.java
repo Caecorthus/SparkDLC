@@ -6,7 +6,6 @@ import static dev.caecorthus.sparkdlc.client.ponder.WatheItemScenes.SCREEN_LEFT;
 import static dev.caecorthus.sparkdlc.client.ponder.WatheItemScenes.SCREEN_RIGHT;
 import static dev.caecorthus.sparkdlc.client.ponder.WatheItemScenes.stack;
 
-import java.util.List;
 import net.createmod.catnip.math.Pointing;
 import net.createmod.ponder.api.PonderPalette;
 import net.createmod.ponder.api.element.ElementLink;
@@ -27,8 +26,8 @@ final class WatheRoleScenes {
     }
 
     static void register() {
-        role("sparkdlc:roles/wathe/veteran", List.of(), scene("wathe/aisle", WatheRoleScenes::veteran));
-        role("sparkdlc:roles/wathe/loose_end", List.of(), scene("wathe/aisle", WatheItemScenes::derringer));
+        role("sparkdlc:roles/wathe/veteran", scene("wathe/aisle", WatheRoleScenes::veteran));
+        role("sparkdlc:roles/wathe/loose_end", scene("wathe/aisle", WatheItemScenes::derringer));
     }
 
     /**

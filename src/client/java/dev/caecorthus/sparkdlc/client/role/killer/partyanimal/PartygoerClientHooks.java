@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.client.role.killer.partyanimal;
 
 import dev.caecorthus.sparkdlc.SparkStrength;
 import dev.caecorthus.sparkdlc.SparkStrengthEntities;
-import dev.caecorthus.sparkdlc.client.bridge.strength.SparkWitchSecondaryKeyCompat;
+import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityRegistry;
 import dev.caecorthus.sparkdlc.client.render.entity.PartygoerEntityRenderer;
 import dev.caecorthus.sparkdlc.client.render.entity.PartygoerModel;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerMenuC2SPacket;
@@ -40,7 +40,7 @@ public final class PartygoerClientHooks {
         ClientPlayNetworking.registerGlobalReceiver(PartygoerMenuS2CPacket.ID,
                 (payload, context) -> context.client().setScreen(new PartygoerRoomScreen(payload.rooms())));
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> client.execute(PartygoerCorpseClient::reset));
-        keyAvailable = SparkWitchSecondaryKeyCompat.register(Noellesroles.PARTY_ANIMAL.identifier(),
+        keyAvailable = SecondaryAbilityRegistry.tryRegisterAction(Noellesroles.PARTY_ANIMAL.identifier(),
                 PartygoerClientHooks::requestMenu);
         if (!keyAvailable) {
             SparkStrength.LOGGER.warn("Partygoer has no key: SparkWitch Role Skill 2 hook unavailable or taken.");

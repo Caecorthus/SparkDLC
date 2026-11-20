@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.killer.partyanimal;
 
-import dev.caecorthus.sparkdlc.client.bridge.strength.SparkWitchSecondaryKeyCompat;
+import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityController;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartyAnimalSkillComponent;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerMenuC2SPacket;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartyAnimalRules;
@@ -15,7 +15,6 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.text.Text;
 import org.agmas.noellesroles.taotie.SwallowedPlayerComponent;
 
-import java.util.Objects;
 
 /**
  * The Party Animal's Partygoer line, right-aligned on the second bottom-right row (row one is NoellesRoles' helium
@@ -69,6 +68,6 @@ public final class PartygoerHud {
     }
 
     private static Text keyText() {
-        return Objects.requireNonNullElseGet(SparkWitchSecondaryKeyCompat.boundKeyText(), () -> Text.literal("N"));
+        return SecondaryAbilityController.secondaryKeyText();
     }
 }

@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.spiritualist;
 
 import dev.caecorthus.sparkdlc.SparkStrength;
-import dev.caecorthus.sparkdlc.client.bridge.strength.SparkWitchSecondaryKeyCompat;
-import dev.caecorthus.sparkdlc.client.bridge.strength.SparkWitchWraithViewerCompat;
+import dev.caecorthus.sparkdlc.client.render.WraithViewerGates;
+import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityRegistry;
 import dev.caecorthus.sparkdlc.client.mixin.role.civilian.spiritualist.SpiritPossessionCameraAccessor;
 import dev.caecorthus.sparkdlc.client.viewpoint.BodySettleHold;
 import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
@@ -91,11 +91,12 @@ public final class SpiritPossessionClient {
         // DISCONNECT 可能在 Netty 线程上触发；会话字段归客户端线程所有。JOIN 本就在客户端线程上执行。
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> client.execute(SpiritPossessionClient::reset));
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> reset());
-        // Wraiths come from SparkWitch, a module of the same SparkDLC jar, so the gate and key are always installed.
-        // 冤魂来自 SparkWitch；它是同一个 SparkDLC jar 中的模块，因此闸门与按键总会安装。
-        SparkWitchWraithViewerCompat.addViewerGate((viewer, wraith) -> seesWraiths(viewer));
+        // The gate and the key are always installed. The gate reveals active Wraiths' bodies to the viewers it accepts
+        // ((viewer, wraith), render thread).
+        // 闸门与按键总会安装。闸门向其接受的观察者显示活跃冤魂的身体（参数为 (观察者, 冤魂)，渲染线程）。
+        WraithViewerGates.add((viewer, wraith) -> seesWraiths(viewer));
         // SparkWitch dispatches by the raw Wathe role id. / SparkWitch 按原始 Wathe 职业 id 分发。
-        keyAvailable = SparkWitchSecondaryKeyCompat.register(SpiritPossessionRules.SPIRITUALIST_ID,
+        keyAvailable = SecondaryAbilityRegistry.tryRegisterAction(SpiritPossessionRules.SPIRITUALIST_ID,
                 SpiritPossessionClient::onKeyPressed);
         if (!keyAvailable) {
             SparkStrength.LOGGER.warn("Spiritualist possession has no key: SparkWitch Role Skill 2 hook unavailable or taken.");

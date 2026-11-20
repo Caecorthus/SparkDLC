@@ -79,7 +79,6 @@
     "role.killer.bomber.DroneGunShootPayloadMixin",
     "role.killer.bomber.DroneKnifeStabPayloadMixin",
     "role.killer.bomber.DroneProjectileMixin",
-    "role.killer.bomber.DroneSparkWitchHitsMixin",
     "role.killer.bomber.DroneSparkWitchCrowTargetsMixin",
     "role.killer.bomber.DroneThrowingAxeMixin",
     "viewpoint.RemoteViewpointChunkDataSenderMixin",

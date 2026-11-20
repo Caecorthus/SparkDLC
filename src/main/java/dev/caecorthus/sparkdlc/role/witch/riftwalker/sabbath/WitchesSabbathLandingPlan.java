@@ -137,21 +137,6 @@ public final class WitchesSabbathLandingPlan {
         return yaw;
     }
 
-    /**
-     * Finite body inside the world height and, when known, wholly inside Wathe's play area (below {@code minY} Wathe
-     * kills the player as fallen out of the train).
-     * 有限的身体位于世界高度内，并在已知时完全位于 Wathe 游戏区域内（低于 {@code minY} 会被 Wathe 判为掉出列车而死亡）。
-     */
-    public static boolean insideBounds(Box body, int bottomY, int topY, @Nullable Box playArea) {
-        return Double.isFinite(body.minX) && Double.isFinite(body.maxX)
-                && Double.isFinite(body.minY) && Double.isFinite(body.maxY)
-                && Double.isFinite(body.minZ) && Double.isFinite(body.maxZ)
-                && body.minY >= bottomY && body.maxY <= topY
-                && (playArea == null || body.minX >= playArea.minX && body.maxX <= playArea.maxX
-                && body.minY >= playArea.minY && body.maxY <= playArea.maxY
-                && body.minZ >= playArea.minZ && body.maxZ <= playArea.maxZ);
-    }
-
     private static <T> boolean overlapsPlanned(Box body, List<Landing<T>> landings) {
         for (Landing<T> landing : landings) {
             if (landing.body().intersects(body)) {

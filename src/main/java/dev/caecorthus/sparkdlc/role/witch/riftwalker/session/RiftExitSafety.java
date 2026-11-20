@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.riftwalker.session;
 
+import dev.caecorthus.sparkdlc.util.LandingSpotChecks;
 import dev.doctor4t.wathe.cca.MapVariablesWorldComponent;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
@@ -7,7 +8,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,13 +17,14 @@ import org.jetbrains.annotations.Nullable;
  * fall line (the rest of the play area is ignored, owner 2026-10-05), inside the world border, every touched chunk already loaded (never loads one), no block collision probed with no
  * entity context (door exemptions cannot hide solids), reachable from the gate by a block-free sweep (B-2, ring cells
  * only), a 1/16-block floor under the whole footprint, no fluid, and no other collidable entity or living player in the
- * box (optionally relaxed for forced exits).
+ * box (optionally relaxed for forced exits). The Black Raven's Homing Feather lands by the same check (it used to keep
+ * a copy of it), so the class and the check are public.
  * 仅服务端的出门落点检查，是钓鱼佬 {@code FisherSpiritExit.isSafe} 规则的隙行者自有副本（调研 03 §5.2），按门内玩家的
  * 站立碰撞箱判断：坐标有限、位于世界高度内且不低于 Wathe 游戏区域的坠落线（区域其余部分忽略，所有者 2026-10-05）、位于世界边界内、涉及的区块均已加载（从不加载区块）、
  * 无实体上下文探测方块碰撞（穿门豁免无法隐藏实体方块）、能从门口无碰撞地扫掠到达（B-2，仅限圈内格）、整个脚底下方 1/16 格有地面、没有流体、盒内没有其他可碰撞实体或
- * 存活玩家（强制出门时可放宽此条）。
+ * 存活玩家（强制出门时可放宽此条）。黑羽鸦的归羽按同一检查落地（它原先保留了一份副本），因此该类与该检查是公开的。
  */
-final class RiftExitSafety {
+public final class RiftExitSafety {
     private static final double SUPPORT_DEPTH = 0.0625;
 
     private RiftExitSafety() {
@@ -35,13 +36,13 @@ final class RiftExitSafety {
      * {@code sweepFrom}（可为空）：身体必须能从该门位置不碰方块地到达 {@code feet}（{@link RiftExitSearch#sweptBody}，B-2）；
      * 为 null 时不扫掠（进门前位置）。
      */
-    static boolean isSafe(ServerPlayerEntity player, ServerWorld world, Vec3d feet, @Nullable Vec3d sweepFrom,
-                          boolean allowEntityOverlap) {
+    public static boolean isSafe(ServerPlayerEntity player, ServerWorld world, Vec3d feet, @Nullable Vec3d sweepFrom,
+                                 boolean allowEntityOverlap) {
         EntityDimensions standing = player.getBaseDimensions(EntityPose.STANDING);
         Box body = standing.getBoxAt(feet);
         Box playArea = MapVariablesWorldComponent.KEY.get(world).getPlayArea();
         if (!insideBounds(body, world.getBottomY(), world.getTopY(), playArea)
-                || !world.getWorldBorder().contains(body) || !chunksLoaded(world, body.expand(1))) {
+                || !world.getWorldBorder().contains(body) || !LandingSpotChecks.chunksLoaded(world, body.expand(1))) {
             return false;
         }
         if (world.getBlockCollisions(null, body).iterator().hasNext() || world.containsFluid(body)) {
@@ -51,7 +52,7 @@ final class RiftExitSafety {
             // Unloaded chunks read as empty to collision queries, so the swept volume must be loaded too.
             // 未加载区块在碰撞查询中视为空，因此扫掠空间也必须已加载。
             Box swept = RiftExitSearch.sweptBody(standing.getBoxAt(sweepFrom), sweepFrom, feet);
-            if (!chunksLoaded(world, swept) || world.getBlockCollisions(null, swept).iterator().hasNext()) {
+            if (!LandingSpotChecks.chunksLoaded(world, swept) || world.getBlockCollisions(null, swept).iterator().hasNext()) {
                 return false;
             }
         }
@@ -78,16 +79,5 @@ final class RiftExitSafety {
                 && Double.isFinite(body.minZ) && Double.isFinite(body.maxZ)
                 && body.minY >= bottom && body.maxY <= top
                 && (playArea == null || body.minY >= playArea.minY);
-    }
-
-    private static boolean chunksLoaded(ServerWorld world, Box box) {
-        for (int x = MathHelper.floor(box.minX) >> 4; x <= MathHelper.floor(box.maxX) >> 4; x++) {
-            for (int z = MathHelper.floor(box.minZ) >> 4; z <= MathHelper.floor(box.maxZ) >> 4; z++) {
-                if (!world.getChunkManager().isChunkLoaded(x, z)) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 }

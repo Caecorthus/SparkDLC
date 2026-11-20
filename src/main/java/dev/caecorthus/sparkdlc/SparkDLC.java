@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc;
 
 import dev.caecorthus.sparkdlc.command.SparkDlcCommands;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesCollisionCompatibility;
-import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesHiddenEquipment;
+import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesHiddenEquipmentRegistry;
 import dev.caecorthus.sparkdlc.event.RoleKitEvents;
 import dev.caecorthus.sparkdlc.event.RoleEvents;
 import dev.caecorthus.sparkdlc.faction.FactionCompatibilityEvents;
@@ -228,36 +228,36 @@ public final class SparkDLC implements ModInitializer {
         SparkDlcEntities.registerRoleEntities();
         // NoellesRoles remains the packet-filter owner; this mod only extends its hidden-item predicate.
         // NoellesRoles 仍负责装备包过滤，本模组这里只扩展其隐藏物品判定。
-        NoellesHiddenEquipment.register(SparkDlcItems.perfumeEssence());
-        NoellesHiddenEquipment.register(SparkDlcItems.cologne());
-        NoellesHiddenEquipment.register(SparkDlcItems.blackRavenLedger());
-        NoellesHiddenEquipment.register(SparkDlcItems.timeStealerClock());
-        NoellesHiddenEquipment.register(SparkDlcItems.timeStealerGiftWatch());
-        NoellesHiddenEquipment.register(SparkDlcItems.timeStamp());
-        NoellesHiddenEquipment.register(SparkDlcItems.blackRavenMask());
-        NoellesHiddenEquipment.register(SparkDlcItems.prophetNecrology());
-        NoellesHiddenEquipment.register(SparkDlcItems.tollBell());
-        NoellesHiddenEquipment.register(SparkDlcItems.seekerCar());
-        NoellesHiddenEquipment.register(SparkDlcItems.seekerCamera());
+        NoellesHiddenEquipmentRegistry.register(SparkDlcItems.perfumeEssence());
+        NoellesHiddenEquipmentRegistry.register(SparkDlcItems.cologne());
+        NoellesHiddenEquipmentRegistry.register(SparkDlcItems.blackRavenLedger());
+        NoellesHiddenEquipmentRegistry.register(SparkDlcItems.timeStealerClock());
+        NoellesHiddenEquipmentRegistry.register(SparkDlcItems.timeStealerGiftWatch());
+        NoellesHiddenEquipmentRegistry.register(SparkDlcItems.timeStamp());
+        NoellesHiddenEquipmentRegistry.register(SparkDlcItems.blackRavenMask());
+        NoellesHiddenEquipmentRegistry.register(SparkDlcItems.prophetNecrology());
+        NoellesHiddenEquipmentRegistry.register(SparkDlcItems.tollBell());
+        NoellesHiddenEquipmentRegistry.register(SparkDlcItems.seekerCar());
+        NoellesHiddenEquipmentRegistry.register(SparkDlcItems.seekerCamera());
         // Angler: the rod, bait and every non-weapon fish; the Key Fish and Swordfish stay visible on purpose.
         // 钓鱼佬：鱼竿、鱼饵与所有非武器类的鱼；钥匙鱼与剑鱼刻意保持可见。
-        NoellesHiddenEquipment.register(SparkDlcItems.fishingRod());
-        NoellesHiddenEquipment.register(SparkDlcItems.fishBait());
-        NoellesHiddenEquipment.register(SparkDlcItems.salmon());
-        NoellesHiddenEquipment.register(SparkDlcItems.cod());
-        NoellesHiddenEquipment.register(SparkDlcItems.clownfish());
-        NoellesHiddenEquipment.register(SparkDlcItems.goldfish());
-        NoellesHiddenEquipment.register(SparkDlcItems.glimmerfish());
+        NoellesHiddenEquipmentRegistry.register(SparkDlcItems.fishingRod());
+        NoellesHiddenEquipmentRegistry.register(SparkDlcItems.fishBait());
+        NoellesHiddenEquipmentRegistry.register(SparkDlcItems.salmon());
+        NoellesHiddenEquipmentRegistry.register(SparkDlcItems.cod());
+        NoellesHiddenEquipmentRegistry.register(SparkDlcItems.clownfish());
+        NoellesHiddenEquipmentRegistry.register(SparkDlcItems.goldfish());
+        NoellesHiddenEquipmentRegistry.register(SparkDlcItems.glimmerfish());
         // Blind: the cane is hidden in round (D9); a held ComTac would expose the role the same way.
         // 盲人：盲杖局内隐藏（D9）；手持的 ComTac 同样会暴露身份。
-        NoellesHiddenEquipment.register(SparkDlcItems.whiteCane());
-        NoellesHiddenEquipment.register(SparkDlcItems.comTac());
+        NoellesHiddenEquipmentRegistry.register(SparkDlcItems.whiteCane());
+        NoellesHiddenEquipmentRegistry.register(SparkDlcItems.comTac());
         // Abyss Listener: the bound Shriek Gun is hidden in hand (owner default N11); the flask stays visible.
         // 聆渊者：绑定的啸音铳手持时对他人隐藏（所有者默认 N11）；孢瓶保持可见。
-        NoellesHiddenEquipment.register(SparkDlcItems.shriekGun());
+        NoellesHiddenEquipmentRegistry.register(SparkDlcItems.shriekGun());
         // Riftwalker: the Rift Gate stack is hidden in hand, like the Seeker devices.
         // 隙行者：裂隙门手持时对他人隐藏，与搜寻者设备相同。
-        NoellesHiddenEquipment.register(SparkDlcItems.riftGate());
+        NoellesHiddenEquipmentRegistry.register(SparkDlcItems.riftGate());
     }
 
     /**

@@ -6,7 +6,6 @@
   "mixins": [
     "legacy.SimpleRegistryKeyAliasMixin",
     "faction.AntiFastRoundPayloadGuardMixin",
-    "compat.noellesroles.NoellesHiddenEquipmentHelperMixin",
     "compat.noellesroles.NoellesRolesDemonHunterAffectMixin",
     "compat.noellesroles.NoellesRolesPacketAffectMixin",
     "compat.noellesroles.NoellesRolesPoisonGasAffectMixin",

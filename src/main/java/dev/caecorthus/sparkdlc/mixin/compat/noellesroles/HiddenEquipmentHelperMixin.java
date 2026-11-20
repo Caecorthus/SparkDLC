@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.mixin.compat.noellesroles;
 import dev.caecorthus.sparkdlc.item.BanditAmmoItem;
 import dev.caecorthus.sparkdlc.item.BanditAttachmentItem;
 import dev.caecorthus.sparkdlc.SparkDlcItems;
+import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesHiddenEquipmentRegistry;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveRules;
 import dev.caecorthus.sparkdlc.role.civilian.engineer.EngineerCaptureReport;
@@ -31,6 +32,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * hidden: every player is given one, so holding it reveals nothing.
  * 将濒毁怀表、工程师捕捉装置、教授试剂、变形怪道具、侦探道具、调香师道具、全部酒保调剂、回溯者的末影珍珠/紫颂果、毒理学家的蓝矾/蓝颠茄、炸弹客无人机、秃鹫滑板、内鬼的撬锁工具、病原体的病毒/T病毒、派对狂的派对气球以及强盗的左轮配件/子弹加入 NoellesRoles 的隐藏装备过滤器。平板不隐藏：
  * 每名玩家都会获得一台，手持平板不会暴露任何信息。
+ * The RETURN handler then adds the items registered in {@link NoellesHiddenEquipmentRegistry}.
+ * 随后由 RETURN 处理加入 {@link NoellesHiddenEquipmentRegistry} 中注册的物品。
  */
 @Mixin(value = HiddenEquipmentHelper.class, remap = false)
 public abstract class HiddenEquipmentHelperMixin {
@@ -168,6 +171,25 @@ public abstract class HiddenEquipmentHelperMixin {
 
         if (stack.isOf(ModItems.TIMED_BOMB) && CoronerService.hasBomberDisguise(holder)) {
             // 验尸官伪装炸弹客时，未放置的定时炸弹不暴露给其他玩家。
+            cir.setReturnValue(true);
+        }
+    }
+
+    /**
+     * Adds the items registered in {@link NoellesHiddenEquipmentRegistry} after NoellesRoles' own decision. Formerly
+     * the {@code @Pseudo} mixin {@code NoellesHiddenEquipmentHelperMixin}; its {@code require = 0} is kept. Only reached
+     * when the HEAD handler above did not decide: its early return is not one of the method's original returns.
+     * 在 NoellesRoles 自身判定之后加入 {@link NoellesHiddenEquipmentRegistry} 中注册的物品。原为 {@code @Pseudo} mixin
+     * {@code NoellesHiddenEquipmentHelperMixin}，保留其 {@code require = 0}。只有上面的 HEAD 处理未作出判定时才会执行：
+     * 它的提前返回不属于方法原有的返回点。
+     */
+    @Inject(method = "shouldHideItem", at = @At("RETURN"), cancellable = true, remap = false, require = 0)
+    private static void sparkdlc$includeRegisteredItems(
+            ItemStack stack,
+            PlayerEntity holder,
+            CallbackInfoReturnable<Boolean> cir
+    ) {
+        if (!cir.getReturnValueZ() && NoellesHiddenEquipmentRegistry.shouldHide(stack)) {
             cir.setReturnValue(true);
         }
     }

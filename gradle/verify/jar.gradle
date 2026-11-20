@@ -252,7 +252,6 @@ def requiredRuntimeClasses = ([
         "dev/caecorthus/sparkdlc/faction/economy/FactionPassiveMoneyAdapter.class",
         "dev/caecorthus/sparkdlc/faction/target/PlayerAffectRules.class",
         "dev/caecorthus/sparkdlc/faction/target/PlayerAffectGuard.class",
-        "dev/caecorthus/sparkdlc/compat/noellesroles/NoellesHiddenEquipment.class",
         "dev/caecorthus/sparkdlc/cooldown/api/ForcedCooldowns.class",
         "dev/caecorthus/sparkdlc/cooldown/ForcedCooldownRegistry.class",
         "dev/caecorthus/sparkdlc/mixin/cooldown/ItemCooldownEntryAccessor.class",
@@ -264,7 +263,7 @@ def requiredRuntimeClasses = ([
         "dev/caecorthus/sparkdlc/client/SparkDlcClientMixinPlugin.class",
         "dev/caecorthus/sparkdlc/client/mixin/compat/noellesroles/NoellesScavengerBodyHideNeutralPerkMixin.class",
         "dev/caecorthus/sparkdlc/client/mixin/compat/noellesroles/NoellesScavengerBodyTargetNeutralPerkMixin.class",
-        "dev/caecorthus/sparkdlc/mixin/compat/noellesroles/NoellesHiddenEquipmentHelperMixin.class",
+        "dev/caecorthus/sparkdlc/mixin/compat/noellesroles/HiddenEquipmentHelperMixin.class",
         "dev/caecorthus/sparkdlc/mixin/compat/noellesroles/NoellesRolesDemonHunterAffectMixin.class",
         "dev/caecorthus/sparkdlc/mixin/compat/noellesroles/NoellesRolesPacketAffectMixin.class",
         "dev/caecorthus/sparkdlc/mixin/compat/noellesroles/NoellesRolesPoisonGasAffectMixin.class",
@@ -541,7 +540,7 @@ def requiredMixins = [
                 // The Corrupt Cop's ability packet seam (see verifyNoellesRolesLambdaSelectors).
                 // 黑警技能数据包接缝（见 verifyNoellesRolesLambdaSelectors）。
                 "role.jiahao.corruptcop.CorruptCopAbilityPacketMixin",
-                "compat.noellesroles.NoellesHiddenEquipmentHelperMixin",
+                "compat.noellesroles.HiddenEquipmentHelperMixin",
                 "compat.noellesroles.NoellesRolesDemonHunterAffectMixin",
                 "compat.noellesroles.NoellesRolesPacketAffectMixin",
                 "compat.noellesroles.NoellesRolesPoisonGasAffectMixin",

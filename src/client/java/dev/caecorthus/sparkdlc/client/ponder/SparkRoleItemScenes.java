@@ -239,7 +239,7 @@ final class SparkRoleItemScenes {
 
     /**
      * Gift Watch (TimeGiftWatchItem, TimeGiftWatchService, TimeGiftWatchLoadout, TimeGiftRuntime, TimeStealerRules,
-     * TimeStealerTargeting; the NoellesHiddenEquipment list): only a Time Stealer whose effective faction is
+     * TimeStealerTargeting; the NoellesHiddenEquipmentRegistry list): only a Time Stealer whose effective faction is
      * not the killers' (the Conscience trait) holds it, next to the curse watch; it is hidden in hand and its use
      * never swings. Aimed at a player within 7 blocks and in sight (any faction, never oneself, not one currently being
      * gifted) it starts a gift: nothing for 15 s, then Speed I-IV with a chime only the target hears at 15, 20, 25 and
@@ -306,7 +306,7 @@ final class SparkRoleItemScenes {
 
     /**
      * Cologne (CologneItem, PerfumerRules, PerfumerState, PerfumerRuntime, PerfumerShopService; the
-     * NoellesHiddenEquipment list): 50 coins in the Perfumer's shop, no stock limit, hidden in hand from other living
+     * NoellesHiddenEquipmentRegistry list): 50 coins in the Perfumer's shop, no stock limit, hidden in hand from other living
      * players, usable only by an active Perfumer. A right-click on a living player within 3 blocks and in sight, or any
      * right-click that reaches no player (the air) for oneself, swings (the client returns success), uses one up and
      * starts (or restarts, never stacks) a 10 s timer: +5% sanity every second, capped at 100%. The user gets an
@@ -423,7 +423,7 @@ final class SparkRoleItemScenes {
 
     /**
      * The Angler's bait and edible fish (FisherFishingService, FisherInventory, FisherRules, FisherFishItem,
-     * FisherFishUse, FisherParticipants; the NoellesHiddenEquipment list): bait costs 25 in the Angler's shop.
+     * FisherFishUse, FisherParticipants; the NoellesHiddenEquipmentRegistry list): bait costs 25 in the Angler's shop.
      * Each cast (the rod in the main hand, a right-click on a drink tray, one swing) needs a free hotbar slot and uses
      * one bait from anywhere in the inventory; the catch is a weighted roll (nothing at all 10% of the time; this demo
      * happens to land a cod, a goldfish and a clownfish) and goes into the hotbar (here straight into the hand). Any

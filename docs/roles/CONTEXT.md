@@ -311,7 +311,7 @@ Current build baseline:
     the Black Raven ledger's; a Fabric `UseEntityCallback` refuses handing it to item frames, armor stands and
     allays, and `DecoratedPotBlockProphetNecrologyMixin` makes a decorated pot answer
     `SKIP_DEFAULT_BLOCK_INTERACTION` so the pot never takes it and the book still opens; hand hiding is the
-    NoellesHiddenEquipment registration. The empty
+    NoellesHiddenEquipmentRegistry registration. The empty
     `net/OpenProphetNecrologyS2CPacket` opens the read-only two-tab book
     `client/role/civilian/prophet/ProphetNecrologyBookScreen`, which reads only `sparkdlc:prophet_player`.
   - Prophecy flow: the ability key's Prophet branch (`client/role/civilian/prophet/ProphetClientModule`, before the
@@ -4227,7 +4227,7 @@ label and HUD. The Clock and stamps are bound items: they share `TimeStealerInve
 click and world-target checks are the strict `item/BoundItemRules` policy) and the
 three item-generic mixins in `mixin/role/killer/timestealer/`, never become item entities, never leave the
 holder's own inventory slots, never death-drop, and are hidden from other living players' held-item
-view through `NoellesHiddenEquipment`; beyond the Bell Ringer's rules they also refuse shift-click
+view through `NoellesHiddenEquipmentRegistry`; beyond the Bell Ringer's rules they also refuse shift-click
 moves and offhand swaps, and a living holder keeps exactly one Clock in the hotbar. A stamp stack
 caught by the `dropItem` guard is emptied in place (move semantics) and re-delivered only to a
 living holder, so no drop path duplicates stamps. Vanilla `/give`'s cosmetic count-1 copy
@@ -4514,7 +4514,7 @@ reads the same flag on both sides (`noellesroles:no_collision` alone is one-side
 claims only the invisibility instance it created in an empty slot; any foreign merge gives up its
 removal right. Expiry inside a door first tries to move the player to a validated safe spot (door
 sides, lateral offsets, then the last safe position); if none validates it only logs and clears.
-The rod, bait and edible fish are hidden in hand through `NoellesHiddenEquipment`; the Key Fish and
+The rod, bait and edible fish are hidden in hand through `NoellesHiddenEquipmentRegistry`; the Key Fish and
 Swordfish stay visible. Fishing is a Fabric `UseBlockCallback` in its own phase after the existing
 interaction guards, for a main-hand rod on `wathe:drink_tray` only: the client answers SUCCESS (the
 ordinary tray swing, identical to taking a drink), the server answers CONSUME on every handled
@@ -4923,7 +4923,7 @@ for the ComTac quick-equip from the hotbar into the empty headset slot; never th
 refuses the swap-hands action in a round), a container, the crafting grid, an item frame, an armor
 stand, an allay or a decorated pot, where `BlindKitDecoratedPotMixin` answers `SKIP_DEFAULT_BLOCK_INTERACTION`
 on both sides so the pot never takes it and the cane tap or ComTac equip still runs), hidden in hand
-from other players through `NoellesHiddenEquipment` (D9),
+from other players through `NoellesHiddenEquipmentRegistry` (D9),
 and stripped from inventory, headset slot, cursor and open screens of anyone who is not a living,
 playing, exact Blind (role change, terminal death, reset, finalize, disconnect and a staggered
 20-tick sweep that spares a real Blind inside a SparkTraits-intercepted Last Stand death). A
@@ -5409,7 +5409,7 @@ The Abyss Listener (`sparkdlc:abyss_listener`) is a special accomplice. Its own 
   `WitchSkillUseResult.success(SHRIEK_COOLDOWN_TICKS)` (60 s), so the shared cooldown starts even with nobody in range.
   The caster is never told how many were hit.
 - **Shriek Gun.** `sparkdlc:shriek_gun` is a plain `Item#use` hitscan on the Taser template, hidden in hand through
-  `NoellesHiddenEquipment` and never in `wathe:guns`. The client only swings and recoils. Any holder may fire and the
+  `NoellesHiddenEquipmentRegistry` and never in `wathe:guns`. The client only swings and recoils. Any holder may fire and the
   role is never read (owner rule 2026-10-04, `util/OffMatchUse`). In every mode a spectator, a gun on cooldown, or a
   SparkTraits `blocksWeaponAction` holder is refused. A living, non-spectator, non-Wraith participant of an ACTIVE
   round fires the match shot below; a dead participant or active Wraith is refused. Everyone else (no match,

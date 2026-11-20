@@ -843,8 +843,8 @@ Current build baseline:
     coordinator default (`NatsumeRules.durationTicks` is the single switch).
 - `role/killer/specter/`: the Specter (`sparkdlc:specter`, 幽魂, color `0x6B2F2F`), contributed in PR #207 and
   fixed in review (2026-11-09); every number and shared gate lives in `SpecterRules`. Mixins in `mixin/role/killer/specter/`,
-  client in `client/role/killer/specter/`, `client/hud/SpecterHudRenderer`, `client/mixin/role/killer/specter/` and
-  `client/bridge/witch/SparkTraitsDepressionVisionBridge`.
+  client in `client/role/killer/specter/`, `client/hud/SpecterHudRenderer` and `client/mixin/role/killer/specter/`
+  (the Otherworld filter asks `DepressionScreenEffects.drawsDepressionGrayscale` of the trait feature directly).
   - Registration: a SparkFactionAPI killer (Wathe-native KILLER, FAKE mood, unlimited sprint, round clock) registered
     after BEAR (only the Medium, PR #209, the Charon with its Lost Soul, PR #202, Tono Hanna, PR #212, and 橘雪莉,
     PR #206, sit between it
@@ -5949,8 +5949,8 @@ to it (`compat/SparkTraits*Bridge`, the role-owned probes and the client instinc
 `SparkTraitsApi` facade directly instead of through reflection and no longer gate on the `sparktraits` mod id.
 The facade-only boundary below is unchanged. Where the following paragraphs and the role sections describe an
 absent, older or failing SparkTraits build, that branch can no longer occur: only the bridges' own null-argument
-answers remain, and a facade failure propagates instead of turning into a default. Not yet converted: the Last
-Escape and Depression vision bridges (`LastEscapeTraitsVisionBridge`, `SparkTraitsDepressionVisionBridge`).
+answers remain, and a facade failure propagates instead of turning into a default. The Last Escape and Depression
+vision bridges are gone as well: both reads are direct calls into the trait feature's `DepressionScreenEffects`.
 
 SparkDLC fusion note, batch 2 (2026-11-19): SparkStrength and SparkAssist also always ship in the same jar, so the
 SparkWitch seams into them are compiled calls on the same members the reflection used to resolve, with no
@@ -6035,8 +6035,8 @@ money (Judge semantics), a vanilla cooldown, or an intercepted death: the `KillP
 cleanup is skipped, the stun counters still drop once the victim stops participating, and
 owned effects are removed at reset, finalize, or disconnect.
 The Seeker may query only `isLastStandPending` and `hasActiveTrait` (Impostor) through
-`bridge/witch/SparkTraitsSeekerBridge`, `isInstinctHidden` through its own client
-`SeekerInstinctVisibilityBridge`, `discountShopEntryForCharisma` through
+`bridge/witch/SparkTraitsSeekerBridge`, `isInstinctHidden` directly on
+`SparkTraitsApi` (client), `discountShopEntryForCharisma` through
 `SparkTraitsCharismaBridge`, and `isLastStandDeathIntercepted` through the existing
 `WitchFactorTraitsBridge`, beyond the existing `SparkTraitsKillerBridge` seams
 (`isRoleSkillBlocked`, `blocksWeaponAction` with its `getForcedMeleeCooldownTicks` read,
@@ -6047,15 +6047,15 @@ facade lacks or fails a method falls back per method to not pending, Impostor-or
 and task money denied, `DENY_IMPOSTOR_DEVICES`), not hidden, full prices, no block, a vanilla
 cooldown, or an intercepted death: the `KillPlayer.AFTER` cleanup is skipped and the component
 tick's final-death fallback cleans up once the Seeker is dead and not Last Stand pending.
-The Angler may query only `isInstinctHidden` through its own client
-`FisherInstinctVisibilityBridge` and `isLastStandDeathIntercepted` through the existing
+The Angler may query only `isInstinctHidden` directly on
+`SparkTraitsApi` (client) and `isLastStandDeathIntercepted` through the existing
 `WitchFactorTraitsBridge`, beyond the existing `SparkTraitsKillerBridge` seams
 (`blocksWeaponAction`, `isLastEscapeActive`, `shouldCancelMeleeAttack`, `isNonFinalKillPending`)
 and `SparkTraitsShopEntryPreserver`. An absent SparkTraits means nothing hidden, no weapon block, no
 Last Escape, no parry, no pending fake death, and cleanup on every death; a present build whose
 facade lacks or fails a method falls back per method as those bridges already define (an
 intercepted death skips the Angler's `KillPlayer.AFTER` cleanup, which then runs at reset or finalize).
-The Insider may query only `isInstinctHidden` through its own client `client/role/jiahao/insider/InsiderSparkTraitsBridge`;
+The Insider may query only `isInstinctHidden` directly on `SparkTraitsApi` (client, `InsiderInstinctClientHooks`);
 an absent, older or failing build means nothing hidden. SparkTraits
 `feat/insider-support` hard-codes `sparkdlc:insider` in `GoingDarkRules.PROTECTED_VIEWER_ROLE_IDS` (Going Dark
 Veterans hidden from the Insider) and `isBlockingTeamWinNeutral` (a living Insider defers SparkTraits'

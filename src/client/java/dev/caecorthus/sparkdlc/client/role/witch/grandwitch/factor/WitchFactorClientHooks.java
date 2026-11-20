@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.witch.grandwitch.factor;
 
 import dev.caecorthus.sparkdlc.client.role.killer.blackraven.BlackRavenClientState;
-import dev.caecorthus.sparkdlc.client.role.killer.blackraven.SparkTraitsInstinctVisibilityBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.client.hooks.WitchInstinctSuppressionClientHooks;
 import dev.caecorthus.sparkdlc.client.render.WraithClientState;
 import dev.caecorthus.sparkdlc.client.render.WraithViewerRules;
@@ -70,7 +70,7 @@ public final class WitchFactorClientHooks {
         // A key-off/range-limited absence is not a hide; these are explicit terminal privacy gates.
         // 未按本能键或普通范围外不等于隐藏；以下才是最终隐私门禁。
         return target.isInvisible() || target.isInvisibleTo(viewer)
-                || SparkTraitsInstinctVisibilityBridge.isHidden(viewer, target)
+                || SparkTraitsApi.isInstinctHidden(viewer, target)
                 || MorphlingPlayerComponent.KEY.get(target).corpseMode
                 || WraithClientState.isRestricted(viewer)
                 || WraithViewerRules.shouldHideFromOrdinaryViewer(viewer, target)

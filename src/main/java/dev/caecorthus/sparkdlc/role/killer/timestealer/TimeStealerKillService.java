@@ -4,7 +4,6 @@ import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkDlcDeathReasons;
 import dev.caecorthus.sparkdlc.role.civilian.judge.JudgeKillAttribution;
 import dev.caecorthus.sparkdlc.role.killer.timestealer.TimeStealerRules.SettleActor;
-import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.cca.GameTimeComponent;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -66,13 +65,13 @@ public final class TimeStealerKillService {
         // 此处不做任何针对具体保护的放行。
         JudgeKillAttribution.runWith(world, stealerUuid,
                 () -> GameFunctions.killPlayer(victim, true, killer, SparkDlcDeathReasons.TIME_STOLEN, true));
-        // Only a confirmed death in the same ACTIVE match moves the round time and grants a stamp; the Last Stand
-        // interception check (fail-closed) is unreachable since the fusion, the reason being always terminal. / 只有同一
-        // ACTIVE 对局内确认的死亡才扣除对局时间并发放邮票；背水一战拦截检查（失败关闭）融合后不可达：该死因始终是终结原因。
+        // Only a confirmed death in the same ACTIVE match moves the round time and grants a stamp. Last Stand never
+        // intercepts it: TIME_STOLEN is a terminal reason, whose AFTER clears any Last Stand approval or pending state.
+        // 只有同一 ACTIVE 对局内确认的死亡才扣除对局时间并发放邮票。背水一战从不拦截它：TIME_STOLEN 是终结原因，其 AFTER
+        // 会清除背水一战的批准与待决状态。
         if (!game.isPlayerDead(victim.getUuid())
                 || game.getGameStatus() != GameWorldComponent.GameStatus.ACTIVE
-                || !Objects.equals(match, TimeStealerMatch.currentId())
-                || SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
+                || !Objects.equals(match, TimeStealerMatch.currentId())) {
             return;
         }
         GameTimeComponent time = GameTimeComponent.KEY.get(world);

@@ -2,6 +2,7 @@ package dev.caecorthus.sparkdlc.client.settings;
 
 import dev.caecorthus.sparkdlc.SparkDlcModule;
 import dev.caecorthus.sparkdlc.client.config.SparkAssistClientSettings;
+import dev.caecorthus.sparkdlc.client.scope.ScopeSettingsEditor;
 import dev.caecorthus.sparkdlc.config.BloodAppearance;
 import dev.caecorthus.sparkdlc.config.ChargeIndicatorStyle;
 import dev.caecorthus.sparkdlc.config.SparkAssistConfig.GuidebookDecor;
@@ -9,6 +10,7 @@ import dev.caecorthus.sparkdlc.config.SparkAssistConfig.InstinctKeyMode;
 import dev.caecorthus.sparkdlc.sound.EventSoundGroup;
 import dev.doctor4t.wathe.WatheConfig.SnowModeConfig;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import net.fabricmc.loader.api.FabricLoader;
@@ -31,7 +33,9 @@ public final class SparkDlcSettingsPages {
     private static final Text SPARKASSIST = Text.literal("SparkAssist");
     private static final Text WATHE = Text.literal("Wathe");
     private static final Text SPARKWITCH = Text.literal("SparkWitch");
-    private static final SettingsStore SCOPE_STORE = new SettingsStore("sparkdlc-client", SparkWitchScopeBridge::save);
+    /** Serialized name of the Picture-in-Picture scope mode. 画中画开镜模式的序列化名称。 */
+    private static final String PICTURE_IN_PICTURE = "picture_in_picture";
+    private static final SettingsStore SCOPE_STORE = new SettingsStore("sparkdlc-client", ScopeSettingsEditor::save);
 
     private SparkDlcSettingsPages() {
     }
@@ -40,14 +44,12 @@ public final class SparkDlcSettingsPages {
         List<SettingsPage> pages = new ArrayList<>();
         pages.add(general());
         pages.add(audio());
-        if (SparkWitchScopeBridge.available()) {
-            try {
-                pages.add(scope());
-            } catch (IllegalArgumentException exception) {
-                // SparkWitch answered with values its own defaults are not among; leave the page out.
-                // SparkWitch 返回的取值不包含其默认值时，不显示此页。
-                LOGGER.warn("SparkWitch scope settings are inconsistent; hiding the scope page", exception);
-            }
+        try {
+            pages.add(scope());
+        } catch (IllegalArgumentException exception) {
+            // SparkWitch answered with values its own defaults are not among; leave the page out.
+            // SparkWitch 返回的取值不包含其默认值时，不显示此页。
+            LOGGER.warn("SparkWitch scope settings are inconsistent; hiding the scope page", exception);
         }
         pages.add(display());
         return pages.stream().filter(page -> !page.isEmpty()).toList();
@@ -156,15 +158,15 @@ public final class SparkDlcSettingsPages {
                 Text.translatable("option.sparkdlc.scope_mode.description"),
                 SPARKWITCH,
                 SCOPE_STORE,
-                SparkWitchScopeBridge.scopeModes(),
-                SparkWitchScopeBridge::scopeMode,
-                SparkWitchScopeBridge::setScopeMode,
-                SparkWitchScopeBridge.defaultScopeMode(),
+                ScopeSettingsEditor.scopeModes(),
+                ScopeSettingsEditor::scopeMode,
+                ScopeSettingsEditor::setScopeMode,
+                ScopeSettingsEditor.defaultScopeMode(),
                 name -> Text.translatable("option.sparkdlc.scope_mode." + name));
         mode.describeValues(name -> {
             Text tooltip = Text.translatable("option.sparkdlc.scope_mode." + name + ".tooltip");
-            if (SparkWitchScopeBridge.PICTURE_IN_PICTURE.equals(name)
-                    && SparkWitchScopeBridge.pictureInPictureSuppressed()) {
+            if (PICTURE_IN_PICTURE.equals(name)
+                    && ScopeSettingsEditor.pictureInPictureSuppressed()) {
                 return Text.empty().append(tooltip).append("\n\n")
                         .append(Text.translatable("option.sparkdlc.scope_mode.suppressed"));
             }
@@ -176,12 +178,12 @@ public final class SparkDlcSettingsPages {
                 Text.translatable("option.sparkdlc.scope_lens_resolution.tooltip"),
                 SPARKWITCH,
                 SCOPE_STORE,
-                SparkWitchScopeBridge.lensResolutionChoices(),
-                SparkWitchScopeBridge::lensResolutionPercent,
-                SparkWitchScopeBridge::setLensResolutionPercent,
-                SparkWitchScopeBridge.defaultLensResolutionPercent(),
+                Arrays.stream(ScopeSettingsEditor.lensResolutionChoices()).boxed().toList(),
+                ScopeSettingsEditor::lensResolutionPercent,
+                ScopeSettingsEditor::setLensResolutionPercent,
+                ScopeSettingsEditor.defaultLensResolutionPercent(),
                 SparkDlcSettingsPages::percent);
-        lens.enabledWhen(() -> SparkWitchScopeBridge.PICTURE_IN_PICTURE.equals(SparkWitchScopeBridge.scopeMode()),
+        lens.enabledWhen(() -> PICTURE_IN_PICTURE.equals(ScopeSettingsEditor.scopeMode()),
                 () -> Text.translatable("option.sparkdlc.scope_lens_resolution.needs_pip"));
         SliderOption sensitivity = new SliderOption(
                 "sparkdlc.scope_sensitivity",
@@ -189,12 +191,12 @@ public final class SparkDlcSettingsPages {
                 Text.translatable("option.sparkdlc.scope_sensitivity.tooltip"),
                 SPARKWITCH,
                 SCOPE_STORE,
-                SparkWitchScopeBridge.scopedSensitivityMin(),
-                SparkWitchScopeBridge.scopedSensitivityMax(),
-                SparkWitchScopeBridge.scopedSensitivityStep(),
-                SparkWitchScopeBridge::scopedSensitivityPercent,
-                SparkWitchScopeBridge::setScopedSensitivityPercent,
-                SparkWitchScopeBridge.defaultScopedSensitivityPercent(),
+                ScopeSettingsEditor.scopedSensitivityMin(),
+                ScopeSettingsEditor.scopedSensitivityMax(),
+                ScopeSettingsEditor.scopedSensitivityStep(),
+                ScopeSettingsEditor::scopedSensitivityPercent,
+                ScopeSettingsEditor::setScopedSensitivityPercent,
+                ScopeSettingsEditor.defaultScopedSensitivityPercent(),
                 SparkDlcSettingsPages::percent);
         return new SettingsPage(SCOPE, Text.translatable("screen.sparkdlc.settings.page.scope"), List.of(
                 new SettingsPage.Group("scope", Text.translatable("screen.sparkdlc.settings.group.scope"),

@@ -15,6 +15,6 @@ public final class SparkDlcSettingsApi {
 
     /** True when the SparkDLC settings screen shows SparkWitch's scope page. SparkDLC 设置界面是否显示瞄准镜页。 */
     public static boolean hostsScopeSettings() {
-        return SparkWitchScopeBridge.available();
+        return true;
     }
 }

@@ -11,7 +11,7 @@ import dev.caecorthus.sparkdlc.trait.api.Trait;
 import dev.caecorthus.sparkdlc.trait.api.TraitRegistry;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
-import dev.caecorthus.sparkdlc.bridge.traits.SparkStrengthTeamEconomyBridge;
+import dev.caecorthus.sparkdlc.economy.KillerTeamEconomyService;
 import dev.caecorthus.sparkdlc.legacy.LegacyCommandIds;
 import dev.caecorthus.sparkdlc.trait.killer.KillerTraits;
 import net.minecraft.command.argument.EntityArgumentType;
@@ -200,7 +200,7 @@ public final class SparkTraitsCommands {
     }
 
     private static AddResult canAddPending(ServerCommandSource source, ServerPlayerEntity player, TraitPlayerComponent component, Trait trait) {
-        if (trait.id().equals(KillerTraits.TEAM_FIRST) && !SparkStrengthTeamEconomyBridge.isAvailable()) {
+        if (trait.id().equals(KillerTraits.TEAM_FIRST) && !KillerTeamEconomyService.supportsTraitContributionBonus()) {
             return AddResult.failure("Team First requires SparkStrength's trait-aware shared team economy");
         }
         Collection<Identifier> pending = component.getPendingTraitIds();

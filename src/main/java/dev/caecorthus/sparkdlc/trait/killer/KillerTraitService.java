@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.trait.killer;
 
 import dev.caecorthus.sparkdlc.SparkTraits;
-import dev.caecorthus.sparkdlc.bridge.traits.SparkStrengthSabotageBridge;
+import dev.caecorthus.sparkdlc.sabotage.SabotageAccess;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
 import dev.caecorthus.sparkdlc.trait.effective.EffectiveTraitService;
@@ -129,7 +129,7 @@ public final class KillerTraitService {
      * 灯光破坏和动力破坏更难修）。
      */
     public static boolean canSabotage(PlayerEntity player) {
-        return hasBlackoutShopEntry(player) || SparkStrengthSabotageBridge.canSabotage(player);
+        return hasBlackoutShopEntry(player) || SabotageAccess.hasSabotageIdentity(player);
     }
 
     public static boolean hasBlackoutShopEntry(PlayerEntity player) {

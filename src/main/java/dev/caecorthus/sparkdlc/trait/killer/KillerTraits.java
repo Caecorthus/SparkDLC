@@ -4,7 +4,6 @@ import dev.caecorthus.sparkdlc.SparkTraits;
 import dev.caecorthus.sparkdlc.trait.api.TraitAudience;
 import dev.caecorthus.sparkdlc.trait.api.TraitDefinition;
 import dev.caecorthus.sparkdlc.trait.api.TraitRegistry;
-import dev.caecorthus.sparkdlc.economy.KillerTeamEconomyService;
 import dev.caecorthus.sparkdlc.trait.killer.combat.CloseQuartersService;
 import net.minecraft.util.Identifier;
 import dev.caecorthus.sparkdlc.trait.killer.conscience.ConscienceTrait;
@@ -60,11 +59,8 @@ public final class KillerTraits {
                 .uniquePerGame()
                 .build());
         TraitRegistry.register(base(CORNERED, 0x6F263D).build());
-        // Team First is selectable only while the team economy applies the contribution bonus.
-        // 只有团队经济支持贡献加成时才允许抽取团队至上。
         TraitRegistry.register(base(TEAM_FIRST, 0xD6A640)
-                .predicate(context -> KillerTraitService.canSelectKillerTrait(context.role(), context.selectedTraitIds())
-                        && KillerTeamEconomyService.supportsTraitContributionBonus())
+                .predicate(context -> KillerTraitService.canSelectKillerTrait(context.role(), context.selectedTraitIds()))
                 .build());
         TraitRegistry.register(base(EXHILARATED, 0xE86B35).build());
         TraitRegistry.register(base(CLOSE_QUARTERS, 0xA93236)

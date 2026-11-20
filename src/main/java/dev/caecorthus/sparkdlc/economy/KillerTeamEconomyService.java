@@ -139,12 +139,6 @@ public final class KillerTeamEconomyService {
         syncWorld(world);
     }
 
-    /** Public optional capability probe; does not promise that a solo round enables the purse.
-     *  公开可选能力探针；不表示单人杀手局也开启钱包。 */
-    public static boolean supportsTraitContributionBonus() {
-        return true;
-    }
-
     public static void recordIncome(PlayerEntity player, long actualIncome) {
         if (!countsIncome(WALLET_RULES, player)) {
             return;

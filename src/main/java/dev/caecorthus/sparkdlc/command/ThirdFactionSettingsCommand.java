@@ -33,20 +33,13 @@ public final class ThirdFactionSettingsCommand {
     }
 
     /**
-     * Fails closed like the lineup registration: a SparkFactionAPI 2.0.0 jar built before the third-faction draw lacks
-     * the setter, so the command reports that and returns 0 instead of throwing.
-     * 与阵容注册一样失败即关闭：在加入第三阵营抽取之前构建的 SparkFactionAPI 2.0.0 没有该设置方法，此时命令提示失败并返回
-     * 0，而不是抛出异常。
+     * Returns 0 when the supporter gate did not run the change.
+     * 支持者门控未执行更改时返回 0。
      */
     private static int setMinimum(ServerCommandSource source, int players) {
         boolean[] applied = {false};
         int result = Wathe.executeSupporterCommand(source, () -> {
-            try {
-                SparkFactionApi.setThirdFactionMinPlayers(source.getServer(), players);
-            } catch (LinkageError olderSparkFactionApi) {
-                source.sendError(Text.translatable("command.sparkdlc.third_faction_min_requirement.unavailable"));
-                return;
-            }
+            SparkFactionApi.setThirdFactionMinPlayers(source.getServer(), players);
             applied[0] = true;
             source.sendFeedback(() -> Text.translatable(
                     "command.sparkdlc.third_faction_min_requirement.success", players), true);

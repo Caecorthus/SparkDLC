@@ -378,7 +378,6 @@
     "role.witch.riftwalker.RiftSessionSpectatorHudMixin",
     "role.witch.riftwalker.RiftGateAttackMixin",
     "role.witch.riftwalker.RiftGateCrosshairMixin",
-    "scope.ScopeAccessibilityOptionsMixin",
     "scope.ScopeFovMixin",
     "scope.ScopeGameRendererInvoker",
     "scope.ScopeGameRendererMixin",

@@ -3157,12 +3157,10 @@ Current build baseline:
     the FOV by 1, the PiP narrowing in `ScopeRules.lensClipScale` is exactly 1 (the lens pass only crops) and the
     `setupTerrain` projection swap still shows Sodium the main projection.
   - Settings: Scope View (Full-Screen Zoom, the default, or Picture-in-Picture), Lens Resolution beside it, and Scoped
-    Sensitivity (10–200 % in 5 % steps, default 100 %) are appended at the end of vanilla Options → Accessibility by
-    `ScopeAccessibilityOptionsMixin` (`addOptions` TAIL calls `ScopeOptions.addTo(body)`, one `addAll`; SparkAssist's
-    `getOptions` hook is left untouched). The rows are left out while SparkAssist's SparkDLC settings screen hosts them
-    (the mixin asks the settings screen's
-    `dev.caecorthus.sparkdlc.client.settings.SparkDlcSettingsApi.hostsScopeSettings()`, which answers true, a direct
-    call, asked at every screen init; false means the rows stay); that screen edits them through `client/scope/ScopeSettingsEditor`. Lens Resolution (owner,
+    Sensitivity (10–200 % in 5 % steps, default 100 %) live on the scope page of the SparkDLC settings screen, which
+    edits them through `client/scope/ScopeSettingsEditor` (vanilla Options → Accessibility shows no scope rows; the
+    former `ScopeAccessibilityOptionsMixin`, `ScopeOptions` and `SparkDlcSettingsApi` only served the case without that
+    screen and are gone). Lens Resolution (owner,
     2026-10-08) is a cycling button of 50 / 75 / 100 % of the native PiP lens size (default 100 %); it only matters in
     Picture-in-Picture, so its button is inactive (greyed) while Full-Screen Zoom is selected, follows the Scope View
     button at once, and its tooltip says so. Values persist
@@ -5960,8 +5958,7 @@ SparkWitch seams into them are compiled calls on the same members the reflection
 and `PartygoerHitGeometry` are asked directly), `RoleKitBlastOrigin` (`AttackOriginScope.currentBlast`), `BlackRavenDisguiseEconomy`
 (`KillerTeamEconomyService.recordIncome`), `RiftwalkerStatusProbes` (`EngineerStunnedPlayerComponent.KEY`, `isStunned`,
 `stun`), and on the client the mana row, Tarot table and inventory cards (`KillerTeamEconomyClientHooks.topRightHudBottom`),
-`client/role/civilian/emma/EmmaVisibleName` (`MorphlingAppearanceClientHelper.resolveActiveDisplayName`) and
-`client/mixin/scope/ScopeAccessibilityOptionsMixin` (`SparkDlcSettingsApi.hostsScopeSettings`, asked without the former `SparkDlcSettingsBridge`). The former registry-id-only seams
+`client/role/civilian/emma/EmmaVisibleName` (`MorphlingAppearanceClientHelper.resolveActiveDisplayName`); the scope settings, which only the SparkDLC settings screen shows (the Accessibility rows behind the former `SparkDlcSettingsApi.hostsScopeSettings` are removed). The former registry-id-only seams
 (`tablet/TabletItemLookup`, `RiftGateM67Sweep`; the disguise flashlight now comes from `AttendantFlashlightService`) reference
 the registered tablet and M67 type directly. Where the role sections below and above describe an absent, older or failing SparkStrength
 or SparkAssist (fail closed, "disabled for the session", a logged warning),

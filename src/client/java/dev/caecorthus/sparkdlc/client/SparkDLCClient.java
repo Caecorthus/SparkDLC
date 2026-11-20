@@ -288,7 +288,7 @@ public final class SparkDLCClient implements ClientModInitializer {
     private static void startSettingsGuidebookAndAchievements() {
         configManager = SparkAssistConfigManager.load();
         // Lay the achievement galaxy out now, off the render thread. 现在就在渲染线程之外排布成就银河。
-        Thread galaxy = new Thread(SparkDLCClient::layOutGalaxy, "SparkAssist galaxy layout");
+        Thread galaxy = new Thread(SparkDLCClient::layOutGalaxy, "SparkDLC galaxy layout");
         galaxy.setDaemon(true);
         galaxy.start();
         PonderSupport.init();
@@ -326,7 +326,7 @@ public final class SparkDLCClient implements ClientModInitializer {
      * highlight and cohort listeners. 全模组的版本握手、回放界面、对局记录、地图重置 HUD，以及阵营本能高亮与同伙监听器。
      */
     private static void startFactionAndReplayClient() {
-        SparkDLC.LOGGER.info("Initializing SparkFactionAPI client hooks.");
+        SparkDLC.LOGGER.info("Initializing SparkDLC faction and replay client hooks.");
         // The one version handshake: the login-query answer and the play confirmation receiver. Receivers are kept
         // per channel, so their place in the start-up is free; the session edges that drop the confirmation stay in
         // the trait and own-role session listeners below, where the two former flags had them.
@@ -529,7 +529,7 @@ public final class SparkDLCClient implements ClientModInitializer {
      * rows. 本模组自有职业的客户端注册中心：“职业技能 2”按键绑定、实体渲染器与各职业自有的 HUD 行。
      */
     private static void registerOwnRoleClient() {
-        SparkDLC.LOGGER.info("Initializing SparkWitch client hooks.");
+        SparkDLC.LOGGER.info("Initializing SparkDLC role client hooks.");
         // Per-world-pass memo of local-viewer facts read by the instinct, outline and Blind hooks.
         // 本能、描边与盲人钩子读取的本地观察者事实，按世界渲染 pass 缓存。
         LocalViewerSnapshot.register();

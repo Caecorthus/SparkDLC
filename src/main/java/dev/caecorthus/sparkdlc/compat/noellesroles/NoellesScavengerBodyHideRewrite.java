@@ -152,9 +152,9 @@ public final class NoellesScavengerBodyHideRewrite {
     }
 
     private static IllegalStateException stale(ClassNode target, String detail) {
-        return new IllegalStateException("SparkFactionAPI cannot keep the NoellesRoles Scavenger hidden-body perk for "
+        return new IllegalStateException("SparkDLC cannot keep the NoellesRoles Scavenger hidden-body perk for "
                 + "neutral-aligned native factions in " + target.name + ": " + detail + ". The rewrite is pinned to "
                 + "noellesroles-1.7.6-h1.5.6-spark; re-check NoellesScavengerBodyHideRewrite against the installed "
-                + "NoellesRoles. SparkFactionAPI 无法为中立同盟原生阵营保留 NoellesRoles 清道夫隐藏尸体福利。");
+                + "NoellesRoles. SparkDLC 无法为中立同盟原生阵营保留 NoellesRoles 清道夫隐藏尸体福利。");
     }
 }

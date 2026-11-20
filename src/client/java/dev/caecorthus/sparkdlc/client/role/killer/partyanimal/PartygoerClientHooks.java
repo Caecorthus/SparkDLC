@@ -43,7 +43,7 @@ public final class PartygoerClientHooks {
         keyAvailable = SparkWitchSecondaryKeyCompat.register(Noellesroles.PARTY_ANIMAL.identifier(),
                 PartygoerClientHooks::requestMenu);
         if (!keyAvailable) {
-            SparkStrength.LOGGER.warn("Partygoer has no key: SparkWitch Role Skill 2 hook unavailable or taken.");
+            SparkStrength.LOGGER.warn("Partygoer has no key: the Role Skill 2 hook is unavailable or taken.");
         }
     }
 

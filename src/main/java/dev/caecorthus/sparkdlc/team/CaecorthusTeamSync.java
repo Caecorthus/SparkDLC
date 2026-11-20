@@ -58,7 +58,7 @@ public final class CaecorthusTeamSync {
                 .followRedirects(HttpClient.Redirect.NORMAL)
                 .build();
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor(task -> {
-            Thread thread = new Thread(task, "SparkFactionAPI team list");
+            Thread thread = new Thread(task, "SparkDLC team list");
             thread.setDaemon(true);
             return thread;
         });

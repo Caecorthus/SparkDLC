@@ -116,7 +116,7 @@ public final class ServerDisconnectCleanup {
             try {
                 pending.run();
             } catch (RuntimeException failure) {
-                SparkWitch.LOGGER.error("SparkWitch disconnect cleanup failed", failure);
+                SparkWitch.LOGGER.error("SparkDLC disconnect cleanup failed", failure);
             }
         }
     }

@@ -59,7 +59,7 @@ public final class SparkAssistConfigManager {
                 Path aside = path.resolveSibling(path.getFileName() + ".broken-" + epochMillis);
                 try {
                     Files.move(path, aside, StandardCopyOption.REPLACE_EXISTING);
-                    LOGGER.warn("SparkAssist settings in {} could not be parsed and were moved to {}", path, aside);
+                    LOGGER.warn("SparkDLC settings in {} could not be parsed and were moved to {}", path, aside);
                 } catch (IOException moveFailure) {
                     writable = false;
                 }
@@ -67,7 +67,7 @@ public final class SparkAssistConfigManager {
                 writable = false;
             }
             if (!writable) {
-                LOGGER.error("SparkAssist settings in {} could not be read; defaults are used and the file is not"
+                LOGGER.error("SparkDLC settings in {} could not be read; defaults are used and the file is not"
                         + " written until the next launch", path);
             }
         }

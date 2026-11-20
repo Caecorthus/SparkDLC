@@ -45,7 +45,7 @@ public final class SparkTraitsReplayTooltips {
             List<Identifier> traitIds = SparkTraitsApi.getRoundEndTraitIds(player.world(), player.uuid());
             badges(traitIds, TraitRegistry::get).forEach(badges);
         } catch (RuntimeException exception) {
-            SparkTraits.LOGGER.warn("Unable to build SparkTraits replay badges", exception);
+            SparkTraits.LOGGER.warn("Unable to build trait replay badges", exception);
         }
     }
 
@@ -78,7 +78,7 @@ public final class SparkTraitsReplayTooltips {
             List<Identifier> traitIds = SparkTraitsApi.getRoundEndTraitIds(player.world(), player.uuid());
             tooltipLines(traitIds, TraitRegistry::get).forEach(lines);
         } catch (RuntimeException exception) {
-            SparkTraits.LOGGER.warn("Unable to build SparkTraits replay tooltip", exception);
+            SparkTraits.LOGGER.warn("Unable to build trait replay tooltip", exception);
         }
     }
 

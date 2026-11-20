@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.client.settings;
 
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.sound.EventSoundGroup;
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -12,17 +13,18 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * How the audio page lays out the event sound groups: train and round sounds first, then role moments by faction and
- * traits by category, each row named "role · sound" with the role's guide colour. A row shows only when the mod id
- * its sounds are listed under is loaded; every listed id always is (Wathe and NoellesRoles are required, the legacy
- * ids are provided by SparkDLC itself), so hiding a row for that reason is unreachable since the fusion. Role names
- * come from the role's own lang key (the guide's nameKey), with an English fallback; colours copy the guide entries'
- * {@code color}.
+ * traits by category, each row named "role · sound" with the role's guide colour. Each row names the mod whose sounds
+ * it scales: Wathe (a required dependency) or SparkDLC itself ({@link #OWN}); the audio page shows "From ..." only for
+ * Wathe's rows. Role names come from the role's own lang key (the guide's nameKey), with an English fallback; colours
+ * copy the guide entries' {@code color}.
  * 音频页如何排列事件音效分组：先列车与回合，再按阵营排角色时刻、按分类排天赋；每行写成「角色 · 声音」并配上角色在
- * 指南里的颜色。只有声音所登记的模组 id 已加载时才显示该行；所列 id 恒已加载（Wathe 与 NoellesRoles 是必需依赖，旧 id 由
- * SparkDLC 自己提供），因此因该原因隐藏行在融合后不可达。角色名取自角色自己的 lang 键（即指南的 nameKey），并带
- * 英文后备；颜色照抄指南条目的 {@code color}。
+ * 指南里的颜色。每行标明其缩放的声音所属的模组：Wathe（必需依赖）或 SparkDLC 自身（{@link #OWN}）；音频页只为 Wathe
+ * 的行显示「来自……」。角色名取自角色自己的 lang 键（即指南的 nameKey），并带英文后备；颜色照抄指南条目的 {@code color}。
  */
 final class EventVolumeRows {
+    /** The mod id of the rows for SparkDLC's own sounds. / SparkDLC 自身声音所在行的模组 id。 */
+    static final String OWN = SparkDLC.MOD_ID;
+
     /** Audio page sections, in display order; ids key the remembered folded state. 音频页分节，按显示顺序。 */
     enum Section {
         TRAIN_AND_ROUND("train_round"),
@@ -57,7 +59,7 @@ final class EventVolumeRows {
      *
      * @param group       the volume group it controls / 控制的音量分组
      * @param section     where it sits / 所在分节
-     * @param mod         the mod id whose sounds it scales; the row hides without it / 声音所属模组 id，未加载时隐藏
+     * @param mod         the mod id whose sounds it scales / 声音所属模组 id
      * @param whoKey      lang key of the role or trait, or null for a plain row / 角色或天赋名的 lang 键，普通行为 null
      * @param whoFallback English name used if that key is missing / 该键缺失时使用的英文名
      * @param colour      the role's guide colour as RGB, 0 for none / 角色在指南中的颜色，0 为无
@@ -95,53 +97,53 @@ final class EventVolumeRows {
             plain(EventSoundGroup.SHIELD_CLANG, Section.ROLE_ANY, "wathe",
                     sample("wathe:item.psycho.armour", SoundCategory.MASTER)),
 
-            role(EventSoundGroup.BELL_RINGER_TOLL, Section.ROLE_KILLER, "sparkwitch",
+            role(EventSoundGroup.BELL_RINGER_TOLL, Section.ROLE_KILLER, OWN,
                     "announcement.role.bell_ringer", "Bell Ringer", 0x8C6D3F,
                     sample("sparkdlc:ambient.bell_ringer_toll", SoundCategory.PLAYERS)),
-            role(EventSoundGroup.TIME_STEALER_CHIME, Section.ROLE_KILLER, "sparkwitch",
+            role(EventSoundGroup.TIME_STEALER_CHIME, Section.ROLE_KILLER, OWN,
                     "announcement.role.time_stealer", "Time Stealer", 0x2E8B7A,
                     sample("sparkdlc:ambient.time_stealer_chime", SoundCategory.PLAYERS)),
 
             role(EventSoundGroup.JESTER_MOMENT, Section.ROLE_NEUTRAL, "noellesroles",
                     "announcement.role.jester", "Jester", 0xF8C8DC,
                     sample("noellesroles:ambient.jester_laugh", SoundCategory.MASTER)),
-            role(EventSoundGroup.SHADOW_JESTER_FINALE, Section.ROLE_NEUTRAL, "sparkstrength",
+            role(EventSoundGroup.SHADOW_JESTER_FINALE, Section.ROLE_NEUTRAL, OWN,
                     "announcement.role.shadow_jester", "Shadow Jester", 0xBE1E5A,
                     sample("sparkdlc:ambient.shadow_jester", SoundCategory.AMBIENT)),
-            role(EventSoundGroup.VULTURE_CURSE, Section.ROLE_NEUTRAL, "sparkstrength",
+            role(EventSoundGroup.VULTURE_CURSE, Section.ROLE_NEUTRAL, OWN,
                     "announcement.role.vulture", "Vulture", 0xB56700,
                     sample("sparkdlc:vulture.super_curse", SoundCategory.PLAYERS)),
 
             role(EventSoundGroup.CORRUPT_COP_MOMENT, Section.ROLE_JIAHAO, "noellesroles",
                     "announcement.role.corrupt_cop", "Corrupt Cop", 0x193264,
                     sample("noellesroles:music.corrupt_cop_moment_1", SoundCategory.AMBIENT)),
-            role(EventSoundGroup.ARROGANT_ASF_MUSIC, Section.ROLE_JIAHAO, "sparkstrength",
+            role(EventSoundGroup.ARROGANT_ASF_MUSIC, Section.ROLE_JIAHAO, OWN,
                     "announcement.role.corrupt_cop", "Corrupt Cop", 0x193264,
                     sample("sparkdlc:music.takediskrush", SoundCategory.AMBIENT)),
-            role(EventSoundGroup.SPHINX_HAO_FADE, Section.ROLE_JIAHAO, "sparkwitch",
+            role(EventSoundGroup.SPHINX_HAO_FADE, Section.ROLE_JIAHAO, OWN,
                     "announcement.role.sphinx_hao", "Sphinx Hao", 0xFF7F50,
                     sample("sparkdlc:music.sphinx_hao_fade", SoundCategory.AMBIENT)),
 
-            role(EventSoundGroup.PIG_CHASE, Section.ROLE_CIVILIAN, "sparkwitch",
+            role(EventSoundGroup.PIG_CHASE, Section.ROLE_CIVILIAN, OWN,
                     "announcement.role.pig_god", "Pig God", 0xF2A4FC,
                     sample("sparkdlc:skill.pig_chase", SoundCategory.PLAYERS)),
-            role(EventSoundGroup.SAINT_BELL, Section.ROLE_CIVILIAN, "sparkwitch",
+            role(EventSoundGroup.SAINT_BELL, Section.ROLE_CIVILIAN, OWN,
                     "announcement.role.saint", "Saint", 0xEEBC78,
                     sample("sparkdlc:ambient.saint_bell", SoundCategory.PLAYERS)),
-            role(EventSoundGroup.HOLY_FLASH_TINNITUS, Section.ROLE_CIVILIAN, "sparkwitch",
+            role(EventSoundGroup.HOLY_FLASH_TINNITUS, Section.ROLE_CIVILIAN, OWN,
                     "announcement.role.saint", "Saint", 0xEEBC78,
                     sample("sparkdlc:skill.holy_flash_tinnitus", SoundCategory.PLAYERS)),
 
-            role(EventSoundGroup.LAST_STAND_FINAL_MOMENT, Section.TRAIT_CIVILIAN, "sparktraits",
+            role(EventSoundGroup.LAST_STAND_FINAL_MOMENT, Section.TRAIT_CIVILIAN, OWN,
                     "trait.sparkdlc.last_stand.name", "Last Stand", 0xFFFFFF,
                     sample("sparkdlc:music.final_moment", SoundCategory.MASTER)),
-            role(EventSoundGroup.DEPRESSION_PSYCHO_RANGE, Section.TRAIT_CIVILIAN, "sparktraits",
+            role(EventSoundGroup.DEPRESSION_PSYCHO_RANGE, Section.TRAIT_CIVILIAN, OWN,
                     "trait.sparkdlc.depression.name", "Depression", 0x6B7280,
                     sample("sparkdlc:depression.docile_to_rage", SoundCategory.AMBIENT)),
-            role(EventSoundGroup.DEPRESSION_PSYCHO_MUSIC, Section.TRAIT_CIVILIAN, "sparktraits",
+            role(EventSoundGroup.DEPRESSION_PSYCHO_MUSIC, Section.TRAIT_CIVILIAN, OWN,
                     "trait.sparkdlc.depression.name", "Depression", 0x6B7280,
                     sample("sparkdlc:depression.blind_rage_chase", SoundCategory.AMBIENT)),
-            role(EventSoundGroup.DEPRESSION_PSYCHO_ALERT, Section.TRAIT_CIVILIAN, "sparktraits",
+            role(EventSoundGroup.DEPRESSION_PSYCHO_ALERT, Section.TRAIT_CIVILIAN, OWN,
                     "trait.sparkdlc.depression.name", "Depression", 0x6B7280,
                     sample("sparkdlc:depression.player_was_seen", SoundCategory.AMBIENT))
     );
@@ -168,9 +170,8 @@ final class EventVolumeRows {
     }
 
     /**
-     * Rows that pass {@code shown} (in game: the mod is installed and the sound manager knows the sample), grouped by
-     * section in display order.
-     * 通过 {@code shown} 的行（游戏中：模组已安装且声音管理器认识该样本），按分节与显示顺序排列。
+     * Rows that pass {@code shown} (in game: the sound manager knows the sample), grouped by section in display order.
+     * 通过 {@code shown} 的行（游戏中：声音管理器认识该样本），按分节与显示顺序排列。
      */
     static List<List<Row>> visibleBySection(Predicate<Row> shown) {
         List<List<Row>> sections = new ArrayList<>();

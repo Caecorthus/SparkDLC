@@ -112,8 +112,9 @@ public final class SparkDlcSettingsPages {
         groups.add(new SettingsPage.Group("master",
                 Text.translatable("screen.sparkdlc.settings.group.event_master"), List.of(master)));
 
-        List<List<EventVolumeRows.Row>> sections = EventVolumeRows.visibleBySection(row ->
-                FabricLoader.getInstance().isModLoaded(row.mod()) && preview(row).available());
+        // Every row's mod is Wathe (required) or SparkDLC itself, so only the sample decides: a resource pack can
+        // still remove a sound. / 每行的模组都是 Wathe（必需依赖）或 SparkDLC 自身，因此只由试听样本决定：资源包仍可能移除声音。
+        List<List<EventVolumeRows.Row>> sections = EventVolumeRows.visibleBySection(row -> preview(row).available());
         EventVolumeRows.Section[] order = EventVolumeRows.Section.values();
         for (int i = 0; i < order.length; i++) {
             List<SettingsOption> volumes = new ArrayList<>();
@@ -284,11 +285,8 @@ public final class SparkDlcSettingsPages {
     }
 
     /**
-     * The mod named under a volume row's description, or null for a row of SparkDLC itself. {@code modId} may be one
-     * of the mod ids SparkDLC provides: the loader answers each of them with the SparkDLC container, and such a row
-     * gets no "From ..." line.
-     * 音量行说明下方标出的模组；SparkDLC 自己的行为 null。{@code modId} 可以是 SparkDLC 通过 provides 提供的 mod id：
-     * 加载器对它们都返回 SparkDLC 容器，这样的行不显示「来自……」。
+     * The mod named under a volume row's description, or null for a row of SparkDLC itself (no "From ..." line).
+     * 音量行说明下方标出的模组；SparkDLC 自己的行为 null（不显示「来自……」）。
      */
     @Nullable
     private static Text modName(String modId) {

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.fiend;
 
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.ResetPlayer;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -114,7 +114,7 @@ public final class FiendBombLedger {
             return;
         }
         boolean finallyDead = GameWorldComponent.KEY.get(victim.getWorld()).isPlayerDead(victim.getUuid())
-                && !WitchFactorTraitsBridge.isDeathIntercepted(victim);
+                && !SparkTraitsApi.isLastStandDeathIntercepted(victim);
         ServerPlayerEntity fiend = victim.getServer().getPlayerManager().getPlayer(passer);
         boolean dormantFiend = fiend != null && FiendParticipation.isDormantFiend(fiend);
         if (shouldPay(true, victim == holder, finallyDead, dormantFiend)) {

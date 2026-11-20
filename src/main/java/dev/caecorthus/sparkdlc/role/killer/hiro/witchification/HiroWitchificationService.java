@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.bridge.witch.SparkFactionSecondRowCompat;
 import dev.caecorthus.sparkdlc.role.civilian.judge.JudgeKillAttribution;
 import dev.caecorthus.sparkdlc.role.killer.hiro.HiroRules;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorService;
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.KillPlayer;
 import dev.doctor4t.wathe.api.event.ResetPlayer;
@@ -135,7 +135,7 @@ public final class HiroWitchificationService {
     private static void afterKill(ServerPlayerEntity victim, @Nullable ServerPlayerEntity killer, Identifier reason) {
         // A Last Stand death is no death: it neither counts for the killer nor ends the victim's passive.
         // 背水一战拦截的死亡不算死亡：既不给凶手计数，也不结束受害者的被动。
-        boolean intercepted = WitchFactorTraitsBridge.isDeathIntercepted(victim);
+        boolean intercepted = SparkTraitsApi.isLastStandDeathIntercepted(victim);
         if (!intercepted) {
             // Hiro died: her Speed and role colour end now; the kill count stays as the once-per-round latch.
             // 希罗死亡：速度与职业色立即结束；击杀计数保留，作为每局一次的锁存。

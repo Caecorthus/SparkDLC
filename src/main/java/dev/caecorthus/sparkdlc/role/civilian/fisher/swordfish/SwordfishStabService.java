@@ -15,7 +15,6 @@ import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowEntity;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit.BlackRavenCrowHits;
 import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPlaybackEntity;
 import dev.caecorthus.sparkdlc.role.killer.magician.MagicianPuppetHits;
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
 import dev.caecorthus.sparkdlc.util.RoundParticipants;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -159,7 +158,7 @@ public final class SwordfishStabService {
         }
         GameFunctions.killPlayer(target, true, attacker, SparkWitchDeathReasons.SWORDFISH_STAB);
         if (SwordfishRules.shouldPunish(attackerFaction, victimFaction, deadBefore,
-                game.isPlayerDead(target.getUuid()), WitchFactorTraitsBridge.isDeathIntercepted(target),
+                game.isPlayerDead(target.getUuid()), SparkTraitsApi.isLastStandDeathIntercepted(target),
                 SparkTraitsApi.isNonFinalKillPending(target, attacker))
                 && GameFunctions.isPlayerPlayingAndAlive(attacker)
                 && GameFunctions.isPlayerAliveAndSurvival(attacker)) {

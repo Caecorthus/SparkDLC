@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.emma;
 
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorService;
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.KillPlayer;
 import dev.doctor4t.wathe.api.event.ResetPlayer;
@@ -44,7 +44,7 @@ public final class EmmaLifecycle {
             }
         });
         KillPlayer.AFTER.register((victim, killer, reason) -> {
-            if (WitchFactorTraitsBridge.isDeathIntercepted(victim) && !EmmaTerminalService.isBacklash(reason)) return;
+            if (SparkTraitsApi.isLastStandDeathIntercepted(victim) && !EmmaTerminalService.isBacklash(reason)) return;
             EmmaRoundComponent.KEY.get(victim.getWorld()).onTerminalDeath(victim.getUuid());
             EmmaPlayerComponent.KEY.get(victim).clear();
             removeOwnedSpeed(victim);
@@ -84,7 +84,7 @@ public final class EmmaLifecycle {
             ServerPlayerEntity player = world.getServer().getPlayerManager().getPlayer(entry.getKey());
             if (player == null || player.getServerWorld() != world) continue;
             if (!GameFunctions.isPlayerPlayingAndAlive(player)) {
-                if (!WitchFactorTraitsBridge.isDeathIntercepted(player)) round.penalties().remove(entry.getKey());
+                if (!SparkTraitsApi.isLastStandDeathIntercepted(player)) round.penalties().remove(entry.getKey());
                 continue;
             }
             EmmaRoundComponent.Penalty pending = entry.getValue();

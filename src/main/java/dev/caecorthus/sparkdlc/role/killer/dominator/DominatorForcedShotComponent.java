@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.dominator;
 
 import dev.caecorthus.sparkdlc.SparkWitchDataComponents;
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import dev.doctor4t.wathe.index.WatheItems;
@@ -210,7 +210,7 @@ public final class DominatorForcedShotComponent implements ServerTickingComponen
         return game.isRunning()
                 && game.hasAnyRole(owner.getUuid())
                 && game.isPlayerDead(owner.getUuid())
-                && !WitchFactorTraitsBridge.isDeathIntercepted(owner);
+                && !SparkTraitsApi.isLastStandDeathIntercepted(owner);
     }
 
     private static void sync(ServerPlayerEntity owner) {

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.saint.flash;
 
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.KillPlayer;
 import dev.doctor4t.wathe.api.event.ResetPlayer;
@@ -32,7 +32,7 @@ public final class HolyFlashFeatureService {
         KillPlayer.AFTER.register((victim, killer, reason) -> {
             // SparkTraits Last Stand keeps the victim in play, holding their flashes.
             // SparkTraits 背水一战会让受害者继续留在对局中，并保留其圣光弹。
-            if (WitchFactorTraitsBridge.isDeathIntercepted(victim)) {
+            if (SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
                 return;
             }
             removeHolyFlashes(victim);

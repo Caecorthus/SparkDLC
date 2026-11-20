@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.savior;
 
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.KillPlayer;
@@ -167,7 +167,7 @@ public final class SaviorObservationService {
     }
 
     private static void onDeath(@Nullable ServerPlayerEntity victim, @Nullable ServerPlayerEntity killer) {
-        if (victim == null || WitchFactorTraitsBridge.isDeathIntercepted(victim)) {
+        if (victim == null || SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
             return;
         }
         // A dead Savior observes nothing more: canObserve refuses it below and in every later sample.

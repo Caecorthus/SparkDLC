@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.fisher;
 
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -58,7 +58,7 @@ public final class FisherLifecycleService {
             }
         });
         KillPlayer.AFTER.register((victim, killer, reason) -> {
-            if (victim != null && !WitchFactorTraitsBridge.isDeathIntercepted(victim)) {
+            if (victim != null && !SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
                 FisherPufferfishService.clearPlayer(victim.getUuid());
             }
         });

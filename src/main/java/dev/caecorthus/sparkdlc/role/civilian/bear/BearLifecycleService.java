@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.bear;
 
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.role.civilian.bear.launcher.SmokeRoundEntity;
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -110,7 +110,7 @@ final class BearLifecycleService {
 
     /** {@code KillPlayer.AFTER} for every victim. / 对每名受害者执行的 {@code KillPlayer.AFTER}。 */
     static void afterKill(ServerPlayerEntity victim) {
-        if (WitchFactorTraitsBridge.isDeathIntercepted(victim)) {
+        if (SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
             return;
         }
         BearLoadoutService.cleanUp(victim);

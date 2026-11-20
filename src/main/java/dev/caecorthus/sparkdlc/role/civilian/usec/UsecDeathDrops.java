@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.usec;
 
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.index.WatheItems;
 import net.minecraft.entity.ItemEntity;
@@ -66,7 +66,7 @@ public final class UsecDeathDrops {
      */
     static void afterKill(ServerPlayerEntity victim) {
         Long droppedAt = REVOLVER_DROPPED_AT.remove(victim.getUuid());
-        if (WitchFactorTraitsBridge.isDeathIntercepted(victim)) {
+        if (SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
             return;
         }
         boolean usec = UsecRules.isUsec(GameWorldComponent.KEY.get(victim.getWorld()).getRole(victim));

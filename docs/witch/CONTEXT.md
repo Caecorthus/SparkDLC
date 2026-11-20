@@ -862,7 +862,7 @@ Current build baseline:
     `SpecterCowardiceComponent` (`sparkdlc:specter_cowardice`, synced only to its owner and to raw-role Specters) and
     the world `SpecterOtherworldComponent` (`sparkdlc:specter_otherworld`: window ticks and the BGM variant, synced to
     everyone). Fear, cowardice and the second skill clear on a committed death (gated on
-    `WitchFactorTraitsBridge.isDeathIntercepted`), reset and round end; fear freezes while SparkTraits Last Stand is
+    `SparkTraitsApi.isLastStandDeathIntercepted`), reset and round end; fear freezes while SparkTraits Last Stand is
     pending.
   - Caster gate (`SpecterRules.mayCast`, Dominator pattern): ACTIVE round, raw role, alive, not spectating/creative, not
     swallowed, not held (`NinjaGrappleService.isHeld`), not silenced, not SparkTraits role-skill-blocked; then
@@ -1589,7 +1589,7 @@ Current build baseline:
     (a refused cursor return is handed back to a living holder), obey the strict `BoundItemRules` slot policy, never
     go into an item frame, armor stand or allay (`UseEntityCallback` FAIL on both sides) or a decorated pot, and skip
     Wathe's death drops. `KillPlayer.AFTER` deletes every copy any victim holds unless
-    `WitchFactorTraitsBridge.isDeathIntercepted`; a live-round disconnect strips before the save. Guard mixins:
+    `SparkTraitsApi.isLastStandDeathIntercepted`; a live-round disconnect strips before the save. Guard mixins:
     `GameFunctionsSphinxHaoGunDropMixin` (`shouldDropOnDeath` HEAD), `PlayerEntitySphinxHaoGunMixin` (`dropItem`),
     `ServerPlayerEntitySphinxHaoGunDropMixin` (Q), `ScreenHandlerSphinxHaoGunMixin` (strict clicks),
     `DecoratedPotBlockSphinxHaoGunMixin`. Replay `SphinxHaoGunReplay`
@@ -1934,7 +1934,7 @@ Current build baseline:
     PICKUP_ALL of a gun in a foreign slot. A former USEC is free again, and the death revolver is a `dropItem` for others.
     A SparkTraits Last Stand revive's `ensureRevolver` therefore drops that revolver at the USEC's feet.
   - Death (`UsecDeathDrops`, `KillPlayer.AFTER`): unless SparkTraits intercepted the death
-    (`WitchFactorTraitsBridge.isDeathIntercepted`, as for the Seeker), every bound item is deleted (inventory, offhand,
+    (`SparkTraitsApi.isLastStandDeathIntercepted`, as for the Seeker), every bound item is deleted (inventory, offhand,
     cursor, the player's own 2x2 crafting grid; never a container they have open, which may now store one), the
     component is cleared, and a USEC victim drops exactly one `WatheItems.REVOLVER` with
     `dropItem(stack, true, false)`, so normal Wathe pickup rules apply. Wathe's drop loop runs before
@@ -5458,7 +5458,7 @@ The Abyss Listener (`sparkdlc:abyss_listener`) is a special accomplice. Its own 
     fresh hotbar grant that leaves the per-Item cooldown untouched), removes duplicates and strays (hidden slots,
     offhand, crafting grid, containers), and strips every other participant (role change, Wraith transition, death).
     Everyone else is a free holder whose copy the sweep never strips, grants, or deduplicates. `KillPlayer.AFTER`
-    removes the gun unless `WitchFactorTraitsBridge.isDeathIntercepted`; `ResetPlayer` and `ON_FINISH_FINALIZE` remove
+    removes the gun unless `SparkTraitsApi.isLastStandDeathIntercepted`; `ResetPlayer` and `ON_FINISH_FINALIZE` remove
     it. There is no creative exemption.
   - The binding matrix (`AbyssListenerInventoryRules`) is the strict `item/BoundItemRules` policy it shares with the
     Time Stealer, Potion Gunner and Wither Gohei rules, keyed on its own `isGun`. Its
@@ -5894,7 +5894,7 @@ client renders and sends requests. Its `gui.sparkdlc.skills` panel shows only `s
   opt-out; a vetoed kill (older SparkTraits) moves the Swapper back with NR's 60 s cooldown.
 - **Cross-mod seams.** SparkTraits only through existing bridges, failing closed: `isKillerInteractionBlocked`,
   `isRoleSkillBlocked`, `isLastEscapeActive`, `registerTerminalDeathReason` (`SparkTraitsApi`),
-  `isLastStandPending` (`SparkTraitsApi`), `isLastStandDeathIntercepted` (`WitchFactorTraitsBridge`).
+  `isLastStandPending` (`SparkTraitsApi`), `isLastStandDeathIntercepted` (`SparkTraitsApi`).
   SparkStrength only by id (tablet, M67, `sparkdlc:engineer_stunned`). SparkTraits
   `feat/accomplice-riftwalker-support` adds the Riftwalker to its five hard-coded accomplice id sets.
 - **Gaps and tests.** Open owner calls:
@@ -6007,8 +6007,7 @@ or older build means no block, no terminal registration, and a vanilla cooldown.
 The Time Stealer may query only `isRoleSkillBlocked`, `blocksWeaponAction` (with its
 `isKillerInteractionBlocked` and `getForcedMeleeCooldownTicks` reads), `isLastEscapeActive`,
 `registerTerminalDeathReason`, and `setExactItemCooldownRemaining` through
-`SparkTraitsApi`, and `isLastStandDeathIntercepted` through the existing
-`WitchFactorTraitsBridge`; an absent or older build means no skill or weapon block, no Last Escape
+`SparkTraitsApi`, and `isLastStandDeathIntercepted` directly on `SparkTraitsApi`; an absent or older build means no skill or weapon block, no Last Escape
 refusal, no terminal registration (the Clock kill is then only forced), and a vanilla Clock
 cooldown, while a present build whose facade lacks or fails `isLastStandDeathIntercepted` counts
 every death as intercepted: the `KillPlayer.AFTER` cleanup is skipped and no Clock death moves the
@@ -6016,7 +6015,7 @@ round time or grants a stamp; the curse tick clears a victim who stops playing, 
 non-holder sweep removes a dead Time Stealer's Clock and stamps.
 The Riftwalker may query only `isKillerInteractionBlocked`, `isRoleSkillBlocked`, `isLastEscapeActive` and
 `registerTerminalDeathReason` through `SparkTraitsApi`, `isLastStandPending` through
-`SparkTraitsApi`, and the Last Stand interception read through `WitchFactorTraitsBridge` (details in its
+`SparkTraitsApi`, and the Last Stand interception read directly on `SparkTraitsApi` (details in its
 section); an absent or older build means no block and no terminal registration for `sparkdlc:portal_crushed`.
 The Ceremonial Sword and a credited Fire Poker fall may query only
 `isNonFinalKillPending`, `getNonFinalKillCooldownTicks`, and
@@ -6025,8 +6024,7 @@ The Ceremonial Sword and a credited Fire Poker fall may query only
 kill, the original cooldown, and the kill running directly exactly once. A credited Shriek Gun push fall takes the
 same fall path (`runWithNonFinalKillWeapon` with the gun as the weapon) and the same fallbacks.
 Control Expert may query only `getMarksmanRangeMultiplier` and `hasActiveTrait` (Impostor) through
-`SparkTraitsApi`, and `isLastStandDeathIntercepted` through the existing
-`WitchFactorTraitsBridge`, beyond the existing `SparkTraitsApi` seams
+`SparkTraitsApi`, and `isLastStandDeathIntercepted` directly on `SparkTraitsApi`, beyond the existing `SparkTraitsApi` seams
 (`isRoleSkillBlocked`, `blocksWeaponAction`, `isLastEscapeActive`,
 `setExactItemCooldownRemaining`). An absent SparkTraits means a 1.0 Taser range multiplier,
 normal task money, a vanilla round-start cooldown, and death cleanup on every death; a present
@@ -6037,8 +6035,7 @@ owned effects are removed at reset, finalize, or disconnect.
 The Seeker may query only `isLastStandPending` and `hasActiveTrait` (Impostor) through
 `SparkTraitsApi`, `isInstinctHidden` directly on
 `SparkTraitsApi` (client), `discountShopEntryForCharisma` through
-`SparkTraitsApi`, and `isLastStandDeathIntercepted` through the existing
-`WitchFactorTraitsBridge`, beyond the existing `SparkTraitsApi` seams
+`SparkTraitsApi`, and `isLastStandDeathIntercepted` directly on `SparkTraitsApi`, beyond the existing `SparkTraitsApi` seams
 (`isRoleSkillBlocked`, `blocksWeaponAction` with its `getForcedMeleeCooldownTicks` read,
 `isKillerInteractionBlocked`, `setExactItemCooldownRemaining`). An absent SparkTraits means not
 pending, not Impostor (devices and task money allowed), nothing instinct-hidden, full shop prices,
@@ -6048,8 +6045,7 @@ and task money denied, `DENY_IMPOSTOR_DEVICES`), not hidden, full prices, no blo
 cooldown, or an intercepted death: the `KillPlayer.AFTER` cleanup is skipped and the component
 tick's final-death fallback cleans up once the Seeker is dead and not Last Stand pending.
 The Angler may query only `isInstinctHidden` directly on
-`SparkTraitsApi` (client) and `isLastStandDeathIntercepted` through the existing
-`WitchFactorTraitsBridge`, beyond the existing `SparkTraitsApi` seams
+`SparkTraitsApi` (client) and `isLastStandDeathIntercepted` directly on `SparkTraitsApi`, beyond the existing `SparkTraitsApi` seams
 (`blocksWeaponAction`, `isLastEscapeActive`, `shouldCancelMeleeAttack`, `isNonFinalKillPending`)
 and `TraitShopEntries.capture` / `restore`. An absent SparkTraits means nothing hidden, no weapon block, no
 Last Escape, no parry, no pending fake death, and cleanup on every death; a present build whose
@@ -6066,7 +6062,7 @@ the round for killers or passengers while a lone Insider lives. Since 2026-11-17
 狮身豪 may query only `isInstinctHidden` (its infected outline, through its own `OptionalStaticMethod` like Koko's),
 `isRoleSkillBlocked` (both skills), `blocksWeaponAction` and `isLastEscapeActive` (the fist shot and its targets)
 and `isLastStandDeathIntercepted` (an intercepted death: the shot is then no kill) through `SparkTraitsApi`,
-`isDeathIntercepted` through `WitchFactorTraitsBridge` (the kit strip) and
+`isLastStandDeathIntercepted` on `SparkTraitsApi` (the kit strip) and
 `TraitShopEntries.capture` / `restore`. Trait effects that need no seam: Final Moment's +1000 coins stay hidden and
 unspendable (`CanSeeMoney` DENY), money traits never roll for it, Fast Hands shortens the gun's 20-tick cooldown to
 18, and Stands Firm cancels a fist kill between Team Jiahao members, which then pays the no-kill branch.
@@ -6082,7 +6078,7 @@ The Abyss Listener may query only `isLastStandPending` and `hasActiveTrait` (Con
 `SparkTraitsApi`; `isLastEscapeActive`, `isRoleSkillBlocked` (the shriek), and
 `blocksWeaponAction` (the gun and the flask throw, with its `isKillerInteractionBlocked` and
 `getForcedMeleeCooldownTicks` reads) through the existing `SparkTraitsApi`; `isLastStandDeathIntercepted`
-(gun removal at death) through the existing `WitchFactorTraitsBridge`; and the push-fall queries above. Its Wraith
+(gun removal at death) directly on `SparkTraitsApi`; and the push-fall queries above. Its Wraith
 check uses SparkWitch's own `WraithStateService.isActive`, which SparkTraits `isWraithActive` delegates to, so it never
 queries `isWraithActive`; Fast Hands reaches the gun through the vanilla cooldown write, with no SparkWitch call. An
 absent SparkTraits means not pending, no Last Escape, no skill or weapon block, both traits inactive (real sanity
@@ -6093,8 +6089,8 @@ intercepted death (the `KillPlayer.AFTER` removal is skipped, and the 20-tick sw
 USEC may query only `getMarksmanRangeMultiplier` (FMJ range and AP flight cost on the server, the reticle's AP holds
 on the client, clamped to 1.0-1.3) and `hasActiveTrait` (Fast Reload, the 1.4 s bolt) through
 `SparkTraitsApi`, `hasActiveTrait` (Impostor, task money) through its own `UsecEconomyTraitsProbe`,
-`discountShopEntryForCharisma` through `SparkTraitsApi`, and `isLastStandDeathIntercepted` through the
-existing `WitchFactorTraitsBridge`, beyond the existing `SparkTraitsApi` seams (`blocksWeaponAction` with its
+`discountShopEntryForCharisma` through `SparkTraitsApi`, and `isLastStandDeathIntercepted` directly on
+`SparkTraitsApi`, beyond the existing `SparkTraitsApi` seams (`blocksWeaponAction` with its
 `isKillerInteractionBlocked` and `getForcedMeleeCooldownTicks` reads, `isLastEscapeActive`, `isNonFinalKillPending`,
 `setExactItemCooldownRemaining`) and `TraitShopEntries.capture` / `restore`. An absent SparkTraits means a 1.0 multiplier, a
 2 s bolt, task money paid, full prices, no weapon block, no Last Escape, no pending fake death, a vanilla cooldown

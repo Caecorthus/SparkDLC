@@ -7,6 +7,7 @@ import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseResult;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.role.witch.WitchFactionRules;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchTargeting;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
@@ -216,7 +217,9 @@ public final class WitchFactorService {
     }
 
     public static void afterKill(ServerPlayerEntity victim, @Nullable ServerPlayerEntity killer, Identifier reason) {
-        if (WitchFactorTraitsBridge.isDeathIntercepted(victim)) return;
+        // Only confirmed terminal deaths transfer factors: a death Last Stand intercepted is not one yet.
+        // 仅确认的终局死亡才传递因子：被背水一战拦截的死亡尚不算数。
+        if (SparkTraitsApi.isLastStandDeathIntercepted(victim)) return;
         boolean killerMarked = killer != null && isFactorHolder(killer);
         for (ServerWorld world : victim.getServer().getWorlds()) {
             WitchFactorWorldComponent component = WitchFactorWorldComponent.KEY.get(world);
@@ -274,7 +277,7 @@ public final class WitchFactorService {
         while (iterator.hasNext()) {
             Map.Entry<UUID, WitchFactorState.Factor> entry = iterator.next();
             ServerPlayerEntity holder = world.getServer().getPlayerManager().getPlayer(entry.getKey());
-            if (holder != null && WitchFactorTraitsBridge.isDeathIntercepted(holder)) continue;
+            if (holder != null && SparkTraitsApi.isLastStandDeathIntercepted(holder)) continue;
             if (game.isPlayerDead(entry.getKey()) || !game.hasAnyRole(entry.getKey())
                     || (holder != null && !isEligibleCarrier(holder))) {
                 iterator.remove();
@@ -313,7 +316,7 @@ public final class WitchFactorService {
         if (!state.roleColored().isEmpty()) {
             state.roleColored().removeIf(id -> {
                 ServerPlayerEntity shown = world.getServer().getPlayerManager().getPlayer(id);
-                if (shown != null && WitchFactorTraitsBridge.isDeathIntercepted(shown)) return false;
+                if (shown != null && SparkTraitsApi.isLastStandDeathIntercepted(shown)) return false;
                 return game.isPlayerDead(id) || !game.hasAnyRole(id);
             });
         }

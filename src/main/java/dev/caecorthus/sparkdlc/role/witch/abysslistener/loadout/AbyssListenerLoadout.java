@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.bridge.witch.SparkFactionSecondRowCompat;
 import dev.caecorthus.sparkdlc.role.witch.abysslistener.AbyssListenerRules;
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.util.OffMatchUse;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.KillPlayer;
@@ -87,7 +87,7 @@ public final class AbyssListenerLoadout {
         // A SparkTraits-intercepted death (Last Stand etc.) leaves the player in play, so the gun stays.
         // 被 SparkTraits 拦截的死亡（背水一战等）使玩家仍留在对局中，因此保留枪。
         KillPlayer.AFTER.register((victim, killer, deathReason) -> {
-            if (victim != null && !WitchFactorTraitsBridge.isDeathIntercepted(victim)) {
+            if (victim != null && !SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
                 removeAll(victim);
             }
         });

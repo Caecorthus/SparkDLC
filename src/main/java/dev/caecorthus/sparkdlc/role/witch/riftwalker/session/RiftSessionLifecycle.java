@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.riftwalker.session;
 
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.KillPlayer;
@@ -35,7 +35,7 @@ final class RiftSessionLifecycle {
 
         KillPlayer.AFTER.register((victim, killer, deathReason) -> {
             if (victim != null && RiftSessionService.isInside(victim)) {
-                RiftSessionService.forceExit(victim, WitchFactorTraitsBridge.isDeathIntercepted(victim)
+                RiftSessionService.forceExit(victim, SparkTraitsApi.isLastStandDeathIntercepted(victim)
                         ? RiftExitReason.INTERCEPTED : RiftExitReason.DIED);
             }
         });

@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.killer.dominator;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerShopComponent;
 import dev.doctor4t.wathe.game.GameConstants;
@@ -70,7 +70,7 @@ public final class DominatorForcedShotService {
         if (victimWasAlive
                 && victim != dominator
                 && !GameFunctions.isPlayerPlayingAndAlive(victim)
-                && !WitchFactorTraitsBridge.isDeathIntercepted(victim)
+                && !SparkTraitsApi.isLastStandDeathIntercepted(victim)
                 && GameFunctions.isPlayerPlayingAndAlive(dominator)) {
             PlayerShopComponent.KEY.get(dominator).addToBalance(DominatorRules.FORCED_SHOT_KILL_REWARD);
         }
@@ -79,7 +79,7 @@ public final class DominatorForcedShotService {
     /** Server, {@code GameFunctionsForcedShotDeathMixin}: a committed death. / 死亡已确定。 */
     public static void beforeDeathDrops(ServerPlayerEntity victim) {
         if (DominatorForcedShotComponent.isSequenceActive(victim)
-                && !WitchFactorTraitsBridge.isDeathIntercepted(victim)) {
+                && !SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
             DominatorForcedShotComponent.KEY.get(victim).settleBeforeDeathDrops();
         }
     }

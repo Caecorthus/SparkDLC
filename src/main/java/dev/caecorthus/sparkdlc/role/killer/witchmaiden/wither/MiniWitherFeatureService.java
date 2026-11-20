@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.SparkWitchSounds;
 import dev.caecorthus.sparkdlc.role.killer.witchmaiden.WitchMaidenRules;
 import dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither.net.FireCrimsonSkullC2SPayload;
 import dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither.net.ToggleMiniWitherC2SPayload;
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.util.OffMatchUse;
 import dev.caecorthus.sparkdlc.util.StaggeredSweep;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
@@ -63,7 +63,7 @@ public final class MiniWitherFeatureService {
         // A SparkTraits-intercepted death (Last Stand) leaves the player in play, so nothing is cleared.
         // 被 SparkTraits 拦截的死亡（最后的坚守）使玩家仍留在对局中，因此不清空任何东西。
         KillPlayer.AFTER.register((victim, killer, deathReason) -> {
-            if (WitchFactorTraitsBridge.isDeathIntercepted(victim)) {
+            if (SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
                 return;
             }
             MiniWitherPlayerComponent.KEY.get(victim).clear();

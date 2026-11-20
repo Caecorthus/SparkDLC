@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.civilian.seeker;
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerDeviceService;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.remote.SeekerRemoteSessionService;
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -84,7 +84,7 @@ public final class SeekerLifecycleService {
         // Last Stand gate: an intercepted death keeps devices; the component tick ends the session and later decides.
         // 背水一战门槛：被拦截的死亡保留设备；由组件刻结束会话并在之后判定。
         KillPlayer.AFTER.register((victim, killer, deathReason) -> {
-            if (victim == null || !holdsState(victim) || WitchFactorTraitsBridge.isDeathIntercepted(victim)) {
+            if (victim == null || !holdsState(victim) || SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
                 return;
             }
             cleanUp(victim, SeekerExitReason.DIED);

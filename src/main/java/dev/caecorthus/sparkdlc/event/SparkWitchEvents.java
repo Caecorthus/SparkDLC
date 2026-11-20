@@ -79,7 +79,7 @@ import dev.caecorthus.sparkdlc.role.civilian.noa.NoaFeatureService;
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.PerfumerShopService;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchActiveSkillService;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFeatureService;
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.witch.WitchFactionFeatureService;
 import dev.caecorthus.sparkdlc.role.witch.abysslistener.AbyssListenerFeatureService;
 import dev.caecorthus.sparkdlc.role.witch.bewitched.BewitchedFeatureService;
@@ -361,7 +361,7 @@ public final class SparkWitchEvents {
         // keeps uses and mark (Time Stealer / Seeker precedent). / SparkTraits 拦截的死亡（背水一战）不算死亡：击杀者不加次数，
         // 复活的支配者保留次数与标记（窃时者、搜寻者先例）。
         KillPlayer.AFTER.register((victim, killer, deathReason) -> {
-            if (!WitchFactorTraitsBridge.isDeathIntercepted(victim)) {
+            if (!SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
                 DominatorSkillService.afterKill(victim, killer, deathReason);
             }
         });
@@ -370,7 +370,7 @@ public final class SparkWitchEvents {
             FirePokerFallAttributionService.clearPlayer(victim);
             PigGodChaseRuntime.clear(victim, WitchPlayerComponent.KEY.get(victim));
             PerfumerPlayerComponent.KEY.get(victim).stopCologne();
-            if (!WitchFactorTraitsBridge.isDeathIntercepted(victim)) {
+            if (!SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
                 // A Last Stand survivor keeps fear, the Otherworld state and cowardice (Dominator / Time Stealer /
                 // Seeker precedent). / 背水一战存活者保留恐惧、里世界状态与怯懦（支配者、窃时者、搜寻者先例）。
                 SpecterFearComponent.KEY.get(victim).clear();
@@ -384,7 +384,7 @@ public final class SparkWitchEvents {
                 dev.caecorthus.sparkdlc.role.civilian.sherry.SherryComponent.KEY.get(victim).clear();
             }
             OrthopedistSkillService.clearPlayer(victim);
-            if (!WitchFactorTraitsBridge.isDeathIntercepted(victim)) {
+            if (!SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
                 DominatorSkillService.clearPlayer(victim);
             }
         });

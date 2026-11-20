@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.savior;
 
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -299,7 +299,7 @@ public final class SaviorLoadoutService {
      * 否则从受害者身上（无论是谁持有）清除所有救世主手枪与光剑并忘记状态。Wathe 的掉落循环已经执行并掉出了左轮；这里从不触碰左轮。
      */
     static void afterKill(ServerPlayerEntity victim) {
-        if (WitchFactorTraitsBridge.isDeathIntercepted(victim)) {
+        if (SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
             return;
         }
         cleanUp(victim);

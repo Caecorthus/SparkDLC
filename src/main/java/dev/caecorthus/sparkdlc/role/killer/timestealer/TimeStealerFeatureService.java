@@ -3,7 +3,6 @@ package dev.caecorthus.sparkdlc.role.killer.timestealer;
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.KillPlayer;
 import dev.doctor4t.wathe.api.event.ResetPlayer;
@@ -89,7 +88,7 @@ public final class TimeStealerFeatureService {
         // 只清除死者自身的诅咒与绑定物品；该玩家施下的诅咒继续结算（所有者决定 Q7）。
         // 被 SparkTraits 拦截的死亡使玩家仍留在对局中，因此不清除任何内容。
         KillPlayer.AFTER.register((victim, killer, deathReason) -> {
-            if (WitchFactorTraitsBridge.isDeathIntercepted(victim)) {
+            if (SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
                 return;
             }
             TimeTheftRuntime.onDeath(victim);

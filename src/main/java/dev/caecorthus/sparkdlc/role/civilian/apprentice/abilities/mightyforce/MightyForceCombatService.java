@@ -12,7 +12,6 @@ import dev.caecorthus.sparkdlc.role.civilian.apprentice.ApprenticeRules;
 import dev.caecorthus.sparkdlc.role.civilian.sherry.SherryMightyForceService;
 import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaInteractionService;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit.BlackRavenCrowHits;
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
 import dev.doctor4t.wathe.game.GameConstants;
@@ -249,7 +248,7 @@ public final class MightyForceCombatService {
                 victimFaction,
                 deadBefore,
                 game.isPlayerDead(target.getUuid()),
-                WitchFactorTraitsBridge.isDeathIntercepted(target),
+                SparkTraitsApi.isLastStandDeathIntercepted(target),
                 SparkTraitsApi.isNonFinalKillPending(target, attacker),
                 game.getShootInnocentPunishment()
         );

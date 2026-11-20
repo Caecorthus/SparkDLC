@@ -2,7 +2,6 @@ package dev.caecorthus.sparkdlc.role.killer.blackraven;
 
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.disguise.BlackRavenStashedDeathDrops;
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import dev.doctor4t.wathe.game.GameConstants;
@@ -50,7 +49,7 @@ final class BlackRavenMarkPunishment {
         }
         boolean qualifying = BlackRavenPoliceRules.shouldPunishMarkKill(snapshot.markerFaction(),
                 snapshot.victimFaction(), snapshot.deadBefore(), game.isPlayerDead(victim.getUuid()),
-                WitchFactorTraitsBridge.isDeathIntercepted(victim),
+                SparkTraitsApi.isLastStandDeathIntercepted(victim),
                 SparkTraitsApi.isNonFinalKillPending(victim, marker));
         switch (BlackRavenPoliceRules.punishment(qualifying, true, GameFunctions.isPlayerPlayingAndAlive(marker),
                 GameFunctions.isPlayerAliveAndSurvival(marker), game.getShootInnocentPunishment())) {

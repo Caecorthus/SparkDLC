@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
 import dev.caecorthus.sparkdlc.role.civilian.judge.JudgeKillAttribution;
 import dev.caecorthus.sparkdlc.role.killer.timestealer.TimeStealerRules.SettleActor;
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.cca.GameTimeComponent;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -72,7 +72,7 @@ public final class TimeStealerKillService {
         if (!game.isPlayerDead(victim.getUuid())
                 || game.getGameStatus() != GameWorldComponent.GameStatus.ACTIVE
                 || !Objects.equals(match, TimeStealerMatch.currentId())
-                || WitchFactorTraitsBridge.isDeathIntercepted(victim)) {
+                || SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
             return;
         }
         GameTimeComponent time = GameTimeComponent.KEY.get(world);

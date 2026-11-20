@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.trait.effective;
 
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
-import dev.caecorthus.sparkdlc.bridge.traits.SparkStrengthCoronerBridge;
+import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.bridge.traits.SparkWitchWraithBridge;
 import dev.caecorthus.sparkdlc.trait.killer.conscience.ConscienceTrait;
 import dev.caecorthus.sparkdlc.trait.civilian.impostor.ImpostorTrait;
@@ -57,7 +57,7 @@ public final class EffectiveInstinctService {
                     viewerTraits,
                     game.getRole(target),
                     publicEffectiveTraitIds(target, game),
-                    SparkStrengthCoronerBridge.appearsAsKillerCohort(target)
+                    CoronerService.hasKillerCohortDisguise(target)
             );
             if (override == null) {
                 return null;

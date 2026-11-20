@@ -46,13 +46,11 @@ public final class CoronerClientHooks {
      * Returns the killer-coloured instinct result for a Coroner killer disguise.
      *
      * <p>This small public seam is intentionally kept on the client side. SparkTraits
-     * calls it (directly since the SparkDLC fusion, through {@code SparkStrengthCoronerClientBridge})
-     * when its own early WatheClient mixin runs before Wathe dispatches {@code GetInstinctHighlight}.
+     * calls it directly when its own early WatheClient mixin runs before Wathe dispatches {@code GetInstinctHighlight}.
      * SparkStrength itself never calls into SparkTraits here.</p>
      *
      * <p>这里提供一个客户端公开接缝：当 SparkTraits 的 WatheClient 早期 Mixin
-     * 先于 Wathe 本能事件执行时，SparkTraits 会调用这里的判断（融合进 SparkDLC 后经
-     * {@code SparkStrengthCoronerClientBridge} 直接调用）。SparkStrength 在此处不会反向调用 SparkTraits。</p>
+     * 先于 Wathe 本能事件执行时，SparkTraits 会直接调用这里的判断。SparkStrength 在此处不会反向调用 SparkTraits。</p>
      */
     public static @Nullable Integer resolveKillerDisguiseInstinctColor(Entity target) {
         if (!(target instanceof PlayerEntity targetPlayer) || targetPlayer.isSpectator()) {
@@ -73,18 +71,12 @@ public final class CoronerClientHooks {
          */
         if (!viewer.effectiveKiller()
                 || !viewer.playingAndAlive()
-                || !hasKillerCohortDisguise(targetPlayer)
+                || !CoronerService.hasKillerCohortDisguise(targetPlayer)
                 || !GameFunctions.isPlayerPlayingAndAlive(targetPlayer)) {
             return null;
         }
 
         return KILLER_COHORT_RED;
-    }
-
-    /** Disguised as a killer-faction or Undercover corpse. / 伪装成杀手阵营或卧底的尸体身份。 */
-    private static boolean hasKillerCohortDisguise(PlayerEntity player) {
-        Role disguise = CoronerService.activeDisguiseRoleForRules(player);
-        return CoronerRules.isKillerFaction(disguise) || CoronerRules.isUndercover(disguise);
     }
 
     private static GetInstinctHighlight.HighlightResult highlightKillerDisguise(Entity target) {
@@ -112,7 +104,7 @@ public final class CoronerClientHooks {
         if (!SparkTraitsApi.isEffectiveKiller(game.getRole(viewer), viewer)
                 || !GameFunctions.isPlayerPlayingAndAlive(viewer)
                 || !GameFunctions.isPlayerPlayingAndAlive(target)
-                || !hasKillerCohortDisguise(target)) {
+                || !CoronerService.hasKillerCohortDisguise(target)) {
             return null;
         }
 

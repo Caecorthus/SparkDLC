@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.mixin.trait;
 
-import dev.caecorthus.sparkdlc.client.bridge.traits.SparkStrengthCoronerClientBridge;
+import dev.caecorthus.sparkdlc.client.role.civilian.coroner.CoronerClientHooks;
 import dev.caecorthus.sparkdlc.client.bridge.traits.SparkWitchBlackRavenBridge;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -120,7 +120,7 @@ public abstract class WatheClientMixin {
                     context.traitWorld().isFinalMomentLooseEnd(playerTarget.getUuid()),
                     // Answering here skips SparkStrength's Coroner disguise event, so ask it for the disguise color.
                     // 这里提前返回会跳过 SparkStrength 的验尸官伪装事件，因此直接查询其伪装色。
-                    SparkStrengthCoronerClientBridge.resolveKillerDisguiseInstinctColor(playerTarget)
+                    CoronerClientHooks.resolveKillerDisguiseInstinctColor(playerTarget)
             ));
             return;
         }
@@ -284,7 +284,7 @@ public abstract class WatheClientMixin {
         } else {
             // Answering here skips SparkStrength's Coroner disguise event, so mirror it.
             // 这里提前返回会跳过 SparkStrength 的验尸官伪装事件，因此同步其判定。
-            Integer coronerDisguiseColor = SparkStrengthCoronerClientBridge.resolveKillerDisguiseInstinctColor(playerTarget);
+            Integer coronerDisguiseColor = CoronerClientHooks.resolveKillerDisguiseInstinctColor(playerTarget);
             if (coronerDisguiseColor != null) {
                 cir.setReturnValue(coronerDisguiseColor);
                 return;

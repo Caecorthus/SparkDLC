@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client;
 
-import dev.caecorthus.sparkdlc.client.bridge.traits.SparkStrengthCoronerClientBridge;
+import dev.caecorthus.sparkdlc.client.role.civilian.coroner.CoronerClientHooks;
 import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
 import dev.caecorthus.sparkdlc.client.trait.audio.DepressionRageLoopController;
 import dev.caecorthus.sparkdlc.client.trait.audio.FinalMomentMusicController;
@@ -129,7 +129,7 @@ public class SparkTraitsClient implements ClientModInitializer {
                             targetPlayer,
                             game,
                             traitWorld.isFinalMomentLooseEnd(targetPlayer.getUuid()),
-                            SparkStrengthCoronerClientBridge.resolveKillerDisguiseInstinctColor(targetPlayer)
+                            CoronerClientHooks.resolveKillerDisguiseInstinctColor(targetPlayer)
                     ),
                     GetInstinctHighlight.HighlightResult.PRIORITY_HIGH + 1
             );

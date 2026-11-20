@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.neutral.ferryman;
 
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthCoronerCompat;
+import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerInventoryRules;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowForm;
@@ -356,7 +356,7 @@ public final class FerrymanFeignService {
         if (!world.spawnEntity(body)) {
             return null;
         }
-        SparkStrengthCoronerCompat.recordBodyRole(body, WatheRoles.CIVILIAN.identifier());
+        CoronerService.recordBodyRole(body, WatheRoles.CIVILIAN.identifier());
         return body;
     }
 

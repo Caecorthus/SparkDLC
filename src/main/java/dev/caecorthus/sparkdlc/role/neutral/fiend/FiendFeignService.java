@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.neutral.fiend;
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthCoronerCompat;
+import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.killer.kidnapper.KidnapperControlComponent;
 import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendFeignRules.Trigger;
@@ -359,7 +359,7 @@ public final class FiendFeignService {
         FiendFakeBodies.mark(body);
         // The same cover for SparkStrength's Coroner snapshot (a direct call since the SparkDLC fusion).
         // 同样的掩护身份写入 SparkStrength 验尸官快照（融合进 SparkDLC 后为直接调用）。
-        SparkStrengthCoronerCompat.recordBodyRole(body, WatheRoles.CIVILIAN.identifier());
+        CoronerService.recordBodyRole(body, WatheRoles.CIVILIAN.identifier());
         return body;
     }
 

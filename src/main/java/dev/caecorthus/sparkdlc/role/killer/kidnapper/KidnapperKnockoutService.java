@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.killer.kidnapper;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthCoronerCompat;
+import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
@@ -59,7 +59,7 @@ public final class KidnapperKnockoutService {
             return false;
         }
         Role role = GameWorldComponent.KEY.get(player.getWorld()).getRole(player);
-        return KidnapperRules.isKidnapper(role) || SparkStrengthCoronerCompat.hasKidnapperDisguise(player);
+        return KidnapperRules.isKidnapper(role) || CoronerService.hasKidnapperDisguise(player);
     }
 
     public static ShopEntry shopEntry() {

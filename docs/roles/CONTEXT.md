@@ -3791,7 +3791,7 @@ Current build baseline:
   SparkWitch timers behind an item whose vanilla cooldown is removed (`mixin/faction/witch/ItemCooldownRemovalMixin`). For the
   admin clear alone (its `afterAdminRemove`, an `AdminCooldownClear` listener registered by `RoleForcedCooldowns`), it also exempts the item from Saint Karma.
 - `event/RoleEvents`: watch-only registration/lifecycle aggregator.
-- `record/witch/AchievementRecords`: the SparkWitch writers of the cross-mod achievement record contract (2026-10-09, W2-W7),
+- `record/AchievementRecords` (W part, beside the S part of the role kits): the SparkWitch writers of the cross-mod achievement record contract (2026-10-09, W2-W7),
   match-record events that SparkAssist reads from SparkFactionAPI's round-end broadcast to award local hidden
   achievements. Event types and field names are frozen: `sparkdlc:wind_spirit_fall` (`actor` Wind Spirit, UUID
   when offline; `target` victim), `sparkdlc:sabotage` (`lamps`), `sparkdlc:curse` (`targets`),
@@ -3944,7 +3944,7 @@ Witch stays civilian. SparkWitch gameplay compares SparkFactionAPI faction ids o
 `Faction.NEUTRAL`, so the Tarot Reader's fifth Jiahao bucket (D5) is the only new classification. The Insider's and
 Corrupt Cop's effective faction is now `sparkdlc:jiahao` instead of `wathe:neutral`: `WraithRules.alignmentFor`
 refuses it as before (neither ever becomes a Wraith), and SparkWitch match-record faction keys
-(`record/witch/AchievementRecords`) carry it. Letters: SparkFactionAPI names their letter faction `sparkdlc.jiahao` /
+(`record/AchievementRecords`, W part) carry it. Letters: SparkFactionAPI names their letter faction `sparkdlc.jiahao` /
 `sparkdlc.witch`; like `neutral` before, no faction-specific `tip.letter.*` keys exist, so Wathe falls back to its
 generic letter keys. Unit tests run without mixins: the local `testsupport/NativeWatheFactionsTestInstaller`
 (auto-detected Jupiter extension) installs this declaration through SparkFactionAPI's production

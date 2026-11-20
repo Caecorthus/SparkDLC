@@ -5,7 +5,7 @@ import dev.caecorthus.sparkdlc.item.ceremonialsword.CeremonialSwordProtectionPol
 import dev.caecorthus.sparkdlc.item.rope.RopeShieldPolicy;
 import dev.caecorthus.sparkdlc.SparkDlcItems;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
-import dev.caecorthus.sparkdlc.record.witch.AchievementRecords;
+import dev.caecorthus.sparkdlc.record.AchievementRecords;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.KillPlayer;
 import dev.doctor4t.wathe.cca.GameWorldComponent;

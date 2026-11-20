@@ -413,15 +413,15 @@ public final class SparkDLCClient implements ClientModInitializer {
         RoleEconomyClientHooks.register();
         SkateboardClient.register();
         TaotieHeadClientHooks.register();
-        // Spiritualist Wraith possession; the key and Wraith sight bind by direct calls to SecondaryAbilityRegistry and
-        // WraithViewerGates. / 灵界行者附身冤魂；按键与冤魂可见通过直接调用 SecondaryAbilityRegistry 与 WraithViewerGates 挂接。
+        // Spiritualist Wraith possession; the key and Wraith sight bind by direct calls to the Role Skill 2 key registry and
+        // WraithViewerGates. / 灵界行者附身冤魂；按键与冤魂可见通过直接调用“职业技能 2”按键注册表与 WraithViewerGates 挂接。
         SpiritPossessionClient.register();
         TabletClientHighlights.register();
         TabletChatNotifier.register();
         TabletHeldHud.register();
         SabotageClient.register();
-        // Binds to the Role Skill 2 key by a direct call to SecondaryAbilityRegistry.
-        // 直接调用 SecondaryAbilityRegistry 挂接到“职业技能 2”按键。
+        // Binds to the Role Skill 2 key by a direct call to its registry.
+        // 直接调用按键注册表挂接到“职业技能 2”按键。
         VultureSuperCurseClientHooks.register();
         PartygoerClientHooks.register();
         PartygoerInstinctClientHooks.register();

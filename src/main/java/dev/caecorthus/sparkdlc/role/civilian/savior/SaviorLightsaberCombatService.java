@@ -264,9 +264,9 @@ public final class SaviorLightsaberCombatService {
 
     /**
      * Partygoer (owner rule 2026-10-21: whatever kills a player kills a Partygoer in one hit), with the same reach and
-     * line-of-sight re-check; it is never an innocent, and {@code PartygoerService} records the kill.
+     * line-of-sight re-check; it is never an innocent, and the Partygoer feature records the kill.
      * 派对客（所有者规则 2026-10-21：能杀死玩家的东西一击打死派对客），同样复查距离与视线；它永远不是好人，
-     * 由 {@code PartygoerService} 记录这次击杀。
+     * 由派对客功能记录这次击杀。
      */
     private static ActionResult strikePartygoer(ServerPlayerEntity attacker, Entity partygoer, ItemStack stack,
                                                 boolean creative) {

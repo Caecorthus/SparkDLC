@@ -64,7 +64,7 @@ public final class TaotieHeadRules {
     public static final float BONK_PITCH = 1.0F;
 
     /**
-     * C2S payloads dropped on the server while the sender is dazed (and, through their own guard
+     * Stable contract: C2S payloads dropped on the server while the sender is dazed (and, through their own guard
      * mixins, while carried by a Partygoer or held by an Engineer stun). Plain ids only. Built from the Control Expert
      * stun list {@code ControlExpertStunRules.BLOCKED_PAYLOADS}, with these
      * deliberate differences:
@@ -90,7 +90,7 @@ public final class TaotieHeadRules {
      *       so none are added.</li>
      * </ul>
      * A new skill payload must be classified deliberately, as a complete row of the canonical table (below).
-     * 发送者处于眩晕时（以及经各自的拦截 mixin，被派对客扛着或被工程师定身时）在服务端丢弃的 C2S 数据包。只保存纯 id。
+     * 稳定契约：发送者处于眩晕时（以及经各自的拦截 mixin，被派对客扛着或被工程师定身时）在服务端丢弃的 C2S 数据包。只保存纯 id。
      * 以控场专家眩晕名单 {@code ControlExpertStunRules.BLOCKED_PAYLOADS} 为基础，刻意的差异如下：
      * 移除 {@code wathe:storebuy}（眩晕时仍可使用商店）；补充该表缺少的职业强化技能包：记者通讯
      * {@code reporter_communication}（有冷却的技能）、接管无人机

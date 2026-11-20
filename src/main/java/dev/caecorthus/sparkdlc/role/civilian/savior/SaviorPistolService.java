@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.savior;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.SparkWitchSounds;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthPartygoerCompat;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponTarget;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.net.SaviorGunDropS2CPayload;
 import dev.caecorthus.sparkdlc.net.SaviorMuzzleS2CPayload;
@@ -218,7 +218,7 @@ public final class SaviorPistolService {
     }
 
     private static boolean killPartygoer(ServerPlayerEntity shooter, Entity entity, double max) {
-        if (!SparkStrengthPartygoerCompat.isKillable(entity) || entity.getWorld() != shooter.getWorld()
+        if (!PartygoerWeaponTarget.isKillable(entity) || entity.getWorld() != shooter.getWorld()
                 || shooter.distanceTo(entity) >= max) {
             return false;
         }
@@ -227,7 +227,7 @@ public final class SaviorPistolService {
                 shooter.getRotationVec(1.0F), max, box, box.expand(entity.getTargetingMargin()), shooter)) {
             return false;
         }
-        return SparkStrengthPartygoerCompat.killByWeapon(shooter, entity, SaviorRules.PISTOL_DEATH_REASON);
+        return PartygoerWeaponTarget.killByWeapon(shooter, entity, SaviorRules.PISTOL_DEATH_REASON);
     }
 
     /**

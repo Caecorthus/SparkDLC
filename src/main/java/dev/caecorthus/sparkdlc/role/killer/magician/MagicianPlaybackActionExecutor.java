@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.magician;
 
 import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthM67ReplayCompat;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthPartygoerCompat;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponTarget;
 import dev.caecorthus.sparkdlc.record.witch.AchievementRecords;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RangedSmokeCarve;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit.BlackRavenCrowHits;
@@ -87,7 +87,7 @@ public final class MagicianPlaybackActionExecutor {
         Entity partygoer = nearerPartygoer(proxy, MagicianConstants.KNIFE_RANGE, target);
         if (partygoer != null) {
             double x = partygoer.getX(), y = partygoer.getEyeY(), z = partygoer.getZ();
-            if (SparkStrengthPartygoerCompat.killByWeapon(owner, partygoer, GameConstants.DeathReasons.BAT)) {
+            if (PartygoerWeaponTarget.killByWeapon(owner, partygoer, GameConstants.DeathReasons.BAT)) {
                 proxy.getWorld().playSound(null, x, y, z, WatheSounds.ITEM_BAT_HIT, SoundCategory.PLAYERS, 3.0F, 1.0F);
                 proxy.swingHand(Hand.MAIN_HAND);
                 visible.playReplaySwing(Hand.MAIN_HAND);
@@ -139,7 +139,7 @@ public final class MagicianPlaybackActionExecutor {
             puppetKill(owner, visible, target, GameConstants.DeathReasons.GUN, WatheItems.REVOLVER);
         } else {
             GameRecordManager.recordItemUse(owner, net.minecraft.registry.Registries.ITEM.getId(WatheItems.REVOLVER), null, null);
-            if (partygoer != null) SparkStrengthPartygoerCompat.killByWeapon(owner, partygoer, GameConstants.DeathReasons.GUN);
+            if (partygoer != null) PartygoerWeaponTarget.killByWeapon(owner, partygoer, GameConstants.DeathReasons.GUN);
         }
         RangedSmokeCarve.gunShot(proxy, partygoer != null ? partygoer : target, MagicianConstants.REVOLVER_RANGE); // BEAR: bullet tunnel / 弹道通道
         proxy.getWorld().playSound(null, proxy.getX(), proxy.getEyeY(), proxy.getZ(), WatheSounds.ITEM_REVOLVER_SHOOT, SoundCategory.PLAYERS, 5f, 1f);
@@ -161,7 +161,7 @@ public final class MagicianPlaybackActionExecutor {
         // 记录之前接管那一刺，并自行记录击杀）。
         Entity partygoer = nearerPartygoer(proxy, MagicianConstants.KNIFE_RANGE, target);
         if (partygoer != null) {
-            if (SparkStrengthPartygoerCompat.killByWeapon(owner, partygoer, GameConstants.DeathReasons.KNIFE)) {
+            if (PartygoerWeaponTarget.killByWeapon(owner, partygoer, GameConstants.DeathReasons.KNIFE)) {
                 partygoer.playSound(WatheSounds.ITEM_KNIFE_STAB, 1f, 1f); proxy.swingHand(Hand.MAIN_HAND); visible.playReplaySwing(Hand.MAIN_HAND);
                 proxy.getItemCooldownManager().set(WatheItems.KNIFE, GameConstants.ITEM_COOLDOWNS.getOrDefault(WatheItems.KNIFE, 0));
             }
@@ -236,7 +236,7 @@ public final class MagicianPlaybackActionExecutor {
      * 射线上选取（{@code ProjectileUtil.getCollision}，被方块截断），并在该射线上比较入射距离。
      */
     private static @Nullable Entity nearerPartygoer(PlayerEntity proxy, double range, @Nullable Entity player) {
-        HitResult hit = ProjectileUtil.getCollision(proxy, SparkStrengthPartygoerCompat::isKillable, range);
+        HitResult hit = ProjectileUtil.getCollision(proxy, PartygoerWeaponTarget::isKillable, range);
         if (!(hit instanceof EntityHitResult entityHit)) return null;
         Entity partygoer = entityHit.getEntity();
         if (player == null) return partygoer;

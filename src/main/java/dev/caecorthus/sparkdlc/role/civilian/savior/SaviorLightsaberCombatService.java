@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.savior;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.SparkWitchSounds;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthPartygoerCompat;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponTarget;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.net.SaviorLightsaberIgniteC2SPayload;
 import dev.caecorthus.sparkdlc.net.SaviorLightsaberSwingC2SPayload;
@@ -187,7 +187,7 @@ public final class SaviorLightsaberCombatService {
     private static ActionResult strike(ServerPlayerEntity attacker, World world, ItemStack stack, Entity resolved,
                                        Vec3d hitPos) {
         boolean puppet = MagicianPuppetHits.isHittablePuppet(attacker, resolved);
-        boolean partygoer = SparkStrengthPartygoerCompat.isPartygoer(resolved);
+        boolean partygoer = PartygoerWeaponTarget.isPartygoer(resolved);
         if (!(resolved instanceof ServerPlayerEntity) && !puppet && !partygoer) {
             // Other entities keep their vanilla behaviour. / 其他实体保持原版行为。
             return ActionResult.PASS;
@@ -269,12 +269,12 @@ public final class SaviorLightsaberCombatService {
      */
     private static ActionResult strikePartygoer(ServerPlayerEntity attacker, Entity partygoer, ItemStack stack,
                                                 boolean creative) {
-        if (!SparkStrengthPartygoerCompat.isKillable(partygoer) || partygoer.getWorld() != attacker.getWorld()
+        if (!PartygoerWeaponTarget.isKillable(partygoer) || partygoer.getWorld() != attacker.getWorld()
                 || !inMeleeReach(attacker, partygoer)) {
             return ActionResult.FAIL;
         }
         Vec3d at = partygoer.getPos();
-        if (!SparkStrengthPartygoerCompat.killByWeapon(attacker, partygoer, SaviorRules.LIGHTSABER_DEATH_REASON)) {
+        if (!PartygoerWeaponTarget.killByWeapon(attacker, partygoer, SaviorRules.LIGHTSABER_DEATH_REASON)) {
             return ActionResult.FAIL;
         }
         spawnImpactFlash(attacker.getServerWorld(), new Vec3d(at.x, partygoer.getBodyY(0.5), at.z));

@@ -5,7 +5,7 @@ import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesHiddenBodiesBridge;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.prophet.ProphetPlayerComponent.NecrologyEntry;
 import dev.caecorthus.sparkdlc.role.killer.magician.MagicianDecoyBodies;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthPartygoerCompat;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerCorpseComponent;
 import dev.caecorthus.sparkdlc.role.killer.hiro.returning.HiroFakeBodies;
 import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendFakeBodies;
 import dev.doctor4t.wathe.api.Role;
@@ -143,7 +143,7 @@ public final class ProphetRuntime {
                         && !HiroFakeBodies.isFake(body)
                         // A killed SparkStrength Partygoer is no passenger's death: skipped silently (2026-10-21).
                         // 被打死的 SparkStrength 派对客不是乘客死亡：静默跳过（2026-10-21）。
-                        && !SparkStrengthPartygoerCompat.isPartygoerCorpse(body)
+                        && !PartygoerCorpseComponent.isPartygoerCorpse(body)
         );
         // Owner decision D8: a Magician decoy is skipped like a fake-death body (no count, outline or Necrology line);
         // the decoy registry is server-only, so the owner-synced outline set never carries one.

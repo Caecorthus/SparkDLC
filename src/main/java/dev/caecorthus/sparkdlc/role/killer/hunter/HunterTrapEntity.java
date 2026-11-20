@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.hunter;
 
 import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthPartygoerCompat;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponTarget;
 import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaInteractionService;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.doctor4t.wathe.cca.PlayerPoisonComponent;
@@ -231,7 +231,7 @@ public final class HunterTrapEntity extends Entity {
         }
         if (!isRemoved() && isPoisoned()) {
             for (Entity partygoer : getWorld().getOtherEntities(this, triggerBox,
-                    SparkStrengthPartygoerCompat::isKillable)) {
+                    PartygoerWeaponTarget::isKillable)) {
                 triggerOnPartygoer(partygoer);
                 break;
             }
@@ -321,7 +321,7 @@ public final class HunterTrapEntity extends Entity {
         UUID placerUuid = getOwnerUuid();
         UUID actualPoisonerUuid = poisonerUuid != null ? poisonerUuid : placerUuid;
         PlayerEntity poisoner = actualPoisonerUuid == null ? null : getWorld().getPlayerByUuid(actualPoisonerUuid);
-        if (!SparkStrengthPartygoerCompat.killByWeapon(
+        if (!PartygoerWeaponTarget.killByWeapon(
                 poisoner instanceof ServerPlayerEntity serverPoisoner ? serverPoisoner : null,
                 partygoer,
                 GameConstants.DeathReasons.POISON

@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
 import dev.caecorthus.sparkdlc.SparkWitchRoles;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthPartygoerCompat;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponTarget;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.ApprenticePlayerComponent;
@@ -55,7 +55,7 @@ public final class MightyForceCombatService {
                 || !serverAttacker.getStackInHand(hand).isEmpty()) {
             return ActionResult.PASS;
         }
-        if (SparkStrengthPartygoerCompat.isPartygoer(attacked)) {
+        if (PartygoerWeaponTarget.isPartygoer(attacked)) {
             return tryStrikePartygoer(serverAttacker, attacked);
         }
         // Raven Form seam: a crow in reach stands in for its owner, so the strike and its misfire rule hit the Black Raven.
@@ -116,7 +116,7 @@ public final class MightyForceCombatService {
      * {@code isKillable}。其他情况一律 PASS，攻击原样交给原版。
      */
     private static ActionResult tryStrikePartygoer(ServerPlayerEntity attacker, Entity partygoer) {
-        if (!hasLiveMightyForce(attacker) || !SparkStrengthPartygoerCompat.isKillable(partygoer)) {
+        if (!hasLiveMightyForce(attacker) || !PartygoerWeaponTarget.isKillable(partygoer)) {
             return ActionResult.PASS;
         }
         if (SparkTraitsApi.isKillerInteractionBlocked(attacker)) {
@@ -214,7 +214,7 @@ public final class MightyForceCombatService {
         double x = partygoer.getX();
         double y = partygoer.getEyeY();
         double z = partygoer.getZ();
-        if (!SparkStrengthPartygoerCompat.killByWeapon(attacker, partygoer, SparkWitchDeathReasons.MIGHTY_FORCE)) {
+        if (!PartygoerWeaponTarget.killByWeapon(attacker, partygoer, SparkWitchDeathReasons.MIGHTY_FORCE)) {
             return;
         }
         world.getEntitiesByType(

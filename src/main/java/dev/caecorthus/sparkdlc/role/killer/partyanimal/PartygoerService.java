@@ -168,11 +168,9 @@ public final class PartygoerService {
     }
 
     /**
-     * Alive, in the world and not inside a Taotie. Frozen cross-module seam like {@link #killByWeapon}: SparkWitch's
-     * {@code compat/SparkStrengthPartygoerCompat} calls {@code isKillable(Entity)} (directly since the SparkDLC fusion)
-     * to pick targets.
-     * 在场且不在饕餮肚里。与 killByWeapon 一样是冻结的跨模块接缝：SparkWitch 的 compat/SparkStrengthPartygoerCompat 会调用
-     * isKillable(Entity)（融合进 SparkDLC 后为直接调用）来选目标。
+     * Alive, in the world and not inside a Taotie. Other features' weapons pick their targets through
+     * {@link PartygoerWeaponTarget#isKillable}, which adds the visibility check.
+     * 在场且不在饕餮肚里。其他功能的武器通过 {@link PartygoerWeaponTarget#isKillable} 选目标，它额外检查可见性。
      */
     public static boolean isKillable(@Nullable Entity entity) {
         PartygoerBrain brain = brainOf(entity);

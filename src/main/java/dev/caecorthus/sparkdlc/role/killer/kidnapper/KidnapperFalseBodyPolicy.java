@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.kidnapper;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthPartygoerCompat;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerCorpseComponent;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.killer.magician.MagicianDecoyBodies;
 import dev.caecorthus.sparkdlc.role.killer.hiro.returning.HiroFakeBodies;
@@ -26,7 +26,7 @@ public final class KidnapperFalseBodyPolicy {
                 && !HiroFakeBodies.isFake(body)
                 // A killed SparkStrength Partygoer is no passenger's body (2026-10-21).
                 // 被打死的 SparkStrength 派对客不是乘客的尸体（2026-10-21）。
-                && !SparkStrengthPartygoerCompat.isPartygoerCorpse(body)
+                && !PartygoerCorpseComponent.isPartygoerCorpse(body)
                 && !isCameraBoundFakeBody(body);
     }
 

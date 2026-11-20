@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.killer.dominator;
 
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthPartygoerCompat;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponTarget;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStunRules;
@@ -80,7 +80,7 @@ public final class DominatorReleaseGate {
                 // SparkStrength Partygoer carry (PartygoerCarriedPayloadGuardMixin drops the daze list, which holds
                 // wathe:gunshoot); a pure entity-type check through the existing bridge.
                 // SparkStrength 派对客扛人（其拦截丢弃包含 wathe:gunshoot 的眩晕名单）；经现有桥接做纯实体类型判断。
-                || blocked(() -> SparkStrengthPartygoerCompat.isPartygoer(marked.getVehicle()))
+                || blocked(() -> PartygoerWeaponTarget.isPartygoer(marked.getVehicle()))
                 // Remote viewing through another camera (SparkStrength drone, reporter feed, ...). / 借用其他镜头远程观看。
                 || blocked(() -> marked.getCameraEntity() != marked)
                 // Vendetta pair isolation (ServerPlayNetworkAddonFearMixin), judged on the player the shot would hit.

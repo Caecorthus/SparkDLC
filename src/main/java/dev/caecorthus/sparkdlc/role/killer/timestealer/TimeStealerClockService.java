@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.killer.timestealer;
 
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthPartygoerCompat;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponTarget;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
@@ -69,11 +69,11 @@ public final class TimeStealerClockService {
         // 同一射线上更近的派对客在此处判定（使用时钟自身的瞄准容差），先于 SparkStrength 在设备接缝中的钩子以另一套容差判定；
         // 派对客死亡，其后的玩家保住时间。
         Entity shield = ClockGeometry.findEntity(user, TimeStealerRules.CLOCK_RANGE,
-                SparkStrengthPartygoerCompat::isKillable);
+                PartygoerWeaponTarget::isKillable);
         if (shield != null
                 && ClockGeometry.aimEntrySquared(user, shield, TimeStealerRules.CLOCK_RANGE)
                 < ClockGeometry.aimEntrySquared(user, aimed, TimeStealerRules.CLOCK_RANGE)
-                && SparkStrengthPartygoerCompat.killByWeapon(user, shield, SparkWitchDeathReasons.TIME_STOLEN)) {
+                && PartygoerWeaponTarget.killByWeapon(user, shield, SparkWitchDeathReasons.TIME_STOLEN)) {
             startCooldown(user, clock, state);
             return TypedActionResult.consume(stack);
         }
@@ -114,9 +114,9 @@ public final class TimeStealerClockService {
     private static TypedActionResult<ItemStack> killPartygoerOrRefuse(ServerPlayerEntity user, ItemStack stack,
                                                                       Item clock, TimeStealerPlayerComponent state) {
         Entity partygoer = ClockGeometry.findEntity(user, TimeStealerRules.CLOCK_RANGE,
-                SparkStrengthPartygoerCompat::isKillable);
+                PartygoerWeaponTarget::isKillable);
         if (partygoer == null
-                || !SparkStrengthPartygoerCompat.killByWeapon(user, partygoer, SparkWitchDeathReasons.TIME_STOLEN)) {
+                || !PartygoerWeaponTarget.killByWeapon(user, partygoer, SparkWitchDeathReasons.TIME_STOLEN)) {
             return refuse(user, stack);
         }
         startCooldown(user, clock, state);

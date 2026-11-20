@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesHiddenBodiesBridge;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesSilenceBridge;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthPartygoerCompat;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerCorpseComponent;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.sherry.net.OpenSherryDeductionS2CPacket;
 import dev.caecorthus.sparkdlc.role.killer.ninja.NinjaGrappleService;
@@ -230,7 +230,7 @@ public final class SherryDeductionService {
                 PlayerBodyEntity.class,
                 detective.getBoundingBox().expand(SherryRules.CORPSE_REACH + 1.0D),
                 body -> !NoellesHiddenBodiesBridge.isHidden(world, body.getPlayerUuid())
-                        && !SparkStrengthPartygoerCompat.isPartygoerCorpse(body)
+                        && !PartygoerCorpseComponent.isPartygoerCorpse(body)
                         && SherryRules.aimsAtCorpse(eye, look, feet, body.getBoundingBox().getCenter())
                         && hasLineOfSight(detective, eye, body)
         ).isEmpty();

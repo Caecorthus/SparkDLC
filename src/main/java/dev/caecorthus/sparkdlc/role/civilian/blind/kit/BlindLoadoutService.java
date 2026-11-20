@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.role.civilian.blind.kit;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkFactionSecondRowCompat;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.headset.HeadsetSlots;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindComponent;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindParticipants;
@@ -87,7 +87,7 @@ public final class BlindLoadoutService {
         boolean realBlind = BlindRules.isBlind(game.getRole(player));
         boolean playingAndAlive = GameFunctions.isPlayerPlayingAndAlive(player);
         return BlindKitRules.keepsKit(running, realBlind, playingAndAlive, running && realBlind && !playingAndAlive
-                && SparkTraitsKillerBridge.isLastStandDeathIntercepted(player));
+                && SparkTraitsApi.isLastStandDeathIntercepted(player));
     }
 
     /**
@@ -262,7 +262,7 @@ public final class BlindLoadoutService {
         int target = BlindKitRules.hotbarTarget(inventory.selectedSlot, slot -> inventory.getStack(slot).isEmpty());
         if (target == BlindKitRules.NO_SLOT) {
             target = BlindKitRules.displacedHotbarSlot(inventory.selectedSlot);
-            int destination = BlindKitRules.displacementSlot(SparkFactionSecondRowCompat.isShown(), vacated,
+            int destination = BlindKitRules.displacementSlot(LimitedInventoryRows.isSecondRowShown(), vacated,
                     slot -> inventory.getStack(slot).isEmpty());
             if (destination == BlindKitRules.NO_SLOT) {
                 return false;

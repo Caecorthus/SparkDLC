@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.trait.effective;
 
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
-import dev.caecorthus.sparkdlc.bridge.traits.SparkWitchWraithBridge;
+import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
 import dev.caecorthus.sparkdlc.trait.effective.alignment.EffectiveAlignment;
 import dev.caecorthus.sparkdlc.mixin.trait.GameWorldComponentAccessor;
 import dev.doctor4t.wathe.api.Faction;
@@ -224,7 +224,7 @@ public final class EffectiveTraitService {
 
     public static Role.MoodType effectiveMoodType(PlayerEntity player, Role role) {
         if (hasConscience(player)) {
-            return effectiveConscienceMoodType(SparkWitchWraithBridge.isWraithActive(player));
+            return effectiveConscienceMoodType(SparkWitchApi.isWraithActive(player));
         }
         if (hasImpostor(player)) {
             return Role.MoodType.FAKE;

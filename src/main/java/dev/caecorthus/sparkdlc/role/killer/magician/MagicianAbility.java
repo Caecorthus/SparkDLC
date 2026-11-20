@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.killer.magician;
 
 import dev.caecorthus.sparkdlc.SparkWitchRoles;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesSilenceBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
 import dev.caecorthus.sparkdlc.util.TickTime;
@@ -44,7 +44,7 @@ public final class MagicianAbility {
         // 也直接检查 NoellesRoles 沉默，使其在没有 SparkTraits 时同样生效（与窃时者一致）。
         if (ControlExpertStun.isStunned(player)
                 || NoellesSilenceBridge.isSilenced(player)
-                || SparkTraitsKillerBridge.isRoleSkillBlocked(player)
+                || SparkTraitsApi.isRoleSkillBlocked(player)
                 || GrandWitchFearService.denyRoleSkillIfFeared(player)) {
             return;
         }

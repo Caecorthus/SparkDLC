@@ -5,7 +5,7 @@ import dev.caecorthus.sparkdlc.replay.api.SparkReplayApi;
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.SparkWitchRoles;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsSchrodingersCatBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.emma.EmmaRoundComponent;
 import dev.caecorthus.sparkdlc.role.civilian.emma.EmmaRules;
 import dev.caecorthus.sparkdlc.role.civilian.judge.PoliceSlotAssignmentService;
@@ -337,7 +337,7 @@ public final class SchrodingersCatService {
             game.sync();
             shop.sync();
         }
-        SparkTraitsSchrodingersCatBridge.replaceIneligibleTraits(cat, (lost, gained) ->
+        SparkTraitsApi.replaceTraitsIneligibleForCurrentRole(cat, (lost, gained) ->
                 cat.sendMessage(Text.translatable(TRAITS_CHANGED_KEY, joined(lost), joined(gained)), false));
         Vec3d anchor = spectre.anchor();
         world.playSound(null, anchor.x, anchor.y, anchor.z, SoundEvents.ITEM_TOTEM_USE, SoundCategory.PLAYERS,

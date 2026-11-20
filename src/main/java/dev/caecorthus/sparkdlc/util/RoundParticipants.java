@@ -1,7 +1,6 @@
 package dev.caecorthus.sparkdlc.util;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsAbyssListenerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -17,7 +16,7 @@ import java.util.List;
  * The one "living round participant" predicate (owner-approved consolidation, Phase 5), as named {@link Profile}s. Every
  * profile starts from Wathe {@code isPlayerPlayingAndAlive} (running game, a role in the player's own world, not marked
  * dead) and is null-safe (a null player never passes). A profile is an ordered list of {@link Gate}s evaluated in
- * exactly the declared order and stopping at the first failure, so optional SparkTraits bridges are only consulted
+ * exactly the declared order and stopping at the first failure, so the trait queries ({@code SparkTraitsApi}) are only asked
  * after every earlier gate passed. Each profile reproduces one existing site's rule verbatim, divergences included
  * (Rift entry has no role gate, Crow landing allows creative players and Wraiths, the Swordfish needs status ACTIVE
  * rather than merely running, the Mini Wither checks Wraiths only on the server and Last Escape before the role).
@@ -29,8 +28,8 @@ import java.util.List;
  * profile without SparkTraits gates.
  * 唯一的“存活对局参与者”判定（所有者批准的第 5 阶段合并），以具名 {@link Profile} 表示。每个档案都以 Wathe
  * {@code isPlayerPlayingAndAlive}（对局进行中、在玩家自身世界拥有职业、未被标记死亡）为基础，并且空值安全（null 玩家永不
- * 通过）。档案是有序的 {@link Gate} 列表，严格按声明顺序求值、遇到第一个失败即停止，因此可选的 SparkTraits 桥只在前序条件
- * 全部通过后才被查询。每个档案逐字复现一个既有调用点的规则，包括差异（裂隙进门不检查职业；化鸦落地允许创造模式与冤魂；
+ * 通过）。档案是有序的 {@link Gate} 列表，严格按声明顺序求值、遇到第一个失败即停止，因此词条查询（{@code SparkTraitsApi}）只在前序条件
+ * 全部通过后才进行。每个档案逐字复现一个既有调用点的规则，包括差异（裂隙进门不检查职业；化鸦落地允许创造模式与冤魂；
  * 剑鱼要求状态恰为 ACTIVE 而非仅进行中；小凋灵只在服务端检查冤魂，且先查最后逃脱再查职业）。绑定物品范围
  * （{@link OffMatchUse}）与搜寻者的绑定对局拥有者规则刻意不做成档案。{@link Profile#test(PlayerEntity)} 读取玩家自身世界的
  * 对局组件；{@link Profile#test(PlayerEntity, GameWorldComponent)} 在 {@link Gate#HAS_ROLE} 与 {@link Gate#STATUS_ACTIVE}
@@ -62,9 +61,9 @@ public final class RoundParticipants {
         NOT_ACTIVE_WRAITH_SERVER_ONLY,
         /** Raw {@code getRole} is non-null. / 原始 {@code getRole} 非空。 */
         HAS_ROLE,
-        /** Not SparkTraits Last Stand pending (Abyss bridge; absent → passes). / 非背水一战待定（聆渊桥；未安装则通过）。 */
+        /** Not Last Stand pending ({@code SparkTraitsApi.isLastStandPending}). / 非背水一战待定。 */
         NOT_LAST_STAND_PENDING,
-        /** Not in SparkTraits Last Escape (killer bridge; absent → passes). / 非绝处逢生（杀手桥；未安装则通过）。 */
+        /** Not in Last Escape ({@code SparkTraitsApi.isLastEscapeActive}). / 非绝处逢生。 */
         NOT_LAST_ESCAPE
     }
 
@@ -220,8 +219,8 @@ public final class RoundParticipants {
             case NOT_ACTIVE_WRAITH_SERVER_ONLY -> !(player instanceof ServerPlayerEntity serverPlayer
                     && WraithStateService.isActive(serverPlayer));
             case HAS_ROLE -> game(player, callerGame, ownWorld).getRole(player) != null;
-            case NOT_LAST_STAND_PENDING -> !SparkTraitsAbyssListenerBridge.isLastStandPending(player);
-            case NOT_LAST_ESCAPE -> !SparkTraitsKillerBridge.isLastEscapeActive(player);
+            case NOT_LAST_STAND_PENDING -> !SparkTraitsApi.isLastStandPending(player);
+            case NOT_LAST_ESCAPE -> !SparkTraitsApi.isLastEscapeActive(player);
         };
     }
 

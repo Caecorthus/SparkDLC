@@ -5,7 +5,7 @@ import dev.caecorthus.sparkdlc.cooldown.api.CooldownSlot;
 import dev.caecorthus.sparkdlc.cooldown.api.ForcedCooldowns;
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.block.FoodPlatterBlock;
 import dev.doctor4t.wathe.block.TrimmedBedBlock;
 import dev.doctor4t.wathe.index.WatheItems;
@@ -225,7 +225,7 @@ public final class KnightDuelSeal {
      * 何种倍率都是精确的。
      */
     private static void restoreExact(ServerPlayerEntity player, Item item, int ticks) {
-        if (!SparkTraitsKillerBridge.setExactItemCooldownRemaining(player, item, ticks)) {
+        if (!SparkTraitsApi.setExactItemCooldownRemaining(player, item, ticks)) {
             player.getItemCooldownManager().set(item, ticks);
         }
     }

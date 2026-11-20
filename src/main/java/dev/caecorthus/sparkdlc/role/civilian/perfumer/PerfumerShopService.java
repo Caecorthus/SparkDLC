@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.perfumer;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsShopEntryPreserver;
+import dev.caecorthus.sparkdlc.trait.api.TraitShopEntries;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -36,7 +36,7 @@ public final class PerfumerShopService {
 
         // SparkTraits 的词条商店监听可能先于 SparkWitch 执行；先保存 sparkdlc:* 条目，
         // 避免下面重建调香师专属商店时误删内鬼左轮等词条追加商品。
-        List<ShopEntry> preservedTraitEntries = SparkTraitsShopEntryPreserver.capture(context);
+        List<ShopEntry> preservedTraitEntries = TraitShopEntries.capture(context);
         context.clearEntries();
         context.addEntry(new ShopEntry.Builder(
                 "perfume_essence",
@@ -50,6 +50,6 @@ public final class PerfumerShopService {
                 PerfumerRules.COLOGNE_PRICE,
                 ShopEntry.Type.TOOL
         ).build());
-        SparkTraitsShopEntryPreserver.restore(context, preservedTraitEntries);
+        TraitShopEntries.restore(context, preservedTraitEntries);
     }
 }

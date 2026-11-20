@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.mixin.role.killer.silencer;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.killer.silencer.SilencerQuietService;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -30,7 +30,7 @@ public abstract class SilencerBatAttackMixin {
     private void sparkstrength$silencerQuietBatHit(Entity target, Operation<Void> original) {
         PlayerEntity self = (PlayerEntity) (Object) this;
         if (SilencerQuietService.shouldSilenceWatheBat(self)
-                && SparkTraitsCompat.isMeleeActionBlocked(self, self.getMainHandStack())) {
+                && SparkTraitsApi.blocksWeaponAction(self, self.getMainHandStack())) {
             return;
         }
         if (SilencerQuietService.shouldSilenceWatheBat(self)
@@ -39,8 +39,8 @@ public abstract class SilencerBatAttackMixin {
                 && getAttackCooldownProgress(0.5F) >= 1.0F) {
             if (serverPlayer.isSpectator() || playerTarget.isSpectator()
                     || playerTarget == serverPlayer || playerTarget.distanceTo(serverPlayer) > 3.0D
-                    || !SparkFactionCompat.canAffectPlayer(serverPlayer, playerTarget, GameConstants.DeathReasons.BAT)
-                    || SparkTraitsCompat.shouldCancelMeleeAttack(serverPlayer, playerTarget, self.getMainHandStack())) {
+                    || !SparkFactionApi.canAffectPlayer(serverPlayer, playerTarget, GameConstants.DeathReasons.BAT)
+                    || SparkTraitsApi.blocksOrCancelsMeleeAttack(serverPlayer, playerTarget, self.getMainHandStack())) {
                 return;
             }
             GameFunctions.killPlayer(playerTarget, true, serverPlayer, GameConstants.DeathReasons.BAT);

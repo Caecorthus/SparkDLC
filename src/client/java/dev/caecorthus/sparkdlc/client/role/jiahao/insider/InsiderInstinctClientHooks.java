@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.jiahao.insider;
 
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -59,7 +60,7 @@ public final class InsiderInstinctClientHooks {
                 && !instinctKey
                 && isCorruptCopVisionWindow(viewer);
         Integer color = InsiderHighlightRules.color(kind, instinctKey, visionWindow, targetRole);
-        if (color == null || InsiderSparkTraitsBridge.isInstinctHidden(viewer, playerTarget)) {
+        if (color == null || SparkTraitsApi.isInstinctHidden(viewer, playerTarget)) {
             return null;
         }
         return GetInstinctHighlight.HighlightResult.always(color, InsiderHighlightRules.priority(kind, targetRole));

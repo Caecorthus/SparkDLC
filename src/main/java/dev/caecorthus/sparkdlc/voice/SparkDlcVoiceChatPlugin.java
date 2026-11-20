@@ -60,7 +60,7 @@ import org.jetbrains.annotations.Nullable;
  * of a T-Virus-revived Pathogen. Traits: the two-way mute of a Depression psycho. The mod's own roles: the Wraith
  * life-cycle voice rules, the mutes of players who play dead or are hidden, the Saboteur's faction voice, the Blind's
  * lowest-priority voice perception, and on a physical client the Holy Flash and BEAR hearing filters
- * ({@link HolyFlashVoiceClientBridge}, {@link BearHearingVoiceClientBridge}).</p>
+ * ({@link ClientVoiceReceivers}).</p>
  *
  * 本模组唯一的 Simple Voice Chat 插件（{@code fabric.mod.json} 的 {@code voicechat}）。它取代了三个插件，
  * {@link #registerEvents} 按它们原有的顺序与优先级注册各处理器：Simple Voice Chat 用稳定排序按优先级排列同一事件的处理器，
@@ -69,7 +69,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * <p>职业套件：变形试剂的语音伪装、记者的转发，以及小丑时刻与被 T病毒复活的病原体的静音。词条：抑郁疯魔期间的双向静音。
  * 本模组自有职业：冤魂生命周期各阶段的语音规则、装死或隐藏玩家的静音、破坏者的阵营语音、盲人最低优先级的语音感知，
- * 以及物理客户端上的圣光弹与 BEAR 听力滤波（{@link HolyFlashVoiceClientBridge}、{@link BearHearingVoiceClientBridge}）。</p>
+ * 以及物理客户端上的圣光弹与 BEAR 听力滤波（{@link ClientVoiceReceivers}）。</p>
  *
  * <p>变形试剂的语音伪装规则分两段：
  * 1. 正在试剂变形成别人的玩家，自己的麦克风包直接取消，避免“外观像 B、声音却从 A 本体发出”。
@@ -175,10 +175,10 @@ public final class SparkDlcVoiceChatPlugin implements VoicechatPlugin {
         );
         // Physical client only: Holy Flash muffles incoming voice; a no-op on dedicated servers.
         // 仅物理客户端：圣光弹压低传入语音；专用服务器上不做任何事。
-        HolyFlashVoiceClientBridge.register(registration);
+        ClientVoiceReceivers.registerHolyFlashOnClient(registration);
         // Physical client only, after Holy Flash so both compose: BEAR hearing scales incoming voice (H7).
         // 仅物理客户端，排在圣光弹之后以便二者相乘：BEAR 听力缩放传入语音（H7）。
-        BearHearingVoiceClientBridge.register(registration);
+        ClientVoiceReceivers.registerBearHearingOnClient(registration);
     }
 
 

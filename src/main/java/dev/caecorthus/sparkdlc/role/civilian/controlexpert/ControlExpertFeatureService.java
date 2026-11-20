@@ -1,8 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.controlexpert;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -60,7 +59,7 @@ public final class ControlExpertFeatureService {
         KillPlayer.AFTER.register((victim, killer, reason) -> {
             // SparkTraits Last Stand keeps the victim in play; the component's participant check covers that state.
             // SparkTraits 背水一战会让受害者继续留在对局中；该状态由组件自身的参与者检查处理。
-            if (WitchFactorTraitsBridge.isDeathIntercepted(victim)) {
+            if (SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
                 return;
             }
             ControlExpertStun.release(victim);
@@ -124,7 +123,7 @@ public final class ControlExpertFeatureService {
      * 回退到原版写入（二者不会同时执行，以免发送两次数据包）。
      */
     static void applyExactCooldown(ServerPlayerEntity player, Item item, int ticks) {
-        if (!SparkTraitsKillerBridge.setExactItemCooldownRemaining(player, item, ticks)) {
+        if (!SparkTraitsApi.setExactItemCooldownRemaining(player, item, ticks)) {
             player.getItemCooldownManager().set(item, ticks);
         }
     }

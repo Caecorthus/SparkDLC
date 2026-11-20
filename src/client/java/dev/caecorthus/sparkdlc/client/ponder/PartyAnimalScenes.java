@@ -11,8 +11,9 @@ import static dev.caecorthus.sparkdlc.client.ponder.WatheItemScenes.SOUTH;
 import static dev.caecorthus.sparkdlc.client.ponder.WatheItemScenes.WEST;
 import static dev.caecorthus.sparkdlc.client.ponder.WatheItemScenes.stack;
 
+import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerState;
 import dev.caecorthus.sparkdlc.ponder.ActorMovement;
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.function.Consumer;
 import net.createmod.catnip.math.Pointing;
@@ -33,7 +34,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.data.TrackedData;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.Registries;
@@ -425,9 +425,8 @@ final class PartyAnimalScenes {
     private static final class Partygoer extends AnimatedSceneElementBase {
         private static final Identifier TYPE = Identifier.of("sparkdlc", "partygoer");
         private static final Identifier SKIN = Identifier.of("sparkdlc", "textures/entity/partygoer.png");
-        /** PartygoerState wire ids. PartygoerState 的 wire id。 */
-        private static final byte HUNT = 1;
-        private static final byte CARRY = 2;
+        private static final PartygoerState HUNT = PartygoerState.HUNT;
+        private static final PartygoerState CARRY = PartygoerState.CARRY;
         /** PartygoerBrain.TURN_DEGREES_PER_TICK. 每 tick 转向角度。 */
         private static final float TURN_SPEED = 30;
         /**
@@ -439,9 +438,6 @@ final class PartyAnimalScenes {
         private static final double SEAT_HEIGHT = 0.6 - 0.6;
         private static final double SEAT_AHEAD = 0.5;
         private static final float FALL_TICKS = 20;
-        @Nullable
-        private static Field stateField;
-        private static boolean stateFieldLooked;
 
         private final Vec3d startPosition;
         private final float startYaw;
@@ -451,7 +447,7 @@ final class PartyAnimalScenes {
         private float yaw;
         private float previousYaw;
         private float targetYaw;
-        private byte state;
+        private PartygoerState state;
         /** The held player's colour, or -1 for none. 被抱玩家的颜色，-1 表示没有。 */
         private int carried;
         private float fall;
@@ -620,29 +616,13 @@ final class PartyAnimalScenes {
         }
 
         /**
-         * Set PartygoerEntity.STATE as the brain does, so the model poses for it. The modules are fused in SparkDLC,
-         * but STATE is private to SparkStrength's PartygoerEntity, so it is still looked up by name.
-         * 像大脑那样设置 STATE，让模型摆出对应姿势。各模块已融合进 SparkDLC，但 STATE 是 SparkStrength 的 PartygoerEntity 的
-         * 私有字段，所以仍按名字查找。
+         * Set the Partygoer's synced state as the brain does, so the model poses for it; an entity of another type
+         * (the registry answered something else) keeps its default pose.
+         * 像大脑那样设置派对客的同步状态，让模型摆出对应姿势；若实体不是派对客（注册表给出了别的类型）则保持默认姿势。
          */
-        @SuppressWarnings("unchecked")
-        private static void setState(Entity goer, byte wire) {
-            if (!stateFieldLooked) {
-                stateFieldLooked = true;
-                try {
-                    stateField = goer.getClass().getDeclaredField("STATE");
-                    stateField.setAccessible(true);
-                } catch (ReflectiveOperationException e) {
-                    stateField = null;
-                }
-            }
-            if (stateField == null) {
-                return;
-            }
-            try {
-                goer.getDataTracker().set((TrackedData<Byte>) stateField.get(null), wire);
-            } catch (ReflectiveOperationException | ClassCastException e) {
-                // Another SparkStrength version: keep the hunting pose. 其他版本的 SparkStrength：保持追人姿势。
+        private static void setState(Entity goer, PartygoerState state) {
+            if (goer instanceof PartygoerEntity partygoer) {
+                partygoer.setPartyState(state);
             }
         }
 

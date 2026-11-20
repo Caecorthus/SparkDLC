@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.neutral.fiend;
 
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -43,7 +43,7 @@ public final class FiendDashService {
                 GameFunctions.isPlayerPlayingAndAlive(player),
                 NoellesTaotieSeekerBridge.isSwallowed(player),
                 ControlExpertStun.isStunned(player),
-                SparkTraitsKillerBridge.isRoleSkillBlocked(player),
+                SparkTraitsApi.isRoleSkillBlocked(player),
                 moment.isDashReady(),
                 GrandWitchFearService.isPlayerFeared(player));
         switch (verdict) {

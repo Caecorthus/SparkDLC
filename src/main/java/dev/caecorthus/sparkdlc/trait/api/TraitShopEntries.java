@@ -1,8 +1,12 @@
 package dev.caecorthus.sparkdlc.trait.api;
 
 import dev.caecorthus.sparkdlc.trait.civilian.impostor.ImpostorRevolverService;
+import dev.doctor4t.wathe.api.event.BuildShopEntries;
+import dev.doctor4t.wathe.util.ShopEntry;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -24,5 +28,48 @@ public final class TraitShopEntries {
     /** Whether {@code entryId} is a shop entry added by a trait. / 该条目 id 是否为天赋追加的商店条目。 */
     public static boolean isTraitEntry(@Nullable String entryId) {
         return entryId != null && IDS.contains(entryId);
+    }
+
+    /**
+     * Captures the trait entries that are already in the shop, in shop order. A role shop that clears and rebuilds
+     * its entries calls this before the clear and {@link #restore} after the rebuild.
+     * 按商店顺序捕获当前商店中已有的天赋条目。会清空并重建条目的职业商店在清空前调用它，重建后调用 {@link #restore}。
+     */
+    public static List<ShopEntry> capture(BuildShopEntries.ShopContext context) {
+        List<ShopEntry> preservedEntries = new ArrayList<>();
+        for (ShopEntry entry : context.getEntries()) {
+            if (isTraitEntry(entry.id())) {
+                preservedEntries.add(entry);
+            }
+        }
+        return preservedEntries;
+    }
+
+    /**
+     * Puts the captured trait entries back after the role rebuilt its own shop, so the Impostor revolver and every
+     * other entry listed here survive the {@code clearEntries}. An entry whose id the rebuilt shop already contains is
+     * not added twice; a null or empty capture restores nothing.
+     * 在职业重建自己的商店后放回捕获的天赋条目，保证内鬼左轮以及登记在此处的其他天赋商品不会被 {@code clearEntries} 吞掉。
+     * 重建后的商店已含有相同 id 的条目时不重复添加；捕获结果为空时不做任何事。
+     */
+    public static void restore(BuildShopEntries.ShopContext context, List<ShopEntry> preservedEntries) {
+        if (preservedEntries == null || preservedEntries.isEmpty()) {
+            return;
+        }
+        for (ShopEntry entry : preservedEntries) {
+            String entryId = entry.id();
+            if (entryId != null && !containsEntryId(context, entryId)) {
+                context.addEntry(entry);
+            }
+        }
+    }
+
+    private static boolean containsEntryId(BuildShopEntries.ShopContext context, String entryId) {
+        for (ShopEntry entry : context.getEntries()) {
+            if (entry.id().equals(entryId)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

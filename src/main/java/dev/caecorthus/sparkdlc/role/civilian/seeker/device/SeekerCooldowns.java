@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker.device;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerCooldownReason;
@@ -41,7 +41,7 @@ public final class SeekerCooldowns {
         // SparkTraits bypasses Fast Hands itself and performs the vanilla write; only on false do we write vanilla.
         // SparkTraits 自行绕过快手并完成原版写入；仅当其返回 false 时才由我们写入原版冷却。
         return write(remainingTicks(player), ticks,
-                merged -> SparkTraitsKillerBridge.setExactItemCooldownRemaining(player, car, merged),
+                merged -> SparkTraitsApi.setExactItemCooldownRemaining(player, car, merged),
                 merged -> player.getItemCooldownManager().set(car, merged));
     }
 

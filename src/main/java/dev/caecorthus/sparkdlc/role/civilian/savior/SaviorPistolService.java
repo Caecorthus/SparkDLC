@@ -2,9 +2,8 @@ package dev.caecorthus.sparkdlc.role.civilian.savior;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.SparkWitchSounds;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthPartygoerCompat;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsSaviorBridge;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponTarget;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.net.SaviorGunDropS2CPayload;
 import dev.caecorthus.sparkdlc.net.SaviorMuzzleS2CPayload;
 import dev.caecorthus.sparkdlc.net.SaviorPistolShootC2SPayload;
@@ -47,12 +46,12 @@ import org.jetbrains.annotations.Nullable;
  * backfire, but drops the two civilian-pistol modifiers the owner excluded: the innocent gun cooldown override and the
  * -0.35 mood cost of a kill (the Savior is police). The 10 s cooldown is always written, hit or miss, except in
  * creative mode. While a game runs any living holder may fire ({@link SaviorRules#mayUseWeapons}). SparkTraits may
- * widen the player-target tolerance through {@link SparkTraitsSaviorBridge} (a sneaking Niko holder: 300 blocks) and
+ * widen the player-target tolerance through {@code SparkTraitsApi.getServerGunTargetRange} (a sneaking Niko holder: 300 blocks) and
  * rewrites the cooldown through the vanilla write (Niko 60 s, Fast Reload, Fast Hands), as it does for the revolver.
  * 救世主手枪的服务端部分，复制自 Wathe 的 {@code GunShootPayload.Receiver}。保留左轮的点击/开枪音效、4° 后坐反馈、
  * 枪口数据包、65 格目标容差、误杀惩罚与后坐反噬，但去掉所有者排除的两项平民手枪修正：误杀冷却覆盖与击杀的 -0.35 理智
  * 损失（救世主属于警类）。无论命中与否都写入 10 秒冷却，创造模式除外。对局进行中任何存活的持有者都能开枪
- * （{@link SaviorRules#mayUseWeapons}）。SparkTraits 可通过 {@link SparkTraitsSaviorBridge} 放宽玩家目标容差（潜行的 Niko
+ * （{@link SaviorRules#mayUseWeapons}）。SparkTraits 可通过 {@code SparkTraitsApi.getServerGunTargetRange} 放宽玩家目标容差（潜行的 Niko
  * 持有者为 300 格），并经原版冷却写入改写冷却（Niko 60 秒、快速装填、快手），与左轮相同。
  */
 public final class SaviorPistolService {
@@ -101,7 +100,7 @@ public final class SaviorPistolService {
         // the client pick it already widened); crows, puppets, devices and Partygoers keep the 65-block cap.
         // SparkTraits 可为该射手与该枪放宽此容差（潜行的 Niko 持有者为 300 格，与它已放宽的客户端选靶一致）；乌鸦、皮套、
         // 设备与派对客仍按 65 格上限。
-        double tolerance = SparkTraitsSaviorBridge.pistolServerRange(shooter, pistol.getItem(),
+        double tolerance = SparkTraitsApi.getServerGunTargetRange(shooter, pistol.getItem(),
                 SaviorRules.PISTOL_SERVER_TOLERANCE);
         ServerPlayerEntity target = null;
         if (resolved instanceof ServerPlayerEntity candidate
@@ -184,7 +183,7 @@ public final class SaviorPistolService {
      * 搜寻者远程锁定、绑匪操控、激活的冤魂，以及支配者强制开枪序列中拒绝亲手开枪的规则。
      */
     private static boolean refusesShooter(ServerPlayerEntity shooter, ItemStack pistol) {
-        return SparkTraitsKillerBridge.blocksWeaponAction(shooter, pistol)
+        return SparkTraitsApi.blocksWeaponAction(shooter, pistol)
                 || ControlExpertStun.isStunned(shooter)
                 || SeekerRemoteSessionService.isLocked(shooter)
                 || isKidnapped(shooter)
@@ -219,7 +218,7 @@ public final class SaviorPistolService {
     }
 
     private static boolean killPartygoer(ServerPlayerEntity shooter, Entity entity, double max) {
-        if (!SparkStrengthPartygoerCompat.isKillable(entity) || entity.getWorld() != shooter.getWorld()
+        if (!PartygoerWeaponTarget.isKillable(entity) || entity.getWorld() != shooter.getWorld()
                 || shooter.distanceTo(entity) >= max) {
             return false;
         }
@@ -228,7 +227,7 @@ public final class SaviorPistolService {
                 shooter.getRotationVec(1.0F), max, box, box.expand(entity.getTargetingMargin()), shooter)) {
             return false;
         }
-        return SparkStrengthPartygoerCompat.killByWeapon(shooter, entity, SaviorRules.PISTOL_DEATH_REASON);
+        return PartygoerWeaponTarget.killByWeapon(shooter, entity, SaviorRules.PISTOL_DEATH_REASON);
     }
 
     /**

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.mixin.role.civilian.veteran;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.role.civilian.veteran.VeteranRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -50,7 +50,7 @@ public abstract class VeteranInstantKnifeMixin {
         }
 
         ItemStack itemStack = user.getStackInHand(hand);
-        if (SparkTraitsCompat.isMeleeActionBlocked(user, itemStack)) {
+        if (SparkTraitsApi.blocksWeaponAction(user, itemStack)) {
             cir.setReturnValue(TypedActionResult.fail(itemStack));
             return;
         }

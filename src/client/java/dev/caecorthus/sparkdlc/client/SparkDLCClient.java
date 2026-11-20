@@ -8,7 +8,6 @@ import dev.caecorthus.sparkdlc.SparkWitchSounds;
 import dev.caecorthus.sparkdlc.achievement.AchievementGalaxy;
 import dev.caecorthus.sparkdlc.client.achievement.AchievementAdvancements;
 import dev.caecorthus.sparkdlc.client.achievement.AchievementClientState;
-import dev.caecorthus.sparkdlc.client.bridge.traits.SparkStrengthCoronerClientBridge;
 import dev.caecorthus.sparkdlc.client.config.SparkAssistConfigManager;
 import dev.caecorthus.sparkdlc.client.creative.NoellesCreativeEntries;
 import dev.caecorthus.sparkdlc.client.economy.KillerTeamEconomyClientHooks;
@@ -1016,7 +1015,7 @@ public final class SparkDLCClient implements ClientModInitializer {
                             targetPlayer,
                             game,
                             traitWorld.isFinalMomentLooseEnd(targetPlayer.getUuid()),
-                            SparkStrengthCoronerClientBridge.resolveKillerDisguiseInstinctColor(targetPlayer)
+                            CoronerClientHooks.resolveKillerDisguiseInstinctColor(targetPlayer)
                     ),
                     GetInstinctHighlight.HighlightResult.PRIORITY_HIGH + 1
             );

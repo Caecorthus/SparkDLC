@@ -1,10 +1,9 @@
 package dev.caecorthus.sparkdlc.role.civilian.savior;
 
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.net.SaviorDomainS2CPayload;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.KillPlayer;
 import dev.doctor4t.wathe.api.event.ResetPlayer;
@@ -64,12 +63,12 @@ public final class SaviorDomainService {
         // A death SparkTraits intercepted (Last Stand revive) is not a death: the revived Savior keeps its domain state
         // (Dominator precedent). / SparkTraits 拦截的死亡（背水一战复活）不算死亡：复活的救世主保留领域状态（支配者先例）。
         KillPlayer.AFTER.register((victim, killer, reason) -> {
-            if (victim != null && !WitchFactorTraitsBridge.isDeathIntercepted(victim)) {
+            if (victim != null && !SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
                 clearPlayer(victim);
             }
         });
         ServerLivingEntityEvents.AFTER_DEATH.register((entity, source) -> {
-            if (entity instanceof ServerPlayerEntity player && !WitchFactorTraitsBridge.isDeathIntercepted(player)) {
+            if (entity instanceof ServerPlayerEntity player && !SparkTraitsApi.isLastStandDeathIntercepted(player)) {
                 clearPlayer(player);
             }
         });
@@ -103,7 +102,7 @@ public final class SaviorDomainService {
         GameWorldComponent game = GameWorldComponent.KEY.get(caster.getWorld());
         SaviorPlayerComponent component = SaviorPlayerComponent.KEY.get(caster);
         if (!mayUse(holdsDomain(game, caster),
-                SparkTraitsKillerBridge.isRoleSkillBlocked(caster),
+                SparkTraitsApi.isRoleSkillBlocked(caster),
                 component.getCooldownTicks() > 0,
                 component.isDomainActive())) {
             return;

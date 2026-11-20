@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.role.killer.serialkiller;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkWitchCompat;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
 import dev.caecorthus.sparkdlc.item.SerialPistolItem;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponHits;
 import dev.doctor4t.wathe.api.event.ShouldPunishGunShooter;
@@ -74,7 +74,7 @@ public final class SerialPistolShotService {
         }
         // SparkTraits Last Escape: the revolver's receiver is cancelled at HEAD, before any side effect.
         // SparkTraits 脱险：左轮接收器在 HEAD 即被取消，先于任何副作用。
-        if (SparkTraitsCompat.isKillerInteractionBlocked(shooter)) {
+        if (SparkTraitsApi.isKillerInteractionBlocked(shooter)) {
             return;
         }
         ItemStack stack = authorizedPistol(shooter, hand);
@@ -84,7 +84,7 @@ public final class SerialPistolShotService {
         ServerPlayerEntity candidate = claimedTarget(shooter, targetId);
         // SparkFactionAPI drops a revolver shot at a protected player outright: no sound, record or cooldown.
         // SparkFactionAPI 对受保护玩家的左轮射击整包丢弃：无声音、无记录、无冷却。
-        if (candidate != null && !SparkFactionCompat.canAffectPlayer(shooter, candidate, GameConstants.DeathReasons.GUN)) {
+        if (candidate != null && !SparkFactionApi.canAffectPlayer(shooter, candidate, GameConstants.DeathReasons.GUN)) {
             return;
         }
         ServerWorld world = shooter.getServerWorld();
@@ -158,7 +158,7 @@ public final class SerialPistolShotService {
     private static void hitSparkWitchWorldTarget(ServerPlayerEntity shooter, int targetId, ItemStack stack) {
         Entity entity = targetId < 0 ? null : shooter.getServerWorld().getEntityById(targetId);
         if (entity != null && !(entity instanceof PlayerEntity)) {
-            SparkWitchCompat.hitGunWorldTarget(shooter, entity, stack,
+            SparkWitchApi.hitGunWorldTarget(shooter, entity, stack,
                     SerialKillerConstants.PISTOL_RANGE_BLOCKS + SERVER_RANGE_SLACK_BLOCKS);
         }
     }
@@ -198,7 +198,7 @@ public final class SerialPistolShotService {
     private static boolean isHittable(ServerPlayerEntity shooter, ServerPlayerEntity target) {
         return GameFunctions.isPlayerAliveAndSurvival(target)
                 && (GameFunctions.isPlayerPlayingAndAlive(target)
-                || SparkWitchCompat.isBoundKillerTargetingVendetta(shooter, target))
+                || SparkWitchApi.isBoundKillerTargetingVendetta(shooter, target))
                 && hasLineOfSight(shooter, target);
     }
 

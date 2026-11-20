@@ -3,7 +3,8 @@ package dev.caecorthus.sparkdlc.role.civilian.noa;
 import dev.caecorthus.sparkdlc.faction.api.FactionIds;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsNoaBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameConstants;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -64,7 +65,7 @@ final class NoaKillWatch {
                                                 Identifier deathReason, GameWorldComponent game) {
         if (!GameConstants.DeathReasons.KNIFE.equals(deathReason)
                 || !FactionIds.CIVILIAN.equals(SparkFactionApi.resolveEffectiveFaction(victim, game))
-                || Boolean.TRUE.equals(SparkTraitsNoaBridge.isImpostor(noa))
+                || SparkTraitsApi.hasActiveTrait(noa, TraitIds.IMPOSTOR)
                 || !GameFunctions.isPlayerPlayingAndAlive(noa)) {
             return;
         }

@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.role.civilian.timekeeper;
 
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
 import dev.caecorthus.sparkdlc.replay.role.SparkStrengthReplayFormatters;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCooldownCompat;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.cooldown.api.ForcedCooldowns;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.demonhunter.DemonHunterSniffPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartyAnimalSkillComponent;
 import dev.caecorthus.sparkdlc.role.neutral.vulture.VultureSuperCursePlayerComponent;
@@ -153,7 +153,7 @@ public final class TimekeeperWatchService {
      */
     private static List<ServerPlayerEntity> findTargets(ServerPlayerEntity timekeeper) {
         GameWorldComponent game = GameWorldComponent.KEY.get(timekeeper.getServerWorld());
-        boolean reverse = SparkTraitsCompat.hasImpostor(timekeeper);
+        boolean reverse = SparkTraitsApi.hasImpostor(timekeeper);
         List<ServerPlayerEntity> targets = new ArrayList<>();
 
         for (ServerPlayerEntity target : timekeeper.getServerWorld().getPlayers()) {
@@ -167,12 +167,30 @@ public final class TimekeeperWatchService {
                 continue;
             }
 
-            if ((reverse && SparkTraitsCompat.isTimekeeperReverseTarget(role, target))
-                    || (!reverse && SparkTraitsCompat.isTimekeeperNormalTarget(role, target))) {
+            if ((reverse && isReverseTarget(role, target))
+                    || (!reverse && isNormalTarget(role, target))) {
                 targets.add(target);
             }
         }
         return targets;
+    }
+
+    /**
+     * Normal-mode target: original civilians and Conscience killers are refreshed, Impostor civilians are not.
+     * Kept apart from the general effective-side queries so the priority other roles rely on stays untouched.
+     * 计时员普通模式的目标判断：原始好人和善良杀手可以被刷新，内鬼好人不能被刷新。
+     * 该规则独立于通用“有效阵营”判断，避免改动其它职业已经依赖的优先级。
+     */
+    private static boolean isNormalTarget(Role role, ServerPlayerEntity target) {
+        return !SparkTraitsApi.hasImpostor(target)
+                && (role.isInnocent() || SparkTraitsApi.hasConscience(target));
+    }
+
+    /** Reversed targets of a Timekeeper who holds Impostor: killers without Conscience and the other Impostor civilians.
+     *  计时员拥有 impostor 时的反转目标：非善良杀手和其它内鬼好人。 */
+    private static boolean isReverseTarget(Role role, ServerPlayerEntity target) {
+        return !SparkTraitsApi.hasConscience(target)
+                && (role.canUseKiller() || SparkTraitsApi.hasImpostor(target));
     }
 
     private static void clearItemCooldowns(ServerPlayerEntity player) {
@@ -185,7 +203,7 @@ public final class TimekeeperWatchService {
             // clear; penalties forced through SparkFactionAPI keep running.
             // 同时用于使用者自己与所有目标。清除自然冷却（含 remove 钩子释放的所属模组计时）；经 SparkFactionAPI
             // 强制施加的惩罚继续生效。
-            SparkFactionCooldownCompat.clearItemCooldownKeepingForced(player, item);
+            ForcedCooldowns.clearItemKeepingForced(player, item);
         }
     }
 

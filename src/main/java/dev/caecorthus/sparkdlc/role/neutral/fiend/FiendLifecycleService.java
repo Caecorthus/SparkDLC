@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.fiend;
 
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.KillPlayer;
@@ -56,7 +56,7 @@ final class FiendLifecycleService {
         if (!momentFiend) {
             return;
         }
-        if (FiendMomentRules.endsOnDeath(momentFiend, WitchFactorTraitsBridge.isDeathIntercepted(victim))) {
+        if (FiendMomentRules.endsOnDeath(momentFiend, SparkTraitsApi.isLastStandDeathIntercepted(victim))) {
             FiendMomentService.end(victim.getServerWorld(), FiendMomentRules.deathEnd(moment.isComplete(),
                     GameConstants.DeathReasons.ESCAPED.equals(deathReason)));
         }

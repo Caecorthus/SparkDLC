@@ -5,7 +5,7 @@ import dev.caecorthus.sparkdlc.cooldown.api.CooldownKind;
 import dev.caecorthus.sparkdlc.cooldown.api.ForcedCooldowns;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesSilenceBridge;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.item.rope.RopeStrangleService;
 import dev.caecorthus.sparkdlc.role.civilian.judge.JudgeKillAttribution;
@@ -203,7 +203,7 @@ public final class HiroReturnService {
                 && !NoellesTaotieSeekerBridge.isSwallowed(caster)
                 && !NinjaGrappleService.isHeld(caster)
                 && !NoellesSilenceBridge.isSilenced(caster)
-                && !SparkTraitsKillerBridge.isRoleSkillBlocked(caster)
+                && !SparkTraitsApi.isRoleSkillBlocked(caster)
                 && !RiftSessionService.isInside(caster);
     }
 
@@ -242,7 +242,7 @@ public final class HiroReturnService {
         }
         UUID attacker = attackerOf(victim, killer);
         HiroReturnRules.Attack attack = HiroReturnRules.classifyAttack(id, attacker, deathReason, force,
-                SparkTraitsKillerBridge.isTerminalDeathReason(deathReason) || SaviorRules.isTerminalKill(deathReason),
+                SparkTraitsApi.isTerminalDeathReason(deathReason) || SaviorRules.isTerminalKill(deathReason),
                 isDueling(world, id));
         switch (HiroReturnRules.outcome(attack, windowActive)) {
             case RETURN -> {

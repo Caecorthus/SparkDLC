@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.entity;
 import dev.caecorthus.sparkdlc.SparkStrengthEntities;
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
 import dev.caecorthus.sparkdlc.SparkStrengthSounds;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkWitchCompat;
+import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
 import dev.caecorthus.sparkdlc.item.grenade.GrenadeBlastService;
 import dev.caecorthus.sparkdlc.item.m67.M67Physics;
 import dev.caecorthus.sparkdlc.item.m67.M67RoundService;
@@ -124,11 +124,9 @@ public final class M67GrenadeEntity extends ThrownItemEntity {
     }
 
     /**
-     * Thrower uuid: the concealed server-only value when set, else the tracked one. Public contract: SparkWitch's
-     * {@code SparkStrengthM67Compat} calls this getter on the server (blast attribution; a direct call since the
-     * SparkDLC fusion).
-     * 投掷者 uuid：设置了隐藏的服务器字段时取它，否则取追踪值。公开契约：SparkWitch 的 SparkStrengthM67Compat 在服务器调用此 getter
-     * （爆炸归属；融合进 SparkDLC 后为直接调用）。
+     * Thrower uuid: the concealed server-only value when set, else the tracked one. Public contract:
+     * {@code M67MatchBlastHits} calls this getter on the server (blast attribution).
+     * 投掷者 uuid：设置了隐藏的服务器字段时取它，否则取追踪值。公开契约：M67MatchBlastHits 在服务器调用此 getter（爆炸归属）。
      */
     public @Nullable UUID getThrowerUuid() {
         return concealedThrowerUuid != null ? concealedThrowerUuid : dataTracker.get(THROWER_UUID).orElse(null);
@@ -237,7 +235,7 @@ public final class M67GrenadeEntity extends ThrownItemEntity {
         }
         // Only a real blast clears SparkWitch BEAR smoke (visual only), matching SparkWitch's off-match rule.
         // 只有真实爆炸才会炸开 SparkWitch BEAR 烟雾（仅视觉），与 SparkWitch 自身的局外规则一致。
-        SparkWitchCompat.carveSmoke(world, getPos(), M67Rules.BLAST_RADIUS);
+        SparkWitchApi.carveSmoke(world, getPos(), M67Rules.BLAST_RADIUS);
 
         List<ServerPlayerEntity> candidates = List.copyOf(world.getPlayers(GameFunctions::isPlayerAliveAndSurvival));
         for (ServerPlayerEntity victim : GrenadeBlastService.filterVictims(world, this, candidates, M67Rules.BLAST_RADIUS)) {

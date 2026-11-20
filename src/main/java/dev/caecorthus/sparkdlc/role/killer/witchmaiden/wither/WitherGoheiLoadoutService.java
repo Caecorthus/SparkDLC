@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkFactionSecondRowCompat;
+import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import dev.caecorthus.sparkdlc.role.killer.witchmaiden.WitchMaidenRules;
 import dev.caecorthus.sparkdlc.util.GiveCommandDropScope;
 import dev.caecorthus.sparkdlc.util.OffMatchUse;
@@ -54,7 +54,7 @@ public final class WitherGoheiLoadoutService {
         }
         boolean cursorKept = keeper == NO_SLOT && WitherGoheiInventoryRules.isGohei(handler.getCursorStack());
         if (keeper != NO_SLOT && !isShown(keeper)) {
-            int moved = placementSlot(SparkFactionSecondRowCompat.isShown(), slot -> inventory.getStack(slot).isEmpty());
+            int moved = placementSlot(LimitedInventoryRows.isSecondRowShown(), slot -> inventory.getStack(slot).isEmpty());
             if (moved != NO_SLOT && isShown(moved)) {
                 inventory.setStack(moved, inventory.getStack(keeper));
                 inventory.setStack(keeper, ItemStack.EMPTY);
@@ -62,7 +62,7 @@ public final class WitherGoheiLoadoutService {
                 changed = true;
             }
         } else if (keeper == NO_SLOT && !cursorKept) {
-            int target = placementSlot(SparkFactionSecondRowCompat.isShown(), slot -> inventory.getStack(slot).isEmpty());
+            int target = placementSlot(LimitedInventoryRows.isSecondRowShown(), slot -> inventory.getStack(slot).isEmpty());
             if (target != NO_SLOT) {
                 inventory.setStack(target, new ItemStack(SparkWitchItems.witherGohei()));
                 keeper = target;
@@ -130,7 +130,7 @@ public final class WitherGoheiLoadoutService {
             if (serverPlayer.isAlive()
                     && (mayHold(serverPlayer) || !OffMatchUse.isMatchParticipant(serverPlayer))) {
                 PlayerInventory inventory = serverPlayer.getInventory();
-                int slot = placementSlot(SparkFactionSecondRowCompat.isShown(),
+                int slot = placementSlot(LimitedInventoryRows.isSecondRowShown(),
                         index -> inventory.getStack(index).isEmpty());
                 if (slot != NO_SLOT) {
                     inventory.setStack(slot, copy);
@@ -155,8 +155,8 @@ public final class WitherGoheiLoadoutService {
             }
         }
         if (secondRowShown) {
-            for (int slot = SparkFactionSecondRowCompat.SECOND_ROW_START;
-                 slot < SparkFactionSecondRowCompat.SECOND_ROW_END; slot++) {
+            for (int slot = LimitedInventoryRows.SECOND_ROW_START;
+                 slot < LimitedInventoryRows.SECOND_ROW_END; slot++) {
                 if (emptySlot.test(slot)) {
                     return slot;
                 }
@@ -172,7 +172,7 @@ public final class WitherGoheiLoadoutService {
 
     private static boolean isShown(int slot) {
         return PlayerInventory.isValidHotbarIndex(slot)
-                || SparkFactionSecondRowCompat.isShown() && SparkFactionSecondRowCompat.isSecondRowSlot(slot);
+                || LimitedInventoryRows.isSecondRowShown() && LimitedInventoryRows.isSecondRowIndex(slot);
     }
 
     private static void finish(ServerPlayerEntity player, boolean changed) {

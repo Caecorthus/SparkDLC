@@ -255,8 +255,8 @@ public final class BlindEchoView {
                 if (!runPasses(client)) {
                     fillBlack(client);
                 } else {
-                    // Add-on see-through outlines (BlindViewApi) over the echo frame only, never the black fallback.
-                    // 附属模组透视描边（BlindViewApi）只画在回声画面上，从不画在黑屏兜底上。
+                    // See-through outlines of other features (BlindSeeThroughOutlines) over the echo frame only, never the black fallback.
+                    // 其他功能的透视描边（BlindSeeThroughOutlines）只画在回声画面上，从不画在黑屏兜底上。
                     BlindSeeThroughOutlines.render(PROJECTION, VIEW_ROTATION, cameraX, cameraY, cameraZ);
                 }
             }

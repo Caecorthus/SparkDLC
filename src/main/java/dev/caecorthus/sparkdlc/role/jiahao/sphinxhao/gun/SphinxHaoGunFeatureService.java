@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.gun;
 
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
 import dev.doctor4t.wathe.api.event.KillPlayer;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -54,7 +54,7 @@ public final class SphinxHaoGunFeatureService {
     }
 
     static void afterKill(ServerPlayerEntity victim) {
-        if (WitchFactorTraitsBridge.isDeathIntercepted(victim)) {
+        if (SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
             return;
         }
         SphinxHaoGunInventory.strip(victim);

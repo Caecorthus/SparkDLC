@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.trait.instinct;
 
-import dev.caecorthus.sparkdlc.client.bridge.traits.SparkStrengthPartyBalloonBridge;
+import dev.caecorthus.sparkdlc.client.role.killer.partyanimal.PartyBalloonClientHooks;
 import dev.caecorthus.sparkdlc.trait.compat.noellesroles.PartyAnimalInstinctRules;
 import dev.caecorthus.sparkdlc.trait.effective.EffectiveInstinctService;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
@@ -26,7 +26,7 @@ public final class PartyAnimalInstinctClientHooks {
         if (!context.isPartyAnimal()) {
             return null;
         }
-        Integer balloonColor = SparkStrengthPartyBalloonBridge.highlightColor(target);
+        Integer balloonColor = PartyBalloonClientHooks.highlightColor(target);
         HeliumBuzzPlayerComponent buzz = HeliumBuzzPlayerComponent.KEY.get(target);
         Integer heliumColor = buzz.isActive() ? PartyAnimalInstinctRules.heliumColor(buzz.getAmplifier()) : null;
         if (balloonColor == null && heliumColor == null) {

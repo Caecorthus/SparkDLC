@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.role.civilian.veteran;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.role.civilian.veteran.VeteranRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -41,7 +41,7 @@ public abstract class VeteranServerKnifeUseMixin {
             return;
         }
 
-        if (SparkTraitsCompat.isMeleeActionBlocked(user, user.getStackInHand(hand))) {
+        if (SparkTraitsApi.blocksWeaponAction(user, user.getStackInHand(hand))) {
             cir.setReturnValue(TypedActionResult.fail(user.getStackInHand(hand)));
             return;
         }

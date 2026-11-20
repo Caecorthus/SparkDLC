@@ -2,9 +2,9 @@ package dev.caecorthus.sparkdlc.role.civilian.undercover;
 
 import dev.caecorthus.sparkdlc.SparkStrength;
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkWitchCompat;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
 import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverPlayerComponent;
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponHits;
@@ -100,7 +100,7 @@ public final class UndercoverTomahawkService {
         // A SparkWitch Raven Form crow is a target too (owner 2026-10-21): the client sends the swing, the server
         // resolves it to the Black Raven. / SparkWitch 化鸦乌鸦同样是目标（所有者 2026-10-21）：客户端发送挥砍，服务端将其
         // 解析为黑羽鸦。
-        boolean crow = !(entity instanceof PlayerEntity) && SparkWitchCompat.isBlackRavenCrow(entity);
+        boolean crow = !(entity instanceof PlayerEntity) && SparkWitchApi.isBlackRavenCrow(entity);
         if (!(entity instanceof PlayerEntity) && !crow || !UndercoverRoles.isLivingStage2(player) || !charged
                 || player.getItemCooldownManager().isCoolingDown(tomahawk)) {
             return ActionResult.FAIL;
@@ -115,7 +115,7 @@ public final class UndercoverTomahawkService {
                 // SparkWitch measured the reach and line on the crow and armed its owner substitution, so the strike
                 // below (gates, kill, cooldown, 小脑) runs on the Black Raven exactly as on a direct hit.
                 // SparkWitch 已在乌鸦上量取距离与视线并装好主人替身，因此下方的劈砍（门槛、击杀、冷却、小脑）与直接命中黑羽鸦完全一致。
-                ServerPlayerEntity owner = SparkWitchCompat.crowMeleeStandIn(attacker, entity,
+                ServerPlayerEntity owner = SparkWitchApi.crowMeleeStandIn(attacker, entity,
                         UndercoverRules.TOMAHAWK_RANGE);
                 if (owner != null) {
                     strike(attacker, owner, held, tomahawk, entity.getPos());
@@ -134,9 +134,9 @@ public final class UndercoverTomahawkService {
                                @Nullable Vec3d crowPos) {
         if (!GameFunctions.isPlayerPlayingAndAlive(victim) || crowPos == null && !inReach(attacker, victim)
                 || SabotageActionLocks.isLocked(attacker)
-                || SparkTraitsCompat.isMeleeActionBlocked(attacker, held)
-                || !SparkFactionCompat.canAffectPlayer(attacker, victim, DEATH_REASON)
-                || SparkTraitsCompat.shouldCancelMeleeAttack(attacker, victim, held)) {
+                || SparkTraitsApi.blocksWeaponAction(attacker, held)
+                || !SparkFactionApi.canAffectPlayer(attacker, victim, DEATH_REASON)
+                || SparkTraitsApi.blocksOrCancelsMeleeAttack(attacker, victim, held)) {
             return;
         }
         GameWorldComponent game = GameWorldComponent.KEY.get(attacker.getServerWorld());
@@ -144,9 +144,9 @@ public final class UndercoverTomahawkService {
         // 必须在 killPlayer 之前读取：SparkTraits 会在 KillPlayer.AFTER 中清空死者天赋。
         InnocentKnifeKillRules.PreKill preKill = InnocentKnifeKillRules.beforeKill(
                 game.isInnocent(victim),
-                SparkTraitsCompat.hasImpostor(victim),
-                SparkTraitsCompat.hasConscience(victim),
-                SparkTraitsCompat.hasImpostor(attacker));
+                SparkTraitsApi.hasImpostor(victim),
+                SparkTraitsApi.hasConscience(victim),
+                SparkTraitsApi.hasImpostor(attacker));
         GameRecordManager.recordItemUse(attacker, SparkStrengthItems.TACTICAL_TOMAHAWK_ID, victim, null);
         Vec3d hitAt = crowPos != null ? crowPos : victim.getPos();
         attacker.getWorld().playSound(null, hitAt.x, hitAt.y, hitAt.z,

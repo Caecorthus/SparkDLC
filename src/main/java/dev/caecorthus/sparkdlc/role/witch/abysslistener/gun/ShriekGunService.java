@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.abysslistener.gun;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.item.firepoker.FirePokerFallAttributionService;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerDeviceEntity;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceHits;
@@ -60,7 +60,7 @@ public final class ShriekGunService {
                 OffMatchUse.mode(shooter, GameFunctions.isPlayerPlayingAndAlive(shooter) && !shooter.isSpectator()
                         && !WraithStateService.isActive(shooter)),
                 () -> shooter.getItemCooldownManager().isCoolingDown(gun.getItem()),
-                () -> SparkTraitsKillerBridge.blocksWeaponAction(shooter, gun));
+                () -> SparkTraitsApi.blocksWeaponAction(shooter, gun));
     }
 
     /**

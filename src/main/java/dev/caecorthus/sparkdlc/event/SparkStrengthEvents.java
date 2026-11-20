@@ -1,6 +1,8 @@
 package dev.caecorthus.sparkdlc.event;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
+import dev.caecorthus.sparkdlc.cooldown.provider.AdminClearedItemLocks;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
+import dev.caecorthus.sparkdlc.faction.api.DenyActionPolicy;
 import dev.caecorthus.sparkdlc.collision.PlayerCollisionGraceWorldComponent;
 import dev.caecorthus.sparkdlc.role.killer.morphling.MorphBodyDisguiseWorldComponent;
 import dev.caecorthus.sparkdlc.item.m67.M67RoundService;
@@ -91,6 +93,10 @@ public final class SparkStrengthEvents {
     }
 
     public static void register() {
+        // Admin /sparkdlc:clearCooldown also releases the item locks that the features below re-sync every tick
+        // (drones, the M67 opening, the skateboard, the democracy shield, the sabotage tablet).
+        // 管理员 /sparkdlc:clearCooldown 同时释放下列功能每刻重新同步的物品锁（无人机、M67 开局锁、滑板、民主盾牌、破坏平板）。
+        AdminClearedItemLocks.register();
         M67RoundService.initialize();
         DroneService.register();
         BomberTrapService.register();
@@ -138,7 +144,8 @@ public final class SparkStrengthEvents {
         UndercoverTomahawkService.register();
         DoorBreachService.register();
         ServerTickEvents.END_WORLD_TICK.register(UndercoverService::tick);
-        SparkFactionCompat.denyAction(UndercoverService.BELL_ECHO_ACTION, UndercoverRoles::isUndercover);
+        SparkFactionApi.registerPlayerAffectPolicy(
+                new DenyActionPolicy(UndercoverService.BELL_ECHO_ACTION, UndercoverRoles::isUndercover));
         VeteranShopService.register();
         VultureSkateboardService.register();
         // Super Curse death scream / curse stop on KillPlayer.AFTER and round end; registered after the skateboard.

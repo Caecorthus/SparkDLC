@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.sherry;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.event.KillPlayer;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -104,7 +104,7 @@ public final class SherryBadgeService {
      */
     private static void afterKill(ServerPlayerEntity victim, @Nullable ServerPlayerEntity killer,
                                   Identifier deathReason) {
-        if (!(victim.getWorld() instanceof ServerWorld world) || WitchFactorTraitsBridge.isDeathIntercepted(victim)) {
+        if (!(victim.getWorld() instanceof ServerWorld world) || SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
             return;
         }
         GameWorldComponent game = GameWorldComponent.KEY.get(world);

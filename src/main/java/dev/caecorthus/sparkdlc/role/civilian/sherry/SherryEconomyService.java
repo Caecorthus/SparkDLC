@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.role.civilian.sherry;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsCharismaBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsTaskIncomeBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.api.event.CanSeeMoney;
@@ -47,7 +47,7 @@ final class SherryEconomyService {
     }
 
     static void onTaskComplete(ServerPlayerEntity player) {
-        if (canEarn(player) && SherryRules.receivesTaskMoney(SparkTraitsTaskIncomeBridge.isImpostor(player))) {
+        if (canEarn(player) && SherryRules.receivesTaskMoney(SparkTraitsApi.hasActiveTrait(player, TraitIds.IMPOSTOR))) {
             PlayerShopComponent.KEY.get(player).addToBalance(SherryRules.TASK_COINS);
         }
     }
@@ -97,6 +97,6 @@ final class SherryEconomyService {
                 new ItemStack(SparkWitchItems.sherryBadge()), SherryRules.BADGE_PRICE, ShopEntry.Type.TOOL)
                 .stock(SherryRules.BADGE_STOCK)
                 .build();
-        context.addEntry(SparkTraitsCharismaBridge.discountShopEntry(player, badge));
+        context.addEntry(SparkTraitsApi.discountShopEntryForCharisma(player, badge));
     }
 }

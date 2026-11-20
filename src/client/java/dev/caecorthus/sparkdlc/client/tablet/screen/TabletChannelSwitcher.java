@@ -1,7 +1,6 @@
 package dev.caecorthus.sparkdlc.client.tablet.screen;
 
 import dev.caecorthus.sparkdlc.client.tablet.screen.TabletTheme.Accent;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkWitchCompat;
 import dev.caecorthus.sparkdlc.tablet.net.SelectTabletChannelC2SPacket;
 import dev.caecorthus.sparkdlc.tablet.net.TabletSnapshot;
 import dev.caecorthus.sparkdlc.tablet.TabletChannel;
@@ -151,20 +150,11 @@ final class TabletChannelSwitcher {
     }
 
     private List<TabletChannel> switcherChannels(TabletSnapshot snapshot) {
-        EnumSet<TabletChannel> allowed = snapshot.allowedChannels();
-        TabletChannel current = snapshot.channel();
         ArrayList<TabletChannel> channels = new ArrayList<>();
         // Everyone's public channel first, then the faction networks. 所有人共有的公共频道在前，其后为阵营网络。
         channels.add(TabletChannel.PUBLIC);
         for (TabletChannel channel : TabletChannel.values()) {
             if (channel == TabletChannel.PUBLIC) {
-                continue;
-            }
-            // The witch network only exists with SparkWitch installed. 只有安装 SparkWitch 时才存在魔女网络。
-            if (channel == TabletChannel.WITCH
-                    && !SparkWitchCompat.isLoaded()
-                    && channel != current
-                    && !allowed.contains(channel)) {
                 continue;
             }
             channels.add(channel);

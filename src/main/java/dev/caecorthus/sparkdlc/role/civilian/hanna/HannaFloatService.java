@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.hanna;
 
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
@@ -117,7 +117,7 @@ public final class HannaFloatService {
                 GameFunctions.isPlayerPlayingAndAlive(player) && !player.isSpectator(),
                 NoellesTaotieSeekerBridge.isSwallowed(player),
                 ControlExpertStun.isStunned(player),
-                SparkTraitsKillerBridge.isRoleSkillBlocked(player),
+                SparkTraitsApi.isRoleSkillBlocked(player),
                 state.isFloating(),
                 state.floatCooldownRemaining(now) <= 0,
                 GrandWitchFearService.isPlayerFeared(player),

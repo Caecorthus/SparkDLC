@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.item.m67;
 
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerRules;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -52,7 +52,7 @@ public final class M67ShopService {
                 .actualStack(SparkStrengthItems.m67().getDefaultStack())
                 .build();
         List<ShopEntry> result = new ArrayList<>(entries);
-        result.add(SparkTraitsCompat.discountShopEntryForCharisma(player, m67));
+        result.add(SparkTraitsApi.discountShopEntryForCharisma(player, m67));
         return result;
     }
 }

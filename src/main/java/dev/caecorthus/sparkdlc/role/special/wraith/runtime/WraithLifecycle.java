@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.special.wraith.runtime;
 import dev.caecorthus.sparkdlc.replay.api.SparkReplayApi;
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.SparkWitchRoles;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsWraithBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.component.WraithPlayerComponent;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithCommunicationPolicy;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithReconnectPolicy;
@@ -139,7 +139,7 @@ public final class WraithLifecycle {
         for (ServerPlayerEntity player : world.getPlayers()) {
             if (WraithStateService.isActive(player)) {
                 clearPlayer(player);
-                SparkTraitsWraithBridge.clear(player, true);
+                SparkTraitsApi.clearWraithTraits(player, true);
             }
         }
         WraithConversion.clearRound(world);
@@ -154,7 +154,7 @@ public final class WraithLifecycle {
     /** Ends active Wraith participation without dispatching Wathe's ordinary death pipeline. */
     public static void terminatePlayer(ServerPlayerEntity player) {
         clearPlayer(player);
-        SparkTraitsWraithBridge.clear(player, false);
+        SparkTraitsApi.clearWraithTraits(player, false);
         PlayerMoodComponent.KEY.get(player).reset();
         player.changeGameMode(GameMode.SPECTATOR);
         TrainVoicePlugin.addPlayer(player.getUuid());

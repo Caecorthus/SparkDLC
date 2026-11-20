@@ -1,8 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.athlete;
 
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsSeekerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.remote.SeekerRemoteSessionService;
 import dev.caecorthus.sparkdlc.role.killer.hunter.HunterPlayerComponent;
@@ -52,7 +51,7 @@ public final class AthleteDashService {
                 GameFunctions.isPlayerPlayingAndAlive(player) && !player.isSpectator(),
                 isHeld(player),
                 player.hasVehicle() || player.isSleeping(),
-                SparkTraitsKillerBridge.isRoleSkillBlocked(player),
+                SparkTraitsApi.isRoleSkillBlocked(player),
                 state.dashCooldownRemaining(now) <= 0,
                 GrandWitchFearService.isPlayerFeared(player));
         switch (verdict) {
@@ -102,8 +101,8 @@ public final class AthleteDashService {
         KidnapperControlComponent kidnap = KidnapperControlComponent.KEY.getNullable(player);
         HunterPlayerComponent hunter = HunterPlayerComponent.KEY.getNullable(player);
         return NoellesTaotieSeekerBridge.isSwallowed(player)
-                || SparkTraitsSeekerBridge.isLastStandPending(player)
-                || SparkTraitsKillerBridge.isLastEscapeActive(player)
+                || SparkTraitsApi.isLastStandPending(player)
+                || SparkTraitsApi.isLastEscapeActive(player)
                 || kidnap != null && kidnap.isControlled()
                 || ControlExpertStun.isStunned(player)
                 || SeekerRemoteSessionService.isLocked(player)

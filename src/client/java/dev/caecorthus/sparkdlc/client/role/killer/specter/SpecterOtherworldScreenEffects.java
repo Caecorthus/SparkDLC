@@ -8,7 +8,7 @@ import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.client.role.killer.blackraven.BlackRavenPerceptionScreenEffects;
 import dev.caecorthus.sparkdlc.client.role.civilian.blind.BlindView;
 import dev.caecorthus.sparkdlc.client.role.civilian.blind.render.BlindShaderPackCheck;
-import dev.caecorthus.sparkdlc.client.bridge.witch.SparkTraitsDepressionVisionBridge;
+import dev.caecorthus.sparkdlc.client.trait.render.DepressionScreenEffects;
 import dev.caecorthus.sparkdlc.client.render.entity.SecondaryWorldPass;
 import dev.caecorthus.sparkdlc.client.role.witch.riftwalker.session.RiftSessionClient;
 import dev.caecorthus.sparkdlc.client.scope.ScopeClient;
@@ -286,7 +286,7 @@ public final class SpecterOtherworldScreenEffects {
                 || BlindView.isActive(client)
                 || BlindShaderPackCheck.isShaderPackInUse()
                 || BlackRavenPerceptionScreenEffects.isActiveFor(player)
-                || SparkTraitsDepressionVisionBridge.drawsDepressionGrayscale(player);
+                || DepressionScreenEffects.drawsDepressionGrayscale(player);
     }
 
     /** Drops the fade state and releases the pipeline; the next window loads it again. / 清空渐变状态并释放管线。 */

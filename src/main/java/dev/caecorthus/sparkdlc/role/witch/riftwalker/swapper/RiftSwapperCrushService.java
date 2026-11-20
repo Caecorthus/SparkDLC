@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.witch.riftwalker.swapper;
 
 import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.RiftwalkerRules;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.gate.RiftGateRecord;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.gate.RiftGateRegistry;
@@ -63,7 +63,7 @@ public final class RiftSwapperCrushService {
         // 第三个所有者批准的强制终结例外（D13/C8，继丧钟与时光耗尽之后）：SparkTraits 在击杀时实时读取终结原因集合，
         // 服务端启动时注册即足够早且幂等；缺失或旧版 SparkTraits 不注册（失败关闭：由下方被否决时的回退处理）。
         ServerLifecycleEvents.SERVER_STARTING.register(server ->
-                SparkTraitsKillerBridge.registerTerminalDeathReason(RiftwalkerRules.PORTAL_CRUSHED_DEATH_REASON));
+                SparkTraitsApi.registerTerminalDeathReason(RiftwalkerRules.PORTAL_CRUSHED_DEATH_REASON));
     }
 
     /**

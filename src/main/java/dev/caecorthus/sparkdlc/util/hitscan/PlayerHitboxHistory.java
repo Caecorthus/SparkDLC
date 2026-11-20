@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.util.hitscan;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
@@ -123,7 +123,7 @@ public final class PlayerHitboxHistory {
             ArrayDeque<Sample> samples = HISTORY.computeIfAbsent(player.getUuid(), uuid -> new ArrayDeque<>());
             samples.addFirst(new Sample(tick, player.getWorld().getRegistryKey(), player.getBoundingBox(),
                     !player.isSpectator() && !player.isCreative()
-                            && !SparkTraitsKillerBridge.isLastEscapeActive(player)));
+                            && !SparkTraitsApi.isLastEscapeActive(player)));
             while (samples.size() > HitscanLagRules.HISTORY_TICKS) {
                 samples.removeLast();
             }

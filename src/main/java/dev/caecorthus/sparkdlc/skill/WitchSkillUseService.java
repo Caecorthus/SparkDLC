@@ -1,11 +1,12 @@
 package dev.caecorthus.sparkdlc.skill;
 
 import dev.caecorthus.sparkdlc.SparkWitchRoles;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillDefinition;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillRegistry;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseContext;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseResult;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.ApprenticeResonance;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
@@ -23,10 +24,22 @@ import net.minecraft.util.Identifier;
 
 
 public final class WitchSkillUseService {
+    /** Player-affect action id of a targeted witch skill. / 目标型魔女技能的玩家影响行为 id。 */
+    private static final Identifier SKILL_ACTION = Identifier.of("sparkdlc", "witch_skill");
+
     private WitchSkillUseService() {
     }
 
     public static boolean use(ServerPlayerEntity player, Optional<UUID> targetUuid) {
+        // Guards targeted witch skills before the skill body and cooldown policy run: an online target the
+        // player-affect policies protect ends the use here, silently and at no cost.
+        // 在目标型魔女技能主体与冷却策略运行前拦截使用：受玩家影响策略保护的在线目标让这次使用就此结束，没有提示也没有代价。
+        ServerPlayerEntity guardedTarget = targetUuid
+                .map(uuid -> player.getServer().getPlayerManager().getPlayer(uuid))
+                .orElse(null);
+        if (guardedTarget != null && !SparkFactionApi.allowsPlayerAction(player, guardedTarget, SKILL_ACTION)) {
+            return false;
+        }
         ServerWorld world = player.getServerWorld();
         GameWorldComponent gameComponent = GameWorldComponent.KEY.get(world);
         Role role = gameComponent.getRole(player);
@@ -48,7 +61,7 @@ public final class WitchSkillUseService {
         // SparkWitch 自有数据包不在 SparkTraits 的数据包拦截范围内，因此共享技能包与所有自有流程技能处理器一样主动查询公共
         // 门面：否则被沉默的有效杀手（忍者招架、专注脚步、绑架者拖尸）或处于脱险的玩家仍能使用技能。SparkTraits 缺失、过旧或
         // 调用失败时不拦截（桥接失败即放行）。Wathe 判定已死亡的冤魂到不了这一行。
-        if (SparkTraitsKillerBridge.isRoleSkillBlocked(player)) {
+        if (SparkTraitsApi.isRoleSkillBlocked(player)) {
             send(player, "message.sparkdlc.skill.unavailable");
             return false;
         }

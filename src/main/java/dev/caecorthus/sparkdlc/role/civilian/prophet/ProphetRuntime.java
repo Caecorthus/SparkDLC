@@ -2,10 +2,10 @@ package dev.caecorthus.sparkdlc.role.civilian.prophet;
 
 import com.mojang.authlib.GameProfile;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesHiddenBodiesBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsBodyDragBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.prophet.ProphetPlayerComponent.NecrologyEntry;
 import dev.caecorthus.sparkdlc.role.killer.magician.MagicianDecoyBodies;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthPartygoerCompat;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerCorpseComponent;
 import dev.caecorthus.sparkdlc.role.killer.hiro.returning.HiroFakeBodies;
 import dev.caecorthus.sparkdlc.role.neutral.fiend.FiendFakeBodies;
 import dev.doctor4t.wathe.api.Role;
@@ -134,7 +134,7 @@ public final class ProphetRuntime {
                         // Owner decision: Depression fake-death bodies are skipped, so the Necrology never lists a
                         // living player that the Prophecy list would then omit.
                         // 所有者决定：跳过抑郁假死尸体，避免名录记下活人而预言列表缺席，从而暴露假死。
-                        && !SparkTraitsBodyDragBridge.isConfirmedFakeDeathBody(body)
+                        && !SparkTraitsApi.isFakeDeathBody(body)
                         // A Fiend feign-death corpse is skipped the same way, silently (2026-10-16).
                         // 魔人假死尸体同样被静默跳过（2026-10-16）。
                         && !FiendFakeBodies.isFake(body)
@@ -143,7 +143,7 @@ public final class ProphetRuntime {
                         && !HiroFakeBodies.isFake(body)
                         // A killed SparkStrength Partygoer is no passenger's death: skipped silently (2026-10-21).
                         // 被打死的 SparkStrength 派对客不是乘客死亡：静默跳过（2026-10-21）。
-                        && !SparkStrengthPartygoerCompat.isPartygoerCorpse(body)
+                        && !PartygoerCorpseComponent.isPartygoerCorpse(body)
         );
         // Owner decision D8: a Magician decoy is skipped like a fake-death body (no count, outline or Necrology line);
         // the decoy registry is server-only, so the owner-synced outline set never carries one.

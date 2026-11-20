@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.judge.JudgeKillAttribution;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDamageRules;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenRules;
@@ -157,12 +157,12 @@ public final class BlackRavenCrowHits {
         }
         ItemStack bat = attacker.getMainHandStack();
         if (!bat.isOf(WatheItems.BAT) || attacker.getAttackCooldownProgress(0.5F) < 1.0F
-                || SparkTraitsKillerBridge.blocksWeaponAction(attacker, bat)
+                || SparkTraitsApi.blocksWeaponAction(attacker, bat)
                 || !BlackRavenCrowTargets.inMeleeReach(attacker, target, BlackRavenCrowHitRules.MELEE_REACH)) {
             return false;
         }
         attacker.resetLastAttackedTicks();
-        if (SparkTraitsKillerBridge.shouldCancelMeleeAttack(attacker, target.owner(), bat)) {
+        if (SparkTraitsApi.shouldCancelMeleeAttack(attacker, target.owner(), bat)) {
             return true;
         }
         Vec3d at = target.crow().getPos();
@@ -476,7 +476,7 @@ public final class BlackRavenCrowHits {
         List<PotionBackblastRules.Hit<BlackRavenCrowTargets.Target>> hits = new ArrayList<>();
         for (BlackRavenCrowTargets.Target target : BlackRavenCrowTargets.live(world, gunner)) {
             ServerPlayerEntity owner = target.owner();
-            if (!GameFunctions.isPlayerPlayingAndAlive(owner) || SparkTraitsKillerBridge.isLastEscapeActive(owner)
+            if (!GameFunctions.isPlayerPlayingAndAlive(owner) || SparkTraitsApi.isLastEscapeActive(owner)
                     || !SparkFactionApi.canAffectPlayer(gunner, owner, action, game)) {
                 continue;
             }
@@ -635,10 +635,10 @@ public final class BlackRavenCrowHits {
     }
 
     /**
-     * SparkStrength M67 blast, from {@code SparkStrengthM67Compat} after its match-grenade gate (SparkStrength kills the
+     * SparkStrength M67 blast, from {@code M67MatchBlastHits} after its match-grenade gate (SparkStrength kills the
      * players itself): every crow whose box centre lies in the M67 kill sphere with a clear line from the centre (the
      * Magician puppet's measure) kills its owner ({@code killOwnerVia}, {@code wathe:grenade}, the thrower credited).
-     * Never the thrower's own crow. / SparkStrength M67 爆炸，由 {@code SparkStrengthM67Compat} 在其对局手雷门槛之后调用
+     * Never the thrower's own crow. / SparkStrength M67 爆炸，由 {@code M67MatchBlastHits} 在其对局手雷门槛之后调用
      * （玩家由 SparkStrength 自行击杀）：箱体中心位于 M67 击杀球内且与爆心视线畅通（魔术师皮套的量法）的每只乌鸦处死其主人
      * （{@code killOwnerVia}，{@code wathe:grenade}，记在投掷者名下）。从不包括投掷者自己的乌鸦。
      */

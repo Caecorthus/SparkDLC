@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.cooldown.provider;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
+import dev.caecorthus.sparkdlc.cooldown.api.AdminCooldownClear;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindComponent;
 import dev.caecorthus.sparkdlc.role.civilian.fisher.FisherFishUse;
 import dev.caecorthus.sparkdlc.role.civilian.fisher.item.FisherFishKind;
@@ -19,12 +20,12 @@ import java.util.OptionalLong;
  * Removing a SparkWitch item's vanilla cooldown ({@code ItemCooldownManager.remove}: SparkFactionAPI
  * {@code clearCooldown}, Wathe's round reset) also releases the SparkWitch timer that gates the same item, so the item
  * is really usable when its slot shows ready. Server only: {@link #onRemoved} from {@code ItemCooldownRemovalMixin},
- * {@link #onAdminCleared} from {@code SparkFactionClearCooldownMixin}. Wathe's reset runs before {@code ResetPlayer},
- * which clears these timers anyway.
+ * {@link #onAdminCleared} from {@link #afterAdminRemove}, the {@code AdminCooldownClear} listener. Wathe's reset runs
+ * before {@code ResetPlayer}, which clears these timers anyway.
  * 移除 SparkWitch 物品的原版冷却（{@code ItemCooldownManager.remove}：SparkFactionAPI {@code clearCooldown}、Wathe
  * 开局重置）时，同时释放门控同一物品的 SparkWitch 计时，使栏位显示就绪时物品确实可用。仅服务端：{@link #onRemoved}
- * 由 {@code ItemCooldownRemovalMixin} 调用，{@link #onAdminCleared} 由 {@code SparkFactionClearCooldownMixin} 调用。
- * Wathe 的重置先于 {@code ResetPlayer}，后者本就会清除这些计时。
+ * 由 {@code ItemCooldownRemovalMixin} 调用，{@link #onAdminCleared} 由 {@code AdminCooldownClear} 的监听器
+ * {@link #afterAdminRemove} 调用。Wathe 的重置先于 {@code ResetPlayer}，后者本就会清除这些计时。
  */
 public final class SparkWitchItemCooldownReleases {
     private SparkWitchItemCooldownReleases() {
@@ -71,9 +72,24 @@ public final class SparkWitchItemCooldownReleases {
     }
 
     /**
-     * Admin clear only ({@code SparkFactionClearCooldownMixin}), after {@link #onRemoved} already ran: Saint Karma stops
+     * Marks the admin path only ({@code /sparkdlc:clearCooldown}, as an {@code AdminCooldownClear} listener after the
+     * command's {@code remove}): when that remove really cleared the held item (it was cooling down before and is not
+     * any more), the clear also sticks against Saint Karma. Role mechanics that remove a cooldown (NoellesRoles
+     * Catalyst, the Bomber pass) never come through here, so Karma still re-covers those items.
+     * 只标记管理员路径（{@code /sparkdlc:clearCooldown}，作为 {@code AdminCooldownClear} 的监听器在命令的 {@code remove}
+     * 之后运行）：该 {@code remove} 真正清除了手持物品的冷却（此前处于冷却、此时已不再冷却）时，该清除对圣徒业障也保持有效。
+     * 移除冷却的职业机制（NoellesRoles 催化剂、投弹手传递）不经过这里，因此业障仍会重新覆盖那些物品。
+     */
+    static void afterAdminRemove(ServerPlayerEntity player, Item item, boolean wasCooling) {
+        if (wasCooling && AdminCooldownClear.tookEffect(player, item)) {
+            onAdminCleared(player, item);
+        }
+    }
+
+    /**
+     * Admin clear only ({@link #afterAdminRemove}), after {@link #onRemoved} already ran: Saint Karma stops
      * re-covering the item for the rest of the running Karma.
-     * 仅管理员清除（{@code SparkFactionClearCooldownMixin}），在 {@link #onRemoved} 之后调用：本次业障剩余时间内不再覆盖该物品。
+     * 仅管理员清除（{@link #afterAdminRemove}），在 {@link #onRemoved} 之后调用：本次业障剩余时间内不再覆盖该物品。
      */
     public static void onAdminCleared(ServerPlayerEntity player, Item item) {
         SaintKarmaCooldownService.exemptAdminCleared(player, item);

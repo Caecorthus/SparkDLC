@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.killer.bellringer;
 import dev.caecorthus.sparkdlc.SparkWitchSounds;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseContext;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseResult;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.cca.GameTimeComponent;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
@@ -40,7 +40,7 @@ public final class BellRingerEchoService {
         }
         // SparkWitch packets are not covered by SparkTraits' own packet gate, so ask the facade here.
         // SparkWitch 自有数据包不在 SparkTraits 的数据包拦截范围内，因此在此主动查询公共门面。
-        if (SparkTraitsKillerBridge.isRoleSkillBlocked(caster) || caster.isSpectator()) {
+        if (SparkTraitsApi.isRoleSkillBlocked(caster) || caster.isSpectator()) {
             return WitchSkillUseResult.fail("message.sparkdlc.bell_echo.blocked");
         }
         GameWorldComponent game = context.gameComponent();

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker;
 
 import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthTabletCompat;
+import dev.caecorthus.sparkdlc.tablet.TabletItemLookup;
 import dev.doctor4t.wathe.api.Role;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -235,7 +235,7 @@ public final class SeekerRules {
      * Q7：仅当 SparkStrength 平板物品存在时（只按注册 id）才会抽到搜寻者。
      */
     public static boolean shouldAppear() {
-        return SparkStrengthTabletCompat.tabletItem().isPresent();
+        return TabletItemLookup.tabletItem().isPresent();
     }
 
     /**

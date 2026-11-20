@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.role.neutral.ferryman;
 
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthCoronerCompat;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerInventoryRules;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowForm;
 import dev.caecorthus.sparkdlc.role.killer.kidnapper.KidnapperControlComponent;
@@ -80,7 +80,7 @@ public final class FerrymanFeignService {
         // SparkTraits 在击杀时读取终结原因，背水一战因此不会把被吞食的死亡变成复活；服务端启动时注册即足够早且幂等
         // （沿用魔人 FIEND_DEVOURED 的做法）。
         ServerLifecycleEvents.SERVER_STARTING.register(server ->
-                SparkTraitsKillerBridge.registerTerminalDeathReason(SparkWitchDeathReasons.FERRYMAN_FEIGN));
+                SparkTraitsApi.registerTerminalDeathReason(SparkWitchDeathReasons.FERRYMAN_FEIGN));
     }
 
     public static boolean isFeigning(@Nullable ServerPlayerEntity player) {
@@ -356,7 +356,7 @@ public final class FerrymanFeignService {
         if (!world.spawnEntity(body)) {
             return null;
         }
-        SparkStrengthCoronerCompat.recordBodyRole(body, WatheRoles.CIVILIAN.identifier());
+        CoronerService.recordBodyRole(body, WatheRoles.CIVILIAN.identifier());
         return body;
     }
 

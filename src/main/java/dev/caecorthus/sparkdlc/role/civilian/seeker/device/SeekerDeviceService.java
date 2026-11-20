@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker.device;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkFactionSecondRowCompat;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthTabletCompat;
+import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
+import dev.caecorthus.sparkdlc.tablet.TabletItemLookup;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerBreakSource;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerCarState;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerDeviceKind;
@@ -149,7 +149,7 @@ public final class SeekerDeviceService {
      */
     public static TypedActionResult<ItemStack> useDeployedCarItem(ServerPlayerEntity owner, Hand hand) {
         ItemStack stack = owner.getStackInHand(hand);
-        if (SparkStrengthTabletCompat.isAvailable()) {
+        if (TabletItemLookup.isAvailable()) {
             actionBar(owner, CAR_USE_TABLET);
         }
         return TypedActionResult.fail(stack);
@@ -420,7 +420,7 @@ public final class SeekerDeviceService {
                 mainEmpty[index] = inventory.main.get(index).isEmpty();
             }
             int slot = chooseReturnSlot(originalSlot, originalEmpty, mainEmpty, PlayerInventory.getHotbarSize(),
-                    SparkFactionSecondRowCompat.isShown());
+                    LimitedInventoryRows.isSecondRowShown());
             if (slot < 0) {
                 if (!status.pendingReturn()) {
                     status.apply(status.state().setPendingReturn(true));
@@ -665,8 +665,8 @@ public final class SeekerDeviceService {
             }
         }
         if (secondRowShown) {
-            int end = Math.min(SparkFactionSecondRowCompat.SECOND_ROW_END, mainEmpty.length);
-            for (int index = SparkFactionSecondRowCompat.SECOND_ROW_START; index < end; index++) {
+            int end = Math.min(LimitedInventoryRows.SECOND_ROW_END, mainEmpty.length);
+            for (int index = LimitedInventoryRows.SECOND_ROW_START; index < end; index++) {
                 if (mainEmpty[index]) {
                     return index;
                 }

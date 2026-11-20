@@ -16,7 +16,7 @@ _Avoid_: server config, game settings
 
 **SparkDLC settings screen**:
 The one screen, opened from vanilla Accessibility, the pause-menu gear or the Music & Sounds shortcut, that shows every
-SparkDLC client setting: SparkAssist's own, SparkWitch's scope settings through its public `ScopeSettingsApi`, and
+SparkDLC client setting: SparkAssist's own, SparkWitch's scope settings through `client.scope.ScopeSettingsEditor`, and
 Wathe's snow settings. Laid out like Sodium's options (page tabs, grouped rows, a description panel); values apply at
 once, and each config file is written once per committed change. Server and admin settings never appear here.
 _Avoid_: config menu, mod menu, options screen (vanilla's)
@@ -112,9 +112,9 @@ A value fixed when a round starts that picks this round's decoration variants (s
 is kept after the round ends so the lobby and title screen show the last round's look.
 _Avoid_: world seed, random
 
-**Card decoration bridge**:
-SparkWitch's and SparkTraits' reflective call into SparkAssist's public `GuidebookDecorApi` at two points of
-their card draw; a no-op without SparkAssist.
+**Card decoration**:
+The role card's and the trait card's call into the guidebook's `GuidebookDecorApi` (each through its own
+`GuidebookCardDecor`) at two points of their card draw; a failure disables that card's decoration for the session.
 _Avoid_: dependency, mixin
 
 **Hidden achievement**:

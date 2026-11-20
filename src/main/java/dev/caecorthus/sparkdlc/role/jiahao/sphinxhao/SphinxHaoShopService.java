@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.jiahao.sphinxhao;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsShopEntryPreserver;
+import dev.caecorthus.sparkdlc.trait.api.TraitShopEntries;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.api.event.CanSeeMoney;
 import dev.doctor4t.wathe.api.event.ShopPurchase;
@@ -59,13 +59,13 @@ public final class SphinxHaoShopService {
         if (!SphinxHaoParticipation.isSphinxHao(player)) {
             return;
         }
-        List<ShopEntry> preservedTraitEntries = SparkTraitsShopEntryPreserver.capture(context);
+        List<ShopEntry> preservedTraitEntries = TraitShopEntries.capture(context);
         context.clearEntries();
         Item ammo = fistAmmo();
         if (ammo != null) {
             context.addEntry(fistAmmoEntry(ammo));
         }
-        SparkTraitsShopEntryPreserver.restore(context, preservedTraitEntries);
+        TraitShopEntries.restore(context, preservedTraitEntries);
     }
 
     /** The GUN package's ammo item, or null while it is not registered. / GUN 包的子弹物品；未注册时为 null。 */

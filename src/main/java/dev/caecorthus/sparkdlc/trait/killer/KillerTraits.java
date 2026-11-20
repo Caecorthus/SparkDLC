@@ -4,7 +4,6 @@ import dev.caecorthus.sparkdlc.SparkTraits;
 import dev.caecorthus.sparkdlc.trait.api.TraitAudience;
 import dev.caecorthus.sparkdlc.trait.api.TraitDefinition;
 import dev.caecorthus.sparkdlc.trait.api.TraitRegistry;
-import dev.caecorthus.sparkdlc.bridge.traits.SparkStrengthTeamEconomyBridge;
 import dev.caecorthus.sparkdlc.trait.killer.combat.CloseQuartersService;
 import net.minecraft.util.Identifier;
 import dev.caecorthus.sparkdlc.trait.killer.conscience.ConscienceTrait;
@@ -61,8 +60,7 @@ public final class KillerTraits {
                 .build());
         TraitRegistry.register(base(CORNERED, 0x6F263D).build());
         TraitRegistry.register(base(TEAM_FIRST, 0xD6A640)
-                .predicate(context -> KillerTraitService.canSelectKillerTrait(context.role(), context.selectedTraitIds())
-                        && SparkStrengthTeamEconomyBridge.isAvailable())
+                .predicate(context -> KillerTraitService.canSelectKillerTrait(context.role(), context.selectedTraitIds()))
                 .build());
         TraitRegistry.register(base(EXHILARATED, 0xE86B35).build());
         TraitRegistry.register(base(CLOSE_QUARTERS, 0xA93236)
@@ -74,10 +72,10 @@ public final class KillerTraits {
                 .predicate(context -> KillerTraitService.canSelectKillerTrait(context.role(), context.selectedTraitIds())
                         && HerculeanStrengthService.hasThrowableAccess(context.player()))
                 .build());
-        TraitRegistry.register(new MasterSaboteurTrait(base(MASTER_SABOTEUR, 0x4A5A8C)
+        TraitRegistry.register(base(MASTER_SABOTEUR, 0x4A5A8C)
                 .predicate(context -> KillerTraitService.canSelectKillerTrait(context.role(), context.selectedTraitIds())
                         && KillerTraitService.canSabotage(context.player()))
-                .build()));
+                .build());
         // Close Quarters already owns the knife windup; stacking both would leave Seasoned without an effect.
         // 狭路相逢已接管举刀前摇，两者叠加会让老练失去效果。
         TraitRegistry.register(base(SEASONED, 0x8C9AA6)

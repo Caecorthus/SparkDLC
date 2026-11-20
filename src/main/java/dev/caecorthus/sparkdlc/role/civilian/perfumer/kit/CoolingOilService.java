@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.perfumer.kit;
 
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.kit.PerfumerScentComponent;
 import dev.caecorthus.sparkdlc.entity.CoolingOilEntity;
 import dev.caecorthus.sparkdlc.item.grenade.GrenadeBlastService;
@@ -73,7 +73,7 @@ public final class CoolingOilService {
                 && !PerfumerRules.isPerfumer(game.getRole(player)));
         for (ServerPlayerEntity victim : GrenadeBlastService.filterVictims(world, oil, candidates,
                 PerfumerRules.COOLING_OIL_RADIUS)) {
-            if (owner != null && !SparkFactionCompat.canAffectPlayer(owner, victim, PerfumerRules.COOLING_OIL_ACTION_ID)) {
+            if (owner != null && !SparkFactionApi.canAffectPlayer(owner, victim, PerfumerRules.COOLING_OIL_ACTION_ID)) {
                 continue;
             }
             PerfumerScentComponent.KEY.get(victim).applyCoolingOil();

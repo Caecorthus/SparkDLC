@@ -112,7 +112,21 @@ def assistClientOnlyViolations = { metadata ->
 // assist 的 mixin 在两份合并 mixin 配置（已解析的 JSON，源文件或打包后）中的位置：全部位于客户端配置的 `client` 下，
 // 其他位置一个都没有。清单中没有任何 assist mixin 时失败。
 def assistMixinPlacementViolations = { commonConfig, clientConfig ->
-    def assistMixins = legacyModules.classNames("assist", "mixins")
+    // The manifest is history: a mixin it lists whose source is gone was dissolved after the move (a mixin into one of
+    // the mod's own classes became a direct call there). Only the remaining ones have to be listed, and a dissolved
+    // one must not be listed any more.
+    // 清单是历史记录：清单列出但源码已不存在的 mixin 是搬迁之后拆除的（注入模组自有类的 mixin 改成了其中的直接调用）。只要求
+    // 列出仍然存在的 mixin，已拆除的不得再被列出。
+    def remainingAssistClasses = legacyModules.sources("assist").collect { source ->
+        def path = source.path.replace('\\', '/')
+        path.substring(path.lastIndexOf("/java/") + "/java/".length(), path.length() - ".java".length()).replace('/', '.')
+    } as Set
+    def manifestAssistMixins = legacyModules.classNames("assist", "mixins")
+    def assistMixins = manifestAssistMixins.intersect(remainingAssistClasses)
+    if (assistMixins.isEmpty()) {
+        throw new GradleException("None of the ${manifestAssistMixins.size()} assist mixins of the move manifest exists any more; the placement check would check nothing")
+    }
+    def dissolvedAssistMixins = manifestAssistMixins - assistMixins
     def listedClasses = { config, String key ->
         (config?.get(key) ?: []).collect { "${config.package}.${it}".toString() } as Set
     }
@@ -120,6 +134,11 @@ def assistMixinPlacementViolations = { commonConfig, clientConfig ->
     def missing = assistMixins - listedClasses(clientConfig, "client")
     if (!missing.isEmpty()) {
         violations.add("${assistClientMixinConfig} does not list the assist client mixins ${missing.sort()}".toString())
+    }
+    def stillListed = (listedClasses(clientConfig, "client") + listedClasses(commonConfig, "client") +
+            listedClasses(commonConfig, "mixins")).intersect(dissolvedAssistMixins)
+    if (!stillListed.isEmpty()) {
+        violations.add("a mixin config still lists dissolved assist mixins ${stillListed.sort()}".toString())
     }
     [(commonMixinConfig): commonConfig, (assistClientMixinConfig): clientConfig].each { label, config ->
         ["mixins", "server"].each { key ->

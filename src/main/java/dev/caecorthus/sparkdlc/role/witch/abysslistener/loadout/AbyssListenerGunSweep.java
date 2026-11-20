@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.abysslistener.loadout;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkFactionSecondRowCompat;
+import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import dev.caecorthus.sparkdlc.util.OffMatchUse;
 import dev.caecorthus.sparkdlc.util.StaggeredSweep;
 import java.util.List;
@@ -113,11 +113,11 @@ final class AbyssListenerGunSweep {
      */
     static int displacementSlot(boolean secondRowShown, int vacated, IntPredicate emptySlot) {
         if (secondRowShown) {
-            if (SparkFactionSecondRowCompat.isSecondRowSlot(vacated)) {
+            if (LimitedInventoryRows.isSecondRowIndex(vacated)) {
                 return vacated;
             }
-            for (int slot = SparkFactionSecondRowCompat.SECOND_ROW_START;
-                 slot < SparkFactionSecondRowCompat.SECOND_ROW_END; slot++) {
+            for (int slot = LimitedInventoryRows.SECOND_ROW_START;
+                 slot < LimitedInventoryRows.SECOND_ROW_END; slot++) {
                 if (emptySlot.test(slot)) {
                     return slot;
                 }

@@ -159,11 +159,11 @@ public final class VultureSkateboardService {
 
     /**
      * Admin path only: SparkFactionAPI {@code /sparkdlc:clearCooldown} just removed this player's skateboard
-     * cooldown (called through {@code SparkFactionAdminClear}). That remove alone does not stick (the opening lock
+     * cooldown (called through {@code AdminClearedItemLocks}). That remove alone does not stick (the opening lock
      * and the ride cooldown are re-synced every tick from the round), so the player's board ignores the opening lock
      * for the rest of this round and the current ride + cooldown is over now. A ride in progress keeps going; the next
      * ride sets a normal cooldown. No-op outside a round; role mechanics that remove cooldowns never call this.
-     * 仅管理员路径：SparkFactionAPI /sparkdlc:clearCooldown 刚移除了该玩家的滑板冷却（经由 SparkFactionAdminClear
+     * 仅管理员路径：SparkFactionAPI /sparkdlc:clearCooldown 刚移除了该玩家的滑板冷却（经由 AdminClearedItemLocks
      * 调用）。仅移除原版冷却无效（开局锁与滑行冷却每刻按回合状态重新同步），因此本回合剩余时间内该玩家的滑板不再受开局锁约束，
      * 当前的“滑行 + 冷却”也立即结束。进行中的滑行继续；下一次滑行照常设置冷却。不在回合中时不做任何事；移除冷却的职业机制
      * 不会调用此方法。

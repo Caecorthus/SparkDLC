@@ -1,5 +1,7 @@
 package dev.caecorthus.sparkdlc.client.ponder;
 
+import dev.caecorthus.sparkdlc.entity.DroneEntity;
+import dev.caecorthus.sparkdlc.role.killer.bomber.drone.DroneState;
 import static dev.caecorthus.sparkdlc.client.ponder.SparkPonderDemos.item;
 import static dev.caecorthus.sparkdlc.client.ponder.SparkPonderDemos.role;
 import static dev.caecorthus.sparkdlc.client.ponder.SparkPonderDemos.scene;
@@ -11,7 +13,6 @@ import static dev.caecorthus.sparkdlc.client.ponder.WatheItemScenes.WEST;
 import static dev.caecorthus.sparkdlc.client.ponder.WatheItemScenes.stack;
 
 import dev.doctor4t.wathe.index.WatheParticles;
-import java.lang.reflect.Field;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -43,7 +44,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.CustomModelDataComponent;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.data.TrackedData;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.DustParticleEffect;
@@ -626,7 +626,7 @@ final class NoellesKillerScenes {
         scene.idle(10);
         // DroneCombatService.fire: the armed M67 leaves from under the hull and falls straight down.
         // fire：拉了环的 M67 从机腹下方离开，竖直落下。
-        scene.world().modifyEntity(drone, entity -> droneData(entity, "PAYLOAD", false));
+        scene.world().modifyEntity(drone, entity -> dronePayload(entity, false));
         ElementLink<ThrownElement> grenade = Actors.toss(scene, armedM67(), new Vec3d(3.0, 2.33, 6.2), drop, 7, 0,
                 true, ThrownElement.Flight.UPRIGHT);
         SceneCaptions.keyframeCaption(scene, 35, "左键投下 M67：3.5 秒后爆炸");
@@ -1195,26 +1195,28 @@ final class NoellesKillerScenes {
         return scene.world().createEntity(world -> {
             Entity drone = Registries.ENTITY_TYPE.get(Identifier.of("sparkdlc", kind)).create(world);
             drone.refreshPositionAndAngles(at.x, at.y, at.z, yaw, 0);
-            droneData(drone, "PAYLOAD", kind.equals("grenade_drone"));
+            dronePayload(drone, kind.equals("grenade_drone"));
             return drone;
         });
     }
 
     /**
-     * Set one of DroneEntity's synced fields (STATE: 0 grounded, 1 hovering, 2 flying; PAYLOAD) as the server would.
-     * The modules are fused in SparkDLC, but both fields are private to SparkStrength's DroneEntity, so the field is
-     * still looked up by name; if it is missing the drone simply keeps its default look.
-     * 像服务端那样设置 DroneEntity 的同步字段（STATE：0 停放、1 悬停、2 飞行；PAYLOAD 挂载）。各模块已融合进 SparkDLC，
-     * 但这两个字段是 SparkStrength 的 DroneEntity 的私有字段，所以仍按名字查找；找不到时无人机保持默认外观。
+     * Set the drone's synced payload flag as the server would; an entity of another type keeps its default look.
+     * 像服务端那样设置无人机的同步挂载标记；若实体不是无人机则保持默认外观。
      */
-    @SuppressWarnings("unchecked")
-    private static <T> void droneData(Entity drone, String field, T value) {
-        try {
-            Field data = drone.getClass().getDeclaredField(field);
-            data.setAccessible(true);
-            drone.getDataTracker().set((TrackedData<T>) data.get(null), value);
-        } catch (ReflectiveOperationException | ClassCastException e) {
-            // Another SparkStrength version: keep the default look. 其他版本的 SparkStrength：保持默认外观。
+    private static void dronePayload(Entity drone, boolean payload) {
+        if (drone instanceof DroneEntity entity) {
+            entity.setPayload(payload);
+        }
+    }
+
+    /**
+     * Set the drone's synced flight state as the server would, so its rotors and banking render for it.
+     * 像服务端那样设置无人机的同步飞行状态，使旋翼与倾斜按该状态渲染。
+     */
+    private static void droneState(Entity drone, DroneState state) {
+        if (drone instanceof DroneEntity entity) {
+            entity.setState(state);
         }
     }
 
@@ -1256,8 +1258,6 @@ final class NoellesKillerScenes {
      * Ponder 的世界不会重置实体的上一位置，所以在这里设置，供渲染器计算倾斜。
      */
     private static final class DroneFlight extends TickingInstruction {
-        private static final byte HOVERING = 1;
-        private static final byte FLYING = 2;
         private final ElementLink<EntityElement> link;
         private final Vec3d step;
         private final boolean sideways;
@@ -1279,7 +1279,7 @@ final class NoellesKillerScenes {
                 return;
             }
             element.ifPresent(drone -> {
-                droneData(drone, "STATE", remainingTicks > 0 ? FLYING : HOVERING);
+                droneState(drone, remainingTicks > 0 ? DroneState.FLYING : DroneState.HOVERING);
                 drone.prevX = drone.getX();
                 drone.prevY = drone.getY();
                 drone.prevZ = drone.getZ();

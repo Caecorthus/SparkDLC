@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.detective;
 
 import dev.caecorthus.sparkdlc.SparkStrength;
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCasePlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCaseWorldComponent;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerCorpseComponent;
@@ -487,7 +487,7 @@ public final class DetectiveCaseService {
         // Player-affect policies (a Rift Gate occupant, an active Wraith) judge online players only.
         // 玩家影响策略（裂隙门内、冤魂状态）只能判断在线玩家。
         ServerPlayerEntity suspect = onlineIn(world, targetUuid);
-        boolean shielded = suspect != null && !SparkFactionCompat.canAffectPlayer(user, suspect, MAGNIFIER_ACTION_ID);
+        boolean shielded = suspect != null && !SparkFactionApi.canAffectPlayer(user, suspect, MAGNIFIER_ACTION_ID);
         boolean caseVictim = snapshot != null
                 && (targetUuid.equals(snapshot.victimUuid()) || targetUuid.equals(selected.getVictimDisplayUuid()));
         boolean present = snapshot != null && DetectiveCaseRules.answersWithDistance(

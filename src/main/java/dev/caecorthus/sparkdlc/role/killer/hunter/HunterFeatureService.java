@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.hunter;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsAbyssListenerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.caecorthus.sparkdlc.faction.api.PoliceRoles;
 import dev.caecorthus.sparkdlc.cooldown.api.CooldownKind;
 import dev.caecorthus.sparkdlc.cooldown.api.ForcedCooldowns;
@@ -202,7 +203,7 @@ public final class HunterFeatureService {
             registeredPolice = false;
         }
         return HunterRules.isTrapPolice(role.identifier(), registeredPolice)
-                || Boolean.TRUE.equals(SparkTraitsAbyssListenerBridge.isImpostorActive(player));
+                || SparkTraitsApi.hasActiveTrait(player, TraitIds.IMPOSTOR);
     }
 
     /**

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.role.civilian.saint;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.item.ceremonialsword.CeremonialSwordProtectionPolicy;
 import dev.caecorthus.sparkdlc.role.civilian.saint.SaintFeatureService;
 import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorRules;
@@ -49,7 +49,7 @@ public abstract class GameFunctionsSaintProtectionMixin {
         }
         // Traits owns active-phase immunity and its train/lifecycle exceptions before protection costs.
         // Traits 在消耗保护前裁定脱险无敌及列车/生命周期例外。
-        if (SparkTraitsKillerBridge.isLastEscapeActive(victim)) {
+        if (SparkTraitsApi.isLastEscapeActive(victim)) {
             return;
         }
         if (CeremonialSwordProtectionPolicy.cancelsDeath(

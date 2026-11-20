@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.controlexpert;
 
 import dev.caecorthus.sparkdlc.client.role.civilian.bear.smoke.SmokeTargetOcclusion;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsControlExpertBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertRules;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertTaserTargeting;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.TaserItem;
@@ -33,7 +33,7 @@ public final class TaserClientTargeting {
                 || !ControlExpertRules.isControlExpert(GameWorldComponent.KEY.get(player.getWorld()).getRole(player))) {
             return false;
         }
-        double range = ControlExpertRules.taserRange(SparkTraitsControlExpertBridge.marksmanRangeMultiplier(player));
+        double range = ControlExpertRules.taserRange(SparkTraitsApi.getMarksmanRangeMultiplier(player));
         PlayerEntity target = ControlExpertTaserTargeting.findTarget(player, range, player.clientWorld.getPlayers(),
                 TaserClientTargeting::isVisibleCandidate);
         // A target hidden by BEAR smoke does not light the hint (hint only). / 被 BEAR 烟雾挡住的目标不点亮提示（仅提示）。

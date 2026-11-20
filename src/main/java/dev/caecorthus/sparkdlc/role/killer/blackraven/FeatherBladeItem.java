@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceHits;
 import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaInteractionService;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit.BlackRavenCrowHits;
@@ -26,7 +26,7 @@ public final class FeatherBladeItem extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);
-        if (SparkTraitsKillerBridge.blocksWeaponAction(user, stack)) {
+        if (SparkTraitsApi.blocksWeaponAction(user, stack)) {
             return TypedActionResult.fail(stack);
         }
         if (world.isClient) {

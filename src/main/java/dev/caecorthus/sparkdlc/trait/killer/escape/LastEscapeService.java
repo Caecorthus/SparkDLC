@@ -42,6 +42,11 @@ public final class LastEscapeService {
         if (registered) return;
         registered = true;
         SparkFactionApi.registerEntityCollisionExemption(entity -> entity instanceof PlayerEntity player && isActive(player));
+        // The train exception retains attribution, but cannot be vetoed as friendly fire: a train death of an active
+        // Last Escape holder is let through before any player-affect policy is asked.
+        // 列车例外保留归因，但不能被当作友伤否决：绝处逢生生效者的坠车死亡在询问任何玩家影响策略之前即被放行。
+        SparkFactionApi.registerPlayerAffectExemption(
+                (actor, target, reason) -> isActive(target) && isTrainDeath(reason));
         ServerLifecycleEvents.SERVER_STARTED.register(server -> runningServer = server);
         GameEvents.ON_GAME_START.register(mode -> {
             if (runningServer != null) runningServer.getWorlds().forEach(LastEscapeService::clearRound);

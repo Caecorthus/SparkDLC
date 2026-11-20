@@ -3,8 +3,7 @@ package dev.caecorthus.sparkdlc.item.m1903a4;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.SparkWitchSounds;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsGunBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RangedSmokeCarve;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertTaserTargeting;
@@ -86,7 +85,7 @@ public final class M1903A4Combat {
         OffMatchUse.Mode mode = OffMatchUse.mode(shooter,
                 GameFunctions.isPlayerPlayingAndAlive(shooter) && !shooter.isSpectator());
         return M1903A4Rules.decide(new M1903A4Rules.Facts(mode, mainHand, shooter.isSpectator(), isHeld(shooter),
-                mainHand && SparkTraitsKillerBridge.blocksWeaponAction(shooter, rifle), coolingDown, loaded));
+                mainHand && SparkTraitsApi.blocksWeaponAction(shooter, rifle), coolingDown, loaded));
     }
 
     /**
@@ -150,11 +149,11 @@ public final class M1903A4Combat {
      * Nearest wins along the one rewound eye ray, in the Sphinx Hao fist's (and Hunter centre ray's) order: a Raven
      * Form crow nearer than the picked player, every puppet and every breakable device is hit and its owner becomes the
      * victim; else a nearer Magician puppet ends (no kill, the Magician is paid); else the Seeker seam, which
-     * SparkStrength may also hook by name: a nearer breakable Seeker device breaks, a Partygoer dies or a Bomber drone
+     * asks Partygoers and Bomber drones too: a nearer breakable Seeker device breaks, a Partygoer dies or a Bomber drone
      * breaks, and null comes back. Read-only queries first, then exactly one write.
      * 沿唯一一条回溯眼睛射线的最近者命中，顺序与狮身豪拳头（及猎人猎枪中心射线）一致：比所选玩家、所有皮套与所有可打坏设备都更近
      * 的化鸦乌鸦被命中，其主人成为受害者；否则更近的魔术师皮套被结束（未击杀，魔术师获得报酬）；否则进入搜寻者接缝，
-     * SparkStrength 也可按方法名挂接：更近且可打坏的搜寻者设备被打坏、派对客死亡或轰炸者无人机被击毁，并返回 null。先做只读查询，
+     * 它同时询问派对客与轰炸者无人机：更近且可打坏的搜寻者设备被打坏、派对客死亡或轰炸者无人机被击毁，并返回 null。先做只读查询，
      * 然后恰好一次写入。
      */
     private static Hit resolve(ServerPlayerEntity shooter, ItemStack rifle, @Nullable ServerPlayerEntity picked,
@@ -173,10 +172,10 @@ public final class M1903A4Combat {
         SeekerDeviceEntity device = SeekerDeviceHits.m1903a4Absorber(shooter, picked, RANGE);
         Vec3d deviceStop = device == null ? null
                 : entryPoint(start, rayEnd, List.of(device.getBoundingBox()), device.getBoundingBox().getCenter());
-        // Frozen seam, once per shot, full range: SparkStrength may hook it by name (Partygoer / Bomber drone, cut at the
-        // first block); null means a device, a Partygoer or a drone took the round.
-        // 冻结接缝，每发一次、满射程：SparkStrength 可按方法名挂接（派对客 / 轰炸者无人机，在第一个方块处截断）；返回 null 表示
-        // 设备、派对客或无人机吃下了子弹。
+        // Once per shot, full range: the seam also asks Partygoers and Bomber drones (cut at the first block); null
+        // means a device, a Partygoer or a drone took the round.
+        // 每发一次、满射程：该接缝同时询问派对客与轰炸者无人机（在第一个方块处截断）；返回 null 表示设备、派对客或无人机
+        // 吃下了子弹。
         ServerPlayerEntity target = SeekerDeviceHits.onM1903A4Fired(shooter, picked, RANGE);
         if (target != null) {
             return new Hit(target, impactPoint(shooter, target, start, rayEnd));
@@ -195,7 +194,7 @@ public final class M1903A4Combat {
         boolean aliveBefore = GameFunctions.isPlayerPlayingAndAlive(victim);
         GameFunctions.killPlayer(victim, true, shooter, GameConstants.DeathReasons.GUN);
         return M1903A4Rules.confirmsKill(true, aliveBefore, game.isPlayerDead(victim.getUuid()),
-                SparkTraitsGunBridge.deathWasIntercepted(victim));
+                SparkTraitsApi.isLastStandDeathIntercepted(victim));
     }
 
     /**
@@ -210,7 +209,7 @@ public final class M1903A4Combat {
         }
         return RoundParticipants.ROLE_HOLDER.test(candidate, game)
                 && SparkFactionApi.canAffectPlayer(shooter, candidate, GameConstants.DeathReasons.GUN, game)
-                && !SparkTraitsKillerBridge.isLastEscapeActive(candidate)
+                && !SparkTraitsApi.isLastEscapeActive(candidate)
                 && M1903A4Rules.vendettaAllows(VendettaInteractionService.isActiveVendetta(shooter),
                 VendettaInteractionService.isActiveVendetta(candidate),
                 VendettaInteractionService.isExactPair(shooter, candidate));

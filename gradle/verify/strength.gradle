@@ -106,7 +106,7 @@ tasks.register("verifyStrengthArchitecture") {
             "docs/strength/CONTEXT.md",
             "gradle.properties",
             "src/main/resources/fabric.mod.json",
-            "src/main/java/dev/caecorthus/sparkdlc/bridge/strength/SparkTraitsCompat.java",
+            "src/main/java/dev/caecorthus/sparkdlc/role/neutral/vulture/VultureSuperCurseService.java",
             "src/main/java/dev/caecorthus/sparkdlc/SparkStrengthItems.java",
             "src/main/java/dev/caecorthus/sparkdlc/SparkStrengthEntities.java",
             "src/main/java/dev/caecorthus/sparkdlc/replay/role/CaptureDeviceReplayEvents.java"
@@ -135,17 +135,18 @@ tasks.register("verifyStrengthArchitecture") {
             }
         }
 
-        // SparkTraitsCompat reaches SparkTraits through its public facade only. Since the SparkDLC fusion the bridge
-        // imports the facade and calls hasActiveTrait directly instead of looking it up by name.
-        // SparkTraitsCompat 只经公开门面访问 SparkTraits。融合进 SparkDLC 后，该桥接 import 门面并直接调用
-        // hasActiveTrait，不再按名称查找。
+        // The former SparkStrength code reaches the trait feature through its contract SparkTraitsApi only, as a
+        // direct call: no bridge class in between and no lookup by name. Pinned on one caller, the Vulture's helium
+        // curse, which asks hasActiveTrait itself.
+        // 原 SparkStrength 代码只经词条功能的契约 SparkTraitsApi 访问它，且为直接调用：中间不再有桥接类，也不按名称查找。
+        // 此处钉在一个调用方上：秃鹫的氦气诅咒自行调用 hasActiveTrait。
         requireText(
-                "src/main/java/dev/caecorthus/sparkdlc/bridge/strength/SparkTraitsCompat.java",
+                "src/main/java/dev/caecorthus/sparkdlc/role/neutral/vulture/VultureSuperCurseService.java",
                 "import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;"
         )
         requireText(
-                "src/main/java/dev/caecorthus/sparkdlc/bridge/strength/SparkTraitsCompat.java",
-                "SparkTraitsApi.hasActiveTrait(player, traitId)"
+                "src/main/java/dev/caecorthus/sparkdlc/role/neutral/vulture/VultureSuperCurseService.java",
+                "SparkTraitsApi.hasActiveTrait(player, VultureSuperCurseRules.CHILDISH_TRAIT_ID)"
         )
 
         // The SparkTraits internals, by their names before the stage-1 package move (everything of the traits module
@@ -641,7 +642,7 @@ def classStringConstants = { classNode ->
 //   must fail here instead of silently skipping the mixin at runtime);
 // - no SparkStrength class may name a sibling class as a dotted string constant (the Class.forName form) or ask
 //   isModLoaded for a sibling's legacy id: either would be a by-name seam or an always-true gate coming back;
-// - SparkTraitsCompat must reach SparkTraitsApi.hasActiveTrait as a compiled static call (the seam the source
+// - VultureSuperCurseService must reach SparkTraitsApi.hasActiveTrait as a compiled static call (the seam the source
 //   contract in verifyStrengthArchitecture pins).
 // 独立的 SparkStrength 只按名称访问 SparkFactionAPI、SparkTraits 与 SparkWitch（`compat` 包中的反射、字符串形式的 @Mixin
 // 目标），且都以 isModLoaded(<旧 id>) 为前提，没有任何构建能校验这些名称。融合进 SparkDLC 后，这些桥接都是直接的编译期
@@ -650,8 +651,8 @@ def classStringConstants = { classNode ->
 //   悄悄跳过 mixin）；
 // - SparkStrength 的任何类都不得以点分字符串常量命名兄弟模块的类（Class.forName 形式），也不得对兄弟模块的旧 id 调用
 //   isModLoaded：两者都意味着按名称接缝或恒真判断的回归；
-// - SparkTraitsCompat 必须以编译期静态调用访问 SparkTraitsApi.hasActiveTrait（即 verifyStrengthArchitecture 源码契约
-//   所钉的接缝）。
+// - VultureSuperCurseService 必须以编译期静态调用访问 SparkTraitsApi.hasActiveTrait（即 verifyStrengthArchitecture
+//   源码契约所钉的接缝）。
 tasks.register("verifyStrengthSiblingSeams") {
     group = "verification"
     description = "Checks SparkStrength's seams into the sibling modules in the remapped SparkDLC jar: string mixin targets resolve, no by-name lookup or legacy-id gate remains."
@@ -805,27 +806,51 @@ tasks.register("verifyStrengthSiblingSeams") {
                                         .join("; ")
                 )
             }
-            // The string scan must keep working: SparkStrength still has string @Mixin targets into SparkWitch and
-            // SparkFactionAPI, so an empty result means the scan broke, not that the seams are gone.
-            // 字符串扫描必须保持有效：SparkStrength 仍有指向 SparkWitch 与 SparkFactionAPI 的字符串 @Mixin 目标，
-            // 因此结果为空意味着扫描失效，而不是接缝消失。
-            if (seams.isEmpty()) {
+            // The string scan must keep working. Its result may be empty now: the string @Mixin targets into SparkWitch
+            // and SparkFactionAPI are being turned into direct calls (a mod does not mix into itself), so "no seam"
+            // can no longer be told from "the scan broke" by the result alone. The scan is checked itself instead:
+            // it must have read string constants from the SparkStrength classes, and both name forms must still be
+            // recognised and attributed to their module (a sibling class as an internal name, the form Loom writes a
+            // string @Mixin target in, and inside a longer descriptor; a SparkStrength class as no seam).
+            // 字符串扫描必须保持有效。其结果现在可以为空：指向 SparkWitch 与 SparkFactionAPI 的字符串 @Mixin 目标正在改为直接
+            // 调用（模组不向自身注入），因此仅凭结果已无法区分“没有接缝”与“扫描失效”。改为检查扫描本身：它必须从 SparkStrength
+            // 的类中读到字符串常量，且两种名称形式仍能被识别并归属到其模块（兄弟模块的类：内部名形式，即 Loom 写出字符串 @Mixin
+            // 目标的形式，以及较长描述符中的形式；SparkStrength 自己的类不算接缝）。
+            def scannedConstants = strengthEntries.sum { entry -> classStringConstants(readClassNode(zipFile, entry.name)).size() }
+            if (scannedConstants == 0) {
                 throw new GradleException(
-                        "Sibling seam scan found no string-named sibling class in ${jarFile.name}; the scan no longer sees SparkStrength's string @Mixin targets"
+                        "Sibling seam scan read no string constant from the ${strengthEntries.size()} SparkStrength classes of ${jarFile.name}; the scan no longer works"
+                )
+            }
+            def siblingSample = legacyModules.classNames("witch").find { zipFile.getEntry(it.replace('.', '/') + ".class") != null }
+            def ownSample = legacyModules.classNames("strength").find { zipFile.getEntry(it.replace('.', '/') + ".class") != null }
+            if (siblingSample == null || ownSample == null) {
+                throw new GradleException("Sibling seam scan found no witch or no strength class of the move manifest in ${jarFile.name} to check itself with")
+            }
+            def siblingInternal = siblingSample.replace('.', '/')
+            def recognised = { String constant ->
+                namedSparkDlcClasses(constant).findAll { siblingModules.contains(legacyModules.moduleOfClass(it)) }
+            }
+            if (recognised(siblingInternal) != [siblingInternal] ||
+                    recognised("(L${siblingInternal};I)V".toString()) != [siblingInternal] ||
+                    !dottedClassName.matcher(siblingSample).matches() ||
+                    !recognised(ownSample.replace('.', '/')).isEmpty()) {
+                throw new GradleException(
+                        "Sibling seam scan no longer recognises a sibling class name (${siblingSample}) or takes a SparkStrength class (${ownSample}) for one"
                 )
             }
             logger.lifecycle("verifyStrengthSiblingSeams: ${strengthEntries.size()} SparkStrength classes scanned; ${seams.size()} sibling classes named as strings by SparkStrength resolve in ${jarFile.name}; no by-name lookup, no legacy-id gate")
 
-            // The facade call the source contract pins: SparkTraitsCompat reaches public static boolean
+            // The contract call the source contract pins: VultureSuperCurseService reaches public static boolean
             // SparkTraitsApi.hasActiveTrait(PlayerEntity, Identifier) as a compiled invokestatic. The jar is remapped,
             // so the parameter types carry their intermediary names (class_1657 = PlayerEntity, class_2960 =
             // Identifier). The compiler already guarantees the method exists with this descriptor.
-            // 源码契约所钉的门面调用：SparkTraitsCompat 以编译期 invokestatic 访问 public static boolean
+            // 源码契约所钉的契约调用：VultureSuperCurseService 以编译期 invokestatic 访问 public static boolean
             // SparkTraitsApi.hasActiveTrait(PlayerEntity, Identifier)。jar 已重映射，参数类型使用 intermediary 名称
             // （class_1657 = PlayerEntity，class_2960 = Identifier）。该方法及其描述符的存在已由编译器保证。
-            if (!traitsFacadeCallers.contains("dev/caecorthus/sparkdlc/bridge/strength/SparkTraitsCompat.class")) {
+            if (!traitsFacadeCallers.contains("dev/caecorthus/sparkdlc/role/neutral/vulture/VultureSuperCurseService.class")) {
                 throw new GradleException(
-                        "SparkTraitsCompat must call SparkTraitsApi.hasActiveTrait(PlayerEntity, Identifier) directly; " +
+                        "VultureSuperCurseService must call SparkTraitsApi.hasActiveTrait(PlayerEntity, Identifier) directly; " +
                                 "direct callers found: ${traitsFacadeCallers}"
                 )
             }

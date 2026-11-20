@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.role.killer.silencer;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.killer.silencer.SilencerQuietService;
 import dev.doctor4t.wathe.item.KnifeItem;
 import net.minecraft.entity.player.PlayerEntity;
@@ -33,7 +33,7 @@ public abstract class SilencerKnifeUseMixin {
         }
 
         ItemStack itemStack = user.getStackInHand(hand);
-        if (SparkTraitsCompat.isMeleeActionBlocked(user, itemStack)) {
+        if (SparkTraitsApi.blocksWeaponAction(user, itemStack)) {
             cir.setReturnValue(TypedActionResult.fail(itemStack));
             return;
         }

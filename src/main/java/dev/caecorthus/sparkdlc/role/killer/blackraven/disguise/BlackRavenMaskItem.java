@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven.disguise;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.net.OpenBlackRavenDisguiseS2CPacket;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenRules;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
@@ -48,7 +48,7 @@ public final class BlackRavenMaskItem extends Item {
         if (GrandWitchFearService.denyRoleSkillIfFeared(player)) {
             return TypedActionResult.fail(stack);
         }
-        if (SparkTraitsKillerBridge.isRoleSkillBlocked(player)) {
+        if (SparkTraitsApi.isRoleSkillBlocked(player)) {
             player.sendMessage(Text.translatable(BlackRavenDisguiseRules.messageKey("blocked")), true);
             return TypedActionResult.fail(stack);
         }

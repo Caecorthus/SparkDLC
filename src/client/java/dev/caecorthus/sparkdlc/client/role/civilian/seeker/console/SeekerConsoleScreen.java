@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.seeker.console;
 
 import dev.caecorthus.sparkdlc.client.role.civilian.seeker.SeekerClientState;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthTabletCompat;
+import dev.caecorthus.sparkdlc.tablet.TabletItemLookup;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerCarState;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
@@ -304,13 +304,13 @@ public class SeekerConsoleScreen extends Screen {
     private boolean networkVisible() {
         ClientPlayerEntity player = client == null ? null : client.player;
         return player != null && SeekerConsoleRules.networkVisible(
-                SparkStrengthTabletCompat.isTablet(player.getStackInHand(hand)));
+                TabletItemLookup.isTablet(player.getStackInHand(hand)));
     }
 
     private boolean hotbarHintVisible() {
         ClientPlayerEntity player = client == null ? null : client.player;
         return player != null && SeekerConsoleRules.hotbarHintVisible(
-                SparkStrengthTabletCompat.isTablet(player.getStackInHand(hand)), hand == Hand.OFF_HAND);
+                TabletItemLookup.isTablet(player.getStackInHand(hand)), hand == Hand.OFF_HAND);
     }
 
     private int statusRowCount() {

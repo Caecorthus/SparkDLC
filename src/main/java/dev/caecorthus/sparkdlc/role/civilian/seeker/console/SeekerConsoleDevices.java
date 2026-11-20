@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker.console;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthTabletCompat;
+import dev.caecorthus.sparkdlc.tablet.TabletItemLookup;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerCarState;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerStatusComponent;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerCarItem;
@@ -25,10 +25,10 @@ public final class SeekerConsoleDevices {
         if (player == null || stack == null || stack.isEmpty()) {
             return false;
         }
-        if (SparkStrengthTabletCompat.isTablet(stack)) {
+        if (TabletItemLookup.isTablet(stack)) {
             return true;
         }
-        if (SparkStrengthTabletCompat.isAvailable() || !(stack.getItem() instanceof SeekerCarItem)) {
+        if (TabletItemLookup.isAvailable() || !(stack.getItem() instanceof SeekerCarItem)) {
             return false;
         }
         SeekerStatusComponent status = SeekerStatusComponent.KEY.getNullable(player);
@@ -56,10 +56,10 @@ public final class SeekerConsoleDevices {
         if (player == null) {
             return false;
         }
-        if (SparkStrengthTabletCompat.hasTabletAnywhere(player)) {
+        if (TabletItemLookup.hasTabletAnywhere(player)) {
             return true;
         }
-        if (SparkStrengthTabletCompat.isAvailable()) {
+        if (TabletItemLookup.isAvailable()) {
             return false;
         }
         PlayerInventory inventory = player.getInventory();

@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.role.civilian.hanna;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsCharismaBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsTaskIncomeBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.api.event.CanSeeMoney;
@@ -60,7 +60,7 @@ final class HannaEconomyService {
      */
     private static void onTaskComplete(PlayerEntity player) {
         if (player instanceof ServerPlayerEntity hanna && canEarn(hanna)
-                && Boolean.FALSE.equals(SparkTraitsTaskIncomeBridge.isImpostor(hanna))) {
+                && !SparkTraitsApi.hasActiveTrait(hanna, TraitIds.IMPOSTOR)) {
             PlayerShopComponent.KEY.get(hanna).addToBalance(HannaRules.TASK_COINS);
         }
     }
@@ -133,6 +133,6 @@ final class HannaEconomyService {
 
     private static ShopEntry row(PlayerEntity player, String id, Item item, int price) {
         ShopEntry entry = new ShopEntry.Builder(id, new ItemStack(item), price, ShopEntry.Type.TOOL).build();
-        return SparkTraitsCharismaBridge.discountShopEntry(player, entry);
+        return SparkTraitsApi.discountShopEntryForCharisma(player, entry);
     }
 }

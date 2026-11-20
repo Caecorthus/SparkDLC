@@ -1,9 +1,9 @@
 package dev.caecorthus.sparkdlc.client.trait.gui;
 
-import dev.caecorthus.sparkdlc.client.gui.card.GuideDecorBridge;
+import dev.caecorthus.sparkdlc.client.guidebook.ui.decor.GuidebookCardDecor;
 import dev.caecorthus.sparkdlc.client.gui.card.InventoryInfoCard;
 import dev.caecorthus.sparkdlc.SparkTraits;
-import dev.caecorthus.sparkdlc.client.bridge.traits.SparkStrengthHudBridge;
+import dev.caecorthus.sparkdlc.client.economy.KillerTeamEconomyClientHooks;
 import dev.caecorthus.sparkdlc.client.trait.text.TraitClientTexts;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.presentation.OwnerInventoryPresentation;
@@ -30,7 +30,7 @@ public final class OwnerInventoryClientAdapter implements OwnerInventoryPresenta
      */
     private static final class Card {
         private static final InventoryInfoCard INSTANCE = new InventoryInfoCard("gui.sparkdlc.inventory.more", () -> 0,
-                SparkStrengthHudBridge::topRightHudBottom, new GuideDecorBridge("SparkTraits/GuideDecor"));
+                KillerTeamEconomyClientHooks::topRightHudBottom, new GuidebookCardDecor("SparkTraits/GuideDecor"));
     }
     private static boolean nativeCardFailed;
     // Last visible trait ids and their detached entries (render thread). 上次的可见天赋 id 与其独立条目（渲染线程）。

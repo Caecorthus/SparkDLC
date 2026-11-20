@@ -92,10 +92,11 @@ public final class KillerTeamEconomyClientHooks {
     }
 
     /**
-     * Public cross-module seam, called directly by SparkTraits' inventory card since the SparkDLC fusion: the exclusive bottom y of the rows SparkStrength
-     * stacks under Wathe's money, or 0 when none is showing. Client render thread only.
-     * 公开的跨模块接缝，融合进 SparkDLC 后由 SparkTraits 背包信息卡直接调用：返回 Wathe 金币下方 SparkStrength 叠加行的底边 y（不含），
-     * 未显示时为 0。仅限客户端渲染线程。
+     * Asked by everything that stacks under Wathe's money (the inventory info cards, the mana row, the Tarot table):
+     * the exclusive bottom y of the team wallet row drawn there, or 0 when none is showing; never negative (0, or a sum
+     * of positive paddings and the font height). Client render thread only.
+     * 供所有叠在 Wathe 金币下方的界面（背包信息卡、魔力行、塔罗表）查询：返回此处绘制的团队余额行的底边 y（不含），
+     * 未显示时为 0；永不为负（要么是 0，要么是正的边距与字体高度之和）。仅限客户端渲染线程。
      */
     public static int topRightHudBottom() {
         MinecraftClient client = MinecraftClient.getInstance();

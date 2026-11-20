@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.hud;
 
-import dev.caecorthus.sparkdlc.client.api.SecondarySkillKeyApi;
+import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityController;
 import dev.caecorthus.sparkdlc.client.SparkWitchClient;
 import dev.caecorthus.sparkdlc.client.role.civilian.emma.EmmaVisibleName;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
@@ -118,7 +118,7 @@ public final class SpecterHudRenderer {
                     TickTime.ceilSeconds(component.getCooldownTicks())
             );
         }
-        return Text.translatable("hud.sparkdlc.specter.otherworld.ready", SecondarySkillKeyApi.boundKeyText());
+        return Text.translatable("hud.sparkdlc.specter.otherworld.ready", SecondaryAbilityController.secondaryKeyText());
     }
 
     /** Marked player's visible name, or a generic label when that player is not loaded here. / 被标记者的可见名，未加载时用通用文案。 */

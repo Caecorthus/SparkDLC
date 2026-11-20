@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.saint;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsShopEntryPreserver;
+import dev.caecorthus.sparkdlc.trait.api.TraitShopEntries;
 import dev.caecorthus.sparkdlc.role.civilian.saint.flash.HolyFlashInventoryRules;
 import dev.caecorthus.sparkdlc.role.civilian.saint.flash.HolyFlashRules;
 import dev.doctor4t.wathe.api.Role;
@@ -49,7 +49,7 @@ public final class SaintShopService {
         }
         // SparkTraits entries (e.g. the Impostor revolver) may already be present; keep them across the rebuild.
         // SparkTraits 条目（如内鬼左轮）可能已先加入；重建时保留它们。
-        List<ShopEntry> preservedTraitEntries = SparkTraitsShopEntryPreserver.capture(context);
+        List<ShopEntry> preservedTraitEntries = TraitShopEntries.capture(context);
         context.clearEntries();
         // Re-buyable consumable like Wathe's grenade: no stock and no purchase cooldown; the per-Item use cooldown
         // gates every copy. / 与 Wathe 手雷一样的可重复购买消耗品：无库存、无购买冷却，按物品计算的使用冷却约束每一件。
@@ -59,7 +59,7 @@ public final class SaintShopService {
                 HolyFlashRules.PRICE,
                 ShopEntry.Type.WEAPON
         ).build());
-        SparkTraitsShopEntryPreserver.restore(context, preservedTraitEntries);
+        TraitShopEntries.restore(context, preservedTraitEntries);
     }
 
     /**

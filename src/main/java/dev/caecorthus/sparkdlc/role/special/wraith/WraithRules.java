@@ -41,6 +41,15 @@ public final class WraithRules {
         return alignment != null && isEligibleDeathReason(deathReason, attributedFall);
     }
 
+    /**
+     * Whether Last Stand fired between two reads of "has it triggered this round": only a newly triggered Last Stand
+     * cancels a pending conversion; one that had already triggered before the death does not.
+     * 背水一战是否在两次“本局是否已触发”读取之间触发：只有新触发的背水一战才会取消待决转化；死亡之前就已触发的不会。
+     */
+    public static boolean didLastStandTrigger(boolean triggeredBefore, boolean triggeredAfter) {
+        return !triggeredBefore && triggeredAfter;
+    }
+
     private static boolean isEligibleDeathReason(Identifier deathReason, boolean attributedFall) {
         return deathReason != null
                 && !GameConstants.DeathReasons.ESCAPED.equals(deathReason)

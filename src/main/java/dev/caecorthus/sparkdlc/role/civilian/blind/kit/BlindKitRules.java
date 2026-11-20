@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.blind.kit;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkFactionSecondRowCompat;
+import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindRules;
 import dev.caecorthus.sparkdlc.util.StaggeredSweep;
 import dev.doctor4t.wathe.api.event.CanSeeMoney;
@@ -210,11 +210,11 @@ public final class BlindKitRules {
      */
     public static int displacementSlot(boolean secondRowShown, int vacated, IntPredicate emptySlot) {
         if (secondRowShown) {
-            if (SparkFactionSecondRowCompat.isSecondRowSlot(vacated)) {
+            if (LimitedInventoryRows.isSecondRowIndex(vacated)) {
                 return vacated;
             }
-            for (int slot = SparkFactionSecondRowCompat.SECOND_ROW_START;
-                 slot < SparkFactionSecondRowCompat.SECOND_ROW_END; slot++) {
+            for (int slot = LimitedInventoryRows.SECOND_ROW_START;
+                 slot < LimitedInventoryRows.SECOND_ROW_END; slot++) {
                 if (emptySlot.test(slot)) {
                     return slot;
                 }

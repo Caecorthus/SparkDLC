@@ -1,6 +1,5 @@
 package dev.caecorthus.sparkdlc.role.killer.magician;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthM67ReplayCompat;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.LivingEntity;
@@ -95,7 +94,7 @@ public record MagicianReplayFrame(
     private static @Nullable ItemStack keptM67(List<ItemStack> current, int index, List<ItemStack> recorded) {
         if (index < 0 || index >= current.size() || index >= recorded.size()) return null;
         ItemStack held = current.get(index);
-        return SparkStrengthM67ReplayCompat.isM67(held) && ItemStack.areEqual(held, recorded.get(index)) ? held : null;
+        return MagicianM67Replay.isM67(held) && ItemStack.areEqual(held, recorded.get(index)) ? held : null;
     }
     private static List<ItemStack> copy(List<ItemStack> src) { List<ItemStack> out = new ArrayList<>(src.size()); for (ItemStack s:src) out.add(s.copy()); return List.copyOf(out); }
     private static ItemStack stack(List<ItemStack> src, int index) { return index >= 0 && index < src.size() ? src.get(index).copy() : ItemStack.EMPTY; }

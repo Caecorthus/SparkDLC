@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.abysslistener.zone;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.caecorthus.sparkdlc.role.witch.abysslistener.AbyssListenerRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -53,7 +53,7 @@ public final class DeepDarkSporeFlaskItem extends Item {
         }
         if (!(user instanceof ServerPlayerEntity thrower) || !(world instanceof ServerWorld serverWorld)
                 || !canThrow(thrower)
-                || SparkTraitsKillerBridge.blocksWeaponAction(thrower, stack)) {
+                || SparkTraitsApi.blocksWeaponAction(thrower, stack)) {
             return TypedActionResult.fail(stack);
         }
         DeepDarkSporeFlaskEntity flask = new DeepDarkSporeFlaskEntity(serverWorld, thrower);

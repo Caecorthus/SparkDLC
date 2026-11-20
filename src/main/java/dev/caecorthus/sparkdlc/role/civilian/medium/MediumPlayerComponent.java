@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.medium;
 
 import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsAbyssListenerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -225,7 +225,7 @@ public final class MediumPlayerComponent implements AutoSyncedComponent, ServerT
         }
         // A Last Stand hold keeps the state counting (Dominator / Time Stealer / Seeker precedent).
         // 背水一战的保持期内状态照常倒数（支配者、窃时者、搜寻者先例）。
-        boolean lastStandPending = SparkTraitsAbyssListenerBridge.isLastStandPending(owner);
+        boolean lastStandPending = SparkTraitsApi.isLastStandPending(owner);
         // Only a Wathe death clears. An alive spectator (Taotie-swallowed, inside a Rift gate) is still playing: it
         // keeps the paid 招魂 bindings and the cooldown keeps counting, so being swallowed or hopping a gate can
         // neither wipe paid state nor zero the opening cooldown. It cannot cast meanwhile (mayUse refuses).

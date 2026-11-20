@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.coroner;
 
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsReviveCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerBodySnapshotComponent;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.morphling.MorphBodyDisguiseWorldComponent;
@@ -19,6 +19,7 @@ import dev.doctor4t.wathe.cca.PlayerShopComponent;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
 import dev.doctor4t.wathe.game.GameFunctions;
 import dev.doctor4t.wathe.record.GameRecordManager;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -117,6 +118,25 @@ public final class CoronerService {
         CoronerBodySnapshotComponent.KEY.get(body).setRoleId(roleId);
     }
 
+    /**
+     * Writes the role the Coroner reads from a body another feature spawned itself (the Fiend's and the Ferryman's
+     * feign-death corpse, Hiro's victim corpse, the Magician decoy): only bodies made inside Wathe's kill are
+     * snapshotted by {@link #recordBodySnapshot}, and a body without a snapshot falls back to its owner's live role.
+     * A null body or role, and an entity without the snapshot component (not a Wathe body), are left as they are.
+     * 为其他功能自行生成的尸体（魔人与摆渡人的假死尸体、Hiro 受害者尸体、魔术师诱饵尸体）写入验尸官读取的身份：只有 Wathe
+     * 击杀流程中生成的尸体才会由 {@link #recordBodySnapshot} 快照，没有快照的尸体会回落到尸体主人的实时身份。
+     * 尸体或身份为 null、或实体没有快照组件（不是 Wathe 尸体）时保持不变。
+     */
+    public static void recordBodyRole(Entity body, Identifier roleId) {
+        if (body == null || roleId == null) {
+            return;
+        }
+        CoronerBodySnapshotComponent snapshot = CoronerBodySnapshotComponent.KEY.getNullable(body);
+        if (snapshot != null) {
+            snapshot.setRoleId(roleId);
+        }
+    }
+
     public static boolean collectBodyWithBag(ServerPlayerEntity coroner, PlayerBodyEntity body) {
         /*
          * Fake corpses are refused (owner 2026-10-16): false makes CoronerBodyBagItem pass, so the bag is kept, the
@@ -198,13 +218,11 @@ public final class CoronerService {
     }
 
     /*
-     * Disguise queries live in CoronerDisguises. These delegates keep the names other code binds to; SparkWitch and
-     * SparkTraits call hasKidnapperDisguise, hasKillerFactionDisguise, hasUndercoverDisguise and
-     * hasInstantSilentKnifeDisguise on this class (directly since the SparkDLC fusion, no longer by reflection), so
-     * their names and signatures are a cross-module contract.
-     * 伪装查询位于 CoronerDisguises。这些委托保留其它代码绑定的方法名；SparkWitch 与 SparkTraits 会调用本类的
-     * hasKidnapperDisguise、hasKillerFactionDisguise、hasUndercoverDisguise 与 hasInstantSilentKnifeDisguise
-     * （融合进 SparkDLC 后为直接调用，不再反射），它们的名称与签名是跨模块契约。
+     * Disguise queries live in CoronerDisguises. These delegates keep the names other code binds to; the Kidnapper
+     * (hasKidnapperDisguise), the trait feature's cohort override (hasKillerCohortDisguise) and Close Quarters
+     * (hasInstantSilentKnifeDisguise) call them on this class.
+     * 伪装查询位于 CoronerDisguises。这些委托保留其它代码绑定的方法名；绑架者（hasKidnapperDisguise）、词条功能的同伙覆盖
+     * （hasKillerCohortDisguise）与狭路相逢（hasInstantSilentKnifeDisguise）会调用本类的这些方法。
      */
     public static @Nullable UUID activeDisguiseUuid(PlayerEntity player) {
         return CoronerDisguises.activeDisguiseUuid(player);
@@ -216,6 +234,10 @@ public final class CoronerService {
 
     public static boolean hasKillerFactionDisguise(PlayerEntity player) {
         return CoronerDisguises.hasKillerFactionDisguise(player);
+    }
+
+    public static boolean hasKillerCohortDisguise(PlayerEntity player) {
+        return CoronerDisguises.hasKillerCohortDisguise(player);
     }
 
     public static boolean hasVeteranDisguise(PlayerEntity player) {
@@ -356,7 +378,7 @@ public final class CoronerService {
         UUID ownerUuid = body.getPlayerUuid();
         return ownerUuid != null
                 && GameWorldComponent.KEY.get(world).isPlayerDead(ownerUuid)
-                && !SparkTraitsReviveCompat.isFakeDeathBody(body)
+                && !SparkTraitsApi.isFakeDeathBody(body)
                 && !PartygoerCorpseComponent.isPartygoerCorpse(body);
     }
 

@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.usec;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.SparkWitchSounds;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkFactionSecondRowCompat;
+import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.remote.SeekerRemoteSessionService;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecAttachmentRules.Gate;
@@ -259,7 +259,7 @@ public final class UsecAttachmentService {
         return UsecAttachmentRules.releaseSlot(
                 slot -> UsecShopPurchase.fitsWhole(inventory, inventory.getStack(slot), stack),
                 slot -> inventory.getStack(slot).isEmpty(),
-                SparkFactionSecondRowCompat.isShown());
+                LimitedInventoryRows.isSecondRowShown());
     }
 
     /**

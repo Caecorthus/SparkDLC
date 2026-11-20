@@ -2,8 +2,7 @@ package dev.caecorthus.sparkdlc.role.jiahao.sphinxhao.gun;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsGunBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.entity.SphinxHaoFistEntity;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RangedSmokeCarve;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
@@ -109,7 +108,7 @@ public final class SphinxHaoGunService {
             case FIRE -> {
                 // SparkTraits weapon gate (silence, Last Escape, ...): a blocked shot costs nothing.
                 // SparkTraits 武器门槛（沉默、绝处逢生等）：被阻止的射击不产生任何代价。
-                if (SparkTraitsKillerBridge.blocksWeaponAction(shooter, gun)) {
+                if (SparkTraitsApi.blocksWeaponAction(shooter, gun)) {
                     return false;
                 }
                 fire(shooter, world, gun);
@@ -191,11 +190,11 @@ public final class SphinxHaoGunService {
      * gun): a Raven Form crow nearer than the picked player, every puppet and every breakable device is hit and its
      * owner becomes the victim (USEC / Hunter substitution, so the outcome is that owner's real kill); else a Magician
      * puppet nearer than the player and every device ends (the shot is a NO_KILL, the Magician is paid); else the Seeker
-     * seam, which SparkStrength may also hook by name: a nearer breakable Seeker device breaks, a Partygoer dies or a
+     * seam, which asks Partygoers and Bomber drones too: a nearer breakable Seeker device breaks, a Partygoer dies or a
      * Bomber drone breaks, and null comes back (NO_KILL). Read-only queries first, then exactly one write.
      * 沿唯一一条回溯眼睛射线的最近者命中，顺序与猎人猎枪中心射线（另一把单射线致命枪械）一致：比所选玩家、所有皮套与所有可打坏
      * 设备都更近的化鸦乌鸦被命中，其主人成为受害者（USEC / 猎枪的替身机制，因此结果就是对该主人的真实击杀）；否则比玩家与所有设备
-     * 都更近的魔术师皮套被结束（这一枪算未击杀，魔术师获得报酬）；否则进入搜寻者接缝，SparkStrength 也可按方法名挂接：更近且可
+     * 都更近的魔术师皮套被结束（这一枪算未击杀，魔术师获得报酬）；否则进入搜寻者接缝，它同时询问派对客与轰炸者无人机：更近且可
      * 打坏的搜寻者设备被打坏、派对客死亡或轰炸者无人机被击毁，并返回 null（未击杀）。先做只读查询，然后恰好一次写入。
      */
     private static Hit resolve(ServerPlayerEntity shooter, ItemStack gun, @Nullable ServerPlayerEntity picked,
@@ -214,10 +213,10 @@ public final class SphinxHaoGunService {
         SeekerDeviceEntity device = SeekerDeviceHits.sphinxHaoFistAbsorber(shooter, picked, SphinxHaoRules.GUN_RANGE);
         Vec3d deviceStop = device == null ? null
                 : entryPoint(start, rayEnd, List.of(device.getBoundingBox()), device.getBoundingBox().getCenter());
-        // Frozen seam, once per shot, full range: SparkStrength may hook it by name (Partygoer / Bomber drone, cut at the
-        // first block); null means a device, a Partygoer or a drone took the fist.
-        // 冻结接缝，每发一次、满射程：SparkStrength 可按方法名挂接（派对客 / 轰炸者无人机，在第一个方块处截断）；返回 null 表示
-        // 设备、派对客或无人机吃下了拳头。
+        // Once per shot, full range: the seam also asks Partygoers and Bomber drones (cut at the first block); null
+        // means a device, a Partygoer or a drone took the fist.
+        // 每发一次、满射程：该接缝同时询问派对客与轰炸者无人机（在第一个方块处截断）；返回 null 表示设备、派对客或无人机
+        // 吃下了拳头。
         ServerPlayerEntity target = SeekerDeviceHits.onSphinxHaoFistFired(shooter, picked, SphinxHaoRules.GUN_RANGE);
         if (target != null) {
             return new Hit(target, impactPoint(shooter, target, start, rayEnd), true);
@@ -249,7 +248,7 @@ public final class SphinxHaoGunService {
         boolean aliveBefore = GameFunctions.isPlayerPlayingAndAlive(victim);
         GameFunctions.killPlayer(victim, true, shooter, SparkWitchDeathReasons.SPHINX_HAO_FIST);
         return SphinxHaoGunRules.outcome(true, aliveBefore, game.isPlayerDead(victim.getUuid()),
-                SparkTraitsGunBridge.deathWasIntercepted(victim));
+                SparkTraitsApi.isLastStandDeathIntercepted(victim));
     }
 
     /**
@@ -290,7 +289,7 @@ public final class SphinxHaoGunService {
         }
         return RoundParticipants.ROLE_HOLDER.test(candidate, game)
                 && SparkFactionApi.canAffectPlayer(shooter, candidate, SparkWitchDeathReasons.SPHINX_HAO_FIST, game)
-                && !SparkTraitsKillerBridge.isLastEscapeActive(candidate)
+                && !SparkTraitsApi.isLastEscapeActive(candidate)
                 && vendettaAllows(VendettaInteractionService.isActiveVendetta(shooter),
                 VendettaInteractionService.isActiveVendetta(candidate),
                 VendettaInteractionService.isExactPair(shooter, candidate));

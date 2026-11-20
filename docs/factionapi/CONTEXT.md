@@ -504,13 +504,13 @@ This glossary describes the runtime contract vocabulary used by code and tests.
 - SparkTraits may integrate through optional public seams; it contributes
   replay trait tooltips and trait badges through `replay/api`.
 - `client/gui/card` (`InventoryCardLayout`, `InventoryCardPaint`,
-  `InventoryInfoCard`, `GuideDecorBridge`) is the single shared owner
+  `InventoryInfoCard`) is the single shared owner
   inventory info card engine: SparkTraits uses it now and SparkWitch is moving
   to it. Each mod creates its own `InventoryInfoCard` (own caches, overflow
   lang key, second-row rule, HUD and decoration hooks) and its own
-  `GuideDecorBridge`; instances are never shared between mods.
-  SparkAssist decoration is reached by name only (factionapi must not import
-  a sibling module); the lookup is no longer gated on the `sparkassist` id.
+  `client/guidebook/ui/decor/GuidebookCardDecor`; instances are never shared between mods.
+  The guidebook decoration is a compiled call (`GuidebookCardDecor` implements the card's
+  `Decor` hook and calls `GuidebookDecorApi`; the card package imports no guidebook class).
 - `round/settlement/SettlementExclusions`: SparkWitch registers
   `sparkdlc:black_raven`, `sparkdlc:stowaway` and
   `sparkdlc:schrodingers_cat` unconditionally and `sparkdlc:charon` as a

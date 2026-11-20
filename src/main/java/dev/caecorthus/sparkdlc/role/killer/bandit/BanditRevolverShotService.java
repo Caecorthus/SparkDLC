@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.role.killer.bandit;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkWitchCompat;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
 import dev.caecorthus.sparkdlc.item.BanditRevolverItem;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponHits;
 import dev.caecorthus.sparkdlc.role.killer.serialkiller.SerialPistolShotService;
@@ -55,7 +55,7 @@ public final class BanditRevolverShotService {
             server.execute(() -> handle(shooter, targetId));
             return;
         }
-        if (SparkTraitsCompat.isKillerInteractionBlocked(shooter)) {
+        if (SparkTraitsApi.isKillerInteractionBlocked(shooter)) {
             return;
         }
         ItemStack gun = authorizedRevolver(shooter);
@@ -72,7 +72,7 @@ public final class BanditRevolverShotService {
         ServerPlayerEntity candidate = claimedTarget(shooter, targetId, range);
         // SparkFactionAPI drops a revolver shot at a protected player outright: no sound, record, cooldown or round.
         // SparkFactionAPI 对受保护玩家的左轮射击整包丢弃：无声音、无记录、无冷却，也不消耗子弹。
-        if (candidate != null && !SparkFactionCompat.canAffectPlayer(shooter, candidate, GameConstants.DeathReasons.GUN)) {
+        if (candidate != null && !SparkFactionApi.canAffectPlayer(shooter, candidate, GameConstants.DeathReasons.GUN)) {
             return;
         }
         ServerWorld world = shooter.getServerWorld();
@@ -85,7 +85,7 @@ public final class BanditRevolverShotService {
             // 非玩家 id：先交给 SparkWitch 的魔术师皮套/搜寻者设备，再看派对客；这一枪仍按未命中记录。
             Entity entity = targetId < 0 ? null : world.getEntityById(targetId);
             if (entity != null && !(entity instanceof PlayerEntity)) {
-                SparkWitchCompat.hitGunWorldTarget(shooter, entity, gun, range);
+                SparkWitchApi.hitGunWorldTarget(shooter, entity, gun, range);
             }
             PartygoerWeaponHits.onSerialPistolShot(shooter, entity, range);
         }
@@ -163,7 +163,7 @@ public final class BanditRevolverShotService {
     private static boolean isHittable(ServerPlayerEntity shooter, ServerPlayerEntity target) {
         return GameFunctions.isPlayerAliveAndSurvival(target)
                 && (GameFunctions.isPlayerPlayingAndAlive(target)
-                || SparkWitchCompat.isBoundKillerTargetingVendetta(shooter, target))
+                || SparkWitchApi.isBoundKillerTargetingVendetta(shooter, target))
                 && SerialPistolShotService.hasLineOfSight(shooter, target);
     }
 }

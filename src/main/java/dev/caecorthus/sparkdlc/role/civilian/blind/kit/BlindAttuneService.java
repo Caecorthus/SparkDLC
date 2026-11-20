@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.blind.kit;
 
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindComponent;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindParticipants;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
@@ -41,7 +41,7 @@ public final class BlindAttuneService {
                 activeBlind && BlindLoadoutService.isGranted(player),
                 NoellesTaotieSeekerBridge.isSwallowed(player),
                 ControlExpertStun.isStunned(player),
-                SparkTraitsKillerBridge.isRoleSkillBlocked(player),
+                SparkTraitsApi.isRoleSkillBlocked(player),
                 state.attuneReady(now),
                 GrandWitchFearService.isPlayerFeared(player));
         switch (verdict) {

@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.witch.potiongunner.shell;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkWitchFactions;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDamageRules;
@@ -146,7 +146,7 @@ public final class PotionBlastResolver {
      */
     private static boolean isCandidate(PlayerEntity player) {
         return GameFunctions.isPlayerAliveAndSurvival(player) && GameFunctions.isPlayerPlayingAndAlive(player)
-                && !SparkTraitsKillerBridge.isLastEscapeActive(player);
+                && !SparkTraitsApi.isLastEscapeActive(player);
     }
 
     /** Any part of {@code box} is in the cube around {@code center}. / {@code box} 任一部分位于爆心周围的立方体内。 */

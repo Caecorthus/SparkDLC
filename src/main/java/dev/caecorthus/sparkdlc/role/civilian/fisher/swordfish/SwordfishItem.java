@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.fisher.swordfish;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.fisher.FisherRules;
 import dev.caecorthus.sparkdlc.role.civilian.fisher.item.FisherItemTooltips;
 import dev.doctor4t.wathe.index.WatheSounds;
@@ -42,7 +42,7 @@ public final class SwordfishItem extends Item {
         }
         if (hand != Hand.MAIN_HAND || user.isSpectator()
                 || user.getItemCooldownManager().isCoolingDown(this)
-                || SparkTraitsKillerBridge.blocksWeaponAction(user, stack)
+                || SparkTraitsApi.blocksWeaponAction(user, stack)
                 || (user instanceof ServerPlayerEntity player && !SwordfishStabService.canUse(player, stack))) {
             return TypedActionResult.fail(stack);
         }

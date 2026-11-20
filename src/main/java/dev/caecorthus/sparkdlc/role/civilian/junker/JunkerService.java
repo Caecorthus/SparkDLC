@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.junker;
 
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.SparkWitchRoleRegistry;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.civilian.knight.KnightDuelSkillLock;
@@ -251,7 +251,7 @@ public final class JunkerService {
                 player.isSpectator(),
                 NoellesTaotieSeekerBridge.isSwallowed(player),
                 ControlExpertStun.isStunned(player),
-                SparkTraitsKillerBridge.isRoleSkillBlocked(player),
+                SparkTraitsApi.isRoleSkillBlocked(player),
                 KnightDuelSkillLock.isLocked(player),
                 RiftSessionService.isInside(player),
                 GrandWitchFearService.isPlayerFeared(player));

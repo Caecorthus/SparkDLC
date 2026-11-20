@@ -9,11 +9,11 @@ import de.maxhenkel.voicechat.api.events.EventRegistration;
  * static (group) audio; below 1 it attenuates, above 1 (earplugs) it boosts through {@link BearHearingVoicePcm}'s soft
  * limiter. Registered after the Holy Flash receiver, so a flash muffle and the hearing factor multiply. Runs on SVC's
  * audio thread and only reads {@link BearHearingClient#voiceFactor()}. Reached only through
- * {@code voice.BearHearingVoiceClientBridge} by reflection on the physical client.
+ * {@code client.voice.IncomingVoiceEffects}, the client side of {@code voice.ClientVoiceReceivers}.
  * 仅客户端的 BEAR 听力 Simple Voice Chat 接收器（H7）：佩戴者自己的客户端上传入语音与游戏声音使用同一倍数。在播放前重新缩放
  * 解码后的 PCM，覆盖近距离（实体）、定位（对讲机）与静态（群组）语音；小于 1 时衰减，大于 1（耳塞）时经 {@link BearHearingVoicePcm}
  * 的软限幅放大。注册在圣光弹接收器之后，因此闪光压音与听力倍数相乘。运行在 SVC 的音频线程，只读取
- * {@link BearHearingClient#voiceFactor()}。只在物理客户端上经由 {@code voice.BearHearingVoiceClientBridge} 反射接入。
+ * {@link BearHearingClient#voiceFactor()}。只经由 {@code client.voice.IncomingVoiceEffects}（{@code voice.ClientVoiceReceivers} 的客户端一侧）接入。
  */
 public final class BearHearingVoiceReceiver {
     private BearHearingVoiceReceiver() {

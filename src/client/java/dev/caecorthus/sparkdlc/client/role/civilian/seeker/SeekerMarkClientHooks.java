@@ -3,6 +3,7 @@ package dev.caecorthus.sparkdlc.client.role.civilian.seeker;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.client.MinecraftClient;
@@ -56,7 +57,7 @@ public final class SeekerMarkClientHooks {
                 GameFunctions.isPlayerSpectatingOrCreative(targetPlayer),
                 targetPlayer.isInvisible() || targetPlayer.isInvisibleTo(viewer),
                 NoellesTaotieSeekerBridge.isSwallowed(targetPlayer),
-                SeekerInstinctVisibilityBridge.isHidden(viewer, targetPlayer),
+                SparkTraitsApi.isInstinctHidden(viewer, targetPlayer),
                 NoellesTaotieSeekerBridge.isSwallowed(viewer));
         return shows
                 ? GetInstinctHighlight.HighlightResult.always(SeekerRules.MARK_COLOR, SeekerRules.MARK_OUTLINE_PRIORITY)

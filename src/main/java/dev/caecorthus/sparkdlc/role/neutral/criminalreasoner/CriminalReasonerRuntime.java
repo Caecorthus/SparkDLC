@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.neutral.criminalreasoner;
 
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.net.OpenCriminalReasonerS2CPacket;
 import dev.caecorthus.sparkdlc.role.SparkWitchRoleRegistry;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
@@ -12,7 +12,6 @@ import dev.caecorthus.sparkdlc.role.jiahao.insider.InsiderDoorRules;
 import dev.caecorthus.sparkdlc.role.jiahao.insider.InsiderRules;
 import dev.caecorthus.sparkdlc.role.neutral.koko.KokoWinService;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
 import dev.doctor4t.wathe.api.event.CheckWinCondition;
 import dev.doctor4t.wathe.api.event.DoorInteraction;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -197,7 +196,7 @@ public final class CriminalReasonerRuntime {
     private static void afterKill(ServerPlayerEntity victim, @Nullable ServerPlayerEntity killer,
                                   @Nullable Identifier deathReason) {
         // A SparkTraits Last Stand interception is not a death. / SparkTraits 背水一战的拦截不算死亡。
-        if (WitchFactorTraitsBridge.isDeathIntercepted(victim)) {
+        if (SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
             return;
         }
         UUID recordedKiller = killer != null ? killer.getUuid() : null;
@@ -392,7 +391,7 @@ public final class CriminalReasonerRuntime {
                 || !GameFunctions.isPlayerPlayingAndAlive(player) || player.isSpectator()
                 || NoellesTaotieSeekerBridge.isSwallowed(player)
                 || ControlExpertStun.isStunned(player)
-                || SparkTraitsKillerBridge.isRoleSkillBlocked(player)) {
+                || SparkTraitsApi.isRoleSkillBlocked(player)) {
             return false;
         }
         return !GrandWitchFearService.denyRoleSkillIfFeared(player);

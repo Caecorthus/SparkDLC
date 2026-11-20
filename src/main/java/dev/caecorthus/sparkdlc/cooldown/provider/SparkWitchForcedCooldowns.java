@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.cooldown.provider;
 
+import dev.caecorthus.sparkdlc.cooldown.api.AdminCooldownClear;
 import dev.caecorthus.sparkdlc.cooldown.api.ForcedCooldowns;
 import dev.caecorthus.sparkdlc.cooldown.api.RoleSkillCooldownStore;
 import dev.caecorthus.sparkdlc.SparkWitch;
@@ -135,6 +136,10 @@ public final class SparkWitchForcedCooldowns {
         }
         ForcedCooldowns.registerItemNominalProvider(new SparkWitchItemCooldownNominals());
         ForcedCooldowns.registerItemExemption(item -> isExemptItem(Registries.ITEM.getId(item)));
+        // After the item locks released by AdminClearedItemLocks, which registers earlier: the order the two former
+        // mixins into the admin command ran in. / 排在更早注册的 AdminClearedItemLocks 所释放的物品锁之后：与原先针对管理员
+        // 命令的两个 mixin 的运行顺序一致。
+        AdminCooldownClear.registerAfterRemove(SparkWitchItemCooldownReleases::afterAdminRemove);
     }
 
     /** Registration order of the role-skill stores. / 职业技能存储的注册顺序。 */

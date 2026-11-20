@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.api;
 
-import dev.caecorthus.sparkdlc.bridge.traits.SparkWitchWraithBridge;
+import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
 import dev.caecorthus.sparkdlc.trait.component.TraitIdCodec;
 import dev.caecorthus.sparkdlc.trait.component.TraitPlayerComponent;
 import dev.caecorthus.sparkdlc.trait.component.TraitWorldComponent;
@@ -9,14 +9,18 @@ import dev.caecorthus.sparkdlc.trait.presentation.OwnerInventoryPresentation;
 import dev.caecorthus.sparkdlc.trait.effective.EffectiveInstinctService;
 import dev.caecorthus.sparkdlc.trait.lifecycle.RoundEndTraitResolver;
 import dev.caecorthus.sparkdlc.trait.civilian.depression.DepressionTraitService;
+import dev.caecorthus.sparkdlc.trait.civilian.impostor.ImpostorTrait;
 import dev.caecorthus.sparkdlc.trait.civilian.laststand.LastStandService;
 import dev.caecorthus.sparkdlc.trait.civilian.police.GoingDarkRules;
 import dev.caecorthus.sparkdlc.trait.global.CautiousTrait;
 import dev.caecorthus.sparkdlc.trait.killer.KillerTraitService;
+import dev.caecorthus.sparkdlc.trait.killer.KillerTraits;
 import dev.caecorthus.sparkdlc.trait.killer.combat.CloseQuartersService;
 import dev.caecorthus.sparkdlc.trait.killer.combat.ForcedMeleeCooldownService;
 import dev.caecorthus.sparkdlc.trait.killer.conscience.BluePoisonInteropService;
+import dev.caecorthus.sparkdlc.trait.killer.conscience.ConscienceTrait;
 import dev.caecorthus.sparkdlc.trait.killer.escape.LastEscapeService;
+import dev.doctor4t.wathe.api.Role;
 import net.minecraft.item.ItemStack;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
@@ -38,6 +42,7 @@ import org.ladysnake.cca.api.v3.component.ComponentProvider;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.BooleanSupplier;
@@ -84,11 +89,20 @@ public final class SparkTraitsApi {
     }
 
     /** Updates and syncs exact remaining time without applying cooldown modifiers twice.
-     * 精确修改并同步剩余时间，不重复计算冷却倍率。 */
-    public static void setExactItemCooldownRemaining(ServerPlayerEntity player, net.minecraft.item.Item item, int ticks) {
-        if (player != null && item != null) {
-            dev.caecorthus.sparkdlc.trait.killer.combat.ExactItemCooldowns.setExact(player, item, ticks);
+     * 精确修改并同步剩余时间，不重复计算冷却倍率。
+     * <p>The exact write runs past the trait cooldown modifiers and performs the vanilla set itself (negative
+     * {@code ticks} count as 0). Returns true once it wrote; false, with nothing written, only for a null player or
+     * item, and then the caller must fall back to {@code ItemCooldownManager.set}: never run both, that would send
+     * two cooldown packets.
+     * <p>精确写入越过词条冷却倍率，并自行完成原版写入（负的 {@code ticks} 按 0 处理）。写入后返回 true；仅在玩家或物品
+     * 为空时不写入并返回 false，此时调用方需回退到 {@code ItemCooldownManager.set}：二者不可同时执行，否则会发送两次
+     * 冷却数据包。 */
+    public static boolean setExactItemCooldownRemaining(ServerPlayerEntity player, net.minecraft.item.Item item, int ticks) {
+        if (player == null || item == null) {
+            return false;
         }
+        dev.caecorthus.sparkdlc.trait.killer.combat.ExactItemCooldowns.setExact(player, item, ticks);
+        return true;
     }
 
     public static int getItemCooldownTick(PlayerEntity player) {
@@ -159,14 +173,24 @@ public final class SparkTraitsApi {
                         .knifeReleaseThreshold(player, knife, baseTicks - 1) + 1;
     }
 
+    /** Makes a death reason terminal: kills with it skip the trait revive/counter hooks (an unprotectable penalty).
+     * Read live at kill time, so registering at server start is early enough; idempotent; {@code reason} must not
+     * be null.
+     * 把死亡原因登记为终结原因：以它造成的击杀会跳过词条的复活/反击钩子（不可保护的惩罚）。击杀时实时读取，因此在服务端
+     * 启动时登记即足够早；可重复登记；{@code reason} 不可为空。 */
     public static void registerTerminalDeathReason(Identifier reason) {
         dev.caecorthus.sparkdlc.trait.lifecycle.TerminalDeathRules.register(reason);
     }
 
+    /** Whether a death reason is registered terminal (an unprotectable penalty); a null reason answers false.
+     * 该死亡原因是否已登记为终结原因（不可保护的惩罚）；原因为空时返回 false。 */
     public static boolean isTerminalDeathReason(Identifier reason) {
         return dev.caecorthus.sparkdlc.trait.lifecycle.TerminalDeathRules.contains(reason);
     }
 
+    /** Last Escape or silenced effective killer. The trait feature gates NoellesRoles' skill packets itself; every
+     * other role's own skill packets must ask this themselves.
+     * 脱险或被沉默的有效杀手。词条功能只自行拦截 NoellesRoles 的技能数据包；其余职业自有的技能数据包必须自行查询。 */
     public static boolean isRoleSkillBlocked(PlayerEntity player) {
         return player != null && (isKillerInteractionBlocked(player)
                 || dev.caecorthus.sparkdlc.trait.compat.noellesroles.SilencedKillerRestrictionService.isRestricted(player));
@@ -185,6 +209,72 @@ public final class SparkTraitsApi {
                 && TraitPlayerComponent.KEY.maybeGet(player)
                         .map(component -> component.hasActiveTrait(traitId))
                         .orElse(false);
+    }
+
+    /** Whether the player holds an active Impostor. Owner-synced, so it also answers for the local player on a client.
+     *  玩家是否持有生效的内鬼。该词条同步给本人，因此客户端也能回答本地玩家。 */
+    public static boolean hasImpostor(PlayerEntity player) {
+        return hasActiveTrait(player, ImpostorTrait.ID);
+    }
+
+    /** Owner-synced like Impostor, so client shop listings and server validation agree.
+     *  与内鬼一样同步给本人，保证客户端商店列表与服务端校验一致。 */
+    public static boolean hasConscience(PlayerEntity player) {
+        return hasActiveTrait(player, ConscienceTrait.ID);
+    }
+
+    /** Whether the player holds an active Team First (the killer team purse asks on every income).
+     *  玩家是否持有生效的团队至上（杀手团队钱包每次入账时查询）。 */
+    public static boolean hasTeamFirst(PlayerEntity player) {
+        return hasActiveTrait(player, KillerTraits.TEAM_FIRST);
+    }
+
+    /** Whether the player holds an active Master Saboteur (the sabotage system asks when an outage or a junction-box
+     *  channel starts).
+     *  玩家是否持有生效的破坏大师（破坏系统在停电或接线盒引导开始时查询）。 */
+    public static boolean hasMasterSaboteur(PlayerEntity player) {
+        return hasActiveTrait(player, KillerTraits.MASTER_SABOTEUR);
+    }
+
+    /**
+     * Killer-team membership after the alignment flips, for a caller that already holds the player's role: Impostor
+     * turns an original civilian into a killer, Conscience turns an original killer into a civilian, and with both
+     * traits Impostor decides (killer). A null role is on neither side; a null player counts as holding neither trait.
+     * 判断玩家是否属于阵营翻转后的有效杀手阵营（供已持有玩家身份的调用方使用）：内鬼词条会把原始好人翻为杀手；
+     * 善良词条会把原始杀手翻为好人。若两个词条同时存在，则由内鬼词条负责判定为杀手。身份为空时不属于任何一方；
+     * 玩家为空时视为两个词条都没有。
+     */
+    public static boolean isEffectiveKiller(Role role, PlayerEntity player) {
+        if (role == null) {
+            return false;
+        }
+        if (hasImpostor(player)) {
+            return true;
+        }
+        if (hasConscience(player)) {
+            return false;
+        }
+        return role.canUseKiller();
+    }
+
+    /**
+     * Civilian-team membership after the alignment flips, the counterpart of {@link #isEffectiveKiller(Role,
+     * PlayerEntity)}: Conscience is asked first (civilian), then Impostor (not a civilian); without either trait the
+     * role's original Wathe side decides. A null role is on neither side.
+     * 判断玩家是否属于“有效好人阵营”，与 {@link #isEffectiveKiller(Role, PlayerEntity)} 对应：善良词条优先视作好人；
+     * 内鬼词条优先视作杀手；没有相关词条时回退到 Wathe 原始角色阵营。身份为空时不属于任何一方。
+     */
+    public static boolean isEffectiveCivilian(Role role, PlayerEntity player) {
+        if (role == null) {
+            return false;
+        }
+        if (hasConscience(player)) {
+            return true;
+        }
+        if (hasImpostor(player)) {
+            return false;
+        }
+        return role.isInnocent();
     }
 
     /**
@@ -216,6 +306,14 @@ public final class SparkTraitsApi {
                 ? 0 : ForcedMeleeCooldownService.remainingTicks(player, weapon);
     }
 
+    /** New action gate, not a kill-source filter: emitted projectiles and marks keep resolving. True while killer
+     * interactions are blocked (Last Escape) or the weapon is under a forced melee cooldown. Null-safe, both sides.
+     * 仅拦截新动作，不过滤击杀来源；已发出的投射物与标记继续结算。杀手交互被禁用（脱险）或该武器处于强制近战冷却时为
+     * true。支持空值，两端均可调用。 */
+    public static boolean blocksWeaponAction(PlayerEntity player, ItemStack weapon) {
+        return isKillerInteractionBlocked(player) || getForcedMeleeCooldownTicks(player, weapon) > 0;
+    }
+
     /**
      * Call after normal target validation but before an immediate melee action spends resources.
      * 在普通目标校验之后、即时近战行动消耗资源之前调用；抵挡会产生一次反制效果。
@@ -227,6 +325,24 @@ public final class SparkTraitsApi {
     ) {
         return attacker != null && victim != null && weapon != null
                 && CloseQuartersService.shouldCancelMeleeAttack(attacker, victim, weapon);
+    }
+
+    /**
+     * The whole trait gate of a melee weapon that settles its own hit: the attack is refused while the attacker's
+     * weapon action is blocked ({@link #blocksWeaponAction}, asked first so that a blocked attacker never spends the
+     * victim's counter), otherwise when {@link #shouldCancelMeleeAttack} cancels it. Call only after normal role,
+     * range, target permission and charge checks, before any costs. False when an argument is null.
+     * 自行结算命中的近战武器所需的完整词条判定：攻击者的武器动作被禁用时拒绝（{@link #blocksWeaponAction}，先行检查，
+     * 因此被禁用的攻击者不会消耗受害者的反制），否则在 {@link #shouldCancelMeleeAttack} 取消时拒绝。
+     * 仅在职业、距离、目标权限及次数校验后、消耗前调用；反制由服务端词条功能结算。任一参数为空时返回 false。
+     */
+    public static boolean blocksOrCancelsMeleeAttack(
+            ServerPlayerEntity attacker,
+            ServerPlayerEntity victim,
+            ItemStack weapon
+    ) {
+        return attacker != null && victim != null && weapon != null
+                && (blocksWeaponAction(attacker, weapon) || shouldCancelMeleeAttack(attacker, victim, weapon));
     }
 
     /**
@@ -289,6 +405,28 @@ public final class SparkTraitsApi {
                 : TraitPlayerComponent.KEY.maybeGet(player)
                         .map(TraitPlayerComponent::getActiveTraitIds)
                         .orElseGet(List::of);
+    }
+
+    /**
+     * Immutable set of the player's active trait ids, as strings, limited to the traits this side's
+     * {@link TraitRegistry} knows (an id from a newer server is skipped). A client is only sent a player's own
+     * traits, so for the local player this is what the guide book and the achievement tracker may show. Cheap enough
+     * for a per-tick poll: it reads the player's few active ids instead of asking about every registered trait.
+     * 玩家生效天赋 id（字符串形式）的不可变集合，仅包含本端 {@link TraitRegistry} 认识的天赋（来自更新服务端的 id 会被跳过）。
+     * 客户端只会收到玩家本人的天赋，因此对本地玩家而言，这正是指南与成就追踪可以展示的内容。开销足够小，可每 tick 轮询：
+     * 直接读取玩家仅有的几个生效天赋，而不是逐个询问全部已注册天赋。
+     */
+    public static Set<String> getRegisteredActiveTraitIdStrings(PlayerEntity player) {
+        if (player == null) {
+            return Set.of();
+        }
+        Set<String> activeIds = new LinkedHashSet<>();
+        for (Identifier id : getActiveTraitIds(player)) {
+            if (TraitRegistry.contains(id)) {
+                activeIds.add(id.toString());
+            }
+        }
+        return Set.copyOf(activeIds);
     }
 
     /**
@@ -454,7 +592,7 @@ public final class SparkTraitsApi {
      * 在不引入强制依赖的前提下，将冤魂活动状态委托给其 SparkWitch 所有者。
      */
     public static boolean isWraithActive(PlayerEntity player) {
-        return SparkWitchWraithBridge.isWraithActive(player);
+        return SparkWitchApi.isWraithActive(player);
     }
 
     /**
@@ -471,8 +609,11 @@ public final class SparkTraitsApi {
      * Returns the ordered trait ids the player ended the round with, including traits hidden from their owner:
      * online active traits, else the latest death snapshot, else the assignment-time round snapshot.
      * Server-only; meaningful until Wathe's finalize resets players (e.g. inside its replay generation). Never null.
+     * Also right for a victim inside Wathe's {@code KillPlayer.AFTER}, on either side of the trait feature's own AFTER
+     * listener (which snapshots, then wipes, the victim's traits).
      * 返回玩家本局结束时持有的有序词条 id（包含对本人隐藏的词条）：在线时取当前词条，否则取最近死亡快照，再否则取分配时快照。
-     * 仅限服务端；在 Wathe 结算重置玩家之前（如回放生成期间）有效。永不返回 null。
+     * 仅限服务端；在 Wathe 结算重置玩家之前（如回放生成期间）有效。永不返回 null。在 Wathe 的 {@code KillPlayer.AFTER}
+     * 中查询受害者同样正确，无论调用发生在词条功能自己的 AFTER 监听器（先快照、再清空受害者词条）之前还是之后。
      */
     public static List<Identifier> getRoundEndTraitIds(ServerWorld world, UUID playerUuid) {
         if (world == null || playerUuid == null) {
@@ -484,8 +625,9 @@ public final class SparkTraitsApi {
     }
 
     /**
-     * Returns whether the world is currently in Last Stand's final moment.
-     * 返回当前世界是否处于背水一战的终局时刻。
+     * Returns whether the world is currently in Last Stand's final moment. The flag is synced with the world, so
+     * clients can ask too.
+     * 返回当前世界是否处于背水一战的终局时刻。该标记随世界同步，客户端同样可用。
      */
     public static boolean isFinalMomentActive(World world) {
         return world != null
@@ -507,8 +649,9 @@ public final class SparkTraitsApi {
     /**
      * Weapon cooldown to keep after a non-final kill: 20% of the original, rounded up.
      * SparkTraits already applies it to item cooldowns; weapons with their own cooldown state use this value.
+     * Never negative and never longer than the original (0 for a non-positive original).
      * 非最终击杀后武器应保留的冷却：原冷却的 20%，向上取整。物品冷却已由 SparkTraits 处理，
-     * 自带冷却状态的武器使用此值。
+     * 自带冷却状态的武器使用此值。不会为负，也不会超过原冷却（原冷却不为正时为 0）。
      */
     public static int getNonFinalKillCooldownTicks(int originalTicks) {
         return dev.caecorthus.sparkdlc.trait.civilian.depression.DepressionFakeKillCooldowns.discountedTicks(originalTicks);
@@ -517,7 +660,10 @@ public final class SparkTraitsApi {
     /**
      * Runs a kill that happens away from the attacker's hands (e.g. a push that later makes the victim fall),
      * naming the weapon item that keeps the non-final-kill cooldown if the kill turns out non-final.
+     * The kill always runs exactly once, inside the weapon-hint scope (a null weapon runs it without a hint), and
+     * whatever it throws surfaces unchanged.
      * 执行不在攻击者手中发生的击杀（如推人后受害者坠车），并指明若成为非最终击杀时应缩短冷却的武器物品。
+     * 击杀恰好执行一次：在武器提示作用域内执行（武器为空时不带提示直接执行），击杀抛出的异常原样抛出。
      */
     public static void runWithNonFinalKillWeapon(net.minecraft.item.Item weapon, Runnable kill) {
         if (weapon == null) {

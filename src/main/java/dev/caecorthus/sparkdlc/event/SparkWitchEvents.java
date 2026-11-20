@@ -7,7 +7,7 @@ import dev.caecorthus.sparkdlc.role.civilian.usec.UsecFeatureService;
 import dev.caecorthus.sparkdlc.role.witch.potiongunner.PotionGunnerFeatureService;
 import dev.caecorthus.sparkdlc.role.civilian.emma.EmmaGunService;
 import dev.caecorthus.sparkdlc.role.civilian.emma.EmmaLifecycle;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsWraithBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.component.PerfumerPlayerComponent;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.component.WitchWorldComponent;
@@ -79,7 +79,7 @@ import dev.caecorthus.sparkdlc.role.civilian.noa.NoaFeatureService;
 import dev.caecorthus.sparkdlc.role.civilian.perfumer.PerfumerShopService;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchActiveSkillService;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFeatureService;
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.witch.WitchFactionFeatureService;
 import dev.caecorthus.sparkdlc.role.witch.abysslistener.AbyssListenerFeatureService;
 import dev.caecorthus.sparkdlc.role.witch.bewitched.BewitchedFeatureService;
@@ -92,6 +92,7 @@ import dev.caecorthus.sparkdlc.role.jiahao.insider.InsiderEquipmentService;
 import dev.caecorthus.sparkdlc.role.jiahao.sniper.SniperFeatureService;
 import dev.caecorthus.sparkdlc.role.neutral.stowaway.StowawayKillRewardService;
 import dev.caecorthus.sparkdlc.role.neutral.stowaway.StowawayLoadoutService;
+import dev.caecorthus.sparkdlc.role.neutral.stowaway.StowawaySettlement;
 import dev.caecorthus.sparkdlc.role.neutral.cat.SchrodingersCatService;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.RiftwalkerFeatureService;
 import dev.caecorthus.sparkdlc.role.civilian.piggod.PigGodEconomyService;
@@ -248,6 +249,7 @@ public final class SparkWitchEvents {
         ApprenticeFeatureService.register();
         StowawayLoadoutService.register();
         StowawayKillRewardService.register();
+        StowawaySettlement.register();
         SchrodingersCatService.register();
         JunkerService.register();
         // BEAR smoke (spike): round-edge clears, expiry and player resyncs. / BEAR 烟雾（原型）：回合节点清除、过期与玩家重新同步。
@@ -361,7 +363,7 @@ public final class SparkWitchEvents {
         // keeps uses and mark (Time Stealer / Seeker precedent). / SparkTraits 拦截的死亡（背水一战）不算死亡：击杀者不加次数，
         // 复活的支配者保留次数与标记（窃时者、搜寻者先例）。
         KillPlayer.AFTER.register((victim, killer, deathReason) -> {
-            if (!WitchFactorTraitsBridge.isDeathIntercepted(victim)) {
+            if (!SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
                 DominatorSkillService.afterKill(victim, killer, deathReason);
             }
         });
@@ -370,7 +372,7 @@ public final class SparkWitchEvents {
             FirePokerFallAttributionService.clearPlayer(victim);
             PigGodChaseRuntime.clear(victim, WitchPlayerComponent.KEY.get(victim));
             PerfumerPlayerComponent.KEY.get(victim).stopCologne();
-            if (!WitchFactorTraitsBridge.isDeathIntercepted(victim)) {
+            if (!SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
                 // A Last Stand survivor keeps fear, the Otherworld state and cowardice (Dominator / Time Stealer /
                 // Seeker precedent). / 背水一战存活者保留恐惧、里世界状态与怯懦（支配者、窃时者、搜寻者先例）。
                 SpecterFearComponent.KEY.get(victim).clear();
@@ -384,7 +386,7 @@ public final class SparkWitchEvents {
                 dev.caecorthus.sparkdlc.role.civilian.sherry.SherryComponent.KEY.get(victim).clear();
             }
             OrthopedistSkillService.clearPlayer(victim);
-            if (!WitchFactorTraitsBridge.isDeathIntercepted(victim)) {
+            if (!SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
                 DominatorSkillService.clearPlayer(victim);
             }
         });
@@ -409,7 +411,7 @@ public final class SparkWitchEvents {
                 if (WraithStateService.isActive(serverPlayer)) {
                     // SparkTraits observes active Wraith state while dispatching terminal trait removals.
                     // SparkTraits 分发终局天赋移除事件时必须仍能观察到激活的冤魂状态。
-                    SparkTraitsWraithBridge.clear(serverPlayer, true);
+                    SparkTraitsApi.clearWraithTraits(serverPlayer, true);
                 }
                 WraithLifecycle.clearPlayer(serverPlayer);
             }

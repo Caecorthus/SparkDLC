@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.neutral.koko;
 
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
@@ -140,7 +140,7 @@ public final class KokoStreamService {
     private static boolean isControlled(PlayerEntity player) {
         return NoellesTaotieSeekerBridge.isSwallowed(player)
                 || ControlExpertStun.isStunned(player)
-                || SparkTraitsKillerBridge.isRoleSkillBlocked(player);
+                || SparkTraitsApi.isRoleSkillBlocked(player);
     }
 
     /**

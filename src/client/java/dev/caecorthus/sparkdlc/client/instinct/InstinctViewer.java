@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.instinct;
 
 import dev.caecorthus.sparkdlc.client.render.ClientFrame;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -55,7 +55,7 @@ public record InstinctViewer(ClientPlayerEntity player, GameWorldComponent game,
         GameWorldComponent game = GameWorldComponent.KEY.get(player.getWorld());
         Role role = game.getRole(player);
         viewer = new InstinctViewer(player, game, role, GameFunctions.isPlayerPlayingAndAlive(player),
-                SparkTraitsCompat.isEffectiveKiller(role, player), CoronerService.activeDisguiseRoleForRules(player));
+                SparkTraitsApi.isEffectiveKiller(role, player), CoronerService.activeDisguiseRoleForRules(player));
         cached = rendering ? viewer : null;
         cachedEpoch = ClientFrame.epoch();
         return viewer;

@@ -53,6 +53,16 @@ public final class CoronerDisguises {
         return CoronerRules.isKillerFaction(activeDisguiseRole(player));
     }
 
+    /**
+     * Disguised as a body native killers take for a cohort: a killer-faction or Undercover identity. The Coroner's own
+     * cohort prompt and red instinct and the trait feature's cohort override ask this one rule.
+     * 伪装成原生杀手会看作同伙的尸体身份：杀手阵营或卧底。验尸官自身的同伙提示与红色本能、以及词条功能的同伙覆盖都询问这一条规则。
+     */
+    public static boolean hasKillerCohortDisguise(PlayerEntity player) {
+        Role disguise = activeDisguiseRole(player);
+        return CoronerRules.isKillerFaction(disguise) || CoronerRules.isUndercover(disguise);
+    }
+
     public static boolean hasVeteranDisguise(PlayerEntity player) {
         return CoronerRules.isVeteran(activeDisguiseRole(player));
     }

@@ -3,8 +3,7 @@ package dev.caecorthus.sparkdlc.role.civilian.seeker.taotie;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
 import dev.caecorthus.sparkdlc.compat.noellesroles.SeekerControlExpertBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsSeekerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerCarState;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerStatusComponent;
@@ -13,7 +12,6 @@ import dev.caecorthus.sparkdlc.role.civilian.seeker.device.SeekerDeviceService;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.net.SeekerCarSwallowC2SPacket;
 import dev.caecorthus.sparkdlc.role.special.wraith.WraithStateService;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
 import dev.doctor4t.wathe.api.event.KillPlayer;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -109,7 +107,7 @@ public final class SeekerTaotieService {
         }
         // The SparkTraits reflective query runs only when this victim actually holds a car.
         // 只有受害者确实吞着小车时才执行 SparkTraits 反射查询。
-        if (holders.isEmpty() || WitchFactorTraitsBridge.isDeathIntercepted(victim)) {
+        if (holders.isEmpty() || SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
             return;
         }
         for (ServerPlayerEntity owner : holders) {
@@ -138,7 +136,7 @@ public final class SeekerTaotieService {
         UUID lostTo = component.carLostTo();
         if (SeekerTaotieRules.shouldAttemptReturn(component.carState(), component.pendingReturn(), lostTo,
                 () -> SeekerTaotieRules.isFinalDeath(game.isPlayerDead(lostTo),
-                        SparkTraitsSeekerBridge.isLastStandPending(server.getPlayerManager().getPlayer(lostTo))),
+                        SparkTraitsApi.isLastStandPending(server.getPlayerManager().getPlayer(lostTo))),
                 () -> NoellesTaotieSeekerBridge.isTaotie(game, lostTo))) {
             SeekerDeviceService.returnSwallowedCar(owner);
         }
@@ -182,7 +180,7 @@ public final class SeekerTaotieService {
 
         @Override
         public boolean roleSkillBlocked() {
-            return SparkTraitsKillerBridge.isRoleSkillBlocked(taotie);
+            return SparkTraitsApi.isRoleSkillBlocked(taotie);
         }
 
         @Override

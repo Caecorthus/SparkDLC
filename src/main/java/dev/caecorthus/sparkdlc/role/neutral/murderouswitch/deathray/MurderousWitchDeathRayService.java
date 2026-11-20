@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.neutral.murderouswitch.deathray;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.net.FireDeathRayC2SPacket;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RangedSmokeCarve;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceHits;
@@ -82,7 +82,7 @@ public final class MurderousWitchDeathRayService {
     public static boolean fire(ServerPlayerEntity caster, FireDeathRayC2SPacket payload) {
         // Only the click-specific firing receiver is gated; the independent skill key is unchanged.
         // 仅拦截点击触发的发射入口，不改变独立技能键。
-        if (SparkTraitsKillerBridge.isKillerInteractionBlocked(caster)) {
+        if (SparkTraitsApi.isKillerInteractionBlocked(caster)) {
             return false;
         }
         ServerWorld world = caster.getServerWorld();

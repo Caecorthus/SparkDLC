@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.SparkStrengthBlocks;
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
 import dev.caecorthus.sparkdlc.SparkStrengthSounds;
 import dev.caecorthus.sparkdlc.block.JunctionBoxBlock;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsSabotageCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.sabotage.SabotageWorldComponent;
 import dev.caecorthus.sparkdlc.sabotage.net.ChannelProgressS2CPacket;
 import dev.caecorthus.sparkdlc.role.civilian.undercover.UndercoverService;
@@ -130,7 +130,7 @@ public final class JunctionBoxService {
         }
         stop(player, ChannelProgressS2CPacket.STATE_STOPPED);
         sabotage.addJunctionBox(pos);
-        int rate = SabotageRules.pryPerTick(SparkTraitsSabotageCompat.isMasterSaboteur(player));
+        int rate = SabotageRules.pryPerTick(SparkTraitsApi.hasMasterSaboteur(player));
         Channel channel = new Channel(ChannelProgressS2CPacket.KIND_PRY, type, world.getRegistryKey(), pos,
                 SabotageRules.DURABILITY_MAX, rate, now);
         channel.progress = SabotageRules.DURABILITY_MAX - sabotage.box(pos).durability;
@@ -169,7 +169,7 @@ public final class JunctionBoxService {
             return;
         }
         stop(player, ChannelProgressS2CPacket.STATE_STOPPED);
-        int total = SabotageRules.hackTicks(SparkTraitsSabotageCompat.isMasterSaboteur(player));
+        int total = SabotageRules.hackTicks(SparkTraitsApi.hasMasterSaboteur(player));
         Channel channel = new Channel(ChannelProgressS2CPacket.KIND_HACK, type, world.getRegistryKey(), pos, total, 1,
                 now);
         CHANNELS.put(player.getUuid(), channel);
@@ -212,13 +212,9 @@ public final class JunctionBoxService {
     }
 
     /**
-     * Frozen cross-module seam: a weapon hit on a closed junction box, e.g. the SparkWitch Hunter's shotgun. SparkWitch's
-     * {@code compat/SparkStrengthJunctionBoxCompat} calls it (directly since the SparkDLC fusion), so the class
-     * {@code dev.caecorthus.sparkdlc.sabotage.JunctionBoxService}, the name {@code damageByWeapon} and the parameter types
-     * {@code (ServerPlayerEntity, BlockPos, int)} stay frozen. Server thread only.
-     * 冻结的跨模块接缝：武器命中未打开的接线箱，例如 SparkWitch 猎人的猎枪。SparkWitch 的
-     * compat/SparkStrengthJunctionBoxCompat 会调用它（融合进 SparkDLC 后为直接调用），因此类名、方法名 damageByWeapon 与参数类型
-     * (ServerPlayerEntity, BlockPos, int) 保持冻结。仅限服务端线程。
+     * A weapon hit on a closed junction box: the Hunter's shotgun ({@code DoubleBarrelShotgunItem}) calls it for the
+     * box its shot landed on. Server thread only.
+     * 武器命中未打开的接线箱：猎人的猎枪（{@code DoubleBarrelShotgunItem}）对其落点处的箱子调用本方法。仅限服务端线程。
      *
      * <p>Same gates as {@link #onPry}, but silent (a shot is not an interaction) and fail-closed: a null argument,
      * {@code damage <= 0}, a client world or any refused gate returns false and changes nothing. The caller owns

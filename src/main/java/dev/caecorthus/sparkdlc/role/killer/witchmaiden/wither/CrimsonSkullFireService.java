@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.witchmaiden.wither;
 
 import dev.caecorthus.sparkdlc.SparkWitchSounds;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.controlexpert.ControlExpertStun;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.remote.SeekerRemoteSessionService;
@@ -48,7 +48,7 @@ public final class CrimsonSkullFireService {
         ItemStack gohei = player.getMainHandStack();
         if (!WitherGoheiInventoryRules.isGohei(gohei)
                 || !WitchMaidenRules.isWitchMaiden(GameWorldComponent.KEY.get(player.getWorld()).getRole(player))
-                || SparkTraitsKillerBridge.blocksWeaponAction(player, gohei)
+                || SparkTraitsApi.blocksWeaponAction(player, gohei)
                 || player.getItemCooldownManager().isCoolingDown(gohei.getItem())) {
             return;
         }

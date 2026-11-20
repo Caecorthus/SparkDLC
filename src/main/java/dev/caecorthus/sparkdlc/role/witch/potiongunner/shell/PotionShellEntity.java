@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.witch.potiongunner.shell;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDamageRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceHits;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit.BlackRavenCrowHits;
@@ -294,7 +294,7 @@ public class PotionShellEntity extends ThrownItemEntity {
         return PotionShellFlight.playerStopsShell(
                 GameFunctions.isPlayerAliveAndSurvival(player),
                 GameFunctions.isPlayerPlayingAndAlive(player),
-                !getWorld().isClient() && SparkTraitsKillerBridge.isLastEscapeActive(player));
+                !getWorld().isClient() && SparkTraitsApi.isLastEscapeActive(player));
     }
 
     /**

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.controlexpert;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsShopEntryPreserver;
+import dev.caecorthus.sparkdlc.trait.api.TraitShopEntries;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -37,7 +37,7 @@ public final class ControlExpertShopService {
         }
         // SparkTraits entries (e.g. the Impostor revolver) may already be present; keep them across the rebuild.
         // SparkTraits 条目（如内鬼左轮）可能已先加入；重建时保留它们。
-        List<ShopEntry> preservedTraitEntries = SparkTraitsShopEntryPreserver.capture(context);
+        List<ShopEntry> preservedTraitEntries = TraitShopEntries.capture(context);
         context.clearEntries();
         context.addEntry(new ShopEntry.Builder(
                 ControlExpertRules.DISRUPTOR_ENTRY_ID,
@@ -59,6 +59,6 @@ public final class ControlExpertShopService {
                 ControlExpertRules.SHOCK_DEVICE_PRICE,
                 ShopEntry.Type.WEAPON
         ).build());
-        SparkTraitsShopEntryPreserver.restore(context, preservedTraitEntries);
+        TraitShopEntries.restore(context, preservedTraitEntries);
     }
 }

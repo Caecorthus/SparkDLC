@@ -2,8 +2,7 @@ package dev.caecorthus.sparkdlc.role.witch.riftwalker.sabbath;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsSeekerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.fisher.spirit.FisherSpiritComponent;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerInventoryRules;
 import dev.caecorthus.sparkdlc.role.killer.kidnapper.KidnapperControlComponent;
@@ -83,12 +82,12 @@ final class WitchesSabbathTargets {
 
             @Override
             public boolean lastStandPending() {
-                return SparkTraitsSeekerBridge.isLastStandPending(caster);
+                return SparkTraitsApi.isLastStandPending(caster);
             }
 
             @Override
             public boolean lastEscape() {
-                return SparkTraitsKillerBridge.isLastEscapeActive(caster);
+                return SparkTraitsApi.isLastEscapeActive(caster);
             }
 
             @Override
@@ -106,7 +105,7 @@ final class WitchesSabbathTargets {
             @Override
             public boolean roleSkillBlocked() {
                 // SparkWitch packets are outside SparkTraits' packet gate, so ask the facade. / SparkWitch 数据包不在 Traits 拦截范围内。
-                return SparkTraitsKillerBridge.isRoleSkillBlocked(caster);
+                return SparkTraitsApi.isRoleSkillBlocked(caster);
             }
 
             @Override
@@ -149,12 +148,12 @@ final class WitchesSabbathTargets {
 
             @Override
             public boolean lastStandPending() {
-                return SparkTraitsSeekerBridge.isLastStandPending(player);
+                return SparkTraitsApi.isLastStandPending(player);
             }
 
             @Override
             public boolean lastEscape() {
-                return SparkTraitsKillerBridge.isLastEscapeActive(player);
+                return SparkTraitsApi.isLastEscapeActive(player);
             }
 
             @Override

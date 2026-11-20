@@ -32,6 +32,9 @@
     "voicechat": [
       "dev.caecorthus.sparkdlc.voice.SparkDlcVoiceChatPlugin"
     ],
+    "sparkdlc_client_voice": [
+      "dev.caecorthus.sparkdlc.client.voice.IncomingVoiceEffects"
+    ],
     "lambdynlights:initializer": [
       "dev.caecorthus.sparkdlc.client.role.civilian.savior.SaviorDynamicLightsInitializer"
     ],

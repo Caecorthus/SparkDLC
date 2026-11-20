@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.client.gui.widget;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
+import dev.caecorthus.sparkdlc.SparkWitchFactions;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCaseRules;
 import dev.caecorthus.sparkdlc.role.civilian.detective.DetectiveCaseRules.RolePickerBand;
 import dev.doctor4t.wathe.api.Role;
@@ -26,19 +27,19 @@ public final class RoleFactionBands {
     }
 
     /**
-     * Witch faction and Team Jiahao come from SparkFactionAPI's role-only base faction: as native Wathe factions they
-     * no longer read {@code isNeutral()} and would otherwise fall into the innocent band. Without SparkFactionAPI the
-     * old split stays (neutral-aligned falls back to {@code isNeutral()}).
-     * 魔女阵营与嘉豪阵营取自 SparkFactionAPI 仅由身份决定的基础阵营：作为原生 Wathe 阵营它们的 isNeutral() 已为 false，
-     * 否则会落入平民组。没有 SparkFactionAPI 时沿用原划分（与中立对齐回退为 isNeutral()）。
+     * Witch faction and Team Jiahao come from the faction contract's role-only base faction (deterministic on client
+     * and server): as native Wathe factions they no longer read {@code isNeutral()} and would otherwise fall into the
+     * innocent band. The role must not be null.
+     * 魔女阵营与嘉豪阵营取自阵营契约仅由身份决定的基础阵营（客户端与服务端结果一致）：作为原生 Wathe 阵营它们的 isNeutral()
+     * 已为 false，否则会落入平民组。身份不得为 null。
      */
     public static RolePickerBand bandOf(Role role) {
-        Identifier faction = SparkFactionCompat.baseFaction(role);
+        Identifier faction = SparkFactionApi.resolveBaseFaction(role);
         return DetectiveCaseRules.rolePickerBand(
                 role.canUseKiller(),
-                SparkFactionCompat.WITCH_FACTION_ID.equals(faction),
-                SparkFactionCompat.JIAHAO_FACTION_ID.equals(faction),
-                SparkFactionCompat.isNeutralAligned(role));
+                SparkWitchFactions.WITCH.equals(faction),
+                SparkWitchFactions.JIAHAO.equals(faction),
+                SparkFactionApi.isNeutralAligned(role));
     }
 
     /** Opaque ARGB accent of a band. / 分组的不透明 ARGB 强调色。 */

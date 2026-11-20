@@ -2,8 +2,8 @@ package dev.caecorthus.sparkdlc.role.civilian.planner;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsCharismaBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsTaskIncomeBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.api.event.CanSeeMoney;
@@ -68,7 +68,7 @@ final class PlannerEconomyService {
         // 领到奖励。此处只读取任务表，是安全的。
         boolean recommended = state.isRecommendedTask(PlayerMoodComponent.KEY.get(serverPlayer).tasks.get(type))
                 && !PlannerRules.isExpired(serverPlayer.getServerWorld().getTime(), state.recommendationEndTick());
-        if (canEarn(serverPlayer) && Boolean.FALSE.equals(SparkTraitsTaskIncomeBridge.isImpostor(serverPlayer))) {
+        if (canEarn(serverPlayer) && !SparkTraitsApi.hasActiveTrait(serverPlayer, TraitIds.IMPOSTOR)) {
             int coins = PlannerRules.ownTaskCoins(recommended);
             if (coins > 0) {
                 PlayerShopComponent.KEY.get(serverPlayer).addToBalance(coins);
@@ -139,6 +139,6 @@ final class PlannerEconomyService {
         }
         ShopEntry slip = new ShopEntry.Builder(PlannerRules.TASK_SLIP_ENTRY,
                 new ItemStack(SparkWitchItems.plannerTaskSlip()), PlannerRules.SLIP_PRICE, ShopEntry.Type.TOOL).build();
-        context.addEntry(SparkTraitsCharismaBridge.discountShopEntry(player, slip));
+        context.addEntry(SparkTraitsApi.discountShopEntryForCharisma(player, slip));
     }
 }

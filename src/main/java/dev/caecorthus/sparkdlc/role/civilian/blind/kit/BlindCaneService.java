@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.blind.kit;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindComponent;
@@ -121,7 +121,7 @@ public final class BlindCaneService {
     static void writeItemCooldown(ServerPlayerEntity player, int ticks) {
         Item cane = SparkWitchItems.whiteCane();
         BlindKitRules.writeRaisedCooldown(remainingItemCooldown(player, cane), ticks,
-                merged -> SparkTraitsKillerBridge.setExactItemCooldownRemaining(player, cane, merged),
+                merged -> SparkTraitsApi.setExactItemCooldownRemaining(player, cane, merged),
                 merged -> player.getItemCooldownManager().set(cane, merged));
     }
 

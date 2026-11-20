@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.client.scope.ScopeClient;
 import dev.caecorthus.sparkdlc.client.scope.ScopeFrame;
 import dev.caecorthus.sparkdlc.client.scope.ScopeProfile;
 import dev.caecorthus.sparkdlc.client.scope.ScopeRules;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsUsecBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -78,7 +78,7 @@ public final class UsecScopeProfile implements ScopeProfile {
         MinecraftClient client = MinecraftClient.getInstance();
         // AP holdover follows the shooter's own Marksman multiplier (fails closed to 1.0 without SparkTraits).
         // AP 抬枪刻度跟随射手自己的精确枪手倍率（没有 SparkTraits 时回退为 1.0）。
-        double marksman = SparkTraitsUsecBridge.marksmanRangeMultiplier(client.player);
+        double marksman = SparkTraitsApi.getMarksmanRangeMultiplier(client.player);
         UsecReticleRenderer.draw(context, client.textRenderer, frame, UsecReticleStyle.DEFAULT,
                 client.getWindow().getScaleFactor(), marksman, UsecZoomState.fovMultiplier());
     }

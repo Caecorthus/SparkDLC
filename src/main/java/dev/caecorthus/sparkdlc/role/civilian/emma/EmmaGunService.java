@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.emma;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsGunBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.record.witch.AchievementRecords;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorService;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
@@ -27,7 +27,10 @@ public final class EmmaGunService {
     public static void register() {
         if (registered) return;
         registered = true;
-        SparkTraitsGunBridge.register();
+        // Backlash skips the trait revive/counter hooks, and Emma observes every accepted shot cycle.
+        // 因子反噬跳过词条的复活/反击钩子；艾玛观察每一次有效射击周期。
+        SparkTraitsApi.registerTerminalDeathReason(EmmaTerminalService.DEATH_REASON);
+        SparkTraitsApi.registerGunShotCycleListener(new EmmaGunListener());
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> SHOTS.clear());
         ServerDisconnectCleanup.register((player, server) ->
                 SHOTS.values().removeIf(shot -> shot.shooter() == player));
@@ -51,7 +54,7 @@ public final class EmmaGunService {
         if (!matches(shot, shooter) || !(token instanceof Attempt attempt)
                 || !attempt.target().equals(target.getUuid()) || !attempt.wasAlive()) return;
         boolean terminal = GameWorldComponent.KEY.get(target.getWorld()).isPlayerDead(target.getUuid())
-                && !SparkTraitsGunBridge.deathWasIntercepted(target);
+                && !SparkTraitsApi.isLastStandDeathIntercepted(target);
         if (shot.cycle().confirmKill(attempt.wasCarrier(), terminal)) {
             shooter.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 40, 2, false, false, true));
             applyCooldown(shot);
@@ -96,4 +99,38 @@ public final class EmmaGunService {
     private record Shot(ServerPlayerEntity shooter, net.minecraft.server.world.ServerWorld world,
                         EmmaGunCycle cycle) { }
     private record Attempt(UUID target, boolean wasAlive, boolean wasCarrier) { }
+
+    /** Forwards Traits' accepted-shot cycle to Emma's own service. / 把 Traits 的有效射击周期转发给 Emma 自己的服务。 */
+    private static final class EmmaGunListener implements SparkTraitsApi.GunShotCycleListener {
+        @Override
+        public void cycleStarted(ServerPlayerEntity shooter, UUID cycleId, Item weapon) {
+            EmmaGunService.cycleStarted(shooter, cycleId, weapon);
+        }
+
+        @Override
+        public Object beforeTargetKill(ServerPlayerEntity shooter, UUID cycleId, ServerPlayerEntity target) {
+            return EmmaGunService.beforeTargetKill(shooter, cycleId, target);
+        }
+
+        @Override
+        public void afterTargetKill(ServerPlayerEntity shooter, UUID cycleId, ServerPlayerEntity target, Object token) {
+            EmmaGunService.afterTargetKill(shooter, cycleId, target, token);
+        }
+
+        @Override
+        public void initialCooldownEstablished(ServerPlayerEntity shooter, UUID cycleId, Item weapon,
+                                               int startTick, int endTick, int currentTick) {
+            EmmaGunService.initialCooldownEstablished(shooter, cycleId, weapon, startTick, endTick, currentTick);
+        }
+
+        @Override
+        public void cycleClosed(ServerPlayerEntity shooter, UUID cycleId) {
+            EmmaGunService.cycleClosed(shooter, cycleId);
+        }
+
+        @Override
+        public String toString() {
+            return "SparkWitchEmmaGunListener";
+        }
+    }
 }

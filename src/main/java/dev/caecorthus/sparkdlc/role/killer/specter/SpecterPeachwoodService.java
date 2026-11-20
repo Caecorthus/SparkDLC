@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.role.killer.specter;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkFactionSecondRowCompat;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.item.BoundItemRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameConstants;
@@ -157,7 +157,7 @@ public final class SpecterPeachwoodService {
      */
     private static boolean keepOneUsableSword(ServerPlayerEntity player) {
         PlayerInventory inventory = player.getInventory();
-        boolean secondRow = SparkFactionSecondRowCompat.isShown();
+        boolean secondRow = LimitedInventoryRows.isSecondRowShown();
         boolean usable = false;
         boolean changed = false;
         for (int slot = 0; slot < inventory.size(); slot++) {
@@ -188,7 +188,7 @@ public final class SpecterPeachwoodService {
     static boolean isUsableSlot(int slot, boolean secondRowShown) {
         return PlayerInventory.isValidHotbarIndex(slot)
                 || slot == PlayerInventory.OFF_HAND_SLOT
-                || (secondRowShown && SparkFactionSecondRowCompat.isSecondRowSlot(slot));
+                || (secondRowShown && LimitedInventoryRows.isSecondRowIndex(slot));
     }
 
     /** First empty hotbar slot, then (when shown) the first empty second-row slot; -1 when full. / 第一个空快捷栏位，其次（显示时）第一个空第二行栏位；全满时为 -1。 */
@@ -199,8 +199,8 @@ public final class SpecterPeachwoodService {
             }
         }
         if (secondRowShown) {
-            for (int slot = SparkFactionSecondRowCompat.SECOND_ROW_START;
-                 slot < SparkFactionSecondRowCompat.SECOND_ROW_END; slot++) {
+            for (int slot = LimitedInventoryRows.SECOND_ROW_START;
+                 slot < LimitedInventoryRows.SECOND_ROW_END; slot++) {
                 if (inventory.getStack(slot).isEmpty()) {
                     return slot;
                 }
@@ -284,8 +284,8 @@ public final class SpecterPeachwoodService {
             return ActionResult.FAIL;
         }
         if (charge < 1.0F
-                || SparkTraitsKillerBridge.blocksWeaponAction(attacker, stack)
-                || SparkTraitsKillerBridge.shouldCancelMeleeAttack(attacker, victim, stack)) {
+                || SparkTraitsApi.blocksWeaponAction(attacker, stack)
+                || SparkTraitsApi.shouldCancelMeleeAttack(attacker, victim, stack)) {
             return ActionResult.FAIL;
         }
         GameRecordManager.recordItemUse(attacker, SparkWitchItems.PEACHWOOD_SWORD_ID, victim, null);

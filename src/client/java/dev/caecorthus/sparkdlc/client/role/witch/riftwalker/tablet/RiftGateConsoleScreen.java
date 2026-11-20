@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.witch.riftwalker.tablet;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthTabletCompat;
+import dev.caecorthus.sparkdlc.tablet.TabletItemLookup;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.RiftwalkerRules;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.net.RiftGateCloseC2SPacket;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.net.RiftGateConsoleRequestC2SPacket;
@@ -353,7 +353,7 @@ public class RiftGateConsoleScreen extends Screen {
 
     private boolean networkVisible() {
         ClientPlayerEntity player = client == null ? null : client.player;
-        return player != null && SparkStrengthTabletCompat.isTablet(player.getStackInHand(hand));
+        return player != null && TabletItemLookup.isTablet(player.getStackInHand(hand));
     }
 
     private boolean isListed(int gate) {

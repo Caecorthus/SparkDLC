@@ -4,15 +4,15 @@ import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
 import dev.caecorthus.sparkdlc.SparkWitchRoles;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthPartygoerCompat;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.item.CustomMeleeAffect;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponTarget;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.ApprenticePlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.apprentice.ApprenticeRules;
 import dev.caecorthus.sparkdlc.role.civilian.sherry.SherryMightyForceService;
 import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaInteractionService;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit.BlackRavenCrowHits;
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
 import dev.doctor4t.wathe.game.GameConstants;
@@ -51,12 +51,17 @@ public final class MightyForceCombatService {
     }
 
     public static ActionResult tryHandleAttack(Entity attacker, World world, Hand hand, Entity attacked) {
+        // Guards the custom melee effect before its attack path runs (CustomMeleeAffect).
+        // 在自定义近战攻击路径运行前拦截其效果（CustomMeleeAffect）。
+        if (CustomMeleeAffect.refuses(attacker, attacked)) {
+            return ActionResult.SUCCESS;
+        }
         if (world.isClient
                 || !(attacker instanceof ServerPlayerEntity serverAttacker)
                 || !serverAttacker.getStackInHand(hand).isEmpty()) {
             return ActionResult.PASS;
         }
-        if (SparkStrengthPartygoerCompat.isPartygoer(attacked)) {
+        if (PartygoerWeaponTarget.isPartygoer(attacked)) {
             return tryStrikePartygoer(serverAttacker, attacked);
         }
         // Raven Form seam: a crow in reach stands in for its owner, so the strike and its misfire rule hit the Black Raven.
@@ -66,8 +71,8 @@ public final class MightyForceCombatService {
             return ActionResult.PASS;
         }
 
-        if (SparkTraitsKillerBridge.isKillerInteractionBlocked(serverAttacker)
-                || SparkTraitsKillerBridge.shouldCancelMeleeAttack(
+        if (SparkTraitsApi.isKillerInteractionBlocked(serverAttacker)
+                || SparkTraitsApi.shouldCancelMeleeAttack(
                         serverAttacker, (ServerPlayerEntity) target, serverAttacker.getStackInHand(hand))) {
             return ActionResult.FAIL;
         }
@@ -117,10 +122,10 @@ public final class MightyForceCombatService {
      * {@code isKillable}。其他情况一律 PASS，攻击原样交给原版。
      */
     private static ActionResult tryStrikePartygoer(ServerPlayerEntity attacker, Entity partygoer) {
-        if (!hasLiveMightyForce(attacker) || !SparkStrengthPartygoerCompat.isKillable(partygoer)) {
+        if (!hasLiveMightyForce(attacker) || !PartygoerWeaponTarget.isKillable(partygoer)) {
             return ActionResult.PASS;
         }
-        if (SparkTraitsKillerBridge.isKillerInteractionBlocked(attacker)) {
+        if (SparkTraitsApi.isKillerInteractionBlocked(attacker)) {
             return ActionResult.FAIL;
         }
         strikePartygoer(attacker, partygoer);
@@ -215,7 +220,7 @@ public final class MightyForceCombatService {
         double x = partygoer.getX();
         double y = partygoer.getEyeY();
         double z = partygoer.getZ();
-        if (!SparkStrengthPartygoerCompat.killByWeapon(attacker, partygoer, SparkWitchDeathReasons.MIGHTY_FORCE)) {
+        if (!PartygoerWeaponTarget.killByWeapon(attacker, partygoer, SparkWitchDeathReasons.MIGHTY_FORCE)) {
             return;
         }
         world.getEntitiesByType(
@@ -249,8 +254,8 @@ public final class MightyForceCombatService {
                 victimFaction,
                 deadBefore,
                 game.isPlayerDead(target.getUuid()),
-                WitchFactorTraitsBridge.isDeathIntercepted(target),
-                SparkTraitsKillerBridge.isNonFinalKillPending(target, attacker),
+                SparkTraitsApi.isLastStandDeathIntercepted(target),
+                SparkTraitsApi.isNonFinalKillPending(target, attacker),
                 game.getShootInnocentPunishment()
         );
         switch (outcome) {

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.hiro.witchification;
 
 import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkFactionSecondRowCompat;
+import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import java.util.function.IntPredicate;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.Identifier;
@@ -100,8 +100,8 @@ public final class HiroWitchificationRules {
             }
         }
         if (secondRowShown) {
-            for (int slot = SparkFactionSecondRowCompat.SECOND_ROW_START;
-                 slot < SparkFactionSecondRowCompat.SECOND_ROW_END; slot++) {
+            for (int slot = LimitedInventoryRows.SECOND_ROW_START;
+                 slot < LimitedInventoryRows.SECOND_ROW_END; slot++) {
                 if (emptySlot.test(slot)) {
                     return slot;
                 }

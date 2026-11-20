@@ -77,11 +77,11 @@ public final class CorruptCopRules {
 
     /**
      * Whose real role may use the neutral master key on train doors, and whose corpse lends one to the Coroner: a
-     * neutral-aligned role, plus always the Corrupt Cop itself. Callers pass {@code SparkFactionCompat::isNeutralAligned}
+     * neutral-aligned role, plus always the Corrupt Cop itself. Callers pass {@code SparkFactionApi::isNeutralAligned}
      * because SparkFactionAPI's native Wathe factions (witch faction, Team Jiahao) are no longer {@code isNeutral()} yet
      * keep this perk (owner D3); the cop never depends on that lookup. The predicate never sees null.
      * 哪些真实身份可用中立万能钥匙开列车门、其尸体会借给验尸官中立钥匙：与中立对齐的身份，以及黑警本身。调用方传入
-     * SparkFactionCompat::isNeutralAligned，因为 SparkFactionAPI 的原生 Wathe 阵营（魔女阵营、嘉豪阵营）的 isNeutral()
+     * SparkFactionApi::isNeutralAligned，因为 SparkFactionAPI 的原生 Wathe 阵营（魔女阵营、嘉豪阵营）的 isNeutral()
      * 已为 false，但保留该待遇（所有者 D3）；黑警从不依赖该查询。判定函数不会收到 null。
      */
     public static boolean isNeutralKeyRole(@Nullable Role role, Predicate<? super Role> neutralAligned) {

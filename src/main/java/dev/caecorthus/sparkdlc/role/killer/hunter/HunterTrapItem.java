@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.hunter;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.doctor4t.wathe.record.GameRecordManager;
 import java.util.List;
@@ -51,7 +51,7 @@ public final class HunterTrapItem extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);
-        if (SparkTraitsKillerBridge.isKillerInteractionBlocked(user)) {
+        if (SparkTraitsApi.isKillerInteractionBlocked(user)) {
             return TypedActionResult.fail(stack);
         }
         BlockHitResult hitResult = Item.raycast(world, user, RaycastContext.FluidHandling.NONE);

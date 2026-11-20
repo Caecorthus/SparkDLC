@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.judge;
 
 import dev.caecorthus.sparkdlc.client.role.killer.blackraven.BlackRavenClientState;
-import dev.caecorthus.sparkdlc.client.role.killer.blackraven.SparkTraitsInstinctVisibilityBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.client.hooks.WitchInstinctSuppressionClientHooks;
 import dev.caecorthus.sparkdlc.client.render.WraithClientState;
 import dev.caecorthus.sparkdlc.client.render.WraithViewerRules;
@@ -45,7 +45,7 @@ public final class JudgeClientHooks {
 
     private static boolean isHardHidden(PlayerEntity viewer, PlayerEntity target) {
         return target.isInvisible() || target.isInvisibleTo(viewer)
-                || SparkTraitsInstinctVisibilityBridge.isHidden(viewer, target)
+                || SparkTraitsApi.isInstinctHidden(viewer, target)
                 || MorphlingPlayerComponent.KEY.get(target).corpseMode
                 || WraithClientState.isRestricted(viewer)
                 || WraithViewerRules.shouldHideFromOrdinaryViewer(viewer, target)

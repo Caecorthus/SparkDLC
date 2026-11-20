@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.role.civilian.seeker;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsCharismaBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsShopEntryPreserver;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitShopEntries;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -39,15 +39,15 @@ public final class SeekerShopService {
         }
         // SparkTraits entries (e.g. the Impostor revolver) may already be present; keep them across the rebuild.
         // SparkTraits 条目（如内鬼左轮）可能已先加入；重建时保留它们。
-        List<ShopEntry> preservedTraitEntries = SparkTraitsShopEntryPreserver.capture(context);
+        List<ShopEntry> preservedTraitEntries = TraitShopEntries.capture(context);
         context.clearEntries();
         for (SeekerShopRules.EntrySpec spec : SeekerShopRules.entries()) {
             ShopEntry entry = switch (spec.kind()) {
                 case CAMERA -> cameraEntry(spec);
             };
-            context.addEntry(SparkTraitsCharismaBridge.discountShopEntry(player, entry));
+            context.addEntry(SparkTraitsApi.discountShopEntryForCharisma(player, entry));
         }
-        SparkTraitsShopEntryPreserver.restore(context, preservedTraitEntries);
+        TraitShopEntries.restore(context, preservedTraitEntries);
     }
 
     private static ShopEntry cameraEntry(SeekerShopRules.EntrySpec spec) {

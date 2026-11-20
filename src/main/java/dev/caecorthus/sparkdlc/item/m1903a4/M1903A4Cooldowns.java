@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.item.m1903a4;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
 import net.minecraft.entity.player.PlayerEntity;
@@ -50,7 +50,7 @@ public final class M1903A4Cooldowns {
         }
         Item rifle = SparkWitchItems.m1903a4();
         return write(remainingTicks(player), ticks,
-                merged -> SparkTraitsKillerBridge.setExactItemCooldownRemaining(player, rifle, merged),
+                merged -> SparkTraitsApi.setExactItemCooldownRemaining(player, rifle, merged),
                 merged -> player.getItemCooldownManager().set(rifle, merged));
     }
 

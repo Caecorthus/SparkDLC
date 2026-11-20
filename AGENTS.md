@@ -24,14 +24,19 @@ the module map and points at each module's own `docs/<module>/CONTEXT.md`.
 ### Cross-Module Check
 - Inspect the owning module and every direct consumer of the contract being changed. Do not mechanically read
   every module when the change is local and no cross-module seam is involved.
-- `factionapi` is the shared contract and must not import `strength`, `traits`, `witch` or `assist`. The other
-  modules call each other directly through thin facades (classes named `*Bridge` / `*Compat`, mostly in `compat`
-  packages); prefer a module's `api` package when it has the member you need. Do not add reflection or an
-  `isModLoaded` check for one of the five legacy ids: every module is always present.
-- What is still looked up by name, so search for the string form before renaming or moving it: string-target
-  (`@Pseudo`) mixins into sibling classes, common code reaching client classes (`witch/voice/*ClientBridge`),
-  `factionapi` reaching `assist` (`GuideDecorBridge`), and two private entity fields read by Assist's Ponder
-  scenes. Reflection on real optional mods (Iris, EMF, ETF, Ponder, voicechat) and on Wathe internals stays.
+- Code calls code. There are no `*Bridge` / `*Compat` facades between features and no `bridge` packages any more:
+  a feature calls another feature directly, through its contract package when it has one (`faction.api`,
+  `trait.api`, `skill.api`, `cooldown.api`, `replay.api`). The shared core (`faction.*` except `faction.witch`, `round.*`,
+  `cooldown.*` except `cooldown.provider`, `command.admin`) imports no role feature: a role hooks it by registering
+  into the core's listener or rule lists (`PlayerAffectExemption`, `FactionCoWinnerRule`, `AdminCooldownClear`; the
+  killer team purse has `KillerTeamEconomyService.WalletRule`). Do not add reflection or an `isModLoaded` check for one of the five
+  legacy ids, and do not add a mixin into one of the mod's own classes (the only ones left are three client mixins
+  that add the client half of a common class).
+- Nothing of the mod's own is looked up by name from Java code any more. The client voice receivers are reached
+  through the Fabric entrypoint `sparkdlc_client_voice` (`voice.ClientVoiceReceivers`), because Simple Voice Chat
+  gathers plugin events before client initializers run. Classes under `compat.noellesroles` and the facades toward
+  Wathe and optional mods are real compatibility code. Reflection on real optional mods (Iris, EMF, ETF, Ponder,
+  voicechat) and on Wathe internals stays.
 - Local boundary tests pin which sibling types each module may name (`*DirectCallBoundaryTest`,
   `TraitsSiblingDirectCallSourceTest`, `test_sibling_direct_calls.py`); a new cross-module dependency is added to
   their allow-lists deliberately.

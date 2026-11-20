@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.blind.kit;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsShopEntryPreserver;
+import dev.caecorthus.sparkdlc.trait.api.TraitShopEntries;
 import dev.caecorthus.sparkdlc.headset.HeadsetSlots;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindComponent;
 import dev.caecorthus.sparkdlc.role.civilian.blind.BlindParticipants;
@@ -58,14 +58,14 @@ public final class BlindShopService {
         if (!BlindRules.isBlind(GameWorldComponent.KEY.get(player.getWorld()).getRole(player))) {
             return;
         }
-        List<ShopEntry> preserved = SparkTraitsShopEntryPreserver.capture(context);
+        List<ShopEntry> preserved = TraitShopEntries.capture(context);
         context.clearEntries();
         context.addEntry(new ShopEntry.Builder(BlindRules.COMTAC_SHOP_ENTRY_ID, displayStack(), BlindRules.COMTAC_PRICE,
                 ShopEntry.Type.TOOL)
                 .stock(1)
                 .onBuy(BlindShopService::buyComTac)
                 .build());
-        SparkTraitsShopEntryPreserver.restore(context, preserved);
+        TraitShopEntries.restore(context, preserved);
     }
 
     /** Fiend shop precedent: a plain item name and one grey, non-italic lore line. / 沿用魔人商店：普通名称与一行灰色非斜体说明。 */

@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.item.firepoker;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.item.CustomMeleeAffect;
 import dev.caecorthus.sparkdlc.item.rope.RopeStrangleService;
 import dev.caecorthus.sparkdlc.role.civilian.vendetta.VendettaInteractionService;
 
@@ -37,6 +38,11 @@ public final class FirePokerCombatService {
     }
 
     public static ActionResult tryHandleAttack(Entity attacker, World world, Hand hand, Entity target) {
+        // Guards the custom melee effect before its attack path runs (CustomMeleeAffect).
+        // 在自定义近战攻击路径运行前拦截其效果（CustomMeleeAffect）。
+        if (CustomMeleeAffect.refuses(attacker, target)) {
+            return ActionResult.SUCCESS;
+        }
         if (world.isClient
                 || !(attacker instanceof ServerPlayerEntity serverAttacker)
                 || !serverAttacker.getStackInHand(hand).isOf(SparkWitchItems.firePoker())
@@ -46,7 +52,7 @@ public final class FirePokerCombatService {
 
         // This item only pushes/debuffs: reject new actions, but never count the push as a damage parry.
         // 此物品只击退/施加减益：拒绝新动作，但不把推搡视为伤害格挡。
-        if (SparkTraitsKillerBridge.blocksWeaponAction(serverAttacker, serverAttacker.getStackInHand(hand))) {
+        if (SparkTraitsApi.blocksWeaponAction(serverAttacker, serverAttacker.getStackInHand(hand))) {
             return ActionResult.FAIL;
         }
         if (serverAttacker.getItemCooldownManager().isCoolingDown(SparkWitchItems.firePoker())

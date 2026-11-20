@@ -13,7 +13,7 @@ import dev.caecorthus.sparkdlc.client.role.civilian.usec.UsecAttachmentModel.Par
 import dev.caecorthus.sparkdlc.client.role.civilian.usec.UsecAttachmentModel.Room;
 import dev.caecorthus.sparkdlc.client.role.civilian.usec.UsecAttachmentModel.Row;
 import dev.caecorthus.sparkdlc.client.role.civilian.usec.UsecAttachmentPaint.ButtonState;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkFactionSecondRowCompat;
+import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecAmmoItem;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecAmmoType;
 import dev.caecorthus.sparkdlc.role.civilian.usec.UsecAttachmentRules;
@@ -199,7 +199,7 @@ public final class UsecAttachmentScreen extends Screen {
      * 是否有尚有空余的显示中物品堆。
      */
     private static Room room(PlayerInventory inventory) {
-        boolean secondRow = SparkFactionSecondRowCompat.isShown();
+        boolean secondRow = LimitedInventoryRows.isSecondRowShown();
         boolean freeSlot = UsecAttachmentRules.releaseSlot(slot -> false,
                 slot -> inventory.getStack(slot).isEmpty(), secondRow) != UsecAttachmentRules.NO_ROOM;
         Set<UsecAmmoType> roundRoom = EnumSet.noneOf(UsecAmmoType.class);

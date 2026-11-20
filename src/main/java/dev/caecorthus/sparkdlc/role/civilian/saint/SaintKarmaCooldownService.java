@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.saint;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.component.WitchWorldComponent;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
@@ -84,7 +84,7 @@ public final class SaintKarmaCooldownService {
      * 会一直低于业障并每 tick 重写，使栏位冷却条不断从头开始。
      */
     private static void write(ServerPlayerEntity player, ItemCooldownManager manager, Item item, int mergedTicks) {
-        if (!SparkTraitsKillerBridge.setExactItemCooldownRemaining(player, item, mergedTicks)) {
+        if (!SparkTraitsApi.setExactItemCooldownRemaining(player, item, mergedTicks)) {
             manager.set(item, mergedTicks);
         }
     }

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.inventory.armor;
 
 import com.mojang.datafixers.util.Pair;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkFactionSecondRowCompat;
+import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import dev.caecorthus.sparkdlc.headset.HeadsetSlot;
 import dev.caecorthus.sparkdlc.headset.HeadsetSlots;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
@@ -70,7 +70,7 @@ public final class LimitedInventoryArmorSlots {
      * Wathe 热栏顶边 {@code stripY} 对应的布局锚点：护甲块以物品栏块为中心，显示第二行时物品栏块包括 SparkFactionAPI 的第二行。
      */
     public static int anchorY(int stripY) {
-        return LimitedInventoryArmorLayout.anchorY(stripY, SparkFactionSecondRowCompat.isShown());
+        return LimitedInventoryArmorLayout.anchorY(stripY, LimitedInventoryRows.isSecondRowShown());
     }
 
     /** {@code screenY} is the layout anchor ({@link #anchorY}). / {@code screenY} 为布局锚点。 */
@@ -248,7 +248,7 @@ public final class LimitedInventoryArmorSlots {
         if (firstEmptyHotbarButton(handler) >= 0) {
             return true;
         }
-        if (!SparkFactionSecondRowCompat.isShown()) {
+        if (!LimitedInventoryRows.isSecondRowShown()) {
             return false;
         }
         for (int id = SECOND_ROW_START; id < SECOND_ROW_END; id++) {

@@ -2,48 +2,40 @@ package dev.caecorthus.sparkdlc.client.role.neutral.taotie;
 
 import dev.caecorthus.sparkdlc.SparkStrengthEntities;
 import dev.caecorthus.sparkdlc.client.render.entity.TaotieHeadEntityRenderer;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkWitchCompat;
 import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadPlayerComponent;
 import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadFireC2SPacket;
 import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadDaze;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import org.agmas.noellesroles.Noellesroles;
 import org.agmas.noellesroles.taotie.SwallowedPlayerComponent;
 import org.agmas.noellesroles.taotie.TaotiePlayerComponent;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
 
 /**
  * Client key hook for the Taotie head launch.
  * 饕餮“发射头颅”的客户端按键挂钩。
  *
- * <p>The key is the shared "second skill key": SparkWitch's {@code key.sparkdlc.role_skill_2}, found at runtime by
- * translation key so SparkStrength never compiles against SparkWitch. Only when SparkWitch is absent do we register our
- * own fallback binding. SparkWitch's controller drains {@code wasPressed()}, so this hook reads the rising edge of
- * {@code isPressed()} and never consumes the press queue. The client gate only avoids pointless packets; the server
- * re-validates every condition.
- * 按键复用“第二技能键”：运行时按翻译键查找 SparkWitch 的 key.sparkdlc.role_skill_2，SparkStrength 不在编译期依赖
- * SparkWitch；仅当 SparkWitch 未安装时才注册自己的后备键。SparkWitch 会清空 wasPressed() 队列，所以这里只对
- * isPressed() 做上升沿检测，绝不消耗按键队列。客户端条件只用于减少无效发包，服务端会重新校验全部条件。</p>
+ * <p>The key is the shared "second skill key" {@code key.sparkdlc.role_skill_2}, found at runtime by translation
+ * key; it is always registered, so this hook registers no binding of its own. The secondary skill controller drains
+ * {@code wasPressed()}, so this hook reads the rising edge of {@code isPressed()} and never consumes the press queue.
+ * The client gate only avoids pointless packets; the server re-validates every condition.
+ * 按键复用“第二技能键” key.sparkdlc.role_skill_2，运行时按翻译键查找；该键始终已注册，因此这里不注册自己的按键。
+ * 第二技能控制器会清空 wasPressed() 队列，所以这里只对 isPressed() 做上升沿检测，绝不消耗按键队列。
+ * 客户端条件只用于减少无效发包，服务端会重新校验全部条件。</p>
  */
 public final class TaotieHeadClientHooks {
     private static final String SHARED_KEY = "key.sparkdlc.role_skill_2";
-    private static final String FALLBACK_KEY = "key.sparkdlc.secondary_skill";
-    private static final String CATEGORY = "category.wathe.keybinds";
     private static final Text DEFAULT_KEY_TEXT = Text.literal("N");
 
     private static boolean registered;
-    private static @Nullable KeyBinding fallbackBinding;
     private static @Nullable KeyBinding sharedBinding;
     private static boolean keyWasDown;
 
@@ -55,14 +47,6 @@ public final class TaotieHeadClientHooks {
             return;
         }
         registered = true;
-        if (!SparkWitchCompat.isLoaded()) {
-            fallbackBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                    FALLBACK_KEY,
-                    InputUtil.Type.KEYSYM,
-                    GLFW.GLFW_KEY_N,
-                    CATEGORY
-            ));
-        }
         ClientTickEvents.END_CLIENT_TICK.register(TaotieHeadClientHooks::tick);
         EntityRendererRegistry.register(SparkStrengthEntities.taotieHead(), TaotieHeadEntityRenderer::new);
     }
@@ -105,9 +89,6 @@ public final class TaotieHeadClientHooks {
      * SparkWitch 在客户端初始化时注册该键，首个 tick 时已在 options.allKeys 中；未找到时下次重试，找到后缓存。
      */
     private static @Nullable KeyBinding secondarySkillKey() {
-        if (fallbackBinding != null) {
-            return fallbackBinding;
-        }
         if (sharedBinding == null) {
             sharedBinding = findBinding(SHARED_KEY);
         }

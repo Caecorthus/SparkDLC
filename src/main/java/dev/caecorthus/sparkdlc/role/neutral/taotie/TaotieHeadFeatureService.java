@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.role.neutral.taotie;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCooldownCompat;
+import dev.caecorthus.sparkdlc.cooldown.api.ForcedCooldowns;
+import dev.caecorthus.sparkdlc.cooldown.api.FunctionRoleSkillCooldownStore;
 import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadDazeComponent;
 import dev.caecorthus.sparkdlc.role.neutral.taotie.TaotieHeadPlayerComponent;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -36,13 +37,13 @@ public final class TaotieHeadFeatureService {
         // Optional SFA seam: forced-cooldown features may floor/extend the head cooldown. Nominal = the tier for the
         // current living stomach (60 s when empty). / 可选 SFA 接缝：强制冷却功能可为头颅冷却设下限或延长；
         // 标称值为当前体内存活人数对应的档位（体内为空时 60 秒）。
-        SparkFactionCooldownCompat.registerRoleSkillStore(
+        ForcedCooldowns.registerRoleSkillStore(new FunctionRoleSkillCooldownStore(
                 TaotieHeadRules.COOLDOWN_STORE_ID,
                 TaotieHeadService::isTaotie,
                 player -> TaotieHeadPlayerComponent.KEY.get(player).getCooldownTicks(),
                 player -> OptionalInt.of(TaotieHeadRules.cooldownTicksFor(
                         TaotieHeadService.livingSwallowed(player).size())),
-                (player, ticks) -> TaotieHeadPlayerComponent.KEY.get(player).setCooldownTicks(ticks));
+                (player, ticks) -> TaotieHeadPlayerComponent.KEY.get(player).setCooldownTicks(ticks)));
 
         // No round-start cooldown: every role assignment starts ready. / 无开局冷却：每次分配身份都从就绪开始。
         RoleAssigned.EVENT.register((player, role) -> TaotieHeadPlayerComponent.KEY.get(player).reset());

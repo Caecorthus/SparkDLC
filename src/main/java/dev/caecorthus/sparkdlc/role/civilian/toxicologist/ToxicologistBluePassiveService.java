@@ -1,7 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.toxicologist;
 
-import dev.caecorthus.sparkdlc.SparkStrength;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsBluePoisonCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.record.AchievementRecords;
 import dev.caecorthus.sparkdlc.record.EntryDebounce;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -51,7 +50,6 @@ public final class ToxicologistBluePassiveService {
     private static final Set<UUID> DRAIN_SKIPPED_THIS_TICK = new HashSet<>();
     private static final EntryDebounce BLUE_ENTRIES = new EntryDebounce(BLUE_ENTRY_QUIET_TICKS);
     private static boolean registered;
-    private static boolean supported;
 
     private ToxicologistBluePassiveService() {
     }
@@ -61,21 +59,19 @@ public final class ToxicologistBluePassiveService {
             return;
         }
         registered = true;
-        supported = SparkTraitsBluePoisonCompat.registerBlueSanityDrainExemption(
-                ToxicologistBluePassiveService::exemptFromBlueSanityDrain);
-        if (!supported) {
-            SparkStrength.LOGGER.info("Toxicologist blue-state passive disabled: the blue sanity-drain exemption API is unavailable.");
-        }
+        SparkTraitsApi.registerBlueSanityDrainExemption(ToxicologistBluePassiveService::exemptFromBlueSanityDrain);
     }
 
     public static void tick(ServerWorld world) {
-        if (!supported) {
+        // Nothing to do until the drain exemption is registered: the heartbeat this tick consumes comes from it.
+        // 豁免注册之前无事可做：本 tick 消费的心跳正来自该豁免。
+        if (!registered) {
             return;
         }
         for (ServerPlayerEntity player : world.getPlayers()) {
             boolean drainSkipped = DRAIN_SKIPPED_THIS_TICK.remove(player.getUuid());
             boolean active = isEligible(player) && ToxicologistBlueRules.isBlueStateActive(
-                    SparkTraitsBluePoisonCompat.getBlueSanityDrainTicks(player), drainSkipped);
+                    SparkTraitsApi.getBlueSanityDrainTicks(player), drainSkipped);
             // Achievement record: every blue-state tick feeds the debounce; only real Toxicologists (not Coroners
             // disguised as one) are recorded, once per entry.
             // 成就记录：每个蓝毒状态 tick 都参与去抖；只记录真正的毒理学家（不含伪装成毒理学家的验尸官），每次进入记一次。

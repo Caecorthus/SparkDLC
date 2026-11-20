@@ -62,10 +62,10 @@ public final class BlackRavenPerceptionScreenEffects {
     }
 
     /**
-     * Called directly by SparkTraits' {@code LastEscapeWitchBridge} for the sole combined escape pass. Render thread
+     * Called directly by the trait feature's {@code LastEscapeComposedPass} for the sole combined escape pass. Render thread
      * only. True means a composed pass was actually rendered, not merely supported; false (not the local player, no
      * escape composition, shader load failure) lets Traits render its fallback. The escape parameters are read-only.
-     * 由 SparkTraits 的 {@code LastEscapeWitchBridge} 直接调用，负责唯一合成的脱险后处理。仅在渲染线程调用；成功执行合成
+     * 由特质功能的 {@code LastEscapeComposedPass} 直接调用，负责唯一合成的脱险后处理。仅在渲染线程调用；成功执行合成
      * 后处理才返回 true，返回 false（非本地玩家、无脱险参数、着色器加载失败）时由 Traits 回退渲染。脱险参数只读。
      */
     public static boolean renderLastEscape(PlayerEntity player, float delta) {

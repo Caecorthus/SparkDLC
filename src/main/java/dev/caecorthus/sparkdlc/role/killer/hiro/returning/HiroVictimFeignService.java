@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.killer.hiro.returning;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthCoronerCompat;
+import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.caecorthus.sparkdlc.role.civilian.judge.JudgeKillAttribution;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.SeekerInventoryRules;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.BlackRavenCrowForm;
@@ -312,7 +312,7 @@ public final class HiroVictimFeignService {
         // 生成之后再标记：已标记但尚无假死记录的尸体会在加载回调中被当作残留尸体排队移除。
         HiroFakeBodies.mark(body);
         if (role != null) {
-            SparkStrengthCoronerCompat.recordBodyRole(body, role.identifier());
+            CoronerService.recordBodyRole(body, role.identifier());
         }
         return body;
     }

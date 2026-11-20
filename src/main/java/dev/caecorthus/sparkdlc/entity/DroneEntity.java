@@ -137,7 +137,12 @@ public class DroneEntity extends Entity {
         return DroneState.fromWire(dataTracker.get(STATE));
     }
 
-    protected void setState(DroneState state) {
+    /**
+     * Public because the client's Ponder scenes pose a demo drone with it (they used to write the private tracked
+     * field by reflection); gameplay changes the state only inside this class.
+     * 设为公开，因为客户端的 Ponder 场景用它为演示无人机摆姿势（原先通过反射写入私有同步字段）；玩法逻辑只在本类中改变该状态。
+     */
+    public void setState(DroneState state) {
         dataTracker.set(STATE, (byte) state.wire());
     }
 

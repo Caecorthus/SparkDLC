@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.witch.abysslistener.shriek;
 
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseContext;
 import dev.caecorthus.sparkdlc.skill.api.WitchSkillUseResult;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.role.witch.abysslistener.AbyssListenerRules;
 import dev.caecorthus.sparkdlc.role.witch.abysslistener.AbyssSuppression;
@@ -52,7 +52,7 @@ public final class WardensShriekService {
         String refusal = refusal(
                 AbyssListenerRules.isAbyssListener(context.role()),
                 game.isRunning() && GameFunctions.isPlayerPlayingAndAlive(caster) && !caster.isSpectator(),
-                SparkTraitsKillerBridge.isRoleSkillBlocked(caster));
+                SparkTraitsApi.isRoleSkillBlocked(caster));
         if (refusal != null) {
             return WitchSkillUseResult.fail(refusal);
         }

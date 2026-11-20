@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.neutral.ferryman;
 import dev.caecorthus.sparkdlc.SparkWitch;
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.savior.SaviorRules;
 import dev.doctor4t.wathe.api.event.KillPlayer;
 import dev.doctor4t.wathe.api.event.ResetPlayer;
@@ -87,7 +87,7 @@ public final class FerrymanPardonService {
         // SparkTraits-terminal so trait protections apply, and settleKill's retry would kill through an open window.
         // 救世主武器击杀仍不可宽恕（与希罗回归规则一致）：它们不再是 SparkTraits 终结死因以便词条保护生效，而 settleKill 的
         // 重试会直接穿过已开启的宽恕窗口。
-        boolean terminal = SparkTraitsKillerBridge.isTerminalDeathReason(deathReason)
+        boolean terminal = SparkTraitsApi.isTerminalDeathReason(deathReason)
                 || SaviorRules.isTerminalKill(deathReason);
         if (!FerrymanRules.mayHoldKill(replayingDeath, force, terminal, true, killer == victim, deathReason)) {
             return false;

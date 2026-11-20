@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.civilian.fisher.spirit;
 
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.role.civilian.fisher.FisherParticipants;
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.KillPlayer;
@@ -38,7 +38,7 @@ public final class FisherSpiritService {
                 && FisherSpiritComponent.KEY.get(player).isActive());
         KillPlayer.AFTER.register((victim, killer, reason) -> {
             if (victim != null && FisherSpiritComponent.KEY.get(victim).isActive()
-                    && !WitchFactorTraitsBridge.isDeathIntercepted(victim)) {
+                    && !SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
                 end(victim, false);
             }
         });

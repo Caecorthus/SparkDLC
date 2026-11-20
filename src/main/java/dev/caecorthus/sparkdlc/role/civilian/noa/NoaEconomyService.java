@@ -1,7 +1,8 @@
 package dev.caecorthus.sparkdlc.role.civilian.noa;
 
 import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsNoaBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.api.event.CanSeeMoney;
@@ -51,7 +52,7 @@ final class NoaEconomyService {
 
     private static void onTaskComplete(PlayerEntity player) {
         if (player instanceof ServerPlayerEntity noa && canEarn(noa)
-                && Boolean.FALSE.equals(SparkTraitsNoaBridge.isImpostor(noa))) {
+                && !SparkTraitsApi.hasActiveTrait(noa, TraitIds.IMPOSTOR)) {
             PlayerShopComponent.KEY.get(noa).addToBalance(NoaRules.TASK_COINS);
         }
     }

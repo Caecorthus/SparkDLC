@@ -2,10 +2,11 @@ package dev.caecorthus.sparkdlc.role.killer.magician;
 
 import dev.caecorthus.sparkdlc.SparkWitchDeathReasons;
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.fisher.FisherRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDamageRules;
 import dev.caecorthus.sparkdlc.role.civilian.seeker.hit.SeekerDeviceRaycast;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponHits;
 import dev.caecorthus.sparkdlc.role.neutral.murderouswitch.deathray.MurderousWitchDeathRayRules;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchRules;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchRuntimeComponent;
@@ -193,7 +194,7 @@ public final class MagicianPuppetHits {
         }
         ItemStack knife = heldKnife(attacker);
         if (knife.isEmpty() || attacker.getItemCooldownManager().isCoolingDown(knife.getItem())
-                || SparkTraitsKillerBridge.blocksWeaponAction(attacker, knife)) {
+                || SparkTraitsApi.blocksWeaponAction(attacker, knife)) {
             return false;
         }
         double reach = SeekerDamageRules.KNIFE_REACH + SeekerDamageRules.KNIFE_REACH_TOLERANCE;
@@ -569,6 +570,13 @@ public final class MagicianPuppetHits {
      * （{@code crimson_wither_skull}），与玩家被击杀一致；返回 true 时由调用方移除头颅。
      */
     public static boolean onCrimsonSkullHit(Entity skull, @Nullable Entity owner, EntityHitResult hit) {
+        // This entry takes every lethal NON-player entity hit of the skull, so a Partygoer is asked first: it dies like
+        // a player would (PartygoerWeaponHits) and the skull is spent there; everything else goes on to the puppets.
+        // 本入口承接头颅对“非玩家”实体的每次致命命中，因此先询问派对客：它与玩家一样死亡（PartygoerWeaponHits），头颅就此消耗；
+        // 其余情况继续交给皮套。
+        if (PartygoerWeaponHits.onCrimsonSkullHit(skull, owner, hit)) {
+            return true;
+        }
         if (skull == null || hit == null || !(skull.getWorld() instanceof ServerWorld)
                 || !(hit.getEntity() instanceof MagicianPlaybackEntity puppet)
                 || !(owner instanceof ServerPlayerEntity attacker) || !hittableBy(attacker, puppet)) {
@@ -650,6 +658,10 @@ public final class MagicianPuppetHits {
      */
     public static void onPotionShellBlast(ServerWorld world, Vec3d center, @Nullable PotionShellType type,
                                           @Nullable ServerPlayerEntity gunner, ItemStack shell) {
+        // Partygoers first, for every shell: only a TR shell kills them, and that rule reads the type from the shell
+        // item itself. The puppets below are judged as before either way.
+        // 每种炮弹都先处理派对客：只有 TR 炮弹会杀死它们，该规则自行从炮弹物品读取类型。无论结果如何，下方皮套的判定照旧。
+        PartygoerWeaponHits.onPotionShellBlast(world, center, gunner, shell);
         if (world == null || center == null || type != PotionShellType.TR
                 || !GameWorldComponent.KEY.get(world).isRunning()) {
             return;
@@ -720,10 +732,10 @@ public final class MagicianPuppetHits {
     }
 
     /**
-     * SparkStrength M67 blast, from {@code SparkStrengthM67Compat} after its match-grenade gate (ACTIVE round, thrower
+     * SparkStrength M67 blast, from {@code M67MatchBlastHits} after its match-grenade gate (ACTIVE round, thrower
      * with a match role, fuse run out, thrower online): {@link #onBlast} with the M67's own kill radius and Wathe's
      * {@code grenade} reason, as the M67 uses for players.
-     * SparkStrength M67 爆炸，由 {@code SparkStrengthM67Compat} 在其对局手雷门槛（对局 ACTIVE、投掷者持有对局职业、引信到时、
+     * SparkStrength M67 爆炸，由 {@code M67MatchBlastHits} 在其对局手雷门槛（对局 ACTIVE、投掷者持有对局职业、引信到时、
      * 投掷者在线）之后调用：以 M67 自身的击杀半径与 Wathe 的 {@code grenade} 死因（M67 对玩家使用的死因）调用 {@link #onBlast}。
      */
     public static void onM67Blast(ServerWorld world, Vec3d center, @Nullable ServerPlayerEntity thrower) {
@@ -748,7 +760,7 @@ public final class MagicianPuppetHits {
         ItemStack swordfish = attacker.getMainHandStack();
         if (!swordfish.isOf(SparkWitchItems.swordfish())
                 || attacker.getItemCooldownManager().isCoolingDown(swordfish.getItem())
-                || SparkTraitsKillerBridge.blocksWeaponAction(attacker, swordfish)) {
+                || SparkTraitsApi.blocksWeaponAction(attacker, swordfish)) {
             return false;
         }
         double reach = FisherRules.SWORDFISH_REACH + SeekerDamageRules.KNIFE_REACH_TOLERANCE;
@@ -779,7 +791,7 @@ public final class MagicianPuppetHits {
         }
         ItemStack bat = attacker.getMainHandStack();
         if (!bat.isOf(WatheItems.BAT) || attacker.getAttackCooldownProgress(0.5F) < 1.0F
-                || SparkTraitsKillerBridge.blocksWeaponAction(attacker, bat)
+                || SparkTraitsApi.blocksWeaponAction(attacker, bat)
                 || !hittableBy(attacker, puppet) || !inMeleeReach(attacker, puppet)) {
             return false;
         }
@@ -804,6 +816,10 @@ public final class MagicianPuppetHits {
      * 他人活皮套按一次剑杀承受这一击（{@link #ceremonialSwordKill}）。返回 true 表示已结束。
      */
     public static boolean onCeremonialSwordStrike(ServerPlayerEntity attacker, @Nullable Entity target) {
+        // A Partygoer target is asked first and dies as a sword kill. / 先询问派对客目标，它按一次剑杀死亡。
+        if (PartygoerWeaponHits.onCeremonialSwordStrike(attacker, target)) {
+            return true;
+        }
         if (attacker == null || attacker.getWorld().isClient() || attacker.isSpectator()
                 || !(target instanceof MagicianPlaybackEntity puppet)
                 || !attacker.getMainHandStack().isOf(SparkWitchItems.ceremonialSword())
@@ -823,6 +839,10 @@ public final class MagicianPuppetHits {
      * 与遇到玩家时相同）。选择离冲刺者最近的此类皮套。
      */
     public static boolean onCeremonialSwordDash(ServerPlayerEntity attacker, Box sweptBox) {
+        // A Partygoer contact is asked first; true = the dash stops at it. / 先询问派对客接触；返回 true 表示冲刺停在它面前。
+        if (PartygoerWeaponHits.onCeremonialSwordDash(attacker, sweptBox)) {
+            return true;
+        }
         if (attacker == null || sweptBox == null || !(attacker.getWorld() instanceof ServerWorld world)) {
             return false;
         }
@@ -893,7 +913,7 @@ public final class MagicianPuppetHits {
         ItemStack sword = new ItemStack(SparkWitchItems.ceremonialSword());
         if (!GrandWitchRules.canAttemptCeremonialSwordKill(runtime.getSwordKillCooldownTicks(),
                 runtime.isSwordStrikeInProgress())
-                || SparkTraitsKillerBridge.blocksWeaponAction(attacker, sword)) {
+                || SparkTraitsApi.blocksWeaponAction(attacker, sword)) {
             return false;
         }
         Vec3d at = puppet.getPos();

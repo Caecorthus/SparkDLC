@@ -4,7 +4,7 @@ import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenPerceptionCenter;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit.BlackRavenCrowHitService;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.net.BlackRavenCrowNetworking;
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.util.ServerDisconnectCleanup;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.KillPlayer;
@@ -53,7 +53,7 @@ public final class BlackRavenCrowFeatureService {
         // Any death ends the session; a SparkTraits-intercepted death (the player stays in play) keeps the unlock.
         // 任何死亡都会结束会话；被 SparkTraits 拦截的死亡（玩家仍留在对局中）保留解锁进度。
         KillPlayer.AFTER.register((victim, killer, deathReason) -> {
-            if (WitchFactorTraitsBridge.isDeathIntercepted(victim)) {
+            if (SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
                 BlackRavenCrowSessions.end(victim, BlackRavenCrowEndReason.DIED);
             } else {
                 BlackRavenCrowSessions.endAndClear(victim, BlackRavenCrowEndReason.DIED);

@@ -9,14 +9,17 @@ import dev.caecorthus.sparkdlc.trait.civilian.CivilianTraits;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
+import dev.doctor4t.wathe.cca.PlayerPsychoComponent;
+import dev.doctor4t.wathe.game.GameConstants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gl.PostEffectProcessor;
 import net.minecraft.client.network.ClientPlayerEntity;
-import dev.caecorthus.sparkdlc.client.trait.killer.LastEscapeWitchBridge;
+import dev.caecorthus.sparkdlc.client.trait.killer.LastEscapeComposedPass;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 
@@ -56,7 +59,7 @@ public final class DepressionScreenEffects {
         // getLastEscapeComposition.
         // 委托在此刻执行后处理，因此 mixin 顺序不会造成第二次后处理。各模块已融合进 SparkDLC，这里直接调用 SparkWitch
         // 合成器；它通过 getLastEscapeComposition 取回参数。
-        if (SparkTraitsApi.hasLastEscapeGrayscale(player) && LastEscapeWitchBridge.tryRender(player, delta)) {
+        if (SparkTraitsApi.hasLastEscapeGrayscale(player) && LastEscapeComposedPass.tryRender(player, delta)) {
             releaseIfIdle(player);
             return;
         }
@@ -136,6 +139,30 @@ public final class DepressionScreenEffects {
             return NO_ESCAPE_COMPOSITION;
         }
         return new float[] {desaturation, spread, brightness};
+    }
+
+    /**
+     * Whether the Depression grayscale may be on the local player's screen this frame, asked by another feature's
+     * screen filter so that it can yield (owner: Depression ignores the Specter's Otherworld filter). It answers from
+     * synced Wathe state instead of resolving the effect: a non-creative, non-spectator Depression owner who is in a
+     * psycho (the Depression psycho runs on Wathe's psycho timer) or below Wathe's mid mood. Last Escape and Wraith
+     * grayscales are the Black Raven compositor's and are answered by
+     * {@code BlackRavenPerceptionScreenEffects.isActiveFor}. Render thread, local player. The cheap synced mood/psycho
+     * gate runs first, so the trait query only runs while a grayscale could actually be drawn.
+     * 本帧本地玩家屏幕上是否可能有抑郁灰阶；由其他功能的画面滤镜查询，以便让路（所有者决定：抑郁无视幽魂的里世界滤镜）。
+     * 它根据同步的 Wathe 状态作答而不解析效果本身：非创造、非旁观、处于疯魔（抑郁疯魔使用 Wathe 疯魔计时）或心情低于 Wathe
+     * 中等阈值的抑郁持有者。脱险与冤魂灰阶属于黑鸦合成器，由 {@code BlackRavenPerceptionScreenEffects.isActiveFor} 回答。
+     * 渲染线程、本地玩家。先做开销很小的同步心情/疯魔判断，只有可能绘制灰阶时才执行词条查询。
+     */
+    public static boolean drawsDepressionGrayscale(@Nullable PlayerEntity player) {
+        if (player == null || player.isCreative() || player.isSpectator()) {
+            return false;
+        }
+        if (PlayerPsychoComponent.KEY.get(player).getPsychoTicks() <= 0
+                && PlayerMoodComponent.KEY.get(player).getMood() >= GameConstants.MID_MOOD_THRESHOLD) {
+            return false;
+        }
+        return SparkTraitsApi.hasActiveTrait(player, CivilianTraits.DEPRESSION);
     }
 
     private static ScreenEffect escapeComposition(PlayerEntity player) {

@@ -1,6 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.fisher;
 
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.event.GetInstinctHighlight;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.client.MinecraftClient;
@@ -57,7 +58,7 @@ public final class FisherGlimmerInstinctHooks {
         }
         boolean outlines = FisherGlimmerClientRules.outlines(true, viewerSpectating, targetIsViewer,
                 GameFunctions.isPlayerAliveAndSurvival(targetPlayer), targetGlimmering,
-                FisherInstinctVisibilityBridge.isHidden(viewer, targetPlayer));
+                SparkTraitsApi.isInstinctHidden(viewer, targetPlayer));
         return outlines
                 ? GetInstinctHighlight.HighlightResult.always(FisherGlimmerClientRules.OUTLINE_COLOR,
                         FisherGlimmerClientRules.OUTLINE_PRIORITY)

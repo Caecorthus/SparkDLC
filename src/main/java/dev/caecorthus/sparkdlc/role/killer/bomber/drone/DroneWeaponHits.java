@@ -1,8 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.bomber.drone;
 
 import dev.caecorthus.sparkdlc.SparkStrength;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsDroneCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.entity.DroneEntity;
 import dev.caecorthus.sparkdlc.role.NonPlayerTargetWeapons;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponHits;
@@ -144,7 +143,7 @@ public final class DroneWeaponHits {
 
     private static boolean onMelee(ServerPlayerEntity attacker, DroneEntity drone, ItemStack weapon) {
         if (!DroneCombatService.usable(drone) || drone.getWorld() != attacker.getWorld() || !mayBreak(attacker)
-                || SparkTraitsCompat.isMeleeActionBlocked(attacker, weapon)
+                || SparkTraitsApi.blocksWeaponAction(attacker, weapon)
                 // A knife that may not stab here (Shadow Jester fake knife, betrayal trophy) may not swing at drones
                 // either. / 此处不可刺击的刀（影子小丑假刀、背叛战利品）同样不能挥砍无人机。
                 || weapon.getItem() instanceof KnifeItem && NonPlayerTargetWeapons.noellesRolesBlocksStab(attacker)) {
@@ -188,7 +187,7 @@ public final class DroneWeaponHits {
         double reach = DroneWeaponRules.KNIFE_RANGE + DroneWeaponRules.KNIFE_REACH_TOLERANCE;
         Vec3d eye = attacker.getEyePos();
         if (attacker.getItemCooldownManager().isCoolingDown(knife.getItem())
-                || SparkTraitsCompat.isMeleeActionBlocked(attacker, knife)
+                || SparkTraitsApi.blocksWeaponAction(attacker, knife)
                 || !DroneWeaponRules.withinReach(DroneHitGeometry.squaredDistanceToBox(eye,
                 DroneHitGeometry.targetBox(drone)), reach)
                 || !DroneHitGeometry.hasLineOfSight(attacker.getWorld(), eye, drone.getBoundingBox(), attacker)) {
@@ -266,7 +265,7 @@ public final class DroneWeaponHits {
         }
         if (DroneWeaponRules.CEREMONIAL_SWORD_ID.equals(id) && mayBreak(user)
                 && !user.getItemCooldownManager().isCoolingDown(stack.getItem())
-                && !SparkTraitsCompat.isMeleeActionBlocked(user, stack)) {
+                && !SparkTraitsApi.blocksWeaponAction(user, stack)) {
             DASH_WATCHES.put(user.getUuid(), new DashWatch(user.getPos(), DroneWeaponRules.SWORD_DASH_WATCH_TICKS));
         }
         return TypedActionResult.pass(stack);
@@ -274,7 +273,7 @@ public final class DroneWeaponHits {
 
     private static boolean onKunai(ServerPlayerEntity user, Hand hand, ItemStack kunai) {
         if (!mayBreak(user) || user.getItemCooldownManager().isCoolingDown(kunai.getItem())
-                || SparkTraitsCompat.isMeleeActionBlocked(user, kunai)) {
+                || SparkTraitsApi.blocksWeaponAction(user, kunai)) {
             return false;
         }
         double range = DroneWeaponRules.NINJA_KNIFE_RANGE;
@@ -534,12 +533,11 @@ public final class DroneWeaponHits {
     }
 
     /**
-     * Read-only competitor distance for SparkWitch's Raven Form crow step ({@code DroneSparkWitchCrowTargetsMixin} on its
+     * Read-only competitor distance for SparkWitch's Raven Form crow step (asked by its
      * {@code BlackRavenCrowTargets.deviceSquared}): the squared entry of the block-clipped segment into the nearest live
      * drone, measured like {@link #onSparkWitchRay}; +inf when none. Breaks nothing: a drone that beats the crow then
      * absorbs in SparkWitch's Seeker step through this class's existing hooks.
-     * 供 SparkWitch 化鸦乌鸦步骤使用的只读竞争距离（{@code DroneSparkWitchCrowTargetsMixin} 挂在其
-     * {@code BlackRavenCrowTargets.deviceSquared} 上）：按方块截断的线段进入最近存活无人机处的平方距离，量法同
+     * 供 SparkWitch 化鸦乌鸦步骤使用的只读竞争距离（由其 {@code BlackRavenCrowTargets.deviceSquared} 询问）：按方块截断的线段进入最近存活无人机处的平方距离，量法同
      * {@link #onSparkWitchRay}；没有时为正无穷。本方法不击毁任何东西：胜过乌鸦的无人机随后经本类现有钩子在 SparkWitch 搜寻者
      * 步骤中吸收这一击。
      */
@@ -568,8 +566,8 @@ public final class DroneWeaponHits {
         return player != null && !player.isRemoved() && player.isAlive()
                 && GameFunctions.isPlayerAliveAndSurvival(player)
                 && GameFunctions.isPlayerPlayingAndAlive(player)
-                && !SparkTraitsCompat.isKillerInteractionBlocked(player)
-                && !SparkTraitsDroneCompat.isLastStandPending(player);
+                && !SparkTraitsApi.isKillerInteractionBlocked(player)
+                && !SparkTraitsApi.isLastStandPending(player);
     }
 
     /** Cheap per-tick pre-check for projectile sweeps. / 投射物逐刻扫掠的廉价预检查。 */

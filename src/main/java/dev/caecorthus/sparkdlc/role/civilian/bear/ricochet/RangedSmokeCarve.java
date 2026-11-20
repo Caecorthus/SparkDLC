@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.role.civilian.bear.ricochet;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsSaviorBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.bear.smoke.SmokeCloudService;
 import dev.caecorthus.sparkdlc.util.hitscan.PlayerHitboxHistory;
 import net.minecraft.entity.Entity;
@@ -140,16 +140,16 @@ public final class RangedSmokeCarve {
     /**
      * {@link #gunShot} for Wathe's gun receiver, by the payload's target entity id. SparkTraits widens that receiver's
      * 65-block cap for a sneaking Niko holder (its own {@code @ModifyConstant}); the same value is read here through
-     * the public facade ({@link SparkTraitsSaviorBridge}: widen-only, 65 when SparkTraits is absent or fails), for the
+     * the trait contract ({@code SparkTraitsApi.getServerGunTargetRange}: widen-only, never below the 65 passed in), for the
      * gun in the main hand, as the receiver does. Asked only while the world has smoke.
      * 以数据包目标实体 id 为 Wathe 枪械接收器调用 {@link #gunShot}。SparkTraits 会为潜行的 Niko 持有者放宽该接收器的 65 格上限
-     * （它自己的 {@code @ModifyConstant}）；这里经公共门面读取同一数值（{@link SparkTraitsSaviorBridge}：只放宽，SparkTraits
-     * 缺失或出错时为 65），与接收器一样按主手的枪查询。只在世界中有烟时才查询。
+     * （它自己的 {@code @ModifyConstant}）；这里经词条契约读取同一数值（{@code SparkTraitsApi.getServerGunTargetRange}：只放宽，
+     * 不低于传入的 65），与接收器一样按主手的枪查询。只在世界中有烟时才查询。
      */
     public static void widenedGunShot(@Nullable ServerPlayerEntity shooter, int targetId, double range) {
         if (shooter != null && SmokeCloudService.hasSmoke(shooter.getServerWorld())) {
             gunShot(shooter, shooter.getServerWorld().getEntityById(targetId), range,
-                    SparkTraitsSaviorBridge.pistolServerRange(shooter, shooter.getMainHandStack().getItem(),
+                    SparkTraitsApi.getServerGunTargetRange(shooter, shooter.getMainHandStack().getItem(),
                             MAX_TARGET_DISTANCE));
         }
     }

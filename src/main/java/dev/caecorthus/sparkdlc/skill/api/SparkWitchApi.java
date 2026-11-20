@@ -64,8 +64,10 @@ public final class SparkWitchApi {
     private SparkWitchApi() {
     }
 
-    /** Preserves the responsible UUID for one synchronous lethal action, including offline owners.
-     * 为一次同步致死操作保留责任 UUID，包含离线责任人；嵌套调用和异常会恢复原上下文。 */
+    /** Preserves the responsible UUID for one synchronous lethal action, including offline owners. The action runs
+     * exactly once, inside the attribution scope; whatever it throws propagates unchanged.
+     * 为一次同步致死操作保留责任 UUID，包含离线责任人；嵌套调用和异常会恢复原上下文。动作在责任归属范围内恰好执行一次，
+     * 其抛出的异常原样向上传播。 */
     public static void runWithKillAttribution(ServerWorld world, UUID responsiblePlayer, Runnable action) {
         JudgeKillAttribution.runWith(world, responsiblePlayer, action);
     }
@@ -259,15 +261,22 @@ public final class SparkWitchApi {
      * and Bomber drone) punches a temporary hole of {@code radius} blocks into every BEAR smoke cloud near
      * {@code center}, exactly like SparkWitch's own blasts. Purely visual: smoke never affects a server rule. Does
      * nothing for nulls, a non-finite centre, a radius that is not positive and finite, or when no smoke is near.
+     * A failing carve is swallowed and never logged (it would repeat on every blast): the catch only keeps a failing
+     * visual from breaking the caller's blast.
      * 冻结的跨模组接缝（BEAR WP0，2026-11-05），仅服务端线程：附属模组的爆炸（目前为 SparkStrength 的 M67 与炸弹客无人机）
      * 在 {@code center} 附近的每团 BEAR 烟雾中炸开半径 {@code radius} 格的临时空洞，与 SparkWitch 自身的爆炸完全一致。纯视觉：
      * 烟雾从不影响任何服务端规则。参数为 null、中心非有限、半径不是正有限值或附近没有烟时不做任何事。
+     * 炸烟失败时被吞掉且不记录日志（每次爆炸都会重复）：保留的 catch 只用于避免视觉效果出错时破坏调用方的爆炸本身。
      */
     public static void carveSmoke(ServerWorld world, Vec3d center, double radius) {
         if (world == null || center == null || !Double.isFinite(radius) || !(radius > 0.0)) {
             return;
         }
-        SmokeCloudService.carveHole(world, center, (float) radius);
+        try {
+            SmokeCloudService.carveHole(world, center, (float) radius);
+        } catch (RuntimeException | LinkageError ignored) {
+            // Visual only: the blast itself is unaffected. / 仅视觉：爆炸本身不受影响。
+        }
     }
 
     public static boolean isWraithActive(PlayerEntity player) {

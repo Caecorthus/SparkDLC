@@ -18,14 +18,12 @@ import java.util.List;
 import net.minecraft.client.gui.DrawContext;
 
 /**
- * The owner info card's decorations, drawn by SparkAssist on behalf of SparkWitch and SparkTraits. Those mods call
- * the two static methods reflectively (they only soft-depend on SparkAssist) at two points of their card draw:
- * {@link #cardChrome} right after the panel, {@link #cardOverlay} after the rows. Everything else — the player's
- * faction set, the round seed, the density and foliage settings — is read here, so the callers pass geometry only.
- * The signatures are part of the cross-mod contract: keep them stable.
- * 信息卡的点缀，由 SparkAssist 代 SparkWitch 与 SparkTraits 绘制。两个模组只软依赖 SparkAssist，因此在卡片绘制的两个
- * 时点反射调用这两个静态方法：面板之后 cardChrome，行之后 cardOverlay。玩家阵营套别、本局种子、密度与枝叶设置都在
- * 这里读取，调用方只传几何。方法签名是跨模组约定，保持稳定。
+ * The owner info card's decorations, drawn by the guidebook for the role card and the trait card. Each card calls the
+ * two static methods through its own {@link GuidebookCardDecor} at two points of its draw: {@link #cardChrome} right
+ * after the panel, {@link #cardOverlay} after the rows. Everything else — the player's faction set, the round seed,
+ * the density and foliage settings — is read here, so the callers pass geometry only.
+ * 信息卡的点缀，由指南为职业卡与词条卡绘制。每张卡片经由自己的 {@link GuidebookCardDecor} 在绘制的两个时点调用这两个静态
+ * 方法：面板之后 cardChrome，行之后 cardOverlay。玩家阵营套别、本局种子、密度与枝叶设置都在这里读取，调用方只传几何。
  */
 public final class GuidebookDecorApi {
     private static final int OVERLAY_MARGIN = 20;

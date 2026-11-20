@@ -1,7 +1,8 @@
 package dev.caecorthus.sparkdlc.role.civilian.controlexpert;
 
 import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsControlExpertBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.trait.api.TraitIds;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.event.CanSeeMoney;
 import dev.doctor4t.wathe.api.event.TaskComplete;
@@ -40,7 +41,7 @@ public final class ControlExpertEconomyService {
 
     static void onTaskComplete(ServerPlayerEntity player) {
         // SparkTraits is fused into SparkDLC: always loaded. / SparkTraits 已融合进 SparkDLC：恒为已加载。
-        if (canEarn(player) && receivesTaskMoney(true, SparkTraitsControlExpertBridge.isImpostor(player))) {
+        if (canEarn(player) && receivesTaskMoney(true, SparkTraitsApi.hasActiveTrait(player, TraitIds.IMPOSTOR))) {
             PlayerShopComponent.KEY.get(player).addToBalance(ControlExpertRules.TASK_MONEY_REWARD);
         }
     }

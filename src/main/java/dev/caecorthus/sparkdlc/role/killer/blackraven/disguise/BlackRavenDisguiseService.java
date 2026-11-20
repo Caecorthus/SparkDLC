@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.blackraven.disguise;
 
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenMatch;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.BlackRavenPerceptionPlayerComponent;
@@ -106,7 +106,7 @@ public final class BlackRavenDisguiseService {
                         isWindowActive(player, state.acting()),
                         NoellesTaotieSeekerBridge.isSwallowed(player),
                         GrandWitchFearService.isPlayerFeared(player),
-                        SparkTraitsKillerBridge.isRoleSkillBlocked(player))
+                        SparkTraitsApi.isRoleSkillBlocked(player))
                 : new BlackRavenDisguiseRules.SwitchCheck(sessionValid, false, now, state.unlockAt(),
                         state.nextSwitchAt(), state.acting(), target, false, false, false, false, false);
         BlackRavenDisguiseRules.SwitchVerdict verdict = BlackRavenDisguiseRules.canSwitch(check);

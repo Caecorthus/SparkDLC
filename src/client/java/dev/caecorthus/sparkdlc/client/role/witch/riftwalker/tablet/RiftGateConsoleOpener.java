@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.role.witch.riftwalker.tablet;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthTabletCompat;
+import dev.caecorthus.sparkdlc.tablet.TabletItemLookup;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.RiftwalkerRules;
 import dev.caecorthus.sparkdlc.role.witch.riftwalker.net.RiftGateConsoleRequestC2SPacket;
@@ -138,7 +138,7 @@ public final class RiftGateConsoleOpener {
     static boolean isHotbarTabletUse(PlayerEntity player, Hand hand, ItemStack stack) {
         return hand == Hand.MAIN_HAND
                 && PlayerInventory.isValidHotbarIndex(player.getInventory().selectedSlot)
-                && SparkStrengthTabletCompat.isTablet(stack);
+                && TabletItemLookup.isTablet(stack);
     }
 
     /**

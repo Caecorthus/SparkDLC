@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.coroner;
 
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkWitchCompat;
+import dev.caecorthus.sparkdlc.SparkWitchItems;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerPlayerComponent;
 import dev.caecorthus.sparkdlc.role.civilian.timekeeper.TimekeeperWatchComponent;
 import com.mojang.authlib.GameProfile;
@@ -184,14 +184,11 @@ final class CoronerLoanedGear {
         }
         if (CoronerRules.isSparkWitchKidnapper(role)) {
             /*
-             * 验尸官伪装 SparkWitch 绑架者时，通过兼容桥拿 1 个临时迷药。
-             * 各模块已融合进 SparkDLC，createKidnapperDrugStack 直接调用 SparkWitch；保留 null 判断只是防御。
-             * The bridge calls SparkWitch directly since the SparkDLC fusion; the null check is only defensive.
+             * 验尸官伪装绑架者时拿 1 个临时迷药。
+             * A Coroner disguised as the Kidnapper is loaned one temporary knockout drug.
              */
-            ItemStack knockoutDrug = SparkWitchCompat.createKidnapperDrugStack();
-            if (knockoutDrug != null) {
-                giveTemporaryStack(player, knockoutDrug, disguiseUuid, snapshot.roleId(), "sparkdlc_knockout_drug");
-            }
+            giveTemporaryStack(player, SparkWitchItems.knockoutDrug().getDefaultStack(), disguiseUuid,
+                    snapshot.roleId(), "sparkdlc_knockout_drug");
         }
         if (CoronerRules.isDemonHunter(role)) {
             refreshDemonHunterState(player);

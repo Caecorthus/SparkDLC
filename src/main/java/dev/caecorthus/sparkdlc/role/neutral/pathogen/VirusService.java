@@ -2,7 +2,7 @@ package dev.caecorthus.sparkdlc.role.neutral.pathogen;
 
 import dev.caecorthus.sparkdlc.SparkStrength;
 import dev.caecorthus.sparkdlc.role.neutral.pathogen.VirusCarrierComponent;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.util.SparkPlayers;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -62,7 +62,7 @@ public final class VirusService {
                 VirusCarrierComponent.isCarrier(target),
                 target.getBoundingBox().squaredMagnitude(user.getEyePos()),
                 user.canSee(target),
-                SparkFactionCompat.canAffectPlayer(user, target, VIRUS_ACTION_ID)
+                SparkFactionApi.canAffectPlayer(user, target, VIRUS_ACTION_ID)
         );
         switch (verdict) {
             case UNAVAILABLE -> {

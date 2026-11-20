@@ -1,8 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.toxicologist;
 
 import dev.caecorthus.sparkdlc.SparkStrengthItems;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsBluePoisonCompat;
-import dev.doctor4t.wathe.api.event.ShopPurchase;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.util.ShopEntry;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.LoreComponent;
@@ -10,7 +9,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 
 import java.util.List;
@@ -20,29 +18,12 @@ import java.util.List;
  * disguise shop so both stay identical.
  * 蓝矾与蓝颠茄商店条目，由毒理学家商店与验尸官的毒理学家伪装商店共用，保证两边完全一致。
  *
- * <p>Wathe buys by list index and rebuilds the list on both sides, so the entries are always listed even when
- * SparkTraits is missing; availability is only checked server-side when buying.
- * Wathe 按下标购买且双端各自重建列表，因此即使缺少 SparkTraits 也始终列出；只在服务端购买时检查是否可用。</p>
+ * <p>Wathe buys by list index and rebuilds the list on both sides, so the entries are always listed, in this order,
+ * on both sides; nothing about them depends on state only one side knows.
+ * Wathe 按下标购买且双端各自重建列表，因此两端始终按此顺序列出这些条目；条目不依赖任何只有一端知道的状态。</p>
  */
 public final class ToxicologistBlueShop {
-    private static boolean registered;
-
     private ToxicologistBlueShop() {
-    }
-
-    /**
-     * Deny-only purchase guard: Wathe shows the deny reason on the action bar, whereas a message sent from a false
-     * onBuy would be overwritten by Wathe's generic purchase_failed in the same tick. It never allows, so later
-     * listeners still run; onBuy keeps its own check as the fail-closed fallback.
-     * 仅拒绝的购买守卫：Wathe 会在动作栏显示拒绝原因；若只在 onBuy 返回 false 时发消息，会在同一 tick 被通用的
-     * purchase_failed 覆盖。从不放行，后续监听器照常执行；onBuy 仍保留自身检查作为兜底。
-     */
-    public static synchronized void register() {
-        if (registered) {
-            return;
-        }
-        registered = true;
-        ShopPurchase.BEFORE.register(ToxicologistBlueShop::denyWhenUnavailable);
     }
 
     public static List<ShopEntry> entries() {
@@ -62,34 +43,19 @@ public final class ToxicologistBlueShop {
         );
     }
 
-    private static ShopPurchase.PurchaseResult denyWhenUnavailable(ServerPlayerEntity player, ShopEntry entry, int index) {
-        if (isBlueEntry(entry) && !SparkTraitsBluePoisonCompat.isBluePoisonApiAvailable()) {
-            return ShopPurchase.PurchaseResult.deny(ToxicologistBlueVitriolService.UNAVAILABLE_KEY);
-        }
-        return null;
-    }
-
-    private static boolean isBlueEntry(ShopEntry entry) {
-        return ToxicologistBlueRules.BLUE_VITRIOL_ENTRY_ID.equals(entry.id())
-                || ToxicologistBlueRules.BLUE_BELLADONNA_ENTRY_ID.equals(entry.id());
-    }
-
     private static boolean buyBlueVitriol(PlayerEntity buyer) {
-        if (!SparkTraitsBluePoisonCompat.isBluePoisonApiAvailable()) {
-            return false;
-        }
         return giveToHotbar(buyer, SparkStrengthItems.blueVitriol().getDefaultStack());
     }
 
     /** The fruit is stamped with the buyer's blue marker, so whoever eats it is credited to the buyer.
      *  果实写入购买者的蓝毒标记，任何人吃下都记在购买者名下。 */
     private static boolean buyBlueBelladonna(PlayerEntity buyer) {
-        if (!SparkTraitsBluePoisonCompat.isBluePoisonApiAvailable()) {
-            return false;
-        }
         ItemStack fruit = SparkStrengthItems.blueBelladonna().getDefaultStack();
-        if (!SparkTraitsBluePoisonCompat.markStackBluePoison(fruit, buyer.getUuid())
-                || !buyer.getUuid().equals(SparkTraitsBluePoisonCompat.getStackBluePoisoner(fruit))) {
+        // Fail closed: the fruit is handed over (and charged) only when it really carries the buyer's marker. An
+        // empty stack is never stamped, so the read-back also covers it.
+        // 失败时关闭：只有果实确实带有购买者的标记才交付（并扣费）。空物品不会被写入标记，回读同样覆盖这种情况。
+        SparkTraitsApi.markStackBluePoison(fruit, buyer.getUuid());
+        if (!buyer.getUuid().equals(SparkTraitsApi.getStackBluePoisoner(fruit))) {
             return false;
         }
         return giveToHotbar(buyer, fruit);

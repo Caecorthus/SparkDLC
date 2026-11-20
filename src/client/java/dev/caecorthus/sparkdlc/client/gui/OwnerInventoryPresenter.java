@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.gui;
 
-import dev.caecorthus.sparkdlc.client.gui.card.GuideDecorBridge;
+import dev.caecorthus.sparkdlc.client.guidebook.ui.decor.GuidebookCardDecor;
 import dev.caecorthus.sparkdlc.client.gui.card.InventoryCardPaint;
 import dev.caecorthus.sparkdlc.client.gui.card.InventoryInfoCard;
 import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
@@ -10,10 +10,10 @@ import dev.caecorthus.sparkdlc.skill.api.WitchSkillRegistry;
 import dev.caecorthus.sparkdlc.client.SparkWitchClient;
 import dev.caecorthus.sparkdlc.client.skill.SecondaryAbilityController;
 import dev.caecorthus.sparkdlc.client.role.civilian.apprentice.ApprenticeClientPresentation;
-import dev.caecorthus.sparkdlc.client.bridge.witch.SparkStrengthHudBridge;
+import dev.caecorthus.sparkdlc.client.economy.KillerTeamEconomyClientHooks;
 import dev.caecorthus.sparkdlc.client.role.witch.grandwitch.GrandWitchClientPresentation;
 import dev.caecorthus.sparkdlc.client.text.WitchSkillClientTexts;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkFactionSecondRowCompat;
+import dev.caecorthus.sparkdlc.inventory.LimitedInventoryRows;
 import dev.caecorthus.sparkdlc.component.WitchPlayerComponent;
 import dev.caecorthus.sparkdlc.skill.mana.WitchManaRules;
 import dev.caecorthus.sparkdlc.net.version.SparkDlcServerConnection;
@@ -55,23 +55,23 @@ public final class OwnerInventoryPresenter {
      * this instance to another mod. Created on first use, so a linkage failure still surfaces inside the guarded
      * prepare/draw paths below. SparkFactionAPI 0.1.5.13+ draws a 22 px second row above the hotbar strip (its
      * inactive widget there is already scanned by the card); the second-row rule counts it too, so the block stays
-     * reserved without relying on that widget. It goes through {@link SparkFactionSecondRowCompat#isShown()} so the
+     * reserved without relying on that widget. It goes through {@link LimitedInventoryRows#isSecondRowShown()} so the
      * wiring point stays shared.
      * SparkWitch 自己的共享信息卡实例（由 SparkFactionAPI 的 client/api/card 提供）：自己的缓存、“+N 项”语言键、
      * SparkStrength HUD 桥接与 SparkAssist 点缀（独立的日志名与失败锁存）。不要把该实例交给其他模组。首次使用时才创建，
      * 因此链接失败仍发生在下方受保护的准备与绘制路径内。SparkFactionAPI 0.1.5.13+ 会在热栏上方绘制 22 像素高的第二行
      * （其非激活控件已在卡片的扫描中避开）；第二行规则也将其计入，使物品栏块的预留不依赖该控件。该规则经由
-     * {@link SparkFactionSecondRowCompat#isShown()}，以保持同一个接线点。
+     * {@link LimitedInventoryRows#isSecondRowShown()}，以保持同一个接线点。
      */
     private static final class Card {
         private static final InventoryInfoCard INSTANCE = new InventoryInfoCard("gui.sparkdlc.inventory.more",
-                () -> SparkFactionSecondRowCompat.isShown() ? 22 : 0,
-                SparkStrengthHudBridge::topRightHudBottom, new GuideDecorBridge("SparkWitch/GuideDecor"));
+                () -> LimitedInventoryRows.isSecondRowShown() ? 22 : 0,
+                KillerTeamEconomyClientHooks::topRightHudBottom, new GuidebookCardDecor("SparkWitch/GuideDecor"));
     }
     private static final InventoryRenderScope<Frame> CALLS = new InventoryRenderScope<>();
-    // SparkTraits is fused into SparkDLC: the bridge calls its public facade directly through these method references.
-    // SparkTraits 已融合进 SparkDLC：桥接通过这些方法引用直接调用其公共门面。
-    private static final TraitsInventoryBridge<PlayerEntity, Text> TRAITS = new TraitsInventoryBridge<>(
+    // The V1 handshake calls the trait contract directly through these two method references.
+    // V1 握手通过这两个方法引用直接调用词条契约。
+    private static final OwnerInventoryTraitsHandshake<PlayerEntity, Text> TRAITS = new OwnerInventoryTraitsHandshake<>(
             SparkTraitsApi::registerExternalInventoryPresenterV1, SparkTraitsApi::visitOwnerInventoryTraits,
             OwnerInventoryPresenter::ownsTraits);
     private static final SkillProgressTracker PROGRESS = new SkillProgressTracker();

@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.bear.launcher;
 
 import dev.caecorthus.sparkdlc.SparkWitchSounds;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownEntryAccessor;
 import dev.caecorthus.sparkdlc.mixin.accessor.ItemCooldownManagerAccessor;
 import dev.caecorthus.sparkdlc.SparkWitchDataComponents;
@@ -73,7 +73,7 @@ public final class M32FireService {
                 SeekerRemoteSessionService.isLocked(player),
                 isKidnapped(player),
                 WraithStateService.isActive(player),
-                holding && SparkTraitsKillerBridge.blocksWeaponAction(player, launcher),
+                holding && SparkTraitsApi.blocksWeaponAction(player, launcher),
                 holding && player.getItemCooldownManager().isCoolingDown(launcher.getItem()),
                 !cylinder.isEmpty()));
         switch (decision) {
@@ -120,7 +120,7 @@ public final class M32FireService {
         if (merged <= 0) {
             return false;
         }
-        if (!SparkTraitsKillerBridge.setExactItemCooldownRemaining(player, item, merged)) {
+        if (!SparkTraitsApi.setExactItemCooldownRemaining(player, item, merged)) {
             player.getItemCooldownManager().set(item, merged);
         }
         return true;

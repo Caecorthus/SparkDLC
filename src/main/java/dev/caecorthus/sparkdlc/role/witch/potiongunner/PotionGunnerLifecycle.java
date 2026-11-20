@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.witch.potiongunner;
 
 import dev.caecorthus.sparkdlc.role.witch.potiongunner.shell.PotionShellEntity;
-import dev.caecorthus.sparkdlc.role.witch.grandwitch.factor.WitchFactorTraitsBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.util.OffMatchUse;
 import dev.caecorthus.sparkdlc.util.StaggeredSweep;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -53,7 +53,7 @@ public final class PotionGunnerLifecycle {
         // A SparkTraits-intercepted death (Last Stand) leaves the player in play, so nothing is stripped.
         // 被 SparkTraits 拦截的死亡（最后的坚守）使玩家仍留在对局中，因此不收走任何物品。
         KillPlayer.AFTER.register((victim, killer, deathReason) -> {
-            if (WitchFactorTraitsBridge.isDeathIntercepted(victim)) {
+            if (SparkTraitsApi.isLastStandDeathIntercepted(victim)) {
                 return;
             }
             PotionGunnerLoadoutService.stripAll(victim);

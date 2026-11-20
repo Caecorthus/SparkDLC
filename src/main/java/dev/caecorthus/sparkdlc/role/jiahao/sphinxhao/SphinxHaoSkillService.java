@@ -3,7 +3,7 @@ package dev.caecorthus.sparkdlc.role.jiahao.sphinxhao;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesSilenceBridge;
 import dev.caecorthus.sparkdlc.compat.noellesroles.NoellesTaotieSeekerBridge;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.killer.ninja.NinjaGrappleService;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchFearService;
 import dev.doctor4t.wathe.api.event.GameEvents;
@@ -103,7 +103,7 @@ public final class SphinxHaoSkillService {
                 && !NoellesTaotieSeekerBridge.isSwallowed(caster)
                 && !NinjaGrappleService.isHeld(caster)
                 && !NoellesSilenceBridge.isSilenced(caster)
-                && !SparkTraitsKillerBridge.isRoleSkillBlocked(caster);
+                && !SparkTraitsApi.isRoleSkillBlocked(caster);
     }
 
     // ---- 嘉豪病毒 / Hao Virus -----------------------------------------------------------------------------------

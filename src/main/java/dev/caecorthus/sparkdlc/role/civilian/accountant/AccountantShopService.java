@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.accountant;
 
 import dev.caecorthus.sparkdlc.SparkWitchItems;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsCharismaBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.event.BuildShopEntries;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.util.ShopEntry;
@@ -42,6 +42,6 @@ final class AccountantShopService {
                 ShopEntry.Type.TOOL)
                 .cooldown(AccountantRules.PASSBOOK_PURCHASE_COOLDOWN_TICKS)
                 .build();
-        context.addEntry(SparkTraitsCharismaBridge.discountShopEntry(player, passbook));
+        context.addEntry(SparkTraitsApi.discountShopEntryForCharisma(player, passbook));
     }
 }

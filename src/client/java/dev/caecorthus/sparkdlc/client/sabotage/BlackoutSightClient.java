@@ -1,8 +1,8 @@
 package dev.caecorthus.sparkdlc.client.sabotage;
 
-import dev.caecorthus.sparkdlc.bridge.strength.SparkFactionCompat;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkWitchCompat;
+import dev.caecorthus.sparkdlc.faction.witch.WitchFactionRoles;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
+import dev.caecorthus.sparkdlc.skill.api.SparkWitchApi;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerOwnerComponent;
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
 import dev.caecorthus.sparkdlc.sabotage.net.SyncBlackoutSightS2CPacket;
@@ -143,18 +143,18 @@ public final class BlackoutSightClient {
         cachedViewer = viewer.getUuid();
         cachedExempt = !GameFunctions.isPlayerPlayingAndAlive(viewer)
                 || GameFunctions.isPlayerSpectatingOrCreative(viewer)
-                || SparkWitchCompat.isWraithActive(viewer);
+                || SparkWitchApi.isWraithActive(viewer);
         Role role = game.getRole(viewer);
         cachedTeam = BlackoutSightRules.team(
-                SparkTraitsCompat.isEffectiveKiller(role, viewer),
+                SparkTraitsApi.isEffectiveKiller(role, viewer),
                 CorruptCopRules.isCorruptCop(role) || CorruptCopRules.isSparkWitchJiahaoMember(role),
-                SparkFactionCompat.isWitchFactionRole(role));
+                WitchFactionRoles.isWitchFactionRole(role));
     }
 
     private static BlackoutSightRules.Team targetTeam(@Nullable Role role) {
         return BlackoutSightRules.team(
                 role != null && role.canUseKiller(),
                 CorruptCopRules.isCorruptCop(role) || CorruptCopRules.isSparkWitchJiahaoMember(role),
-                SparkFactionCompat.isWitchFactionRole(role));
+                WitchFactionRoles.isWitchFactionRole(role));
     }
 }

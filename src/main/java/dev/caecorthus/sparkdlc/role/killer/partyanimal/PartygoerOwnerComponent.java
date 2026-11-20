@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.killer.partyanimal;
 
 import dev.caecorthus.sparkdlc.SparkStrength;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.entity.PartygoerEntity;
 import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerVisibilityRules;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -102,7 +102,7 @@ public final class PartygoerOwnerComponent implements AutoSyncedComponent, Serve
 
     private boolean ownerVisibleTo(ServerPlayerEntity recipient) {
         return owner != null && PartygoerVisibilityRules.receivesOwner(
-                SparkTraitsCompat.isEffectiveKiller(GameWorldComponent.KEY.get(recipient.getWorld()).getRole(recipient),
+                SparkTraitsApi.isEffectiveKiller(GameWorldComponent.KEY.get(recipient.getWorld()).getRole(recipient),
                         recipient),
                 GameFunctions.isPlayerSpectatingOrCreative(recipient));
     }

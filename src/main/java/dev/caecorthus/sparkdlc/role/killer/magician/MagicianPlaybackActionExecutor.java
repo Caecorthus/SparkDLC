@@ -1,7 +1,6 @@
 package dev.caecorthus.sparkdlc.role.killer.magician;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthM67ReplayCompat;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkStrengthPartygoerCompat;
+import dev.caecorthus.sparkdlc.role.killer.partyanimal.PartygoerWeaponTarget;
 import dev.caecorthus.sparkdlc.record.witch.AchievementRecords;
 import dev.caecorthus.sparkdlc.role.civilian.bear.ricochet.RangedSmokeCarve;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit.BlackRavenCrowHits;
@@ -87,7 +86,7 @@ public final class MagicianPlaybackActionExecutor {
         Entity partygoer = nearerPartygoer(proxy, MagicianConstants.KNIFE_RANGE, target);
         if (partygoer != null) {
             double x = partygoer.getX(), y = partygoer.getEyeY(), z = partygoer.getZ();
-            if (SparkStrengthPartygoerCompat.killByWeapon(owner, partygoer, GameConstants.DeathReasons.BAT)) {
+            if (PartygoerWeaponTarget.killByWeapon(owner, partygoer, GameConstants.DeathReasons.BAT)) {
                 proxy.getWorld().playSound(null, x, y, z, WatheSounds.ITEM_BAT_HIT, SoundCategory.PLAYERS, 3.0F, 1.0F);
                 proxy.swingHand(Hand.MAIN_HAND);
                 visible.playReplaySwing(Hand.MAIN_HAND);
@@ -110,7 +109,7 @@ public final class MagicianPlaybackActionExecutor {
         if (stack.isOf(WatheItems.REVOLVER)) return;
         // SparkStrength M67 seam: the proxy's M67 is not refused as freshly equipped (no-op for other items).
         // SparkStrength M67 接缝：代理的 M67 不会因“刚装备”被拒（其他物品不受影响）。
-        SparkStrengthM67ReplayCompat.beforeReplayedUse(proxy, stack);
+        MagicianM67Replay.beforeReplayedUse(proxy, stack);
         ActionResult result = proxy.interactionManager.interactItem(proxy, proxy.getWorld(), stack, hand);
         if (result.isAccepted() && !proxy.isUsingItem()) visible.playReplaySwing(hand);
     }
@@ -121,7 +120,7 @@ public final class MagicianPlaybackActionExecutor {
         // 不会回放成击杀。
         // A held SparkStrength M67 releases inside SparkStrength's release scope, as the recorded packet did; anything
         // else stops as before. / 手持的 SparkStrength M67 与录制的数据包一样在其松手作用域内松手；其他物品照旧停止使用。
-        SparkStrengthM67ReplayCompat.releaseUse(proxy); visible.setReplayUseState(false, null); visible.setReplayItemUseTimeLeft(0);
+        MagicianM67Replay.releaseUse(proxy); visible.setReplayUseState(false, null); visible.setReplayItemUseTimeLeft(0);
     }
     private static void shoot(ServerPlayerEntity owner, MagicianPlaybackFakePlayer proxy, MagicianPlaybackEntity visible) {
         ItemStack stack = proxy.getMainHandStack();
@@ -139,7 +138,7 @@ public final class MagicianPlaybackActionExecutor {
             puppetKill(owner, visible, target, GameConstants.DeathReasons.GUN, WatheItems.REVOLVER);
         } else {
             GameRecordManager.recordItemUse(owner, net.minecraft.registry.Registries.ITEM.getId(WatheItems.REVOLVER), null, null);
-            if (partygoer != null) SparkStrengthPartygoerCompat.killByWeapon(owner, partygoer, GameConstants.DeathReasons.GUN);
+            if (partygoer != null) PartygoerWeaponTarget.killByWeapon(owner, partygoer, GameConstants.DeathReasons.GUN);
         }
         RangedSmokeCarve.gunShot(proxy, partygoer != null ? partygoer : target, MagicianConstants.REVOLVER_RANGE); // BEAR: bullet tunnel / 弹道通道
         proxy.getWorld().playSound(null, proxy.getX(), proxy.getEyeY(), proxy.getZ(), WatheSounds.ITEM_REVOLVER_SHOOT, SoundCategory.PLAYERS, 5f, 1f);
@@ -161,7 +160,7 @@ public final class MagicianPlaybackActionExecutor {
         // 记录之前接管那一刺，并自行记录击杀）。
         Entity partygoer = nearerPartygoer(proxy, MagicianConstants.KNIFE_RANGE, target);
         if (partygoer != null) {
-            if (SparkStrengthPartygoerCompat.killByWeapon(owner, partygoer, GameConstants.DeathReasons.KNIFE)) {
+            if (PartygoerWeaponTarget.killByWeapon(owner, partygoer, GameConstants.DeathReasons.KNIFE)) {
                 partygoer.playSound(WatheSounds.ITEM_KNIFE_STAB, 1f, 1f); proxy.swingHand(Hand.MAIN_HAND); visible.playReplaySwing(Hand.MAIN_HAND);
                 proxy.getItemCooldownManager().set(WatheItems.KNIFE, GameConstants.ITEM_COOLDOWNS.getOrDefault(WatheItems.KNIFE, 0));
             }
@@ -236,7 +235,7 @@ public final class MagicianPlaybackActionExecutor {
      * 射线上选取（{@code ProjectileUtil.getCollision}，被方块截断），并在该射线上比较入射距离。
      */
     private static @Nullable Entity nearerPartygoer(PlayerEntity proxy, double range, @Nullable Entity player) {
-        HitResult hit = ProjectileUtil.getCollision(proxy, SparkStrengthPartygoerCompat::isKillable, range);
+        HitResult hit = ProjectileUtil.getCollision(proxy, PartygoerWeaponTarget::isKillable, range);
         if (!(hit instanceof EntityHitResult entityHit)) return null;
         Entity partygoer = entityHit.getEntity();
         if (player == null) return partygoer;

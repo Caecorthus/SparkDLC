@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.mixin.trait;
 
-import dev.caecorthus.sparkdlc.client.bridge.traits.SparkStrengthCoronerClientBridge;
-import dev.caecorthus.sparkdlc.client.bridge.traits.SparkWitchBlackRavenBridge;
+import dev.caecorthus.sparkdlc.client.role.civilian.coroner.CoronerClientHooks;
+import dev.caecorthus.sparkdlc.client.role.killer.blackraven.BlackRavenInstinctClientHooks;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.caecorthus.sparkdlc.client.trait.instinct.GoingDarkInstinctClientHooks;
@@ -120,7 +120,7 @@ public abstract class WatheClientMixin {
                     context.traitWorld().isFinalMomentLooseEnd(playerTarget.getUuid()),
                     // Answering here skips SparkStrength's Coroner disguise event, so ask it for the disguise color.
                     // 这里提前返回会跳过 SparkStrength 的验尸官伪装事件，因此直接查询其伪装色。
-                    SparkStrengthCoronerClientBridge.resolveKillerDisguiseInstinctColor(playerTarget)
+                    CoronerClientHooks.resolveKillerDisguiseInstinctColor(playerTarget)
             ));
             return;
         }
@@ -199,10 +199,10 @@ public abstract class WatheClientMixin {
          * is final.
          * SparkWitch 黑羽鸦现为始终属于好人的警察身份（2026-10-21）：按住本能键时，8 格内被感知过的玩家显示
          * 统一的鸦羽色描边。此优先级 1000 的 HEAD 回调早于 SparkWitch 优先级 2000 的 HEAD 钩子执行，因此对所有
-         * 观察者都在下方善良与有效杀手分支之前，先经可选反射桥询问 SparkWitch。返回 null 表示不接管；返回颜色
+         * 观察者都在下方善良与有效杀手分支之前，先直接询问 SparkWitch。返回 null 表示不接管；返回颜色
          * 或 -1 即为最终结果，SparkTraits 不再覆盖。
          */
-        Integer blackRavenSensedHighlight = SparkWitchBlackRavenBridge.resolveSensedInstinctHighlight(target);
+        Integer blackRavenSensedHighlight = BlackRavenInstinctClientHooks.resolvePrioritySensedHighlight(target);
         if (blackRavenSensedHighlight != null) {
             cir.setReturnValue(blackRavenSensedHighlight);
             return;
@@ -284,7 +284,7 @@ public abstract class WatheClientMixin {
         } else {
             // Answering here skips SparkStrength's Coroner disguise event, so mirror it.
             // 这里提前返回会跳过 SparkStrength 的验尸官伪装事件，因此同步其判定。
-            Integer coronerDisguiseColor = SparkStrengthCoronerClientBridge.resolveKillerDisguiseInstinctColor(playerTarget);
+            Integer coronerDisguiseColor = CoronerClientHooks.resolveKillerDisguiseInstinctColor(playerTarget);
             if (coronerDisguiseColor != null) {
                 cir.setReturnValue(coronerDisguiseColor);
                 return;
@@ -313,7 +313,7 @@ public abstract class WatheClientMixin {
         if (context.canSeeSpectatorInformation()) {
             return;
         }
-        Integer blackRavenSensedHighlight = SparkWitchBlackRavenBridge.resolveSensedInstinctHighlight(target);
+        Integer blackRavenSensedHighlight = BlackRavenInstinctClientHooks.resolvePrioritySensedHighlight(target);
         if (blackRavenSensedHighlight != null) {
             cir.setReturnValue(blackRavenSensedHighlight);
             return;

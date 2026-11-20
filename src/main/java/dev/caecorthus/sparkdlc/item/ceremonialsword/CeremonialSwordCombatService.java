@@ -1,6 +1,8 @@
 package dev.caecorthus.sparkdlc.item.ceremonialsword;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
+import dev.caecorthus.sparkdlc.item.CustomMeleeAffect;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.killer.blackraven.crow.hit.BlackRavenCrowHits;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchRules;
 import dev.caecorthus.sparkdlc.role.witch.grandwitch.GrandWitchRuntimeComponent;
@@ -45,13 +47,18 @@ public final class CeremonialSwordCombatService {
     }
 
     public static ActionResult tryHandleAttack(Entity attacker, World world, Hand hand, Entity target) {
+        // Guards the custom melee effect before its attack path runs (CustomMeleeAffect).
+        // 在自定义近战攻击路径运行前拦截其效果（CustomMeleeAffect）。
+        if (CustomMeleeAffect.refuses(attacker, target)) {
+            return ActionResult.SUCCESS;
+        }
         boolean holdingCeremonialSword = attacker instanceof PlayerEntity player
                 && player.getStackInHand(hand).isOf(SparkWitchItems.ceremonialSword());
         if (!holdingCeremonialSword) {
             return ActionResult.PASS;
         }
         if (attacker instanceof PlayerEntity player
-                && SparkTraitsKillerBridge.blocksWeaponAction(player, player.getStackInHand(hand))) {
+                && SparkTraitsApi.blocksWeaponAction(player, player.getStackInHand(hand))) {
             return ActionResult.FAIL;
         }
         if (world.isClient) {
@@ -128,10 +135,14 @@ public final class CeremonialSwordCombatService {
     }
 
     /**
-     * Stable void entry point injected by SparkFactionAPI; direct and dash contacts share this gate.
-     * SparkFactionAPI 注入的稳定 void 入口；左键与冲刺接触共用此门槛。
+     * Direct and dash contacts share this gate: the player-affect guard is asked first, with the blade's death reason
+     * as the action, so a refused kill ends before the sword's own cooldown and strike state are looked at.
+     * 左键与冲刺接触共用此门槛：最先以仪礼剑死因作为行为询问玩家影响守卫，因此被拒绝的击杀在查看剑自身的冷却与斩击状态之前结束。
      */
     public static void killWithCeremonialSword(ServerPlayerEntity attacker, ServerPlayerEntity target) {
+        if (!SparkFactionApi.allowsPlayerAction(attacker, target, SparkWitchDeathReasons.CEREMONIAL_BLADE)) {
+            return;
+        }
         GrandWitchRuntimeComponent runtime = GrandWitchRuntimeComponent.KEY.get(attacker);
         if (!GrandWitchRules.canAttemptCeremonialSwordKill(
                 runtime.getSwordKillCooldownTicks(), runtime.isSwordStrikeInProgress())) {
@@ -141,12 +152,12 @@ public final class CeremonialSwordCombatService {
         // 左键与延迟冲刺接触都是即时近战，不能把冲刺技能冷却当成左键禁用。
         ItemStack weapon = new ItemStack(SparkWitchItems.ceremonialSword());
         if (!canStrike(attacker, target)
-                || SparkTraitsKillerBridge.blocksWeaponAction(attacker, weapon)) {
+                || SparkTraitsApi.blocksWeaponAction(attacker, weapon)) {
             return;
         }
         runtime.setSwordStrikeInProgress(true);
         try {
-            if (SparkTraitsKillerBridge.shouldCancelMeleeAttack(attacker, target, weapon)) {
+            if (SparkTraitsApi.shouldCancelMeleeAttack(attacker, target, weapon)) {
                 return;
             }
             GameRecordManager.recordItemUse(
@@ -157,13 +168,13 @@ public final class CeremonialSwordCombatService {
             );
             boolean boundVendetta = VendettaInteractionService.isActiveVendetta(target)
                     && VendettaInteractionService.isExactPair(attacker, target);
-            boolean alreadyNonFinal = SparkTraitsKillerBridge.isNonFinalKillPending(target, attacker);
+            boolean alreadyNonFinal = SparkTraitsApi.isNonFinalKillPending(target, attacker);
             GameFunctions.killPlayer(target, true, attacker, SparkWitchDeathReasons.CEREMONIAL_BLADE);
             // A non-final kill (e.g. a Depression fake death) never reaches AFTER, which would leave the sword
             // with no kill cooldown; it keeps Traits' reduced share of the kill cooldown instead.
             // 非最终击杀（如抑郁假死）不会派发 AFTER，否则仪礼剑不会进入击杀冷却；改为保留 Traits 规定的缩短冷却。
-            if (!alreadyNonFinal && SparkTraitsKillerBridge.isNonFinalKillPending(target, attacker)) {
-                runtime.setSwordKillCooldownTicks(SparkTraitsKillerBridge.nonFinalKillCooldownTicks(
+            if (!alreadyNonFinal && SparkTraitsApi.isNonFinalKillPending(target, attacker)) {
+                runtime.setSwordKillCooldownTicks(SparkTraitsApi.getNonFinalKillCooldownTicks(
                         GrandWitchRules.CEREMONIAL_SWORD_KILL_COOLDOWN_TICKS));
             }
             // Vendetta terminal removal has no ordinary AFTER event; its cleared bond confirms that outcome.

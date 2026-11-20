@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.role.civilian.sherry;
 
 import dev.caecorthus.sparkdlc.SparkWitch;
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsAbyssListenerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -322,7 +322,7 @@ public final class SherryComponent implements AutoSyncedComponent, ServerTicking
         // Only a Wathe death clears; a Last Stand hold and an alive spectator (Taotie-swallowed, Rift occupant) keep
         // the state counting (Medium / Dominator precedent).
         // 只有 Wathe 判定的死亡才清空；背水一战保持期与存活旁观者（被饕餮吞下、裂隙门内）期间状态照常倒数（通灵师、支配者先例）。
-        if (!SparkTraitsAbyssListenerBridge.isLastStandPending(owner)
+        if (!SparkTraitsApi.isLastStandPending(owner)
                 && !GameFunctions.isPlayerPlayingAndAlive(owner)) {
             clear();
             return;

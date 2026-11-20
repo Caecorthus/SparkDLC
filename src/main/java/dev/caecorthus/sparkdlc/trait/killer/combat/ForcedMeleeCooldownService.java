@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.trait.killer.combat;
 
+import dev.caecorthus.sparkdlc.cooldown.api.AdminCooldownClear;
 import dev.caecorthus.sparkdlc.trait.net.ForcedMeleeCooldownPayload;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.api.event.ResetPlayer;
@@ -39,6 +40,11 @@ public final class ForcedMeleeCooldownService {
     public static void register() {
         if (registered) return;
         registered = true;
+        // Admin /sparkdlc:clearCooldown lifts the forced floor on the held item before its remove; otherwise
+        // ExactItemCooldownMixin cancels that remove. Only the admin path does so.
+        // 管理员 /sparkdlc:clearCooldown 在移除之前解除手持物品的强制下限，否则 ExactItemCooldownMixin 会取消该移除。
+        // 只有管理员路径如此。
+        AdminCooldownClear.registerBeforeRemove(ForcedMeleeCooldownService::clearItem);
         PayloadTypeRegistry.playS2C().register(ForcedMeleeCooldownPayload.ID, ForcedMeleeCooldownPayload.CODEC);
         ServerLifecycleEvents.SERVER_STARTED.register(server -> SERVER.clear());
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> SERVER.clear());
@@ -121,9 +127,13 @@ public final class ForcedMeleeCooldownService {
     }
 
     /**
-     * Admin clear of one item (SparkFactionAPI {@code /sparkdlc:clearCooldown}): drops only its forced floor, so
-     * the command's {@code remove} is no longer cancelled and the floor is not restored next tick. The vanilla cooldown
-     * is left to the caller.
+     * Admin clear of one item ({@code /sparkdlc:clearCooldown}, through {@code AdminCooldownClear} right before the
+     * command's {@code remove}): drops only its forced floor, so that {@code remove} is no longer cancelled and the
+     * floor is not restored next tick. The vanilla cooldown is left to the caller. Every other {@code remove} still
+     * keeps the floor.
+     * 管理员清除单个物品（{@code /sparkdlc:clearCooldown}，经由 {@code AdminCooldownClear}，紧接在命令的 {@code remove} 之前）：
+     * 只去掉其强制下限，使该 {@code remove} 不再被取消，下限也不会在下一刻恢复。原版冷却留给调用方处理。其他任何
+     * {@code remove} 仍保留下限。
      */
     public static void clearItem(ServerPlayerEntity player, Item item) {
         Penalties state = SERVER.get(player.getUuid());

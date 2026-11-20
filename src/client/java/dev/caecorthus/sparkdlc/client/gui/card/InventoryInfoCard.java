@@ -179,9 +179,10 @@ public final class InventoryInfoCard {
     private static final int BRACKET_SPAN = 8;
 
     /**
-     * Optional decoration drawn around one card (SparkAssist's guide ornaments, see {@link GuideDecorBridge}). Both
-     * calls get the card's panel box and must never throw. 卡片的可选点缀（SparkAssist 指南装饰，见
-     * {@link GuideDecorBridge}）；两个调用都传入卡片面板矩形，且不得抛出异常。
+     * Optional decoration drawn around one card (the guidebook's ornaments, see
+     * {@code client.guidebook.ui.decor.GuidebookCardDecor}). Both calls get the card's panel box and must never throw.
+     * 卡片的可选点缀（指南装饰，见 {@code client.guidebook.ui.decor.GuidebookCardDecor}）；两个调用都传入卡片面板矩形，
+     * 且不得抛出异常。
      */
     public interface Decor {
         /** No decoration. 不绘制点缀。 */

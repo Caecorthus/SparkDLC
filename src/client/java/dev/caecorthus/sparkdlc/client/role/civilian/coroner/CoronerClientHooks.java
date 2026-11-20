@@ -1,7 +1,7 @@
 package dev.caecorthus.sparkdlc.client.role.civilian.coroner;
 
 import dev.caecorthus.sparkdlc.client.instinct.InstinctViewer;
-import dev.caecorthus.sparkdlc.bridge.strength.SparkTraitsCompat;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerRules;
 import dev.caecorthus.sparkdlc.role.civilian.coroner.CoronerService;
 import dev.doctor4t.wathe.api.Role;
@@ -46,13 +46,11 @@ public final class CoronerClientHooks {
      * Returns the killer-coloured instinct result for a Coroner killer disguise.
      *
      * <p>This small public seam is intentionally kept on the client side. SparkTraits
-     * calls it (directly since the SparkDLC fusion, through {@code SparkStrengthCoronerClientBridge})
-     * when its own early WatheClient mixin runs before Wathe dispatches {@code GetInstinctHighlight}.
+     * calls it directly when its own early WatheClient mixin runs before Wathe dispatches {@code GetInstinctHighlight}.
      * SparkStrength itself never calls into SparkTraits here.</p>
      *
      * <p>这里提供一个客户端公开接缝：当 SparkTraits 的 WatheClient 早期 Mixin
-     * 先于 Wathe 本能事件执行时，SparkTraits 会调用这里的判断（融合进 SparkDLC 后经
-     * {@code SparkStrengthCoronerClientBridge} 直接调用）。SparkStrength 在此处不会反向调用 SparkTraits。</p>
+     * 先于 Wathe 本能事件执行时，SparkTraits 会直接调用这里的判断。SparkStrength 在此处不会反向调用 SparkTraits。</p>
      */
     public static @Nullable Integer resolveKillerDisguiseInstinctColor(Entity target) {
         if (!(target instanceof PlayerEntity targetPlayer) || targetPlayer.isSpectator()) {
@@ -64,9 +62,7 @@ public final class CoronerClientHooks {
         }
 
         /*
-         * 使用 SparkTraits 的公开软兼容门面判断观察者是否属于有效杀手阵营。
-         * 没有 SparkTraits 时，该门面会自动回退到 Wathe 原生 canUseKiller 结果，
-         * 因此原版 SparkStrength + Wathe 的行为不会改变。
+         * 通过词条功能判断观察者是否属于有效杀手阵营；观察者没有相关词条时结果就是 Wathe 原生的 canUseKiller。
          *
          * 使用有效阵营而不是 game.canUseKillerFeatures(viewer)，才能让“原始好人
          * + 内鬼词条”的观察者也获得验尸官杀手伪装的红色本能和同伙提示。
@@ -75,18 +71,12 @@ public final class CoronerClientHooks {
          */
         if (!viewer.effectiveKiller()
                 || !viewer.playingAndAlive()
-                || !hasKillerCohortDisguise(targetPlayer)
+                || !CoronerService.hasKillerCohortDisguise(targetPlayer)
                 || !GameFunctions.isPlayerPlayingAndAlive(targetPlayer)) {
             return null;
         }
 
         return KILLER_COHORT_RED;
-    }
-
-    /** Disguised as a killer-faction or Undercover corpse. / 伪装成杀手阵营或卧底的尸体身份。 */
-    private static boolean hasKillerCohortDisguise(PlayerEntity player) {
-        Role disguise = CoronerService.activeDisguiseRoleForRules(player);
-        return CoronerRules.isKillerFaction(disguise) || CoronerRules.isUndercover(disguise);
     }
 
     private static GetInstinctHighlight.HighlightResult highlightKillerDisguise(Entity target) {
@@ -111,10 +101,10 @@ public final class CoronerClientHooks {
          * 同伙提示必须与本能颜色使用同一套“有效杀手”判定，否则内鬼观察者
          * 虽然能按键透视，却仍然无法看到变形验尸官下方的 Killer's Cohort。
          */
-        if (!SparkTraitsCompat.isEffectiveKiller(game.getRole(viewer), viewer)
+        if (!SparkTraitsApi.isEffectiveKiller(game.getRole(viewer), viewer)
                 || !GameFunctions.isPlayerPlayingAndAlive(viewer)
                 || !GameFunctions.isPlayerPlayingAndAlive(target)
-                || !hasKillerCohortDisguise(target)) {
+                || !CoronerService.hasKillerCohortDisguise(target)) {
             return null;
         }
 

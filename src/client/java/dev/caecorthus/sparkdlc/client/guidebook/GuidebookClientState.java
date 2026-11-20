@@ -4,6 +4,7 @@ import dev.caecorthus.sparkdlc.client.guidebook.ui.decor.GuidebookDecorApi;
 import dev.caecorthus.sparkdlc.guidebook.GuidebookEntryPoint;
 import dev.caecorthus.sparkdlc.guidebook.GuidebookSessionState;
 import dev.caecorthus.sparkdlc.guidebook.GuidebookObservationRules;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.WatheClient;
@@ -63,7 +64,7 @@ public final class GuidebookClientState {
         boolean spectator = client.player.isSpectator();
         boolean creative = client.player.isCreative();
         Set<String> visibleTraits = GuidebookObservationRules.shouldPollOwnerTraits(true, dead, spectator, creative)
-                ? SparkTraitsGuideBridge.ownerVisibleActiveTraitIds(client.player)
+                ? SparkTraitsApi.getRegisteredActiveTraitIdStrings(client.player)
                 : Set.of();
         SESSION.observe(roleId, visibleTraits);
     }

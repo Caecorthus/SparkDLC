@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.mixin.item.tofana;
 
-import dev.caecorthus.sparkdlc.bridge.witch.SparkTraitsKillerBridge;
+import dev.caecorthus.sparkdlc.trait.api.SparkTraitsApi;
 import dev.caecorthus.sparkdlc.item.ceremonialsword.CeremonialSwordProtectionPolicy;
 import dev.caecorthus.sparkdlc.item.tofana.TofanaProtectionService;
 import dev.doctor4t.wathe.game.GameFunctions;
@@ -35,7 +35,7 @@ public abstract class GameFunctionsTofanaProtectionMixin {
             boolean force,
             CallbackInfo ci
     ) {
-        if (SparkTraitsKillerBridge.isLastEscapeActive(victim)) {
+        if (SparkTraitsApi.isLastEscapeActive(victim)) {
             return;
         }
         // Consume and enqueue even when the blade will kill the holder; retaliation has its own death reason.

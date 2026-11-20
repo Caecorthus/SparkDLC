@@ -11,9 +11,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 /**
  * Disables entity-to-entity collision while Last Stand is waiting to revive a player.
  * 当背水一战玩家处于等待复活状态时，禁用实体之间的碰撞体积。
+ * Not a registered collision exemption ({@code mixin.faction.ExemptionEntityCollisionMixin} wraps Wathe's wall at
+ * priority 1100); this is a default-priority HEAD veto that also covers {@code isCollidable}.
+ * 不是已注册的碰撞豁免（{@code mixin.faction.ExemptionEntityCollisionMixin} 以优先级 1100 包裹 Wathe 实体墙）；
+ * 这里是默认优先级的 HEAD 否决，并且也覆盖 {@code isCollidable}。
  */
 @Mixin(Entity.class)
-public abstract class EntityCollisionMixin {
+public abstract class LastStandEntityCollisionMixin {
     @Inject(method = "isCollidable", at = @At("HEAD"), cancellable = true)
     private void sparkdlc$disableLastStandPendingCollidable(CallbackInfoReturnable<Boolean> cir) {
         Entity entity = (Entity) (Object) this;

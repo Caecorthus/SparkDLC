@@ -6,8 +6,16 @@ import dev.caecorthus.sparkdlc.faction.collision.EntityCollisionExemptions;
 import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 
+/**
+ * Applies the registered {@link EntityCollisionExemptions} to {@code collidesWith}, outside Wathe's player wall. Kept
+ * apart from {@code mixin.trait.LastStandEntityCollisionMixin}: that one is a default-priority HEAD veto inside the
+ * wall, with its own rule, so the two cannot share a class priority.
+ * 在 Wathe 玩家实体墙外层对 {@code collidesWith} 应用已注册的 {@link EntityCollisionExemptions}。与
+ * {@code mixin.trait.LastStandEntityCollisionMixin} 分开：后者是默认优先级、位于实体墙内层的 HEAD 否决，规则也不同，
+ * 两者无法共用一个类优先级。
+ */
 @Mixin(value = Entity.class, priority = 1100)
-public abstract class EntityCollisionMixin {
+public abstract class ExemptionEntityCollisionMixin {
     @WrapMethod(method = "collidesWith(Lnet/minecraft/entity/Entity;)Z")
     private boolean sparkdlc$cancelExemptCollision(Entity other, Operation<Boolean> original) {
         // Wraps Wathe's priority-1000 player wall. The inner chain is side-effect free and false for almost every

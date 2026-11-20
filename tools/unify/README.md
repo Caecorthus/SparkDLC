@@ -225,8 +225,10 @@ Collisions (`namespace-overrides.tsv`) / 冲突：
 Legacy names kept on purpose / 有意保留的旧名字：
 
 - `fabric.mod.json` `provides` and `SparkDlcModule`: the five legacy mod ids. `isModLoaded("sparkwitch")` still
-  answers; the event volume rows of the settings screen (`EventVolumeRows`) keep them as module labels.
-  `provides` 与 `SparkDlcModule`：五个旧 mod id；设置界面的事件音量行继续用它们标注模块。
+  answers; the event volume rows of the settings screen (`EventVolumeRows`) keep them as the mod a row belongs to.
+  They are not shown: a row that resolves to the SparkDLC container has no "From ..." line (stage 3, "one name").
+  `provides` 与 `SparkDlcModule`：五个旧 mod id；设置界面的事件音量行继续用它们记录该行所属的模组，但不再显示：
+  解析到 SparkDLC 容器的行没有「来自……」一行（第三阶段“一个名字”）。
 - The legacy filters that predate the rename: `RetiredTraitIds`, `RoundRules.LEGACY_WRAITH`. The former
   `WraithLegacyRoleIds` and `LegacyWraithPlayerComponent` / `LegacyWraithRoundComponent` (the migration of the
   Wraith data saved under `sparktraits:`) were folded into the stage-2b saved-data migration

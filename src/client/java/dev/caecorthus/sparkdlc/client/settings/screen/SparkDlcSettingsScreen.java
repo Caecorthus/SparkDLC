@@ -451,8 +451,12 @@ public final class SparkDlcSettingsScreen extends GameOptionsScreen implements S
         lines.add(new Line(null, 0));
         lines.addAll(wrap(Text.translatable("screen.sparkdlc.settings.default", option.defaultValueText()), width,
                 SettingsPalette.TEXT_FAINT));
-        lines.addAll(wrap(Text.translatable("screen.sparkdlc.settings.source", option.source()), width,
-                SettingsPalette.TEXT_FAINT));
+        // Only a row owned by another mod says where it comes from. 只有属于其他模组的行才标出来源。
+        Text source = option.source();
+        if (source != null) {
+            lines.addAll(wrap(Text.translatable("screen.sparkdlc.settings.source", source), width,
+                    SettingsPalette.TEXT_FAINT));
+        }
         return lines;
     }
 

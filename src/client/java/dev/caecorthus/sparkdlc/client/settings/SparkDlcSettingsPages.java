@@ -1,6 +1,6 @@
 package dev.caecorthus.sparkdlc.client.settings;
 
-import dev.caecorthus.sparkdlc.SparkDlcModule;
+import dev.caecorthus.sparkdlc.SparkDLC;
 import dev.caecorthus.sparkdlc.client.config.SparkAssistClientSettings;
 import dev.caecorthus.sparkdlc.config.BloodAppearance;
 import dev.caecorthus.sparkdlc.config.ChargeIndicatorStyle;
@@ -11,8 +11,11 @@ import dev.doctor4t.wathe.WatheConfig.SnowModeConfig;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.text.Text;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,9 +31,15 @@ public final class SparkDlcSettingsPages {
     public static final String DISPLAY = "display";
 
     private static final Logger LOGGER = LoggerFactory.getLogger("SparkAssist/Settings");
-    private static final Text SPARKASSIST = Text.literal("SparkAssist");
+    /**
+     * The source of a row that is SparkDLC's own setting: none, so the description panel shows no "From ..." line.
+     * Only a row whose value or sounds belong to another mod (Wathe, NoellesRoles) names that mod.
+     * SparkDLC 自有设置行的来源：无，说明面板不显示「来自……」一行。只有取值或声音属于其他模组（Wathe、NoellesRoles）的行
+     * 才标出该模组。
+     */
+    @Nullable
+    private static final Text OWN = null;
     private static final Text WATHE = Text.literal("Wathe");
-    private static final Text SPARKWITCH = Text.literal("SparkWitch");
     private static final SettingsStore SCOPE_STORE = new SettingsStore("sparkdlc-client", SparkWitchScopeBridge::save);
 
     private SparkDlcSettingsPages() {
@@ -46,7 +55,7 @@ public final class SparkDlcSettingsPages {
             } catch (IllegalArgumentException exception) {
                 // SparkWitch answered with values its own defaults are not among; leave the page out.
                 // SparkWitch 返回的取值不包含其默认值时，不显示此页。
-                LOGGER.warn("SparkWitch scope settings are inconsistent; hiding the scope page", exception);
+                LOGGER.warn("SparkDLC scope settings are inconsistent; hiding the scope page", exception);
             }
         }
         pages.add(display());
@@ -58,7 +67,7 @@ public final class SparkDlcSettingsPages {
                 "instinct_key_mode",
                 Text.translatable("option.sparkdlc.instinct_key_mode"),
                 Text.translatable("option.sparkdlc.instinct_key_mode.description"),
-                SPARKASSIST,
+                OWN,
                 SparkAssistClientSettings.STORE,
                 List.of(InstinctKeyMode.values()),
                 SparkAssistClientSettings::instinctKeyMode,
@@ -69,7 +78,7 @@ public final class SparkDlcSettingsPages {
                 "guidebook_decor",
                 Text.translatable("option.sparkdlc.guidebook_decor"),
                 Text.translatable("option.sparkdlc.guidebook_decor.description"),
-                SPARKASSIST,
+                OWN,
                 SparkAssistClientSettings.STORE,
                 List.of(GuidebookDecor.values()),
                 SparkAssistClientSettings::guidebookDecor,
@@ -80,7 +89,7 @@ public final class SparkDlcSettingsPages {
                 "guidebook_foliage",
                 Text.translatable("option.sparkdlc.guidebook_foliage"),
                 Text.translatable("option.sparkdlc.guidebook_foliage.description"),
-                SPARKASSIST,
+                OWN,
                 SparkAssistClientSettings.STORE,
                 SparkAssistClientSettings::guidebookFoliage,
                 SparkAssistClientSettings::setGuidebookFoliage,
@@ -100,7 +109,7 @@ public final class SparkDlcSettingsPages {
                 "event_volume.master",
                 Text.translatable("option.sparkdlc.event_sound_volume.master"),
                 Text.translatable("option.sparkdlc.event_sound_volume.master.description"),
-                SPARKASSIST,
+                OWN,
                 SparkAssistClientSettings.STORE,
                 0, 100, 1,
                 () -> (int) Math.round(SparkAssistClientSettings.eventSoundMasterVolume() * 100.0D),
@@ -154,7 +163,7 @@ public final class SparkDlcSettingsPages {
                 "sparkdlc.scope_mode",
                 Text.translatable("option.sparkdlc.scope_mode"),
                 Text.translatable("option.sparkdlc.scope_mode.description"),
-                SPARKWITCH,
+                OWN,
                 SCOPE_STORE,
                 SparkWitchScopeBridge.scopeModes(),
                 SparkWitchScopeBridge::scopeMode,
@@ -174,7 +183,7 @@ public final class SparkDlcSettingsPages {
                 "sparkdlc.scope_lens_resolution",
                 Text.translatable("option.sparkdlc.scope_lens_resolution"),
                 Text.translatable("option.sparkdlc.scope_lens_resolution.tooltip"),
-                SPARKWITCH,
+                OWN,
                 SCOPE_STORE,
                 SparkWitchScopeBridge.lensResolutionChoices(),
                 SparkWitchScopeBridge::lensResolutionPercent,
@@ -187,7 +196,7 @@ public final class SparkDlcSettingsPages {
                 "sparkdlc.scope_sensitivity",
                 Text.translatable("option.sparkdlc.scope_sensitivity"),
                 Text.translatable("option.sparkdlc.scope_sensitivity.tooltip"),
-                SPARKWITCH,
+                OWN,
                 SCOPE_STORE,
                 SparkWitchScopeBridge.scopedSensitivityMin(),
                 SparkWitchScopeBridge.scopedSensitivityMax(),
@@ -230,7 +239,7 @@ public final class SparkDlcSettingsPages {
                 "charge_indicator",
                 Text.translatable("option.sparkdlc.charge_indicator"),
                 Text.translatable("option.sparkdlc.charge_indicator.description"),
-                SPARKASSIST,
+                OWN,
                 SparkAssistClientSettings.STORE,
                 List.of(ChargeIndicatorStyle.values()),
                 SparkAssistClientSettings::chargeIndicatorStyle,
@@ -242,7 +251,7 @@ public final class SparkDlcSettingsPages {
                 "noelles_creative_entries",
                 Text.translatable("option.sparkdlc.noelles_creative_entries"),
                 Text.translatable("option.sparkdlc.noelles_creative_entries.description"),
-                SPARKASSIST,
+                OWN,
                 SparkAssistClientSettings.STORE,
                 SparkAssistClientSettings::noellesCreativeEntries,
                 SparkAssistClientSettings::setNoellesCreativeEntries,
@@ -251,7 +260,7 @@ public final class SparkDlcSettingsPages {
                 "blood_appearance",
                 Text.translatable("option.sparkdlc.blood_appearance"),
                 Text.translatable("option.sparkdlc.blood_appearance.description"),
-                SPARKASSIST,
+                OWN,
                 SparkAssistClientSettings.STORE,
                 List.of(BloodAppearance.values()),
                 SparkAssistClientSettings::bloodAppearance,
@@ -262,7 +271,7 @@ public final class SparkDlcSettingsPages {
                 "suppress_scavenger_blood",
                 Text.translatable("option.sparkdlc.suppress_scavenger_blood"),
                 Text.translatable("option.sparkdlc.suppress_scavenger_blood.description"),
-                SPARKASSIST,
+                OWN,
                 SparkAssistClientSettings.STORE,
                 SparkAssistClientSettings::suppressScavengerBlood,
                 SparkAssistClientSettings::setSuppressScavengerBlood,
@@ -283,18 +292,33 @@ public final class SparkDlcSettingsPages {
     }
 
     /**
-     * The display name of the module or mod, so a volume row says whose sounds it scales. A SparkDLC module is named
-     * by itself (SparkWitch, SparkStrength, ...): its container is the shared SparkDLC one, whose name would label
-     * every module row the same.
-     * 模块或模组的显示名，让音量行说明它调节的是谁的声音。SparkDLC 的模块用自己的名字（SparkWitch、SparkStrength……）：
-     * 它们的容器是共用的 SparkDLC，容器名会让每一行都显示成同一个名字。
+     * The mod named under a volume row's description, or null for a row of SparkDLC itself. {@code modId} may be one
+     * of the mod ids SparkDLC provides: the loader answers each of them with the SparkDLC container, and such a row
+     * gets no "From ..." line.
+     * 音量行说明下方标出的模组；SparkDLC 自己的行为 null。{@code modId} 可以是 SparkDLC 通过 provides 提供的 mod id：
+     * 加载器对它们都返回 SparkDLC 容器，这样的行不显示「来自……」。
      */
+    @Nullable
     private static Text modName(String modId) {
-        return Text.literal(SparkDlcModule.byNamespace(modId)
-                .map(SparkDlcModule::displayName)
-                .or(() -> FabricLoader.getInstance().getModContainer(modId)
-                        .map(container -> container.getMetadata().getName()))
-                .orElse(modId));
+        Optional<ModContainer> container = FabricLoader.getInstance().getModContainer(modId);
+        String name = sourceName(modId,
+                container.map(found -> found.getMetadata().getId()).orElse(null),
+                container.map(found -> found.getMetadata().getName()).orElse(null));
+        return name == null ? null : Text.literal(name);
+    }
+
+    /**
+     * The words after "From" for a row of mod {@code modId}, given the container the loader resolved it to: nothing
+     * for SparkDLC's own container, otherwise the container's display name, or the bare id when no container answers.
+     * 模组 {@code modId} 的行在「来自」之后显示的文字：解析到 SparkDLC 自己的容器时不显示，否则为容器显示名；没有容器
+     * 应答时退回 id 本身。
+     */
+    @Nullable
+    static String sourceName(String modId, @Nullable String containerId, @Nullable String containerName) {
+        if (SparkDLC.MOD_ID.equals(containerId)) {
+            return null;
+        }
+        return containerName != null ? containerName : modId;
     }
 
     static Text percent(int value) {

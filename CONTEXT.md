@@ -35,7 +35,7 @@ only reached from client code.
   files under `assets/sparkdlc` in `src/main/resources`. `tools/unify/legacy-ids.tsv` lists every renamed id with its
   kind (old id, new id). The five legacy mod ids are no namespaces any more. They stay in `fabric.mod.json` under
   `provides`, so `FabricLoader#isModLoaded("sparkwitch")` and `#getModContainer("sparkwitch")` still resolve to the
-  SparkDLC container, and `SparkDlcModule` holds them with the module display names. What deliberately keeps a legacy
+  SparkDLC container, and `SparkDlcModule` lists them (ids only: no text shown to a player names a former mod). What deliberately keeps a legacy
   name: the retired-trait filter (`RetiredTraitIds`), private NBT / custom-data field names, `sparkwitch$`-style mixin member prefixes and Java class names
   (`tools/unify/namespace-keep.tsv`, `namespace-overrides.tsv`). Reading worlds, configs and packs that still use
   the old names is the job of the compatibility layer (stage 2b), not of the code that owns an id.

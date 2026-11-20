@@ -15,6 +15,7 @@ public abstract class SettingsOption {
     private final String id;
     private final Text label;
     private final Text description;
+    @Nullable
     private final Text source;
     private final SettingsStore store;
     private BooleanSupplier enabled = () -> true;
@@ -25,11 +26,15 @@ public abstract class SettingsOption {
     @Nullable
     private SoundPreview preview;
 
-    protected SettingsOption(String id, Text label, Text description, Text source, SettingsStore store) {
+    /**
+     * @param source the other mod that owns the value, or null for a setting of SparkDLC itself
+     *               拥有该值的其他模组；SparkDLC 自己的设置为 null
+     */
+    protected SettingsOption(String id, Text label, Text description, @Nullable Text source, SettingsStore store) {
         this.id = Objects.requireNonNull(id);
         this.label = Objects.requireNonNull(label);
         this.description = Objects.requireNonNull(description);
-        this.source = Objects.requireNonNull(source);
+        this.source = source;
         this.store = Objects.requireNonNull(store);
     }
 
@@ -69,7 +74,12 @@ public abstract class SettingsOption {
         return description;
     }
 
-    /** The mod that owns the value, shown under the description. 拥有该值的模组，显示在说明下方。 */
+    /**
+     * The other mod that owns the value (Wathe, NoellesRoles), shown under the description as "From ...", or null
+     * for a setting of SparkDLC itself, which shows no such line.
+     * 拥有该值的其他模组（Wathe、NoellesRoles），在说明下方显示为「来自……」；SparkDLC 自己的设置为 null，不显示这一行。
+     */
+    @Nullable
     public Text source() {
         return source;
     }

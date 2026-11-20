@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.function.BooleanSupplier;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
+import org.jetbrains.annotations.Nullable;
 
 /** An on/off row. 开关行。 */
 public final class ToggleOption extends SettingsOption {
@@ -12,7 +13,7 @@ public final class ToggleOption extends SettingsOption {
     private final BooleanConsumer setter;
     private final boolean defaultValue;
 
-    public ToggleOption(String id, Text label, Text description, Text source, SettingsStore store,
+    public ToggleOption(String id, Text label, Text description, @Nullable Text source, SettingsStore store,
                         BooleanSupplier getter, BooleanConsumer setter, boolean defaultValue) {
         super(id, label, description, source, store);
         this.getter = Objects.requireNonNull(getter);

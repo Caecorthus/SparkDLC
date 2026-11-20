@@ -1,4 +1,4 @@
-# SparkWitch Context
+# SparkDLC Roles Context: Roles, Skills, Items and Client Presentation
 
 This is a live routing map.
 
@@ -1188,7 +1188,7 @@ Current build baseline:
     `EMFAnimationApi#registerVanillaModelCondition`: while a condition holds for an entity, EMF draws it with its
     vanilla model and vanilla pose (no pack geometry or animation). A condition that throws counts as true; without EMF
     or its API nothing is registered. Today only the Blind uses it (other players while the view is active).
-  `verifyArchitecture` scans `src/main/java` and `src/client/java` (comments stripped) and fails on an
+  `verifyEntityRenderProtocol` scans `src/main/java` and `src/client/java` (comments stripped) and fails on an
   `EntityRenderer#render` or `EntityRenderDispatcher#render` call outside `EntityRedraw`, on a
   `worldRenderer.render(` call that is not inside `SecondaryWorldPass.run(`, and on any `getEntityModelLoader()` call.
   Rules for new roles and features:
@@ -2668,7 +2668,7 @@ Current build baseline:
     `PotionBlastRings.half(size)`, Holy Flash 3, Mini Wither 1 and every vanilla `ServerWorld.createExplosion` = power
     (`ServerWorldExplosionSmokeCarveMixin`). SparkStrength's M67 and drone use `SparkRoleApi.carveSmoke`. The
     Wathe/NoellesRoles-facing selectors (and the 1050 / 900 priorities) are pinned on the shipped jar by
-    `watheCommonMixinContracts` in `verifyClientMixinSelectors`. The Savior pistol carves at its own `recordItemUse`
+    `watheCommonMixinContracts` in `verifyUpstreamMixinSelectors`. The Savior pistol carves at its own `recordItemUse`
     with its shot tolerance. The Wathe receiver carves through `RangedSmokeCarve.widenedGunShot`: the target cap is the
     widen-only `SparkTraitsApi.getServerGunTargetRange` value (65, Niko 300), a widened cap is also the miss length,
     and a miss is block-clipped only up to `SmokeCloudService.tunnelReach` (2026-11-10).
@@ -2791,7 +2791,7 @@ Current build baseline:
     row is drawn under the badge, i.e. hotbar keys 5-9 with the vanilla font), `client/mixin/role/civilian/bear/M32CooldownNumberMixin`
     (`@WrapOperation` on the one `drawTextWithShadow` in Wathe's `CooldownRenderer#renderHud`: skipped exactly while
     `M32Hud.isShown`, since the badge shows the cooldown and the number would sit under the count; never cancels the
-    method, so `GrandWitchSwordCooldownMixin`'s HEAD inject is unaffected; pinned in `verifyClientMixinSelectors`),
+    method, so `GrandWitchSwordCooldownMixin`'s HEAD inject is unaffected; pinned in `verifyUpstreamMixinSelectors`),
     `M32FireInput` + `M32InputMixin`/`M32MacControlClickMixin` (the launcher's input scheme), `M32ArmPoseMixin`
     (CROSSBOW_HOLD at priority 1600 like the launcher; the art's hold lives in `m32a1.json` display transforms: the
     owner-approved first-pass art, restored 2026-11-06, with only its third-person entries re-solved so the pistol grip
@@ -3153,7 +3153,7 @@ Current build baseline:
     (`ScopeRules.wheelNotches`: Discrete Scrolling's sign, × Mouse Wheel Sensitivity), and cancels only when the
     profile consumes it, so neither vanilla's accumulator, the spectator branch nor `scrollInHotbar` (and the
     SparkStrength M67/drone/Serial Killer and Wathe bat wrappers on it) see a consumed wheel. A vanilla target, so
-    `verifyClientMixinSelectors` needs no pin; `ScopeClientMixinTargetsTest` pins it against the named jar. Only USEC
+    `verifyUpstreamMixinSelectors` needs no pin; `ScopeClientMixinTargetsTest` pins it against the named jar. Only USEC
     uses it: the launcher's `PotionScopeProfile` keeps its fixed true 2.7× and never takes the wheel, so the wheel
     changes the hotbar as usual while the launcher is scoped. At 1× nothing degenerates: Full-Screen Zoom multiplies
     the FOV by 1, the PiP narrowing in `ScopeRules.lensClipScale` is exactly 1 (the lens pass only crops) and the
@@ -5887,7 +5887,7 @@ client renders and sends requests. Its `gui.sparkdlc.skills` panel shows only `s
   either target is inside a gate the swap is cancelled and the Swapper is killed on a safe cell in front of the gate
   (`RiftSwapperBodyCell`, one block out first, in sight of the gate by a COLLIDER ray, M-4); any other spectator
   target, dead or alive, cancels silently (M-3).
-  `client/mixin/role/witch/riftwalker/RiftSwapperWidgetMixin` (C7, pinned in `verifyClientMixinSelectors`) lets the Swapper pick an
+  `client/mixin/role/witch/riftwalker/RiftSwapperWidgetMixin` (C7, pinned in `verifyUpstreamMixinSelectors`) lets the Swapper pick an
   untracked, Wathe-alive spectator. Third owner-approved exception: `sparkdlc:portal_crushed` is a forced, terminal,
   killer-less environmental kill, registered as SparkTraits-terminal on `SERVER_STARTING` like `bell_toll` (the Swapper
   may still become a Wraith, D17). Its Prophecy group is Supernatural, and a correct guess reveals no killer. Its
@@ -5970,8 +5970,9 @@ and only lost the mod gate. Where the role sections below and above describe an 
 or SparkAssist (fail closed, "disabled for the session", a logged warning, `isCaptureStunPinned` skipping a teammate),
 that branch can no longer occur: a sibling failure propagates instead of turning into a default, and
 `RiftwalkerStatusProbes.isCaptureStunPinned` is the constant false. `compat/OptionalStaticMethod` is deleted (the
-junction-box bridge was its last user). The exact sibling types each witch source may name are pinned by the local test
-`WitchSparkStrengthDirectCallBoundaryTest`; no string-named target is left (the purse seam is a
+junction-box bridge was its last user). Which packages may name which is checked by `verifyLayering`, and that nothing
+of the mod is looked up by name by `verifyNoLookupByName` (`gradle/verify/layering.gradle`); the local test
+`LookupHelperRemovalSourceTest` keeps the helper deleted; no string-named target is left (the purse seam is a
 `KillerTeamEconomyService.WalletRule` the disguise registers). The client voice receivers are a loader-resolved entrypoint (`voice/ClientVoiceReceivers`, `sparkdlc_client_voice`).
 Still reflective by necessity: the real optional mods
 (Iris through `SmokeShaderPackBridge` and the one shader-pack check `client.compat.iris.IrisShaderPacks`, EMF through `EmfVanillaModel`).
@@ -6747,16 +6748,16 @@ Use the Java 21 runtime explicitly:
 ```sh
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home
 export PATH="$JAVA_HOME/bin:$PATH"
-./gradlew --no-daemon --no-watch-fs --console=plain --no-parallel --max-workers=1 test verifyArchitecture compileJava compileClientJava
+./gradlew --no-daemon --no-watch-fs --console=plain --no-parallel --max-workers=1 test verifyAll compileJava compileClientJava
 git diff --check
 ```
 
-GitHub Actions (`.github/workflows/build.yml`, since 2026-10-30) runs `build verifyArchitecture
-verifyClientMixinSelectors` and a whitespace check on a fresh clone for every PR and every push to `main`, and
+GitHub Actions (`.github/workflows/build.yml`, since 2026-10-30) runs `build verifyAll`
+and a whitespace check on a fresh clone for every PR and every push to `main`, and
 uploads the jar as a 14-day artifact. It has no `src/test`, so it runs no unit tests and skips the local-only
 architecture contract tests; the command above stays the full local check.
 
-`verifyArchitecture` also runs `verifySoundAssets`: every `.ogg` under `src/main/resources/assets` must be exactly one
+`verifyAll` also runs `verifySoundAssets`: every `.ogg` under `src/main/resources/assets` must be exactly one
 Vorbis stream. Minecraft decodes only the first Ogg stream, so a file with embedded cover art that ffmpeg re-muxed into
 a Theora stream plays silence (the Knight duel track shipped that way in #169). When re-encoding, keep audio only:
 `ffmpeg -i in.ogg -map 0:a:0 -vn -map_metadata -1 -c:a libvorbis -q:a 4 out.ogg`.
@@ -6765,16 +6766,16 @@ Run a full sequential `build` for a release or after packet, NBT, resource,
 metadata, mixin, or cross-module changes. Do not overlap SparkWitch and sibling
 SparkFactionAPI clean/build tasks.
 
-Client mixin changes also need `verifyClientMixinSelectors`, a standalone task that no other task
-(`build`, `check`, `verifyArchitecture`) runs: for every entry in `watheClientMixinContracts`
-(`build.gradle`) it checks the selector and `@At` target the remapped jar actually ships against the
+Client mixin changes also need `verifyUpstreamMixinSelectors`, which `verifyAll` runs and `build` and `check` do
+not: for every entry in `watheClientMixinContracts`
+(`gradle/verify/upstream-selectors.gradle`) it checks the selector and `@At` target the remapped jar actually ships against the
 pinned Wathe and NoellesRoles jars, and fails on a missing handler or provider method, selector
 drift, or an injection weakened to `require = 0`.
 Since BEAR WP3 (2026-11-05) the same task also checks `watheCommonMixinContracts`: common mixins on Wathe or
 NoellesRoles members against the shipped `sparkdlc.mixins.json` `mixins` list, plus an optional pinned class-level
 `@Mixin` priority where HEAD order is part of the contract.
 
-`verifyArchitecture` first runs `verifyBlackRavenActingRoleSeams`, which you can also run on its
+`verifyAll` runs `verifyBlackRavenSeams` (`gradle/verify/black-raven.gradle`), which you can also run on its
 own.
 - **What it does.** It scans the pinned Wathe and NoellesRoles jars for every `isRole`,
   `getAllWithRole`, role-equality, and role-id-equality read of the roles a Black Raven can
@@ -6786,15 +6787,15 @@ own.
 - **Tracked input.** The list is committed outside `src/main/resources`, so it never ships in the
   jar and the audit also runs on a fresh clone.
 
-`verifyArchitecture` then requires `CONTEXT.md`, `DOWNSTREAM_MIGRATION_NOTES.md`, and the API and
-rule sources listed in `build.gradle`. The four contract tests in `localArchitectureTests` are
+`verifyContractFiles` requires `docs/roles/CONTEXT.md`, `docs/roles/DOWNSTREAM_MIGRATION_NOTES.md`, and the API and
+rule sources listed in `gradle/verify/contracts.gradle`. The contract tests in `localContractTests` are
 required only when the local `src/test/` tree exists. A fresh clone skips them and prints how many
 it skipped.
 
 Provider bump checklist for the Black Raven disguise. The seam audit covers only the pinned Wathe
 and NoellesRoles jars, so a SparkStrength or SparkTraits compatibility-floor bump needs these
 manual checks:
-- **Wathe or NoellesRoles pin bump:** re-run `verifyBlackRavenActingRoleSeams` and re-classify
+- **Wathe or NoellesRoles pin bump:** re-run `verifyBlackRavenSeams` and re-classify
   every reported site. Re-check the `addToBalance` counts pinned by
   `GameFunctionsBlackRavenWalletMixin` (`require = 3`, `allow = 3`) and
   `MurderGameModeBlackRavenWalletMixin`.

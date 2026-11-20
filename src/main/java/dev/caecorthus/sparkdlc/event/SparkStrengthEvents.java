@@ -1,5 +1,6 @@
 package dev.caecorthus.sparkdlc.event;
 
+import dev.caecorthus.sparkdlc.cooldown.provider.AdminClearedItemLocks;
 import dev.caecorthus.sparkdlc.faction.api.SparkFactionApi;
 import dev.caecorthus.sparkdlc.faction.api.DenyActionPolicy;
 import dev.caecorthus.sparkdlc.collision.PlayerCollisionGraceWorldComponent;
@@ -92,6 +93,10 @@ public final class SparkStrengthEvents {
     }
 
     public static void register() {
+        // Admin /sparkdlc:clearCooldown also releases the item locks that the features below re-sync every tick
+        // (drones, the M67 opening, the skateboard, the democracy shield, the sabotage tablet).
+        // 管理员 /sparkdlc:clearCooldown 同时释放下列功能每刻重新同步的物品锁（无人机、M67 开局锁、滑板、民主盾牌、破坏平板）。
+        AdminClearedItemLocks.register();
         M67RoundService.initialize();
         DroneService.register();
         BomberTrapService.register();

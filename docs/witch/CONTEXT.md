@@ -3788,7 +3788,7 @@ Current build baseline:
   nominal-cooldown provider, and the Seeker car item exemption. `SparkWitchForcedCooldowns.register()` runs once from
   `SparkWitch.onInitialize`, right after `SparkWitchEvents.register()`. `SparkWitchItemCooldownReleases` releases the
   SparkWitch timers behind an item whose vanilla cooldown is removed (`mixin/faction/witch/ItemCooldownRemovalMixin`). For the
-  SparkFactionAPI admin clear alone (`mixin/SparkFactionClearCooldownMixin`), it also exempts the item from Saint Karma.
+  admin clear alone (its `afterAdminRemove`, an `AdminCooldownClear` listener registered by `SparkWitchForcedCooldowns`), it also exempts the item from Saint Karma.
 - `event/SparkWitchEvents`: watch-only registration/lifecycle aggregator.
 - `record/witch/AchievementRecords`: the SparkWitch writers of the cross-mod achievement record contract (2026-10-09, W2-W7),
   match-record events that SparkAssist reads from SparkFactionAPI's round-end broadcast to award local hidden
@@ -5341,12 +5341,12 @@ then acts by item id:
 - Ceremonial Sword: the 30 s kill cooldown is zeroed.
 - Any of the five edible fish: every cooling fish is removed, because any cooling fish refuses all of them.
 Other items gate only on the vanilla entry, so the command already clears them fully.
-The admin command alone also beats Saint Karma (owner decision, 2026-10-05). `SparkFactionClearCooldownMixin` wraps the
-command's `remove` call (the same method body from SparkFactionAPI 0.1.5.12 through 0.1.6.0). When that call really
+The admin command alone also beats Saint Karma (owner decision, 2026-10-05). `SparkWitchItemCooldownReleases.afterAdminRemove` runs after the
+command's `remove` call (an `AdminCooldownClear` listener; it was a mixin wrapping that call while the command lived in another jar). When that call really
 cleared the item, `SaintKarmaState` exempts the item for that player until the Karma ends or is triggered again. The
 exemption is transient and never saved. Role mechanics that remove a cooldown (NoellesRoles Catalyst, the Bomber pass)
 do not come through the command, so Karma still re-covers those items. SparkTraits lifts its own forced melee floor
-for the same command, in its own `SparkFactionClearCooldownMixin`. Not released: the Black Raven disguise switch, since
+for the same command, as an `AdminCooldownClear` listener that runs before the `remove`. Not released: the Black Raven disguise switch, since
 the mask never carries an item cooldown.
 Saint Karma writes are exact (SparkTraits facade, vanilla fallback), so Fast Hands or Stimulation no longer leave a
 write below the Karma that restarts the slot's bar every tick. The Time Stealer holder's tick rewrites the Clock's
